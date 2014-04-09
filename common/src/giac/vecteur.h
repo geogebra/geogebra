@@ -477,9 +477,10 @@ namespace giac {
   bool hermite(const std_matrix<gen> & Aorig,std_matrix<gen> & U,std_matrix<gen> & A,environment * env,GIAC_CONTEXT);
   gen _ihermite(const gen & g,GIAC_CONTEXT);
   gen _ismith(const gen & g,GIAC_CONTEXT);
+#ifndef NSPIRE
   gen _csv2gen(const gen & g,GIAC_CONTEXT);
-
   matrice csv2gen(std::istream & i,char sep,char nl,char decsep,char eof,GIAC_CONTEXT);
+#endif
 
   // find index i of x in v that is i such that v[i] <= x < v[i+1]
   // where v[-1]=-inf, and v[v.size()]=+inf

@@ -234,7 +234,7 @@ namespace giac {
     real_object(const gen & g,unsigned int precision);
     real_object() ;
     virtual std::string print(GIAC_CONTEXT) const;
-    void dbgprint() const { std::cerr << this->print(0) << std::endl; }
+    void dbgprint() const { CERR << this->print(0) << std::endl; }
     virtual ~real_object() { 
 #ifdef HAVE_LIBMPFR
       mpfr_clear(inf);
@@ -367,7 +367,15 @@ namespace giac {
   vecteur accurate_evalf(const vecteur & v,int nbits);
   std::string print_DOUBLE_(double d,GIAC_CONTEXT);
 
+#if 1 // def NSPIRE
+  class comparegen {
+  public:
+    bool operator () (const gen & a,const gen & b) const;
+  };
+  typedef std::map<gen,gen,comparegen> gen_map;
+#else
   typedef std::map<gen,gen,const std::pointer_to_binary_function < const gen &, const gen &, bool> > gen_map;
+#endif
   struct ref_gen_map;
 
   class my_mpz;
@@ -696,15 +704,21 @@ namespace giac {
   public:
     vectpoly():std::vector<polynome>::vector() {};
     vectpoly(int i,const polynome & p):std::vector<polynome>::vector(i,p) {};
-    void dbgprint(){ 
-      std::cerr << *this << std::endl;
+    void dbgprint(){  
+#ifndef NSPIRE
+      CERR << *this << std::endl; 
+#endif
     }
   };
 
   struct ref_gen_map {
     volatile int ref_count;
     gen_map m;
+#if 1 // def NSPIRE
+    ref_gen_map(): ref_count(1),m() {}
+#else
     ref_gen_map(const std::pointer_to_binary_function < const gen &, const gen &, bool> & p): ref_count(1),m(p) {}
+#endif
     ref_gen_map(const gen_map & M):ref_count(1),m(M) {}
   };
 
@@ -782,6 +796,8 @@ namespace giac {
   polynome addpoly(const polynome & p,const gen & c);
   polynome subpoly(const polynome & p,const gen & c);
   bool islesscomplexthanf(const gen & a,const gen & b);
+  void islesscomplexthanf_sort(iterateur it,iterateur itend);
+  void gen_sort_f(iterateur it,iterateur itend,bool (*f)(const gen &a,const gen &b));
   gen makemap(); // make a new map
   gen chartab2gen(char * & s,GIAC_CONTEXT);
 
@@ -1056,7 +1072,7 @@ namespace giac {
     virtual gen gcd (const gen &) const { return gensizeerr(gettext("gcd not redefined")); }    
     virtual gen gcd (const gen_user & a) const { return gcd(gen(a)); }
     virtual std::string print (GIAC_CONTEXT) const { return  "Nothing_to_print";}
-    void dbgprint () const { std::cerr << this->print(0) << std::endl;}
+    void dbgprint () const { CERR << this->print(0) << std::endl;}
     virtual std::string texprint (GIAC_CONTEXT) const { return "Nothing_to_print_tex"; }
     virtual gen eval(int level,const context * contextptr) const {return *this;};
     virtual gen evalf(int level,const context * contextptr) const {return *this;};
@@ -1073,8 +1089,13 @@ namespace giac {
   std::string print_the_type(int val,GIAC_CONTEXT);
 
   // I/O
+#ifdef NSPIRE
+  template<class T> nio::ios_base<T> & operator<<(nio::ios_base<T> & os,const gen & a);
+  template<class T> nio::ios_base<T> & operator>>(nio::ios_base<T> & is,gen & a);
+#else
   std::ostream & operator << (std::ostream & os,const gen & a);
   std::istream & operator >> (std::istream & is,gen & a);
+#endif
 
 #if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
   extern const gen zero;
@@ -1091,7 +1112,11 @@ namespace giac {
     std::string print() const ;
     void dbgprint() const ;
   };
+#ifdef NSPIRE
+  template<class T> nio::ios_base<T> & operator<<(nio::ios_base<T> & os,const monome & m){    return os << m.print() ;}
+#else
   std::ostream & operator << (std::ostream & os,const monome & m);
+#endif
   inline bool operator == (const monome & a,const monome & b){ return a.coeff==b.coeff && a.exponent==b.exponent; }
   inline bool operator != (const monome & a,const monome & b){ return a.coeff!=b.coeff || a.exponent!=b.exponent; }
   polynome apply( const polynome & p, const context * contextptr, gen (* f) (const gen &, const context *));
@@ -1166,7 +1191,7 @@ namespace giac {
     int baseline;
     eqwdata(int dxx,int dyy,int xx, int yy,const attributs & a,const gen& gg):g(gg),eqw_attributs(a),x(xx),y(yy),dx(dxx),dy(dyy),selected(false),active(false),hasbaseline(false),modifiable(true),baseline(0) {};
     eqwdata(int dxx,int dyy,int xx, int yy,const attributs & a,const gen& gg,int mybaseline):g(gg),eqw_attributs(a),x(xx),y(yy),dx(dxx),dy(dyy),selected(false),active(false),hasbaseline(true),modifiable(true),baseline(mybaseline) {};
-    void dbgprint(){ std::cerr << g << ":" << dx<< ","<< dy<< "+"<<x <<","<< y<< "," << baseline << "," << eqw_attributs.fontsize << "," << eqw_attributs.background << "," << eqw_attributs.text_color << std::endl; }
+    void dbgprint(){ CERR << g << ":" << dx<< ","<< dy<< "+"<<x <<","<< y<< "," << baseline << "," << eqw_attributs.fontsize << "," << eqw_attributs.background << "," << eqw_attributs.text_color << std::endl; }
   };
   struct ref_eqwdata {
     volatile int ref_count;
@@ -1208,7 +1233,7 @@ namespace giac {
     bool in_eval(int level,const gen & orig,gen & evaled,const context * context_ptr, bool No38Lookup=false); // if No38Lookup, does not check if HP38 knows about this name...
     const char * print(const context * context_ptr) const ;
     std::string name() const { return id_name; }
-    void dbgprint() const { std::cout << this->print(context0); }
+    void dbgprint() const { COUT << this->print(context0); }
     void unassign() ;
     void push(int protection,const gen & e);
     bool operator ==(const identificateur & i);
@@ -1255,7 +1280,7 @@ namespace giac {
     symbolic(const gen & a,const unary_function_ptr & o,const gen & b);
     symbolic(const gen & a,const unary_function_ptr * o,const gen & b);
     std::string print(GIAC_CONTEXT) const;
-    void dbgprint() const{ std::cout << this->print(context0) << std::endl; }
+    void dbgprint() const{ COUT << this->print(context0) << std::endl; }
     gen eval(int level,const context * context_ptr) const;
     gen evalf(int level,const context * context_ptr) const;
     int size() const;

@@ -359,7 +359,7 @@ namespace giac {
     } 
     vecteur XL(1);
     XL=makevecteur(x);
-    cout<<XL<<endl;
+    COUT<<XL<<endl;
     vecteur XC;
     for (int i=0;i<d;i++) {
       vecteur elem;

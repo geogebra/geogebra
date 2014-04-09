@@ -184,16 +184,23 @@ template <class T> Tfraction<T> pow (const Tfraction<T> & p,int n){
   return Tfraction<T>(pow(Tfraction<T>(p.den,p.num),-n));
 }
 
-
-template <class T> 
-std::ostream & operator << (std::ostream & os, const Tfraction<T> & f ){
-  os << f.num << "/" << f.den << " " ;
-  return os;
-}
+#ifdef NSPIRE
+  template<class T,class U>
+  nio::ios_base<T> & operator << (nio::ios_base<T> & os, const Tfraction<U> & f ){
+    os << f.num << "/" << f.den << " " ;
+    return os;
+  }
+#else
+  template <class T> 
+  std::ostream & operator << (std::ostream & os, const Tfraction<T> & f ){
+    os << f.num << "/" << f.den << " " ;
+    return os;
+  }
+#endif
 
 template <class T> 
 void Tfraction<T>::dbgprint() {
-  std::cout << num << "/" << den << " " ;
+  COUT << num << "/" << den << " " ;
 }
 
 
@@ -208,11 +215,17 @@ void Tfraction<T>::dbgprint() {
     facteur():fact(1),mult(0) {}
     facteur(const facteur & f) : fact(f.fact), mult(f.mult) {}
     facteur(const T & f, int m) : fact(f),mult(m) {}
+#ifdef NSPIRE
+    template<class I> friend nio::ios_base<I> & operator << (nio::ios_base<I> & os, const facteur<T> & m ){
+      return os << ":facteur:!" << m.fact << "!" << "^" << m.mult  ;
+    }
+#else
     friend std::ostream & operator << (std::ostream & os, const facteur<T> & m ){
       return os << ":facteur:!" << m.fact << "!" << "^" << m.mult  ;
     }
+#endif
     void dbgprint() const {
-      std::cout << *this << std::endl;
+      COUT << *this << std::endl;
     }
   };
 

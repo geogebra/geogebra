@@ -26,13 +26,13 @@
 #define GIAC_CONTEXT const context * contextptr
 #define GIAC_CONTEXT0 const context * contextptr=0
 
-#if !defined(HAVE_NO_SYS_TIMES_H) && !defined(BESTA_OS) && !defined(__MINGW_H)
+#if !defined(HAVE_NO_SYS_TIMES_H) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE)
 #include <sys/times.h>
 #else
 #if defined VISUALC || defined BESTA_OS 
 typedef long pid_t;
 #else // VISUALC
-#if !defined(__MINGW_H) && !defined(BESTA_OS)
+#if !defined(__MINGW_H) && !defined(BESTA_OS) && !defined(NSPIRE)
 #include "wince_replacements.h"
 #endif
 #ifdef __MINGW_H
@@ -81,7 +81,9 @@ inline double giac_log(double d){
 
 #include "vector.h"
 #include <string>
+#ifndef NSPIRE
 #include <cstring>
+#endif
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -134,7 +136,9 @@ namespace giac {
   std::vector<aide> * & vector_aide_ptr();
   std::vector<std::string> * & vector_completions_ptr();
   extern void (*fl_widget_delete_function)(void *);
+#ifndef NSPIRE
   extern std::ostream & (*fl_widget_archive_function)(std::ostream &,void *);
+#endif
   extern bool secure_run; // true if used in a non-trusted environment
   extern bool center_history,in_texmacs,block_signal,synchronize_history;
   extern bool threads_allowed;
@@ -212,7 +216,7 @@ namespace giac {
 
   // void control_c();
   // note that ctrl_c=false was removed, should be done before calling eval
-#ifdef RTOS_THREADX
+#if defined RTOS_THREADX || defined NSPIRE
 #define control_c() 
 #elif BESTA_OS
 #define control_c()
@@ -220,7 +224,7 @@ namespace giac {
 #ifdef TIMEOUT
   void control_c();
 #else
-#define control_c() if (ctrl_c) { interrupted = true; std::cerr << "Throwing exception for user interruption." << std::endl; throw(std::runtime_error("Stopped by user interruption.")); }
+#define control_c() if (ctrl_c) { interrupted = true; CERR << "Throwing exception for user interruption." << std::endl; throw(std::runtime_error("Stopped by user interruption.")); }
 #endif
 #endif
   typedef void ( * void_function )();
@@ -236,7 +240,7 @@ namespace giac {
     dbgprint_vector(int i,const T & t) : std::imvector<T>::imvector(i,t) { };
     // ~dbgprint_vector() { };
     // inherited destructors
-    void dbgprint() const { std::cout << *this << std::endl; }
+    void dbgprint() const { COUT << *this << std::endl; }
   };
 #else // IMMEDIATE_VECTOR
   template <class T> class dbgprint_vector: public std::vector<T> {
@@ -251,7 +255,7 @@ namespace giac {
     dbgprint_vector(int i,const T & t) : std::vector<T>::vector(i,t) { };
     // ~dbgprint_vector() { };
     // inherited destructors
-    void dbgprint() const { std::cout << *this << std::endl; }
+    void dbgprint() const { COUT << *this << std::endl; }
   };
 #endif // IMMEDIATE_VECTOR
   
@@ -291,7 +295,7 @@ namespace giac {
       }
       return res;
     }
-    void dbgprint() { std::cout << *this << std::endl; }
+    void dbgprint() { COUT << *this << std::endl; }
   };
 
   struct user_function {
@@ -356,7 +360,9 @@ namespace giac {
     thread_param();
   };
 
+#ifndef NSPIRE
   extern gen (*fl_widget_unarchive_function)(std::istream &);
+#endif
   extern std::string (*fl_widget_texprint_function)(void * ptr);
   extern gen (*fl_widget_updatepict_function)(const gen & g);
   // name -> gen table
@@ -451,10 +457,14 @@ namespace giac {
     int _show_axes_;
     int _spread_Row_,_spread_Col_;
     int _printcell_current_row_,_printcell_current_col_;
+#ifdef NSPIRE
+    nio::console * _logptr_;
+#else
 #ifdef WITH_MYOSTREAM
     my_ostream * _logptr_;
 #else
     std::ostream * _logptr_;
+#endif
 #endif
     debug_struct * _debug_ptr;
     gen * _parsed_genptr_;
@@ -523,10 +533,8 @@ namespace giac {
   extern pthread_mutex_t context_list_mutex;
 #endif
   
-#ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined(NSPIRE)
   extern std::map<std::string,context *> * context_names ;
-#endif
 #endif
 
   std::vector<const char *> & last_evaled_function_name(GIAC_CONTEXT);
@@ -666,8 +674,13 @@ namespace giac {
   void epsilon(double c,GIAC_CONTEXT);
   double & proba_epsilon(GIAC_CONTEXT);
 
+#ifdef NSPIRE
+  nio::console * logptr(GIAC_CONTEXT);
+  void logptr(nio::console *,GIAC_CONTEXT);
+#else
   my_ostream * logptr(GIAC_CONTEXT);
   void logptr(my_ostream *,GIAC_CONTEXT);
+#endif
 
   int & eval_level(GIAC_CONTEXT);
   // void eval_level(int b,GIAC_CONTEXT);
@@ -680,6 +693,7 @@ namespace giac {
 #endif
   void rand_seed(unsigned int b,GIAC_CONTEXT);
   int giac_rand(GIAC_CONTEXT);
+  int std_rand(); // a congruential random generator without context
 
   int & prog_eval_level_val(GIAC_CONTEXT);
   void prog_eval_level_val(int b,GIAC_CONTEXT);
@@ -799,10 +813,12 @@ namespace giac {
   std::string & xcasroot();
   std::string add_extension(const std::string & s,const std::string & ext,const std::string & def);
   // Maple worksheet translate
+#ifndef NSPIRE
   void mws_translate(std::istream & inf,std::ostream & of);
   void in_mws_translate(std::istream & inf,std::ostream & of);
   // TI function/program ASC file translate
   void ti_translate(std::istream & inf,std::ostream & of);
+#endif
   std::string remove_filename(const std::string & s);
   bool my_isnan(double d);
   bool my_isinf(double d);

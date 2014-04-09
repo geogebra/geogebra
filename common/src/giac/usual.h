@@ -248,7 +248,7 @@ namespace giac {
 
   gen _print(const gen & args,GIAC_CONTEXT);  
   extern const unary_function_ptr * const  at_print;
-#ifndef RTOS_THREADX
+#if !defined RTOS_THREADX && !defined NSPIRE
   extern const unary_function_eval __print;
 #endif
 
@@ -422,7 +422,11 @@ namespace giac {
   symbolic symb_pow(const gen & a,const gen & b);
   std::string cprintaspow(const gen & feuille,const char * sommetstr_orig,GIAC_CONTEXT);
 #ifndef GIAC_HAS_STO_38
+#ifdef NSPIRE
+  extern const alias_unary_function_eval __pow;
+#else
   extern unary_function_eval __pow;
+#endif
 #endif
   gen _pow(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pow ;
@@ -875,7 +879,7 @@ namespace giac {
   gen fast_icontent(const gen & g); // fast compute integer content of g
   gen fast_divide_by_icontent(const gen & g,const gen & z);
   
-#ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
+#ifdef NO_UNARY_FUNCTION_COMPOSE // STATIC_BUILTIN_LEXER_FUNCTIONS
   extern const alias_unary_function_eval __sto;
 #else
   extern const unary_function_eval __sto;

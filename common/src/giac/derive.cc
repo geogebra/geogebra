@@ -154,8 +154,28 @@ namespace giac {
       }
       return rdiv(-derive(s.feuille,i,contextptr),pow(s.feuille,2),contextptr);
     }
-    if (s.sommet==at_rootof)
+    if (s.sommet==at_rootof){
+      gen f=s.feuille;
+      if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front().type==_VECT && f._VECTptr->back().type==_VECT){
+	vecteur P=*f._VECTptr->front()._VECTptr;
+	vecteur Q=*f._VECTptr->back()._VECTptr;
+	// d/dx(P(y))=(dP/dx)(y) + (dP/dy) (dy/dx)
+	//           =(dP/dx)(y) - (dP/dy) (dQ/dx)/(dQ/dy)
+	// where y dependency is in the list polynomial P/Q
+	gen Px=trim(*derive(P,i,contextptr)._VECTptr,0);
+	Px=symb_rootof(Px,Q,contextptr);
+	gen Qx=trim(*derive(Q,i,contextptr)._VECTptr,0);
+	Qx=symb_rootof(Qx,Q,contextptr);
+	gen Py=derivative(P);
+	Py=symb_rootof(Py,Q,contextptr);
+	gen Qy=derivative(Q);
+	Qy=symb_rootof(Qy,Q,contextptr);
+	gen res=Px-(Py*Qx)/Qy;
+	res=normal(res,contextptr);
+	return res;
+      }
       return gensizeerr(gettext("Derivative of rootof currently not handled"));
+    }
     if (s.sommet==at_UTPT){
       if (s.feuille.type!=_VECT || s.feuille._VECTptr->size()!=2)
 	return gensizeerr(contextptr);

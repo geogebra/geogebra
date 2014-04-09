@@ -23,7 +23,6 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 using namespace std;
 #include <fstream>
 #include <string>
@@ -449,7 +448,7 @@ namespace giac {
   }
 
   static void _FRACadd(const gen & n1, const gen & d1,const gen & n2, const gen & d2, gen & num, gen & den){
-    // cout << n1 << "/" << d1 << "+" << n2 << "/" << d2 << "=";
+    // COUT << n1 << "/" << d1 << "+" << n2 << "/" << d2 << "=";
     if (is_one(d1)){
       num=n1*d2+n2;
       den=d2;
@@ -458,7 +457,7 @@ namespace giac {
     if (is_one(d2)){
       num=n2*d1+n1;
       den=d1;
-      // cout << num << "/" << den << endl;
+      // COUT << num << "/" << den << endl;
       return;
     }
     // n1/d1+n2/d2 with g=gcd(d1,d2), d1=d1g*g, d2=d2g*g is
@@ -475,13 +474,13 @@ namespace giac {
   }
 
   static void _FRACmul(const gen & n1, const gen & d1,const gen & n2, const gen & d2, gen & num, gen & den){
-    // cout << n1 << "/" << d1 << "*" << n2 << "/" << d2 << "=";
+    // COUT << n1 << "/" << d1 << "*" << n2 << "/" << d2 << "=";
     if (is_one(d1)){
       num=n1;
       den=d2;
       simplify3(num,den);
       num=num*n2;
-      // cout << num << "/" << den << endl;
+      // COUT << num << "/" << den << endl;
       return;
     }
     if (is_one(d2)){
@@ -489,7 +488,7 @@ namespace giac {
       den=d1;
       simplify3(num,den);
       num=num*n1;
-      // cout << num << "/" << den << endl;
+      // COUT << num << "/" << den << endl;
       return;
     }
     num=n1;
@@ -502,7 +501,7 @@ namespace giac {
     // Further simplifications may occur with _EXT multiplications
     if (has_EXT(ntemp))
       simplify3(num,den);
-    // cout << num << "/" << den << endl;
+    // COUT << num << "/" << den << endl;
   }
 
   //**********************************
@@ -863,7 +862,7 @@ namespace giac {
 	fxnd(temp,num,den);
       }
       else {
-#if defined RTOS_THREADX || defined BESTA_OS
+#if defined RTOS_THREADX || defined BESTA_OS || defined USTL
 	gen g=num; num=den; den=g;
 #else
 	swap(num,den);
@@ -897,7 +896,7 @@ namespace giac {
 	for (int j=0;j<embeddings;++it,++j){ 
 	  if (it->type!=_VECT){
 	    string s("sym2rxroot error num="+num.print(contextptr)+" den="+den.print(contextptr)+" l="+gen(l).print(contextptr));
-	    cerr << s << endl;
+	    CERR << s << endl;
 #ifndef NO_STDEXCEPT
 	    setsizeerr(s);
 #endif
@@ -1046,7 +1045,7 @@ namespace giac {
 	    den=tempden;
 	}
 	else {
-#if defined RTOS_THREADX || defined BESTA_OS
+#if defined RTOS_THREADX || defined BESTA_OS || defined USTL
 	  gen g=num; num=den; den=g;
 #else
 	  swap(num,den);
@@ -1067,7 +1066,7 @@ namespace giac {
 	    fxnd(temp,num,den);
 	  }
 	  else {
-#if defined RTOS_THREADX || defined BESTA_OS
+#if defined RTOS_THREADX || defined BESTA_OS || defined USTL
 	    gen g=num; num=den; den=g;
 #else
 	    swap(num,den);
@@ -1417,7 +1416,7 @@ namespace giac {
     iterateur it=lv.begin(),itend=lv.end();
     lvnum.reserve(itend-it);
     lvden.reserve(itend-it);
-    sort(it,itend,symb_size_less);
+    gen_sort_f(it,itend,symb_size_less);
     bool algext=false;
     // find num/den for each var of lv
     for (;it!=itend;++it){
@@ -1952,7 +1951,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 	}
 	catch (std::runtime_error & e){
-	  cerr << "sym2poly exception caught " << e.what() << endl;
+	  CERR << "sym2poly exception caught " << e.what() << endl;
 	}
 #endif
 	return w.front();
@@ -2256,7 +2255,7 @@ namespace giac {
   }
   static vecteur sort1(const vecteur & l){
     vecteur res(l);
-    sort(res.begin(),res.end(),sort_func);
+    gen_sort_f(res.begin(),res.end(),sort_func);
     return res;
   }
   static void sort0(vecteur & l){
@@ -2280,7 +2279,9 @@ namespace giac {
   }
 
   gen normal(const gen & e,bool distribute_div,GIAC_CONTEXT){
-    // cout << e << endl;
+    if (has_num_coeff(e))
+      return ratnormal(e);
+    // COUT << e << endl;
     if (e.type==_VECT){
       vecteur res;
       for (const_iterateur it=e._VECTptr->begin();it!=e._VECTptr->end();++it)
@@ -2357,7 +2358,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & err){
-      cerr << err.what() << endl;
+      CERR << err.what() << endl;
       return e;
     }
 #endif
@@ -2500,7 +2501,7 @@ namespace giac {
   }
 
   gen ratnormal(const gen & e){
-    // cout << e << endl;
+    // COUT << e << endl;
     if (e.type==_VECT)
       return apply(e,ratnormal);
     if (e.type==_FRAC){
@@ -2552,9 +2553,9 @@ namespace giac {
     alg_lvar(b,l);
     fraction fa(e2r(a,l,context0)),fb(e2r(b,l,context0)); // ok
     if (debug_infolevel)
-      cerr << "rational gcd begin " << clock() << endl;
+      CERR << "rational gcd begin " << clock() << endl;
     if (!is_one(fa.den) || !is_one(fb.den))
-      cerr << "Warning gcd of fractions " << fa << " " << fb ;
+      CERR << "Warning gcd of fractions " << fa << " " << fb ;
     if (fa.num.type==_FRAC)
       fa.num=fa.num._FRACptr->num;
     if (fb.num.type==_FRAC)
@@ -2640,7 +2641,7 @@ namespace giac {
 
   static gen factor(const polynome & p,const vecteur &l,bool fixed_order,bool with_sqrt,gen divide_an_by,gen & extra_div,GIAC_CONTEXT){
     // find main var, make permutation on f.num, f.den and l
-    //    cout << "Factor " << p << " " << l << endl;
+    //    COUT << "Factor " << p << " " << l << endl;
     if (is_one(p))
       return 1;
     if (l.empty() )
@@ -3207,7 +3208,13 @@ namespace giac {
   define_unary_function_ptr5( at_resultant ,alias_at_resultant,&__resultant,0,true);
 
   /* I/O on stream */
-  void readargs_from_stream(istream & inf,vecteur & args,GIAC_CONTEXT){
+#ifdef NSPIRE
+  template<class T>
+  void readargs_from_stream(nio::ios_base<T> & inf,vecteur & args,GIAC_CONTEXT)
+#else
+  void readargs_from_stream(istream & inf,vecteur & args,GIAC_CONTEXT)
+#endif
+  {
     string to_parse;
     char c;
     for (bool notbackslash=true;;){
@@ -3227,7 +3234,13 @@ namespace giac {
       args=makevecteur(e);
   }
 
-  gen read1arg_from_stream(istream & inf,GIAC_CONTEXT){
+#ifdef NSPIRE
+  template<class T>
+  gen read1arg_from_stream(nio::ios_base<T> & inf,GIAC_CONTEXT)
+#else
+  gen read1arg_from_stream(istream & inf,GIAC_CONTEXT)
+#endif
+  {
     string to_parse;
     char c;
     for (bool notbackslash=true;;){
@@ -3249,16 +3262,18 @@ namespace giac {
     //srand(time(NULL));
     string s;
     if (ARGC==1)
-      readargs_from_stream(cin,args,contextptr);
+      readargs_from_stream(CIN,args,contextptr);
     else {
       if (ARGC==2) {
 	if (!secure_run 
-#ifndef __MINGW_H
+#if !defined(__MINGW_H) && !defined(NSPIRE)
 	    && access(ARGV[1],R_OK)==0
 #endif
 	    ){
+#ifndef NSPIRE
 	  ifstream inf(ARGV[1]);
 	  readargs_from_stream(inf,args,contextptr);
+#endif
 	}
 	else {
 	  s=string(ARGV[1]);

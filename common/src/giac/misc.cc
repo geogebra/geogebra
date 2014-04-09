@@ -1179,6 +1179,7 @@ namespace giac {
     if (is_integer(g) || g.type==_MOD)
       return makevecteur(1,g);
     if (g.type==_USER){
+#ifndef NO_RTTI
       if (galois_field * gf=dynamic_cast<galois_field *>(g._USERptr)){
 	if (gf->a.type!=_VECT || gf->P.type!=_VECT || !is_integer(gf->p))
 	  return gensizeerr("Bad GF element");
@@ -1215,6 +1216,7 @@ namespace giac {
 	mulmodpoly(temp,inv(temp.front(),contextptr),0,temp);
 	return gen(temp,_POLY1__VECT);
       }
+#endif
     }
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return symbolic(at_pmin,g);
@@ -1985,7 +1987,7 @@ namespace giac {
     if (w.front()._VECTptr->size()!=2)
       return undef;
     // Row Sort (using row 1)
-    sort(w.begin(),w.end(),first_ascend_sort);
+    gen_sort_f(w.begin(),w.end(),first_ascend_sort);
     w=mtran(w);
     // w[0]=data, w[1]=frequencies
     vecteur data=*w[0]._VECTptr;
@@ -2008,7 +2010,7 @@ namespace giac {
       return freq_quantile(v,0.5,contextptr);
     if (!ckmatrix(v)){
       if (!is_fully_numeric(evalf(v,1,contextptr))){
-	sort(v.begin(),v.end(),islesscomplexthanf);
+	islesscomplexthanf_sort(v.begin(),v.end());
 	return v[int(std::ceil(v.size()/2.0))-1]; // v[(v.size()-1)/4];
       }
       matrice mt=mtran(ascsort(mtran(vecteur(1,v)),true));
@@ -2034,7 +2036,7 @@ namespace giac {
       return freq_quantile(v,0.25,contextptr);
     if (!ckmatrix(v)){
       if (!is_fully_numeric(evalf(v,1,contextptr))){
-	sort(v.begin(),v.end(),islesscomplexthanf);
+	islesscomplexthanf_sort(v.begin(),v.end());
 	return v[int(std::ceil(v.size()/4.0))-1]; // v[(v.size()-1)/4];
       }
       return mtran(ascsort(mtran(vecteur(1,v)),true))[int(std::ceil(v.size()/4.0))-1][0];
@@ -2055,7 +2057,7 @@ namespace giac {
       return freq_quantile(v,0.75,contextptr);
     if (!ckmatrix(v)){
       if (!is_fully_numeric(evalf(v,1,contextptr))){
-	sort(v.begin(),v.end(),islesscomplexthanf);
+	islesscomplexthanf_sort(v.begin(),v.end());
 	return v[int(std::ceil(3*v.size()/4.0))-1]; // v[(v.size()-1)/4];
       }
       return mtran(ascsort(mtran(vecteur(1,v)),true))[int(std::ceil(3*v.size()/4.0))-1][0];
@@ -2092,7 +2094,7 @@ namespace giac {
     if (!ckmatrix(v)){
       matrix=false;
       if (!is_fully_numeric(evalf(v,1,contextptr))){
-	sort(v.begin(),v.end(),islesscomplexthanf);
+	islesscomplexthanf_sort(v.begin(),v.end());
 	for (unsigned j=0;j<w.size();++j){
 	  gen tmp=evalf_double(w[j],1,contextptr);
 	  if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>=1)
@@ -2131,7 +2133,7 @@ namespace giac {
       return makevecteur(freq_quantile(v,0.0,contextptr),freq_quantile(v,0.25,contextptr),freq_quantile(v,0.5,contextptr),freq_quantile(v,0.75,contextptr),freq_quantile(v,1.0,contextptr));
     if (!ckmatrix(v)){
       if (!is_fully_numeric(evalf(v,1,contextptr))){
-	sort(v.begin(),v.end(),islesscomplexthanf);
+	islesscomplexthanf_sort(v.begin(),v.end());
 	int s=v.size();
 	return makevecteur(v[0],v[int(std::ceil(s/4.))-1],v[int(std::ceil(s/2.))-1],v[int(std::ceil(3*s/4.))-1],v[s-1]);
       }
@@ -3161,7 +3163,7 @@ static define_unary_function_eval (__logistic_regression_plot,&_logistic_regress
     double xmin=Xmin._DOUBLE_val,xmax=Xmax._DOUBLE_val,xstep=std::abs(Xstep._DOUBLE_val);
     // sort x in m
     matrice M(mtran(*m._VECTptr)); // 2 cols
-    sort(M.begin(),M.end(),islesscomplexthanf);
+    islesscomplexthanf_sort(M.begin(),M.end());
     reverse(M.begin(),M.end());
     int Ms=M.size();
     if (Ms<2)
@@ -3280,14 +3282,14 @@ static define_unary_function_eval (__parabolic_interpolate,&_parabolic_interpola
     if (ckmatrix(data)){
       if (!data.empty() && data.front()._VECTptr->size()>1){
 	matrice tmp=data;
-	sort(tmp.begin(),tmp.end(),first_ascend_sort);
+	gen_sort_f(tmp.begin(),tmp.end(),first_ascend_sort);
 	tmp=mtran(tmp);
 	vecteur tmpval=*evalf_double(tmp[0],1,contextptr)._VECTptr;
 	vecteur tmpeff=*tmp[1]._VECTptr;
 	if (tmpval.front().type!=_DOUBLE_ || tmpval.back().type!=_DOUBLE_)
 	  return vecteur(1,undef);
-	double kbegin=floor((tmpval.front()._DOUBLE_val-class_minimum)/class_size);
-	double kend=floor((tmpval.back()._DOUBLE_val-class_minimum)/class_size);
+	double kbegin=std::floor((tmpval.front()._DOUBLE_val-class_minimum)/class_size);
+	double kend=std::floor((tmpval.back()._DOUBLE_val-class_minimum)/class_size);
 	int s=tmpval.size(),i=0;
 	vecteur res;
 	for (;kbegin<=kend;++kbegin){
@@ -3312,8 +3314,8 @@ static define_unary_function_eval (__parabolic_interpolate,&_parabolic_interpola
     if (w1.empty())
       return vecteur(1,undef);
     // class_min + k*class_size <= mini hence k
-    double kbegin=floor((w1.front()-class_minimum)/class_size);
-    double kend=floor((w1.back()-class_minimum)/class_size);
+    double kbegin=std::floor((w1.front()-class_minimum)/class_size);
+    double kend=std::floor((w1.back()-class_minimum)/class_size);
     if (kend-kbegin>LIST_SIZE_LIMIT)
       return vecteur(1,gendimerr("Too many classes"));
     vector<double>::const_iterator it=w1.begin(),itend=w1.end();
@@ -3489,8 +3491,8 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
     if (!s)
       return gendimerr(contextptr);
     // class_min + k*class_size <= mini hence k
-    double kbegin=floor((w1.front()-class_minimum)/class_size);
-    double kend=floor((w1.back()-class_minimum)/class_size);
+    double kbegin=std::floor((w1.front()-class_minimum)/class_size);
+    double kend=std::floor((w1.back()-class_minimum)/class_size);
     vector<double>::const_iterator it=w1.begin(),itend=w1.end();
     vecteur res;
     for (;kbegin<=kend;++kbegin){
@@ -4185,7 +4187,7 @@ static define_unary_function_eval (__camembert,&_camembert,_camembert_s);
 	ls.push_back(makevecteur(zcur,arg(zcur-zmin,contextptr),(zcur-zmin)*conj(zcur-zmin,contextptr)));
       }
     }
-    sort(ls.begin(),ls.end(),graham_sort_function);
+    gen_sort_f(ls.begin(),ls.end(),graham_sort_function);
     vecteur res(makevecteur(zmin,ls[0][0]));
     int ress=2;
     gen o;
@@ -4974,7 +4976,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	if (int(positions.size())>i && positions[i].type==_IDNT)
 	  s = positions[i].print(contextptr);
 	else
-	  s+=('A'+i);
+	  s+=char('A'+i);
       }
       gen mii=m[i][i];
       if (!is_zero(mii))

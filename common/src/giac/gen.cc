@@ -26,16 +26,18 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 using namespace std;
+#ifndef NSPIRE
+#include <cstdlib>
+#include <iomanip>
+#endif
 #define __USE_ISOC9X 1
 #include <stdexcept>
 #include <ctype.h>
 #include <math.h>
-#include <cstdlib>
 #include <list>
 #include <errno.h>
 #include <string.h>
 // #include <wstring.h>
-#include <iomanip>
 #include "gen.h"
 #include "gausspol.h"
 #include "identificateur.h"
@@ -244,7 +246,11 @@ namespace giac {
 #endif
 
   void sprintfdouble(char * ch,const char * format,double d){
+#ifdef NSPIRE
+    dtostr(d,8,ch); // FIXME!
+#else
     my_sprintf(ch,format,d);
+#endif
   }
 
   // bool is_inevalf=false;
@@ -398,7 +404,11 @@ namespace giac {
 #endif // NO_STDEXCEPT
 
   gen undeferr(const string & s){
+#ifdef NSPIRE
+    sleep(1);
+#else
     usleep(1000);
+#endif
 #ifndef NO_STDEXCEPT
     if (debug_infolevel!=-5)
       throw(std::runtime_error(s));
@@ -551,7 +561,7 @@ namespace giac {
       long base=65536;
       longlong i1=i/lbase;
       long i2=i1/lbase; // i2=i/2^32
-      //cout << "Initialization of " << _ZINTptr << endl ;
+      //COUT << "Initialization of " << _ZINTptr << endl ;
       mpz_init_set_si(*_ZINTptr,i2);
       mpz_mul_ui(*_ZINTptr,*_ZINTptr,base); // i/2^32 * 2^16
       long i2mod=i1 % lbase;
@@ -792,7 +802,11 @@ namespace giac {
 #ifdef SMARTPTR64
       * ((longlong * ) &g) = longlong(new ref_gen_map(ptr_fun(islesscomplexthanf))) << 16;
 #else
+#if 1 // def NSPIRE
+      g.__MAPptr = new ref_gen_map;
+#else
     g.__MAPptr = new ref_gen_map(ptr_fun(islesscomplexthanf));
+#endif
 #endif
     g.type=_MAP;
     g.subtype=0;
@@ -887,7 +901,7 @@ namespace giac {
     if (l<32){
       type = _INT_;
       val = mpz_get_si(mptr->z);
-      // cout << "Destruction by mpz_t * " << *mptr << endl;
+      // COUT << "Destruction by mpz_t * " << *mptr << endl;
       delete mptr;
     }
     else {
@@ -905,7 +919,7 @@ namespace giac {
       type =_ZINT;
     }
     subtype=0;
-    // cout << *this << endl;
+    // COUT << *this << endl;
   }
 
   gen::gen(const my_mpz& z){
@@ -993,7 +1007,7 @@ namespace giac {
 
   gen::gen(double a,double b){
     subtype=0;
-    // cout << a << " " << b << " " << epsilon << endl;
+    // COUT << a << " " << b << " " << epsilon << endl;
     if (fabs(b)<1e-12*fabs(a)){ 
 #ifdef DOUBLEVAL
       _DOUBLE_val=a;
@@ -1051,18 +1065,22 @@ namespace giac {
 	case _REAL: 
 	  subtype=0;
 #ifdef SMARTPTR64
+#ifndef NO_RTTI
 	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._REALptr)){
 	    * ((longlong * ) this) = longlong(new ref_real_interval(*ptr)) << 16;
 	    subtype=1;
 	  }
 	  else
+#endif
 	    * ((longlong * ) this) = longlong(new ref_real_object(*a._REALptr)) << 16;
 #else
+#ifndef NO_RTTI
 	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._REALptr)){
 	    __REALptr=(ref_real_object *) new ref_real_interval(*ptr);
 	    subtype=1;
 	  }
 	  else
+#endif
 	    __REALptr=new ref_real_object(a.__REALptr->r); 
 #endif
 	  type=_REAL;
@@ -1241,9 +1259,11 @@ namespace giac {
 	  break; 
 	case _REAL:  {
 	  ref_real_object * ptr=(ref_real_object *) (* ((longlong * ) this) >> 16);
+#ifndef NO_RTTI
 	  if (dynamic_cast<real_interval *>(&ptr->r))
 	    delete (ref_real_interval *) ptr;
 	  else
+#endif
 	    delete ptr;
 	  break; 
 	}
@@ -1303,9 +1323,11 @@ namespace giac {
 	  break; 
 	case _REAL: {
 	  ref_real_object * ptr=__REALptr;
+#ifndef NO_RTTI
 	  if (dynamic_cast<real_interval *>(&ptr->r))
 	    delete (ref_real_interval *) __REALptr;
 	  else
+#endif
 	    delete __REALptr;
 	  break; 
 	}
@@ -1423,9 +1445,11 @@ namespace giac {
 	  break; 
 	case _REAL: {
 	  ref_real_object * ptr=(ref_real_object *) ptr_save;
+#ifndef NO_RTTI
 	  if (dynamic_cast<real_interval *>(&ptr->r))
 	    delete (ref_real_interval *) ptr;
 	  else
+#endif
 	    delete ptr;
 	  break; 
 	}
@@ -1620,7 +1644,7 @@ namespace giac {
 	  vptr->v.push_back(*ansptr);
       }
     }
-    // cerr << "End " << v << " " << w << endl;
+    // CERR << "End " << v << " " << w << endl;
     return true;
   }
 
@@ -1732,7 +1756,7 @@ namespace giac {
   }
 
   gen gen::eval(int level,const context * contextptr) const{
-    // cerr << "eval " << *this << " " << level << endl;
+    // CERR << "eval " << *this << " " << level << endl;
     gen res;
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
@@ -1841,7 +1865,7 @@ namespace giac {
 #else // rtos
 #if !defined(WIN32) && defined(HAVE_PTHREAD_H)
 	if (contextptr && thread_param_ptr(contextptr)->stackaddr){
-	  // cerr << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
+	  // CERR << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
 	  if ( ((unsigned long) &slevel) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+65536){
 	    if ( ((unsigned long) &slevel) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+8192){
 	      gensizeerr(gettext("Too many recursion levels"),evaled); // two many recursion levels
@@ -1979,7 +2003,7 @@ namespace giac {
 
 
   gen gen::evalf(int level,const context * contextptr) const{
-    // cerr << "evalf " << *this << " " << level << endl;
+    // CERR << "evalf " << *this << " " << level << endl;
 #ifdef TIMEOUT
     control_c();
 #endif
@@ -5041,7 +5065,7 @@ namespace giac {
   }
 
   static gen operator_times(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
-    // cout << a << "*" << b << endl;
+    // COUT << a << "*" << b << endl;
     // if (!( (++control_c_counter) & control_c_counter_mask))
 #ifdef TIMEOUT
     control_c();
@@ -6882,6 +6906,28 @@ namespace giac {
     }
   }
 
+  struct islesscomplexthanf_compare {
+    islesscomplexthanf_compare() {}
+    bool operator ()(const gen & a,const gen &b){ return islesscomplexthanf(a,b); }
+  };
+
+  void islesscomplexthanf_sort(iterateur it,iterateur itend){
+    islesscomplexthanf_compare m;
+    sort(it,itend,m);
+  }
+
+  struct f_compare {
+    bool (*f)(const gen &a,const gen &b);
+    f_compare():f(islesscomplexthanf){}
+    f_compare(bool (*f_)(const gen &a,const gen &b)):f(f_){}
+    inline bool operator () (const gen & a,const gen &b){ return f(a,b); }
+  };
+
+  void gen_sort_f(iterateur it,iterateur itend,bool (*f)(const gen &a,const gen &b)){
+    f_compare m(f);
+    sort(it,itend,m);
+  }
+
   // equality of vecteurs representing geometrical lines
   static bool geo_equal(const vecteur &v,const vecteur & w,int subtype,GIAC_CONTEXT){
     int vs=v.size(),ws=w.size();
@@ -6901,8 +6947,13 @@ namespace giac {
     }
     if (subtype==_SET__VECT){
       vecteur w1(w),v1(v);
+#if 1
+      islesscomplexthanf_sort(w1.begin(),w1.end());
+      islesscomplexthanf_sort(v1.begin(),v1.end());
+#else
       sort(w1.begin(),w1.end(),islesscomplexthanf);
       sort(v1.begin(),v1.end(),islesscomplexthanf);
+#endif
       return w1==v1;
     }
     return false;
@@ -8055,6 +8106,12 @@ namespace giac {
     return islesscomplexthanf(a,b);
   }
 
+  class modified_compare {
+  public:
+    modified_compare(){}
+    bool operator ()(const gen &a,const gen &b){ return modified_islesscomplexthanf(a,b);}
+  };
+
   // return true if a is -basis^exp
   static bool power_basis_exp(const gen& a,gen & basis,gen & expa){
     if (a.is_symb_of_sommet(at_neg))
@@ -8128,7 +8185,14 @@ namespace giac {
       vecteur vtmp(v.begin(),v.end());
       for (unsigned i=0;i<vtmp.size();++i)
 	vtmp[i]=simplifier(vtmp[i],contextptr);
+#if 1 // def NSPIRE
+      // COUT << "modified " << (int) modified_islesscomplexthanf << endl; wait_key_pressed() ;
+      modified_compare m;
+      sort(vtmp.begin(),vtmp.end(),m);
+      // COUT << "after modified " << endl; wait_key_pressed() ;
+#else
       sort(vtmp.begin(),vtmp.end(),modified_islesscomplexthanf);
+#endif
       // collect term with the same power
       const_iterateur it=vtmp.begin(),itend=vtmp.end();
       vecteur vsorted;
@@ -8237,6 +8301,7 @@ namespace giac {
     const giac::context * contextptr;
     bool operator()(const gen & a,const gen &b){ return islesscomplexthanf2(a,b,contextptr); }
     tri_context(const giac::context * ptr):contextptr(ptr){};
+    tri_context():contextptr(0){};
   };
 
   // from a sum in x returns a list of [coeff monomial]
@@ -8493,7 +8558,7 @@ namespace giac {
     mpz_init(q); 
     // mpz_init(r3); mpz_init(u3); mpz_init(v3);
     while (mpz_cmp_si(r2,0)){
-      // cerr << "iegcd " << gen(r1) << " " << gen(r2) << endl;
+      // CERR << "iegcd " << gen(r1) << " " << gen(r2) << endl;
       mpz_cdiv_qr(q,r1,r1,r2);
       mpz_swap(r1,r2);
       mpz_submul(u1,q,u2);
@@ -8506,9 +8571,9 @@ namespace giac {
     }
     mpz_swap(d,r1); mpz_swap(u,u1); mpz_swap(v,v1);
 #if 0 // debugging
-    cerr << gen(d) << " " << gen(u) << " " << gen(v) << endl;
+    CERR << gen(d) << " " << gen(u) << " " << gen(v) << endl;
     mpz_gcdext(d,u,v,a,b);
-    cerr << gen(d) << " " << gen(u) << " " << gen(v) << endl;
+    CERR << gen(d) << " " << gen(u) << " " << gen(v) << endl;
 #endif
     mpz_clear(q); mpz_clear(r1); mpz_clear(r2); 
     mpz_clear(u1); mpz_clear(u2); 
@@ -8920,7 +8985,7 @@ namespace giac {
   }
 
   static void _ZINTrem(const gen & a,const gen &b,gen & q,ref_mpz_t * & rem){
-    // cout << a << " irem " << b << endl;
+    // COUT << a << " irem " << b << endl;
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
@@ -9213,7 +9278,7 @@ namespace giac {
     my_mpz_gcd(r,q,u1);
     bool ok=mpz_cmp_ui(r,1)==0;
     if (!ok){
-      cerr << "Bad reconstruction " << a << " " << m << " " << gen(r) << endl;
+      CERR << "Bad reconstruction " << a << " " << m << " " << gen(r) << endl;
       simplify3(num,den);
       return false;
     }
@@ -9721,6 +9786,9 @@ namespace giac {
 	  return rg;
       }
       double d;
+#ifdef NSPIRE
+      d=Strtod(s,&endchar);
+#else // NSPIRE
 #ifdef HAVE_LIBPTHREAD
       int locked=pthread_mutex_trylock(&locale_mutex);
       if (!locked){
@@ -9737,7 +9805,8 @@ namespace giac {
       setlocale(LC_NUMERIC,"POSIX");
       d=strtod(s,&endchar);
       setlocale(LC_NUMERIC,lc);
-#endif
+#endif // PTHREAD
+#endif // NSPIRE
       if (*endchar){
 #ifdef BCD
       giac_float gf;
@@ -9803,7 +9872,7 @@ namespace giac {
       gen er;
       short int err=s.size();
       if (debug_infolevel>10000)
-	cerr << (unsigned long) &err << " " << ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+4*65536 << endl;
+	CERR << (unsigned long) &err << " " << ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+4*65536 << endl;
       if ( ((unsigned long) &err) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+4*65536){
 	gensizeerr(gettext("Too many recursion levels"),er);
 	parsed_gen(er,contextptr); 
@@ -9859,13 +9928,17 @@ namespace giac {
 	      }
 	    }
 	    if (i==vs){
+#ifndef NSPIRE
 	      my_ostream * log = logptr(contextptr);
 	      logptr(0,contextptr);
+#endif
 	      i_sqrt_minus1(1,contextptr);
 	      void * scanner2;
 	      YY_BUFFER_STATE state2=set_lexer_string(s,scanner2,contextptr);
 	      res=giac_yyparse(scanner2);
+#ifndef NSPIRE
 	      logptr(log,contextptr);
+#endif
 	      delete_lexer_string(state2,scanner2);
 	    }
 	  }
@@ -9991,7 +10064,7 @@ namespace giac {
     parsed_gen(0,contextptr);
     parse_result.type=0;
     parse_result=0;
-    cerr << "Incomplete parse" << endl;
+    CERR << "Incomplete parse" << endl;
     return res;
   }
 
@@ -10066,14 +10139,22 @@ namespace giac {
       *this=undef;
       return;
     }
+#ifdef HAVE_SSTREAM
     ostringstream warnstream;
+#endif // HAVE_SSTREAM
+#ifndef NSPIRE
     my_ostream * oldptr = logptr(contextptr);
 #ifdef WITH_MYOSTREAM
     my_ostream newptr(&warnstream);
     logptr(&newptr,contextptr);
 #else
+#if !defined HAVE_SSTREAM || defined NSPIRE
+    logptr(&COUT,contextptr);
+#else
     logptr(&warnstream,contextptr);
-#endif
+#endif // HAVE_SSTREAM
+#endif // WITH_MYIOSTREAM
+#endif // NSPIRE
     if (protected_giac_yyparse(ss,*this,contextptr)){
       if (ss.empty())
 	ss="""""";
@@ -10089,9 +10170,14 @@ namespace giac {
 #endif
       type=_STRNG;
     }
+#ifndef NSPIRE
     logptr(oldptr,contextptr);
+#endif
+#if !defined HAVE_SSTREAM || defined NSPIRE
+#else
     if (!warnstream.str().empty())
       parser_error(warnstream.str(),contextptr);
+#endif
   }
 
   /* I/O: Print routines */
@@ -10125,7 +10211,8 @@ namespace giac {
       if (my_isinf(d))
 	return "infinity";
       char s[256];
-      sprintfdouble(s,("%."+forme.substr(1,forme.size()-1)+ch).c_str(),d);
+      string f2=string("%.")+forme.substr(1,forme.size()-1)+ch;
+      sprintfdouble(s,f2.c_str(),d);
       return s;
     } 
     if (xcas_mode(contextptr)==3 && double(int(d))==d)
@@ -10275,6 +10362,9 @@ namespace giac {
     else
       return res;
 #else // USE_GMP_REPLACEMENTS
+#ifdef NSPIRE
+    return "mpf_t not implemented";
+#else
     std::ostringstream out;
 #ifdef LONGFLOAT_DOUBLE
     out << std::setprecision(decimal_digits(contextptr)) << inf;
@@ -10282,6 +10372,7 @@ namespace giac {
     out << std::setprecision(decimal_digits(contextptr)) << *inf;
 #endif
     return out.str();
+#endif // NSPIRE
 #endif // USE_GMP_REPLACEMENTS
   }
 
@@ -11457,13 +11548,13 @@ namespace giac {
 	if (is_one(*(_CPLXptr+1)))
 	  return printi(contextptr);
 	if (is_minus_one(*(_CPLXptr+1)))
-	  return string(abs_calc_mode(contextptr)==38?"−":"-")+printi(contextptr);
-	return ((_CPLXptr+1)->print(contextptr) + '*')+printi(contextptr);
+	  return abs_calc_mode(contextptr)==38?string("−"):string("-")+printi(contextptr);
+	return ((_CPLXptr+1)->print(contextptr) + string("*"))+printi(contextptr);
       }
       if (is_one(*(_CPLXptr+1)))
-	return (_CPLXptr->print(contextptr) + '+')+printi(contextptr);
+	return (_CPLXptr->print(contextptr) + string("+"))+printi(contextptr);
       if (is_minus_one(*(_CPLXptr+1)))
-	return (_CPLXptr->print(contextptr) + '-')+printi(contextptr);
+	return (_CPLXptr->print(contextptr) + string("-"))+printi(contextptr);
       if (is_positive(-(*(_CPLXptr+1)),contextptr))
 	return (_CPLXptr->print(contextptr) + '-' + (-(*(_CPLXptr+1))).print(contextptr) + "*")+printi(contextptr);
       return (_CPLXptr->print(contextptr) + '+' + (_CPLXptr+1)->print(contextptr) + "*")+printi(contextptr);
@@ -11505,8 +11596,14 @@ namespace giac {
       return _POLYptr->print() ;
     case _SPOL1:
       return print_SPOL1(*_SPOL1ptr,contextptr);
-    case _EXT:
-      return "%%{"+_EXTptr->print(contextptr)+':'+(*(_EXTptr+1)).print(contextptr)+"%%}";
+    case _EXT: {
+      string s("%%{");
+      s += _EXTptr->print(contextptr);
+      s += ':';
+      s += (*(_EXTptr+1)).print(contextptr);
+      s += "%%}";
+      return s;
+    }
     case _USER:
       return _USERptr->print(contextptr);
     case _MOD:
@@ -11566,24 +11663,32 @@ namespace giac {
     if (this->type==_POLY)
       _POLYptr->dbgprint();
     else
-      cout << this->print(context0) << endl; 
+      COUT << this->print(context0) << endl; 
   }
 #endif
 #endif
 
+#ifdef NSPIRE
+  template<class T> ios_base<T> & operator<<(ios_base<T> & os,const gen & a){ 
+    return os << a.print(context0); 
+  }
+#else
   ostream & operator << (ostream & os,const gen & a) { return os << a.print(context0); }
+#endif
 
   string monome::print() const {
-    return '<' + coeff.print(context0) + "," + exponent.print(context0) + '>' ;
+    return '<' + coeff.print(context0) + ',' + exponent.print(context0) + '>' ;
   }
 
   void monome::dbgprint() const {
-    cout << this->print();
+    COUT << this->print();
   }
 
+#ifndef NSPIRE
   ostream & operator << (ostream & os,const monome & m){
     return os << m.print() ;
   }
+#endif
 
   /*
   gen string2_ZINT(string s,int l,int & pos){
@@ -11646,18 +11751,26 @@ namespace giac {
     return is;
   }
   */
-
+#ifdef NSPIRE
+  template<class T> nio::ios_base<T> & operator>>(nio::ios_base<T> & is,gen & a){
+    string s;
+    is >> s;
+    a = gen(s,context0);
+    return is;
+  }
+#else
   istream & operator >> (istream & is,gen & a){
     string s;
     is >> s;
     a = gen(s,context0);
     return is;
   }
+#endif
 
   /* Some string utilities not use anymore */
   // Note that this function should be optimized for large input
   string cut_string(const string & chaine,int nchar,vector<int> & ligne_end) {
-    // cerr << clock() << endl;
+    // CERR << clock() << endl;
     int pos;
     if (ligne_end.empty())
       pos=0;
@@ -11670,7 +11783,7 @@ namespace giac {
       int k=chaine.find_first_of('\n',i);
       if ( (l-i<nchar) && ((k<i)||(k>=l-1)) ){
 	ligne_end.push_back(pos+l);
-	// cerr << clock() << endl;
+	// CERR << clock() << endl;
 	return res+chaine.substr(i,l-i);
       }
       if ((k>=i) && (k<i+nchar+4*(i==0)) ){
@@ -11695,7 +11808,7 @@ namespace giac {
 	}
       }
     }
-    // cerr << clock() << endl;
+    // CERR << clock() << endl;
     return res;
   }
 
@@ -12121,7 +12234,11 @@ namespace giac {
   }
 
   real_object & real_interval::operator = (const real_object & g) { 
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
     const real_interval * ptr=dynamic_cast<const real_interval *> (&g);
+#endif
     if (ptr)
       return *this=*ptr;
 #ifdef HAVE_LIBMPFR
@@ -12338,7 +12455,11 @@ namespace giac {
 #endif
     type = _REAL;
     subtype=0;
+#ifdef NO_RTTI
+    real_interval * ptr=0;
+#else
     real_interval * ptr=dynamic_cast<real_interval *>(_REALptr);
+#endif
 #ifdef HAVE_LIBMPFR
     mpfr_set_prec(ptr->inf,mpfr_get_prec(g.inf));
     mpfr_set(ptr->inf,g.inf,GMP_RNDN);
@@ -12409,7 +12530,11 @@ namespace giac {
   }
 
   static real_interval add(const real_interval & i,const real_object & g){
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
     const real_interval * ptr=dynamic_cast<const real_interval *>(&g);
+#endif
     if (ptr)
       return add(i,*ptr);
     real_interval res(i);
@@ -12436,7 +12561,11 @@ namespace giac {
   }
 
   real_object real_object::operator + (const real_object & g) const{
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
     const real_interval * ptr=dynamic_cast<const real_interval *>(&g);
+#endif
     if (ptr)
       return add(*ptr,*this);
 #ifdef HAVE_LIBMPFR
@@ -12501,7 +12630,11 @@ namespace giac {
   }
 
   static real_interval sub(const real_interval & i,const real_object & g){
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
     const real_interval * ptr=dynamic_cast<const real_interval *>(&g);
+#endif
     if (ptr)
       return sub(i,*ptr);
     real_interval res(i);
@@ -12525,7 +12658,11 @@ namespace giac {
   }
 
   real_object real_object::operator - (const real_object & g) const{
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
     const real_interval * ptr=dynamic_cast<const real_interval *>(&g);
+#endif
     if (ptr)
       return add(-*ptr,*this);
 #ifdef HAVE_LIBMPFR
@@ -12946,7 +13083,11 @@ namespace giac {
   }
 
   static real_interval mul(const real_interval & i,const real_object & g){
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
     const real_interval * ptr=dynamic_cast<const real_interval *>(&g);
+#endif
     if (ptr)
       return mul(i,*ptr);
     real_interval res(i);
@@ -12972,7 +13113,11 @@ namespace giac {
   }
 
   real_object real_object::operator * (const real_object & g) const{
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
     const real_interval * ptr=dynamic_cast<const real_interval *>(&g);
+#endif
     if (ptr)
       return mul(*ptr,*this);
 #ifdef HAVE_LIBMPFR

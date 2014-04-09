@@ -120,6 +120,7 @@ namespace giac {
 
   bool est_cospherique(const gen & a,const gen & b,const gen & c,const gen & d,const gen & f,GIAC_CONTEXT);
   gen _est_cospherique(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_est_cospherique;
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

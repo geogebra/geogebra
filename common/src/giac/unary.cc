@@ -42,7 +42,7 @@ namespace giac {
   }
 
   void unary_function_ptr::dbgprint() const {
-    cerr << ptr()->s << endl; 
+    CERR << ptr()->s << endl; 
   }
 
 #ifdef __x86_64__
@@ -423,9 +423,11 @@ namespace giac {
   }
 
 #ifdef NO_UNARY_FUNCTION_COMPOSE
-
+#ifdef NSPIRE
+  template<class T> nio::ios_base<T> & operator << (nio::ios_base<T> & os,const unary_function_eval & o) { return os << o.s ; }
+#else
   ostream & operator << (ostream & os,const unary_function_eval & o) { return os << o.s ; }
-
+#endif
 #else
   // unary_function_abstract
   unary_function_abstract * unary_function_abstract::recopie() const{
@@ -564,12 +566,12 @@ namespace giac {
       return "";
     string s;
     if (itb->type==_FRAC && sommetstr!="=")
-      s='('+itb->print(contextptr)+")";
+      s='('+itb->print(contextptr)+')';
     else {
       if ( sommetstr=="=" || itb->type==_IDNT || (itb->type<=_CPLX && is_positive(*itb,contextptr)) )
 	s=itb->print(contextptr);
       else
-	s='('+itb->print(contextptr)+")";
+	s='('+itb->print(contextptr)+')';
     }
     ++itb;
     for (;;){

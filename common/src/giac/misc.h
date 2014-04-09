@@ -180,6 +180,10 @@ namespace giac {
   extern const unary_function_ptr * const  at_asec;
   extern const unary_function_ptr * const  at_acsc;
   extern const unary_function_ptr * const  at_acot;
+  extern const unary_function_ptr * const  at_frobenius_norm;
+  extern const unary_function_ptr * const  at_linfnorm;
+  extern const unary_function_ptr * const  at_matrixnorm;
+
   gen _sec(const gen & args,GIAC_CONTEXT);
   gen _asec(const gen & args,GIAC_CONTEXT);
   gen _acsc(const gen & args,GIAC_CONTEXT);

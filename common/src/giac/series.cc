@@ -332,9 +332,19 @@ namespace giac {
     return res;
   }
 
-  static bool monome_less(const monome & a,const monome & b){
-    return ck_is_strictly_greater(b.exponent,a.exponent,context0);
-  }
+  struct monome_less {
+    monome_less() {}
+    bool operator () (const monome & a,const monome & b){
+      return ck_is_strictly_greater(b.exponent,a.exponent,context0);
+    }
+  };
+
+  struct symb_size_less_t {
+    symb_size_less_t() {}
+    bool operator () (const gen &a,const gen &b){
+      return symb_size_less(a,b);
+    }
+  };
 
   bool pmul(const sparse_poly1 & celuici,const sparse_poly1 &other, sparse_poly1 & final_seq,bool n_truncate,const gen & n_valuation,GIAC_CONTEXT){
     if (ctrl_c || interrupted) {
@@ -350,9 +360,9 @@ namespace giac {
     if (asize==1){
       gen temp(celuici.front().coeff);
       pshift(other,celuici.front().exponent,final_seq,contextptr);
-      // cout << other << "Shifted" << final_seq << endl;
+      // COUT << other << "Shifted" << final_seq << endl;
       return pmul(final_seq,temp,final_seq,contextptr);
-      // cout << other << "Multiplied" << final_seq << endl;
+      // COUT << other << "Multiplied" << final_seq << endl;
     }
     if (bsize==1){
       gen temp(other.front().coeff);
@@ -365,7 +375,7 @@ namespace giac {
     // Storage capacity 2*N*M expair
     // That's much more than O(N+M) for dense poly *but*
     // it works for non integer powers
-    // cout << celuici << "pmul" << other << endl;
+    // COUT << celuici << "pmul" << other << endl;
     // First find the order product
     gen a_max = porder(celuici);
     gen b_max = porder(other);
@@ -437,10 +447,10 @@ namespace giac {
       }
     }
     new_seq.push_back( monome(res ,old_pow ));
-    // cout << new_seq << endl;
+    // COUT << new_seq << endl;
     // sort by asc. power
-    sort( new_seq.begin(),new_seq.end(),monome_less);
-    // cout << "Sorted" << new_seq << endl;
+    sort( new_seq.begin(),new_seq.end(),monome_less());
+    // COUT << "Sorted" << new_seq << endl;
     // add terms with same power
     sparse_poly1::const_iterator it=new_seq.begin();
     sparse_poly1::const_iterator itend=new_seq.end();
@@ -474,7 +484,7 @@ namespace giac {
     if (c_max!=plus_inf)
       final_seq.push_back(monome(undef, c_max));
     return true;
-    cout << final_seq.back().coeff << endl;
+    COUT << final_seq.back().coeff << endl;
     return true;
   }
 
@@ -549,7 +559,7 @@ namespace giac {
       pshift(a,-b.front().exponent,res,contextptr);
       return pdiv(res,b0,res,contextptr);
     }
-    // cout << a << "/" << b << endl;
+    // COUT << a << "/" << b << endl;
     if (&res==&b){
       // setsizeerr(gettext("series.cc/pdiv"));
       return false;
@@ -558,7 +568,7 @@ namespace giac {
     gen ordre=min(min(porder(a),porder(b)-e0,contextptr),ordre_orig,contextptr);
     if (ordre==plus_inf)
       ordre=series_default_order;
-    // cout << ordre << endl;
+    // COUT << ordre << endl;
     if (ordre.type==_SYMB && ordre._SYMBptr->sommet==at_max)
       return false; // setsizeerr(gettext("series.cc/pdiv"));
     sparse_poly1 rem(a);
@@ -568,7 +578,7 @@ namespace giac {
     for (;;){
       if (is_undef(rem.front().coeff)){
 	res.push_back(monome(undef,rem.front().exponent-e0));
-	// cout << "=" << res << endl;
+	// COUT << "=" << res << endl;
 	return true;
       }
       q_cur=rdiv(rem.front().coeff,b0,contextptr);
@@ -578,7 +588,7 @@ namespace giac {
       if (!pmul(-q_cur,bshift,bshift,contextptr))
 	return false;
       padd(rem,bshift,rem,contextptr);
-      // cout << rem.front().exponent << " " << e0+ordre << endl;
+      // COUT << rem.front().exponent << " " << e0+ordre << endl;
       if (ck_is_strictly_greater(rem.front().exponent,e0+ordre,contextptr)){
 	res.push_back(monome(undef,ordre+1));
 	return true;
@@ -783,7 +793,7 @@ namespace giac {
       res=sparse_poly1(1,monome(undef,minus_inf));
       return true;
     }
-    // cout << "compose " << vcopy << " with " << pcopy << endl;
+    // COUT << "compose " << vcopy << " with " << pcopy << endl;
     it=vcopy.begin(),itend=vcopy.end();
     int n=itend-it-1;
     bool n_truncate=false; 
@@ -818,14 +828,14 @@ namespace giac {
       return true;
     }
     res=sparse_poly1(1,monome(*it));
-    // cout << res << endl;
+    // COUT << res << endl;
     ++it;
     if (it==itend && is_undef(pcopy.back().coeff))
       res.push_back(monome(undef,min(n_valuation,pcopy.back().exponent,contextptr)));
     gen plcmn=plus_one;
     for (;it!=itend;++it){
       plcmn=plcmn*plcm;
-      // cout << res << "*" << pcopy << endl ;
+      // COUT << res << "*" << pcopy << endl ;
       if (!pmul(res,pcopy,res,n_truncate,n_valuation,contextptr))
 	return false;
       if (n_truncate){ // Remove all terms of order > n_valuation
@@ -838,10 +848,10 @@ namespace giac {
 	  }
 	}
       }
-      // cout << res << endl;
+      // COUT << res << endl;
       if (!is_zero(*it))
 	padd(res,sparse_poly1(1,monome(*it*plcmn)),res,contextptr);
-      // cout << res << endl;
+      // COUT << res << endl;
     }
     den=vlcm*plcmn;
     // back conversion from res to symbolic form
@@ -948,10 +958,10 @@ namespace giac {
     }
     if (e.type!=_INT_ || e.val>ordre)
       v.push_back(undef);
-    // cout << v << endl;
+    // COUT << v << endl;
     if (!pcompose(v,basecopy,res,contextptr))
       return false;
-    // cout << res << endl;
+    // COUT << res << endl;
     // final multiplication ans shift
     pshift(res,first.exponent*e,res,contextptr);
     return pmul(res,normalize_sqrt(pow(first.coeff,e,contextptr),contextptr),res,contextptr);
@@ -1263,7 +1273,7 @@ namespace giac {
 	}
 	lvx_s.push_back(s);
 	continue;
-	cout << s.back() << endl;
+	COUT << s.back() << endl;
       }
       // test for the special case var=f(x)
       if ((temp__SYMB.feuille.type==_IDNT) && (temp__SYMB.sommet!=at_abs)){ 
@@ -1762,7 +1772,7 @@ namespace giac {
   vecteur rlvarx(const gen &e,const gen & x){
     vecteur res;
     rlvarx(e,x,res);
-    sort(res.begin(),res.end(),symb_size_less);
+    gen_sort_f(res.begin(),res.end(),symb_size_less);
     return res;
   }
 
@@ -2023,7 +2033,11 @@ namespace giac {
       gen first_try;
       first_try=simplifier(subst(e,x,lim_point,false,contextptr),contextptr);
       if (!contains(lidnt(first_try),unsigned_inf)){
+	if (has_num_coeff(first_try))
+	  return first_try;
 	gen chk=recursive_normal(first_try,contextptr);
+	if (!lop(chk,at_rootof).empty())
+	  chk=ratnormal(first_try);
 	if (!is_undef(chk) && !contains(lidnt(chk),unsigned_inf)){
 	  return taille(chk,100)<taille(first_try,100)?chk:first_try;
 	}
@@ -2088,7 +2102,7 @@ namespace giac {
       double ordre=mrv_begin_order;
       for ( ; !p.empty() && is_undef(p.front().coeff) && (ordre<max_series_expansion_order);ordre=1.5*ordre+1) 
 	p=series__SPOL1(e_copy,x,lim_point,int(ordre),0,contextptr);
-      // cout << p << endl;
+      // COUT << p << endl;
       if (ordre>=max_series_expansion_order)
 	return genmaxordererr();
       if (p.empty() || ck_is_strictly_positive(p.front().exponent,contextptr))
@@ -2329,7 +2343,7 @@ namespace giac {
     // At the end replace w by 1/w if w -> plus_inf
     bool dont_invert=is_zero(in_limit(faster_var.front(),x,plus_inf,0,contextptr));
     vecteur faster_var_tmp(faster_var);
-    stable_sort(faster_var.begin(),faster_var.end(),symb_size_less);
+    stable_sort(faster_var.begin(),faster_var.end(),symb_size_less_t());
     identificateur w(" w");
     vecteur faster_var_subst(1,w);
     gen g=faster_var.front()._SYMBptr->feuille;

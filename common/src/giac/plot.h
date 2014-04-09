@@ -26,7 +26,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#ifdef HAVE_SSTREAM
 #include <sstream>
+#endif
 #include "gen.h"
 #include "plot3d.h"
 #ifdef HAVE_SIGNAL_H
@@ -612,6 +614,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_plotode;
   extern const unary_function_ptr * const  at_odeplot;
 
+#ifndef NSPIRE
   std::ostream & archive(std::ostream & os,const gen & e,GIAC_CONTEXT);
   gen unarchive(std::istream & is,GIAC_CONTEXT);
   gen archive_session(bool save_history,std::ostream & os,GIAC_CONTEXT);
@@ -626,6 +629,7 @@ namespace giac {
 
   gen _unarchive(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_unarchive;
+#endif // NSPIRE
 
   bool geo_setup(const vecteur & w,GIAC_CONTEXT);
   gen xyztrange(double xmin,double xmax,double ymin,double ymax,double zmin,double zmax,double tmin,double tmax,double wxmin,double wxmax,double wymin, double wymax, int axes,double class_minimum,double class_size,bool gnuplot_hidden3d,bool gnuplot_pm3d);

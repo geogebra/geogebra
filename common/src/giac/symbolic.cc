@@ -175,8 +175,10 @@ namespace giac {
     if (is_inf(g.feuille) 
 	// && calc_mode(contextptr)!=1
 	&& abs_calc_mode(contextptr)==38
-	)
-      return s+="∞";
+	){
+      s+="∞";
+      return s;
+    }
     if (g.feuille.type!=_VECT){
       s += '+';
       return add_print(s,g.feuille,contextptr);
@@ -248,7 +250,8 @@ namespace giac {
     else {
       s += (isneg?(calc38?"−1/(":"-1"):"1/(");
       add_print(s,f,contextptr);
-      return s += ")";
+      s += ")";
+      return s;
     }
   }
 
@@ -337,7 +340,8 @@ namespace giac {
       add_print(s,arg,contextptr);
       s+=",";
       add_print(s,pui,contextptr);
-      return s+=')';
+      s+=')';
+      return s;
     }
 #endif
     bool argpar = ( (arg.type>_CPLX && arg.type!=_FLOAT_) || !is_positive(arg,contextptr)) && arg.type!=_IDNT ;
@@ -346,34 +350,40 @@ namespace giac {
       if (pui==plus_one_half){
 	s += (need?"√(":"√");
 	add_print(s,arg,contextptr);
-	return s += (need?")":"");
+	s += (need?")":"");
+	return s;
       }
       if ( pui==minus_one_half  || pui==fraction(minus_one,plus_two) ){
 	s += (need?"1/√(":"1/√");
 	add_print(s,arg,contextptr);
-	return s += (need?")":"");
+	s += (need?")":"");
+	return s;
       }
       if (pui==minus_one){
 	s += (need?"(":"");
 	add_print(s,arg,contextptr);
-	return s += (need?")":"");
-	return s += (need?")\xe2\x81\xb2":"\xe2\x81\xb2");
+	s += (need?")":"");
+	return s;
+	// return s += (need?")\xe2\x81\xb2":"\xe2\x81\xb2");
       }
       if (pui==plus_two){
 	s += (argpar?"(":"");
 	add_print(s,arg,contextptr);
-	return s += (argpar?")²":"²");
+	s += (argpar?")²":"²");
+	return s;
       }
     }
     if (pui==plus_one_half){
       s += "sqrt(";
       add_print(s,arg,contextptr);
-      return s += ')'; 
+      s += ')'; 
+      return s;
     }
     if ( pui==minus_one_half  || pui==fraction(minus_one,plus_two) ){
       s += "1/sqrt(";
       add_print(s,arg,contextptr);
-      return s += ')';
+      s += ')';
+      return s;
     }
     if (arg.type==_IDNT || (arg.type==_SYMB && arg._SYMBptr->sommet!=at_neg && (arg._SYMBptr->sommet!=at_exp || calc_mode(contextptr)!=1) && !arg._SYMBptr->sommet.ptr()->printsommet)){
       if (pui.type==_SYMB || pui.type==_FRAC){
@@ -385,7 +395,8 @@ namespace giac {
 #endif
 	s += '(';
 	add_print(s,pui,contextptr);
-	return s += ')';
+	s += ')';
+	return s;
       }
       else {
 	add_print(s,arg,contextptr);
@@ -453,8 +464,10 @@ namespace giac {
       s+=")";
       return s;
     }
-    if ( g.sommet.ptr()->printsommet && g.sommet!=at_plus && g.sommet!=at_prod && g.sommet!=at_pow)
-       return s += g.sommet.ptr()->printsommet(g.feuille,g.sommet.ptr()->s,contextptr);
+    if ( g.sommet.ptr()->printsommet && g.sommet!=at_plus && g.sommet!=at_prod && g.sommet!=at_pow){
+      s += g.sommet.ptr()->printsommet(g.feuille,g.sommet.ptr()->s,contextptr);
+      return s;
+    }
     if ( g.feuille.type==_VECT && g.feuille._VECTptr->empty() ){
       s += g.sommet.ptr()->print(contextptr);
       s += "(NULL)";
@@ -495,19 +508,23 @@ namespace giac {
     }
     if (g.feuille.subtype!=_SEQ__VECT)
       s += end_VECT_string(g.feuille.subtype,false,contextptr);
-    return s += ')';
+    s += ')';
+    return s;
   }
 
   string & add_print(string & s,const gen & g,GIAC_CONTEXT){
-    if (g.type==_IDNT)
-      return (s += g._IDNTptr->print(contextptr));
+    if (g.type==_IDNT){
+      (s += g._IDNTptr->print(contextptr));
+      return s;
+    }
     int l=s.size();
     if (g.type==_INT_ && g.subtype==0)
       return add_print_int(s,g.val,contextptr);
     if (g.type==_VECT && g.subtype==0){
       s += calc_mode(contextptr)==1?'{':'[';
       add_printinner_VECT(s,*g._VECTptr,0,contextptr);
-      return s += calc_mode(contextptr)==1?'}':']';
+      s += calc_mode(contextptr)==1?'}':']';
+      return s;
     }
     if (g.type==_FRAC && g._FRACptr->num.type==_INT_ && g._FRACptr->den.type==_INT_){
       add_print(s,g._FRACptr->num,contextptr);
@@ -529,24 +546,29 @@ namespace giac {
     if (l && s[l-1]=='+' ){
       if (!tmp.empty() && tmp[0]=='-'){
 	s = s.substr(0,l-1);
-	return s += tmp;
+	s += tmp;
+	return s;
       }
       if (tmp.size()>3 && (unsigned char)tmp[0]==226 && (unsigned char)tmp[1]==136 && (unsigned char) tmp[2]==146 ) { // -30, -120, -110
 	s[l-1]='-';
-	return s += tmp.substr(3,tmp.size()-3);
+	s += tmp.substr(3,tmp.size()-3);
+	return s;
       }
     }
     if (l && s[l-1]=='-' ){
       if (!tmp.empty() && tmp[0]=='-'){
 	s[l-1]='+';
-	return s += tmp.substr(1,tmp.size()-1);
+	s += tmp.substr(1,tmp.size()-1);
+	return s;
       }
       if (tmp.size()>3 && (unsigned char)tmp[0]==226 && (unsigned char)tmp[1]==136 && (unsigned char) tmp[2]==146 ) { // -30, -120, -110
 	s[l-1]='+';
-	return s += tmp.substr(3,tmp.size()-3);
+	s += tmp.substr(3,tmp.size()-3);
+	return s;
       }
     }
-    return s += tmp;
+    s += tmp;
+    return s;
   }
 
   string symbolic::print(GIAC_CONTEXT) const{
@@ -1018,7 +1040,7 @@ namespace giac {
 	  // end eval of vecteur, store value in res
 	  if (oldsubtype==_SET__VECT && !argl.empty()){
 	    // remove multiple occurences
-	    sort(argl.begin(),argl.end(),islesscomplexthanf);
+	    islesscomplexthanf_sort(argl.begin(),argl.end());
 	    vecteur tmp;
 	    tmp.reserve(argl.size());
 	    tmp.push_back(argl.front());
@@ -1598,8 +1620,11 @@ namespace giac {
     return 2;
   }
 
-    
+#ifdef NSPIRE
+  template<class T> nio::ios_base<T> & operator << (nio::ios_base<T> & os,const symbolic & s) { return os << s.print(context0); }
+#else    
   ostream & operator << (ostream & os,const symbolic & s) { return os << s.print(context0); }
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

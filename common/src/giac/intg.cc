@@ -1376,6 +1376,13 @@ namespace giac {
   // integration of a rational fraction
   static gen integrate_rational(const gen & e, const gen & x, gen & remains_to_integrate,gen & xvar,GIAC_CONTEXT){
     if (x.type!=_IDNT) return gensizeerr(contextptr); // see limit
+    if (has_num_coeff(e)){
+      gen ee=exact(e,contextptr);
+      ee=integrate_rational(ee,x,remains_to_integrate,xvar,contextptr);
+      ee=evalf(ee,1,contextptr);
+      remains_to_integrate=evalf(remains_to_integrate,1,contextptr);
+      return ee;
+    }
     const vecteur & varx=lvarx(e,x);
     int varxs=varx.size();
     if (!varxs){
@@ -2741,7 +2748,14 @@ namespace giac {
       	return res;
       }
     }
-    gen primitive=integrate0( v[0],*x._IDNTptr,rem,contextptr);
+    gen primitive;
+    if (has_num_coeff(v[0])){
+      primitive=integrate0(exact(v[0],contextptr),*x._IDNTptr,rem,contextptr);
+      primitive=evalf(primitive,1,contextptr);
+      rem=evalf(rem,1,contextptr);
+    }
+    else
+      primitive=integrate0(v[0],*x._IDNTptr,rem,contextptr);
     if (s==2 && calc_mode(contextptr)==1){
       ++ggb_intcounter;
       primitive += diffeq_constante(ggb_intcounter,contextptr);
@@ -4292,7 +4306,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & err){
-      cerr << err.what() << endl;
+      CERR << err.what() << endl;
       int n=par->odesolve_system.dimension,i=0;
       for (double * dydt_it=dydt;i<n;++i,++dydt_it){
 	*dydt_it=m_undef;
@@ -4368,7 +4382,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & err){
-      cerr << err.what() << endl;
+      CERR << err.what() << endl;
       int n=par->odesolve_system.dimension,i=0;
       for (double * dydt_it=dfdt;i<n;++i,++dydt_it){
 	*dydt_it=m_undef;
@@ -4524,7 +4538,7 @@ namespace giac {
 	if (status != GSL_SUCCESS)
 	  return gensizeerr(gettext("RK8 evolve not successfull"));
 	if (debug_infolevel>5)
-	  cerr << nstep << ":" << t << ",y5=" << double2vecteur(y,dim) << endl;
+	  CERR << nstep << ":" << t << ",y5=" << double2vecteur(y,dim) << endl;
 	if (return_curve)  {
 	  if ( (t-oldt)> tstep/2 || t==t1){
 	    oldt=t;
@@ -4534,7 +4548,7 @@ namespace giac {
 	      resv.push_back(makevecteur(t,double2vecteur(y,dim)));
 	  }
 	  for (int i=0;i<dim;++i){
-	    // cerr << y[i] << endl;
+	    // CERR << y[i] << endl;
 	    if ( ymin && ymax && ( y[i]<ymin[i] || y[i]>ymax[i]) )
 	      do_while=false;
 	  }
@@ -4659,7 +4673,7 @@ namespace giac {
       double err=rk_error(y_final4,y_final5,yt,contextptr);
       gen hopt=.9*tstep*pow(tolerance/err,.2,contextptr);
       if (debug_infolevel>5)
-	cerr << nstep << ":" << t_e << ",y5=" << y_final5 << ",y4=" << y_final4 << " " << tstep << " hopt=" << hopt << " err=" << err << endl;
+	CERR << nstep << ":" << t_e << ",y5=" << y_final5 << ",y4=" << y_final4 << " " << tstep << " hopt=" << hopt << " err=" << err << endl;
       if (is_strictly_greater(err,tolerance,contextptr)){
 	// reject step
 	tstep=hopt._DOUBLE_val;
@@ -4679,7 +4693,7 @@ namespace giac {
 	if (!iscomplex){
 	  // check boundaries for y_final5
 	  for (int i=0;i<dim;++i){
-	    // cerr << y[i] << endl;
+	    // CERR << y[i] << endl;
 	    if ( ymin && ymax && ( y_final5[i]._DOUBLE_val< ymin[i] || y_final5[i]._DOUBLE_val>ymax[i]) )
 	      do_while=false;
 	  }

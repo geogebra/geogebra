@@ -58,7 +58,7 @@ using namespace std;
 #define BESTA_OS
 #endif
 // Trying to make ifactor(2^128+1) work on ARM
-#if defined(RTOS_THREADX) || defined(BESTA_OS)
+#if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
 //#define OLD_AFACT
 #define GIAC_ADDITIONAL_PRIMES 16// if defined, additional primes are used in sieve
 #else
@@ -207,7 +207,7 @@ namespace giac {
     for (;pos<cs;++pos){
       if (crible[pos/32] & (1<<(pos%32))){
 	pos=2*pos+1;
-	// if (pos!=nextprime(int(p)).val) cerr << "error " << p << endl;
+	// if (pos!=nextprime(int(p)).val) CERR << "error " << p << endl;
 	return pos;
       }
     }
@@ -216,7 +216,7 @@ namespace giac {
 #endif
 
   static const int giac_last_prime=giac_primes[sizeof(giac_primes)/sizeof(short)-1];
-#if defined RTOS_THREADX || defined BESTA_OS
+#if defined RTOS_THREADX || defined BESTA_OS || defined NSPIRE
   const unsigned QS_SIZE=65536; // number of slicetype in a sieve slice
   typedef unsigned char slicetype; // define to unsigned char if not enough
 #else
@@ -224,6 +224,32 @@ namespace giac {
   typedef unsigned char slicetype; // define to unsigned char if not enough
 #endif
 
+#ifdef NSPIRE
+  template<class T>
+  static void printbool(nio::ios_base<T> & os,const vector<unsigned> & v,int C=1){
+    if (C)
+      C=giacmin(C,int(v.size()));
+    else
+      C=v.size();
+    for (int c=0;c<C;++c){
+      for (int s=0;s<32;++s){
+	os << (((v[c] >> s & 1)==1)?1:0) << " ";
+      }
+    }
+    os << endl;
+  }
+
+  template<class T>
+  void printbool(nio::ios_base<T> & os,const vector< vector<unsigned> > & m,int L=32){
+    if (L)
+      L=giacmin(L,int(m.size()));
+    else
+      L=m.size();
+    for (int l=0;l<L;++l){
+      printbool(os,m[l]);
+    }
+  }
+#else
   static void printbool(ostream & os,const vector<unsigned> & v,int C=1){
     if (C)
       C=giacmin(C,int(v.size()));
@@ -246,6 +272,7 @@ namespace giac {
       printbool(os,m[l]);
     }
   }
+#endif
 
   template <class T>
   inline void swap(T * & ptr1, T * & ptr2){
@@ -299,7 +326,7 @@ namespace giac {
   void rref(vector< line_t > & m,int L,int C32,int mode){
     int i,l=0,c=0,C=C32*32;
     for (;l<L && c<C;){
-      // printbool(cerr,m);
+      // printbool(CERR,m);
       int c1=c/32,c2=c%32;
       // find first non-0 pivot in col c starting at row l
       for (i=l;i<L;++i){
@@ -384,7 +411,7 @@ namespace giac {
   }
 #endif
 
-#if defined RTOS_THREADX || defined BESTA_OS 
+#if defined RTOS_THREADX || defined BESTA_OS || defined NSPIRE
   typedef unsigned short pui_t ;
   typedef unsigned short ushort_t;
   typedef short short_t;
@@ -444,7 +471,7 @@ namespace giac {
 #endif
 #endif
 
-#if !defined(RTOS_THREADX) && !defined(BESTA_OS)
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined NSPIRE
   // #define WITH_INVA
 #if defined(__APPLE__) || defined(__x86_64__)
 #define LP_TAB_SIZE 15 // slice size will be 2^LP_TAB_SIZE
@@ -594,7 +621,7 @@ namespace giac {
 #else
       if (p>next){
 	++nbits;
-#if !defined(BESTA_OS) && !defined(RTOS_THREADX)
+#if !defined(BESTA_OS) && !defined(RTOS_THREADX) && !defined NSPIRE
 	if (nbits==LP_BIT_LIMIT+1)
 	  break;
 #endif
@@ -620,7 +647,7 @@ namespace giac {
 	bit->root2 = pos2-SLICEEND;
       }
     }
-#if !defined(RTOS_THREADX) && !defined(BESTA_OS)
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined NSPIRE
 #ifndef LP_TAB_SIZE
     for (;bit!=bitend;++bit){
       // same as above but we are sieving with primes >2^15, no need to check for nbits increase
@@ -1051,7 +1078,7 @@ namespace giac {
 	    } else {
 	      // add a prime in additional_primes if <=QS_B_BOUND
 	      if (int(additional_primes.size())>=4*bs 
-#if defined(RTOS_THREADX) || defined(BESTA_OS)
+#if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
 		  || bs+additional_primes.size()>700
 #endif
 		  )
@@ -1209,7 +1236,7 @@ namespace giac {
       a=-a;
     a=(b==1)?a:0;
     // if ((a-res)%p)
-    //  cerr << "error" << endl;
+    //  CERR << "error" << endl;
     return a;
 #else // i386
 
@@ -1830,7 +1857,7 @@ namespace giac {
     int multiplier=find_multiplier(n_orig,delta,contextptr);
     gen N(multiplier*n_orig);
     double Nd=evalf_double(N,1,contextptr)._DOUBLE_val;
-#ifdef RTOS_THREADX
+#if defined RTOS_THREADX || defined NSPIRE
     if (Nd>1e40) return false;
 #endif
 #ifdef BESTA_OS
@@ -1852,7 +1879,7 @@ namespace giac {
     int pos1=70,pos0=23,afact=2,afixed=0; // pos position in the basis, afact number of factors
     // FIXME Will always include the 3 first primes of the basis
     // set a larger Mtarget gives less polynomials but also use less memory
-#if defined(RTOS_THREADX) || defined(RTOS_THREADX)
+#if defined(RTOS_THREADX) || defined(RTOS_THREADX) || defined NSPIRE
     double Mtarget=0.95e5;
     if (Nd>1e36)
       Mtarget=1.2e5;
@@ -2009,7 +2036,7 @@ namespace giac {
       Mtarget=basis.back().p*dtarget; // (int(basis.back().p*1.1)/slicesize)*slicesize;
     }
     unsigned ps=sizeinbase2(basis.back().p);
-#if !defined(RTOS_THREADX) && !defined(BESTA_OS) // def USE_MORE_PRIMES
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined NSPIRE // def USE_MORE_PRIMES
     unsigned maxadditional=(2+(basis.back().p>>16))*basis.back().p*ps;
 #else
     unsigned maxadditional=3*basis.back().p*ps;
@@ -2130,7 +2157,7 @@ namespace giac {
       isqrtNmodp[i]=smod(isqrtN,basis[i].p).val;
 #endif
     }
-#if defined(RTOS_THREADX) || defined(BESTA_OS)
+#if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
     unsigned puissancestablength=10000;
 #else
 #if 1 // def USE_MORE_PRIMES
@@ -2164,7 +2191,7 @@ namespace giac {
     additional_map_t additional_primes_map(8*bs);
     axbmodn.reserve(bs);
 #else 
-#if defined(RTOS_THREADX) || defined(BESTA_OS)
+#if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
     additional_primes.reserve(bs);
     additional_primes_twice.reserve(bs);
     axbmodn.reserve(2*bs);
@@ -2276,7 +2303,7 @@ namespace giac {
       }
       if ( Mval <0.7*Mtarget ){
 	if (pos1>pos0+afixed+5 || Mval<32768){
-	  // cerr << pos ;
+	  // CERR << pos ;
 	  int i=afact-1;
 	  for (;i>afixed+1;--i){
 	    if (pos[i]>pos[i-1]+5)
@@ -2294,7 +2321,7 @@ namespace giac {
 	    for (;i<afact;++i)
 	      pos[i]=pos[i-1]+1;
 	  }
-	  // cerr << pos << endl;
+	  // CERR << pos << endl;
 	}
       }
       // finished?
@@ -2341,7 +2368,7 @@ namespace giac {
 	r=(r*invmod(2*s,p))%p;
 	// overflow should not happen because p is a factor of a hence choosen
 	// in the 1000 range (perhaps up to 10 000, but not much larger)
-	// if ((longlong(r)*p)!=r*p) cerr << "overflow" << endl;
+	// if ((longlong(r)*p)!=r*p) CERR << "overflow" << endl;
 	s += p*r;
 #ifdef PRIMES32
 	if (afact>afact0){
@@ -2621,14 +2648,20 @@ namespace giac {
 	else
 	  nrelationsa += nrelationsb;
       }
-#if defined( RTOS_THREADX) || defined(BESTA_OS)
-      if (debug_infolevel)
-	*logptr(contextptr) << axbmodn.size() << " of " << todo_rel << " (" << 100-100*(todo_rel-axbmodn.size())/double(bs+marge) << "%)" << endl;
+#if defined( RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
+      if (debug_infolevel){
+#ifdef NSPIRE
+	static int count_print=0;
+	++count_print;
+	if (count_print%4==0)
+#endif
+	  *logptr(contextptr) << axbmodn.size() << " of " << todo_rel << " (" << 100-100*(todo_rel-axbmodn.size())/double(bs+marge) << "%)" << endl;
+      }
 #endif
       if (nrelationsa==0){
 	sqrtavals.pop_back();
       }
-#if !defined(RTOS_THREADX) && !defined(BESTA_OS)
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined NSPIRE
       if (debug_infolevel>1)
 	*logptr(contextptr) << clock()<< gettext(" sieved : ") << axbmodn.size() << " of " << todo_rel << " (" << 100-100*(todo_rel-axbmodn.size())/double(bs+marge) << "%), M=" << M << endl;
 #endif
@@ -2907,7 +2940,7 @@ namespace giac {
     n.uncoerce();
     int maxiter=POLLARD_MAXITER;
     double nd=evalf_double(n,1,contextptr)._DOUBLE_val;
-#if defined(RTOS_THREADX) || defined(BESTA_OS)
+#if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
     int nd1=int(2000*(std::log10(nd)-34));
 #else
     int nd1=int(1500*std::pow(16.,(std::log10(nd)-40)/10));
@@ -2960,7 +2993,7 @@ namespace giac {
 #endif
 	m += 1;
 	if (debug_infolevel && ((m % 
-#if defined(RTOS_THREADX) || defined(BESTA_OS)
+#if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
 				 (1<<10)
 #else
 				 (1<<18)
@@ -3035,7 +3068,7 @@ namespace giac {
     }
     //g<>1 ds le paquet de POLLARD_GCD
     if (debug_infolevel>5)
-      cerr << clock() << " Pollard-rho nloops " << m << endl;
+      CERR << clock() << " Pollard-rho nloops " << m << endl;
     mpz_set(x,y); // x=y;
     mpz_set(x1,y1); // x1=y1;
     mpz_set_si(g,1); // g=1;
@@ -3407,9 +3440,9 @@ namespace giac {
     return b;
   }
   static gen pollardsieve(const gen &a,gen k,bool & do_pollard,GIAC_CONTEXT){
-#if defined( GIAC_HAS_STO_38) || defined(EMCC)
+#if defined( GIAC_HAS_STO_38) || defined(EMCC) || defined NSPIRE
     int debug_infolevel_=debug_infolevel;
-#ifdef RTOS_THREADX
+#if defined RTOS_THREADX || defined NSPIRE
     debug_infolevel=2;
     if (do_pollard)
       *logptr(contextptr) << gettext("Pollard-rho on ") << a << endl; 
@@ -3418,7 +3451,7 @@ namespace giac {
 #endif
 #endif
     gen res=inpollardsieve(a,k,do_pollard,contextptr);
-#if defined( GIAC_HAS_STO_38) || defined(EMCC)
+#if defined( GIAC_HAS_STO_38) || defined(EMCC) || defined NSPIRE
     debug_infolevel=debug_infolevel_;
 #ifdef GIAC_HAS_STO_38
     Calc->Terminal.MakeUnvisible();
@@ -3496,7 +3529,7 @@ namespace giac {
       return v;
     }
     if (debug_infolevel>5)
-      cerr << "Pollard begin " << clock() << endl;
+      CERR << "Pollard begin " << clock() << endl;
     bool do_pollard=true;
     gen a=ifactor2(n,v,do_pollard,contextptr);
     if (a==-1)
@@ -3593,7 +3626,7 @@ namespace giac {
       g=facprem(n,contextptr);
       if (is_undef(g))
 	return g;
-      sort(g.begin(),g.end(),islesscomplexthanf);
+      islesscomplexthanf_sort(g.begin(),g.end());
       gen last=0; int p=0;
       for (unsigned i=0;i<g.size();++i){
 	if (g[i]==last)
@@ -3949,7 +3982,7 @@ namespace giac {
     gen n=args;
     if (is_zero(n) || (!is_integral(n) && !is_integer(n)) || n.type==_CPLX) 
       return gentypeerr(contextptr);
-    return idivis(abs(n,contextptr),contextptr);
+    return _sort(idivis(abs(n,contextptr),contextptr),contextptr);
   }
   static const char _idivis_s []="idivis";
   static define_unary_function_eval (__idivis,&_idivis,_idivis_s);

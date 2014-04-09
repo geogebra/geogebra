@@ -81,7 +81,7 @@ namespace giac {
     if (g.type==_SYMB){
       vecteur v;
       rlvarx(g,x,v);
-      sort(v.begin(),v.end(),islesscomplexthanf);
+      islesscomplexthanf_sort(v.begin(),v.end());
       if (v==vecteur(1,x))
 	return 2;
       if (v.size()<2 || v[1].type!=_SYMB)
@@ -821,6 +821,8 @@ namespace giac {
       res=-res;
       return bo;
     }
+    if (!is_strictly_greater(b,a,contextptr))
+      return false;
     if (equalposcomp(lidnt(a),x) || equalposcomp(lidnt(b),x))
       return false;
     // detect Dirac
@@ -997,7 +999,7 @@ namespace giac {
 	g=_lin(trig2exp(g0,contextptr),contextptr);
 	vecteur v;
 	rlvarx(g,x,v);
-	sort(v.begin(),v.end(),islesscomplexthanf);
+	islesscomplexthanf_sort(v.begin(),v.end());
 	int i,s=v.size();
 	if (s>=2){
 	  gen v0,alpha,beta,alphacur,betacur,gof,periode,periodecur;

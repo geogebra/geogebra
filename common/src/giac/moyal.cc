@@ -3328,7 +3328,7 @@ namespace giac {
 	  m=mtran(m);
 	if (m.front()._VECTptr->size()!=2)
 	  return gensizeerr(contextptr);
-	sort(m.begin(),m.end(),first_ascend_sort);
+	gen_sort_f(m.begin(),m.end(),first_ascend_sort);
 	s=m.size();
 	double tot=0,cur=0;
 	for (int i=0;i<s;++i){

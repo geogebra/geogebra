@@ -38,7 +38,7 @@ namespace giac {
 
 #ifndef CAS38_DISABLED
   // giac code for poly up to 15 variables
-  bool gbasis8(const vectpoly & v,vectpoly & res,environment * env,bool modularcheck,GIAC_CONTEXT);
+  bool gbasis8(const vectpoly & v,int order,vectpoly & res,environment * env,bool modularcheck,GIAC_CONTEXT);
 #endif
 
 #ifndef NO_NAMESPACE_GIAC

@@ -1174,7 +1174,7 @@ namespace giac {
       if (v.size()==4 && v[2].type==_INT_ && v[3].type==_INT_ && v[2].val>v[3].val){
 	if (v[3].val==v[2].val-1)
 	  return 1;
-#if defined RTOS_THREADX || defined BESTA_OS
+#if defined RTOS_THREADX || defined BESTA_OS || defined USTL
 	{ gen a=v[2]; v[2]=v[3]; v[3]=a; }
 #else
 	swap(v[2],v[3]);
@@ -1206,9 +1206,9 @@ namespace giac {
       valeur=vecteur(1,valeur);
     valeur=mtran(valeur);
     if (ascend)
-      sort(valeur.begin(),valeur.end(),first_ascend_sort);
+      gen_sort_f(valeur.begin(),valeur.end(),first_ascend_sort);
     else
-      sort(valeur.begin(),valeur.end(),first_descend_sort);
+      gen_sort_f(valeur.begin(),valeur.end(),first_descend_sort);
     valeur=mtran(valeur);
     if (!ismat)
       return valeur.front();
@@ -1271,13 +1271,13 @@ namespace giac {
   gen _int(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (xcas_mode(contextptr)==3)
-      return _floor(g,contextptr);
+      return _floor(evalf(g,1,contextptr),contextptr);
     else
       return _integrate(g,contextptr);
   }
   static const char _int_s[]="int";
   static define_unary_function_eval (__int,(const gen_op_context)_int,_int_s);
-  define_unary_function_ptr5( at_int ,alias_at_int,&__int,0,true);
+  define_unary_function_ptr5( at_int ,alias_at_int,&__int,_QUOTE_ARGUMENTS,true);
 
   static const char _isPrime_s[]="isPrime";
   static define_unary_function_eval (__isPrime,&_isprime,_isPrime_s);
@@ -1675,8 +1675,8 @@ namespace giac {
       return interactive_op_tab[4](g,contextptr);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     char ch;
-    cerr << "Waiting for a keystroke in konsole screen" << endl;
-    cin >> ch;
+    CERR << "Waiting for a keystroke in konsole screen" << endl;
+    CIN >> ch;
     return int(ch);
   }
   static const char _getKey_s[]="getKey";
@@ -2070,7 +2070,11 @@ namespace giac {
 	  gen g(name,contextptr);
 	  if (g.type==_IDNT)
 	    _RplcPic(g,contextptr);
+#ifdef NSPIRE
+	  sleep(d);
+#else
 	  usleep(d*1000);
+#endif
 	  /*
 	    #ifdef WIN32
 	    sleep(ds);
@@ -2090,7 +2094,11 @@ namespace giac {
 	  gen g(name,contextptr);
 	  if (g.type==_IDNT)
 	    _RplcPic(g,contextptr);
+#ifdef NSPIRE
+	  sleep(d);
+#else
 	  usleep(d*1000);
+#endif
 	  /*
 	    #ifdef WIN32
 	    sleep(ds);
@@ -2113,7 +2121,7 @@ namespace giac {
 
   gen _RandSeed(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC
+#if defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC || defined NSPIRE
     srand(g.val);
 #else
 #ifndef GNUWINCE
@@ -2271,9 +2279,11 @@ namespace giac {
   // FIXME SECURITY
   // archive is made of couples name/value
   static sym_tab read_ti_archive(const string & s,GIAC_CONTEXT){
-    ifstream inf(s.c_str());
     vecteur v;
+#ifndef NSPIRE
+    ifstream inf(s.c_str());
     readargs_from_stream(inf,v,contextptr);
+#endif
     sym_tab res;
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
@@ -2290,6 +2300,9 @@ namespace giac {
   }
   
   static void print_ti_archive(const string & s,const sym_tab & m){
+#ifdef NSPIRE
+    return;
+#else
     if (is_undef(check_secure()))
       return ;
     ofstream of(s.c_str());
@@ -2305,6 +2318,7 @@ namespace giac {
       of << "," << it->second ;
     }
     of << "]" << endl;
+#endif
   }
   gen _Archive(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -2432,7 +2446,7 @@ namespace giac {
     if (xcas_mode(contextptr)==3)
       return printasfor(feuille,sommetstr,contextptr);
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=4) )
-      return sommetstr+('('+feuille.print(contextptr)+')');
+      return string(sommetstr)+('('+feuille.print(contextptr)+')');
     int l=language(contextptr);
     const_iterateur it=feuille._VECTptr->begin(); //,itend=feuille._VECTptr->end();
     string res;
@@ -3754,7 +3768,7 @@ namespace giac {
       --ptr;
       return p__IDNT_e;
     case _VAR_Q_TAG:
-      cerr << "_var_q_tag" << endl;
+      CERR << "_var_q_tag" << endl;
     case VAR_Q_TAG:
       --ptr;
       return q__IDNT_e;
@@ -4168,7 +4182,7 @@ namespace giac {
     case PN1_TAG:
       return ti_decode_unary(ptr,at_neg,contextptr);
     case PN2_TAG: 
-      cerr << "pn2_tag" << endl;
+      CERR << "pn2_tag" << endl;
       return ti_decode_binary(ptr,at_neg,true,contextptr);
     case ERROR_MSG_TAG:
       return ti_decode_not_implemented(ptr,"ErrorMsg",1,contextptr);
@@ -4245,7 +4259,7 @@ namespace giac {
 	}
       }
       s=tiasc_translate(s);
-      cerr << s << endl;
+      CERR << s << endl;
       int save_maple_mode=xcas_mode(contextptr);
       xcas_mode(contextptr)=3;
       gen res(s,contextptr);
@@ -4273,6 +4287,9 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_STRNG)
       return gensizeerr(contextptr);
+#ifdef NSPIRE
+      return gensizeerr(contextptr);
+#else
     if (access(g._STRNGptr->c_str(),R_OK))
       return gensizeerr(gettext("Unable to open ")+g.print(contextptr));
     ifstream is(g._STRNGptr->c_str());
@@ -4300,7 +4317,7 @@ namespace giac {
 	gen res(undef);
 	// single program
 	gen gname(decode_name(&buf[0x40],contextptr));
-	cerr << "Fonction " << gname << endl;
+	CERR << "Fonction " << gname << endl;
 	parser_filename(gname.print(contextptr),contextptr);
 	unsigned int tt=buf[0x3e]*65536+buf[0x3d]*256+buf[0x3c]+4;
 	if (tt>s)
@@ -4316,7 +4333,7 @@ namespace giac {
 	  gval=ti2gen(&buf[tt],contextptr);
 	}
 	catch (std::runtime_error & e){
-	  cerr << gname << ":" << e.what();
+	  CERR << gname << ":" << e.what();
 	  gval=string2gen(e.what(),false);
 	}
 #endif
@@ -4333,14 +4350,14 @@ namespace giac {
       gen gfoldername(decode_name(&buf[0x40],contextptr));
       vecteur res;
       if (gfoldername.print(contextptr)!="main"){
-	cerr << "Degrouping in folder " << gfoldername << endl;
+	CERR << "Degrouping in folder " << gfoldername << endl;
 	res.push_back(symbolic(at_NewFold,gfoldername));
 	res.push_back(symbolic(at_SetFold,gfoldername));
       }
       // decode each prog
       for (unsigned int i=0;i<nprogs;++i){
 	gen gname(decode_name(&buf[0x50+0x10*i],contextptr));
-	cerr << "Fonction " << gname << endl;
+	CERR << "Fonction " << gname << endl;
 	parser_filename(gname.print(contextptr),contextptr);
 	unsigned int tt=buf[0x4e +0x10*i]*65536+buf[0x4d+0x10*i]*256+buf[0x4c+0x10*i]+4;
 	if (tt>s)
@@ -4356,7 +4373,7 @@ namespace giac {
 	  gval=ti2gen(&buf[tt],contextptr);
 	}
 	catch (std::runtime_error & e){
-	  cerr << gname << ":" << e.what();
+	  CERR << gname << ":" << e.what();
 	  gval=string2gen(e.what(),false);
 	}
 #endif
@@ -4374,6 +4391,7 @@ namespace giac {
     if (gval.is_symb_of_sommet(at_sto))
       return symb_sto(gval._SYMBptr->feuille[0],gname);
     return symb_sto(gval,gname);
+#endif
   }
 #endif //RTOS_THREADX
   static const char _unarchive_ti_s[]="unarchive_ti";

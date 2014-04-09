@@ -141,7 +141,7 @@ namespace giac {
 	if (caseval_current-caseval_begin>caseval_maxtime)
 #endif
 	  { 
-	    cerr << "Timeout" << endl; ctrl_c=true; interrupted=true; 
+	    CERR << "Timeout" << endl; ctrl_c=true; interrupted=true; 
 	  } 
       } 
     }
@@ -192,8 +192,10 @@ extern "C" void Sleep(unsigned int miliSecond);
   const context * context0=0;
   // Global variable when context is 0
   void (*fl_widget_delete_function)(void *) =0;
+#ifndef NSPIRE
   ostream & (*fl_widget_archive_function)(ostream &,void *)=0;
   gen (*fl_widget_unarchive_function)(istream &)=0;
+#endif
   gen (*fl_widget_updatepict_function)(const gen & g)=0;
   std::string (*fl_widget_texprint_function)(void * ptr)=0;
 
@@ -841,7 +843,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 #ifdef WITH_MYOSTREAM
-  my_ostream my_cerr (&std::cerr);
+  my_ostream my_cerr (&CERR);
   static my_ostream * _logptr_= &my_cerr;
 
   my_ostream * logptr(GIAC_CONTEXT){
@@ -853,23 +855,32 @@ extern "C" void Sleep(unsigned int miliSecond);
     return res?res:&my_cerr;
   }
 #else
-  static ostream * _logptr_=&std::cerr;
+#ifdef NSPIRE
+  static nio::console * _logptr_=&CERR;
+  nio::console * logptr(GIAC_CONTEXT){
+    return &CERR;
+  }
+#else
+  static ostream * _logptr_=&CERR;
   ostream * logptr(GIAC_CONTEXT){
     ostream * res;
     if (contextptr && contextptr->globalptr )
       res=contextptr->globalptr->_logptr_;
     else
       res= _logptr_;
-    return res?res:&std::cerr;
+    return res?res:&CERR;
   }
-
+#endif
 #endif
 
   void logptr(my_ostream * b,GIAC_CONTEXT){
+#ifdef NSPIRE
+#else
     if (contextptr && contextptr->globalptr )
       contextptr->globalptr->_logptr_=b;
     else
       _logptr_=b;
+#endif
   }
 
   thread_param::thread_param(): _kill_thread(false), thread_eval_status(-1), v(6)
@@ -1011,6 +1022,16 @@ extern "C" void Sleep(unsigned int miliSecond);
       contextptr->globalptr->_rand_seed=b;
     else
       _rand_seed=b;
+  }
+
+  int std_rand(){
+#ifdef NSPIRE
+    static unsigned int r = 0;
+    r = unsigned ((1664525*ulonglong(r)+1013904223)%(ulonglong(1)<<31));
+    return r;
+#else
+    return std::rand();
+#endif
   }
 
   int giac_rand(GIAC_CONTEXT){
@@ -1401,7 +1422,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int debug_infolevel=0;
 #endif
-#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS
+#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE
   int threads=1;
 #else
   int threads=sysconf (_SC_NPROCESSORS_ONLN);
@@ -1491,7 +1512,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     return *ans;
   }
 
-#ifdef HAVE_SIGNAL_H
+#if defined HAVE_SIGNAL_H && !defined HAVE_NO_SIGNAL_H
   pid_t parent_id=getpid();
 #else
   pid_t parent_id=0;
@@ -1500,16 +1521,15 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   void ctrl_c_signal_handler(int signum){
     ctrl_c=true;
-#ifndef WIN32
-#ifndef BESTA_OS
+#if !defined WIN32 && !defined BESTA_OS && !defined NSPIRE
     if (child_id)
       kill(child_id,SIGINT);
 #endif
-#endif
-#ifdef HAVE_SIGNAL_H
+#if defined HAVE_SIGNAL_H && !defined HAVE_NO_SIGNAL_H
     cerr << "Ctrl-C pressed (pid " << getpid() << ")" << endl;
 #endif
   }
+#ifndef NSPIRE
   gen catch_err(const std::runtime_error & error){
     cerr << error.what() << endl;
     debug_ptr(0)->sst_at_stack.clear();
@@ -1519,6 +1539,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     debug_ptr(0)->debug_mode=false;
     return string2gen(string(error.what()),false);
   }
+#endif
 
 #if 0
   static vecteur subvect(const vecteur & v,int i){
@@ -2131,14 +2152,14 @@ extern "C" void Sleep(unsigned int miliSecond);
       }
       if (!fait){
 	if (in_texmacs){
-	  cout << GIAC_DATA_BEGIN << "verbatim:";
-	  cout << "ans(" << history_out(contextptr).size() << ") " << sortie << "\n";
+	  COUT << GIAC_DATA_BEGIN << "verbatim:";
+	  COUT << "ans(" << history_out(contextptr).size() << ") " << sortie << "\n";
   
-	  cout << GIAC_DATA_BEGIN << "latex:$$ " << gen2tex(entree,contextptr) << "\\quad = \\quad " << gen2tex(sortie,contextptr) << "$$" << GIAC_DATA_END;
-	  cout << "\n";
-	  cout << GIAC_DATA_BEGIN << "channel:prompt" << GIAC_DATA_END;
-          cout << "quest(" << history_out(contextptr).size()+1 << ") ";
-          cout << GIAC_DATA_END;
+	  COUT << GIAC_DATA_BEGIN << "latex:$$ " << gen2tex(entree,contextptr) << "\\quad = \\quad " << gen2tex(sortie,contextptr) << "$$" << GIAC_DATA_END;
+	  COUT << "\n";
+	  COUT << GIAC_DATA_BEGIN << "channel:prompt" << GIAC_DATA_END;
+          COUT << "quest(" << history_out(contextptr).size()+1 << ") ";
+          COUT << GIAC_DATA_END;
           fflush (stdout);
 	}
 	history_in(contextptr).push_back(entree);
@@ -2150,7 +2171,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	// for PICT update
 	int i=erase_pos(contextptr);
 	args=vecteur(history_out(contextptr).begin()+i,history_out(contextptr).end());
-	// cerr << "PICT clear" << endl;
+	// CERR << "PICT clear" << endl;
 #ifdef WITH_GNUPLOT
 	plot_instructions.clear();
 #endif
@@ -2166,7 +2187,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static void archive_read_error(){
-    cerr << "Read error on " << cas_sortie_name() << endl;
+    CERR << "Read error on " << cas_sortie_name() << endl;
     data_ready=false;
 #ifndef WIN32
     if (child_id)
@@ -2248,10 +2269,11 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   void read_config(const string & name,GIAC_CONTEXT,bool verbose){
-#ifndef __MINGW_H
+#ifndef NSPIRE
+#if !defined __MINGW_H 
     if (access(name.c_str(),R_OK)) {
       if (verbose)
-	cerr << "// Unable to find config file " << name << endl;
+	CERR << "// Unable to find config file " << name << endl;
       return;
     }
 #endif
@@ -2260,24 +2282,25 @@ extern "C" void Sleep(unsigned int miliSecond);
       return;
     vecteur args;
     if (verbose)
-      cerr << "// Reading config file " << name << endl;
+      CERR << "// Reading config file " << name << endl;
     readargs_from_stream(inf,args,contextptr);
     gen g(args);
     if (debug_infolevel || verbose)    
-      cerr << g << endl;
+      CERR << g << endl;
     g.eval(1,contextptr);
     if (verbose){
-      cerr << "// User configuration done" << endl;
-      cerr << "// Maximum number of parallel threads " << threads << endl;
-      cerr << "Threads allowed " << threads_allowed << endl;
+      CERR << "// User configuration done" << endl;
+      CERR << "// Maximum number of parallel threads " << threads << endl;
+      CERR << "Threads allowed " << threads_allowed << endl;
     }
     if (debug_infolevel){
 #ifdef HASH_MAP_NAMESPACE
-      cerr << "Using hash_map_namespace"<< endl;
+      CERR << "Using hash_map_namespace"<< endl;
 #endif
-      cerr << "Mpz_class allowed " << mpzclass_allowed << endl;
-      // cerr << "Heap multiplication " << heap_mult << endl;
+      CERR << "Mpz_class allowed " << mpzclass_allowed << endl;
+      // CERR << "Heap multiplication " << heap_mult << endl;
     }
+#endif
   }
 
   // Unix: configuration is read from xcas.rc in the giac_aide_location dir
@@ -2297,7 +2320,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (s.size()<2 && getenv("XCAS_ROOT")){
 	s=getenv("XCAS_ROOT");
 	if (debug_infolevel || verbose)
-	  cerr << "Found XCAS_ROOT " << s << endl;
+	  CERR << "Found XCAS_ROOT " << s << endl;
       }
 #endif // GNUWINCE
 #else
@@ -2313,13 +2336,13 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
-      cerr << "Error in config file " << xcasrc() << " " << e.what() << endl;
+      CERR << "Error in config file " << xcasrc() << " " << e.what() << endl;
     }
 #endif
   }
 
   string giac_aide_dir(){
-#ifdef __MINGW_H
+#if defined __MINGW_H || defined NSPIRE
     return xcasroot();
 #else
     if (!access((xcasroot()+"aide_cas").c_str(),R_OK)){
@@ -2342,7 +2365,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     // test if aide_cas is there, if not test at xcasroot() return ""
     if (!access(s.c_str(),R_OK)){
       s=s.substr(0,s.size()-8);
-      cerr << "// Giac share root-directory:" << s << endl;
+      CERR << "// Giac share root-directory:" << s << endl;
       return s;
     }
     return "";
@@ -2427,7 +2450,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   bool is_file_available(const char * ch){
     if (!ch)
       return false;
-#ifndef __MINGW_H
+#if !defined __MINGW_H && !defined NSPIRE
     if (access(ch,R_OK))
       return false;
 #endif
@@ -2472,7 +2495,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static string browser_command(const string & orig_file){
-#ifdef __MINGW_H
+#if defined __MINGW_H || defined NSPIRE
     return "";
 #else
     string file=orig_file;
@@ -2493,7 +2516,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       s="file:"+s+file;
     }
     if (debug_infolevel)
-      cerr << s << endl;
+      CERR << s << endl;
 #ifdef WIN32
     bool with_firefox=false;
     /*
@@ -2521,7 +2544,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  s1="c:/xcas/";
 	s1 += s.substr(5,s.size()-5);
       }
-      cerr << "s1=" << s1 << endl;
+      CERR << "s1=" << s1 << endl;
       string s2;
       if (with_firefox)
 	s2=s1;
@@ -2534,7 +2557,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	    s2+=s1[i];
 	}
       }
-      cerr << "s2=" << s2 << endl;
+      CERR << "s2=" << s2 << endl;
       s=s2;
       // s="file:"+s2;
       // s = s.substr(0,5)+"C:\\\\xcas\\\\"+s2;
@@ -2600,7 +2623,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       s=browser+" "+s+" &";
 #endif
     if (debug_infolevel)
-      cerr << "// Running command:"+ s<<endl;
+      CERR << "// Running command:"+ s<<endl;
     return s;
 #endif // __MINGW_H
   }
@@ -2622,8 +2645,8 @@ extern "C" void Sleep(unsigned int miliSecond);
       }
       if (ss && res[ss]!='.')
 	res=res.substr(0,ss);
-      cerr << res << endl;
-#if !defined VISUALC && !defined __MINGW_H
+      CERR << res << endl;
+#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE
       /* If we have a POSIX path list, convert to win32 path list */
       const char *_epath;
       _epath = res.c_str()  ;
@@ -2642,8 +2665,8 @@ extern "C" void Sleep(unsigned int miliSecond);
       }
 #endif
     }
-    cerr << res << endl;
-#if !defined VISUALC && !defined __MINGW_H
+    CERR << res << endl;
+#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE
     // FIXME: works under visualc but not using /UNICODE flag
     // find correct flag
     ShellExecute(NULL,NULL,res.c_str(),NULL,NULL,1);
@@ -2662,7 +2685,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   vecteur remove_multiples(vecteur & ww){
     vecteur w;
     if (!ww.empty()){
-      sort(ww.begin(),ww.end(),islesscomplexthanf);
+      islesscomplexthanf_sort(ww.begin(),ww.end());
       gen prec=ww[0];
       for (unsigned i=1;i<ww.size();++i){
 	if (ww[i]==prec)
@@ -2822,7 +2845,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	    }
 	  }
 	}
-	cerr << "Added " << vector_aide_ptr()->size()-s << " synonyms" << endl;
+	CERR << "Added " << vector_aide_ptr()->size()-s << " synonyms" << endl;
 	sort(vector_aide_ptr()->begin(),vector_aide_ptr()->end(),alpha_order);
 	update_completions();
       }
@@ -2891,64 +2914,64 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (getenv("GIAC_LAPACK")){
       giac::CALL_LAPACK=atoi(getenv("GIAC_LAPACK"));
       if (verbose)
-	cerr << "// Will call lapack if dimension is >=" << CALL_LAPACK << endl;
+	CERR << "// Will call lapack if dimension is >=" << CALL_LAPACK << endl;
     }
     if (getenv("GIAC_PADIC")){
       giac::GIAC_PADIC=atoi(getenv("GIAC_PADIC"));
       if (verbose)
-	cerr << "// Will use p-adic algorithm if dimension is >=" << giac::GIAC_PADIC << endl;
+	CERR << "// Will use p-adic algorithm if dimension is >=" << giac::GIAC_PADIC << endl;
     }
 #endif
 #endif
     if (getenv("XCAS_RPN")){
       if (verbose)
-	cerr << "// Setting RPN mode" << endl;
+	CERR << "// Setting RPN mode" << endl;
       giac::rpn_mode(contextptr)=true;
     }
     if (getenv("GIAC_XCAS_MODE")){
       giac::xcas_mode(contextptr)=atoi(getenv("GIAC_XCAS_MODE"));
       if (verbose)
-	cerr << "// Setting maple mode " << giac::xcas_mode(contextptr) << endl;
+	CERR << "// Setting maple mode " << giac::xcas_mode(contextptr) << endl;
     }
     if (getenv("GIAC_C")){
       giac::xcas_mode(contextptr)=0;
       if (verbose)
-	cerr << "// Setting giac C mode" << endl;
+	CERR << "// Setting giac C mode" << endl;
     }
     if (getenv("GIAC_MAPLE")){
       giac::xcas_mode(contextptr)=1;
       if (verbose)
-	cerr << "// Setting giac maple mode" << endl;
+	CERR << "// Setting giac maple mode" << endl;
     }
     if (getenv("GIAC_MUPAD")){
       giac::xcas_mode(contextptr)=2;
       if (verbose)
-	cerr << "// Setting giac mupad mode" << endl;
+	CERR << "// Setting giac mupad mode" << endl;
     }
     if (getenv("GIAC_TI")){
       giac::xcas_mode(contextptr)=3;
       if (verbose)
-	cerr << "// Setting giac TI mode" << endl;
+	CERR << "// Setting giac TI mode" << endl;
     }
     if (getenv("GIAC_MONO")){
       if (verbose)
-	cerr << "// Threads polynomial * disabled" << endl;
+	CERR << "// Threads polynomial * disabled" << endl;
       giac::threads_allowed=false;
     }
     if (getenv("GIAC_MPZCLASS")){
       if (verbose)
-	cerr << "// mpz_class enabled" << endl;
+	CERR << "// mpz_class enabled" << endl;
       giac::mpzclass_allowed=true;
     }
     if (getenv("GIAC_DEBUG")){
       giac::debug_infolevel=atoi(getenv("GIAC_DEBUG"));
-      cerr << "// Setting debug_infolevel to " << giac::debug_infolevel << endl;
+      CERR << "// Setting debug_infolevel to " << giac::debug_infolevel << endl;
     }
     string s;
     if (getenv("LANG"))
       s=getenv("LANG");
     else { // __APPLE__ workaround
-#if !defined VISUALC && !defined __MINGW_H
+#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE
       if (!strcmp(gettext("File"),"Fich")){
 	setenv("LANG","fr_FR.UTF8",1);
 	s="fr_FR.UTF8";
@@ -3004,6 +3027,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     return s.substr(0,i)+"."+ext;
   }
 
+#ifndef NSPIRE
   void in_mws_translate(istream & inf,ostream & of){
     char c,oldc=0;
     // now read char by char, 
@@ -3090,12 +3114,12 @@ extern "C" void Sleep(unsigned int miliSecond);
     inf.getline(thebuf,BUFFER_SIZE,'\n');
     string lu=thebuf;
     lu=lu.substr(6,lu.size()-7);
-    cerr << "Function name: " << lu << endl;
+    CERR << "Function name: " << lu << endl;
     of << ":" << lu;
     inf.getline(thebuf,BUFFER_SIZE,'\n');  
     inf.getline(thebuf,BUFFER_SIZE,'\n');  
     of << thebuf << endl;
-    for (;inf;){
+    for (;inf.good();){
       inf.getline(thebuf,BUFFER_SIZE,'\n');
       lu=thebuf;
       if (lu=="\r")
@@ -3108,6 +3132,7 @@ extern "C" void Sleep(unsigned int miliSecond);
         of << ":" << lu << endl;
     }
   }
+#endif
 
 #ifdef HAVE_LIBPTHREAD
   pthread_mutex_t context_list_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -3118,7 +3143,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     return *ans;
   }
   context::context() { 
-    // cerr << "new context " << this << endl;
+    // CERR << "new context " << this << endl;
     parent=0;
     tabptr=new sym_tab; 
     globalcontextptr=this; previous=0; globalptr=new global; 
@@ -3135,11 +3160,11 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 #ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if !defined BESTA_OS && !defined NSPIRE
   std::map<std::string,context *> * context_names = new std::map<std::string,context *> ;
 
   context::context(const string & name) { 
-    // cerr << "new context " << this << endl;
+    // CERR << "new context " << this << endl;
     parent=0;
     tabptr=new sym_tab; 
     globalcontextptr=this; previous=0; globalptr=new global; 
@@ -3239,7 +3264,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   context::~context(){
-    // cerr << "delete context " << this << endl;
+    // CERR << "delete context " << this << endl;
     if (!previous){
       if (history_in_ptr)
 	delete history_in_ptr;
@@ -3262,7 +3287,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	}
       }
 #ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if !defined BESTA_OS && !defined NSPIRE
       if (context_names){
 	map<string,context *>::iterator it=context_names->begin(),itend=context_names->end();
 	for (;it!=itend;++it){
@@ -3596,9 +3621,9 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _show_point_(true),  _io_graph_(true),
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
-		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_cerr),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
+		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
 #else
-		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&std::cerr), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
+		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
 #endif
   { 
     _pl._i_sqrt_minus1_=1;
@@ -4188,6 +4213,15 @@ unsigned int ConvertUTF8toUTF16 (
     return wname;
   }
 
+#ifdef NSPIRE
+  unsigned wcslen(const wchar_t * c){
+    unsigned i=0;
+    for (;*c;++i)
+      ++c;
+    return i;
+  }
+#endif
+
   char * unicode2utf8(const wchar_t * idname){
     if (!idname)
       return 0;
@@ -4430,6 +4464,17 @@ unsigned int ConvertUTF8toUTF16 (
 	    delete [] ch;
 	    return undef;
 	  }
+#ifdef NSPIRE
+	  if (builtin_lexer_functions_()){
+	    std::pair<charptr_gen *,charptr_gen *> p=equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ch,0),tri);
+	    if (p.first!=p.second && p.first!=builtin_lexer_functions_end()){
+	      res = p.first->second;
+	      res.subtype=1;
+	      res=gen(int((*builtin_lexer_functions_())[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
+	      res=gen(*res._FUNCptr);
+	    }
+	  }
+#else	  
 	  if (builtin_lexer_functions_){
 	    std::pair<charptr_gen *,charptr_gen *> p=equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ch,0),tri);
 	    if (p.first!=p.second && p.first!=builtin_lexer_functions_end()){
@@ -4438,7 +4483,8 @@ unsigned int ConvertUTF8toUTF16 (
 	      res=gen(int(builtin_lexer_functions_[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
 	      res=gen(*res._FUNCptr);
 	    }
-	  }	  
+	  }
+#endif 
 	}
 	if (is_zero(res))
 	  res=gen(ch,contextptr);

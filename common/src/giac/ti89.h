@@ -137,6 +137,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_Input;
   extern const unary_function_ptr * const  at_InputStr;
   extern const unary_function_ptr * const  at_Prompt;
+  extern const unary_function_ptr * const  at_rowswap;
 #ifndef RTOS_THREADX
 #ifndef BESTA_OS
   extern unary_function_eval __getKey;

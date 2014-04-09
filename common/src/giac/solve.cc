@@ -254,7 +254,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
-      cerr << e.what() << endl;
+      CERR << e.what() << endl;
     }
 #endif
     return res;
@@ -1122,8 +1122,14 @@ namespace giac {
     vecteur veq_not_singu,veq,singu;
     singu=find_singularities(e,x,2,contextptr);
     veq_not_singu=solve(e,x,2,contextptr);
-    for (unsigned i=0;i<singu.size();++i)
+    for (unsigned i=0;i<singu.size();++i){	
       singu[i]=ratnormal(singu[i]);
+      if (equalposcomp(veq_not_singu,singu[i])){
+	gen tmp=subst(e0,x,singu[i],false,contextptr);
+	if (eval(tmp,1,contextptr)==1)
+	  singu.erase(singu.begin()+i);
+      }
+    }
     for (unsigned i=0;i<veq_not_singu.size();++i)
       veq_not_singu[i]=ratnormal(veq_not_singu[i]);
     // Check if trig equations have introduced infinitely many solutions depending on add. param.
@@ -3272,7 +3278,7 @@ namespace giac {
     vecteur B,R(x);
     gen rep;
     B=mrref(A,contextptr);
-    //cout<<B<<endl;
+    //COUT<<B<<endl;
     int d=x.size();
     int de=sl.size();
     for (int i=0; i<de;i++){
@@ -3354,19 +3360,19 @@ namespace giac {
     complex<double> ad;
     b=0;
     ad=gen2complex_d(a);
-    //cout<<"a"<<a<<endl;
-    //cout<<"ad"<<ad<<endl;
+    //COUT<<"a"<<a<<endl;
+    //COUT<<"ad"<<ad<<endl;
     for (int j=1;j<=maxiter;j++){
       olda=ad;    
-      // cout << f << " " << x << " " << a << endl;
+      // COUT << f << " " << x << " " << a << endl;
       a=subst(f,x,a).evalf();
-      // cout<<"a"<<a<<endl;
+      // COUT<<"a"<<a<<endl;
       //a=a.evalf();
       //ad=a._DOUBLE_val;
       ad=gen2complex_d(a);
-      // cout<<"a"<<a<<endl;
-      // cout<<"ad"<<ad<<endl;
-      // cout<<"j"<<j<<"abs"<<abs(ad-olda)<<endl;
+      // COUT<<"a"<<a<<endl;
+      // COUT<<"ad"<<ad<<endl;
+      // COUT<<"j"<<j<<"abs"<<abs(ad-olda)<<endl;
       if (eps>abs(ad-olda)) {
 	b=1; return(a);
       }
@@ -3377,7 +3383,7 @@ namespace giac {
   gen newtona(const gen & f, const gen & x, const gen & arg,int niter1, int niter2, double eps1,double eps2,double prefact1,double prefact2, int & b){
     if (x.type!=_IDNT)
       settypeerr(gettext("2nd arg must be an identifier"));
-    //cout<<a<<endl;
+    //COUT<<a<<endl;
     gen a=arg;
     gen g1;
     gen g;
@@ -3407,21 +3413,21 @@ namespace giac {
 	a=guess;
 	guess_first=true;
       }
-      // cout<<j<<"j"<<a<<endl; 
+      // COUT<<j<<"j"<<a<<endl; 
       gen e;
       e=newtona(f, x, a,niter1,niter2,eps1,eps2,prefact1,prefact2,b);
       if (b==1) return e;
       gen c;
       c=j*4*(rand()/(RAND_MAX+1.0)-0.5);
-      // cout<<j<<"j"<<c<<endl;
+      // COUT<<j<<"j"<<c<<endl;
       // g=x-gen(0.5)*rdiv(f,derive(f,x));
       gen ao(gen(0.0),c);
-      // cout<<"ao"<<ao<<endl;
+      // COUT<<"ao"<<ao<<endl;
       gen e0= newtona(f, x, ao,niter1,niter2,eps1,eps2,prefact1,prefact2,b);
       if (b==1) 
 	return(e0);
       gen a1(a,c);
-      // cout<<j<<"j,a1"<<a1<<endl;
+      // COUT<<j<<"j,a1"<<a1<<endl;
       e0= newtona(f, x, a1,niter1,niter2,eps1,eps2,prefact1,prefact2,b);
       if (b==1) 
 	return(e0);
@@ -3509,7 +3515,7 @@ namespace giac {
 	  }
 	  // of << d << " " << endl;
 	  // of << k << " " << invdf << " " << " " << f << " " << x << " " << a << " " << fa << " " << d << " " << epsg1 << endl;
-	  // cerr << k << " " << invdf << " " << " " << f << " " << x << " " << a << " " << fa << " " << d << " " << epsg1 << endl;
+	  // CERR << k << " " << invdf << " " << " " << f << " " << x << " " << a << " " << fa << " " << d << " " << epsg1 << endl;
 	  b=a+lambda*d;
 	  if (xmin<xmax){
 	    if (!is_zero(im(b,contextptr)) || is_greater(xmin,b,contextptr) || is_greater(b,xmax,contextptr)){
@@ -3771,7 +3777,7 @@ namespace giac {
     const index_t & qi = q.coord.front().index.iref();
     index_t lcm = index_lcm(pi,qi);
     polynome tmp=p.shift(lcm-pi,q.coord.front().value)-q.shift(lcm-qi,p.coord.front().value);
-    // gen g=zint_ppz(tmp); if (debug_infolevel>1) cerr << "spoly ppz " << g << endl;
+    // gen g=zint_ppz(tmp); if (debug_infolevel>1) CERR << "spoly ppz " << g << endl;
     return (env && env->moduloon)?smod(tmp,env->modulo):tmp;
   }
 
@@ -3841,11 +3847,35 @@ namespace giac {
     return reduce(p,it,itend,env);
   }
 
+  struct sort_vectpoly_t {
+    sort_vectpoly_t() {}
+    bool operator () (const giac::tensor<gen> & p,const giac::tensor<gen> & q){
+#if 1
+      if (p.coord.empty())
+	return false;
+      if (q.coord.empty())
+	return true;
+      return p.is_strictly_greater(p.coord.front().index,q.coord.front().index);
+      return p.is_strictly_greater(q.coord.front().index,p.coord.front().index);
+#else
+      return giac::tensor_is_strictly_greater<gen>(p,q);
+#endif
+    }
+  };
+
+  void sort_vectpoly(vectpoly::iterator it,vectpoly::iterator itend){
+#if 1
+    sort(it,itend,sort_vectpoly_t());
+#else
+    sort(it,itend,tensor_is_strictly_greater<gen>);
+#endif
+  }
+
   void reduce(vectpoly & res,environment * env){
     if (res.empty())
       return;
     polynome pred(res.front().dim,res.front());
-    sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
+    sort_vectpoly(res.begin(),res.end());
     // reduce res
     for (int i=res.size()-2;i>=0;){
       polynome & p=res[i];
@@ -3887,9 +3917,9 @@ namespace giac {
   // add total degree for faster comparisons
   struct heap_index {
 #if 0
-    unsigned short order:2;
-    unsigned short resi:23; // position in res[G[i]], up to 2^23 monomials allowed
-    unsigned short qi:23; // same for quotients[i]
+    unsigned short order:4;
+    unsigned short resi:22; // position in res[G[i]], up to 2^22 monomials allowed
+    unsigned short qi:22; // same for quotients[i]
     unsigned short tdeg; // total degree of the product of monomial
 #else
     unsigned short resi; 
@@ -3900,18 +3930,24 @@ namespace giac {
     unsigned short i; // position in G
     index_m lm; // records the leading monomial
     heap_index():resi(0),qi(0),order(0),tdeg(0),i(0) {}
-    heap_index(unsigned _resi,unsigned _qi,unsigned _i):resi(_resi),qi(_qi),order(_REVLEX_ORDER-2),tdeg(0),i(_i){}
-    void dbgprint() { cerr << "index" << lm << " res[G[" << i << "]][" << resi << "], quotients[" << i << "][" << qi << "]" << endl; }
+    heap_index(unsigned _resi,unsigned _qi,unsigned _i):resi(_resi),qi(_qi),order(_REVLEX_ORDER),tdeg(0),i(_i){}
+    void dbgprint() { CERR << "index" << lm << " res[G[" << i << "]][" << resi << "], quotients[" << i << "][" << qi << "]" << endl; }
   };
 
   bool operator < (const heap_index & b,const heap_index & a){
-    switch(a.order+2){
+    switch(a.order){
     case _TDEG_ORDER:
       if (b.tdeg!=a.tdeg)
 	return b.tdeg<a.tdeg;
       return i_total_lex_is_strictly_greater(a.lm,b.lm);
     case _PLEX_ORDER:
       return i_lex_is_strictly_greater(a.lm,b.lm);
+    case _3VAR_ORDER:
+      return i_3var_is_strictly_greater(a.lm,b.lm);
+    case _7VAR_ORDER:
+      return i_7var_is_strictly_greater(a.lm,b.lm);
+    case _11VAR_ORDER:
+      return i_11var_is_strictly_greater(a.lm,b.lm);
     default:
       if (b.tdeg!=a.tdeg)
 	return b.tdeg<a.tdeg;
@@ -4055,7 +4091,7 @@ namespace giac {
     } // end of division loop
     gen g=inplace_ppz(rem);
     if (debug_infolevel>1)
-      cerr << "ppz is " << g << endl;
+      CERR << "ppz is " << g << endl;
   }
 #endif
 
@@ -4183,7 +4219,7 @@ namespace giac {
     }
     gen g=inplace_ppz(rem);
     if (debug_infolevel>1)
-      cerr << "ppz was " << g << endl;
+      CERR << "ppz was " << g << endl;
   }
 
   void reduce(const polynome & p,const vectpoly & res,const vector<unsigned> & G,unsigned excluded,polynome & rem,environment * env){
@@ -4475,7 +4511,7 @@ namespace giac {
       idxm=index_t(idxt);
       M.coord.push_back(monomial<gen>(1,idxm));
       if (debug_infolevel>0)
-	cerr << clock() << " reduce begin " << M << endl;
+	CERR << clock() << " reduce begin " << M << endl;
       gen mprev=m;
       m=1;
       if (prev.empty())
@@ -4489,7 +4525,7 @@ namespace giac {
 	m=mprev*m;
       }
       if (debug_infolevel>0)
-	cerr << clock() << " reduce end " << endl;
+	CERR << clock() << " reduce end " << endl;
       // 1st check if we need to add new monomials
       int pos;
       bool inserted=false;
@@ -4512,7 +4548,7 @@ namespace giac {
 	}
       }
       if (debug_infolevel>0)
-	cerr << clock() << " end insert monomials" << endl;
+	CERR << clock() << " end insert monomials" << endl;
       // now make last matrix line
       ligne.clear();
       for (unsigned i=0;i<positions.size();++i)
@@ -4531,13 +4567,13 @@ namespace giac {
       gen det,bareiss=1,piv,coeff;
       int li=0,lmax=mat.size(),c=0,cmax=mat.front()._VECTptr->size()-1;
       if (debug_infolevel>0)
-	cerr << clock() << " reduce line" << endl;
+	CERR << clock() << " reduce line" << endl;
       for (;li<lmax-1 && c<cmax;){
 	vecteur & v=*mat[li]._VECTptr;
 	piv=v[c];
 	if (is_zero(piv)){
 	  // ERROR
-	  cerr << "error" << endl;
+	  CERR << "error" << endl;
 	  break;
 	}
 	vecteur & w =*mat[lmax-1]._VECTptr;
@@ -4622,7 +4658,7 @@ namespace giac {
 	swap(mat,matr);
       }
       if (debug_infolevel>0)
-	cerr << clock() << " reduce line end" << endl;
+	CERR << clock() << " reduce line end" << endl;
       // if last line is 0, add element to Glex and remove last line from mat
       for (pos=0;pos<int(l.size())-1;++pos){
 	if (!is_zero(l[pos]))
@@ -4634,7 +4670,7 @@ namespace giac {
 	Glex.push_back(*l.back()._POLYptr);
 	ppz(Glex.back());
 	if (debug_infolevel>0){
-	  cerr << "Found element " << Glex.back() << endl;
+	  CERR << "Found element " << Glex.back() << endl;
 	}
 	index_t tmp=l.back()._POLYptr->coord.front().index.iref();
 	index_t tmp1(dim);
@@ -4707,10 +4743,10 @@ namespace giac {
       M.coord.front().index=idxm;
       gen m;
       if (debug_infolevel>0)
-	cerr << clock() << " reduce begin " << endl;
+	CERR << clock() << " reduce begin " << endl;
       reduce(M,&G.front(),&G.back()+1,R,m,env);
       if (debug_infolevel>0)
-	cerr << clock() << " reduce end " << endl;
+	CERR << clock() << " reduce end " << endl;
       if (R.coord.empty()){
 	Glex.push_back(M);
 	break;
@@ -4721,7 +4757,7 @@ namespace giac {
       int pos;
       bool inserted=false;
       for (unsigned i=0;i<R.coord.size();++i){
-	// cerr << rmonomials << " " << R.coord[i].index << endl;
+	// CERR << rmonomials << " " << R.coord[i].index << endl;
 	pos=find(rmonomials,R.coord[i].index);
 	if (pos<0){
 	  rmonomials.insert(rmonomials.begin()-pos,R.coord[i].index);
@@ -4732,8 +4768,8 @@ namespace giac {
       if (!inserted){
 	if (debug_infolevel>0){
 	  if (R==M)
-	    cerr << "R=M " ;
-	  cerr << clock() << " fill matrix " << endl;
+	    CERR << "R=M " ;
+	  CERR << clock() << " fill matrix " << endl;
 	}
 	lignes.clear();
 	lignes.reserve(reduced.size()+1);
@@ -4813,10 +4849,10 @@ namespace giac {
 	    lcmdeno(*syst[i]._VECTptr,m,context0);
 	  }
 	  if (debug_infolevel>0)
-	    cerr << clock() << " ker begin " << neq << "*" << nunknown << endl;
+	    CERR << clock() << " ker begin " << neq << "*" << nunknown << endl;
 	  mker(syst,B,contextptr);
 	  if (debug_infolevel>0)
-	    cerr << clock() << " ker end " << endl;
+	    CERR << clock() << " ker end " << endl;
 	}
 	if (is_undef(B) || B.empty())
 	  ;
@@ -4839,7 +4875,7 @@ namespace giac {
 	    res *= m;
 	    Glex.push_back(res);
 	    if (debug_infolevel>0)
-	      cerr << "Found element beginning with [x1,x2,...]^" << idxt << endl;
+	      CERR << "Found element beginning with [x1,x2,...]^" << idxt << endl;
 	    // check if we are finished
 	    index_t tmp=res.coord.front().index.iref();
 	    index_t tmp1(dim);
@@ -4915,17 +4951,17 @@ namespace giac {
       }
     }
     reduce(res,env);
-    sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
+    sort_vectpoly(res.begin(),res.end());
     reverse(res.begin(),res.end());
     if (debug_infolevel>6)
       res.dbgprint();
 #ifndef GIAC_HAS_STO_38 // CAS38_DISABLED
     if (res.front().dim<=GROEBNER_VARS+1-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
       vectpoly tmp;
-      gbasis8(res,tmp,env,modularcheck,contextptr); 
+      gbasis8(res,order.val,tmp,env,modularcheck,contextptr); 
       tmp.swap(res);
       // reduce(res,env);
-      sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
+      sort_vectpoly(res.begin(),res.end());
       reverse(res.begin(),res.end());
       return true;
     }
@@ -4962,7 +4998,7 @@ namespace giac {
     }
     for (;!B.empty() && !interrupted;){
       if (debug_infolevel>1)
-	cerr << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
+	CERR << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
       index_t small0,cur;
       unsigned smallpos;
@@ -4987,21 +5023,21 @@ namespace giac {
       }
       pair<unsigned,unsigned> bk=B[smallpos];
       if (debug_infolevel>1 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
-	cerr << clock() << " reducing pair with 1 element not in basis " << bk << " from " << B << endl;
+	CERR << clock() << " reducing pair with 1 element not in basis " << bk << " from " << B << endl;
       B.erase(B.begin()+smallpos);
       polynome h=spoly(res[bk.first],res[bk.second],env);
       if (debug_infolevel>1)
-	cerr << clock() << " reduce begin, pair " << bk << " remainder size " << h.coord.size() << endl;
+	CERR << clock() << " reduce begin, pair " << bk << " remainder size " << h.coord.size() << endl;
       reduce(h,res,G,-1,h,env);
       if (debug_infolevel>1){
-	if (debug_infolevel>2){ cerr << h << endl; }
-	cerr << clock() << " reduce end, remainder size " << h.coord.size() << endl;
+	if (debug_infolevel>2){ CERR << h << endl; }
+	CERR << clock() << " reduce end, remainder size " << h.coord.size() << endl;
       }
       if (!h.coord.empty()){
 	res.push_back(h);
 	gbasis_update(G,B,res,res.size()-1,env);
 	if (debug_infolevel>2)
-	  cerr << clock() << " basis indexes " << G << " pairs indexes " << B << endl;
+	  CERR << clock() << " basis indexes " << G << " pairs indexes " << B << endl;
       }
     }
     vectpoly newres(G.size(),polynome(res.front().dim,res.front()));
@@ -5012,7 +5048,7 @@ namespace giac {
     if (!env || !env->moduloon)
       ppz(res);
 #endif
-    sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
+    sort_vectpoly(res.begin(),res.end());
     reverse(res.begin(),res.end());
     return true;
   }
@@ -5029,14 +5065,14 @@ namespace giac {
 	bool ok=with_f5?f5(res,order):cocoa_gbasis(res,order);
 	if (ok){
 	  if (debug_infolevel>1)
-	    cerr << res << endl;
+	    CERR << res << endl;
 	  return res;
 	}
       }
 #ifndef NO_STDEXCEPT
     } catch (...){
       if (debug_infolevel)
-	cerr << "Unable to compute gbasis with CoCoA" << endl;
+	CERR << "Unable to compute gbasis with CoCoA" << endl;
     }
 #endif
     // with_f5 used as a synonym for modularcheck
@@ -5245,7 +5281,7 @@ namespace giac {
     vectpoly eqpr(gbasis(eqp,_PLEX_ORDER,/* cocoa */false,/* f5 */ false,/*environment * */0,contextptr));
     // should reorder eqpr with lex order here
     // solve from right to left
-    sort(eqpr.begin(),eqpr.end(),tensor_is_strictly_greater<gen>);
+    sort_vectpoly(eqpr.begin(),eqpr.end());
     reverse(eqpr.begin(),eqpr.end());
     // reverse(eqpr.begin(),eqpr.end());
     vecteur sols(1,vecteur(0)); // sols=[ [] ]
@@ -5363,7 +5399,10 @@ namespace giac {
 
   void change_monomial_order(polynome & p,const gen & order){
     switch (order.val){
-      // should be strict, but does not matter since monomials are !=
+    case _PLEX_ORDER: 
+      p.is_strictly_greater=i_lex_is_strictly_greater;
+      p.m_is_strictly_greater=std::ptr_fun(m_lex_is_strictly_greater<gen>);
+      break;
     case _REVLEX_ORDER: 
       p.is_strictly_greater=i_total_revlex_is_strictly_greater;
       p.m_is_strictly_greater=std::ptr_fun(m_total_revlex_is_strictly_greater<gen>);
@@ -5372,6 +5411,18 @@ namespace giac {
       p.is_strictly_greater=i_total_lex_is_strictly_greater;
       p.m_is_strictly_greater=std::ptr_fun(m_total_lex_is_strictly_greater<gen>);
       break;
+    case _3VAR_ORDER:
+      p.is_strictly_greater=i_3var_is_strictly_greater;
+      p.m_is_strictly_greater=std::ptr_fun(m_3var_is_strictly_greater<gen>);
+      break;      
+    case _7VAR_ORDER:
+      p.is_strictly_greater=i_7var_is_strictly_greater;
+      p.m_is_strictly_greater=std::ptr_fun(m_7var_is_strictly_greater<gen>);
+      break;      
+    case _11VAR_ORDER:
+      p.is_strictly_greater=i_11var_is_strictly_greater;
+      p.m_is_strictly_greater=std::ptr_fun(m_11var_is_strictly_greater<gen>);
+      break;      
     }
     p.tsort();
   }
@@ -5404,12 +5455,26 @@ namespace giac {
       if (equalposcomp(l0,l1[i]))
 	l.push_back(l1[i]);
     }
-    l=vecteur(1,l);
-    alg_lvar(v[0],l);
+    gen order=_REVLEX_ORDER; // 0 assumes plex and 0-dimension ideal so that FGLM applies
     // v[2] will serve for ordering
-    gen order=0; // _REVLEX_ORDER; // 0 assumes plex and 0-dimension ideal so that FGLM applies
     bool with_f5=false,with_cocoa=false,modular=true;
     read_gbargs(v,2,s,order,with_cocoa,with_f5,modular);
+#if GROEBNER_VARS==15
+    // split variables and parameters for revlex
+    if (!l.empty() && l!=l0 && l.size()<=11 && order.val==_REVLEX_ORDER && l0.size()+3-(l.size()%4)<=14){
+      // add fake variables
+      if (l.size()/4==0)
+	order=_3VAR_ORDER;
+      if (l.size()/4==1)
+	order=_7VAR_ORDER;
+      if (l.size()/4==2)
+	order=_11VAR_ORDER;
+      for (int j=l.size()%4;j<3;j++)
+	l.push_back(0);
+    }
+#endif
+    l=vecteur(1,l);
+    alg_lvar(v[0],l);
     // convert eq to polynomial
     vecteur eq_in(*e2r(v[0],l,contextptr)._VECTptr);
     vectpoly eqp;
@@ -5546,7 +5611,53 @@ namespace giac {
       }
     }
 #endif
-    vecteur gb=gen2vecteur(_gbasis(gen(makevecteur(eqs,l),_SEQ__VECT),contextptr)),res;
+    vecteur gb,res;
+    int order=_PLEX_ORDER;
+#if GROEBNER_VARS==15
+    if (l.size()<=14){
+      unsigned i=0;
+      for (;i<l.size();++i){
+	if (!equalposcomp(elim,l[i]))
+	  break;
+      }
+      if (l.size()+3-(i%4)<=14){
+	for (;i%4<3;++i)
+	  l.insert(l.begin()+i,0);
+	order = i; // double revlex ordering
+	l=vecteur(1,l);
+	alg_lvar(eqs,l);
+	// convert eq to polynomial
+	vecteur eq_in(*e2r(eqs,l,contextptr)._VECTptr);
+	vectpoly eqp;
+	if (!vecteur2vector_polynome(eq_in,l,eqp))
+	  return gensizeerr(contextptr);
+	gen coeff;
+	environment env ;
+	env.moduloon = false;    
+	for (unsigned i=0;i<eqp.size();++i){
+	  if (coefftype(eqp[i],coeff)==_MOD){
+	    env.moduloon = true;
+	    env.modulo = *(coeff._MODptr+1);
+	    env.pn=env.modulo;
+	    vectpoly::iterator it=eqp.begin(),itend=eqp.end();
+	    for (;it!=itend;++it)
+	      *it=unmodularize(*it);
+	    break;
+	  }
+	}
+	change_monomial_order(eqp,order);
+	if (debug_infolevel)
+	  CERR << "eliminate revlex/revlex with " << order << " variables " << endl;
+	vectpoly eqpr(gbasis(eqp,order,false,false,&env,contextptr));
+	vectpoly::const_iterator it=eqpr.begin(),itend=eqpr.end();
+	gb.reserve(itend-it);
+	for (;it!=itend;++it)
+	  gb.push_back(r2e(*it,l,contextptr));
+      }
+    }
+#endif
+    if (order==_PLEX_ORDER)
+      gb=gen2vecteur(_gbasis(gen(makevecteur(eqs,l,change_subtype(order,_INT_GROEBNER)),_SEQ__VECT),contextptr));
     // keep in gb values that do not depend on elim
     for (unsigned i=0;i<gb.size();++i){
       vecteur v=lidnt(gb[i]);
@@ -6297,8 +6408,8 @@ L140:
       d__1 = sim[i__ + j * sim_dim1];
       weta += d__1 * d__1;
     }
-    vsig[j] = 1. / sqrt(wsig);
-    veta[j] = sqrt(weta);
+    vsig[j] = 1. / std::sqrt(wsig);
+    veta[j] = std::sqrt(weta);
     if (vsig[j] < parsig || veta[j] > pareta) {
       iflag = 0;
     }
@@ -6523,7 +6634,7 @@ L440:
           d__1 = dx[i__] - sim[i__ + j * sim_dim1];
           temp += d__1 * d__1;
         }
-        temp = sqrt(temp);
+        temp = std::sqrt(temp);
       }
       if (temp > edgmax) {
         l = j;
@@ -6865,7 +6976,7 @@ L100:
       tot = sp;
     } else {
       kp = k + 1;
-      temp = sqrt(sp * sp + tot * tot);
+      temp = std::sqrt(sp * sp + tot * tot);
       alpha = sp / temp;
       beta = tot / temp;
       tot = temp;
@@ -6963,7 +7074,7 @@ L170:
       sp += z__[i__ + k * z_dim1] * a[i__ + kw * a_dim1];
     }
     d__1 = zdota[kp];
-    temp = sqrt(sp * sp + d__1 * d__1);
+    temp = std::sqrt(sp * sp + d__1 * d__1);
     alpha = zdota[kp] / temp;
     beta = sp / temp;
     zdota[kp] = alpha * zdota[k];
@@ -7011,7 +7122,7 @@ L210:
       sp += z__[i__ + k * z_dim1] * a[i__ + kk * a_dim1];
     }
     d__1 = zdota[nact];
-    temp = sqrt(sp * sp + d__1 * d__1);
+    temp = std::sqrt(sp * sp + d__1 * d__1);
     alpha = zdota[nact] / temp;
     beta = sp / temp;
     zdota[nact] = alpha * zdota[k];
@@ -7067,7 +7178,7 @@ L270:
       sp += z__[i__ + k * z_dim1] * a[i__ + kk * a_dim1];
     }
     d__1 = zdota[kp];
-    temp = sqrt(sp * sp + d__1 * d__1);
+    temp = std::sqrt(sp * sp + d__1 * d__1);
     alpha = zdota[kp] / temp;
     beta = sp / temp;
     zdota[kp] = alpha * zdota[k];
@@ -7140,9 +7251,9 @@ L340:
   if (dd <= 0.) {
     goto L490;
   }
-  temp = sqrt(ss * dd);
+  temp = std::sqrt(ss * dd);
   if (abs(sd) >= temp * 1e-6f) {
-    temp = sqrt(ss * dd + sd * sd);
+    temp = std::sqrt(ss * dd + sd * sd);
   }
   stpful = dd / (temp + sd);
   step = stpful;

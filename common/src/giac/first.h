@@ -35,6 +35,19 @@
 #define NO_STDEXCEPT 1
 #endif
 
+#ifdef NSPIRE
+#undef HAVE_LIBDL
+#undef HAVE_LIBPTHREAD
+#include <os.h>
+#define CIN (*std::console_cin_ptr)
+#define COUT (*std::console_cin_ptr)
+#define CERR (*std::console_cin_ptr)
+#else
+#define CIN std::cin
+#define COUT std::cout
+#define CERR std::cerr
+#endif
+
 #ifdef __sparc__
 #define DOUBLEVAL
 #define GIAC_NO_OPTIMIZATIONS
@@ -68,6 +81,10 @@ int my_sprintf(char * s, const char * format, ...);
 #define alias_type ulonglong
 #else
 typedef unsigned long alias_type;
+#endif
+
+#if defined(RTOS_THREADX) || defined(BESTA_OS) || defined(EMCC) || defined NSPIRE
+#define NO_TEMPLATE_MULTGCD
 #endif
 
 #ifdef NO_UNARY_FUNCTION_COMPOSE
@@ -368,8 +385,20 @@ inline int get_int(float f) { return int(f);}
 inline int fsign (float f1){return f1==0?0:(f1>0?1:-1);}
 float fsqrt (float f1);
 void print_float(const giac_float & f,char * ch);
-inline float fpow(float f1,float f2){ return std::pow(f1,f2); }
-inline float ffloor(float f1){ return std::floor(f1); }
+inline float fpow(float f1,float f2){ 
+#ifdef NSPIRE
+  return pow(f1,f2); 
+#else
+  return std::pow(f1,f2); 
+#endif
+}
+inline float ffloor(float f1){ 
+#ifdef NSPIRE
+  return floor(f1); 
+#else
+  return std::floor(f1); 
+#endif
+}
 inline float finv(float f1){ return 1/f1; }
 #ifdef __APPLE__
 inline float fgamma(float f1){ return tgammaf(f1); }

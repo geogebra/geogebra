@@ -68,6 +68,7 @@ namespace giac {
   // over Z, k is the minimal # of factors of v_in to be combined
   void combine(const dense_POLY1 & q, const std::vector<modpoly> & v_in,environment * env,vectpoly & v_out,std::vector<bool> & possible_degrees, int k=1);
 
+  bool do_factorunivsqff(const polynome & q,environment * env,vectpoly & v,int & i,int debug,int modfactor_primes);
   bool factorunivsqff(const polynome & q,environment * env,vectpoly & v,int & ithprime,int debug,int modfactor_primes);
 
 #ifndef NO_NAMESPACE_GIAC

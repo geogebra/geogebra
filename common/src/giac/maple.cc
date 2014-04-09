@@ -821,7 +821,7 @@ namespace giac {
   // open a file, returns a FD
   gen _open(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) || defined (BESTA_OS)
+#if defined(VISUALC) || defined(__MINGW_H) || defined (BESTA_OS) || defined(NSPIRE)
     return gensizeerr(gettext("not implemented"));
 #else
     gen tmp=check_secure();
@@ -867,7 +867,7 @@ namespace giac {
     vecteur & v=*g._VECTptr;
     int s=v.size();
     FILE * f=0;
-#ifndef BESTA_OS
+#if !defined(BESTA_OS) && !defined(NSPIRE)
     if (v[0].type==_INT_ && v[0].subtype==_INT_FD)
       f= fdopen(v[0].val,"a");
 #endif    
@@ -894,7 +894,7 @@ namespace giac {
   gen _close(const gen & g0,GIAC_CONTEXT){
     gen g=eval(g0,1,contextptr);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if !defined(VISUALC) && !defined(BESTA_OS) && !defined(__MINGW_H)
+#if !defined(VISUALC) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE)
     if (g.type==_INT_ && g.subtype==_INT_FD){
       _purge(g0,contextptr);
       close(g.val);
@@ -2416,7 +2416,11 @@ namespace giac {
       args=*g._VECTptr;
     else
       args=gen2vecteur(g);
+#if 1 // def NSPIRE
+    gen_map m;
+#else
     gen_map m(ptr_fun(islessthanf));
+#endif
     int s=args.size();
     vector<int> indexbegin,indexsize;
     int nindexes=1;

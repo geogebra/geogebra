@@ -2525,7 +2525,7 @@ namespace giac {
 
   string printassto(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
-      return sommetstr+('('+feuille.print(contextptr)+')');
+      return string(sommetstr)+('('+feuille.print(contextptr)+')');
     vecteur & v=*feuille._VECTptr;
     if (feuille.subtype==_SORTED__VECT && feuille._VECTptr->front().is_symb_of_sommet(at_program)){
       gen prog=feuille._VECTptr->front()._SYMBptr->feuille;
@@ -2581,7 +2581,7 @@ namespace giac {
   }
   static string texprintassto(const gen & g,const char * sommetstr,GIAC_CONTEXT){
     if ( (g.type!=_VECT) || (g._VECTptr->size()!=2) )
-      return sommetstr+('('+gen2tex(g,contextptr)+')');
+      return string(sommetstr)+('('+gen2tex(g,contextptr)+')');
     string s(gen2tex(g._VECTptr->back(),contextptr)+":=");
     if (g._VECTptr->front().type==_SEQ__VECT)
       return s+"("+gen2tex(g._VECTptr->front(),contextptr)+")";
@@ -2751,7 +2751,7 @@ namespace giac {
 	  return is_undef(error)?error:a;
 	}
 #ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if !defined BESTA_OS && !defined NSPIRE
 #ifdef HAVE_LIBPTHREAD
 	pthread_mutex_lock(&context_list_mutex);
 #endif
@@ -2938,10 +2938,12 @@ namespace giac {
 	  if (!child_id && signal_store)
 	    _signal(symb_quote(symbolic(at_sto,gen(makevecteur(aa,b),_SEQ__VECT))),contextptr);
 #endif
+#ifndef NSPIRE
 	  if (!secure_run && variables_are_files(contextptr)){
 	    ofstream a_out((b._IDNTptr->name()+string(cas_suffixe)).c_str());
 	    a_out << aa << endl;
 	  }
+#endif
 	}
       }
       return ans;
@@ -3252,7 +3254,7 @@ namespace giac {
   static string printasincdec(const gen & feuille,char ch,bool tex,GIAC_CONTEXT){
     if (feuille.type!=_VECT){
       string s(tex?gen2tex(feuille,contextptr):feuille.print(contextptr));
-      return xcas_mode(contextptr)?((s+":="+s+ch)+"1"):((s+ch)+ch);
+      return xcas_mode(contextptr)?((s+string(":=")+s+ch)+'1'):((s+ch)+ch);
     }
     vecteur & v = *feuille._VECTptr;
     if (v.size()!=2)
@@ -3935,7 +3937,11 @@ namespace giac {
   */
   const char _pow_s []="^";
 #ifndef GIAC_HAS_STO_38
+#ifdef NSPIRE
+  define_unary_function_eval2_index (14,__pow,&_pow,_pow_s,&printsommetasoperator);
+#else
   unary_function_eval __pow(14,&_pow,0,_pow_s,&printsommetasoperator,0);
+#endif
 #else
   Defineunary_function_eval(__pow, 14, &_pow, 0, _pow_s, &printsommetasoperator, 14);
   #define __pow (*((unary_function_eval*)&unary__pow))
@@ -3944,6 +3950,9 @@ namespace giac {
 
   // print power like a^b (args==1), pow(a,b) (args==0) or a**b (args==-1)
   static gen _printpow(const gen & args,GIAC_CONTEXT){
+#ifdef NSPIRE
+    return undef;
+#else
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (is_zero(args,contextptr)){
       __pow.printsommet=&cprintaspow;
@@ -3957,6 +3966,7 @@ namespace giac {
 	__pow.s="^";
       return string2gen(__pow.s,false);
     }
+#endif
   }
   static const char _printpow_s []="printpow";
   static define_unary_function_eval (__printpow,&_printpow,_printpow_s);
@@ -4189,7 +4199,7 @@ namespace giac {
 
   static string printasof_(const gen & feuille,const char * sommetstr,int format,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
-      return sommetstr+('('+gen2string(feuille,format,contextptr)+')');
+      return string(sommetstr)+('('+gen2string(feuille,format,contextptr)+')');
     string s=print_with_parenthesis_if_required(feuille._VECTptr->front(),format,contextptr)+'(';
     gen & g=feuille._VECTptr->back();
     if (format==0 && g.type==_VECT && g.subtype==_SEQ__VECT)
@@ -4375,7 +4385,7 @@ namespace giac {
   
   static string printasat_(const gen & feuille,const char * sommetstr,int format,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
-      return sommetstr+('('+gen2string(feuille,format,contextptr)+')');
+      return string(sommetstr)+('('+gen2string(feuille,format,contextptr)+')');
     vecteur & v=*feuille._VECTptr;
     if (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)==38){
       gen indice;
@@ -4456,7 +4466,11 @@ namespace giac {
     if ( arg.type==_STRNG && arg.subtype==-1) return  arg;
     vecteur v(gen2vecteur(arg));
     const_iterateur it=v.begin(),itend=v.end();
+#if 1 // def NSPIRE
+    gen_map m;
+#else
     gen_map m(ptr_fun(islesscomplexthanf));
+#endif
     for (;it!=itend;++it){
       if (is_equal(*it)){
 	gen & f =it->_SYMBptr->feuille;
@@ -4681,7 +4695,7 @@ namespace giac {
     if (args.type!=_VECT)
       return args;
     if (debug_infolevel)
-      cerr << "gcd begin " << clock() << endl;
+      CERR << "gcd begin " << clock() << endl;
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
     if (ckmatrix(args) && itend-it==2)
       return apply(*it,*(it+1),gcd);
@@ -5414,7 +5428,7 @@ namespace giac {
       vecteur & v=*tmp._VECTptr;
       int s=v.size();
       for (int i=1;i<s;++i)
-	*logptr(contextptr) << (v[i].type==_STRNG?v[i]._STRNGptr->c_str():unquote(v[i].print(contextptr)));
+	*logptr(contextptr) << (v[i].type==_STRNG?(*v[i]._STRNGptr):unquote(v[i].print(contextptr)));
     }
     else {
       if (args.type==_IDNT)
@@ -8888,6 +8902,17 @@ namespace giac {
       return s;
   }
 
+#ifdef NSPIRE
+  template<class T>
+  nio::ios_base<T> & operator << (nio::ios_base<T> & os,const alias_ref_vecteur & v){
+#ifdef IMMEDIATE_VECTOR
+    os << &v << ":" << *(gen *)v.begin_immediate_vect << "," << *(gen*) (v.begin_immediate_vect+1);
+#else
+    os << &v ;
+#endif
+    return os;
+  }
+#else
   ostream & operator << (ostream & os,const alias_ref_vecteur & v){
 #ifdef IMMEDIATE_VECTOR
     os << &v << ":" << *(gen *)v.begin_immediate_vect << "," << *(gen*) (v.begin_immediate_vect+1);
@@ -8896,9 +8921,10 @@ namespace giac {
 #endif
     return os;
   }
+#endif
 
   void fonction_bidon(){
-#ifndef GIAC_GENERIC_CONSTANTS
+#if !defined GIAC_GENERIC_CONSTANTS && !defined NSPIRE
     ofstream of("log");
     of << gen_inv_2 << endl;
     of <<  alias_cst_two_pi_tab << " " <<  cst_two_pi_refv << endl;

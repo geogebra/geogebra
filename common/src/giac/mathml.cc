@@ -15,14 +15,18 @@
 
 //#include <fcntl.h>
 #include <cstdlib>
+#ifndef NSPIRE
 #include <cstdio>
 #include <iomanip>
+#endif
 #include <math.h>
 
 #ifdef HAVE_SSTREAM
 #include <sstream>
 #else
+#ifndef NSPIRE
 #include <strstream>
+#endif
 #endif
 using namespace std;
 
@@ -30,7 +34,7 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#ifdef RTOS_THREADX
+#if defined RTOS_THREADX || defined NSPIRE
   gen _mathml_error(const gen & g,GIAC_CONTEXT){
     return gensizeerr(gettext("No mathml support"));
   }

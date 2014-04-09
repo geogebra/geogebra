@@ -243,6 +243,14 @@ namespace giac {
   gen _VIEWS(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_VIEWS;
   extern const unary_function_ptr * const  at_POLYFORM;
+  extern const unary_function_ptr * const  at_colSwap;
+  extern const unary_function_ptr * const  at_replace;
+  extern const unary_function_ptr * const  at_scale;
+  extern const unary_function_ptr * const  at_scaleadd;
+  extern const unary_function_ptr * const  at_schur;
+  extern const unary_function_ptr * const  at_svl;
+  extern const unary_function_ptr * const  at_swapcol;
+  extern const unary_function_ptr * const  at_swaprow;
 
   int is_known_name_home_38(const char * idname);
   // 1 and 2 app or program variable, 3 home variable

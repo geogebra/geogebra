@@ -26,6 +26,9 @@
 #include <cmath>
 #include <map>
 #include <string>
+#ifdef USTL
+#include <pair>
+#endif
 #include "index.h"
 #include "poly.h"
 
@@ -35,11 +38,17 @@ namespace giac {
 
   int powmod(int a,unsigned long n,int m);
 
+#ifdef NSPIRE
+  template<class T,class U,class I>
+  nio::ios_base<I> & operator << (nio::ios_base<I> & os,const std::pair<T,U> & p){
+    return os << "<" << p.first << "," << p.second << ">";
+  }
+#else
   template<class T,class U>
   std::ostream & operator << (std::ostream & os,const std::pair<T,U> & p){
     return os << "<" << p.first << "," << p.second << ">";
   }
-
+#endif
   extern int debug_infolevel;
 
 #ifndef NO_STDEXCEPT
@@ -266,28 +275,16 @@ namespace giac {
     inline T norm () const{
       return abs(value);
     }
-    std::string print() const {
-      return "%%%{"+value.print()+','+print_INT_(index.iref())+ "%%%}";
+    inline std::string print() const {
+      std::string s("%%%{");
+      s += value.print();
+      s += ',';
+      s += print_INT_(index.iref());
+      s += std::string("%%%}");
+      return s;
     }
   };
   
-  template <class T>
-  std::ostream & operator << (std::ostream & os, const monomial<T> & m ){
-    return os << m.print();
-  }
-
-  template<class T>
-  bool operator == (const monomial<T>& a,const monomial<T> & b){
-    return (a.value==b.value) && (a.index==b.index);
-  }
-
-  template <class T>
-  monomial<T> Untrunc1(const T & t,int j=0){
-    index_m new_i;
-    new_i.push_back(j);
-    return monomial<T>(t,new_i);
-  }
-
   // ordering monomials using index ordering
   template <class T>
   bool m_total_lex_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
@@ -304,6 +301,69 @@ namespace giac {
   }
 
   template <class T>
+  bool m_3var_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
+    return(i_3var_is_strictly_greater(m1.index,m2.index));
+  }
+
+  template <class T>
+  bool m_7var_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
+    return(i_7var_is_strictly_greater(m1.index,m2.index));
+  }
+
+  template <class T>
+  bool m_11var_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
+    return(i_11var_is_strictly_greater(m1.index,m2.index));
+  }
+
+  template<class T> class sort_helper {
+  public:
+    std::pointer_to_binary_function < const monomial<T> &, const monomial<T> &, bool> strictly_greater ;
+    sort_helper(const std::pointer_to_binary_function < const monomial<T> &, const monomial<T> &, bool> is_strictly_greater):strictly_greater(is_strictly_greater) {};
+    sort_helper():strictly_greater(std::ptr_fun<const monomial<T> &, const monomial<T> &, bool>(m_lex_is_strictly_greater<T>)) {};
+    bool operator () (const monomial<T> & a, const monomial<T> & b){ return strictly_greater(a,b);}
+  };
+
+#ifdef NSPIRE
+  template <class T,class I>
+  nio::ios_base<I> & operator << (nio::ios_base<I> & os, const monomial<T> & m ){
+    return os << m.print();
+  }
+#else
+  template <class T>
+  std::ostream & operator << (std::ostream & os, const monomial<T> & m ){
+    return os << m.print();
+  }
+#endif
+
+  template<class T>
+  bool operator == (const monomial<T>& a,const monomial<T> & b){
+    return (a.value==b.value) && (a.index==b.index);
+  }
+
+  template <class T>
+  monomial<T> Untrunc1(const T & t,int j=0){
+    index_m new_i;
+    new_i.push_back(j);
+    return monomial<T>(t,new_i);
+  }
+
+#ifdef NSPIRE
+  template <class T,class I>
+  nio::ios_base<I> & operator << (nio::ios_base<I> & os, const  std::vector<T> v){
+    typename std::vector<T>::const_iterator it=v.begin();
+    typename std::vector<T>::const_iterator itend=v.end();
+    os << "Vector [";
+    for (;it!=itend;){
+      os << *it ;
+      ++it;
+      if (it!=itend)
+	os << ",";
+    }
+    os << "]" ;
+    return os;
+  }
+#else
+  template <class T>
   std::ostream & operator << (std::ostream & os, const  std::vector<T> v){
     typename std::vector<T>::const_iterator it=v.begin();
     typename std::vector<T>::const_iterator itend=v.end();
@@ -317,6 +377,7 @@ namespace giac {
     os << "]" ;
     return os;
   }
+#endif
 
   /*
     template <class T>
@@ -428,7 +489,7 @@ namespace giac {
     /* if (a!=a_end)
        log=a->index.size()>=12; 
        if (log)
-       cerr << "+ begin" << clock() << endl; */
+       CERR << "+ begin" << clock() << endl; */
     for (;;) {
       if (a == a_end) {
 	while (b != b_end) {
@@ -469,7 +530,7 @@ namespace giac {
       }
     }
     //  if (log)
-    //  std::cerr << "+ end " << clock() << endl;
+    //  CERR << "+ end " << clock() << endl;
   }
 
   template <class T>
@@ -619,11 +680,16 @@ namespace giac {
     for (;prod_it_!=prod_it_end;++prod_it_)
       if (!is_zero(prod_it_->second))
 	new_coord.push_back(monomial<T>(prod_it_->second,prod_it_->first));
-    // cerr << new_coord <<endl;
+    // CERR << new_coord <<endl;
+#if 1
+    sort_helper<T> M(m_is_strictly_greater);
+    sort(new_coord.begin(),new_coord.end(),M);    
+#else
     sort(new_coord.begin(),new_coord.end(),m_is_strictly_greater);
+#endif
     return ;
 #endif
-
+#ifndef NSPIRE
     /* other algorithm using a map to avoid reserving too much space */
     typedef std::map< index_t,T,const std::pointer_to_binary_function < const index_m &, const index_m &, bool> > application;
     application produit(std::ptr_fun(is_strictly_greater));
@@ -656,82 +722,89 @@ namespace giac {
     for (;prod_it!=prod_itend;++prod_it)
       if (!is_zero(prod_it->second))
 	new_coord.push_back(monomial<T>(prod_it->second,prod_it->first));
-    // cerr << new_coord <<endl;
+    // CERR << new_coord <<endl;
     // sort(new_coord.begin(),new_coord.end(),m_is_strictly_greater);
-  
-    /* old algorithm
-       std::vector< monomial<T> > multcoord;
-       int asize=ita_end-ita,bsize=itb_end-itb;
-       int d=ita->index.size();
-       multcoord.reserve(asize*bsize); // correct for sparse polynomial
-       typename std::vector< monomial<T> >::const_iterator ita_begin = ita,itb_begin=itb ;
-       index_m old_pow=(*ita).index+(*itb).index;
-       T res( 0);
-       for ( ; ita!=ita_end; ++ita ){
-       typename std::vector< monomial<T> >::const_iterator ita_cur=ita;
-       typename std::vector< monomial<T> >::const_iterator itb_cur=itb;
-       for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
-       index_m cur_pow=(*ita_cur).index+(*itb_cur).index;
-       if (cur_pow!=old_pow){
-       if (!is_zero(res))
-       multcoord.push_back( monomial<T>(res ,old_pow ));
-       res=((*ita_cur).value) * ((*itb_cur).value);
-       old_pow=cur_pow;
-       }
-       else
-       res=res+((*ita_cur).value) * ((*itb_cur).value);      
-       if (ita_cur==ita_begin)
-       break;
-       }
-       }
-       --ita;
-       ++itb;
-       for ( ; itb!=itb_end;++itb){
-       typename std::vector< monomial<T> >::const_iterator ita_cur=ita;
-       typename std::vector< monomial<T> >::const_iterator itb_cur=itb;
-       for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
-       index_m cur_pow=(*ita_cur).index+(*itb_cur).index;
-       if (cur_pow!=old_pow){
-       if (!is_zero(res))
-       multcoord.push_back( monomial<T>(res ,old_pow ));
-       res=((*ita_cur).value) * ((*itb_cur).value);
-       old_pow=cur_pow;
-       }
-       else
-       res=res+((*ita_cur).value) * ((*itb_cur).value);
-    
-       if (ita_cur==ita_begin)
-       break;
-       }
-       }
-       // push last monomial
-       if (!is_zero(res))
-       multcoord.push_back( monomial<T>(res ,old_pow ));
-       // sort by asc. power
-       sort( multcoord.begin(),multcoord.end(),m_is_strictly_greater);
-       typename std::vector< monomial<T> >::const_iterator it=multcoord.begin();
-       typename std::vector< monomial<T> >::const_iterator itend=multcoord.end();
-       // adjust result size 
-       // statistics about polynomial density
-       // a dense poly of deg. aa and d variables has binomial(aa+d,d) monomials
-       // we need to reserve at most asize*bsize
-       // but less for dense polynomials since 
-       // binomial(aa+d,d)*binomial(bb+d,d) > binomial(aa+bb+d,d)
-       int aa=total_degree(ita_begin->index),bb=total_degree(itb_begin->index);
-       double r;
-       double factoriald=std::lgamma(d+1);
-       // double factorialaa=std::lgamma(aa+1),factorialbb=std::lgamma(bb+1);
-       // double factorialaad=std::lgamma(aa+d+1),factorialbbd=std::lgamma(bb+d+1);
-       double factorialaabbd=std::lgamma(aa+bb+d+1),factorialaabb=std::lgamma(aa+bb+1);
-       r=std::exp(factorialaabbd-(factorialaabb+factoriald));
-       if (debug_infolevel)
-       cerr << "// Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << endl;
-       new_coord.reserve(min(int(r),itend-it));
-       // add terms with same power
-       addsamepower(it,itend,new_coord);
-       if (debug_infolevel)
-       cerr << "// Actual mul size " << new_coord.size() << endl;
-    */
+    return;
+#else
+    /* old algorithm */
+    std::vector< monomial<T> > multcoord;
+    int asize=ita_end-ita,bsize=itb_end-itb;
+    int d=ita->index.size();
+    multcoord.reserve(asize*bsize); // correct for sparse polynomial
+    typename std::vector< monomial<T> >::const_iterator ita_begin = ita,itb_begin=itb ;
+    index_m old_pow=(*ita).index+(*itb).index;
+    T res( 0);
+    for ( ; ita!=ita_end; ++ita ){
+      typename std::vector< monomial<T> >::const_iterator ita_cur=ita;
+      typename std::vector< monomial<T> >::const_iterator itb_cur=itb;
+      for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
+	index_m cur_pow=(*ita_cur).index+(*itb_cur).index;
+	if (cur_pow!=old_pow){
+	  if (!is_zero(res))
+	    multcoord.push_back( monomial<T>(res ,old_pow ));
+	  res=((*ita_cur).value) * ((*itb_cur).value);
+	  old_pow=cur_pow;
+	}
+	else
+	  res=res+((*ita_cur).value) * ((*itb_cur).value);      
+	if (ita_cur==ita_begin)
+	  break;
+      }
+    }
+    --ita;
+    ++itb;
+    for ( ; itb!=itb_end;++itb){
+      typename std::vector< monomial<T> >::const_iterator ita_cur=ita;
+      typename std::vector< monomial<T> >::const_iterator itb_cur=itb;
+      for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
+	index_m cur_pow=(*ita_cur).index+(*itb_cur).index;
+	if (cur_pow!=old_pow){
+	  if (!is_zero(res))
+	    multcoord.push_back( monomial<T>(res ,old_pow ));
+	  res=((*ita_cur).value) * ((*itb_cur).value);
+	  old_pow=cur_pow;
+	}
+	else
+	  res=res+((*ita_cur).value) * ((*itb_cur).value);
+	
+	if (ita_cur==ita_begin)
+	  break;
+      }
+    }
+    // push last monomial
+    if (!is_zero(res))
+      multcoord.push_back( monomial<T>(res ,old_pow ));
+    // sort by asc. power
+#if 1 // def NSPIRE
+    sort_helper<T> M(m_is_strictly_greater);  
+    sort(multcoord.begin(),multcoord.end(),M);
+#else
+    sort( multcoord.begin(),multcoord.end(),m_is_strictly_greater);
+#endif
+    typename std::vector< monomial<T> >::const_iterator it=multcoord.begin();
+    typename std::vector< monomial<T> >::const_iterator itend=multcoord.end();
+    // adjust result size 
+    // statistics about polynomial density
+    // a dense poly of deg. aa and d variables has binomial(aa+d,d) monomials
+    // we need to reserve at most asize*bsize
+    // but less for dense polynomials since 
+    // binomial(aa+d,d)*binomial(bb+d,d) > binomial(aa+bb+d,d)
+    int aa=total_degree(ita_begin->index),bb=total_degree(itb_begin->index);
+    double r;
+    double factoriald=std::lgamma(d+1);
+    // double factorialaa=std::lgamma(aa+1),factorialbb=std::lgamma(bb+1);
+    // double factorialaad=std::lgamma(aa+d+1),factorialbbd=std::lgamma(bb+d+1);
+    double factorialaabbd=std::lgamma(aa+bb+d+1),factorialaabb=std::lgamma(aa+bb+1);
+    r=std::exp(factorialaabbd-(factorialaabb+factoriald));
+    if (debug_infolevel)
+      CERR << "// Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << std::endl;
+    new_coord.clear();
+    new_coord.reserve(std::min(int(r),itend-it));
+    // add terms with same power
+    addsamepower(it,itend,new_coord);
+    if (debug_infolevel)
+      CERR << "// Actual mul size " << new_coord.size() << std::endl;
+#endif
   }
 
   // polynomial multiplication
@@ -941,7 +1014,7 @@ namespace giac {
 	std::vector< monomial<T> > temp;
 	Nextcoeff(it,itend,temp);
 	if (r!=pivotr){
-	  // std::cout << "L" << r << "=" << pivotcoeff << "*L" << r << "-" << pivotcol[r] << "*L" << pivotr << std::endl ;
+	  // COUT << "L" << r << "=" << pivotcoeff << "*L" << r << "-" << pivotcol[r] << "*L" << pivotr << std::endl ;
 	  temp=temp*pivotcoeff-pivotline*pivotcol[r];
 	  if (dobareiss)
 	    temp=temp/bareisscoeff;
@@ -952,7 +1025,7 @@ namespace giac {
       }
       bareisscoeff=pivotcoeff;
       v=newcoord;
-      // std::cout << v << std::endl;
+      // COUT << v << std::endl;
     }
     delete [] pivotcol;
   }

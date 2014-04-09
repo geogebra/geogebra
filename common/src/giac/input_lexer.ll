@@ -69,6 +69,7 @@
 #include "gauss.h"
 #include "isom.h"
 #include "plot.h"
+
 #include "prog.h"
 #include "rpn.h"
 #include "ezgcd.h"
@@ -77,8 +78,15 @@
 #include "permu.h"
 #include "input_parser.h"    
 
-#if defined(RTOS_THREADX) || defined(__MINGW_H)
+#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE
   int isatty (int ){ return 0; }
+#endif
+
+#ifdef NSPIRE
+  // after flex, move #include "config.h" and first.h before all includes
+  // include "static.h" then giacPCH.h
+  // then edit input_lexer.cc and search for isatty, replace by 0 for interactive
+  void clearerr(FILE *){}
 #endif
 
   using namespace std;
@@ -156,6 +164,7 @@
 #endif
     };
 
+    const unsigned builtin_lexer_functions_number=sizeof(builtin_lexer_functions)/sizeof(charptr_gen_unary);
     // return true/false to tell if s is recognized. return the appropriate gen if true
     bool CasIsBuildInFunction(char const *s, gen &g){ 
       // binary search in builtin_lexer_functions
@@ -173,11 +182,25 @@
         if (cmp>0) i= mid; else j=mid;
       }
     found:
+#ifdef NSPIRE
+      g= gen(int((*builtin_lexer_functions_())[i]+builtin_lexer_functions[i]._FUNC_));
+#else
       g= gen(int(builtin_lexer_functions_[i]+builtin_lexer_functions[i]._FUNC_));
+#endif
       g= gen(*g._FUNCptr);
       return true;
     }
 
+#ifdef NSPIRE
+    vector<unsigned long> * builtin_lexer_functions_(){
+      static vector<unsigned long> * res=0;
+      if (res) return res;
+      res = new vector<unsigned long>;
+      res->reserve(builtin_lexer_functions_number+1);
+#include "static_lexer_at.h"
+      return res;
+    }
+#else
     // Array added because GH compiler stores builtin_lexer_functions in RAM
     const unsigned long builtin_lexer_functions_[]={
 #if defined(GIAC_HAS_STO_38) && defined(CAS38_DISABLED)
@@ -186,8 +209,7 @@
 #include "static_lexer_.h"
 #endif
     };
-
-    const unsigned builtin_lexer_functions_number=sizeof(builtin_lexer_functions)/sizeof(charptr_gen_unary);
+#endif
 
     charptr_gen * builtin_lexer_functions_begin(){
       return (charptr_gen *) builtin_lexer_functions;
@@ -225,6 +247,36 @@
       return *ans;
     }
 
+#ifdef USTL
+    ustl::map<std::string,std::string> & lexer_localization_map(){
+      static ustl::map<std::string,std::string> * ans = new ustl::map<std::string,std::string>;
+      return * ans;
+    }
+    ustl::multimap<std::string,giac::localized_string> & back_lexer_localization_map(){
+      static ustl::multimap<std::string,giac::localized_string> * ans= new ustl::multimap<std::string,giac::localized_string>;
+      return * ans;
+    }
+
+    // lexer_localization_vector() is the list of languages currently translated
+    // lexer_localization_map translates keywords from the locale to giac 
+    // back_lexer_localization_map() lists for a giac keyword the translations
+
+    ustl::map<std::string,std::vector<std::string> > & lexer_translator (){
+      static ustl::map<std::string,std::vector<std::string> > * ans = new ustl::map<std::string,std::vector<std::string> >;
+      return * ans;
+    }
+    // lexer_translator will be updated when export/with is called
+    // To each string (w/o ::) in a given library, 
+    // If it exists, we push_back the full string (with ::)
+    // If not we create a vector with the full string
+    // If a library is unexported we remove the corresponding entry in the 
+    // vector and remove the entry if the vector is empty
+    ustl::map<std::string,std::vector<std::string> > & library_functions (){
+      static ustl::map<std::string,std::vector<std::string> > * ans=new ustl::map<std::string,std::vector<std::string> >;
+      return *ans;
+    }
+
+#else
     std::map<std::string,std::string> & lexer_localization_map(){
       static std::map<std::string,std::string> * ans = new std::map<std::string,std::string>;
       return * ans;
@@ -233,7 +285,6 @@
       static std::multimap<std::string,giac::localized_string> * ans= new std::multimap<std::string,giac::localized_string>;
       return * ans;
     }
-
     // lexer_localization_vector() is the list of languages currently translated
     // lexer_localization_map translates keywords from the locale to giac 
     // back_lexer_localization_map() lists for a giac keyword the translations
@@ -252,6 +303,8 @@
       static std::map<std::string,std::vector<std::string> > * ans=new std::map<std::string,std::vector<std::string> >;
       return *ans;
     }
+
+#endif
 
     // First string is the library name, second is the vector of function names
     // User defined relations
@@ -322,7 +375,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 %%
 
 [ \t\\]+			/* skip whitespace */
-\n                increment_lexer_line_number_setcol(yyscanner,yyextra); //cerr << "Scanning line " << lexer_line_number(yyextra) << endl;
+\n                increment_lexer_line_number_setcol(yyscanner,yyextra); //CERR << "Scanning line " << lexer_line_number(yyextra) << endl;
   /* Strings */
   /* \"[^\"]*\"        yylval = string2gen( giac_yytext); return T_STRING; */
 \"                BEGIN(str); comment_s("",yyextra);
@@ -361,7 +414,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 
 <comment>[^*\n]*        comment_s(yyextra)+=yytext; /* eat anything that's not a '*' */
 <comment>"*"+[^*/\n]*   comment_s(yyextra)+=yytext; /* eat up '*'s not followed by '/'s */
-<comment>\n             comment_s(yyextra) += '\n'; increment_lexer_line_number_setcol(yyscanner,yyextra); cerr << "(Comment) scanning line " << lexer_line_number(yyextra) << endl;
+<comment>\n             comment_s(yyextra) += '\n'; increment_lexer_line_number_setcol(yyscanner,yyextra); CERR << "(Comment) scanning line " << lexer_line_number(yyextra) << endl;
 <comment>"*"+"/"        BEGIN(INITIAL); index_status(yyextra)=0; /* (*yylval) = string2gen(comment_s(yyextra),false); return T_COMMENT; */
 "#++"[^*]*"++#"         index_status(yyextra)=0; /* (*yylval) = string2gen('"'+string(yytext).substr(3,string(yytext).size()-6)+'"'); return T_COMMENT; */
 "#--"[^*]*"--#"         index_status(yyextra)=0; /* (*yylval) = string2gen('"'+string(yytext).substr(3,string(yytext).size()-6)+'"'); return T_COMMENT; */
@@ -551,7 +604,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "'+'"                   index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 "_plus"                   index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 "-"                     index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
-"−"                     index_status(yyextra)=0; if (calc_mode(yyextra)==38){ (*yylval)=gen(at_neg,2); return T_NEG38; } else { cerr << 1 << endl; (*yylval)=gen(at_binary_minus,2); return T_MOINS;}
+"−"                     index_status(yyextra)=0; if (calc_mode(yyextra)==38){ (*yylval)=gen(at_neg,2); return T_NEG38; } else { CERR << 1 << endl; (*yylval)=gen(at_binary_minus,2); return T_MOINS;}
 ".-"                     index_status(yyextra)=0; (*yylval)=gen(at_pointminus,2); return T_PLUS;
 "'-'"                   index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 "_subtract"                   index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
@@ -853,7 +906,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
  return res;
 } 
 "#"                     if (!xcas_mode(yyextra) || xcas_mode(yyextra)==3) { 
-  // cerr << "hash" << endl;
+  // CERR << "hash" << endl;
   (*yylval)=gen(at_hash,1); return TI_HASH; 
 } else BEGIN(comment_hash);
 <comment_hash>[^*\n]*\n BEGIN(INITIAL); index_status(yyextra)=0; increment_lexer_line_number_setcol(yyscanner,yyextra);  /* comment_s(yyextra)=string(yytext); (*yylval)=string2gen(comment_s(yyextra).substr(0,comment_s(yyextra).size()-1),false); return T_COMMENT; */
@@ -868,7 +921,11 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 #ifndef NO_NAMESPACE_GIAC
   namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-    
+
+#ifdef USTL    
+    void update_lexer_localization(const std::vector<int> & v,ustl::map<std::string,std::string> &lexer_map,ustl::multimap<std::string,giac::localized_string> &back_lexer_map){
+    }
+#else
     void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,giac::localized_string> &back_lexer_map){
       lexer_map.clear();
       back_lexer_map.clear();
@@ -882,8 +939,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	  size_t l;
 	  char * line = (char *)malloc(1024);
 	  ifstream f(file.c_str());
-	  if (f){
-	    cerr << "// Using keyword file " << file << endl;
+	  if (f.good()){
+	    CERR << "// Using keyword file " << file << endl;
 	    for (;;){
 	      f.getline(line,1023,'\n');
 	      l=strlen(line);
@@ -924,16 +981,24 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	    free(line);
 	  } // if (f)
 	  else
-	    cerr << "// Unable to find keyword file " << file << endl;
+	    CERR << "// Unable to find keyword file " << file << endl;
 	}
       }
     }
+#endif
 
     bool has_special_syntax(const char * s){
+#ifdef USTL
+      ustl::pair<charptr_gen *,charptr_gen *> p=
+	ustl::equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),
+		    std::pair<const char *,gen>(s,0),
+		    tri);
+#else
       std::pair<charptr_gen *,charptr_gen *> p=
 	equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),
 		    std::pair<const char *,gen>(s,0),
 		    tri);
+#endif
       if (p.first!=p.second && p.first!=builtin_lexer_functions_end())
 	return (p.first->second.subtype!=T_UNARY_OP-256);
       map_charptr_gen::const_iterator i = lexer_functions().find(s);
@@ -975,7 +1040,11 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	string S(s);
 	string libname=S.substr(0,j);
 	string funcname=S.substr(j+2,ss-j-2);
+#ifdef USTL
+	ustl::map<std::string,std::vector<string> >::iterator it=library_functions().find(libname);
+#else
 	std::map<std::string,std::vector<string> >::iterator it=library_functions().find(libname);
+#endif
 	if (it!=library_functions().end())
 	  it->second.push_back(funcname);
 	else
@@ -1040,6 +1109,15 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	}
       }
       string ts(s);
+#ifdef USTL
+      ustl::map<std::string,std::string>::const_iterator trans=lexer_localization_map().find(ts);
+      if (trans!=lexer_localization_map().end())
+	ts=trans->second;
+      ustl::map<std::string,std::vector<string> >::const_iterator j=lexer_translator().find(ts);
+      if (j!=lexer_translator().end() && !j->second.empty())
+	ts=j->second.back();
+      ustl::pair<charptr_gen *,charptr_gen *> p=ustl::equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ts.c_str(),0),tri);
+#else
       std::map<std::string,std::string>::const_iterator trans=lexer_localization_map().find(ts);
       if (trans!=lexer_localization_map().end())
 	ts=trans->second;
@@ -1047,6 +1125,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       if (j!=lexer_translator().end() && !j->second.empty())
 	ts=j->second.back();
       std::pair<charptr_gen *,charptr_gen *> p=equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ts.c_str(),0),tri);
+#endif
       if (p.first!=p.second && p.first!=builtin_lexer_functions_end()){
 	if (p.first->second.subtype==T_TO-256)
 	  res=plus_one;
@@ -1054,8 +1133,13 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	  res = p.first->second;
 	res.subtype=1;
 	if (builtin_lexer_functions_){
+#ifdef NSPIRE
+	  res=gen(int((*builtin_lexer_functions_())[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
+	  res=gen(*res._FUNCptr);	  
+#else
 	  res=gen(int(builtin_lexer_functions_[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
 	  res=gen(*res._FUNCptr);
+#endif
 	}
 	index_status(contextptr)=(p.first->second.subtype==T_UNARY_OP-256);
 	int token=p.first->second.subtype;
@@ -1063,7 +1147,11 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	return token;
       }
       lexer_tab_int_type tst={ts.c_str(),0,0,0,0};
+#ifdef USTL
+      ustl::pair<const lexer_tab_int_type *,const lexer_tab_int_type *> pp = ustl::equal_range(lexer_tab_int_values,lexer_tab_int_values_end,tst,tri1);
+#else
       std::pair<const lexer_tab_int_type *,const lexer_tab_int_type *> pp = equal_range(lexer_tab_int_values,lexer_tab_int_values_end,tst,tri1);
+#endif
       if (pp.first!=pp.second && pp.first!=lexer_tab_int_values_end){
 	index_status(contextptr)=pp.first->status;
 	res=int(pp.first->value);
@@ -1085,7 +1173,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       if (i2 == i2end) {
 	unlock_syms_mutex();  
 	const char * S = s.c_str();
-	// std::cerr << "lexer new" << s << endl;
+	// std::CERR << "lexer new" << s << endl;
 	if (check38 && calc_mode(contextptr)==38 && strcmp(S,string_pi) && strcmp(S,string_euler_gamma) && strcmp(S,string_infinity) && strcmp(S,string_undef) && S[0]!='G'&& (!is_known_name_38 || !is_known_name_38(0,S))){
 	  // detect invalid names and implicit multiplication 
 	  size_t ss=strlen(S);
@@ -1221,15 +1309,15 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 #endif
       if (abs_calc_mode(contextptr)==38 && s_orig==string(s_orig.size(),' '))
 	giac_yyerror(scanner,"Void string");
-#ifndef RTOS_THREADX
+#if !defined RTOS_THREADX && !defined NSPIRE
       if (!builtin_lexer_functions_sorted){
 #ifndef STATIC_BUILTIN_LEXER_FUNCTIONS
 	sort(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),tri);
 #endif
 	builtin_lexer_functions_sorted=true;
 	int nfunc=builtin_lexer_functions_number;
-	if (debug_infolevel==-2 || debug_infolevel==-4){
-	  cerr << "Writing " << nfunc << " in static_lexer.h and static_extern.h "<< endl;
+	if (debug_infolevel==-2 || debug_infolevel==-4 || debug_infolevel==-5){
+	  CERR << "Writing " << nfunc << " in static_lexer.h and static_extern.h "<< endl;
 	  /*
 	  ofstream static_add_ll("static_add.ll");
 	  for (int i=0;i<nfunc;i++){
@@ -1259,6 +1347,16 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	    ofstream static_lexer_("static_lexer_.h");
 	    for (int i=0;i<nfunc;i++){
 	      static_lexer_ << "*((unsigned long *) at_" << translate_at(builtin_lexer_functions_begin()[i].first) << ")";
+	      if (i!=nfunc-1)
+		static_lexer_ << ",";
+	      static_lexer_ << endl;
+	    }
+	    static_lexer_.close();
+	  }
+	  if (debug_infolevel==-5){
+	    ofstream static_lexer_("static_lexer_at.h");
+	    for (int i=0;i<nfunc;i++){
+	      static_lexer_ << "res->push_back(*(unsigned long *)at_" << translate_at(builtin_lexer_functions_begin()[i].first) <<")";
 	      if (i!=nfunc-1)
 		static_lexer_ << ",";
 	      static_lexer_ << endl;
@@ -1339,9 +1437,9 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	}
 	s=s.substr(0,i);
 	if (nb<0)
-	  cerr << "Too many ]" << endl;
+	  CERR << "Too many ]" << endl;
 	if (np<0)
-	  cerr << "Too many )" << endl;
+	  CERR << "Too many )" << endl;
 	if (nb>0){
 	  *logptr(contextptr) << "Warning adding " << nb << " ] at end of input" << endl;
 	  s=s+string(nb,']');

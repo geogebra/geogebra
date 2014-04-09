@@ -598,7 +598,7 @@ namespace giac {
       case 0x03D1:  texs+="J"; res++; break;
       case 0x03D2:  texs+="j"; res++; break;
       case 0x03D6:  texs+="v"; res++; break;
-      default: texs+=(w[j] & 0xff);
+      default: texs+=char(w[j] & 0xff);
       }
     }
     delete [] w;
@@ -929,7 +929,7 @@ namespace giac {
       e=a.evalf_double(1,contextptr); // FIXME? level 1 does not work for non 0 context
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & error ){
-      cerr << error.what() << endl;
+      CERR << error.what() << endl;
     }
 #endif
     if (e.type==_CPLX){
@@ -1226,11 +1226,13 @@ namespace giac {
   }
   gen _latex(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+#ifndef NSPIRE
     if (!secure_run && g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1 && (*g._VECTptr)[1].type==_STRNG){
       ofstream of((*g._VECTptr)[1]._STRNGptr->c_str());
       of << gen2tex(g._VECTptr->front(),contextptr) << endl;
       return plus_one;
     }
+#endif
     return string2gen(gen2tex(g,contextptr),false);
   }
   static const char _latex_s []="latex";
@@ -1252,7 +1254,7 @@ namespace giac {
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
       gen sortie=*it;
-      // cerr << "graph2tex " << *it << endl;
+      // CERR << "graph2tex " << *it << endl;
       if (sortie.type==_POINTER_ && sortie.subtype==_FL_WIDGET_POINTER && fl_widget_updatepict_function)
 	sortie = fl_widget_updatepict_function(sortie);
       if (sortie.type!=_VECT)
@@ -1441,14 +1443,14 @@ namespace giac {
     // Begin eukleides code with redirected stdout
     FILE * filecol=fopen((get_path(s)+"fltkcol.tex").c_str(),"w");
     if (!filecol){
-      cerr << "Unable to open color file fltkcol.tex" << endl;
+      CERR << "Unable to open color file fltkcol.tex" << endl;
       return 0;
     }
     fprintf(filecol,"%s",tex_color);
     fclose(filecol);
     FILE * file=fopen(s.c_str(), "w");
     if (!file){
-      cerr << "Unable to open file "+s << endl;
+      CERR << "Unable to open file "+s << endl;
       return 0;
     }
     fprintf(file,"%s",tex_preamble);

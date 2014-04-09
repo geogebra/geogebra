@@ -135,7 +135,7 @@ namespace giac {
 
 #endif // GIAC_GENERIC_CONSTANTS
 
-#ifdef GIAC_HAS_STO_38
+#if defined GIAC_HAS_STO_38 || defined NSPIRE
 #if 0
   static const alias_identificateur alias_identificateur_a38={0,0,"A",0,0};
   const identificateur & a__IDNT=* (const identificateur *) &alias_identificateur_a38;
@@ -492,8 +492,13 @@ namespace giac {
 #else
   define_alias_gen(alias_vx38,_IDNT,0,&ref_xx38);
 #endif
+
+#ifdef NSPIRE
   // gen & vx_var = * (gen *) & alias_vx38;
+  gen vx_var;
+#else
   gen vx_var(identificateur("x"));
+#endif
 
   /* model
   static const alias_identificateur alias_identificateur_zzz38={0,0,"ZZZ",0,0};
@@ -577,7 +582,7 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
     string tmp=string("_"+print_INT_(rand()));
 #else
-    string tmp=string(" "+print_INT_(rand()));
+    string tmp=string(" "+print_INT_(std_rand()));
 #endif
     int l=tmp.size();
     char * c = new char[l+1];
@@ -597,7 +602,16 @@ namespace giac {
     ptr->b=0;
     ptr->s_dynalloc=true;
     char * c = new char[s.size()+(b?3:1)];
+#ifdef NSPIRE
+    if (b){
+      string s1=('`'+s+'`');
+      ptr->s=strcpy(c,s1.c_str());
+    }
+    else
+      ptr->s=strcpy(c,s.c_str());
+#else
     ptr->s=strcpy(c,b?('`'+s+'`').c_str():s.c_str());
+#endif
 #ifdef GIAC_HAS_STO_38
     for (;*c;++c){
       if (*c==' ')
@@ -618,7 +632,16 @@ namespace giac {
     ptr->b=0;
     ptr->s_dynalloc=true;
     char * c = new char[s.size()+(b?3:1)];
+#ifdef NSPIRE
+    if (b){
+      string s1=('`'+s+'`');
+      ptr->s=strcpy(c,s1.c_str());
+    }
+    else
+      ptr->s=strcpy(c,s.c_str());
+#else
     ptr->s=strcpy(c,b?('`'+s+'`').c_str():s.c_str());
+#endif
     ref_count = &ptr->i ;
     quoted = &ptr->b ;
     localvalue = 0;
@@ -1079,7 +1102,7 @@ namespace giac {
     }
     // look in current directory for a value
     if ( secure_run || (!variables_are_files(contextptr)) 
-#ifndef __MINGW_H
+#if !defined __MINGW_H && !defined NSPIRE
 	 || (access((name()+string(cas_suffixe)).c_str(),R_OK))
 #endif
 	 ){
@@ -1088,6 +1111,7 @@ namespace giac {
 	evaled.subtype=_GLOBAL__EVAL;
       return true;
     }
+#ifndef NSPIRE
     // set current value
     ifstream inf((name()+string(cas_suffixe)).c_str());
     evaled=read1arg_from_stream(inf,contextptr);
@@ -1095,6 +1119,7 @@ namespace giac {
       return true;
     value = new gen(evaled);
     evaled=evaled.eval(level,contextptr);
+#endif
     return true;
   }
   
@@ -1142,7 +1167,12 @@ namespace giac {
     return id_name  ;
   }
 
+#ifdef NSPIRE
+  template<class T>
+  nio::ios_base<T> & operator << (nio::ios_base<T> & os,const identificateur & s) { return os << s.print(context0);}
+#else
   ostream & operator << (ostream & os,const identificateur & s) { return os << s.print(context0);}
+#endif
 
   int removecomments(const char * ss,char * ss2){
     int j=0,k=0;

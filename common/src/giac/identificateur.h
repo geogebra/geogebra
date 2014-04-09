@@ -80,7 +80,7 @@ namespace giac {
   extern const gen & undef;
 #endif
 
-#ifdef GIAC_HAS_STO_38
+#if defined GIAC_HAS_STO_38 || defined NSPIRE
   extern const identificateur & a__IDNT;
   extern const alias_gen alias_a38;
 #define a__IDNT_e (*(gen const *)&alias_a38)

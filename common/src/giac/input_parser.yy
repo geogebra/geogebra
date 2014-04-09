@@ -38,6 +38,7 @@
 #include "first.h"
 #include <stdexcept>
 #include <cstdlib>
+#include "giacPCH.h"
 #include "index.h"
 #include "gen.h"
 #define YYSTYPE giac::gen
@@ -55,8 +56,8 @@
 #include "intg.h"
 #include "plot.h"
 #include "maple.h"
-
 using namespace std;
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
@@ -65,7 +66,7 @@ namespace giac {
 // therefore I redefine YYINITDEPTH to 1000 (max size is YYMAXDEPTH)
 // instead of 200
 // Feel free to change if you need but then readjust YYMAXDEPTH
-#ifdef RTOS_THREADX
+#if defined RTOS_THREADX || defined NSPIRE
 #define YYINITDEPTH 100
 #define YYMAXDEPTH 101
 #else // RTOS_THREADX

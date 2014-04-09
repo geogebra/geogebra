@@ -256,8 +256,10 @@ namespace giac {
     for (;;){
       s += print_INT_(*it);
       ++it;
-      if (it==itend)
-	return s+']';
+      if (it==itend){
+	s +=']';
+	return s;
+      }
       else
 	s += ',';
     }
@@ -278,12 +280,18 @@ namespace giac {
     }
   }
   
+#ifdef NSPIRE
+  template<class T> nio::ios_base<T> & operator << (nio::ios_base<T> & os, const index_t & m ){
+    return os << ":index_t: " << print_INT_(m) << " " ;
+  }
+#else
   ostream & operator << (ostream & os, const index_t & m ){
     return os << ":index_t: " << print_INT_(m) << " " ;
   }
+#endif
 
   void dbgprint(const index_t & i){
-    cout << i << endl;
+    COUT << i << endl;
   }
 
   index_t mergeindex(const index_t & i,const index_t & j){
@@ -339,7 +347,13 @@ namespace giac {
     return true;
   }
 
-#if !defined(GIAC_NO_OPTIMIZATIONS) && (defined(GIAC_VECTOR) || (!defined(VISUALC) && !defined(__APPLE__) && !defined(BESTA_WIN32_TARGET)))
+#if defined(GIAC_NO_OPTIMIZATIONS) || ((defined(VISUALC) || defined(__APPLE__)) && !defined(GIAC_VECTOR))
+  bool operator == (const index_m & i1, const index_m & i2){
+    if (i1.riptr==i2.riptr)
+      return true;
+    return (i1.riptr->i==i2.riptr->i);
+  }
+#else
   index_t index_m::iref() const { 
     if ( (taille % 2)==0)
       return riptr->i;
@@ -434,13 +448,6 @@ namespace giac {
 	return false;
     }
     return true;
-  }
-
-#else
-  bool operator == (const index_m & i1, const index_m & i2){
-    if (i1.riptr==i2.riptr)
-      return true;
-    return (i1.riptr->i==i2.riptr->i);
   }
 
 #endif // VISUALC
@@ -654,6 +661,112 @@ namespace giac {
       if ( *it1 != *it2 )
 	return *it1<*it2;
       --it2;
+    }
+    return true;
+  }
+
+  // revlex on 1st 3 vars, then revlex on remaining vars
+  bool i_3var_is_greater(const index_m & v1, const index_m & v2){
+    index_t::const_iterator it1=v1.begin();
+    index_t::const_iterator it2=v2.begin();
+    int d1=*it1+*(it1+1)+*(it1+2);
+    int d2=*it2+*(it2+1)+*(it2+2);
+    if (d1!=d2)
+      return d1>=d2;
+    if (*(it1+2)!=*(it2+2))
+      return *(it1+2)<=*(it2+2);
+    if (*(it1+1)!=*(it2+1))
+      return *(it1+1)<=*(it1+2);
+    d1=sum_degree(v1); 
+    d2=sum_degree(v2);
+    if (d1!=d2)
+      return d1>=d2;
+    index_t::const_iterator it1end=it1+2;
+    it1 = v1.end()-1;
+    it2 = v2.end()-1;
+    for (;it1!=it1end;--it1,--it2){
+      if (*it1!=*it2)
+	return *it1<=*it2;
+    }
+    return true;
+  }
+
+  // revlex on 1st 7 vars, then revlex on remaining vars
+  bool i_7var_is_greater(const index_m & v1, const index_m & v2){
+    index_t::const_iterator it1=v1.begin();
+    index_t::const_iterator it2=v2.begin();
+    int d1=*it1+*(it1+1)+*(it1+2)+*(it1+3)+*(it1+4)+*(it1+5)+*(it1+6);
+    int d2=*it2+*(it2+1)+*(it2+2)+*(it2+3)+*(it2+4)+*(it2+5)+*(it2+6);
+    if (d1!=d2)
+      return d1>=d2;
+    if (*(it1+6)!=*(it2+6))
+      return *(it1+6)<=*(it2+6);
+    if (*(it1+5)!=*(it2+5))
+      return *(it1+5)<=*(it2+5);
+    if (*(it1+4)!=*(it2+4))
+      return *(it1+4)<=*(it2+4);
+    if (*(it1+3)!=*(it2+3))
+      return *(it1+3)<=*(it2+3);
+    if (*(it1+2)!=*(it2+2))
+      return *(it1+2)<=*(it2+2);
+    if (*(it1+1)!=*(it2+1))
+      return *(it1+1)<=*(it1+2);
+    d1=sum_degree(v1); 
+    d2=sum_degree(v2);
+    if (d1!=d2)
+      return d1>=d2;
+    index_t::const_iterator it1end=it1+6;
+    it1 = v1.end()-1;
+    it2 = v2.end()-1;
+    for (;it1!=it1end;--it1,--it2){
+      if (*it1!=*it2)
+	return *it1<=*it2;
+    }
+    return true;
+  }
+
+  // revlex on 1st 11 vars, then revlex on remaining vars
+  bool i_11var_is_greater(const index_m & v1, const index_m & v2){
+    index_t::const_iterator it1=v1.begin();
+    index_t::const_iterator it2=v2.begin();
+    int d1=*it1+*(it1+1)+*(it1+2)+
+      *(it1+3)+*(it1+4)+*(it1+5)+*(it1+6)+
+      *(it1+7)+*(it1+8)+*(it1+9)+*(it1+10);
+    int d2=*it2+*(it2+1)+*(it2+2)+
+      *(it2+3)+*(it2+4)+*(it2+5)+*(it2+6)+
+      *(it2+7)+*(it2+8)+*(it2+9)+*(it2+10);
+    if (d1!=d2)
+      return d1>=d2;
+    if (*(it1+10)!=*(it2+10))
+      return *(it1+10)<=*(it2+10);
+    if (*(it1+9)!=*(it2+9))
+      return *(it1+9)<=*(it2+9);
+    if (*(it1+8)!=*(it2+8))
+      return *(it1+8)<=*(it2+8);
+    if (*(it1+7)!=*(it2+7))
+      return *(it1+7)<=*(it2+7);
+    if (*(it1+6)!=*(it2+6))
+      return *(it1+6)<=*(it2+6);
+    if (*(it1+5)!=*(it2+5))
+      return *(it1+5)<=*(it2+5);
+    if (*(it1+4)!=*(it2+4))
+      return *(it1+4)<=*(it2+4);
+    if (*(it1+3)!=*(it2+3))
+      return *(it1+3)<=*(it2+3);
+    if (*(it1+2)!=*(it2+2))
+      return *(it1+2)<=*(it2+2);
+    if (*(it1+1)!=*(it2+1))
+      return *(it1+1)<=*(it1+2);
+    d1=sum_degree(v1); 
+    d2=sum_degree(v2);
+    if (d1!=d2)
+      return d1>=d2;
+    index_t::const_iterator it1end=it1+10;
+    it1 = v1.end()-1;
+    it2 = v2.end()-1;
+    for (;it1!=it1end;--it1,--it2){
+      if (*it1!=*it2)
+	return *it1<=*it2;
     }
     return true;
   }

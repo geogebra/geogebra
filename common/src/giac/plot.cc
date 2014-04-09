@@ -35,8 +35,10 @@ diff plot.c plot.c~
 #include "giacPCH.h"
 
 using namespace std;
-#include <fstream>
+#ifndef NSPIRE
 #include <iomanip>
+#endif
+#include <fstream>
 #include "vector.h"
 #include <algorithm>
 #include <cmath>
@@ -125,7 +127,7 @@ namespace giac {
   bool fastcurveprint=false;
 
   static gen rand_complex(){
-    int i=rand(),j=rand();
+    int i=std_rand(),j=std_rand();
     i=i/(RAND_MAX/10)-5;
     j=j/(RAND_MAX/10)-5;
     return i+j*cst_i;
@@ -624,9 +626,9 @@ namespace giac {
       printf("set terminal aqua\n");
     fprintf(res,"set terminal aqua\n");
 #endif
-    // cerr << errno << endl;
+    // CERR << errno << endl;
     gnuplot_out_r = gnuplot_out_readstream;
-    // cerr << r << " " << errno << endl;
+    // CERR << r << " " << errno << endl;
     return res;
   }
 
@@ -669,7 +671,7 @@ namespace giac {
     usleep(200000);
     return;
 #endif
-    // cerr << "gnuplot_wait " << handle << " " << gnuplot_out_readstream << " " << ngwait << endl;
+    // CERR << "gnuplot_wait " << handle << " " << gnuplot_out_readstream << " " << ngwait << endl;
     // wait for gnuplot to be quiet
     if (handle>0 && gnuplot_out_readstream){
       int i,ntry=500;
@@ -677,7 +679,7 @@ namespace giac {
 	usleep(10000);
 	set_nonblock_flag(handle,1); 
 	i=fgetc(gnuplot_out_readstream);
-	// cerr << char(i) ;
+	// CERR << char(i) ;
 	if (char(i)=='>')
 	  --ngwait;
 	set_nonblock_flag(handle,0); 
@@ -690,7 +692,7 @@ namespace giac {
 	set_nonblock_flag(handle,1); 
 	while (i!=EOF){
 	  i=fgetc(gnuplot_out_readstream);
-	  // cerr << char(i);
+	  // CERR << char(i);
 	  if (char(i)=='>')
 	    --ngwait;
 	}
@@ -698,10 +700,10 @@ namespace giac {
       }
       // fclose(gnuplot_out_readstream);
       usleep(10000);
-      // cerr << "gnuplot_wait end " << getpid() << " " <<clock() << endl;
+      // CERR << "gnuplot_wait end " << getpid() << " " <<clock() << endl;
     }
     else
-      ;// cerr << "gnuplot wait no input" << endl;
+      ;// CERR << "gnuplot wait no input" << endl;
   }
 
   bool terminal_replot(const char * terminal,int i,const char * file_extension){
@@ -788,7 +790,7 @@ namespace giac {
       stream = fdopen (gnuplot_in_pipe[1], "w");
       fprintf(stream,"\n\nq\n");
       if (fclose(stream))
-	cerr << "Error closing gnuplot" << endl;
+	CERR << "Error closing gnuplot" << endl;
     }
   }
 
@@ -935,6 +937,7 @@ namespace giac {
   // evaluate v with v[1] quoted
   vecteur plotpreprocess(const gen & args,GIAC_CONTEXT){
     vecteur v;
+
     gen var,res;
     if (args.type!=_VECT && is_algebraic_program(args,var,res))
       return makevecteur(args,symb_interval(gnuplot_xmin,gnuplot_xmax));
@@ -2667,7 +2670,7 @@ namespace giac {
 	}
       }
     }
-    return sommetstr+('('+feuille.print(contextptr)+')');
+    return string(sommetstr)+('('+feuille.print(contextptr)+')');
   }
   gen _pnt(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -3227,9 +3230,11 @@ namespace giac {
       e=e._VECTptr->front();
     }
     else {
-      if ( (args.type!=_VECT) || (args._VECTptr->size()<2))
+      if (args.type!=_VECT || args._VECTptr->empty())
 	return symbolic(at_milieu,args);
       e=remove_at_pnt(args._VECTptr->front());
+      if (args._VECTptr->size()==1)
+	return pnt_attrib(e,attributs,contextptr);
       f=remove_at_pnt((*args._VECTptr)[1]);
     }
     e=get_point(e,0,contextptr);
@@ -5122,17 +5127,24 @@ namespace giac {
       if (e.type==_VECT && e._VECTptr->size()!=3){
 	if ((e._VECTptr->size()!=2) || (f._VECTptr->size()!=2))
 	  return gensizeerr(gettext("angle"));
-	vecteur w=inter(v.front(),v[1],0); // context does not apply for lines
-	if (w.empty())
-	  return gensizeerr(gettext("Lines must intersect"));
-	gen w0=remove_at_pnt(w.front());
-	g=f._VECTptr->back();
-	if (g==w0)
-	  g=f._VECTptr->front();
-	f=e._VECTptr->back();
-	if (f==w0)
-	  f=e._VECTptr->front();
-	e=w0;
+	if (e._VECTptr->front().type==_VECT){	
+	  vecteur w=inter(v.front(),v[1],0); // context does not apply for lines
+	  if (w.empty())
+	    return gensizeerr(gettext("Lines must intersect"));
+	  gen w0=remove_at_pnt(w.front());
+	  g=f._VECTptr->back();
+	  if (g==w0)
+	    g=f._VECTptr->front();
+	  f=e._VECTptr->back();
+	  if (f==w0)
+	    f=e._VECTptr->front();
+	  e=w0;
+	}
+	else {
+	  g=f._VECTptr->back()-f._VECTptr->front();
+	  f=e._VECTptr->back()-e._VECTptr->front();
+	  e=0;
+	}
       }
       else {
 	if (f.type==_VECT && f._VECTptr->size()!=3){
@@ -5256,7 +5268,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & ){
-      // cerr  << error.what() << endl;
+      // CERR  << error.what() << endl;
       // *logptr(contextptr) << error.what() << endl;
       return false;
     }
@@ -5330,7 +5342,7 @@ namespace giac {
     archive(child_out,args_evaled,contextptr);
     child_out << messages_to_print << "ÿ" ;
     child_out.close();
-    // cerr << "Signal reads " << res << endl;
+    // CERR << "Signal reads " << res << endl;
     return wait_parent();
 #endif // WIN32
   }
@@ -5358,7 +5370,7 @@ namespace giac {
       v[1]=eval(v[1],contextptr);
     gen res;
 #ifdef WIN32
-    cout << "// " << args ;
+    COUT << "// " << args ;
     string s;
     cin >> s;
     if (vs==4)
@@ -5367,7 +5379,7 @@ namespace giac {
       res=gen(s,contextptr);
 #else
     if (child_id){ 
-      cout << "// " << args;
+      COUT << "// " << args;
       string s;
       cin >> s;
       if (vs==4)
@@ -5378,7 +5390,7 @@ namespace giac {
     else {
       ofstream child_out(cas_sortie_name().c_str());
       gen e(symbolic(at_click,args));
-      // cerr << "Archiving " << e << endl;
+      // CERR << "Archiving " << e << endl;
       archive(child_out,e,contextptr);
       archive(child_out,e,contextptr);
       if ( (args.type==_VECT) && (args._VECTptr->empty()) )
@@ -5390,7 +5402,7 @@ namespace giac {
       ifstream child_in(cas_entree_name().c_str());
       res= unarchive(child_in,contextptr);
       child_in.close();
-      // cerr << "Click reads " << res << endl;
+      // CERR << "Click reads " << res << endl;
     }
 #endif //WIN32
     if (vs>2 && !is_zero(v[2])){
@@ -5557,7 +5569,7 @@ namespace giac {
   // returns res as a local bloc
   // def_x is the definition of x as read from history
   static bool reeval_with_1arg_quoted(const gen & x,gen & res,gen & def_x,GIAC_CONTEXT){
-    // cerr << x << " " << res << " " << history_in(contextptr) << endl;
+    // CERR << x << " " << res << " " << history_in(contextptr) << endl;
     // find first occurence of storing something in x in the history
     def_x=undef;
     const_iterateur it0=history_in(contextptr).begin()-1,itend=history_in(contextptr).end(),itpos,it;
@@ -5566,7 +5578,7 @@ namespace giac {
     for (;;--it){
       if (it==it0)
 	return false; // setsizeerr();
-      // cerr << *it << " " << x << endl;
+      // CERR << *it << " " << x << endl;
       if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_sto) ){
 	if (it->_SYMBptr->feuille._VECTptr->back()==x){
 	  def_x=it->_SYMBptr->feuille._VECTptr->front();
@@ -5576,9 +5588,9 @@ namespace giac {
     }
     ++it;
     itpos=it;
-    // cerr << "Position " << itpos-history_in(contextptr).begin() << endl;
+    // CERR << "Position " << itpos-history_in(contextptr).begin() << endl;
     for (;it!=itend;++it){
-      // cerr << *it << " " << x << endl;
+      // CERR << *it << " " << x << endl;
       if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_sto) ){
 	if (it->_SYMBptr->feuille._VECTptr->back()==res)
 	  break;
@@ -5865,7 +5877,7 @@ namespace giac {
       vecteur w;
       // x must eval to a parametric element of an object
       gen tt=x.eval(1,contextptr),N;
-      // cout << history_in(contextptr) << endl << history_out(contextptr) << endl;
+      // COUT << history_in(contextptr) << endl << history_out(contextptr) << endl;
       if (tt.type==_IDNT){
 	// search back in history if tt is a parameter
 	const_iterateur it0=history_out(contextptr).begin()-1,itend=history_out(contextptr).end(),it;
@@ -7257,8 +7269,8 @@ namespace giac {
   // source=[pnt,var], plot=ligne brisee
   static string printascurve(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( !fastcurveprint || (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
-      return sommetstr+('('+feuille.print(contextptr)+')');
-    return sommetstr+('('+feuille._VECTptr->front().print(contextptr)+",undef)");
+      return string(sommetstr)+('('+feuille.print(contextptr)+')');
+    return string(sommetstr)+('('+feuille._VECTptr->front().print(contextptr)+string(",undef)"));
   }
   /*
   static int sprintascurve(const gen & feuille,const char * sommetstr,string * sptr,GIAC_CONTEXT){
@@ -8275,7 +8287,7 @@ namespace giac {
     // at has a rational parametrization, find cartesian equation
     if (u.type!=_IDNT)
       return vecteur(1,gensizeerr(contextptr));
-    gen x("x__"+print_INT_(rand()),contextptr),y("y__"+print_INT_(rand()),contextptr);
+    gen x("x__"+print_INT_(std_rand()),contextptr),y("y__"+print_INT_(std::rand()),contextptr);
     gen eq=rationalparam2equation(at,t,x,y,contextptr),tmp;
     if (is_undef(eq))
       return vecteur(1,eq);
@@ -8481,7 +8493,7 @@ namespace giac {
 	vb[0]=m;
       }
       if (va[1]==vb[1]){
-	gen newvb(va[1].print(contextptr)+print_INT_(rand()),contextptr);
+	gen newvb(va[1].print(contextptr)+print_INT_(std::rand()),contextptr);
 	vb[0]=subst(vb[0],vb[1],newvb,true,contextptr);
 	vb[1]=newvb;
       }
@@ -9881,6 +9893,7 @@ namespace giac {
   static define_unary_function_eval (__interactive_odeplot,&giac::_interactive_plotode,_interactive_odeplot_s);
   define_unary_function_ptr5( at_interactive_odeplot ,alias_at_interactive_odeplot,&__interactive_odeplot,0,true);
 
+#ifndef NSPIRE
   static vecteur unarchive_VECT(istream & is,GIAC_CONTEXT){
     vecteur v;
     int taille;
@@ -9892,7 +9905,11 @@ namespace giac {
   }
 
   static gen unarchive_MAP(istream & is,GIAC_CONTEXT){
+#if 1 // def NSPIRE
+    gen_map m;
+#else
     gen_map m(ptr_fun(islesscomplexthanf));
+#endif
     int taille;
     is >> taille;
     for (int i=0;i<taille;++i){
@@ -9941,10 +9958,10 @@ namespace giac {
 	e=string2gen(s,false);
       }
 #endif
-      //cerr << s << " " <<e.type << endl;
+      //CERR << s << " " <<e.type << endl;
       if (e.type!=_FUNC){
 	if ( (e.type!=_SYMB) ){
-	  cerr << "Unarchive error: "+e.print(contextptr) << endl;
+	  CERR << "Unarchive error: "+e.print(contextptr) << endl;
 	  return e;
 	}
 	if (e._SYMBptr->sommet.ptr()->printsommet==printastifunction)
@@ -10055,7 +10072,11 @@ namespace giac {
       return a;
     case _DOUBLE_:
       is.get(ch);
+#ifdef NSPIRE
+      is.get((char *)&d,sizeof(double));
+#else
       is.read((char *)&d,sizeof(double));
+#endif
       return d;
     case _CPLX:
       a=unarchive(is,contextptr);
@@ -10268,9 +10289,13 @@ namespace giac {
   }
 
   std::string archive_session(bool save_history,GIAC_CONTEXT){
+#ifdef HAVE_SSTREAM
     ostringstream os;
     archive_session(save_history,os,contextptr);
     return os.str();
+#else
+    return "Stringstream not available";
+#endif
   }
 
   // Unarchive a session from archive named s
@@ -10317,17 +10342,25 @@ namespace giac {
     }
     fclose(f);
     delete [] buf;
+#ifdef NSPIRE
+    return false;
+#else
     ifstream is(s.c_str());
     if (!is)
       return false;
     return unarchive_session(is,level,replace,contextptr);
+#endif
   }
 
   gen unarchive_session_string(const std::string & s,int level, const gen & replace,GIAC_CONTEXT){
+#ifdef HAVE_SSTREAM
     istringstream is(s);
     if (!is)
       return false;
     return unarchive_session(is,level,replace,contextptr);
+#else
+    return gensizeerr("Stringstreams not available");
+#endif
   }
 
   gen _archive(const gen & args,GIAC_CONTEXT){
@@ -10354,9 +10387,13 @@ namespace giac {
       fclose(f);
       return b;
     }
+#ifdef NSPIRE
+    return 0;
+#else
     ofstream os(a._STRNGptr->c_str());
     archive(os,b,contextptr);
     return b;
+#endif
   }
   static const char _archive_s []="archive";
   static define_unary_function_eval (__archive,(const gen_op_context)giac::_archive,_archive_s);
@@ -10375,6 +10412,9 @@ namespace giac {
       return res;
     }
     fclose(f);
+#ifdef NSPIRE
+    return 0;
+#else
     ifstream is(args._STRNGptr->c_str());
     is.getline(buf,100,'\n');
     bool ar = (buf==string("giac archive") || buf==string("giac binarch"));
@@ -10384,10 +10424,12 @@ namespace giac {
       return unarchive_session(*args._STRNGptr,-1,0,contextptr);
     ifstream is0(args._STRNGptr->c_str());
     return unarchive(is0,contextptr);
+#endif
   }
   static const char _unarchive_s []="unarchive";
   static define_unary_function_eval (__unarchive,&giac::_unarchive,_unarchive_s);
   define_unary_function_ptr5( at_unarchive ,alias_at_unarchive,&__unarchive,0,true);
+#endif // NSPIRE
 
   bool geo_setup(const vecteur & w,GIAC_CONTEXT){
     if (w.size()<12)
@@ -10931,7 +10973,7 @@ namespace giac {
 	  if (i>nxstep)
 	    break;
 	  if (debug_infolevel)
-	    cout << "// Implicitplot row " << i << endl;
+	    COUT << "// Implicitplot row " << i << endl;
 	}
 	xx=xmin+i*xstep;
 	yy=ymin+j*ystep;
@@ -12296,7 +12338,7 @@ namespace giac {
       return g.print(context0);
   }
 
-#ifdef RTOS_THREADX
+#if defined RTOS_THREADX || defined NSPIRE
   logo_turtle vecteur2turtle(const vecteur & v){
     return logo_turtle();
   }
@@ -12318,7 +12360,7 @@ namespace giac {
   }
 
   std::vector<logo_turtle> vecteur2turtlevect(const vecteur & v){
-    return 0;
+    return std::vector<logo_turtle>(0);
   }
 
   gen turtle_state(GIAC_CONTEXT){
@@ -13593,6 +13635,8 @@ namespace giac {
 	else
 	  return gensizeerr(contextptr);
       }
+      if (a.is_symb_of_sommet(at_cercle) || a.is_symb_of_sommet(at_curve))
+	return gensizeerr(contextptr);
       gen c,R,a1,a2,p1,p2;
       if (!centre_rayon(C,c,R,false,contextptr)){
 	gen eq=_equation(C,contextptr);
@@ -13698,6 +13742,7 @@ namespace giac {
     if (w.empty() || s!=2)
       return gensizeerr(gettext("reciprocation"));
     gen c=w[0],a=w[1];
+    // if (a==c) return gensizeerr(gettext("reciprocation"));
     if (a.type==_VECT){
       const vecteur v=*a._VECTptr;
       const_iterateur it=v.begin(),itend=v.end();

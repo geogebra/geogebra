@@ -410,7 +410,7 @@ namespace giac {
 	return true;
       }
       if ( e._SYMBptr->sommet==at_pow && i.type==_SYMB && i._SYMBptr->sommet==at_exp && (*(e._SYMBptr->feuille._VECTptr))[1]*ln((*(e._SYMBptr->feuille._VECTptr))[0],contextptr) == i._SYMBptr->feuille ) {
-	cerr << e << "=" << i << endl;
+	CERR << e << "=" << i << endl;
 	newe=newi;
 	return true;
       }
@@ -690,7 +690,7 @@ namespace giac {
     for (int j=newi.size();j<is;++j)
       newi.push_back(i[j]);
     matrice atrier=mtran(makevecteur(i,newi));
-    sort(atrier.begin(),atrier.end(),first_sort);
+    gen_sort_f(atrier.begin(),atrier.end(),first_sort);
     atrier=mtran(atrier);
     i=*atrier[0]._VECTptr;
     newi=*atrier[1]._VECTptr;
@@ -1486,7 +1486,7 @@ namespace giac {
     res=res+ln(r2e(a,vars,contextptr),contextptr);
     gg=re(branch_evalf(rdiv(ln(r2e(a_orig,vars,contextptr),contextptr)-res,cst_pi_over_2*cst_i,contextptr),contextptr),contextptr); 
     if (gg.type==_DOUBLE_)
-      res=res+cst_pi_over_2*cst_i*gen(int(floor(gg._DOUBLE_val+0.5)));
+      res=res+cst_pi_over_2*cst_i*gen(int(std::floor(gg._DOUBLE_val+0.5)));
     return res;
   }
 
@@ -1573,7 +1573,7 @@ namespace giac {
   vecteur rlvar(const gen &e,bool alg){
     vecteur res;
     rlvar(e,res,alg);
-    sort(res.begin(),res.end(),symb_size_less);
+    gen_sort_f(res.begin(),res.end(),symb_size_less);
     return res;
   }
 
@@ -1830,7 +1830,7 @@ namespace giac {
 	if (ctrl_c || interrupted) 
 	  return gensizeerr(contextptr);
 	if (gg.type==_DOUBLE_)
-	  newln[i]=newln[i]+cst_two_pi*cst_i*gen(int(floor(gg._DOUBLE_val+0.5)));
+	  newln[i]=newln[i]+cst_two_pi*cst_i*gen(int(std::floor(gg._DOUBLE_val+0.5)));
       }
       g=subst(g,l,newln,false,contextptr);
     }

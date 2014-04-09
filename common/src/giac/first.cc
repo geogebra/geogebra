@@ -78,11 +78,14 @@ init_gmp_memory::~init_gmp_memory()
 #else
 init_gmp_memory::init_gmp_memory() { }
 init_gmp_memory::~init_gmp_memory() { }
- 
+
+#ifdef NSPIRE
+#include <os.h> 
+#else
 #include <new>
 #include <cstdlib>
 #include <stdexcept>
-
+#endif
   
 #ifdef GIAC_CHECK_NEW
 

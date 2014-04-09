@@ -47,6 +47,7 @@ namespace giac {
   gen ifactors(const gen & args,int maplemode,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_ifactors;
   extern const unary_function_ptr * const  at_maple_ifactors;
+  extern const unary_function_ptr * const  at_nprimes;
 
   vecteur factors(const gen & g,const gen & x,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_factors;

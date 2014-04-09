@@ -518,7 +518,7 @@ namespace giac {
       }
     }
     if (debug_infolevel>5)
-      std::cerr << "Divisions: " << count << std::endl;
+      CERR << "Divisions: " << count << std::endl;
   }
 
   

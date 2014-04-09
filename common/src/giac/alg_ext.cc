@@ -56,11 +56,22 @@ namespace giac {
       return false;
     return a.islesscomplexthan(b);
   }
+#if 1 // def NSPIRE
+  bool comparegen::operator ()(const gen & a,const gen & b) const { 
+    return a.islesscomplexthan(b);
+  }
+  typedef map<gen,gen,comparegen > rootmap;
+  static rootmap & symbolic_rootof_list(){
+    static rootmap * ans= new rootmap;
+    return *ans;
+  }
+#else
   typedef map<gen,gen,const std::pointer_to_binary_function < const gen &, const gen &, bool> > rootmap;
   static rootmap & symbolic_rootof_list(){
     static rootmap * ans= new rootmap(ptr_fun(islesscomplex));
     return *ans;
   }
+#endif
 
   gen algebraic_EXTension(const gen & a,const gen & v){
     if (is_zero(a) )

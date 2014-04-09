@@ -28,11 +28,13 @@ using namespace std;
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#ifndef NSPIRE
 #include <dirent.h>
 #ifndef __MINGW_H
 #include <pwd.h>
-#endif
-#endif
+#endif // MINGW
+#endif // NSPIRE
+#endif // UNISTD
 #include "input_lexer.h"
 #include "plot.h"
 #include "tex.h"
@@ -64,9 +66,9 @@ namespace giac {
     string::const_iterator it=s.begin(),itend=s.end();
     for (;it!=itend;++it){
       if ((*it>='a') && (*it<='z'))
-        res += *it-32;
+        res += char(*it-32);
       else
-        res += *it;
+        res += char(*it);
     }
     return res;
   }
@@ -927,8 +929,11 @@ namespace giac {
     if (need) res += ')';
     res += '/';
     gen f=feuille._VECTptr->back();
-    if ( (f.type==_SYMB && ( f._SYMBptr->sommet==at_plus || f._SYMBptr->sommet==at_prod || f._SYMBptr->sommet==at_division || f._SYMBptr->sommet==at_inv  || need_parenthesis(f._SYMBptr->sommet) )) || (f.type==_CPLX) || (f.type==_MOD))
-      res += '('+f.print(contextptr)+')';
+    if ( (f.type==_SYMB && ( f._SYMBptr->sommet==at_plus || f._SYMBptr->sommet==at_prod || f._SYMBptr->sommet==at_division || f._SYMBptr->sommet==at_inv  || need_parenthesis(f._SYMBptr->sommet) )) || (f.type==_CPLX) || (f.type==_MOD)){
+      res += '(';
+      res += f.print(contextptr);
+      res += ')';
+    }
     else
       res += f.print(contextptr);
     return res;
@@ -1986,7 +1991,7 @@ namespace giac {
       const char * s=feuille._VECTptr->back()._FUNCptr->ptr()->s;
       return feuille._VECTptr->front().print(contextptr)+"\xe2\x96\xba"+((strcmp(s,"eval")==0)?"\xe2\x96\xba":s);
     }
-    return sommetstr+('('+feuille.print(contextptr)+')');
+    return string(sommetstr)+('('+feuille.print(contextptr)+')');
   }
   gen _POLYFORM(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return args;
@@ -2906,7 +2911,7 @@ namespace giac {
     qualify(parsed,unexported,prog,contextptr);
     qualify(parsed,unexported_declared_global_vars,prog,contextptr);
     qualify(parsed,exported_variable_names,prog,contextptr);
-#ifndef RTOS_THREADX
+#if !defined RTOS_THREADX && !defined NSPIRE
     ofstream of("c:\\log"); of << "=" << assignation_by_equal << endl << "undecl vars:" << undeclared_global_vars << endl << "decl vars:" << declared_global_vars << endl << "decl func.:" << declared_functions << endl << "exported func:" << exported_function_names << endl << "exported vars:"<<exported_variable_names << endl << "unknown exported:"<<unknown_exported << endl << "unexported:" << unexported << endl << "unexported declared global vars:"<<unexported_declared_global_vars << endl << "views:" << views << endl << "errors:" << errors << endl << "prog:"<<prog << endl << "parsed:" << parsed; of.close();   
 #endif
     return errors.size();
@@ -3507,6 +3512,9 @@ namespace giac {
     for (int i=1; i<=1; i++) { if (v[i].type!=_STRNG) v[i]= eval(v[i], 1, contextptr); if (v[i].type!=_STRNG) v[i]=  string2gen(v[i].print(contextptr)); }
     if (v.front().type!=_IDNT || v[1].type!=_STRNG)
       return gentypeerr(contextptr);
+#ifdef NSPIRE
+    return undef;
+#else
 #ifdef GIAC_HAS_STO_38
     return aspen_choose(v,contextptr);
 #else
@@ -3518,6 +3526,7 @@ namespace giac {
       tmp.push_back(eval(v[i],1,contextptr));
     res[1]=tmp;
     return __inputform.op(symbolic(at_choosebox,gen(res,_SEQ__VECT)),contextptr);
+#endif
 #endif
   }
   static const char _CHOOSE_s []="CHOOSE";

@@ -90,8 +90,15 @@ namespace giac {
   
   // reading arguments from the command line
   void readargs(int ARGC, char *ARGV[],vecteur & args,GIAC_CONTEXT); 
+#ifdef NSPIRE
+  template<class T>
+  void readargs_from_stream(nio::ios_base<T> & inf,vecteur & args,GIAC_CONTEXT);
+  template<class T>
+  gen read1arg_from_stream(nio::ios_base<T> & inf,GIAC_CONTEXT);
+#else
   void readargs_from_stream(std::istream & inf,vecteur & args,GIAC_CONTEXT);
   gen read1arg_from_stream(std::istream & inf,GIAC_CONTEXT);
+#endif
 
   // return position of expression in vecteur l, 0 if not found
   int equalposcomp(const vecteur & l,const gen & e);

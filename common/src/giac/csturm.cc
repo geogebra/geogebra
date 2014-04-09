@@ -307,7 +307,7 @@ namespace giac {
 	if (res[6].type==_VECT && !equalposcomp(*res[6]._VECTptr,0))
 	  return res;
 	else
-	  cerr << "list of quotients is not regular" << endl;
+	  CERR << "list of quotients is not regular" << endl;
       }
     }
     */
@@ -784,7 +784,7 @@ namespace giac {
   static int complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,const vecteur & seq1,const vecteur & seq2,const vecteur & seq3,const vecteur & seq4,vecteur & realroots,vecteur & complexroots,double eps,vecteur & horiz_sturm,vecteur & vert_sturm){
     int n=csturm_square(P,a0,b0,a1,b1,seq1,seq2,seq3,seq4,context0);
     if (debug_infolevel && n)
-      cerr << a0 << "," << b0 << ".." << a1 << "," << b1 << ":" << n/2 << endl;
+      CERR << a0 << "," << b0 << ".." << a1 << "," << b1 << ":" << n/2 << endl;
     if (n<=0)
       return 2*n;
     if (eps<=0){
@@ -1439,7 +1439,7 @@ namespace giac {
       else 
 	intervals_to_process.push_back(makevecteur(a2,b2,c2,d2,f2,v2));
     }
-    sort(res.begin(),res.end(),vas_sort);
+    gen_sort_f(res.begin(),res.end(),vas_sort);
     return res;
   }
 

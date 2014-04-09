@@ -606,7 +606,7 @@ namespace giac {
     vector<int> test(1);
     for (int k=1;k<=nfact/2;){
       if (debug_infolevel)
-	cout << clock() << "Testing combination of " << k << " factors" << endl;
+	COUT << clock() << "Testing combination of " << k << " factors" << endl;
       // FIXME check on cst coeff
       if (1){
 	polynome prodP(P[test[0]]);
@@ -695,7 +695,7 @@ namespace giac {
       // we are done. Since p-q*r is of order [n], we get the solution
       // r'=qu*(p-qr)/qrd and q'=ru*(p-qr)/qrd
       if (debug_infolevel)
-	cerr << "// Hensel " << n << " -> " << deg << endl;
+	CERR << "// Hensel " << n << " -> " << deg << endl;
       if (n>deg)
 	return false;
       if (linear_lift)
@@ -705,7 +705,7 @@ namespace giac {
       if (maxop>0){
 	nop += double(q.coord.size())*r.coord.size();
 	if (debug_infolevel)
-	  cerr << "EZGCD " << nop << ":" << maxop << endl;
+	  CERR << "EZGCD " << nop << ":" << maxop << endl;
 	if (nop>maxop)
 	  return false;
       }
@@ -854,7 +854,7 @@ namespace giac {
 	    return true;
 	  }
 	  for (int i=0;i<dim-1;++i)
-	    bi[i]=rand() % modulo;
+	    bi[i]=std_rand() % modulo;
 	}
       }
     }
@@ -862,20 +862,20 @@ namespace giac {
       if (!is_zero(mod) && essai>mod.val)
 	return false;
       if (debuglog)
-	cerr << "Find_good_eval " << clock() << " " << b << endl;
+	CERR << "Find_good_eval " << clock() << " " << b << endl;
       Fb=peval_1(F,b,mod);
       if (debuglog)
-	cerr << "Fb= " << clock() << " " << gen(Fb) << endl;
+	CERR << "Fb= " << clock() << " " << gen(Fb) << endl;
       if (&F==&G)
 	Gb=Fb;
       else {
 	Gb=peval_1(G,b,mod);
       }
       if (debuglog)
-	cerr << "Gb= " << clock() << " " << gen(Gb) << endl;
+	CERR << "Gb= " << clock() << " " << gen(Gb) << endl;
       if ( (Fb.lexsorted_degree()==Fdeg) && (Gb.lexsorted_degree()==Gdeg) ){
 	if (debuglog)
-	  cerr << "FOUND good eval" << clock() << " " << b << endl;
+	  CERR << "FOUND good eval" << clock() << " " << b << endl;
 	return true;
       }
       b=vranm(nvars,0,0); // find another random point
@@ -891,7 +891,7 @@ namespace giac {
   // is_primitive is true if F_orig and G_orig is primitive
   bool ezgcd(const polynome & F_orig,const polynome & G_orig,polynome & GCD,bool is_sqff,bool is_primitive,int max_gcddeg,double maxop){
     if (debug_infolevel)
-      cerr << "// Starting EZGCD dimension " << F_orig.dim << endl;
+      CERR << "// Starting EZGCD dimension " << F_orig.dim << endl;
     if (F_orig.dim<2){
 #ifdef NO_STDEXCEPT
       return false;
@@ -930,12 +930,12 @@ namespace giac {
     int old_gcddeg;
     for (;;){
       if (debug_infolevel)
-	cerr << "// Back to EZGCD dimension " << F_orig.dim << endl;
+	CERR << "// Back to EZGCD dimension " << F_orig.dim << endl;
       find_good_eval(F,G,Fb,Gb,b);
       Db=gcd(Fb,Gb);
       old_gcddeg=Db.lexsorted_degree();
       if (debug_infolevel)
-	cerr << "// Eval at " << b << " gcd  degree " << old_gcddeg << endl;
+	CERR << "// Eval at " << b << " gcd  degree " << old_gcddeg << endl;
       if (!old_gcddeg){
 	GCD=cFG;
 	return true;
@@ -952,7 +952,7 @@ namespace giac {
       polynome new_Db(gcd(new_Fb,new_Gb));
       int new_gcddeg=new_Db.lexsorted_degree();
       if (debug_infolevel)
-	cerr << "// Eval at " << new_b << " gcd  degree " << new_gcddeg << endl;
+	CERR << "// Eval at " << new_b << " gcd  degree " << new_gcddeg << endl;
       if (!new_gcddeg){
 	GCD=cFG;
 	return true;
@@ -981,7 +981,7 @@ namespace giac {
       }
     }
     if (debug_infolevel)
-      cerr << "// EZGCD degree " << old_gcddeg << endl;
+      CERR << "// EZGCD degree " << old_gcddeg << endl;
     if ( (old_gcddeg==Fdeg) || (old_gcddeg==Gdeg) )
       return false;
     // this algo is fast if 0 is a good eval & the degree of the gcd is small

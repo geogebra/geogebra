@@ -35,8 +35,10 @@ diff plot.c plot.c~
 #include "giacPCH.h"
 
 using namespace std;
-#include <fstream>
+#ifndef NSPIRE
 #include <iomanip>
+#endif
+#include <fstream>
 #include "vector.h"
 #include <algorithm>
 #include <cmath>
@@ -79,7 +81,7 @@ namespace giac {
   }
 
   vecteur rand_3d(){
-    int i=rand(),j=rand(),k=rand();
+    int i=std_rand(),j=std_rand(),k=std_rand();
     i=i/(RAND_MAX/10)-5;
     j=j/(RAND_MAX/10)-5;
     k=k/(RAND_MAX/10)-5;

@@ -35,6 +35,10 @@
 #include <algorithm>
 #include <stdexcept>
 #include "vector.h"
+#ifdef USTL
+#include <uheap.h>
+#include <umultimap.h>
+#endif
 #include <map>
 #include "monomial.h"
 #ifdef HAVE_PTHREAD_H
@@ -286,7 +290,17 @@ namespace giac {
     return gu1.u > gu2.u;
   }
   typedef T_unsigned<int,unsigned> int_unsigned;
-    
+
+#ifdef NSPIRE    
+  template<class T,class U,class I>
+  nio::ios_base<I> & operator << (nio::ios_base<I> & os, const std::vector< T_unsigned<T,U> > & v){  
+    typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      os << "(" << it->g << "," << it->u << "),";
+    }
+    return os << std::endl;
+  }
+#else
   template<class T,class U>
   std::ostream & operator << (std::ostream & os, const std::vector< T_unsigned<T,U> > & v){  
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();
@@ -295,6 +309,7 @@ namespace giac {
     }
     return os << std::endl;
   }
+#endif
 
 #ifdef VISUALC
   template<class T>
@@ -921,15 +936,15 @@ namespace giac {
       smallhorner<T,U>(v1,alpha,vars,tmp2,reduce);
       smallhorner<T,U>(v2,alpha,vars,tmp3,reduce);
       smallmulpoly_interpolate<T,U>(tmp2,tmp3,tab[alpha],vars1,vdeg,reduce);
-      std::cerr << alpha << ":" << tab[alpha] << std::endl;
+      CERR << alpha << ":" << tab[alpha] << std::endl;
     }
     // divided differences
     for (int k=1;k<s;++k){
-      std::cerr << k << std::endl;
+      CERR << k << std::endl;
       for (int j=s-1;j>=k;--j){
 	smallsub(tab[j],tab[j-1],tmp2,reduce);
 	smallmult(invmod(k,reduce),tmp2,tab[j],reduce);
-	std::cerr << tab[j] ;
+	CERR << tab[j] ;
       }
     }
     // interpolation
@@ -959,7 +974,7 @@ namespace giac {
       smallhorner<T,U>(v1,alpha,vars,tmp2);
       smallhorner<T,U>(v2,alpha,vars,tmp3);
       smallmulpoly_interpolate<T,U>(tmp2,tmp3,tab[alpha],vars1,vdeg);
-      // std::cerr << tab[alpha] << std::endl;
+      // CERR << tab[alpha] << std::endl;
     }
     // divided differences
     for (int k=1;k<s;++k){
@@ -1089,7 +1104,7 @@ namespace giac {
     // compare u12 and v1v2*ln(v1v2)
     if ( heap_mult>=0 && possible_size && u12<512e6/sizeof(T) && std::log(double(std::min(v1s,v2s)))/std::log(2.0)>1+2*u12/v1v2){
       if (debug_infolevel>20)
-	std::cerr << "array multiplication, v1 size " << v1s << " v2 size " << v2s << " u1+u2 " << u12 << std::endl;
+	CERR << "array multiplication, v1 size " << v1s << " v2 size " << v2s << " u1+u2 " << u12 << std::endl;
       // array multiplication
       T * prod = new T[unsigned(u12+1)];
       for (u=0;u<=u12;++u)
@@ -1127,12 +1142,12 @@ namespace giac {
     }
     bool use_heap=(heap_mult>0 && v1v2>=heap_mult);
     if (debug_infolevel>20){
-      std::cerr << "// " << clock() << "using ";
+      CERR << "// " << clock() << "using ";
       if (use_heap)
-	std::cerr << "heap";
+	CERR << "heap";
       else
-	std::cerr << heap_mult;
-      std::cerr<< " multiplication" << std::endl;
+	CERR << heap_mult;
+      CERR<< " multiplication" << std::endl;
     }
     if (heap_mult<0 || use_heap){
       if (v1s>v2s){
@@ -1176,7 +1191,11 @@ namespace giac {
 	      if (it->second!=v2s)
 		nouveau.push_back(*it);
 	    }
+#ifdef USTL
+	    ustl::pop_heap(heapbeg,heapend);
+#else
 	    std::pop_heap(heapbeg,heapend);
+#endif
 	    --heapend;
 	  }
 	  if (!is_zero(g))
@@ -1212,15 +1231,20 @@ namespace giac {
 	      vindex[heapend->v].push_back(*it);
 	      heapend->u=u;
 	      ++heapend;
+#ifdef USTL
+	      ustl::push_heap(heapbeg,heapend);
+#else
 	      std::push_heap(heapbeg,heapend);
+#endif
 	    }
 	  }
 	} // end for heapbeg!=heapend
 	if (debug_infolevel>20)
-	  std::cerr << clock() << " heap_mult, %age of chains" << count1/total << " " << count2/total << " " << std::endl;
+	  CERR << clock() << " heap_mult, %age of chains" << count1/total << " " << count2/total << " " << std::endl;
 	delete [] heap;
 	return;
       }
+#ifndef USTL
       if (heap_mult==-2){
 	// using multimap for f*g, seems slower than heap
 	typedef std::multimap< U,std::pair<unsigned,unsigned> > mmap;
@@ -1312,6 +1336,7 @@ namespace giac {
 	}
 	return;
       }
+#endif
       // using heap
       u_pair_index<U> newelem, * heap = new u_pair_index<U>[v1s] ; // pointers to v2 monomials
       u_pair_index<U> * heap0, *heapbeg=heap,* heapend=heap+v1s, * heaplast=heap+v1s-1;
@@ -1330,14 +1355,28 @@ namespace giac {
 	}
 	++heapbeg->i2;
 	if (heapbeg->i2==v2s){
+#ifdef USTL
+	  ustl::pop_heap(heapbeg,heapend);
+#else
 	  std::pop_heap(heapbeg,heapend);
+#endif
+	  // std::pop_heap(heapbeg,heapend);
 	  --heaplast;
 	  --heapend;
 	}
 	else {
+#ifdef USTL
+	  ustl::pop_heap(heapbeg,heapend);
+#else
 	  std::pop_heap(heapbeg,heapend);
+#endif
+	  // std::pop_heap(heapbeg,heapend);
 	  heaplast->u=(it1beg+heaplast->i1)->u+(it2beg+heaplast->i2)->u;
+#ifdef USTL
+	  ustl::push_heap(heapbeg,heapend);
+#else
 	  std::push_heap(heapbeg,heapend);
+#endif
 	  // in_out_heap(heapbeg,heapend-heapbeg,newelem);
 	}
       }
@@ -1349,7 +1388,11 @@ namespace giac {
       hash_prod produit(possible_size); // try to avoid reallocation
       // cout << "hash " << clock() << std::endl;
 #else
+#ifdef USTL
+      typedef ustl::map<U,T> hash_prod;
+#else
       typedef std::map<U,T> hash_prod;
+#endif
       // cout << "small map" << std::endl;
       hash_prod produit; 
 #endif    
@@ -1391,9 +1434,9 @@ namespace giac {
 	  v.push_back(gu);
 	}
       }    
-      // std::cerr << "smallmult sort " << clock() << std::endl;
+      // CERR << "smallmult sort " << clock() << std::endl;
       sort(v.begin(),v.end());
-      // std::cerr << "smallmult sort end " << clock() << std::endl;
+      // CERR << "smallmult sort end " << clock() << std::endl;
     } // endif // HEAP_MULT
   }
 
@@ -1561,7 +1604,12 @@ namespace giac {
 	      if (it->second+it2beg-(*v2ptr)[d2+1]<0)
 		nouveau.push_back(*it);
 	    }
+#ifdef USTL
+	    ustl::pop_heap(heapbeg,heapend);
+#else
 	    std::pop_heap(heapbeg,heapend);
+#endif
+	    // std::pop_heap(heapbeg,heapend);
 	    --heapend;
 	  }
 	  if (g != 0)
@@ -1603,7 +1651,12 @@ namespace giac {
 	      vptr->push_back(*it);
 	      heapend->u=u;
 	      ++heapend;
+#ifdef USTL
+	      ustl::push_heap(heapbeg,heapend);
+#else
 	      std::push_heap(heapbeg,heapend);
+#endif
+	      // std::push_heap(heapbeg,heapend);
 	    }
 	  }
 	} // end for heapbeg!=heapend
@@ -1640,7 +1693,12 @@ namespace giac {
 	      if (it->second+it2beg-(*v2ptr)[d2+1]<0)
 		nouveau.push_back(*it);
 	    }
+#ifdef USTL
+	    ustl::pop_heap(heapbeg,heapend);
+#else
 	    std::pop_heap(heapbeg,heapend);
+#endif
+	    // std::pop_heap(heapbeg,heapend);
 	    --heapend;
 	  }
 	  if (g != 0)
@@ -1682,7 +1740,12 @@ namespace giac {
 	      vptr->push_back(*it);
 	      heapend->u=u;
 	      ++heapend;
+#ifdef USTL
+	      ustl::push_heap(heapbeg,heapend);
+#else
 	      std::push_heap(heapbeg,heapend);
+#endif
+	      // std::push_heap(heapbeg,heapend);
 	    }
 	  }
 	} // end for heapbeg!=heapend
@@ -1747,9 +1810,9 @@ namespace giac {
 	v.push_back(gu);
       }
     }    
-    // std::cerr << "do_threadmult end " << clock() << std::endl;
+    // CERR << "do_threadmult end " << clock() << std::endl;
     sort(v.begin(),v.end());
-    // std::cerr << "do_threadmult sort end " << clock() << std::endl;
+    // CERR << "do_threadmult sort end " << clock() << std::endl;
     argptr->clock = clock() - argptr->clock;
     argptr->status = 2;
     return &v;
@@ -1779,7 +1842,7 @@ namespace giac {
     // compare u12 and v1v2*ln(v1v2)
     if ( heap_mult>=0 && possible_size>100 && u12<512e6/sizeof(T) && u12<v1v2*std::log(double(possible_size))*2){
       if (debug_infolevel>20)
-	std::cerr << "array multiplication, v1 size " << v1s << " v2 size " << v2s << " u1+u2 " << u12 << std::endl;
+	CERR << "array multiplication, v1 size " << v1s << " v2 size " << v2s << " u1+u2 " << u12 << std::endl;
       // array multiplication
       prod = new T[u12+1];
       for (U u=0;u<=u12;++u)
@@ -1790,12 +1853,12 @@ namespace giac {
     if (!prod && use_heap && nthreads<2) 
       return false;  
     if (debug_infolevel>20){
-      std::cerr << "// " << clock() << "using threaded " ;
+      CERR << "// " << clock() << "using threaded " ;
       if (use_heap)
-	std::cerr << "heap";
+	CERR << "heap";
       else 
-	std::cerr << "hash";
-      std::cerr << " multiplication" << std::endl;
+	CERR << "hash";
+      CERR << " multiplication" << std::endl;
     }
     unsigned d2=v2.front().u/degdiv,deg1v=v1.front().u/degdiv+d2;
     int cur_deg=-1,prev_deg=d2;
@@ -1854,7 +1917,7 @@ namespace giac {
 	  arg[i].vsmallindexptr=0;
 	}
 	if (debug_infolevel>30)
-	  std::cerr << "Computing degree " << i << " " << clock() << std::endl;
+	  CERR << "Computing degree " << i << " " << clock() << std::endl;
 	do_threadmult<T,U>(&arg[i]);
 	threads_time += arg[i].clock;
 	possible_size += arg[i].vptr->size();	
@@ -1951,7 +2014,7 @@ namespace giac {
       }
     } // end else of if (nthreads==1)
     if (debug_infolevel>30)
-      std::cerr << "Begin copy " << clock() << std::endl;
+      CERR << "Begin copy " << clock() << std::endl;
     // store to v
     if (prod){
       int n=0;
@@ -2000,7 +2063,7 @@ namespace giac {
       */
     }
     if (debug_infolevel>30)
-      std::cerr << "End copy " << clock() << std::endl;
+      CERR << "End copy " << clock() << std::endl;
     return true;
   }
 
@@ -2024,7 +2087,7 @@ namespace giac {
   // if quo_only is >= 2 or <=-2, r is not computed
   template<class T,class U,class R>
   int hashdivrem(const std::vector< T_unsigned<T,U> > & a,const std::vector< T_unsigned<T,U> > & b,std::vector< T_unsigned<T,U> > & q,std::vector< T_unsigned<T,U> > & r,const std::vector<U> & vars,const R & reduce,double qmax,bool allowrational,int quo_only=0){
-    // std::cerr << "hashdivrem dim " << vars.size() << " clock " << clock() << std::endl;
+    // CERR << "hashdivrem dim " << vars.size() << " clock " << clock() << std::endl;
     q.clear();
     r.clear();
     if (a.empty()){
@@ -2071,7 +2134,7 @@ namespace giac {
       }
       for (;cit!=citend;++cit)
 	r.push_back(*cit);
-      // std::cerr << "hashdivrem end dim " << vars.size() << " clock " << clock() << std::endl;
+      // CERR << "hashdivrem end dim " << vars.size() << " clock " << clock() << std::endl;
       return 1;
     }
     unsigned as=a.size(),bs=b.size();
@@ -2081,7 +2144,7 @@ namespace giac {
 	&& heap_mult>=0 && a.front().u < 512e6/sizeof(T)){
       U umax=a.front().u,u;
       if (debug_infolevel>20)
-	std::cerr << "array division, a size " << a.size() << " b size " << b.size() << " u " << umax << std::endl;
+	CERR << "array division, a size " << a.size() << " b size " << b.size() << " u " << umax << std::endl;
       // array division
       T * rem = new T[unsigned(umax+1)];
       for (u=0;u<=umax;++u)
@@ -2194,7 +2257,7 @@ namespace giac {
 #if 1 // heap division
     if (heap_mult<0 || use_heap || quo_only){
       if (debug_infolevel>20)
-	std::cerr << "heap division, a size " << a.size() << " b size " << b.size() << " vars " << vars << std::endl;
+	CERR << "heap division, a size " << a.size() << " b size " << b.size() << " vars " << vars << std::endl;
       // heap division:
       // ita an iterator on a, initial value a.begin()
       // a heap with the current state of q*b, initialized to empty heap
@@ -2253,7 +2316,12 @@ namespace giac {
 		    qnouveau.push_back(*it);
 		}
 		// erase top node, 
+#ifdef USTL
+		ustl::pop_heap(heapbeg,heapend);
+#else
 		std::pop_heap(heapbeg,heapend);
+#endif
+		// std::pop_heap(heapbeg,heapend);
 		--heapend;
 		// push each element of the incremented top chain 
 		it=nouveau.begin();
@@ -2284,7 +2352,12 @@ namespace giac {
 		    vindex[heapend->v].push_back(*it);
 		    heapend->u=u;
 		    ++heapend;
+#ifdef USTL
+		    ustl::push_heap(heapbeg,heapend);
+#else
 		    std::push_heap(heapbeg,heapend);
+#endif
+		    // std::push_heap(heapbeg,heapend);
 		  }
 		} // end adding incremented pairs from nouveau
 	      } // end loop on monomial of the heap having the same u
@@ -2355,14 +2428,19 @@ namespace giac {
 	    vindex[heapend->v].push_back(*it);
 	    heapend->u=u;
 	    ++heapend;
+#ifdef USTL
+	    ustl::push_heap(heapbeg,heapend);
+#else
 	    std::push_heap(heapbeg,heapend);
+#endif
+	    // std::push_heap(heapbeg,heapend);
 	  }
 	} // end adding incremented pairs from qnouveau
 	qnouveau.clear();
       } // for (;;)
       // r still empty
       if (debug_infolevel>20)
-	std::cerr << "Finished computing quotient, size " << q.size() << " " << clock() << std::endl ;
+	CERR << "Finished computing quotient, size " << q.size() << " " << clock() << std::endl ;
       if (quo_only>=2 || quo_only<=-2){
 	delete [] heap;
 	return 1;
@@ -2373,9 +2451,9 @@ namespace giac {
 	  && q.size()*double(b.size())>10000 
 	  ){
 	if (debug_infolevel>20)
-	  std::cerr << "Computing q*b, size " << q.size() << " " << b.size() << std::endl ;
+	  CERR << "Computing q*b, size " << q.size() << " " << b.size() << std::endl ;
 	if (debug_infolevel>30)
-	  std::cerr << "Computing b*q, " << b << " * " << q << " " << vars.front() << " " <<a.size() << std::endl ;
+	  CERR << "Computing b*q, " << b << " * " << q << " " << vars.front() << " " <<a.size() << std::endl ;
 	std::vector< T_unsigned<T,U> > bq;
 	if (!threadmult(b,q,bq,vars.front(),0,a.size()))
 	  smallmult(b,q,bq,reduce,as);
@@ -2414,7 +2492,12 @@ namespace giac {
 	      qnouveau.push_back(*it);
 	  }
 	  // erase top node, 
+#ifdef USTL
+	  ustl::pop_heap(heapbeg,heapend);
+#else
 	  std::pop_heap(heapbeg,heapend);
+#endif
+	  // std::pop_heap(heapbeg,heapend);
 	  --heapend;
 	  // push each element of the incremented top chain 
 	  it=qnouveau.begin();
@@ -2445,7 +2528,12 @@ namespace giac {
 	      vindex[heapend->v].push_back(*it);
 	      heapend->u=u;
 	      ++heapend;
+#ifdef USTL
+	      ustl::push_heap(heapbeg,heapend);
+#else
 	      std::push_heap(heapbeg,heapend);
+#endif
+	      // std::push_heap(heapbeg,heapend);
 	    }
 	  } // end adding incremented pairs from nouveau
 	} // end while heapbeg!=heapend && heapbeg->u==heapu
@@ -2463,7 +2551,11 @@ namespace giac {
     typedef HASH_MAP_NAMESPACE::hash_map< U,T,hash_function_unsigned_object> hash_prod ;
     std::vector< hash_prod > produit(adeg+1);
 #else
+#ifdef USTL
+    typedef ustl::map<U,T> hash_prod;
+#else
     typedef std::map<U,T> hash_prod;
+#endif
     std::vector< hash_prod > produit(adeg+1); 
 #endif    
     typename hash_prod::iterator prod_it,prod_itend;
@@ -2483,7 +2575,7 @@ namespace giac {
     }
     for (rdeg=adeg;rdeg>=bdeg;--rdeg){
       if (debug_infolevel>20)
-	std::cerr << "hashdivrem degree " << rdeg << " " << clock() << std::endl;
+	CERR << "hashdivrem degree " << rdeg << " " << clock() << std::endl;
       if (produit[rdeg].empty())
 	continue;
       // find degree of remainder and main coeff
@@ -2598,7 +2690,11 @@ namespace giac {
     hash_prod produit; // try to avoid reallocation
     // cout << "hash " << clock() << std::endl;
 #else
+#ifdef USTL
+    typedef ustl::map<U,T> hash_prod;
+#else
     typedef std::map<U,T> hash_prod;
+#endif
     // cout << "small map" << std::endl;
     hash_prod produit; 
 #endif

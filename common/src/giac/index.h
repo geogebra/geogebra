@@ -308,7 +308,7 @@ namespace giac {
       return(os);
     }
     void dbgprint() const {
-      std::cout << *this << std::endl;
+      COUT << *this << std::endl;
     }
     // set first index element to 0
     index_m set_first_zero() const { index_t i(riptr->i); i[0]=0; return i; }
@@ -485,6 +485,15 @@ namespace giac {
     size_t size() const ;
     bool is_zero() const ;
     size_t total_degree() const ;
+#ifdef NSPIRE
+    template<class T> friend nio::ios_base<T> & operator << (nio::ios_base<T> & os,const index_m & m ){
+      os << ":index_m:[ " ;
+      for (index_t::const_iterator it=m.begin();it!=m.end();++it)
+	os << *it << " ";
+      os << "] " ;
+      return(os);
+    }
+#else
     friend std::ostream & operator << (std::ostream & os, const index_m & m ){
       os << ":index_m:[ " ;
       for (index_t::const_iterator it=m.begin();it!=m.end();++it)
@@ -492,8 +501,9 @@ namespace giac {
       os << "] " ;
       return(os);
     }
+#endif
     void dbgprint() const {
-      std::cout << *this << std::endl;
+      COUT << *this << std::endl;
     }
     // set first index element to 0
     index_m set_first_zero() const;
@@ -562,6 +572,12 @@ namespace giac {
   bool i_total_revlex_is_strictly_greater(const index_m & v1, const index_m & v2);
   bool i_total_lex_is_greater(const index_m & v1, const index_m & v2);
   bool i_total_lex_is_strictly_greater(const index_m & v1, const index_m & v2);
+  bool i_11var_is_greater(const index_m & v1, const index_m & v2);
+  bool i_7var_is_greater(const index_m & v1, const index_m & v2);
+  bool i_3var_is_greater(const index_m & v1, const index_m & v2);
+  inline bool i_11var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_11var_is_greater(v2,v1); }
+  inline bool i_7var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_7var_is_greater(v2,v1); }
+  inline bool i_3var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_3var_is_greater(v2,v1); }
 
   template <class T> T pow(const std::vector<T> & x, const index_m & n ){
     assert(x.size()==n.size());
@@ -580,5 +596,20 @@ namespace giac {
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
+
+#if 0 // def NSPIRE
+namespace std {
+  inline bool operator > (const giac::index_t & a,const giac::index_t & b){ 
+    if (a.size()!=b.size()) 
+      return a.size()>b.size();
+    return !giac::all_inf_equal(a,b);
+  }
+  inline bool operator < (const giac::index_t & a,const giac::index_t & b){ 
+    if (a.size()!=b.size()) 
+      return a.size()<b.size();
+    return !giac::all_sup_equal(a,b);
+  }
+}
+#endif
 
 #endif // ndef _GIAC_INDEX_H_

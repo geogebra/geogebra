@@ -94,7 +94,7 @@ namespace giac {
     unary_function_eval(unsigned u,const gen_op_context & myop,const partial_derivative * myD, taylortype mytaylor,const std::string & mys,printfunction myprintsommet,printfunction mytexprint=0,printfunction mycprint=0) : s(mys.c_str()),D(myD),series_expansion(mytaylor),printsommet(myprintsommet),texprint(mytexprint),cprint(mycprint),op(myop),index_quoted_function(u) { gen temp; mytaylor(0,-1,this,0,temp,0); };
     unary_function_eval(unsigned u,const gen_op_context & myop,const partial_derivative * myD, taylortype mytaylor,const char * mys,printfunction myprintsommet,printfunction mytexprint=0,printfunction mycprint=0) : s(mys),D(myD),series_expansion(mytaylor),printsommet(myprintsommet),texprint(mytexprint),cprint(mycprint),op(myop),index_quoted_function(u) { gen temp; mytaylor(0,-1,this,0,temp,0); };
     const char * print(GIAC_CONTEXT) const ;
-    void dbgprint() const { std::cout << s << std::endl; };
+    void dbgprint() const { COUT << s << std::endl; };
   };
   std::ostream & operator << (std::ostream & os,const unary_function_eval & o);
 
@@ -144,7 +144,7 @@ namespace giac {
     virtual gen operator () (const gen & arg,const context * context_ptr) const { return 0;} ;
     virtual unary_function_abstract * recopie() const ;
     const char * print(GIAC_CONTEXT) const ;
-    void dbgprint() const { std::cout << s << std::endl; };
+    void dbgprint() const { COUT << s << std::endl; };
     // constructors
     unary_function_abstract(unsigned u) : D(0),series_expansion(taylor),printsommet(0),texprint(0),cprint(0),index_quoted_function(u) {};
     unary_function_abstract(unsigned u,const std::string & mys): s(mys.c_str()),D(0),series_expansion(0),printsommet(0),texprint(0),cprint(0),index_quoted_function(u) {};
@@ -164,7 +164,11 @@ namespace giac {
     virtual ~unary_function_abstract() {};
   };
 
+#ifdef NSPIRE
+  template<class T> nio::ios_base<T> & operator<<(nio::ios_base<T> & os,const unary_function_abstract & a);
+#else
   std::ostream & operator << (std::ostream & os,const unary_function_abstract & o);
+#endif
 
   class unary_function_unary : public unary_function_abstract {
   public:

@@ -374,9 +374,12 @@ namespace giac {
     _WITH_COCOA=0,
     _WITH_F5=1,
     _TDEG_ORDER=2,
-    _PLEX_ORDER=3,
+    _PLEX_ORDER=6,
     _REVLEX_ORDER=4,
     _MODULAR_CHECK=5,
+    _3VAR_ORDER=3,
+    _7VAR_ORDER=7, // GROEBNER_VARS==15 : double revlex 7 params at end, 7 variables
+    _11VAR_ORDER=11, // GROEBNER_VARS==15 : 3 params at end, 11 variables
   };
 
   enum int_subtypes {
