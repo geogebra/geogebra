@@ -1056,6 +1056,8 @@ public class DockManagerW extends DockManager {
 						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
 					else if (app.hasEuclidianView2() && app.getEuclidianView2().isShowing())
 						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN2);
+					else if (app.hasEuclidianView3D() && app.getEuclidianView3D().isShowing())
+						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
 					else if (app.getGuiManager().hasCasView() && app.getGuiManager().getCasView().isShowing())
 						app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
 					//else if (app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().isShowing())

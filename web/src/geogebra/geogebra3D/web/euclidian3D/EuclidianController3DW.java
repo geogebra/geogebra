@@ -431,7 +431,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		if (app.getGuiManager() != null)
-			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
 
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;

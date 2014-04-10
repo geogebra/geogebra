@@ -48,7 +48,7 @@ public class AppWapplication3D extends AppWapplication {
 
 	@Override
     public boolean hasEuclidianView3D() {
-		return false;
+		return euclidianView3D != null;
 	}
 
 	@Override

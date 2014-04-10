@@ -34,7 +34,7 @@ public class AppWapplet3D extends AppWapplet{
 
 	@Override
     public boolean hasEuclidianView3D() {
-		return false;
+		return euclidianView3D != null;
 	}
 
 	@Override
