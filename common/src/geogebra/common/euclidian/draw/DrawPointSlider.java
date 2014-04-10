@@ -22,8 +22,6 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -55,7 +53,6 @@ public final class DrawPointSlider {
 	private static geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
 	
-	private static geogebra.common.awt.GBasicStroke[] emptyStrokes = new geogebra.common.awt.GBasicStroke[10];
 
 
 	private double[] coords;
@@ -241,40 +238,7 @@ public final class DrawPointSlider {
 		return circle.intersects(rect);
 	}
 
-	/**
-	 * Returns the bounding box of this DrawPoint in screen coordinates.
-	 */
+
 	
-	final private geogebra.common.awt.GRectangle getBounds() {
-		// return selection circle's bounding box
-		if (!geo.isEuclidianVisible()) {
-			return null;
-		}
-
-		int selRadius = pointSize + HIGHLIGHT_OFFSET;
-		int minRadius = view.getApplication().getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_RADIUS_MIN;
-		if (selRadius < minRadius){
-			selRadius = minRadius;
-		}
-
-		return AwtFactory.prototype.newRectangle((int)coords[0] - selRadius, (int)coords[1] - selRadius,
-				2 * selRadius, 2 * selRadius);
-	}
-
-
-	/*
-	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
-	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
-	 * see #1699
-	 */
-	final private static geogebra.common.awt.GBasicStroke getEmptyStroke(int pointSize) {
-		if (pointSize > 9)
-			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
-
-		if (emptyStrokes[pointSize] == null)
-			emptyStrokes[pointSize] = AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
-
-		return emptyStrokes[pointSize];
-	}
 
 }
