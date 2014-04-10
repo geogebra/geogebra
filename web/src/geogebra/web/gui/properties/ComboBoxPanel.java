@@ -46,10 +46,10 @@ public class ComboBoxPanel extends OptionPanel implements IComboListener {
     public void setLabels() {
 		getLabel().setText(loc.getPlain(getTitle()) + ":");
 
-		int idx = comboBox.getSelectedIndex();
-	//	comboBox.clear();
+		String text = comboBox.getValue();
+		comboBox.getModel().clear();
 		getMultipleModel().fillModes(loc);
-		comboBox.setSelectedIndex(idx);
+		comboBox.setValue(text);
 	}
 
 	public void setSelectedIndex(int index) {

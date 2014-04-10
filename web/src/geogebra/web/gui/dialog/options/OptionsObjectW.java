@@ -1863,6 +1863,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			String strLabelStart = app.getPlain("CornerPoint");
 			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
 		}
+		
+		@Override
+		public void setSelectedItem(String item) {
+			getComboBox().setValue(item);
+		}
 	}
 
 	private class CornerPointsPanel extends OptionPanel
