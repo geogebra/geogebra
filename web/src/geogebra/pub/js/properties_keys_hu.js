@@ -271,7 +271,7 @@ __GGB__keysVar.hu.command = {
     "Ellipse_Syntax": "[ <F\xf3uszpont>, <F\xf3kuszpont>, <F\u0151tengely hossza (sz\xe1m)> ]\n[ <F\xf3uszpont>, <F\xf3kuszpont>, <Szakasz> ]\n[ <Pont>, <Pont>, <Pont> ]",
     "Ends": "Ends",
     "Ends_Syntax": "[ <Quadric> ]",
-    "Envelope": "Envelope",
+    "Envelope": "Burkol\xf3",
     "Envelope_Syntax": "[ <\xdatvonal>, <Pont> ]",
     "Erlang": "ErlangEloszl\xe1s",
     "Erlang_Syntax": "[ <k param\xe9ter>, <\u03bb param\xe9ter>, x ]\n[ <k param\xe9ter>, <\u03bb param\xe9ter>, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]\n[ <k param\xe9ter>, <\u03bb param\xe9ter>, <V\xe1ltoz\xf3 \xe9rt\xe9ke> ]",
