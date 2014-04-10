@@ -422,9 +422,7 @@ public class ProverBotanasMethod {
 								Polynomial poly = ndg.next();
 								if (poly.isZero())
 									return ProofResult.FALSE;
-								if (!Polynomial.areAssociates1(poly,
-										new Polynomial(1))) { // poly is not 1
-																// or -1
+								if (!poly.isConstant()) {
 									NDGCondition ndgc = ndgd.detect(poly);
 									if (ndgc == null)
 										readable = false;

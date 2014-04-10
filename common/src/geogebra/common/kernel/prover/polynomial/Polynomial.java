@@ -673,6 +673,21 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 	
 	/**
+	 * Tests if the polynomial is a constant.
+	 * @return if input is a constant
+	 */
+	public boolean isConstant() {
+		System.out.println("terms=" + terms);
+		if (terms.size() > 1) {
+			return false;
+		}
+		if (terms.firstKey().equals(new Term())) {
+			return true;
+		}
+		return false;
+		}
+	
+	/**
 	 * Tests if two polynomials are associates by a +/-1 multiplier
 	 * @param p1 First polynomial
 	 * @param p2 Second polynomial
@@ -681,6 +696,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	public static boolean areAssociates1(Polynomial p1, Polynomial p2) {
 		return p1.equals(p2) || p1.add(p2).isZero();
 	}
+	
 	
 	/**
 	 * Tests if the Polynomial is the constant one polynomial
