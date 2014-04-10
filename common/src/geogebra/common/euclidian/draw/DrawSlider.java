@@ -40,7 +40,7 @@ public class DrawSlider extends Drawable {
 	private double[] coordsScreen = new double[2];
 	private GLine2D line = AwtFactory.prototype.newLine2D();
 	private GeoPoint geoPoint;
-	private DrawPoint drawPoint;
+	private DrawPointSlider drawPoint;
 
 	/**
 	 * Creates new drawable for slider
@@ -56,7 +56,7 @@ public class DrawSlider extends Drawable {
 		// create point for slider
 		geoPoint = new GeoPoint(view.getKernel().getConstruction());
 		geoPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
-		drawPoint = new DrawPoint(view, geoPoint);
+		drawPoint = new DrawPointSlider(view, geoPoint);
 		drawPoint.setGeoElement(number);
 
 		update();
