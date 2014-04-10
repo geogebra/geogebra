@@ -19,6 +19,7 @@ package geogebra.common.euclidian.draw;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
@@ -38,8 +39,28 @@ public class DrawSlider extends Drawable {
 	private double[] coordsScreen = new double[2];
 	private GLine2D line = AwtFactory.prototype.newLine2D();
 	//private GeoPoint geoPoint;
-	private DrawPointSlider drawPoint;
+	//private DrawPointSlider drawPoint;
 
+	
+	private int HIGHLIGHT_OFFSET;
+
+	// used by getSelectionDiamaterMin()
+	private static final int SELECTION_RADIUS_MIN = 12;
+
+	// private GeoPointND P;
+
+	private int diameter, hightlightDiameter, pointSize;
+	
+	// for dot and selection
+	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
+	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
+
+	private static geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic
+			.getDefaultStroke();
+
+	private double[] coords;
 	/**
 	 * Creates new drawable for slider
 	 * 
@@ -52,8 +73,6 @@ public class DrawSlider extends Drawable {
 		geo = number;
 
 		// create point for slider
-		
-		drawPoint = new DrawPointSlider(view, number, this);
 
 		update();
 	}
@@ -92,13 +111,13 @@ public class DrawSlider extends Drawable {
 			double max = number.getIntervalMax();
 			
 			double param = (number.getValue() - min) / (max - min);
-			drawPoint.setPointSize(2 + (number.lineThickness + 1) / 3);
+			setPointSize(2 + (number.lineThickness + 1) / 3);
 			labelVisible = geo.isLabelVisible();
 			
 
 			// horizontal slider
 			if (horizontal) {
-				drawPoint.update(coordsRW[0] + widthRW * param, coordsRW[1]);
+				updatePoint(coordsRW[0] + widthRW * param, coordsRW[1]);
 				if (labelVisible) {
 					this.xLabel -= 15;
 					this.yLabel -= 5;
@@ -111,10 +130,10 @@ public class DrawSlider extends Drawable {
 			// vertical slider
 			else {
 				
-				drawPoint.update(coordsRW[0], coordsRW[1] + widthRW * param);
+				updatePoint(coordsRW[0], coordsRW[1] + widthRW * param);
 				if (labelVisible) {
 					this.xLabel += 5;
-					this.yLabel += 2 * drawPoint.getPointSize() + 4;
+					this.yLabel += 2 * pointSize + 4;
 				}
 
 				// vertical line
@@ -138,7 +157,31 @@ public class DrawSlider extends Drawable {
 			g2.draw(line);
 
 			// point
-			drawPoint.draw(g2);
+			drawPoint(g2);
+		}
+	}
+	
+	private void drawPoint(geogebra.common.awt.GGraphics2D g2) {
+		if (geo.doHighlighting()) {
+			g2.setPaint(geo.getSelColor());
+			g2.fill(circleHighlight);
+			g2.setStroke(borderStroke);
+			g2.draw(circleHighlight);
+		}
+		// draw a dot
+		g2.setPaint(geo.getObjectColor());
+		g2.fill(circle);
+
+		// black stroke
+		g2.setPaint(geogebra.common.awt.GColor.black);
+		g2.setStroke(borderStroke);
+		g2.draw(circle);
+
+		// label
+		if (labelVisible) {
+			g2.setFont(view.getFontPoint());
+			g2.setPaint(geo.getLabelColor());
+			drawLabel(g2);
 		}
 	}
 
@@ -149,7 +192,7 @@ public class DrawSlider extends Drawable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
-		return drawPoint.isInside(rect);
+		return rect.contains(circle.getBounds());
 	}
 
 	/**
@@ -161,7 +204,10 @@ public class DrawSlider extends Drawable {
 	 * @return true iff the movable point was hit
 	 */
 	final public boolean hitPoint(int x, int y, int hitThreshold) {
-		return drawPoint.hit(x, y, hitThreshold);
+		int r = hitThreshold + SELECTION_RADIUS_MIN;
+		double dx = coords[0] - x;
+		double dy = coords[1] - y;
+		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
 	}
 
 	@Override
@@ -207,9 +253,49 @@ public class DrawSlider extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return drawPoint.intersectsRectangle(rect)||line.intersects(rect);
+		return circle.intersects(rect)||line.intersects(rect);
 	}
 	
+	private void updatePoint(double rwX, double rwY) {
+
+		this.coords[0] = rwX;
+		this.coords[1] = rwY;
+
+		labelVisible = geo.isLabelVisible();
+
+		// convert to screen
+		view.toScreenCoords(coords);
+
+		double xUL = (coords[0] - pointSize);
+		double yUL = (coords[1] - pointSize);
+
+		// Florian Sonner 2008-07-17
+
+		// circle might be needed at least for tracing
+		circle.setFrame(xUL, yUL, diameter, diameter);
+
+		// selection area
+		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET,
+				yUL - HIGHLIGHT_OFFSET, hightlightDiameter, hightlightDiameter);
+
+		// draw trace
+
+		if (labelVisible) {
+			labelDesc = geo.getLabelDescription();
+			xLabel = (int) Math.round(coords[0] + 4);
+			yLabel = (int) Math.round(yUL - pointSize);
+			addLabelOffsetEnsureOnScreen();
+		}
+	}
 	
+	private void setPointSize(int pointSize) {
+		if (this.pointSize != pointSize) {
+			diameter = 2 * pointSize;
+			HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+			// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+			hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+		}
+		this.pointSize = pointSize;
+	}
 
 }
