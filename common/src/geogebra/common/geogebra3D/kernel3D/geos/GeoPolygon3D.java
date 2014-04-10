@@ -316,6 +316,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	 * @return true if all points lie on coord sys
 	 */
 	public boolean checkPointsAreOnCoordSys() {
+				
+		Coords o = coordSys.getOrigin();
+		Coords vn = coordSys.getVz();
+		
+		CoordMatrix4x4 matrix = coordSys.getMatrixOrthonormal();
+		
 		for (int i = 0; i < points.length; i++) {
 
 			// check if the vertex is defined and finite
@@ -323,23 +329,21 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 				coordSys.setUndefined();
 				return false;
 			}
-
-			// project the point on the coord sys
-			Coords[] project = points[i].getInhomCoordsInD(3).projectPlane(
-					coordSys.getMatrixOrthonormal());
-
-			// Application.debug("project["+i+"]="+project[1]);
-
+			
+			Coords p = points[i].getInhomCoordsInD(3);
+			
 			// check if the vertex lies on the coord sys
-			if (!Kernel
-					.isEqual(project[1].getZ(), 0, Kernel.STANDARD_PRECISION)) {
+			if (!Kernel.isZero(vn.dotproduct(p.sub(o)))) {
 				coordSys.setUndefined();
 				return false;
-			}
+			}	
+
+			// project the point on the coord sys
+			Coords[] project = p.projectPlane(matrix);
+			
 
 			// set the 2D points
-			points2D[i].setCoords(project[1].getX(), project[1].getY(),
-					project[1].getW());
+			points2D[i].setCoords(project[1].getX(), project[1].getY(), project[1].getW());
 		}
 
 		return true;
@@ -366,76 +370,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 		if (coordSys.makeOrthoMatrix(false, false)) {
 			checkPointsAreOnCoordSys();
-
-
-			/*
-			// select the first point of the convex hull
-			int firstPointInd = 0;
-			double minY = getPointY(0);
-			double currentY = 0;
-			for (int i=1; i<points.length; i++){
-				currentY=getPointY(i);
-				if (currentY<minY) {
-					firstPointInd = i;
-					minY = currentY;
-				}
-			}
-			//App.debug("point 1 : "+firstPointInd);
-
-			// select the second point
-			double maxCos = -1;
-			double firstPointX = getPointX(firstPointInd);
-			int secondPointInd = 0;
-			double firstSegLength = 0;
-			for (int i=0; i<points.length; i++){
-				if (i!=firstPointInd){
-					double dx = getPointX(i)-firstPointX;
-					double dy = getPointY(i)-minY;
-					double distance = Math.sqrt(dx*dx+dy*dy);
-					double currentCos = dx/distance;
-					if (currentCos>maxCos) {
-						maxCos = currentCos;
-						secondPointInd = i;
-						firstSegLength = distance;
-					}
-				}		
-
-			}
-			//App.debug("point 2 : "+secondPointInd);
-			// select the third point
-			double firstVecdX = getPointX(secondPointInd)-firstPointX;
-			double firstVecdY = getPointY(secondPointInd)-minY;
-			maxCos = -1;
-			int thirdPointInd = 0;
-			for (int i=0; i<points.length; i++){
-				if ((i!=firstPointInd)&&(i!=secondPointInd)){
-					double dx = getPointX(i)-getPointX(secondPointInd);
-					double dy = getPointY(i)-getPointY(secondPointInd);
-					double distance = Math.sqrt(dx*dx+dy*dy);
-					double currentCos = (dx*firstVecdX+dy*firstVecdY)/(firstSegLength*distance);
-					if (currentCos>maxCos) {
-						maxCos = currentCos;
-						thirdPointInd = i;
-					}
-				}
-			}
-			//App.debug("point 3 : "+thirdPointInd);
-			// test for the direction of the normal vec
-			if (secondPointInd<firstPointInd){
-				if (thirdPointInd<secondPointInd){
-					//App.debug("inversion true");
-					reverseConvexOrientation = true;
-				}
-				else {
-					reverseConvexOrientation = false;
-					//App.debug("inversion false");
-				} 
-			}
-			else {
-				reverseConvexOrientation = false;
-				//App.debug("inversion false");
-			} 
-			 */
 		} else {
 			return false;
 		}
