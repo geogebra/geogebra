@@ -135,13 +135,7 @@ SymbolicParametersBotanaAlgo {
         GeoVec3D.cross(P, l.x, l.y, 0.0, g);
     }
 
-    @Override
-	public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));
 
-    }
     
     
     
@@ -259,38 +253,37 @@ SymbolicParametersBotanaAlgo {
 	}
 
 
-	@Override
-	protected int getInputLengthForXML(){
 
-		if(kernel.isSaving() 
-				|| kernel.getXOYPlane() == null){ // saving mode, or 2D
-			return super.getInputLengthForXML();
-		}
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
 
-		return super.getInputLengthForXML() + 1; // add "xOyPlane"
-	}
 	
 	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
 	protected int getInputLengthForCommandDescription(){
-
-		if(kernel.isSaving() 
-				|| kernel.getXOYPlane() == null
-				|| kernel.getApplication().getActiveEuclidianView().isDefault2D()){ // saving mode, or 2D
-			return super.getInputLengthForCommandDescription();
-		}
-
-		return super.getInputLengthForCommandDescription() + 1; // add "xOyPlane"
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
 	}
 	
 	@Override
 	public GeoElement getInput(int i) {
-		
-		if (i == 2){
-			return (GeoElement) kernel.getXOYPlane();
-		}
-		
-		return input[i];
+		return getInputMaybeXOYPlane(i);
 	}
+	
+	
+    @Override
+	public String toString(StringTemplate tpl) {
+        if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+        	return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));
+        }
+        
+        return loc.getPlain("LineThroughAPerpendicularToBInXOYPlane",P.getLabel(tpl),l.getLabel(tpl));
+
+    }
 	
 	
 }

@@ -4583,5 +4583,15 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * 
+	 * @return true if algo (e.g. AlgoOrthoLinePointLine) doens't need to say
+	 * that we work in (or parallel to) xOy plane
+	 */
+	final public boolean noNeedToSpecifyXOYPlane(){
+		return getXOYPlane() == null || getApplication().getActiveEuclidianView().isDefault2D();
+	}
+	
+	
 
 }

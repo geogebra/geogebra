@@ -1442,6 +1442,50 @@ public abstract class AlgoElement extends ConstructionElement implements
 	protected int getInputLengthForCommandDescription(){
 		return getInputLength();
 	}
+	
+	
+	/**
+	 * 
+	 * @return input length for XML (undo/redo), maybe +1 for xOy plane
+	 */
+	final protected int getInputLengthForXMLMayNeedXOYPlane(){
+
+		if(kernel.isSaving() 
+				|| kernel.getXOYPlane() == null){ // saving mode, or 2D
+			return getInputLength();
+		}
+
+		return getInputLength() + 1; // add "xOyPlane"
+	}
+	
+		
+	
+	/**
+	 * 
+	 * @return input length for command description, maybe +1 for xOy plane
+	 */
+	final protected int getInputLengthForCommandDescriptionMayNeedXOYPlane(){
+
+		if(kernel.isSaving() || kernel.noNeedToSpecifyXOYPlane()){ // saving mode, or 2D
+			return getInputLength();
+		}
+
+		return getInputLength() + 1; // add "xOyPlane"
+	}
+	
+	/**
+	 * 
+	 * @param i index
+	 * @return input or xOy plane if i == input length
+	 */
+	final protected GeoElement getInputMaybeXOYPlane(int i) {
+		
+		if (i == getInputLength()){
+			return (GeoElement) kernel.getXOYPlane();
+		}
+		
+		return input[i];
+	}
 
 	
 	/**
