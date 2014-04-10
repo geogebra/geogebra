@@ -278,6 +278,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			break;
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
+		case App.VIEW_EUCLIDIAN3D:
 			// handled elsewhere
 			break;
 		default: 
