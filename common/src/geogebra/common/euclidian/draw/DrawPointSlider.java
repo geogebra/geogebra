@@ -22,11 +22,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
-
 
 /**
  * 
@@ -40,20 +36,18 @@ public final class DrawPointSlider {
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
 
-	private GeoPointND P;
+	// private GeoPointND P;
 
 	private int diameter, hightlightDiameter, pointSize;
-	private boolean isVisible, labelVisible;
+	private boolean labelVisible;
 	// for dot and selection
-	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	
-	private geogebra.common.awt.GGeneralPath gp = null;
+	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
+	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
 
 	private static geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	
-
 
 	private double[] coords;
 
@@ -64,90 +58,35 @@ public final class DrawPointSlider {
 	/**
 	 * Creates new DrawPoint
 	 * 
-	 * @param view View
-	 * @param P point to be drawn
+	 * @param view
+	 *            View
+	 * @param geo
+	 *            slider to which this belongs
+	 * @param drawable
+	 *            DrawSlider to which this belongs
 	 */
-	public DrawPointSlider(EuclidianView view, GeoPointND P, GeoElement geo, Drawable drawable) {
+	public DrawPointSlider(EuclidianView view, GeoElement geo, Drawable drawable) {
 		this.view = view;
-		this.P = P;
 		this.geo = geo;
 		this.drawable = drawable;
-
 		this.coords = new double[2];
-
-		// crossStrokes[1] = new BasicStroke(1f);
-
-		update();
 	}
-	
-		
 
+	final void update(double rwX, double rwY) {
 
-	
-	final void update() {
+		this.coords[0] = rwX;
+		this.coords[1] = rwY;
 
-		if (gp != null)
-			gp.reset(); // stop trace being left when (filled diamond) point
-						// moved
-
-		isVisible = geo.isEuclidianVisible();
-
-		double[] coords1 = new double[2];
-		
-			// looks if it's on view
-			Coords p = view.getCoordsForView(P.getInhomCoordsInD(3));
-			if (!Kernel.isZero(p.getZ())) {
-				isVisible = false;
-			} else {
-				coords1[0] = p.getX();
-				coords1[1] = p.getY();
-			}
-		
-		
-		// trace to spreadsheet is no longer bound to EV
-		if (!isVisible)
-			return;
-
-		
-		update(coords1);
-	}
-	
-	/**
-	 * update regarding coords values
-	 * @param coords1 (x,y) real world coords
-	 */
-	final private void update(double[] coords1){
-
-		isVisible = true;
 		labelVisible = geo.isLabelVisible();
-		this.coords = coords1;
 
 		// convert to screen
 		view.toScreenCoords(coords);
 
-		// point outside screen?
-		if (Double.isNaN(coords[0]) || Double.isNaN(coords[1])) { // fix for #63
-			isVisible = false;
-		} else if (coords[0] > view.getWidth() + P.getPointSize()
-				|| coords[0] < -P.getPointSize()
-				|| coords[1] > view.getHeight() + P.getPointSize()
-				|| coords[1] < -P.getPointSize()) {
-			isVisible = false;
-			// don't return here to make sure that getBounds() works for
-			// offscreen points too
-		}
-
-		if (pointSize != P.getPointSize()) {
-			updateDiameter();
-		}
-
 		double xUL = (coords[0] - pointSize);
 		double yUL = (coords[1] - pointSize);
-		
-		
 
 		// Florian Sonner 2008-07-17
-		
+
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
 
@@ -155,12 +94,9 @@ public final class DrawPointSlider {
 		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET,
 				yUL - HIGHLIGHT_OFFSET, hightlightDiameter, hightlightDiameter);
 
-
-
 		// draw trace
-		
 
-		if (isVisible && labelVisible) {
+		if (labelVisible) {
 			drawable.labelDesc = geo.getLabelDescription();
 			drawable.xLabel = (int) Math.round(coords[0] + 4);
 			drawable.yLabel = (int) Math.round(yUL - pointSize);
@@ -168,51 +104,43 @@ public final class DrawPointSlider {
 		}
 	}
 
+	public void setPointSize(int pointSize) {
+		if (this.pointSize != pointSize) {
+			diameter = 2 * pointSize;
+			HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+			// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+			hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+		}
+		this.pointSize = pointSize;
+	}
 
-
-
-
-	private void updateDiameter() {
-		pointSize = P.getPointSize();
-		diameter = 2 * pointSize;
-		HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-		// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+	public int getPointSize() {
+		return this.pointSize;
 	}
 
 	private final Drawable drawable;
 
-	
-
-	
 	final void draw(geogebra.common.awt.GGraphics2D g2) {
-		if (isVisible) {
-			if (geo.doHighlighting()) {
-				g2.setPaint(geo.getSelColor());
-				g2.fill(circleHighlight);
-				g2.setStroke(borderStroke);
-				g2.draw(circleHighlight);
-			}
+		if (geo.doHighlighting()) {
+			g2.setPaint(geo.getSelColor());
+			g2.fill(circleHighlight);
+			g2.setStroke(borderStroke);
+			g2.draw(circleHighlight);
+		}
+		// draw a dot
+		g2.setPaint(geo.getObjectColor());
+		g2.fill(circle);
 
+		// black stroke
+		g2.setPaint(geogebra.common.awt.GColor.black);
+		g2.setStroke(borderStroke);
+		g2.draw(circle);
 
-			
-			
-				// draw a dot
-				g2.setPaint(geo.getObjectColor());
-				g2.fill(circle);
-
-				// black stroke
-				g2.setPaint(geogebra.common.awt.GColor.black);
-				g2.setStroke(borderStroke);
-				g2.draw(circle);
-			
-
-			// label
-			if (labelVisible) {
-				g2.setFont(view.getFontPoint());
-				g2.setPaint(geo.getLabelColor());
-				drawable.drawLabel(g2);
-			}
+		// label
+		if (labelVisible) {
+			g2.setFont(view.getFontPoint());
+			g2.setPaint(geo.getLabelColor());
+			drawable.drawLabel(g2);
 		}
 	}
 
@@ -220,25 +148,20 @@ public final class DrawPointSlider {
 	 * was this object clicked at? (mouse pointer location (x,y) in screen
 	 * coords)
 	 */
-	
+
 	final boolean hit(int x, int y, int hitThreshold) {
 		int r = hitThreshold + SELECTION_RADIUS_MIN;
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
-		return dx < r && dx > -r && dx*dx + dy*dy <= r * r;
+		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
 	}
 
-	
 	final boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
-	
-	
-	boolean intersectsRectangle(GRectangle rect){
+
+	boolean intersectsRectangle(GRectangle rect) {
 		return circle.intersects(rect);
 	}
-
-
-	
 
 }

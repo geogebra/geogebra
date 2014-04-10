@@ -23,8 +23,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * 
@@ -39,7 +37,7 @@ public class DrawSlider extends Drawable {
 	private double[] coordsRW = new double[2];
 	private double[] coordsScreen = new double[2];
 	private GLine2D line = AwtFactory.prototype.newLine2D();
-	private GeoPoint geoPoint;
+	//private GeoPoint geoPoint;
 	private DrawPointSlider drawPoint;
 
 	/**
@@ -54,9 +52,8 @@ public class DrawSlider extends Drawable {
 		geo = number;
 
 		// create point for slider
-		geoPoint = new GeoPoint(view.getKernel().getConstruction());
-		geoPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
-		drawPoint = new DrawPointSlider(view, geoPoint, number, this);
+		
+		drawPoint = new DrawPointSlider(view, number, this);
 
 		update();
 	}
@@ -95,15 +92,13 @@ public class DrawSlider extends Drawable {
 			double max = number.getIntervalMax();
 			
 			double param = (number.getValue() - min) / (max - min);
-			geoPoint.setPointSize(2 + (number.lineThickness + 1) / 3);
+			drawPoint.setPointSize(2 + (number.lineThickness + 1) / 3);
 			labelVisible = geo.isLabelVisible();
-			geoPoint.setLabelVisible(labelVisible);
+			
 
 			// horizontal slider
 			if (horizontal) {
-				geoPoint.setCoords(coordsRW[0] + widthRW * param, coordsRW[1],
-						1.0);
-				drawPoint.update();
+				drawPoint.update(coordsRW[0] + widthRW * param, coordsRW[1]);
 				if (labelVisible) {
 					this.xLabel -= 15;
 					this.yLabel -= 5;
@@ -115,12 +110,11 @@ public class DrawSlider extends Drawable {
 			}
 			// vertical slider
 			else {
-				geoPoint.setCoords(coordsRW[0], coordsRW[1] + widthRW * param,
-						1.0);
-				drawPoint.update();
+				
+				drawPoint.update(coordsRW[0], coordsRW[1] + widthRW * param);
 				if (labelVisible) {
 					this.xLabel += 5;
-					this.yLabel += 2 * geoPoint.getPointSize() + 4;
+					this.yLabel += 2 * drawPoint.getPointSize() + 4;
 				}
 
 				// vertical line
