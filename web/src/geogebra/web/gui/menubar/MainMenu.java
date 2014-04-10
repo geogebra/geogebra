@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.html5.css.GuiResources;
-import geogebra.web.gui.app.GGWFrameLayoutPanel;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -170,7 +170,7 @@ public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler 
     }
 
 	public void onResize(ResizeEvent e) {
-		int menuHeight = (int) (app.getHeight() - GGWFrameLayoutPanel.COMMAND_LINE_HEIGHT - GGWFrameLayoutPanel.TOOLBAR_HEIGHT);
+		int menuHeight = (int) (app.getHeight() - GLookAndFeel.COMMAND_LINE_HEIGHT - GLookAndFeel.TOOLBAR_HEIGHT);
 	    this.setHeight(menuHeight + "px");
     }
 	

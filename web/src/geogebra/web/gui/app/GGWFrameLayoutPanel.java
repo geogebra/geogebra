@@ -1,5 +1,6 @@
 package geogebra.web.gui.app;
 
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppW;
@@ -12,14 +13,12 @@ import com.google.gwt.user.client.ui.RequiresResize;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
-	public static final int COMMAND_LINE_HEIGHT = 43;
-	public static final int MENUBAR_HEIGHT = 0;//35;
-	public static final int MENUBAR_WIDTH_MAX = 204;
+
 	private int MENUBAR_WIDTH = 0;
 	private boolean menuClosed = true;
-	public static final int TOOLBAR_HEIGHT = 63;
+	
 
-	public static final int MINUS_FROM_HEIGHT = COMMAND_LINE_HEIGHT + MENUBAR_HEIGHT + TOOLBAR_HEIGHT;
+	public static final int MINUS_FROM_HEIGHT = GLookAndFeel.COMMAND_LINE_HEIGHT + GLookAndFeel.MENUBAR_HEIGHT + GLookAndFeel.TOOLBAR_HEIGHT;
 
 	GGWToolBar ggwToolBar;
 	GGWCommandLine ggwCommandLine;
@@ -46,12 +45,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		dockPanel.clear();
 		
 		// if(app.showToolBar()){
-		dockPanel.addNorth(getToolBar(), TOOLBAR_HEIGHT);
+		dockPanel.addNorth(getToolBar(), GLookAndFeel.TOOLBAR_HEIGHT);
 		// }
 		if (app.showInputTop()) {
-			dockPanel.addNorth(getCommandLine(), COMMAND_LINE_HEIGHT);
+			dockPanel.addNorth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
 		} else {
-			dockPanel.addSouth(getCommandLine(), COMMAND_LINE_HEIGHT);
+			dockPanel.addSouth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
 		}
 		
 		dockPanel.addEast(getMenuBar(), MENUBAR_WIDTH);
@@ -122,7 +121,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		
 		if (this.menuClosed) {
 			//open menu
-			this.MENUBAR_WIDTH = MENUBAR_WIDTH_MAX;
+			this.MENUBAR_WIDTH = GLookAndFeel.MENUBAR_WIDTH_MAX;
 			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
 			this.dockPanel.forceLayout();
 			ggwMenuBar.focus();

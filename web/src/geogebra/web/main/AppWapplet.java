@@ -8,6 +8,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
@@ -26,6 +27,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AppWapplet extends AppW {
@@ -36,7 +38,12 @@ public class AppWapplet extends AppW {
 	//Event flow operations - are these needed in AppWapplet?
 	
 	private LogInOperation loginOperation;
-
+	private GGWMenuBar ggwMenuBar;
+	private GGWToolBar ggwToolBar = null;
+	private int spWidth;
+	private int spHeight;
+	private boolean menuVisible = false;
+	private boolean menuInited = false;
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
@@ -85,6 +92,13 @@ public class AppWapplet extends AppW {
 		afterCoreObjectsInited();
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
+	}
+	
+	public GGWMenuBar getMenuBar() {
+		if (ggwMenuBar == null) {
+			ggwMenuBar = new GGWMenuBar();
+		}
+		return ggwMenuBar;
 	}
 
 	public GeoGebraFrame getGeoGebraFrame() {
@@ -149,7 +163,7 @@ public class AppWapplet extends AppW {
 	}
 
 	private Widget oldSplitLayoutPanel = null;	// just a technical helper variable
-
+	private HorizontalPanel splitPanelWrapper = null;
 	@Override
     public void buildApplicationPanel() {
 
@@ -217,32 +231,23 @@ public class AppWapplet extends AppW {
 	}
 
 	public void attachMenubar() {
-		// reusing old menubar is probably a good decision
-		GGWMenuBar menubar = objectPool.getGgwMenubar();
-		if (menubar == null) {
-			menubar = new GGWMenuBar();
-			menubar.init(this);
-			objectPool.setGgwMenubar(menubar);
+		if (ggwToolBar == null) {
+			ggwToolBar = new GGWToolBar();
+			ggwToolBar.init(this);
+			frame.insert(ggwToolBar, 0);
 		}
-		frame.insert(menubar, 0);
+		ggwToolBar.attachMenubar();
 	}
 
-	private GGWToolBar ggwToolBar = null;
-	private int spWidth;
-	private int spHeight;
+	
 
 	public void attachToolbar() {
-		GGWMenuBar menubar = getObjectPool().getGgwMenubar();
 		// reusing old toolbar is probably a good decision
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
 			ggwToolBar.init(this);
 		}
-		if (menubar != null) {
-			frame.insert(ggwToolBar, frame.getWidgetIndex(menubar) + 1);
-		} else {
-			frame.insert(ggwToolBar, 0);
-		}
+		frame.insert(ggwToolBar, 0);
 	}
 
 	@Override
@@ -253,7 +258,14 @@ public class AppWapplet extends AppW {
 	public void attachSplitLayoutPanel() {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 		if (oldSplitLayoutPanel != null) {
-			frame.add(oldSplitLayoutPanel);
+			if(getArticleElement().getDataParamShowMenuBar()){
+				this.splitPanelWrapper =  new HorizontalPanel();
+				splitPanelWrapper.add(oldSplitLayoutPanel);
+				splitPanelWrapper.add(getMenuBar());
+				frame.add(splitPanelWrapper);
+			}else{
+				frame.add(oldSplitLayoutPanel);
+			}
 			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 		}
 	}
@@ -428,17 +440,40 @@ public class AppWapplet extends AppW {
 		spHeight = this.oldSplitLayoutPanel.getOffsetHeight();
 	}
 	
-	public int getWidthForSplitPanel(int fallback) {
+	@Override
+    public int getWidthForSplitPanel(int fallback) {
 		if(spWidth > 0){
 			return spWidth;
 		}
 		return super.getWidthForSplitPanel(fallback);
     }
 
-	public int getHeightForSplitPanel(int fallback) {
+	@Override
+    public int getHeightForSplitPanel(int fallback) {
 		if(spHeight > 0){
 			return spHeight;
 		}
 		return super.getHeightForSplitPanel(fallback);
     }
+	
+	@Override
+    public void toggleMenu(){
+		this.menuVisible = !this.menuVisible;
+		if(this.menuVisible){
+			if(!menuInited){
+				this.getMenuBar().init(this);
+				this.menuInited = true;
+			}
+			this.splitPanelWrapper.add(this.getMenuBar());
+			this.oldSplitLayoutPanel.setPixelSize(
+					this.oldSplitLayoutPanel.getOffsetWidth() - GLookAndFeel.MENUBAR_WIDTH_MAX,
+			this.oldSplitLayoutPanel.getOffsetHeight());
+			this.getMenuBar().setPixelSize(GLookAndFeel.MENUBAR_WIDTH_MAX,this.oldSplitLayoutPanel.getOffsetHeight());
+		}else{
+			this.oldSplitLayoutPanel.setPixelSize(
+					this.oldSplitLayoutPanel.getOffsetWidth() + GLookAndFeel.MENUBAR_WIDTH_MAX,
+			this.oldSplitLayoutPanel.getOffsetHeight());
+			this.splitPanelWrapper.remove(this.getMenuBar());
+		}
+	}
 }

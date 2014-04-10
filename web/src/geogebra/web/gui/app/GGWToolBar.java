@@ -42,6 +42,7 @@ public class GGWToolBar extends Composite {
 	FlowPanel toolBPanel;
 	boolean inited = false;
 	private Integer activeToolbar = -1;
+	private boolean menuBarShowing = false;
 	
 	private FlowPanel rightButtonPanel;
 	private StandardButton openSearchButton, openMenuButton;
@@ -150,6 +151,7 @@ public class GGWToolBar extends Composite {
 		}
 		if(app.getArticleElement().getDataParamShowMenuBar() || 
 				app.getArticleElement().getDataParamApp()){
+		this.menuBarShowing = true;
 		openMenuButton = new StandardButton(GuiResources.INSTANCE.button_open_menu());
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -599,20 +601,6 @@ public class GGWToolBar extends Composite {
 	 * @return -1 //mode that was actually selected
 	 */
 	public int setMode(int mode) {
-//		int ret = -1;
-//		for (ToolBarW toolbar : toolbars) {
-//			int tmp = toolbar.setMode(mode);
-//			App.debug("tmp: " + tmp);
-//
-//			// this will be the actual mode set
-//			if (getViewId(toolbar) == activeToolbar) {
-//				ret = tmp;
-//			}
-//		}
-//
-////		updateHelpText();
-//
-//		return ret;
 		return toolbars.get(0).setMode(mode);
     }
 	
@@ -652,5 +640,12 @@ public class GGWToolBar extends Composite {
 	public void deselectButtons() {
 		this.openSearchButton.getElement().removeClassName("selectedButton");
 		this.openMenuButton.getElement().removeClassName("selectedButton");
+    }
+
+	public void attachMenubar() {
+		if(!this.menuBarShowing){
+			this.rightButtonPanel.removeFromParent();
+			this.addRightButtonPanel();
+		}
     }
 }
