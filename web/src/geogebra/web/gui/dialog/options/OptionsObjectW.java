@@ -87,6 +87,7 @@ import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.TextEditAdvancedPanel;
 import geogebra.html5.gui.inputfield.TextPreviewPanelW;
 import geogebra.html5.gui.util.ColorChooserW;
+import geogebra.html5.gui.util.ComboBoxW;
 import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.SliderPanel;
@@ -1762,7 +1763,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	} // ConicEqnPanel
 
-	private class StartPointPanel extends ListBoxPanel {
+	private class StartPointPanel extends ComboBoxPanel {
 		private static final long serialVersionUID = 1L;
 
 		public StartPointPanel() {
@@ -1780,11 +1781,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			if (!result) {
 				return false;
 			}
-			ListBox lb = getListBox();
+			ComboBoxW combo = getComboBox();
 			TreeSet<GeoElement> points = kernel.getPointSet();
-			if (points.size() != lb.getItemCount() - 1) {
-				lb.clear();
-				lb.addItem("");
+			if (points.size() != combo.getItemCount() - 1) {
+				combo.getModel().clear();
+				combo.addItem("");
 				getStartPointModel().fillModes(loc);
 				setFirstLabel();
 			}
@@ -1792,27 +1793,32 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		@Override
-		protected void onListBoxChange(){
-			final String strLoc = getListBox().getValue(getListBox().getSelectedIndex());
+		protected void onComboBoxChange(){
+			final String strLoc = getComboBox().getValue();
 			getStartPointModel().applyChanges(strLoc);
 
 		}
 
 		@Override
 		public void setSelectedIndex(int index) {
-			ListBox lb = getListBox();
+			ComboBoxW cb = getComboBox();
 			if (index == 0) {
 				setFirstLabel();
 			} else {
-				lb.setSelectedIndex(-1);
+				cb.setSelectedIndex(-1);
 			}
 		}
 
+		@Override
+		public void setSelectedItem(String item) {
+			getComboBox().setValue(item);
+		}
+		
 		private void setFirstLabel() {
 			GeoElement p = (GeoElement)getStartPointModel().getLocateableAt(0).getStartPoint();
 			if (p != null) {
 				String coords = p.getLabel(StringTemplate.editTemplate); 
-				getListBox().setItemText(0, coords);
+				getComboBox().setValue(coords);
 			}
 		}
 
