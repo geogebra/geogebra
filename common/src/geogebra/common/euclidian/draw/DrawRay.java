@@ -110,6 +110,8 @@ public class DrawRay extends Drawable implements Previewable {
 		
 
 	/**
+	 * @param startPoint start point
+	 * @param direction direction
 	 * @param showLabel true if label should be shown
 	 */
 	public void update(Coords startPoint, Coords direction, boolean showLabel) {

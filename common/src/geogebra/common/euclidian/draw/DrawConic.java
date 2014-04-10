@@ -1364,7 +1364,8 @@ public class DrawConic extends Drawable implements Previewable {
 	 * Says if the coords hit lines
 	 * @param hitX x coord for hit
 	 * @param hitY y coord for hit
-	 * @return true if lines are hitted
+	 * @param hitThreshold acceptable distance from line
+	 * @return true if lines are hit
 	 */
 	public boolean hitLines(int hitX, int hitY, int hitThreshold) {
 		return drawLines[0].hit(hitX, hitY, hitThreshold) || drawLines[1].hit(hitX, hitY, hitThreshold);
@@ -1375,6 +1376,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 * @param hitX x coord for hit
 	 * @param hitY y coord for hit
 	 * @return true if lines are hitted
+	 * @param hitThreshold acceptable distance from line
 	 */
 	public boolean hitHyperbola(int hitX, int hitY, int hitThreshold) {
 		if (strokedShape == null) {
@@ -1565,6 +1567,9 @@ public class DrawConic extends Drawable implements Previewable {
 		return conic;
 	}
 
+	/**
+	 * @param ignore to avoid drawing single point if part of ineq
+	 */
 	public void setIgnoreSingularities(boolean ignore) {
 		this.ignoreSingularities = ignore;
 		
