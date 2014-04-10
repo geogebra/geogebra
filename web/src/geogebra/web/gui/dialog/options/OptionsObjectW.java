@@ -96,6 +96,7 @@ import geogebra.web.gui.dialog.ScriptInputPanelW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
+import geogebra.web.gui.properties.ComboBoxPanel;
 import geogebra.web.gui.properties.ListBoxPanel;
 import geogebra.web.gui.properties.OptionPanel;
 import geogebra.web.gui.properties.SliderPanelW;
@@ -1829,7 +1830,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	}
 
-	private class ImageCornerPanel extends ListBoxPanel {
+	private class ImageCornerPanel extends ComboBoxPanel {
 		private static final long serialVersionUID = 1L;
 		private ImageCornerModel model;
 		public ImageCornerPanel(int cornerIdx) {
@@ -1850,8 +1851,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		@Override
-		protected void onListBoxChange() {
-			final String item = getListBox().getValue(getListBox().getSelectedIndex());
+		protected void onComboBoxChange() {
+			final String item = getComboBox().getValue();
 			model.applyChanges(item);
 
 		}
