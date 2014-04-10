@@ -397,7 +397,6 @@ public class DockManagerW extends DockManager {
 		//		}
 		//	}
 			
-			//setEmbeddedDim(rootPane, windowWidth, windowHeight);
 			
 		}
 		
@@ -405,49 +404,6 @@ public class DockManagerW extends DockManager {
 		setLabels();
 	}
 	
-	
-//	private void setEmbeddedDim(DockSplitPaneW pane, int width, int height){
-//		
-//		/*
-//		App.debug("----------------------------");
-//		App.debug(width+" x "+height);
-//		App.debug(pane.getOrientation()+" - "+pane.getDividerLocation());
-//		App.debug("pane.getSplitterSize() = "+pane.getSplitterSize());
-//		*/
-//		
-//		int divLoc = pane.getDividerLocation();
-//		
-//		Widget left = pane.getLeftComponent();
-//		Widget right = pane.getRightComponent();
-//		
-//		int w1, h1, w2, h2;
-//		if (pane.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT){
-//			w1 = divLoc;
-//			w2 = width - divLoc - pane.getSplitterSize();
-//			h1 = height;
-//			h2 = height;
-//		}else{
-//			w1 = width;
-//			w2 = width;
-//			h1 = divLoc;
-//			h2 = height - divLoc - pane.getSplitterSize();
-//		}
-//		
-//		if (left instanceof DockSplitPaneW){
-//			setEmbeddedDim((DockSplitPaneW) left, w1, h1);
-//		}else{
-//			((DockPanelW) left).setEmbeddedDim(w1, h1);
-//		}
-//		
-//		if (right instanceof DockSplitPaneW){
-//			setEmbeddedDim((DockSplitPaneW) right, w2, h2);
-//		}else{
-//			((DockPanelW) right).setEmbeddedDim(w2, h2);
-//		}
-//
-//		
-//	}
-//	
 	/**
 	 * Sets split pane divider locations 
 	 * @param spData
