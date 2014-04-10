@@ -1631,4 +1631,10 @@ public class Manager3D implements Manager3DInterface {
 		AlgoAngularBisectorPoints3D algo = new AlgoAngularBisectorPoints3D(cons, label, A, B, C);
 		return algo.getLine();
 	}
+	
+	final public GeoLine3D AngularBisector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation){
+		AlgoAngularBisectorPoints3DOrientation algo = new AlgoAngularBisectorPoints3DOrientation(cons, label, A, B, C, orientation);
+		return algo.getLine();
+	}
+	
 }

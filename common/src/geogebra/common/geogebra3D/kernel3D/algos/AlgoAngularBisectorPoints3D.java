@@ -25,6 +25,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -35,8 +36,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 
-    private GeoPointND A, B, C; // input    
-    private GeoLine3D bisector; // output   
+    protected GeoPointND A, B, C; // input    
+    protected GeoLine3D bisector; // output   
 
 
     /** Creates new AlgoLineBisector 
@@ -46,24 +47,45 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
      * @param B 
      * @param C */
     public AlgoAngularBisectorPoints3D(
+            Construction cons,
+            String label,
+            GeoPointND A,
+            GeoPointND B,
+            GeoPointND C) {
+
+    	this(cons, label, A, B, C, null);
+    }
+    
+    /**
+     * @param cons
+     * @param label
+     * @param A
+     * @param B
+     * @param C
+     * @param orientation
+     */
+    protected AlgoAngularBisectorPoints3D(
         Construction cons,
         String label,
         GeoPointND A,
         GeoPointND B,
-        GeoPointND C) {
+        GeoPointND C, 
+        GeoDirectionND orientation) {
         super(cons);
         this.A = A;
         this.B = B;
         this.C = C;
         bisector = new GeoLine3D(cons);
         bisector.setStartPoint(B);
-        setInputOutput(); // for AlgoElement
+        setInput(orientation); // for AlgoElement
+        setOutput(); // for AlgoElement
 
 
         // compute bisector of angle(A, B, C)
         compute();
         bisector.setLabel(label);
     }
+    
 
     @Override
 	public Commands getClassName() {
@@ -76,12 +98,21 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
     }
     
     // for AlgoElement
-    @Override
-	protected void setInputOutput() {
+    /**
+     * set input
+     * @param orientation orientation
+     */
+	protected void setInput(GeoDirectionND orientation) {
         input = new GeoElement[3];
         input[0] = (GeoElement) A;
         input[1] = (GeoElement) B;
         input[2] = (GeoElement) C;
+	}
+	
+	/**
+	 * set output
+	 */
+	private void setOutput(){
 
         setOutputLength(1);
         setOutput(0,bisector);
@@ -127,12 +158,22 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
         	Coords v2 = C.getInhomCoordsInD(3).sub(o);
         	v2.normalize();
         	Coords d = v1.add(v2);
-        	bisector.setCoord(o, d);
+        	setCoordFromFiniteB(o, d, v1);
         } 
+    }
+    
+    /**
+     * set bisector coords when B is finite
+     * @param o origin
+     * @param d direction
+     * @param v1 direction BA
+     */
+    protected void setCoordFromFiniteB(Coords o, Coords d, Coords v1){
+    	bisector.setCoord(o, d);
     }
 
     @Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return loc.getPlain("AngleBisectorOfABC",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl));

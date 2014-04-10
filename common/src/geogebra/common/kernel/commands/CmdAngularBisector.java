@@ -29,8 +29,14 @@ public class CmdAngularBisector extends CommandProcessor {
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
-		GeoElement[] arg;
+		
+		return process(c, n, ok);
+	}
+	
+	protected GeoElement[] process(Command c, int n, boolean[] ok) throws MyError {
 
+		GeoElement[] arg;
+		
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
