@@ -2391,7 +2391,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 
 .CAS_commentLabel {
 	color: gray;
-	width: 30px;
+	min-width: 30px;
 }
 
 .CAS_inputPanel {
