@@ -81,7 +81,7 @@ public abstract class Drawable extends DrawableND {
 	/** for Previewables */
 	int mouseY;
 	/** label Description */
-	protected String labelDesc;
+	public String labelDesc;
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
@@ -181,7 +181,7 @@ public abstract class Drawable extends DrawableND {
 	 * Draws label of referenced geo
 	 * @param g2 graphics
 	 */
-	final protected void drawLabel(GGraphics2D g2) {
+	public final void drawLabel(GGraphics2D g2) {
 		if (labelDesc == null)
 			return;
 		String label = labelDesc;
@@ -409,7 +409,7 @@ public abstract class Drawable extends DrawableND {
 	 * Adds geo's label offset to xLabel and yLabel. 
 	 * 
 	 */
-	final protected void addLabelOffsetEnsureOnScreen() {		
+	public final void addLabelOffsetEnsureOnScreen() {		
 		// MAKE SURE LABEL STAYS ON SCREEN
 		xLabel += geo.labelOffsetX;
 		yLabel += geo.labelOffsetY;

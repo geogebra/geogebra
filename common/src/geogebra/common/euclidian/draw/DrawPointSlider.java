@@ -5,7 +5,7 @@ http://www.geogebra.org
 This file is part of GeoGebra.
 
 This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
+under the terms of the GNU General private License as published by 
 the Free Software Foundation.
 
  */
@@ -35,7 +35,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author Markus
  * @version 2011-01-10
  */
-public final class DrawPointSlider extends Drawable {
+public final class DrawPointSlider {
 
 	private int HIGHLIGHT_OFFSET;
 
@@ -49,18 +49,20 @@ public final class DrawPointSlider extends Drawable {
 	// for dot and selection
 	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
 	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	private geogebra.common.awt.GLine2D line1, line2, line3, line4;// for cross
+	
 	private geogebra.common.awt.GGeneralPath gp = null;
 
 	private static geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	private static geogebra.common.awt.GBasicStroke[] fillStrokes = new geogebra.common.awt.GBasicStroke[10];
+	
 	private static geogebra.common.awt.GBasicStroke[] emptyStrokes = new geogebra.common.awt.GBasicStroke[10];
 
-	private boolean isPreview;
 
 	private double[] coords;
 
+	private EuclidianView view;
+
+	private GeoElement geo;
 
 	/**
 	 * Creates new DrawPoint
@@ -68,10 +70,11 @@ public final class DrawPointSlider extends Drawable {
 	 * @param view View
 	 * @param P point to be drawn
 	 */
-	public DrawPointSlider(EuclidianView view, GeoPointND P) {
+	public DrawPointSlider(EuclidianView view, GeoPointND P, GeoElement geo, Drawable drawable) {
 		this.view = view;
 		this.P = P;
-		geo = (GeoElement) P;
+		this.geo = geo;
+		this.drawable = drawable;
 
 		this.coords = new double[2];
 
@@ -83,8 +86,8 @@ public final class DrawPointSlider extends Drawable {
 		
 
 
-	@Override
-	final public void update() {
+	
+	final void update() {
 
 		if (gp != null)
 			gp.reset(); // stop trace being left when (filled diamond) point
@@ -93,11 +96,7 @@ public final class DrawPointSlider extends Drawable {
 		isVisible = geo.isEuclidianVisible();
 
 		double[] coords1 = new double[2];
-		if (isPreview) {
-			Coords p = P.getInhomCoordsInD(2);
-			coords1[0] = p.getX();
-			coords1[1] = p.getY();
-		} else {
+		
 			// looks if it's on view
 			Coords p = view.getCoordsForView(P.getInhomCoordsInD(3));
 			if (!Kernel.isZero(p.getZ())) {
@@ -106,7 +105,7 @@ public final class DrawPointSlider extends Drawable {
 				coords1[0] = p.getX();
 				coords1[1] = p.getY();
 			}
-		}
+		
 		
 		// trace to spreadsheet is no longer bound to EV
 		if (!isVisible)
@@ -120,7 +119,7 @@ public final class DrawPointSlider extends Drawable {
 	 * update regarding coords values
 	 * @param coords1 (x,y) real world coords
 	 */
-	final public void update(double[] coords1){
+	final private void update(double[] coords1){
 
 		isVisible = true;
 		labelVisible = geo.isLabelVisible();
@@ -151,8 +150,7 @@ public final class DrawPointSlider extends Drawable {
 		
 
 		// Florian Sonner 2008-07-17
-		int pointStyle = P.getPointStyle();
-
+		
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
 
@@ -163,25 +161,19 @@ public final class DrawPointSlider extends Drawable {
 
 
 		// draw trace
-		if (P.getTrace()) {
-			isTracing = true;
-			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
-				drawTrace(g2);
-		} else {
-			if (isTracing) {
-				isTracing = false;
-				//view.updateBackground();
-			}
-		}
+		
 
 		if (isVisible && labelVisible) {
-			labelDesc = geo.getLabelDescription();
-			xLabel = (int) Math.round(coords[0] + 4);
-			yLabel = (int) Math.round(yUL - pointSize);
-			addLabelOffsetEnsureOnScreen();
+			drawable.labelDesc = geo.getLabelDescription();
+			drawable.xLabel = (int) Math.round(coords[0] + 4);
+			drawable.yLabel = (int) Math.round(yUL - pointSize);
+			drawable.addLabelOffsetEnsureOnScreen();
 		}
 	}
+
+
+
+
 
 	private void updateDiameter() {
 		pointSize = P.getPointSize();
@@ -191,12 +183,12 @@ public final class DrawPointSlider extends Drawable {
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 	}
 
-	private Drawable drawable;
+	private final Drawable drawable;
 
 	
 
-	@Override
-	final public void draw(geogebra.common.awt.GGraphics2D g2) {
+	
+	final void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -222,44 +214,38 @@ public final class DrawPointSlider extends Drawable {
 			if (labelVisible) {
 				g2.setFont(view.getFontPoint());
 				g2.setPaint(geo.getLabelColor());
-				drawLabel(g2);
+				drawable.drawLabel(g2);
 			}
 		}
-	}
-
-	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
-		
 	}
 
 	/**
 	 * was this object clicked at? (mouse pointer location (x,y) in screen
 	 * coords)
 	 */
-	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	
+	final boolean hit(int x, int y, int hitThreshold) {
 		int r = hitThreshold + SELECTION_RADIUS_MIN;
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx*dx + dy*dy <= r * r;
 	}
 
-	@Override
-	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
+	
+	final boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
 	
-	@Override
-	public boolean intersectsRectangle(GRectangle rect){
+	
+	boolean intersectsRectangle(GRectangle rect){
 		return circle.intersects(rect);
 	}
 
 	/**
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
-	@Override
-	final public geogebra.common.awt.GRectangle getBounds() {
+	
+	final private geogebra.common.awt.GRectangle getBounds() {
 		// return selection circle's bounding box
 		if (!geo.isEuclidianVisible()) {
 			return null;
@@ -275,15 +261,6 @@ public final class DrawPointSlider extends Drawable {
 				2 * selRadius, 2 * selRadius);
 	}
 
-	@Override
-	final public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
-	final public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
 
 	/*
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])

@@ -56,8 +56,7 @@ public class DrawSlider extends Drawable {
 		// create point for slider
 		geoPoint = new GeoPoint(view.getKernel().getConstruction());
 		geoPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
-		drawPoint = new DrawPointSlider(view, geoPoint);
-		drawPoint.setGeoElement(number);
+		drawPoint = new DrawPointSlider(view, geoPoint, number, this);
 
 		update();
 	}
@@ -106,8 +105,8 @@ public class DrawSlider extends Drawable {
 						1.0);
 				drawPoint.update();
 				if (labelVisible) {
-					drawPoint.xLabel -= 15;
-					drawPoint.yLabel -= 5;
+					this.xLabel -= 15;
+					this.yLabel -= 5;
 				}
 
 				// horizontal line
@@ -120,8 +119,8 @@ public class DrawSlider extends Drawable {
 						1.0);
 				drawPoint.update();
 				if (labelVisible) {
-					drawPoint.xLabel += 5;
-					drawPoint.yLabel += 2 * geoPoint.getPointSize() + 4;
+					this.xLabel += 5;
+					this.yLabel += 2 * geoPoint.getPointSize() + 4;
 				}
 
 				// vertical line
@@ -173,7 +172,7 @@ public class DrawSlider extends Drawable {
 
 	@Override
 	public boolean hitLabel(int x, int y) {
-		return drawPoint.hitLabel(x, y);
+		return super.hitLabel(x, y);
 	}
 
 	/**
