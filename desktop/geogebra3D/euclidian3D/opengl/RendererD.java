@@ -319,7 +319,7 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	
 	@Override
 	public GBufferedImage createBufferedImage(DrawLabel3D label){
-		return new GBufferedImageD(label.getWidth(), label.getHeightPowerOfTwo(), GBufferedImage.TYPE_INT_ARGB);
+		return new GBufferedImageD(label.getWidth(), label.getHeight(), GBufferedImage.TYPE_INT_ARGB);
 	}
 	
     @Override
