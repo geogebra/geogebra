@@ -16,6 +16,8 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PropertiesViewW extends
-geogebra.common.gui.view.properties.PropertiesView {
+geogebra.common.gui.view.properties.PropertiesView implements ResizeHandler {
 
 	private FlowPanel wrappedPanel;
 
@@ -65,12 +67,16 @@ geogebra.common.gui.view.properties.PropertiesView {
 		//		getStyleBar();
 
 		mainPanel = new FlowPanel();
-		//	if(!((AppW) app).getLAF().isSmart()){
-		mainPanel.add(getStyleBar().getWrappedPanel());
-		//	}
+		
 		contentsPanel = new FlowPanel();
+		contentsPanel.addStyleName("contentsPanel");
 		wrappedPanel.addStyleName("propertiesView");
 		mainPanel.add(contentsPanel);
+		
+//		if(!((AppW) app).getLAF().isSmart()){
+		mainPanel.add(getStyleBar().getWrappedPanel());
+		//	}
+			
 		wrappedPanel.add(mainPanel);
 
 		setOptionPanel(optionType, 0);
@@ -366,5 +372,12 @@ geogebra.common.gui.view.properties.PropertiesView {
 	public void updateFonts(){
 		updatePropertiesGUI();
 	}
+
+	@Override
+    public void onResize(ResizeEvent event) {
+		int height = this.getWrappedPanel().getOffsetHeight();
+	    int width = this.getWrappedPanel().getOffsetWidth();
+	    System.out.println("Height: " + height + ", Width: " + width);
+    }
 
 }
