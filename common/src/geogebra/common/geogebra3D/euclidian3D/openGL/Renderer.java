@@ -1648,6 +1648,8 @@ public abstract class Renderer {
 	abstract public void bindTexture(int index);
 
 	
+	abstract public GBufferedImage createBufferedImage(DrawLabel3D label);
+	
 	/**
 	 * create alpha texture for label from image
 	 * @param label label

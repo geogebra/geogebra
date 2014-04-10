@@ -1,7 +1,6 @@
 package geogebra.geogebra3D.web.euclidian3D.openGL;
 
 import geogebra.common.awt.GBufferedImage;
-import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -885,6 +884,17 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	
 	private ArrayList<WebGLTexture> texturesArray = new ArrayList<WebGLTexture>();
+
+	
+	@Override
+    public GBufferedImage createBufferedImage(DrawLabel3D label){
+		
+		//update width and height
+		label.setDimensionPowerOfTwo(firstPowerOfTwoGreaterThan(label.getWidth()), firstPowerOfTwoGreaterThan(label.getHeight()));
+
+		// create and return a buffered image with power-of-two dimensions
+		return new GBufferedImageW(label.getWidthPowerOfTwo(), label.getHeightPowerOfTwo(), 0);
+	}
 	
     @Override
 	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg){
@@ -915,21 +925,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		}else{
 			texture = texturesArray.get(textureIndex);
 		}
-		//enableTextures2D();
-		
-		//int[] index = new int[1];
-		//genTextures2D(1, index);
-		
-		GBufferedImageW image = new GBufferedImageW(sizeX, sizeY, 0);
-		GGraphics2D g2d = image.createGraphics();
-		g2d.drawImage(bimg, 0, 0);
-		
+				
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
      	//bindTexture(index[0]);
 		
 		//textureImage2D(sizeX, sizeY, buf);
 		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.ALPHA, WebGLRenderingContext.ALPHA, 
-				WebGLRenderingContext.UNSIGNED_BYTE, image.getImageElement());
+				WebGLRenderingContext.UNSIGNED_BYTE, ((GBufferedImageW) bimg).getImageElement());
         
         
         //disableTextures2D();

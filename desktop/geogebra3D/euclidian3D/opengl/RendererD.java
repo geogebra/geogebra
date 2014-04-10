@@ -317,6 +317,11 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     	getGL().glDeleteTextures(1, new int[] {index}, 0);
     }
 	
+	@Override
+	public GBufferedImage createBufferedImage(DrawLabel3D label){
+		return new GBufferedImageD(label.getWidth(), label.getHeightPowerOfTwo(), GBufferedImage.TYPE_INT_ARGB);
+	}
+	
     @Override
 	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg){
 		

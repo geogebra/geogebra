@@ -189,7 +189,7 @@ public class DrawLabel3D {
 	 * @return buffered image
 	 */
 	protected GBufferedImage createBufferedImage(){
-		return geogebra.common.factories.AwtFactory.prototype.newBufferedImage(width, height, GBufferedImage.TYPE_INT_ARGB);
+		return view.getRenderer().createBufferedImage(this);
 	}
 	
 	protected boolean hasIndex = false;
