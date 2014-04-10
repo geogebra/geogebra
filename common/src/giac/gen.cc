@@ -800,7 +800,9 @@ namespace giac {
   gen makemap(){ 
     gen g;
 #ifdef SMARTPTR64
-      * ((longlong * ) &g) = longlong(new ref_gen_map(ptr_fun(islesscomplexthanf))) << 16;
+      // * ((longlong * ) &g) = longlong(new ref_gen_map(ptr_fun(islesscomplexthanf))) << 16;
+      // Attempt to fix compilation problem on most platforms, untested (Bernard's suggestion):
+      * ((longlong * ) &g) = longlong(new ref_gen_map) << 16;
 #else
 #if 1 // def NSPIRE
       g.__MAPptr = new ref_gen_map;
