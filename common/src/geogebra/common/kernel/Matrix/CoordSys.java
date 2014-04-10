@@ -594,7 +594,12 @@ public class CoordSys {
 			drawingMatrix.setOrigin(o);
 		}		
 
-		setFromMatrixOrthonormal();
+		setOrigin(o);
+
+		if (dimension==2){
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
+		
 	}
 	
 	/**
@@ -667,27 +672,24 @@ public class CoordSys {
 		
 		}
 		
-		
+		// set original origin and vectors
+		setOrigin(o);
+		setVx(m.mul(getVx()));	
 
-		setFromMatrixOrthonormal();
+		if (dimension==2){
+			setVy(m.mul(getVy()));
+			setVz(m.mul(getVz()));
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
 		
 		return ret;
 	}
-	
-	private void setFromMatrixOrthonormal(){
-		setOrigin(matrixOrthonormal.getOrigin());
-		setVx(matrixOrthonormal.getVx());	
 
-		if (dimension==2){
-			setVy(matrixOrthonormal.getVy());
-			setVz(matrixOrthonormal.getVz());
-			Coords o = Coords.O.projectPlane(matrixOrthonormal)[0];
-			//if (projectOrigin) // recompute origin for ortho and drawing matrix
-			//	matrixOrthonormal.setOrigin(o);
+	private void setDrawingMatrixFromMatrixOrthonormal(){
 
-			drawingMatrix = new CoordMatrix4x4(o, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ);
-		}
-	
+		Coords o = Coords.O.projectPlane(matrixOrthonormal)[0];
+		drawingMatrix = new CoordMatrix4x4(o, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ);
+
 	}
 	
 
@@ -711,7 +713,15 @@ public class CoordSys {
 		matrixOrthonormal.set(4,4, 1);
 
 
-		setFromMatrixOrthonormal();
+		// set original origin and vectors
+		setOrigin(o);
+		setVx(m.mul(getVx()));	
+
+		if (dimension==2){
+			setVy(m.mul(getVy()));
+			setVz(m.mul(getVz()));
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
 	}
 	
 	/**
@@ -730,10 +740,19 @@ public class CoordSys {
 		//set multiplication matrix
 		matrixOrthonormal = m.mul3x3(matrixOrthonormal);
 		//set origin matrix
-		matrixOrthonormal.setOrigin(m.mul(o.sub(center)).add(center));
+		Coords newOrigin = m.mul(o.sub(center)).add(center);
+		matrixOrthonormal.setOrigin(newOrigin);
 		matrixOrthonormal.set(4,4, 1);
 		
-		setFromMatrixOrthonormal();
+		// set original origin and vectors
+		setOrigin(newOrigin);
+		setVx(m.mul(getVx()));	
+
+		if (dimension==2){
+			setVy(m.mul(getVy()));
+			setVz(m.mul(getVz()));
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
 	}
 	
 	/**
@@ -748,10 +767,25 @@ public class CoordSys {
 		}
 		
 		//translate origin matrix
-		matrixOrthonormal.mulOrigin(r);
-		matrixOrthonormal.addToOrigin(point.mul(1-r));
+		Coords o = matrixOrthonormal.getOrigin();
+		Coords newOrigin = o.mul(r).add(point.mul(1-r));
+		matrixOrthonormal.setOrigin(newOrigin);
 		
-		setFromMatrixOrthonormal();
+
+		// set original origin and vectors
+		setOrigin(newOrigin);
+		if (r < 0){
+			getVx().mulInside(-1);
+		}
+
+		if (dimension==2){
+			if (r < 0){
+				getVy().mulInside(-1);
+				getVz().mulInside(-1);
+			}
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
+
 	}
 
 	/**
@@ -777,8 +811,17 @@ public class CoordSys {
 		matrixOrthonormal.mulInside(-1);
 		//translate origin matrix
 		matrixOrthonormal.addToOrigin(point.mul(2));
-		
-		setFromMatrixOrthonormal();
+
+		// set original origin and vectors
+		setOrigin(matrixOrthonormal.getOrigin());
+		getVx().mulInside(-1);
+
+		if (dimension==2){
+			getVy().mulInside(-1);
+			getVz().mulInside(-1);
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
+
 	}
 	
 	/**
@@ -812,7 +855,19 @@ public class CoordSys {
 		//translate origin matrix
 		matrixOrthonormal.addToOrigin(o1.mul(2));
 		
-		setFromMatrixOrthonormal();
+		
+		// set original origin and vectors
+		setOrigin(matrixOrthonormal.getOrigin());
+		double p = 2*getVx().dotproduct(direction);
+		setVx(getVx().mul(-1).add(direction.mul(p)));
+
+		if (dimension==2){
+			p = 2*getVy().dotproduct(direction);
+			setVy(getVy().mul(-1).add(direction.mul(p)));
+			p = 2*getVz().dotproduct(direction);
+			setVz(getVz().mul(-1).add(direction.mul(p)));
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
 	}
 	
 	
@@ -839,7 +894,19 @@ public class CoordSys {
 		//translate origin matrix
 		matrixOrthonormal.setOrigin(o1.mul(2).sub(o));
 		
-		setFromMatrixOrthonormal();
+		// set original origin and vectors
+		setOrigin(matrixOrthonormal.getOrigin());
+		
+		double p = -2*getVx().dotproduct(vn);
+		setVx(getVx().mul(-1).add(vn.mul(p)));
+
+		if (dimension==2){
+			p = -2*getVy().dotproduct(vn);
+			setVy(getVy().mul(-1).add(vn.mul(p)));
+			p = -2*getVz().dotproduct(vn);
+			setVz(getVz().mul(-1).add(vn.mul(p)));
+			setDrawingMatrixFromMatrixOrthonormal();
+		}
 	}
 
 	
