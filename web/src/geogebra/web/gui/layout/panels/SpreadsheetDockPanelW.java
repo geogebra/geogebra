@@ -39,7 +39,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		app = (AppW)appl;
 	}
 
-	protected Widget loadComponent() {
+	@Override
+    protected Widget loadComponent() {
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");
@@ -57,7 +58,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		return sstylebar;
 	}
 
-	public void onResize() {
+	@Override
+    public void onResize() {
 		super.onResize();
 
 		if (app != null) {
@@ -98,7 +100,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		return sview;
 	}
 
-	public void showView(boolean show) {
+	@Override
+    public void showView(boolean show) {
 		App.debug("unimplemented method");
 	}
 

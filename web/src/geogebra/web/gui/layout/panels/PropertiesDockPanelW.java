@@ -63,7 +63,9 @@ public class PropertiesDockPanelW extends DockPanelW {
 
 		// this hack may be temporary
 		if (view != null) {
+			view.onResize();
 			view.repaintView();
+			
 		}
 	}
 	
