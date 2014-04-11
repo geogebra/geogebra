@@ -2496,7 +2496,7 @@ __GGB__keysVar.fr.plain = {
     "PictureWidth": "Largeur de la figure",
     "PlaneA": "Plan %0",
     "PlaneContainingA": "Plan contenant %0",
-    "PlaneFromA": "Plan cr\xe9\xe9 \xe0 partir de %0",
+    "PlaneFromA": "Plan contenant %0",
     "PlaneThroughAB": "Plan contenant %0 et %1",
     "PlaneThroughABC": "Plan passant par %0, %1 et %2",
     "PlaneThroughAParallelToB": "Plane passant par %0 et parall\xe8le \xe0 %1",
