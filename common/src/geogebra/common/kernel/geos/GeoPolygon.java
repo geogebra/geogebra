@@ -1899,7 +1899,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		
 		// eg IntersectRegion[Polygon[(1,1),(0,1),(1,0)],Polygon[(1,1),(0,1),(1,0)]]
 		// eg Union[Polygon[(1,1),(0,1),(1,0)],Polygon[(1,1),(0,1),(1,0)]]
-		setArea(AlgoPolygon.calcAreaWithSign(points));
+		setArea(AlgoPolygon.calcAreaWithSign(getPoints()));
 	}
 
 	public void calcCentroid(GeoPoint p) {
@@ -1913,7 +1913,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		// could improve by transforming original centroid, but not worth doing
 		// test-case Centroid[Dilate[Polygon[(0,0),(1,1),(1,0)],4]]
 		// test-case Centroid[Polygon[(0,0),(1,1),(1,0)]]
-		AlgoPolygon.calcCentroid(p, area, points);
+		AlgoPolygon.calcCentroid(p, area, getPoints());
 		
 		
 	}
