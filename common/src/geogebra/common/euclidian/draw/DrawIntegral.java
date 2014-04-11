@@ -125,6 +125,7 @@ public class DrawIntegral extends Drawable {
 			gp.moveTo(ax, y0);
 			gp.lineTo(ax, view.toScreenCoordYd(f.evaluate(aRW)));
 			gp.lineTo(ax, y0);
+			labelVisible = false;
 			return;
 		}
 
