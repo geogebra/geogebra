@@ -14,8 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 using namespace std;
@@ -676,7 +675,8 @@ namespace giac {
     if (*(it1+2)!=*(it2+2))
       return *(it1+2)<=*(it2+2);
     if (*(it1+1)!=*(it2+1))
-      return *(it1+1)<=*(it1+2);
+      return *(it1+1)<=*(it2+1);
+    if (*it1!=*it2) v1.dbgprint(); // instantiate
     d1=sum_degree(v1); 
     d2=sum_degree(v2);
     if (d1!=d2)
@@ -710,7 +710,7 @@ namespace giac {
     if (*(it1+2)!=*(it2+2))
       return *(it1+2)<=*(it2+2);
     if (*(it1+1)!=*(it2+1))
-      return *(it1+1)<=*(it1+2);
+      return *(it1+1)<=*(it2+1);
     d1=sum_degree(v1); 
     d2=sum_degree(v2);
     if (d1!=d2)
@@ -756,7 +756,7 @@ namespace giac {
     if (*(it1+2)!=*(it2+2))
       return *(it1+2)<=*(it2+2);
     if (*(it1+1)!=*(it2+1))
-      return *(it1+1)<=*(it1+2);
+      return *(it1+1)<=*(it2+1);
     d1=sum_degree(v1); 
     d2=sum_degree(v2);
     if (d1!=d2)

@@ -1,7 +1,7 @@
 // -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c quater.cc -DHAVE_CONFIG_H -DIN_GIAC" -*-
 #include "giacPCH.h"
 /*
- *  Copyright (C) 2001,2007 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
+ *  Copyright (C) 2001,2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,8 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "quater.h"
@@ -163,7 +162,7 @@ namespace giac {
 	for (int i=1;i<=m;++i)
 	  vmin[i]=-minred[m-i][m];
 	// vecteur tmpv;
-	// cout << is_irreducible_primitive(vmin,p,tmpv) << endl;
+	// COUT << is_irreducible_primitive(vmin,p,tmpv) << endl;
 	return 2;
       }
       /* vecteur test(pm_d+1);
@@ -778,7 +777,7 @@ namespace giac {
     p=lcoeff.inverse(context0)*p;
     if (p.dim!=1){
 #if 1
-      cerr << gettext("Warning: multivariate GF factorization is experimental and may fail") << endl;
+      CERR << gettext("Warning: multivariate GF factorization is experimental and may fail") << endl;
 #else
       return gendimerr(gettext("Multivariate GF factorization not yet implemented"));
 #endif

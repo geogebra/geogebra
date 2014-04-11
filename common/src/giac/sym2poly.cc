@@ -7,7 +7,7 @@
  *  computation, factorization and rational function normalization. */
 
 /*
- *  Copyright (C) 2000,2007 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
+ *  Copyright (C) 2000,2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,8 +20,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 using namespace std;
 #include <fstream>
@@ -2636,7 +2635,9 @@ namespace giac {
     else
       ll=cdr_VECT(lp);
     gen tmp=factor(pp,ll,false,with_sqrt,1,extra_div,contextptr);
-    return tmp*r2sym(v,lp,contextptr)/r2sym(extra_div,lp,contextptr);
+    tmp=tmp*r2sym(v,lp,contextptr)/r2sym(extra_div,ll,contextptr);
+    extra_div=1;
+    return tmp;
   }
 
   static gen factor(const polynome & p,const vecteur &l,bool fixed_order,bool with_sqrt,gen divide_an_by,gen & extra_div,GIAC_CONTEXT){

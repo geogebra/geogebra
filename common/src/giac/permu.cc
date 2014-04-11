@@ -14,8 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 using namespace std;
@@ -1468,7 +1467,7 @@ namespace giac {
     vecteur v2(*g2._VECTptr);
     int sv2=v2.size();
     if (sv2!=2) return gensizeerr(contextptr);
-    identificateur x("_x");
+    identificateur x("rieman_sum_x");
     //on pose k=n*x
     //mettre que v2[0]=n et v2[1]=k sont ds N
     //_assume(makevecteur(is_plus(v2[0]))); 
@@ -1500,9 +1499,9 @@ namespace giac {
       return string2gen(gettext("Probably not a Riemann sum"),false);
     gen an=vb0[0]/vb1[0];
     gen ax=vb0[1]/vb1[1];
-    gen tmp=_integrate(makevecteur(ax,x,0,1),contextptr);
+    gen tmp=_integrate(makesequence(ax,x,0,1),contextptr);
     if (is_undef(tmp)) return tmp;
-    gen tmp2=_limit(makevecteur(an,v2[0],plus_inf),contextptr);
+    gen tmp2=_limit(makesequence(an,v2[0],plus_inf),contextptr);
     //tmp n'a pas ete calcule sum_riemann(pi/(2*n)*log(sin(pi*k/(2*n))),[n,k])
     //if ((tmp.type==_SYMB)&&(tmp._SYMBptr->sommet==at_integrate))
     //return _limit(makevecteur(tmp*an,v2[0],plus_inf));
@@ -1511,7 +1510,9 @@ namespace giac {
       return string2gen(gettext("Probably not a Riemann sum"),false);
     if (is_zero(tmp)&& is_inf(tmp2))
       return string2gen(gettext("Probably not a Riemann sum"),false);
-    return recursive_normal(tmp*_series(makevecteur(an,v2[0],plus_inf),contextptr),contextptr);
+    gen res=recursive_normal(tmp*_series(makesequence(an,v2[0],plus_inf),contextptr),contextptr);
+    res=_limit(makesequence(res,v2[0],plus_inf),contextptr);
+    return res;
   }
   static const char _sum_riemann_s[]="sum_riemann";
   static define_unary_function_eval (__sum_riemann,&_sum_riemann,_sum_riemann_s);

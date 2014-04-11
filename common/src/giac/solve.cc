@@ -2,7 +2,7 @@
 #include "giacPCH.h"
 
 /*
- *  Copyright (C) 2001,7 B. Parisse, R. De Graeve
+ *  Copyright (C) 2001,14 B. Parisse, R. De Graeve
  *  Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 using namespace std;
 #include <stdexcept>
@@ -5259,6 +5258,25 @@ namespace giac {
       if (l.size()>1)
 	return vecteur(1,gensizeerr(gen(l).print(contextptr)+gettext(" is not rational w.r.t. ")+it->print(contextptr)));
     }
+#if 1
+    // Trying with a partial elimination
+    // Add a variable t linear combination of x1,...,xn with random small integers coeffs
+    // eliminate all variables except t (and params) with revlex/revlex ordering
+    // This returns a polynomial f in t in the Groebner basis
+    // and in generic situations, it will return a basis of size n+1
+    // where f is first basis element, and all other are degree 1 in xn...x1
+    // therefore can be used to express xn...x1 in terms of t a root of f
+    /* Example solve [24*u*z-u^2-z^2-u^2*z^2-13,24*y*z-y^2-z^2-y^2*z^2-13,24*u*y-u^2-y^2-u^2*y^2-13] for [u,y,z]:
+       I:=[24*u*z-u^2-z^2-u^2*z^2-13,24*y*z-y^2-z^2-y^2*z^2-13,24*u*y-u^2-y^2-u^2*y^2-13,t-u-2y+z];
+       G:=gbasis(I,[u,y,z]); // eliminates t
+       H:=greduce([u,y,z],G,[u,y,z]); // u,y,z in terms of t
+       rem(subst(I[0],[u,y,z],H),G[0],t); // check that rem is indeed 0
+       S:=solve(G[0],t);
+       sol:=map(S,s->normal(map(H,h->horner(h,s,t))));
+       size(sol);
+       normal(subst(I[0..2],[u,y,z],sol[0])); // check a solution
+    */
+#endif
     vecteur l(1,var);
     alg_lvar(eq,l);
     // convert eq to polynomial
@@ -5437,31 +5455,11 @@ namespace giac {
     }
   }
 
-  // gbasis([Pi],[vars]) -> [Pi']
-  gen _gbasis(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_VECT)
-      return symbolic(at_gbasis,args);
-    vecteur & v = *args._VECTptr;
-    int s=v.size();
-    if (s<2)
-      return gentoofewargs("gbasis");
-    if ( (v[0].type!=_VECT) || (v[1].type!=_VECT) )
-      return gensizeerr(contextptr);
-    vecteur l1=*v[1]._VECTptr, l0=lidnt(v[0]);
-    // remove variables not in args0
-    vecteur l;
-    for (unsigned i=0;i<l1.size();++i){
-      if (equalposcomp(l0,l1[i]))
-	l.push_back(l1[i]);
-    }
-    gen order=_REVLEX_ORDER; // 0 assumes plex and 0-dimension ideal so that FGLM applies
-    // v[2] will serve for ordering
-    bool with_f5=false,with_cocoa=false,modular=true;
-    read_gbargs(v,2,s,order,with_cocoa,with_f5,modular);
+  // l=variables, l0=parameters, add 0 to l
+  void revlex_parametrize(vecteur & l,const vecteur &l0,int & order){
 #if GROEBNER_VARS==15
     // split variables and parameters for revlex
-    if (!l.empty() && l!=l0 && l.size()<=11 && order.val==_REVLEX_ORDER && l0.size()+3-(l.size()%4)<=14){
+    if (!l.empty() && l!=l0 && l.size()<=11 && order==_REVLEX_ORDER && l0.size()+3-(l.size()%4)<=14){
       // add fake variables
       if (l.size()/4==0)
 	order=_3VAR_ORDER;
@@ -5473,6 +5471,31 @@ namespace giac {
 	l.push_back(0);
     }
 #endif
+  }
+
+  // gbasis([Pi],[vars]) -> [Pi']
+  gen _gbasis(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT)
+      return symbolic(at_gbasis,args);
+    vecteur & v = *args._VECTptr;
+    int s=v.size();
+    if (s<2)
+      return gentoofewargs("gbasis");
+    if ( (v[0].type!=_VECT) || (v[1].type!=_VECT) )
+      return gensizeerr(contextptr);
+    gen order=_REVLEX_ORDER; // 0 assumes plex and 0-dimension ideal so that FGLM applies
+    // v[2] will serve for ordering
+    bool with_f5=false,with_cocoa=false,modular=true;
+    read_gbargs(v,2,s,order,with_cocoa,with_f5,modular);
+    vecteur l1=*v[1]._VECTptr, l0=lidnt(v[0]);
+    // remove variables not in args0
+    vecteur l;
+    for (unsigned i=0;i<l1.size();++i){
+      if (equalposcomp(l0,l1[i]))
+	l.push_back(l1[i]);
+    }
+    revlex_parametrize(l,l0,order.val);
     l=vecteur(1,l);
     alg_lvar(v[0],l);
     // convert eq to polynomial
@@ -5513,32 +5536,10 @@ namespace giac {
   static define_unary_function_eval (__gbasis,&_gbasis,_gbasis_s);
   define_unary_function_ptr5( at_gbasis ,alias_at_gbasis,&__gbasis,0,true);
   
-  // greduce(P,[gbasis],[vars])
-  gen _greduce(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_VECT)
-      return symbolic(at_gbasis,args);
-    vecteur v = *args._VECTptr;
-    int s=v.size();
-    if (s<2)
-      return gentoofewargs("greduce");
-    if (s<3)
-      v.push_back(lidnt(v[1]));
-    if (v[1].type!=_VECT) 
-      v[1]=vecteur(1,v[1]);
-    v[1]=remove_equal(v[1]);
-    if (v[2].type!=_VECT)
-      return gensizeerr(contextptr);
-    vecteur l=vecteur(1,v[2]);
-    alg_lvar(v[0],l);
-    alg_lvar(v[1],l);
-    // v[3] will serve for ordering
-    gen order=_PLEX_ORDER; // _REVLEX_ORDER;
-    bool with_f5=false,with_cocoa=false,modular=true;
-    read_gbargs(v,3,s,order,with_cocoa,with_f5,modular);
-    gen eq(e2r(v[0],l,contextptr));
+  static gen greduce(const gen & g,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT){
+    gen eq(e2r(g,l,contextptr));
     if (eq.type!=_POLY)
-      return v[0];
+      return g;
     gen coeff;
     environment env ;
     if (coefftype(*eq._POLYptr,coeff)==_MOD){
@@ -5549,11 +5550,6 @@ namespace giac {
     }
     else
       env.moduloon = false;
-    vecteur eq_in(*e2r(v[1],l,contextptr)._VECTptr);
-    vectpoly eqp;
-    if (!vecteur2vector_polynome(eq_in,l,eqp))
-      return zero;
-    change_monomial_order(eqp,order);
     polynome p(*eq._POLYptr);
     change_monomial_order(p,order);
     vectpoly rescocoa;
@@ -5576,6 +5572,52 @@ namespace giac {
       p=p/C1;
     return r2e(p,l,contextptr);
   }
+
+  // greduce(P,[gbasis],[vars])
+  gen _greduce(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT)
+      return symbolic(at_gbasis,args);
+    vecteur v = *args._VECTptr;
+    int s=v.size();
+    if (s<2)
+      return gentoofewargs("greduce");
+    if (s<3)
+      v.push_back(lidnt(v[1]));
+    if (v[1].type!=_VECT) 
+      v[1]=vecteur(1,v[1]);
+    v[1]=remove_equal(v[1]);
+    if (v[2].type!=_VECT)
+      return gensizeerr(contextptr);
+    // v[3] will serve for ordering
+    gen order=_REVLEX_ORDER;// _PLEX_ORDER; // FIXME for parameters!
+    bool with_f5=false,with_cocoa=false,modular=true;
+    read_gbargs(v,3,s,order,with_cocoa,with_f5,modular);
+    vecteur l1=gen2vecteur(v[2]),l0=lidnt(makevecteur(v[0],v[1]));
+    // remove variables not in args0
+    vecteur l;
+    for (unsigned i=0;i<l1.size();++i){
+      if (equalposcomp(l0,l1[i]))
+	l.push_back(l1[i]);
+    }
+    revlex_parametrize(l,l0,order.val);
+    l=vecteur(1,l);
+    alg_lvar(makevecteur(v[0],v[1]),l);
+    vecteur eq_in(*e2r(v[1],l,contextptr)._VECTptr);
+    vectpoly eqp;
+    if (!vecteur2vector_polynome(eq_in,l,eqp))
+      return gensizeerr("Bad second argument, expecting a Groebner basis");
+    change_monomial_order(eqp,order);
+    if (v[0].type==_VECT){
+      vecteur res(v[0]._VECTptr->size());
+      for (unsigned i=0;i<v[0]._VECTptr->size();++i){
+	res[i]=greduce((*v[0]._VECTptr)[i],l,eqp,order,with_cocoa,contextptr);
+      }
+      return res;
+    }
+    return greduce(v[0],l,eqp,order,with_cocoa,contextptr);
+  }
+
   static const char _greduce_s []="greduce";
   static define_unary_function_eval (__greduce,&_greduce,_greduce_s);
   define_unary_function_ptr5( at_greduce ,alias_at_greduce,&__greduce,0,true);

@@ -2,7 +2,7 @@
 // N.B.: compiling with g++-3.4 -O2 -D_I386_ does not work
 #include "giacPCH.h"
 /*  Univariate dense polynomials including modular arithmetic
- *  Copyright (C) 2000,7 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
+ *  Copyright (C) 2000,2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 using namespace std;
 #ifdef HAVE_CONFIG_H

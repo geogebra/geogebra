@@ -2,7 +2,7 @@
 #include "giacPCH.h"
 
 /*
- *  Copyright (C) 2002,7 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
+ *  Copyright (C) 2002,2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *  Figure printing adapted from eukleides (c) 2002, Christian Obrecht
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 //#include <fcntl.h>
 #include <stdlib.h>
@@ -1153,7 +1152,7 @@ namespace giac {
       if ( v.back()==minus_one_half || v.back()==fraction(minus_one,plus_two) )
 	return "\\frac{1}{\\sqrt{"+gen2tex(v.front(),contextptr)+"}}";
       string res=gen2tex(v.front(),contextptr);
-      bool par = v.front().type>=_CPLX && v.front().type!=_IDNT && !ckmatrix(v.front());
+      bool par = (v.front().type>=_CPLX || is_strictly_positive(-v.front(),contextptr) ) && v.front().type!=_IDNT && !ckmatrix(v.front());
       if (par){
 	int ress=res.size(),i;
 	for (i=1;i<ress;++i){
