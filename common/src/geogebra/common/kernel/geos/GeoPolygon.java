@@ -34,6 +34,7 @@ import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1884,8 +1885,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			
 			double sf = algo.getAreaScaleFactor();
 			
-			GeoPolygon input = (GeoPolygon) algo.getInput(0);
-			
+
+			GeoPolygon input = (GeoPolygon) algo.getInput(algoParent.getClassName() == Commands.ApplyMatrix ? 1 : 0);
 			setArea(input.getAreaWithSign() * sf);
 			
 			return;
