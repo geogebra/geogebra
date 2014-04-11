@@ -1,11 +1,13 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.main.App;
 
 public class AxisModel {
 	public interface IAxisModelListener {
 		void addTickItem(String item);
+		void addAxisLabelItem(String item);
 		void addUnitLabelItem(String item);
 		void setCrossText(String text);
 	}
@@ -250,5 +252,15 @@ public class AxisModel {
 
 	public int getAxis() {
 		return axis;
+	}
+
+	public void fillAxisCombo() {
+		listener.addAxisLabelItem("");
+		listener.addAxisLabelItem(axis == 0 ? "x" : "y");
+		String[] greeks = TableSymbols.greekLowerCase;
+		for (int i = 0; i < greeks.length; i++) {
+			listener.addAxisLabelItem(greeks[i]);
+		}
+	
 	}
 }

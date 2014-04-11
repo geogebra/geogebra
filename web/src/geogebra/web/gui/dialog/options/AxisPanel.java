@@ -6,7 +6,6 @@ import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.options.model.AxisModel;
 import geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
-import geogebra.common.gui.util.TableSymbols;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.ComboBoxW;
@@ -146,15 +145,9 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
             
             }};
             
-		comboAxisLabel.addItem("");
-		comboAxisLabel.addItem(axis == 0 ? "x" : "y");
-		String[] greeks = TableSymbols.greekLowerCase;
-		for (int i = 0; i < greeks.length; i++) {
-			comboAxisLabel.addItem(greeks[i]);
-		}
-	
-
-		axisLabel = new Label(app.getPlain("AxisLabel") + ":");
+        model.fillAxisCombo();
+		
+        axisLabel = new Label(app.getPlain("AxisLabel") + ":");
 		axisUnitLabel = new Label(app.getPlain("AxisUnitLabel") + ":");
 		comboUnitLabel = new ComboBoxW(){
 
@@ -313,6 +306,10 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	public void addTickItem(String item) {
 		lbTickStyle.addItem(item);
 	}
+
+	public void addAxisLabelItem(String item) {
+		comboAxisLabel.addItem(item == null ? "": item);
+	} 
 
 	public void addUnitLabelItem(String item) {
 		comboUnitLabel.addItem(item == null ? "": item);

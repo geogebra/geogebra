@@ -62,5 +62,4 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	public void addItem(String item) {
 		getModel().add(item, item);
 	}
-
 }

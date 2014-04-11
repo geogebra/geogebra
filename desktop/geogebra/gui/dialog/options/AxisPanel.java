@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.options.model.AxisModel;
 import geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
-import geogebra.common.gui.util.TableSymbols;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
@@ -101,12 +100,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 		// axis and unit label
 		cbAxisLabel = new JComboBox();
-		cbAxisLabel.addItem(null);
-		cbAxisLabel.addItem(axis == 0 ? "x" : "y");
-		String[] greeks = TableSymbols.greekLowerCase;
-		for (int i = 0; i < greeks.length; i++) {
-			cbAxisLabel.addItem(greeks[i]);
-		}
+		model.fillAxisCombo();
 		cbAxisLabel.addActionListener(this);
 		cbAxisLabel.setEditable(true);
 		axisLabel = new JLabel(app.getPlain("AxisLabel") + ":");
@@ -328,6 +322,10 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 	public void addTickItem(String item) {
 		cbTickStyle.addItem(item);
+	}
+
+	public void addAxisLabelItem(String item) {
+		cbAxisLabel.addItem(item);
 	}
 
 	public void addUnitLabelItem(String item) {
