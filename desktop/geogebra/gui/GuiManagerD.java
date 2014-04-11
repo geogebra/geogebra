@@ -30,6 +30,7 @@ import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.event.MouseEventND;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
+import geogebra.export.pstricks.GeoGebraToPstricksD;
 import geogebra.export.pstricks.PstricksFrame;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
@@ -3036,7 +3037,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void showPSTricksExport() {
-		GeoGebraToPstricks export = new GeoGebraToPstricks(app);
+		GeoGebraToPstricks export = new GeoGebraToPstricksD(app);
 		new PstricksFrame(export);
 
 	}

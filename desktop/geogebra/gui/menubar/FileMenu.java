@@ -3,7 +3,9 @@ package geogebra.gui.menubar;
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.export.pstricks.GeoGebraToAsymptoteD;
 import geogebra.export.pstricks.GeoGebraToPgfD;
+import geogebra.export.pstricks.GeoGebraToPstricksD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
 import geogebra.move.ggtapi.events.TubeAvailabilityCheckEvent;
@@ -25,23 +27,12 @@ import javax.swing.KeyStroke;
  */
 class FileMenu extends BaseMenu implements EventRenderable {
 	private static final long serialVersionUID = -5154067739481481835L;
-	
-	private AbstractAction
-		newWindowAction,
-		deleteAll,
-		saveAction,
-		saveAsAction,
-		loadAction,
-		loadURLAction,
-		exportWorksheet,
-		shareAction,
-		exportGraphicAction,
-		exportAnimationAction,
-		exportPgfAction,
-		exportPSTricksAction,
-		exportAsymptoteAction
-	;
-	
+
+	private AbstractAction newWindowAction, deleteAll, saveAction,
+			saveAsAction, loadAction, loadURLAction, exportWorksheet,
+			shareAction, exportGraphicAction, exportAnimationAction,
+			exportPgfAction, exportPSTricksAction, exportAsymptoteAction;
+
 	JMenuItem loadURLMenuItem;
 
 	AbstractAction exportGeoGebraTubeAction;
@@ -56,23 +47,23 @@ class FileMenu extends BaseMenu implements EventRenderable {
 
 	public FileMenu(AppD app) {
 		super(app, app.getMenu("File"));
-		
-		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
-		
+
+		// items are added to the menu when it's opened, see BaseMenu:
+		// addMenuListener(this);
+
 	}
-	
+
 	/**
 	 * Initialize all items.
 	 */
 	@Override
-	public void initItems()
-	{
+	public void initItems() {
 		if (!initialized) {
 			return;
 		}
 
 		removeAll();
-		
+
 		JMenuItem mi;
 
 		if (!app.isApplet()) {
@@ -80,7 +71,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			mi = new JMenuItem(newWindowAction);
 			setMenuShortCutAccelerator(mi, 'N');
 			add(mi);
-			
+
 		}
 
 		// "New": reset
@@ -89,27 +80,29 @@ class FileMenu extends BaseMenu implements EventRenderable {
 		if (AppD.hasFullPermissions()) {
 			mi = add(loadAction);
 			setMenuShortCutAccelerator(mi, 'O'); // open
-			
+
 			LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
-			if (!app.isApplet() && (signIn.isTubeAvailable() || !signIn.isTubeCheckDone())) {
+			if (!app.isApplet()
+					&& (signIn.isTubeAvailable() || !signIn.isTubeCheckDone())) {
 				loadURLMenuItem = add(loadURLAction);
 
-				// If GeoGebraTube is not available we disable the item and listen to the event that tube becomes available
-				if (! signIn.isTubeAvailable()) {
+				// If GeoGebraTube is not available we disable the item and
+				// listen to the event that tube becomes available
+				if (!signIn.isTubeAvailable()) {
 					signIn.getView().add(this);
 					loadURLAction.setEnabled(false);
 				}
 			}
-		
+
 			// recent SubMenu
 			JMenu submenuRecent = new JMenu(app.getMenu("Recent"));
 			submenuRecent.setIcon(app.getEmptyIcon());
 			add(submenuRecent);
-			
+
 			// Recent files list
 			int size = AppD.getFileListSize();
 			if (size > 0) {
-				for (int i = 0; i < AppD.MAX_RECENT_FILES ; i++) {
+				for (int i = 0; i < AppD.MAX_RECENT_FILES; i++) {
 					File file = AppD.getFromFileList(i);
 					if (file != null) {
 						mi = new JMenuItem(file.getName());
@@ -126,52 +119,50 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			setMenuShortCutAccelerator(mi, 'S');
 			mi = add(saveAsAction);
 			addSeparator();
-			
+
 			mi = add(shareAction);
 			mi.setIcon(app.getImageIcon("export_small.png"));
-			
+
 			// export
 			JMenu submenu = new JMenu(app.getMenu("Export"));
 			submenu.setIcon(app.getEmptyIcon());
 			add(submenu);
-			
+
 			mi = submenu.add(exportWorksheet);
 			setMenuShortCutShiftAccelerator(mi, 'W');
-				
+
 			mi = submenu.add(exportGraphicAction);
 			setMenuShortCutShiftAccelerator(mi, 'P');
-			
+
 			mi = submenu.add(exportAnimationAction);
-	
-			// Graphical clipboard is not working under Mac when Java == 7: 
+
+			// Graphical clipboard is not working under Mac when Java == 7:
 			if (!app.isMacOS() || !app.isJava7()) {
 				mi = submenu.add(drawingPadToClipboardAction);
 				setMenuShortCutShiftAccelerator(mi, 'C');
 			}
-	
+
 			submenu.addSeparator();
 			mi = submenu.add(exportPSTricksAction);
 			setMenuShortCutShiftAccelerator(mi, 'T');
-	
+
 			mi = submenu.add(exportPgfAction);
 			mi = submenu.add(exportAsymptoteAction);
 
-			
-
 			addSeparator();
-			
+
 			mi = add(printEuclidianViewAction);
 			mi.setText(app.getMenu("PrintPreview"));
 			mi.setIcon(app.getImageIcon("document-print-preview.png"));
 			setMenuShortCutAccelerator(mi, 'P');
 		}
-		
+
 		// End Export SubMenu
 
 		// DONE HERE WHEN APPLET
 		if (app.isApplet())
 			return;
-		
+
 		// close
 		addSeparator();
 		mi = add(exitAction);
@@ -188,30 +179,29 @@ class FileMenu extends BaseMenu implements EventRenderable {
 		if (GeoGebraFrame.getInstanceCount() > 1) {
 			add(exitAllAction);
 		}
-		
+
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
 
 	}
-	
+
 	/**
 	 * Initialize all actions of this menu.
 	 */
 	@Override
-	protected void initActions()
-	{
+	protected void initActions() {
 		deleteAll = new AbstractAction(app.getMenu("New"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.setWaitCursor();		
+				app.setWaitCursor();
 				app.fileNew();
 				app.setDefaultCursor();
 			}
 		};
 
-		newWindowAction = new AbstractAction(app.getMenu("NewWindow"), app
-				.getImageIcon("document-new.png")) {
+		newWindowAction = new AbstractAction(app.getMenu("NewWindow"),
+				app.getImageIcon("document-new.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -227,8 +217,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		saveAction = new AbstractAction(app.getMenu("Save"), app
-				.getImageIcon("document-save.png")) {
+		saveAction = new AbstractAction(app.getMenu("Save"),
+				app.getImageIcon("document-save.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -236,8 +226,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		saveAsAction = new AbstractAction(app.getMenu("SaveAs") + " ...", app
-				.getEmptyIcon()) {
+		saveAsAction = new AbstractAction(app.getMenu("SaveAs") + " ...",
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -245,8 +235,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		shareAction = new AbstractAction(app.getMenu("Share")+"...", app
-				.getEmptyIcon()) {
+		shareAction = new AbstractAction(app.getMenu("Share") + "...",
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -271,9 +261,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 		 * runner.start(); } };
 		 */
 
-		printEuclidianViewAction = new AbstractAction(app
-				.getPlain("DrawingPad")
-				+ " ...") {
+		printEuclidianViewAction = new AbstractAction(
+				app.getPlain("DrawingPad") + " ...") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -281,8 +270,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		exitAction = new AbstractAction(app.getMenu("Close"), app
-				.getImageIcon("exit.png")) {
+		exitAction = new AbstractAction(app.getMenu("Close"),
+				app.getImageIcon("exit.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -290,8 +279,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		exitAllAction = new AbstractAction(app.getMenu("CloseAll"), app
-				.getEmptyIcon()) {
+		exitAllAction = new AbstractAction(app.getMenu("CloseAll"),
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -299,8 +288,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		loadAction = new AbstractAction(app.getMenu("Load") + " ...", app
-				.getImageIcon("document-open.png")) {
+		loadAction = new AbstractAction(app.getMenu("Load") + " ...",
+				app.getImageIcon("document-open.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -308,41 +297,44 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		loadURLAction = new AbstractAction(app.getMenu("OpenFromGeoGebraTube") + " ...", app
-				.getImageIcon("document-open.png")) {
+		loadURLAction = new AbstractAction(app.getMenu("OpenFromGeoGebraTube")
+				+ " ...", app.getImageIcon("document-open.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// Check if javafx is available
 				boolean javaFx22Available = false;
 				try {
-				  this.getClass().getClassLoader().loadClass("javafx.embed.swing.JFXPanel");
-				  javaFx22Available = true;
+					this.getClass().getClassLoader()
+							.loadClass("javafx.embed.swing.JFXPanel");
+					javaFx22Available = true;
 				} catch (ClassNotFoundException ex) {
 					App.error("JavaFX 2.2 not available");
 				}
-				
+
 				// Open the Search dialog only when javafx is available.
-				// The User can force opening the old 'Open URL' dialog by pressing shift.
-				if (javaFx22Available && ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0)) {
-					
+				// The User can force opening the old 'Open URL' dialog by
+				// pressing shift.
+				if (javaFx22Available
+						&& ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0)) {
+
 					app.getGuiManager().openFromGGT();
 				} else {
-					
+
 					// old File -> Open from Webpage by pressing <Shift>
 					app.getGuiManager().openURL();
 				}
 			}
 		};
 
-		drawingPadToClipboardAction = new AbstractAction(app
-				.getMenu("DrawingPadToClipboard"), app
-				.getImageIcon("edit-copy.png")) {
+		drawingPadToClipboardAction = new AbstractAction(
+				app.getMenu("DrawingPadToClipboard"),
+				app.getImageIcon("edit-copy.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getSelectionManager().clearSelectedGeos(true,false);
+				app.getSelectionManager().clearSelectedGeos(true, false);
 				app.updateSelection(false);
 
 				Thread runner = new Thread() {
@@ -350,7 +342,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 					public void run() {
 						app.setWaitCursor();
 						// copy drawing pad to the system clipboard
-						app.copyGraphicsViewToClipboard();	
+						app.copyGraphicsViewToClipboard();
 						app.setDefaultCursor();
 					}
 				};
@@ -365,13 +357,10 @@ class FileMenu extends BaseMenu implements EventRenderable {
 		 * public void run() { updateGeoGebra(); } }; runner.start(); } };
 		 */
 
-		exportGraphicAction = new AbstractAction(app
-				.getPlain("DrawingPadAsPicture")
-				+ " ("
-				+ AppD.FILE_EXT_PNG
-				+ ", "
-				+ AppD.FILE_EXT_EPS + ") ...", app
-				.getImageIcon("image-x-generic.png")) {
+		exportGraphicAction = new AbstractAction(
+				app.getPlain("DrawingPadAsPicture") + " (" + AppD.FILE_EXT_PNG
+						+ ", " + AppD.FILE_EXT_EPS + ") ...",
+				app.getImageIcon("image-x-generic.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -381,12 +370,11 @@ class FileMenu extends BaseMenu implements EventRenderable {
 						public void run() {
 							app.setWaitCursor();
 							try {
-								
+
 								app.getGuiManager().showGraphicExport();
 
 							} catch (Exception e1) {
-								App
-										.debug("GraphicExportDialog not available");
+								App.debug("GraphicExportDialog not available");
 							}
 							app.setDefaultCursor();
 						}
@@ -400,11 +388,12 @@ class FileMenu extends BaseMenu implements EventRenderable {
 				}
 			}
 		};
-		
+
 		// export slider as animation
-		exportAnimationAction = new AbstractAction(app.getPlain("ExportAnimatedGIF")+" ...") {	
+		exportAnimationAction = new AbstractAction(
+				app.getPlain("ExportAnimatedGIF") + " ...") {
 			private static final long serialVersionUID = 1L;
-			
+
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -418,15 +407,15 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		exportPSTricksAction = new AbstractAction(app
-				.getPlain("DrawingPadAsPSTricks")
-				+ " ...", app.getEmptyIcon()) {
+		exportPSTricksAction = new AbstractAction(
+				app.getPlain("DrawingPadAsPSTricks") + " ...",
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					geogebra.common.export.pstricks.GeoGebraToPstricks export = new geogebra.common.export.pstricks.GeoGebraToPstricks(app);
+					GeoGebraToPstricksD export = new GeoGebraToPstricksD(app);
 					new geogebra.export.pstricks.PstricksFrame(export);
 				} catch (Exception ex) {
 					App.debug("GeoGebraToPstricks not available");
@@ -456,15 +445,17 @@ class FileMenu extends BaseMenu implements EventRenderable {
 		};
 
 		// Added by Andy Zhu; Asymptote export
-		exportAsymptoteAction = new AbstractAction(app.getPlain("GraphicsViewAsAsymptote")
-				+ " ...", app.getEmptyIcon()) {
+		exportAsymptoteAction = new AbstractAction(
+				app.getPlain("GraphicsViewAsAsymptote") + " ...",
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					geogebra.common.export.pstricks.GeoGebraToAsymptote export = new geogebra.common.export.pstricks.GeoGebraToAsymptote(app);
-					new  geogebra.export.pstricks.AsymptoteFrame(export);
+					geogebra.common.export.pstricks.GeoGebraToAsymptote export = new GeoGebraToAsymptoteD(
+							app);
+					new geogebra.export.pstricks.AsymptoteFrame(export);
 				} catch (Exception ex) {
 					App.debug("GeoGebraToAsymptote not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
@@ -476,10 +467,10 @@ class FileMenu extends BaseMenu implements EventRenderable {
 
 		// End
 
-		exportWorksheet = new AbstractAction(app
-				.getPlain("DynamicWorksheetAsWebpage")
-				+ " (" + AppD.FILE_EXT_HTML + ") ...", app
-				.getImageIcon("text-html.png")) {
+		exportWorksheet = new AbstractAction(
+				app.getPlain("DynamicWorksheetAsWebpage") + " ("
+						+ AppD.FILE_EXT_HTML + ") ...",
+				app.getImageIcon("text-html.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -491,15 +482,15 @@ class FileMenu extends BaseMenu implements EventRenderable {
 
 							app.setWaitCursor();
 							try {
-								app.getSelectionManager().clearSelectedGeos(true,false);
+								app.getSelectionManager().clearSelectedGeos(
+										true, false);
 								app.updateSelection(false);
 								geogebra.export.WorksheetExportDialog d = new geogebra.export.WorksheetExportDialog(
 										app);
 
 								d.setVisible(true);
 							} catch (Exception e1) {
-								App
-										.debug("WorksheetExportDialog not available");
+								App.debug("WorksheetExportDialog not available");
 								e1.printStackTrace();
 							}
 							app.setDefaultCursor();
@@ -514,11 +505,9 @@ class FileMenu extends BaseMenu implements EventRenderable {
 				}
 			}
 		};
-		
+
 		exportGeoGebraTubeAction = new AbstractAction(
-				app.getMenu("UploadGeoGebraTube") + " ...", 
-				app.getEmptyIcon()
-		) {
+				app.getMenu("UploadGeoGebraTube") + " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -527,15 +516,16 @@ class FileMenu extends BaseMenu implements EventRenderable {
 					Thread runner = new Thread() {
 						@Override
 						public void run() {
-							
+
 							app.setWaitCursor();
 							try {
-								app.getSelectionManager().clearSelectedGeos(true,false);
+								app.getSelectionManager().clearSelectedGeos(
+										true, false);
 								app.updateSelection(false);
-								
+
 								// callback for 3D
 								app.uploadToGeoGebraTubeOnCallback();
-								
+
 							} catch (Exception e1) {
 								App.debug("Uploading failed");
 								e1.printStackTrace();
@@ -556,8 +546,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 
 	@Override
 	public void update() {
-		// 
-		
+		//
+
 	}
 
 	public void renderEvent(BaseEvent event) {
@@ -570,6 +560,5 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 		}
 	}
-
 
 }

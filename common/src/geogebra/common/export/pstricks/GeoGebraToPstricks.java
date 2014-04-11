@@ -11,11 +11,7 @@ package geogebra.common.export.pstricks;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.GGraphics2D;
-import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
@@ -33,8 +29,6 @@ import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -58,7 +52,6 @@ import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -76,7 +69,7 @@ import java.util.Iterator;
  * @author Le Coq loïc
  */
 
-public class GeoGebraToPstricks extends GeoGebraExport {
+public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	private boolean eurosym = false;
 	private static final int FORMAT_BEAMER = 1;
 	private StringBuilder codeBeginPic;
@@ -1976,7 +1969,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	}
 
-	private String LineOptionCode(GeoElement geo, boolean transparency) {
+	public String LineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 
 		int linethickness = geo.getLineThickness();
@@ -2357,78 +2350,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		endBeamer(code);
 	}
 
-	class MyGraphicsPs extends TextGraphicsForIneq {
+	
 
-		public MyGraphicsPs(FunctionalNVar geo, Inequality ineq,
-				EuclidianView euclidianView) {
-			super(geo, ineq, euclidianView);
-		}
-
-		@Override
-		public void fill(GShape s) {
-			((GeoElement) geo).setLineType(ineq.getBorder().lineType);
-			switch (ineq.getType()) {
-			case INEQUALITY_CONIC:
-				GeoConicND conic = ineq.getConicBorder();
-				if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE
-						|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
-					((GeoElement) conic).setObjColor(((GeoElement) geo)
-							.getObjectColor());
-					((GeoElement) conic).setAlphaValue(((GeoElement) geo)
-							.getAlphaValue());
-					conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
-					((GeoElement) conic)
-							.setHatchingAngle((int) ((GeoElement) geo)
-									.getHatchingAngle());
-					((GeoElement) conic).setHatchingDistance(((GeoElement) geo)
-							.getHatchingDistance());
-					((GeoElement) conic).setFillType(((GeoElement) geo)
-							.getFillType());
-					drawGeoConic((GeoConic) conic);
-					break;
-				}
-			case INEQUALITY_PARAMETRIC_Y:
-			case INEQUALITY_PARAMETRIC_X:
-			case INEQUALITY_1VAR_X:
-			case INEQUALITY_1VAR_Y:
-			case INEQUALITY_LINEAR:
-				double[] coords = new double[2];
-				double zeroY = ds[5] * ds[3];
-				double zeroX = ds[4] * (-ds[0]);
-				GPathIterator path = s.getPathIterator(null);
-				code.append("\\pspolygon");
-				code.append(LineOptionCode((GeoElement) geo, true));
-				double precX = Integer.MAX_VALUE;
-				double precY = Integer.MAX_VALUE;
-				while (!path.isDone()) {
-					path.currentSegment(coords);
-					if (coords[0] == precX && coords[1] == precY) {
-						code.append("\\pspolygon");
-						code.append(LineOptionCode((GeoElement) geo, true));
-					} else {
-						code.append("(");
-						code.append(format((coords[0] - zeroX) / ds[4]));
-						code.append(",");
-						code.append(format(-(coords[1] - zeroY) / ds[5]));
-						code.append(")");
-					}
-					precX = coords[0];
-					precY = coords[1];
-					path.next();
-				}
-				int i = code.lastIndexOf(")");
-				code.delete(i + 1, code.length());
-				code.append("\n");
-				break;
-			}
-		}
-	}
-
-	@Override
-	protected GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianView euclidianView2) {
-		return new MyGraphicsPs(ef, inequality, euclidianView2);
-	}
+	
 
 	@Override
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
