@@ -7,7 +7,6 @@ import org.gwt.advanced.client.datamodel.ListModelEvent;
 import org.gwt.advanced.client.ui.widget.ComboBox;
 import org.gwt.advanced.client.ui.widget.combo.DropDownPosition;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -18,13 +17,16 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 
 public abstract class ComboBoxW extends ComboBox<ListDataModel> {
+	private static final int DEFAULT_VISIBLE_ROWS = 10;
+	private static final String DEFAULT_WIDTH = "70px";
+
 	public ComboBoxW() {
 		setCustomTextAllowed(true);
 		setDropDownPosition(DropDownPosition.UNDER);
 		setEnterAction(EnterAction.DO_NOTHING);
 		
-		setVisibleRows(10);
-		setWidth("70px");
+		setVisibleRows(DEFAULT_VISIBLE_ROWS);
+		setWidth(DEFAULT_WIDTH);
 		
 		this.setChoiceButtonImage(new Image(GuiResources.INSTANCE.triangle_down()));
 		this.prepareChoiceButton();
@@ -36,14 +38,6 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 				onValueChange(getValue());
 			}
 		});
-//		
-//		addChangeHandler(new ChangeHandler(){
-//
-//			public void onChange(ChangeEvent event) {
-//				onValueChange(getValue());
-//			}
-//		});
-
 
 		addKeyDownHandler(new KeyDownHandler(){
 
@@ -52,9 +46,6 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 					onValueChange(getValue());
 				}
 	        }});
-		
-		
-
 
 	}
 
@@ -65,8 +56,6 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		}
 		super.select(event);
 	}
-
-
 	
 	protected abstract void onValueChange(String value);
 
@@ -74,22 +63,4 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		getModel().add(item, item);
 	}
 
-
-    public void onClick(ClickEvent event) {
-//        int count = getModel().getCount();
-//        Object sender = event.getSource();
-//        if (sender instanceof ToggleButton || !isCustomTextAllowed()) {
-//            if (count > 0 && !getListPanel().isShowing()) {
-//                getListPanel().show();
-//                getListPanel().prepareList();
-//                if (getItemCount() <= 0)
-//                    getListPanel().hide();
-//                getChoiceButton().setDown(true);
-//            } else {
-//                getListPanel().hide();
-//                getChoiceButton().setDown(false);
-//            }
-//        }
-//        fireEvent(event);
-    }
 }
