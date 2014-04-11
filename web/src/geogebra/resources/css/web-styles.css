@@ -2402,10 +2402,6 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	height: 100%;
 }
 
-.CAS_outputPanel tr td:first-child {
-	width: 30px;
-}
-
 .cas_header {
 	width: 1px;
 }
