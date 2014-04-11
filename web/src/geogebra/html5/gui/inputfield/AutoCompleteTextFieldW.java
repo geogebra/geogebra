@@ -3,6 +3,7 @@ package geogebra.html5.gui.inputfield;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyHandler;
@@ -70,7 +71,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
         ValueChangeHandler<String>, SelectionHandler<Suggestion>,
         VirtualKeyboardListener {
 
-	private static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8;
 	private AppWeb app;
 	private Localization loc;
 	private StringBuilder curWord;
@@ -111,6 +111,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 */
 	private boolean tabEnabled = false;
 	private int columns = 0;
+	private boolean popupSymbolDisabled;
 	
 	/**
 	 * Pattern to find an argument description as found in the syntax
@@ -310,6 +311,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		setShowSymbolTableIcon(b);
 	}
 
+	public void killPopupSymbolButton() { 
+		popupSymbolDisabled = true; 
+	}
+
 	/**
 	 * Sets whether the component is currently performing autocomplete lookups
 	 * as keystrokes are performed.
@@ -454,7 +459,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setColumns(int columns) {
 		this.columns  = columns;
-		if (showSymbolButton != null && (this.columns > SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
+		if (showSymbolButton != null && !popupSymbolDisabled && (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
 			prepareShowSymbolButton();
 		}
 		getTextBox().setWidth(columns + "em");
@@ -1121,13 +1126,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * 
 	 * @param showSymbolTableIcon
 	 */
-	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
-		this.showSymbolTableIcon = showSymbolTableIcon;
+	public void setShowSymbolTableIcon(boolean b) {
+		this.showSymbolTableIcon = b && !popupSymbolDisabled;
 		
 		// temp
 		// TODO: don't fix the popup button here, but it should appear if mouse
 		// clicked into the textfield.
-		if ((showSymbolTableIcon) && app.isAllowedSymbolTables() && this.columns > SHOW_SYMBOLBUTTON_MINLENGTH) {
+		if ((showSymbolTableIcon) && app.isAllowedSymbolTables() && this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH) {
 			showSymbolButton.getElement().addClassName("shown");
 			showSymbolButton.getElement().setAttribute("data-persist", "true");
 		} else {
@@ -1341,7 +1346,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * use this, if no explicit length set, but symbolbutton must be shown.
 	 */
 	public void requestToShowSymbolButton() {
-		this.columns = SHOW_SYMBOLBUTTON_MINLENGTH + 1;
+		if (popupSymbolDisabled) {
+			return;
+		}
+		this.columns = EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH + 1;
 		prepareShowSymbolButton();
 	}
 

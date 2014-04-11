@@ -38,7 +38,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class AutoCompleteTextFieldD extends MathTextField implements
-AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
+		AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,6 +68,8 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	 * used with spreadsheet cells
 	 */
 	private boolean isEqualsRequired = false;
+
+	private boolean popupSymbolDisabled = false;
 
 	/**
 	 * Pattern to find an argument description as found in the syntax
@@ -171,7 +173,12 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	}
 
 	public void showPopupSymbolButton(boolean showPopupSymbolButton) {
-		((MyTextField) this).setShowSymbolTableIcon(showPopupSymbolButton);
+		((MyTextField) this).setShowSymbolTableIcon(showPopupSymbolButton
+				&& !popupSymbolDisabled);
+	}
+
+	public void killPopupSymbolButton() {
+		popupSymbolDisabled = true;
 	}
 
 	/**
@@ -312,7 +319,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			break;
 
-			// process input
+		// process input
 
 		case KeyEvent.VK_ESCAPE:
 			if (!handleEscapeKey) {
@@ -328,9 +335,9 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 			setText(null);
 			break;
 
-			// removed - what is this for?
-			// case KeyEvent.VK_LEFT_PARENTHESIS:
-			// break;
+		// removed - what is this for?
+		// case KeyEvent.VK_LEFT_PARENTHESIS:
+		// break;
 
 		case KeyEvent.VK_UP:
 			if (!handleEscapeKey) {
@@ -406,13 +413,13 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 							app.getMainComponent(),
 							app.getPlain(isCASInput ? "CASFieldHelp"
 									: "InputFieldHelp"),
-									app.getPlain("ApplicationName") + " - "
-											+ app.getMenu("Help"),
-											JOptionPane.YES_NO_OPTION,
-											JOptionPane.QUESTION_MESSAGE, null, // do not use a
-											// custom Icon
-											options, // the titles of buttons
-											options[0]); // default button title
+							app.getPlain("ApplicationName") + " - "
+									+ app.getMenu("Help"),
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null, // do not use a
+							// custom Icon
+							options, // the titles of buttons
+							options[0]); // default button title
 
 					if (n == 1)
 						app.getGuiManager().openHelp(helpURL);
@@ -588,10 +595,9 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		}
 
 		// auto-close parentheses
-		if (!e.isAltDown() && (
-				caretPos == text.length()
-				|| geogebra.common.gui.inputfield.MyTextField
-				.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
+		if (!e.isAltDown()
+				&& (caretPos == text.length() || geogebra.common.gui.inputfield.MyTextField
+						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			switch (ch) {
 			case '(':
 				// opening parentheses: insert closing parenthesis automatically
@@ -648,7 +654,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		// search to the left
 		curWordStart = caretPos - 1;
 		while (curWordStart >= 0 &&
-				// isLetterOrDigitOrOpenBracket so that F1 works
+		// isLetterOrDigitOrOpenBracket so that F1 works
 				StringUtil.isLetterOrDigitOrUnderscore(text
 						.charAt(curWordStart))) {
 			--curWordStart;
@@ -716,17 +722,17 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 
 		if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
 			setCaretPosition(argMatcher.end());
-			//do not select the space after , but do select space after [
-			if(text.charAt(argMatcher.start())==','){
+			// do not select the space after , but do select space after [
+			if (text.charAt(argMatcher.start()) == ',') {
 				moveCaretPosition(argMatcher.start() + 2);
-			}else{
+			} else {
 				moveCaretPosition(argMatcher.start() + 1);
 			}
 			return true;
 		}
 		return false;
 	}
-	
+
 	private List<String> resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
@@ -754,18 +760,18 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 			completions = dict.getCompletions(cmdPrefix);
 
 		List<String> commandCompletions = getSyntaxes(completions);
-		
+
 		// Start with the built-in function completions
 		completions = app.getParserFunctions().getCompletions(cmdPrefix);
 		// Then add the command completions
 		if (completions.isEmpty()) {
 			completions = commandCompletions;
 		} else if (commandCompletions != null) {
-			completions.addAll(commandCompletions);			
+			completions.addAll(commandCompletions);
 		}
 		return completions;
 	}
-	
+
 	/*
 	 * Take a list of commands and return all possible syntaxes for these
 	 * commands
@@ -813,12 +819,12 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 
 	public void startAutoCompletion() {
 
-		// don't show autocompletion popup if the current word 
-		// is a defined variable 
-		if (app.getKernel().lookupLabel(curWord.toString()) != null) { 
-			cancelAutoCompletion(); 
-		} else { 
-			resetCompletions(); 
+		// don't show autocompletion popup if the current word
+		// is a defined variable
+		if (app.getKernel().lookupLabel(curWord.toString()) != null) {
+			cancelAutoCompletion();
+		} else {
+			resetCompletions();
 		}
 
 		completionsPopup.showCompletions();
@@ -844,17 +850,17 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		}
 		String command = completions.get(index);
 		String text = getText();
-		
-		String before = text.substring(0, curWordStart); 
-		String after = text.substring(curWordStart + curWord.length()); 
-		int bracketIndex = command.indexOf('['); 
-		if(bracketIndex == -1){
+
+		String before = text.substring(0, curWordStart);
+		String after = text.substring(curWordStart + curWord.length());
+		int bracketIndex = command.indexOf('[');
+		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
 		}
-		if (bracketIndex > -1 && after.startsWith("[")) { 
-			// probably already have some arguments 
-			// eg user is just changing the command name 
-			command = command.substring(0, bracketIndex); 
+		if (bracketIndex > -1 && after.startsWith("[")) {
+			// probably already have some arguments
+			// eg user is just changing the command name
+			command = command.substring(0, bracketIndex);
 		}
 
 		StringBuilder sb = new StringBuilder();
@@ -945,7 +951,9 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	/**
 	 * just show syntax error (already correctly formulated by
 	 * CommandProcessor.argErr())
-	 * @param e error
+	 * 
+	 * @param e
+	 *            error
 	 */
 	public void showError(MyError e) {
 		app.showError(e);
@@ -1016,15 +1024,15 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 
 	public void addKeyHandler(KeyHandler handler) {
 		addKeyListener(new KeyListenerD(handler));
-		
+
 	}
 
 	public String getCommand() {
 		this.updateCurrentWord(true);
 		return this.getCurrentWord();
 	}
-	
-	public void setFocus(boolean b){
+
+	public void setFocus(boolean b) {
 
 	}
 

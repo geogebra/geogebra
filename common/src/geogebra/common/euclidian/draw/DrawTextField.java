@@ -17,6 +17,7 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.euclidian.event.FocusEvent;
@@ -345,7 +346,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		int length = geoTextField.getLength();
 		if(length!=oldLength){
 			textField.setColumns(length);
-			textField.showPopupSymbolButton(length>8);
+			textField.showPopupSymbolButton(length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
 			oldLength = length;
 		}
 		if (!isVisible) {

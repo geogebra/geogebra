@@ -67,5 +67,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	boolean hasFocus();
 
 	boolean usedForInputBox();
+	
+	void killPopupSymbolButton(); 
 
 }

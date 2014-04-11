@@ -317,7 +317,12 @@ public class GeoTextField extends GeoButton {
 		
 		if (textField == null) {
 			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
-			textField.showPopupSymbolButton(true);
+			// don't show symbol popup when TextField linked to free text 
+			if (linkedGeo instanceof GeoText) { 
+				textField.killPopupSymbolButton(); 
+			} else { 
+				textField.showPopupSymbolButton(true); 
+			}	
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);		
 					// we want to handle TAB ourselves
@@ -332,7 +337,12 @@ public class GeoTextField extends GeoButton {
 		
 		if (textField2 == null) {
 			textField2 = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
-			textField2.showPopupSymbolButton(true);
+			// don't show symbol popup when TextField linked to free text 
+			if (linkedGeo instanceof GeoText) { 
+				textField2.killPopupSymbolButton(); 
+			} else { 
+				textField2.showPopupSymbolButton(true); 
+			}	
 			textField2.setAutoComplete(false);
 			textField2.enableColoring(false);		
 					// we want to handle TAB ourselves
