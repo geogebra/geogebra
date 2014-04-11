@@ -10,7 +10,7 @@ import geogebra.html5.main.DrawEquationWeb;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class CASTableCellW extends VerticalPanel {
 	private GeoCasCell casCell;
 	private Label inputPanel;
-	private HorizontalPanel outputPanel;
+	private FlowPanel outputPanel;
 	private String textBeforeEdit;
 	private AutoCompleteTextFieldW textField;
 	/**
@@ -63,7 +63,7 @@ public class CASTableCellW extends VerticalPanel {
 				        .getOutput(StringTemplate.defaultTemplate));
 			}
 		}
-		outputPanel = new HorizontalPanel();
+		outputPanel = new FlowPanel();
 		if (casCell!=null) {
 			Label commentLabel = new Label();
 				commentLabel.addStyleName("CAS_commentLabel");
