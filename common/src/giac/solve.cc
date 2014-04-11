@@ -5141,6 +5141,8 @@ namespace giac {
     }
     iterateur it=var.begin(),itend=var.end();
     int s=itend-it; // # of unknowns
+    if (s==0)
+      return vecteur(1,gendimerr(contextptr));
     if (s==1){
       vecteur v=solve(eq_orig,var[0],complexmode,contextptr);
       for (unsigned i=0;i<v.size();++i){
@@ -5276,6 +5278,78 @@ namespace giac {
        size(sol);
        normal(subst(I[0..2],[u,y,z],sol[0])); // check a solution
     */
+    // first try, with the last variable
+    int varsize=var.size();
+    vecteur varur(var);
+    gen vart=var.back();
+    varur.pop_back();
+    if (varur.size()<=11 && varsize==eq.size()){
+      vecteur H; gen G;
+      G=_gbasis(makesequence(eq,varur),contextptr);
+      if (G.type==_VECT && G._VECTptr->size()==varsize){ // bingo (probably)
+	H.push_back(var[varsize-1]);
+	gen a,b;
+	for (unsigned i=1;i<varsize;++i){
+	  if (!is_linear_wrt(G[i],var[varsize-1-i],a,b,contextptr))
+	    break;
+	  if (!is_zero(derive(makevecteur(a,b),var.back(),contextptr)))
+	    break;
+	  H.push_back(-b/a);
+	}
+      }
+      if (H.size()!=varsize){
+	// retry with a random linear combination of the variables
+	vart=identificateur("gsolve_t");
+	for (unsigned essai=0;essai<5;++essai){
+	  H.clear();
+	  varur=var;
+	  gen hasard;
+	  if (essai==0){
+	    vecteur v;
+	    for (unsigned j=0;j<varsize;++j){
+	      v.push_back(int(j)%3-1);
+	    }
+	    hasard=v;
+	  }
+	  else {
+	    hasard=_ranm(int(var.size()),contextptr);
+	    hasard=_iquo(makesequence(hasard,int(100/(essai+1))),contextptr);
+	  }
+	  gen T=vart-dotvecteur(hasard,var);
+	  vecteur eqv=gen2vecteur(eq);
+	  eqv.push_back(T);
+	  *logptr(contextptr) << "Trying " << eqv << endl;
+	  G=_gbasis(makesequence(eqv,varur),contextptr);
+	  if (G.type==_VECT && G._VECTptr->size()==varsize+1){ // bingo (probably)
+	    gen a,b;
+	    for (unsigned i=0;i<varsize;++i){
+	      if (!is_linear_wrt(G[i+1],var[varsize-1-i],a,b,contextptr))
+		break;
+	      if (!is_zero(derive(makevecteur(a,b),var.back(),contextptr)))
+		break;
+	      H.push_back(-b/a);
+	    }
+	  }
+	  if (H.size()==varsize)
+	    break;
+	}
+      }
+      if (H.size()==varsize){
+	vecteur res;
+	reverse(H.begin(),H.end());
+	*logptr(contextptr) << "map(proot(" <<subst(G[0],vart,vx_var,false,contextptr) << "),r->map(" << subst(H ,vart,vx_var,false,contextptr) << ",h->horner(h,r,"<<vx_var<<"))" << endl;
+	vecteur S=solve(G[0],vart,complexmode,contextptr);
+	for (unsigned i=0;i<S.size();++i){
+	  gen s=S[i];
+	  vecteur Hs;
+	  for (unsigned j=0;j<H.size();++j){
+	    Hs.push_back(recursive_normal(_horner(makesequence(H[j],s,vart),contextptr),contextptr));
+	  }
+	  res.push_back(Hs);
+	}
+	return res;
+      }
+    }
 #endif
     vecteur l(1,var);
     alg_lvar(eq,l);

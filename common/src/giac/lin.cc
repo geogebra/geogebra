@@ -1,7 +1,7 @@
 // -*- mode:C++ ; compile-command: "g++ -I.. -g -c lin.cc -DHAVE_CONFIG_H -DIN_GIAC" -*-
 #include "giacPCH.h"
 /*
- *  Copyright (C) 2000,7 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
+ *  Copyright (C) 2000,2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

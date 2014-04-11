@@ -12,7 +12,7 @@ diff plot.c plot.c~
 */
 
 /*
- *  Copyright (C) 2000/6 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
+ *  Copyright (C) 2000/2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *  implicitplot3d code adapted from 
  *  http://astronomy.swin.edu.au/~pbourke/modelling/polygonise 
  *  by Paul Bourke and  Cory Gene Bloyd

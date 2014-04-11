@@ -406,7 +406,7 @@ namespace giac {
 #endif
   // minimal numbers of pair to reduce simultaneously with f4buchberger
   //#define GBASIS_F4BUCHBERGER 5
-#define GBASIS_F4BUCHBERGER 0
+  #define GBASIS_F4BUCHBERGER 0
 #define GBASIS_POSTF4BUCHBERGER 0 // 0 means final simplification at the end, 1 at each loop
   // if GIAC_SHORTSHIFTTYPE is defined, sparse matrix is using shift index
   // coded on 2 bytes -> FIXME segfault for cyclic9
@@ -427,14 +427,21 @@ namespace giac {
 
   struct tdeg_t {
     short tab[GROEBNER_VARS+1];
-    unsigned total_degree() const {
+    unsigned total_degree(short order) const {
       // works only for revlex and tdeg
+#if 0
+      if (order==_REVLEX_ORDER || order==_TDEG_ORDER)
+	return tab[0];
+      if (order==_3VAR_ORDER)
+	return (tab[0] << 16)+tab[4];
+      if (order==_7VAR_ORDER)
+	return (tab[0] << 16) +tab[8];
+      if (order==_11VAR_ORDER)
+	return (tab[0] << 16) +tab[12];
+#endif
       return tab[0];
     }
-    void set_total_degree(unsigned d) {
-      // works only for revlex and tdeg
-      tab[0]=d;
-    }
+    // void set_total_degree(unsigned d) { tab[0]=d;}
     tdeg_t() { 
       longlong * ptr = (longlong *) tab;
       ptr[2]=ptr[1]=ptr[0]=0;
@@ -1079,10 +1086,10 @@ namespace giac {
       if ( (a.tab[1] && b.tab[1]) ||
 	   (a.tab[2] && b.tab[2]) ||
 	   (a.tab[3] && b.tab[3]) ||
-	   (a.tab[4] && b.tab[5]) ||
-	   (a.tab[5] && b.tab[6]) ||
-	   (a.tab[6] && b.tab[7]) ||
-	   (a.tab[7] && b.tab[8]) ||
+	   (a.tab[5] && b.tab[5]) ||
+	   (a.tab[6] && b.tab[6]) ||
+	   (a.tab[7] && b.tab[7]) ||
+	   (a.tab[8] && b.tab[8]) ||
 	   (a.tab[9] && b.tab[9]) ||
 	   (a.tab[10] && b.tab[10]) ||
 	   (a.tab[11] && b.tab[11]) ||
@@ -1181,7 +1188,7 @@ namespace giac {
       if (coord.empty())
 	sugar=0;
       else
-	sugar=coord.front().u.total_degree();
+	sugar=coord.front().u.total_degree(order);
     }
     void get_polynome(polynome & p) const {
       p.dim=dim;
@@ -1992,7 +1999,7 @@ namespace giac {
     tdeg_t lcm;
     index_lcm(pi,qi,lcm,p.order);
     tdeg_t pshift=lcm-pi;
-    unsigned sugarshift=pshift.total_degree();
+    unsigned sugarshift=pshift.total_degree(p.order);
     // adjust sugar for res
     res.sugar=p.sugar+sugarshift;
     // CERR << "spoly " << res.sugar << " " << pi << qi << endl;
@@ -2132,7 +2139,7 @@ namespace giac {
       }
       index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small0,order);
       if (sugar)
-	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree();
+	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree(order);
       for (unsigned i=smallpos+1;i<B.size();++i){
 	if (interrupted || ctrl_c)
 	  return false;
@@ -2140,7 +2147,7 @@ namespace giac {
 	  continue;
 	index_lcm(res[B[i].first].coord.front().u,res[B[i].second].coord.front().u,cur,order);
 	if (sugar)
-	  cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree();
+	  cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree(order);
 	bool doswap;
 	if (order==_PLEX_ORDER)
 	  doswap=tdeg_t_strictly_greater(small0,cur,order);
@@ -2288,7 +2295,7 @@ namespace giac {
 	      n=p.coord[i].value.val % m;
 	    coord.push_back(T_unsigned<modint,tdeg_t>(n,tdeg_t(p.coord[i].index,order)));
 	  }
-	  sugar=coord.front().u.total_degree();
+	  sugar=coord.front().u.total_degree(order);
 	}
       }
     }
@@ -2381,7 +2388,7 @@ namespace giac {
       q.coord[i].u=p.coord[i].u;
     }
     if (env && !q.coord.empty()){
-      q.sugar=q.coord.front().u.total_degree();
+      q.sugar=q.coord.front().u.total_degree(p.order);
       if (q.coord.front().g!=1)
 	smallmultmod(invmod(q.coord.front().g,env),q,env);
       q.coord.front().g=1;
@@ -2404,7 +2411,7 @@ namespace giac {
       q.coord[i].u=p.coord[i].u;
     }
     if (!q.coord.empty())
-      q.sugar=q.coord.front().u.total_degree();
+      q.sugar=q.coord.front().u.total_degree(p.order);
     else
       q.sugar=0;
   }
@@ -2983,7 +2990,7 @@ namespace giac {
     const polymod &TMP2=q;
     modint a=p.coord.front().g,b=q.coord.front().g;
     tdeg_t pshift=lcm-pi;
-    unsigned sugarshift=pshift.total_degree();
+    unsigned sugarshift=pshift.total_degree(p.order);
     // adjust sugar for res
     res.sugar=p.sugar+sugarshift;
     // CERR << "spoly mod " << res.sugar << " " << pi << qi << endl;
@@ -3345,7 +3352,7 @@ namespace giac {
       }
       index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small0,order);
       if (sugar)
-	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree();
+	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree(order);
       for (unsigned i=smallpos+1;i<B.size();++i){
 	if (interrupted || ctrl_c)
 	  return false;
@@ -3354,7 +3361,7 @@ namespace giac {
 	bool doswap=false;
 	index_lcm(res[B[i].first].coord.front().u,res[B[i].second].coord.front().u,cur,order);
 	if (sugar)
-	  cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree();
+	  cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree(order);
 	if (order==_PLEX_ORDER)
 	  doswap=tdeg_t_strictly_greater(small0,cur,order);
 	else {
@@ -6459,7 +6466,7 @@ namespace giac {
     smallposv.reserve(256);
     info_t information;
     short order=res.front().order;
-    if (order==_PLEX_ORDER)
+    if (order==_PLEX_ORDER) // if (order!=_REVLEX_ORDER && order!=_TDEG_ORDER)
       totdeg=false;
     for (unsigned l=0;l<ressize;++l){
       gbasis_updatemod(G,B,res,l,TMP2,env,true);
@@ -6497,8 +6504,8 @@ namespace giac {
 	  return false;
       }
       index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small0,order);
-      smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree();
-      smalltotdeg=small0.total_degree();
+      smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree(order);
+      smalltotdeg=small0.total_degree(order);
       smallposv.push_back(smallpos);
       for (unsigned i=smallpos+1;i<B.size();++i){
 	if (interrupted || ctrl_c)
@@ -6507,8 +6514,8 @@ namespace giac {
 	  continue;
 	bool doswap=false;
 	index_lcm(res[B[i].first].coord.front().u,res[B[i].second].coord.front().u,cur,order);
-	cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree();
-	curtotdeg=cur.total_degree();
+	cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree(order);
+	curtotdeg=cur.total_degree(order);
 	if ( !totdeg || order==_PLEX_ORDER)
 	  doswap=tdeg_t_strictly_greater(small0,cur,order);
 	else {
@@ -6552,7 +6559,7 @@ namespace giac {
 	// polymod h(res.front().order,res.front().dim);
 	spolymod(res[bk.first],res[bk.second],TMP1,TMP2,env);
 	if (debug_infolevel>1){
-	  CERR << clock() << " mod reduce begin, pair " << bk << " spoly size " << TMP1.coord.size() << " sugar degree " << TMP1.sugar << " totdeg deg " << TMP1.coord.front().u.total_degree() << " degree " << TMP1.coord.front().u << endl;
+	  CERR << clock() << " mod reduce begin, pair " << bk << " spoly size " << TMP1.coord.size() << " sugar degree " << TMP1.sugar << " totdeg deg " << TMP1.coord.front().u.total_degree(order) << " degree " << TMP1.coord.front().u << endl;
 	}
 #if 0 // def GBASIS_HEAP
 	heap_reducemod(TMP1,res,G,-1,information.quo,TMP2,env);
@@ -8253,7 +8260,7 @@ namespace giac {
     // and the number of terms (should be minimal)
     vector<zsymb_data> GG(G.size());
     for (unsigned i=0;i<G.size();++i){
-      zsymb_data zz={i,g[G[i]].ldeg.total_degree(),g[G[i]].coord.size()};
+      zsymb_data zz={i,g[G[i]].ldeg.total_degree(order),g[G[i]].coord.size()};
       GG[i]=zz;
     }
     sort(GG.begin(),GG.end());
@@ -8480,13 +8487,13 @@ namespace giac {
     else {
       vector<tdeg_t> all;
       if (debug_infolevel>1)
-	CERR << clock() << " f4buchberger begin collect monomials" << f4buchbergerv.size() << endl;
+	CERR << clock() << " zf4buchberger begin collect monomials" << f4buchbergerv.size() << endl;
       zcollect(res,B,all,leftshift,rightshift);
       if (debug_infolevel>1)
-	CERR << clock() << " f4buchberger symbolic preprocess" << endl;
+	CERR << clock() << " zf4buchberger symbolic preprocess" << endl;
       zsymbolic_preprocess(all,res,G,-1,info_tmp.quo,info_tmp.rem,info_tmp.R);
       if (debug_infolevel>1)
-	CERR << clock() << " end symbolic preprocess" << endl;
+	CERR << clock() << " zend symbolic preprocess" << endl;
 #if 0
       f4buchberger_info->push_back(*info_ptr);
 #else
@@ -8904,7 +8911,7 @@ namespace giac {
     vector<unsigned> smallposv;
     smallposv.reserve(256);
     info_t information;
-    if (order==_PLEX_ORDER)
+    if (order!=_REVLEX_ORDER && order!=_TDEG_ORDER)
       totdeg=false;
     for (unsigned l=0;l<ressize;++l){
       gbasis_updatemod(G,B,resmod,l,TMP2,env,true);
@@ -8948,13 +8955,13 @@ namespace giac {
 	// find smallest lcm pair in B
 	unsigned smalltotdeg=RAND_MAX;
 	for (unsigned i=0;i<B.size();++i){
-	  if (Blcm[i].total_degree()<smalltotdeg)
-	    smalltotdeg=Blcm[i].total_degree();
+	  if (Blcm[i].total_degree(order)<smalltotdeg)
+	    smalltotdeg=Blcm[i].total_degree(order);
 	}
 #if 1
 	vector<unsigned> smallposv;
 	for (unsigned i=0;i<B.size();++i){
-	  if (Blcm[i].total_degree()==smalltotdeg)
+	  if (Blcm[i].total_degree(order)==smalltotdeg)
 	    smallposv.push_back(i);
 	}
 	if (debug_infolevel>3)
@@ -8962,12 +8969,12 @@ namespace giac {
 #else
 	vector<unsigned> smallposv,smallposv1;
 	for (unsigned i=0;i<B.size();++i){
-	  if (Blcm[i].total_degree()==smalltotdeg){
+	  if (Blcm[i].total_degree(order)==smalltotdeg){
 	    smallposv.push_back(i);
 	    smallposv1.push_back(i);
 	    continue;
 	  }
-	  if (Blcm[i].total_degree()==smalltotdeg+1)
+	  if (Blcm[i].total_degree(order)==smalltotdeg+1)
 	    smallposv1.push_back(i);
 	}
 	CERR << smallposv.size() << endl;
@@ -9630,7 +9637,10 @@ namespace giac {
     vector<unsigned> G;
     vectpoly_2_vectpoly8(v,order,res);
     if (!env || env->modulo==0){
-      if (mod_gbasis(res,modularcheck,true /* zdata*/,contextptr)){
+      if (mod_gbasis(res,modularcheck,
+		     order==_REVLEX_ORDER /* zdata*/,
+		     // true /* zdata*/,
+		     contextptr)){
 	newres=vectpoly(res.size(),polynome(v.front().dim,v.front()));
 	for (unsigned i=0;i<res.size();++i)
 	  res[i].get_polynome(newres[i]);
