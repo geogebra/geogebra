@@ -359,8 +359,12 @@ public class GeoTextField extends GeoButton {
 	public void setSelected(boolean flag) {
 		super.setSelected(flag);
 
-		if (flag && !textField.hasFocus()) {
+		if (flag && textField != null && !textField.hasFocus()) {
 			textField.requestFocus();
+		}
+		
+		if (flag && textField2 != null && !textField2.hasFocus()) {
+			textField2.requestFocus();
 		}
 	}
 	
