@@ -18,6 +18,7 @@
 package org.apache.commons.math.special;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This is a utility class that provides computation methods related to the
@@ -49,6 +50,11 @@ public class Erf {
      * @throws MathException if the algorithm fails to converge.
      */
     public static double erf(double x) throws MathException {
+    	
+        if (Math.abs(x) > 40) {
+            return x > 0 ? 1 : -1;
+        }
+
         double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
         if (x < 0) {
             ret = -ret;
