@@ -487,6 +487,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			return "Cylinder";
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 			return "Cone";
+		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
 		default:
 			return "Quadric";
 		}
@@ -533,8 +534,8 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	}
 
 	@Override
-	protected boolean showInEuclidianView() {
-		return true;
+	protected boolean showInEuclidianView() {	
+		return type != GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 	}
 
 	@Override
