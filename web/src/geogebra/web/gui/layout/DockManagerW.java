@@ -387,6 +387,8 @@ public class DockManagerW extends DockManager {
 
 		
 			markAlonePanel();
+			
+			setActiveToolBarDefault();
 
 			// is focused dock panel not visible anymore => choose another one
 		//	if(focusedDockPanel == null || !focusedDockPanel.isVisible()) {
@@ -1051,22 +1053,7 @@ public class DockManagerW extends DockManager {
 				app.setShowToolBar(true, true);
 				// active toolbar should not be the panel's any more
 				if (app.getGuiManager().getActiveToolbarId() == panel.getViewId()) {
-					// let it be Graphics view 1 until settled
-					if (app.getEuclidianView1().isShowing())
-						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
-					else if (app.hasEuclidianView2() && app.getEuclidianView2().isShowing())
-						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN2);
-					else if (app.hasEuclidianView3D() && app.getEuclidianView3D().isShowing())
-						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
-					else if (app.getGuiManager().hasCasView() && app.getGuiManager().getCasView().isShowing())
-						app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
-					//else if (app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().isShowing())
-					//	app.getGuiManager().setActiveToolbarId(App.VIEW_SPREADSHEET);
-					// what else can it be??
-					else if (app.getGuiManager().hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing())
-						app.getGuiManager().setActiveToolbarId(App.VIEW_ALGEBRA);
-					else //?
-						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
+					setActiveToolBarDefault();
 				}
 			}
 			
@@ -1079,6 +1066,29 @@ public class DockManagerW extends DockManager {
 		markAlonePanel();
 
 		return true;
+	}
+	
+	
+	/**
+	 * set active toolbar to default
+	 */
+	private void setActiveToolBarDefault(){
+		// let it be Graphics view 1 until settled
+		if (app.getEuclidianView1().isShowing())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
+		else if (app.hasEuclidianView2() && app.getEuclidianView2().isShowing())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN2);
+		else if (app.hasEuclidianView3D() && app.getEuclidianView3D().isShowing())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
+		else if (app.getGuiManager().hasCasView() && app.getGuiManager().getCasView().isShowing())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
+		//else if (app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().isShowing())
+		//	app.getGuiManager().setActiveToolbarId(App.VIEW_SPREADSHEET);
+		// what else can it be??
+		else if (app.getGuiManager().hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_ALGEBRA);
+		else //?
+			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
 	}
 	
 	/**
