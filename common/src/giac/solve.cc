@@ -5260,7 +5260,7 @@ namespace giac {
       if (l.size()>1)
 	return vecteur(1,gensizeerr(gen(l).print(contextptr)+gettext(" is not rational w.r.t. ")+it->print(contextptr)));
     }
-#if 1
+#if 0
     // Trying with a partial elimination
     // Add a variable t linear combination of x1,...,xn with random small integers coeffs
     // eliminate all variables except t (and params) with revlex/revlex ordering
@@ -5278,31 +5278,62 @@ namespace giac {
        size(sol);
        normal(subst(I[0..2],[u,y,z],sol[0])); // check a solution
     */
-    // first try, with the last variable
+    // Should be improved using global revlex ordering and 
+    // partial FGLM i.e. find min poly on t, then express f'(T)*each variable
+    // in term of powers of T up to degree(f)-1
+    // first try, with the variables
     int varsize=var.size();
-    vecteur varur(var);
-    gen vart=var.back();
-    varur.pop_back();
-    if (varur.size()<=11 && varsize==eq.size()){
-      vecteur H; gen G;
-      G=_gbasis(makesequence(eq,varur),contextptr);
-      if (G.type==_VECT && G._VECTptr->size()==varsize){ // bingo (probably)
-	H.push_back(var[varsize-1]);
-	gen a,b;
-	for (unsigned i=1;i<varsize;++i){
-	  if (!is_linear_wrt(G[i],var[varsize-1-i],a,b,contextptr))
-	    break;
-	  if (!is_zero(derive(makevecteur(a,b),var.back(),contextptr)))
-	    break;
-	  H.push_back(-b/a);
+    if (varsize<=11 && varsize==eq.size()){
+      vecteur H,res; gen G,caspart;
+      // retry with a random linear combination of the variables
+      gen vart=identificateur("gsolve_t");
+      for (unsigned k=0;k<varsize;++k){
+	gen T=vart-var[k];
+	vecteur eqv=gen2vecteur(eq);
+	eqv.push_back(T);
+	G=_gbasis(makesequence(eqv,var),contextptr);
+	if (G.type==_VECT && G._VECTptr->size()>=varsize+1){ 
+	  H = vecteur(G._VECTptr->begin()+1,G._VECTptr->begin()+varsize+1);
+	  // check whether we have a linear system
+	  gen M=derive(H,var,contextptr);
+	  if (!is_zero(derive(M,var,contextptr)))
+	    H.clear();
+	  else {
+	    // additional cases if det(M)==0
+	    M=_det(M,contextptr);
+	    M=ratnormal(M/gcd(M,derive(M,*vart._IDNTptr,contextptr)));
+	    if (_degree(makesequence(M,vart),contextptr)>2)
+	      H.clear();
+	    else {
+	      caspart=_solve(makesequence(M,vart),contextptr);
+	      if (caspart.type!=_VECT)
+		H.clear();
+	      else {
+		vecteur casv=*caspart._VECTptr;
+		for (unsigned j=0;j<casv.size();++j){
+		  // solve with var[k]=casv[j]
+		  gen eqpart=subst(eq,var[k],casv[j],false,contextptr);
+		  vecteur varpart(var);
+		  varpart.erase(varpart.begin()+k);
+		  vecteur solpart=solve(eqpart,varpart,complexmode,contextptr);
+		  for (unsigned l=0;l<solpart.size();++l){
+		    gen solpartl=solpart[l];
+		    if (solpartl.type==_VECT)
+		      solpartl._VECTptr->insert(solpartl._VECTptr->begin()+k,casv[j]);
+		  }
+		  res=mergevecteur(res,solpart);
+		}
+	      }
+	    }
+	  }
 	}
+	if (H.size()==varsize)
+	  break;
       }
       if (H.size()!=varsize){
-	// retry with a random linear combination of the variables
-	vart=identificateur("gsolve_t");
-	for (unsigned essai=0;essai<5;++essai){
+	caspart=vecteur(0);
+	for (unsigned essai=0;essai<10;++essai){
 	  H.clear();
-	  varur=var;
 	  gen hasard;
 	  if (essai==0){
 	    vecteur v;
@@ -5319,28 +5350,27 @@ namespace giac {
 	  vecteur eqv=gen2vecteur(eq);
 	  eqv.push_back(T);
 	  *logptr(contextptr) << "Trying " << eqv << endl;
-	  G=_gbasis(makesequence(eqv,varur),contextptr);
-	  if (G.type==_VECT && G._VECTptr->size()==varsize+1){ // bingo (probably)
-	    gen a,b;
-	    for (unsigned i=0;i<varsize;++i){
-	      if (!is_linear_wrt(G[i+1],var[varsize-1-i],a,b,contextptr))
-		break;
-	      if (!is_zero(derive(makevecteur(a,b),var.back(),contextptr)))
-		break;
-	      H.push_back(-b/a);
-	    }
+	  G=_gbasis(makesequence(eqv,var),contextptr);
+	  if (G.type==_VECT && G._VECTptr->size()>=varsize+1){ // bingo (probably)
+	    H = vecteur(G._VECTptr->begin()+1,G._VECTptr->begin()+varsize+1);
+	    gen M=derive(H,var,contextptr);
+	    vecteur var1(var);
+	    var1.push_back(vart);
+	    if (!is_zero(derive(M,var1,contextptr)))
+	      H.clear();
 	  }
 	  if (H.size()==varsize)
 	    break;
 	}
       }
       if (H.size()==varsize){
-	vecteur res;
-	reverse(H.begin(),H.end());
+	H=linsolve(H,var,contextptr);
 	*logptr(contextptr) << "map(proot(" <<subst(G[0],vart,vx_var,false,contextptr) << "),r->map(" << subst(H ,vart,vx_var,false,contextptr) << ",h->horner(h,r,"<<vx_var<<"))" << endl;
 	vecteur S=solve(G[0],vart,complexmode,contextptr);
 	for (unsigned i=0;i<S.size();++i){
 	  gen s=S[i];
+	  if (caspart.type==_VECT && equalposcomp(*caspart._VECTptr,s))
+	    continue;
 	  vecteur Hs;
 	  for (unsigned j=0;j<H.size();++j){
 	    Hs.push_back(recursive_normal(_horner(makesequence(H[j],s,vart),contextptr),contextptr));
