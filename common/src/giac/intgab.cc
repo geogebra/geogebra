@@ -893,7 +893,7 @@ namespace giac {
 	}
 	return false;
       }
-      // subst x by x+b, check parity: even ->0 , odd -> 1/2 int(-inf,+inf)
+      // subst x by x+b, check parity: even -> 1/2 int(-inf,+inf)
       gen gb=subst(g,x,x+b,false,contextptr);
       int eo=is_even_odd(gb,x,contextptr);
       if (eo==1){
@@ -903,10 +903,6 @@ namespace giac {
 	    res=ratnormal(res/2);
 	  return true;
 	}
-      }
-      if (eo==2){
-	res=0;
-	return true;
       }
       vecteur v;
       rlvarx(gb,x,v);

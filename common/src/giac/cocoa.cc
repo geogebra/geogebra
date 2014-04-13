@@ -8904,6 +8904,7 @@ namespace giac {
     unsigned ressize=res8.size();
     unsigned learned_position=0,f4buchberger_info_position=0;
     bool learning=f4buchberger_info.empty();
+    unsigned capa=f4buchberger_info.capacity();
     short order=resmod.front().order,dim=resmod.front().dim;
     polymod TMP2(order,dim);
     vector< pair<unsigned,unsigned> > B,BB;
@@ -8928,6 +8929,8 @@ namespace giac {
     if (debug_infolevel>1000)
       res.dbgprint(); // instantiate
     for (;!B.empty() && !interrupted && !ctrl_c;){
+      if (f4buchberger_info_position>=capa-1)
+	return false;
       if (debug_infolevel>1)
 	CERR << clock() << " begin new iteration zmod, number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // mem clear: remove res[i] if i is not in G nor in B
@@ -9215,9 +9218,9 @@ namespace giac {
 #ifdef GBASIS_F4BUCHBERGER 
       if (zdata){
 	if (!zgbasis(current,resmod,G,p.val,true,&reduceto0,zf4buchberger_info,false,false)){
-	  
 	  reduceto0.clear();
 	  zf4buchberger_info.clear();
+	  zf4buchberger_info.reserve(4*zf4buchberger_info.capacity());
 	  if (!zgbasis(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,zf4buchberger_info,false,false)){
 	    ok=false;
 	    break;
