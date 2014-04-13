@@ -3621,9 +3621,14 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	@Override
 	protected int addSelectedPlanesForAngle(Hits hits, int count){
 
-		if (selLines() == 0 && selVectors() == 0){
-			return addSelectedPlane(hits, 2, false);
+		if (selVectors() == 0){
+			if (selLines() == 0){ // angle between two planes
+				return addSelectedPlane(hits, 2, false);
+			}else if (selLines() == 1){ // angle between line and plane
+				return addSelectedPlane(hits, 1, false);
+			}
 		}
+		
 		
 		return count;
 	}
@@ -3635,6 +3640,12 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 		if (selPlanes() == 2){
 			GeoPlane3D[] planes = getSelectedPlanes();
 			return kernel.getManager3D().Angle3D(null, planes[0], planes[1]);
+		}
+		
+		if (selPlanes() == 1 && selLines() == 1){
+			GeoLineND[] lines = getSelectedLinesND();
+			GeoPlane3D[] planes = getSelectedPlanes();
+			kernel.getManager3D().Angle3D(null, lines[0], planes[0]);
 		}
 		
 		return null;

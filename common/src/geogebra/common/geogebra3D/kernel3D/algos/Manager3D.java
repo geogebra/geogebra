@@ -1387,6 +1387,13 @@ public class Manager3D implements Manager3DInterface {
 		return angle;
 	}
 	
+	
+	final public GeoAngle Angle3D(String label, GeoLineND l, GeoPlaneND p){
+		AlgoAngleLinePlane algo = new AlgoAngleLinePlane(cons, label, l, (GeoPlane3D) p);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+
 	public GeoAngle createLineAngle(GeoLineND line1, GeoLineND line2) {
 		GeoAngle angle = null;
 		

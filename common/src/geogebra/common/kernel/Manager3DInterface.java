@@ -669,6 +669,11 @@ public interface Manager3DInterface {
 	public GeoAngle Angle3D(String label, GeoPlaneND g, GeoPlaneND h);
 	
 	/**
+	 * Angle named label between line and plane
+	 */
+	public GeoAngle Angle3D(String label, GeoLineND l, GeoPlaneND p);
+	
+	/**
 	 * create angle checking start/end points
 	 * @param line1
 	 * @param line2
