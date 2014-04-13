@@ -1192,7 +1192,7 @@ public abstract class AppW extends AppWeb {
 		if (getGuiManager() == null) {
 			initGuiManager();
 		}
-		if(getGuiManager()!=null){
+		if (getGuiManager() != null) {
 			getGuiManager().getLayout().getXml(sb, asPreference);
 		}
 	}
