@@ -3,7 +3,6 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleConic3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleElement3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleLinePlane;
-import geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePlanes;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePoint3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleVector3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
@@ -87,8 +86,8 @@ public class CmdAngle3D extends CmdAngle {
 		// angle between planes
 		if ((ok[0] = (arg[0].isGeoPlane()))
 				&& (ok[1] = (arg[1].isGeoPlane()))) {
-			AlgoAnglePlanes algo = new AlgoAnglePlanes(cons, c.getLabel(), (GeoPlane3D) arg[0], (GeoPlane3D) arg[1]);
-			return new GeoElement[] {algo.getAngle()};
+			GeoElement[] ret = { kernelA.getManager3D().Angle3D(c.getLabel(), (GeoPlane3D) arg[0], (GeoPlane3D) arg[1]) };
+			return ret;
 		}
 		
 		// angle of polygon, oriented

@@ -4487,6 +4487,26 @@ public abstract class EuclidianController {
 		//return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
 	}
 	
+	/**
+	 * add selected planes for angle tool (3D)
+	 * @param hits current hits
+	 * @param count previous count
+	 * @return new count
+	 */
+	protected int addSelectedPlanesForAngle(Hits hits, int count){
+		
+		return count;
+	}
+	
+	/**
+	 * 
+	 * @return angle from plane/plane or plane/line
+	 */
+	protected GeoAngle createAngle3D(){
+		return null;
+	}
+	
+	
 	protected final GeoElement[] angle(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;
@@ -4511,6 +4531,11 @@ public abstract class EuclidianController {
 			polyFound = 1 == addSelectedGeo(
 					hits.getHits(Test.GEOPOLYGON, tempArrayList), 1, false);
 		}
+		
+		// try planes (for 3D)
+		if (!polyFound){ 
+			count = addSelectedPlanesForAngle(hits, count);		
+		}
 	
 		GeoAngle angle = null;
 		GeoElement[] angles = null;
@@ -4530,6 +4555,8 @@ public abstract class EuclidianController {
 			checkZooming(); 
 			
 			angles = createAngles((GeoPolygon) getSelectedGeos()[0]);
+		} else { // 3D
+			angle = createAngle3D();
 		}
 	
 		if (angle != null) {

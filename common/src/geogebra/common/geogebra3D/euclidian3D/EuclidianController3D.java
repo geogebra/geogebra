@@ -43,6 +43,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.FromMeta;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
@@ -3139,6 +3140,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				selectedCS2D, Test.GEOCOORDSYS2D);
 	}
 
+
 	/**
 	 * @return number of selected 2D coord sys
 	 */
@@ -3615,4 +3617,26 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 		// TODO implement this
 	}
 
+
+	@Override
+	protected int addSelectedPlanesForAngle(Hits hits, int count){
+
+		if (selLines() == 0 && selVectors() == 0){
+			return addSelectedPlane(hits, 2, false);
+		}
+		
+		return count;
+	}
+	
+	
+	@Override
+	protected GeoAngle createAngle3D(){
+		
+		if (selPlanes() == 2){
+			GeoPlane3D[] planes = getSelectedPlanes();
+			return kernel.getManager3D().Angle3D(null, planes[0], planes[1]);
+		}
+		
+		return null;
+	}
 }
