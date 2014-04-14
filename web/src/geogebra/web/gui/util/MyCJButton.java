@@ -157,35 +157,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		return button.addClickHandler(handler);
     }
 	
-	/*AG tmppublic void setIcon(ImageResource is) {
-		if (is.getWidth() > 0 && is.getHeight() > 0) {
-			final Image img = new Image(is.getSafeUri());
-			img.addLoadHandler(new LoadHandler() {
-				
-				public void onLoad(LoadEvent event) {
-					setIcon(ImageElement.as(img.getElement()));
-				}
-			});
-			img.setVisible(false);
-			RootPanel.get().add(img);
-		}
-    }
-
-	protected void setIcon(ImageElement ie) {
-		int iwidth = ie.getWidth();
-		int iheight = ie.getHeight();
-	    if (iwidth > 0 && iheight > 0) {
-	    	Context2d ctx = getTempContext2D();
-	    	tempCanvas.setWidth(iwidth+"px");
-	    	tempCanvas.setHeight(iheight+"px");
-	    	tempCanvas.setCoordinateSpaceWidth(iwidth);
-	    	tempCanvas.setCoordinateSpaceHeight(iheight);
-	    	ctx.drawImage(ie, 0, 0, iwidth, iheight);
-	    	icon = ctx.getImageData(0, 0, iwidth, iheight);
-	    	setDownState(false);
-	    }
-    }*/
-
+	
 	private Context2d getTempContext2D() {
 	    if (tempContext == null) {
 	    	tempCanvas = Canvas.createIfSupported();

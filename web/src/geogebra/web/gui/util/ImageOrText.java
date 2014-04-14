@@ -34,7 +34,10 @@ public class ImageOrText {
 		}
 		if(this.text != null){
 			button.setText(this.text);
-			//button.getElement().getStyle().setColor(GColor.getColorString(this.fgColor)); -> Exception?
+			if(this.fgColor != null){
+				button.getElement().getStyle().setColor(GColor.getColorString(this.fgColor));
+			}
+			return;
 		}
 		if(this.fgColor != null){
 			button.getElement().getStyle().setBorderColor("rgba("+this.fgColor.getRed() +
