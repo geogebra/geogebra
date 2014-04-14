@@ -287,6 +287,7 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 		if(wPanel != null) {
 			onResize();
 		}
+		this.styleBar.selectButton(type);
 	}
 
 	@Override

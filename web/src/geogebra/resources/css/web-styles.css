@@ -2725,6 +2725,10 @@ label {
 	top: 30px;
 }
 
+.propertiesStyleBar .selected{
+	border:1px red solid;
+}
+
 .menuProperties {
 	margin: 0px;
 	padding: 0px;

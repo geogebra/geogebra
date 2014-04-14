@@ -36,6 +36,8 @@ public class PropertiesStyleBarW extends
 	private MenuBar menu;
 	private HashMap<OptionType, MenuItem> buttonMap;
 
+	private MenuItem currentButton;
+
 	public PropertiesStyleBarW(PropertiesViewW propertiesView, App app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
@@ -66,9 +68,8 @@ public class PropertiesStyleBarW extends
 				.getSelectedOptionType(),btnOption);
 		btnOption.setText(propertiesView.getTypeString(propertiesView.getSelectedOptionType())
 				+ downTriangle);		
-		
-		//TODO: get it in css
-		buttonMap.get(seltype).addStyleName("selected");
+
+		selectButton(seltype);
 		
 		buttonMap.get(OptionType.OBJECTS).setVisible(
 				app.getSelectionManager().selectedGeosSize() > 0);
@@ -106,6 +107,7 @@ public class PropertiesStyleBarW extends
 				
 				public void execute() {
 					propertiesView.setOptionPanel(type, 0);
+					selectButton(type);
 				}
 			});
 			toolbar.addItem(btn);
@@ -120,6 +122,17 @@ public class PropertiesStyleBarW extends
 	//	}
 	    
     }
+
+	protected void selectButton(OptionType type) {
+		if(currentButton != null){
+			this.currentButton.removeStyleName("selected");
+		}
+		currentButton = buttonMap.get(type);
+		currentButton.addStyleName("selected");
+	    
+    }
+
+
 
 	private void buildMenu() {
 	    if (menu == null) {
