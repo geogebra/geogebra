@@ -55,7 +55,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public AppW app;
 
 	public GeoGebraAppFrame() {
-		frameLayout = new GGWFrameLayoutPanel();		
+		frameLayout = newGGWFrameLayoutPanel();		
 		initWidget(frameLayout);
 		
 		//ggwSplitLayoutPanel = frameLayout.getSPLayout();
@@ -80,6 +80,14 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    rootLayoutPanel.add(this);
 	    rootLayoutPanel.forceLayout();
 	    
+	}
+	
+	/**
+	 * 
+	 * @return new GGWFrameLayoutPanel
+	 */
+	protected GGWFrameLayoutPanel newGGWFrameLayoutPanel(){
+		return new GGWFrameLayoutPanel();
 	}
 	
 	@Override

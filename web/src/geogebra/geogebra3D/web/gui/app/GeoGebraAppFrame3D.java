@@ -2,6 +2,7 @@ package geogebra.geogebra3D.web.gui.app;
 
 import geogebra.geogebra3D.web.main.AppWapplication3D;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.main.AppW;
 
@@ -26,4 +27,9 @@ public class GeoGebraAppFrame3D extends GeoGebraAppFrame {
             GeoGebraAppFrame geoGebraAppFrame) {
 		return new AppWapplication3D(article, geoGebraAppFrame);
     }
+	
+	@Override
+    protected GGWFrameLayoutPanel newGGWFrameLayoutPanel(){
+		return new GGWFrameLayoutPanel3D();
+	}
 }

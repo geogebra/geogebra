@@ -89,9 +89,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	public GGWToolBar getToolBar() {
 		if (ggwToolBar == null) {
-			ggwToolBar = new GGWToolBar();
+			ggwToolBar = newGGWToolBar();
 		}
 		return ggwToolBar;
+	}
+	
+	/**
+	 * 
+	 * @return toolbar
+	 */
+	protected GGWToolBar newGGWToolBar(){
+		return new GGWToolBar();
 	}
 
 	public GGWCommandLine getCommandLine() {

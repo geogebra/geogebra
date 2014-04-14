@@ -292,7 +292,11 @@ public class GGWToolBar extends Composite {
 			}
 		}
 		
+		return getImageURLNotMacro(mode);
 		
+	}
+		
+	protected String getImageURLNotMacro(int mode) {
 		switch (mode) {
 
 		case EuclidianConstants.MODE_ANGLE:
