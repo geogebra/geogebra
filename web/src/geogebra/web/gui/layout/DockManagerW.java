@@ -313,16 +313,17 @@ public class DockManagerW extends DockManager {
 				DockSplitPaneW oldParent = currentParent;
 				while (oldParent != rootPane) {
 					if (oldParent.getParent() instanceof DockSplitPaneW) {
+						DockSplitPaneW otherParent = oldParent;
 						oldParent = (DockSplitPaneW)oldParent.getParent();
 						
 						if (oldParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
 							panelDim = panel.getEstimatedSize().getWidth();
 							sph.put(oldParent, sph.get(oldParent) + dpData[i].getEmbeddedSize());
-							spw.put(oldParent, Math.max(spw.get(oldParent), panelDim));
+							spw.put(oldParent, Math.max(spw.get(oldParent), spw.get(otherParent)));
 						} else {
 							panelDim = panel.getEstimatedSize().getHeight();
 							spw.put(oldParent, spw.get(oldParent) + dpData[i].getEmbeddedSize());
-							sph.put(oldParent, Math.max(sph.get(oldParent), panelDim));
+							sph.put(oldParent, Math.max(sph.get(oldParent), spw.get(otherParent)));
 						}
 					} else {
 						break;
