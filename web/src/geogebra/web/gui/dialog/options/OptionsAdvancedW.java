@@ -21,4 +21,10 @@ public class OptionsAdvancedW extends OptionsAdvanced implements OptionPanelW {
 	    return null;
     }
 
+	@Override
+    public void onResize(int height, int width) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

@@ -57,6 +57,16 @@ textarea,
 	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
 
+input[type="checkbox"] {
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
+	border: #DCDCDC solid 1px;
+	color: #666666;
+}
+
 .gwt-TextBox-readonly,.gwt-TextArea-readonly {
 	color: #CCC;
 }
@@ -115,15 +125,13 @@ hr {
 /*.gwt-Button[disabled]:hover {
   	border: 1px outset #EDEDED;
 }*/
-.gwt-CheckBox {
-	
+
+.gwt-CheckBox-disabled,
+.checkBoxPanel-disabled {
+	color: #CCCCCC;
 }
 
-.gwt-CheckBox-disabled {
-	color: #888;
-}
-
-.gwt-DecoratorPanel {
+/*.gwt-DecoratorPanel {
 	
 }
 
@@ -196,7 +204,7 @@ hr {
 	width: 5px;
 	height: 5px;
 	overflow: hidden;
-}
+}*/
 
 .gwt-DisclosurePanel {
 	margin-top: 5px;
@@ -277,14 +285,14 @@ hr {
 	
 }
 
-.gwt-MenuBar {
+/*.gwt-MenuBar {
 	cursor: default;
-}
+}*/
 
-.gwt-MenuBar .gwt-MenuItem {
+/*.gwt-MenuBar .gwt-MenuItem {
 	cursor: default;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}
+}*/
 
 .gwt-MenuBar .gwt-MenuItem-selected {
 	background: #CCCCFF;
@@ -299,8 +307,7 @@ hr {
 	
 }
 
-.gwt-MenuBar .gwt-MenuItem-disabled,.gwt-MenuBar-horizontal .gwt-MenuItem-disabled
-	{
+.gwt-MenuBar .gwt-MenuItem-disabled,.gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
 	color: #DCDCDC;
 }
 
@@ -853,127 +860,6 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 .gwt-SuggestBoxPopup .item-selected { /*background: #D5E2FF;*/
 	color: #6666FF;
 }
-/*.gwt-SuggestBoxPopup .suggestPopupContent {
-  background: white;
-}
-.gwt-SuggestBoxPopup .suggestPopupTopCenter {
-  border-top: 1px solid #bbb;
-}
-.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
-  border-bottom: 1px solid #bbb;
-}
-.gwt-SuggestBoxPopup .suggestPopupTopCenterInner,
-.gwt-SuggestBoxPopup .suggestPopupBottomCenterInner {
-  height: 1px;
-  line-height: 1px;
-}
-.gwt-SuggestBoxPopup .suggestPopupMiddleLeft {
-  border-left: 1px solid #bbb;
-}
-.gwt-SuggestBoxPopup .suggestPopupMiddleRight {
-  border-right: 1px solid #bbb;
-}
-.gwt-SuggestBoxPopup .suggestPopupMiddleLeftInner,
-.gwt-SuggestBoxPopup .suggestPopupMiddleRightInner {
-  width: 1px;
-  line-height: 1px;
-}
-.gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
-  width: 0px;
-  height: 0px;
-  zoom: 1;  
-}
-.gwt-SuggestBoxPopup .suggestPopupTopRightInner {
-  width: 0px;
-  height: 0px;
-  zoom: 1;
-}
-.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
-  width: 0px;
-  height: 0px;
-  zoom: 1;
-}
-.gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
-  width: 0px;
-  height: 0px;
-  zoom: 1;
-}
-.gwt-SuggestBoxPopup .suggestPopupTopLeft {
-  background: url(images/circles.png) no-repeat 0px -6px;
-  -background: url(images/circles_ie6.png) no-repeat 0px -6px;
-  width:5px;
-  height:5px;
-}
-.gwt-SuggestBoxPopup .suggestPopupTopRight {
-  background: url(images/circles.png) no-repeat -5px -6px;
-  -background: url(images/circles_ie6.png) no-repeat -5px -6px;
-  width:5px;
-  height:5px;
-}
-.gwt-SuggestBoxPopup .suggestPopupBottomLeft {
-  background: url(images/circles.png) no-repeat 0px -11px;
-  -background: url(images/circles_ie6.png) no-repeat 0px -11px;
-  width:5px;
-  height:5px;
-}
-.gwt-SuggestBoxPopup .suggestPopupBottomRight {
-  background: url(images/circles.png) no-repeat -5px -11px;
-  -background: url(images/circles_ie6.png) no-repeat -5px -11px;
-  width:5px;
-  height:5px;
-}
-* html .gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-}
-* html .gwt-SuggestBoxPopup .suggestPopupTopRightInner {
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-}
-* html .gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-}
-* html .gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-}*/
-/*.gwt-TextArea {
-  padding: 4px;
-  border: 1px solid #ccc;
-  border-top: 1px solid #666;
-  font-size: 100%;
-  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}*/
-/*.gwt-TextArea-readonly {
-  color: #888;
-}*/
-.gwt-TextBox { /* padding: 5px 4px;
-  border: 1px solid #ccc;
-  border-top: 1px solid #999;
-  font-size: small;
-  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
-	/*border: #EDEDED solid 1px;
-	background: #FFFFFF;
-	padding: 4px 5px;
-	color: #666666;
-	
-	-webkit-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	
-	font-size: 100%;
-  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
-	
-}
-/*.gwt-TextBox-readonly {
-  color: #888;
-}*/
 
 
 .gwt-ToggleButton-up,
@@ -1205,6 +1091,10 @@ td.datePickerMonth {
 	border: 1px solid #DCDCDC;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
+}
+
+.gwt-TabBarItem div.gwt-Label {
+	margin: 0px;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
@@ -1501,6 +1391,7 @@ body[dir=rtl] .signIn {
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	overflow-y: auto;
 	background-color: #F8F8F8;
+	border-left: 1px solid #DCDCDC;
 }
 
 .menubarSMART .menuPanel {
@@ -2751,11 +2642,149 @@ label {
 	padding-left: 20px;
 }
 
-.optionsPanel {
+/*============ AutocompleteTextFieldW =======*/
+.AutoCompleteTextFieldW {
+	box-sizing: border-box;
+	position: relative;
+}
+
+.AutoCompleteTextFieldW .TextField {
+	display: inline-block;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding-left: 5px;
+	padding-right: 5px;
+	/*width: 100% !important;*/
+}
+
+.AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
+	padding-right: 40px;
+}
+
+.SymbolToggleButton {
+	width: 20px;
+	height: 20px;
+	display: none;
+	text-align: center;
+}
+
+.AutoCompleteTextFieldW .SymbolToggleButton {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	margin-top: -0.66em;
+}
+
+.AutoCompleteTextFieldW .SymbolToggleButton.shown,.AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused
+	{
 	display: inline-block;
 }
 
-.checkBoxPanel {
+/*=========== Checkbox menuitem =============*/
+/* Stefi do you magic here :-) */
+.gwt-MenuBar-horizontal .GChecBoxMenuItem,.gwt-MenuBar-vertical .GChecBoxMenuItem {
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	overflow: hidden;
+}
+
+.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected,.gwt-MenuBar-vertical .GChecBoxMenuItem.selected
+	{
+	background: #CCCCFF;
+}
+
+.GChecBoxMenuItem .gwt-CheckBox {
+	float: left;
+}
+
+.GChecBoxMenuItem .gwt-HTML {
+	float: right;
+}
+
+/*#################################################################
+	PROPERTIES
+###################################################################*/
+
+.PropertiesViewW {
+	background-color: #F8F8F8;
+	border-radius: 0px;
+	-moz-border-radius: 0px;
+	padding: 0px;
+}
+
+.contentsPanel {
+	overflow: hidden;
+}
+
+.propertiesStyleBar {
+	width: 34px;
+	position: absolute;
+	right: 0px;
+	top: 30px;
+}
+
+.menuProperties {
+	margin: 0px;
+	padding: 0px;
+}
+.menuProperties table {
+	cellpadding: 0px;
+	cellspacing: 0px;
+	border-collapse: collapse;
+}
+.menuProperties .gwt-MenuItem {
+	padding: 5px;
+	cursor: pointer;
+}
+.menuProperties .gwt-MenuItem:hover,
+.menuProperties .gwt-MenuItem.selected {
+	background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8));
+	background-image: -moz-linear-gradient(left, #DCDCDC, #F8F8F8);
+	background-image: -ms-linear-gradient(left, #DCDCDC, #F8F8F8);
+	background-image: -o-linear-gradient(left, #DCDCDC, #F8F8F8);
+	background-image: linear-gradient(left, #DCDCDC, #F8F8F8);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#DCDCDC', endColorstr='#F8F8F8' );
+	zoom: 1;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.menuProperties .gwt-MenuItem img {
+	width: 24px !important;
+	height: 24px !important;
+}
+
+.propertiesTab {
+	overflow: auto;
+	padding-right: 8px;
+}
+
+/* EUCLIDIAN PROPERTIES */
+
+.panelTitle {
+	margin-top: 20px;
+	padding-bottom: 5px;
+	color: #6666FF;
+	display: block;
+	border-bottom: 1px solid #CCCCFF;
+}
+.propertiesTab .panelTitle:first-child {
+	margin-top: 0px;
+}
+
+.panelIndent {
+	padding-left: 25px;
+}
+
+.propertiesTab .gwt-CheckBox {
+	margin-right: 20px;
+}
+
+/*#####################################################################################
+###       OBJECT PROPERTIES
+#####################################################################################*/
+
+.checkBoxPanel,
+.panelRow {
 	display: block;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -2831,10 +2860,7 @@ label {
 	position: relative;
 	left: 25px;
 }
-.panelTitle {
-	font-weight: bold;
-	font-style: italic;
-}
+
 .numberInput {
 	width: 64px;
 }
@@ -2880,112 +2906,54 @@ label {
 }
 
 .scriptArea {
-	width: 100%;
-	height: 400px;
+	/*width: 100%;
+	height: 400px;*/
 }
 
 .scriptTabPanel {
-	width: 100%;
-	height: 100%;
+	/*width: 100%;
+	height: 100%;*/
 }
 
-.propertiesView {
-	width: 100%;
-}
+/*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-.propertiesView table {
-	/*width: 100%;*/
-	height: 100%;
-}
-
-.propertiesPanel {
-	width: 100%;
-	height: 100%;
-}
-
-.propertiesStyleBar {
-	width: 100%;
-	height: 48px;
-}
-
-.propertiesTabPanel{
-	width: 100%;
-	height: 100%;
-}
-
-.panelIndent {
+.advanced-TextButtonPanel {
 	position: relative;
-	left: 25px;
+	margin: 3px 5px;
 }
-
-/*============ AutocompleteTextFieldW =======*/
-.AutoCompleteTextFieldW {
-	box-sizing: border-box;
-	position: relative;
+.advanced-TextButtonPanel input.selected-value {
+	padding-right: 1.3em;
 }
-
-.AutoCompleteTextFieldW .TextField {
-	display: inline-block;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	padding-left: 5px;
-	padding-right: 5px;
-	/*width: 100% !important;*/
-}
-
-.AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
-	padding-right: 40px;
-}
-
-.SymbolToggleButton {
-	width: 20px;
-	height: 20px;
-	display: none;
-	text-align: center;
-}
-
-.AutoCompleteTextFieldW .SymbolToggleButton {
+.advanced-TextButtonPanel .choice-button {
 	position: absolute;
-	right: 10px;
-	top: 50%;
-	margin-top: -0.66em;
+	right: 0.3em;
+	top: 0.5em;
+	cursor: pointer;
 }
-
-.AutoCompleteTextFieldW .SymbolToggleButton.shown,.AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused
-	{
-	display: inline-block;
+.advanced-ListPopupPanel {
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+	overflow: visible;
+	position: absolute;
+	background-color: white;
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
-
-/*=========== Checkbox menuitem =============*/
-/* Stefi do you magic here :-) */
-.gwt-MenuBar-horizontal .GChecBoxMenuItem,.gwt-MenuBar-vertical .GChecBoxMenuItem
-	{
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-	overflow: hidden;
+.advanced-ListPopupPanel .item {
+	cursor: pointer;
+	padding: 0px 5px;
 }
-
-.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected,.gwt-MenuBar-vertical .GChecBoxMenuItem.selected
-	{
+.advanced-ListPopupPanel .item:hover {
 	background: #CCCCFF;
-}
-
-.GChecBoxMenuItem .gwt-CheckBox {
-	float: left;
-}
-
-.GChecBoxMenuItem .gwt-HTML {
-	float: right;
 }
 
 /*#####################################################################################
 ###       PROPABILITY CALCULATOR
 #####################################################################################*/
-.ProbabilityCalculatorStyleBarW {
-	
-}
-
 .ProbabilityCalculatorStyleBarW .gwt-MenuItem {
 	margin: 0;
 	padding: 0;
@@ -3073,11 +3041,6 @@ label {
 	float: left;
 }
 
-/*.controlPanel .parameterPanel,
-.controlPanel .resultPanel {
-	margin-left: 20px;
-}*/
-
 .parameterPanel > *,
 .resultPanel > * {
 	display: inline-block;
@@ -3152,21 +3115,6 @@ label {
 .StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
 	display: block;
 }
-
-/*.StatisticsCalculatorW .panelTestAndCI > * {
-	display: inline-block;
-	margin: 3px 5px;
-}
-
-.StatisticsCalculatorW .panelTestAndCI .ckPooled {
-	display: block;
-}*/
-
-/*.StatisticsCalculatorW .breakafter:after {
-	display: block;
-	padding-left: 6ex;
-	visibility: hidden;
-}*/
 
 .StatisticsCalculatorW .pnlControl .gwt-Label {
 	min-width: 80px;
@@ -3571,112 +3519,6 @@ PROVIDERS
 
 .languageGUI .contentPanel .gwt-Label:hover {
 	color: #6666FF;
-}
-
-/*#####################################################################################
-###       OBJECT PROPERTIES
-#####################################################################################*/
-.PropertiesViewW {
-	background-color: #F8F8F8;
-	/*padding: 8px 8px 8px 0px;*/
-	border-radius: 0px;
-	-moz-border-radius: 0px;
-	padding: 0px;
-}
-
-.propertiesStyleBar {
-	position: relative;
-	right: 0px;
-	width: 42px;
-}
-
-.contentsPanel {
-	float: left;
-}
-
-.objectProperties { /*width: 100%;
-	height: 100%;*/
-	
-}
-
-.objectPropertiesTabPanel {
-	width: 100%;
-	height: 100%;
-	display: block !important;
-	/*display: none has hidden other tabs, I don't know why???*/
-}
-
-.objectPropertiesTabPanel table {
-	width: 100%;
-	/*height: 100%;*/
-}
-
-.objectPropertiesTab { /*width: 100%;
-	height: 100%;*/
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 5px;
-}
-
-.objectPropertiesTab .AutoCompleteTextFieldW .TextField {
-	margin-top: 5px;
-	margin-bottom: 10px;
-}
-
-.objectPropertiesTab .gwt-CheckBox,
-.ObjectPropertiesTab .gwt-Label {
-	margin-right: 10px;
-}
-
-.ObjectPropertiesTab input,
-.objectPropertiesTab input,
-.ObjectPropertiesTab select,
-.objectPropertiesTab select,
-.ObjectPropertiesTab textarea,
-.objectPropertiesTab textarea {
-	margin-top: 5px;
-	margin-bottom: 10px;
-}
-
-/*#################################################################
-	EUCLIDIAN VIEW PROPERTIES
-###################################################################*/
-
-
-/*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-.advanced-TextButtonPanel {
-	position: relative;
-	margin: 3px 5px;
-}
-.advanced-TextButtonPanel input.selected-value {
-	padding-right: 1.3em;
-}
-.advanced-TextButtonPanel .choice-button {
-	position: absolute;
-	right: 0.3em;
-	top: 0.5em;
-	cursor: pointer;
-}
-.advanced-ListPopupPanel {
-	-webkit-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	padding: 5px;
-	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-	overflow: visible;
-	position: absolute;
-	background-color: white;
-	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}
-.advanced-ListPopupPanel .item {
-	cursor: pointer;
-	padding: 0px 5px;
-}
-.advanced-ListPopupPanel .item:hover {
-	background: #CCCCFF;
 }
 
 /*#####################################################################################

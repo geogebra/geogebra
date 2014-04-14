@@ -60,7 +60,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private ListBox lbTooltips;
 	private boolean isIniting;
 	private abstract class EuclidianTab extends FlowPanel implements SetLabels 
-	{};
+	{
+		public void onResize(int height, int width) {
+			this.setHeight(height + "px");
+			this.setWidth(width + "px");
+		}
+	};
 	
 	private class BasicTab extends EuclidianTab {
 		private Label dimTitle;
@@ -1046,6 +1051,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected void updateView() {
 		view.updateBackground();
 		updateGUI();
+    }
+
+	@Override
+    public void onResize(int height, int width) {
+		for(int i = 0; i < tabPanel.getWidgetCount(); i++) {
+			EuclidianTab tab = (EuclidianTab) tabPanel.getWidget(i);
+			if (tab != null) {
+				tab.onResize(height, width);
+			}
+		}
     }
 }
 

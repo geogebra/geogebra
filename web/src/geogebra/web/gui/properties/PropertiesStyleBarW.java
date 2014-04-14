@@ -2,6 +2,7 @@ package geogebra.web.gui.properties;
 
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.menubar.MainMenu;
@@ -93,7 +94,8 @@ public class PropertiesStyleBarW extends
 
 	private void buildGUI() {
 		
-		MenuBar toolbar = new MenuBar();
+		MenuBar toolbar = new MenuBar(true);
+		toolbar.setStyleName("menuProperties");
 		
 		buttonMap = new HashMap<OptionType, MenuItem>();
 		
@@ -110,7 +112,7 @@ public class PropertiesStyleBarW extends
 			buttonMap.put(type, btn);
 			
 			if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
-				toolbar.addSeparator();
+				//toolbar.addSeparator();
 			}
 		}
 		//if(!((AppW) app).getLAF().isSmart()){
@@ -169,7 +171,8 @@ public class PropertiesStyleBarW extends
 		case ADVANCED:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case OBJECTS:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_objects24(), btn);
+			//AppResourcesConverter.setIcon(AppResources.INSTANCE.options_objects24(), btn);
+			AppResourcesConverter.setIcon(GuiResources.INSTANCE.properties_object(), btn);
 		case LAYOUT:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_layout24(), btn);
 		}
@@ -182,15 +185,18 @@ public class PropertiesStyleBarW extends
 		case SPREADSHEET:
 			return AppResources.INSTANCE.view_spreadsheet24().getSafeUri().asString();
 		case EUCLIDIAN:
-			return AppResources.INSTANCE.view_graphics24().getSafeUri().asString();
+			//return AppResources.INSTANCE.view_graphics24().getSafeUri().asString();
+			return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			return AppResources.INSTANCE.view_graphics224().getSafeUri().asString();
+			//return AppResources.INSTANCE.view_graphics224().getSafeUri().asString();
+			return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
 		case CAS:
 			return AppResources.INSTANCE.view_cas24().getSafeUri().asString();
 		case ADVANCED:
 			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
 		case OBJECTS:
-			return AppResources.INSTANCE.options_objects24().getSafeUri().asString();
+			//return AppResources.INSTANCE.options_objects24().getSafeUri().asString();
+			return GuiResources.INSTANCE.properties_object().getSafeUri().asString();
 		case LAYOUT:
 			return AppResources.INSTANCE.options_layout24().getSafeUri().asString();
 		}

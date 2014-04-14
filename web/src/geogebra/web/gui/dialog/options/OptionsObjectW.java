@@ -258,6 +258,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			index = tabPanel.getWidgetIndex(this);
 			hasAdded = true;
 		}
+
+		public void onResize(int height, int width) {
+	         this.setWidth(width + "px");
+	         this.setHeight(height + "px");
+        }
 	}
 
 	private class CheckboxPanel extends OptionPanel implements IBooleanOptionListener {
@@ -3385,6 +3390,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 	}
 
-
-
+	@Override
+    public void onResize(int height, int width) {
+		for (OptionsTab tab: tabs) {
+			tab.onResize(height, width);
+		}
+    }
+	
 }

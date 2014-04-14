@@ -39,6 +39,9 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 	private OptionsCASW casPanel;
 	private OptionsAdvancedW advancedPanel;
 	private OptionsLayoutW layoutPanel;
+	
+	// current OptionPanel
+	private OptionPanelW optionPanel;
 
 	private PropertiesStyleBarW styleBar;
 
@@ -69,7 +72,7 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 		
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
-		wrappedPanel.addStyleName("propertiesView");
+		//wrappedPanel.addStyleName("propertiesView");
 		mainPanel.add(contentsPanel);
 		
 //		if(!((AppW) app).getLAF().isSmart()){
@@ -165,6 +168,8 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 			if (layoutPanel == null) {
 				layoutPanel = new OptionsLayoutW((AppW) app);
 			}
+			layoutPanel.getWrappedPanel().setStyleName("layoutPanel");
+			
 			return layoutPanel;
 
 		case OBJECTS:
@@ -275,11 +280,13 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 	public void setOptionPanel(OptionType type, int subType) {
 		optionType = type;
 		contentsPanel.clear();
-		OptionPanelW optionPanel = getOptionPanel(type, subType);
+		optionPanel = getOptionPanel(type, subType);
 		Widget wPanel = optionPanel.getWrappedPanel();
 		notImplemented.setText(getTypeString(type) + " - Not implemented");
 		contentsPanel.add(wPanel != null ? wPanel: notImplemented);
-
+		if(wPanel != null) {
+			onResize();
+		}
 	}
 
 	@Override
@@ -373,8 +380,17 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 	}
 
     public void onResize() {
-    	contentsPanel.setWidth((getWrappedPanel().getOffsetWidth() - 42)+"px");
-
+    	//-34px for width of stylebar
+    	int width = getWrappedPanel().getOffsetWidth() - 34;
+    	int height = getWrappedPanel().getOffsetHeight();
+    	//contentsPanel.setHeight(getWrappedPanel().getOffsetHeight() + "px");
+    	
+    	if(height > 0 && width > 0) {
+    		contentsPanel.setWidth(width + "px");
+    		
+    		//-30px for Tabs, -16px for padding, -26px for paddings
+        	optionPanel.onResize((height - 30 - 16), width - 26);
+    	}
     }
 
 }

@@ -352,8 +352,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/options-large.png")
 	ImageResource options_large();
 	
-	@Source("geogebra/web/gui/images/options-objects24.png")
-	ImageResource options_objects24();
+	/*@Source("geogebra/web/gui/images/options-objects24.png")
+	ImageResource options_objects24();*/
 	
 	@Source("geogebra/web/gui/images/osculating_circle.png")
 	ImageResource osculating_circle();
@@ -487,7 +487,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/zoom16.gif")
 	ImageResource zoom16();
 	
-	@Source("geogebra/web/gui/images/drive_icon_16.png")
+	/*@Source("geogebra/web/gui/images/drive_icon_16.png")
 	ImageResource drive_icon_16();
 	
 	@Source("geogebra/web/gui/images/skydrive_icon_16.png")
@@ -503,7 +503,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	ImageResource social_openid();
 	
 	@Source("geogebra/web/gui/images/social-twitter.png")
-	ImageResource social_twitter();
+	ImageResource social_twitter();*/
 
 	/*@Source("geogebra/web/gui/images/stylingbar_graphicsview_standardview.png")
 	ImageResource standard_view();*/
@@ -545,14 +545,14 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("icons/png30x30/stylingbar_point-right.png")
 	ImageResource point_right();*/
 
-	@Source("icons/png16x16/interval-left.png")
+	/*@Source("icons/png16x16/interval-left.png")
 	ImageResource interval_left();
 	
 	@Source("icons/png16x16/interval-right.png")
 	ImageResource interval_right();
 	
 	@Source("icons/png16x16/interval-between.png")
-	ImageResource interval_between();
+	ImageResource interval_between();*/
 
 	@Source("icons/png16x16/step_graph.png")
 	ImageResource step_graph();
@@ -560,11 +560,11 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("icons/png16x16/bar_graph.png")
 	ImageResource bar_graph();
 
-	@Source("icons/png16x16/export16.png")
-	ImageResource export16();
+	/*@Source("icons/png16x16/export16.png")
+	ImageResource export16();*/
 	
-	@Source("icons/png16x16/normal-overlay.png")
-	ImageResource normal_overlay();
+	/*@Source("icons/png16x16/normal-overlay.png")
+	ImageResource normal_overlay();*/
 	
 
 

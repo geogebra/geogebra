@@ -21,4 +21,10 @@ public class OptionsLayoutW extends OptionsLayout implements OptionPanelW {
 	    return null;
     }
 
+	@Override
+    public void onResize(int height, int width) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

@@ -8,4 +8,5 @@ public interface OptionPanelW {
 	 */
 	public void updateGUI();
 	public Widget getWrappedPanel();
+	public void onResize(int height, int width);
 }
