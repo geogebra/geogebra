@@ -311,7 +311,7 @@ public interface GuiResources extends ClientBundle {
 	ImageResource deco_segment_2strokes();
 	
 	@Source("icons/png/web/decoration_icons/decoration_segment_3strokes.png")
-	ImageResource deco_segment_3stroke();
+	ImageResource deco_segment_3strokes();
 	
 	@Source("icons/png/web/decoration_icons/decoration_segment_1arrow.png")
 	ImageResource deco_segment_1arrow();

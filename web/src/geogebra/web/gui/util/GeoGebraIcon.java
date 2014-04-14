@@ -5,12 +5,12 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.html5.awt.GArc2DW;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.awt.GLine2DW;
-import geogebra.html5.awt.GeneralPath;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.openjdk.awt.geom.Polygon;
 import geogebra.web.gui.images.StyleBarResources;
@@ -251,231 +251,98 @@ public class GeoGebraIcon extends BasicIcons{
 	}
 
 	public static ImageOrText createDecorAngleIcon(int id, GDimensionW iconSize){
-		int w = iconSize.getWidth();
-		int h = iconSize.getHeight();
-		GLine2DW tick =new GLine2DW();
-		GArc2DW arc =new GArc2DW();
-	    GeneralPath polygon = new GeneralPath(); // Michael Borcherds 2007-10-28
-		
-		
-		Canvas c = getTmpCanvas(w, h);
-		GGraphics2DW g2 = new GGraphics2DW(c);
-		g2.clearRect(0,0, w, h);
-		g2.setColor(GColor.BLACK);
-		g2.drawLine(13,27, 67, 27);
-		g2.drawLine(13,27,67,3);
-		arc.setArcByCenter(13,27,40,0,24,GArc2DW.OPEN);
-		g2.draw(arc);
+		ImageOrText ret = new ImageOrText();
+		ImageResource url = null;
 		switch(id){
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
-				arc.setArcByCenter(13,27,35,0,24,GArc2DW.OPEN);
-				g2.draw(arc);
+				url =  GuiResources.INSTANCE.deco_angle_2lines();
 			break;
 			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
-				arc.setArcByCenter(13,27,35,0,24,GArc2DW.OPEN);
-				g2.draw(arc);
-				arc.setArcByCenter(13,27,45,0,24,GArc2DW.OPEN);
-				g2.draw(arc);
+				url =  GuiResources.INSTANCE.deco_angle_3lines();
 			break;
 			case GeoElement.DECORATION_ANGLE_ONE_TICK:
-				drawTick(tick, Math.toRadians(12));
-				g2.draw(tick);
+				url =  GuiResources.INSTANCE.deco_angle_1stroke();
 			break;
 			case GeoElement.DECORATION_ANGLE_TWO_TICKS:
-				drawTick(tick, Math.toRadians(9.6));
-				g2.draw(tick);
-				drawTick(tick, Math.toRadians(14.4));
-				g2.draw(tick);
+				url =  GuiResources.INSTANCE.deco_angle_2strokes();
 			break;
 			case GeoElement.DECORATION_ANGLE_THREE_TICKS:
-				drawTick(tick, Math.toRadians(12));
-				g2.draw(tick);
-				drawTick(tick, Math.toRadians(7));
-				g2.draw(tick);
-				drawTick(tick, Math.toRadians(16));
-				g2.draw(tick);
+				url =  GuiResources.INSTANCE.deco_angle_3strokes();
 			break;			
 //			 Michael Borcherds 2007-11-19 BEGIN
 			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-				polygon.reset();
-			    polygon.moveTo(56,15);
-			    polygon.lineTo(48,19);
-			    polygon.lineTo(50,10);
-			    polygon.lineTo(56,15);
-			    polygon.closePath();
-				g2.fill(polygon);
+				url =  GuiResources.INSTANCE.deco_angle_arrow_down();
 			break;
 			case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
-				polygon.reset();
-			    polygon.moveTo(54,27);
-			    polygon.lineTo(48,20);
-			    polygon.lineTo(56,18);
-			    polygon.lineTo(54,27);
-			    polygon.closePath();
-				g2.fill(polygon);
+				url =  GuiResources.INSTANCE.deco_angle_arrow_up();
 			break;
+			default:
+				url =  GuiResources.INSTANCE.deco_angle_1line();
 //			 Michael Borcherds 2007-11-19 END
 		}
-		//TODO
-		ImageOrText ret = new ImageOrText();
+		ret.url = url.getSafeUri().asString();
 		return ret;
+
 	}
 
 	public static ImageOrText createDecorSegmentIcon(int id, GDimensionW iconSize) {
-		int width = iconSize.getWidth();
-		int height = iconSize.getHeight();
-		
-		Canvas c = getTmpCanvas(width, height);
-		GGraphics2DW g2 = new GGraphics2DW(c);
-		
-		g2.clearRect(0, 0, width, height);
-		g2.setColor(GColor.BLACK);
-		int mid = height / 2;
-		g2.drawLine(0, mid, width, mid);
+		ImageOrText ret = new ImageOrText();
+		ImageResource url = null;
 
-		switch (id) {
-		case GeoElement.DECORATION_NONE:
-			break;
+		switch (id) {		
 		case GeoElement.DECORATION_SEGMENT_ONE_TICK:
-			int quart = mid / 2;
-			int mid_width = width / 2;
-			g2.drawLine(mid_width, quart, mid_width, mid + quart);
+			url =  GuiResources.INSTANCE.deco_segment_1stroke();
 			break;
 		case GeoElement.DECORATION_SEGMENT_TWO_TICKS:
-			quart = mid / 2;
-			mid_width = width / 2;
-			g2.drawLine(mid_width - 1, quart, mid_width - 1, mid + quart);
-			g2.drawLine(mid_width + 2, quart, mid_width + 2, mid + quart);
+			url =  GuiResources.INSTANCE.deco_segment_2strokes();
 			break;
 		case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
-			quart = mid / 2;
-			mid_width = width / 2;
-			g2.drawLine(mid_width, quart, mid_width, mid + quart);
-			g2.drawLine(mid_width + 3, quart, mid_width + 3, mid + quart);
-			g2.drawLine(mid_width - 3, quart, mid_width - 3, mid + quart);
+			url =  GuiResources.INSTANCE.deco_segment_3strokes();
 			break;
 		// Michael Borcherds 20071006 start
 		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
-			quart = mid / 2;
-			mid_width = width / 2;
-			g2.drawLine(mid_width, mid, mid_width - quart, mid - quart);
-			g2.drawLine(mid_width, mid, mid_width - quart, mid + quart);
+			url =  GuiResources.INSTANCE.deco_segment_1arrow();
 			break;
 		case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
-			quart = mid / 2;
-			mid_width = width / 2;
-			g2.drawLine(mid_width - 3, mid, mid_width - quart - 3, mid - quart);
-			g2.drawLine(mid_width - 3, mid, mid_width - quart - 3, mid + quart);
-			g2.drawLine(mid_width + 3, mid, mid_width - quart + 3, mid - quart);
-			g2.drawLine(mid_width + 3, mid, mid_width - quart + 3, mid + quart);
+			url =  GuiResources.INSTANCE.deco_segment_2arrows();
 			break;
 		case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
-			quart = mid / 2;
-			mid_width = width / 2;
-			g2.drawLine(mid_width, mid, mid_width - quart, mid - quart);
-			g2.drawLine(mid_width, mid, mid_width - quart, mid + quart);
-			g2.drawLine(mid_width + 6, mid, mid_width - quart + 6, mid - quart);
-			g2.drawLine(mid_width + 6, mid, mid_width - quart + 6, mid + quart);
-			g2.drawLine(mid_width - 6, mid, mid_width - quart - 6, mid - quart);
-			g2.drawLine(mid_width - 6, mid, mid_width - quart - 6, mid + quart);
+			url =  GuiResources.INSTANCE.deco_segment_3arrows();
+			break;
+		default:
+			url =  GuiResources.INSTANCE.deco_segment_none();
 			break;
 		// Michael Borcherds 20071006 end
 		}
 
-		return new ImageOrText();
+		ret.url = url.getSafeUri().asString();
+		return ret;
 
     }
 
 	public static ImageOrText createAxesStyleIcon(int id, GDimensionW iconSize) {
-		int WIDTH = 32;
-//		int HEIGHT = 24;
-//		int arrowSize = 5;
-//		int filledArrowLength = 10;
-//		GLine2DW tempLine = new GLine2DW();
-//		GeneralPath gp = new GeneralPath();
-//
-//		
-//		int width = iconSize.getWidth();
-//		int height = iconSize.getHeight();
-//		
-//		Canvas c = getTmpCanvas(width, height);
-//		GGraphics2DW g2 = new GGraphics2DW(c);
-//		
-//		g2.clearRect(0, 0, width, height);
-//		g2.setColor(GColor.BLACK);
-//
-//		// paint cell background
-////		if (getBackground() == Color.LIGHT_GRAY) {
-////			g2.setPaint(Color.LIGHT_GRAY);
-////		} else {
-////			g2.setPaint(Color.WHITE);
-////		}
-//		g2.fillRect(0, 0, width, height);
-//		
-//		g2.setPaint(GColor.BLACK);
-//		
-////		g2.setStroke(borderStroke);
-//		switch (id) {
-//		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
-//
-//			// left arrow
-//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
-//			g2.draw(tempLine);
-//
-//			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2 + arrowSize);
-//			g2.draw(tempLine);
-//
-//			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2 - arrowSize);
-//			g2.draw(tempLine);
-//
-//			// fall through
-//		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-//		default:
-//
-//			// right-arrow 
-//
-//			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2 + arrowSize);
-//			g2.draw(tempLine);
-//
-//			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2 - arrowSize);
-//			g2.draw(tempLine);
-//			 // fall through
-//		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
-//			// just a line
-//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
-//			g2.draw(tempLine);
-//			break;
-//		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
-//
-//			// left arrow (filled)
-//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
-//			g2.draw(tempLine);
-//
-//			gp.reset();
-//			gp.moveTo(0, HEIGHT / 2);
-//			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 + arrowSize);
-//			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 - arrowSize);
-//			
-//			g2.fill(gp);
-//
-//			// fall through
-//		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
-//
-//			// right-arrow (filled)
-//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
-//			g2.draw(tempLine);
-//
-//			gp.reset();
-//			gp.moveTo(WIDTH, HEIGHT / 2);
-//			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 + arrowSize);
-//			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 - arrowSize);
-//			
-//			g2.fill(gp);
-//
-//		}
-		return new ImageOrText();
-
+		ImageOrText ret = new ImageOrText();
+		ImageResource url = null;
+		switch(id){
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
+				url =  GuiResources.INSTANCE.deco_axes_arrow();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+				url =  GuiResources.INSTANCE.deco_axes_arrows();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
+				url =  GuiResources.INSTANCE.deco_axes_arrow_filled();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+				url =  GuiResources.INSTANCE.deco_axes_arrows_filled();
+				break;
+			default:
+				url =  GuiResources.INSTANCE.deco_axes_none();
+		}
+		ret.url = url.getSafeUri().asString();
+		return ret;
 	}
+
 	public static ImageOrText createStringIcon(String string) {
 	    ImageOrText ret = new ImageOrText();
 	    ret.text = string;

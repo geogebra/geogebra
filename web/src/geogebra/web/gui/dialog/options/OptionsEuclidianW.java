@@ -24,6 +24,7 @@ import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
+import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
@@ -83,14 +84,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private CheckBox cbShowAxes;
 		private CheckBox cbBoldAxes;
 		private Label colorLabel;
-		private Button btAxesColor;
+		private MyCJButton btAxesColor;
 		private Label lineStyle;
 		private FlowPanel axesOptionsPanel;
 		private AutoCompleteTextFieldW axesOptionTitle;
 		private Label axesOptionsTitle;
 		private PopupMenuButton axesStylePopup;
 		private Label backgroundColorLabel;
-		private Button btBackgroundColor;
+		private MyCJButton btBackgroundColor;
 		private CheckBox cbShowMouseCoords;
 		private Label tooltips;
 		private Label miscTitle;
@@ -249,7 +250,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// axes color
 			colorLabel = new Label(app.getPlain("Color") + ":");
 
-			btAxesColor = new Button("\u2588");
+			btAxesColor = new MyCJButton();
 			
 			btAxesColor.addClickHandler(new ClickHandler(){
 
@@ -406,7 +407,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// background color panel
 			backgroundColorLabel = new Label(app.getPlain("BackgroundColor") + ":");
 	
-			btBackgroundColor = new Button("\u2588");
+			btBackgroundColor = new MyCJButton();
 
 			// show mouse coords
 			cbShowMouseCoords = new CheckBox();
@@ -536,12 +537,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 		
 		public void updateAxesColorButton(GColor color) {
-			btAxesColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
+			ImageOrText content = new ImageOrText();
+			content.bgColor = color;
+			btAxesColor.setIcon(content);
 		
 		}
 
 		public void updateBackgroundColorButton(GColor color) {
-			btBackgroundColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
+			ImageOrText content = new ImageOrText();
+			content.bgColor = color;
+			btBackgroundColor.setIcon(content);
 		
 		}
 
