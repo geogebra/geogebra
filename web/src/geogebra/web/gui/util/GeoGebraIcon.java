@@ -9,20 +9,12 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.html5.awt.GLine2DW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.BasicIcons;
-import geogebra.html5.openjdk.awt.geom.Polygon;
 import geogebra.web.gui.images.StyleBarResources;
 
-import java.util.HashMap;
-
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.canvas.dom.client.TextMetrics;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Image;
 
 public class GeoGebraIcon extends BasicIcons{
 
@@ -120,121 +112,12 @@ public class GeoGebraIcon extends BasicIcons{
 		return new ImageOrText();
 	}
 
-	public static ImageData createDownTriangleIcon() {
-		int h = 18;
-		int w = 12;
-		
-		Canvas icon = getTmpCanvas(w,h);
-	    icon.setCoordinateSpaceHeight(h);
-	    icon.setCoordinateSpaceWidth(w);
-	    GGraphics2DW g2 = new GGraphics2DW(icon);
-	    g2.setColor(GColor.WHITE);
-	    g2.fillRect(0, 0, g2.getCanvas().getCoordinateSpaceWidth(), g2.getCanvas().getCoordinateSpaceHeight());
-	    g2.setColor(GColor.GRAY);
-	    
-	    int midx = w/2;
-		int midy = h/2;
-		
-		Polygon p = new Polygon();
-		p.addPoint(midx-3,midy-3);
-		p.addPoint(midx+3,midy-3);
-		p.addPoint(midx,midy+3);
-
-		g2.fillPolygon(p);
-	    return g2.getImageData(0, 0, w, h);
-    }
-
-	public static ImageData createStringIcon(String str, GFontW font, boolean isBold, boolean isItalic, 
-			boolean isCentered, GDimensionW iconSize, GColor fgColor, GColor bgColor){
-		int h = iconSize.getHeight();
-		int w = iconSize.getWidth();
-
-		Canvas c = getTmpCanvas(w,h);
-		GGraphics2DW g2 = new GGraphics2DW(c);
-		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
-
-		if(bgColor != null)
-			g2.setBackground(bgColor);
-
-		g2.setColor (fgColor);
-		//font = font.deriveFont((h-6)*1.0f);
-		if(isBold)
-			font = (GFontW) font.deriveFont(GFontW.BOLD);
-		if(isItalic)
-			font = (GFontW) font.deriveFont(geogebra.common.awt.GFont.ITALIC);
-		g2.setFont (font);
-
-
-		//FontMetrics fm = g2.getFontMetrics ();
-		TextMetrics fm = g2.getCanvas().getContext2d().measureText(str);
-		double symbolWidth = fm.getWidth();
-		//int ascent = fm.getMaxAscent ();
-		//int descent= fm.getMaxDescent ();
-		double x = (isCentered) ? w/2 - symbolWidth/2 : 1;
-		double mid_y = 0; // there is not easy way to check the height of the text now h/2 - descent/2 + ascent/2 - 1;
-
-		g2.drawString (str,(int) x, (int) mid_y);
-		
-		return g2.getImageData(0, 0, w, h);
-    }
-
-
 	public static ImageOrText createFileImageIcon(App app, String url, float alpha, GDimensionW iconSize){
 
 		ImageOrText ret = new ImageOrText();
 		ret.url = url;
 		return ret;
 	}
-	
-	public static ImageData ensureIconSize(ImageData icon, GDimensionW iconSize){
-
-		int h = iconSize.getHeight();
-		int w = iconSize.getWidth();
-		int h2 = icon.getHeight();
-		int w2 = icon.getWidth();
-		if(h2 == h && w2 == w) 
-			return icon;
-
-		int wInset = (w - w2) > 0 ? (w-w2)/2 : 0;
-		int hInset = (h - h2) > 0 ? (h-h2)/2 : 0;
-		
-
-		GGraphics2DW g2 = new GGraphics2DW(getTmpCanvas(w, h));
-		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
-
-		try {	
-			if(icon !=null){
-				g2.putImageData(icon, wInset, hInset);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return g2.getImageData(0, 0, w, h);
-	}
-	
-	private static HashMap<String, ImageElement> rightIcons = new HashMap<String, ImageElement>();
-
-	public static ImageData joinIcons(ImageData leftIcon,
-            ImageResource rightIcon) {
-		int w1 = leftIcon.getWidth();
-		int w2 = rightIcon.getWidth();
-		int h1 = leftIcon.getHeight();
-		int h2 = rightIcon.getHeight();
-		int h = Math.max(h1, h2);
-		int mid = h/2;
-		Canvas c = getTmpCanvas(w1 + w2, h);
-		GGraphics2DW g2 = new GGraphics2DW(c);
-		g2.putImageData(leftIcon, 0, mid - h1/2);
-		String url = rightIcon.getSafeUri().asString();
-		if (!rightIcons.containsKey(rightIcon.getSafeUri().asString())) {
-			rightIcons.put(url,ImageElement.as(new Image(url).getElement()));
-		}
-		g2.getCanvas().getContext2d().drawImage(rightIcons.get(url), w1, mid - h2 / 2, w2, h2);
-
-		return g2.getImageData(0, 0, w1 +  w2, h);
-    }
 
 	public static ImageOrText createResourceImageIcon(App app,
             ImageResource res, float alpha, GDimensionW dim) {
@@ -242,13 +125,6 @@ public class GeoGebraIcon extends BasicIcons{
 		ret.url = res.getSafeUri().asString();
 	    return ret;
     }
-
-	private static void drawTick(GLine2DW tick, double angle){
-		tick.setLine(13+37*Math.cos(angle),
-				27-37*Math.sin(angle),
-				13+43*Math.cos(angle),
-				27-43*Math.sin(angle));
-	}
 
 	public static ImageOrText createDecorAngleIcon(int id, GDimensionW iconSize){
 		ImageOrText ret = new ImageOrText();
@@ -342,10 +218,4 @@ public class GeoGebraIcon extends BasicIcons{
 		ret.url = url.getSafeUri().asString();
 		return ret;
 	}
-
-	public static ImageOrText createStringIcon(String string) {
-	    ImageOrText ret = new ImageOrText();
-	    ret.text = string;
-	    return ret;
-    }
 }
