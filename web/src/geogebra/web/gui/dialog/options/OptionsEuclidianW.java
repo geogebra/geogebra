@@ -17,7 +17,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
-import geogebra.html5.event.FocusListener;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.LineStylePopup;
@@ -121,7 +121,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					}
 				}});
 
-			tf.addFocusListener(new FocusListener(this){
+			tf.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
 					model.applyMinMax(tf.getText(), type);
@@ -153,7 +153,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					}
 				}});
 
-			tf.addFocusListener(new FocusListener(this){
+			tf.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
 					applyAxesRatio();

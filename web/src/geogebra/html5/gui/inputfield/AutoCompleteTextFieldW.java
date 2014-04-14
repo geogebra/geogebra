@@ -480,9 +480,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void addFocusListener(FocusListener listener) {
 		textField.getValueBox().addFocusHandler(
-		        (geogebra.html5.event.FocusListener) listener);
+		        (geogebra.html5.event.FocusListenerW) listener);
 		textField.getValueBox().addBlurHandler(
-		        (geogebra.html5.event.FocusListener) listener);
+		        (geogebra.html5.event.FocusListenerW) listener);
 	}
 
 	public void wrapSetText(String s) {

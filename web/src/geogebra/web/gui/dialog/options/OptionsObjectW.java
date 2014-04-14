@@ -80,7 +80,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.event.FocusListener;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
@@ -460,7 +460,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			});
 
-			tfCondition.addFocusListener(new FocusListener(this){
+			tfCondition.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusGained(){
 					processed = false;
@@ -653,7 +653,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			inputPanelName = new InputPanelW(null, (AppW) app, 1, -1, true);
 			tfName = (AutoCompleteTextFieldW) inputPanelName.getTextComponent();
 			tfName.setAutoComplete(false);
-			tfName.addFocusListener(new FocusListener(this){
+			tfName.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
 					model.applyNameChange(tfName.getText());
@@ -672,7 +672,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			tfDefinition = (AutoCompleteTextFieldW) inputPanelDef
 					.getTextComponent();
 			tfDefinition.setAutoComplete(false);
-			tfDefinition.addFocusListener(new FocusListener(this){
+			tfDefinition.addFocusListener(new FocusListenerW(this){
 				@Override
 				public void wrapFocusGained() {
 					//started to type something : store current geo if focus lost
@@ -700,7 +700,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			tfCaption = (AutoCompleteTextFieldW) inputPanelCap.getTextComponent();
 			tfCaption.setAutoComplete(false);
 
-			tfCaption.addFocusListener(new FocusListener(this){
+			tfCaption.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
 					model.applyCaptionChange(tfCaption.getText());
@@ -1299,7 +1299,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			inputPanel = new InputPanelW(null, getAppW(), 1, -1, false);
 			tfSize = (AutoCompleteTextFieldW) inputPanel.getTextComponent();
 			tfSize.setAutoComplete(false);
-			tfSize.addFocusListener(new FocusListener(this){
+			tfSize.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
 					model.applyChanges(tfSize.getText());
@@ -1361,7 +1361,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			tfButtonHeight = (AutoCompleteTextFieldW) ipButtonHeight.getTextComponent();
 			tfButtonHeight.setAutoComplete(false);
 
-			FocusListener focusListener = new FocusListener(this){
+			FocusListenerW focusListener = new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
 					model.setSizesFromString(tfButtonWidth.getText(),
@@ -1466,7 +1466,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			nameLabelB = new Label();
 			nameLabelA = new Label();
 
-			FocusListener focusListener = new FocusListener(this){
+			FocusListenerW focusListener = new FocusListenerW(this){
 
 				@Override
 				protected void wrapFocusGained(){
@@ -2509,7 +2509,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				angleSlider.addChangeHandler(angleAndDistanceHandler);
 				distanceSlider.addChangeHandler(angleAndDistanceHandler);
 
-				tfInsertUnicode.addFocusListener(new FocusListener(this){
+				tfInsertUnicode.addFocusListener(new FocusListenerW(this){
 					@Override
 					protected void wrapFocusLost(){
 						String symbolText = tfInsertUnicode.getText();

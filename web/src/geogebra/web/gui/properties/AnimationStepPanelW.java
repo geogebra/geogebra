@@ -3,7 +3,7 @@ package geogebra.web.gui.properties;
 import geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.kernel.Kernel;
-import geogebra.html5.event.FocusListener;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.web.gui.AngleTextFieldW;
 import geogebra.web.main.AppW;
 
@@ -43,7 +43,7 @@ implements ITextFieldListener {
 
 		});
 
-		FocusListener focusListener = new FocusListener(this){};
+		FocusListenerW focusListener = new FocusListenerW(this){};
 		tfAnimStep.addKeyDownHandler(new KeyDownHandler(){
 
 			public void onKeyDown(KeyDownEvent event) {

@@ -233,7 +233,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public FocusListener newFocusListener(Object listener) {
-	    return new geogebra.html5.event.FocusListener(listener);
+	    return new geogebra.html5.event.FocusListenerW(listener);
     }
 
 	@Override

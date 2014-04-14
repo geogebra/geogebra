@@ -6,7 +6,7 @@ import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.options.model.AxisModel;
 import geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
-import geogebra.html5.event.FocusListener;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.ComboBoxW;
 import geogebra.html5.gui.util.LayoutUtil;
@@ -181,7 +181,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 				}
 			}});
 
-		tfCross.addFocusListener(new FocusListener(this){
+		tfCross.addFocusListener(new FocusListenerW(this){
 			@Override
 			protected void wrapFocusLost(){
 				model.applyCrossing(tfCross.getText());

@@ -5,7 +5,7 @@ import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.html5.event.FocusListener;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -45,7 +45,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 
 		});
 
-        tfAnimSpeed.addFocusListener(new FocusListener(this){
+        tfAnimSpeed.addFocusListener(new FocusListenerW(this){
 
 			@Override
 			protected void wrapFocusGained(){

@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.html5.event.FocusListener;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.properties.SliderPanelW;
 import geogebra.web.main.AppW;
@@ -152,7 +152,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		
 		tfLabel = new AutoCompleteTextFieldW(-1, app);
 		updateLabelField(number, false);
-		tfLabel.addFocusListener(new FocusListener(tfLabel));
+		tfLabel.addFocusListener(new FocusListenerW(tfLabel));
 		tfLabel.requestToShowSymbolButton();
 		nameWidget.add(tfLabel);
 		

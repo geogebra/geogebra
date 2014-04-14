@@ -1,19 +1,21 @@
 package geogebra.html5.event;
 
+import geogebra.common.euclidian.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 
 /**
  * @author judit
- *
+ * 
  */
-public class FocusListener extends geogebra.common.euclidian.event.FocusListener
-        implements com.google.gwt.event.dom.client.FocusHandler,
-        com.google.gwt.event.dom.client.BlurHandler {
+public class FocusListenerW extends FocusListener implements FocusHandler,
+        BlurHandler {
 
-	public FocusListener(Object listener) {
+	public FocusListenerW(Object listener) {
 		setListenerClass(listener);
 	}
 
