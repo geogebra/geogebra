@@ -67,7 +67,8 @@ input[type="checkbox"] {
 	color: #666666;
 }
 
-.gwt-TextBox-readonly,.gwt-TextArea-readonly {
+.gwt-TextBox-readonly,
+.gwt-TextArea-readonly {
 	color: #CCC;
 }
 
@@ -2773,6 +2774,7 @@ label {
 
 .panelIndent {
 	padding-left: 25px;
+	margin-top: 5px;
 }
 
 .propertiesTab .gwt-CheckBox {
@@ -2784,19 +2786,32 @@ label {
 #####################################################################################*/
 
 .checkBoxPanel,
-.panelRow {
-	display: block;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.listBoxPanel {
+.panelRow,
+.listBoxPanel  {
 	display: block;
 }
+.checkBoxPanel > *,
+.panelRow > *,
+.listBoxPanel > *,
+.panelRowIndent > *,
+.gwt-CheckBox > * {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px 10px 3px 0px;
+}
 
-.listBoxPanel .gwt-Label {
-	display: inline;
-	padding-right: 2px;
+.checkBoxPanel .gwt-Label,
+.panelRow .gwt-Label,
+.listBoxPanel .gwt-Label,
+.panelRowIndent .gwt-Label {
+	padding-right: 10px;
+}
+
+.axisPanel > * > *:first-child {
+	min-width: 110px;
+}
+.axisPanel > .checkBoxPanel > *:first-child {
+	min-width: 0px;
 }
 
 .optionsInput {
@@ -2849,11 +2864,6 @@ label {
 	padding: 5px;
 }
 
-.panelRow > * {
-	display: inline-block;
-	padding: 5px;
-}
-
 .panelRowIndent > * {
 	display: inline-block;
 	padding: 5px;
@@ -2862,7 +2872,8 @@ label {
 }
 
 .numberInput {
-	width: 64px;
+	width: 70px;
+	margin-right: 20px;
 }
 
 .textOptionsToolBar .gwt-ToggleButton {
@@ -2919,7 +2930,12 @@ label {
 
 .advanced-TextButtonPanel {
 	position: relative;
-	margin: 3px 5px;
+	margin: 3px 0px;
+}
+.advanced-TextButtonPanel input[disabled=""],
+.advanced-TextButtonPanel .choice-button-up-disabled {
+	opacity: 0.4;
+	cursor: default;
 }
 .advanced-TextButtonPanel input.selected-value {
 	padding-right: 1.3em;
@@ -2927,7 +2943,7 @@ label {
 .advanced-TextButtonPanel .choice-button {
 	position: absolute;
 	right: 0.3em;
-	top: 0.5em;
+	top: 0.3em;
 	cursor: pointer;
 }
 .advanced-ListPopupPanel {

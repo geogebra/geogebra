@@ -692,6 +692,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
                 
 			// checkbox for grid labels
 			lbGridTickAngle = new ListBox();
+			
+			FlowPanel gridTickAnglePanel = new FlowPanel();
+			gridTickAnglePanel.setStyleName("panelRow");
+			gridTickAnglePanel.add(lbGridType);
 		
 			
 			// grid labels
@@ -705,7 +709,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			add(tickPanel);
 			
 			FlowPanel typePanel = new FlowPanel();
-			typePanel.add(lbGridType);
+			typePanel.add(gridTickAnglePanel);
 			typePanel.add(cbGridManualTick);
 			typePanel.add(LayoutUtil.panelRowIndent(
 					gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,

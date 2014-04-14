@@ -89,9 +89,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/toolbar-further-tools-icon.png")
 	ImageResource toolbar_further_tools();
 	
-	@Source("icons/png/web/toolbar-further-tools-icon-active.png")
-	ImageResource toolbar_further_tools_active();
-	
 	//REDO UNDO
 	@Source("icons/png/web/menu_edit_undo.png")
 	ImageResource button_undo();
@@ -262,6 +259,12 @@ public interface GuiResources extends ClientBundle {
 	
 	
 	//OBJECT PROPERTIES
+	@Source("icons/png/web/little-triangle-down.png")
+	ImageResource little_triangle_down();
+	
+	@Source("icons/png/web/little-triangle-down-active.png")
+	ImageResource little_triangle_down_active();
+	
 	@Source("icons/png/web/stylingbar/stylingbar_properties_object.png")
 	ImageResource properties_object();
 	

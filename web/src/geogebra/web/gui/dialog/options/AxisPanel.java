@@ -60,6 +60,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		this.view = view;
 		model = new AxisModel(app, view, axis, this);
 
+		this.addStyleName("axisPanel");
+		
 		String strAxisEn = model.getAxisName();
 		//		this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));
 
@@ -163,8 +165,10 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		FlowPanel labelPanel = new FlowPanel();
 		labelPanel.add(axisLabel);
 		labelPanel.add(comboAxisLabel);
-		labelPanel.add(axisUnitLabel);
-		labelPanel.add(comboUnitLabel);
+		
+		FlowPanel unitPanel = new FlowPanel();
+		unitPanel.add(axisUnitLabel);
+		unitPanel.add(comboUnitLabel);
 
 		// cross at and stick to edge
 
@@ -205,6 +209,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		distancePanel.setStyleName("listBoxPanel");
 		showTicksPanel.setStyleName("listBoxPanel");
 		labelPanel.setStyleName("listBoxPanel");
+		unitPanel.setStyleName("listBoxPanel");
 		tfCross.setStyleName("numberInput");
 		
 		// add all panels
@@ -214,6 +219,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		add(distancePanel);
 		add(showTicksPanel);
 		add(labelPanel);
+		add(unitPanel);
 		add(crossPanel);
 
 		updatePanel();

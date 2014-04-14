@@ -19,6 +19,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	private static final int DEFAULT_VISIBLE_ROWS = 10;
 	private static final String DEFAULT_WIDTH = "70px";
+	private static final Image choiceImage = new Image(GuiResources.INSTANCE.toolbar_further_tools());
+	private static final Image choiceImageActive = new Image(GuiResources.INSTANCE.toolbar_further_tools());
 
 	public ComboBoxW() {
 		setCustomTextAllowed(true);
@@ -28,7 +30,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		setVisibleRows(DEFAULT_VISIBLE_ROWS);
 		setWidth(DEFAULT_WIDTH);
 		
-		this.setChoiceButtonImage(new Image(GuiResources.INSTANCE.triangle_down()));
+		this.setChoiceButtonImage(new Image(GuiResources.INSTANCE.little_triangle_down()));
 		this.prepareChoiceButton();
 		this.setChoiceButtonVisible(true);
 		
