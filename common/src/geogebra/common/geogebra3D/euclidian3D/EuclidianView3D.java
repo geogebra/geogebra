@@ -1806,8 +1806,19 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 
 	@Override
-	public void setHits(geogebra.common.awt.GPoint p, PointerEventType t) {
+	public void setHits(geogebra.common.awt.GPoint p, PointerEventType type) {
 		// empty method : setHits3D() used instead
+		// OR comment setHits3D() and uncomment below (for shaders) 
+		/*
+		renderer.setHits(p, app.getCapturingThreshold(type));
+			if(type == PointerEventType.TOUCH && this.hits.size() == 0){
+				renderer.setHits(p, app.getCapturingThreshold(type) * 3);
+			}
+		
+		hasMouse = true;
+		updateCursor3D();
+		*/
+
 	}
 
 	/**
@@ -1817,7 +1828,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            point location
 	 */
 	public void setHits3D(GPoint p) {
-		renderer.setHits(p);
+		renderer.setHits(p, 0);
 	}
 
 	

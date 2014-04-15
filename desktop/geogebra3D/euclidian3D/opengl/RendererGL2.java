@@ -676,7 +676,7 @@ public class RendererGL2 extends RendererD {
 
     
     @Override
-	public void setHits(GPoint mouseLoc){
+	public void setHits(GPoint mouseLoc, int threshold){
 
     	// sets the flag and mouse location for openGL picking
     	setMouseLoc(mouseLoc, Renderer.PICKING_MODE_LABELS);

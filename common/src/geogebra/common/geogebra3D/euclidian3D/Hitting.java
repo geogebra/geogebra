@@ -21,6 +21,11 @@ public class Hitting {
 	public Coords direction;
 	
 	private EuclidianView3D view;
+	
+	/**
+	 * current threshold
+	 */
+	private int threshold;
 
 	/**
 	 * constructor
@@ -43,8 +48,9 @@ public class Hitting {
 	/**
 	 * set the hits
 	 * @param mouseLoc mouse location
+	 * @param threshold threshold
 	 */
-	public void setHits(GPoint mouseLoc){
+	public void setHits(GPoint mouseLoc, int threshold){
 		
 		Hits3D hits = view.getHits3D();
 		hits.init();
@@ -52,6 +58,8 @@ public class Hitting {
 		origin = view.getPickPoint(mouseLoc); 
 		view.toSceneCoords3D(origin); 
 		direction = view.getViewDirection();
+		
+		this.threshold = threshold;
 
 		for (int i = 0; i < 3; i++) {
 			view.getAxisDrawable(i).hitIfVisibleAndPickable(this, hits); 
@@ -59,5 +67,13 @@ public class Hitting {
 		view.getDrawList3D().hit(this, hits);
 
 		hits.sort();
+	}
+	
+	/**
+	 * 
+	 * @return current threshold
+	 */
+	public int getThreshold(){
+		return threshold;
 	}
 }

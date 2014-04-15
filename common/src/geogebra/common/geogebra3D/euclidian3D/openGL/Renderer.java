@@ -1030,8 +1030,9 @@ public abstract class Renderer {
 	/**
 	 * set hits for mouse location
 	 * @param mouseLoc mouse location
+	 * @param threshold threshold
 	 */
-	abstract public void setHits(GPoint mouseLoc);
+	abstract public void setHits(GPoint mouseLoc, int threshold);
 
 	/*
 	 * private boolean intersectionCurvesWaitForPick = false;

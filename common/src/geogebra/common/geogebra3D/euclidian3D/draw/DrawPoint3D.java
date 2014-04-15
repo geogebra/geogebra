@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
@@ -280,7 +281,8 @@ implements Previewable, Functional2Var{
 		Coords p = point.getInhomCoordsInD(3);
 		Coords[] project = p.projectLine(hitting.origin, hitting.direction);
 		double d = p.distance(project[0]);
-		if (d * getView3D().getScale() <= point.getPointSize() + 2){
+		//if (d * getView3D().getScale() <=  point.getPointSize() + 2){
+		if (d * getView3D().getScale() <= DrawPoint.getSelectionThreshold(hitting.getThreshold())){
 			double z = -project[1].getX();
 			double dz = point.getPointSize()/getView3D().getScale();
 			setZPick(z+dz, z-dz);

@@ -1444,13 +1444,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	private Hitting hitting;
 
 	@Override
-	public void setHits(GPoint mouseLoc){
+	public void setHits(GPoint mouseLoc, int threshold){
 
 		if (mouseLoc == null){
 			return;
 		}
 
-		hitting.setHits(mouseLoc);
+		hitting.setHits(mouseLoc, threshold);
 
 	}
 }

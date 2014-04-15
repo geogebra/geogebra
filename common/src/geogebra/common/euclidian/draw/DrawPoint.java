@@ -52,6 +52,15 @@ public final class DrawPoint extends Drawable {
 
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
+	
+	/**
+	 * 
+	 * @param threshold controller threshold
+	 * @return distance threshold to select a point
+	 */
+	public static final int getSelectionThreshold(int threshold){
+		return threshold + SELECTION_RADIUS_MIN;
+	}
 
 	private GeoPointND P;
 
@@ -491,7 +500,7 @@ public final class DrawPoint extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		int r = hitThreshold + SELECTION_RADIUS_MIN;
+		int r = getSelectionThreshold(hitThreshold);
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx*dx + dy*dy <= r * r;
