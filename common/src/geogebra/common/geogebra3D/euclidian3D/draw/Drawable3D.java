@@ -1464,7 +1464,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	final public void hitIfVisibleAndPickable(Hitting hitting, Hits3D hits){
 		if (isVisible() && getGeoElement().isPickable() && hit(hitting)){
-			hits.addDrawable3D(this, PickingType.POINT_OR_CURVE);	
+			hits.addDrawable3D(this, getPickingType());	
 		}
 	}
 

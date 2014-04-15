@@ -123,6 +123,11 @@ public abstract class EuclidianController {
 	 */
 	public static final float MAX_TRANSPARENT_ALPHA_VALUE = 0.8f;
 
+	/**
+	 * max value for alpha to consider an object visible 
+	 */
+	public static final float MIN_VISIBLE_ALPHA_VALUE = 0.05f;
+
 	protected static final int POLYGON_NORMAL = 0;
 
 	protected static final int POLYGON_RIGID = 1;
