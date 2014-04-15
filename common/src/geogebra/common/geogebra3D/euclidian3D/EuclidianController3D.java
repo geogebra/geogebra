@@ -1459,7 +1459,6 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			}
 		}
 
-		App.debug(selNumberValues()+","+selPolygons());
 
 		if (selNumberValues() == 1) {
 			if (selPolygons() == 1) {
