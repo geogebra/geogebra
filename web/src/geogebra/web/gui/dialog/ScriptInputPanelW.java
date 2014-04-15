@@ -66,6 +66,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 		// init dialog using text
 
 		btPanel = new FlowPanel();
+		btPanel.setStyleName("optionsPanel");
 		btOk = new Button();
 		btCancel = new Button();
 		

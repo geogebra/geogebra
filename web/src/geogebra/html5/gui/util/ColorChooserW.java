@@ -584,8 +584,11 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		otherTable.setCheckNeeded(true);
 		
 		previewPanel = new PreviewPanel();
+		previewPanel.setStyleName("optionsPanel");
 		
 		opacityPanel = new OpacityPanel();
+		opacityPanel.setStyleName("optionsPanel");
+		
 		backgroundColorPanel = new BackgroundColorPanel();
 		tables = Arrays.asList(leftTable, mainTable, recentTable, otherTable);
 

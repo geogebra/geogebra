@@ -192,12 +192,26 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			dimPanel = new FlowPanel();
 			add(dimTitle);
-			dimPanel.add(LayoutUtil.panelRow(dimLabel[0], tfMinX, dimLabel[1],
-					tfMaxX));
 			
-		
-			dimPanel.add(LayoutUtil.panelRow(dimLabel[2], tfMinY, dimLabel[3],
-					tfMaxY));
+			FlowPanel xMinPanel = new FlowPanel();
+			FlowPanel xMaxPanel = new FlowPanel();
+			FlowPanel yMinPanel = new FlowPanel();
+			FlowPanel yMaxPanel = new FlowPanel();
+			xMinPanel.setStyleName("panelRowCell");
+			xMaxPanel.setStyleName("panelRowCell");
+			yMinPanel.setStyleName("panelRowCell");
+			yMaxPanel.setStyleName("panelRowCell");
+			xMinPanel.add(dimLabel[0]);
+			xMinPanel.add(tfMinX);
+			xMaxPanel.add(dimLabel[1]);
+			xMaxPanel.add(tfMaxX);
+			yMinPanel.add(dimLabel[2]);
+			yMinPanel.add(tfMinY);
+			yMaxPanel.add(dimLabel[3]);
+			yMaxPanel.add(tfMaxY);
+			
+			dimPanel.add(LayoutUtil.panelRow(xMinPanel, xMaxPanel));
+			dimPanel.add(LayoutUtil.panelRow(yMinPanel, yMaxPanel));
 			
 			dimPanel.add(LayoutUtil.panelRow(axesRatioLabel));
 			dimPanel.add(LayoutUtil.panelRow(tfAxesRatioX, new Label(" : "),
@@ -707,18 +721,29 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			gridLabel1 = new Label("x:");
 			gridLabel2 = new Label("y:");
 			gridLabel3 = new Label("\u03B8" + ":"); // Theta
+			
+			FlowPanel ncbGridTickXPanel = new FlowPanel();
+			FlowPanel ncbGridTickYPanel = new FlowPanel();
+			FlowPanel ncbGridTickAnglePanel = new FlowPanel();
+			ncbGridTickXPanel.setStyleName("panelRowCell");
+			ncbGridTickYPanel.setStyleName("panelRowCell");
+			ncbGridTickAnglePanel.setStyleName("panelRowCell");
+			ncbGridTickXPanel.add(gridLabel1);
+			ncbGridTickXPanel.add(ncbGridTickX);
+			ncbGridTickYPanel.add(gridLabel2);
+			ncbGridTickYPanel.add(ncbGridTickY);
+			ncbGridTickAnglePanel.add(gridLabel3);
+			ncbGridTickAnglePanel.add(lbGridTickAngle);
 		
-			FlowPanel tickPanel = LayoutUtil.panelRow(cbGridManualTick, gridLabel1,
-					ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
-					lbGridTickAngle);
+			FlowPanel tickPanel = LayoutUtil.panelRow(cbGridManualTick, ncbGridTickXPanel, 
+					ncbGridTickYPanel, ncbGridTickAnglePanel);
 			add(tickPanel);
 			
 			FlowPanel typePanel = new FlowPanel();
 			typePanel.add(gridTickAnglePanel);
 			typePanel.add(cbGridManualTick);
 			typePanel.add(LayoutUtil.panelRowIndent(
-					gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
-					lbGridTickAngle));
+					ncbGridTickXPanel, ncbGridTickYPanel, ncbGridTickAnglePanel));
 
 			lbGridTickAngle.addChangeHandler(new ChangeHandler(){
 				public void onChange(ChangeEvent event) {

@@ -67,6 +67,11 @@ input[type="checkbox"] {
 	color: #666666;
 }
 
+input[type="range"] {
+	/*margin: 0px;*/
+	padding: 5px 0px;
+}
+
 .gwt-TextBox-readonly,
 .gwt-TextArea-readonly {
 	color: #CCC;
@@ -1647,11 +1652,6 @@ Paddings for menuitems.
 	background: #CCCCFF;
 }
 
-input[type="range"] { /*width: 100%;*/
-	margin: 0px;
-	padding: 5px 0px;
-}
-
 .ApplicationPanel {
 	
 }
@@ -2725,10 +2725,6 @@ label {
 	top: 30px;
 }
 
-.propertiesStyleBar .selected{
-	border:1px red solid;
-}
-
 .menuProperties {
 	margin: 0px;
 	padding: 0px;
@@ -2742,8 +2738,12 @@ label {
 	padding: 5px;
 	cursor: pointer;
 }
-.menuProperties .gwt-MenuItem:hover,
-.menuProperties .gwt-MenuItem.selected {
+.menuProperties .gwt-MenuItem:hover {
+	background: #F0F0F0;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.propertiesStyleBar .selected,
+.propertiesStyleBar .gwt-MenuItem.selected:hover {
 	background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8));
 	background-image: -moz-linear-gradient(left, #DCDCDC, #F8F8F8);
 	background-image: -ms-linear-gradient(left, #DCDCDC, #F8F8F8);
@@ -2758,58 +2758,7 @@ label {
 	height: 24px !important;
 }
 
-.propertiesTab {
-	overflow: auto;
-	padding-right: 8px;
-}
-
 /* EUCLIDIAN PROPERTIES */
-
-.panelTitle {
-	margin-top: 20px;
-	padding-bottom: 5px;
-	color: #6666FF;
-	display: block;
-	border-bottom: 1px solid #CCCCFF;
-}
-.propertiesTab .panelTitle:first-child {
-	margin-top: 0px;
-}
-
-.panelIndent {
-	padding-left: 25px;
-	margin-top: 5px;
-}
-
-.propertiesTab .gwt-CheckBox {
-	margin-right: 20px;
-}
-
-/*#####################################################################################
-###       OBJECT PROPERTIES
-#####################################################################################*/
-
-.checkBoxPanel,
-.panelRow,
-.listBoxPanel  {
-	display: block;
-}
-.checkBoxPanel > *,
-.panelRow > *,
-.listBoxPanel > *,
-.panelRowIndent > *,
-.gwt-CheckBox > * {
-	display: inline-block;
-	vertical-align: middle;
-	margin: 3px 10px 3px 0px;
-}
-
-.checkBoxPanel .gwt-Label,
-.panelRow .gwt-Label,
-.listBoxPanel .gwt-Label,
-.panelRowIndent .gwt-Label {
-	padding-right: 10px;
-}
 
 .axisPanel > * > *:first-child {
 	min-width: 110px;
@@ -2818,33 +2767,116 @@ label {
 	min-width: 0px;
 }
 
-.optionsInput {
+/* OBJECT PROPERTIES */
+
+.propertiesTab {
+	overflow: auto;
+	padding-right: 8px;
+}
+.propertiesTab > *,
+.axisPanel > .checkBoxPanel {
+	margin-bottom: 10px;
+	display: block;
+}
+.propertiesTab .panelRow + .checkBoxPanel {
+	margin-top: 10px;
+}
+.propertiesTab .panelTitle:first-child {
+	margin-top: 0px;
+}
+.propertiesTab .scriptTabPanel {
+	display: table;
+}
+.propertiesTab .MyCanvasButton,
+.propertiesTab .gwt-Button {
+	margin-left: 0px;
+}
+
+.panelTitle {
+	padding-bottom: 5px;
+	color: #6666FF;
+	display: block;
+	border-bottom: 1px solid #CCCCFF;
+}
+
+.checkBoxPanel,
+.panelRow,
+.panelRowIndent,
+.panelIndent,
+.listBoxPanel,
+.optionsInput,
+.optionsPanel,
+.optionsPanel .optionsPanelIndent {
+	display: block;
+}
+
+.panelIndent,
+.panelRowIndent,
+.optionsPanelIndent {
+	padding-left: 25px;
+}
+.optionsInput,
+.optionsPanel {
+	margin-bottom: 10px;
+}
+
+.checkBoxPanel > *,
+.panelRow > *,
+.listBoxPanel > *,
+.panelRowIndent > *,
+.propertiesTab .gwt-CheckBox > *,
+.panelRowCell > *,
+.panelRowCell > *,
+.optionsPanel > *,
+.optionsPanelIndent > *,
+.optionsPanelCell > * {
 	display: inline-block;
-	padding-top: 2px;
-	padding-bottom: 2px;
+	vertical-align: middle;
+	margin: 3px 10px 3px 0px;
+}
+.optionsInput > * {
+	display: block;
+	margin: 3px 0px 3px 0px;
+}
+
+.checkBoxPanel {
+	/*padding-top: 5px;
+	min-height: 25px;*/
+}
+.propertiesTab .gwt-CheckBox {
+	margin-right: 20px;
+}
+.panelRowCell {
+	white-space: nowrap;
+	margin-right: 20px;
+}
+
+.checkBoxPanel .gwt-Label,
+.panelRow .gwt-Label,
+.listBoxPanel .gwt-Label,
+.panelRowIndent .gwt-Label,
+.optionsPanel .gwt-Label,
+.optionsPanelIndent .gwt-Label {
+	margin-right: 10px;
+}
+/*.optionsPanel .gwt-Label,
+.optionsPanelIndent .gwt-Label {
+	margin-bottom: 5px;
+}*/
+.optionsPanelCell {
+	display: block;
+}
+.optionsPanelCell .gwt-Label {
+	min-width: 100px;
+}
+
+.numberInput {
+	width: 70px;
+	margin-right: 20px;
 }
 
 .optionsInput table {
 	display: inline-table;
-}
-
-.optionsInput .gwt-Label {
-	display: inline;
-	padding-right: 2px;
-}
-
-.optionsSlider {
-	display: inline-block;
-}
-
-.optionsSlider .gwt-Label {
-	display: inline;
-	padding-left: 2px;
-	padding-right: 2px;
-}
-
-.optionsInput .gwt-Label {
-	padding-left: 10px;
 }
 
 .textOptionsToolBar {
@@ -2856,28 +2888,23 @@ label {
 	height: 100px;
 }
 
-.colorChooserPreview {
-	display: block;
+.colorChooserPreview,
+.optionsSlider {
+	display: table-row;
 }
-
-.colorChooserPreview>* {
-	display: inline-block;
+.colorChooserPreview > *,
+.optionsSlider > * {
+	display: table-cell;
+	vertical-align: middle;
+	margin-right: 20px;	
 }
-
-.colorChooserPreview .gwt-Label {
-	padding: 5px;
-}
-
-.panelRowIndent > * {
-	display: inline-block;
-	padding: 5px;
-	position: relative;
-	left: 25px;
-}
-
-.numberInput {
-	width: 70px;
-	margin-right: 20px;
+.colorChooserPreview canvas {
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #DCDCDC;
 }
 
 .textOptionsToolBar .gwt-ToggleButton {
@@ -2896,10 +2923,13 @@ label {
 
 .colorSlider {
 	margin-right: 10px;
+	display: table-row;
 }
 
-.colorSlider>* {
-	display: inline-block;
+.colorSlider > * {
+	/*display: inline-block;*/
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .ColorDialog-content {
@@ -2920,14 +2950,19 @@ label {
 	display: block;
 }
 
-.scriptArea {
-	/*width: 100%;
-	height: 400px;*/
+.propertiesTab .gwt-TabPanelBottom {
+	height: 100%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
-
+.scriptArea {
+	min-height: 300px;
+	width: 100%;
+}
 .scriptTabPanel {
-	/*width: 100%;
-	height: 100%;*/
+	width: 100%;
+	height: 100%;
 }
 
 /*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/

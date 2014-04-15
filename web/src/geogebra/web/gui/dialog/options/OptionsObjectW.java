@@ -443,6 +443,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(model);
 
 			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.setStyleName("optionsInput");
 
 			title = new Label();
 			mainPanel.add(title);
@@ -516,7 +517,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 
-			colorChooserW = new ColorChooserW(app, 800, 210, colorIconSizeW, 4);
+			colorChooserW = new ColorChooserW(app, 350, 210, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
 				public void onColorChange(GColor color) {
@@ -719,8 +720,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// name panel
 			namePanel = new FlowPanel();
 			nameLabel = new Label();
-			inputPanelName.insert(nameLabel, 0);
+			//inputPanelName.insert(nameLabel, 0);
 
+			namePanel.add(nameLabel);
 			namePanel.add(inputPanelName);
 			mainWidget.add(namePanel);
 
@@ -755,34 +757,37 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			int rows = 1;
 			mainWidget.clear();
 
-			if (loc.isRightToLeftReadingOrder()) {
-				mainWidget.add(inputPanelName);
-				mainWidget.add(nameLabel);
-			} else {
-				mainWidget.add(nameLabel);
-				mainWidget.add(inputPanelName);
-			}
+//			if (loc.isRightToLeftReadingOrder()) {
+//				mainWidget.add(inputPanelName);
+//				mainWidget.add(nameLabel);
+//			} else {
+//				mainWidget.add(nameLabel);
+//				mainWidget.add(inputPanelName);
+//			}
+			mainWidget.add(namePanel);
 
 			if (showDefinition) {
 				rows++;
-				if (loc.isRightToLeftReadingOrder()) {
-					mainWidget.add(inputPanelDef);
-					mainWidget.add(defLabel);
-				} else {
-					mainWidget.add(defLabel);
-					mainWidget.add(inputPanelDef);
-				}
+//				if (loc.isRightToLeftReadingOrder()) {
+//					mainWidget.add(inputPanelDef);
+//					mainWidget.add(defLabel);
+//				} else {
+//					mainWidget.add(defLabel);
+//					mainWidget.add(inputPanelDef);
+//				}
+				mainWidget.add(defPanel);
 			}
 
 			if (showCaption) {
 				rows++;
-				if (loc.isRightToLeftReadingOrder()) {
-					mainWidget.add(inputPanelCap);
-					mainWidget.add(captionLabel);
-				} else {
-					mainWidget.add(captionLabel);
-					mainWidget.add(inputPanelCap);
-				}
+//				if (loc.isRightToLeftReadingOrder()) {
+//					mainWidget.add(inputPanelCap);
+//					mainWidget.add(captionLabel);
+//				} else {
+//					mainWidget.add(captionLabel);
+//					mainWidget.add(inputPanelCap);
+//				}
+				mainWidget.add(captionPanel);
 			}
 
 			//app.setComponentOrientation(this);
@@ -1025,6 +1030,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(model);
 
 			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.setStyleName("optionsPanel");
 			titleLabel = new Label();
 			mainPanel.add(titleLabel);
 
@@ -1068,6 +1074,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(model);
 
 			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.setStyleName("optionsPanel");
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
 			btnPointStyle = PointStylePopup.create(getAppW(), iconHeight, -1, false,
@@ -1113,7 +1120,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			FlowPanel mainPanel = new FlowPanel();
 			sliderLabel = new Label();
-			mainPanel.add(sliderLabel);
+			
+			FlowPanel lineThicknessPanel = new FlowPanel();
+			lineThicknessPanel.setStyleName("optionsPanel");
+			lineThicknessPanel.add(sliderLabel);
+			mainPanel.add(lineThicknessPanel);
 
 			slider = new SliderPanel(1, GeoElement.MAX_LINE_WIDTH);
 			slider.setMajorTickSpacing(2);
@@ -1121,7 +1132,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
 			//			slider.setSnapToTicks(true);
-			mainPanel.add(slider);
+			lineThicknessPanel.add(slider);
 
 			slider.addChangeHandler(new ChangeHandler() {
 
@@ -1132,6 +1143,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				}});
 
 			FlowPanel stylePanel = new FlowPanel();
+			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
 			btnLineStyle = LineStylePopup.create(getAppW(), iconHeight, -1, false);
@@ -1460,6 +1472,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			tfAlpha = (AutoCompleteTextFieldW) inputPanelA.getTextComponent();
 
 			title = new Label();
+			title.setStyleName("panelTitle");
 
 			nameLabelR = new Label();
 			nameLabelG = new Label();
@@ -1519,16 +1532,31 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					doActionPerformed();
 					cbColorSpace.setSelectedIndex(colorSpace);
 				}});
+			
+			FlowPanel redColorPanel = new FlowPanel();
+			FlowPanel greenColorPanel = new FlowPanel();
+			FlowPanel blueColorPanel = new FlowPanel();
+			FlowPanel alphaColorPanel = new FlowPanel();
+			redColorPanel.setStyleName("optionsPanelCell");
+			greenColorPanel.setStyleName("optionsPanelCell");
+			blueColorPanel.setStyleName("optionsPanelCell");
+			alphaColorPanel.setStyleName("optionsPanelCell");
+			
+			redColorPanel.add(nameLabelR);
+			redColorPanel.add(inputPanelR);
+			greenColorPanel.add(nameLabelG);
+			greenColorPanel.add(inputPanelG);
+			blueColorPanel.add(nameLabelB);
+			blueColorPanel.add(inputPanelB);
+			alphaColorPanel.add(nameLabelA);
+			alphaColorPanel.add(inputPanelA);
 
 			FlowPanel colorsPanel = new FlowPanel();
-			colorsPanel.add(nameLabelR);
-			colorsPanel.add(inputPanelR);
-			colorsPanel.add(nameLabelG);
-			colorsPanel.add(inputPanelG);
-			colorsPanel.add(nameLabelB);
-			colorsPanel.add(inputPanelB);
-			colorsPanel.add(nameLabelA);
-			colorsPanel.add(inputPanelA);
+			colorsPanel.setStyleName("optionsPanelIndent");
+			colorsPanel.add(redColorPanel);
+			colorsPanel.add(greenColorPanel);
+			colorsPanel.add(blueColorPanel);
+			colorsPanel.add(alphaColorPanel);
 
 			FlowPanel mainWidget = new FlowPanel();
 
@@ -1537,6 +1565,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			mainWidget.add(colorsPanel);
 
 			FlowPanel buttonsPanel = new FlowPanel();
+			buttonsPanel.setStyleName("optionsPanelIndent");
 
 			FlowPanel leftPanel = new FlowPanel();
 			leftPanel.add(cbColorSpace);
@@ -1673,7 +1702,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			super(loc, "Layer");
 			setModel(new LayerModel(this));
 		}
-	} 
+	}
 
 	private class GraphicsViewLocationPanel extends OptionPanel implements IGraphicsViewLocationListener {
 		private GraphicsViewLocationModel model;
@@ -1705,9 +1734,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				}});
 
 			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.setStyleName("optionsPanel");
+			
+			FlowPanel checkBoxPanel = new FlowPanel();
+			checkBoxPanel.setStyleName("optionsPanelIndent");
+			checkBoxPanel.add(cbGraphicsView);
+			checkBoxPanel.add(cbGraphicsView2);
+			
 			mainPanel.add(title);
-			mainPanel.add(cbGraphicsView);
-			mainPanel.add(cbGraphicsView2);
+			mainPanel.add(checkBoxPanel);
 			setWidget(mainPanel);
 		}
 
@@ -1721,7 +1756,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public void setLabels() {
-			title.setText(app.getMenu("Location"));
+			title.setText(app.getMenu("Location") + ":");
 			cbGraphicsView.setText(localize("DrawingPad"));
 			cbGraphicsView2.setText(localize("DrawingPad2"));
 
@@ -2392,6 +2427,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(model);
 			mainWidget = new FlowPanel();
 			fillTypePanel = new FlowPanel();
+			fillTypePanel.setStyleName("optionsPanel");
 			fillTypeTitle = new Label();
 			lbFillType = new ListBox();
 
@@ -2447,26 +2483,38 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			distanceSlider.setMinorTickSpacing(5);
 			distanceSlider.setPaintTicks(true);
 			distanceSlider.setPaintLabels(true);
-			FlowPanel symbolPanel = new FlowPanel(); 
-			symbolPanel.add(lblSymbols);
-			symbolPanel.add(tfInsertUnicode);
-			symbolPanel.add(lblMsgSelected);
+			
+			FlowPanel symbol1Panel = new FlowPanel();
+			symbol1Panel.setStyleName("optionsPanelCell");
+			symbol1Panel.add(lblSymbols);
+			symbol1Panel.add(tfInsertUnicode);
+			FlowPanel symbol2Panel = new FlowPanel();
+			symbol2Panel.setStyleName("optionsPanelCell");
+			symbol2Panel.add(lblMsgSelected);
+			symbol2Panel.add(lblSelectedSymbol);
+			
+			FlowPanel symbolPanel = new FlowPanel();
+			symbolPanel.setStyleName("optionsPanelIndent");
+			symbolPanel.add(symbol1Panel);
+			symbolPanel.add(symbol2Panel);
 			lblSelectedSymbol.setVisible(false);
-			symbolPanel.add(lblSelectedSymbol);
 			panel.add(symbolPanel);
 			// panels to hold sliders
 			opacityPanel = new FlowPanel();
+			opacityPanel.setStyleName("optionsPanelIndent");
 			fillingSliderTitle = new Label();
 			opacityPanel.add(fillingSliderTitle);
 			opacityPanel.add(opacitySlider);
 
 			anglePanel = new FlowPanel();
+			anglePanel.setStyleName("optionsPanelIndent");
 			angleSliderTitle = new Label();
 			anglePanel.add(angleSliderTitle);
 			anglePanel.add(angleSlider);
 
 			distanceSliderTitle = new Label();
 			distancePanel = new FlowPanel();
+			distancePanel.setStyleName("optionsPanelIndent");
 			distancePanel.add(distanceSliderTitle);
 			distancePanel.add(distanceSlider);
 
@@ -2634,7 +2682,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			btnPanel.add(btnImage);
 			btnPanel.add(btnOpenFile);
-
+			btnPanel.setStyleName("optionsPanelIndent");
 
 			imagePanel.add(btnPanel);
 
@@ -3152,7 +3200,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		basicTab.setStyleName("propertiesTab");
 
-		namePanel = new NamePanel();   
+		namePanel = new NamePanel(); 
 		if (!isDefaults) {
 			basicTab.add(namePanel);
 		}
