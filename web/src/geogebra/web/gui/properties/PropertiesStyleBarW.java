@@ -7,7 +7,6 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.main.AppW;
 
 import java.util.HashMap;
 
@@ -32,7 +31,7 @@ public class PropertiesStyleBarW extends
 	private PropertiesViewW propertiesView;
 	private App app;
 	private FlowPanel wrappedPanel;
-	private PopupMenuButton btnOption;
+	//private PopupMenuButton btnOption;
 	private MenuBar menu;
 	private HashMap<OptionType, MenuItem> buttonMap;
 
@@ -43,11 +42,7 @@ public class PropertiesStyleBarW extends
 		this.app = app;
 		
 		this.wrappedPanel = new FlowPanel();
-		this.btnOption = new PopupMenuButton((AppW) app);
 		buildMenu();
-		btnOption.setPopupMenu(menu);
-		btnOption.setKeepVisible(true);
-		btnOption.setStandardButton(true);
 		wrappedPanel.setStyleName("propertiesStyleBar");
 		/*AGbtnOption.setHorizontalTextPosition(SwingConstants.RIGHT);
 		Dimension d = btnOption.getPreferredSize();
@@ -63,13 +58,9 @@ public class PropertiesStyleBarW extends
 	
 
 	public void updateGUI() {
-		OptionType seltype = propertiesView.getSelectedOptionType();
-		setIcon(propertiesView
-				.getSelectedOptionType(),btnOption);
-		btnOption.setText(propertiesView.getTypeString(propertiesView.getSelectedOptionType())
-				+ downTriangle);		
+		
 
-		selectButton(seltype);
+		//selectButton(seltype);
 		
 		buttonMap.get(OptionType.OBJECTS).setVisible(
 				app.getSelectionManager().selectedGeosSize() > 0);
@@ -152,8 +143,6 @@ public class PropertiesStyleBarW extends
 						public void execute() {
 							propertiesView.setOptionPanel(type, 0);
 							buildMenu();
-							setIcon(type, btnOption);
-							btnOption.setText(mi.getText() + downTriangle);
 						}
 					});
 	    	menu.addItem(mi);
