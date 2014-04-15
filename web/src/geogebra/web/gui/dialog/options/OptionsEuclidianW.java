@@ -36,7 +36,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -554,16 +553,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ImageOrText content = new ImageOrText();
 			content.bgColor = color;
 			btAxesColor.setIcon(content);
-		
 		}
 
 		public void updateBackgroundColorButton(GColor color) {
 			ImageOrText content = new ImageOrText();
 			content.bgColor = color;
 			btBackgroundColor.setIcon(content);
-		
 		}
-
 		
 		public void updateConsProtocolPanel(boolean isVisible) {
 			// cons protocol panel
@@ -653,7 +649,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
 		private CheckBox cbBoldGrid;
-		private Button btGridColor;
+		private MyCJButton btGridColor;
 		public GridTab() {
 			setStyleName("propertiesTab");
 			cbShowGrid = new CheckBox();
@@ -781,7 +777,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			// color
 			lblColor = new Label();
-			btGridColor = new Button("\u2588");
+			btGridColor = new MyCJButton();
 			btGridColor.addClickHandler(new ClickHandler() {
 				
 				public void onClick(ClickEvent event) {
@@ -795,7 +791,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						
 						public void onColorChange(GColor color) {
 							model.applyGridColor(color);
-							updateColorButton(color);
+							updateGridColorButton(color);
 						}
 						
 						public void onClearBackground() {
@@ -871,13 +867,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbBoldGrid.setValue(isBold);
 			lbGridType.setSelectedIndex(gridType);
 			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
-			updateColorButton(color);
+			updateGridColorButton(color);
 		}
-		
-		public void updateColorButton(GColor color) {
-			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
-		
-		}		
+	
 		public void updateTicks(boolean isAutoGrid, double[] gridTicks,
 				int gridType) {
 	
@@ -914,6 +906,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void selectGridStyle(int style) {
 	        btnGridStyle.selectLineType(style);
         }
+		
+		public void updateGridColorButton(GColor color) {
+			ImageOrText content = new ImageOrText();
+			content.bgColor = color;
+			btGridColor.setIcon(content);
+		}
 	
 	}
 	
