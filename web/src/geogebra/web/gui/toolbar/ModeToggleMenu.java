@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -237,10 +238,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			ModeToggleMenu mtm = modeToggleMenus.get(i);
 			if (mtm != this) {
+				mtm.tbutton.getElement().getStyle().setBorderWidth(1, Unit.PX);
 				mtm.tbutton.getElement().setAttribute("isSelected","false");
 			}
 		}
+		//Set border width explicitly to make sure browser actually does that 
+		// (otherwise the thicker border applies on next browser event)
 		tbutton.getElement().setAttribute("isSelected","true");
+		tbutton.getElement().getStyle().setBorderWidth(2, Unit.PX);
 	}
 	
 	public void addSeparator(){
