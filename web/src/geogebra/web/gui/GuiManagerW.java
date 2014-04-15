@@ -1267,8 +1267,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// set the toolbar string directly from the panels
 		// after closing some panels, this may need to be done
 		// even if the following need not
-		setToolBarDefinition(layout.getDockManager().getPanel(toolbarID).getToolbarString());
-
+		// only do this if toolbar string not null, otherwise this may
+		String def = layout.getDockManager().getPanel(toolbarID).getToolbarString();
+		if(def != null){
+			setToolBarDefinition(def);
+		}
 
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
 			toolbarPanel.setActiveToolbar(new Integer(toolbarID));
