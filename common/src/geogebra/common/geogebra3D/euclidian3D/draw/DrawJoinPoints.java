@@ -279,6 +279,10 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 	@Override
 	protected boolean hit(Hitting hitting){
 		
+		if (waitForReset){ // prevent NPE for startPoint or endPoint
+			return false;
+		}
+		
 		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin, hitting.direction, startPoint, endPoint.sub(startPoint));
 		
 		// check if hitting and line are parallel
