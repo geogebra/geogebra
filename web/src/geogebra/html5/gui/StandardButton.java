@@ -1,5 +1,7 @@
 package geogebra.html5.gui;
 
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 
 public class StandardButton extends FastButton {
@@ -85,5 +87,14 @@ public class StandardButton extends FastButton {
 	public void setIcon(final ImageResource icon) {
 		setIconAndLabel(icon, this.label);
 
+	}
+	
+	@Override
+    @Deprecated
+    /**
+     * Use addFastClickHandler instead
+     */
+	public HandlerRegistration addClickHandler(ClickHandler c){
+		return null;
 	}
 }

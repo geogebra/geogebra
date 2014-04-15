@@ -14,8 +14,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -114,8 +112,9 @@ public class GGWToolBar extends Composite {
 		//Image redoImage = new Image(GuiResources.INSTANCE.button_redo());
 		StandardButton redoButton = new StandardButton(GuiResources.INSTANCE.button_redo());
 		//redoButton.getElement().appendChild(redoImage.getElement());
-		redoButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
+		redoButton.addFastClickHandler(new FastClickHandler(){
+			@Override
+            public void onClick() {
 				app.getGuiManager().redo();
             }
 		});
@@ -126,8 +125,9 @@ public class GGWToolBar extends Composite {
 		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
 		StandardButton undoButton = new StandardButton(GuiResources.INSTANCE.button_undo());
 		//undoButton.getElement().appendChild(undoImage.getElement());
-		undoButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
+		undoButton.addFastClickHandler(new FastClickHandler(){
+			@Override
+            public void onClick() {
 				app.getGuiManager().undo();
             }
 		});
