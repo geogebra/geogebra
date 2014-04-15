@@ -233,9 +233,11 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 		((EuclidianController3D) getView3D().getEuclidianController()).setHandledGeo(null);
 		
 		if (extrusionComputer!=null){
-			
-			//clear current selections : remove basis polygon from selections
-			getView3D().getEuclidianController().clearSelections();
+
+			//clear current selections : remove basis polygon from selections (will be re-introduced, due to draw loop)
+			if (!EuclidianView3D.USE_SHADERS){
+				getView3D().getEuclidianController().clearSelections();
+			}
 			
 			//add current height to selected numeric (will be used on next EuclidianView3D::rightPrism() call)
 			Hits hits = new Hits();
@@ -253,12 +255,18 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 				if (num != null){
 					hits.add((GeoElement) num);
 				}
-			}else
+			}else{
 				hits.add(height);
-			
-			getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
+			}
 
-			
+			getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
+			/*
+			if (getView3D().getEuclidianController().selPolygons() == 0){
+				hits.add(basis);
+				//getView3D().getEuclidianController().addSelectedPolygon(hits, 1, false);
+			}
+			*/
+
 			//remove the algo
 			extrusionComputer.getAlgo().remove();	
 			extrusionComputer=null;

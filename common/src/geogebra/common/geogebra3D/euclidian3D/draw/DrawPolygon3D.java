@@ -5,6 +5,7 @@
 
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation;
 import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.Convexity;
 import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
@@ -483,5 +484,36 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		return super.doHighlighting();
 	}
+	
+	
+
+	@Override
+	protected boolean hit(Hitting hitting){
+		
+		if (waitForReset){ // prevent NPE 
+			return false;
+		}
+		
+		if (getGeoElement().getAlphaValue() < 0.01f){
+			return false;
+		}
+		
+		
+		GeoPolygon poly = (GeoPolygon) getGeoElement();
+		
+		// project hitting origin on polygon plane
+		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(poly.getCoordSys().getMatrixOrthonormal(), hitting.direction);
+
+		// check if hitting projection hits the polygon
+		if (poly.isInRegion(project[1].getX(),project[1].getY())){
+			double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+			setZPick(parameterOnHitting, parameterOnHitting);
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 
 }

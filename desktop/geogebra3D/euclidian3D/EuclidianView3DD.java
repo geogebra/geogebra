@@ -17,6 +17,7 @@ import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererGL2;
+import geogebra3D.euclidian3D.opengl.RendererShaders;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -81,8 +82,11 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	
 	@Override
 	protected Renderer createRenderer(){
+		if (USE_SHADERS){
+			return new RendererShaders(this, !app.isApplet());  
+		}
 		return new RendererGL2(this, !app.isApplet());
-		//return new RendererShaders(this, !app.isApplet());  
+		
 	}
 	
 	

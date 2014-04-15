@@ -1448,17 +1448,18 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 */
 	final protected GeoElement[] extrusionOrConify(Hits hits) {
 
-		if (hits.isEmpty())
-			return null;
+		if (!hits.isEmpty()){ //hits may be empty at the end of using the tool
 
-		int basisAdded = addSelectedPolygon(hits, 1, false);
-		basisAdded += addSelectedConic(hits, 1, false);
+			int basisAdded = addSelectedPolygon(hits, 1, false);
+			basisAdded += addSelectedConic(hits, 1, false);
 
-		if (basisAdded == 0) { // if polygon/conic has been added, the height
-								// will be entered through dialog manager
-			addSelectedNumberValue(hits, 1, false);
+			if (basisAdded == 0) { // if polygon/conic has been added, the height
+				// will be entered through dialog manager
+				addSelectedNumberValue(hits, 1, false);
+			}
 		}
 
+		App.debug(selNumberValues()+","+selPolygons());
 
 		if (selNumberValues() == 1) {
 			if (selPolygons() == 1) {
@@ -1635,13 +1636,32 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 		super.processReleaseForMovedGeoPoint(rightClick);
 
 	}
+	
+
+	
+
+	/**
+	 * update mouse moved, 3D mouse values, etc.
+	 */
+	public void updateInput3D() {
+		// no input 3D
+	}
 
 	// /////////////////////////////////////////
 	// mouse moved
+	
 
 	protected boolean mouseMoved = false;
-	// private boolean mousePressed = false;
 	protected AbstractEvent mouseEvent = null;
+	
+	
+	@Override
+	public void wrapMousePressed(AbstractEvent e) {
+		mouseMoved = false;
+		// mousePressed = true;
+		super.wrapMousePressed(e);
+	}
+
 
 	@Override
 	protected void processMouseMoved(AbstractEvent e) {
@@ -1655,27 +1675,6 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 
 	/**
-	 * set flag "mouseMoved" true
-	 */
-	public void setFlagMouseMoved() {
-		mouseMoved = true;
-	}
-
-	@Override
-	public void wrapMousePressed(AbstractEvent e) {
-		mouseMoved = false;
-		// mousePressed = true;
-		super.wrapMousePressed(e);
-	}
-
-	/**
-	 * update mouse moved, 3D mouse values, etc.
-	 */
-	public void updateInput3D() {
-		// no input 3D
-	}
-
-	/**
 	 * update mouse moved after picking
 	 */
 	public void update() {
@@ -1685,7 +1684,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	/**
 	 * tells to proceed mouseMoved() (for synchronization with 3D renderer)
 	 */
-	public void processMouseMoved() {
+	private void processMouseMoved() {
 
 		if (mouseMoved && view3D.hasMouse()) {
 
@@ -1695,6 +1694,10 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			mouseMoved = false;
 		}
 	}
+	
+	
+	
+	
 
 	@Override
 	protected void initNewMode(int mode) {
@@ -1872,7 +1875,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 		boolean changedKernel = false;
 
 		GeoElement[] ret = null;
-
+		
 		switch (mode) {
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			ret = intersectionCurve(hits);

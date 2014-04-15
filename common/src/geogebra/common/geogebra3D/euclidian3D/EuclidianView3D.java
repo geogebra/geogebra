@@ -108,6 +108,11 @@ import java.util.TreeSet;
 @SuppressWarnings("javadoc")
 public abstract class EuclidianView3D extends EuclidianView implements
 		EuclidianView3DInterface {
+	
+	/**
+	 * says if we're using shaders (TODO : remove this)
+	 */
+	public static boolean USE_SHADERS = false;
 
 	// private Kernel kernel;
 	private Kernel3D kernel3D;
@@ -1808,16 +1813,18 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void setHits(geogebra.common.awt.GPoint p, PointerEventType type) {
 		// empty method : setHits3D() used instead
-		// OR comment setHits3D() and uncomment below (for shaders) 
-		/*
-		renderer.setHits(p, app.getCapturingThreshold(type));
+		// OR comment setHits3D() for shaders
+
+		if (USE_SHADERS){
+			renderer.setHits(p, app.getCapturingThreshold(type));
 			if(type == PointerEventType.TOUCH && this.hits.size() == 0){
 				renderer.setHits(p, app.getCapturingThreshold(type) * 3);
 			}
+
+			hasMouse = true;
+			updateCursor3D();
+		}
 		
-		hasMouse = true;
-		updateCursor3D();
-		*/
 
 	}
 
@@ -1828,7 +1835,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            point location
 	 */
 	public void setHits3D(GPoint p) {
-		renderer.setHits(p, 0);
+		if (!USE_SHADERS){
+			renderer.setHits(p, 0);
+		}
 	}
 
 	
