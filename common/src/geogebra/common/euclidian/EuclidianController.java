@@ -9165,7 +9165,8 @@ public abstract class EuclidianController {
 				};
 				processMode(hits, control, callback);
 			}
-			if (changedKernel) {
+			//only store undo info if the mode is handled synchronously
+			else if (changedKernel) {
 				app.storeUndoInfo();
 			}
 		}
