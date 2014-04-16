@@ -2034,7 +2034,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 
 .smartButtonPanel {
 	float: right;
-	margin: 6px 0px;
+	margin: 5px 0px;
 }
 
 .smartButtonPanel .button {
@@ -2045,7 +2045,9 @@ body.application[dir=rtl] .toolbar_mainItem {
 	height: 30px;
 	padding: 2px;
 }
-
+.button.redoButton {
+	margin-left: 0px;
+}
 .smartButtonPanel .selectedButton {
 	padding: 0px;
 }
