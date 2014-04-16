@@ -12,47 +12,20 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
-import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.awt.GColor;
 import geogebra.common.gui.UpdateFonts;
-import geogebra.common.kernel.Construction;
+import geogebra.common.gui.view.functioninspector.FunctionInspectorModel;
+import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
+import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.IFunctionInspectorListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.advanced.AlgoCurvature;
-import geogebra.common.kernel.advanced.AlgoOsculatingCircle;
-import geogebra.common.kernel.algos.AlgoDependentFunction;
-import geogebra.common.kernel.algos.AlgoDependentNumber;
-import geogebra.common.kernel.algos.AlgoDependentPoint;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoFunctionInterval;
-import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.common.kernel.algos.AlgoPointOnPath;
-import geogebra.common.kernel.algos.AlgoRoots;
-import geogebra.common.kernel.algos.AlgoRootsPolynomial;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.cas.AlgoDerivative;
-import geogebra.common.kernel.cas.AlgoIntegralDefinite;
-import geogebra.common.kernel.cas.AlgoLengthFunction;
-import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.optimization.ExtremumFinder;
-import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.plugin.Operation;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
@@ -106,15 +79,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class FunctionInspector implements View, MouseListener,
 		ListSelectionListener, KeyListener, SpecialNumberFormatInterface,
-		ActionListener, WindowFocusListener, UpdateFonts, FocusListener {
+		ActionListener, WindowFocusListener, UpdateFonts, FocusListener,
+		IFunctionInspectorListener {
 
 	private static final long serialVersionUID = 1L;
-
+	private FunctionInspectorModel model;
 	// ggb fields
 	private AppD app;
 	private Kernel kernel;
-	private Construction cons;
-	private EuclidianView activeEV;
 	private JDialog wrappedDialog;
 	protected final LocalizationD loc;
 
@@ -124,21 +96,10 @@ public class FunctionInspector implements View, MouseListener,
 	private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
 	private static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
-
-	// column types
-	private static final int COL_DERIVATIVE = 0;
-	private static final int COL_DERIVATIVE2 = 1;
-	private static final int COL_DIFFERENCE = 2;
-	private static final int COL_CURVATURE = 3;
-
 	// table fields
 	private InspectorTable tableXY, tableInterval;
 	private DefaultTableModel modelXY, modelInterval;
-	private String[] columnNames;
 	private static final int minRows = 12;
-
-	// list to store column types of dynamically appended columns
-	private ArrayList<Integer> extraColumnList;
 
 	// GUI
 	private JLabel lblGeoName, lblStep, lblInterval;
@@ -149,23 +110,7 @@ public class FunctionInspector implements View, MouseListener,
 	private JTabbedPane tabPanel;
 	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
 
-	// Geos
-	private GeoElement tangentLine, oscCircle, xSegment, ySegment;
-	private GeoElement functionInterval, integralGeo, lengthGeo, areaGeo;
-	private GeoFunction derivative, derivative2, selectedGeo;
-	private GeoPoint testPoint, lowPoint, highPoint, minPoint, maxPoint;
-	private GeoList pts;
-
-	private ArrayList<GeoElement> intervalTabGeoList, pointTabGeoList,
-			hiddenGeoList;
-	private GeoElement[] rootGeos;
-
-	// stores lists of column data from the point panel table
-	private ArrayList<Double[]> xyTableCopyList = new ArrayList<Double[]>();
-
 	private boolean isIniting;
-	private double xMin, xMax, start = -1, step = 0.1;
-	private double initialX;
 
 	private boolean isChangingValue;
 	private int pointCount = 9;
@@ -195,28 +140,19 @@ public class FunctionInspector implements View, MouseListener,
 		this.app = app;
 		loc = app.getLocalization();
 		kernel = app.getKernel();
-		cons = kernel.getConstruction();
 		nf = new SpecialNumberFormat(app, this);
-		activeEV = app.getActiveEuclidianView();
-
-		extraColumnList = new ArrayList<Integer>();
-
-		// lists of all geos we create
-		intervalTabGeoList = new ArrayList<GeoElement>();
-		pointTabGeoList = new ArrayList<GeoElement>();
-		hiddenGeoList = new ArrayList<GeoElement>();
 
 		// attach this view to the kernel
 		app.getKernel().attach(this);
 
+		model = new FunctionInspectorModel(app, selectedGeo, this);
 		// create the GUI
 		createGeoElementSlectionListener();
 		createGUI();
 
 		// load selected function
-		this.selectedGeo = selectedGeo;
 		insertGeoElement(selectedGeo);
-		
+
 		isIniting = false;
 
 	}
@@ -367,11 +303,11 @@ public class FunctionInspector implements View, MouseListener,
 		tableInterval.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
-						updateIntervalGeoVisiblity();
+						model.updateIntervalGeoVisiblity();
 					}
 				});
 
-		lblGeoName = new JLabel(getTitleString());
+		lblGeoName = new JLabel(model.getTitleString());
 		lblGeoName.setFont(app.getBoldFont());
 
 		lblStep = new JLabel();
@@ -430,12 +366,8 @@ public class FunctionInspector implements View, MouseListener,
 	}
 
 	private void createBtnAddColumn() {
-		columnNames = new String[4];
-		columnNames[COL_DERIVATIVE] = loc.getPlain("fncInspector.Derivative");
-		columnNames[COL_DERIVATIVE2] = loc.getPlain("fncInspector.Derivative2");
-		columnNames[COL_CURVATURE] = loc.getPlain("fncInspector.Curvature");
-		columnNames[COL_DIFFERENCE] = loc.getPlain("fncInspector.Difference");
-		btnAddColumn = new PopupMenuButton(app, columnNames, -1, 1,
+
+		btnAddColumn = new PopupMenuButton(app, model.getColumnNames(), -1, 1,
 				new Dimension(0, 18),
 				geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
@@ -443,13 +375,6 @@ public class FunctionInspector implements View, MouseListener,
 		btnAddColumn.setFixedIcon(GeoGebraIcon.createEmptyIcon(1, 1));
 		btnAddColumn.setText("\u271A");
 		btnAddColumn.addActionListener(this);
-	}
-
-	private String getTitleString() {
-
-		if (selectedGeo == null)
-			return loc.getMenu("SelectObject");
-		return selectedGeo.getAlgebraDescriptionDefault();
 	}
 
 	public void setLabels() {
@@ -465,7 +390,7 @@ public class FunctionInspector implements View, MouseListener,
 
 		tabPanel.setTitleAt(1, loc.getPlain("fncInspector.Points"));
 		tabPanel.setTitleAt(0, loc.getPlain("fncInspector.Interval"));
-		lblGeoName.setText(getTitleString());
+		lblGeoName.setText(model.getTitleString());
 
 		// tool tips
 		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
@@ -500,50 +425,21 @@ public class FunctionInspector implements View, MouseListener,
 	// =====================================
 	// Update
 	// =====================================
-	
+
 	private void updateGUI() {
 
 		if (tabPanel.getSelectedComponent() == intervalTabPanel) {
 
 			updateIntervalTable();
-			updateIntervalGeoVisiblity();
+			model.updateIntervalGeoVisiblity();
 
 		} else {
-
-			tangentLine.setEuclidianVisible(btnTangent.isSelected());
-			tangentLine.update();
-			oscCircle.setEuclidianVisible(btnOscCircle.isSelected());
-			oscCircle.update();
-			xSegment.setEuclidianVisible(btnXYSegments.isSelected());
-			xSegment.update();
-			ySegment.setEuclidianVisible(btnXYSegments.isSelected());
-			ySegment.update();
-			lblStep.setVisible(btnTable.isSelected());
-			fldStep.setVisible(btnTable.isSelected());
-			pts.setEuclidianVisible(btnTable.isSelected());
-			pts.updateRepaint();
-
 			tableXY.getSelectionModel().removeListSelectionListener(this);
 
-			// reset table model and update the XYtable
-			tableXY.setCellEditable(-1, -1);
+			model.updatePoints(btnTangent.isSelected(),
+					btnOscCircle.isSelected(), btnXYSegments.isSelected(),
+					btnTable.isSelected());
 
-			if (btnTable.isSelected()) {
-				modelXY.setRowCount(pointCount);
-				tableXY.setCellEditable((pointCount - 1) / 2, 0);
-				// tableXY.setRowSelectionAllowed(true);
-				tableXY.changeSelection((pointCount - 1) / 2, 0, false, false);
-
-			} else {
-
-				modelXY.setRowCount(1);
-				tableXY.setCellEditable(0, 0);
-				tableXY.changeSelection(0, 0, false, false);
-				// tableXY.setRowSelectionAllowed(false);
-			}
-
-			updateXYTable();
-			updateTestPoint();
 			tableXY.getSelectionModel().addListSelectionListener(this);
 
 		}
@@ -551,26 +447,14 @@ public class FunctionInspector implements View, MouseListener,
 	}
 
 	/**
-	 * Updates the tab panels and thus the entire GUI. Also updates the active EV to
-	 * hide/show temporary GeoElements associated with the FunctionInspector
-	 * (e.g. points, integral)
+	 * Updates the tab panels and thus the entire GUI. Also updates the active
+	 * EV to hide/show temporary GeoElements associated with the
+	 * FunctionInspector (e.g. points, integral)
 	 */
 	private void updateTabPanels() {
 
-		boolean isInterval = tabPanel.getSelectedComponent() == intervalTabPanel;
-
 		updateIntervalFields();
-
-		for (GeoElement geo : intervalTabGeoList) {
-			geo.setEuclidianVisible(isInterval);
-			geo.update();
-		}
-		for (GeoElement geo : pointTabGeoList) {
-			geo.setEuclidianVisible(!isInterval);
-			geo.update();
-		}
-
-		activeEV.repaint();
+		model.updateGeos(tabPanel.getSelectedComponent() == intervalTabPanel);
 		updateGUI();
 
 	}
@@ -580,18 +464,13 @@ public class FunctionInspector implements View, MouseListener,
 		if (tabPanel.getSelectedComponent() == intervalTabPanel) {
 
 			double[] coords = new double[3];
-			lowPoint.getCoords(coords);
+			model.getLowPoint().getCoords(coords);
 			fldLow.setText(nf.format(coords[0]));
-			highPoint.getCoords(coords);
+			model.getHighPoint().getCoords(coords);
 			fldHigh.setText(nf.format(coords[0]));
 			updateIntervalTable();
 		}
 	}
-
-	private ArrayList<String> property = new ArrayList<String>();
-	private ArrayList<String> value = new ArrayList<String>();
-	// store number values for copy
-	private ArrayList<Double[]> value2 = new ArrayList<Double[]>();
 
 	/**
 	 * Updates the interval table. The max, min, roots, area etc. for the
@@ -600,163 +479,7 @@ public class FunctionInspector implements View, MouseListener,
 	private void updateIntervalTable() {
 
 		isChangingValue = true;
-
-		property.clear();
-		value.clear();
-		value2.clear();
-
-		// prepare algos and other objects needed for the calcs
-		// =======================================================
-
-		double[] coords = new double[3];
-		lowPoint.getCoords(coords);
-		xMin = coords[0];
-		highPoint.getCoords(coords);
-		xMax = coords[0];
-
-		ExtremumFinder ef = new ExtremumFinder();
-		RealRootFunction fun = selectedGeo.getRealRootFunctionY();
-
-		// get the table
-		double integral = ((GeoNumeric) integralGeo).getDouble();
-		double area = ((GeoNumeric) areaGeo).getDouble();
-		double mean = integral / (xMax - xMin);
-		double length = ((GeoNumeric) lengthGeo).getDouble();
-
-		double yMin = selectedGeo.evaluate(xMin);
-		double yMax = selectedGeo.evaluate(xMax);
-		double xMinInt = ef.findMinimum(xMin, xMax, fun, 5.0E-8);
-		double xMaxInt = ef.findMaximum(xMin, xMax, fun, 5.0E-8);
-		double yMinInt = selectedGeo.evaluate(xMinInt);
-		double yMaxInt = selectedGeo.evaluate(xMaxInt);
-
-		if (yMin < yMinInt) {
-			yMinInt = yMin;
-			xMinInt = xMin;
-		}
-
-		if (yMax > yMaxInt) {
-			yMaxInt = yMax;
-			xMaxInt = xMax;
-		}
-
-		minPoint.setCoords(xMinInt, yMinInt, 1.0);
-		// minPoint.setEuclidianVisible(!(minPoint.isEqual(lowPoint) ||
-		// minPoint.isEqual(highPoint)));
-		minPoint.update();
-		maxPoint.setCoords(xMaxInt, yMaxInt, 1.0);
-		// maxPoint.setEuclidianVisible(!(maxPoint.isEqual(lowPoint) ||
-		// maxPoint.isEqual(highPoint)));
-		maxPoint.update();
-
-		// set the property/value pairs
-		// =================================================
-
-		property.add(loc.getCommand("Min"));
-		value.add("(" + nf.format(xMinInt) + " , " + nf.format(yMinInt) + ")");
-		Double[] min = { xMinInt, yMinInt };
-		value2.add(min);
-
-		property.add(loc.getCommand("Max"));
-		value.add("(" + nf.format(xMaxInt) + " , " + nf.format(yMaxInt) + ")");
-		Double[] max = { xMaxInt, yMaxInt };
-		value2.add(max);
-
-		property.add(null);
-		value.add(null);
-		value2.add(null);
-
-		// calculate roots
-		ExpressionNode low = new ExpressionNode(kernel, lowPoint,
-				Operation.XCOORD, null);
-		ExpressionNode high = new ExpressionNode(kernel, highPoint,
-				Operation.XCOORD, null);
-		AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low, false);
-		cons.removeFromConstructionList(xLow);
-		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
-		cons.removeFromConstructionList(xHigh);
-
-		AlgoElement roots;
-
-		if (selectedGeo.isPolynomialFunction(false)) {
-			roots = new AlgoRootsPolynomial(cons, selectedGeo);
-		} else {
-			roots = new AlgoRoots(cons, selectedGeo,
-					(GeoNumeric) xLow.getGeoElements()[0],
-					(GeoNumeric) xHigh.getGeoElements()[0]);
-		}
-
-		cons.removeFromConstructionList(roots);
-		rootGeos = roots.getGeoElements();
-
-		property.add(loc.getCommand("Root"));
-
-		int count = 0;
-		double x = Double.NaN;
-		double root = Double.NaN;
-
-		// count how many roots in range
-		for (int i = 0; i < rootGeos.length; i++) {
-			GeoPoint p = ((GeoPoint) rootGeos[i]);
-			if (p.isDefined()) {
-				double rt = p.inhomX;
-				if (Kernel.isGreaterEqual(rt, xMin)
-						&& Kernel.isGreaterEqual(xMax, rt)) {
-					root = rt;
-					count++;
-				}
-			}
-		}
-		StringTemplate tpl = StringTemplate.defaultTemplate;
-		switch (count) {
-		case 0:
-			value.add(loc.getPlain("fncInspector.NoRoots"));
-			value2.add(null);
-			break;
-		case 1:
-			value.add(kernel.format(root, tpl));
-			Double[] r = { root };
-			value2.add(r);
-			break;
-		default:
-			value.add(loc.getPlain("fncInspector.MultipleRoots"));
-			value2.add(null);
-
-		}
-
-		property.add(null);
-		value.add(null);
-		value2.add(null);
-
-		property.add(loc.getCommand("Integral"));
-		value.add(nf.format(integral));
-		Double[] in = { integral };
-		value2.add(in);
-
-		property.add(loc.getCommand("Area"));
-		value.add(nf.format(area));
-		Double[] a = { area };
-		value2.add(a);
-
-		property.add(loc.getCommand("Mean"));
-		value.add(nf.format(mean));
-		Double[] m = { mean };
-		value2.add(m);
-
-		property.add(loc.getCommand("Length"));
-		value.add(nf.format(length));
-		Double[] l = { length };
-		value2.add(l);
-
-		// load the model with these pairs
-		modelInterval.setRowCount(property.size());
-
-		for (int i = 0; i < property.size(); i++) {
-			modelInterval.setValueAt(property.get(i), i, 0);
-			modelInterval.setValueAt(value.get(i), i, 1);
-		}
-
-		// tableInterval.setColumnWidths();
+		model.updateIntervalTable();
 		isChangingValue = false;
 
 	}
@@ -768,156 +491,12 @@ public class FunctionInspector implements View, MouseListener,
 	private void updateXYTable() {
 
 		isChangingValue = true;
-
-		// String lbl = selectedGeo.getLabel();
-		GeoFunction f = selectedGeo;
-
-		// init the copy array
-		xyTableCopyList.clear();
-		Double[] xArray = new Double[modelXY.getRowCount()];
-		Double[] yArray = new Double[modelXY.getRowCount()];
-
-		if (btnTable.isSelected()) {
-			double x = start - step * (pointCount - 1) / 2;
-			double y;
-			for (int i = 0; i < modelXY.getRowCount(); i++) {
-				y = f.evaluate(x);
-				modelXY.setValueAt(nf.format(x), i, 0);
-				modelXY.setValueAt(nf.format(y), i, 1);
-				((GeoPoint) pts.get(i)).setCoords(x, y, 1);
-
-				// collect x, y points into the copy arrays
-				xArray[i] = x;
-				yArray[i] = y;
-
-				x = x + step;
-			}
-
-			pts.updateRepaint();
-		} else {
-			double x = start;
-			double y = f.evaluate(x);
-			modelXY.setValueAt(nf.format(x), 0, 0);
-			modelXY.setValueAt(nf.format(y), 0, 1);
-
-			// collect x, y points into the copy arrays
-			xArray[0] = x;
-			yArray[0] = y;
-
-		}
-
-		xyTableCopyList.add(xArray);
-		xyTableCopyList.add(yArray);
-
-		// update any extra columns added by the user (these will show
-		// derivatives, differences etc.)
-		updateExtraColumns();
-
+		model.updateXYTable(modelXY.getRowCount(), btnTable.isSelected());
 		isChangingValue = false;
 	}
 
-	/**
-	 * Updates any extra columns added by the user to the XYTable.
-	 */
-	private void updateExtraColumns() {
-
-		if (extraColumnList.size() == 0)
-			return;
-
-		for (int column = 2; column < extraColumnList.size() + 2; column++) {
-
-			Double[] copyArray = new Double[modelXY.getRowCount()];
-
-			int columnType = extraColumnList.get(column - 2);
-			switch (columnType) {
-
-			case COL_DERIVATIVE:
-
-				for (int row = 0; row < modelXY.getRowCount(); row++) {
-					double x = Double.parseDouble((String) modelXY.getValueAt(
-							row, 0));
-					double d = derivative.evaluate(x);// evaluateExpression(derivative.getLabel()
-														// + "(" + x + ")");
-					modelXY.setValueAt(nf.format(d), row, column);
-					copyArray[row] = d;
-				}
-				break;
-
-			case COL_DERIVATIVE2:
-
-				for (int row = 0; row < modelXY.getRowCount(); row++) {
-					double x = Double.parseDouble((String) modelXY.getValueAt(
-							row, 0));
-					double d2 = derivative2.evaluate(x);// evaluateExpression(derivative2.getLabel()
-														// + "(" + x + ")");
-					modelXY.setValueAt(nf.format(d2), row, column);
-					copyArray[row] = d2;
-				}
-				break;
-
-			case COL_CURVATURE:
-
-				for (int row = 0; row < modelXY.getRowCount(); row++) {
-					double x = Double.parseDouble((String) modelXY.getValueAt(
-							row, 0));
-					double y = Double.parseDouble((String) modelXY.getValueAt(
-							row, 1));
-
-					MyVecNode vec = new MyVecNode(kernel, new MyDouble(kernel,
-							x), new MyDouble(kernel, y));
-
-					ExpressionNode point = new ExpressionNode(kernel, vec,
-							Operation.NO_OPERATION, null);
-					point.setForcePoint();
-
-					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons,
-							point, false);
-					cons.removeFromConstructionList(pointAlgo);
-
-					AlgoCurvature curvature = new AlgoCurvature(cons,
-							(GeoPoint) pointAlgo.getGeoElements()[0],
-							selectedGeo);
-					cons.removeFromConstructionList(curvature);
-
-					double c = ((GeoNumeric) curvature.getGeoElements()[0])
-							.getDouble();
-
-					// double c = evaluateExpression(
-					// "Curvature[ (" + x + "," + y + ")," +
-					// selectedGeo.getLabel() + "]");
-					modelXY.setValueAt(nf.format(c), row, column);
-					copyArray[row] = c;
-				}
-				break;
-
-			case COL_DIFFERENCE:
-
-				for (int row = 1; row < modelXY.getRowCount(); row++) {
-					if (modelXY.getValueAt(row - 1, column - 1) != null) {
-						double prev = Double.parseDouble((String) modelXY
-								.getValueAt(row - 1, column - 1));
-						double x = Double.parseDouble((String) modelXY
-								.getValueAt(row, column - 1));
-						modelXY.setValueAt(nf.format(x - prev), row, column);
-						copyArray[row] = x - prev;
-					} else {
-						modelXY.setValueAt(null, row, column);
-						copyArray[row] = null;
-					}
-
-				}
-				break;
-
-			}
-
-			xyTableCopyList.add(copyArray);
-
-		}
-	}
-
-	private void addColumn(int columnType) {
-		extraColumnList.add(columnType);
-		modelXY.addColumn(columnNames[columnType]);
+	public void addTableColumn(String name) {
+		modelXY.addColumn(name);
 		tableXY.setMyCellEditor(0);
 		updateXYTable();
 	}
@@ -927,7 +506,7 @@ public class FunctionInspector implements View, MouseListener,
 		if (count <= 2)
 			return;
 
-		extraColumnList.remove(extraColumnList.size() - 1);
+		model.removeColumn();
 		modelXY.setColumnCount(modelXY.getColumnCount() - 1);
 		tableXY.setMyCellEditor(0);
 		updateXYTable();
@@ -944,7 +523,7 @@ public class FunctionInspector implements View, MouseListener,
 		if (source instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) source);
 		} else if (source == btnAddColumn) {
-			addColumn(btnAddColumn.getSelectedIndex());
+			model.addColumn(btnAddColumn.getSelectedIndex());
 		}
 
 		else if (source == btnRemoveColumn) {
@@ -972,22 +551,20 @@ public class FunctionInspector implements View, MouseListener,
 			double value = nv.getDouble();
 
 			if (source == fldStep) {
-				step = value;
+				model.applyStep(value);
 				updateXYTable();
 			} else if (source == fldLow) {
 				isChangingValue = true;
-				double y = selectedGeo.evaluate(value);
-				lowPoint.setCoords(value, y, 1);
-				lowPoint.updateCascade();
-				lowPoint.updateRepaint();
+
+				model.applyLow(value);
+
 				isChangingValue = false;
 				updateIntervalTable();
 			} else if (source == fldHigh) {
 				isChangingValue = true;
-				double y = selectedGeo.evaluate(value);
-				highPoint.setCoords(value, y, 1);
-				highPoint.updateCascade();
-				highPoint.updateRepaint();
+
+				model.applyHigh(value);
+
 				isChangingValue = false;
 				updateIntervalTable();
 			}
@@ -997,7 +574,7 @@ public class FunctionInspector implements View, MouseListener,
 		}
 
 	}
-	
+
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof MyTextField) {
 			((MyTextField) e.getSource()).selectAll();
@@ -1007,7 +584,6 @@ public class FunctionInspector implements View, MouseListener,
 	public void focusLost(FocusEvent e) {
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
 	}
-	
 
 	public void show() {
 		wrappedDialog.setVisible(true);
@@ -1022,7 +598,7 @@ public class FunctionInspector implements View, MouseListener,
 			app.getKernel().attach(this);
 		} else {
 			app.getKernel().detach(this);
-			clearGeoList();
+			model.clearGeoList();
 		}
 	}
 
@@ -1032,46 +608,11 @@ public class FunctionInspector implements View, MouseListener,
 
 	public void update(GeoElement geo) {
 
-		if (selectedGeo == null || testPoint == null || lowPoint == null
-				|| highPoint == null || isChangingValue || isIniting)
-			return;
-
-		if (selectedGeo.equals(geo)) {
-			lblGeoName.setText(selectedGeo
-					.toString(StringTemplate.defaultTemplate));
-		}
-
-		else if (tabPanel.getSelectedComponent() == pointTabPanel
-				&& testPoint.equals(geo)) {
-			double[] coords = new double[3];
-			testPoint.getCoords(coords);
-			this.start = coords[0];
-			updateXYTable();
-			tableXY.getSelectionModel().removeListSelectionListener(this);
-
-			if (btnTable.isSelected() && tableXY.getSelectedRow() != 4)
-				tableXY.changeSelection(4, 0, false, false);
-			else if (!btnTable.isSelected() && tableXY.getSelectedRow() != 0)
-				tableXY.changeSelection(0, 0, false, false);
-
-			tableXY.getSelectionModel().addListSelectionListener(this);
+		if (!model.isValid() || isChangingValue || isIniting) {
 			return;
 		}
 
-		else if (tabPanel.getSelectedComponent() == intervalTabPanel
-				&& (lowPoint.equals(geo) || highPoint.equals(geo))) {
-
-			if (lowPoint.x > highPoint.x) {
-				if (lowPoint.equals(geo))
-					doTextFieldActionPerformed(fldLow);
-				else
-					doTextFieldActionPerformed(fldHigh);
-
-			}
-
-			updateIntervalFields();
-			return;
-		}
+		model.update(geo, tabPanel.getSelectedComponent() == pointTabPanel);
 
 	}
 
@@ -1136,44 +677,16 @@ public class FunctionInspector implements View, MouseListener,
 
 	/**
 	 * Sets the function to be inspected and updates the entire GUI
-	 *  
-	 * @param geo The function to be inspected
+	 * 
+	 * @param geo
+	 *            The function to be inspected
 	 */
 	public void insertGeoElement(GeoElement geo) {
 		if (geo == null || !geo.isGeoFunction()) {
 			return;
 		}
+		model.insertGeoElement(geo);
 
-		clearGeoList();
-		
-		activeEV = app.getActiveEuclidianView();
-		selectedGeo = (GeoFunction) geo;
-
-		lblGeoName.setText(getTitleString());
-
-		initialX = 0.5 * (activeEV.getXmin() - activeEV.getXmin());
-		start = initialX;
-
-		// initial step = EV grid step
-		step = 0.25 * kernel.getApplication().getActiveEuclidianView()
-				.getGridDistances()[0];
-		fldStep.removeActionListener(this);
-		fldStep.setText("" + step);
-		fldStep.addActionListener(this);
-
-		defineDisplayGeos();
-
-		double x = initialX - 4 * step;
-		double y = selectedGeo.evaluate(x);
-		lowPoint.setCoords(x, y, 1);
-
-		x = initialX + 4 * step;
-		y = selectedGeo.evaluate(x);
-		highPoint.setCoords(x, y, 1);
-
-		lowPoint.updateCascade();
-		highPoint.updateCascade();
-		
 		updateTabPanels();
 	}
 
@@ -1189,7 +702,8 @@ public class FunctionInspector implements View, MouseListener,
 		switch (key) {
 		case KeyEvent.VK_UP:
 			if (tableXY.getSelectedRow() == 0) {
-				start = start - step;
+
+				model.stepStartBackward();
 				updateXYTable();
 				updateTestPoint();
 			}
@@ -1197,7 +711,7 @@ public class FunctionInspector implements View, MouseListener,
 
 		case KeyEvent.VK_DOWN:
 			if (tableXY.getSelectedRow() == tableXY.getRowCount() - 1) {
-				start = start + step;
+				model.stepStartForward();
 				updateXYTable();
 				tableXY.changeSelection(tableXY.getRowCount() - 1, 0, false,
 						false);
@@ -1234,285 +748,18 @@ public class FunctionInspector implements View, MouseListener,
 	public void mouseReleased(MouseEvent arg0) {
 	}
 
-	// ====================================================
-	// Update/Create Display Geos
-	// ====================================================
-
-	private void defineDisplayGeos() {
-
-		// remove all geos
-		clearGeoList();
-
-		GeoFunction f = selectedGeo;
-
-		// create XY table geos
-		// ========================================
-		// test point
-		AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, f,
-				(activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
-		cons.removeFromConstructionList(pAlgo);
-		testPoint = (GeoPoint) pAlgo.getGeoElements()[0];
-		testPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		testPoint.setPointSize(4);
-		testPoint.setLayer(f.getLayer() + 1);
-		pointTabGeoList.add(testPoint);
-
-		// X segment
-		ExpressionNode xcoord = new ExpressionNode(kernel, testPoint,
-				Operation.XCOORD, null);
-		MyVecNode vec = new MyVecNode(kernel, xcoord, new MyDouble(kernel, 0.0));
-		ExpressionNode point = new ExpressionNode(kernel, vec,
-				Operation.NO_OPERATION, null);
-		point.setForcePoint();
-		AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point,
-				false);
-		cons.removeFromConstructionList(pointAlgo);
-
-		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgo.getGeoElements()[0], null);
-		cons.removeFromConstructionList(seg1);
-		xSegment = seg1.getGeoElements()[0];
-		xSegment.setSelectionAllowed(false);
-		xSegment.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		xSegment.setLineThickness(3);
-		xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-		xSegment.setEuclidianVisible(true);
-		xSegment.setFixed(true);
-		pointTabGeoList.add(xSegment);
-
-		// Y segment
-		ExpressionNode ycoord = new ExpressionNode(kernel, testPoint,
-				Operation.YCOORD, null);
-		MyVecNode vecy = new MyVecNode(kernel, new MyDouble(kernel, 0.0),
-				ycoord);
-		ExpressionNode pointy = new ExpressionNode(kernel, vecy,
-				Operation.NO_OPERATION, null);
-		pointy.setForcePoint();
-		AlgoDependentPoint pointAlgoy = new AlgoDependentPoint(cons, pointy,
-				false);
-		cons.removeFromConstructionList(pointAlgoy);
-
-		AlgoJoinPointsSegment seg2 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgoy.getGeoElements()[0], null);
-		cons.removeFromConstructionList(seg2);
-
-		ySegment = seg2.getGeoElements()[0];
-		ySegment.setSelectionAllowed(false);
-		ySegment.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		ySegment.setLineThickness(3);
-		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-		ySegment.setEuclidianVisible(true);
-		ySegment.setFixed(true);
-		pointTabGeoList.add(ySegment);
-
-		// tangent line
-		AlgoTangentFunctionPoint tangent = new AlgoTangentFunctionPoint(cons,
-				testPoint, f);
-		cons.removeFromConstructionList(tangent);
-		tangentLine = tangent.getGeoElements()[0];
-		tangentLine.setSelectionAllowed(false);
-		tangentLine.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		tangentLine.setEuclidianVisible(false);
-		pointTabGeoList.add(tangentLine);
-
-		// osculating circle
-		AlgoOsculatingCircle oc = new AlgoOsculatingCircle(cons, testPoint, f);
-		cons.removeFromConstructionList(oc);
-		oscCircle = oc.getGeoElements()[0];
-		oscCircle.setSelectionAllowed(false);
-		oscCircle.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		oscCircle.setEuclidianVisible(false);
-		pointTabGeoList.add(oscCircle);
-
-		// derivative
-		AlgoDerivative deriv = new AlgoDerivative(cons, f, true);
-		cons.removeFromConstructionList(deriv);
-		derivative = (GeoFunction) deriv.getGeoElements()[0];
-		derivative.setEuclidianVisible(false);
-		hiddenGeoList.add(derivative);
-
-		// 2nd derivative
-		AlgoDerivative deriv2 = new AlgoDerivative(cons, derivative, true);
-		cons.removeFromConstructionList(deriv2);
-		derivative2 = (GeoFunction) deriv2.getGeoElements()[0];
-		derivative2.setEuclidianVisible(false);
-		hiddenGeoList.add(derivative2);
-
-		// point list
-		pts = new GeoList(cons);
-		pts.setEuclidianVisible(true);
-		pts.setObjColor(GeoGebraColorConstants.DARKGRAY);
-		pts.setPointSize(3);
-		pts.setLayer(f.getLayer() + 1);
-		for (int i = 0; i < pointCount; i++) {
-			pts.add(new GeoPoint(cons));
-		}
-		pointTabGeoList.add(pts);
-
-		// create interval table geos
-		// ================================================
-
-		// interval points
-		AlgoPointOnPath pxAlgo = new AlgoPointOnPath(cons, f,
-				(2 * activeEV.getXmin() + activeEV.getXmax()) / 3, 0);
-		cons.removeFromConstructionList(pxAlgo);
-		lowPoint = (GeoPoint) pxAlgo.getGeoElements()[0];
-		lowPoint.setEuclidianVisible(false);
-		lowPoint.setPointSize(4);
-		lowPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		lowPoint.setLayer(f.getLayer() + 1);
-		intervalTabGeoList.add(lowPoint);
-
-		AlgoPointOnPath pyAlgo = new AlgoPointOnPath(cons, f,
-				(activeEV.getXmin() + 2 * activeEV.getXmax()) / 3, 0);
-		cons.removeFromConstructionList(pyAlgo);
-		highPoint = (GeoPoint) pyAlgo.getGeoElements()[0];
-		highPoint.setEuclidianVisible(false);
-		highPoint.setPointSize(4);
-		highPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		highPoint.setLayer(f.getLayer() + 1);
-		intervalTabGeoList.add(highPoint);
-
-		ExpressionNode low = new ExpressionNode(kernel, lowPoint,
-				Operation.XCOORD, null);
-		ExpressionNode high = new ExpressionNode(kernel, highPoint,
-				Operation.XCOORD, null);
-		AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low, false);
-		cons.removeFromConstructionList(xLow);
-		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
-		cons.removeFromConstructionList(xHigh);
-
-		AlgoFunctionInterval interval = new AlgoFunctionInterval(cons, f,
-				(NumberValue) xLow.getGeoElements()[0],
-				(NumberValue) xHigh.getGeoElements()[0]);
-		cons.removeFromConstructionList(interval);
-
-		functionInterval = interval.getGeoElements()[0];
-		functionInterval.setSelectionAllowed(false);
-		functionInterval.setEuclidianVisible(false);
-		functionInterval.setLineThickness(selectedGeo.getLineThickness() + 5);
-		functionInterval
-				.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		functionInterval.setLayer(f.getLayer() + 1);
-		intervalTabGeoList.add(functionInterval);
-
-		AlgoIntegralDefinite inte = new AlgoIntegralDefinite(cons, selectedGeo,
-				(NumberValue) xLow.getGeoElements()[0],
-				(NumberValue) xHigh.getGeoElements()[0], null, false);
-		cons.removeFromConstructionList(inte);
-		integralGeo = inte.getGeoElements()[0];
-		integralGeo.setSelectionAllowed(false);
-		integralGeo.setEuclidianVisible(false);
-		integralGeo.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
-		intervalTabGeoList.add(integralGeo);
-
-		ExpressionNode en = new ExpressionNode(kernel, selectedGeo,
-				Operation.ABS, null);
-		AlgoDependentFunction funAlgo = new AlgoDependentFunction(cons,
-				(Function) en.evaluate(StringTemplate.defaultTemplate));
-		cons.removeFromConstructionList(funAlgo);
-
-		// the antiderivative of a function containing the absolute function
-		// might be difficult to find if it exists at all. Therefore the
-		// definite integral is calculated numerically.
-		AlgoIntegralDefinite area = new AlgoIntegralDefinite(cons,
-				(GeoFunction) funAlgo.getGeoElements()[0],
-				(NumberValue) xLow.getGeoElements()[0],
-				(NumberValue) xHigh.getGeoElements()[0], null, true);
-		cons.removeFromConstructionList(area);
-		areaGeo = area.getGeoElements()[0];
-		areaGeo.setSelectionAllowed(false);
-		areaGeo.setEuclidianVisible(false);
-		intervalTabGeoList.add(areaGeo);
-
-		AlgoLengthFunction len = new AlgoLengthFunction(cons, selectedGeo,
-				(GeoNumeric) xLow.getGeoElements()[0],
-				(GeoNumeric) xHigh.getGeoElements()[0]);
-		cons.removeFromConstructionList(len);
-		lengthGeo = len.getGeoElements()[0];
-		hiddenGeoList.add(lengthGeo);
-
-		minPoint = new GeoPoint(cons);
-		minPoint.setEuclidianVisible(false);
-		minPoint.setPointSize(4);
-		minPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
-		minPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR)
-				.darker());
-		minPoint.setLayer(f.getLayer() + 1);
-		minPoint.setFixed(true);
-		intervalTabGeoList.add(minPoint);
-
-		maxPoint = new GeoPoint(cons);
-		maxPoint.setEuclidianVisible(false);
-		maxPoint.setPointSize(4);
-		maxPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
-		maxPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR)
-				.darker());
-		maxPoint.setLayer(f.getLayer() + 1);
-		maxPoint.setFixed(true);
-		intervalTabGeoList.add(maxPoint);
-
-		// process the geos
-		// ==================================================
-
-		// add the display geos to the active EV and hide the tooltips
-		for (GeoElement geo : intervalTabGeoList) {
-			activeEV.add(geo);
-			geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			geo.update();
-
-		}
-		for (GeoElement geo : pointTabGeoList) {
-			activeEV.add(geo);
-			geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			geo.update();
-		}
-
-		updateTestPoint();
-		activeEV.repaint();
-
-	}
-
 	private void updateTestPoint() {
 
-		if (testPoint == null || isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		isChangingValue = true;
-		int row = tableXY.getSelectedRow();
-		if (row >= 0) {
-			double x = Double.parseDouble((String) modelXY.getValueAt(row, 0));
-			double y = selectedGeo.evaluate(x);
-			testPoint.setCoords(x, y, 1);
-			testPoint.updateRepaint();
-		}
+
+		model.updateTestPoint();
+
 		isChangingValue = false;
 
-	}
-
-	private void clearGeoList() {
-		for (GeoElement geo : intervalTabGeoList) {
-			if (geo != null) {
-				geo.remove();
-			}
-		}
-		intervalTabGeoList.clear();
-
-		for (GeoElement geo : pointTabGeoList) {
-			if (geo != null) {
-				geo.remove();
-			}
-		}
-		pointTabGeoList.clear();
-
-		for (GeoElement geo : hiddenGeoList) {
-			if (geo != null) {
-				geo.remove();
-			}
-		}
-		hiddenGeoList.clear();
-
-		rootGeos = null;
 	}
 
 	public void updateFonts() {
@@ -1539,7 +786,7 @@ public class FunctionInspector implements View, MouseListener,
 	public void changeStart(double x) {
 		tableXY.getSelectionModel().removeListSelectionListener(this);
 		try {
-			start = x;
+			model.setStart(x);
 			// Application.debug("" + start);
 			updateXYTable();
 			updateTestPoint();
@@ -1547,24 +794,6 @@ public class FunctionInspector implements View, MouseListener,
 			e1.printStackTrace();
 		}
 		tableXY.getSelectionModel().addListSelectionListener(this);
-	}
-
-	private void updateIntervalGeoVisiblity() {
-
-		// minPoint.setEuclidianVisible(tableInterval.isRowSelected(0));
-		minPoint.setEuclidianVisible(false);
-		minPoint.update();
-		// maxPoint.setEuclidianVisible(tableInterval.isRowSelected(1));
-		maxPoint.setEuclidianVisible(false);
-		maxPoint.update();
-
-		// integralGeo.setEuclidianVisible(tableInterval.isRowSelected(5));
-		areaGeo.setEuclidianVisible(false);
-		areaGeo.update();
-		integralGeo.setEuclidianVisible(true);
-		integralGeo.update();
-
-		activeEV.repaint();
 	}
 
 	public SpecialNumberFormat getMyNumberFormat() {
@@ -1613,67 +842,18 @@ public class FunctionInspector implements View, MouseListener,
 
 		SpreadsheetView sp = ((GuiManagerD) app.getGuiManager())
 				.getSpreadsheetView();
-		if (sp == null)
-			return;
 
-		Construction cons = app.getKernel().getConstruction();
-		GeoElement geo = null;
-		String str;
-		Double number;
-		int targetColumn = app.getSpreadsheetTableModel()
-				.getHighestUsedColumn();
+		if (sp == null) {
+			return;
+		}
 
 		if (tabPanel.getSelectedComponent() == pointTabPanel) {
-
-			for (int c = 0; c < tableXY.getColumnCount(); c++) {
-				targetColumn++;
-				for (int row = 0; row < tableXY.getRowCount() + 1; row++) {
-					// copy table header
-					if (row == 0) {
-						geo = new GeoText(cons, tableXY.getColumnName(c));
-						processCellGeo(geo, targetColumn, row);
-					}
-					// copy column data value
-					else if (xyTableCopyList.get(c)[row - 1] != null) {
-						geo = new GeoNumeric(cons,
-								xyTableCopyList.get(c)[row - 1]);
-						processCellGeo(geo, targetColumn, row);
-					}
-				}
-			}
+			model.copyPointsToSpreadsheet(tableXY.getColumnCount(),
+					tableXY.getRowCount());
+		} else {
+			model.copyIntervalsToSpreadsheet(tableInterval.getColumnCount(),
+					tableInterval.getRowCount());
 		}
-
-		else {
-			for (int c = 0; c < tableInterval.getColumnCount(); c++) {
-				targetColumn++;
-				for (int row = 0; row < tableInterval.getRowCount(); row++) {
-
-					// first column has property names
-					if (c == 0 && property.get(row) != null) {
-						geo = new GeoText(cons, property.get(row));
-						processCellGeo(geo, targetColumn, row);
-					}
-
-					// remaining columns have data
-					else if (value2.get(row) != null) {
-
-						for (int k = 0; k < value2.get(row).length; k++)
-							if (value2.get(row)[k] != null) {
-								geo = new GeoNumeric(cons, value2.get(row)[k]);
-								processCellGeo(geo, targetColumn + k, row);
-							}
-					}
-				}
-			}
-		}
-
-	}
-
-	private static void processCellGeo(GeoElement geo, int column, int row) {
-		geo.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
-		geo.setEuclidianVisible(false);
-		geo.setAuxiliaryObject(true);
-		geo.update();
 	}
 
 	public int getViewID() {
@@ -1703,4 +883,122 @@ public class FunctionInspector implements View, MouseListener,
 
 	}
 
+	public void updateXYTable(boolean isTable) {
+		// reset table model and update the XYtable
+		tableXY.setCellEditable(-1, -1);
+
+		if (isTable) {
+			modelXY.setRowCount(pointCount);
+			tableXY.setCellEditable((pointCount - 1) / 2, 0);
+			// tableXY.setRowSelectionAllowed(true);
+			tableXY.changeSelection((pointCount - 1) / 2, 0, false, false);
+
+		} else {
+
+			modelXY.setRowCount(1);
+			tableXY.setCellEditable(0, 0);
+			tableXY.changeSelection(0, 0, false, false);
+			// tableXY.setRowSelectionAllowed(false);
+		}
+
+		updateXYTable();
+		updateTestPoint();
+
+	}
+
+	public String format(double value) {
+		return nf.format(value);
+	}
+
+	public void updateInterval(ArrayList<String> property,
+			ArrayList<String> value) {
+		// load the model with these pairs
+		modelInterval.setRowCount(property.size());
+
+		for (int i = 0; i < property.size(); i++) {
+			modelInterval.setValueAt(property.get(i), i, 0);
+			modelInterval.setValueAt(value.get(i), i, 1);
+		}
+	}
+
+	public void setXYValueAt(Double value, int row, int col) {
+		if (value != null) {
+			modelXY.setValueAt(nf.format(value), row, col);
+		} else {
+			modelXY.setValueAt(null, row, col);
+
+		}
+
+	}
+
+	public Object getXYValueAt(int row, int col) {
+		return modelXY.getValueAt(row, col);
+	}
+
+	public void setGeoName(String name) {
+		lblGeoName.setText(name);
+	}
+
+	public void changeTableSelection() {
+		updateXYTable();
+		tableXY.getSelectionModel().removeListSelectionListener(this);
+
+		if (btnTable.isSelected() && tableXY.getSelectedRow() != 4)
+			tableXY.changeSelection(4, 0, false, false);
+		else if (!btnTable.isSelected() && tableXY.getSelectedRow() != 0)
+			tableXY.changeSelection(0, 0, false, false);
+
+		tableXY.getSelectionModel().addListSelectionListener(this);
+	}
+
+	public void updateHighAndLow(boolean isAscending, boolean isLowSelected) {
+		if (isAscending) {
+			if (isLowSelected) {
+				doTextFieldActionPerformed(fldLow);
+			} else {
+				doTextFieldActionPerformed(fldHigh);
+			}
+
+		}
+
+		updateIntervalFields();
+	}
+
+	public void setStepText(String text) {
+		fldStep.removeActionListener(this);
+		fldStep.setText(text);
+		fldStep.addActionListener(this);
+	}
+
+	public GColor getColor(Colors id) {
+		Color color;
+		switch (id) {
+		case EVEN_ROW:
+			color = EVEN_ROW_COLOR;
+			break;
+		case GEO:
+			color = DISPLAY_GEO_COLOR;
+			break;
+		case GEO2:
+			color = DISPLAY_GEO2_COLOR;
+			break;
+		case GRID:
+			color = TABLE_GRID_COLOR;
+			break;
+		default:
+			color = Color.black;
+			break;
+
+		}
+		return new geogebra.awt.GColorD(color);
+	}
+
+	public int getSelectedXYRow() {
+		return tableXY.getSelectedRow();
+	}
+
+	public void setStepVisible(boolean isVisible) {
+		lblStep.setVisible(isVisible);
+		fldStep.setVisible(isVisible);
+	}
 }
