@@ -88,6 +88,9 @@ public class GGWToolBar3D extends GGWToolBar {
 		case EuclidianConstants.MODE_VOLUME:
 			return myIconResourceBundle3D.mode_volume_32().getSafeUri().asString();
 			
+		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+			return myIconResourceBundle3D.mode_orthogonalthreed_32().getSafeUri().asString();
+			
 		}		
 		
 		return super.getImageURLNotMacro(mode);

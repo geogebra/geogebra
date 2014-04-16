@@ -76,4 +76,7 @@ public interface MyIconResourceBundle3D extends ClientBundle{
 	@Source("mode_volume_32.gif")
 	ImageResource mode_volume_32();
 	
+	@Source("mode_orthogonalthreed_32.gif")
+	ImageResource mode_orthogonalthreed_32();
+	
 }
