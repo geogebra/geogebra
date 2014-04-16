@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,9 +34,8 @@ public class CmdCircleArc extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher()
-						.CircleArc(c.getLabel(), (GeoPoint) arg[0],
-								(GeoPoint) arg[1], (GeoPoint) arg[2]) };
+				GeoElement[] ret = { circleArc(c.getLabel(), (GeoPointND) arg[0],
+								(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
@@ -43,5 +43,19 @@ public class CmdCircleArc extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param label label
+	 * @param center center
+	 * @param startPoint start point
+	 * @param endPoint end point
+	 * @return arc circle
+	 */
+	protected GeoElement circleArc(String label, GeoPointND center, GeoPointND startPoint, GeoPointND endPoint){
+		return getAlgoDispatcher()
+				.CircleArc(label, (GeoPoint) center,
+						(GeoPoint) startPoint, (GeoPoint) endPoint); 
 	}
 }

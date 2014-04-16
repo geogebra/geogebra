@@ -855,4 +855,16 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement AngularBisector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation);
 
+	
+	/**
+	 * circle arc from center and two points on arc
+	 */
+	public GeoConicPartND CircleArc3D(String label, GeoPointND A, GeoPointND B, GeoPointND C);
+
+	/**
+	 * circle sector from center and two points on sector
+	 */
+	public GeoConicPartND CircleSector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C);
+
+
 }
