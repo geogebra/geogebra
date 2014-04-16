@@ -1269,7 +1269,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// even if the following need not
 		// only do this if toolbar string not null, otherwise this may
 		String def = layout.getDockManager().getPanel(toolbarID).getToolbarString();
-		if(def != null){
+		if(def != null || toolbarID != this.toolbarID){
 			setToolBarDefinition(def);
 		}
 
