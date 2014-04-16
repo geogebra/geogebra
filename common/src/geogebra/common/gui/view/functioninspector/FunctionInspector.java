@@ -24,7 +24,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 
-import java.awt.event.WindowEvent;
 
 /**
  * View for inspecting selected GeoFunctions
@@ -265,10 +264,6 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 	}
 
-
-	public void windowLostFocus(WindowEvent e) {
-		// do nothing
-	}
 
 	protected void setStart(double x) {
 		try {
