@@ -68,6 +68,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		intervalPanel = new FlowPanel();
 		intervalPanel.setStyleName("sliderIntervalPanel");
 		sliderPanel = new FlowPanel();
+		FlowPanel positionPanel = new FlowPanel();
+		positionPanel.setStyleName("optionsPanel");
+		sliderPanel.add(positionPanel);
 		animationPanel = new FlowPanel();
 
 		cbSliderFixed = new CheckBox();
@@ -77,7 +80,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				model.applyFixed(cbSliderFixed.getValue());
 
 			}});
-		sliderPanel.add(cbSliderFixed);
+		positionPanel.add(cbSliderFixed);
 
 		cbRandom = new CheckBox();
 		cbRandom.addClickHandler(new ClickHandler(){
@@ -87,7 +90,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 			}});
 		;
-		sliderPanel.add(cbRandom);
+		positionPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
 		lbSliderHorizontal.addChangeHandler(new ChangeHandler(){
@@ -97,7 +100,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 			}});
 
-		sliderPanel.add(lbSliderHorizontal);
+		positionPanel.add(lbSliderHorizontal);
 
 		tfMin = new AngleTextFieldW(6, app);
 		tfMin.addKeyDownHandler(new KeyDownHandler(){
@@ -145,6 +148,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		intervalPanel.add(maxPanel);
 
 		FlowPanel widthPanel = new FlowPanel();
+		widthPanel.setStyleName("optionsPanel");
 		widthPanel.setStyleName("sliderWidthPanel");
 		widthPanel.add(widthLabel);
 		widthPanel.add(tfWidth);

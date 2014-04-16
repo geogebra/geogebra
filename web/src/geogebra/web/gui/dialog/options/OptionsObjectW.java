@@ -3242,6 +3242,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		if (!isDefaults) {
 			reflexAnglePanel = new ReflexAnglePanel();
+			reflexAnglePanel.getWidget().setStyleName("optionsPanel");
 		}
 
 		listAsComboPanel = new ListAsComboPanel();
@@ -3333,7 +3334,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private OptionsTab addDecorationTab() {
 		OptionsTab tab = new OptionsTab("Decoration");
 		decoAnglePanel = new DecoAnglePanel();
+		decoAnglePanel.getWidget().setStyleName("optionsPanel");
 		decoSegmentPanel = new DecoSegmentPanel();
+		decoSegmentPanel.getWidget().setStyleName("optionsPanel");
 		tab.addPanelList(Arrays.asList(decoAnglePanel,
 				decoSegmentPanel));
 		return tab;

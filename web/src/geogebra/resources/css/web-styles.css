@@ -1877,7 +1877,7 @@ body[dir=rtl] .undoPanel {
 	background-color: #F8F8F8;
 	border-bottom: 1px solid #DCDCDC;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
-	padding: 10px;
+	padding: 5px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	z-index: 100;
@@ -2100,7 +2100,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 .dialogContent select {
 	margin-top: 5px;
 	margin-bottom: 10px;
-	width: 100%;
+	width: 98%;
 }
 
 .dialogContent textarea {
@@ -2806,7 +2806,9 @@ label {
 .listBoxPanel,
 .optionsInput,
 .optionsPanel,
-.optionsPanel .optionsPanelIndent {
+.optionsPanel .optionsPanelIndent,
+.propertiesTab .sliderIntervalPanel,
+.propertiesTab .sliderWidthPanel {
 	display: block;
 }
 
@@ -2816,7 +2818,9 @@ label {
 	padding-left: 25px;
 }
 .optionsInput,
-.optionsPanel {
+.optionsPanel,
+.propertiesTab .sliderIntervalPanel,
+.propertiesTab .sliderWidthPanel {
 	margin-bottom: 10px;
 }
 
@@ -2829,23 +2833,19 @@ label {
 .panelRowCell > *,
 .optionsPanel > *,
 .optionsPanelIndent > *,
-.optionsPanelCell > * {
+.optionsPanelCell > *,
+.propertiesTab .sliderIntervalPanel > *,
+.propertiesTab .sliderWidthPanel > * {
 	display: inline-block;
 	vertical-align: middle;
 	margin: 3px 10px 3px 0px;
 }
-.optionsInput > * {
+.optionsInput > *,
+.propertiesTab .sliderIntervalPanel > div > * {
 	display: block;
 	margin: 3px 0px 3px 0px;
 }
 
-.checkBoxPanel {
-	/*padding-top: 5px;
-	min-height: 25px;*/
-}
-.propertiesTab .gwt-CheckBox {
-	margin-right: 20px;
-}
 .panelRowCell {
 	white-space: nowrap;
 	margin-right: 20px;
@@ -2859,10 +2859,7 @@ label {
 .optionsPanelIndent .gwt-Label {
 	margin-right: 10px;
 }
-/*.optionsPanel .gwt-Label,
-.optionsPanelIndent .gwt-Label {
-	margin-bottom: 5px;
-}*/
+
 .optionsPanelCell {
 	display: block;
 }
@@ -2917,7 +2914,7 @@ label {
 	margin-bottom: 5px;
 }
 
-.colorComponent>* {
+.colorComponent > * {
 	display: inline-block;
 }
 
@@ -2957,12 +2954,11 @@ label {
 	box-sizing: border-box;
 }
 .scriptArea {
-	min-height: 300px;
+	height: 300px;
 	width: 100%;
 }
 .scriptTabPanel {
 	width: 100%;
-	height: 100%;
 }
 
 /*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/

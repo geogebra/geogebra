@@ -276,28 +276,28 @@ public interface GuiResources extends ClientBundle {
 	
 	//DECORATIONS
 	//ANGLE
-	@Source("icons/png/web/decoration_icons/decoration_angle_1line_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_1line.png")
 	ImageResource deco_angle_1line();
 	
-	@Source("icons/png/web/decoration_icons/decoration_angle_2lines_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_2lines.png")
 	ImageResource deco_angle_2lines();
 	
-	@Source("icons/png/web/decoration_icons/decoration_angle_3lines_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_3lines.png")
 	ImageResource deco_angle_3lines();
 	
-	@Source("icons/png/web/decoration_icons/decoration_angle_1stroke_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_1stroke.png")
 	ImageResource deco_angle_1stroke();
 	
-	@Source("icons/png/web/decoration_icons/decoration_angle_2strokes_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_2strokes.png")
 	ImageResource deco_angle_2strokes();
 	
-	@Source("icons/png/web/decoration_icons/decoration_angle_3strokes_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_3strokes.png")
 	ImageResource deco_angle_3strokes();
 	
-	@Source("icons/png/web/decoration_icons/decoration_angle_arrow-up_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_arrow-up.png")
 	ImageResource deco_angle_arrow_up();
 	
-	@Source("icons/png/web/decoration_icons/decoration_angle_arrow-down_32px.png")
+	@Source("icons/png/web/decoration_icons/decoration_angle_arrow-down.png")
 	ImageResource deco_angle_arrow_down();
 	
 	//SEGMENT
