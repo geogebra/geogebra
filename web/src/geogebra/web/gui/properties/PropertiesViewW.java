@@ -210,14 +210,18 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 	}
 
 	public void update(GeoElement geo) {
-		updatePropertiesGUI();
+		if(geo.isLabelSet()){
+			updatePropertiesGUI();
+		}
 		App.debug("update(geo)");
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 		App.debug("update visual style");
-		updatePropertiesGUI();
+		if(geo.isLabelSet()){
+			updatePropertiesGUI();
+		}
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
@@ -309,7 +313,7 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 	}
 
 	private void updatePropertiesGUI() {
-		App.debug("updatePropertiesGUI");
+		App.printStacktrace("updatePropertiesGUI");
 		OptionsObjectW panel = getObjectPanel();
 		if (panel != null) {
 			panel.updateGUI();
