@@ -16,6 +16,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
@@ -62,7 +63,7 @@ public class DrawSlider extends Drawable {
 
 	private double[] coords = new double[2];
 	
-	private int lineLength, lineHeight, lineX, lineY;
+	private GLine2D line = AwtFactory.prototype.newLine2D();
 	/**
 	 * Creates new drawable for slider
 	 * 
@@ -115,7 +116,6 @@ public class DrawSlider extends Drawable {
 			double param = (number.getValue() - min) / (max - min);
 			setPointSize(2 + (number.lineThickness + 1) / 3);
 			labelVisible = geo.isLabelVisible();
-			
 
 			// horizontal slider
 			if (horizontal) {
@@ -126,8 +126,9 @@ public class DrawSlider extends Drawable {
 				}
 
 				// horizontal line
-				setLine(coordsScreen[0], coordsScreen[1] - number.lineThickness / 2, 
-						widthScreen, number.lineThickness);
+				this.line.setLine(coordsScreen[0], coordsScreen[1], 
+						coordsScreen[0] + widthScreen, coordsScreen[1]);
+				
 			}
 			// vertical slider
 			else {
@@ -137,34 +138,27 @@ public class DrawSlider extends Drawable {
 					this.xLabel += 5;
 					this.yLabel += 2 * pointSize + 4;
 				}
-
+				this.line.setLine(coordsScreen[0], coordsScreen[1], 
+						coordsScreen[0], coordsScreen[1] - widthScreen);
 				// vertical line
-				setLine(coordsScreen[0] - number.lineThickness / 2, coordsScreen[1] - widthScreen, number.lineThickness,
-						widthScreen);
+				
 			}
 
-			updateStrokes(number);
+			updateStrokes(number, 2);
 		}
 
 
 
 	}
 
-	private void setLine(double d, double e, double f, double g) {
-		lineX = (int) d;
-		lineY = (int) e;
-		lineLength = (int) f;
-		lineHeight = (int) g;
-		
-	}
-
+	
 	@Override
 	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			// horizontal line
 			g2.setPaint(geo.getSelColor());
-			g2.fillRoundRect(lineX, lineY, lineLength, lineHeight,
-					number.lineThickness /2, number.lineThickness /2);
+			g2.setStroke(objStroke);
+			g2.draw(line);
 			if(geo.doHighlighting()){
 				g2.fill(circleHighlight);
 				g2.setStroke(borderStroke);
@@ -237,8 +231,7 @@ public class DrawSlider extends Drawable {
 		// changed: we want click on fixed slider to increment/decrement the slider a bit
 		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);
 		
-		return (x >= lineX - hitThreshold && x <= lineX + lineLength + hitThreshold) &&
-				(y >= lineY - hitThreshold && y <= lineY + lineHeight + hitThreshold);
+		return line.intersects(x - hitThreshold, y - hitThreshold, x + hitThreshold, y + hitThreshold);
 	}
 
 	@Override
@@ -260,13 +253,13 @@ public class DrawSlider extends Drawable {
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return AwtFactory.prototype.newRectangle(lineX, lineY, lineLength, lineHeight);
+		return line.getBounds();
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return circle.intersects(rect)||
-				AwtFactory.prototype.newRectangle(lineX, lineY, lineLength, lineHeight).intersects(rect);
+				line.intersects(rect);
 	}
 	
 	private void updatePoint(double rwX, double rwY) {

@@ -443,17 +443,20 @@ public abstract class Drawable extends DrawableND {
 		lineType = type;
 	}
 
+	final public void updateStrokes(GeoElementND fromGeo) {
+		updateStrokes(fromGeo, 0);
+	}
 	/**
 	 * Update strokes (default,selection,deco) accordingly to geo
 	 * 
 	 * @param fromGeo geo whose style should be used for the update
 	 */
-	final public void updateStrokes(GeoElementND fromGeo) {
+	final public void updateStrokes(GeoElementND fromGeo, int minThickness) {
 		strokedShape = null;
 		strokedShape2 = null;
 
 		if (lineThickness != fromGeo.getLineThickness()) {
-			lineThickness = fromGeo.getLineThickness();
+			lineThickness = Math.max(minThickness, fromGeo.getLineThickness());
 			if (!forcedLineType)
 				lineType = fromGeo.getLineType();
 

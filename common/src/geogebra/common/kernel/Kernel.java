@@ -3508,6 +3508,7 @@ public class Kernel {
 	}
 
 	public void undo() {
+		App.debug("UNDOACTIVE"+undoActive);
 		if (undoActive) {
 			app.startCollectingRepaints();
 			storeSelectedGeosNames();
