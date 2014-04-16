@@ -14,12 +14,9 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -30,7 +27,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  matthieu
  * @version 
  */
-public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection {
+public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
 
  
 
@@ -42,8 +39,8 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
      * @param pointThrough 
      * @param forAxis
      */
-    public AlgoCircle3DPointPointDirection(Construction cons, String label, GeoPointND point, GeoPointND pointThrough, GeoDirectionND forAxis) {
-        super(cons, label, point, (GeoElement) pointThrough, forAxis);
+    public AlgoCircle3DCenterPointPoint(Construction cons, GeoPointND center, GeoPointND pointThrough, GeoPointND forAxis) {
+        super(cons, center, (GeoElement) pointThrough, (GeoElement) forAxis);
         
 
     }
@@ -58,15 +55,24 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
     	GeoPointND pointThrough = (GeoPointND) getSecondInput();
     	Coords radius = pointThrough.getInhomCoordsInD(3).sub(getCenter().getInhomCoordsInD(3));
     	
-    	
-    	//check if direction is compatible (orthogonal) to center-second point
-    	if (!Kernel.isZero(getDirection().dotproduct(radius)))
-    		return Double.NaN;
-    	
+     	
     	radius.calcNorm();
     	
     	return radius.getNorm();
 
+    }
+    
+    
+    @Override
+	protected void setCoordSys(){
+
+    	coordsys.resetCoordSys();
+		
+    	coordsys.addPoint(point.getInhomCoordsInD(3));
+    	coordsys.addPoint(((GeoPointND) secondInput).getInhomCoordsInD(3));
+    	coordsys.addPoint(((GeoPointND) forAxis).getInhomCoordsInD(3));
+ 		
+		coordsys.makeOrthoMatrix(false,false);
     }
 
     @Override
@@ -82,10 +88,7 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
      */
     @Override
 	final protected String getCommandString(){
-    	if (getForAxis() instanceof GeoCoordSys2D)
-    		return "CircleWithCenterAThroughBParallelToC";
-    	
-		return "CircleWithCenterAThroughBAxisParallelToC";
+    	return "CircleWithCenterAThroughBParallelToABC";
     }
 
     

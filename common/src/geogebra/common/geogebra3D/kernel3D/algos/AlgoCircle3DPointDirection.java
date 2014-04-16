@@ -33,11 +33,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 
  
-	private GeoPointND point; // input
-	private GeoElement secondInput; // input
-	private GeoDirectionND forAxis; // input
+	protected GeoPointND point; // input
+	protected GeoElement secondInput; // input
+	protected GeoElement forAxis; // input
 	private GeoConic3D circle; // output       
-    private CoordSys coordsys;
+    protected CoordSys coordsys;
 
     /**
      * 
@@ -47,7 +47,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
      * @param secondInput 
      * @param forAxis
      */
-    public AlgoCircle3DPointDirection(Construction cons, String label, GeoPointND point, GeoElement secondInput, GeoDirectionND forAxis) {
+    protected AlgoCircle3DPointDirection(Construction cons, GeoPointND point, GeoElement secondInput, GeoElement forAxis) {
         super(cons);
         
         this.point = point;
@@ -61,6 +61,12 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 
         // compute line 
         compute();
+    }
+    
+    public AlgoCircle3DPointDirection(Construction cons, String label, GeoPointND point, GeoElement secondInput, GeoDirectionND forAxis) {
+
+    	this(cons, point, secondInput, (GeoElement) forAxis);
+    	
         circle.setLabel(label);
     }
     
@@ -80,20 +86,26 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	public final void compute() {
     	
     	
-		//recompute the coord sys
-    	coordsys.resetCoordSys();
-		
-    	coordsys.addPoint(point.getInhomCoordsInD(3));
-    	Coords[] v = forAxis.getDirectionInD3().completeOrthonormal();
-		coordsys.addVector(v[0]);
-		coordsys.addVector(v[1]);
-		
-		coordsys.makeOrthoMatrix(false,false);
-		
+		setCoordSys();		
     	
 		//set the circle
     	circle.setSphereND(new Coords(0,0), getRadius());
 
+    }
+    
+    /**
+     * reset the coord sys
+     */
+    protected void setCoordSys(){
+
+    	coordsys.resetCoordSys();
+		
+    	coordsys.addPoint(point.getInhomCoordsInD(3));
+    	Coords[] v = ((GeoDirectionND) forAxis).getDirectionInD3().completeOrthonormal();
+		coordsys.addVector(v[0]);
+		coordsys.addVector(v[1]);
+		
+		coordsys.makeOrthoMatrix(false,false);
     }
     
     /**
@@ -114,8 +126,8 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
      * 
      * @return direction
      */
-    protected GeoDirectionND getDirection(){
-    	return forAxis;
+    protected Coords getDirection(){
+    	return ((GeoDirectionND) forAxis).getDirectionInD3();
     }
     
     /**
@@ -130,7 +142,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
      * 
      * @return direction of the axis
      */
-    protected GeoDirectionND getForAxis(){
+    protected GeoElement getForAxis(){
     	return forAxis;
     }
     

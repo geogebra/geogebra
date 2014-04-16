@@ -2857,15 +2857,13 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().CircleArc(null, (GeoPoint) points[0],
-					(GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = circleArc(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().CircleSector(null, (GeoPoint) points[0],
-					(GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = circleSector(points[0], points[1], points[2]);
 			break;
 	
 		default:
@@ -2873,6 +2871,16 @@ public abstract class EuclidianController {
 		}
 	
 		return ret;
+	}
+	
+	protected GeoElement circleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		return getAlgoDispatcher().CircleArc(null, (GeoPoint) p1,
+				(GeoPoint) p2, (GeoPoint) p3);
+	}
+	
+	protected GeoElement circleSector(GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		return getAlgoDispatcher().CircleArc(null, (GeoPoint) p1,
+				(GeoPoint) p2, (GeoPoint) p3);		
 	}
 	
 	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){

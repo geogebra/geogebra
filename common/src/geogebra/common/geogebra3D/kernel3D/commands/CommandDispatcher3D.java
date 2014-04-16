@@ -59,6 +59,15 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case CircumcircleArc:
 			case CircumcircularArc:
 				return new CmdCircumcircleArc3D(kernel);
+				
+			case CircleArc:
+			case CircularArc:
+					return new CmdCircleArc3D(kernel);
+					
+			case CircleSector:
+			case CircularSector:
+				return new CmdCircleSector3D(kernel);
+
 
 				
 				

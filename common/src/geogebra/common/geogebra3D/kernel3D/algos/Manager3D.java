@@ -1649,4 +1649,20 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getLine();
 	}
 	
+	
+
+	final public GeoConicPart3D CircleArc3D(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C) {
+		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3D(cons, label, A, B,
+				C, GeoConicPart.CONIC_PART_ARC);
+		return algo.getConicPart();
+	}
+	
+	final public GeoConicPart3D CircleSector3D(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C) {
+		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3D(cons, label, A, B,
+				C, GeoConicPart.CONIC_PART_SECTOR);
+		return algo.getConicPart();
+	}
+	
 }
