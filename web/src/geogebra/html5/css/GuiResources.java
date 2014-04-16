@@ -216,6 +216,19 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/triangle_down.png")
 	ImageResource triangle_down();
 	
+	//INFO, WARNING, QUESTION, ERROR
+	@Source("icons/png/web/dialog-error.png")
+	ImageResource dialog_error();
+	
+	@Source("icons/png/web/dialog-info.png")
+	ImageResource dialog_info();
+	
+	@Source("icons/png/web/dialog-question.png")
+	ImageResource dialog_question();
+	
+	@Source("icons/png/web/dialog-warning.png")
+	ImageResource dialog_warning();
+	
 	
 	
 	//STYLEBAR

@@ -1324,6 +1324,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					}
 				}});
 			mainPanel.add(inputPanel);
+			mainPanel.setStyleName("optionsPanel");
 			setWidget(mainPanel);
 
 		}
@@ -1410,13 +1411,23 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			//tfButtonWidth..setEnabled(cbUseFixedSize.getValue());
 
 			FlowPanel mainPanel = new FlowPanel();
-			mainPanel.add(cbUseFixedSize);
-			mainPanel.add(labelWidth);
-			mainPanel.add(tfButtonWidth);
-			mainPanel.add(labelPixelW);
-			mainPanel.add(labelHeight);
-			mainPanel.add(tfButtonHeight);
-			mainPanel.add(labelPixelH);
+			mainPanel.setStyleName("textPropertiesTab");
+			FlowPanel fixedPanel = new FlowPanel();
+			FlowPanel widthPanel = new FlowPanel();
+			FlowPanel heightPanel = new FlowPanel();
+			fixedPanel.setStyleName("optionsPanel");
+			widthPanel.setStyleName("optionsPanel");
+			heightPanel.setStyleName("optionsPanel");
+			fixedPanel.add(cbUseFixedSize);
+			widthPanel.add(labelWidth);
+			widthPanel.add(tfButtonWidth);
+			widthPanel.add(labelPixelW);
+			heightPanel.add(labelHeight);
+			heightPanel.add(tfButtonHeight);
+			heightPanel.add(labelPixelH);
+			mainPanel.add(fixedPanel);
+			mainPanel.add(widthPanel);
+			mainPanel.add(heightPanel);
 			setWidget(mainPanel);
 		}
 		public void updateSizes(int width, int height, boolean isFixed) {
@@ -2080,6 +2091,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				// font, size
 				FlowPanel mainPanel = new FlowPanel();
+				mainPanel.setStyleName("textPropertiesTab");
 				FlowPanel firstLine = new FlowPanel();
 				firstLine.setStyleName("textOptionsToolBar");
 				firstLine.add(lbFont);
@@ -2090,6 +2102,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				// bold, italic
 				secondLine = new FlowPanel();
+				secondLine.setStyleName("optionsPanel");
 				decimalLabel = new Label();
 				secondLine.add(decimalLabel);
 				secondLine.add(lbDecimalPlaces);
@@ -2100,6 +2113,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 				editorPanel = new FlowPanel();
+				editorPanel.setStyleName("optionsInput");
 				editorPanel.add(editor);
 				advancedPanel = new TextEditAdvancedPanel(getAppW(), this);
 				redrawFromPreview = false;
@@ -2109,6 +2123,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				previewer = advancedPanel.getPreviewer();
 
 				btnPanel = new FlowPanel();
+				btnPanel.setStyleName("optionsPanel");
 				btnOk = new Button();
 				btnPanel.add(btnOk);
 				btnOk.addClickHandler(new ClickHandler(){

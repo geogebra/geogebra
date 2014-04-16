@@ -41,7 +41,8 @@ input[type="text"],
 .gwt-TextBox,
 select,
 textarea,
-.gwt-TextArea {
+.gwt-TextArea,
+iframe.objectPropertiesTextEditor {
 	border: #DCDCDC solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
@@ -1463,6 +1464,8 @@ body[dir=rtl] .signIn {
 
 .GeoGebraMenuBar.subMenuLeftSide .RadioButtonMenuItem label {
 	color: #666666;
+	font-size: 100%;
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
 
 /*#####################################################################################
@@ -2822,7 +2825,8 @@ label {
 .optionsInput,
 .optionsPanel,
 .propertiesTab .sliderIntervalPanel,
-.propertiesTab .sliderWidthPanel {
+.propertiesTab .sliderWidthPanel,
+.textPropertiesTab > * {
 	margin-bottom: 10px;
 }
 
@@ -2837,7 +2841,9 @@ label {
 .optionsPanelIndent > *,
 .optionsPanelCell > *,
 .propertiesTab .sliderIntervalPanel > *,
-.propertiesTab .sliderWidthPanel > * {
+.propertiesTab .sliderWidthPanel > *,
+.textOptionsToolBar > *,
+.BackgroundColorPanel > * {
 	display: inline-block;
 	vertical-align: middle;
 	margin: 3px 10px 3px 0px;
@@ -2909,6 +2915,12 @@ label {
 .textOptionsToolBar .gwt-ToggleButton {
 	display: inline-block;
 }
+iframe.objectPropertiesTextEditor {
+	margin-bottom: 10px;
+}
+.propertiesTab .gwt-TabLayoutPanel {
+	background: #FFFFFF;
+}
 
 .colorComponent {
 	display: block;
@@ -2943,10 +2955,15 @@ label {
 	position: absolute;
 	left: 233px;
 	top: 245px;
+	margin-left: 0px;
+	padding: 0px 2px;
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
+		rgba(204, 204, 204, 0.5);
+	border: 2px solid #000000;
+	cursor: pointer;
 }
-
-.BackgroundColorPanel>* {
-	display: block;
+.CustomColorButton:hover {
+	background-color: rgba(204, 204, 255, 0.2);
 }
 
 .propertiesTab .gwt-TabPanelBottom {
@@ -2955,6 +2972,7 @@ label {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
 .scriptArea {
 	height: 300px;
 	width: 100%;
