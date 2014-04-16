@@ -61,6 +61,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		super.createDefaultMap();
 		
+		// lines
+		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
+				ConstructionDefaults.DEFAULT_LINE);
+		
 		// conics
 		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_AXIS_POINT,
 				ConstructionDefaults.DEFAULT_CONIC);

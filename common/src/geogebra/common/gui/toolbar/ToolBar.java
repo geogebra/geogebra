@@ -411,7 +411,7 @@ public class ToolBar {
 		sb.append( " | ");
 		
 		//specific lines
-		sb.append( EuclidianConstants.MODE_ORTHOGONAL);
+		sb.append( EuclidianConstants.MODE_ORTHOGONAL_THREE_D);
 		sb.append( " ");
 		sb.append( EuclidianConstants.MODE_PARALLEL);
 		sb.append( " ");

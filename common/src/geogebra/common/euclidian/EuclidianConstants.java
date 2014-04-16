@@ -249,6 +249,9 @@ public final class EuclidianConstants {
 
 	/** creates a plane parallel to another */
 	public static final int MODE_PARALLEL_PLANE = 513;
+	
+	/** Perpendicular Line (for 3D view) */
+	public static final int MODE_ORTHOGONAL_THREE_D = 514;
 
 	/** creates a sphere with midpoint and radius */
 	public static final int MODE_SPHERE_POINT_RADIUS = 520;

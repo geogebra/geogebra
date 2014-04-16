@@ -5429,6 +5429,7 @@ public abstract class EuclidianController {
 	
 		// new line through point orthogonal to vector or line
 		case EuclidianConstants.MODE_ORTHOGONAL:
+		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			ret = orthogonal(hits);
 			break;
 	
@@ -8468,6 +8469,7 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_PARALLEL:
 		case EuclidianConstants.MODE_ORTHOGONAL:
+		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			
 			
 			view.setHits(mouseLoc,type);
@@ -9519,6 +9521,7 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_ORTHOGONAL:
+		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			previewDrawable = view.createPreviewPerpendicularLine(
 					selectedPoints, selectedLines);
 			break;

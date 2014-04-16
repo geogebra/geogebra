@@ -209,6 +209,9 @@ public class Kernel3D extends Kernel {
 
 		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
 			return "RotateAroundLine";
+					
+		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+			return "OrthogonalThreeD";
 
 		default:
 			return super.getModeText(mode);
