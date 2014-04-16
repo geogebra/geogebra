@@ -31,11 +31,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProperties {
 
-	public static int GGWVIewWrapper_WIDTH = 300;
-	public static int GGWSpreadsheetView_WIDTH = 400;
-	public static int GGWToolBar_HEIGHT = 61;
-	private static final int GGWStyleBar_HEIGHT = 65;
-	public static int GGWCommandLine_HEIGHT = 50;
+	
 
 	public static final int BORDER_WIDTH = 2;
 	public static final int BORDER_HEIGHT = 2;

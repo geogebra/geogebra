@@ -43,7 +43,6 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerInterfaceW;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
@@ -1698,9 +1697,9 @@ public abstract class AppW extends AppWeb {
 		// toolbar, menubar, and input bar;
 		// heuristics come from GeoGebraAppFrame
 		if (showAlgebraInput())
-			windowHeight -= GeoGebraFrame.GGWCommandLine_HEIGHT;
+			windowHeight -= GLookAndFeel.COMMAND_LINE_HEIGHT;
 		if (showToolBar())
-			windowHeight -= GeoGebraFrame.GGWToolBar_HEIGHT;
+			windowHeight -= GLookAndFeel.TOOLBAR_HEIGHT;
 		if (showMenuBar())
 			windowHeight -= 35;// empirical observation
 		// menubar height might be there too,
