@@ -871,7 +871,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
 	public void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight) {
-		roundRect(x,y,width,height,arcHeight);
+		roundRect(x, y, width, height, arcHeight - arcHeight/2);
 		context.stroke();
 		
 		
@@ -906,7 +906,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
 	public void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight) {
-		roundRect(x,y,width,height,arcHeight);
+		roundRect(x,y,width,height,arcHeight - arcHeight/2);
 		context.fill("evenodd");
 		
 	}
