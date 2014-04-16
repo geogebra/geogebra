@@ -321,7 +321,7 @@ public class GeoTextField extends GeoButton {
 			if (linkedGeo instanceof GeoText) { 
 				textField.removeSymbolTable(); 
 			} else { 
-				textField.showPopupSymbolButton(true); 
+				//textField.showPopupSymbolButton(true); 
 			}	
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);		
@@ -341,7 +341,7 @@ public class GeoTextField extends GeoButton {
 			if (linkedGeo instanceof GeoText) { 
 				textField2.removeSymbolTable(); 
 			} else { 
-				textField2.showPopupSymbolButton(true); 
+				textField2.prepareShowSymbolButton(true); 
 			}	
 			textField2.setAutoComplete(false);
 			textField2.enableColoring(false);		

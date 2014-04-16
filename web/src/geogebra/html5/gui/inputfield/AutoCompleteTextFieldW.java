@@ -307,7 +307,20 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void showPopupSymbolButton(boolean b) {
-		setShowSymbolTableIcon(b);
+		this.showSymbolTableIcon = b;
+		if (showSymbolButton == null) {
+			return;
+		}
+		// temp
+		// TODO: don't fix the popup button here, but it should appear if mouse
+		// clicked into the textfield.
+		if ((showSymbolTableIcon) && app.isAllowedSymbolTables() && this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH) {
+			showSymbolButton.getElement().addClassName("shown");
+			showSymbolButton.getElement().setAttribute("data-persist", "true");
+		} else {
+			showSymbolButton.getElement().removeClassName("shown");
+			showSymbolButton.getElement().removeAttribute("data-persist");
+		}
 	}
 
 	/**
@@ -454,8 +467,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setColumns(int columns) {
 		this.columns  = columns;
-		if (showSymbolButton != null && (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
-			prepareShowSymbolButton();
+		if (showSymbolButton != null && 
+				(this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
+			prepareShowSymbolButton(true);
 		}
 		getTextBox().setWidth(columns + "em");
 		//super.setWidth(length + "em");
@@ -1120,27 +1134,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		this.showSymbolButton.removeFromParent();
 		this.showSymbolButton = null;
 	}
-	/**
-	 * Sets a flag to show the symbol table icon when the field is focused
-	 * 
-	 * @param showSymbolTableIcon
-	 */
-	public void setShowSymbolTableIcon(boolean b) {
-		this.showSymbolTableIcon = b;
-		if (showSymbolButton == null) {
-			return;
-		}
-		// temp
-		// TODO: don't fix the popup button here, but it should appear if mouse
-		// clicked into the textfield.
-		if ((showSymbolTableIcon) && app.isAllowedSymbolTables() && this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH) {
-			showSymbolButton.getElement().addClassName("shown");
-			showSymbolButton.getElement().setAttribute("data-persist", "true");
-		} else {
-			showSymbolButton.getElement().removeClassName("shown");
-			showSymbolButton.getElement().removeAttribute("data-persist");
-		}
-	}
 
 	void showTablePopupRelativeTo(Widget w) {
 		if (tablePopup == null && this.showSymbolButton != null)
@@ -1357,14 +1350,19 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			return;
 		}
 		this.columns = EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH + 1;
-		prepareShowSymbolButton();
+		prepareShowSymbolButton(true);
 	}
 
-	private void prepareShowSymbolButton() {
+	public void prepareShowSymbolButton(boolean b) {
 		if (showSymbolButton == null) {
 			return;
 		}
-	    showSymbolButton.getElement().setAttribute("data-visible", "true");
-		addStyleName("SymbolCanBeShown");
+		if(b){
+			showSymbolButton.getElement().setAttribute("data-visible", "true");
+			addStyleName("SymbolCanBeShown");
+		}else{
+			showSymbolButton.getElement().setAttribute("data-visible", "false");
+			removeStyleName("SymbolCanBeShown");
+		}
     }
 }

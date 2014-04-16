@@ -16,7 +16,7 @@ public class CASTableCellEditorW implements CASTableCellEditor{
 		textField = new AutoCompleteTextFieldW(0, app);
 		textField.setCASInput(true);
 		textField.setAutoComplete(true);
-		textField.showPopupSymbolButton(true);
+		textField.prepareShowSymbolButton(true);
 		textField.addKeyHandler(ml);
 		//FIXME experimental fix for CAS in other languages, broken in r27612
 		app.fillCasCommandDict();

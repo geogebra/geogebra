@@ -72,4 +72,6 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	 */
 	void removeSymbolTable();
 
+	void prepareShowSymbolButton(boolean b);
+
 }

@@ -346,7 +346,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		int length = geoTextField.getLength();
 		if(length!=oldLength){
 			textField.setColumns(length);
-			textField.showPopupSymbolButton(length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
+			textField.prepareShowSymbolButton(length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
+			
 			oldLength = length;
 		}
 		if (!isVisible) {

@@ -9,6 +9,7 @@ import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+
 /**
  * This panel is for the input.
  */
@@ -17,35 +18,39 @@ public class CASInputPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private AutoCompleteTextFieldD inputArea;
-	
+
 	private AppD app;
-	
+
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public CASInputPanel(AppD app) {
 		this.app = app;
-		
+
 		setBackground(Color.white);
-		
-		setLayout(new BorderLayout(0,0));
-		
-		// use autocomplete text field from input bar 
+
+		setLayout(new BorderLayout(0, 0));
+
+		// use autocomplete text field from input bar
 		// but ignore Escape, Up, Down keys
-		inputArea = new AutoCompleteTextFieldD(1, app, false, app.getCommandDictionaryCAS());
+		inputArea = new AutoCompleteTextFieldD(1, app, false,
+				app.getCommandDictionaryCAS());
 		inputArea.setCASInput(true);
 		inputArea.setAutoComplete(true);
-		inputArea.showPopupSymbolButton(true);
-		inputArea.setBorder(BorderFactory.createEmptyBorder());						
+		inputArea.prepareShowSymbolButton(true);
+		inputArea.setBorder(BorderFactory.createEmptyBorder());
 		add(inputArea, BorderLayout.CENTER);
 	}
 
 	/**
-	 * @param inValue input text
+	 * @param inValue
+	 *            input text
 	 */
 	public void setInput(String inValue) {
 		inputArea.setText(inValue);
 	}
+
 	/**
 	 * @return input text
 	 */
@@ -62,7 +67,8 @@ public class CASInputPanel extends JPanel {
 
 	/**
 	 * 
-	 * @return true if the InputArea has been set focused successfully, false otherwise
+	 * @return true if the InputArea has been set focused successfully, false
+	 *         otherwise
 	 */
 	public boolean setInputAreaFocused() {
 		return inputArea.requestFocusInWindow();
@@ -75,14 +81,15 @@ public class CASInputPanel extends JPanel {
 		if (inputArea != null) {
 			inputArea.setFont(ft);
 		}
-		
+
 	}
-	
+
 	/**
-	 * @param col color
+	 * @param col
+	 *            color
 	 */
-	public void setCommentColor(Color col){
-		if(col!=null){
+	public void setCommentColor(Color col) {
+		if (col != null) {
 			inputArea.setForeground(col);
 		}
 	}
@@ -93,5 +100,5 @@ public class CASInputPanel extends JPanel {
 	public void setLabels() {
 		inputArea.setDictionary(app.getCommandDictionaryCAS());
 	}
-	
+
 }

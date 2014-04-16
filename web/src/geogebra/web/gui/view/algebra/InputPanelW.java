@@ -74,7 +74,7 @@ public class InputPanelW extends FlowPanel {
 
 			textComponent = new AutoCompleteTextFieldW(columns, app);
 
-			textComponent.setShowSymbolTableIcon(showSymbolPopup);
+			textComponent.prepareShowSymbolButton(showSymbolPopup);
 		}
 
 		// textComponent.addFocusListener(this);

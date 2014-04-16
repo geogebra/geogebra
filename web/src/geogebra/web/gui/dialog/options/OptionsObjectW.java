@@ -2754,7 +2754,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lblSymbols.setVisible(true);
 			lblSelectedSymbol.setVisible(true);
 			unicodePanel.setVisible(true);
-			tfInsertUnicode.setShowSymbolTableIcon(true);
+			tfInsertUnicode.showPopupSymbolButton(true);
 		}
 
 		public void setDottedFillType() {
