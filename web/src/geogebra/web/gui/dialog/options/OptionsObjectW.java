@@ -1300,7 +1300,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		private TextFieldSizeModel model;
 		private InputPanelW inputPanel;
-		private Label title;
 		private AutoCompleteTextFieldW tfSize;
 		public TextFieldSizePanel() {
 			model = new TextFieldSizeModel(getAppW(), this);
@@ -1334,7 +1333,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public void setLabels() {
-			title.setText(localize("TextfieldLength"));
+			//title.setText(localize("TextfieldLength"));
 		}
 
 	}
