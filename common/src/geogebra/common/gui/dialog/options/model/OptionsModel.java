@@ -44,6 +44,17 @@ public abstract class OptionsModel {
 		return geosOK;
 	}
 
+	public boolean hasPreview() {
+		boolean geosOK = true;
+		for (int i = 0; i < getGeosLength(); i++) {
+			if (!getGeoAt(i).isGeoText()) {
+				geosOK = false;
+				break;
+			}
+		}
+		return geosOK;
+	}
+
 }
 	
 

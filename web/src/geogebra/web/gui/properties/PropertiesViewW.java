@@ -313,7 +313,6 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 	}
 
 	private void updatePropertiesGUI() {
-		App.printStacktrace("updatePropertiesGUI");
 		OptionsObjectW panel = getObjectPanel();
 		if (panel != null) {
 			panel.updateGUI();

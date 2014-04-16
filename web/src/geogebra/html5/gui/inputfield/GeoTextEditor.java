@@ -158,6 +158,9 @@ public class GeoTextEditor extends RichTextArea {
 		if (!initialized) {
 			return null;
 		}
+		if(IFrameElement.as(getElement()) == null){
+			return null;
+		}
 		return IFrameElement.as(getElement()).getContentDocument();
 	}
 

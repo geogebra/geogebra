@@ -2144,8 +2144,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			getModel().updateProperties();
 			setLabels();
-			updatePreview();
-			editor.updateFonts();
+			if(getModel().hasPreview()){
+				updatePreview();
+				editor.updateFonts();
+			}
+			
 
 			return true;
 
