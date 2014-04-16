@@ -177,7 +177,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 				&& !popupSymbolDisabled);
 	}
 
-	public void killPopupSymbolButton() {
+	public void removeSymbolTable() {
 		popupSymbolDisabled = true;
 	}
 

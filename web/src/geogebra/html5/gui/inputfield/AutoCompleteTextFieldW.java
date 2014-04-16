@@ -111,7 +111,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 */
 	private boolean tabEnabled = false;
 	private int columns = 0;
-	private boolean popupSymbolDisabled;
 	
 	/**
 	 * Pattern to find an argument description as found in the syntax
@@ -196,10 +195,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 				if (showSymbolButton.isDown()) {
 					// when it is still down, it will be changed to up
 					// when it is still up, it will be changed to down
-					getTablePopup().showRelativeTo(showSymbolButton);
+					showTablePopupRelativeTo(showSymbolButton);
 					
 				} else {
-					getTablePopup().hide();
+					hideTablePopup();
 				}
 	            
             }});
@@ -309,10 +308,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void showPopupSymbolButton(boolean b) {
 		setShowSymbolTableIcon(b);
-	}
-
-	public void killPopupSymbolButton() { 
-		popupSymbolDisabled = true; 
 	}
 
 	/**
@@ -459,7 +454,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setColumns(int columns) {
 		this.columns  = columns;
-		if (showSymbolButton != null && !popupSymbolDisabled && (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
+		if (showSymbolButton != null && (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
 			prepareShowSymbolButton();
 		}
 		getTextBox().setWidth(columns + "em");
@@ -1119,7 +1114,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void removeSymbolTable(){
+		if (showSymbolButton == null) {
+			return;
+		}
 		this.showSymbolButton.removeFromParent();
+		this.showSymbolButton = null;
 	}
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
@@ -1127,8 +1126,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * @param showSymbolTableIcon
 	 */
 	public void setShowSymbolTableIcon(boolean b) {
-		this.showSymbolTableIcon = b && !popupSymbolDisabled;
-		
+		this.showSymbolTableIcon = b;
+		if (showSymbolButton == null) {
+			return;
+		}
 		// temp
 		// TODO: don't fix the popup button here, but it should appear if mouse
 		// clicked into the textfield.
@@ -1141,15 +1142,18 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 	}
 
-	private SymbolTablePopupW getTablePopup() {
-		if (tablePopup == null)
+	void showTablePopupRelativeTo(Widget w) {
+		if (tablePopup == null && this.showSymbolButton != null)
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
-		return tablePopup;
+		if(this.tablePopup != null){
+			tablePopup.showRelativeTo(w);
+		}
 	}
 
 	public void hideTablePopup() {
-		if (tablePopup != null)
-			tablePopup.hide();
+		if (this.tablePopup != null){
+			this.tablePopup.hide();
+		}
 	}
 
 	public String getText() {
@@ -1165,6 +1169,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void toggleSymbolButton(boolean toggled) {
+		if (showSymbolButton == null) {
+			return;
+		}
 		showSymbolButton.setDown(toggled);
 	}
 
@@ -1346,7 +1353,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * use this, if no explicit length set, but symbolbutton must be shown.
 	 */
 	public void requestToShowSymbolButton() {
-		if (popupSymbolDisabled) {
+		if (showSymbolButton == null) {
 			return;
 		}
 		this.columns = EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH + 1;
@@ -1354,6 +1361,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	private void prepareShowSymbolButton() {
+		if (showSymbolButton == null) {
+			return;
+		}
 	    showSymbolButton.getElement().setAttribute("data-visible", "true");
 		addStyleName("SymbolCanBeShown");
     }

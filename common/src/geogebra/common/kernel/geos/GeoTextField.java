@@ -319,7 +319,7 @@ public class GeoTextField extends GeoButton {
 			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
 			// don't show symbol popup when TextField linked to free text 
 			if (linkedGeo instanceof GeoText) { 
-				textField.killPopupSymbolButton(); 
+				textField.removeSymbolTable(); 
 			} else { 
 				textField.showPopupSymbolButton(true); 
 			}	
@@ -339,7 +339,7 @@ public class GeoTextField extends GeoButton {
 			textField2 = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
 			// don't show symbol popup when TextField linked to free text 
 			if (linkedGeo instanceof GeoText) { 
-				textField2.killPopupSymbolButton(); 
+				textField2.removeSymbolTable(); 
 			} else { 
 				textField2.showPopupSymbolButton(true); 
 			}	
