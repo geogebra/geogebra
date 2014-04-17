@@ -1078,7 +1078,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 
 		};
-
+		btnTextColor.addStyleName("btnTextColor");
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
@@ -1088,9 +1088,8 @@ public class EuclidianStyleBarW extends StyleBarW
 		//ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
 		//		.substring(0, 1), app.getPlainFont(), true, false, true,
 		//		iconDimension, Color.black, null);
-		btnBold = new MyToggleButton2(
-				AppResources.INSTANCE.format_text_bold(),
-				iconHeight) {
+		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight) {
+				//AppResources.INSTANCE.format_text_bold(), iconHeight) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1106,6 +1105,7 @@ public class EuclidianStyleBarW extends StyleBarW
 				}
 			}
 		};
+		btnBold.addStyleName("btnBold");
 		btnBold.addValueChangeHandler(this);
 
 		// ========================================
@@ -1113,9 +1113,8 @@ public class EuclidianStyleBarW extends StyleBarW
 		//ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
 		//		app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 		//		false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButton2(
-				AppResources.INSTANCE.format_text_italic(),
-				iconHeight) {
+		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight) {
+				//AppResources.INSTANCE.format_text_italic(), iconHeight) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1133,6 +1132,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 
 		};
+		btnItalic.addStyleName("btnItalic");
 		btnItalic.addValueChangeHandler(this);
 		
 		

@@ -32,6 +32,7 @@ public class ColorChooserDialog extends PopupPanel implements SetLabels {
 		this.app = app;
 		this.handler = handler;
 		titleLabel = new Label();
+		titleLabel.setStyleName("panelTitle");
 		final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 		colorChooserW = new ColorChooserW(app, 400, 210, colorIconSizeW, 4);
 		colorChooserW.enableOpacity(false);

@@ -159,6 +159,7 @@ public class CustomColorDialog extends PopupPanel  {
 
 	protected void createGUI() {
 		titleLabel = new Label();
+		titleLabel.setStyleName("panelTitle");
 		mainWidget.add(titleLabel);
 		FlowPanel contents = new FlowPanel();
 		contents.setStyleName("ColorDialog-content");

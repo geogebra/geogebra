@@ -1454,7 +1454,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private ColorFunctionModel model;
 		private InputPanelW inputPanelA;
 		private AutoCompleteTextFieldW tfRed, tfGreen, tfBlue, tfAlpha;
-		private Button btRemove;
+		private Label btRemove;
 		private Label title;
 		private Label nameLabelR, nameLabelG, nameLabelB, nameLabelA;
 
@@ -1525,7 +1525,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			tfBlue.addKeyHandler(keyHandler);
 			tfAlpha.addKeyHandler(keyHandler);
 
-			btRemove = new Button("\u2718");
+			btRemove = new Label();
+			btRemove.addStyleName("textButton");
 			btRemove.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
@@ -1620,7 +1621,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}
 
 			nameLabelA.setText(loc.getMenu("Opacity") + ":");
-
+			btRemove.setText(loc.getPlainTooltip("Remove"));
 			//btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 		}
 
@@ -1634,7 +1635,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			model.applyChanges(strRed, strGreen, strBlue, strAlpha, colorSpace,
 					defaultR, defaultG, defaultB, defaultA);
-
 		}
 
 		public void setRedText(final String text) {

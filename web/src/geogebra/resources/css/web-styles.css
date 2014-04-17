@@ -133,6 +133,14 @@ hr {
   	border: 1px outset #EDEDED;
 }*/
 
+.textButton {
+	color: #6666FF;
+	cursor: pointer;
+}
+.textButton:hover {
+	text-decoration: underline;
+}
+
 .gwt-CheckBox-disabled,
 .checkBoxPanel-disabled {
 	color: #CCCCCC;
@@ -881,14 +889,14 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 
 .MyToggleButton.gwt-ToggleButton-down,
 .MyToggleButton.gwt-ToggleButton-down-hovering {
-  	color: #6666FF;
+  	/*color: #6666FF;*/
   	border-color: #6666FF;
 	cursor: pointer;
 	cursor: hand;
 }
 
 .MyToggleButton.gwt-ToggleButton-up-hovering {
-	color: #6666FF;
+	/*color: #6666FF;*/
 	border-color: #CCCCFF;
 	cursor: pointer;
 	cursor: hand;
@@ -899,7 +907,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: default;
 	opacity: .5;
 	zoom: 1;
-	filter: alpha(opacity = 45);
+	filter: alpha(opacity = 50);
 }
 
 
@@ -1619,6 +1627,20 @@ Paddings for menuitems.
 	width: 24px;
 	height: 24px;
 }
+.MyCanvasButton.btnTextColor .buttonContent,
+.btnBold .html-face,
+.btnItalic .html-face {
+	line-height: 22px;
+	font-size: 22px;
+}
+.btnBold .html-face {
+	font-weight: bold;
+	color: #999999;
+}
+.btnItalic .html-face {
+	font-style: italic;
+	color: #999999;
+}
 
 .SelectionTable .gwt-Label {
 	background-repeat: no-repeat;
@@ -2033,6 +2055,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 
 .toolBPanel {
 	float: left;
+	padding-top: 1px;
 }
 
 .smartButtonPanel {
@@ -2849,7 +2872,8 @@ label {
 	margin: 3px 10px 3px 0px;
 }
 .optionsInput > *,
-.propertiesTab .sliderIntervalPanel > div > * {
+.propertiesTab .sliderIntervalPanel > div > *,
+.CustomColorPreview > * {
 	display: block;
 	margin: 3px 0px 3px 0px;
 }
@@ -2903,6 +2927,7 @@ label {
 	vertical-align: middle;
 	margin-right: 20px;	
 }
+.CustomColorPreview canvas,
 .colorChooserPreview canvas {
 	padding: 3px;
 	-webkit-border-radius: 5px;
@@ -2910,6 +2935,9 @@ label {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	border: 1px solid #DCDCDC;
+}
+.gwt-PopupPanel .panelTitle {
+	padding: 5px 10px 10px 10px;
 }
 
 .textOptionsToolBar .gwt-ToggleButton {
@@ -2947,9 +2975,9 @@ iframe.objectPropertiesTextEditor {
 	padding: 8px;
 }
 
-.CustomColorPreview {
+/*.CustomColorPreview {
 	align: center;
-}
+}*/
 
 .CustomColorButton {
 	position: absolute;
