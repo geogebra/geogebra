@@ -112,7 +112,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/**
 	 * says if we're using shaders (TODO : remove this)
 	 */
-	public static boolean USE_SHADERS = true;
+	public static boolean USE_SHADERS = false;
 
 	// private Kernel kernel;
 	private Kernel3D kernel3D;
@@ -2910,8 +2910,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				axisDrawable[i].updateDecorations();
 				axisDrawable[i].setWaitForUpdate();
 			}
-		}else{ // we need to update renderer clip planes, since they are in screen coordinates
+		}else{ 
+			// we need to update renderer clip planes, since they are in screen coordinates
 			clippingCubeDrawable.updateRendererClipPlanes();
+			// we need to update axis numbers locations
+			for (int i = 0; i < 3; i++) {
+				axisDrawable[i].updateDecorations();
+				axisDrawable[i].setLabelWaitForUpdate();
+			}
 		}
 
 	}

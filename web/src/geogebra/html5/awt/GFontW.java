@@ -176,5 +176,22 @@ public class GFontW extends geogebra.common.awt.GFont {
 	    App.debug("implementation needed or OK");
 	    return fontFamily;
     }
+	
+	@Override
+	public boolean equals(Object font){
+		if (font instanceof GFontW){
+			GFontW fontW = (GFontW) font;
+			return fontFamily.equals(fontW.fontFamily)
+					&&  fontSize.equals(fontW.fontSize)
+					&&  fontStyle.equals(fontW.fontStyle)
+					&&  fontVariant.equals(fontW.fontVariant)
+					&&  fontWeight.equals(fontW.fontWeight)
+					&&  lineHeight.equals(fontW.lineHeight)
+					;
+					
+		}
+
+		return false;
+	}
 
 }

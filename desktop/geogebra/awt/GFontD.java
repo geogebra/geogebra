@@ -49,4 +49,14 @@ public class GFontD extends geogebra.common.awt.GFont {
 	public String getFontName() {
 		return impl.getFontName();
 	}
+	
+
+	@Override
+	public boolean equals(Object font){
+		if (font instanceof GFontD){
+			return impl.equals(((GFontD) font).impl);
+		}
+
+		return false;
+	}
 }
