@@ -24,7 +24,7 @@ public class InspectorTable extends JTable{
 	private static final long serialVersionUID = 1L;
 	
 	AppD app;
-	FunctionInspector inspector;
+	FunctionInspectorD inspector;
 
 	boolean doRedNegative = false;	
 	HashSet<Point> editableCell;
@@ -33,7 +33,7 @@ public class InspectorTable extends JTable{
 	public static final int TYPE_XY = 1;
 	int tableType;
 
-	public InspectorTable(AppD app, FunctionInspector inspector, int minRows, int tableType){
+	public InspectorTable(AppD app, FunctionInspectorD inspector, int minRows, int tableType){
 		super(minRows,2);
 
 		this.app = app;

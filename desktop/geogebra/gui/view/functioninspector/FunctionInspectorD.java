@@ -13,17 +13,10 @@ the Free Software Foundation.
 package geogebra.gui.view.functioninspector;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.gui.UpdateFonts;
-import geogebra.common.gui.view.functioninspector.FunctionInspectorModel;
+import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
-import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.IFunctionInspectorListener;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.ModeSetter;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManagerD;
@@ -77,21 +70,17 @@ import javax.swing.table.DefaultTableModel;
  * 
  */
 
-public class FunctionInspector implements View, MouseListener,
-		ListSelectionListener, KeyListener, SpecialNumberFormatInterface,
-		ActionListener, WindowFocusListener, UpdateFonts, FocusListener,
-		IFunctionInspectorListener {
+public class FunctionInspectorD extends FunctionInspector implements
+		MouseListener, ListSelectionListener, KeyListener,
+		SpecialNumberFormatInterface, ActionListener, WindowFocusListener,
+		FocusListener {
 
-	private static final long serialVersionUID = 1L;
-	private FunctionInspectorModel model;
 	// ggb fields
-	private AppD app;
-	private Kernel kernel;
+	// private AppD app;
 	private JDialog wrappedDialog;
-	protected final LocalizationD loc;
 
 	// color constants
-	private Color DISPLAY_GEO_COLOR = Color.RED;
+	private static final Color DISPLAY_GEO_COLOR = Color.RED;
 	private static final Color DISPLAY_GEO2_COLOR = Color.RED;
 	private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
 	private static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD
@@ -110,8 +99,6 @@ public class FunctionInspector implements View, MouseListener,
 	private JTabbedPane tabPanel;
 	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
 
-	private boolean isIniting;
-
 	private boolean isChangingValue;
 	private int pointCount = 9;
 
@@ -125,11 +112,27 @@ public class FunctionInspector implements View, MouseListener,
 	 * @param app
 	 * @param selectedGeo
 	 */
-	public FunctionInspector(AppD app, GeoFunction selectedGeo) {
+	public FunctionInspectorD(AppD app, GeoFunction selectedGeo) {
+		super(app, selectedGeo);
 
-		isIniting = true;
+	}
 
-		wrappedDialog = new JDialog(app.getFrame(), false) {
+	private AppD getAppD() {
+		return (AppD) getApp();
+	}
+
+	// ======================================================
+	// GUI
+	// ======================================================
+
+	@Override
+	protected void createGUI() {
+		wrappedDialog = new JDialog(getAppD().getFrame(), false) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void setVisible(boolean isVisible) {
 				setInspectorVisible(isVisible);
@@ -137,41 +140,8 @@ public class FunctionInspector implements View, MouseListener,
 			}
 		};
 
-		this.app = app;
-		loc = app.getLocalization();
-		kernel = app.getKernel();
-		nf = new SpecialNumberFormat(app, this);
-
-		// attach this view to the kernel
-		app.getKernel().attach(this);
-
-		model = new FunctionInspectorModel(app, selectedGeo, this);
-		// create the GUI
-		createGeoElementSlectionListener();
-		createGUI();
-
-		// load selected function
-		insertGeoElement(selectedGeo);
-
-		isIniting = false;
-
-	}
-
-	// ======================================================
-	// GUI
-	// ======================================================
-
-	private void createGUI() {
-
-		app.setComponentOrientation(wrappedDialog);
-
-		// create the GUI components
-		createGUIElements();
-		createHeaderPanel();
-		createTabPanel();
-		updateFonts();
-		setLabels();
-
+		nf = new SpecialNumberFormat(getAppD(), this);
+		super.createGUI();
 		// add GUI to contentPane
 		wrappedDialog.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		wrappedDialog.getContentPane().add(tabPanel, BorderLayout.CENTER);
@@ -179,46 +149,13 @@ public class FunctionInspector implements View, MouseListener,
 		// prepare the dialog to be displayed in the center
 		wrappedDialog.setResizable(true);
 		wrappedDialog.pack();
-		wrappedDialog.setLocationRelativeTo(app.getMainComponent());
+		wrappedDialog.setLocationRelativeTo(getAppD().getMainComponent());
+		updateFonts();
+		setLabels();
 	}
 
-	private void createTabPanel() {
-
-		createTabPointPanel();
-		createTabIntervalPanel();
-
-		// build tab panel
-		tabPanel = new JTabbedPane();
-		tabPanel.addTab("Interval", intervalTabPanel);
-		tabPanel.addTab("Point", pointTabPanel);
-
-		tabPanel.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent evt) {
-				updateTabPanels();
-			}
-
-		});
-	}
-
-	private void createHeaderPanel() {
-
-		createHelpPanel();
-
-		headerPanel = new JPanel(new BorderLayout());
-		headerPanel.add(lblGeoName, BorderLayout.CENTER);
-		headerPanel.add(helpPanel, loc.borderEast());
-		headerPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 2));
-	}
-
-	private void createHelpPanel() {
-
-		createOptionsButton();
-		helpPanel = new JPanel(new FlowLayout());
-		helpPanel.add(btnHelp);
-		helpPanel.add(btnOptions);
-	}
-
-	private void createTabIntervalPanel() {
+	@Override
+	protected void createTabIntervalPanel() {
 		JToolBar intervalTB = new JToolBar(); // JPanel(new
 												// FlowLayout(FlowLayout.LEFT));
 		intervalTB.setFloatable(false);
@@ -233,7 +170,8 @@ public class FunctionInspector implements View, MouseListener,
 
 	}
 
-	private void createTabPointPanel() {
+	@Override
+	protected void createTabPointPanel() {
 
 		// create step toolbar
 		JToolBar tb1 = new JToolBar();
@@ -263,6 +201,7 @@ public class FunctionInspector implements View, MouseListener,
 
 		// create the panel
 
+		LocalizationD loc = getAppD().getLocalization();
 		JPanel northPanel = new JPanel(new BorderLayout());
 		northPanel.add(tb1, loc.borderWest());
 		northPanel.add(tb2, loc.borderEast());
@@ -279,9 +218,11 @@ public class FunctionInspector implements View, MouseListener,
 
 	}
 
-	private void createGUIElements() {
+	@Override
+	protected void createGUIElements() {
 
 		// create XY table
+		final AppD app = getAppD();
 		tableXY = new InspectorTable(app, this, minRows, InspectorTable.TYPE_XY);
 		modelXY = new DefaultTableModel();
 		modelXY.addColumn("x");
@@ -303,11 +244,11 @@ public class FunctionInspector implements View, MouseListener,
 		tableInterval.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
-						model.updateIntervalGeoVisiblity();
+						getModel().updateIntervalGeoVisiblity();
 					}
 				});
 
-		lblGeoName = new JLabel(model.getTitleString());
+		lblGeoName = new JLabel(getModel().getTitleString());
 		lblGeoName.setFont(app.getBoldFont());
 
 		lblStep = new JLabel();
@@ -367,8 +308,8 @@ public class FunctionInspector implements View, MouseListener,
 
 	private void createBtnAddColumn() {
 
-		btnAddColumn = new PopupMenuButton(app, model.getColumnNames(), -1, 1,
-				new Dimension(0, 18),
+		btnAddColumn = new PopupMenuButton(getAppD(), getModel()
+				.getColumnNames(), -1, 1, new Dimension(0, 18),
 				geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setStandardButton(true);
@@ -378,7 +319,7 @@ public class FunctionInspector implements View, MouseListener,
 	}
 
 	public void setLabels() {
-
+		LocalizationD loc = getAppD().getLocalization();
 		wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
 		lblStep.setText(loc.getMenu("Step") + ":");
 		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
@@ -390,7 +331,7 @@ public class FunctionInspector implements View, MouseListener,
 
 		tabPanel.setTitleAt(1, loc.getPlain("fncInspector.Points"));
 		tabPanel.setTitleAt(0, loc.getPlain("fncInspector.Interval"));
-		lblGeoName.setText(model.getTitleString());
+		lblGeoName.setText(getModel().getTitleString());
 
 		// tool tips
 		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
@@ -426,47 +367,15 @@ public class FunctionInspector implements View, MouseListener,
 	// Update
 	// =====================================
 
-	private void updateGUI() {
-
-		if (tabPanel.getSelectedComponent() == intervalTabPanel) {
-
-			updateIntervalTable();
-			model.updateIntervalGeoVisiblity();
-
-		} else {
-			tableXY.getSelectionModel().removeListSelectionListener(this);
-
-			model.updatePoints(btnTangent.isSelected(),
-					btnOscCircle.isSelected(), btnXYSegments.isSelected(),
-					btnTable.isSelected());
-
-			tableXY.getSelectionModel().addListSelectionListener(this);
-
-		}
-
-	}
-
-	/**
-	 * Updates the tab panels and thus the entire GUI. Also updates the active
-	 * EV to hide/show temporary GeoElements associated with the
-	 * FunctionInspector (e.g. points, integral)
-	 */
-	private void updateTabPanels() {
-
-		updateIntervalFields();
-		model.updateGeos(tabPanel.getSelectedComponent() == intervalTabPanel);
-		updateGUI();
-
-	}
-
-	private void updateIntervalFields() {
+	@Override
+	protected void updateIntervalFields() {
 
 		if (tabPanel.getSelectedComponent() == intervalTabPanel) {
 
 			double[] coords = new double[3];
-			model.getLowPoint().getCoords(coords);
+			getModel().getLowPoint().getCoords(coords);
 			fldLow.setText(nf.format(coords[0]));
-			model.getHighPoint().getCoords(coords);
+			getModel().getHighPoint().getCoords(coords);
 			fldHigh.setText(nf.format(coords[0]));
 			updateIntervalTable();
 		}
@@ -479,7 +388,7 @@ public class FunctionInspector implements View, MouseListener,
 	private void updateIntervalTable() {
 
 		isChangingValue = true;
-		model.updateIntervalTable();
+		getModel().updateIntervalTable();
 		isChangingValue = false;
 
 	}
@@ -488,10 +397,11 @@ public class FunctionInspector implements View, MouseListener,
 	 * Updates the XYTable with the coordinates of the current sample points and
 	 * any related values (e.g. derivative, difference)
 	 */
-	private void updateXYTable() {
+	@Override
+	protected void updateXYTable() {
 
 		isChangingValue = true;
-		model.updateXYTable(modelXY.getRowCount(), btnTable.isSelected());
+		getModel().updateXYTable(modelXY.getRowCount(), btnTable.isSelected());
 		isChangingValue = false;
 	}
 
@@ -501,12 +411,13 @@ public class FunctionInspector implements View, MouseListener,
 		updateXYTable();
 	}
 
-	private void removeColumn() {
+	@Override
+	protected void removeColumn() {
 		int count = tableXY.getColumnCount();
 		if (count <= 2)
 			return;
 
-		model.removeColumn();
+		getModel().removeColumn();
 		modelXY.setColumnCount(modelXY.getColumnCount() - 1);
 		tableXY.setMyCellEditor(0);
 		updateXYTable();
@@ -523,7 +434,7 @@ public class FunctionInspector implements View, MouseListener,
 		if (source instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) source);
 		} else if (source == btnAddColumn) {
-			model.addColumn(btnAddColumn.getSelectedIndex());
+			getModel().addColumn(btnAddColumn.getSelectedIndex());
 		}
 
 		else if (source == btnRemoveColumn) {
@@ -546,24 +457,24 @@ public class FunctionInspector implements View, MouseListener,
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
-			nv = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
+			nv = getKernel().getAlgebraProcessor().evaluateToNumeric(inputText,
 					false);
 			double value = nv.getDouble();
 
 			if (source == fldStep) {
-				model.applyStep(value);
+				getModel().applyStep(value);
 				updateXYTable();
 			} else if (source == fldLow) {
 				isChangingValue = true;
 
-				model.applyLow(value);
+				getModel().applyLow(value);
 
 				isChangingValue = false;
 				updateIntervalTable();
 			} else if (source == fldHigh) {
 				isChangingValue = true;
 
-				model.applyHigh(value);
+				getModel().applyHigh(value);
 
 				isChangingValue = false;
 				updateIntervalTable();
@@ -593,56 +504,8 @@ public class FunctionInspector implements View, MouseListener,
 		wrappedDialog.setVisible(false);
 	}
 
-	protected void setInspectorVisible(boolean isVisible) {
-		if (isVisible) {
-			app.getKernel().attach(this);
-		} else {
-			app.getKernel().detach(this);
-			model.clearGeoList();
-		}
-	}
-
-	// ====================================================
-	// View Implementation
-	// ====================================================
-
-	public void update(GeoElement geo) {
-
-		if (!model.isValid() || isChangingValue || isIniting) {
-			return;
-		}
-
-		model.update(geo, tabPanel.getSelectedComponent() == pointTabPanel);
-
-	}
-
-	final public void updateVisualStyle(GeoElement geo) {
-		update(geo);
-	}
-
-	public void add(GeoElement geo) {
-	}
-
-	public void remove(GeoElement geo) {
-	}
-
-	public void rename(GeoElement geo) {
-	}
-
-	public void updateAuxiliaryObject(GeoElement geo) {
-	}
-
-	public void repaintView() {
-	}
-
 	public void reset() {
 		wrappedDialog.setVisible(false);
-	}
-
-	public void clearView() {
-	}
-
-	public void setMode(int mode, ModeSetter m) {
 	}
 
 	// ====================================================
@@ -663,34 +526,6 @@ public class FunctionInspector implements View, MouseListener,
 	}
 
 	// ====================================================
-	// Geo Selection Listener
-	// ====================================================
-
-	private void createGeoElementSlectionListener() {
-		sl = new GeoElementSelectionListener() {
-			public void geoElementSelected(GeoElement geo,
-					boolean addToSelection) {
-				insertGeoElement(geo);
-			}
-		};
-	}
-
-	/**
-	 * Sets the function to be inspected and updates the entire GUI
-	 * 
-	 * @param geo
-	 *            The function to be inspected
-	 */
-	public void insertGeoElement(GeoElement geo) {
-		if (geo == null || !geo.isGeoFunction()) {
-			return;
-		}
-		model.insertGeoElement(geo);
-
-		updateTabPanels();
-	}
-
-	// ====================================================
 	// Key Listeners
 	// ====================================================
 
@@ -703,7 +538,7 @@ public class FunctionInspector implements View, MouseListener,
 		case KeyEvent.VK_UP:
 			if (tableXY.getSelectedRow() == 0) {
 
-				model.stepStartBackward();
+				getModel().stepStartBackward();
 				updateXYTable();
 				updateTestPoint();
 			}
@@ -711,7 +546,7 @@ public class FunctionInspector implements View, MouseListener,
 
 		case KeyEvent.VK_DOWN:
 			if (tableXY.getSelectedRow() == tableXY.getRowCount() - 1) {
-				model.stepStartForward();
+				getModel().stepStartForward();
 				updateXYTable();
 				tableXY.changeSelection(tableXY.getRowCount() - 1, 0, false,
 						false);
@@ -748,21 +583,8 @@ public class FunctionInspector implements View, MouseListener,
 	public void mouseReleased(MouseEvent arg0) {
 	}
 
-	private void updateTestPoint() {
-
-		if (isIniting) {
-			return;
-		}
-
-		isChangingValue = true;
-
-		model.updateTestPoint();
-
-		isChangingValue = false;
-
-	}
-
 	public void updateFonts() {
+		AppD app = getAppD();
 		wrappedDialog.setFont(app.getPlainFont());
 		tableXY.setFont(app.getPlainFont());
 		tableInterval.setFont(app.getPlainFont());
@@ -775,40 +597,24 @@ public class FunctionInspector implements View, MouseListener,
 
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!wrappedDialog.isModal()) {
-			app.setSelectionListenerMode(sl);
+			getApp().setSelectionListenerMode(sl);
 		}
 	}
 
-	public void windowLostFocus(WindowEvent e) {
-		// do nothing
-	}
-
+	@Override
 	public void changeStart(double x) {
 		tableXY.getSelectionModel().removeListSelectionListener(this);
-		try {
-			model.setStart(x);
-			// Application.debug("" + start);
-			updateXYTable();
-			updateTestPoint();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		setStart(x);
 		tableXY.getSelectionModel().addListSelectionListener(this);
 	}
 
-	public SpecialNumberFormat getMyNumberFormat() {
+	private SpecialNumberFormat getMyNumberFormat() {
 		return nf;
 	}
 
-	public void changedNumberFormat() {
-		this.updateGUI();
-		this.updateIntervalFields();
-		this.updateTestPoint();
-
-	}
-
-	private void createOptionsButton() {
-
+	@Override
+	protected void createOptionsButton() {
+		AppD app = getAppD();
 		if (btnOptions == null) {
 			btnOptions = new PopupMenuButton(app);
 			btnOptions.setKeepVisible(true);
@@ -818,6 +624,8 @@ public class FunctionInspector implements View, MouseListener,
 		}
 
 		btnOptions.removeAllMenuItems();
+
+		LocalizationD loc = getAppD().getLocalization();
 
 		btnOptions.setToolTipText(loc.getMenu("Options"));
 
@@ -838,9 +646,10 @@ public class FunctionInspector implements View, MouseListener,
 
 	}
 
-	private void doCopyToSpreadsheet() {
+	@Override
+	protected void doCopyToSpreadsheet() {
 
-		SpreadsheetView sp = ((GuiManagerD) app.getGuiManager())
+		SpreadsheetView sp = ((GuiManagerD) getAppD().getGuiManager())
 				.getSpreadsheetView();
 
 		if (sp == null) {
@@ -848,39 +657,13 @@ public class FunctionInspector implements View, MouseListener,
 		}
 
 		if (tabPanel.getSelectedComponent() == pointTabPanel) {
-			model.copyPointsToSpreadsheet(tableXY.getColumnCount(),
+			getModel().copyPointsToSpreadsheet(tableXY.getColumnCount(),
 					tableXY.getRowCount());
 		} else {
-			model.copyIntervalsToSpreadsheet(tableInterval.getColumnCount(),
-					tableInterval.getRowCount());
+			getModel()
+					.copyIntervalsToSpreadsheet(tableInterval.getColumnCount(),
+							tableInterval.getRowCount());
 		}
-	}
-
-	public int getViewID() {
-		return App.VIEW_FUNCTION_INSPECTOR;
-	}
-
-	public boolean hasFocus() {
-		return wrappedDialog.hasFocus();
-	}
-
-	public void repaint() {
-		App.debug("unimplemented");
-	}
-
-	public boolean isShowing() {
-		App.debug("unimplemented");
-		return false;
-	}
-
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void updateXYTable(boolean isTable) {
@@ -1000,5 +783,64 @@ public class FunctionInspector implements View, MouseListener,
 	public void setStepVisible(boolean isVisible) {
 		lblStep.setVisible(isVisible);
 		fldStep.setVisible(isVisible);
+	}
+
+	@Override
+	protected void buildTabPanel() {
+		// build tab panel
+		tabPanel = new JTabbedPane();
+		tabPanel.addTab("Interval", intervalTabPanel);
+		tabPanel.addTab("Point", pointTabPanel);
+
+		tabPanel.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent evt) {
+				updateTabPanels();
+			}
+
+		});
+
+	}
+
+	@Override
+	protected void buildHelpPanel() {
+		helpPanel = new JPanel(new FlowLayout());
+		helpPanel.add(btnHelp);
+		helpPanel.add(btnOptions);
+	}
+
+	@Override
+	protected void buildHeaderPanel() {
+		LocalizationD loc = getAppD().getLocalization();
+
+		headerPanel = new JPanel(new BorderLayout());
+		headerPanel.add(lblGeoName, BorderLayout.CENTER);
+		headerPanel.add(helpPanel, loc.borderEast());
+		headerPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 2));
+	}
+
+	@Override
+	protected void updatePointsTab() {
+		tableXY.getSelectionModel().removeListSelectionListener(this);
+
+		getModel().updatePoints(btnTangent.isSelected(),
+				btnOscCircle.isSelected(), btnXYSegments.isSelected(),
+				btnTable.isSelected());
+
+		tableXY.getSelectionModel().addListSelectionListener(this);
+	}
+
+	@Override
+	protected boolean isIntervalTabSelected() {
+		return tabPanel.getSelectedComponent() == intervalTabPanel;
+	}
+
+	public boolean hasFocus() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void windowLostFocus(WindowEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 }

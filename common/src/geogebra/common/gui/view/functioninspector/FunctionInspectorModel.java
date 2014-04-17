@@ -111,9 +111,6 @@ public class FunctionInspectorModel {
 	private static final int COL_DIFFERENCE = 2;
 	private static final int COL_CURVATURE = 3;
 
-	// table fields
-	private static final int minRows = 12;
-
 	// list to store column types of dynamically appended columns
 	private ArrayList<Integer> extraColumnList;
 
@@ -159,8 +156,7 @@ public class FunctionInspectorModel {
 		kernel = app.getKernel();
 		this.listener = listener;
 		cons = kernel.getConstruction();
-		//activeEV = app.getActiveEuclidianView();
-
+		
 		extraColumnList = new ArrayList<Integer>();
 
 		// lists of all geos we create
@@ -168,13 +164,14 @@ public class FunctionInspectorModel {
 		pointTabGeoList = new ArrayList<GeoElement>();
 		hiddenGeoList = new ArrayList<GeoElement>();
 
+
+		activeEV = (EuclidianView) app.getActiveEuclidianView();
 		createGeoElementSlectionListener();
 
 		// load selected function
 		this.selectedGeo = selectedGeo;
 		columnNames = new String[4];
 		setColumnNames();
-		activeEV = (EuclidianView) app.getActiveEuclidianView();
 	}
 
 	public void setColumnNames() {
@@ -341,7 +338,6 @@ public class FunctionInspectorModel {
 		property.add(loc.getCommand("Root"));
 
 		int count = 0;
-		double x = Double.NaN;
 		double root = Double.NaN;
 
 		// count how many roots in range

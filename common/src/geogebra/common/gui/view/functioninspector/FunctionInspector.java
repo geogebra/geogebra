@@ -22,7 +22,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.common.main.Localization;
 
 
 /**
@@ -48,7 +47,6 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 	private GeoElementSelectionListener sl;
 	private App app;
-	private Localization loc;
 
 	/***************************************************************
 	 * Constructs a FunctionInspecor
@@ -58,12 +56,11 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	 */
 	public FunctionInspector(App app, GeoFunction selectedGeo) {
 
-		this.app = app;
-		loc = app.getLocalization();
-		kernel = app.getKernel();
+		this.setApp(app);
+		setKernel(app.getKernel());
 		app.getKernel().attach(this);
 
-		model = new FunctionInspectorModel(app, selectedGeo, this);
+		setModel(new FunctionInspectorModel(app, selectedGeo, this));
 		// create the GUI
 		createGeoElementSlectionListener();
 		createGUI();
@@ -79,14 +76,13 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	// GUI
 	// ======================================================
 
-	private void createGUI() {
+	protected void createGUI() {
 
 		// create the GUI components
 		createGUIElements();
 		createHeaderPanel();
 		createTabPanel();
-		updateFonts();
-		setLabels();
+		
 	}
 
 	
@@ -105,7 +101,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	protected void createHeaderPanel() {
 
 		createHelpPanel();
-		buildHelpPanel();
+		buildHeaderPanel();
 	}
 
 	private void createHelpPanel() {
@@ -119,7 +115,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	protected abstract void createGUIElements();
 	protected void updateIntervalTab() {
 		updateIntervalTable();
-		model.updateIntervalGeoVisiblity();
+		getModel().updateIntervalGeoVisiblity();
 	}
 	
 	protected abstract void updatePointsTab();
@@ -129,7 +125,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	// Update
 	// =====================================
 
-	private void updateGUI() {
+	protected void updateGUI() {
 
 		if (isIntervalTabSelected()) {
 			updateIntervalTab();
@@ -144,10 +140,10 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	 * EV to hide/show temporary GeoElements associated with the
 	 * FunctionInspector (e.g. points, integral)
 	 */
-	private void updateTabPanels() {
+	public void updateTabPanels() {
 
 		updateIntervalFields();
-		model.updateGeos(isIntervalTabSelected());
+		getModel().updateGeos(isIntervalTabSelected());
 		updateGUI();
 
 	}
@@ -161,7 +157,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	private void updateIntervalTable() {
 
 		isChangingValue = true;
-		model.updateIntervalTable();
+		getModel().updateIntervalTable();
 		isChangingValue = false;
 
 	}
@@ -173,12 +169,12 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	protected abstract void updateXYTable();
 	protected abstract void removeColumn();
 	
-	protected void setInspectorVisible(boolean isVisible) {
+	public void setInspectorVisible(boolean isVisible) {
 		if (isVisible) {
-			app.getKernel().attach(this);
+			getApp().getKernel().attach(this);
 		} else {
-			app.getKernel().detach(this);
-			model.clearGeoList();
+			getApp().getKernel().detach(this);
+			getModel().clearGeoList();
 		}
 	}
 
@@ -188,11 +184,11 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 	public void update(GeoElement geo) {
 
-		if (!model.isValid() || isChangingValue || isIniting) {
+		if (!getModel().isValid() || isChangingValue || isIniting) {
 			return;
 		}
 
-		model.update(geo, !isIntervalTabSelected());
+		getModel().update(geo, !isIntervalTabSelected());
 
 	}
 
@@ -245,12 +241,12 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 		if (geo == null || !geo.isGeoFunction()) {
 			return;
 		}
-		model.insertGeoElement(geo);
+		getModel().insertGeoElement(geo);
 
 		updateTabPanels();
 	}
 
-	private void updateTestPoint() {
+	protected void updateTestPoint() {
 
 		if (isIniting) {
 			return;
@@ -258,7 +254,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 		isChangingValue = true;
 
-		model.updateTestPoint();
+		getModel().updateTestPoint();
 
 		isChangingValue = false;
 
@@ -267,12 +263,12 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 	protected void setStart(double x) {
 		try {
-			model.setStart(x);
+			getModel().setStart(x);
 			// Application.debug("" + start);
 			updateXYTable();
 			updateTestPoint();
 		} catch (Exception e1) {
-			e1.printStackTrace();
+				e1.printStackTrace();
 		}
 		
 	}
@@ -310,6 +306,30 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public App getApp() {
+		return app;
+	}
+
+	public void setApp(App app) {
+		this.app = app;
+	}
+
+	public FunctionInspectorModel getModel() {
+		return model;
+	}
+
+	public void setModel(FunctionInspectorModel model) {
+		this.model = model;
+	}
+
+	public Kernel getKernel() {
+		return kernel;
+	}
+
+	public void setKernel(Kernel kernel) {
+		this.kernel = kernel;
 	}
 
 }
