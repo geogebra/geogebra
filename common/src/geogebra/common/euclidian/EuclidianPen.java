@@ -37,12 +37,13 @@ public class EuclidianPen {
 	private App app;
 	private EuclidianView view;
 
+	protected double CIRCLE_MIN_DET=0.95;
+	protected double CIRCLE_MAX_SCORE=0.10;
+
 	private AlgoElement lastAlgo = null;
 	private ArrayList<GPoint> penPoints = new ArrayList<GPoint>();
 	private ArrayList<GPoint> temp = null;
 	private int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
-	private double CIRCLE_MIN_DET=0.95;
-	private double CIRCLE_MAX_SCORE=0.10;
 	private double score=0;
 	private double ARROW_MAXSIZE =  0.8; // max size of arrow tip relative to main segment
 	private double ARROW_ANGLE_MIN  = (5*Math.PI/180); // arrow tip angles relative to main segment
@@ -115,6 +116,8 @@ public class EuclidianPen {
 
 	private int penSize;
 
+	protected GeoPointND initialPoint = null;
+
 	/**
 	 * @return pen size
 	 */
@@ -154,6 +157,10 @@ public class EuclidianPen {
 	 */
 	public GColor getPenColor() {
 		return penColor;
+	}
+
+	public void setInitialPoint(GeoPointND point){
+		this.initialPoint = point;
 	}
 
 	private int eraserSize;
@@ -370,7 +377,7 @@ public class EuclidianPen {
 		penPoints.clear();		
 	}
 
-	private GeoElement checkShapes(int x, int y) {
+	protected GeoElement checkShapes(int x, int y) {
 
 		count = 0;
 		App.debug(getGesture());
@@ -499,6 +506,7 @@ public class EuclidianPen {
 			{
 				recognizer_queue_length = 0;
 				App.debug("Triangle Recognized");
+				return geo;
 			}
 			
 			geo = try_closed_polygon(4);
@@ -506,6 +514,7 @@ public class EuclidianPen {
 			{
 				recognizer_queue_length = 0;
 				App.debug("Quadrilateral Recognized");
+				return geo;
 			}
 			
 			if(n==1)//then stroke is a line
@@ -551,6 +560,7 @@ public class EuclidianPen {
 			}
 		}		
 		
+		this.initialPoint = null;
 		return null;
 	}
 
@@ -1894,8 +1904,13 @@ public class EuclidianPen {
     		x_first = view.toRealWorldCoordX(points[2*i]);
     		y_first = view.toRealWorldCoordY(points[2*i + 1]);
      		
-    		// null -> created labeled point
-    		pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
+    		if(i == 0 && this.initialPoint != null){
+    			pts[0] = initialPoint;
+    			initialPoint = null;
+    		} else {
+	    		// null -> created labeled point
+	    		pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
+    		}
 
     	}
     	

@@ -12,9 +12,12 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
+import geogebra.web.euclidian.EuclidianPenFreehand;
+import geogebra.web.euclidian.EuclidianPenFreehand.ShapeType;
 
 import java.util.ArrayList;
 
@@ -95,6 +98,8 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 * flag for blocking the scaling of the axes
 	 */
 	protected boolean moveAxesAllowed = true;
+
+	protected int oldMode = -1;
 
 	private double originalRadius;
 
@@ -253,4 +258,50 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	protected boolean moveAxesPossible() {
 		return super.moveAxesPossible() && this.moveAxesAllowed;
 	}
+
+	/**
+	 * sets the mode to freehand_shape with an expected shape depending on the
+	 * actual mode (has no effect if no mode is set that can be turned into
+	 * freehand_shape)
+	 * 
+	 * for some modes requires that view.setHits(...) has been called with the
+	 * correct parameters or movedGeoPoint is set correct in order to use other
+	 * GeoPoints (e.g. as the first point of a polygon)
+	 */
+	protected void setModeToFreehand() {
+		if (this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+		        || this.mode == EuclidianConstants.MODE_CIRCLE_THREE_POINTS) {
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
+		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
+		} else {
+			return;
+		}
+
+		GeoPointND point = (GeoPointND) this.view.getHits().getFirstHit(
+		        Test.GEOPOINTND);
+		if (point == null) {
+			point = this.movedGeoPoint;
+		}
+		((EuclidianPenFreehand) pen).setInitialPoint(point);
+
+		// only executed if one of the specified modes is set
+		this.oldMode = this.mode;
+		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
+		moveMode = MOVE_NONE;
+
+	}
+
+	protected void resetModeAfterFreehand() {
+		if (oldMode != -1) {
+			this.mode = oldMode;
+			moveMode = MOVE_NONE;
+			view.setPreview(switchPreviewableForInitNewMode(this.mode));
+			this.oldMode = -1;
+			this.pen = null;
+		}
+	}
+
 }
