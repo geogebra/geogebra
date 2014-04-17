@@ -1595,6 +1595,8 @@ __GGB__keysVar.in.menu = {
     "Orthogonal_Help": "Pilih titik dan garis tegak lurus",
     "OrthogonalPlane": "Bidang Tegak Lurus",
     "OrthogonalPlane_Help": "Pilih titik dan garis tegak lurus",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Lainnya",
     "OutputObjects": "Objek Keluaran",
     "Overlay": "Lapisan Atas",

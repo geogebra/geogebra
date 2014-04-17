@@ -1595,6 +1595,8 @@ __GGB__keysVar.si.menu = {
     "Orthogonal_Help": "\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba\u0d9a\u0dca \u0dc3\u0dc4 \u0dbd\u0db8\u0dd2\u0db6\u0d9a \u0dbb\u0dda\u0d9b\u0dcf\u0dc0 \u0dad\u0ddd\u0dbb\u0db1\u0dca\u0db1",
     "OrthogonalPlane": "Perpendicular Plane",
     "OrthogonalPlane_Help": "Select point and perpendicular line",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Other",
     "OutputObjects": "\u0db4\u0dca\u200d\u0dbb\u0dad\u0dd2\u0daf\u0dcf\u0db1 \u0dc0\u0dc3\u0dca\u0dad\u0dd6\u0db1\u0dca",
     "Overlay": "Overlay",

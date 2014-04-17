@@ -1595,6 +1595,8 @@ __GGB__keysVar.es_UY.menu = {
     "Orthogonal_Help": "Punto y recta perpendicular",
     "OrthogonalPlane": "Plano Perpendicular",
     "OrthogonalPlane_Help": "Un punto y una recta perpendicular",
+    "OrthogonalThreeD": "Perpendicular",
+    "OrthogonalThreeD_Help": "Punto y recta perpendicular o plano",
     "Other": "Otro",
     "OutputObjects": "Objetos de salida",
     "Overlay": "Superposici\xf3n",

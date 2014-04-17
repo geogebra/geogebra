@@ -1595,6 +1595,8 @@ __GGB__keysVar.gl.menu = {
     "Orthogonal_Help": "Escoller o punto e a recta perpendicular",
     "OrthogonalPlane": "Plano perpendicular",
     "OrthogonalPlane_Help": "Escoller un punto e unha recta perpendicular",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Outro",
     "OutputObjects": "Obxectos de sa\xedda",
     "Overlay": "Superposici\xf3n",

@@ -1595,6 +1595,8 @@ __GGB__keysVar.sk.menu = {
     "Orthogonal_Help": "Vyzna\u010d bod a priamku, na ktor\xfa zostroj\xedme kolmicu!",
     "OrthogonalPlane": "Kolm\xe1 rovina",
     "OrthogonalPlane_Help": "Vyber bod a priamku!",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "In\xe9",
     "OutputObjects": "V\xfdstupn\xe9 objekty",
     "Overlay": "Prekrytie",

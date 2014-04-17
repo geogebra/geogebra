@@ -1595,6 +1595,8 @@ __GGB__keysVar.no_NN.menu = {
     "Orthogonal_Help": "Vel punkt og linje",
     "OrthogonalPlane": "Vinkelrett plan",
     "OrthogonalPlane_Help": "Vel punkt og vinkelrett linje",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Anna",
     "OutputObjects": "Sluttobjekt",
     "Overlay": "I same diagram",

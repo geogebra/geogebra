@@ -1595,6 +1595,8 @@ __GGB__keysVar.hr.menu = {
     "Orthogonal_Help": "Odaberite to\u010dku i okomit pravac",
     "OrthogonalPlane": "Okomita ravnina",
     "OrthogonalPlane_Help": "Odaberite to\u010dku i okomit pravac",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Ostalo",
     "OutputObjects": "Izlazni objekti",
     "Overlay": "Prekrivanje",

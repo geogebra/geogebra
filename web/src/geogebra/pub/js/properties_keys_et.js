@@ -1595,6 +1595,8 @@ __GGB__keysVar.et.menu = {
     "Orthogonal_Help": "Valige punkt ja sirge/l\xf5ik/kiir",
     "OrthogonalPlane": "Risttasand",
     "OrthogonalPlane_Help": "Vali punkt ja ristsirge",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Muu",
     "OutputObjects": "V\xe4ljundobjektid",
     "Overlay": "\xdclekate",

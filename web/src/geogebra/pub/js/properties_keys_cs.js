@@ -1595,6 +1595,8 @@ __GGB__keysVar.cs.menu = {
     "Orthogonal_Help": "Bod a kolm\xe1 p\u0159\xedmka",
     "OrthogonalPlane": "Kolm\xe1 rovina",
     "OrthogonalPlane_Help": "Bod a kolmici",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Dal\u0161\xed",
     "OutputObjects": "V\xfdstupn\xed objekty",
     "Overlay": "P\u0159ekr\xfdt",

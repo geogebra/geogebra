@@ -1595,6 +1595,8 @@ __GGB__keysVar.fi.menu = {
     "Orthogonal_Help": "Valitse piste ja suora, jota vastaan kohtisuora piirret\xe4\xe4n",
     "OrthogonalPlane": "Kohtisuora taso",
     "OrthogonalPlane_Help": "Valitse piste ja kohtisuora suora",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Muu",
     "OutputObjects": "Tulosobjektit",
     "Overlay": "P\xe4\xe4llys",

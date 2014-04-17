@@ -1595,6 +1595,8 @@ __GGB__keysVar.is.menu = {
     "Orthogonal_Help": "Velji\xf0 punkt og l\xednu sem teiknu\xf0 l\xedna \xe1 a\xf0 vera hornr\xe9tt \xe1",
     "OrthogonalPlane": "Hornr\xe9tt plan",
     "OrthogonalPlane_Help": "Velji\xf0 punkt og l\xednu sem teikna\xf0 plan \xe1 a\xf0 vera hornr\xe9tt \xe1",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Anna\xf0",
     "OutputObjects": "\xdattakshlutir",
     "Overlay": "Yfirl\xf6gn",

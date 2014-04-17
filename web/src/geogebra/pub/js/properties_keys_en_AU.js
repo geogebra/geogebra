@@ -1595,6 +1595,8 @@ __GGB__keysVar.en_AU.menu = {
     "Orthogonal_Help": "Select point and perpendicular line",
     "OrthogonalPlane": "Perpendicular Plane",
     "OrthogonalPlane_Help": "Select point and perpendicular line",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Other",
     "OutputObjects": "Output Objects",
     "Overlay": "Overlay",

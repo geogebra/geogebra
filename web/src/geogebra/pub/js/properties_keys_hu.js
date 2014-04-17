@@ -1595,6 +1595,8 @@ __GGB__keysVar.hu.menu = {
     "Orthogonal_Help": "Pont \xe9s egyenes",
     "OrthogonalPlane": "Mer\u0151leges s\xedk",
     "OrthogonalPlane_Help": "Pont, majdmer\u0151leges egyenes",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "M\xe1s",
     "OutputObjects": "Kimen\u0151 alakzatok",
     "Overlay": "\xc1tfed\xe9s",

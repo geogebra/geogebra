@@ -1595,6 +1595,8 @@ __GGB__keysVar.sr.menu = {
     "Orthogonal_Help": "Izaberite ta\u010dku i normalu",
     "OrthogonalPlane": "Normalna ravan",
     "OrthogonalPlane_Help": "Odaberite ta\u010dku i normalnu pravu",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Ostali",
     "OutputObjects": "Izlazni objekti",
     "Overlay": "Prekrivanje",

@@ -1595,6 +1595,8 @@ __GGB__keysVar.nl_BE.menu = {
     "Orthogonal_Help": "Punt en loodlijn",
     "OrthogonalPlane": "Loodvlak",
     "OrthogonalPlane_Help": "Selecteer punt en loodlijn",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Ander",
     "OutputObjects": "Eindobjecten",
     "Overlay": "Overlapping",

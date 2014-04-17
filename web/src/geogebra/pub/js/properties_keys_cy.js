@@ -1595,6 +1595,8 @@ __GGB__keysVar.cy.menu = {
     "Orthogonal_Help": "Dewis pwynt a linell berpendiciwlar",
     "OrthogonalPlane": "Pl\xe2n Perpendicwlar",
     "OrthogonalPlane_Help": "Dewiswch bwynt a phl\xe2n berpendicwlar",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Arall",
     "OutputObjects": "Gwrthrychau allbwn",
     "Overlay": "Troslunio",

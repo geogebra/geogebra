@@ -1595,6 +1595,8 @@ __GGB__keysVar.lt.menu = {
     "Orthogonal_Help": "Pasirinkite ta\u0161k\u0105 ir statmen\u0105 ties\u0119",
     "OrthogonalPlane": "Statmena plok\u0161tuma",
     "OrthogonalPlane_Help": "Pasirinkite ta\u0161k\u0105 ir statmen\u0173 ties\u0119",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Kitas",
     "OutputObjects": "I\u0161vesti objektai",
     "Overlay": "Perdengti",

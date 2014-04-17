@@ -1595,6 +1595,8 @@ __GGB__keysVar.ms.menu = {
     "Orthogonal_Help": "Pilih titk dan garis serenjang",
     "OrthogonalPlane": "Satah Serenjang",
     "OrthogonalPlane_Help": "Pilih titik dan garis serenjang",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Lain",
     "OutputObjects": "Objek-objek Output",
     "Overlay": "Tindihan Atas",

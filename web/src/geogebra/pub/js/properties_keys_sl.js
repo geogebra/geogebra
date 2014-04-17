@@ -1595,6 +1595,8 @@ __GGB__keysVar.sl.menu = {
     "Orthogonal_Help": "Izberi to\u010dko in premico za pravokotnost",
     "OrthogonalPlane": "Pravokotna ravnina",
     "OrthogonalPlane_Help": "Izberi to\u010dko in pravokotnico",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Ostali",
     "OutputObjects": "Izhodni objekti",
     "Overlay": "Dodajanje",

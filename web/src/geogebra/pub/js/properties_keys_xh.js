@@ -1595,6 +1595,8 @@ __GGB__keysVar.xh.menu = {
     "Orthogonal_Help": "Khetha ichaphaza kunye nomgca OhlanganaNgqo",
     "OrthogonalPlane": "iPleyini eHlanganaNgqo",
     "OrthogonalPlane_Help": "Khetha ichaphaza nomgca oHlanganaNgqo",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Enye",
     "OutputObjects": "Izinto eziZiziphumo",
     "Overlay": "iOverlay",

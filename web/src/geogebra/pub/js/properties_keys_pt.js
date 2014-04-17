@@ -1595,6 +1595,8 @@ __GGB__keysVar.pt.menu = {
     "Orthogonal_Help": "Selecione primeiro o ponto e, depois, uma reta (ou segmento, ou semirreta, ou vetor)",
     "OrthogonalPlane": "Plano Perpendicular",
     "OrthogonalPlane_Help": "Selecione um ponto e uma reta perpendicular",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Outro",
     "OutputObjects": "Objetos Finais",
     "Overlay": "Sobreposi\xe7\xe3o",

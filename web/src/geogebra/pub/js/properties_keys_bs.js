@@ -1595,6 +1595,8 @@ __GGB__keysVar.bs.menu = {
     "Orthogonal_Help": "Ozna\u010dite ta\u010dku kroz koju \u017eelite konstruisati normalu, zatim pravu na koju \u017eelite konstruisati normalu",
     "OrthogonalPlane": "Normalna ravan",
     "OrthogonalPlane_Help": "Ozna\u010dite/Kreirajte ta\u010dku kroz koju \u017eelite konstruisati normalnu ravan,a zatim pravu na koju \u017eelite konstruisati normalnu ravan",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Ostalo",
     "OutputObjects": "Izlazne figure",
     "Overlay": "Prekrij",

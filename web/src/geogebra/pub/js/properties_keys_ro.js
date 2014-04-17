@@ -1595,6 +1595,8 @@ __GGB__keysVar.ro.menu = {
     "Orthogonal_Help": "Selecta\u0163i un punct \u015fi o dreapt\u0103 perpendicular\u0103",
     "OrthogonalPlane": "Plan perpendicular",
     "OrthogonalPlane_Help": "Selectare punct \u0219i linie perpendicular\u0103",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Altul",
     "OutputObjects": "Obiecte rezultate",
     "Overlay": "Suprapunere",

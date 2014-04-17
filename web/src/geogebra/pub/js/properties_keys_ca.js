@@ -1595,6 +1595,8 @@ __GGB__keysVar.ca.menu = {
     "Orthogonal_Help": "Seleccioneu un punt i la recta perpendicular",
     "OrthogonalPlane": "Pla perpendicular a una recta",
     "OrthogonalPlane_Help": "Seleccioneu un punt i una recta perpendicular al pla",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Altres",
     "OutputObjects": "Objectes de sortida",
     "Overlay": "Superposici\xf3",

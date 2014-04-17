@@ -1595,6 +1595,8 @@ __GGB__keysVar.zh_CN.menu = {
     "Orthogonal_Help": "\u9009\u5b9a\u70b9\u548c\u5782\u7ebf",
     "OrthogonalPlane": "\u5782\u76f4\u9762",
     "OrthogonalPlane_Help": "\u9009\u62e9\u70b9\u548c\u5782\u7ebf, \u7ed8\u5236\u51fa\u5782\u76f4\u9762",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "\u5176\u5b83",
     "OutputObjects": "\u8f93\u51fa\u5bf9\u8c61",
     "Overlay": "\u53e0\u52a0",

@@ -1595,6 +1595,8 @@ __GGB__keysVar.de.menu = {
     "Orthogonal_Help": "W\xe4hle einen Punkt und eine senkrechte Gerade",
     "OrthogonalPlane": "Senkrechte Ebene",
     "OrthogonalPlane_Help": "W\xe4hle Punkt und senkrechte Gerade",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Andere",
     "OutputObjects": "Ausgabe Objekte",
     "Overlay": "\xdcberlagerung",

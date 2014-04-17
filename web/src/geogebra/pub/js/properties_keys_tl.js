@@ -1595,6 +1595,8 @@ __GGB__keysVar.tl.menu = {
     "Orthogonal_Help": "Pumili ng point at perpendicular line",
     "OrthogonalPlane": "Perpendicular Plane",
     "OrthogonalPlane_Help": "Pumili ng point at perpendicular line",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Other",
     "OutputObjects": "Output Objects",
     "Overlay": "Overlay",

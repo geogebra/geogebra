@@ -1595,6 +1595,8 @@ __GGB__keysVar.pl.menu = {
     "Orthogonal_Help": "Wybierz punkt i prost\u0105 prostopad\u0142\u0105",
     "OrthogonalPlane": "P\u0142aszczyzna prostopad\u0142a",
     "OrthogonalPlane_Help": "Wybierz punkt i prost\u0105 prostopad\u0142\u0105",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Pozosta\u0142e",
     "OutputObjects": "Obiekty Wyj\u015bcia",
     "Overlay": "Na\u0142\xf3\u017c",

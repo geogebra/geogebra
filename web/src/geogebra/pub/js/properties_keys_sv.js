@@ -1595,6 +1595,8 @@ __GGB__keysVar.sv.menu = {
     "Orthogonal_Help": "Punkt och vinkelr\xe4t linje",
     "OrthogonalPlane": "Vinkelr\xe4tt plan",
     "OrthogonalPlane_Help": "V\xe4lj punkt och vinkelr\xe4tt plan",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "\xd6vrigt",
     "OutputObjects": "F\xe4rdigt objekt",
     "Overlay": "\xd6verl\xe4gg",

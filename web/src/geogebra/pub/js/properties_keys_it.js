@@ -1595,6 +1595,8 @@ __GGB__keysVar.it.menu = {
     "Orthogonal_Help": "Selezionare un punto, quindi la perpendicolare",
     "OrthogonalPlane": "Piano perpendicolare",
     "OrthogonalPlane_Help": "Selezionare un punto e la retta perpendicolare",
+    "OrthogonalThreeD": "Retta perpendicolare",
+    "OrthogonalThreeD_Help": "Selezionare un punto, quindi una retta o un piano perpendicolari",
     "Other": "Altro",
     "OutputObjects": "Oggetti finali",
     "Overlay": "Sovrapponi",

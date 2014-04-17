@@ -1595,6 +1595,8 @@ __GGB__keysVar.lv.menu = {
     "Orthogonal_Help": "Izv\u0113l\u0113ties punktu un Perpendikul\u0101ru Taisni",
     "OrthogonalPlane": "Perpendikul\u0101ra Plakne",
     "OrthogonalPlane_Help": "Izv\u0113l\u0113ties punktu un perpendikul\u0101ru taisni",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Cits",
     "OutputObjects": "Izvades objekts",
     "Overlay": "P\u0101rkl\u0101jums",

@@ -1595,6 +1595,8 @@ __GGB__keysVar.sq.menu = {
     "Orthogonal_Help": "Zgjidh pike dhe pingule",
     "OrthogonalPlane": "Plan Perpendikular",
     "OrthogonalPlane_Help": "Selekto pike dhe drejtez perpendikulare",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Tjeter",
     "OutputObjects": "Nxjerr Objekte",
     "Overlay": "Mbishtrim",

@@ -1595,6 +1595,8 @@ __GGB__keysVar.eu.menu = {
     "Orthogonal_Help": "Puntua eta zuzen perpendikularra",
     "OrthogonalPlane": "Plano elkarzuta",
     "OrthogonalPlane_Help": "Aukeratu puntu bat eta zuzen elkarzuta",
+    "OrthogonalThreeD": "Lerro perpendikularra",
+    "OrthogonalThreeD_Help": "Puntua eta lerro edo plano perpendikularra aukeratu",
     "Other": "Beste bat",
     "OutputObjects": "Irteerako Objektuak",
     "Overlay": "Gainjartzea",

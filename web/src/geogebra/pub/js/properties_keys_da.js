@@ -1595,6 +1595,8 @@ __GGB__keysVar.da.menu = {
     "Orthogonal_Help": "Klik p\xe5 et punkt og en vinkelret linje",
     "OrthogonalPlane": "Retvinklet plan",
     "OrthogonalPlane_Help": "V\xe6lg punkt og vinkelret linje",
+    "OrthogonalThreeD": "Perpendicular Line",
+    "OrthogonalThreeD_Help": "Select point and perpendicular line or plane",
     "Other": "Andre",
     "OutputObjects": "Output Objekter",
     "Overlay": "lag",

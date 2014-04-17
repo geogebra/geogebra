@@ -1595,6 +1595,8 @@ __GGB__keysVar.fr.menu = {
     "Orthogonal_Help": "Point[cr\xe9\xe9 ou non] et segment,droite, demi-droite ou vecteur[cr\xe9\xe9s]",
     "OrthogonalPlane": "Plan perpendiculaire",
     "OrthogonalPlane_Help": "Un point et une ligne perpendiculaire",
+    "OrthogonalThreeD": "Orthogonale",
+    "OrthogonalThreeD_Help": "S\xe9lectionnez un point et la droite orthogonale ou un plan",
     "Other": "Autre",
     "OutputObjects": "Objets Finaux",
     "Overlay": "Superposer",
