@@ -1199,10 +1199,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// matrix must be saved after eigenvectors
 		// as only <matrix> will cause a call to classifyConic()
 		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
-		sb.append("\t<matrix");
-		for (int i = 0; i < 10; i++)
-			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
-		sb.append("/>\n");
+		getXMLtagsMatrix(sb);
 
 		// implicit or specific mode
 		/*
@@ -1220,6 +1217,17 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		}
 		*/
 
+	}
+	
+	/**
+	 * put XML tags for matrix in sb
+	 * @param sb string builder
+	 */
+	protected void getXMLtagsMatrix(StringBuilder sb) {
+		sb.append("\t<matrix");
+		for (int i = 0; i < 10; i++)
+			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
+		sb.append("/>\n");
 	}
 
 

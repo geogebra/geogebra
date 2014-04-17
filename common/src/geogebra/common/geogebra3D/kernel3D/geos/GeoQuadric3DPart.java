@@ -305,5 +305,12 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		double r = rval.getDouble();
 		area *= r*r;
 	}
+	
+	
+	
+	@Override
+	protected void getXMLtagsMatrix(StringBuilder sb) {
+		// no matrix needed since it comes from an algo
+	}
 
 }
