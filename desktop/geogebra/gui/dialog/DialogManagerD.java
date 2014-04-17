@@ -7,6 +7,7 @@ import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
+import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -28,7 +29,6 @@ import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.data.DataSourceDialog;
-import geogebra.gui.view.functioninspector.FunctionInspector;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
 import geogebra.main.MyResourceBundle;
@@ -250,12 +250,12 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 		try {
 			if (functionInspector == null) {
-				functionInspector = new FunctionInspector(((AppD) app),
-						function);
+				// functionInspector = new FunctionInspector(((AppD) app),
+				// function);
 			} else {
 				functionInspector.insertGeoElement(function);
 			}
-			functionInspector.show();
+			// functionInspector.show();
 
 		} catch (Exception e) {
 			success = false;
@@ -431,7 +431,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	public void closeAll() {
 		// closePropertiesDialog();
 		if (functionInspector != null) {
-			functionInspector.hide();
+			// functionInspector.hide();
 		}
 	}
 
