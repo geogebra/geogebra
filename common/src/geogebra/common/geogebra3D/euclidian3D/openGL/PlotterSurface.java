@@ -197,7 +197,7 @@ public class PlotterSurface {
 		
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
-		manager.texture(0,0);
+		manager.setDummyTexture();
 		
 		manager.vertex(p1);
 		manager.vertex(p2);
@@ -257,7 +257,7 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		
 		//set texture to (0,0)
-		manager.texture(0,0);
+		manager.setDummyTexture();
 		
 		int latitude=longitude/4;
 		
@@ -766,7 +766,7 @@ public class PlotterSurface {
     	float dt = (float) 1/longitude;
     	float da = (float) (extent *dt) ; 
     	
-    	manager.texture(0, 0);
+    	manager.setDummyTexture();
     	manager.normal(v1.crossProduct(v2));
     	
     	u = (float) Math.cos (start); 

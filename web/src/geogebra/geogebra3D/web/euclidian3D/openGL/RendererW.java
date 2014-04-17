@@ -1064,6 +1064,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		}
 
 		if (fbNormals.capacity() == 3){ // one normal for all vertices
+			glContext.disableVertexAttribArray(normalAttribute);
 			glContext.uniform3fv(normalLocation, fbNormals.array());
 			oneNormalForAllVertices = true;
 			return;

@@ -134,7 +134,7 @@ public class ManagerGLList extends ManagerD {
 		normal(nx, ny, nz);
 		
 		//set texture
-		texture(0,0);
+		setDummyTexture();
 		
 		//set vertices
 		for(int i = 0; i < v.length; i++){

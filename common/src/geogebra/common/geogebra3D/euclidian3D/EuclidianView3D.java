@@ -112,7 +112,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/**
 	 * says if we're using shaders (TODO : remove this)
 	 */
-	public static boolean USE_SHADERS = false;
+	public static boolean USE_SHADERS = true;
 
 	// private Kernel kernel;
 	private Kernel3D kernel3D;
