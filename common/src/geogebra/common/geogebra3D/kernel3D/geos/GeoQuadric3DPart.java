@@ -1,6 +1,7 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -132,6 +133,65 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 
 		return parameters;
 
+	}
+	
+	@Override
+	protected Coords[] getProjection(Coords willingCoords, Coords willingDirection, double t1, double t2){
+		
+		if (Kernel.isGreater(t2, t1)){
+			return getProjectionSorted(willingCoords, willingDirection, t1, t2);
+		}
+		
+		if (Kernel.isGreater(t1, t2)){
+			return getProjectionSorted(willingCoords, willingDirection, t2, t1);
+		}
+		
+		return super.getProjection(willingCoords, willingDirection, t1, t2);
+		
+	}
+
+	/**
+	 * try with t1, then with t2, assuming t1 < t2
+	 * @param willingCoords willing coords
+	 * @param willingDirection willing direction
+	 * @param t1 first possible parameter
+	 * @param t2 second possible parameter
+	 * @return closest point
+	 */
+	private Coords[] getProjectionSorted(Coords willingCoords, Coords willingDirection, double t1, double t2){
+
+		Coords p1 = super.getNormalProjectionParameters(willingCoords.add(willingDirection.mul(t1)));
+		
+		// check if first parameters are inside
+		if (Kernel.isGreater(getMinParameter(1),p1.getY())){
+			p1.setY(getMinParameter(1));
+		} else if(Kernel.isGreater(p1.getY(),getMaxParameter(1))){
+			p1.setY(getMaxParameter(1));
+		} else {
+			return new Coords[] { getPoint(p1.getX(), p1.getY()), p1 }; // first parameters are inside
+		}
+		
+		// first parameters are outside, check second parameters
+		Coords p2 = super.getNormalProjectionParameters(willingCoords.add(willingDirection.mul(t2)));
+		if (Kernel.isGreater(getMinParameter(1),p2.getY())){
+			p2.setY(getMinParameter(1));
+		} else if(Kernel.isGreater(p2.getY(),getMaxParameter(1))){
+			p2.setY(getMaxParameter(1));
+		} else {
+			return new Coords[] { getPoint(p2.getX(), p2.getY()), p2 }; // second parameters are inside
+		}
+		
+		// first and second parameters are outside: check nearest limit point
+		Coords l1 = getPoint(p1.getX(), p1.getY());
+		Coords l2 = getPoint(p2.getX(), p2.getY());
+		double d1 = l1.distLine(willingCoords, willingDirection);
+		double d2 = l2.distLine(willingCoords, willingDirection);
+		if (Kernel.isGreater(d1, d2)){
+			return new Coords[] { getPoint(p2.getX(), p2.getY()), p2 };
+		}
+		return new Coords[] { getPoint(p1.getX(), p1.getY()), p1 };
+		
+		
 	}
 	
 	@Override

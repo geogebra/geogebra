@@ -36,16 +36,6 @@ public class Hitting {
 	}
 	
 	/**
-	 * set the hitting ray
-	 * @param origin origin
-	 * @param direction direction
-	 */
-	public void set(Coords origin, Coords direction){
-		this.origin = origin;
-		this.direction = direction;
-	}
-	
-	/**
 	 * set the hits
 	 * @param mouseLoc mouse location
 	 * @param threshold threshold

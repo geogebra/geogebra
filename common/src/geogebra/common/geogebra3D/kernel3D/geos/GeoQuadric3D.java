@@ -765,10 +765,22 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 		if (parameters == null)
 			return null;
-		else
-			return new Coords[] {
-					getPoint(parameters.getX(), parameters.getY()), parameters };
+		return new Coords[] {
+				getPoint(parameters.getX(), parameters.getY()), parameters };
 
+	}
+	
+	/**
+	 * try with t1, then with t2
+	 * @param willingCoords willing coords
+	 * @param willingDirection willing direction
+	 * @param t1 first possible parameter
+	 * @param t2 second possible parameter
+	 * @return closest point
+	 */
+	protected Coords[] getProjection(Coords willingCoords, Coords willingDirection, double t1, double t2){
+		
+		return getNormalProjection(willingCoords.add(willingDirection.mul(t1)));
 	}
 
 	public Coords getPoint(double u, double v) {
@@ -777,9 +789,36 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
-		// TODO Auto-generated method stub
-		return null;
+
+		// compute intersection
+		CoordMatrix qm = getSymetricMatrix();
+		//App.debug("qm=\n"+qm);
+		CoordMatrix pm = new CoordMatrix(4, 2);
+		pm.setVx(willingDirection);
+		pm.setOrigin(willingCoords);
+		CoordMatrix pmt = pm.transposeCopy();
+
+		// sets the solution matrix from line and quadric matrix
+		CoordMatrix sm = pmt.mul(qm).mul(pm);
+
+		//App.debug("sm=\n"+sm);
+		double a = sm.get(1, 1);
+		double b = sm.get(1, 2);
+		double c = sm.get(2, 2);
+		double Delta = b * b - a * c;
+
+		if (Delta >= 0) {
+			double t1 = (-b - Math.sqrt(Delta)) / a;
+			double t2 = (-b + Math.sqrt(Delta)) / a;
+			return getProjection(willingCoords, willingDirection, t1, t2);
+
+		} 
+		
+		// get closer point (in some "eigen coord sys")
+		return getNormalProjection(willingCoords.add(willingDirection.mul(-b / a)));
+		
 	}
+	
 
 	public boolean isInRegion(GeoPointND P) {
 
@@ -850,35 +889,8 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		}
 		// Application.debug("direction=\n"+willingDirection+"\ncoords=\n"+willingCoords);
 
-		// compute intersection
-		CoordMatrix qm = getSymetricMatrix();
-		//App.debug("qm=\n"+qm);
-		CoordMatrix pm = new CoordMatrix(4, 2);
-		pm.setVx(willingDirection);
-		pm.setOrigin(willingCoords);
-		CoordMatrix pmt = pm.transposeCopy();
 
-		// sets the solution matrix from line and quadric matrix
-		CoordMatrix sm = pmt.mul(qm).mul(pm);
-
-		//App.debug("sm=\n"+sm);
-		double a = sm.get(1, 1);
-		double b = sm.get(1, 2);
-		double c = sm.get(2, 2);
-		double Delta = b * b - a * c;
-
-		double t;
-		if (Delta >= 0) {
-			double t1 = (-b - Math.sqrt(Delta)) / a;
-			double t2 = (-b + Math.sqrt(Delta)) / a;
-			t = Math.min(t1, t2);// gets the point closer to the willing coords
-
-		} else {
-			t = -b / a; // get closer point (in some "eigen coord sys")
-		}
-
-		Coords[] coords = getNormalProjection(willingCoords
-				.add(willingDirection.mul(t)));
+		Coords[] coords = getProjection(null, willingCoords, willingDirection);
 
 		RegionParameters rp = p.getRegionParameters();
 		rp.setT1(coords[1].get(1));

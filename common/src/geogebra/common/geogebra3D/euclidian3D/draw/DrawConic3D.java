@@ -824,40 +824,57 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			return false;
 		}
 		
-		boolean	ret = false;
 
-		// project hitting origin on polygon plane
-		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(conic.getCoordSys().getMatrixOrthonormal(), hitting.direction);
-		
-		// try conic surface
-		if (getGeoElement().getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
-				&& conic.isInRegion(project[1].getX(),project[1].getY()) ){
-			double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
-			setZPick(parameterOnHitting, parameterOnHitting);
-			setPickingType(PickingType.SURFACE);
-			ret = true;
+		switch(((GeoConicND) getGeoElement()).getType()){
+		case GeoConicNDConstants.CONIC_EMPTY:
+			return false;
+			
+		case GeoConicNDConstants.CONIC_SINGLE_POINT:
+			if (DrawPoint3D.hit(hitting, conic.getMidpoint3D(), this, conic.getLineThickness())){
+				setPickingType(PickingType.POINT_OR_CURVE);
+				return true;
+			}
+			return false;
+			
+		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+		default: //TODO check other cases
+
+			boolean	ret = false;
+
+			// project hitting origin on polygon plane
+			Coords[] project = hitting.origin.projectPlaneThruVIfPossible(conic.getCoordSys().getMatrixOrthonormal(), hitting.direction);
+
+			// try conic surface
+			if (getGeoElement().getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
+					&& conic.isInRegion(project[1].getX(),project[1].getY()) ){
+				double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+				setZPick(parameterOnHitting, parameterOnHitting);
+				setPickingType(PickingType.SURFACE);
+				ret = true;
+			}
+
+			// try outline
+			Coords p2d = project[1];
+			p2d.setZ(1.0);
+			conic.pointChanged(p2d, hittingPathParameter);
+			Coords p3d = conic.getCoordSys().getPoint(p2d.getX(),p2d.getY()); // get nearest point on conic
+			//App.debug("\n"+p2d+"\n3d:\n"+p3d);
+
+			project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
+			double d = p3d.distance(project[0]);
+			double scale = getView3D().getScale();
+			if (d * scale <= conic.getLineThickness() + hitting.getThreshold()){
+				double z = -project[1].getX();
+				double dz = conic.getLineThickness()/scale;
+				setZPick(z+dz, z-dz);
+				setPickingType(PickingType.POINT_OR_CURVE);
+				return true;
+			}
+
+
+			return ret;
 		}
-		
-		// try outline
-		Coords p2d = project[1];
-		p2d.setZ(1.0);
-		conic.pointChanged(p2d, hittingPathParameter);
-		Coords p3d = conic.getCoordSys().getPoint(p2d.getX(),p2d.getY()); // get nearest point on conic
-		//App.debug("\n"+p2d+"\n3d:\n"+p3d);
-		
-		project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
-		double d = p3d.distance(project[0]);
-		if (d * getView3D().getScale() <= conic.getLineThickness() + hitting.getThreshold()){
-			double z = -project[1].getX();
-			double dz = conic.getLineThickness()/getView3D().getScale();
-			setZPick(z+dz, z-dz);
-			setPickingType(PickingType.POINT_OR_CURVE);
-			return true;
-		}
-		
-		
-		return ret;
-		
 	}
 	
 

@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
@@ -414,6 +415,31 @@ implements Previewable {
 		}
 		
 			
+	}
+	
+	
+	@Override
+	protected boolean hit(Hitting hitting){
+		
+		if (waitForReset){ // prevent NPE 
+			return false;
+		}
+		
+		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		
+		Coords p3d = quadric.getProjection(null, hitting.origin, hitting.direction)[0];
+		
+		Coords[] project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
+		
+		double d = p3d.distance(project[0]);
+		if (d * getView3D().getScale() <= hitting.getThreshold()){
+			double z = -project[1].getX();
+			setZPick(z, z);
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 }

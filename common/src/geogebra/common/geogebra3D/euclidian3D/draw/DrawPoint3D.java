@@ -278,14 +278,27 @@ implements Previewable, Functional2Var{
 	protected boolean hit(Hitting hitting){
 		
 		GeoPointND point = (GeoPointND) getGeoElement();
-		Coords p = point.getInhomCoordsInD(3);
+		Coords p = point.getInhomCoordsInD(3);		
+		return DrawPoint3D.hit(hitting, p, this, point.getPointSize());
+		
+	}
+	
+	/**
+	 * 
+	 * @param hitting hitting
+	 * @param p point coords
+	 * @param drawable drawable calling
+	 * @param pointSize point size
+	 * @return true if the hitting hits the point
+	 */
+	static public boolean hit(Hitting hitting, Coords p, Drawable3D drawable, int pointSize){
 		Coords[] project = p.projectLine(hitting.origin, hitting.direction);
 		double d = p.distance(project[0]);
-		//if (d * getView3D().getScale() <=  point.getPointSize() + 2){
-		if (d * getView3D().getScale() <= DrawPoint.getSelectionThreshold(hitting.getThreshold())){
+		double scale = drawable.getView3D().getScale();
+		if (d * scale <= DrawPoint.getSelectionThreshold(hitting.getThreshold())){
 			double z = -project[1].getX();
-			double dz = point.getPointSize()/getView3D().getScale();
-			setZPick(z+dz, z-dz);
+			double dz = pointSize/scale;
+			drawable.setZPick(z+dz, z-dz);
 			return true;
 		}
 		
