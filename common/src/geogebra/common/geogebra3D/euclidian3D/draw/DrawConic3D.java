@@ -814,6 +814,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		}
 	}
 	
+	private PathParameter hittingPathParameter = new PathParameter();
+	
 	
 	@Override
 	protected boolean hit(Hitting hitting){
@@ -839,7 +841,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		// try outline
 		Coords p2d = project[1];
 		p2d.setZ(1.0);
-		conic.pointChanged(p2d, new PathParameter());
+		conic.pointChanged(p2d, hittingPathParameter);
 		Coords p3d = conic.getCoordSys().getPoint(p2d.getX(),p2d.getY()); // get nearest point on conic
 		//App.debug("\n"+p2d+"\n3d:\n"+p3d);
 		
