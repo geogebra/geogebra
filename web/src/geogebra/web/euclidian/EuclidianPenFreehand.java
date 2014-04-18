@@ -63,7 +63,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		switch (this.expected) {
 		case circle:
 			if (lastCreated instanceof GeoConic) {
-				this.initialPoint.remove();
+				if (this.initialPoint != null) {
+					this.initialPoint.remove();
+				}
 				return;
 			}
 			break;

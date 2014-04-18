@@ -316,6 +316,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
 	private int deltaSum = 0;
+	private int moveCounter = 0;
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		//don't want to roll the scrollbar
@@ -371,7 +372,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(isExternalHandling()){
 			return;
 		}
-		
+
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		event.preventDefault();
 		GeoGebraProfiler.drags++;
@@ -407,6 +408,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(dragTime > EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH){
 			EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
+
+		moveCounter++;
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
@@ -414,9 +417,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			this.ignoreNextMouseEvent = false;
 			return;
 		}
-		
+
+		if(moveCounter  < 2){
+			resetModeAfterFreehand();
+		}
+
 		event.preventDefault();
-		
 
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		this.moveIfWaiting();
@@ -430,6 +436,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		wrapMouseReleased(e);
 		e.release();
+
+		resetModeAfterFreehand();
 	}
 
 	
@@ -460,6 +468,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			}
 		}
 		e.release();
+
+		setModeToFreehand();
+		moveCounter = 0;
 	}
 	
 	private boolean comboBoxHit() {

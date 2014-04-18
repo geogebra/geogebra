@@ -116,6 +116,9 @@ public class EuclidianPen {
 
 	private int penSize;
 
+	/**
+	 * start point of the gesture
+	 */
 	protected GeoPointND initialPoint = null;
 
 	/**
@@ -159,6 +162,11 @@ public class EuclidianPen {
 		return penColor;
 	}
 
+	/**
+	 * use one point as first point of the created shape
+	 * 
+	 * @param point start point
+	 */
 	public void setInitialPoint(GeoPointND point){
 		this.initialPoint = point;
 	}
@@ -1553,12 +1561,17 @@ public class EuclidianPen {
     	{
     		x_first = view.toRealWorldCoordX(points[2*i]);
     		y_first = view.toRealWorldCoordY(points[2*i + 1]);
-    		
-    		// null -> created labeled point
-    		pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
-    
+
+    		if(i == 0 && this.initialPoint != null){
+    			this.initialPoint.setCoords(x_first, y_first, 1);
+    			this.initialPoint.updateCascade();
+    			pts[0] = this.initialPoint;
+    		} else {
+    			// null -> created labeled point
+    			pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
+    		}
     	}
-    	
+
     	algo = new AlgoPolygon(cons, null, pts);
     	
 		GeoElement poly = algo.getGeoElements()[0];

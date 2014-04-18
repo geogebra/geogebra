@@ -99,7 +99,7 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 */
 	protected boolean moveAxesAllowed = true;
 
-	protected int oldMode = -1;
+	private int oldMode = -1;
 
 	private double originalRadius;
 
@@ -264,36 +264,50 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 * actual mode (has no effect if no mode is set that can be turned into
 	 * freehand_shape)
 	 * 
-	 * for some modes requires that view.setHits(...) has been called with the
+	 * For some modes requires that view.setHits(...) has been called with the
 	 * correct parameters or movedGeoPoint is set correct in order to use other
-	 * GeoPoints (e.g. as the first point of a polygon)
+	 * GeoPoints (e.g. as the first point of a polygon). Also pointCreated needs
+	 * to be set correctly.
+	 * 
 	 */
 	protected void setModeToFreehand() {
-		if (this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		        || this.mode == EuclidianConstants.MODE_CIRCLE_THREE_POINTS) {
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
-		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
-		} else {
-			return;
-		}
-
+		// defined at the beginning, because it is modified for some modes
 		GeoPointND point = (GeoPointND) this.view.getHits().getFirstHit(
 		        Test.GEOPOINTND);
 		if (point == null) {
 			point = this.movedGeoPoint;
 		}
+
+		if (this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+		        || this.mode == EuclidianConstants.MODE_CIRCLE_THREE_POINTS) {
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
+
+			// the point will be deleted if no circle can be built, therefore
+			// make sure that only a newly created point is set
+			point = this.pointCreated ? movedGeoPoint : null;
+		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
+		} else {
+			// if the actual mode is not supported
+			return;
+		}
+
 		((EuclidianPenFreehand) pen).setInitialPoint(point);
 
 		// only executed if one of the specified modes is set
 		this.oldMode = this.mode;
 		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
 		moveMode = MOVE_NONE;
-
 	}
 
+	/**
+	 * rest all the settings that have been changed in setModeToFreehand().
+	 * 
+	 * no effect if setModeToFreehand() has not been called or had no effect
+	 * (e.g. because the selected tool is not supported)
+	 */
 	protected void resetModeAfterFreehand() {
 		if (oldMode != -1) {
 			this.mode = oldMode;

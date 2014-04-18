@@ -5173,6 +5173,7 @@ public abstract class EuclidianController {
 						intersectPossible, complex);
 			
 				if (point != null) {
+					pointCreated = true;
 			
 					handleMovedElement((GeoElement) point, false, PointerEventType.MOUSE);
 					
