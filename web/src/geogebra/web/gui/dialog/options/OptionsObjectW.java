@@ -98,6 +98,8 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
 import geogebra.web.gui.properties.ComboBoxPanel;
+import geogebra.web.gui.properties.GroupOptionsPanel;
+import geogebra.web.gui.properties.IOptionPanel;
 import geogebra.web.gui.properties.ListBoxPanel;
 import geogebra.web.gui.properties.OptionPanel;
 import geogebra.web.gui.properties.SliderPanelW;
@@ -213,30 +215,30 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private class OptionsTab extends FlowPanel {
 		private String titleId;
 		private int index;
-		private List<OptionPanel> panels;
+		private List<IOptionPanel> panels;
 		private boolean hasAdded;
 		public OptionsTab(final String title) {
 			super();
 			this.titleId = title;
 			hasAdded = false;
-			panels = new ArrayList<OptionPanel>();
+			panels = new ArrayList<IOptionPanel>();
 			setStyleName("propertiesTab");
 		}
 
-		public void add(OptionPanel panel) {
+		public void add(IOptionPanel panel) {
 			add(panel.getWidget());
 			panels.add(panel);
 		}
 
-		public void addPanelList(List<OptionPanel> panels) {
-			for (OptionPanel panel: panels) {
+		public void addPanelList(List<OptionPanel> list) {
+			for (OptionPanel panel: list) {
 				add(panel);
 			}
 		}
 
 		public boolean update(Object[] geos) {
 			boolean enabled = false;
-			for (OptionPanel panel: panels) {
+			for (IOptionPanel panel: panels) {
 				enabled = panel.update(geos) || enabled;
 			}
 
@@ -446,6 +448,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			mainPanel.setStyleName("optionsInput");
 
 			title = new Label();
+			title.setStyleName("panelTitle");
+			
 			mainPanel.add(title);
 			// non auto complete input panel
 			InputPanelW inputPanel = new InputPanelW(null, getAppW(), -1, false);
@@ -1481,8 +1485,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			tfBlue = (AutoCompleteTextFieldW) inputPanelB.getTextComponent();
 			tfAlpha = (AutoCompleteTextFieldW) inputPanelA.getTextComponent();
 
-			title = new Label();
-			title.setStyleName("panelTitle");
+			
 
 			nameLabelR = new Label();
 			nameLabelG = new Label();
@@ -1570,7 +1573,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			colorsPanel.add(alphaColorPanel);
 
 			FlowPanel mainWidget = new FlowPanel();
-
+			title = new Label();
+			title.setStyleName("panelTitle");
+			
 			mainWidget.add(title);
 
 			mainWidget.add(colorsPanel);
@@ -1744,14 +1749,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				}});
 
 			FlowPanel mainPanel = new FlowPanel();
-			mainPanel.setStyleName("optionsPanel");
-			
 			FlowPanel checkBoxPanel = new FlowPanel();
 			checkBoxPanel.setStyleName("optionsPanelIndent");
 			checkBoxPanel.add(cbGraphicsView);
 			checkBoxPanel.add(cbGraphicsView2);
 			
 			mainPanel.add(title);
+			title.setStyleName("panelTitle");
 			mainPanel.add(checkBoxPanel);
 			setWidget(mainPanel);
 		}
@@ -1766,7 +1770,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public void setLabels() {
-			title.setText(app.getMenu("Location") + ":");
+			title.setText(app.getMenu("Location"));
 			cbGraphicsView.setText(localize("DrawingPad"));
 			cbGraphicsView2.setText(localize("DrawingPad2"));
 
@@ -3368,12 +3372,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		selectionAllowedPanel = new SelectionAllowedPanel();
 		graphicsViewLocationPanel = new GraphicsViewLocationPanel();
 
-		tab.addPanelList(Arrays.asList(showConditionPanel,
-				colorFunctionPanel,
-				layerPanel,
-				tooltipPanel,
-				selectionAllowedPanel,
-				graphicsViewLocationPanel));
+		tab.add(showConditionPanel);
+		tab.add(colorFunctionPanel);
+		GroupOptionsPanel misc = new GroupOptionsPanel("Miscellaneous", loc); 
+		misc.add(layerPanel);
+		misc.add(tooltipPanel);
+		misc.add(selectionAllowedPanel);
+		tab.add(misc);
+		tab.add(graphicsViewLocationPanel);
 
 		return tab;
 	}

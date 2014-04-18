@@ -4,7 +4,7 @@ import geogebra.common.gui.dialog.options.model.OptionsModel;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class OptionPanel {
+public abstract class OptionPanel implements IOptionPanel {
 	OptionsModel model;
 	private Widget widget;
 
