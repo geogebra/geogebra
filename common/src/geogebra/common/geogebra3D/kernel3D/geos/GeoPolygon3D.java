@@ -21,7 +21,6 @@ import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -811,7 +810,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	 */
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		App.debug("Entrée 3D");
+		//App.debug("Entrée 3D");
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
 
@@ -820,7 +819,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 			int gLength = g.getPointsLength(); 
 			if (gLength == this.getPointsLength()){
 
-				App.debug("Polygones de même longueur");
+				//App.debug("Polygones de même longueur");
 				//search for a first common point
 				Coords firstPoint =  this.getPoint3D(0);
 				boolean fPointFound = false;
@@ -833,7 +832,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 					}
 				}
 
-				App.debug("Premier point commun : "+iFirstPoint);
+				//App.debug("Premier point commun : "+iFirstPoint);
 				//next point
 				if (fPointFound) {
 					boolean sPointFound = false;
@@ -849,7 +848,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 						}
 					}
 
-					App.debug("Second point commun : "+(iFirstPoint+step));
+					//App.debug("Second point commun : "+(iFirstPoint+step));
 					//other points
 					if (sPointFound){
 						int i = 2;
@@ -858,13 +857,15 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 						j = j%gLength;
 						boolean pointOK = true;
 						while ((pointOK)&&(i<gLength)){
-							App.debug("Recherche pour : "+i+"="+j);
+							//App.debug("Recherche pour : "+i+"="+j);
 							pointOK =  (this.getPoint3D(i).equalsForKernel(g.getPoint3D(j)));
+							/*
 							if (pointOK){
 								App.debug("Point suivant : "+j);
 							}else {
 								App.debug("Arrêt : "+j);
 							}
+							*/
 							j = j + step; 
 							if (j<0) j = gLength-1;
 							j = j%gLength;
