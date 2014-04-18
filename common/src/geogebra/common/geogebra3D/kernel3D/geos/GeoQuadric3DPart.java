@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -311,6 +312,13 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	@Override
 	protected void getXMLtagsMatrix(StringBuilder sb) {
 		// no matrix needed since it comes from an algo
+	}
+	
+	
+
+	@Override
+	protected void classifyQuadric() {
+		App.error("GeoQuadric3DPart should not need classification");
 	}
 
 }
