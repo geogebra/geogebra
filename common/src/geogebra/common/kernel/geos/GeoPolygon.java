@@ -1512,15 +1512,12 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 */
 	public boolean isConvex() {
 
+		/*
 		if (getPointsLength() <= 3){
 			return true;
 		}
+		*/
 
-		/* not suitable for now
-		if(Kernel.isZero(getArea())){ // flat polygon
-			return true;
-		}
-		 */
 
 		// remove same successive points
 		ArrayList<Double> xList = new ArrayList<Double>();
@@ -1541,16 +1538,20 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		}
 
 		int n = xList.size();
+		/*
 		if (n<=3){
 			return true;
 		}
+		*/
 
 
 		// remove last point if equals first points
 		if (Kernel.isEqual(xList.get(0), xList.get(n-1)) && Kernel.isEqual(yList.get(0), yList.get(n-1))){
+			/*
 			if (n==4){
 				return true;
 			}
+			*/
 			xList.remove(n-1);
 			yList.remove(n-1);
 			n--;
@@ -1619,14 +1620,35 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			}
 			i++;
 		}
+		
+		if (answer){
+			convexOrientation = orientation;
+		}
 
 
 
 		return answer;
 	}
 
+	
+	/**
+	 * orientation (1/-1) when convex
+	 */
+	private int convexOrientation;
 
 
+
+	/**
+	 * 
+	 * @return true if points orientation are not the same as xOy plane
+	 * (only used in 2D)
+	 */
+	public boolean isConvexInverseDirection(){
+		
+		//App.debug(""+convexOrientation);
+		
+		return (convexOrientation > 0);
+	}
 
 
 	/*

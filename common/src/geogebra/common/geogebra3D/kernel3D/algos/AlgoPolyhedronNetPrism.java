@@ -104,6 +104,10 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		
 
 		Coords faceDirection = bottomPolygon.getDirectionInD3();
+		if (bottomPolygon.isConvexInverseDirection()){
+			f *= -1;
+			faceDirection = faceDirection.mul(-1);
+		}
 
 		GeoPoint3D wpoint1 = null;
 		GeoPoint3D wpoint2 = null;
