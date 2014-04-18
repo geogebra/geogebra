@@ -214,6 +214,22 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		return true;
 	}
 
+	
+	@Override
+	protected Coords getPointInRegion(double u, double v){
+		
+		double v0;
+		if (v < getMinParameter(1)){
+			v0 = getMinParameter(1);	
+		}else if (v > getMaxParameter(1)){
+			v0 = getMaxParameter(1);
+		}else{
+			v0 = v;
+		}
+		
+		return super.getPointInRegion(u, v0);
+	}
+	
 	// ////////////////////////
 	// AREA
 	// ////////////////////////

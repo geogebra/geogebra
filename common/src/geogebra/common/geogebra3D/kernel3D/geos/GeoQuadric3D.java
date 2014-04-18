@@ -786,6 +786,16 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	public Coords getPoint(double u, double v) {
 		return evaluatePoint(u, v);
 	}
+	
+	/**
+	 * checks if u,v are region-compatible parameters
+	 * @param u first parameter
+	 * @param v second parameter
+	 * @return point in region
+	 */
+	protected Coords getPointInRegion(double u, double v){
+		return getPoint(u, v);
+	}
 
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
@@ -919,7 +929,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		}
 
 		RegionParameters rp = p.getRegionParameters();
-		Coords coords = getPoint(rp.getT1(), rp.getT2());
+		Coords coords = getPointInRegion(rp.getT1(), rp.getT2());
 		p.setCoords(coords, false);
 		p.updateCoords();
 
