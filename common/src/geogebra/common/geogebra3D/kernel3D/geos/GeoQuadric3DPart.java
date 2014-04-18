@@ -53,6 +53,10 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	 * @param max
 	 */
 	public void setLimits(double min, double max) {
+		
+		bottom = min;
+		top = max;
+		
 		if (min<max){
 			this.min = min;
 			this.max = max;
@@ -60,6 +64,17 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 			this.min = max;
 			this.max = min;			
 		}
+	}
+	
+	private double bottom, top;
+	
+	
+	public double getBottom(){
+		return bottom;
+	}
+	
+	public double getTop(){
+		return top;
 	}
 
 	@Override

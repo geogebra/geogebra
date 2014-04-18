@@ -1060,7 +1060,7 @@ public class Coords extends CoordMatrix {
 			vn1.val[0] = 1.0;
 		}
 
-		Coords vn2 = this.crossProduct(vn1);
+		Coords vn2 = this.crossProduct4(vn1);
 		vn2.normalize();
 
 		return new Coords[] { vn1, vn2 };

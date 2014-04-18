@@ -2886,6 +2886,85 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public Coords getClippingVertex(int i) {
 		return clippingCubeDrawable.getVertex(i);
 	}
+	
+	/**
+	 * update minmax to fit minimum interval that is outside clipping, i.e. the clipping
+	 * box is between the two orthogonal planes to the (o,v) line, through min and max parameters
+	 * @param minmax initial and returned min/max values
+	 * @param o line origin
+	 * @param v line direction
+	 */
+	public void getMinIntervalOutsideClipping(double[] minmax, Coords o, Coords v) {
+
+		Coords p1, p2;
+		
+		// check 4 x opposite corners 
+		
+		p1 = clippingCubeDrawable.getVertex(0);
+		p2 = clippingCubeDrawable.getVertex(7);
+
+		intervalUnionOutside(minmax, o, v, p1, p2);		
+		
+		
+		p1 = clippingCubeDrawable.getVertex(1);
+		p2 = clippingCubeDrawable.getVertex(6);
+
+		intervalUnionOutside(minmax, o, v, p1, p2);				
+		
+		
+		p1 = clippingCubeDrawable.getVertex(3);
+		p2 = clippingCubeDrawable.getVertex(4);
+
+		intervalUnionOutside(minmax, o, v, p1, p2);	
+		
+		
+		p1 = clippingCubeDrawable.getVertex(2);
+		p2 = clippingCubeDrawable.getVertex(5);
+
+		intervalUnionOutside(minmax, o, v, p1, p2);
+
+	}
+	
+	
+	static private void intervalUnionOutside(double[] minmax, Coords o, Coords v, Coords p1, Coords p2){
+		intervalUnion(minmax, p1.projectLine(o, v)[1].getX(), p2.projectLine(o, v)[1].getX());
+	}
+	
+	/**
+	 * return the intersection of intervals [minmax] and [v1,v2]
+	 * 
+	 * @param minmax
+	 *            initial interval
+	 * @param v1
+	 *            first value
+	 * @param v2
+	 *            second value
+	 * @return intersection interval
+	 */
+	private static void intervalUnion(double[] minmax, double v1, double v2) {
+		
+		//App.debug(v1+","+v2);
+		
+		if (Double.isNaN(v2)){
+			return;
+		}
+
+		if (v1 > v2) {
+			double v = v1;
+			v1 = v2;
+			v2 = v;
+		}
+
+		if (v1 < minmax[0] && !Double.isInfinite(v1))
+			minmax[0] = v1;
+
+		if (v2 > minmax[1] && !Double.isInfinite(v2))
+			minmax[1] = v2;
+
+	}
+	
+	
+	
 
 	public void notifyEuclidianViewCE() {
 		kernel.notifyEuclidianViewCE();

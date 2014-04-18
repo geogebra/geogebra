@@ -802,6 +802,116 @@ public class PlotterSurface {
 	}
 	
 	
+	
+	/**
+	 * @param center
+	 * @param vx
+	 * @param vy
+	 * @param vz 
+	 * @param radius
+	 * @param start
+	 * @param extent
+	 * @param height 
+	 */
+	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start, double extent, double height){
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
+		
+		
+		int longitude = 60;
+		
+		Coords m, n;
+    	float u, v;
+		
+    	float dt = (float) 1/longitude;
+    	float da = (float) (extent *dt) ; 
+    	
+    	manager.setDummyTexture();
+    	
+
+    	Coords center2 = center.add(vz.mul(height));
+    	
+    	double r = radius * -height;   	
+    	Coords vzR = vz.mul(radius);
+    	
+    	
+    	for( int i = 0; i <= longitude  ; i++ ) { 
+    		u = (float) Math.cos (start + i * da ); 
+    		v = (float) Math.sin (start + i * da ); 
+    		
+     		m = vx.mul(u).add(vy.mul(v));
+     		n = m.add(vzR).normalize();
+     		
+     		//center of the triangle fan
+    		manager.normal(n);
+    		manager.vertex(center);  
+    		
+    		//point on circle
+     		manager.normal(n);
+    		manager.vertex(center2.add(m.mul(r)));
+    	} 
+    	
+    			
+    	
+    	manager.endGeometry();
+    	
+	}
+	
+	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start, double extent, double min, double max){
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
+		
+		
+		int longitude = 60;
+		
+		Coords m, n;
+    	float u, v;
+		
+    	float dt = (float) 1/longitude;
+    	float da = (float) (extent *dt) ; 
+    	
+    	manager.setDummyTexture();
+    	
+
+    	double bottom, top;
+    	if (Math.abs(min) > Math.abs(max)){
+    		bottom = max;
+    		top = min;
+    	}else{
+    		bottom = min;
+    		top = max;  		
+    	}
+    	
+    	Coords center1 = center.add(vz.mul(bottom));
+    	Coords center2 = center.add(vz.mul(top));
+    	
+    	double r1 = radius * -bottom;
+    	double r2 = radius * -top;
+    	
+    	Coords vzR = vz.mul(radius); 
+    	
+    	for( int i = 0; i <= longitude  ; i++ ) { 
+    		u = (float) Math.cos (start + i * da ); 
+    		v = (float) Math.sin (start + i * da ); 
+    		
+     		m = vx.mul(u).add(vy.mul(v));
+     		n = m.add(vzR).normalize();
+     		
+
+    		//point on bottom circle
+    		manager.normal(n);
+    		manager.vertex(center1.add(m.mul(r1)));  
+     		
+    		//point on top circle
+     		manager.normal(n);
+    		manager.vertex(center2.add(m.mul(r2)));
+    		
+
+    	} 
+    	
+    			
+    	
+    	manager.endGeometry();
+    	
+	}
 
 	/**
 	 * draws the inside of the hyperobola part

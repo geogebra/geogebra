@@ -6,6 +6,7 @@ import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -168,6 +169,36 @@ implements Previewable {
 			break;
 			
 		case GeoQuadricNDConstants.QUADRIC_CONE:
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start();
+			if (quadric instanceof GeoQuadric3DPart){ // simple cone
+				double height = ((GeoQuadric3DPart) quadric).getBottom() - ((GeoQuadric3DPart) quadric).getTop();
+				double heightAbs = Math.abs(height);	
+				surface.cone(quadric.getMidpoint3D(), 
+						quadric.getEigenvec3D(0), quadric.getEigenvec3D(1), quadric.getEigenvec3D(2), 
+						quadric.getHalfAxis(0),  
+						0, 2*Math.PI,
+						height);
+			}else{ // infinite cone
+				double[] minmax = getMinMax();
+				double min = minmax[0]; 
+				double max = minmax[1];	
+				//App.debug(min+","+max);
+				center = quadric.getMidpoint3D();
+				Coords ev1 = quadric.getEigenvec3D(0); 
+				Coords ev2 = quadric.getEigenvec3D(1);
+				Coords ev3 = quadric.getEigenvec3D(2);
+				radius = quadric.getHalfAxis(0);
+				if (min * max < 0){
+					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min);
+					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max);
+				}else{
+					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, max);
+				}
+			}
+
+			setSurfaceIndex(surface.end());		
+			break;
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			double[] minmax;
 			float min, max;
@@ -215,13 +246,15 @@ implements Previewable {
 		
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		
-		Coords o = getView3D().getToScreenMatrix().mul(quadric.getMidpoint());
-		Coords v = getView3D().getToScreenMatrix().mul(quadric.getEigenvec3D(2));
-		
-		double[] minmax = getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				o, v, true);
+		double[] minmax = {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY};
 
+		getView3D().getMinIntervalOutsideClipping(
+				minmax,
+				quadric.getMidpoint3D(),
+				quadric.getEigenvec3D(2));
+		
+		//App.debug(minmax[0]+","+minmax[1]);
+		
 		return minmax;
 	}
 	
