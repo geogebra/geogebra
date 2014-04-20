@@ -90,14 +90,12 @@ public class CmdFillCells extends CommandProcessor {
 						try {
 							// cell will have been autocreated by eg A1:A3 in
 							// command, so delete
-							kernelA.lookupLabel(
-									GeoElementSpreadsheet.getSpreadsheetCellName(minCol,
-											row)).remove();
-							kernelA.lookupLabel(
-									GeoElementSpreadsheet.getSpreadsheetCellName(
-											minCol + 1, row)).remove();
+							removePossibleGeo(GeoElementSpreadsheet
+									.getSpreadsheetCellName(minCol, row));
+							removePossibleGeo(GeoElementSpreadsheet
+									.getSpreadsheetCellName(minCol + 1, row));
 
-							MyPoint p = al.get(i);														
+						MyPoint p = al.get(i);														
 
 							kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol,
 									new GeoNumeric(cons, p.x));
@@ -122,9 +120,8 @@ public class CmdFillCells extends CommandProcessor {
 								// cell will have been autocreated by eg A1:A3
 								// in command, so delete
 								// in case it's being filled by eg GeoText
-								kernelA.lookupLabel(
-										GeoElementSpreadsheet.getSpreadsheetCellName(col,
-												row)).remove();
+								removePossibleGeo(GeoElementSpreadsheet
+										.getSpreadsheetCellName(col, row));
 
 								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
 										geo);
@@ -151,9 +148,8 @@ public class CmdFillCells extends CommandProcessor {
 								// cell will have been autocreated by eg A1:A3
 								// in command, so delete
 								// in case it's being filled by eg GeoText
-								kernelA.lookupLabel(
-										GeoElementSpreadsheet.getSpreadsheetCellName(col,
-												row)).remove();
+								removePossibleGeo(GeoElementSpreadsheet
+										.getSpreadsheetCellName(col, row));
 
 								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
 										rowList.get(countY % rowList.size()));
@@ -176,9 +172,8 @@ public class CmdFillCells extends CommandProcessor {
 								// cell will have been autocreated by eg A1:A3
 								// in command, so delete
 								// in case it's being filled by eg GeoText
-								kernelA.lookupLabel(
-										GeoElementSpreadsheet.getSpreadsheetCellName(col,
-												row)).remove();
+								removePossibleGeo(GeoElementSpreadsheet
+										.getSpreadsheetCellName(col, row));
 
 								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
 										list.get(count % list.size()));
@@ -227,7 +222,9 @@ public class CmdFillCells extends CommandProcessor {
 						// 2D fill
 						// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
 						// need to remove B3
-						arg[0].remove();
+						if (arg[0] != null) {
+							arg[0].remove();
+						}
 
 						try {
 							int rows = list.size();
@@ -250,7 +247,9 @@ public class CmdFillCells extends CommandProcessor {
 						// 1D fill
 						// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
 						// need to remove B3
-						arg[0].remove();
+						if (arg[0] != null) {
+							arg[0].remove();
+						}
 
 						for (int i = list.size() - 1; i >= 0; i--)
 							try {
@@ -277,6 +276,14 @@ public class CmdFillCells extends CommandProcessor {
 
 		default:
 			throw argNumErr(app, c.getName(), n);
+		}
+	}
+	
+	
+	private void removePossibleGeo(String label){
+		GeoElement geo = kernelA.lookupLabel(label);
+		if(geo != null){
+			geo.remove();
 		}
 	}
 
