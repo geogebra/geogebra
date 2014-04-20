@@ -25,6 +25,12 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	/** tells that it's initing */
 	protected boolean isIniting = true;
 
+	/**
+	 * maintains a list of all AlgoCellRanges in the construction and handles
+	 * updates to the cell range lists as cells are added or removed
+	 */
+	private AlgoCellRangeManager cellRangeManager;
+
 	/***************************************************
 	 * Constructor
 	 * 
@@ -39,6 +45,8 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			int columns) {
 		isIniting=true;
 		this.app = app;
+
+		cellRangeManager = new AlgoCellRangeManager();
 	}
 
 	/**************************************************
@@ -138,6 +146,13 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		}
 	}
 
+	/**
+	 * @return cellRangeManager for handling AlgoCellRange updates
+	 */
+	public AlgoCellRangeManager getCellRangeManager() {
+		return cellRangeManager;
+	}
+
 	// ====================================
 	// VIEW implementation
 	// ====================================
@@ -154,6 +169,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null) {
 			doRemove(geo, location.y, location.x);
+			cellRangeManager.updateCellRangeAlgos(geo, location, true);
 		}
 	}
 
@@ -161,6 +177,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		GPoint location = geo.getOldSpreadsheetCoords();
 		if (location != null) {
 			doRemove(geo, location.y, location.x);
+			cellRangeManager.updateCellRangeAlgos(geo, location, false);
 		}
 		addWithoutTrace(geo);
 	}
@@ -177,7 +194,16 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		if (!isIniting && geo.getSpreadsheetTrace()) {
 			app.getTraceManager().traceToSpreadsheet(geo);
 		}
-		
+
+		if (geo.isEmptySpreadsheetCell() && geo.isDefined()) {
+			geo.setEmptySpreadsheetCell(false);
+		}
+
+		GPoint location = geo.getSpreadsheetCoords();
+		if (location != null) {
+			cellRangeManager.updateCellRangeAlgos(geo, location, false);
+		}
+
 	}
 	
 	private void updateWithoutTrace(GeoElement geo) {

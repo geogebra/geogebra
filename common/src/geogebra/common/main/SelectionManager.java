@@ -17,13 +17,17 @@ public class SelectionManager {
 	
 	private final UpdateSelection listener;
 	
+	private ArrayList<GeoElementSelectionListener> selectionListeners;
+	
 	public SelectionManager(Kernel kernel,UpdateSelection app){
 		this.kernel = kernel;
 		this.listener = app;
+		
+		selectionListeners = new ArrayList<GeoElementSelectionListener>();
 	}
 	
 	/**
-	 * Clears selction and selects given geos.
+	 * Clears selection and selects given geos.
 	 * 
 	 * @param geos
 	 *            geos
@@ -33,7 +37,7 @@ public class SelectionManager {
 	}
 
 	/**
-	 * Clears selction and selects given geos.
+	 * Clears selection and selects given geos.
 	 * 
 	 * @param geos
 	 *            geos
@@ -158,6 +162,11 @@ public class SelectionManager {
 
 		if (updateSelection)
 			updateSelection();
+		
+		// notify all registered selection listeners
+		for (GeoElementSelectionListener sl : getSelectionListeners()) {
+			sl.geoElementSelected(geo, true);
+		}
 
 	}
 	
@@ -579,4 +588,26 @@ public class SelectionManager {
 		listener.updateSelection(updatePropertiesView);
 	}
 
+	
+	/**
+	 * Add a selection listener
+	 * @param sl GeoElementSelectionListener to be added
+	 */
+	public void addSelectionListener(GeoElementSelectionListener sl){
+		selectionListeners.add(sl);
+	}
+	/**
+	 * Remove a selection listener
+	 * @param sl GeoElementSelectionListener to be removed
+	 */
+	public void removeSelectionListener(GeoElementSelectionListener sl){
+		selectionListeners.remove(sl);
+	}
+	
+	/**
+	 * @return Set of all registered SelectionListeners 
+	 */
+	public ArrayList<GeoElementSelectionListener> getSelectionListeners(){
+		return selectionListeners;
+	}
 }

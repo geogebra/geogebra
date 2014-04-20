@@ -120,10 +120,9 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// ==================================================
 		// set default background color (adjust later if geo exists)
 
-		bgColor = geogebra.awt.GColorD.getAwtColor(
-				(geogebra.awt.GColorD)
-				formatHandler.getCellFormat(cellPoint,
-				CellFormat.FORMAT_BGCOLOR));
+		bgColor = geogebra.awt.GColorD
+				.getAwtColor((geogebra.awt.GColorD) formatHandler
+						.getCellFormat(cellPoint, CellFormat.FORMAT_BGCOLOR));
 		if (bgColor == null) {
 			isCustomBGColor = false;
 			bgColor = table.getBackground();
@@ -187,25 +186,28 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// Set text according to algebra style
 		// ===============================================
 		String text = null;
-		if (geo.isIndependent()) {
-			text = geo.toValueString(StringTemplate.defaultTemplate);
-		} else {
-			switch (kernel.getAlgebraStyle()) {
-			case Kernel.ALGEBRA_STYLE_VALUE:
+		if (!geo.isEmptySpreadsheetCell()) {
+			if (geo.isIndependent()) {
 				text = geo.toValueString(StringTemplate.defaultTemplate);
-				break;
+			} else {
+				switch (kernel.getAlgebraStyle()) {
+				case Kernel.ALGEBRA_STYLE_VALUE:
+					text = geo.toValueString(StringTemplate.defaultTemplate);
+					break;
 
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = GeoElement
-						.convertIndicesToHTML(geo
-								.getDefinitionDescription(StringTemplate.defaultTemplate));
-				break;
+				case Kernel.ALGEBRA_STYLE_DEFINITION:
+					text = GeoElement
+							.convertIndicesToHTML(geo
+									.getDefinitionDescription(StringTemplate.defaultTemplate));
+					break;
 
-			case Kernel.ALGEBRA_STYLE_COMMAND:
-				text = GeoElement.convertIndicesToHTML(geo
-						.getCommandDescription(StringTemplate.defaultTemplate));
-				break;
+				case Kernel.ALGEBRA_STYLE_COMMAND:
+					text = GeoElement
+							.convertIndicesToHTML(geo
+									.getCommandDescription(StringTemplate.defaultTemplate));
+					break;
 
+				}
 			}
 		}
 
@@ -237,6 +239,12 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				bgColor = MyTableD.SELECTED_BACKGROUND_COLOR;
 			}
 		}
+		
+		// for testing
+		//if(geo.isEmptySpreadsheetCell()){
+			//bgColor = MyTableD.SELECTED_BACKGROUND_COLOR_HEADER;
+		//}
+		
 		setBackground(bgColor);
 		setForeground(geogebra.awt.GColorD.getAwtColor(geo.getLabelColor()));
 

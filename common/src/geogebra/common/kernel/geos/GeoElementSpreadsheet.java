@@ -81,7 +81,7 @@ public class GeoElementSpreadsheet {
 	 * 
 	 * @param cellName
 	 *            given cell name
-	 * @return coordinates of spreadsheet cell
+	 * @return coordinates of spreadsheet cell as (column index,row index)
 	 */
 	public static GPoint spreadsheetIndices(String cellName) {
 
@@ -181,8 +181,9 @@ public class GeoElementSpreadsheet {
 	 * "$A1".
 	 * 
 	 * @param inputLabel
-	 *            label of spredsheet cell
-	 * @return null for non-spreadsheet names
+	 *            label of spreadsheet cell
+	 * @return spreadsheet coordinates as (column index,row index); null for
+	 *         non-spreadsheet names
 	 */
 	public static GPoint getSpreadsheetCoordsForLabel(String inputLabel) {
 		// we need to also support wrapped GeoElements like

@@ -2257,13 +2257,17 @@ public class Construction {
 		else {
 			result = new GeoNumeric(this);
 		}
-
+		
+		// set result as empty cell geo
+		result.setUndefined();
+		result.setEmptySpreadsheetCell(true);
+		
 		// make sure that label creation is turned on
 		boolean oldSuppressLabelsActive = isSuppressLabelsActive();
 		setSuppressLabelCreation(false);
 
 		// set 0 and label
-		result.setZero();
+		//result.setZero();
 		result.setAuxiliaryObject(true);
 		result.setLabel(label);
 

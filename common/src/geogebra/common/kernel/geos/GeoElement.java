@@ -3232,12 +3232,31 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
+	private boolean isEmptySpreadsheetCell = false;
+	
+	public void setEmptySpreadsheetCell(boolean isEmptySpreadsheetCell) {
+		this.isEmptySpreadsheetCell = isEmptySpreadsheetCell;
+	}
+
+	public boolean isEmptySpreadsheetCell(){
+		return isEmptySpreadsheetCell;
+	}
+	
+	
+	
 	/**
 	 * Removes this object and all dependent objects from the Kernel. If this
 	 * object is not independent, it's parent algorithm is removed too.
 	 */
 	@Override
 	public void remove() {
+		if((hasChildren()) && GeoElementSpreadsheet.hasSpreadsheetLabel(this)){
+			setEmptySpreadsheetCell(true);
+			setUndefined();
+			updateCascade();
+			return;
+		}
+		
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
 			algoParent.remove(this);

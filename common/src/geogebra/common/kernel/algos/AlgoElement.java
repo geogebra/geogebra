@@ -676,6 +676,19 @@ public abstract class AlgoElement extends ConstructionElement implements
 		doSetDependencies();
 	}
 
+	/**
+	 * Adds this algorithm to the update set of all inputs without adding
+	 * input dependencies.
+	 */
+	final protected void setDependenciesOutputOnly() {
+
+		for (int i = 0; i < input.length; i++) {
+			input[i].addToUpdateSetOnly(this);
+		}
+
+		doSetDependencies();
+	}
+
 	protected void doSetDependencies() {
 		this.mayHaveRandomAncestors = true;
 		setOutputDependencies();

@@ -364,7 +364,7 @@ public class CellRange {
 			for (int col = minColumn; col <= maxColumn; col++) {
 				CellRange cr = new CellRange(app, col, -1, col, 0, col, maxRow);
 				list.add(cr);
-				//cr.debug();
+				// cr.debug();
 			}
 		} else {
 			for (int col = minColumn; col <= maxColumn; col++) {
@@ -517,24 +517,29 @@ public class CellRange {
 				^ (minRow << 8) ^ (maxRow - minRow);
 	}
 
-	public boolean contains(Object obj) {
+	/**
+	 * @param geo
+	 * @return true if the given GeoElement is a spreadsheet cell contained
+	 *         inside this cell range
+	 */
+	public boolean contains(GeoElement geo) {
+		return contains(geo.getSpreadsheetCoords());
+	}
 
-		CellRange cr;
-		if (obj instanceof CellRange) {
-			cr = (CellRange) obj;
-			return (this.toCellList(true).containsAll(cr.toCellList(true)));
+	/**
+	 * @param location
+	 * @return true if the given spreadsheet cell location is contained in this
+	 *         cell range
+	 */
+	public boolean contains(GPoint location) {
 
-		} else if (obj instanceof GeoElement) {
-			GPoint location = ((GeoElement) obj).getSpreadsheetCoords();
-			// if the geo is a cell then test if inside the cell range
-			if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-					&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
-				setActualRange();
-				return (location.y >= minRow && location.y <= maxRow
-						&& location.x >= minColumn && location.x <= maxColumn);
-			}
+		if (location != null
+				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
+				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
+			setActualRange();
+			return (location.y >= minRow && location.y <= maxRow
+					&& location.x >= minColumn && location.x <= maxColumn);
 		}
-
 		return false;
 	}
 
