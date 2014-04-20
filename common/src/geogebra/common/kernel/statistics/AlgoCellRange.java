@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentList;
@@ -38,6 +39,11 @@ public class AlgoCellRange extends AlgoElement {
 	private GeoElement startCell, endCell; // input cells
 	private String toStringOutput;
 
+	private CellRange cellRange;
+	private ArrayList<GeoElement> listItems;
+	private AlgoDependentList algo;
+	private GPoint startCoords, endCoords;
+
 	/**
 	 * Creates an algorithm that produces a list of GeoElements for a range of
 	 * cells in the spreadsheet.
@@ -54,6 +60,10 @@ public class AlgoCellRange extends AlgoElement {
 		this.endCell = endCell;
 		setInputOutput();
 
+		// register cell range listener with SpreadsheetTableModel
+		cons.getApplication().getSpreadsheetTableModel()
+				.getCellRangeManager().registerCellRangeListenerAlgo(this);
+
 		geoList.setLabel(label);
 	}
 
@@ -69,6 +79,10 @@ public class AlgoCellRange extends AlgoElement {
 		if(removed)
 			return;
 		super.remove();
+
+		cons.getApplication().getSpreadsheetTableModel()
+				.getCellRangeManager().unregisterCellRangeListenerAlgo(this);
+
 		clearGeoList();
 	}
 
@@ -81,6 +95,20 @@ public class AlgoCellRange extends AlgoElement {
 		geoList.clear();
 	}
 
+	public void updateList(GeoElement geo, boolean isRemoveAction) {
+		// System.out.println("=== AlgoCellRange.updateList()");
+		if (isRemoveAction) {
+			if (listItems.contains(geo)) {
+				listItems.remove(geo);
+			}
+		} else {
+			listItems = initCellRangeList(startCoords, endCoords);
+		}
+		algo.updateList(listItems);
+		algo.update();
+		geoList.updateRepaint();
+	}
+
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
@@ -91,20 +119,23 @@ public class AlgoCellRange extends AlgoElement {
 		String startLabel = startCell.getLabel(StringTemplate.defaultTemplate);
 		String endLabel = endCell.getLabel(StringTemplate.defaultTemplate);
 
-		GPoint startCoords = GeoElementSpreadsheet
+		startCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startLabel);
-		GPoint endCoords = GeoElementSpreadsheet
+		endCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(endLabel);
 		toStringOutput = startLabel + ":" + endLabel;
 
+		cellRange = new CellRange(cons.getApplication(), startCoords.x,
+				startCoords.y, endCoords.x, endCoords.y);
+
 		// build list with cells in range
-		ArrayList<GeoElement> listItems = initCellRangeList(startCoords,
-				endCoords);
+		listItems = initCellRangeList(startCoords, endCoords);
 
 		// create dependent geoList for cells in range
-		AlgoDependentList algo = new AlgoDependentList(cons, listItems, true);
+		algo = new AlgoDependentList(cons, listItems, true);
 		cons.removeFromConstructionList(algo);
 		geoList = algo.getGeoList();
+		algo.setCellRangeString(toStringOutput);
 
 		// input: start and end cell
 		// needed for XML saving only
@@ -113,7 +144,7 @@ public class AlgoCellRange extends AlgoElement {
 		super.setOutputLength(1);
 		super.setOutput(0, geoList);
 
-		setDependencies();
+		setDependenciesOutputOnly();
 
 		// see this.getClassName() for better solution
 		 // change input now for XML saving
@@ -155,9 +186,10 @@ public class AlgoCellRange extends AlgoElement {
 				GeoElement geo = kernel.lookupLabel(cellLabel);
 
 				// create missing object in cell range
-				if (geo == null) {
-					geo = cons
-							.createSpreadsheetGeoElement(startCell, cellLabel);
+				if (geo == null || geo.isEmptySpreadsheetCell()) {
+					// geo = cons
+					// .createSpreadsheetGeoElement(startCell, cellLabel);
+					continue;
 				}
 
 				// we got the cell object, add it to the list
@@ -165,7 +197,7 @@ public class AlgoCellRange extends AlgoElement {
 
 				// make sure that this cell object cannot be renamed by the user
 				// renaming would move the object outside of our range
-				geo.addCellRangeUser();
+				// geo.addCellRangeUser();
 			}
 		}
 
@@ -174,6 +206,10 @@ public class AlgoCellRange extends AlgoElement {
 
 	public GeoList getList() {
 		return geoList;
+	}
+
+	public CellRange getCellRange() {
+		return cellRange;
 	}
 
 	@Override
