@@ -595,11 +595,11 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			if(!((GeoPoint)P).isDefined())
 				return;
 			RegionParameters rp = P.getRegionParameters();
-			if(!isInRegion(P)){
+			if (!isInRegion(P)) {
 				double bestX = rp.getT1(), bestY = rp.getT2(), 
 				myX = P.getX2D(), myY = P.getY2D();
 				double bestDist = (bestY-myY)*(bestY-myY)+(bestX-myX)*(bestX-myX);
-				if (Kernel.isZero(bestDist)){ // not the best distance, since P is not in region
+				if (Kernel.isZero(bestDist)) { // not the best distance, since P is not in region
 					bestDist = Double.POSITIVE_INFINITY;
 				}
 				
