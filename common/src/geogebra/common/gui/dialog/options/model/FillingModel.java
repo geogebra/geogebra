@@ -5,6 +5,7 @@ import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
@@ -452,8 +453,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 				getFillingListener().setFillInverseVisible(false);
 			}
-			if (!geo.isFillable() || hasGeoButton) {
-				App.debug("It has button");
+			if (!geo.isFillable() || hasGeoButton || geo instanceof GeoImage) {
 				geosOK = false;
 				break;
 			}

@@ -1,6 +1,7 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.main.App;
 
 public class InterpolateImageModel extends BooleanOptionModel {
 
@@ -21,6 +22,7 @@ public class InterpolateImageModel extends BooleanOptionModel {
 	public void apply(int index, boolean value) {
 		GeoImage image = getGeoImageAt(index);
 		image.setInterpolate(value);
+		App.debug("interpolate: " + value);
 		image.updateRepaint();
 	}
 

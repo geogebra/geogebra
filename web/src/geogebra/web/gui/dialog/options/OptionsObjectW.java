@@ -35,6 +35,7 @@ import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
+import geogebra.common.gui.dialog.options.model.InterpolateImageModel;
 import geogebra.common.gui.dialog.options.model.LayerModel;
 import geogebra.common.gui.dialog.options.model.LineEqnModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
@@ -176,6 +177,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private IneqPanel ineqStylePanel;
 	private TextFieldSizePanel textFieldSizePanel;
 	private FillingPanel fillingPanel;
+	private InterpolateImagePanel interpolateImagePanel; 
 
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
@@ -1969,6 +1971,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 	}
 
+	private class InterpolateImagePanel extends CheckboxPanel {
+
+		public InterpolateImagePanel() {
+			super("Interpolate");
+			setModel(new InterpolateImageModel(this));
+		}
+
+	}
+	
 	private class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 	ITextEditPanel, GeoElementSelectionListener {
 		private static final int FontBOLD = 1;
@@ -3331,7 +3342,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		textFieldSizePanel = new TextFieldSizePanel();
 		buttonSizePanel = new ButtonSizePanel();
 		fillingPanel = new FillingPanel();
-
+		//interpolateImagePanel = new InterpolateImagePanel();
+		
 		tab.addPanelList(Arrays.asList(pointSizePanel,
 				pointStylePanel,
 				lineStylePanel,
@@ -3340,7 +3352,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				ineqStylePanel,
 				buttonSizePanel,
 				textFieldSizePanel,
-				fillingPanel));
+				fillingPanel/*,
+				interpolateImagePanel */ 
+				));
 		return tab;
 	}
 
