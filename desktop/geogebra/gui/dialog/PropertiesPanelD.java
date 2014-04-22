@@ -48,6 +48,7 @@ import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
+import geogebra.common.gui.dialog.options.model.InterpolateImageModel;
 import geogebra.common.gui.dialog.options.model.LayerModel;
 import geogebra.common.gui.dialog.options.model.LineEqnModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
@@ -86,10 +87,8 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
-import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -1857,96 +1856,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	/**
 	 * panel to say if an image is to be interpolated
 	 */
-	private class CheckBoxInterpolateImage extends JPanel implements
-			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
-
-		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JCheckBox checkbox;
+	private class CheckBoxInterpolateImage extends CheckboxPanel {
 
 		public CheckBoxInterpolateImage() {
-			super(new FlowLayout(FlowLayout.LEFT));
-			checkbox = new JCheckBox();
-			checkbox.addItemListener(this);
-			add(checkbox);
+			super("Interpolate");
+			setModel(new InterpolateImageModel(this));
+			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
-		public void setLabels() {
-			checkbox.setText(app.getPlain("Interpolate"));
-		}
-
-		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
-				return null;
-			if (((GeoElement) geos[0]) instanceof GeoCanvasImage) {
-				checkbox.setVisible(true);
-			} else {
-				checkbox.setVisible(true);
-			}
-			checkbox.removeItemListener(this);
-
-			// check if properties have same values
-			GeoImage temp, geo0 = (GeoImage) geos[0];
-			boolean equalObjectVal = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoImage) geos[i];
-				// same object visible value
-				if (geo0.isInterpolate() != temp.isInterpolate()) {
-					equalObjectVal = false;
-					break;
-				}
-			}
-
-			// set object visible checkbox
-			if (equalObjectVal)
-				checkbox.setSelected(geo0.isInterpolate());
-			else
-				checkbox.setSelected(false);
-
-			checkbox.addItemListener(this);
-			return this;
-		}
-
-		// only images
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoImage))
-					return false;
-			}
-			return true;
-		}
-
-		/**
-		 * listens to checkboxes and sets object and label visible state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			Object source = e.getItemSelectable();
-
-			// show object value changed
-			if (source == checkbox) {
-				for (int i = 0; i < geos.length; i++) {
-					GeoImage image = (GeoImage) geos[i];
-					image.setInterpolate(checkbox.isSelected());
-					image.updateRepaint();
-				}
-			}
-			updateSelection(geos);
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			checkbox.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-	} // CheckBoxInterpolateImage
+	}
 
 	/**
 	 * panel for fixing an object
