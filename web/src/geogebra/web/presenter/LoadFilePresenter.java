@@ -3,6 +3,7 @@ package geogebra.web.presenter;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
 import geogebra.web.WebStatic;
@@ -132,6 +133,9 @@ public class LoadFilePresenter{
 	}
 	
 	private boolean isReloadDataInStorage(){
+		if(!Browser.supportsSessionStorage()){
+			return false;
+		}
 		Storage stockStore = Storage.getLocalStorageIfSupported();
 		
 		if (stockStore == null) return false;
