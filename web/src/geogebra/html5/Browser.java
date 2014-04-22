@@ -89,4 +89,12 @@ public class Browser {
 	public static native boolean supportsPointerEvents()/*-{
 	    return window.navigator.msPointerEnabled ? true : false;
     }-*/;
+
+	private static native boolean isHTTP() /*-{
+	    return $wnd.location.protocol != 'file:';
+    }-*/;
+
+	public static boolean supportsSessionStorage() {
+	    return (!Browser.isFirefox() && !Browser.isIE()) || Browser.isHTTP();
+    }
 }

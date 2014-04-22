@@ -5,7 +5,6 @@ import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
-import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.gui.laf.GLookAndFeel;
@@ -37,7 +36,7 @@ public class AppWapplet extends AppW {
 
 	//Event flow operations - are these needed in AppWapplet?
 	
-	private LogInOperation loginOperation;
+	//private LogInOperation loginOperation;
 	private GGWMenuBar ggwMenuBar;
 	private GGWToolBar ggwToolBar = null;
 	private int spWidth;

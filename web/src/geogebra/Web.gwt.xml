@@ -25,7 +25,7 @@
  
  <!-- Currently we want to use only the cookies for the language settings --> 
  <set-configuration-property name='locale.searchorder' value='cookie' />
- 
+ <set-configuration-property name="devModeRedirectEnabled" value="false"/>
  <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
  <inherits name="com.google.gwt.i18n.CldrLocales"/>
   
