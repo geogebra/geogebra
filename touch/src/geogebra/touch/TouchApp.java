@@ -72,7 +72,7 @@ public class TouchApp extends AppWeb {
 	// accepting range for hitting Geos (except for Points) is multiplied with
 	// this factor (for Points see EuclidianView)
 	private final int selectionFactor = 3;
-	private boolean isDefaultFileName;
+	private boolean isDefaultFileName = true;
 	private final Stack<ErrorHandler> errorHandlers;
 	private final DefaultErrorHandler defaultErrorHandler;
 
@@ -492,6 +492,9 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public void setLabels() {
+		if(this.isDefaultFileName()) {
+			this.setDefaultConstructionTitle();
+		}
 		this.touchGUI.setLabels();
 		if (TouchEntryPoint.hasWorksheetGUI()) {
 			TouchEntryPoint.getWorksheetGUI().setLabels();
@@ -499,14 +502,14 @@ public class TouchApp extends AppWeb {
 		if (TouchEntryPoint.hasBrowseGUI()) {
 			TouchEntryPoint.getBrowseGUI().setLabels();
 		}
-		// TODO remove
-		// this.showError("Labels set");
 	}
 
-	public void setLanguage() {
+	/**
+	 * never called??
+	 */
+	public void setLanguage() {		
 		final String locale = this.getLocaleStr();
 		final String language = locale.substring(0, 2);
-
 		String country = "";
 		if (locale.contains("-")) {
 			country = locale.split("-")[1];
@@ -588,6 +591,9 @@ public class TouchApp extends AppWeb {
 		this.initKernel();
 		final String lang = Location.getParameter("lang") != null ? Location
 				.getParameter("lang") : this.getLocale();
+				
+		
+				
 		this.touchGUI.initComponents(this.kernel,
 				Localization.rightToLeftReadingOrder(lang));
 		super.euclidianView = this.touchGUI.getEuclidianViewPanel()
@@ -600,8 +606,8 @@ public class TouchApp extends AppWeb {
 		this.getScriptManager();
 
 		setLanguage(lang);
-
-		this.setDefaultConstructionTitle();
+		
+//		this.setDefaultConstructionTitle();
 		this.initNetworkEventFlow();
 		initSignInEventFlow();
 	}
@@ -635,41 +641,6 @@ public class TouchApp extends AppWeb {
 	public void updateMenubar() {
 
 	}
-
-	// // alternative, falls probleme mit Android - nicht getestet
-	// public native String getLocale() /*-{
-	//
-	// var lang;
-	// if (navigator
-	// && navigator.userAgent
-	// && (lang = navigator.userAgent
-	// .match(/android.*\W(\w\w)-(\w\w)\W/i))) {
-	// lang = lang[1];
-	// }
-	//
-	// if (!lang && navigator) {
-	// if (navigator.language) {
-	// lang = navigator.language;
-	// } else if (navigator.browserLanguage) {
-	// lang = navigator.browserLanguage;
-	// } else if (navigator.systemLanguage) {
-	// lang = navigator.systemLanguage;
-	// } else if (navigator.userLanguage) {
-	// lang = navigator.userLanguage;
-	// }
-	// lang = lang.substr(0, 2);
-	// }
-	//
-	// alert("current language is", lang);
-	// return lang;
-	// }-*/;
-
-	// TODO: use with SelectionManager
-	// public void updateSelection(boolean updatePropertiesView){
-	// if(this.getMode() == EuclidianConstants.MODE_MOVE){
-	// this.touchGUI.updateStylingBar(this.getSelectionManager());
-	// }
-	// }
 
 	@Override
 	public void updateStyleBars() {

@@ -36,6 +36,10 @@ public class FileManagerT {
 	boolean hasFile = false;
 	String data;
 	PhoneGap phonegap;
+	
+	String filename;
+	int count;
+	
 
 	public FileManagerT() {
 		this.phonegap = TouchEntryPoint.getPhoneGap();
@@ -167,11 +171,9 @@ public class FileManagerT {
 		this.getFiles(MaterialFilter.getUniversalFilter());
 	}
 
-	String filename;
-	int count;
-
 	void getDefaultConstructionTitle(final Localization loc,
 			final Callback<String, String> callback) {
+		
 		this.count = 1;
 		this.filename = loc.getPlain("UntitledA", this.count + "");
 
@@ -452,23 +454,11 @@ public class FileManagerT {
 												.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
 
 													@Override
-													public void onSuccess(
-															final LightArray<EntryBase> entries) {
-														for (int i = 0; i < entries
-																.length(); i++) {
-															if (entries.get(i)
-																	.isFile()) {
-																final FileEntry fileEntry = entries
-																		.get(i)
-																		.getAsFileEntry();
-																final String name = fileEntry
-																		.getName()
-																		.substring(
-																				0,
-																				fileEntry
-																						.getName()
-																						.indexOf(
-																								"."));
+													public void onSuccess(final LightArray<EntryBase> entries) {
+														for (int i = 0; i < entries.length(); i++) {
+															if (entries.get(i).isFile()) {
+																final FileEntry fileEntry = entries.get(i).getAsFileEntry();
+																final String name = fileEntry.getName().substring(0, fileEntry.getName().indexOf("."));
 																if (name.equals(filename)) {
 																	FileManagerT.this.hasFile = true;
 																	break;
@@ -479,8 +469,7 @@ public class FileManagerT {
 													}
 
 													@Override
-													public void onFailure(
-															final FileError error) {
+													public void onFailure(final FileError error) {
 
 													}
 												});
@@ -508,7 +497,7 @@ public class FileManagerT {
 	 * @param app
 	 */
 	public void saveFile(final App app) {
-		final String consTitle = app.getKernel().getConstruction().getTitle();
+		final String consTitle = ((TouchApp) app).getConstructionTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(final String s) {
@@ -599,8 +588,7 @@ public class FileManagerT {
 
 	/**
 	 * 
-	 * @param title
-	 *            of file
+	 * @param title of file
 	 */
 	private void getFileData(final String title, final App app) {
 		this.phonegap.getFile().requestFileSystem(

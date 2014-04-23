@@ -23,27 +23,21 @@ class TabletDeckLayoutPanel extends DeckLayoutPanel {
 			// remove the current shown view
 			final Widget current = this.history.pop();
 
-			if (TouchEntryPoint.hasWorksheetGUI()
-					&& current.equals(TouchEntryPoint.getWorksheetGUI())) {
-				TouchEntryPoint.tabletGUI
-						.restoreEuclidian(((WorksheetGUI) current)
-								.getContentPanel());
+			if (TouchEntryPoint.hasWorksheetGUI() && current.equals(TouchEntryPoint.getWorksheetGUI())) {
+				TouchEntryPoint.tabletGUI.restoreEuclidian(((WorksheetGUI) current).getContentPanel());
 				this.app.fileNew();
-			} else if (TouchEntryPoint.hasBrowseGUI()
-					&& current.equals(TouchEntryPoint.getBrowseGUI())) {
-				this.app.getFileManager().hasFile(
-						this.app.getConstructionTitle(),
-						new Callback<Boolean, Boolean>() {
+			} else if (TouchEntryPoint.hasBrowseGUI() && current.equals(TouchEntryPoint.getBrowseGUI())) {
+				this.app.getFileManager().hasFile(this.app.getConstructionTitle(), new Callback<Boolean, Boolean>() {
 
 							@Override
-							public void onFailure(final Boolean hasFile) {
+							public void onSuccess(final Boolean hasFile) {
 								if (!hasFile) {
 									TabletDeckLayoutPanel.this.app.fileNew();
 								}
 							}
 
 							@Override
-							public void onSuccess(final Boolean result) {
+							public void onFailure(final Boolean result) {
 								// TODO Auto-generated method stub
 
 							}
