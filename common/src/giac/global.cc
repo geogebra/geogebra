@@ -342,10 +342,14 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _total_time_;
   }
 
+#if 1
+  static double _epsilon_=0;
+#else
 #ifdef __SGI_CPP_LIMITS
   static double _epsilon_=100*numeric_limits<double>::epsilon();
 #else
   static double _epsilon_=1e-12;
+#endif
 #endif
   double & epsilon(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -616,7 +620,11 @@ extern "C" void Sleep(unsigned int miliSecond);
       _rpn_mode_=b;
   }
 
+#ifdef HAVE_LIBPARI
+  static bool _ntl_on_=false; 
+#else
   static bool _ntl_on_=true; 
+#endif
   bool & ntl_on(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_ntl_on_;
@@ -1024,7 +1032,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   int std_rand(){
-#ifdef NSPIRE
+#if 1 // def NSPIRE
     static unsigned int r = 0;
     r = unsigned ((1664525*ulonglong(r)+1013904223)%(ulonglong(1)<<31));
     return r;
@@ -3620,9 +3628,15 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _show_point_(true),  _io_graph_(true),
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
-		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
+		     _ntl_on_(true),
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
 #else
-		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
+#ifdef HAVE_LIBPARI
+		     _ntl_on_(false),
+#else
+		     _ntl_on_(true),
+#endif
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
 #endif
   { 
     _pl._i_sqrt_minus1_=1;

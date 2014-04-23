@@ -4104,6 +4104,14 @@ namespace giac {
   }
 
 #ifndef NEWGCD1
+  gen fastnorm(const dense_POLY1 & pp,GIAC_CONTEXT){
+    gen tmp(0),r,I;
+    for (unsigned i=0;i<pp.size();++i){
+      reim(pp[i],r,I,contextptr);
+      tmp += abs(r,contextptr) + abs(I,contextptr);
+    }
+    return tmp;
+  }
   bool giac_gcd_modular_algo1(polynome &p,polynome &q,polynome &d){
     environment * env=new environment;
     dense_POLY1 pp(modularize(p,0,env)),qq(modularize(q,0,env));
@@ -4112,7 +4120,11 @@ namespace giac {
     // COUT << "modular gcd 1 " << pp << " " << qq << endl;
     gen gcdfirstcoeff(gcd(pp.front(),qq.front()));
     int gcddeg= giacmin(pp.size(),qq.size())-1;
-    gen bound(pow(gen(2),gcddeg+1)* abs(gcdfirstcoeff,context0) * min(norm(pp,context0), norm(qq,context0),context0));
+    gen bound(pow(gen(2),gcddeg+1)* abs(gcdfirstcoeff,context0));
+    if (is_zero(im(pp,context0)) && is_zero(im(qq,context0)))
+      bound=bound * min(norm(pp,context0), norm(qq,context0),context0);
+    else 
+      bound = bound * min(fastnorm(pp,context0),fastnorm(qq,context0),context0);
     env->moduloon = true;
     // env->modulo=nextprime(max(gcdfirstcoeff+1,gen(30011),context0)); 
     env->modulo=30011;

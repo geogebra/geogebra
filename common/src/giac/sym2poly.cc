@@ -1876,7 +1876,7 @@ namespace giac {
 	      for (unsigned k=0;k<w.size();++k){
 		if (lop(w[k],at_rootof).empty()){
 		  gen wkd=evalf_double(w[k],1,contextptr);
-		  if (wkd!=w[k] && is_greater(1e-6,abs(wkd-r,contextptr),contextptr))
+		  if (wkd!=w[k] && is_greater(1e-6,abs(1-r/wkd,contextptr),contextptr))
 		    return w[k];
 		}
 	      }

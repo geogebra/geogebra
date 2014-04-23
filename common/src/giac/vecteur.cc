@@ -1343,7 +1343,7 @@ namespace giac {
     }
     double logratio=std::log(ratio);
     if (debug_infolevel)
-      CERR << ratio << endl;
+      CERR << "balance ratio " << ratio << endl;
     bool real0=v_d[0].imag()==0;
     // Recompute coefficients
     for (int d=1;d<=deg;++d){
@@ -1567,7 +1567,7 @@ namespace giac {
       std_matrix_gen2std_matrix_giac_double(P,P1);
       if (lapack_schur(H1,P1,false,res))
 	return true;
-      bool ans=francis_schur(H1,0,dim,P1,SOLVER_MAX_ITERATE,eps,true,false);
+      bool ans=francis_schur(H1,0,dim,P1,2*SOLVER_MAX_ITERATE,eps,true,false);
       return ans && schur_eigenvalues(H1,res,eps,contextptr);
     }
     matrix_complex_double H2,P2;
@@ -1575,7 +1575,7 @@ namespace giac {
       if (debug_infolevel>2)
 	H2.dbgprint();
       matrice2std_matrix_complex_double(I,P2);
-      bool ans=francis_schur(H2,0,dim,P2,SOLVER_MAX_ITERATE,eps,true,false);
+      bool ans=francis_schur(H2,0,dim,P2,2*SOLVER_MAX_ITERATE,eps,true,false);
       res.clear();
       for (unsigned i=0;i<H2.size();++i){
 	if (i+1<H2.size()){
@@ -1607,8 +1607,8 @@ namespace giac {
 	  complex_schur=true;
       }
     }
-    if (!francis_schur(H,0,dim,P,SOLVER_MAX_ITERATE,dim*eps,false,complex_schur,false,false,contextptr))
-      hessenberg_schur(H,P,SOLVER_MAX_ITERATE,dim*eps,contextptr);
+    if (!francis_schur(H,0,dim,P,2*SOLVER_MAX_ITERATE,dim*eps,false,complex_schur,false,false,contextptr))
+      hessenberg_schur(H,P,2*SOLVER_MAX_ITERATE,dim*eps,contextptr);
     if (1){ // FIXME check that H is ok
       eps=dim*dim*eps;
       // read eigenvalues on diagonal of H, using subdiagonal for complex pairs
@@ -1768,11 +1768,13 @@ namespace giac {
     if (vsize<2)
       return vecteur(0);
     if (vsize==2)
-      return vecteur(1,evalf(-v[1]/v[0],1,context0)); // ok
+      return vecteur(1,rprec<=50?evalf(-v[1]/v[0],1,context0):accurate_evalf(-v[1]/v[0],rprec)); // ok
     if (vsize==3){
       gen b2=-v[1]/2;
       gen delta=sqrt(b2*b2-v[0]*v[2],context0); // ok
-      return makevecteur(evalf((b2-delta)/v[0],1,context0),evalf((b2+delta)/v[0],1,context0)); // ok
+      if (rprec<=50)
+	return makevecteur(evalf((b2-delta)/v[0],1,context0),evalf((b2+delta)/v[0],1,context0)); // ok
+      return makevecteur(accurate_evalf((b2-delta)/v[0],rprec),accurate_evalf((b2+delta)/v[0],rprec)); // ok
     }
     // check for 0
     if (v.back()==0){
@@ -1795,10 +1797,19 @@ namespace giac {
 	  vd.push_back(v[i]);
 	}
 	vecteur resd=proot(vd,eps,rprec,ck_exact),res;
+	vecteur expj;
+	for (int j=0;j<gcddeg;++j){
+	  gen tmp=exp(j*cst_two_pi*cst_i/gcddeg,context0);
+	  if (rprec<=50)
+	    expj.push_back(evalf_double(tmp,1,context0));
+	  else
+	    expj.push_back(accurate_evalf(tmp,rprec));
+	}
 	for (int i=0;i<int(resd.size());++i){
 	  gen r=pow(resd[i],inv(gcddeg,context0),context0);
 	  for (int j=0;j<gcddeg;++j){
-	    res.push_back(r*exp(j*cst_two_pi*cst_i/gcddeg,context0));
+	    gen tmp=r*expj[j];
+	    res.push_back(tmp);
 	  }
 	}
 	return res;
@@ -2017,8 +2028,10 @@ namespace giac {
       return v;
     vecteur w=*v._VECTptr;
     int digits=decimal_digits(contextptr);
+    double eps=epsilon(contextptr);
     if (v.subtype==_SEQ__VECT && w.back().type==_INT_){
       digits=giacmax(w.back().val,14);
+      eps=std::pow(0.1,double(digits));
       w.pop_back();
     }
     if (w.size()==1)
@@ -2037,7 +2050,7 @@ namespace giac {
       if (tmp.type>_REAL && tmp.type!=_FLOAT_ && tmp.type!=_CPLX)
 	return gensizeerr(contextptr);
     }
-    return proot(w,epsilon(contextptr),int(digits*3.3));
+    return proot(w,eps,int(digits*3.3));
   }
   gen symb_proot(const gen & e) {
     return symbolic(at_proot,e);
@@ -7023,6 +7036,8 @@ namespace giac {
     if (!keep_pivot){
       mdividebypivot(res,ncols);
     }
+    if (res.front().type==_VECT && res.front()._VECTptr->front().type==_MOD)
+      return res;
     return ratnormal(res);
   }
   static const char _rref_s []="rref";
@@ -9643,7 +9658,7 @@ namespace giac {
 	std_matrix_gen2std_matrix_giac_double(P,P1);
       }
       if (std_matrix_gen2std_matrix_giac_double(H,H1)){
-	bool ans=francis_schur(H1,0,dim,P1,SOLVER_MAX_ITERATE,eps,false,!eigenvalues_only);
+	bool ans=francis_schur(H1,0,dim,P1,2*SOLVER_MAX_ITERATE,eps,false,!eigenvalues_only);
 	if (eigenvalues_only){
 	  vecteur res;
 	  ans = ans && schur_eigenvalues(H1,res,eps,contextptr);
@@ -9661,7 +9676,7 @@ namespace giac {
 	  std_matrix_giac_double2std_matrix_gen(H1,H);
 	  std_matrix_giac_double2std_matrix_gen(P1,P);
 	  // finish Schur with complex entries
-	  ans=francis_schur(H,0,dim,P,SOLVER_MAX_ITERATE,eps,true,true,true,true,contextptr);
+	  ans=francis_schur(H,0,dim,P,2*SOLVER_MAX_ITERATE,eps,true,true,true,true,contextptr);
 	  std_matrix_gen2matrice_destroy(P,p);
 	  std_matrix_gen2matrice_destroy(H,d);
 	  schur_eigenvectors(p,d,eps,contextptr);
@@ -12863,6 +12878,9 @@ namespace giac {
     }
     matrix_double Haux(n2/2),T(n2/2);
     vector<giac_double> oper(n2);
+    // adjust maxiter for large matrices
+    if (H.size()>=50)
+      maxiter=(maxiter*H.size())/50;
     return in_francis_schur(H,n1,n2,P,maxiter,eps,compute_P,Haux,T,false,oper);
   }
 

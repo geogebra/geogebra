@@ -5830,6 +5830,11 @@ namespace giac {
 	  if (b2.is_approx())
 	    return (*a._REALptr)*b2;
 	}
+	if (a.type==_CPLX && a._CPLXptr->type==_REAL){
+	  gen b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
+	  if (b2.is_approx())
+	    return (*a._REALptr)*b2;
+	}
 #endif
 	return a*b1;
       }
@@ -5840,6 +5845,11 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
 	if (b.type==_REAL){
 	  gen a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
+	  if (a2.is_approx())
+	    return a2*b;
+	}
+	if (b.type==_CPLX && b._CPLXptr->type==_REAL){
+	  gen a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
 	  if (a2.is_approx())
 	    return a2*b;
 	}
@@ -8221,7 +8231,7 @@ namespace giac {
 	  if (basis==precbasis)
 	    precexpo=precexpo+expo;
 	  else {
-	    if (!is_zero(precexpo)){
+	    if (!is_zero(precexpo,contextptr)){
 	      if (is_strictly_positive(-precexpo,contextptr))
 		vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
 	      else
@@ -8232,7 +8242,7 @@ namespace giac {
 	    precexpo=expo;
 	  }
 	}
-	if (!is_zero(precexpo)){
+	if (!is_zero(precexpo,contextptr)){
 	  if (is_strictly_positive(-precexpo,contextptr)){
 	    gen tmp=pow(precbasis,-precexpo,contextptr);
 	    if (tmp.is_symb_of_sommet(at_prod))
