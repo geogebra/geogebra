@@ -279,12 +279,17 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				DrawEquation.appendInfinity(sb, tpl);
 			}
 		} else {
+			DrawEquation.appendFormulaStart(sb, tpl);
+			boolean negative = numer < 0;
+			if (negative) {
+				numer = -numer;
+				DrawEquation.appendNegation(sb, tpl);
+			}
 			DrawEquation.appendFractionStart(sb, tpl);
 	    	sb.append(kernel.format(numer,tpl));
 	    	DrawEquation.appendFractionMiddle(sb, tpl);
 	    	sb.append(kernel.format(denom,tpl));
 	    	DrawEquation.appendFractionEnd(sb, tpl);
-	    	
 		}
     }
     

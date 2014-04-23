@@ -26,6 +26,16 @@ public abstract class DrawEquation {
 		}
 	}
 
+	public static void appendFormulaStart(StringBuilder sb, StringTemplate tpl) {
+		final StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
+		case MATHML:
+			sb.append("<apply>");
+			break;
+		}
+	}
+
 	public static void appendFractionStart(StringBuilder sb, StringTemplate tpl) {
 		
 		StringType stringType = checkStringType(tpl);
@@ -36,7 +46,7 @@ public abstract class DrawEquation {
 			break;
 
 		case MATHML:
-			sb.append("<apply><divide/><cn>");
+			sb.append("<divide/><cn>");
 			break;
 
 		default:
@@ -113,6 +123,19 @@ public abstract class DrawEquation {
 		default:
 			sb.append('-');
 			sb.append(Unicode.Infinity);
+		}
+	}
+
+	public static void appendNegation(StringBuilder sb, StringTemplate tpl) {
+		final StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
+		case MATHML:
+			sb.append("<minus/>");
+			break;
+
+		default:
+			sb.append("-");
 		}
 	}
 
