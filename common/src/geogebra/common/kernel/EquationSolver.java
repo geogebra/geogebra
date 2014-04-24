@@ -156,6 +156,7 @@ public class EquationSolver implements EquationSolverInterface {
 				return 0;
 			}else{
 				res[roots++] = Math.sqrt(x2);
+				res[roots++] = -Math.sqrt(x2);
 			}
 			
 		} else {
