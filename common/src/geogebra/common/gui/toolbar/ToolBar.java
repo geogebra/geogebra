@@ -178,9 +178,8 @@ public class ToolBar {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
 			sb.append(" ");
-			if (!html5) {
-				sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
-			}
+			sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+			
 		}
 			
 		// objects with actions
