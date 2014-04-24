@@ -93,19 +93,34 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 	
 	private native int checkPixelRatio(Element canvas) /*-{
-	    var devicePixelRatio = window.devicePixelRatio || 1,
-	    	context = canvas.getContext("2d"),
-	    	backingStorePixelRatio = context.webkitBackingStorePixelRatio
-	        	|| context.mozBackingStorePixelRatio
-	        	|| context.msBackingStorePixelRatio
-	        	|| context.oBackingStorePixelRatio
-	        	|| context.backingStorePixelRatio
-	        	|| 1;
-	
-	    pixelRatio = devicePixelRatio / backingStorePixelRatio;
-	    return pixelRatio;
-   	}-*/;
+    var devicePixelRatio = window.devicePixelRatio || 1,
+        context = canvas.getContext("2d"),
+        backingStorePixelRatio = context.webkitBackingStorePixelRatio
+                || context.mozBackingStorePixelRatio
+                || context.msBackingStorePixelRatio
+                || context.oBackingStorePixelRatio
+                || context.backingStorePixelRatio
+                || 1;
 
+    pixelRatio = devicePixelRatio / backingStorePixelRatio;
+    return pixelRatio;
+        }-*/;
+        
+        public void setImageInterpolation(boolean b) {
+                setImageInterpolationNative(canvas.getContext2d(), b);
+        }
+
+        private native void setImageInterpolationNative(Context2d ctx, boolean b) /*-{
+                
+        ctx['imageSmoothingEnabled'] = b;
+        ctx['mozImageSmoothingEnabled'] = b;
+        // IE11+ only
+        ctx['msImageSmoothingEnabled'] = b;
+        ctx['oImageSmoothingEnabled'] = b;
+        ctx['webkitImageSmoothingEnabled'] = b;
+                
+        }-*/;
+        
 	/**
 	 * If we allow right-to left direction
 	 * * checkboxes have their labels to the right

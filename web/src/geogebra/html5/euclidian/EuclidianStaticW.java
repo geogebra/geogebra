@@ -9,6 +9,7 @@ import geogebra.common.awt.GShape;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GBufferedImageW;
+import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
 
@@ -93,14 +94,15 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	@Override
     protected Object doSetInterpolationHint(GGraphics2D g3,
             boolean needsInterpolationRenderingHint) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+        GGraphics2DW g = (GGraphics2DW) g3;
+        g.setImageInterpolation(needsInterpolationRenderingHint);
+                 return null;
+}
 
 	@Override
     protected void doResetInterpolationHint(GGraphics2D g3, Object hint) {
-	    // TODO Auto-generated method stub
-	    
+		GGraphics2DW g = (GGraphics2DW) g3;
+	    g.setImageInterpolation(true);	    
     }
 
 }
