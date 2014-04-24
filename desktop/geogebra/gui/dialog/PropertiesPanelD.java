@@ -257,7 +257,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private TabPanel basicTab;
 	private TabPanel colorTab;
 	private TabPanel styleTab;
-	private TabPanel lineStyleTab;
 	private TabPanel sliderTab;
 	private TabPanel textTab;
 	private TabPanel positionTab;
@@ -489,15 +488,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		styleTabList.add(lodPanel);
 		styleTabList.add(checkBoxInterpolateImage);
 		styleTabList.add(textFieldSizePanel);
+		styleTabList.add(decoAnglePanel);
+		styleTabList.add(decoSegmentPanel);
 		styleTab = new TabPanel(styleTabList);
 		tabPanelList.add(styleTab);
-
-		// decoration
-		ArrayList<JPanel> decorationTabList = new ArrayList<JPanel>();
-		decorationTabList.add(decoAnglePanel);
-		decorationTabList.add(decoSegmentPanel);
-		lineStyleTab = new TabPanel(decorationTabList);
-		tabPanelList.add(lineStyleTab);
 
 		// filling style
 		// ArrayList fillingTabList = new ArrayList();
@@ -577,7 +571,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		basicTab.setTitle(app.getMenu("Properties.Basic"));
 		colorTab.setTitle(app.getPlain("Color"));
 		styleTab.setTitle(app.getMenu("Properties.Style"));
-		lineStyleTab.setTitle(app.getPlain("Decoration"));
 		textTab.setTitle(app.getPlain("Text"));
 		algebraTab.setTitle(app.getMenu("Properties.Algebra"));
 		sliderTab.setTitle(app.getPlain("Slider"));
