@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
@@ -351,5 +352,28 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	protected void classifyQuadric() {
 		App.error("GeoQuadric3DPart should not need classification");
 	}
+	
+	
+	@Override
+	public String getTypeString() {
+		switch (type) {
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+			return "CylinderSide";
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+			return "ConeSide";
+		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
+		default:
+			return "QuadricSide";
+		}
+	}
+	
+	/**
+	 * 
+	 * @return GeoQuadric3D type string 
+	 */
+	public String getQuadricTypeString() {
+		return super.getTypeString();
+	}
+
 
 }

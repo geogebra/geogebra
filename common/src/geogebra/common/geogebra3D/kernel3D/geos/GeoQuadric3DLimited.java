@@ -431,7 +431,7 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable {
 
 	@Override
 	public String getTypeString() {
-		return side.getTypeString();
+		return side.getQuadricTypeString();
 	}
 
 	@Override
