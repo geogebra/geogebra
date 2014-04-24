@@ -3205,7 +3205,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				addSliderTab(),
 				addColorTab(),
 				addStyleTab(),
-				addDecorationTab(),
 				addPositionTab(),
 				addAdvancedTab(),
 				addAlgebraTab(),
@@ -3343,6 +3342,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		buttonSizePanel = new ButtonSizePanel();
 		fillingPanel = new FillingPanel();
 		interpolateImagePanel = new InterpolateImagePanel();
+		decoAnglePanel = new DecoAnglePanel();
+		decoAnglePanel.getWidget().setStyleName("optionsPanel");
+		decoSegmentPanel = new DecoSegmentPanel();
+		decoSegmentPanel.getWidget().setStyleName("optionsPanel");
 		
 		tab.addPanelList(Arrays.asList(pointSizePanel,
 				pointStylePanel,
@@ -3353,7 +3356,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				buttonSizePanel,
 				textFieldSizePanel,
 				fillingPanel,
-				interpolateImagePanel 
+				interpolateImagePanel,
+				decoAnglePanel,
+				decoSegmentPanel
 				));
 		return tab;
 	}
@@ -3365,17 +3370,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		tab.add(scriptEditPanel);
 		return tab;
 	}
-
-	private OptionsTab addDecorationTab() {
-		OptionsTab tab = new OptionsTab("Decoration");
-		decoAnglePanel = new DecoAnglePanel();
-		decoAnglePanel.getWidget().setStyleName("optionsPanel");
-		decoSegmentPanel = new DecoSegmentPanel();
-		decoSegmentPanel.getWidget().setStyleName("optionsPanel");
-		tab.addPanelList(Arrays.asList(decoAnglePanel,
-				decoSegmentPanel));
-		return tab;
-	}
+	
 
 	private OptionsTab addAdvancedTab() {
 		OptionsTab tab = new OptionsTab("Advanced"); 
