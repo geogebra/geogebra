@@ -3342,7 +3342,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		textFieldSizePanel = new TextFieldSizePanel();
 		buttonSizePanel = new ButtonSizePanel();
 		fillingPanel = new FillingPanel();
-		//interpolateImagePanel = new InterpolateImagePanel();
+		interpolateImagePanel = new InterpolateImagePanel();
 		
 		tab.addPanelList(Arrays.asList(pointSizePanel,
 				pointStylePanel,
@@ -3352,8 +3352,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				ineqStylePanel,
 				buttonSizePanel,
 				textFieldSizePanel,
-				fillingPanel/*,
-				interpolateImagePanel */ 
+				fillingPanel,
+				interpolateImagePanel 
 				));
 		return tab;
 	}
