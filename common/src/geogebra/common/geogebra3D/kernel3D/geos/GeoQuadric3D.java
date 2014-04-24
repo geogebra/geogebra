@@ -945,10 +945,10 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		setMidpoint(m.get());
 		
 		// current symetric matrix
-		CoordMatrix sm = getSymetricMatrix();
+		CoordMatrix sm = getSymetricMatrix();		
 		// transformation matrix
 		CoordMatrix tm = CoordMatrix.Identity(4);
-		tm.setOrigin(m);
+		tm.subToOrigin(v);
 		// set new symetric matrix
 		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));
 
@@ -989,7 +989,8 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		}
 
 		// symetric matrix
-		setMatrix((tm.transposeCopy()).mul(getSymetricMatrix()).mul(tm));
+		CoordMatrix tmInv = tm.inverse();
+		setMatrix((tmInv.transposeCopy()).mul(getSymetricMatrix()).mul(tmInv));
 		
 	}
 

@@ -70,7 +70,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		this.selectedGeos = selectedGeos;
 
 		//return if just one geo, or if first geos more than one
-		if (geos.size()<2 || selectedGeos.size()>1) {
+		if (/*geos.size()<2 ||*/ selectedGeos.size()>1) {
 			justOneGeo = false;
 			return;
 		}
@@ -79,7 +79,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		//section to choose a geo
 		//addSeparator();
-		addSelectAnotherMenu();
+		createSelectAnotherMenu();
 		
 		
 		this.loc = invokerLocation;
@@ -90,6 +90,8 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		
 		
 		//add geos
+		geoAddedForSelectAnother = false;
+		
 		metas = new TreeSet<GeoElement>();
 		
 		for (GeoElement geo : geos){
@@ -106,6 +108,10 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 			}
 		}
 		
+		if (geoAddedForSelectAnother){
+			addSelectAnotherMenu();
+		}
+		
 		//TODO: clear selection is not working from here
 		this.getWrappedPopup().getSelectionModel().clearSelection();
 		
@@ -113,22 +119,35 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	
 	
 	
-	private void addSelectAnotherMenu(){
+	private void createSelectAnotherMenu(){
 		selectAnotherMenu = new JMenu(app.getMenu("SelectAnother") );
 		selectAnotherMenu.setIcon(((AppD) app).getEmptyIcon());
 		selectAnotherMenu.setBackground(getWrappedPopup().getBackground());
 		selectAnotherMenu.setFont(((AppD) app).getItalicFont());
+	}
 		
+		
+	private void addSelectAnotherMenu(){
+
 		// add the selection menu just under the title
 		getWrappedPopup().add(selectAnotherMenu,1);     
 		
 	}
 	
 	
+	private boolean geoAddedForSelectAnother = false;
+	
 	/**
 	 * 
 	 */
 	private void addGeo(GeoElement geo) {
+		
+		// prevent selection of xOy plane
+		if (geo == app.getKernel().getXOYPlane()){
+			return;
+		}
+		
+		geoAddedForSelectAnother = true;
 		
 		GeoAction chooser = new GeoAction(geo);
 		JMenuItem mi = selectAnotherMenu.add(chooser);    

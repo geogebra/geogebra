@@ -2560,13 +2560,20 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			if (quad instanceof GeoQuadric3DPart) {
 				GeoQuadric3DLimited ql = (GeoQuadric3DLimited) ((GeoQuadric3DPart) quad)
 						.getMetas()[0];
-				GeoElement[] ret = { kernel.getManager3D()
-						.IntersectQuadricLimited(null, (GeoPlaneND) plane, ql) };
-				if (!ret[0].isDefined()) {
-					return null;
+				GeoElement[] ret = new GeoElement[1];
+				if (ql != null){
+					ret[0] = kernel.getManager3D()
+							.IntersectQuadricLimited(null, (GeoPlaneND) plane, ql);
+					if (!ret[0].isDefined()) {
+						return null;
+					}
+					// also compute corner points
+					kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
+				}else{
+					ret[0] = kernel.getManager3D()
+							.Intersect(null, (GeoPlaneND) plane, quad);
 				}
-				// also compute corner points
-				kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
+				
 				return ret;
 			}
 			// else
@@ -2728,9 +2735,15 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 		GeoQuadricND quad;
 		if (B instanceof GeoQuadric3DPart) {
 			quad = (GeoQuadric3DLimited) ((GeoQuadric3DPart) B).getMetas()[0];
-			ret = kernel.getManager3D().IntersectQuadricLimited((GeoPlaneND) A,
-					quad);
-			d = new DrawConicSection3D(view3D, (GeoConicSection) ret);
+			if (quad != null){
+				ret = kernel.getManager3D().IntersectQuadricLimited((GeoPlaneND) A,
+						quad);
+				d = new DrawConicSection3D(view3D, (GeoConicSection) ret);
+			}else{
+				quad = (GeoQuadricND) B;
+				ret = kernel.getManager3D().Intersect((GeoPlaneND) A, quad);
+				d = new DrawConic3D(view3D, (GeoConicND) ret);
+			}
 		} else {
 			quad = (GeoQuadric3D) B;
 			ret = kernel.getManager3D().Intersect((GeoPlaneND) A, quad);

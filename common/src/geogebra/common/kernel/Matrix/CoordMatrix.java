@@ -1005,6 +1005,14 @@ public class CoordMatrix {
 	}
 	
 	/**
+	 * sub vector values to origin
+	 * @param v vector
+	 */
+	public void subToOrigin(Coords v){
+		subToColumn(v, getColumns());
+	}
+	
+	/**
 	 * add vector values to vx
 	 * @param v vector
 	 */
@@ -1036,6 +1044,17 @@ public class CoordMatrix {
 	public void addToColumn(Coords v, int j){
 		for (int i = 1 ; i <= v.getRows() ; i++){
 			set(i, j, get(i, j) + v.get(i));
+		}
+	}
+
+	/**
+	 * sub vector values to column j
+	 * @param v vector
+	 * @param j column
+	 */
+	public void subToColumn(Coords v, int j){
+		for (int i = 1 ; i <= v.getRows() ; i++){
+			set(i, j, get(i, j) - v.get(i));
 		}
 	}
 
