@@ -2026,6 +2026,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lbFont.addChangeHandler(new ChangeHandler() {
 
 				public void onChange(ChangeEvent event) {
+					model.setEditGeoText(editor.getText());
 					model.applyFont(lbFont.getSelectedIndex() == 1);
 				}});
 			lbSize = new ListBox();
@@ -2035,6 +2036,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lbSize.addChangeHandler(new ChangeHandler() {
 
 				public void onChange(ChangeEvent event) {
+					model.setEditGeoText(editor.getText());
 					boolean isCustom = (lbSize.getSelectedIndex() == 7);
 					if (isCustom) {
 						String currentSize = Math
@@ -2077,6 +2079,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			ClickHandler styleClick = new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
+					model.setEditGeoText(editor.getText());
 					model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
 					updatePreview();
 				}};
@@ -2100,6 +2103,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				lbDecimalPlaces.addChangeHandler(new ChangeHandler(){
 
 					public void onChange(ChangeEvent event) {
+						model.setEditGeoText(editor.getText());
 						model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
 						updatePreview();
 					}});
