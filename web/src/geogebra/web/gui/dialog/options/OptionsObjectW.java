@@ -106,6 +106,7 @@ import geogebra.web.gui.properties.OptionPanel;
 import geogebra.web.gui.properties.SliderPanelW;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
+import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -120,7 +121,6 @@ import java.util.TreeSet;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -132,7 +132,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabBar;
@@ -1992,8 +1991,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private ListBox lbFont;
 		private ListBox lbSize; 
 		private ListBox lbDecimalPlaces;
-		private ToggleButton btnBold;
-		private ToggleButton  btnItalic;
+		private MyToggleButton2 btnBold;
+		private MyToggleButton2  btnItalic;
 		private ToggleButton  btnLatex;
 
 		private FlowPanel secondLine;
@@ -2010,7 +2009,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		// ugly hack preventing infinite loop of update()
 		private boolean redrawFromPreview;
-
+		private static final int iconHeight = 24;
 		private TextPreviewPanelW previewer; 
 		public TextOptionsPanel() {
 
@@ -2064,14 +2063,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// font size
 			// TODO require font phrases F.S.
 			// toggle buttons for bold and italic
-			btnBold = new ToggleButton(new Image(AppResources.INSTANCE
-					.format_text_bold()));
-			btnItalic = new ToggleButton(new Image(AppResources.INSTANCE
-					.format_text_italic()));
-			btnBold.getElement().getStyle().setWidth(18, Unit.PX);
-			btnBold.getElement().getStyle().setHeight(18, Unit.PX);
-			btnItalic.getElement().getStyle().setWidth(18, Unit.PX);
-			btnItalic.getElement().getStyle().setHeight(18, Unit.PX);
+			btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight);
+			btnBold.addStyleName("btnBold");
+			
+			btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight);
+			btnItalic.addStyleName("btnItalic");
+			
+			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+
 			btnLatex = new ToggleButton("LaTeX");
 
 			ClickHandler styleClick = new ClickHandler() {
