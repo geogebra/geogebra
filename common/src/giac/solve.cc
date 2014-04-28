@@ -42,6 +42,7 @@ using namespace std;
 #include "cocoa.h"
 #include "ti89.h"
 #include "maple.h"
+#include "csturm.h"
 #include "giacintl.h"
 #ifdef HAVE_LIBGSL
 #include <gsl/gsl_roots.h>
@@ -2954,7 +2955,9 @@ namespace giac {
       } // end lvs==1 etc.
       // no guess, try to root by bisection over a large interval of R 
       // x=tan(t) change of var
-      if (abs_calc_mode(contextptr)==38){
+      if (1
+	  //abs_calc_mode(contextptr)==38
+	  ){
 	*logptr(contextptr) << gettext("Solving by bisection with change of variable x=tan(t) and t=-1.57..1.57. Try fsolve(equation,x=guess) for iterative solver or fsolve(equation,x=xmin..xmax) for bisection.") << endl;
 	gen eq=subst(v[0],v[1],tan(v[1],contextptr),false,contextptr);
 	v=makevecteur(eq,symb_equal(v[1],symb_interval(-1.57,1.57)));
@@ -2963,7 +2966,7 @@ namespace giac {
 	  return res;
 	return tan(res,contextptr);
       }
-	*logptr(contextptr) << gettext("Solving with initial guess 0. Try fsolve(equation,x=guess) for iterative solver or fsolve(equation,x=xmin..xmax) for bisection.") << endl;
+      *logptr(contextptr) << gettext("Solving with initial guess 0. Try fsolve(equation,x=guess) for iterative solver or fsolve(equation,x=xmin..xmax) for bisection.") << endl;
     }
     gen gguess;
     if (v[1].type==_VECT && !v[1]._VECTptr->empty() && is_equal(v[1]._VECTptr->front())){
@@ -5290,20 +5293,40 @@ namespace giac {
     int varsize=var.size();
 #if 1 // trying with rational univariate rep., assuming radical ideal of dim 0
     if (varsize<=GROEBNER_VARS && varsize==eq.size()){
+      double eps=epsilon(contextptr);
       gen G=_gbasis(makesequence(eq,var,change_subtype(_RUR_REVLEX,_INT_GROEBNER)),contextptr);
       if (G.type==_VECT && G._VECTptr->size()==var.size()+4 && G._VECTptr->front().type==_INT_ && G._VECTptr->front().val==_RUR_REVLEX){
 	vecteur Gv=*G._VECTptr,S;
-	// check the solution replace var by G[4..end]/G[3] in eq and divide by G[2]
-	for (unsigned i=0;i<eq.size();++i){
-	  gen check=subst(eq[i],var,divvecteur(vecteur(Gv.begin()+4,Gv.end()),Gv[3]),false,contextptr);
-	  check=_numer(check,contextptr);
-	  check=_rem(makesequence(check,Gv[2],var.front()),contextptr);
-	  if (!is_zero(check,contextptr))
-	    *logptr(contextptr) << "Warning, solution does not seem to cancel " << eq[i] << endl;
+	if (proba_epsilon(contextptr)<1e-16){
+	  // check the solution replace var by G[4..end]/G[3] in eq and divide by G[2]
+	  for (unsigned i=0;i<eq.size();++i){
+	    gen check=subst(eq[i],var,divvecteur(vecteur(Gv.begin()+4,Gv.end()),Gv[3]),false,contextptr);
+	    check=_numer(check,contextptr);
+	    check=_rem(makesequence(check,Gv[2],var.front()),contextptr);
+	    if (!is_zero(check,contextptr))
+	      *logptr(contextptr) << "Warning, solution does not seem to cancel " << eq[i] << endl;
+	  }
 	}
+	else
+	  *logptr(contextptr) << "Rational univariate representation is not certified, set proba_epsilon:=0 to certify" << endl;
 	int deg=_degree(makesequence(Gv[2],var.front()),contextptr).val;
 	if (evalf_after){
-	  gen tmp=_proot(makesequence(Gv[2],var.front(),deg),contextptr);	    
+	  gen pol=Gv[2],tmp;
+	  if (complexmode){
+	    if (deg>28)
+	      tmp=_proot(makesequence(pol,var.front(),deg/2),contextptr);
+	    else
+	      tmp=_proot(makesequence(pol,var.front()),contextptr);
+	  }
+	  else {
+	    if (deg>28){
+	      double eps2=std::pow(2.0,-deg);
+	      if (eps2<eps)
+		eps=eps2;
+	    }
+	    tmp=_realroot(makesequence(pol,eps),contextptr);
+	  }
+	  // CERR << tmp << endl;
 	  if (tmp.type==_VECT)
 	    S=*tmp._VECTptr;
 	}
@@ -5316,14 +5339,25 @@ namespace giac {
 	vecteur res;
 	for (unsigned i=0;i<S.size();++i){
 	  gen s=S[i];
+	  if (s.type==_VECT && s._VECTptr->size()==2){
+	    s=s._VECTptr->front();
+	    if (s.type==_VECT && s._VECTptr->size()==2){
+	      s=(s._VECTptr->front()+s._VECTptr->back())/2;
+	      if (eps<1e-14)
+		s=accurate_evalf(s,int(-3.2*std::log(eps)));
+	      else
+		s=evalf_double(s,1,contextptr);
+	    }
+	  }
 	  if (!complexmode && !is_zero(im(s,contextptr),contextptr))
 	    continue;
 	  vecteur Hs;
 #ifdef HAVE_LIBMPFR
 	  bool sdouble=(s.type==_DOUBLE_ || (s.type==_CPLX && s._CPLXptr->type==_DOUBLE_));
 	  if (sdouble)
-	    s=accurate_evalf(s,60);
-	  sdouble=deg>14 && decimal_digits(contextptr)<15;
+	    s=accurate_evalf(s,60); // ,giacmax(deg,60));
+	  if ((s.type==_REAL || (s.type==_CPLX && s._CPLXptr->type==_REAL)) )
+	    sdouble=true;
 #else
 	  bool souble=false;
 #endif

@@ -820,6 +820,7 @@ namespace giac {
     // factor v, select smaller factor
     polynome vp(1),vp_content;
     vp=poly12polynome(v,1);
+    gen tmp(1); lcmdeno(vp,tmp); vp=tmp*vp;
     factorization vf;
     gen extra_div=1;
     if (factor(vp,vp_content,vf,true,false,false,1,extra_div) && vf.size()>1){

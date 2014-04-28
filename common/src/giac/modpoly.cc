@@ -4290,6 +4290,7 @@ namespace giac {
   pthread_mutex_t ntl_mutex = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
+#if 1
   void ininttype2ZZ(const inttype & temp,const inttype & step,NTL::ZZ & z,const NTL::ZZ & zzstep){
     if (temp==0){
       long j=0;
@@ -4307,6 +4308,34 @@ namespace giac {
     zztemp=longtemp;
     z=z*zzstep+zztemp;
   }
+#else
+  void ininttype2ZZ(const inttype & temp,const inttype & step,NTL::ZZ & z,const NTL::ZZ & zzstep){
+    if (temp==0){
+      long j=0;
+      z=j;
+      return;
+    }
+    inttype g(temp);
+    vector<long> ecriture;
+    for (;g!=0;){
+      inttype q;
+      inttype rem(irem(g,step,q));
+#ifndef NO_STDEXCEPT
+      if (rem.type!=_INT_) setsizeerr(gettext("modpoly.cc/ininttype2ZZ"));
+#endif
+      long r=rem.val;
+      ecriture.push_back(r);
+      g=q;
+    }
+    z=0;
+    NTL::ZZ zztemp;
+    for (unsigned i=0;i<ecriture.size();++i){
+      z *= zzstep;
+      zztemp=ecriture[i];
+      z += zztemp;
+    }
+  }
+#endif
 
   NTL::ZZ inttype2ZZ(const inttype & i){
     inttype step(65536); // 2^16 
