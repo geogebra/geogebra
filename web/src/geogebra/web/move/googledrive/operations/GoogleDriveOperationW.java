@@ -102,7 +102,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	public boolean isDriveLoaded() {
 	    return isDriveLoaded;
     }
-	
+
 	/**
 	 * logs in the user to Google
 	 * @param immediate wheter to force login popup open
@@ -118,7 +118,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    config.max_auth_age = 0;
 		$wnd.gapi.auth.authorize(config,
 	            	 function (resp) {
-	            	 	console.log(resp);
 	            	 		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(resp);
 	            	 	}
 	           
@@ -409,9 +408,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		if (!"".equals(state)) {
 			googleDriveURL = JSON.parse(state);
 			AppW.debug(googleDriveURL);
-			if (!this.loggedIn) {
-				login(true);
-			}
+		
 			
 		}
 	}
