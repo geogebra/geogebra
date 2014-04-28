@@ -118,13 +118,14 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    config.max_auth_age = 0;
 		$wnd.gapi.auth.authorize(config,
 	            	 function (resp) {
+	            	 	console.log(resp);
 	            	 		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(resp);
 	            	 	}
 	           
 	       );
 	}-*/;
 	
-	private void authorizeCallback(JavaScriptObject resp) {
+	private void authorizeCallback(JavaScriptObject resp) {		
 		if (resp == null || JSON.get(resp, "error") != null) {
 			this.loggedIn = false;
 			onEvent(new GoogleLoginEvent(false));
@@ -154,23 +155,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
     	}
 	    if (event instanceof LoginEvent) {
 	    	if (((LoginEvent) event).isSuccessful()) {
-	    		String type = app.getLoginOperation().getModel().getLoggedInUser().getIdentifier();
-	    		if (type.indexOf("www.google.com") != -1) {
-	    			if (this.isDriveLoaded) {
-	    				this.login(true);
-	    				this.getModel().setLoggedInFromGoogleDrive(true);
-	    			} else {
-	    				getView().add(new EventRenderable() {
-							
-							public void renderEvent(BaseEvent loadevent) {
-								if (loadevent instanceof GoogleDriveLoadedEvent) {
-									login(true);
-				    				GoogleDriveOperationW.this.getModel().setLoggedInFromGoogleDrive(true);
-								}
-								
-							}
-						});
-	    			}
+	    		if (app.getLoginOperation().getModel().getLoggedInUser().hasGoogleDrive()) {
+	    			//do nothing, see requestDriveLogin
 	    		} else {
     				GoogleDriveOperationW.this.getModel().setLoggedInFromGoogleDrive(false);
 	    		}
@@ -185,6 +171,60 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    }
 	    
     }
+    
+    public void requestDriveLogin(){
+    	if (this.isDriveLoaded) {
+			this.login(true);
+			this.getModel().setLoggedInFromGoogleDrive(true);
+		} else {
+			getView().add(new EventRenderable() {
+				
+				public void renderEvent(BaseEvent loadevent) {
+					if (loadevent instanceof GoogleDriveLoadedEvent) {
+						login(true);
+	    				GoogleDriveOperationW.this.getModel().setLoggedInFromGoogleDrive(true);
+					}
+					
+				}
+			});
+		}
+    }
+    
+    public native void initFileNameItems(GoogleDriveFileHandler fh) /*-{
+	var fileChooser = this;
+	fh.@geogebra.web.move.googledrive.operations.GoogleDriveFileHandler::clearMaterials()();
+	function retrieveAllFiles(callback) {
+		  var retrievePageOfFiles = function(request, result) {
+		    request.execute(function(resp) {
+		      result = result.concat(resp.items);
+		      var nextPageToken = resp.nextPageToken;
+		      if (nextPageToken) {
+		        request = $wnd.gapi.client.drive.files.list({
+		          'pageToken': nextPageToken
+		        });
+		        retrievePageOfFiles(request, result);
+		      } else {
+		        callback(result);
+		      }
+		    });
+		  }
+		  var initialRequest = $wnd.gapi.client.drive.files.list();
+		  retrievePageOfFiles(initialRequest, []);
+		}
+		retrieveAllFiles(function(resp) {
+			resp.forEach(function(value, index, array) {
+				//$wnd.console.log(value.mimeType + " : " + value.title + " : " + value.fileExtension);
+				if (value.mimeType === "application/vnd.geogebra.file" ||
+							value.fileExtension === "ggb" ||
+								(value.title.lastIndexOf(".ggb") > -1)) {
+					fh.@geogebra.web.move.googledrive.operations.GoogleDriveFileHandler::show(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)
+					(value.title,value.lastModifyingUserName,new Date(value.modifiedDate).getTime()+"", value.downloadUrl, value.description, value.id);
+				}
+				
+			});
+			fh.@geogebra.web.move.googledrive.operations.GoogleDriveFileHandler::done()();
+		});
+	}-*/;
 
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 	   if ("open".equals(getAction())) {

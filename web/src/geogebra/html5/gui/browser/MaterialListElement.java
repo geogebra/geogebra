@@ -209,9 +209,14 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	void onEdit() {
 		/* TODO */
-		new View(RootPanel.getBodyElement(), app)
-		.processFileName("http://www.geogebratube.org/files/material-"
-				+ material.getId() + ".ggb");
+		if(material.getId() > 0){
+			String url =  "http://www.geogebratube.org/files/material-"
+				+ material.getId() + ".ggb";
+			new View(RootPanel.getBodyElement(), app).processFileName(url);
+		}else{
+			app.getGoogleDriveOperation().loadFromGoogleFile(material.getURL(), 
+					material.getDescription(), material.getTitle(), material.getGoogleID());
+		}
 		app.setUnsaved();
 		bg.close();
 	}

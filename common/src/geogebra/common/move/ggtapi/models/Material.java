@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public class Material implements Comparable<Material>
 {
+	
+	public enum Provider {TUBE, GOOGLE, ONE};
 	public enum MaterialType
 	{
 		ggb, ggt, link, book;
@@ -74,6 +76,7 @@ public class Material implements Comparable<Material>
 	private String instructionsPost;
 	private boolean showMenu, showToolbar, showInputbar, showResetIcon, shiftDragZoom;
 	private String base64;
+	private String googleID;
 
 	public Material(int id, MaterialType type)
 	{
@@ -379,5 +382,13 @@ public class Material implements Comparable<Material>
 
 	public String getBase64() {
 		return this.base64;
+	}
+
+	public String getGoogleID() {
+		return this.googleID;
+	}
+
+	public void setGoogleID(String googleID) {
+		this.googleID = googleID;
 	}
 }

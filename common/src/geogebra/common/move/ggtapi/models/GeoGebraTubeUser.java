@@ -104,4 +104,14 @@ public class GeoGebraTubeUser extends BaseModel {
 		this.identifier = identifier;
 	}
 
+
+	public boolean hasGoogleDrive() {
+		return this.identifier.startsWith("https://www.google.com/");
+	}
+	
+	public boolean hasOneDrive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -1,8 +1,15 @@
 package geogebra.html5.gui.browser;
 
+import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import geogebra.common.move.ggtapi.models.Material.Provider;
+import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -23,6 +30,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 
 	private BrowseGUI bg;
 	private AppWeb app;
+	private StandardButton locationSkyDrive;
 	
 	public class MyButton extends FlowPanel{
 		public MyButton(BrowseGUI bg){
@@ -65,28 +73,69 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		
 		this.providers = new FlowPanel();
 		
+		initProviders();
+		//providers.add(locationDrive);
+		
+		
+		providers.setStyleName("providers");
+		this.add(providers);
+		app.getLoginOperation().getView().add(new EventRenderable(){
+
+			@Override
+            public void renderEvent(BaseEvent event) {
+	            initProviders();
+	            
+            }});
+		onResize();
+	}
+
+	/**
+	 * Initialize the providers panel, needs to be done after google / MS login
+	 */
+	void initProviders() {
+		providers.clear();
 		locationTube = new StandardButton(BrowseResources.INSTANCE.location_tube());
+		locationTube.addFastClickHandler(new FastClickHandler(){
+
+			@Override
+            public void onClick() {
+				FileContainer.this.bg.setProvider(Provider.TUBE);
+				FileContainer.this.bg.updateGUI();
+            }
+			
+		});
 		providers.add(locationTube);
 		
 		MyButton locationLocal = new MyButton(bg);//StandardButton(AppResources.INSTANCE.folder());
 		providers.add(locationLocal);
-		
 		//TODO: Only visible if user is logged in with google Account
-		locationDrive = new StandardButton(BrowseResources.INSTANCE.location_drive());
-		//providers.add(locationDrive);
-		
+		GeoGebraTubeUser user = this.app.getLoginOperation().getModel().getLoggedInUser();
+		if(user !=null && user.hasGoogleDrive()){
+			locationDrive = new StandardButton(BrowseResources.INSTANCE.location_drive());
+			providers.add(locationDrive);
+			locationDrive.addFastClickHandler(new FastClickHandler(){
+
+				@Override
+                public void onClick() {
+					FileContainer.this.bg.setProvider(Provider.GOOGLE);
+	                ((AppW) FileContainer.this.app).getGoogleDriveOperation().requestDriveLogin();
+	                if(((AppW) FileContainer.this.app).getGoogleDriveOperation().isLoggedIntoGoogle()){
+	                	((AppW) FileContainer.this.app).getGoogleDriveOperation().initFileNameItems(FileContainer.this.bg);
+	                }
+                }});
+		}else if (user!= null){
+			App.debug(user.getIdentifier());
+		}
 		//TODO: Only visible if user is logged in with google Account
-		//locationSkyDrive = new StandardButton(BrowseResources.INSTANCE.location_skydrive());
-		//providers.add(locationSkyDrive);
-		
-		//Set Tube as the active on
-		locationTube.addStyleName("selected");
-		
-		providers.setStyleName("providers");
-		this.add(providers);
-		
-		onResize();
-	}
+		if(user !=null && user.hasOneDrive()){
+				locationSkyDrive = new StandardButton(BrowseResources.INSTANCE.location_skydrive());
+				providers.add(locationSkyDrive);
+		}
+				
+				//Set Tube as the active on
+				locationTube.addStyleName("selected");
+				
+    }
 
 	@Override
 	public void onResize() {

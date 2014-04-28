@@ -101,7 +101,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
     public void show(){
 	    super.show();
 	    if (((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle() && ((AppW) app).getGoogleDriveOperation().isDriveLoaded()) {
-			initFileNameItems();
+			//initFileNameItems();
 		} else {
 			showEmtpyMessage();
 		}
@@ -124,39 +124,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	}
 
 
-	private native void initFileNameItems() /*-{
-		var fileChooser = this;
-		fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::clearFilesPanel()();
-		function retrieveAllFiles(callback) {
-			  var retrievePageOfFiles = function(request, result) {
-			    request.execute(function(resp) {
-			      result = result.concat(resp.items);
-			      var nextPageToken = resp.nextPageToken;
-			      if (nextPageToken) {
-			        request = $wnd.gapi.client.drive.files.list({
-			          'pageToken': nextPageToken
-			        });
-			        retrievePageOfFiles(request, result);
-			      } else {
-			        callback(result);
-			      }
-			    });
-			  }
-			  var initialRequest = $wnd.gapi.client.drive.files.list();
-			  retrievePageOfFiles(initialRequest, []);
-			}
-			retrieveAllFiles(function(resp) {
-				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()();
-				resp.forEach(function(value, index, array) {
-					//$wnd.console.log(value.mimeType + " : " + value.title + " : " + value.fileExtension);
-					if (value.mimeType === "application/vnd.geogebra.file" ||
-								value.fileExtension === "ggb" ||
-									(value.title.lastIndexOf(".ggb") > -1)) {
-						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl, value.title, value.description, value.id);
-					}
-				});
-			});
-    }-*/;
+	
 
 	public void onClick(ClickEvent event) {
 	    if (currentFileName != null) {

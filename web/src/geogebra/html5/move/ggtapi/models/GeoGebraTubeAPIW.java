@@ -202,7 +202,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 			user.setUserId(Integer.valueOf(((JSONString) userinfo.get("user_id")).stringValue()));
 			user.setUserName(userinfo.get("username").toString());
 			user.setRealName(userinfo.get("realname").toString());
-			user.setIdentifier(userinfo.get("identifier").toString());
+			user.setIdentifier(((JSONString)userinfo.get("identifier")).stringValue());
 			
 			// Further fields are not parsed yet, because they are not needed
 			// This is the complete response with all available fields:

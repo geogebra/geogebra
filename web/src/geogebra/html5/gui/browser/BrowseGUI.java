@@ -2,6 +2,8 @@ package geogebra.html5.gui.browser;
 
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
@@ -9,6 +11,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.move.googledrive.operations.GoogleDriveFileHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +25,8 @@ import com.google.gwt.user.client.Window;
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
-
+public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler {
+  
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
 	private final AppWeb app;
@@ -35,6 +38,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 	private FileContainer tubeFileContainer;
 
 	private List<Material> tubeList = new ArrayList<Material>();
+	private List<Material> googleList = new ArrayList<Material>();
+	private List<Material> oneList = new ArrayList<Material>();
+	private Provider provider = Provider.TUBE;
 
 	public final static int HEADING_HEIGHT = 61;
 
@@ -148,8 +154,17 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 	}
 
 	void updateGUI() {
-		
-			this.tubeFilePanel.setMaterials(2, this.tubeList);
+			switch(this.provider){
+			case TUBE:
+				this.tubeFilePanel.setMaterials(2, this.tubeList);
+				break;
+			case GOOGLE:
+				this.tubeFilePanel.setMaterials(2, this.googleList);
+				break;
+			case ONE:
+				this.tubeFilePanel.setMaterials(2, this.oneList);
+				break;
+			}
 			this.tubeFileContainer.setVisible(true);
 		
 	}
@@ -195,4 +210,33 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 		close();
 	}
 
+	@Override
+    public void show(String title, String author, String date,
+            String url, String description, String googleID) {
+		Material m = new Material(-1, MaterialType.ggb);
+		m.setTitle(title);
+		m.setURL(url);
+		m.setAuthor(author);
+		m.setDescription(description);
+		m.setGoogleID(googleID);
+		m.setTimestamp(Long.parseLong(date)/1000);
+	    this.googleList.add(m);
+	    
+    }
+
+	@Override
+    public void done() {
+	    this.updateGUI();
+	    
+    }
+
+	@Override
+    public void clearMaterials() {
+	    this.googleList.clear();
+    }
+	
+	public void setProvider(Provider provider){
+		this.provider = provider;
+	}
 }
+
