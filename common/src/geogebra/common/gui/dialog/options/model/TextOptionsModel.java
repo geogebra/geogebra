@@ -259,6 +259,14 @@ public class TextOptionsModel extends OptionsModel {
 		lastGeo = editGeo;
 	}
 
+	public void setEditGeoText(String text) {
+		if (editGeo == null) {
+			return;
+		}
+	
+		editGeo.setTextString(text);
+	}
+
 	public void applyEditedGeo(String text, boolean isLatex) {
 		GeoText geo0 = getGeoTextAt(0);
 		geo0.setTextString(text);
