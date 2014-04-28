@@ -895,7 +895,8 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: hand;
 }
 
-.MyToggleButton.gwt-ToggleButton-up-hovering {
+.MyToggleButton.gwt-ToggleButton-up-hovering,
+.MyCanvasButton:hover {
 	/*color: #6666FF;*/
 	border-color: #CCCCFF;
 	cursor: pointer;
