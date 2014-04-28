@@ -11,10 +11,10 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 
 	/**
 	 * constructor
+	 * @param standardSettings standard settings
 	 */
-	public EuclidianSettingsForPlane() {
-		super(null);
-		// TODO Auto-generated constructor stub
+	public EuclidianSettingsForPlane(EuclidianSettings standardSettings) {
+		super(standardSettings);
 	}
 
 	

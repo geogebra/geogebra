@@ -26,6 +26,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
@@ -33,6 +34,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.event.MouseEventD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
@@ -234,8 +236,11 @@ public class App3D extends AppD {
 	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		EuclidianController ec = new EuclidianControllerForPlaneD(kernel3D);
-		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane, 
-				getSettings().getEuclidianForPlane(((GeoElement) plane).getLabelSimple()));
+		EuclidianSettings evSettings = getSettings().getEuclidianForPlane(((GeoElement) plane).getLabelSimple());
+		if (evSettings == null){
+			evSettings = new EuclidianSettingsForPlane(getEuclidianView1().getSettings());
+		}
+		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane, evSettings);
 		euclidianViewForPlane.updateFonts();
 		euclidianViewForPlane.addExistingGeos();
 		

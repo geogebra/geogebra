@@ -470,7 +470,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			String plane = attrs.get("plane");
 			evSet = app.getSettings().getEuclidianForPlane(plane);
 			if (evSet == null){
-				evSet = new EuclidianSettingsForPlane();
+				evSet = new EuclidianSettingsForPlane(null);
 				app.getSettings().setEuclidianSettingsForPlane(plane, evSet);
 			}
 		}
