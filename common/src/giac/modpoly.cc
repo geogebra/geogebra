@@ -4104,14 +4104,6 @@ namespace giac {
   }
 
 #ifndef NEWGCD1
-  gen fastnorm(const dense_POLY1 & pp,GIAC_CONTEXT){
-    gen tmp(0),r,I;
-    for (unsigned i=0;i<pp.size();++i){
-      reim(pp[i],r,I,contextptr);
-      tmp += abs(r,contextptr) + abs(I,contextptr);
-    }
-    return tmp;
-  }
   bool giac_gcd_modular_algo1(polynome &p,polynome &q,polynome &d){
     environment * env=new environment;
     dense_POLY1 pp(modularize(p,0,env)),qq(modularize(q,0,env));
@@ -4120,11 +4112,7 @@ namespace giac {
     // COUT << "modular gcd 1 " << pp << " " << qq << endl;
     gen gcdfirstcoeff(gcd(pp.front(),qq.front()));
     int gcddeg= giacmin(pp.size(),qq.size())-1;
-    gen bound(pow(gen(2),gcddeg+1)* abs(gcdfirstcoeff,context0));
-    if (is_zero(im(pp,context0)) && is_zero(im(qq,context0)))
-      bound=bound * min(norm(pp,context0), norm(qq,context0),context0);
-    else 
-      bound = bound * min(fastnorm(pp,context0),fastnorm(qq,context0),context0);
+    gen bound(pow(gen(2),gcddeg+1)* abs(gcdfirstcoeff,context0) * min(norm(pp,context0), norm(qq,context0),context0));
     env->moduloon = true;
     // env->modulo=nextprime(max(gcdfirstcoeff+1,gen(30011),context0)); 
     env->modulo=30011;
@@ -4290,7 +4278,6 @@ namespace giac {
   pthread_mutex_t ntl_mutex = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
-#if 1
   void ininttype2ZZ(const inttype & temp,const inttype & step,NTL::ZZ & z,const NTL::ZZ & zzstep){
     if (temp==0){
       long j=0;
@@ -4308,34 +4295,6 @@ namespace giac {
     zztemp=longtemp;
     z=z*zzstep+zztemp;
   }
-#else
-  void ininttype2ZZ(const inttype & temp,const inttype & step,NTL::ZZ & z,const NTL::ZZ & zzstep){
-    if (temp==0){
-      long j=0;
-      z=j;
-      return;
-    }
-    inttype g(temp);
-    vector<long> ecriture;
-    for (;g!=0;){
-      inttype q;
-      inttype rem(irem(g,step,q));
-#ifndef NO_STDEXCEPT
-      if (rem.type!=_INT_) setsizeerr(gettext("modpoly.cc/ininttype2ZZ"));
-#endif
-      long r=rem.val;
-      ecriture.push_back(r);
-      g=q;
-    }
-    z=0;
-    NTL::ZZ zztemp;
-    for (unsigned i=0;i<ecriture.size();++i){
-      z *= zzstep;
-      zztemp=ecriture[i];
-      z += zztemp;
-    }
-  }
-#endif
 
   NTL::ZZ inttype2ZZ(const inttype & i){
     inttype step(65536); // 2^16 

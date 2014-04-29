@@ -492,26 +492,20 @@ namespace giac {
   static bool extracttruefactors(dense_POLY1 & q, environment * env,vector<modpoly> & v_in, vector<modpoly> & v_orig, vectpoly & v_out, int & n,const gen & modulo_orig, const gen & moduloi, gen & bound, vector<modpoly> & u){
     int totaldegreefound=0;
     modpoly quo,rem;
-    gen lcoeff=q.front();
     vector<modpoly>::const_iterator it=v_in.begin(),itend=v_in.end();
     vector<modpoly>::const_iterator orig_it=v_orig.begin();
     vector<modpoly> w_in,w_orig;
     for (;it!=itend;++it,++orig_it){
-      modpoly test(*it);
-      mulmodpoly(test,lcoeff,env,test);
-      gen z=_lgcd(test,context0);
-      divmodpoly(test,z,0,test);
       // COUT << "Trying " << q << "/" << *it << endl;
-      if (DenseDivRem(q,test,quo,rem,true) && (rem.empty())){
+      if (DenseDivRem(q,*it,quo,rem,true) && (rem.empty())){
 	// COUT << "Found early factor " << *it << endl;
-	polynome temp=unmodularize(test);
 	q=quo;
-	v_out.push_back(temp);
+	v_out.push_back(unmodularize(*it));
 	totaldegreefound += it->size()-1;
 	n--;
 	if (n==1){
 	  v_in.clear();
-	  v_out.push_back(unmodularize(q));
+	  v_out.push_back(unmodularize(quo));
 	  q=one();
 	  n--;
 	  return true;
@@ -752,7 +746,7 @@ namespace giac {
       vector<modpoly>::iterator it=v_in.begin(),itend=v_in.end();
       dense_POLY1 pi;
       mulmodpoly(it,itend,env,pi);
-      // compute Q such that q=lcoeff*(pi+p^k*Q)
+      // _VECTute Q such that q=lcoeff*(pi+p^k*Q)
       // modulo=modulonext; // work in Z/p^(k+1), done by modularize below
       modpoly Q((q-lcoeff*pi)/moduloi);
       Q=modularize(Q,modulo_orig,env);
@@ -906,7 +900,7 @@ namespace giac {
 	      for (;itnew!=itend;++itnew)
 		v_new.push_back(*itnew);
 	      // if v_new.size is large it might be more efficient
-	      // to compute the factorization of newq
+	      // to _VECTute the factorization of newq
 	      // else call combine with q <- quo
 	      if (v_new.size()>24){
 		int j=3;
@@ -1151,17 +1145,6 @@ namespace giac {
   }
 
   bool do_factorunivsqff(const polynome & q,environment * env,vectpoly & v,int & i,int debug,int modfactor_primes){
-    // we do not require q to have 1 as leading coefficient anymore
-    if (0 && !q.coord.empty() && q.coord.front().value!=1){
-      polynome unitaryp(1), an(0);
-      unitarize(q,unitaryp,an);
-      if (!do_factorunivsqff(unitaryp,env,v,i,debug,modfactor_primes))
-	return false;
-      for (unsigned i=0;i<v.size();++i){
-	v[i]=ununitarize(v[i],an);
-      }
-      return true;
-    }
     debuglevel=debug;  // 1 or debug;
     if (q.coord.empty())
       return true;
@@ -1239,7 +1222,7 @@ namespace giac {
 	    liftsteps=qlifta;
 	  else
 	    liftsteps=qliftb;
-	  // compare with previous factorization:
+	  // _VECTare with previous factorization:
 	  // keep the factorization with less factors
 	  // if equal number try to minimize the # of lifting steps
 	  if ( (!essai) || is_strictly_greater(bestnumberoffactors,numberoffactors,context0) || ( (numberoffactors==bestnumberoffactors) && is_strictly_greater(bestliftsteps,liftsteps,context0) ) ){ // (numberoffactors<bestnumberoffactors) && (liftsteps<bestliftsteps)

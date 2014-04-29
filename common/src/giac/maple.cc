@@ -2122,7 +2122,7 @@ namespace giac {
     initc=initc.eval(1,contextptr);
     if (initc.type!=_VECT) 
       return vecteur(1,gensizeerr());
-    vecteur valv=gsolve(*initc._VECTptr,uinit,/* complex mode */ true,false,contextptr);
+    vecteur valv=gsolve(*initc._VECTptr,uinit,/* complex mode */ true,contextptr);
     if (is_undef(valv))
       return valv;
     vecteur resv(valv.size());
@@ -2214,7 +2214,7 @@ namespace giac {
 	if (F.type!=_VECT)
 	  return gensizeerr();
 	// solves for idX in terms of idx
-	vecteur Fv=gsolve(*F._VECTptr,idX,1/* complex */,false/* approx */,contextptr),res;
+	vecteur Fv=gsolve(*F._VECTptr,idX,1,contextptr),res;
 	if (is_undef(Fv))
 	  return Fv;
 	for (const_iterateur it=Fv.begin();it!=Fv.end();++it){
@@ -2235,7 +2235,7 @@ namespace giac {
 	  initc=initc.eval(1,contextptr);
 	  if (initc.type!=_VECT) 
 	    return gensizeerr();
-	  vecteur valv=gsolve(*initc._VECTptr,idx,/* complex mode */ true,/* approx */ false,contextptr);
+	  vecteur valv=gsolve(*initc._VECTptr,idx,/* complex mode */ true,contextptr);
 	  if (is_undef(valv))
 	    return valv;
 	  for (unsigned int i=0;i<valv.size();++i){

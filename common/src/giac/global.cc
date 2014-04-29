@@ -342,14 +342,10 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _total_time_;
   }
 
-#if 1
-  static double _epsilon_=0;
-#else
 #ifdef __SGI_CPP_LIMITS
   static double _epsilon_=100*numeric_limits<double>::epsilon();
 #else
   static double _epsilon_=1e-12;
-#endif
 #endif
   double & epsilon(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -1028,7 +1024,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   int std_rand(){
-#if 1 // def NSPIRE
+#ifdef NSPIRE
     static unsigned int r = 0;
     r = unsigned ((1664525*ulonglong(r)+1013904223)%(ulonglong(1)<<31));
     return r;
@@ -1499,11 +1495,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   double powlog2float=1e8;
   int MPZ_MAXLOG2=80000000; // 100 millions bits
 #endif
-#ifdef HAVE_LIBNTL
-  int PROOT_FACTOR_MAXDEG=300;
-#else
-  int PROOT_FACTOR_MAXDEG=30;
-#endif
+
 
   // used by WIN32 for the path to the xcas directory
   string & xcasroot(){
@@ -3628,11 +3620,9 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _show_point_(true),  _io_graph_(true),
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
-		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
+		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
 #else
-		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
+		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
 #endif
   { 
     _pl._i_sqrt_minus1_=1;
@@ -4653,7 +4643,7 @@ unsigned int ConvertUTF8toUTF16 (
     return true;
   }
 
-  const char * const do_not_autosimplify[]={
+  const char * do_not_autosimplify[]={
     "Factor",
     "Gcd",
     "Int",
@@ -4696,7 +4686,7 @@ unsigned int ConvertUTF8toUTF16 (
     0
   };
 
-  int dichotomic_search(const char * const * tab,unsigned tab_size,const char * s){
+  int dichotomic_search(const char ** tab,unsigned tab_size,const char * s){
     int beg=0,end=tab_size,cur,test;
     // string index is always >= begin and < end
     for (;;){

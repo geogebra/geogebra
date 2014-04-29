@@ -300,7 +300,6 @@
       {"right_rectangle"         ,1, _RECTANGLE_DROIT, _INT_SOLVER,T_NUMBER},
       {"rombergm"         ,1, _ROMBERGM, _INT_SOLVER,T_NUMBER},
       {"rombergt"         ,1, _ROMBERGT, _INT_SOLVER,T_NUMBER},
-      {"rur"         ,1,_RUR_REVLEX , _INT_GROEBNER ,T_NUMBER},
       {"sample"         ,1, _SAMPLE, _INT_PLOT ,T_NUMBER},
       {"sans_factoriser"         ,1, _UNFACTORED, _INT_SOLVER,T_NUMBER},
       {"scaling"         ,1, _SCALING, _INT_PLOT ,T_NUMBER},

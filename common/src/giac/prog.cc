@@ -6887,7 +6887,7 @@ namespace giac {
   const mksa_unit __Wh_unit={3600,2,1,-2,0,0,0,0,0};
   const mksa_unit __a_unit={100,2,0,0,0,0,0,0,0};
   const mksa_unit __acre_unit={4046.87260987,2,0,0,0,0,0,0,0};
-  const mksa_unit __arcmin_unit={2.90888208666e-4,0,0,0,0,0,0,0,0};
+  const mksa_unit __arcmin_unit={2.90888208666,0,0,0,0,0,0,0,0};
   const mksa_unit __arcs_unit={4.8481368111,0,0,0,0,0,0,0,0};
   const mksa_unit __atm_unit={101325.0,-1,1,-2,0,0,0,0,0};
   const mksa_unit __au_unit={1.495979e11,1,0,0,0,0,0,0,0};

@@ -807,8 +807,6 @@ namespace giac {
 
   // if true put int(g,x=a..b) into res
   bool intgab(const gen & g0,const gen & x,const gen & a,const gen & b,gen & res,GIAC_CONTEXT){
-    if (x.type!=_IDNT)
-      return false;
     if (is_zero(g0)){
       res=zero;
       return true;
@@ -875,28 +873,7 @@ namespace giac {
     }
     // FIXME should check integrability at -/+inf
     if (a==minus_inf){
-      gen A=limit(g,*x._IDNTptr,a,1,contextptr);
-      if (!is_zero(A) && b!=plus_inf){
-	res=-a*A;
-	return true;
-      }
       if (b==plus_inf){
-	vecteur singu=find_singularities(g,*x._IDNTptr,1,contextptr);
-	if (!singu.empty()){
-	  *logptr(contextptr) << "Warning, singularities at " << singu << endl;
-	  if (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38){
-	    res=undef;
-	    return true;
-	  }
-	}
-	gen B=limit(g,*x._IDNTptr,b,-1,contextptr);
-	if (!is_zero(B)){
-	  if (is_zero(A))
-	    res=b*B;
-	  else
-	    res=b*B-a*A;
-	  return true;
-	}
 	int ieo=is_even_odd(g,x,contextptr);
 	if (ieo==2){
 	  res=0;
@@ -916,7 +893,7 @@ namespace giac {
 	}
 	return false;
       }
-      // subst x by x+b, check parity: even -> 1/2 int(-inf,+inf)
+      // subst x by x+b, check parity: even ->0 , odd -> 1/2 int(-inf,+inf)
       gen gb=subst(g,x,x+b,false,contextptr);
       int eo=is_even_odd(gb,x,contextptr);
       if (eo==1){
@@ -926,6 +903,10 @@ namespace giac {
 	    res=ratnormal(res/2);
 	  return true;
 	}
+      }
+      if (eo==2){
+	res=0;
+	return true;
       }
       vecteur v;
       rlvarx(gb,x,v);

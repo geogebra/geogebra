@@ -1958,8 +1958,6 @@ namespace giac {
   }
 
   gen accurate_evalf(const gen & g,int nbits){
-    if (g.type==_VECT)
-      return gen(accurate_evalf(*g._VECTptr,nbits),g.subtype);
     gen r(g.re(context0)),i(g.im(context0)); // only called for numeric values
     if (is_zero(i,context0))
       return set_precision(r,nbits);
@@ -4150,11 +4148,6 @@ namespace giac {
 	  if (b2.is_approx())
 	    return a+b2;
 	}
-	if (a.type==_CPLX && a._CPLXptr->type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
-	  if (b2.is_approx())
-	    return a+b2;
-	}
 #endif
 	return a+b1;
       }
@@ -4165,11 +4158,6 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
 	if (b.type==_REAL){
 	  gen a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
-	  if (a2.is_approx())
-	    return a2+b;
-	}
-	if (b.type==_CPLX && b._CPLXptr->type==_REAL){
-	  gen a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
 	  if (a2.is_approx())
 	    return a2+b;
 	}
@@ -5842,11 +5830,6 @@ namespace giac {
 	  if (b2.is_approx())
 	    return (*a._REALptr)*b2;
 	}
-	if (a.type==_CPLX && a._CPLXptr->type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
-	  if (b2.is_approx())
-	    return a*b2;
-	}
 #endif
 	return a*b1;
       }
@@ -5857,11 +5840,6 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
 	if (b.type==_REAL){
 	  gen a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
-	  if (a2.is_approx())
-	    return a2*b;
-	}
-	if (b.type==_CPLX && b._CPLXptr->type==_REAL){
-	  gen a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
 	  if (a2.is_approx())
 	    return a2*b;
 	}
@@ -6591,39 +6569,13 @@ namespace giac {
 	return chkmod(plus_one,a);
       if (a.is_approx()){
 	gen b1;
-	if (has_evalf(b,b1,1,contextptr) && (b.type!=b1.type || b!=b1)){
-#ifdef HAVE_LIBMPFR
-	if (a.type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._REALptr->inf));
-	  if (b2.is_approx())
-	    return rdiv(a,b2,contextptr);
-	}
-	if (a.type==_CPLX && a._CPLXptr->type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
-	  if (b2.is_approx())
-	    return rdiv(a,b2,contextptr);
-	}
-#endif
+	if (has_evalf(b,b1,1,contextptr) && (b.type!=b1.type || b!=b1))
 	  return rdiv(a,b1,contextptr);
-	}
       }
       if (b.is_approx()){
 	gen a1;
-	if (has_evalf(a,a1,1,contextptr) && (a.type!=a1.type || a!=a1)){
-#ifdef HAVE_LIBMPFR
-	  if (b.type==_REAL){
-	    gen a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
-	    if (a2.is_approx())
-	      return rdiv(a2,b,contextptr);
-	  }
-	  if (b.type==_CPLX && b._CPLXptr->type==_REAL){
-	    gen a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
-	    if (a2.is_approx())
-	      return rdiv(a2,b,contextptr);
-	  }
-#endif
+	if (has_evalf(a,a1,1,contextptr) && (a.type!=a1.type || a!=a1))
 	  return rdiv(a1,b,contextptr);
-	}
       }
       if (a.type==_REAL)
 	return (*a._REALptr)*inv(b,contextptr);
@@ -7251,8 +7203,6 @@ namespace giac {
       if (af.type==_VECT && bf.type==_VECT && af._VECTptr->size()==2 && bf._VECTptr->size()==2 && af._VECTptr->front()==bf._VECTptr->front())
 	return sym_is_greater(af._VECTptr->back(),bf._VECTptr->back(),contextptr);
     }
-    if (a.type==_STRNG && b.type==_STRNG)
-      return *a._STRNGptr>=*b._STRNGptr;
     if (a.type==_USER)
       return (*a._USERptr>b);
     if (b.type==_USER)
@@ -8271,7 +8221,7 @@ namespace giac {
 	  if (basis==precbasis)
 	    precexpo=precexpo+expo;
 	  else {
-	    if (!is_zero(precexpo,contextptr)){
+	    if (!is_zero(precexpo)){
 	      if (is_strictly_positive(-precexpo,contextptr))
 		vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
 	      else
@@ -8282,7 +8232,7 @@ namespace giac {
 	    precexpo=expo;
 	  }
 	}
-	if (!is_zero(precexpo,contextptr)){
+	if (!is_zero(precexpo)){
 	  if (is_strictly_positive(-precexpo,contextptr)){
 	    gen tmp=pow(precbasis,-precexpo,contextptr);
 	    if (tmp.is_symb_of_sommet(at_prod))
@@ -13435,8 +13385,6 @@ namespace giac {
     gen g(s,&C);
     g=protecteval(g,1,&C);
 #endif
-    if (!lop(g,at_rootof).empty())
-      g=evalf(g,1,&C);
     if (has_undef_stringerr(g,S))
       S="GIAC_ERROR: "+S;
     else
