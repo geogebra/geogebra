@@ -4974,12 +4974,10 @@ namespace giac {
       else {
 	// find other factors
 	vectpoly w;
-	polynome unitaryp(1), an(0);
 	int signe=1;
 	if (is_positive(-temp.coord.front()))
 	  signe=-1;
-	unitarize(temp,unitaryp,an);
-	if (!factorunivsqff(unitaryp,env,w,ithprime,debug_infolevel,MODFACTOR_PRIMES)){
+	if (!factorunivsqff(temp,env,w,ithprime,debug_infolevel,MODFACTOR_PRIMES)){
 #ifndef NO_STDEXCEPT
 	  setsizeerr();
 #endif
@@ -4987,8 +4985,7 @@ namespace giac {
 	}
 	vectpoly::const_iterator itw=w.begin(),itwend=w.end();
 	for (;itw!=itwend;++itw){
-	  const polynome & tmp=ununitarize(*itw,an);
-	  addtov(tmp,v,with_sqrt,complexmode);
+	  addtov(*itw,v,with_sqrt,complexmode);
 	}
 	if (signe==-1)
 	  v.back()=-v.back();

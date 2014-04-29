@@ -455,7 +455,7 @@ namespace giac {
 
   template<class T>  
   const T & tensor<T>::operator () ( const index_m & v) const{
-    static T myzero(0);
+    static T const myzero(0);
     int p=position(v);
     if (p==-1) {
       return myzero;

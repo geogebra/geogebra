@@ -55,6 +55,8 @@ namespace giac {
       return false;
     return a.islesscomplexthan(b);
   }
+
+  // FIXME: protect symbolic_rootof_list() with a mutex in multi-thread environment
 #if 1 // def NSPIRE
   bool comparegen::operator ()(const gen & a,const gen & b) const { 
     return a.islesscomplexthan(b);

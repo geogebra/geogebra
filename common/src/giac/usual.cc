@@ -2695,8 +2695,8 @@ namespace giac {
   int (*is_known_name_38)(const char * name_space,const char * idname)=do_is_known_name_38;
   gen do_of_pointer_38(const void * appptr,const void * varptr,const gen & args);
   gen (*of_pointer_38)(const void * appptr,const void * varptr,const gen & args)=do_of_pointer_38;
-  extern gen_op_context interactive_op_tab_38[];
-  gen_op_context * interactive_op_tab = &interactive_op_tab_38[0];
+  // extern gen_op_context interactive_op_tab_38[];
+  gen_op_context * interactive_op_tab = 0; //&interactive_op_tab_38[0];
 #else
   int (*sto_38)(const gen & value,const char * name_space,const char * idname,gen indice,gen & error,GIAC_CONTEXT)=0;
   int (*rcl_38)(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT)=0;

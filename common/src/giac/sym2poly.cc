@@ -820,10 +820,7 @@ namespace giac {
     // factor v, select smaller factor
     polynome vp(1),vp_content;
     vp=poly12polynome(v,1);
-
-    // temporary fix for 4.4.30.0 and 4.9.261.0:
     gen tmp(1); lcmdeno(vp,tmp); vp=tmp*vp;
-
     factorization vf;
     gen extra_div=1;
     if (factor(vp,vp_content,vf,true,false,false,1,extra_div) && vf.size()>1){
@@ -1880,7 +1877,7 @@ namespace giac {
 	      for (unsigned k=0;k<w.size();++k){
 		if (lop(w[k],at_rootof).empty()){
 		  gen wkd=evalf_double(w[k],1,contextptr);
-		  if (wkd!=w[k] && is_greater(1e-6,abs(wkd-r,contextptr),contextptr))
+		  if (wkd!=w[k] && is_greater(1e-6,abs(1-r/wkd,contextptr),contextptr))
 		    return w[k];
 		}
 	      }

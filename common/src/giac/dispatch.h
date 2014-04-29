@@ -379,6 +379,11 @@ namespace giac {
     _3VAR_ORDER=3,
     _7VAR_ORDER=7, // GROEBNER_VARS==15 : double revlex 7 params at end, 7 variables
     _11VAR_ORDER=11, // GROEBNER_VARS==15 : 3 params at end, 11 variables
+    // use negative values for RUR
+    _RUR_REVLEX=-4,
+    _RUR_3VAR=-3,
+    _RUR_7VAR=-7,
+    _RUR_11VAR=-11,
   };
 
   enum int_subtypes {

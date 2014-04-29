@@ -8567,7 +8567,7 @@ namespace giac {
 	}
 	if (der.type==_VECT && der._VECTptr->size()==2){
 	  gen droite=der._VECTptr->front()*(xy[0]-tr)+der._VECTptr->back()*(xy[1]-ti);
-	  vecteur sol=gsolve(makevecteur(droite,argv0),*xy._VECTptr,false,contextptr);
+	  vecteur sol=gsolve(makevecteur(droite,argv0),*xy._VECTptr,false,approx_mode(contextptr),contextptr);
 	  if (!is_undef(sol)){
 	    vecteur res;
 	    for (unsigned i=0;i<sol.size();++i){
@@ -8738,7 +8738,7 @@ namespace giac {
 	    if (is_undef(eqx) || is_undef(eqy))
 	      return eqx+eqy;
 	    gen eq2=(Mx-x)*eqx+(My-y)*eqy;
-	    vecteur sols=gsolve(makevecteur(eq,eq2),makevecteur(x,y),false,contextptr);
+	    vecteur sols=gsolve(makevecteur(eq,eq2),makevecteur(x,y),false,approx_mode(contextptr),contextptr);
 	    if (is_undef(sols))
 	      return sols;
 	    // build tangents
@@ -10790,7 +10790,7 @@ namespace giac {
     lvar(f_orig,xy1); // check for an algebraic curve
     if (xy1==xy){
       // Polynomial singular points: solve([f_orig,dfx,dfy],xy)
-      singular_points=gsolve(*exact(makevecteur(f_orig,dfx,dfy),contextptr)._VECTptr,xy,false,contextptr);
+      singular_points=gsolve(*exact(makevecteur(f_orig,dfx,dfy),contextptr)._VECTptr,xy,false,approx_mode(contextptr),contextptr);
       for (int k=0;k<int(singular_points.size());k++){
 	gen sp=singular_points[k];
 	gen spd=evalf_double(sp,1,contextptr);
