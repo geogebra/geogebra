@@ -405,10 +405,12 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	private void checkIfOpenedFromGoogleDrive() {
 		String state = URL.getQueryParameterAsString("state");
 		App.debug(state);
-		if (!"".equals(state)) {
+		if (state != null && !"".equals(state)) {
 			googleDriveURL = JSON.parse(state);
 			AppW.debug(googleDriveURL);
-		
+			if(!this.loggedIn){
+				login(true);
+			}
 			
 		}
 	}
