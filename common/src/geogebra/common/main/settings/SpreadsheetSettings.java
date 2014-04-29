@@ -51,7 +51,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 	
 	// preferred size
 	private GDimension preferredSize;
-	
+	private int HScrollBalValue;
+	private int VScrollBalValue;
 	
 	//============================================
 	//  Row/Column Dimension Settings
@@ -301,7 +302,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 
 	//============================================
-	//  Cell Format Settings
+	//  Cell Format PreferredCSettings
 	//============================================
 	
 	/**
@@ -481,6 +482,22 @@ public class SpreadsheetSettings extends AbstractSettings {
 	 */
 	public boolean isEnableAutoComplete() {
 		return enableAutoComplete;
+	}
+
+	public int getHScrollBalValue() {
+		return HScrollBalValue;
+	}
+
+	public void setHScrollBalValue(int hScrollBalValue) {
+		HScrollBalValue = hScrollBalValue;
+	}
+
+	public int getVScrollBalValue() {
+		return VScrollBalValue;
+	}
+
+	public void setVScrollBalValue(int vScrollBalValue) {
+		VScrollBalValue = vScrollBalValue;
 	}
 
 

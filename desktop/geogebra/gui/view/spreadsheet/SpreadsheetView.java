@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -79,7 +80,7 @@ public class SpreadsheetView extends JPanel implements
 	private TraceDialog traceDialog;
 	// button to launch trace dialog from upper left corner
 	private JButton btnTraceDialog;
-	
+
 	// fields for split panel, fileBrowser and stylebar
 	private JScrollPane spreadsheet;
 	private FileBrowserPanel fileBrowser;
@@ -202,7 +203,7 @@ public class SpreadsheetView extends JPanel implements
 			g.fillRect(0, 0, getWidth(), getHeight());
 		}
 	}
-	
+
 	private Corner newUpperLeftCorner() {
 
 		Corner upperLeftCorner = new Corner(); // use FlowLayout
@@ -224,7 +225,7 @@ public class SpreadsheetView extends JPanel implements
 				app.getImageIcon("spreadsheettrace_button.gif")) {
 		};
 		btnTraceDialog.setBorderPainted(false);
-		btnTraceDialog.setPreferredSize(new Dimension(18,18));
+		btnTraceDialog.setPreferredSize(new Dimension(18, 18));
 		btnTraceDialog.setContentAreaFilled(false);
 		// invisible button unless a trace is set
 		btnTraceDialog.setVisible(false);
@@ -391,7 +392,7 @@ public class SpreadsheetView extends JPanel implements
 	}
 
 	/** Respond to changes in mode sent by GUI manager */
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 
 		this.mode = mode;
 
@@ -433,7 +434,8 @@ public class SpreadsheetView extends JPanel implements
 
 	public void update(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
-		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
+		if (location != null
+				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
 
 			// TODO: rowHeader and column
@@ -534,11 +536,13 @@ public class SpreadsheetView extends JPanel implements
 	/**
 	 * returns settings in XML format
 	 */
-	public void getXML(StringBuilder sb, boolean asPreference) {
+	public static void getXML(App app, StringBuilder sb, boolean asPreference) {
+		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		sb.append("<spreadsheetView>\n");
 
-		int width = getWidth();// getPreferredSize().width;
-		int height = getHeight();// getPreferredSize().height;
+		GDimension size = settings.preferredSize();
+		int width = size.getWidth();// getPreferredSize().width;
+		int height = size.getHeight();// getPreferredSize().height;
 
 		sb.append("\t<size ");
 		sb.append(" width=\"");
@@ -551,51 +555,73 @@ public class SpreadsheetView extends JPanel implements
 
 		sb.append("\t<prefCellSize ");
 		sb.append(" width=\"");
-		sb.append(table.preferredColumnWidth);
+		sb.append(settings.preferredColumnWidth());
 		sb.append("\"");
 		sb.append(" height=\"");
-		sb.append(table.getRowHeight());
+		sb.append(settings.preferredRowHeight());
 		sb.append("\"");
 		sb.append("/>\n");
 
 		if (!asPreference) {
 
 			// column widths
-			for (int col = 0; col < table.getColumnCount(); col++) {
-				TableColumn column = table.getColumnModel().getColumn(col);
-				int colWidth = column.getWidth();
+			HashMap<Integer, Integer> widthMap = settings.getWidthMap();
+			for (Integer col : widthMap.keySet()) {
+				int colWidth = widthMap.get(col);
 				// if (colWidth != DEFAULT_COLUMN_WIDTH)
-				if (colWidth != table.preferredColumnWidth)
+				if (colWidth != settings.preferredColumnWidth()) {
 					sb.append("\t<spreadsheetColumn id=\"" + col
 							+ "\" width=\"" + colWidth + "\"/>\n");
+				}
 			}
 
 			// row heights
-			for (int row = 0; row < table.getRowCount(); row++) {
-				int rowHeight = table.getRowHeight(row);
-				if (rowHeight != table.getRowHeight())
+			HashMap<Integer, Integer> heightMap = settings.getHeightMap();
+			for (Integer row : heightMap.keySet()) {
+				int rowHeight = heightMap.get(row);
+				// if (colheight != DEFAULT_COLUMN_height)
+				if (rowHeight != settings.preferredRowHeight()) {
 					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
 							+ rowHeight + "\"/>\n");
+				}
 			}
 
+			// for (int col = 0; col < table.getColumnCount(); col++) {
+			// TableColumn column = table.getColumnModel().getColumn(col);
+			// int colWidth = column.getWidth();
+			// // if (colWidth != DEFAULT_COLUMN_WIDTH)
+			// if (colWidth != table.preferredColumnWidth)
+			// sb.append("\t<spreadsheetColumn id=\"" + col
+			// + "\" width=\"" + colWidth + "\"/>\n");
+			// }
+
+			// for (int row = 0; row < table.getRowCount(); row++) {
+			// int rowHeight = table.getRowHeight(row);
+			// if (rowHeight != table.getRowHeight())
+			// sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
+			// + rowHeight + "\"/>\n");
+			// }
+			//
 			// initial selection
 			sb.append("\t<selection ");
 
 			sb.append(" hScroll=\"");
-			sb.append(spreadsheet.getHorizontalScrollBar().getValue());
+			sb.append(settings.getHScrollBalValue());
 			sb.append("\"");
 
 			sb.append(" vScroll=\"");
-			sb.append(spreadsheet.getVerticalScrollBar().getValue());
+			sb.append(settings.getVScrollBalValue());
 			sb.append("\"");
 
 			sb.append(" column=\"");
-			sb.append(table.getColumnModel().getSelectionModel()
-					.getAnchorSelectionIndex());
+			sb.append(settings.selectedCell().getX());
+			// sb.append(table.getColumnModel().getSelectionModel()
+			// .getAnchorSelectionIndex());
 			sb.append("\"");
 
 			sb.append(" row=\"");
-			sb.append(table.getSelectionModel().getAnchorSelectionIndex());
+			sb.append(settings.selectedCell().getY());
+			// sb.append(table.getSelectionModel().getAnchorSelectionIndex());
 			sb.append("\"");
 
 			sb.append("/>\n");
@@ -605,47 +631,47 @@ public class SpreadsheetView extends JPanel implements
 		sb.append("\t<layout ");
 
 		sb.append(" showFormulaBar=\"");
-		sb.append(settings().showFormulaBar() ? "true" : "false");
+		sb.append(settings.showFormulaBar() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showGrid=\"");
-		sb.append(settings().showGrid() ? "true" : "false");
+		sb.append(settings.showGrid() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showHScrollBar=\"");
-		sb.append(settings().showHScrollBar() ? "true" : "false");
+		sb.append(settings.showHScrollBar() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showVScrollBar=\"");
-		sb.append(settings().showVScrollBar() ? "true" : "false");
+		sb.append(settings.showVScrollBar() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showBrowserPanel=\"");
-		sb.append(settings().showBrowserPanel() ? "true" : "false");
+		sb.append(settings.showBrowserPanel() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showColumnHeader=\"");
-		sb.append(settings().showColumnHeader() ? "true" : "false");
+		sb.append(settings.showColumnHeader() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" showRowHeader =\"");
-		sb.append(settings().showRowHeader() ? "true" : "false");
+		sb.append(settings.showRowHeader() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" allowSpecialEditor=\"");
-		sb.append(settings().allowSpecialEditor() ? "true" : "false");
+		sb.append(settings.allowSpecialEditor() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" allowToolTips=\"");
-		sb.append(settings().allowToolTips() ? "true" : "false");
+		sb.append(settings.allowToolTips() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" equalsRequired=\"");
-		sb.append(settings().equalsRequired() ? "true" : "false");
+		sb.append(settings.equalsRequired() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" autoComplete=\"");
-		sb.append(settings().isEnableAutoComplete() ? "true" : "false");
+		sb.append(settings.isEnableAutoComplete() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append("/>\n");
@@ -653,26 +679,26 @@ public class SpreadsheetView extends JPanel implements
 		// ---- end layout
 
 		// file browser
-		if (fileBrowser != null) {
+		if (settings.isDefaultBrowser()) {
 			sb.append("\t<spreadsheetBrowser ");
 
-			if (!settings().initialFilePath().equals(settings().defaultFile())
-					|| settings().initialURL() != DEFAULT_URL
-					|| settings().initialBrowserMode() != DEFAULT_MODE) {
+			if (!settings.initialFilePath().equals(settings.defaultFile())
+					|| settings.initialURL() != DEFAULT_URL
+					|| settings.initialBrowserMode() != DEFAULT_MODE) {
 				sb.append(" default=\"");
 				sb.append("false");
 				sb.append("\"");
 
 				sb.append(" dir=\"");
-				sb.append(settings().initialFilePath());
+				sb.append(settings.initialFilePath());
 				sb.append("\"");
 
 				sb.append(" URL=\"");
-				sb.append(settings().initialURL());
+				sb.append(settings.initialURL());
 				sb.append("\"");
 
 				sb.append(" mode=\"");
-				sb.append(settings().initialBrowserMode());
+				sb.append(settings.initialBrowserMode());
 				sb.append("\"");
 
 			} else {
@@ -686,8 +712,11 @@ public class SpreadsheetView extends JPanel implements
 		}
 
 		// cell formats
-		if (!asPreference)
-			table.getCellFormatHandler().getXML(sb);
+		if (!asPreference) {
+			sb.append("\t<spreadsheetCellFormat formatMap=\"");
+			sb.append(settings.cellFormat());
+			sb.append("\"/>\n");
+		}
 
 		sb.append("</spreadsheetView>\n");
 
@@ -708,7 +737,8 @@ public class SpreadsheetView extends JPanel implements
 		if (formulaBar != null) {
 			formulaBar.setLabels();
 		}
-		btnTraceDialog.setToolTipText(app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
+		btnTraceDialog.setToolTipText(app.getLocalization().getMenuTooltip(
+				"TraceToSpreadsheet"));
 	}
 
 	public void updateFonts() {
@@ -808,6 +838,9 @@ public class SpreadsheetView extends JPanel implements
 	public void setSpreadsheetScrollPosition(int hScroll, int vScroll) {
 		spreadsheet.getHorizontalScrollBar().setValue(hScroll);
 		spreadsheet.getVerticalScrollBar().setValue(vScroll);
+
+		settings().setHScrollBalValue(hScroll);
+		settings().setVScrollBalValue(vScroll);
 	}
 
 	// ==========================================================
@@ -1361,16 +1394,15 @@ public class SpreadsheetView extends JPanel implements
 						spreadsheet.getColumnHeader() },
 				{ spreadsheet.getRowHeader(), table } };
 	}
-	
+
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
 
 }
