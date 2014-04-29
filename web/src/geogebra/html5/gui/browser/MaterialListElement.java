@@ -8,6 +8,7 @@ import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -106,23 +107,38 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.infos.add(this.title);
 
 		this.add(this.image);
-		
+
+		String thumb = this.material.getThumbnail();
+		if (thumb != null && thumb.length() > 0) {
+			if (!thumb.startsWith("http")) {
+				thumb = "http:" + thumb;
+			}
+			this.image.getElement().getStyle()
+			        .setBackgroundImage("url(" + thumb + ")");
+		} else {
 			this.image
-					.getElement()
-					.getStyle()
-					.setBackgroundImage(
-							"url(http:" + this.material.getThumbnail() + ")");
+			        .getElement()
+			        .getStyle()
+			        .setBackgroundImage(
+			                "url("
+			                        + AppResources.INSTANCE.geogebra64()
+			                                .getSafeUri().asString() + ")");
+		}
 
-			// no shared Panel for local files
-			this.sharedBy = new Label(this.material.getAuthor());
-			this.sharedBy.setStyleName("sharedPanel");
-			this.infos.add(this.sharedBy);
+		// no shared Panel for local files
+		this.sharedBy = new Label(this.material.getAuthor());
+		this.sharedBy.setStyleName("sharedPanel");
+		this.infos.add(this.sharedBy);
 
-		
-		String format = this.app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
-		
-		this.date = new Label(CmdGetTime.buildLocalizedDate(format, this.material.getDate(),
-				this.app.getLocalization()));
+		String format = this.app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
+		        + Unicode.LeftToRightMark
+		        + "\\F"
+		        + Unicode.LeftToRightMark
+		        + " \\j"
+		        : "\\j \\F \\Y";
+
+		this.date = new Label(CmdGetTime.buildLocalizedDate(format,
+		        this.material.getDate(), this.app.getLocalization()));
 		this.infos.add(this.date);
 	}
 

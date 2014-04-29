@@ -115,7 +115,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	            				@geogebra.common.GeoGebraConstants::USERINFO_PROFILE_SCOPE + " " +
 	            				@geogebra.common.GeoGebraConstants::PLUS_ME_SCOPE,
 	            	 'immediate': immediate};
-	    config.max_auth_age = 0;
+	    //config.max_auth_age = 0;
 		$wnd.gapi.auth.authorize(config,
 	            	 function (resp) {
 	            	 		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(resp);
@@ -216,8 +216,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 				if (value.mimeType === "application/vnd.geogebra.file" ||
 							value.fileExtension === "ggb" ||
 								(value.title.lastIndexOf(".ggb") > -1)) {
-					fh.@geogebra.web.move.googledrive.operations.GoogleDriveFileHandler::show(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)
-					(value.title,value.lastModifyingUserName,new Date(value.modifiedDate).getTime()+"", value.downloadUrl, value.description, value.id);
+					fh.@geogebra.web.move.googledrive.operations.GoogleDriveFileHandler::show(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)
+					(value.title,value.lastModifyingUserName,new Date(value.modifiedDate).getTime()+"", value.downloadUrl, value.description, value.id, value.thumbnailLink);
 				}
 				
 			});

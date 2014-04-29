@@ -212,7 +212,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 
 	@Override
     public void show(String title, String author, String date,
-            String url, String description, String googleID) {
+            String url, String description, String googleID, String thumbnail) {
 		Material m = new Material(-1, MaterialType.ggb);
 		m.setTitle(title);
 		m.setURL(url);
@@ -220,6 +220,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		m.setDescription(description);
 		m.setGoogleID(googleID);
 		m.setTimestamp(Long.parseLong(date)/1000);
+		m.setThumbnail(thumbnail);
 	    this.googleList.add(m);
 	    
     }
