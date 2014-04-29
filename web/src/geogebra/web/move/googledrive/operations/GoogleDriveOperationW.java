@@ -348,6 +348,13 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 			parents.push(folderId);
 			JSON.put(metaData, "parents", parents);
 		}
+		JavaScriptObject thumbnail = JavaScriptObject.createObject();
+		JSON.put(thumbnail, "image" , app
+				.getEuclidianView1()
+				.getCanvasBase64WithTypeString().substring("data:image/png;base64,".length())
+				.replace("+", "-").replace("/", "_"));
+		JSON.put(thumbnail, "mimeType" , "image/png" );
+		JSON.putObject(metaData, "thumbnail" , thumbnail);
 		AppW.debug(metaData);
 		handleFileUploadToGoogleDrive(app.getCurrentFileId(), metaData, fileContent);		
     }

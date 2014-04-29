@@ -22,6 +22,11 @@ public class JSON {
 	   obj[key] = value;
     }-*/;
 
+	public static native void putObject (JavaScriptObject obj, String key,
+            JavaScriptObject value) /*-{
+	   obj[key] = value;
+    }-*/;
+	
 	public static native void put(JavaScriptObject obj, String key,
             JsArray<JavaScriptObject> value) /*-{
 		obj[key] = value;
