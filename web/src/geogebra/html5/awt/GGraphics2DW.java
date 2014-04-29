@@ -692,9 +692,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
 	public void setColor(GColor fillColor) {
 		//checking for the same color here speeds up axis drawing by 25%
-		if(fillColor != null && fillColor.equals(color)){
-			return;
-		}		
+		//if(fillColor != null && fillColor.equals(color)){
+		//	return;
+		//}
+		//but it seems that setColor is not only for setting "color",
+		//but also for setFillStyle and setStrokeStyle,
+		//and it seems that this is necessary to run,
+		//until a better solution is found - see ticket #4291
+
 		this.color = fillColor;
 		updateCanvasColor();
 		this.currentPaint = new GColorW((GColorW)fillColor);
