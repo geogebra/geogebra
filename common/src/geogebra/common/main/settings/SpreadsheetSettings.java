@@ -14,7 +14,7 @@ import java.util.LinkedList;
 public class SpreadsheetSettings extends AbstractSettings {
 
 	public static final int TABLE_CELL_WIDTH = 70;
-	public static final int TABLE_CELL_HEIGHT = 21;  //G.Sturr (old height 20) + 1 to stop cell editor clipping
+	public static final int TABLE_CELL_HEIGHT = 21; //G.Sturr (old height 20) + 1 to stop cell editor clipping
 	// layout settings
 	private boolean showFormulaBar = false;
 	private boolean showGrid = true;
@@ -500,5 +500,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 		VScrollBalValue = vScrollBalValue;
 	}
 
+	public boolean hasInitialized() {
+		return !(heightMap == null && widthMap == null);
+	}
 
 }

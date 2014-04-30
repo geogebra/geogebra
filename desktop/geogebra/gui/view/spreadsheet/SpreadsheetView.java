@@ -538,6 +538,9 @@ public class SpreadsheetView extends JPanel implements
 	 */
 	public static void getXML(App app, StringBuilder sb, boolean asPreference) {
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
+		if (!settings.hasInitialized()) {
+			return;
+		}
 		sb.append("<spreadsheetView>\n");
 
 		GDimension size = settings.preferredSize();
@@ -681,8 +684,8 @@ public class SpreadsheetView extends JPanel implements
 		// file browser
 		if (settings.isDefaultBrowser()) {
 			sb.append("\t<spreadsheetBrowser ");
-
-			if (!settings.initialFilePath().equals(settings.defaultFile())
+			String initPath = settings.initialFilePath();
+			if (initPath != null && initPath.equals(settings.defaultFile())
 					|| settings.initialURL() != DEFAULT_URL
 					|| settings.initialBrowserMode() != DEFAULT_MODE) {
 				sb.append(" default=\"");
