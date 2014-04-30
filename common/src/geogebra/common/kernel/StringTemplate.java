@@ -1831,7 +1831,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 			switch (stringType) {
 
 			case GIAC:
-
+				
+				// if user types e^(ln(4.93)/1.14)
+				// ie not Unicode.EULER_STRING
+				// then it's ggbtmpvare here
+				// Unicode.EULER_STRING is changed to just e
+				
+				// check for Unicode.EULER_STRING just in case
+				
+				if ("e".equals(leftStr) || Unicode.EULER_STRING.equals(leftStr)) {
+					sb.append("exp(");
+					sb.append(rightStr);
+					sb.append(")");
+					break;
+				}
+				
 				if (right.isExpressionNode() && ((ExpressionNode) right).getOperation() == Operation.DIVIDE) {
 					ExpressionNode enR = (ExpressionNode) right;
 
