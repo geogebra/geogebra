@@ -9597,7 +9597,7 @@ namespace giac {
   }
 #endif
 
-  bool mod_gbasis(vectpoly8 & res,bool modularcheck,bool zdata,bool rur,GIAC_CONTEXT){
+  bool mod_gbasis(vectpoly8 & res,bool modularcheck,bool zdata,bool & rur,GIAC_CONTEXT){
     unsigned initial=res.size();
     double eps=proba_epsilon(contextptr);
     short int order=0;
@@ -9783,8 +9783,11 @@ namespace giac {
 	if (rur){
 	  gbmod.resize(G.size());
 	  polymod lmtmp(lmmodradical.order,lmmodradical.dim);
-	  if (rur_quotient_ideal_dimension(gbmod,lmtmp)<0)
+	  // FIXME rur_quotient_ideal etc. should take care of parameters!
+	  if (rur_quotient_ideal_dimension(gbmod,lmtmp)<0){
+	    rur=false;
 	    continue;
+	  }
 	  if (debug_infolevel)
 	    CERR << clock() << " begin modular rur computation" << endl;
 	  if (!rur_compute(gbmod,lmtmp,lmmodradical,p.val,s,rurv)){
@@ -10171,7 +10174,7 @@ namespace giac {
     return false;
   }
 
-  bool gbasis8(const vectpoly & v,int order,vectpoly & newres,environment * env,bool modularcheck,bool rur,GIAC_CONTEXT){
+  bool gbasis8(const vectpoly & v,int order,vectpoly & newres,environment * env,bool modularcheck,bool & rur,GIAC_CONTEXT){
     vectpoly8 res;
     vectpolymod resmod;
     vector<unsigned> G;

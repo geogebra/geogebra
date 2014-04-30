@@ -2808,7 +2808,7 @@ namespace giac {
   static void symb_reim(const symbolic & s,gen & r,gen & i,GIAC_CONTEXT){
     unary_function_ptr u=s.sommet;
     gen f=s.feuille;
-    if ( (u==at_re) || (u==at_im) || (u==at_abs) ){
+    if ( (u==at_re) || (u==at_im) || (u==at_abs) || (u==at_surd) || (u==at_NTHROOT)){
       r=s;
       i=0;
       return;

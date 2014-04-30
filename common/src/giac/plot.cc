@@ -8550,7 +8550,10 @@ namespace giac {
     vecteur result,parameqs;
     gen t=argv.back();
     if (s==1 && argv[0].type==_SYMB && !argv[0].is_symb_of_sommet(at_pnt)){
+      vecteur s1,s2;
       t=remove_at_pnt(t);
+      surd2pow(t,s1,s2,contextptr);
+      t=subst(t,s1,s2,false,contextptr);
       gen argv0=remove_equal(argv[0]);
       if (t.type!=_VECT){
 	// tangent to a 2-d curve given by an equation

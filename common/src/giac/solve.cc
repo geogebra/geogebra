@@ -5676,7 +5676,7 @@ namespace giac {
     bool rur=order<0;
 #if GROEBNER_VARS==15
     // split variables and parameters for revlex
-    if (!l.empty() && l!=l0 && l.size()<=11 && order==_REVLEX_ORDER && l0.size()+3-(l.size()%4)<=14){
+    if (!l.empty() && l!=l0 && l.size()<=11 && (order==_REVLEX_ORDER || order==_RUR_REVLEX) && l0.size()+3-(l.size()%4)<=14){
       // add fake variables
       if (l.size()/4==0)
 	order=_3VAR_ORDER;

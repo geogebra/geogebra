@@ -2784,7 +2784,8 @@ namespace giac {
       sp.clear();
     }
     else {
-      if (evalf_double(borne_inf,1,contextptr).type==_DOUBLE_ && evalf_double(borne_sup,1,contextptr).type==_DOUBLE_){
+      if ((is_inf(borne_inf) || evalf_double(borne_inf,1,contextptr).type==_DOUBLE_)
+	  && (is_inf(borne_sup) || evalf_double(borne_sup,1,contextptr).type==_DOUBLE_)){
 	gen xval=x.eval(1,contextptr);
 	if (is_greater(borne_sup,borne_inf,contextptr))
 	  giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
@@ -2792,6 +2793,8 @@ namespace giac {
 	  giac_assume(symb_and(symb_superieur_egal(x,borne_sup),symb_inferieur_egal(x,borne_inf)),contextptr);
 	sp=protect_find_singularities(primitive,*x._IDNTptr,2,contextptr);
 	sto(xval,x,contextptr);
+	if (!lidnt(evalf_double(sp,1,contextptr)).empty())
+	  return gensizeerr("Unable to handle singularities of "+ primitive.print(contextptr)+" at "+gen(sp).print(contextptr));
       }
       else
 	sp=protect_find_singularities(primitive,*x._IDNTptr,0,contextptr);
