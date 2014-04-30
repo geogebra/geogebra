@@ -307,7 +307,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	private void computeSpecial() {
 		StringBuilder sb = new StringBuilder(30);
-		sb.append("Integral(");
+		sb.append("Numeric(Integral(");
 		sb.append(f.toValueString(StringTemplate.maxPrecision));
 		sb.append(",");
 		sb.append(f.getVarString(StringTemplate.defaultTemplate));
@@ -315,7 +315,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		sb.append(a.toValueString(StringTemplate.maxPrecision));
 		sb.append(",");
 		sb.append(b.toValueString(StringTemplate.maxPrecision));
-		sb.append(")");
+		sb.append("))");
 		try{
 		String functionOut = kernel
 				.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
