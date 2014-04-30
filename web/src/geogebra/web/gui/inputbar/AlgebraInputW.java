@@ -15,7 +15,6 @@ import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -32,7 +31,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -48,7 +46,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	protected InputPanelW inputPanel;
 	protected AutoCompleteTextFieldW inputField;
 	protected FlowPanel eastPanel;
-	protected FlowPanel innerPanel, labelPanel;
+	//protected FlowPanel innerPanel;
+	protected FlowPanel labelPanel;
 	protected ToggleButton btnHelpToggle;
 	protected PopupPanel helpPopup;
 
@@ -143,36 +142,13 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	 * container is used. (Really just a workaround because the nested gwt
 	 * panels are not allowing 100% width to work as we would like).
 	 */
-	private void setInputFieldWidth() {
-
-		final Widget parent = this.getParent();
-		// deferred scheduling is needed for applets
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-
-				int symbolButtonWidth = 20;
-
-				// find width of internal padding
-				int padding = innerPanel.getOffsetWidth()
-				        - inputPanel.getOffsetWidth();
-
-				// find total width used by elements other than our field or a
-				// parent border
-				int nonFieldWidth = padding + eastPanel.getOffsetWidth()
-				        + labelPanel.getOffsetWidth() + symbolButtonWidth;
-
-				// find the field width needed to fill the input bar
-				int fieldWidth = parent.getOffsetWidth() - nonFieldWidth;
-
-				// now set the width
-				//inputField.setWidth(fieldWidth);
-			}
-		});
+	public void setInputFieldWidth(int width) {
+		inputPanel.setWidth((width - 100) + "px");
 	}
 
 	public void onResize() {
-		if (inputField != null) {
-			//setInputFieldWidth();
+		if (!app.isApplet()) {
+			setInputFieldWidth((int)app.getWidth());
 		}
 		
 		// hide the help popup

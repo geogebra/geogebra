@@ -227,6 +227,7 @@ public class AppWapplet extends AppW {
 		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
 		frame.add(inputbar);
+		this.getGuiManager().getAlgebraInput().setInputFieldWidth(this.appletWidth);
 	}
 
 	public void attachMenubar() {

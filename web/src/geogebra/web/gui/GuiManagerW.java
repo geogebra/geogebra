@@ -520,6 +520,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			Widget root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged, root.getOffsetHeight() + heightChanged);		
 		}
+		App.printStacktrace("");
+		this.algebraInput.setWidth((width-100)+"px");
 		//EuclidianPanelWAbstract epanel = ((AppW) app).getEuclidianViewpanel();
 		//epanel.setPixelSize(epanel.getOffsetWidth() + widthChanged, epanel.getOffsetHeight() + heightChanged );
 

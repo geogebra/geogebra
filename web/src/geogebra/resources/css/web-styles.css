@@ -1778,7 +1778,6 @@ Paddings for menuitems.
 
 .InputPanel {
 	overflow: auto;
-	width: 90%;
 }
 
 .InputPanel .TextField {
