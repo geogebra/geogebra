@@ -1,5 +1,5 @@
 package javagiac;
-// This is based on runme.java. Just a playground to test various hacks with Giac conveniently.
+// Command line interface to run Giac statements via JNI.
 // Usage on command line:
 // 1. Compile it: "javac *.java".
 // 2. Run it: "cd ..; java -Djava.library.path=lib javagiac/minitest '1+2*(3+4)'
