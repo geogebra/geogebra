@@ -275,6 +275,10 @@ public class GeoGebraCasIntegrationTest {
   }
 
 
+  @Rule
+  public Timeout globalTimeout = new Timeout(10000); // 10 seconds max per method tested
+
+
   // Self Test Section
 
 
