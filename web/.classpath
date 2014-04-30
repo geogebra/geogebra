@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
-	<classpathentry kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
 	<classpathentry kind="lib" path="lib/gwtgl-0.9.1-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/gwtgl-0.9.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/gwtgl-0.9.1.jar"/>

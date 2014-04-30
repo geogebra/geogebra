@@ -130,7 +130,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		// TODO: Only visible if user is logged in with google Account
 		GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
 		        .getLoggedInUser();
-		if (user != null && user.hasGoogleDrive()) {
+		if (user != null && user.hasGoogleDrive() && !((AppW)app).getLAF().isSmart()) {
 			locationDrive = new StandardButton(
 			        BrowseResources.INSTANCE.location_drive());
 			providers.add(locationDrive);
