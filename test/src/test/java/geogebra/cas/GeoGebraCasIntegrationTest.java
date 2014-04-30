@@ -31,7 +31,12 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+
+import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
+
 
 import com.google.common.base.Throwables;
 
