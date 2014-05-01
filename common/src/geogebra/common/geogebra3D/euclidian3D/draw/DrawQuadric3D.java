@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -455,6 +456,10 @@ implements Previewable {
 	protected boolean hit(Hitting hitting){
 		
 		if (waitForReset){ // prevent NPE 
+			return false;
+		}
+		
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE){
 			return false;
 		}
 		

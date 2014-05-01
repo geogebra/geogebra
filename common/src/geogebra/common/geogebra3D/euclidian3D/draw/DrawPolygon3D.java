@@ -3,6 +3,7 @@
 
 
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -494,7 +495,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 		
-		if (getGeoElement().getAlphaValue() < 0.01f){
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE){
 			return false;
 		}
 		
