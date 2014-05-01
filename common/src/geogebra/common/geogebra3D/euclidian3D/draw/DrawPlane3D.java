@@ -460,6 +460,10 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return false;
 		}
 		
+		
+		double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+		setZPick(parameterOnHitting, parameterOnHitting);
+		
 		return true;
 		
 	}
