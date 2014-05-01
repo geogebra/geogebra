@@ -1520,6 +1520,12 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	public void disableLighting(){
 		jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
 	}
+	
+	
+	@Override
+	public boolean useLogicalPicking(){
+		return true;
+	}
 
 
 }

@@ -694,6 +694,11 @@ public class RendererGL2 extends RendererD {
 	public void disableLighting(){
 		getGL().glDisable(GLlocal.GL_LIGHTING);
 	}
+	
+	@Override
+	public boolean useLogicalPicking(){
+		return false;
+	}
 
 
 }

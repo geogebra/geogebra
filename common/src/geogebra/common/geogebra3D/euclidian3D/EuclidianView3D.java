@@ -1816,7 +1816,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// empty method : setHits3D() used instead
 		// OR comment setHits3D() for shaders
 
-		if (USE_SHADERS){
+		if (renderer.useLogicalPicking()){
 			renderer.setHits(p, app.getCapturingThreshold(type));
 			if(type == PointerEventType.TOUCH && this.hits.size() == 0){
 				renderer.setHits(p, app.getCapturingThreshold(type) * 3);
@@ -1836,7 +1836,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            point location
 	 */
 	public void setHits3D(GPoint p) {
-		if (!USE_SHADERS){
+		if (!renderer.useLogicalPicking()){
 			renderer.setHits(p, 0);
 		}
 	}

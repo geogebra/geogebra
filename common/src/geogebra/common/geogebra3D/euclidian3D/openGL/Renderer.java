@@ -1788,4 +1788,10 @@ public abstract class Renderer {
 	
 	abstract public void setDashTexture(int index);
 	
+	/**
+	 * 
+	 * @return true if it uses logical picking instead of GL picking
+	 */
+	abstract public boolean useLogicalPicking();
+	
 }

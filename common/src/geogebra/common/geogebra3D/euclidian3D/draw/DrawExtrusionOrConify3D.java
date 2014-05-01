@@ -235,7 +235,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 		if (extrusionComputer!=null){
 
 			//clear current selections : remove basis polygon from selections (will be re-introduced, due to draw loop)
-			if (!EuclidianView3D.USE_SHADERS){
+			if (!getView3D().getRenderer().useLogicalPicking()){
 				getView3D().getEuclidianController().clearSelections();
 			}
 			

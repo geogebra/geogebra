@@ -1454,4 +1454,9 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		hitting.setHits(mouseLoc, threshold);
 
 	}
+	
+	@Override
+	public boolean useLogicalPicking(){
+		return true;
+	}
 }
