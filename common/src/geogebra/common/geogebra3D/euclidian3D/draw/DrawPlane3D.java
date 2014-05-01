@@ -411,4 +411,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			viewDirectionIsParallel = false;
 		}
     }
+    
+	@Override
+	public void setWaitForUpdateVisualStyle(){
+		super.setWaitForUpdateVisualStyle();
+		
+		//also update for plane clip
+		setWaitForUpdate();
+	}
+	
 }

@@ -403,8 +403,8 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * wait for reset color
 	 */
+	@Override
 	public void setWaitForUpdateVisualStyle(){
-		
 		waitForUpdateVisualStyle = true;
 	}
 	
