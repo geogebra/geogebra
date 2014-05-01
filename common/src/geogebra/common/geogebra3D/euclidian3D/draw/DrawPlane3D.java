@@ -1,6 +1,8 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -419,5 +421,48 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		//also update for plane clip
 		setWaitForUpdate();
 	}
+	
+	
+	@Override
+	protected boolean hit(Hitting hitting){
+		
+		if (waitForReset){ // prevent NPE 
+			return false;
+		}
+		
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE){
+			return false;
+		}
+		
+		
+		GeoPlane3D plane = (GeoPlane3D) getGeoElement();
+		
+		// project hitting origin on polygon plane
+		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(plane.getCoordSys().getMatrixOrthonormal(), hitting.direction);
+
+		if(!hitting.isInsideClipping(project[0])){
+			return false;
+		}
+		
+		double x = project[1].getX();
+		if (x < plane.getXmin()){
+			return false;
+		}
+		if (x > plane.getXmax()){
+			return false;
+		}
+		
+		double y = project[1].getY();
+		if (y < plane.getYmin()){
+			return false;
+		}
+		if (y > plane.getYmax()){
+			return false;
+		}
+		
+		return true;
+		
+	}
+
 	
 }
