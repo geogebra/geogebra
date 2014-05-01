@@ -61,6 +61,20 @@ public class Hitting {
 	
 	/**
 	 * 
+	 * @param p point coords
+	 * @return true if the point is inside the clipping box (if used)
+	 */
+	final public boolean isInsideClipping(Coords p){
+		if (view.useClippingCube()){
+			return view.isInside(p);
+		}
+		
+		return true;
+		
+	}
+	
+	/**
+	 * 
 	 * @return current threshold
 	 */
 	public int getThreshold(){

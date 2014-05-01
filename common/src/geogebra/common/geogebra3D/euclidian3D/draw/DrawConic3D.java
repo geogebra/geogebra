@@ -847,6 +847,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 			// try conic surface
 			if (getGeoElement().getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
+					&& hitting.isInsideClipping(project[0])
 					&& conic.isInRegion(project[1].getX(),project[1].getY()) ){
 				double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
 				setZPick(parameterOnHitting, parameterOnHitting);
@@ -861,17 +862,18 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			Coords p3d = conic.getCoordSys().getPoint(p2d.getX(),p2d.getY()); // get nearest point on conic
 			//App.debug("\n"+p2d+"\n3d:\n"+p3d);
 
-			project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
-			double d = p3d.distance(project[0]);
-			double scale = getView3D().getScale();
-			if (d * scale <= conic.getLineThickness() + hitting.getThreshold()){
-				double z = -project[1].getX();
-				double dz = conic.getLineThickness()/scale;
-				setZPick(z+dz, z-dz);
-				setPickingType(PickingType.POINT_OR_CURVE);
-				return true;
+			if (hitting.isInsideClipping(p3d)){
+				project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
+				double d = p3d.distance(project[0]);
+				double scale = getView3D().getScale();
+				if (d * scale <= conic.getLineThickness() + hitting.getThreshold()){
+					double z = -project[1].getX();
+					double dz = conic.getLineThickness()/scale;
+					setZPick(z+dz, z-dz);
+					setPickingType(PickingType.POINT_OR_CURVE);
+					return true;
+				}
 			}
-
 
 			return ret;
 		}

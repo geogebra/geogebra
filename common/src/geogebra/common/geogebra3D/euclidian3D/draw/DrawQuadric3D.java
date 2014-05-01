@@ -462,6 +462,10 @@ implements Previewable {
 		
 		Coords p3d = quadric.getProjection(null, hitting.origin, hitting.direction)[0];
 		
+		if (!hitting.isInsideClipping(p3d)){
+			return false;
+		}
+		
 		Coords[] project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
 		
 		double d = p3d.distance(project[0]);

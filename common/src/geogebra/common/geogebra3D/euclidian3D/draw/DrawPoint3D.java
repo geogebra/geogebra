@@ -293,6 +293,11 @@ implements Previewable, Functional2Var{
 	 */
 	static public boolean hit(Hitting hitting, Coords p, Drawable3D drawable, int pointSize){
 		Coords[] project = p.projectLine(hitting.origin, hitting.direction);
+		
+		if (!hitting.isInsideClipping(project[0])){
+			return false;
+		}
+		
 		double d = p.distance(project[0]);
 		double scale = drawable.getView3D().getScale();
 		if (d * scale <= DrawPoint.getSelectionThreshold(hitting.getThreshold())){

@@ -297,6 +297,10 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 			return false;
 		}
 		
+		if (!hitting.isInsideClipping(project[1])){
+			return false;
+		}
+		
 		double d = project[0].distance(project[1]);
 		if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + 2){
 			double z = -parameterOnHitting;

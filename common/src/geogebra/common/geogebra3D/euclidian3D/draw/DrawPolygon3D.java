@@ -504,6 +504,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		// project hitting origin on polygon plane
 		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(poly.getCoordSys().getMatrixOrthonormal(), hitting.direction);
 
+		if(!hitting.isInsideClipping(project[0])){
+			return false;
+		}
+		
 		// check if hitting projection hits the polygon
 		if (poly.isInRegion(project[1].getX(),project[1].getY())){
 			double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
