@@ -29,6 +29,9 @@ public class CallJavaScript {
 	 */
 	public void evalGlobalScript(App app) {
 
+		// create new scope 
+		scope = cx.initStandardObjects();
+		
 		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
 		GeoGebraGlobal.initStandardObjects((AppD) app, scope, null, false);
 
