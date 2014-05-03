@@ -5,6 +5,8 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.main.AppD;
 
+import javax.swing.SwingUtilities;
+
 //import org.concord.framework.data.stream.DataListener;
 //import org.concord.framework.data.stream.DataStreamEvent;
 //import org.concord.sensor.SensorDataProducer;
@@ -97,8 +99,14 @@ public class ScriptManagerD extends ScriptManager {
 		return usb;
 	}
 
-	public void setGlobalScript(){
-		CallJavaScript.instance.evalGlobalScript(app);
+	public void setGlobalScript() {
+		
+		// allow time to load GgbApi 
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				CallJavaScript.instance.evalGlobalScript(app);
+			}
+		});
 	}
 
 }
