@@ -46,7 +46,7 @@ public class ScriptManagerD extends ScriptManager {
 		try {
 			// call only if libraryJavaScript is not the default (ie do nothing)
 			if (!((AppD)app).getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
-				CallJavaScript.evalScript(((AppD)app), "ggbOnInit();", null);
+				CallJavaScript.instance.evalScript(((AppD)app), "ggbOnInit();", null);
 		} catch (Exception e) {
 			App.debug("Error calling ggbOnInit(): "+e.getMessage());
 		}
@@ -84,7 +84,7 @@ public class ScriptManagerD extends ScriptManager {
 			
 			App.debug(sb.toString());
 			
-			CallJavaScript.evalScript(app, sb.toString(), null);
+			CallJavaScript.instance.evalScript(app, sb.toString(), null);
 
 		}
 	}
@@ -97,5 +97,8 @@ public class ScriptManagerD extends ScriptManager {
 		return usb;
 	}
 
+	public void setGlobalScript(){
+		CallJavaScript.instance.evalGlobalScript(app);
+	}
 
 }

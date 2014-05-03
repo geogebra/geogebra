@@ -1832,6 +1832,8 @@ public class Kernel {
 		// "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');ggbApplet.registerObjectUpdateListener('A','listener');}function listener() {//java.lang.System.out.println('add listener called'); var x = ggbApplet.getXcoord('A');var y = ggbApplet.getYcoord('A');var len = Math.sqrt(x*x + y*y);if (len > 5) { x=x*5/len; y=y*5/len; }ggbApplet.unregisterObjectUpdateListener('A');ggbApplet.setCoords('A',x,y);ggbApplet.registerObjectUpdateListener('A','listener');}";
 		// libraryJavaScript =
 		// "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');}";
+		
+		app.getScriptManager().setGlobalScript();
 	}
 
 	// public String getLibraryJavaScriptXML() {

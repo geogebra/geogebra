@@ -486,6 +486,10 @@ public abstract class ScriptManager implements EventListener{
 		}
 		return clickListenerMap;
 	}
+	
+	public void setGlobalScript(){
+		// to be overridden 
+	}
 }
 
 
