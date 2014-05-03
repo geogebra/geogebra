@@ -775,14 +775,15 @@ public class CellFormat implements CellFormatInterface {
 		for (int i = 2; i < f.length; i = i + 2) {
 			formatType = formatTokenMap.get(f[i]);
 			if (formatType == FORMAT_BGCOLOR) {
-				formatValue = Integer.parseInt(f[i + 1]);
+				
+				// #4299 changed to Long
 				// this Integer is of the form 0xAARRGGBB,
 				// so remove the alpha channel to make it positive
-				formatValue = (Integer)formatValue & 0x00ffffff;
-				formatValue = AwtFactory.prototype.newColor((Integer)formatValue);
+				int fv = (int)(Long.parseLong(f[i + 1]) & 0x00ffffff); 
+
+				formatValue = AwtFactory.prototype.newColor(fv);
 			} else if (formatType == FORMAT_BORDER) {
-				formatValue = Integer.parseInt(f[i + 1]);
-				int b = (Integer) formatValue;
+				long b = Long.parseLong(f[i + 1]);
 				formatValue = (byte) b;
 			} else {
 				formatValue = Integer.parseInt(f[i + 1]);
