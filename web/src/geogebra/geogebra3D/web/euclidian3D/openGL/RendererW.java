@@ -930,7 +930,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
      	//bindTexture(index[0]);
 		
 		//textureImage2D(sizeX, sizeY, buf);
-		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.ALPHA, WebGLRenderingContext.ALPHA, 
+		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.RGBA, WebGLRenderingContext.RGBA, 
 				WebGLRenderingContext.UNSIGNED_BYTE, ((GBufferedImageW) bimg).getImageElement());
         
         
