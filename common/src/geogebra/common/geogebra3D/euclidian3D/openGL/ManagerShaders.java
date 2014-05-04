@@ -441,15 +441,15 @@ public class ManagerShaders extends Manager {
 	public void rectangle(int x, int y, int z, int width, int height){
 		
 		currentGeometriesSet = new GeometriesSet();
-		startGeometry(Manager.Type.TRIANGLE_FAN);
+		startGeometry(Manager.Type.TRIANGLE_STRIP);
 		texture(0, 0);
 		vertexInt(x,y,z); 
 		texture(1, 0);
 		vertexInt(x+width,y,z); 
-		texture(1, 1);
-		vertexInt(x+width,y+height,z); 
 		texture(0, 1);
 		vertexInt(x,y+height,z); 	
+		texture(1, 1);
+		vertexInt(x+width,y+height,z); 
 		endGeometry();
 		
 		for (Geometry geometry : currentGeometriesSet){
