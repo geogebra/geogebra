@@ -1188,20 +1188,52 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	@Override
 	protected void setView() {
 		
-		float[] projection = {
+		setProjectionMatrix();
+        jogl.getGL2ES2().glUniformMatrix4fv(projectionLocation, 1, false, projectionMatrix, 0);
+        
+	}
+
+
+	private float[] projectionMatrix;
+	
+	@Override
+	protected void viewOrtho() {
+
+		projectionMatrix = new float[] {
                 2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
                 0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
                 0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
                 0.0f, 0.0f, -1f/getVisibleDepth(), 1.0f,
         };
 
-        jogl.getGL2ES2().glUniformMatrix4fv(projectionLocation, 1, false, projection, 0);
-        
+	}
+
+
+	
+
+
+
+	@Override
+	protected void viewPersp() {
+		viewOrtho();
+		
 	}
 
 
 
+	@Override
+	protected void viewGlasses() {
+		viewOrtho();
+		
+	}
 
+
+
+	@Override
+	protected void viewOblique() {
+		viewOrtho();
+		
+	}
 
 
 
@@ -1241,11 +1273,6 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 
 
-	@Override
-	protected void viewOrtho() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
@@ -1262,62 +1289,6 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 
 
-
-
-
-	@Override
-	protected void viewPersp() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	@Override
-	protected void viewGlasses() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	@Override
-	protected void viewOblique() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
