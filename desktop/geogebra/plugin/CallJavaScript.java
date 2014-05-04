@@ -8,30 +8,19 @@ import org.mozilla.javascript.Scriptable;
 
 public class CallJavaScript {
 
-	private Context cx;
-	private Scriptable scope;
-
-	/** Singleton instance that preserves globals. */
-	public final static CallJavaScript instance = new CallJavaScript();
-
-	/** Private constructor to force use of singleton instance. */
-	private CallJavaScript() {
-
-		cx = Context.enter();
-		scope = cx.initStandardObjects();
-	}
-
 	/**
-	 * Evaluates a global script. No result is expected, this simply updates the
-	 * global functions and objects stored in the scope field.
+	 * Evaluates the global script for the current construction and returns a
+	 * scope object for this script.
 	 * 
 	 * @param app
+	 * @return
 	 */
-	public void evalGlobalScript(App app) {
+	public static Scriptable evalGlobalScript(App app) {
 
-		// create new scope 
-		scope = cx.initStandardObjects();
-		
+		// create new scope
+		Context cx = Context.enter();
+		Scriptable scope = cx.initStandardObjects();
+
 		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
 		GeoGebraGlobal.initStandardObjects((AppD) app, scope, null, false);
 
@@ -46,26 +35,38 @@ public class CallJavaScript {
 		Object result = cx.evaluateString(scope, ((AppD) app).getKernel()
 				.getLibraryJavaScript(), app.getPlain("ErrorAtLine"), 1, null);
 
+		return scope;
+
 	}
 
 	/**
-	 * Evaluates a local script. 
+	 * Evaluates a local script using the global scope from the current
+	 * construction.
 	 * 
 	 * @param app
 	 * @param script
 	 * @param arg
 	 */
-	public void evalScript(App app, String script, String arg) {
+	public static void evalScript(App app, String script, String arg) {
+
+		// get the global scope for the current construction
+		Scriptable globalScope = ((ScriptManagerD) app.getScriptManager())
+				.getGlobalScopeMap().get(app.getKernel().getConstruction());
+
+		if (globalScope == null) {
+			evalGlobalScript(app);
+		}
 
 		// Create a new scope that shares the global scope
-		Scriptable newScope = cx.newObject(scope);
-		newScope.setPrototype(scope);
+		Context cx = Context.enter();
+		Scriptable newScope = cx.newObject(globalScope);
+		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
 
 		// Evaluate the script.
 		Object result = cx.evaluateString(newScope, script,
 				app.getPlain("ErrorAtLine"), 1, null);
-
+		
 	}
 
 }

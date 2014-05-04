@@ -4428,8 +4428,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void evalJavaScript(App app, String script, String arg) {
-		CallJavaScript.instance.evalScript(app, script, arg);
-
+		CallJavaScript.evalScript(app, script, arg);
 	}
 
 	@Override

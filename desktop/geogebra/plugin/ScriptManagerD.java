@@ -1,11 +1,16 @@
 package geogebra.plugin;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.main.AppD;
 
+import java.util.HashMap;
+
 import javax.swing.SwingUtilities;
+
+import org.mozilla.javascript.Scriptable;
 
 //import org.concord.framework.data.stream.DataListener;
 //import org.concord.framework.data.stream.DataStreamEvent;
@@ -37,8 +42,13 @@ public class ScriptManagerD extends ScriptManager {
 			"ggbApplet.registerObjectUpdateListener('A','listener');" +
 			"}";*/
 	
+	protected HashMap<Construction, Scriptable> globalScopeMap;
+	
 	public ScriptManagerD(App app) {
 		super(app);
+		
+		globalScopeMap = new HashMap<>() ;
+		
 		//evalScript("ggbOnInit();");
 	}
 	
@@ -47,10 +57,11 @@ public class ScriptManagerD extends ScriptManager {
 		
 		try {
 			// call only if libraryJavaScript is not the default (ie do nothing)
-			if (!((AppD)app).getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
-				CallJavaScript.instance.evalScript(((AppD)app), "ggbOnInit();", null);
+			if (!((AppD) app).getKernel().getLibraryJavaScript()
+					.equals(Kernel.defaultLibraryJavaScript))
+				CallJavaScript.evalScript(((AppD) app), "ggbOnInit();", null);
 		} catch (Exception e) {
-			App.debug("Error calling ggbOnInit(): "+e.getMessage());
+			App.debug("Error calling ggbOnInit(): " + e.getMessage());
 		}
 
 
@@ -85,8 +96,8 @@ public class ScriptManagerD extends ScriptManager {
 			sb.append(");");
 			
 			App.debug(sb.toString());
-			
-			CallJavaScript.instance.evalScript(app, sb.toString(), null);
+
+			CallJavaScript.evalScript(app, sb.toString(), null);
 
 		}
 	}
@@ -99,12 +110,18 @@ public class ScriptManagerD extends ScriptManager {
 		return usb;
 	}
 
+	
+	public HashMap<Construction, Scriptable> getGlobalScopeMap() {
+		return globalScopeMap;
+	}
+	
 	public void setGlobalScript() {
 		
-		// allow time to load GgbApi 
+		// use runnable to allow time to load GgbApi 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				CallJavaScript.instance.evalGlobalScript(app);
+				Scriptable globalScope = CallJavaScript.evalGlobalScript(app);
+				globalScopeMap.put(app.getKernel().getConstruction(), globalScope);
 			}
 		});
 	}
