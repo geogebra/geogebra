@@ -1973,7 +1973,7 @@ __GGB__keysVar.es_UY.menu = {
     "Vector": "Vector",
     "Vector_Help": "Punto\u2195 de origen y luego, extremo\u2195",
     "VectorFromPoint": "Vector desde un punto",
-    "VectorFromPoint_Help": "Origen; luego, vector [ya creados]",
+    "VectorFromPoint_Help": "Origen; luego, vector (ya creado)",
     "VectorMenu": "Vector",
     "VectorPolygon": "Pol\xedgono vectorial",
     "VectorPolygon_Help": "V\xe9rtices\u2195, punto\u2195 por punto\u2195, reiterando el primero",
