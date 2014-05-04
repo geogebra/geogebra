@@ -1203,8 +1203,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
                 2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
                 0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
                 0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
-                0.0f, 0.0f, -1f/getVisibleDepth(), 1.0f,
-        };
+                0.0f, 0.0f, 0f, 1.0f
+		};
 
 	}
 
@@ -1215,7 +1215,22 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 	@Override
 	protected void viewPersp() {
-		viewOrtho();
+		
+		projectionMatrix = new float[] {
+                (float) (2*perspNear/(perspRight-perspLeft)), 0.0f, 0.0f, 0.0f,
+                0.0f, (float) (2*perspNear/(perspTop-perspBottom)), 0.0f, 0.0f,
+                
+                (float) ((perspRight+perspLeft)/(perspRight-perspLeft)), 
+                (float) ((perspTop+perspBottom)/(perspTop-perspBottom)), 
+                0f,  // clamping : -d/2 >> -1, d/2 >> 1
+                -1f,
+                
+                0f, 
+                0f,
+                -getVisibleDepth()/2, // clamping : -d/2 >> -1, d/2 >> 1
+                (float) (-perspFocus) // eye position
+        };
+		
 		
 	}
 

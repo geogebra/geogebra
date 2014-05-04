@@ -803,19 +803,17 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	    
     }
 
+	
 	@Override
 	protected void setView() {
 		
-		float[] projection = {
-                2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
-                0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
-                0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
-                0.0f, 0.0f, -1f/getVisibleDepth(), 1.0f,
-        };
-
-        glContext.uniformMatrix4fv(projectionLocation, false, projection);        
-
+		setProjectionMatrix();
+		glContext.uniformMatrix4fv(projectionLocation, false, projectionMatrix);    
+        
 	}
+
+
+	private float[] projectionMatrix;
 
 	@Override
     protected void disableStencilLines() {
@@ -829,29 +827,66 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	    
     }
 
-	@Override
-    protected void viewOrtho() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	
+	
 
 	@Override
-    protected void viewPersp() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void viewOrtho() {
+
+		projectionMatrix = new float[] {
+                2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
+                0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
+                0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
+                0.0f, 0.0f, 0f, 1.0f
+		};
+
+	}
+
+
+	
+
+
 
 	@Override
-    protected void viewGlasses() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void viewPersp() {
+		
+		projectionMatrix = new float[] {
+                (float) (2*perspNear/(perspRight-perspLeft)), 0.0f, 0.0f, 0.0f,
+                0.0f, (float) (2*perspNear/(perspTop-perspBottom)), 0.0f, 0.0f,
+                
+                (float) ((perspRight+perspLeft)/(perspRight-perspLeft)), 
+                (float) ((perspTop+perspBottom)/(perspTop-perspBottom)), 
+                0f,  // clamping : -d/2 >> -1, d/2 >> 1
+                -1f,
+                
+                0f, 
+                0f,
+                -getVisibleDepth()/2, // clamping : -d/2 >> -1, d/2 >> 1
+                (float) (-perspFocus) // eye position
+        };
+		
+		
+		
+	}
+
+
 
 	@Override
-    protected void viewOblique() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void viewGlasses() {
+		viewOrtho();
+		
+	}
+
+
+
+	@Override
+	protected void viewOblique() {
+		viewOrtho();
+		
+	}
+
+
+	
 	
 	
 	
