@@ -881,10 +881,16 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
 	protected void viewOblique() {
-		viewOrtho();
+		projectionMatrix = new float[] {
+				
+				2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
+                0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
+                (float) obliqueX * 2.0f/getWidth(), (float) obliqueY * 2.0f/getHeight(), -2.0f/getVisibleDepth(), 0f,
+                0.0f, 0.0f, 0f, 1.0f
+                
+		};
 		
 	}
-
 
 	
 	
