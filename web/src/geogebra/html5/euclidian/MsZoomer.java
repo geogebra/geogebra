@@ -22,8 +22,7 @@ public class MsZoomer {
 
 		@Override
         public int mouseEventX(int clientX) {
-			EnvironmentStyleW style = ec.getEnvironmentStyle();
-	        return Math.round(clientX + (zoom()-1)*style.getxOffset());
+	        return Math.round(clientX + (zoom()-1));
         }
 
 		private native int zoom() /*-{
@@ -32,8 +31,7 @@ public class MsZoomer {
 
 		@Override
         public int mouseEventY(int clientY) {
-			EnvironmentStyleW style = ec.getEnvironmentStyle();
-			return Math.round(clientY + (zoom()-1)*style.getyOffset());
+			return Math.round(clientY + (zoom()-1));
         }
 
 		@Override

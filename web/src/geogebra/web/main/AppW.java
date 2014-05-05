@@ -62,8 +62,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.MissingResourceException;
 
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
@@ -257,21 +255,7 @@ public abstract class AppW extends AppWeb {
 
 		setUndoActive(undoActive);
 		registerFileDropHandlers(getFrameElement());
-		registerRecalculateListener();		
 	}
-
-	
-	
-
-	private void registerRecalculateListener() {
-	    AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
-			@Override
-			public void execute(double timestamp) {
-				AppW.this.recalculateEnvironments();
-				AnimationScheduler.get().requestAnimationFrame(this);
-			}
-		});
-    }
 
 	protected void afterCoreObjectsInited() { } // TODO: abstract?
 

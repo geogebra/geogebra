@@ -362,7 +362,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
 		((EuclidianViewW) view).resetMsZoomer();
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event,this);
 		wrapMouseExited(e);
 		e.release();
 	}
@@ -373,7 +373,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return;
 		}
 
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event,this);
 		event.preventDefault();
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
@@ -424,7 +424,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		event.preventDefault();
 
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event,this);
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		DRAGMODE_MUST_BE_SELECTED = false;
@@ -452,7 +452,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event,this);
 		if (app.getGuiManager() != null)
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
@@ -530,14 +530,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(((AppW)app).getLAF().isSmart()){
 			return mouseEventX(clientX);
 		}
-		return clientX - style.getxOffset();
+		return clientX;
 	}
 
 	public int touchEventY(int clientY) {
 		if(((AppW)app).getLAF().isSmart()){
 			return mouseEventY(clientY);
 		}
-		return clientY - style.getyOffset();
+		return clientY;
 	}
 
 	/**
@@ -555,13 +555,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public int mouseEventX(int clientX) {
-		 return Math.round((clientX- style.getxOffset())  *
+		 return Math.round((clientX)  *
 			(1 / style.getScaleX()) *
 				(1 / style.getHeightScale()));
    }
 
 	public int mouseEventY(int clientY) {
-		 return Math.round((clientY- style.getyOffset())  *
+		 return Math.round((clientY)  *
 			(1 / style.getScaleY()) *
 				(1 / style.getHeightScale()));
     }

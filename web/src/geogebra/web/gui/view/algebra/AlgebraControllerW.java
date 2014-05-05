@@ -250,18 +250,18 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 	public void dropActionChanged(AbstractEvent e) {}
 
 	public void onMouseDown(MouseDownEvent event) {
-		mousePressed(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mousePressed(PointerEvent.wrapEvent(event, ZeroOffset.instance));
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
 		// TODO: make it care for mouse down too
 		// currently, this event is not used
-		mouseClicked(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mouseClicked(PointerEvent.wrapEvent(event, ZeroOffset.instance));
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
 		// currently, this event is not used
-		mouseMoved(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mouseMoved(PointerEvent.wrapEvent(event, ZeroOffset.instance));
 	}
 
 }

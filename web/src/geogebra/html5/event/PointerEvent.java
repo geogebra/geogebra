@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
+import com.google.gwt.event.dom.client.MouseEvent;
 
 /**
  * Base implementation of AbstractEvent.
@@ -124,16 +125,16 @@ public class PointerEvent extends AbstractEvent {
 		return new PointerEvent(x, y ,type,h);
 	}
 	
-	public static PointerEvent wrapEvent(NativeEvent nativeEvent,HasOffsets off) {
-		PointerEvent evt = wrapEvent(nativeEvent.getClientX(), nativeEvent.getClientY(), off.getDefaultEventType(), 
+	public static PointerEvent wrapEvent(MouseEvent event ,HasOffsets off) {
+		PointerEvent evt = wrapEvent(event.getX(), event.getY(), off.getDefaultEventType(), 
 				 off, off.getMouseEventPool());
-		evt.alt = nativeEvent.getAltKey();
-		evt.control = nativeEvent.getCtrlKey();
-		evt.clickCount = "dblclick".equals(nativeEvent.getType()) ? 2 : 1;
-		evt.meta = nativeEvent.getMetaKey();
-		evt.middle = nativeEvent.getButton() == NativeEvent.BUTTON_MIDDLE;
-		evt.right = nativeEvent.getButton() == NativeEvent.BUTTON_RIGHT;
-		evt.shift = nativeEvent.getShiftKey();
+		evt.alt = event.isAltKeyDown();
+		evt.control = event.isControlKeyDown();
+		evt.clickCount = "dblclick".equals(event.getNativeEvent().getType()) ? 2 : 1;
+		evt.meta = event.isMetaKeyDown();
+		evt.middle = event.getNativeButton() == NativeEvent.BUTTON_MIDDLE;
+		evt.right = event.getNativeButton() == NativeEvent.BUTTON_RIGHT;
+		evt.shift = event.isShiftKeyDown();
 		return evt;
 	}
 
