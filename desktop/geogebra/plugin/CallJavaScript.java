@@ -19,10 +19,6 @@ public class CallJavaScript {
 
 		// create new scope
 		Context cx = Context.enter();
-		Scriptable scope = cx.initStandardObjects();
-
-		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
-		GeoGebraGlobal.initStandardObjects((AppD) app, scope, null, false);
 
 		// No class loader for unsigned applets so don't try and optimize.
 		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
@@ -31,10 +27,16 @@ public class CallJavaScript {
 			Context.setCachingEnabled(false);
 		}
 
+		Scriptable scope = cx.initStandardObjects();
+
+		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
+		GeoGebraGlobal.initStandardObjects((AppD) app, scope, null, false);
+
 		// Evaluate the global string
 		Object result = cx.evaluateString(scope, ((AppD) app).getKernel()
 				.getLibraryJavaScript(), app.getPlain("ErrorAtLine"), 1, null);
 
+		cx.exit();
 		return scope;
 
 	}
@@ -53,12 +55,16 @@ public class CallJavaScript {
 		Scriptable globalScope = ((ScriptManagerD) app.getScriptManager())
 				.getGlobalScopeMap().get(app.getKernel().getConstruction());
 
-		if (globalScope == null) {
-			evalGlobalScript(app);
+		Context cx = Context.enter();
+
+		// No class loader for unsigned applets so don't try and optimize.
+		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
+		if (!AppD.hasFullPermissions()) {
+			cx.setOptimizationLevel(-1);
+			Context.setCachingEnabled(false);
 		}
 
 		// Create a new scope that shares the global scope
-		Context cx = Context.enter();
 		Scriptable newScope = cx.newObject(globalScope);
 		newScope.setPrototype(globalScope);
 		newScope.setParentScope(null);
@@ -66,7 +72,9 @@ public class CallJavaScript {
 		// Evaluate the script.
 		Object result = cx.evaluateString(newScope, script,
 				app.getPlain("ErrorAtLine"), 1, null);
-		
+
+		cx.exit();
+
 	}
 
 }

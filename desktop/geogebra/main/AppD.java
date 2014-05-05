@@ -88,7 +88,6 @@ import geogebra.kernel.UndoManagerD;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.move.ggtapi.models.AuthenticationModelD;
 import geogebra.move.ggtapi.models.LoginOperationD;
-import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPID;
 import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManagerD;
@@ -4428,7 +4427,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void evalJavaScript(App app, String script, String arg) {
-		CallJavaScript.evalScript(app, script, arg);
+		getScriptManager().evalJavaScript(app, script, arg);
 	}
 
 	@Override
