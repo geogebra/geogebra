@@ -18,6 +18,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -107,7 +108,8 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 			setComputedWidth(width);
 			setComputedHeight(height);
 			setHeight((height - BORDER_HEIGHT) + "px"); // 2: border
-			splash.addStyleName("splash");
+			//Styleshet not loaded yet, add CSS directly
+			splash.getElement().getStyle().setPosition(Position.ABSOLUTE);
 			splash.getElement().getStyle()
 	        	.setTop((height / 2) - (splashHeight / 2), Unit.PX);
 			if (!ae.isRTL()) {
