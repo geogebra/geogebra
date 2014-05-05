@@ -3497,6 +3497,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	public void setProjectionOrthographic() {
 		renderer.setWaitForDisableStencilLines();
+		renderer.updateOrthoValues();
 		setProjectionValues(PROJECTION_ORTHOGRAPHIC);
 		setDefault2DCursor();
 	}

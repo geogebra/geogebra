@@ -1403,6 +1403,12 @@ public abstract class Renderer {
 
 		// viewEye();
 	}
+	
+	/**
+	 * for shaders : update projection matrix
+	 */
+	abstract public void updateOrthoValues();
+
 
 	/**
 	 * Set Up An Ortho View regarding left, right, bottom, front values
@@ -1432,7 +1438,7 @@ public abstract class Renderer {
 	protected double perspFocus;
 	protected Coords perspEye;
 
-	private void updatePerspValues() {
+	protected void updatePerspValues() {
 
 		perspNear = eyeToScreenDistance - getVisibleDepth() / 2;
 		if (perspNear < PERSP_NEAR_MIN) {
@@ -1575,6 +1581,7 @@ public abstract class Renderer {
 
 		switch (view3D.getProjection()) {
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+			updateOrthoValues();
 			break;
 		case EuclidianView3D.PROJECTION_PERSPECTIVE:
 			updatePerspValues();

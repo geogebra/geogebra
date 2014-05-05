@@ -514,6 +514,11 @@ public class RendererGL2 extends RendererD {
 			enableClipPlanes();
 
 	}
+	
+	@Override
+	final public void updateOrthoValues(){
+		// nothing to do here
+	}
 
 	@Override
 	protected void viewOrtho() {

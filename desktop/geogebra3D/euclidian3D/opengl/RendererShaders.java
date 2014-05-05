@@ -1198,12 +1198,17 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	
 	@Override
 	protected void viewOrtho() {
+		//the projection matrix is updated in updateOrthoValues()
+	}
 
+	@Override
+	final public void updateOrthoValues(){
+		
 		projectionMatrix = new float[] {
-                2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
-                0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
-                0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
-                0.0f, 0.0f, 0f, 1.0f
+				2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
+				0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
+				0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
+				0.0f, 0.0f, 0f, 1.0f
 		};
 
 	}
@@ -1215,6 +1220,15 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 	@Override
 	protected void viewPersp() {
+		//the projection matrix is updated in updatePerspValues()
+	
+	}
+		
+		
+	@Override
+	protected void updatePerspValues() {
+		
+		super.updatePerspValues();
 		
 		projectionMatrix = new float[] {
                 (float) (2*perspNear/(perspRight-perspLeft)), 0.0f, 0.0f, 0.0f,
@@ -1246,18 +1260,21 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 	@Override
 	protected void viewOblique() {
-		projectionMatrix = new float[] {
-				
-				2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
-                0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
-                (float) obliqueX * 2.0f/getWidth(), (float) obliqueY * 2.0f/getHeight(), -2.0f/getVisibleDepth(), 0f,
-                0.0f, 0.0f, 0f, 1.0f
-                
-		};
-		
+		//the projection matrix is updated in updateProjectionObliqueValues()
 	}
 
+	@Override
+	public void updateProjectionObliqueValues() {
+		super.updateProjectionObliqueValues();
+		projectionMatrix = new float[] {
 
+				2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
+				0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
+				(float) obliqueX * 2.0f/getWidth(), (float) obliqueY * 2.0f/getHeight(), -2.0f/getVisibleDepth(), 0f,
+				0.0f, 0.0f, 0f, 1.0f
+
+		};
+	}
 
 
 
