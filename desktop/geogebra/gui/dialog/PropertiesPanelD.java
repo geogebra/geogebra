@@ -3349,7 +3349,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private PopupMenuButton btnImage;
 		private JLabel lblFillInverse;
 		private JLabel lblSymbols;
-		private boolean hasGeoButton = false;
 		private ArrayList<String> imgFileNameList;
 		private PopupMenuButton btInsertUnicode;
 
@@ -3690,7 +3689,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			this.btnImage.setVisible(true);
 
 			// for GeoButtons only show the image file button
-			if (hasGeoButton) {
+			if (model.hasGeoButton()) {
 				transparencyPanel.setVisible(false);
 				lblFillType.setVisible(false);
 				cbFillType.setVisible(false);
@@ -3719,7 +3718,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			angleSlider.addChangeListener(this);
 			distanceSlider.addChangeListener(this);
 
-			if (hasGeoButton) {
+			if (model.hasGeoButton()) {
 				int index = imgFileNameList.lastIndexOf(model.getGeoAt(0)
 						.getImageFileName());
 

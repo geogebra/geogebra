@@ -2357,7 +2357,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private FlowPanel mainWidget;
 		private FlowPanel fillTypePanel;
 		private Label fillTypeTitle;
-		private boolean hasGeoButton;
 		private Label fillingMin;
 		private FlowPanel btnPanel;
 		private AutoCompleteTextFieldW tfInsertUnicode;
@@ -2729,6 +2728,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void setStandardFillType() {
+			fillTypePanel.setVisible(true);
 			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(false);
 			imagePanel.setVisible(false);
@@ -2738,6 +2738,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setHatchFillType() {
+			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(5);
 			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
@@ -2751,6 +2752,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setCrossHatchedFillType() {
+			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(5);
 			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
@@ -2766,6 +2768,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setBrickFillType() {
+			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(5);
 			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
@@ -2779,6 +2782,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setSymbolFillType() {
+			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(10);
 			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
@@ -2804,6 +2808,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setImageFillType() {
+			fillTypePanel.setVisible(true);
 			opacityPanel.setVisible(true);
 			hatchFillPanel.setVisible(false);
 			imagePanel.setVisible(true);
@@ -2813,10 +2818,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			this.btnImage.setVisible(true);
 
 			// for GeoButtons only show the image file button
-			if (hasGeoButton) {
+			if (model.hasGeoButton()) {
+				fillTypePanel.setVisible(false);
 				opacityPanel.setVisible(false);
-				lblFillType.setVisible(false);
-				lbFillType.setVisible(false);
+				if (lblFillType != null) {
+					lblFillType.setVisible(false);
+					lbFillType.setVisible(false);
+				}
 				this.btnImage.setVisible(true);
 			}
 
