@@ -125,13 +125,13 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * MyError (InvalidFunction).
 	 */
 	@Override
-	public void initFunction() {
+	public boolean initFunction() {
 		if (fVars == null) {
 			// try function variable x
 			fVars = new FunctionVariable[] { new FunctionVariable(kernel) };
 		}
 
-		super.initFunction();
+		return super.initFunction();
 	}
 	/**
 	 * Initializes function variables  without resolving commands in the expression

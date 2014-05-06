@@ -20,7 +20,6 @@ import geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MaxSizeHashMap;
@@ -238,7 +237,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	 * Call this function to resolve variables and init the function. May throw
 	 * MyError (InvalidFunction).
 	 */
-	public void initFunction() {
+	public boolean initFunction() {
 		// replace function variables in tree
 		for (int i = 0; i < fVars.length; i++) {
 			FunctionVariable fVar = fVars[i];
@@ -286,7 +285,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		}
 
 		// initialize type as boolean or numeric function
-		initType(ev);
+		return initType(ev);
 	}
 
 	/**
@@ -315,7 +314,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	}
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
 	/** Receives result of evaluate as input, hence may use instanceof */
-	private void initType(ExpressionValue ev) {
+	private boolean initType(ExpressionValue ev) {
 		if (ev instanceof BooleanValue) {
 			isBooleanFunction = true;
 		} else if (ev instanceof NumberValue) {
@@ -327,11 +326,9 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 			expression = ((GeoFunction)ev).getFunctionExpression();
 			fVars =  ((GeoFunction)ev).getFunction().getFunctionVariables();
 		} else {
-			App.debug("InvalidFunction:"
-					+ expression.toString(StringTemplate.defaultTemplate) + " " + ev.toString(StringTemplate.defaultTemplate)
-					+ ev.getClass().getName());
-			throw new MyError(kernel.getApplication().getLocalization(), "InvalidFunction");
+			return false;
 		}
+		return true;
 	}
 
 	/**

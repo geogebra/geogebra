@@ -11,20 +11,26 @@ the Free Software Foundation.
  */
 package geogebra.common.geogebra3D.kernel3D.commands;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCurveCartesian;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -251,7 +257,31 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		return ret;
 	}
 	
-
+	protected GeoElement[] processParametricFunction(ExpressionNode exp, ExpressionValue ev, FunctionVariable fv,
+			String label) {
+		if(ev instanceof Vector3DValue){
+			GeoNumeric loc = new GeoNumeric(cons);
+			loc.setLocalVariableLabel(fv.getSetVarString());
+			exp.replace(fv, loc);
+			
+			AlgoDependentNumber nx =
+			new AlgoDependentNumber(cons, computeCoord(exp, 0), false);
+			
+			AlgoDependentNumber ny =
+					new AlgoDependentNumber(cons, computeCoord(exp, 1), false);
+			AlgoDependentNumber nz =
+					new AlgoDependentNumber(cons, computeCoord(exp, 2), false);
+			
+			GeoNumeric from = new GeoNumeric(cons,-10);
+			GeoNumeric to = new GeoNumeric(cons,10);
+			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons, label, new NumberValue[]{nx.getNumber(), ny.getNumber(),
+					nz.getNumber()},
+					loc, from, to);
+			return ac.getOutput();
+		}
+		return super.processParametricFunction(exp, ev, fv, label);
+		
+	}
 
 	
 	

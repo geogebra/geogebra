@@ -17,6 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.KernelCAS;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoCurveCartesian;
 import geogebra.common.kernel.algos.AlgoDependentBoolean;
 import geogebra.common.kernel.algos.AlgoDependentConic;
 import geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
@@ -43,6 +44,7 @@ import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Polynomial;
@@ -57,6 +59,7 @@ import geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -1429,7 +1432,12 @@ public class AlgebraProcessor {
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun) {
-		fun.initFunction();
+		if(!fun.initFunction()){
+			return processParametricFunction(fun.getExpression(),
+					fun.getExpression().evaluate(StringTemplate.defaultTemplate),
+					fun.getFunctionVariable(),
+					fun.getLabel());
+		}
 
 		String label = fun.getLabel();
 		GeoFunction f;
@@ -1502,6 +1510,59 @@ public class AlgebraProcessor {
 
 
 
+	protected GeoElement[] processParametricFunction(ExpressionNode exp, ExpressionValue ev, FunctionVariable fv,
+			String label) {
+		if(ev instanceof VectorValue){
+			GeoNumeric loc = new GeoNumeric(cons);
+			loc.setLocalVariableLabel(fv.getSetVarString());
+			exp.replace(fv, loc);
+			
+			AlgoDependentNumber nx =
+			new AlgoDependentNumber(cons, computeCoord(exp, 0), false);
+			
+			AlgoDependentNumber ny =
+					new AlgoDependentNumber(cons, computeCoord(exp, 1), false);
+					
+			
+			GeoNumeric from = new GeoNumeric(cons,-10);
+			GeoNumeric to = new GeoNumeric(cons,10);
+			AlgoCurveCartesian ac = new AlgoCurveCartesian(cons, label, new NumberValue[]{nx.getNumber(), ny.getNumber()},
+					loc, from, to);
+			return ac.getOutput();
+		}
+		App.debug("InvalidFunction:"
+				+ exp.toString(StringTemplate.defaultTemplate));
+		throw new MyError(kernel.getApplication().getLocalization(), "InvalidFunction");
+		
+	}
+
+	protected ExpressionNode computeCoord(ExpressionNode exp, int i) {
+		Operation[] ops = new Operation[]{Operation.XCOORD, Operation.YCOORD, Operation.ZCOORD};
+		if(exp.isLeaf()){
+			if(exp.getLeft() instanceof MyVecNode){
+				return i == 0 ? ((MyVecNode)exp.getLeft()).getX().wrap() : ((MyVecNode)exp.getLeft()).getY().wrap();
+			}
+			if(exp.getLeft() instanceof MyVec3DNode){
+				return i == 0 ? ((MyVec3DNode)exp.getLeft()).getX().wrap() :
+					(i == 1 ?
+					((MyVec3DNode)exp.getLeft()).getY().wrap() :
+						((MyVec3DNode)exp.getLeft()).getZ().wrap());
+			}
+		}
+		switch(exp.getOperation()){
+			case PLUS: return computeCoord(exp.getLeftTree(),i).plus(computeCoord(exp.getRightTree(),i));
+			case MINUS: return computeCoord(exp.getLeftTree(),i).subtract(computeCoord(exp.getRightTree(),i));
+			case MULTIPLY:
+				if(exp.getRight().evaluatesToNonComplex2DVector() || exp.getRight().evaluatesTo3DVector()){
+					return computeCoord(exp.getRightTree(),i).multiply(exp.getLeft());
+				}else
+				if(exp.getLeft().evaluatesToNonComplex2DVector() || exp.getLeft().evaluatesTo3DVector()){
+					return computeCoord(exp.getLeftTree(),i).multiply(exp.getRight());
+				}
+		}
+		return new ExpressionNode(kernel, exp, ops[i], null);
+	}
+
 	private static int getDirection(ExpressionNode enLeft) {
 		int dir = 0;
 		ExpressionValue left = enLeft.getLeft();
@@ -1552,7 +1613,11 @@ public class AlgebraProcessor {
 	 * @return GeoFunctionNVar
 	 */
 	public GeoElement[] processFunctionNVar(FunctionNVar fun) {
-		fun.initFunction();
+		if(!fun.initFunction()){
+			App.debug("InvalidFunction:"
+					+ fun.getExpression().toString(StringTemplate.defaultTemplate));
+			throw new MyError(kernel.getApplication().getLocalization(), "InvalidFunction");
+		}
 
 		String label = fun.getLabel();
 		GeoElement[] ret = new GeoElement[1];
