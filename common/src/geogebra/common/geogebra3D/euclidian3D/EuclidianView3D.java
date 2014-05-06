@@ -1138,6 +1138,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			pickPoint.setZ(0);
 		}else{
 			pickPoint.setZ(renderer.getVisibleDepth());
+			if (projection == PROJECTION_OBLIQUE){
+				pickPoint.setX(pickPoint.getX()-pickPoint.getZ()*renderer.getObliqueX());
+				pickPoint.setY(pickPoint.getY()-pickPoint.getZ()*renderer.getObliqueY());
+			}
 		}
 	}
 

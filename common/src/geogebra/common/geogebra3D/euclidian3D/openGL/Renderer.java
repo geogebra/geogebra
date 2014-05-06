@@ -1555,6 +1555,22 @@ public abstract class Renderer {
 	}
 
 	abstract protected void viewOblique();
+	
+	/**
+	 * 
+	 * @return x oblique factor
+	 */
+	public double getObliqueX(){
+		return obliqueX;
+	}
+
+	/**
+	 * 
+	 * @return y oblique factor
+	 */
+	public double getObliqueY(){
+		return obliqueY;
+	}
 
 	public Coords getObliqueOrthoDirection() {
 		return obliqueOrthoDirection;
