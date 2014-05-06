@@ -528,14 +528,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public int touchEventX(int clientX) {
 		if(((AppW)app).getLAF().isSmart()){
-			return mouseEventX(clientX);
+			return mouseEventX(clientX - style.getxOffset());
 		}
 		return clientX;
 	}
 
 	public int touchEventY(int clientY) {
 		if(((AppW)app).getLAF().isSmart()){
-			return mouseEventY(clientY);
+			return mouseEventY(clientY - style.getyOffset());
 		}
 		return clientY;
 	}

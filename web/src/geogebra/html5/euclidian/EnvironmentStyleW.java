@@ -67,9 +67,9 @@ public class EnvironmentStyleW extends EnvironmentStyle{
 	/**
 	 * @return the xOffset
 	 */
-    //public int getxOffset() {
-    //    return xOffset;
-    //}
+    public int getxOffset() {
+        return xOffset;
+    }
 	/**
 	 * @param xOffset the xOffset to set
 	 */
@@ -79,9 +79,9 @@ public class EnvironmentStyleW extends EnvironmentStyle{
 	/**
 	 * @return the yOffset
 	 */
-    //public int getyOffset() {
-    //    return yOffset;
-    //}
+    public int getyOffset() {
+        return yOffset;
+    }
 	/**
 	 * @param yOffset the yOffset to set
 	 */
