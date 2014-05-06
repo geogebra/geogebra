@@ -291,7 +291,7 @@ namespace giac {
     v.push_back(indent2(contextptr)+e.print(contextptr));
   }
 
-  static vecteur rm_checktype(const vecteur & v){
+  static vecteur rm_checktype(const vecteur & v,GIAC_CONTEXT){
     vecteur addvars(v);
     iterateur it=addvars.begin(),itend=addvars.end();
     for (;it!=itend;++it){
@@ -317,7 +317,7 @@ namespace giac {
 	res3=mergevecteur(res3,f2);
 	declaredvars=mergevecteur(f1,f2);
       }
-      vecteur addvars(rm_checktype(gen2vecteur(declaredvars)));
+      vecteur addvars(rm_checktype(gen2vecteur(declaredvars),contextptr));
       vecteur newvars(mergevecteur(prog_args,addvars));
       // check_local_assign(f._VECTptr->front(),newvars,res1,res2,res3,res4,testequal,contextptr);
       check_local_assign(f._VECTptr->back(),newvars,res1,res2,res3,res4,testequal,contextptr);
@@ -407,7 +407,7 @@ namespace giac {
     if (f.type!=_VECT || f._VECTptr->size()!=3)
       return "// Invalid program";
     vecteur & v =*f._VECTptr;
-    vecteur vars=rm_checktype(gen2vecteur(v[0])),res1,res2(1,undef),res3,res4;
+    vecteur vars=rm_checktype(gen2vecteur(v[0]),contextptr),res1,res2(1,undef),res3,res4;
     for (unsigned i=0;i<vars.size();++i){
       if (equalposcomp(vars,vars[i])!=i+1)
 	res += gettext("// Warning, duplicate argument name: ")+vars[i].print(contextptr)+'\n';
@@ -733,6 +733,10 @@ namespace giac {
     for (;it!=itend;++it){
       if (it->is_symb_of_sommet(at_sto) || it->is_symb_of_sommet(at_check_type)) // FIXME check 1st arg too
 	continue;
+      if (it->is_symb_of_sommet(at_of)){
+	*logptr(contextptr) << "Invalid argument name " << *it << ". You should use " << it->_SYMBptr->feuille._VECTptr->front() << " instead, even if the argument should be of type function" << endl;
+	*it=it->_SYMBptr->feuille._VECTptr->front();
+      }
       if (it->type!=_IDNT && it->type!=_CPLX){
 	v1.push_back(*it);
 	string s=gen2string(*it);

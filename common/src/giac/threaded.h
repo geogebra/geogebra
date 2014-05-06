@@ -310,7 +310,7 @@ namespace giac {
   }
 #endif
 
-#ifdef VISUALC
+#if defined VISUALC || defined __clang__
   template<class T>
   class vector_size64:public std::vector<T>{
   };
@@ -1881,7 +1881,8 @@ namespace giac {
     // degree of product wrt to the main variable
     // will launch deg1v+1 threads to compute each degree
     pthread_t tab[deg1v+1];
-    threadmult_t<T,U> arg[deg1v+1];
+    // threadmult_t<T,U> arg[deg1v+1];
+    threadmult_t<T,U> * arg=new threadmult_t<T,U>[deg1v+1];
     possible_size=0;
     int res=0;
     int i=deg1v;
@@ -1952,6 +1953,7 @@ namespace giac {
 	res=pthread_create(&tab[i],(pthread_attr_t *) NULL,do_threadmult<T,U>,(void *) &arg[i]);
 	if (res){
 	  // should cancel previous threads and delete created arg[i].vptr
+	  delete [] arg;
 	  return false;
 	}
       } // end initial thread creation
@@ -1985,6 +1987,7 @@ namespace giac {
 		res=pthread_create(&tab[i],(pthread_attr_t *) NULL,do_threadmult<T,U>,(void *) &arg[i]);
 		if (res){
 		  // should cancel previous threads and delete created arg[i].vptr
+		  delete [] arg;
 		  return false;
 		}
 		in_progress[j]=i;
@@ -2063,6 +2066,7 @@ namespace giac {
     }
     if (debug_infolevel>30)
       CERR << "End copy " << clock() << std::endl;
+    delete [] arg;
     return true;
   }
 

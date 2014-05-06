@@ -86,7 +86,7 @@ namespace giac {
   polynome reduce(const polynome & p,const vectpoly & v,environment * env);
   void reduce(vectpoly & res,environment * env);
   void change_monomial_order(polynome & p,const gen & order);
-  vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,environment * env,GIAC_CONTEXT); // with_f5 is in fact modular_check
+  vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,bool & rur,environment * env,GIAC_CONTEXT); // with_f5 is in fact modular_check
   gen remove_equal(const gen & f);
   vecteur remove_equal(const_iterateur it,const_iterateur itend);
   vecteur gsolve(const vecteur & eq_orig,const vecteur & var,bool complexmode,bool evalf_after,GIAC_CONTEXT);

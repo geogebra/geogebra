@@ -1090,9 +1090,11 @@ namespace giac {
       case _INT_: case _ZINT:                        
 	return "<mn>"+e.print(contextptr)+"</mn>";
       case _DOUBLE_:                        
-	if (fabs(e._DOUBLE_val)<1.1e-5)
+	/* FH: This should be tuned in the context
+        if (fabs(e._DOUBLE_val)<1.1e-5)
 	  return "<mn>0.0</mn>";
 	else
+	*/
 	  return "<mn>"+e.print(contextptr)+"</mn>"; 
       case _REAL:                        
 	  return "<mn>"+e.print(contextptr)+"</mn>"; 
@@ -1107,10 +1109,15 @@ namespace giac {
 	  else
 	    part_re+="<mo>-</mo>";
 	}
-	if (is_zero(im(e,contextptr)))
-	  part_im="";
 	if (!is_one(-im(e,contextptr)) && ! is_one(im(e,contextptr)))
 	  part_im="<mn>"+abs(im(e,contextptr),contextptr).print(contextptr)+"</mn>"+part_im;	
+        //the is_zero test should be the last one  
+	//Ex: 3+10.0**(-13)*i avec Digits 12 et 10.0**(-13)*i avec Digits 12 et 
+	if (is_zero(im(e,contextptr))){
+	  part_im="";
+	  if (is_zero(re(e,contextptr)))
+	    part_re="<mn>0.0</mn>";
+	}
       	return part_re+part_im;
       case _IDNT:                        
 	if (e==unsigned_inf)

@@ -7796,6 +7796,13 @@ namespace giac {
       // other case, apply feuille to i then apply sommet
       if (f.type!=_VECT)
 	return _SYMBptr->sommet(f(i,contextptr),contextptr);
+      gen var1,res1;
+      vecteur lid(lidnt(*this));
+      if (lid.size()==1 && !is_algebraic_program(*this,var1,res1)){
+	// suspect something like P:=x^3+1 then P(2)
+	*logptr(contextptr) << "Warning, evaluating univariate expression(value) like if expression was a function. You should write subst(" << *this << "," << lid.front() << "," << i << ")" << endl;
+	return subst(*this,lid.front(),i,false,contextptr);
+      }
       vecteur res(*f._VECTptr);
       iterateur it=res.begin(),itend=res.end();
       bool warn=false;

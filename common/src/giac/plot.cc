@@ -3258,7 +3258,8 @@ namespace giac {
     f=remove_at_pnt(f);
     if (e.is_symb_of_sommet(at_hyperplan))
       swapgen(e,f);
-    e=get_point(e,0,contextptr);
+    if (!f.is_symb_of_sommet(at_hyperplan))
+      e=get_point(e,0,contextptr);
     if (is_undef(e)) return e;
     if (f.is_symb_of_sommet(at_hyperplan)){ 
       // args=point/line, hyperplan

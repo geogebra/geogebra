@@ -4290,7 +4290,7 @@ namespace giac {
   pthread_mutex_t ntl_mutex = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
-#if 1
+#if 0
   void ininttype2ZZ(const inttype & temp,const inttype & step,NTL::ZZ & z,const NTL::ZZ & zzstep){
     if (temp==0){
       long j=0;
@@ -4329,11 +4329,12 @@ namespace giac {
     }
     z=0;
     NTL::ZZ zztemp;
-    for (unsigned i=0;i<ecriture.size();++i){
+    for (int i=ecriture.size()-1;i>=0;--i){
       z *= zzstep;
       zztemp=ecriture[i];
       z += zztemp;
     }
+    // CERR << temp << " " << z <<endl;
   }
 #endif
 

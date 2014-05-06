@@ -1782,16 +1782,29 @@ namespace giac {
 	      ll.erase(ll.begin());
 	      gen g1=r2sym(p1,ll,contextptr);
 	      gen g2=r2sym(p2,ll,contextptr);
+	      factorization f; gen an,extra_div; bool has_nthroot=false;
+	      if ((isolate_mode & 1) && cfactor(p,an,f,true,extra_div) && f.size()>1){
+		for (unsigned i=0;i<f.size();++i){
+		  if (f[i].fact.lexsorted_degree()==1){
+		    it=f[i].fact.coord.begin(),itend=f[i].fact.coord.end();
+		    p1=Tnextcoeff<gen>(it,itend);
+		    p2=Tnextcoeff<gen>(it,itend);
+		    an=-r2sym(p2,ll,contextptr)/r2sym(p1,ll,contextptr);
+		    has_nthroot=true;
+		    break;
+		  }
+		}
+	      }
 	      if (isolate_mode & 1){
 		vecteur res;
-		if (is_positive(g2/g1,contextptr)){
+		if (is_positive(g2/g1,contextptr) && !has_nthroot){
 		  gen g=pow(g2/g1,inv(n,contextptr),contextptr);
 		  for (int i=n-1;i>=0;--i){
 		    res.push_back(g*exp(cst_i*cst_pi*gen(2*i+1)/n,contextptr));
 		  }
 		}
 		else {
-		  gen g=pow(-g2/g1,inv(n,contextptr),contextptr);
+		  gen g=has_nthroot?an:pow(-g2/g1,inv(n,contextptr),contextptr);
 		  for (int i=n-1;i>=0;--i){
 		    if (n%2)
 		      res.push_back(g*exp(cst_i*cst_two_pi*gen(i)/n,contextptr));
@@ -3023,6 +3036,13 @@ namespace giac {
       }
       return bisection_solver(v0,v[1],a,b,iszero,contextptr);
     }
+    if (gguess.type==_VECT && gguess._VECTptr->size()>1){
+      for (unsigned i=0;i<gguess._VECTptr->size();++i){
+	gen tmp=evalf_double((*gguess._VECTptr)[i],1,contextptr);
+	if (tmp.type!=_DOUBLE_ && tmp.type!=_CPLX)
+	  return gensizeerr("Bad guess "+gguess.print(contextptr));
+      }
+    }
     if (v0.type==_VECT){
       if ( (v[1].type==_VECT && v0._VECTptr->size()!=v[1]._VECTptr->size())
 	   || (v[1].type!=_VECT && v[1]._VECTptr->size()!=1))
@@ -3479,7 +3499,8 @@ namespace giac {
     gen f(eval(f0,1,context0));  // eval of f wrt context0 is intentionnal, replace UTPN by erf
     if (guess.is_symb_of_sommet(at_interval))
       guess=(guess._SYMBptr->feuille[0]+guess._SYMBptr->feuille[1])/2;
-    gen a,b,d,fa,fb,invdf=inv(derive(f,x,contextptr),contextptr),epsg1(eps1),epsg2(eps2);
+    bool inv_after=true;
+    gen a,b,d,fa,fb,invdf=inv_after?derive(f,x,contextptr):inv(derive(f,x,contextptr),contextptr),epsg1(eps1),epsg2(eps2);
     if (is_undef(invdf))
       return invdf;
     if (ckmatrix(invdf))
@@ -3522,7 +3543,10 @@ namespace giac {
 	  // of << k << " " << d << " " << invdf << " " << x << " " << a << " ";
 	  d=eval(d,eval_level(contextptr),contextptr);
 	  // of << d << " " << fa << " ";
-	  d=-evalf(d*fa,1,contextptr);
+	  if (inv_after)
+	    d=linsolve(evalf(d,1,contextptr),-fa,contextptr);
+	  else
+	    d=-evalf(d*fa,1,contextptr);
 	  if (d.type!=_FLOAT_ && d.type!=_DOUBLE_ && d.type!=_CPLX && d.type!=_REAL && d.type!=_VECT && !is_undef(d) && !is_inf(d))
 	    return gensizeerr(contextptr);
 	  if (k==0 && is_zero(d,contextptr) && is_greater(abs(fa,contextptr),eps2,contextptr)){
@@ -3592,7 +3616,10 @@ namespace giac {
 	    interrupted = true; ctrl_c=false;
 	    return gensizeerr(gettext("Stopped by user interruption.")); 
 	  }
-	  d=-evalf(subst(invdf,x,a,false,contextptr)*subst(f,x,a,false,contextptr),1,contextptr);
+	  if (inv_after)
+	    d=linsolve(evalf(subst(invdf,x,a,false,contextptr),1,contextptr),-subst(f,x,a,false,contextptr),contextptr);
+	  else
+	    d=-evalf(subst(invdf,x,a,false,contextptr)*subst(f,x,a,false,contextptr),1,contextptr);
 	  a=a+d;
 	  if (is_positive(epsg2-_l2norm(d,contextptr)/max(1,abs(a,contextptr),contextptr),contextptr))
 	    break;
@@ -4953,7 +4980,7 @@ namespace giac {
     return count==dim;
   }
 
-  bool giac_gbasis(vectpoly & res,const gen & order_,environment * env,bool modularcheck,GIAC_CONTEXT){
+  static bool giac_gbasis(vectpoly & res,const gen & order_,environment * env,bool modularcheck,bool & rur,GIAC_CONTEXT){
     if (res.empty()) return true;
     int order=order_.val;
     if (order==_PLEX_ORDER || order==0){
@@ -4961,14 +4988,14 @@ namespace giac {
       vectpoly resrev(res),reslex;
       for (unsigned k=0;k<resrev.size();++k)
 	change_monomial_order(resrev[k],_REVLEX_ORDER);
-      if (!giac_gbasis(resrev,_REVLEX_ORDER,env,modularcheck,contextptr))
+      if (!giac_gbasis(resrev,_REVLEX_ORDER,env,modularcheck,rur,contextptr))
 	return false;
       if (is_zero_dim(resrev) && fglm_lex(resrev,reslex,1024,env,context0)){
 	reslex.swap(res);
 	return true;
       }
     }
-    bool rur=false;
+    rur=false;
     if (order<0){
       order=-order;
       rur=true;
@@ -5078,7 +5105,7 @@ namespace giac {
     return true;
   }
 
-  vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,environment * env,GIAC_CONTEXT){
+  vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,environment * env,bool & rur,GIAC_CONTEXT){
     if (v.size()<=1){
       return v;
     }
@@ -5101,7 +5128,7 @@ namespace giac {
     }
 #endif
     // with_f5 used as a synonym for modularcheck
-    if (!giac_gbasis(res,order,env,with_f5,contextptr))
+    if (!giac_gbasis(res,order,env,with_f5,rur,contextptr))
       gensizeerr(gettext("Unable to compute gbasis with giac, perhaps dimension is too large"));
     return res;
   }
@@ -5359,7 +5386,7 @@ namespace giac {
 	  if ((s.type==_REAL || (s.type==_CPLX && s._CPLXptr->type==_REAL)) )
 	    sdouble=true;
 #else
-	  bool souble=false;
+	  bool sdouble=false;
 #endif
 	  gen den=_horner(makesequence(Gv[3],s,var.front()),contextptr);
 	  for (unsigned j=4;j<Gv.size();++j){
@@ -5512,7 +5539,8 @@ namespace giac {
       if (!is_zero(n,contextptr))
 	return vecteur(0); // no solution since cst equation
     }
-    vectpoly eqpr(gbasis(eqp,_PLEX_ORDER,/* cocoa */false,/* f5 */ false,/*environment * */0,contextptr));
+    bool rur;
+    vectpoly eqpr(gbasis(eqp,_PLEX_ORDER,/* cocoa */false,/* f5 */ false,/*environment * */0,rur,contextptr));
     // should reorder eqpr with lex order here
     // solve from right to left
     sort_vectpoly(eqpr.begin(),eqpr.end());
@@ -5672,8 +5700,10 @@ namespace giac {
   }
 
   // l=variables, l0=parameters, add 0 to l
-  void revlex_parametrize(vecteur & l,const vecteur &l0,int & order){
+  // returns first fake variable, i.e. value of l with a 0 (or l.size())
+  int revlex_parametrize(vecteur & l,const vecteur &l0,int & order){
     bool rur=order<0;
+    int res=l.size();
 #if GROEBNER_VARS==15
     // split variables and parameters for revlex
     if (!l.empty() && l!=l0 && l.size()<=11 && (order==_REVLEX_ORDER || order==_RUR_REVLEX) && l0.size()+3-(l.size()%4)<=14){
@@ -5690,6 +5720,7 @@ namespace giac {
 	order=-order;
     }
 #endif
+    return res;
   }
 
   // gbasis([Pi],[vars]) -> [Pi']
@@ -5714,7 +5745,8 @@ namespace giac {
       if (equalposcomp(l0,l1[i]))
 	l.push_back(l1[i]);
     }
-    revlex_parametrize(l,l0,order.val);
+    l0=lidnt(makevecteur(l,l0)); // this sorts l0 with l variables first
+    int faken=revlex_parametrize(l,l0,order.val),lsize=l.size();
     l=vecteur(1,l);
     alg_lvar(v[0],l);
     // convert eq to polynomial
@@ -5722,6 +5754,12 @@ namespace giac {
     vectpoly eqp;
     if (!vecteur2vector_polynome(eq_in,l,eqp))
       return vecteur(1,plus_one);
+    // add fake polynomials for fake variables added by revlex_parametrize
+    int dim=eqp.front().dim;
+    for (;faken<lsize;++faken){
+      polynome fakep(dim,vector< monomial<gen> >(1,monomial<gen>(1,faken+1,dim)));
+      eqp.push_back(fakep);
+    }
     gen coeff;
     environment env ;
     if (modular){
@@ -5743,14 +5781,19 @@ namespace giac {
     }
     if (!with_cocoa)
       change_monomial_order(eqp,abs(order,contextptr));
-    vectpoly eqpr(gbasis(eqp,order,with_cocoa,with_f5,&env,contextptr));
+    bool rur;
+    vectpoly eqpr(gbasis(eqp,order,with_cocoa,with_f5,&env,rur,contextptr));
     vecteur res;
-    if (order.val<0)
+    if (order.val<0 && rur)
       res.push_back(order);
     vectpoly::const_iterator it=eqpr.begin(),itend=eqpr.end();
     res.reserve(itend-it);
-    for (;it!=itend;++it)
-      res.push_back(r2e(*it,l,contextptr));
+    for (;it!=itend;++it){
+      gen tmp=r2e(*it,l,contextptr);
+      if (is_zero(tmp) && !is_zero(*it))
+	continue;
+      res.push_back(tmp);
+    }
     return res;
   }
   static const char _gbasis_s []="gbasis";
@@ -5821,7 +5864,7 @@ namespace giac {
       if (equalposcomp(l0,l1[i]))
 	l.push_back(l1[i]);
     }
-    revlex_parametrize(l,l0,order.val);
+    int faken=revlex_parametrize(l,l0,order.val),lsize=l.size();
     l=vecteur(1,l);
     alg_lvar(makevecteur(v[0],v[1]),l);
     vecteur eq_in(*e2r(v[1],l,contextptr)._VECTptr);
@@ -5911,7 +5954,8 @@ namespace giac {
 	change_monomial_order(eqp,order);
 	if (debug_infolevel)
 	  CERR << "eliminate revlex/revlex with " << order << " variables " << endl;
-	vectpoly eqpr(gbasis(eqp,order,false,false,&env,contextptr));
+	bool rur;
+	vectpoly eqpr(gbasis(eqp,order,false,false,&env,rur,contextptr));
 	vectpoly::const_iterator it=eqpr.begin(),itend=eqpr.end();
 	gb.reserve(itend-it);
 	for (;it!=itend;++it)

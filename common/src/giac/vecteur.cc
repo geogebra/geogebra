@@ -1488,7 +1488,7 @@ namespace giac {
     // maxval-maxdeg*logratio=minval-mindeg*logratio
     if (mindeg==maxdeg || maxval==minval)
       return 1;
-    double a=0,b=(maxval-minval)/(maxdeg-mindeg),c,best=0;
+    double a=0,b=(maxval-minval)/(maxdeg-mindeg),c=0,best=0;
     // seach the best value between a and b
     double fa=maxval-minval,fbest=fa;
     int N=100;

@@ -10174,11 +10174,16 @@ namespace giac {
     return false;
   }
 
-  bool gbasis8(const vectpoly & v,int order,vectpoly & newres,environment * env,bool modularcheck,bool & rur,GIAC_CONTEXT){
+  bool gbasis8(const vectpoly & v,int & order,vectpoly & newres,environment * env,bool modularcheck,bool & rur,GIAC_CONTEXT){
     vectpoly8 res;
     vectpolymod resmod;
     vector<unsigned> G;
     vectpoly_2_vectpoly8(v,order,res);
+    // Temporary workaround until rur_compute support parametric rur
+    if (rur && absint(order)!=-_RUR_REVLEX){ 
+      rur=false;
+      order=absint(order);
+    }
     if (!env || env->modulo==0){
       if (mod_gbasis(res,modularcheck,
 		     order==_REVLEX_ORDER /* zdata*/,

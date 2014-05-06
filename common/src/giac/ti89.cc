@@ -1227,9 +1227,15 @@ namespace giac {
   static const char _SortA_s[]="SortA";
   static define_unary_function_eval_quoted (__SortA,&_SortA,_SortA_s);
   define_unary_function_ptr5( at_SortA ,alias_at_SortA,&__SortA,_QUOTE_ARGUMENTS,T_RETURN);
+  gen _sorta(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT)
+      return sortad(*g._VECTptr,true,contextptr);
+    return gensizeerr(contextptr);
+  }
   static const char _sorta_s[]="sorta";
-  static define_unary_function_eval_quoted (__sorta,&_SortA,_sorta_s);
-  define_unary_function_ptr5( at_sorta ,alias_at_sorta,&__sorta,_QUOTE_ARGUMENTS,true);
+  static define_unary_function_eval_quoted (__sorta,&_sorta,_sorta_s);
+  define_unary_function_ptr5( at_sorta ,alias_at_sorta,&__sorta,0,true);
 
   gen _SortD(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1245,9 +1251,15 @@ namespace giac {
   static const char _SortD_s[]="SortD";
   static define_unary_function_eval_quoted (__SortD,&_SortD,_SortD_s);
   define_unary_function_ptr5( at_SortD ,alias_at_SortD,&__SortD,_QUOTE_ARGUMENTS,T_RETURN);
+  gen _sortd(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT)
+      return sortad(*g._VECTptr,false,contextptr);
+    return gensizeerr(contextptr);
+  }
   static const char _sortd_s[]="sortd";
-  static define_unary_function_eval_quoted (__sortd,&_SortD,_sortd_s);
-  define_unary_function_ptr5( at_sortd ,alias_at_sortd,&__sortd,_QUOTE_ARGUMENTS,true);
+  static define_unary_function_eval_quoted (__sortd,&_sortd,_sortd_s);
+  define_unary_function_ptr5( at_sortd ,alias_at_sortd,&__sortd,0,true);
 
   static const char _approx_s[]="approx";
   static define_unary_function_eval (__approx,&_evalf,_approx_s);
