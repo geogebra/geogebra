@@ -2,6 +2,7 @@ package geogebra.web.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -57,7 +58,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	PopupMenuHandler{
 
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
-	EuclidianControllerW ec;
+	EuclidianController ec;
 	protected EuclidianViewInterfaceCommon ev;
 	protected App app;
 	private Construction cons;
@@ -216,7 +217,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		isIniting = true;
 
 		this.ev = ev;
-		ec = (EuclidianControllerW)ev.getEuclidianController();
+		ec = ev.getEuclidianController();
 		app = ev.getApplication();
 		cons = app.getKernel().getConstruction();
 

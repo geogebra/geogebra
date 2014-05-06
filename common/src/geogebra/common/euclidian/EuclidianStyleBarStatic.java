@@ -436,7 +436,8 @@ public class EuclidianStyleBarStatic {
 		else if (actionCommand.equals("standardView")) {
 
 			// no parameters, always do this
-			app.setStandardView();
+			//app.setStandardView();
+			ev.setStandardView(true);
 		}
 
 		else if (actionCommand.equals("pointCapture")) {
