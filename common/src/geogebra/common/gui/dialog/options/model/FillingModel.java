@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
@@ -453,7 +454,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 				getFillingListener().setFillInverseVisible(false);
 			}
-			if (!geo.isFillable() || hasGeoButton || geo instanceof GeoImage) {
+			if (!geo.isFillable() || geo instanceof GeoImage || geo instanceof GeoTextField) {
 				geosOK = false;
 				break;
 			}
