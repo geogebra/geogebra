@@ -1134,7 +1134,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	protected void setPickPointFromMouse(GPoint mouse) {
 		pickPoint.setX(mouse.getX() + renderer.getLeft());
 		pickPoint.setY(-mouse.getY() + renderer.getTop());
-		pickPoint.setZ(renderer.getVisibleDepth());
+		if (projection == PROJECTION_PERSPECTIVE || projection == PROJECTION_GLASSES) {
+			pickPoint.setZ(0);
+		}else{
+			pickPoint.setZ(renderer.getVisibleDepth());
+		}
 	}
 
 	/**

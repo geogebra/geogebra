@@ -46,6 +46,10 @@ public class Hitting {
 		hits.init();
 
 		origin = view.getPickPoint(mouseLoc); 
+		if (view.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE 
+				|| view.getProjection() ==  EuclidianView3D.PROJECTION_GLASSES) {
+			origin = view.getRenderer().getPerspEye().copyVector();
+		}
 		view.toSceneCoords3D(origin); 
 		direction = view.getViewDirection();
 		
