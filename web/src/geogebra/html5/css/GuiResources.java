@@ -201,10 +201,10 @@ public interface GuiResources extends ClientBundle {
 	
 	
 	//ALGEBRA INPUT
-	@Source("icons/png/web/dockbar_triangle_left.png")
+	@Source("icons/png/web/dockbar_triangle_left_darker.png")
 	ImageResource input_help_left();
 	
-	@Source("icons/png/web/dockbar_triangle_up.png")
+	@Source("icons/png/web/dockbar_triangle_up_darker.png")
 	ImageResource input_help_up();
 	
 	
