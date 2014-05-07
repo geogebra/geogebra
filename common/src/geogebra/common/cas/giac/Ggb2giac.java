@@ -184,10 +184,10 @@ public class Ggb2giac {
 		p("GCD.1",
 				"lgcd(%0)");
 		// GetPrecision.1
-		p("Groebner.1", "groebner(%0,indets(%0)))");
-		p("Groebner.2", "groebner(%0,%1)");
+		p("Groebner.1", "gbasis(%0,indets(%0)))");
+		p("Groebner.2", "gbasis(%0,%1)");
 		p("Groebner.3",
-				"groebner(%0,%1,%2)");
+				"gbasis(%0,%1,%2)");
 		p("HyperGeometric.5",
 				"[[m:=%1],[ng:=%0],[n:=%2],[kk:=%3],if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,floor(kk)) " +
 				"else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) fi][4]");
