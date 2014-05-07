@@ -116,5 +116,11 @@ public class AppWapplication3D extends AppWapplication {
 			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel().deferredOnResize();
 		}
 	}
+	
+	@Override
+	public void updateStyleBars() {
+		super.updateStyleBars();
+		getEuclidianView3D().getStyleBar().updateStyleBar();
+	}
 
 }
