@@ -590,7 +590,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		this.dummy = new TreeItem();
 
 		Label content = new Label(loc.getMenu("Objects"));
-		content.setStyleName("elemHeadingName");
+		content.setStyleName("elemHeadingDummy");
 		this.dummy.setWidget(content);
 
 	    this.addItem(dummy);

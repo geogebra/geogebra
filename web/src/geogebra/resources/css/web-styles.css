@@ -2588,6 +2588,11 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	padding: 10px 10px 10px 23px;
 }
 
+.elemHeadingDummy {
+	padding: 10px 10px 10px 0px;
+	cursor: default;
+}
+
 .algebraOpenButton {
 	position: absolute;
 	top: 12px;
