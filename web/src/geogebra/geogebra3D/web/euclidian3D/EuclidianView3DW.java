@@ -390,12 +390,12 @@ public class EuclidianView3DW extends EuclidianView3D {
     }
 
 
-
 	@Override
-    protected void setStyleBarMode(int mode) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	final protected void setStyleBarMode(int mode) {
+		if (hasStyleBar()) {
+			getStyleBar().setMode(mode);
+		}
+	}
 
 
 
@@ -510,6 +510,9 @@ public class EuclidianView3DW extends EuclidianView3D {
     public int getAbsoluteLeft() {
 		return g2p.getAbsoluteLeft();
 	}
+	
+	
+	
 
 	
 }

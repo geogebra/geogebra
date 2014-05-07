@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
@@ -1258,9 +1259,16 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	    ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
 	    targetGeos.addAll(ec.getJustCreatedGeos());
-	    if (mode != EuclidianConstants.MODE_MOVE)
+	    if (mode != EuclidianConstants.MODE_MOVE){
 	    	targetGeos.addAll(defaultGeos);
-	    else
+			Previewable p = ev.getPreviewDrawable();
+			if (p!=null){
+				GeoElement geo = p.getGeoElement();
+				if (geo!=null){
+					targetGeos.add(geo);
+				}
+			}
+	    }else
 	    	targetGeos.addAll(app.getSelectionManager().getSelectedGeos());
 
 	    processSource(source, targetGeos);
