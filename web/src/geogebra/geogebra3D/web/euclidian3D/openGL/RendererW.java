@@ -2,6 +2,7 @@ package geogebra.geogebra3D.web.euclidian3D.openGL;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GPoint;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
@@ -51,7 +52,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     // location values for shader fields
     private WebGLUniformLocation modelviewLocation, projectionLocation; // matrices
     private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
-    private WebGLUniformLocation viewDirectionLocation; //view direction
+    private WebGLUniformLocation eyePositionLocation; //eye position
     private WebGLUniformLocation textureTypeLocation; // textures
     private WebGLUniformLocation colorLocation; // color
     private WebGLUniformLocation normalLocation; // one normal for all vertices
@@ -181,7 +182,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         
         lightPositionLocation = glContext.getUniformLocation(shaderProgram, "lightPosition");
         ambiantDiffuseLocation = glContext.getUniformLocation(shaderProgram, "ambiantDiffuse");
-        viewDirectionLocation = glContext.getUniformLocation(shaderProgram, "viewDirection");
+        eyePositionLocation = glContext.getUniformLocation(shaderProgram, "eyePosition");
         enableLightLocation = glContext.getUniformLocation(shaderProgram, "enableLight");
      
         
@@ -750,8 +751,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void setLightPosition(float[] values) {
-		glContext.uniform3fv(lightPositionLocation, values);	    
-		glContext.uniform3fv(viewDirectionLocation, view3D.getViewDirection().get3ForGL());	    
+		glContext.uniform3fv(lightPositionLocation, values);
+		if (view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE || view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE){
+			glContext.uniform4fv(eyePositionLocation, view3D.getViewDirection().get4ForGL());	
+		}else{
+			glContext.uniform4fv(eyePositionLocation, view3D.getEyePosition().get4ForGL());
+		}
     }
 	
 	private float[][] ambiantDiffuse;

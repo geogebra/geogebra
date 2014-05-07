@@ -98,7 +98,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     // location values for shader fields
     private int modelviewLocation, projectionLocation; // matrices
     private int lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
-    private int viewDirectionLocation; //view direction
+    private int eyePositionLocation; //eye position
     private int textureTypeLocation; // textures
     private int colorLocation; // color
     private int normalLocation; // one normal for all vertices
@@ -253,7 +253,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         //normalMatrixLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "normalMatrix");        
         lightPositionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "lightPosition");
         ambiantDiffuseLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "ambiantDiffuse");
-        viewDirectionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "viewDirection");
+        eyePositionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "eyePosition");
         enableLightLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "enableLight");
        
         //texture
@@ -1077,7 +1077,11 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	@Override
 	protected void setLightPosition(float[] values){
 		jogl.getGL2ES2().glUniform3fv(lightPositionLocation, 1, values, 0);
-		jogl.getGL2ES2().glUniform3fv(viewDirectionLocation, 1, view3D.getViewDirection().get3ForGL(), 0);
+		if (view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE || view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE){
+			jogl.getGL2ES2().glUniform4fv(eyePositionLocation, 1, view3D.getViewDirection().get4ForGL(), 0);
+		}else{
+			jogl.getGL2ES2().glUniform4fv(eyePositionLocation, 1, view3D.getEyePosition().get4ForGL(), 0);
+		}
 	}
 
 

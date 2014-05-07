@@ -57,7 +57,7 @@ uniform mat4    modelview ;  // Incomming data used by the vertex shader (unifor
 uniform mat4    projection;  
 //uniform mat3	normalMatrix; // no need since light position is model view system based
 uniform vec3	lightPosition;
-uniform vec3	viewDirection;
+uniform vec4	eyePosition;
 uniform vec2	ambiantDiffuse;
 uniform int		enableLight;
 uniform vec4	color;
@@ -109,21 +109,27 @@ void main(void)
 	  }
 	  
 	  float factor = dot(n, lightPosition);
-	  if (factor * dot(n, viewDirection) > 0.0){ // check if back faced
+	  vec3 viewDirection;
+	  if (eyePosition[3] < 0.5){ // parallel projection
+	  	viewDirection = vec3(eyePosition);
+	  }else{ // perspective projection
+	  	viewDirection = attribute_Position - vec3(eyePosition);
+	  }
+	  if (factor * dot(n, viewDirection) >= 0.0){ // check if back faced
 	  	factor = 0.0;
 	  }else if (factor < 0.0){
 	    factor = -factor;
 	  }
+	  
 	  float ambiant = ambiantDiffuse[0];
 	  float diffuse = ambiantDiffuse[1];
 	
 	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
 	  varying_Color.a = c.a;
-	  
+
   }else{ //no light
 	  varying_Color = c;
   }
-  
       
   // texture
   coordTexture = attribute_Texture;

@@ -1176,6 +1176,21 @@ public class Coords extends CoordMatrix {
 		return ret;
 		
 	}
+	
+	/**
+	 * 
+	 * @return 3 floats array
+	 */
+	public float[] get4ForGL(){
+		float[] ret = new float[4];
+		
+		for (int i = 0 ; i < 4 ; i++){
+			ret[i] = (float) val[i];
+		}
+		
+		return ret;
+		
+	}
 
 	
 }
