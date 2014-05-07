@@ -1,16 +1,14 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
-import geogebra3D.App3D;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -39,8 +37,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	
 	private PopupMenuButton btnRotateView, btnClipping;
 	
-	//private JTextField textRotateX;
-	
 	private MyToggleButton btnShowPlane, btnViewDefault, btnViewXY, btnViewXZ, btnViewYZ;
 	
 
@@ -61,63 +57,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		super.createDefaultMap();
 		
-		// lines
-		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
-				ConstructionDefaults.DEFAULT_LINE);
-		
-		// conics
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_AXIS_POINT,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION,
-				ConstructionDefaults.DEFAULT_CONIC);
-		
-		// intersection curve
-		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECTION_CURVE,
-				ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);	 
-
-		
-		// planes
-		defaultGeoMap.put(EuclidianConstants.MODE_PLANE_THREE_POINTS,
-				ConstructionDefaults3D.DEFAULT_PLANE3D);
-		defaultGeoMap.put(EuclidianConstants.MODE_PLANE,
-				ConstructionDefaults3D.DEFAULT_PLANE3D);
-		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL_PLANE,
-				ConstructionDefaults3D.DEFAULT_PLANE3D);
-		defaultGeoMap.put(EuclidianConstants.MODE_PARALLEL_PLANE,
-				ConstructionDefaults3D.DEFAULT_PLANE3D);
-		
-		// spheres
-		defaultGeoMap.put(EuclidianConstants.MODE_SPHERE_POINT_RADIUS,
-				ConstructionDefaults3D.DEFAULT_QUADRIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_SPHERE_TWO_POINTS,
-				ConstructionDefaults3D.DEFAULT_QUADRIC);
-		
-		// cylinders, cones
-		defaultGeoMap.put(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		defaultGeoMap.put(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		defaultGeoMap.put(EuclidianConstants.MODE_CONIFY,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		
-		// polyhedrons
-		defaultGeoMap.put(EuclidianConstants.MODE_PYRAMID,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		defaultGeoMap.put(EuclidianConstants.MODE_TETRAHEDRON,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		defaultGeoMap.put(EuclidianConstants.MODE_CUBE,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
-		
-		// net
-		defaultGeoMap.put(EuclidianConstants.MODE_NET,
-				ConstructionDefaults3D.DEFAULT_NET);
-		
-
-
+		EuclidianStyleBarStatic3D.addToDefaultMap(defaultGeoMap);
 		
 	}
 	
@@ -157,7 +97,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
 		
 		if (source.equals(btnShowPlane)) {
-			((App3D) app).togglePlane();
+			getView().togglePlane();
 		}else if (source.equals(btnRotateView)) {
 			if (btnRotateView.getMySlider().isShowing()){//if slider is showing, start rotation
 				getView().setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);

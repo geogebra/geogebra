@@ -155,6 +155,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				if(!thisButton.isEnabled()) {
 					return;
 				}
+				
+				onClickAction();
+				
 				if(popupIsVisible == true && !myPopup.isVisible()){
 					popupIsVisible = false;
 					return;
@@ -229,6 +232,13 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 			}
 		
 		
+	}
+	
+	/**
+	 * called by click on button
+	 */
+	protected void onClickAction(){
+		// called by click on button
 	}
 	
 	/**

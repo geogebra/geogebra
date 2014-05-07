@@ -5,7 +5,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
@@ -59,11 +58,11 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianController ec;
-	protected EuclidianViewInterfaceCommon ev;
+	protected EuclidianView ev;
 	protected App app;
 	private Construction cons;
 
-	private HashMap<Integer, Integer> defaultGeoMap;
+	protected HashMap<Integer, Integer> defaultGeoMap;
 	private ArrayList<GeoElement> defaultGeos;
 	private GeoElement oldDefaultGeo;
 
@@ -197,7 +196,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	 * Toggle button that should be visible if no geos are selected or to be created
 	 * and no special icons appear in stylebar (eg. delete mode)
 	 */
-	class MyToggleButtonForEV extends MyToggleButton2{
+	protected class MyToggleButtonForEV extends MyToggleButton2{
 		/**
 		 * @param img image
 		 * @param iconHeight height in pixels
@@ -222,7 +221,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
-		defaultGeoMap = EuclidianStyleBarStatic.createDefaultMap();
+		createDefaultMap();
 		defaultGeos = new ArrayList<GeoElement>();
 
 		// toolbar display settings
@@ -249,6 +248,22 @@ public class EuclidianStyleBarW extends StyleBarW
 		setMode(ev.getMode()); // this will also update the stylebar
 		setToolTips();
 		
+	}
+	
+	
+	/**
+	 * create default map between default geos and modes
+	 */
+	protected void createDefaultMap(){
+		defaultGeoMap = EuclidianStyleBarStatic.createDefaultMap();
+	}
+	
+	/**
+	 * 
+	 * @return euclidian view attached
+	 */
+	public EuclidianView getView(){
+		return ev;
 	}
 
 	public int getMode() {
@@ -302,7 +317,10 @@ public class EuclidianStyleBarW extends StyleBarW
 	    setToolTips();
     }
 	
-	private void setToolTips() {
+	/**
+	 * set tool tips
+	 */
+	protected void setToolTips() {
 
 	    Localization loc = app.getLocalization();
 
@@ -566,15 +584,22 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	}
 
-	
 
 	/**
 	 * add axes, grid, ... buttons
 	 */
-	protected void addGraphicsDecorationsButtons(){
+	protected void addGraphicsDecorationsButtons() {
 		add(btnShowAxes);
 		add(btnShowGrid);
+		addBtnShowPlane();
 		add(btnStandardView);
+	}
+	
+	/**
+	 * in 3D, add show plane button
+	 */
+	protected void addBtnShowPlane(){
+		//nothing to do in 2D
 	}
 
 	protected void addBtnPointCapture() {
