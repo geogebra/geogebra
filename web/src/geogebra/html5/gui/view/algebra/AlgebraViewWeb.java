@@ -21,6 +21,7 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -190,7 +191,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			if (geo instanceof GeoElement) {
 				((RadioButtonTreeItem) ti.getWidget()).repaint();
 				ti.setSelected(((GeoElement) geo).doHighlighting());
-			} else {				
+			} else if (ti.getWidget() instanceof GroupHeader) {				
 				((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
 				if (ti.getState()) {
 					repaintChildren(ti);
@@ -445,6 +446,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	}
 
 	protected boolean attached = false;
+	private TreeItem dummy;
 
 	public void attachView() {
 
@@ -524,6 +526,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				rootType = new TreeItem();
 				// setUserObject(rootType, "");
 				typeNodesMap = new HashMap<String, TreeItem>(5);
+				
 			}
 
 			// always try to remove the auxiliary node
@@ -533,6 +536,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			// set the root
 			clear();
+			addDummyNode();
 			// addItem(rootType);
 			break;
 		case LAYER:
@@ -549,6 +553,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			// set the root
 			clear();
+			addDummyNode();
 			// addItem(rootLayer);
 			break;
 		}
@@ -568,16 +573,28 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		case TYPE:
 			removeItems();
 			typeNodesMap.clear();
+			addDummyNode();
 			break;
 		case LAYER:
 			removeItems();
 			layerNodesMap.clear();
+			addDummyNode();
 			break;
 		case ORDER:
 			rootOrder.removeItems();
 			removeItems();
 		}
 	}
+
+	private void addDummyNode() {
+		this.dummy = new TreeItem();
+
+		Label content = new Label(loc.getMenu("Objects"));
+		content.setStyleName("elemHeadingName");
+		this.dummy.setWidget(content);
+
+	    this.addItem(dummy);
+    }
 
 	/**
 	 * set labels on the tree
@@ -717,6 +734,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			if (parent != null && parent.getChildCount() == 0) {
 				typeNodesMap.remove(typeString);
 				parent.remove();
+				if(typeNodesMap.isEmpty()){
+					addDummyNode();
+				}
 			}
 			break;
 		case LAYER:
@@ -734,6 +754,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		// this has been the last node
 		if ((parent != null) && parent.getChildCount() == 0) {
 			layerNodesMap.remove(i);
+			if(layerNodesMap.isEmpty()){
+				addDummyNode();
+			}
 			parent.remove();
 		}
 
@@ -751,6 +774,10 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
 		        && geo.isSetAlgebraVisible()) {
+			if(this.dummy != null){
+				removeItem(this.dummy);
+				this.dummy = null;
+			}
 			// don't add auxiliary objects if the tree is categorized by type
 			if (!getTreeMode().equals(SortMode.DEPENDENCY)
 			        && !showAuxiliaryObjects() && geo.isAuxiliaryObject()) {
