@@ -1462,7 +1462,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE, allowFunction);
 		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
 			try {
-				if (lastOutputEvaluationGeo.getGeoClassType() == twinGeo.getGeoClassType()) {
+				if (Test.canSet(twinGeo,lastOutputEvaluationGeo)) {
 					// if both geos are the same type we can use set safely
 					twinGeo.set(lastOutputEvaluationGeo);
 				} else if (!lastOutputEvaluationGeo.isDefined()) {

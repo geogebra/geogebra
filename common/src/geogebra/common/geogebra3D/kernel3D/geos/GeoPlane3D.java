@@ -14,6 +14,7 @@ import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -313,14 +314,20 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return false;
 	}
 
+	/**
+	 * Also allow setting from line x+y=1, which may come from user or CAS
+	 * instead of x+y+0z=1
+	 */
 	@Override
-	public void set(GeoElement geo) {
-
+	public void set(GeoElement geo) {		
 		if (geo instanceof GeoPlane3D) {
 			GeoPlane3D plane = (GeoPlane3D) geo;
 			getCoordSys().set(plane.getCoordSys());
 		}
-
+		if (geo instanceof GeoLine) {
+			GeoLine line = (GeoLine) geo;
+			setEquation(line.getX(),line.getY(),0,line.getZ());
+		}
 	}
 
 	@Override

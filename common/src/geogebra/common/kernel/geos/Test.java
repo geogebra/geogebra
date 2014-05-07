@@ -29,6 +29,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
+import geogebra.common.main.App;
 
 
 /***
@@ -354,21 +355,9 @@ Test {
 		}
 	},
 
-	/** Test for GEODIRECTIONND */
-	GEODIRECTIONND {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoDirectionND;
-		}
-	},
+	
 
-	/** Test for GEOCOORDSYS2D */
-	GEOCOORDSYS2D {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoCoordSys2D;
-		}
-	},
+
 	
 	/** Test for GEOCOORDSYS2D, not GEOPLANEND */
 	GEOCOORDSYS2DNOTPLANE {
@@ -385,8 +374,22 @@ Test {
 			return ob instanceof GeoPlaneND;
 		}
 	},
+	
+	/** Test for GEOCOORDSYS2D */
+	GEOCOORDSYS2D {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoCoordSys2D;
+		}
+	},
 
-
+	/** Test for GEODIRECTIONND */
+	GEODIRECTIONND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoDirectionND;
+		}
+	},
 	/** Test for GEOCOORDSYS1D */
 	GEOCOORDSYS1D {
 		@Override
@@ -521,6 +524,7 @@ Test {
 	}
 
 	public static boolean canSet(GeoElement object, GeoElement setter) {
+		App.debug(getSpecificTest(object)+","+getSpecificTest(setter));
 		return gen(getSpecificTest(object),getSpecificTest(setter));
 	}
 	
@@ -539,6 +543,8 @@ Test {
 				return gen(GEOLINE,second);
 			case GEOIMPLICITPOLY:
 				return gen(GEOCONIC,second);
+			case GEOPLANEND:
+				return gen(GEOLINE,second);
 		}
 		return false;
 	}
