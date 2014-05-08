@@ -1517,11 +1517,33 @@ public class AlgebraProcessor {
 			loc.setLocalVariableLabel(fv.getSetVarString());
 			exp.replace(fv, loc);
 			
+			ExpressionNode cx = computeCoord(exp, 0);
+			ExpressionNode cy = computeCoord(exp, 1);
+			ExpressionValue[] coefX = new ExpressionValue[3], coefY = new ExpressionValue[3];
+			if(getTrigCoeffs(cx, coefX, new ExpressionNode(kernel,1.0)) && getTrigCoeffs(cy, coefY, new ExpressionNode(kernel,1.0))){
+				ExpressionNode a = coefX[1].wrap();
+				ExpressionNode b = coefX[2].wrap();
+				ExpressionNode c = coefY[1].wrap();
+				ExpressionNode d = coefY[2].wrap();
+				
+				ExpressionNode x = new Polynomial(kernel,"x").wrap().subtract(coefX[0]);
+				ExpressionNode y = new Polynomial(kernel,"y").wrap().subtract(coefY[0]);
+				ExpressionNode xx = c.power(2).plus(d.power(2)).multiply(x).multiply(x);
+				ExpressionNode xy = c.multiply(a).plus(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
+				ExpressionNode yy = a.power(2).plus(b.power(2)).multiply(y).multiply(y);
+				ExpressionNode den = a.power(2).multiply(d.power(2)).plus(b.power(2).multiply(c.power(2))).
+						subtract(a.multiply(b).multiply(c).multiply(d).multiply(2));
+				Equation eq = new Equation(kernel,xx.plus(xy).plus(yy).wrap(),den);
+				eq.initEquation();
+				Log.debug(eq.getNormalForm());
+				AlgoDependentConic ac = new AlgoDependentConic(cons, label, eq);
+				return ac.getOutput();
+			}
 			AlgoDependentNumber nx =
-			new AlgoDependentNumber(cons, computeCoord(exp, 0), false);
+					new AlgoDependentNumber(cons, cx, false);
 			
 			AlgoDependentNumber ny =
-					new AlgoDependentNumber(cons, computeCoord(exp, 1), false);
+					new AlgoDependentNumber(cons, cy, false);
 					
 			
 			GeoNumeric from = new GeoNumeric(cons,-10);
@@ -1534,6 +1556,36 @@ public class AlgebraProcessor {
 				+ exp.toString(StringTemplate.defaultTemplate));
 		throw new MyError(kernel.getApplication().getLocalization(), "InvalidFunction");
 		
+	}
+
+	private boolean getTrigCoeffs(ExpressionNode cx, ExpressionValue[] coefX, ExpressionNode scale) {
+		if(cx.getOperation() == Operation.PLUS){
+			getTrigCoeffs(cx.getLeftTree(), coefX, scale);
+			getTrigCoeffs(cx.getRightTree(), coefX, scale);
+		}
+		else if(cx.getOperation() == Operation.MINUS){
+			getTrigCoeffs(cx.getLeftTree(), coefX, scale);
+			getTrigCoeffs(cx.getRightTree(), coefX, scale.multiply(-1));
+		}
+		else if(cx.getOperation() == Operation.MULTIPLY){
+			if(cx.getLeft().unwrap() instanceof MyDouble && cx.getLeft().isConstant()){
+				getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getLeft().unwrap()));
+			}
+			else if(cx.getRight().unwrap() instanceof MyDouble && cx.getRight().isConstant()){
+				getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getRight().unwrap()));
+			}
+		}
+		else if(cx.getOperation() == Operation.SIN){
+			coefX[1] = scale;
+		}
+		else if(cx.getOperation() == Operation.COS){
+			coefX[2] = scale;
+		}else if(cx.isLeaf()){
+			coefX[0] = cx;
+		}else{
+			return false;
+		}
+		return true;
 	}
 
 	protected ExpressionNode computeCoord(ExpressionNode exp, int i) {
