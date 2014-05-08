@@ -246,6 +246,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	CSolutions(TABLE_CAS),
    	CSolve(TABLE_CAS),
    	Dot(TABLE_CAS),
+   	Eliminate(TABLE_CAS),
    	GroebnerLex(TABLE_CAS),
    	GroebnerDegRevLex(TABLE_CAS),
    	GroebnerLexDeg(TABLE_CAS),

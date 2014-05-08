@@ -129,6 +129,8 @@ public class Ggb2giac {
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.3",
 				"(%0)[%1 - 1,%2 - 1]");
+		
+		p("Eliminate.2", "eliminate(%0,%1)");
 
 		// used in regular mode
 		// Giac doesn't auto-simplify
@@ -196,10 +198,10 @@ public class Ggb2giac {
 		// We will not use the former "Groebner" command since for educational purposes it is crucial
 		// to make an emphasis on the monomial ordering.
 		// 2. Total degree reverse lexicographical ordering (best method), also called as "grevlex":
-		p("GroebnerDegRevLex.1", "gbasis(%0,indets(%0),revlex))");
+		p("GroebnerDegRevLex.1", "gbasis(%0,indets(%0),revlex)");
 		p("GroebnerDegRevLex.2", "gbasis(%0,%1,revlex)");
 		// 3. Total degree lexicographical ordering (useful for elimination), also called as "grlex":
-		p("GroebnerLexDeg.1", "gbasis(%0,indets(%0),tdeg))");
+		p("GroebnerLexDeg.1", "gbasis(%0,indets(%0),tdeg)");
 		p("GroebnerLexDeg.2", "gbasis(%0,%1,tdeg)");
 		
 		p("HyperGeometric.5",
