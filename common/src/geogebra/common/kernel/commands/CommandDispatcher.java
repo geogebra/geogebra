@@ -611,7 +611,9 @@ public abstract class CommandDispatcher {
 			case CIFactor:
 			case CSolutions:
 			case CSolve:
-			case Groebner:
+			case GroebnerLex:
+			case GroebnerDegRevLex:
+			case GroebnerLexDeg:
 			case NSolve:
 			case NSolutions:
 			case Numeric:

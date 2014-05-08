@@ -184,10 +184,24 @@ public class Ggb2giac {
 		p("GCD.1",
 				"lgcd(%0)");
 		// GetPrecision.1
-		p("Groebner.1", "gbasis(%0,indets(%0)))");
-		p("Groebner.2", "gbasis(%0,%1)");
-		p("Groebner.3",
-				"gbasis(%0,%1,%2)");
+
+		// Groebner basis related commands.
+		// See http://en.wikipedia.org/wiki/Gr%C3%B6bner_basis#Monomial_ordering to learn more about the following.
+		// Also http://en.wikipedia.org/wiki/Monomial_order is very helpful.
+		// Naming convention follows the (first) Wikipedia article, however, other pieces of software
+		// (like Sage) may have different names. There is no common scientific naming for the orderings.
+		// 1. (Pure) lexicographical ordering (original, "classical" method):
+		p("GroebnerLex.1", "gbasis(%0,indets(%0),plex)");
+		p("GroebnerLex.2", "gbasis(%0,%1,plex)");
+		// We will not use the former "Groebner" command since for educational purposes it is crucial
+		// to make an emphasis on the monomial ordering.
+		// 2. Total degree reverse lexicographical ordering (best method), also called as "grevlex":
+		p("GroebnerDegRevLex.1", "gbasis(%0,indets(%0),revlex))");
+		p("GroebnerDegRevLex.2", "gbasis(%0,%1,revlex)");
+		// 3. Total degree lexicographical ordering (useful for elimination), also called as "grlex":
+		p("GroebnerLexDeg.1", "gbasis(%0,indets(%0),tdeg))");
+		p("GroebnerLexDeg.2", "gbasis(%0,%1,tdeg)");
+		
 		p("HyperGeometric.5",
 				"[[m:=%1],[ng:=%0],[n:=%2],[kk:=%3],if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,floor(kk)) " +
 				"else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) fi][4]");
