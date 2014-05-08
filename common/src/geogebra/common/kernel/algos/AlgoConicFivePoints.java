@@ -40,7 +40,10 @@ import java.util.ArrayList;
  */
 public class AlgoConicFivePoints extends AlgoElement {
 
-    private GeoPoint[] P; // input  five points      
+	//#4156 these are rather arbitrary tradeoffs between compatibility and numeric stability
+    private static final double MULTIPLIER_MIN = 0.001;
+	private static final double MULTIPLIER_MAX = 1000;
+	private GeoPoint[] P; // input  five points      
 	private GeoConic conic; // output             
     private boolean criticalCase; // true when 5 points is on a parabola
     
@@ -182,7 +185,7 @@ public class AlgoConicFivePoints extends AlgoElement {
         e2 = -evalMatrix(A, P[4]);
         
         // try to avoid tiny/huge value for matrix 
-        if (!Kernel.isZero(e1) && !Kernel.isZero(e2)) {
+        if (shouldInvert(e1) && shouldInvert(e2)) {
         	
         		double tmp = e1;
         	
@@ -394,7 +397,11 @@ public class AlgoConicFivePoints extends AlgoElement {
         
     }
 
-    // compute degenerate conic from lines a, b
+    private boolean shouldInvert(double d) {
+		return !Kernel.isZero(d) && Math.abs(d) < MULTIPLIER_MIN || Math.abs(d) > MULTIPLIER_MAX;
+	}
+
+	// compute degenerate conic from lines a, b
     // the result is written into A as a NON-SYMMETRIC Matrix
     final private static void degCone(GeoVec3D a, GeoVec3D b, double[][] A) {
         // A = a . b^t
