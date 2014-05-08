@@ -1,6 +1,8 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.plugin.GeoClass;
 
 public abstract class OptionsModel {
 	private Object[] geos; // currently selected geos
@@ -55,6 +57,15 @@ public abstract class OptionsModel {
 		return geosOK;
 	}
 
+	// Used for displaying angle properties only, if elements of a list are angles
+	public static boolean isAngleList(GeoElement geo) {
+		if (geo.isGeoList()) {
+			GeoClass elemType = ((GeoList)geo).getElementType();
+			return (elemType == GeoClass.ANGLE || elemType == GeoClass.ANGLE3D);
+		} 
+		
+		return false;
+	}
 }
 	
 

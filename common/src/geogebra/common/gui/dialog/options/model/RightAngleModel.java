@@ -1,6 +1,7 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.AngleProperties;
+import geogebra.common.kernel.geos.GeoElement;
 
 public class RightAngleModel extends BooleanOptionModel {
 
@@ -17,7 +18,9 @@ public class RightAngleModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return getObjectAt(index) instanceof AngleProperties;
+		GeoElement geo = getGeoAt(index);
+		
+		return geo instanceof AngleProperties && !geo.isGeoList() || isAngleList(geo);
 	}
 	
 	@Override
