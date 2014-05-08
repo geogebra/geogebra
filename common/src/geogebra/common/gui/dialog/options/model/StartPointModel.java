@@ -52,12 +52,12 @@ public class StartPointModel extends MultipleOptionsModel {
 
 		}
 
-		// set location textfield
 		GeoElement p = (GeoElement) geo0.getStartPoint();
 		if (equalLocation && p != null) {
-			getListener().setSelectedIndex(0);
-		} else
+			getListener().setSelectedItem(p.getLabel(StringTemplate.defaultTemplate));
+		} else {
 			getListener().setSelectedIndex(-1);
+		}
 
 	}
 	@Override
