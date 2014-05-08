@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class AlgoContingencyTable extends AlgoElement {
 
 	// for compute
 	private AlgoFrequency freq;
-	private StringBuilder sb = new StringBuilder();
+	private StringBuilder tableSb = new StringBuilder();
 	private boolean isRawData;
 
 	private String[] rowValues;
@@ -340,29 +341,29 @@ public class AlgoContingencyTable extends AlgoElement {
 		parseArgs();
 		computeChiTestValues();
 
-		sb.setLength(0);
+		tableSb.setLength(0);
 
 		// prepare array
 		beginTable();
 
 		// table header
-		addTableRow(sb, 0, handleSpecialChar(loc.getMenu("Frequency")),
+		addTableRow(tableSb, -1, handleSpecialChar(loc.getMenu("Frequency")),
 				"colValue", lastRow == 0);
 
 		if (showRowPercent)
-			addTableRow(sb, 0, handleSpecialChar(loc.getPlain("RowPercent")),
+			addTableRow(tableSb, 0, handleSpecialChar(loc.getPlain("RowPercent")),
 					"blank", lastRow == 1);
 		if (showColPercent)
-			addTableRow(sb, 0,
+			addTableRow(tableSb, 0,
 					handleSpecialChar(loc.getPlain("ColumnPercent")), "blank", lastRow == 2);
 		if (showTotalPercent)
-			addTableRow(sb, 0, handleSpecialChar(loc.getPlain("TotalPercent")),
+			addTableRow(tableSb, 0, handleSpecialChar(loc.getPlain("TotalPercent")),
 					"blank",lastRow == 3);
 		if (showExpected)
-			addTableRow(sb, 0,
+			addTableRow(tableSb, 0,
 					handleSpecialChar(loc.getPlain("ExpectedCount")), "blank",lastRow == 4);
 		if (showChi)
-			addTableRow(sb, 0,
+			addTableRow(tableSb, 0,
 					handleSpecialChar(loc.getPlain("ChiSquaredContribution")),
 					"blank",lastRow == 5);
 
@@ -371,38 +372,43 @@ public class AlgoContingencyTable extends AlgoElement {
 		// remaining rows
 		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
 
-			addTableRow(sb, rowIndex, rowValues[rowIndex], "count", lastRow == 0);
+			addTableRow(tableSb, rowIndex, rowValues[rowIndex], "count", lastRow == 0);
 			if (showRowPercent)
-				addTableRow(sb, rowIndex, null, "_", lastRow == 1);
+				addTableRow(tableSb, rowIndex, null, "_", lastRow == 1);
 			if (showColPercent)
-				addTableRow(sb, rowIndex, null, "|", lastRow == 2);
+				addTableRow(tableSb, rowIndex, null, "|", lastRow == 2);
 			if (showTotalPercent)
-				addTableRow(sb, rowIndex, null, "+", lastRow == 3);
+				addTableRow(tableSb, rowIndex, null, "+", lastRow == 3);
 			if (showExpected)
-				addTableRow(sb, rowIndex, null, "e", lastRow == 4);
+				addTableRow(tableSb, rowIndex, null, "e", lastRow == 4);
 			if (showChi)
-				addTableRow(sb, rowIndex, null, "k", lastRow == 5);
+				addTableRow(tableSb, rowIndex, null, "k", lastRow == 5);
 
 			
 		}
-		sb.append("\\hline ");
+		
 
 		// table footer
-		addTableRow(sb, 0, loc.getMenu("Total"), "tableFooter", !showRowPercent);
+		addTableRow(tableSb, -1, loc.getMenu("Total"), "tableFooter", !showRowPercent);
 		if (showRowPercent)
-			addTableRow(sb, 0, null, "rowPercentFooter", true);
-		endTable(sb);
+			addTableRow(tableSb, 0, null, "rowPercentFooter", true);
+		endTable(tableSb);
 
 		if (showTest) {
-			addChiTest(sb);
+			addChiTest(tableSb);
 
 		}
 
-		table.setTextString(sb.toString());
+		table.setTextString(tableSb.toString());
 	}
 
 	private void endTable(StringBuilder sb2) {
-		sb.append("\\end{array}");
+		if(kernel.getApplication().isHTML5Applet()){
+			sb2.append("}");
+		}else{
+			sb2.append("\\end{array}");
+		}
+		App.debug(sb2.toString());
 	}
 
 	private void addChiTest(StringBuilder sb) {
@@ -441,19 +447,23 @@ public class AlgoContingencyTable extends AlgoElement {
 	}
 
 	private void beginTable() {
-		sb.append("\\begin{array}{|l");
-		for (int i = 0; i < colValues.length - 1; i++) {
-			sb.append("| ");
+		if(kernel.getApplication().isHTML5Applet()){
+			tableSb.append("\\ggbtable{");
+		}else{
+			tableSb.append("\\begin{array}{|l");
+			for (int i = 0; i < colValues.length - 1; i++) {
+				tableSb.append("|l");
+			}
+			tableSb.append("|l||l|}"); // extra column for margin
+			tableSb.append(" \\\\ ");
 		}
-		sb.append("| || |}"); // extra column for margin
-		sb.append(" \\\\ \\hline ");
 	}
 
 	private void addTableRow(StringBuilder sb, int rowIndex, String header,
 			String type, boolean lineBelow) {
 
 		double x;
-
+		startRow(sb, lineBelow, rowIndex == -1);
 		// row header
 		if (header == null) {
 			sb.append("\\;");
@@ -531,17 +541,30 @@ public class AlgoContingencyTable extends AlgoElement {
 		endRow(sb, lineBelow);
 	}
 
-	private void endRow(StringBuilder sb2, boolean lineBelow) {
-		
+	private void startRow(StringBuilder sb, boolean lineBelow, boolean lineAbove) {
+		if(kernel.getApplication().isHTML5Applet()){
+			sb.append(lineBelow ? (lineAbove ? "\\ggbtrl{":"\\ggbtrlb{") : (lineAbove ? "\\ggbtrlt{":"\\ggbtr{"));
+			sb.append("\\ggbtdl{");
+		}else if(lineAbove){
+			tableSb.append("\\hline ");
+		}
+	}
+
+	private void endRow(StringBuilder sb, boolean lineBelow) {
+		if(kernel.getApplication().isHTML5Applet()){
+			sb.append("}}");
+		}
+		else{
 		sb.append("\\\\");
 		if(lineBelow){
 			sb.append("\\hline ");
+		}
 		}
 	}
 
 	private void endCell(StringBuilder sb) {
 		if(kernel.getApplication().isHTML5Applet()){
-			sb.append("}\\ggbtd{");
+			sb.append("}\\ggbtdl{");
 		}else{
 			sb.append("&");
 		}
