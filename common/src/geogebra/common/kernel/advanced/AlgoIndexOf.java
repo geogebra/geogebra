@@ -110,16 +110,23 @@ public class AlgoIndexOf extends AlgoElement {
     	    	
     	index.setUndefined();
     	
-    	int startAt = start != null? (int)start.getDouble()-1:0;
-    	if(hayStack.isGeoText()){
-    		int pos = ((GeoText)hayStack).getTextString().indexOf(((GeoText)needle).getTextString(),startAt);
-    		if(pos > -1)index.setValue(pos+1);
+    	int startAt = start != null ? (int)start.getDouble() - 1 : 0;
+    	
+    	if (startAt < 0) {
+    		return;
+    	}
+    	
+    	if (hayStack.isGeoText()){
+    		int pos = ((GeoText)hayStack).getTextString().indexOf(((GeoText)needle).getTextString(), startAt);
+    		if (pos > -1) {
+    			index.setValue(pos+1);
+    		}
     		return;
     	}
     	int	size = ((GeoList)hayStack).size();	
-    	for(int i=startAt;i<size;i++){
+    	for (int i = startAt ; i < size ; i++) {
     		GeoElement cmp = ((GeoList)hayStack).get(i);
-    		if(needle.isEqual(cmp)){
+    		if (needle.isEqual(cmp)) {
     			index.setValue(i+1);
     			break;
     		}
