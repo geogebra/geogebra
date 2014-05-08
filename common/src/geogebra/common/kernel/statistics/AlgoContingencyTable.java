@@ -56,6 +56,7 @@ public class AlgoContingencyTable extends AlgoElement {
 			showExpected, showTest;
 	private int rowCount;
 	private int colCount;
+	private int lastRow;
 
 	/**************************************************
 	 * Constructs a contingency table from raw data
@@ -173,23 +174,32 @@ public class AlgoContingencyTable extends AlgoElement {
 		showChi = false;
 		showExpected = false;
 		showTest = false;
-
+		lastRow = 0;
 		if (args != null) {
 			String optionsStr = args.getTextString();
-
-			if (optionsStr.indexOf("+") > -1)
-				showTotalPercent = true;
-			if (optionsStr.indexOf("|") > -1)
-				showColPercent = true;
-			if (optionsStr.indexOf("_") > -1)
+			if (optionsStr.indexOf("_") > -1){
 				showRowPercent = true;
-
-			if (optionsStr.indexOf("k") > -1)
-				showChi = true;
-			if (optionsStr.indexOf("e") > -1)
+				lastRow = 1;
+			}
+			if (optionsStr.indexOf("|") > -1){
+				showColPercent = true;
+				lastRow = 2;
+			}
+			if (optionsStr.indexOf("+") > -1){
+				showTotalPercent = true;
+				lastRow = 3;
+			}
+			if (optionsStr.indexOf("e") > -1){
 				showExpected = true;
-			if (optionsStr.indexOf("=") > -1)
+				lastRow = 4;
+			}
+			if (optionsStr.indexOf("k") > -1){
+				showChi = true;
+				lastRow = 5;
+			}
+			if (optionsStr.indexOf("=") > -1){
 				showTest = true;
+			}
 		}
 	}
 
@@ -333,102 +343,114 @@ public class AlgoContingencyTable extends AlgoElement {
 		sb.setLength(0);
 
 		// prepare array
-		sb.append("\\begin{array}{|l");
-		for (int i = 0; i < colValues.length - 1; i++) {
-			sb.append("| ");
-		}
-		sb.append("| || |}"); // extra column for margin
-		sb.append(" \\\\ \\hline ");
+		beginTable();
 
 		// table header
 		addTableRow(sb, 0, handleSpecialChar(loc.getMenu("Frequency")),
-				"colValue");
+				"colValue", lastRow == 0);
 
 		if (showRowPercent)
 			addTableRow(sb, 0, handleSpecialChar(loc.getPlain("RowPercent")),
-					"blank");
+					"blank", lastRow == 1);
 		if (showColPercent)
 			addTableRow(sb, 0,
-					handleSpecialChar(loc.getPlain("ColumnPercent")), "blank");
+					handleSpecialChar(loc.getPlain("ColumnPercent")), "blank", lastRow == 2);
 		if (showTotalPercent)
 			addTableRow(sb, 0, handleSpecialChar(loc.getPlain("TotalPercent")),
-					"blank");
+					"blank",lastRow == 3);
 		if (showExpected)
 			addTableRow(sb, 0,
-					handleSpecialChar(loc.getPlain("ExpectedCount")), "blank");
+					handleSpecialChar(loc.getPlain("ExpectedCount")), "blank",lastRow == 4);
 		if (showChi)
 			addTableRow(sb, 0,
 					handleSpecialChar(loc.getPlain("ChiSquaredContribution")),
-					"blank");
+					"blank",lastRow == 5);
 
-		sb.append("\\hline ");
+		
 
 		// remaining rows
 		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
 
-			addTableRow(sb, rowIndex, rowValues[rowIndex], "count");
+			addTableRow(sb, rowIndex, rowValues[rowIndex], "count", lastRow == 0);
 			if (showRowPercent)
-				addTableRow(sb, rowIndex, null, "_");
+				addTableRow(sb, rowIndex, null, "_", lastRow == 1);
 			if (showColPercent)
-				addTableRow(sb, rowIndex, null, "|");
+				addTableRow(sb, rowIndex, null, "|", lastRow == 2);
 			if (showTotalPercent)
-				addTableRow(sb, rowIndex, null, "+");
+				addTableRow(sb, rowIndex, null, "+", lastRow == 3);
 			if (showExpected)
-				addTableRow(sb, rowIndex, null, "e");
+				addTableRow(sb, rowIndex, null, "e", lastRow == 4);
 			if (showChi)
-				addTableRow(sb, rowIndex, null, "k");
+				addTableRow(sb, rowIndex, null, "k", lastRow == 5);
 
-			sb.append("\\hline ");
+			
 		}
 		sb.append("\\hline ");
 
 		// table footer
-		addTableRow(sb, 0, loc.getMenu("Total"), "tableFooter");
+		addTableRow(sb, 0, loc.getMenu("Total"), "tableFooter", !showRowPercent);
 		if (showRowPercent)
-			addTableRow(sb, 0, null, "rowPercentFooter");
-		sb.append("\\hline ");
-		sb.append("\\end{array}");
+			addTableRow(sb, 0, null, "rowPercentFooter", true);
+		endTable(sb);
 
 		if (showTest) {
-
-			AlgoChiSquaredTest test;
-			if (isRawData) {
-				test = new AlgoChiSquaredTest(cons, freq.getResult(), null);
-			} else {
-				test = new AlgoChiSquaredTest(cons, freqMatrix, null);
-			}
-			cons.removeFromConstructionList(test);
-			GeoList result = test.getResult();
-
-			sb.append("\\\\");
-			sb.append(loc.getMenu("ChiSquaredTest"));
-			sb.append("\\\\");
-			sb.append("\\begin{array}{| | | | |}");
-			sb.append(" \\\\ \\hline ");
-			sb.append(loc.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi
-					+ Unicode.Superscript_2 + "&" + loc.getMenu("PValue"));
-			sb.append("\\\\");
-			sb.append("\\hline ");
-			sb.append(kernel.format(
-					(rowValues.length - 1) * (colValues.length - 1),
-					StringTemplate.numericDefault));
-			sb.append("&");
-			sb.append(result.get(1)
-					.toValueString(StringTemplate.numericDefault));
-			sb.append("&");
-			sb.append(result.get(0)
-					.toValueString(StringTemplate.numericDefault));
-			sb.append("\\\\");
-			sb.append("\\hline ");
-			sb.append("\\end{array}");
+			addChiTest(sb);
 
 		}
 
 		table.setTextString(sb.toString());
 	}
 
+	private void endTable(StringBuilder sb2) {
+		sb.append("\\end{array}");
+	}
+
+	private void addChiTest(StringBuilder sb) {
+
+
+		AlgoChiSquaredTest test;
+		if (isRawData) {
+			test = new AlgoChiSquaredTest(cons, freq.getResult(), null);
+		} else {
+			test = new AlgoChiSquaredTest(cons, freqMatrix, null);
+		}
+		cons.removeFromConstructionList(test);
+		GeoList result = test.getResult();
+
+		sb.append("\\\\");
+		sb.append(loc.getMenu("ChiSquaredTest"));
+		sb.append("\\\\");
+		sb.append("\\begin{array}{| | | | |}");
+		sb.append(" \\\\ \\hline ");
+		sb.append(loc.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi
+				+ Unicode.Superscript_2 + "&" + loc.getMenu("PValue"));
+		sb.append("\\\\");
+		sb.append("\\hline ");
+		sb.append(kernel.format(
+				(rowValues.length - 1) * (colValues.length - 1),
+				StringTemplate.numericDefault));
+		sb.append("&");
+		sb.append(result.get(1)
+				.toValueString(StringTemplate.numericDefault));
+		sb.append("&");
+		sb.append(result.get(0)
+				.toValueString(StringTemplate.numericDefault));
+		sb.append("\\\\");
+		sb.append("\\hline ");
+		sb.append("\\end{array}");
+	}
+
+	private void beginTable() {
+		sb.append("\\begin{array}{|l");
+		for (int i = 0; i < colValues.length - 1; i++) {
+			sb.append("| ");
+		}
+		sb.append("| || |}"); // extra column for margin
+		sb.append(" \\\\ \\hline ");
+	}
+
 	private void addTableRow(StringBuilder sb, int rowIndex, String header,
-			String type) {
+			String type, boolean lineBelow) {
 
 		double x;
 
@@ -438,7 +460,7 @@ public class AlgoContingencyTable extends AlgoElement {
 		} else {
 			sb.append(header);
 		}
-		sb.append("&");
+		endCell(sb);
 
 		// row elements
 		for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
@@ -486,7 +508,7 @@ public class AlgoContingencyTable extends AlgoElement {
 						StringTemplate.numericDefault));
 			}
 
-			sb.append("&");
+			endCell(sb);
 		}
 
 		// margin
@@ -506,14 +528,29 @@ public class AlgoContingencyTable extends AlgoElement {
 		} else {
 			sb.append("\\;");
 		}
+		endRow(sb, lineBelow);
+	}
 
+	private void endRow(StringBuilder sb2, boolean lineBelow) {
+		
 		sb.append("\\\\");
+		if(lineBelow){
+			sb.append("\\hline ");
+		}
+	}
+
+	private void endCell(StringBuilder sb) {
+		if(kernel.getApplication().isHTML5Applet()){
+			sb.append("}\\ggbtd{");
+		}else{
+			sb.append("&");
+		}
 	}
 
 	private String handleSpecialChar(String s) {
 		return s.replaceAll(" ", "\\\\;");
 	}
 
-	// TODO Consider locusequability
+
 
 }
