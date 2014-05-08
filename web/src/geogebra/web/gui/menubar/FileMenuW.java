@@ -49,7 +49,7 @@ public class FileMenuW extends GMenuBar {
 
 		// open menu is always visible in menu
 		
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true,new Command() {
     		
 				public void execute() {
 					BrowseGUI bg = new BrowseGUI(app);
