@@ -3000,7 +3000,7 @@ iframe.objectPropertiesTextEditor {
 }
 
 .propertiesTab .gwt-TabPanelBottom {
-	height: 100%;
+	/* height: 100%; FIXME breaks scripting tab in Chrome */
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
