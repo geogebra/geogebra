@@ -423,27 +423,42 @@ public class AlgoContingencyTable extends AlgoElement {
 		cons.removeFromConstructionList(test);
 		GeoList result = test.getResult();
 
-		sb.append("\\\\");
-		sb.append(loc.getMenu("ChiSquaredTest"));
-		sb.append("\\\\");
-		sb.append("\\begin{array}{| | | | |}");
-		sb.append(" \\\\ \\hline ");
-		sb.append(loc.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi
-				+ Unicode.Superscript_2 + "&" + loc.getMenu("PValue"));
-		sb.append("\\\\");
-		sb.append("\\hline ");
-		sb.append(kernel.format(
+		String split = kernel.getApplication().isHTML5Applet() ?
+				"}\\ggbtdl{" : "&";
+		
+		String rowHeader = loc.getMenu("DegreesOfFreedom.short") + split + Unicode.chi
+				+ Unicode.Superscript_2 + split + loc.getMenu("PValue");
+		String degFreedom = kernel.format(
 				(rowValues.length - 1) * (colValues.length - 1),
-				StringTemplate.numericDefault));
-		sb.append("&");
-		sb.append(result.get(1)
-				.toValueString(StringTemplate.numericDefault));
-		sb.append("&");
-		sb.append(result.get(0)
-				.toValueString(StringTemplate.numericDefault));
-		sb.append("\\\\");
-		sb.append("\\hline ");
-		sb.append("\\end{array}");
+				StringTemplate.numericDefault);
+		String secondRow = degFreedom + split + 
+				result.get(1).toValueString(StringTemplate.numericDefault)+ split
+				+ result.get(0).toValueString(StringTemplate.numericDefault);
+		
+		sb.append("\\\\ \\text{");
+		sb.append(loc.getMenu("ChiSquaredTest"));
+		sb.append("}\\\\");
+		
+		if(kernel.getApplication().isHTML5Applet()){
+			sb.append("\\ggbtable{\\ggbtrl{\\ggbtdl{");
+			
+			sb.append(rowHeader);
+			sb.append("}}\\ggbtrl{\\ggbtdl{");			
+			sb.append(secondRow);
+			sb.append("}}}");
+			
+		}else{
+			
+			sb.append("\\begin{array}{|l|l|l|l|}");
+			sb.append(" \\\\ \\hline ");
+			sb.append(rowHeader);
+			sb.append("\\\\");
+			sb.append("\\hline ");
+			sb.append(secondRow);
+			sb.append("\\\\");
+			sb.append("\\hline ");
+			sb.append("\\end{array}");
+		}
 	}
 
 	private void beginTable() {
