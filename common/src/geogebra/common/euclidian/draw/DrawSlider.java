@@ -229,8 +229,8 @@ public class DrawSlider extends Drawable {
 	 */
 	public boolean hitSlider(int x, int y, int hitThreshold) {
 		// changed: we want click on fixed slider to increment/decrement the slider a bit
-		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);		
-		return line.intersects(x - hitThreshold, y - hitThreshold, x + hitThreshold, y + hitThreshold);
+		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);	
+		return line.intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override
