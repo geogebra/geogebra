@@ -14,7 +14,7 @@ import geogebra3D.gui.dialogs.options.OptionsEuclidian3D;
  * @author mathieu
  *
  */
-public class PropertiesView3D extends PropertiesViewD {
+public class PropertiesView3DD extends PropertiesViewD {
 	
 	private OptionsEuclidianD euclidianPanel3D;
 
@@ -22,7 +22,7 @@ public class PropertiesView3D extends PropertiesViewD {
 	 * Constructor
 	 * @param app application
 	 */
-	public PropertiesView3D(AppD app) {
+	public PropertiesView3DD(AppD app) {
 		super(app);
 	}
 	
@@ -71,7 +71,7 @@ public class PropertiesView3D extends PropertiesViewD {
 	
 	@Override
 	protected PropertiesStyleBarD newPropertiesStyleBar() {
-		return new PropertiesStyleBar3D(this, (AppD) app);
+		return new PropertiesStyleBar3DD(this, (AppD) app);
 	}
 
 }

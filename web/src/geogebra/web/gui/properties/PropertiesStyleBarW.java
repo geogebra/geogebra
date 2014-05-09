@@ -25,15 +25,15 @@ public class PropertiesStyleBarW extends
 
 	private static OptionType OptionTypesImpl[] = {
 		// Implemented types of the web
-		OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2
+		OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2, OptionType.EUCLIDIAN3D
 	};
 	
 	private PropertiesViewW propertiesView;
-	private App app;
+	protected App app;
 	private FlowPanel wrappedPanel;
 	//private PopupMenuButton btnOption;
 	private MenuBar menu;
-	private HashMap<OptionType, MenuItem> buttonMap;
+	protected HashMap<OptionType, MenuItem> buttonMap;
 
 	private MenuItem currentButton;
 
@@ -92,20 +92,22 @@ public class PropertiesStyleBarW extends
 		buttonMap = new HashMap<OptionType, MenuItem>();
 		
 		for (final OptionType type : OptionTypesImpl) {
-			final PropertiesButton btn = new PropertiesButton(getMenuHtml(type));
-			btn.setTitle(propertiesView.getTypeString(type));
-			btn.setCommand(new Command() {
-				
-				public void execute() {
-					propertiesView.setOptionPanel(type, 0);
-					selectButton(type);
+			if (typeAvailable(type)){
+				final PropertiesButton btn = new PropertiesButton(getMenuHtml(type));
+				btn.setTitle(propertiesView.getTypeString(type));
+				btn.setCommand(new Command() {
+
+					public void execute() {
+						propertiesView.setOptionPanel(type, 0);
+						selectButton(type);
+					}
+				});
+				toolbar.addItem(btn);
+				buttonMap.put(type, btn);
+
+				if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
+					//toolbar.addSeparator();
 				}
-			});
-			toolbar.addItem(btn);
-			buttonMap.put(type, btn);
-			
-			if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
-				//toolbar.addSeparator();
 			}
 		}
 		//if(!((AppW) app).getLAF().isSmart()){
@@ -113,6 +115,16 @@ public class PropertiesStyleBarW extends
 	//	}
 	    
     }
+	
+	/**
+	 * @param type type
+	 * @return true if the type is really available
+	 */
+	protected boolean typeAvailable(OptionType type){
+		return type != OptionType.EUCLIDIAN3D;
+	}
+	
+	
 
 	protected void selectButton(OptionType type) {
 		if(currentButton != null){
@@ -158,7 +170,7 @@ public class PropertiesStyleBarW extends
 	    return typeString != null ? MainMenu.getMenuBarHtml(getTypeIcon(type), typeString): null; 
     }
 	
-	private void setIcon(OptionType type, PopupMenuButton btn) {
+	protected void setIcon(OptionType type, PopupMenuButton btn) {
 		switch (type) {
 		case DEFAULTS:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
@@ -180,7 +192,7 @@ public class PropertiesStyleBarW extends
 		}
 	}
 
-	private String getTypeIcon(OptionType type) {
+	protected String getTypeIcon(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();

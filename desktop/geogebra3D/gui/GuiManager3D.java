@@ -23,7 +23,7 @@ import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 import geogebra3D.gui.view.algebra.AlgebraView3D;
-import geogebra3D.gui.view.properties.PropertiesView3D;
+import geogebra3D.gui.view.properties.PropertiesView3DD;
 
 import java.awt.Component;
 import java.awt.Point;
@@ -256,7 +256,7 @@ public class GuiManager3D extends GuiManagerD {
 
 	@Override
 	protected PropertiesViewD newPropertiesViewD(AppD appD) {
-		return new PropertiesView3D(appD);
+		return new PropertiesView3DD(appD);
 	}
 
 	@Override

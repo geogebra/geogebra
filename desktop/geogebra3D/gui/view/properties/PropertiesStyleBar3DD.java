@@ -15,14 +15,14 @@ import javax.swing.JMenuItem;
  * @author mathieu
  *
  */
-public class PropertiesStyleBar3D extends PropertiesStyleBarD {
+public class PropertiesStyleBar3DD extends PropertiesStyleBarD {
 
 	/**
 	 * constructor
 	 * @param propertiesView properties view
 	 * @param app application
 	 */
-	public PropertiesStyleBar3D(PropertiesView propertiesView, AppD app) {
+	public PropertiesStyleBar3DD(PropertiesView propertiesView, AppD app) {
 		super(propertiesView, app);
 	}
 

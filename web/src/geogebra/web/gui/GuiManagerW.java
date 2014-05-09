@@ -758,10 +758,19 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = new PropertiesViewW((AppW) app);
+			propertiesView = newPropertiesViewW((AppW) app);
 		}
 
 		return propertiesView;
+	}
+	
+	/**
+	 * 
+	 * @param app
+	 * @return new properties view
+	 */
+	protected PropertiesViewW newPropertiesViewW(AppW app){
+		return new PropertiesViewW(app);
 	}
 
 	public void updatePropertiesView() {
