@@ -7,8 +7,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 
-import java.util.TreeMap;
-
 /**
  * Class for drawing a 2-var function
  * 
@@ -32,18 +30,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private double uMin;
 	private double vMin;
 	
-	private TreeMap<Long, TreeMap<Long,Coords>> mesh;
 	
-	private void putInMesh(Long iu, Long iv, Coords z){
-		TreeMap<Long,Coords> meshv = mesh.get(iu);
-		if (meshv == null) {meshv = new TreeMap<Long,Coords>();}
-		meshv.put(iv, z);
-		mesh.put(iu,meshv);
-	}
-	
-	private Coords getFromMesh(Long iu, Long iv){
-		return (mesh.get(iu)).get(iv);
-	}
 	
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
@@ -59,7 +46,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public DrawSurface3D(EuclidianView3D a_view3d, SurfaceEvaluable surface) {
 		super(a_view3d, (GeoElement) surface);
 		this.surfaceGeo = surface;
-		this.mesh = new TreeMap<Long, TreeMap<Long,Coords>>();
 
 	}
 
@@ -115,96 +101,96 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Coords p3 = surfaceGeo.evaluatePoint(uMin, vMax);
 		Coords p4 = surfaceGeo.evaluatePoint(uMax, vMax);
 		
-		putInMesh((long)0,(long)0, p1);
-		putInMesh(MAX_SPLIT,(long)0, p2);
-		putInMesh((long)0, MAX_SPLIT, p3);
-		putInMesh(MAX_SPLIT, MAX_SPLIT, p4);
+		Node tlNode = new Node(p1);
+		Node trNode = new Node(p2);
+		Node blNode = new Node(p3);
+		Node surfaceGlobal= new Node(p4);
 		
 		surface.start();
 
-		splitOrDraw(surface,0,0,p1,p2,p3,p4,MAX_SPLIT);
+		splitOrDraw(surface, 0, 0, surfaceGlobal,tlNode,trNode,blNode, MAX_SPLIT);
 		
 		setSurfaceIndex(surface.end());
 
 		return true;
 	}
-
-	/*
-	 * 
-	 */
-	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, Coords pTL, Coords pTR, Coords pBL, Coords pBR, long iDelta )
+	
+	
+	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, Node currentNode, Node aboveLeft, Node above, Node left, long iDelta)
 	{
-		//test if this quad may be drawn or must be splitted
-		//index delta
-		iDelta /=2;
-		if (iDelta>=1){
-			long Cu = TLu+iDelta;
-			long Cv = TLv+iDelta;
-			Coords fiC = surfaceGeo.evaluatePoint(uMin+Cu*uDelta, vMin+Cv*vDelta);
-			putInMesh(Cu,Cv, fiC);
-			double diagLength = Math.max(pTL.distance(pBR),pTR.distance(pBL));
+		
+		
+		if (iDelta>1) {
 			
-			Coords centerValue1 = (pTL.add(pBR)).mul(0.5);
-			Coords centerValue2 = (pTR.add(pBL)).mul(0.5);
+			double diagLength = Math.max(aboveLeft.pointPos.distance(currentNode.pointPos),above.pointPos.distance(left.pointPos));
 			
-			double centerDistance = Math.max(fiC.distance(centerValue1),fiC.distance(centerValue2));
+			Coords centerValue1 = (aboveLeft.pointPos.add(currentNode.pointPos)).mul(0.5);
+			Coords centerValue2 = (above.pointPos.add(left.pointPos)).mul(0.5);
+
+			iDelta /=2;
+			
+			long Tu = TLu+iDelta;
+			long Lv = TLv+iDelta;
+			currentNode.tl = new Node(Tu, Lv);
+			
+			double centerDistance = Math.max(currentNode.tl.pointPos.distance(centerValue1),currentNode.tl.pointPos.distance(centerValue2));
 
 			//this split test is temporary
 			if ((iDelta>=MIN_SPLIT)
 					||((diagLength>limit1)&&(centerDistance>limit2))
-					&&((inCullingBox(pTL))||(inCullingBox(pTR))||(inCullingBox(pBL))||(inCullingBox(pBR)))
-					)
-			{
-				//split
-				//index of the five new points T,L,C,R,B
-				//  TL....iT....TR
-				//  .      .     .
-				//  .      .     .
-				//  iL    iC    iR
-				//  .      .     .
-				//  .      .     .
-				//  BL....iB....BR
-				long Tu = TLu+iDelta;
-				long Tv = TLv;
-				long Lu = TLu;
-				long Lv = TLv+iDelta;
+					&&((inCullingBox(currentNode.pointPos))||(inCullingBox(aboveLeft.pointPos))||(inCullingBox(above.pointPos))||(inCullingBox(left.pointPos)))){
+
+
 				long Ru = TLu+2*iDelta;
-				long Rv = Lv;
-				long Bu = Tu;
 				long Bv = TLv+2*iDelta;
-				Coords fiT = surfaceGeo.evaluatePoint(uMin+Tu*uDelta, vMin+Tv*vDelta);
-				Coords fiL = surfaceGeo.evaluatePoint(uMin+Lu*uDelta, vMin+Lv*vDelta);
-				Coords fiR = surfaceGeo.evaluatePoint(uMin+Ru*uDelta, vMin+Rv*vDelta);
-				Coords fiB = surfaceGeo.evaluatePoint(uMin+Bu*uDelta, vMin+Bv*vDelta);
-				putInMesh(Tu,Tv, fiT);
-				putInMesh(Lu,Lv, fiL);
-				putInMesh(Ru,Rv, fiR);
-				putInMesh(Bu,Bv, fiB);
 
-				//square TL
-				splitOrDraw(surface,TLu,TLv,pTL,fiT,fiL,fiC,iDelta);
-				//square TR
-				splitOrDraw(surface,Tu,Tv,fiT,pTR,fiC,fiR,iDelta);
-				//square BL
-				splitOrDraw(surface,Lu,Lv,fiL,fiC,pBL,fiB,iDelta);
-				//square BR
-				splitOrDraw(surface,Cu,Cv,fiC,fiR,fiB,pBR,iDelta);
 
-			}
-			else {
+				if (aboveLeft.br == null){
+					aboveLeft.br = new Node(aboveLeft);
+				}
+				if (above.bl == null){
+					above.bl = new Node(Tu, TLv);
+				}
+				if (left.tr == null){
+					left.tr = new Node(TLu, Lv);
+				}
+
+				splitOrDraw(surface, TLu, TLv, currentNode.tl, aboveLeft.br, above.bl, left.tr, iDelta);
+
+
+				currentNode.tr = new Node(Ru, Lv);
+				if (above.br == null){
+					above.br = new Node(above);
+				}
+
+				splitOrDraw(surface, Tu, TLv, currentNode.tr, above.bl, above.br, currentNode.tl, iDelta);
+
+
+				currentNode.bl = new Node(Tu, Bv);
+				if (left.br == null){
+					left.br = new Node(left);
+				}
+
+				splitOrDraw(surface, TLu, Lv, currentNode.bl, left.tr, currentNode.tl, left.br, iDelta);
+
+				currentNode.br = new Node(currentNode);
+
+				splitOrDraw(surface, Tu, Lv, currentNode.br, currentNode.tl, currentNode.tr, currentNode.bl, iDelta);
+			
+			}else{		
 				//draw
-				surface.drawQuadNoTexture(pTL,pTR,pBR,pBL);
+				surface.drawQuadNoTexture(aboveLeft.pointPos,above.pointPos,currentNode.pointPos,left.pointPos);
 			}
-		}
-		else {
+
+		}else{		
 			//draw
-			surface.drawQuadNoTexture(pTL,pTR,pBR,pBL);
+			surface.drawQuadNoTexture(aboveLeft.pointPos,above.pointPos,currentNode.pointPos,left.pointPos);
 		}
 	}
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChanged()){
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
 			updateForItSelf();
 		}
 	}
@@ -250,54 +236,31 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		else {return false;}
 	}
 	
+
 	class Node {
 		private Coords pointPos;
-		private Node n,s,w,e;
+		private Node tl, tr, bl, br; // top-left child and other children
 
-		public Node(Coords p, Node n, Node s, Node w, Node e) {
+		public Node(Coords p, Node tl, Node tr, Node bl, Node br) {
 			this.pointPos = p;
-			this.n = n;
-			this.s = s;
-			this.w = w;
-			this.e = e;
+			this.tl = tl;
+			this.tr = tr;
+			this.bl = bl;
+			this.br = br;
 		}
-	}
-
-
-/*
-	class CoordsIndex {
-
-		protected long iu, iv ;
-
-		public CoordsIndex(long iu, long iv){
-			this.iu = iu;
-			this.iv = iv;
+		
+		public Node(Coords p) {
+			this.pointPos = p;
 		}
-
-
-	}
-
-	class CompareUthenV implements Comparator<CoordsIndex>{
-
-		public int compare(CoordsIndex c1, CoordsIndex c2) {
-			if (c1.iu>c2.iu) return 1;
-			if (c1.iu<c2.iu) return -1;
-			if (c1.iv>c2.iv) return 1;
-			if (c1.iv<c2.iv) return -1;
-			return 0;
+		
+		public Node(long u, long v){
+			this(surfaceGeo.evaluatePoint(uMin+u*uDelta, vMin+v*vDelta));
+		}
+		
+		public Node(Node node){
+			this.pointPos = node.pointPos;
 		}
 
 	}
-	class CompareVthenU implements Comparator<CoordsIndex>{
-
-		public int compare(CoordsIndex c1, CoordsIndex c2) {
-			if (c1.iv>c2.iv) return 1;
-			if (c1.iv<c2.iv) return -1;
-			if (c1.iu>c2.iu) return 1;
-			if (c1.iu<c2.iu) return -1;
-			return 0;
-		}
-
-	}
-*/
+	
 }
