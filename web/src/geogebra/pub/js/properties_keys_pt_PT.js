@@ -357,8 +357,6 @@ __GGB__keysVar.pt_PT.command = {
     "GeometricMean_Syntax": "[ <Lista de N\xfameros> ]",
     "GetTime": "ObterTempo",
     "GetTime_Syntax": "[ ]\n[ <Configurar> ]",
-    "Groebner": "Gr\xf6bner",
-    "Groebner_SyntaxCAS": "[ <Lista de Polin\xf3mios> ]\n[ <Lista de Polin\xf3mios>, <Lista de Vari\xe1veis> ]\n[ <Lista de Polin\xf3mios>, <Lista de Vari\xe1veis>, <Tipo de Ordena\xe7\xe3o das Vari\xe1veis> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

@@ -357,8 +357,6 @@ __GGB__keysVar.hi.command = {
     "GeometricMean_Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e\u0913\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940> ]",
     "GetTime": "GetTime",
     "GetTime_Syntax": "[ ]\n[ \"<\u092a\u094d\u0930\u093e\u0930\u0942\u092a>\" ]",
-    "Groebner": "\u0917\u094d\u0930\u094b\u090f\u092c\u0928\u0930",
-    "Groebner_SyntaxCAS": "[ <\u092c\u0939\u0941\u092a\u0926\u094b\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940> ]\n[ <\u092c\u0939\u0941\u092a\u0926\u094b\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940>, <\u091a\u0930\u094b\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940> ]\n[ <\u092c\u0939\u0941\u092a\u0926\u094b\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940>, <\u091a\u0930\u094b\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940>, <\u091a\u0930 \u0915\u094d\u0930\u092e \u0915\u093e \u092a\u094d\u0930\u0915\u093e\u0930> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

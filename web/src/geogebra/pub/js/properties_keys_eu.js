@@ -357,8 +357,6 @@ __GGB__keysVar.eu.command = {
     "GeometricMean_Syntax": "[ <Zenbakien Zerrenda> ]",
     "GetTime": "HartuDenbora",
     "GetTime_Syntax": "[ ]\n[ \"<Formatua>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Polinomioen Zerrenda> ]\n[ <Polinomioen Zerrenda>, <Aldagaien Zerrenda> ]\n[ <Polinomioen Zerrenda>, <Aldagaien Zerrenda>, <Aldagaien Ordena> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

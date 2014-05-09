@@ -357,8 +357,6 @@ __GGB__keysVar.fi.command = {
     "GeometricMean_Syntax": "[ <Lista Lukuja> ]",
     "GetTime": "AnnaAika",
     "GetTime_Syntax": "[ ]\n[ \"<Muoto>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Polynomilista> ]\n[ <Polynomilista>, <Muuttujalista> ]\n[ <Polynomilista>, <Muuttujalista>, <Muuttujien j\xe4rjestystapa> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

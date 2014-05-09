@@ -357,8 +357,6 @@ __GGB__keysVar.vi.command = {
     "GeometricMean_Syntax": "[ <Danh s\xe1ch c\xe1c s\u1ed1> ]",
     "GetTime": "ThoiGian",
     "GetTime_Syntax": "[ ]\n[ \"<\u0110\u1ecbnh d\u1ea1ng>\" ]",
-    "Groebner": "Grobner",
-    "Groebner_SyntaxCAS": "[ <Danh s\xe1ch c\xe1c \u0111a th\u1ee9c> ]\n[ <Danh s\xe1ch c\xe1c \u0111a th\u1ee9c>, <Danh s\xe1ch bi\u1ebfn s\u1ed1> ]\n[ <Danh s\xe1ch \u0111a th\u1ee9c>, <Danh s\xe1ch bi\u1ebfn s\u1ed1>, <Lo\u1ea1i bi\u1ebfn s\u1ed1 s\u1eafp th\u1ee9 t\u1ef1> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

@@ -357,8 +357,6 @@ __GGB__keysVar.in.command = {
     "GeometricMean_Syntax": "[ <Daftar Angka> ]",
     "GetTime": "AmbilWaktu",
     "GetTime_Syntax": "[ ]\n[ \"<Format>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Daftar Polinomials> ]\n[ <Daftar Polinomials>, <Daftar Variabel> ]\n[ <Daftar Polinomials>, <Daftar Variabel>, <Tipe Urutan Variabel> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

@@ -357,8 +357,6 @@ __GGB__keysVar.cs.command = {
     "GeometricMean_Syntax": "[ <Seznam \u010d\xedsel> ]",
     "GetTime": "ZiskatCas",
     "GetTime_Syntax": "[ ]\n[ <Form\xe1t> ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Seznam polynom\u016f> ]\n[ <Seznam polynom\u016f>, <Seznam prom\u011bnn\xfdch> ]\n[ <Seznam polynom\u016f>, <Seznam prom\u011bnn\xfdch>, <Typ uspo\u0159\xe1d\xe1n\xed> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

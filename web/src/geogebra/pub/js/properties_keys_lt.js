@@ -357,8 +357,6 @@ __GGB__keysVar.lt.command = {
     "GeometricMean_Syntax": "[ <Skai\u010di\u0173 s\u0105ra\u0161as> ]",
     "GetTime": "GautiLaik\u0105",
     "GetTime_Syntax": "[ ]\n[ \"<Formatas>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Daugianari\u0173 s\u0105ra\u0161as> ]\n[ <Daugianari\u0173 s\u0105ra\u0161as>, <Kintam\u0173j\u0173 s\u0105ra\u0161as> ]\n[ <Daugianari\u0173 s\u0105ra\u0161as>, <Kintam\u0173j\u0173 s\u0105ra\u0161as>, <Kintam\u0173j\u0173 r\u016b\u0161iavimo tipas> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

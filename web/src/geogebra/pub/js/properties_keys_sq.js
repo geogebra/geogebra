@@ -357,8 +357,6 @@ __GGB__keysVar.sq.command = {
     "GeometricMean_Syntax": "[ <Liste e Numrave> ]",
     "GetTime": "GjejKohen",
     "GetTime_Syntax": "[ ]\n[ \"<Format>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Liste e Polinomialeve> ]\n[ <Liste e Polinomialeve>, <Liste e Variablave> ]\n[ <Liste e Polinomialeve>, <Liste e Variablave>, <Tipi i Renditjes se Variablave> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

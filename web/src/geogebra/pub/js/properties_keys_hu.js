@@ -357,8 +357,6 @@ __GGB__keysVar.hu.command = {
     "GeometricMean_Syntax": "[ <Sz\xe1mok list\xe1ja> ]",
     "GetTime": "PontosId\u0151D\xe1tum",
     "GetTime_Syntax": "[ ]\n[ \"<Form\xe1tum>\" ]",
-    "Groebner": "Gr\xf6bner",
-    "Groebner_SyntaxCAS": "[ <Polinomok list\xe1ja> ]\n[ <Polinomok list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]\n[ <Polinomok list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja>, <Tagsorrend> ]",
     "GroebnerDegRevLex": "Gr\xf6bnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <Polinomok list\xe1ja> ]\n[ <Polinomok list\xe1ja>, <V\xe1ltozok list\xe1ja> ]",
     "GroebnerLex": "Gr\xf6bnerLex",

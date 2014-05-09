@@ -357,8 +357,6 @@ __GGB__keysVar.gl.command = {
     "GeometricMean_Syntax": "[ <Lista de n\xfameros> ]",
     "GetTime": "TempoActual",
     "GetTime_Syntax": "[ ]\n[ \"<Formato>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Lista de Polinomios> ]\n[ <Lista de Polinomios>, <Lista de Variables> ]\n[ <Lista de Polinomios>, <Lista de Variables>, <Tipo de Variable para ordenar> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

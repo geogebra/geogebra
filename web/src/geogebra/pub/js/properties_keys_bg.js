@@ -357,8 +357,6 @@ __GGB__keysVar.bg.command = {
     "GeometricMean_Syntax": "[ <\u0421\u043f\u0438\u0441\u044a\u043a \u0442\u043e\u0447\u043a\u0438> ]",
     "GetTime": "GetTime",
     "GetTime_Syntax": "[]\n[ \"<Format>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]\n[ <List of Polynomials>, <List of Variables>, <Type of Variable Ordering> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

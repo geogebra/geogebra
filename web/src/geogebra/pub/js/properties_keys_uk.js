@@ -357,8 +357,6 @@ __GGB__keysVar.uk.command = {
     "GeometricMean_Syntax": "[ <\u0421\u043f\u0438\u0441\u043e\u043a \u0447\u0438\u0441\u0435\u043b> ]",
     "GetTime": "\u0427\u0430\u0441",
     "GetTime_Syntax": "[ ]\n[ \"<\u0424\u043e\u0440\u043c\u0430\u0442>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <\u0421\u043f\u0438\u0441\u043e\u043a \u043c\u043d\u043e\u0433\u043e\u0447\u043b\u0435\u043d\u0456\u0432> ]\n[ <\u0421\u043f\u0438\u0441\u043e\u043a \u043c\u043d\u043e\u0433\u043e\u0447\u043b\u0435\u043d\u0456\u0432>, <\u0421\u043f\u0438\u0441\u043e\u043a \u0437\u043c\u0456\u043d\u043d\u0438\u0445> ]\n[ <\u0421\u043f\u0438\u0441\u043e\u043a \u043c\u043d\u043e\u0433\u043e\u0447\u043b\u0435\u043d\u0456\u0432>, <\u0421\u043f\u0438\u0441\u043e\u043a \u0437\u043c\u0456\u043d\u043d\u0438\u0445>, <Type of Variable Ordering> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

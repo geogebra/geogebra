@@ -357,8 +357,6 @@ __GGB__keysVar.lv.command = {
     "GeometricMean_Syntax": "[ <Skait\u013cu Saraksts> ]",
     "GetTime": "LaiksTagad",
     "GetTime_Syntax": "[ ]\n[ \"<Form\u0101ts>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Polinomu Saraksts> ]\n[ <Polinomu Saraksts>, <Main\u012bgo Saraksts> ]\n[ <Polinomu saraksts>, <Main\u012bgo Saraksts>, <Main\u012bgo K\u0101rtibas Tips> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

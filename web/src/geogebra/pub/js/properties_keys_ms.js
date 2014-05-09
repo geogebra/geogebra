@@ -357,8 +357,6 @@ __GGB__keysVar.ms.command = {
     "GeometricMean_Syntax": "[ <Senarai Nombor> ]",
     "GetTime": "DapatkanMasa",
     "GetTime_Syntax": "[ ]\n[ \"<Format>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Senarai Polinomial> ]\n[ <Senarai Polinomial>, <Senarai Pembolehubah> ]\n[ <Senarai Polinomial>, <Senarai Pembolehubah>, <Jenis Penertiban Pemmbolehubah> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

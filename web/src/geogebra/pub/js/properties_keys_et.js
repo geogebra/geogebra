@@ -357,8 +357,6 @@ __GGB__keysVar.et.command = {
     "GeometricMean_Syntax": "[ <Arvude loend> ]",
     "GetTime": "AnnaAeg",
     "GetTime_Syntax": "[ ]\n[ \"<Vorming>\" ]",
-    "Groebner": "Gr\xf6bner",
-    "Groebner_SyntaxCAS": "[ <Pol\xfcnoomide loend> ]\n[ <Pol\xfcnoomide loend>, <Muutujate loend> ]\n[ <Pol\xfcnoomide loend>, <Muutujate loend>, <Muutujate j\xe4rjestamise t\xfc\xfcp> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

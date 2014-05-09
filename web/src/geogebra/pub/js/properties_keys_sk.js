@@ -357,8 +357,6 @@ __GGB__keysVar.sk.command = {
     "GeometricMean_Syntax": "[ <Zoznam \u010d\xedsel> ]",
     "GetTime": "\u010cas",
     "GetTime_Syntax": "[ ]\n[ <Form\xe1t> ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Zoznam polynomov> ]\n[ <Zoznam polynomov>, <Zoznam premenn\xfdch> ]\n[ <Zoznam polynomov>, <Zoznam premenn\xfdch>, <Typ poradia premenn\xfdch> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

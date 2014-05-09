@@ -357,8 +357,6 @@ __GGB__keysVar.is.command = {
     "GeometricMean_Syntax": "[ <Listi af t\xf6lum> ]",
     "GetTime": "S\xe6kjaT\xedmasetningu",
     "GetTime_Syntax": "[ ]\n[ \"<Sni\xf0>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Listi af margli\xf0um> ]\n[ <Listi af margli\xf0um>, <Listi af breytum> ]\n[ <Listi af margli\xf0um>, <Listi af breytum>, <Einli\xf0ur\xf6\xf0un> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

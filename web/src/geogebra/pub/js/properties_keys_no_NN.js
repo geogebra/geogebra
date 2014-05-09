@@ -357,8 +357,6 @@ __GGB__keysVar.no_NN.command = {
     "GeometricMean_Syntax": "[ <Liste med tal> ]",
     "GetTime": "HentTid",
     "GetTime_Syntax": "[ ]\n[ <Format> ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Liste med polynom> ]\n[ <Liste med polynom>, <Liste med variablar> ]\n[ <Liste med polynom>, <Liste med variablar>, <Type ordning av variablar> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

@@ -357,8 +357,6 @@ __GGB__keysVar.cy.command = {
     "GeometricMean_Syntax": "[ <Rhestr o rifau> ]",
     "GetTime": "MofynAmser",
     "GetTime_Syntax": "[]\n[ \"<Format>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Rhestr Polynomilalau> ]\n[ <Rhestr Polynomilalau>, <Rhestr Nweidynnau> ]\n[ <Rhestr Polynomilalau>, <Rhestr Nweidynnau>, <Arddull Didoli Newidynnau> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

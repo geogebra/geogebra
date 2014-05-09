@@ -357,8 +357,6 @@ __GGB__keysVar.sr.command = {
     "GeometricMean_Syntax": "[ <Lista brojeva> ]",
     "GetTime": "VremeSada",
     "GetTime_Syntax": "[ ]\n[ \"<Format>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <lista polinoma> ]\n[ <lista polinoma>, <lista promenljivih> ]\n[ <lista polinoma>, <lista promenljivih>, <vrsta redosleda promenljivih> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

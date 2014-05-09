@@ -357,8 +357,6 @@ __GGB__keysVar.nl.command = {
     "GeometricMean_Syntax": "[ <Lijst met getallen> ]",
     "GetTime": "GetTime",
     "GetTime_Syntax": "[ ]\n[ \"<Formaat>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Veeltermenlijst> ]\n[ <Veeltermenlijst>, <Lijst van veranderlijken> ]\n[ <Veeltermenlijst>, <Lijst van veranderlijken>, <Volgorde> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

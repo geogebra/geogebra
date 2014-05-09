@@ -357,8 +357,6 @@ __GGB__keysVar.ca_XV.command = {
     "GeometricMean_Syntax": "[ <Llista de nombres> ]",
     "GetTime": "HoraData",
     "GetTime_Syntax": "[ ]\n[ <Format> ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Llista de polinomis> ]\n[ <Llista de polinomis>, <Llista de variables> ]\n[ <Llista de polinomis>, <Llista de variables>, <Tipus d'ordenaci\xf3 de les variables> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

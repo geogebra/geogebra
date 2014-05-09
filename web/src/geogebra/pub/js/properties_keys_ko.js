@@ -357,8 +357,6 @@ __GGB__keysVar.ko.command = {
     "GeometricMean_Syntax": "[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "GetTime": "\uc2dc\uac04",
     "GetTime_Syntax": "[ ]\n[ \"<\ud615\uc2dd>\" ]",
-    "Groebner": "\uadf8\ub8b0\ube0c\ub108",
-    "Groebner_SyntaxCAS": "[ <\ub2e4\ud56d\uc2dd\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\ub2e4\ud56d\uc2dd\uc758 \ub9ac\uc2a4\ud2b8>, <\ubcc0\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\ub2e4\ud56d\uc2dd\uc758 \ub9ac\uc2a4\ud2b8>, <\ubcc0\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\ubcc0\uc218 \uc21c\uc11c\uc758 \ud0c0\uc785> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

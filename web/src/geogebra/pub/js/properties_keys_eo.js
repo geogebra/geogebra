@@ -357,8 +357,6 @@ __GGB__keysVar.eo.command = {
     "GeometricMean_Syntax": "[ <Listo de Nombroj> ]",
     "GetTime": "HoroDato",
     "GetTime_Syntax": "[ ]\n[ \"<Aran\u011do>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Listo de polinomoj> ]\n[ <Listo de polinomoj>, <Listo de variabloj> ]\n[ <Listo de polinomoj>, <Listo de variabloj>, <Tipo de variabla ordo> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",

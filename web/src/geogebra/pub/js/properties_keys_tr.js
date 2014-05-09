@@ -357,8 +357,6 @@ __GGB__keysVar.tr.command = {
     "GeometricMean_Syntax": "[ <Say\u0131 Listesi> ]",
     "GetTime": "ZamanG\xf6ster",
     "GetTime_Syntax": "[ ]\n[ \"<Bi\xe7im>\" ]",
-    "Groebner": "Groebner",
-    "Groebner_SyntaxCAS": "[ <Polinom Listesi> ]\n[ <Polinom Listesi>, <De\u011fi\u015fken Listesi> ]\n[ <Polinom Listesi>, <De\u011fi\u015fken Listesi>, <De\u011fi\u015fken S\u0131ralama Tipi> ]",
     "GroebnerDegRevLex": "GroebnerDegRevLex",
     "GroebnerDegRevLex_Syntax": "[ <List of Polynomials> ]\n[ <List of Polynomials>, <List of Variables> ]",
     "GroebnerLex": "GroebnerLex",
