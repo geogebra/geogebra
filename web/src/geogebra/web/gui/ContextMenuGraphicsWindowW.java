@@ -100,7 +100,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         	yaxisMenu.setEnabled(false);
         }
         
-        addMiProperties();
+        addMiProperties("DrawingPad");
                
     }
 	
@@ -108,8 +108,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
     	((AppW) app).toggleShowConstructionProtocolNavigation();
     }
 	
-	private void addMiProperties() {
-	    MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("DrawingPad") + " ..."), true, new Command() {
+	protected void addMiProperties(String name) {
+	    MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain(name) + " ..."), true, new Command() {
 			
 			public void execute() {
 				showOptionsDialog();

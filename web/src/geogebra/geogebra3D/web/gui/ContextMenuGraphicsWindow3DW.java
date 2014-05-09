@@ -1,10 +1,8 @@
 package geogebra.geogebra3D.web.gui;
 
-import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
 import geogebra.web.gui.ContextMenuGraphicsWindowW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -49,7 +47,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW{
 	    wrappedPopup.addItem(miStandardView);
 
 
-	    addMiProperties();
+	    addMiProperties("GraphicsView3D");
     }
 	
 	
@@ -76,17 +74,5 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW{
 		
 	}
 	
-	
-	private void addMiProperties() {
-	    MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("GraphicsView3D") + " ..."), true, new Command() {
-			
-			public void execute() {
-				//showOptionsDialog();
-				App.debug("show options dialog");
-			}
-		});
-	    miProperties.setEnabled(true); //TMP AG
-	    wrappedPopup.addItem(miProperties);
-    }
 
 }
