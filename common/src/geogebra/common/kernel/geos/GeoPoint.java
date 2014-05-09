@@ -1254,6 +1254,25 @@ SymbolicParametersBotanaAlgo {
 		}
 		sbBuildValueString.append('(');
 		sbBuildValueString.append(kernel.format(x, tpl));
+		String separator = buildValueStringSeparator(kernel, tpl);
+
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+		sbBuildValueString.append(kernel.format(y, tpl));
+
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+		sbBuildValueString.append(kernel.format(z, tpl));
+
+		sbBuildValueString.append(')');
+	}
+	
+	/**
+	 * @param kernel
+	 * @param tpl
+	 * @return separator for cartesian coords
+	 */
+	public static final String buildValueStringSeparator(Kernel kernel, StringTemplate tpl){
 		String separator;
 		switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 		case Kernel.COORD_STYLE_AUSTRIAN:
@@ -1266,16 +1285,7 @@ SymbolicParametersBotanaAlgo {
 		if(tpl.hasCASType()){
 			separator = ",";
 		}
-
-		sbBuildValueString.append(separator);
-		sbBuildValueString.append(" ");
-		sbBuildValueString.append(kernel.format(y, tpl));
-
-		sbBuildValueString.append(separator);
-		sbBuildValueString.append(" ");
-		sbBuildValueString.append(kernel.format(z, tpl));
-
-		sbBuildValueString.append(')');
+		return separator;
 	}
 
 

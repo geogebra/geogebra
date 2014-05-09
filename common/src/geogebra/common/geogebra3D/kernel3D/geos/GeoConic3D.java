@@ -8,6 +8,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -178,10 +179,56 @@ implements RotateableND, MirrorableAtPlane {
 
 	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
+		
+		StringBuilder sbBuildValueString = new StringBuilder();
+		if (!isDefined()) {
+			sbBuildValueString.append("?");
+			return sbBuildValueString;
+		}
 
-		return new StringBuilder("todo-GeoConic3D");
+		switch(getType()){
+		case CONIC_CIRCLE:
+		case CONIC_ELLIPSE:
+			
+			Coords center = getMidpoint3D();
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
+			
+			Coords ev1 = getEigenvec3D(0);
+			Coords ev2 = getEigenvec3D(1);
+			double r1 = getHalfAxis(0);
+			double r2 = getHalfAxis(1);
+			
+			String separator = GeoPoint.buildValueStringSeparator(kernel, tpl);
+			String s1 = "cos(t)";
+			String s2 = "sin(t)";
+
+			sbBuildValueString.append(" + (");
+
+			kernel.appendTwoCoeffs(r1 * ev1.getX(), r2 * ev2.getX(), s1, s2, tpl, sbBuildValueString);
+			
+			sbBuildValueString.append(separator);
+			sbBuildValueString.append(" ");
+
+			kernel.appendTwoCoeffs(r1 * ev1.getY(), r2 * ev2.getY(), s1, s2, tpl, sbBuildValueString);
+			
+			sbBuildValueString.append(separator);
+			sbBuildValueString.append(" ");
+
+			kernel.appendTwoCoeffs(r1 * ev1.getZ(), r2 * ev2.getZ(), s1, s2, tpl, sbBuildValueString);
+
+			sbBuildValueString.append(')');
+			break;
+		default:
+			sbBuildValueString.append("todo-GeoConic3D");
+			break;
+		}
+
+	       
+		return sbBuildValueString;
 
 	}
+	
+	
 
 	@Override
 	public void setSphereND(GeoPointND M, GeoSegmentND segment) {

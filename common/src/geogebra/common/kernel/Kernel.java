@@ -1368,6 +1368,17 @@ public class Kernel {
 	//private final StringBuilder sbBuildImplicitVarPart = new StringBuilder(80);
 
 	/**
+	 * 
+	 * @param x value
+	 * @param tpl
+	 * @return true if x is built as "0"
+	 */
+	private boolean isZeroFigure(double x, StringTemplate tpl){
+		return !useSignificantFigures && (Math.abs(x) <= tpl.getPrecision(nf));
+	}
+	
+	
+	/**
 	 * form: y^2 = f(x) (coeff of y = 0)
 	 * @param numbers coefficients
 	 * @param vars variables
@@ -1479,9 +1490,44 @@ public class Kernel {
 	}
 
 	private StringBuilder sbFormatSF;
+	
+	/**
+	 * append "two coeffs" expression
+	 * @param x first coeff
+	 * @param y second coeff
+	 * @param s1 first string
+	 * @param s2 second string
+	 * @param tpl template
+	 * @param sbBuildValueString string builder
+	 */
+	public final void appendTwoCoeffs(double x, double y, String s1, String s2, StringTemplate tpl, StringBuilder sbBuildValueString){
+		
+		
+		if (isZeroFigure(x, tpl)){
+			if (isZeroFigure(y, tpl)){
+				sbBuildValueString.append("0");
+			}else{
+				sbBuildValueString.append(formatCoeff(y, tpl));
+				sbBuildValueString.append(" ");
+				sbBuildValueString.append(s2);
+			}
+		}else{
+			sbBuildValueString.append(formatCoeff(x, tpl));
+			sbBuildValueString.append(" ");
+			sbBuildValueString.append(s1);
+			
+			if (!isZeroFigure(y, tpl)){
+				sbBuildValueString.append(" ");
+				formatSignedCoefficient(y, sbBuildValueString, tpl);
+				sbBuildValueString.append(" ");
+				sbBuildValueString.append(s2);
+			}			
+		}
+		
+	}
 
 	/** doesn't show 1 or -1 */
-	final private String formatCoeff(double x, StringTemplate tpl) { // TODO
+	private final String formatCoeff(double x, StringTemplate tpl) { // TODO
 																		// make
 																		// private
 		if (Math.abs(x) == 1.0) {
