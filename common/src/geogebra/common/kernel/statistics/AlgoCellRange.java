@@ -96,14 +96,18 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	public void updateList(GeoElement geo, boolean isRemoveAction) {
-		// System.out.println("=== AlgoCellRange.updateList()");
-		if (isRemoveAction) {
-			if (listItems.contains(geo)) {
-				listItems.remove(geo);
+		
+		if (listItems.contains(geo)) {
+		    // exit if geo is already in the list
+			if (!isRemoveAction) {
+				return;
 			}
+			listItems.remove(geo);
+
 		} else {
 			listItems = initCellRangeList(startCoords, endCoords);
 		}
+		
 		algo.updateList(listItems);
 		algo.update();
 		geoList.updateRepaint();
