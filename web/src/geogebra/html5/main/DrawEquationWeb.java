@@ -440,9 +440,16 @@ public class DrawEquationWeb extends DrawEquation {
 			// as the background is usually (or always) the background of the
 			// canvas, it is better if this is transparent, because the grid
 			// should be shown just like in the Java version
-			if (shouldPaintBackground)
-				ih.getStyle()
-			        .setBackgroundColor(GColor.getColorString(bgColor));
+			if (shouldPaintBackground) {
+				// note: there was a bug when painting scaled formulas,
+				// so the background color should be set to ih's last child
+				if (ih.getLastChild() != null) {
+					Element ihc = ih.getLastChild().cast();
+					ihc.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+				} else {
+					ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+				}
+			}
 
 			if (fgColor != null)
 				ih.getStyle().setColor(GColor.getColorString(fgColor));		
