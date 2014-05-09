@@ -1,5 +1,6 @@
 package geogebra3D.gui;
 
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.main.App;
 import geogebra.gui.ContextMenuGraphicsWindowD;
 import geogebra.gui.GuiManagerD;
@@ -12,14 +13,14 @@ import javax.swing.JCheckBoxMenuItem;
  * @author matthieu
  *
  */
-public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindowD {
+public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 	private static final long serialVersionUID = 1L;
 	/** default constructor
 	 * @param app
 	 * @param px
 	 * @param py
 	 */
-	public ContextMenuGraphicsWindow3D(AppD app, double px, double py) {
+	public ContextMenuGraphicsWindow3DD(AppD app, double px, double py) {
 		 super(app); 
 		 
 		 setTitle("<html>" + app.getPlain("GraphicsView3D") + "</html>");
@@ -27,10 +28,20 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindowD {
 		 addAxesAndGridCheckBoxes();
 		 
 		 getWrappedPopup().addSeparator();
+
+		 addStandardViewItem();
 		 
+		 getWrappedPopup().addSeparator();
+
 		 addMiProperties();
 		
 	}
+	
+	
+    @Override
+	protected void setStandardView(){
+    	((EuclidianView3D) app.getEuclidianView3D()).setStandardView(true);
+    }
 	
 	@Override
 	protected void addAxesAndGridCheckBoxes(){

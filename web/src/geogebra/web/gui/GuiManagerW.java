@@ -1283,7 +1283,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	@Override
-	protected AppW getApp() {
+    public AppW getApp() {
 		return (AppW) app;
 	}
 

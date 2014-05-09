@@ -18,10 +18,10 @@ import com.google.gwt.user.client.ui.MenuItem;
 
 public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implements MyActionListener{
 
-	private double px;
-	private double py;
+	protected double px;
+	protected double py;
 
-	ContextMenuGraphicsWindowW(AppW app) {
+	protected ContextMenuGraphicsWindowW(AppW app) {
 	    super(app);
     }
 
@@ -221,7 +221,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         app.zoom(px, py, zoomFactor);       
     }
 
-	private void addAxesAndGridCheckBoxes() {
+	protected void addAxesAndGridCheckBoxes() {
 //	    MenuItem cbShowAxes = addAction(((AppW)app).getGuiManager().getShowAxesAction(), MainMenu.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")), app.getMenu("Axes"));
 //		SafeHtml cbHtml = SafeHtmlUtils.fromSafeConstant(MainMenu.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")));
 	

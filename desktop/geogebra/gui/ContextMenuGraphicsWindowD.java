@@ -116,13 +116,7 @@ implements ActionListener {
         miShowAllObjectsView.setBackground(bgColor);
         wrappedPopup.add(miShowAllObjectsView);                
 
-        JMenuItem miStandardView = new JMenuItem(app.getPlain("StandardView"));
-        setMenuShortCutAccelerator(miStandardView, 'M');
-        miStandardView.setIcon(app.getEmptyIcon());
-        miStandardView.setActionCommand("standardView");
-        miStandardView.addActionListener(this);
-        miStandardView.setBackground(bgColor);
-        wrappedPopup.add(miStandardView);
+        JMenuItem miStandardView = addStandardViewItem();
         
         wrappedPopup.addSeparator();          
         if(!ev.isZoomable()){
@@ -140,6 +134,21 @@ implements ActionListener {
         
 		app.setComponentOrientation(wrappedPopup);
          
+    }
+
+    /**
+     * add "standard view" item
+     * @return menu item
+     */
+    protected JMenuItem addStandardViewItem(){
+    	JMenuItem miStandardView = new JMenuItem(app.getPlain("StandardView"));
+    	setMenuShortCutAccelerator(miStandardView, 'M');
+    	miStandardView.setIcon(((AppD) app).getEmptyIcon());
+    	miStandardView.setActionCommand("standardView");
+    	miStandardView.addActionListener(this);
+    	miStandardView.setBackground(bgColor);
+    	wrappedPopup.add(miStandardView);
+    	return miStandardView;
     }
     
     void toggleShowConstructionProtocolNavigation(){
@@ -175,7 +184,7 @@ implements ActionListener {
     	String cmd = e.getActionCommand();
     	
     	if (cmd.equals("standardView")) {
-            app.setStandardView();        
+            setStandardView();        
         }
     	else if (cmd.equals("showAllObjects")) {
     		app.setViewShowAllObjects();
@@ -183,6 +192,13 @@ implements ActionListener {
     	else if (cmd.equals("properties")) {
     		showOptionsDialog();
     	}
+    }
+    
+    /**
+     * set standard view
+     */
+    protected void setStandardView(){
+    	app.setStandardView();  
     }
     
     protected void showOptionsDialog(){

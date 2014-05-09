@@ -73,6 +73,7 @@ public class GuiManager3D extends GuiManagerD {
 	// ////////////////////////////
 	// ACTIONS
 	// ////////////////////////////
+	
 
 	@Override
 	protected boolean initActions() {
@@ -170,7 +171,7 @@ public class GuiManager3D extends GuiManagerD {
 		((App3D) getApp()).getEuclidianView3D().resetMode();
 
 		// menu for drawing pane context menu
-		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(
+		ContextMenuGraphicsWindow3DD popupMenu = new ContextMenuGraphicsWindow3DD(
 				getApp(), p.x, p.y);
 		popupMenu.getWrappedPopup().show(
 				((EuclidianViewInterfaceDesktop) view).getJPanel(), p.x, p.y);
