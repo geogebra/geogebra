@@ -45,7 +45,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianViewW extends EuclidianViewWeb {
+public class EuclidianViewW extends EuclidianViewWeb implements EuclidianViewWInterface  {
 	
 	
 	
@@ -522,6 +522,8 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	    }
     }
 	
-	
+	public Canvas getCanvas() {
+	    return g2p.getCanvas();
+    }
 	
 }

@@ -18,6 +18,7 @@ import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
+import geogebra.web.euclidian.EuclidianViewWInterface;
 import geogebra.web.euclidian.MyEuclidianViewPanel;
 import geogebra.web.main.AppW;
 
@@ -47,7 +48,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author mathieu
  *
  */
-public class EuclidianView3DW extends EuclidianView3D {
+public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWInterface {
 	
 	protected EuclidianPanelWAbstract EVPanel;
 	
@@ -510,6 +511,11 @@ public class EuclidianView3DW extends EuclidianView3D {
     public int getAbsoluteLeft() {
 		return g2p.getAbsoluteLeft();
 	}
+
+
+	public Canvas getCanvas() {
+	    return g2p.getCanvas();
+    }
 	
 	
 	

@@ -33,6 +33,7 @@ import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.euclidian.EuclidianViewWInterface;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -220,11 +221,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 	        ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 	        geogebra.common.awt.GPoint p) {
-		showPopupChooseGeo(selectedGeos, geos, (EuclidianViewW) view, p);
+		showPopupChooseGeo(selectedGeos, geos, (EuclidianView) view, p);
 	}
 
 	private void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-	        ArrayList<GeoElement> geos, EuclidianViewW view, GPoint p) {
+	        ArrayList<GeoElement> geos, EuclidianView view, GPoint p) {
+		
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 
@@ -232,7 +234,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			showDrawingPadPopup(view, p);
 		} else {
 
-			Canvas invoker = view.g2p.getCanvas();
+			Canvas invoker = ((EuclidianViewWInterface) view).getCanvas();
 			// clear highlighting and selections in views
 			GPoint screenPos = (invoker == null) ? new GPoint(0, 0)
 			        : new GPoint(invoker.getAbsoluteLeft() + p.x,
