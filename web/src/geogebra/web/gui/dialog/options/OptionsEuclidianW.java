@@ -961,7 +961,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	    tabBar.setTabText(0, app.getMenu("Properties.Basic"));
 	    tabBar.setTabText(1, app.getPlain("xAxis"));
 	    tabBar.setTabText(2, app.getPlain("yAxis"));
-	    tabBar.setTabText(3, app.getPlain("Grid"));
+	    tabBar.setTabText(3, app.getMenu("Grid"));
 	    
 	    basicTab.setLabels();
 	    xAxisTab.setLabels();
