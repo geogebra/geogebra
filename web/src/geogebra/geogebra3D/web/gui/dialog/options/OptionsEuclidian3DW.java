@@ -3,6 +3,7 @@ package geogebra.geogebra3D.web.gui.dialog.options;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
+import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import geogebra.web.gui.dialog.options.OptionsEuclidianW;
 import geogebra.web.main.AppW;
 
@@ -19,6 +20,8 @@ import com.google.gwt.user.client.ui.RadioButton;
  *
  */
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
+	
+	private AxisTab zAxisTab;
 	
 	/**
 	 * basic tab for 3D
@@ -166,6 +169,25 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
     public void updateGUI() {
 		((BasicTab3D) basicTab).updateClippingProperties();
 		super.updateGUI();
+	}
+	
+	@Override
+    public void setLabels() {
+	    super.setLabels(4);
+	    tabPanel.getTabBar().setTabText(3, app.getPlain("zAxis"));
+	    zAxisTab.setLabels();
+	    
+    }
+	
+	@Override
+    protected void addAxesTabs(){
+		super.addAxesTabs();
+		addZAxisTab();
+	}
+	
+	private void addZAxisTab() {
+		zAxisTab = new AxisTab(EuclidianOptionsModel.Z_AXIS);
+		tabPanel.add(zAxisTab, "z");
 	}
 	
 }

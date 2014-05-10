@@ -48,9 +48,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	IEuclidianOptionsListener {
 
-	public AppW app;
-	private TabPanel tabPanel;
-	public EuclidianView view;
+	protected AppW app;
+	protected TabPanel tabPanel;
+	protected EuclidianView view;
 	private EuclidianOptionsModel model;
 	protected BasicTab basicTab;
 	private AxisTab xAxisTab;
@@ -620,7 +620,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	}
 	
-	private class AxisTab extends EuclidianTab {
+	protected class AxisTab extends EuclidianTab {
 		private AxisPanel axisPanel;
 		
 		public AxisTab(int axis) {
@@ -930,13 +930,20 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private void initGUI() {
 		tabPanel = new TabPanel();
 		addBasicTab();
-		addXAxisTab();
-		addYAxisTab();
+		addAxesTabs();
 		addGridTab();
 		updateGUI();
 	    tabPanel.selectTab(0);
 		app.setDefaultCursor();
     }
+	
+	/**
+	 * add tabs for axes
+	 */
+	protected void addAxesTabs(){
+		addXAxisTab();
+		addYAxisTab();
+	}
 
 	private void addBasicTab() {
 		basicTab = newBasicTab();
@@ -961,20 +968,24 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		gridTab = new GridTab();
 		tabPanel.add(gridTab, "grid");
 	}
-	
+
+	public void setLabels(int gridIndex) {
+		TabBar tabBar = tabPanel.getTabBar();
+		tabBar.setTabText(0, app.getMenu("Properties.Basic"));
+		tabBar.setTabText(1, app.getPlain("xAxis"));
+		tabBar.setTabText(2, app.getPlain("yAxis"));
+		tabBar.setTabText(gridIndex, app.getMenu("Grid"));
+
+		basicTab.setLabels();
+		xAxisTab.setLabels();
+		yAxisTab.setLabels();
+		gridTab.setLabels();
+	}
+
 	public void setLabels() {
-	    TabBar tabBar = tabPanel.getTabBar();
-	    tabBar.setTabText(0, app.getMenu("Properties.Basic"));
-	    tabBar.setTabText(1, app.getPlain("xAxis"));
-	    tabBar.setTabText(2, app.getPlain("yAxis"));
-	    tabBar.setTabText(3, app.getMenu("Grid"));
-	    
-	    basicTab.setLabels();
-	    xAxisTab.setLabels();
-	    yAxisTab.setLabels();
-	    gridTab.setLabels();
-	    
-    }
+		setLabels(3);
+
+	}
 
 	public void setView(EuclidianView euclidianView1) {
 		this.view = view;
