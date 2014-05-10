@@ -159,6 +159,12 @@ public abstract class AlgoStats1D extends AlgoElement {
 		double size = geoList.size();
 
 		if (Truncate != null) {
+			if (!Truncate.isDefined()) {
+				// this change is done for AlgoProduct,
+				// and is probably useful for AlgoSum and other algos too
+				result.setUndefined();
+				return;
+			}
 			truncate = (int) Truncate.getDouble();
 			if (truncate == 0) {
 				result.setValue(0);
