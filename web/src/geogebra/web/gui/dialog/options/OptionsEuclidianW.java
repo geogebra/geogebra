@@ -505,7 +505,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axesRatioLabel.setText(app.getPlain("xAxis") + " : "
 					+ app.getPlain("yAxis"));
 			
-			axesOptionsTitle.setText(app.getPlain("Axes"));
+			axesOptionsTitle.setText(app.getMenu("Axes"));
 			cbShowAxes.setText(app.getPlain("ShowAxes"));
 			cbBoldAxes.setText(app.getPlain("Bold"));
 			colorLabel.setText(app.getPlain("Color") + ":");
