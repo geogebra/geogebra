@@ -4080,6 +4080,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JLabel dashLabel;
 		private JComboBox dashCB;
 		private LineStyleModel model;
+		private JPanel dashPanel;
 
 		public LineStylePanel() {
 			model = new LineStyleModel(this);
@@ -4110,7 +4111,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			dashCB.addActionListener(this);
 
 			// line style panel
-			JPanel dashPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			dashPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			dashLabel = new JLabel();
 			dashPanel.add(dashLabel);
 			dashPanel.add(dashCB);
@@ -4161,8 +4162,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public JPanel update() {
 			// check geos
-			if (!model.checkGeos())
+			if (!model.checkGeos()) {
 				return null;
+			}
 
 			slider.removeChangeListener(this);
 			dashCB.removeActionListener(this);
@@ -4241,6 +4243,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			} else {
 				dashCB.setSelectedItem(null);
 			}
+		}
+
+		public void setLineTypeVisible(boolean value) {
+			dashPanel.setVisible(value);
 		}
 	}
 

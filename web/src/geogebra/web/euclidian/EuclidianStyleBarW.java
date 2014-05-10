@@ -146,7 +146,13 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
 			selectLineType(type);
-		}	    
+		}
+
+
+		public void setLineTypeVisible(boolean value) {
+	        // TODO Auto-generated method stub
+	        
+        }	    
 
 		
 	}

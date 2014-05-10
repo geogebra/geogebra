@@ -1119,6 +1119,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label popupLabel;
 		LineStylePopup btnLineStyle;
 		private int iconHeight = 24;
+		private FlowPanel stylePanel;
 		public LineStylePanel() {
 			model = new LineStyleModel(this);
 			setModel(model);
@@ -1147,7 +1148,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					}
 				}});
 
-			FlowPanel stylePanel = new FlowPanel();
+			stylePanel = new FlowPanel();
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
@@ -1191,6 +1192,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			//				btnLineStyle.setSelectedIndex(-1);
 			//			}
 		}
+		public void setLineTypeVisible(boolean value) {
+	        stylePanel.setVisible(value);
+        }
 	}
 
 
