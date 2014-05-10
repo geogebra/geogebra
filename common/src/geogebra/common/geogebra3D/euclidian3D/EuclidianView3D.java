@@ -3230,17 +3230,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return gridDistances;
 	}
 
-	@Override
-	public void setAxesColor(geogebra.common.awt.GColor showColorChooser) {
-		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void setGridColor(geogebra.common.awt.GColor showColorChooser) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void showGrid(boolean selected) {
@@ -3248,11 +3238,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
-	@Override
-	public void setGridIsBold(boolean selected) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void setAllowShowMouseCoords(boolean selected) {

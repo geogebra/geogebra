@@ -34,7 +34,7 @@ import javax.swing.JTextField;
  * @author mathieu
  * 
  */
-public class OptionsEuclidian3D extends OptionsEuclidianD {
+public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 	private AxisPanel3D zAxisPanel;
 
@@ -55,7 +55,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	 * @param view
 	 *            3D view
 	 */
-	public OptionsEuclidian3D(AppD app, EuclidianView view) {
+	public OptionsEuclidian3DD(AppD app, EuclidianView view) {
 		super(app, view);
 
 		enableStuff(false);
@@ -241,7 +241,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 
 		private EuclidianView3D view;
 
-		private ProjectionButtons(OptionsEuclidian3D options) {
+		private ProjectionButtons(OptionsEuclidian3DD options) {
 
 			view = (EuclidianView3D) options.view;
 

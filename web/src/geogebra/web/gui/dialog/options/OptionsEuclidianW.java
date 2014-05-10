@@ -16,7 +16,6 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
@@ -49,11 +48,11 @@ import com.google.gwt.user.client.ui.Widget;
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	IEuclidianOptionsListener {
 
-	private AppW app;
+	public AppW app;
 	private TabPanel tabPanel;
-	private EuclidianView view;
+	public EuclidianView view;
 	private EuclidianOptionsModel model;
-	private BasicTab basicTab;
+	protected BasicTab basicTab;
 	private AxisTab xAxisTab;
 	private AxisTab yAxisTab;
 	private GridTab gridTab;
@@ -67,7 +66,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 	};
 	
-	private class BasicTab extends EuclidianTab {
+	protected class BasicTab extends EuclidianTab {
+		
 		private Label dimTitle;
 		private Label[] dimLabel;
 		private AutoCompleteTextFieldW tfMinX;
@@ -80,6 +80,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label axesRatioLabel;
 		private FlowPanel dimPanel;
 		private ToggleButton tbLockRatio;
+		
+		
 		private CheckBox cbShowAxes;
 		private CheckBox cbBoldAxes;
 		private Label colorLabel;
@@ -242,7 +244,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			});
 		}
 		
-		private void indent(FlowPanel panel) {
+		protected void indent(FlowPanel panel) {
 			FlowPanel indent = new FlowPanel();
 			indent.setStyleName("panelIndent");
 			indent.add(panel);
@@ -937,8 +939,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
     }
 
 	private void addBasicTab() {
-		basicTab = new BasicTab();
+		basicTab = newBasicTab();
 		tabPanel.add(basicTab, "basic");
+	}
+	
+	protected BasicTab newBasicTab(){
+		return new BasicTab();
 	}
 	
 	private void addXAxisTab() {
@@ -970,7 +976,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	    
     }
 
-	public void setView(EuclidianViewWeb euclidianView1) {
+	public void setView(EuclidianView euclidianView1) {
 		this.view = view;
 		if (!isIniting) {
 			updateGUI();

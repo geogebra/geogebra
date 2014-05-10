@@ -64,7 +64,7 @@ public class EuclidianView3DW extends EuclidianView3D {
 	    
 	    initBaseComponents(EVPanel, ec);    
 
-		initView(true);
+		//initView(true);
 		
 		getRenderer().init();
 	    

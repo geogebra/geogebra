@@ -7,7 +7,7 @@ import geogebra.gui.view.properties.PropertiesStyleBarD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
-import geogebra3D.gui.dialogs.options.OptionsEuclidian3D;
+import geogebra3D.gui.dialogs.options.OptionsEuclidian3DD;
 
 /**
  * Just adding 3D view for properties
@@ -32,7 +32,7 @@ public class PropertiesView3DD extends PropertiesViewD {
 	public OptionPanelD getOptionPanel(OptionType type) {
 		if(type==OptionType.EUCLIDIAN3D){
 			if (euclidianPanel3D == null) {
-				euclidianPanel3D = new OptionsEuclidian3D((AppD) app,
+				euclidianPanel3D = new OptionsEuclidian3DD((AppD) app,
 						((App3D) app).getEuclidianView3D());
 				euclidianPanel3D.setLabels();
 			}
