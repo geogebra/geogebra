@@ -58,7 +58,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private GridTab gridTab;
 	private ListBox lbTooltips;
 	private boolean isIniting;
-	private abstract class EuclidianTab extends FlowPanel implements SetLabels 
+	protected abstract class EuclidianTab extends FlowPanel implements SetLabels 
 	{
 		public void onResize(int height, int width) {
 			this.setHeight(height + "px");
@@ -929,13 +929,20 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	private void initGUI() {
 		tabPanel = new TabPanel();
-		addBasicTab();
-		addAxesTabs();
-		addGridTab();
+		addTabs();
 		updateGUI();
 	    tabPanel.selectTab(0);
 		app.setDefaultCursor();
     }
+	
+	/**
+	 * add tabs
+	 */
+	protected void addTabs(){
+		addBasicTab();
+		addAxesTabs();
+		addGridTab();
+	}
 	
 	/**
 	 * add tabs for axes
@@ -969,8 +976,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		tabPanel.add(gridTab, "grid");
 	}
 
-	public void setLabels(int gridIndex) {
-		TabBar tabBar = tabPanel.getTabBar();
+	/**
+	 * set labels
+	 * @param tabBar tab bar
+	 * @param gridIndex index for grid tab
+	 */
+	protected void setLabels(TabBar tabBar, int gridIndex) {
 		tabBar.setTabText(0, app.getMenu("Properties.Basic"));
 		tabBar.setTabText(1, app.getPlain("xAxis"));
 		tabBar.setTabText(2, app.getPlain("yAxis"));
@@ -982,8 +993,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		gridTab.setLabels();
 	}
 
+	/**
+	 * set labels
+	 */
 	public void setLabels() {
-		setLabels(3);
+		setLabels(tabPanel.getTabBar(), 3);
 
 	}
 
@@ -1014,7 +1028,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	    return tabPanel;
     }
 	
-	private AutoCompleteTextFieldW getTextField() {
+	protected AutoCompleteTextFieldW getTextField() {
 		InputPanelW input = new InputPanelW(null, (AppW) app, 1, -1, true);
 		AutoCompleteTextFieldW tf = (AutoCompleteTextFieldW)input.getTextComponent();
 		tf.setStyleName("numberInput");
