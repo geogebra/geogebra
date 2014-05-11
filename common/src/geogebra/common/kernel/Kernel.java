@@ -102,6 +102,11 @@ public class Kernel {
 
 	public static int MAX_SPREADSHEET_COLUMNS_VISIBLE = MAX_SPREADSHEET_COLUMNS_DESKTOP;
 	public static int MAX_SPREADSHEET_ROWS_VISIBLE = MAX_SPREADSHEET_ROWS_DESKTOP;
+	
+	/** string for +- */
+	public static String STRING_PLUS_MINUS = "\u00B1 ";
+	/** string for -+ */
+	public static String STRING_MINUS_PLUS = "\u2213 ";
 
 	// G.Sturr 2009-10-18
 	// algebra style
@@ -839,6 +844,35 @@ public class Kernel {
 		sb.append(format(-x, tpl));
 		return;
 	}
+	
+	
+
+	final public void formatSignedCoefficientPlusMinus(double x, StringBuilder sb,
+			StringTemplate tpl) {
+		if (x == -1.0) {
+			sb.append(STRING_MINUS_PLUS);
+			return;
+		}
+		if (x == 1.0) {
+			sb.append(STRING_PLUS_MINUS);
+			return;
+		}
+
+		formatSignedPlusMinus(x, sb, tpl);
+	}
+
+	final public void formatSignedPlusMinus(double x, StringBuilder sb,
+			StringTemplate tpl) {
+
+		if (x >= 0.0d) {
+			sb.append(STRING_PLUS_MINUS);
+			sb.append(format(x, tpl));
+			return;
+		}
+		sb.append(STRING_MINUS_PLUS);
+		sb.append(format(-x, tpl));
+		return;
+	}
 
 	final private String formatPiERaw(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
@@ -1493,6 +1527,7 @@ public class Kernel {
 	
 	/**
 	 * append "two coeffs" expression
+	 * @param plusMinusX says if we want "+-" before x coeffs
 	 * @param x first coeff
 	 * @param y second coeff
 	 * @param s1 first string
@@ -1500,7 +1535,7 @@ public class Kernel {
 	 * @param tpl template
 	 * @param sbBuildValueString string builder
 	 */
-	public final void appendTwoCoeffs(double x, double y, String s1, String s2, StringTemplate tpl, StringBuilder sbBuildValueString){
+	public final void appendTwoCoeffs(boolean plusMinusX, double x, double y, String s1, String s2, StringTemplate tpl, StringBuilder sbBuildValueString){
 		
 		
 		if (isZeroFigure(x, tpl)){
@@ -1512,7 +1547,11 @@ public class Kernel {
 				sbBuildValueString.append(s2);
 			}
 		}else{
-			sbBuildValueString.append(formatCoeff(x, tpl));
+			if (plusMinusX){
+				formatSignedCoefficientPlusMinus(x, sbBuildValueString, tpl);
+			}else{
+				sbBuildValueString.append(formatCoeff(x, tpl));
+			}
 			sbBuildValueString.append(" ");
 			sbBuildValueString.append(s1);
 			

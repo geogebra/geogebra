@@ -176,6 +176,35 @@ implements RotateableND, MirrorableAtPlane {
 	public boolean hasValueStringChangeableRegardingView() {
 		return true;
 	}
+	
+	private void buildValueStringMidpointConic(boolean plusMinusX, String s1, String s2, StringTemplate tpl, StringBuilder sbBuildValueString){
+		
+		Coords center = getMidpoint3D();
+		GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
+		
+		Coords ev1 = getEigenvec3D(0);
+		Coords ev2 = getEigenvec3D(1);
+		double r1 = getHalfAxis(0);
+		double r2 = getHalfAxis(1);
+		
+		String separator = GeoPoint.buildValueStringSeparator(kernel, tpl);
+
+		sbBuildValueString.append(" + (");
+
+		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getX(), r2 * ev2.getX(), s1, s2, tpl, sbBuildValueString);
+		
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+
+		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getY(), r2 * ev2.getY(), s1, s2, tpl, sbBuildValueString);
+		
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+
+		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getZ(), r2 * ev2.getZ(), s1, s2, tpl, sbBuildValueString);
+
+		sbBuildValueString.append(')');
+	}
 
 	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
@@ -189,35 +218,14 @@ implements RotateableND, MirrorableAtPlane {
 		switch(getType()){
 		case CONIC_CIRCLE:
 		case CONIC_ELLIPSE:
-			
-			Coords center = getMidpoint3D();
-			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
-			
-			Coords ev1 = getEigenvec3D(0);
-			Coords ev2 = getEigenvec3D(1);
-			double r1 = getHalfAxis(0);
-			double r2 = getHalfAxis(1);
-			
-			String separator = GeoPoint.buildValueStringSeparator(kernel, tpl);
-			String s1 = "cos(t)";
-			String s2 = "sin(t)";
-
-			sbBuildValueString.append(" + (");
-
-			kernel.appendTwoCoeffs(r1 * ev1.getX(), r2 * ev2.getX(), s1, s2, tpl, sbBuildValueString);
-			
-			sbBuildValueString.append(separator);
-			sbBuildValueString.append(" ");
-
-			kernel.appendTwoCoeffs(r1 * ev1.getY(), r2 * ev2.getY(), s1, s2, tpl, sbBuildValueString);
-			
-			sbBuildValueString.append(separator);
-			sbBuildValueString.append(" ");
-
-			kernel.appendTwoCoeffs(r1 * ev1.getZ(), r2 * ev2.getZ(), s1, s2, tpl, sbBuildValueString);
-
-			sbBuildValueString.append(')');
+			buildValueStringMidpointConic(false, "cos(t)", "sin(t)", tpl, sbBuildValueString);
 			break;
+			
+		case CONIC_HYPERBOLA:
+			buildValueStringMidpointConic(true, "cosh(t)", "sinh(t)", tpl, sbBuildValueString);
+			break;
+			
+			
 		default:
 			sbBuildValueString.append("todo-GeoConic3D");
 			break;
