@@ -178,14 +178,16 @@ implements RotateableND, MirrorableAtPlane {
 	}
 	
 	private void buildValueStringMidpointConic(boolean plusMinusX, String s1, String s2, StringTemplate tpl, StringBuilder sbBuildValueString){
-		
+		buildValueString(plusMinusX, s1, s2, getHalfAxis(0), getHalfAxis(1), tpl, sbBuildValueString);
+	}
+
+	private void buildValueString(boolean plusMinusX, String s1, String s2, double r1, double r2, StringTemplate tpl, StringBuilder sbBuildValueString){
+
 		Coords center = getMidpoint3D();
 		GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
 		
 		Coords ev1 = getEigenvec3D(0);
 		Coords ev2 = getEigenvec3D(1);
-		double r1 = getHalfAxis(0);
-		double r2 = getHalfAxis(1);
 		
 		String separator = GeoPoint.buildValueStringSeparator(kernel, tpl);
 
@@ -223,6 +225,10 @@ implements RotateableND, MirrorableAtPlane {
 			
 		case CONIC_HYPERBOLA:
 			buildValueStringMidpointConic(true, "cosh(t)", "sinh(t)", tpl, sbBuildValueString);
+			break;
+			
+		case CONIC_PARABOLA:
+			buildValueString(false, "t\u00b2", "t", linearEccentricity, 2 * linearEccentricity, tpl, sbBuildValueString);
 			break;
 			
 			
