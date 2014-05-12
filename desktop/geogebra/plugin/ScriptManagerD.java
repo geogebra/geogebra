@@ -40,7 +40,7 @@ public class ScriptManagerD extends ScriptManager {
 	public ScriptManagerD(App app) {
 		super(app);
 
-		globalScopeMap = new HashMap<>();
+		globalScopeMap = new HashMap<Construction, Scriptable>();
 
 		// evalScript("ggbOnInit();");
 	}
@@ -110,9 +110,8 @@ public class ScriptManagerD extends ScriptManager {
 	public void setGlobalScript() {
 
 		Scriptable globalScope = CallJavaScript.evalGlobalScript(app);
-		globalScopeMap.put(app.getKernel().getConstruction(),
-				globalScope);
-		
+		globalScopeMap.put(app.getKernel().getConstruction(), globalScope);
+
 	}
 
 	public void evalJavaScript(App app, String script, String arg) {
