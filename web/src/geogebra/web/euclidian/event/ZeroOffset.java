@@ -1,6 +1,7 @@
 package geogebra.web.euclidian.event;
 
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.main.App;
 import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
 
@@ -40,5 +41,9 @@ public class ZeroOffset implements HasOffsets {
 
 	public PointerEventType getDefaultEventType() {
 	    return PointerEventType.MOUSE;
+    }
+
+	public void calculateEnvironment() {
+	    App.debug("calculateEnvironemt needed for ZeroOffset??");
     }
 }

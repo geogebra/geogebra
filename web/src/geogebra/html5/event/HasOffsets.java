@@ -13,4 +13,5 @@ public interface HasOffsets {
 	public int touchEventY(int clientY);
 	public int getEvID();
 	public PointerEventType getDefaultEventType();
+	public void calculateEnvironment();
 }

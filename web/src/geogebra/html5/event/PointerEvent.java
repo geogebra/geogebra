@@ -140,6 +140,7 @@ public class PointerEvent extends AbstractEvent {
 
 	public static AbstractEvent wrapEvent(Touch touch,
             HasOffsets off) {
+		off.calculateEnvironment();
 	    return wrapEvent(touch.getClientX(), touch.getClientY(), 
 	    		PointerEventType.TOUCH,  off, off.getTouchEventPool());
     }
