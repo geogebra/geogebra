@@ -280,6 +280,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		this.ignoreNextMouseEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
+		calculateEnvironment();
 		if(targets.length() == 1){
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
 			wrapMousePressed(e);

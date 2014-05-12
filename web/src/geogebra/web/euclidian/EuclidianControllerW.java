@@ -284,6 +284,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		this.ignoreNextMouseEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
+		calculateEnvironment();
 		if(targets.length() == 1){
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
 			wrapMousePressed(e);
@@ -304,6 +305,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	void twoTouchStart(Touch touch, Touch touch2) {
+		calculateEnvironment();
 		AbstractEvent first = PointerEvent.wrapEvent(touch,this);
 		AbstractEvent second = PointerEvent.wrapEvent(touch2,this);
 		this.twoTouchStart(first.getX(), first.getY(), second.getX(), second.getY());
