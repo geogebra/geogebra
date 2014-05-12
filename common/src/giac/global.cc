@@ -3235,7 +3235,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_series_flags_=_series_flags_; // bit1= full simplify, bit2=1 for truncation
      ptr->globalptr->_local_eval_=_local_eval_;
      ptr->globalptr->_default_color_=_default_color_;
-     ptr->globalptr->_epsilon_=_epsilon_;
+     ptr->globalptr->_epsilon_=_epsilon_<=0?1e-12:_epsilon_;
      ptr->globalptr->_proba_epsilon_=_proba_epsilon_;
      ptr->globalptr->_withsqrt_=_withsqrt_;
      ptr->globalptr->_show_point_=_show_point_; // show 3-d point 
@@ -3786,56 +3786,6 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 
-/* ---------------------------------------------------------------------
-    The following 4 definitions are compiler-specific.
-    The C standard does not guarantee that wchar_t has at least
-    16 bits, so wchar_t is no less portable than unsigned short!
-    All should be unsigned values to avoid sign extension during
-    bit mask & shift operations.
------------------------------------------------------------------------- */
-
-typedef unsigned long UTF32; /* at least 32 bits */
-typedef unsigned short UTF16; /* at least 16 bits */
-typedef unsigned char UTF8; /* typically 8 bits */
-typedef unsigned char Boolean; /* 0 or 1 */
-
-/* Some fundamental constants */
-#define UNI_REPLACEMENT_CHAR (UTF32)0x0000FFFD
-#define UNI_MAX_BMP (UTF32)0x0000FFFF
-#define UNI_MAX_UTF16 (UTF32)0x0010FFFF
-#define UNI_MAX_UTF32 (UTF32)0x7FFFFFFF
-#define UNI_MAX_LEGAL_UTF32 (UTF32)0x0010FFFF
-
-typedef enum {
-    conversionOK = 0,   /* conversion successful */
-    sourceExhausted = -1, /* partial character in source, but hit end */
-    targetExhausted = -2, /* insuff. room in target for conversion */
-    sourceIllegal = -3 /* source sequence is illegal/malformed */
-} ConversionResult;
-
-typedef enum {
-    strictConversion = 0,
-    lenientConversion
-} ConversionFlags;
-
-/* This is for C++ and does no harm in C */
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-unsigned int ConvertUTF8toUTF16 (
-        const UTF8* sourceStart, const UTF8* sourceEnd, 
-        UTF16* targetStart, UTF16* targetEnd, ConversionFlags flags);
-
-unsigned int ConvertUTF16toUTF8 (
-        const UTF16* sourceStart, const UTF16* sourceEnd, 
-        UTF8* targetStart, UTF8* targetEnd, ConversionFlags flags);
-
-Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
-
-#ifdef __cplusplus
-}
-#endif
 
 /* --------------------------------------------------------------------- */
 /*

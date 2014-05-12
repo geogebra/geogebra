@@ -1808,6 +1808,29 @@ namespace giac {
   }
 
   static bool in_eval_vect(const gen & g,gen & evaled,int level,GIAC_CONTEXT){
+#ifdef HAVE_LIBMPFI
+    if (g.subtype==_INTERVAL__VECT && g._VECTptr->size()==2){
+      // convert to MPFI real_interval
+      gen l=g._VECTptr->front(),u=g._VECTptr->back();
+      l=evalf(l,1,contextptr); u=evalf(u,1,contextptr);
+      if (l.type==_DOUBLE_ && u.type==_REAL)
+	u=evalf_double(u,1,contextptr);
+      if (u.type==_DOUBLE_ && l.type==_REAL)
+	l=evalf_double(l,1,contextptr);
+      if ( (l.type==_DOUBLE_ && u.type==_DOUBLE_) ||
+	   (l.type==_REAL && u.type==_REAL) ){
+	mpfi_t interv;
+	mpfi_init(interv);
+	if (l.type==_DOUBLE_)
+	  mpfi_interv_d(interv,l._DOUBLE_val,u._DOUBLE_val);
+	else
+	  mpfi_interv_fr(interv,l._REALptr->inf,u._REALptr->inf);
+	evaled=gen(real_interval(interv));
+	mpfi_clear(interv);
+	return true;
+      }
+    }
+#endif
     if (g.subtype==_SPREAD__VECT){
       makespreadsheetmatrice(*g._VECTptr,contextptr);
       spread_eval(*g._VECTptr,contextptr);
@@ -3504,7 +3527,7 @@ namespace giac {
     case _USER:
       return a._USERptr->abs(contextptr);
     case _FRAC:
-      return fraction(abs(a._FRACptr->num,contextptr),abs(a._FRACptr->den,contextptr));
+      return rdiv(abs(a._FRACptr->num,contextptr),abs(a._FRACptr->den,contextptr),contextptr);
     default:
       return gentypeerr(gettext("Abs"));
     }
@@ -6257,8 +6280,11 @@ namespace giac {
 	return unsigned_inf;
       return plus_inf;
     }
-    if (exponent<0)
+    if (exponent<0){
+      if (-exponent<0)
+	return gensizeerr("pow: int exponent underflow");
       return inv(pow(base,-exponent),context0);
+    }
     if (is_one(base))
       return 1;
     if (is_minus_one(base))
@@ -10604,6 +10630,11 @@ namespace giac {
     case _GROUP__VECT:
       s="group[";
       break;
+#ifdef HAVE_LIBMPFI
+    case _INTERVAL__VECT:
+      s="i[";
+      break;
+#endif
     case _LINE__VECT:
       s="line[";
       break;
@@ -11510,6 +11541,8 @@ namespace giac {
 	return "with_f5";
       case _MODULAR_CHECK:
 	return "modular_check";
+      case _RUR_REVLEX:
+	return "rur";
       }
     }
     return print_INT_(val);
@@ -11612,8 +11645,8 @@ namespace giac {
       if (is_minus_one(*(_CPLXptr+1)))
 	return (_CPLXptr->print(contextptr) + string("-"))+printi(contextptr);
       if (is_positive(-(*(_CPLXptr+1)),contextptr))
-	return (_CPLXptr->print(contextptr) + '-' + (-(*(_CPLXptr+1))).print(contextptr) + "*")+printi(contextptr);
-      return (_CPLXptr->print(contextptr) + '+' + (_CPLXptr+1)->print(contextptr) + "*")+printi(contextptr);
+	return (_CPLXptr->print(contextptr) + string("-") + (-(*(_CPLXptr+1))).print(contextptr) + "*")+printi(contextptr);
+      return (_CPLXptr->print(contextptr) + string("+") + (_CPLXptr+1)->print(contextptr) + "*")+printi(contextptr);
     case _IDNT:
       if (calc_mode(contextptr)==1 && (is_inf(*this) || is_undef(*this)))
 	return "?";
@@ -12255,6 +12288,13 @@ namespace giac {
     return *this;
   }
 
+#ifdef HAVE_LIBMPFI
+  real_interval::real_interval(const mpfi_t & interv) { 
+    mpfi_get_fr(inf,interv);
+    mpfi_init_set(infsup,interv);
+  }
+#endif
+
   real_object & real_interval::operator = (const real_interval & g) { 
 #ifdef HAVE_LIBMPFR
     mpfr_clear(inf);
@@ -12523,7 +12563,7 @@ namespace giac {
     mpf_set(ptr->inf,g.inf);
 #endif
 #ifdef HAVE_LIBMPFI
-    mpfr_set(ptr->infsup,g.infsup,GMP_RNDN);
+    mpfi_set(ptr->infsup,g.infsup);
 #else
 #ifdef HAVE_LIBMPFR
     mpfr_set(ptr->sup,g.sup,GMP_RNDN);
@@ -12612,11 +12652,11 @@ namespace giac {
     return res;
   }
 
-  real_object real_interval::operator + (const real_object & g) const{
+  gen real_interval::operator + (const real_object & g) const{
     return add(*this,g);
   }
 
-  real_object real_object::operator + (const real_object & g) const{
+  gen real_object::operator + (const real_object & g) const{
 #ifdef NO_RTTI
     const real_interval * ptr=0;
 #else
@@ -12709,18 +12749,18 @@ namespace giac {
     return res;
   }
 
-  real_object real_interval::operator - (const real_object & g) const{
+  gen real_interval::operator - (const real_object & g) const{
     return sub(*this,g);
   }
 
-  real_object real_object::operator - (const real_object & g) const{
+  gen real_object::operator - (const real_object & g) const{
 #ifdef NO_RTTI
     const real_interval * ptr=0;
 #else
     const real_interval * ptr=dynamic_cast<const real_interval *>(&g);
 #endif
     if (ptr)
-      return add(-*ptr,*this);
+      return -(*ptr)+(*this);
 #ifdef HAVE_LIBMPFR
     mpfr_t sum;
     mpfr_init2(sum,giacmin(mpfr_get_prec(this->inf),mpfr_get_prec(g.inf)));
@@ -12741,7 +12781,14 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::operator -() const {
+  gen real_object::operator -() const {
+#ifdef NO_RTTI
+    const real_interval * ptr=0;
+#else
+    const real_interval * ptr=dynamic_cast<const real_interval *>(this);
+#endif
+    if (ptr)
+      return -*ptr;
     real_object res(*this);
 #ifdef HAVE_LIBMPFR
     mpfr_neg(res.inf,res.inf,GMP_RNDN);
@@ -12751,7 +12798,7 @@ namespace giac {
     return res;
   }
     
-  real_object real_object::inv() const {
+  gen real_object::inv() const {
     real_object res(*this);
 #ifdef HAVE_LIBMPFR
     mpfr_ui_div(res.inf,1,res.inf,GMP_RNDN);
@@ -12761,7 +12808,7 @@ namespace giac {
     return res;
   }
     
-  real_object real_object::sqrt() const {
+  gen real_object::sqrt() const {
 #ifdef LONGFLOAT_DOUBLE
     real_object res; res.inf=std::sqrt(inf); return res;
 #else
@@ -12775,7 +12822,7 @@ namespace giac {
 #endif
   }
     
-  real_object real_object::abs() const {
+  gen real_object::abs() const {
 #ifdef HAVE_LIBMPFR
     if (mpfr_sgn(inf)>=0)
 #else
@@ -12791,7 +12838,7 @@ namespace giac {
   }
 #endif
 
-  real_object real_object::exp() const {
+  gen real_object::exp() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12809,7 +12856,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::log() const {
+  gen real_object::log() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12827,7 +12874,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::sin() const {
+  gen real_object::sin() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12845,7 +12892,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::cos() const {
+  gen real_object::cos() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12863,7 +12910,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::tan() const {
+  gen real_object::tan() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12881,7 +12928,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::sinh() const {
+  gen real_object::sinh() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12899,7 +12946,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::cosh() const {
+  gen real_object::cosh() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12917,7 +12964,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::tanh() const {
+  gen real_object::tanh() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12935,7 +12982,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::asin() const {
+  gen real_object::asin() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12953,7 +13000,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::acos() const {
+  gen real_object::acos() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12971,7 +13018,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::atan() const {
+  gen real_object::atan() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -12989,7 +13036,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::asinh() const {
+  gen real_object::asinh() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -13007,7 +13054,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::acosh() const {
+  gen real_object::acosh() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -13025,7 +13072,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_object::atanh() const {
+  gen real_object::atanh() const {
     real_object res(*this);
 #ifdef USE_GMP_REPLACEMENTS
 #ifdef LONGFLOAT_DOUBLE
@@ -13043,7 +13090,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_interval::operator -() const {
+  gen real_interval::operator -() const {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFR
     mpfr_neg(res.inf,res.inf,GMP_RNDU);
@@ -13067,7 +13114,7 @@ namespace giac {
     return res;
   }
 
-  real_object real_interval::inv() const {
+  gen real_interval::inv() const {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_ui_div(res.infsup,1,res.infsup);
@@ -13082,6 +13129,182 @@ namespace giac {
        mpf_swap(res.inf,res.sup); */
 #endif
     return res;
+  }
+
+  gen real_interval::sqrt() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_sqrt(res.infsup,res.infsup);
+    mpfr_sqrt(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::abs() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_abs(res.infsup,res.infsup);
+    mpfr_abs(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval abs"));
+#endif
+  }
+
+  gen real_interval::exp() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_exp(res.infsup,res.infsup);
+    mpfr_exp(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::log() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_log(res.infsup,res.infsup);
+    mpfr_log(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::sin() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_sin(res.infsup,res.infsup);
+    mpfr_sin(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::cos() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_cos(res.infsup,res.infsup);
+    mpfr_cos(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::tan() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_tan(res.infsup,res.infsup);
+    mpfr_tan(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::sinh() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_sinh(res.infsup,res.infsup);
+    mpfr_sinh(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::cosh() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_cosh(res.infsup,res.infsup);
+    mpfr_cosh(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::tanh() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_tanh(res.infsup,res.infsup);
+    mpfr_tanh(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::asin() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_asin(res.infsup,res.infsup);
+    mpfr_asin(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::acos() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_acos(res.infsup,res.infsup);
+    mpfr_acos(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::atan() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_atan(res.infsup,res.infsup);
+    mpfr_atan(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::asinh() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_asinh(res.infsup,res.infsup);
+    mpfr_asinh(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::acosh() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_acosh(res.infsup,res.infsup);
+    mpfr_acosh(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
+  }
+
+  gen real_interval::atanh() const {
+    real_interval res(*this);
+#ifdef HAVE_LIBMPFI
+    mpfi_atanh(res.infsup,res.infsup);
+    mpfr_atanh(res.inf,res.inf,GMP_RNDD);
+    return res;
+#else
+    return gensizeerr(gettext("real_interval sqrt"));
+#endif
   }
 
   gen real_object::multiply (const gen & g,GIAC_CONTEXT) const{
@@ -13111,7 +13334,7 @@ namespace giac {
     return multiply(g.inverse(contextptr),contextptr);
   }
   
-  real_object real_object::operator / (const real_object & g) const{
+  gen real_object::operator / (const real_object & g) const{
     return *this * g.inv();
   }
   
@@ -13164,11 +13387,11 @@ namespace giac {
     return res;
   }
 
-  real_object real_interval::operator * (const real_object & g) const{
+  gen real_interval::operator * (const real_object & g) const{
     return mul(*this,g);
   }
 
-  real_object real_object::operator * (const real_object & g) const{
+  gen real_object::operator * (const real_object & g) const{
 #ifdef NO_RTTI
     const real_interval * ptr=0;
 #else
@@ -13252,8 +13475,26 @@ namespace giac {
   }
 
   std::string real_object::print(GIAC_CONTEXT) const{ 
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (const real_interval * ptr=dynamic_cast<const real_interval *>(this)){
+      mpfr_t l,u; mpfr_init(l); mpfr_init(u);
+      mpfi_get_left(l,ptr->infsup); mpfi_get_right(u,ptr->infsup);
+      real_object L(l),U(u);
+      mpfr_clear(l); mpfr_clear(u);
+      string s("i[");
+      s += L.print(contextptr);
+      s += ",";
+      s += U.print(contextptr);
+      s += "]";
+      return s;
+    }
+#endif
 #ifdef HAVE_LIBMPFR
+    if (mpfr_nan_p(inf))
+      return "undef";
     bool negatif=mpfr_sgn(inf)<0;
+    if (mpfr_inf_p(inf))
+      return negatif?"-infinity":"+infinity";
     mp_exp_t expo;
     int dd=mpfr_get_prec(inf);
     dd=bits2digits(dd);

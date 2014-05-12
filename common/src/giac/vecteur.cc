@@ -1507,7 +1507,7 @@ namespace giac {
     fbest += v.size()/3+20;
     if (fbest>-lneps){
       eps=std::exp(-fbest);
-      nbits=-3.2*std::log10(eps);
+      nbits=int(-3.2*std::log10(eps));
     }
     if (eps<1e-14)
       bestg=accurate_evalf(bestg,nbits);
@@ -1567,10 +1567,12 @@ namespace giac {
       if (eigenval2(H1,i+2,l1,l2)){
 	res.push_back(double(l1));
 	res.push_back(double(l2));
+	// CERR << "2 real " << res << endl;
       }
       else {
 	res.push_back(gen(double(l1),double(l2)));
 	res.push_back(gen(double(l1),-double(l2)));
+	// CERR << "2 cplx " << res << endl;
       }
       ++i;
     }
@@ -1634,6 +1636,7 @@ namespace giac {
       if (lapack_schur(H1,P1,false,res))
 	return true;
       bool ans=francis_schur(H1,0,dim,P1,2*SOLVER_MAX_ITERATE,eps,true,false);
+      // CERR << P << endl << H1 << endl;
       return ans && schur_eigenvalues(H1,res,eps,contextptr);
     }
     matrix_complex_double H2,P2;
@@ -1681,7 +1684,7 @@ namespace giac {
 	std_matrix_giac_double2std_matrix_gen(P1,P);
 	matrice p;
 	std_matrix_gen2matrice_destroy(P,p);
-	p=accurate_evalf(p,-3.2*std::log10(eps));
+	p=accurate_evalf(p,int(-3.2*std::log10(eps)));
 	matrice pinv=minv(p,contextptr);
 	matrice tmp,h;
 	mmult(p,m,tmp);
@@ -1762,7 +1765,7 @@ namespace giac {
     gen prefact(1);
     prefact=balance(v,eps,contextptr);
     if (eps<1e-13)
-      rprec=(1-std::log10(eps))*3.2;
+      rprec=int((1-std::log10(eps))*3.2);
 #if 0
     if (rprec<=48){
       gen tmp=evalf(w,1,contextptr);
@@ -1879,7 +1882,7 @@ namespace giac {
       return vecteur(0);
     if (vsize==2)
       return vecteur(1,rprec<=50?evalf(-v[1]/v[0],1,context0):accurate_evalf(-v[1]/v[0],rprec)); // ok
-    if (vsize==3){
+    if (vsize==3 && !is_zero(v.back())){
       gen b2=accurate_evalf(-v[1]/2,rprec);
       gen delta=accurate_evalf(b2*b2-v[0]*v[2],rprec); // ok
       gen r1,r2;
@@ -1938,7 +1941,7 @@ namespace giac {
     if (ck_exact && is_exact(v)){
 #if 1
       vecteur res;
-      if (v.size()<PROOT_FACTOR_MAXDEG){
+      if (int(v.size())<PROOT_FACTOR_MAXDEG){
 	gen g=symb_horner(v,vx_var);
 	vecteur vv=factors(g,vx_var,context0);
 	for (unsigned i=0;i<vv.size()-1;i+=2){
@@ -1992,12 +1995,17 @@ namespace giac {
     }
     bool add_conjugate=is_zero(im(v,context0),context0); // ok
     vecteur res,crystalball;
+    bool cache=proot_cached(v,eps,crystalball);
+    // CERR << v << " " << crystalball << endl;
+    if (cache)
+      return crystalball;
+    cache=true;
 #ifdef HAVE_LIBMPFR
     int nbits = 2*(rprec+vsize);
     vecteur v_accurate(accurate_evalf(v,nbits));
     v_accurate=divvecteur(v_accurate,v_accurate.front());
     // compute roots with companion matrix
-    if (!proot_real(v,eps,rprec,crystalball,context0)){
+    if (crystalball.empty() && !proot_real(v,eps,rprec,crystalball,context0)){
       if (crystalball.size()!=v.size()-1)
 	CERR << "Francis algorithm failure for" << v << endl;
       else
@@ -2089,6 +2097,7 @@ namespace giac {
 		}
 	      }	    
 	      if (is_greater(3*abs(decal,context0),mindist,context0)){
+		cache=false;
 		CERR << "Bad conditionned root " << crystalball[j] << ": " << evalf_double(abs(ratio,context0),1,context0) << endl;
 		break;
 	      }
@@ -2096,6 +2105,8 @@ namespace giac {
 	    tmp -= ratio;
 	  }
 	}
+	if (cache)
+	  proot_cache(v,eps,crystalball);
 	return crystalball;
       }
     }
@@ -2103,7 +2114,11 @@ namespace giac {
     int nbits=45;
     rprec = 37;
     vecteur v_accurate(*evalf_double(v,1,context0)._VECTptr);
-    proot_real(v,eps,rprec,crystalball,context0);
+    if (crystalball.empty()){
+      proot_real(v,eps,rprec,crystalball,context0);
+      // CERR << crystalball << endl;
+      proot_cache(v,eps,crystalball);
+    }
     return crystalball;
     // GSL call is much faster but not very accurate
     if (eps<1e-5)
@@ -2208,7 +2223,7 @@ namespace giac {
     if (r.type!=_VECT) return vecteur(1,undef);
     const vecteur &w = *r._VECTptr;
     if (is_undef(w)) return w;
-    int nbits=1-3.2*std::log(eps);
+    int nbits=int(1-3.2*std::log(eps));
     vecteur res;
     const_iterateur it=w.begin(),itend=w.end();
     for (;it!=itend;++it){
@@ -12973,8 +12988,12 @@ namespace giac {
       // find eigenvalues l1 and l2 of last 2x2 matrix, they will be taken as shfits
       s=H[n2-2][n2-2]+H[n2-1][n2-1];
       p=H[n2-2][n2-2]*H[n2-1][n2-1]-H[n2-1][n2-2]*H[n2-2][n2-1];
-      if (p==s*s/4 || (std::abs(H[n2-2][n2-2])<eps &&std::abs(H[n2-1][n2-1])<eps) ) // multiple root 
+      // CERR << p << " " << s << " " << eps << endl << std::abs(H[n2-2][n2-2]) << " " << std::abs(H[n2-1][n2-1]) << endl;
+      if (p==s*s/4 || (std::abs(H[n2-2][n2-2])<eps &&std::abs(H[n2-1][n2-1])<eps) ){
+	// multiple root 
 	s += giac_rand(context0)*(H[n2-1][n2-2]+std::sqrt(std::abs(p)))/rand_max2;
+	// CERR << "new s " << s << endl;
+      }
     }
     // compute (H-l2)(H-l1)=(H-s)*H+p on n1-th basis vector (if n1==0, on [1,0,...,0])
     giac_double ha=H[n1][n1],hb=H[n1][n1+1],

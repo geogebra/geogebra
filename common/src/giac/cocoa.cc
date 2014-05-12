@@ -8207,7 +8207,7 @@ namespace giac {
       const zpolymod & p=res[B[i].first];
       const zpolymod & q=res[B[i].second];
       if (debug_infolevel>2)
-	cerr << "zleftright " << p << "," << q << endl;
+	CERR << "zleftright " << p << "," << q << endl;
       tdeg_t l;
       index_lcm(p.ldeg,q.ldeg,l,p.order);
       leftshift[i]=l-p.ldeg;

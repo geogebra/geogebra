@@ -56,8 +56,7 @@ namespace giac {
     return a.islesscomplexthan(b);
   }
 
-  // FIXME: protect symbolic_rootof_list() with a mutex in multi-thread environment
-#if 1 // def NSPIRE
+  // symbolic_rootof_list() protected with a mutex in multi-thread environment
   bool comparegen::operator ()(const gen & a,const gen & b) const { 
     return a.islesscomplexthan(b);
   }
@@ -66,13 +65,55 @@ namespace giac {
     static rootmap * ans= new rootmap;
     return *ans;
   }
-#else
-  typedef map<gen,gen,const std::pointer_to_binary_function < const gen &, const gen &, bool> > rootmap;
-  static rootmap & symbolic_rootof_list(){
-    static rootmap * ans= new rootmap(ptr_fun(islesscomplex));
+  static rootmap & proot_list(){
+    static rootmap * ans= new rootmap;
     return *ans;
   }
+#ifdef HAVE_LIBPTHREAD
+  static pthread_mutex_t rootof_mutex = PTHREAD_MUTEX_INITIALIZER;
+  static int rootof_trylock(){
+    return pthread_mutex_trylock(&rootof_mutex);
+  }
+  static void rootof_unlock(){
+    pthread_mutex_unlock(&rootof_mutex);
+  }
+#else
+  static int rootof_trylock(){ return true; }
+  static void rootof_unlock(){ } 
+
 #endif
+  bool proot_cached(const vecteur & v,double eps,vecteur & res){
+    if (rootof_trylock())
+      return false;
+    res.clear();
+    double oldeps=1e300;
+    rootmap::iterator ritend=proot_list().end(),rit=proot_list().find(v);
+    if (rit!=ritend && rit->second.type==_VECT){
+      res=*rit->second._VECTptr;
+      if (res.size()==2 && res.front().type==_VECT && res.back().type==_DOUBLE_){
+	res=*res.front()._VECTptr;
+	oldeps=res.back()._DOUBLE_val;
+      }
+      else
+	res.clear();
+    }
+    rootof_unlock();
+    return !res.empty() && oldeps<=eps;
+  }
+
+  bool proot_cache(const vecteur & v,double eps,const vecteur & res){
+    if (rootof_trylock())
+      return false;
+    rootmap::iterator ritend=proot_list().end(),rit=proot_list().find(v);
+    if (rit!=ritend){
+      if (rit->second.type!=_VECT || rit->second._VECTptr->size()!=2 || rit->second._VECTptr->front().type!=_VECT || rit->second._VECTptr->back().type!=_DOUBLE_ || rit->second._VECTptr->back()._DOUBLE_val>eps)
+	rit->second=makevecteur(res,eps);
+    }
+    else
+      proot_list()[v]=makevecteur(res,eps);
+    rootof_unlock();
+    return true;
+  }
 
   gen algebraic_EXTension(const gen & a,const gen & v){
     if (is_zero(a) )
@@ -205,11 +246,14 @@ namespace giac {
       if (it->type!=_INT_)
 	return false;
     }
+    if (rootof_trylock())
+      return false;
     rootmap::iterator ritend=symbolic_rootof_list().end(),rit=symbolic_rootof_list().find(v);
-    if (rit!=ritend){
+    if (rit!=ritend)
       symroot=rit->second;
+    rootof_unlock();
+    if (rit!=ritend)
       return true;
-    }
     if (v.size()==3){
       vecteur w;
       identificateur x(" x");
@@ -449,12 +493,19 @@ namespace giac {
     b=algebraic_EXTension(b,vg);
     a=algebraic_EXTension(a,vg);
     // add v to the rootof_list
-    rootmap::iterator ritend=symbolic_rootof_list().end(),rit=symbolic_rootof_list().find(v);
-    if (rit==ritend){
-      // should first check that va/vb are solvable poly
-      gen gaa,gbb;
-      if (is_known_rootof(va,gaa,contextptr) && is_known_rootof(vb,gbb,contextptr))
-	symbolic_rootof_list()[v]=gaa +k*gbb;
+    if (!rootof_trylock()){
+      rootmap::iterator ritend=symbolic_rootof_list().end(),rit=symbolic_rootof_list().find(v);
+      rootof_unlock();
+      if (rit==ritend){
+	// should first check that va/vb are solvable poly
+	gen gaa,gbb;
+	if (is_known_rootof(va,gaa,contextptr) && is_known_rootof(vb,gbb,contextptr)){
+	  if (!rootof_trylock()){
+	    symbolic_rootof_list()[v]=gaa +k*gbb;
+	    rootof_unlock();
+	  }
+	}
+      }
     }
     return vg;
   }
@@ -719,10 +770,16 @@ namespace giac {
     if (p.type!=_VECT)
       return p;
     // first check that pmin is in the list of known rootof
-    rootmap::iterator it=symbolic_rootof_list().find(pmin),itend=symbolic_rootof_list().end();
-    if (it==itend)
+    gen value(undef);
+    if (!rootof_trylock()){
+      rootmap::iterator it=symbolic_rootof_list().find(pmin),itend=symbolic_rootof_list().end();
+      if (it!=itend)
+	value=it->second;
+      rootof_unlock();
+    }
+    if (is_undef(value))
       return symbolic(at_rootof,makevecteur(p,pmin));
-    return horner_rootof(*p._VECTptr,it->second,contextptr);
+    return horner_rootof(*p._VECTptr,value,contextptr);
     // return ratnormal(ratnormal(symb_horner(*p._VECTptr,it->second)));
   }
   gen rootof(const gen & e,GIAC_CONTEXT){
@@ -731,6 +788,12 @@ namespace giac {
       if (v.size()==1)
 	return rootof(_symb2poly(makesequence(e,v.front()),contextptr),contextptr);
       return gentypeerr(gettext("rootof"));
+    }
+    if (e._VECTptr->size()==2 && e._VECTptr->front().type!=_VECT){
+      vecteur v=lidnt(e);
+      if (v.size()!=1)
+	return gentypeerr(gettext("rootof"));
+      return rootof(makesequence(_symb2poly(makesequence(e._VECTptr->front(),v.front()),contextptr),_symb2poly(makesequence(e._VECTptr->back(),v.front()),contextptr)),contextptr);
     }
     if (e._VECTptr->size()!=2 || e._VECTptr->back().type!=_VECT)
       return rootof(makesequence(makevecteur(1,0),e),contextptr);

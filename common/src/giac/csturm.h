@@ -53,7 +53,7 @@ namespace giac {
   bool complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,vecteur & roots,gen & pgcd,double eps);
   // find roots of polynomial P at precision eps using complex Sturm sequences
   // P must have numeric coefficients, in Q[i]
-  vecteur complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,bool complexe,double eps);
+  vecteur complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,bool complexe,double eps,bool use_proot);
 
   vecteur keep_in_rectangle(const vecteur & croots,const gen A0,const gen & ,const gen & A1,const gen & B1,bool embed,GIAC_CONTEXT);
 

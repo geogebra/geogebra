@@ -21,6 +21,8 @@
 #include "gen.h"
 #include <string>
 
+#ifndef NO_RTTI
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
@@ -103,5 +105,7 @@ namespace giac {
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
+
+#endif // NO_RTTI
 
 #endif // _GIAC_QUATER_H

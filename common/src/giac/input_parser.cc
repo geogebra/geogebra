@@ -399,7 +399,7 @@ namespace giac {
 #ifdef GNUWINCE
 #define YYINITDEPTH 1000
 #else 
-#define YYINITDEPTH 20000
+#define YYINITDEPTH 1000
 #define YYMAXDEPTH 100000
 #define YYERROR_VERBOSE 1
 #endif // GNUWINCE

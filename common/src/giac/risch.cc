@@ -858,8 +858,13 @@ namespace giac {
       remsum += rem;
     }
     res += risch_lin(remsum,x,remains_to_integrate,contextptr);
-    if (!has_i(e_orig) && has_i(remains_to_integrate))
-      remains_to_integrate=ratnormal(re(_exp2trig(remains_to_integrate,contextptr),contextptr));
+    if (is_zero(res)){ // perhaps we should derive res and substract it from e_orig
+      remains_to_integrate=e_orig;
+    }
+    else {
+      if (!has_i(e_orig) && has_i(remains_to_integrate))
+	remains_to_integrate=ratnormal(re(_exp2trig(remains_to_integrate,contextptr),contextptr));
+    }
     vector<const unary_function_ptr *> SiCiexp(1,at_Si);
     SiCiexp.push_back(at_Ci);
     SiCiexp.push_back(at_exp);

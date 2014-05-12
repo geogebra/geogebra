@@ -1317,9 +1317,32 @@ namespace giac {
   // w.r.t the common minpoly
   // return a in terms of the common ext
   static vecteur common_algext(const vecteur & a,const vecteur & l,GIAC_CONTEXT){
-    const_iterateur it=a.begin(),itend=a.end();
+    const_iterateur it,itend=a.end();
     vecteur alg_extin,alg_extoutnum,alg_extoutden;
-    for (;it!=itend;++it){
+#if 0 // ndef GIAC_HAS_STO38
+    // trying with rational univariate rep.
+    for (it=a.begin();it!=itend;++it){
+      if (it->type==_EXT){
+	gen minpoly=*(it->_EXTptr+1);
+	if (minpoly.type!=_VECT)
+	  break;
+	unsigned i=0,s=minpoly._VECTptr->size();
+	for (;i<s;++i){
+	  if (!is_integer((*minpoly._VECTptr)[i]))
+	    break;
+	}
+	if (i!=s)
+	  break;
+	alg_extin.push_back(minpoly);
+      }
+    }
+    if (it==itend){
+      // extract system of equations from alg_extin and call gbasis
+      // problem: for e.g. sqrt(2),sqrt(3),sqrt(6) it will return a poly of deg. 8
+    }
+    alg_extin.clear(); alg_extoutnum.clear(); alg_extoutden.clear();
+#endif
+    for (it=a.begin();it!=itend;++it){
       if (it->type==_EXT)
 	break;
     }
@@ -3091,7 +3114,7 @@ namespace giac {
     if (f1.type==_VECT && f1.subtype==_SEQ__VECT && f1._VECTptr->size()==1)
       f1=f1._VECTptr->front();
     f3=g._SYMBptr->feuille._VECTptr->back();
-    bool res= ((f3.type==_SYMB || f3.type==_IDNT) && !f3.is_symb_of_sommet(at_bloc));
+    bool res= ((f3.type==_SYMB || f3.type<=_IDNT) && !f3.is_symb_of_sommet(at_bloc));
     if (res)
       f3=eval(f3,1,context0); // eval operators like /
     return res;

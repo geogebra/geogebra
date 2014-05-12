@@ -5638,6 +5638,8 @@ namespace giac {
     int s=v.size();
     if (s<2)
       return gendimerr(contextptr);
+    if (is_integer(v[0]) && is_integer(v[1]))
+      return v;
     gen res=ichinrem2(v[0],v[1]);
     for (int i=2;i<s;++i)
       res=ichinrem2(res,v[i]);

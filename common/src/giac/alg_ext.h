@@ -29,6 +29,9 @@ namespace giac {
   struct unary_function_ptr;
   struct symbolic;
 
+  bool proot_cached(const vecteur & v,double eps,vecteur & res);
+  bool proot_cache(const vecteur & v,double eps,const vecteur & res);
+
   bool islesscomplex(const gen & a,const gen & b);
   bool is_sqrt(const gen & a,gen & arg);
   gen select_root(const vecteur & v,GIAC_CONTEXT);

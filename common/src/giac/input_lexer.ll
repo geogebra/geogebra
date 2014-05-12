@@ -462,6 +462,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
     /* vector/polynom/matrice delimiters */
 "seq["              (*yylval) = _SEQ__VECT; return T_VECT_DISPATCH;
 "set["              (*yylval) = _SET__VECT; return T_VECT_DISPATCH;
+"i["              (*yylval) = _INTERVAL__VECT; return T_VECT_DISPATCH;
 "list[" index_status(yyextra)=0; (*yylval) = _LIST__VECT; return T_VECT_DISPATCH;
 "list(" index_status(yyextra)=0; (*yylval) = _LIST__VECT; return T_BEGIN_PAR;
 "rpn_func["         (*yylval) = _RPN_FUNC__VECT; return T_VECT_DISPATCH;

@@ -894,12 +894,109 @@ namespace giac {
     return roots;
   }
 
-  // find roots of polynomial P at precision eps using complex Sturm sequences
+  // find roots of polynomial P at precision eps using proot or 
+  // complex Sturm sequences
   // P must have numeric coefficients, in Q[i]
-  vecteur complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,bool complexe,double eps){
+  vecteur complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,bool complexe,double eps,bool use_proot){
     if (P.empty())
       return P;
     eps=std::abs(eps);
+    if (eps>1e-6)
+      eps=1e-6;
+    if (use_proot){
+      gen epsg=pow(2,int(std::log(eps)/std::log(2.)-.5),context0);
+      // first try proot with double precision, if it's not enough increase
+      int n=45;
+      bool Preal=is_zero(im(P,context0));
+      modpoly P1=derivative(P);
+      for (;n<400;n*=2){
+	double cureps=std::pow(2.0,-n);
+	vecteur v=proot(P,cureps,n);
+	vecteur vradius(v.size());
+	unsigned i=0;
+	int kmax=int(std::log(eps)/std::log(cureps))+4;
+	for (;i<v.size();++i){
+	  gen r=v[i];
+	  if (r.type==_FRAC)
+	    continue;
+	  // find nearest root from v
+	  gen deltar=plus_inf,delta;
+	  for (unsigned j=0;j<v.size();++j){
+	    if (j==i)
+	      continue;
+	    gen tmp=abs(r-v[j],context0);
+	    if (is_strictly_greater(deltar,tmp,context0))
+	      deltar=tmp;
+	  }
+	  if (is_zero(deltar))
+	    break;
+	  deltar=deltar/3;
+	  round2(r,n);
+	  gen sumdr=0;
+	  gen deuxn=pow(2,n,context0);
+	  for (int k=0;k<kmax;++k){
+	    // check if root precision is ok
+	    // otherwise try to improve root precision with Newton method
+	    gen P1r=horner(P1,r);
+	    if (is_zero(P1r)){
+	      delta=plus_inf;
+	      break;
+	    }
+	    gen Pr=horner(P,r);
+	    gen dr=Pr/P1r;
+	    delta=n*n*Pr*conj(Pr,context0)/(P1r*conj(P1r,context0));
+	    if (is_greater(epsg*epsg,delta,context0)){
+	      v[i]=r; // we can certify there is a root at distance <= eps from r
+	      if (is_zero(Pr))
+		vradius[i]=0;
+	      else
+		vradius[i]=n*abs(evalf_double(Pr/P1r,1,context0),context0);
+	      if (!is_exactly_zero(vradius[i]))
+		vradius[i]=min(epsg,pow(plus_two,int(std::log(vradius[i]._DOUBLE_val)/std::log(2.))+1),context0);
+	      break;
+	    }
+	    sumdr += dr;
+	    if (!is_greater(deltar*deltar,sumdr*conj(sumdr,context0),context0))
+	      break;
+	    r -= dr;
+	    deuxn=deuxn*deuxn;
+	    round2(r,deuxn,context0);
+	  }
+	  if (!is_greater(epsg*epsg,delta,context0))
+	    break;
+	}
+	if (i==v.size()){
+	  vecteur res;
+	  for (unsigned j=0;j<v.size();++j){
+	    if (Preal && is_zero(im(v[j],context0))){
+	      if (is_exactly_zero(vradius[j])){
+		if (is_greater(v[j],a0,context0) && is_greater(a1,v[j],context0) && is_greater(0,b0,context0) && is_greater(b1,0,context0))
+		  res.push_back(makevecteur(v[j],1));
+		continue;
+	      }
+	      gen P1=horner(P,v[j]-vradius[j]),P2=horner(P,v[j]+vradius[j]);
+	      if (P1.type==_FRAC) P1=P1._FRACptr->num;
+	      if (P2.type==_FRAC) P2=P2._FRACptr->num;
+	      if (is_strictly_positive(-P1*P2,context0)){
+		if (is_greater(v[j],a0,context0) && is_greater(a1,v[j],context0) && is_greater(0,b0,context0) && is_greater(b1,0,context0))
+		  res.push_back(makevecteur(change_subtype(makevecteur(v[j]-vradius[j],v[j]+vradius[j]),_INTERVAL__VECT),1));
+		continue;
+	      }
+	    }
+	    gen R,I;
+	    reim(v[j],R,I,context0);
+	    if (is_greater(R,a0,context0) && is_greater(a1,R,context0) && is_greater(I,b0,context0) && is_greater(b1,I,context0)){
+	      if (is_exactly_zero(vradius[j]))
+		res.push_back(makevecteur(v[j],1));
+	      else
+		res.push_back(makevecteur(makevecteur(ratnormal(v[j]-vradius[j]*(1+cst_i)),ratnormal(v[j]+vradius[j]*(1+cst_i))),1));
+	    }
+	  }
+	  return res;
+	}
+      }
+      CERR << "proot isolation did not work, trying complex Sturm sequences" << endl;
+    }
     bool aplati=(a0==a1) && (b0==b1);
     if (!aplati && complexe && (a0==a1 || b0==b1) )
       return vecteur(1,gensizeerr(gettext("Square is flat!")));
@@ -952,10 +1049,11 @@ namespace giac {
 
   gen complexroot(const gen & g,bool complexe,GIAC_CONTEXT){
     vecteur v=gen2vecteur(g);
-    bool use_vas=!complexe;
+    bool use_vas=!complexe,use_proot=true;
     bool isolation=false;
     if (!v.empty() && v[0]==at_sturm){
       use_vas=false;
+      use_proot=false;
       v.erase(v.begin());
     }
     if (v.empty())
@@ -964,17 +1062,24 @@ namespace giac {
       isolation=true;
       v.push_back(epsilon(contextptr));
     }
+    if (v.size()==3)
+      v.insert(v.begin()+1,epsilon(contextptr));
     gen p=v.front(),prec=evalf_double(v[1],1,contextptr);
     if (prec.type!=_DOUBLE_)
       return gentypeerr(contextptr);
     double eps=prec._DOUBLE_val;
+    if (eps<=0)
+      eps=epsilon(contextptr);
+    if (eps<=0)
+      eps=1e-12;
     unsigned vs=v.size();
-    gen A(0),B(0);
+    gen A(0),B(0),a0(minus_inf),b0(minus_inf),a1(plus_inf),b1(plus_inf);
     if (vs>3){
       A=v[2];
       B=v[3];
+      a0=re(A,contextptr); b0=im(A,contextptr);
+      a1=re(B,contextptr);b1=im(B,contextptr);
     }
-    gen a0=re(A,contextptr),b0=im(A,contextptr),a1=re(B,contextptr),b1=im(B,contextptr);
     if (is_greater(a0,a1,contextptr))
       swapgen(a0,a1);
     if (is_greater(b0,b1,contextptr))
@@ -983,7 +1088,7 @@ namespace giac {
     if (p.type==_VECT){
       if (use_vas && vas(*p._VECTptr,a0,a1,isolation?1e300:eps,vas_res,true,contextptr))
 	return vas_res;
-      return complex_roots(*p._VECTptr,a0,b0,a1,b1,complexe,eps);
+      return complex_roots(*p._VECTptr,a0,b0,a1,b1,complexe,eps,use_proot);
     }
     if (use_vas && vas(symb2poly_num(v[0],contextptr),a0,a1,isolation?1e300:eps,vas_res,true,contextptr))
       return vas_res;
@@ -1005,7 +1110,7 @@ namespace giac {
       P=_e2r(makesequence(P,l0.front()),contextptr);
       if (P.type!=_VECT)
 	continue;
-      vecteur tmp=complex_roots(*P._VECTptr,a0,b0,a1,b1,complexe,eps);
+      vecteur tmp=complex_roots(*P._VECTptr,a0,b0,a1,b1,complexe,eps,use_proot);
       if (is_undef(tmp))
 	return tmp;
       iterateur jt=tmp.begin(),jtend=tmp.end();
@@ -1677,6 +1782,8 @@ namespace giac {
       gen interval=bisection(p,max(A,a,contextptr),min(B,b,contextptr),eps,contextptr);
       if (is_undef(interval))
 	continue;
+      if (interval.type==_VECT)
+	interval.subtype=_INTERVAL__VECT;
       if (with_mult)
 	vasres.push_back(makevecteur(interval,multiplicity(f,interval,contextptr)));
       else

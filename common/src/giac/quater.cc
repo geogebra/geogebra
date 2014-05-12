@@ -38,6 +38,8 @@
 #include "giacintl.h"
 using namespace std;
 
+#ifndef NO_RTTI
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
@@ -818,3 +820,5 @@ namespace giac {
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
+
+#endif // NO_RTTI

@@ -215,6 +215,7 @@ namespace giac {
     _LIST__VECT=23,
     _LOGO__VECT=24,
     _GGB__VECT=25,
+    _INTERVAL__VECT=26,
   } ;
 
   enum symb_subtypes {

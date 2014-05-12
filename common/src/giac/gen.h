@@ -245,34 +245,34 @@ namespace giac {
     real_object (const real_object & g) ;
     gen addition (const gen & g,GIAC_CONTEXT) const;
     gen operator + (const gen & g) const;
-    virtual real_object operator + (const real_object & g) const;
+    virtual gen operator + (const real_object & g) const;
     gen multiply (const gen & g,GIAC_CONTEXT) const;
     gen operator * (const gen & g) const;
-    virtual real_object operator * (const real_object & g) const;
+    virtual gen operator * (const real_object & g) const;
     gen divide (const gen & g,GIAC_CONTEXT) const;
     gen operator / (const gen & g) const;
     gen substract (const gen & g,GIAC_CONTEXT) const;
-    virtual real_object operator / (const real_object & g) const;
+    virtual gen operator / (const real_object & g) const;
     gen operator - (const gen & g) const;
-    virtual real_object operator - (const real_object & g) const;
-    virtual real_object operator -() const;
-    virtual real_object inv() const;
-    virtual real_object sqrt() const;
-    virtual real_object abs() const;
-    virtual real_object exp() const;
-    virtual real_object log() const;
-    virtual real_object sin() const;
-    virtual real_object cos() const;
-    virtual real_object tan() const;
-    virtual real_object sinh() const;
-    virtual real_object cosh() const;
-    virtual real_object tanh() const;
-    virtual real_object asin() const;
-    virtual real_object acos() const;
-    virtual real_object atan() const;
-    virtual real_object asinh() const;
-    virtual real_object acosh() const;
-    virtual real_object atanh() const;
+    virtual gen operator - (const real_object & g) const;
+    virtual gen operator -() const;
+    virtual gen inv() const;
+    virtual gen sqrt() const;
+    virtual gen abs() const;
+    virtual gen exp() const;
+    virtual gen log() const;
+    virtual gen sin() const;
+    virtual gen cos() const;
+    virtual gen tan() const;
+    virtual gen sinh() const;
+    virtual gen cosh() const;
+    virtual gen tanh() const;
+    virtual gen asin() const;
+    virtual gen acos() const;
+    virtual gen atan() const;
+    virtual gen asinh() const;
+    virtual gen acosh() const;
+    virtual gen atanh() const;
     virtual bool is_zero();
     virtual bool is_inf();
     virtual bool is_nan();
@@ -309,6 +309,9 @@ namespace giac {
 #endif
 #endif
     }
+#ifdef HAVE_LIBMPFI
+    real_interval(const mpfi_t & interv); 
+#endif
     real_interval(const real_object & r):real_object(r) { 
 #ifdef HAVE_LIBMPFI
       mpfi_init_set_fr(infsup,r.inf);
@@ -344,14 +347,30 @@ namespace giac {
     }
     virtual real_object & operator = (const real_interval & g) ;
     virtual real_object & operator = (const real_object & g) ;
-    virtual real_object operator + (const real_object & g) const;
+    virtual gen operator + (const real_object & g) const;
     virtual real_interval operator + (const real_interval & g) const;
-    virtual real_object operator * (const real_object & g) const;
+    virtual gen operator * (const real_object & g) const;
     virtual real_interval operator * (const real_interval & g) const;
-    virtual real_object operator - (const real_object & g) const;
+    virtual gen operator - (const real_object & g) const;
     virtual real_interval operator - (const real_interval & g) const ;
-    virtual real_object operator -() const;
-    virtual real_object inv() const;
+    virtual gen operator -() const;
+    virtual gen inv() const;
+    virtual gen sqrt() const;
+    virtual gen abs() const;
+    virtual gen exp() const;
+    virtual gen log() const;
+    virtual gen sin() const;
+    virtual gen cos() const;
+    virtual gen tan() const;
+    virtual gen sinh() const;
+    virtual gen cosh() const;
+    virtual gen tanh() const;
+    virtual gen asin() const;
+    virtual gen acos() const;
+    virtual gen atan() const;
+    virtual gen asinh() const;
+    virtual gen acosh() const;
+    virtual gen atanh() const;
   };
   struct ref_real_interval {
     volatile int ref_count;
