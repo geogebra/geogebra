@@ -2812,4 +2812,16 @@ AngleProperties {
 		}
 		
 	}
+	
+	@Override
+	public String getLabelDescription() {
+		if (labelMode == LABEL_CAPTION) {
+			return getCaption(StringTemplate.defaultTemplate);
+		}
+		
+		// return label;
+		// Mathieu Blossier - 2009-06-30
+		return getLabel(StringTemplate.defaultTemplate);
+	}
+
 }

@@ -2,6 +2,7 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 
 public class ShowLabelModel extends OptionsModel{
@@ -32,7 +33,7 @@ public class ShowLabelModel extends OptionsModel{
 		GeoElement temp, geo0 = getGeoAt(0);
 		boolean equalLabelVal = true;
 		boolean equalLabelMode = true;
-		showNameValue = geo0.isLabelValueShowable();
+		showNameValue = geo0.isLabelValueShowable() && !isDropDownList(geo0);
 
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getGeoAt(i);
@@ -44,7 +45,7 @@ public class ShowLabelModel extends OptionsModel{
 				equalLabelMode = false;
 
 			showNameValue = showNameValue
-					&& temp.isLabelValueShowable();
+					&& temp.isLabelValueShowable() && !isDropDownList(temp);
 		}
 
 		// change "Show Label:" to "Show Label" if there's no menu
@@ -52,20 +53,12 @@ public class ShowLabelModel extends OptionsModel{
 		listener.update(equalLabelVal, equalLabelMode);
 		}
 
-	// show everything but numbers (note: drawable angles are shown)
-	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i);
-			if (!geo.isLabelShowable()) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
-	}
 
+	private boolean isDropDownList(GeoElement geo) {
+		return (geo.isGeoList() && ((GeoList)geo).drawAsComboBox());
+		
+	}
+	
 	public void applyShowChanges(boolean value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 				GeoElement geo = getGeoAt(i);
@@ -93,7 +86,7 @@ public class ShowLabelModel extends OptionsModel{
 
 	@Override
 	protected boolean isValidAt(int index) {
-		// TODO Auto-generated method stub
-		return false;
+		GeoElement geo = getGeoAt(index);
+		return geo.isLabelShowable() || isDropDownList(geo);
 	}
 }

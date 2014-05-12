@@ -130,6 +130,10 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 				label.setText(Unicode.NBSP + Unicode.NBSP + Unicode.NBSP);
 			}
 
+			if (!geo.isLabelVisible()) {
+				label.setText("");
+			}
+			
 			int fontSize = (int) (view.getFontSize() * geoList.getFontSizeMultiplier());
 			App app = view.getApplication();
 
@@ -426,6 +430,5 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 		update();
 	}
-
 
 }
