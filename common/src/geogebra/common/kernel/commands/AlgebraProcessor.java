@@ -1704,7 +1704,7 @@ public class AlgebraProcessor {
 	 * @throws MyError e.g. for invalid operation
 	 */
 	public final GeoElement[] processEquation(Equation equ) throws MyError {
-		return processEquation(equ, false);
+		return processEquation(equ, kernel.getConstruction().isFileLoading());
 	}
 
 	/**
