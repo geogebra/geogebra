@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -289,7 +290,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		if (f.isLabelSet() && !f.isBooleanFunction()) {
+		if (f.isLabelSet() && (!f.isBooleanFunction() || tpl.hasType(StringType.GEOGEBRA_XML))) {
 			sb.append(f.getLabel(tpl));
 			sb.append("(");
 			sb.append(f.getVarString(tpl));

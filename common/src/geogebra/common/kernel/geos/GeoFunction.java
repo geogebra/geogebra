@@ -677,7 +677,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
-			if (isBooleanFunction())
+			if (isBooleanFunction() && !tpl.hasType(StringType.GEOGEBRA_XML))
 				sbToString.append(": ");
 			else {
 				sbToString.append("(");
