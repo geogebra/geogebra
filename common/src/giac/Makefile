@@ -30,4 +30,3 @@ clean:
 	rm -f $(GIACOBJS) test.o icas.o
 .cc.o:
 	$(CXX) $(CXXFLAGS) -c $<
-
