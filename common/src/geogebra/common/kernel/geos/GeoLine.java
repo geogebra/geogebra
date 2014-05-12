@@ -634,7 +634,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * translate by vector v
 	 */
-	final public void translate(Coords v) {
+	public void translate(Coords v) {
 		z -= x * v.getX() + y * v.getY();
 	}
 
@@ -646,7 +646,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * dilate from S by r
 	 */
-	final public void dilate(NumberValue rval, Coords S) {
+	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double temp = (r - 1);
 		z = temp * (x * S.getX() + y * S.getY()) + r * z;
@@ -659,14 +659,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * rotate this line by angle phi around (0,0)
 	 */
-	final public void rotate(NumberValue phiVal) {
+	public void rotate(NumberValue phiVal) {
 		rotateXY(phiVal);
 	}
 
 	/**
 	 * rotate this line by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiVal,  GeoPointND point) {
+	public void rotate(NumberValue phiVal,  GeoPointND point) {
 		Coords Q = point.getInhomCoords();
 		double phi = phiVal.getDouble();
 		double cos = Math.cos(phi);
@@ -684,7 +684,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * mirror this line at point Q
 	 */
-	final public void mirror(Coords Q) {
+	public void mirror(Coords Q) {
 		double qx = x * Q.getX();
 		double qy = y * Q.getY();
 
@@ -696,7 +696,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * mirror this point at line g
 	 */
-	final public void mirror(GeoLineND g1) {
+	public void mirror(GeoLineND g1) {
 		
 		GeoLine g = (GeoLine) g1;
 

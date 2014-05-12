@@ -22,6 +22,8 @@ import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.prover.AlgoAreEqual;
@@ -717,6 +719,119 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return Kernel.isGreaterEqual(parameter, 0) && Kernel.isGreaterEqual(1, parameter);
 	}
 
+	/**
+	 * dilate from S by r
+	 */
+	@Override
+	final public void dilate(NumberValue rval, Coords S) {
+		
+		super.dilate(rval,  S);
+		
+		startPoint.dilate(rval, S);
+		endPoint.dilate(rval, S);
+		
+		calcLength();
+		
+	}
+
+	/**
+	 * rotate this line by angle phi around (0,0)
+	 */
+	@Override
+	final public void rotate(NumberValue phiVal) {
+		super.rotate(phiVal);
+		
+		startPoint.rotate(phiVal);
+		endPoint.rotate(phiVal);
+		
+		// not needed for rotate
+		//calcLength();
+	}
+
+	/**
+	 * rotate this line by angle phi around Q
+	 */
+	@Override
+	final public void rotate(NumberValue phiVal,  GeoPointND point) {
+
+		super.rotate(phiVal, point);
+		
+		startPoint.rotate(phiVal, point);
+		endPoint.rotate(phiVal, point);
+		
+		// not needed for rotate
+		//calcLength();
+
+	
+	}
+    
+	/**
+	 * mirror this line at point Q
+	 */
+	@Override
+	final public void mirror(Coords Q) {
+
+		super.mirror(Q);
+		startPoint.mirror(Q);
+		endPoint.mirror(Q);
+
+		// not needed for mirror
+		//calcLength();
+
+
+	}
+
+	/**
+	 * mirror this point at line g
+	 */
+	@Override
+	final public void mirror(GeoLineND g1) {
+		
+		super.mirror(g1);
+		startPoint.mirror(g1);
+		endPoint.mirror(g1);
+
+		// not needed for mirror
+		//calcLength();
+		
+	}
+	
+	/**
+	 * translate by vector v
+	 */
+	@Override
+	final public void translate(Coords v) {
+		super.translate(v);
+		startPoint.translate(v);
+		endPoint.translate(v);
+
+		// not needed for mirror
+		//calcLength();
+	}
+
+	@Override
+	final public void matrixTransform(double p, double q, double r, double s) {
+
+		super.matrixTransform(p, q, r, s);
+		
+		startPoint.matrixTransform(p, q, r, s);
+		endPoint.matrixTransform(p, q, r, s);
+
+		calcLength();
+
+	}
+
+	@Override
+	final public void matrixTransform(double a00, double a01, double a02, double a10,
+			double a11, double a12, double a20, double a21, double a22) {
+		super.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+		
+		startPoint.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+		endPoint.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+
+		calcLength();
+
+	}
 
 
 
