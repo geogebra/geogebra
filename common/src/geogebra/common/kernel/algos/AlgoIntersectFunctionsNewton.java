@@ -21,6 +21,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 
+import java.util.TreeSet;
+
 
 /**
  * Finds intersection points of two polynomials
@@ -81,7 +83,19 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
     }
       
     @Override
-	public final void compute() {      
+	public final void compute() {
+    	if(g.isBooleanFunction()){
+    		if(f.isBooleanFunction()){
+    			rootPoint.setUndefined();
+    		}else{
+    			computeRootBoolean(g, f);
+    		}
+    		return;
+    	}else if(f.isBooleanFunction()){
+    		computeRootBoolean(f, g);
+    		return;
+    	}
+    	
         if (!(f.isDefined() && g.isDefined() && startPoint.isDefined())) {        	
             rootPoint.setUndefined();
         } else {
@@ -111,7 +125,32 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
         }           
     }
     
-    public GeoPoint getIntersectionPoint() {
+    private void computeRootBoolean(GeoFunction bool, GeoFunction real) {
+    	TreeSet<Double> zeros = new TreeSet<Double>();
+    	bool.getFunction().getIneqs().getZeros(zeros);
+    	this.rootPoint.setUndefined();
+    	if(zeros.isEmpty()){
+    		return;
+    	}
+    	double lower = Double.NaN;
+    	double higher = Double.NaN;
+    	for(Double d: zeros){
+    		if(d < startPoint.getInhomX()){
+    			lower = d;
+    		}
+    		if(d >= startPoint.getInhomX()){
+    			higher = d;
+    			break;
+    		}
+    	}
+    	
+    	double x = Double.isNaN(higher) || (startPoint.getInhomX() -lower < 
+    			higher - startPoint.getInhomX()) ? lower : higher;
+    	rootPoint.setCoords(x, real.evaluate(x), 1 );
+		
+	}
+
+	public GeoPoint getIntersectionPoint() {
         return rootPoint;
     }
 

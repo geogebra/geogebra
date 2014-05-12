@@ -190,8 +190,8 @@ public class CmdIntersect extends CommandProcessor {
 						((GeoFunctionable) arg[1]).getGeoFunction(),
 						(GeoLine) arg[0]);
 			else if ( // check after GeoLine as GeoLine is now GeoFunctionable
-					(ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isGeoFunctionable())))
+					(ok[0] = (arg[0].isGeoFunctionable() || arg[0] instanceof GeoFunction))
+					&& (ok[1] = (arg[1].isGeoFunctionable() || arg[1] instanceof GeoFunction)))
 				return getAlgoDispatcher().IntersectPolynomials(
 						c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
@@ -502,8 +502,8 @@ public class CmdIntersect extends CommandProcessor {
 			}
 			// Function - Function with startPoint
 			else if (
-					(ok[0] = (arg[0] .isGeoFunctionable()))
-					&& (ok[1] = (arg[1] .isGeoFunctionable()))
+					(ok[0] = (arg[0] .isGeoFunctionable() || arg[0] instanceof GeoFunction))
+					&& (ok[1] = (arg[1] .isGeoFunctionable() || arg[1] instanceof GeoFunction))
 					&& (ok[2] = (arg[2] .isGeoPoint()))) {
 				GeoElement[] ret =
 					{
