@@ -2041,7 +2041,7 @@ __GGB__keysVar.it.plain = {
     "ARotatedByAngleB": "%0 ruotato di un angolo %1",
     "ARotatedByAngleBAboutC": "%0 ruotato dell'angolo %1 attorno a %2",
     "ARotatedByAngleBAboutCThroughD": "%0 rotato di un angolo %1 attorno ad un asse parallelo a %2 passante per %3",
-    "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotato di un angolo %1 attorno ad un asse perpendicolare a %2 passante per %3",
+    "ARotatedByAngleBAboutPlaneCThroughD": "%0 ruotato di un angolo %1 attorno ad un asse perpendicolare a %2 passante per %3",
     "ASignificantFigure": "%0 cifra significativa",
     "ASignificantFigures": "%0 cifre significative",
     "AandB": "%0 e %1",
