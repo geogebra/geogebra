@@ -498,7 +498,11 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			sb.append("\t<arcSize val=\"");
 			sb.append(arcSize);
 			sb.append("\"/>\n");
-		}
+		} else if (GeoElementSpreadsheet.isSpreadsheetLabel(label)) { 
+			// make sure colors saved for spreadsheet objects 
+			appendObjectColorXML(sb); 
+		}		
+		
 		getXMLEmphasizeRightAngleTag(sb);		
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);

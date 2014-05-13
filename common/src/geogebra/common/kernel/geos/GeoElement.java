@@ -5018,67 +5018,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// if (isDrawable) removed - want to be able to color objects in
 		// AlgebraView, Spreadsheet
 		{
-			sb.append("\t<objColor");
-			sb.append(" r=\"");
-			sb.append(objColor.getRed());
-			sb.append("\"");
-			sb.append(" g=\"");
-			sb.append(objColor.getGreen());
-			sb.append("\"");
-			sb.append(" b=\"");
-			sb.append(objColor.getBlue());
-			sb.append("\"");
-			sb.append(" alpha=\"");
-
-			// changed from alphavalue (don't want alpha="-1.0" in XML)
-			// see GeoList
-			sb.append(getAlphaValue());
-
-			sb.append("\"");
-			StringTemplate tpl =StringTemplate.xmlTemplate;
-			if ((colFunction != null) && kernel.getSaveScriptsToXML()) {
-				sb.append(" dynamicr=\"");
-				StringUtil.encodeXML(sb, colFunction.get(0).getLabel(tpl));
-				sb.append('\"');
-				sb.append(" dynamicg=\"");
-				StringUtil.encodeXML(sb, colFunction.get(1).getLabel(tpl));
-				sb.append('\"');
-				sb.append(" dynamicb=\"");
-				StringUtil.encodeXML(sb, colFunction.get(2).getLabel(tpl));
-				sb.append('\"');
-				if (colFunction.size() == 4) {
-					sb.append(" dynamica=\"");
-					StringUtil.encodeXML(sb, colFunction.get(3)
-							.getLabel(tpl));
-					sb.append('\"');
-				}
-				sb.append(" colorSpace=\"");
-				sb.append(colorSpace);
-				sb.append('\"');
-			}
-
-			if (isHatchingEnabled()) {
-				sb.append(" fillType=\"");
-				sb.append(fillType.ordinal());
-				sb.append("\" hatchAngle=\"");
-				sb.append(hatchingAngle);
-				sb.append("\" hatchDistance=\"");
-				sb.append(hatchingDistance);
-				sb.append("\"");
-			} else if (fillType == FillType.IMAGE) {
-				sb.append(" image=\"");
-				sb.append(graphicsadapter.getImageFileName());
-				sb.append('\"');
-			} 
-			if (fillType == FillType.SYMBOLS){
-				sb.append(" fillSymbol=\"");
-				sb.append(fillSymbol);
-				sb.append('\"');
-			}
-			if (inverseFill) {
-				sb.append(" inverseFill=\"true\"");
-			}
-			sb.append("/>\n");
+			appendObjectColorXML(sb);
 		}
 
 		if (bgColor != null) {
@@ -5164,6 +5104,70 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append("\"/>\n");
 		}
 
+	}
+
+	protected void appendObjectColorXML(StringBuilder sb) {
+		sb.append("\t<objColor");
+		sb.append(" r=\"");
+		sb.append(objColor.getRed());
+		sb.append("\"");
+		sb.append(" g=\"");
+		sb.append(objColor.getGreen());
+		sb.append("\"");
+		sb.append(" b=\"");
+		sb.append(objColor.getBlue());
+		sb.append("\"");
+		sb.append(" alpha=\"");
+
+		// changed from alphavalue (don't want alpha="-1.0" in XML)
+		// see GeoList
+		sb.append(getAlphaValue());
+
+		sb.append("\"");
+		StringTemplate tpl =StringTemplate.xmlTemplate;
+		if ((colFunction != null) && kernel.getSaveScriptsToXML()) {
+			sb.append(" dynamicr=\"");
+			StringUtil.encodeXML(sb, colFunction.get(0).getLabel(tpl));
+			sb.append('\"');
+			sb.append(" dynamicg=\"");
+			StringUtil.encodeXML(sb, colFunction.get(1).getLabel(tpl));
+			sb.append('\"');
+			sb.append(" dynamicb=\"");
+			StringUtil.encodeXML(sb, colFunction.get(2).getLabel(tpl));
+			sb.append('\"');
+			if (colFunction.size() == 4) {
+				sb.append(" dynamica=\"");
+				StringUtil.encodeXML(sb, colFunction.get(3)
+						.getLabel(tpl));
+				sb.append('\"');
+			}
+			sb.append(" colorSpace=\"");
+			sb.append(colorSpace);
+			sb.append('\"');
+		}
+
+		if (isHatchingEnabled()) {
+			sb.append(" fillType=\"");
+			sb.append(fillType.ordinal());
+			sb.append("\" hatchAngle=\"");
+			sb.append(hatchingAngle);
+			sb.append("\" hatchDistance=\"");
+			sb.append(hatchingDistance);
+			sb.append("\"");
+		} else if (fillType == FillType.IMAGE) {
+			sb.append(" image=\"");
+			sb.append(graphicsadapter.getImageFileName());
+			sb.append('\"');
+		} 
+		if (fillType == FillType.SYMBOLS){
+			sb.append(" fillSymbol=\"");
+			sb.append(fillSymbol);
+			sb.append('\"');
+		}
+		if (inverseFill) {
+			sb.append(" inverseFill=\"true\"");
+		}
+		sb.append("/>\n");
 	}
 
 	/**
