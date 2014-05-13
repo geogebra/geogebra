@@ -681,38 +681,29 @@ public class SpreadsheetView extends JPanel implements
 
 		// ---- end layout
 
-		// file browser
-		if (settings.isDefaultBrowser()) {
-			sb.append("\t<spreadsheetBrowser ");
-			String initPath = settings.initialFilePath();
-			if (initPath != null && initPath.equals(settings.defaultFile())
-					|| settings.initialURL() != DEFAULT_URL
-					|| settings.initialBrowserMode() != DEFAULT_MODE) {
-				sb.append(" default=\"");
-				sb.append("false");
-				sb.append("\"");
-
-				sb.append(" dir=\"");
-				sb.append(settings.initialFilePath());
-				sb.append("\"");
-
-				sb.append(" URL=\"");
-				sb.append(settings.initialURL());
-				sb.append("\"");
-
-				sb.append(" mode=\"");
-				sb.append(settings.initialBrowserMode());
-				sb.append("\"");
-
-			} else {
-
-				sb.append(" default=\"");
-				sb.append("true");
-				sb.append("\"");
-			}
-
-			sb.append("/>\n");
-		}
+		/*
+		 * // file browser if (settings.isDefaultBrowser()) {
+		 * sb.append("\t<spreadsheetBrowser "); String initPath =
+		 * settings.initialFilePath(); if (initPath != null &&
+		 * initPath.equals(settings.defaultFile()) || settings.initialURL() !=
+		 * DEFAULT_URL || settings.initialBrowserMode() != DEFAULT_MODE) {
+		 * sb.append(" default=\""); sb.append("false"); sb.append("\"");
+		 * 
+		 * sb.append(" dir=\""); sb.append(settings.initialFilePath());
+		 * sb.append("\"");
+		 * 
+		 * sb.append(" URL=\""); sb.append(settings.initialURL());
+		 * sb.append("\"");
+		 * 
+		 * sb.append(" mode=\""); sb.append(settings.initialBrowserMode());
+		 * sb.append("\"");
+		 * 
+		 * } else {
+		 * 
+		 * sb.append(" default=\""); sb.append("true"); sb.append("\""); }
+		 * 
+		 * sb.append("/>\n"); }
+		 */
 
 		// cell formats
 		String cellFormat = settings.cellFormat();
