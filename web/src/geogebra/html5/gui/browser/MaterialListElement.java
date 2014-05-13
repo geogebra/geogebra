@@ -226,7 +226,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	void onEdit() {
 		/* TODO */
 		if(material.getId() > 0){
-			String url =  "http://www.geogebratube.org/files/material-"
+			String url =  "https://www.geogebratube.org/files/material-"
 				+ material.getId() + ".ggb";
 			new View(RootPanel.getBodyElement(), app).processFileName(url);
 		}else{
