@@ -133,8 +133,10 @@ public class LineStyleModel extends OptionsModel {
 
 				break;
 			}
-			else if (getGeoAt(i).isNumberValue()) {
-				lineTypeEnabled = false;
+			
+			GeoElement geo = getGeoAt(i);
+			if (geo.isNumberValue() && !geo.isGeoSegment() && !geo.isGeoPolyLine() ) {
+			lineTypeEnabled = false;
 			}
 		}
 		return geosOK;
