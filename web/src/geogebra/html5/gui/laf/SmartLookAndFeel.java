@@ -1,17 +1,13 @@
 package geogebra.html5.gui.laf;
 
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
-import geogebra.web.gui.menubar.GeoGebraMenuW;
-import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.main.AppW;
 
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 /**
@@ -20,12 +16,7 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
  *
  */
 public class SmartLookAndFeel extends GLookAndFeel{
-	@Override
-    public GeoGebraMenuW getMenuBar(AppW app) {
-		MainMenu menubar = new MainMenu(app);
-		Window.addResizeHandler(menubar);
-		return menubar;
-    }
+	
 	
 	@Override
     public boolean undoRedoSupported() {
@@ -35,10 +26,6 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	@Override
     public boolean isSmart() {
 		return true;
-	}
-	
-	public void setCloseMessage(final App appl) {
-		//no message on smart board
 	}
 
 	@Override

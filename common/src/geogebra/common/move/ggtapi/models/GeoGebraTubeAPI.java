@@ -22,7 +22,7 @@ public abstract class GeoGebraTubeAPI {
 	 * Public url (no SSL)
 	 * DO NOT CHANGE!
 	 */
-	public static String url = "http://www.geogebratube.org/api/json.php";
+	public static String url = "https://www.geogebratube.org/api/json.php";
 	/**
 	 * Instance of the new GeoGebraTube API D/W/T
 	 */
