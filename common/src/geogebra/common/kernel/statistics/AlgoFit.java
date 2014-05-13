@@ -129,14 +129,16 @@ public class AlgoFit extends AlgoElement {
 
 			// Solve for parametermatrix P:
 			DecompositionSolver solver = new QRDecompositionImpl(M).getSolver();
-			P = solver.solve(Y);
+			if(solver.isNonSingular()){
+				P = solver.solve(Y);
 
-			// mprint("P:",P); //debug, erase later
-
-			fitfunction = makeFunction();
-			// walk(fitfunction.getFunctionExpression()); //debug, erase
+				fitfunction = makeFunction();
+	
+			}else{
+				fitfunction.setUndefined();
+			}
+						// walk(fitfunction.getFunctionExpression()); //debug, erase
 			// later
-			// System.out.println(fitfunction.getFunctionExpression().toString());
 
 			// First solution (Borcherds):
 			// fitfunction.set(kernel.getAlgebraProcessor().evaluateToFunction(buildFunction()));
