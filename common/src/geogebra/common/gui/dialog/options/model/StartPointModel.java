@@ -4,6 +4,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -116,7 +117,8 @@ public class StartPointModel extends MultipleOptionsModel {
 		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
 		if (!(geo instanceof Locateable && !((Locateable) geo)
-				.isAlwaysFixed()) || geo.isGeoImage()) {
+				.isAlwaysFixed()) || geo.isGeoImage() ||
+				geo.getParentAlgorithm() instanceof AlgoVector) {
 			valid = false;
 		}
 		return valid;
