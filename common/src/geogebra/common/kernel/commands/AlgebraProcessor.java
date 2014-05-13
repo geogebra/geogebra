@@ -1519,18 +1519,32 @@ public class AlgebraProcessor {
 			
 			ExpressionNode cx = computeCoord(exp, 0);
 			ExpressionNode cy = computeCoord(exp, 1);
-			ExpressionValue[] coefX = new ExpressionValue[3], coefY = new ExpressionValue[3];
-			if(getTrigCoeffs(cx, coefX, new ExpressionNode(kernel,1.0)) && getTrigCoeffs(cy, coefY, new ExpressionNode(kernel,1.0))){
-				ExpressionNode a = coefX[1].wrap();
-				ExpressionNode b = coefX[2].wrap();
-				ExpressionNode c = coefY[1].wrap();
-				ExpressionNode d = coefY[2].wrap();
+			ExpressionValue[] coefX = new ExpressionValue[5], coefY = new ExpressionValue[5];
+			if(getTrigCoeffs(cx, coefX, new ExpressionNode(kernel,1.0),loc) && getTrigCoeffs(cy, coefY, new ExpressionNode(kernel,1.0),loc)){
+				ExpressionNode a , b, c, d, xx, xy, yy;
 				
-				ExpressionNode x = new Polynomial(kernel,"x").wrap().subtract(coefX[0]);
-				ExpressionNode y = new Polynomial(kernel,"y").wrap().subtract(coefY[0]);
-				ExpressionNode xx = c.power(2).plus(d.power(2)).multiply(x).multiply(x);
-				ExpressionNode xy = c.multiply(a).plus(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
-				ExpressionNode yy = a.power(2).plus(b.power(2)).multiply(y).multiply(y);
+				
+				ExpressionNode x = new Polynomial(kernel,"x").wrap().subtract(expr(coefX[0]));
+				ExpressionNode y = new Polynomial(kernel,"y").wrap().subtract(expr(coefY[0]));
+				
+				if(coefX[1]!=null || coefX[2]!=null){
+					a = expr(coefX[1]);
+					b = expr(coefX[2]);
+					c = expr(coefY[1]);
+					d = expr(coefY[2]);
+					xx = c.power(2).plus(d.power(2)).multiply(x).multiply(x);
+					xy = c.multiply(a).plus(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
+					yy = a.power(2).plus(b.power(2)).multiply(y).multiply(y);	
+				}else{
+					a = expr(coefX[3]);
+					b = expr(coefX[4]);
+					c = expr(coefY[3]);
+					d = expr(coefY[4]);
+					xx = c.power(2).subtract(d.power(2)).multiply(x).multiply(x);
+					xy = c.multiply(a).subtract(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
+					yy = a.power(2).subtract(b.power(2)).multiply(y).multiply(y);
+				}
+				
 				ExpressionNode den = a.power(2).multiply(d.power(2)).plus(b.power(2).multiply(c.power(2))).
 						subtract(a.multiply(b).multiply(c).multiply(d).multiply(2));
 				Equation eq = new Equation(kernel,xx.plus(xy).plus(yy).wrap(),den);
@@ -1558,34 +1572,64 @@ public class AlgebraProcessor {
 		
 	}
 
-	private boolean getTrigCoeffs(ExpressionNode cx, ExpressionValue[] coefX, ExpressionNode scale) {
+	private ExpressionNode expr(ExpressionValue ev) {
+		if(ev == null){
+			return new ExpressionNode(kernel,0);
+		}
+		return ev.wrap();
+	}
+
+	private boolean getTrigCoeffs(ExpressionNode cx, ExpressionValue[] coefX, ExpressionNode scale, GeoElement var) {
+		boolean childrenOK = true;
 		if(cx.getOperation() == Operation.PLUS){
-			getTrigCoeffs(cx.getLeftTree(), coefX, scale);
-			getTrigCoeffs(cx.getRightTree(), coefX, scale);
+			childrenOK = getTrigCoeffs(cx.getLeftTree(), coefX, scale, var) &&
+			getTrigCoeffs(cx.getRightTree(), coefX, scale, var);
 		}
 		else if(cx.getOperation() == Operation.MINUS){
-			getTrigCoeffs(cx.getLeftTree(), coefX, scale);
-			getTrigCoeffs(cx.getRightTree(), coefX, scale.multiply(-1));
+			childrenOK =  getTrigCoeffs(cx.getLeftTree(), coefX, scale, var) &&
+			getTrigCoeffs(cx.getRightTree(), coefX, scale.multiply(-1), var);
 		}
 		else if(cx.getOperation() == Operation.MULTIPLY){
 			if(cx.getLeft().unwrap() instanceof MyDouble && cx.getLeft().isConstant()){
-				getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getLeft().unwrap()));
+				return getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getLeft().unwrap()), var);
 			}
 			else if(cx.getRight().unwrap() instanceof MyDouble && cx.getRight().isConstant()){
-				getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getRight().unwrap()));
+				return getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getRight().unwrap()), var);
 			}
 		}
 		else if(cx.getOperation() == Operation.SIN){
+			if(cx.getLeft().unwrap()!=var){
+				return false;
+			}
 			coefX[1] = scale;
 		}
 		else if(cx.getOperation() == Operation.COS){
+			if(cx.getLeft().unwrap()!=var){
+				return false;
+			}
 			coefX[2] = scale;
-		}else if(cx.isLeaf()){
+		}
+		else if(cx.getOperation() == Operation.SINH){
+			if(cx.getLeft().unwrap()!=var){
+				return false;
+			}
+			coefX[3] = scale;
+		}
+		else if(cx.getOperation() == Operation.COSH){
+			if(cx.getLeft().unwrap()!=var){
+				return false;
+			}
+			coefX[4] = scale;
+		}
+		else if(cx.isLeaf()){
+			if(cx.getLeft().contains(var)){
+				return false;
+			}
 			coefX[0] = cx;
 		}else{
 			return false;
 		}
-		return true;
+		return childrenOK  && ((coefX[1] == null && coefX[2] == null) || (coefX[3] == null && coefX[4] == null));
 	}
 
 	protected ExpressionNode computeCoord(ExpressionNode exp, int i) {
