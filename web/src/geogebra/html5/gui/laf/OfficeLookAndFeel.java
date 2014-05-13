@@ -6,7 +6,7 @@ package geogebra.html5.gui.laf;
  * Look and Feel for SMART
  *
  */
-public class OfficeLookAndFeel extends GLookAndFeel{
+public class OfficeLookAndFeel extends SmartLookAndFeel{
 	
 	@Override
     public boolean undoRedoSupported() {
