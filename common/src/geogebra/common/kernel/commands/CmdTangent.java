@@ -87,7 +87,11 @@ public class CmdTangent extends CommandProcessor {
 			// Victor Franco 11-02-2007: for curve's
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
-
+				if(arg[1] instanceof GeoSpline){
+					GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
+							(GeoPoint) arg[0], (GeoSpline) arg[1]) };
+					return ret;
+				}
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
 						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
