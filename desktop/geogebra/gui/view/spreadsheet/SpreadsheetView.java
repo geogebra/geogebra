@@ -715,9 +715,10 @@ public class SpreadsheetView extends JPanel implements
 		}
 
 		// cell formats
-		if (!asPreference) {
+		String cellFormat = settings.cellFormat();
+		if (!asPreference && cellFormat != null) {
 			sb.append("\t<spreadsheetCellFormat formatMap=\"");
-			sb.append(settings.cellFormat());
+			sb.append(cellFormat);
 			sb.append("\"/>\n");
 		}
 
