@@ -111,6 +111,7 @@ if ($orderbyid=="-1")
 foreach ($db->query($sql) as $name) {
  $n=$name['id'];
  $nformatted=str_replace("_"," ",$n);
+ $nsanitized=str_replace("'","''",$n);
 
  $content.="<tr><td>$nformatted</td>";
  $lastCell = "";
@@ -118,19 +119,21 @@ foreach ($db->query($sql) as $name) {
  foreach ($revs as $rev) {
   $colspan++;
   $cell = "<td colspan=\"%%\"";
-  $sql2 = "SELECT * from tests where name='$n' and revision='$rev'";
+  $sql2 = "SELECT * from tests where name='$nsanitized' and revision='$rev'";
   $result = $db->query($sql2);
   $sql2count = str_replace("SELECT * ","SELECT count(*) ",$sql2);
   $resultno=$db->query($sql2count);
+
   $numrows=$resultno->fetchColumn();
+
   if ($numrows==0) {
    // Checking if there was a problem earlier
-   $sql3count="SELECT COUNT(*) from tests where name='$n' and revision<'$rev'";
+   $sql3count="SELECT COUNT(*) from tests where name='$nsanitized' and revision<'$rev'";
    $resultno=$db->query($sql3count);
    $numrows=$resultno->fetchColumn();
    if ($numrows>=1){
    $sqlMax="select max(id) from revisions left join tests 
-        on tests.revision=revisions.id and tests.name='$n' 
+        on tests.revision=revisions.id and tests.name='$nsanitized' 
         where revisions.id <= '$rev' and ifnull(message,'ok')!='ok'";
 
     $resultMax=$db->query($sqlMax); 
@@ -163,7 +166,7 @@ foreach ($db->query($sql) as $name) {
 
 
 $sqlMax="select max(id) from revisions left join tests 
-	on tests.revision=revisions.id and tests.name='$n' 
+	on tests.revision=revisions.id and tests.name='$nsanitized' 
 	where revisions.id <= '$rev' and ifnull(message,'ok')='ok'";
 
    $resultMax=$db->query($sqlMax); 
