@@ -7,9 +7,9 @@ of GeoGebra. The "common" directory contains the common parts for the
 two interfaces. Also the "touch" version takes place in the "touch"
 folder, but it is based on the "web" and the "common" projects. The
 "iwb" folder contains the sources for the Smart Interactive Whiteboard
-version, based on the "desktop" version. The folders "jogl1" and "jogl2"
-contain source files for the OpenGL subsystem for the "desktop" version
-(for GeoGebra 5.0).
+version, based on the "desktop" version. The folders "jogl2", "input3D"
+and "noInput3D" contain source files for the OpenGL subsystem for the "desktop"
+version (for GeoGebra 5.0).
 
 For compiling, running and installing the "desktop" version, please read
 http://dev.geogebra.org/trac/wiki/SetUp.
