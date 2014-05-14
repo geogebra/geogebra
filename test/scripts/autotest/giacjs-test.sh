@@ -115,4 +115,4 @@ while [ $START -lt $NOTESTS ]; do
  done
 
 # 7. Adding inserts into database
-cat $SQLFILE | $SQLITE ../../sqlite3db
+cat $SQLFILE | $SQLITE3 ../../sqlite3db
