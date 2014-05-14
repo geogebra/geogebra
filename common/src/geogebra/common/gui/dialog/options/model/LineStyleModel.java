@@ -1,6 +1,7 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LineStyleModel extends OptionsModel {
@@ -135,7 +136,7 @@ public class LineStyleModel extends OptionsModel {
 			}
 			
 			GeoElement geo = getGeoAt(i);
-			if (geo.isNumberValue() && !geo.isGeoSegment() && !geo.isGeoPolyLine() ) {
+			if ((geo instanceof GeoNumeric) && ((GeoNumeric)geo).isSlider() ) {
 			lineTypeEnabled = false;
 			}
 		}
