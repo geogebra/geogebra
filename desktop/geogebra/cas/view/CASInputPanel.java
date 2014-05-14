@@ -38,7 +38,7 @@ public class CASInputPanel extends JPanel {
 				app.getCommandDictionaryCAS());
 		inputArea.setCASInput(true);
 		inputArea.setAutoComplete(true);
-		inputArea.prepareShowSymbolButton(true);
+		inputArea.setShowSymbolTableIcon(true);
 		inputArea.setBorder(BorderFactory.createEmptyBorder());
 		add(inputArea, BorderLayout.CENTER);
 	}
