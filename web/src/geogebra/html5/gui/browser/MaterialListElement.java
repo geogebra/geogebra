@@ -7,9 +7,12 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.util.View;
+import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
+import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
+
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -18,7 +21,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -226,9 +228,13 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	void onEdit() {
 		/* TODO */
 		if(material.getId() > 0){
-			String url =  "https://www.geogebratube.org/files/material-"
-				+ material.getId() + ".ggb";
-			new View(RootPanel.getBodyElement(), app).processFileName(url);
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
+
+				@Override
+	            public void onLoaded(List<Material> parseResponse) {
+					app.getGgbApi().setBase64(parseResponse.get(0).getBase64());
+	            }
+	       });
 		}else{
 			app.getGoogleDriveOperation().loadFromGoogleFile(material.getURL(), 
 					material.getDescription(), material.getTitle(), material.getGoogleID());
