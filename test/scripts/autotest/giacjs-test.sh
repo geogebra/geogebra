@@ -23,11 +23,12 @@ PHANTOMJS=phantomjs-2pre
 TESTJS=giacjs-test.js
 TIMEOUT_SEC=60
 # URL=http://www.geogebra.org/web/giac/CASUnitTests.html #?_start=1&_end=10
-URL="$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/CASUnitTests.html?_start=1" # &_end=10
-URL="http://web.geogebra.org/beta/CASUnitTests.html"
+URL="$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/CASUnitTests.html"
+# URL="http://web.geogebra.org/beta/CASUnitTests.html"
 MYNAME=giacjs-test
 SQLFILE=giacjs-test.sql
-TESTS="http://web.geogebra.org/beta/__giac.js"
+# TESTS="http://web.geogebra.org/beta/__giac.js"
+TESTS="$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/__giac.js"
 LIMIT=100
 
 # Heuristics to find the number of tests:
@@ -61,9 +62,11 @@ FATAL=fatal-edited.html
 OUTRAW=out.html
 OUT=out-edited.html
 REVISION=`./myrevision`
+TESTED=`date "+%Y-%m-%d %H:%M:%S"`
 
 # 3. Resetting output
 rm -f $SQLFILE
+echo "insert into revisions (id, tested) values ('$REVISION', '$TESTED');" >> $SQLFILE
 
 # classname, name, message, type, revision, error
 # -----------------------------------------------
@@ -83,7 +86,7 @@ create_sql() {
   REMARK=`cat $FILE | $XML sel -t -v /table/tbody/tr[$i]/td[4] | sed s/\'/\'\'/g`
   MESSAGE="Expected: $EXPECTED got: $GOT. $REMARK"
 
-  echo "insert into names (id) values '$MYNAME';" >> $SQLFILE
+  echo "insert into names (id) values ('$NAME');" >> $SQLFILE
   echo "insert into tests (classname, name, message, type, revision, error) values " >> $SQLFILE
   echo " ('$CLASSNAME', '$NAME', '$MESSAGE', '$TYPE', $REVISION, $ERROR);" >> $SQLFILE
   done
