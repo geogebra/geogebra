@@ -48,10 +48,10 @@ import javax.swing.event.ListSelectionListener;
  * @author G. Sturr
  * 
  */
-@SuppressWarnings({"javadoc", "rawtypes"})
+@SuppressWarnings({ "javadoc", "rawtypes" })
 public class CreateObjectDialog extends InputDialogD implements
 		ListSelectionListener, FocusListener {
-	
+
 	private CellRangeProcessor cp;
 	private ArrayList<CellRange> selectedCellRanges;
 	private MyTableD table;
@@ -88,10 +88,9 @@ public class CreateObjectDialog extends InputDialogD implements
 	private JLabel lblPreview;
 	private JPanel namePanel;
 
-	public CreateObjectDialog(AppD app, SpreadsheetView view,
-			int objectType) {
+	public CreateObjectDialog(AppD app, SpreadsheetView view, int objectType) {
 
-		super(app.getFrame(), false,app.getLocalization());
+		super(app.getFrame(), false, app.getLocalization());
 		this.app = app;
 		this.objectType = objectType;
 		this.table = (MyTableD) view.getSpreadsheetTable();
@@ -100,8 +99,8 @@ public class CreateObjectDialog extends InputDialogD implements
 
 		boolean showApply = false;
 
-		createGUI(title, "", false, 16, 1, false, false, false,
-				showApply, DialogType.GeoGebraEditor);
+		createGUI(title, "", false, 16, 1, false, false, false, showApply,
+				DialogType.GeoGebraEditor);
 
 		// this.btCancel.setVisible(false);
 
@@ -263,7 +262,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		ckSort.setText(app.getMenu("Sort"));
 		ckSort.addActionListener(this);
 
-		lblName.setText(app.getMenu("Name") + ": ");
+		lblName.setText(app.getPlain("Name") + ": ");
 
 		/*
 		 * lblTake.setText(app.getMenu("Take") + ": ");
@@ -291,7 +290,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		// lblPreviewHeader.setText(app.getMenu("Preview")+ ":");
 
 		namePanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder(app.getMenu("Name")),
+				BorderFactory.createTitledBorder(app.getPlain("Name")),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		previewPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("Preview")));
@@ -567,13 +566,12 @@ public class CreateObjectDialog extends InputDialogD implements
 					app.getPlainFont().getSize() - 1);
 
 			if (latexStr != null && newGeo.isLaTeXDrawableGeo()) {
-				app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr, latexFont, false,
-						Color.black, null);
+				app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
+						latexStr, latexFont, false, Color.black, null);
 				lblPreview.setText(" ");
 			} else {
-				lblPreview
-						.setText(newGeo
-								.getAlgebraDescriptionTextOrHTMLDefault());
+				lblPreview.setText(newGeo
+						.getAlgebraDescriptionTextOrHTMLDefault());
 			}
 			lblPreview.setIcon(latexIcon);
 
@@ -606,8 +604,8 @@ public class CreateObjectDialog extends InputDialogD implements
 	public void windowLostFocus(WindowEvent e) {
 		// close the window and set the geo when focus is lost
 		if (wrappedDialog.isVisible()
-				// workaround for IE applets: focus is lost immediately -> dialog closes 
-				&& !app.isApplet()) { 
+		// workaround for IE applets: focus is lost immediately -> dialog closes
+				&& !app.isApplet()) {
 			setVisible(false);
 		}
 	}
