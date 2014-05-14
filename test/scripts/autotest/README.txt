@@ -20,5 +20,4 @@ It tries to insert the XML output data into an SQLite3 database, too.
 The webtest script checks the web demonstration .ggb files if they
 can be properly shown by PhantomJS.
 
-
 @author Zoltan Kovacs <zoltan@geogebra.org>
