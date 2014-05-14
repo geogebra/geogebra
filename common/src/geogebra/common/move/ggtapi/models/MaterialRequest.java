@@ -7,6 +7,7 @@ import geogebra.common.move.ggtapi.models.json.JSONString;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * For Generating a JSON String for specific GeoGebratube API Requests
@@ -41,7 +42,7 @@ public class MaterialRequest implements Request
 		asc, desc;
 	}
 
-	private static final String api = "1.0.0";
+	private static final String api = "1.1.0";
 	private Task task = Task.fetch;
 
 	private Fields[] fields = new Fields[]{Fields.id, Fields.title, Fields.type, Fields.timestamp, 
@@ -67,6 +68,7 @@ public class MaterialRequest implements Request
 	private JSONObject limitJSON = new JSONObject();
 	private final AuthenticationModel model;
 	private final ClientInfo client;
+	private TreeSet<Filters> negFilters = new TreeSet<Filters>();
 	/**
 	 * Constructor for a Featured Materials Request
 	 */
@@ -130,11 +132,12 @@ public class MaterialRequest implements Request
 		{
 			JSONObject current = new JSONObject();
 			current.put("-name", new JSONString(this.filters[i].toString()));
-
-			if (this.filterMap.get(this.filters[i]) != null)
-			{
+			if(this.negFilters.contains(filters[i])){
+				current.put("-name", new JSONString("neq"));
+			}
+			if (this.filterMap.get(this.filters[i]) != null){
 				current.put("#text", new JSONString(this.filterMap.get(this.filters[i])));
-			}			
+			}
 
 			this.filterJSON.set(i, current);
 		}
@@ -172,7 +175,8 @@ public class MaterialRequest implements Request
 	public static MaterialRequest forUser(int userId, ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.author_url };
-		req.filterMap.put(Filters.type, "ggb");
+		req.filterMap.put(Filters.type, "link");
+		req.negFilters.add(Filters.type);
 		req.filterMap.put(Filters.author_url, userId+"");
 		req.by = Order.timestamp;
 		return req;
@@ -181,7 +185,8 @@ public class MaterialRequest implements Request
 	public static MaterialRequest forFeatured(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };
-		req.filterMap.put(Filters.type, "ggb");
+		req.filterMap.put(Filters.type, "link");
+		req.negFilters.add(Filters.type);
 		req.filterMap.put(Filters.featured, "true");
 		req.by = Order.timestamp;
 		req.type = Type.desc;

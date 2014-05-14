@@ -35,8 +35,8 @@ public class SmartLookAndFeel extends GLookAndFeel{
     }
 
 	@Override
-    public void open(int id, AppW app) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(id, new MaterialCallback(){
+    public void open(Material m, AppW app) {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(m.getId(), new MaterialCallback(){
 
 			@Override
             public void onLoaded(List<Material> parseResponse) {

@@ -3699,3 +3699,13 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
+
+.bookDecoration{
+	background-image:url(http://tube.geogebra.org/images/book-icon-small.png);
+	width:22px;
+	height:22px;
+	position:absolute;
+	opacity:0.8;
+	left:115px;
+	top:85px;
+}

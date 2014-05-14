@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -113,7 +114,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		String thumb = this.material.getThumbnail();
 		if (thumb != null && thumb.length() > 0) {
 			if (!thumb.startsWith("http")) {
-				thumb = "http:" + thumb;
+				thumb = Location.getProtocol() + thumb;
 			}
 			this.image.getElement().getStyle()
 			        .setBackgroundImage("url(" + thumb + ")");
@@ -126,7 +127,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			                        + AppResources.INSTANCE.geogebra64()
 			                                .getSafeUri().asString() + ")");
 		}
-
+		if(this.material.getType() == Material.MaterialType.book){
+			Label deco = new Label();
+			deco.setStyleName("bookDecoration");
+			this.image.add(deco);
+		}
 		// no shared Panel for local files
 		this.sharedBy = new Label(this.material.getAuthor());
 		this.sharedBy.setStyleName("sharedPanel");
@@ -255,7 +260,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 	
 	void onOpen() {
-		app.getLAF().open(material.getId(), app);
+		app.getLAF().open(material, app);
 	}
 
 	

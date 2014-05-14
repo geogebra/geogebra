@@ -1,6 +1,7 @@
 package geogebra.html5.gui.laf;
 
 import geogebra.common.main.Localization;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.web.gui.menubar.GeoGebraMenuW;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.main.AppW;
@@ -45,12 +46,12 @@ public class GLookAndFeel {
 	 * Opens GeoGebraTube material in a new window (or similar for tablet apps / smart widget)
 	 * @param id material id
 	 */
-	public void open(int id, AppW app) {
-	    openTubeWindow(id);
+	public void open(Material m, AppW app) {
+	    openTubeWindow(m.getURL());
     }
 
-	private native void openTubeWindow(int id)/*-{
-		$wnd.open("http://www.geogebratube.org/material/show/id/"+id);
+	private native void openTubeWindow(String url)/*-{
+		$wnd.open(url);
 	}-*/;
 	
 	/**

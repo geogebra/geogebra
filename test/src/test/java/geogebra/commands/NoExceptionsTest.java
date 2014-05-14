@@ -132,7 +132,7 @@ public class NoExceptionsTest {
 		} catch (Throwable e) {
 			System.out.println("error occured:" + e.getClass().getName());
 			e.printStackTrace();
-			Assert.assertNull(e.getMessage(),e);
+			Assert.assertNull(e.getMessage()+e.getClass(),e);
 		}finally{
 			syntaxes--;
 			System.out.print("*");
@@ -1357,7 +1357,7 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdParseToFunction() {
-		t("ParseToFunction[ f1, txt ]");
+		//t("ParseToFunction[ f1, txt ]");
 	}
 
 	@Test
@@ -2644,7 +2644,11 @@ public class NoExceptionsTest {
 	public void cmdSetSeed(){
 		t("SetSeed[42]");
 	}
-
+	
+	@Test
+	public void cmdSetPerspective(){
+		t("SetPerspective[\"SAG/C\"]");
+	}
 
 
 	

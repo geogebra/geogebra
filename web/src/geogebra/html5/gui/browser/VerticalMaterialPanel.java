@@ -1,5 +1,6 @@
 package geogebra.html5.gui.browser;
 
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.browser.SearchPanel.SearchListener;
@@ -86,8 +87,9 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		//}
 		
 
-		for (int i = 0; i < materials.size() - this.start; i++) {
+		for (int i = 0; i < materials.size() - this.start; i++) {			
 			final Material m = materials.get(i + this.start);
+			App.debug(m.toJson().toString());
 			MaterialListElement preview = this.titlesToPreviews.get(m.getURL());
 			if (preview == null) {
 				preview = new MaterialListElement(m, this.app, this.bg);
