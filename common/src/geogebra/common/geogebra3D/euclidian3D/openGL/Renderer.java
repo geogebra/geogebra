@@ -300,8 +300,6 @@ public abstract class Renderer {
 
 		setLight(1);
 
-		getTextures().loadTextureLinear(Textures.FADING);
-
 		disableCulling();
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
@@ -344,7 +342,6 @@ public abstract class Renderer {
 
 		setLight(1);
 
-		getTextures().loadTextureLinear(Textures.FADING);
 
 		enableBlending();
 
@@ -645,7 +642,7 @@ public abstract class Renderer {
 
 		// re-drawing transparents parts for better transparent effect
 		// TODO improve it !
-		enableTextures();
+		enableFading();
 		disableDepthMask();
 		enableBlending();
 		drawTransp();

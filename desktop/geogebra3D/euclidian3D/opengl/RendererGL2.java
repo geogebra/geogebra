@@ -589,6 +589,7 @@ public class RendererGL2 extends RendererD {
 	@Override
 	public void enableFading(){  
 		enableTextures();
+		getTextures().loadTextureLinear(Textures.FADING);
 	}
 	
 
