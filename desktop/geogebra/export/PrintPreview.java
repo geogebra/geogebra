@@ -42,6 +42,7 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -62,7 +63,7 @@ public class PrintPreview extends JDialog {
 	protected int m_hPage;
 	protected int m_orientation;
 	protected int m_scale;
-	protected Printable m_target;
+	protected List<Printable> m_target;
 	@SuppressWarnings("rawtypes")
 	protected JComboBox m_cbScale, m_cbOrientation, m_cbView;
 	// protected JCheckBox cbEVscalePanel;
@@ -87,11 +88,15 @@ public class PrintPreview extends JDialog {
 		this(app, target, PageFormat.PORTRAIT);
 	}
 
-	public PrintPreview(AppD app, Printable target) {
+	public PrintPreview(AppD app, List<Printable> target) {
 		this(app, target, PageFormat.PORTRAIT);
 	}
 
 	public PrintPreview(AppD app, Printable target, int orientation) {
+		this(app, wrap(target), orientation);
+	}
+
+	public PrintPreview(AppD app, List<Printable> target, int orientation) {
 		super(app.getFrame(), true); // modal=true: user shouldn't be able to
 										// change anything before actual print
 										// happened.
@@ -100,11 +105,29 @@ public class PrintPreview extends JDialog {
 	}
 
 	public PrintPreview(AppD app, Gridable target, int portrait) {
-		this(app, new PrintGridable(target), portrait);
+		this(app, wrapNoScale(target), portrait);
+	}
+
+	private static List<Printable> wrapNoScale(Gridable target) {
+		List<Printable> list = new ArrayList<Printable>();
+		list.add(new PrintGridable(target));
+		return list;
+	}
+
+	private static List<Printable> wrap(Gridable target) {
+		List<Printable> list = new ArrayList<Printable>();
+		list.add(new ScalingPrintGridable(target));
+		return list;
+	}
+
+	private static List<Printable> wrap(Printable mainComponent) {
+		ArrayList<Printable> list = new ArrayList<Printable>();
+		list.add(mainComponent);
+		return list;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void initPrintPreview(Printable target, int orientation) {
+	private void initPrintPreview(List<Printable> target, int orientation) {
 		m_target = target;
 		m_orientation = orientation;
 		m_scale = 75; // init scale to 75%
@@ -196,7 +219,8 @@ public class PrintPreview extends JDialog {
 					public void run() {
 						setCursor(Cursor
 								.getPredefinedCursor(Cursor.WAIT_CURSOR));
-						int pageOrientation = (m_cbOrientation.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
+						int pageOrientation = (m_cbOrientation
+								.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
 								: PageFormat.LANDSCAPE;
 
 						setOrientation(pageOrientation);
@@ -218,7 +242,8 @@ public class PrintPreview extends JDialog {
 		// VIEW combo box
 		m_cbView = new JComboBox(getAvailableViews());
 
-		DockPanel focusedPanel = ((GuiManagerD)app.getGuiManager()).getLayout().getDockManager().getFocusedPanel();
+		DockPanel focusedPanel = ((GuiManagerD) app.getGuiManager())
+				.getLayout().getDockManager().getFocusedPanel();
 		if (focusedPanel == null)
 			m_cbView.setSelectedItem(app.getPlain("AllViews"));
 		else
@@ -237,24 +262,23 @@ public class PrintPreview extends JDialog {
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						// change view
 						if (selItem.equals(app.getPlain("AlgebraWindow"))) {
-							m_target = new PrintGridable(gui.getAlgebraView());
+							m_target = wrap(gui.getAlgebraView());
 						} else if (selItem.equals(app.getPlain("CAS"))) {
-							m_target = new ScalingPrintGridable(gui.getCasView());
+							m_target = wrap(gui.getCasView());
 						} else if (selItem.equals(app.getPlain("Spreadsheet"))) {
-							m_target = new PrintGridable(gui
-									.getSpreadsheetView());
+							m_target = wrap(gui.getSpreadsheetView());
 						} else if (selItem.equals(app.getPlain("DrawingPad"))) {
-							m_target = app.getEuclidianView1();
+							m_target = wrap(app.getEuclidianView1());
 						} else if (selItem.equals(app.getPlain("DrawingPad2"))) {
-							m_target = gui.getEuclidianView2();
+							m_target = wrap(gui.getEuclidianView2());
 						} else if (selItem.equals(app
 								.getPlain("ConstructionProtocol"))) {
-							m_target = (geogebra.gui.view.consprotocol.ConstructionProtocolViewD)(gui
-									.getConstructionProtocolView());
+							m_target = wrap((geogebra.gui.view.consprotocol.ConstructionProtocolViewD) (gui
+									.getConstructionProtocolView()));
 						} else if (selItem.equals(app.getPlain("DataAnalysis"))) {
-							m_target = gui.getDataAnalysisView();
+							m_target = wrap(gui.getDataAnalysisView());
 						} else if (selItem.equals(app.getPlain("AllViews"))) {
-							m_target = (Printable) app.getMainComponent();
+							m_target = wrap((Printable) app.getMainComponent());
 						}
 
 						// show the appropriate scale panel
@@ -273,6 +297,7 @@ public class PrintPreview extends JDialog {
 						setCursor(Cursor.getDefaultCursor());
 
 					}
+
 				};
 				runner.start();
 			}
@@ -489,14 +514,20 @@ public class PrintPreview extends JDialog {
 		}
 
 		int pageIndex = 0;
+		int targetIndex = 0;
 		while (true) {
-			if (pageExists(pageIndex)) {
-				PagePreview pp = new PagePreview(m_target, pageFormat,
-						pageIndex);
+			if (pageExists(targetIndex, pageIndex)) {
+				PagePreview pp = new PagePreview(m_target.get(targetIndex),
+						pageFormat, pageIndex);
 				pp.setScale(m_scale);
 				m_preview.add(pp);
-			} else
+			} else {
+				targetIndex++;
+				pageIndex = -1;
+			}
+			if (targetIndex >= m_target.size()) {
 				break;
+			}
 			pageIndex++;
 		}
 	}
@@ -532,20 +563,21 @@ public class PrintPreview extends JDialog {
 
 		// add or remove last page if necessary
 		// last page gone?
-		if (!pageExists(comps.length - 1)) {
+		if (!pageExists(0, comps.length - 1)) {
 			m_preview.remove(comps.length - 1);
 			m_preview.doLayout();
 			m_preview.getParent().getParent().validate();
 		}
 		// new page?
-		else if (pageExists(comps.length)) {
+		else if (pageExists(0, comps.length)) {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
 			if (pageFormat.getHeight() == 0 || pageFormat.getWidth() == 0) {
 				App.debug("Unable to determine default page size");
 				return;
 			}
-			PagePreview pp = new PagePreview(m_target, pageFormat, comps.length);
+			PagePreview pp = new PagePreview(m_target.get(0), pageFormat,
+					comps.length);
 			pp.setScale(m_scale);
 			m_preview.add(pp);
 			m_preview.doLayout();
@@ -553,11 +585,12 @@ public class PrintPreview extends JDialog {
 		}
 	}
 
-	public boolean pageExists(int pageIndex) {
+	public boolean pageExists(int targetIndex, int pageIndex) {
 		try {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
-			return (m_target.print(tempGraphics, pageFormat, pageIndex) == Printable.PAGE_EXISTS);
+			return (m_target.get(targetIndex).print(tempGraphics, pageFormat,
+					pageIndex) == Printable.PAGE_EXISTS);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -690,7 +723,7 @@ public class PrintPreview extends JDialog {
 
 		public Printable getPrintable(int pageIndex)
 				throws IndexOutOfBoundsException {
-			return m_target;
+			return m_target.get(0);
 		}
 	}
 

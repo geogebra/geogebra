@@ -32,6 +32,8 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -471,14 +473,16 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						DockManager dm = gui.getLayout().getDockManager();
 						geogebra.export.PrintPreview pre;
-						if (dm.getFocusedPanel() == dm.getPanel(App.VIEW_CAS))
+						if (dm.getFocusedPanel() == dm.getPanel(App.VIEW_CAS)) {
 							// TODO I think "new ScalingPrintGridable" here is
 							// not so nice. Maybe the constructor of
 							// PrintPreview should be changed
-							pre = new geogebra.export.PrintPreview(app,
-									new ScalingPrintGridable(gui.getCasView()),
+							List<Printable> l = new ArrayList<Printable>();
+							l.add(new ScalingPrintGridable(gui.getCasView()));
+							l.add(app.getEuclidianView1());
+							pre = new geogebra.export.PrintPreview(app, l,
 									PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel() == dm
+						} else if (dm.getFocusedPanel() == dm
 								.getPanel(App.VIEW_CONSTRUCTION_PROTOCOL))
 							pre = new geogebra.export.PrintPreview(app,
 									(ConstructionProtocolViewD) app

@@ -28,6 +28,7 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -649,7 +650,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	}
 
 	public void doPrint() {
-		new geogebra.export.PrintPreview(app, this, PageFormat.LANDSCAPE)
+		List<Printable> l = new ArrayList<Printable>();
+		l.add(this);
+		new geogebra.export.PrintPreview(app, l, PageFormat.LANDSCAPE)
 				.setVisible(true);
 	}
 
