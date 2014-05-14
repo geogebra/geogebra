@@ -18,13 +18,21 @@
 test -r autotest.conf && . ./autotest.conf
 
 # 0. You may fine tune the output here
-PHANTOMJS=phantomjs-1.9
+#PHANTOMJS=phantomjs-1.9
+PHANTOMJS=phantomjs-2pre
 TESTJS=giacjs-test.js
 TIMEOUT_SEC=60
 # URL=http://www.geogebra.org/web/giac/CASUnitTests.html #?_start=1&_end=10
 URL="$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/CASUnitTests.html?_start=1" # &_end=10
+URL="http://web.geogebra.org/beta/CASUnitTests.html"
 MYNAME=giacjs-test
 SQLFILE=giacjs-test.sql
+TESTS="http://web.geogebra.org/beta/__giac.js"
+LIMIT=100
+
+# Heuristics to find the number of tests:
+wget -N $TESTS
+NOTESTS=`cat __giac.js | grep [0\-9]\: | grep -v ^// | wc -l`
 
 # 1. Testing prerequisities
 XML=`which xml`
@@ -57,16 +65,6 @@ REVISION=`./myrevision`
 # 3. Resetting output
 rm -f $SQLFILE
 
-# 4. Running PhantomJS
-$PHANTOMJS $TESTJS $URL $TIMEOUT_SEC
-
-# 5. Processing HTML output from PhantomJS
-
-# We need to remove <BR>s since xmlstarlet will complain about the HTML.
-# Maybe there is a way to convince xmlstarlet that <BR> is a proper HTML tag without </BR>.
-cat $FATALRAW | sed s/"<br>"/". "/g > $FATAL
-cat $OUTRAW | sed s/"<br>"/". "/g > $OUT
-
 # classname, name, message, type, revision, error
 # -----------------------------------------------
 # giacjs-test, 8: Factor(x^2-1), ..., FATAL, revision, 1 for fatal (0 otherwise)
@@ -91,9 +89,30 @@ create_sql() {
   done
  }
 
-# 6. Create SQL inserts
-create_sql $FATAL FATAL 1
-create_sql $OUT ERROR 0
+# 4. Running PhantomJS
+START=1
+while [ $START -lt $NOTESTS ]; do
+ END=$((START+$LIMIT-1))
+ if [ $END -gt $NOTESTS ]; then
+  END=$NOTESTS
+  fi
+ echo "Processing tests $START..$END..."
+ $PHANTOMJS $TESTJS "$URL?_start=$START&_end=$END" $TIMEOUT_SEC
+
+ # 5. Processing HTML output from PhantomJS
+
+ # We need to remove <BR>s since xmlstarlet will complain about the HTML.
+ # Maybe there is a way to convince xmlstarlet that <BR> is a proper HTML tag without </BR>.
+ cat $FATALRAW | sed s/"<br>"/". "/g > $FATAL
+ cat $OUTRAW | sed s/"<br>"/". "/g > $OUT
+
+ # 6. Create SQL inserts
+ create_sql $FATAL FATAL 1
+ create_sql $OUT ERROR 0
+
+ START=$(($END+1))
+
+ done
 
 # 7. Adding inserts into database
 cat $SQLFILE | $SQLITE ../../sqlite3db
