@@ -34,8 +34,8 @@ import java.util.Iterator;
  */
 public class EuclidianPen {
 
-	private App app;
-	private EuclidianView view;
+	protected App app;
+	protected EuclidianView view;
 
 	protected double CIRCLE_MIN_DET=0.95;
 	protected double CIRCLE_MAX_SCORE=0.10;
@@ -119,7 +119,7 @@ public class EuclidianPen {
 	/**
 	 * start point of the gesture
 	 */
-	protected GeoPointND initialPoint = null;
+	protected GeoPoint initialPoint = null;
 
 	/**
 	 * @return pen size
@@ -167,7 +167,7 @@ public class EuclidianPen {
 	 * 
 	 * @param point start point
 	 */
-	public void setInitialPoint(GeoPointND point){
+	public void setInitialPoint(GeoPoint point){
 		this.initialPoint = point;
 	}
 
@@ -546,7 +546,12 @@ public class EuclidianPen {
 				double y_last=view.toRealWorldCoordY(rs.y2);
 				AlgoJoinPointsSegment algo = null;
 				
-				GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), null, x_first, y_first, 1.0);
+				GeoPoint p;
+				if(this.initialPoint != null){
+					p = initialPoint;
+				} else {
+					p = new GeoPoint(app.getKernel().getConstruction(), null, x_first, y_first, 1.0);
+				}
 				GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), null, x_last, y_last, 1.0);
 				algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 					
@@ -1562,7 +1567,7 @@ public class EuclidianPen {
     		x_first = view.toRealWorldCoordX(points[2*i]);
     		y_first = view.toRealWorldCoordY(points[2*i + 1]);
 
-    		if(i == 0 && this.initialPoint != null){
+    		if(i == 0 && this.initialPoint != null && this.initialPoint.isIndependent()){
     			this.initialPoint.setCoords(x_first, y_first, 1);
     			this.initialPoint.updateCascade();
     			pts[0] = this.initialPoint;

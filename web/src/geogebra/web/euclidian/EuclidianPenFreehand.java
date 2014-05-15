@@ -1,12 +1,17 @@
 package geogebra.web.euclidian;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+
+import java.util.ArrayList;
 
 public class EuclidianPenFreehand extends EuclidianPen {
 
@@ -14,7 +19,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * type that is expected to be created
 	 */
 	public enum ShapeType {
-		circle, polygon;
+		circle, polygon, regularPolygon, rigidPolygon, vectorPolygon;
 	}
 
 	private ShapeType expected = null;
@@ -24,8 +29,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		super(app, view);
 		super.setFreehand(true);
 
-		CIRCLE_MAX_SCORE = 0.15;
-		CIRCLE_MIN_DET = 0.9;
+		CIRCLE_MAX_SCORE = 0.20;
+		CIRCLE_MIN_DET = 0.85;
 	}
 
 	/**
@@ -71,6 +76,58 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			break;
 		case polygon:
 			if (lastCreated instanceof GeoPolygon) {
+				return;
+			}
+			break;
+		case regularPolygon:
+			if (lastCreated instanceof GeoLine) {
+				this.app.getDialogManager()
+				        .showNumberInputDialogRegularPolygon(
+				                this.app.getLocalization()
+				                        .getMenu(
+				                                this.app.getKernel()
+				                                        .getModeText(
+				                                                EuclidianConstants.MODE_REGULAR_POLYGON)),
+				                this.view.getEuclidianController(),
+				                ((GeoLine) lastCreated).startPoint,
+				                ((GeoLine) lastCreated).endPoint);
+				lastCreated.remove();
+				return;
+			}
+			break;
+		case rigidPolygon:
+			if (lastCreated instanceof GeoPolygon) {
+				ArrayList<GeoPoint> list = new ArrayList<GeoPoint>();
+				for (GeoPointND point : ((GeoPolygon) lastCreated).getPoints()) {
+					if (point instanceof GeoPoint) {
+						list.add((GeoPoint) point);
+					}
+				}
+				if (list.size() == ((GeoPolygon) lastCreated).getPoints().length) {
+					// true if all the points are GeoPoints, otherwise the
+					// original Polygon will not be deleted
+					lastCreated.remove();
+					this.app.getKernel().RigidPolygon(null,
+					        list.toArray(new GeoPoint[0]));					
+				}
+				return;
+			}
+			break;
+		case vectorPolygon:
+			if (lastCreated instanceof GeoPolygon) {
+				ArrayList<GeoPoint> list = new ArrayList<GeoPoint>();
+				for (GeoPointND point : ((GeoPolygon) lastCreated).getPoints()) {
+					if (point instanceof GeoPoint) {
+						list.add((GeoPoint) point);
+					}
+				}
+				if (list.size() == ((GeoPolygon) lastCreated).getPoints().length) {
+					// true if all the points are GeoPoints, otherwise the
+					// original Polygon will not be deleted
+					lastCreated.remove();
+					this.app.getKernel().VectorPolygon(null,
+					        list.toArray(new GeoPoint[0]));					
+				}
 				return;
 			}
 			break;
