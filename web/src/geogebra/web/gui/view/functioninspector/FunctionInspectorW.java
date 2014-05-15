@@ -4,15 +4,23 @@ import geogebra.common.awt.GColor;
 import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.html5.awt.GColorW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class FunctionInspectorW extends FunctionInspector {
 
+	// color constants
+	private static final GColor DISPLAY_GEO_COLOR = GColorW.RED;
+	private static final GColor DISPLAY_GEO2_COLOR = GColorW.RED;
+	private static final GColor EVEN_ROW_COLOR = new GColorW(241, 245, 250);
+	private static final GColor TABLE_GRID_COLOR = GColorW.gray;  
+	
 	private TabPanel tabPanel;
 	private FlowPanel intervalTab;
 	private FlowPanel pointsTab;
@@ -65,7 +73,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	public Object getXYValueAt(int row, int col) {
 		// TODO Auto-generated method stub
-		return null;
+		return "8";
 	}
 
 	public void addTableColumn(String name) {
@@ -99,8 +107,26 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public GColor getColor(Colors id) {
-		// TODO Auto-generated method stub
-		return null;
+		GColor color;
+		switch (id) {
+		case EVEN_ROW:
+			color = EVEN_ROW_COLOR;
+			break;
+		case GEO:
+			color = DISPLAY_GEO_COLOR;
+			break;
+		case GEO2:
+			color = DISPLAY_GEO2_COLOR;
+			break;
+		case GRID:
+			color = TABLE_GRID_COLOR;
+			break;
+		default:
+			color = GColorW.black;
+			break;
+
+		}
+		return color;
 	}
 
 	public int getSelectedXYRow() {
@@ -110,6 +136,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void buildTabPanel() {
+		tabPanel = new TabPanel(); 
 		tabPanel.add(intervalTab, "Interval");
 		tabPanel.add(pointsTab, "Points");
 	}
@@ -189,6 +216,10 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void doCopyToSpreadsheet() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public Widget getWrappedPanel() {
+		return tabPanel;
 	}
 
 }

@@ -32,6 +32,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.GeoGebraFileChooserW;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
+import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
@@ -46,16 +47,37 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class DialogManagerW extends DialogManager implements EventRenderable {
 
+	private FunctionInspectorW functionInspector;
+
 	public DialogManagerW(App app) {
 		super(app);		
 	}
 
 	@Override
 	public boolean showFunctionInspector(GeoFunction geoFunction) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		App.debug("Show Function Inspector");
 
+		boolean success = true;
+
+		try {
+			if (functionInspector == null) {
+				functionInspector = new FunctionInspectorW(((AppW) app),
+						geoFunction);
+			} else {
+				functionInspector.insertGeoElement(geoFunction);
+			}
+
+			// show the view
+			((GuiManagerW)app.getGuiManager()).setShowView(true, App.VIEW_FUNCTION_INSPECTOR);
+	
+
+		} catch (Exception e) {
+			success = false;
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
 	@Override
 	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
 		showPropertiesDialog(OptionType.OBJECTS, geos);
@@ -459,4 +481,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	 */
 
 
+	public FunctionInspectorW getFunctionInspector() {
+		return functionInspector;
+	}
 }
