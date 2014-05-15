@@ -5,12 +5,15 @@ import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.html5.awt.GColorW;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FunctionInspectorW extends FunctionInspector {
@@ -24,8 +27,12 @@ public class FunctionInspectorW extends FunctionInspector {
 	private TabPanel tabPanel;
 	private FlowPanel intervalTab;
 	private FlowPanel pointsTab;
-
-	public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
+	private ToggleButton btnTable;
+    private ToggleButton btnXYSegments;
+	private ToggleButton btnTangent;
+    private ToggleButton btnOscCircle;
+	
+    public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 	    super(app, selectedGeo);
 	    // TODO Auto-generated constructor stub
     }
@@ -161,7 +168,20 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void createTabPointPanel() {
 		pointsTab = new FlowPanel();
-
+		FlowPanel btnPanel = new FlowPanel();
+		btnTable = new ToggleButton(new Image(AppResources.INSTANCE.table().getSafeUri()));
+		btnXYSegments = new ToggleButton(new Image(AppResources.INSTANCE.xy_segments().getSafeUri()));
+		btnTangent = new ToggleButton(new Image(AppResources.INSTANCE.tangent_line().getSafeUri()));
+		btnOscCircle = new ToggleButton(new Image(AppResources.INSTANCE.osculating_circle().getSafeUri()));
+		
+		btnPanel.add(btnTable);
+		btnPanel.add(btnXYSegments);
+		btnPanel.add(btnTangent);
+		btnPanel.add(btnOscCircle);
+		
+	
+		pointsTab.add(btnPanel);
+		
 	}
 
 	@Override
