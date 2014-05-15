@@ -67,7 +67,7 @@ public class PrintPreview extends JDialog {
 	// protected JCheckBox cbEVscalePanel;
 	protected JScrollPane ps;
 	protected PreviewContainer m_preview;
-	protected AppD app;
+	protected final AppD app;
 	protected JPanel tempPanel, panelForTitleAndScaling; // used for title and
 															// scaling of
 															// graphics view's
@@ -83,56 +83,47 @@ public class PrintPreview extends JDialog {
 	}
 
 	public static PrintPreview get(AppD app, int viewID, int orientation) {
+
+		PrintPreview ret = new PrintPreview(app);
+		ret.m_target = getPrintables(viewID, app);
+		ret.m_orientation = orientation;
+		ret.initPrintPreview();
+		return ret;
+	}
+
+	static List<Printable> getPrintables(int viewID, AppD app) {
 		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 		if (viewID == App.VIEW_CAS) {
 
-			return new geogebra.export.PrintPreview(app, gui.getCasView(),
-					PageFormat.LANDSCAPE);
+			return wrap(gui.getCasView());
 		} else if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
-			return new geogebra.export.PrintPreview(app,
-					(ConstructionProtocolViewD) app.getGuiManager()
-							.getConstructionProtocolView(),
-					PageFormat.LANDSCAPE);
+			return (wrap((ConstructionProtocolViewD) app.getGuiManager()
+					.getConstructionProtocolView()));
 		} else if (viewID == App.VIEW_SPREADSHEET) {
-			return new geogebra.export.PrintPreview(app,
-					gui.getSpreadsheetView(), PageFormat.LANDSCAPE);
+			return wrap(gui.getSpreadsheetView());
 		} else if (viewID == App.VIEW_EUCLIDIAN2) {
-			return new geogebra.export.PrintPreview(app,
-					wrap(app.getEuclidianView2()), PageFormat.LANDSCAPE);
+			return wrap(app.getEuclidianView2());
 		} else if (viewID == App.VIEW_ALGEBRA) {
-			return new geogebra.export.PrintPreview(app, gui.getAlgebraView(),
-					PageFormat.LANDSCAPE);
+			return wrap(gui.getAlgebraView());
 		} else if (viewID == App.VIEW_DATA_ANALYSIS) {
-			return new geogebra.export.PrintPreview(app,
-					gui.getDataAnalysisView(), PageFormat.LANDSCAPE);
+			return wrap(gui.getDataAnalysisView());
 		}
 		// if there is no view in focus (e.g. just closed the
 		// focused view),
 		// it prints the GeoGebra main window
 		else {
-			return new geogebra.export.PrintPreview(app,
-					wrap(app.getEuclidianView1()), PageFormat.LANDSCAPE);
+			return wrap(app.getEuclidianView1());
 		}
+
 	}
 
-	public PrintPreview(AppD app, List<Printable> target) {
-		this(app, target, PageFormat.PORTRAIT);
-	}
-
-	public PrintPreview(AppD app, Printable target, int orientation) {
-		this(app, wrap(target), orientation);
-	}
-
-	public PrintPreview(AppD app, List<Printable> target, int orientation) {
-		super(app.getFrame(), true); // modal=true: user shouldn't be able to
-										// change anything before actual print
-										// happened.
+	public PrintPreview(AppD app) {
+		// modal=true: user shouldn't be able to
+		// change anything before actual print
+		// happened.
+		super(app.getFrame(), true);
 		this.app = app;
-		initPrintPreview(target, orientation);
-	}
 
-	public PrintPreview(AppD app, Gridable target, int portrait) {
-		this(app, wrap(target), portrait);
 	}
 
 	private static List<Printable> wrap(Gridable target) {
@@ -148,9 +139,8 @@ public class PrintPreview extends JDialog {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void initPrintPreview(List<Printable> target, int orientation) {
-		m_target = target;
-		m_orientation = orientation;
+	private void initPrintPreview() {
+
 		m_scale = 75; // init scale to 75%
 
 		loadPreferences();
@@ -279,34 +269,39 @@ public class PrintPreview extends JDialog {
 								.getPredefinedCursor(Cursor.WAIT_CURSOR));
 						m_preview.removeAll();
 
-						String selItem = m_cbView.getSelectedItem().toString();
+						final String selItem = m_cbView.getSelectedItem()
+								.toString();
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						// change view
-						if (selItem.equals(app.getPlain("AlgebraWindow"))) {
-							m_target = wrap(gui.getAlgebraView());
-						} else if (selItem.equals(app.getPlain("CAS"))) {
-							m_target = wrap(gui.getCasView());
-						} else if (selItem.equals(app.getPlain("Spreadsheet"))) {
-							m_target = wrap(gui.getSpreadsheetView());
-						} else if (selItem.equals(app.getPlain("DrawingPad"))) {
-							m_target = wrap(app.getEuclidianView1());
-						} else if (selItem.equals(app.getPlain("DrawingPad2"))) {
-							m_target = wrap(gui.getEuclidianView2());
-						} else if (selItem.equals(app
-								.getPlain("ConstructionProtocol"))) {
-							m_target = wrap((geogebra.gui.view.consprotocol.ConstructionProtocolViewD) (gui
-									.getConstructionProtocolView()));
-						} else if (selItem.equals(app.getPlain("DataAnalysis"))) {
-							m_target = wrap(gui.getDataAnalysisView());
-						} else if (selItem.equals(app.getPlain("AllViews"))) {
-							List<Printable> l = new ArrayList<Printable>();
-							l.add(new PrintGridable(gui.getCasView()));
-							l.addAll(wrap(app.getEuclidianView1()));
+						if (selItem.equals(app.getPlain("AllViews"))) {
+							final List<Printable> l = new ArrayList<Printable>();
+							forEachView(new ViewCallback() {
+
+								@Override
+								public void run(int viewID, String viewName) {
+
+									l.addAll(getPrintables(viewID, app));// TODO
+
+								}
+							});
+
 							m_target = l;
+						} else {
+							m_target = new ArrayList<Printable>();
+							forEachView(new ViewCallback() {
+
+								@Override
+								public void run(int viewID, String viewName) {
+
+									if (selItem.equals(app.getPlain(viewName))) {
+										m_target.addAll(getPrintables(viewID,
+												app));
+									}
+
+								}
+							});
 						}
 
-						// show the appropriate scale panel
-						tempPanel.removeAll();
 						if ((selItem == app.getPlain("DrawingPad"))
 								|| (selItem == app.getPlain("DrawingPad2"))) {
 							tempPanel.add(createPanelForScaling());
@@ -398,31 +393,45 @@ public class PrintPreview extends JDialog {
 		app.getMainComponent().setCursor(oldCursor);
 	}
 
-	private String[] getAvailableViews() {
-		ArrayList<String> list = new ArrayList<String>();
+	private interface ViewCallback {
+		public void run(int viewID, String viewName);
+	}
 
+	void forEachView(ViewCallback c) {
 		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
-			list.add(app.getPlain("AlgebraWindow"));
+			c.run(App.VIEW_ALGEBRA, "AlgebraWindow");
 		}
 		if (app.getGuiManager().showView(App.VIEW_CAS)) {
-			list.add(app.getPlain("CAS"));
+			c.run(App.VIEW_CAS, "CAS");
 		}
 		if (app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
-			list.add(app.getPlain("Spreadsheet"));
+			c.run(App.VIEW_SPREADSHEET, "Spreadsheet");
 		}
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
-			list.add(app.getPlain("DrawingPad"));
+			c.run(App.VIEW_EUCLIDIAN, "DrawingPad");
 		}
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
-			list.add(app.getPlain("DrawingPad2"));
+			c.run(App.VIEW_EUCLIDIAN2, "DrawingPad2");
 		}
 		if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			list.add(app.getPlain("ConstructionProtocol"));
+			c.run(App.VIEW_CONSTRUCTION_PROTOCOL, "ConstructionProtocol");
 		}
 		if (app.getGuiManager().showView(App.VIEW_DATA_ANALYSIS)) {
-			list.add(app.getPlain("DataAnalysis"));
+			c.run(App.VIEW_DATA_ANALYSIS, "DataAnalysis");
 		}
 
+	}
+
+	private String[] getAvailableViews() {
+		final ArrayList<String> list = new ArrayList<String>();
+		forEachView(new ViewCallback() {
+
+			@Override
+			public void run(int viewID, String viewName) {
+				list.add(app.getPlain(viewName));
+
+			}
+		});
 		list.add(app.getPlain("AllViews"));
 
 		String[] s = new String[list.size()];

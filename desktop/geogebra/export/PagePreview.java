@@ -98,8 +98,7 @@ class PagePreview extends JPanel {
 			g2.scale(scale, scale);
 		try {
 			String scaleStr = null;
-			if (!(target instanceof EuclidianViewD)
-					|| (target instanceof EuclidianViewD)) {
+			if (!(target instanceof EuclidianViewD)) {
 
 				int height = EuclidianViewD.printTitle(g2, scaleStr,
 						this.format, this.app);

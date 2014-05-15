@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.debug.Log;
+import geogebra.export.PrintPreview;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
@@ -652,7 +653,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public void doPrint() {
 		List<Printable> l = new ArrayList<Printable>();
 		l.add(this);
-		new geogebra.export.PrintPreview(app, l, PageFormat.LANDSCAPE)
+		PrintPreview.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
 				.setVisible(true);
 	}
 
