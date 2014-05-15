@@ -98,17 +98,18 @@ class PagePreview extends JPanel {
 			g2.scale(scale, scale);
 		try {
 			String scaleStr = null;
-			if (target instanceof EuclidianViewD) {
-				scaleStr = ((EuclidianViewD) target).getScaleString();
-			}
-			int height = EuclidianViewD.printTitle(g2, scaleStr, this.format,
-					this.app);
-			g2.setTransform(new AffineTransform());
-			if (scale != 0) {
-				g2.scale(scale, scale);
-			}
-			if (height > 0) {
-				g2.translate(0, height + 20);
+			if (!(target instanceof EuclidianViewD)
+					|| (target instanceof EuclidianViewD)) {
+
+				int height = EuclidianViewD.printTitle(g2, scaleStr,
+						this.format, this.app);
+				g2.setTransform(new AffineTransform());
+				if (scale != 1.0) {
+					g2.scale(scale, scale);
+				}
+				if (height > 0) {
+					g2.translate(0, height + 20);
+				}
 			}
 			target.print(g2, format, pageIndex);
 		} catch (Exception e) {

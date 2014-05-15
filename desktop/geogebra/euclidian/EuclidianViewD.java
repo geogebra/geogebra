@@ -376,7 +376,10 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 		Graphics2D g2d = (Graphics2D) g;
 		AffineTransform oldTransform = g2d.getTransform();
-
+		int h = printTitle(g2d, getScaleString(), pageFormat, getApplication());
+		if (h > 0) {
+			g2d.translate(0, h + 20);
+		}
 		double scale = (PRINTER_PIXEL_PER_CM / getXscale()) * printingScale;
 		exportPaint(g2d, scale);
 
