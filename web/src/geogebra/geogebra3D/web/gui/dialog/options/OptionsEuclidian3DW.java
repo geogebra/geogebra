@@ -170,6 +170,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		private AutoCompleteTextFieldW tfPersp, tfGlassesEyeSep, tfObliqueAngle, tfObliqueFactor;
 		private Label tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel, tfObliqueFactorLabel;
+		private CheckBox cbGlassesGray, cbGlassesShutDownGreen;
 		
 		private class ProjectionButtons {
 
@@ -233,6 +234,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			
 			projectionButtons = new ProjectionButtons();
 			
+			
+			// orthographic projection
 			orthoTitle = new Label("");
 			orthoTitle.setStyleName("panelTitle");
 			orthoPanel = new FlowPanel();
@@ -240,6 +243,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			add(orthoTitle);
 			indent(orthoPanel);
 			
+			
+			// perspective projection
 			perspTitle = new Label("");
 			perspTitle.setStyleName("panelTitle");
 			perspPanel = new FlowPanel();		
@@ -269,17 +274,99 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			add(perspTitle);
 			indent(perspPanel);
 			
+			
+			// glasses projection (two images)
 			glassesTitle = new Label("");
 			glassesTitle.setStyleName("panelTitle");
 			glassesPanel = new FlowPanel();
-			glassesPanel.add(projectionButtons.getButton(EuclidianView3D.PROJECTION_GLASSES));
+			tfGlassesLabel = new Label("");
+			tfGlassesEyeSep = getTextField();
+			tfGlassesEyeSep.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						processGlassesEyeSepText();
+					}
+				}});
+			tfGlassesEyeSep.addFocusListener(new FocusListenerW(this){
+				@Override
+				protected void wrapFocusLost(){
+					processGlassesEyeSepText();
+				}	
+			});
+			cbGlassesGray = new CheckBox(app.getPlain("GrayScale"));
+			cbGlassesGray.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).setGlassesGrayScaled(cbGlassesGray
+							.getValue());
+                }});		
+			cbGlassesShutDownGreen= new CheckBox(app.getPlain("ShutDownGreen"));
+			cbGlassesShutDownGreen.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view)
+					.setGlassesShutDownGreen(cbGlassesShutDownGreen
+							.getValue());
+                }});
+			FlowPanel tfGlassesPanel = new FlowPanel();
+			tfGlassesPanel.setStyleName("panelRowCell");
+			tfGlassesPanel.add(tfGlassesLabel);
+			tfGlassesPanel.add(tfGlassesEyeSep);
+			tfGlassesPanel.add(cbGlassesGray);
+			tfGlassesPanel.add(cbGlassesShutDownGreen);
+			glassesPanel.add(LayoutUtil.panelRow(
+					projectionButtons.getButton(EuclidianView3D.PROJECTION_GLASSES), 
+					tfGlassesPanel));
 			add(glassesTitle);
 			indent(glassesPanel);
 
+			
+			// oblique projection
 			obliqueTitle = new Label("");
 			obliqueTitle.setStyleName("panelTitle");
 			obliquePanel = new FlowPanel();
-			obliquePanel.add(projectionButtons.getButton(EuclidianView3D.PROJECTION_OBLIQUE));
+			tfObliqueAngleLabel = new Label("");
+			tfObliqueAngle = getTextField();
+			tfObliqueAngle.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						processObliqueAngleText();
+					}
+				}});
+
+			tfObliqueAngle.addFocusListener(new FocusListenerW(this){
+				@Override
+				protected void wrapFocusLost(){
+					processObliqueAngleText();
+				}	
+			});
+			tfObliqueFactorLabel = new Label("");
+			tfObliqueFactor = getTextField();
+			tfObliqueFactor.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						processObliqueFactorText();
+					}
+				}});
+
+			tfObliqueFactor.addFocusListener(new FocusListenerW(this){
+				@Override
+				protected void wrapFocusLost(){
+					processObliqueFactorText();
+				}	
+			});
+			FlowPanel tfObliquePanel = new FlowPanel();
+			tfObliquePanel.setStyleName("panelRowCell");
+			tfObliquePanel.add(tfObliqueAngleLabel);
+			tfObliquePanel.add(tfObliqueAngle);
+			tfObliquePanel.add(tfObliqueFactorLabel);
+			tfObliquePanel.add(tfObliqueFactor);
+			obliquePanel.add(LayoutUtil.panelRow(
+					projectionButtons.getButton(EuclidianView3D.PROJECTION_OBLIQUE), 
+					tfObliquePanel));
 			add(obliqueTitle);
 			indent(obliquePanel);
 			
@@ -306,6 +393,57 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			}
 		}
 		
+		protected void processGlassesEyeSepText(){
+			try {
+				double val = Double.parseDouble(tfGlassesEyeSep.getText());
+				if (!Double.isNaN(val)) {
+					if (val < 0) {
+						val = 0;
+						tfGlassesEyeSep.setText("" + val);
+					}
+
+					((EuclidianView3D) view).setEyes(val, 0, 0);
+				}
+			} catch (NumberFormatException e) {
+				tfGlassesEyeSep.setText(""
+						+ ((EuclidianView3D) view).getEyeSep());
+			}
+		}
+
+		protected void processObliqueAngleText(){
+			try {
+				double val = Double.parseDouble(tfObliqueAngle.getText());
+				if (!Double.isNaN(val)) {
+
+					((EuclidianView3D) view).setProjectionObliqueAngle(val);
+				}
+			} catch (NumberFormatException e) {
+				tfObliqueAngle.setText(""
+						+ ((EuclidianView3D) view).getProjectionObliqueAngle());
+			}
+		}
+		
+
+		protected void processObliqueFactorText(){
+			try {
+				double val = Double.parseDouble(tfObliqueFactor.getText());
+				if (!Double.isNaN(val)) {
+					if (val < 0) {
+						val = 0;
+						tfObliqueFactor.setText("" + val);
+					}
+					((EuclidianView3D) view).setProjectionObliqueFactor(val);
+				}
+			} catch (NumberFormatException e) {
+				tfObliqueFactor
+						.setText(""
+								+ ((EuclidianView3D) view)
+										.getProjectionObliqueFactor());
+			}
+		}
+		
+
+		
 		protected void indent(FlowPanel panel) {
 			FlowPanel indent = new FlowPanel();
 			indent.setStyleName("panelIndent");
@@ -323,8 +461,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfPerspLabel.setText(app.getPlain(app.getPlain("EyeDistance") + ":"));
 			
 			glassesTitle.setText(app.getPlain("Glasses"));
+			tfGlassesLabel.setText(app.getPlain("EyesSeparation") + ":");
+			cbGlassesGray.setText(app.getPlain("GrayScale"));
+			cbGlassesShutDownGreen.setText(app.getPlain("ShutDownGreen"));
+		
 			
 			obliqueTitle.setText(app.getPlain("Oblique"));
+			tfObliqueAngleLabel.setText(app.getPlain("Angle") + ":");
+			tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
+
 	        
         }
 		
@@ -333,6 +478,17 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 */
 		public void updateGUI(){
 			tfPersp.setText("" + ((EuclidianView3D) view).getProjectionPerspectiveEyeDistance());
+			tfGlassesEyeSep.setText("" + ((EuclidianView3D) view).getEyeSep());
+			cbGlassesGray.setValue(((EuclidianView3D) view)
+					.isGlassesGrayScaled());
+			cbGlassesShutDownGreen.setValue(((EuclidianView3D) view)
+					.isGlassesShutDownGreen());
+			tfObliqueAngle.setText(""
+					+ ((EuclidianView3D) view).getProjectionObliqueAngle());
+			tfObliqueFactor.setText(""
+					+ ((EuclidianView3D) view).getProjectionObliqueFactor());
+
+			
 		}
 	}
 
