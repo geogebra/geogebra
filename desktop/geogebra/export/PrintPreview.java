@@ -18,17 +18,16 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
+import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -53,7 +52,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.MatteBorder;
 
 public class PrintPreview extends JDialog {
 
@@ -84,8 +82,37 @@ public class PrintPreview extends JDialog {
 		tempGraphics = img.getGraphics();
 	}
 
-	public PrintPreview(AppD app, Gridable target) {
-		this(app, target, PageFormat.PORTRAIT);
+	public static PrintPreview get(AppD app, int viewID, int orientation) {
+		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
+		if (viewID == App.VIEW_CAS) {
+
+			return new geogebra.export.PrintPreview(app, gui.getCasView(),
+					PageFormat.LANDSCAPE);
+		} else if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
+			return new geogebra.export.PrintPreview(app,
+					(ConstructionProtocolViewD) app.getGuiManager()
+							.getConstructionProtocolView(),
+					PageFormat.LANDSCAPE);
+		} else if (viewID == App.VIEW_SPREADSHEET) {
+			return new geogebra.export.PrintPreview(app,
+					gui.getSpreadsheetView(), PageFormat.LANDSCAPE);
+		} else if (viewID == App.VIEW_EUCLIDIAN2) {
+			return new geogebra.export.PrintPreview(app,
+					wrap(app.getEuclidianView2()), PageFormat.LANDSCAPE);
+		} else if (viewID == App.VIEW_ALGEBRA) {
+			return new geogebra.export.PrintPreview(app, gui.getAlgebraView(),
+					PageFormat.LANDSCAPE);
+		} else if (viewID == App.VIEW_DATA_ANALYSIS) {
+			return new geogebra.export.PrintPreview(app,
+					gui.getDataAnalysisView(), PageFormat.LANDSCAPE);
+		}
+		// if there is no view in focus (e.g. just closed the
+		// focused view),
+		// it prints the GeoGebra main window
+		else {
+			return new geogebra.export.PrintPreview(app,
+					wrap(app.getEuclidianView1()), PageFormat.LANDSCAPE);
+		}
 	}
 
 	public PrintPreview(AppD app, List<Printable> target) {
@@ -105,18 +132,12 @@ public class PrintPreview extends JDialog {
 	}
 
 	public PrintPreview(AppD app, Gridable target, int portrait) {
-		this(app, wrapNoScale(target), portrait);
-	}
-
-	private static List<Printable> wrapNoScale(Gridable target) {
-		List<Printable> list = new ArrayList<Printable>();
-		list.add(new PrintGridable(target));
-		return list;
+		this(app, wrap(target), portrait);
 	}
 
 	private static List<Printable> wrap(Gridable target) {
 		List<Printable> list = new ArrayList<Printable>();
-		list.add(new ScalingPrintGridable(target));
+		list.add(new PrintGridable(target));
 		return list;
 	}
 
@@ -278,7 +299,10 @@ public class PrintPreview extends JDialog {
 						} else if (selItem.equals(app.getPlain("DataAnalysis"))) {
 							m_target = wrap(gui.getDataAnalysisView());
 						} else if (selItem.equals(app.getPlain("AllViews"))) {
-							m_target = wrap((Printable) app.getMainComponent());
+							List<Printable> l = new ArrayList<Printable>();
+							l.add(new PrintGridable(gui.getCasView()));
+							l.addAll(wrap(app.getEuclidianView1()));
+							m_target = l;
 						}
 
 						// show the appropriate scale panel
@@ -420,7 +444,7 @@ public class PrintPreview extends JDialog {
 
 		// scale panel to set scale of x-axis in cm
 		PrintScalePanel scalePanel = new PrintScalePanel(app,
-				(EuclidianView) m_target);
+				(EuclidianView) m_target.get(0));
 		scalePanel.enableAbsoluteSize(false);
 		scalePanel.addActionListener(lst);
 
@@ -518,7 +542,7 @@ public class PrintPreview extends JDialog {
 		while (true) {
 			if (pageExists(targetIndex, pageIndex)) {
 				PagePreview pp = new PagePreview(m_target.get(targetIndex),
-						pageFormat, pageIndex);
+						pageFormat, pageIndex, targetIndex, app);
 				pp.setScale(m_scale);
 				m_preview.add(pp);
 			} else {
@@ -554,34 +578,42 @@ public class PrintPreview extends JDialog {
 	void updatePages() {
 		// update existing pages
 		Component[] comps = m_preview.getComponents();
+		int[] lengths = new int[m_target.size()];
+		for (int i = 0; i < lengths.length; i++) {
+			lengths[i] = 0;
+		}
+
 		for (int k = 0; k < comps.length; k++) {
 			if (!(comps[k] instanceof PagePreview))
 				continue;
 			PagePreview pp = (PagePreview) comps[k];
+			lengths[pp.getTarget()]++;
 			pp.update();
 		}
 
-		// add or remove last page if necessary
-		// last page gone?
-		if (!pageExists(0, comps.length - 1)) {
-			m_preview.remove(comps.length - 1);
-			m_preview.doLayout();
-			m_preview.getParent().getParent().validate();
-		}
-		// new page?
-		else if (pageExists(0, comps.length)) {
-			PageFormat pageFormat = getDefaultPageFormat();
-			pageFormat.setOrientation(m_orientation);
-			if (pageFormat.getHeight() == 0 || pageFormat.getWidth() == 0) {
-				App.debug("Unable to determine default page size");
-				return;
+		for (int i = 0; i < m_target.size(); i++) {
+			// add or remove last page if necessary
+			// last page gone?
+			if (!pageExists(i, lengths[i] - 1)) {
+				m_preview.remove(lengths[i] - 1);
+				m_preview.doLayout();
+				m_preview.getParent().getParent().validate();
 			}
-			PagePreview pp = new PagePreview(m_target.get(0), pageFormat,
-					comps.length);
-			pp.setScale(m_scale);
-			m_preview.add(pp);
-			m_preview.doLayout();
-			m_preview.getParent().getParent().validate();
+			// new page?
+			else if (pageExists(i, lengths[i])) {
+				PageFormat pageFormat = getDefaultPageFormat();
+				pageFormat.setOrientation(m_orientation);
+				if (pageFormat.getHeight() == 0 || pageFormat.getWidth() == 0) {
+					App.debug("Unable to determine default page size");
+					return;
+				}
+				PagePreview pp = new PagePreview(m_target.get(i), pageFormat,
+						lengths[i], i, app);
+				pp.setScale(m_scale);
+				m_preview.add(pp);
+				m_preview.doLayout();
+				m_preview.getParent().getParent().validate();
+			}
 		}
 	}
 
@@ -724,103 +756,6 @@ public class PrintPreview extends JDialog {
 		public Printable getPrintable(int pageIndex)
 				throws IndexOutOfBoundsException {
 			return m_target.get(0);
-		}
-	}
-
-	class PagePreview extends JPanel {
-
-		private static final long serialVersionUID = 1L;
-
-		protected int m_w;
-		protected int m_h;
-		protected Printable target;
-		protected PageFormat format;
-		protected int pageIndex;
-		protected double scale = 1.0;
-		protected BufferedImage img;
-
-		public PagePreview(Printable target, PageFormat format, int pageIndex) {
-			this.target = target;
-			this.format = format;
-			this.pageIndex = pageIndex;
-
-			m_w = (int) format.getWidth();
-			m_h = (int) format.getHeight();
-
-			setBackground(Color.white);
-			setBorder(new MatteBorder(1, 1, 2, 2, Color.black));
-			// update();
-		}
-
-		public void setPageFormat(PageFormat format) {
-			this.format = format;
-			m_w = (int) (format.getWidth() * scale);
-			m_h = (int) (format.getHeight() * scale);
-			update();
-		}
-
-		public PageFormat getPageFormat() {
-			return format;
-		}
-
-		public void setScale(int scale) {
-			double newScale = scale / 100.0;
-			if (newScale != this.scale) {
-				this.scale = newScale;
-				m_w = (int) (format.getWidth() * this.scale);
-				m_h = (int) (format.getHeight() * this.scale);
-				update();
-			}
-		}
-
-		@Override
-		public Dimension getPreferredSize() {
-			Insets ins = getInsets();
-			return new Dimension(m_w + ins.left + ins.right, m_h + ins.top
-					+ ins.bottom);
-		}
-
-		@Override
-		public Dimension getMaximumSize() {
-			return getPreferredSize();
-		}
-
-		@Override
-		public Dimension getMinimumSize() {
-			return getPreferredSize();
-		}
-
-		private void updateBufferedImage() {
-			img = new BufferedImage(m_w, m_h, BufferedImage.TYPE_INT_RGB);
-			Graphics2D g2 = img.createGraphics();
-			g2.setColor(getBackground());
-			g2.fillRect(0, 0, m_w, m_h);
-			if (scale != 1.0)
-				g2.scale(scale, scale);
-			try {
-				target.print(g2, format, pageIndex);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		public void update() {
-			try {
-				updateBufferedImage();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} catch (OutOfMemoryError e) {
-				e.printStackTrace();
-			}
-			repaint();
-		}
-
-		@Override
-		public void paint(Graphics g) {
-			g.setColor(getBackground());
-			g.fillRect(0, 0, getWidth(), getHeight());
-			g.drawImage(img, 0, 0, this);
-			paintBorder(g);
 		}
 	}
 }

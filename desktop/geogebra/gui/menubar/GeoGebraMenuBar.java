@@ -11,11 +11,9 @@ import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.debug.Log;
-import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.main.LocalizationD;
@@ -29,11 +27,8 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.print.PageFormat;
-import java.awt.print.Printable;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -472,55 +467,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						 */
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						DockManager dm = gui.getLayout().getDockManager();
-						geogebra.export.PrintPreview pre;
-						if (dm.getFocusedPanel() == dm.getPanel(App.VIEW_CAS)) {
-							// TODO I think "new ScalingPrintGridable" here is
-							// not so nice. Maybe the constructor of
-							// PrintPreview should be changed
-							List<Printable> l = new ArrayList<Printable>();
-							l.add(new ScalingPrintGridable(gui.getCasView()));
-							l.add(app.getEuclidianView1());
-							pre = new geogebra.export.PrintPreview(app, l,
-									PageFormat.LANDSCAPE);
-						} else if (dm.getFocusedPanel() == dm
-								.getPanel(App.VIEW_CONSTRUCTION_PROTOCOL))
-							pre = new geogebra.export.PrintPreview(app,
-									(ConstructionProtocolViewD) app
-											.getGuiManager()
-											.getConstructionProtocolView(),
-									PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel() == dm
-								.getPanel(App.VIEW_SPREADSHEET))
-							pre = new geogebra.export.PrintPreview(app,
-									gui.getSpreadsheetView(),
-									PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel() == dm
-								.getPanel(App.VIEW_EUCLIDIAN2))
-							pre = new geogebra.export.PrintPreview(app,
-									app.getEuclidianView2(),
-									PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel() == dm
-								.getPanel(App.VIEW_ALGEBRA))
-							pre = new geogebra.export.PrintPreview(app,
-									gui.getAlgebraView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel() == dm
-								.getPanel(App.VIEW_EUCLIDIAN))
-							pre = new geogebra.export.PrintPreview(app,
-									app.getEuclidianView1(),
-									PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel() == dm
-								.getPanel(App.VIEW_DATA_ANALYSIS))
-							pre = new geogebra.export.PrintPreview(app,
-									gui.getDataAnalysisView(),
-									PageFormat.LANDSCAPE);
-						// if there is no view in focus (e.g. just closed the
-						// focused view),
-						// it prints the GeoGebra main window
-						else
-							// if (dm.getFocusedPanel()==null)
-							pre = new geogebra.export.PrintPreview(app,
-									(Printable) app.getMainComponent(),
-									PageFormat.LANDSCAPE);
+						geogebra.export.PrintPreview pre = geogebra.export.PrintPreview
+								.get(app, dm.getFocusedPanel().getViewId(),
+										PageFormat.LANDSCAPE);
+
 						pre.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();

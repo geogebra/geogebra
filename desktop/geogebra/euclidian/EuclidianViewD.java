@@ -317,22 +317,17 @@ public class EuclidianViewD extends EuclidianView implements
 		g2.setRenderingHints(defRenderingHints);
 	}
 
-	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
-		if (pageIndex > 0) {
-			return (NO_SUCH_PAGE);
-		}
-		Graphics2D g2d = (Graphics2D) g;
-		AffineTransform oldTransform = g2d.getTransform();
-
+	public static int printTitle(Graphics2D g2d, String scaleString,
+			PageFormat pageFormat, AppD app) {
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
 		// construction title
 		int y = 0;
-		Construction cons = kernel.getConstruction();
+		Construction cons = app.getKernel().getConstruction();
 		String title = cons.getTitle();
 		if (!title.equals("")) {
-			GFont titleFont = getApplication().getBoldFontCommon().deriveFont(
-					GFont.BOLD, getApplication().getBoldFont().getSize() + 2);
+			GFont titleFont = app.getBoldFontCommon().deriveFont(GFont.BOLD,
+					app.getBoldFont().getSize() + 2);
 			g2d.setFont(geogebra.awt.GFontD.getAwtFont(titleFont));
 			g2d.setColor(Color.black);
 			// Font fn = g2d.getFont();
@@ -356,38 +351,6 @@ public class EuclidianViewD extends EuclidianView implements
 			}
 		}
 
-		// scale string:
-		// Scale in cm: 1:1 (x), 1:2 (y)
-		String scaleString = null;
-		if (getApplication().isPrintScaleString()) {
-			StringBuilder sb = new StringBuilder(getApplication().getPlain(
-					"ScaleInCentimeter"));
-			if (printingScale <= 1) {
-				sb.append(": 1:");
-				sb.append(printScaleNF.format(1 / printingScale));
-			} else {
-				sb.append(": ");
-				sb.append(printScaleNF.format(printingScale));
-				sb.append(":1");
-			}
-
-			// add yAxis scale too?
-			if (getScaleRatio() != 1.0) {
-				sb.append(" (x), ");
-				double yPrintScale = (printingScale * getYscale())
-						/ getXscale();
-				if (yPrintScale < 1) {
-					sb.append("1:");
-					sb.append(printScaleNF.format(1 / yPrintScale));
-				} else {
-					sb.append(printScaleNF.format(yPrintScale));
-					sb.append(":1");
-				}
-				sb.append(" (y)");
-			}
-			scaleString = sb.toString();
-		}
-
 		if (scaleString != null) {
 			if (line == null) {
 				line = scaleString;
@@ -397,16 +360,22 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 
 		if (line != null) {
-			g2d.setFont(getApplication().getPlainFont());
+			g2d.setFont(app.getPlainFont());
 			g2d.setColor(Color.black);
 			// Font fn = g2d.getFont();
 			FontMetrics fm = g2d.getFontMetrics();
 			y += fm.getHeight();
 			g2d.drawString(line, 0, y);
 		}
-		if (y > 0) {
-			g2d.translate(0, y + 20); // space between title and drawing
+		return y;
+	}
+
+	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+		if (pageIndex > 0) {
+			return (NO_SUCH_PAGE);
 		}
+		Graphics2D g2d = (Graphics2D) g;
+		AffineTransform oldTransform = g2d.getTransform();
 
 		double scale = (PRINTER_PIXEL_PER_CM / getXscale()) * printingScale;
 		exportPaint(g2d, scale);
@@ -1170,6 +1139,38 @@ public class EuclidianViewD extends EuclidianView implements
 	@Override
 	protected MyZoomerD newZoomer() {
 		return new MyZoomerD(this);
+	}
+
+	public String getScaleString() {
+		if (getApplication().isPrintScaleString()) {
+			StringBuilder sb = new StringBuilder(getApplication().getPlain(
+					"ScaleInCentimeter"));
+			if (printingScale <= 1) {
+				sb.append(": 1:");
+				sb.append(printScaleNF.format(1 / printingScale));
+			} else {
+				sb.append(": ");
+				sb.append(printScaleNF.format(printingScale));
+				sb.append(":1");
+			}
+
+			// add yAxis scale too?
+			if (getScaleRatio() != 1.0) {
+				sb.append(" (x), ");
+				double yPrintScale = (printingScale * getYscale())
+						/ getXscale();
+				if (yPrintScale < 1) {
+					sb.append("1:");
+					sb.append(printScaleNF.format(1 / yPrintScale));
+				} else {
+					sb.append(printScaleNF.format(yPrintScale));
+					sb.append(":1");
+				}
+				sb.append(" (y)");
+			}
+			return sb.toString();
+		}
+		return null;
 	}
 
 }
