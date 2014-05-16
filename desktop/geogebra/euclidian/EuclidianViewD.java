@@ -1076,6 +1076,7 @@ public class EuclidianViewD extends EuclidianView implements
 	// temp image
 	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
 			BufferedImage.TYPE_INT_RGB).createGraphics();
+	private boolean printScaleString;
 
 	/**
 	 * @return temporary graphics that is stored in this view
@@ -1144,8 +1145,16 @@ public class EuclidianViewD extends EuclidianView implements
 		return new MyZoomerD(this);
 	}
 
+	public boolean isPrintScaleString() {
+		return printScaleString;
+	}
+
+	public void setPrintScaleString(boolean printScaleString) {
+		this.printScaleString = printScaleString;
+	}
+
 	public String getScaleString() {
-		if (getApplication().isPrintScaleString()) {
+		if (isPrintScaleString()) {
 			StringBuilder sb = new StringBuilder(getApplication().getPlain(
 					"ScaleInCentimeter"));
 			if (printingScale <= 1) {
@@ -1158,7 +1167,7 @@ public class EuclidianViewD extends EuclidianView implements
 			}
 
 			// add yAxis scale too?
-			if (getScaleRatio() != 1.0) {
+			if (!Kernel.isEqual(getScaleRatio(), 1.0)) {
 				sb.append(" (x), ");
 				double yPrintScale = (printingScale * getYscale())
 						/ getXscale();

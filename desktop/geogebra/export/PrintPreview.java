@@ -12,10 +12,11 @@ the Free Software Foundation.
 
 package geogebra.export;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
+import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
@@ -50,6 +51,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -301,10 +303,17 @@ public class PrintPreview extends JDialog {
 								}
 							});
 						}
-
-						if ((selItem == app.getPlain("DrawingPad"))
-								|| (selItem == app.getPlain("DrawingPad2"))) {
-							tempPanel.add(createPanelForScaling());
+						tempPanel.removeAll();
+						if (selItem.equals(app.getPlain("DrawingPad"))
+								|| selItem.equals(app.getPlain("AllViews"))) {
+							tempPanel.add(createPanelForScaling(app
+									.getEuclidianView1()));
+						}
+						if (selItem.equals(app.getPlain("DrawingPad2"))
+								|| (selItem.equals(app.getPlain("AllViews")) && app
+										.hasEuclidianView2())) {
+							tempPanel.add(createPanelForScaling(app
+									.getEuclidianView2()));
 						}
 						panelForTitleAndScaling.revalidate();
 
@@ -363,14 +372,17 @@ public class PrintPreview extends JDialog {
 		panelForTitleAndScaling = new JPanel(new BorderLayout());
 
 		// show scale panel for euclidian view
-		EuclidianView ev = app.getEuclidianView1();
-		EuclidianView ev2 = app.getEuclidianView2();
+		EuclidianViewD ev = app.getEuclidianView1();
+		EuclidianViewD ev2 = app.getEuclidianView2();
 		// CASView cas = app.getca
 		app.getSelectionManager().clearSelectedGeos();
 
 		tempPanel = new JPanel(new GridLayout(0, 1));
-		if (m_target == ev || m_target == ev2) {
-			tempPanel.add(createPanelForScaling());
+		if (m_target.contains(ev)) {
+			tempPanel.add(createPanelForScaling(ev));
+		}
+		if (m_target.contains(ev2)) {
+			tempPanel.add(createPanelForScaling(ev2));
 		}
 		// HACK: m_target gives no information about the current view
 		panelForTitleAndScaling.add(tempPanel, BorderLayout.SOUTH);
@@ -440,25 +452,32 @@ public class PrintPreview extends JDialog {
 		return s;
 	}
 
-	public JPanel createPanelForScaling() {
+	public JPanel createPanelForScaling(final EuclidianViewD view) {
 		// checkbox to turn on/off printing of scale string
 		final JCheckBox cbEVscalePanel = new JCheckBox();
-		cbEVscalePanel.setSelected(app.isPrintScaleString());
+		cbEVscalePanel.setSelected(view.isPrintScaleString());
 		cbEVscalePanel.addActionListener(lst);
 		cbEVscalePanel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				app.setPrintScaleString(cbEVscalePanel.isSelected());
+				view.setPrintScaleString(cbEVscalePanel.isSelected());
 			}
 		});
 
 		// scale panel to set scale of x-axis in cm
-		PrintScalePanel scalePanel = new PrintScalePanel(app,
-				(EuclidianView) m_target.get(0));
+		PrintScalePanel scalePanel = new PrintScalePanel(app, view);
 		scalePanel.enableAbsoluteSize(false);
 		scalePanel.addActionListener(lst);
 
 		JPanel retPanel = new JPanel();
+		DockPanel dock;
+
+		dock = ((DockManager) app.getGuiManager().getLayout().getDockManager())
+				.getPanel(view.getViewID());
+		retPanel.add(Box.createHorizontalStrut(10));
+		retPanel.add(new JLabel(dock.getIcon()));
+		// retPanel.add(new JLabel(app.getPlain(dock.getViewTitle())));
 		retPanel.setLayout(new BoxLayout(retPanel, BoxLayout.X_AXIS));
+
 		retPanel.setBorder(BorderFactory.createEtchedBorder());
 		retPanel.add(Box.createHorizontalStrut(10));
 		retPanel.add(cbEVscalePanel);
@@ -477,10 +496,18 @@ public class PrintPreview extends JDialog {
 					: PageFormat.LANDSCAPE;
 
 			// show printing scale in cm
-			app.setPrintScaleString(Boolean.valueOf(
-					GeoGebraPreferencesD.getPref().loadPreference(
-							GeoGebraPreferencesD.PRINT_SHOW_SCALE, "false"))
-					.booleanValue());
+			app.getEuclidianView1().setPrintScaleString(
+					Boolean.valueOf(
+							GeoGebraPreferencesD.getPref().loadPreference(
+									GeoGebraPreferencesD.PRINT_SHOW_SCALE,
+									"false")).booleanValue());
+			if (app.hasEuclidianView2EitherShowingOrNot()) {
+				app.getEuclidianView2().setPrintScaleString(
+						Boolean.valueOf(
+								GeoGebraPreferencesD.getPref().loadPreference(
+										GeoGebraPreferencesD.PRINT_SHOW_SCALE2,
+										"false")).booleanValue());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -503,7 +530,11 @@ public class PrintPreview extends JDialog {
 
 		// show printing scale in cm
 		pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE,
-				Boolean.toString(app.isPrintScaleString()));
+				Boolean.toString(app.getEuclidianView1().isPrintScaleString()));
+		if (app.hasEuclidianView2EitherShowingOrNot()) {
+			pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE2, Boolean
+					.toString(app.getEuclidianView2().isPrintScaleString()));
+		}
 	}
 
 	@Override

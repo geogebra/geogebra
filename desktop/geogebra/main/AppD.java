@@ -2101,14 +2101,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	// PRINTING & EXPORT
 	// **************************************************************************
 
-	public boolean isPrintScaleString() {
-		return printScaleString;
-	}
-
-	public void setPrintScaleString(boolean printScaleString) {
-		this.printScaleString = printScaleString;
-	}
-
 	public File getCurrentImagePath() {
 		return currentImagePath;
 	}
