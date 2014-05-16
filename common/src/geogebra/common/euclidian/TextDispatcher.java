@@ -227,9 +227,7 @@ public class TextDispatcher {
 						// DistanceAB="\\overline{" + %0 + %1 + "} \\, = \\, " + %2
 						// or
 						// DistanceAB=%0+%1+" \\, = \\, "+%2
-						strText = l10n.getPlain("DistanceAB.LaTeX",
-								"Name[" + geoA.getLabel(tpl) + "]",
-								"Name[" + geoB.getLabel(tpl) + "]", length.getLabel(tpl));
+						strText = "Name[" + geoA.getLabel(tpl) + "] + Name[" + geoB.getLabel(tpl) + "] + \" = \" + "+length.getLabel(tpl);
 						// Application.debug(strText);
 						makeLabelNameVisible(geoA);
 						makeLabelNameVisible(geoB);
@@ -249,7 +247,6 @@ public class TextDispatcher {
 					if (useLabels) {
 						text.setLabel(removeUnderscores(l10n.getPlain("Text")
 								+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
-						text.setLaTeX(useLabels, true);
 					}
 			
 					text.setStartPoint(textCorner);
