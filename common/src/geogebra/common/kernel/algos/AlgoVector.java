@@ -148,8 +148,9 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
             GeoPointND startPoint = v.getStartPoint();
             
             if (startPoint!=null)
-         	if (!startPoint.isLabelSet() && !v.hasAbsoluteLocation())
+         	if (!startPoint.isLabelSet()) {
            		startPoint.set(P);       
+         	}
             		  
         } else {
             v.setUndefined();
