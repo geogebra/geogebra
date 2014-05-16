@@ -48,6 +48,7 @@ import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.EquationElementInterface;
+import geogebra.common.kernel.algos.TableAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -4603,9 +4604,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		else if (geo.isGeoText() && ((GeoText) geo).isLaTeX()) {
 			sb.append(algebraDesc.split("=")[0]);
 			sb.append("\\, = \\,");
-			sb.append("\\text{``"); // left quote
-			sb.append(((GeoText) geo).getTextString());
-			sb.append("''}"); // right quote
+			if(geo.getParentAlgorithm() instanceof TableAlgo){
+				sb.append(((GeoText) geo).getTextString());
+			}else{
+				sb.append("\\text{``"); // left quote
+				sb.append(((GeoText) geo).getTextString());
+				sb.append("''}"); // right quote
+			}
 		}
 
 		// handle regular GeoText (and anything else we may have missed)

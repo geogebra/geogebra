@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.TableAlgo;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * @author G. Sturr
  * 
  */
-public class AlgoContingencyTable extends AlgoElement {
+public class AlgoContingencyTable extends AlgoElement implements TableAlgo{
 
 	private GeoList list1, list2, rowList, colList, freqMatrix; // input
 	private GeoText args; // input

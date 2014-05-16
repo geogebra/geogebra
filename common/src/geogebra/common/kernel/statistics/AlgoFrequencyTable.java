@@ -15,6 +15,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.TableAlgo;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
  * @author Zbynek Konecny
  * 
  */
-public class AlgoFrequencyTable extends AlgoElement {
+public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 	private enum inputType {
 		STANDARD, HISTOGRAM, BARCHART

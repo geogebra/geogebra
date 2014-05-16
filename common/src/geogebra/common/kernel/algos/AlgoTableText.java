@@ -31,7 +31,7 @@ import com.google.gwt.regexp.shared.RegExp;
  * Algo for TableText[matrix], TableText[matrix,args]
  *
  */
-public class AlgoTableText extends AlgoElement {
+public class AlgoTableText extends AlgoElement implements TableAlgo{
 
 	private GeoList geoList; // input
 	private GeoText text; // output
