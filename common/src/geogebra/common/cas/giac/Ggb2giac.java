@@ -574,7 +574,7 @@ public class Ggb2giac {
 		p("Sum.1",
 				"sum(%0)");
 		p("Sum.4",
-				"subst(sum(subst(%0,%1,ggbsumvarn),ggbsumvarn,%2,%3), ggbsumvarn, %1)");
+				"expand(subst(sum(subst(%0,%1,ggbsumvarn),ggbsumvarn,%2,%3), ggbsumvarn, %1))");
 
 		// GeoGebra counts elements from 1, giac from 0
 		p("Take.3",
