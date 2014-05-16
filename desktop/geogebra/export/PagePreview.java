@@ -109,6 +109,9 @@ class PagePreview extends JPanel {
 				if (height > 0) {
 					g2.translate(0, height + 20);
 				}
+				if (target instanceof PrintGridable) {
+					((PrintGridable) target).setTitleOffset(height);
+				}
 			}
 			target.print(g2, format, pageIndex);
 		} catch (Exception e) {

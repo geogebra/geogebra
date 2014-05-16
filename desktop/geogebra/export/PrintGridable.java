@@ -36,19 +36,21 @@ public class PrintGridable implements Printable {
 	protected int[] colWidths;
 	protected int[] rowHeights;
 	private double scale;
+	private int titleOffset;
 
 	public PrintGridable(Gridable g) {
 		this.gridable = g;
 		colWidths = gridable.getGridColwidths();
 		rowHeights = gridable.getGridRowHeights();
 		scale = 1;
+		titleOffset = 0;
 	}
 
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
 			throws PrinterException {
 
 		double pWidth = pageFormat.getImageableWidth();
-		double pHeight = pageFormat.getImageableHeight();
+		double pHeight = pageFormat.getImageableHeight() - this.titleOffset;
 
 		// double pSum=0;
 		int sum = 0;
@@ -122,6 +124,10 @@ public class PrintGridable implements Printable {
 
 	void setScale(double scale) {
 		this.scale = scale;
+	}
+
+	public void setTitleOffset(int offset) {
+		this.titleOffset = offset;
 	}
 
 }
