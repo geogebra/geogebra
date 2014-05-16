@@ -82,7 +82,7 @@ create_sql() {
   # Apostrophes will be doubled for SQLite3 compliance.
   NAME=`cat $FILE | $XML sel -t -v /table/tbody/tr[$i]/td[1] | sed s/\'/\'\'/g`
   # Sometimes ". NNNNms" is appended to the name which must be removed:
-  NAME=`echo "$NAME" | sed s/"\. [0-9]\+ms"/`
+  NAME=`echo "$NAME" | sed s/"\. [0-9]\+ms"//`
   GOT=`cat $FILE | $XML sel -t -v /table/tbody/tr[$i]/td[2] | sed s/\'/\'\'/g`
   EXPECTED=`cat $FILE | $XML sel -t -v /table/tbody/tr[$i]/td[3] | sed s/\'/\'\'/g`
   REMARK=`cat $FILE | $XML sel -t -v /table/tbody/tr[$i]/td[4] | sed s/\'/\'\'/g`
