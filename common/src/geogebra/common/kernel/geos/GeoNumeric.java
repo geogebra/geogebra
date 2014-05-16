@@ -1051,9 +1051,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			setValue(isDefined() ? value : 1.0);
 		else if (okMin && okMax)
 			setUndefined();
-//		if(oldValue!=value)
-//			updateCascade();
-		updateCascade();
+		if(oldValue!=value){
+			updateCascade();
+		}else{
+			//we want to make the slider visible again if it was not
+			update();
+		}
 	}
 
 	/**
