@@ -126,6 +126,11 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
     }
     
     private void computeRootBoolean(GeoFunction bool, GeoFunction real) {
+    	if(bool.getFunction().getIneqs()==null){
+    		bool.getFunction().initIneqs(bool.getFunctionExpression(), bool);
+    	}else if(!bool.isLabelSet()){
+    		bool.getFunction().updateIneqs();
+    	}
     	TreeSet<Double> zeros = new TreeSet<Double>();
     	bool.getFunction().getIneqs().getZeros(zeros);
     	this.rootPoint.setUndefined();
