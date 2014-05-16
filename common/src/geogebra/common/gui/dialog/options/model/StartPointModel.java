@@ -55,7 +55,7 @@ public class StartPointModel extends MultipleOptionsModel {
 
 		GeoElement p = (GeoElement) geo0.getStartPoint();
 		if (equalLocation && p != null) {
-			getListener().setSelectedItem(p.getLabel(StringTemplate.defaultTemplate));
+			getListener().setSelectedIndex(0);
 		} else {
 			getListener().setSelectedIndex(-1);
 		}
