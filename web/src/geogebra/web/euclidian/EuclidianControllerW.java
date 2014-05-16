@@ -518,6 +518,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    return mousePool;
     }
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
+	private boolean comboboxFocused;
 
 	public LinkedList<PointerEvent> getTouchEventPool() {
 	    return touchPool;
@@ -525,8 +526,17 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	@Override
 	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
-		return view.textfieldClicked(x, y, type);
+		return view.textfieldClicked(x, y, type) || isComboboxFocused();
 	}
+
+	public boolean isComboboxFocused(){
+	    return this.comboboxFocused;
+    }
+
+    public void setComboboxFocused(boolean flag){
+    	this.comboboxFocused = flag;
+    }
+
 
 	public int touchEventX(int clientX) {
 		if(((AppW)app).getLAF().isSmart()){

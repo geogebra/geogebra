@@ -9043,6 +9043,7 @@ public abstract class EuclidianController {
 		if ((view.getHits() == null)||(view.getHits().size()==0)||
 				!(view.getHits().getTopHits().get(0) instanceof GeoTextField || 
 				view.getHits().getTopHits().get(0) instanceof GeoList)){
+			App.debug(view.getHits()+" --");
 			view.requestFocusInWindow();
 		}
 		
