@@ -1066,7 +1066,7 @@ namespace giac {
       for (int i=1;i<=11;++ptr,++i)
 	idx[11-i]=*ptr;
       ++ptr;
-      for (int i=13;i<=dim-11;++ptr,++i)
+      for (int i=1;i<=dim-11;++ptr,++i)
 	idx[dim-i]=*ptr;
       return;
     }
@@ -1206,7 +1206,7 @@ namespace giac {
 	p.is_strictly_greater=i_7var_is_strictly_greater;
 	break;
       case _11VAR_ORDER:
-	p.is_strictly_greater=i_7var_is_strictly_greater;
+	p.is_strictly_greater=i_11var_is_strictly_greater;
 	break;
       case _TDEG_ORDER:
 	p.is_strictly_greater=i_total_lex_is_strictly_greater;
@@ -2318,7 +2318,7 @@ namespace giac {
 	p.is_strictly_greater=i_7var_is_strictly_greater;
 	break;
       case _11VAR_ORDER:
-	p.is_strictly_greater=i_7var_is_strictly_greater;
+	p.is_strictly_greater=i_11var_is_strictly_greater;
 	break;
       case _TDEG_ORDER:
 	p.is_strictly_greater=i_total_lex_is_strictly_greater;
