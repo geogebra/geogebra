@@ -45,14 +45,17 @@ public class DrawText3D extends Drawable3DCurves {
 	protected void updateLabel(){	
 		
 		GeoText text = (GeoText) getGeoElement();
-				
-		label.update(text.getTextString(), 
-				getFont(), 
-				getGeoElement().getBackgroundColor(),
-				getGeoElement().getObjectColor(),
-				getLabelPosition(),
-				getLabelOffsetX(),-getLabelOffsetY());
 
+		if (text.isLaTeX()){ // TODO remove this as soon as latex is gwt compatible
+			label.setIsVisible(false);
+		}else{
+			label.update(text.getTextString(), 
+					getFont(), 
+					getGeoElement().getBackgroundColor(),
+					getGeoElement().getObjectColor(),
+					getLabelPosition(),
+					getLabelOffsetX(),-getLabelOffsetY());
+		}
 
 	}
 

@@ -106,6 +106,11 @@ public class DrawLabel3D {
 		if (text.length()==0)
 			return;
 		
+		if (isLatex(text)){ //TODO remove this as soon as latex is gwt compatible
+			setIsVisible(false);
+			return;
+		}
+		
 		this.origin = v;
 		//if (v==null)Application.debug(text);
 		this.color = new Coords((double) color.getRed()/255, 
@@ -212,6 +217,9 @@ public class DrawLabel3D {
 	
 	
 	
+	private static boolean isLatex(String text){
+		return (text.charAt(0)=='$') && text.endsWith("$");
+	}
 	
 	
 	/**
@@ -222,7 +230,7 @@ public class DrawLabel3D {
 		GBufferedImage bimg;
 		GGraphics2D g2d;
 		
-		if ((text.charAt(0)=='$') && text.endsWith("$") && text.length() > 1) {
+		if (isLatex(text) && text.length() > 1) {
 			boolean serif = true; // nice "x"s
 			GeoElement geo = drawable.getGeoElement();
 			if (geo.isGeoText())
