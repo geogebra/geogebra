@@ -337,7 +337,18 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(exportButton);
-		if (!app.isMacOS() || !app.isJava7()) {
+		/*
+		 * This is done via copying a file to the clipboard. This is not
+		 * supported on Mac.
+		 * Toolkit.getDefaultToolkit().getSystemClipboard().setContents
+		 * (geogebra.gui.util.ImageSelection, null) would be OK (via
+		 * AppD.simpleExportToClipboard(EuclidianView)), but this code here
+		 * wants to use
+		 * Toolkit.getDefaultToolkit().getSystemClipboard().setContents
+		 * (FileTransferable, null) via sendToClipboard(File). So we simply not
+		 * show the "Clipboard" button here on Mac.
+		 */
+		if (!app.isMacOS()) {
 			buttonPanel.add(exportClipboardButton);
 		}
 		buttonPanel.add(cancelButton);
