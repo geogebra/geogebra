@@ -95,9 +95,17 @@ public class DrawBarGraph extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		GRectangle rect=geogebra.common.factories.AwtFactory.prototype.newRectangle(
-				(int)(algo.getLeftBorder()[0]),(int)algo.getFreqMax(),
-				(int)(algo.getLeftBorder().length*algo.getWidth()),(int)algo.getFreqMax());
+
+		// GRectangle
+		// rect=geogebra.common.factories.AwtFactory.prototype.newRectangle(
+		// (int)(algo.getLeftBorder()[0]),(int)algo.getFreqMax(),
+		// (int)(algo.getLeftBorder().length*algo.getWidth()),(int)algo.getFreqMax());
+		// return rect;
+
+		GRectangle rect = gp[0].getBounds();
+		for (int i = 1; i < gp.length; i++) {
+			rect.add(gp[i].getBounds());
+		}
 		return rect;
 	}
 
