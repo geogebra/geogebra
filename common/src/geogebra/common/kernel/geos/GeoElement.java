@@ -2083,6 +2083,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// allow only moving of certain object types
 		switch (getGeoClassType()) {
 		case CONIC:
+		case CONIC3D:
 
 			// special case for Circle[A, r]
 			if (getParentAlgorithm() instanceof AlgoCirclePointRadiusInterface) {
@@ -2094,18 +2095,24 @@ public abstract class GeoElement extends ConstructionElement implements
 		case CONICPART:
 		case IMAGE:
 		case LINE:
+		case LINE3D:
 		case RAY:
+		case RAY3D:
 		case SEGMENT:
+		case SEGMENT3D:
 		case TEXT:
 			return hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view));
 
 		case POLYGON:
+		case POLYGON3D:
 		case POLYLINE:
+		case POLYLINE3D:
 		case PENSTROKE:
 			return containsOnlyMoveableGeos(getFreeInputPoints(view));
 
 		case VECTOR:
+		case VECTOR3D:
 			if (hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view))) {
 				// check if first free input point is start point of vector

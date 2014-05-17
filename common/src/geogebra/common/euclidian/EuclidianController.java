@@ -7101,8 +7101,8 @@ public abstract class EuclidianController {
 		if (translateableGeos != null && translateableGeos.size() > 0) {
 			moveMode = MOVE_DEPENDENT;
 
-			if (translateableGeos.get(0) instanceof GeoPoint) {
-				GeoPoint point = ((GeoPoint) translateableGeos.get(0));
+			if (translateableGeos.get(0).isGeoPoint()) {
+				GeoPointND point = ((GeoPointND) translateableGeos.get(0));
 				if (point.getParentAlgorithm() != null) {
 					// make sure snap-to-grid works for dragging (a + x(A),
 					// b + x(B))
