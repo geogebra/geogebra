@@ -6894,6 +6894,18 @@ public abstract class EuclidianController {
 	public void setStartPointLocationWithOrigin(double x, double y) {
 		setStartPointLocation(xRW-x, yRW-y);
 	}
+	
+	
+	protected void handleMovedElementMultiple(){
+		moveMode = MOVE_MULTIPLE_OBJECTS;
+		setStartPointLocation();
+		startLoc = mouseLoc;
+		view.setDragCursor();
+		if (translationVec == null) {
+			translationVec = new Coords(2);
+		}
+	}
+	
 
 	public void handleMovedElement(GeoElement geo, boolean multiple, PointerEventType type) {
 		
@@ -6905,13 +6917,7 @@ public abstract class EuclidianController {
 		
 		// multiple geos selected
 		if ((movedGeoElement != null) && multiple) {
-			moveMode = MOVE_MULTIPLE_OBJECTS;
-			setStartPointLocation();
-			startLoc = mouseLoc;
-			view.setDragCursor();
-			if (translationVec == null) {
-				translationVec = new Coords(2);
-			}
+			handleMovedElementMultiple();
 		}
 		
 		
@@ -6919,195 +6925,229 @@ public abstract class EuclidianController {
 		// DEPENDENT object: changeable parents?
 		// move free parent points (e.g. for segments)
 		else if (!movedGeoElement.isMoveable(view)) {
+			handleMovedElementDependent();
+		}
+		
+		// free point
+		else{
+			handleMovedElementFree(type);
+		}
+	}
+
+	protected boolean handleMovedElementDependentWithChangeableCoordParentNumbers(){
+		// geo with changeable coord parent numbers
+		if (movedGeoElement.hasChangeableCoordParentNumbers()) {
+			movedGeoElement.recordChangeableCoordParentNumbers();
+			translateableGeos = new ArrayList<GeoElement>();
+			translateableGeos.add(movedGeoElement);
+			return true;
+		}
+		
+		return false;
+	}
 	
-			translateableGeos = null;
-			GeoVector vec = null;
-			boolean sameVector = true;
-	
-			// allow dragging of Translate[Object, vector] if 'vector' is
-			// independent
-			if (movedGeoElement instanceof GeoPoly) {
-				GeoPoly poly = (GeoPoly) movedGeoElement;
-				GeoPointND[] pts = poly.getPoints();
-	
-				// get vector for first point
-				AlgoElement algo = ((GeoElement) pts[0]).getParentAlgorithm();
-				if (algo instanceof AlgoTranslate) {
-					GeoElement[] input = algo.getInput();
-					
-					if ( input[1].isIndependent()) {
-						vec = (GeoVector) input[1];
-	
-						// now check other points are translated by the same vector
-						for (int i = 1; i < pts.length; i++) {
-							algo = ((GeoElement) pts[i]).getParentAlgorithm();
-							if (!(algo instanceof AlgoTranslate)) {
-								sameVector = false;
-								break;
-							}
-							input = algo.getInput();
-	
-							GeoVector vec2 = (GeoVector) input[1];
-							if (vec != vec2) {
-								sameVector = false;
-								break;
-							}
-	
+
+	protected void handleMovedElementDependent(){
+		translateableGeos = null;
+		GeoVector vec = null;
+		boolean sameVector = true;
+
+		// allow dragging of Translate[Object, vector] if 'vector' is
+		// independent
+		if (movedGeoElement instanceof GeoPoly) {
+			GeoPoly poly = (GeoPoly) movedGeoElement;
+			GeoPointND[] pts = poly.getPoints();
+
+			// get vector for first point
+			AlgoElement algo = ((GeoElement) pts[0]).getParentAlgorithm();
+			if (algo instanceof AlgoTranslate) {
+				GeoElement[] input = algo.getInput();
+
+				if ( input[1].isIndependent()) {
+					vec = (GeoVector) input[1];
+
+					// now check other points are translated by the same vector
+					for (int i = 1; i < pts.length; i++) {
+						algo = ((GeoElement) pts[i]).getParentAlgorithm();
+						if (!(algo instanceof AlgoTranslate)) {
+							sameVector = false;
+							break;
 						}
-					}
-	
-				}
-			} else if (movedGeoElement.isGeoSegment()
-					|| movedGeoElement.isGeoRay()
-					|| (movedGeoElement.getParentAlgorithm() instanceof AlgoVector)) {
-				GeoPointND start = null;
-				GeoPointND end = null;
-				if (movedGeoElement.getParentAlgorithm() instanceof AlgoVector) {
-					// Vector[A,B]
-					AlgoVector algoVec = (AlgoVector) movedGeoElement
-							.getParentAlgorithm();
-					start = algoVec.getInputPoints().get(0);
-					end = algoVec.getInputPoints().get(1);
-	
-					if (start.isIndependent() && !end.isIndependent()) {
-						end = null;
-						Coords coords = start.getInhomCoords();
-						transformCoordsOffset[0] = xRW - coords.getX();
-						transformCoordsOffset[1] = yRW - coords.getY();
-						moveMode = MOVE_POINT_WITH_OFFSET;
-						movedGeoPoint = start;
-						return;
-	
-					}
-	
-				} else {
-					// Segment/ray
-					GeoLineND line = (GeoLineND) movedGeoElement;
-					start = line.getStartPoint();
-					end = line.getEndPoint();
-				}
-	
-				if ((start != null) && (end != null)) {
-					// get vector for first point
-					AlgoElement algo = start.getParentAlgorithm();
-					AlgoElement algo2 = end.getParentAlgorithm();
-					if ((algo instanceof AlgoTranslate)
-							&& (algo2 instanceof AlgoTranslate)) {
-						GeoElement[] input = algo.getInput();
-						vec = (GeoVector) input[1];
-						GeoElement[] input2 = algo2.getInput();
-						GeoVector vec2 = (GeoVector) input2[1];
-	
-						// now check if points are translated by the same vector
+						input = algo.getInput();
+
+						GeoVector vec2 = (GeoVector) input[1];
 						if (vec != vec2) {
 							sameVector = false;
+							break;
 						}
-	
+
 					}
 				}
-			} else if (movedGeoElement.isTranslateable()) {
-				AlgoElement algo = movedGeoElement.getParentAlgorithm();
-				if (algo instanceof AlgoTranslate) {
-					GeoElement[] input = algo.getInput();
-					if (input[1].isIndependent()) {
-						vec = (GeoVector) input[1];
-					}
-				}
-			} else if (movedGeoElement.getParentAlgorithm() instanceof AlgoVectorPoint) {
-				// allow Vector[(1,2)] to be dragged
-				vec = (GeoVector) movedGeoElement;
+
 			}
-	
-			if (vec != null) {
-				if (vec.getParentAlgorithm() instanceof AlgoVectorPoint) {
-					// unwrap Vector[(1,2)]
-					AlgoVectorPoint algo = (AlgoVectorPoint) vec
-							.getParentAlgorithm();
+		} else if (movedGeoElement.isGeoSegment()
+				|| movedGeoElement.isGeoRay()
+				|| (movedGeoElement.getParentAlgorithm() instanceof AlgoVector)) {
+			GeoPointND start = null;
+			GeoPointND end = null;
+			if (movedGeoElement.getParentAlgorithm() instanceof AlgoVector) {
+				// Vector[A,B]
+				AlgoVector algoVec = (AlgoVector) movedGeoElement
+						.getParentAlgorithm();
+				start = algoVec.getInputPoints().get(0);
+				end = algoVec.getInputPoints().get(1);
+
+				if (start.isIndependent() && !end.isIndependent()) {
+					end = null;
+					Coords coords = start.getInhomCoords();
+					transformCoordsOffset[0] = xRW - coords.getX();
+					transformCoordsOffset[1] = yRW - coords.getY();
 					moveMode = MOVE_POINT_WITH_OFFSET;
-					transformCoordsOffset[0] = xRW - vec.x;
-					transformCoordsOffset[1] = yRW - vec.y;
-					movedGeoPoint = algo.getP();
+					movedGeoPoint = start;
 					return;
+
 				}
-	
-				if (sameVector && ((vec.getLabelSimple() == null) || vec.isIndependent())) {
-					transformCoordsOffset[0] = xRW - vec.x;
-					transformCoordsOffset[1] = yRW - vec.y;
-					movedGeoVector = vec;
-					moveMode = MOVE_VECTOR_NO_GRID;
-					return;
-				}
-			}
-	
-			// point with changeable coord parent numbers
-			if (movedGeoElement.hasChangeableCoordParentNumbers()) {
-				movedGeoElement.recordChangeableCoordParentNumbers();
-				translateableGeos = new ArrayList<GeoElement>();
-				translateableGeos.add(movedGeoElement);
-			}
-	
-			// STANDARD case: get free input points of dependent movedGeoElement
-			else if (movedGeoElement.hasMoveableInputPoints(view)) {
-				// allow only moving of the following object types
-				if (movedGeoElement.isGeoLine()
-						|| movedGeoElement.isGeoPolygon()
-						|| (movedGeoElement instanceof GeoPolyLine)
-						|| movedGeoElement.isGeoConic()
-						|| movedGeoElement.isGeoImage()
-						|| movedGeoElement.isGeoList()
-						|| movedGeoElement.isGeoVector()) {
-					if(translateableGeos==null)
-						translateableGeos = new ArrayList<GeoElement>();
-					else
-						translateableGeos.clear();
-					
-					addMovedGeoElementFreeInputPointsToTranslateableGeos();
-					
-					if(movedGeoElement.isGeoList())
-						translateableGeos.add(movedGeoElement);
-				}
-			}
-	
-			// init move dependent mode if we have something to move ;-)
-			if (translateableGeos != null && translateableGeos.size() > 0) {
-				moveMode = MOVE_DEPENDENT;
-	
-				if (translateableGeos.get(0) instanceof GeoPoint) {
-					GeoPoint point = ((GeoPoint) translateableGeos.get(0));
-					if (point.getParentAlgorithm() != null) {
-						// make sure snap-to-grid works for dragging (a + x(A),
-						// b + x(B))
-						transformCoordsOffset[0] = 0;
-						transformCoordsOffset[1] = 0;
-	
-					} else {
-						// snap to grid when dragging polygons, segments, images
-						// etc
-						// use first point
-						point.getInhomCoords(transformCoordsOffset);
-						transformCoordsOffset[0] -= xRW;
-						transformCoordsOffset[1] -= yRW;
-					}
-				}
-	
-				setStartPointLocation();
-	
-				view.setDragCursor();
-				if (translationVec == null) {
-					translationVec = new Coords(2);
-				}
+
 			} else {
-				moveMode = MOVE_NONE;
+				// Segment/ray
+				GeoLineND line = (GeoLineND) movedGeoElement;
+				start = line.getStartPoint();
+				end = line.getEndPoint();
+			}
+
+			if ((start != null) && (end != null)) {
+				// get vector for first point
+				AlgoElement algo = start.getParentAlgorithm();
+				AlgoElement algo2 = end.getParentAlgorithm();
+				if ((algo instanceof AlgoTranslate)
+						&& (algo2 instanceof AlgoTranslate)) {
+					GeoElement[] input = algo.getInput();
+					vec = (GeoVector) input[1];
+					GeoElement[] input2 = algo2.getInput();
+					GeoVector vec2 = (GeoVector) input2[1];
+
+					// now check if points are translated by the same vector
+					if (vec != vec2) {
+						sameVector = false;
+					}
+
+				}
+			}
+		} else if (movedGeoElement.isTranslateable()) {
+			AlgoElement algo = movedGeoElement.getParentAlgorithm();
+			if (algo instanceof AlgoTranslate) {
+				GeoElement[] input = algo.getInput();
+				if (input[1].isIndependent()) {
+					vec = (GeoVector) input[1];
+				}
+			}
+		} else if (movedGeoElement.getParentAlgorithm() instanceof AlgoVectorPoint) {
+			// allow Vector[(1,2)] to be dragged
+			vec = (GeoVector) movedGeoElement;
+		}
+
+		if (vec != null) {
+			if (vec.getParentAlgorithm() instanceof AlgoVectorPoint) {
+				// unwrap Vector[(1,2)]
+				AlgoVectorPoint algo = (AlgoVectorPoint) vec
+						.getParentAlgorithm();
+				moveMode = MOVE_POINT_WITH_OFFSET;
+				transformCoordsOffset[0] = xRW - vec.x;
+				transformCoordsOffset[1] = yRW - vec.y;
+				movedGeoPoint = algo.getP();
+				return;
+			}
+
+			if (sameVector && ((vec.getLabelSimple() == null) || vec.isIndependent())) {
+				transformCoordsOffset[0] = xRW - vec.x;
+				transformCoordsOffset[1] = yRW - vec.y;
+				movedGeoVector = vec;
+				moveMode = MOVE_VECTOR_NO_GRID;
+				return;
 			}
 		}
+
+		
+
+		// STANDARD case: get free input points of dependent movedGeoElement
+		if (!handleMovedElementDependentWithChangeableCoordParentNumbers()
+				&& movedGeoElement.hasMoveableInputPoints(view)) {
+			// allow only moving of the following object types
+			if (movedGeoElement.isGeoLine()
+					|| movedGeoElement.isGeoPolygon()
+					|| (movedGeoElement instanceof GeoPolyLine)
+					|| movedGeoElement.isGeoConic()
+					|| movedGeoElement.isGeoImage()
+					|| movedGeoElement.isGeoList()
+					|| movedGeoElement.isGeoVector()) {
+				if(translateableGeos==null)
+					translateableGeos = new ArrayList<GeoElement>();
+				else
+					translateableGeos.clear();
+
+				addMovedGeoElementFreeInputPointsToTranslateableGeos();
+
+				if(movedGeoElement.isGeoList())
+					translateableGeos.add(movedGeoElement);
+			}
+		}
+		
+		handleMovedElementDependentInitMode();
+	}
 	
-		// free point
-		else if (movedGeoElement.isGeoPoint()) {
+
+	protected void handleMovedElementDependentInitMode(){
+		// init move dependent mode if we have something to move ;-)
+		if (translateableGeos != null && translateableGeos.size() > 0) {
+			moveMode = MOVE_DEPENDENT;
+
+			if (translateableGeos.get(0) instanceof GeoPoint) {
+				GeoPoint point = ((GeoPoint) translateableGeos.get(0));
+				if (point.getParentAlgorithm() != null) {
+					// make sure snap-to-grid works for dragging (a + x(A),
+					// b + x(B))
+					transformCoordsOffset[0] = 0;
+					transformCoordsOffset[1] = 0;
+
+				} else {
+					// snap to grid when dragging polygons, segments, images
+					// etc
+					// use first point
+					point.getInhomCoords(transformCoordsOffset);
+					transformCoordsOffset[0] -= xRW;
+					transformCoordsOffset[1] -= yRW;
+				}
+			}
+
+			setStartPointLocation();
+
+			view.setDragCursor();
+			if (translationVec == null) {
+				translationVec = new Coords(2);
+			}
+		} else {
+			moveMode = MOVE_NONE;
+		}
+
+	}
+	
+	final protected boolean handleMovedElementFreePoint(){
+		if (movedGeoElement.isGeoPoint()) {
 			moveMode = MOVE_POINT;
 			setMovedGeoPoint(movedGeoElement);
 			// make sure snap-to-grid works after e.g. pressing a button
 			transformCoordsOffset[0] = 0;
 			transformCoordsOffset[1] = 0;
+			return true;
+		}
+		
+		return false;
+	}
+	
+	protected void handleMovedElementFree(PointerEventType type){
+
+		if (handleMovedElementFreePoint()) {
+			return;
 		}
 	
 		// free line

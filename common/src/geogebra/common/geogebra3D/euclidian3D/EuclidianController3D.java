@@ -3392,20 +3392,26 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 
 		kernel.notifyRepaint();
 	}
-
+	
 	@Override
-	protected void moveMultipleObjects(boolean repaint) {
-		/*
-		 * translationVec.setX(xRW - startPoint.x); translationVec.setY(yRW -
-		 * startPoint.y); startPoint.setLocation(xRW, yRW); startLoc = mouseLoc;
-		 * 
-		 * // move all selected geos
-		 * GeoElement.moveObjects(app.getSelectedGeos(), translationVec, new
-		 * GgbVector(xRW, yRW, 0));
-		 */
-
-		App.debug("TODO");
+	protected void handleMovedElementMultiple(){
+		//TODO
 	}
+	
+	@Override
+	final protected void handleMovedElementFree(PointerEventType type){
+		handleMovedElementFreePoint();
+	}
+	
+	@Override
+	final protected void handleMovedElementDependent(){
+		
+		translateableGeos = null;
+		handleMovedElementDependentWithChangeableCoordParentNumbers();
+		handleMovedElementDependentInitMode();
+		
+	}
+
 
 	final protected int addSelectedPolygon3D(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
