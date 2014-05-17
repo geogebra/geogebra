@@ -298,6 +298,27 @@ implements RotateableND, MirrorableAtPlane {
 			sbBuildValueString.append(")");		
 			break;
 			
+		case CONIC_DOUBLE_LINE:
+			center = getMidpoint3D();
+			d = getDirection3D(0);
+			sbBuildValueString.append("X = (");
+			sbBuildValueString.append(kernel.format(center.getX(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getY(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getZ(),tpl));
+			sbBuildValueString.append(") + ");
+			sbBuildValueString.append(Unicode.lambda);
+			sbBuildValueString.append(" (");
+			sbBuildValueString.append(kernel.format(d.getX(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getY(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getZ(),tpl));
+			
+			sbBuildValueString.append(")");		
+			break;
+			
 		case CONIC_EMPTY:
 			sbBuildValueString.append(loc.getPlain("Undefined"));
 			break;
