@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.geos;
 
+import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -416,41 +417,22 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		// translate point
 		else {
-
-			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			/*
-			 * if (Math.abs(rwTransVec.getX()) > AbstractKernel.MIN_PRECISION) x =
-			 * kernel.checkDecimalFraction(x); if (Math.abs(rwTransVec.getY()) >
-			 * AbstractKernel.MIN_PRECISION) y = kernel.checkDecimalFraction(y);
-			 */
-
-			// set translated point coords
-			if (hasPath()) {
-				double t = getPathParameter().getT() + rwTransVec.getX()
-						+ rwTransVec.getY() + rwTransVec.getZ();
-				// TODO use path unit and direction
-				getPathParameter().setT(t);
-				getPath().pathChanged(this);
-				getPath().pointChanged(this);
-				// getParentAlgorithm().update();
-			} else if (hasRegion()) {
-				/*
-				 * TODO make this work :) double x =
-				 * getRegionParameters().getT1() +rwTransVec.getX(); double y =
-				 * getRegionParameters().getT2() +rwTransVec.getY();
-				 * getRegionParameters
-				 * ().setT1(x);getRegionParameters().setT2(y);
-				 * Application.debug("(x,y)="+x+","+y); //TODO use path unit and
-				 * direction getParentAlgorithm().update();
-				 */
-			} else {
-				Coords coords = getInhomCoords().add(rwTransVec);
-				setCoords(coords);
+			
+			Coords coords;
+			Coords current = getInhomCoords();
+			
+			if (current.getLength() < rwTransVec.getLength()){
+				coords = current.add(rwTransVec);
+			}else{
+				coords = current.addSmaller(rwTransVec);
 			}
+			setCoords(coords);
 
 			movedGeo = true;
 		}
-
+		
+		
+		
 		return movedGeo;
 
 	}

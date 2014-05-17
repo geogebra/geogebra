@@ -1075,6 +1075,10 @@ public class Coords extends CoordMatrix {
 		return (Coords) super.add(v);
 	}
 	
+	public Coords addSmaller(Coords v) {
+		return (Coords) super.addSmaller(v);
+	}
+	
 	/**
 	 * add values of v inside this
 	 * @param v vector

@@ -751,6 +751,31 @@ public class CoordMatrix {
 		return result;
 
 	}
+	
+	/**
+	 * returns this + m, perform addition only on m existing values
+	 * (leave other unchanged)
+	 * 
+	 * @param m
+	 *            a matrix
+	 * @return sum matrix (or vector)
+	 */
+	public CoordMatrix addSmaller(CoordMatrix m) {
+
+		CoordMatrix result = GgbMatrixOrVector(getRows(), getColumns());
+		// resulting matrix has the same dimension than this
+		// and is a GgbVector if this has 1 column
+
+		for (int i = 1; i <= m.getRows(); i++) {
+			for (int j = 1; j <= m.getColumns(); j++) {
+				result.set(i, j, get(i, j) 
+						+ m.get(i, j));
+			}
+		}
+
+		return result;
+
+	}
 
 	// vector multiplication
 	/**
