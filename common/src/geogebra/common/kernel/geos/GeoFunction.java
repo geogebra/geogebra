@@ -675,18 +675,31 @@ public class GeoFunction extends GeoElement implements VarString,
 	@Override
 	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
-		if (isLabelSet()) {
-			sbToString.append(label);
-			if (isBooleanFunction() && !tpl.hasType(StringType.GEOGEBRA_XML))
-				sbToString.append(": ");
-			else {
-				sbToString.append("(");
-				sbToString.append(getVarString(tpl));
-				sbToString.append(") = ");
-			}
-		}
+		initStringBuilder(sbToString, tpl, label, getVarString(tpl), isLabelSet(), isBooleanFunction());
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
+	}
+	
+	/**
+	 * @param stringBuilder string builder
+	 * @param tpl string template
+	 * @param label geo label
+	 * @param var geo var
+	 * @param isLabelSet says if label is set
+	 * @param isBooleanFunction says if it's a boolean function
+	 */
+	public final static void initStringBuilder(StringBuilder stringBuilder, StringTemplate tpl, String label, String var, boolean isLabelSet, boolean isBooleanFunction){
+		stringBuilder.setLength(0);
+		if (isLabelSet) {
+			stringBuilder.append(label);
+			if (isBooleanFunction && !tpl.hasType(StringType.GEOGEBRA_XML))
+				stringBuilder.append(": ");
+			else {
+				stringBuilder.append("(");
+				stringBuilder.append(var);
+				stringBuilder.append(") = ");
+			}
+		}
 	}
 
 	/** StringBuilder for temporary string manipulation */
