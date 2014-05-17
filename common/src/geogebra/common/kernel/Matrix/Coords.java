@@ -1195,6 +1195,30 @@ public class Coords extends CoordMatrix {
 		return ret;
 		
 	}
+	
+	/**
+	 * check for first non-zero value ; reverse all values if this one is negative
+	 */
+	public void checkReverseForFirstValuePositive(){
+		
+		boolean zero = true;
+		int i = 0;
+		while (i < val.length && zero){
+			if (!Kernel.isZero(val[i])){
+				zero = false;
+			}else{
+				i++;
+			}
+		}
+		
+		if (!zero && val[i] < 0){
+			while (i < val.length){
+				val[i] *= -1;
+				i++;
+			}
+		}
+		
+	}
 
 	
 }

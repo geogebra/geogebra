@@ -17,6 +17,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.Unicode;
 
 /**
  * @author ggb3D
@@ -173,7 +174,6 @@ implements RotateableND, MirrorableAtPlane {
 		case CONIC_PARABOLA:
 			GeoFunction.initStringBuilder(sbToString, tpl, label, "t", isLabelSet(), false);
 			break;
-		case CONIC_SINGLE_POINT:
 		default:
 			sbToString.setLength(0);
 			sbToString.append(label);
@@ -249,6 +249,29 @@ implements RotateableND, MirrorableAtPlane {
 			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
 			break;
 			
+		case CONIC_INTERSECTING_LINES:
+			center = getMidpoint3D();
+			Coords d1 = getDirection3D(0);
+			Coords d2 = getDirection3D(1);
+			Coords e1 = d1.add(d2).mul(0.5);
+			Coords e2 = d1.sub(d2).mul(0.5);
+			e2.checkReverseForFirstValuePositive();
+			sbBuildValueString.append("X = (");
+			sbBuildValueString.append(kernel.format(center.getX(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getY(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getZ(),tpl));
+			sbBuildValueString.append(") + ");
+			sbBuildValueString.append(Unicode.lambda);
+			sbBuildValueString.append(" (");
+			kernel.appendTwoCoeffs(e1.getX(), e2.getX(), tpl, sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getY(), e2.getY(), tpl, sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getZ(), e2.getZ(), tpl, sbBuildValueString);
+			sbBuildValueString.append(")");			
+			break;
 			
 		default:
 			sbBuildValueString.append("todo-GeoConic3D");

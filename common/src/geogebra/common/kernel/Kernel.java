@@ -1571,6 +1571,28 @@ public class Kernel {
 		}
 		
 	}
+	
+	
+	public final void appendTwoCoeffs(double x, double y, StringTemplate tpl, StringBuilder sbBuildValueString){
+		
+		
+		if (isZeroFigure(x, tpl)){
+			if (isZeroFigure(y, tpl)){
+				sbBuildValueString.append("0");
+			}else{
+				formatSignedPlusMinus(y, sbBuildValueString, tpl);
+			}
+		}else{
+			sbBuildValueString.append(format(x, tpl));
+			
+			if (!isZeroFigure(y, tpl)){
+				sbBuildValueString.append(" ");
+				formatSignedPlusMinus(y, sbBuildValueString, tpl);
+			}			
+		}
+		
+	}
+
 
 	/** doesn't show 1 or -1 */
 	private final String formatCoeff(double x, StringTemplate tpl) { // TODO
