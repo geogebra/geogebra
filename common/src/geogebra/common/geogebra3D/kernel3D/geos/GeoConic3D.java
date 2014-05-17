@@ -8,6 +8,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -164,10 +165,22 @@ implements RotateableND, MirrorableAtPlane {
 	public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = new StringBuilder();
-		sbToString.setLength(0);
-		sbToString.append(label);
 
-		sbToString.append(": ");
+		switch(getType()){
+		case CONIC_CIRCLE:
+		case CONIC_ELLIPSE:			
+		case CONIC_HYPERBOLA:			
+		case CONIC_PARABOLA:
+			GeoFunction.initStringBuilder(sbToString, tpl, label, "t", isLabelSet(), false);
+			break;
+		case CONIC_SINGLE_POINT:
+		default:
+			sbToString.setLength(0);
+			sbToString.append(label);
+			sbToString.append(": ");
+			break;			
+		}
+
 		sbToString.append(buildValueString(tpl));
 		return sbToString.toString();
 	}
