@@ -254,7 +254,7 @@ implements RotateableND, MirrorableAtPlane {
 			Coords d1 = getDirection3D(0);
 			Coords d2 = getDirection3D(1);
 			Coords e1 = d1.add(d2).mul(0.5);
-			Coords e2 = d1.sub(d2).mul(0.5);
+			Coords e2 = d2.sub(d1).mul(0.5);
 			e2.checkReverseForFirstValuePositive();
 			sbBuildValueString.append("X = (");
 			sbBuildValueString.append(kernel.format(center.getX(),tpl));
@@ -271,6 +271,35 @@ implements RotateableND, MirrorableAtPlane {
 			sbBuildValueString.append(", ");
 			kernel.appendTwoCoeffs(e1.getZ(), e2.getZ(), tpl, sbBuildValueString);
 			sbBuildValueString.append(")");			
+			break;
+			
+		case CONIC_PARALLEL_LINES:
+			Coords c1 = getOrigin3D(0);
+			Coords c2 = getOrigin3D(1);
+			Coords d = getDirection3D(0);
+			e1 = c1.add(c2).mul(0.5);
+			e2 = c2.sub(c1).mul(0.5);
+			e2.checkReverseForFirstValuePositive();
+			sbBuildValueString.append("X = (");
+			kernel.appendTwoCoeffs(e1.getX(), e2.getX(), tpl, sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getY(), e2.getY(), tpl, sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getZ(), e2.getZ(), tpl, sbBuildValueString);
+			sbBuildValueString.append(") + ");
+			sbBuildValueString.append(Unicode.lambda);
+			sbBuildValueString.append(" (");
+			sbBuildValueString.append(kernel.format(d.getX(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getY(),tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getZ(),tpl));
+			
+			sbBuildValueString.append(")");		
+			break;
+			
+		case CONIC_EMPTY:
+			sbBuildValueString.append(loc.getPlain("Undefined"));
 			break;
 			
 		default:
