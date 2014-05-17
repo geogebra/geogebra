@@ -1542,17 +1542,24 @@ public class Kernel {
 			if (isZeroFigure(y, tpl)){
 				sbBuildValueString.append("0");
 			}else{
-				sbBuildValueString.append(formatCoeff(y, tpl));
-				sbBuildValueString.append(" ");
+				String coeff = formatCoeff(y, tpl);
+				sbBuildValueString.append(coeff);
+				if (coeff.length() > 0){
+					sbBuildValueString.append(" "); // no need if no coeff
+				}
 				sbBuildValueString.append(s2);
 			}
 		}else{
 			if (plusMinusX){
 				formatSignedCoefficientPlusMinus(x, sbBuildValueString, tpl);
+				sbBuildValueString.append(" ");
 			}else{
-				sbBuildValueString.append(formatCoeff(x, tpl));
-			}
-			sbBuildValueString.append(" ");
+				String coeff = formatCoeff(x, tpl);
+				sbBuildValueString.append(coeff);
+				if (coeff.length() > 0){
+					sbBuildValueString.append(" "); // no need if no coeff
+				}
+			}			
 			sbBuildValueString.append(s1);
 			
 			if (!isZeroFigure(y, tpl)){
