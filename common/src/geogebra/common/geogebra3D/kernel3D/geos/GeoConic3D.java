@@ -231,6 +231,11 @@ implements RotateableND, MirrorableAtPlane {
 			buildValueString(false, "t\u00b2", "t", linearEccentricity, 2 * linearEccentricity, tpl, sbBuildValueString);
 			break;
 			
+		case CONIC_SINGLE_POINT:
+			Coords center = getMidpoint3D();
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
+			break;
+			
 			
 		default:
 			sbBuildValueString.append("todo-GeoConic3D");
