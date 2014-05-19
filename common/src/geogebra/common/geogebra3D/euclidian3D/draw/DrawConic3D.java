@@ -344,10 +344,14 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @return min/max for parabola
 	 */
 	protected double[] getParabolaMinMax(){
-		minmax = getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1), true);	
-		double tMax=2*Math.sqrt(2*minmax[1]/conic.p);
+		
+		double[] minmax1 = {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY};
+
+		getView3D().getMinIntervalOutsideClipping(
+				minmax1,
+				m,
+				ev1);
+		double tMax=Math.sqrt(2*minmax1[1]/conic.p);
 		return new double[] {-tMax, tMax};
 	}
 	
