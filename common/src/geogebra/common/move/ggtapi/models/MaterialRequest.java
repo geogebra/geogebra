@@ -133,7 +133,7 @@ public class MaterialRequest implements Request
 			JSONObject current = new JSONObject();
 			current.put("-name", new JSONString(this.filters[i].toString()));
 			if(this.negFilters.contains(filters[i])){
-				current.put("-name", new JSONString("neq"));
+				current.put("-comp", new JSONString("neq"));
 			}
 			if (this.filterMap.get(this.filters[i]) != null){
 				current.put("#text", new JSONString(this.filterMap.get(this.filters[i])));
