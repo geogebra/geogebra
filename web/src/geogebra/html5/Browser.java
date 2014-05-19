@@ -1,6 +1,7 @@
 package geogebra.html5;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window.Location;
 
 public class Browser {
 	public static boolean webWorkerSupported = false;
@@ -96,5 +97,22 @@ public class Browser {
 
 	public static boolean supportsSessionStorage() {
 	    return (!Browser.isFirefox() && !Browser.isIE()) || Browser.isHTTP();
+    }
+
+	public static String normalizeURL(String thumb) {
+		String url;
+		
+		if(thumb.startsWith("http://") || thumb.startsWith("file://")){
+			url = thumb.substring("http://".length());
+		}
+		else if(thumb.startsWith("https://")){
+			url = thumb.substring("https://".length());
+		}else{
+			url = thumb;
+		}
+		if("https:".equals(Location.getProtocol())){
+			return "https://" + url;
+		}
+		return "http://" + url;
     }
 }

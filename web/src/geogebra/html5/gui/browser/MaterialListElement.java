@@ -2,7 +2,9 @@ package geogebra.html5.gui.browser;
 
 import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.util.Unicode;
+import geogebra.html5.Browser;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
@@ -16,7 +18,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -113,9 +114,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 		String thumb = this.material.getThumbnail();
 		if (thumb != null && thumb.length() > 0) {
-			if (!thumb.startsWith("http")) {
-				thumb = Location.getProtocol() + thumb;
-			}
+			thumb = Browser.normalizeURL(thumb);
 			this.image.getElement().getStyle()
 			        .setBackgroundImage("url(" + thumb + ")");
 		} else {
@@ -233,6 +232,17 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	void onEdit() {
 		/* TODO */
 		if(material.getId() > 0){
+			if(material.getType() == MaterialType.book){
+				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
+
+					@Override
+		            public void onLoaded(List<Material> response) {
+						bg.onSearchResults(response);
+						bg.updateViewSizes();
+		            }
+		       });
+				return;
+			}else{
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
 
 				@Override
@@ -240,6 +250,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 					app.getGgbApi().setBase64(parseResponse.get(0).getBase64());
 	            }
 	       });
+			}
 		}else{
 			app.getGoogleDriveOperation().loadFromGoogleFile(material.getURL(), 
 					material.getDescription(), material.getTitle(), material.getGoogleID());
@@ -293,8 +304,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	void setLabels() {
 		
 		this.openButton.setText(app.getMenu(app.getLAF().getInsertWorksheetTitle()));
-		
-		this.editButton.setText(app.getMenu("Edit"));
+		if(this.material.getType() == MaterialType.book){
+			this.editButton.setText(app.getMenu("Open"));
+		}else{
+			this.editButton.setText(app.getMenu("Edit"));
+		}
 	}
 
 	@Override

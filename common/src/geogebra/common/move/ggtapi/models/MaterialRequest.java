@@ -29,7 +29,7 @@ public class MaterialRequest implements Request
 
 	public enum Filters
 	{
-		id, title, search, type, description, timestamp, author, author_url, language, featured, likes;
+		id, title, search, type, description, timestamp, author, author_url, language, featured, likes, inbook;
 	}
 
 	public enum Order
@@ -188,6 +188,17 @@ public class MaterialRequest implements Request
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
 		req.filterMap.put(Filters.featured, "true");
+		req.by = Order.timestamp;
+		req.type = Type.desc;
+		return req;
+	}
+
+	public static MaterialRequest forBook(int id, ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
+		req.filters = new Filters[] { Filters.inbook, Filters.type };
+		req.filterMap.put(Filters.type, "link");
+		req.negFilters.add(Filters.type);
+		req.filterMap.put(Filters.inbook, id+"");
 		req.by = Order.timestamp;
 		req.type = Type.desc;
 		return req;

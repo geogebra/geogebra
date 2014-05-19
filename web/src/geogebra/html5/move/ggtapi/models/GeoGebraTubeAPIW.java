@@ -278,4 +278,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	public void getUsersMaterials(int userId, MaterialCallback rc) {
 		performRequest(MaterialRequest.forUser(userId, client).toJSONString(), rc);
     }
+
+	public void getBookItems(int id, MaterialCallback rc) {
+		performRequest(MaterialRequest.forBook(id, client).toJSONString(), rc);
+    }
 }
