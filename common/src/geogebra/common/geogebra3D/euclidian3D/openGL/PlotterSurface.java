@@ -880,25 +880,14 @@ public class PlotterSurface {
 		
     	float dt = (float) 1/longitude;
     	float da = (float) (extent *dt) ; 
-    	if (min > 0){ // ensure correct back/front face culling
-    		da *= -1;
-    	}
     	
 
-    	double bottom, top;
-    	if (Math.abs(min) > Math.abs(max)){
-    		bottom = max;
-    		top = min;
-    	}else{
-    		bottom = min;
-    		top = max;  		
-    	}
     	
-    	Coords center1 = center.add(vz.mul(bottom));
-    	Coords center2 = center.add(vz.mul(top));
+    	Coords center1 = center.add(vz.mul(min));
+    	Coords center2 = center.add(vz.mul(max));
     	
-    	double r1 = radius * -bottom;
-    	double r2 = radius * -top;
+    	double r1 = radius * min;
+    	double r2 = radius * max;
     	
     	Coords vzR = vz.mul(radius); 
     	
@@ -914,20 +903,8 @@ public class PlotterSurface {
      		m = vx.mul(u).add(vy.mul(v));
      		n = m.add(vzR).normalize();
      		
-
-
-     		//point on bottom circle
-     		if (fading){
-     			if (minFading){
-     				manager.texture(0, 1);
-     			}else{
-     				manager.texture(0, 0);
-     			}
-     		}
-     		manager.normal(n);
-     		manager.vertex(center1.add(m.mul(r1)));  
-
-     		//point on top circle
+     		
+       		//point on top circle
      		if (fading){
      			if (maxFading){
      				manager.texture(0, 1);
@@ -937,6 +914,18 @@ public class PlotterSurface {
      		}
      		manager.normal(n);
      		manager.vertex(center2.add(m.mul(r2)));
+
+     		
+    		//point on bottom circle
+     		if (fading){
+     			if (minFading){
+     				manager.texture(0, 1);
+     			}else{
+     				manager.texture(0, 0);
+     			}
+     		}
+     		manager.normal(n);
+     		manager.vertex(center1.add(m.mul(r1)));  
 
 
     	} 

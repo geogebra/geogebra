@@ -205,13 +205,8 @@ implements Previewable {
 					}else{
 						double delta = (max - min)/10;
 						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min + delta, max - delta, false, false);
-						if (min > 0){
-							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, min + delta, true, false);
-							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max - delta, max, false, true);
-						}else{
-							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, min + delta, false, true);
-							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max - delta, max, true, false);
-						}
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, min + delta, true, false);
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max - delta, max, false, true);
 					}
 				}
 			}
