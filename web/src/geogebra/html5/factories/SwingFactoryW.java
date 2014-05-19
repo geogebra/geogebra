@@ -2,7 +2,6 @@ package geogebra.html5.factories;
 
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EnvironmentStyle;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
@@ -30,8 +29,8 @@ public class SwingFactoryW extends SwingFactory {
 	}
 
 	@Override
-    public AbstractJComboBox newJComboBox(EuclidianViewInterfaceCommon view) {
-	    return new geogebra.html5.javax.swing.GComboBoxW(view);
+    public AbstractJComboBox newJComboBox(App app, int view) {
+	    return new geogebra.html5.javax.swing.GComboBoxW(app, view);
     }
 
 	@Override

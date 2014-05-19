@@ -2,7 +2,6 @@ package geogebra.factories;
 
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EnvironmentStyle;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
@@ -32,7 +31,7 @@ public class SwingFactoryD extends geogebra.common.factories.SwingFactory {
 	}
 
 	@Override
-	public GComboBoxD newJComboBox(EuclidianViewInterfaceCommon ev) {
+	public GComboBoxD newJComboBox(App app, int ev) {
 		return new geogebra.javax.swing.GComboBoxD();
 	}
 

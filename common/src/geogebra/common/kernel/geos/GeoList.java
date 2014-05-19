@@ -14,7 +14,6 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -2222,7 +2221,7 @@ AngleProperties {
 	public AbstractJComboBox getComboBox(int viewID) {
 
 		if (comboBox == null) {
-			comboBox = buildComboBox(kernel.getApplication().getEuclidianView1());
+			comboBox = buildComboBox(App.VIEW_EUCLIDIAN);
 		}
 
 		if (viewID != App.VIEW_EUCLIDIAN2) {
@@ -2230,7 +2229,7 @@ AngleProperties {
 		}
 
 		if (comboBox2 == null) {
-			comboBox2 = buildComboBox(kernel.getApplication().getEuclidianView2());
+			comboBox2 = buildComboBox(App.VIEW_EUCLIDIAN2);
 		}
 
 		return comboBox2;
@@ -2260,8 +2259,8 @@ AngleProperties {
 
 	}
 
-	private AbstractJComboBox buildComboBox(EuclidianViewInterfaceCommon view) {
-		return buildComboBox(kernel.getApplication().getSwingFactory().newJComboBox(view));
+	private AbstractJComboBox buildComboBox(int view) {
+		return buildComboBox(kernel.getApplication().getSwingFactory().newJComboBox(kernel.getApplication(), view));
 	}
 	/**
 	 * Rebuilds combobox if some items changed
@@ -2295,8 +2294,8 @@ AngleProperties {
 	private void rebuildComboBoxes() {
 		if(comboBox==null)
 			return;
-		comboBox = buildComboBox(kernel.getApplication().getEuclidianView1());
-		comboBox2 = buildComboBox(kernel.getApplication().getEuclidianView2());
+		comboBox = buildComboBox(App.VIEW_EUCLIDIAN);
+		comboBox2 = buildComboBox(App.VIEW_EUCLIDIAN);
 
 	}
 

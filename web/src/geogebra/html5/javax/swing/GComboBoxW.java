@@ -2,9 +2,9 @@ package geogebra.html5.javax.swing;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.javax.swing.AbstractJComboBox;
+import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -22,19 +22,25 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 	/**
 	 * Creates new wrapper Box
 	 */
-	public GComboBoxW(final EuclidianViewInterfaceCommon view) {
+	public GComboBoxW(final App app, final int view) {
 		this.impl = new ListBox();
 		impl.addFocusHandler(new FocusHandler(){
 
 			@Override
             public void onFocus(FocusEvent event) {
-	            ((EuclidianViewW)view).getEuclidianController().setComboboxFocused(true);
+				
+				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2() : app.getEuclidianView1());
+				
+	            ev.getEuclidianController().setComboboxFocused(true);
             }});
 		impl.addBlurHandler(new BlurHandler(){
 
 			@Override
             public void onBlur(BlurEvent event) {
-	            ((EuclidianViewW)view).getEuclidianController().setComboboxFocused(false);
+				
+				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2() : app.getEuclidianView1());
+
+	            ev.getEuclidianController().setComboboxFocused(false);
             }});
 	}
 
