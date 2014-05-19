@@ -215,10 +215,10 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 		try {
 			if (dockPanel != null) {
 				toolbarVec = ToolBar.parseToolbarString(
-				        dockPanel.getToolbarString(), true);
+				        dockPanel.getToolbarString());
 			} else {
 				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-				        .getToolbarDefinition(), true);
+				        .getToolbarDefinition());
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
@@ -228,8 +228,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 				App.debug("invalid toolbar string: "
 				        + app.getGuiManager().getToolbarDefinition());
 			}
-			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString(),
-			        true);
+			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
 
 		// set toolbar

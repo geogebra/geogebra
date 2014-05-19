@@ -173,11 +173,11 @@ public class ToolbarD extends JToolBar {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 			if (dockPanel != null) {
-				toolbarVec = ToolBar.parseToolbarString(
-						dockPanel.getToolbarString(), true);
+				toolbarVec = ToolBar.parseToolbarString(dockPanel
+						.getToolbarString());
 			} else {
 				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-						.getToolbarDefinition(), true);
+						.getToolbarDefinition());
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
@@ -187,8 +187,7 @@ public class ToolbarD extends JToolBar {
 				App.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			}
-			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString(),
-					true);
+			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
 
 		// set toolbar

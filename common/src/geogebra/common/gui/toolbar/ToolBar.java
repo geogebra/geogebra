@@ -544,7 +544,7 @@ public class ToolBar {
 	 * @return toolbar as nested Vector objects with Integers for the modes.
 	 *         Note: separators have negative values.
 	 */
-	public static Vector<ToolbarItem> parseToolbarString(String toolbarString, boolean throwException) {
+	public static Vector<ToolbarItem> parseToolbarString(String toolbarString) throws NumberFormatException{
 		String[] tokens = toolbarString.split(" ");
 		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
 		Vector<Integer> menu = new Vector<Integer>();
@@ -574,18 +574,12 @@ public class ToolBar {
 			} else if (tokens[i].equals(",")) { // separator within menu
 				menu.add(SEPARATOR);
 			} else { // add mode to menu
-				try {
+				
 					if (tokens[i].length() > 0) {
 						int mode = Integer.parseInt(tokens[i]);
 						menu.add(new Integer(mode));
 					}
-				} catch (Exception e) {
-					if(throwException){
-						throw e;
-					}
-					e.printStackTrace();
-					return null;
-				}
+				
 			}
 		}
 

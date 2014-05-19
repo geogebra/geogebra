@@ -354,8 +354,12 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements
 		this.dockPanel = dockPanel;
 
 		// create new tree model
-		Vector<ToolbarItem> toolVec = ToolBar.parseToolbarString(
-				toolbarDefinition, false);
+		Vector<ToolbarItem> toolVec;
+		try {
+			toolVec = ToolBar.parseToolbarString(toolbarDefinition);
+		} catch (Exception e) {
+			return;
+		}
 		DefaultTreeModel model = new DefaultTreeModel(generateRootNode(toolVec));
 		tree.setModel(model);
 		collapseAllRows();
@@ -460,8 +464,12 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements
 		vector.add(ToolBar.SEPARATOR);
 
 		// get default toolbar as nested vectors
-		Vector<ToolbarItem> defTools = ToolBar.parseToolbarString(
-				toolbarDefinition, false);
+		Vector<ToolbarItem> defTools = null;
+		try {
+			defTools = ToolBar.parseToolbarString(toolbarDefinition);
+		} catch (Exception e) {
+			return new Vector<Integer>();
+		}
 		for (int i = 0; i < defTools.size(); i++) {
 			ToolbarItem element = defTools.get(i);
 
