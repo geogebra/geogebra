@@ -69,7 +69,7 @@ public class GLookAndFeel {
 	    return null;
     }
 
-	public String getInsertWorksheetTitle() {
+	public String getInsertWorksheetTitle(Material m) {
 	    return "View";
     }
 
