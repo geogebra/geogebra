@@ -174,16 +174,17 @@ implements Previewable {
 			surface.start();
 			if (quadric instanceof GeoQuadric3DPart){ // simple cone
 				double height = ((GeoQuadric3DPart) quadric).getBottom() - ((GeoQuadric3DPart) quadric).getTop();
-				double heightAbs = Math.abs(height);	
 				surface.cone(quadric.getMidpoint3D(), 
 						quadric.getEigenvec3D(0), quadric.getEigenvec3D(1), quadric.getEigenvec3D(2), 
 						quadric.getHalfAxis(0),  
 						0, 2*Math.PI,
-						height);
+						height, 1f);
 			}else{ // infinite cone
 				double[] minmax = getMinMax();
 				double min = minmax[0]; 
-				double max = minmax[1];	
+				double max = minmax[1];
+				//min -= delta;
+				//max += delta;
 				//App.debug(min+","+max);
 				center = quadric.getMidpoint3D();
 				Coords ev1 = quadric.getEigenvec3D(0); 
@@ -191,10 +192,27 @@ implements Previewable {
 				Coords ev3 = quadric.getEigenvec3D(2);
 				radius = quadric.getHalfAxis(0);
 				if (min * max < 0){
-					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min);
-					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max);
+					if (getView3D().useClippingCube()){
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, 1f);
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max, 1f);
+					}else{
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, (float) ((-9 * min - max) / (min - max)));
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max, (float) ((-9 * max - min) / (max - min)));
+					}
 				}else{
-					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, max);
+					if (getView3D().useClippingCube()){
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, max, false, false);
+					}else{
+						double delta = (max - min)/10;
+						surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min + delta, max - delta, false, false);
+						if (min > 0){
+							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, min + delta, true, false);
+							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max - delta, max, false, true);
+						}else{
+							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, min + delta, false, true);
+							surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max - delta, max, true, false);
+						}
+					}
 				}
 			}
 

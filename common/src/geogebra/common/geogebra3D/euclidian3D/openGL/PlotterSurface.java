@@ -812,8 +812,9 @@ public class PlotterSurface {
 	 * @param start
 	 * @param extent
 	 * @param height 
+	 * @param fading 
 	 */
-	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start, double extent, double height){
+	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start, double extent, double height, float fading){
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		
@@ -824,8 +825,14 @@ public class PlotterSurface {
 		
     	float dt = (float) 1/longitude;
     	float da = (float) (extent *dt) ; 
+    	if (height > 0){ // ensure correct back/front face culling
+    		da *= -1;
+    	}
     	
-    	manager.setDummyTexture();
+    	
+    	if (fading == 1){ // no fading
+    		manager.setDummyTexture();
+    	}
     	
 
     	Coords center2 = center.add(vz.mul(height));
@@ -840,14 +847,20 @@ public class PlotterSurface {
     		
      		m = vx.mul(u).add(vy.mul(v));
      		n = m.add(vzR).normalize();
-     		
+
      		//center of the triangle fan
-    		manager.normal(n);
-    		manager.vertex(center);  
-    		
-    		//point on circle
+     		if (fading < 1){
+     			manager.texture(0, fading);
+     		}
      		manager.normal(n);
-    		manager.vertex(center2.add(m.mul(r)));
+     		manager.vertex(center);  
+
+     		//point on circle
+     		if (fading < 1){
+     			manager.texture(0, 1);
+     		}
+     		manager.normal(n);
+     		manager.vertex(center2.add(m.mul(r)));
     	} 
     	
     			
@@ -856,7 +869,7 @@ public class PlotterSurface {
     	
 	}
 	
-	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start, double extent, double min, double max){
+	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start, double extent, double min, double max, boolean minFading, boolean maxFading){
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		
@@ -867,8 +880,9 @@ public class PlotterSurface {
 		
     	float dt = (float) 1/longitude;
     	float da = (float) (extent *dt) ; 
-    	
-    	manager.setDummyTexture();
+    	if (min > 0){ // ensure correct back/front face culling
+    		da *= -1;
+    	}
     	
 
     	double bottom, top;
@@ -888,6 +902,11 @@ public class PlotterSurface {
     	
     	Coords vzR = vz.mul(radius); 
     	
+    	boolean fading = minFading || maxFading;
+    	if (!fading){
+    		manager.setDummyTexture();
+    	}
+    	
     	for( int i = 0; i <= longitude  ; i++ ) { 
     		u = (float) Math.cos (start + i * da ); 
     		v = (float) Math.sin (start + i * da ); 
@@ -896,14 +915,29 @@ public class PlotterSurface {
      		n = m.add(vzR).normalize();
      		
 
-    		//point on bottom circle
-    		manager.normal(n);
-    		manager.vertex(center1.add(m.mul(r1)));  
-     		
-    		//point on top circle
+
+     		//point on bottom circle
+     		if (fading){
+     			if (minFading){
+     				manager.texture(0, 1);
+     			}else{
+     				manager.texture(0, 0);
+     			}
+     		}
      		manager.normal(n);
-    		manager.vertex(center2.add(m.mul(r2)));
-    		
+     		manager.vertex(center1.add(m.mul(r1)));  
+
+     		//point on top circle
+     		if (fading){
+     			if (maxFading){
+     				manager.texture(0, 1);
+     			}else{
+     				manager.texture(0, 0);
+     			}
+     		}
+     		manager.normal(n);
+     		manager.vertex(center2.add(m.mul(r2)));
+
 
     	} 
     	
