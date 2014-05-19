@@ -547,23 +547,43 @@ public class SpreadsheetView extends JPanel implements
 		int width = size.getWidth();// getPreferredSize().width;
 		int height = size.getHeight();// getPreferredSize().height;
 
-		sb.append("\t<size ");
-		sb.append(" width=\"");
-		sb.append(width);
-		sb.append("\"");
-		sb.append(" height=\"");
-		sb.append(height);
-		sb.append("\"");
-		sb.append("/>\n");
+		if (!settings.isDefaultPreferredSize()) {
+			sb.append("\t<size ");
+			if (width != 0) {
+				sb.append(" width=\"");
+				sb.append(width);
+				sb.append("\"");
+			}
 
-		sb.append("\t<prefCellSize ");
-		sb.append(" width=\"");
-		sb.append(settings.preferredColumnWidth());
-		sb.append("\"");
-		sb.append(" height=\"");
-		sb.append(settings.preferredRowHeight());
-		sb.append("\"");
-		sb.append("/>\n");
+			if (height != 0) {
+				sb.append(" height=\"");
+				sb.append(height);
+				sb.append("\"");
+			}
+
+			sb.append("/>\n");
+		}
+
+		int prefWidth = settings.preferredColumnWidth();
+		int prefHeight = settings.preferredRowHeight();
+
+		if (prefWidth != SpreadsheetSettings.TABLE_CELL_WIDTH
+				|| prefHeight != SpreadsheetSettings.TABLE_CELL_HEIGHT) {
+			sb.append("\t<prefCellSize ");
+			if (prefWidth != SpreadsheetSettings.TABLE_CELL_WIDTH) {
+				sb.append(" width=\"");
+				sb.append(prefWidth);
+				sb.append("\"");
+			}
+
+			if (prefHeight != SpreadsheetSettings.TABLE_CELL_HEIGHT) {
+
+				sb.append(" height=\"");
+				sb.append(prefHeight);
+				sb.append("\"");
+				sb.append("/>\n");
+			}
+		}
 
 		if (!asPreference) {
 
@@ -606,78 +626,113 @@ public class SpreadsheetView extends JPanel implements
 			// }
 			//
 			// initial selection
-			sb.append("\t<selection ");
+			int hScroll = settings.getHScrollBarValue();
+			int vScroll = settings.getVScrollBarValue();
+			int col = settings.selectedCell().getX();
+			int row = settings.selectedCell().getY();
 
-			sb.append(" hScroll=\"");
-			sb.append(settings.getHScrollBalValue());
+			if (!settings.isSelectionDefaults()) {
+				sb.append("\t<selection ");
+
+				if (hScroll != 0) {
+					sb.append(" hScroll=\"");
+					sb.append(hScroll);
+					sb.append("\"");
+				}
+
+				if (vScroll != 0) {
+					sb.append(" vScroll=\"");
+					sb.append(vScroll);
+					sb.append("\"");
+				}
+
+				if (col != 0) {
+					sb.append(" column=\"");
+					sb.append(col);
+					// sb.append(table.getColumnModel().getSelectionModel()
+					// .getAnchorSelectionIndex());
+					sb.append("\"");
+				}
+
+				if (row != 0) {
+					sb.append(" row=\"");
+					sb.append(row);
+					// sb.append(table.getSelectionModel().getAnchorSelectionIndex());
+					sb.append("\"");
+
+					sb.append("/>\n");
+				}
+			}
+		}
+
+		// layout
+		if (!settings.isLayoutDefaults()) {
+			sb.append("\t<layout ");
+
+			if (!settings.isDefaultShowFormulaBar()) {
+				sb.append(" showFormulaBar=\"");
+				sb.append(settings.showFormulaBar() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultShowGrid()) {
+				sb.append(" showGrid=\"");
+				sb.append(settings.showGrid() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultHScrollBar()) {
+				sb.append(" showHScrollBar=\"");
+				sb.append(settings.showHScrollBar() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultVScrollBar()) {
+				sb.append(" showVScrollBar=\"");
+				sb.append(settings.showVScrollBar() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultShowBrowserPanel()) {
+				sb.append(" showBrowserPanel=\"");
+				sb.append(settings.showBrowserPanel() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultShowColumnHeader()) {
+				sb.append(" showColumnHeader=\"");
+				sb.append(settings.showColumnHeader() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultShowRowHeader()) {
+				sb.append(" showRowHeader =\"");
+				sb.append(settings.showRowHeader() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultSpecialEditorAllowed()) {
+				sb.append(" allowSpecialEditor=\"");
+				sb.append(settings.allowSpecialEditor() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (!settings.isDefaultToolTipsAllowed()) {
+				sb.append(" allowToolTips=\"");
+				sb.append(settings.allowToolTips() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			sb.append(" equalsRequired=\"");
+			sb.append(settings.equalsRequired() ? "true" : "false");
 			sb.append("\"");
 
-			sb.append(" vScroll=\"");
-			sb.append(settings.getVScrollBalValue());
-			sb.append("\"");
-
-			sb.append(" column=\"");
-			sb.append(settings.selectedCell().getX());
-			// sb.append(table.getColumnModel().getSelectionModel()
-			// .getAnchorSelectionIndex());
-			sb.append("\"");
-
-			sb.append(" row=\"");
-			sb.append(settings.selectedCell().getY());
-			// sb.append(table.getSelectionModel().getAnchorSelectionIndex());
+			sb.append(" autoComplete=\"");
+			sb.append(settings.isEnableAutoComplete() ? "true" : "false");
 			sb.append("\"");
 
 			sb.append("/>\n");
 		}
-
-		// layout
-		sb.append("\t<layout ");
-
-		sb.append(" showFormulaBar=\"");
-		sb.append(settings.showFormulaBar() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showGrid=\"");
-		sb.append(settings.showGrid() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showHScrollBar=\"");
-		sb.append(settings.showHScrollBar() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showVScrollBar=\"");
-		sb.append(settings.showVScrollBar() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showBrowserPanel=\"");
-		sb.append(settings.showBrowserPanel() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showColumnHeader=\"");
-		sb.append(settings.showColumnHeader() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showRowHeader =\"");
-		sb.append(settings.showRowHeader() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" allowSpecialEditor=\"");
-		sb.append(settings.allowSpecialEditor() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" allowToolTips=\"");
-		sb.append(settings.allowToolTips() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" equalsRequired=\"");
-		sb.append(settings.equalsRequired() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" autoComplete=\"");
-		sb.append(settings.isEnableAutoComplete() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append("/>\n");
 
 		// ---- end layout
 

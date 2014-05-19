@@ -13,19 +13,32 @@ import java.util.LinkedList;
  */
 public class SpreadsheetSettings extends AbstractSettings {
 
+	public class Defaults {
+		public static final boolean SHOW_FORMULA_BAR = false;
+		public static final boolean SHOW_GRID = true;
+		public static final boolean SHOW_ROW_HEADER = true;
+		public static final boolean SHOW_COLUMN_HEADER = true;
+		public static final boolean SHOW_VSCROLLBAR = true;
+		public static final boolean SHOW_HSCROLLBAR = true;
+		public static final boolean SHOW_BROWSER_PANEL = false;
+		public static final boolean IS_COLUMN_SELECT = false;
+		public static final boolean ALLOW_SPECIAL_EDITOR = false;
+		public static final boolean ALLOW_TOOLTIPS = true;
+				
+	}
 	public static final int TABLE_CELL_WIDTH = 70;
 	public static final int TABLE_CELL_HEIGHT = 21; //G.Sturr (old height 20) + 1 to stop cell editor clipping
 	// layout settings
-	private boolean showFormulaBar = false;
-	private boolean showGrid = true;
-	private boolean showRowHeader = true;
-	private boolean showColumnHeader = true;	
-	private boolean showVScrollBar = true;
-	private boolean showHScrollBar = true;
-	private boolean showBrowserPanel = false;
-	private boolean isColumnSelect = false; //TODO: do we need forced column select?
-	private boolean allowSpecialEditor = false;
-	private boolean allowToolTips = true;
+	private boolean showFormulaBar = Defaults.SHOW_FORMULA_BAR;
+	private boolean showGrid = Defaults.SHOW_GRID;
+	private boolean showRowHeader = Defaults.SHOW_ROW_HEADER;
+	private boolean showColumnHeader = Defaults.SHOW_COLUMN_HEADER;	
+	private boolean showVScrollBar = Defaults.SHOW_VSCROLLBAR;
+	private boolean showHScrollBar = Defaults.SHOW_HSCROLLBAR;
+	private boolean showBrowserPanel = Defaults.SHOW_BROWSER_PANEL;
+	private boolean isColumnSelect = Defaults.IS_COLUMN_SELECT; //TODO: do we need forced column select?
+	private boolean allowSpecialEditor = Defaults.ALLOW_SPECIAL_EDITOR;
+	private boolean allowToolTips = Defaults.ALLOW_TOOLTIPS;
 	private boolean equalsRequired; 
 	private boolean enableAutoComplete;
 	
@@ -51,8 +64,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 	
 	// preferred size
 	private GDimension preferredSize;
-	private int HScrollBalValue;
-	private int VScrollBalValue;
+	private int HScrollBarValue;
+	private int VScrollBarValue;
 	
 	//============================================
 	//  Row/Column Dimension Settings
@@ -484,24 +497,87 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return enableAutoComplete;
 	}
 
-	public int getHScrollBalValue() {
-		return HScrollBalValue;
+	public int getHScrollBarValue() {
+		return HScrollBarValue;
 	}
 
 	public void setHScrollBalValue(int hScrollBalValue) {
-		HScrollBalValue = hScrollBalValue;
+		HScrollBarValue = hScrollBalValue;
 	}
 
-	public int getVScrollBalValue() {
-		return VScrollBalValue;
+	public int getVScrollBarValue() {
+		return VScrollBarValue;
 	}
 
 	public void setVScrollBalValue(int vScrollBalValue) {
-		VScrollBalValue = vScrollBalValue;
+		VScrollBarValue = vScrollBalValue;
 	}
 
 	public boolean hasInitialized() {
 		return !(heightMap == null && widthMap == null);
+	}
+
+	public boolean isSelectionDefaults() {
+		return (HScrollBarValue == 0 && VScrollBarValue == 00 && 
+				selectedCell.getX() == 0 && selectedCell.getY() == 0);
+	}
+	public boolean isLayoutDefaults() {
+		return (isDefaultShowFormulaBar() &&
+				isDefaultShowGrid() &&
+				isDefaultShowRowHeader() &&
+				isDefaultShowColumnHeader() &&
+				isDefaultVScrollBar() &&
+				isDefaultHScrollBar() &&
+				isDefaultShowBrowserPanel() &&
+				isDefaultColumnSelect() && 
+				isDefaultSpecialEditorAllowed() &&
+				isDefaultToolTipsAllowed());
+	}
+
+	public boolean isDefaultToolTipsAllowed() {
+		return allowToolTips == Defaults.ALLOW_TOOLTIPS;
+	}
+
+	public boolean isDefaultSpecialEditorAllowed() {
+		return allowSpecialEditor == Defaults.ALLOW_SPECIAL_EDITOR;
+	}
+
+	public boolean isDefaultColumnSelect() {
+		return isColumnSelect == Defaults.IS_COLUMN_SELECT;
+	}
+
+	public boolean isDefaultShowBrowserPanel() {
+		return showBrowserPanel == Defaults.SHOW_BROWSER_PANEL;
+	}
+
+	public boolean isDefaultVScrollBar() {
+		return showVScrollBar == Defaults.SHOW_VSCROLLBAR;
+	}
+
+	public boolean isDefaultHScrollBar() {
+		return showHScrollBar == Defaults.SHOW_HSCROLLBAR;
+	}
+
+	public boolean isDefaultShowColumnHeader() {
+		// TODO Auto-generated method stub
+		return showColumnHeader == Defaults.SHOW_COLUMN_HEADER;
+	}
+
+	public boolean isDefaultShowRowHeader() {
+		return showRowHeader == Defaults.SHOW_ROW_HEADER;
+	}
+
+	public boolean isDefaultShowFormulaBar() {
+		return showFormulaBar == Defaults.SHOW_FORMULA_BAR;
+	}
+	public boolean isDefaultShowGrid() {
+		return showGrid == Defaults.SHOW_GRID;
+	}
+
+	public boolean isDefaultPreferredSize() {
+		return (preferredColumnWidth == 0 && preferredRowHeight == 0) ||
+				(preferredColumnWidth == TABLE_CELL_WIDTH
+					&& preferredRowHeight == TABLE_CELL_HEIGHT);
 	}
 
 }
