@@ -207,6 +207,7 @@ public abstract class ScriptManager implements EventListener{
 	 */
 	public synchronized void registerStoreUndoListener(String JSFunctionName) {
 		registerGlobalListener(storeUndoListeners,JSFunctionName,"registerStoreUndoListener");
+		app.getKernel().setUndoActive(true);
 		app.getKernel().initUndoInfo();
 	}
 	
