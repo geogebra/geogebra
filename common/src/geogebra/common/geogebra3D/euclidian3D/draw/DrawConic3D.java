@@ -301,18 +301,20 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 */
 	protected void updateHyperbola(PlotterBrush brush){
 		
-		double[] minmax1 = getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(e2))), true);				
-		double[] minmax2 = getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(-e2))), true);
+		
+		double[] minmax1 = {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY};
 
+		getView3D().getMinIntervalOutsideClipping(
+				minmax1,
+				m,
+				ev1.mul(e1));
+		
 		minmax = new double[4];
-		minmax[0] = -acosh(minmax2[1])*1.1;
-		minmax[1] = acosh(minmax1[1])*1.1; 
-		minmax[2] = -acosh(-minmax1[0])*1.1;
-		minmax[3] = acosh(-minmax2[0])*1.1;
+		minmax[1] = acosh(minmax1[1]); 
+		minmax[3] = acosh(-minmax1[0]);
+		minmax[0] = -minmax[1];
+		minmax[2] = -minmax[3];
+		
 		
 		brush.hyperbolaBranch(m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
 		brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
