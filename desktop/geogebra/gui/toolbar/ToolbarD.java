@@ -34,8 +34,6 @@ import javax.swing.JToolBar;
 public class ToolbarD extends JToolBar {
 	private static final long serialVersionUID = 1L;
 
-	
-
 	/**
 	 * Instance of the application.
 	 */
@@ -58,7 +56,8 @@ public class ToolbarD extends JToolBar {
 	/**
 	 * Creates general toolbar.
 	 * 
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public ToolbarD(AppD app) {
 		this(app, null);
@@ -68,8 +67,10 @@ public class ToolbarD extends JToolBar {
 	 * Creates toolbar for a specific dock panel. Call buildGui() to actually
 	 * create the GUI of this toolbar.
 	 * 
-	 * @param app application
-	 * @param dockPanel dock panel
+	 * @param app
+	 *            application
+	 * @param dockPanel
+	 *            dock panel
 	 */
 	public ToolbarD(AppD app, DockPanel dockPanel) {
 		this.app = app;
@@ -101,10 +102,13 @@ public class ToolbarD extends JToolBar {
 
 	/**
 	 * Sets toolbar mode. This will change the selected toolbar icon.
-	 * @param newMode see EuclidianConstants for mode numbers
+	 * 
+	 * @param newMode
+	 *            see EuclidianConstants for mode numbers
 	 * 
 	 * 
-	 * @return actual mode number selected (might be different if it's not available)
+	 * @return actual mode number selected (might be different if it's not
+	 *         available)
 	 */
 	public int setMode(int newMode) {
 		boolean success = false;
@@ -125,12 +129,11 @@ public class ToolbarD extends JToolBar {
 				}
 			}
 
-
 			if (!success) {
-					mode = setMode(getFirstMode());
-				
+				mode = setMode(getFirstMode());
+
 			}
-			
+
 			this.mode = tmpMode;
 
 		}
@@ -170,10 +173,11 @@ public class ToolbarD extends JToolBar {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 			if (dockPanel != null) {
-				toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
+				toolbarVec = ToolBar.parseToolbarString(
+						dockPanel.getToolbarString(), true);
 			} else {
 				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-						.getToolbarDefinition());
+						.getToolbarDefinition(), true);
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
@@ -183,20 +187,22 @@ public class ToolbarD extends JToolBar {
 				App.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			}
-			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
+			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString(),
+					true);
 		}
 
 		// set toolbar
 		boolean firstButton = true;
-		
-		// make the loop go backwards for eg Hebrew / Arabic
-		int first = app.getLocalization().isRightToLeftReadingOrder() ? toolbarVec.size() - 1 : 0;
-		int increment = app.getLocalization().isRightToLeftReadingOrder() ?  - 1 : 1;
-		
-		//for (int i = 0; i < toolbarVec.size(); i++) {
-		for (int i = first ; i >=0 && i < toolbarVec.size(); i+=increment) {
-			ToolbarItem ob = toolbarVec.get(i);
 
+		// make the loop go backwards for eg Hebrew / Arabic
+		int first = app.getLocalization().isRightToLeftReadingOrder() ? toolbarVec
+				.size() - 1 : 0;
+		int increment = app.getLocalization().isRightToLeftReadingOrder() ? -1
+				: 1;
+
+		// for (int i = 0; i < toolbarVec.size(); i++) {
+		for (int i = first; i >= 0 && i < toolbarVec.size(); i += increment) {
+			ToolbarItem ob = toolbarVec.get(i);
 
 			// new menu
 			Vector<Integer> menu = ob.getMenu();
@@ -256,7 +262,6 @@ public class ToolbarD extends JToolBar {
 		return app.wrapGetMainComponent();
 	}
 
-	
 	/**
 	 * @return The default definition of this toolbar with macros.
 	 */
@@ -268,13 +273,14 @@ public class ToolbarD extends JToolBar {
 	}
 
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 * @return All tools as a toolbar definition string
 	 */
 	public static String getAllTools(AppD app) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(ToolBar.getAllToolsNoMacros(true, false) );
+		sb.append(ToolBar.getAllToolsNoMacros(true, false));
 
 		// macros
 		Kernel kernel = app.getKernel();
@@ -304,14 +310,12 @@ public class ToolbarD extends JToolBar {
 
 		return sb.toString();
 	}
-	
-	
+
 	/**
 	 * @return true when tooltips are suppressed
 	 */
-	protected boolean preventToolTipDelay(){
+	protected boolean preventToolTipDelay() {
 		return !app.showToolBarHelp();
 	}
-	
-	
+
 }
