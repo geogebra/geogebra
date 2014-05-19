@@ -139,9 +139,7 @@ public class Kernel {
 	// (add, remove, update)
 	// TODO why exactly 20 views?
 	/** List of attached views*/
-	protected View[] views = new View[20];
-	/** Number of attached views*/
-	protected int viewCnt = 0;
+	protected ArrayList<View> views = new ArrayList<View>();
 	protected boolean addingPolygon = false;
 	protected GeoElement newPolygon;
 	protected ArrayList<GeoElement> deleteList;
@@ -3074,30 +3072,36 @@ public class Kernel {
 	}
 
 	public final void notifyRepaint() {
-		if (notifyRepaint) {
-			for (int i = 0; i < viewCnt; ++i) {
-				views[i].repaintView();
+		if (notifyRepaint && notifyViewsActive) {
+			for (View view : views) {
+				view.repaintView();
 			}
 		}
 	}
 
 	final public void notifyReset() {
-		for (int i = 0; i < viewCnt; ++i) {
-			views[i].reset();
+		if (notifyViewsActive) {
+			for (View view : views) {
+				view.reset();
+			}
 		}
 	}
 
 	protected final void notifyClearView() {
-		for (int i = 0; i < viewCnt; ++i) {
-			views[i].clearView();
+		if (notifyViewsActive) {
+			for (View view : views) {
+				view.clearView();
+			}
 		}
 	}
 
 	public void clearJustCreatedGeosInViews() {
-		for (int i = 0; i < viewCnt; i++) {
-			if (views[i] instanceof EuclidianViewInterfaceSlim) {
-				((EuclidianViewInterfaceSlim) views[i])
-						.getEuclidianController().clearJustCreatedGeos();
+		if (notifyViewsActive) {
+			for (View view : views) {
+				if (view instanceof EuclidianViewInterfaceSlim) {
+					((EuclidianViewInterfaceSlim) view)
+					.getEuclidianController().clearJustCreatedGeos();
+				}
 			}
 		}
 	}
@@ -3113,10 +3117,9 @@ public class Kernel {
 				viewReiniting = true;
 
 				// "attach" views again
-				viewCnt = oldViewCnt;
 				// add all geos to all views
-				for (int i = 0; i < viewCnt; ++i) {
-					notifyAddAll(views[i]);
+				for (View view : views) {
+					notifyAddAll(view);
 				}
 
 				notifyEuclidianViewCE();
@@ -3131,13 +3134,10 @@ public class Kernel {
 
 				// "detach" views
 				notifyClearView();
-				oldViewCnt = viewCnt;
-				viewCnt = 0;
 			}
 		}
 	}
 
-	private int oldViewCnt;
 
 	/* *******************************************************
 	 * methods for view-Pattern (Model-View-Controller)
@@ -3145,29 +3145,9 @@ public class Kernel {
 	 */
 
 	public void attach(View view) {
-		// Application.debug("ATTACH " + view + ", notifyActive: " +
-		// notifyViewsActive);
-		if (!notifyViewsActive) {
-			viewCnt = oldViewCnt;
-		}
-
-		// view already attached?
-		boolean viewFound = false;
-		for (int i = 0; i < viewCnt; i++) {
-			if (views[i] == view) {
-				viewFound = true;
-				break;
-			}
-		}
-
-		if (!viewFound) {
-			// new view
-			views[viewCnt++] = view;
-		}
-
-		if (!notifyViewsActive) {
-			oldViewCnt = viewCnt;
-			viewCnt = 0;
+		
+		if (!views.contains(view)){
+			views.add(view);
 		}
 
 		printAttachedViews();
@@ -3176,55 +3156,27 @@ public class Kernel {
 	
 	private void printAttachedViews() {
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append("Number of registered views = ");
-		sb.append(viewCnt);
-		for (int i = 0; i < viewCnt; i++) {
-			sb.append("\n * ");
-			sb.append(views[i].getClass());
+		if (!notifyViewsActive) {
+			App.debug("Number of registered views = 0");
+		}else{
+			StringBuilder sb = new StringBuilder();
+			sb.append("Number of registered views = ");
+			sb.append(views.size());
+			for (View view : views) {
+				sb.append("\n * ");
+				sb.append(view.getClass());
+			}
+
+			App.debug(sb.toString());
 		}
-		
-		App.debug(sb.toString());
 		
 	}
 
 	private boolean notifyViewsActive = true;
 
 	public void detach(View view) {
-		// Application.debug("detach " + view);
 
-		if (!notifyViewsActive) {
-			viewCnt = oldViewCnt;
-		}
-
-		int pos = -1;
-		for (int i = 0; i < viewCnt; ++i) {
-			if (views[i] == view) {
-				pos = i;
-				views[pos] = null; // delete view
-				break;
-			}
-		}
-
-		// view found
-		if (pos > -1) {
-			// copy following views
-			viewCnt--;
-			for (; pos < viewCnt; ++pos) {
-				views[pos] = views[pos + 1];
-			}
-		}
-
-		/*
-		 * System.out.print("  current views: "); for (int i = 0; i < viewCnt;
-		 * i++) { System.out.print(views[i] + ", "); } Application.debug();
-		 */
-
-		if (!notifyViewsActive) {
-			oldViewCnt = viewCnt;
-			viewCnt = 0;
-		}
-
+		views.remove(view);
 		printAttachedViews();
 
 	}
@@ -3235,8 +3187,10 @@ public class Kernel {
 	 * @param mode
 	 */
 	final public void notifyModeChanged(int mode,ModeSetter m) {
-		for (int i = 0; i < viewCnt; ++i) {
-			views[i].setMode(mode,m);
+		if (notifyViewsActive) {
+			for (View view : views) {
+				view.setMode(mode,m);
+			}
 		}
 	}
 
@@ -3303,10 +3257,10 @@ public class Kernel {
 				}
 					
 			}
-			for (int i = 0; i < viewCnt; ++i) {
-				if ((views[i].getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
+			for (View view : views) {
+				if ((view.getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
-					views[i].add(geo);
+					view.add(geo);
 				}
 			}
 		}
@@ -3317,9 +3271,9 @@ public class Kernel {
 	public final void addingPolygon(){
 		if (notifyViewsActive) {
 			this.addingPolygon = true;
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).addingPolygon();
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).addingPolygon();
 				}
 			}
 		}
@@ -3328,9 +3282,9 @@ public class Kernel {
 	public final void notifyPolygonAdded(){
 		if (notifyViewsActive) {
 
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).addPolygonComplete(this.newPolygon);
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).addPolygonComplete(this.newPolygon);
 				}
 			}
 		}
@@ -3338,9 +3292,9 @@ public class Kernel {
 	
 	public final void notifyRemoveGroup(){
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).deleteGeos(deleteList);
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).deleteGeos(deleteList);
 				}
 			}
 		}
@@ -3350,10 +3304,10 @@ public class Kernel {
 	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
 			this.deleteList.add(geo);
-			for (int i = 0; i < viewCnt; ++i) {
-				if ((views[i].getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
+			for (View view : views) {
+				if ((view.getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
-					views[i].remove(geo);
+					view.remove(geo);
 				}
 			}
 		}
@@ -3363,9 +3317,9 @@ public class Kernel {
 	
 	public final void movingGeoSet(){
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).movingGeos();
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).movingGeos();
 				}
 			}
 		}
@@ -3373,9 +3327,9 @@ public class Kernel {
 	
 	public final void movedGeoSet( ArrayList<GeoElement> elmSet ){
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).movedGeos(elmSet);
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).movedGeos(elmSet);
 				}
 			}
 		}
@@ -3385,12 +3339,13 @@ public class Kernel {
 		//event dispatcher should not collect calls to stay compatible with 4.0
 		long t = System.currentTimeMillis();
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				views[i].update(geo);
+			int i = 0;
+			for (View view : views) {
+				view.update(geo);
 				long t2 = System.currentTimeMillis();
 				GeoGebraProfiler.updateTimes[i] += t2 - t;
 				t = t2;
-				
+				i++;				
 			}
 		}
 	}
@@ -3398,12 +3353,12 @@ public class Kernel {
 	public final void notifyUpdateLocation(GeoElement geo) {
 		//event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
+			for (View view : views) {
 				//we already told event dispatcher
-				if(views[i] instanceof UpdateLocationView){
-					((UpdateLocationView)views[i]).updateLocation(geo);
+				if(view instanceof UpdateLocationView){
+					((UpdateLocationView)view).updateLocation(geo);
 				}else{					
-					views[i].update(geo);
+					view.update(geo);
 				}
 			}
 		}	
@@ -3415,24 +3370,24 @@ public class Kernel {
 	
 	public final void notifyUpdateVisualStyle(GeoElement geo) {
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				views[i].updateVisualStyle(geo);
+			for (View view : views) {
+				view.updateVisualStyle(geo);
 			}
 		}
 	}
 
 	public final void notifyUpdateAuxiliaryObject(GeoElement geo) {
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				views[i].updateAuxiliaryObject(geo);
+			for (View view : views) {
+				view.updateAuxiliaryObject(geo);
 			}
 		}
 	}
 
 	public final void notifyRename(GeoElement geo) {
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				views[i].rename(geo);
+			for (View view : views) {
+				view.rename(geo);
 			}
 		}
 
@@ -3441,9 +3396,9 @@ public class Kernel {
 	
 	public final void notifyRenameUpdatesComplete(){
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).renameUpdatesComplete();
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).renameUpdatesComplete();
 				}
 			}
 		}
@@ -3457,9 +3412,9 @@ public class Kernel {
 	
 	public void notifyPaste() {
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).pasteElms();
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).pasteElms();
 				}
 			}
 		}
@@ -3467,9 +3422,9 @@ public class Kernel {
 
 	public void notifyPasteComplete() {
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				if (views[i] instanceof ClientView) {
-					((ClientView) views[i]).pasteElmsComplete(app.getSelectionManager().getSelectedGeos());
+			for (View view : views) {
+				if (view instanceof ClientView) {
+					((ClientView) view).pasteElmsComplete(app.getSelectionManager().getSelectedGeos());
 				}
 			}
 		}
@@ -4417,12 +4372,14 @@ public class Kernel {
 	}
 
 
-	
+
 	public void notifyChangeLayer(GeoElement ge, int layer, int layer2) {
 		app.updateMaxLayerUsed(layer2);
-		for (int i = 0; i < viewCnt; ++i) {
-			if (views[i] instanceof LayerView)
-				((LayerView) views[i]).changeLayer(ge, layer, layer2);
+		if (notifyViewsActive) {
+			for (View view : views) {
+				if (view instanceof LayerView)
+					((LayerView) view).changeLayer(ge, layer, layer2);
+			}
 		}
 	}
 
@@ -4678,24 +4635,26 @@ public class Kernel {
 
 	public void notifyBatchUpdate() {
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				views[i].startBatchUpdate();
+			for (View view : views) {
+				view.startBatchUpdate();
 			}
 		}
 	}
 	
 	public void notifyEndBatchUpdate() {
 		if (notifyViewsActive) {
-			for (int i = 0; i < viewCnt; ++i) {
-				views[i].endBatchUpdate();
+			for (View view : views) {
+				view.endBatchUpdate();
 			}
 		}
 	}
 
 	public void setViewsLabels() {
-		for (int i = 0; i < viewCnt; ++i) {
-			if(views[i] instanceof SetLabels){
-				((SetLabels)views[i]).setLabels();
+		if (notifyViewsActive) {
+			for (View view : views) {
+				if(view instanceof SetLabels){
+					((SetLabels)view).setLabels();
+				}
 			}
 		}
 	}
