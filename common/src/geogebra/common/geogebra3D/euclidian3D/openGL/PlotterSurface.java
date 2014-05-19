@@ -946,6 +946,72 @@ public class PlotterSurface {
     	manager.endGeometry();
     	
 	}
+	
+	
+	
+	public void cylinder(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start, double extent, double min, double max, boolean minFading, boolean maxFading){
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
+		
+		
+		int longitude = 60;
+		
+		Coords n;
+    	float u, v;
+		
+    	float dt = (float) 1/longitude;
+    	float da = (float) (extent *dt) ;    	
+
+    	
+    	Coords center1 = center.add(vz.mul(min));
+    	Coords center2 = center.add(vz.mul(max));
+    	
+    	
+    	
+    	boolean fading = minFading || maxFading;
+    	if (!fading){
+    		manager.setDummyTexture();
+    	}
+    	
+    	for( int i = 0; i <= longitude  ; i++ ) { 
+    		u = (float) Math.cos (start + i * da ); 
+    		v = (float) Math.sin (start + i * da ); 
+    		
+     		n = vx.mul(u).add(vy.mul(v));
+     		
+     		
+     		//point on top circle
+     		if (fading){
+     			if (maxFading){
+     				manager.texture(0, 1);
+     			}else{
+     				manager.texture(0, 0);
+     			}
+     		}
+     		manager.normal(n);
+     		manager.vertex(center2.add(n.mul(radius)));
+
+
+     		//point on bottom circle
+     		if (fading){
+     			if (minFading){
+     				manager.texture(0, 1);
+     			}else{
+     				manager.texture(0, 0);
+     			}
+     		}
+     		manager.normal(n);
+     		manager.vertex(center1.add(n.mul(radius)));  
+
+
+
+
+    	} 
+    	
+    			
+    	
+    	manager.endGeometry();
+    	
+	}
 
 	/**
 	 * draws the inside of the hyperobola part

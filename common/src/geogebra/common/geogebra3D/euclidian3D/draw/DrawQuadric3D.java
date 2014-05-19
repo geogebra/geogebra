@@ -218,24 +218,34 @@ implements Previewable {
 
 			setSurfaceIndex(surface.end());		
 			break;
+			
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-			double[] minmax;
-			float min, max;
 			
-			minmax = getMinMax();
+			center = quadric.getMidpoint3D();
+			Coords ev1 = quadric.getEigenvec3D(0); 
+			Coords ev2 = quadric.getEigenvec3D(1);
+			Coords ev3 = quadric.getEigenvec3D(2);
+			radius = quadric.getHalfAxis(0);
 			
-			
-			
-			min = (float) minmax[0]; 
-			max = (float) minmax[1];		
-
 			surface = renderer.getGeometryManager().getSurface();
-			surface.start(quadric);
-			surface.setU((float) quadric.getMinParameter(0), (float) quadric.getMaxParameter(0));surface.setNbU(60);
+			surface.start();
 			
-			setSurfaceV(min, max, surface);
-			
-			surface.draw();
+			if (quadric instanceof GeoQuadric3DPart){ // simple cylinder
+				surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, quadric.getMinParameter(1), quadric.getMaxParameter(1), false, false);
+			}else{
+				double[] minmax = getMinMax();
+				double min = minmax[0]; 
+				double max = minmax[1];	
+				if (getView3D().useClippingCube()){
+					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, max, false, false);
+				}else{
+					double delta = (max - min)/10;
+					surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min + delta, max - delta, false, false);
+					surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, min + delta, true, false);
+					surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, max - delta, max, false, true);
+				}
+
+			}
 			
 			setSurfaceIndex(surface.end());
 			
