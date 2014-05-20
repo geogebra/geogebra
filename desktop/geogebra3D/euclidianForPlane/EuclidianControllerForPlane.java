@@ -3,14 +3,11 @@ package geogebra3D.euclidianForPlane;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 
@@ -66,7 +63,7 @@ public abstract class EuclidianControllerForPlane extends EuclidianControllerFor
 	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex){
 		Coords coords = getCoordsFromView(xRW,yRW);
-		return createNewPoint(null, forPreviewable, path, coords.getX(), coords.getY(), coords.getZ(), complex, false);
+		return creator.createNewPoint(null, forPreviewable, path, coords.getX(), coords.getY(), coords.getZ(), complex, false);
 	}
 	
 	@Override
@@ -75,15 +72,8 @@ public abstract class EuclidianControllerForPlane extends EuclidianControllerFor
 		return createNewPoint(null, forPreviewable, region, coords.getX(), coords.getY(), coords.getZ(), complex, false);
 	}
 
-	@Override
-	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1){
-		return createCircle2For3D(p0, p1);
-	}
 	
-	@Override
-	protected GeoConicND circle(Construction cons, GeoPointND center, NumberValue radius){
-			return circleFor3D(cons, center, radius);
-	}
+
 
 
 	
@@ -112,10 +102,6 @@ public abstract class EuclidianControllerForPlane extends EuclidianControllerFor
 		return ret;
 	}
 	
-	@Override
-	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b, boolean coords2D) {
-		return super.getSingleIntersectionPoint(a, b, false);
-	}	
 	
 	@Override
 	public boolean viewOrientationForClockwise(boolean clockwise){

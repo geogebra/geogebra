@@ -192,7 +192,7 @@ public class TextDispatcher {
 	
 	protected GeoPointND getPointForDynamicText(Path object, GPoint loc){
 
-		return view.getEuclidianController().createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
+		return view.getEuclidianController().getCreator().createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, 
 				object, 
 				view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y), 0, 
@@ -372,7 +372,7 @@ public class TextDispatcher {
 	 */
 	private final GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
 		
-		return (GeoPointND) view.getEuclidianController().midpoint(P, Q);
+		return (GeoPointND) view.getEuclidianController().getCreator().midpoint(P, Q);
 	}
 	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
 		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point, (GeoElement) line);

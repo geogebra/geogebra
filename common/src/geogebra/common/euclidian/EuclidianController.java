@@ -30,13 +30,10 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
-import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.algos.AlgoTranslate;
@@ -61,7 +58,6 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -320,7 +316,7 @@ public abstract class EuclidianController {
 	
 	protected final Localization l10n;
 
-	protected Kernel kernel;
+	public Kernel kernel;
 
 	protected GPoint startLoc;
 
@@ -342,7 +338,7 @@ public abstract class EuclidianController {
 
 	protected boolean mouseIsOverLabel = false;
 
-	protected EuclidianView view;
+	public EuclidianView view;
 
 	protected int collectingRepaints = 0; // if greater than 0, some repaints may be omitted
 
@@ -353,6 +349,8 @@ public abstract class EuclidianController {
 	private long lastMouseRelease;
 	
 	int index;
+	
+	protected EuclidianControllerCreator creator;
 	
 	ModeDelete getDeleteMode(){
 		if(deleteMode == null && view != null){
@@ -365,7 +363,18 @@ public abstract class EuclidianController {
 		this.app = app;
 		this.selection = app.getSelectionManager();
 		this.l10n = app.getLocalization();
+		this.creator = newCreator();
 	}
+	
+	public EuclidianControllerCreator getCreator(){
+		return creator;
+	}
+	
+	
+	protected EuclidianControllerCreator newCreator(){
+		return new EuclidianControllerCreator(this);
+	}
+	
 	/**
 	 * Start collecting the minor repaints (view.repaintView's not at the end of the events)
 	 * This method may be called more times, but there should be
@@ -700,109 +709,10 @@ public abstract class EuclidianController {
 		GeoElement a = hits.get(0);
 		GeoElement b = hits.get(1);
 		
-		return getSingleIntersectionPoint(a,b,true);
+		return creator.getSingleIntersectionPoint(a,b,true);
 	}
 	
-	/**
-	 * 
-	 * @param a first geo
-	 * @param b second geo
-	 * @return single intersection points from geos a,b
-	 */
-	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b, boolean coords2D) {
-		GeoPointND point = null;
-		
-		// first hit is a line
-		if (a.isGeoLine()) {
-			if (b.isGeoLine()) {
-				if (!((GeoLine) a).linDep((GeoLine) b)) {
-					point = getAlgoDispatcher()
-							.IntersectLines(null, (GeoLine) a, (GeoLine) b);
-				}else
-					return null;
-			} else if (b.isGeoConic()) {
-				point = getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) a,
-						(GeoConic) b, xRW, yRW);
-			} else if (b.isGeoCurveCartesian()) { 
-				return (GeoPointND) getAlgoDispatcher().IntersectLineCurve(null, (GeoLine) a, 
-						(GeoCurveCartesian) b)[0];
-			} else if (b.isGeoFunctionable()) {
-				// line and function
-				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
-				if (f.isPolynomialFunction(false)) {
-					point = getAlgoDispatcher().IntersectPolynomialLineSingle(null, f,
-							(GeoLine) a, xRW, yRW);
-				}
-				GeoPoint initPoint = new GeoPoint(
-						kernel.getConstruction());
-				initPoint.setCoords(xRW, yRW, 1.0);
-				point = getAlgoDispatcher().IntersectFunctionLine(null, f, (GeoLine) a,
-						initPoint);
-			} else {
-				return null;
-			}
-		}
-		// first hit is a conic
-		else if (a.isGeoConic()) {
-			if (b.isGeoLine()) {
-				point = getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) b,
-						(GeoConic) a, xRW, yRW);
-			} else if (b.isGeoConic() && !a.isEqual(b)) {
-				point = getAlgoDispatcher().IntersectConicsSingle(null, (GeoConic) a,
-						(GeoConic) b, xRW, yRW);
-			} else {
-				return null;
-			}
-		}
-		// first hit is a function
-		else if (a.isGeoFunctionable()) {
-			GeoFunction aFun = ((GeoFunctionable) a).getGeoFunction();
-			if (b.isGeoLine()) {
-				// line and function
-				if (aFun.isPolynomialFunction(false)) {
-					point = getAlgoDispatcher().IntersectPolynomialLineSingle(null, aFun,
-							(GeoLine) b, xRW, yRW);
-				} else {
-					GeoPoint initPoint = new GeoPoint(
-							kernel.getConstruction());
-					initPoint.setCoords(xRW, yRW, 1.0);
-					point = getAlgoDispatcher().IntersectFunctionLine(null, aFun,
-							(GeoLine) b, initPoint);
-				}
-			} else if (b.isGeoFunctionable()) {
-				GeoFunction bFun = ((GeoFunctionable) b).getGeoFunction();
-				if (aFun.isPolynomialFunction(false)
-						&& bFun.isPolynomialFunction(false)) {
-					return getAlgoDispatcher().IntersectPolynomialsSingle(null, aFun, bFun,
-							xRW, yRW);
-				}
-				GeoPoint initPoint = new GeoPoint(
-						kernel.getConstruction());
-				initPoint.setCoords(xRW, yRW, 1.0);
-				point = getAlgoDispatcher().IntersectFunctions(null, aFun, bFun,
-						initPoint);
-			} else {
-				return null;
-			}
-		} else if (a.isGeoCurveCartesian()) { 
-			if (b.isGeoCurveCartesian()) { 
-				return (GeoPointND) getAlgoDispatcher().IntersectCurveCurveSingle(null, (GeoCurveCartesian) a, 
-						(GeoCurveCartesian) b, xRW, yRW)[0]; 
-			} else if (b.isGeoLine()) { 
-				return (GeoPointND) getAlgoDispatcher().IntersectLineCurve(null, (GeoLine) b, 
-						(GeoCurveCartesian) a)[0]; 
-			}			
-		} 
 
-		if (point!=null) {
-			if (!coords2D) {
-				point.setCartesian3D();
-				point.update();
-			}
-		}
-		
-		return point;
-	}
 
 	/***************************************************************************
 	 * helper functions for selection sets
@@ -1132,7 +1042,7 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex) {
-		return createNewPoint(null, forPreviewable, path,
+		return creator.createNewPoint(null, forPreviewable, path,
 				Kernel.checkDecimalFraction(xRW),
 				Kernel.checkDecimalFraction(yRW), 0, complex, true);
 	}
@@ -1143,7 +1053,7 @@ public abstract class EuclidianController {
 				Kernel.checkDecimalFraction(yRW), 0, complex, true);
 	}
 
-	protected GeoPointND createNewPoint2D(String label, boolean forPreviewable, Path path, double x,
+	public GeoPointND createNewPoint2D(String label, boolean forPreviewable, Path path, double x,
 			double y, boolean complex, boolean coords2D) {
 		checkZooming(forPreviewable); 
 		
@@ -1174,22 +1084,7 @@ public abstract class EuclidianController {
 			}
 
 
-	/**
-	 * 
-	 * @param forPreviewable
-	 * @param path
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param complex
-	 * @param coords2D
-	 * @return new point for the path
-	 */
-	public GeoPointND createNewPoint(String label, boolean forPreviewable, Path path, double x,
-			double y, double z, boolean complex, boolean coords2D) {
-		
-		return createNewPoint2D(label, forPreviewable, path, x, y, complex, coords2D);
-	}
+	
 
 	public void setKernel(Kernel kernel) {
 		this.kernel = kernel;
@@ -1988,21 +1883,12 @@ public abstract class EuclidianController {
 
 	final private GeoElement[] segment() {
 		GeoPointND[] points = getSelectedPointsND();
-		GeoElement[] ret = segmentAlgo(kernel.getConstruction(), points[0], points[1]).getOutput();
+		GeoElement[] ret = creator.segmentAlgo(kernel.getConstruction(), points[0], points[1]).getOutput();
 		ret[0].setLabel(null);
 		return ret;
 	}
 	
-	/**
-	 * 
-	 * @param cons
-	 * @param p1
-	 * @param p2
-	 * @return segment [p1 p2] algorithm
-	 */
-	protected AlgoElement segmentAlgo(Construction cons, GeoPointND p1, GeoPointND p2){
-		return new AlgoJoinPointsSegment(cons, (GeoPoint) p1, (GeoPoint) p2, null);
-	}
+	
 
 	protected final GeoElement[] vector(Hits hits) {
 		if (hits.isEmpty()) {
@@ -2612,18 +2498,13 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
-				return orthogonal(points[0], lines[0]);
+				return creator.orthogonal(points[0], lines[0]);
 			}
 		}
 		return null;
 	}
 
-	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line) {
-		checkZooming(); 
-		
-		return new GeoElement[] { getAlgoDispatcher().OrthogonalLine(null,
-				(GeoPoint) point, (GeoLine) line) };
-	}
+
 
 
 	protected final GeoElement[] midpoint(Hits hits) {
@@ -2646,20 +2527,20 @@ public abstract class EuclidianController {
 			// fetch the two selected points
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 			
-			ret[0] = midpoint(points[0], points[1]);			
+			ret[0] = creator.midpoint(points[0], points[1]);			
 			ret[0].setLabel(null);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
 			GeoSegmentND[] segments = getSelectedSegmentsND();
 			checkZooming(); 
-			ret[0] = midpoint(segments[0]);
+			ret[0] = creator.midpoint(segments[0]);
 			return ret;
 		} else if (selConics() == 1) {
 			// fetch the selected segment
 			GeoConicND[] conics = getSelectedConicsND();
 			checkZooming(); 			
-			ret[0] = midpoint(conics[0]);
+			ret[0] = creator.midpoint(conics[0]);
 			return ret;
 		}
 		return null;
@@ -2667,42 +2548,11 @@ public abstract class EuclidianController {
 	
 	
 
-	/**
-	 * 
-	 * @param p1 first point
-	 * @param p2 second point
-	 * @return midpoint for two points
-	 */
-	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
-		
-		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) p1, (GeoPoint) p2);
-		return algo.getPoint();
-
-	}
+	
 
 
 
-	/**
-	 * 
-	 * @param segment
-	 * @return midpoint for segment
-	 */
-	protected GeoElement midpoint(GeoSegmentND segment){	
 
-		return getAlgoDispatcher().Midpoint(null, (GeoSegment) segment);
-
-	}
-
-	/**
-	 * 
-	 * @param conic
-	 * @return center of conic
-	 */
-	protected GeoElement midpoint(GeoConicND conic){	
-
-		return (GeoElement) getAlgoDispatcher().Center(null, conic);
-
-	}
 
 
 	protected final boolean functionInspector(Hits hits) {
@@ -2774,25 +2624,21 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = angularBisector(points[0], points[1], points[2]);
+			ret[0] = creator.angularBisector(points[0], points[1], points[2]);
 			return ret;
 		} else if (selLines() == 2) {
 			// fetch the two lines
 			GeoLineND[] lines = getSelectedLinesND();
 			checkZooming(); 
 			
-			return angularBisector(lines[0], lines[1]);
+			return creator.angularBisector(lines[0], lines[1]);
 		}
 		return null;
 	}
 	
-	protected GeoElement[] angularBisector(GeoLineND g, GeoLineND h){
-		return getAlgoDispatcher().AngularBisector(null, (GeoLine) g, (GeoLine) h);
-	}
 
-	protected GeoElement angularBisector(GeoPointND A, GeoPointND B, GeoPointND C){
-		return getAlgoDispatcher().AngularBisector(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
-	}
+
+
 
 
 	protected final GeoElement[] threePoints(Hits hits, int threePointsMode) {
@@ -2845,25 +2691,25 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = circumcircleArc(points[0], points[1], points[2]);
+			ret[0] = creator.circumcircleArc(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = circumcircleSector(points[0], points[1], points[2]);
+			ret[0] = creator.circumcircleSector(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = circleArc(points[0], points[1], points[2]);
+			ret[0] = creator.circleArc(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = circleSector(points[0], points[1], points[2]);
+			ret[0] = creator.circleSector(points[0], points[1], points[2]);
 			break;
 	
 		default:
@@ -2873,23 +2719,11 @@ public abstract class EuclidianController {
 		return ret;
 	}
 	
-	protected GeoElement circleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){
-		return getAlgoDispatcher().CircleArc(null, (GeoPoint) p1,
-				(GeoPoint) p2, (GeoPoint) p3);
-	}
+
 	
-	protected GeoElement circleSector(GeoPointND p1, GeoPointND p2, GeoPointND p3){
-		return getAlgoDispatcher().CircleArc(null, (GeoPoint) p1,
-				(GeoPoint) p2, (GeoPoint) p3);		
-	}
+
 	
-	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){
-		return getAlgoDispatcher().CircumcircleArc(null, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3);
-	}
 	
-	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2, GeoPointND p3){
-		return getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3);
-	}
 
 	protected final boolean relation(Hits hits) {
 		if (hits.isEmpty()) {
@@ -3354,11 +3188,7 @@ public abstract class EuclidianController {
 	}
 	
 
-	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {
-
-		return new GeoElement[] { getAlgoDispatcher().Circle(null, (GeoPoint) p0,
-				(GeoPoint) p1) };
-	}
+	
 
 	protected GeoElement[] switchModeForCircleOrSphere2(int sphereMode) {
 		checkZooming(); 
@@ -3368,7 +3198,7 @@ public abstract class EuclidianController {
 			return new GeoElement[] { getAlgoDispatcher().Semicircle(null,
 					(GeoPoint) points[0], (GeoPoint) points[1]) };
 		}
-		return createCircle2(points[0], points[1]);
+		return creator.createCircle2(points[0], points[1]);
 	
 	}
 
@@ -3540,7 +3370,7 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				checkZooming(); 
 				
-				return mirrorAtPoint(polys[0], points[0]);
+				return creator.mirrorAtPoint(polys[0], points[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
@@ -3551,9 +3381,9 @@ public abstract class EuclidianController {
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != point) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(mirrorAtPoint(geos[i], point)));
+							ret.addAll(Arrays.asList(creator.mirrorAtPoint(geos[i], point)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(mirrorAtPoint(geos[i], point)));
+							ret.addAll(Arrays.asList(creator.mirrorAtPoint(geos[i], point)));
 						}
 					}
 				}
@@ -3564,9 +3394,6 @@ public abstract class EuclidianController {
 		return null;
 	}
 	
-	protected GeoElement[] mirrorAtPoint(GeoElement geo, GeoPointND point){
-		return getAlgoDispatcher().Mirror(null, geo, (GeoPoint) point);		
-	}
 
 	protected final GeoElement[] mirrorAtLine(Hits hits) {
 		if (hits.isEmpty()) {
@@ -3608,9 +3435,9 @@ public abstract class EuclidianController {
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != line) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(mirrorAtLine(geos[i], line)));
+							ret.addAll(Arrays.asList(creator.mirrorAtLine(geos[i], line)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(mirrorAtLine(geos[i], line)));
+							ret.addAll(Arrays.asList(creator.mirrorAtLine(geos[i], line)));
 						}
 					}
 				}
@@ -3621,9 +3448,6 @@ public abstract class EuclidianController {
 		return null;
 	}
 	
-	protected GeoElement[] mirrorAtLine(GeoElement geo, GeoLineND line){
-		return getAlgoDispatcher().Mirror(null, geo, (GeoLine) line);		
-	}
 
 	protected final GeoElement[] mirrorAtCircle(Hits hits) {
 		if (hits.isEmpty()) {
@@ -3889,11 +3713,6 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec) {
-		checkZooming(); 
-		
-		return getAlgoDispatcher().Translate(null, geo, (GeoVector) vec);
-	}
 
 	protected final GeoElement[] translateByVector(Hits hits) {
 		if (hits.isEmpty()) {
@@ -3941,7 +3760,7 @@ public abstract class EuclidianController {
 					vec = (GeoVectorND) vector(ab[0], ab[1]);
 				}
 				allowSelectionRectangleForTranslateByVector = true;
-				return translate(polys[0], vec);
+				return creator.translate(polys[0], vec);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
@@ -3958,7 +3777,7 @@ public abstract class EuclidianController {
 						if ((geos[i] instanceof Translateable)
 								|| geos[i].isGeoPolygon()
 								|| geos[i].isGeoList()) {
-							ret.addAll(Arrays.asList(translate(geos[i], vec)));
+							ret.addAll(Arrays.asList(creator.translate(geos[i], vec)));
 						}
 					}
 				}
@@ -4084,9 +3903,6 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	public GeoElement[] dilateFromPoint(GeoElement geo, NumberValue num, GeoPointND point) {
-		return kernel.getAlgoDispatcher().Dilate(null,  geo, num, (GeoPoint) point);	
-	}
 	
 	protected final GeoElement[] fitLine(Hits hits) {
 	
@@ -4377,17 +4193,7 @@ public abstract class EuclidianController {
 		return transformCoordsOffset[i];
 	}
 
-	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
-		checkZooming(); 
-		
-		return getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
-	}
 
-	public GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoNumberValue num, boolean clockWise) {
-		return (GeoAngle) getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, num, !clockWise)[0];
-	}
-
-	
 
 	protected AlgoDispatcher getAlgoDispatcher() {
 		return kernel.getAlgoDispatcher();
@@ -4485,20 +4291,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 	
-	/**
-	 * 
-	 * @param geoPoint1 first point
-	 * @param geoPoint2 second point
-	 * @param value n vertices
-	 * @return regular polygon
-	 */
-	public GeoElement[] regularPolygon(GeoPointND geoPoint1, GeoPointND geoPoint2, GeoNumberValue value){
-		this.kernel.addingPolygon();
-		GeoElement[] elms = kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
-		this.kernel.notifyPolygonAdded();
-		return elms;
-		//return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
-	}
+	
 	
 	/**
 	 * add selected planes for angle tool (3D)
@@ -4554,20 +4347,20 @@ public abstract class EuclidianController {
 		GeoElement[] angles = null;
 		if (selPoints() == 3) {
 			GeoPointND[] points = getSelectedPointsND();
-			angle = createAngle(points[0], points[1], points[2]);
+			angle = creator.createAngle(points[0], points[1], points[2]);
 		} else if (selVectors() == 2) {
 			GeoVectorND[] vecs = getSelectedVectorsND();
 			checkZooming(); 
-			angle = createAngle(vecs[0], vecs[1]);
+			angle = creator.createAngle(vecs[0], vecs[1]);
 		} else if (selLines() == 2) {
 			GeoLineND[] lines = getSelectedLinesND();
 			checkZooming(); 
 			
-			angle = createLineAngle(lines[0], lines[1]);
+			angle = creator.createLineAngle(lines[0], lines[1]);
 		} else if (polyFound && (selGeos() == 1)) {
 			checkZooming(); 
 			
-			angles = createAngles((GeoPolygon) getSelectedGeos()[0]);
+			angles = creator.createAngles((GeoPolygon) getSelectedGeos()[0]);
 		} else { // 3D
 			angle = createAngle3D();
 		}
@@ -4603,18 +4396,7 @@ public abstract class EuclidianController {
 	}
 	
 	
-	protected GeoAngle createLineAngle(GeoLineND g, GeoLineND h){
-		return getAlgoDispatcher().createLineAngle((GeoLine) g, (GeoLine) h);
-	}
 
-	
-	protected GeoElement[] createAngles(GeoPolygon p){
-		return getAlgoDispatcher().Angles(null, p);
-	}
-
-	protected GeoAngle createAngle(GeoVectorND v1, GeoVectorND v2){
-		return getAlgoDispatcher().Angle(null, (GeoVector) v1, (GeoVector) v2);
-	}
 
 	private TextDispatcher textDispatcher;
 	
@@ -4804,7 +4586,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				// center point and segment
-				GeoElement circlel = circle(kernel.getConstruction(), centerPoint, segment);
+				GeoElement circlel = creator.circle(kernel.getConstruction(), centerPoint, segment);
 				GeoElement[] ret = { circlel };
 				clearSelections();
 				return ret;
@@ -4844,17 +4626,14 @@ public abstract class EuclidianController {
 		AlgoRadius radius = new AlgoRadius(cons, c);
 		cons.removeFromConstructionList(radius);
 
-		GeoConicND circle = circle(cons, A, radius.getRadius());
+		GeoConicND circle = creator.circle(cons, A, radius.getRadius());
 		circle.setToSpecific();
 		circle.update();
 		//notifyUpdate(circle);
 		return circle;
 	}
 	
-	protected GeoConicND circle(Construction cons, GeoPointND center, NumberValue radius){
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, null, (GeoPoint) center, radius);
-		return algo.getCircle();
-	}
+
 	
 	/**
 	 * circle with midpoint M and radius BC Michael Borcherds 2008-03-14
@@ -4863,10 +4642,10 @@ public abstract class EuclidianController {
 
 		Construction cons = kernel.getConstruction();
 
-		AlgoElement algoSegment = segmentAlgo(cons, B, C);
+		AlgoElement algoSegment = creator.segmentAlgo(cons, B, C);
 		cons.removeFromConstructionList(algoSegment);
 
-		GeoConicND circle = circle(cons, A, (NumberValue) algoSegment.getOutput(0));
+		GeoConicND circle = creator.circle(cons, A, (NumberValue) algoSegment.getOutput(0));
 		circle.setToSpecific();
 		circle.update();
 		//notifyUpdate(circle);
@@ -9866,7 +9645,7 @@ public abstract class EuclidianController {
 	 * when object created, make undo point if scroll wheel has been used
 	 * @param forPreviewable whether this is for preview only
 	 */
-	protected void checkZooming(boolean forPreviewable) {
+	public void checkZooming(boolean forPreviewable) {
 
 		/*
 		if (forPreviewable) {
