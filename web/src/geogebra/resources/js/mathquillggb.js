@@ -2032,6 +2032,7 @@ LatexCmds.ggbtdlL = bind(SomethingHTML, '\\ggbtdlL', ggbtdlLHTML);
 LatexCmds.ggbtdllL = bind(SomethingHTML, '\\ggbtdllL', ggbtdllLHTML);
 LatexCmds.ggbtdlrL = bind(SomethingHTML, '\\ggbtdlrL', ggbtdlrLHTML);
 
+// TextColorGeneric is a template for \textcolor, \fgcolor, \bgcolor
 // `\textcolor{color}{math}` will apply a color to the given math content, where
 // `color` is any valid CSS Color Value (see [SitePoint docs][] (recommended),
 // [Mozilla docs][], or [W3C spec][]).
@@ -2039,11 +2040,10 @@ LatexCmds.ggbtdlrL = bind(SomethingHTML, '\\ggbtdlrL', ggbtdlrLHTML);
 // [SitePoint docs]: http://reference.sitepoint.com/css/colorvalues
 // [Mozilla docs]: https://developer.mozilla.org/en-US/docs/CSS/color_value#Values
 // [W3C spec]: http://dev.w3.org/csswg/css3-color/#colorunits
-var TextColor = LatexCmds.textcolor = P(MathCommand, function(_, _super) {
+var TextColorGeneric = P(MathCommand, function(_, _super) {
   _.htmlTemplate = '<span>&0</span>';
   _.jQadd = function() {
     _super.jQadd.apply(this, arguments);
-    this.jQ.css('color', this.color);
   };
 
   _.parser = function() {
@@ -2057,24 +2057,31 @@ var TextColor = LatexCmds.textcolor = P(MathCommand, function(_, _super) {
       .then(regex(/^[^{}]*/))
       .skip(string('}'))
       .then(function(color) {
-        self.color = color;
+        self.color = color.length == 6 && /^[0-9a-f]*$/.test(color) ? "#"+color : color;
         return _super.parser.call(self);
       })
     ;
   };
 });
 
-var ForeGroundColor = LatexCmds.fgcolor = P(TextColor, function(_, _super) {
+var TextColor = LatexCmds.textcolor = P(TextColorGeneric, function(_, _super) {
+	  _.jQadd = function() {
+	    _super.jQadd.apply(this, arguments);
+	    this.jQ.css('color', this.color);
+	  };
+	});
+
+var ForeGroundColor = LatexCmds.fgcolor = P(TextColorGeneric, function(_, _super) {
   _.jQadd = function() {
     _super.jQadd.apply(this, arguments);
-    this.jQ.css('color', '#'+this.color);
+    this.jQ.css('color', this.color);
   };
 });
 
-var BackGroundColor = LatexCmds.bgcolor = P(TextColor, function(_, _super) {
+var BackGroundColor = LatexCmds.bgcolor = P(TextColorGeneric, function(_, _super) {
   _.jQadd = function() {
     _super.jQadd.apply(this, arguments);
-    this.jQ.css('backgroundColor', '#'+this.color);
+    this.jQ.css('backgroundColor', this.color);
   };
 });
 
