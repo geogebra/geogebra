@@ -1,10 +1,14 @@
 package geogebra.html5.gui.browser;
 
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppWeb;
@@ -25,7 +29,7 @@ import com.google.gwt.user.client.Window;
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler {
+public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler, EventRenderable {
   
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
@@ -55,6 +59,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		//this.fm = ((TouchApp) app).getFileManager();
 		this.app = app;
 		this.app.getNetworkOperation().getView().add(this);
+		this.app.getLoginOperation().getView().add(this);
 		addHeader();
 		addContent();
 
@@ -239,5 +244,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	public void setProvider(Provider provider){
 		this.provider = provider;
 	}
+
+	@Override
+    public void renderEvent(BaseEvent event) {
+	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
+	    	loadFeatured();
+	    }
+    }
 }
 
