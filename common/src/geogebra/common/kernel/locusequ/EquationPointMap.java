@@ -1,5 +1,6 @@
 package geogebra.common.kernel.locusequ;
 
+import geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
@@ -134,7 +135,8 @@ public class EquationPointMap {
                        p != this.movingPoint &&
                        !hasMovingPointAsPredecessor(p)) ||
                isIntersectionOfAxis(p) ||
-               isAuxiliarPointOnAPolygon(p);
+               isAuxiliarPointOnAPolygon(p) ||
+               (p.getParentAlgorithm() instanceof AlgoDynamicCoordinates);
     }
     
     /**
