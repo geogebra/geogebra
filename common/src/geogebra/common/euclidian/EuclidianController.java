@@ -178,7 +178,7 @@ public abstract class EuclidianController {
 
 	protected boolean movedGeoPointDragged = false;
 
-	protected GeoLine movedGeoLine;
+	protected GeoLineND movedGeoLine;
 
 	protected GeoConic movedGeoConic;
 
@@ -5898,14 +5898,23 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected final void moveLine(boolean repaint) {
+	protected void moveLine(boolean repaint) {
 		// make parallel geoLine through (xRW, yRW)
-		movedGeoLine.setCoords(movedGeoLine.x, movedGeoLine.y,
-				-((movedGeoLine.x * xRW) + (movedGeoLine.y * yRW)));
+		GeoLine line = (GeoLine) movedGeoLine;
+		line.setCoords(line.x, line.y,
+				-((line.x * xRW) + (line.y * yRW)));
+		
+		updateAfterMove(line, repaint);
+	}
+	
+	/**
+	 * update the moved geo
+	 */
+	protected final static void updateAfterMove(GeoElement geo, boolean repaint) {
 		if (repaint) {
-			movedGeoLine.updateRepaint();
+			geo.updateRepaint();
 		} else {
-			movedGeoLine.updateCascade();
+			geo.updateCascade();
 		}
 	}
 
@@ -7155,7 +7164,7 @@ public abstract class EuclidianController {
 		// free line
 		else if (movedGeoElement.isGeoLine()) {
 			moveMode = MOVE_LINE;
-			movedGeoLine = (GeoLine) movedGeoElement;
+			movedGeoLine = (GeoLineND) movedGeoElement;
 			view.setShowMouseCoords(true);
 			view.setDragCursor();
 		}

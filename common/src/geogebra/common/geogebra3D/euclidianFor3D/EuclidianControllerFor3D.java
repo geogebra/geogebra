@@ -3,9 +3,11 @@ package geogebra.common.geogebra3D.euclidianFor3D;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -475,4 +477,20 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 		
 		return super.circumcircleSector(p1, p2, p3);
 	}
+	
+	
+	@Override
+	protected final void moveLine(boolean repaint) {
+
+		if (movedGeoLine.isGeoElement3D()){
+			GeoLine3D line = (GeoLine3D) movedGeoLine;
+			Coords v = line.getDirectionInD3();
+			line.setCoord(new Coords(xRW, yRW, 0, 1), v);
+			updateAfterMove(line, repaint);
+		}else{
+			super.moveLine(repaint);			
+		}
+	}
+	
+	
 }
