@@ -509,22 +509,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public void resize(int width, int height) {
 		
-		int fullWidth = width;
-		int fullHeight = height;
 		int widthChanged = 0;
 		int heightChanged = 0;
 		Element geogebraFrame = ((AppW) app).getFrameElement();
 		
 		widthChanged = width - geogebraFrame.getOffsetWidth();
 		heightChanged = height - geogebraFrame.getOffsetHeight();		
-//		geogebraFrame.getStyle().setWidth(fullWidth - GeoGebraFrame.BORDER_WIDTH, Unit.PX);
-//		geogebraFrame.getStyle().setHeight(fullHeight - GeoGebraFrame.BORDER_HEIGHT, Unit.PX);
+
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
 			Widget root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged, root.getOffsetHeight() + heightChanged);		
 		}
-		App.printStacktrace("");
-		this.algebraInput.setWidth((width-100)+"px");
+		if(this.algebraInput != null){
+			this.algebraInput.setWidth((width-100)+"px");
+		}
 		//EuclidianPanelWAbstract epanel = ((AppW) app).getEuclidianViewpanel();
 		//epanel.setPixelSize(epanel.getOffsetWidth() + widthChanged, epanel.getOffsetHeight() + heightChanged );
 
