@@ -4,10 +4,10 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.geogebra3D.web.euclidianFor3D.EuclidianControllerFor3DW;
 import geogebra.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
 import geogebra.geogebra3D.web.kernel3D.Kernel3DW;
-import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
@@ -49,7 +49,6 @@ public class App3DW {
 	 */
 	static final public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel, EuclidianController ec, 
 			boolean[] showAxes, boolean showGrid, int id, EuclidianSettings settings){
-		App.debug("================= EuclidianViewFor3DW =====================");
 		return new EuclidianViewFor3DW(evPanel, ec, showAxes, showGrid, id, settings);
 	}
 
@@ -59,7 +58,7 @@ public class App3DW {
 	 * @return new euclidian controller
 	 */
 	static final public EuclidianController newEuclidianController(Kernel kernel) {
-		return new EuclidianControllerW(kernel);
+		return new EuclidianControllerFor3DW(kernel);
 
 	}
 		
