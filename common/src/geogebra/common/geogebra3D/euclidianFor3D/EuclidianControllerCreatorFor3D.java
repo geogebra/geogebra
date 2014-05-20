@@ -183,7 +183,7 @@ public class EuclidianControllerCreatorFor3D extends EuclidianControllerCreator 
 	 * @param b second geo
 	 * @return single intersection point
 	 */
-	protected GeoPointND getSingleIntersectionPointFrom2D(GeoElement a, GeoElement b, boolean coords2D) {
+	public GeoPointND getSingleIntersectionPointFrom2D(GeoElement a, GeoElement b, boolean coords2D) {
 		return super.getSingleIntersectionPoint(a, b, coords2D);
 	}
 
@@ -443,7 +443,6 @@ public class EuclidianControllerCreatorFor3D extends EuclidianControllerCreator 
 		
 		return super.circumcircleSector(p1, p2, p3);
 	}
-	
 	
 
 }

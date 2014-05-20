@@ -16,6 +16,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerCreatorFor3D;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
@@ -879,7 +880,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			yRW = project.getY();
 
 			// apply 2D method
-			point = getSingleIntersectionPointFrom2D(a, b, false);
+			point = ((EuclidianControllerCreatorFor3D) creator).getSingleIntersectionPointFrom2D(a, b, false);
 
 			// App.debug("\npoint="+point+"\nmouse=\n"+project);
 		}
