@@ -24,7 +24,7 @@ public class MaterialRequest implements Request
 	public enum Fields
 	{
 		id, title, type, description, timestamp, author, author_url, url, url_direct, language, thumbnail, featured, likes,
-		width, height, instructions_pre, instructions_post, ggbBase64;
+		width, height, instructions_pre, instructions_post, ggbBase64, toolbar, menubar, inputbar;
 	}
 
 	public enum Filters

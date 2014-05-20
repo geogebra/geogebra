@@ -307,7 +307,19 @@ public class Material implements Comparable<Material>
 		putString(ret,"ggbBase64", base64);
 		putString(ret,"height", height+"");
 		putString(ret,"width", width+"");
+		putString(ret,"instructions_pre", this.instructionsPre);
+		putString(ret,"instructions_post", this.instructionsPost);
+		putBoolean(ret,"toolbar", this.showToolbar);
+		putBoolean(ret,"menubar", this.showMenu);
+		putBoolean(ret,"inputbar", this.showInputbar);
 		return ret;
+	}
+
+	private void putBoolean(JSONObject ret, String key, boolean val) {
+		if(val){
+			ret.put(key, new JSONString("true"));
+		}
+		
 	}
 
 	private void putString(JSONObject ret, String key, String value) {
