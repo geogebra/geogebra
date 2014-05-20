@@ -19,7 +19,7 @@ import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
-import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
+import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 import geogebra3D.gui.view.algebra.AlgebraView3D;
@@ -228,7 +228,7 @@ public class GuiManager3D extends GuiManagerD {
 
 		EuclidianSettings settings = app.getSettings().getEuclidian(viewId);
 
-		return new EuclidianViewFor3D(new EuclidianControllerFor3DD(kernel),
+		return new EuclidianViewFor3DD(new EuclidianControllerFor3DD(kernel),
 				showAxis, showGrid, viewId, settings);
 	}
 

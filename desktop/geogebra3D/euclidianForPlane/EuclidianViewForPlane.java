@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -23,8 +24,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
-import geogebra3D.euclidianFor3D.DrawAngleFor3D;
-import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
+import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public class EuclidianViewForPlane extends EuclidianViewFor3D implements EuclidianViewForPlaneInterface {
+public class EuclidianViewForPlane extends EuclidianViewFor3DD implements EuclidianViewForPlaneInterface {
 
 	private ViewCreator plane;
 	

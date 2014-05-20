@@ -51,7 +51,7 @@ import geogebra3D.euclidian3D.opengl.GLFactoryD;
 import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
-import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
+import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import geogebra3D.euclidianForPlane.EuclidianControllerForPlaneD;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
@@ -162,7 +162,7 @@ public class App3D extends AppD {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1) {
-		return new EuclidianViewFor3D(euclidianController, showAxes1, showGrid1,
+		return new EuclidianViewFor3DD(euclidianController, showAxes1, showGrid1,
 				1, getSettings().getEuclidian(1));
 	}
 
