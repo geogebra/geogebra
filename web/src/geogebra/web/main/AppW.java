@@ -16,6 +16,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Language;
@@ -318,13 +319,29 @@ public abstract class AppW extends AppWeb {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes,
 	        boolean showGrid) {
-		return euclidianView = new EuclidianViewW(euclidianViewPanel,
+
+		return euclidianView = newEuclidianView(euclidianViewPanel,
 		        euclidianController, showAxes, showGrid, 1, getSettings()
-		                .getEuclidian(1));
+                .getEuclidian(1));
+	}
+	
+	/**
+	 * 
+	 * @param evPanel
+	 * @param ec
+	 * @param showAxes
+	 * @param showGrid
+	 * @param id
+	 * @param settings
+	 * @return new euclidian view
+	 */
+	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel, EuclidianController ec, 
+			boolean[] showAxes, boolean showGrid, int id, EuclidianSettings settings){
+		return new EuclidianViewW(evPanel, ec, showAxes, showGrid, id, settings);
 	}
 
 	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel) {
+	public EuclidianController newEuclidianController(Kernel kernel) {
 		return new EuclidianControllerW(kernel);
 
 	}

@@ -808,7 +808,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel1) {
+	public EuclidianController newEuclidianController(Kernel kernel1) {
 		return new EuclidianControllerD(kernel1);
 	}
 

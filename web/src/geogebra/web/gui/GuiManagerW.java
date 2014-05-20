@@ -31,7 +31,6 @@ import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
-import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.euclidian.EuclidianViewWInterface;
 import geogebra.web.gui.app.GGWMenuBar;
@@ -1220,10 +1219,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	protected EuclidianViewW newEuclidianView(boolean[] showAxis,
 			boolean showGrid, int id) {
 		if (id == 2) {
-			return new EuclidianViewW(getEuclidianView2DockPanel(), new EuclidianControllerW(kernel), showAxis,
+			return ((AppW) app).newEuclidianView(getEuclidianView2DockPanel(), app.newEuclidianController(kernel), showAxis,
 				showGrid, id, app.getSettings().getEuclidian(id));
 		}
-		return new EuclidianViewW(((AppW) app).getEuclidianViewpanel(), new EuclidianControllerW(kernel), showAxis,
+		return ((AppW) app).newEuclidianView(((AppW) app).getEuclidianViewpanel(), app.newEuclidianController(kernel), showAxis,
 			showGrid, id, app.getSettings().getEuclidian(id));
 	}
 

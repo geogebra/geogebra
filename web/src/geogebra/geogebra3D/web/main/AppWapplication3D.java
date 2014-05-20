@@ -1,14 +1,17 @@
 package geogebra.geogebra3D.web.main;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
-import geogebra.geogebra3D.web.kernel3D.Kernel3DW;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.euclidian.EuclidianPanelWAbstract;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.images.AppResources;
@@ -42,8 +45,10 @@ public class AppWapplication3D extends AppWapplication {
 	
 	@Override
     protected Kernel newKernel(App this_app){
-		return new Kernel3DW(this_app);
+		return App3DW.newKernel(this_app);
 	}
+	
+	
 	
 
 	@Override
@@ -69,7 +74,7 @@ public class AppWapplication3D extends AppWapplication {
 	
 	@Override
     protected GuiManagerW newGuiManager() {
-		return new GuiManager3DW(this);
+		return App3DW.newGuiManager(this);
 	}
 
 
@@ -122,5 +127,22 @@ public class AppWapplication3D extends AppWapplication {
 		super.updateStyleBars();
 		getEuclidianView3D().getStyleBar().updateStyleBar();
 	}
+	
+	
+	
+
+	@Override
+    public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel, EuclidianController ec, 
+			boolean[] showAxes, boolean showGrid, int id, EuclidianSettings settings){
+		return App3DW.newEuclidianView(evPanel, ec, showAxes, showGrid, id, settings);
+	}
+
+	@Override
+	public EuclidianController newEuclidianController(Kernel kernel) {
+		return App3DW.newEuclidianController(kernel);
+
+	}
+	
+	
 
 }

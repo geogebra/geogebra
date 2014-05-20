@@ -155,7 +155,7 @@ public class App3D extends AppD {
 
 	
 	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel) {
+	public EuclidianController newEuclidianController(Kernel kernel) {
 		return new EuclidianControllerFor3DD(kernel);
 	}
 

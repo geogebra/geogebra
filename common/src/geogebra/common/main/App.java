@@ -1989,7 +1989,7 @@ public abstract class App implements UpdateSelection{
 	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1);
 
-	abstract protected EuclidianController newEuclidianController(Kernel kernel1);
+	public abstract EuclidianController newEuclidianController(Kernel kernel1);
 
 	/**
 	 * Returns undo manager
