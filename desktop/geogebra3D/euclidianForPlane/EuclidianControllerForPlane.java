@@ -1,7 +1,8 @@
 package geogebra3D.euclidianForPlane;
 
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianControllerCreator;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -18,11 +19,17 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public abstract class EuclidianControllerForPlane extends EuclidianControllerFor3D {
+public abstract class EuclidianControllerForPlane extends EuclidianController {
 
 	public EuclidianControllerForPlane(App app) {
 		super(app);
 	}
+	
+	@Override
+	protected EuclidianControllerCreator newCreator(){
+		return new EuclidianControllerCreatorForPlane(this);
+	}
+	
 	
 	
 	private Coords getCoordsFromView(double x, double y){

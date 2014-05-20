@@ -2,6 +2,8 @@ package geogebra.common.geogebra3D.euclidian3D;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianControllerCreator;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
@@ -17,7 +19,6 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerCreatorFor3D;
-import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
@@ -77,7 +78,7 @@ import java.util.Iterator;
  * @author matthieu
  * 
  */
-public abstract class EuclidianController3D extends EuclidianControllerFor3D {
+public abstract class EuclidianController3D extends EuclidianController {
 
 	/** 3D point that is currently moved */
 	// protected GeoPoint3D movedGeoPoint3D = null;
@@ -181,6 +182,11 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 		yMinMax = new double[2];
 		zMinMax = new double[2];
 
+	}
+	
+	@Override
+	protected EuclidianControllerCreator newCreator(){
+		return new EuclidianControllerCreatorFor3D(this);
 	}
 
 	/**
