@@ -517,6 +517,12 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return !(heightMap == null && widthMap == null);
 	}
 
+	public boolean isAllDefaults() {
+		return (isDefaultPreferredSize() &&
+				isSelectionDefaults() &&
+				isLayoutDefaults() &&
+				!hasCellFormat());
+	}
 	public boolean isSelectionDefaults() {
 		return (HScrollBarValue == 0 && VScrollBarValue == 00 && 
 				selectedCell.getX() == 0 && selectedCell.getY() == 0);
@@ -531,7 +537,10 @@ public class SpreadsheetSettings extends AbstractSettings {
 				isDefaultShowBrowserPanel() &&
 				isDefaultColumnSelect() && 
 				isDefaultSpecialEditorAllowed() &&
-				isDefaultToolTipsAllowed());
+				isDefaultToolTipsAllowed() &&
+				isDefaultSpecialEditorAllowed() &&
+				!equalsRequired() &&
+				!isEnableAutoComplete());
 	}
 
 	public boolean isDefaultToolTipsAllowed() {
@@ -575,9 +584,218 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	public boolean isDefaultPreferredSize() {
-		return (preferredColumnWidth == 0 && preferredRowHeight == 0) ||
-				(preferredColumnWidth == TABLE_CELL_WIDTH
-					&& preferredRowHeight == TABLE_CELL_HEIGHT);
+		int w = preferredSize.getWidth();
+		int h = preferredSize.getHeight();
+		
+		return (w == 0 && h == 0) ||
+				(w == TABLE_CELL_WIDTH
+					&& h == TABLE_CELL_HEIGHT);
+	}
+	/**
+	 * returns settings in XML format
+	 */
+	public void getXML(StringBuilder sb, boolean asPreference) {
+		if (!hasInitialized() || isAllDefaults()) {
+			return;
+		}
+		sb.append("<spreadsheetView>\n");
+
+		GDimension size = preferredSize();
+		int width = size.getWidth();// getPreferredSize().width;
+		int height = size.getHeight();// getPreferredSize().height;
+
+		if (!isDefaultPreferredSize()) {
+			sb.append("\t<size ");
+			if (width != 0) {
+				sb.append(" width=\"");
+				sb.append(width);
+				sb.append("\"");
+			}
+
+			if (height != 0) {
+				sb.append(" height=\"");
+				sb.append(height);
+				sb.append("\"");
+			}
+
+			sb.append("/>\n");
+		}
+
+		int prefWidth = preferredColumnWidth();
+		int prefHeight = preferredRowHeight();
+
+		if (prefWidth != TABLE_CELL_WIDTH
+				|| prefHeight != TABLE_CELL_HEIGHT) {
+			sb.append("\t<prefCellSize ");
+			if (prefWidth != TABLE_CELL_WIDTH) {
+				sb.append(" width=\"");
+				sb.append(prefWidth);
+				sb.append("\"");
+			}
+
+			if (prefHeight != TABLE_CELL_HEIGHT) {
+
+				sb.append(" height=\"");
+				sb.append(prefHeight);
+				sb.append("\"");
+				sb.append("/>\n");
+			}
+		}
+
+		if (!asPreference) {
+
+			// column widths
+			HashMap<Integer, Integer> widthMap = getWidthMap();
+			for (Integer col : widthMap.keySet()) {
+				int colWidth = widthMap.get(col);
+				if (colWidth != preferredColumnWidth()) {
+					sb.append("\t<spreadsheetColumn id=\"" + col
+							+ "\" width=\"" + colWidth + "\"/>\n");
+				}
+			}
+
+			// row heights
+			HashMap<Integer, Integer> heightMap = getHeightMap();
+			for (Integer row : heightMap.keySet()) {
+				int rowHeight = heightMap.get(row);
+				if (rowHeight != preferredRowHeight()) {
+					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
+							+ rowHeight + "\"/>\n");
+				}
+			}
+
+			// initial selection
+			
+			if (!isSelectionDefaults()) {
+				sb.append("\t<selection ");
+
+				if (HScrollBarValue != 0) {
+					sb.append(" hScroll=\"");
+					sb.append(HScrollBarValue);
+					sb.append("\"");
+				}
+
+				if (VScrollBarValue != 0) {
+					sb.append(" vScroll=\"");
+					sb.append(VScrollBarValue);
+					sb.append("\"");
+				}
+
+				if (selectedCell.getX() != 0) {
+					sb.append(" column=\"");
+					sb.append(selectedCell.getX());
+					// sb.append(table.getColumnModel().getSelectionModel()
+					// .getAnchorSelectionIndex());
+					sb.append("\"");
+				}
+
+				if (selectedCell.getY() != 0) {
+					sb.append(" row=\"");
+					sb.append(selectedCell.getY());
+					// sb.append(table.getSelectionModel().getAnchorSelectionIndex());
+					sb.append("\"");
+
+					sb.append("/>\n");
+				}
+			}
+		}
+
+		// layout
+		if (!isLayoutDefaults()) {
+			sb.append("\t<layout ");
+
+			if (showFormulaBar) {
+				sb.append(" showFormulaBar=\"true\"");
+				sb.append(showFormulaBar() ? "true" : "false");
+				sb.append("\"");
+			}
+
+			if (showGrid) {
+				sb.append(" showGrid=\"true\"");
+			}
+
+			if (showHScrollBar) {
+				sb.append(" showHScrollBar=\"true\"");
+			}
+
+			if (showVScrollBar) {
+				sb.append(" showVScrollBar=\"true\"");
+			}
+
+			if (showBrowserPanel) {
+				sb.append(" showBrowserPanel=\"true\"");
+			}
+
+			if (showColumnHeader) {
+				sb.append(" showColumnHeader=\"true\"");
+			}
+
+			if (showRowHeader) {
+				sb.append(" showRowHeader=\"true\"");
+			}
+
+			if (allowSpecialEditor) {
+				sb.append(" allowSpecialEditor=\"true\"");
+			}
+
+			if (allowToolTips) {
+				sb.append(" allowToolTips=\"true\"");
+
+			}
+
+			if (equalsRequired){
+				sb.append(" equalsRequired=\"true\"");
+			}
+
+			if (enableAutoComplete) {
+				sb.append(" autoComplete=\"true\"");
+			}
+
+			sb.append("/>\n");
+		}
+
+		// ---- end layout
+
+		/*
+		 * // file browser if (isDefaultBrowser()) {
+		 * sb.append("\t<spreadsheetBrowser "); String initPath =
+		 * initialFilePath(); if (initPath != null &&
+		 * initPath.equals(defaultFile()) || initialURL() !=
+		 * DEFAULT_URL || initialBrowserMode() != DEFAULT_MODE) {
+		 * sb.append(" default=\""); sb.append("false"); sb.append("\"");
+		 * 
+		 * sb.append(" dir=\""); sb.append(initialFilePath());
+		 * sb.append("\"");
+		 * 
+		 * sb.append(" URL=\""); sb.append(initialURL());
+		 * sb.append("\"");
+		 * 
+		 * sb.append(" mode=\""); sb.append(initialBrowserMode());
+		 * sb.append("\"");
+		 * 
+		 * } else {
+		 * 
+		 * sb.append(" default=\""); sb.append("true"); sb.append("\""); }
+		 * 
+		 * sb.append("/>\n"); }
+		 */
+
+		// cell formats
+
+		if (!asPreference && hasCellFormat()) {
+			sb.append("\t<spreadsheetCellFormat formatMap=\"");
+			sb.append(cellFormat);
+			sb.append("\"/>\n");
+		}
+
+		sb.append("</spreadsheetView>\n");
+
+		// Application.debug(sb);
+
+	}
+
+	private boolean hasCellFormat() {
+		return cellFormat != null;
 	}
 
 }

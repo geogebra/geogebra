@@ -506,7 +506,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	@Override
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
-		SpreadsheetView.getXML(app, sb, asPreference);
+		app.getSettings().getSpreadsheet().getXML(sb, asPreference);
 	}
 
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
