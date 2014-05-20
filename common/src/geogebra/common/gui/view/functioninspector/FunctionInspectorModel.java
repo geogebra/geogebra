@@ -583,8 +583,8 @@ public class FunctionInspectorModel {
 	// ====================================================
 
 	public boolean isValid() {
-		return (selectedGeo == null && testPoint == null && lowPoint == null
-				&& highPoint == null);
+		return !(selectedGeo == null || testPoint == null || lowPoint == null
+				|| highPoint == null);
 	}
 	public void update(GeoElement geo, boolean isPoints) {
 

@@ -385,7 +385,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 	 * Updates the interval table. The max, min, roots, area etc. for the
 	 * current interval are calculated and put into the IntervalTable model.
 	 */
-	private void updateIntervalTable() {
+	protected void updateIntervalTable() {
 
 		isChangingValue = true;
 		getModel().updateIntervalTable();

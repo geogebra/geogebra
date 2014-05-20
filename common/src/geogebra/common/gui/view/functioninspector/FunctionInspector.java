@@ -133,6 +133,8 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 		} else {
 			updatePointsTab();
 		}
+		
+		setLabels();
 	}
 
 	/**
@@ -154,7 +156,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	 * Updates the interval table. The max, min, roots, area etc. for the
 	 * current interval are calculated and put into the IntervalTable model.
 	 */
-	private void updateIntervalTable() {
+	protected void updateIntervalTable() {
 
 		isChangingValue = true;
 		getModel().updateIntervalTable();
