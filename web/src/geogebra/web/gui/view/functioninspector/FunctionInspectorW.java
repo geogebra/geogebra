@@ -1,19 +1,33 @@
 package geogebra.web.gui.view.functioninspector;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.main.Localization;
 import geogebra.html5.awt.GColorW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.MyToggleButton2;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FunctionInspectorW extends FunctionInspector {
@@ -22,16 +36,26 @@ public class FunctionInspectorW extends FunctionInspector {
 	private static final GColor DISPLAY_GEO_COLOR = GColorW.RED;
 	private static final GColor DISPLAY_GEO2_COLOR = GColorW.RED;
 	private static final GColor EVEN_ROW_COLOR = new GColorW(241, 245, 250);
-	private static final GColor TABLE_GRID_COLOR = GColorW.gray;  
+	private static final GColor TABLE_GRID_COLOR = GColorW.gray;
+	private static final int TAB_INTERVAL_IDX = 0;  
 	
 	private TabPanel tabPanel;
 	private FlowPanel intervalTab;
 	private FlowPanel pointsTab;
-	private ToggleButton btnTable;
-    private ToggleButton btnXYSegments;
-	private ToggleButton btnTangent;
-    private ToggleButton btnOscCircle;
-	
+	private MyToggleButton2 btnTable;
+    private MyToggleButton2 btnXYSegments;
+	private MyToggleButton2 btnTangent;
+    private MyToggleButton2 btnOscCircle;
+    private Label lblGeoName, lblStep, lblInterval;
+	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
+//	private Button btnRemoveColumn, btnHelp;
+	//private PopupMenuButton btnAddColumn, btnOptions;
+//	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
+
+	private boolean isChangingValue;
+	private int pointCount = 9;
+
+	private GeoElementSelectionListener sl;
     public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 	    super(app, selectedGeo);
 	    // TODO Auto-generated constructor stub
@@ -53,7 +77,47 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public void setLabels() {
-		// TODO Auto-generated method stub
+		Localization loc = getAppW().getLocalization();
+//		wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
+		lblStep.setText(loc.getMenu("Step") + ":");
+		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
+//
+//		// header text
+//		String[] intervalColumnNames = { loc.getPlain("fncInspector.Property"),
+//				loc.getPlain("fncInspector.Value") };
+//		modelInterval.setColumnIdentifiers(intervalColumnNames);
+//
+//		tabPanel.setTitleAt(1, loc.getPlain("fncInspector.Points"));
+//		tabPanel.setTitleAt(0, loc.getPlain("fncInspector.Interval"));
+		lblGeoName.setText(getModel().getTitleString());
+//
+//		// tool tips
+//		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
+		btnOscCircle.setToolTipText(loc
+				.getPlainTooltip("fncInspector.showOscCircle"));
+		btnXYSegments.setToolTipText(loc
+				.getPlainTooltip("fncInspector.showXYLines"));
+		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
+		btnTangent.setToolTipText(loc
+				.getPlainTooltip("fncInspector.showTangent"));
+//		btnAddColumn.setToolTipText(loc
+//				.getPlainTooltip("fncInspector.addColumn"));
+//		btnRemoveColumn.setToolTipText(loc
+//				.getPlainTooltip("fncInspector.removeColumn"));
+//		fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
+//		lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
+//
+//		// add/remove extra column buttons
+//		btnRemoveColumn.setText("\u2718");
+//		// btnAddColumn.setText("\u271A");
+//
+//		Container c = btnAddColumn.getParent();
+//		c.removeAll();
+//		createBtnAddColumn();
+//		c.add(btnAddColumn);
+//		c.add(btnRemoveColumn);
+//
+//		createOptionsButton();
 
 	}
 
@@ -89,8 +153,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public void setGeoName(String name) {
-		// TODO Auto-generated method stub
-
+		lblGeoName.setText(name);
 	}
 
 	public void changeTableSelection() {
@@ -99,17 +162,25 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public void updateHighAndLow(boolean isAscending, boolean isLowSelected) {
-		// TODO Auto-generated method stub
+		if (isAscending) {
+			if (isLowSelected) {
+				doTextFieldActionPerformed(fldLow);
+			} else {
+				doTextFieldActionPerformed(fldHigh);
+			}
 
+		}
+
+		updateIntervalFields();
 	}
 
 	public void setStepText(String text) {
-		// TODO Auto-generated method stub
-
+		fldStep.setText(text);
 	}
 
 	public void setStepVisible(boolean isVisible) {
-		// TODO Auto-generated method stub
+		lblStep.setVisible(isVisible);
+		fldStep.setVisible(isVisible);
 
 	}
 
@@ -146,6 +217,13 @@ public class FunctionInspectorW extends FunctionInspector {
 		tabPanel = new TabPanel(); 
 		tabPanel.add(intervalTab, "Interval");
 		tabPanel.add(pointsTab, "Points");
+		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+			
+			public void onSelection(SelectionEvent<Integer> event) {
+				updateTabPanels();
+			}
+		});
+	//	tabPanel.selectTab(TAB_INTERVAL_IDX);
 	}
 
 	@Override
@@ -163,49 +241,238 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
+		intervalTab.add(lblGeoName);
+		FlowPanel toolBar = new FlowPanel();
+		toolBar.setStyleName("panelRow");
+		toolBar.add(fldLow);
+		toolBar.add(lblInterval);
+		toolBar.add(fldHigh);
+		intervalTab.add(toolBar);
+		intervalTab.setStyleName("propertiesTab");
+		
 	}
-
 	@Override
 	protected void createTabPointPanel() {
 		pointsTab = new FlowPanel();
+		pointsTab.setStyleName("propertiesTab");
 		FlowPanel btnPanel = new FlowPanel();
-		btnTable = new ToggleButton(new Image(AppResources.INSTANCE.table().getSafeUri()));
-		btnXYSegments = new ToggleButton(new Image(AppResources.INSTANCE.xy_segments().getSafeUri()));
-		btnTangent = new ToggleButton(new Image(AppResources.INSTANCE.tangent_line().getSafeUri()));
-		btnOscCircle = new ToggleButton(new Image(AppResources.INSTANCE.osculating_circle().getSafeUri()));
+		btnPanel.setStyleName("panelRowIndent");
+		btnTable = new MyToggleButton2(new Image(AppResources.INSTANCE.table().getSafeUri()));
+		btnXYSegments = new MyToggleButton2(new Image(AppResources.INSTANCE.xy_segments().getSafeUri()));
+		btnTangent = new MyToggleButton2(new Image(AppResources.INSTANCE.tangent_line().getSafeUri()));
+		btnOscCircle = new MyToggleButton2(new Image(AppResources.INSTANCE.osculating_circle().getSafeUri()));
 		
 		btnPanel.add(btnTable);
 		btnPanel.add(btnXYSegments);
 		btnPanel.add(btnTangent);
 		btnPanel.add(btnOscCircle);
 		
+		ClickHandler btnClick = new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				updateGUI();
+			}
+		};
 	
+		btnTable.addClickHandler(btnClick);
+		btnXYSegments.addClickHandler(btnClick);
+		btnTangent.addClickHandler(btnClick);
+		btnOscCircle.addClickHandler(btnClick);
+		btnXYSegments.setSelected(true);
+		
 		pointsTab.add(btnPanel);
 		
 	}
 
 	@Override
 	protected void createGUIElements() {
-		// TODO Auto-generated method stub
+
+		//		tableXY = new InspectorTable(app, this, minRows, InspectorTable.TYPE_XY);
+//		modelXY = new DefaultTableModel();
+//		modelXY.addColumn("x");
+//		modelXY.addColumn("y(x)");
+//		modelXY.setRowCount(pointCount);
+//		tableXY.setModel(modelXY);
+//
+//		tableXY.getSelectionModel().addListSelectionListener(this);
+//		// tableXY.addKeyListener(this);
+//		tableXY.setMyCellEditor(0);
+//
+//		// create interval table
+//		tableInterval = new InspectorTable(app, this, minRows,
+//				InspectorTable.TYPE_INTERVAL);
+//		modelInterval = new DefaultTableModel();
+//		modelInterval.setColumnCount(2);
+//		modelInterval.setRowCount(pointCount);
+//		tableInterval.setModel(modelInterval);
+//		tableInterval.getSelectionModel().addListSelectionListener(
+//				new ListSelectionListener() {
+//					public void valueChanged(ListSelectionEvent e) {
+//						getModel().updateIntervalGeoVisiblity();
+//					}
+//				});
+
+		lblGeoName = new Label(getModel().getTitleString());
+
+		lblStep = new Label();
+		InputPanelW stepPanel = new InputPanelW(null, getAppW(), -1, false);
+		fldStep = stepPanel.getTextComponent();
+
+		fldStep.addKeyHandler(new KeyHandler(){
+
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldStep);	    
+				}
+			}
+
+		});
+		
+		fldStep.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				doTextFieldActionPerformed(fldStep);	    
+			}
+		});
+		
+		fldStep.setColumns(6);
+
+		lblInterval = new Label();
+		InputPanelW lowPanel = new InputPanelW(null, getAppW(), -1, false);
+		fldLow = lowPanel.getTextComponent();
+		fldLow.setColumns(6);
+		
+		fldLow.addKeyHandler(new KeyHandler(){
+
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldLow);	    
+				}
+			}
+
+		});
+		
+		fldLow.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				doTextFieldActionPerformed(fldLow);	    
+			}
+		});
+	
+		
+		InputPanelW highPanel = new InputPanelW(null, getAppW(), -1, false);
+		fldHigh = highPanel.getTextComponent();
+		fldHigh.setColumns(6);
+		
+		fldHigh.addKeyHandler(new KeyHandler(){
+
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldHigh);	    
+				}
+			}
+
+		});
+		
+		fldHigh.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				doTextFieldActionPerformed(fldHigh);	    
+			}
+		});
+		
+//		btnRemoveColumn = new JButton();
+//		btnRemoveColumn.addActionListener(this);
+//
+//		btnHelp = new JButton(app.getImageIcon("help.png"));
+//		btnHelp.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				Thread runner = new Thread() {
+//					@Override
+//					public void run() {
+//						((GuiManagerD) app.getGuiManager())
+//								.openHelp("Function_Inspector_Tool");
+//					}
+//				};
+//				runner.start();
+//			}
+//		});
+//		btnHelp.setFocusable(false);
+//
+//		createBtnAddColumn();
+//	
+	}
+
+	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
+		try {
+
+			String inputText = source.getText().trim();
+			if (inputText == null)
+				return;
+
+			// allow input such as sqrt(2)
+			NumberValue nv;
+			nv = getKernel().getAlgebraProcessor().evaluateToNumeric(inputText,
+					false);
+			double value = nv.getDouble();
+
+			if (source == fldStep) {
+				getModel().applyStep(value);
+				updateXYTable();
+			} else if (source == fldLow) {
+				isChangingValue = true;
+
+				getModel().applyLow(value);
+
+				isChangingValue = false;
+				updateIntervalTable();
+			} else if (source == fldHigh) {
+				isChangingValue = true;
+
+				getModel().applyHigh(value);
+
+				isChangingValue = false;
+				updateIntervalTable();
+			}
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
 
 	}
 
+	private AppW getAppW() {
+	    return (AppW)getApp();
+    }
+
 	@Override
 	protected void updatePointsTab() {
-		// TODO Auto-generated method stub
+		getModel().updatePoints(btnTangent.isSelected(),
+				btnOscCircle.isSelected(), btnXYSegments.isSelected(),
+				btnTable.isSelected());
 
 	}
 
 	@Override
 	protected boolean isIntervalTabSelected() {
-		// TODO Auto-generated method stub
-		return false;
+		return tabPanel.getTabBar().getSelectedTab() == TAB_INTERVAL_IDX;
 	}
 
 	@Override
 	protected void updateIntervalFields() {
-		// TODO Auto-generated method stub
 
+		if (isIntervalTabSelected()) {
+
+			double[] coords = new double[3];
+			getModel().getLowPoint().getCoords(coords);
+			//fldLow.setText(nf.format(coords[0]));
+			fldLow.setText(coords[0] +"");
+				getModel().getHighPoint().getCoords(coords);
+//			fldHigh.setText(nf.format(coords[0]));
+			fldHigh.setText(coords[0]+"");
+			getModel().updateIntervalTable();
+			//?? updateIntervalTable();
+		}
 	}
 
 	@Override
