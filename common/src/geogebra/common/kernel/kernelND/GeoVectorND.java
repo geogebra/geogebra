@@ -51,5 +51,13 @@ public interface GeoVectorND extends GeoDirectionND, Locateable {
 	 */
 	public boolean getTrace();
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param w
+	 */
+	public void setCoords(double x, double y, double w);
+
 	
 }

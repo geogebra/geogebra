@@ -102,6 +102,16 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		coordsys.makeOrthoMatrix(false,false);
 	}
 	
+
+	/**
+	 * set the line to pass through (pointX, pointY)
+	 * @param pointX x coord
+	 * @param pointY y coord
+	 */
+	final public void setLineThrough(double pointX, double pointY) {
+		setCoord(new Coords(pointX, pointY, 0, 1), getDirectionInD3());
+	}
+	
 	
 	/** set coords to origin O and vector (I-O).
 	 * If I (or O) is infinite, I is used as direction vector.

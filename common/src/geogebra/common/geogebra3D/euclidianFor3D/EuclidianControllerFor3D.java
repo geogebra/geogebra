@@ -2,10 +2,7 @@ package geogebra.common.geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianControllerCreator;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -85,28 +82,5 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 	
 	
 	
-	
-	@Override
-	protected final void moveLine(boolean repaint) {
-
-		if (movedGeoLine.isGeoElement3D()){
-			GeoLine3D line = (GeoLine3D) movedGeoLine;
-			Coords v = line.getDirectionInD3();
-			line.setCoord(new Coords(xRW, yRW, 0, 1), v);
-			updateAfterMove(line, repaint);
-		}else{
-			super.moveLine(repaint);			
-		}
-	}
-	
-	
-	@Override
-	protected void moveVector(double x, double y){
-		if (movedGeoVector.isGeoElement3D()){
-			((GeoVector3D) movedGeoVector).setCoords(x, y, 0, 0);
-		}else{
-			super.moveVector(x, y);			
-		}
-	}
 	
 }

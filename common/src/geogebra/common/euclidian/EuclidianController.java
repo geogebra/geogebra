@@ -5679,11 +5679,8 @@ public abstract class EuclidianController {
 
 	protected void moveLine(boolean repaint) {
 		// make parallel geoLine through (xRW, yRW)
-		GeoLine line = (GeoLine) movedGeoLine;
-		line.setCoords(line.x, line.y,
-				-((line.x * xRW) + (line.y * yRW)));
-		
-		updateAfterMove(line, repaint);
+		movedGeoLine.setLineThrough(xRW, yRW);
+		updateAfterMove((GeoElement) movedGeoLine, repaint);
 	}
 	
 	/**
@@ -5710,8 +5707,8 @@ public abstract class EuclidianController {
 		
 	}
 	
-	protected void moveVector(double x, double y){
-		((GeoVector) movedGeoVector).setCoords(x, y, 0.0);
+	protected final void moveVector(double x, double y){
+		movedGeoVector.setCoords(x, y, 0.0);
 	}
 
 	protected final void moveVectorStartPoint(boolean repaint) {

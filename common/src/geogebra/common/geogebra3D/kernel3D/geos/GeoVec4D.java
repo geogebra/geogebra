@@ -51,6 +51,10 @@ public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 		setCoords(new double[] { x, y, z, w });
 	}
 
+	public void setCoords(double x, double y, double w) {
+		setCoords(x, y, 0, w);
+	}
+
 	public double getX() {
 		return getCoords().get(1);
 	}

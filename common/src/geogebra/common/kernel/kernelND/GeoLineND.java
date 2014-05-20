@@ -139,5 +139,12 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @return copy
 	 */
 	public GeoLineND copy();
+	
+	/**
+	 * make parallel line through (pointX, pointY)
+	 * @param pointX x coord
+	 * @param pointY y coord
+	 */
+	public void setLineThrough(double pointX, double pointY);
 
 }

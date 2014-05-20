@@ -153,6 +153,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		// Application.debug("x="+x+", y="+y+", z="+z);
 	}
+	
+	
+	/**
+	 * set the line to pass through (pointX, pointY)
+	 * @param pointX x coord
+	 * @param pointY y coord
+	 */
+	final public void setLineThrough(double pointX, double pointY) {
+		setCoords(x, y, -((x * pointX) + (y * pointY)));
+	}
 
 	@Override
 	final public void setCoords(GeoVec3D v) {
