@@ -6837,6 +6837,8 @@ public abstract class EuclidianController {
 
 	private GPoint lastMouseUpLoc;
 
+	private boolean checkboxChangeOccured = false;
+
 	protected void wrapMouseclicked(boolean control, int clickCount, PointerEventType type) {
 
 		// double-click on object selects MODE_MOVE and opens redefine dialog
@@ -7443,7 +7445,7 @@ public abstract class EuclidianController {
 				selection.removeSelectedGeo(movedGeoBoolean); // make sure doesn't get
 														// selected
 				movedGeoBoolean.updateCascade();
-	
+				this.checkboxChangeOccured = true;
 			}
 	
 			// move checkbox
@@ -9159,7 +9161,8 @@ public abstract class EuclidianController {
 		startCollectingMinorRepaints();
 	
 		// remember helper point, see createNewPoint()
-		if (changedKernel && !changedKernel0) {
+		if ((changedKernel || this.checkboxChangeOccured) && !changedKernel0) {
+			this.checkboxChangeOccured = false;
 			app.storeUndoInfo();
 		}
 	
