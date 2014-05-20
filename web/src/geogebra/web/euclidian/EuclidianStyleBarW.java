@@ -484,6 +484,9 @@ public class EuclidianStyleBarW extends StyleBarW
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
 		// -----------------------------------------------------
+		if (activeGeoList == null){
+			return;
+		}
 		double l = System.currentTimeMillis();
 		Object[] geos = activeGeoList.toArray();
 		tableText = EuclidianStyleBarStatic.updateTableText(geos, mode);
@@ -505,7 +508,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	
 
 	public void updateVisualStyle(GeoElement geo) {
-		if(activeGeoList.contains(geo)){
+		if(activeGeoList!=null && activeGeoList.contains(geo)){
 			if(!visible){
 				this.waitingOperation = StyleBarMethod.UPDATE_STYLE;
 				return;
