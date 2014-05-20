@@ -1926,6 +1926,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	/**
+	 * tranform point coords in view coords
+	 * @param point point
+	 * @return point coords in view coords
+	 */
+	public Coords getCoordsForView(GeoPointND point) {
+		return point.getInhomCoords();
+	}
+
+	
+	/**
 	 * return null if classic 2D view
 	 * 
 	 * @return matrix representation of the plane shown by this view

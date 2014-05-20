@@ -6,6 +6,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianViewD;
 
@@ -69,7 +70,10 @@ public class EuclidianViewFor3D extends EuclidianViewD {
 	}
 	
 	
-	
+	@Override
+	public Coords getCoordsForView(GeoPointND point) {
+		return getCoordsForView(point.getInhomCoordsInD(3));
+	}
 	
 	
 }

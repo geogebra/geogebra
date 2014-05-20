@@ -5,6 +5,7 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Matrix.Coords;
@@ -492,5 +493,14 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 		}
 	}
 	
+	
+	@Override
+	protected void moveVector(double x, double y){
+		if (movedGeoVector.isGeoElement3D()){
+			((GeoVector3D) movedGeoVector).setCoords(x, y, 0, 0);
+		}else{
+			super.moveVector(x, y);			
+		}
+	}
 	
 }

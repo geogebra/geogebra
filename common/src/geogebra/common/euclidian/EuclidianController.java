@@ -184,7 +184,7 @@ public abstract class EuclidianController {
 
 	protected GeoImplicitPoly movedGeoImplicitPoly;
 
-	protected GeoVector movedGeoVector;
+	protected GeoVectorND movedGeoVector;
 
 	protected GeoText movedGeoText;
 
@@ -5921,18 +5921,18 @@ public abstract class EuclidianController {
 	protected final void moveVector(boolean repaint) {
 		GeoPointND P = movedGeoVector.getStartPoint();
 		if (P == null) {
-			movedGeoVector.setCoords(xRW - transformCoordsOffset[0], yRW
-					- transformCoordsOffset[1], 0.0);
+			moveVector(xRW - transformCoordsOffset[0], yRW - transformCoordsOffset[1]);
 		} else {
-			Coords c = P.getInhomCoords();
-			movedGeoVector.setCoords(xRW - c.getX(), yRW - c.getY(), 0.0);
+			Coords c = view.getCoordsForView(P);
+			moveVector(xRW - c.getX(), yRW - c.getY());
 		}
+		
+		updateAfterMove((GeoElement) movedGeoVector, repaint);
+		
+	}
 	
-		if (repaint) {
-			movedGeoVector.updateRepaint();
-		} else {
-			movedGeoVector.updateCascade();
-		}
+	protected void moveVector(double x, double y){
+		((GeoVector) movedGeoVector).setCoords(x, y, 0.0);
 	}
 
 	protected final void moveVectorStartPoint(boolean repaint) {
@@ -7171,7 +7171,7 @@ public abstract class EuclidianController {
 	
 		// free vector
 		else if (movedGeoElement.isGeoVector()) {
-			movedGeoVector = (GeoVector) movedGeoElement;
+			movedGeoVector = (GeoVectorND) movedGeoElement;
 	
 			// change vector itself or move only startpoint?
 			// if vector is dependent or
@@ -7183,14 +7183,15 @@ public abstract class EuclidianController {
 				double sx = 0;
 				double sy = 0;
 				if (sP != null) {
-					Coords c = sP.getInhomCoords();
+					Coords c = view.getCoordsForView(sP);
 					sx = c.getX();
 					sy = c.getY();
 				}
 				// if |mouse - startpoint| < 1/2 * |vec| then move
 				// startpoint
+				Coords vCoords = view.getCoordsForView(movedGeoVector.getCoordsInD(3));
 				if ((2d * MyMath.length(xRW - sx, yRW - sy)) < MyMath.length(
-						movedGeoVector.x, movedGeoVector.y)) { // take
+						vCoords.getX(), vCoords.getY())) { // take
 					// startPoint
 					moveMode = MOVE_VECTOR_STARTPOINT;
 					if (sP == null) {
