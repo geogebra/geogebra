@@ -137,7 +137,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
 		Editable modelInterval = tableInterval.getModel();
-		modelInterval.setColumNames(getModel().getIntervalColumnNames());
+		//modelInterval.setColumNames(getModel().getIntervalColumnNames());
 		modelInterval.removeAll();
 		for (int i = 0; i < property.size(); i++) {
 			modelInterval.addRow(i, new Object[]{property.get(i), value.get(i)});
