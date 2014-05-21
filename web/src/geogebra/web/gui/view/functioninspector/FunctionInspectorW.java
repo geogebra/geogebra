@@ -18,6 +18,8 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
+import org.gwt.advanced.client.datamodel.Editable;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,6 +29,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -48,6 +51,8 @@ public class FunctionInspectorW extends FunctionInspector {
     private MyToggleButton2 btnOscCircle;
     private Label lblGeoName, lblStep, lblInterval;
 	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
+	private InspectorTableW tableXY, tableInterval;
+//	private NumberFormat fmt;
 //	private Button btnRemoveColumn, btnHelp;
 	//private PopupMenuButton btnAddColumn, btnOptions;
 //	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
@@ -58,7 +63,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private GeoElementSelectionListener sl;
     public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 	    super(app, selectedGeo);
-	    // TODO Auto-generated constructor stub
+	//    fmt = NumberFormat.getDecimalFormat();
     }
 
 	public void reset() {
@@ -83,12 +88,11 @@ public class FunctionInspectorW extends FunctionInspector {
 		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
 //
 //		// header text
-//		String[] intervalColumnNames = { loc.getPlain("fncInspector.Property"),
-//				loc.getPlain("fncInspector.Value") };
-//		modelInterval.setColumnIdentifiers(intervalColumnNames);
-//
-//		tabPanel.setTitleAt(1, loc.getPlain("fncInspector.Points"));
-//		tabPanel.setTitleAt(0, loc.getPlain("fncInspector.Interval"));
+		//
+		TabBar tabBar = tabPanel.getTabBar();
+		tabBar.setTabText(0, loc.getPlain("fncInspector.Interval"));
+		tabBar.setTabText(1, loc.getPlain("fncInspector.Points"));
+		tableInterval.display();
 		lblGeoName.setText(getModel().getTitleString());
 //
 //		// tool tips
@@ -127,15 +131,21 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public String format(double value) {
-		// TODO Auto-generated method stub
-		return null;
+		return ""+value;
 	}
 
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
-		// TODO Auto-generated method stub
+		Editable modelInterval = tableInterval.getModel();
+		modelInterval.setColumNames(getModel().getIntervalColumnNames());
+		modelInterval.removeAll();
+		for (int i = 0; i < property.size(); i++) {
+			modelInterval.addRow(i, new Object[]{property.get(i), value.get(i)});
 
+		}
+		tableInterval.display();
 	}
+	
 
 	public void setXYValueAt(Double value, int row, int col) {
 		// TODO Auto-generated method stub
@@ -217,13 +227,15 @@ public class FunctionInspectorW extends FunctionInspector {
 		tabPanel = new TabPanel(); 
 		tabPanel.add(intervalTab, "Interval");
 		tabPanel.add(pointsTab, "Points");
+		tabPanel.selectTab(TAB_INTERVAL_IDX);
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 			
 			public void onSelection(SelectionEvent<Integer> event) {
 				updateTabPanels();
 			}
 		});
-	//	tabPanel.selectTab(TAB_INTERVAL_IDX);
+		tabPanel.setStyleName("propertiesTab");
+		setLabels();
 	}
 
 	@Override
@@ -242,6 +254,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
 		intervalTab.add(lblGeoName);
+
+		tableInterval = new InspectorTableW(InspectorTableW.INTERVAL_TABLE);
+		intervalTab.add(tableInterval);
 		FlowPanel toolBar = new FlowPanel();
 		toolBar.setStyleName("panelRow");
 		toolBar.add(fldLow);
