@@ -2030,8 +2030,8 @@ __GGB__keysVar.ug.menu = {
  ***********************************************/
 
 __GGB__keysVar.ug.plain = {
-    "ADecimalPlace": "%0 Decimal Place",
-    "ADecimalPlaces": "%0 Decimal Places",
+    "ADecimalPlace": "%0:\u0626\u0648\u0646\u0644\u06c7\u0642 \u0643\u06d5\u0633\u0649\u0631 \u0686\u0649\u0643\u062a\u0649\u062f\u0649\u0646 \u0643\u0649\u064a\u0646\u0643\u0649",
+    "ADecimalPlaces": "%0:\u0626\u0648\u0646\u0644\u06c7\u0642 \u0643\u06d5\u0633\u0649\u0631 \u0686\u0649\u0643\u062a\u0649\u062f\u0649\u0646 \u0643\u0649\u064a\u0646\u0643\u0649",
     "ADerivativeOfB": "%0 derivative of %1",
     "ADilatedByFactorBfromC": "%0 dilated by factor %1 from %2",
     "ADoesNotIntersectWithB": "%0 does not intersect with %1",
@@ -2655,6 +2655,10 @@ __GGB__keysVar.ug.plain = {
     "TitleExportPgf": "GeoGebra to PGF Export",
     "TitleExportPstricks": "GeoGebra to PSTricks Export",
     "ToggleStyleBar": "Toggle Style Bar",
+    "Tool_DontReplace": "Don't Replace",
+    "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
+    "Tool_Replace": "Replace",
+    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
     "ToolbarIcon": "Toolbar Icon",
     "ToolbarIconsConstructionProtocolExport": "Display Toolbar Icons",
     "TooltipLanguage": "Tooltip Language",
