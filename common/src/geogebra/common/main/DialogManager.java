@@ -222,7 +222,7 @@ public abstract class DialogManager {
 
 
 		// negative orientation ?
-		if (ec.viewOrientationForClockwise(clockwise)) {
+		if (ec.getCreator().viewOrientationForClockwise(clockwise)) {
 			inputText = "-(" + inputText + ")";
 		}
 
@@ -247,7 +247,7 @@ public abstract class DialogManager {
 
 			if (polys.length == 1) {
 
-				GeoElement[] geos = ec.rotateByAngle(polys[0], num, points[0]);
+				GeoElement[] geos = ec.getCreator().rotateByAngle(polys[0], num, points[0]);
 				if (geos != null) {
 					app.storeUndoInfo();
 					ec.memorizeJustCreatedGeos(geos);
@@ -260,9 +260,9 @@ public abstract class DialogManager {
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != points[0]) {
 					if (selGeos[i] instanceof Transformable) {
-						ret.addAll(Arrays.asList(ec.rotateByAngle(selGeos[i], num, points[0])));
+						ret.addAll(Arrays.asList(ec.getCreator().rotateByAngle(selGeos[i], num, points[0])));
 					} else if (selGeos[i].isGeoPolygon()) {
-						ret.addAll(Arrays.asList(ec.rotateByAngle(selGeos[i], num, points[0])));
+						ret.addAll(Arrays.asList(ec.getCreator().rotateByAngle(selGeos[i], num, points[0])));
 					}
 				}
 			}

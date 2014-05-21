@@ -26,7 +26,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.Path;
-import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
@@ -170,9 +169,9 @@ public abstract class EuclidianController {
 
 	protected GeoFunction tempFunction;
 
-	protected GeoPointND movedGeoPoint;
+	public GeoPointND movedGeoPoint;
 
-	protected boolean movedGeoPointDragged = false;
+	public boolean movedGeoPointDragged = false;
 
 	protected GeoLineND movedGeoLine;
 
@@ -1028,30 +1027,9 @@ public abstract class EuclidianController {
 				|| app.isOnTheFlyPointCreationActive();
 	}
 
-	/**
-	 * @param forPreviewable in 3D we might want a preview 
-	 */
-	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
-		
-		checkZooming(forPreviewable); 
-		
-		GeoPointND ret = getAlgoDispatcher().Point(null,
-				Kernel.checkDecimalFraction(xRW),
-				Kernel.checkDecimalFraction(yRW), complex);
-		return ret;
-	}
 
-	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex) {
-		return creator.createNewPoint(null, forPreviewable, path,
-				Kernel.checkDecimalFraction(xRW),
-				Kernel.checkDecimalFraction(yRW), 0, complex, true);
-	}
 
-	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex) {
-		return createNewPoint(null, forPreviewable, region,
-				Kernel.checkDecimalFraction(xRW),
-				Kernel.checkDecimalFraction(yRW), 0, complex, true);
-	}
+
 
 	public GeoPointND createNewPoint2D(String label, boolean forPreviewable, Path path, double x,
 			double y, boolean complex, boolean coords2D) {
@@ -3831,20 +3809,6 @@ public abstract class EuclidianController {
 	}
 	
 	
-	public GeoElement[] rotateByAngle(GeoElement geoRot, GeoNumberValue phi, GeoPointND Q) {
-		
-		return kernel.getAlgoDispatcher().Rotate(null, geoRot, phi, Q);
-	}
-	
-	/**
-	 * 
-	 * @param clockwise
-	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it in the view
-	 * (used for EuclidianViewForPlane)
-	 */
-	public boolean viewOrientationForClockwise(boolean clockwise){
-		return clockwise;
-	}
 
 
 	protected final GeoElement[] dilateFromPoint(Hits hits) {
@@ -4908,13 +4872,13 @@ public abstract class EuclidianController {
 					transformCoords(); // use point capturing if on
 					// branches reordered to prefer path, and then region
 					if ((path != null) && onPathPossible) {
-						point = createNewPoint(forPreviewable, path, complex);
+						point = creator.createNewPoint(forPreviewable, path, complex);
 						//App.debug(path);
 					} else if ((region != null) && inRegionPossible) {
-						point = createNewPoint(forPreviewable, region, complex);
+						point = creator.createNewPoint(forPreviewable, region, complex);
 						//App.debug(region);
 					} else {
-						point = createNewPoint(forPreviewable, complex);
+						point = creator.createNewPoint(forPreviewable, complex);
 						view.setShowMouseCoords(true);
 					}
 				}
@@ -5446,20 +5410,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void processModeLock(Path path) {
-		checkZooming();
-		
-		GeoPoint p = getAlgoDispatcher().Point(null, path, xRW, yRW, false, false, true);
-		p.update();
-		xRW = p.inhomX;
-		yRW = p.inhomY;
-	}
 
-	protected void processModeLock(GeoPointND point) {
-		Coords coords = point.getInhomCoordsInD(2);
-		xRW = coords.getX();
-		yRW = coords.getY();
-	}
 
 	public void processModeLock() {
 	
@@ -5474,9 +5425,9 @@ public abstract class EuclidianController {
 		if (getTopHits.size() > 0) {
 			GeoElement geo = getTopHits.get(0);
 			if (Test.PATH_NO_FILL_HIT.check(geo) && !geo.isGeoPolygon()) {
-				processModeLock((Path) geo);
+				creator.processModeLock((Path) geo);
 			} else if (geo.isGeoPoint()) {
-				processModeLock((GeoPointND) geo);
+				creator.processModeLock((GeoPointND) geo);
 			} else {
 				transformCoords(); // grid lock
 			}
@@ -5607,62 +5558,6 @@ public abstract class EuclidianController {
 		kernel.notifyRepaint();
 	}
 
-	protected void movePoint(boolean repaint, AbstractEvent event) {
-		movedGeoPoint.setCoords(Kernel.checkDecimalFraction(xRW),
-				Kernel.checkDecimalFraction(yRW), 1.0);
-
-		if (event.isAltDown()) {
-
-			// 1/24 -> steps of 15 degrees (for circle)
-			// otherwise use Object Properties -> Algebra -> Increment
-			//double multiplier = event.isAltDown() ? 1.0/24.0 : movedGeoPoint.getAnimationStep();
-			
-			double multiplier = movedGeoPoint.getAnimationStep();
-			
-			int n = (int) Math.ceil(1.0 / multiplier);
-			
-			if (n < 1) {
-				n = 1;
-			}
-
-			if (movedGeoPoint.hasPath()) {
-
-				double dist = Double.MAX_VALUE;
-
-				Path path = movedGeoPoint.getPath();
-
-				double t = movedGeoPoint.getPathParameter().t;
-
-				// convert to 0 <= t < 1
-				t = PathNormalizer.toNormalizedPathParameter(t, path.getMinParameter(), path.getMaxParameter());
-
-				double t_1 = t;
-
-				// find closest parameter
-				// avoid rounding errors by using an int & multiplier
-				for (int i = 0 ; i < n ; i ++) {
-					if (Math.abs(t - i * multiplier) < dist) {
-						t_1 = i * multiplier;
-						dist = Math.abs(t - i * multiplier);
-					}
-				}
-
-				movedGeoPoint.getPathParameter().t = PathNormalizer.toParentPathParameter(t_1, path.getMinParameter(), path.getMaxParameter());
-
-				path.pathChanged(movedGeoPoint);
-				movedGeoPoint.updateCoords();
-
-			}
-		}
-
-
-		((GeoElement) movedGeoPoint).updateCascade();
-		movedGeoPointDragged = true;
-
-		if (repaint) {
-			kernel.notifyRepaint();
-		}
-	}
 
 	protected void movePointWithOffset(boolean repaint) {
 		movedGeoPoint.setCoords(
@@ -6201,9 +6096,6 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
-		return list;
-	}
 
 	protected void moveMultipleObjects(boolean repaint) {
 		translationVec.setX(xRW - getStartPointX());
@@ -6212,7 +6104,7 @@ public abstract class EuclidianController {
 		startLoc = mouseLoc;
 	
 		// move all selected geos
-		GeoElement.moveObjects(removeParentsOfView(getAppSelectedGeos()),
+		GeoElement.moveObjects(creator.removeParentsOfView(getAppSelectedGeos()),
 				translationVec, new Coords(xRW, yRW, 0), null);
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -7447,7 +7339,7 @@ public abstract class EuclidianController {
 			break;
 	
 		case MOVE_POINT:
-			movePoint(repaint, event);
+			creator.movePoint(repaint, event);
 			break;
 	
 		case MOVE_POINT_WITH_OFFSET:

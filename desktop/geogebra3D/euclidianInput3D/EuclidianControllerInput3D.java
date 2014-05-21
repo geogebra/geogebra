@@ -1,9 +1,9 @@
 package geogebra3D.euclidianInput3D;
 
+import geogebra.common.euclidian.EuclidianControllerCreator;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -35,7 +35,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	private Input3D input3D;
 	
 
-	private Coords mouse3DPosition, startMouse3DPosition, glassesPosition;
+	protected Coords mouse3DPosition;
+
+
+	protected Coords startMouse3DPosition;
+
+
+	private Coords glassesPosition;
 	
 	private Quaternion mouse3DOrientation, startMouse3DOrientation;
 	private Coords rotV;
@@ -98,6 +104,11 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 		
 		
+	}
+	
+	@Override
+	protected EuclidianControllerCreator newCreator(){
+		return new EuclidianControllerCreatorInput3D(this);
 	}
 	
 	private void setPositionXYOnPanel(double[] absolutePos, Coords panelPos){
@@ -400,7 +411,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	
-	private Coords movedGeoPointStartCoords = new Coords(0,0,0,1);
+	protected Coords movedGeoPointStartCoords = new Coords(0,0,0,1);
 	
 	@Override
 	protected void updateMovedGeoPointStartValues(Coords coords){
@@ -408,26 +419,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 	
 	
-	@Override
-	protected void movePoint(boolean repaint, AbstractEvent event){
-		
-		
-		Coords v = new Coords(4);
-		v.set(mouse3DPosition.sub(startMouse3DPosition));
-		view3D.toSceneCoords3D(v);
-		
-		
-		
-		movedGeoPoint.setCoords(movedGeoPointStartCoords.add(v), true);
-		movedGeoPoint.updateCascade();
-
-
-		if (movedGeoPoint.isGeoElement3D() && !movedGeoPoint.hasPath() && !movedGeoPoint.hasRegion()){
-			//update point decorations
-			view3D.updatePointDecorations((GeoPoint3D) movedGeoPoint);
-		}
-
-	}
 
 
 	/**
@@ -438,18 +429,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		return input3D.isLeftPressed() || input3D.isRightPressed();
 	}
 	
-	@Override
-	protected GeoPoint3D createNewFreePoint(boolean complex){
-		GeoPoint3D point3D = view3D.getCursor3D();	
-		point3D.setPath(null);
-		point3D.setRegion(null);
-		
-		Coords coords = view3D.getPickPoint(mouseLoc).copyVector();
-		view3D.toSceneCoords3D(coords);
-		point3D.setCoords(coords);
-		
-		return point3D;
-	}
 	
 	
 	@Override

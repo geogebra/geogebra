@@ -84,7 +84,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// protected GeoPoint3D movedGeoPoint3D = null;
 
 	/** min/max values for moving a point */
-	private double[] xMinMax, yMinMax, zMinMax;
+	private double[] xMinMax, yMinMax;
+
+	double[] zMinMax;
 
 	/** current plane where the movedGeoPoint3D lies */
 	protected CoordMatrix4x4 currentPlane = null;
@@ -186,8 +188,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	
 	@Override
 	protected EuclidianControllerCreator newCreator(){
-		return new EuclidianControllerCreatorFor3D(this);
+		return new EuclidianControllerCreator3D(this);
 	}
+	
 
 	/**
 	 * sets the view controlled by this
@@ -258,7 +261,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * @return the current plane
 	 */
-	private CoordMatrix4x4 getCurrentPlane() {
+	protected CoordMatrix4x4 getCurrentPlane() {
 		return currentPlane;
 	}
 
@@ -268,7 +271,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param plane
 	 *            a plane
 	 */
-	private void setCurrentPlane(CoordMatrix4x4 plane) {
+	protected void setCurrentPlane(CoordMatrix4x4 plane) {
 		currentPlane = plane;
 	}
 
@@ -292,7 +295,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param useOldMouse
 	 *            if true, shift the point according to old mouse location
 	 */
-	private void movePointOnCurrentPlane(GeoPoint3D point, boolean useOldMouse) {
+	protected void movePointOnCurrentPlane(GeoPoint3D point, boolean useOldMouse) {
 
 		// Michael Borcherds
 		// move mouse fast, sometimes get mouseLoc = null
@@ -324,7 +327,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		point.setCoords(project);
 	}
 
-	private void checkXYMinMax(Coords v) {
+	protected void checkXYMinMax(Coords v) {
 		// min-max x value
 		if (v.getX() > xMinMax[1])
 			v.setX(xMinMax[1]);
@@ -377,125 +380,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				1.0);
 	}
 
-	@Override
-	protected void movePoint(boolean repaint, AbstractEvent event) {
 
-		// Application.debug("movePointMode="+movePointMode);
-
-		if (movedGeoPoint instanceof GeoPoint3D) {
-			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) movedGeoPoint;
-
-			if (movedGeoPoint3D.hasPath()) {
-
-				setMouseInformation(movedGeoPoint3D);
-				movedGeoPoint3D.doPath();
-
-			} else if (movedGeoPoint3D.hasRegion()) {
-
-				setMouseInformation(movedGeoPoint3D);
-				movedGeoPoint3D.doRegion();
-				if (movedGeoPoint3D.getRegion() == view3D.getxOyPlane()) {
-					Coords coords = movedGeoPoint3D.getCoords();
-					checkXYMinMax(coords);
-					movedGeoPoint3D.setWillingCoords(coords);
-					movedGeoPoint3D.setWillingDirection(null);
-					movedGeoPoint3D.doRegion();
-				}
-				view3D.getCursor3D().setMoveNormalDirection(
-						movedGeoPoint3D.getRegionParameters().getNormal());
-
-			} else {
-
-				// if (isShiftDown && mouseLoc != null){ //moves the point along
-				// z-axis
-				if (movedGeoPoint.getMoveMode() == GeoPointND.MOVE_MODE_Z) { // moves
-																				// the
-																				// point
-																				// along
-																				// z-axis
-
-					/*
-					 * //getting current pick point and direction v if
-					 * (movePointMode != MOVE_POINT_MODE_Z){ mouseLocOld =
-					 * (Point) mouseLoc.clone(); positionOld =
-					 * movedGeoPoint3D.getCoords().copyVector(); movePointMode =
-					 * MOVE_POINT_MODE_Z; }
-					 */
-					Coords o = view3D.getPickPoint(mouseLoc);
-					view3D.toSceneCoords3D(o);
-					// GgbVector o =
-					// view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y);
-					// view3D.toSceneCoords3D(o);
-
-					// getting new position of the point
-					Coords project = movedGeoPoint3D.getCoords()
-							.projectNearLine(o, view3D.getViewDirection(),
-									Coords.VZ);
-
-					// max z value
-					if (project.getZ() > zMinMax[1])
-						project.setZ(zMinMax[1]);
-					else if (project.getZ() < zMinMax[0])
-						project.setZ(zMinMax[0]);
-
-					movedGeoPoint3D.setCoords(project);
-
-					// update the moving plane altitude
-					getCurrentPlane().set(movedGeoPoint3D.getCoords(), 4);
-
-				} else {
-
-					movePointOnCurrentPlane(movedGeoPoint3D, false);
-
-				}
-
-				// update point decorations
-				view3D.updatePointDecorations(movedGeoPoint3D);
-
-			}
-
-			// update 3D cursor coordinates (false : no path or region update)
-			view3D.getCursor3D().setCoords(movedGeoPoint3D.getCoords(), false);
-			view3D.updateMatrixForCursor3D();
-
-			if (repaint) {
-				movedGeoPoint3D.updateRepaint();// for highlighting in
-												// algebraView
-			} else {
-				movedGeoPoint3D.updateCascade();// TODO modify
-												// movedGeoPoint3D.updateCascade()
-			}
-
-			// update previewable
-			if (view.getPreviewDrawable() != null)
-				view.updatePreviewable();
-
-			// geo point has been moved
-			movedGeoPointDragged = true;
-
-		} else {
-			Coords o = view3D.getPickPoint(mouseLoc);
-			view3D.toSceneCoords3D(o);
-			// TODO do this once
-			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
-			// view3D.toSceneCoords3D(view3D.getViewDirection());
-			Coords coords = o.projectPlaneThruVIfPossible(
-					CoordMatrix4x4.Identity(), view3D.getViewDirection())[1]; // TODO
-																				// use
-																				// current
-																				// region
-																				// instead
-																				// of
-																				// identity
-			xRW = coords.getX();
-			yRW = coords.getY();
-			super.movePoint(repaint, mouseEvent);
-
-			view3D.getCursor3D()
-					.setCoords(movedGeoPoint.getCoordsInD(3), false);
-
-		}
-	}
 
 	// ////////////////////////////////////////////
 	// creating a new point
@@ -687,74 +572,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// Application.debug("\nintersectionPoint="+intersectionPoint);
 	}
 
-	/**
-	 * create a new free point or update the preview point
-	 */
-	@Override
-	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
 
-		GeoPoint3D point3D;
 
-		if (!forPreviewable) {
-			// if there's "no" 3D cursor, no point is created
-			if (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE)
-				return null;
-			point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0, 0, 0,
-					false);
-		} else {
-			point3D = createNewFreePoint(complex);
-			if (point3D == null)
-				return null;
-			point3D.setPath(null);
-			point3D.setRegion(null);
-			view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_FREE);
-			return point3D;
-		}
 
-		setCurrentPlane(CoordMatrix4x4.Identity());
-		movePointOnCurrentPlane(point3D, false);
-
-		return point3D;
-	}
-
-	/**
-	 * 
-	 * @param complex
-	 *            says if complex coords are wanted
-	 * @return new free point (eventually on xOy plane with 2D mouse)
-	 */
-	protected GeoPoint3D createNewFreePoint(boolean complex) {
-		return (GeoPoint3D) createNewPoint(true, view3D.getxOyPlane(), complex);
-	}
-
-	/**
-	 * create a new path point or update the preview point
-	 */
-	@Override
-	protected GeoPointND createNewPoint(boolean forPreviewable, Path path,
-			boolean complex) {
-
-		GeoPoint3D point3D;
-
-		if (!forPreviewable)
-			point3D = (GeoPoint3D) getKernel().getManager3D().Point3D(null,
-					path, false);
-		else {
-			point3D = view3D.getCursor3D();
-			point3D.setPath(path);
-			point3D.setRegion(null);
-			view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_PATH);
-		}
-
-		setMouseInformation(point3D);
-		/*
-		 * if (((GeoElement) path).isGeoList())
-		 * Application.printStacktrace("TODO: path==GeoList"); else
-		 */
-		point3D.doPath();
-
-		return point3D;
-	}
 
 	@Override
 	protected boolean createNewPointInRegionPossible(GeoConicND conic) {
@@ -763,55 +583,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 
-	/**
-	 * create a new region point or update the preview point
-	 */
-	@Override
-	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
-			boolean complex) {
-
-		GeoPoint3D point3D;
-
-		point3D = view3D.getCursor3D();
-		point3D.setPath(null);
-		point3D.setRegion(region);
-
-		setMouseInformation(point3D);
-		point3D.doRegion();
-		point3D.setMoveNormalDirection(point3D.getRegionParameters()
-				.getNormal());
-
-		// App.debug(point3D);
-
-		if (region == view3D.getxOyPlane()) {
-			Coords coords = point3D.getInhomCoords();
-			if (coords.getX() < view3D.getxOyPlane().getXmin()
-					|| coords.getX() > view3D.getxOyPlane().getXmax()
-					|| coords.getY() < view3D.getxOyPlane().getYmin()
-					|| coords.getY() > view3D.getxOyPlane().getYmax()) {
-				view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
-				return null;
-			}
-		}
-
-		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);
-
-		if (!forPreviewable) {
-			GeoPoint3D ret = (GeoPoint3D) getKernel().getManager3D().Point3DIn(
-					null, region, false);
-			ret.set((GeoElement) point3D);
-			// ret.setRegion(region);
-			ret.doRegion();
-
-			// Application.debug("ici");
-
-			return ret;
-		}
-
-		return point3D;
-
-	}
-
+	
 	/*
 	 * protected void updateMovedGeoPoint(GeoPointND point){ //movedGeoPoint3D =
 	 * (GeoPoint3D) point; setMovedGeoPoint((GeoPoint3D) point); }

@@ -1,7 +1,12 @@
 package geogebra.common.euclidian;
 
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathNormalizer;
+import geogebra.common.kernel.Region;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -24,6 +29,8 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+
+import java.util.ArrayList;
 
 /**
  * Class that creates geos for EuclidianController.
@@ -322,4 +329,130 @@ public class EuclidianControllerCreator {
 	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2, GeoPointND p3){
 		return ec.getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3);
 	}
+	
+	
+	protected void movePoint(boolean repaint, AbstractEvent event) {
+		ec.movedGeoPoint.setCoords(Kernel.checkDecimalFraction(ec.xRW),
+				Kernel.checkDecimalFraction(ec.yRW), 1.0);
+
+		if (event.isAltDown()) {
+
+			// 1/24 -> steps of 15 degrees (for circle)
+			// otherwise use Object Properties -> Algebra -> Increment
+			//double multiplier = event.isAltDown() ? 1.0/24.0 : movedGeoPoint.getAnimationStep();
+			
+			double multiplier = ec.movedGeoPoint.getAnimationStep();
+			
+			int n = (int) Math.ceil(1.0 / multiplier);
+			
+			if (n < 1) {
+				n = 1;
+			}
+
+			if (ec.movedGeoPoint.hasPath()) {
+
+				double dist = Double.MAX_VALUE;
+
+				Path path = ec.movedGeoPoint.getPath();
+
+				double t = ec.movedGeoPoint.getPathParameter().t;
+
+				// convert to 0 <= t < 1
+				t = PathNormalizer.toNormalizedPathParameter(t, path.getMinParameter(), path.getMaxParameter());
+
+				double t_1 = t;
+
+				// find closest parameter
+				// avoid rounding errors by using an int & multiplier
+				for (int i = 0 ; i < n ; i ++) {
+					if (Math.abs(t - i * multiplier) < dist) {
+						t_1 = i * multiplier;
+						dist = Math.abs(t - i * multiplier);
+					}
+				}
+
+				ec.movedGeoPoint.getPathParameter().t = PathNormalizer.toParentPathParameter(t_1, path.getMinParameter(), path.getMaxParameter());
+
+				path.pathChanged(ec.movedGeoPoint);
+				ec.movedGeoPoint.updateCoords();
+
+			}
+		}
+
+
+		((GeoElement) ec.movedGeoPoint).updateCascade();
+		ec.movedGeoPointDragged = true;
+
+		if (repaint) {
+			ec.kernel.notifyRepaint();
+		}
+	}
+	
+	
+	/**
+	 * @param forPreviewable in 3D we might want a preview 
+	 */
+	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
+		
+		ec.checkZooming(forPreviewable); 
+		
+		GeoPointND ret = ec.getAlgoDispatcher().Point(null,
+				Kernel.checkDecimalFraction(ec.xRW),
+				Kernel.checkDecimalFraction(ec.yRW), complex);
+		return ret;
+	}
+	
+	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex) {
+		return createNewPoint(null, forPreviewable, path,
+				Kernel.checkDecimalFraction(ec.xRW),
+				Kernel.checkDecimalFraction(ec.yRW), 0, complex, true);
+	}
+	
+
+	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex) {
+		return ec.createNewPoint(null, forPreviewable, region,
+				Kernel.checkDecimalFraction(ec.xRW),
+				Kernel.checkDecimalFraction(ec.yRW), 0, complex, true);
+	}
+	
+	protected void processModeLock(GeoPointND point) {
+		Coords coords = point.getInhomCoordsInD(2);
+		ec.xRW = coords.getX();
+		ec.yRW = coords.getY();
+	}
+	
+
+	protected void processModeLock(Path path) {
+		ec.checkZooming();
+		
+		GeoPoint p = ec.getAlgoDispatcher().Point(null, path, ec.xRW, ec.yRW, false, false, true);
+		p.update();
+		ec.xRW = p.inhomX;
+		ec.yRW = p.inhomY;
+	}
+
+	protected ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
+		return list;
+	}
+
+	
+	/**
+	 * 
+	 * @param clockwise
+	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it in the view
+	 * (used for EuclidianViewForPlane)
+	 */
+	public boolean viewOrientationForClockwise(boolean clockwise){
+		return clockwise;
+	}
+	
+
+	public GeoElement[] rotateByAngle(GeoElement geoRot, GeoNumberValue phi, GeoPointND Q) {
+		
+		return ec.kernel.getAlgoDispatcher().Rotate(null, geoRot, phi, Q);
+	}
+	
+
+
+
 }
