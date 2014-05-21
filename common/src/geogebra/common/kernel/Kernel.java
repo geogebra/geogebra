@@ -3087,12 +3087,14 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * Clears all views, even if notifyViewsActive is false
+	 */
 	protected final void notifyClearView() {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				view.clearView();
-			}
+		for (View view : views) {
+			view.clearView();
 		}
+		
 	}
 
 	public void clearJustCreatedGeosInViews() {
