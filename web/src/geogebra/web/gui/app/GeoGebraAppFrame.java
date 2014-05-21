@@ -5,6 +5,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.JSON;
@@ -126,7 +127,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	private void geoIPCall() {
 		
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(GeoGebraConstants.GEOIP_URL));
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(Browser.normalizeURL(GeoGebraConstants.GEOIP_URL)));
 		
 		try {
 			Request request = builder.sendRequest(null, new RequestCallback() {
