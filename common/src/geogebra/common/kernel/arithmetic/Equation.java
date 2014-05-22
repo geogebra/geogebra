@@ -465,19 +465,30 @@ public class Equation extends ValidExpression {
         }
         return sb.toString();
 	}
-	
+
 	@Override
 	public String toString(StringTemplate tpl) {
+		
+		return toString(tpl, this.lhs);
+	}
+	
+	/**
+	 * 
+	 * @param tpl string template
+	 * @param lhs1 left hand side
+	 * @return string description
+	 */
+	public String toString(StringTemplate tpl, ExpressionNode lhs1) {
         StringBuilder sb = new StringBuilder();
         
         // left hand side
-        if (lhs != null) 
-        	sb.append(lhs.toString(tpl));
+        if (lhs1 != null)
+        	sb.append(lhs1.toString(tpl));
         else 
         	sb.append('0');
         
         if (tpl.getStringType().equals(StringType.GIAC)) {
-        	if (lhs.evaluatesToList() || rhs.evaluatesToList()) {
+        	if (lhs1.evaluatesToList() || rhs.evaluatesToList()) {
         		// %= stops {1,2}={3,4} being turned into {1=3,2=4}
         		sb.append("%=");
         	} else {
@@ -536,12 +547,12 @@ public class Equation extends ValidExpression {
 	 */
 	public boolean containsZ(){
 		
-		return containsVar(lhs, 'z') || containsVar(rhs, 'z');
+		return containsVar(lhs, 'z') || containsVar(rhs, 'z');		
 		
 	}
 	
 	
-	
+
 	private static final boolean containsVar(ExpressionValue v, char var){
 		if (v == null){
 			return false;

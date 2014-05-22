@@ -28,6 +28,8 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.arithmetic.Term;
+import geogebra.common.plugin.Operation;
 
 /**
  *
@@ -119,8 +121,22 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
           
     @Override
 	final public String toString(StringTemplate tpl) { 
-    	return equation.toString(tpl);
+    	
+    	if (equation.containsZ()){
+    		return equation.toString(tpl);
+    	}
+
+    	// add 0*z to expression
+    	if (lhs0z == null){
+    		ExpressionNode lhs = equation.getLHS();
+    		Polynomial z = new Polynomial(kernel, new Term(kernel, 1, "z"));
+    		lhs0z = new ExpressionNode(kernel, lhs, Operation.PLUS, new ExpressionNode(kernel, new ExpressionNode(kernel, 0), Operation.MULTIPLY, z));
+    	}
+    	return equation.toString(tpl, lhs0z);
+    	
     } 
+    
+    private ExpressionNode lhs0z = null;
 
 	// TODO Consider locusequability
     
