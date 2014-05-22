@@ -2658,7 +2658,7 @@ __GGB__keysVar.ko.plain = {
     "Tool_DontReplace": "Don't Replace",
     "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
     "Tool_Replace": "Replace",
-    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
+    "Tool_ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "ToolbarIcon": "\ub3c4\uad6c \uc544\uc774\ucf58",
     "ToolbarIconsConstructionProtocolExport": "\ub3c4\uad6c \uc544\uc774\ucf58 \ub098\ud0c0\ub0b4\uae30",
     "TooltipLanguage": "\ub3c4\uad6c \ub3c4\uc6c0\ub9d0 \uc5b8\uc5b4",

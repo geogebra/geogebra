@@ -2658,7 +2658,7 @@ __GGB__keysVar.de.plain = {
     "Tool_DontReplace": "Don't Replace",
     "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
     "Tool_Replace": "Replace",
-    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
+    "Tool_ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "ToolbarIcon": "Symbol der Werkzeugleiste",
     "ToolbarIconsConstructionProtocolExport": "Symbole der Werkzeugleiste anzeigen",
     "TooltipLanguage": "Sprache f\xfcr Tooltip",

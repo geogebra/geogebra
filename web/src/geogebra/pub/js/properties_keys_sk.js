@@ -2658,7 +2658,7 @@ __GGB__keysVar.sk.plain = {
     "Tool_DontReplace": "Don't Replace",
     "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
     "Tool_Replace": "Replace",
-    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
+    "Tool_ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "ToolbarIcon": "Ikona ponuky n\xe1strojov",
     "ToolbarIconsConstructionProtocolExport": "Zobrazi\u0165 ikony ponuky n\xe1strojov",
     "TooltipLanguage": "Jazyk tipu n\xe1stroja",

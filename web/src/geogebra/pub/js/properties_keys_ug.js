@@ -2019,8 +2019,8 @@ __GGB__keysVar.ug.menu = {
     "ZoomIn_Help": "\u0631\u06d5\u0633\u0649\u0645 \u0633\u0649\u0632\u0649\u0634 \u0631\u0627\u064a\u06c7\u0646\u0649\u0646\u0649 \u062a\u0627\u0642 \u0686\u0649\u0643\u0649\u067e \u062a\u06c7\u0631\u06c7\u067e \u0686\u0648\u06ad\u0627\u064a\u062a\u0649\u0634 \u060c\u064a\u0627\u0643\u0649 \u0645\u0627\u0626\u06c7\u0633 \u0686\u0627\u0642\u0649 \u0626\u0627\u0631\u0642\u0649\u0644\u0649\u0642 \u0686\u0648\u06ad\u0627\u064a\u062a\u0649\u0634",
     "ZoomOut": "\u0643\u0649\u0686\u0649\u0643\u0644\u0649\u062a\u0649\u0634",
     "ZoomOut_Help": "\u0631\u06d5\u0633\u0649\u0645 \u0633\u0649\u0632\u0649\u0634 \u0631\u0627\u064a\u06c7\u0646\u0649\u0646\u0649 \u062a\u0627\u0642 \u0686\u0649\u0643\u0649\u067e \u062a\u06c7\u0631\u06c7\u067e \u0643\u0649\u0686\u0649\u0643\u0644\u0649\u062a\u0649\u0634 \u060c\u064a\u0627\u0643\u0649 \u0645\u0627\u0626\u06c7\u0633 \u0686\u0627\u0642\u0649 \u0626\u0627\u0631\u0642\u0649\u0644\u0649\u0642 \u0643\u0649\u0686\u0649\u0643\u0644\u0649\u062a\u0649\u0634",
-    "insert_worksheet": "\u062e\u0649\u0632\u0645\u06d5\u062a \u062c\u06d5\u062f\u0649\u06cb\u0649\u0644\u0649 \u0642\u06c7\u0634\u06c7\u0634",
-    "off": "\u0626\u0649\u062a\u0649\u0634",
+    "insert_worksheet": "\u062e\u0649\u0632\u0645\u06d5\u062a \u062c\u06d5\u062f\u06cb\u0649\u0644\u0649 \u0642\u0648\u0634\u06c7\u0634",
+    "off": "\u0626\u06d0\u062a\u0649\u0634",
     "on": "On",
 }
 
@@ -2658,7 +2658,7 @@ __GGB__keysVar.ug.plain = {
     "Tool_DontReplace": "Don't Replace",
     "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
     "Tool_Replace": "Replace",
-    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
+    "Tool_ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "ToolbarIcon": "Toolbar Icon",
     "ToolbarIconsConstructionProtocolExport": "Display Toolbar Icons",
     "TooltipLanguage": "Tooltip Language",

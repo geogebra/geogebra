@@ -2658,7 +2658,7 @@ __GGB__keysVar.pl.plain = {
     "Tool_DontReplace": "Don't Replace",
     "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
     "Tool_Replace": "Replace",
-    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
+    "Tool_ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "ToolbarIcon": "Ikona na Pasku narz\u0119dzi",
     "ToolbarIconsConstructionProtocolExport": "Poka\u017c ikony na Pasku narz\u0119dzi",
     "TooltipLanguage": "Tooltip J\u0119zyk",

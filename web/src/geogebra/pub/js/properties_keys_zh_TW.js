@@ -2658,7 +2658,7 @@ __GGB__keysVar.zh_TW.plain = {
     "Tool_DontReplace": "Don't Replace",
     "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
     "Tool_Replace": "Replace",
-    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
+    "Tool_ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "ToolbarIcon": "\u5de5\u5177\u5217\u5716\u793a",
     "ToolbarIconsConstructionProtocolExport": "\u986f\u793a\u5de5\u5177\u5217\u5716\u793a",
     "TooltipLanguage": "\u5de5\u5177\u63d0\u793a\u8a9e\u8a00",

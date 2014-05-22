@@ -2658,7 +2658,7 @@ __GGB__keysVar.ka.plain = {
     "Tool_DontReplace": "Don't Replace",
     "Tool_NotCompatible": "Sorry, the output(s) of this Tool are not compatible with the old Tool - please choose a different name.",
     "Tool_Replace": "Replace",
-    "Tool_ReplaceQuestion": "Do you really want to replace the\nexisting tool \"%0\"?",
+    "Tool_ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "ToolbarIcon": "\u10ee\u10d4\u10da\u10e1\u10d0\u10ec\u10e7\u10dd\u10d4\u10d1\u10d8\u10e1 \u10de\u10d8\u10e5\u10e2\u10dd\u10d2\u10e0\u10d0\u10db\u10d0",
     "ToolbarIconsConstructionProtocolExport": "\u10d2\u10d0\u10db\u10dd\u10d0\u10e9\u10d8\u10dc\u10d4 \u10ee\u10d4\u10da\u10e1\u10d0\u10ec\u10e7\u10dd\u10d4\u10d1\u10d8\u10e1 \u10de\u10d8\u10e5\u10e2\u10dd\u10d2\u10e0\u10d0\u10db\u10d0",
     "TooltipLanguage": "\u10ee\u10d4\u10da\u10e1\u10d0\u10ec\u10e7\u10dd\u10d4\u10d1\u10d6\u10d4 \u10d3\u10d0\u10ee\u10db\u10d0\u10e0\u10d4\u10d1\u10d8\u10e1 \u10d4\u10dc\u10d0",
