@@ -9427,7 +9427,12 @@ namespace giac {
 	m1=operator_div(m,m1,&env); // m1 is the square free part
 	polymod m1mod(order,dim);
 	rur_convert_univariate(m1,i,m1mod);
-	gbmod.push_back(m1mod);
+	unsigned j;
+	for (j=0;j<gbmod.size();++j){
+	  if (tdeg_t_greater(m1mod.coord.front().u,gbmod[j].coord.front().u,order))
+	    break;
+	}
+	gbmod.insert(gbmod.begin()+j,m1mod);
 	shrinkit=true;
       }
     }
