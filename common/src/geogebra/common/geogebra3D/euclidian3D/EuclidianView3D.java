@@ -416,7 +416,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void add(GeoElement geo) {
 
-		if (geo.isVisibleInView3D()) {
+		if (geo.hasDrawable3D()) {
 			setWaitForUpdate();
 			geosToBeAdded.add(geo);
 		}
