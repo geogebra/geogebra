@@ -3709,3 +3709,10 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	left:115px;
 	top:85px;
 }
+
+/* make sure dummy canvas does not force a scrollbar */
+.dummyParent{
+		position:absolute;
+		left:1px;
+		top:1px;
+	}
