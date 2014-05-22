@@ -278,8 +278,7 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			point = (GeoPoint) this.movedGeoPoint;
 		}
 
-		if (this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		        || this.mode == EuclidianConstants.MODE_CIRCLE_THREE_POINTS) {
+		if (this.mode == EuclidianConstants.MODE_CIRCLE_THREE_POINTS) {
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
 

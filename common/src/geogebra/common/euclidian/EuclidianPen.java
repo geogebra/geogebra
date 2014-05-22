@@ -39,9 +39,12 @@ public class EuclidianPen {
 
 	protected double CIRCLE_MIN_DET=0.95;
 	protected double CIRCLE_MAX_SCORE=0.10;
+	protected double RECTANGLE_LINEAR_TOLERANCE = 0.20;
+	protected double POLYGON_LINEAR_TOLERANCE = 0.20;
+	protected double RECTANGLE_ANGLE_TOLERANCE = 15*Math.PI/180;
 
 	private AlgoElement lastAlgo = null;
-	private ArrayList<GPoint> penPoints = new ArrayList<GPoint>();
+	protected ArrayList<GPoint> penPoints = new ArrayList<GPoint>();
 	private ArrayList<GPoint> temp = null;
 	private int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
 	private double score=0;
@@ -60,9 +63,6 @@ public class EuclidianPen {
 	private int MAX_POLYGON_SIDES=4;
 	private double LINE_MAX_DET=0.015;
 	private double SLANT_TOLERANCE=5*Math.PI/180;
-	private double RECTANGLE_ANGLE_TOLERANCE = 15*Math.PI/180;
-	private double RECTANGLE_LINEAR_TOLERANCE = 0.20;
-	private double POLYGON_LINEAR_TOLERANCE = 0.20;
 	private Inertia a = null;
 	private Inertia b = null;
 	private Inertia c = null;
@@ -1562,14 +1562,18 @@ public class EuclidianPen {
     	
        	GeoPointND [] pts = new GeoPointND[4];
 
+       	// in case a initialPoint is defined, move the polygon so that its first point matches the initialPoint
+       	double offsetInitialPointX = 0;
+       	double offsetInitialPointY = 0;
+
     	for (i=0; i<4; ++i)
     	{
-    		x_first = view.toRealWorldCoordX(points[2*i]);
-    		y_first = view.toRealWorldCoordY(points[2*i + 1]);
+    		x_first = view.toRealWorldCoordX(points[2*i]) + offsetInitialPointX;
+    		y_first = view.toRealWorldCoordY(points[2*i + 1]) + offsetInitialPointY;
 
     		if(i == 0 && this.initialPoint != null && this.initialPoint.isIndependent()){
-    			this.initialPoint.setCoords(x_first, y_first, 1);
-    			this.initialPoint.updateCascade();
+    			offsetInitialPointX = this.initialPoint.x - x_first;
+    			offsetInitialPointY = this.initialPoint.y - y_first;
     			pts[0] = this.initialPoint;
     		} else {
     			// null -> created labeled point
