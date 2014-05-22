@@ -796,12 +796,12 @@ public class Kernel {
 
 	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	public final StringBuilder buildImplicitEquation(double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
 			char op, StringTemplate tpl) {
 
 		sbBuildImplicitEquation.setLength(0);
 		double[] temp = buildImplicitVarPart(sbBuildImplicitEquation,
-				numbers, vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN,
+				numbers, vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN, needsZ,
 				tpl);
 
 		sbBuildImplicitEquation.append(' ');
@@ -1278,10 +1278,10 @@ public class Kernel {
 	 * @return string representing LHS
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
-			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, StringTemplate tpl) {
+			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ, StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
 		double[] temp = buildImplicitVarPart(sbBuildLHS,numbers, vars,
-				KEEP_LEADING_SIGN, CANCEL_DOWN, tpl);
+				KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ, tpl);
 
 		// add constant coeff
 		double coeff = temp[vars.length];
@@ -1325,7 +1325,7 @@ public class Kernel {
 
 	// lhs of implicit equation without constant coeff
 	final private double[] buildImplicitVarPart(StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
 			StringTemplate tpl) {
 
 		double[] temp = new double[numbers.length];
@@ -1388,7 +1388,7 @@ public class Kernel {
 				abs = temp[i];
 			}
 
-			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures) {
+			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures || (needsZ && i == 2)) {
 				sbBuildImplicitVarPart.append(sign);
 				sbBuildImplicitVarPart.append(formatCoeff(abs, tpl));
 				sbBuildImplicitVarPart.append(vars[i]);
@@ -1427,7 +1427,7 @@ public class Kernel {
 		// coeff of y^2 is 0 or coeff of y is not 0
 		if (isZero(q)) {
 			return buildImplicitEquation(numbers, vars, KEEP_LEADING_SIGN,
-					true, '=', tpl);
+					true, false, '=', tpl);
 		}
 
 		int i, leadingNonZero = numbers.length;

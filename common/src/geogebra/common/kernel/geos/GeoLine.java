@@ -869,7 +869,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 				return kernel.buildExplicitLineEquation(g, vars, op,tpl);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					false, op,tpl);
+					false, false, op,tpl);
 
 		default: // EQUATION_IMPLICIT
 			g[0] = x;
@@ -879,7 +879,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 				return kernel.buildExplicitLineEquation(g, vars, op,tpl);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					true, op,tpl);
+					true, false, op,tpl);
 		}
 	}
 
@@ -905,7 +905,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			sb.append(kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true,tpl));
+			sb.append(kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true, false, tpl));
 			return;
 		}
 		sb.append((CharSequence)sbToStringLHS);

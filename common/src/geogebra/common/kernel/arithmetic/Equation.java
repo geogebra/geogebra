@@ -529,5 +529,38 @@ public class Equation extends ValidExpression {
 	public boolean inspect(Inspecting t){
 		return t.check(this) || lhs.inspect(t) || rhs.inspect(t);
 	}
+	
+	/**
+	 * 
+	 * @return says if the original expression contains "z"
+	 */
+	public boolean containsZ(){
+		
+		return containsVar(lhs, 'z') || containsVar(rhs, 'z');
+		
+	}
+	
+	
+	
+	private static final boolean containsVar(ExpressionValue v, char var){
+		if (v == null){
+			return false;
+		}
+		
+		if (v instanceof ExpressionNode){
+			ExpressionNode node = (ExpressionNode) v;
+			if (containsVar(node.getLeft(), var)){
+				return true;
+			}
+			
+			return containsVar(node.getRight(), var);
+		}
+		
+		if (v instanceof Polynomial){
+			return !((Polynomial) v).isFreeOf(var);
+		}
+		
+		return false;
+	}
  
 } // end of class Equation

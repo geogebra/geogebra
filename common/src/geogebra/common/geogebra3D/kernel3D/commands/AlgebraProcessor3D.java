@@ -107,7 +107,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	
 	@Override
 	protected void checkNoTermsInZ(Equation equ){
-		if (!equ.getNormalForm().isFreeOf('z')){
+		
+		if (equ.containsZ()){
 			switch (equ.degree()) {
 			case 1:
 				equ.setForcePlane();
@@ -128,7 +129,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		
 		//check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedPlane() ||
-				kernel.getApplication().getActiveEuclidianView().isEuclidianView3D()){
+				(!kernel.getLoadingMode() &&  kernel.getApplication().getActiveEuclidianView().isEuclidianView3D())){
 			return processPlane(equ);
 		}
 		return super.processLine(equ);

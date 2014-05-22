@@ -1472,7 +1472,7 @@ Region3D, GeoDirectionND
 			case EQUATION_SPECIFIC :
 				if (!isSpecificPossible())
 					return kernel.buildImplicitEquation(coeffs, myVars, 
-							KEEP_LEADING_SIGN, true, '=',tpl);						
+							KEEP_LEADING_SIGN, true, false, '=',tpl);						
 				
 				switch (type) {					
 					case CONIC_CIRCLE :		
@@ -1522,7 +1522,7 @@ Region3D, GeoDirectionND
 					return kernel.buildImplicitEquation(								
 						coeffs,
 						myVars, 
-						KEEP_LEADING_SIGN, true, '=',tpl);
+						KEEP_LEADING_SIGN, true, false, '=',tpl);
 
 					case CONIC_HYPERBOLA :
 						if (Kernel.isZero(coeffs[1])) { // xy coeff = 0	
@@ -1577,7 +1577,7 @@ Region3D, GeoDirectionND
 						coeffs,
 						myVars,
 						KEEP_LEADING_SIGN,
-						true, '=',tpl);
+						true,  false, '=',tpl);
 
 					case CONIC_PARABOLA :
 						if (!Kernel.isZero(coeffs[2]))
@@ -1597,7 +1597,7 @@ Region3D, GeoDirectionND
 								coeffs,
 								myVars,
 								KEEP_LEADING_SIGN,
-								true, '=',tpl);
+								true, false, '=',tpl);
 
 					case CONIC_DOUBLE_LINE :
 						sbToValueString.append('(');
@@ -1623,7 +1623,7 @@ Region3D, GeoDirectionND
 					return kernel.buildExplicitConicEquation(coeffs, myVars, 4, KEEP_LEADING_SIGN,tpl); 
 
 			default : //implicit
-				return kernel.buildImplicitEquation(coeffs, myVars, KEEP_LEADING_SIGN, true, '=',tpl);
+				return kernel.buildImplicitEquation(coeffs, myVars, KEEP_LEADING_SIGN, true, false, '=',tpl);
 		}
 	}
 	

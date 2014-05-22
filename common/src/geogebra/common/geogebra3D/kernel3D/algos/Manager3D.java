@@ -486,7 +486,6 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getOutput();
 	}
 
-	/** Line a x + b y + c z + d = 0 named label */
 	final public GeoPlane3D Plane3D(String label, double a, double b, double c,
 			double d) {
 		GeoPlane3D plane = new GeoPlane3D(cons, label, a, b, c, d);
