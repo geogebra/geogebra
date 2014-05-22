@@ -372,6 +372,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
 
+		if (isLabelSet()){
+			return kernel.buildImplicitEquation(getCoordSys().getEquationVector()
+					.get(), VAR_STRING, KEEP_LEADING_SIGN, true, false, '=',tpl);
+		}
+		
+		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded as a plane
 		return kernel.buildImplicitEquation(getCoordSys().getEquationVector()
 				.get(), VAR_STRING, KEEP_LEADING_SIGN, true, true, '=',tpl);
 

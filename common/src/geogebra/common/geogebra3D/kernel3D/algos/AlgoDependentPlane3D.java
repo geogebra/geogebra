@@ -122,7 +122,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     @Override
 	final public String toString(StringTemplate tpl) { 
     	
-    	if (equation.containsZ()){
+    	if (p.isLabelSet() || equation.containsZ()){
     		return equation.toString(tpl);
     	}
 
