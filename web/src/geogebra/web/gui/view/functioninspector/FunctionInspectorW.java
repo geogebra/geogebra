@@ -3,6 +3,7 @@ package geogebra.web.gui.view.functioninspector;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -10,9 +11,12 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GColorW;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
+import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
@@ -26,6 +30,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -49,10 +54,10 @@ public class FunctionInspectorW extends FunctionInspector {
     private MyToggleButton2 btnXYSegments;
 	private MyToggleButton2 btnTangent;
     private MyToggleButton2 btnOscCircle;
+    private PopupMenuButton btnOptions;
     private Label lblGeoName, lblStep, lblInterval;
 	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
 	private InspectorTableW tableXY, tableInterval;
-//	private NumberFormat fmt;
 //	private Button btnRemoveColumn, btnHelp;
 	//private PopupMenuButton btnAddColumn, btnOptions;
 //	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
@@ -63,7 +68,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	private GeoElementSelectionListener sl;
     public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 	    super(app, selectedGeo);
-	//    fmt = NumberFormat.getDecimalFormat();
     }
 
 	public void reset() {
@@ -121,7 +125,6 @@ public class FunctionInspectorW extends FunctionInspector {
 //		c.add(btnAddColumn);
 //		c.add(btnRemoveColumn);
 //
-//		createOptionsButton();
 
 	}
 
@@ -253,8 +256,13 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
-		intervalTab.add(lblGeoName);
-
+		FlowPanel header = new FlowPanel();
+		header.add(lblGeoName);
+		header.add(btnOptions);
+		header.setStyleName("panelRow");
+		intervalTab.add(header);
+		createOptionsButton();
+		
 		tableInterval = new InspectorTableW(InspectorTableW.INTERVAL_TABLE);
 		intervalTab.add(tableInterval);
 		FlowPanel toolBar = new FlowPanel();
@@ -510,8 +518,22 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void createOptionsButton() {
-		// TODO Auto-generated method stub
-
+		AppW appW = getAppW();
+		GDimensionW dim = new GDimensionW(-1, -1);
+		ImageOrText[] data = ImageOrText.convert(appW.getLocalization().getRoundingMenu());
+		
+		btnOptions = new PopupMenuButton(appW, data, 1, -1, dim, SelectionTable.MODE_TEXT){
+			@Override
+			public void handlePopupActionEvent(){
+				super.handlePopupActionEvent();
+				getModel().applyDecimalPlaces(getSelectedIndex());
+			}
+		};
+		
+		ImageResource[] res = {AppResources.INSTANCE.tool()};
+	
+		btnOptions.setFixedIcon(ImageOrText.convert(res)[0]);
+		
 	}
 
 	@Override

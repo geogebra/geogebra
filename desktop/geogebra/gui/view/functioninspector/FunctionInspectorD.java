@@ -325,9 +325,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
 
 		// header text
-		String[] intervalColumnNames = { loc.getPlain("fncInspector.Property"),
-				loc.getPlain("fncInspector.Value") };
-		modelInterval.setColumnIdentifiers(intervalColumnNames);
+
+		modelInterval.setColumnIdentifiers(getModel().getIntervalColumnNames());
 
 		tabPanel.setTitleAt(1, loc.getPlain("fncInspector.Points"));
 		tabPanel.setTitleAt(0, loc.getPlain("fncInspector.Interval"));
@@ -374,9 +373,9 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 			double[] coords = new double[3];
 			getModel().getLowPoint().getCoords(coords);
-			fldLow.setText(nf.format(coords[0]));
+			fldLow.setText(getModel().format(coords[0]));
 			getModel().getHighPoint().getCoords(coords);
-			fldHigh.setText(nf.format(coords[0]));
+			fldHigh.setText(getModel().format(coords[0]));
 			updateIntervalTable();
 		}
 	}
@@ -689,10 +688,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 	}
 
-	public String format(double value) {
-		return nf.format(value);
-	}
-
 	public void updateInterval(ArrayList<String> property,
 			ArrayList<String> value) {
 		// load the model with these pairs
@@ -706,7 +701,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 	public void setXYValueAt(Double value, int row, int col) {
 		if (value != null) {
-			modelXY.setValueAt(nf.format(value), row, col);
+			modelXY.setValueAt(getModel().format(value), row, col);
 		} else {
 			modelXY.setValueAt(null, row, col);
 
@@ -843,4 +838,12 @@ public class FunctionInspectorD extends FunctionInspector implements
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void changedNumberFormat() {
+		getModel().setPrintDecimals(nf.getPrintDecimals());
+		getModel().setPrintFigures(nf.getPrintFigures());
+		super.changedNumberFormat();
+	}
+
 }

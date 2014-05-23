@@ -29,6 +29,7 @@ import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoRoots;
 import geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
@@ -69,8 +70,6 @@ public class FunctionInspectorModel {
 
 		void updateXYTable(boolean isTable);
 
-		String format(double value);
-
 		void updateInterval(ArrayList<String> property, ArrayList<String> value);
 
 		void setXYValueAt(Double value, int row, int col);
@@ -92,7 +91,8 @@ public class FunctionInspectorModel {
 		GColor getColor(Colors id);
 
 		int getSelectedXYRow();
-		
+
+		void changedNumberFormat();
 
 	}
 
@@ -143,6 +143,12 @@ public class FunctionInspectorModel {
 	private ArrayList<Double[]> value2 = new ArrayList<Double[]>();
 	private String[] columnNames;
 
+	/**
+	 * Default number format  
+	 */
+	private int printFigures = -1;
+	private int printDecimals = 4;
+	
 	/***************************************************************
 	 * Constructs a FunctionInspecor
 	 * 
@@ -299,12 +305,12 @@ public class FunctionInspectorModel {
 		// =================================================
 
 		property.add(loc.getCommand("Min"));
-		value.add("(" + listener.format(xMinInt) + " , " + listener.format(yMinInt) + ")");
+		value.add("(" + format(xMinInt) + " , " + format(yMinInt) + ")");
 		Double[] min = { xMinInt, yMinInt };
 		value2.add(min);
 
 		property.add(loc.getCommand("Max"));
-		value.add("(" + listener.format(xMaxInt) + " , " + listener.format(yMaxInt) + ")");
+		value.add("(" + format(xMaxInt) + " , " + format(yMaxInt) + ")");
 		Double[] max = { xMaxInt, yMaxInt };
 		value2.add(max);
 
@@ -374,28 +380,42 @@ public class FunctionInspectorModel {
 		value2.add(null);
 
 		property.add(loc.getCommand("Integral"));
-		value.add(listener.format(integral));
+		value.add(format(integral));
 		Double[] in = { integral };
 		value2.add(in);
 
 		property.add(loc.getCommand("Area"));
-		value.add(listener.format(area));
+		value.add(format(area));
 		Double[] a = { area };
 		value2.add(a);
 
 		property.add(loc.getCommand("Mean"));
-		value.add(listener.format(mean));
+		value.add(format(mean));
 		Double[] m = { mean };
 		value2.add(m);
 
 		property.add(loc.getCommand("Length"));
-		value.add(listener.format(length));
+		value.add(format(length));
 		Double[] l = { length };
 		value2.add(l);
 
 		listener.updateInterval(property, value);
 
 
+	}
+
+	public String format(double x){
+		StringTemplate highPrecision;
+		// override the default decimal place setting
+		if(getPrintDecimals() >= 0)
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, getPrintDecimals(),false);
+		else
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, getPrintFigures(),false);
+
+		// get the formatted string
+		String result = app.getKernel().format(x,highPrecision);
+
+		return result;
 	}
 
 	/**
@@ -1040,5 +1060,39 @@ public class FunctionInspectorModel {
 		return columnNames;
 	}
 
+	public String[] getIntervalColumnNames() {
+		String[] names = { loc.getPlain("fncInspector.Property"),
+			loc.getPlain("fncInspector.Value") };
+		return names;
+	}
+
+	public int getPrintFigures() {
+		return printFigures;
+	}
+
+	public void setPrintFigures(int printFigures) {
+		this.printFigures = printFigures;
+	}
+
+	public int getPrintDecimals() {
+		return printDecimals;
+	}
+
+	public void setPrintDecimals(int printDecimals) {
+		this.printDecimals = printDecimals;
+	}
+
+	public void applyDecimalPlaces(int index) {
+		if (index < 8) // decimal places
+		{
+			printDecimals =	App.roundingMenuLookup[index];
+			printFigures = -1;
+		} else // significant figures
+		{
+			printDecimals = -1;
+			printFigures = App.roundingMenuLookup[index];
+		}
+		listener.changedNumberFormat();
+	}
 
 }
