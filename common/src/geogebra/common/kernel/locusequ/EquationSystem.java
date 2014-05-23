@@ -46,4 +46,22 @@ public class EquationSystem {
     protected void setEquations(EquationList el) {
         this.el = el;
     }
+    
+    /**
+     * Some heuristic check if two equation systems looks same.
+     * If their string representation are equal then we assume yes,
+     * otherwise not.
+     * @param system the equation system to compare
+     * @return if the two systems can be assumed that they are the same 
+     */
+    public boolean looksSame(EquationSystem system) {
+    	if (system == null && this != null) {
+    		return false;
+    	}
+    	EquationList system_el = system.getEquations();
+    	if (el.toString().equals(system_el.toString())) {
+    		return true;
+    	}
+    	return false;
+    }
 }

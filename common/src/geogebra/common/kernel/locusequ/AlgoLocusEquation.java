@@ -29,6 +29,7 @@ public class AlgoLocusEquation extends AlgoElement {
     public static final String CLASS_NAME = "AlgoLocusEqu";
     private GeoImplicitPoly geoPoly;
     private GeoElement[] efficientInput, standardInput;
+    private EquationSystem old_system = null; // for caching
     
 	public AlgoLocusEquation(Construction cons, String label, GeoPoint locusPoint, GeoPoint movingPoint) {
 		this(cons, locusPoint, movingPoint);
@@ -94,11 +95,16 @@ public class AlgoLocusEquation extends AlgoElement {
 	@Override
 	public void compute() {
 		EquationSystem system = getOriginalIdeal();
+		if (system.looksSame(old_system)) {
+			// do nothing: the system has not been changed, thus we use the cache
+			return; // avoid the heavy computation
+		}
+		old_system = system;
 
 		if (system != null) {
 			EquationTranslator trans = new CASTranslator(cons.getKernel());
 			try{
-				this.geoPoly.setCoeff(trans.eliminateSystem(system));
+				this.geoPoly.setCoeff(trans.eliminateSystem(system)); // eliminateSystem() is heavy
 				this.geoPoly.setDefined();
 				
 			// Timeout or other error => set undefined	
