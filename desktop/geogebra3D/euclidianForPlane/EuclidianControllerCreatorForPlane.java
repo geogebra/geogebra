@@ -3,6 +3,7 @@ package geogebra3D.euclidianForPlane;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerCreatorFor3D;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -51,7 +52,7 @@ public class EuclidianControllerCreatorForPlane extends EuclidianControllerCreat
 	
 	
 	private Coords getCoordsFromView(double x, double y){
-		return ((EuclidianViewForPlane) ec.view).getCoordsFromView(x,y);
+		return ((EuclidianViewForPlaneCompanion) ec.view.getCompanion()).getCoordsFromView(x,y);
 	}
 		
 	@Override
@@ -130,7 +131,7 @@ public class EuclidianControllerCreatorForPlane extends EuclidianControllerCreat
 	
 	@Override
 	public boolean viewOrientationForClockwise(boolean clockwise){
-		return ((EuclidianViewForPlane) ec.view).viewOrientationForClockwise(clockwise);
+		return ((EuclidianViewForPlaneCompanion) ec.view.getCompanion()).viewOrientationForClockwise(clockwise);
 	}
 	
 	@Override

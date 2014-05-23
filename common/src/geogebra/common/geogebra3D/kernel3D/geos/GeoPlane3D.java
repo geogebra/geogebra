@@ -1,6 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
-import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -487,7 +487,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// ////////////////////////////////
 	// 2D VIEW
 
-	private EuclidianViewForPlaneInterface euclidianViewForPlane;
+	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
 	public void createView2D() {
 		euclidianViewForPlane = kernel.getApplication().createEuclidianViewForPlane(this,true);
@@ -539,7 +539,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneInterface view){
+	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanion view){
 		euclidianViewForPlane = view;
 	}
 	

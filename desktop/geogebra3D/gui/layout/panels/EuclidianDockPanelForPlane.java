@@ -40,7 +40,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 		
 		setApp(app);
 		this.view = view;
-		view.setDockPanel(this);
+		view.getCompanion().setDockPanel(this);
 		
 		setEmbeddedSize(300);
 		

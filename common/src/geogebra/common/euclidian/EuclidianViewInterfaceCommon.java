@@ -121,11 +121,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void mouseExited();
 
-	/**
-	 * @param geo geo
-	 * @return true if the geo is parent of the view
-	 */
-	public boolean hasForParent(GeoElement geo);
+
 
 	/**
 	 * @return application

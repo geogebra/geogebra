@@ -112,7 +112,8 @@ public class DockManager extends geogebra.common.gui.layout.DockManager implemen
 	 * remove panel for the dock panels list
 	 * @param dockPanel panel
 	 */
-	public void unRegisterPanel(DockPanel dockPanel) {
+	@Override
+	public void unRegisterPanel(geogebra.common.gui.layout.DockPanel dockPanel) {
 		dockPanels.remove(dockPanel);
 	}
 	

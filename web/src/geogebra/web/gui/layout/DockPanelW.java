@@ -674,6 +674,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	protected void closePanel(boolean isPermanent) {
 		dockManager.closePanel(this, isPermanent);
 	}
+	
+	public void closePanel() {
+		closePanel(true);
+	}
 
 	/** loads the styleBar and puts it into the stylBarPanel */
 	private void setStyleBar() {

@@ -1,6 +1,8 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
@@ -61,9 +63,9 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
 		
 		if (source.equals(btnCenterAndOrientation)) {
-			((EuclidianViewForPlane) ev).updateCenterAndOrientationRegardingView();
+			((EuclidianViewForPlaneCompanion) ((EuclidianView) ev).getCompanion()).updateCenterAndOrientationRegardingView();
 		}else if (source.equals(btnFitScale)) {
-			((EuclidianViewForPlane) ev).updateScaleRegardingView();
+			((EuclidianViewForPlaneCompanion) ((EuclidianView) ev).getCompanion()).updateScaleRegardingView();
 		}else
 			super.processSource(source, targetGeos);
 	}

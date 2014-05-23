@@ -24,6 +24,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
@@ -233,7 +234,7 @@ public class App3D extends AppD {
 	private ArrayList<EuclidianViewForPlane> euclidianViewForPlaneList;
 
 	@Override
-	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
+	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		EuclidianController ec = new EuclidianControllerForPlaneD(kernel3D);
 		EuclidianSettings evSettings = getSettings().getEuclidianForPlane(((GeoElement) plane).getLabelSimple());
@@ -242,7 +243,7 @@ public class App3D extends AppD {
 		}
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane, evSettings);
 		euclidianViewForPlane.updateFonts();
-		euclidianViewForPlane.addExistingGeos();
+		euclidianViewForPlane.getCompanion().addExistingGeos();
 		
 		//add it to list
 		if (euclidianViewForPlaneList==null)
@@ -272,7 +273,7 @@ public class App3D extends AppD {
 			
 		}
 
-		return euclidianViewForPlane;
+		return euclidianViewForPlane.getCompanion();
 	}
 	
 	public DockPanel getPanelForPlane(){
@@ -456,12 +457,12 @@ public class App3D extends AppD {
 
 		for (EuclidianDockPanelForPlane p : panelForPlaneList){
 			EuclidianViewForPlane view = p.getView();
-			GeoElement geo = kernel.lookupLabel(((GeoElement) view.getPlane()).getLabelSimple());
+			GeoElement geo = kernel.lookupLabel(((GeoElement) view.getCompanion().getPlane()).getLabelSimple());
 			if (geo!=null && (geo instanceof ViewCreator)){
 				ViewCreator plane = (ViewCreator) geo;
-				view.setPlane(plane);
-				plane.setEuclidianViewForPlane(view);
-				view.updateForPlane();
+				view.getCompanion().setPlane(plane);
+				plane.setEuclidianViewForPlane(view.getCompanion());
+				view.getCompanion().updateForPlane();
 			}else{
 				//no more creator : remove
 				p.getView().doRemove();
@@ -486,7 +487,7 @@ public class App3D extends AppD {
 			return;
 		
 		for (EuclidianViewForPlane view : euclidianViewForPlaneList)
-			view.removeFromGuiAndKernel();
+			view.getCompanion().removeFromGuiAndKernel();
 		
 		euclidianViewForPlaneList.clear();
 	}

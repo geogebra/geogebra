@@ -1,7 +1,9 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -99,7 +101,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    	    						c.getLabel(),
 	    	    						(GeoPointND) arg[0],
 	    	    						(GeoLineND) arg[1],
-	    	    						((EuclidianViewForPlaneInterface) view).getPlane())};
+	    	    						((EuclidianViewForPlaneCompanion) ((EuclidianView) view).getCompanion()).getPlane())};
 	    	    		return ret;
 	    			}
 	    			

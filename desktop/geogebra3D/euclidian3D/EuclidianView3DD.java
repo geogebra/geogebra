@@ -350,7 +350,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 		}
 
 		// real world values
-		setXYMinMaxForUpdateSize();
+		companion.setXYMinMaxForUpdateSize();
 		setRealWorldBounds();
 
 		// ================================================

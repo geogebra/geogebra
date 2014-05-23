@@ -16,5 +16,10 @@ public interface DockPanel extends Component{
 	String getDefaultToolbarString();
 
 	int getViewId();
+	
+	/**
+	 * Close this panel permanently.
+	 */
+	public void closePanel();
 
 }

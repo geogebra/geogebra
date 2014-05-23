@@ -1,6 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
-import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
@@ -583,7 +583,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	// ////////////////////////////////
 	// 2D VIEW
 
-	private EuclidianViewForPlaneInterface euclidianViewForPlane;
+	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
 	public void createView2D() {
 		euclidianViewForPlane = kernel.getApplication().createEuclidianViewForPlane(this,true);
@@ -594,7 +594,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 		euclidianViewForPlane.doRemove();
 	}
 
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneInterface view){
+	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanion view){
 		euclidianViewForPlane = view;
 	}
 

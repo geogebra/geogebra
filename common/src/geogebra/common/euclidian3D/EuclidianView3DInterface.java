@@ -114,7 +114,13 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 	 * set if y axis is up (and not z axis)
 	 * @param flag flag
 	 */
-	public void setYAxisVertical(boolean flag);	
+	public void setYAxisVertical(boolean flag);
+
+	
+	/**
+	 * @return screen z-coord of origin 
+	 */
+	public double getZZero();	
 	
 	
 	

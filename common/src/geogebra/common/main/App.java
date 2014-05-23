@@ -14,11 +14,11 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
-import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
@@ -3483,7 +3483,7 @@ public abstract class App implements UpdateSelection{
 	 * @param panelSettings panel settings
 	 * @return create a new euclidian view for the plane
 	 */
-	public EuclidianViewForPlaneInterface createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings){
+	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings){
 		return null;
 	}
 	

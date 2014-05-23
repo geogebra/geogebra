@@ -155,7 +155,7 @@ public class EuclidianDraw {
 				}
 				d = new DrawSlider(ev, (GeoNumeric) geo);
 			} else {
-				d = ev.newDrawAngle((GeoAngle) geo);
+				d = ev.getCompanion().newDrawAngle((GeoAngle) geo);
 				if (geo.isDrawable()) {
 					if (!geo.isColorSet()) {
 						geogebra.common.awt.GColor col = geo

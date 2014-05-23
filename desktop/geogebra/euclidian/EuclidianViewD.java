@@ -1010,7 +1010,7 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 
 		// real world values
-		setXYMinMaxForUpdateSize();
+		companion.setXYMinMaxForUpdateSize();
 		setRealWorldBounds();
 
 		// ================================================

@@ -350,7 +350,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		}
 
 		// real world values
-		setXYMinMaxForUpdateSize();
+		companion.setXYMinMaxForUpdateSize();
 		setRealWorldBounds();
 
 		try {

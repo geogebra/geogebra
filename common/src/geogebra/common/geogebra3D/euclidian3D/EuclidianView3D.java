@@ -3427,10 +3427,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return true;
 	}
 
-	@Override
-	public boolean hasForParent(GeoElement geo) {
-		return false;
-	}
+
 
 	@Override
 	public boolean isMoveable(GeoElement geo) {
