@@ -3499,7 +3499,7 @@ namespace giac {
     gen f(eval(f0,1,context0));  // eval of f wrt context0 is intentionnal, replace UTPN by erf
     if (guess.is_symb_of_sommet(at_interval))
       guess=(guess._SYMBptr->feuille[0]+guess._SYMBptr->feuille[1])/2;
-    bool inv_after=true;
+    bool inv_after=f.type==_VECT;
     gen a,b,d,fa,fb,invdf=inv_after?derive(f,x,contextptr):inv(derive(f,x,contextptr),contextptr),epsg1(eps1),epsg2(eps2);
     if (is_undef(invdf))
       return invdf;
@@ -5347,11 +5347,11 @@ namespace giac {
 	  }
 	  else {
 	    if (deg>28){
-	      double eps2=std::pow(2.0,-deg);
+	      double eps2=std::pow(2.0,-deg/2);
 	      if (eps2<eps)
 		eps=eps2;
 	    }
-	    tmp=_realroot(makesequence(pol,eps),contextptr);
+	    tmp=complexroot(makesequence(pol,eps),false,contextptr); // realroots
 	  }
 	  // CERR << tmp << endl;
 	  if (tmp.type==_VECT)
@@ -5728,12 +5728,13 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symbolic(at_gbasis,args);
-    vecteur & v = *args._VECTptr;
+    vecteur v = *args._VECTptr;
     int s=v.size();
     if (s<2)
       return gentoofewargs("gbasis");
     if ( (v[0].type!=_VECT) || (v[1].type!=_VECT) )
       return gensizeerr(contextptr);
+    v[0]=remove_equal(v[0]);
     gen order=_REVLEX_ORDER; // 0 assumes plex and 0-dimension ideal so that FGLM applies
     // v[2] will serve for ordering
     bool with_f5=false,with_cocoa=false,modular=true;
@@ -5784,8 +5785,6 @@ namespace giac {
     bool rur;
     vectpoly eqpr(gbasis(eqp,order,with_cocoa,with_f5,&env,rur,contextptr));
     vecteur res;
-    if (order.val<0 && rur)
-      res.push_back(order);
     vectpoly::const_iterator it=eqpr.begin(),itend=eqpr.end();
     res.reserve(itend-it);
     for (;it!=itend;++it){
@@ -5793,6 +5792,10 @@ namespace giac {
       if (is_zero(tmp) && !is_zero(*it))
 	continue;
       res.push_back(tmp);
+    }
+    if (order.val<0 && rur){
+      res.insert(res.begin(),change_subtype(order,_INT_GROEBNER));
+      // subst l[0] by another variable name to avoid confusion in res[2..]?
     }
     return res;
   }
