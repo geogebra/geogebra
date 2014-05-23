@@ -53,8 +53,11 @@ public class FunctionInspectorW extends FunctionInspector {
 	private MyToggleButton2 btnTable;
     private MyToggleButton2 btnXYSegments;
 	private MyToggleButton2 btnTangent;
-    private MyToggleButton2 btnOscCircle;
+	private MyToggleButton2 btnOscCircle;
+
+	private MyToggleButton2 btnHelp;
     private PopupMenuButton btnOptions;
+    
     private Label lblGeoName, lblStep, lblInterval;
 	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
 	private InspectorTableW tableXY, tableInterval;
@@ -243,8 +246,13 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void buildHelpPanel() {
-		// TODO Auto-generated method stub
-
+	    btnHelp = new MyToggleButton2(AppResources.INSTANCE.help());
+	    btnHelp.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+			    getAppW().getGuiManager().openHelp("Function_Inspector_Tool");	
+			}
+		});
 	}
 
 	@Override
@@ -258,9 +266,11 @@ public class FunctionInspectorW extends FunctionInspector {
 		intervalTab = new FlowPanel();
 		FlowPanel header = new FlowPanel();
 		header.add(lblGeoName);
+		header.add(btnHelp);
 		header.add(btnOptions);
 		header.setStyleName("panelRow");
 		intervalTab.add(header);
+		buildHelpPanel();
 		createOptionsButton();
 		
 		tableInterval = new InspectorTableW(InspectorTableW.INTERVAL_TABLE);
