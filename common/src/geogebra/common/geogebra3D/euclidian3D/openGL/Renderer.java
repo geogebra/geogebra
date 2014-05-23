@@ -1727,7 +1727,7 @@ public abstract class Renderer {
         float diffuse0 = 1f-ambiant0; 
         
         float ambiant1 = 0.4f;
-        float diffuse1=0.7f;//1f-ambiant;
+        float diffuse1 = 1f-ambiant1;
         
         setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1, diffuse1);
                 
