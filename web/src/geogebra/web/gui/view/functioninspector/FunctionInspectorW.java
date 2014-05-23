@@ -522,7 +522,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		GDimensionW dim = new GDimensionW(-1, -1);
 		ImageOrText[] data = ImageOrText.convert(appW.getLocalization().getRoundingMenu());
 		
-		btnOptions = new PopupMenuButton(appW, data, 1, -1, dim, SelectionTable.MODE_TEXT){
+		btnOptions = new PopupMenuButton(appW, data,-1, 1, dim, SelectionTable.MODE_TEXT){
 			@Override
 			public void handlePopupActionEvent(){
 				super.handlePopupActionEvent();
