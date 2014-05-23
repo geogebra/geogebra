@@ -407,7 +407,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return gl renderer
 	 */
 	public Renderer getRenderer() {
-		return (Renderer) renderer;
+		return renderer;
 	}
 
 	/**
@@ -416,7 +416,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void add(GeoElement geo) {
 
-		if (geo.hasDrawable3D()) {
+		if (geo.isVisibleInView3D()) {
 			setWaitForUpdate();
 			geosToBeAdded.add(geo);
 		}
