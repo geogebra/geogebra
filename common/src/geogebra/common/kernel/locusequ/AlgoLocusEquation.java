@@ -95,7 +95,20 @@ public class AlgoLocusEquation extends AlgoElement {
 	@Override
 	public void compute() {
 		EquationSystem system = getOriginalIdeal();
-		if (system.looksSame(old_system) && this.geoPoly.isDefined()) {
+		/* geoPoly is set to undefined until the CAS is loaded properly.
+		 * On loading a GGB file geoPoly may be, however, defined, but
+		 * later it will be set to undefined until the CAS is loaded.
+		 * In the desktop platform the CAS is loading quickly, but in
+		 * the web its loading may be slower: this is why we need
+		 * to check if geoPoly is already defined or not.
+		 * When geoPoly is defined, it can be the same as in a previous
+		 * update when a dragging event was started. In many cases
+		 * dragging will not change the equation system, hence it is
+		 * unnecessary to recompute elimination in the CAS. For this
+		 * purpose we simply store the previous equation system
+		 * in the old_system variable.   
+		 */
+		if (this.geoPoly.isDefined() && system.looksSame(old_system)) {
 			// do nothing: the system has not been changed, thus we use the cache
 			return; // avoid the heavy computation
 		}
