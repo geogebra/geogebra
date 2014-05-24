@@ -2582,7 +2582,7 @@ __GGB__keysVar.pt_PT.plain = {
     "ShowAutomatically": "Mostrar Automaticamente",
     "ShowAxes": "Mostrar Eixos",
     "ShowAxisNumbers": "Mostrar N\xfameros",
-    "ShowClipping": "Mostrar Recorte",
+    "ShowClipping": "Mostrar recorte",
     "ShowCoordinatesIn3D": "Mostrar coordenadas em 3D",
     "ShowCoordinatesProjectedOntoA": "Mostrar coordenadas projetadas em %0",
     "ShowCoordinatesProjectedOntoXYPlane": "Mostrar coordenadas projetadas no plano xOy",
