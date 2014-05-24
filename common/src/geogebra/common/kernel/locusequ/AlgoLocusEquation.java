@@ -30,6 +30,7 @@ public class AlgoLocusEquation extends AlgoElement {
     private GeoImplicitPoly geoPoly;
     private GeoElement[] efficientInput, standardInput;
     private EquationSystem old_system = null; // for caching
+    private int visit = 0; // for caching
     
 	public AlgoLocusEquation(Construction cons, String label, GeoPoint locusPoint, GeoPoint movingPoint) {
 		this(cons, locusPoint, movingPoint);
@@ -94,8 +95,10 @@ public class AlgoLocusEquation extends AlgoElement {
 	 */
 	@Override
 	public void compute() {
+		visit ++; // required on web platform to ensure displaying the curve
+		// App.debug("visit == " + visit);
 		EquationSystem system = getOriginalIdeal();
-		if (system.looksSame(old_system)) {
+		if (system.looksSame(old_system) && (visit > 3)) {
 			// do nothing: the system has not been changed, thus we use the cache
 			return; // avoid the heavy computation
 		}
