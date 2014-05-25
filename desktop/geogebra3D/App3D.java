@@ -44,7 +44,6 @@ import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
-import geogebra.main.GlobalKeyDispatcherD;
 import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -380,26 +379,8 @@ public class App3D extends AppD {
 	// ///////////////////////////////
 	// FOR TESTING : TODO remove all
 
-	@Override
-	protected GlobalKeyDispatcherD newGlobalKeyDispatcher() {
-		return new GlobalKeyDispatcher3D(this);
-	}
 
-	/*
-	 * private static final int WIREFRAME_OFF =0; private static final int
-	 * WIREFRAME_ON =1; private int wireframe = WIREFRAME_OFF ;
-	 * 
-	 * public void toggleWireframe(){ switch (wireframe){ case WIREFRAME_OFF:
-	 * wireframe = WIREFRAME_ON; Application.debug("wireframe on"); break; case
-	 * WIREFRAME_ON: wireframe = WIREFRAME_OFF;
-	 * Application.debug("wireframe off"); break;
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * public boolean drawWireFrame(){ return (wireframe == WIREFRAME_ON); }
-	 */
+
 
 	@Override
 	public boolean is3D() {
