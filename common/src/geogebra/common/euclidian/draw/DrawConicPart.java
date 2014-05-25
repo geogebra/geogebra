@@ -213,7 +213,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getTransform((GeoConicND) conicPart, M, ev));
+		transform.concatenate(view.getCompanion().getTransform((GeoConicND) conicPart, M, ev));
 
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal

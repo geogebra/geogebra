@@ -2,11 +2,11 @@ package geogebra.common.geogebra3D.euclidianForPlane;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import geogebra.common.geogebra3D.main.App3DCompanion;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.gui.layout.DockPanel;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * @author mathieu
  *
  */
-public class EuclidianViewForPlaneCompanion extends EuclidianViewCompanion{
+public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 	
 	
 	private ViewCreator plane;

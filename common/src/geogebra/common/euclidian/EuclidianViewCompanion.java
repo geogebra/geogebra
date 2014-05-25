@@ -7,6 +7,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -364,5 +365,41 @@ public class EuclidianViewCompanion {
 		}
 		view.showGrid = show;
 		view.updateBackgroundImage();
+	}
+	
+	
+	/**
+	 * @param geo geo
+	 * @return new drawable for given geo
+	 */
+	public DrawableND newDrawable(GeoElement geo) {
+		return EuclidianDraw.newDrawable(view, geo);
+	}
+	
+	
+	/**
+	 * Returns transform from eigenvector space to screen coords
+	 * 
+	 * @param conic
+	 *            conic
+	 * @param M
+	 *            conic's midpoint
+	 * @param ev
+	 *            eigenvectors
+	 * @return affine transform of the conic for this view
+	 */
+	public geogebra.common.awt.GAffineTransform getTransform(GeoConicND conic,
+			Coords M, Coords[] ev) {
+		return conic.getAffineTransform();
+	}
+	
+	
+	/**
+	 * tranform point coords in view coords
+	 * @param point point
+	 * @return point coords in view coords
+	 */
+	public Coords getCoordsForView(GeoPointND point) {
+		return point.getInhomCoords();
 	}
 }

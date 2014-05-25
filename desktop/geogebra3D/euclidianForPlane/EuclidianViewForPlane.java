@@ -44,14 +44,6 @@ public class EuclidianViewForPlane extends EuclidianViewFor3DD implements Euclid
 		return (EuclidianViewForPlaneCompanion) super.getCompanion();
 	}
 	
-	
-
-
-
-
-	
-	
-
 
 
 	

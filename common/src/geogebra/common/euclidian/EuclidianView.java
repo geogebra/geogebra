@@ -47,7 +47,6 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -1737,13 +1736,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		return createDrawable(geo);
 	}
 
-	/**
-	 * @param geo geo
-	 * @return new drawable for given geo
-	 */
-	public DrawableND newDrawable(GeoElement geo) {
-		return EuclidianDraw.newDrawable(this, geo);
-	}
+
 
 	/**
 	 * adds a GeoElement to this view
@@ -1753,7 +1746,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @return drawable for given GeoElement
 	 */
 	protected DrawableND createDrawable(GeoElement geo) {
-		DrawableND d = newDrawable(geo);
+		DrawableND d = companion.newDrawable(geo);
 		if (d != null) {
 			DrawableMap.put(geo, d);
 			if (geo.isGeoPoint()) {
@@ -1930,14 +1923,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 
 
-	/**
-	 * tranform point coords in view coords
-	 * @param point point
-	 * @return point coords in view coords
-	 */
-	public Coords getCoordsForView(GeoPointND point) {
-		return point.getInhomCoords();
-	}
+
 
 	
 	/**
@@ -1958,21 +1944,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		return companion.getMatrix();
 	}
 
-	/**
-	 * Returns transform from eigenvector space to screen coords
-	 * 
-	 * @param conic
-	 *            conic
-	 * @param M
-	 *            conic's midpoint
-	 * @param ev
-	 *            eigenvectors
-	 * @return affine transform of the conic for this view
-	 */
-	public geogebra.common.awt.GAffineTransform getTransform(GeoConicND conic,
-			Coords M, Coords[] ev) {
-		return conic.getAffineTransform();
-	}
+	
 
 	public String getFromPlaneString() {
 		return companion.getFromPlaneString();

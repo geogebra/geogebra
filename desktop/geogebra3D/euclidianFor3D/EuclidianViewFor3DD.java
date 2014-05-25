@@ -1,13 +1,8 @@
 package geogebra3D.euclidianFor3D;
 
-import geogebra.common.awt.GAffineTransform;
-import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3D;
-import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.euclidian.EuclidianViewCompanion;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianViewD;
 
@@ -32,30 +27,12 @@ public class EuclidianViewFor3DD extends EuclidianViewD {
 
 	}
 
-	@Override
-	public DrawableND newDrawable(GeoElement geo) {
-
-		// first try super method
-		DrawableND d = super.newDrawable(geo);
-		if (d != null) {
-			return d;
-		}
-
-		// try 3D geos
-		return EuclidianViewFor3D.newDrawable(this, geo);
-	}
-	
 	
 	@Override
-	public GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
-		return EuclidianViewFor3D.getTransform(conic, M, ev);
+	protected EuclidianViewCompanion newEuclidianViewCompanion(){
+		return new EuclidianViewFor3DCompanion(this);
 	}
 	
-	
-	@Override
-	public Coords getCoordsForView(GeoPointND point) {
-		return EuclidianViewFor3D.getCoordsForView(this, point);
-	}
 	
 	
 }

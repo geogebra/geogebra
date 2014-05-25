@@ -769,7 +769,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		// set transform
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getTransform(conic, M, ev));
+		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
 
 		// set ellipse
 		ellipse.setFrameFromCenter(0, 0, halfAxes[0], halfAxes[1]);
@@ -893,7 +893,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		// set transform for Graphics2D
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getTransform(conic, M, ev));
+		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
 
 		updateHyperboalSetTransformToPaths();
 
@@ -1028,7 +1028,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		// set transform
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getTransform(conic, M, ev));
+		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
 
 		// setCurve(P0, P1, P2)
 		// parabola.setCurve(x0, y0, -x0, 0.0, x0, -y0);

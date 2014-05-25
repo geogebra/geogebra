@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.euclidianFor3D;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -10,22 +11,30 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * static methods for 2D view for 3D stuff
- * @author Proprietaire
+ * companion for view for 3D
+ * 
+ * @author mathieu
  *
  */
-public class EuclidianViewFor3D {
-	
-	/**
-	 * 
-	 * @param view view calling
-	 * @param geo geo creating the drawable
-	 * @return specific drawable
-	 */
-	static final public DrawableND newDrawable(EuclidianView view, GeoElement geo) {
+public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 
-		DrawableND d = null;
-		
+	/**
+	 * constructor
+	 * @param view view attached
+	 */
+	public EuclidianViewFor3DCompanion(EuclidianView view) {
+		super(view);
+	}
+	
+	@Override
+	public DrawableND newDrawable(GeoElement geo) {
+
+		// first try super method
+		DrawableND d = super.newDrawable(geo);
+		if (d != null) {
+			return d;
+		}
+
 		// try 3D geos
 		switch (geo.getGeoClassType()) {
 		case ANGLE3D:
@@ -36,25 +45,10 @@ public class EuclidianViewFor3D {
 		return d;
 	}
 	
+	
 
-	
-	/**
-	 * @param view view calling
-	 * @param point point
-	 * @return point coords in view coords
-	 */
-	static final public Coords getCoordsForView(EuclidianView view, GeoPointND point) {
-		return view.getCoordsForView(point.getInhomCoordsInD(3));
-	}
-	
-	
-	/**
-	 * @param conic conic
-	 * @param M middle point
-	 * @param ev eigen vectors
-	 * @return transform for conic
-	 */
-	static final public GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
+	@Override
+	public GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
 
 		//use already computed for this view middlepoint M and eigen vecs ev
 		GAffineTransform transform = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
@@ -69,6 +63,11 @@ public class EuclidianViewFor3D {
 		return transform;
 	}
 	
+
+	@Override
+	public Coords getCoordsForView(GeoPointND point) {
+		return view.getCoordsForView(point.getInhomCoordsInD(3));
+	}
 	
 
 }

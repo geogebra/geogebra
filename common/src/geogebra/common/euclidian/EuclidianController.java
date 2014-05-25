@@ -5594,7 +5594,7 @@ public abstract class EuclidianController {
 		if (P == null) {
 			moveVector(xRW - transformCoordsOffset[0], yRW - transformCoordsOffset[1]);
 		} else {
-			Coords c = view.getCoordsForView(P);
+			Coords c = view.getCompanion().getCoordsForView(P);
 			moveVector(xRW - c.getX(), yRW - c.getY());
 		}
 		
@@ -6851,7 +6851,7 @@ public abstract class EuclidianController {
 				double sx = 0;
 				double sy = 0;
 				if (sP != null) {
-					Coords c = view.getCoordsForView(sP);
+					Coords c = view.getCompanion().getCoordsForView(sP);
 					sx = c.getX();
 					sy = c.getY();
 				}
