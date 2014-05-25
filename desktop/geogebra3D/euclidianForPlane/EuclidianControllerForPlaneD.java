@@ -13,6 +13,7 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianControllerCreator;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianControllerCreatorForPlane;
 import geogebra.common.kernel.Kernel;
 import geogebra.euclidian.EuclidianControllerD;
 

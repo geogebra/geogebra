@@ -1,9 +1,8 @@
-package geogebra3D.euclidianForPlane;
+package geogebra.common.geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerCreatorFor3D;
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
