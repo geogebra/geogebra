@@ -3,7 +3,7 @@ package geogebra.common.geogebra3D.euclidian3D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.EuclidianControllerCreator;
+import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
@@ -18,7 +18,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerCreatorFor3D;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
@@ -187,8 +187,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 	
 	@Override
-	protected EuclidianControllerCreator newCreator(){
-		return new EuclidianControllerCreator3D(this);
+	protected EuclidianControllerCompanion newCompanion(){
+		return new EuclidianController3DCompanion(this);
 	}
 	
 
@@ -658,7 +658,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			yRW = project.getY();
 
 			// apply 2D method
-			point = ((EuclidianControllerCreatorFor3D) creator).getSingleIntersectionPointFrom2D(a, b, false);
+			point = ((EuclidianControllerFor3DCompanion) companion).getSingleIntersectionPointFrom2D(a, b, false);
 
 			// App.debug("\npoint="+point+"\nmouse=\n"+project);
 		}

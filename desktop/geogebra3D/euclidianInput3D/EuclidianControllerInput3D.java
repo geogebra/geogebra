@@ -1,6 +1,6 @@
 package geogebra3D.euclidianInput3D;
 
-import geogebra.common.euclidian.EuclidianControllerCreator;
+import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -107,8 +107,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 	
 	@Override
-	protected EuclidianControllerCreator newCreator(){
-		return new EuclidianControllerCreatorInput3D(this);
+	protected EuclidianControllerCompanion newCompanion(){
+		return new EuclidianControllerInput3DCompanion(this);
 	}
 	
 	private void setPositionXYOnPanel(double[] absolutePos, Coords panelPos){

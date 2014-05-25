@@ -349,7 +349,7 @@ public abstract class EuclidianController {
 	
 	int index;
 	
-	protected EuclidianControllerCreator creator;
+	protected EuclidianControllerCompanion companion;
 	
 	ModeDelete getDeleteMode(){
 		if(deleteMode == null && view != null){
@@ -362,16 +362,16 @@ public abstract class EuclidianController {
 		this.app = app;
 		this.selection = app.getSelectionManager();
 		this.l10n = app.getLocalization();
-		this.creator = newCreator();
+		this.companion = newCompanion();
 	}
 	
-	public EuclidianControllerCreator getCreator(){
-		return creator;
+	public EuclidianControllerCompanion getCompanion(){
+		return companion;
 	}
 	
 	
-	protected EuclidianControllerCreator newCreator(){
-		return new EuclidianControllerCreator(this);
+	protected EuclidianControllerCompanion newCompanion(){
+		return new EuclidianControllerCompanion(this);
 	}
 	
 	/**
@@ -708,7 +708,7 @@ public abstract class EuclidianController {
 		GeoElement a = hits.get(0);
 		GeoElement b = hits.get(1);
 		
-		return creator.getSingleIntersectionPoint(a,b,true);
+		return companion.getSingleIntersectionPoint(a,b,true);
 	}
 	
 
@@ -1861,7 +1861,7 @@ public abstract class EuclidianController {
 
 	final private GeoElement[] segment() {
 		GeoPointND[] points = getSelectedPointsND();
-		GeoElement[] ret = creator.segmentAlgo(kernel.getConstruction(), points[0], points[1]).getOutput();
+		GeoElement[] ret = companion.segmentAlgo(kernel.getConstruction(), points[0], points[1]).getOutput();
 		ret[0].setLabel(null);
 		return ret;
 	}
@@ -2476,7 +2476,7 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
-				return creator.orthogonal(points[0], lines[0]);
+				return companion.orthogonal(points[0], lines[0]);
 			}
 		}
 		return null;
@@ -2505,20 +2505,20 @@ public abstract class EuclidianController {
 			// fetch the two selected points
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 			
-			ret[0] = creator.midpoint(points[0], points[1]);			
+			ret[0] = companion.midpoint(points[0], points[1]);			
 			ret[0].setLabel(null);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
 			GeoSegmentND[] segments = getSelectedSegmentsND();
 			checkZooming(); 
-			ret[0] = creator.midpoint(segments[0]);
+			ret[0] = companion.midpoint(segments[0]);
 			return ret;
 		} else if (selConics() == 1) {
 			// fetch the selected segment
 			GeoConicND[] conics = getSelectedConicsND();
 			checkZooming(); 			
-			ret[0] = creator.midpoint(conics[0]);
+			ret[0] = companion.midpoint(conics[0]);
 			return ret;
 		}
 		return null;
@@ -2602,14 +2602,14 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = creator.angularBisector(points[0], points[1], points[2]);
+			ret[0] = companion.angularBisector(points[0], points[1], points[2]);
 			return ret;
 		} else if (selLines() == 2) {
 			// fetch the two lines
 			GeoLineND[] lines = getSelectedLinesND();
 			checkZooming(); 
 			
-			return creator.angularBisector(lines[0], lines[1]);
+			return companion.angularBisector(lines[0], lines[1]);
 		}
 		return null;
 	}
@@ -2669,25 +2669,25 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = creator.circumcircleArc(points[0], points[1], points[2]);
+			ret[0] = companion.circumcircleArc(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = creator.circumcircleSector(points[0], points[1], points[2]);
+			ret[0] = companion.circumcircleSector(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = creator.circleArc(points[0], points[1], points[2]);
+			ret[0] = companion.circleArc(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = creator.circleSector(points[0], points[1], points[2]);
+			ret[0] = companion.circleSector(points[0], points[1], points[2]);
 			break;
 	
 		default:
@@ -3176,7 +3176,7 @@ public abstract class EuclidianController {
 			return new GeoElement[] { getAlgoDispatcher().Semicircle(null,
 					(GeoPoint) points[0], (GeoPoint) points[1]) };
 		}
-		return creator.createCircle2(points[0], points[1]);
+		return companion.createCircle2(points[0], points[1]);
 	
 	}
 
@@ -3348,7 +3348,7 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				checkZooming(); 
 				
-				return creator.mirrorAtPoint(polys[0], points[0]);
+				return companion.mirrorAtPoint(polys[0], points[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
@@ -3359,9 +3359,9 @@ public abstract class EuclidianController {
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != point) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(creator.mirrorAtPoint(geos[i], point)));
+							ret.addAll(Arrays.asList(companion.mirrorAtPoint(geos[i], point)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(creator.mirrorAtPoint(geos[i], point)));
+							ret.addAll(Arrays.asList(companion.mirrorAtPoint(geos[i], point)));
 						}
 					}
 				}
@@ -3413,9 +3413,9 @@ public abstract class EuclidianController {
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != line) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(creator.mirrorAtLine(geos[i], line)));
+							ret.addAll(Arrays.asList(companion.mirrorAtLine(geos[i], line)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(creator.mirrorAtLine(geos[i], line)));
+							ret.addAll(Arrays.asList(companion.mirrorAtLine(geos[i], line)));
 						}
 					}
 				}
@@ -3738,7 +3738,7 @@ public abstract class EuclidianController {
 					vec = (GeoVectorND) vector(ab[0], ab[1]);
 				}
 				allowSelectionRectangleForTranslateByVector = true;
-				return creator.translate(polys[0], vec);
+				return companion.translate(polys[0], vec);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
@@ -3755,7 +3755,7 @@ public abstract class EuclidianController {
 						if ((geos[i] instanceof Translateable)
 								|| geos[i].isGeoPolygon()
 								|| geos[i].isGeoList()) {
-							ret.addAll(Arrays.asList(creator.translate(geos[i], vec)));
+							ret.addAll(Arrays.asList(companion.translate(geos[i], vec)));
 						}
 					}
 				}
@@ -4311,20 +4311,20 @@ public abstract class EuclidianController {
 		GeoElement[] angles = null;
 		if (selPoints() == 3) {
 			GeoPointND[] points = getSelectedPointsND();
-			angle = creator.createAngle(points[0], points[1], points[2]);
+			angle = companion.createAngle(points[0], points[1], points[2]);
 		} else if (selVectors() == 2) {
 			GeoVectorND[] vecs = getSelectedVectorsND();
 			checkZooming(); 
-			angle = creator.createAngle(vecs[0], vecs[1]);
+			angle = companion.createAngle(vecs[0], vecs[1]);
 		} else if (selLines() == 2) {
 			GeoLineND[] lines = getSelectedLinesND();
 			checkZooming(); 
 			
-			angle = creator.createLineAngle(lines[0], lines[1]);
+			angle = companion.createLineAngle(lines[0], lines[1]);
 		} else if (polyFound && (selGeos() == 1)) {
 			checkZooming(); 
 			
-			angles = creator.createAngles((GeoPolygon) getSelectedGeos()[0]);
+			angles = companion.createAngles((GeoPolygon) getSelectedGeos()[0]);
 		} else { // 3D
 			angle = createAngle3D();
 		}
@@ -4550,7 +4550,7 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				// center point and segment
-				GeoElement circlel = creator.circle(kernel.getConstruction(), centerPoint, segment);
+				GeoElement circlel = companion.circle(kernel.getConstruction(), centerPoint, segment);
 				GeoElement[] ret = { circlel };
 				clearSelections();
 				return ret;
@@ -4590,7 +4590,7 @@ public abstract class EuclidianController {
 		AlgoRadius radius = new AlgoRadius(cons, c);
 		cons.removeFromConstructionList(radius);
 
-		GeoConicND circle = creator.circle(cons, A, radius.getRadius());
+		GeoConicND circle = companion.circle(cons, A, radius.getRadius());
 		circle.setToSpecific();
 		circle.update();
 		//notifyUpdate(circle);
@@ -4606,10 +4606,10 @@ public abstract class EuclidianController {
 
 		Construction cons = kernel.getConstruction();
 
-		AlgoElement algoSegment = creator.segmentAlgo(cons, B, C);
+		AlgoElement algoSegment = companion.segmentAlgo(cons, B, C);
 		cons.removeFromConstructionList(algoSegment);
 
-		GeoConicND circle = creator.circle(cons, A, (NumberValue) algoSegment.getOutput(0));
+		GeoConicND circle = companion.circle(cons, A, (NumberValue) algoSegment.getOutput(0));
 		circle.setToSpecific();
 		circle.update();
 		//notifyUpdate(circle);
@@ -4872,13 +4872,13 @@ public abstract class EuclidianController {
 					transformCoords(); // use point capturing if on
 					// branches reordered to prefer path, and then region
 					if ((path != null) && onPathPossible) {
-						point = creator.createNewPoint(forPreviewable, path, complex);
+						point = companion.createNewPoint(forPreviewable, path, complex);
 						//App.debug(path);
 					} else if ((region != null) && inRegionPossible) {
-						point = creator.createNewPoint(forPreviewable, region, complex);
+						point = companion.createNewPoint(forPreviewable, region, complex);
 						//App.debug(region);
 					} else {
-						point = creator.createNewPoint(forPreviewable, complex);
+						point = companion.createNewPoint(forPreviewable, complex);
 						view.setShowMouseCoords(true);
 					}
 				}
@@ -5425,9 +5425,9 @@ public abstract class EuclidianController {
 		if (getTopHits.size() > 0) {
 			GeoElement geo = getTopHits.get(0);
 			if (Test.PATH_NO_FILL_HIT.check(geo) && !geo.isGeoPolygon()) {
-				creator.processModeLock((Path) geo);
+				companion.processModeLock((Path) geo);
 			} else if (geo.isGeoPoint()) {
-				creator.processModeLock((GeoPointND) geo);
+				companion.processModeLock((GeoPointND) geo);
 			} else {
 				transformCoords(); // grid lock
 			}
@@ -6104,7 +6104,7 @@ public abstract class EuclidianController {
 		startLoc = mouseLoc;
 	
 		// move all selected geos
-		GeoElement.moveObjects(creator.removeParentsOfView(getAppSelectedGeos()),
+		GeoElement.moveObjects(companion.removeParentsOfView(getAppSelectedGeos()),
 				translationVec, new Coords(xRW, yRW, 0), null);
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -7339,7 +7339,7 @@ public abstract class EuclidianController {
 			break;
 	
 		case MOVE_POINT:
-			creator.movePoint(repaint, event);
+			companion.movePoint(repaint, event);
 			break;
 	
 		case MOVE_POINT_WITH_OFFSET:

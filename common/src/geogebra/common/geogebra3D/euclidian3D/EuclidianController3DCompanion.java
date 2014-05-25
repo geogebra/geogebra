@@ -2,7 +2,7 @@ package geogebra.common.geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerCreatorFor3D;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -16,13 +16,13 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public class EuclidianControllerCreator3D extends EuclidianControllerCreatorFor3D{
+public class EuclidianController3DCompanion extends EuclidianControllerFor3DCompanion{
 
 	/**
 	 * constructor
 	 * @param ec controller
 	 */
-	public EuclidianControllerCreator3D(EuclidianController ec) {
+	public EuclidianController3DCompanion(EuclidianController ec) {
 		super(ec);
 	}
 	

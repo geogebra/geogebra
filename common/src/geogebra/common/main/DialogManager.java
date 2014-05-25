@@ -114,10 +114,10 @@ public abstract class DialogManager {
 		GeoAngle angle;
 		
 		if (points.length == 2) {
-			angle = ec.getCreator().createAngle(points[0], points[1], num, clockWise);
+			angle = ec.getCompanion().createAngle(points[0], points[1], num, clockWise);
 					//(GeoAngle) kernel.getAlgoDispatcher().Angle(null, points[0], points[1], num, !clockWise)[0];			
 		} else {
-			angle = ec.getCreator().createAngle(segments[0].getEndPoint(), segments[0].getStartPoint(), num, clockWise);
+			angle = ec.getCompanion().createAngle(segments[0].getEndPoint(), segments[0].getStartPoint(), num, clockWise);
 					//(GeoAngle) kernel.getAlgoDispatcher().Angle(null, segments[0].getEndPoint(), segments[0].getStartPoint(), num, !clockWise)[0];
 		}			
 
@@ -222,7 +222,7 @@ public abstract class DialogManager {
 
 
 		// negative orientation ?
-		if (ec.getCreator().viewOrientationForClockwise(clockwise)) {
+		if (ec.getCompanion().viewOrientationForClockwise(clockwise)) {
 			inputText = "-(" + inputText + ")";
 		}
 
@@ -247,7 +247,7 @@ public abstract class DialogManager {
 
 			if (polys.length == 1) {
 
-				GeoElement[] geos = ec.getCreator().rotateByAngle(polys[0], num, points[0]);
+				GeoElement[] geos = ec.getCompanion().rotateByAngle(polys[0], num, points[0]);
 				if (geos != null) {
 					app.storeUndoInfo();
 					ec.memorizeJustCreatedGeos(geos);
@@ -260,9 +260,9 @@ public abstract class DialogManager {
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != points[0]) {
 					if (selGeos[i] instanceof Transformable) {
-						ret.addAll(Arrays.asList(ec.getCreator().rotateByAngle(selGeos[i], num, points[0])));
+						ret.addAll(Arrays.asList(ec.getCompanion().rotateByAngle(selGeos[i], num, points[0])));
 					} else if (selGeos[i].isGeoPolygon()) {
-						ret.addAll(Arrays.asList(ec.getCreator().rotateByAngle(selGeos[i], num, points[0])));
+						ret.addAll(Arrays.asList(ec.getCompanion().rotateByAngle(selGeos[i], num, points[0])));
 					}
 				}
 			}
@@ -300,7 +300,7 @@ public abstract class DialogManager {
 		}
 
 
-		GeoElement[] geos = ec.getCreator().regularPolygon(geoPoint1, geoPoint2, (GeoNumberValue) result[0]);
+		GeoElement[] geos = ec.getCompanion().regularPolygon(geoPoint1, geoPoint2, (GeoNumberValue) result[0]);
 		GeoElement[] onlypoly = { null };
 		if (geos != null) {
 			onlypoly[0] = geos[0];
@@ -357,7 +357,7 @@ public abstract class DialogManager {
 			for (int i=0; i < selGeos.length; i++) {				
 				if (selGeos[i] != point) {
 					if ((selGeos[i] instanceof Transformable) || selGeos[i].isGeoList())
-						ret.addAll(Arrays.asList(ec.getCreator().dilateFromPoint(selGeos[i], num, point)));
+						ret.addAll(Arrays.asList(ec.getCompanion().dilateFromPoint(selGeos[i], num, point)));
 				}
 			}
 			if (!ret.isEmpty()) {

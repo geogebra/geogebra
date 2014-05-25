@@ -42,7 +42,7 @@ public class TextDispatcher3D extends TextDispatcher {
 
 		Coords coords = view3D.getCursor3D().getCoords();
 		
-		return view3D.getEuclidianController().getCreator().createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
+		return view3D.getEuclidianController().getCompanion().createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, 
 				object, 
 				coords.getX(), coords.getY(), coords.getZ(), 

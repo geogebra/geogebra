@@ -39,11 +39,11 @@ import java.util.ArrayList;
  * @author mathieu
  *
  */
-public class EuclidianControllerCreator {
+public class EuclidianControllerCompanion {
 	
 	protected EuclidianController ec;
 	
-	public EuclidianControllerCreator(EuclidianController ec){
+	public EuclidianControllerCompanion(EuclidianController ec){
 		this.ec = ec;
 	}
 	

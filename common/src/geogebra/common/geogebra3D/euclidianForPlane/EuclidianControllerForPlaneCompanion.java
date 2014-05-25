@@ -2,7 +2,7 @@ package geogebra.common.geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerCreatorFor3D;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -21,12 +21,12 @@ import java.util.ArrayList;
  * @author mathieu
  *
  */
-public class EuclidianControllerCreatorForPlane extends EuclidianControllerCreatorFor3D{
+public class EuclidianControllerForPlaneCompanion extends EuclidianControllerFor3DCompanion{
 
 	/**
 	 * @param ec euclidian controller
 	 */
-	public EuclidianControllerCreatorForPlane(EuclidianController ec) {
+	public EuclidianControllerForPlaneCompanion(EuclidianController ec) {
 		super(ec);
 	}
 

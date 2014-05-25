@@ -12,8 +12,8 @@
 
 package geogebra.geogebra3D.web.euclidianForPlane;
 
-import geogebra.common.euclidian.EuclidianControllerCreator;
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianControllerCreatorForPlane;
+import geogebra.common.euclidian.EuclidianControllerCompanion;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianControllerForPlaneCompanion;
 import geogebra.common.kernel.Kernel;
 import geogebra.web.euclidian.EuclidianControllerW;
 
@@ -32,7 +32,7 @@ public class EuclidianControllerForPlaneW extends EuclidianControllerW {
 
 
 	@Override
-	protected EuclidianControllerCreator newCreator(){
-		return new EuclidianControllerCreatorForPlane(this);
+	protected EuclidianControllerCompanion newCompanion(){
+		return new EuclidianControllerForPlaneCompanion(this);
 	}
 }

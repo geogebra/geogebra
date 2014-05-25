@@ -1,7 +1,7 @@
 package geogebra.common.geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.EuclidianControllerCreator;
+import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -22,11 +22,11 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.GeoClass;
 
-public class EuclidianControllerCreatorFor3D extends EuclidianControllerCreator {
+public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompanion {
 	
 	
 	
-	public EuclidianControllerCreatorFor3D(EuclidianController ec){
+	public EuclidianControllerFor3DCompanion(EuclidianController ec){
 		super(ec);
 	}
 	
