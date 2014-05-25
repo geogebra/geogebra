@@ -1,13 +1,13 @@
 package geogebra3D.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.geogebra3D.io.layout.DockPanelDataForPlane;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
-import geogebra3D.io.layout.DockPanelDataForPlane;
 
 import javax.swing.JComponent;
 

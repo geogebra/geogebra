@@ -1,4 +1,4 @@
-package geogebra3D.io.layout;
+package geogebra.common.geogebra3D.io.layout;
 
 import geogebra.common.awt.GRectangle;
 import geogebra.common.io.layout.DockPanelData;
