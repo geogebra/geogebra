@@ -33,7 +33,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	 * Common constructor.
 	 * @param ev
 	 */
-	public EuclidianStyleBarForPlane(EuclidianViewForPlane ev) {
+	public EuclidianStyleBarForPlane(EuclidianViewForPlaneD ev) {
 		super(ev);
 	}
 	

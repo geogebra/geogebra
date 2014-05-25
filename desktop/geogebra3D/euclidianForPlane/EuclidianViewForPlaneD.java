@@ -7,7 +7,7 @@ import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompani
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianStyleBarD;
-import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
+import geogebra.euclidian.EuclidianViewD;
 
 /**
  * 2D view for plane.
@@ -15,7 +15,7 @@ import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
  * @author matthieu
  *
  */
-public class EuclidianViewForPlane extends EuclidianViewFor3DD implements EuclidianViewForPlaneInterface {
+public class EuclidianViewForPlaneD extends EuclidianViewD implements EuclidianViewForPlaneInterface {
 
 
 	
@@ -25,7 +25,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3DD implements Euclid
 	 * @param plane plane creating this view
 	 * @param settings euclidian settings
 	 */
-	public EuclidianViewForPlane(EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
+	public EuclidianViewForPlaneD(EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
 		super(ec, new boolean[]{ false, false }, false, 0, settings); //TODO euclidian settings
 		
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);

@@ -18,7 +18,7 @@ import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
-import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.euclidianForPlane.EuclidianViewForPlaneD;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class DialogManager3D extends DialogManagerD {
 	
 	@Override
 	public void showNumberInputDialogCirclePointRadius(String title, GeoPointND geoPoint1,  EuclidianView view) {
-		if (((GeoElement) geoPoint1).isGeoElement3D() || (view instanceof EuclidianViewForPlane)) {
+		if (((GeoElement) geoPoint1).isGeoElement3D() || (view instanceof EuclidianViewForPlaneD)) {
 			//create a circle parallel to plane containing the view
 			showNumberInputDialogCirclePointDirectionRadius(title, geoPoint1, view.getDirection());
 		} else {

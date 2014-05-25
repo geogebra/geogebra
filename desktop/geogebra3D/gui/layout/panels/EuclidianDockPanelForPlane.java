@@ -7,7 +7,7 @@ import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
-import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.euclidianForPlane.EuclidianViewForPlaneD;
 
 import javax.swing.JComponent;
 
@@ -16,7 +16,7 @@ import javax.swing.JComponent;
  */
 public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
-	private EuclidianViewForPlane view;
+	private EuclidianViewForPlaneD view;
 	
 	//id of the first view
 	private static int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
@@ -26,7 +26,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	 * @param app application
 	 * @param view view for plane
 	 */
-	public EuclidianDockPanelForPlane(AppD app, EuclidianViewForPlane view) {
+	public EuclidianDockPanelForPlane(AppD app, EuclidianViewForPlaneD view) {
 		super(
 			viewId,	// view id 
 			"GraphicsViewForPlaneA", 				// view title
@@ -54,7 +54,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	 * 
 	 * @return view
 	 */
-	public EuclidianViewForPlane getView(){
+	public EuclidianViewForPlaneD getView(){
 		return view;
 	}
 	

@@ -10,7 +10,7 @@ import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra3D.euclidianForPlane.EuclidianControllerForPlaneD;
-import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.euclidianForPlane.EuclidianViewForPlaneD;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 
 import java.awt.Rectangle;
@@ -34,7 +34,7 @@ public class App3DCompanionD extends App3DCompanion {
 	
 	@Override
 	protected EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, EuclidianSettings evSettings){
-		EuclidianViewForPlane view = new EuclidianViewForPlane(new EuclidianControllerForPlaneD(app.getKernel()), plane, evSettings);
+		EuclidianViewForPlaneD view = new EuclidianViewForPlaneD(new EuclidianControllerForPlaneD(app.getKernel()), plane, evSettings);
 		return view.getCompanion();
 	}
 	
@@ -45,7 +45,7 @@ public class App3DCompanionD extends App3DCompanion {
 	@Override
 	protected void createDockPanel(boolean panelSettings, EuclidianViewForPlaneCompanion vfpc){
 		// create dock panel
-		panel = new EuclidianDockPanelForPlane((AppD) app, (EuclidianViewForPlane) vfpc.getView());
+		panel = new EuclidianDockPanelForPlane((AppD) app, (EuclidianViewForPlaneD) vfpc.getView());
 
 		((LayoutD) app.getGuiManager().getLayout()).registerPanel(panel);
 
@@ -100,7 +100,7 @@ public class App3DCompanionD extends App3DCompanion {
 	public void recallViewCreators(){
 
 		for (EuclidianDockPanelForPlane p : panelForPlaneList){
-			EuclidianViewForPlane view = p.getView();
+			EuclidianViewForPlaneD view = p.getView();
 			GeoElement geo = app.getKernel().lookupLabel(((GeoElement) view.getCompanion().getPlane()).getLabelSimple());
 			if (geo!=null && (geo instanceof ViewCreator)){
 				ViewCreator plane = (ViewCreator) geo;
