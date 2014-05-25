@@ -490,7 +490,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = kernel.getApplication().createEuclidianViewForPlane(this,true);
+		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel.getApplication().getCompanion().createEuclidianViewForPlane(this,true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
 	

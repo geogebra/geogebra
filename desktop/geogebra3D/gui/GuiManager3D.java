@@ -3,6 +3,7 @@ package geogebra3D.gui;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.geogebra3D.main.App3DCompanion;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
@@ -18,6 +19,7 @@ import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
+import geogebra3D.App3DCompanionD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import geogebra3D.gui.dialogs.DialogManager3D;
@@ -269,9 +271,9 @@ public class GuiManager3D extends GuiManagerD {
 			return null;
 
 		ViewCreator vc = (ViewCreator) geo;// getViewCreator(id);
-		vc.setEuclidianViewForPlane(((App3D) getApp())
-				.createEuclidianViewForPlane(vc, false));
-		return ((App3D) getApp()).getPanelForPlane();
+		vc.setEuclidianViewForPlane(((App3DCompanion) getApp()
+				.getCompanion()).createEuclidianViewForPlane(vc, false));
+		return ((App3DCompanionD) getApp().getCompanion()).getPanelForPlane();
 	}
 
 	@Override

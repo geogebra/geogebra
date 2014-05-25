@@ -83,6 +83,8 @@ public abstract class AppWeb extends App implements SetLabels{
 	                               // UUID.randomUUID();
 
 	protected AppWeb(){
+		super();
+		
 		loc = new LocalizationW();
 	}
 	

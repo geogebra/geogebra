@@ -10,11 +10,6 @@ package geogebra.common.euclidianForPlane;
 public interface EuclidianViewForPlaneInterface {
 
 
-	/**
-	 * remove the view (when creator is removed)
-	 */
-	public void doRemove();
-	
 	
 	
 	/**

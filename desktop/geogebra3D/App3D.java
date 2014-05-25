@@ -24,24 +24,17 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
-import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
-import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
+import geogebra.common.geogebra3D.main.App3DCompanion;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
-import geogebra.common.main.SelectionManager;
-import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.main.AppCompanion;
 import geogebra.euclidian.event.MouseEventD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
-import geogebra.gui.layout.DockPanel;
-import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
 import geogebra.util.FrameCollector;
@@ -52,20 +45,15 @@ import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
-import geogebra3D.euclidianForPlane.EuclidianControllerForPlaneD;
-import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
 import geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import geogebra3D.gui.GuiManager3D;
-import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 import geogebra3D.input3D.Input3DFactory;
 import geogebra3D.util.ImageManager3D;
 
 import java.awt.Component;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -74,11 +62,8 @@ public class App3D extends AppD {
 
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
-	protected Kernel3D kernel3D;
 	
 
-	private EuclidianViewForPlane euclidianViewForPlane;
-	private EuclidianDockPanelForPlane panel;
 	
 	public App3D(CommandLineArguments args, JFrame frame,
 			boolean undoActive) {
@@ -103,17 +88,7 @@ public class App3D extends AppD {
 
 	}
 
-	@Override
-	public void initKernel() {
-		kernel3D = new Kernel3D(this);
-		kernel = kernel3D;
-		selection = new SelectionManager(kernel,this);
-	}
 
-	@Override
-	protected boolean tableVisible(int table) {
-		return !(table ==CommandsConstants.TABLE_ENGLISH);
-	}
 	@Override
 	protected void initImageManager(Component component) {
 		imageManager = new ImageManager3D(component);
@@ -185,9 +160,7 @@ public class App3D extends AppD {
 		euclidianView3D.getXML(sb,asPreference);
 		
 		// save euclidian views for plane settings
-		if (euclidianViewForPlaneList!=null)
-			for (EuclidianViewForPlane view : euclidianViewForPlaneList)
-				view.getXML(sb, asPreference);
+		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb, asPreference);
 
 		return sb.toString();
 	}
@@ -207,16 +180,7 @@ public class App3D extends AppD {
 		return euclidianView3D != null;
 	}
 
-	@Override
-	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
-		super.getEuclidianViewXML(sb, asPreference);
-		getEuclidianView3D().getXML(sb,asPreference);
 
-		if (euclidianViewForPlaneList!=null)
-			for (EuclidianViewForPlane view : euclidianViewForPlaneList)
-				view.getXML(sb, asPreference);
-
-	}
 
 	@Override
 	public boolean saveGeoGebraFile(File file) {
@@ -226,58 +190,8 @@ public class App3D extends AppD {
 		return super.saveGeoGebraFile(file);
 	}
 
-	// ///////////////////////////////
-	// EUCLIDIAN VIEW FOR PLANE
-	// ///////////////////////////////
-	
-	private ArrayList<EuclidianViewForPlane> euclidianViewForPlaneList;
-
-	@Override
-	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
-		// create new view for plane and controller
-		EuclidianController ec = new EuclidianControllerForPlaneD(kernel3D);
-		EuclidianSettings evSettings = getSettings().getEuclidianForPlane(((GeoElement) plane).getLabelSimple());
-		if (evSettings == null){
-			evSettings = new EuclidianSettingsForPlane(getEuclidianView1().getSettings());
-		}
-		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane, evSettings);
-		euclidianViewForPlane.updateFonts();
-		euclidianViewForPlane.getCompanion().addExistingGeos();
-		
-		//add it to list
-		if (euclidianViewForPlaneList==null)
-			euclidianViewForPlaneList = new ArrayList<EuclidianViewForPlane>();
-		euclidianViewForPlaneList.add(euclidianViewForPlane);
-		
-
-		// create dock panel
-		panel = new EuclidianDockPanelForPlane(this,
-				euclidianViewForPlane);
-
-		((LayoutD) getGuiManager().getLayout()).registerPanel(panel);
 
 
-		if (panelSettings){
-			// panel.setToolbarString(dpInfo[i].getToolbarString());
-			panel.setFrameBounds(new Rectangle(600, 400));
-			// panel.setEmbeddedDef(dpInfo[i].getEmbeddedDef());
-			//panel.setEmbeddedSize(300);
-			// panel.setShowStyleBar(dpInfo[i].showStyleBar());
-			// panel.setOpenInFrame(dpInfo[i].isOpenInFrame());
-			panel.setVisible(true);
-			panel.toggleStyleBar();
-
-
-			((LayoutD) getGuiManager().getLayout()).getDockManager().show(panel);
-			
-		}
-
-		return euclidianViewForPlane.getCompanion();
-	}
-	
-	public DockPanel getPanelForPlane(){
-		return panel;
-	}
 
 
 	// ///////////////////////////////
@@ -339,9 +253,7 @@ public class App3D extends AppD {
 
 		super.resetFonts();
 
-		if (euclidianViewForPlane != null) {
-			euclidianViewForPlane.updateFonts();
-		}
+		((App3DCompanion) companion).resetFonts();
 	}
 
 	// /////////////////////////////////////
@@ -408,70 +320,11 @@ public class App3D extends AppD {
 		return super.getVersionString() + "-" + RendererJogl.JOGL_VERSION;
 	}
 
-	@Override
-	public void resetEuclidianViewForPlaneIds() {
-		EuclidianDockPanelForPlane.resetIds();
-	}
 	
-	private ArrayList<EuclidianDockPanelForPlane> panelForPlaneList;
 	
-	@Override
-	public void storeViewCreators(){
-		
-		if (panelForPlaneList==null)
-			panelForPlaneList = new ArrayList<EuclidianDockPanelForPlane>();
-		else
-			panelForPlaneList.clear();
-		
-		DockPanel[] panels = ((LayoutD) getGuiManager().getLayout()).getDockManager().getPanels();
-		for (int i=0; i<panels.length; i++){
-			if (panels[i] instanceof EuclidianDockPanelForPlane){
-				panelForPlaneList.add((EuclidianDockPanelForPlane) panels[i]);
-			}
-		}
-		
-	}
 	
-
-	@Override
-	public void recallViewCreators(){
-
-		for (EuclidianDockPanelForPlane p : panelForPlaneList){
-			EuclidianViewForPlane view = p.getView();
-			GeoElement geo = kernel.lookupLabel(((GeoElement) view.getCompanion().getPlane()).getLabelSimple());
-			if (geo!=null && (geo instanceof ViewCreator)){
-				ViewCreator plane = (ViewCreator) geo;
-				view.getCompanion().setPlane(plane);
-				plane.setEuclidianViewForPlane(view.getCompanion());
-				view.getCompanion().updateForPlane();
-			}else{
-				//no more creator : remove
-				p.getView().doRemove();
-			}
-		}
-	}
 	
-	/**
-	 * remove the view from the list
-	 * @param view view
-	 */
-	public void removeEuclidianViewForPlaneFromList(EuclidianViewForPlane view){
-		euclidianViewForPlaneList.remove(view);
-	}
 	
-	/**
-	 * remove all euclidian views for plane
-	 */
-	public void removeAllEuclidianViewForPlane(){
-		
-		if (euclidianViewForPlaneList==null)
-			return;
-		
-		for (EuclidianViewForPlane view : euclidianViewForPlaneList)
-			view.getCompanion().removeFromGuiAndKernel();
-		
-		euclidianViewForPlaneList.clear();
-	}
 	
 	@Override
 	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
@@ -503,7 +356,7 @@ public class App3D extends AppD {
 	public void fileNew() {
 		super.fileNew();
 		
-		removeAllEuclidianViewForPlane();
+		((App3DCompanion) companion).removeAllEuclidianViewForPlane();
 	}
 	
 	@Override
@@ -554,5 +407,9 @@ public class App3D extends AppD {
 	}
 
 
+	@Override
+	protected AppCompanion newAppCompanion(){
+		return new App3DCompanionD(this);
+	}
 	
 }

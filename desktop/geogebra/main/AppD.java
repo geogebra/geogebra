@@ -408,6 +408,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	protected AppD(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp,
 			boolean undoActive, LocalizationD loc) {
+		
+		super();
+		
 		this.loc = loc;
 		loc.setApp(this);
 		this.args = args;

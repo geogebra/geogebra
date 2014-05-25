@@ -5,9 +5,9 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
-import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
+import geogebra.common.geogebra3D.main.App3DCompanion;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.kernel.StringTemplate;
@@ -536,8 +536,13 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewCompanion{
 	
 	
 
+	/**
+	 * remove the view when the creator doens't exist anymore
+	 */
 	public void doRemove(){
-		((EuclidianViewForPlaneInterface) view).doRemove();
+		removeFromGuiAndKernel();
+		((App3DCompanion) view.getApplication().getCompanion()).removeEuclidianViewForPlaneFromList(this);
+
 	}
 	
 	/**

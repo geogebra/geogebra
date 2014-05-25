@@ -37,6 +37,14 @@ public class EuclidianViewCompanion {
 		this.view = view;
 	}
 	
+	/**
+	 * 
+	 * @return view attached
+	 */
+	public EuclidianView getView(){
+		return view;
+	}
+	
 	
 	/**
 	 * Updates xmin, xmax, ... for updateSize()

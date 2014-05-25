@@ -7,7 +7,6 @@ import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompani
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianStyleBarD;
-import geogebra3D.App3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 
 /**
@@ -50,10 +49,6 @@ public class EuclidianViewForPlane extends EuclidianViewFor3DD implements Euclid
 
 
 
-	public void doRemove(){
-		getCompanion().removeFromGuiAndKernel();
-		((App3D) getApplication()).removeEuclidianViewForPlaneFromList(this);
-	}
 	
 	
 

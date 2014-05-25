@@ -18,7 +18,6 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
@@ -50,7 +49,6 @@ import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
@@ -519,7 +517,7 @@ public abstract class App implements UpdateSelection{
 
 		for (Commands comm : Commands.values()) {
 			String internal = comm.name();
-			if (!tableVisible(comm.getTable())) {
+			if (!companion.tableVisible(comm.getTable())) {
 				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
 					putInTranslateCommandTable(comm);
 				}
@@ -571,18 +569,6 @@ public abstract class App implements UpdateSelection{
 		
 	}
 
-	/**
-	 * return true if commands of this table should be visible in input bar help
-	 * and autocomplete
-	 * 
-	 * @param table
-	 *            table number, see CommandConstants.TABLE_*
-	 * @return true for visible tables
-	 */
-	protected boolean tableVisible(int table) {
-		return !(table == CommandsConstants.TABLE_CAS ||
-				table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_ENGLISH);
-	}
 
 	/**
 	 * translate command name to internal name. Note: the case of localname is
@@ -1094,20 +1080,7 @@ public abstract class App implements UpdateSelection{
 	 */
 	public abstract EuclidianViewInterfaceCommon getActiveEuclidianView();
 
-	/**
-	 * XML settings for both EVs
-	 * 
-	 * @param sb
-	 *            string builder
-	 * @param asPreference
-	 *            whether we need this for preference XML
-	 */
-	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
-		getEuclidianView1().getXML(sb, asPreference);
-		if (hasEuclidianView2EitherShowingOrNot()) {
-			getEuclidianView2().getXML(sb, asPreference);
-		}
-	}
+
 
 	/**
 	 * @return whether 3D view was initialized
@@ -1971,8 +1944,8 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * init the kernel (used for 3D)
 	 */
-	public void initKernel() {
-		kernel = new Kernel(this);
+	final public void initKernel() {
+		kernel = companion.newKernel();
 		selection = new SelectionManager(kernel,this);
 	}
 
@@ -3179,27 +3152,9 @@ public abstract class App implements UpdateSelection{
 	public abstract MyXMLio getXMLio();
 	public abstract MyXMLio createXMLio(Construction cons);
 
-	/**
-	 * reset ids for 2D view created by planes, etc. Used in 3D.
-	 */
-	public void resetEuclidianViewForPlaneIds() {
-		// used in 3D
-		
-	}
 	
-	/**
-	 * store view creators (for undo)
-	 */
-	public void storeViewCreators(){
-		// used in 3D
-	}
 	
-	/**
-	 * recall view creators (for undo)
-	 */
-	public void recallViewCreators(){
-		// used in 3D
-	}
+	
 	
 	public boolean hasEventDispatcher(){
 		return eventDispatcher != null;
@@ -3478,14 +3433,6 @@ public abstract class App implements UpdateSelection{
 	
 	
 	
-	/**
-	 * @param plane plane creator
-	 * @param panelSettings panel settings
-	 * @return create a new euclidian view for the plane
-	 */
-	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings){
-		return null;
-	}
 	
 	
 	/**
@@ -3514,4 +3461,24 @@ public abstract class App implements UpdateSelection{
 	public void persistWidthAndHeight() {
 
 	}
+	
+	
+	
+	protected AppCompanion companion;
+	
+	protected AppCompanion newAppCompanion(){
+		return new AppCompanion(this);
+	}
+	
+	public AppCompanion getCompanion(){
+		return companion;
+	}
+	
+	/**
+	 * constructor
+	 */
+	public App(){
+		companion = newAppCompanion();
+	}
+	
 }
