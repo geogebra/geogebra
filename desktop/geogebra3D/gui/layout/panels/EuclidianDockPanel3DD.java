@@ -14,13 +14,13 @@ import javax.swing.JComponent;
 /**
  * Dock panel for the primary euclidian view.
  */
-public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
+public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * @param app application
 	 */
-	public EuclidianDockPanel3D(AppD app) {
+	public EuclidianDockPanel3DD(AppD app) {
 		super(
 			App.VIEW_EUCLIDIAN3D,	// view id 
 			"GraphicsView3D", 				// view title

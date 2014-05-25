@@ -23,7 +23,7 @@ import geogebra3D.App3DCompanionD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import geogebra3D.gui.dialogs.DialogManager3D;
-import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
+import geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
 import geogebra3D.gui.view.algebra.AlgebraView3D;
 import geogebra3D.gui.view.properties.PropertiesView3DD;
 
@@ -68,7 +68,7 @@ public class GuiManager3D extends GuiManagerD {
 	@Override
 	protected void initLayoutPanels() {
 		super.initLayoutPanels();
-		EuclidianDockPanel3D panel = new EuclidianDockPanel3D(getApp());
+		EuclidianDockPanel3DD panel = new EuclidianDockPanel3DD(getApp());
 		getLayout().registerPanel(panel);
 	}
 

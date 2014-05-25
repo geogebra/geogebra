@@ -14,7 +14,7 @@ import javax.swing.JComponent;
 /**
  * Dock panel for the primary euclidian view.
  */
-public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
+public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
 	private EuclidianViewForPlaneD view;
 	
@@ -26,7 +26,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	 * @param app application
 	 * @param view view for plane
 	 */
-	public EuclidianDockPanelForPlane(AppD app, EuclidianViewForPlaneD view) {
+	public EuclidianDockPanelForPlaneD(AppD app, EuclidianViewForPlaneD view) {
 		super(
 			viewId,	// view id 
 			"GraphicsViewForPlaneA", 				// view title
