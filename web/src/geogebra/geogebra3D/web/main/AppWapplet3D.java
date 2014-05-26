@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.main.AppCompanion;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
@@ -110,5 +111,10 @@ public class AppWapplet3D extends AppWapplet{
 	public EuclidianController newEuclidianController(Kernel kernel) {
 		return App3DW.newEuclidianController(kernel);
 
+	}
+	
+	@Override
+    protected AppCompanion newAppCompanion(){
+		return new App3DCompanionW(this);
 	}
 }

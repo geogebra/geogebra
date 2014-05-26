@@ -16,6 +16,7 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.MainMenu;
@@ -288,7 +289,23 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
     }
 
 	private void addPlaneItems() {
-	    App.debug("it is for 3D!");
+		
+		if (!(geo instanceof ViewCreator))
+			return;
+		
+		App.debug("==================== addPlaneItems");
+		
+		final ViewCreator plane = (ViewCreator) geo;
+		
+		Command action = new Command() {
+			
+			public void execute() {
+				plane.setView2DVisible(true);
+				App.debug("set plane visible : "+plane);
+			}
+		};
+		addAction(action, null, app.getLocalization().getPlain("ShowAas2DView", geo.getLabelSimple()));
+
     }
 
 	private void addUserInputItem() {

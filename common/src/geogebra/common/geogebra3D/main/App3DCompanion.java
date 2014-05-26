@@ -10,6 +10,7 @@ import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.common.main.AppCompanion;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.main.settings.Settings;
 
 import java.util.ArrayList;
 
@@ -78,23 +79,20 @@ public abstract class App3DCompanion extends AppCompanion {
 	 * @param evSettings settings
 	 * @return view companion
 	 */
-	protected abstract EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, EuclidianSettings evSettings);
+	protected abstract EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, EuclidianSettings evSettings, boolean panelSettings);
 	
-	/**
-	 * create dock panel for the view for plane
-	 * @param panelSettings says if does panel settings
-	 * @param vfpc view for plane
-	 */
-	protected abstract void createDockPanel(boolean panelSettings, EuclidianViewForPlaneCompanion vfpc);
-	
+		
 	@Override
 	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
-		EuclidianSettings evSettings = app.getSettings().getEuclidianForPlane(((GeoElement) plane).getLabelSimple());
+		Settings settings = app.getSettings();
+		String name = ((GeoElement) plane).getLabelSimple();
+		EuclidianSettings evSettings = settings.getEuclidianForPlane(name);
 		if (evSettings == null){
 			evSettings = new EuclidianSettingsForPlane(app.getEuclidianView1().getSettings());
+			settings.setEuclidianSettingsForPlane(name, evSettings);			
 		}
-		euclidianViewForPlaneCompanion = createEuclidianViewForPlane(plane, evSettings);
+		euclidianViewForPlaneCompanion = createEuclidianViewForPlane(plane, evSettings, panelSettings);
 		euclidianViewForPlaneCompanion.getView().updateFonts();
 		euclidianViewForPlaneCompanion.addExistingGeos();
 		
@@ -104,8 +102,6 @@ public abstract class App3DCompanion extends AppCompanion {
 		euclidianViewForPlaneCompanionList.add(euclidianViewForPlaneCompanion);
 		
 
-		// create dock panel
-		createDockPanel(panelSettings, euclidianViewForPlaneCompanion);
 
 		return euclidianViewForPlaneCompanion;
 	}

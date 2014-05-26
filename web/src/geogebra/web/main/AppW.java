@@ -1108,6 +1108,10 @@ public abstract class AppW extends AppWeb {
 		getEuclidianView2().doRepaint2();
 		stopCollectingRepaints();
 	}
+	
+	
+	
+	
 
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {
