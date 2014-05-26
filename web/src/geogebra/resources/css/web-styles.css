@@ -3716,3 +3716,16 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 		left:1px;
 		top:1px;
 	}
+	
+/*#####################################################################################
+###       FUNCTION INSPECTOR
+#####################################################################################*/
+
+.inspectorTable td {
+  border: 1px solid #BBBBBB;
+  padding: 3px;
+}
+
+.InspectorTableHeader gwt-Label {
+	font-weight: bold;
+}

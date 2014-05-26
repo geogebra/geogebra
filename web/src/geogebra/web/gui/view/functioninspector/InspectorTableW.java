@@ -12,6 +12,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	private GridModel model;
 	public InspectorTableW(int col) {
 		super();
+		setStyleName("inspectorTable");
 		setModel(new GridModel(col, this));
 		createHeader();
 	}
