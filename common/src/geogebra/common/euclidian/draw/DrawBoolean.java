@@ -12,6 +12,7 @@
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GGraphics2D;
@@ -24,6 +25,8 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+
+
 
 
 /**
@@ -227,7 +230,7 @@ public final class DrawBoolean extends Drawable {
 		private EuclidianView ev;
 		
 		/** background color when highlighted*/
-		public static GColor highlightBackground = AwtFactory.prototype.newColor(230, 230, 230);
+		public static GColor highlightBackground = AwtFactory.prototype.newColor(248, 248, 248);
 		
 		/**
 		 * Creates new checkbox icon
@@ -254,7 +257,7 @@ public final class DrawBoolean extends Drawable {
             {
                 // outer bevel
                 if (true) {
-                    // Outer top/left
+                    /*// Outer top/left
                     g.setColor(AwtFactory.prototype.newColor(128,128,128));
                     g.drawLine(x, y, x + (csize-2), y);
                     g.drawLine(x, y + 1, x, y + (csize-2));
@@ -280,33 +283,40 @@ public final class DrawBoolean extends Drawable {
                     } else {
                         g.setColor(GColor.white);
                     }
-                    g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
+                    g.fillRect(x + 2, y + 2, csize - 4, csize - 4);*/
+                	
+                	// Draw rounded border
+                	g.setColor(AwtFactory.prototype.newColor(220, 220, 220));
+                	g.drawRoundRect(x, y, csize, csize, csize/5, csize/5);
+                	
+                	// Draw rectangle with rounded borders
+                	if (highlighted) {
+                        g.setColor(highlightBackground);
+                    } else {
+                        g.setColor(GColor.white);
+                    }
+                    g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2, csize/5, csize/5);
                 } 
 
-                g.setColor(AwtFactory.prototype.newColor(0,0,0));
+                g.setColor(AwtFactory.prototype.newColor(102, 102, 102));
 
                 // paint check
+                g.setStroke( AwtFactory.prototype.newBasicStroke(4f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
                 
                 if (checked) {
                   if (csize == 13)
                   {
-                	
-                	  for (int i=5 ; i<=9 ; i++)
-                          g.drawLine(x+i, y+12-i, x+i, y+14-i);
-                	  
-                	  for (int i=3 ; i<=4 ; i++)
-                          g.drawLine(x+i, y+i+2, x+i, y+i+4);
+                	  g.setStroke(AwtFactory.prototype.newBasicStroke(2f));
+                	  g.drawLine(x + 2, y + 7, x + 5, y + 10);
+                	  g.drawLine(x + 5, y + 10, x + 10, y + 3);
                     
                   }
                   else
-                  { // csize == 26
+                  { // csize == 26              	  
+                	  g.setStroke(AwtFactory.prototype.newBasicStroke(4f));
+                	  g.drawLine(x + 5, y + 15, x + 10, y + 20);
+                	  g.drawLine(x + 10, y + 20, x + 20, y + 6);
                 	  
-                	  for (int i=10 ; i<=18 ; i++)
-                          g.drawLine(x+i, y+24-i, x+i, y+29-i);
-                	  
-                	  for (int i=5 ; i<=9 ; i++)
-                          g.drawLine(x+i, y+i+4, x+i, y+i+9);
-                		  
                   }
                 }
             }
