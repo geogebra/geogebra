@@ -44,7 +44,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	// EUCLIDIAN VIEW FOR PLANE
 	// ///////////////////////////////
 	
-	private ArrayList<EuclidianViewForPlaneCompanion> euclidianViewForPlaneCompanionList;
+	protected ArrayList<EuclidianViewForPlaneCompanion> euclidianViewForPlaneCompanionList;
 	
 	private EuclidianViewForPlaneCompanion euclidianViewForPlaneCompanion;
 
@@ -90,9 +90,12 @@ public abstract class App3DCompanion extends AppCompanion {
 		EuclidianSettings evSettings = settings.getEuclidianForPlane(name);
 		if (evSettings == null){
 			evSettings = new EuclidianSettingsForPlane(app.getEuclidianView1().getSettings());
+			evSettings.setShowGridSetting(false);
+			evSettings.setShowAxes(false, false);
 			settings.setEuclidianSettingsForPlane(name, evSettings);			
 		}
 		euclidianViewForPlaneCompanion = createEuclidianViewForPlane(plane, evSettings, panelSettings);
+		evSettings.addListener(euclidianViewForPlaneCompanion.getView());
 		euclidianViewForPlaneCompanion.getView().updateFonts();
 		euclidianViewForPlaneCompanion.addExistingGeos();
 		

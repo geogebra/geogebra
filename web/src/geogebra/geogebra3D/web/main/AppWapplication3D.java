@@ -107,6 +107,8 @@ public class AppWapplication3D extends AppWapplication {
 	    if (getEuclidianView3D() != null) {
 	    	getEuclidianView3D().getEuclidianController().calculateEnvironment();
 	    }
+	    
+	    ((App3DCompanionW) companion).recalculateEnvironments();
     }
 	
 	

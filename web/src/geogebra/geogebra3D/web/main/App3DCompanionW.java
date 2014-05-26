@@ -116,6 +116,16 @@ public class App3DCompanionW extends App3DCompanion {
 	public void resetEuclidianViewForPlaneIds() {
 		EuclidianDockPanelForPlaneW.resetIds();
 	}
+
+	/**
+	 * recalculates views environments.
+	 */
+	public void recalculateEnvironments() {
+
+		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
+			vfpc.getView().getEuclidianController().calculateEnvironment();
+		}
+	}
 	
 	
 

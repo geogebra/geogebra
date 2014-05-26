@@ -111,6 +111,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract {
 				if (h <= 0 || w <= 0) {
 					return;
 				}
+				
 				if (h != oldHeight || w != oldWidth) {
 
 					final EuclidianSettings settings = app.getSettings().getEuclidianForPlane(((GeoElement) view.getCompanion().getPlane()).getLabelSimple());
@@ -120,7 +121,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract {
 
 
 					view.synCanvasSize();
-					view.doRepaint2();
+					view.doRepaint();
 					app.stopCollectingRepaints();
 
 					oldHeight = h;

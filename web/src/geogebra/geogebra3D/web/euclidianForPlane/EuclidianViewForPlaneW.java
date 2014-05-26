@@ -54,7 +54,16 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements EuclidianV
 	public Widget getComponent() {
 	    return EVPanel.getAbsolutePanel();
     }
+	
+	
+	@Override
+    public final void repaint() {
 
+		// temporary hack : use timer instead
+		doRepaint();
+     }
+
+	
 	
 	
 }
