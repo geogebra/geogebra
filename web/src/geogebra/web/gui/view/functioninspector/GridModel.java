@@ -9,6 +9,7 @@ public class GridModel {
 		void updateCell(int col, int row, String value);
 		void addRow(List<String> row);
 		void removeAllRows();
+		void setHeaders(String[] names);
 	}
 
 	private IGridListener listener;
@@ -83,4 +84,15 @@ public class GridModel {
 		data.add(row);
 		listener.addRow(row);
 	}
+
+	public void setHeaders(String[] names) {
+	    headers.clear();
+	    int col = 0;
+		for (String title: names) {
+	    	headers.add(title);
+	    	col++;
+		}
+    	listener.setHeaders(names);
+
+    }
 }

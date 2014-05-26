@@ -102,7 +102,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		lblGeoName.setText(getModel().getTitleString());
 //
 //		// tool tips
-//		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
+		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
 		btnOscCircle.setToolTipText(loc
 				.getPlainTooltip("fncInspector.showOscCircle"));
 		btnXYSegments.setToolTipText(loc
@@ -127,6 +127,7 @@ public class FunctionInspectorW extends FunctionInspector {
 //		c.add(btnAddColumn);
 //		c.add(btnRemoveColumn);
 //
+	    tableInterval.getModel().setHeaders(getModel().getIntervalColumnNames());
 
 	}
 
@@ -144,6 +145,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		GridModel modelInterval = tableInterval.getModel();
 		//modelInterval.setColumNames(getModel().getIntervalColumnNames());
 		modelInterval.removeAll();
+		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 		for (int i = 0; i < property.size(); i++) {
 			modelInterval.addRow(Arrays.asList(property.get(i), value.get(i)));
 

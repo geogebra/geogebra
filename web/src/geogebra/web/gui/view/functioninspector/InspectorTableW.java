@@ -29,7 +29,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 
 	public void updateCell(int col, int row, String value) {
-		Label label = (Label)getWidget(col, row);
+		Label label = (Label)getWidget(row, col);
 		label.setText(value);
 
 	}
@@ -48,6 +48,15 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		for (String cell: row) {
 			Label label = new Label(cell);
 			setWidget(numRows, col, label);
+			col++;
+		}
+    }
+
+	public void setHeaders(String[] headers) {
+		int col = 0;
+		for (String cell: headers) {
+			Label label = new Label(cell);
+			setWidget(0, col, label);
 			col++;
 		}
     }
