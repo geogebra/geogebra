@@ -494,13 +494,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 				intersectionPoint.setLabel(null);
 
 				// check if it's a 3D point
-				if (((GeoElement) intersectionPoint).isGeoElement3D())
+				if (((GeoElement) intersectionPoint).isGeoElement3D()){
 					point3D = (GeoPoint3D) intersectionPoint;
-				else
+					setMovedGeoPoint(point3D);
+				}else{
+					setMovedGeoPoint((GeoElement) intersectionPoint);
 					return intersectionPoint;
+				}
 
-			} else
+			} else {
 				point3D = null;
+			}
 			return point3D;
 
 		case EuclidianView3D.PREVIEW_POINT_ALREADY:
@@ -873,7 +877,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return null;
 
-		if (addSelectedPoint(hits, 2, false) == 0) {
+		if (addSelectedPoint(hits, 2, false) == 0 && selPoints() == 0 && selDirections() == 0) {
 			// select a direction only if no point is selected
 			addSelectedDirection(hits, 1, false);
 		}
@@ -1882,8 +1886,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_CUBE:
 			view.setHits(mouseLoc, type);
 			hits = view.getHits();
-			// switchModeForRemovePolygons(hits);
-			// createNewPoint(hits, true, false, false, true, false);
+			//hits.removePolygons();
+			boolean createPointAnywhere = false;
+			if (selDirections() == 1 || selPoints() != 0){ // create point anywhere when direction has been selected
+				createPointAnywhere = true;
+			}else{
+				if (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_REGION){
+					if (view3D.getCursor3D().getRegion() == kernel.getXOYPlane()){
+						createPointAnywhere = true;
+					}
+				}
+			}
+			if (createPointAnywhere){					
+				createNewPoint(hits, true, true, true, true, false);
+			}else{
+				createNewPoint(hits, false, false, true, true, false);
+			}
 			break;
 
 		case EuclidianConstants.MODE_PYRAMID:
@@ -2987,7 +3005,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_POINT:
 			case EuclidianConstants.MODE_INTERSECT:
 				return true;
-
+				
+			case EuclidianConstants.MODE_TETRAHEDRON:
+			case EuclidianConstants.MODE_CUBE:
+				return true;
+				
 			default:
 				return false;
 			}
@@ -3020,6 +3042,24 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 				return true;
+				
+			case EuclidianConstants.MODE_TETRAHEDRON:
+			case EuclidianConstants.MODE_CUBE:
+				// show cursor when direction has been selected
+				if (selDirections() == 1 || selPoints() != 0){
+					return true;
+				}
+				
+				GeoPoint3D point = view3D.getCursor3D();
+				if (point.hasRegion()){
+					if (point.getRegion() == kernel.getXOYPlane()){
+						return true;
+					}
+				}
+								
+				return false;
+
+
 
 			default:
 				return false;
