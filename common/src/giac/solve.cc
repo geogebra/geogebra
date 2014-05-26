@@ -1683,7 +1683,7 @@ namespace giac {
 	if (equalposcomp(substin,lsvar))
 	  continue;
 	substin.push_back(lsvar);
-	gen tmp("c__"+print_INT_(i),contextptr);
+	gen tmp("c__"+print_intvar_counter(contextptr),contextptr);
 	if (!(ls[3*i+1].val %2))
 	  assumesymbolic(symb_superieur_egal(tmp,0),0,contextptr); 
 	listvars.push_back(tmp);
@@ -5202,49 +5202,6 @@ namespace giac {
 	return *sol._VECTptr;
       return vecteur(1,sol);
     }
-    vecteur ls=lvarfracpow(eq_orig);
-    if ( ((evalf_after & 4)==0) && !ls.empty()){
-      // add equations and variables
-      int s=ls.size()/3;
-      vecteur substin,substout,equations,listvars;
-      vector<int> poscheck;
-      for (unsigned i=0;i<s;++i){
-	gen lsvar=ls[3*i+2];
-	gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);
-	if (equalposcomp(substin,lsvar))
-	  continue;
-	substin.push_back(lsvar);
-	gen tmp("c__"+print_INT_(i),contextptr);
-	if (!(ls[3*i+1].val %2))
-	  poscheck.push_back(var.size()+i);
-	listvars.push_back(tmp);
-	substout.push_back(tmp);
-	equations.push_back(pow(tmp,ls[3*i+1],contextptr)-ls3i);
-      }
-      vecteur eq=subst(eq_orig,substin,substout,false,contextptr);
-      vecteur newvar=mergevecteur(var,listvars);
-      vecteur sol=gsolve(mergevecteur(eq,equations),newvar,complexmode,evalf_after | 4,contextptr);
-      // extract var part
-      for (unsigned i=0;i<sol.size();++i){
-	if (sol[i].type==_VECT && sol[i]._VECTptr->size()==newvar.size()){
-	  // check positivity for sqrt variables and so on
-	  vecteur w=*sol[i]._VECTptr;
-	  unsigned j;
-	  for (j=0;j<poscheck.size();++j){
-	    if (is_strictly_positive(-w[poscheck[j]],contextptr))
-	      break;
-	  }
-	  if (j<poscheck.size()){
-	    sol.erase(sol.begin()+i);
-	    --i;
-	  }
-	  else
-	    sol[i]=vecteur(w.begin(),w.begin()+var.size());
-	}
-      }
-      return sol;
-      return vecteur(1,gensizeerr(contextptr));
-    } // end fractional power code
     iterateur it=var.begin(),itend=var.end();
     int s=itend-it; // # of unknowns
     if (s==0)
@@ -5297,7 +5254,7 @@ namespace giac {
 	for (unsigned j=0;j<var.size();++j){
 	  gen a,b;
 	  if (is_linear_wrt(eq[i],var[j],a,b,contextptr) 
-	      && is_zero(derive(eq[i],var,contextptr),contextptr) 
+	      && is_zero(derive(eq[i]-a*var[j],var,contextptr),contextptr) 
 	      && !is_zero(simplify(a,contextptr),contextptr)){
 	    // eq[i]=a*var[j]+b
 	    // replace var[j] by -b/a
@@ -5326,6 +5283,49 @@ namespace giac {
 	}
       }
 #endif
+      vecteur ls=lvarfracpow(eq);
+      if ( ((evalf_after & 4)==0) && !ls.empty()){
+	// add equations and variables
+	int s=ls.size()/3;
+	vecteur substin,substout,equations,listvars;
+	vector<int> poscheck;
+	for (unsigned i=0;i<s;++i){
+	  gen lsvar=ls[3*i+2];
+	  gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);
+	  if (equalposcomp(substin,lsvar))
+	    continue;
+	  substin.push_back(lsvar);
+	  gen tmp("c__"+print_intvar_counter(contextptr),contextptr);
+	  if (!(ls[3*i+1].val %2))
+	    poscheck.push_back(var.size()+i);
+	  listvars.push_back(tmp);
+	  substout.push_back(tmp);
+	  equations.push_back(pow(tmp,ls[3*i+1],contextptr)-ls3i);
+	}
+	vecteur neweq=subst(eq,substin,substout,false,contextptr);
+	vecteur newvar=mergevecteur(var,listvars);
+	vecteur sol=gsolve(mergevecteur(neweq,equations),newvar,complexmode,evalf_after | 4,contextptr);
+	// extract var part
+	for (unsigned i=0;i<sol.size();++i){
+	  if (sol[i].type==_VECT && sol[i]._VECTptr->size()==newvar.size()){
+	    // check positivity for sqrt variables and so on
+	    vecteur w=*sol[i]._VECTptr;
+	    unsigned j;
+	    for (j=0;j<poscheck.size();++j){
+	      if (is_strictly_positive(-w[poscheck[j]],contextptr))
+		break;
+	    }
+	    if (j<poscheck.size()){
+	      sol.erase(sol.begin()+i);
+	      --i;
+	    }
+	    else
+	      sol[i]=vecteur(w.begin(),w.begin()+var.size());
+	  }
+	}
+	return sol;
+	return vecteur(1,gensizeerr(contextptr));
+      } // end fractional power code
       // check if one equation depends only on one unknown
       if ((evalf_after & 4)==0){
 	for (unsigned i=0;i<eq.size();++i){
