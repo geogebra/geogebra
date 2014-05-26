@@ -561,8 +561,9 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getPNGBase64(DZD)(exportScale,transparent,dpi);
 		}
 		
-		
-		
+		$wnd[ggbApplet].getFileJSON = function(exportScale, transparent, dpi){
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::getFileJSON(Z)(false);
+		}
 		$doc[ggbApplet] = $wnd[ggbApplet];
 
 		// other methods from the Wiki (consider to implement here)

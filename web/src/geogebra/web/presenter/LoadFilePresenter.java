@@ -46,13 +46,17 @@ public class LoadFilePresenter{
 		}
 		else if (isReloadDataInStorage()){
 			//do nothing here - everything done in isReloadDataInStorage() function 
-		} 
+		}
+		else if (!"".equals((filename = view.getDataParamJSON()))) { 
+			processJSON(filename);
+		}
 		else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
-		} 
-		else if (!"".equals((filename = view.getDataParamFileName()))) { 
-			fetch(filename);
 		}
+		else if (!"".equals((filename = view.getDataParamFileName()))) {
+			fetch(filename);
+		} 
+		
 		else {
 			//we dont have content, it is an app
 			Log.debug("no base64content, possibly App loaded?");
@@ -152,6 +156,10 @@ public class LoadFilePresenter{
 	public void process(String dataParamBase64String) {
 			getView().processBase64String(dataParamBase64String);
 	}
+	
+	public void processJSON(String dataParamBase64String) {
+		getView().processJSON(dataParamBase64String);
+}
 	
 
 	public void onWorksheetConstructionFailed(String errorMessage) {

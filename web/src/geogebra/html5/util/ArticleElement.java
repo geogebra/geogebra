@@ -63,6 +63,11 @@ public final class ArticleElement extends Element {
 		String ret = this.getAttribute("data-param-filename"); 
 		return (ret != null) ? ret : ""; 
 	}
+	
+	public String getDataParamJSON() { 
+		String ret = this.getAttribute("data-param-json"); 
+		return (ret != null) ? ret : ""; 
+	}
 
 	/**
 	 * Determines if the "data-param-guiOff" article attribute is set to true

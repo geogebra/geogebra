@@ -166,6 +166,11 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     }
     
 
+    public JavaScriptObject getFileJSON(boolean includeThumbnail) {
+    	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
+		
+		return prepareToEntrySet(archiveContent);
+    }
 
     private class StoreString implements StringHandler{
 		private String result = "";
