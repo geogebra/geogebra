@@ -584,7 +584,7 @@ namespace giac {
 #else
 	execlp("gnuplot","gnuplot -geometry 500x700 -noraise",0); // start gnuplot
 #endif
-	exit(1); // in case gnuplot is not found
+	return -1; // in case gnuplot is not found
       }
       else {
 	usleep(10000);
@@ -3218,6 +3218,21 @@ namespace giac {
 
   gen _milieu(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_REAL){
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+      if (real_interval * ptr=dynamic_cast<real_interval *>(args._REALptr)){
+	mpfr_t tmp;
+	mpfr_init2(tmp,mpfi_get_prec(ptr->infsup));
+	mpfi_get_fr(tmp,ptr->infsup);
+	gen res=real_object(tmp);
+	mpfr_clear(tmp);
+	return res;
+      }
+#endif
+      return real_object(args._REALptr->inf);
+    }
+    if (args.type==_FRAC || args.type<=_POLY)
+      return args;
     vecteur attributs(1,default_color(contextptr));
     read_attributs(gen2vecteur(args),attributs,contextptr);
     gen e,f;
@@ -8571,7 +8586,7 @@ namespace giac {
 	}
 	if (der.type==_VECT && der._VECTptr->size()==2){
 	  gen droite=der._VECTptr->front()*(xy[0]-tr)+der._VECTptr->back()*(xy[1]-ti);
-	  vecteur sol=gsolve(makevecteur(droite,argv0),*xy._VECTptr,false,approx_mode(contextptr),contextptr);
+	  vecteur sol=gsolve(makevecteur(droite,argv0),*xy._VECTptr,false,(approx_mode(contextptr)?1:0),contextptr);
 	  if (!is_undef(sol)){
 	    vecteur res;
 	    for (unsigned i=0;i<sol.size();++i){
@@ -8742,7 +8757,7 @@ namespace giac {
 	    if (is_undef(eqx) || is_undef(eqy))
 	      return eqx+eqy;
 	    gen eq2=(Mx-x)*eqx+(My-y)*eqy;
-	    vecteur sols=gsolve(makevecteur(eq,eq2),makevecteur(x,y),false,approx_mode(contextptr),contextptr);
+	    vecteur sols=gsolve(makevecteur(eq,eq2),makevecteur(x,y),false,(approx_mode(contextptr)?1:0),contextptr);
 	    if (is_undef(sols))
 	      return sols;
 	    // build tangents
@@ -10407,6 +10422,8 @@ namespace giac {
     if (args.type!=_STRNG)
       return gensizeerr(contextptr);
     FILE * f = fopen(args._STRNGptr->c_str(),"r");
+    if (!f)
+      return gensizeerr(gettext("Unable to read file"));
     char * buf = new char[101];
     fread(buf,sizeof(char),4,f);
     if (buf[0]=='-' && buf[1]=='1' && buf[2]==' '){
@@ -10794,7 +10811,7 @@ namespace giac {
     lvar(f_orig,xy1); // check for an algebraic curve
     if (xy1==xy){
       // Polynomial singular points: solve([f_orig,dfx,dfy],xy)
-      singular_points=gsolve(*exact(makevecteur(f_orig,dfx,dfy),contextptr)._VECTptr,xy,false,approx_mode(contextptr),contextptr);
+      singular_points=gsolve(*exact(makevecteur(f_orig,dfx,dfy),contextptr)._VECTptr,xy,false,(approx_mode(contextptr)?1:0),contextptr);
       for (int k=0;k<int(singular_points.size());k++){
 	gen sp=singular_points[k];
 	gen spd=evalf_double(sp,1,contextptr);

@@ -194,12 +194,12 @@ namespace giac {
     if (v.type==_VECT)
       return algebraic_EXTension((*a._VECTptr) % (*v._VECTptr),v);
     if (v.type==_FRAC)
-        return horner(*a._VECTptr,*v._FRACptr);
+      return horner(*a._VECTptr,*v._FRACptr,true);
     if (v.type!=_EXT)
       return gentypeerr(gettext("ext_reduce"));
     gen va=*v._EXTptr,vb=*(v._EXTptr+1);
     if (va.type==_FRAC)
-        return ext_reduce(horner(*a._VECTptr,*va._FRACptr),vb);
+      return ext_reduce(horner(*a._VECTptr,*va._FRACptr,true),vb);
     if (va.type!=_VECT){
       if (vb.type!=_VECT)  
 	return gensizeerr(gettext("alg_ext.cc/ext_reduce"));

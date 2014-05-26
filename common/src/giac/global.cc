@@ -4565,9 +4565,11 @@ unsigned int ConvertUTF8toUTF16 (
     int l;
     if (g.type!=_VECT || (l=g._VECTptr->size())<4)
       return false;
-    vecteur & v=*g._VECTptr;
-    if (v[2].type!=_VECT || v[3].type!=_VECT || v[2]._VECTptr->size()!=v[3]._VECTptr->size())
+    vecteur v=*g._VECTptr;
+    if (v[2].type!=_VECT || v[3].type!=_VECT || (v[2]._VECTptr->size()!=v[3]._VECTptr->size() && v[2]._VECTptr->size()!=v[3]._VECTptr->size()+1))
       return false;
+    if (v[2]._VECTptr->size()==v[3]._VECTptr->size()+1)
+      v[2]._VECTptr->pop_back();
 #ifndef DONT_UNARCHIVE_HISTORY
     history_in(contextptr)=*v[2]._VECTptr;
     history_out(contextptr)=*v[3]._VECTptr;

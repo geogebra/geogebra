@@ -135,6 +135,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_RECT;
   extern const unary_function_ptr * const  at_TEXTOUT;
   extern const unary_function_ptr * const  at_EDITMAT;
+  extern const unary_function_ptr * const  at_INT;
 
 #ifdef GIAC_HAS_STO_38
   extern const unary_function_ptr * const  at_INVERT;

@@ -506,8 +506,13 @@ namespace giac {
     case _INT_:
       type=_ZINT;
       break;
-    case _REAL:
-      type=_DOUBLE_;
+    case _REAL: 
+#ifndef NO_RTTI
+      if (dynamic_cast<real_interval *>(args._REALptr))
+	type=_FLOAT_;
+      else
+#endif      
+	type=_DOUBLE_; 
       break;
     default:
       if (args.is_symb_of_sommet(at_program))
@@ -2605,9 +2610,15 @@ namespace giac {
 
   gen _contains(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
-    if ( (args.type!=_VECT) || (args._VECTptr->size()!=2) || (args._VECTptr->front().type!=_VECT) )
+    if ( (args.type!=_VECT) || (args._VECTptr->size()!=2))
       return gensizeerr(contextptr);
-    return equalposcomp(*args._VECTptr->front()._VECTptr,args._VECTptr->back());
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (a.type!=_VECT){
+      if (a.type==_REAL)
+	return contains(a,b);
+      return gensizeerr(contextptr);
+    }
+    return equalposcomp(*a._VECTptr,b);
   }
   static const char _contains_s []="contains";
   static define_unary_function_eval (__contains,&_contains,_contains_s);
@@ -3348,6 +3359,42 @@ namespace giac {
     if (v.size()!=2)
       return gensizeerr(contextptr);
     gen a=v.front(),b=v.back();
+#if defined HAVE_LIBMPFI && !defined NO_RTTI      
+    if (a.type==_REAL && b.type==_REAL){
+      if (real_interval * aptr=dynamic_cast<real_interval *>(a._REALptr)){
+	if (real_interval * bptr=dynamic_cast<real_interval *>(b._REALptr)){
+	  mpfi_t tmp;
+	  mpfi_init2(tmp,giacmin(mpfi_get_prec(aptr->infsup),mpfi_get_prec(bptr->infsup)));
+	  mpfi_union(tmp,aptr->infsup,bptr->infsup);
+	  gen res=real_interval(tmp);
+	  mpfi_clear(tmp);
+	  return res;
+	}
+	else {
+	  if (contains(a,b))
+	    return a;
+	  else
+	    return _union(makesequence(a,eval(gen(makevecteur(b,b),_INTERVAL__VECT),1,contextptr)),contextptr);
+	}
+      }
+      if (contains(b,a))
+	return b;
+      else
+	return _union(makesequence(b,eval(gen(makevecteur(a,a),_INTERVAL__VECT),1,contextptr)),contextptr);
+    }
+    if (a.type==_REAL){
+      if (contains(a,b))
+	return a;
+      else
+	return _union(makesequence(a,eval(gen(makevecteur(b,b),_INTERVAL__VECT),1,contextptr)),contextptr);
+    }
+    if (b.type==_REAL){
+      if (contains(b,a))
+	return b;
+      else
+	return _union(makesequence(a,eval(gen(makevecteur(b,b),_INTERVAL__VECT),1,contextptr)),contextptr);
+    }
+#endif
     if ( (a.type!=_VECT) || (b.type!=_VECT))
       return gensizeerr(gettext("Union"));
     return gen(mergevecteur(*a._VECTptr,*b._VECTptr),_SET__VECT).eval(1,contextptr);
@@ -3364,6 +3411,44 @@ namespace giac {
     if ((args.type!=_VECT) || (args._VECTptr->size()!=2))
       return gensizeerr();
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
+#if defined HAVE_LIBMPFI && !defined NO_RTTI      
+    if (a.type==_REAL && b.type==_REAL){
+      if (real_interval * aptr=dynamic_cast<real_interval *>(a._REALptr)){
+	if (real_interval * bptr=dynamic_cast<real_interval *>(b._REALptr)){
+	  mpfi_t tmp;
+	  mpfi_init2(tmp,giacmin(mpfi_get_prec(aptr->infsup),mpfi_get_prec(bptr->infsup)));
+	  mpfi_intersect(tmp,aptr->infsup,bptr->infsup);
+	  gen res;
+	  if (mpfi_is_empty(tmp))
+	    res=vecteur(0);
+	  else
+	    res=real_interval(tmp);
+	  mpfi_clear(tmp);
+	  return res;
+	}
+	else {
+	  if (contains(a,b))
+	    return eval(gen(makevecteur(b,b),_INTERVAL__VECT),1,contextptr);
+	  return vecteur(0);
+	}
+      }
+      if (contains(b,a))
+	return eval(gen(makevecteur(a,a),_INTERVAL__VECT),1,contextptr);
+      return vecteur(0);
+    }
+    if (a.type==_REAL){
+      if (contains(a,b))
+	return eval(gen(makevecteur(b,b),_INTERVAL__VECT),1,contextptr);
+      else
+	return vecteur(0);
+    }
+    if (b.type==_REAL){
+      if (contains(b,a))
+	return a;
+      else
+	return vecteur(0);
+    }
+#endif
     if ( a.type==_VECT && b.type==_VECT){
       vecteur v;
       const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end();
@@ -5113,10 +5198,10 @@ namespace giac {
 	vector_int2vecteur(w,v);
 	return v;
       }
-      vector<double> V;
-      if (v.front().type==_DOUBLE_ && is_fully_numeric(v) && convert(v,V)){
+      vector<giac_double> V;
+      if (v.front().type==_DOUBLE_ && is_fully_numeric(v) && convert(v,V,true)){
 	sort(V.begin(),V.end());
-	v=vector_double_2_vecteur(V);
+	v=vector_giac_double_2_vecteur(V);
 	return gen(v,subtype);
       }
     }
@@ -5230,6 +5315,44 @@ namespace giac {
     return g;
   }
 
+  gen convert_interval(const gen & g,int nbits,GIAC_CONTEXT){
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (g.type==_VECT){
+      vecteur res(*g._VECTptr);
+      for (unsigned i=0;i<res.size();++i)
+	res[i]=convert_interval(res[i],nbits,contextptr);
+      return gen(res,g.subtype);
+    }
+    if (g.type==_SYMB)
+      return g._SYMBptr->sommet(convert_interval(g._SYMBptr->feuille,nbits,contextptr),contextptr);
+    if (g.type==_REAL){
+      if (dynamic_cast<real_interval *>(g._REALptr))
+	return g;
+    }
+    if (g.type==_CPLX)
+      return convert_interval(*g._CPLXptr,nbits,contextptr)+cst_i*convert_interval(*(g._CPLXptr+1),nbits,contextptr);
+    if (is_integer(g) || g.type==_REAL){
+      gen f=accurate_evalf(g,nbits);
+      return eval(gen(makevecteur(f,f),_INTERVAL__VECT),1,contextptr);
+    }
+    if (g.type==_IDNT){
+      if (g==cst_pi || g==cst_euler_gamma){
+	mpfi_t tmp;
+	mpfi_init2(tmp,nbits);
+	if (g==cst_pi)
+	  mpfi_const_pi(tmp);
+	else
+	  mpfi_const_euler(tmp);
+	gen res=real_interval(tmp);
+	mpfi_clear(tmp);
+	return res;
+      }
+    }
+    return g;
+#endif
+    return gensizeerr("Interval arithmetic support not compiled. Please install MPFI and recompile");
+  }
+
   gen _convert(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type!=_VECT){
@@ -5260,6 +5383,10 @@ namespace giac {
     if (f.is_symb_of_sommet(at_unit)){
       return chk_not_unit(mksa_reduce(evalf(g/f,1,contextptr),contextptr))*f;
     }
+    if (s==2 && f==at_interval)
+      return convert_interval(g,int(decimal_digits(contextptr)*3.2),contextptr);
+    if (s==3 && f==at_interval && v[2].type==_INT_)
+      return convert_interval(g,int(v[2].val*3.2),contextptr);
     if (s==3 && f.type==_INT_ ){
       if (f.val==_BASE && is_integer(v.back()) ){
 	if (is_greater(1,v.back(),contextptr))
@@ -6349,6 +6476,8 @@ namespace giac {
       rpn_mode(contextptr)=save_rpnmode;
       return res;
     }
+    if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->front().type==_STRNG && args._VECTptr->back()==at_quote)
+      return gen(*args._VECTptr->front()._STRNGptr,contextptr);
     if (args.type!=_STRNG)
       return symbolic(at_expr,args);
     return eval(gen(*args._STRNGptr,contextptr),eval_level(contextptr),contextptr);

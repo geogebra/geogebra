@@ -2517,9 +2517,9 @@ namespace giac {
       if (y.type!=_SYMB)
 	return gensizeerr(contextptr);
     }
-    vector<double> X;
+    vector<giac_double> X;
     x=evalf_double(x,1,contextptr);
-    if (x.type!=_VECT || !convert(*x._VECTptr,X))
+    if (x.type!=_VECT || !convert(*x._VECTptr,X,true))
       return gensizeerr(contextptr);
     sort(X.begin(),X.end());
     int n=X.size();
@@ -2536,16 +2536,16 @@ namespace giac {
       f=symbolic(*f._FUNCptr,gen(yf,_SEQ__VECT));
       gen & fback=f._SYMBptr->feuille._VECTptr->back();
       if (is_discrete_distribution(nd)){
-	for (vector<double>::const_iterator it=X.begin();it!=X.end();){
-	  fback=*it-1;
+	for (vector<giac_double>::const_iterator it=X.begin();it!=X.end();){
+	  fback=double(*it)-1;
 	  gen prevtmp=evalf_double(f,1,contextptr);
 	  dcur=std::abs(prevtmp._DOUBLE_val-cumulx);
 	  if (dcur>d)
 	    d=dcur;
-	  fback=*it;
+	  fback=double(*it);
 	  gen tmp=evalf_double(f,1,contextptr);
 	  int i=1;
-	  for (++it;it!=X.end() && *it==fback;++it)
+	  for (++it;it!=X.end() && double(*it)==fback;++it)
 	    ++i;
 	  cumulx += i*invn;
 	  dcur=std::abs(tmp._DOUBLE_val-cumulx);
@@ -2556,7 +2556,7 @@ namespace giac {
 	return makevecteur(string2gen("D=",false),d,string2gen("K=",false),ks,string2gen("1-kolmogorovd(K)=",false),1-kolmogorovd(ks));
       }
       for (int i=0;i<n;++i){
-	fback=X[i];
+	fback=double(X[i]);
 	gen tmp=evalf_double(f,1,contextptr);
 	if (tmp.type!=_DOUBLE_)
 	  return gensizeerr(contextptr);
@@ -2572,9 +2572,9 @@ namespace giac {
       return makevecteur(string2gen("D=",false),d,string2gen("K=",false),ks,string2gen("1-kolmogorovd(K)=",false),1-kolmogorovd(ks));
     }
     // 2 lists
-    vector<double> Y;
+    vector<giac_double> Y;
     y=evalf_double(y,1,contextptr);
-    if (y.type!=_VECT || !convert(*y._VECTptr,Y))
+    if (y.type!=_VECT || !convert(*y._VECTptr,Y,true))
       return gensizeerr(contextptr);
     sort(Y.begin(),Y.end());
     int m=Y.size();
@@ -3318,7 +3318,7 @@ namespace giac {
 	}
 	return res;
       }
-      vector<double> D;
+      vector<giac_double> D;
       gen w0=evalf_double(w[0],1,contextptr);
       if (s==2 && ckmatrix(w0)){ // list of classes/effectifs
 	matrice m=*w0._VECTptr;
@@ -3358,7 +3358,7 @@ namespace giac {
 	}
 	return _polygone_ouvert(gen(res,_SEQ__VECT),contextptr);	  
       }
-      if (s!=2 || w0.type!=_VECT || !convert(*w0._VECTptr,D))
+      if (s!=2 || w0.type!=_VECT || !convert(*w0._VECTptr,D,false))
 	return gensizeerr(contextptr);
       sort(D.begin(),D.end());
       s=D.size();
@@ -3370,8 +3370,8 @@ namespace giac {
       }
       vecteur res;
       for (int i=0;i<s;++i){
-	res.push_back(D[i]+i/double(s)*cst_i);
-	res.push_back(D[i]+(i+1)/double(s)*cst_i);	
+	res.push_back(double(D[i])+i/double(s)*cst_i);
+	res.push_back(double(D[i])+(i+1)/double(s)*cst_i);	
       }
       return _polygone_ouvert(gen(res,_SEQ__VECT),contextptr);
     }

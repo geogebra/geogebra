@@ -1329,7 +1329,7 @@ namespace giac {
   // find the arguments of fractional power inside expression e
   static vecteur lvarfracpow(const gen & e){
     vecteur l0=lvar(e),l;
-    const_iterateur it=l0.begin(),itend=l0.end();
+    iterateur it=l0.begin(),itend=l0.end();
     for (;it!=itend;++it){
       if (it->_SYMBptr->sommet==at_surd){
 	vecteur & arg=*it->_SYMBptr->feuille._VECTptr;
@@ -1454,7 +1454,8 @@ namespace giac {
     }
     // old code with Groebner basis
     equations.push_back(e);      
-    vecteur res=gsolve(equations,listvars,complex_mode(contextptr),approx_mode(contextptr),contextptr);
+    int evalf_after=approx_mode(contextptr)?1:0;
+    vecteur res=gsolve(equations,listvars,complex_mode(contextptr),evalf_after,contextptr);
 #ifndef NO_STDEXCEPT
     if (!res.empty() && res.front().type==_STRNG)
       setsizeerr(*res.front()._STRNGptr);
@@ -1541,7 +1542,7 @@ namespace giac {
 	  complex_mode(false,contextptr);
 	  complex_variables(false,contextptr);
 	  gen tmp=subst(_numer(e,contextptr),x,xre+cst_i*xim,false,contextptr);
-	  vecteur res=gsolve(makevecteur(re(tmp,contextptr),im(tmp,contextptr)),makevecteur(xre,xim),false,false,contextptr);
+	  vecteur res=gsolve(makevecteur(re(tmp,contextptr),im(tmp,contextptr)),makevecteur(xre,xim),false,0,contextptr);
 	  complex_mode(savec,contextptr);
 	  complex_variables(savecv,contextptr);
 	  s=res.size();
@@ -1943,7 +1944,7 @@ namespace giac {
 	return res;
       }
       if (x.type==_VECT )
-	return gsolve(gen2vecteur(e),*x._VECTptr,complexmode,approx_mode(contextptr),contextptr);
+	return gsolve(gen2vecteur(e),*x._VECTptr,complexmode,(approx_mode(contextptr)?1:0),contextptr);
       identificateur xx("x");
       res=solve(subst(e,x,xx,false,contextptr),xx,isolate_mode,contextptr);
       return res;
@@ -2114,6 +2115,8 @@ namespace giac {
     }
     vecteur v(solvepreprocess(args,complex_mode(contextptr),contextptr));
     int s=v.size();
+    if (s && v.back()==at_interval)
+      return _fsolve(args,contextptr);
     if (s>=2 && ckmatrix(v[1]) && v[1]._VECTptr->front()._VECTptr->size()==1)
       v[1]=mtran(*v[1]._VECTptr).front();
     if (s==2 && is_equal(v[1]))
@@ -2906,9 +2909,15 @@ namespace giac {
 
   gen in_fsolve(vecteur & v,GIAC_CONTEXT){
     if (is_undef(v))
-      return v;    
+      return v;  
+    bool interv=false;
     double gsl_eps=abs_calc_mode(contextptr)==38?1e-5:epsilon(contextptr);
     int s=v.size();
+    if (s && v.back()==at_interval){
+      --s;
+      v.pop_back();
+      interv=true;
+    }
     if (s<2)
       return gentoofewargs("fsolve");
     if (v[0].is_symb_of_sommet(at_program))
@@ -2921,8 +2930,9 @@ namespace giac {
       return in_fsolve(v,contextptr);
     }
     gen v0=remove_equal(v[0]);
+    int evalf_after=interv?3:1;
     if (s==2 && v0.type==_VECT && v[1].type==_VECT && _sort(lvar(v0),contextptr)==_sort(v[1],contextptr))
-      return gsolve(*v0._VECTptr,*v[1]._VECTptr,complex_mode(contextptr),true,contextptr);
+      return gsolve(*v0._VECTptr,*v[1]._VECTptr,complex_mode(contextptr),evalf_after,contextptr);
     if (s==2 && v[1].type==_IDNT){ 
       gen v00= evalf(v0,1,contextptr);
       // no initial guess, check for poly-like equation
@@ -5182,7 +5192,7 @@ namespace giac {
     return true;
   }
 
-  vecteur gsolve(const vecteur & eq_orig,const vecteur & var_orig,bool complexmode,bool evalf_after,GIAC_CONTEXT){
+  vecteur gsolve(const vecteur & eq_orig,const vecteur & var_orig,bool complexmode,int evalf_after,GIAC_CONTEXT){
     // replace variables in var_orig by true identificators
     vecteur var(var_orig);
     // check if the whole system is linear
@@ -5192,6 +5202,49 @@ namespace giac {
 	return *sol._VECTptr;
       return vecteur(1,sol);
     }
+    vecteur ls=lvarfracpow(eq_orig);
+    if ( ((evalf_after & 4)==0) && !ls.empty()){
+      // add equations and variables
+      int s=ls.size()/3;
+      vecteur substin,substout,equations,listvars;
+      vector<int> poscheck;
+      for (unsigned i=0;i<s;++i){
+	gen lsvar=ls[3*i+2];
+	gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);
+	if (equalposcomp(substin,lsvar))
+	  continue;
+	substin.push_back(lsvar);
+	gen tmp("c__"+print_INT_(i),contextptr);
+	if (!(ls[3*i+1].val %2))
+	  poscheck.push_back(var.size()+i);
+	listvars.push_back(tmp);
+	substout.push_back(tmp);
+	equations.push_back(pow(tmp,ls[3*i+1],contextptr)-ls3i);
+      }
+      vecteur eq=subst(eq_orig,substin,substout,false,contextptr);
+      vecteur newvar=mergevecteur(var,listvars);
+      vecteur sol=gsolve(mergevecteur(eq,equations),newvar,complexmode,evalf_after | 4,contextptr);
+      // extract var part
+      for (unsigned i=0;i<sol.size();++i){
+	if (sol[i].type==_VECT && sol[i]._VECTptr->size()==newvar.size()){
+	  // check positivity for sqrt variables and so on
+	  vecteur w=*sol[i]._VECTptr;
+	  unsigned j;
+	  for (j=0;j<poscheck.size();++j){
+	    if (is_strictly_positive(-w[poscheck[j]],contextptr))
+	      break;
+	  }
+	  if (j<poscheck.size()){
+	    sol.erase(sol.begin()+i);
+	    --i;
+	  }
+	  else
+	    sol[i]=vecteur(w.begin(),w.begin()+var.size());
+	}
+      }
+      return sol;
+      return vecteur(1,gensizeerr(contextptr));
+    } // end fractional power code
     iterateur it=var.begin(),itend=var.end();
     int s=itend-it; // # of unknowns
     if (s==0)
@@ -5207,7 +5260,7 @@ namespace giac {
     if (s>int(eq_orig.size())){
       *logptr(contextptr) << gettext("Warning: solving by reducing number of unknowns to number of equations: ") << var_orig << " -> " << vecteur(it,it+eq_orig.size()) << endl;
       vecteur remvars=vecteur(it+eq_orig.size(),itend);
-      vecteur res=gsolve(eq_orig,vecteur(it,it+eq_orig.size()),complexmode,contextptr);
+      vecteur res=gsolve(eq_orig,vecteur(it,it+eq_orig.size()),complexmode,evalf_after,contextptr);
       for (unsigned i=0;i<res.size();++i){
 	if (res[i].type==_VECT)
 	  res[i]=mergevecteur(*res[i]._VECTptr,remvars);
@@ -5235,7 +5288,7 @@ namespace giac {
 #endif
       }
       eq=*apply(eq,exact,contextptr)._VECTptr;
-      evalf_after=true;
+      evalf_after |= 1;
     }
     if (var.size()>1){
 #if 1 // ATESTER
@@ -5274,37 +5327,39 @@ namespace giac {
       }
 #endif
       // check if one equation depends only on one unknown
-      for (unsigned i=0;i<eq.size();++i){
-	vecteur curv=lidnt(eq[i]);
-	gen curvvar=_intersect(makesequence(curv,var),contextptr);
-	if (curvvar.type==_VECT && curvvar._VECTptr->size()==1){
-	  gen curvar= curvvar._VECTptr->front();
-	  int varn=equalposcomp(var,curvar);
-	  var.erase(var.begin()+varn-1);
-	  vecteur sol=solve(eq[i],curvar,complexmode,contextptr);
-	  vecteur res;
-	  if (!is_undef(res)){
-	    eq.erase(eq.begin()+i);
-	    for (unsigned j=0;j<sol.size();++j){
-	      gen eq1=subst(eq,curvar,sol[j],false,contextptr),tmp;
-	      if (eq1.type==_VECT && eq1._VECTptr->size()==1 && var.size()==1)
-		tmp=solve(eq1._VECTptr->front(),var.front(),complexmode,contextptr);
-	      else
-		tmp=solve(eq1,var,complexmode,contextptr);
-	      if (tmp.type==_VECT){
-		for (unsigned k=0;k<tmp._VECTptr->size();++k){
-		  vecteur solv=gen2vecteur((*tmp._VECTptr)[k]);
-		  if (int(solv.size())<varn-1)
-		    return vecteur(1,gensizeerr(contextptr));
-		  solv.insert(solv.begin()+varn-1,sol[j]);
-		  res.push_back(solv);
+      if ((evalf_after & 4)==0){
+	for (unsigned i=0;i<eq.size();++i){
+	  vecteur curv=lidnt(eq[i]);
+	  gen curvvar=_intersect(makesequence(curv,var),contextptr);
+	  if (curvvar.type==_VECT && curvvar._VECTptr->size()==1){
+	    gen curvar= curvvar._VECTptr->front();
+	    int varn=equalposcomp(var,curvar);
+	    var.erase(var.begin()+varn-1);
+	    vecteur sol=solve(eq[i],curvar,complexmode,contextptr);
+	    vecteur res;
+	    if (!is_undef(res)){
+	      eq.erase(eq.begin()+i);
+	      for (unsigned j=0;j<sol.size();++j){
+		gen eq1=subst(eq,curvar,sol[j],false,contextptr),tmp;
+		if (eq1.type==_VECT && eq1._VECTptr->size()==1 && var.size()==1)
+		  tmp=solve(eq1._VECTptr->front(),var.front(),complexmode,contextptr);
+		else
+		  tmp=solve(eq1,var,complexmode,contextptr);
+		if (tmp.type==_VECT){
+		  for (unsigned k=0;k<tmp._VECTptr->size();++k){
+		    vecteur solv=gen2vecteur((*tmp._VECTptr)[k]);
+		    if (int(solv.size())<varn-1)
+		      return vecteur(1,gensizeerr(contextptr));
+		    solv.insert(solv.begin()+varn-1,sol[j]);
+		    res.push_back(solv);
+		  }
 		}
-	      }
-	    } // for j (solutions in the single variable)
-	    return res;
-	  } // end if !is_undef(res)
-	} // end curvar size==1
-      } // end for on all equations
+	      } // for j (solutions in the single variable)
+	      return res;
+	    } // end if !is_undef(res)
+	  } // end curvar size==1
+	} // end for on all equations
+      } // end if evalf_after | 4 == 0
     } // end var size >1
     bool convertapprox=has_num_coeff(eq);
     if (convertapprox)
@@ -5337,7 +5392,7 @@ namespace giac {
 	else
 	  *logptr(contextptr) << "Rational univariate representation is not certified, set proba_epsilon:=0 to certify" << endl;
 	int deg=_degree(makesequence(Gv[2],var.front()),contextptr).val;
-	if (evalf_after){
+	if (evalf_after & 1){
 	  gen pol=Gv[2],tmp;
 	  if (complexmode){
 	    if (deg>28)
@@ -5364,16 +5419,76 @@ namespace giac {
 	  S=solve(Gv[2],var.front(),complexmode,contextptr);
 	}
 	vecteur res;
+	modpoly minp=gen2vecteur(_symb2poly(makesequence(Gv[2],var.front()),contextptr));
+	modpoly minp1=derivative(minp);
+	modpoly denp=gen2vecteur(_symb2poly(makesequence(Gv[3],var.front()),contextptr));
+	vector<modpoly> numv;
+	for (unsigned i=4;i<Gv.size();++i){
+	  numv.push_back(gen2vecteur(_symb2poly(makesequence(Gv[i],var.front()),contextptr)));
+	}
 	for (unsigned i=0;i<S.size();++i){
 	  gen s=S[i];
 	  if (s.type==_VECT && s._VECTptr->size()==2){
 	    s=s._VECTptr->front();
 	    if (s.type==_VECT && s._VECTptr->size()==2){
+#if 1 // arithmetic interval
+	      gen l=s._VECTptr->front(),r=s._VECTptr->back();
+	      vecteur den;
+	      // accuracy
+	      int nbits=0;
+	      gen deuxn=1,lr=r-l;
+	      for (;is_greater(1,deuxn*lr,contextptr);){
+		++nbits;
+		deuxn=plus_two*deuxn;
+	      }
+	      for (;;){
+		den=horner_interval(denp,l,r);
+		gen den0=den[0],den1=den[1];
+		bool lpos=is_positive(den0,contextptr),rpos=is_positive(den1,contextptr);
+		if ( !(lpos ^ rpos) && is_greater(eps/3,den[1]/den[0]-1,contextptr)){
+		  // try numerators
+		  unsigned pos=0;
+		  vecteur Hs;
+		  for (;pos<numv.size();++pos){
+		    vecteur num=horner_interval(numv[pos],l,r);
+		    if (is_greater(num[1]/num[0]-1,eps/3,contextptr))
+		      break;
+		    gen num0=num[0],num1=num[1],a=makesequence(num0/den0,num0/den1,num1/den0,num1/den1);
+#ifdef HAVE_LIBMPFI
+		    if (evalf_after & 2)
+		      Hs.push_back(eval(gen(makevecteur(_min(a,contextptr),_max(a,contextptr)),_INTERVAL__VECT),1,contextptr));
+		    else
+		      Hs.push_back(accurate_evalf((num0+num1)/(den0+den1),nbits));
+#else
+		      Hs.push_back(accurate_evalf((num0+num1)/(den0+den1),nbits));
+#endif
+		  }
+		  if (pos==numv.size()){
+		    res.push_back(Hs);
+		    break;
+		  }
+		}
+		s=(l+r)/2;
+		in_round2(s,deuxn,nbits);
+		s=s-horner(minp,s,0,false)/horner(minp1,s,0,false);
+		nbits*=2;
+		deuxn=deuxn*deuxn;
+		in_round2(s,deuxn,nbits);
+		lr=int(minp.size()-1)*abs(horner(minp,s,0,false)/horner(minp1,s,0,false),contextptr); // warranted bounds
+		if (is_greater(lr,1e-300,contextptr))
+		  lr=pow(plus_two,int(std::log(evalf_double(lr,1,contextptr)._DOUBLE_val)/std::log(2.))+1);
+		l=s-lr;
+		r=s+lr;
+		lr=2*lr;
+	      }
+	      continue;
+#else
 	      s=(s._VECTptr->front()+s._VECTptr->back())/2;
 	      if (eps<1e-14)
 		s=accurate_evalf(s,int(-3.2*std::log(eps)));
 	      else
 		s=evalf_double(s,1,contextptr);
+#endif
 	    }
 	  }
 	  if (!complexmode && !is_zero(im(s,contextptr),contextptr))

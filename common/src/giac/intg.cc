@@ -2488,6 +2488,10 @@ namespace giac {
     if (is_inf(a) || is_inf(b))
       return exactvalue;
     gen tmp=evalf_double(exactvalue,1,contextptr);
+#ifdef HAVE_LIBMPFR
+    if (tmp.type==_DOUBLE_)
+      tmp=evalf_double(accurate_evalf(exactvalue,256),1,contextptr);
+#endif
     if (tmp.type!=_DOUBLE_)
       return exactvalue;
     if (debug_infolevel)
@@ -4121,7 +4125,7 @@ namespace giac {
       // test must be done twice for example for sum(sin(k),k,1,0)
       if (is_zero(v[2]-v[3]-1))
 	return zero;
-      bool numeval=!is_integer(v[2]) || !is_integer(v[3]) || approx_mode(contextptr);
+      bool numeval=(!is_integer(v[2]) && v[2].type!=_FRAC) || (!is_integer(v[3]) && v[3].type!=_FRAC) || approx_mode(contextptr);
       if (is_integral(v[2])){
 	while (is_exactly_zero(subst(v[0],v[1],v[2],false,contextptr))){
 	  if (v[2]==v[3])
@@ -4129,12 +4133,22 @@ namespace giac {
 	  v[2]+=1;
 	}
       }
+      else {
+	gen tmp;
+	if (has_evalf(v[2],tmp,1,contextptr))
+	    v[2]=_ceil(v[2],contextptr);
+      }
       if (is_integral(v[3])){
 	while (is_exactly_zero(subst(v[0],v[1],v[3],false,contextptr))){
 	  if (v[2]==v[3])
 	    return 0;
 	  v[3]-=1;
 	}
+      }
+      else {
+	gen tmp;
+	if (has_evalf(v[3],tmp,1,contextptr))
+	    v[3]=_floor(v[3],contextptr);
       }
       if (is_zero(v[2]-v[3]-1))
 	return zero;
@@ -4146,7 +4160,7 @@ namespace giac {
       }
       if (v[2].type==_INT_ && v[3].type==_INT_ && absint(v[3].val-v[2].val)<max_sum_add(contextptr))
 	return numeval?evalf(seqprod(v,2,contextptr),1,contextptr):ratnormal(seqprod(v,2,contextptr));
-    }
+    } // end if s==4
     const_iterateur it=v.begin(),itend=v.end();
     gen f=*it;
     ++it;

@@ -37,6 +37,18 @@ namespace giac {
   bool newton_complex_1root(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,vecteur & complexroots,double eps);
   // round x to n bits precision
   void round2(gen & x,int n);
+  void in_round2(gen & x,const gen & deuxn, int n);
+  // Improve roots by Newton method
+  // P is the polynomial, P1 derivative, v list of approx roots 
+  // (initially should have at least n bits precision), 
+  // epsn is the target number of bits precision int(std::log(eps)/std::log(2.)-.5);
+  // epsg2surdeg2 is eps^2/degree(P)^2 as a gen, epsg is the target precision
+  // v[i] is set by newton_improve to be at distance at most vradius[i] of a root
+  // kmax is the maximal number of Newton iterations
+  bool newton_improve(const vecteur & P,const vecteur & P1,bool Preal,vecteur & v,vecteur & vradius,int i,int kmax,int n,int epsn,const gen & epsg2surdeg2,const gen & epsg);
+
+  // eval P at r+/-eps
+  void horner_minmax(const vecteur & P,bool Preal,const gen & r, const gen & eps,gen & Prmin,gen & Prmax);
 
   // compute Sturm sequence of r0 and r1,
   // returns gcd (without content)

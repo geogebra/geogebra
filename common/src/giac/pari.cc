@@ -79,7 +79,7 @@ namespace giac {
 
   static map<string,entree *> pari_function_table;
   static void do_giac_pari_init(long maxprime){
-    long pari_mem_size=10000000;
+    long pari_mem_size=64000000;
     if (getenv("PARI_SIZE")){
       string pari_size_s(getenv("PARI_SIZE"));
       pari_mem_size= atoi(pari_size_s.c_str());
@@ -952,6 +952,22 @@ namespace giac {
     return "PARI function not found\nHelp syntax: ?pari(1),...,?pari(12) or ?pari_functionname";
   }
 
+  bool pari_polroots(const vecteur & p,vecteur & res,long prec,GIAC_CONTEXT){
+    if (check_pari_mutex())
+      return false;
+    gen tmp;
+    pthread_cleanup_push(pari_cleanup, (void *) pari_mutex_ptr);
+    long av=avma;
+    tmp=GEN2gen(roots(gen2GEN(change_subtype(p,_POLY1__VECT),vecteur(0),contextptr),prec),vecteur(0));
+    avma=av;
+    if (pari_mutex_ptr) pthread_mutex_unlock(pari_mutex_ptr);    
+    pthread_cleanup_pop(0);
+    if (tmp.type!=_VECT)
+      return false;
+    res=*tmp._VECTptr;
+    return true;
+  }
+
 #ifndef NO_NAMESPACE_GIAC
 }
 #endif // ndef NO_NAMESPACE_GIAC
@@ -1003,6 +1019,10 @@ namespace giac {
     return "please recompile giac with PARI";
   }
 
+
+  bool pari_polroots(const vecteur & p,vecteur & res,long prec,GIAC_CONTEXT){
+    return false;
+  }
   static const char _pari_s []="pari";
   static define_unary_function_eval (__pari,&giac::_pari,_pari_s);
   define_unary_function_ptr5( at_pari ,alias_at_pari,&__pari,_QUOTE_ARGUMENTS,true);

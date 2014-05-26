@@ -49,8 +49,8 @@ namespace giac {
   gen l2norm2(const gen & g);
   gen _randperm(const gen & args,GIAC_CONTEXT);
 
-  vecteur vector_double_2_vecteur(const std::vector<double> & v);
-  vecteur vectvector_double_2_vecteur(const std::vector< std::vector<double> > & v);
+  vecteur vector_giac_double_2_vecteur(const std::vector<giac_double> & v);
+  vecteur vectvector_giac_double_2_vecteur(const std::vector< std::vector<giac_double> > & v);
   vecteur vector_int_2_vecteur(const std::vector<int> & v);
   vecteur vector_int_2_vecteur(const std::vector<int> & v,GIAC_CONTEXT);
   std::vector<int> vecteur_2_vector_int(const vecteur & v);

@@ -680,23 +680,23 @@ namespace giac {
   static define_unary_function_eval (__signature,&_signature,_signature_s);
   define_unary_function_ptr5( at_signature ,alias_at_signature,&__signature,0,true);
 
-  vecteur vector_double_2_vecteur(const vector<double> & v){
+  vecteur vector_giac_double_2_vecteur(const vector<giac_double> & v){
     //transforme un vector<double> en vecteur 
-    vector<double>::const_iterator it=v.begin(),itend=v.end();
+    vector<giac_double>::const_iterator it=v.begin(),itend=v.end();
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it)
-      res.push_back(*it);
+      res.push_back(double(*it));
     return res;
   } 
 
-  vecteur vectvector_double_2_vecteur(const vector< vector<double> > & v){
+  vecteur vectvector_giac_double_2_vecteur(const vector< vector<giac_double> > & v){
     //transforme un vector< vector<double> > en vecteur  
     int s=v.size();
     vecteur res;
     res.reserve(s);
     for (int i=0;i<s;++i)
-      res.push_back(vector_double_2_vecteur(v[i]));
+      res.push_back(vector_giac_double_2_vecteur(v[i]));
     return res;
   }  
   

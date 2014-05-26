@@ -115,14 +115,14 @@ namespace giac {
   bool lapack_schur(std_matrix<gen> & H,std_matrix<gen> & P,bool compute_P,vecteur & eigenvalues,GIAC_CONTEXT);
   bool lapack_schur(matrix_double & H,matrix_double & P,bool compute_P,vecteur & eigenvalues);
   bool eigenval2(matrix_double & H,int n2,giac_double & l1, giac_double & l2);
-  bool std_matrix_gen2std_matrix_giac_double(const std_matrix<gen> & H,matrix_double & H1);
+  bool std_matrix_gen2std_matrix_giac_double(const std_matrix<gen> & H,matrix_double & H1,bool crunch);
   bool std_matrix_giac_double2std_matrix_gen(const matrix_double & H,std_matrix<gen> & H1);
 
   matrice companion(const vecteur & w);
   gen a_root(const vecteur & v,const std::complex<double> & c0,double eps);
   vecteur proot(const vecteur & v);
   vecteur proot(const vecteur & v,double eps);
-  vecteur proot(const vecteur & v,double eps,int rprec);
+  vecteur proot(const vecteur & v,double & eps,int & rprec);
   vecteur real_proot(const vecteur & v,double eps,GIAC_CONTEXT);
   gen symb_proot(const gen & e) ;
   gen _proot(const gen & e,GIAC_CONTEXT);
@@ -233,7 +233,8 @@ namespace giac {
 
   gen common_deno(const vecteur & v);
 
-  bool convert(const vecteur & v,std::vector<giac_double> & v1);
+  bool convert(const vecteur & v,std::vector<giac_double> & v1,bool crunch);
+  bool convert(const vecteur & v,std::vector< complex_double > & v1,bool crunch);
   void matrice2std_matrix_gen(const matrice & m,std_matrix<gen> & M);
   void std_matrix_gen2matrice(const std_matrix<gen> & M,matrice & m);
   bool vecteur2index(const vecteur & v,index_t & i);
@@ -484,7 +485,7 @@ namespace giac {
 
   // find index i of x in v that is i such that v[i] <= x < v[i+1]
   // where v[-1]=-inf, and v[v.size()]=+inf
-  int dichotomy(const std::vector<double> & v,double x);
+  int dichotomy(const std::vector<giac_double> & v,double x);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

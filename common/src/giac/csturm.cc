@@ -717,12 +717,61 @@ namespace giac {
   }
 #endif
 
-  void round2(gen & x,int n){
-    gen deuxn=pow(plus_two,n,context0);
+  static gen round2util(const gen & num,const gen & den,int n){
+    if (num.type==_CPLX){
+      gen r=round2util(*num._CPLXptr,den,n);
+      gen i=round2util(*(num._CPLXptr+1),den,n);
+      return r+cst_i*i;
+    }
+    // num must be a _ZINT
+    mpz_t tmp1,tmp2;
+    mpz_init_set(tmp1,*num._ZINTptr);
+    mpz_mul_2exp(tmp1,tmp1,n+1); // tmp1=2^(n+1)*num
+    mpz_add(tmp1,tmp1,*den._ZINTptr); //      + den
+    mpz_init_set(tmp2,*den._ZINTptr);
+    mpz_mul_ui(tmp2,tmp2,2); // tmp2=2*den
+    mpz_fdiv_q(tmp1,tmp1,tmp2);
+    gen res=tmp1;
+    mpz_clear(tmp1); mpz_clear(tmp2);
+    return res;
+  }
+
+  void in_round2(gen & x,const gen & deuxn, int n){
+    if (x.type==_INT_ || x.type==_ZINT)
+      return ;
+    if (x.type==_FRAC && x._FRACptr->den.type==_CPLX)
+      x=fraction(x._FRACptr->num*conj(x._FRACptr->den,context0),x._FRACptr->den.squarenorm(context0));
+    if (x.type==_FRAC && x._FRACptr->den.type==_ZINT && 
+	(x._FRACptr->num.type==_ZINT || 
+	 (x._FRACptr->num.type==_CPLX && x._FRACptr->num._CPLXptr->type==_ZINT && (x._FRACptr->num._CPLXptr+1)->type==_ZINT)) 
+	){
+      gen num=x._FRACptr->num,d=x._FRACptr->den;
+      x=round2util(num,d,n);
+      x=x/deuxn;
+      return;
+    }
     x=_floor(x*deuxn+plus_one_half,context0)/deuxn;
   }
 
+  void round2(gen & x,int n){
+    if (x.type==_INT_ || x.type==_ZINT)
+      return ;
+    gen deuxn;
+    if (n<30)
+      deuxn = (1<<n);
+    else {
+      mpz_t tmp;
+      mpz_init_set_si(tmp,1);
+      mpz_mul_2exp(tmp,tmp,n);
+      deuxn=tmp;
+      mpz_clear(tmp);
+    }
+    in_round2(x,deuxn,n);
+  }
+
   void round2(gen & x,const gen & deuxn,GIAC_CONTEXT){
+    if (x.type==_INT_ || x.type==_ZINT)
+      return;
     if (x.type!=_FRAC)
       x=_floor(x*deuxn+plus_one_half,context0)/deuxn;
     else {
@@ -733,8 +782,8 @@ namespace giac {
 	if (ni==d.val)
 	  return;
       }
-      n=n*deuxn+iquo(d,2);
-      x=iquo(n,d)/deuxn;
+      n=2*n*deuxn+d;
+      x=iquo(n,2*d)/deuxn;
     }
   }
 
@@ -749,10 +798,10 @@ namespace giac {
     int n=int(-std::log(eps)/std::log(2.0)+.5); // for rounding
     gen eps2=pow(2,-(n+1),context0);
     for (int ii=0;ii<n;ii++){
-      gen Pprimex0=horner(Pprime,x0);
+      gen Pprimex0=horner(Pprime,x0,0,false);
       if (is_zero(Pprimex0,context0))
 	return false;
-      gen dx=horner(P,x0)/Pprimex0;
+      gen dx=horner(P,x0,0,false)/Pprimex0;
       gen absdx=dx*conj(dx,context0);
       x0=x0-dx;
       gen r=re(x0,context0),i=im(x0,context0);
@@ -894,6 +943,173 @@ namespace giac {
     return roots;
   }
 
+  gen square_modulus(const gen & g,GIAC_CONTEXT){
+    return g.squarenorm(contextptr);
+  }
+
+  // P is the polynomial, P1 derivative, v list of approx roots 
+  // (initially should have at least n bits precision), 
+  // epsn is the target number of bits precision int(std::log(eps)/std::log(2.)-.5);
+  // epsg2surdeg2 is eps^2/degree(P)^2 as a gen, epsg is the target precision
+  // v[i] is set by newton_improve to be at distance at most vradius[i] of a root
+  // kmax is the maximal number of Newton iterations
+  bool newton_improve(const vecteur & P,const vecteur & P1,bool Preal,vecteur & v,vecteur & vradius,int i,int kmax,int n,int epsn,const gen & epsg2surdeg2,const gen & epsg){
+    gen r=v[i];
+    bool nextconj=false;
+    if (Preal && i+1<v.size())
+      nextconj=is_exactly_zero(r-conj(v[i+1],context0));
+    if (r.type==_FRAC || is_cinteger(r))
+      return true;
+    // find nearest root from v
+    gen deltar=plus_inf,delta;
+    for (unsigned j=0;j<v.size();++j){
+      if (j==i)
+	continue;
+      gen tmp=abs(r-v[j],context0);
+      if (is_strictly_greater(deltar,tmp,context0))
+	deltar=tmp;
+    }
+    if (is_zero(deltar))
+      return false;
+    deltar=deltar/3;
+    gen sumdr2=0;
+    int N=n; // effective value of number of bits for computation
+    if (r.type==_REAL && mpfr_get_prec(r._REALptr->inf)>N)
+      N=mpfr_get_prec(r._REALptr->inf);
+    if (r.type==_CPLX && r._CPLXptr->type==_REAL && mpfr_get_prec(r._CPLXptr->_REALptr->inf)>N)
+      N=mpfr_get_prec(r._CPLXptr->_REALptr->inf);
+#if 0 // def HAVE_LIBMPFI
+    gen deuxN=pow(2,N,context0);
+    gen rr,ri,dr,di;
+    reim(r,rr,ri,context0);
+    if (Preal && !nextconj)
+      r=eval(gen(makevecteur(rr-plus_one/deuxN,rr+plus_one/deuxN),_INTERVAL__VECT),1,context0);
+    else
+      r=eval(gen(makevecteur(rr-plus_one/deuxN,rr+plus_one/deuxN),_INTERVAL__VECT),1,context0)+cst_i*eval(gen(makevecteur(ri-plus_one/deuxN,ri+plus_one/deuxN),_INTERVAL__VECT),1,context0);
+    for (int k=0;k<kmax;++k){
+      // check if root precision is ok
+      // otherwise try to improve root precision with Newton method
+      gen P1r=horner(P1,r,0,false);
+      if (is_exactly_zero(P1r)){
+	delta=plus_inf;
+	break;
+      }
+      gen Pr=horner(P,r,0,false);
+      delta=Pr/P1r;
+      bool test;
+      if (Preal && ! nextconj){
+	test=contains(delta,dr);
+	delta=abs(delta,context0);
+      }
+      else {
+	reim(delta,dr,di,context0);
+	test= contains(rr,dr) && contains(ri,di);
+	delta=square_modulus(delta,context0);
+      }
+      if (test){
+	v[i]=r; // we can certify there is a root in r by Brouwer fixed thm
+	vradius[i]=-1;
+	if (nextconj){
+	  v[i+1]=conj(r,context0);
+	  vradius[i+1]=vradius[i];
+	  ++i;
+	}
+	break;
+      }
+      if (delta.type==_REAL){
+	if (real_interval * ptr=dynamic_cast<real_interval *>(delta._REALptr)){
+	  mpfr_t tmp; mpfr_init(tmp);
+	  mpfi_get_right(tmp,ptr->infsup);
+	  delta=real_object(tmp);
+	  mpfr_clear(tmp);
+	}
+      }
+      sumdr2 += delta;
+      if (!is_greater(deltar*deltar,sumdr2,context0)){
+	CERR << "Unable to certify " << v[i] << endl ;
+	return false;
+      }
+      if (N<P.size()-epsn){
+	// add 10 bits of precision or double it
+	if (N<-epsn/2){
+	  deuxN=deuxN*deuxN;
+	  N*=2;
+	}
+	else {
+	  deuxN=1024*deuxN;
+	  N+=10;
+	}
+      }
+      r -= Pr/P1r;
+      // change precision to N
+      reim(r,rr,ri,context0);
+      if (rr.type==_REAL){
+	if (real_interval * ptr=dynamic_cast<real_interval *>(rr._REALptr))
+	  mpfi_set_prec(ptr->infsup,N);
+      }
+      if (ri.type==_REAL){
+	if (real_interval * ptr=dynamic_cast<real_interval *>(ri._REALptr))
+	  mpfi_set_prec(ptr->infsup,N);
+      }
+      r=rr+cst_i*ri;
+    } // end for k
+#else
+    if (N>P.size()/4-epsn/2)
+      N=P.size()/4-epsn/2;
+    gen deuxN=pow(2,N,context0);
+    for (int k=0;k<kmax;++k){
+      in_round2(r,deuxN,N); // round2(r,deuxN,context0);
+      // check if root precision is ok
+      // otherwise try to improve root precision with Newton method
+      gen P1r=horner(P1,r,0,false);
+      if (is_exactly_zero(P1r)){
+	delta=plus_inf;
+	break;
+      }
+      gen Pr=horner(P,r,0,false);
+      delta=square_modulus(Pr,context0)/square_modulus(P1r,context0);
+      if (is_greater(epsg2surdeg2,delta,context0)){
+	v[i]=r; // we can certify there is a root at distance <= eps from r
+	if (is_exactly_zero(Pr))
+	  vradius[i]=0;
+	else
+	  vradius[i]=n*sqrt(evalf_double(delta,1,context0),context0);
+	if (!is_exactly_zero(vradius[i]))
+	  vradius[i]=min(epsg,pow(plus_two,int(std::log(vradius[i]._DOUBLE_val)/std::log(2.))+1),context0);
+	if (debug_infolevel)
+	  CERR << clock() << " isolated " << r << " radius " << vradius[i] << endl;
+	if (nextconj){
+	  v[i+1]=conj(r,context0);
+	  vradius[i+1]=vradius[i];
+	  ++i;
+	}
+	break;
+      }
+      sumdr2 += delta;
+      if (!is_greater(deltar*deltar,sumdr2,context0)){
+	CERR << "Unable to certify " << v[i] << endl ;
+	return false;
+      }
+      if (N<P.size()-epsn){
+	// add 10 bits of precision or double it
+	if (N<-epsn){
+	  deuxN=deuxN*deuxN;
+	  N*=2;
+	}
+	else {
+	  deuxN=1024*deuxN;
+	  N+=10;
+	}
+      }
+      in_round2(Pr,deuxN,N); in_round2(P1r,deuxN,N); // round2(Pr,deuxN,context0); round2(P1r,deuxN,context0);
+      r -= Pr/P1r;
+    } // end for k
+#endif
+    if (!is_greater(epsg*epsg,delta,context0))
+      return false;
+    return true;
+  }
+
   // find roots of polynomial P at precision eps using proot or 
   // complex Sturm sequences
   // P must have numeric coefficients, in Q[i]
@@ -904,82 +1120,41 @@ namespace giac {
     if (eps>1e-6)
       eps=1e-6;
     if (use_proot){
-      gen epsg=pow(2,int(std::log(eps)/std::log(2.)-.5),context0);
+      int epsn=int(std::log(eps)/std::log(2.)-.5);
+      gen epsg=pow(2,epsn,context0);
+      gen epsg2surdeg2=(epsg*epsg)/int((P.size()+1)*(P.size()+1));	
       // first try proot with double precision, if it's not enough increase
       int n=45;
       bool Preal=is_zero(im(P,context0));
       modpoly P1=derivative(P);
       for (;n<400;n*=2){
 	double cureps=std::pow(2.0,-n);
+	if (debug_infolevel)
+	  CERR << clock() << " proot at precision " << cureps << endl;
 	vecteur v=proot(P,cureps,n);
+	if (debug_infolevel)
+	  CERR << clock() << " proot end at precision " << cureps << endl;
 	vecteur vradius(v.size());
 	unsigned i=0;
 	int kmax=int(std::log(eps)/std::log(cureps))+4;
 	for (;i<v.size();++i){
-	  gen r=v[i];
-	  if (r.type==_FRAC)
-	    continue;
-	  // find nearest root from v
-	  gen deltar=plus_inf,delta;
-	  for (unsigned j=0;j<v.size();++j){
-	    if (j==i)
-	      continue;
-	    gen tmp=abs(r-v[j],context0);
-	    if (is_strictly_greater(deltar,tmp,context0))
-	      deltar=tmp;
-	  }
-	  if (is_zero(deltar))
-	    break;
-	  deltar=deltar/3;
-	  round2(r,n);
-	  gen sumdr=0;
-	  gen deuxn=pow(2,n,context0);
-	  for (int k=0;k<kmax;++k){
-	    // check if root precision is ok
-	    // otherwise try to improve root precision with Newton method
-	    gen P1r=horner(P1,r);
-	    if (is_zero(P1r)){
-	      delta=plus_inf;
-	      break;
-	    }
-	    gen Pr=horner(P,r);
-	    gen dr=Pr/P1r;
-	    delta=n*n*Pr*conj(Pr,context0)/(P1r*conj(P1r,context0));
-	    if (is_greater(epsg*epsg,delta,context0)){
-	      v[i]=r; // we can certify there is a root at distance <= eps from r
-	      if (is_zero(Pr))
-		vradius[i]=0;
-	      else
-		vradius[i]=n*abs(evalf_double(Pr/P1r,1,context0),context0);
-	      if (!is_exactly_zero(vradius[i]))
-		vradius[i]=min(epsg,pow(plus_two,int(std::log(vradius[i]._DOUBLE_val)/std::log(2.))+1),context0);
-	      break;
-	    }
-	    sumdr += dr;
-	    if (!is_greater(deltar*deltar,sumdr*conj(sumdr,context0),context0))
-	      break;
-	    r -= dr;
-	    deuxn=deuxn*deuxn;
-	    round2(r,deuxn,context0);
-	  }
-	  if (!is_greater(epsg*epsg,delta,context0))
-	    break;
-	}
+	  newton_improve(P,P1,Preal,v,vradius,i,kmax,n,epsn,epsg2surdeg2,epsg);
+	} // end for i
 	if (i==v.size()){
 	  vecteur res;
 	  for (unsigned j=0;j<v.size();++j){
 	    if (Preal && is_zero(im(v[j],context0))){
-	      if (is_exactly_zero(vradius[j])){
+	      if (is_exactly_zero(vradius[j]) || vradius[j]==-1){
 		if (is_greater(v[j],a0,context0) && is_greater(a1,v[j],context0) && is_greater(0,b0,context0) && is_greater(b1,0,context0))
 		  res.push_back(makevecteur(v[j],1));
 		continue;
 	      }
-	      gen P1=horner(P,v[j]-vradius[j]),P2=horner(P,v[j]+vradius[j]);
+	      gen P1=horner(P,v[j]-vradius[j],0,false),P2=horner(P,v[j]+vradius[j],0,false);
 	      if (P1.type==_FRAC) P1=P1._FRACptr->num;
 	      if (P2.type==_FRAC) P2=P2._FRACptr->num;
 	      if (is_strictly_positive(-P1*P2,context0)){
 		if (is_greater(v[j],a0,context0) && is_greater(a1,v[j],context0) && is_greater(0,b0,context0) && is_greater(b1,0,context0))
-		  res.push_back(makevecteur(change_subtype(makevecteur(v[j]-vradius[j],v[j]+vradius[j]),_INTERVAL__VECT),1));
+		  res.push_back(makevecteur(eval(change_subtype(makevecteur(v[j]-vradius[j],v[j]+vradius[j]),_INTERVAL__VECT),1,context0),1));
 		continue;
 	      }
 	    }
@@ -988,13 +1163,20 @@ namespace giac {
 	    if (is_greater(R,a0,context0) && is_greater(a1,R,context0) && is_greater(I,b0,context0) && is_greater(b1,I,context0)){
 	      if (is_exactly_zero(vradius[j]))
 		res.push_back(makevecteur(v[j],1));
-	      else
+	      else {
+#ifdef HAVE_LIBMPFI
+		gen a,b;
+		reim(v[j],a,b,context0);
+		res.push_back(makevecteur(eval(change_subtype(makevecteur(a-vradius[j],a+vradius[j]),_INTERVAL__VECT),1,context0)+cst_i*eval(change_subtype(makevecteur(b-vradius[j],b+vradius[j]),_INTERVAL__VECT),1,context0),1));
+#else
 		res.push_back(makevecteur(makevecteur(ratnormal(v[j]-vradius[j]*(1+cst_i)),ratnormal(v[j]+vradius[j]*(1+cst_i))),1));
+#endif
+	      }
 	    }
 	  }
 	  return res;
-	}
-      }
+	} // end if i==v.size()
+      } // end for n
       CERR << "proot isolation did not work, trying complex Sturm sequences" << endl;
     }
     bool aplati=(a0==a1) && (b0==b1);
@@ -1068,6 +1250,8 @@ namespace giac {
     if (prec.type!=_DOUBLE_)
       return gentypeerr(contextptr);
     double eps=prec._DOUBLE_val;
+    if (eps>=1.0)
+      eps=std::pow(10.,-eps);
     if (eps<=0)
       eps=epsilon(contextptr);
     if (eps<=0)
@@ -1133,7 +1317,20 @@ namespace giac {
 
   gen _realroot(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return complexroot(g,false,contextptr);
+    gen res=complexroot(g,false,contextptr);
+    if (res.type!=_VECT)
+      return res;
+    vecteur v=*res._VECTptr;
+    for (unsigned i=0;i<v.size();++i){
+      if (v[i].type==_VECT && v[i]._VECTptr->size()==2){
+	gen a=v[i]._VECTptr->front(),b=v[i]._VECTptr->back();
+	if (a.type==_VECT && a.subtype==_INTERVAL__VECT){
+	  a=eval(a,1,contextptr);
+	  v[i]=makevecteur(a,b);
+	}
+      }
+    }
+    return v;
   }
   static const char _realroot_s []="realroot";
   static define_unary_function_eval (__realroot,&giac::_realroot,_realroot_s);
@@ -1636,19 +1833,22 @@ namespace giac {
     int n=int(-std::log(eps)/std::log(2.0)+.5); // for rounding
     eps2=pow(2,-(n+1),contextptr);
     gen deuxn4(pow(2,n+4,contextptr));
-    round2(x0,deuxn4,contextptr);
+    in_round2(x0,deuxn4,n+4); // round2(x0,deuxn4,contextptr);
     for (int ii=0;ii<n;ii++){
-      gen Pprimex0=horner(Pprime,x0);
+      gen Pprimex0=horner(Pprime,x0,0,false);
       if (is_zero(Pprimex0,contextptr))
 	return false;
-      gen dx=horner(P,x0)/Pprimex0;
-      round2(dx,deuxn4,contextptr);
+      gen Px0=horner(P,x0,0,false);
+      in_round2(Px0,deuxn4,n+4); // round2(Px0,deuxn4,contextptr);
+      in_round2(Pprimex0,deuxn4,n+4); // round2(Pprimex0,deuxn4,contextptr);
+      gen dx=Px0/Pprimex0;
+      in_round2(dx,deuxn4,n+4); // round2(dx,deuxn4,contextptr);
       x0=x0-dx;
       if (is_positive(a0-x0,contextptr) || is_positive(x0-a1,contextptr))
 	return false;
       if (is_greater(abs(dx,contextptr),eps2,contextptr))
 	continue;
-      if (is_positive(-horner(P,x0-eps2)*horner(P,x0+eps2),contextptr))
+      if (is_positive(-horner(P,x0-eps2,0,false)*horner(P,x0+eps2,0,false),contextptr))
 	return true;
     }
     return false;
@@ -1660,19 +1860,19 @@ namespace giac {
     int trynewtonstep=int(nsteps-std::log(bisection_newton_eps/eps)/M_LN2);
     gen a(a0),b(b0),m,eps2;
     modpoly dp=derivative(p);
-    int s1=fastsign(horner(p,a),contextptr);
+    int s1=fastsign(horner(p,a,0,false),contextptr);
     if (s1==0)
-      s1=fastsign(horner(dp,a),contextptr);
-    int s2=fastsign(horner(p,b),contextptr);
+      s1=fastsign(horner(dp,a,0,false),contextptr);
+    int s2=fastsign(horner(p,b,0,false),contextptr);
     if (s2==0)
-      s2=-fastsign(horner(dp,b),contextptr);
+      s2=-fastsign(horner(dp,b,0,false),contextptr);
     if (s1==s2)
       return undef;
     for (int i=0;i<nsteps;++i){
       m=(a+b)/2;
       if (i==trynewtonstep && bisection_newton(p,dp,a0,b0,m,eps,eps2,contextptr))
 	return makevecteur(m-eps2,m+eps2);
-      int s=fastsign(horner(p,m),contextptr);
+      int s=fastsign(horner(p,m,0,false),contextptr);
       if (s==0)
 	return m;
       if (s==s1)

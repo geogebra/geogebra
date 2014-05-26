@@ -3533,11 +3533,163 @@ namespace giac {
     }    
   }
 
-  gen horner(const modpoly & p,const fraction & f){
+  gen hornerint(const modpoly & p,const gen & num,const gen & den,bool simp){
+    mpz_t resz,dz,numz,denz;
+    if (num.type==_INT_)
+      mpz_init_set_si(numz,num.val);
+    else
+      mpz_init_set(numz,*num._ZINTptr);
+    if (den.type==_INT_)
+      mpz_init_set_si(denz,den.val);
+    else
+      mpz_init_set(denz,*den._ZINTptr);
+    mpz_init_set(dz,denz);
+    mpz_init(resz);
+    modpoly::const_iterator it=p.begin(),itend=p.end();
+    if (it->type==_INT_)
+      mpz_set_si(resz,it->val);
+    else
+      mpz_set(resz,*it->_ZINTptr);
+    ++it;
+    for (;;){
+      // res=res*num+(*it)*d;
+      mpz_mul(resz,resz,numz);
+      if (it->type==_INT_){
+	if (it->val>0)
+	  mpz_addmul_ui(resz,dz,it->val);
+	else
+	  mpz_submul_ui(resz,dz,-it->val);
+      }
+      else
+	mpz_addmul(resz,dz,*it->_ZINTptr);
+      ++it;
+      if (it==itend)
+	break;
+      mpz_mul(dz,dz,denz); // d=d*den;
+    }
+    gen res;
+    if (simp)
+      return rdiv(gen(resz),gen(dz),context0);
+    else
+      return fraction(gen(resz),gen(dz));
+    mpz_clear(resz);
+    mpz_clear(dz);
+    mpz_clear(denz);
+    mpz_clear(numz);
+    return res;
+  }
+
+  void cint2mpz(const gen & num,mpz_t & numr,mpz_t & numi){
+    if (num.type==_INT_){
+      mpz_set_si(numr,num.val);
+      mpz_set_si(numi,0);
+    }
+    else {
+      if (num.type==_ZINT){
+	mpz_set(numr,*num._ZINTptr);
+	mpz_set_si(numi,0);
+      }
+      else {
+	if (num._CPLXptr->type==_INT_)
+	  mpz_set_si(numr,num._CPLXptr->val);
+	else
+	  mpz_set(numr,*num._CPLXptr->_ZINTptr);
+	if ((num._CPLXptr+1)->type==_INT_)
+	  mpz_set_si(numi,(num._CPLXptr+1)->val);
+	else
+	  mpz_set(numi,*(num._CPLXptr+1)->_ZINTptr);
+      }
+    }
+  }
+
+  gen hornercint(const modpoly & p,const gen & num,const gen & den,bool simp){
+    mpz_t resr,resi,dz,numr,numi,denz,tmp1,tmp2,tmp3,tmp4;
+    mpz_init(numr); mpz_init(numi);
+    cint2mpz(num,numr,numi);
+    if (den.type==_INT_)
+      mpz_init_set_si(denz,den.val);
+    else
+      mpz_init_set(denz,*den._ZINTptr);
+    mpz_init_set(dz,denz);
+    mpz_init(resr);
+    mpz_init(resi);
+    mpz_init(tmp1);
+    mpz_init(tmp2);
+    mpz_init(tmp3);
+    mpz_init(tmp4);
+    modpoly::const_iterator it=p.begin(),itend=p.end();
+    cint2mpz(*it,resr,resi);
+    ++it;
+    for (;;){
+      // res=res*num+(*it)*d;
+      mpz_mul(tmp1,resr,numr);
+      mpz_mul(tmp2,resi,numi);
+      mpz_mul(tmp3,resr,numi);
+      mpz_mul(tmp4,resi,numr);
+      mpz_sub(resr,tmp1,tmp2);
+      mpz_add(resi,tmp3,tmp4);
+      if (it->type==_INT_){
+	if (it->val>0)
+	  mpz_addmul_ui(resr,dz,it->val);
+	else
+	  mpz_submul_ui(resr,dz,-it->val);
+      }
+      else {
+	if (it->type==_ZINT)
+	  mpz_addmul(resr,dz,*it->_ZINTptr);
+	else {
+	  cint2mpz(*it,tmp1,tmp2);
+	  mpz_mul(tmp1,tmp1,dz);
+	  mpz_mul(tmp2,tmp2,dz);
+	  mpz_add(resr,resr,tmp1);
+	  mpz_add(resi,resi,tmp2);
+	}
+      }
+      ++it;
+      if (it==itend)
+	break;
+      mpz_mul(dz,dz,denz); // d=d*den;
+    }
+    gen res;
+    if (simp)
+      res=rdiv(gen(gen(resr),gen(resi)),gen(dz));
+    else
+      res=fraction(gen(gen(resr),gen(resi)),gen(dz));
+    mpz_clear(tmp4);
+    mpz_clear(tmp3);
+    mpz_clear(tmp2);
+    mpz_clear(tmp1);
+    mpz_clear(resr);
+    mpz_clear(resi);
+    mpz_clear(dz);
+    mpz_clear(denz);
+    mpz_clear(numr);
+    mpz_clear(numi);
+    return res;
+  }
+
+  gen horner(const modpoly & p,const fraction & f,bool simp){
     if (p.empty())
       return 0;
     gen num=f.num,den=f.den,d=den;
     modpoly::const_iterator it=p.begin(),itend=p.end();
+    if (itend-it>2 && is_integer(num) && is_integer(den)){
+      for (;it!=itend;++it){
+	if (!is_integer(*it))
+	  break;
+      }
+      if (it==itend)
+	return hornerint(p,num,den,simp);
+    }
+    if (itend-it>2 && is_cinteger(num) && is_integer(den)){
+      for (;it!=itend;++it){
+	if (!is_cinteger(*it))
+	  break;
+      }
+      if (it==itend)
+	return hornercint(p,num,den,simp);
+    }
+    it=p.begin();
     gen res(*it);
     ++it;
     if (it==itend)
@@ -3552,7 +3704,102 @@ namespace giac {
     return rdiv(res,d,context0);
   }
 
-  gen horner(const modpoly & p,const gen & x,environment * env){
+  // P(x) -> P(-x)
+  void Pminusx(vecteur & P){
+    unsigned Ps=P.size();
+    for (unsigned i=0;i<Ps;++i){
+      if ( (Ps-i-1) %2)
+	P[i]=-P[i];
+    }
+  }
+
+  // split P=Pp-Pn in two parts, Pp positive coeffs and Pn negative coeffs
+  void splitP(const vecteur &P,vecteur &Pp,vecteur &Pn){
+    unsigned Ps=P.size();
+    Pp.resize(Ps);
+    Pn.resize(Ps);
+    for (unsigned i=0;i<Ps;++i){
+      if (is_positive(P[i],context0))
+	Pp[i]=P[i];
+      else
+	Pn[i]=-P[i];
+    }
+  }
+
+#ifdef HAVE_LIBMPFI
+  gen horner_basic(const modpoly & p,const gen & x){
+    modpoly::const_iterator it=p.begin(),itend=p.end();
+    gen res(*it);
+    ++it;
+    for (;it!=itend;++it)
+      res=res*x+(*it);
+    return res;
+  }
+  
+  gen horner_interval(const modpoly & p,const gen & x){
+    gen l=_left(x,context0),r=_right(x,context0);
+    if (l.type!=_REAL || r.type!=_REAL)
+      return gensizeerr(context0);
+    bool lpos=is_positive(l,context0),rpos=is_positive(r,context0);
+    if (lpos && rpos){
+      l=real_interval(*l._REALptr);
+      r=real_interval(*r._REALptr);
+      gen n1,n2,p1,p2;
+      modpoly pp,pn;
+      splitP(p,pp,pn);
+      p1=horner_basic(pp,l);
+      p2=horner_basic(pp,r);
+      n1=horner_basic(pn,l);
+      n2=horner_basic(pn,r);
+      l=_left(p1,context0)-_right(n2,context0);
+      r=_right(p2,context0)-_left(n1,context0);
+      l=gen(makevecteur(l,r),_INTERVAL__VECT);
+      l=eval(l,1,context0);
+      return l;
+    }
+    if ((is_exactly_zero(l) || !lpos) && (is_exactly_zero(r) || !rpos)){
+      modpoly pm(p); Pminusx(pm);
+      return horner_interval(pm,-x);
+    }
+    l=gen(makevecteur(l,0),_INTERVAL__VECT);
+    l=eval(l,1,context0);
+    l=horner_interval(p,l);
+    r=gen(makevecteur(0,r),_INTERVAL__VECT);
+    r=eval(r,1,context0);    
+    r=horner_interval(p,r);
+    gen m=min(_left(l,context0),_left(r,context0),context0);
+    gen M=max(_right(l,context0),_right(r,context0),context0);
+    l=gen(makevecteur(m,M),_INTERVAL__VECT);
+    l=eval(l,1,context0);
+    return l;
+  }
+#endif
+
+  // p([l,r]) with l and r exact
+  vecteur horner_interval(const modpoly & p,const gen & l,const gen & r){
+    bool lpos=is_positive(l,context0),rpos=is_positive(r,context0);
+    if (lpos && rpos){
+      gen n1,n2,p1,p2;
+      modpoly pp,pn;
+      splitP(p,pp,pn);
+      p1=horner(pp,l,0,false);
+      p2=horner(pp,r,0,false);
+      n1=horner(pn,l,0,false);
+      n2=horner(pn,r,0,false);
+      return makevecteur(p1-n2,p2-n1);
+    }
+    if ((is_exactly_zero(l) || !lpos) && (is_exactly_zero(r) || !rpos)){
+      modpoly pm(p); Pminusx(pm);
+      return horner_interval(pm,-r,-l);
+    }
+    vecteur L=horner_interval(p,l,0);
+    vecteur R=horner_interval(p,0,r);
+    gen m=min(L[0],R[0],context0);
+    gen M=max(L[1],R[1],context0);
+    return makevecteur(m,M);
+  }
+
+  gen horner(const modpoly & p,const gen & x,environment * env,bool simp){
     int s=p.size();
     if (s==0)
       return 0;
@@ -3570,7 +3817,13 @@ namespace giac {
 	return p.front()*x+p.back();
     }
     if ( (!env || !env->moduloon) && x.type==_FRAC)
-      return horner(p,*x._FRACptr);
+      return horner(p,*x._FRACptr,simp);
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (x.type==_REAL){
+      if (dynamic_cast<real_interval *>(x._REALptr))
+	return horner_interval(p,x);
+    }
+#endif
     modpoly::const_iterator it=p.begin(),itend=p.end();
     gen res(*it);
     ++it;

@@ -133,17 +133,22 @@ namespace giac {
   int hornermod(const vecteur & v,int alpha,int modulo);
 
   extern const unary_function_ptr * const  at_horner ;
-  gen horner(const modpoly & p,const gen & x,environment * env);
+  gen horner(const modpoly & p,const gen & x,environment * env,bool simp=true);
   gen horner(const modpoly & p,const gen & x);
   gen horner(const modpoly & p,const gen & x,environment * env,modpoly & q);
-  gen horner(const modpoly & p,const fraction & f);
+  gen horner(const modpoly & p,const fraction & f,bool simp);
   gen _horner(const gen & args,GIAC_CONTEXT);
 
   void hornerfrac(const modpoly & p,const gen &num, const gen &den,gen & res,gen & d); // res/d=p(num/den)
+  // find bounds for p(interval[l,r]) with p, l and r real and exact
+  vecteur horner_interval(const modpoly & p,const gen & l,const gen & r);
+
   gen symb_horner(const modpoly & p,const gen & x,int d);
   gen symb_horner(const modpoly & p,const gen & x);
   // shift polynomial
   modpoly taylor(const modpoly & p,const gen & x,environment * env=0);
+  // split P=Pp-Pn in two parts, Pp positive coeffs and Pn negative coeffs
+  void splitP(const vecteur &P,vecteur &Pp,vecteur &Pn);
 
   gen norm(const dense_POLY1 & q,GIAC_CONTEXT); // max of |coeff|
   modpoly derivative(const modpoly & p);

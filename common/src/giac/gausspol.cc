@@ -5638,6 +5638,7 @@ namespace giac {
     polynome nmodp(dim),nmodpden(dim),q(dim),qmodp(dim),qmodpden(dim),quo(dim),tmp;
     for (;it!=itend;++it){
       const polynome & P =it->fact;
+      if (P.lexsorted_degree()==0) continue;
       rem.TPseudoDivRem(P,quo,nmodp,nmodpden); // nmodpden*num=P*quo+nmodp -> num mod P = nmodp/nmodpden
       nmodpden=nmodpden*ipden;
       den.TDivRem(P,q,tmp,false);

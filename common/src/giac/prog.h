@@ -354,6 +354,7 @@ namespace giac {
 
   std::vector<int> float2continued_frac(double d_orig,double eps);
   gen continued_frac2gen(std::vector<int> v,double d_orig,double eps,GIAC_CONTEXT);
+  gen convert_interval(const gen & g,int nbits,GIAC_CONTEXT);
   gen _convert(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_convert;
 

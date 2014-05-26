@@ -5042,7 +5042,9 @@ namespace giac {
 
   static vecteur iquorem(const gen & a,const gen & b){
     gen q,r;
-    r=irem(a,b,q);
+    //r=irem(a,b,q);
+    r=_irem(makesequence(a,b),context0);
+    q=(a-r)/b;
     return makevecteur(q,r);
   }
   // symbolic symb_iquorem(const gen & a,const gen & b){    return symbolic(at_iquorem,makevecteur(a,b));  }
@@ -6429,6 +6431,58 @@ namespace giac {
 #if 0 // def HAVE_LIBGSL
     if (x.type==_DOUBLE_)
       return gsl_sf_gamma(x._DOUBLE_val);
+#endif
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (x.type==_REAL){
+      if (real_interval * ptr=dynamic_cast<real_interval *>(x._REALptr)){
+	mpfr_t l,u; mpfi_t res;
+	int nbits=mpfi_get_prec(ptr->infsup);
+	mpfr_init2(l,nbits); mpfr_init2(u,nbits); mpfi_init2(res,nbits);
+	mpfi_get_left(l,ptr->infsup);
+	mpfi_get_right(u,ptr->infsup);
+	if (mpfr_cmp_d(l,1.46163214497)>0){
+	  mpfr_gamma(l,l,GMP_RNDD);
+	  mpfr_gamma(u,u,GMP_RNDU);
+	  mpfi_interv_fr(res,l,u);
+	  gen tmp=real_interval(res);
+	  mpfi_clear(res); mpfr_clear(l); mpfr_clear(u);
+	  return tmp;
+	}
+	// l<=min of Gamma on R^+
+	if (mpfr_cmp_d(l,0)>=0){
+	  if (mpfr_cmp_d(u,1.46163214496)<0){
+	    mpfr_gamma(l,l,GMP_RNDU);
+	    mpfr_gamma(u,u,GMP_RNDD);
+	    mpfi_interv_fr(res,u,l);
+	    gen tmp=real_interval(res);
+	    mpfi_clear(res); mpfr_clear(l); mpfr_clear(u);
+	    return tmp;
+	  }
+	  mpfr_gamma(l,l,GMP_RNDU);
+	  mpfr_gamma(u,u,GMP_RNDU);
+	  if (mpfr_cmp(l,u)>0)
+	    mpfr_set(u,l,GMP_RNDU);
+	  mpfr_set_d(l,0.88560319441088,GMP_RNDD);
+	  mpfi_interv_fr(res,u,l);
+	  gen tmp=real_interval(res);
+	  mpfi_clear(res); mpfr_clear(l); mpfr_clear(u);
+	  return tmp;
+	}
+	mpfi_clear(res); mpfr_clear(l); 
+	// l<0
+	if (mpfr_cmp_d(u,0)>=0){
+	  mpfr_clear(u);
+	  return gen(makevecteur(minus_inf,plus_inf),_INTERVAL__VECT);
+	}
+	mpfr_clear(u);
+	// if l and u<0 handled by reflection formula
+	bool b=angle_radian(contextptr);
+	angle_radian(true,contextptr);
+	gen tmp=cst_pi / (sin(cst_pi*x,contextptr)*Gamma(1-x,contextptr));
+	angle_radian(b,contextptr);
+	return tmp;
+      }
+    }
 #endif
 #ifdef HAVE_LIBMPFR
     if (x.type==_REAL && is_positive(x,contextptr)){

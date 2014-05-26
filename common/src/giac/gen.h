@@ -243,15 +243,15 @@ namespace giac {
     }
     virtual real_object & operator = (const real_object & g);
     real_object (const real_object & g) ;
-    gen addition (const gen & g,GIAC_CONTEXT) const;
+    virtual gen addition (const gen & g,GIAC_CONTEXT) const;
     gen operator + (const gen & g) const;
     virtual gen operator + (const real_object & g) const;
-    gen multiply (const gen & g,GIAC_CONTEXT) const;
+    virtual gen multiply (const gen & g,GIAC_CONTEXT) const;
     gen operator * (const gen & g) const;
     virtual gen operator * (const real_object & g) const;
-    gen divide (const gen & g,GIAC_CONTEXT) const;
+    virtual gen divide (const gen & g,GIAC_CONTEXT) const;
     gen operator / (const gen & g) const;
-    gen substract (const gen & g,GIAC_CONTEXT) const;
+    virtual gen substract (const gen & g,GIAC_CONTEXT) const;
     virtual gen operator / (const real_object & g) const;
     gen operator - (const gen & g) const;
     virtual gen operator - (const real_object & g) const;
@@ -273,10 +273,11 @@ namespace giac {
     virtual gen asinh() const;
     virtual gen acosh() const;
     virtual gen atanh() const;
-    virtual bool is_zero();
-    virtual bool is_inf();
-    virtual bool is_nan();
-    virtual bool is_positive();
+    virtual bool is_zero() const;
+    virtual bool maybe_zero() const;
+    virtual bool is_inf() const;
+    virtual bool is_nan() const;
+    virtual int is_positive() const;
     virtual double evalf_double() const;
   };
   struct ref_real_object {
@@ -314,7 +315,8 @@ namespace giac {
 #endif
     real_interval(const real_object & r):real_object(r) { 
 #ifdef HAVE_LIBMPFI
-      mpfi_init_set_fr(infsup,r.inf);
+      mpfi_init2(infsup,mpfr_get_prec(r.inf));
+      mpfi_set_fr(infsup,r.inf);
 #else
 #ifdef HAVE_LIBMPFR
       mpfr_init_set(sup,r.inf,GMP_RNDN); 
@@ -325,7 +327,8 @@ namespace giac {
     }
     real_interval(const real_interval & r):real_object(r) { 
 #ifdef HAVE_LIBMPFI
-      mpfi_init_set(infsup,r.infsup);
+      mpfi_init2(infsup,mpfi_get_prec(r.infsup));
+      mpfi_set(infsup,r.infsup);
 #else
 #ifdef HAVE_LIBMPFR
       mpfr_init_set(sup,r.sup,GMP_RNDN); 
@@ -347,13 +350,22 @@ namespace giac {
     }
     virtual real_object & operator = (const real_interval & g) ;
     virtual real_object & operator = (const real_object & g) ;
+    virtual gen addition (const gen & g,GIAC_CONTEXT) const;
     virtual gen operator + (const real_object & g) const;
     virtual real_interval operator + (const real_interval & g) const;
+    virtual gen multiply (const gen & g,GIAC_CONTEXT) const;
     virtual gen operator * (const real_object & g) const;
     virtual real_interval operator * (const real_interval & g) const;
+    virtual gen divide (const gen & g,GIAC_CONTEXT) const;
+    virtual gen substract (const gen & g,GIAC_CONTEXT) const;
     virtual gen operator - (const real_object & g) const;
     virtual real_interval operator - (const real_interval & g) const ;
     virtual gen operator -() const;
+    virtual bool is_zero () const ;
+    virtual bool maybe_zero () const ;
+    virtual int is_positive() const ;
+    virtual bool is_inf() const;
+    virtual bool is_nan() const;
     virtual gen inv() const;
     virtual gen sqrt() const;
     virtual gen abs() const;

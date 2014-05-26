@@ -1716,6 +1716,33 @@ namespace giac {
     }
     if (e.type==_FRAC)
       return contains(e._FRACptr->num,elem) || contains(e._FRACptr->den,elem);
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (e.type==_REAL){
+      if (real_interval * ptr=dynamic_cast<real_interval *>(e._REALptr)){
+	mpfr_t tmp; mpfr_init2(tmp,mpfi_get_prec(ptr->infsup));
+	mpfi_get_left(tmp,ptr->infsup);
+	gen einf=real_object(tmp);
+	mpfi_get_right(tmp,ptr->infsup);
+	gen esup=real_object(tmp);
+	gen eleminf,elemsup;
+	if (elem.type!=_REAL)
+	  ptr=0;
+	else
+	  ptr=dynamic_cast<real_interval *>(elem._REALptr);
+	if (ptr){
+	  mpfi_get_left(tmp,ptr->infsup);
+	  eleminf=real_object(tmp);
+	  mpfi_get_right(tmp,ptr->infsup);
+	  elemsup=real_object(tmp);
+	}
+	else {
+	  eleminf=elem; elemsup=elem;
+	}	  
+	mpfr_clear(tmp);
+	return is_greater(esup,elemsup,context0) && is_greater(eleminf,einf,context0);
+      }
+    }
+#endif
     return false;
   }
   
@@ -2095,15 +2122,24 @@ namespace giac {
 	  return g1;
 	return gensizeerr("Unidirectional limits are distincts "+g2.print(contextptr)+","+g1.print(contextptr));
       }
-      // supposed to be analytic, series expansion only
+      // supposed to be analytic, try first series expansion 
       sparse_poly1 p;
       p.push_back(monome(undef,0));
       double ordre=mrv_begin_order;
-      for ( ; !p.empty() && is_undef(p.front().coeff) && (ordre<max_series_expansion_order);ordre=1.5*ordre+1) 
+      for ( ; !p.empty() && is_undef(p.front().coeff) && (ordre<mrv_begin_order*4);ordre=1.5*ordre+1) 
 	p=series__SPOL1(e_copy,x,lim_point,int(ordre),0,contextptr);
       // COUT << p << endl;
-      if (ordre>=max_series_expansion_order)
-	return genmaxordererr();
+      if (ordre>=mrv_begin_order*4){
+	gen g1=unidirectional_limit(e_copy,x,lim_point,1,contextptr);
+	if (is_undef(g1))
+	  return g1;
+	gen g2=unidirectional_limit(e_copy,x,lim_point,-1,contextptr);
+	if (is_undef(g2))
+	  return g2;
+	if (g1==g2)
+	  return g1;
+	return gensizeerr("Unidirectional limits are distincts "+g2.print(contextptr)+","+g1.print(contextptr));
+      }
       if (p.empty() || ck_is_strictly_positive(p.front().exponent,contextptr))
 	return 0;
       if (ck_is_strictly_positive(-p.front().exponent,contextptr)){

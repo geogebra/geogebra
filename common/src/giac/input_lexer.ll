@@ -574,6 +574,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "'xor'"                  index_status(yyextra)=0; (*yylval)=gen(at_xor,2); return T_QUOTED_BINARY;
 "XOR"                    index_status(yyextra)=0; (*yylval)=gen(at_xor,2); return T_AND_OP;
 ".."                    index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_INTERVAL;
+"interval"                    index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_UNARY_OP;
 "..."                    index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_INTERVAL;
 "'..'"                  index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_QUOTED_BINARY;
 "_range"                  index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_QUOTED_BINARY;
@@ -819,6 +820,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
                         */
 			/* numbers, also accept DMS e.g 1°15′27″13 */
 {D}+			|
+{D}+"?"			|
 {D}+"°" | 
 {D}+\302\260{D}+ | 
 {D}+"°"{D}+\342\200\262 | 
@@ -837,10 +839,37 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "0b"[0-1]+		|
 "0x"[0-9a-fA-F]+	|
 {D}+"."{D}*({E})?	|
+{D}+"."{D}*"?"({E})?	|
 {D}*"."{D}+({E})?	|
-{D}+{E}			{ 
+{D}*"."{D}+"?"({E})?	|
+{D}+{E}			| 
+{D}+"?"{E}			{ 
   index_status(yyextra)=1;
   int l=strlen(yytext);
+  int interv=0; // set to non-zero if ? in the number
+  int dot=-1;
+  for (int i=0;i<l;++i){
+    if (yytext[i]=='?'){
+      interv=i; // mark ? position and remove it from the string
+      for (;i<l;++i){
+	yytext[i]=yytext[i+1];
+      }
+      --l;
+      break;
+    }
+    if (yytext[i]=='.')
+      dot=i;
+  }
+  // CERR << yytext << " " << interv << endl;
+  if (dot>=0 && interv>1){
+    --interv; // interv is the relative precision of the interval
+    if (interv && dot>=1 && yytext[dot-1]=='0')
+      --interv;
+    ++dot;
+    while (interv && dot<l && yytext[dot]=='0'){
+      --interv; ++dot;
+    }
+  }
   char ch,ch2;
   if (l>2 && yytext[1]!='x' && (yytext[l-1]=='o' || yytext[l-1]=='b' || yytext[l-1]=='h') ){
     char base=yytext[l-1];
@@ -879,7 +908,16 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       }
     }
   }
-  (*yylval) = chartab2gen(yytext,yyextra); return T_NUMBER; 
+  (*yylval) = chartab2gen(yytext,yyextra); 
+  if (interv){
+    double d=evalf_double(*yylval,1,context0)._DOUBLE_val;
+    if (d<0 && interv>1)
+      --interv;
+    double tmp=std::floor(std::log(std::abs(d))/std::log(10));
+    tmp=(std::pow(10.,1+tmp-interv));
+    *yylval=eval(gen(makevecteur(d-tmp,d+tmp),_INTERVAL__VECT),1,context0);
+  }
+  return T_NUMBER; 
 }
 
 			/* UNITS 

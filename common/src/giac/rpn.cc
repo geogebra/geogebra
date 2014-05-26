@@ -1774,8 +1774,11 @@ namespace giac {
       return _INT(*g._CPLXptr,contextptr)+cst_i*_INT(*(g._CPLXptr+1),contextptr);
     if (is_positive(g,contextptr))
       return _floor(g,contextptr);
-    else
-      return _ceil(g,contextptr);
+    else {
+      if (is_positive(-g,contextptr))
+	return _ceil(g,contextptr);
+      return symbolic(at_when,makesequence(symbolic(at_superieur_egal,makesequence(g,0)),symbolic(at_floor,g),symbolic(at_ceil,g)));
+    }
   }
   static const char _INT_s[]="IP";
   static define_unary_function_eval (__INT,&giac::_INT,_INT_s);

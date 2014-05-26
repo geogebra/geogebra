@@ -15,6 +15,7 @@
       {"DOM_STRING"                ,0, _STRNG, _INT_TYPE, T_TYPE_ID},
       {"DOM_SYMBOLIC"              ,0, _SYMB, _INT_TYPE, T_TYPE_ID},
       {"DOM_int"                  ,0,  _INT_, _INT_TYPE, T_TYPE_ID},
+      {"DOM_SPECIALFLOAT"                  ,0,  _FLOAT_, _INT_TYPE, T_TYPE_ID},
       {"DOWNTO",0,-1,0,T_TO},
       {"Define",0,0,0,TI_DEFINE},
       {"Delete"         ,1,_DELETE_OPERATOR , _INT_MUPADOPERATOR ,T_NUMBER},

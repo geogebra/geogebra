@@ -1502,15 +1502,25 @@ namespace giac {
       fbest=fc;
       best=c;
     }
-    gen bestg=best;
+    gen bestg=accurate_evalf(gen(best),90);
     // adjust precision (number of bits)
-    fbest += v.size()/3+20;
-    if (fbest>-lneps){
-      eps=std::exp(-fbest);
-      nbits=int(-3.2*std::log10(eps));
+    gen maxv;
+    for (unsigned i=0;i<v.size();++i){
+      gen tmp=abs(exp(-int(i)*bestg-lnv0,contextptr)*v[i],contextptr);
+      if (is_greater(tmp,maxv,contextptr))
+	maxv=tmp;
+    }
+    double eps1=1/(evalf_double(maxv,1,contextptr)._DOUBLE_val);
+    if (debug_infolevel)
+      CERR << "proot coefficients ratio " << eps1 << endl;
+    if (eps1<eps){
+      eps=eps1;
+      nbits=int(-3.2*std::log(eps));
     }
     if (eps<1e-14)
       bestg=accurate_evalf(bestg,nbits);
+    else
+      bestg=accurate_evalf(bestg,90);
     // Recompute coefficients
     for (int d=0;d<=deg;++d){
       v[d]=exp(-d*bestg-lnv0,contextptr)*v[d];
@@ -1520,6 +1530,18 @@ namespace giac {
 
   static bool schur_eigenvalues(matrix_double & H1,vecteur & res,double eps,GIAC_CONTEXT){
     int dim=H1.size();
+    if (debug_infolevel>2){
+      if (dim)
+	*logptr(contextptr) << "0: " << H1[0][0] << H1[0][1] << endl;
+      if (dim>1)
+	*logptr(contextptr) << "1: " << H1[1][0] << H1[1][1] << endl;
+      for (int i=2;i<dim;++i){
+	*logptr(contextptr) << i << ": " << string(i-2,'*') << H1[i][i-2] << "," << H1[i][i-1] << "=" << H1[i][i] << "=";
+	if (i<dim-1)
+	  *logptr(contextptr) << H1[i][i+1] ;
+	*logptr(contextptr) << endl;
+      }
+    }
     bool ans=true;
     // read eigenvalues on diagonal of H, using subdiagonal for complex pairs
     for (int i=0;i<dim;++i){
@@ -1620,19 +1642,12 @@ namespace giac {
     matrice m(companion(v)),md;
     int dim=m.size();
     matrice I(midn(dim));
-    std_matrix<gen> H,Hf,P;
+    std_matrix<gen> H,P;
     matrix_double H1,P1;
-    gen mf=evalf_double(m,1,contextptr);
-    if (ckmatrix(mf))
-      md=*mf._VECTptr;
-    if (eps>=1e-13)
-      matrice2std_matrix_gen(md,H);
-    else
-      matrice2std_matrix_gen(m,H);
+    matrice2std_matrix_gen(m,H);
     matrice2std_matrix_gen(I,P);
-    if (std_matrix_gen2std_matrix_giac_double(H,H1)){
-      if (eps<1e-13) eps=1e-13;
-      std_matrix_gen2std_matrix_giac_double(P,P1);
+    if (eps>=1e-15 && std_matrix_gen2std_matrix_giac_double(H,H1,true)){
+      std_matrix_gen2std_matrix_giac_double(P,P1,true);
       if (lapack_schur(H1,P1,false,res))
 	return true;
       bool ans=francis_schur(H1,0,dim,P1,2*SOLVER_MAX_ITERATE,eps,true,false);
@@ -1673,12 +1688,14 @@ namespace giac {
     if (eps>=1e-13 && lapack_schur(H,P,false,res,contextptr))
       return true;
 #endif
+#if 0
     // Here we precompute P in simple precision
     // then start computation with inv(P)*H*P computed with current precision
     // -> disabled since it is slower...
-    matrice2std_matrix_gen(md,Hf);
-    if (0 && std_matrix_gen2std_matrix_giac_double(Hf,H1)){
-      std_matrix_gen2std_matrix_giac_double(P,P1);
+    std_matrix<gen> Hf;
+    matrice2std_matrix_gen(m,Hf);
+    if (std_matrix_gen2std_matrix_giac_double(Hf,H1,true)){
+      std_matrix_gen2std_matrix_giac_double(P,P1,true);
       bool ans=francis_schur(H1,0,dim,P1,2*SOLVER_MAX_ITERATE,1e-13,true,true);
       if (ans){
 	std_matrix_giac_double2std_matrix_gen(P1,P);
@@ -1693,6 +1710,7 @@ namespace giac {
 	matrice2std_matrix_gen(p,P);	
       }
     }
+#endif
     bool complex_schur=false;
     for (unsigned i=0;!complex_schur && i<H.size();++i){
       for (unsigned j=0;j<H[i].size();++j){
@@ -1759,25 +1777,79 @@ namespace giac {
 #endif // HAVE_LIBGSL
   }
 
-  static bool proot_real(const vecteur & w,double & eps,int & rprec,vecteur & res,GIAC_CONTEXT){
+  static bool in_proot(const vecteur & w,double & eps,int & rprec,vecteur & res,bool isolaterealroot,GIAC_CONTEXT){
     // new code using francis_schur
+    // if (has_num_coeff(w))
+      isolaterealroot=false; // eliminating real roots is not stable enough
     vecteur v(w);
     gen prefact(1);
+    double save_eps=eps;
     prefact=balance(v,eps,contextptr);
+    // look if setting the barycenter of roots to be 0 is a good idea
+    gen shift(-v[1]/v[0]/int(v.size()+1));
+    vecteur vt=taylor(v,shift,0);
+    gen maxv,maxvt;
+    for (unsigned i=0;i<v.size();++i){
+      gen tmp;
+      tmp=abs(v[i],contextptr);
+      if (is_greater(tmp,maxv,contextptr))
+	maxv=tmp;
+      tmp=abs(vt[i],contextptr);
+      if (is_greater(tmp,maxvt,contextptr))
+	maxvt=tmp;
+    }
+    if (is_greater(maxvt,maxv,contextptr))
+      shift=0;
+    else {
+      eps=save_eps;
+      double eps1=1/(evalf_double(maxvt,1,contextptr)._DOUBLE_val);
+      if (debug_infolevel)
+	CERR << "proot after shift: coefficients ratio " << eps << endl;
+      if (eps1<eps)
+	eps=eps1;
+      v=vt;
+    }
+    if (eps<1e-14 && pari_polroots(v,res,14,contextptr)){
+      for (unsigned i=0;i<res.size();++i)
+	res[i] += shift;
+      res=multvecteur(prefact,res);
+      return true;
+    }
+    if (eps<1e-14 && isolaterealroot){
+      // first try to isolate real roots
+      gen epsg=pow(plus_two,-int(w.size())-50,contextptr);
+      gen rr=complexroot(makesequence(w,epsg),false,contextptr);
+      if (rr.type==_VECT && !rr._VECTptr->empty()){
+	vecteur rrv=*rr._VECTptr;
+	unsigned i=0;
+	for (;i<rrv.size();++i){
+	  if (rrv[i].type!=_VECT || rr[i]._VECTptr->size()!=2)
+	    break;
+	  rrv[i]=rrv[i]._VECTptr->front();
+	  if (rrv[i].type==_VECT && rrv[i]._VECTptr->size()==2)
+	    rrv[i]=(rrv[i][0]+rrv[i][1])/2;
+	  if (rrv[i].type==_REAL)
+	    rrv[i]=_milieu(rrv[i],contextptr);
+	  else
+	    rrv[i]=accurate_evalf(rrv[i],w.size()+50);
+	}
+	if (i==rrv.size()){
+	  rr=_pcoeff(rrv,contextptr);
+	  if (rr.type==_VECT){
+	    v=operator_div(w,*rr._VECTptr,0);
+	    double epseff=save_eps;
+	    if (in_proot(v,epseff,rprec,res,false,contextptr)){
+	      res=mergevecteur(rrv,res);
+	      return true;
+	    }
+	  }
+	}
+      }
+    }
+    if (debug_infolevel)
+      CERR << "proot, setting epsilon = " << eps << " for " << w << endl;
     if (eps<1e-13)
       rprec=int((1-std::log10(eps))*3.2);
-#if 0
-    if (rprec<=48){
-      gen tmp=evalf(w,1,contextptr);
-      if (tmp.type!=_VECT)
-	return false;
-      v=*tmp._VECTptr;
-    }
-    else {
-      for (unsigned i=0;i<v.size();++i)
-	v[i]=accurate_evalf(v[i],rprec);
-    }
-#endif
     // extract 0 as approx root
     unsigned mult0=0;
     while (is_zero(v.back())){
@@ -1785,6 +1857,8 @@ namespace giac {
       v.pop_back();
     }
     bool ans=proot_real1(v,eps,rprec,res,contextptr);
+    for (unsigned i=0;i<res.size();++i)
+      res[i] += shift;
     res=multvecteur(prefact,res);
     for (unsigned i=0;i<mult0;++i)
       res.push_back(0);
@@ -2005,24 +2079,31 @@ namespace giac {
     vecteur v_accurate(accurate_evalf(v,nbits));
     v_accurate=divvecteur(v_accurate,v_accurate.front());
     // compute roots with companion matrix
-    if (crystalball.empty() && !proot_real(v,eps,rprec,crystalball,context0)){
+    if (crystalball.empty() && !in_proot(v,eps,rprec,crystalball,true,context0)){
       if (crystalball.size()!=v.size()-1)
 	CERR << "Francis algorithm failure for" << v << endl;
       else
 	CERR << "Francis algorithm not precise enough for" << v << endl;
     }
     else {
-      if ( (rprec<50 || rprec<-std::log(eps)/std::log(2.)+3) && int(crystalball.size())==deg){
+      int epsbits=-std::log(eps)/std::log(2.);
+      if ( (rprec<50 || rprec<epsbits+3) && int(crystalball.size())==deg){
 	vecteur dv(derivative(v_accurate));
+	vector<short int> done(deg);
 	for (int j=0;j<deg;++j){
+	  if (done[j])
+	    continue;
 	  // find nearest root
 	  gen cur=crystalball[j],mindist=plus_inf,mindist2=plus_inf;
-	  int k2=-1;
+	  vector<double> distances(deg);
+	  int k2=-1,k3=-1;
 	  for (int k=0;k<deg;k++){
 	    if (k==j) continue;
 	    gen curdist=abs(cur-crystalball[k],context0);
+	    distances[k]=evalf_double(curdist,1,context0)._DOUBLE_val;
 	    if (is_strictly_greater(mindist,curdist,context0)){
 	      mindist2=mindist;
+	      k3=k2;
 	      mindist=curdist;
 	      k2=k;
 	    }
@@ -2032,17 +2113,128 @@ namespace giac {
 	  for (unsigned k=0;k<SOLVER_MAX_ITERATE;++k){
 	    gen num=horner(v_accurate,tmp),den=horner(dv,tmp),ratio=num/den;
 	    decal += ratio;
-	    if (is_greater(eps*deg*10,abs(ratio,context0),context0)){
-	      crystalball[j] -= decal;
+	    gen prec=abs(ratio,context0);
+	    if (is_greater(eps*deg*10,prec,context0)){
+	      done[j]=1;
+	      tmp -= ratio;
+	      num=horner(v_accurate,tmp);
+	      den=horner(dv,tmp);
+	      ratio=num/den;
+	      prec=abs(ratio,context0);
+	      int precbits=60;
+	      if (is_exactly_zero(prec))
+		precbits=2*epsbits;
+	      else
+		precbits=_floor(-ln(prec,context0)/std::log(2.0),context0).val;
+	      if (precbits>2*epsbits)
+		precbits=2*epsbits;
+	      if (precbits<=48)
+		crystalball[j]=evalf_double(tmp,1,context0);
+	      else
+		crystalball[j] =accurate_evalf(tmp,precbits);
 	      break;
 	    }
-	    if (is_greater(3*abs(decal,context0),mindist,context0)){
+	    if (is_greater(2.5*abs(decal,context0),mindist,context0)){
 	      // if decal is small wrt mindist2 
-	      // we have a couple of roots that are almost equal 
+	      // we have roots that are almost equal 
+	      // sort distance, and find a cluster of roots around
+	      vector<double> dists(distances);
+	      sort(distances.begin(),distances.end());
+	      unsigned dd=1; double coeff=2.0;
+	      for (;dd<distances.size()-1;++dd){
+		if (distances[dd+1]>=coeff*distances[dd])
+		  break;
+		coeff *= .9;
+	      }
+#if 1
+	      if (dd<=distances.size()/3){
+		vector<int> positions; vecteur roots;
+		for (unsigned i=0;i<dists.size();++i){
+		  if (done[i])
+		    continue;
+		  if (dists[i]<=distances[dd]){
+		    positions.push_back(i);
+		    roots.push_back(accurate_evalf(crystalball[i],nbits));
+		    if (i+1<dists.size() && add_conjugate && !is_exactly_zero(im(crystalball[i],context0))){
+		      positions.push_back(i+1);
+		      roots.push_back(accurate_evalf(crystalball[i+1],nbits));
+		      ++i;
+		    }
+		  }
+		}
+		if (roots.size()>=10)
+		  k=SOLVER_MAX_ITERATE;
+		if (debug_infolevel)
+		  CERR << clock() << "Entering generalized Bairstow " << dd << " roots " << positions << endl;
+		vecteur current=pcoeff(roots),dcurrent;
+		for (;k<SOLVER_MAX_ITERATE;++k){
+		  modpoly Q,R,dR;
+		  DivRem(v_accurate,current,0,Q,R);
+		  // find partial derivatives
+		  matrice m;
+		  for (unsigned i=0;i<roots.size();++i){
+		    dR=Q % current;
+		    if (dR.size()<roots.size())
+		      dR=mergevecteur(vecteur(roots.size()-dR.size()),dR);
+		    m.push_back(dR);
+		    Q.push_back(0); // multiply Q by x for next partial derivative
+		  }
+		  // invert jacobian matrix
+		  reverse(m.begin(),m.end());
+		  m=mtran(m);
+		  // solve system
+		  dcurrent=linsolve(m,R,context0);
+		  dcurrent.insert(dcurrent.begin(),0);
+		  // termination test
+		  gen ck=0;
+		  for (unsigned i=1;i<dcurrent.size();++i){
+		    if (!is_exactly_zero(current[i]))
+		      ck+=abs(dcurrent[i]/current[i],context0);
+		  }
+		  current=addvecteur(current,dcurrent);
+		  if (is_greater(eps,ck,context0))
+		    break;
+		}
+		if (k>=SOLVER_MAX_ITERATE){
+		  CERR << "Unable to isolate roots number "<< positions << endl << accurate_evalf(roots,50) << endl;
+		  for (unsigned i=0;i<positions.size();++i)
+		    done[positions[i]]=-1;
+		  cache=false;
+		  break;
+		}
+		else {
+		  // proot recursive call, and stores roots
+		  double eps1=std::pow(2.0,-nbits);
+		  roots=proot(current,eps1,nbits);
+		  for (unsigned i=0;i<positions.size();++i){
+		    // -> Set precision
+		    num=horner(v_accurate,roots[i]);
+		    den=horner(dv,roots[i]);
+		    ratio=num/den;
+		    prec=abs(ratio,context0);
+		    int precbits=60;
+		    if (is_exactly_zero(prec))
+		      precbits=2*epsbits;
+		    else
+		      precbits=_floor(-ln(prec,context0)/std::log(2.0),context0).val;
+		    if (precbits>2*epsbits)
+		      precbits=2*epsbits;
+		    done[positions[i]]=1;
+		    if (precbits<=48)
+		      crystalball[positions[i]]=evalf_double(roots[i],1,context0);
+		    else
+		      crystalball[positions[i]] =accurate_evalf(roots[i],precbits);
+		  }
+		  break;
+		}
+	      }
+#else
 	      // the second one is crystalball[k2]
 	      if (is_greater(mindist2,3*abs(ratio,context0),context0)){
 		if (debug_infolevel)
-		  CERR << "Entering Bairstow" << endl;
+		  CERR << "Entering Bairstow " << j << " " << k2 << endl;
+		tmp=accurate_evalf(crystalball[j],nbits);
+		if (crystalball[j]==conj(crystalball[j+1],context0)) k2=j+1;
 		gen tmp2=accurate_evalf(crystalball[k2],nbits);
 		modpoly current(3,1); current[1]=-tmp-tmp2; current[2]=tmp*tmp2;
 		for (;k<SOLVER_MAX_ITERATE;++k){
@@ -2068,12 +2260,14 @@ namespace giac {
 		    if (R.size()==2)
 		      R0=R.front();
 		  }
-		  current[1] += (D*R0-B*R1)/delta;
-		  current[2] += (A*R1-C*R0)/delta;
-		  if (is_greater(eps*deg*10,sqrt(R0*R0+R1*R1,context0),context0)){
+		  gen dc1=(D*R0-B*R1)/delta,dc2=(A*R1-C*R0)/delta;
+		  current[1] += dc1;
+		  current[2] += dc2;
+		  if (is_greater(eps*deg*10,abs(dc1/current[1],context0)+abs(dc2/current[2],context0),context0)){
 		    // recompute crystalball[j]/k2 and tmp/tmp2
 		    gen s=current[1],p=current[2];
-		    delta=sqrt(s*s-4*p,context0);
+		    delta=s*s-4*p;
+		    delta=sqrt(delta,context0);
 		    if (is_positive(s,context0)){
 		      tmp=(-s-delta)/2; 
 		      tmp2=p/tmp; 
@@ -2096,13 +2290,30 @@ namespace giac {
 		  }
 		}
 	      }	    
+#endif
 	      if (is_greater(3*abs(decal,context0),mindist,context0)){
 		cache=false;
-		CERR << "Bad conditionned root " << crystalball[j] << ": " << evalf_double(abs(ratio,context0),1,context0) << endl;
+		done[j]=false;
+		CERR << "Bad conditionned root j= " << j << " value " << crystalball[j] << " ratio " << evalf_double(abs(ratio,context0),1,context0) << " mindist " << mindist << endl;
 		break;
 	      }
 	    }
 	    tmp -= ratio;
+	  }
+	}
+	if (!cache && pari_polroots(v,crystalball,14,context0))
+	  cache=true;
+	if (0 && !cache){ // could be improved via Hensel lifting
+	  vecteur good;
+	  for (unsigned i=0;i<crystalball.size();++i){
+	    if (done[i]==1)
+	      good.push_back(crystalball[i]);
+	  }
+	  good=pcoeff(good);
+	  vecteur rem=operator_div(v,good,0);
+	  if (rem.size()<=crystalball.size()/2){
+	    rem=*_proot(rem,context0)._VECTptr;
+	    CERR << rem << endl;
 	  }
 	}
 	if (cache)
@@ -2115,7 +2326,7 @@ namespace giac {
     rprec = 37;
     vecteur v_accurate(*evalf_double(v,1,context0)._VECTptr);
     if (crystalball.empty()){
-      proot_real(v,eps,rprec,crystalball,context0);
+      in_proot(v,eps,rprec,crystalball,true,context0);
       // CERR << crystalball << endl;
       proot_cache(v,eps,crystalball);
     }
@@ -2209,17 +2420,18 @@ namespace giac {
     } // end i loop
   }
 
-  vecteur proot(const vecteur & v,double eps,int rprec){
+  vecteur proot(const vecteur & v,double & eps,int & rprec){
     return proot(v,eps,rprec,true);
   }
 
   vecteur proot(const vecteur & v,double eps){
-    return proot(v,eps,45);
+    int rprec=45;
+    return proot(v,eps,rprec);
   }
 
   vecteur real_proot(const vecteur & v,double eps,GIAC_CONTEXT){
 #if 1
-    gen r(_realroot(makesequence(v,eps),contextptr));
+    gen r(complexroot(makesequence(v,eps),false,contextptr));
     if (r.type!=_VECT) return vecteur(1,undef);
     const vecteur &w = *r._VECTptr;
     if (is_undef(w)) return w;
@@ -2289,7 +2501,8 @@ namespace giac {
       if (tmp.type>_REAL && tmp.type!=_FLOAT_ && tmp.type!=_CPLX)
 	return gensizeerr(contextptr);
     }
-    return proot(w,eps,int(digits*3.3));
+    int rprec(digits*3.3);
+    return proot(w,eps,rprec);
   }
   gen symb_proot(const gen & e) {
     return symbolic(at_proot,e);
@@ -3491,7 +3704,7 @@ namespace giac {
 	  for (;i!=iend;++j,++i){
 	    res += (*i)*(*j);
 	  }
-	  *cur=res;
+	  *cur=double(res);
 	  // *cur=double(dotvecteur(*ita,*itb));
 	}
       }
@@ -7344,7 +7557,7 @@ namespace giac {
 
   // find index i of x in v that is i such that v[i] <= x < v[i+1]
   // where v[-1]=-inf, and v[v.size()]=+inf
-  int dichotomy(const vector<double> & v,double x){
+  int dichotomy(const vector<giac_double> & v,double x){
     int s=v.size();
     if (x<v[0])
       return -1;
@@ -7419,7 +7632,7 @@ namespace giac {
       double lambda=f._DOUBLE_val;
       int Nv=int(2*lambda+53); // insure that poisson_cdf(lambda,Nv)==1 up to double precision
       if (Nv*n>5*lambda+n*std::ceil(std::log(double(Nv))/std::log(2.0))){
-	vector<double> tableau(Nv+1);
+	vector<giac_double> tableau(Nv+1);
 	long_double cumul=0;
 	long_double current; 
 	for (int k=0;k<Nv;++k){
@@ -7556,7 +7769,7 @@ namespace giac {
       const vecteur & v=*P._VECTptr;
       // cdf of probabilities
       unsigned vs=v.size();
-      vector<double> tableau(vs+1);
+      vector<giac_double> tableau(vs+1);
       vector<int> eff(vs);
       if (!val.empty())
 	res.reserve(n);
@@ -7609,12 +7822,12 @@ namespace giac {
       // other idea compute once binomial_cdf(Nv,k,p) for k in [0..Nv]
       // then find position of random value in the list: this costs Nv+n*ceil(log2(Nv)) operations
       if (double(Nv)*n>5*Nv+n*std::ceil(std::log(double(Nv))/std::log(2.0))){
-	vector<double> tableau(Nv+1);
+	vector<giac_double> tableau(Nv+1);
 	long_double cumul=0;
 	long_double current; // =std::pow(1-p,Nv);
 	for (int k=0;k<Nv;++k){
 	  // recompute current from time to time
-	  if (k>>5==0)
+	  if (k%32==0)
 	    current=std::exp(lngamma(Nv+1)-lngamma(k+1)-lngamma(Nv-k+1)+k*std::log(p)+(Nv-k)*std::log(1-p));
 	  cumul += current;
 	  tableau[k+1] = cumul;
@@ -8426,7 +8639,7 @@ namespace giac {
     }
   }
 
-  bool convert(const vecteur & v,vector<giac_double> & v1){
+  bool convert(const vecteur & v,vector<giac_double> & v1,bool crunch){
     int n=v.size();
     v1.clear();
     v1.reserve(n);
@@ -8439,6 +8652,31 @@ namespace giac {
 	v1.push_back(get_double(v[i]._FLOAT_val));
 	continue;
       }
+      if (v[i].type==_ZINT){
+	v1.push_back(mpz_get_d(*v[i]._ZINTptr));
+	continue;
+      }
+#ifdef HAVE_LIBMPFR
+      if (crunch && v[i].type==_REAL){
+	v1.push_back(mpfr_get_d(v[i]._REALptr->inf,GMP_RNDN));
+	continue;
+      }
+      if (crunch && v[i].type==_FRAC){
+	gen g=accurate_evalf(v[i],60);
+	if (g.type!=_REAL)
+	  return false;
+	v1.push_back(mpfr_get_d(g._REALptr->inf,GMP_RNDN));
+	continue;
+      }
+#else
+      if (crunch && v[i].type==_FRAC){
+	gen g=evalf_double(v[i],60);
+	if (g.type!=_DOUBLE_)
+	  return false;
+	v1.push_back(g._DOUBLE_val);
+	continue;
+      }
+#endif
       if (v[i].type!=_DOUBLE_)
 	return false;
       v1.push_back(v[i]._DOUBLE_val);
@@ -8446,7 +8684,7 @@ namespace giac {
     return true;
   }
 
-  bool convert(const vecteur & v,vector< complex_double > & v1){
+  bool convert(const vecteur & v,vector< complex_double > & v1,bool crunch){
     int n=v.size();
     v1.clear();
     v1.reserve(n);
@@ -8474,21 +8712,21 @@ namespace giac {
     return true;
   }
 
-  bool std_matrix_gen2std_matrix_giac_double(const std_matrix<gen> & H,matrix_double & H1){
+  bool std_matrix_gen2std_matrix_giac_double(const std_matrix<gen> & H,matrix_double & H1,bool crunch){
     int n=H.size();
     H1.resize(n);
     for (int i=0;i<n;++i){
-      if (!convert(H[i],H1[i]))
+      if (!convert(H[i],H1[i],crunch))
 	return false;
     }
     return true;
   }
 
-  bool std_matrix_gen2std_matrix_complex_double(const std_matrix<gen> & H,matrix_complex_double & H1){
+  bool std_matrix_gen2std_matrix_complex_double(const std_matrix<gen> & H,matrix_complex_double & H1,bool crunch){
     int n=H.size();
     H1.resize(n);
     for (int i=0;i<n;++i){
-      if (!convert(H[i],H1[i]))
+      if (!convert(H[i],H1[i],crunch))
 	return false;
     }
     return true;
@@ -8696,19 +8934,32 @@ namespace giac {
     epsilon(eps_save,contextptr);
   }
 
+#ifdef HAVE_LIBMPFR
+  gen tri_linear_combination(const gen & c1,const gen & x1,const gen & c2,const gen & x2,const gen & c3,const gen & x3,mpfr_t & tmp1,mpfr_t & tmp2){
+    if (c1.type!=_REAL || x1.type!=_REAL || c2.type!=_REAL ||x2.type!=_REAL ||  c3.type!=_REAL || x3.type!=_REAL)
+      return c1*x1+c2*x2+c3*x3;
+    mpfr_set_prec(tmp1,mpfr_get_prec(c1._REALptr->inf));
+    mpfr_set_prec(tmp2,mpfr_get_prec(c1._REALptr->inf));
+    mpfr_mul(tmp1,c1._REALptr->inf,x1._REALptr->inf,GMP_RNDD);
+    mpfr_mul(tmp2,c2._REALptr->inf,x2._REALptr->inf,GMP_RNDD);
+    mpfr_add(tmp1,tmp1,tmp2,GMP_RNDD);
+    mpfr_mul(tmp2,c3._REALptr->inf,x3._REALptr->inf,GMP_RNDD);
+    mpfr_add(tmp1,tmp1,tmp2,GMP_RNDD);
+    return real_object(tmp1);
+  }
+#endif
+
   void tri_linear_combination(const gen & c1,const vecteur & x1,const gen & c2,const vecteur & x2,const gen & c3,const vecteur & x3,vecteur & y){
     const_iterateur it1=x1.begin(),it2=x2.begin(),it3=x3.begin(),it3end=x3.end();
     iterateur jt=y.begin();
-#if 0 // def HAVE_LIBMPFR // not significantly faster...
+#ifdef HAVE_LIBMPFR // not significantly faster...
     if (c1.type==_REAL && c2.type==_REAL && c3.type==_REAL){
       mpfr_t tmp1,tmp2;
-      mpfr_init(tmp1);
-      mpfr_init(tmp2);
+      mpfr_init2(tmp1,mpfr_get_prec(c1._REALptr->inf));
+      mpfr_init2(tmp2,mpfr_get_prec(c1._REALptr->inf));
       for (;it3!=it3end;++jt,++it1,++it2,++it3){
 	if (it1->type==_REAL && it2->type==_REAL && it3->type==_REAL){
-	  mpfr_set_d(tmp1,0,GMP_RNDD);
-	  mpfr_mul(tmp2,c1._REALptr->inf,it1->_REALptr->inf,GMP_RNDD);
-	  mpfr_add(tmp1,tmp1,tmp2,GMP_RNDD);
+	  mpfr_mul(tmp1,c1._REALptr->inf,it1->_REALptr->inf,GMP_RNDD);
 	  mpfr_mul(tmp2,c2._REALptr->inf,it2->_REALptr->inf,GMP_RNDD);
 	  mpfr_add(tmp1,tmp1,tmp2,GMP_RNDD);
 	  mpfr_mul(tmp2,c3._REALptr->inf,it3->_REALptr->inf,GMP_RNDD);
@@ -8809,19 +9060,31 @@ namespace giac {
     swap(H[n1],v1);
     swap(H[n1+1],v2);
     swap(H[n1+2],v3);
+#ifdef HAVE_LIBMPFR
+    mpfr_t tmpf1,tmpf2; mpfr_init(tmpf1); mpfr_init(tmpf2);
+#endif
     // now columns operations on H (not on P)
     for (int j=0;j<n_orig;++j){
       vecteur & Hj=H[j];
       gen & Hjm1=Hj[n1];
       gen & Hjm2=Hj[n1+1];
       gen & Hjm3=Hj[n1+2];
+#ifdef HAVE_LIBMPFR
+      tmp1=tri_linear_combination(Hjm1,c11,Hjm2,c21,Hjm3,c31,tmpf1,tmpf2);
+      tmp2=tri_linear_combination(Hjm1,c12,Hjm2,c22,Hjm3,c32,tmpf1,tmpf2);
+      tmp3=tri_linear_combination(Hjm1,c13,Hjm2,c23,Hjm3,c33,tmpf1,tmpf2);
+#else
       tmp1=Hjm1*c11+Hjm2*c21+Hjm3*c31;
       tmp2=Hjm1*c12+Hjm2*c22+Hjm3*c32;
       tmp3=Hjm1*c13+Hjm2*c23+Hjm3*c33;
+#endif
       Hjm1=tmp1;
       Hjm2=tmp2;
       Hjm3=tmp3;
     }
+#ifdef HAVE_LIBMPFR
+    mpfr_clear(tmpf1); mpfr_clear(tmpf2);
+#endif
     // CERR << H << endl;
     if (compute_P){
       tri_linear_combination(c11,P[n1],c12,P[n1+1],c13,P[n1+2],v1);
@@ -8938,16 +9201,16 @@ namespace giac {
     if (is_double){
       if (real){
 	matrix_double H1,P1;
-	std_matrix_gen2std_matrix_giac_double(H,H1);
-	std_matrix_gen2std_matrix_giac_double(P,P1);
+	std_matrix_gen2std_matrix_giac_double(H,H1,true);
+	std_matrix_gen2std_matrix_giac_double(P,P1,true);
 	francis_schur(H1,0,n_orig,P1,maxiter,eps,false,true);
 	std_matrix_giac_double2std_matrix_gen(P1,P);
 	std_matrix_giac_double2std_matrix_gen(H1,H);
       }
       else {
 	matrix_complex_double H1,P1;
-	std_matrix_gen2std_matrix_complex_double(H,H1);
-	std_matrix_gen2std_matrix_complex_double(P,P1);
+	std_matrix_gen2std_matrix_complex_double(H,H1,true);
+	std_matrix_gen2std_matrix_complex_double(P,P1,true);
 	francis_schur(H1,0,n_orig,P1,maxiter,eps,false,true);
 	std_matrix_complex_double2std_matrix_gen(P1,P);
 	std_matrix_complex_double2std_matrix_gen(H1,H);
@@ -9908,9 +10171,9 @@ namespace giac {
       matrice2std_matrix_gen(pid,P);
       matrix_double H1,P1;
       if (!eigenvalues_only){
-	std_matrix_gen2std_matrix_giac_double(P,P1);
+	std_matrix_gen2std_matrix_giac_double(P,P1,false);
       }
-      if (std_matrix_gen2std_matrix_giac_double(H,H1)){
+      if (std_matrix_gen2std_matrix_giac_double(H,H1,false)){
 	bool ans=francis_schur(H1,0,dim,P1,2*SOLVER_MAX_ITERATE,eps,false,!eigenvalues_only);
 	if (eigenvalues_only){
 	  vecteur res;
@@ -12140,16 +12403,18 @@ namespace giac {
   bool eigenval2(matrix_double & H,int n2,giac_double & l1, giac_double & l2){
     giac_double a=H[n2-2][n2-2],b=H[n2-2][n2-1],c=H[n2-1][n2-2],d=H[n2-1][n2-1];
     giac_double delta=a*a-2*a*d+d*d+4*b*c;
-    if (debug_infolevel>2)
-      CERR << "eigenval2([[" << a << "," << b << "],[" << c << "," << d << "]], delta=" << delta << endl;
     if (delta<0){
       l1=(a+d)/2;
       l2=std::sqrt(-delta)/2;
+      if (debug_infolevel>2)
+	CERR << "eigenval2([[" << a << "," << b << "],[" << c << "," << d << "]], delta=" << delta << " re " << l1 << " im " << l2 << endl;
       return false;
     }
     delta=std::sqrt(delta);
     l1=(a+d+delta)/2;
     l2=(a+d-delta)/2;
+    if (debug_infolevel>2)
+      CERR << "eigenval2([[" << a << "," << b << "],[" << c << "," << d << "]], delta=" << delta << " , " << l1 << " and " << l2 << endl;
     return true;
   }
 
@@ -13081,7 +13346,7 @@ namespace giac {
 	  CERR << ratio << " ";
 	if (ratio<coeff*eps){ 
 	  // do a final iteration if i==n2-2 or n2-3? does not improve much precision
-	  // if (i>=n2-3) francis_iterate2(H,n1,n2,P,eps,complex_schur,compute_P,v1,v2);
+	  // if (i==n2-3) francis_iterate2(H,n1,n2,P,eps,compute_P,Haux,T,only_one,oper);
 	  // submatrices n1..i and i+1..n2-1
 	  if (debug_infolevel>2)
 	    CERR << endl << clock() << " Francis split double " << giacmin((i+1)-n1,n2-(i+1)) << " [" << n1 << " " << i+1 << " " << n2 << "]" << endl;

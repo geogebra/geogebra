@@ -29,6 +29,7 @@ namespace giac {
   bool pari_lift_combine(const vecteur & a,const std::vector<vecteur> & factmod,gen & modulo,std::vector<vecteur> & res);
   gen _pari(const gen & args,GIAC_CONTEXT);
   std::string pari_help(const gen & g);
+  bool pari_polroots(const vecteur & p,vecteur & res,long l,GIAC_CONTEXT);
 
 #ifndef NO_NAMESPACE_GIAC
 }

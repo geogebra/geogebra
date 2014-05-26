@@ -58,7 +58,12 @@
 #endif
 #define GIAC_MPZ_INIT_SIZE 128 // initial number of bits for mpz
 
+#if 0 // def HAVE_LONG_DOUBLE
+typedef long double giac_double;
+#else
 typedef double giac_double;
+#endif
+
 #ifdef VISUALC
 inline void swap_giac_double(double & a,double & b){ double c=a; a=b; b=c; }
 #else

@@ -5176,6 +5176,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   define_unary_function_ptr5( at_conjugate_gradient ,alias_at_conjugate_gradient,&__conjugate_gradient,0,true);
 
   gen _subtype(const gen & args,GIAC_CONTEXT){
+    if (args.type==_INT_ && args.subtype==0)
+      return change_subtype(0,_INT_TYPE);
+    if (args.type==_ZINT && args.subtype==0)
+      return change_subtype(2,_INT_TYPE);
+    if (args.type==_DOUBLE_)
+      return change_subtype(1,_INT_TYPE);
+    if (args.type==_REAL)
+      return change_subtype(3,_INT_TYPE);
     return args.subtype;
   }
   static const char _subtype_s []="subtype";

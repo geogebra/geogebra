@@ -1812,7 +1812,29 @@ namespace giac {
     if (g.subtype==_INTERVAL__VECT && g._VECTptr->size()==2){
       // convert to MPFI real_interval
       gen l=g._VECTptr->front(),u=g._VECTptr->back();
-      l=evalf(l,1,contextptr); u=evalf(u,1,contextptr);
+      if (is_strictly_greater(l,u,contextptr)){
+	l=g._VECTptr->back();
+	u=g._VECTptr->front();
+      }
+      gen ul=u-l;
+      if (is_exactly_zero(ul)){
+	if (u.type==_REAL)
+	  ul=int(mpfr_get_prec(u._REALptr->inf));
+	else
+	  ul=int(3.2*decimal_digits(contextptr));
+      }
+      else {
+	ul=ln(abs(evalf(u-l,1,contextptr),contextptr),contextptr);
+	ul=-_ceil(ul/ln(evalf(2,1,contextptr),contextptr),contextptr);
+      }
+      int nbits=48;
+      if (ul.type==_INT_ && ul.val>48){
+	nbits=ul.val+4;
+	l=accurate_evalf(l,nbits); u=accurate_evalf(u,nbits);
+      }
+      else {
+	l=evalf(l,1,contextptr); u=evalf(u,1,contextptr);
+      }
       if (l.type==_DOUBLE_ && u.type==_REAL)
 	u=evalf_double(u,1,contextptr);
       if (u.type==_DOUBLE_ && l.type==_REAL)
@@ -1821,6 +1843,7 @@ namespace giac {
 	   (l.type==_REAL && u.type==_REAL) ){
 	mpfi_t interv;
 	mpfi_init(interv);
+	mpfi_set_prec(interv,nbits);
 	if (l.type==_DOUBLE_)
 	  mpfi_interv_d(interv,l._DOUBLE_val,u._DOUBLE_val);
 	else
@@ -1845,6 +1868,8 @@ namespace giac {
 	 ){
       return evalcomment(*g._VECTptr,evaled,level,contextptr);
     }
+    if (g._VECTptr->size()==1 && g._VECTptr->front().is_symb_of_sommet(at_interval))
+      return in_eval_vect(gen(makevecteur(g._VECTptr->front()[1],g._VECTptr->front()[2]),_INTERVAL__VECT),evaled,1,contextptr);
     return eval_VECT(g,evaled,g.subtype,level,contextptr);
   }
 
@@ -2192,7 +2217,15 @@ namespace giac {
     if (!level)
       return false;
     switch (type) {
-	case _DOUBLE_: case _FLOAT_: case _REAL: case _STRNG: case _MAP: case _EQW: case _GROB: case _POINTER_:
+    case _REAL: 
+#ifndef NO_RTTI
+      if (real_interval * ptr=dynamic_cast<real_interval *>(_REALptr)){
+	evaled=real_object(ptr->inf);
+	return true;
+      }
+#endif
+      return false;
+    case _DOUBLE_: case _FLOAT_: case _STRNG: case _MAP: case _EQW: case _GROB: case _POINTER_:
       return false;
     case _INT_:
       if (subtype)
@@ -3634,10 +3667,16 @@ namespace giac {
     case _INT_: case _DOUBLE_: case _FLOAT_: case _ZINT: case _REAL:
       return (*this) * (*this);
     case _CPLX:
-      return ( (*_CPLXptr)*(*_CPLXptr)+(*(_CPLXptr+1)*(*(_CPLXptr+1))) );      
+      return ( (*_CPLXptr)*(*_CPLXptr)+(*(_CPLXptr+1)*(*(_CPLXptr+1))) );   
+    case _FRAC:
+      return fraction(_FRACptr->num.squarenorm(contextptr),_FRACptr->den.squarenorm(contextptr));
     default: 
-      return( (*this) * this->conj(contextptr));
-    }    
+      {
+	gen a,b;
+	reim(*this,a,b,contextptr);
+	return a*a+b*b;
+      }
+    }  
   }
 
   gen sq(const gen & a){
@@ -4169,12 +4208,24 @@ namespace giac {
       if (has_evalf(b,b1,1,contextptr) && (b.type!=b1.type || b!=b1)){
 #ifdef HAVE_LIBMPFR
 	if (a.type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._REALptr->inf));
+	  gen b2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._REALptr))
+	    b2=convert_interval(b,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    b2=accurate_evalf(b,mpfr_get_prec(a._REALptr->inf));
 	  if (b2.is_approx())
 	    return a+b2;
 	}
 	if (a.type==_CPLX && a._CPLXptr->type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
+	  gen b2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._CPLXptr->_REALptr))
+	    b2=convert_interval(b,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
 	  if (b2.is_approx())
 	    return a+b2;
 	}
@@ -4187,12 +4238,24 @@ namespace giac {
       if (has_evalf(a,a1,1,contextptr) && (a.type!=a1.type || a!=a1)){
 #ifdef HAVE_LIBMPFR
 	if (b.type==_REAL){
-	  gen a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
+	  gen a2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(b._REALptr))
+	    a2=convert_interval(a,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
 	  if (a2.is_approx())
 	    return a2+b;
 	}
 	if (b.type==_CPLX && b._CPLXptr->type==_REAL){
-	  gen a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
+	  gen a2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(b._CPLXptr->_REALptr))
+	    a2=convert_interval(a,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
 	  if (a2.is_approx())
 	    return a2+b;
 	}
@@ -5098,6 +5161,66 @@ namespace giac {
     return rdiv(n,d,contextptr);
   }
 
+  static gen mult_cplx(const gen & a,const gen & b,GIAC_CONTEXT){
+    unsigned t= (a._CPLXptr->type | ((a._CPLXptr+1)->type << 8) | (b._CPLXptr->type << 16) | ((b._CPLXptr+1)->type << 24));
+    if (t==(_ZINT | (_ZINT<<8) | (_ZINT <<16) | (_ZINT <<24))){
+      mpz_t & ax=*a._CPLXptr->_ZINTptr;
+      mpz_t & ay=*((a._CPLXptr+1)->_ZINTptr);
+      mpz_t & bx=*b._CPLXptr->_ZINTptr;
+      mpz_t & by=*((b._CPLXptr+1)->_ZINTptr);
+      // (ax+i*ay)*(bx+i*by)=ax*bx-ay*by+i*(ax*by+ay*bx)
+      // imaginary part is also (ax+ay)*(bx+by)-ax*bx-ay*by, Karatsuba trick
+      mpz_t axbx,ayby,bx_by,r;
+      int n1=mpz_size(ax)+mpz_size(bx),n2=mpz_size(ay)+mpz_size(by);
+      mpz_init2(axbx,n1); mpz_init2(ayby,n2); mpz_init2(r,giacmax(n1,n2)+2);
+      mpz_mul(axbx,ax,bx);
+      mpz_add(r,ax,ay);
+      mpz_add(ayby,bx,by); // temporary use
+      mpz_mul(r,r,ayby);
+      mpz_sub(r,r,axbx);
+      mpz_mul(ayby,ay,by);
+      mpz_sub(r,r,ayby);
+      gen I=r;
+      mpz_sub(r,axbx,ayby);
+      gen R=r;
+      R=gen(R,I);
+      mpz_clear(r); mpz_clear(ayby); mpz_clear(axbx);
+      return R;
+    }
+#if defined HAVE_LIBMPFR && !defined NO_RTTI
+    if (t==(_REAL | (_REAL<<8) | (_REAL <<16) | (_REAL <<24))){
+      real_object & ax=*a._CPLXptr->_REALptr;
+      real_object & ay=*((a._CPLXptr+1)->_REALptr);
+      real_object & bx=*b._CPLXptr->_REALptr;
+      real_object & by=*((b._CPLXptr+1)->_REALptr);
+      if (!dynamic_cast<real_interval *>(&ax) || 
+	  !dynamic_cast<real_interval *>(&ay) ||
+	  !dynamic_cast<real_interval *>(&bx) ||
+	  !dynamic_cast<real_interval *>(&by) ){
+	mpfr_t axbx,ayby,bx_by,r;
+	int nbits=mpfr_get_prec(ax.inf);
+	nbits=giacmin(nbits,mpfr_get_prec(bx.inf));
+	mpfr_init2(axbx,nbits); mpfr_init2(ayby,nbits); mpfr_init2(r,nbits);
+	mpfr_mul(axbx,ax.inf,bx.inf,GMP_RNDN);
+	mpfr_add(r,ax.inf,ay.inf,GMP_RNDN);
+	mpfr_add(ayby,bx.inf,by.inf,GMP_RNDN); // temporary use
+	mpfr_mul(r,r,ayby,GMP_RNDN);
+	mpfr_sub(r,r,axbx,GMP_RNDN);
+	mpfr_mul(ayby,ay.inf,by.inf,GMP_RNDN);
+	mpfr_sub(r,r,ayby,GMP_RNDN);
+	gen I=real_object(r);
+	mpfr_sub(r,axbx,ayby,GMP_RNDN);
+	gen R=real_object(r);
+	R=gen(R,I);
+	mpfr_clear(r); mpfr_clear(ayby); mpfr_clear(axbx);
+	return R;
+      }
+    }
+#endif
+    return gen(*a._CPLXptr * (*b._CPLXptr) - *(a._CPLXptr+1)* (*(b._CPLXptr+1)), 
+	       (*b._CPLXptr) * (*(a._CPLXptr+1)) + *(b._CPLXptr+1) * (*a._CPLXptr));
+  }
+
   static gen operator_times(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
     // COUT << a << "*" << b << endl;
     // if (!( (++control_c_counter) & control_c_counter_mask))
@@ -5165,7 +5288,7 @@ namespace giac {
     case _INT___CPLX: case _ZINT__CPLX: case _DOUBLE___CPLX: case _FLOAT___CPLX: case _REAL__CPLX:
       return is_one(a)?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
     case _CPLX__CPLX:
-      return adjust_complex_display(gen(*a._CPLXptr * (*b._CPLXptr) - *(a._CPLXptr+1)* (*(b._CPLXptr+1)), (*b._CPLXptr) * (*(a._CPLXptr+1)) + *(b._CPLXptr+1) * (*a._CPLXptr)),a,b);
+      return adjust_complex_display(mult_cplx(a,b,contextptr),a,b);
     case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT: case _VECT__MOD: case _VECT__FRAC: case _VECT__REAL: {
       gen A(a),B(b);
       if (A.is_approx() && !is_fully_numeric(B))
@@ -5861,12 +5984,24 @@ namespace giac {
       if (has_evalf(b,b1,1,contextptr)&& (b.type!=b1.type || b!=b1)){
 #ifdef HAVE_LIBMPFR
 	if (a.type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._REALptr->inf));
+	  gen b2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._REALptr))
+	    b2=convert_interval(b,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    b2=accurate_evalf(b,mpfr_get_prec(a._REALptr->inf));
 	  if (b2.is_approx())
 	    return (*a._REALptr)*b2;
 	}
 	if (a.type==_CPLX && a._CPLXptr->type==_REAL){
-	  gen b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
+	  gen b2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._CPLXptr->_REALptr))
+	    b2=convert_interval(b,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    b2=accurate_evalf(b,mpfr_get_prec(a._CPLXptr->_REALptr->inf));
 	  if (b2.is_approx())
 	    return a*b2;
 	}
@@ -5879,12 +6014,24 @@ namespace giac {
       if (has_evalf(a,a1,1,contextptr) && (a.type!=a1.type || a!=a1)){
 #ifdef HAVE_LIBMPFR
 	if (b.type==_REAL){
-	  gen a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
+	  gen a2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(b._REALptr))
+	    a2=convert_interval(a,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
 	  if (a2.is_approx())
 	    return a2*b;
 	}
 	if (b.type==_CPLX && b._CPLXptr->type==_REAL){
-	  gen a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
+	  gen a2;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(b._CPLXptr->_REALptr))
+	    a2=convert_interval(a,mpfi_get_prec(ptr->infsup),contextptr);
+	  else
+#endif	  
+	    a2=accurate_evalf(a,mpfr_get_prec(b._CPLXptr->_REALptr->inf));
 	  if (a2.is_approx())
 	    return a2*b;
 	}
@@ -6542,8 +6689,10 @@ namespace giac {
       return divpolypoly(a,b);
     case _FRAC__FRAC:
       if (a._FRACptr->num.type==_CPLX || a._FRACptr->den.type==_CPLX ||
-	  b._FRACptr->num.type==_CPLX || b._FRACptr->den.type==_CPLX)
-	return (a._FRACptr->num*b._FRACptr->den)/(a._FRACptr->den*b._FRACptr->num);
+	  b._FRACptr->num.type==_CPLX || b._FRACptr->den.type==_CPLX){
+	gen d=gcd(a._FRACptr->den,b._FRACptr->den);
+	return (a._FRACptr->num*iquo(b._FRACptr->den,d))/(iquo(a._FRACptr->den,d)*b._FRACptr->num);
+      }
       return (*a._FRACptr)/(*b._FRACptr);
     case _SPOL1__SPOL1:
       return spdiv(*a._SPOL1ptr,*b._SPOL1ptr,contextptr);
@@ -6752,10 +6901,7 @@ namespace giac {
     case _FLOAT_:
       return fsign(a._FLOAT_val);
     case _REAL:
-      if (a._REALptr->is_positive())
-	return 1;
-      else
-	return -1;
+      return a._REALptr->is_positive() && !a._REALptr->maybe_zero();
     case _SYMB:
       if (a._SYMBptr->sommet==at_abs || (a._SYMBptr->sommet==at_exp && is_real(a._SYMBptr->feuille,contextptr)))
 	return 1;
@@ -6817,7 +6963,7 @@ namespace giac {
     case _CPLX:
       return is_zero(*(a._CPLXptr+1)) && is_positive(*a._CPLXptr,contextptr);
     case _REAL:
-      return a._REALptr->is_positive();
+      return (a._REALptr->is_positive()>0) || a._REALptr->is_zero();
     case _ZINT:
       if (mpz_sgn(*a._ZINTptr)==-1)
 	return false;
@@ -6849,7 +6995,7 @@ namespace giac {
   }
 
   bool is_strictly_positive(const gen & a,GIAC_CONTEXT){
-    if (is_zero(a,contextptr))
+    if (is_zero(a,contextptr) || (a.type==_REAL && a._REALptr->maybe_zero()))
       return false;
     return is_positive(a,contextptr);
   }
@@ -7230,6 +7376,18 @@ namespace giac {
       if (a._FLOAT_val<0)      
 	return giac_float(-1.0);
       return giac_float(0.0);
+    case _REAL:
+      {
+	if (a._REALptr->is_zero())
+	  return 0;
+	if (a._REALptr->maybe_zero())
+	  return undef;
+	int res=a._REALptr->is_positive();
+	if (res)
+	  return res;
+	return undef;
+      }
+      return -1;
     case _CPLX:
       return a/abs(a,contextptr);
     case _FRAC:
@@ -7342,6 +7500,12 @@ namespace giac {
   }
 
   gen superieur_egal(const gen & a,const gen & b,GIAC_CONTEXT){
+    if ( (a.type==_REAL && b.type<=_REAL) ||
+	 (b.type==_REAL && a.type<=_REAL) ){
+      if (is_positive(a-b,contextptr))
+	return 1;
+      return 0;
+    }
     gen g=!superieur_strict(b,a,contextptr);
     if (g.type==_INT_)
       return g;
@@ -10824,7 +10988,7 @@ namespace giac {
     case _DOUBLE_:
       return "DOM_FLOAT";
     case _FLOAT_:
-      return "DOM_FLOAT";
+      return "DOM_SPECIALFLOAT";
     case _ZINT:
       return "DOM_INT";
     case _CPLX:
@@ -12290,8 +12454,11 @@ namespace giac {
 
 #ifdef HAVE_LIBMPFI
   real_interval::real_interval(const mpfi_t & interv) { 
+    int nbits=mpfi_get_prec(interv);
+    mpfr_set_prec(inf,nbits);
     mpfi_get_fr(inf,interv);
-    mpfi_init_set(infsup,interv);
+    mpfi_init2(infsup,nbits);
+    mpfi_set(infsup,interv);
   }
 #endif
 
@@ -12317,7 +12484,8 @@ namespace giac {
     mpf_init_set(inf,g.inf);
 #endif
 #ifdef HAVE_LIBMPFI
-    mpfi_init_set(infsup,g.infsup);
+    mpfi_init2(infsup,mpfi_get_prec(g.infsup));
+    mpfi_set(infsup,g.infsup);
 #else
 #ifdef HAVE_LIBMPFR
     mpfr_init2(sup,mpfr_get_prec(g.sup));
@@ -12347,7 +12515,8 @@ namespace giac {
     mpfr_init2(inf,mpfr_get_prec(g.inf));
     mpfr_set(inf,g.inf,GMP_RNDN);
 #ifdef HAVE_LIBMPFI
-    mpfi_init_set_fr(infsup,g.inf);
+    mpfi_init2(infsup,mpfr_get_prec(g.inf));
+    mpfi_set_fr(infsup,g.inf);
 #else
     mpfr_init2(sup,mpfr_get_prec(g.inf));
     mpfr_set(sup,g.inf,GMP_RNDN);
@@ -12459,6 +12628,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     setsizeerr(gettext("Unable to convert to real ")+g.print(context0));
 #endif
+    return;
   }
 
   real_object::real_object(const gen & g,unsigned int precision){
@@ -12563,6 +12733,8 @@ namespace giac {
     mpf_set(ptr->inf,g.inf);
 #endif
 #ifdef HAVE_LIBMPFI
+    int nbits=mpfi_get_prec(g.infsup);
+    mpfi_set_prec(ptr->infsup,nbits);
     mpfi_set(ptr->infsup,g.infsup);
 #else
 #ifdef HAVE_LIBMPFR
@@ -12585,7 +12757,29 @@ namespace giac {
     switch (g.type){
     case _REAL:
       return *this+*g._REALptr;
-    case _INT_: case _DOUBLE_: case _ZINT: case _FRAC:
+    case _FRAC:
+      if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
+	return sym_add(*this,g,contextptr);	
+    case _INT_: case _DOUBLE_: case _ZINT: 
+#ifdef HAVE_LIBMPFR
+      return *this+real_object(g,mpfr_get_prec(inf));      
+#else
+      return *this+real_object(g);
+#endif
+    default:
+      return sym_add(*this,g,contextptr);
+    }
+    return gensizeerr(gettext("real_object + gen")+this->print(contextptr)+","+g.print(contextptr));
+  }
+  
+  gen real_interval::addition (const gen & g,GIAC_CONTEXT) const{
+    switch (g.type){
+    case _REAL:
+      return *this+*g._REALptr;
+    case _FRAC:
+      if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
+	return sym_add(*this,g,contextptr);	
+    case _INT_: case _DOUBLE_: case _ZINT: 
 #ifdef HAVE_LIBMPFR
       return *this+real_object(g,mpfr_get_prec(inf));      
 #else
@@ -12688,7 +12882,29 @@ namespace giac {
     switch (g.type){
     case _REAL:
       return *this-*g._REALptr;
-    case _INT_: case _DOUBLE_: case _ZINT: case _FRAC:
+    case _FRAC:
+      if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
+	return sym_sub(*this,g,contextptr);	
+    case _INT_: case _DOUBLE_: case _ZINT: 
+#ifdef HAVE_LIBMPFR
+      return *this - real_object(g,mpfr_get_prec(inf));      
+#else
+      return *this - real_object(g);
+#endif
+    default:
+      return sym_sub(*this,g,contextptr);
+    }
+    return gensizeerr(gettext("real_object + gen")+this->print(contextptr)+","+g.print(contextptr));
+  }
+  
+  gen real_interval::substract (const gen & g,GIAC_CONTEXT) const{
+    switch (g.type){
+    case _REAL:
+      return *this-*g._REALptr;
+    case _FRAC:
+      if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
+	return sym_sub(*this,g,contextptr);	
+    case _INT_: case _DOUBLE_: case _ZINT: 
 #ifdef HAVE_LIBMPFR
       return *this - real_object(g,mpfr_get_prec(inf));      
 #else
@@ -13311,7 +13527,28 @@ namespace giac {
     switch (g.type){
     case _REAL:
       return *this * *g._REALptr;
-    case _INT_: case _DOUBLE_: case _ZINT: case _FRAC:
+    case _FRAC:
+      if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
+	return sym_mult(*this,g,contextptr);	
+    case _INT_: case _DOUBLE_: case _ZINT: 
+#ifdef HAVE_LIBMPFR
+      return *this * real_object(g,mpfr_get_prec(inf));      
+#else
+      return *this * real_object(g);
+#endif
+    default:
+      return sym_mult(*this,g,contextptr);
+    }
+  }
+  
+  gen real_interval::multiply (const gen & g,GIAC_CONTEXT) const{
+    switch (g.type){
+    case _REAL:
+      return *this * *g._REALptr;
+    case _FRAC:
+      if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
+	return sym_mult(*this,g,contextptr);	
+    case _INT_: case _DOUBLE_: case _ZINT: 
 #ifdef HAVE_LIBMPFR
       return *this * real_object(g,mpfr_get_prec(inf));      
 #else
@@ -13331,6 +13568,10 @@ namespace giac {
   }
   
   gen real_object::divide (const gen & g,GIAC_CONTEXT) const{
+    return multiply(g.inverse(contextptr),contextptr);
+  }
+  
+  gen real_interval::divide (const gen & g,GIAC_CONTEXT) const{
     return multiply(g.inverse(contextptr),contextptr);
   }
   
@@ -13419,15 +13660,30 @@ namespace giac {
     return res;
   }
 
-  bool real_object::is_positive(){
+  int real_object::is_positive() const{
 #ifdef HAVE_LIBMPFR
-    if (mpfr_sgn(inf)==-1)
+    return mpfr_sgn(inf);
 #else
-    if (mpf_sgn(inf)==-1)
+    return mpf_sgn(inf);
 #endif
-      return false;
-    else
-      return true;
+  }
+
+  int real_interval::is_positive() const{
+#ifdef HAVE_LIBMPFI
+    if (mpfi_is_zero(infsup)>0)
+      return 0;
+    if (mpfi_is_pos(infsup))
+      return 1;
+    if (mpfi_is_nonpos(infsup))
+      return -1;
+    return 0;
+#else
+#ifdef HAVE_LIBMPFR
+    return mpfr_sgn(inf);
+#else
+    return mpf_sgn(inf);
+#endif
+#endif
   }
 
   string print_binary(const real_object & r){
@@ -13477,13 +13733,15 @@ namespace giac {
   std::string real_object::print(GIAC_CONTEXT) const{ 
 #if defined HAVE_LIBMPFI && !defined NO_RTTI
     if (const real_interval * ptr=dynamic_cast<const real_interval *>(this)){
-      mpfr_t l,u; mpfr_init(l); mpfr_init(u);
+      mpfr_t l,u; 
+      int nbits=mpfi_get_prec(ptr->infsup);
+      mpfr_init2(l,nbits); mpfr_init2(u,nbits);
       mpfi_get_left(l,ptr->infsup); mpfi_get_right(u,ptr->infsup);
       real_object L(l),U(u);
       mpfr_clear(l); mpfr_clear(u);
-      string s("i[");
+      string s("[");
       s += L.print(contextptr);
-      s += ",";
+      s += "..";
       s += U.print(contextptr);
       s += "]";
       return s;
@@ -13539,7 +13797,7 @@ namespace giac {
 #endif
   }
 
-  bool real_object::is_zero(){
+  bool real_object::is_zero() const{
 #ifdef HAVE_LIBMPFR
     return !mpfr_sgn(inf);
 #else
@@ -13547,7 +13805,31 @@ namespace giac {
 #endif
   }
 
-  bool real_object::is_inf(){
+  bool real_object::maybe_zero() const{
+#ifdef HAVE_LIBMPFR
+    return !mpfr_sgn(inf);
+#else
+    return mpf_sgn(inf)==0;
+#endif
+  }
+
+  bool real_interval::is_zero() const {
+#ifdef HAVE_LIBMPFI
+    return mpfi_is_zero(infsup);
+#else
+    return real_object::is_zero();
+#endif
+  }
+
+  bool real_interval::maybe_zero() const{
+#ifdef HAVE_LIBMPFI
+    return mpfi_has_zero(infsup);
+#else
+    return real_object::maybe_zero();
+#endif
+  }
+
+  bool real_object::is_inf() const{
 #ifdef HAVE_LIBMPFR
     return !mpfr_inf_p(inf);
 #else
@@ -13558,7 +13840,15 @@ namespace giac {
 #endif
   }
 
-  bool real_object::is_nan(){
+  bool real_interval::is_inf() const{
+#ifdef HAVE_LIBMPFI
+    return !mpfi_inf_p(infsup);
+#else
+    return real_object::is_inf();
+#endif
+  }
+
+  bool real_object::is_nan() const{
 #ifdef HAVE_LIBMPFR
     return !mpfr_nan_p(inf);
 #else
@@ -13566,6 +13856,14 @@ namespace giac {
     setsizeerr();
 #endif
     return false;
+#endif
+  }
+
+  bool real_interval::is_nan() const{
+#ifdef HAVE_LIBMPFI
+    return !mpfi_nan_p(infsup);
+#else
+    return real_object::is_nan();
 #endif
   }
 

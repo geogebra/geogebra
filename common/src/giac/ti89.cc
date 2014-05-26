@@ -802,6 +802,17 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_SYMB && g._SYMBptr->feuille.type==_VECT && !g._SYMBptr->feuille._VECTptr->empty())
       return g._SYMBptr->feuille._VECTptr->front();
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (g.type==_REAL){
+      if (real_interval * ptr=dynamic_cast<real_interval *>(g._REALptr)){
+	mpfr_t tmp; mpfr_init2(tmp,mpfi_get_prec(ptr->infsup));
+	mpfi_get_left(tmp,ptr->infsup);
+	gen einf=real_object(tmp);
+	mpfr_clear(tmp);
+	return einf;
+      }
+    }
+#endif
     vecteur v(1,g);
     if (g.type==_VECT && g.subtype==_SEQ__VECT)
       v=*g._VECTptr;
@@ -828,6 +839,17 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_SYMB && g._SYMBptr->feuille.type==_VECT && !g._SYMBptr->feuille._VECTptr->empty())
       return g._SYMBptr->feuille._VECTptr->back();
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (g.type==_REAL){
+      if (real_interval * ptr=dynamic_cast<real_interval *>(g._REALptr)){
+	mpfr_t tmp; mpfr_init2(tmp,mpfi_get_prec(ptr->infsup));
+	mpfi_get_right(tmp,ptr->infsup);
+	gen einf=real_object(tmp);
+	mpfr_clear(tmp);
+	return einf;
+      }
+    }
+#endif
     vecteur v(1,g);
     if (g.type==_VECT && g.subtype==_SEQ__VECT)
       v=*g._VECTptr;
@@ -1234,7 +1256,7 @@ namespace giac {
     return gensizeerr(contextptr);
   }
   static const char _sorta_s[]="sorta";
-  static define_unary_function_eval_quoted (__sorta,&_sorta,_sorta_s);
+  static define_unary_function_eval (__sorta,&_sorta,_sorta_s);
   define_unary_function_ptr5( at_sorta ,alias_at_sorta,&__sorta,0,true);
 
   gen _SortD(const gen & g,GIAC_CONTEXT){
@@ -1258,7 +1280,7 @@ namespace giac {
     return gensizeerr(contextptr);
   }
   static const char _sortd_s[]="sortd";
-  static define_unary_function_eval_quoted (__sortd,&_sortd,_sortd_s);
+  static define_unary_function_eval (__sortd,&_sortd,_sortd_s);
   define_unary_function_ptr5( at_sortd ,alias_at_sortd,&__sortd,0,true);
 
   static const char _approx_s[]="approx";
@@ -2324,8 +2346,10 @@ namespace giac {
       return ;
     ofstream of(s.c_str());
     sym_tab::const_iterator it=m.begin(),itend=m.end();
-    if (it==itend)
+    if (it==itend){
       of << "[ ]" << endl;
+      return;
+    }
     of << "[" << string2gen(it->first,false) ;
     of << "," << it->second ;
     ++it;
