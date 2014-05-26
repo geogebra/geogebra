@@ -124,6 +124,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	 */
 	public void removeEuclidianViewForPlaneFromList(EuclidianViewForPlaneCompanion vfpc){
 		euclidianViewForPlaneCompanionList.remove(vfpc);
+		app.getSettings().removeEuclidianSettingsForPlane(((GeoElement) vfpc.getPlane()).getLabelSimple());
 	}
 	
 	
@@ -139,6 +140,8 @@ public abstract class App3DCompanion extends AppCompanion {
 			vfpc.removeFromGuiAndKernel();
 		
 		euclidianViewForPlaneCompanionList.clear();
+		app.getSettings().clearEuclidianSettingsForPlane();
+		
 	}
 
 

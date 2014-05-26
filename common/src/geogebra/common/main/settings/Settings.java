@@ -207,6 +207,21 @@ public class Settings {
 	public final void setEuclidianSettingsForPlane(String plane, EuclidianSettings settings){
 		euclidianSettingsForPlane.put(plane, settings);
 	}
+	
+	/**
+	 * clear all settings for plane
+	 */
+	public final void clearEuclidianSettingsForPlane(){
+		euclidianSettingsForPlane.clear();
+	}
+	
+	/**
+	 * remove settings for this plane
+	 * @param plane name of the plane creator
+	 */
+	public final void removeEuclidianSettingsForPlane(String plane){
+		euclidianSettingsForPlane.remove(plane);
+	}
 
 	/**
 	 * @return Settings of the algebra view.
