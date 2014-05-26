@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -54,7 +55,7 @@ import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
  * @author Hans-Petter Ulven
  * @version 2011-03-15
  */
-public class AlgoFitNL extends AlgoElement {
+public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 	private static final boolean DEBUG = false; // false in distribution
 
@@ -80,7 +81,7 @@ public class AlgoFitNL extends AlgoElement {
 		setInputOutput();
 		compute();
 		outputfunction.setLabel(label);
-	}// Constructor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -94,11 +95,11 @@ public class AlgoFitNL extends AlgoElement {
 		input[1] = inputfunction;
 		setOnlyOutput(outputfunction);
 		setDependencies();
-	}// setInputOutput()
+	}
 
 	public GeoFunction getFitNL() {
 		return outputfunction;
-	}// getFitNL()
+	}
 
 	@Override
 	public final void compute() {
@@ -122,14 +123,24 @@ public class AlgoFitNL extends AlgoElement {
 			outputfunction.setUndefined();
 			return;
 		}// if wrong contents in lists
+		
 		try {
-			makeDataArrays(); // Get points as x[] and y[] from lists
+			// Get points as x[] and y[] from lists
+			if (!makeDataArrays()) {
+				outputfunction.setUndefined();
+				return;
+			}
 
 			// / --- Solve :-) --- ///
 
 			// prfunction makes itself a copy of inputfunction with
 			// parameters instead of GeoNumerics
 			prfunction = new FitRealFunction(inputfunction.getFunction());
+
+			if (!prfunction.parametersOK) {
+				outputfunction.setUndefined();
+				return;
+			}
 
 			// very important:
 			curvefitter.clearObservations();
@@ -138,13 +149,12 @@ public class AlgoFitNL extends AlgoElement {
 				curvefitter.addObservedPoint(1.0, xdata[i], ydata[i]);
 			}// for all datapoints
 
-			curvefitter.fit(prfunction,
-					prfunction.getStartValues());
+			curvefitter.fit(prfunction, prfunction.getStartValues());
 
 			// DEBUG - to be removed:
 			int iter = LMO.getIterations();
 			if (iter > 200) {
-				errorMsg("More than 200 iterations...");
+				App.debug("More than 200 iterations...");
 			}
 
 			outputfunction.setFunction(prfunction.getFunction());
@@ -152,16 +162,16 @@ public class AlgoFitNL extends AlgoElement {
 
 		} catch (Throwable t) {
 			outputfunction.setUndefined();
-			errorMsg(t.getMessage());
+			App.debug(t.getMessage());
 			if (DEBUG) {
 				t.printStackTrace();
 			}
-		}// try-catch
+		}
 
-	}// compute()
+	}
 
 	// Get info from lists into matrixes and functionarray
-	private final void makeDataArrays() throws Exception {
+	private final boolean makeDataArrays() {
 		GeoElement geo = null;
 		GeoPoint point = null;
 		datasize = pointlist.size();
@@ -172,20 +182,30 @@ public class AlgoFitNL extends AlgoElement {
 		for (int i = 0; i < datasize; i++) {
 			geo = pointlist.get(i);
 			if (!geo.isGeoPoint()) {
-				throw (new Exception("Not points in function list..."));
+				// throw (new Exception("Not points in function list..."));
+				return false;
 			}// if not point
 			point = (GeoPoint) geo;
 			xdata[i] = point.getX();
 			ydata[i] = point.getY();
-		}// for rows (=datapoints)
-	}// makeDataArrays()
+		}
 
-	// / --- Debug --- ///
-	private final static void errorMsg(String s) {
-		App.debug(s);
-	}// errorMsg(String)
+		return true;
+	}
+
+	public double[] getCoeffs() {
+		MyDouble[] coeffs = prfunction.getCoeffs();
+
+		double[] ret = new double[coeffs.length];
+
+		for (int i = 0; i < coeffs.length; i++) {
+			ret[i] = coeffs[i].getDouble();
+		}
+
+		return ret;
+	}
 
 	// TODO Consider locusequability
 
-}// class AlgoFitNL
+}
 

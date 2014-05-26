@@ -40,7 +40,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * @author Hans-Petter Ulven
  * @version 2010-02-23
  */
-public class AlgoFit extends AlgoElement {
+public class AlgoFit extends AlgoElement implements FitAlgo {
 
 	private GeoList pointlist; // input
 	private GeoList functionlist; // output
@@ -55,10 +55,14 @@ public class AlgoFit extends AlgoElement {
 	private RealMatrix P = null;
 
 	/**
-	 * @param cons construction
-	 * @param label label
-	 * @param pointlist list of input points
-	 * @param functionlist lists of functions that can be used in result
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param pointlist
+	 *            list of input points
+	 * @param functionlist
+	 *            lists of functions that can be used in result
 	 */
 	public AlgoFit(Construction cons, String label, GeoList pointlist,
 			GeoList functionlist) {
@@ -125,19 +129,24 @@ public class AlgoFit extends AlgoElement {
 			return;
 		}// if wrong contents in lists
 		try {
-			makeMatrixes(); // Get functions, x and y from lists
+
+			// Get functions, x and y from lists
+			if (!makeMatrixes()) {
+				fitfunction.setUndefined();
+				return;
+			}
 
 			// Solve for parametermatrix P:
 			DecompositionSolver solver = new QRDecompositionImpl(M).getSolver();
-			if(solver.isNonSingular()){
+			if (solver.isNonSingular()) {
 				P = solver.solve(Y);
 
 				fitfunction = makeFunction();
-	
-			}else{
+
+			} else {
 				fitfunction.setUndefined();
 			}
-						// walk(fitfunction.getFunctionExpression()); //debug, erase
+			// walk(fitfunction.getFunctionExpression()); //debug, erase
 			// later
 
 			// First solution (Borcherds):
@@ -146,13 +155,13 @@ public class AlgoFit extends AlgoElement {
 
 		} catch (Throwable t) {
 			fitfunction.setUndefined();
-			t.printStackTrace();
-		}// try-catch
+			// t.printStackTrace();
+		}
 
 	}// compute()
 
 	// Get info from lists into matrixes and functionarray
-	private final void makeMatrixes() throws Exception {
+	private final boolean makeMatrixes() {
 		GeoElement geo = null;
 		GeoPoint point = null;
 		double x, y;
@@ -161,7 +170,8 @@ public class AlgoFit extends AlgoElement {
 		for (int i = 0; i < functionsize; i++) {
 			geo = functionlist.get(i);
 			if (!(geo instanceof GeoFunctionable)) {
-				throw (new Exception("Not functions in function list..."));
+				// throw (new Exception("Not functions in function list..."));
+				return false;
 			}// if not function
 			functionarray[i] = (GeoFunctionable) functionlist.get(i);
 		}// for all functions
@@ -171,7 +181,8 @@ public class AlgoFit extends AlgoElement {
 		for (int r = 0; r < datasize; r++) {
 			geo = pointlist.get(r);
 			if (!geo.isGeoPoint()) {
-				throw (new Exception("Not points in function list..."));
+				// throw (new Exception("Not points in function list..."));
+				return false;
 			}// if not point
 			point = (GeoPoint) geo;
 			x = point.getX();
@@ -179,11 +190,14 @@ public class AlgoFit extends AlgoElement {
 			Y.setEntry(r, 0, y);
 			for (int c = 0; c < functionsize; c++) {
 				M.setEntry(r, c, functionarray[c].getGeoFunction().evaluate(x));
-			}// for columns (=functions)
+			}
 		}// for rows (=datapoints)
 			// mprint("M:",M);
 			// mprint(Y:",Y);
-	}// makeMatrixes()
+
+		return true;
+
+	}
 
 	// Making GeoFunction fit(x)= p1*f(x)+p2*g(x)+p3*h(x)+...
 	private final GeoFunction makeFunction() {
@@ -193,23 +207,33 @@ public class AlgoFit extends AlgoElement {
 
 		// First product:
 		p = P.getEntry(0, 0); // parameter
-		gf = ((GeoFunctionable) functionlist.get(0)).getGeoFunction(); // Checks done in
-												// makeMatrixes...
+		gf = ((GeoFunctionable) functionlist.get(0)).getGeoFunction(); // Checks
+																		// done
+																		// in
+		// makeMatrixes...
 		fitfunction = GeoFunction.mult(fitfunction, p, gf); // p1*f(x)
 		for (int i = 1; i < functionsize; i++) {
 			p = P.getEntry(i, 0);
 			gf = ((GeoFunctionable) functionlist.get(i)).getGeoFunction();
 			product = GeoFunction.mult(product, p, gf); // product= p*func
 			fitfunction = GeoFunction.add(fitfunction, fitfunction, product); // fit(x)=...+p*func
-		}// for
+		}
 
 		return fitfunction;
-	}// makeFunction()
+	}
 
+	public double[] getCoeffs() {
+		double[] ret = new double[functionsize];
+		for (int i = 0; i < functionsize; i++) {
+			// reverse order
+			ret[i] = P.getEntry(functionsize - i - 1, 0);
+		}
 
+		return ret;
+	}
 
 	// --- SNIP --- ///
 
 	// TODO Consider locusequability
 
-}// class AlgoFit
+}

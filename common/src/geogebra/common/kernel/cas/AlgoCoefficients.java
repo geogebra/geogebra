@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.FitAlgo;
 
 /**
  * returns coefficients of a Polynomial as a list
@@ -107,6 +108,23 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 			}
 
 			return;
+		} else if (f.getParentAlgorithm() instanceof FitAlgo) {
+			
+			FitAlgo fitAlgo = (FitAlgo) f.getParentAlgorithm();
+			
+			double[] coeffs = fitAlgo.getCoeffs();
+			
+			g.clear();
+			g.setDefined(true);
+			
+			for (int i = coeffs.length - 1 ; i >=0 ; i--) {
+				g.add(new GeoNumeric(cons, coeffs[i]));
+			}
+			
+			return;
+
+			
+			//App.debug(fitAlgo.P.getEntry(0,0)+" "+fitAlgo.P.getEntry(0,1));
 		}
 
 		// not a polynomial
