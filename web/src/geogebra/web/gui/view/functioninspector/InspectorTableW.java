@@ -1,39 +1,56 @@
 package geogebra.web.gui.view.functioninspector;
 
-import org.gwt.advanced.client.datamodel.Editable;
-import org.gwt.advanced.client.datamodel.EditableGridDataModel;
-import org.gwt.advanced.client.ui.widget.GridPanel;
-import org.gwt.advanced.client.ui.widget.cell.LabelCell;
+import geogebra.web.gui.view.functioninspector.GridModel.IGridListener;
 
-public class InspectorTableW extends GridPanel{
-	public static final int INTERVAL_TABLE = 1;
-	public static final int POINTS_TABLE = 1;
-	
-	private Editable model;
-	public InspectorTableW(int tableType) {
-		model = new EditableGridDataModel(new Object[][]{new String[]{"w","q"}});
-		
-		createEditableGrid(
-		        new String[]{"Prop", "Val"},
-		        new Class[]{LabelCell.class, LabelCell.class},
-		        null
-		    ).setModel(model); 
-		setTopToolbarVisible(false);
-		setTopPagerVisible(false);
-		setArrowsVisible(false);
-		setBottomToolbarVisible(false);
-		setPageNumberBoxDisplayed(false);
-		setBottomPagerVisible(false);
-		setBorderWidth(1);
-		adjust();
-		display();
+import java.util.List;
+
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
+
+
+public class InspectorTableW extends FlexTable implements IGridListener {
+	private GridModel model;
+	public InspectorTableW(int col) {
+		super();
+		setModel(new GridModel(col, this));
+		createHeader();
 	}
-	
-	public Editable getModel() {
+
+	private void createHeader() {
+		for (int col=0; col < getModel().getColunms(); col++) {
+			Label label = new Label("column" + col);
+			label.setStyleName("InspectorTableHeader");
+			setWidget(0, col, label);
+		}
+	}
+
+	public void updateHeader(int col, String title) {
+		updateCell(col, 0, title);
+	}
+
+	public void updateCell(int col, int row, String value) {
+		Label label = (Label)getWidget(col, row);
+		label.setText(value);
+
+	}
+
+	public GridModel getModel() {
 	    return model;
     }
-	public void setModel(Editable model) {
+
+	public void setModel(GridModel model) {
 	    this.model = model;
     }
+
+	public void addRow(List<String> row) {
+		int numRows = getRowCount();
+		int col = 0;
+		for (String cell: row) {
+			Label label = new Label(cell);
+			setWidget(numRows, col, label);
+			col++;
+		}
+    }
+
 
 }

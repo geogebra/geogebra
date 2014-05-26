@@ -21,8 +21,7 @@ import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
-
-import org.gwt.advanced.client.datamodel.Editable;
+import java.util.Arrays;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -99,7 +98,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		TabBar tabBar = tabPanel.getTabBar();
 		tabBar.setTabText(0, loc.getPlain("fncInspector.Interval"));
 		tabBar.setTabText(1, loc.getPlain("fncInspector.Points"));
-		tableInterval.display();
+
 		lblGeoName.setText(getModel().getTitleString());
 //
 //		// tool tips
@@ -142,14 +141,13 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
-		Editable modelInterval = tableInterval.getModel();
+		GridModel modelInterval = tableInterval.getModel();
 		//modelInterval.setColumNames(getModel().getIntervalColumnNames());
 		modelInterval.removeAll();
 		for (int i = 0; i < property.size(); i++) {
-			modelInterval.addRow(i, new Object[]{property.get(i), value.get(i)});
+			modelInterval.addRow(Arrays.asList(property.get(i), value.get(i)));
 
 		}
-		tableInterval.display();
 	}
 	
 
@@ -273,7 +271,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		buildHelpPanel();
 		createOptionsButton();
 		
-		tableInterval = new InspectorTableW(InspectorTableW.INTERVAL_TABLE);
+		tableInterval = new InspectorTableW(2);
 		intervalTab.add(tableInterval);
 		FlowPanel toolBar = new FlowPanel();
 		toolBar.setStyleName("panelRow");
@@ -498,13 +496,10 @@ public class FunctionInspectorW extends FunctionInspector {
 
 			double[] coords = new double[3];
 			getModel().getLowPoint().getCoords(coords);
-			//fldLow.setText(nf.format(coords[0]));
 			fldLow.setText(coords[0] +"");
 				getModel().getHighPoint().getCoords(coords);
-//			fldHigh.setText(nf.format(coords[0]));
 			fldHigh.setText(coords[0]+"");
 			getModel().updateIntervalTable();
-			//?? updateIntervalTable();
 		}
 	}
 
