@@ -12,14 +12,16 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * Distance function of a curve that implements RealRootFunction.
  * @author Markus Hohenwarter
  */
-public class ParametricCurveDistanceFunction implements RealRootFunction {
+public class ParametricCurveDistanceFunction implements RealRootFunction, DistanceFunction {
 
 	//private GeoPoint P;	
 	private double px, py;
@@ -39,16 +41,8 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 		//this.maxt = curve.getMaxParameter();
 	}
 
-	/**
-	 * Sets the point to be used in the distance function 
-	 * (funX(t) - Px)^2 + (funY(t) - Py)^2.
-	 * @param px distant point x-coord
-	 * @param py distant point y-coord
-	 */
-	public void setDistantPoint(double px, double py) {
-		this.px = px;
-		this.py = py;
-	}
+	
+	
 
 	/**
 	 * Returns the square of the distance between the currently set
@@ -60,6 +54,20 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 		double dx = funX.evaluate(t) - px;
 		double dy = funY.evaluate(t) - py;
 		return dx * dx + dy * dy;		
+	}
+
+	/**
+	 * Sets the point to be used in the distance function 
+	 * (funX(t) - Px)^2 + (funY(t) - Py)^2.
+	 * @param px distant point x-coord
+	 * @param py distant point y-coord
+	 */
+	@Override
+	public void setDistantPoint(GeoPointND P) {
+		Coords coords = P.getCoordsInD(2);
+		px = coords.getX() / coords.getZ();
+		py = coords.getY() / coords.getZ();
+		
 	}
 
 }

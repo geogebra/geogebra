@@ -2,8 +2,8 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.DistanceFunction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -18,7 +18,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
@@ -28,7 +27,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
-import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -40,7 +38,7 @@ import geogebra.common.plugin.Operation;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		CurveEvaluable, Traceable, Path,
+		CurveEvaluable, 
 		RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable{
 
 
@@ -390,8 +388,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		// calc point for given parameter
 		P.setCoords(evaluateCurve3D(pp.t), false);
 	}
-	
-	private CurveCartesian3DDistanceFunction distFun;
 
 	/**
 	 * Returns the parameter value t where this curve has minimal distance to
@@ -500,7 +496,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	///////////////////////////////////////
 
 
-	private class CurveCartesian3DDistanceFunction implements RealRootFunction {
+	private class CurveCartesian3DDistanceFunction implements DistanceFunction {
 	
 		
 		private Coords distCoords, distDirection;
@@ -617,6 +613,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 					Operation.MULTIPLY, expr));
 		}
 		translate(P);
+	}
+
+	@Override
+	public void clearCasEvalMap(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

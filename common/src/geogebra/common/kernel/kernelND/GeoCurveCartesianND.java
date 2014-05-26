@@ -1,17 +1,26 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.DistanceFunction;
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.VarString;
+import geogebra.common.kernel.algos.AlgoDependentFunction;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
-
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.Traceable;
 
 /**
  * Abstract class for cartesian curves in any dimension
  * @author matthieu
  *
  */
-public abstract class GeoCurveCartesianND extends GeoElement {
+public abstract class GeoCurveCartesianND extends GeoElement implements Traceable, Path, VarString, CasEvaluableFunction {
 	
 	/** samples to find interval with closest parameter position to given point */
 	protected static final int CLOSEST_PARAMETER_SAMPLES = 100;
@@ -32,7 +41,7 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 	
 	/** flag for isDefined()*/
 	protected boolean isDefined = true;
-
+	protected DistanceFunction distFun;
 
 	/** common constructor
 	 * @param c construction
@@ -267,5 +276,89 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 		for(int i=0; i< this.funExpanded.length; i++){
 			this.funExpanded[i]=null;
 		}
+	}
+	
+	public FunctionVariable[] getFunctionVariables() {
+		return getFun(0).getFunctionVariables();
+	}
+	
+	public String getVarString(StringTemplate tpl) {
+		return getFun(0).getVarString(tpl);
+	}
+	
+	/**
+	 * Set this curve by applying CAS command to f.
+	 */
+	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
+			boolean symbolic,MyArbitraryConstant arbconst) {
+		GeoCurveCartesianND c = (GeoCurveCartesianND) f;
+
+		if (c.isDefined()) {
+			//register the variable name to make sure parsing of CAS output runs OK, see #3006
+			GeoNumeric geo = new GeoNumeric(this.cons);
+			this.cons.addLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate), geo);
+			this.isDefined = true;
+			for(int k = 0; k < getDimension(); k++){
+				setFun(k, (Function) c.getFunExpanded(k).evalCasCommand(ggbCasCmd, symbolic,arbconst));
+				this.isDefined = this.isDefined && getFun(k) != null;
+			}
+			this.cons.removeLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate));
+			if (this.isDefined)
+				setInterval(c.startParam, c.endParam);
+		} else {
+			this.isDefined = false;
+		}
+		this.distFun = null;
+	}
+	
+	public void clearCasEvalMap(String key) {
+		for(int k = 0; k < getDimension(); k++){
+			getFun(k).clearCasEvalMap(key);
+		}		
+	}
+	
+	protected void setFun(int i, Function f) {
+		this.fun[i] = f;
+		this.funExpanded[i]=null;
+		this.containsFunctions[i]=AlgoDependentFunction.containsFunctions(this.fun[i].getExpression());
+	}
+	
+	protected Function getFunExpanded(int i) {
+		if(!this.containsFunctions[i]){
+			return getFun(i);
+		}
+		if(this.funExpanded[i] == null){
+			this.funExpanded[i] = new Function(getFun(i),this.kernel);
+			ExpressionNode expr = AlgoDependentFunction.expandFunctionDerivativeNodes(getFun(i).getExpression().deepCopy(this.kernel)).wrap();
+			this.funExpanded[i].setExpression(expr);
+		}
+		return this.funExpanded[i];
+	}
+
+	/**
+	 * Set this curve to the n-th derivative of c
+	 * @param curve curve whose derivative we want
+	 * 
+	 * @param n
+	 *            order of derivative
+	 */
+	public void setDerivative(GeoCurveCartesianND curve, int n) {
+		if (curve.isDefined()) {
+			this.isDefined = true;
+			for(int k = 0; k < getDimension(); k++){
+				setFun(k, curve.getFunExpanded(k).getDerivative(n, true));
+				this.isDefined = this.isDefined && getFun(k) != null;
+			}
+
+			if (this.isDefined)
+				setInterval(curve.startParam, curve.endParam);
+		} else {
+			this.isDefined = false;
+		}
+		this.distFun = null;
+	}
+
+	public int getDimension() {
+		return this.fun.length;
 	}
 }

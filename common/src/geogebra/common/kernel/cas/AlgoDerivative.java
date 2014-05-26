@@ -23,11 +23,11 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 /**
  * Derivative of a function
@@ -141,8 +141,8 @@ public class AlgoDerivative extends AlgoCasBase {
 			}
 		}
 		
-		if (f instanceof GeoCurveCartesian) {
-			((GeoCurveCartesian)g).setDerivative((GeoCurveCartesian)f, orderInt);
+		if (f instanceof GeoCurveCartesianND) {
+			((GeoCurveCartesianND)g).setDerivative((GeoCurveCartesianND)f, orderInt);
 			return;
 		}
 		

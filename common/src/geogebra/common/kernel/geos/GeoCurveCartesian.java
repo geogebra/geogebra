@@ -20,15 +20,12 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoDependentFunction;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -50,8 +47,8 @@ import java.util.ArrayList;
  * @author Markus Hohenwarter
  */
 public class GeoCurveCartesian extends GeoCurveCartesianND implements
-		Transformable, VarString, Translateable, PointRotateable, Mirrorable,
-		Dilateable, MatrixTransformable, CasEvaluableFunction, ParametricCurve,
+		Transformable, Translateable, PointRotateable, Mirrorable,
+		Dilateable, MatrixTransformable, ParametricCurve,
 		ConicMirrorable {
 
 
@@ -67,7 +64,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	double CURVATURE_COLOR = 15;// optimal value
 	// Victor Franco Espino 25-04-2007
 
-	private ParametricCurveDistanceFunction distFun;
+
 
 	private boolean hideRangeInFormula;
 
@@ -216,31 +213,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				// funX.toLaTeXString(true));
 			}
 		}
-		this.distFun = new ParametricCurveDistanceFunction(this);
+		this.distFun = null;
 	}
 
-	/**
-	 * Set this curve by applying CAS command to f.
-	 */
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic,MyArbitraryConstant arbconst) {
-		GeoCurveCartesian c = (GeoCurveCartesian) f;
-
-		if (c.isDefined()) {
-			//register the variable name to make sure parsing of CAS output runs OK, see #3006
-			GeoNumeric geo = new GeoNumeric(this.cons);
-			this.cons.addLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate), geo);
-			setFun(0, (Function) c.getFunExpanded(0).evalCasCommand(ggbCasCmd, symbolic,arbconst));
-			setFun(1, (Function) c.getFunExpanded(1).evalCasCommand(ggbCasCmd, symbolic,arbconst));
-			this.cons.removeLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate));
-			this.isDefined = !(getFun(0) == null || getFun(1) == null);
-			if (this.isDefined)
-				setInterval(c.startParam, c.endParam);
-		} else {
-			this.isDefined = false;
-		}
-		this.distFun = new ParametricCurveDistanceFunction(this);
-	}
 	/**
 	 * @param order order of derivative
 	 * @return derivative as curve
@@ -256,37 +231,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	private GeoCurveCartesian derivGeoFun;
 
-	/**
-	 * Set this curve to the n-th derivative of c
-	 * @param curve curve whose derivative we want
-	 * 
-	 * @param n
-	 *            order of derivative
-	 */
-	public void setDerivative(GeoCurveCartesian curve, int n) {
-		if (curve.isDefined()) {
-			setFun(0, curve.getFunExpanded(0).getDerivative(n, true));
-			setFun(1, curve.getFunExpanded(1).getDerivative(n, true));
-			this.isDefined = !(getFun(0) == null || getFun(1) == null);
-			if (this.isDefined)
-				setInterval(curve.startParam, curve.endParam);
-		} else {
-			this.isDefined = false;
-		}
-		this.distFun = new ParametricCurveDistanceFunction(this);
-	}
+	
 
-	private Function getFunExpanded(int i) {
-		if(!this.containsFunctions[i]){
-			return getFun(i);
-		}
-		if(this.funExpanded[i] == null){
-			this.funExpanded[i] = new Function(getFun(i),this.kernel);
-			ExpressionNode expr = AlgoDependentFunction.expandFunctionDerivativeNodes(getFun(i).getExpression().deepCopy(this.kernel)).wrap();
-			this.funExpanded[i].setExpression(expr);
-		}
-		return this.funExpanded[i];
-	}
+	
 	/**
 	 * Sets this curve to the parametric derivative of the given curve c. The
 	 * parametric derivative of a curve c(t) = (x(t), y(t)) is defined as (x(t),
@@ -303,14 +250,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		} else {
 			this.isDefined = false;
 		}
-		this.distFun = new ParametricCurveDistanceFunction(this);
+		this.distFun = null;
 	}
 
-	private void setFun(int i, Function f) {
-		this.fun[i] = f;
-		this.funExpanded[i]=null;
-		this.containsFunctions[i]=AlgoDependentFunction.containsFunctions(this.fun[i].getExpression());
-	}
+	
 	// added by Loic Le Coq 2009/08/12
 	/**
 	 * @param tpl string template
@@ -700,8 +643,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		double startVal = startValue;
 		if (this.distFun == null)
 			this.distFun = new ParametricCurveDistanceFunction(this);
-		Coords coords = P.getCoordsInD(2);
-		this.distFun.setDistantPoint(coords.getX() / coords.getZ(), coords.getY() / coords.getZ());
+		
+		this.distFun.setDistantPoint(P);
 
 		// check if P is on this curve and has the right path parameter already
 		if (P.getPath() == this) {
@@ -866,10 +809,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return true;
 	}
 
-	public String getVarString(StringTemplate tpl) {
-		return getFun(0).getVarString(tpl);
-	}
-
 	final public boolean isFunctionInX() {
 		return false;
 	}
@@ -1024,10 +963,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return true;
 	}
 
-	public FunctionVariable[] getFunctionVariables() {
-		return getFun(0).getFunctionVariables();
-	}
-
 	/**
 	 * @return x-function
 	 */
@@ -1042,10 +977,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return getFun(1);
 	}
 
-	public void clearCasEvalMap(String key) {
-		getFun(0).clearCasEvalMap(key);
-		getFun(1).clearCasEvalMap(key);		
-	}
+	
 	
 	@Override
 	public boolean hasDrawable3D() {
