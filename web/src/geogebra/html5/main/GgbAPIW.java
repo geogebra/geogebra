@@ -11,6 +11,7 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.js.JavaScriptInjector;
+import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.View;
 
 import java.util.ArrayList;
@@ -527,6 +528,8 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			String fileName = geo.getImageFileName();
 			if (fileName != null) {
 					geo.getGraphicsAdapter().convertToSaveableFormat();
+					String newName = geo.getGraphicsAdapter().getImageFileName();
+					((ImageManager)app.getImageManager()).replace(fileName, newName);
 			}
 		}
 	}

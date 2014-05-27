@@ -157,4 +157,15 @@ public class ImageManager extends AbstractImageManager {
 	    img.setSrc(resource.getSafeUri().asString());
 	    return img;
     }
+
+	public void replace(String fileName, String newName) {
+		if(fileName.equals(newName)){
+			return;
+		}
+	    ImageElement el = this.externalImageTable.get(fileName);
+	    String src = this.externalImageSrcs.get(fileName);
+	    
+	    this.externalImageTable.put(newName, el);
+	    this.externalImageSrcs.put(newName, src);
+    }
 }

@@ -54,6 +54,7 @@ public class GeoElementGraphicsAdapter extends
 
 	@Override
     public void convertToSaveableFormat() {
+		String oldFileName = this.imageFileName;
 		if("".equals(imageFileName)){
 			return;
 		}
