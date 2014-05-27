@@ -212,17 +212,21 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     }-*/;
 
 	public HashMap<String,String> createArchiveContent(boolean includeThumbnail) {
+		long l = System.currentTimeMillis();
+		App.debug("start saving");
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
     	boolean isSaving = getKernel().isSaving();
     	//return getNativeBase64(includeThumbnail);
     	getKernel().setSaving(true);
     	adjustConstructionImages(getConstruction(),"");
+    	App.debug("prepared"+(System.currentTimeMillis()-l));
     	String constructionXml = getApplication().getXML();
+    	App.debug("xml"+(System.currentTimeMillis()-l));
     	String macroXml = getApplication().getMacroXMLorEmpty();
     	String geogebra_javascript = getKernel().getLibraryJavaScript();
-
+    	App.debug("macro+js"+(System.currentTimeMillis()-l));
     	writeConstructionImages(getConstruction(),"",archiveContent);
-
+    	App.debug("images"+(System.currentTimeMillis()-l));
 
 		// write construction thumbnails
     	if (includeThumbnail)
@@ -238,6 +242,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
 
     	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
+    	App.debug("finished"+(System.currentTimeMillis()-l));
     	getKernel().setSaving(isSaving);
     	return archiveContent;
     }
@@ -549,24 +554,28 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != null) {
-
+				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
+				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
 				BufferedImage img = geogebra.html5.awt.GBufferedImageW.getGawtImage(geo.getFillImage());
-				if (img != null && img.getImageElement() != null) {
+				
+				if (url == null && (img != null && img.getImageElement() != null)) {
 					Canvas cv = Canvas.createIfSupported();
 					cv.setCoordinateSpaceWidth(img.getWidth());
 					cv.setCoordinateSpaceHeight(img.getHeight());
 					Context2d c2d = cv.getContext2d();
 					c2d.drawImage(img.getImageElement(),0,0);
-					String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
+					url = cv.toDataUrl("image/png");
 					// Opera and Safari cannot toDataUrl jpeg (much less the others)
 					//if (ext.equals("jpg") || ext.equals("jpeg"))
 					//	addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
 					//else
+					
+				}
+				if(url!=null){
 					if (ext.equals("png"))
-						addImageToZip(filePath + fileName, cv.toDataUrl("image/png"), archive);
+						addImageToZip(filePath + fileName, url, archive);
 					else
-						addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", cv.toDataUrl("image/png"), archive);
-
+						addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", url, archive);
 				}
 			}
 		}
