@@ -155,7 +155,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 	@Override
 	public StringBuilder number(double number) {
 		MyDouble md = new MyDouble(kernel, number);
-		return new StringBuilder("(").append(md).append(")");
+		return new StringBuilder("(").append(md.toString(StringTemplate.defaultTemplate)).append(")");
 	}
 
 	/* (non-Javadoc)
