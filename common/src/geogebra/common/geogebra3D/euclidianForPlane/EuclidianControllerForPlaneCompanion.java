@@ -119,7 +119,7 @@ public class EuclidianControllerForPlaneCompanion extends EuclidianControllerFor
 	}
 
 	@Override
-	protected ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list){
+	public ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list){
 		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 		for (GeoElement geo : list)
 			if (ec.view.isMoveable(geo))

@@ -433,7 +433,7 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	protected EuclidianController newEuclidianController(
+	public EuclidianController newEuclidianController(
 			final geogebra.common.kernel.Kernel kernel1) {
 		return null;
 	}

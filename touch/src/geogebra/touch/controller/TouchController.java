@@ -263,7 +263,7 @@ public class TouchController extends EuclidianControllerWeb implements
 
 		// move all selected geos
 		GeoElement.moveObjects(
-				removeParentsOfView(this.model.getSelectedGeos()),
+				this.companion.removeParentsOfView(this.model.getSelectedGeos()),
 				this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 
 		if (repaint) {

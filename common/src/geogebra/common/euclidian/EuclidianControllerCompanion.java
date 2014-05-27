@@ -431,7 +431,7 @@ public class EuclidianControllerCompanion {
 		ec.yRW = p.inhomY;
 	}
 
-	protected ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
+	public ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
 		return list;
 	}
 
