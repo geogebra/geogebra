@@ -429,36 +429,11 @@ public class View {
     }
 
 	public native void processJSON(String encoded) /*-{
-		function decodeUTF8(str_data) {
-			var tmp_arr = [], i = 0, ac = 0, c1 = 0, c2 = 0, c3 = 0;
-		
-			str_data += '';
-		
-			while (i < str_data.length) {
-				c1 = str_data.charCodeAt(i);
-				if (c1 < 128) {
-					tmp_arr[ac++] = String.fromCharCode(c1);
-					i++;
-				} else if (c1 > 191 && c1 < 224) {
-					c2 = str_data.charCodeAt(i + 1);
-					tmp_arr[ac++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
-					i += 2;
-				} else {
-					c2 = str_data.charCodeAt(i + 1);
-					c3 = str_data.charCodeAt(i + 2);
-					tmp_arr[ac++] = String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-					i += 3;
-				}
-			}
-	
-			return tmp_arr.join('');
-		}		
-		
 		
 		var content = JSON.parse(encoded).archive;
 		this.@geogebra.html5.util.View::prepare(I)(content.length);
 		for(var k = 0; k < content.length; k++){
-			this.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,decodeUTF8(content[k].fileContent));
+			this.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
 		}
 	    
     }-*/;
