@@ -763,11 +763,20 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	@Override
 	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
-       
-		ambiantDiffuse = new float[][] {
-				{ambiant0, diffuse0},
-				{ambiant1, diffuse1}
-		};
+       	       
+			/*
+			ambiantDiffuse = new float[][] {
+					{ambiant0, diffuse0},
+					{ambiant1, diffuse1}
+			};
+			*/
+			
+			float a0 = (float) (ambiant0 * Math.sqrt(2));
+			float a1 = (float) (ambiant1 * Math.sqrt(2));
+			ambiantDiffuse = new float[][] {
+					{a0, 1f-a0},
+					{a1, 1f-a1}
+			};
         
 	}
 
