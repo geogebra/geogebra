@@ -209,7 +209,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 	public double[][] eliminate(Collection<StringBuilder> translatedRestrictions) {
 		
 		String script, result;
-		
+			
 		// If SingularWS is available and quick enough, let's use it:
 		if (App.singularWS != null && App.singularWS.isAvailable() && App.singularWS.isFast()) {
 			script = this.createSingularScript(translatedRestrictions);
@@ -224,20 +224,17 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 			return getBivarPolyCoefficientsSingular(result);
 		}
 		
-		Log.debug("TEST: " + this.createSingularScript(translatedRestrictions));
-
 		// Falling back to Giac:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		script = cas.getCurrentCAS().createLocusEquationScript( 
 				convertFloatsToRationals(CASTranslator.constructRestrictions(translatedRestrictions)),
 				this.getVars(), this.getVarsToEliminate());
-
+		
 		Log.info("[LocusEqu] input to cas: "+script);
 		result = cas.evaluate(script);
 		Log.info("[LocusEqu] output from cas: "+result);
 		return cas.getCurrentCAS().getBivarPolyCoefficients(result, cas);
 	}
-
 
 	public static double[][] getBivarPolyCoefficientsSingular(String rawResult) {
 		String[] allrows = rawResult.split("\n");
@@ -341,11 +338,10 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 	}
 
 	/**
-	 * Converts floats to rationals. Uses some kind of heuristics
-	 * since it simply replaces e.g. ".2346" to "2346/10000".
-	 * This will also work e.g. for "89.2346" since it will be
-	 * changed to "892346/10000". The "." character should not be use
-	 * for other purposes, so we naively assume that this holds.
+	 * Convert floats to rational numbers in a given String (all occurrences).
+	 * The "." character should not be used for other purposes than decimal point.
+	 * We also ensure that leading zeros are removed. Otherwise Giac will assume
+	 * that the numbers are in octal. :-D
 
 	 * @param input the input expression in floating point format
 	 * @return the output expression in rational divisions
@@ -359,23 +355,32 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		
 		StringBuffer output = new StringBuffer();
 			
-		RegExp re = RegExp.compile("\\.[\\d]+", "g");
+		RegExp re = RegExp.compile("[\\d]\\.[\\d]+", "g");
 		
 		int from = 0;
 		
 		for (MatchResult mr = re.exec(input); mr != null; mr = re.exec(input)) {
 			String divisor = "1";
-			int length = mr.getGroup(0).length();
-			for (int j = 1; j < length; ++j) {
+			String number = mr.getGroup(0);
+			int decpoint = number.indexOf(".");
+			String decbefore = number.substring(0, decpoint);
+			int decbefore_length = decbefore.length();
+			String decafter = number.substring(decpoint + 1);
+			int length = decafter.length();
+			if (decbefore.equals("0")) {
+				decbefore = "";
+				decafter = decafter.replaceFirst("^0+(?!$)", "");
+			}
+			
+			for (int j = 1; j <= length; ++j) {
 				divisor += "0";
 			}
 			// Adding the non-matching part from the previous match (or from the start):
 			if (from <= mr.getIndex() - 1)
 				output.append(input.substring(from, mr.getIndex()));
 			// Adding the matching part in replaced form (removing the first "." character):
-			output.append(input.substring(mr.getIndex() + 1, mr.getIndex()
-					+ length) + "/" + divisor);
-			from = mr.getIndex() + length; // Preparing then next "from".
+			output.append(decbefore + decafter + "/" + divisor);
+			from = mr.getIndex() + length + decbefore_length + 1; // Preparing then next "from".
 		}
 		// Adding tail:
 		output.append(input.substring(from, input.length()));
