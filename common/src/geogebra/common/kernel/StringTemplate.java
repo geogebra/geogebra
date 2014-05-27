@@ -2082,7 +2082,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * convert 3.33 to 333/100
 	 * convert 3E-3 to 3/1000
 	 */
-	public String convertScientificNotationGiac(String originalString) {
+	public static String convertScientificNotationGiac(String originalString) {
 		if (originalString.indexOf("E-") > -1) {
 
 			String[] s = originalString.split("E-");
@@ -2127,8 +2127,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				return "(" + originalString.substring(0,  originalString.length() - 1).replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex) + ")";                               
 			}
 
-			// eg 2.22 -> (222/100)
-			return "(" + originalString.replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex - 1) + ")";
+			// eg 2.22 -> (222/100) or 02.22 -> (222/100)
+			return "(" + (originalString.replace(".", "")).replaceFirst("^0+(?!$)", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex - 1) + ")";
 		}
 
 		// simple integer, no need to change

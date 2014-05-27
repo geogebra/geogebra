@@ -7,6 +7,7 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.locusequ.arith.Equation;
 import geogebra.common.main.App;
@@ -360,27 +361,13 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		int from = 0;
 		
 		for (MatchResult mr = re.exec(input); mr != null; mr = re.exec(input)) {
-			String divisor = "1";
 			String number = mr.getGroup(0);
-			int decpoint = number.indexOf(".");
-			String decbefore = number.substring(0, decpoint);
-			int decbefore_length = decbefore.length();
-			String decafter = number.substring(decpoint + 1);
-			int length = decafter.length();
-			if (decbefore.equals("0")) {
-				decbefore = "";
-				decafter = decafter.replaceFirst("^0+(?!$)", "");
-			}
-			
-			for (int j = 1; j <= length; ++j) {
-				divisor += "0";
-			}
 			// Adding the non-matching part from the previous match (or from the start):
 			if (from <= mr.getIndex() - 1)
 				output.append(input.substring(from, mr.getIndex()));
 			// Adding the matching part in replaced form (removing the first "." character):
-			output.append(decbefore + decafter + "/" + divisor);
-			from = mr.getIndex() + length + decbefore_length + 1; // Preparing then next "from".
+			output.append(StringTemplate.convertScientificNotationGiac(number));
+			from = mr.getIndex() + number.length(); // Preparing then next "from".
 		}
 		// Adding tail:
 		output.append(input.substring(from, input.length()));
