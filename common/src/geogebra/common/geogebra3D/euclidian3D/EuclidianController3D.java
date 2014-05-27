@@ -429,13 +429,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		switch (view3D.getCursor3DType()) {
 		case EuclidianView3D.PREVIEW_POINT_FREE:
-			pointCreated = true;
 			point3D = getNewPointFree(point);
 			ret = point3D;
+			pointCreated = point3D;
 			break;
 
 		case EuclidianView3D.PREVIEW_POINT_PATH:
-			pointCreated = true;
 			if (onPathPossible) {
 				Path path = point.getPath();
 				if (path.toGeoElement().isGeoElement3D()
@@ -448,23 +447,27 @@ public abstract class EuclidianController3D extends EuclidianController {
 					point3D.setWillingCoords(null);
 					point3D.setWillingDirection(null);
 					ret = point3D;
+					pointCreated = point3D;
 				} else {
 					Coords coords = point.getCoordsInD(2);
-					return createNewPoint2D(null, false, path, coords.getX(),
+					pointCreated = createNewPoint2D(null, false, path, coords.getX(),
 							coords.getY(), false, false);
+					return pointCreated;
 				}
 
-			} else
+			} else{
+				pointCreated = null;
 				return null;
+			}
 			break;
 
 		case EuclidianView3D.PREVIEW_POINT_REGION:
 			if (inRegionPossible) {
-				pointCreated = true;
 				Region region = point.getRegion();
 				if (region == view3D.getxOyPlane()) {
 					point3D = getNewPointFree(point);
 					ret = point3D;
+					pointCreated = point3D;
 				} else if (((GeoElement) region).isGeoElement3D()) {
 					Coords coords = point.getCoords();
 					point3D = (GeoPoint3D) getKernel().getManager3D()
@@ -473,37 +476,39 @@ public abstract class EuclidianController3D extends EuclidianController {
 					point3D.setWillingCoords(null);
 					point3D.setWillingDirection(null);
 					ret = point3D;
+					pointCreated = point3D;
 				} else {
 					Coords coords = point.getCoordsInD(2);
-					return createNewPoint2D(null, false, region, coords.getX(),
+					pointCreated = createNewPoint2D(null, false, region, coords.getX(),
 							coords.getY(), false, false);
+					return pointCreated;
 				}
-			} else
+			} else{
+				pointCreated = null;
 				return null;
+			}
 			break;
 
 		case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
 			if (intersectPossible) {
-
-				pointCreated = true;
 
 				// get last intersection preview point
 				GeoPointND intersectionPoint = view3D.getIntersectionPoint();
 				// add it to construction
 				intersectionPoint.getParentAlgorithm().addToConstructionList();
 				intersectionPoint.setLabel(null);
+				pointCreated = intersectionPoint; 
 
 				// check if it's a 3D point
 				if (((GeoElement) intersectionPoint).isGeoElement3D()){
 					point3D = (GeoPoint3D) intersectionPoint;
-					setMovedGeoPoint(point3D);
-				}else{
-					setMovedGeoPoint((GeoElement) intersectionPoint);
+				}else{				
 					return intersectionPoint;
 				}
 
 			} else {
 				point3D = null;
+				pointCreated = null;
 			}
 			return point3D;
 
@@ -521,9 +526,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return firstPoint;
 		case EuclidianView3D.PREVIEW_POINT_NONE:
 		default:
-			pointCreated = true;
-			return super.getNewPoint(hits, onPathPossible, inRegionPossible,
+			pointCreated = super.getNewPoint(hits, onPathPossible, inRegionPossible,
 					intersectPossible, false);
+			return pointCreated;
 
 		}
 
@@ -1985,7 +1990,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected Hits addPointCreatedForMouseReleased(Hits hits) {
 
-		hits.add(getMovedGeoPoint());
+		hits.add((GeoElement) pointCreated);
 		return hits;
 	}
 

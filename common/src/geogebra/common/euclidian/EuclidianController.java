@@ -269,7 +269,7 @@ public abstract class EuclidianController {
 	
 	protected boolean draggingBeyondThreshold = false;
 
-	protected boolean pointCreated = false;
+	protected GeoPointND pointCreated = null;
 
 	protected boolean moveModeSelectionHandled;
 
@@ -4903,10 +4903,10 @@ public abstract class EuclidianController {
 			}
 	
 
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
+	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible, boolean doSingleHighlighting, boolean complex) {
 			
-				pointCreated = false;
+				pointCreated = null;
 		
 				if (!allowPointCreation()) {
 					return false;
@@ -4916,7 +4916,7 @@ public abstract class EuclidianController {
 						intersectPossible, complex);
 			
 				if (point != null) {
-					pointCreated = true;
+					pointCreated = point;
 			
 					handleMovedElement((GeoElement) point, false, PointerEventType.MOUSE);
 					
@@ -4970,7 +4970,7 @@ public abstract class EuclidianController {
 				selectedGeos.add(getMovedGeoPoint());
 				selection.addSelectedGeo(getMovedGeoPoint());
 				objectFound = true;
-				pointCreated = false;
+				pointCreated = null;
 			}
 		}
 			
@@ -6169,9 +6169,10 @@ public abstract class EuclidianController {
 					hits.removePolygons();
 					// hits = view.getHits(mouseLoc);
 					if (hits.isEmpty()) {
-						pointCreated = createNewPoint(hits, false, false, true);
+						changedKernel = createNewPoint(hits, false, false, true);
+					}else{
+						changedKernel = (pointCreated != null);
 					}
-					changedKernel = pointCreated;
 					break;
 			
 				case EuclidianConstants.MODE_BUTTON_ACTION:
@@ -6268,7 +6269,7 @@ public abstract class EuclidianController {
 		Hits hits = releasedHits;
 		if (hits.isEmpty()) {
 			hits = new Hits();
-			hits.add(getMovedGeoPoint());
+			hits.add((GeoElement) pointCreated);
 		}
 	
 		return hits;
@@ -8862,10 +8863,10 @@ public abstract class EuclidianController {
 		// Tools eg Line Segment weren't working with grid on)
 		// grid capturing on: newly created point should be taken
 		// Application.debug("POINT_CREATED="+POINT_CREATED+"\nhits=\n"+hits+"\ngetMovedGeoPoint()="+getMovedGeoPoint());
-		if (pointCreated) {
+		if (pointCreated != null) {
 			hits = addPointCreatedForMouseReleased(hits);
 		}
-		pointCreated = false;
+		pointCreated = null;
 		// Michael Borcherds 2007-12-08 END
 
 
