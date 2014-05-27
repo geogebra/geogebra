@@ -70,7 +70,14 @@ public class DrawLocus extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			xLabel = (int) (lastPointCoords[0] - 5);
 			yLabel = (int) (lastPointCoords[1] + 4 + view.getFontSize());
-			addLabelOffset();
+			addLabelOffsetEnsureOnScreen();
+			int labelMode = this.geo.getLabelMode(); 
+			if (labelMode == GeoElement.LABEL_NAME_VALUE || labelMode == GeoElement.LABEL_VALUE) {
+				xLabel -= 30; // extra heuristics since addLabelOffsetEnsureOnScreen() may estimate too low value for width
+				if (xLabel < 3) {
+					xLabel = 3;
+				}
+			}
 		}
 
 		// draw trace
