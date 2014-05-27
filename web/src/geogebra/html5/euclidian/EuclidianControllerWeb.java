@@ -284,7 +284,7 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 
 			// the point will be deleted if no circle can be built, therefore
 			// make sure that only a newly created point is set
-			point = this.pointCreated && movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
+			point = (this.pointCreated != null) && movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
 			        : null;
 		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
 			this.pen = new EuclidianPenFreehand(app, view);
