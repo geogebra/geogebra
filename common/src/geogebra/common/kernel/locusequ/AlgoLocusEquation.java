@@ -108,7 +108,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		 * purpose we simply store the previous equation system
 		 * in the old_system variable.   
 		 */
-		if (this.geoPoly.isDefined() && system.looksSame(old_system)) {
+		if (this.geoPoly != null && this.geoPoly.isDefined() && system != null && system.looksSame(old_system)) {
 			// do nothing: the system has not been changed, thus we use the cache
 			return; // avoid the heavy computation
 		}
