@@ -15,10 +15,11 @@ public class GridModel {
 	private IGridListener listener;
 	private List<String> headers;
 	private List<List<String>> data;
-	private int columns;
-
+	private int columnCount;
+	private int rowCount;
+	
 	public GridModel(int col, IGridListener listener) {
-		this.setColunms(col);
+		columnCount = col;
 		this.listener = listener;
 		headers = new ArrayList<String>();
 		data = new ArrayList<List<String>>();
@@ -26,7 +27,7 @@ public class GridModel {
 	}
 
 	private void init() {
-		for (int col=0; col < columns; col++) {
+		for (int col=0; col < getColumnCount(); col++) {
 			headers.add("");
 		}
 //
@@ -39,28 +40,16 @@ public class GridModel {
 //		}
 	}
 
-	public int getRows() {
-		return data.size();
-	}
-
 	
-	public int getColunms() {
-		return columns;
-	}
-
-	public void setColunms(int colunms) {
-		this.columns = colunms;
-	}
-
 	public void setHeader(int col, String title) {
-		if (col < columns)  {
+		if (col < getColumnCount())  {
 			headers.set(col, title);
 			listener.updateHeader(col, title);
 		}
 	}
 
 	public void setData(int col, int row, String value) {
-		if (col < columns && row < getRows())  {
+		if (col < columnCount && row < rowCount)  {
 			List<String> list = data.get(row);
 			list.set(col, value);
 			listener.updateCell(col, row, value);
@@ -69,7 +58,7 @@ public class GridModel {
 
 	
 	public String getHeader(int col) {
-		if (col < columns)  {
+		if (col < getColumnCount())  {
 			return headers.get(col);
 		}
 		return "";
@@ -94,5 +83,30 @@ public class GridModel {
 		}
     	listener.setHeaders(names);
 
+    }
+
+	public int getColumnCount() {
+	    return columnCount;
+    }
+
+	public void setColumnCount(int columnCount) {
+	    this.columnCount = columnCount;
+    }
+
+	public int getRowCount() {
+	    return rowCount;
+    }
+
+	public void setRowCount(int rowCount) {
+		removeAll();
+		List<String> rowData = new ArrayList<String>();
+		addRow(headers);
+		for (int col=0; col < columnCount; col++) {
+			rowData.add("");
+		}
+		for (int row=0;row  < rowCount; row++ ) {
+	    	addRow(rowData);
+	    }
+	    this.rowCount = rowCount;
     }
 }

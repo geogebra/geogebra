@@ -8,6 +8,7 @@ import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GColorW;
@@ -134,8 +135,25 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public void updateXYTable(boolean isTable) {
-		// TODO Auto-generated method stub
+		// reset table model and update the XYtable
+		// tableXY.setCellEditable(-1, -1);
 
+		if (isTable) {
+			modelXY.setRowCount(pointCount);
+			//tableXY.setCellEditable((pointCount - 1) / 2, 0);
+			// tableXY.setRowSelectionAllowed(true);
+			//tableXY.changeSelection((pointCount - 1) / 2, 0, false, false);
+
+		} else {
+
+			modelXY.setRowCount(1);
+			//tableXY.setCellEditable(0, 0);
+			//tableXY.changeSelection(0, 0, false, false);
+			// tableXY.setRowSelectionAllowed(false);
+		}
+
+		updateXYTable();
+		updateTestPoint();
 	}
 
 	public String format(double value) {
@@ -155,8 +173,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	
 
 	public void setXYValueAt(Double value, int row, int col) {
-		// TODO Auto-generated method stub
-
+		modelXY.setData(col, row+1, value.toString());
 	}
 
 	public Object getXYValueAt(int row, int col) {
@@ -297,6 +314,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		tableXY = new InspectorTableW(2);
 		modelXY = tableXY.getModel();
 		modelXY.setHeaders(DEFAULT_XY_HEADERS);
+		modelXY.setRowCount(pointCount);
 		pointsTab.add(tableXY);
 		
 		FlowPanel btnPanel = new FlowPanel();
@@ -491,10 +509,11 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void updatePointsTab() {
+		App.debug("UPDATE POINTS TAB");
 		getModel().updatePoints(btnTangent.isSelected(),
 				btnOscCircle.isSelected(), btnXYSegments.isSelected(),
 				btnTable.isSelected());
-
+		
 	}
 
 	@Override
@@ -518,8 +537,9 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void updateXYTable() {
-		// TODO Auto-generated method stub
-
+		isChangingValue = true;
+		getModel().updateXYTable(modelXY.getRowCount(), btnTable.isSelected());
+		isChangingValue = false;
 	}
 
 	@Override

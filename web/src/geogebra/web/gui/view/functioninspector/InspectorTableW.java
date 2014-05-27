@@ -18,7 +18,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 
 	private void createHeader() {
-		for (int col=0; col < getModel().getColunms(); col++) {
+		for (int col=0; col < getModel().getColumnCount(); col++) {
 			Label label = new Label("column" + col);
 			label.setStyleName("InspectorTableHeader");
 			setWidget(0, col, label);
