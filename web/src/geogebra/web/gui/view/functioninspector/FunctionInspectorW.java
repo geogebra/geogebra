@@ -44,7 +44,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	private static final GColor DISPLAY_GEO2_COLOR = GColorW.RED;
 	private static final GColor EVEN_ROW_COLOR = new GColorW(241, 245, 250);
 	private static final GColor TABLE_GRID_COLOR = GColorW.gray;
-	private static final int TAB_INTERVAL_IDX = 0;  
+	private static final int TAB_INTERVAL_IDX = 0;
+	private static final String[] DEFAULT_XY_HEADERS = {"x", "y(x)"};  
 	
 	private TabPanel tabPanel;
 	private FlowPanel intervalTab;
@@ -60,6 +61,7 @@ public class FunctionInspectorW extends FunctionInspector {
     private Label lblGeoName, lblStep, lblInterval;
 	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
 	private InspectorTableW tableXY, tableInterval;
+	private GridModel modelXY, modelInterval;
 //	private Button btnRemoveColumn, btnHelp;
 	//private PopupMenuButton btnAddColumn, btnOptions;
 //	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
@@ -127,7 +129,7 @@ public class FunctionInspectorW extends FunctionInspector {
 //		c.add(btnAddColumn);
 //		c.add(btnRemoveColumn);
 //
-	    tableInterval.getModel().setHeaders(getModel().getIntervalColumnNames());
+	    modelInterval.setHeaders(getModel().getIntervalColumnNames());
 
 	}
 
@@ -142,7 +144,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
-		GridModel modelInterval = tableInterval.getModel();
 		//modelInterval.setColumNames(getModel().getIntervalColumnNames());
 		modelInterval.removeAll();
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
@@ -274,6 +275,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		createOptionsButton();
 		
 		tableInterval = new InspectorTableW(2);
+		modelInterval = tableInterval.getModel();
 		intervalTab.add(tableInterval);
 		FlowPanel toolBar = new FlowPanel();
 		toolBar.setStyleName("panelRow");
@@ -288,6 +290,15 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void createTabPointPanel() {
 		pointsTab = new FlowPanel();
 		pointsTab.setStyleName("propertiesTab");
+		FlowPanel header = new FlowPanel();
+		header.setStyleName("panelRow");
+		pointsTab.add(header);
+	
+		tableXY = new InspectorTableW(2);
+		modelXY = tableXY.getModel();
+		modelXY.setHeaders(DEFAULT_XY_HEADERS);
+		pointsTab.add(tableXY);
+		
 		FlowPanel btnPanel = new FlowPanel();
 		btnPanel.setStyleName("panelRowIndent");
 		btnTable = new MyToggleButton2(new Image(AppResources.INSTANCE.table().getSafeUri()));
