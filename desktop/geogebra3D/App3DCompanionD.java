@@ -60,10 +60,8 @@ public class App3DCompanionD extends App3DCompanion {
 	private EuclidianDockPanelForPlaneD panel;
 
 	
-	/**
-	 * 
-	 * @return current dockpanel for plane
-	 */
+
+	@Override
 	public DockPanel getPanelForPlane(){
 		return panel;
 	}

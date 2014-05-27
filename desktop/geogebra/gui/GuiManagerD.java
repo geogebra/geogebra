@@ -3111,12 +3111,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
-	/**
-	 * @return new EuclidianDockPanelForPlane
-	 */
-	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
-		return null;
-	}
+	
 
 	public boolean belongsToToolCreator(ListCellRenderer renderer) {
 		return ToolCreationDialog.isMyCellRenderer(renderer);

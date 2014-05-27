@@ -1519,16 +1519,15 @@ public class DockManagerW extends DockManager {
 			return getPanel(dpData.getViewId());
 		
 		//euclidian view for plane case	
-		//DockPanelW panel = app.createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
-		//if (panel==null){
-		//	App.error("panel==null");
-		//	return null;
-		//}
+		DockPanelW panel = (DockPanelW) app.getCompanion().createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
+		if (panel==null){
+			App.error("panel==null");
+			return null;
+		}
 		
 		//set the view id of the dock panel data for apply perspective
-		//dpData.setViewId(panel.getViewId());
-		//return panel;
-		return null;
+		dpData.setViewId(panel.getViewId());
+		return panel;
 		
 	}
 	

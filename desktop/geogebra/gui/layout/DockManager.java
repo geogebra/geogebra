@@ -1250,8 +1250,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager implemen
 	
 	/**
 	 * 
-	 * @param viewId constant VIEW_EUCLIDIAN, VIEW_ALGEBRA, or VIEW_FOR_PLANE
-	 * @param plane plane when for euclidian view for plane
+	 * @param dpData dock panel data
 	 * @return a DockPanel
 	 */
 	public DockPanel getPanel(DockPanelData dpData)
@@ -1260,7 +1259,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager implemen
 			return getPanel(dpData.getViewId());
 		
 		//euclidian view for plane case	
-		DockPanel panel = ((GuiManagerD)app.getGuiManager()).createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
+		DockPanel panel = (DockPanel) app.getCompanion().createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
 		if (panel==null){
 			App.error("panel==null");
 			return null;

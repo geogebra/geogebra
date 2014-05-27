@@ -1,6 +1,7 @@
 package geogebra.common.main;
 
 import geogebra.common.euclidian.EuclidianViewCompanion;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.kernelND.ViewCreator;
@@ -93,6 +94,13 @@ public class AppCompanion {
 	public void resetEuclidianViewForPlaneIds() {
 		// used in 3D
 		
+	}
+
+	/**
+	 * @return new EuclidianDockPanelForPlane
+	 */
+	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
+		return null;
 	}
 
 

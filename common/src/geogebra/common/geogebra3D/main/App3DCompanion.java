@@ -105,7 +105,6 @@ public abstract class App3DCompanion extends AppCompanion {
 		euclidianViewForPlaneCompanionList.add(euclidianViewForPlaneCompanion);
 		
 
-
 		return euclidianViewForPlaneCompanion;
 	}
 	
@@ -146,6 +145,28 @@ public abstract class App3DCompanion extends AppCompanion {
 		app.getSettings().clearEuclidianSettingsForPlane();
 		
 	}
+	
+	
+	@Override
+	public geogebra.common.gui.layout.DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
+
+		GeoElement geo = app.getKernel().lookupLabel(plane);
+		if (geo == null)
+			return null;
+		if (!(geo instanceof ViewCreator))
+			return null;
+
+		ViewCreator vc = (ViewCreator) geo;// getViewCreator(id);
+		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc, false));
+		return getPanelForPlane();
+	}
+	
+	
+	/**
+	 * 
+	 * @return current dockpanel for plane
+	 */
+	abstract public geogebra.common.gui.layout.DockPanel getPanelForPlane();
 
 
 }
