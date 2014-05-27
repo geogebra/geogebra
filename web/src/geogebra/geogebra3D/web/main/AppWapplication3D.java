@@ -120,7 +120,8 @@ public class AppWapplication3D extends AppWapplication {
 	}
 	
 	
-	public void updateViewSizes(){
+	@Override
+    public void updateViewSizes(){
 		super.updateViewSizes();
 		if(((GuiManager3DW) getGuiManager()).getEuclidian3DPanel()!=null){
 			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel().deferredOnResize();

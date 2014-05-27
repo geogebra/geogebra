@@ -9,6 +9,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
+import geogebra.geogebra3D.web.gui.GuiManager3DW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -90,6 +91,8 @@ public class AppWapplet3D extends AppWapplet{
 	    if (getEuclidianView3D() != null) {
 	    	getEuclidianView3D().getEuclidianController().calculateEnvironment();
 	    }
+	    
+	    ((App3DCompanionW) companion).recalculateEnvironments();
     }
 	
 	
@@ -99,6 +102,24 @@ public class AppWapplet3D extends AppWapplet{
 		super.initFactories();
 		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryW();
 	}
+	
+	@Override
+    public void updateViewSizes(){
+		super.updateViewSizes();
+		if(((GuiManager3DW) getGuiManager()).getEuclidian3DPanel()!=null){
+			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel().deferredOnResize();
+		}
+		((App3DCompanionW) companion).updateViewSizes();
+	}
+	
+	
+	@Override
+	public void updateStyleBars() {
+		super.updateStyleBars();
+		getEuclidianView3D().getStyleBar().updateStyleBar();
+	}
+	
+	
 	
 	
 	@Override
