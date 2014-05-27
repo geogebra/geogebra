@@ -25,7 +25,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
@@ -125,15 +124,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 		((GeoImage)ge).clearFillImage();
     }
 
-    private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
-		return function(ggbZip){
-			var URL = $wnd.URL || $wnd.webkitURL;
-			var ggburl = URL.createObjectURL(ggbZip);
-			//downloadButton = document.getElementById('downloadButton')
-			downloadButton.setAttribute("href", ggburl);
-			//downloadButton.disabled = false;
-			}
-    }-*/;
+    
     
     private native JavaScriptObject getDefaultBase64Callback() /*-{
 	return function(b){
@@ -144,10 +135,10 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 		}
 	}-*/;
     
-    public void getGGB(boolean includeThumbnail, Element downloadButton) {
+    public void getGGB(boolean includeThumbnail, JavaScriptObject callback) {
     	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	
-    	JavaScriptObject callback = getDownloadGGBCallback(downloadButton); 	
+    	 	
     	getGGBZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
 
     }
@@ -212,21 +203,15 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     }-*/;
 
 	public HashMap<String,String> createArchiveContent(boolean includeThumbnail) {
-		long l = System.currentTimeMillis();
-		App.debug("start saving");
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
     	boolean isSaving = getKernel().isSaving();
     	//return getNativeBase64(includeThumbnail);
     	getKernel().setSaving(true);
     	adjustConstructionImages(getConstruction(),"");
-    	App.debug("prepared"+(System.currentTimeMillis()-l));
     	String constructionXml = getApplication().getXML();
-    	App.debug("xml"+(System.currentTimeMillis()-l));
     	String macroXml = getApplication().getMacroXMLorEmpty();
     	String geogebra_javascript = getKernel().getLibraryJavaScript();
-    	App.debug("macro+js"+(System.currentTimeMillis()-l));
     	writeConstructionImages(getConstruction(),"",archiveContent);
-    	App.debug("images"+(System.currentTimeMillis()-l));
 
 		// write construction thumbnails
     	if (includeThumbnail)
@@ -242,7 +227,6 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
 
     	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
-    	App.debug("finished"+(System.currentTimeMillis()-l));
     	getKernel().setSaving(isSaving);
     	return archiveContent;
     }

@@ -10,6 +10,7 @@ import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,6 +49,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	private HandlerRegistration saveToSkyDriveR = null;
 	private HandlerRegistration loginToGoogleR = null;
 	private HandlerRegistration loginToSkyDriveR = null;
+	private JavaScriptObject downloadCallback;
 
 	/**
 	 * @param app AppW
@@ -73,7 +75,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	    descriptionPanel.addStyleName("descriptionPanel");
 	    p.add(descriptionPanel);
 
-		download = new Anchor();
+	    download = new Anchor();
 		download.setText(app.getMenu("DownloadAsGgbFile"));	
 		download.setStyleName("gwt-Button");
 		download.addStyleName("linkDownload");
@@ -158,8 +160,15 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
+				if(GeoGebraFileChooserW.this.downloadCallback != null){
+					call(GeoGebraFileChooserW.this.downloadCallback);
+				}
 				hide();
 			}
+
+			private native void call(JavaScriptObject callback)/*-{
+	            callback();
+            }-*/;
 		});
 	    
 	    uploadToGGT.addClickHandler(new ClickHandler() {			
@@ -216,7 +225,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
     public void show(){
 		refreshOnlineState();
 		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
-		((GgbAPIW) app.getGgbApi()).getGGB(true, this.download.getElement());
+		((GgbAPIW) app.getGgbApi()).getGGB(true, getDownloadGGBCallback(this.download.getElement()));
 	    super.show();
 	}
 	
@@ -225,6 +234,27 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	    	renderNetworkOperation(false);
 	    }
     }
+	
+	private void setDownloadCallback(JavaScriptObject callback){
+		this.downloadCallback = callback;
+	}
+	
+	private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
+		var _this = this;
+	return function(ggbZip){
+		//downloadButton = document.getElementById('downloadButton')		
+		if($wnd.navigator.msSaveBlob){
+			var callback = function(){$wnd.navigator.msSaveBlob(ggbZip,downloadButton.getAttribute("download"));return false;};
+			_this.@geogebra.web.gui.util.GeoGebraFileChooserW::setDownloadCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(
+			callback);
+		}else{
+			var URL = $wnd.URL || $wnd.webkitURL;
+			var ggburl = URL.createObjectURL(ggbZip);
+			downloadButton.setAttribute("href", ggburl);
+		}
+		//downloadButton.disabled = false;
+		}
+	}-*/;
 
 
 	/**
