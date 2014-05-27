@@ -6,6 +6,7 @@ import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelForPlaneW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 
@@ -62,6 +63,14 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements EuclidianV
 		// temporary hack : use timer instead
 		doRepaint();
      }
+	
+	/**
+	 * 
+	 * @return dock panel
+	 */
+	public EuclidianDockPanelForPlaneW getDockPanel(){
+		return (EuclidianDockPanelForPlaneW) EVPanel;
+	}
 
 	
 	

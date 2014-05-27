@@ -118,12 +118,16 @@ public class AppWapplication3D extends AppWapplication {
 		super.initFactories();
 		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryW();
 	}
+	
+	
 	public void updateViewSizes(){
 		super.updateViewSizes();
 		if(((GuiManager3DW) getGuiManager()).getEuclidian3DPanel()!=null){
 			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel().deferredOnResize();
 		}
+		((App3DCompanionW) companion).updateViewSizes();
 	}
+	
 	
 	@Override
 	public void updateStyleBars() {

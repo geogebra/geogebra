@@ -405,6 +405,7 @@ public class DockManagerW extends DockManager {
 		
 		// update all labels at once
 		setLabels();
+		
 	}
 	
 	/**

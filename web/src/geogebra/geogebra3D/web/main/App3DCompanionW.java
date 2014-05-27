@@ -127,6 +127,16 @@ public class App3DCompanionW extends App3DCompanion {
 		}
 	}
 	
+	/**
+	 * update view for plane sizes
+	 */
+	public void updateViewSizes(){
+
+		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
+			((EuclidianViewForPlaneW) vfpc.getView()).getDockPanel().deferredOnResize();
+		}
+	}
+	
 	
 
 }

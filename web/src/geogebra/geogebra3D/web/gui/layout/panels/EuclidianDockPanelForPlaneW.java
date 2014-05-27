@@ -100,7 +100,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract {
 		}
 
 		public void onResize() {
-		
+					
 			if (app != null) {
 
 				int h = dockPanel.getComponentInteriorHeight();
