@@ -1279,6 +1279,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	private GeoPointND[] pyramidBasis = null;
+	
+	private boolean polygonForPyramidBasis = false;
 
 	/**
 	 * get basis and top point; create pyramid
@@ -1290,14 +1292,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected GeoElement[] pyramidOrPrism(Hits hits) {
 
 		// if (pyramidBasis!=null) Application.debug(pyramidBasis.length);
-
+		polygonForPyramidBasis = false;
+		
 		if (hits.isEmpty())
 			return null;
 
 		if (pyramidBasis == null) { // try to find/create a polygon
 
 			if (selPoints() < 2) // already two points : not a polygon for basis
-				addSelectedPolygon(hits, 1, false);
+				if (addSelectedPolygon(hits, 1, false) == 1){
+					polygonForPyramidBasis = true;
+				}
 
 			if (selPolygons() == 0) { // try to create a polygon
 				// if the first point is clicked again, we create a polygon
@@ -1913,8 +1918,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_PRISM:
 			view.setHits(mouseLoc, type);
 			hits = view.getHits();
-			switchModeForRemovePolygons(hits);
-			createNewPoint(hits, true, false, false, true, false);
+			if (selPolygons() == 1 || hits.getPolyCount() == 0){
+				createNewPoint(hits, true, true, true, true, false);
+			}else{
+				switchModeForRemovePolygons(hits);
+				createNewPoint(hits, true, false, false, true, false);
+			}
 			break;
 
 		case EuclidianConstants.MODE_ROTATEVIEW:
@@ -3009,11 +3018,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// modes in which the result could be a dependent point
 			case EuclidianConstants.MODE_POINT:
 			case EuclidianConstants.MODE_INTERSECT:
-				return true;
-				
+			case EuclidianConstants.MODE_JOIN:
+			case EuclidianConstants.MODE_SEGMENT:
+			case EuclidianConstants.MODE_RAY:
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
+			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
 			case EuclidianConstants.MODE_TETRAHEDRON:
 			case EuclidianConstants.MODE_CUBE:
-				return true;
+			case EuclidianConstants.MODE_PYRAMID:
+			case EuclidianConstants.MODE_PRISM:
+				return true;			
 				
 			default:
 				return false;
@@ -3042,11 +3059,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
 			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-			case EuclidianConstants.MODE_PYRAMID:
-			case EuclidianConstants.MODE_PRISM:
-
 			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 				return true;
+				
+			case EuclidianConstants.MODE_PYRAMID:
+			case EuclidianConstants.MODE_PRISM:
+				return (selPolygons() == 1) || (!polygonForPyramidBasis);
 				
 			case EuclidianConstants.MODE_TETRAHEDRON:
 			case EuclidianConstants.MODE_CUBE:

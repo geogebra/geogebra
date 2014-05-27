@@ -384,6 +384,14 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return poly count in this
+	 */
+	public int getPolyCount(){
+		return polyCount;
+	}
+	
 	
 	/**
 	 * Find the first set of geo corresponding to one of the tests. Found geos are supposed to be in the same intervall.
