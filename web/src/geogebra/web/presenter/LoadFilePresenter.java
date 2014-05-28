@@ -109,7 +109,7 @@ public class LoadFilePresenter{
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
 		
 		
-		boolean undoActive = (showToolBar || showMenuBar || view.getDataParamApp());
+		boolean undoActive = (showToolBar || showMenuBar || view.getDataParamApp() || app.getScriptManager().getStoreUndoListeners().size()>0);
 
 		app.setUndoActive(undoActive);			
 
