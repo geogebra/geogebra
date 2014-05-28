@@ -872,8 +872,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	public void setPreferredSize(GDimension preferredSize) {
-		setWidth(preferredSize.getWidth());
-		setHeight(preferredSize.getHeight());
+		setWidth(Math.max(0,preferredSize.getWidth()));
+		setHeight(Math.max(0,preferredSize.getHeight()));
 
 		// do not use getOffsetWidth here,
 		// as it is prepared by the browser and not yet ready...

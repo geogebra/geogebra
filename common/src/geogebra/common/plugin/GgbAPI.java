@@ -1214,7 +1214,9 @@ public abstract class GgbAPI implements JavaScriptAPI{
      * @param token login token
      */
     public void login(String token){
-    	app.getLoginOperation().performTokenLogin(token, false);
+    	if(app.getLoginOperation()!=null){
+    		app.getLoginOperation().performTokenLogin(token, false);
+    	}
     }
     
     public void setPerspective(String code){
