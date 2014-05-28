@@ -173,7 +173,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	
 
 	public void setXYValueAt(Double value, int row, int col) {
-		modelXY.setData(col, row, value.toString());
+		modelXY.setData(col, row, getModel().format(value));
 	}
 
 	public Object getXYValueAt(int row, int col) {
