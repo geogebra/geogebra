@@ -10,11 +10,14 @@ import com.google.gwt.user.client.ui.Label;
 
 public class InspectorTableW extends FlexTable implements IGridListener {
 	private GridModel model;
+	private int selectedRow;
 	public InspectorTableW(int col) {
 		super();
 		setStyleName("inspectorTable");
+		setWidth("100%");
 		setModel(new GridModel(col, this));
 		createHeader();
+		selectedRow = 1;
 	}
 
 	private void createHeader() {
@@ -62,5 +65,12 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		}
     }
 
+	public int getSelectedRow() {
+	    return selectedRow;
+    }
+
+	public void setSelectedRow(int selectedRow) {
+	    this.selectedRow = selectedRow;
+    }
 
 }

@@ -1,5 +1,7 @@
 package geogebra.web.gui.view.functioninspector;
 
+import geogebra.common.main.App;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,18 @@ public class GridModel {
 			list.set(col, value);
 			listener.updateCell(col, row, value);
 		}
+	}
+
+	public String getData(int col, int row) {
+		String result = "";
+		if (col < columnCount && row + 1 < rowCount)  {
+			List<String> list = data.get(row + 1);
+			result = list.get(col);
+		}
+		
+		App.debug("[GRIDMODEL] getData(" + col + ", " + row + ") = " + result);
+		
+		return result;
 	}
 
 	

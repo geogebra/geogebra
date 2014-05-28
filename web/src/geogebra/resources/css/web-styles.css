@@ -3729,3 +3729,7 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 .InspectorTableHeader gwt-Label {
 	font-weight: bold;
 }
+
+.functionInspectorToolButtons {
+	float: right; 
+}

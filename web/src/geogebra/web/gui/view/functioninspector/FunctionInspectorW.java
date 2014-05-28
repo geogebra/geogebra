@@ -48,6 +48,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private static final int TAB_INTERVAL_IDX = 0;
 	private static final String[] DEFAULT_XY_HEADERS = {"x", "y(x)"};  
 	
+	private FlowPanel mainPanel;
 	private TabPanel tabPanel;
 	private FlowPanel intervalTab;
 	private FlowPanel pointsTab;
@@ -162,7 +163,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
-		//modelInterval.setColumNames(getModel().getIntervalColumnNames());
 		modelInterval.removeAll();
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 		for (int i = 0; i < property.size(); i++) {
@@ -173,12 +173,21 @@ public class FunctionInspectorW extends FunctionInspector {
 	
 
 	public void setXYValueAt(Double value, int row, int col) {
-		modelXY.setData(col, row+1, value.toString());
+		modelXY.setData(col, row, value.toString());
 	}
 
 	public Object getXYValueAt(int row, int col) {
-		// TODO Auto-generated method stub
-		return "8";
+		String value = modelXY.getData(col, row + 1);
+		try {
+			double x = Double.parseDouble(value);
+		} catch (NullPointerException e) {
+			value = "0.0";
+		}
+		catch (NumberFormatException e) {
+			value = "0.0";
+		}
+		App.debug("GRIDMODEL " + value);
+		return value;
 	}
 
 	public void addTableColumn(String name) {
@@ -191,8 +200,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public void changeTableSelection() {
-		// TODO Auto-generated method stub
-
+		updateXYTable();
+		updateTestPoint();
 	}
 
 	public void updateHighAndLow(boolean isAscending, boolean isLowSelected) {
@@ -242,8 +251,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public int getSelectedXYRow() {
-		// TODO Auto-generated method stub
-		return 0;
+		return tableXY.getSelectedRow();
 	}
 
 	@Override
@@ -258,7 +266,7 @@ public class FunctionInspectorW extends FunctionInspector {
 				updateTabPanels();
 			}
 		});
-		tabPanel.setStyleName("propertiesTab");
+		mainPanel.add(tabPanel);
 		setLabels();
 	}
 
@@ -275,21 +283,23 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void buildHeaderPanel() {
-		// TODO Auto-generated method stub
-
+		FlowPanel header = new FlowPanel();
+		FlowPanel buttons = new FlowPanel();
+		header.add(lblGeoName);
+		buttons.add(btnHelp);
+		buttons.add(btnOptions);
+		header.add(buttons);
+		buttons.setStyleName("functionInspectorToolButtons");
+		header.setStyleName("panelRow");
+		buildHelpPanel();
+		createOptionsButton();
+		mainPanel.add(header);
+		
 	}
 
 	@Override
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
-		FlowPanel header = new FlowPanel();
-		header.add(lblGeoName);
-		header.add(btnHelp);
-		header.add(btnOptions);
-		header.setStyleName("panelRow");
-		intervalTab.add(header);
-		buildHelpPanel();
-		createOptionsButton();
 		
 		tableInterval = new InspectorTableW(2);
 		modelInterval = tableInterval.getModel();
@@ -349,24 +359,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void createGUIElements() {
 
-		//		tableXY = new InspectorTable(app, this, minRows, InspectorTable.TYPE_XY);
-//		modelXY = new DefaultTableModel();
-//		modelXY.addColumn("x");
-//		modelXY.addColumn("y(x)");
-//		modelXY.setRowCount(pointCount);
-//		tableXY.setModel(modelXY);
-//
-//		tableXY.getSelectionModel().addListSelectionListener(this);
-//		// tableXY.addKeyListener(this);
-//		tableXY.setMyCellEditor(0);
-//
-//		// create interval table
-//		tableInterval = new InspectorTable(app, this, minRows,
-//				InspectorTable.TYPE_INTERVAL);
-//		modelInterval = new DefaultTableModel();
-//		modelInterval.setColumnCount(2);
-//		modelInterval.setRowCount(pointCount);
-//		tableInterval.setModel(modelInterval);
+
 //		tableInterval.getSelectionModel().addListSelectionListener(
 //				new ListSelectionListener() {
 //					public void valueChanged(ListSelectionEvent e) {
@@ -374,6 +367,8 @@ public class FunctionInspectorW extends FunctionInspector {
 //					}
 //				});
 
+		mainPanel = new FlowPanel();
+		
 		lblGeoName = new Label(getModel().getTitleString());
 
 		lblStep = new Label();
@@ -445,22 +440,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		
 //		btnRemoveColumn = new JButton();
 //		btnRemoveColumn.addActionListener(this);
-//
-//		btnHelp = new JButton(app.getImageIcon("help.png"));
-//		btnHelp.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				Thread runner = new Thread() {
-//					@Override
-//					public void run() {
-//						((GuiManagerD) app.getGuiManager())
-//								.openHelp("Function_Inspector_Tool");
-//					}
-//				};
-//				runner.start();
-//			}
-//		});
-//		btnHelp.setFocusable(false);
-//
 //		createBtnAddColumn();
 //	
 	}
@@ -581,7 +560,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 	
 	public Widget getWrappedPanel() {
-		return tabPanel;
+		return mainPanel;
 	}
 
 }
