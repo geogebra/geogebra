@@ -6260,7 +6260,8 @@ public abstract class EuclidianController {
 	
 	protected void hitCheckBox(GeoBoolean bool){
 		bool.setValue(!bool.getBoolean());
-		checkBoxOrButtonJustHitted = true;
+		this.checkboxChangeOccured = true;
+		this.checkBoxOrButtonJustHitted = true;
 	}
 	
 
@@ -8840,7 +8841,7 @@ public abstract class EuclidianController {
 		startCollectingMinorRepaints();
 	
 		// remember helper point, see createNewPoint()
-		if ((changedKernel || this.checkboxChangeOccured) && !changedKernel0) {
+		if ((changedKernel || this.checkboxChangeOccured) && !changedKernel0 && !modeCreatesHelperPoints(mode)) {
 			this.checkboxChangeOccured = false;
 			app.storeUndoInfo();
 		}
@@ -8913,6 +8914,33 @@ public abstract class EuclidianController {
 
 	}
 	
+	private boolean modeCreatesHelperPoints(int mode2) {
+		switch (mode2) {
+		case EuclidianConstants.MODE_SEGMENT:
+		case EuclidianConstants.MODE_SEGMENT_FIXED:
+		case EuclidianConstants.MODE_JOIN:
+		case EuclidianConstants.MODE_RAY:
+		case EuclidianConstants.MODE_VECTOR:
+		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+		case EuclidianConstants.MODE_SEMICIRCLE:
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+		case EuclidianConstants.MODE_POLYGON:
+		case EuclidianConstants.MODE_POLYLINE:
+		case EuclidianConstants.MODE_REGULAR_POLYGON:
+			return true;
+		}
+
+		return false;
+	}
+
 	public void endOfWrapMouseReleased(Hits hits, AbstractEvent event){
 		boolean control = app.isControlDown(event);
 		boolean alt = event.isAltDown();
