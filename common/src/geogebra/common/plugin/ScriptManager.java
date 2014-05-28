@@ -206,9 +206,12 @@ public abstract class ScriptManager implements EventListener{
 	 *  function JSFunctionName is called using the name of the newly created object as a single argument. 
 	 */
 	public synchronized void registerStoreUndoListener(String JSFunctionName) {
+		if(!app.getKernel().isUndoActive()){
+			app.getKernel().setUndoActive(true);
+			app.getKernel().initUndoInfo();
+		}
 		registerGlobalListener(storeUndoListeners,JSFunctionName,"registerStoreUndoListener");
-		app.getKernel().setUndoActive(true);
-		app.getKernel().initUndoInfo();
+		
 	}
 	
 	private void registerGlobalListener(ArrayList<String> listenerList,
