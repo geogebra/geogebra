@@ -177,8 +177,10 @@ public class AppWapplication extends AppW {
 		getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
-
-		kernel.initUndoInfo();
+		
+		if(getScriptManager().getStoreUndoListeners().size() < 1){
+			kernel.initUndoInfo();
+		}
 
 		splashDialog.canNowHide();
 

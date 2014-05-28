@@ -96,8 +96,10 @@ public class AppWsimple extends AppW {
 		buildApplicationPanel();
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
-
-		kernel.initUndoInfo();
+		
+		if(getScriptManager().getStoreUndoListeners().size() < 1){
+			kernel.initUndoInfo();
+		}
 
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().createImage();
