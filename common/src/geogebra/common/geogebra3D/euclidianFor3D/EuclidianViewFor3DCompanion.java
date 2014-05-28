@@ -4,6 +4,8 @@ import geogebra.common.awt.GAffineTransform;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewCompanion;
+import geogebra.common.euclidian.draw.DrawParametricCurve;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -39,6 +41,10 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 		switch (geo.getGeoClassType()) {
 		case ANGLE3D:
 			d = new DrawAngleFor3D(view, (GeoAngle) geo);
+			break;
+			
+		case CURVE_CARTESIAN3D:
+			d = new DrawParametricCurve(view, new CurveEvaluableFor3D((GeoCurveCartesian3D) geo));
 			break;
 		}
 

@@ -27,6 +27,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -34,7 +35,7 @@ import geogebra.common.plugin.Operation;
 /**
  * Class for cartesian curves in 3D
  * 
- * @author matthieu
+ * @author mathieu
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
@@ -192,7 +193,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	@Override
 	public GeoClass getGeoClassType() {
-		return GeoClass.CURVECARTESIAN3D;
+		return GeoClass.CURVE_CARTESIAN3D;
 	}
 
 
@@ -290,35 +291,33 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	
 	public double[] getDefinedInterval(double a, double b){
 		
+		return getDefinedInterval(a, b, fun[0], fun[1], fun[2]);
+		
+	}
+	
+	/**
+	 * @param a start parameter
+	 * @param b end parameter
+	 * @param funX 
+	 * @param funY 
+	 * @param funZ 
+	 * @return an interval within [a, b] where the funX, funY, funZ are defined.
+	 * 
+	 */
+	static public double[] getDefinedInterval(double a, double b, RealRootFunction funX, RealRootFunction funY, RealRootFunction funZ){
+
 		// compute interval for x(t)
-		double[] intervalX = RealRootUtil.getDefinedInterval(
-				fun[0], a, b);
+		double[] interval = RealRootUtil.getDefinedInterval(funX, a, b);
 
 		// compute interval for y(t) and update interval
-		double[] interval2 = RealRootUtil.getDefinedInterval(
-				fun[1], a, b);
+		RealRootUtil.updateDefinedIntervalIntersecting(funY, a, b, interval);
 		
-		if (intervalX[0] < interval2[0]){
-			intervalX[0] = interval2[0];
-		}
-		
-		if (intervalX[1] > interval2[1]){
-			intervalX[1] = interval2[1];
-		}
-
 		// compute interval for z(t) and update interval
-		interval2 = RealRootUtil.getDefinedInterval(
-				fun[2], a, b);
+		RealRootUtil.updateDefinedIntervalIntersecting(funZ, a, b, interval);
 		
-		if (intervalX[0] < interval2[0]){
-			intervalX[0] = interval2[0];
-		}
+		return interval;
 		
-		if (intervalX[1] > interval2[1]){
-			intervalX[1] = interval2[1];
-		}
-
-		return intervalX;
+		
 	}
 	
 	
@@ -614,11 +613,28 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 		translate(P);
 	}
-
+	
 	@Override
 	public void clearCasEvalMap(String string) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public boolean isFunctionInX() {
+		return false;
+	}
+
+	
+	/*
+	public GeoVec2D evaluateCurve(double t) {
+		double z = getFun(2).evaluate(t);
+		if (Double.isNaN(z) || Double.isInfinite(z) 
+				|| !Kernel.isZero(z)){ // won't be visible in 2D view
+			return new GeoVec2D(this.kernel, Double.NaN, Double.NaN);
+		}
+		return new GeoVec2D(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t));
+	}
+	*/
+
 
 }

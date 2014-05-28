@@ -1196,6 +1196,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		case FUNCTION:
 		case FUNCTIONCONDITIONAL:
 		case CURVE_CARTESIAN:
+		case CURVE_CARTESIAN3D:
 		case CURVE_POLAR:
 			return 90;
 		case LINE:

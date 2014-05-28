@@ -553,7 +553,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			case FUNCTION:
 			case CURVE_CARTESIAN:
-			case CURVECARTESIAN3D:
+			case CURVE_CARTESIAN3D:
 				d = new DrawCurve3D(this, (CurveEvaluable) geo);
 				break;
 

@@ -27,7 +27,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.main.App;
 
 
@@ -38,7 +38,7 @@ import geogebra.common.main.App;
  */
 public class DrawParametricCurve extends Drawable {
 
-	private ParametricCurve curve;
+	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible, fillCurve;
 
@@ -51,7 +51,7 @@ public class DrawParametricCurve extends Drawable {
 	 * @param curve
 	 *            Curve to be drawn
 	 */
-	public DrawParametricCurve(EuclidianView view, ParametricCurve curve) {
+	public DrawParametricCurve(EuclidianView view, CurveEvaluable curve) {
 		this.view = view;
 		this.curve = curve;
 		geo = curve.toGeoElement();
@@ -75,7 +75,7 @@ public class DrawParametricCurve extends Drawable {
 
 		double min = curve.getMinParameter();
 		double max = curve.getMaxParameter();
-		if (curve instanceof GeoFunction) {
+		if (curve.toGeoElement().isGeoFunction()) {
 			double minView = view.getXmin();
 			double maxView = view.getXmax();
 			if (min < minView || Double.isInfinite(min))
@@ -292,7 +292,7 @@ public class DrawParametricCurve extends Drawable {
 		return AwtFactory.prototype.newRectangle(gp.getBounds());
 	}
 
-	final private static boolean filling(ParametricCurve curve) {
+	final private static boolean filling(CurveEvaluable curve) {
 		return !curve.isFunctionInX()
 				&& (curve.toGeoElement().getAlphaValue() > 0 || curve
 						.toGeoElement().isHatchingEnabled());

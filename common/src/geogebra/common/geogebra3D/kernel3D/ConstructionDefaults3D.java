@@ -215,7 +215,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			}
 			return getDefaultType(geo, GeoClass.CONIC);
 			
-		case CURVECARTESIAN3D: 
+		case CURVE_CARTESIAN3D: 
 			return DEFAULT_CURVECARTESIAN3D;	
 			
 		case PLANE3D: 

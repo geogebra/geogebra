@@ -135,5 +135,30 @@ public class RealRootUtil {
 	 * // return last defined border if (leftDef) return left; else return
 	 * right; }
 	 */
+	
+	
+	/**
+	 * updates the interval within [a, b] where f(x) is defined.
+	 * @param f function
+	 * @param a min
+	 * @param b max
+	 * @param interval old interval 
+	 * 
+	 * 
+	 */
+	public static void updateDefinedIntervalIntersecting(RealRootFunction f, double a,
+			double b, double[] interval) {
+		
+		double[] interval2 = getDefinedInterval(f, a, b);
+		
+		if (interval[0] < interval2[0]){
+			interval[0] = interval2[0];
+		}
+		
+		if (interval[1] > interval2[1]){
+			interval[1] = interval2[1];
+		}
+		
+	}
 
 }

@@ -1,5 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
+import geogebra.common.kernel.geos.GeoElement;
+
 
 /**
  * Interface for geos that can be evaluate as a curve.
@@ -46,5 +48,17 @@ public interface CurveEvaluable {
 	 * 
 	 */
 	public double[] getDefinedInterval(double a, double b);
+
+	public boolean getTrace();
+
+	public boolean isClosedPath();
+
+	public boolean isFunctionInX();
+
+	public GeoElement toGeoElement();
+	
+	
+	
+	
 
 }
