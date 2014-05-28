@@ -8300,6 +8300,8 @@ public abstract class EuclidianController {
 			moveMode = MOVE_NONE;
 		}
 	}
+	
+	private long lastMousePressedTime;
 
 	public void wrapMousePressed(AbstractEvent event) {
 		if(this.lastMouseRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System.currentTimeMillis()
@@ -8307,6 +8309,8 @@ public abstract class EuclidianController {
 			this.doubleClickStarted = true;
 			return;
 		}
+		
+		lastMousePressedTime = System.currentTimeMillis();
 		
 		
 		app.storeUndoInfoIfSetCoordSystemOccured();
@@ -8658,6 +8662,11 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMouseReleased(final AbstractEvent event){
+		
+		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY + lastMousePressedTime){
+			draggingOccured = false;
+		}
+		
 		int x = event.getX();
 		int y = event.getY();
 		boolean right = app.isRightClick(event);
