@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.euclidian3D;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
@@ -932,26 +931,25 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	public void setZeroFromXML(double x, double y, double z) {
 
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			if (app.fileVersionBefore(App.getSubValues("4.9.14.0"))) {
-				// new matrix multiplication (since 4.9.14)
-				updateRotationMatrix();
-				updateScaleMatrix();
-				setXZero(x);
-				setYZero(y);
-				setZZero(z);
-				updateTranslationMatrix();
-				CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
-				CoordMatrix matrix = ((mRS.inverse()).mul(translationMatrix)
-						.mul(mRS));
-				Coords origin = matrix.getOrigin();
-				setXZero(origin.getX());
-				setYZero(origin.getY());
-				setZZero(origin.getZ());
-				updateMatrix();
-				return;
-			}
+		if (app.fileVersionBefore(App.getSubValues("4.9.14.0"))) {
+			// new matrix multiplication (since 4.9.14)
+			updateRotationMatrix();
+			updateScaleMatrix();
+			setXZero(x);
+			setYZero(y);
+			setZZero(z);
+			updateTranslationMatrix();
+			CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
+			CoordMatrix matrix = ((mRS.inverse()).mul(translationMatrix)
+					.mul(mRS));
+			Coords origin = matrix.getOrigin();
+			setXZero(origin.getX());
+			setYZero(origin.getY());
+			setZZero(origin.getZ());
+			updateMatrix();
+			return;
 		}
+
 
 		setXZero(x);
 		setYZero(y);
