@@ -83,18 +83,6 @@ public class TouchController extends EuclidianControllerWeb implements
 	}
 
 	/**
-	 * prevent redraw
-	 */
-	@Override
-	protected boolean createNewPoint(final Hits hits,
-			final boolean onPathPossible, final boolean inRegionPossible,
-			final boolean intersectPossible,
-			final boolean doSingleHighlighting, final boolean complex) {
-		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
-				intersectPossible, false, complex);
-	}
-
-	/**
 	 * used to get events from the AlgebraView
 	 * 
 	 * @param hits
