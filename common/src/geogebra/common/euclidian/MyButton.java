@@ -204,7 +204,7 @@ public class MyButton implements Observer{
 		//Reduces the font for attempts
 		GTextLayout t = null;
 		int i=GeoText.getFontSizeIndex(((TextProperties)geoButton).getFontSizeMultiplier());
-		while ((int)textHeight + imgGap + 2 * margin > geoButton.getHeight()){
+		while (i > 0 && (int)textHeight + imgGap + 2 * margin > geoButton.getHeight()){
 			i--;
 			font=font.deriveFont(font.getStyle(),(int)(GeoText.getRelativeFontSize(i)*12));			
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
@@ -213,7 +213,7 @@ public class MyButton implements Observer{
 			textWidth = t.getAdvance();
 		} 
 		
-		while ((int) textWidth +2 * margin > geoButton.getWidth()){
+		while (i > 0 && (int) textWidth +2 * margin > geoButton.getWidth()){
 			i--;
 			font = font.deriveFont(font.getStyle(), (int)(GeoText.getRelativeFontSize(i) * 12));
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
