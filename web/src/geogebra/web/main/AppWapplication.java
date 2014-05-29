@@ -178,9 +178,7 @@ public class AppWapplication extends AppW {
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
-		if(getScriptManager().getStoreUndoListeners().size() < 1){
-			kernel.initUndoInfo();
-		}
+		initUndoInfoSilent();
 
 		splashDialog.canNowHide();
 

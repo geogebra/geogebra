@@ -1730,4 +1730,10 @@ public abstract class AppW extends AppWeb {
 			windowHeight = fallback;
 		return windowHeight;
     }
+	
+	protected void initUndoInfoSilent(){
+		getScriptManager().disableListeners();
+		kernel.initUndoInfo();
+		getScriptManager().enableListeners();
+	}
 }
