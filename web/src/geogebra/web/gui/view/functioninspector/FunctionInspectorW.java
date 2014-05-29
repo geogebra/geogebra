@@ -318,6 +318,32 @@ public class FunctionInspectorW extends FunctionInspector {
 		pointsTab = new FlowPanel();
 		pointsTab.setStyleName("propertiesTab");
 		FlowPanel header = new FlowPanel();
+		
+		lblStep = new Label();
+		InputPanelW stepPanel = new InputPanelW(null, getAppW(), -1, false);
+		fldStep = stepPanel.getTextComponent();
+
+		fldStep.addKeyHandler(new KeyHandler(){
+
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldStep);	    
+				}
+			}
+
+		});
+		
+		fldStep.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				doTextFieldActionPerformed(fldStep);	    
+			}
+		});
+		
+		fldStep.setColumns(6);
+		
+		header.add(lblStep);
+		header.add(fldStep);
 		header.setStyleName("panelRow");
 		pointsTab.add(header);
 	
@@ -371,29 +397,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		
 		lblGeoName = new Label(getModel().getTitleString());
 
-		lblStep = new Label();
-		InputPanelW stepPanel = new InputPanelW(null, getAppW(), -1, false);
-		fldStep = stepPanel.getTextComponent();
-
-		fldStep.addKeyHandler(new KeyHandler(){
-
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doTextFieldActionPerformed(fldStep);	    
-				}
-			}
-
-		});
 		
-		fldStep.addBlurHandler(new BlurHandler() {
-			
-			public void onBlur(BlurEvent event) {
-				doTextFieldActionPerformed(fldStep);	    
-			}
-		});
-		
-		fldStep.setColumns(6);
-
 		lblInterval = new Label();
 		InputPanelW lowPanel = new InputPanelW(null, getAppW(), -1, false);
 		fldLow = lowPanel.getTextComponent();
