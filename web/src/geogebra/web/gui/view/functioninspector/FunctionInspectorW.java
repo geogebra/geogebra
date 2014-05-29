@@ -64,9 +64,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
 	private InspectorTableW tableXY, tableInterval;
 	private GridModel modelXY, modelInterval;
-//	private Button btnRemoveColumn, btnHelp;
-	//private PopupMenuButton btnAddColumn, btnOptions;
-//	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
+
+    private PopupMenuButton btnAddColumn;
+    private MyToggleButton2 btnRemoveColumn;
 
 	private boolean isChangingValue;
 	private int pointCount = 9;
@@ -114,23 +114,25 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
 		btnTangent.setToolTipText(loc
 				.getPlainTooltip("fncInspector.showTangent"));
-//		btnAddColumn.setToolTipText(loc
-//				.getPlainTooltip("fncInspector.addColumn"));
-//		btnRemoveColumn.setToolTipText(loc
-//				.getPlainTooltip("fncInspector.removeColumn"));
+		btnAddColumn.setToolTipText(loc
+				.getPlainTooltip("fncInspector.addColumn"));
+		btnRemoveColumn.setToolTipText(loc
+				.getPlainTooltip("fncInspector.removeColumn"));
 //		fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
 //		lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
 //
 //		// add/remove extra column buttons
-//		btnRemoveColumn.setText("\u2718");
-//		// btnAddColumn.setText("\u271A");
-//
-//		Container c = btnAddColumn.getParent();
-//		c.removeAll();
-//		createBtnAddColumn();
-//		c.add(btnAddColumn);
-//		c.add(btnRemoveColumn);
-//
+		btnRemoveColumn.setText("\u2718");
+		btnAddColumn.setText("\u271A");
+
+		FlowPanel p = (FlowPanel) btnAddColumn.getParent();
+		p.clear();
+		p.add(lblStep);
+		p.add(fldStep);
+		createBtnAddColumn();
+		p.add(btnAddColumn);
+		p.add(btnRemoveColumn);
+
 	    modelInterval.setHeaders(getModel().getIntervalColumnNames());
 
 	}
@@ -155,10 +157,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		updateXYTable();
 		updateTestPoint();
-	}
-
-	public String format(double value) {
-		return ""+value;
 	}
 
 	public void updateInterval(ArrayList<String> property,
@@ -191,8 +189,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public void addTableColumn(String name) {
-		// TODO Auto-generated method stub
-
+		modelXY.addColumn(name);
+		updateXYTable();
 	}
 
 	public void setGeoName(String name) {
@@ -344,7 +342,12 @@ public class FunctionInspectorW extends FunctionInspector {
 		
 		header.add(lblStep);
 		header.add(fldStep);
+		createBtnAddColumn();
+		header.add(btnAddColumn);
+		btnRemoveColumn = new MyToggleButton2(AppResources.INSTANCE.empty());
 		header.setStyleName("panelRow");
+		header.add(btnRemoveColumn);
+		
 		pointsTab.add(header);
 	
 		tableXY = new InspectorTableW(2);
@@ -378,10 +381,37 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnOscCircle.addClickHandler(btnClick);
 		btnXYSegments.setSelected(true);
 		
+		btnRemoveColumn.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				removeColumn();
+			}
+		});
+		
 		pointsTab.add(btnPanel);
 		
 	}
 
+
+	private void createBtnAddColumn() {
+
+
+		btnAddColumn = new PopupMenuButton(getAppW(),
+				ImageOrText.convert(getModel().getColumnNames()), 
+				-1, 1, new GDimensionW(0, 18),
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT){
+			@Override
+			public void handlePopupActionEvent(){
+				super.handlePopupActionEvent();
+				getModel().addColumn(getSelectedIndex());
+			}
+		};
+		btnAddColumn.setKeepVisible(false);
+		btnAddColumn.setStandardButton(true);
+		btnAddColumn.setText("\u271A");
+		ImageResource[] res = {AppResources.INSTANCE.empty()};
+	//	btnAddColumn.setFixedIcon(ImageOrText.convert(res)[0]);
+	}
 	@Override
 	protected void createGUIElements() {
 
@@ -527,8 +557,13 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void removeColumn() {
-		// TODO Auto-generated method stub
+		if (modelXY.getColumnCount() <= 2)
+			return;
 
+		getModel().removeColumn();
+		modelXY.removeLastColumn();
+
+		updateXYTable();
 	}
 
 	@Override
