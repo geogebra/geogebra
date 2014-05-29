@@ -48,9 +48,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-public class SpreadsheetView implements
-		SpreadsheetViewInterface, ComponentListener, FocusListener, Gridable,
-		SettingListener {
+public class SpreadsheetView implements SpreadsheetViewInterface,
+		ComponentListener, FocusListener, Gridable, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,7 +58,7 @@ public class SpreadsheetView implements
 	private Kernel kernel;
 
 	// spreadsheet gui components
-	private JPanel viewContainer; 
+	private JPanel viewContainer;
 	private MyTableD table;
 	protected SpreadsheetTableModelD tableModel;
 	private SpreadsheetRowHeader rowHeader;
@@ -119,8 +118,8 @@ public class SpreadsheetView implements
 		// Initialize settings and register listener
 		app.getSettings().getSpreadsheet().addListener(this);
 
-        createGUI();
-	
+		createGUI();
+
 		viewContainer.addFocusListener(this);
 		updateFonts();
 		attachView();
@@ -133,15 +132,15 @@ public class SpreadsheetView implements
 		settingsChanged(settings());
 
 	}
-	
+
 	/**
 	 * Create spreadsheet view as a split panel. Left panel holds file tree
 	 * browser, right panel holds spreadsheet.
 	 */
 	private void createGUI() {
-		
-		viewContainer  = new JPanel();
-		
+
+		viewContainer = new JPanel();
+
 		// Build the spreadsheet table and enclosing scrollpane
 		buildSpreadsheet();
 
@@ -321,7 +320,7 @@ public class SpreadsheetView implements
 		}
 		return styleBar;
 	}
-	
+
 	/**
 	 * @return panel that contains the entire spreadsheet GUI
 	 */
@@ -486,11 +485,10 @@ public class SpreadsheetView implements
 	final public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
-	
+
 	public boolean isShowing() {
 		return viewContainer.isShowing();
 	}
-
 
 	private boolean scrollToShow = false;
 
@@ -1156,7 +1154,8 @@ public class SpreadsheetView implements
 			if (((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.getFocusedPanel() != null)
 				hasFocus = ((LayoutD) app.getGuiManager().getLayout())
-						.getDockManager().getFocusedPanel().isAncestorOf(viewContainer);
+						.getDockManager().getFocusedPanel()
+						.isAncestorOf(viewContainer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1237,7 +1236,8 @@ public class SpreadsheetView implements
 
 	}
 
-	
+	public JComponent getViewContainer() {
+		return viewContainer;
+	}
 
-	
 }
