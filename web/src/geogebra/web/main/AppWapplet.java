@@ -136,8 +136,11 @@ public class AppWapplet extends AppW {
 		// Code to run before buildApplicationPanel
 		initGuiManager();
 		((EuclidianDockPanelW)euclidianViewPanel).addNavigationBar();
-		GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
+		//following lines were swapped before but for async file loading it does not matter
+		//and for sync file loading this makes sure perspective setting is not blocked by initing flag
 		initing = false;
+		GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
+		
 	}
 
 	public void buildSingleApplicationPanel() {
