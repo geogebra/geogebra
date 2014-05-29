@@ -48,7 +48,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-public class SpreadsheetView extends JPanel implements
+public class SpreadsheetView implements
 		SpreadsheetViewInterface, ComponentListener, FocusListener, Gridable,
 		SettingListener {
 
@@ -58,7 +58,8 @@ public class SpreadsheetView extends JPanel implements
 	protected AppD app;
 	private Kernel kernel;
 
-	// spreadsheet table and row header
+	// spreadsheet gui components
+	private JPanel viewContainer; 
 	private MyTableD table;
 	protected SpreadsheetTableModelD tableModel;
 	private SpreadsheetRowHeader rowHeader;
@@ -108,8 +109,7 @@ public class SpreadsheetView extends JPanel implements
 	private SpreadsheetViewDnD dndHandler;
 
 	/******************************************************
-	 * Construct spreadsheet view as a split panel. Left panel holds file tree
-	 * browser, right panel holds spreadsheet.
+	 * Construct spreadsheet view.
 	 */
 	public SpreadsheetView(AppD app) {
 
@@ -119,6 +119,29 @@ public class SpreadsheetView extends JPanel implements
 		// Initialize settings and register listener
 		app.getSettings().getSpreadsheet().addListener(this);
 
+        createGUI();
+	
+		viewContainer.addFocusListener(this);
+		updateFonts();
+		attachView();
+
+		// Create tool bar manager to handle tool bar mode changes
+		toolbarManager = new SpreadsheetToolbarManager(app, this);
+
+		dndHandler = new SpreadsheetViewDnD(app, this);
+
+		settingsChanged(settings());
+
+	}
+	
+	/**
+	 * Create spreadsheet view as a split panel. Left panel holds file tree
+	 * browser, right panel holds spreadsheet.
+	 */
+	private void createGUI() {
+		
+		viewContainer  = new JPanel();
+		
 		// Build the spreadsheet table and enclosing scrollpane
 		buildSpreadsheet();
 
@@ -135,20 +158,10 @@ public class SpreadsheetView extends JPanel implements
 		// == false
 		setShowFileBrowser(settings().showBrowserPanel());
 
-		setLayout(new BorderLayout());
-		add(splitPane, BorderLayout.CENTER);
+		viewContainer.setLayout(new BorderLayout());
+		viewContainer.add(splitPane, BorderLayout.CENTER);
 
-		setBorder(BorderFactory.createEmptyBorder());
-		addFocusListener(this);
-		updateFonts();
-		attachView();
-
-		// Create tool bar manager to handle tool bar mode changes
-		toolbarManager = new SpreadsheetToolbarManager(app, this);
-
-		dndHandler = new SpreadsheetViewDnD(app, this);
-
-		settingsChanged(settings());
+		viewContainer.setBorder(BorderFactory.createEmptyBorder());
 
 	}
 
@@ -308,6 +321,13 @@ public class SpreadsheetView extends JPanel implements
 		}
 		return styleBar;
 	}
+	
+	/**
+	 * @return panel that contains the entire spreadsheet GUI
+	 */
+	public JComponent getContainerPanel() {
+		return viewContainer;
+	}
 
 	// ===============================================================
 	// VIEW Implementation
@@ -376,7 +396,7 @@ public class SpreadsheetView extends JPanel implements
 
 	public void repaintView() {
 		btnTraceDialog.setVisible(app.hasGeoTraced());
-		repaint();
+		viewContainer.repaint();
 	}
 
 	public void clearView() {
@@ -466,6 +486,11 @@ public class SpreadsheetView extends JPanel implements
 	final public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
+	
+	public boolean isShowing() {
+		return viewContainer.isShowing();
+	}
+
 
 	private boolean scrollToShow = false;
 
@@ -938,8 +963,8 @@ public class SpreadsheetView extends JPanel implements
 
 		if (formulaBar != null)
 			formulaBar.update();
-		this.revalidate();
-		this.repaint();
+		viewContainer.revalidate();
+		viewContainer.repaint();
 		getSpreadsheetStyleBar().updateStyleBar();
 	}
 
@@ -960,7 +985,7 @@ public class SpreadsheetView extends JPanel implements
 	}
 
 	public void setAllowSpecialEditor(boolean allowSpecialEditor) {
-		repaint();
+		viewContainer.repaint();
 	}
 
 	public boolean allowSpecialEditor() {
@@ -1107,7 +1132,7 @@ public class SpreadsheetView extends JPanel implements
 				settings().cellFormat());
 
 		// preferredSize
-		this.setPreferredSize(geogebra.awt.GDimensionD
+		viewContainer.setPreferredSize(geogebra.awt.GDimensionD
 				.getAWTDimension(settings().preferredSize()));
 
 		// initial position
@@ -1131,7 +1156,7 @@ public class SpreadsheetView extends JPanel implements
 			if (((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.getFocusedPanel() != null)
 				hasFocus = ((LayoutD) app.getGuiManager().getLayout())
-						.getDockManager().getFocusedPanel().isAncestorOf(this);
+						.getDockManager().getFocusedPanel().isAncestorOf(viewContainer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1140,7 +1165,6 @@ public class SpreadsheetView extends JPanel implements
 	}
 
 	// transfer focus to the table
-	@Override
 	public void requestFocus() {
 		if (table != null)
 			table.requestFocus();
@@ -1213,4 +1237,7 @@ public class SpreadsheetView extends JPanel implements
 
 	}
 
+	
+
+	
 }

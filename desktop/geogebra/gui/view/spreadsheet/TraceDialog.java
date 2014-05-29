@@ -639,7 +639,7 @@ implements
 				
 			}
 
-			view.repaint();
+			view.repaintView();
 
 			break;
 		}
@@ -968,7 +968,7 @@ implements
 		setVisible(false);
 		//view.table.setTraceSelectionRectangle(null);
 		//view.getTable().setSelection(null,null,true);
-		view.repaint();
+		view.repaintView();
 	}
 	
 
