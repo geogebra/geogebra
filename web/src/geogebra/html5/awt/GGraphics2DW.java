@@ -412,6 +412,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 	
 	private boolean nativeDashUsed = false;
+	private int canvasWidth;
+	private int canvasHeight;
 
 	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
 		if (dasharray === undefined || dasharray === null) {
@@ -646,14 +648,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		this.updateCanvasColor();
 	}
 
-	
-
 	public int getOffsetWidth() {
-		return canvas.getOffsetWidth();
+		int width = canvas.getOffsetWidth();
+		return width == 0 ? canvasWidth : width;
 	}
 
 	public int getOffsetHeight() {
-	 return canvas.getOffsetHeight();
+		int height = canvas.getOffsetHeight();
+		return height == 0 ? canvasHeight : height;
 	}
 
 	public int getCoordinateSpaceWidth() {
@@ -862,11 +864,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	public void setWidth(int w) {
+		this.canvasWidth = w;
 		canvas.setWidth(w +"px");
 	}
 
 
 	public void setHeight(int h) {
+		this.canvasHeight = h;
 		canvas.setHeight(h +"px");
 	}
 
