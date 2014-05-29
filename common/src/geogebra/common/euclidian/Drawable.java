@@ -251,12 +251,13 @@ public abstract class Drawable extends DrawableND {
 		if (oldFont != null)
 			g2.setFont(oldFont);
 	}
-
 	/**
 	 * Adapts xLabel and yLabel to make sure that the label rectangle fits fully
 	 * on screen.
+	 * @param Xmultiplier multiply the x size by it to ensure fitting (default: 1.0)
+	 * @param Ymultiplier multiply the y size by it to ensure fitting (default: 1.0)
 	 */
-	private void ensureLabelDrawsOnScreen() {
+	private void ensureLabelDrawsOnScreen(double Xmultiplier, double Ymultiplier) {
 		// draw label and
 		int widthEstimate = (int)labelRectangle.getWidth();
 		int heightEstimate = (int)labelRectangle.getHeight();
@@ -272,8 +273,8 @@ public abstract class Drawable extends DrawableND {
 			}else{
 				//if we use name = value, this may still be called pretty often.
 				// Hence use heuristic here instead of measurement
-				heightEstimate = (int)(StringUtil.estimateHeight(labelDesc, font));
-				widthEstimate = (int)(StringUtil.estimateLengthHTML(labelDesc, font));
+				heightEstimate = (int)(StringUtil.estimateHeight(labelDesc, font) * Ymultiplier);
+				widthEstimate = (int)(StringUtil.estimateLengthHTML(labelDesc, font) * Xmultiplier);
 			}
 		}
 		// make sure labelRectangle fits on screen horizontally
@@ -409,13 +410,23 @@ public abstract class Drawable extends DrawableND {
 	 * Adds geo's label offset to xLabel and yLabel. 
 	 * 
 	 */
-	public final void addLabelOffsetEnsureOnScreen() {		
+	public final void addLabelOffsetEnsureOnScreen() {
+		addLabelOffsetEnsureOnScreen(1.0, 1.0);
+	}
+	
+	/**
+	 * Adds geo's label offset to xLabel and yLabel. 
+	 * @param Xmultiplier multiply the x size by it to ensure fitting
+	 * @param Ymultiplier multiply the y size by it to ensure fitting
+	 * 
+	 */
+	public final void addLabelOffsetEnsureOnScreen(double Xmultiplier, double Ymultiplier) {		
 		// MAKE SURE LABEL STAYS ON SCREEN
 		xLabel += geo.labelOffsetX;
 		yLabel += geo.labelOffsetY;
 
 		// change xLabel and yLabel so that label stays on screen
-		ensureLabelDrawsOnScreen();				
+		ensureLabelDrawsOnScreen(Xmultiplier, Ymultiplier);				
 	}
 
 	/**
