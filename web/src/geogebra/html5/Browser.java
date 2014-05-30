@@ -107,6 +107,8 @@ public class Browser {
 		}
 		else if(thumb.startsWith("https://")){
 			url = thumb.substring("https://".length());
+		}else if(thumb.startsWith("//")){
+			url = thumb.substring("//".length());
 		}else{
 			url = thumb;
 		}
