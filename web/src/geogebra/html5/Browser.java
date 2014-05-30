@@ -117,4 +117,17 @@ public class Browser {
 		}
 		return "http://" + url;
     }
+	
+	/*
+	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-support
+	 */
+	public static native boolean supportsWebGL()/*-{		
+		try{
+    		var canvas = $wnd.document.createElement( 'canvas' ); 
+    		var ret = !! $wnd.WebGLRenderingContext && ( 
+         		canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) );
+         	return !!ret;
+   		}
+   		catch( e ) { return false; } 
+	}-*/;
 }

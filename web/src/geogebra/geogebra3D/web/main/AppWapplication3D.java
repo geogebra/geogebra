@@ -10,6 +10,7 @@ import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
+import geogebra.html5.Browser;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -67,8 +68,10 @@ public class AppWapplication3D extends AppWapplication {
     public void initEuclidianViews() {
 
 		super.initEuclidianViews();
-		euclidianController3D = new EuclidianController3DW(kernel);
-		euclidianView3D = new EuclidianView3DW(euclidianController3D, null);
+		if(Browser.supportsWebGL()){
+			euclidianController3D = new EuclidianController3DW(kernel);
+			euclidianView3D = new EuclidianView3DW(euclidianController3D, null);
+		}
 
 	}
 	
@@ -83,6 +86,9 @@ public class AppWapplication3D extends AppWapplication {
 
 	@Override
 	public GCheckBoxMenuItem createMenuItemFor3D() {
+		if(!Browser.supportsWebGL()){
+			return null;
+		}
 		itemEuclidian3D = 
 				new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_graphics224()
 						.getSafeUri().asString(), getPlain("GraphicsView3D"), true),

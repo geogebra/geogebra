@@ -6,6 +6,7 @@ import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanel3DW extends DockPanelW {
@@ -42,6 +43,9 @@ public class EuclidianDockPanel3DW extends DockPanelW {
 	@Override
 	protected Widget loadComponent() {
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
+		if(view == null){
+			return new Label("WebGL not supported");
+		}
 		view.setDockPanel(this);
 		return view.getComponent();
 	}
