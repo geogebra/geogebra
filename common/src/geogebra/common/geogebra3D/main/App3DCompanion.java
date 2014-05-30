@@ -65,7 +65,9 @@ public abstract class App3DCompanion extends AppCompanion {
 	@Override
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
 		super.getEuclidianViewXML(sb, asPreference);
-		app.getEuclidianView3D().getXML(sb,asPreference);
+		if(app.getEuclidianView3D() != null){
+			app.getEuclidianView3D().getXML(sb,asPreference);
+		}
 
 		if (euclidianViewForPlaneCompanionList!=null)
 			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList)

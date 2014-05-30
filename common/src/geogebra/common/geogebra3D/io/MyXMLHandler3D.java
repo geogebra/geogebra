@@ -50,7 +50,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		
 		boolean ok = true;
 		EuclidianView3DInterface ev = app.getEuclidianView3D();
-
+		if(ev == null){
+			return;
+		}
 		switch (eName.charAt(0)) {
 		
 		case 'a':
