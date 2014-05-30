@@ -80,8 +80,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 
 	public void setActiveToolbarId(int toolbarID);
 
-	public void openFromGoogleDrive();
-
 	public void removePopup();
 
 	public void setToolBarDefinition(String toolBarDefinition);

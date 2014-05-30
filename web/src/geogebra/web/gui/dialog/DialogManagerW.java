@@ -30,7 +30,6 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.GeoGebraFileChooserW;
-import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
 import geogebra.web.javax.swing.GOptionPaneW;
@@ -346,17 +345,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		App.debug("showDataSourceDialog: unimplemented");
-	}
-
-
-	GoogleDriveFileChooser googleFileChooser = null;
-
-	public GoogleDriveFileChooser getGoogleDriveFileChooser() {
-		if (googleFileChooser == null) {
-			googleFileChooser = new GoogleDriveFileChooser(app);
-			((AppW)app).addFileLoadListener(googleFileChooser);
-		}
-		return googleFileChooser;
 	}
 
 	
