@@ -403,7 +403,7 @@ namespace giac {
       gen l;
       vector< monomial<gen> > :: const_iterator it=np.coord.begin(),itend=np.coord.end();
       for (;it!=itend;++it)
-	l=gcd(l,it->value);
+	l=gcd(l,it->value,context0);
       gen g=simplify3(l,d);
       np=np/g;
       n=np; 
@@ -426,7 +426,7 @@ namespace giac {
       d=dp;
       return g;
     }
-    gen g=gcd(n,d);
+    gen g=gcd(n,d,context0);
     n=n/g; // iquo(n,g);
     d=d/g; // iquo(d,g);
     return g;
@@ -843,7 +843,7 @@ namespace giac {
       den=denr*denr+deni*deni;
       num=num*(denr-cst_i*deni);
       reim(num,numr,numi,contextptr);
-      deni=gcd(gcd(numr,denr),numi);
+      deni=gcd(gcd(numr,denr,contextptr),numi,contextptr);
       num=num/deni;
       den=den/deni;
     }
@@ -1763,13 +1763,15 @@ namespace giac {
   // find isolation interval for roots of Q, select the largest one,
   // find isolation interval for roots of P, if they intersect with previous one
   // improve precision by dichotomy until sign is resolved
-  static int is_root_of_deg2(const gen & e,vecteur & v){
+  static int is_root_of_deg2(const gen & e,vecteur & v,GIAC_CONTEXT){
     // find a,b,c such that a*e*e+b*e+c=0
 #ifdef DEBUG_SUPPORT
     if (e.type!=_EXT || e._EXTptr->type!=_VECT)
       setsizeerr(gettext("sym2poly.cc/is_root_of_deg2"));
 #endif // DEBUG_SUPPORT
-    gen pmin=*(e._EXTptr+1);
+    gen pmin=*(e._EXTptr+1),value;
+    if (has_rootof_value(pmin,value,contextptr))
+      return 0;
     vecteur vpmin(min_pol(pmin));
     if (!vpmin.empty() && is_undef(vpmin))
       return 0;
@@ -1829,6 +1831,60 @@ namespace giac {
       }
     }
   }
+
+  gen minimal_polynomial(const gen & pp,bool minonly,GIAC_CONTEXT){
+    gen f=*(pp._EXTptr+1);
+    if (f.type!=_VECT)
+      return undef;
+    int d=f._VECTptr->size();
+    gen r=evalf_double(pp,1,contextptr);
+    matrice m(d);
+    m[0]=vecteur(d-1);
+    m[0]._VECTptr->back()=1;
+    gen ppi(1);
+    for (int i=1;i<d;++i){
+      ppi=ppi*pp;
+      if (ppi.type!=_EXT){
+	m[i]=vecteur(d-1);
+	m[i]._VECTptr->back()=ppi;
+      }
+      else {
+	m[i]=*ppi._EXTptr;
+	if (m[i].type!=_VECT)
+	  return gensizeerr(contextptr);
+	if (int(m[i]._VECTptr->size())<d-1)
+	  *m[i]._VECTptr=mergevecteur(vecteur(d-1-m[i]._VECTptr->size()),*m[i]._VECTptr);
+      }
+    } // end for i
+    if (!ckmatrix(m))
+      return gensizeerr(contextptr);
+    m=mtran(m); // d-1 rows, d columns
+    vecteur mk=mker(m,contextptr);
+    gen pm(mk.front()); // min poly= 1st kernel element
+    if (pm.type==_VECT){
+      mk=*pm._VECTptr;
+      reverse(mk.begin(),mk.end());
+      mk=trim(mk,0);
+      if (minonly){
+	if (is_positive(-mk.front(),contextptr))
+	  return gen(-mk,_POLY1__VECT);
+	return gen(mk,_POLY1__VECT);
+      }
+      if ((d=mk.size())<=5 && d!=4){
+	identificateur x(" x");
+	vecteur w;
+	in_solve(symb_horner(mk,x),x,w,1,contextptr);
+	for (unsigned k=0;k<w.size();++k){
+	  if (lop(w[k],at_rootof).empty()){
+	    gen wkd=evalf_double(w[k],1,contextptr);
+	    if (wkd!=w[k] && is_greater(1e-6,abs(1-r/wkd,contextptr),contextptr))
+	      return w[k];
+	  }
+	}
+      }
+    }
+    return undef;
+  }
   
   static gen r2sym(const gen & p, const const_iterateur & lt, const const_iterateur & ltend,GIAC_CONTEXT){
     // Note that if p.type==_FRAC && p._FRACptr->num.type==_EXT
@@ -1865,47 +1921,9 @@ namespace giac {
 	int d=f._VECTptr->size();
 	// FIXME remove d<=10, requires better handling of rref with Gauss integers
 	if (d>3 && d<=10){
-	  gen r=evalf_double(pp,1,contextptr);
-	  matrice m(d);
-	  m[0]=vecteur(d-1);
-	  m[0]._VECTptr->back()=1;
-	  gen ppi(1);
-	  for (int i=1;i<d;++i){
-	    ppi=ppi*pp;
-	    if (ppi.type!=_EXT){
-	      m[i]=vecteur(d-1);
-	      m[i]._VECTptr->back()=ppi;
-	    }
-	    else {
-	      m[i]=*ppi._EXTptr;
-	      if (m[i].type!=_VECT)
-		return gensizeerr(contextptr);
-	      if (int(m[i]._VECTptr->size())<d-1)
-		*m[i]._VECTptr=mergevecteur(vecteur(d-1-m[i]._VECTptr->size()),*m[i]._VECTptr);
-	    }
-	  } // end for i
-	  if (!ckmatrix(m))
-	    return gensizeerr(contextptr);
-	  m=mtran(m); // d-1 rows, d columns
-	  vecteur mk=mker(m,contextptr);
-	  gen pm(mk.front()); // min poly= 1st kernel element
-	  if (pm.type==_VECT){
-	    mk=*pm._VECTptr;
-	    reverse(mk.begin(),mk.end());
-	    mk=trim(mk,0);
-	    if ((d=mk.size())<=5 && d!=4){
-	      identificateur x(" x");
-	      vecteur w;
-	      in_solve(symb_horner(mk,x),x,w,1,contextptr);
-	      for (unsigned k=0;k<w.size();++k){
-		if (lop(w[k],at_rootof).empty()){
-		  gen wkd=evalf_double(w[k],1,contextptr);
-		  if (wkd!=w[k] && is_greater(1e-6,abs(1-r/wkd,contextptr),contextptr))
-		    return w[k];
-		}
-	      }
-	    }
-	  }
+	  gen res=minimal_polynomial(pp,false,contextptr);
+	  if (!is_undef(res))
+	    return res;
 	} // end if d>3
       }
 #endif
@@ -1914,10 +1932,12 @@ namespace giac {
       if (is_undef(f))
 	return f;
       if (f._VECTptr->size()==3){
-	return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);
+	gen value;
+	if (!has_rootof_value(f,value,contextptr))
+	  return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);
       }
       vecteur v;
-      int t=is_root_of_deg2(pp,v);
+      int t=is_root_of_deg2(pp,v,contextptr);
       // if (t==2) return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);
       // if (t && f==v) t=0;
       if (t==1){
@@ -2047,7 +2067,7 @@ namespace giac {
       if (is_undef(f))
 	return f;
       vecteur v;
-      int t=is_root_of_deg2(pp,v);
+      int t=is_root_of_deg2(pp,v,contextptr);
       if (f._VECTptr->size()==3){
 	return solve_deg2(r2sym(*(pp._EXTptr),l,contextptr),f,l.begin(),l.end(),contextptr);
       }
@@ -2564,17 +2584,17 @@ namespace giac {
     }
     return r2sym(fg,l,context0);
   }
-  gen rationalgcd(const gen & a, const gen & b){
+  gen rationalgcd(const gen & a, const gen & b,GIAC_CONTEXT){
     gen A,B,C,D;
     if (is_algebraic_program(a,A,B) && is_algebraic_program(b,C,D)){
       if (A==C)
-	return symbolic(at_program,makesequence(A,0,gcd(B,D)));
-      D=subst(D,C,A,false,context0);
-      return symbolic(at_program,makesequence(A,0,gcd(B,D)));
+	return symbolic(at_program,makesequence(A,0,gcd(B,D,contextptr)));
+      D=subst(D,C,A,false,contextptr);
+      return symbolic(at_program,makesequence(A,0,gcd(B,D,contextptr)));
     }
     vecteur l(alg_lvar(a));
     alg_lvar(b,l);
-    fraction fa(e2r(a,l,context0)),fb(e2r(b,l,context0)); // ok
+    fraction fa(e2r(a,l,contextptr)),fb(e2r(b,l,contextptr)); // ok
     if (debug_infolevel)
       CERR << "rational gcd begin " << clock() << endl;
     if (!is_one(fa.den) || !is_one(fb.den))
@@ -2583,7 +2603,7 @@ namespace giac {
       fa.num=fa.num._FRACptr->num;
     if (fb.num.type==_FRAC)
       fb.num=fb.num._FRACptr->num;
-    return r2sym(gcd(fa.num,fb.num),l,context0); // ok
+    return r2sym(gcd(fa.num,fb.num,contextptr),l,contextptr); // ok
   }
 
   static gen factor(const polynome & p,const vecteur &l,bool fixed_order,bool with_sqrt,gen divide_an_by,gen & extra_div,GIAC_CONTEXT);

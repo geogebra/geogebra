@@ -974,10 +974,12 @@ namespace giac {
     deltar=deltar/3;
     gen sumdr2=0;
     int N=n; // effective value of number of bits for computation
+#ifdef HAVE_LIBMPFR
     if (r.type==_REAL && mpfr_get_prec(r._REALptr->inf)>N)
       N=mpfr_get_prec(r._REALptr->inf);
     if (r.type==_CPLX && r._CPLXptr->type==_REAL && mpfr_get_prec(r._CPLXptr->_REALptr->inf)>N)
       N=mpfr_get_prec(r._CPLXptr->_REALptr->inf);
+#endif
 #if 0 // def HAVE_LIBMPFI
     gen deuxN=pow(2,N,context0);
     gen rr,ri,dr,di;

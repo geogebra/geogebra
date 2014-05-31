@@ -61,7 +61,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_non_recursive_normal ;
   symbolic symb_non_recursive_normal(const gen & args);
 
-  gen rationalgcd(const gen & a, const gen & b);
+  gen rationalgcd(const gen & a, const gen & b,GIAC_CONTEXT);
 
   gen factor(const gen & e,bool withsqrt,GIAC_CONTEXT); // full factorization (alg ext)
   gen ratfactor(const gen & e,bool withsqrt,GIAC_CONTEXT); // full factorization (rat)
@@ -122,6 +122,7 @@ namespace giac {
   gen symb_algvar(const gen & e);
   gen ckalgvar(const gen & e,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_algvar;
+  gen minimal_polynomial(const gen & pp,bool minonly,GIAC_CONTEXT);
 
   vecteur cdr_VECT(const vecteur & l);
 

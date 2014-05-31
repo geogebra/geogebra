@@ -1048,7 +1048,7 @@ namespace giac {
     gen res,np_simp,nq_simp,d_content;
     polynome p,q,p_gcd;
     if ( (n1.type!=_POLY) || (n2.type!=_POLY) )
-      res=gcd(n1,n2);
+      res=gcd(n1,n2,contextptr);
     else {
       polynome pres;
       bool result=false;

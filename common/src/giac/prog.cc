@@ -5353,6 +5353,27 @@ namespace giac {
     return gensizeerr("Interval arithmetic support not compiled. Please install MPFI and recompile");
   }
 
+  gen convert_real(const gen & g,GIAC_CONTEXT){
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (g.type==_VECT){
+      vecteur res(*g._VECTptr);
+      for (unsigned i=0;i<res.size();++i)
+	res[i]=convert_real(res[i],contextptr);
+      return gen(res,g.subtype);
+    }
+    if (g.type==_SYMB)
+      return g._SYMBptr->sommet(convert_real(g._SYMBptr->feuille,contextptr),contextptr);
+    if (g.type==_REAL){
+      if (dynamic_cast<real_interval *>(g._REALptr))
+	return _milieu(g,contextptr);
+    }
+    if (g.type==_CPLX)
+      return convert_real(*g._CPLXptr,contextptr)+cst_i*convert_real(*(g._CPLXptr+1),contextptr);
+    return g;
+#endif
+    return gensizeerr("Interval arithmetic support not compiled. Please install MPFI and recompile");
+  }
+
   gen _convert(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type!=_VECT){
@@ -5385,6 +5406,8 @@ namespace giac {
     }
     if (s==2 && f==at_interval)
       return convert_interval(g,int(decimal_digits(contextptr)*3.2),contextptr);
+    if (s==2 && f==at_real)
+      return convert_real(g,contextptr);
     if (s==3 && f==at_interval && v[2].type==_INT_)
       return convert_interval(g,int(v[2].val*3.2),contextptr);
     if (s==3 && f.type==_INT_ ){

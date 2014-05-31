@@ -1826,7 +1826,7 @@ namespace giac {
 	  gen tmpu,tmpfx;
 	  tmpu=_plus(non_constant,contextptr);
 	  if (!is_rewritable_as_f_of(fu,tmpu,tmpfx,gen_x,contextptr))
-	    return false;
+	    return in_is_rewritable_as_f_of(fu,u,fx,gen_x,contextptr);;
 	  fx=complex_subst(tmpfx,gen_x,gen_x-alpha,contextptr);
 	  return true;
 	}

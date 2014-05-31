@@ -364,7 +364,7 @@ namespace giac {
 	continue;
       sol=evalf(sol,eval_level(contextptr),contextptr);
       if (!(isolate_mode &1) && ( (sol.type==_CPLX && !is_zero(im(sol,contextptr),contextptr))
-				  || has_i(sol)))
+				  || (sol.type!=_CPLX && has_i(sol))))
 	continue;
       if (sol.type!=_DOUBLE_){ // check for trig solutions
 	newv.push_back(*it);
@@ -2153,12 +2153,58 @@ namespace giac {
       *logptr(contextptr) << gettext("Warning, argument is not an equation, solving ") << arg1 << "=0" << endl;
     else {
 #if 1 // ATESTER
+      if (arg1.type==_VECT && arg1._VECTptr->size()==2 && v[1].type==_VECT && v[1]._VECTptr->size()==2){
+	gen eq1(arg1._VECTptr->front()),eq2(arg1._VECTptr->back()),var1(v[1]._VECTptr->front()),var2(v[1]._VECTptr->back()),a,b,c,d;
+	if (is_linear_wrt(eq1,var1,a,b,contextptr) && is_linear_wrt(eq2,var1,c,d,contextptr)){
+	  // a*var1+b=c*var1+d=0 => b*c-a*d=0
+	  vecteur V;
+	  gen res=_solve(makesequence(symb_equal(a*d,b*c),var2),contextptr);
+	  if (res.type==_VECT){
+	    for (unsigned i=0;i<res._VECTptr->size();++i){
+	      gen v2=(*res._VECTptr)[i];
+	      gen res2=subst(eq1,var2,v2,false,contextptr);
+	      res2=_simplify(_solve(makesequence(symb_equal(res2,0),var1),contextptr),contextptr);
+	      gen res3=subst(eq2,var2,v2,false,contextptr);
+	      res3=_simplify(_solve(makesequence(symb_equal(res3,0),var1),contextptr),contextptr);
+	      res2=_intersect(makesequence(res2,res3),contextptr);
+	      if (res2.type==_VECT){
+		for (unsigned j=0;j<res._VECTptr->size();++j)
+		  V.push_back(makevecteur((*res2._VECTptr)[j],v2));
+	      }
+	    }
+	  }
+	  return V;
+	}
+	if (is_linear_wrt(eq1,var2,a,b,contextptr) && is_linear_wrt(eq2,var2,c,d,contextptr)){
+	  vecteur V;
+	  gen res=_solve(makesequence(symb_equal(a*d,b*c),var1),contextptr);
+	  if (res.type==_VECT){
+	    for (unsigned i=0;i<res._VECTptr->size();++i){
+	      gen v1=(*res._VECTptr)[i];
+	      gen res2=subst(eq1,var1,v1,false,contextptr);
+	      res2=_simplify(_solve(makesequence(symb_equal(res2,0),var2),contextptr),contextptr);
+	      gen res3=subst(eq2,var1,v1,false,contextptr);
+	      res3=_simplify(_solve(makesequence(symb_equal(res3,0),var2),contextptr),contextptr);
+	      res2=_intersect(makesequence(res2,res3),contextptr);
+	      if (res2.type==_VECT){
+		for (unsigned j=0;j<res._VECTptr->size();++j)
+		  V.push_back(makevecteur(v1,(*res2._VECTptr)[j]));
+	      }
+	    }
+	  }
+	  return V;	  
+	}
+      }
       if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
 	gen a1=arg1._SYMBptr->feuille[0];
 	gen a2=arg1._SYMBptr->feuille[1];
 	if (a2==0 && a1.is_symb_of_sommet(at_plus) && a1._SYMBptr->feuille._VECTptr->size()==2){
 	  a2=-a1._SYMBptr->feuille._VECTptr->back();
 	  a1=a1._SYMBptr->feuille._VECTptr->front();
+	}
+	if (a1.is_symb_of_sommet(at_neg) && a2.is_symb_of_sommet(at_neg)){
+	  a1=a1._SYMBptr->feuille;
+	  a2=a2._SYMBptr->feuille;
 	}
 	vecteur lv=lvarx(makevecteur(a1,a2),v.back());
 	vecteur w=lop(lv,at_pow);

@@ -1127,7 +1127,7 @@ namespace giac {
       if (notunit){
 	// COUT << *it << " " << lcoeff << " " << env->modulo << endl;
 	gen s( smod((*it)*lcoeff,env->modulo) );
-	gen g(gcd(s,lcoeff));
+	gen g(gcd(s,lcoeff,context0));
 	combination.push_back(iquo(lcoeff,g));
 	combination.push_back(iquo(-s,g));
 	// COUT << combination << endl;

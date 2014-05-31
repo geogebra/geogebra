@@ -1217,6 +1217,19 @@ namespace giac {
       }
 #endif
     }
+    if (g.type==_EXT)
+      return minimal_polynomial(g,true,contextptr);
+    if (g.type!=_VECT){
+      vecteur v=alg_lvar(g);
+      if (v.size()==1 && v.front().type==_VECT && v.front()._VECTptr->empty()){
+	gen tmp=e2r(g,v,contextptr);
+	tmp=_numer(tmp,contextptr);
+	if (tmp.type==_POLY && tmp._POLYptr->dim==0)
+	  tmp=tmp._POLYptr->coord.front().value;
+	if (tmp.type==_EXT)
+	  return minimal_polynomial(tmp,true,contextptr);
+      }
+    }
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return symbolic(at_pmin,g);
     vecteur & v(*g._VECTptr);
@@ -2641,6 +2654,8 @@ static define_unary_function_eval (__correlation,&_correlation,_correlation_s);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_VECT)
       return apply(g,_interval2center,contextptr);
+    if (g.type==_REAL)
+      return _milieu(g,contextptr);
     if (g.is_symb_of_sommet(at_interval)){
       gen & tmp=g._SYMBptr->feuille;
       if (tmp.type!=_VECT || tmp._VECTptr->size()!=2)
@@ -4978,6 +4993,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  s+=char('A'+i);
       }
       gen mii=m[i][i];
+      if (mii.type==_DOUBLE_)
+	mii=_round(makesequence(mii,3),contextptr);
       if (!is_zero(mii))
 	s += ':'+mii.print();
       gen legende=symb_equal(at_legende,string2gen(s,false));
@@ -4991,6 +5008,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	if (i==j)
 	  continue;
 	gen mij=m[i][j];
+	if (mij.type==_DOUBLE_)
+	  mij=_round(makesequence(mij,3),contextptr);
 	if (mij!=0){
 	  gen legende=symb_equal(at_legende,mij);
 	  gen aff=symb_equal(at_display,col[j]);

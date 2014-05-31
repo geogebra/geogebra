@@ -1086,6 +1086,8 @@ namespace giac {
 #endif
       }
       // sqrt of an exact complex number
+      if (!lop(e,at_exp).empty())
+	return pow(e,plus_one_half,contextptr);
       a=re(e,contextptr);b=im(e,contextptr);
       if (a!=e && is_zero(b,contextptr))
 	return sqrt(a,contextptr);
@@ -2732,6 +2734,25 @@ namespace giac {
   gen sto(const gen & a,const gen & b,bool in_place,const context * contextptr_){
     if (is_undef(a) && a.type==_STRNG)
       return a;
+    if ( (a.type==_IDNT || a.is_symb_of_sommet(at_at)) && b.is_symb_of_sommet(at_rootof) && contextptr_){
+      if (!contextptr_->globalcontextptr->rootofs)
+	contextptr_->globalcontextptr->rootofs=new vecteur;
+      gen b_=eval(b,1,contextptr_);
+      gen Pmin=b_._SYMBptr->feuille;
+      if (Pmin.type!=_VECT || Pmin._VECTptr->size()!=2 || Pmin._VECTptr->front()!=makevecteur(1,0))
+	return gensizeerr(gettext("Bad rootof"));
+      Pmin=Pmin._VECTptr->back();
+      vecteur & r =*contextptr_->globalcontextptr->rootofs;
+      for (unsigned i=0;i<r.size();++i){
+	gen ri=r[i];
+	if (ri.type==_VECT && ri._VECTptr->size()==2 && Pmin==ri._VECTptr->front()){
+	  ri._VECTptr->back()=a;
+	  return sto(b,a,in_place,contextptr_);
+	}
+      }
+      r.push_back(makevecteur(Pmin,a));
+      return sto(b,a,in_place,contextptr_);
+    }
     // *logptr(contextptr) << "Sto " << "->" << b << endl;
     const context * contextptr=contextptr_;
     if (contextptr && contextptr->parent)
@@ -4697,10 +4718,10 @@ namespace giac {
       CERR << "gcd begin " << clock() << endl;
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
     if (ckmatrix(args) && itend-it==2)
-      return apply(*it,*(it+1),gcd);
+      return apply(*it,*(it+1),contextptr,gcd);
     gen res(0);
     for (;it!=itend;++it)
-      res=gcd(res,*it);
+      res=gcd(res,*it,contextptr);
     return res;
   }
   static const char _gcd_s []="gcd";
@@ -5349,7 +5370,7 @@ namespace giac {
       return apply_unit(args,_round,contextptr);
     if (is_inf(args)||is_undef(args))
       return args;
-    if (args.type==_VECT && args._VECTptr->size()!=2)
+    if (args.type==_VECT && (args.subtype!=_SEQ__VECT || args._VECTptr->size()!=2))
       return apply(args,contextptr,_round);
     if (args.type==_VECT && args.subtype==_SEQ__VECT){
       gen b=args._VECTptr->back();
@@ -8467,7 +8488,7 @@ namespace giac {
       gen G(0);
       const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
       for (;it!=itend;++it){
-	G=gcd(G,fast_icontent(*it));
+	G=gcd(G,fast_icontent(*it),context0);
       }
       return G;
     }
@@ -8521,7 +8542,7 @@ namespace giac {
       iterateur it=v.begin(),itend=v.end();
       gen zz(z),z2;
       for (;it!=itend;++it){
-	z2=gcd(fast_icontent(*it),zz);
+	z2=gcd(fast_icontent(*it),zz,context0);
 	*it=fast_divide_by_icontent(*it,z2);
 	zz=zz/z2;
       }

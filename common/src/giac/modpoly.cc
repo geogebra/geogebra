@@ -3341,7 +3341,7 @@ namespace giac {
 	DivRem(r1,r2,env,q,r);
       v=operator_minus(r2pow*v1,operator_times(q,v2,env),env);
       if (!psron){
-	gen tmp=gcd(lgcd(r),lgcd(v));
+	gen tmp=gcd(lgcd(r),lgcd(v),context0);
 	r=operator_div(r,tmp,env);
 	v=operator_div(v,tmp,env);
       }
@@ -4034,7 +4034,7 @@ namespace giac {
     dense_POLY1::const_iterator it=p.begin(),itend=p.end();
     gen n(*it),n1(1);
     for (;it!=itend;++it){
-      n=gcd(n,*it);
+      n=gcd(n,*it,context0);
       if (n==n1)
         return 1;
     }
@@ -4371,7 +4371,7 @@ namespace giac {
     if (is_undef(pp) || is_undef(qq))
       return false;
     // COUT << "modular gcd 1 " << pp << " " << qq << endl;
-    gen gcdfirstcoeff(gcd(pp.front(),qq.front()));
+    gen gcdfirstcoeff(gcd(pp.front(),qq.front(),context0));
     int gcddeg= giacmin(pp.size(),qq.size())-1;
     gen bound(pow(gen(2),gcddeg+1)* abs(gcdfirstcoeff,context0));
     if (is_zero(im(pp,context0)) && is_zero(im(qq,context0)))

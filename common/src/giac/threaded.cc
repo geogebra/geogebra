@@ -3093,11 +3093,11 @@ mpz_class smod(const mpz_class & a,int reduce){
 	if (jt->g.type==_VECT){
 	  const_iterateur it=jt->g._VECTptr->begin(),itend=jt->g._VECTptr->end();
 	  for (;it!=itend;++it){
-	    res=gcd(res,*it);
+	    res=gcd(res,*it,context0);
 	  }
 	}
 	else
-	  res=gcd(res,jt->g);
+	  res=gcd(res,jt->g,context0);
 	if (is_one(res))
 	  return res;
       }
@@ -3284,7 +3284,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     gdeg=min(pdeg,qdeg);
     // gen m=30000,pimod=1;
     gen m=536871000,pimod=1;
-    gen lcoeffp=p_orig.front().g,lcoeffq=q_orig.front().g,gcdlcoeff=gcd(lcoeffp,lcoeffq);
+    gen lcoeffp=p_orig.front().g,lcoeffq=q_orig.front().g,gcdlcoeff=gcd(lcoeffp,lcoeffq,context0);
     d.clear();
     pcofactor.clear();
     qcofactor.clear();

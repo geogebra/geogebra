@@ -562,7 +562,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     context * previous ;
     global * globalptr; 
     const context * parent;
-    vecteur * quoted_global_vars;
+    vecteur * quoted_global_vars, * rootofs;
     vecteur * history_in_ptr, * history_out_ptr;
     context();
     context(const context & c);

@@ -2261,7 +2261,7 @@ namespace giac {
       return 1;
     gen res=(itend-1)->value;
     for (it=p.coord.begin();it!=itend-1;++it){
-      res=gcd(res,it->value);
+      res=gcd(res,it->value,context0);
       if (is_one(res))
 	return 1;
     }
@@ -3008,7 +3008,7 @@ namespace giac {
     pp=p/plgcd; 
     qq=q/qlgcd;
     gcdlgcd=gcd(plgcd,qlgcd);
-    gen gcdfirstcoeff(gcd(pp.coord.front().value, qq.coord.front().value));
+    gen gcdfirstcoeff(gcd(pp.coord.front().value, qq.coord.front().value,context0));
     int gcddeg= giacmin(pp.lexsorted_degree(),qq.lexsorted_degree());
     gen bound(pow(gen(2),gcddeg+1)* abs(gcdfirstcoeff,context0) * min(pp.norm(), qq.norm(),context0));
     gen modulo(nextprime(max(gcdfirstcoeff+1,gen(30000),context0))); 
@@ -3212,7 +3212,7 @@ namespace giac {
       return false;
     int s=pi.size();
     if (s==p.dim){
-      gen n=gcd(Tcontent<gen>(p),Tcontent<gen>(q));
+      gen n=gcd(Tcontent<gen>(p),Tcontent<gen>(q),context0);
       d=polynome(monomial<gen>(n,p.dim));
       return true;
     }
@@ -3356,7 +3356,7 @@ namespace giac {
     nq_simp=ppz(q_simp);
     if (debug_infolevel>=20-p_simp.dim)
       CERR << "Gcdheu end ppz" << clock() << " " << np_simp << " " << nq_simp << endl;
-    d_content=gcd(np_simp,nq_simp);
+    d_content=gcd(np_simp,nq_simp,context0);
     // type may have changed by ppz simplification, recheck
     if (!is_integer(np_simp))
       pt=coefftype(p_simp,coefft);
@@ -3678,7 +3678,7 @@ namespace giac {
       env->complexe=!est_reel;
       for (int essai=0;essai<2 && !avoid_it;++essai){
 	env->modulo=nextprime(env->modulo+2);
-	while ( is_one(smod(env->modulo,4)) || !is_one(gcd(gcd(env->modulo,pp.front()),qq.front())) )
+	while ( is_one(smod(env->modulo,4)) || !is_one(gcd(gcd(env->modulo,pp.front(),context0),qq.front(),context0)) )
 	  env->modulo=nextprime(env->modulo+2);
 	modpoly _gcdmod;
 	gcdmodpoly(pp,qq,env,_gcdmod);
@@ -4124,7 +4124,7 @@ namespace giac {
        return p; */
     if (p.dim==0){
       index_t i;
-      d=polynome( monomial<gen>(gcd(p.constant_term(),q.constant_term()),i));
+      d=polynome( monomial<gen>(gcd(p.constant_term(),q.constant_term(),context0),i));
       return ;
     }
     d.dim=p.dim;

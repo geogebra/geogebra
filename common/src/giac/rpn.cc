@@ -846,6 +846,27 @@ namespace giac {
 	}
       }
     }
+    if (contextptr && args.is_symb_of_sommet(at_rootof)){
+      gen a=eval(args,1,contextptr);
+      if (!a.is_symb_of_sommet(at_rootof))
+	return gensizeerr(gettext("Bad rootof"));
+      if (!contextptr->globalcontextptr->rootofs)
+	contextptr->globalcontextptr->rootofs=new vecteur;
+      gen Pmin=a._SYMBptr->feuille;
+      if (Pmin.type!=_VECT || Pmin._VECTptr->size()!=2 || Pmin._VECTptr->front()!=makevecteur(1,0))
+	return gensizeerr(gettext("Bad rootof"));
+      Pmin=Pmin._VECTptr->back();
+      vecteur & r =*contextptr->globalcontextptr->rootofs;
+      for (unsigned i=0;i<r.size();++i){
+	gen ri=r[i];
+	if (ri.type==_VECT && ri._VECTptr->size()==2 && Pmin==ri._VECTptr->front()){
+	  gen a=ri._VECTptr->back();
+	  r.erase(r.begin()+i);
+	  return _purge(a,contextptr);
+	}
+      }
+      return 0;
+    }
     if (args.type!=_IDNT)
       return symbolic(at_purge,args);
     // REMOVED! args.eval(eval_level(contextptr),contextptr); 
@@ -864,6 +885,8 @@ namespace giac {
       if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER)
 	return gentypeerr(args.print(contextptr)+" is locked by thread "+it->second.print(contextptr));
       contextptr->tabptr->erase(it);
+      if (res.is_symb_of_sommet(at_rootof))
+	_purge(res,contextptr);
       return res;
     }
     if (current_folder_name.type==_IDNT && current_folder_name._IDNTptr->value && current_folder_name._IDNTptr->value->type==_VECT){

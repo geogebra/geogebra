@@ -1811,11 +1811,12 @@ namespace giac {
 #ifdef HAVE_LIBMPFI
     if (g.subtype==_INTERVAL__VECT && g._VECTptr->size()==2){
       // convert to MPFI real_interval
-      gen l=g._VECTptr->front(),u=g._VECTptr->back();
+      gen l=eval(g._VECTptr->front(),level,contextptr),u=eval(g._VECTptr->back(),level,contextptr);
       if (is_strictly_greater(l,u,contextptr)){
 	l=g._VECTptr->back();
 	u=g._VECTptr->front();
       }
+      bool lexact=is_integer(l),uexact=is_integer(u);
       gen ul=u-l;
       if (is_exactly_zero(ul)){
 	if (u.type==_REAL)
@@ -1827,18 +1828,43 @@ namespace giac {
 	ul=ln(abs(evalf(u-l,1,contextptr),contextptr),contextptr);
 	ul=-_ceil(ul/ln(evalf(2,1,contextptr),contextptr),contextptr);
       }
-      int nbits=48;
+      int nbits=53;
       if (ul.type==_INT_ && ul.val>48){
 	nbits=ul.val+4;
-	l=accurate_evalf(l,nbits); u=accurate_evalf(u,nbits);
+	l=accurate_evalf(l,nbits); 
+	u=accurate_evalf(u,nbits);
       }
       else {
-	l=evalf(l,1,contextptr); u=evalf(u,1,contextptr);
+	l=evalf(l,level,contextptr); u=evalf(u,level,contextptr);
       }
       if (l.type==_DOUBLE_ && u.type==_REAL)
 	u=evalf_double(u,1,contextptr);
       if (u.type==_DOUBLE_ && l.type==_REAL)
 	l=evalf_double(l,1,contextptr);
+      if (l.type==_DOUBLE_){
+	// adjust mantissa of l down and mantissa of u up
+	double epsilon=7e-15; // 2^(-47)
+	if (!lexact)
+	  l=(1.+(l._DOUBLE_val>0?(-epsilon):(epsilon)))*l;
+	if (!uexact)
+	  u=(1.+(u._DOUBLE_val>0?(epsilon):(-epsilon)))*u;
+      }
+      else { // do the same for MPFR
+	gen epsilon=pow(plus_two,nbits-2,contextptr);
+	epsilon=fraction(1,epsilon);
+	if (!lexact){
+	  if (is_positive(l,contextptr))
+	    l=(1-epsilon)*l;
+	  else
+	    l=(1+epsilon)*l;
+	}
+	if (!uexact){
+	  if (is_positive(u,contextptr))
+	    u=(1+epsilon)*u;
+	  else
+	    u=(1-epsilon)*u;
+	}
+      }
       if ( (l.type==_DOUBLE_ && u.type==_DOUBLE_) ||
 	   (l.type==_REAL && u.type==_REAL) ){
 	mpfi_t interv;
@@ -2218,7 +2244,7 @@ namespace giac {
       return false;
     switch (type) {
     case _REAL: 
-#ifndef NO_RTTI
+#if 0 // ndef NO_RTTI  // infinite recursion with has_evalf and real intervals
       if (real_interval * ptr=dynamic_cast<real_interval *>(_REALptr)){
 	evaled=real_object(ptr->inf);
 	return true;
@@ -5171,8 +5197,12 @@ namespace giac {
       // (ax+i*ay)*(bx+i*by)=ax*bx-ay*by+i*(ax*by+ay*bx)
       // imaginary part is also (ax+ay)*(bx+by)-ax*bx-ay*by, Karatsuba trick
       mpz_t axbx,ayby,bx_by,r;
+#ifdef USE_GMP_REPLACEMENTS
+      mpz_init(axbx); mpz_init(ayby); mpz_init(r);
+#else
       int n1=mpz_size(ax)+mpz_size(bx),n2=mpz_size(ay)+mpz_size(by);
       mpz_init2(axbx,n1); mpz_init2(ayby,n2); mpz_init2(r,giacmax(n1,n2)+2);
+#endif
       mpz_mul(axbx,ax,bx);
       mpz_add(r,ax,ay);
       mpz_add(ayby,bx,by); // temporary use
@@ -6548,16 +6578,16 @@ namespace giac {
   static gen rdivsimp(const gen & a,const gen & b){
     if (is_positive(-b,context0)) // ok
       return rdivsimp(-a,-b);
-    gen c(gcd(a,b));
+    gen c(gcd(a,b,context0));
     if (c.type==_CPLX)
-      c=gcd(c.re(context0),c.im(context0)); // ok
+      c=gcd(c.re(context0),c.im(context0),context0); // ok
     return fraction(iquo(a,c),iquo(b,c));
   }
 
   static gen divpoly(const polynome & p, const gen & e){
     if (p.coord.empty())
       return zero;
-    gen d=gcd(Tcontent<gen>(p),e);
+    gen d=gcd(Tcontent<gen>(p),e,context0);
     if (is_one(d)){
       if (e==cst_i || e==minus_one || e==-cst_i)
 	return p/e;
@@ -6576,7 +6606,7 @@ namespace giac {
       return e;
     if (Tis_constant<gen>(p)&& p.coord.front().value.type<_POLY)
       return rdiv(e,p.coord.front().value,context0);
-    gen d=gcd(Tcontent<gen>(p),e);
+    gen d=gcd(Tcontent<gen>(p),e,context0);
     gen tmp=polynome(rdiv(e,d,context0),p.dim);
     return fraction(tmp,p/d);
   }
@@ -6690,7 +6720,7 @@ namespace giac {
     case _FRAC__FRAC:
       if (a._FRACptr->num.type==_CPLX || a._FRACptr->den.type==_CPLX ||
 	  b._FRACptr->num.type==_CPLX || b._FRACptr->den.type==_CPLX){
-	gen d=gcd(a._FRACptr->den,b._FRACptr->den);
+	gen d=gcd(a._FRACptr->den,b._FRACptr->den,contextptr);
 	return (a._FRACptr->num*iquo(b._FRACptr->den,d))/(iquo(a._FRACptr->den,d)*b._FRACptr->num);
       }
       return (*a._FRACptr)/(*b._FRACptr);
@@ -7449,6 +7479,8 @@ namespace giac {
       return symb_superieur_strict(a,b);
     gen approx;
     if (has_evalf(a-b,approx,1,contextptr)){
+      if (approx.type==_CPLX && is_zero(im(approx,contextptr)/re(approx,contextptr),contextptr))
+	approx=re(approx,contextptr);
       if (approx.type==_DOUBLE_ )
 	return (approx._DOUBLE_val>0);
       if (approx.type==_FLOAT_ )
@@ -8882,8 +8914,6 @@ namespace giac {
     }
   }
 
-  gen rationalgcd(const gen &a,const gen & b); // in sym2poly.h
-
   static gen polygcd(const polynome & a,const polynome & b){
     ref_polynome * resptr=new ref_polynome(a.dim);
     gcd(a,b,resptr->t);
@@ -8891,7 +8921,7 @@ namespace giac {
   }
 
   // gcd(undef,x)=x to be used inside series
-  static gen symgcd(const gen & a,const gen& b){
+  static gen symgcd(const gen & a,const gen& b,GIAC_CONTEXT){
     if (is_exactly_zero(a) || is_undef(a) || (is_one(b)))
       return b;
     if (is_one(a) || is_undef(b) || (is_exactly_zero(b)))
@@ -8918,25 +8948,25 @@ namespace giac {
       if (a._EXTptr->type!=_VECT)
 	return gentypeerr(gettext("symgcd"));
       if ( (a._EXTptr+1)->type!=_VECT)
-	return symgcd(ext_reduce(a),b);
+	return symgcd(ext_reduce(a),b,contextptr);
       gen aa(lgcd(*a._EXTptr->_VECTptr));
-      gen res=gcd(aa,b);
+      gen res=gcd(aa,b,contextptr);
       vecteur ua((*(a._EXTptr->_VECTptr))/aa),u,uv(*((a._EXTptr+1)->_VECTptr)),v,dd;
       egcd(ua,uv,0,u,v,dd);
-      gen dd0(dd.front()),b2(rdiv(b,res,context0));
+      gen dd0(dd.front()),b2(rdiv(b,res,contextptr));
       simplify(b2,dd0);
       if (is_one(dd0))
 	return res*algebraic_EXTension(ua,uv);
       return res;
     }
     if (b.type==_EXT)
-      return symgcd(b,a);
+      return symgcd(b,a,contextptr);
     if (a.type==_POLY)
       return gcd(*a._POLYptr,polynome(b,a._POLYptr->dim));
     if (b.type==_POLY)
       return gcd(*b._POLYptr,polynome(a,b._POLYptr->dim));
     if ( a.type!=_DOUBLE_ && a.type!=_FLOAT_ && a.type!=_VECT && b.type!=_DOUBLE_ && b.type!=_FLOAT_ && b.type!=_VECT )
-      return rationalgcd(a,b);
+      return rationalgcd(a,b,contextptr);
     return plus_one; // return gentypeerr(gettext("symgcd"));
   }
 
@@ -9064,7 +9094,7 @@ namespace giac {
     }
     vecteur l(lvar(n));
     lvar(d,l);
-    gen num=e2r(n,l,context0),den=e2r(d,l,context0),g=gcd(num,den); // ok
+    gen num=e2r(n,l,context0),den=e2r(d,l,context0),g=gcd(num,den,context0); // ok
     den=rdiv(den,g,context0);
     if (is_exactly_zero(re(den,context0))){ //ok
       den=cst_i*den;
@@ -9079,7 +9109,7 @@ namespace giac {
     return r2sym(g,l,context0); // ok
   }
 
-  gen gcd(const gen & a,const gen & b){
+  gen gcd(const gen & a,const gen & b,GIAC_CONTEXT){
     ref_mpz_t * res;
     switch ( (a.type<< _DECALAGE) | b.type ) {
     case _INT___INT_: 
@@ -9088,18 +9118,18 @@ namespace giac {
       if (a.val)
 	return(int(mpz_gcd_ui(NULL,*b._ZINTptr,absint(a.val))));
       else 
-	return is_positive(b,context0)?b:-b;
+	return is_positive(b,contextptr)?b:-b;
     case _ZINT__INT_:
       if (b.val)
 	return(int(mpz_gcd_ui(NULL,*a._ZINTptr,absint(b.val))));
       else
-	return is_positive(a,context0)?a:-a;
+	return is_positive(a,contextptr)?a:-a;
     case _ZINT__ZINT:
 #ifndef USE_GMP_REPLACEMENTS
       if (mpz_cmp(*a._ZINTptr,*b._ZINTptr)>0 && mpz_divisible_p(*a._ZINTptr,*b._ZINTptr))
-	return abs(b,context0);
+	return abs(b,contextptr);
       if (mpz_cmp(*b._ZINTptr,*a._ZINTptr)>0 && mpz_divisible_p(*b._ZINTptr,*a._ZINTptr))
-	return abs(a,context0);
+	return abs(a,contextptr);
 #endif
       res = new ref_mpz_t;
       my_mpz_gcd(res->z,*a._ZINTptr,*b._ZINTptr);
@@ -9113,12 +9143,12 @@ namespace giac {
     case _VECT__VECT:
       return gen(gcd(*a._VECTptr,*b._VECTptr,0),_POLY1__VECT);
     case _FRAC__FRAC:
-      return fraction(gcd(a._FRACptr->num,b._FRACptr->num),lcm(a._FRACptr->den,b._FRACptr->den));
+      return fraction(gcd(a._FRACptr->num,b._FRACptr->num,contextptr),lcm(a._FRACptr->den,b._FRACptr->den));
     default:
       if (a.type==_FRAC)
-	return fraction(gcd(a._FRACptr->num,b),a._FRACptr->den);
+	return fraction(gcd(a._FRACptr->num,b,contextptr),a._FRACptr->den);
       if (b.type==_FRAC)
-	return fraction(gcd(b._FRACptr->num,a),b._FRACptr->den);
+	return fraction(gcd(b._FRACptr->num,a,contextptr),b._FRACptr->den);
       if (a.type==_USER)
 	return a._USERptr->gcd(b);
       if (b.type==_USER)
@@ -9126,14 +9156,14 @@ namespace giac {
       {
 	gen aa(a),bb(b);
 	if (is_integral(aa) && is_integral(bb))
-	  return gcd(aa,bb);
+	  return gcd(aa,bb,contextptr);
       }
-      return symgcd(a,b);
+      return symgcd(a,b,contextptr);
     }
   }
 
   gen lcm(const gen & a,const gen & b){
-    return normal(rdiv(a,gcd(a,b),context0),context0)*b; // ok
+    return normal(rdiv(a,gcd(a,b,context0),context0),context0)*b; // ok
   }
 
   static void ciegcd(const gen &a_orig,const gen &b_orig, gen & u,gen &v,gen &d ){
@@ -12757,6 +12787,8 @@ namespace giac {
     switch (g.type){
     case _REAL:
       return *this+*g._REALptr;
+    case _CPLX:
+      return gen(this->addition(*g._CPLXptr,contextptr),*(g._CPLXptr+1));
     case _FRAC:
       if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
 	return sym_add(*this,g,contextptr);	
@@ -12776,6 +12808,8 @@ namespace giac {
     switch (g.type){
     case _REAL:
       return *this+*g._REALptr;
+    case _CPLX:
+      return gen(this->addition(*g._CPLXptr,contextptr),*(g._CPLXptr+1));
     case _FRAC:
       if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
 	return sym_add(*this,g,contextptr);	
@@ -13527,6 +13561,8 @@ namespace giac {
     switch (g.type){
     case _REAL:
       return *this * *g._REALptr;
+    case _CPLX:
+      return gen(this->multiply(*g._CPLXptr,contextptr),this->multiply(*(g._CPLXptr+1),contextptr));
     case _FRAC:
       if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
 	return sym_mult(*this,g,contextptr);	
@@ -13545,6 +13581,8 @@ namespace giac {
     switch (g.type){
     case _REAL:
       return *this * *g._REALptr;
+    case _CPLX:
+      return gen(this->multiply(*g._CPLXptr,contextptr),this->multiply(*(g._CPLXptr+1),contextptr));
     case _FRAC:
       if (!is_integer(g._FRACptr->num) || !is_integer(g._FRACptr->den))
 	return sym_mult(*this,g,contextptr);	

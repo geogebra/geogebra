@@ -3218,8 +3218,8 @@ namespace giac {
 
   gen _milieu(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type==_REAL){
 #if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (args.type==_REAL){
       if (real_interval * ptr=dynamic_cast<real_interval *>(args._REALptr)){
 	mpfr_t tmp;
 	mpfr_init2(tmp,mpfi_get_prec(ptr->infsup));
@@ -3228,9 +3228,9 @@ namespace giac {
 	mpfr_clear(tmp);
 	return res;
       }
-#endif
       return real_object(args._REALptr->inf);
     }
+#endif
     if (args.type==_FRAC || args.type<=_POLY)
       return args;
     vecteur attributs(1,default_color(contextptr));
@@ -6933,6 +6933,8 @@ namespace giac {
   // check if a belongs to b, a must be a complex, b a line or circle or curve
   int est_element(const gen & a_orig,const gen & b_orig,GIAC_CONTEXT){
     gen a=remove_at_pnt(a_orig),b=remove_at_pnt(b_orig);
+    if (b.type==_REAL)
+      return contains(b,a)?1:0;
     if (b.type==_VECT && b.subtype<=_SET__VECT)
       return equalposcomp(*b._VECTptr,a);
     if (b.is_symb_of_sommet(at_cercle)){
@@ -7902,6 +7904,10 @@ namespace giac {
   define_unary_function_ptr5( at_parameq ,alias_at_parameq,&__parameq,0,true);
 
   gen rationalparam2equation(const gen & at_orig,const gen & t_orig,const gen &x,const gen & y,GIAC_CONTEXT){
+    if (t_orig==x || t_orig==y){
+      gen t(identificateur(t_orig.print(contextptr)+"_"));
+      return rationalparam2equation(subst(at_orig,t_orig,t,false,contextptr),t,x,y,contextptr);
+    }
     gen anum,aden,ax,ay;
     gen at=at_orig;
     gen t=t_orig;

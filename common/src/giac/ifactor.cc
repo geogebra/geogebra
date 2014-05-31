@@ -2928,10 +2928,10 @@ namespace giac {
 #if defined(RTOS_THREADX) // !defined(BESTA_OS)
   const int POLLARD_MAXITER=3000;
 #else
-  const int POLLARD_MAXITER=10000;
+  const int POLLARD_MAXITER=15000;
 #endif
 #else
-  const int POLLARD_MAXITER=10000;
+  const int POLLARD_MAXITER=15000;
 #endif  
 
   static gen pollard(gen n, gen k,GIAC_CONTEXT){
@@ -3007,7 +3007,7 @@ namespace giac {
 	// p=irem(p*(x1-x),n,q);
 	mpz_sub(q,x1,x);
 	mpz_mul(x2,p,q);
-#ifdef USE_GMP_REPLACEMENTS
+#if 0 // def USE_GMP_REPLACEMENTS
 	if (mpz_cmp(x2,*n._ZINTptr)>0){
 	  mp_grow(&alloc1,x2.used+2);
 	  mpz_set_ui(alloc1,0);
@@ -3045,7 +3045,7 @@ namespace giac {
 	  // x=f(x,k,n,q);
 	  mpz_mul(x2,x,x);
 	  mpz_add(x2k,x2,*k._ZINTptr);
-#ifdef USE_GMP_REPLACEMENTS
+#if 0 // def USE_GMP_REPLACEMENTS
 	  if (mpz_cmp(x2k,*n._ZINTptr)>0){
 	    mp_grow(&alloc1,x2k.used+2);
 	    mpz_set_ui(alloc1,0);
@@ -3079,7 +3079,7 @@ namespace giac {
 	// x=f(x,k,n,q);
 	mpz_mul(x2,x,x);
 	mpz_add(x2k,x2,*k._ZINTptr);
-#ifdef USE_GMP_REPLACEMENTS
+#if 0 // def USE_GMP_REPLACEMENTS
 	if (mpz_cmp(x2k,*n._ZINTptr)>0){
 	  mp_grow(&alloc1,x2k.used+2);
 	  mpz_set_ui(alloc1,0);
@@ -3098,7 +3098,7 @@ namespace giac {
 	  return -1;
 	// p=irem(x1-x,n,q);
 	mpz_sub(q,x1,x);
-#ifdef USE_GMP_REPLACEMENTS
+#if 0 // def USE_GMP_REPLACEMENTS
 	if (mpz_cmp(q,*n._ZINTptr)>0){
 	  mp_grow(&alloc1,q.used+2);
 	  mpz_set_ui(alloc1,0);

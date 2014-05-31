@@ -36,6 +36,9 @@ namespace giac {
   bool is_sqrt(const gen & a,gen & arg);
   gen select_root(const vecteur & v,GIAC_CONTEXT);
   bool is_known_rootof(const vecteur & v,gen & symroot,GIAC_CONTEXT);
+  gen horner_rootof(const vecteur & p,const gen & g,GIAC_CONTEXT);
+  bool has_rootof_value(const gen & Pmin,gen & value,GIAC_CONTEXT);
+
   gen alg_evalf(const gen & a,const gen &b,GIAC_CONTEXT);
   gen approx_rootof(const gen & e,GIAC_CONTEXT);
   gen common_EXT(gen & a,gen & b,const vecteur * l,GIAC_CONTEXT);

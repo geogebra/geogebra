@@ -105,9 +105,7 @@ namespace giac {
     */
   }
     
-  // "unary" version
-  gen _laplace(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
+  static gen _laplace_(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT)
       return laplace(args,vx_var,vx_var,contextptr);
     vecteur & v=*args._VECTptr;
@@ -117,6 +115,19 @@ namespace giac {
     if (s!=3)
       return gensizeerr(contextptr);
     return laplace( v[0],v[1],v[2],contextptr);    
+  }
+  // "unary" version
+  gen _laplace(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+#ifndef NSPIRE
+    my_ostream * ptr=logptr(contextptr);
+    logptr(0,contextptr);
+    gen res=_laplace_(args,contextptr);
+    logptr(ptr,contextptr);
+#else
+    gen res=_laplace_(args,contextptr);
+#endif
+    return res;
   }
   static const char _laplace_s []="laplace";
   static define_unary_function_eval (__laplace,&_laplace,_laplace_s);

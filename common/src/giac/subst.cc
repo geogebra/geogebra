@@ -728,7 +728,7 @@ namespace giac {
 	ef.subtype=e._SYMBptr->feuille.subtype;
 	if (quotesubst || e._SYMBptr->sommet.quoted() 
 	    // || e._SYMBptr->sommet==at_pow
-	    || (e._SYMBptr->sommet==at_pow && ef.type==_VECT && ef._VECTptr->size()==2 && !is_zero(ef._VECTptr->front()))
+	    || (e._SYMBptr->sommet==at_pow && ef.type==_VECT && ef._VECTptr->size()==2 && ef._VECTptr->front().type>_POLY && !is_zero(ef._VECTptr->front()))
 	    )
 	  return symbolic(e._SYMBptr->sommet,ef);
 	else

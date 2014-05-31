@@ -751,7 +751,7 @@ namespace giac {
     return gentypeerr(gettext("inv_EXT"));
   }
 
-  static gen horner_rootof(const vecteur & p,const gen & g,GIAC_CONTEXT){
+  gen horner_rootof(const vecteur & p,const gen & g,GIAC_CONTEXT){
     if (g.type==_SYMB && g._SYMBptr->feuille.type==_VECT && 
 	// false
 	int(g._SYMBptr->feuille._VECTptr->size())>max_sum_sqrt(contextptr)
@@ -763,6 +763,34 @@ namespace giac {
       res=ratnormal(res*g+*it);
     }
     return ratnormal(res);
+  }
+
+  bool has_rootof_value(const gen & Pmin,gen & value,GIAC_CONTEXT){
+    value=undef;
+    if (contextptr && contextptr->globalcontextptr->rootofs){
+      const vecteur & r=*contextptr->globalcontextptr->rootofs;
+      for (unsigned i=0;i<r.size();++i){
+	gen ri=r[i];
+	if (ri.type==_VECT && ri._VECTptr->size()==2 && Pmin.type==_VECT && ri._VECTptr->front().type==_VECT && *Pmin._VECTptr==*ri._VECTptr->front()._VECTptr){
+	  value=ri._VECTptr->back();
+	  return true;
+	}
+      }
+    }
+    return !is_undef(value);
+  }
+
+  static string printasrootof(const gen & g,const char * s,GIAC_CONTEXT){
+    if (contextptr && g.type==_VECT && g._VECTptr->size()==2){
+      gen value;
+      if (g._VECTptr->front().type==_VECT && has_rootof_value(g._VECTptr->back(),value,contextptr))
+	return horner_rootof(*g._VECTptr->front()._VECTptr,value,contextptr).print(contextptr);
+    }
+    string res(s);
+    res+='(';
+    res+=g.print(contextptr);
+    res+=')';
+    return res;
   }
 
   // rootof has 2 args: P(theta) and Pmin(theta)
@@ -832,7 +860,7 @@ namespace giac {
   partial_derivative_multiargs D_rootof(&d_rootof);
   */
   static const char _rootof_s []="rootof";
-  static define_unary_function_eval (__rootof,&giac::rootof,_rootof_s);
+  static define_unary_function_eval2 (__rootof,&giac::rootof,_rootof_s,&printasrootof);
   define_unary_function_ptr5( at_rootof ,alias_at_rootof,&__rootof,0,true);
 
   static vecteur sturm(const gen & g){

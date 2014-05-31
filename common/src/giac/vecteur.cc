@@ -8670,7 +8670,7 @@ namespace giac {
       }
 #else
       if (crunch && v[i].type==_FRAC){
-	gen g=evalf_double(v[i],60);
+	gen g=evalf_double(v[i],1,context0);
 	if (g.type!=_DOUBLE_)
 	  return false;
 	v1.push_back(g._DOUBLE_val);

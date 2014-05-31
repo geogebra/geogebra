@@ -3155,6 +3155,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     tabptr=new sym_tab; 
     globalcontextptr=this; previous=0; globalptr=new global; 
     quoted_global_vars=new vecteur;
+    rootofs=new vecteur;
     history_in_ptr=new vecteur;
     history_out_ptr=new vecteur;
 #ifdef HAVE_LIBPTHREAD
@@ -3176,6 +3177,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     tabptr=new sym_tab; 
     globalcontextptr=this; previous=0; globalptr=new global; 
     quoted_global_vars=new vecteur;
+    rootofs=new vecteur;
     history_in_ptr=new vecteur;
     history_out_ptr=new vecteur;
 #ifdef HAVE_LIBPTHREAD
@@ -3279,6 +3281,8 @@ extern "C" void Sleep(unsigned int miliSecond);
 	delete history_out_ptr;
       if (quoted_global_vars)
 	delete quoted_global_vars;
+      if (rootofs)
+	delete rootofs;
       if (globalptr)
 	delete globalptr;
       if (tabptr)

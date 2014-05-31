@@ -444,7 +444,7 @@ namespace giac {
       dp=subst(dp,X,XX+cst_i*XY,false,contextptr);
       dp=_resultant(gen(makevecteur(dp,XX*XX+XY*XY-1,XY),_SEQ__VECT),contextptr);
       if (is_undef(dp)) return false;
-      dp=gcd(re(dp,contextptr),im(dp,contextptr));
+      dp=gcd(re(dp,contextptr),im(dp,contextptr),contextptr);
       vecteur vdp=factors(dp,XX,contextptr);
       int vdps=vdp.size();
       for (int i=0;i<vdps;i+=2){
@@ -1026,7 +1026,7 @@ namespace giac {
 	      v0=v[i];
 	      gen v0arg=v0._SYMBptr->feuille;
 	      if (is_linear_wrt(v0arg,x,alphacur,betacur,contextptr) && is_integer( (periodecur=normal(alphacur*(b-a)/cst_two_pi/cst_i,contextptr)) )){
-		periode=gcd(periode,periodecur);
+		periode=gcd(periode,periodecur,contextptr);
 	      }
 	    }
 	  }
