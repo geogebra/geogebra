@@ -2162,13 +2162,19 @@ namespace giac {
 	  if (res.type==_VECT){
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v2=(*res._VECTptr)[i];
-	      gen res2=subst(eq1,var2,v2,false,contextptr);
-	      res2=_simplify(_solve(makesequence(symb_equal(res2,0),var1),contextptr),contextptr);
-	      gen res3=subst(eq2,var2,v2,false,contextptr);
-	      res3=_simplify(_solve(makesequence(symb_equal(res3,0),var1),contextptr),contextptr);
-	      res2=_intersect(makesequence(res2,res3),contextptr);
+	      gen res2=_simplify(subst(eq1,var2,v2,false,contextptr),contextptr);
+	      if (!is_zero(res2))
+		res2=_simplify(_solve(makesequence(symb_equal(res2,0),var1),contextptr),contextptr);
+	      gen res3=_simplify(subst(eq2,var2,v2,false,contextptr),contextptr);
+	      if (!is_zero(res3)){
+		res3=_simplify(_solve(makesequence(symb_equal(res3,0),var1),contextptr),contextptr);
+		if (is_zero(res2))
+		  res2=res3;
+		else
+		  res2=_intersect(makesequence(res2,res3),contextptr);
+	      }
 	      if (res2.type==_VECT){
-		for (unsigned j=0;j<res._VECTptr->size();++j)
+		for (unsigned j=0;j<res2._VECTptr->size();++j)
 		  V.push_back(makevecteur((*res2._VECTptr)[j],v2));
 	      }
 	    }
@@ -2181,13 +2187,19 @@ namespace giac {
 	  if (res.type==_VECT){
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v1=(*res._VECTptr)[i];
-	      gen res2=subst(eq1,var1,v1,false,contextptr);
-	      res2=_simplify(_solve(makesequence(symb_equal(res2,0),var2),contextptr),contextptr);
-	      gen res3=subst(eq2,var1,v1,false,contextptr);
-	      res3=_simplify(_solve(makesequence(symb_equal(res3,0),var2),contextptr),contextptr);
-	      res2=_intersect(makesequence(res2,res3),contextptr);
+	      gen res2=_simplify(subst(eq1,var1,v1,false,contextptr),contextptr);
+	      if (!is_zero(res2))
+		res2=_simplify(_solve(makesequence(symb_equal(res2,0),var2),contextptr),contextptr);
+	      gen res3=_simplify(subst(eq2,var1,v1,false,contextptr),contextptr);
+	      if (!is_zero(res3)){
+		res3=_simplify(_solve(makesequence(symb_equal(res3,0),var2),contextptr),contextptr);
+		if (is_zero(res2))
+		  res2=res3;
+		else
+		  res2=_intersect(makesequence(res2,res3),contextptr);
+	      }
 	      if (res2.type==_VECT){
-		for (unsigned j=0;j<res._VECTptr->size();++j)
+		for (unsigned j=0;j<res2._VECTptr->size();++j)
 		  V.push_back(makevecteur(v1,(*res2._VECTptr)[j]));
 	      }
 	    }
