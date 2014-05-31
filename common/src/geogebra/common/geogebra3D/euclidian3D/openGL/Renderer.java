@@ -1041,13 +1041,31 @@ public abstract class Renderer {
 	protected int oldGeoToPickSize;
 	protected int geoToPickSize = EuclidianView3D.DRAWABLES_NB;
 
-
+	/**
+	 * add one geo to pick count
+	 */
 	public void addOneGeoToPick() {
 		geoToPickSize++;
 	}
 
+	/**
+	 * removes one geo to pick count
+	 */
 	public void removeOneGeoToPick() {
 		geoToPickSize--;
+		/*
+		 * if (geoToPickSize<0) App.printStacktrace("");
+		 */
+
+	}
+	
+	/**
+	 * removes geos to pick count
+	 * @param length count substracted
+	 */
+	public void removeGeosToPick(int length) {
+		//App.debug(geoToPickSize+" - "+length+" = "+(geoToPickSize-length));
+		geoToPickSize -= length;
 		/*
 		 * if (geoToPickSize<0) App.printStacktrace("");
 		 */

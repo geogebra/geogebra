@@ -1,15 +1,20 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
-import geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Class for drawing quadrics.
- * @author matthieu
+ * @author mathieu
  *
  */
-public class DrawQuadric3DLimited extends Drawable3DList {
+public class DrawQuadric3DLimited extends Drawable3D {
+	
+	private DrawConic3D drawBottom, drawTop;
+	private DrawQuadric3DPart drawSide;
 
 	/**
 	 * common constructor
@@ -18,34 +23,200 @@ public class DrawQuadric3DLimited extends Drawable3DList {
 	 */
 	public DrawQuadric3DLimited(EuclidianView3D view3d, GeoQuadric3DLimited geo) {
 		super(view3d, geo);
-
-		int index = 0;
-		index = addToDrawableList(geo.getBottom(), index);
-		index = addToDrawableList(geo.getTop(), index);
-		addToDrawableList(geo.getSide(), index);
+		
+		drawBottom = new DrawConic3D(view3d, geo.getBottom());
+		drawTop = new DrawConic3D(view3d, geo.getTop());
+		drawSide = new DrawQuadric3DPart(view3d, geo.getSide());
 			
+		// for hightlight
+		drawBottom.setCreatedByDrawList(this);
+		drawTop.setCreatedByDrawList(this);
+		drawSide.setCreatedByDrawList(this);
 
 	}
 	
-	private int addToDrawableList(GeoElement geo, int index){
-		if (geo.isLabelSet()){
-			return index;
-		}
+
+	
+	//drawing
+
+	@Override
+	public void drawGeometry(Renderer renderer) {
 		
-		drawables.addToDrawableList(geo, 0, 0, this);		
-		return index + 1;
-		
+		// no need
 	}
-
-
+	
 	
 	@Override
-	protected boolean updateForItSelf() {
+	public void drawOutline(Renderer renderer) {
 		
-		//no update here : bottom, top and side will update appart
- 	  	return true;
+		drawBottom.drawOutline(renderer);
+		drawTop.drawOutline(renderer);		
+
 	}
 	
+
+	
+	
+	@Override
+	public void drawGeometryHidden(Renderer renderer){
+		
+		// not used
+	}
+	
+	@Override
+	public void drawHidden(Renderer renderer){
+		drawBottom.drawHidden(renderer);
+		drawTop.drawHidden(renderer);		
+
+	}
+	
+    @Override
+    protected void drawGeometryForPicking(Renderer renderer, PickingType type){
+		drawBottom.drawGeometryForPicking(renderer, type);
+		drawTop.drawGeometryForPicking(renderer, type);
+		drawSide.drawGeometryForPicking(renderer, type);		
+	}
+	
+
+	
+	
+	@Override
+	public int getPickOrder(){
+		return DRAW_PICK_ORDER_2D; 
+	}	
+	
+	
+
+
+	@Override
+	public void addToDrawable3DLists(Drawable3DLists lists){
+
+		addToDrawable3DLists(lists,DRAW_TYPE_SURFACES);
+		addToDrawable3DLists(lists,DRAW_TYPE_CURVES);
+		
+	}
+
+	@Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
+
+		removeFromDrawable3DLists(lists,DRAW_TYPE_SURFACES);
+		removeFromDrawable3DLists(lists,DRAW_TYPE_CURVES);
+
+	}
+    
+    
+	
+	
+	@Override
+	protected boolean updateForItSelf(){
+		
+		// no need
+		return true;
+		
+	}
+	
+	
+
+	@Override
+	protected void updateForView(){
+		
+		// no need
+	}
+	
+	@Override
+	public void update(){
+		
+		drawBottom.update();
+		drawTop.update();
+		drawSide.update();
+	}
+	
+	@Override
+	public void setWaitForUpdateVisualStyle(){
+		
+		drawBottom.setWaitForUpdateVisualStyle();
+		drawTop.setWaitForUpdateVisualStyle();
+		drawSide.setWaitForUpdateVisualStyle();
+	}
+
+	@Override
+	public void setWaitForUpdate(){
+		
+		drawBottom.setWaitForUpdate();
+		drawTop.setWaitForUpdate();
+		drawSide.setWaitForUpdate();
+	}
+	
+	
+	@Override
+	public void setWaitForReset(){
+		
+		drawBottom.setWaitForReset();
+		drawTop.setWaitForReset();
+		drawSide.setWaitForReset();
+	}
+
+	@Override
+	public void drawNotTransparentSurface(Renderer renderer) {
+		
+		drawBottom.drawNotTransparentSurface(renderer);
+		drawTop.drawNotTransparentSurface(renderer);
+		drawSide.drawNotTransparentSurface(renderer);		
+	}
+
+
+
+	@Override
+	public void drawTransp(Renderer renderer) {
+
+		drawBottom.drawTransp(renderer);
+		drawTop.drawTransp(renderer);
+		drawSide.drawTransp(renderer);		
+	}
+
+
+
+	@Override
+	public void drawHiding(Renderer renderer) {
+
+		drawBottom.drawHiding(renderer);
+		drawTop.drawHiding(renderer);
+		drawSide.drawHiding(renderer);		
+		
+	}
+
+
+
+	@Override
+	public boolean isTransparent() {
+		if (getPickingType() == PickingType.SURFACE){
+			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE;
+		}
+		
+		return false;
+	}
+
+
+
+	@Override
+	protected double getColorShift() {
+		return COLOR_SHIFT_SURFACE;
+	}
+
+
+	
+	
+	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
+	
+	@Override
+	public void setPickingType(PickingType type){
+		lastPickingType = type;
+	}
+	
+	@Override
+	public PickingType getPickingType(){
+		return lastPickingType;
+	}
 	
 
 

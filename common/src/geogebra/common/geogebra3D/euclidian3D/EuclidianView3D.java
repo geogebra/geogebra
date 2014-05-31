@@ -41,8 +41,8 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DOld;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DList;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DLists;
+import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -310,7 +310,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private void start() {
 
-		drawable3DLists = new Drawable3DLists(this);
+		drawable3DLists = new Drawable3DListsForView(this);
 		drawable3DListToBeAdded = new LinkedList<Drawable3D>();
 		drawable3DListToBeRemoved = new LinkedList<Drawable3D>();
 
@@ -571,11 +571,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				break;
 
 			case QUADRIC_LIMITED:
-				// if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()){
-				// create drawable when side is not explicitely created (e.g. in
-				// sequence)
-				d = new DrawQuadric3DLimited(this, (GeoQuadric3DLimited) geo);
-				// }
+				if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()){
+					// create drawable when side is not explicitely created (e.g. in sequence, or with transformation)
+					d = new DrawQuadric3DLimited(this, (GeoQuadric3DLimited) geo);
+				}
 				break;
 
 			case POLYHEDRON:
@@ -1224,33 +1223,30 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			Drawable3D d = drawable3DMap.get(geo);
 			// drawable3DLists.remove(d);
 			remove(d);
-
-			// for Drawable3DList : remove all 3D drawables linked to it
-			// if (geo.isGeoList()){
-			if (d != null && d instanceof Drawable3DList) {
-				removeDrawable3DList((Drawable3DList) d);
-			}
-			// }
+//
+//			if (d != null && d instanceof Drawable3DList) {
+//				removeDrawable3DList((Drawable3DList) d);
+//			}
 		}
 
 		drawable3DMap.remove(geo);
 		geosToBeAdded.remove(geo);
 	}
 
-	private void removeDrawable3DList(Drawable3DList d) {
-		for (DrawableND d1 : d.getDrawables3D()) {
-			if (d1.createdByDrawList()) {
-				remove((Drawable3D) d1);
-				removeFromDrawable3DList(d1);
-			}
-		}
-	}
-
-	private void removeFromDrawable3DList(DrawableND d) {
-		if (d instanceof Drawable3DList) {
-			removeDrawable3DList((Drawable3DList) d);
-		}
-	}
+//	private void removeDrawable3DList(Drawable3DList d) {
+//		for (DrawableND d1 : d.getDrawables3D()) {
+//			if (d1.createdByDrawList()) {
+//				remove((Drawable3D) d1);
+//				removeFromDrawable3DList(d1);
+//			}
+//		}
+//	}
+//
+//	private void removeFromDrawable3DList(DrawableND d) {
+//		if (d instanceof Drawable3DList) {
+//			removeDrawable3DList((Drawable3DList) d);
+//		}
+//	}
 
 	/**
 	 * remove the drawable d

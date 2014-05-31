@@ -2,6 +2,8 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -11,10 +13,14 @@ import geogebra.common.kernel.geos.GeoList;
  * @author matthieu
  *
  */
-public class DrawList3D extends Drawable3DList {
+public class DrawList3D extends Drawable3D {
 	
 	private GeoList geoList;	
 	private boolean isVisible;
+	
+	private Drawable3DListsForDrawList3D drawable3DLists;
+	
+	private DrawList3DArray drawables;
 
 	/**
 	 * common constructor
@@ -23,14 +29,20 @@ public class DrawList3D extends Drawable3DList {
 	 */
 	public DrawList3D(EuclidianView3D view3D, GeoList geo) {
 		super(view3D, geo);
+		drawables = new DrawList3DArray(view3D, this);
 		this.geoList = geo;
+		drawable3DLists = new Drawable3DListsForDrawList3D(view3D);
 	}
 
 	@Override
 	protected boolean updateForItSelf() {
+		
+		//App.debug("LIST -- "+getGeoElement());
 				
 		isVisible = geoList.isEuclidianVisible();
     	if (!isVisible) return true;    	
+    	
+    	//getView3D().removeGeoToPick(drawables.size());
     	
     	// go through list elements and create and/or update drawables
     	int size = geoList.size();
@@ -40,11 +52,6 @@ public class DrawList3D extends Drawable3DList {
     	int drawablePos = 0;
     	for (int i=0; i < size; i++) {    		
     		GeoElement listElement = geoList.get(i);
-    		
-    		//Application.debug(listElement.toString()+", "+listElement.hasDrawable3D());
-    		
-    		//if (!listElement.isDrawable())  continue;
-    		
     		// only new 3D elements are drawn 
     		if (!listElement.hasDrawable3D())
     			continue;
@@ -53,31 +60,219 @@ public class DrawList3D extends Drawable3DList {
     		if (drawables.addToDrawableList(listElement, drawablePos, oldDrawableSize, this))
     			drawablePos++;
     		
-    	}    
+    	}   
     	
-    	// remove end of list
-    	for (int i=drawables.size()-1; i >= drawablePos; i--) {     
-    		DrawableND d = drawables.get(i);
-    		if (d.createdByDrawList()) {//sets the drawable to not visible
-    			d.setCreatedByDrawListVisible(false);
-    		}
-    		
-    	}
-    	
+		// remove end of list
+		for (int i = drawables.size() - 1; i >= drawablePos; i--) {
+			//getView3D().remove(drawables.get(i).getGeoElement());
+			drawable3DLists.remove((Drawable3D) drawables.get(i));
+			drawables.remove(i);
+			getView3D().removeOneGeoToPick();
+			
+		}
+
+ 		// update for list of lists
+		for (int i = 0; i < drawables.size(); i++) {
+			Drawable3D d = (Drawable3D) drawables.get(i);
+			if (/*createdByDrawList() ||*/ !d.getGeoElement().isLabelSet()) {
+				if (d.waitForUpdate()){
+					d.update();
+				}
+			}
+		}
+		
+		
     	return true;
+	}
+	
+	
+	@Override
+	protected void updateForView() {
+		int size = drawables.size();
+		for (int i = 0; i < size; i++) {
+			Drawable3D d = (Drawable3D) drawables.get(i);
+			if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
+				d.updateForView();
+			}
+		}
 	}
 
 
+//	@Override
+//	public void setCreatedByDrawListVisible(boolean flag) {
+//		for (DrawableND d : drawables){
+//			d.setCreatedByDrawListVisible(flag);
+//		}
+//
+//		super.setCreatedByDrawListVisible(flag);
+//		
+//	}
+	
+	
 	@Override
-	public void setCreatedByDrawListVisible(boolean flag) {
-		for (DrawableND d : drawables){
-			d.setCreatedByDrawListVisible(flag);
-		}
+	public void addToDrawable3DLists(Drawable3DLists lists){
+		addToDrawable3DLists(lists,DRAW_TYPE_LISTS);
+	}
+    
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
+    	removeFromDrawable3DLists(lists,DRAW_TYPE_LISTS);
+    }
+    
 
-		super.setCreatedByDrawListVisible(flag);
+
+	
+	/**
+	 * 
+	 * @return drawable lists
+	 */
+	public Drawable3DListsForDrawList3D getDrawable3DLists(){
+		return drawable3DLists;
+	}
+	
+	
+	
+	
+	
+	@Override
+	public void drawOutline(Renderer renderer) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void drawNotTransparentSurface(Renderer renderer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawGeometry(Renderer renderer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawGeometryHidden(Renderer renderer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawHidden(Renderer renderer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawHiding(Renderer renderer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawTransp(Renderer renderer) {
+		// TODO Auto-generated method stub
 		
 	}
 	
+	@Override
+	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
+
+		// not picked as drawable
+		return null;
+		
+	}
+
+	@Override
+	public void drawLabel(Renderer renderer){
+		// TODO ?
+	}
+	
+	
+	@Override
+	public boolean drawLabelForPicking(Renderer renderer){
+		return false;
+	}
+
+
+    
+    
+	@Override
+	public boolean isTransparent() {
+		return false;
+	}
+
+
+	
+	
+	@Override
+	protected void updateLabel(){
+		//no label for 3D lists
+	}
+
+	
+
+	@Override
+	protected double getColorShift(){
+		return COLOR_SHIFT_NONE; //not needed here
+	}
+	
+	@Override
+	public void setWaitForUpdateVisualStyle(){
+		
+		super.setWaitForUpdateVisualStyle();
+		for (DrawableND d : drawables){
+			d.setWaitForUpdateVisualStyle();
+		}
+		
+		//also update for e.g. line width
+		setWaitForUpdate();
+	}	
+	
+	@Override
+	public void setWaitForReset(){
+	
+		super.setWaitForReset();
+		for (DrawableND d : drawables){
+			((Drawable3D) d).setWaitForReset();
+		}
+	}
+	
+	
+//	@Override
+//	public void setWaitForUpdate(){
+//		
+//		super.setWaitForUpdate();
+//		for (DrawableND d : drawables){
+//			d.setWaitForUpdate();
+//		}
+//	}
+	
+	
+
+	@Override
+	protected Drawable3D getDrawablePicked(Drawable3D drawableSource){
+		
+		pickOrder = drawableSource.getPickOrder();
+		pickingType = drawableSource.getPickingType();
+		
+		return super.getDrawablePicked(drawableSource);
+	}
+	
+
+	private int pickOrder = DRAW_PICK_ORDER_MAX;
+	
+	@Override
+	public int getPickOrder() {
+		return pickOrder;
+	}
+	
+	private PickingType pickingType = PickingType.POINT_OR_CURVE;
+
+	@Override
+	public PickingType getPickingType(){
+		return pickingType;
+	}
 	
 
 	

@@ -4,7 +4,6 @@ import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.draw.DrawListArray;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Class for storing 3D drawables includes in a DrawList
@@ -15,36 +14,60 @@ import geogebra.common.kernel.geos.GeoElement;
 public class DrawList3DArray extends DrawListArray {
 
 	private static final long serialVersionUID = 1L;
+	
+	private DrawList3D drawList3D;
 
 	/**
 	 * common constructor
-	 * @param view
+	 * @param view view
+	 * @param drawList3D drawable for the list calling
 	 */
-	public DrawList3DArray(EuclidianViewInterfaceCommon view) {
+	public DrawList3DArray(EuclidianViewInterfaceCommon view, DrawList3D drawList3D) {
 		super(view);
+		this.drawList3D = drawList3D;
 	}
 	
 
     @Override
 	protected void update(DrawableND d){
-		d.setWaitForUpdate();
-		if (d.createdByDrawList())
-			d.setCreatedByDrawListVisible(true);
+    	
+    	
+    	if (d instanceof Drawable3D){
+    		//((Drawable3D) d).setWaitForReset();
+    		((Drawable3D) d).setWaitForUpdate();
+    	}
+		d.update();
+		
+    	
+		
+//		d.setWaitForUpdate();
+//		if (d.createdByDrawList())
+//			d.setCreatedByDrawListVisible(true);
     }
 	
 	
-    @Override
-	protected DrawableND createDrawableND(GeoElement listElement){
-    	//Application.debug(listElement.toString());
-    	DrawableND d = super.createDrawableND(listElement);
-    	((EuclidianView3D) view).addToDrawable3DLists((Drawable3D) d);
-    	return d;  
-    }
+//    @Override
+//	protected DrawableND createDrawableND(GeoElement listElement){
+//    	//Application.debug(listElement.toString());
+//    	DrawableND d = super.createDrawableND(listElement);
+//    	((EuclidianView3D) view).addToDrawable3DLists((Drawable3D) d);
+//    	return d;  
+//    }
+//    
+//	@Override
+//	protected DrawableND getDrawable(DrawableND oldDrawable, GeoElement listElement, DrawableND drawList) {
+//		((EuclidianView3D) view).remove((Drawable3D) oldDrawable);
+//		return super.getDrawable(oldDrawable, listElement, drawList);
+//	}
     
-	@Override
-	protected DrawableND getDrawable(DrawableND oldDrawable, GeoElement listElement, DrawableND drawList) {
-		((EuclidianView3D) view).remove((Drawable3D) oldDrawable);
-		return super.getDrawable(oldDrawable, listElement, drawList);
-	}
+    
+    @Override
+	public void add(int pos, DrawableND d){
+    	super.add(pos, d);
+    	if (!(d instanceof DrawList3D)){
+    		((EuclidianView3D) view).addOneGeoToPick();
+    	}
+    	drawList3D.getDrawable3DLists().add((Drawable3D) d);
+    }
 
 }
