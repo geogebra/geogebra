@@ -81,11 +81,20 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
     	webGLCanvas = Canvas.createIfSupported();
 
+    	createGLContext();
+    	
+    	
+    }
+    
+    /**
+     * create the webGL context
+     */
+    protected void createGLContext(){
+    	
     	glContext = (WebGLRenderingContext) webGLCanvas.getContext("experimental-webgl");
     	if(glContext == null) {
     		Window.alert("Sorry, Your Browser doesn't support WebGL!");
     	}
-    	
     	
     }
     
@@ -96,12 +105,22 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     public void setView(int x, int y, int w, int h) {        
 		webGLCanvas.setCoordinateSpaceWidth(w);
         webGLCanvas.setCoordinateSpaceHeight(h);
-        glContext.viewport(0, 0, w, h);
+        setGLViewPort(w, h);
         
         super.setView(x, y, w, h);
         
         start();
         
+	}
+	
+	
+	/**
+	 * set GL view port width and height
+	 * @param w width
+	 * @param h height
+	 */
+	protected void setGLViewPort(int w, int h){
+		glContext.viewport(0, 0, w, h);
 	}
 	
 	
@@ -118,7 +137,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	}
 	
 
-	private void start() {
+	protected void start() {
 
 		loopTimer = new Timer() {
 			@Override
@@ -1337,7 +1356,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 	@Override
-	final public void disableTextures(){
+	public void disableTextures(){
 		texturesEnabled = false;
 		setCurrentTextureType(TEXTURE_TYPE_NONE);
 		glContext.disableVertexAttribArray(textureAttribute);
@@ -1394,7 +1413,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	private int currentTextureType = TEXTURE_TYPE_NONE;
 	private int oldTextureType = TEXTURE_TYPE_NONE;
 	
-	private void setCurrentTextureType(int type){
+	protected void setCurrentTextureType(int type){
 		currentTextureType = type;
 		glContext.uniform1i(textureTypeLocation, type);
 	}

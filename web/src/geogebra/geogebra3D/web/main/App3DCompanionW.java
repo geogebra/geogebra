@@ -121,9 +121,7 @@ public class App3DCompanionW extends App3DCompanion {
 	 * recalculates views environments.
 	 */
 	public void recalculateEnvironments() {
-		if(euclidianViewForPlaneCompanionList == null){
-			return;
-		}
+
 		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
 			vfpc.getView().getEuclidianController().calculateEnvironment();
 		}
@@ -133,9 +131,7 @@ public class App3DCompanionW extends App3DCompanion {
 	 * update view for plane sizes
 	 */
 	public void updateViewSizes(){
-		if(euclidianViewForPlaneCompanionList == null){
-			return;
-		}
+
 		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
 			((EuclidianViewForPlaneW) vfpc.getView()).getDockPanel().deferredOnResize();
 		}
