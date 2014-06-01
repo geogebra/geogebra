@@ -2155,11 +2155,11 @@ namespace giac {
 #if 1 // ATESTER
       if (arg1.type==_VECT && arg1._VECTptr->size()==2 && v[1].type==_VECT && v[1]._VECTptr->size()==2){
 	gen eq1(arg1._VECTptr->front()),eq2(arg1._VECTptr->back()),var1(v[1]._VECTptr->front()),var2(v[1]._VECTptr->back()),a,b,c,d;
-	if (is_linear_wrt(eq1,var1,a,b,contextptr) && is_linear_wrt(eq2,var1,c,d,contextptr)){
+	if (is_linear_wrt(eq1,var1,a,b,contextptr) && is_linear_wrt(eq2,var1,c,d,contextptr) && lvarxwithinv(makevecteur(a,b,c,d),var2,contextptr).size()>1 && !is_zero(recursive_normal(a*d-b*c,contextptr))){
 	  // a*var1+b=c*var1+d=0 => b*c-a*d=0
 	  vecteur V;
 	  gen res=_solve(makesequence(symb_equal(a*d,b*c),var2),contextptr);
-	  if (res.type==_VECT){
+	  if (res.type==_VECT && !res._VECTptr->empty()){
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v2=(*res._VECTptr)[i];
 	      gen res2=_simplify(subst(eq1,var2,v2,false,contextptr),contextptr);
@@ -2178,13 +2178,13 @@ namespace giac {
 		  V.push_back(makevecteur((*res2._VECTptr)[j],v2));
 	      }
 	    }
-	  }
-	  return V;
+	    return V;
+	  } // if res.type==_VECT ...
 	}
-	if (is_linear_wrt(eq1,var2,a,b,contextptr) && is_linear_wrt(eq2,var2,c,d,contextptr)){
+	if (is_linear_wrt(eq1,var2,a,b,contextptr) && is_linear_wrt(eq2,var2,c,d,contextptr) && lvarxwithinv(makevecteur(a,b,c,d),var1,contextptr).size()>1 && !is_zero(recursive_normal(a*d-b*c,contextptr))){
 	  vecteur V;
 	  gen res=_solve(makesequence(symb_equal(a*d,b*c),var1),contextptr);
-	  if (res.type==_VECT){
+	  if (res.type==_VECT && !res._VECTptr->empty()){
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v1=(*res._VECTptr)[i];
 	      gen res2=_simplify(subst(eq1,var1,v1,false,contextptr),contextptr);
@@ -2203,8 +2203,8 @@ namespace giac {
 		  V.push_back(makevecteur(v1,(*res2._VECTptr)[j]));
 	      }
 	    }
-	  }
-	  return V;	  
+	    return V;
+	  } // if res.type==_VECT
 	}
       }
       if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
