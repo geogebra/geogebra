@@ -3725,9 +3725,10 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 .inspectorTable td {
   border: 1px solid #BBBBBB;
   padding: 3px;
+  min-width: 50px;	
 }
 
-.InspectorTableHeader gwt-Label {
+.inspectorTableHeader {
 	font-weight: bold;
 }
 

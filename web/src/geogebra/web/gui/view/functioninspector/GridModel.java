@@ -10,11 +10,11 @@ public class GridModel {
 		void updateHeader(int col, String title);
 		void updateCell(int col, int row, String value);
 		void addRow(List<String> row);
-		void addCell(int row);
 		void removeCell(int row);
 		
 		void removeAllRows();
 		void setHeaders(String[] names);
+		void appendColumn(String name);
 	}
 
 	private IGridListener listener;
@@ -130,12 +130,7 @@ public class GridModel {
 	public void addColumn(String name) {
 		columnCount++;
 		headers.add(name);
-		int row = 0;
-		for (List<String> rowData: data) {
-			rowData.add("");
-			listener.addCell(row);
-			row++;
-		}
+		listener.appendColumn(name);
     }
 	
 	public void removeLastColumn() {

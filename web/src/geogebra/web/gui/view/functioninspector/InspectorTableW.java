@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 
 
 public class InspectorTableW extends FlexTable implements IGridListener {
+	private static final int HEADER_ROW = 0;
 	private GridModel model;
 	private int selectedRow;
 	public InspectorTableW(int col) {
@@ -22,22 +23,29 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 
 	private void createHeader() {
 		for (int col=0; col < getModel().getColumnCount(); col++) {
-			Label label = new Label("column" + col);
-			label.setStyleName("InspectorTableHeader");
-			setWidget(0, col, label);
+			updateHeader(col, "");
 		}
 	}
 
 	public void updateHeader(int col, String title) {
-		updateCell(col, 0, title);
-	}
+		setCellLabel(HEADER_ROW, col, "InspectorTableHeader", "");
+    }
 
-	public void updateCell(int col, int row, String value) {
+	public void updateCell(int row, int col, String value) {
 		Label label = (Label)getWidget(row, col);
-		label.setText(value);
+		if (label != null) {
+			label.setText(value);
+		} else {
+			setCellLabel(row, col, "inspectorTableData", value);
+		}
 
 	}
 
+	protected void setCellLabel(int row, int col, String style, String value) {
+		Label label = new Label(value);
+		label.setStyleName(style);
+		setWidget(row, col, label);
+	}
 	public GridModel getModel() {
 	    return model;
     }
@@ -49,9 +57,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	public void addRow(List<String> row) {
 		int numRows = getRowCount();
 		int col = 0;
-		for (String cell: row) {
-			Label label = new Label(cell);
-			setWidget(numRows, col, label);
+		for (String cellText: row) {
+			setCellLabel(numRows + 1 , col, "inspectorTableData", cellText);
 			col++;
 		}
     }
@@ -75,6 +82,12 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 
 	public void removeCell(int row) {
 	    removeCell(row, model.getColumnCount() - 1);
+    }
+
+	public void appendColumn(String name) {
+		int col = getCellCount(0);
+		updateHeader(col, name);
+		
     }
 
 }
