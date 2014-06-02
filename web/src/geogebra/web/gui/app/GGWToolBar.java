@@ -15,7 +15,7 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -129,7 +129,8 @@ public class GGWToolBar extends Composite {
 		redoButton.addStyleName("redoButton");
 		//redoButton.getElement().addClassName("button");
 		redoButton.setTitle("Redo");
-		redoButton.setVisible(false);
+		redoButton.setWidth("0px");
+		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
 		undoButton = new StandardButton(GuiResources.INSTANCE.button_undo());
 		//undoButton.getElement().appendChild(undoImage.getElement());
@@ -662,30 +663,26 @@ public class GGWToolBar extends Composite {
 
 	public void updateUndoActions() {
 		this.undoButton.setEnabled(app.getKernel().undoPossible());
-		final boolean redo = app.getKernel().redoPossible();
-		if(redo!=this.redoPossible ){
-		final int start = redo ? 0 : 60;
-		final int coeff = redo ? 1 : -1;
-		if(!redo){
-      		GGWToolBar.this.redoButton.setVisible(redo);
-      	}
-		new Timer() {
-	        private int steps = 0;
 
-	        public void run() {
-	          undoButton.getElement().getStyle().setMarginRight(start + coeff * steps * 3, Unit.PX);
-	          steps++;
-	          if (steps > 20){
-	        	GGWToolBar.this.undoButton.getElement().getStyle().setMarginRight(0, Unit.PX);
-	          	if(redo){
-	          		GGWToolBar.this.redoButton.setVisible(redo);
-	          	}
-	          	GGWToolBar.this.redoPossible = redo;
-	            cancel();
-	          }
-	        }
-	      }.scheduleRepeating(20);
+		final boolean redo = app.getKernel().redoPossible();
+		this.redoButton.setEnabled(redo);
+		if (redo != this.redoPossible) {
+			this.redoPossible = redo;
+			final int start = redo ? 0 : 40;
+			final int coeff = redo ? 1 : -1;
+
+			new Timer() {
+				private int steps = 0;
+
+				public void run() {
+					redoButton.setWidth((start + coeff * steps * 2) + "px");
+					steps++;
+					if (steps > 20) {
+						cancel();
+					}
+				}
+			}.scheduleRepeating(20);
 		}
-		
-    }
+
+	}
 }
