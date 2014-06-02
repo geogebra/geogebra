@@ -178,7 +178,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		int pointLength = polygon.getPointsLength();
 		
-		if (pointLength<3 /*|| Kernel.isZero(polygon.getArea())*/){ //no polygon
+		if (pointLength<3){ //no polygon
 			setSurfaceIndex(-1);
 			return true;
 		}
@@ -203,14 +203,29 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		// surface
 		int index = renderer.startPolygons();
-		Coords n = polygon.getMainDirection();
-		//App.debug(polygon+"\n"+n);
-		/*
-		if (polygon.getReverseNormalForDrawing()){
-			n = n.mul(-1);
-		}
-		*/
+
+		drawPolygon(renderer, polygon, vertices);
+		 
+
 		
+		renderer.endPolygons();
+		
+		setSurfaceIndex(index);				
+		
+		return true;
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @param renderer GL renderer
+	 * @param polygon polygon
+	 * @param vertices vertices of the polygon
+	 */
+	static final public void drawPolygon(Renderer renderer, GeoPolygon polygon, Coords[] vertices){
+		
+		Coords n = polygon.getMainDirection();
 		
 		PolygonTriangulation pt = new PolygonTriangulation(polygon);
 		try{
@@ -221,8 +236,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				Convexity convexity = pt.checkIsConvex();
 				if(convexity != Convexity.NOT){
 					boolean reverse = polygon.getReverseNormalForDrawing() ^ (convexity == Convexity.CLOCKWISE);
-					//App.debug(polygon+" : "+reverse+" = "+polygon.getReverseNormalForDrawing()+" , "+convexity);
-					//reverse = false;
 					renderer.getGeometryManager().drawPolygonConvex(n, vertices, reverse);
 				}else{
 					// set intersections (if needed) and divide the polygon into non self-intersecting polygons
@@ -245,15 +258,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			App.debug(e.getMessage());
 			e.printStackTrace();
 		}
-		 
-
-		
-		renderer.endPolygons();
-		
-		setSurfaceIndex(index);				
-		
-		return true;
-		
 	}
 	
 	

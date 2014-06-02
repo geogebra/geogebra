@@ -8,7 +8,6 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -211,19 +210,16 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 			
 		int pointLength = polygon.getPointsLength();
 		
-		if (pointLength<3 || Kernel.isZero(polygon.getArea())){ //no polygon
+		if (pointLength<3){ //no polygon
 			return;
 		}
 		
-		Coords n = polygon.getMainDirection();
-		if (polygon.getReverseNormalForDrawing()){
-			n = n.mul(-1);
-		}
 		Coords[] vertices = new Coords[pointLength];
 		for(int i=0;i<pointLength;i++){
 			vertices[i] = polygon.getPoint3D(i);
 		}
-		renderer.drawPolygon(n, vertices);
+		
+		DrawPolygon3D.drawPolygon(renderer, polygon, vertices);
 		
 	}
 	
