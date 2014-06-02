@@ -1383,6 +1383,14 @@ public abstract class Drawable3D extends DrawableND {
 		return zPickNear;
 	}
 	
+	/**
+	 * Note that z are positive in direction to the eye
+	 * @return far z value from last picking
+	 */
+	final public double getZPickFar(){
+		return zPickFar;
+	}
+	
 	
 	
 	private class TraceSettings implements Comparable<TraceSettings>{

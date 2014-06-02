@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.kernel.geos.GeoElement;
@@ -98,15 +99,6 @@ public class DrawList3D extends Drawable3D {
 	}
 
 
-//	@Override
-//	public void setCreatedByDrawListVisible(boolean flag) {
-//		for (DrawableND d : drawables){
-//			d.setCreatedByDrawListVisible(flag);
-//		}
-//
-//		super.setCreatedByDrawListVisible(flag);
-//		
-//	}
 	
 	
 	@Override
@@ -274,6 +266,37 @@ public class DrawList3D extends Drawable3D {
 		return pickingType;
 	}
 	
+	
+	
+	@Override
+	protected boolean hit(Hitting hitting){
+		
+		boolean ret = false;
+		
+		double listZNear = Double.NEGATIVE_INFINITY;
+		double listZFar = Double.NEGATIVE_INFINITY;
+		for (DrawableND d : drawables){
+			final Drawable3D d3d = (Drawable3D) d;
+			if (d3d.hit(hitting)){
+				double zNear = d3d.getZPickNear();
+				double zFar = d3d.getZPickFar();
+				if (!ret || zNear > listZNear){
+					listZNear = zNear;
+					listZFar = zFar;
+					pickingType = d3d.getPickingType();
+					pickOrder = d3d.getPickOrder();
+					ret = true;
+				}
+			}
+		}
+		
+		if (ret){
+			setZPick(listZNear, listZFar);
+		}
+		
+		return ret;
+		
+	}
 
 	
 }
