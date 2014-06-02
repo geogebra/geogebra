@@ -85,8 +85,11 @@ public class InspectorTableW extends FlexTable implements IGridListener {
     }
 
 	public void appendColumn(String name) {
-		int col = getCellCount(0);
+		int col = getCellCount(0) + 1;
 		updateHeader(col, name);
+		for (int row = 1; row < getRowCount(); row++) {
+			setCellLabel(row, col, "inspectorTableData", "");
+		}
 		
     }
 
