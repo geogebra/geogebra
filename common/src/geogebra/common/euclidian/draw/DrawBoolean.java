@@ -256,35 +256,7 @@ public final class DrawBoolean extends Drawable {
             
             {
                 // outer bevel
-                if (true) {
-                    /*// Outer top/left
-                    g.setColor(AwtFactory.prototype.newColor(128,128,128));
-                    g.drawLine(x, y, x + (csize-2), y);
-                    g.drawLine(x, y + 1, x, y + (csize-2));
-
-                    // Outer bottom/right
-                    g.setColor(GColor.white);
-                    g.drawLine(x + (csize-1), y, x + (csize-1), y + (csize-1));
-                    g.drawLine(x, y + (csize-1), x + (csize-2), y + (csize-1));
-
-                    // Inner top.left
-                    g.setColor(AwtFactory.prototype.newColor(64,64,64));
-                    g.drawLine(x + 1, y + 1, x + (csize-3), y + 1);
-                    g.drawLine(x + 1, y + 2, x + 1, y + (csize-3));
-
-                    // Inner bottom/right
-                    g.setColor(AwtFactory.prototype.newColor(212,208,200));
-                    g.drawLine(x + 1, y + (csize-2), x + (csize-2), y + (csize-2));
-                    g.drawLine(x + (csize-2), y + 1, x + (csize-2), y + (csize-3));
-
-                    // inside box 
-                    if (highlighted) {
-                        g.setColor(highlightBackground);
-                    } else {
-                        g.setColor(GColor.white);
-                    }
-                    g.fillRect(x + 2, y + 2, csize - 4, csize - 4);*/
-                	
+                if (true) {               	
                 	// Draw rounded border
                 	g.setColor(AwtFactory.prototype.newColor(220, 220, 220));
                 	g.drawRoundRect(x, y, csize, csize, csize/5, csize/5);
@@ -301,19 +273,18 @@ public final class DrawBoolean extends Drawable {
                 g.setColor(AwtFactory.prototype.newColor(102, 102, 102));
 
                 // paint check
-                g.setStroke( AwtFactory.prototype.newBasicStroke(4f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
                 
                 if (checked) {
                   if (csize == 13)
                   {
-                	  g.setStroke(AwtFactory.prototype.newBasicStroke(2f));
+                	  g.setStroke(AwtFactory.prototype.newBasicStroke(2f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
                 	  g.drawLine(x + 2, y + 7, x + 5, y + 10);
                 	  g.drawLine(x + 5, y + 10, x + 10, y + 3);
                     
                   }
                   else
                   { // csize == 26              	  
-                	  g.setStroke(AwtFactory.prototype.newBasicStroke(4f));
+                	  g.setStroke(AwtFactory.prototype.newBasicStroke(4f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
                 	  g.drawLine(x + 5, y + 15, x + 10, y + 20);
                 	  g.drawLine(x + 10, y + 20, x + 20, y + 6);
                 	  
