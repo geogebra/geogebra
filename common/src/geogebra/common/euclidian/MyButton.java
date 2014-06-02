@@ -23,9 +23,9 @@ public class MyButton implements Observer{
 	private boolean selected;
 	private String text;
 	
-	private final static int margin = 5;
+	private final static int margin = 10;
 	private final static int minSize = 24;
-	private final static int arcSize = 9;
+	private final static int arcSize = 10;
 	private GFont font;
 	private boolean pressed, draggedOrContext;
 	private float textHeight;
@@ -95,7 +95,7 @@ public class MyButton implements Observer{
 			return;
 		}
 		
-		int currentWidth = Math.max((int) (textWidth + 2 * margin), minSize);
+		int currentWidth = Math.max((int) (textWidth + 4 * margin), minSize);
 		currentWidth = Math.max(currentWidth, imgWidth + 2 * margin);
 		
 		
@@ -152,17 +152,18 @@ public class MyButton implements Observer{
 		if (bg == null)
 			bg = geogebra.common.awt.GColor.lightGray;
 		if (isSelected()) {
+			/*bg2 = bg;
+			bg = bg.darker();*/
 			bg2 = bg;
-			bg = bg.darker();
 		} else {
 			bg2 = bg.brighter();
 		}
 		if (!pressed) {
 			p = geogebra.common.factories.AwtFactory.prototype
-					.newGradientPaint(x, y, bg2, x, y + getHeight(), bg);
+					.newGradientPaint(x, y, bg2, x, y + (getHeight()/2), bg);
 		} else {
 			p = geogebra.common.factories.AwtFactory.prototype
-					.newGradientPaint(x, y, bg, x, y + getHeight(), bg2);
+					.newGradientPaint(x, y, bg.darker(), x, y + getHeight(), bg);
 		}
 		geogebra.common.awt.GPaint oldPaint = g.getPaint();
 
@@ -213,7 +214,7 @@ public class MyButton implements Observer{
 			textWidth = t.getAdvance();
 		} 
 		
-		while (i > 0 && (int) textWidth +2 * margin > geoButton.getWidth()){
+		while (i > 0 && (int) textWidth + 4 * margin > geoButton.getWidth()){
 			i--;
 			font = font.deriveFont(font.getStyle(), (int)(GeoText.getRelativeFontSize(i) * 12));
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
