@@ -7641,6 +7641,12 @@ public abstract class EuclidianController {
 
 	protected void wrapMouseDragged(AbstractEvent event) {
 		
+		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY + lastMousePressedTime){
+			// we wait at least DRAGGING_DELAY (100ms) before starting drag
+			// used for interactive boards
+			return;
+		}
+		
 		scriptsHaveRun = false; 
 		
 		if (isTextfieldHasFocus() && moveMode != MOVE_BUTTON) {
@@ -8662,10 +8668,6 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMouseReleased(final AbstractEvent event){
-		
-		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY + lastMousePressedTime){
-			draggingOccured = false;
-		}
 		
 		int x = event.getX();
 		int y = event.getY();
