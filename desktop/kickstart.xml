@@ -211,18 +211,11 @@ download libs for other architectures than the current one.
 	</target>
 	
 	<!-- download ecj -->
-	<target name="ecj-eclipse">
-	<mkdir dir="lib/build"/>
-	<get 
-	    src="http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.6.2-201102101200/ecj-3.6.2.jar&amp;url=http://ftp.wh2.tu-dresden.de/pub/mirrors/eclipse/eclipse/downloads/drops/R-3.6.2-201102101200/ecj-3.6.2.jar&amp;mirror_id=324"
-	    dest="lib/build/ecj-3.6.2.jar" usetimestamp="true"/>
-	</target>
-	
 	<target name="ecj-geogebra">
 	<mkdir dir="lib/build"/>
 	<get 
-	    src="http://dev.geogebra.org/download/lib/build/ecj-3.6.2.jar"
-	    dest="lib/build/ecj-3.6.2.jar" usetimestamp="true"/>
+	    src="http://dev.geogebra.org/download/lib/build/ecj-4.3.2.jar"
+	    dest="lib/build/ecj-4.3.2.jar" usetimestamp="true"/>
 	</target>
 	
 	<!-- FIXME: this file is not applicable for Mac builds!
