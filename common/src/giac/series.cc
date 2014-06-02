@@ -1684,6 +1684,14 @@ namespace giac {
       else
 	s=sparse_poly1(1,monome(1,undef));
     }
+    // truncate s 
+    for (unsigned i=0;i<s.size();++i){
+      if (is_strictly_greater(s[i].exponent,ordre,contextptr)){
+	s[i].coeff=undef;
+	if (i<s.size()-1)
+	  s.erase(s.begin()+i+1,s.end());
+      }
+    }
     return s;
   }
 

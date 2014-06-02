@@ -7330,7 +7330,7 @@ namespace giac {
   }
 
   gen equal(const gen & a,const gen &b,GIAC_CONTEXT){
-    if (a.type==_VECT && b.type==_VECT){
+    if (a.type==_VECT && b.type==_VECT && !b._VECTptr->empty()){
       if (a._VECTptr->size()==b._VECTptr->size())
 	return apply(a,b,contextptr,equal);
       return apply2nd(a,b,contextptr,equal);

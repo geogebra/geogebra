@@ -7214,6 +7214,8 @@ namespace giac {
   define_unary_function_ptr5( at_similitude ,alias_at_similitude,&__similitude,0,true);
 
   static gen translationpoint(const gen & a,const gen & b,GIAC_CONTEXT){
+    if (has_i(a) || (a.type==_VECT && a._VECTptr->size()>3))
+      return gensizeerr(contextptr);
     return a+b;
   }
   
