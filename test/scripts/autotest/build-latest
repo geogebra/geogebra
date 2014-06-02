@@ -15,7 +15,7 @@ MYDIR=$SVNDIR/geogebra/test/scripts/autotest
  find -name '*.gwt.xml' -delete
  $SVN_COMMAND --force update --accept theirs-full
  cd desktop; ant -f kickstart.xml geogebra5-developer-commandline; cd ..
- cd jogl1; ant -f kickstart.xml; cd ..
+ cd jogl2; ant -f kickstart.xml; cd ..
  cd web; ant -f kickstart.xml geogebraweb-developer-commandline; cd ..
  cd $MYDIR
  ./build-desktop
