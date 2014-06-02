@@ -11,9 +11,10 @@ import geogebra.web.main.AppW;
 public class GridPopup extends PopupMenuButton {
 
 	public GridPopup(AppW app, ImageOrText[] data, int rows,
-            int columns, GDimensionW iconSize, SelectionTable mode,
-            boolean hasTable, boolean hasSlider) {
-	    super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
+            int columns, SelectionTable mode,
+            int initial) {
+	    super(app, data, rows, columns, new GDimensionW(32,32), mode, true, false);
+	    this.setIcon(data[initial]);
 	    // TODO Auto-generated constructor stub
     }
 	

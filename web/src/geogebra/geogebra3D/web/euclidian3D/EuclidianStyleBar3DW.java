@@ -66,7 +66,6 @@ private PopupMenuButton btnRotateView, btnClipping;
 	
 	
 	private void setIcon(PopupMenuButton button, ImageResource icon){
-		button.setIconSize(new GDimensionW(icon.getWidth(), iconHeight)); 
 		AppResourcesConverter.setIcon(icon, button); 
 	}
 	

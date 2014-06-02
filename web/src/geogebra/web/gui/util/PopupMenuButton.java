@@ -63,12 +63,6 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		return myTable;
 	}
 
-	private GDimensionW iconSize;
-
-	public void setIconSize(GDimensionW iconSize) {
-		this.iconSize = iconSize;
-	}
-
 	private boolean hasTable;
 	
 	// flag to determine if the popup should persist after a mouse click
@@ -129,7 +123,6 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		this.app = app;
 		this.hasTable = hasTable;		
 		this.mode = mode;
-		this.iconSize = iconSize;
 		this.thisButton = this;
 
 		//this.setFocusable(false);
@@ -291,15 +284,6 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if (isFixedIcon) {			
 			super.setIcon(icon);
 			return;
-		}
-
-		if (iconSize == null) {
-			if (icon != null) {
-				//TODO
-				//iconSize = new GDimensionW(icon.getWidth(), icon.getHeight());
-			} else {
-				iconSize = new GDimensionW(1,1);
-			}
 		}
 
 		if (icon == null) {

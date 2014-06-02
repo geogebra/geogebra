@@ -714,8 +714,8 @@ public class EuclidianStyleBarW extends StyleBarW
 			grids[i] = GeoGebraIcon.createGridStyleIcon(
 					EuclidianStyleBarStatic.pointStyleArray[i]);
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
-				new GDimensionW(32,32),geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				true, false);
+				geogebra.common.gui.util.SelectionTable.MODE_ICON,
+				gridIndex());
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addPopupHandler(this);
 
@@ -874,7 +874,6 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 		};
 		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
-		btnLabelStyle.setIconSize(new GDimensionW(ic.getWidth(), iconHeight));
 		//must be done with callback btnLabelStyle.setIcon(ic);
 		AppResourcesConverter.setIcon(ic, btnLabelStyle);
 		btnLabelStyle.addActionListener(this);
@@ -907,8 +906,6 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		//it is not needed, must be an Image preloaded like others. 
 		ImageResource ptCaptureIcon = StyleBarResources.INSTANCE.magnet();
-		btnPointCapture.setIconSize(new GDimensionW(ptCaptureIcon.getWidth(), 
-				iconHeight)); 
 		//must be done in callback btnPointCapture.setIcon(ptCaptureIcon); 
 		AppResourcesConverter.setIcon(ptCaptureIcon, btnPointCapture); 
 		//btnPointCapture.addActionListener(this);
