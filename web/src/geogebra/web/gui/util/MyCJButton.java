@@ -213,11 +213,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	public void addClickHandler(ClickHandler handler) {
 		button.addClickHandler(handler);
 	}
-	
-	protected void addMouseEntered(MouseOverHandler hanlder) {
-		button.addMouseOverHandler(hanlder);
-	}
-	
+
 	protected void addBlurHandler(BlurHandler handler) {
 		button.addDomHandler(handler,BlurEvent.getType());
 	}

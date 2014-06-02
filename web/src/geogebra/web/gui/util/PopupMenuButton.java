@@ -148,7 +148,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				
 				onClickAction();
 				
-				if(prepareToShowPopup() == false) {
+				if(prepareToShowPopup(event) == false) {
 					return;
 				}
 
@@ -314,7 +314,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	//	myTable.setSelectedIndex(mode);
 	//}
 
-	public boolean prepareToShowPopup(){
+	public boolean prepareToShowPopup(ClickEvent event){
 		return true;
 	}
 	

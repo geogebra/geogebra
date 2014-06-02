@@ -715,7 +715,7 @@ public class EuclidianStyleBarW extends StyleBarW
 					EuclidianStyleBarStatic.pointStyleArray[i]);
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
 				geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				gridIndex());
+				ev);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addPopupHandler(this);
 
@@ -1251,7 +1251,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnShowAxes.addValueChangeHandler(this);
 
 		btnShowGrid.removeActionListener(this);
-		btnShowGrid.setSelectedIndex(gridIndex());
+		btnShowGrid.setSelectedIndex(gridIndex(ev));
 		btnShowGrid.addActionListener(this);
 
 		btnStandardView.removeValueChangeHandler();
@@ -1259,18 +1259,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnStandardView.addValueChangeHandler(this);
 	}
 
-	private int gridIndex() {
-	    if(!ev.getShowGrid()){
-	    	return 0;
-	    }
-	    if(ev.getGridType() == EuclidianView.GRID_POLAR){
-	    	return 2;
-	    }
-	    if(ev.getGridType() == EuclidianView.GRID_ISOMETRIC){
-	    	return 3;
-	    }
-	    return 1;
-    }
+	
 
 
 	public void onValueChange(ValueChangeEvent event) {
@@ -1375,7 +1364,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 		}else if (source == btnShowGrid) {
 			if (btnShowGrid.getSelectedValue() != null) {
-				setGridType(btnShowGrid.getSelectedIndex());
+				setGridType(ev, btnShowGrid.getSelectedIndex());
 
 			}
 		} else if (source == btnPointStyle) {
@@ -1410,8 +1399,8 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
 	}
 	
-	private void setGridType(int val) {
-		EuclidianSettings evs = this.ev.getSettings();
+	public static void setGridType(EuclidianView ev, int val) {
+		EuclidianSettings evs = ev.getSettings();
 	    if(val == 0){
 	    	evs.showGrid(false);
 	    }else{
@@ -1483,5 +1472,16 @@ public class EuclidianStyleBarW extends StyleBarW
 	}
 
 
-	
+	public static int gridIndex(EuclidianView ev) {
+	    if(!ev.getShowGrid()){
+	    	return 0;
+	    }
+	    if(ev.getGridType() == EuclidianView.GRID_POLAR){
+	    	return 2;
+	    }
+	    if(ev.getGridType() == EuclidianView.GRID_ISOMETRIC){
+	    	return 3;
+	    }
+	    return 1;
+    }
 }
