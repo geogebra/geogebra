@@ -13,8 +13,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -24,7 +22,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
 	private geogebra.common.gui.util.SelectionTable mode;
 	private ImageOrText[] data;	
-	private AppW app;
+	protected AppW app;
 	private PopupMenuButton thisButton;
 	private ButtonPopupMenu myPopup;
 	
@@ -92,7 +90,6 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 
 	private boolean isIniting = true;	
-	protected boolean popupIsVisible;
 	
 	/*#***********************************
 	/** Button constructors */
@@ -158,11 +155,6 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				
 				onClickAction();
 				
-				if(popupIsVisible == true && !myPopup.isVisible()){
-					popupIsVisible = false;
-					return;
-				}
-				
 				if(prepareToShowPopup() == false) {
 					return;
 				}
@@ -189,16 +181,10 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 					myPopup.getFocusPanel().getElement().focus();
 				//}
 
-				popupIsVisible = myPopup.isShowing();
 			}
 		});
 		
-		addMouseEntered(new MouseOverHandler() {
-			
-			public void onMouseOver(MouseOverEvent event) {
-				popupIsVisible = myPopup.isShowing();
-			}
-		});
+	
 		
 		
 		

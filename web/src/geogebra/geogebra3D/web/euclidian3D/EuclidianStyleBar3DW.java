@@ -215,7 +215,7 @@ private PopupMenuButton btnRotateView, btnClipping;
 	private class PopupMenuButtonForView3D extends PopupMenuButton /*implements ClickHandler*/{
 
 		public PopupMenuButtonForView3D(){
-			super((AppW) app, null, -1, -1, new GDimensionW(20, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true);
+			super((AppW)EuclidianStyleBar3DW.this.app, null, -1, -1, new GDimensionW(20, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true);
 		}
 
 		@Override

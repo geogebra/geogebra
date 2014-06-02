@@ -53,6 +53,11 @@ public class GeoGebraIcon extends BasicIcons{
 		(LafIcons.point_down()),
 		(LafIcons.point_right()),
 		(LafIcons.point_left())};
+	private static ImageResource[] gridStyleIcons =  {
+		(LafIcons.axes()),
+		(LafIcons.grid()),
+		(LafIcons.polar_grid()),
+		(LafIcons.isometric_grid())};
 	private static ImageResource[] lineStyleIcons = {
 		(LafIcons.line_solid()),
 		(LafIcons.line_dashed_long()),
@@ -70,6 +75,13 @@ public class GeoGebraIcon extends BasicIcons{
 	public static ImageOrText createPointStyleIcon(int pointStyle, int pointSize, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
 		ret.url = pointStyleIcons[pointStyle].getSafeUri().asString();
+		return ret;
+    
+    }
+	
+	public static ImageOrText createGridStyleIcon(int pointStyle) {
+		ImageOrText ret = new ImageOrText();
+		ret.url = gridStyleIcons[pointStyle].getSafeUri().asString();
 		return ret;
     
     }

@@ -60,7 +60,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianController ec;
 	protected EuclidianView ev;
-	protected App app;
+	protected AppW app;
 	private Construction cons;
 
 	protected HashMap<Integer, Integer> defaultGeoMap;
@@ -159,7 +159,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	// buttons and lists of buttons
 	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
 
-	private PopupMenuButton btnPointStyle, btnTextSize, btnMode;
+	private PopupMenuButton btnPointStyle, btnTextSize, btnMode, btnShowGrid;
 	private EuclidianLineStylePopup btnLineStyle;
 	PopupMenuButton btnTableTextJustify;
 
@@ -171,7 +171,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	private MyToggleButton2[] btnDeleteSizes=new MyToggleButton2[3];
 
-	private MyToggleButton2 btnCopyVisualStyle, btnPen, btnShowGrid,
+	private MyToggleButton2 btnCopyVisualStyle, btnPen, 
 	btnShowAxes, btnStandardView;
 
 	MyToggleButton2 btnBold;
@@ -224,7 +224,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		this.ev = ev;
 		ec = ev.getEuclidianController();
-		app = ev.getApplication();
+		app = (AppW) ev.getApplication();
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
@@ -536,7 +536,6 @@ public class EuclidianStyleBarW extends StyleBarW
 	
 	protected void setActionCommands(){
 		setActionCommand(btnShowAxes, "showAxes");
-		setActionCommand(btnShowGrid, "showGrid");
 		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
@@ -617,14 +616,14 @@ public class EuclidianStyleBarW extends StyleBarW
 	}
 
 	protected MyToggleButton2[] newToggleBtnList() {
-		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen, btnShowGrid,
+		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen, 
 				btnShowAxes, btnStandardView, btnBold, btnItalic, btnDelete, btnLabel,
 				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
 				btnTableTextLinesH, btnDeleteSizes[0],btnDeleteSizes[1],btnDeleteSizes[2] };
 	}
 	
 	protected PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
+		return new PopupMenuButton[] { btnShowGrid, btnColor, btnBgColor, btnTextColor,
 		        btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
 		        btnTableTextBracket, btnLabelStyle, btnPointCapture
 		         };
@@ -710,9 +709,15 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// ========================================
 		// show grid button
-		btnShowGrid = new MyToggleButtonForEV(StyleBarResources.INSTANCE.grid(), iconHeight);
+		ImageOrText[] grids = new ImageOrText[4];
+		for (int i = 0; i < 4; i++)
+			grids[i] = GeoGebraIcon.createGridStyleIcon(
+					EuclidianStyleBarStatic.pointStyleArray[i]);
+		btnShowGrid = new GridPopup(app, grids, -1, 4,
+				new GDimensionW(32,32),geogebra.common.gui.util.SelectionTable.MODE_ICON,
+				true, false);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
-		btnShowGrid.addValueChangeHandler(this);
+		btnShowGrid.addPopupHandler(this);
 
 		btnStandardView = new MyToggleButtonForEV(StyleBarResources.INSTANCE.standard_view(), iconHeight);
 		btnStandardView.addValueChangeHandler(this);
@@ -725,7 +730,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		LineStylePopup.setMode(mode);
 		EuclidianLineStylePopup.fillData(iconHeight);
-		btnLineStyle = new EuclidianLineStylePopup((AppW) app, LineStylePopup.getLineStyleIcons(), -1, 5,
+		btnLineStyle = new EuclidianLineStylePopup(app, LineStylePopup.getLineStyleIcons(), -1, 5,
 				 geogebra.common.gui.util.SelectionTable.MODE_ICON,
 				true, true);
 
@@ -738,7 +743,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnLineStyle.addPopupHandler(this);
 
 		// create button
-		btnPointStyle = PointStylePopup.create((AppW)app, iconHeight, mode, true,
+		btnPointStyle = PointStylePopup.create(app, iconHeight, mode, true,
 				new PointStyleModel(null));
 
 		btnPointStyle.getMySlider().setMinimum(1);
@@ -810,7 +815,7 @@ public class EuclidianStyleBarW extends StyleBarW
 				app.getPlain("Caption") // index 3
 		});
 
-		btnLabelStyle = new PopupMenuButton((AppW) app, captionArray, -1, 1,
+		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -883,7 +888,7 @@ public class EuclidianStyleBarW extends StyleBarW
 				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
 				app.getMenu("off") });
 
-		btnPointCapture = new PopupMenuButton((AppW) app, strPointCapturing, -1, 1, 
+		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1, 
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -933,7 +938,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		private void createColorButton() {
 
 			final GDimensionW colorIconSize = new GDimensionW(20, iconHeight);
-			btnColor = new ColorPopupMenuButton((AppW) app, colorIconSize,
+			btnColor = new ColorPopupMenuButton(app, colorIconSize,
 					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 				@Override
@@ -1010,7 +1015,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 			final GDimensionW bgColorIconSize = new GDimensionW(20, iconHeight);
 
-			btnBgColor = new ColorPopupMenuButton((AppW) app, bgColorIconSize,
+			btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
 					ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
 
 				@Override
@@ -1072,7 +1077,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		// text color button
 		final GDimensionW textColorIconSize = new GDimensionW(24, iconHeight);
 
-		btnTextColor = new ColorPopupMenuButton((AppW) app, textColorIconSize,
+		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			private geogebra.common.awt.GColor geoColor;
@@ -1177,7 +1182,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		ImageOrText[] textSizeArray = ImageOrText.convert(app.getLocalization().getFontSizeStrings());
 
-		btnTextSize = new PopupMenuButton((AppW) app, textSizeArray, -1, 1,
+		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
 				new GDimensionW(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -1248,14 +1253,28 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
-		btnShowGrid.removeValueChangeHandler();
-		btnShowGrid.setSelected(ev.getShowGrid());
-		btnShowGrid.addValueChangeHandler(this);
+		btnShowGrid.removeActionListener(this);
+		btnShowGrid.setSelectedIndex(gridIndex());
+		btnShowGrid.addActionListener(this);
 
 		btnStandardView.removeValueChangeHandler();
 		btnStandardView.setSelected(false);
 		btnStandardView.addValueChangeHandler(this);
 	}
+
+	private int gridIndex() {
+	    if(!ev.getShowGrid()){
+	    	return 0;
+	    }
+	    if(ev.getGridType() == EuclidianView.GRID_POLAR){
+	    	return 2;
+	    }
+	    if(ev.getGridType() == EuclidianView.GRID_ISOMETRIC){
+	    	return 3;
+	    }
+	    return 1;
+    }
+
 
 	public void onValueChange(ValueChangeEvent event) {
 			Object source = event.getSource();
@@ -1357,6 +1376,11 @@ public class EuclidianStyleBarW extends StyleBarW
 				}
 
 			}
+		}else if (source == btnShowGrid) {
+			if (btnShowGrid.getSelectedValue() != null) {
+				setGridType(btnShowGrid.getSelectedIndex());
+
+			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
 				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
@@ -1389,6 +1413,28 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
 	}
 	
+	private void setGridType(int val) {
+		EuclidianSettings evs = this.ev.getSettings();
+	    if(val == 0){
+	    	evs.showGrid(false);
+	    }else{
+	    	evs.beginBatch();
+	    	evs.showGrid(true);
+	    	switch(val){
+	    	case 2:
+	    	evs.setGridType(EuclidianView.GRID_POLAR);
+		    	break ;
+		    
+	    	case 3:evs.setGridType(EuclidianView.GRID_ISOMETRIC);
+		    	break;
+		    default:evs.setGridType(EuclidianView.GRID_CARTESIAN);
+	    	}
+	    	evs.endBatch();
+	    }
+	    
+    }
+
+
 	private void setDelSize(int s){
 		ev.getSettings().setDeleteToolSize(EuclidianSettings.DELETE_SIZES[s]);
 		for(int i =0; i<3;i++){
