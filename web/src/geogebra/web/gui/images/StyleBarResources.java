@@ -18,6 +18,9 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_show_or_hide_the_polar_grid.png")
 	ImageResource polar_grid();
 	
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_show_or_hide_the_isometric_grid.png")
+	ImageResource isometric_grid();
+	
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_standardview.png")
 	ImageResource standard_view();
 	
