@@ -2328,7 +2328,7 @@ __GGB__keysVar.none.plain = {
     "Glasses": "Glasses",
     "GlobalJavaScript": "Global JavaScript",
     "GoToDownloadPage": "Go to download page",
-    "GraphicsView3D": "Graphics View 3D",
+    "GraphicsView3D": "3D Graphics",
     "GraphicsViewAsAsymptote": "Graphics View as Asymptote",
     "GraphicsViewForPlaneA": "View of %0",
     "GrayScale": "Gray-scale",

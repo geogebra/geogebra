@@ -2606,7 +2606,7 @@ __GGB__keysVar.it.plain = {
     "ShutDownGreen": "Ometti il canale verde",
     "Shutter": "Shutter",
     "SignInInProgress": "Accesso in corso",
-    "SignInSuccessful": "Registrazione avvenuta con successo",
+    "SignInSuccessful": "Registrazione avvenuta correttamente",
     "SignInToGGT": "Accedi a GeoGebraTube",
     "SignedInAsA": "Accesso come %0",
     "SimpleFormulas": "Formule semplici",

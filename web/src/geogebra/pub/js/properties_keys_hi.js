@@ -2328,7 +2328,7 @@ __GGB__keysVar.hi.plain = {
     "Glasses": "Glasses",
     "GlobalJavaScript": "\u0935\u0948\u0936\u094d\u0935\u093f\u0915 \u091c\u093e\u0935\u093e \u0938\u094d\u0915\u094d\u0930\u093f\u092a\u094d\u091f",
     "GoToDownloadPage": "\u0921\u093e\u0909\u0928\u0932\u094b\u0921 \u092a\u0947\u091c \u092a\u0930 \u091c\u093e\u092f\u0947\u0902",
-    "GraphicsView3D": "Graphics View 3D",
+    "GraphicsView3D": "3D Graphics",
     "GraphicsViewAsAsymptote": "\u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938 \u0935\u094d\u092f\u0941 \u0905\u0928\u0902\u0924\u0938\u094d\u092a\u0930\u094d\u0936\u0940 \u0915\u0947 \u0930\u0942\u092a \u092e\u0947\u0902",
     "GraphicsViewForPlaneA": "View of %0",
     "GrayScale": "Gray-scale",

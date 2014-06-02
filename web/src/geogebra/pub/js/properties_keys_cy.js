@@ -2328,7 +2328,7 @@ __GGB__keysVar.cy.plain = {
     "Glasses": "Glasses",
     "GlobalJavaScript": "JavaScript Bydgyfan",
     "GoToDownloadPage": "Ewch i'r dudalen lawrlwytho",
-    "GraphicsView3D": "Graphics View 3D",
+    "GraphicsView3D": "3D Graphics",
     "GraphicsViewAsAsymptote": "Gwedd Graffeg fel Asymptote",
     "GraphicsViewForPlaneA": "View of %0",
     "GrayScale": "Gray-scale",
