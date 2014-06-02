@@ -4579,14 +4579,6 @@ $.fn.mathquillggb = function(cmd, latex) {
   }
 };
 
-//on document ready, MathQuillGGB-ify all `<tag class="MathQuillGGB-*">latex</tag>`
-//elements according to their CSS class.
-$(function() {
-  $('.mathquillggb-editable:not(.mathquillggb-rendered-math)').mathquillggb('editable');
-  $('.mathquillggb-textbox:not(.mathquillggb-rendered-math)').mathquillggb('textbox');
-  $('.mathquillggb-eqnarray:not(.mathquillggb-rendered-math)').mathquillggb('eqnarray');
-  $('.mathquillggb-embedded-latex').mathquillggb();
-});
 //set back the original namespace
 jQuery.noConflict(true);
 }());
