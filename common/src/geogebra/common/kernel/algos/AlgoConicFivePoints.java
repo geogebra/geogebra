@@ -398,7 +398,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     }
 
     private boolean shouldInvert(double d) {
-		return !Kernel.isZero(d) && Math.abs(d) < MULTIPLIER_MIN || Math.abs(d) > MULTIPLIER_MAX;
+		return (!Kernel.isZero(d) && Math.abs(d) < MULTIPLIER_MIN) || Math.abs(d) > MULTIPLIER_MAX;
 	}
 
 	// compute degenerate conic from lines a, b
