@@ -15,9 +15,11 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -45,6 +47,9 @@ public class GGWToolBar extends Composite {
 	
 	private FlowPanel rightButtonPanel;
 	private StandardButton openSearchButton, openMenuButton;
+	StandardButton undoButton;
+	private StandardButton redoButton;
+	private boolean redoPossible = false;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -113,7 +118,7 @@ public class GGWToolBar extends Composite {
 	private void addUndoPanel(){
 
 		//Image redoImage = new Image(GuiResources.INSTANCE.button_redo());
-		StandardButton redoButton = new StandardButton(GuiResources.INSTANCE.button_redo());
+		redoButton = new StandardButton(GuiResources.INSTANCE.button_redo());
 		//redoButton.getElement().appendChild(redoImage.getElement());
 		redoButton.addFastClickHandler(new FastClickHandler(){
 			@Override
@@ -124,9 +129,9 @@ public class GGWToolBar extends Composite {
 		redoButton.addStyleName("redoButton");
 		//redoButton.getElement().addClassName("button");
 		redoButton.setTitle("Redo");
-	
+		redoButton.setVisible(false);
 		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
-		StandardButton undoButton = new StandardButton(GuiResources.INSTANCE.button_undo());
+		undoButton = new StandardButton(GuiResources.INSTANCE.button_undo());
 		//undoButton.getElement().appendChild(undoImage.getElement());
 		undoButton.addFastClickHandler(new FastClickHandler(){
 			@Override
@@ -138,7 +143,7 @@ public class GGWToolBar extends Composite {
 		//undoButton.getElement().addClassName("button");
 		undoButton.setTitle("Undo");
 		//toolBarPanel.add(redoButton);
-		
+		updateUndoActions();
 		rightButtonPanel.add(undoButton);
 		rightButtonPanel.add(redoButton);
 			
@@ -653,5 +658,34 @@ public class GGWToolBar extends Composite {
 			this.rightButtonPanel.removeFromParent();
 			this.addRightButtonPanel();
 		}
+    }
+
+	public void updateUndoActions() {
+		this.undoButton.setEnabled(app.getKernel().undoPossible());
+		final boolean redo = app.getKernel().redoPossible();
+		if(redo!=this.redoPossible ){
+		final int start = redo ? 0 : 60;
+		final int coeff = redo ? 1 : -1;
+		if(!redo){
+      		GGWToolBar.this.redoButton.setVisible(redo);
+      	}
+		new Timer() {
+	        private int steps = 0;
+
+	        public void run() {
+	          undoButton.getElement().getStyle().setMarginRight(start + coeff * steps * 3, Unit.PX);
+	          steps++;
+	          if (steps > 20){
+	        	GGWToolBar.this.undoButton.getElement().getStyle().setMarginRight(0, Unit.PX);
+	          	if(redo){
+	          		GGWToolBar.this.redoButton.setVisible(redo);
+	          	}
+	          	GGWToolBar.this.redoPossible = redo;
+	            cancel();
+	          }
+	        }
+	      }.scheduleRepeating(20);
+		}
+		
     }
 }

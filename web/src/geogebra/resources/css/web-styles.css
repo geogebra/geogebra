@@ -903,6 +903,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: hand;
 }
 
+.button-up-disabled,
 .MyToggleButton.gwt-ToggleButton-up-disabled,
 .MyToggleButton.gwt-ToggleButton-down-disabled {
 	cursor: default;

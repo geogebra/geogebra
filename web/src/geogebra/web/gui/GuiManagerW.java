@@ -158,6 +158,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if (ggwMenuBar != null) {
 			ggwMenuBar.getMenubar().updateSelection();
 		}
+		if(getToolbarPanel() != null){
+			getToolbarPanel().updateUndoActions();
+		}
 	}
 
 	public DialogManager getDialogManager() {
