@@ -16,7 +16,7 @@ public abstract class MyZoomer {
 	/**
 	 * Tick of the timer
 	 */
-	protected static final int DELAY = 10;
+	public static final int DELAY = 10;
 
 	private static final int MAX_TIME = 400; // millis
 

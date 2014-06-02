@@ -2,6 +2,7 @@ package geogebra.geogebra3D.web.euclidian3D.openGL;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -139,13 +140,17 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	protected void start() {
 
+		((EuclidianView3DW) view3D).setReadyToRender();
+
 		loopTimer = new Timer() {
 			@Override
 			public void run() {
-				drawScene();
+				if (view3D.isAnimated()){
+					view3D.repaintView();
+				}
 			}
 		}; 
-		loopTimer.scheduleRepeating(10);
+		loopTimer.scheduleRepeating(MyZoomer.DELAY);
 
 	}
 	
@@ -301,7 +306,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	}
 
 	@Override
-    protected void drawScene(){
+    public void drawScene(){
 		
 		super.drawScene();
 		 

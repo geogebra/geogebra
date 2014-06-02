@@ -263,13 +263,30 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		}
 		
 	}
+	
+	
+	private boolean readyToRender = false;
+	
+	/**
+	 * tells the view that all is ready for GL rendering
+	 */
+	public void setReadyToRender(){
+		readyToRender = true;
+		repaintView();
+	}
 
 	@Override
     public void repaint() {
-	    // TODO Auto-generated method stub
-	    
+	    if (readyToRender){
+	    	renderer.drawScene();
+	    }
     }
+	
+	@Override
+	public void repaintView() {
 
+		repaint();
+	}
 
 
 	@Override
@@ -516,7 +533,6 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	public Canvas getCanvas() {
 	    return g2p.getCanvas();
     }
-	
 	
 	
 

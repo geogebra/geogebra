@@ -45,7 +45,7 @@ public class RendererWnoWebGL extends RendererW{
 	}
 
 	@Override
-	protected void drawScene(){
+	public void drawScene(){
 		// no webGL context here...
 	}
 

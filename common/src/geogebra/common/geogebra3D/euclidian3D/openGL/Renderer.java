@@ -148,7 +148,7 @@ public abstract class Renderer {
 	/**
 	 * draw the scene
 	 */
-	protected void drawScene(){
+	public void drawScene(){
     	
     	//update 3D controller
     	((EuclidianController3D) view3D.getEuclidianController()).updateInput3D();

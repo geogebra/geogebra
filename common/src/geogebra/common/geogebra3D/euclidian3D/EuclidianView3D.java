@@ -1424,7 +1424,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	// ////////////////////////////////////////////////
 
 	/** tells if the view is under animation */
-	private boolean isAnimated() {
+	public boolean isAnimated() {
 		return animatedScale || isRotAnimated();
 	}
 

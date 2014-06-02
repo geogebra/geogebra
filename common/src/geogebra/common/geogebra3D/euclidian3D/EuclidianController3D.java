@@ -1463,6 +1463,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// for next mouse move process
 		mouseEvent = e;
 		mouseMoved = true;
+		
+		// needed for non-animated renderers
+		view3D.repaintView();
 
 	}
 
@@ -1626,6 +1629,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, mouseLoc.y
 				- startLoc.y, MOVE_ROTATE_VIEW);
 		viewRotationOccured = true;
+		view.repaintView();
 		return true;
 	}
 
