@@ -4159,7 +4159,7 @@ public abstract class EuclidianController {
 
 
 
-	protected AlgoDispatcher getAlgoDispatcher() {
+	public AlgoDispatcher getAlgoDispatcher() {
 		return kernel.getAlgoDispatcher();
 	}
 
@@ -9566,7 +9566,7 @@ public abstract class EuclidianController {
 	
 	private boolean wheelZoomingOccurred = false;
 
-	protected void checkZooming() {
+	public void checkZooming() {
 		checkZooming(false);
 	}
 

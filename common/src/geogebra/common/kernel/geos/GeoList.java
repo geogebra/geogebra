@@ -2823,5 +2823,16 @@ AngleProperties {
 		// Mathieu Blossier - 2009-06-30
 		return getLabel(StringTemplate.defaultTemplate);
 	}
+	
+	@Override
+	public boolean isGeoElement3D() {
+		for (GeoElement geo : geoList){
+			if (geo.isGeoElement3D()){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 }

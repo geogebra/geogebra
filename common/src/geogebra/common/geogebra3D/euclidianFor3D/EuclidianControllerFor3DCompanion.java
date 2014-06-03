@@ -7,6 +7,7 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -442,6 +443,21 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 		}
 		
 		return super.circumcircleSector(p1, p2, p3);
+	}
+	
+	@Override
+	protected void processModeLock(Path path) {
+
+		if (path.isGeoElement3D()){
+			ec.checkZooming();
+			GeoPointND p = ec.getKernel().getManager3D().Point3D(null, path, ec.xRW, ec.yRW, 0, false, true);
+			p.update();
+			Coords v = p.getInhomCoordsInD(3);
+			ec.xRW = v.getX();
+			ec.yRW = v.getY();
+		}else{
+			super.processModeLock(path);
+		}
 	}
 	
 
