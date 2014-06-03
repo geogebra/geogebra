@@ -8,7 +8,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 /**
  * Class for storing 3D drawables includes in a DrawList
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class DrawList3DArray extends DrawListArray {
@@ -33,32 +33,15 @@ public class DrawList3DArray extends DrawListArray {
     	
     	
     	if (d instanceof Drawable3D){
-    		//((Drawable3D) d).setWaitForReset();
     		((Drawable3D) d).setWaitForUpdate();
     	}
 		d.update();
 		
     	
-		
-//		d.setWaitForUpdate();
-//		if (d.createdByDrawList())
-//			d.setCreatedByDrawListVisible(true);
     }
 	
 	
-//    @Override
-//	protected DrawableND createDrawableND(GeoElement listElement){
-//    	//Application.debug(listElement.toString());
-//    	DrawableND d = super.createDrawableND(listElement);
-//    	((EuclidianView3D) view).addToDrawable3DLists((Drawable3D) d);
-//    	return d;  
-//    }
-//    
-//	@Override
-//	protected DrawableND getDrawable(DrawableND oldDrawable, GeoElement listElement, DrawableND drawList) {
-//		((EuclidianView3D) view).remove((Drawable3D) oldDrawable);
-//		return super.getDrawable(oldDrawable, listElement, drawList);
-//	}
+
     
     
     @Override
@@ -69,5 +52,13 @@ public class DrawList3DArray extends DrawListArray {
     	}
     	drawList3D.getDrawable3DLists().add((Drawable3D) d);
     }
+    
+    @Override
+ 	public DrawableND set(int pos, DrawableND d){
+     	DrawableND old = super.set(pos, d);
+     	drawList3D.getDrawable3DLists().remove((Drawable3D) old);
+    	drawList3D.getDrawable3DLists().add((Drawable3D) d);     	
+     	return old;
+     }
 
 }
