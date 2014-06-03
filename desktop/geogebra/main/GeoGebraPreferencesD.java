@@ -503,7 +503,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			// }
 			// app.setXML(xml, true);
 			// app.setUndoActive(app.isUndoActive());
-		} catch (Exception e) {
+
+			// eg. 3D macros may cause MyError
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 
