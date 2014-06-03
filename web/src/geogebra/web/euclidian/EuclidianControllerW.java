@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EnvironmentStyleW;
 import geogebra.html5.euclidian.EuclidianControllerWeb;
 import geogebra.html5.euclidian.EuclidianViewWeb;
@@ -543,14 +544,16 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(((AppW)app).getLAF().isSmart()){
 			return mouseEventX(clientX - style.getxOffset());
 		}
-		return clientX - style.getxOffset();
+		//IE touch events are mouse events
+		return Browser.isIE() ? mouseEventX(clientX) : (clientX - style.getxOffset());
 	}
 
 	public int touchEventY(int clientY) {
 		if(((AppW)app).getLAF().isSmart()){
 			return mouseEventY(clientY - style.getyOffset());
 		}
-		return clientY - style.getyOffset();
+		//IE touch events are mouse events
+		return Browser.isIE() ? mouseEventX(clientY) : (clientY - style.getyOffset());
 	}
 
 	/**
