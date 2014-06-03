@@ -59,21 +59,17 @@ import javax.swing.tree.TreePath;
  * @author Markus
  * @version
  */
-public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
+public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
+		geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
-
 	/**
 	 */
-	//public static final int MODE_VIEW = 2;
-
+	// public static final int MODE_VIEW = 2;
 
 	private MyDefaultTreeCellEditor editor;
 	private MathTextField editTF;
-
-
-
 
 	/**
 	 * Root node for tree mode MODE_DEPENDENCY.
@@ -87,15 +83,12 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 
 	protected DefaultMutableTreeNode auxiliaryNode;
 
-
-
 	/* for SortMode.ORDER */
 	private DefaultMutableTreeNode rootOrder;
 
 	/* for SortMode.LAYER */
 	private DefaultMutableTreeNode rootLayer;
 	private HashMap<Integer, DefaultMutableTreeNode> layerNodesMap;
-
 
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
@@ -107,30 +100,25 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 
 	private AlgebraHelperBar helperBar;
 
-
 	public AlgebraControllerD getAlgebraController() {
 		return (AlgebraControllerD) algebraController;
 	}
 
-
-
 	/** Creates new AlgebraView */
 	public AlgebraViewD(AlgebraControllerD algCtrl) {
-		
+
 		super(algCtrl, true);
 
 		// Initialize settings and register listener
 		app.getSettings().getAlgebra().addListener(this);
 
-		
 		settingsChanged(app.getSettings().getAlgebra());
 
 	}
-	
+
 	@Override
-	protected void initTree(){
-		
-		
+	protected void initTree() {
+
 		// this is the default value
 		treeMode = SortMode.TYPE;
 
@@ -139,27 +127,20 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 
 		// EDITOR
 		setEditable(true);
-		
-		
-		
-		super.initTree();
 
-		
+		super.initTree();
 
 		// enable drag n drop
 		((AlgebraControllerD) algebraController).enableDnD();
 
 		// attachView();
-		
-		
+
 	}
-	
-	
+
 	@Override
 	protected MyRendererForAlgebraTree newMyRenderer(AppD app) {
 		return new MyRendererForAlgebraView(app, this);
 	}
-
 
 	@Override
 	protected void initModel() {
@@ -189,7 +170,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 				}
 			}
 			break;
-			
+
 		case ORDER:
 			if (rootOrder == null) {
 				rootOrder = new DefaultMutableTreeNode();
@@ -218,9 +199,9 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			break;
 		}
 	}
-	
+
 	@Override
-	protected void checkRemoveAuxiliaryNode(){
+	protected void checkRemoveAuxiliaryNode() {
 		// always try to remove the auxiliary node
 		if (app.showAuxiliaryObjects && auxiliaryNode != null) {
 			removeAuxiliaryNode();
@@ -236,11 +217,11 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 	boolean attached = false;
 
 	public void attachView() {
-		//AbstractApplication.printStacktrace("");
-		
+		// AbstractApplication.printStacktrace("");
+
 		if (attached)
 			return;
-		
+
 		clearView();
 		kernel.notifyAddAll(this);
 		applySettings();
@@ -250,12 +231,10 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 	}
 
 	public void detachView() {
-		//does nothing : view may be used in object properties
+		// does nothing : view may be used in object properties
 		/*
-		kernel.detach(this);
-		clearView();
-		attached = false;
-		*/
+		 * kernel.detach(this); clearView(); attached = false;
+		 */
 	}
 
 	@Override
@@ -278,25 +257,23 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		editor = new MyDefaultTreeCellEditor(this, renderer, new MyCellEditor(
 				editTF, app));
 
-		// add focus listener to the editor text field so that editing is 
+		// add focus listener to the editor text field so that editing is
 		// canceled on a focus lost event
-		editTF.addFocusListener(new FocusListener(){
-			
-			public void focusGained(FocusEvent e) {				
+		editTF.addFocusListener(new FocusListener() {
+
+			public void focusGained(FocusEvent e) {
 			}
+
 			public void focusLost(FocusEvent e) {
-				if(e.getSource() == editTF)
+				if (e.getSource() == editTF)
 					cancelEditing();
 			}
 		});
-		
-		
+
 		editor.addCellEditorListener(editor); // self-listening
-		//setCellRenderer(renderer);
+		// setCellRenderer(renderer);
 		setCellEditor(editor);
 	}
-
-	
 
 	@Override
 	public void clearSelection() {
@@ -342,23 +319,22 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 				}
 				break;
 			default:
-			
+
 				clearView();
 				kernel.notifyAddAll(this);
 			}
 		}
 	}
 
-
 	@Override
 	public SortMode getTreeMode() {
 		return treeMode;
 	}
-	
+
 	/**
 	 * @return int value for tree mode (used in XML)
 	 */
-	public int getTreeModeValue(){
+	public int getTreeModeValue() {
 		switch (getTreeMode()) {
 		case DEPENDENCY:
 			return 0;
@@ -371,9 +347,9 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			return 3;
 		}
 	}
-	
-	public void setTreeMode(int mode){
-		switch(mode){
+
+	public void setTreeMode(int mode) {
+		switch (mode) {
 		case 0:
 			setTreeMode(SortMode.DEPENDENCY);
 			break;
@@ -428,9 +404,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		return new AlgebraHelperBar(this, app);
 	}
 
-
-
-
 	/**
 	 * Open Editor textfield for geo.
 	 */
@@ -448,7 +421,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 
 		if (!shiftDown || !geo.isPointOnPath() && !geo.isPointInRegion()) {
 			if (!geo.isIndependent() || !attached) // needed for F2 when Algebra
-				// View closed
+			// View closed
 			{
 				if (geo.isRedefineable()) {
 					app.getDialogManager().showRedefineDialog(geo, true);
@@ -466,8 +439,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			}
 		}
 
-		DefaultMutableTreeNode node = nodeTable
-				.get(geo);
+		DefaultMutableTreeNode node = nodeTable.get(geo);
 
 		if (node != null) {
 			cancelEditing();
@@ -500,7 +472,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 	 */
 	@Override
 	protected void setTreeLabels() {
-		switch(getTreeMode()) {
+		switch (getTreeMode()) {
 		case DEPENDENCY:
 
 			indNode.setUserObject(app.getPlain("FreeObjects"));
@@ -529,15 +501,14 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		}
 	}
 
-
-
 	/**
 	 * 
 	 * @param geo
 	 * @return parent node of this geo
 	 */
 	@Override
-	protected DefaultMutableTreeNode getParentNode(GeoElement geo,int forceLayer) {
+	protected DefaultMutableTreeNode getParentNode(GeoElement geo,
+			int forceLayer) {
 		DefaultMutableTreeNode parent;
 
 		switch (treeMode) {
@@ -555,7 +526,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			break;
 		case LAYER:
 			// get type node
-			int layer = forceLayer > -1 ? forceLayer:geo.getLayer();
+			int layer = forceLayer > -1 ? forceLayer : geo.getLayer();
 			parent = layerNodesMap.get(layer);
 
 			// do we have to create the parent node?
@@ -589,9 +560,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		return parent;
 	}
 
-
-
-
 	/**
 	 * Performs a binary search for geo among the children of parent. All
 	 * children of parent have to be instances of GeoElement sorted
@@ -611,7 +579,8 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			int middle = (left + right) / 2;
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
 					.getChildAt(middle);
-			String nodeLabel = ((GeoElement) node.getUserObject()).getLabelSimple();
+			String nodeLabel = ((GeoElement) node.getUserObject())
+					.getLabelSimple();
 
 			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
 			if (compare < 0)
@@ -632,7 +601,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 	 */
 	final public static int linearSearchGeo(DefaultMutableTreeNode parent,
 			String geoLabel) {
-		if(geoLabel == null)
+		if (geoLabel == null)
 			return -1;
 		int childCount = parent.getChildCount();
 		for (int i = 0; i < childCount; i++) {
@@ -644,10 +613,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		}
 		return -1;
 	}
-
-
-
-
 
 	/**
 	 * remove all from the tree
@@ -671,9 +636,9 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			rootOrder.removeAllChildren();
 		}
 	}
-	
+
 	@Override
-	public DefaultMutableTreeNode getRoot(){
+	public DefaultMutableTreeNode getRoot() {
 		switch (getTreeMode()) {
 		case DEPENDENCY:
 			return rootDependency;
@@ -686,28 +651,28 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			return rootOrder;
 		}
 	}
-	
-	
+
 	@Override
 	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1, GeoElement geo2) {
 
-		//specific case for ORDER mode
-		if (getTreeMode()==SortMode.ORDER){
+		// specific case for ORDER mode
+		if (getTreeMode() == SortMode.ORDER) {
 			int found = 0;
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 			DefaultMutableTreeNode root = getRoot();
-			for (int i=0; i	< root.getChildCount() && found < 2; i++){
-				DefaultMutableTreeNode child = (DefaultMutableTreeNode) root.getChildAt(i);
+			for (int i = 0; i < root.getChildCount() && found < 2; i++) {
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode) root
+						.getChildAt(i);
 				Object ob = child.getUserObject();
-				if (ob==geo1 || ob==geo2)
+				if (ob == geo1 || ob == geo2)
 					found++;
-				if (found>0)
+				if (found > 0)
 					ret.add((GeoElement) ob);
 			}
 			return ret;
 		}
-		
-		//other cases
+
+		// other cases
 		return super.getGeosBetween(geo1, geo2);
 	}
 
@@ -715,12 +680,10 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		repaint();
 	}
 
-
-
 	/**
 	 * Reset the algebra view if the mode changed.
 	 */
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 		reset();
 	}
 
@@ -745,23 +708,22 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			super.removeFromModelForMode(node, model);
 			break;
 		case LAYER:
-			removeFromLayer(model,((GeoElement) node.getUserObject()).getLayer());
+			removeFromLayer(model,
+					((GeoElement) node.getUserObject()).getLayer());
 			break;
 		}
 	}
 
-	private void removeFromLayer(DefaultTreeModel model2,
-			int i) {
+	private void removeFromLayer(DefaultTreeModel model2, int i) {
 		DefaultMutableTreeNode parent = layerNodesMap.get(i);
 
 		// this has been the last node
-		if ((parent!=null) && parent.getChildCount() == 0) {
+		if ((parent != null) && parent.getChildCount() == 0) {
 			layerNodesMap.remove(i);
 			model.removeNodeFromParent(parent);
 		}
-		
-	}
 
+	}
 
 	/**
 	 * inner class MyEditor handles editing of tree nodes
@@ -769,12 +731,13 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 	 * Created on 28. September 2001, 12:36
 	 */
 	private class MyDefaultTreeCellEditor extends DefaultTreeCellEditor
-	implements CellEditorListener {
+			implements CellEditorListener {
 
 		public MyDefaultTreeCellEditor(AlgebraViewD tree,
 				DefaultTreeCellRenderer renderer, DefaultCellEditor editor) {
 			super(tree, renderer, editor);
-			// editor container that expands to fill the width of the tree's enclosing panel
+			// editor container that expands to fill the width of the tree's
+			// enclosing panel
 			editingContainer = new WideEditorContainer();
 		}
 
@@ -866,7 +829,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			}
 		}
 
-
 		/**
 		 * Overrides getTreeCellEditor so that a custom
 		 * DefaultTreeCellEditor.EditorContainer class can be called to adjust
@@ -876,16 +838,17 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		public Component getTreeCellEditorComponent(JTree tree, Object value,
 				boolean isSelected, boolean expanded, boolean leaf, int row) {
 
-			Component c = super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+			Component c = super.getTreeCellEditorComponent(tree, value,
+					isSelected, expanded, leaf, row);
 			((WideEditorContainer) editingContainer).updateContainer(tree,
 					lastPath, offset, editingComponent);
 			return c;
 
 		}
 
-
 		/**
-		 * Extends DefaultTreeCellEditor.EditorContainer to allow full-width editor fields.
+		 * Extends DefaultTreeCellEditor.EditorContainer to allow full-width
+		 * editor fields.
 		 */
 		class WideEditorContainer extends DefaultTreeCellEditor.EditorContainer {
 
@@ -895,7 +858,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			TreePath lastPath;
 			int offset;
 			Component editingComponent;
-
 
 			/**
 			 * Overrides doLayout so that the editor component width is resized
@@ -907,19 +869,23 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 					// get component preferred size
 					Dimension eSize = editingComponent.getPreferredSize();
 
-					// expand component width to extend to the enclosing container bounds
+					// expand component width to extend to the enclosing
+					// container bounds
 					int n = lastPath.getPathCount();
 					Rectangle r = new Rectangle();
 					r = tree.getParent().getBounds();
 					eSize.width = r.width - (offset * n);
 
-					// only show the symbol table icon if the editor is wide enough
-					((MathTextField)editingComponent).setShowSymbolTableIcon(eSize.width > 100);
+					// only show the symbol table icon if the editor is wide
+					// enough
+					((MathTextField) editingComponent)
+							.setShowSymbolTableIcon(eSize.width > 100);
 
 					// set the component size and location
 					editingComponent.setSize(eSize);
 					editingComponent.setLocation(offset, 0);
-					editingComponent.setBounds(offset, 0, eSize.width, eSize.height);
+					editingComponent.setBounds(offset, 0, eSize.width,
+							eSize.height);
 					setSize(new Dimension(eSize.width + offset, eSize.height));
 				}
 			}
@@ -929,9 +895,9 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			 * other tree nodes contain tall LaTeX images
 			 */
 			@Override
-			public Dimension getPreferredSize(){
+			public Dimension getPreferredSize() {
 				Dimension d = super.getPreferredSize();
-				if(editingComponent != null)
+				if (editingComponent != null)
 					d.height = editingComponent.getHeight();
 				return d;
 			}
@@ -945,11 +911,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			}
 		}
 
-
 	} // MyDefaultTreeCellEditor
-
-
-
 
 	public int getViewID() {
 		return App.VIEW_ALGEBRA;
@@ -973,9 +935,9 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		// // m.getChildCount(root);
 		//
 		// return new int[]{getHeight()};
-		
+
 		int[] heights;
-		if(getRowCount() > 0){
+		if (getRowCount() > 0) {
 			heights = new int[getRowCount()];
 			for (int i = 0; i < heights.length; i++) {
 				heights[i] = getRowBounds(i).height;
@@ -983,7 +945,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		} else {
 			heights = new int[1];
 		}
-		
+
 		heights[0] += 2;
 		return heights;
 	}
@@ -993,23 +955,20 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 	}
 
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
-		if(this.treeMode.equals(SortMode.LAYER)){
-			DefaultMutableTreeNode node = nodeTable
-					.get(g);
+		if (this.treeMode.equals(SortMode.LAYER)) {
+			DefaultMutableTreeNode node = nodeTable.get(g);
 
 			if (node != null) {
 				((DefaultTreeModel) getModel()).removeNodeFromParent(node);
 				nodeTable.remove(node.getUserObject());
 				removeFromLayer(((DefaultTreeModel) getModel()), oldLayer);
 			}
-			
-			this.add(g,newLayer);
-			
+
+			this.add(g, newLayer);
+
 		}
 	}
 
-	
-	
 	/**
 	 * returns settings in XML format
 	 * 
@@ -1020,72 +979,65 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 	 * sb.append("/>\n"); sb.append("</algebraView>\n"); }
 	 */
 
-
-	// temporary proxies for the temporary implementation of AlgebraController in common
+	// temporary proxies for the temporary implementation of AlgebraController
+	// in common
 	public GeoElement getGeoElementForPath(Object tp) {
-		return getGeoElementForPath((TreePath)tp);
+		return getGeoElementForPath((TreePath) tp);
 	}
 
 	public GeoElement getGeoElementForLocation(Object tree, int x, int y) {
-		return getGeoElementForLocation((JTree)tree, x, y);
+		return getGeoElementForLocation((JTree) tree, x, y);
 	}
 
 	public Object getPathBounds(Object tp) {
-		return getPathBounds((TreePath)tp);
+		return getPathBounds((TreePath) tp);
 	}
+
 	// temporary proxies end
-	
-	
 
 	@Override
-	protected boolean show(GeoElement geo){
+	protected boolean show(GeoElement geo) {
 		return super.show(geo) && geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible();
 	}
-	
+
 	private StringBuilder sbXML;
-	
-	
-	private void updateCollapsedNodesIndices(){
-		
 
+	private void updateCollapsedNodesIndices() {
 
-		//no collapsed nodes
-		if (getTreeMode()==SortMode.ORDER){
+		// no collapsed nodes
+		if (getTreeMode() == SortMode.ORDER) {
 			collapsedNodes = null;
 			return;
 		}
-		
-		
-		
-		if (collapsedNodes==null)
+
+		if (collapsedNodes == null)
 			collapsedNodes = new ArrayList<Integer>();
 		else
 			collapsedNodes.clear();
 
-		
 		DefaultMutableTreeNode root = getRoot();
-		for (int i=0; i<root.getChildCount(); i++){
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
-			if(isCollapsed(new TreePath(node.getPath())))
-				collapsedNodes.add(i);				
+		for (int i = 0; i < root.getChildCount(); i++) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
+					.getChildAt(i);
+			if (isCollapsed(new TreePath(node.getPath())))
+				collapsedNodes.add(i);
 		}
-		
+
 	}
-	
+
 	/**
 	 * returns settings in XML format
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
-	
 
-		if (sbXML==null)
+		if (sbXML == null)
 			sbXML = new StringBuilder();
 		else
 			sbXML.setLength(0);
-		
-		//tree mode
-		if (getTreeMode()!=SortMode.TYPE){
+
+		// tree mode
+		if (getTreeMode() != SortMode.TYPE) {
 			sbXML.append("\t<mode ");
 			sbXML.append("val=\"");
 			sbXML.append(getTreeModeValue());
@@ -1093,24 +1045,23 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			sbXML.append("/>\n");
 		}
 
-		
-		//auxiliary objects
+		// auxiliary objects
 		boolean flag = showAuxiliaryObjects();
-		if (flag){
+		if (flag) {
 			sbXML.append("\t<auxiliary ");
 			sbXML.append("show=\"");
 			sbXML.append(flag);
 			sbXML.append("\"");
 			sbXML.append("/>\n");
 		}
-		
-		//collapsed nodes
+
+		// collapsed nodes
 		updateCollapsedNodesIndices();
-		if (collapsedNodes!=null && collapsedNodes.size()>0){
+		if (collapsedNodes != null && collapsedNodes.size() > 0) {
 			sbXML.append("\t<collapsed ");
 			sbXML.append("val=\"");
 			sbXML.append(collapsedNodes.get(0));
-			for (int i=1; i<collapsedNodes.size();i++){
+			for (int i = 1; i < collapsedNodes.size(); i++) {
 				sbXML.append(",");
 				sbXML.append(collapsedNodes.get(i));
 			}
@@ -1118,112 +1069,103 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 			sbXML.append("/>\n");
 		}
 
-		if (sbXML.length()>0){
+		if (sbXML.length() > 0) {
 			sb.append("<algebraView>\n");
 			sb.append(sbXML);
 			sb.append("</algebraView>\n");
 		}
 
-
 	}
-	
-	
+
 	private ArrayList<Integer> collapsedNodes;
-	
-	private void setCollapsedNodes(int[] collapsedNodes){
+
+	private void setCollapsedNodes(int[] collapsedNodes) {
 		if (collapsedNodes == null)
 			return;
 
-		if (this.collapsedNodes==null)
+		if (this.collapsedNodes == null)
 			this.collapsedNodes = new ArrayList<Integer>();
 		else
 			this.collapsedNodes.clear();
 
-		for (int i=0; i<collapsedNodes.length; i++)
+		for (int i = 0; i < collapsedNodes.length; i++)
 			this.collapsedNodes.add(collapsedNodes[i]);
 	}
-
 
 	/**
 	 * apply the settings
 	 */
-	public void applySettings(){
-		
-		if (!settingsChanged){
-			//that means that no settings were stored in the file: reset settings to have default
+	public void applySettings() {
+
+		if (!settingsChanged) {
+			// that means that no settings were stored in the file: reset
+			// settings to have default
 			AlgebraSettings settings = app.getSettings().getAlgebra();
 			settings.reset();
 			settingsChanged(settings);
 		}
-		
 
 		settingsChanged = false;
-		
-		//auxilliary objects
+
+		// auxilliary objects
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
-		
-		
-		//collapsed nodes
+
+		// collapsed nodes
 		if (collapsedNodes == null)
 			return;
 
 		DefaultMutableTreeNode root = getRoot();
-		for (int i : collapsedNodes){
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
+		for (int i : collapsedNodes) {
+			// validate i, #4346
+			if (i >= root.getChildCount()) {
+				continue;
+			}
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
+					.getChildAt(i);
 			collapsePath(new TreePath(node.getPath()));
 		}
-		
+
 	}
 
-
 	private boolean showAuxiliaryObjectsSettings = false;
-	
+
 	private boolean settingsChanged = false;
 
 	public void settingsChanged(AbstractSettings settings) {
-	
+
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
 		setTreeMode(algebraSettings.getTreeMode());
-		showAuxiliaryObjectsSettings = algebraSettings.getShowAuxiliaryObjects();
+		showAuxiliaryObjectsSettings = algebraSettings
+				.getShowAuxiliaryObjects();
 		setCollapsedNodes(algebraSettings.getCollapsedNodes());
-		
+
 		settingsChanged = true;
-				
+
 	}
-
-
 
 	public void setFocus(boolean b) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	public GeoElement getLastSelectedGeo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
 	public void setLastSelectedGeo(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 } // AlgebraView
