@@ -10,11 +10,12 @@ public class GridModel {
 		void updateHeader(int col, String title);
 		void updateCell(int col, int row, String value);
 		void addRow(List<String> row);
-		void removeCell(int row);
+		void removeCell(int row, int col);
 
 		void removeAllRows();
 		void setHeaders(String[] names);
 		void appendColumn(String name);
+		void removeRow(int row);
 	}
 
 	private IGridListener listener;
@@ -25,25 +26,10 @@ public class GridModel {
 
 	public GridModel(int col, IGridListener listener) {
 		columnCount = col;
-		rowCount = 1;
+		rowCount = 0;
 		this.listener = listener;
 		headers = new ArrayList<String>();
 		data = new ArrayList<List<String>>();
-//		for (int i=0; i < col; i++) {
-//			addColumn("");
-//		}
-	}
-
-	private void init() {
-
-		//
-		//		for (int row=0; row < rows; row++) {
-		//			List<String> aRow = new ArrayList<String>();
-		//			for (int col=0; col < columns; col++) {
-		//				aRow.add("");
-		//			}
-		//			data.add(aRow);
-		//		}
 	}
 
 
@@ -104,7 +90,7 @@ public class GridModel {
 	}
 
 	public int getColumnCount() {
-		return columnCount;
+		return headers.size();//columnCount;
 	}
 
 	public void setColumnCount(int columnCount) {
@@ -116,7 +102,10 @@ public class GridModel {
 	}
 
 	public void setRowCount(int rows) {
-		//		removeAll();
+		if (rows == rowCount) {
+			return;
+		}
+		
 		if (rows > rowCount) {
 			List<String> rowData = new ArrayList<String>();
 			for (int col=0; col < columnCount; col++) {
@@ -125,23 +114,42 @@ public class GridModel {
 			for (int row=rowCount;row  < rows; row++ ) {
 				addRow(rowData);
 			}
+		} else {
+			for (int row = rows; row > rowCount - 1; row--) {
+				removeRow(row);
+			}
 		}
+		
 		this.rowCount = rowCount;
 	}
+
+	private void removeRow(int row) {
+	    data.remove(row);
+	    listener.removeRow(row);
+	    App.debug("Removed row: " + row);
+    }
+
 
 	public void addColumn(String name) {
 		columnCount++;
 		headers.add(name);
+		App.debug(headers.toString());
 		listener.appendColumn(name);
 	}
 
 	public void removeLastColumn() {
-		headers.remove(columnCount - 1);
-		int row = 0;
-		for (List<String> rowData: data) {
-			rowData.remove(columnCount - 1);
-			listener.removeCell(row);
-			row++;
+		App.debug("removeLastColumn");
+		int col = headers.size() - 1;
+		App.debug(headers.toString());
+		headers.remove(col);
+		for (int row = 0; row < data.size() + 1; row++) {
+			List<String> rowData = data.get(row);
+			if (col < rowData.size()) {
+				rowData.remove(col);
+			} else {
+				App.debug("Warning: rowData size is " + rowData.size());
+			}
+			listener.removeCell(row, col);
 		}
 		columnCount--;
 

@@ -353,7 +353,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		tableXY = new InspectorTableW(2);
 		modelXY = tableXY.getModel();
 		modelXY.setHeaders(DEFAULT_XY_HEADERS);
-		modelXY.setRowCount(pointCount);
+//		modelXY.setRowCount(pointCount);
 		pointsTab.add(tableXY);
 		
 		FlowPanel btnPanel = new FlowPanel();
@@ -557,10 +557,12 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void removeColumn() {
-		if (modelXY.getColumnCount()  > 2)
+		if (modelXY.getColumnCount()  == 2) {
 			return;
+		}
 
-		getModel().removeColumn();
+		App.debug("Removing column");
+		//getModel().removeColumn();
 		modelXY.removeLastColumn();
 
 		updateXYTable();
