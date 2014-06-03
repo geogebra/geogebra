@@ -1086,7 +1086,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (toolbarString == null && hasToolbar()) {
 			toolbarString = defaultToolbarString;
 		}
-
 		this.toolbarString = toolbarString;
 	}
 

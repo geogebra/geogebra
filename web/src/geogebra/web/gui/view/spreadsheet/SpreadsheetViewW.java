@@ -2,6 +2,8 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
@@ -541,6 +543,19 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 
 		toolbarManager.handleModeChange(mode);
 */
+		switch(mode){
+		case EuclidianConstants.MODE_SPREADSHEET_SUM:
+		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
+		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
+		case EuclidianConstants.MODE_SPREADSHEET_MIN:
+		case EuclidianConstants.MODE_SPREADSHEET_MAX:
+			
+			// Handle autofunction modes
+			
+			table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
+
+			break;
+		}
 	}
 
 	/**
