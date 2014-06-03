@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.functioninspector;
 
+import geogebra.common.main.App;
 import geogebra.web.gui.view.functioninspector.GridModel.IGridListener;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class InspectorTableW extends FlexTable implements IGridListener {
 	private static final int HEADER_ROW = 0;
+	private static final String TABLE_PREFIX = "[INSPECTOR_TABLE]";
 	private GridModel model;
 	private int selectedRow;
 	public InspectorTableW(int col) {
@@ -17,31 +19,28 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		setStyleName("inspectorTable");
 		setWidth("100%");
 		setModel(new GridModel(col, this));
-		createHeader();
 		selectedRow = 1;
 	}
 
-	private void createHeader() {
-		for (int col=0; col < getModel().getColumnCount(); col++) {
-			updateHeader(col, "");
-		}
-	}
-
 	public void updateHeader(int col, String title) {
-		setCellLabel(HEADER_ROW, col, "InspectorTableHeader", "");
+		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);
     }
 
 	public void updateCell(int row, int col, String value) {
+		App.debug(TABLE_PREFIX + "updating cell at row: " + row 
+				+ " col: " + col);
 		Label label = (Label)getWidget(row, col);
+		
+		
 		if (label != null) {
 			label.setText(value);
 		} else {
-			setCellLabel(row, col, "inspectorTableData", value);
+			setCellWidget(row, col, "inspectorTableData", value);
 		}
 
 	}
 
-	protected void setCellLabel(int row, int col, String style, String value) {
+	protected void setCellWidget(int row, int col, String style, String value) {
 		Label label = new Label(value);
 		label.setStyleName(style);
 		setWidget(row, col, label);
@@ -58,16 +57,15 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		int numRows = getRowCount();
 		int col = 0;
 		for (String cellText: row) {
-			setCellLabel(numRows + 1 , col, "inspectorTableData", cellText);
+			setCellWidget(numRows + 1 , col, "inspectorTableData", cellText);
 			col++;
 		}
     }
 
 	public void setHeaders(String[] headers) {
 		int col = 0;
-		for (String cell: headers) {
-			Label label = new Label(cell);
-			setWidget(0, col, label);
+		for (String title: headers) {
+			updateHeader(col, title);
 			col++;
 		}
     }
@@ -85,10 +83,13 @@ public class InspectorTableW extends FlexTable implements IGridListener {
     }
 
 	public void appendColumn(String name) {
-		int col = getCellCount(0) + 1;
-		updateHeader(col, name);
+		int col = getCellCount(HEADER_ROW);
+		App.debug(TABLE_PREFIX + " last column is: " + col);
+		addCell(HEADER_ROW);
+		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", name);
 		for (int row = 1; row < getRowCount(); row++) {
-			setCellLabel(row, col, "inspectorTableData", "");
+			setCellWidget(row, col, "inspectorTableData", 
+					"(" + row + ", " + col +")");
 		}
 		
     }

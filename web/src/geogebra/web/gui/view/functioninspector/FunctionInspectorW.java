@@ -557,7 +557,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void removeColumn() {
-		if (modelXY.getColumnCount() <= 2)
+		if (modelXY.getColumnCount()  > 2)
 			return;
 
 		getModel().removeColumn();

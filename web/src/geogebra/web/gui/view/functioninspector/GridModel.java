@@ -11,7 +11,7 @@ public class GridModel {
 		void updateCell(int col, int row, String value);
 		void addRow(List<String> row);
 		void removeCell(int row);
-		
+
 		void removeAllRows();
 		void setHeaders(String[] names);
 		void appendColumn(String name);
@@ -22,30 +22,31 @@ public class GridModel {
 	private List<List<String>> data;
 	private int columnCount;
 	private int rowCount;
-	
+
 	public GridModel(int col, IGridListener listener) {
 		columnCount = col;
+		rowCount = 1;
 		this.listener = listener;
 		headers = new ArrayList<String>();
 		data = new ArrayList<List<String>>();
-		init();
-	}
-
-	private void init() {
-		for (int col=0; col < getColumnCount(); col++) {
-			headers.add("");
-		}
-//
-//		for (int row=0; row < rows; row++) {
-//			List<String> aRow = new ArrayList<String>();
-//			for (int col=0; col < columns; col++) {
-//				aRow.add("");
-//			}
-//			data.add(aRow);
+//		for (int i=0; i < col; i++) {
+//			addColumn("");
 //		}
 	}
 
-	
+	private void init() {
+
+		//
+		//		for (int row=0; row < rows; row++) {
+		//			List<String> aRow = new ArrayList<String>();
+		//			for (int col=0; col < columns; col++) {
+		//				aRow.add("");
+		//			}
+		//			data.add(aRow);
+		//		}
+	}
+
+
 	public void setHeader(int col, String title) {
 		if (col < getColumnCount())  {
 			headers.set(col, title);
@@ -67,13 +68,13 @@ public class GridModel {
 			List<String> list = data.get(row + 1);
 			result = list.get(col);
 		}
-		
+
 		App.debug("[GRIDMODEL] getData(" + col + ", " + row + ") = " + result);
-		
+
 		return result;
 	}
 
-	
+
 	public String getHeader(int col) {
 		if (col < getColumnCount())  {
 			return headers.get(col);
@@ -82,65 +83,67 @@ public class GridModel {
 	}
 
 	public void removeAll() {
-	    data.clear();
-	    listener.removeAllRows();
-    }
-	
+		data.clear();
+		listener.removeAllRows();
+	}
+
 	public void addRow(List<String> row) {
 		data.add(row);
 		listener.addRow(row);
 	}
 
 	public void setHeaders(String[] names) {
-	    headers.clear();
-	    int col = 0;
+		headers.clear();
+		int col = 0;
 		for (String title: names) {
-	    	headers.add(title);
-	    	col++;
+			headers.add(title);
+			col++;
 		}
-    	listener.setHeaders(names);
+		listener.setHeaders(names);
 
-    }
+	}
 
 	public int getColumnCount() {
-	    return columnCount;
-    }
+		return columnCount;
+	}
 
 	public void setColumnCount(int columnCount) {
-	    this.columnCount = columnCount;
-    }
+		this.columnCount = columnCount;
+	}
 
 	public int getRowCount() {
-	    return rowCount;
-    }
+		return rowCount;
+	}
 
-	public void setRowCount(int rowCount) {
-		removeAll();
-		List<String> rowData = new ArrayList<String>();
-		addRow(headers);
-		for (int col=0; col < columnCount; col++) {
-			rowData.add("");
+	public void setRowCount(int rows) {
+		//		removeAll();
+		if (rows > rowCount) {
+			List<String> rowData = new ArrayList<String>();
+			for (int col=0; col < columnCount; col++) {
+				rowData.add("");
+			}
+			for (int row=rowCount;row  < rows; row++ ) {
+				addRow(rowData);
+			}
 		}
-		for (int row=0;row  < rowCount; row++ ) {
-	    	addRow(rowData);
-	    }
-	    this.rowCount = rowCount;
-    }
+		this.rowCount = rowCount;
+	}
 
 	public void addColumn(String name) {
 		columnCount++;
 		headers.add(name);
 		listener.appendColumn(name);
-    }
-	
+	}
+
 	public void removeLastColumn() {
-		headers.remove(columnCount);
+		headers.remove(columnCount - 1);
 		int row = 0;
 		for (List<String> rowData: data) {
-			rowData.remove(columnCount);
+			rowData.remove(columnCount - 1);
 			listener.removeCell(row);
+			row++;
 		}
 		columnCount--;
-		
-    }
+
+	}
 }
