@@ -182,15 +182,15 @@ abstract public class Manager {
 		// set normal
 		normal(n);
 		
-		vertex(v[0]);
+		triangleFanApex(v[0]);
 
 		if (reverse){
 			for (int i = v.length - 1 ; i > 0 ; i--){
-				vertex(v[i]);
+				triangleFanVertex(v[i]);
 			}
 		}else{
 			for (int i = 1 ; i < v.length ; i++){
-				vertex(v[i]);
+				triangleFanVertex(v[i]);
 			}
 		}
 
@@ -220,11 +220,11 @@ abstract public class Manager {
     	
 
     	//fan apex
-    	vertex(v[triFan.getApexPoint()]);
+    	triangleFanApex(v[triFan.getApexPoint()]);
     	
     	//int i = 0;
     	for (int i = 0 ; i < triFan.size() ; i++){
-    		vertex(v[triFan.getVertexIndex(i)]);
+    		triangleFanVertex(v[triFan.getVertexIndex(i)]);
     	}
 
     	endGeometry();
@@ -273,6 +273,22 @@ abstract public class Manager {
 	 */
 	protected void vertex(Coords v){
 		vertex((float) v.getX(),(float) v.getY(),(float) v.getZ());
+	}
+	
+	/**
+	 * set apex for triangle fan
+	 * @param v apex coords
+	 */
+	protected void triangleFanApex(Coords v){
+		vertex(v);
+	}
+	
+	/**
+	 * set vertex for triangle fan
+	 * @param v apex coords
+	 */
+	protected void triangleFanVertex(Coords v){
+		vertex(v);
 	}
 
 		

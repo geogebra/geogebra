@@ -681,18 +681,18 @@ public class PlotterSurface {
 
     	manager.texture(0, 0);
     	manager.normal(v1.crossProduct(v2));
-    	manager.vertex(center);  
+    	manager.triangleFanApex(center);  
     	
     	float u=1, v=0;
-		vn = (Coords) v1.mul(u).add(v2.mul(v));
-		manager.vertex(center.add(vn.mul(radius)));  	
+		vn = v1.mul(u).add(v2.mul(v));
+		manager.triangleFanVertex(center.add(vn.mul(radius)));  	
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 
     		u = (float) Math.cos ( i * da ); 
     		v = (float) Math.sin ( i * da ); 
 
-    		vn = (Coords) v1.mul(u).add(v2.mul(v));
-    		manager.vertex(center.add(vn.mul(radius)));
+    		vn = v1.mul(u).add(v2.mul(v));
+    		manager.triangleFanVertex(center.add(vn.mul(radius)));
     	} 		
 		
 
@@ -708,7 +708,7 @@ public class PlotterSurface {
 	 * @param l2 
 	 */
 	public void parallelogram(Coords center, Coords v1, Coords v2, double l1, double l2){
-		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		manager.texture(0, 0);
 		manager.normal(v1.crossProduct(v2));
@@ -719,10 +719,10 @@ public class PlotterSurface {
 		
 		manager.vertex(center);  
 		//manager.texture(1, 0);//TODO ?
-		manager.vertex(c2);  
-		//manager.texture(1, 1);
 		manager.vertex(c3);  
 		//manager.texture(0, 1);
+		manager.vertex(c2);  
+		//manager.texture(1, 1);
 		manager.vertex(c4);      	           	
 
 		manager.endGeometry();
@@ -776,23 +776,23 @@ public class PlotterSurface {
 
 		//center of the triangle fan
 		if (fromEllipseCenter){ // center of the ellipse
-			manager.vertex(center); 
+			manager.triangleFanApex(center); 
 		}else{ // mid point of the ellipse start and end
 			u = (float) Math.cos (start+extent); 
 			v = (float) Math.sin (start+extent);
-			manager.vertex(center.add((m.add(v1.mul(a*u).add(v2.mul(b*v)))).mul(0.5)));  
+			manager.triangleFanApex(center.add((m.add(v1.mul(a*u).add(v2.mul(b*v)))).mul(0.5)));  
 		} 
     	
     	
     	//first point
-		manager.vertex(center.add(m));  	
+		manager.triangleFanVertex(center.add(m));  	
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 
     		u = (float) Math.cos (start + i * da ); 
     		v = (float) Math.sin (start + i * da ); 
     		
      		m = v1.mul(a*u).add(v2.mul(b*v));
-    		manager.vertex(center.add(m));
+    		manager.triangleFanVertex(center.add(m));
     	} 
     	
     			
@@ -1039,18 +1039,18 @@ public class PlotterSurface {
 		// center of the fan is midpoint of branch ends
 		u = (float) Math.cosh (tMax); 
 		v = (float) Math.sinh (tMax);
-		manager.vertex(center.add((m.add(v1.mul(a*u).add(v2.mul(b*v)))).mul(0.5)));  
+		manager.triangleFanApex(center.add((m.add(v1.mul(a*u).add(v2.mul(b*v)))).mul(0.5)));  
 		
 		
 		//first point
-		manager.vertex(center.add(m));  	
+		manager.triangleFanVertex(center.add(m));  	
 
 		for( int i = 1; i <= longitude  ; i++ ) { 
 			u = (float) Math.cosh ( tMin + i * dt ); 
 			v = (float) Math.sinh ( tMin + i * dt ); 
 			
 			m = v1.mul(a*u).add(v2.mul(b*v));
-			manager.vertex(center.add(m));
+			manager.triangleFanVertex(center.add(m));
 		} 
 
 
@@ -1099,11 +1099,11 @@ public class PlotterSurface {
 		t=tMax;
 		u = (float) ( p*t*t/2 ); 
 		v = (float) ( p*t); 
-		manager.vertex(center.add((m.add(v1.mul(u).add(v2.mul(v)))).mul(0.5)));  
+		manager.triangleFanApex(center.add((m.add(v1.mul(u).add(v2.mul(v)))).mul(0.5)));  
 		
 		
 		//first point
-		manager.vertex(center.add(m));  	
+		manager.triangleFanVertex(center.add(m));  	
 
 		for( int i = 1; i <= longitude  ; i++ ) { 
 			t = tMin + i * dt ;
@@ -1111,7 +1111,7 @@ public class PlotterSurface {
 			v = (float) ( p*t); 
 
 			m = v1.mul(u).add(v2.mul(v));
-			manager.vertex(center.add(m));
+			manager.triangleFanVertex(center.add(m));
 		} 
 
 
