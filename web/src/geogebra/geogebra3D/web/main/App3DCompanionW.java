@@ -121,7 +121,9 @@ public class App3DCompanionW extends App3DCompanion {
 	 * recalculates views environments.
 	 */
 	public void recalculateEnvironments() {
-
+		if(euclidianViewForPlaneCompanionList == null){
+			return;
+		}
 		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
 			vfpc.getView().getEuclidianController().calculateEnvironment();
 		}
