@@ -1740,6 +1740,17 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	public void pointChanged(GeoPointND p) {
+		pointChanged(p, x, y, z);
+	}
+	
+	/**
+	 * do pointChanged for (x,y,z) 2D coords
+	 * @param p point
+	 * @param x x coord
+	 * @param y y coord
+	 * @param z z inhom coord
+	 */
+	public static void pointChanged(GeoPointND p, double x, double y, double z){
 		p.setCoords2D(x, y, z);
 		p.updateCoordsFrom2D(false,null);
 

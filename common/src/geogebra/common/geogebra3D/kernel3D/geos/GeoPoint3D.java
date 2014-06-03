@@ -1321,7 +1321,17 @@ Traceable, MirrorableAtPlane, Dilateable{
 	/////////////////////////////
 
 	public void pointChanged(GeoPointND p) {
-		((GeoPoint3D) p).setCoords(this.getCoords(),false);
+
+		if (p.isGeoElement3D()){		
+			((GeoPoint3D) p).setCoords(this.getCoords(),false);
+		}else{
+			Coords coords = this.getCoords();
+			if (!Kernel.isZero(coords.getZ())){
+				p.setUndefined();
+			}else{
+				GeoPoint.pointChanged(p, coords.getX(), coords.getY(), coords.getW());
+			}
+		}
 		p.getPathParameter().setT(0);
 	}
 

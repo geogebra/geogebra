@@ -2824,15 +2824,5 @@ AngleProperties {
 		return getLabel(StringTemplate.defaultTemplate);
 	}
 	
-	@Override
-	public boolean isGeoElement3D() {
-		for (GeoElement geo : geoList){
-			if (geo.isGeoElement3D()){
-				return true;
-			}
-		}
-		
-		return false;
-	}
 
 }
