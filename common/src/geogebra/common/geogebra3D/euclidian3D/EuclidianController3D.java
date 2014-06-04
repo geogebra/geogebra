@@ -1479,7 +1479,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/**
 	 * tells to proceed mouseMoved() (for synchronization with 3D renderer)
 	 */
-	private void processMouseMoved() {
+	protected void processMouseMoved() {
 
 		if (mouseMoved && view3D.hasMouse()) {
 

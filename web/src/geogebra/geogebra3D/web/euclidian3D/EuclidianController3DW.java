@@ -70,7 +70,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public EnvironmentStyleW style; 
 	
 	
-	public EnvironmentStyleW getEnvironmentStyle () {
+	@Override
+    public EnvironmentStyleW getEnvironmentStyle () {
 		return style;
 	}
 	
@@ -167,14 +168,16 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		Window.addResizeHandler(new ResizeHandler() {
 
-			public void onResize(ResizeEvent event) {
+			@Override
+            public void onResize(ResizeEvent event) {
 				calculateEnvironment();
 			}
 		});
 
 		Window.addWindowScrollHandler(new Window.ScrollHandler() {
 
-			public void onWindowScroll(Window.ScrollEvent event) {
+			@Override
+            public void onWindowScroll(Window.ScrollEvent event) {
 				calculateEnvironment();
 			}
 		});
@@ -188,33 +191,38 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		setView3D(view);
 	}
 
-	public void onGestureChange(GestureChangeEvent event) {
+	@Override
+    public void onGestureChange(GestureChangeEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
 				//event.preventDefault();
 				//event.stopPropagation();
 	}
 
-	public void onGestureEnd(GestureEndEvent event) {
+	@Override
+    public void onGestureEnd(GestureEndEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
 				//event.preventDefault();
 				//event.stopPropagation();
 	}
 
-	public void onGestureStart(GestureStartEvent event) {
+	@Override
+    public void onGestureStart(GestureStartEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
 				//event.preventDefault();
 				//event.stopPropagation();
 	}
 
-	public void onTouchCancel(TouchCancelEvent event) {
+	@Override
+    public void onTouchCancel(TouchCancelEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		 Log.debug(event.getAssociatedType().getName());
 	}
 	
-	public void onTouchMove(TouchMoveEvent event) {
+	@Override
+    public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		JsArray<Touch> targets = event.getTargetTouches();
@@ -262,7 +270,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    
     }
 
-	public void onTouchEnd(TouchEndEvent event) {
+	@Override
+    public void onTouchEnd(TouchEndEvent event) {
 		this.ignoreNextMouseEvent = true;
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
@@ -276,7 +285,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 	}
 
-	public void onTouchStart(TouchStartEvent event) {
+	@Override
+    public void onTouchStart(TouchStartEvent event) {
 		this.ignoreNextMouseEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
@@ -302,7 +312,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private static boolean DRAGMODE_IS_RIGHT_CLICK = false;
 	private int deltaSum = 0;
 
-	public void onMouseWheel(MouseWheelEvent event) {
+	@Override
+    public void onMouseWheel(MouseWheelEvent event) {
 		//don't want to roll the scrollbar
 		double delta = event.getDeltaY();
 		//we are on device where many small scrolls come, we want to merge them
@@ -329,11 +340,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 
-	public void onMouseOver(MouseOverEvent event) {
+	@Override
+    public void onMouseOver(MouseOverEvent event) {
 		 wrapMouseEntered();
 	}
 
-	public void onMouseOut(MouseOutEvent event) {
+	@Override
+    public void onMouseOut(MouseOutEvent event) {
 		// hide dialogs if they are open
 		int x = event.getClientX() + Window.getScrollLeft();
 		int y = event.getClientY() + Window.getScrollTop(); // why scrollLeft & scrollTop; see ticket #4049
@@ -352,7 +365,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 
-	public void onMouseMove(MouseMoveEvent event) {
+	@Override
+    public void onMouseMove(MouseMoveEvent event) {
 		if(isExternalHandling()){
 			return;
 		}
@@ -395,7 +409,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 	}
 
-	public void onMouseUp(MouseUpEvent event) {
+	@Override
+    public void onMouseUp(MouseUpEvent event) {
 		if(this.ignoreNextMouseEvent){
 			this.ignoreNextMouseEvent = false;
 			return;
@@ -421,7 +436,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	
 
 
-	public void onMouseDown(MouseDownEvent event) {
+	@Override
+    public void onMouseDown(MouseDownEvent event) {
 		deltaSum = 0;
 		if(this.ignoreNextMouseEvent){
 			this.ignoreNextMouseEvent = false;
@@ -488,12 +504,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
 	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
-	public LinkedList<PointerEvent> getMouseEventPool() {
+	@Override
+    public LinkedList<PointerEvent> getMouseEventPool() {
 	    return mousePool;
     }
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
 
-	public LinkedList<PointerEvent> getTouchEventPool() {
+	@Override
+    public LinkedList<PointerEvent> getTouchEventPool() {
 	    return touchPool;
     }
 
@@ -502,11 +520,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return view.textfieldClicked(x, y, type);
 	}
 
-	public int touchEventX(int clientX) {
+	@Override
+    public int touchEventX(int clientX) {
 	   return clientX;
     }
 
-	public int touchEventY(int clientY) {
+	@Override
+    public int touchEventY(int clientY) {
 	    return clientY;
     }
 
@@ -524,13 +544,15 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return style.getScaleYMultiplier();
 	}
 
-	public int mouseEventX(int clientX) {
+	@Override
+    public int mouseEventX(int clientX) {
 		 return Math.round((clientX)  *
 			(1 / style.getScaleX()) *
 				(1 / style.getHeightScale()));
    }
 
-	public int mouseEventY(int clientY) {
+	@Override
+    public int mouseEventY(int clientY) {
 		 return Math.round((clientY)  *
 			(1 / style.getScaleY()) *
 				(1 / style.getHeightScale()));
@@ -538,7 +560,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 
-	public int getEvID() {
+	@Override
+    public int getEvID() {
 	    return view.getEuclidianViewNo();
     }
 	
@@ -547,6 +570,21 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
 		//TODO
 	
+	}
+	
+	
+	@Override
+	protected void processMouseMoved(AbstractEvent e) {
+
+		super.processMouseMoved(e);
+		processMouseMoved();
+
+	}
+
+
+	@Override
+    public void update() {
+		// no picking with shaders
 	}
 
 }

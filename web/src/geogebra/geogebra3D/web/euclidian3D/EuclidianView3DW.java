@@ -284,11 +284,11 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	    }
     }
 	
-//	@Override
-//	public void repaintView() {
-//
-//		repaint();
-//	}
+	@Override
+	public void repaintView() {
+
+		repaint();
+	}
 
 
 	@Override
