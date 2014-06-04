@@ -139,7 +139,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	
     	 	
-    	getGGBZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
+    	getGGBZipJs(prepareToEntrySet(archiveContent), callback, zipJSworkerURL());
 
     }
     
@@ -252,9 +252,9 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	ne["archive"].push(obj);
     }-*/;
 
-	public native void getGGBZipJs(JavaScriptObject arch, JavaScriptObject clb,String module) /*-{
+	public native void getGGBZipJs(JavaScriptObject arch, JavaScriptObject clb, String workerURLs) /*-{
 
-		$wnd.zip.workerScriptsPath = module + "/js/zipjs/";
+		$wnd.zip.workerScriptsPath = workerURLs;
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;

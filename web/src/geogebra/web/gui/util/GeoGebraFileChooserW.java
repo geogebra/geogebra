@@ -223,12 +223,10 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	
 	@Override
     public void show(){
-		this.getCaption().setText(app.getMenu("Slider"));
+		this.getCaption().setText(app.getMenu("SaveAs"));
 		refreshOnlineState();
 		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
-		App.debug("MSBLOB preparing");
 		JavaScriptObject o = getDownloadGGBCallback(this.download.getElement());
-		App.debug("MSBLOB prepared");
 		((GgbAPIW) app.getGgbApi()).getGGB(true, o);
 	    super.show();
 	}
@@ -248,16 +246,12 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	return function(ggbZip){
 		//downloadButton = document.getElementById('downloadButton')		
 		if($wnd.navigator.msSaveBlob){
-			$wnd.console.log("MSBLOB SUPPORTED");
 			var callback = function(){
-				$wnd.console.log("MSBLOB LOADING");
 				$wnd.navigator.msSaveBlob(ggbZip,downloadButton.getAttribute("download"));return false;};
 				
 			_this.@geogebra.web.gui.util.GeoGebraFileChooserW::setDownloadCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(
 			callback);
-			$wnd.console.log("MSBLOB CALLBACK SET");
 		}else{
-			$wnd.console.log("MSBLOB NOT SUPPORTED");
 			var URL = $wnd.URL || $wnd.webkitURL;
 			var ggburl = URL.createObjectURL(ggbZip);
 			downloadButton.setAttribute("href", ggburl);
