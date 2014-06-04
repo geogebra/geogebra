@@ -5,6 +5,7 @@ import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.css.GuiResources;
@@ -263,7 +264,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
 		this.isAlone = false;
-
+		App.debug("PANEL"+id);
 	}
 
 	/**
@@ -541,6 +542,15 @@ public abstract class DockPanelW extends ResizeComposite implements
 		public double getCenterWidth() {
 			return super.getCenterWidth();
 		}
+		
+		@Override
+        public void add(Widget w){
+			if(this.getCenter()!=null){
+				Log.error("TODO: dock panel filled twice");
+				this.remove(this.getCenter());
+			}
+			super.add(w);
+		}
 
 	}
 
@@ -648,8 +658,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (component == null) {
 			component = loadComponent();
 		}
-
 		setLayout(false);
+			//ignore
 	}
 
 	/**
