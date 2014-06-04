@@ -1687,6 +1687,13 @@ Paddings for menuitems.
 	
 }
 
+.SpreadsheetEditorCell input{
+	border-radius:0px;
+	box-sizing:content-box;
+	-webkit-box-sizing:content-box;
+	padding:0px;
+}
+
 /**
  * According to the CSS2 specification, width will be the greater of
  * this width property and the computed width...
