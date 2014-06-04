@@ -545,7 +545,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return mouseEventX(clientX - style.getxOffset());
 		}
 		//IE touch events are mouse events
-		return Browser.isIE() ? mouseEventX(clientX) : (clientX - style.getxOffset());
+		return Browser.supportsPointerEvents() ? mouseEventX(clientX) : (clientX - style.getxOffset());
 	}
 
 	public int touchEventY(int clientY) {
@@ -553,7 +553,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return mouseEventY(clientY - style.getyOffset());
 		}
 		//IE touch events are mouse events
-		return Browser.isIE() ? mouseEventX(clientY) : (clientY - style.getyOffset());
+		return Browser.supportsPointerEvents() ? mouseEventX(clientY) : (clientY - style.getyOffset());
 	}
 
 	/**
