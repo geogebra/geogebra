@@ -59,6 +59,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		//this.fm = ((TouchApp) app).getFileManager();
 		this.app = app;
 		this.app.getNetworkOperation().getView().add(this);
+		if(this.app.getLoginOperation()==null){
+			this.app.initSignInEventFlow();
+		}
 		this.app.getLoginOperation().getView().add(this);
 		addHeader();
 		addContent();

@@ -1141,7 +1141,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	/** 
 	 * Initializes the user authentication 
 	 */
-	protected void initSignInEventFlow() {
+	public void initSignInEventFlow() {
 		
 		// Initialize the signIn operation
 		loginOperation = new LoginOperationW(this);
