@@ -3734,6 +3734,26 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
   border-collapse: collapse; 
 }
 
+.inspectorTable tr {
+	background-color: white;
+	color: black;
+}
+
+.inspectorTable tr.selected{
+	background-color: maroon;
+	color: yellow;
+}
+
+.inspectorTable tr.selected:hover{
+	background-color: blue;
+	color: yellow;
+}
+
+.inspectorTable tr:hover {
+	background-color: gray;
+	color: yellow;
+}
+
 .inspectorTable td {
   border: 1px solid;
   padding: 5px;

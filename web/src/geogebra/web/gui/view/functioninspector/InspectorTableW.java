@@ -5,6 +5,8 @@ import geogebra.web.gui.view.functioninspector.GridModel.IGridListener;
 
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 
@@ -20,13 +22,38 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		setWidth("100%");
 		setModel(new GridModel(col, this));
 		selectedRow = 1;
+		addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				updateRowStyle(getCellForEvent(event), "selected");
+			}
+		});
+		
+		
 	}
 
+	private void updateRowStyle(Cell cell, String style) {
+		if (cell == null) {
+			return;
+		}
+		
+		RowFormatter rf = getRowFormatter();
+		rf.setStyleName(selectedRow, "");
+		selectedRow = cell.getRowIndex();
+		rf.setStyleName(selectedRow, "selected");
+	
+	}
 	public void updateHeader(int col, String title) {
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);
     }
-
-	public void updateCell(int row, int col, String value) {
+	
+	
+	public void updateDataCell(int row, int col, String value) {
+		// Cells at row 0 are headers.
+		updateCell(row + 1, col, value);
+	}
+		
+	protected void updateCell(int row, int col, String value) {
 		App.debug(TABLE_PREFIX + "updating cell at row: " + row 
 				+ " col: " + col);
 		Label label = (Label)getWidget(row, col);

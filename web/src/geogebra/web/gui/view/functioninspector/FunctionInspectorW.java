@@ -171,11 +171,11 @@ public class FunctionInspectorW extends FunctionInspector {
 	
 
 	public void setXYValueAt(Double value, int row, int col) {
-		modelXY.setData(col, row, getModel().format(value));
+		modelXY.setData(row, col, getModel().format(value));
 	}
 
 	public Object getXYValueAt(int row, int col) {
-		String value = modelXY.getData(col, row + 1);
+		String value = modelXY.getData(row, col );
 		try {
 			double x = Double.parseDouble(value);
 		} catch (NullPointerException e) {
@@ -184,7 +184,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		catch (NumberFormatException e) {
 			value = "0.0";
 		}
-		App.debug("GRIDMODEL " + value);
 		return value;
 	}
 
@@ -562,7 +561,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		}
 
 		App.debug("Removing column");
-		//getModel().removeColumn();
+		getModel().removeColumn();
 		modelXY.removeColumn();
 
 		updateXYTable();

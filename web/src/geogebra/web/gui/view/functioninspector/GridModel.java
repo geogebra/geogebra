@@ -14,7 +14,7 @@ public class GridModel {
 		void removeColumn();
 
 		/** Body cell operations */
-		void updateCell(int col, int row, String value);
+		void updateDataCell(int row, int col, String value);
 		void removeLastCell(int row);
 
 		/** Row operations */
@@ -45,18 +45,18 @@ public class GridModel {
 		}
 	}
 
-	public void setData(int col, int row, String value) {
-//		if (col < columnCount && row < rowCount)  {
-//			List<String> list = data.get(row);
-//			list.set(col, value);
-//			listener.updateCell(col, row, value);
-//		}
+	public void setData(int row, int col, String value) {
+		if (col < getColumnCount() && row < getRowCount())  {
+			List<String> list = data.get(row);
+			list.set(col, value);
+			listener.updateDataCell(row, col, value);
+		}
 	}
 
 	public String getData(int col, int row) {
 		String result = "";
-		if (col < columnCount && row + 1 < rowCount)  {
-			List<String> list = data.get(row + 1);
+		if (col < columnCount && row < rowCount)  {
+			List<String> list = data.get(row);
 			result = list.get(col);
 		}
 
