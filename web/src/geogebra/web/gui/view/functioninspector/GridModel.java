@@ -7,14 +7,19 @@ import java.util.List;
 
 public class GridModel {
 	public interface IGridListener {
-		void updateHeader(int col, String title);
-		void updateCell(int col, int row, String value);
-		void addRow(List<String> row);
-		void removeCell(int row, int col);
-
-		void removeAllRows();
-		void setHeaders(String[] names);
+		/** Column/header operations */
 		void appendColumn(String name);
+		void setHeaders(String[] names);
+		void updateHeader(int col, String title);
+		void removeColumn();
+
+		/** Body cell operations */
+		void updateCell(int col, int row, String value);
+		void removeLastCell(int row);
+
+		/** Row operations */
+		void addRow(List<String> row);
+		void removeAllRows();
 		void removeRow(int row);
 	}
 
@@ -137,20 +142,24 @@ public class GridModel {
 		listener.appendColumn(name);
 	}
 
-	public void removeLastColumn() {
-		App.debug("removeLastColumn");
+	public void removeColumn() {
+		App.debug("removeColumn");
 		int col = headers.size() - 1;
+		
 		App.debug(headers.toString());
 		headers.remove(col);
-		for (int row = 0; row < data.size() + 1; row++) {
+		for (int row = 0; row < data.size(); row++) {
 			List<String> rowData = data.get(row);
 			if (col < rowData.size()) {
 				rowData.remove(col);
 			} else {
 				App.debug("Warning: rowData size is " + rowData.size());
 			}
-			listener.removeCell(row, col);
+			
+			
 		}
+		
+		listener.removeColumn();
 		columnCount--;
 
 	}

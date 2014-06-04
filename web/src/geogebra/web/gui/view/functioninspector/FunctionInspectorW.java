@@ -563,7 +563,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		App.debug("Removing column");
 		//getModel().removeColumn();
-		modelXY.removeLastColumn();
+		modelXY.removeColumn();
 
 		updateXYTable();
 	}

@@ -3722,11 +3722,16 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 ###       FUNCTION INSPECTOR
 #####################################################################################*/
 
+.inspectorTable {
+  width: 200px;
+  border-collapse: collapse; 
+}
+
 .inspectorTable td {
-  border: 1px solid #BBBBBB;
+  border: 1px solid;
   padding: 5px;
   min-width: 50px;	
-  min-heigh: 20px;	
+  height: 10px;	
 	
 }
 
@@ -3736,7 +3741,6 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 
 .inspectorTableData {
   min-width: 50px;	
-  min-heigh: 20px;	
 }
 
 

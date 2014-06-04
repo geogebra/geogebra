@@ -78,8 +78,14 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	    this.selectedRow = selectedRow;
     }
 
-	public void removeCell(int row) {
+	public void removeLastCell(int row) {
 	    removeCell(row, model.getColumnCount());
+    }
+
+	public void removeColumn() {
+		for (int row=0; row < getRowCount(); row++) {
+			removeLastCell(row);
+		}
     }
 
 	public void appendColumn(String name) {
