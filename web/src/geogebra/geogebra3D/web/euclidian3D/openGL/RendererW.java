@@ -11,7 +11,6 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
@@ -19,7 +18,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
-import geogebra.html5.Browser;
 import geogebra.html5.awt.GBufferedImageW;
 
 import java.util.ArrayList;
@@ -584,11 +582,14 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
 	protected Manager createManager() {
-		if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN in internet explorer
-			App.debug("================= supportsWebGLTriangleFan");
-			return new ManagerShaders(this, view3D);			
-		}
-		App.debug("================= doens't supportsWebGLTriangleFan");
+//		if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN in internet explorer
+//			App.debug("================= supportsWebGLTriangleFan");
+//			return new ManagerShaders(this, view3D);			
+//		}
+//		App.debug("================= doens't supportsWebGLTriangleFan");
+//		return new ManagerShadersNoTriangleFan(this, view3D);
+		
+		// wait for fix : detect webGL support correctly	
 		return new ManagerShadersNoTriangleFan(this, view3D);
     }
 	
@@ -1289,9 +1290,11 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		case TRIANGLE_STRIP : 
 			return WebGLRenderingContext.TRIANGLE_STRIP;
 		case TRIANGLE_FAN : 
-			if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN for internet explorer
-				return WebGLRenderingContext.TRIANGLE_FAN;
-			}
+//			if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN for internet explorer
+//				return WebGLRenderingContext.TRIANGLE_FAN;
+//			}
+			
+			// wait for fix : detect webGL support correctly
 			return WebGLRenderingContext.TRIANGLE_STRIP;
 		case TRIANGLES : 
 			return WebGLRenderingContext.TRIANGLES;
