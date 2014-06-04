@@ -1057,7 +1057,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	 * create alpha texture from image for the label
 	 * @param label label
 	 * @param image image
-	 */
+	 */ 
     protected void createAlphaTexture(DrawLabel3D label, ImageElement image){
 		
 		WebGLTexture texture;
@@ -1077,6 +1077,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		
 		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.RGBA, WebGLRenderingContext.RGBA, 
 				WebGLRenderingContext.UNSIGNED_BYTE, image);
+		
+		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
         
         
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
@@ -1092,10 +1094,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
     @Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf){
-    	GBufferedImageW image = new GBufferedImageW(16, 16, 0);
-    	glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.ALPHA, WebGLRenderingContext.ALPHA, 
-    			WebGLRenderingContext.UNSIGNED_BYTE, image.getImageElement());
-        
+    	// no need for now (dash and fading are made by the shader)        
     }
     
     @Override
