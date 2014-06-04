@@ -225,7 +225,10 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
     public void show(){
 		refreshOnlineState();
 		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
-		((GgbAPIW) app.getGgbApi()).getGGB(true, getDownloadGGBCallback(this.download.getElement()));
+		App.debug("MSBLOB preparing");
+		JavaScriptObject o = getDownloadGGBCallback(this.download.getElement());
+		App.debug("MSBLOB prepared");
+		((GgbAPIW) app.getGgbApi()).getGGB(true, o);
 	    super.show();
 	}
 	
