@@ -93,4 +93,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 	public void setDraggingViews(boolean b, boolean temporary);
 
 	public void refreshDraggingViews();
+
+	public void setGeneralToolBarDefinition(String toolbarDefinition);
 }

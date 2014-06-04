@@ -1274,6 +1274,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	private boolean oldDraggingViews;
 
+	private String generalToolbarDefinition;
+
 	public int getActiveToolbarId() {
 		return toolbarID;
 	}
@@ -1285,9 +1287,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// even if the following need not
 		// only do this if toolbar string not null, otherwise this may
 		String def = layout.getDockManager().getPanel(toolbarID).getToolbarString();
-		if(def != null || toolbarID != this.toolbarID){
-			setToolBarDefinition(def);
+		if(def == null && this.generalToolbarDefinition != null){
+			def = this.generalToolbarDefinition;
 		}
+
+		setToolBarDefinition(def);
+		
 
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
 			toolbarPanel.setActiveToolbar(new Integer(toolbarID));
@@ -1330,6 +1335,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private native void gotoURL(String s)/*-{
 		$wnd.location.replace(s);
 	}-*/;
+	
+	public void setGeneralToolBarDefinition(String toolBarDefinition) {
+		if(toolBarDefinition == null){
+			return;
+		}
+		generalToolbarDefinition = toolBarDefinition;
+		strCustomToolbarDefinition = toolBarDefinition;
+	}
 	
 	public void setToolBarDefinition(String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;

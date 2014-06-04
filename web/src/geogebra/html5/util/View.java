@@ -136,7 +136,7 @@ public class View {
 		try {
 			app.loadGgbFile(archiveContent);
 			App.debug("loadggb finished"+System.currentTimeMillis());
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			ex.printStackTrace();
 			App.debug(ex.getMessage());
 			return;

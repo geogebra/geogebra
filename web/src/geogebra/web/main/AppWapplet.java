@@ -351,7 +351,7 @@ public class AppWapplet extends AppW {
 			(customToolbar.length() > 0) &&
 			(articleElement.getDataParamShowToolBar()) &&
 			(getGuiManager() != null)) {
-			getGuiManager().setToolBarDefinition(customToolbar);
+			getGuiManager().setGeneralToolBarDefinition(customToolbar);
 		}
 	}
 

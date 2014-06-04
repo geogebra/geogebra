@@ -806,7 +806,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *         panel.
 	 */
 	public DockPanelData createInfo() {
-		return new DockPanelData(id, toolbarString, visible, openInFrame,
+		return new DockPanelData(id, getToolbarString(), visible, openInFrame,
 		        showStyleBar, new geogebra.html5.awt.GRectangleW(frameBounds),
 		        embeddedDef, embeddedSize);
 	}
@@ -1093,6 +1093,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @param toolbarString
 	 */
 	public void setToolbarString(String toolbarString) {
+		App.printStacktrace(this.getViewId()+":"+toolbarString);
 		if (toolbarString == null && hasToolbar()) {
 			toolbarString = defaultToolbarString;
 		}
