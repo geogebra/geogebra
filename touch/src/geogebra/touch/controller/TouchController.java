@@ -57,9 +57,9 @@ public class TouchController extends EuclidianControllerWeb implements
 	private long lastMoveEvent;
 //	NEW TOOL ACC - not in use yet
 //	/** constant movement of point (accelerometer) */
-//	private final int MOVE_DISTANCE = 3;
+	private final int MOVE_DISTANCE = 3;
 //	/** ignore accelerometer-values */
-//	private final int TRESHOLD = 2;
+	private final int TRESHOLD = 2;
 //	end NEW TOOL ACC - not in use yet
 
 	private final Timer repaintTimer = new Timer() {
@@ -327,7 +327,7 @@ public class TouchController extends EuclidianControllerWeb implements
 						|| this.model.getCommand() == ToolBarCommand.Pen
 						|| this.model.getCommand() == ToolBarCommand.FreehandShape
 						|| this.model.getCommand() == ToolBarCommand.DeleteObject
-//						|| this.model.getCommand() == ToolBarCommand.Accelerometer NEW TOOL ACC - not in use yet
+//						|| this.model.getCommand() == ToolBarCommand.Accelerometer //NEW TOOL ACC - not in use yet
 						|| Swipeables.isSwipeable(this.model.getCommand()) || (this.model
 						.getCommand() == ToolBarCommand.Slider && this.model
 						.getTotalNumber() > 0))) {
@@ -385,44 +385,44 @@ public class TouchController extends EuclidianControllerWeb implements
 	}
 
 //	NEW TOOL ACC - not in use yet
-//	public void onAccMove(double x, double y) {
-//		if(Math.abs(x) < 0.1 && Math.abs(y) < 0.1) return;
-//		x = Math.floor(x*100)/100;
-//		y = Math.floor(y*100)/100;
-//
-//		GeoPoint p = (GeoPoint) this.model.getElement(Test.GEOPOINT);
-//
-//		if(p != null){
-//			int newX = this.view.toScreenCoordX(p.getX());
-//			int newY = this.view.toScreenCoordY(p.getY());
-//
-//			//positive bzw. negative Beschleunigung --> Neigungsrichtung
-//			if (x < -this.TRESHOLD) {
-//				newX += (this.MOVE_DISTANCE + Math.abs((int)x));
-//
-//			}
-//			else if (x > this.TRESHOLD) {
-//				newX -= (this.MOVE_DISTANCE + Math.abs((int)x));	
-//			}
-//
-//			//positive bzw. negative Beschleunigung --> Neigungsrichtung
-//			if (y < -this.TRESHOLD) {
-//				newY -= (this.MOVE_DISTANCE + Math.abs((int)y));
-//
-//			}
-//			else if (y > this.TRESHOLD) {
-//				newY += (this.MOVE_DISTANCE + Math.abs((int)y));	
-//			}
-//
-//			final PointerEvent mEvent = new PointerEvent(newX, newY, PointerEventType.TOUCH, this.off);
-//			wrapMouseDragged(mEvent);
-//			this.origin = new GPoint(newX, newY);
-//		}
-//		else{
-//			this.model.select(this.view.getHits(), Test.GEOPOINT, 1);
-//		}
-//	}
+	public void onAccMove(double x, double y) {
+		if(Math.abs(x) < 0.1 && Math.abs(y) < 0.1) return;
+		x = Math.floor(x*100)/100;
+		y = Math.floor(y*100)/100;
+
+		GeoPoint p = (GeoPoint) this.model.getElement(Test.GEOPOINT);
+		if(p != null){
+			int newX = this.view.toScreenCoordX(p.getX());
+			int newY = this.view.toScreenCoordY(p.getY());
+
+			//positive bzw. negative Beschleunigung --> Neigungsrichtung
+			if (x < -this.TRESHOLD) {
+				newX += (this.MOVE_DISTANCE + Math.abs((int)x));
+
+			}
+			else if (x > this.TRESHOLD) {
+				newX -= (this.MOVE_DISTANCE + Math.abs((int)x));	
+			}
+
+			//positive bzw. negative Beschleunigung --> Neigungsrichtung
+			if (y < -this.TRESHOLD) {
+				newY -= (this.MOVE_DISTANCE + Math.abs((int)y));
+
+			}
+			else if (y > this.TRESHOLD) {
+				newY += (this.MOVE_DISTANCE + Math.abs((int)y));	
+			}
+
+			final PointerEvent mEvent = new PointerEvent(newX, newY, PointerEventType.TOUCH, this.off);
+			wrapMouseDragged(mEvent);
+			this.origin = new GPoint(newX, newY);
+		}
+		else{
+			this.model.select(this.view.getHits(), Test.GEOPOINT, 1);
+		}
+	}
 	
+
 	public void redefine(final GeoElement geo) {
 		this.model.redefine(geo);
 	}

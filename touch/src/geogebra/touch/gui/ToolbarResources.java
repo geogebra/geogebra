@@ -8,7 +8,7 @@ public interface ToolbarResources extends ClientBundle{
 	public static final ToolbarResources INSTANCE = GWT.create(ToolbarResources.class);
 	
 //	NEW TOOL ACC - not in use yet
-//	@Source("icons/png/toolbar/testBild.png")
+//	@Source("icons/png/toolbar/accelerometer.png")
 //	ImageResource accelerometer();
 //	end NEW TOOL ACC - not in use yet
 	

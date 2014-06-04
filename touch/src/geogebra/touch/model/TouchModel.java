@@ -54,7 +54,6 @@ import geogebra.common.plugin.ScriptError;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.script.Script;
 import geogebra.touch.TouchApp;
-import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.dialogs.ButtonDialog;
 import geogebra.touch.gui.dialogs.ImageDialog;
@@ -63,16 +62,15 @@ import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.dialogs.SliderDialog;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
+import geogebra.touch.utils.AccelerationCallback;
+import geogebra.touch.utils.Accelerometer;
+import geogebra.touch.utils.SensorUtils;
 import geogebra.touch.utils.ToolBarCommand;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.googlecode.gwtphonegap.client.accelerometer.Acceleration;
-import com.googlecode.gwtphonegap.client.accelerometer.AccelerationCallback;
-import com.googlecode.gwtphonegap.client.accelerometer.AccelerationOptions;
-import com.googlecode.gwtphonegap.client.accelerometer.AccelerometerWatcher;
 
 /**
  * 
@@ -106,7 +104,7 @@ public class TouchModel {
 	private final App app;
 	private Point2D lastPositon;
 	
-//	AccelerometerWatcher accWatcher; NEW TOOL ACC - not in use yet
+	Accelerometer accWatcher; //NEW TOOL ACC - not in use yet
 	
 	private GeoElement toSelect;
 
@@ -1048,9 +1046,9 @@ public class TouchModel {
 
 		this.kernel.setNotifyRepaintActive(false);
 //		NEW TOOL ACC - not in use yet
-//		if (this.accWatcher != null) {
-//			stopAccWatch();
-//		}
+		if (this.accWatcher != null) {
+			stopAccWatch();
+		}
 //		end NEW TOOL ACC - not in use yet
 
 		this.eventCoordinates = point;
@@ -1498,36 +1496,30 @@ public class TouchModel {
 	}
 
 //	NEW TOOL ACC - not in use yet
-//	private void initAccWatcher() {
-//
-//		final AccelerationOptions options = new AccelerationOptions();
-//
-//		options.setFrequency(75);
-//		this.accWatcher = TouchEntryPoint.getPhoneGap().getAccelerometer()
-//				.watchAcceleration(options, new AccelerationCallback() {
-//
-//					@Override
-//					public void onSuccess(final Acceleration acceleration) {
-//						((TouchController) TouchModel.this.app
-//								.getEuclidianView1().getEuclidianController())
-//								.onAccMove(acceleration.getX(),
-//										acceleration.getY());
-//					}
-//
-//					@Override
-//					public void onFailure() {
-//						// TODO Auto-generated method stub
-//
-//					}
-//				});
-//	}
-//
+	private void initAccWatcher() {
+
+		this.accWatcher = SensorUtils.getAccelerometer();
+		this.accWatcher.watchAcceleration(new AccelerationCallback() {
+
+					@Override
+					public void onSuccess(double x, double y, double z ) {
+						((TouchController) TouchModel.this.app
+								.getEuclidianView1().getEuclidianController())
+								.onAccMove(x, y);
+					}
+
+					@Override
+					public void onFailure() {
+						// TODO Auto-generated method stub
+
+					}
+				});
+	}
+
 //	NEW TOOL ACC - not in use yet
-//	private void stopAccWatch() {
-//		TouchEntryPoint.getPhoneGap().getAccelerometer()
-//				.clearWatch(this.accWatcher);
-//		this.accWatcher = null;
-//	}
+	private void stopAccWatch() {
+		this.accWatcher.clearWatches();
+	}
 
 	private static void remove(final Hits hits, final Test testClass) {
 		for (int i = hits.size() - 1; i >= 0; i--) {
