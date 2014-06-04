@@ -6,18 +6,18 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.Coords;
 
 /**
- * Specific manager for Internet Explorer : no TRIANGLE_FAN geometry
+ * Specific manager for browsers with no TRIANGLE_FAN geometry (e.g. IE)
  * @author mathieu
  *
  */
-public class ManagerShadersIE extends ManagerShaders {
+public class ManagerShadersNoTriangleFan extends ManagerShaders {
 
 	/**
 	 * constructor
 	 * @param renderer GL renderer
 	 * @param view3d 3D view
 	 */
-	public ManagerShadersIE(Renderer renderer, EuclidianView3D view3d) {
+	public ManagerShadersNoTriangleFan(Renderer renderer, EuclidianView3D view3d) {
 	    super(renderer, view3d);
     }
 	

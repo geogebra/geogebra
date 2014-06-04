@@ -584,12 +584,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
 	protected Manager createManager() {
-		if (Browser.isIE()){ // no TRIANGLE_FAN in internet explorer
-			App.debug("================= INTERNET EXPLORER");
-			return new ManagerShadersIE(this, view3D);
+		if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN in internet explorer
+			App.debug("================= supportsWebGLTriangleFan");
+			return new ManagerShaders(this, view3D);			
 		}
-		App.debug("================= NOT INTERNET EXPLORER");
-		return new ManagerShaders(this, view3D);
+		App.debug("================= doens't supportsWebGLTriangleFan");
+		return new ManagerShadersNoTriangleFan(this, view3D);
     }
 	
 	
@@ -1289,10 +1289,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		case TRIANGLE_STRIP : 
 			return WebGLRenderingContext.TRIANGLE_STRIP;
 		case TRIANGLE_FAN : 
-			if (Browser.isIE()){ // no TRIANGLE_FAN for internet explorer
-				return WebGLRenderingContext.TRIANGLE_STRIP;
+			if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN for internet explorer
+				return WebGLRenderingContext.TRIANGLE_FAN;
 			}
-			return WebGLRenderingContext.TRIANGLE_FAN;
+			return WebGLRenderingContext.TRIANGLE_STRIP;
 		case TRIANGLES : 
 			return WebGLRenderingContext.TRIANGLES;
 		case LINE_LOOP : 
