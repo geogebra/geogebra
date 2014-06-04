@@ -17,6 +17,7 @@ import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManagerD;
@@ -64,7 +65,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * View for inspecting selected GeoFunctions
+ * View for inspecting selected GeoFunc } else {tions
  * 
  * @author G. Sturr, 2011-2-12
  * 
@@ -129,6 +130,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 	protected void createGUI() {
 		wrappedDialog = new JDialog(getAppD().getFrame(), false) {
 			/**
+			 * } else {
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
@@ -227,6 +229,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 		modelXY = new DefaultTableModel();
 		modelXY.addColumn("x");
 		modelXY.addColumn("y(x)");
+		// modelXY.addRow(new String[] { "", "" });
 		modelXY.setRowCount(pointCount);
 		tableXY.setModel(modelXY);
 
@@ -700,13 +703,13 @@ public class FunctionInspectorD extends FunctionInspector implements
 	}
 
 	public void setXYValueAt(Double value, int row, int col) {
-		if (value != null) {
-			modelXY.setValueAt(getModel().format(value), row, col);
+		if (col < modelXY.getColumnCount() && row < modelXY.getRowCount()) {
+			modelXY.setValueAt(value == null ? null : getModel().format(value),
+					row, col);
 		} else {
-			modelXY.setValueAt(null, row, col);
-
+			App.debug("GEBASZ VAN: " + modelXY.getRowCount() + ", "
+					+ modelXY.getRowCount());
 		}
-
 	}
 
 	public Object getXYValueAt(int row, int col) {

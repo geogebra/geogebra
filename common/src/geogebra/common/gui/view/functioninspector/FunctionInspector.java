@@ -125,7 +125,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	// Update
 	// =====================================
 
-	protected void updateGUI() {
+	public void updateGUI() {
 
 		if (isIntervalTabSelected()) {
 			updateIntervalTab();
@@ -143,8 +143,11 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	 * FunctionInspector (e.g. points, integral)
 	 */
 	public void updateTabPanels() {
-
-		updateIntervalFields();
+		if (isIntervalTabSelected()) {
+			updateIntervalFields();
+		} else {
+			updatePointsTab();
+		}
 		getModel().updateGeos(isIntervalTabSelected());
 		updateGUI();
 

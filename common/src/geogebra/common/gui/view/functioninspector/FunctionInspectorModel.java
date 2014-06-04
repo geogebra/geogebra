@@ -436,7 +436,7 @@ public class FunctionInspectorModel {
 		if (isTable) {
 			double x = start - step * (pointCount - 1) / 2;
 			double y;
-			for (int i = 0; i < rowCount; i++) {
+			for (int i = 1; i < rowCount; i++) {
 				y = f.evaluate(x);
 				listener.setXYValueAt(x, i, 0);
 				listener.setXYValueAt(y, i, 1);
