@@ -583,12 +583,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 
 	@Override
-    protected Manager createManager() {
+	protected Manager createManager() {
 		if (Browser.isIE()){ // no TRIANGLE_FAN in internet explorer
-			App.debug("internet explorer");
-			 return new ManagerShadersIE(this, view3D);
+			App.debug("================= INTERNET EXPLORER");
+			return new ManagerShadersIE(this, view3D);
 		}
-	    return new ManagerShaders(this, view3D);
+		App.debug("================= NOT INTERNET EXPLORER");
+		return new ManagerShaders(this, view3D);
     }
 	
 	
