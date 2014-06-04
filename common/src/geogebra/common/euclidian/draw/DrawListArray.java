@@ -112,7 +112,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	 * @return the drawable create by the view for this geo
 	 */
 	protected DrawableND createDrawableND(GeoElement listElement) {
-		return view.createDrawableND(listElement);
+		return view.newDrawable(listElement);
 	}
 
 }

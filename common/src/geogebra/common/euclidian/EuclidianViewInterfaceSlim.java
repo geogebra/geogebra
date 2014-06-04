@@ -105,10 +105,10 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	 */
 	DrawableND getDrawableND(GeoElement geo);
 	/**
-	 * @param listElement geo
-	 * @return drawable for given geo
+	 * @param geo geo
+	 * @return new drawable for given geo
 	 */
-	DrawableND createDrawableND(GeoElement listElement);
+	DrawableND newDrawable(GeoElement geo);
 	
 	/**
 	 * Zooms w.r.t P with given zoom factor

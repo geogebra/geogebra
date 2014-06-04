@@ -1746,7 +1746,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @return drawable for given GeoElement
 	 */
 	protected DrawableND createDrawable(GeoElement geo) {
-		DrawableND d = companion.newDrawable(geo);
+		DrawableND d = newDrawable(geo);
 		if (d != null) {
 			DrawableMap.put(geo, d);
 			if (geo.isGeoPoint()) {
@@ -1755,6 +1755,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		}
 
 		return d;
+	}
+	
+	/**
+	 * @param geo geo
+	 * @return new drawable for the geo
+	 */
+	public DrawableND newDrawable(GeoElement geo){
+		return companion.newDrawable(geo);
 	}
 
 	public void reset() {

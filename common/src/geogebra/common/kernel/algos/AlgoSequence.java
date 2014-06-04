@@ -348,7 +348,6 @@ public class AlgoSequence extends AlgoElement {
 			if (expIsFunctionOrCurve) {
 				// for functions we always need a new element
 				listElement.setParentAlgorithm(null);
-				listElement.doRemove();
 
 				// replace old list element by a new one
 				listElement = createNewListElement();

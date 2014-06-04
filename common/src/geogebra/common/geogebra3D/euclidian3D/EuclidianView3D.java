@@ -49,7 +49,6 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -454,29 +453,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		drawable3DListToBeAdded.add(d);
 	}
 
-	/**
-	 * Create a {@link Drawable3D} linked to the {@link GeoElement3D}
-	 * 
-	 * <h3>Exemple:</h3>
-	 * 
-	 * For a GeoElement3D called "GeoNew3D", add in the switch the following
-	 * code:
-	 * <p>
-	 * <code>
-	    case GeoElement3D.GEO_CLASS_NEW3D: <br> &nbsp;&nbsp;                   
-           d = new DrawNew3D(this, (GeoNew3D) geo); <br> &nbsp;&nbsp;
-           break; <br> 
-        }
-        </code>
-	 * 
-	 * 
-	 * @param geo
-	 *            GeoElement for which the drawable is created
-	 * @return the drawable
-	 */
-	// protected Drawable3D newDrawable(GeoElement geo) {
+	
+
 	@Override
-	protected Drawable3D createDrawable(GeoElement geo) {
+	public Drawable3D newDrawable(GeoElement geo){
+		
 		Drawable3D d = null;
 		if (geo.hasDrawable3D()) {
 
@@ -608,7 +589,16 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				break;
 			}
 		}
+		
+		return d;
+		
+	}
 
+
+	@Override
+	protected Drawable3D createDrawable(GeoElement geo) {
+
+		Drawable3D d = newDrawable(geo);
 		if (d != null)
 			drawable3DMap.put(geo, d);
 
@@ -1219,34 +1209,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void remove(GeoElement geo) {
 
 		if (geo.hasDrawable3D()) {
-			// Drawable3D d = ((GeoElement3DInterface) geo).getDrawable3D();
 			Drawable3D d = drawable3DMap.get(geo);
-			// drawable3DLists.remove(d);
 			remove(d);
-//
-//			if (d != null && d instanceof Drawable3DList) {
-//				removeDrawable3DList((Drawable3DList) d);
-//			}
 		}
 
 		drawable3DMap.remove(geo);
 		geosToBeAdded.remove(geo);
 	}
-
-//	private void removeDrawable3DList(Drawable3DList d) {
-//		for (DrawableND d1 : d.getDrawables3D()) {
-//			if (d1.createdByDrawList()) {
-//				remove((Drawable3D) d1);
-//				removeFromDrawable3DList(d1);
-//			}
-//		}
-//	}
-//
-//	private void removeFromDrawable3DList(DrawableND d) {
-//		if (d instanceof Drawable3DList) {
-//			removeDrawable3DList((Drawable3DList) d);
-//		}
-//	}
 
 	/**
 	 * remove the drawable d
