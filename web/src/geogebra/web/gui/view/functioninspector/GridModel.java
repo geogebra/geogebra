@@ -20,7 +20,7 @@ public class GridModel {
 		/** Row operations */
 		void addRow(List<String> row);
 		void removeAllRows();
-		void removeRow(int row);
+		void removeLastRow();
 	}
 
 	private IGridListener listener;
@@ -46,11 +46,11 @@ public class GridModel {
 	}
 
 	public void setData(int col, int row, String value) {
-		if (col < columnCount && row < rowCount)  {
-			List<String> list = data.get(row);
-			list.set(col, value);
-			listener.updateCell(col, row, value);
-		}
+//		if (col < columnCount && row < rowCount)  {
+//			List<String> list = data.get(row);
+//			list.set(col, value);
+//			listener.updateCell(col, row, value);
+//		}
 	}
 
 	public String getData(int col, int row) {
@@ -120,18 +120,17 @@ public class GridModel {
 				addRow(rowData);
 			}
 		} else {
-			for (int row = rows; row > rowCount - 1; row--) {
-				removeRow(row);
+			for (int row = rowCount; row > rows; row--) {
+				removeLastRow();
 			}
 		}
 		
-		this.rowCount = rowCount;
+		this.rowCount = rows;
 	}
 
-	private void removeRow(int row) {
-	    data.remove(row);
-	    listener.removeRow(row);
-	    App.debug("Removed row: " + row);
+	private void removeLastRow() {
+	    data.remove(data.size() - 1);
+	    listener.removeLastRow();
     }
 
 

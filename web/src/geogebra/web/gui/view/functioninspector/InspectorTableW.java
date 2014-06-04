@@ -82,6 +82,10 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	    removeCell(row, model.getColumnCount());
     }
 
+	public void removeLastRow() {
+	    removeRow(getRowCount() - 1);
+    }
+
 	public void removeColumn() {
 		for (int row=0; row < getRowCount(); row++) {
 			removeLastCell(row);
@@ -90,7 +94,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 
 	public void appendColumn(String name) {
 		int col = getCellCount(HEADER_ROW);
-		App.debug(TABLE_PREFIX + " last column is: " + col);
 		addCell(HEADER_ROW);
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", name);
 		for (int row = 1; row < getRowCount(); row++) {
