@@ -22,6 +22,8 @@ import geogebra.web.euclidian.EuclidianViewWInterface;
 import geogebra.web.euclidian.MyEuclidianViewPanel;
 import geogebra.web.main.AppW;
 
+import java.util.HashMap;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -532,6 +534,16 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 
 	public Canvas getCanvas() {
 	    return g2p.getCanvas();
+    }
+
+
+	/**
+	 * the file has been set by the App
+	 * @param file file
+	 */
+	public void setCurrentFile(HashMap<String, String> file) {
+	    // used only when no webGL
+	    
     }
 	
 	

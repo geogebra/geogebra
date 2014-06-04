@@ -73,7 +73,10 @@ public class EuclidianController3DWnoWebGL extends EuclidianController3DW{
 	
 	
 	
-	
+	@Override
+	public void calculateEnvironment() {
+	    view.repaint();
+    }
 	
 	
 }

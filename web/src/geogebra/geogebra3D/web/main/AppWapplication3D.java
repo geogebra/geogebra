@@ -20,6 +20,8 @@ import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppWapplication;
 
+import java.util.HashMap;
+
 import com.google.gwt.user.client.Command;
 
 /**
@@ -155,6 +157,12 @@ public class AppWapplication3D extends AppWapplication {
 	@Override
     protected AppCompanion newAppCompanion(){
 		return new App3DCompanionW(this);
+	}
+	
+	@Override
+    public void setCurrentFile(HashMap<String, String> file) {
+		super.setCurrentFile(file);
+		((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
 	}
 
 }
