@@ -77,6 +77,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	private boolean isPreview = false;
 	
+	
 	/**
 	 * @param view view
 	 * @param conicPart conic part
@@ -136,6 +137,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 				updateParallelLines();
+				break;
+				
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+				isVisible = false;		
 				break;
 
 			default:

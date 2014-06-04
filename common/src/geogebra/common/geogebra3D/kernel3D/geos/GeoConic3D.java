@@ -375,20 +375,26 @@ implements RotateableND, MirrorableAtPlane {
 	
 	/**
 	 * set this to sigle point at m location
+	 * @param conic conic which will be single point
 	 * @param m point
 	 */
-	public void setSinglePoint(Coords m){
+	static final public void setSinglePoint(GeoConic3D conic, Coords m){
 		
-		coordSys.resetCoordSys();
-		coordSys.addPoint(m);
-		coordSys.completeCoordSys2D();
-		coordSys.makeOrthoMatrix(false, false);
+		CoordSys cs = conic.getCoordSys();
+		if (cs == null){
+			cs = new CoordSys(2);
+			conic.setCoordSys(cs);
+		}
+		cs.resetCoordSys();
+		cs.addPoint(m);
+		cs.completeCoordSys2D();
+		cs.makeOrthoMatrix(false, false);
 		
-		setMidpoint(new double[] {0,0});
+		conic.setMidpoint(new double[] {0,0});
 		
-		setSinglePointMatrix();
+		conic.setSinglePointMatrix();
 
-		singlePoint();
+		conic.singlePoint();
 
 	}
 

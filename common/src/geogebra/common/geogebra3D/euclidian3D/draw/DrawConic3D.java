@@ -144,13 +144,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			PlotterSurface surface;
 
 			surface = renderer.getGeometryManager().getSurface();
-			surface.start(this);
-			//number of vertices depends on point size
-			int nb = 2+conic.getLineThickness();
-			surface.setU((float) getMinParameter(0), (float) getMaxParameter(0));surface.setNbU(2*nb); 
-			surface.setV((float) getMinParameter(1), (float) getMaxParameter(1));surface.setNbV(nb);
-			surface.draw();
-			setGeometryIndex(surface.end());
+			updateSinglePoint(surface);
 			
 		}else{
 
@@ -373,6 +367,20 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 */
 	protected void updateEllipse(PlotterSurface surface){
 		surface.ellipsePart(m, ev1, ev2, e1, e2, getEllipseSurfaceStart(),getEllipseSurfaceExtent(), isSector());
+	}
+	
+	/**
+	 * update surface drawing for single point case
+	 * @param surface surface plotter
+	 */
+	protected void updateSinglePoint(PlotterSurface surface){
+		surface.start(this);
+		//number of vertices depends on point size
+		int nb = 2+conic.getLineThickness();
+		surface.setU((float) getMinParameter(0), (float) getMaxParameter(0));surface.setNbU(2*nb); 
+		surface.setV((float) getMinParameter(1), (float) getMaxParameter(1));surface.setNbV(nb);
+		surface.draw();
+		setGeometryIndex(surface.end());
 	}
 	
 	/**

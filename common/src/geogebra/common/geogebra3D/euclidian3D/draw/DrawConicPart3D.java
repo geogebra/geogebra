@@ -82,6 +82,12 @@ public class DrawConicPart3D extends DrawConic3D {
 		// no surface here
 	}
 	
+	@Override
+	protected void updateSinglePoint(PlotterSurface surface){
+		// not visible
+		setGeometryIndex(-1);
+	}
+	
 	
 	@Override
 	protected boolean isSector(){

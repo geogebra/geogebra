@@ -137,7 +137,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
         		if (o1.equalsForKernel(o2)){
         			if (Kernel.isZero(r1) && Kernel.isZero(r2)){
         				//single point
-        				circle.setSinglePoint(o1);
+        				GeoConic3D.setSinglePoint(circle, o1);
         				return;
         			}
         			

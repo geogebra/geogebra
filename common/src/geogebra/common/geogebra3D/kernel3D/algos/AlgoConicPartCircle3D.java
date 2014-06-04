@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.LocusEquation;
@@ -25,6 +26,7 @@ import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -132,7 +134,9 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		CoordSys cs = conic.getCoordSys();
 		
 		if (!cs.isDefined()){
-			conicPart.setUndefined();
+			GeoConic3D.setSinglePoint((GeoConic3D) conicPart, startPoint.getInhomCoordsInD(3));
+			((GeoConicPart3D) conicPart).setParametersToSinglePoint();
+			conicPart.setType(GeoConicNDConstants.CONIC_SINGLE_POINT);
 			return;
 		}
 		
