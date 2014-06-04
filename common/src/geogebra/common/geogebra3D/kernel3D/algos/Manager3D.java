@@ -23,6 +23,7 @@ import geogebra.common.geogebra3D.kernel3D.transform.TransformRotate3D;
 import geogebra.common.geogebra3D.kernel3D.transform.TransformTranslate3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MacroConstruction;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -349,9 +350,9 @@ public class Manager3D implements Manager3DInterface {
 		//when have space as direction, just to say it's not as in 2D
 		if (line instanceof GeoLineND && direction instanceof GeoSpace)
 			return OrthogonalLine3D(label, point, (GeoLineND) line);	
-		
-		//when xOy plane as direction, check if it's only 2D objects, then return 2D line
-		if (direction==((Construction3D) cons).getXOYPlane() && (point instanceof GeoPoint) && (line instanceof GeoLine)){
+			
+		//when using Locus (via macro) or xOy plane as direction, check if it's only 2D objects, then return 2D line
+		if ((cons instanceof MacroConstruction || direction==((Construction3D) cons).getXOYPlane()) && (point instanceof GeoPoint) && (line instanceof GeoLine)){
 			AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons, label, (GeoPoint) point, (GeoLine) line);
 			return algo.getLine();
 		}
