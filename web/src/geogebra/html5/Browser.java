@@ -130,4 +130,9 @@ public class Browser {
    		}
    		catch( e ) { return false; } 
 	}-*/;
+	
+	public static native boolean supportsWebGLTriangleFan()/*-{
+		return $wnd.WebGLRenderingContext && (!! $wnd.WebGLRenderingContext.TRIANGLE_FAN);
+	}-*/;
+
 }
