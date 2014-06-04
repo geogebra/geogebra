@@ -1702,7 +1702,7 @@ public abstract class Renderer {
      * @param val
      * @return first power of 2 greater than val
      */
-    static final protected int firstPowerOfTwoGreaterThan(int val){
+    public static final int firstPowerOfTwoGreaterThan(int val){
     	
     	int ret = 1;
     	while(ret<val)

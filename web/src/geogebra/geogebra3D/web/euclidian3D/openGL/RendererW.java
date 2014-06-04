@@ -19,10 +19,13 @@ import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
 import geogebra.html5.awt.GBufferedImageW;
+import geogebra.html5.util.ImageLoadCallback;
+import geogebra.html5.util.ImageWrapper;
 
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtgl.binding.WebGLBuffer;
@@ -1003,23 +1006,63 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg){
     	
 		// values for picking (ignore transparent bytes)
-		label.setPickingDimension(0, 0, label.getWidth(), label.getHeight());
+    	label.setPickingDimension(0, 0, label.getWidth(), label.getHeight());
+
+
+    	// check if image is ready
+    	ImageElement image = ((GBufferedImageW) bimg).getImageElement();    	
+    	if (!image.getPropertyBoolean("complete")) {	
+    		ImageWrapper.nativeon(image,
+    				"load",
+    				new AlphaTextureCreator(label, image, this)
+    				);
+    	}else{
+    		createAlphaTexture(label, image);
+    	}
 		
-		//update width and height
-		label.setDimensionPowerOfTwo(firstPowerOfTwoGreaterThan(label.getWidth()), firstPowerOfTwoGreaterThan(label.getHeight()));
-		
-		label.setTextureIndex(createAlphaTexture(
-				label.getTextureIndex(), 
-				label.waitForReset(), 
-				label.getWidthPowerOfTwo(), 
-				label.getHeightPowerOfTwo(), bimg));
 		
 	}
+    
+    private class AlphaTextureCreator implements ImageLoadCallback{
+    	
+    	private DrawLabel3D label;
+    	private ImageElement image;
+    	private RendererW renderer;
+    	
+    	public AlphaTextureCreator(DrawLabel3D label, ImageElement image, RendererW renderer){
+    		this.label = label;
+    		this.image = image;
+    		this.renderer = renderer;
+    	}
+
+		public void onLoad() {
+			
+			// image ready : create the texture
+			renderer.createAlphaTexture(label, image);
+			
+			// repaint the view
+			renderer.getView().repaintView();
+        }
+    }
+    
+    /**
+     * 
+     * @return the 3D view attached
+     */
+    public EuclidianView3D getView(){
+    	return view3D;
+    }
 	
-	
-    private int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, GBufferedImage bimg){
+	/**
+	 * create alpha texture from image for the label
+	 * @param label label
+	 * @param image image
+	 */
+    protected void createAlphaTexture(DrawLabel3D label, ImageElement image){
 		
 		WebGLTexture texture;
+		
+		int textureIndex = label.getTextureIndex();
 		
 		if (textureIndex == -1){
 			textureIndex = texturesArray.size();
@@ -1030,17 +1073,15 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		}
 				
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
-     	//bindTexture(index[0]);
 		
-		//textureImage2D(sizeX, sizeY, buf);
+		
 		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.RGBA, WebGLRenderingContext.RGBA, 
-				WebGLRenderingContext.UNSIGNED_BYTE, ((GBufferedImageW) bimg).getImageElement());
+				WebGLRenderingContext.UNSIGNED_BYTE, image);
         
         
-        //disableTextures2D();
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
         
-        return textureIndex;
+		label.setTextureIndex(textureIndex);
 	}
 
 
