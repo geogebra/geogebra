@@ -934,10 +934,13 @@ public class FunctionInspectorModel {
 
 		int row = listener.getSelectedXYRow();
 		if (row >= 0) {
-			double x = Double.parseDouble((String) listener.getXYValueAt(row, 0));
-			double y = selectedGeo.evaluate(x);
-			testPoint.setCoords(x, y, 1);
-			testPoint.updateRepaint();
+			String str = (String) listener.getXYValueAt(row, 0);
+			if (!str.isEmpty()) {
+				double x = Double.parseDouble(str);
+				double y = selectedGeo.evaluate(x);
+				testPoint.setCoords(x, y, 1);
+				testPoint.updateRepaint();
+			}
 		}
 
 	}
