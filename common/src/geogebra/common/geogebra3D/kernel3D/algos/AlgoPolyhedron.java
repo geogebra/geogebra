@@ -80,6 +80,17 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 				}
 				p.setLabelVisible(labelVisible);
 				
+				
+				if (getPolyhedron().getShowObjectCondition() != null) {
+					try {
+						p.setShowObjectCondition(getPolyhedron().getShowObjectCondition());
+					} catch (Exception e) {
+						//circular definition
+					}
+				}
+				
+				getPolyhedron().addPointCreated(p);
+				
 				return p;
 			}
 		});

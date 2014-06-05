@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
@@ -221,7 +220,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		outputPoints.augmentOutputSize(1, false);
 		setTopPoint(outputPoints.getElement(0));
-		polyhedron.addPointCreated((GeoPoint3D) topPoint);
 		createPolyhedron();
 		
 		

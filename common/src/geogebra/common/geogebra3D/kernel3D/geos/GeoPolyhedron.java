@@ -5,6 +5,7 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPoints;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.Path;
@@ -18,6 +19,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -368,6 +370,14 @@ HasHeight, Path
 
 		// force init labels called to avoid polygon to draw edges
 		polygon.setInitLabelsCalled(true);
+		
+		if (condShowObject != null) {
+			try {
+				polygon.setShowObjectCondition(getShowObjectCondition());
+			} catch (Exception e) {
+				//circular definition
+			}
+		}
 
 		// put the polygon into the collection
 		polygons.put(index, polygon);
@@ -449,6 +459,14 @@ HasHeight, Path
 		segment.setObjColor(getObjectColor());
 		segment.setLineThickness(getLineThickness());
 		segment.setLineType(getLineType());
+		
+		if (condShowObject != null) {
+			try {
+				segment.setShowObjectCondition(getShowObjectCondition());
+			} catch (Exception e) {
+				//circular definition
+			}
+		}
 
 		Long index = new Long(segmentsIndexMax);
 		segmentsIndex.put(key, index);
@@ -1770,6 +1788,38 @@ HasHeight, Path
 				return true;
 		}
 		return false;
+	}
+	
+	
+	@Override
+	public void setShowObjectCondition(final GeoBoolean cond)
+			throws CircularDefinitionException {
+		
+		super.setShowObjectCondition(cond);
+		
+	
+		if (cons.isFileLoading())
+			return;
+
+		for (GeoPoint3D point : pointsCreated) {
+			point.setShowObjectCondition(cond);
+		}
+
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.setShowObjectCondition(cond);
+		}
+
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.setShowObjectCondition(cond);
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.setShowObjectCondition(cond);
+		}
+
+		for (GeoSegmentND segment : getSegmentsLinked()) {
+			((GeoElement) segment).setShowObjectCondition(cond);
+		}
 	}
 
 }

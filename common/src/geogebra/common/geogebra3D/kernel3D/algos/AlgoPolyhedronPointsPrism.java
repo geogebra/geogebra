@@ -88,7 +88,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		for(int i=0;i<bottomPointsLength-1;i++){
 			GeoPoint3D point = outputPoints.getElement(i+1-getShift());
 			points[bottomPointsLength+1+i] = point;
-			polyhedron.addPointCreated(point);
 		}
 		
 		
