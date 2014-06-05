@@ -455,30 +455,38 @@ public class ToolBar {
 		sb.append( EuclidianConstants.MODE_PARALLEL_PLANE);
 		sb.append( " | ");
 		
+		
 		//prisms/pyramids/cones/cylinders
 		sb.append(EuclidianConstants.MODE_PYRAMID);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PRISM);
+		
 		sb.append(" , ");
 		sb.append( EuclidianConstants.MODE_CONIFY);
 		sb.append(" ");
 		sb.append( EuclidianConstants.MODE_EXTRUSION);
+
+		sb.append( " , ");
+		sb.append( EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS );
+		sb.append( " ");
+		sb.append( EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS );
+
 		sb.append( " , " );
 		sb.append(EuclidianConstants.MODE_TETRAHEDRON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CUBE);
+		
 		sb.append(" , ");
 		sb.append( EuclidianConstants.MODE_NET);
 		sb.append( " | " );
+		
+		
+		
 		
 		//spheres
 		sb.append( EuclidianConstants.MODE_SPHERE_TWO_POINTS );
 		sb.append( " ");
 		sb.append( EuclidianConstants.MODE_SPHERE_POINT_RADIUS );
-		sb.append( " , ");
-		sb.append( EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS );
-		sb.append( " ");
-		sb.append( EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS );
 		sb.append( " | ");
 		
 		//measures
