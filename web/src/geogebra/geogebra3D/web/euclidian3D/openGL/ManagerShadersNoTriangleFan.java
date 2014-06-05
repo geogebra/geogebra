@@ -35,5 +35,15 @@ public class ManagerShadersNoTriangleFan extends ManagerShaders {
 		vertex(triangleFanApex);
 		vertex(v);
 	}
+	
+	@Override
+	public int getLongitudeMax(){
+		return 64;
+	}
+	
+	@Override
+	public int getLongitudeDefault(){
+		return getLongitudeMax();
+	}
 
 }
