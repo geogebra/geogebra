@@ -443,6 +443,21 @@ abstract public class Manager {
 	abstract public void rectangleBounds(int x, int y, int z, int width, int height);
 	
 
+	/**
+	 * 
+	 * @return max number of longitudes
+	 */
+	public int getLongitudeMax(){
+		return 1024;
+	}
+	
+	/**
+	 * 
+	 * @return default number of longitudes
+	 */
+	public int getLongitudeDefault(){
+		return 64;
+	}
 	
 
 }

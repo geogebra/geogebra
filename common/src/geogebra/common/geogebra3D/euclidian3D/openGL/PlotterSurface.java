@@ -220,11 +220,11 @@ public class PlotterSurface {
 		int longitude=8;
 		double size=radius*viewScale;
 		//App.error(""+size);
-		while(longitude*longitude<=16*size){//find the correct longitude size 
+		while(longitude*longitude<=16*size && longitude < manager.getLongitudeMax()){//find the correct longitude size 
 			longitude*=2;
 		}
 		
-		//App.debug("longitude="+longitude);
+		//App.debug("sphere ==== longitude="+longitude);
 		return longitude;
 	}
 	
@@ -545,6 +545,8 @@ public class PlotterSurface {
 			longitude*=2;
 		}
 		
+		//App.debug("========== point : longitude = "+longitude);
+		
 		//longitude=2;
 		
 		int latitude=longitude/2;
@@ -670,7 +672,7 @@ public class PlotterSurface {
 	public void disc(Coords center, Coords v1, Coords v2, double radius){
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
-		int longitude = 60;
+		int longitude = manager.getLongitudeDefault();
 		
 		Coords vn;
 		
@@ -758,7 +760,7 @@ public class PlotterSurface {
 	public void ellipsePart(Coords center, Coords v1, Coords v2, double a, double b, double start, double extent, boolean fromEllipseCenter){
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 		
-		int longitude = 60;
+		int longitude = manager.getLongitudeDefault();
 		
 		Coords m;
     	float u, v;
@@ -818,7 +820,7 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		
-		int longitude = 60;
+		int longitude = manager.getLongitudeDefault();
 		
 		Coords m, n;
     	float u, v;
@@ -873,7 +875,7 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		
-		int longitude = 60;
+		int longitude = manager.getLongitudeDefault();
 		
 		Coords m, n;
     	float u, v;
@@ -942,7 +944,7 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		
-		int longitude = 60;
+		int longitude = manager.getLongitudeDefault();
 		
 		Coords n;
     	float u, v;
@@ -1023,7 +1025,7 @@ public class PlotterSurface {
 		
     	
 
-		int longitude = 120;
+		int longitude = manager.getLongitudeDefault();
 
 		Coords m;
 
@@ -1080,7 +1082,7 @@ public class PlotterSurface {
 		
     	
 
-		int longitude = 120;
+		int longitude = manager.getLongitudeDefault();
 
 		Coords m;
 

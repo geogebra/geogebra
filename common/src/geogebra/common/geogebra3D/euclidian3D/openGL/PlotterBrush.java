@@ -400,16 +400,16 @@ public class PlotterBrush implements PathPlotter {
 
 		int longitude;
 		double size=radius * halfExtent * viewScale;
-		if (size > 1048576){ // longitude would be > 2048
-			longitude = 2048;
+		if (size > 262144){ // longitude would be > 1024
+			longitude = manager.getLongitudeMax();
 		}else{
 			longitude = 8;
-			while(longitude*longitude <= 4*size){//find the correct longitude size 
+			while(longitude*longitude <= 4*size && longitude < manager.getLongitudeMax()){//find the correct longitude size 
 				longitude*=2;
 			}
 		}
 		
-		//App.debug("longitude="+longitude);
+		//App.debug("circle ==== longitude="+longitude);
 		return longitude;
 	}
 
@@ -476,7 +476,7 @@ public class PlotterBrush implements PathPlotter {
 		Coords f2 = v1.mul(-f);
 
 		
-		int longitude = 60;
+		int longitude = manager.getLongitudeDefault();
 		
 		Coords m,mold,vn1;
 		Coords vn2 = v2.crossProduct(v1);
@@ -531,7 +531,7 @@ public class PlotterBrush implements PathPlotter {
 		setTextureType(PlotterBrush.TEXTURE_LINEAR);
 		setCurvePos(0.75f/(TEXTURE_AFFINE_FACTOR*scale)); //midpoint is middle of an empty dash
 		
-		int longitude = 120;
+		int longitude = manager.getLongitudeDefault();
 		
 		Coords m,mold,vn1;
 		Coords vn2 = v1.crossProduct(v2);
@@ -582,7 +582,7 @@ public class PlotterBrush implements PathPlotter {
 
 		Coords vn2 = v1.crossProduct(v2);
 
-		int longitude = 120;
+		int longitude = manager.getLongitudeDefault();
 
 		//dash
 		length=1;

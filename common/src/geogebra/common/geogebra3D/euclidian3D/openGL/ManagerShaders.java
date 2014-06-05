@@ -467,5 +467,14 @@ public class ManagerShaders extends Manager {
 		getText().rectangleBounds(x, y, z, width, height);
 	}
 
+	@Override
+	public int getLongitudeMax(){
+		return 64;
+	}
+	
+	@Override
+	public int getLongitudeDefault(){
+		return getLongitudeMax();
+	}
 
 }
