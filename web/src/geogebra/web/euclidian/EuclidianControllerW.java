@@ -180,7 +180,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		});
 
 		tempNum = new MyDouble(kernel);
-		style = new EnvironmentStyleW();
 	}
 	
 	public  void setView(EuclidianView view) {
