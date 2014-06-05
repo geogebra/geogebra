@@ -2,12 +2,14 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.Transformable;
@@ -348,6 +350,23 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable {
 			top.setEuclidianVisible(visible);
 		side.setEuclidianVisible(visible);
 
+	}
+	
+	
+	@Override
+	public void setShowObjectCondition(final GeoBoolean cond)
+			throws CircularDefinitionException {
+		
+		super.setShowObjectCondition(cond);
+
+		if (bottom == null)
+			return;
+		
+		bottom.setShowObjectCondition(cond);
+		if (!silentTop)
+			top.setShowObjectCondition(cond);
+		side.setShowObjectCondition(cond);
+		
 	}
 	
 	@Override
