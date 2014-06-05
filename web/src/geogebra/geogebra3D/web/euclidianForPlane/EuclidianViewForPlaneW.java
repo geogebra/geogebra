@@ -57,12 +57,12 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements EuclidianV
     }
 	
 	
-	@Override
-    public final void repaint() {
-
-		// temporary hack : use timer instead
-		doRepaint();
-     }
+//	@Override
+//    public final void repaint() {
+//
+//		// temporary hack : use timer instead
+//		doRepaint();
+//     }
 	
 	/**
 	 * 

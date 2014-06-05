@@ -5,6 +5,7 @@ import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.gui.view.spreadsheet.SpreadsheetViewWeb;
+import geogebra.web.euclidian.EuclidianViewW;
 
 import java.util.Date;
 
@@ -64,6 +65,9 @@ public class TimerSystemW {
 				// quick insertion, may be optimized later too
 				if (euclidianView2 != null)
 					euclidianView2.doRepaint();
+				
+				// repaint views for plane (if exist)
+				application.getCompanion().doRepaintViewsForPlane();
 
 				if (nextrepainttime <= 0) {
 					if (nextbigview == 0 && algebraTimed) {
@@ -155,6 +159,8 @@ public class TimerSystemW {
 					if (view == euclidianView2)
 						euclidianRepaint();
 				}
+			} else if (view instanceof EuclidianViewW){ // case for views for plane
+				euclidianRepaint();
 			} else if (view.getViewID() == App.VIEW_ALGEBRA) {
 				algebraView = (AlgebraViewWeb)application.getAlgebraView();
 				if (view == algebraView)

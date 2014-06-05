@@ -102,6 +102,13 @@ public class AppCompanion {
 	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
 		return null;
 	}
+	
+	/**
+	 * repaint views for plane
+	 */
+	public void doRepaintViewsForPlane(){
+		// used in 3D
+	}
 
 
 }

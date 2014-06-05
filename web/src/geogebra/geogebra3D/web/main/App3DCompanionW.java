@@ -66,7 +66,8 @@ public class App3DCompanionW extends App3DCompanion {
 	 * 
 	 * @return current dockpanel for plane
 	 */
-	public DockPanel getPanelForPlane(){
+	@Override
+    public DockPanel getPanelForPlane(){
 		return panel;
 	}
 
@@ -141,6 +142,14 @@ public class App3DCompanionW extends App3DCompanion {
 		}
 	}
 	
-	
+	@Override
+    public void doRepaintViewsForPlane(){
+		if(euclidianViewForPlaneCompanionList == null){
+			return;
+		}
+		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
+			((EuclidianViewForPlaneW) vfpc.getView()).doRepaint();
+		}
+	}
 
 }
