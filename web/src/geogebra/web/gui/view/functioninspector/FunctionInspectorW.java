@@ -19,6 +19,7 @@ import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.view.algebra.InputPanelW;
+import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -46,7 +47,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	private static final GColor EVEN_ROW_COLOR = new GColorW(241, 245, 250);
 	private static final GColor TABLE_GRID_COLOR = GColorW.gray;
 	private static final int TAB_INTERVAL_IDX = 0;
-	private static final String[] DEFAULT_XY_HEADERS = {"x", "y(x)"};  
+	private static final String[] DEFAULT_XY_HEADERS = {"x", "y(x)"};
+	private static final String PREFIX = "[FUNC_ISPECTOR]";  
 	
 	private FlowPanel mainPanel;
 	private TabPanel tabPanel;
@@ -91,7 +93,12 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	}
 
+	private void debug(String msg) {
+		App.debug(PREFIX + " " + msg);
+		
+	}
 	public void setLabels() {
+		debug("setLabels");
 		Localization loc = getAppW().getLocalization();
 //		wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
 		lblStep.setText(loc.getMenu("Step") + ":");
@@ -134,7 +141,8 @@ public class FunctionInspectorW extends FunctionInspector {
 		p.add(btnRemoveColumn);
 
 	    modelInterval.setHeaders(getModel().getIntervalColumnNames());
-
+		debug("setLabels ended");
+		
 	}
 
 	public void updateXYTable(boolean isTable) {
@@ -161,30 +169,27 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
+		debug("updateInterval");
 		modelInterval.removeAll();
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 		for (int i = 0; i < property.size(); i++) {
-			modelInterval.addRow(Arrays.asList(property.get(i), value.get(i)));
+			modelInterval.addAsRow(Arrays.asList(property.get(i), value.get(i)));
 
 		}
+		debug("updateInterval ended");
 	}
 	
 
 	public void setXYValueAt(Double value, int row, int col) {
+		debug("setData");
 		modelXY.setData(row, col, getModel().format(value));
+		debug("setData ended");
 	}
 
 	public Object getXYValueAt(int row, int col) {
-		String value = modelXY.getData(row, col );
-		try {
-			double x = Double.parseDouble(value);
-		} catch (NullPointerException e) {
-			value = "0.0";
-		}
-		catch (NumberFormatException e) {
-			value = "0.0";
-		}
-		return value;
+		DataCell value = modelXY.getData(row, col );
+		
+		return value != null ? value.toString() : "";
 	}
 
 	public void addTableColumn(String name) {
@@ -312,6 +317,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 	@Override
 	protected void createTabPointPanel() {
+		debug("createTabPointPanel()");
 		pointsTab = new FlowPanel();
 		pointsTab.setStyleName("propertiesTab");
 		FlowPanel header = new FlowPanel();
@@ -388,7 +394,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		});
 		
 		pointsTab.add(btnPanel);
-		
+		debug("createTabPointPanel() ENDED");
 	}
 
 

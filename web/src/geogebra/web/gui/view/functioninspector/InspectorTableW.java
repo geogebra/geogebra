@@ -1,6 +1,7 @@
 package geogebra.web.gui.view.functioninspector;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.gui.view.functioninspector.GridModel.IGridListener;
 
 import java.util.List;
@@ -48,30 +49,37 @@ public class InspectorTableW extends FlexTable implements IGridListener {
     }
 	
 	
-	public void updateDataCell(int row, int col, String value) {
+	public void updateDataCell(int row, int col, DataCell value) {
 		// Cells at row 0 are headers.
 		updateCell(row + 1, col, value);
 	}
 		
-	protected void updateCell(int row, int col, String value) {
+	protected void updateCell(int row, int col, DataCell value) {
 		App.debug(TABLE_PREFIX + "updating cell at row: " + row 
 				+ " col: " + col);
 		Label label = (Label)getWidget(row, col);
 		
 		
 		if (label != null) {
-			label.setText(value);
+			label.setText(value.toString());
 		} else {
 			setCellWidget(row, col, "inspectorTableData", value);
 		}
 
 	}
 
-	protected void setCellWidget(int row, int col, String style, String value) {
-		Label label = new Label(value);
+	protected void setCellWidget(int row, int col, String style, DataCell cell) {
+		Label label = new Label(cell.toString());
 		getCellFormatter().setStyleName(row, col, style);
 		setWidget(row, col, label);
 	}
+	
+	protected void setCellWidget(int row, int col, String style, String text) {
+		Label label = new Label(text);
+		getCellFormatter().setStyleName(row, col, style);
+		setWidget(row, col, label);
+	}
+	
 	public GridModel getModel() {
 	    return model;
     }
@@ -80,11 +88,11 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	    this.model = model;
     }
 
-	public void addRow(List<String> row) {
+	public void addRow(List<DataCell> row) {
 		int numRows = getRowCount();
 		int col = 0;
-		for (String cellText: row) {
-			setCellWidget(numRows, col, "inspectorTableData", cellText);
+		for (DataCell cell: row) {
+			setCellWidget(numRows, col, "inspectorTableData", cell);
 			col++;
 		}
     }

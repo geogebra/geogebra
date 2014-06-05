@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridModel {
+
 	public interface IGridListener {
 		/** Column/header operations */
 		void appendColumn(String name);
@@ -14,18 +15,46 @@ public class GridModel {
 		void removeColumn();
 
 		/** Body cell operations */
-		void updateDataCell(int row, int col, String value);
+		void updateDataCell(int row, int col, DataCell cell);
 		void removeLastCell(int row);
 
 		/** Row operations */
-		void addRow(List<String> row);
+		void addRow(List<DataCell> row);
 		void removeAllRows();
 		void removeLastRow();
 	}
+	
+	public class DataCell {
+		private boolean editable;
+		private Object value;
 
+		public DataCell(Object value, boolean editable) {
+			this.value = value;
+			this.setEditable(editable);
+		}
+
+		public boolean isEditable() {
+	        return editable;
+        }
+
+		public void setEditable(boolean editable) {
+	        this.editable = editable;
+        }
+		
+		@Override
+		public String toString() {
+			String result = "";
+			if (value != null) {
+				return value.toString();
+	 		}
+			return result;
+
+		};
+	};
+	
 	private IGridListener listener;
 	private List<String> headers;
-	private List<List<String>> data;
+	private List<List<DataCell>> data;
 	private int columnCount;
 	private int rowCount;
 
@@ -34,34 +63,38 @@ public class GridModel {
 		rowCount = 0;
 		this.listener = listener;
 		headers = new ArrayList<String>();
-		data = new ArrayList<List<String>>();
-	}
+		data = new ArrayList<List<DataCell>>();
+	}         
 
 
 	public void setHeader(int col, String title) {
 		if (col < getColumnCount())  {
 			headers.set(col, title);
+			App.debug("[GRIDMODEL] setHeader(" + col + "," + title +")");
 			listener.updateHeader(col, title);
 		}
 	}
 
-	public void setData(int row, int col, String value) {
+	public void setData(int row, int col, Object value) {
+		App.debug("[GRIDMODEL] setData(" + row + ", " + col + ", " +value + ")");
 		if (col < getColumnCount() && row < getRowCount())  {
-			List<String> list = data.get(row);
-			list.set(col, value);
-			listener.updateDataCell(row, col, value);
+			List<DataCell> list = data.get(row);
+			DataCell cell = new DataCell(value, false);
+			list.set(col, cell);
+			listener.updateDataCell(row, col, cell);
 		}
 	}
 
-	public String getData(int col, int row) {
-		String result = "";
+	public DataCell getData(int col, int row) {
+		App.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
+		DataCell result = null;
 		if (col < columnCount && row < rowCount)  {
-			List<String> list = data.get(row);
+			List<DataCell> list = data.get(row);
 			result = list.get(col);
+			
 		}
-
-		App.debug("[GRIDMODEL] getData(" + col + ", " + row + ") = " + result);
-
+		App.debug("[GRIDMODEL] = " + result);
+		
 		return result;
 	}
 
@@ -78,9 +111,20 @@ public class GridModel {
 		listener.removeAllRows();
 	}
 
-	public void addRow(List<String> row) {
+	
+	public void addRow(List<DataCell> row) {
+		App.debug("[GRIDMODEL] addRow(" + row + ")");
 		data.add(row);
 		listener.addRow(row);
+	}
+	
+	public void addAsRow(List<String> values) {
+		List<DataCell> row = new ArrayList<DataCell>();
+		for (Object value: values)  {
+			row.add(new DataCell(value, false));
+		}
+		
+		addRow(row);
 	}
 
 	public void setHeaders(String[] names) {
@@ -112,9 +156,9 @@ public class GridModel {
 		}
 		
 		if (rows > rowCount) {
-			List<String> rowData = new ArrayList<String>();
+			List<DataCell> rowData = new ArrayList<DataCell>();
 			for (int col=0; col < columnCount; col++) {
-				rowData.add("");
+				rowData.add(new DataCell(null, false));
 			}
 			for (int row=rowCount;row  < rows; row++ ) {
 				addRow(rowData);
@@ -148,7 +192,7 @@ public class GridModel {
 		App.debug(headers.toString());
 		headers.remove(col);
 		for (int row = 0; row < data.size(); row++) {
-			List<String> rowData = data.get(row);
+			List<DataCell> rowData = data.get(row);
 			if (col < rowData.size()) {
 				rowData.remove(col);
 			} else {
