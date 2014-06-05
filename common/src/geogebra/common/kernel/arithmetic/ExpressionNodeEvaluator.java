@@ -916,7 +916,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				throw new MyError(l10n, str);
 			}
 
-			if ((int) exponent >= 0) {
+			if ((int) exponent >= 0 && !Double.isInfinite(exponent)) {
 				poly = new Polynomial(kernel, (Polynomial) lt);
 				poly.power((int) exponent);
 				return poly;
@@ -956,7 +956,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			// get constant coefficent of given polynomial
 			double exponent = ((Polynomial) rt).getConstantCoeffValue();
-			if ((Kernel.isInteger(exponent) && ((int) exponent >= 0))) {
+			if ((Kernel.isInteger(exponent) && ((int) exponent >= 0)) && !Double.isInfinite(exponent)) {
 				poly = new Polynomial(kernel, (Polynomial) lt);
 				poly.power((int) exponent);
 				return poly;
