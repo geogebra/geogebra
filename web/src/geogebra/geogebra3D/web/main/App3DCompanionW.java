@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidianForPlane.EuclidianControllerForPlaneW;
 import geogebra.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelForPlaneW;
@@ -150,6 +151,12 @@ public class App3DCompanionW extends App3DCompanion {
 		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
 			((EuclidianViewForPlaneW) vfpc.getView()).doRepaint();
 		}
+	}
+	
+	
+	@Override
+    public void doRepaint3DView(){
+		((EuclidianView3DW) app.getEuclidianView3D()).doRepaint();
 	}
 
 }

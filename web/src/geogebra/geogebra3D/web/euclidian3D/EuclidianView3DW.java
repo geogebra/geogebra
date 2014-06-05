@@ -14,9 +14,11 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.html5.javax.swing.GBoxW;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewWInterface;
 import geogebra.web.euclidian.MyEuclidianViewPanel;
@@ -24,6 +26,7 @@ import geogebra.web.main.AppW;
 
 import java.util.HashMap;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -277,12 +280,7 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		repaintView();
 	}
 
-	@Override
-    public void repaint() {
-	    if (readyToRender){
-	    	renderer.drawScene();
-	    }
-    }
+
 	
 	@Override
 	public void repaintView() {
@@ -547,6 +545,75 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
     }
 	
 	
+	
+	
+	
+	
+	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+		public void execute(double ts) {
+			doRepaint2();
+		}
+	};
 
+	
+	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+
+	private long lastRepaint;
+
+
+	/**
+	 * schedule a repaint
+	 */
+	public void doRepaint() {
+		repaintScheduler.requestAnimationFrame(repaintCallback);
+	}
+
+	/**
+	 * This doRepaint method should be used instead of repaintView in cases
+	 * when the repaint should be done immediately
+	 */
+	public final void doRepaint2(){
+		
+		((AppWeb) this.app).getTimerSystem().viewRepainting(this);
+		long time = System.currentTimeMillis();
+		//((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
+		this.updateBackgroundIfNecessary();
+		
+//		paint(this.g2p);
+		if (readyToRender){
+			renderer.drawScene();
+		}
+		
+
+		 
+		getEuclidianController().setCollectedRepaints(false);
+		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
+		lastRepaint = System.currentTimeMillis() - time;
+		GeoGebraProfiler.addRepaint(lastRepaint);
+
+	}
+	
+	public long getLastRepaintTime() {
+		return lastRepaint;
+	}
+
+	
+	@Override
+    public void repaint() {
+//	    if (readyToRender){
+//	    	renderer.drawScene();
+//	    }
+	    
+	    if (getEuclidianController().isCollectingRepaints()){
+    		getEuclidianController().setCollectedRepaints(true);
+    		return;
+    	}
+
+    	//TODO: enable this code if this view can be detached
+    	//if (!isShowing())
+    	//	return;
+
+    	((AppWeb)app).getTimerSystem().viewRepaint(this);
+    }
 	
 }

@@ -66,6 +66,9 @@ public class TimerSystemW {
 				if (euclidianView2 != null)
 					euclidianView2.doRepaint();
 				
+				// repaint 3D view (if exists)
+				application.getCompanion().doRepaint3DView();
+				
 				// repaint views for plane (if exist)
 				application.getCompanion().doRepaintViewsForPlane();
 
@@ -159,6 +162,8 @@ public class TimerSystemW {
 					if (view == euclidianView2)
 						euclidianRepaint();
 				}
+			} else if (view.getViewID() == App.VIEW_EUCLIDIAN3D){
+				euclidianRepaint();
 			} else if (view instanceof EuclidianViewW){ // case for views for plane
 				euclidianRepaint();
 			} else if (view.getViewID() == App.VIEW_ALGEBRA) {
