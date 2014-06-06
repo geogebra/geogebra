@@ -136,7 +136,7 @@ public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler 
 	
 	private void createViewMenu() {
 
-		viewMenu = (app.isApplet()) ? new ViewMenuW(app) : new ViewMenuApplicationW(app);
+		viewMenu = new ViewMenuW(app);
 	}
 	
 	private void createHelpMenu() {
@@ -153,9 +153,9 @@ public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler 
 
 	public void updateMenubar() {
 		app.getOptionsMenu().update();
-		if (!app.isApplet()) {
-			((ViewMenuApplicationW) viewMenu).update();
-		}
+		
+		viewMenu.update();
+		
     }
 	
 	public void updateSelection() {
