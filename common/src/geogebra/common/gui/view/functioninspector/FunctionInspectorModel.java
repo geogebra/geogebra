@@ -404,7 +404,10 @@ public class FunctionInspectorModel {
 
 	}
 
-	public String format(double x){
+	public String format(Double x){
+		if (x == null ) {
+			return "";
+		}
 		StringTemplate highPrecision;
 		// override the default decimal place setting
 		if(getPrintDecimals() >= 0)
@@ -413,6 +416,10 @@ public class FunctionInspectorModel {
 			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, getPrintFigures(),false);
 
 		// get the formatted string
+		if (highPrecision == null) {
+			return "";
+		}
+		App.debug("x: " + x + " High Precision: " + highPrecision);
 		String result = app.getKernel().format(x,highPrecision);
 
 		return result;
@@ -436,7 +443,7 @@ public class FunctionInspectorModel {
 		if (isTable) {
 			double x = start - step * (pointCount - 1) / 2;
 			double y;
-			for (int i = 1; i < rowCount; i++) {
+			for (int i = 0; i < rowCount; i++) {
 				y = f.evaluate(x);
 				listener.setXYValueAt(x, i, 0);
 				listener.setXYValueAt(y, i, 1);
@@ -489,70 +496,78 @@ public class FunctionInspectorModel {
 			case COL_DERIVATIVE:
 
 				for (int row = 0; row < rowCount; row++) {
-					double x = Double.parseDouble((String) listener.getXYValueAt(
-							row, 0));
-					double d = derivative.evaluate(x);// evaluateExpression(derivative.getLabel()
-					// + "(" + x + ")");
-					listener.setXYValueAt(d, row, column);
-					copyArray[row] = d;
+					String str = (String)listener.getXYValueAt(row, 0);
+					if (!"".equals(str)) {
+						double x = Double.parseDouble(str);
+						double d = derivative.evaluate(x);// evaluateExpression(derivative.getLabel()
+						// + "(" + x + ")");
+						listener.setXYValueAt(d, row, column);
+						copyArray[row] = d;
+						}
 				}
 				break;
 
 			case COL_DERIVATIVE2:
 
 				for (int row = 0; row < rowCount; row++) {
-					double x = Double.parseDouble((String) listener.getXYValueAt(
-							row, 0));
-					double d2 = derivative2.evaluate(x);// evaluateExpression(derivative2.getLabel()
+					String str = (String) listener.getXYValueAt(row, 0);
+					if (!"".equals(str)) {
+						double x = Double.parseDouble(str);
+						double d2 = derivative2.evaluate(x);// evaluateExpression(derivative2.getLabel()
 					// + "(" + x + ")");
-					listener.setXYValueAt(d2, row, column);
-					copyArray[row] = d2;
+						listener.setXYValueAt(d2, row, column);
+						copyArray[row] = d2;
+					}
 				}
 				break;
 
 			case COL_CURVATURE:
 
 				for (int row = 0; row < rowCount; row++) {
-					double x = Double.parseDouble((String) listener.getXYValueAt(
-							row, 0));
-					double y = Double.parseDouble((String) listener.getXYValueAt(
-							row, 1));
+					String str1 = (String)listener.getXYValueAt(row, 0);
+					String str2 = (String)listener.getXYValueAt(row, 1);
 
-					MyVecNode vec = new MyVecNode(kernel, new MyDouble(kernel,
-							x), new MyDouble(kernel, y));
+					if (!"".equals(str1) && !"".equals(str2)) {
+						double x = Double.parseDouble(str1);
+						double y = Double.parseDouble(str2);
 
-					ExpressionNode point = new ExpressionNode(kernel, vec,
-							Operation.NO_OPERATION, null);
-					point.setForcePoint();
+						MyVecNode vec = new MyVecNode(kernel, new MyDouble(kernel,
+								x), new MyDouble(kernel, y));
 
-					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons,
-							point, false);
-					cons.removeFromConstructionList(pointAlgo);
+						ExpressionNode point = new ExpressionNode(kernel, vec,
+								Operation.NO_OPERATION, null);
+						point.setForcePoint();
 
-					AlgoCurvature curvature = new AlgoCurvature(cons,
-							(GeoPoint) pointAlgo.getGeoElements()[0],
-							selectedGeo);
-					cons.removeFromConstructionList(curvature);
+						AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons,
+								point, false);
+						cons.removeFromConstructionList(pointAlgo);
 
-					double c = ((GeoNumeric) curvature.getGeoElements()[0])
-							.getDouble();
+						AlgoCurvature curvature = new AlgoCurvature(cons,
+								(GeoPoint) pointAlgo.getGeoElements()[0],
+								selectedGeo);
+						cons.removeFromConstructionList(curvature);
 
-					// double c = evaluateExpression(
-					// "Curvature[ (" + x + "," + y + ")," +
-					// selectedGeo.getLabel() + "]");
-					listener.setXYValueAt(c, row, column);
-					copyArray[row] = c;
+						double c = ((GeoNumeric) curvature.getGeoElements()[0])
+								.getDouble();
+
+						// double c = evaluateExpression(
+						// "Curvature[ (" + x + "," + y + ")," +
+						// selectedGeo.getLabel() + "]");
+						listener.setXYValueAt(c, row, column);
+						copyArray[row] = c;
+					}
 				}
 				break;
 
 			case COL_DIFFERENCE:
 
 				for (int row = 1; row < rowCount; row++) {
-					Object prevValue = listener.getXYValueAt(row - 1, column - 1);
-					if (prevValue != null) {
-						double prev = Double.parseDouble((String)prevValue);
-						double x = Double.parseDouble((String)listener.getXYValueAt(
-								row, column - 1));
+					String prevValue = (String)listener.getXYValueAt(row - 1, column - 1);
+					String xValue = (String)listener.getXYValueAt(row, column - 1);
+					
+					if (!prevValue.isEmpty() && !xValue.isEmpty()) {
+						double prev = Double.parseDouble(prevValue);
+						double x = Double.parseDouble(xValue);
 
 						listener.setXYValueAt(x - prev, row, column);
 						copyArray[row] = x - prev;
@@ -935,7 +950,7 @@ public class FunctionInspectorModel {
 		int row = listener.getSelectedXYRow();
 		if (row >= 0) {
 			String str = (String) listener.getXYValueAt(row, 0);
-			if (!str.isEmpty()) {
+			if (!"".equals(str)) {
 				double x = Double.parseDouble(str);
 				double y = selectedGeo.evaluate(x);
 				testPoint.setCoords(x, y, 1);
