@@ -85,8 +85,8 @@ public class GridModel {
 		}
 	}
 
-	public DataCell getData(int col, int row) {
-		App.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
+	public DataCell getData(int row, int col) {
+	//	App.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
 		DataCell result = null;
 		if (col < columnCount && row < rowCount)  {
 			List<DataCell> list = data.get(row);
