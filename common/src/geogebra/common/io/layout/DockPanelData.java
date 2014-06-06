@@ -218,6 +218,15 @@ public class DockPanelData {
 		
 	}
 	
+	
+	/**
+	 * Maybe false for non-visible views from plane
+	 * @return true if will be stored in XML
+	 */
+	public boolean storeXml(){
+		return true;
+	}
+	
 	/**
 	 * Clone this object. Required as dock panels would change the loaded perspective 
 	 * automatically otherwise.

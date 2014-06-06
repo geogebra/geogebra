@@ -422,8 +422,11 @@ public class Perspective {
 
 		sb.append("\t<views>\n");
 		for (int i = 0; i < getDockPanelData().length; ++i) {
-			sb.append("\t\t");
-			sb.append(getDockPanelData()[i].getXml());
+			DockPanelData data = getDockPanelData()[i];
+			if (data.storeXml()){
+				sb.append("\t\t");
+				sb.append(data.getXml());
+			}
 		}
 		sb.append("\t</views>\n");
 

@@ -22,6 +22,11 @@ public class DockPanelDataForPlane extends DockPanelData{
 	}
 	
 	@Override
+	public boolean storeXml(){
+		return isVisible();
+	}
+	
+	@Override
 	public String getXml() {
 		
 		StringBuilder sb = getStartXml();

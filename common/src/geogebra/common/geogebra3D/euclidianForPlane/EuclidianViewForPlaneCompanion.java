@@ -21,6 +21,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 
@@ -242,6 +243,13 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 	
 	@Override
 	public void getXML(StringBuilder sbxml, boolean asPreference) {
+		
+		if (!view.isShowing()){
+			// we don't want to store view for plane that is not showing
+			App.debug("view is not showing");
+			return;
+		}
+		
 		view.startXML(sbxml, asPreference);
 		
 		// transform
