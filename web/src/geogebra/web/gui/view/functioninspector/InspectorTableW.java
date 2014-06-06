@@ -132,8 +132,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		addCell(HEADER_ROW);
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", name);
 		for (int row = 1; row < getRowCount(); row++) {
-			setCellWidget(row, col, "inspectorTableData", 
-					"(" + row + ", " + col +")");
+			setCellWidget(row, col, "inspectorTableData", "");
 		}
 		
     }

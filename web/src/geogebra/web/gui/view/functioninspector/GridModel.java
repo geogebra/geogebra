@@ -181,6 +181,9 @@ public class GridModel {
 	public void addColumn(String name) {
 		columnCount++;
 		headers.add(name);
+		for (List<DataCell> rowData: data) {
+			rowData.add(new DataCell(null, false));
+		}
 		App.debug(headers.toString());
 		listener.appendColumn(name);
 	}
