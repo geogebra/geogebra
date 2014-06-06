@@ -6718,7 +6718,7 @@ public abstract class EuclidianController {
 			AlgoElement algo = movedGeoElement.getParentAlgorithm();
 			if (algo instanceof AlgoTranslate) {
 				GeoElement[] input = algo.getInput();
-				if (input[1].isIndependent()) {
+				if (input[1].isIndependent() && input[1] instanceof GeoVector) {
 					vec = (GeoVector) input[1];
 				}
 			}
