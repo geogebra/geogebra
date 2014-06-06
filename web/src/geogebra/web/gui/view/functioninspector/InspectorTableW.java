@@ -41,7 +41,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		RowFormatter rf = getRowFormatter();
 		rf.setStyleName(selectedRow, "");
 		selectedRow = cell.getRowIndex();
-		rf.setStyleName(selectedRow, "selected");
+		rf.setStyleName(selectedRow, style);
 	
 	}
 	public void updateHeader(int col, String title) {
@@ -109,8 +109,12 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	    return selectedRow;
     }
 
-	public void setSelectedRow(int selectedRow) {
-	    this.selectedRow = selectedRow;
+	public void setSelectedRow(int idx) {
+
+		RowFormatter rf = getRowFormatter();
+		rf.setStyleName(selectedRow, "");
+	    this.selectedRow = idx + 1; // 0 is the header
+		rf.setStyleName(selectedRow, "selected");
     }
 
 	public void removeLastCell(int row) {

@@ -153,11 +153,12 @@ public class FunctionInspectorW extends FunctionInspector {
 			modelXY.setRowCount(pointCount);
 			//tableXY.setCellEditable((pointCount - 1) / 2, 0);
 			// tableXY.setRowSelectionAllowed(true);
-			//tableXY.changeSelection((pointCount - 1) / 2, 0, false, false);
+			tableXY.setSelectedRow((pointCount - 1) / 2);
 
 		} else {
 
 			modelXY.setRowCount(1);
+			tableXY.setSelectedRow(0);
 			//tableXY.setCellEditable(0, 0);
 			//tableXY.changeSelection(0, 0, false, false);
 			// tableXY.setRowSelectionAllowed(false);
