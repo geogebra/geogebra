@@ -147,11 +147,11 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	public void updateXYTable(boolean isTable) {
 		// reset table model and update the XYtable
-		// tableXY.setCellEditable(-1, -1);
+		tableXY.setCellEditable(-1, -1);
 
 		if (isTable) {
 			modelXY.setRowCount(pointCount);
-			//tableXY.setCellEditable((pointCount - 1) / 2, 0);
+			tableXY.setCellEditable((pointCount - 1) / 2, 0);
 			// tableXY.setRowSelectionAllowed(true);
 			tableXY.setSelectedRow((pointCount - 1) / 2);
 
@@ -159,7 +159,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 			modelXY.setRowCount(1);
 			tableXY.setSelectedRow(0);
-			//tableXY.setCellEditable(0, 0);
+			tableXY.setCellEditable(0, 0);
 			//tableXY.changeSelection(0, 0, false, false);
 			// tableXY.setRowSelectionAllowed(false);
 		}
@@ -304,7 +304,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
 		
-		tableInterval = new InspectorTableW(2);
+		tableInterval = new InspectorTableW(getAppW(), 2);
 		modelInterval = tableInterval.getModel();
 		intervalTab.add(tableInterval);
 		FlowPanel toolBar = new FlowPanel();
@@ -356,7 +356,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		
 		pointsTab.add(header);
 	
-		tableXY = new InspectorTableW(2);
+		tableXY = new InspectorTableW(getAppW(), 2);
 		modelXY = tableXY.getModel();
 		modelXY.setHeaders(DEFAULT_XY_HEADERS);
 //		modelXY.setRowCount(pointCount);

@@ -57,6 +57,7 @@ public class GridModel {
 	private List<List<DataCell>> data;
 	private int columnCount;
 	private int rowCount;
+	private DataCell editCell;
 
 	public GridModel(int col, IGridListener listener) {
 		columnCount = col;
@@ -208,5 +209,17 @@ public class GridModel {
 		listener.removeColumn();
 		columnCount--;
 
+	}
+
+
+	public void setCellEditable(int row, int col) {
+		if (editCell != null) {
+			editCell.setEditable(false);
+		}
+
+		if (row >= 0 &&  row < data.size() && col >= 0 && col < getColumnCount()) {
+			editCell = data.get(row).get(col);
+			editCell.setEditable(false);
+		}
 	}
 }

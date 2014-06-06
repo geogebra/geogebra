@@ -1,8 +1,11 @@
 package geogebra.web.gui.view.functioninspector;
 
 import geogebra.common.main.App;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.gui.view.functioninspector.GridModel.IGridListener;
+import geogebra.web.main.AppW;
 
 import java.util.List;
 
@@ -10,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public class InspectorTableW extends FlexTable implements IGridListener {
@@ -17,14 +21,23 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	private static final String TABLE_PREFIX = "[INSPECTOR_TABLE]";
 	private GridModel model;
 	private int selectedRow;
-	public InspectorTableW(int col) {
+	private int editRow;
+	private int editCol;
+	private AutoCompleteTextFieldW cellEditor;
+	
+	public InspectorTableW(AppW app, int col) {
 		super();
 		setStyleName("inspectorTable");
 		setWidth("100%");
 		setModel(new GridModel(col, this));
 		selectedRow = 1;
+		editRow = -1;
+		editCol = -1;
 		RowFormatter rf = getRowFormatter();
 		rf.setStyleName(HEADER_ROW, "inspectorTableHeader");
+		InputPanelW input = new InputPanelW(null, app, -1, false);
+		cellEditor = input.getTextComponent();
+
 		addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
@@ -79,9 +92,16 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 
 	protected void setCellWidget(int row, int col, String style, DataCell cell) {
-		Label label = new Label(cell.toString());
+		Widget w = null;
+		if (cell.isEditable()) {
+			cellEditor.setText(cell.toString());
+			w = cellEditor;
+		} else {
+			w = new Label(cell.toString());
+		}
+
 		getCellFormatter().setStyleName(row, col, style);
-		setWidget(row, col, label);
+		setWidget(row, col, w);
 	}
 	
 	protected void setCellWidget(int row, int col, String style, String text) {
@@ -148,6 +168,10 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 			setCellWidget(row, col, "inspectorTableData", "");
 		}
 		
+    }
+
+	public void setCellEditable(int row, int col) {
+	    model.setCellEditable(row, col);
     }
 
 }
