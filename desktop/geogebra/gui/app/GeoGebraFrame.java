@@ -81,8 +81,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
 	private static FileDropTargetListener dropTargetListener;
-	
-	private static List<NewInstanceListener> instanceListener=new ArrayList<NewInstanceListener>();
+
+	private static List<NewInstanceListener> instanceListener = new ArrayList<NewInstanceListener>();
 
 	protected AppD app;
 
@@ -133,11 +133,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
-		
+
 		// fix for Mac OS bug: close open popups manually
 		Window[] w = this.getOwnedWindows();
-		for(Window win : w){
-			if(win.getClass().getName().equals("javax.swing.Popup$HeavyWeightWindow") ){
+		for (Window win : w) {
+			if (win.getClass().getName()
+					.equals("javax.swing.Popup$HeavyWeightWindow")) {
 				win.setVisible(false);
 			}
 		}
@@ -276,12 +277,14 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	public static synchronized GeoGebraFrame getActiveInstance() {
 		return activeInstance;
 	}
-	
+
 	/**
-	 * adds a NewInstanceListener, fired whenever a new Instance of GeoGebraFrame is created.
+	 * adds a NewInstanceListener, fired whenever a new Instance of
+	 * GeoGebraFrame is created.
+	 * 
 	 * @param l
 	 */
-	public static void addNewInstanceListener(NewInstanceListener l){
+	public static void addNewInstanceListener(NewInstanceListener l) {
 		instanceListener.add(l);
 	}
 
@@ -316,10 +319,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	 * @return the new window
 	 */
 	// public abstract GeoGebra buildGeoGebra();
-	public static synchronized GeoGebraFrame createNewWindow(
-			CommandLineArguments args, GeoGebraFrame wnd) {
-		return createNewWindow(args, null, wnd);
-	}
 
 	/**
 	 * return the application running geogebra
@@ -328,14 +327,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	 * @param frame
 	 * @return the application running geogebra
 	 */
-	protected AppD createApplication(CommandLineArguments args,
-			JFrame frame) {
+	protected AppD createApplication(CommandLineArguments args, JFrame frame) {
 		return new AppD(args, frame, true);
 	}
 
 	public static synchronized GeoGebraFrame createNewWindow(
 			CommandLineArguments args, Macro macro) {
-		return createNewWindow(args, macro, new GeoGebraFrame());
+		return createNewWindow(args, new GeoGebraFrame());
 	}
 
 	/**
@@ -349,13 +347,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	 * @return the new window
 	 */
 	public static synchronized GeoGebraFrame createNewWindow(
-			final CommandLineArguments args, Macro macro, GeoGebraFrame wnd) {
+			final CommandLineArguments args, GeoGebraFrame wnd) {
 		// set Application's size, position and font size
 
 		final AppD app = wnd.createApplication(args, wnd);
 
-		if (macro != null)
-			app.openMacro(macro);
 		// app.getApplicationGUImanager().setMenubar(new
 		// geogebra.gui.menubar.GeoGebraMenuBar(app));
 		app.getGuiManager().initMenubar();
@@ -364,8 +360,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		wnd.app = app;
 		wnd.getContentPane().add(app.buildApplicationPanel());
 		dropTargetListener = new geogebra.gui.FileDropTargetListener(app);
-		wnd.setGlassPane(((GuiManagerD)app.getGuiManager()).getLayout().getDockManager()
-				.getGlassPane());
+		wnd.setGlassPane(((GuiManagerD) app.getGuiManager()).getLayout()
+				.getDockManager().getGlassPane());
 		wnd.setDropTarget(new DropTarget(wnd, dropTargetListener));
 		wnd.addWindowFocusListener(wnd);
 		updateAllTitles();
@@ -388,8 +384,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			else if (args.containsArg("showCAS")) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
-				app.getGuiManager().setShowView(showCAS,
-						App.VIEW_CAS);
+				app.getGuiManager().setShowView(showCAS, App.VIEW_CAS);
 			}
 		}
 
@@ -401,9 +396,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		if (!app.isApplet()) {
 			/*
 			 * Thread runner = new Thread() { public void run() { // init
-			 * properties dialog ((GuiManagerD)app.getGuiManager()).initPropertiesDialog();
+			 * properties dialog
+			 * ((GuiManagerD)app.getGuiManager()).initPropertiesDialog();
 			 * 
-			 * // init file chooser ((GuiManagerD)app.getGuiManager()).initFileChooser();
+			 * // init file chooser
+			 * ((GuiManagerD)app.getGuiManager()).initFileChooser();
 			 * 
 			 * // init CAS app.getKernel().getGeoGebraCAS();
 			 * 
@@ -415,23 +412,23 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			Thread runner = wnd.createAppThread(app);
 			runner.start();
 		}
-		
+
 		checkCommandLineExport(app);
-		
+
 		// open the sidebar popup once the GUI has initialized
-		if (args != null && args.getNoOfFiles()==0){
+		if (args != null && args.getNoOfFiles() == 0) {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 				public void run() {
-					if(app.isShowDockBar())
-					app.getDockBar().showPopup();
+					if (app.isShowDockBar())
+						app.getDockBar().showPopup();
 				}
 			});
 		}
 
-		for (NewInstanceListener l:instanceListener){
+		for (NewInstanceListener l : instanceListener) {
 			l.newInstance(wnd);
 		}
-		
+
 		return wnd;
 	}
 
@@ -451,19 +448,22 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		public void run() {
 
 			// init file chooser
-			((DialogManagerD) this.app.getGuiManager().getDialogManager()).initFileChooser();
+			((DialogManagerD) this.app.getGuiManager().getDialogManager())
+					.initFileChooser();
 
 			// init singularWS
-			// No, we cannot do it here at the moment since it will break file loading containing Singular,
-			// so we do it AppD.java --- see [22746] which is reverted at the moment.
+			// No, we cannot do it here at the moment since it will break file
+			// loading containing Singular,
+			// so we do it AppD.java --- see [22746] which is reverted at the
+			// moment.
 			// app.initializeSingularWSD();
 
 			// init JLaTeXMath
 			Graphics2D g2d = this.app.getEuclidianView1().getTempGraphics2D();
 			app.getDrawEquation().drawEquation(this.app, null,
 					new geogebra.awt.GGraphics2DD(g2d), 0, 0, "x^{2}",
-					new geogebra.awt.GFontD(g2d.getFont()), false, GColor.BLACK,
-					GColor.WHITE, false, false);
+					new geogebra.awt.GFontD(g2d.getFont()), false,
+					GColor.BLACK, GColor.WHITE, false, false);
 
 			// check if newer version is available
 			// must be done last as internet may not be available
@@ -474,8 +474,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 
 		/**
-		 * Downloads newest GeoGebra .jar files and puts them
-		 * into the user's AppData directory. Also downloads license.txt.
+		 * Downloads newest GeoGebra .jar files and puts them into the user's
+		 * AppData directory. Also downloads license.txt.
 		 */
 		private void downloadGeoGebraJars() {
 			try {
@@ -484,46 +484,49 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						+ GeoGebraConstants.GEOGEBRA_JARS_UPDATE_DIR;
 				App.debug("Creating " + updateDir);
 				new File(updateDir).mkdirs();
-				
+
 				// Downloading newest .jar files in a .zip:
-				String filename = updateDir + File.separator + "geogebra-jars.zip";
+				String filename = updateDir + File.separator
+						+ "geogebra-jars.zip";
 				File dest = new File(filename);
 				URL url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
-				App.debug("Downloading " + GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
+				App.debug("Downloading "
+						+ GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
 				DownloadManager.copyURLToFile(url, dest, app);
-				
+
 				// Unzipping:
-				// Borrowed from http://www.concretepage.com/java/read_zip_file_java.php:
+				// Borrowed from
+				// http://www.concretepage.com/java/read_zip_file_java.php:
 				InputStream is = new FileInputStream(filename);
-				ZipInputStream zis =  new ZipInputStream(is);
+				ZipInputStream zis = new ZipInputStream(is);
 				ZipEntry ze;
 				byte[] buff = new byte[1024];
-		        while ((ze=zis.getNextEntry())!=null) {
-		            // get file name
-		        	String name = ze.getName();
-		            FileOutputStream fos = new FileOutputStream(updateDir + 
-		            		File.separator + name);
-		            App.debug("Extracting " + name);
-		            int l = 0;
-		            // write buffer to file
-		            while ((l = zis.read(buff)) > 0) {
-		                fos.write(buff, 0, l);
-		            }
-		            fos.close();
-		        }
-		        zis.close();
-		        dest.delete();
-		        
-		        // Downloading license.txt:
-		        filename = updateDir + File.separator + "license.txt";
+				while ((ze = zis.getNextEntry()) != null) {
+					// get file name
+					String name = ze.getName();
+					FileOutputStream fos = new FileOutputStream(updateDir
+							+ File.separator + name);
+					App.debug("Extracting " + name);
+					int l = 0;
+					// write buffer to file
+					while ((l = zis.read(buff)) > 0) {
+						fos.write(buff, 0, l);
+					}
+					fos.close();
+				}
+				zis.close();
+				dest.delete();
+
+				// Downloading license.txt:
+				filename = updateDir + File.separator + "license.txt";
 				dest = new File(filename);
-		        url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_LICENSE);
+				url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_LICENSE);
 				DownloadManager.copyURLToFile(url, dest, app);
 			} catch (Exception e) {
 				App.error("Unsuccessful update");
 			}
 		}
-		
+
 		/**
 		 * Checks if a newer version is available. It runs every month (30 days)
 		 * for major updates, but always for minor updates.
@@ -747,60 +750,70 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		return PAGE_EXISTS;
 
 	}
-	
+
 	public static void checkCommandLineExport(final AppD app) {
-		
+
 		CommandLineArguments args = app.getCommandLineArgs();
-		
+
 		if (args != null && args.containsArg("export")) {
 			final String filename = args.getStringValue("export");
 			String dpiStr = args.getStringValue("dpi");
 
+			final int dpi = Integer.parseInt(dpiStr == null ? "300" : dpiStr);
 
-			final int dpi = Integer.parseInt(dpiStr == null ? "300" : dpiStr);			
-
-			App.debug("attempting to export: "+filename+" at "+dpiStr+"dpi");
+			App.debug("attempting to export: " + filename + " at " + dpiStr
+					+ "dpi");
 
 			final String extension = app.getExtension(filename);
 
-			SwingUtilities.invokeLater( new Runnable(){ 
-				public void run() { 
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
 
 					EuclidianViewD ev = app.getEuclidianView1();
 					double printingScale = ev.getPrintingScale();
-					double exportScale = (printingScale * dpi) / 2.54 / ev.getXscale();
+					double exportScale = (printingScale * dpi) / 2.54
+							/ ev.getXscale();
 					boolean transparent = true;
 					boolean textAsShapes = true;
 					boolean useEMFplus = true;
-					int pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
-					int pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
+					int pixelWidth = (int) Math.floor(ev.getExportWidth()
+							* exportScale);
+					int pixelHeight = (int) Math.floor(ev.getExportHeight()
+							* exportScale);
 
 					File file = new File(filename);
 
 					if (extension.equals("png")) {
-						GraphicExportDialog.exportPNG(ev, file, transparent, dpi, exportScale);
+						GraphicExportDialog.exportPNG(ev, file, transparent,
+								dpi, exportScale);
 
 					} else if (extension.equals("eps")) {
-						GraphicExportDialog.exportEPS(app, ev, file, textAsShapes, pixelWidth,  pixelHeight, exportScale);
+						GraphicExportDialog.exportEPS(app, ev, file,
+								textAsShapes, pixelWidth, pixelHeight,
+								exportScale);
 
 					} else if (extension.equals("pdf")) {
-						GraphicExportDialog.exportPDF(app, ev, file, textAsShapes, pixelWidth,  pixelHeight, exportScale);
-						
+						GraphicExportDialog.exportPDF(app, ev, file,
+								textAsShapes, pixelWidth, pixelHeight,
+								exportScale);
+
 					} else if (extension.equals("emf")) {
-						GraphicExportDialog.exportEMF(app, ev, file, useEMFplus, pixelWidth,  pixelHeight, exportScale);
+						GraphicExportDialog.exportEMF(app, ev, file,
+								useEMFplus, pixelWidth, pixelHeight,
+								exportScale);
 
 					} else if (extension.equals("svg")) {
-						GraphicExportDialog.exportSVG(app, ev, file, textAsShapes, pixelWidth,  pixelHeight, exportScale);
+						GraphicExportDialog.exportSVG(app, ev, file,
+								textAsShapes, pixelWidth, pixelHeight,
+								exportScale);
 
 					}
 					System.exit(0);
-				} 
-				
+				}
+
 			});
 
-
-		}	
+		}
 	}
-
 
 }

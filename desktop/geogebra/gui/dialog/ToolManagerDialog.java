@@ -156,7 +156,8 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		}
 
 		if (foundUsedMacro)
-			app.showError(app.getLocalization().getError("Tool.DeleteUsed") + " " + macroNames);
+			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
+					+ " " + macroNames);
 	}
 
 	private void initGUI() {
@@ -247,12 +248,8 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 					}
 				}
 
-
-
-					
 			};
-			
-			
+
 			btShare.addActionListener(ac);
 			btSave.addActionListener(ac);
 			btDelete.addActionListener(ac);
@@ -287,9 +284,9 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 			setResizable(true);
 			namePanel.setPreferredSize(new Dimension(400, 200));
-			
+
 			app.setComponentOrientation(this);
-			
+
 			pack();
 			setLocationRelativeTo(app.getFrame()); // center
 		} catch (Exception e) {
@@ -322,6 +319,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 					byte[] byteArray = app.getMacroFileAsByteArray();
 					newframe.getApplication().loadMacroFileFromByteArray(
 							byteArray, false);
+					newframe.getApplication().openMacro(macro);
 					app.setDefaultCursor();
 
 				}
@@ -387,20 +385,19 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			return this;
 		}
 	}
-	
+
 	/*
 	 * upload selected Tools to GeoGebraTube
 	 */
 	private void uploadToGeoGebraTube(final JList toolList) {
-		
+
 		Thread runner = new Thread() {
 			@Override
 			public void run() {
 				app.setWaitCursor();
 				try {
-					app.getSelectionManager().clearSelectedGeos(true,false);
+					app.getSelectionManager().clearSelectedGeos(true, false);
 					app.updateSelection(false);
-					
 
 					Object[] sel = toolList.getSelectedValues();
 					if (sel == null || sel.length == 0)
@@ -418,18 +415,17 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 					}
 
 					// create Macro array list from tools set
-					ArrayList<Macro> macros = new ArrayList<Macro>(
-							tools.size());
+					ArrayList<Macro> macros = new ArrayList<Macro>(tools.size());
 					Iterator<Macro> it = tools.iterator();
 					while (it.hasNext()) {
 						macros.add(it.next());
 					}
 					// create new exporter
-					geogebra.export.GeoGebraTubeExportDesktop exporter
-						= new geogebra.export.GeoGebraTubeExportDesktop(app);
-					
+					geogebra.export.GeoGebraTubeExportDesktop exporter = new geogebra.export.GeoGebraTubeExportDesktop(
+							app);
+
 					exporter.uploadWorksheet(macros);
-					
+
 				} catch (Exception e) {
 					App.debug("Uploading failed");
 					e.printStackTrace();
@@ -439,7 +435,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		};
 		runner.start();
 	}
-	
+
 	/**
 	 * Saves all selected tools in a new file.
 	 */
@@ -467,8 +463,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		}
 
 		// create Macro array list from tools set
-		ArrayList<Macro> macros = new ArrayList<Macro>(
-				tools.size());
+		ArrayList<Macro> macros = new ArrayList<Macro>(tools.size());
 		Iterator<Macro> it = tools.iterator();
 		while (it.hasNext()) {
 			macros.add(it.next());
