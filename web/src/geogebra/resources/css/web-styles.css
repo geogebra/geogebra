@@ -3762,7 +3762,10 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	
 }
 
-.inspectorTableHeader {
+.inspectorTableHeader, 
+.inspectorTableHeader:hover {
+	background-color: #cecece;
+	color: gray;
 	font-weight: bold;
 }
 

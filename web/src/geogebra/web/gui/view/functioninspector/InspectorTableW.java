@@ -23,6 +23,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		setWidth("100%");
 		setModel(new GridModel(col, this));
 		selectedRow = 1;
+		RowFormatter rf = getRowFormatter();
+		rf.setStyleName(HEADER_ROW, "inspectorTableHeader");
 		addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
@@ -34,8 +36,16 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 
 	private void updateRowStyle(Cell cell, String style) {
+		
 		if (cell == null) {
 			return;
+		}
+	
+		int row  = cell.getRowIndex();
+		if (row == HEADER_ROW) {
+			// Header row cannot be selected.
+			return;
+			
 		}
 		
 		RowFormatter rf = getRowFormatter();
@@ -110,7 +120,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
     }
 
 	public void setSelectedRow(int idx) {
-
 		RowFormatter rf = getRowFormatter();
 		rf.setStyleName(selectedRow, "");
 	    this.selectedRow = idx + 1; // 0 is the header
