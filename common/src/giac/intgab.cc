@@ -952,7 +952,7 @@ namespace giac {
 	     intgab(ga,x,minus_inf,plus_inf,res,contextptr) ){
 	  if (!is_inf(res)) 
 	    res=ratnormal(res/2);
-	  return true;
+	  return !is_undef(res);
 	}
       }
       vecteur v;

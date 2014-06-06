@@ -1769,6 +1769,12 @@ namespace giac {
 
   // var is the variable number to extract, from 1 to p.dim
   void polynome2poly1(const polynome & pp,int var,vecteur & v){
+    if (pp.dim==0){
+      gensizeerr("polynome2poly1");
+      v.clear();
+      if (!pp.coord.empty())
+	v.push_back(pp.coord.front().value);
+    }
     if (var!=1){
       polynome p(pp);
       p.reorder(transposition(0,var-1,p.dim));

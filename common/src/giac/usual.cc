@@ -2751,7 +2751,7 @@ namespace giac {
 	}
       }
       r.push_back(makevecteur(Pmin,a));
-      return sto(b,a,in_place,contextptr_);
+      return sto(b_,a,in_place,contextptr_);
     }
     // *logptr(contextptr) << "Sto " << "->" << b << endl;
     const context * contextptr=contextptr_;

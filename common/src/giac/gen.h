@@ -828,6 +828,7 @@ namespace giac {
   bool islesscomplexthanf(const gen & a,const gen & b);
   void islesscomplexthanf_sort(iterateur it,iterateur itend);
   void gen_sort_f(iterateur it,iterateur itend,bool (*f)(const gen &a,const gen &b));
+  void gen_sort_f_context(iterateur it,iterateur itend,bool (*f)(const gen &a,const gen &b,GIAC_CONTEXT),GIAC_CONTEXT);
   gen makemap(); // make a new map
   gen chartab2gen(char * & s,GIAC_CONTEXT);
 

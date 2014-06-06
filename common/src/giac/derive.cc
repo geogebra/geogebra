@@ -642,6 +642,17 @@ namespace giac {
   static define_unary_function_eval (__fonction_derivee,&_function_diff,_fonction_derivee_s);
   define_unary_function_ptr5( at_fonction_derivee ,alias_at_fonction_derivee,&__fonction_derivee,0,true);
 
+  gen _implicit_diff(const gen & args,GIAC_CONTEXT){
+    if (is_undef(args)) return args;
+    if (args.type!=_VECT || args._VECTptr->size()!=3)
+      return gensizeerr(contextptr);
+    gen eq(remove_equal(args._VECTptr->front())),x((*args._VECTptr)[1]),y(args._VECTptr->back());
+    return -derive(eq,x,contextptr)/derive(eq,y,contextptr);
+  }
+  static const char _implicit_diff_s []="implicit_diff";
+  static define_unary_function_eval (__implicit_diff,&_implicit_diff,_implicit_diff_s);
+  define_unary_function_ptr5( at_implicit_diff ,alias_at_implicit_diff,&__implicit_diff,0,true);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

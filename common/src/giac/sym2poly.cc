@@ -1937,7 +1937,10 @@ namespace giac {
 	  return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);
       }
       vecteur v;
-      int t=is_root_of_deg2(pp,v,contextptr);
+      int t=0;
+      gen fvalue=undef;
+      if (!has_rootof_value(f,fvalue,contextptr))
+	t=is_root_of_deg2(pp,v,contextptr);
       // if (t==2) return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);
       // if (t && f==v) t=0;
       if (t==1){
@@ -2010,12 +2013,13 @@ namespace giac {
       v=vecteur(s,zero);
       v.front()=plus_one;
       v.back()=f._VECTptr->back();
-      gen theta;
-      if (f==v)
-	theta=pow(r2sym(-v.back(),lt,ltend,contextptr),fraction(1,s-1),contextptr);
+      if (f==v){
+	if (is_undef(fvalue))
+	  fvalue=pow(r2sym(-v.back(),lt,ltend,contextptr),fraction(1,s-1),contextptr);
+      }
       else
 	return symb_rootof(r2sym(*(pp._EXTptr),lt,ltend,contextptr),r2sym(f,lt,ltend,contextptr),contextptr);
-      return symb_horner(*(r2sym(*(pp._EXTptr),lt,ltend,contextptr)._VECTptr),theta);
+      return symb_horner(*(r2sym(*(pp._EXTptr),lt,ltend,contextptr)._VECTptr),fvalue);
     }
     if ((p.type!=_POLY) || (lt==ltend))
       return p;

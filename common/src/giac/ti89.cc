@@ -1220,16 +1220,47 @@ namespace giac {
   static define_unary_function_eval (__mul,&_product,_mul_s);
   define_unary_function_ptr5( at_mul ,alias_at_mul,&__mul,0,true);
 
+  bool complex_sort(const gen & a,const gen & b,GIAC_CONTEXT){
+    if (a.type==_VECT && !a._VECTptr->empty() && b.type==_VECT && !b._VECTptr->empty())
+      return complex_sort(a._VECTptr->front(),b._VECTptr->front(),contextptr);
+    if (a==b)
+      return false;
+    if (a.type==_CPLX && b.type==_CPLX){
+      if (*a._CPLXptr!=*b._CPLXptr)
+	return is_strictly_greater(*b._CPLXptr,*a._CPLXptr,contextptr);
+      return is_strictly_greater(*(b._CPLXptr+1),*(a._CPLXptr+1),contextptr);
+    }
+    if (a.type==_CPLX){
+      if (*a._CPLXptr!=b)
+	return is_strictly_greater(b,*a._CPLXptr,contextptr);
+      return is_strictly_greater(0,*(a._CPLXptr+1),contextptr);
+    }
+    if (b.type==_CPLX){
+      if (a!=*b._CPLXptr)
+	return is_strictly_greater(*b._CPLXptr,a,contextptr);
+      return is_strictly_greater(*(b._CPLXptr+1),0,contextptr);
+    }
+    gen g=inferieur_strict(a,b,contextptr); 
+    if (g.type!=_INT_)
+      return a.islesscomplexthan(b);
+    return g.val==1;
+  }
   static gen sortad(const vecteur & v,bool ascend,GIAC_CONTEXT){
     vecteur valeur=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
     bool ismat=ckmatrix(valeur);
     if (!ismat)
       valeur=vecteur(1,valeur);
     valeur=mtran(valeur);
+#if 1
+    gen_sort_f_context(valeur.begin(),valeur.end(),complex_sort,contextptr);
+    if (!ascend)
+      reverse(valeur.begin(),valeur.end());
+#else
     if (ascend)
       gen_sort_f(valeur.begin(),valeur.end(),first_ascend_sort);
     else
       gen_sort_f(valeur.begin(),valeur.end(),first_descend_sort);
+#endif
     valeur=mtran(valeur);
     if (!ismat)
       return valeur.front();

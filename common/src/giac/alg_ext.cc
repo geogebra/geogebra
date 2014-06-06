@@ -783,8 +783,13 @@ namespace giac {
   static string printasrootof(const gen & g,const char * s,GIAC_CONTEXT){
     if (contextptr && g.type==_VECT && g._VECTptr->size()==2){
       gen value;
-      if (g._VECTptr->front().type==_VECT && has_rootof_value(g._VECTptr->back(),value,contextptr))
-	return horner_rootof(*g._VECTptr->front()._VECTptr,value,contextptr).print(contextptr);
+      if (g._VECTptr->front().type==_VECT && has_rootof_value(g._VECTptr->back(),value,contextptr)){
+	value=horner_rootof(*g._VECTptr->front()._VECTptr,value,contextptr);
+	string res=value.print(contextptr);
+	if (need_parenthesis(value))
+	  res=("("+res)+')';
+	return res;
+      }
     }
     string res(s);
     res+='(';

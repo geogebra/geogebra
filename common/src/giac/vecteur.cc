@@ -11668,7 +11668,7 @@ namespace giac {
 	  tu.push_back(tmp);
 	  v.erase(v.begin()+j);
 	}
-	gen uqr=qr(_trn(tu,contextptr),contextptr);
+	gen uqr=qr(makesequence(_trn(tu,contextptr),-1),contextptr);
 	if (uqr.type==_VECT && uqr._VECTptr->size()>=2 && is_squarematrix(uqr._VECTptr->front()) &&is_squarematrix((*uqr._VECTptr)[1]) ){
 	  u=*uqr._VECTptr->front()._VECTptr;
 	  tu=*_trn(u,contextptr)._VECTptr;

@@ -73,6 +73,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_product;
   gen _product(const gen & g,GIAC_CONTEXT);
   gen _SortA(const gen & g,GIAC_CONTEXT);
+  gen _sorta(const gen & g,GIAC_CONTEXT);
   gen _SortD(const gen & g,GIAC_CONTEXT);
   gen _int(const gen & g,GIAC_CONTEXT);
   gen _iPart(const gen & g,GIAC_CONTEXT);

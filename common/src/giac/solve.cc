@@ -654,7 +654,7 @@ namespace giac {
     gen num,den,f;
     f=e2r(e,lv,contextptr);
     fxnd(f,num,den);
-    if (num.type!=_POLY)
+    if (num.type!=_POLY || num._POLYptr->dim==0)
       return;
     vecteur w=polynome2poly1(*num._POLYptr,1);
     if (lv.front().type==_VECT){
@@ -5976,10 +5976,9 @@ namespace giac {
   static define_unary_function_eval (__gbasis,&_gbasis,_gbasis_s);
   define_unary_function_ptr5( at_gbasis ,alias_at_gbasis,&__gbasis,0,true);
   
-  static gen greduce(const gen & g,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT){
-    gen eq(e2r(g,l,contextptr));
+  static gen in_greduce(const gen & eq,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT){
     if (eq.type!=_POLY)
-      return g;
+      return r2e(eq,l,contextptr);
     gen coeff;
     environment env ;
     if (coefftype(*eq._POLYptr,coeff)==_MOD){
@@ -6011,6 +6010,13 @@ namespace giac {
     else
       p=p/C1;
     return r2e(p,l,contextptr);
+  }
+
+  static gen greduce(const gen & g,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT){
+    gen eq(e2r(g,l,contextptr));
+    if (eq.type==_FRAC)
+      return in_greduce(eq._FRACptr->num,l,eqp,order,with_cocoa,contextptr)/in_greduce(eq._FRACptr->den,l,eqp,order,with_cocoa,contextptr);
+    return in_greduce(eq,l,eqp,order,with_cocoa,contextptr);
   }
 
   // greduce(P,[gbasis],[vars])

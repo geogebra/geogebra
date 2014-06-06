@@ -1311,7 +1311,7 @@ namespace giac {
 
   gen _complexroot(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return complexroot(g,true,contextptr);
+    return _sorta(complexroot(g,true,contextptr),contextptr);
   }
   static const char _complexroot_s []="complexroot";
   static define_unary_function_eval (__complexroot,&giac::_complexroot,_complexroot_s);

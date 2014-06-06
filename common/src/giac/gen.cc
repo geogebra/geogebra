@@ -4315,14 +4315,19 @@ namespace giac {
       return symbolic_plot_makevecteur(b._SYMBptr->sommet,b._SYMBptr->feuille+a,true,contextptr);
     }
     gen var1,var2,res1,res2;
-    if (is_algebraic_program(a,var1,res1) && is_algebraic_program(b,var2,res2)){
-      if (var1!=var2 && is_constant_wrt(res2,var1,contextptr)){
-	res2=subst(res2,var2,var1,false,contextptr);
-	var2=var1;
+    if (is_algebraic_program(a,var1,res1)){
+      if (is_algebraic_program(b,var2,res2)){
+	if (var1!=var2 && is_constant_wrt(res2,var1,contextptr)){
+	  res2=subst(res2,var2,var1,false,contextptr);
+	  var2=var1;
+	}
+	if (var1==var2)
+	  return symbolic(at_program,gen(makevecteur(var1,0,operator_plus(res1,res2,contextptr)),_SEQ__VECT));
       }
-      if (var1==var2)
-	return symbolic(at_program,gen(makevecteur(var1,0,operator_plus(res1,res2,contextptr)),_SEQ__VECT));
+      return symbolic(at_program,gen(makevecteur(var1,0,operator_plus(res1,b,contextptr)),_SEQ__VECT));
     }
+    if (is_algebraic_program(b,var2,res2))
+      return symbolic(at_program,gen(makevecteur(var2,0,operator_plus(a,res2,contextptr)),_SEQ__VECT));
     if (a.type==_VECT){
       if (is_zero(b,contextptr))
 	return a;
@@ -5965,14 +5970,19 @@ namespace giac {
       return new_ref_symbolic(symbolic(at_unit,makenewvecteur(a*v[0],v[1])));
     }
     gen var1,var2,res1,res2;
-    if (is_algebraic_program(a,var1,res1) && is_algebraic_program(b,var2,res2)){
-      if (var1!=var2 && is_constant_wrt(res2,var1,contextptr)){
-	res2=subst(res2,var2,var1,false,contextptr);
-	var2=var1;
+    if (is_algebraic_program(a,var1,res1)){
+      if (is_algebraic_program(b,var2,res2)){
+	if (var1!=var2 && is_constant_wrt(res2,var1,contextptr)){
+	  res2=subst(res2,var2,var1,false,contextptr);
+	  var2=var1;
+	}
+	if (var1==var2)
+	  return symbolic(at_program,gen(makevecteur(var1,0,operator_times(res1,res2,contextptr)),_SEQ__VECT));
       }
-      if (var1==var2)
-	return symbolic(at_program,gen(makevecteur(var1,0,operator_times(res1,res2,contextptr)),_SEQ__VECT));
+      return symbolic(at_program,gen(makevecteur(var1,0,operator_times(res1,b,contextptr)),_SEQ__VECT));
     }
+    if (is_algebraic_program(b,var2,res2))
+      return symbolic(at_program,gen(makevecteur(var2,0,operator_times(a,res2,contextptr)),_SEQ__VECT));
     if (is_inf(a)){
       if (is_exactly_zero(normal(b,contextptr)))
 	return undef;
@@ -6752,14 +6762,19 @@ namespace giac {
 	return gensizeerr(contextptr);
       {
 	gen var1,var2,res1,res2;
-	if (is_algebraic_program(a,var1,res1) &&is_algebraic_program(b,var2,res2)){
-	  if (var1!=var2 && is_constant_wrt(res2,var1,contextptr)){
-	    res2=subst(res2,var2,var1,false,contextptr);
-	    var2=var1;
+	if (is_algebraic_program(a,var1,res1)){
+	  if (is_algebraic_program(b,var2,res2)){
+	    if (var1!=var2 && is_constant_wrt(res2,var1,contextptr)){
+	      res2=subst(res2,var2,var1,false,contextptr);
+	      var2=var1;
+	    }
+	    if (var1==var2)
+	      return symbolic(at_program,gen(makevecteur(var1,0,rdiv(res1,res2,contextptr)),_SEQ__VECT));
 	  }
-	  if (var1==var2)
-	    return symbolic(at_program,gen(makevecteur(var1,0,rdiv(res1,res2,contextptr)),_SEQ__VECT));
+	  return symbolic(at_program,gen(makevecteur(var1,0,rdiv(res1,b,contextptr)),_SEQ__VECT));
 	}
+	if (is_algebraic_program(b,var2,res2))
+	  return symbolic(at_program,gen(makevecteur(var2,0,rdiv(a,res2,contextptr)),_SEQ__VECT));	
       }
       if (a.type==_FLOAT_)
 	return rdiv(evalf_double(a,1,contextptr),b,contextptr);
@@ -7176,6 +7191,7 @@ namespace giac {
     f_compare m(f);
     sort(it,itend,m);
   }
+
 
   // equality of vecteurs representing geometrical lines
   static bool geo_equal(const vecteur &v,const vecteur & w,int subtype,GIAC_CONTEXT){
@@ -8253,6 +8269,19 @@ namespace giac {
     if (a.type==b.type)
       return a.islesscomplexthan(b);
     return !a.islesscomplexthan(b);
+  }
+
+  struct f_compare_context {
+    const context * ptr;
+    bool (*f)(const gen &a,const gen &b,GIAC_CONTEXT);
+    f_compare_context():f(islesscomplexthanf2),ptr(context0){}
+    f_compare_context(bool (*f_)(const gen &a,const gen &b,GIAC_CONTEXT),GIAC_CONTEXT):f(f_),ptr(contextptr){}
+    inline bool operator () (const gen & a,const gen &b){ return f(a,b,ptr); }
+  };
+
+  void gen_sort_f_context(iterateur it,iterateur itend,bool (*f)(const gen &a,const gen &b,GIAC_CONTEXT),GIAC_CONTEXT){
+    f_compare_context m(f,contextptr);
+    sort(it,itend,m);
   }
 
   int gen::symb_size () const {

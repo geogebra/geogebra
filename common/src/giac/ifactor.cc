@@ -3841,11 +3841,7 @@ namespace giac {
     }
     return res;
   }
-  vecteur factors(const gen & g,const gen & x,GIAC_CONTEXT){
-    gen gf=factor(g,x,false,contextptr);
-    vecteur res=in_factors(gf,contextptr);
-    if (xcas_mode(contextptr)!=1)
-      return res;
+  static vecteur in_factors1(const vecteur & res,GIAC_CONTEXT){
     gen coeff(1);
     vecteur v;
     const_iterateur it=res.begin(),itend=res.end();
@@ -3857,9 +3853,39 @@ namespace giac {
     }
     return makevecteur(coeff,v);
   }
+  vecteur factors(const gen & g,const gen & x,GIAC_CONTEXT){
+    gen gf=factor(g,x,false,contextptr);
+    vecteur res=in_factors(gf,contextptr);
+    if (xcas_mode(contextptr)!=1)
+      return res;
+    return in_factors1(res,contextptr);
+  }
   static const char _factors_s []="factors";
   gen _factors(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2){
+      gen j=args._VECTptr->back();
+      gen res=_factors(args._VECTptr->front()*j,contextptr);
+      if (res.type==_VECT && xcas_mode(contextptr)!=1)
+	res=in_factors1(*res._VECTptr,contextptr);
+      if (res.type==_VECT && res._VECTptr->size()==2){
+	res._VECTptr->front()=recursive_normal(res._VECTptr->front()/j,contextptr);
+	if (xcas_mode(contextptr)!=1){
+	  if (is_one(res._VECTptr->front()))
+	    res=res._VECTptr->back();
+	  else {
+	    j=res._VECTptr->front();
+	    res=res._VECTptr->back();
+	    if (res.type==_VECT)
+	      res=mergevecteur(makevecteur(j,1),*res._VECTptr);
+	  }
+	  vecteur v;
+	  aplatir(*res._VECTptr,v,contextptr);
+	  res=v;
+	}
+      }
+      return res;
+    }
     if (args.type==_VECT)
       return apply(args,_factors,contextptr);
     return factors(args,vx_var,contextptr);
