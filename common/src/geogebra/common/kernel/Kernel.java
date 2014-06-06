@@ -1709,10 +1709,15 @@ public class Kernel {
 
 	/**
 	 * @param x number
-	 * @return whether fractional part of the number is zero within current precision
+	 * @return whether fractional part of the number is zero within current precision (false for +/-Infinity, NaN
 	 */
 	final public static boolean isInteger(double x) {
-		if (x > 1E17) {
+		
+		if (Double.isInfinite(x) || Double.isNaN(x)) {
+			return false;
+		}
+		
+		if (x > 1E17 || x < -1E17) {
 			return true;
 		}
 		return isEqual(x, Math.round(x));
