@@ -6,7 +6,6 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
-import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
@@ -55,7 +54,7 @@ implements Previewable, Functional2Var{
 	public void drawGeometry(Renderer renderer) {
 
 
-		renderer.getGeometryManager().draw(getGeometryIndex());
+		renderer.getGeometryManager().draw(getGeometryIndex(), center);
 
 
 	}
@@ -78,44 +77,27 @@ implements Previewable, Functional2Var{
 		// nothing to do here
 	}
 	
+	
+	private Coords center;
 
 	@Override
 	protected boolean updateForItSelf(){
 		
-		//Application.debug(getGeoElement());
-		
-		//updateColors();
-		
-		Renderer renderer = getView3D().getRenderer();
-		
 	
-
-		PlotterSurface surface;
-
-		surface = renderer.getGeometryManager().getSurface();
-		
-		
-		/*
-		surface.start(this);
-		
-		
-		//number of vertices depends on point size
-		int nb = 2+((GeoPointND) getGeoElement()).getPointSize();
-				
-		surface.setU((float) getMinParameter(0), (float) getMaxParameter(0));surface.setNbU(2*nb); 
-		surface.setV((float) getMinParameter(1), (float) getMaxParameter(1));surface.setNbV(nb);
-		surface.draw();
-		*/
-
-		
-		surface.start();
 		GeoPointND point = (GeoPointND) getGeoElement(); 
-		surface.drawSphere(point.getPointSize(),point.getInhomCoordsInD(3), point.getPointSize()/getView3D().getScale()*DRAW_POINT_FACTOR);
+		center = point.getInhomCoordsInD(3);
+		center.setW(point.getPointSize()); // put point size in fourth unused coord
+		setGeometryIndex(
+				getView3D().getRenderer().getGeometryManager().
+				drawPoint(point.getPointSize(),center));
 		
-		
-		setGeometryIndex(surface.end());
 		
 		return true;
+	}
+	
+	@Override
+	protected void doRemoveGeometryIndex(int index){
+		// use Manager templates -- no remove for points
 	}
 	
 	@Override
@@ -310,5 +292,15 @@ implements Previewable, Functional2Var{
 		return false;
 	}
 	
+	
+	@Override
+	protected TraceIndex newTraceIndex(){
+		return new TraceIndex(getGeometryIndex(), getSurfaceIndex(), center);
+	}
+	
+	@Override
+	protected void drawGeom(Renderer renderer, TraceIndex index){
+		renderer.getGeometryManager().draw(index.geom, index.center);
+	}
 	
 }

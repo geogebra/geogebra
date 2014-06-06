@@ -421,7 +421,7 @@ public abstract class Drawable3D extends DrawableND {
 
 	}
 
-	private void doRemoveGeometryIndex(int index){
+	protected void doRemoveGeometryIndex(int index){
 		getView3D().getRenderer().getGeometryManager().remove(index);
 	}
 	
@@ -1197,12 +1197,20 @@ public abstract class Drawable3D extends DrawableND {
 	
 	private TraceSettings traceSettingsCurrent;
 	
-	private class TraceIndex{
+	protected class TraceIndex{
 		public int geom, surface;
+		public Coords center;
 		public TraceIndex(int geom, int surface){
 			this.geom = geom;
 			this.surface = surface;
 		}
+		
+		public TraceIndex(int geom, int surface, Coords center){
+			this.geom = geom;
+			this.surface = surface;
+			this.center = center;
+		}
+
 		
 	}
 	
@@ -1235,8 +1243,16 @@ public abstract class Drawable3D extends DrawableND {
 		}
 		
 		lastTraceIndices = indices;
-		lastTraceIndex = new TraceIndex(geomIndex, surfaceIndex);
+		lastTraceIndex = newTraceIndex();
 
+	}
+	
+	/**
+	 * 
+	 * @return new trace index for current geometry
+	 */
+	protected TraceIndex newTraceIndex(){
+		return new TraceIndex(geomIndex, surfaceIndex);
 	}
 	
 	
@@ -1263,10 +1279,28 @@ public abstract class Drawable3D extends DrawableND {
 			setDrawingColor(settings.getColor());
 			//App.debug(indices.size());
 			for (TraceIndex index : indices){
-				renderer.getGeometryManager().draw(index.geom);
+				drawGeom(renderer, index);
 			}
 		}
 		
+	}
+	
+	/**
+	 * draws the geometry of the trace index
+	 * @param renderer GL renderer
+	 * @param index trace index
+	 */
+	protected void drawGeom(Renderer renderer, TraceIndex index){
+		renderer.getGeometryManager().draw(index.geom);
+	}
+	
+	/**
+	 * draws the surface of the trace index
+	 * @param renderer GL renderer
+	 * @param index trace index
+	 */
+	protected void drawSurface(Renderer renderer, TraceIndex index){
+		renderer.getGeometryManager().draw(index.surface);
 	}
 	
 	/**
@@ -1288,7 +1322,7 @@ public abstract class Drawable3D extends DrawableND {
 				c.set(4, a);
 				setDrawingColor(c);
 				for (TraceIndex index : indices){
-					renderer.getGeometryManager().draw(index.surface);
+					drawSurface(renderer, index);
 				}
 			}
 		}
@@ -1311,7 +1345,7 @@ public abstract class Drawable3D extends DrawableND {
 			double a = settings.getAlpha();
 			if (a>0 && a<1){
 				for (TraceIndex index : indices){
-					renderer.getGeometryManager().draw(index.surface);
+					drawSurface(renderer, index);
 				}
 			}
 		}
@@ -1336,7 +1370,7 @@ public abstract class Drawable3D extends DrawableND {
 			if (a>=1){
 				setDrawingColor(settings.getColor());
 				for (TraceIndex index : indices){
-					renderer.getGeometryManager().draw(index.surface);
+					drawSurface(renderer, index);
 				}
 			}
 		}

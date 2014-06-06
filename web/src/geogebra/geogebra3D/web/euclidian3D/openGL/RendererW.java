@@ -7,6 +7,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
@@ -59,6 +60,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     private WebGLUniformLocation textureTypeLocation; // textures
     private WebGLUniformLocation colorLocation; // color
     private WebGLUniformLocation normalLocation; // one normal for all vertices
+    private WebGLUniformLocation centerLocation; // center
     private WebGLUniformLocation enableClipPlanesLocation, clipPlanesMinLocation, clipPlanesMaxLocation; // enable / disable clip planes
     private WebGLUniformLocation labelRenderingLocation, labelOriginLocation;
 
@@ -219,8 +221,11 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         //color
         colorLocation = glContext.getUniformLocation(shaderProgram, "color");
 
-        //color
+        //normal
         normalLocation = glContext.getUniformLocation(shaderProgram, "normal");
+        
+        //center
+        centerLocation = glContext.getUniformLocation(shaderProgram, "center");
         
         //clip planes
         enableClipPlanesLocation = glContext.getUniformLocation(shaderProgram, "enableClipPlanes");
@@ -1578,6 +1583,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
 	protected void drawFaceToScreen() {
 		glContext.uniform1i(labelRenderingLocation, 1);
+		resetCenter();
 		super.drawFaceToScreen();
 		glContext.uniform1i(labelRenderingLocation, 0);
 	}
@@ -1606,5 +1612,21 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
 	public boolean useLogicalPicking(){
 		return true;
+	}
+	
+	
+	
+	public void setCenter(Coords center){
+		float[] c = center.get4ForGL();
+		// set radius info
+		c[3] *= DrawPoint3D.DRAW_POINT_FACTOR / view3D.getScale();
+		glContext.uniform4fv(centerLocation, c);
+	    
+	}
+	
+	private float[] resetCenter = {0f,0f,0f,0f};
+	
+	public void resetCenter(){
+		glContext.uniform4fv(centerLocation, resetCenter);
 	}
 }

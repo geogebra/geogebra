@@ -1,5 +1,7 @@
 package geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import geogebra.common.kernel.Matrix.Coords;
+
 
 /**
  * interface for renderers using shaders
@@ -15,6 +17,10 @@ public interface RendererShadersInterface {
 	public void loadTextureBuffer(GLBuffer fbTextures, int length);
 
 	public void loadVertexBuffer(GLBuffer fbVertices, int length);
+	
+	public void setCenter(Coords center);
+	
+	public void resetCenter();
 
 	/**
 	 * @return true if textures are enabled

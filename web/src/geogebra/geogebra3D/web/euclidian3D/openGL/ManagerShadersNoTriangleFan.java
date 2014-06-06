@@ -1,7 +1,7 @@
 package geogebra.geogebra3D.web.euclidian3D.openGL;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
+import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.Coords;
 
@@ -10,7 +10,7 @@ import geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-public class ManagerShadersNoTriangleFan extends ManagerShaders {
+public class ManagerShadersNoTriangleFan extends ManagerShadersWithTemplates {
 
 	/**
 	 * constructor

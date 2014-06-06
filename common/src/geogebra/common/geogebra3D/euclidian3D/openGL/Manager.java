@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -242,7 +243,8 @@ abstract public class Manager {
 
 	
 	abstract public void draw(int index);
-	
+
+
 	/**
 	 * draw  in object format
 	 * @param geo geo
@@ -459,5 +461,43 @@ abstract public class Manager {
 		return 64;
 	}
 	
+	
+	/**
+	 * draw a point
+	 * @param size size
+	 * @param center center
+	 * @return geometry index
+	 */
+	public int drawPoint(int size, Coords center){
+
+		double radius =  size/view3D.getScale()*DrawPoint3D.DRAW_POINT_FACTOR;
+		center.setW(1); // changed for shaders (point size)
+		
+		return drawSphere(size, center, radius);
+	}
+	
+	/**
+	 * draws a sphere
+	 * @param size point size
+	 * @param center center
+	 * @param radius sphere radius
+	 * @return geometry index
+	 */
+	protected int drawSphere(int size, Coords center, double radius){
+		surface.start();
+		surface.drawSphere(size,center,radius);
+		
+		return surface.end();
+	}
+	
+	
+	/**
+	 * draw indexed geometry with center information
+	 * @param index geometry
+	 * @param center center
+	 */
+	public void draw(int index, Coords center){
+		draw(index);
+	}
 
 }

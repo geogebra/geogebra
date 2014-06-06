@@ -6,9 +6,10 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
+import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.kernel.Matrix.Coords;
@@ -102,6 +103,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     private int textureTypeLocation; // textures
     private int colorLocation; // color
     private int normalLocation; // one normal for all vertices
+    private int centerLocation; // center
     private int enableClipPlanesLocation, clipPlanesMinLocation, clipPlanesMaxLocation; // enable / disable clip planes
     private int labelRenderingLocation, labelOriginLocation;
     //private int normalMatrixLocation;
@@ -262,8 +264,11 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         //color
         colorLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "color");
 
-        //color
+        //normal
         normalLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "normal");
+        
+        //center
+        centerLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "center");
         
         //clip planes
         enableClipPlanesLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "enableClipPlanes");
@@ -382,7 +387,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	   jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, ((GLBufferD) fb).getBuffer(), GL.GL_STATIC_DRAW);
 
    }
-
+   
 
    public void loadNormalBuffer(GLBuffer fbNormals, int length){
 
@@ -1345,7 +1350,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 	@Override
 	protected Manager createManager(){
-    	return new ManagerShaders(this, view3D);
+    	return new ManagerShadersWithTemplates(this, view3D);
     }
     
     
@@ -1508,6 +1513,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	@Override
 	protected void drawFaceToScreen() {
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 1);
+		resetCenter();
 		super.drawFaceToScreen();
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
 	}
@@ -1549,6 +1555,19 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	public boolean useLogicalPicking(){
 		return true;
 	}
+	
 
 
+	public void setCenter(Coords center){
+		float[] c = center.get4ForGL();
+		// set radius info
+		c[3] *= DrawPoint3D.DRAW_POINT_FACTOR / view3D.getScale();
+		jogl.getGL2ES2().glUniform4fv(centerLocation, 1, c, 0);
+	}
+	
+	private float[] resetCenter = {0f,0f,0f,0f};
+	
+	public void resetCenter(){
+		jogl.getGL2ES2().glUniform4fv(centerLocation, 1, resetCenter, 0);
+	}
 }

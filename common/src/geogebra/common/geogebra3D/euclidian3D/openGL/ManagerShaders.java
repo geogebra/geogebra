@@ -467,6 +467,8 @@ public class ManagerShaders extends Manager {
 		getText().rectangleBounds(x, y, z, width, height);
 	}
 
+	
+
 
 
 }

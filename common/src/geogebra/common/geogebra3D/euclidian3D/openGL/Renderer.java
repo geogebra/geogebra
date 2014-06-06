@@ -175,10 +175,10 @@ public abstract class Renderer {
         ((EuclidianController3D) view3D.getEuclidianController()).update();
         
 
-        
+        //long time = System.currentTimeMillis();
         // update 3D view and drawables
         updateViewAndDrawables();
-
+        //App.debug("======= UPDATE : "+(System.currentTimeMillis() - time));     
         
         if (waitForSetStencilLines){
         	setStencilLines();
@@ -197,6 +197,7 @@ public abstract class Renderer {
         //init rendering values
         initRenderingValues();
         
+        //time = System.currentTimeMillis();
         
         if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
  
@@ -235,6 +236,8 @@ public abstract class Renderer {
         	setView();
         	draw(); 
         }
+        
+        //App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
         
         // prepare correct color mask for next clear
     	setColorMask(true,true,true,true);
