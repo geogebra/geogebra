@@ -40,6 +40,18 @@ public class CmdCircleArc extends CommandProcessor {
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 			
+		case 4:
+			arg = resArgs(c);
+			
+			GeoElement[] ret = process4(c, arg, ok);
+			
+			if (ret != null){
+				return ret;
+			}
+
+			// syntax error
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
@@ -58,4 +70,18 @@ public class CmdCircleArc extends CommandProcessor {
 				.CircleArc(label, (GeoPoint) center,
 						(GeoPoint) startPoint, (GeoPoint) endPoint); 
 	}
+	
+	
+	/**
+	 * process circle arc when 4 arguments
+	 * @param c command
+	 * @param arg arguments
+	 * @param ok ok array
+	 * @return result (if one)
+	 * @throws MyError in 2D, not possible with 4 args
+	 */
+	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
+		throw argNumErr(app, c.getName(), 4);
+	}
+	
 }

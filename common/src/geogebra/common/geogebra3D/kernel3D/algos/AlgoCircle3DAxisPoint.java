@@ -20,6 +20,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -74,15 +75,28 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
     	
     	// project the point on the axis   	
     	Coords center = p.projectLine(o, d)[0];
+ 
+    	Coords v1 = p.sub(center);
     	
-    	//create the coord sys containing the circle
+    	setCircle(circle, coordsys, center, v1, d);
+
+    }
+    
+    /**
+     * set conic to circle with center, radius vector, axis direction
+     * @param conic conic
+     * @param coordsys coord sys
+     * @param center center
+     * @param v1 radius vector
+     * @param d axis direction
+     */
+    static final public void setCircle(GeoConicND conic, CoordSys coordsys, 
+    		Coords center, Coords v1, Coords d){
     	
-    	
-		//recompute the coord sys
+    	//recompute the coord sys
     	coordsys.resetCoordSys();
 		
     	coordsys.addPoint(center);
-    	Coords v1 = p.sub(center);
 		coordsys.addVector(v1);
 		coordsys.addVector(d.crossProduct(v1));
 		
@@ -91,8 +105,7 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
     	
 		//set the circle
 		v1.calcNorm();
-    	circle.setSphereND(new Coords(0,0), v1.getNorm());
-
+    	conic.setSphereND(new Coords(0,0), v1.getNorm());
     }
 
     @Override
