@@ -310,15 +310,11 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().AngularBisector(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 	
-	protected GeoElement circleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){
-		return ec.getAlgoDispatcher().CircleArc(null, (GeoPoint) p1,
-				(GeoPoint) p2, (GeoPoint) p3);
+	protected GeoElement circleArcSector(GeoPointND p1, GeoPointND p2, GeoPointND p3, int type){
+		return ec.getAlgoDispatcher().CircleArcSector(null, (GeoPoint) p1,
+				(GeoPoint) p2, (GeoPoint) p3, type);
 	}
 	
-	protected GeoElement circleSector(GeoPointND p1, GeoPointND p2, GeoPointND p3){
-		return ec.getAlgoDispatcher().CircleArc(null, (GeoPoint) p1,
-				(GeoPoint) p2, (GeoPoint) p3);		
-	}
 	
 
 	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){

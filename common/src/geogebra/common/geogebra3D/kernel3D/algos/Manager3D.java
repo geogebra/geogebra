@@ -1650,32 +1650,20 @@ public class Manager3D implements Manager3DInterface {
 	
 	
 
-	final public GeoConicPart3D CircleArc3D(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C) {
+	final public GeoConicPart3D CircleArcSector3D(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C, int type) {
 		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3D(cons, label, A, B,
-				C, GeoConicPart.CONIC_PART_ARC);
+				C, type);
 		return algo.getConicPart();
 	}
 	
-	final public GeoConicPart3D CircleSector3D(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C) {
-		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3D(cons, label, A, B,
-				C, GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
-	}
 	
-	final public GeoConicPart3D CircleArc3D(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C, GeoDirectionND orientation) {
+	final public GeoConicPart3D CircleArcSector3D(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C, GeoDirectionND orientation, int type) {
 		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3DOrientation(cons, label, A, B,
-				C, orientation, GeoConicPart.CONIC_PART_ARC);
+				C, orientation, type);
 		return algo.getConicPart();
 	}
 	
-	final public GeoConicPart3D CircleSector3D(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C, GeoDirectionND orientation) {
-		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3DOrientation(cons, label, A, B,
-				C, orientation, GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
-	}
 	
 }

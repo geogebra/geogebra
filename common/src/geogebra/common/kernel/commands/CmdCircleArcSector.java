@@ -9,8 +9,14 @@ import geogebra.common.main.MyError;
 
 /**
  * CircleArc[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
+ * CircleSector[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
  */
-public class CmdCircleArc extends CommandProcessor {
+public class CmdCircleArcSector extends CommandProcessor {
+	
+	/**
+	 * arc/sector
+	 */
+	protected int type;
 
 	/**
 	 * Create new command processor
@@ -18,8 +24,9 @@ public class CmdCircleArc extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCircleArc(Kernel kernel) {
+	public CmdCircleArcSector(Kernel kernel, int type) {
 		super(kernel);
+		this.type = type;
 	}
 
 	@Override
@@ -34,7 +41,7 @@ public class CmdCircleArc extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { circleArc(c.getLabel(), (GeoPointND) arg[0],
+				GeoElement[] ret = { circleArcSector(c.getLabel(), (GeoPointND) arg[0],
 								(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 				return ret;
 			}
@@ -65,10 +72,10 @@ public class CmdCircleArc extends CommandProcessor {
 	 * @param endPoint end point
 	 * @return arc circle
 	 */
-	protected GeoElement circleArc(String label, GeoPointND center, GeoPointND startPoint, GeoPointND endPoint){
+	protected GeoElement circleArcSector(String label, GeoPointND center, GeoPointND startPoint, GeoPointND endPoint){
 		return getAlgoDispatcher()
-				.CircleArc(label, (GeoPoint) center,
-						(GeoPoint) startPoint, (GeoPoint) endPoint); 
+				.CircleArcSector(label, (GeoPoint) center,
+						(GeoPoint) startPoint, (GeoPoint) endPoint, type); 
 	}
 	
 	

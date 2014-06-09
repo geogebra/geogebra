@@ -857,24 +857,16 @@ public interface Manager3DInterface {
 
 	
 	/**
-	 * circle arc from center and two points on arc
+	 * circle arc/sector from center and two points on arc
 	 */
-	public GeoConicPartND CircleArc3D(String label, GeoPointND A, GeoPointND B, GeoPointND C);
+	public GeoConicPartND CircleArcSector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, int type);
+
 
 	/**
-	 * circle sector from center and two points on sector
+	 * circle arc/sector from center and two points on arc (oriented)
 	 */
-	public GeoConicPartND CircleSector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C);
+	public GeoConicPartND CircleArcSector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type);
 
-	/**
-	 * circle arc from center and two points on arc (oriented)
-	 */
-	public GeoConicPartND CircleArc3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation);
-
-	/**
-	 * circle sector from center and two points on sector (oriented)
-	 */
-	public GeoConicPartND CircleSector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation);
 
 
 }

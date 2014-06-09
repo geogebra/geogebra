@@ -2,29 +2,29 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdCircleArc;
+import geogebra.common.kernel.commands.CmdCircleArcSector;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
-public class CmdCircleArc3D extends CmdCircleArc {
+public class CmdCircleArcSector3D extends CmdCircleArcSector {
 	
 	
 	
 	
-	public CmdCircleArc3D(Kernel kernel) {
-		super(kernel);
+	public CmdCircleArcSector3D(Kernel kernel, int type) {
+		super(kernel, type);
 	}
 	
 	@Override
-	protected GeoElement circleArc(String label, GeoPointND center, GeoPointND startPoint, GeoPointND endPoint){
+	protected GeoElement circleArcSector(String label, GeoPointND center, GeoPointND startPoint, GeoPointND endPoint){
 		
 		if (center.isGeoElement3D() || startPoint.isGeoElement3D() || endPoint.isGeoElement3D()){
-			return (GeoElement) kernelA.getManager3D().CircleArc3D(label, center, startPoint, endPoint);
+			return (GeoElement) kernelA.getManager3D().CircleArcSector3D(label, center, startPoint, endPoint, type);
 		}
 		
-		return super.circleArc(label, center, startPoint, endPoint);
+		return super.circleArcSector(label, center, startPoint, endPoint);
 	}
 	
 	@Override
@@ -41,14 +41,14 @@ public class CmdCircleArc3D extends CmdCircleArc {
 					&& !arg[2].isGeoElement3D() 
 					&& arg[3] == kernelA.getXOYPlane()){ // ignore xOy plane for 2D
 				return new GeoElement[] {
-						super.circleArc(c.getLabel(), 
+						super.circleArcSector(c.getLabel(), 
 								(GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2])};
 			}
 			
 			GeoElement[] ret = { (GeoElement) kernelA.getManager3D().
-					CircleArc3D(c.getLabel(), 
+					CircleArcSector3D(c.getLabel(), 
 							(GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2], 
-							(GeoDirectionND) arg[3]) };
+							(GeoDirectionND) arg[3], type) };
 			return ret;
 		}
 		

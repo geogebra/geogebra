@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.App;
 
 /**
@@ -62,11 +63,11 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				
 			case CircleArc:
 			case CircularArc:
-					return new CmdCircleArc3D(kernel);
+					return new CmdCircleArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_ARC);
 					
 			case CircleSector:
 			case CircularSector:
-				return new CmdCircleSector3D(kernel);
+				return new CmdCircleArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_SECTOR);
 
 
 				

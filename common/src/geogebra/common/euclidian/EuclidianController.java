@@ -2681,13 +2681,13 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = companion.circleArc(points[0], points[1], points[2]);
+			ret[0] = companion.circleArcSector(points[0], points[1], points[2], GeoConicND.CONIC_PART_ARC);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = companion.circleSector(points[0], points[1], points[2]);
+			ret[0] = companion.circleArcSector(points[0], points[1], points[2], GeoConicND.CONIC_PART_SECTOR);
 			break;
 	
 		default:

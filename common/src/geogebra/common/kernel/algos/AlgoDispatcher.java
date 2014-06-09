@@ -517,24 +517,15 @@ public class AlgoDispatcher {
 	}
 
 	/**
-	 * circle arc from center and twho points on arc
+	 * circle arc/sector from center and two points on arc/sector
 	 */
-	final public GeoConicPart CircleArc(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C) {
+	final public GeoConicPart CircleArcSector(String label, GeoPoint A, GeoPoint B,
+			GeoPoint C, int type) {
 		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B,
-				C, GeoConicPart.CONIC_PART_ARC);
+				C, type);
 		return algo.getConicPart();
 	}
 
-	/**
-	 * circle sector from center and twho points on arc
-	 */
-	final public GeoConicPart CircleSector(String label, GeoPoint A,
-			GeoPoint B, GeoPoint C) {
-		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B,
-				C, GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
-	}
 
 	/**
 	 * Center of conic
