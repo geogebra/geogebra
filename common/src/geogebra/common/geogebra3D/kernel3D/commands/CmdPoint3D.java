@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPointVector3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -8,6 +9,8 @@ import geogebra.common.kernel.commands.CmdPoint;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 
@@ -69,6 +72,20 @@ public class CmdPoint3D extends CmdPoint {
 		}
 		
 		return super.point(label, path, value);
+	}
+	
+	@Override
+	protected GeoPointND point(String label, GeoPointND point, GeoVectorND vector){
+		
+		if (point.isGeoElement3D() || vector.isGeoElement3D()){
+			AlgoPointVector3D algo = new AlgoPointVector3D(cons, label,
+					point,
+					vector);
+
+			return algo.getQ();
+		}
+		
+		return super.point(label, point, vector);
 	}
 
 }

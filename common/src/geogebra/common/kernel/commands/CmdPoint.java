@@ -9,8 +9,8 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 
@@ -66,12 +66,9 @@ public class CmdPoint extends CommandProcessor {
 			else if ((ok[0] = (arg[0] .isGeoPoint()))
 					&& (ok[1] = (arg[1] .isGeoVector()))) {
 
-				AlgoPointVector algo = new AlgoPointVector(cons, c.getLabel(),
-						(GeoPoint) arg[0],
-						(GeoVector) arg[1]);
 
 				GeoElement[] ret =
-					{algo.getQ()};
+					{(GeoElement) point(c.getLabel(), (GeoPointND) arg[0], (GeoVectorND) arg[1])};
 				return ret;
 			} else {                
 				if (!ok[0])
@@ -97,5 +94,20 @@ public class CmdPoint extends CommandProcessor {
 		return getAlgoDispatcher().Point(label, path, value);
 	}
 	
+	/**
+	 * 
+	 * @param label label
+	 * @param point point
+	 * @param vector vector
+	 * @return point + vector
+	 */
+	protected GeoPointND point(String label, GeoPointND point, GeoVectorND vector){
+		AlgoPointVector algo = new AlgoPointVector(cons, label,
+				point,
+				vector);
+
+		return algo.getQ();
+	}
+
 
 }

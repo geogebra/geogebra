@@ -10,19 +10,19 @@ the Free Software Foundation.
 
 */
 
-package geogebra.common.kernel.algos;
+package geogebra.common.geogebra3D.kernel3D.algos;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.algos.AlgoPointVectorND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
 
-public class AlgoPointVector extends AlgoPointVectorND {
+public class AlgoPointVector3D extends AlgoPointVectorND {
      
         
-    public AlgoPointVector(Construction cons, String label, GeoPointND P, GeoVectorND v) {
+    public AlgoPointVector3D(Construction cons, String label, GeoPointND P, GeoVectorND v) {
         super(cons, label, P, v);
     }   
     
@@ -30,13 +30,13 @@ public class AlgoPointVector extends AlgoPointVectorND {
     
     @Override
 	public final void compute() {
-        Q.setCoords(((GeoPoint) P).inhomX + ((GeoVector) v).x, ((GeoPoint) P).inhomY + ((GeoVector) v).y, 1.0);
+        Q.setCoords(P.getInhomCoordsInD(3).add(v.getCoordsInD(3)), false);
     }   
     
 
 	@Override
 	protected GeoPointND newGeoPoint(Construction cons1) {
-		return new GeoPoint(cons1);
+		return new GeoPoint3D(cons1);
 	}
 
 }
