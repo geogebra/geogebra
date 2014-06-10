@@ -1,5 +1,6 @@
 package geogebra.html5.gui.laf;
 
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -76,4 +77,12 @@ public class SmartLookAndFeel extends GLookAndFeel{
     public String getInsertWorksheetTitle(Material m) {
 	    return m.getType() == MaterialType.book ? null : "insert_worksheet";
     }
+	
+	public void login(App app, String s){
+		gotoURL(s);
+	}
+	
+	private native void gotoURL(String s)/*-{
+		$wnd.location.replace(s);
+	}-*/;
 }

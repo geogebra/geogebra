@@ -1325,16 +1325,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 	
 	public void login() {
-		if(((AppW)app).getLAF().isEmbedded()){
-			gotoURL(getLoginURL(app.getLocalization().getLanguage()));
-		}else{
-			app.getDialogManager().showLogInDialog();
-		}
+		((AppW)app).getLAF().login(app, getLoginURL(app.getLocalization().getLanguage()));		
     }
 
-	private native void gotoURL(String s)/*-{
-		$wnd.location.replace(s);
-	}-*/;
+	
 	
 	public void setGeneralToolBarDefinition(String toolBarDefinition) {
 		if(toolBarDefinition == null){

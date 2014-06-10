@@ -1,5 +1,6 @@
 package geogebra.html5.gui.laf;
 
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.web.gui.menubar.GeoGebraMenuW;
@@ -75,6 +76,11 @@ public class GLookAndFeel {
 
 	public boolean isEmbedded() {
 	    return false;
+    }
+
+	public void login(App app, String loginURL) {
+		app.getDialogManager().showLogInDialog();
+	    
     }
 
 }

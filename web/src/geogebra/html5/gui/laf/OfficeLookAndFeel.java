@@ -1,5 +1,10 @@
 package geogebra.html5.gui.laf;
 
+import geogebra.common.main.App;
+
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Timer;
+
 
 /**
  * @author geogebra
@@ -25,7 +30,17 @@ public class OfficeLookAndFeel extends SmartLookAndFeel{
 
 	
 	@Override
-    public String getLoginListener() {
-	    return null;
+	public void login(final App app, String loginURL) {
+		app.getDialogManager().showLogInDialog();
+		Timer loginChecker = new Timer(){
+
+			@Override
+            public void run() {
+				if(Cookies.getCookie("SSID") != null){
+		    		app.getLoginOperation().performCookieLogin(Cookies.getCookie("SSID"));
+		    		cancel();
+				}
+            }};
+        loginChecker.scheduleRepeating(10000);
     }
 }
