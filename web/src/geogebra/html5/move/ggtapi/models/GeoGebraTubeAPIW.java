@@ -175,8 +175,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 			}else{
 				user.setUserId(Integer.valueOf(((JSONString) userinfo.get("user_id")).stringValue()));
 			}
-			user.setUserName(userinfo.get("username").toString());
-			user.setRealName(userinfo.get("realname").toString());
+			user.setUserName(((JSONString)userinfo.get("username")).stringValue());
+			user.setRealName(((JSONString)userinfo.get("realname")).stringValue());
 			user.setIdentifier(((JSONString)userinfo.get("identifier")).stringValue());
 			
 			// Further fields are not parsed yet, because they are not needed
