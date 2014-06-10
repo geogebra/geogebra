@@ -183,6 +183,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	GetTime(TABLE_SCRIPTING), ShowLabel(TABLE_SCRIPTING), SetAxesRatio(TABLE_SCRIPTING), SetVisibleInView(TABLE_SCRIPTING),
    	ShowAxes(TABLE_SCRIPTING), ShowGrid(TABLE_SCRIPTING),AttachCopyToView(TABLE_SCRIPTING),RunClickScript(TABLE_SCRIPTING),
    	RunUpdateScript(TABLE_SCRIPTING),DensityPlot(TABLE_FUNCTION), SetPerspective(TABLE_SCRIPTING),
+   	StartLogging(TABLE_SCRIPTING), StopLogging(TABLE_SCRIPTING), 
    	
 	//=============================================================	
   	// discrete math

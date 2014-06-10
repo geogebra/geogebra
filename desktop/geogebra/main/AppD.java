@@ -58,6 +58,7 @@ import geogebra.common.main.SingularWSSettings;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
+import geogebra.common.plugin.UDPLogger;
 import geogebra.common.util.Base64;
 import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
@@ -91,6 +92,7 @@ import geogebra.move.ggtapi.models.LoginOperationD;
 import geogebra.plugin.GgbAPID;
 import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManagerD;
+import geogebra.plugin.UDPLoggerD;
 import geogebra.sound.SoundManager;
 import geogebra.util.DownloadManager;
 import geogebra.util.FrameCollector;
@@ -408,9 +410,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	protected AppD(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp,
 			boolean undoActive, LocalizationD loc) {
-		
+
 		super();
-		
+
 		this.loc = loc;
 		loc.setApp(this);
 		this.args = args;
@@ -4974,4 +4976,14 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		uploadToGeoGebraTube();
 	}
+
+	private UDPLogger udpLogger;
+
+	public UDPLogger getUDPLogger() {
+		if (udpLogger == null) {
+			udpLogger = new UDPLoggerD(getKernel());
+		}
+		return udpLogger;
+	}
+
 }

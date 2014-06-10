@@ -29,6 +29,8 @@ import java.awt.event.ActionEvent;
 import java.awt.print.PageFormat;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -503,12 +505,28 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("Java ");
 		AppD.appendJavaVersion(sb);
 		sb.append(", ");
+
+		// needed by the user for logging
+		if (!app.isApplet()) {
+			sb.append("IP: ");
+			try {
+				sb.append(InetAddress.getLocalHost().getHostAddress());
+			} catch (UnknownHostException e) {
+				sb.append("<unknown>");
+			}
+			sb.append(", ");
+		}
+
 		sb.append(app.getHeapSize() / 1024 / 1024);
 		sb.append("MB, ");
 		sb.append(App.getCASVersionString());
-		if (App.singularWS != null)
-			sb.append(",<br>" + App.singularWS.getSingularVersionString());
+
+		String v;
+		if (App.singularWS != null
+				&& (v = App.singularWS.getSingularVersionString()) != null)
+			sb.append(",<br>" + v);
 		sb.append(")<br>");
+
 		sb.append(GeoGebraConstants.BUILD_DATE);
 
 		// license

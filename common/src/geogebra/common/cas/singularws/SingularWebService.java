@@ -260,7 +260,7 @@ public class SingularWebService {
 		if (this.available) {
 			return "SingularWS " + getVersion() + " " + speed() + " at " + getConnectionSite();
 		}
-		return "";
+		return null;
 	}
 	
 	/**

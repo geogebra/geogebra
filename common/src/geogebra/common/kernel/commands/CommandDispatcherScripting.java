@@ -45,6 +45,8 @@ import geogebra.common.kernel.scripting.CmdShowLayer;
 import geogebra.common.kernel.scripting.CmdSlider;
 import geogebra.common.kernel.scripting.CmdSlowPlot;
 import geogebra.common.kernel.scripting.CmdStartAnimation;
+import geogebra.common.kernel.scripting.CmdStartLogging;
+import geogebra.common.kernel.scripting.CmdStopLogging;
 import geogebra.common.kernel.scripting.CmdTextfield;
 import geogebra.common.kernel.scripting.CmdToolImage;
 import geogebra.common.kernel.scripting.CmdTurtle;
@@ -136,6 +138,10 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 						return new CmdStartAnimation(kernel);
 					case SetPerspective:
 						return new CmdPerspective(kernel);
+					case StartLogging:
+						return new CmdStartLogging(kernel);
+					case StopLogging:
+						return new CmdStopLogging(kernel);
 					case Delete:
 						return new CmdDelete(kernel);
 					case Slider:
