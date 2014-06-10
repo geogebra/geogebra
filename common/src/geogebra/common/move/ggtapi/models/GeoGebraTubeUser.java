@@ -18,6 +18,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String identifier = null;
 
 	private String realName = null;
+	private String cookie;
 	
 	/**
 	 * Creates a new user with the specified login token
@@ -26,6 +27,11 @@ public class GeoGebraTubeUser extends BaseModel {
 	 */
 	public GeoGebraTubeUser(String token) {
 		this.token = token;
+	}
+	
+	public GeoGebraTubeUser(String token, String cookie) {
+		this.token = token;
+		this.cookie = cookie;
 	}
 	
 	
@@ -112,6 +118,10 @@ public class GeoGebraTubeUser extends BaseModel {
 	public boolean hasOneDrive() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public String getCookie() {
+		return this.cookie;
 	}
 
 }

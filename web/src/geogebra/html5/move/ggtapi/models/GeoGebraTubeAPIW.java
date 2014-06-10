@@ -3,7 +3,6 @@ package geogebra.html5.move.ggtapi.models;
 import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import geogebra.common.move.ggtapi.models.LoginRequest;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.common.util.HttpRequest;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -83,17 +82,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		// TODO add ID fetching of a specific material!
 		performRequest(new MaterialRequest(id, client).toJSONString(), callback);
 	}
-	
-	/**
-	 * Logs in an user to GeoGebraTube
-	 * 
-	 * @param userName
-	 * @param password
-	 * @param callback
-	 */
-	public void logIn(String userName, String password, RequestCallback callback) {
-		performRequest(new LoginRequest(userName, password).toJSONString(), callback);
-	}
 
 	// /**
 	// * Return a list of all Materials from the specified author
@@ -105,26 +93,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	// throw new UnsupportedOperationException();
 	// }
 
-	/**
-	 * Private method performing the request given by requestString
-	 * 
-	 * @param requestString
-	 *          JSON request String for the GeoGebraTubeAPI
-	 * @return the resulting List of Materials
-	 * @throws RequestException
-	 */
-	protected void performRequest(String requestString, RequestCallback callback)
-	{
-		try
-		{
-			this.requestBuilder.sendRequest(requestString, callback);
-		}
-		catch (RequestException e)
-		{
-			// TODO Handle the error!
-			e.printStackTrace();
-		}
-	}
 	
 	protected void performRequest(String requestString, final MaterialCallback cb)
 	{
@@ -160,7 +128,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	
 	@Override
 	public int authorizeUser(GeoGebraTubeUser user) {
-		HttpRequest request = performRequest(buildTokenLoginRequest(user.getLoginToken()).toString(), true);
+		String req = buildTokenLoginRequest(user.getLoginToken(), user.getCookie()).toString();
+		HttpRequest request = performRequest(req, true);
 		if (request.isSuccessful()) {
 			//JSONTokener tokener = new JSONTokener(request.getResponse());
 			//JSONObject response = new JSONObject(tokener);
@@ -259,12 +228,16 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 * @param user The user that should be logged in
 	 * @return The JSONObject that contains the request.
 	 */
-	private JSONObject buildTokenLoginRequest(String token) {
+	private JSONObject buildTokenLoginRequest(String token, String cookie) {
 		JSONObject requestJSON = new JSONObject();
 		JSONObject apiJSON = new JSONObject();
 		JSONObject loginJSON = new JSONObject();
 		try{
-			loginJSON.put("token", new JSONString(token));
+			if(token!=null){
+				loginJSON.put("token", new JSONString(token));
+			}else{
+				loginJSON.put("cookie", new JSONString(cookie));
+			}
 			loginJSON.put("getuserinfo", new JSONString("true"));
 			apiJSON.put("login", loginJSON);		
 			apiJSON.put("api", new JSONString("1.0.0"));

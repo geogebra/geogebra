@@ -1148,7 +1148,7 @@ public abstract class AppWeb extends App implements SetLabels{
 		if (getNetworkOperation().getOnline()) {
 			initGoogleDriveEventFlow();
 			loginOperation.performTokenLogin();
-		}
+		}		
 	}
 
 	protected void initGoogleDriveEventFlow() {

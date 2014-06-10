@@ -17,6 +17,7 @@ import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -73,6 +74,7 @@ public class AppWapplication extends AppW {
 		initCoreObjects(undoActive, this);
 		// user authentication handling
 		initSignInEventFlow();
+		
 		afterCoreObjectsInited();
 		resetFonts();
 		// initing = true;
@@ -86,7 +88,9 @@ public class AppWapplication extends AppW {
 			this.showBrowser(bg);
 			nativeLoggedIn();
 	    }else{
-	    	App.debug("URL has no token"+Location.getHref());
+	    	if(Cookies.getCookie("SSID") != null){
+	    		this.getLoginOperation().performCookieLogin(Cookies.getCookie("SSID"));
+			}
 	    }
 	}
 
