@@ -6,6 +6,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.kernel.StringTemplate;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -22,7 +23,7 @@ import java.util.LinkedList;
 public class Drawable3DLists {
 	
 	
-	protected class Drawable3DList extends LinkedList<Drawable3D>{
+	protected class Drawable3DList extends ArrayList<Drawable3D>{
 
 		/**
 		 * 
