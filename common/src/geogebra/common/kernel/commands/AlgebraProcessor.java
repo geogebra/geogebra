@@ -1583,11 +1583,11 @@ public class AlgebraProcessor {
 		boolean childrenOK = true;
 		if(cx.getOperation() == Operation.PLUS){
 			childrenOK = getTrigCoeffs(cx.getLeftTree(), coefX, scale, var) &&
-			getTrigCoeffs(cx.getRightTree(), coefX, scale, var);
+					getTrigCoeffs(cx.getRightTree(), coefX, scale, var);
 		}
 		else if(cx.getOperation() == Operation.MINUS){
 			childrenOK =  getTrigCoeffs(cx.getLeftTree(), coefX, scale, var) &&
-			getTrigCoeffs(cx.getRightTree(), coefX, scale.multiply(-1), var);
+					getTrigCoeffs(cx.getRightTree(), coefX, scale.multiply(-1), var);
 		}
 		else if(cx.getOperation() == Operation.MULTIPLY){
 			if(cx.getLeft().unwrap() instanceof MyDouble && cx.getLeft().isConstant()){
@@ -1596,6 +1596,7 @@ public class AlgebraProcessor {
 			else if(cx.getRight().unwrap() instanceof MyDouble && cx.getRight().isConstant()){
 				return getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getRight().unwrap()), var);
 			}
+			return false;
 		}
 		else if(cx.getOperation() == Operation.SIN){
 			if(cx.getLeft().unwrap()!=var){
