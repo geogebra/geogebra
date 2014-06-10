@@ -2482,6 +2482,7 @@ __GGB__keysVar.sq.plain = {
     "OpenButton": "Celsi i hapjes se dritares GjeoGjebra",
     "Orthographic": "Orthographic",
     "Oscillating": "Lekundes",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Deshironi te mbishkruani kete Dokument?",
     "PGFExport_Grayscale": "Shkalla Gri",
     "Parabola": "Parabole",

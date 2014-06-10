@@ -2482,6 +2482,7 @@ __GGB__keysVar.sv.plain = {
     "OpenButton": "Knapp f\xf6r att \xf6ppna applikationsf\xf6nster med konstruktion",
     "Orthographic": "Orthografisk",
     "Oscillating": "Oscillerande",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Vill du skriva \xf6ver denna fil?",
     "PGFExport_Grayscale": "Gr\xe5skala",
     "Parabola": "Parabel",

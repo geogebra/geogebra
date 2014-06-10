@@ -2482,6 +2482,7 @@ __GGB__keysVar.eu.plain = {
     "OpenButton": "Botoia eraikuntzarekin aplikazio-lehioa irekitzeko",
     "Orthographic": "Ortografikoa",
     "Oscillating": "Oszilatzailea",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Gainidatzi nahi duzu fitxategi hau?",
     "PGFExport_Grayscale": "Grisen eskala",
     "Parabola": "Parabola",

@@ -2482,6 +2482,7 @@ __GGB__keysVar.no_NN.plain = {
     "OpenButton": "Knapp til \xe5 opne GeoGebra-vindauge",
     "Orthographic": "Ortografisk",
     "Oscillating": "Begge vegar",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Vil du overskrive fila?",
     "PGFExport_Grayscale": "Gr\xe5tone",
     "Parabola": "Parabel",

@@ -2482,6 +2482,7 @@ __GGB__keysVar.hu.plain = {
     "OpenButton": "Gomb az alkalmaz\xe1s megnyit\xe1s\xe1hoz",
     "Orthographic": "Orthographic",
     "Oscillating": "Oszcill\xe1l\xf3",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Fel\xfcl akarod \xedrni ezt a f\xe1jlt?",
     "PGFExport_Grayscale": "Sz\xfcrke\xe1rnyalatos",
     "Parabola": "Parabola",

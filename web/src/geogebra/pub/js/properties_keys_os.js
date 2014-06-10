@@ -2482,6 +2482,7 @@ __GGB__keysVar.os.plain = {
     "OpenButton": "Button to Open GeoGebra Window",
     "Orthographic": "Orthographic",
     "Oscillating": "Oscillating",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Do you want to overwrite this file?",
     "PGFExport_Grayscale": "Grayscale",
     "Parabola": "Parabola",

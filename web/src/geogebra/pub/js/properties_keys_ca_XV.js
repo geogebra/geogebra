@@ -2482,6 +2482,7 @@ __GGB__keysVar.ca_XV.plain = {
     "OpenButton": "Bot\xf3 per a obrir una finestra d'aplicaci\xf3 amb construcci\xf3",
     "Orthographic": "Orthographic",
     "Oscillating": "Oscil\xb7lant",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Voleu sobreescriure este fitxer?",
     "PGFExport_Grayscale": "Escala de grisos",
     "Parabola": "Par\xe0bola",

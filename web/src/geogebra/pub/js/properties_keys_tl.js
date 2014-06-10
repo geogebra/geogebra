@@ -2482,6 +2482,7 @@ __GGB__keysVar.tl.plain = {
     "OpenButton": "Pindutan para buksan ang Window ng GeoGebra",
     "Orthographic": "Orthographic",
     "Oscillating": "Umiikot",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Gusto mo bang sapawan ang talatag na ito?",
     "PGFExport_Grayscale": "Kulay-abo",
     "Parabola": "Parabola",

@@ -2482,6 +2482,7 @@ __GGB__keysVar.cy.plain = {
     "OpenButton": "Botwm i agor ffenestr cymhwysiad gyda lluniad",
     "Orthographic": "Orthographic",
     "Oscillating": "Osgiliadu",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Ydych chi eisiau trosysgrifo'r ffeil?",
     "PGFExport_Grayscale": "Graddlwyd",
     "Parabola": "Parabola",

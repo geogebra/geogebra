@@ -2482,6 +2482,7 @@ __GGB__keysVar.fr.plain = {
     "OpenButton": "Bouton pour ouvrir la fen\xeatre d'application avec la construction",
     "Orthographic": "Orthogonale",
     "Oscillating": "Altern\xe9",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Voulez-vous remplacer ce fichier ?",
     "PGFExport_Grayscale": "Niveaux de gris",
     "Parabola": "Parabole",

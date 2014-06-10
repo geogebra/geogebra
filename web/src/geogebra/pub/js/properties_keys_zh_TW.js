@@ -2482,6 +2482,7 @@ __GGB__keysVar.zh_TW.plain = {
     "OpenButton": "\u53ea\u8f38\u51fa\u300c\u958b\u555f GeoGebra\u300d\u6309\u9215",
     "Orthographic": "Orthographic",
     "Oscillating": "\u4f86\u56de\u53cd\u8986",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "\u60f3\u8986\u84cb\u539f\u6a94\u6848\u55ce\uff1f",
     "PGFExport_Grayscale": "\u7070\u968e",
     "Parabola": "\u62cb\u7269\u7dda",

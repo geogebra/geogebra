@@ -2482,6 +2482,7 @@ __GGB__keysVar.sr.plain = {
     "OpenButton": "Dugme za otvaranje prozora s konstrukcijom",
     "Orthographic": "Orthographic",
     "Oscillating": "Osciluju\u0107e",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Da li \u017eeite da zamenite postoje\u0107u datoteku?",
     "PGFExport_Grayscale": "Sive nijanse",
     "Parabola": "parabola",

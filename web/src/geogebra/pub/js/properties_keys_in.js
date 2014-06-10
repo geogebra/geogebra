@@ -2482,6 +2482,7 @@ __GGB__keysVar.in.plain = {
     "OpenButton": "Tombol untuk membuka jendela aplikasi dengan konstruksi",
     "Orthographic": "Orthographic",
     "Oscillating": "Singgung",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Anda ingin menimpah berkas ini?",
     "PGFExport_Grayscale": "SkalaAbuAbu",
     "Parabola": "Parabola",

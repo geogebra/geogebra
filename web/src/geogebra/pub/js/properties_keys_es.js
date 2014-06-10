@@ -2482,6 +2482,7 @@ __GGB__keysVar.es.plain = {
     "OpenButton": "Bot\xf3n para abrir la ventana de GeoGebra",
     "Orthographic": "Ortogr\xe1fica",
     "Oscillating": "Oscilante",
+    "OutlineColor": "Color del contorno",
     "OverwriteFile": "\xbfReescribir este archivo?",
     "PGFExport_Grayscale": "Escala de grises",
     "Parabola": "Par\xe1bola",

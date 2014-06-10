@@ -2482,6 +2482,7 @@ __GGB__keysVar.et.plain = {
     "OpenButton": "Nupp konstruktsiooni akna avamiseks",
     "Orthographic": "Orthographic",
     "Oscillating": "V\xf5nkuv",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Kas soovid seda faili \xfcle krjutada?",
     "PGFExport_Grayscale": "Must-valge",
     "Parabola": "Parabool",

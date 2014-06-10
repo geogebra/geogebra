@@ -2482,6 +2482,7 @@ __GGB__keysVar.it.plain = {
     "OpenButton": "Pulsante per aprire la finestra dell'applicazione",
     "Orthographic": "Ortogonale",
     "Oscillating": "Oscillante",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Sovrascrivere il file?",
     "PGFExport_Grayscale": "Scala di grigi",
     "Parabola": "Parabola",

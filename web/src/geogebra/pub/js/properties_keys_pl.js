@@ -2482,6 +2482,7 @@ __GGB__keysVar.pl.plain = {
     "OpenButton": "Przycisk do otwierania okna z konstrukcj\u0105",
     "Orthographic": "Orthographic",
     "Oscillating": "Oscylacja",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Czy chcesz nadpisa\u0107 ten plik?",
     "PGFExport_Grayscale": "Skala szaro\u015bci",
     "Parabola": "Parabola",

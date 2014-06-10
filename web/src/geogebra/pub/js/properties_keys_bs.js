@@ -2482,6 +2482,7 @@ __GGB__keysVar.bs.plain = {
     "OpenButton": "Dugme za otvaranje GeoGebra prozora",
     "Orthographic": "Orth+ografska",
     "Oscillating": "Oscilacija",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "\u017delite li zamijeniti postoje\u0107u datoteku?",
     "PGFExport_Grayscale": "Siva skala",
     "Parabola": "Parabola",

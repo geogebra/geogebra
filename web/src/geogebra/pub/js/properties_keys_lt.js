@@ -2482,6 +2482,7 @@ __GGB__keysVar.lt.plain = {
     "OpenButton": "Mygtukas atidarantis programos lang\u0105 su konstrukcija",
     "Orthographic": "Orthographic",
     "Oscillating": "Svyravimai",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Ar noryte perra\u0161yti \u0161\u012f fail\u0105?",
     "PGFExport_Grayscale": "Pilkumo tonas",
     "Parabola": "Parabol\u0117",

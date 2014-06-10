@@ -2482,6 +2482,7 @@ __GGB__keysVar.ro.plain = {
     "OpenButton": "Buton pentru a deschide fereastra GeoGebra",
     "Orthographic": "Orthographic",
     "Oscillating": "Oscilant",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Dori\u0163i s\u0103 suprascrie\u0163i acest fi\u015fier?",
     "PGFExport_Grayscale": "Tonuri de gri",
     "Parabola": "Parabol\u0103",

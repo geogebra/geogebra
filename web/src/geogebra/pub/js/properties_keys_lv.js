@@ -2482,6 +2482,7 @@ __GGB__keysVar.lv.plain = {
     "OpenButton": "Poga, kas atver GeoGebras logu",
     "Orthographic": "Orthographic",
     "Oscillating": "Sv\u0101rst\u012bbas",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Vai v\u0113laties p\u0101rsaglab\u0101t \u0161o datni??",
     "PGFExport_Grayscale": "Pel\u0113kaSkala",
     "Parabola": "Parabola",

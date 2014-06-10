@@ -2482,6 +2482,7 @@ __GGB__keysVar.ja.plain = {
     "OpenButton": "\u30a2\u30d7\u30ea\u30b1\u30fc\u30b7\u30e7\u30f3\u30a6\u30a3\u30f3\u30c9\u30a6\u3092\u958b\u304f\u30dc\u30bf\u30f3",
     "Orthographic": "Orthographic",
     "Oscillating": "\u632f\u52d5",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "\u3053\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u4e0a\u66f8\u304d\u3057\u307e\u3059\u304b",
     "PGFExport_Grayscale": "\u30b0\u30ec\u30fc\u30b9\u30b1\u30fc\u30eb",
     "Parabola": "\u653e\u7269\u7dda",

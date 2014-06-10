@@ -2482,6 +2482,7 @@ __GGB__keysVar.hr.plain = {
     "OpenButton": "Gumb za otvaranje programskog prozora",
     "Orthographic": "Orthographic",
     "Oscillating": "naizmjence",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "\u017delite li zamijeniti postoje\u0107u datoteku?",
     "PGFExport_Grayscale": "U sivim tonovima",
     "Parabola": "Parabola",

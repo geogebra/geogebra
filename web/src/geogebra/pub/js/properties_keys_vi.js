@@ -2482,6 +2482,7 @@ __GGB__keysVar.vi.plain = {
     "OpenButton": "N\xfat b\u1ea5m \u0111\u1ec3 m\u1edf c\u1eeda s\u1ed5 ch\u01b0\u01a1ng tr\xecnh GeoGebra",
     "Orthographic": "Orthographic",
     "Oscillating": "Dao \u0111\u1ed9ng",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "B\u1ea1n c\xf3 mu\u1ed1n ghi \u0111\xe8 l\xean t\u1eadp tin n\xe0y ?",
     "PGFExport_Grayscale": "Xu\u1ea5t b\u1ea3n sang PGF",
     "Parabola": "\u0110\u01b0\u1eddng Parab\xf4n",

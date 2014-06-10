@@ -2482,6 +2482,7 @@ __GGB__keysVar.gl.plain = {
     "OpenButton": "Bot\xf3n para abrir a xanela da aplicaci\xf3n coa construci\xf3n",
     "Orthographic": "Ortogr\xe1fica",
     "Oscillating": "Oscilante",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Desexa sobrescribir este ficheiro?",
     "PGFExport_Grayscale": "Escala de grises",
     "Parabola": "Par\xe1bola",

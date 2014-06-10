@@ -2482,6 +2482,7 @@ __GGB__keysVar.pt.plain = {
     "OpenButton": "Incluir bot\xe3o para abrir janela do aplicativo",
     "Orthographic": "Orthographic",
     "Oscillating": "Oscilando",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Voc\xea deseja substituir este arquivo?",
     "PGFExport_Grayscale": "Tons de Cinza",
     "Parabola": "Par\xe1bola",

@@ -2482,6 +2482,7 @@ __GGB__keysVar.fi.plain = {
     "OpenButton": "Painike, jolla avataan piirroksen sis\xe4lt\xe4v\xe4 sovellusikkuna",
     "Orthographic": "Orthographic",
     "Oscillating": "Edestakainen",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Haluatko korvata t\xe4m\xe4n tiedoston?",
     "PGFExport_Grayscale": "Mustavalkoinen",
     "Parabola": "Paraabeli",

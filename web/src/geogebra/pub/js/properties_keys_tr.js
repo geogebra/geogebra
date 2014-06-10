@@ -2482,6 +2482,7 @@ __GGB__keysVar.tr.plain = {
     "OpenButton": "\u0130n\u015fa i\xe7eren uygulama penceresini a\xe7an d\xfc\u011fme",
     "Orthographic": "Orthografik",
     "Oscillating": "Sal\u0131nan",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Bu dosyan\u0131n \xfczerine yazmak istiyor musunuz?",
     "PGFExport_Grayscale": "Gri \xf6l\xe7ek",
     "Parabola": "Parabol",

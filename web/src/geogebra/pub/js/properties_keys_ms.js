@@ -2482,6 +2482,7 @@ __GGB__keysVar.ms.plain = {
     "OpenButton": "Butang untuk Buka Tetingkap GeoGebra",
     "Orthographic": "Orthographic",
     "Oscillating": "Berayun",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Adakah anda ingin tulis ganti fail ini?",
     "PGFExport_Grayscale": "Skala Kelabu",
     "Parabola": "Parabola",

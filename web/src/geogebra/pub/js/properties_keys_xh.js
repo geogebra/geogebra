@@ -2482,6 +2482,7 @@ __GGB__keysVar.xh.plain = {
     "OpenButton": "Iqhosha lokuvula uJiyoJebra",
     "Orthographic": "Orthographic",
     "Oscillating": "Oscillating",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Ingaba ufuna ukubhala ngaphezu kwalefayile?",
     "PGFExport_Grayscale": "iGrayscale",
     "Parabola": "iParabola",

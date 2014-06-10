@@ -2482,6 +2482,7 @@ __GGB__keysVar.nl_BE.plain = {
     "OpenButton": "Knop om applicatie met constructie te openen",
     "Orthographic": "Orthographic",
     "Oscillating": "Oscilleren",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Wil je dit bestand overschrijven?",
     "PGFExport_Grayscale": "Grijswaarde",
     "Parabola": "Parabool",

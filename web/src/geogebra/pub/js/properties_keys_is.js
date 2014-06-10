@@ -2482,6 +2482,7 @@ __GGB__keysVar.is.plain = {
     "OpenButton": "Hnappur til a\xf0 opna forritaglugga",
     "Orthographic": "Orthographic",
     "Oscillating": "Sveiflast",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Viltu skrifa yfir \xfeessa skr\xe1?",
     "PGFExport_Grayscale": "Gr\xe1skali",
     "Parabola": "Fleygbogi",

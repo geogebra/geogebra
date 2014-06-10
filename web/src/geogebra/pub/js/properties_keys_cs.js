@@ -2482,6 +2482,7 @@ __GGB__keysVar.cs.plain = {
     "OpenButton": "Tla\u010d\xedtko otv\xedraj\xedc\xed aplika\u010dn\xed okno s konstrukc\xed",
     "Orthographic": "Orthographic",
     "Oscillating": "Osciluj\xedc\xed",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Chcete p\u0159epsat tento soubor?",
     "PGFExport_Grayscale": "Odst\xedny \u0161edi",
     "Parabola": "Parabola",

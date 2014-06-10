@@ -2482,6 +2482,7 @@ __GGB__keysVar.da.plain = {
     "OpenButton": "Knap til at \xe5bne konstruktionsvinduet",
     "Orthographic": "Orthographic",
     "Oscillating": "Svingende",
+    "OutlineColor": "Outline Color",
     "OverwriteFile": "Vil du overskrive filen?",
     "PGFExport_Grayscale": "Gr\xe5tone",
     "Parabola": "Parabel",
