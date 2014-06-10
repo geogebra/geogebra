@@ -1,5 +1,7 @@
 package geogebra.web.gui.view.functioninspector;
 
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -9,6 +11,8 @@ import geogebra.web.main.AppW;
 
 import java.util.List;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -24,6 +28,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	private int editRow;
 	private int editCol;
 	private AutoCompleteTextFieldW cellEditor;
+	private KeyHandler keyHandler;
+	private BlurHandler blurHandler;
 	
 	public InspectorTableW(AppW app, int col) {
 		super();
@@ -37,17 +43,62 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		rf.setStyleName(HEADER_ROW, "inspectorTableHeader");
 		InputPanelW input = new InputPanelW(null, app, -1, false);
 		cellEditor = input.getTextComponent();
-
+		keyHandler = null;
+		blurHandler = null;
+		
 		addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				updateRowStyle(getCellForEvent(event), "selected");
+				Cell cell = getCellForEvent(event);
+				if (cell == null) {
+					return;
+				}
+				updateRowStyle(cell, "selected");
 			}
 		});
 		
+		cellEditor.addKeyHandler(new KeyHandler() {
+			
+			public void keyReleased(KeyEvent e) {
+				if (keyHandler != null) {
+					keyHandler.keyReleased(e);
+				}
+			}
+		});
+		
+		cellEditor.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				if (blurHandler != null) {
+					blurHandler.onBlur(event);
+				}
+			}
+		});
 		
 	}
 
+	public Double getDoubleEdited() {
+		if (cellEditor == null) {
+			return null;
+		}
+		
+		Double value = null;
+		try {
+			value = Double.parseDouble(cellEditor.getText());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
+	private void setEditorInCell(int row, int col) {
+		if (row == -1 || col == -1) {
+			return;
+		}
+		DataCell data = model.getData(row, col);
+		cellEditor.setText(data == null ? "": data.toString());
+		setWidget(row, col, cellEditor);
+	}
+	
 	private void updateRowStyle(Cell cell, String style) {
 		
 		if (cell == null) {
@@ -63,9 +114,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		
 		RowFormatter rf = getRowFormatter();
 		rf.setStyleName(selectedRow, "");
-		selectedRow = cell.getRowIndex();
-		rf.setStyleName(selectedRow, style);
-	
+		rf.setStyleName(row, style);
+		selectedRow = row;	
 	}
 	public void updateHeader(int col, String title) {
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);
@@ -80,11 +130,15 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	protected void updateCell(int row, int col, DataCell value) {
 		App.debug(TABLE_PREFIX + "updating cell at row: " + row 
 				+ " col: " + col);
-		Label label = (Label)getWidget(row, col);
+		Widget widget = getWidget(row, col);
 		
 		
-		if (label != null) {
-			label.setText(value.toString());
+		if (widget != null) {
+			if (widget == cellEditor) {
+				((AutoCompleteTextFieldW)widget).setText(value.toString());
+			} else {
+				((Label)widget).setText(value.toString());
+			}
 		} else {
 			setCellWidget(row, col, "inspectorTableData", value);
 		}
@@ -172,6 +226,23 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 
 	public void setCellEditable(int row, int col) {
 	    model.setCellEditable(row, col);
+	    setEditorInCell(row + 1, col);
+	}
+
+	public KeyHandler getKeyHandler() {
+	    return keyHandler;
+    }
+
+	public void addKeyHandler(KeyHandler keyHandler) {
+	    this.keyHandler = keyHandler;
+    }
+
+	public BlurHandler getBlurHandler() {
+	    return blurHandler;
+    }
+
+	public void addBlurHandler(BlurHandler blurHandler) {
+	    this.blurHandler = blurHandler;
     }
 
 }

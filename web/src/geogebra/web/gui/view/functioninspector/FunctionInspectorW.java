@@ -362,6 +362,23 @@ public class FunctionInspectorW extends FunctionInspector {
 //		modelXY.setRowCount(pointCount);
 		pointsTab.add(tableXY);
 		
+		tableXY.addKeyHandler(new KeyHandler() {
+			
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					App.debug("Entöj!");
+					changeXYStart();
+				}
+					
+			}
+		});
+		
+		tableXY.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				changeXYStart();
+			}
+		});
 		FlowPanel btnPanel = new FlowPanel();
 		btnPanel.setStyleName("panelRowIndent");
 		btnTable = new MyToggleButton2(new Image(AppResources.INSTANCE.table().getSafeUri()));
@@ -398,6 +415,12 @@ public class FunctionInspectorW extends FunctionInspector {
 		debug("createTabPointPanel() ENDED");
 	}
 
+	private void changeXYStart() {
+		Double value = tableXY.getDoubleEdited();
+		if (value != null) {
+			changeStart(value);
+		}
+	}
 
 	private void createBtnAddColumn() {
 

@@ -65,6 +65,7 @@ public class GridModel {
 		this.listener = listener;
 		headers = new ArrayList<String>();
 		data = new ArrayList<List<DataCell>>();
+		editCell = null;
 	}         
 
 
