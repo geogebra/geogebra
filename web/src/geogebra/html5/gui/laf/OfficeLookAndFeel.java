@@ -41,6 +41,6 @@ public class OfficeLookAndFeel extends SmartLookAndFeel{
 		    		cancel();
 				}
             }};
-        loginChecker.scheduleRepeating(10000);
+        loginChecker.scheduleRepeating(2000);
     }
 }
