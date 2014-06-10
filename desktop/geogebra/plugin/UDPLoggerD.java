@@ -25,7 +25,10 @@ public class UDPLoggerD implements UDPLogger {
 	@SuppressWarnings("javadoc")
 	Kernel kernel;
 
-	private int port = 9999;
+	/**
+	 * port to receive UDP logging on
+	 */
+	final public static int port = 7166;
 
 	@SuppressWarnings("javadoc")
 	Thread thread;
@@ -101,6 +104,8 @@ public class UDPLoggerD implements UDPLogger {
 						byte c1 = buffer[1];
 						byte c2 = buffer[2];
 						if (c0 == 'F' && c1 == 'S' && c2 == 0x01) {
+
+							// https://itunes.apple.com/gb/app/sensor-data-streamer/id608278214?mt=8
 							App.debug("data is from 'Sensor Streamer' (c) 2013 FNI Co LTD");
 
 							App.debug("accelerometer x = "
@@ -137,14 +142,66 @@ public class UDPLoggerD implements UDPLogger {
 							}
 						} else {
 
-							App.debug("data is from unknown source");
+							// https://play.google.com/store/apps/details?id=jp.ac.ehime_u.cite.sasaki.SensorUdp&feature=nav_result
+							App.debug("Assume data is from Android/SensorUDP");
+
+							String msg = new String(buffer, 0,
+									packet.getLength());
+
+							String[] split = msg.split(",");
+
+							double x, y, z;
+
+							switch (buffer[0]) {
+							case 'A':
+
+								App.debug("accelerometer");
+								x = Double.parseDouble(split[3]);
+								y = Double.parseDouble(split[4]);
+								z = Double.parseDouble(split[5]);
+
+								App.debug("accelerometer x = " + x);
+								App.debug("accelerometer y = " + y);
+								App.debug("accelerometer z = " + z);
+								break;
+							case 'M':
+
+								App.debug("M");
+								x = Double.parseDouble(split[3]);
+								y = Double.parseDouble(split[4]);
+								z = Double.parseDouble(split[5]);
+
+								App.debug("accelerometer x = " + x);
+								App.debug("accelerometer y = " + y);
+								App.debug("accelerometer z = " + z);
+
+								break;
+							case 'O':
+								App.debug("O");
+								x = Double.parseDouble(split[3]);
+								y = Double.parseDouble(split[4]);
+								z = Double.parseDouble(split[5]);
+
+								App.debug("accelerometer x = " + x);
+								App.debug("accelerometer y = " + y);
+								App.debug("accelerometer z = " + z);
+
+								break;
+
+							default:
+								App.debug("unknown data type: " + buffer[0]);
+								break;
+							}
+
+							// for (int i = 1; i < split.length; i++) {
+							// App.debug(split[i]);
+							// }
 
 							// Convert the contents to a string, and display
 							// them
-							String msg = new String(buffer, 0,
-									packet.getLength());
-							System.out.println(packet.getAddress()
-									.getHostName() + ": " + msg);
+							App.debug(packet.getAddress().getHostAddress()
+									+ " " + packet.getAddress().getHostName()
+									+ ": " + msg);
 						}
 
 						// Reset the length of the packet before reusing it.
