@@ -8,6 +8,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Cookies;
 
 /**
  * @author gabor
@@ -54,6 +55,8 @@ public class AuthenticationModelW extends AuthenticationModel {
 	@Override
 	public void clearLoginToken() {
 		this.authToken = null;
+		//this should log the user out of other systems too
+		Cookies.removeCookie("SSID");
 		if(this.app!=null){
 			ensureInited();
 			this.app.dispatchEvent(new Event(EventType.LOGIN,null,""));
