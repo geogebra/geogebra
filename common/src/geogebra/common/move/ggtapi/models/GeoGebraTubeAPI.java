@@ -16,13 +16,14 @@ public abstract class GeoGebraTubeAPI {
 	/**
 	 * Secure test url
 	 */
-	public static String test_url = "http://test.geogebratube.org/api/json.php";
+	public static String test_url = "http://test-tube.geogebra.org/api/json.php";
 
 	/**
 	 * Public url (no SSL)
 	 * DO NOT CHANGE!
 	 */
-	public static String url = "https://www.geogebratube.org/api/json.php";
+	public static String url = "https://tube.geogebra.org/api/json.php";
+	public static String login_url = "https://login.geogebra.org/api/index.php";
 	/**
 	 * Instance of the new GeoGebraTube API D/W/T
 	 */
@@ -40,10 +41,10 @@ public abstract class GeoGebraTubeAPI {
 	 *          JSON request String for the GeoGebraTubeAPI
 	 * @return The HttpRequest object that contains the response and error information 
 	 */
-	protected HttpRequest performRequest(String requestString)
+	protected HttpRequest performRequest(String requestString, boolean login)
 	{
 		HttpRequest request = createHttpRequest();
-		request.sendRequestPost(url, requestString);
+		request.sendRequestPost(login ? login_url : url, requestString);
 		return request;
 	}
 	

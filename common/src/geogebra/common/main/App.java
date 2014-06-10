@@ -1465,6 +1465,12 @@ public abstract class App implements UpdateSelection{
 	 *            Tool to be edited
 	 */
 	public void openMacro(Macro editMacro) {
+		for(int i=0; i < editMacro.getKernel().getMacroNumber(); i++){
+			if(editMacro.getKernel().getMacro(i)==editMacro){
+				break;
+			}
+			kernel.addMacro(editMacro.getKernel().getMacro(i));
+		}
 		String allXml = getXML();
 		String header = allXml.substring(0, allXml.indexOf("<construction"));
 		String footer = allXml.substring(allXml.indexOf("</construction>"),

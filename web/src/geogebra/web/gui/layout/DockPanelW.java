@@ -1093,7 +1093,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @param toolbarString
 	 */
 	public void setToolbarString(String toolbarString) {
-		App.printStacktrace(this.getViewId()+":"+toolbarString);
 		if (toolbarString == null && hasToolbar()) {
 			toolbarString = defaultToolbarString;
 		}

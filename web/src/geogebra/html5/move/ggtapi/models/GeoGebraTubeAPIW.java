@@ -13,7 +13,9 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
@@ -158,7 +160,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	
 	@Override
 	public int authorizeUser(GeoGebraTubeUser user) {
-		HttpRequest request = performRequest(buildTokenLoginRequest(user.getLoginToken()).toString());
+		HttpRequest request = performRequest(buildTokenLoginRequest(user.getLoginToken()).toString(), true);
 		if (request.isSuccessful()) {
 			//JSONTokener tokener = new JSONTokener(request.getResponse());
 			//JSONObject response = new JSONObject(tokener);
@@ -196,10 +198,14 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		try {
 			JSONObject userinfo = (JSONObject)response.get("responses");
 			
-			userinfo = (JSONObject)userinfo.get("response");
+			userinfo = ((JSONArray)userinfo.get("response")).get(0).isObject();
 			userinfo = (JSONObject)userinfo.get("userinfo");
 			
-			user.setUserId(Integer.valueOf(((JSONString) userinfo.get("user_id")).stringValue()));
+			if(userinfo.get("user_id") instanceof JSONNumber){
+				user.setUserId((int)(((JSONNumber) userinfo.get("user_id")).doubleValue()));
+			}else{
+				user.setUserId(Integer.valueOf(((JSONString) userinfo.get("user_id")).stringValue()));
+			}
 			user.setUserName(userinfo.get("username").toString());
 			user.setRealName(userinfo.get("realname").toString());
 			user.setIdentifier(((JSONString)userinfo.get("identifier")).stringValue());
@@ -258,10 +264,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		JSONObject apiJSON = new JSONObject();
 		JSONObject loginJSON = new JSONObject();
 		try{
-			loginJSON.put("-token", new JSONString(token));
-			loginJSON.put("-getuserinfo", new JSONString("true"));
+			loginJSON.put("token", new JSONString(token));
+			loginJSON.put("getuserinfo", new JSONString("true"));
 			apiJSON.put("login", loginJSON);		
-			apiJSON.put("-api", new JSONString("1.0.0"));
+			apiJSON.put("api", new JSONString("1.0.0"));
 			requestJSON.put("request", apiJSON);
 		}
 		catch(JSONException e){

@@ -174,7 +174,7 @@ public class MaterialRequest implements Request
 
 	public static MaterialRequest forUser(int userId, ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
-		req.filters = new Filters[] { Filters.author_url };
+		req.filters = new Filters[] { Filters.author_url, Filters.type };
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
 		req.filterMap.put(Filters.author_url, userId+"");
