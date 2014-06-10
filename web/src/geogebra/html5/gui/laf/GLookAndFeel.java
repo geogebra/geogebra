@@ -73,4 +73,8 @@ public class GLookAndFeel {
 	    return "View";
     }
 
+	public boolean isEmbedded() {
+	    return false;
+    }
+
 }

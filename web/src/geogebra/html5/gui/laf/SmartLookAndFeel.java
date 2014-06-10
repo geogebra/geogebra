@@ -28,6 +28,11 @@ public class SmartLookAndFeel extends GLookAndFeel{
     public boolean isSmart() {
 		return true;
 	}
+	
+	@Override
+    public boolean isEmbedded() {
+		return true;
+	}
 
 	@Override
     public void setCloseMessage(Localization loc) {

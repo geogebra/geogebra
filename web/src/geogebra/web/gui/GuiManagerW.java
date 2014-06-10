@@ -1325,7 +1325,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 	
 	public void login() {
-		if(((AppW)app).getLAF().isSmart()){
+		if(((AppW)app).getLAF().isEmbedded()){
 			gotoURL(getLoginURL(app.getLocalization().getLanguage()));
 		}else{
 			app.getDialogManager().showLogInDialog();
