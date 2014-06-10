@@ -13,6 +13,8 @@ public class Drawable3DListsForView extends Drawable3DLists{
 
 	private EuclidianView3D view3D;
 	
+	private Drawable3DList listForPicking;
+	
 	/**
 	 * constructor
 	 * @param view3D 3D view
@@ -20,16 +22,18 @@ public class Drawable3DListsForView extends Drawable3DLists{
 	public Drawable3DListsForView(EuclidianView3D view3D) {
 		super();
 		
+		listForPicking = new Drawable3DList();
 		this.view3D = view3D;
 	}
 
 	@Override
 	public void add(Drawable3D drawable){
 
-		super.add(drawable);
+		super.add(drawable);		
 
-		if (drawable.getGeoElement()!=null && drawable.getGeoElement().isPickable() && !(drawable instanceof DrawList3D)){
-			view3D.addOneGeoToPick();
+		if (drawable.getGeoElement()!=null && drawable.getGeoElement().isPickable()){
+			view3D.addOneGeoToPick();			
+			listForPicking.add(drawable);
 		}
 
 	}
@@ -44,13 +48,22 @@ public class Drawable3DListsForView extends Drawable3DLists{
 			if (drawable.getGeoElement()!=null && drawable.getGeoElement().isPickable()){
 				if (drawable instanceof DrawList3D){
 					((DrawList3D) drawable).getDrawable3DLists().removeGeosToPick();
-				}else{
-					view3D.removeOneGeoToPick();
 				}
+				view3D.removeOneGeoToPick();
+				listForPicking.remove(drawable);
 			}
 		}
 		
 	}
+	
+	
+	@Override
+	public void clear(){
+
+		super.clear();
+		listForPicking.clear();
+	}
+	
 	
 	
 	@Override
@@ -110,6 +123,17 @@ public class Drawable3DListsForView extends Drawable3DLists{
 		view3D.drawForPicking(renderer);
 		
 		renderer.enableCulling();
+
+	}
+	
+	/** draw objects labels to pick them
+	 * @param renderer opengl context
+	 */
+	public void drawLabelForPicking(Renderer renderer){
+	
+		for(Drawable3D d : listForPicking){       	
+	        	renderer.pickLabel(d);
+		}
 
 	}
 

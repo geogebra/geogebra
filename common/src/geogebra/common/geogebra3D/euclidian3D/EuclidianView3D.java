@@ -157,7 +157,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	// list of 3D objects
 	private boolean waitForUpdate = true; // says if it waits for update...
 	// public boolean waitForPick = false; //says if it waits for update...
-	private Drawable3DLists drawable3DLists;// = new DrawList3D();
+	private Drawable3DListsForView drawable3DLists;// = new DrawList3D();
 	/** list for drawables that will be added on next frame */
 	private LinkedList<Drawable3D> drawable3DListToBeAdded;// = new
 															// DrawList3D();

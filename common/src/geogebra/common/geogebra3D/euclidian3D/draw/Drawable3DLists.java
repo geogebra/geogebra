@@ -559,30 +559,6 @@ public class Drawable3DLists {
 
 	}
 	
-	/** draw objects labels to pick them
-	 * @param renderer opengl context
-	 */
-	public void drawLabelForPicking(Renderer renderer){
-
-		
-		for(int i=0; i<Drawable3D.DRAW_TYPE_MAX; i++)
-			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
-	        	Drawable3D d = iter.next();
-	        	
-	        	renderer.pickLabel(d);
-	        	
-	        	/*
-	        	loop++;
-	        	renderer.glLoadName(loop);
-	        	d.drawLabel(renderer,false,true);
-	        	drawHits[loop] = d;
-	        	*/
-			}
-		
-		//return loop;
-
-	}
-	
 	
 	
 	/**

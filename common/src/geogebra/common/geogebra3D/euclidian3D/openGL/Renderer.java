@@ -8,7 +8,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DLists;
+import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -39,7 +39,7 @@ public abstract class Renderer {
 	protected int pickingLoop;
 
 	// other
-	protected Drawable3DLists drawable3DLists;
+	protected Drawable3DListsForView drawable3DLists;
 
 	protected EuclidianView3D view3D;
 
@@ -111,7 +111,7 @@ public abstract class Renderer {
 	 * @param dl
 	 *            list of {@link Drawable3D}
 	 */
-	public void setDrawable3DLists(Drawable3DLists dl) {
+	public void setDrawable3DLists(Drawable3DListsForView dl) {
 		drawable3DLists = dl;
 	}
 
@@ -175,10 +175,10 @@ public abstract class Renderer {
         ((EuclidianController3D) view3D.getEuclidianController()).update();
         
 
-        //long time = System.currentTimeMillis();
+//        long time = System.currentTimeMillis();
         // update 3D view and drawables
         updateViewAndDrawables();
-        //App.debug("======= UPDATE : "+(System.currentTimeMillis() - time));     
+//        App.debug("======= UPDATE : "+(System.currentTimeMillis() - time));     
         
         if (waitForSetStencilLines){
         	setStencilLines();
@@ -197,7 +197,7 @@ public abstract class Renderer {
         //init rendering values
         initRenderingValues();
         
-        //time = System.currentTimeMillis();
+//        time = System.currentTimeMillis();
         
         if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
  
@@ -237,7 +237,7 @@ public abstract class Renderer {
         	draw(); 
         }
         
-        //App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
+//        App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
         
         // prepare correct color mask for next clear
     	setColorMask(true,true,true,true);
@@ -1133,7 +1133,7 @@ public abstract class Renderer {
 	public void pickLabel(Drawable3D d) {
 		glLoadName(pickingLoop);
 		if (d.drawLabelForPicking(this)) {
-			// Application.debug(d.getGeoElement());
+			//App.debug(""+d.getGeoElement());
 			drawHits[pickingLoop] = d;
 			pickingLoop++;
 		}
