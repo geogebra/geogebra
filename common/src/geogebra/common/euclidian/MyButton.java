@@ -23,7 +23,7 @@ public class MyButton implements Observer{
 	private boolean selected;
 	private String text;
 	
-	private int margin;
+	private final static int margin = 10;
 	private final static int minSize = 24;
 	private final static int arcSize = 10;
 	private GFont font;
@@ -31,10 +31,10 @@ public class MyButton implements Observer{
 	private float textHeight;
 	private float textWidth;
 	
-	private static float marginTopMultiplier = 1.2f;
-	private static float marginBottomMultiplier = 1f;
-	private static float marginLeftMultiplier = 2f;
-	private static float marginRightMultiplier = 2f;
+	private static float marginTopMultiplier = 0.6f;
+	private static float marginBottomMultiplier = 0.5f;
+	private static float marginLeftMultiplier = 1f;
+	private static float marginRightMultiplier = 1f;
 	
 
 	/**
@@ -78,7 +78,6 @@ public class MyButton implements Observer{
 		int imgGap = 0;
 		textHeight = 0;
 		textWidth = 0;
-		margin = 0;
 		
 		if (geoButton.getFillImage() != null) {
 			imgHeight = geoButton.getFillImage().getHeight();
@@ -93,8 +92,6 @@ public class MyButton implements Observer{
 					getCaption(), font, g.getFontRenderContext());
 			textHeight = t.getAscent() + t.getDescent();
 			textWidth = t.getAdvance();		
-			
-			margin = getMargin();
 		} 
 		// With fixed size the font are resized if is too big
 		if (geoButton.isFixedSize() && 
@@ -105,13 +102,11 @@ public class MyButton implements Observer{
 		}
 		
 		int currentWidth = Math.max((int) (textWidth + (marginLeftMultiplier + marginRightMultiplier) * margin), minSize);
-		currentWidth = Math.max(currentWidth, (int) (imgWidth + (marginTopMultiplier + marginBottomMultiplier) * margin));
-		
+		currentWidth = Math.max(currentWidth, (int) (imgWidth + (marginLeftMultiplier + marginRightMultiplier) * margin));
 		
 		int currentHeight = Math.max((int) (textHeight + imgHeight + imgGap + (marginTopMultiplier + marginBottomMultiplier) * margin),
 				minSize);
-		
-				
+
 		//Additional offset for image if button has fixed size		
 		int imgStart=0;
 		
@@ -204,15 +199,18 @@ public class MyButton implements Observer{
 		// draw the text center-aligned to the button
 		if (hasText) {
 			int xPos = (int) (x + (geoButton.getWidth() - t.getAdvance()+add) / 2);
+			//int yPos = (int) (y + marginTopMultiplier * margin + imgHeight + imgGap + t.getAscent() + imgStart);
+			
+			imgStart = (int)(geoButton.getHeight() - (marginTopMultiplier + marginBottomMultiplier) * margin - textHeight) / 2;
 			int yPos = (int) (y + marginTopMultiplier * margin + imgHeight + imgGap + t.getAscent() + imgStart);
+			
+			if (geoButton.getFillImage() != null) {
+				yPos = (int) (y + marginTopMultiplier * margin + imgHeight + imgGap + t.getAscent() + imgStart);
+			}
+			
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);
 		}
-	}
-	
-	private int getMargin() {
-		margin = (int) (Math.max(textHeight/2, (minSize - textHeight)/2));
-		return margin;
 	}
 
 	private void resize(geogebra.common.awt.GGraphics2D g, int imgGap) {
@@ -226,7 +224,6 @@ public class MyButton implements Observer{
 					getCaption(), font, g.getFontRenderContext());
 			textHeight = t.getAscent() + t.getDescent();
 			textWidth = t.getAdvance();
-			margin = getMargin();
 		} 
 		
 		while (i > 0 && (int) textWidth + (marginLeftMultiplier + marginRightMultiplier) * margin > geoButton.getWidth()){
@@ -236,7 +233,6 @@ public class MyButton implements Observer{
 					getCaption(), font, g.getFontRenderContext());
 			textHeight = t.getAscent() + t.getDescent();
 			textWidth = t.getAdvance();
-			margin = getMargin();
 		}	
 		geoButton.setFontSizeMultiplier(GeoText.getRelativeFontSize(i));
 		setFont(font);
