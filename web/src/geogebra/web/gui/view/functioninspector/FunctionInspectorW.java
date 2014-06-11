@@ -151,16 +151,15 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		if (isTable) {
 			modelXY.setRowCount(pointCount);
-			tableXY.setCellEditable((pointCount - 1) / 2, 0);
-			// tableXY.setRowSelectionAllowed(true);
 			tableXY.setSelectedRow((pointCount - 1) / 2);
-
+			tableXY.setCellEditable((pointCount - 1) / 2, 0);
 		} else {
 
 			modelXY.setRowCount(1);
 			tableXY.setSelectedRow(0);
 			tableXY.setCellEditable(0, 0);
-			//tableXY.changeSelection(0, 0, false, false);
+			
+					//tableXY.changeSelection(0, 0, false, false);
 			// tableXY.setRowSelectionAllowed(false);
 		}
 
@@ -600,6 +599,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void changeStart(double x) {
 		setStart(x);
+		updateXYTable();
+		updateTestPoint();
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package geogebra.web.gui.view.functioninspector;
 
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
-import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
@@ -113,10 +112,18 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 			
 		}
 		
+		clearSelectedRowStyle();
 		RowFormatter rf = getRowFormatter();
-		rf.setStyleName(selectedRow, "");
 		rf.setStyleName(row, style);
 		selectedRow = row;	
+	}
+	
+	public void clearSelectedRowStyle() {
+		if (selectedRow < getRowCount()) {
+			// making sure it is not removed meanwile
+			getRowFormatter().setStyleName(selectedRow, "");
+		}
+		
 	}
 	public void updateHeader(int col, String title) {
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);
@@ -129,8 +136,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 		
 	protected void updateCell(int row, int col, DataCell value) {
-		App.debug(TABLE_PREFIX + "updating cell at row: " + row 
-				+ " col: " + col);
+		//App.debug(TABLE_PREFIX + "updating cell at row: " + row 
+		//		+ " col: " + col);
 		Widget widget = getWidget(row, col);
 		
 		
@@ -196,7 +203,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 
 	public void setSelectedRow(int idx) {
 		RowFormatter rf = getRowFormatter();
-		rf.setStyleName(selectedRow, "");
+		clearSelectedRowStyle();
 	    this.selectedRow = idx + 1; // 0 is the header
 		rf.setStyleName(selectedRow, "selected");
     }
@@ -206,7 +213,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
     }
 
 	public void removeLastRow() {
-	    removeRow(getRowCount() - 1);
+	    removeRow(getRowCount() -1);
+	  //  App.debug("[TABLE] rowCount: " + getRowCount());
     }
 
 	public void removeColumn() {

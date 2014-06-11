@@ -1,7 +1,5 @@
 package geogebra.web.gui.view.functioninspector;
 
-import geogebra.common.main.App;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,13 +70,13 @@ public class GridModel {
 	public void setHeader(int col, String title) {
 		if (col < getColumnCount())  {
 			headers.set(col, title);
-			App.debug("[GRIDMODEL] setHeader(" + col + "," + title +")");
+			// App.debug("[GRIDMODEL] setHeader(" + col + "," + title +")");
 			listener.updateHeader(col, title);
 		}
 	}
 
 	public void setData(int row, int col, Object value) {
-		App.debug("[GRIDMODEL] setData(" + row + ", " + col + ", " +value + ")");
+		// App.debug("[GRIDMODEL] setData(" + row + ", " + col + ", " +value + ")");
 		if (col < getColumnCount() && row < getRowCount())  {
 			List<DataCell> list = data.get(row);
 			DataCell cell = new DataCell(value, false);
@@ -88,14 +86,14 @@ public class GridModel {
 	}
 
 	public DataCell getData(int row, int col) {
-	//	App.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
+	//	// App.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
 		DataCell result = null;
 		if (col < columnCount && row < rowCount)  {
 			List<DataCell> list = data.get(row);
 			result = list.get(col);
 			
 		}
-		App.debug("[GRIDMODEL] = " + result);
+		// App.debug("[GRIDMODEL] = " + result);
 		
 		return result;
 	}
@@ -115,7 +113,7 @@ public class GridModel {
 
 	
 	public void addRow(List<DataCell> row) {
-		App.debug("[GRIDMODEL] addRow(" + row + ")");
+		// App.debug("[GRIDMODEL] addRow(" + row + ")");
 		data.add(row);
 		listener.addRow(row);
 	}
@@ -186,22 +184,22 @@ public class GridModel {
 		for (List<DataCell> rowData: data) {
 			rowData.add(new DataCell(null, false));
 		}
-		App.debug(headers.toString());
+		// App.debug(headers.toString());
 		listener.appendColumn(name);
 	}
 
 	public void removeColumn() {
-		App.debug("removeColumn");
+		// App.debug("removeColumn");
 		int col = headers.size() - 1;
 		
-		App.debug(headers.toString());
+		// App.debug(headers.toString());
 		headers.remove(col);
 		for (int row = 0; row < data.size(); row++) {
 			List<DataCell> rowData = data.get(row);
 			if (col < rowData.size()) {
 				rowData.remove(col);
 			} else {
-				App.debug("Warning: rowData size is " + rowData.size());
+				// App.debug("Warning: rowData size is " + rowData.size());
 			}
 			
 			

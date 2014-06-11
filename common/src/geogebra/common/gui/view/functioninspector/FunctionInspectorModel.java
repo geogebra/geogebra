@@ -431,6 +431,7 @@ public class FunctionInspectorModel {
 	 */
 	public void updateXYTable(int rowCount, boolean isTable) {
 
+		App.debug("[updateXYTable] rowCount: " + rowCount + " table: " + isTable);
 
 		// String lbl = selectedGeo.getLabel();
 		GeoFunction f = selectedGeo;
