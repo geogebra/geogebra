@@ -33,8 +33,6 @@ public class ToolBar {
 			// these two are old tools that we don't want to enable in HTML5
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
 		}
 			
 		// points

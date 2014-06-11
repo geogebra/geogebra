@@ -185,9 +185,9 @@ public final class EuclidianConstants {
 	/** Best Fit Line */
 	public static final int MODE_FITLINE = 58;
 
-	/** Record to Spreadsheet */
-	public static final int MODE_RECORD_TO_SPREADSHEET = 59;
-	// GeoGebra 3.4 start
+	/** Record to Spreadsheet removed from GeoGebra 5*/
+	//public static final int MODE_RECORD_TO_SPREADSHEET = 59;
+	// GeoGebra 4.0 start
 	/** Insert Button */
 	public static final int MODE_BUTTON_ACTION = 60;
 

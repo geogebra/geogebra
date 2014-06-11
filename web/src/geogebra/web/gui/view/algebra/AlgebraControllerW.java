@@ -77,7 +77,7 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 		} 	
 
 		int mode = ev.getMode();
-		if (!skipSelection && (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
+		if (!skipSelection && mode == EuclidianConstants.MODE_MOVE) {
 			// update selection	
 			if (geo == null){
 				selection.clearSelectedGeos();

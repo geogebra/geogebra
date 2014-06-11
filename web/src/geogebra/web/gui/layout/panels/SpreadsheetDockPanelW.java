@@ -112,8 +112,6 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	private static String getDefaultToolbar() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);
-		sb.append(" ");		
-		sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
 				
 		sb.append(" || ");
 		/*sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);

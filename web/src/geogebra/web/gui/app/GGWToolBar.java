@@ -511,9 +511,6 @@ public class GGWToolBar extends Composite {
 		case EuclidianConstants.MODE_RAY:
 			return myIconResourceBundle.mode_ray_32().getSafeUri().asString();
 
-		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-			return myIconResourceBundle.mode_recordtospreadsheet_32().getSafeUri().asString();
-
 		case EuclidianConstants.MODE_REGULAR_POLYGON:
 			return myIconResourceBundle.mode_regularpolygon_32().getSafeUri().asString();
 

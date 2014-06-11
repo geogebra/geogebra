@@ -648,9 +648,6 @@ public abstract class EuclidianController {
 
 	protected void endOfMode(int endMode) {
 		switch (endMode) {
-		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-			break;
-	
 		case EuclidianConstants.MODE_MOVE:
 			deletePastePreviewSelected();
 			break;
@@ -5508,8 +5505,7 @@ public abstract class EuclidianController {
 		// outdated - we want to leave the point selected after drag now
 		// if (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
 	
-		if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-				&& app.isUsingFullGui()) {
+		if (app.isUsingFullGui()) {
 			getMovedGeoPoint().resetTraceColumns();
 		}
 	
@@ -6189,9 +6185,6 @@ public abstract class EuclidianController {
 					view.zoom(mouseLoc.x, mouseLoc.y,
 							1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
 					toggleModeChangedKernel = true;
-					break;
-				case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-					clearSelections();
 					break;
 				//case EuclidianConstants.MODE_VISUAL_STYLE:
 				case EuclidianConstants.MODE_TRANSLATEVIEW:
@@ -8266,27 +8259,6 @@ public abstract class EuclidianController {
 			handleMousePressedForRotateMode(type);
 			break;
 	
-		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-			view.setHits(mouseLoc,type);
-			hits = view.getHits();
-			
-			GeoElement tracegeo = null;
-			for (GeoElement geo : hits){
-				if (geo.hasSpreadsheetTraceModeTraceable()){
-					tracegeo = geo;
-					break;
-				}
-			}
-			
-			if (tracegeo != null) {
-				if (!app.getTraceManager().isTraceGeo(tracegeo)) {
-					app.getTraceManager().addSpreadsheetTraceGeo(tracegeo);
-				}
-				handleMousePressedForMoveMode(e, false);
-				tracegeo.updateRepaint();
-			}
-			break;
-	
 		// move an object
 		case EuclidianConstants.MODE_MOVE:
 		//case EuclidianConstants.MODE_VISUAL_STYLE:
@@ -8764,8 +8736,7 @@ public abstract class EuclidianController {
 			// deselect slider after drag, but not on click
 			// if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
 	
-			if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-					&& app.isUsingFullGui()) {
+			if (app.isUsingFullGui()) {
 				movedGeoNumeric.resetTraceColumns();
 			}
 		}
@@ -8901,26 +8872,21 @@ public abstract class EuclidianController {
 		// original mode's command at end of drag if a point was clicked on
 		// also needed for right-drag
 		else {
-			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-				final Hits hits2 = hits;
-				AsyncOperation callback = new AsyncOperation(){
-					
-					@Override
-					public void callback(Object changedKernel) {
-						if (changedKernel.equals(true)) {
-							app.storeUndoInfo();
-						}
-						endOfWrapMouseReleased(hits2, event);
+			final Hits hits2 = hits;
+			AsyncOperation callback = new AsyncOperation(){
+
+				@Override
+				public void callback(Object changedKernel) {
+					if (changedKernel.equals(true)) {
+						app.storeUndoInfo();
 					}
-				};
-				processMode(hits, control, callback);
-			}
-			//only store undo info if the mode is handled synchronously
-			else if (changedKernel) {
-				app.storeUndoInfo();
-			}
+					endOfWrapMouseReleased(hits2, event);
+				}
+			};
+			processMode(hits, control, callback);
+
 		}
-		
+
 		endOfWrapMouseReleased(hits, event);
 
 	}
@@ -9397,9 +9363,6 @@ public abstract class EuclidianController {
 			rotationCenter = null; // this will be the active geo template
 			break;
 	
-		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-			break;
-	
 		default:
 			// macro mode?
 			if (mode1 >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
@@ -9432,17 +9395,6 @@ public abstract class EuclidianController {
 		}
 		// Michael Borcherds 2007-10-12
 		moveMode = MOVE_NONE;
-	
-		if (newMode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-			if (!app.getGuiManager().hasSpreadsheetView()) {
-				app.getGuiManager().attachSpreadsheetView();
-			}
-			if (!app.getGuiManager().showView(
-					App.VIEW_SPREADSHEET)) {
-				app.getGuiManager().setShowView(true,
-						App.VIEW_SPREADSHEET);
-			}
-		}
 	
 		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;

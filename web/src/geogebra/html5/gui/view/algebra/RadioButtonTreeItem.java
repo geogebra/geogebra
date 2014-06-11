@@ -443,7 +443,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		int mode = app.getActiveEuclidianView().getMode();
 		if (//!skipSelection && 
-			(mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
+			(mode == EuclidianConstants.MODE_MOVE) ) {
 			// update selection	
 			if (geo == null){
 				selection.clearSelectedGeos();
