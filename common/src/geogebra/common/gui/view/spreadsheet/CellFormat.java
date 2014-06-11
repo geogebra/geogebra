@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +29,11 @@ public class CellFormat implements CellFormatInterface {
 	int highestIndexRow = 0;
 	int highestIndexColumn = 0;
 
-	MyTable table;
+	MyTableInterface table;
+	App app;
 
+	String cellFormatString;
+	
 	// Array of format tables
 	private MyHashMap[] formatMapArray;
 
@@ -95,9 +99,10 @@ public class CellFormat implements CellFormatInterface {
 	 * 
 	 * @param table
 	 */
-	public CellFormat(MyTable table) {
+	public CellFormat(MyTableInterface table) {
 
 		this.table = table;
+		app = table.getApplication();
 		// Create instances of the format hash maps
 		formatMapArray = new MyHashMap[formatCount];
 		for (int i = 0; i < formatCount; i++) {
@@ -228,7 +233,7 @@ public class CellFormat implements CellFormatInterface {
 	 */
 	public void setFormat(GPoint cell, int formatType, Object formatValue) {
 		ArrayList<CellRange> crList = new ArrayList<CellRange>();
-		crList.add(new CellRange(table.getApplication(), cell.x, cell.y));
+		crList.add(new CellRange(app, cell.x, cell.y));
 		setFormat(crList, formatType, formatValue);
 	}
 
@@ -330,10 +335,13 @@ public class CellFormat implements CellFormatInterface {
 
 	private void setCellFormatString() {
 		StringBuilder sb = encodeFormats();
-		if (sb == null)
-			table.getView().updateCellFormat(null);
-		else
-			table.getView().updateCellFormat(sb.toString());
+		if (sb == null) {
+			cellFormatString = null;
+		} else {
+			cellFormatString = sb.toString();
+		}
+
+		table.updateCellFormat(cellFormatString);
 	}
 
 	/**
@@ -400,21 +408,21 @@ public class CellFormat implements CellFormatInterface {
 
 			case BORDER_STYLE_INSIDE:
 				setFormat(
-						new CellRange(table.getApplication(), -1, cr.getMinRow(), -1,
+						new CellRange(app, -1, cr.getMinRow(), -1,
 								cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
 				if (cr.getMinRow() < cr.getMaxRow()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new CellRange(table.getApplication(), -1, cr.getMinRow() + 1,
+					setFormat(new CellRange(app, -1, cr.getMinRow() + 1,
 							-1, cr.getMaxRow()), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
 				setFormat(
-						new CellRange(table.getApplication(), -1, cr.getMinRow(), -1,
+						new CellRange(app, -1, cr.getMinRow(), -1,
 								cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
 				setFormat(
-						new CellRange(table.getApplication(), -1, cr.getMaxRow(), -1,
+						new CellRange(app, -1, cr.getMaxRow(), -1,
 								cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
 				break;
 			}
@@ -450,23 +458,23 @@ public class CellFormat implements CellFormatInterface {
 
 			case BORDER_STYLE_INSIDE:
 				setFormat(
-						new CellRange(table.getApplication(), cr.getMinColumn(), -1,
+						new CellRange(app, cr.getMinColumn(), -1,
 								cr.getMinColumn(), -1), FORMAT_BORDER,
 						BORDER_TOP);
 				if (cr.getMinColumn() < cr.getMaxColumn()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new CellRange(table.getApplication(), cr.getMinColumn() + 1,
+					setFormat(new CellRange(app, cr.getMinColumn() + 1,
 							-1, cr.getMaxColumn(), -1), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
 				setFormat(
-						new CellRange(table.getApplication(), cr.getMinColumn(), -1,
+						new CellRange(app, cr.getMinColumn(), -1,
 								cr.getMinColumn(), -1), FORMAT_BORDER,
 						BORDER_LEFT);
 				setFormat(
-						new CellRange(table.getApplication(), cr.getMaxColumn(), -1,
+						new CellRange(app, cr.getMaxColumn(), -1,
 								cr.getMaxColumn(), -1), FORMAT_BORDER,
 						BORDER_RIGHT);
 				break;
@@ -761,13 +769,16 @@ public class CellFormat implements CellFormatInterface {
 	}
 
 	/**
-	 * Decodes a string representing a the format objects for a single cell and
+	 * Decodes a string representing the format objects for a single cell and
 	 * then puts these formats into the format maps.
 	 * 
 	 * @param formatStr
 	 */
 	private void processCellFormatString(String formatStr) {
-		// System.out.println("cellFormat:  " + formatStr);
+		if(formatStr.equals("null")){
+			return;
+		}
+		//System.out.println("cellFormat:  " + formatStr);
 		String[] f = formatStr.split(formatDelimiter);
 		GPoint cell = new GPoint(Integer.parseInt(f[0]), Integer.parseInt(f[1]));
 		int formatType;

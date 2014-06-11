@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 //import geogebra.web.gui.virtualkeyboard.VirtualKeyboard;
 
@@ -61,7 +62,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		textField.setAutoComplete(enableAutoComplete);
 	}
 
-	public MyCellEditorW(Kernel kernel, SpreadsheetViewW view) {
+	public MyCellEditorW(Kernel kernel, SpreadsheetViewW view, SimplePanel editorPanel) {
 
 		//TODO//super(new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false));
 
@@ -73,7 +74,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		textField.setAutoComplete(enableAutoComplete);
 	//	textField.getElement().getStyle().setWidth(100, Style.Unit.PCT);
 		textField.setStyleName("SpreadsheetEditorCell");
-		view.getEditorPanel().add(textField);
+		editorPanel.add(textField);
 		
 		//?//textField.addFocusListener(this);
 
@@ -269,9 +270,9 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	private void moveSelectedCell(int colOff, int rowOff) {
-		int nextRow = Math.min(row + rowOff, table.getRowCount() - 1);
-		int nextColumn = Math.min(column + colOff, table.getColumnCount() - 1);
-		table.setSelection(nextColumn - 1, nextRow - 1);
+		int nextRow = Math.min(row + rowOff, table.getRowCount());
+		int nextColumn = Math.min(column + colOff, table.getColumnCount());
+		table.setSelection(nextColumn, nextRow);
 	}
 
 	/**
@@ -288,7 +289,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				String text = textField.getText();//?// (String) delegate.getCellEditorValue();
 				// get GeoElement of current cell
 				value = kernel.lookupLabel(GeoElementSpreadsheet
-						.getSpreadsheetCellName(column - 1, row - 1), false);
+						.getSpreadsheetCellName(column, row), false);
 
 				if (text.equals("")) {
 					if (value != null) {
@@ -299,7 +300,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				} else {
 					GeoElement newVal = RelativeCopy
 							.prepareAddingValueToTableNoStoringUndoInfo(kernel,
-									app, text, value, column - 1, row - 1);
+									app, text, value, column, row);
 					if (newVal == null) {
 						return false;
 					}
@@ -360,11 +361,11 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			switch (keyCode) {
 			case KeyCodes.KEY_ESCAPE:
-				GeoElement oldGeo = kernel.getGeoAt(column - 1, row - 1);
+				GeoElement oldGeo = kernel.getGeoAt(column, row);
 				cancelCellEditing();
 
 				// restore old text in spreadsheet
-				table.getModel().setValueAt(oldGeo, row - 1, column - 1);
+				table.getModel().setValueAt(oldGeo, row, column);
 
 				// stopCellEditing(0,0);
 				// force nice redraw
@@ -435,7 +436,7 @@ public class MyCellEditorW implements BaseCellEditor {
 					} else {
 						
 						// TODO: in desktop this works with column, row + 1
-						String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(column - 1, (row -1) + 1);
+						String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(column, row + 1);
 						GeoElement cellBelow = kernel.getConstruction().lookupLabel(cellBelowStr);
 
 						boolean moveDown = cellBelow == null || !cellBelow.isFixed();

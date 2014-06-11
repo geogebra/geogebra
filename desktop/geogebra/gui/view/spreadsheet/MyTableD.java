@@ -230,8 +230,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
-		setDefaultRenderer(Object.class, new MyCellRenderer(app, view,
-				(CellFormat) this.getCellFormatHandler()));
+		setDefaultRenderer(Object.class, new MyCellRenderer(this));
 		editor = new MyCellEditor(kernel);
 		setDefaultEditor(Object.class, editor);
 
@@ -1961,6 +1960,16 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		Cursor cursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot,
 				null);
 		return cursor;
+	}
+
+	public void updateCellFormat(String s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean allowSpecialEditor() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

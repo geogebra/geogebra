@@ -58,7 +58,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	private Kernel kernel;
 
 	// spreadsheet gui components
-	private JPanel viewContainer;
+	private JPanel spreadsheetWrapper;
 	private MyTableD table;
 	protected SpreadsheetTableModelD tableModel;
 	private SpreadsheetRowHeader rowHeader;
@@ -120,7 +120,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 		createGUI();
 
-		viewContainer.addFocusListener(this);
+		spreadsheetWrapper.addFocusListener(this);
 		updateFonts();
 		attachView();
 
@@ -139,7 +139,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	 */
 	private void createGUI() {
 
-		viewContainer = new JPanel();
+		spreadsheetWrapper = new JPanel();
 
 		// Build the spreadsheet table and enclosing scrollpane
 		buildSpreadsheet();
@@ -157,10 +157,10 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		// == false
 		setShowFileBrowser(settings().showBrowserPanel());
 
-		viewContainer.setLayout(new BorderLayout());
-		viewContainer.add(splitPane, BorderLayout.CENTER);
+		spreadsheetWrapper.setLayout(new BorderLayout());
+		spreadsheetWrapper.add(splitPane, BorderLayout.CENTER);
 
-		viewContainer.setBorder(BorderFactory.createEmptyBorder());
+		spreadsheetWrapper.setBorder(BorderFactory.createEmptyBorder());
 
 	}
 
@@ -325,7 +325,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	 * @return panel that contains the entire spreadsheet GUI
 	 */
 	public JComponent getContainerPanel() {
-		return viewContainer;
+		return spreadsheetWrapper;
 	}
 
 	// ===============================================================
@@ -395,7 +395,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 	public void repaintView() {
 		btnTraceDialog.setVisible(app.hasGeoTraced());
-		viewContainer.repaint();
+		spreadsheetWrapper.repaint();
 	}
 
 	public void clearView() {
@@ -487,7 +487,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	}
 
 	public boolean isShowing() {
-		return viewContainer.isShowing();
+		return spreadsheetWrapper.isShowing();
 	}
 
 	private boolean scrollToShow = false;
@@ -961,8 +961,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 		if (formulaBar != null)
 			formulaBar.update();
-		viewContainer.revalidate();
-		viewContainer.repaint();
+		spreadsheetWrapper.revalidate();
+		spreadsheetWrapper.repaint();
 		getSpreadsheetStyleBar().updateStyleBar();
 	}
 
@@ -983,7 +983,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	}
 
 	public void setAllowSpecialEditor(boolean allowSpecialEditor) {
-		viewContainer.repaint();
+		spreadsheetWrapper.repaint();
 	}
 
 	public boolean allowSpecialEditor() {
@@ -1130,7 +1130,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 				settings().cellFormat());
 
 		// preferredSize
-		viewContainer.setPreferredSize(geogebra.awt.GDimensionD
+		spreadsheetWrapper.setPreferredSize(geogebra.awt.GDimensionD
 				.getAWTDimension(settings().preferredSize()));
 
 		// initial position
@@ -1155,7 +1155,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 					.getFocusedPanel() != null)
 				hasFocus = ((LayoutD) app.getGuiManager().getLayout())
 						.getDockManager().getFocusedPanel()
-						.isAncestorOf(viewContainer);
+						.isAncestorOf(spreadsheetWrapper);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1237,7 +1237,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	}
 
 	public JComponent getViewContainer() {
-		return viewContainer;
+		return spreadsheetWrapper;
 	}
 
 }

@@ -10,6 +10,10 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -20,7 +24,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SpreadsheetColumnControllerW implements
-	MouseDownHandler, MouseUpHandler, MouseMoveHandler {
+	MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler {
 
 	private AppW app;
 	private SpreadsheetViewW view;
@@ -191,7 +195,7 @@ public class SpreadsheetColumnControllerW implements
 			// show contextMenu
 			SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
 					table, e.isShiftKeyDown());
-			popupMenu.show(view, e.getX(), e.getY());
+			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
 
 		} else if (isResizing) {
 
@@ -216,7 +220,7 @@ public class SpreadsheetColumnControllerW implements
 						// size
 			}
 
-			int width = table.getColumnFormatter().getElement(column).getOffsetWidth();
+			int width = table.getGrid().getColumnFormatter().getElement(column).getOffsetWidth();
 			int[] selected = table.getSelectedColumns();
 			if (selected == null) {
 				return;
@@ -230,7 +234,7 @@ public class SpreadsheetColumnControllerW implements
 				return;
 			}
 			for (int i = 0; i < selected.length; ++i) {
-				table.getColumnFormatter().setWidth(selected[i], width+"px");
+				table.getGrid().getColumnFormatter().setWidth(selected[i], width+"px");
 				// FIXME: don't forget to write it as:
 				// table.getColumnFormatter().getElement(selected[i]).getStyle().setWidth(width, Style.Unit.PX);
 				// the other syntax doesn't work probably
@@ -585,5 +589,15 @@ public class SpreadsheetColumnControllerW implements
 			return false;
 		}*/
 	}
+
+	public void onDoubleClick(DoubleClickEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onClick(ClickEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

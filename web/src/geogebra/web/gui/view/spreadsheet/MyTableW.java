@@ -35,13 +35,28 @@ import java.util.HashSet;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.TextAlign;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MyTableW extends Grid implements /* FocusListener, */MyTable {
+public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 	private static final long serialVersionUID = 1L;
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
@@ -60,18 +75,22 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	protected Kernel kernel;
 	protected AppW app;
-	protected MyCellEditorW editor;
+	private MyCellEditorW editor;
 	// private MyCellEditorBooleanW editorBoolean;
 	// private MyCellEditorButton editorButton;
 	// private MyCellEditorList editorList;
+
+	public MyCellEditorW getEditor() {
+		return editor;
+	}
 
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
 
 	protected SpreadsheetColumnControllerW scc;
 	protected SpreadsheetRowHeaderW srh;
-	protected SpreadsheetColumnControllerW.ColumnHeaderRenderer columnHeaderRenderer;
-	protected SpreadsheetRowHeaderW.RowHeaderRenderer rowHeaderRenderer;
+	//protected SpreadsheetColumnControllerW.ColumnHeaderRenderer columnHeaderRenderer;
+	//protected SpreadsheetRowHeaderW.RowHeaderRenderer rowHeaderRenderer;
 	protected SpreadsheetRowHeaderW.MyListModel rowHeaderModel;
 
 	protected SpreadsheetViewW view;
@@ -109,7 +128,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected int minSelectionColumnOld = -1;
 	protected int maxSelectionColumnOld = -1;
 
-	// for emulating the JTable's changeSelection method, in TableModel coordinates
+	// for emulating the JTable's changeSelection method, in TableModel
+	// coordinates
 	protected int anchorSelectionRow = -1;
 	protected int anchorSelectionColumn = -1;
 	protected int leadSelectionRow = -1;
@@ -167,7 +187,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// selection methods that do not receive key events.
 	protected boolean metaDown = false;
 
-	boolean repaintAll = false;// sometimes only the repainting of borders/background is needed
+	boolean repaintAll = false;// sometimes only the repainting of
+	                           // borders/background is needed
 
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
@@ -183,8 +204,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// there should be place left for the textfield
 	public static int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
 	// the textfield is this much smaller than the row height and column width
-	public static int minusRowHeight = 12;
-	public static int minusColumnWidth = 14;
+	public static int minusRowHeight = 2; // 12;
+	public static int minusColumnWidth = 2; //14;
 
 	// Collection of cells that contain geos that can be edited with one click,
 	// e.g. booleans, buttons, lists
@@ -207,21 +228,52 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// protected Cursor grabbingCursor, grabCursor;
 
 	MyTable table;
+
+	Grid ssGrid;
+
+	public Grid getGrid() {
+		return ssGrid;
+	}
+
+	ScrollPanel scroller;
+
+	private FlowPanel tableWrapper;
+	protected SpreadsheetRowHeaderW2 rowHeader;
+	protected SpreadsheetColumnHeaderW columnHeader;
+
+	private FlowPanel rowHeaderContainer;
+	private HandlerRegistration scrollHandlerRegistration;
+
+	public Widget getContainer() {
+		return tableWrapper;
+	}
 	
+	// special panels for editing and selection
+	private SimplePanel selectionFrame;
+	private SimplePanel dragFrame;
+	private SimplePanel blueDot;
+	private SimplePanel editorPanel;
+
+	private AbsolutePanel gridPanel;
+
+	private FlowPanel upperLeftCorner;	
+
 	/*******************************************************************
 	 * Construct table
 	 */
 	public MyTableW(SpreadsheetViewW view, SpreadsheetTableModel tableModel) {
-		super(tableModel.getRowCount() + 1, tableModel.getColumnCount() + 1);
 
-		cellResizeHeightSet = new HashSet<GPoint>();
-		cellResizeWidthSet = new HashSet<GPoint>();
-
-		app = (AppW) view.getApplication();
+		app = view.getApplication();
 		kernel = app.getKernel();
 		this.table = this;
 		this.tableModel = tableModel;
 		this.view = view;
+
+		createFloatingElements();
+		createGUI();
+
+		cellResizeHeightSet = new HashSet<GPoint>();
+		cellResizeWidthSet = new HashSet<GPoint>();
 
 		// grabCursor = createCursor(app.getImageIcon("cursor_grab.gif")
 		// .getImage(), true);
@@ -248,19 +300,23 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		 * headerRenderer.setPreferredSize(new Dimension(preferredColumnWidth,
 		 * SpreadsheetSettings.TABLE_CELL_HEIGHT));
 		 */
+		
 		for (int i = 0; i < getColumnCount(); ++i) {
 			// TODO//getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-			getColumnFormatter().getElement(i).getStyle()
+			ssGrid.getColumnFormatter().getElement(i).getStyle()
+			        .setWidth(preferredColumnWidth, Style.Unit.PX);
+			columnHeader.getColumnFormatter().getElement(i).getStyle()
 			        .setWidth(preferredColumnWidth, Style.Unit.PX);
 		}
 
 		// set visual appearance
-		//setBorderWidth(1); 
-		getElement().getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		getElement().getStyle().setBorderWidth(1,Style.Unit.PX);
-		getElement().getStyle().setTextAlign(TextAlign.RIGHT);
-		getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
+		// setBorderWidth(1);
+	//	ssGrid.getElement().getStyle()
+	//	        .setBorderColor(TABLE_GRID_COLOR.toString());
+	//	ssGrid.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+	//	ssGrid.getElement().getStyle().setBorderWidth(1, Style.Unit.PX);
+	//	ssGrid.getElement().getStyle().setTextAlign(TextAlign.RIGHT);
+	//	ssGrid.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
 		// TODO//setSelectionBackground(SELECTED_BACKGROUND_COLOR);
 		// TODO//setSelectionForeground(Color.BLACK);
 
@@ -269,11 +325,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		        (CellFormat) this.getCellFormatHandler());
 
 		// this needs defaultTableCellRenderer now
-		((SpreadsheetTableModelW)tableModel).attachMyTable(this);
+		((SpreadsheetTableModelW) tableModel).attachMyTable(this);
 
-		//:NEXT:Grid.setCellFormatter
-		editor = new MyCellEditorW(kernel, view);
-		//setDefaultEditor(Object.class, editor);
+		// :NEXT:Grid.setCellFormatter
+		editor = new MyCellEditorW(kernel, view, editorPanel);
+		// setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<CellRange>();
@@ -283,25 +339,26 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		rowSelectionAllowed = columnSelectionAllowed = true;
 
 		// add mouse and key listeners
-		scc = new SpreadsheetColumnControllerW(app, this);
-		srh = new SpreadsheetRowHeaderW(app, this);
+	//	scc = new SpreadsheetColumnControllerW(app, this);
+	//	srh = new SpreadsheetRowHeaderW(app, this);
 
 		// key listener - old solution
-		//KeyListener[] defaultKeyListeners = getKeyListeners();
-		//for (int i = 0; i < defaultKeyListeners.length; ++i) {
-		//	removeKeyListener(defaultKeyListeners[i]);
-		//}
-		//addKeyListener(new SpreadsheetKeyListener(app, this));
-		
-		//addDomHandler(new SpreadsheetKeyListener(app, this), KeyDownEvent.getType());
+		// KeyListener[] defaultKeyListeners = getKeyListeners();
+		// for (int i = 0; i < defaultKeyListeners.length; ++i) {
+		// removeKeyListener(defaultKeyListeners[i]);
+		// }
+		// addKeyListener(new SpreadsheetKeyListener(app, this));
+
+		// addDomHandler(new SpreadsheetKeyListener(app, this),
+		// KeyDownEvent.getType());
 
 		// setup selection listener
 		// TODO
 		// These listeners are no longer needed.
-		// getSelectionModel().addListSelectionListener(new 
-		// RowSelectionListener()); 
-		// getColumnModel().getSelectionModel().addListSelectionListener(new 
-		// ColumnSelectionListener()); 
+		// getSelectionModel().addListSelectionListener(new
+		// RowSelectionListener());
+		// getColumnModel().getSelectionModel().addListSelectionListener(new
+		// ColumnSelectionListener());
 		// getColumnModel().getSelectionModel().addListSelectionListener(columnHeader);
 
 		// add table model listener
@@ -327,22 +384,244 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		 */
 		rowHeaderModel = new SpreadsheetRowHeaderW.MyListModel(
 		        (SpreadsheetTableModelW) tableModel);
-		rowHeaderRenderer = srh.new RowHeaderRenderer();
-		columnHeaderRenderer = scc.new ColumnHeaderRenderer();
+		//rowHeaderRenderer = srh.new RowHeaderRenderer();
+		//columnHeaderRenderer = scc.new ColumnHeaderRenderer();
 
-		setCellPadding(0);
-		setCellSpacing(0);
-		getElement().addClassName("geogebraweb-table-spreadsheet");
+		ssGrid.setCellPadding(0);
+		ssGrid.setCellSpacing(0);
+		ssGrid.getElement().addClassName("geogebraweb-table-spreadsheet");
 
-		//TODO: these calls hang the spreadsheet dock panel 
+		registerListeners();
+		
+		// TODO: these calls hang the spreadsheet dock panel
 		// update, why?
 		setRepaintAll();
 		repaint();
+	}
+	
+	private void registerListeners(){
+		SpreadsheetMouseListenerW ml = new SpreadsheetMouseListenerW(app, this);
+		gridPanel.addDomHandler(ml, MouseDownEvent.getType());
+		gridPanel.addDomHandler(ml, MouseUpEvent.getType());
+		gridPanel.addDomHandler(ml, MouseMoveEvent.getType());
+		gridPanel.addDomHandler(ml, ClickEvent.getType());
+		gridPanel.addDomHandler(ml, DoubleClickEvent.getType());
+
+		upperLeftCorner.addDomHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				selectAll();
+			}
+		}, ClickEvent.getType());
+
 	}
 
 	/**
 	 * End table constructor
 	 ******************************************************************/
+
+	private void createFloatingElements() {
+
+		editorPanel = new SimplePanel();
+		editorPanel.getElement().getStyle().setZIndex(6);
+		editorPanel.setVisible(false);
+		
+		selectionFrame = new SimplePanel();
+		selectionFrame.getElement().getStyle().setZIndex(6);
+		selectionFrame.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		selectionFrame.getElement().getStyle().setBorderWidth(2, Style.Unit.PX);
+		selectionFrame.getElement().getStyle().setBorderColor(SELECTED_RECTANGLE_COLOR.toString());
+		selectionFrame.setVisible(false);
+		
+		
+		dragFrame = new SimplePanel();
+		dragFrame.getElement().getStyle().setZIndex(5);
+		dragFrame.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		dragFrame.getElement().getStyle().setBorderWidth(2, Style.Unit.PX);
+		dragFrame.getElement().getStyle().setBorderColor(GColor.GRAY.toString());
+		dragFrame.setVisible(false);
+	
+		
+		blueDot = new SimplePanel();
+		blueDot.getElement().getStyle().setZIndex(7);
+		blueDot.getElement().getStyle().setWidth(MyTableW.DOT_SIZE, Style.Unit.PX);
+		blueDot.getElement().getStyle().setHeight(MyTableW.DOT_SIZE, Style.Unit.PX);
+		blueDot.getElement().getStyle().setProperty("borderTop", "1px solid white");
+		blueDot.getElement().getStyle().setProperty("borderLeft", "1px solid white");
+		blueDot.getElement().getStyle().setBackgroundColor(MyTableW.SELECTED_RECTANGLE_COLOR.toString());
+		blueDot.setVisible(false);
+		blueDot.setStyleName("cursor_default");
+		
+	}	
+		
+	private void createGUI() {
+
+			
+		// ------ upper left corner
+		int upperCornerHeight = app.getSettings().getSpreadsheet()
+		        .preferredRowHeight();
+		int leftCornerWidth = view.ROW_HEADER_WIDTH;
+
+		upperLeftCorner = new FlowPanel();
+		upperLeftCorner.getElement().addClassName(
+		        "geogebraweb-table-spreadsheet-upperLeftCorner");
+		Style s = upperLeftCorner.getElement().getStyle();
+		s.setWidth(leftCornerWidth - 1, Unit.PX);
+		s.setHeight(upperCornerHeight - 2, Unit.PX);
+		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
+		s.setPosition(Style.Position.ABSOLUTE);
+		s.setTop(0, Unit.PX);
+		s.setLeft(0, Unit.PX);
+
+		// ----- upper right corner
+		int rightCornerWidth = AbstractNativeScrollbar
+		        .getNativeScrollbarWidth();
+		FlowPanel upperRightCorner = new FlowPanel();
+		upperRightCorner.getElement().addClassName(
+		        "geogebraweb-table-spreadsheet-upperRightCorner");
+		s = upperRightCorner.getElement().getStyle();
+		s.setWidth(rightCornerWidth - 1, Unit.PX);
+		s.setHeight(upperCornerHeight - 2, Unit.PX);
+		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
+
+		s.setPosition(Style.Position.ABSOLUTE);
+		s.setTop(0, Unit.PX);
+		s.setRight(0, Unit.PX);
+
+		// ----- lower left corner
+		int lowerLeftCornerHeight = AbstractNativeScrollbar
+		        .getNativeScrollbarHeight();
+		FlowPanel lowerLeftCorner = new FlowPanel();
+		lowerLeftCorner.getElement().addClassName(
+		        "geogebraweb-table-spreadsheet-lowerLeftCorner");
+		s = lowerLeftCorner.getElement().getStyle();
+		s.setWidth(leftCornerWidth - 1, Unit.PX);
+		s.setHeight(lowerLeftCornerHeight - 2, Unit.PX);
+		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
+
+		s.setPosition(Style.Position.ABSOLUTE);
+		s.setLeft(0, Unit.PX);
+		s.setBottom(0, Unit.PX);
+
+		// ---- column header
+		columnHeader = new SpreadsheetColumnHeaderW(app, this);
+		s = columnHeader.getElement().getStyle();
+		s.setPosition(Style.Position.RELATIVE);
+
+		FlowPanel colHeaderContainer = new FlowPanel();
+		s = colHeaderContainer.getElement().getStyle();
+		s.setDisplay(Display.BLOCK);
+		s.setOverflow(Style.Overflow.HIDDEN);
+		s.setMarginLeft(leftCornerWidth, Unit.PX);
+		s.setMarginRight(rightCornerWidth, Unit.PX);
+		colHeaderContainer.add(columnHeader);
+
+		// ------ row header
+		rowHeader = new SpreadsheetRowHeaderW2(app, this);
+		s = rowHeader.getElement().getStyle();
+		s.setPosition(Style.Position.RELATIVE);
+
+		rowHeaderContainer = new FlowPanel();
+		s = rowHeaderContainer.getElement().getStyle();
+		s.setDisplay(Display.INLINE_BLOCK);
+		s.setMarginBottom(lowerLeftCornerHeight, Unit.PX);
+		s.setOverflow(Style.Overflow.HIDDEN);
+
+		rowHeaderContainer.add(rowHeader);
+		rowHeaderContainer.add(lowerLeftCorner);
+
+		// spreadsheet table
+		ssGrid = new Grid(tableModel.getRowCount() + 1,
+		        tableModel.getColumnCount() + 1);
+		gridPanel = new AbsolutePanel();
+		gridPanel.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		gridPanel.add(ssGrid);
+		gridPanel.add(selectionFrame);
+		gridPanel.add(dragFrame);
+		gridPanel.add(blueDot);
+		gridPanel.add(editorPanel);
+		
+		scroller = new ScrollPanel(gridPanel);
+		scroller.addStyleName("scroller");
+
+		scrollHandlerRegistration = scroller.addScrollHandler(this);
+
+		FlowPanel ssGridContainer = new FlowPanel();
+		ssGridContainer.getElement().getStyle()
+		        .setVerticalAlign(Style.VerticalAlign.TOP);
+		ssGridContainer.getElement().getStyle()
+		        .setDisplay(Display.INLINE_BLOCK);
+		ssGridContainer.add(scroller);
+
+		// create table header row
+		FlowPanel headerRow = new FlowPanel();
+		headerRow.getElement().getStyle()
+		        .setWhiteSpace(Style.WhiteSpace.NOWRAP);
+		headerRow.add(upperLeftCorner);
+		headerRow.add(colHeaderContainer);
+		headerRow.add(upperRightCorner);
+
+		// create table row
+		FlowPanel tableRow = new FlowPanel();
+		tableRow.getElement().getStyle().setWhiteSpace(Style.WhiteSpace.NOWRAP);
+		tableRow.getElement().getStyle()
+		        .setVerticalAlign(Style.VerticalAlign.TOP);
+		tableRow.add(rowHeaderContainer);
+		tableRow.add(ssGridContainer);
+
+		// put rows together to complete the GUI
+		tableWrapper = new FlowPanel();
+		tableWrapper.add(headerRow);
+		tableWrapper.add(tableRow);
+		
+	}
+
+	boolean doAdjustScroll = true;
+
+	protected void adjustScroll() {
+		
+		if (!doAdjustScroll) {
+			return;
+		}
+		
+		int offH = ssGrid.getAbsoluteLeft();
+		int offV = ssGrid.getAbsoluteTop();
+		
+		// get pixel coordinates of the upper left corner
+		int x = scroller.getHorizontalScrollPosition() + offH;
+		int y = scroller.getVerticalScrollPosition() + offV;
+
+		// get upper left cell coordinates
+		GPoint p = this.getIndexFromPixel(x , y);
+		if (p == null) {
+			return;
+		}
+		
+		// get new pixel coordinates to place the upper left cell exactly
+		GPoint p2 = this.getPixel(p.x, p.y, true);
+		if (p2 == null) {
+			return;
+		}
+		
+		// now scroll to move the upper left cell into position
+		int newScrollH = p2.x - offH;
+		int newScrollV = p2.y - offV;
+	//	App.debug("scroll: " + x + " , " + y + "  col,row: " + p.x + " , "
+	//	        + p.y + "  scroll2: " + newScrollH + " , " + newScrollV);
+
+		doAdjustScroll = false;
+		scroller.setHorizontalScrollPosition(newScrollH);
+		scroller.setVerticalScrollPosition(newScrollV);
+		doAdjustScroll = true;
+	}
+
+	public void onScroll(ScrollEvent event) {
+		
+		adjustScroll();
+		int t = -scroller.getVerticalScrollPosition();
+		rowHeader.getElement().getStyle().setTop(t, Unit.PX);
+		int l = -scroller.getHorizontalScrollPosition();
+		columnHeader.getElement().getStyle().setLeft(l, Unit.PX);
+	}
 
 	/**
 	 * Returns parent SpreadsheetView for this table
@@ -375,6 +654,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		return tableModel;
 	}
 
+	public Grid getTableImpl() {
+		return ssGrid;
+	}
+
 	public CopyPasteCut getCopyPasteCut() {
 		return copyPasteCut;
 	}
@@ -403,11 +686,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Returns boolean editor (checkbox) for this table. If none exists, a new
 	 * one is created.
 	 */
-	/*public MyCellEditorBooleanW getEditorBoolean() {
-		if (editorBoolean == null)
-			editorBoolean = new MyCellEditorBooleanW(kernel);
-		return editorBoolean;
-	}*/
+	/*
+	 * public MyCellEditorBooleanW getEditorBoolean() { if (editorBoolean ==
+	 * null) editorBoolean = new MyCellEditorBooleanW(kernel); return
+	 * editorBoolean; }
+	 */
 
 	/**
 	 * Returns button editor for this table. If none exists, a new one is
@@ -443,11 +726,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		int cc = this.getColumnCount();
 
-		resizeColumns(tableModel.getColumnCount() + 1);
+		ssGrid.resizeColumns(tableModel.getColumnCount() + 1);
 
 		// add new columns to table
 		for (int i = cc; i < tableModel.getColumnCount() + 1; ++i) {
-			getColumnFormatter().getElement(i).getStyle()
+			ssGrid.getColumnFormatter().getElement(i).getStyle()
 			        .setWidth(preferredColumnWidth, Style.Unit.PX);
 			// TableColumn col = new TableColumn(i);
 			// TODO// col.setHeaderRenderer(headerRenderer);
@@ -461,13 +744,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public GeoClass getCellEditorType(int row, int column) {
 		GPoint p = new GPoint(column, row);
-		if (view.allowSpecialEditor() &&
-			oneClickEditMap.containsKey(p) && kernel.getAlgebraStyle() ==
-			Kernel.ALGEBRA_STYLE_VALUE) {
+		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
+		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
-				case BOOLEAN: return GeoClass.BOOLEAN;
-				case BUTTON: return GeoClass.BUTTON;
-				case LIST: return GeoClass.LIST;
+			case BOOLEAN:
+				return GeoClass.BOOLEAN;
+			case BUTTON:
+				return GeoClass.BUTTON;
+			case LIST:
+				return GeoClass.LIST;
 			}
 		}
 		return GeoClass.DEFAULT;
@@ -488,9 +773,13 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * gets flag for requirement that commands entered into cells must start
 	 * with "="
 	 */
-	public boolean isEqualsRequired() { return view.isEqualsRequired(); }
+	public boolean isEqualsRequired() {
+		return view.isEqualsRequired();
+	}
 
-	public void setLabels() { editor.setLabels(); }
+	public void setLabels() {
+		editor.setLabels();
+	}
 
 	public int preferredColumnWidth() {
 		return preferredColumnWidth;
@@ -515,7 +804,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			if (tableModel.getRowCount() + 1 <= getRowCount())
 				return;
 
-			resizeRows(tableModel.getRowCount() + 1);
+			ssGrid.resizeRows(tableModel.getRowCount() + 1);
 
 			setRepaintAll();
 			repaint();
@@ -538,7 +827,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	public void changeSelection(int rowIndex, int columnIndex, boolean toggle,
 	        boolean extend) {
 		// this should be in table model coordinates
-		
+
 		// if(Application.getControlDown())
 		// super.changeSelection(rowIndex, columnIndex, false, false);
 		// else
@@ -552,6 +841,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// not used anyway
 		} else {
 			if (extend) {
+				App.printStacktrace("extending");
 				leadSelectionColumn = columnIndex;
 				leadSelectionRow = rowIndex;
 				if (anchorSelectionColumn == -1)
@@ -649,8 +939,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			/*
 			 * // return if we have already ctrl-selected this range for
 			 * (CellRange cr : selectedCellRanges) { if
-			 * (cr.equals(newSelection)){ App.debug("reutrned");
-			 * return; } }
+			 * (cr.equals(newSelection)){ App.debug("reutrned"); return; } }
 			 */
 
 			// handle dragging
@@ -687,18 +976,14 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		maxSelectionColumn = newSelection.getMaxColumn();
 		maxSelectionRow = newSelection.getMaxRow();
 
-		if (minSelectionRow != -1) minSelectionRow += 1;
-		if (minSelectionColumn != -1) minSelectionColumn += 1;
-		if (maxSelectionColumn != -1) maxSelectionColumn += 1;
-		if (maxSelectionRow != -1) maxSelectionRow += 1;
-
+		
 		// newSelection.debug();
 		// printSelectionParameters();
 
 		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
 			setSelectNone(false);
 
-		//TODO if (changedAnchor && !isEditing()) view.updateFormulaBar();
+		// TODO if (changedAnchor && !isEditing()) view.updateFormulaBar();
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
@@ -707,7 +992,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 
 		// if the geo selection has changed, update selected geos
-		boolean changed = !list.equals(app.getSelectionManager().getSelectedGeos());
+		boolean changed = !list.equals(app.getSelectionManager()
+		        .getSelectedGeos());
 		if (changed) {
 
 			if (getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
@@ -732,8 +1018,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// repaint
 		if (changed || list.isEmpty()) {
 			repaint();
-			//?//if (this.getTableHeader() != null)
-			//?//	getTableHeader().repaint();
+			columnHeader.renderSelection();
+			rowHeader.renderSelection();
+			// ?//if (this.getTableHeader() != null)
+			// ?// getTableHeader().repaint();
 		}
 
 		// App.debug("------------------");
@@ -865,7 +1153,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 					// column selection
 				} else if (cr.isColumn()) {
-					setColumnSelectionInterval(cr.getMinColumn(), cr.getMaxColumn());
+					setColumnSelectionInterval(cr.getMinColumn(),
+					        cr.getMaxColumn());
 
 					// cell block selection
 				} else {
@@ -987,15 +1276,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// the sole handler for selection events.
 	public void setRowSelectionInterval(int row0, int row1) {
 		setSelectionType(MyTable.ROW_SELECT);
-		anchorSelectionRow = row0 - 1;
-		leadSelectionRow = row1 - 1;
+		anchorSelectionRow = row0;
+		leadSelectionRow = row1;
 		selectionChanged();
 	}
 
 	public void setColumnSelectionInterval(int col0, int col1) {
 		setSelectionType(MyTable.COLUMN_SELECT);
-		anchorSelectionColumn = col0 - 1;
-		leadSelectionColumn = col1 - 1;
+		anchorSelectionColumn = col0;
+		leadSelectionColumn = col1;
 		selectionChanged();
 	}
 
@@ -1068,23 +1357,78 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 
 		if (min && column == 0 && row == 0) {
-			// ? Why this returns 0, wt.getAbsoluteLeft would return a greater number!
-			return new GPoint(0, 0);
+			// ? Why this returns 0, wt.getAbsoluteLeft would return a greater
+			// number!
+			//return new GPoint(0, 0);
 		}
 
-		Element wt = this.getCellFormatter().getElement(row, column);
-		int offx = this.getAbsoluteLeft();
-		int offy = this.getAbsoluteTop();
-		int left = (int) ((wt.getAbsoluteLeft()-offx) / app.getArticleElement().getScaleX())+offx;
-		int top = (int) ((wt.getAbsoluteTop()-offy) / app.getArticleElement().getScaleY())+offy;
-		App.debug(left+"x"+top);
+		Element wt = ssGrid.getCellFormatter().getElement(row, column);
+		int offx = ssGrid.getAbsoluteLeft();
+		int offy = ssGrid.getAbsoluteTop();
+		int left = (int) ((wt.getAbsoluteLeft() - offx) / app
+		        .getArticleElement().getScaleX()) + offx;
+		int top = (int) ((wt.getAbsoluteTop() - offy) / app.getArticleElement()
+		        .getScaleY()) + offy;
+		
+	//	App.debug("-----------------------" + min);
+		
 		if (min) {
+	//		App.debug("col x row: " + column + " x " + row + "  pixels: " + left + " x " + top);
+	//		getPixel2(column,row,min);
 			return new GPoint(left, top);
 		}
-		return new GPoint(left + wt.getOffsetWidth(),
-		        top + wt.getOffsetHeight());
+	//	App.debug("col x row: " + column + " x " + row + "  pixels: " + (left + wt.getOffsetWidth()) +
+	//			" x " + (top+wt.getOffsetHeight()));
+	//	getPixel2(column,row,min);
+		return new GPoint(left + wt.getOffsetWidth(), top
+		        + wt.getOffsetHeight());
 	}
 
+	
+	protected GPoint getPixelRelative(int column, int row, boolean min) {
+
+		if (column < 0 || row < 0) {
+			return null;
+		}
+
+		if (column > getColumnCount() - 1) {
+			column = getColumnCount() - 1;
+		}
+
+		if (row > getRowCount() - 1) {
+			row = getRowCount() - 1;
+		}
+
+		GPoint p = new GPoint(0, 0);
+		
+		HashMap<Integer, Integer> widthMap = view.settings().getWidthMap();
+		HashMap<Integer, Integer> heightMap = view.settings().getHeightMap();
+
+		// adjust loop condition dependent on min   
+		int extraCell = min ? 0 : 1;
+
+		for (int c = 0; c < column + extraCell; c++) {
+			Integer w = (Integer) widthMap.get(c);
+			if (w == null) {
+				w = preferredColumnWidth;
+			}
+			p.x += w;
+		}
+		for (int r = 0; r < row + extraCell; r++) {
+			Integer h = (Integer) heightMap.get(r);
+			if (h == null) {
+				h = view.settings().preferredRowHeight();
+			}
+			p.y += h;
+		}
+	
+	//	p.x += ssGrid.getAbsoluteLeft();
+	//	p.y += ssGrid.getAbsoluteTop();
+		
+		//App.debug("#2col x row: " + column + " x " + row + "  pixels: " + p.x + " x " + p.y);
+		return p;
+	}
+	
 	protected GPoint getMinSelectionPixel() {
 		return getPixel(minSelectionColumn, minSelectionRow, true);
 	}
@@ -1137,18 +1481,22 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	public GRectangle getCellRect(int row, int column, boolean spacing) {
 		GPoint min = getPixel(column, row, true);
 		GPoint max = getPixel(column, row, false);
-		return new GRectangleW(min.x, min.y, max.x-min.x, max.y-min.y);
+		return new GRectangleW(min.x, min.y, max.x - min.x, max.y - min.y);
 	}
 
-	public GRectangle getCellBlockRect(int column1, int row1, int column2, int row2, boolean includeSpacing) {
+	public GRectangle getCellBlockRect(int column1, int row1, int column2,
+	        int row2, boolean includeSpacing) {
 		GRectangle r1 = getCellRect(row1, column1, includeSpacing);
 		GRectangle r2 = getCellRect(row2, column2, includeSpacing);
-		r1.setBounds((int)r1.getX(), (int)r1.getY(), (int)((r2.getX() - r1.getX()) + r2.getWidth()), (int)((r2.getY() - r1.getY()) + r2.getHeight()));
+		r1.setBounds((int) r1.getX(), (int) r1.getY(),
+		        (int) ((r2.getX() - r1.getX()) + r2.getWidth()),
+		        (int) ((r2.getY() - r1.getY()) + r2.getHeight()));
 		return r1;
 	}
 
 	public GRectangle getSelectionRect(boolean includeSpacing) {
-		return getCellBlockRect(minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow, includeSpacing);
+		return getCellBlockRect(minSelectionColumn, minSelectionRow,
+		        maxSelectionColumn, maxSelectionRow, includeSpacing);
 	}
 
 	// target selection frame
@@ -1176,47 +1524,34 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Overrides the paint() to draw special spreadsheet table graphics, e.g.
 	 * selection rectangle and custom borders
 	 */
-	/* @Override
-	public void paint(Graphics graphics) { super.paint(graphics);
-
-		Graphics2D g2 = (Graphics2D) graphics;
-
-		// draw custom borders
-		SpreadsheetBorders.drawFormatBorders(g2, this);
-
-		// draw special target cell frame
-		if (targetcellFrame != null) {
-			g2.setColor(geogebra.awt.GColorD
-					.getAwtColor(GeoGebraColorConstants.DARKBLUE)); g2.setStroke(dashed);
-			g2.draw(targetcellFrame);
-		}
-
-		// if the spreadsheet doesn't have focus
-		// then don't draw the selection graphics ... exit now
-		if (!view.hasViewFocus()) {
-			if (!isSelectNone)
-				setSelectNone(true);
-			return;
-		}
-
-		//draw special dragging frame for cell editor
-		if (isDragging2) {
-			GPoint point1 = getPixel(minColumn2, minRow2, true);
-			GPoint point2 = getPixel(maxColumn2, maxRow2, false);
-			int x1 = point1.getX();
-			int y1 = point1.getY();
-			int x2 = point2.getX();
-			int y2 = point2.getY();
-			graphics.setColor(Color.GRAY);
-			// Application.debug(x1 + "," + y1 + "," + x2 + "," + y2);
-			graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-			graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-			graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-			graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
-		}
-
-		// draw dragging frame
-		if (dragingToRow != -1 && dragingToColumn != -1) {*/
+	/*
+	 * @Override public void paint(Graphics graphics) { super.paint(graphics);
+	 * 
+	 * Graphics2D g2 = (Graphics2D) graphics;
+	 * 
+	 * // draw custom borders SpreadsheetBorders.drawFormatBorders(g2, this);
+	 * 
+	 * // draw special target cell frame if (targetcellFrame != null) {
+	 * g2.setColor(geogebra.awt.GColorD
+	 * .getAwtColor(GeoGebraColorConstants.DARKBLUE)); g2.setStroke(dashed);
+	 * g2.draw(targetcellFrame); }
+	 * 
+	 * // if the spreadsheet doesn't have focus // then don't draw the selection
+	 * graphics ... exit now if (!view.hasViewFocus()) { if (!isSelectNone)
+	 * setSelectNone(true); return; }
+	 * 
+	 * //draw special dragging frame for cell editor if (isDragging2) { GPoint
+	 * point1 = getPixel(minColumn2, minRow2, true); GPoint point2 =
+	 * getPixel(maxColumn2, maxRow2, false); int x1 = point1.getX(); int y1 =
+	 * point1.getY(); int x2 = point2.getX(); int y2 = point2.getY();
+	 * graphics.setColor(Color.GRAY); // Application.debug(x1 + "," + y1 + "," +
+	 * x2 + "," + y2); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
+	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
+	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+	 * graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); }
+	 * 
+	 * // draw dragging frame if (dragingToRow != -1 && dragingToColumn != -1) {
+	 */
 	/*
 	 * Application.debug("minSelectionRow = " + minSelectionRow);
 	 * Application.debug("minSelectionColumn = " + minSelectionColumn);
@@ -1225,105 +1560,71 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Application.debug("dragingToRow = " + dragingToRow);
 	 * Application.debug("dragingToColumn = " + dragingToColumn); /*
 	 */
-	/*	// -|1|- // 2|-|3 // -|4|-
-			graphics.setColor(Color.gray);
-			if (dragingToColumn < minSelectionColumn) { // 2
-				GPoint point1 = getPixel(dragingToColumn, minSelectionRow, true);
-				GPoint point2 = getPixel(minSelectionColumn - 1, maxSelectionRow, false);
-				int x1 = point1.getX();
-				int y1 = point1.getY();
-				int x2 = point2.getX();
-				int y2 = point2.getY();
-				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-			}
-			else if (dragingToRow > maxSelectionRow) { // 4
-				GPoint point1 = getPixel(minSelectionColumn, maxSelectionRow + 1, true);
-				GPoint point2 = getPixel(maxSelectionColumn, dragingToRow, false);
-				int x1 = point1.getX();
-				int y1 = point1.getY();
-				int x2 = point2.getX();
-				int y2 = point2.getY();
-				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
-			}
-			else if (dragingToRow < minSelectionRow) { // 1
-				GPoint point1 = getPixel(minSelectionColumn, dragingToRow, true);
-				GPoint point2 = getPixel(maxSelectionColumn, minSelectionRow - 1, false);
-				int x1 = point1.getX();
-				int y1 = point1.getY();
-				int x2 = point2.getX();
-				int y2 = point2.getY();
-				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
-			} else if (dragingToColumn > maxSelectionColumn) { // 3
-				GPoint point1 = getPixel(maxSelectionColumn + 1, minSelectionRow, true);
-				GPoint point2 = getPixel(dragingToColumn, maxSelectionRow, false);
-				int x1 = point1.getX();
-				int y1 = point1.getY();
-				int x2 = point2.getX();
-				int y2 = point2.getY();
-				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-			}
-		}
-		// draw dragging dot GPoint pixel1 = getMaxSelectionPixel();
-		if (doShowDragHandle && pixel1 != null && !editor.isEditing()) {
-			// Highlight the dragging dot if mouseover
-			if (isOverDot) {
-				graphics.setColor(Color.gray);
-			}
-			else // {graphics.setColor(Color.BLUE);}
-			{
-				graphics.setColor(selectionRectangleColor);
-			}
-			int x = pixel1.getX() - (DOT_SIZE + 1) / 2;
-			int y = pixel1.getY() - (DOT_SIZE + 1) / 2;
-			graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE);
-		}
-
-		if (minSelectionRow != -1 && maxSelectionRow != -1 && minSelectionColumn
-			!= -1 && maxSelectionColumn != -1) {
-			GPoint min = this.getMinSelectionPixel();
-			GPoint max = this.getMaxSelectionPixel();
-			int x1 = min.getX();
-			int y1 = min.getY();
-			int x2 = max.getX();
-			int y2 = max.getY();
-
-			// graphics.setColor(Color.BLUE);
-			graphics.setColor(selectionRectangleColor);
-
-			// draw frame around current selection
-			// G.Sturr 2009-9-23 adjusted parameters to work with getPixel fix
-			if (!editor.isEditing()) {
-				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
-				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
-				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1 - DOT_SIZE / 2 - 1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1 - DOT_SIZE / 2 - 1, LINE_THICKNESS2);
-			}
-			// draw small frame around current editing cell
-			else
-			{
-				x1 -= LINE_THICKNESS2 - 1;
-				x2 += LINE_THICKNESS2 - 1;
-				y1 -= LINE_THICKNESS2 - 1;
-				y2 += LINE_THICKNESS2 - 1;
-				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
-				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
-				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1, LINE_THICKNESS2);
-			}
-		}
-
-		// After rendering the LaTeX image for a geo, update the row height
-		//with the preferred size set by the renderer.
-		resizeMarkedCells();
-	}*/
+	/*
+	 * // -|1|- // 2|-|3 // -|4|- graphics.setColor(Color.gray); if
+	 * (dragingToColumn < minSelectionColumn) { // 2 GPoint point1 =
+	 * getPixel(dragingToColumn, minSelectionRow, true); GPoint point2 =
+	 * getPixel(minSelectionColumn - 1, maxSelectionRow, false); int x1 =
+	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
+	 * point2.getY(); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
+	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
+	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1); }
+	 * else if (dragingToRow > maxSelectionRow) { // 4 GPoint point1 =
+	 * getPixel(minSelectionColumn, maxSelectionRow + 1, true); GPoint point2 =
+	 * getPixel(maxSelectionColumn, dragingToRow, false); int x1 =
+	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
+	 * point2.getY(); graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
+	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
+	 * graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); }
+	 * else if (dragingToRow < minSelectionRow) { // 1 GPoint point1 =
+	 * getPixel(minSelectionColumn, dragingToRow, true); GPoint point2 =
+	 * getPixel(maxSelectionColumn, minSelectionRow - 1, false); int x1 =
+	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
+	 * point2.getY(); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
+	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1); graphics.fillRect(x2
+	 * - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); } else if
+	 * (dragingToColumn > maxSelectionColumn) { // 3 GPoint point1 =
+	 * getPixel(maxSelectionColumn + 1, minSelectionRow, true); GPoint point2 =
+	 * getPixel(dragingToColumn, maxSelectionRow, false); int x1 =
+	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
+	 * point2.getY(); graphics.fillRect(x2 - LINE_THICKNESS1, y1,
+	 * LINE_THICKNESS1, y2 - y1); graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2
+	 * - x1, LINE_THICKNESS1); graphics.fillRect(x1, y1, x2 - x1,
+	 * LINE_THICKNESS1); } } // draw dragging dot GPoint pixel1 =
+	 * getMaxSelectionPixel(); if (doShowDragHandle && pixel1 != null &&
+	 * !editor.isEditing()) { // Highlight the dragging dot if mouseover if
+	 * (isOverDot) { graphics.setColor(Color.gray); } else //
+	 * {graphics.setColor(Color.BLUE);} {
+	 * graphics.setColor(selectionRectangleColor); } int x = pixel1.getX() -
+	 * (DOT_SIZE + 1) / 2; int y = pixel1.getY() - (DOT_SIZE + 1) / 2;
+	 * graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE); }
+	 * 
+	 * if (minSelectionRow != -1 && maxSelectionRow != -1 && minSelectionColumn
+	 * != -1 && maxSelectionColumn != -1) { GPoint min =
+	 * this.getMinSelectionPixel(); GPoint max = this.getMaxSelectionPixel();
+	 * int x1 = min.getX(); int y1 = min.getY(); int x2 = max.getX(); int y2 =
+	 * max.getY();
+	 * 
+	 * // graphics.setColor(Color.BLUE);
+	 * graphics.setColor(selectionRectangleColor);
+	 * 
+	 * // draw frame around current selection // G.Sturr 2009-9-23 adjusted
+	 * parameters to work with getPixel fix if (!editor.isEditing()) {
+	 * graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
+	 * graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1); graphics.fillRect(x2
+	 * - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1 - DOT_SIZE / 2 - 1);
+	 * graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1 - DOT_SIZE / 2 - 1,
+	 * LINE_THICKNESS2); } // draw small frame around current editing cell else
+	 * { x1 -= LINE_THICKNESS2 - 1; x2 += LINE_THICKNESS2 - 1; y1 -=
+	 * LINE_THICKNESS2 - 1; y2 += LINE_THICKNESS2 - 1; graphics.fillRect(x1, y1,
+	 * x2 - x1, LINE_THICKNESS2); graphics.fillRect(x1, y1, LINE_THICKNESS2, y2
+	 * - y1); graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 -
+	 * y1); graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1,
+	 * LINE_THICKNESS2); } }
+	 * 
+	 * // After rendering the LaTeX image for a geo, update the row height
+	 * //with the preferred size set by the renderer. resizeMarkedCells(); }
+	 */
 
 	/**
 	 * Starts in-cell editing for cells with short editing strings. For strings
@@ -1332,13 +1633,14 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 */
 	public boolean editCellAt(int row, int col) {
 
-		if (row < 1 || col < 1)
+		if (row < 0 || col < 0)
 			return false;
 
-		Object ob = tableModel.getValueAt(row-1, col-1);
+		Object ob = tableModel.getValueAt(row, col);
 
 		// prepare editor to handle equals
-		editor.setEqualsRequired(app.getSettings().getSpreadsheet().equalsRequired());
+		editor.setEqualsRequired(app.getSettings().getSpreadsheet()
+		        .equalsRequired());
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
 			if (geo.isGeoButton() || geo.isGeoImage()) {
@@ -1347,8 +1649,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			}
 			if (!view.getShowFormulaBar()) {
 				if (!geo.isFixed()) {
-					if (!geo.isGeoText() &&
-					editor.getEditorInitString(geo).length() > MAX_CELL_EDIT_STRING_LENGTH) {
+					if (!geo.isGeoText()
+					        && editor.getEditorInitString(geo).length() > MAX_CELL_EDIT_STRING_LENGTH) {
 						app.getDialogManager().showRedefineDialog(geo, false);
 						return true;
 					}
@@ -1360,30 +1662,34 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			}
 		}
 		// STANDARD case: in cell editing
-		if (isCellEditable(row - 1, col - 1) && !isEditing) {
-			switch (getCellEditorType(row - 1, col - 1)) {
+		if (isCellEditable(row , col ) && !isEditing) {
+			switch (getCellEditorType(row , col )) {
 			case DEFAULT:
 				isEditing = true;
 				editRow = row;
 				editColumn = col;
 
-				// do this now, and do it later in renderCells - memorized row and col
-				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
-						((MyCellEditorW)getCellEditor(row - 1, col - 1)).getTableCellEditorWidget(this, ob, false, row, col);
+				// do this now, and do it later in renderCells - memorized row
+				// and col
+				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor(
+				        row , col )).getTableCellEditorWidget(this, ob,
+				        false, row, col);
 
-				int cew = getCellFormatter().getElement(row, col).getOffsetWidth();
+				int cew = ssGrid.getCellFormatter().getElement(row, col)
+				        .getOffsetWidth();
 				cew -= minusColumnWidth;
 				if (cew <= 0)
-					cew = preferredColumnWidth-minusColumnWidth;
+					cew = preferredColumnWidth - minusColumnWidth;
 
-				int ceh = getCellFormatter().getElement(row, col).getOffsetHeight();
+				int ceh = ssGrid.getCellFormatter().getElement(row, col)
+				        .getOffsetHeight();
 				ceh -= minusRowHeight + 2;
 				if (ceh <= 0)
 					ceh = minimumRowHeight - minusRowHeight - 2;
 
-				w.getTextField().setPixelSize(cew, ceh);
+				//w.getTextField().setPixelSize(cew, ceh);
 
-				view.positionEditorPanel(true, row, col);
+				positionEditorPanel(true, row, col);
 
 				w.requestFocus();
 				renderSelection();
@@ -1391,18 +1697,19 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			case BOOLEAN:
 			case BUTTON:
 			case LIST:
-				// instead of editing the checkbox, do not go into editing mode at all,
+				// instead of editing the checkbox, do not go into editing mode
+				// at all,
 				// because we don't know when to stop editing
 
 				isEditing = false;
-				view.positionEditorPanel(false, 0, 0);
+				positionEditorPanel(false, 0, 0);
 
 				renderSelection();
 				return true;
 			}
 		}
 
-		BaseCellEditor mce = getCellEditor(row - 1, col - 1);
+		BaseCellEditor mce = getCellEditor(row, col);
 		if (mce != null)
 			mce.cancelCellEditing();
 		return false;// TODO: implementation needed
@@ -1476,11 +1783,12 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			return false;
 
 		// allow use of special editors for e.g. buttons, lists
-		if (view.allowSpecialEditor() &&
-			oneClickEditMap.containsKey(new GPoint(column, row)))
+		if (view.allowSpecialEditor()
+		        && oneClickEditMap.containsKey(new GPoint(column, row)))
 			return true;
 
-		// normal case: return false so we can handle double click in our // mouseReleased
+		// normal case: return false so we can handle double click in our //
+		// mouseReleased
 		if (!allowEditing)
 			return false;
 
@@ -1504,28 +1812,27 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public void finishEditing() {
 		isEditing = false;
-		
+
 		// hide the editor
-		view.positionEditorPanel(false, 0, 0);
+		positionEditorPanel(false, 0, 0);
 		editRow = -1;
 		editColumn = -1;
-		
+
 		view.requestFocus();
-		
-		//setRepaintAll();//TODO: don't call renderCells, just change the edited cell
+
+		// setRepaintAll();//TODO: don't call renderCells, just change the
+		// edited cell
 		repaint();
 	}
 
-
-	public void sendEditorKeyPressEvent(KeyPressEvent e){
+	public void sendEditorKeyPressEvent(KeyPressEvent e) {
 		editor.sendKeyPressEvent(e);
 	}
-	
-	public void sendEditorKeyDownEvent(KeyDownEvent e){
+
+	public void sendEditorKeyDownEvent(KeyDownEvent e) {
 		editor.sendKeyDownEvent(e);
 	}
-	
-	
+
 	/*
 	 * public void focusGained(FocusEvent e) { if
 	 * (AppD.isVirtualKeyboardActive())
@@ -1547,9 +1854,12 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (rowHeight2 < minimumRowHeight)
 			rowHeight2 = minimumRowHeight;
 
-		if (row > 0 || showRowHeader)
-			getRowFormatter().getElement(row).getStyle()
-		        	.setHeight(rowHeight2, Style.Unit.PX);
+		if (row > 0 || showRowHeader) {
+			ssGrid.getRowFormatter().getElement(row).getStyle()
+			        .setHeight(rowHeight2, Style.Unit.PX);
+			rowHeader.getRowFormatter().getElement(row).getStyle()
+			        .setHeight(rowHeight2, Style.Unit.PX);
+		}
 		try {
 			if (view != null) {
 				// TODO//view.updateRowHeader();
@@ -1567,13 +1877,13 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (rowHeight2 < minimumRowHeight)
 			rowHeight2 = minimumRowHeight;
 
-		if (showRowHeader)
-			getRowFormatter().getElement(0).getStyle()
-        		.setHeight(rowHeight2, Style.Unit.PX);
-
-		for (int i = 1; i < getRowCount(); i++)
-			getRowFormatter().getElement(i).getStyle()
-		        	.setHeight(rowHeight2, Style.Unit.PX);
+		for (int i = 0; i < getRowCount(); i++){
+			ssGrid.getRowFormatter().getElement(i).getStyle()
+			        .setHeight(rowHeight2, Style.Unit.PX);
+			if (showRowHeader)
+				rowHeader.getRowFormatter().getElement(i).getStyle()
+				        .setHeight(rowHeight2, Style.Unit.PX);	
+		}
 
 		try {
 			if (view != null) {
@@ -1636,28 +1946,32 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// in table model coordinates
 
-		Element prefElement = getCellFormatter().getElement(row, col);
+		Element prefElement = ssGrid.getCellFormatter().getElement(row, col);
 
 		if (adjustWidth) {
 
-			if (col > 0 || showColumnHeader) {
-				Element tableColumn = getColumnFormatter().getElement(col);
+				Element tableColumn = ssGrid.getColumnFormatter().getElement(
+				        col);
 
 				int resultWidth = Math.max(tableColumn.getOffsetWidth(),
-						(int) prefElement.getOffsetWidth());
+				        (int) prefElement.getOffsetWidth());
 				tableColumn.getStyle().setWidth(resultWidth /*
 															 * TODO this.
 															 * getIntercellSpacing
 															 * ().width
 															 */
-				, Style.Unit.PX);
-			}
+			, Style.Unit.PX);
+
+			columnHeader.getColumnFormatter().getElement(col).getStyle()
+			        .setWidth(resultWidth, Unit.PX);
+			
 		}
 
 		if (adjustHeight) {
 
-			int resultHeight = Math.max(getRowFormatter().getElement(row)
-			        .getOffsetHeight(), (int) prefElement.getOffsetHeight());
+			int resultHeight = Math.max(ssGrid.getRowFormatter()
+			        .getElement(row).getOffsetHeight(),
+			        (int) prefElement.getOffsetHeight());
 			int rowHeight2 = resultHeight;
 			if (rowHeight2 < minimumRowHeight)
 				rowHeight2 = minimumRowHeight;
@@ -1672,48 +1986,47 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 */
 	public void fitColumn(int column) {
 
-		if (column == 0 && !showColumnHeader)
-			return;
-
+		
 		// in grid coordinates
 
-		Element tableColumn = getColumnFormatter().getElement(column);
+		Element tableColumn = ssGrid.getColumnFormatter().getElement(column);
 
 		int prefWidth = 0;
 		int tempWidth = -1;
-		for (int row = 1; row < getRowCount(); row++) {
-			if (column > 0 && tableModel.getValueAt(row - 1, column - 1) != null) {
-				tempWidth = getCellFormatter().getElement(row, column).getOffsetWidth();
+		for (int row = 0; row < getRowCount(); row++) {
+			if (column >= 0
+			        && tableModel.getValueAt(row, column) != null) {
+				tempWidth = ssGrid.getCellFormatter().getElement(row, column)
+				        .getOffsetWidth();
 				prefWidth = Math.max(prefWidth, tempWidth);
 			}
 		}
 
 		// set the new column width
-		if (column == 0) {
-			prefWidth = SpreadsheetViewW.ROW_HEADER_WIDTH;
-		} else if (tempWidth == -1) {
+		if (tempWidth == -1) {
 			// column is empty
 			prefWidth = preferredColumnWidth /*
-												 * TODO
-												 * getIntercellSpacing().width
-												 */;
+											 * TODO getIntercellSpacing().width
+											 */;
 		} else {
 			// There was "15" here, but in Desktop, it should visually look
 			// like if there was "5"...
 			prefWidth = Math.max(prefWidth, 15 /*
-											 * TODO
-											 * tableColumn.getMinWidth()
-											 */);
+												 * TODO
+												 * tableColumn.getMinWidth()
+												 */);
 		}
 		// note: the table might have its header set to null,
 		// so we get the actual header from view
 		// TODO//view.getTableHeader().setResizingColumn(tableColumn);
 		tableColumn.getStyle().setWidth(prefWidth /*
-													 * TODO
-													 * getIntercellSpacing()
-													 * .width
-													 */
+												 * TODO getIntercellSpacing()
+												 * .width
+												 */
 		, Style.Unit.PX);
+		
+		columnHeader.getColumnFormatter().getElement(column).getStyle()
+        .setWidth(prefWidth, Unit.PX);
 	}
 
 	/**
@@ -1724,16 +2037,14 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// in grid coordinates
 
-		int prefHeight = getRowFormatter().getElement(row).getOffsetHeight();
+		int prefHeight = ssGrid.getRowFormatter().getElement(row)
+		        .getOffsetHeight();
 		// int prefHeight = this.getRowHeight();
 		int tempHeight = 0;
-		for (int column = 1; column < this.getColumnCount(); column++) {
-
-			if (row > 0) {
-				tempHeight = getCellFormatter().getElement(row, column).getOffsetHeight();
+		for (int column = 0; column < this.getColumnCount(); column++) {
+				tempHeight = ssGrid.getCellFormatter().getElement(row, column)
+				        .getOffsetHeight();
 				prefHeight = Math.max(prefHeight, tempHeight);
-			}
-
 		}
 
 		// set the new row height
@@ -1917,7 +2228,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		CellRange targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
-		if (cr.isPartialRow() || (!cr.isPartialColumn() && GlobalKeyDispatcherW.getShiftDown())) {
+		if (cr.isPartialRow()
+		        || (!cr.isPartialColumn() && GlobalKeyDispatcherW
+		                .getShiftDown())) {
 			targetRange = new CellRange(app, cr.getMaxColumn() + 1,
 			        cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
@@ -2075,23 +2388,23 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// this is temporary code while cleaning up
 	// ===========================================
 	public void copy(boolean altDown) {
-		copyPasteCut.copy( getSelectedColumn(), getSelectedRow(),
+		copyPasteCut.copy(getSelectedColumn(), getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow(), altDown);
 	}
 
 	public boolean paste() {
-		return copyPasteCut.paste( getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow() );
+		return copyPasteCut.paste(getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
 	public boolean cut() {
-		return copyPasteCut.cut( getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow() );
+		return copyPasteCut.cut(getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
 	public boolean delete() {
-		return copyPasteCut.delete( getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow() );
+		return copyPasteCut.delete(getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
 	/*
@@ -2113,10 +2426,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	}
 
 	/**
-	 * Set to call extra things in renderCells()
-	 * This hack is needed because something is
-	 * not yet initialized when it is first used,
-	 * so call it again after initialization happened.  
+	 * Set to call extra things in renderCells() This hack is needed because
+	 * something is not yet initialized when it is first used, so call it again
+	 * after initialization happened.
 	 */
 	public void setRenderFirstTime() {
 		renderCellsFirstTime = true;
@@ -2133,7 +2445,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// TODO: implementation needed
 	}
 
-
 	public void renderCells() {
 
 		Object gva;
@@ -2143,61 +2454,43 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 
 		if (getRowCount() != tableModel.getRowCount() + 1) {
-			resizeRows(tableModel.getRowCount() + 1);
+			ssGrid.resizeRows(tableModel.getRowCount() + 1);
 		}
 
 		int colCount = getColumnCount();
 		int rowCount = getRowCount();
 
 		for (int i = colCount - 1; i >= 0; i--) {
-			for (int j = rowCount - 1; j >= 0; j--) {				
-				
-				
+			for (int j = rowCount - 1; j >= 0; j--) {
+
 				// TODO: why doesn't this work in win8 chrome?
-				//getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
-			/*	
-				getCellFormatter().getElement(j, i).getStyle().setWhiteSpace(WhiteSpace.NOWRAP);
-				getCellFormatter().getElement(j, i).getStyle().setOverflow(Style.Overflow.HIDDEN);
-				getCellFormatter().getElement(j, i).getStyle().setPaddingLeft(4, Style.Unit.PX);
-				getCellFormatter().getElement(j, i).getStyle().setPaddingRight(4, Style.Unit.PX);
-				getCellFormatter().getElement(j, i).getStyle().setPaddingTop(2, Style.Unit.PX);
-				getCellFormatter().getElement(j, i).getStyle().setPaddingBottom(2, Style.Unit.PX);
-				getCellFormatter().getElement(j, i).getStyle().setProperty("borderRight","1px solid gray");
-				getCellFormatter().getElement(j, i).getStyle().setProperty("borderBottom","1px solid gray");
-				*/
-				if (i == 0) {
-					if (j == 0) {
-						// upper-left corner cell
-						getCellFormatter()
-						        .getElement(j, i)
-						        .getStyle()
-						        .setBackgroundColor(
-						                BACKGROUND_COLOR_HEADER.toString());
-						setText(j, i, " ");
+				// getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
+				/*
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setWhiteSpace(WhiteSpace.NOWRAP);
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setOverflow(Style.Overflow.HIDDEN);
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setPaddingLeft(4, Style.Unit.PX);
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setPaddingRight(4, Style.Unit.PX);
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setPaddingTop(2, Style.Unit.PX);
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setPaddingBottom(2, Style.Unit.PX);
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setProperty("borderRight","1px solid gray");
+				 * getCellFormatter().getElement(j,
+				 * i).getStyle().setProperty("borderBottom","1px solid gray");
+				 */
+				
 
-					} else {
-						// row header cells
-						getCellFormatter().getElement(j, i).addClassName("SVheader");
-
-						gva = rowHeaderModel.getElementAt(j - 1);
-						String text = (gva == null) ? "" : gva.toString();
-						setText(j, i, text);
-					}
-
-				} else if (j == 0) {
-					// column header cells
-					getCellFormatter().getElement(j, i).addClassName("SVheader");
-
-					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i - 1);
-					String text = (gva == null) ? "" : gva.toString();
-					setText(j, i, text);
-
-				} else if (renderCellsFirstTime) {
+				if (renderCellsFirstTime) {
 					// GeoElement or nothing
-					gva = tableModel.getValueAt(j - 1, i - 1);
+					gva = tableModel.getValueAt(j, i);
 
 					// format table cells
-					defaultTableCellRenderer.updateTableCell(this, gva, j, i);
+					defaultTableCellRenderer.updateTableCell(ssGrid, gva, j, i);
 				}
 				// otherwise updateTableCell will be called
 				// at the time of value change anyway,
@@ -2206,22 +2499,24 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 	}
 
-	public void updateTableCell(Object value,int row, int column) {
+	public void updateTableCell(Object value, int row, int column) {
 		if (defaultTableCellRenderer != null)
-			defaultTableCellRenderer.updateTableCell(this, value, row, column);
+			defaultTableCellRenderer
+			        .updateTableCell(ssGrid, value, row, column);
 	}
 
 	public boolean showCanDragBlueDot() {
 		boolean showBlueDot = !isEditing();
 
 		if (minSelectionRow != -1 && maxSelectionRow != -1
-				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+		        && minSelectionColumn != -1 && maxSelectionColumn != -1) {
 
 			if (showBlueDot)
 				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
 					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
-						if (tableModel.getValueAt(i - 1, j - 1) instanceof GeoElement)
-							showBlueDot &= !((GeoElement)tableModel.getValueAt(i - 1, j - 1)).isFixed();
+						if (tableModel.getValueAt(i, j) instanceof GeoElement)
+							showBlueDot &= !((GeoElement) tableModel
+							        .getValueAt(i, j)).isFixed();
 
 			return showBlueDot;
 		}
@@ -2232,11 +2527,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// TODO implement other features from the old paint method
 
-
 		// draw dragging frame
 
-		GPoint point1 = new GPoint(0,0); 
-		GPoint point2 = new GPoint(0,0);
+		GPoint point1 = new GPoint(0, 0);
+		GPoint point2 = new GPoint(0, 0);
 
 		if (dragingToRow != -1 && dragingToColumn != -1) {
 
@@ -2245,49 +2539,45 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// -|4|-
 			if (dragingToColumn < minSelectionColumn) { // 2
 				point1 = getPixel(dragingToColumn, minSelectionRow, true);
-				point2 = getPixel(minSelectionColumn - 1,
-						maxSelectionRow, false);
+				point2 = getPixel(minSelectionColumn - 1, maxSelectionRow,
+				        false);
 
 			} else if (dragingToRow > maxSelectionRow) { // 4
-				point1 = getPixel(minSelectionColumn,
-						maxSelectionRow + 1, true);
-				point2 = getPixel(maxSelectionColumn, dragingToRow,
-						false);
+				point1 = getPixel(minSelectionColumn, maxSelectionRow + 1, true);
+				point2 = getPixel(maxSelectionColumn, dragingToRow, false);
 
 			} else if (dragingToRow < minSelectionRow) { // 1
 				point1 = getPixel(minSelectionColumn, dragingToRow, true);
-				point2 = getPixel(maxSelectionColumn,
-						minSelectionRow - 1, false);
+				point2 = getPixel(maxSelectionColumn, minSelectionRow - 1,
+				        false);
 
 			} else if (dragingToColumn > maxSelectionColumn) { // 3
-				point1 = getPixel(maxSelectionColumn + 1,
-						minSelectionRow, true);
-				point2 = getPixel(dragingToColumn, maxSelectionRow,
-						false);
+				point1 = getPixel(maxSelectionColumn + 1, minSelectionRow, true);
+				point2 = getPixel(dragingToColumn, maxSelectionRow, false);
 			}
 
-			view.updateDragFrame(true, point1, point2);
+			updateDragFrame(true, point1, point2);
 
-		}else{
+		} else {
 
-			view.updateDragFrame(false, point1, point2);
+			updateDragFrame(false, point1, point2);
 		}
-
 
 		// selection rectangle
 
+		//App.debug("selected rows: " + minSelectionRow + " x " + maxSelectionRow);
+		//App.debug("selected cols: " + minSelectionColumn + " x " + maxSelectionColumn);
+		
 		GPoint min = this.getMinSelectionPixel();
 		GPoint max = this.getMaxSelectionPixel();
 
-		if (view != null) {
-			if (minSelectionRow != -1 && maxSelectionRow != -1
-					&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
-				view.updateSelectionFrame(true, showCanDragBlueDot(), min, max);
-			} else {	
-				view.updateSelectionFrame(false, false, min, max);
-			}
-		}
-
+		if (minSelectionRow != -1 && maxSelectionRow != -1
+		        && minSelectionColumn != -1 && maxSelectionColumn != -1) {
+			updateSelectionFrame(true, showCanDragBlueDot(), min, max);
+		} else {
+			updateSelectionFrame(false, false, min, max);
+			
+	}
 
 		GPoint cellPoint = new GPoint();
 		GColor bgColor;
@@ -2295,27 +2585,29 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// column header
 		for (int i = getColumnCount() - 1; i >= 1; i--) {
-			operate = getCellFormatter().getElement(0, i);
+			operate = ssGrid.getCellFormatter().getElement(0, i);
 
-			if (i >= minSelectionColumn && i <= maxSelectionColumn && selectionType != MyTable.ROW_SELECT)
-				operate.getStyle().setBackgroundColor(
-						MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-			else
-				operate.getStyle().setBackgroundColor(
-						MyTableW.BACKGROUND_COLOR_HEADER.toString());
+			//if (i >= minSelectionColumn && i <= maxSelectionColumn
+			//        && selectionType != MyTable.ROW_SELECT)
+			//	operate.getStyle().setBackgroundColor(
+			//	        MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+			//else
+			//	operate.getStyle().setBackgroundColor(
+			//	        MyTableW.BACKGROUND_COLOR_HEADER.toString());
 		}
 
 		// row heaader
 		for (int j = getRowCount() - 1; j >= 1; j--) {
 
-			operate = getCellFormatter().getElement(j, 0);
+			operate = ssGrid.getCellFormatter().getElement(j, 0);
 
-			if (j >= minSelectionRow && j <= maxSelectionRow && selectionType != MyTable.COLUMN_SELECT)
-				operate.getStyle().setBackgroundColor(
-						MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-			else
-				operate.getStyle().setBackgroundColor(
-						MyTableW.BACKGROUND_COLOR_HEADER.toString());
+			// if (j >= minSelectionRow && j <= maxSelectionRow
+			 //       && selectionType != MyTable.COLUMN_SELECT)
+		//		operate.getStyle().setBackgroundColor(
+		//		        MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+		//	else
+		//		operate.getStyle().setBackgroundColor(
+		//		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
 		}
 
 		// cells
@@ -2323,26 +2615,30 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		int rowCount = tableModel.getHighestUsedRow() + 2;
 
 		// fix for empty cells with background colors
-		int altColCount = ((CellFormat)getCellFormatHandler()).getHighestIndexColumn() + 2;
-		int altRowCount = ((CellFormat)getCellFormatHandler()).getHighestIndexRow() + 2;
+		int altColCount = ((CellFormat) getCellFormatHandler())
+		        .getHighestIndexColumn() + 2;
+		int altRowCount = ((CellFormat) getCellFormatHandler())
+		        .getHighestIndexRow() + 2;
 		if (altRowCount > rowCount)
 			rowCount = altRowCount;
 		if (altColCount > colCount)
 			colCount = altColCount;
 
-		for (int i = colCount - 1; i >= 1; i--) {
-			for (int j = rowCount - 1; j >= 1; j--) {
+		for (int i = colCount - 1; i >= 0; i--) {
+			for (int j = rowCount - 1; j >= 0; j--) {
 
-				operate = getCellFormatter().getElement(j, i);
+				operate = ssGrid.getCellFormatter().getElement(j, i);
 
-				cellPoint.setLocation(i - 1, j - 1);
-				bgColor = (GColor)formatHandler.getCellFormat(cellPoint, CellFormat.FORMAT_BGCOLOR);
-				
+				cellPoint.setLocation(i, j);
+				bgColor = (GColor) formatHandler.getCellFormat(cellPoint,
+				        CellFormat.FORMAT_BGCOLOR);
+
 				GeoElement geo = null;
-				if (tableModel.getValueAt(j-1, i-1) instanceof GeoElement)
-					geo = (GeoElement)tableModel.getValueAt(j - 1, i - 1);
+				if (tableModel.getValueAt(j, i ) instanceof GeoElement)
+					geo = (GeoElement) tableModel.getValueAt(j, i);
 
-				if (bgColor == null && geo != null && geo.getBackgroundColor() != null)
+				if (bgColor == null && geo != null
+				        && geo.getBackgroundColor() != null)
 					bgColor = geo.getBackgroundColor();
 
 				// adjust selection color when there is a bgColor
@@ -2356,7 +2652,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				if (bgColor != null)
 					operate.getStyle().setBackgroundColor(bgColor.toString());
 				else
-					operate.getStyle().setBackgroundColor(GColor.WHITE.toString());
+					operate.getStyle().setBackgroundColor(
+					        GColor.WHITE.toString());
 			}
 		}
 
@@ -2365,28 +2662,28 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		resizeMarkedCells();
 	}
 
-	public int getSelectedRow() {//in table model (logic) coordinates
-		if (minSelectionRow < 1)
+	public int getSelectedRow() {// in table model (logic) coordinates
+		if (minSelectionRow < 0)
 			return -1;
-		return minSelectionRow - 1;
+		return minSelectionRow;
 	}
 
-	public int getSelectedColumn() {//in table model (logic) coordinates
-		if (minSelectionColumn < 1)
+	public int getSelectedColumn() {// in table model (logic) coordinates
+		if (minSelectionColumn < 0)
 			return -1;
-		return minSelectionColumn - 1;
+		return minSelectionColumn;
 	}
 
-	public int getMaxSelectedRow() {//in table model (logic) coordinates
-		if (maxSelectionRow < 1)
+	public int getMaxSelectedRow() {// in table model (logic) coordinates
+		if (maxSelectionRow < 0)
 			return -1;
-		return maxSelectionRow - 1;
+		return maxSelectionRow;
 	}
 
-	public int getMaxSelectedColumn() {//in table model (logic) coordinates
-		if (maxSelectionColumn < 1)
+	public int getMaxSelectedColumn() {// in table model (logic) coordinates
+		if (maxSelectionColumn < 0)
 			return -1;
-		return maxSelectionColumn - 1;
+		return maxSelectionColumn;
 	}
 
 	public Widget getEditorWidget() {
@@ -2395,33 +2692,207 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	/**
 	 * Make the row header invisible to the user
-	 * @param showRow true: show it; false: hide it
+	 * 
+	 * @param showRow
+	 *            true: show it; false: hide it
 	 */
 	public void setShowRowHeader(boolean showRow) {
 		if (showRow) {
 			if (!showRowHeader) {
 				showRowHeader = true;
-				getRowFormatter().setVisible(0, true);
+				
 			}
 		} else {
 			showRowHeader = false;
-			getRowFormatter().setVisible(0, false);
+			
 		}
 	}
 
 	/**
 	 * Make the column header invisible to the user
-	 * @param showCol true: show it; false: hide it
+	 * 
+	 * @param showCol
+	 *            true: show it; false: hide it
 	 */
 	public void setShowColumnHeader(boolean showCol) {
 		if (showCol) {
 			if (!showColumnHeader) {
 				showColumnHeader = true;
-				getColumnFormatter().getElement(0).getStyle().setWidth(SpreadsheetViewW.ROW_HEADER_WIDTH, Style.Unit.PX);
+				
 			}
 		} else {
 			showColumnHeader = false;
-			getColumnFormatter().getElement(0).getStyle().setWidth(0, Style.Unit.PX);
+			
 		}
 	}
+
+	public void updateCellFormat(String cellFormatString) {
+		view.updateCellFormat(cellFormatString);
+	}
+
+	public boolean allowSpecialEditor() {
+		return view.allowSpecialEditor();
+	}
+
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return tableModel.getColumnCount();
+	}
+
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return tableModel.getRowCount();
+	}
+
+	public int getOffsetWidth() {
+		// TODO Auto-generated method stub
+		return tableWrapper.getOffsetWidth();
+	}
+
+	public int getOffsetHeight() {
+		// TODO Auto-generated method stub
+		return tableWrapper.getOffsetHeight();
+	}
+
+	public void setSize(int width, int height) {
+
+		//App.debug("setSize parameters: " + width + " , " + height);
+
+		tableWrapper.setPixelSize(width, height);
+
+		//App.debug("sview size: " + tableWrapper.getOffsetWidth() + " , "
+		 //       + tableWrapper.getOffsetHeight());
+
+		//App.debug("rowHeaderWidth: " + rowHeader.getOffsetWidth()
+		 //       + " colHeaderHeight: " + columnHeader.getOffsetHeight());
+
+		scroller.setPixelSize(width - rowHeader.getOffsetWidth(), height
+		        - columnHeader.getOffsetHeight());
+
+	}
+
+	public void updateSelectionFrame(boolean visible, boolean showDragHandle,
+	        GPoint corner1, GPoint corner2) {
+
+		if (selectionFrame == null || corner1 == null || corner2 == null) {
+			return;
+		}
+		// App.debug("selectionFrame visible: " + visible + " c1.x: " +
+		// corner1.x
+		// + "  c1.y: " + corner1.y + "  c2.x: " + corner2.x + "  c2.y: " +
+		// corner2.y );
+
+		int borderWidth = 2;
+
+		// forcing a hide/show is needed to make Chrome redraw
+		selectionFrame.setVisible(false);
+
+		if (visible) {
+			int x1 = Math.min(corner1.x, corner2.x);
+			int x2 = Math.max(corner1.x, corner2.x);
+			int y1 = Math.min(corner1.y, corner2.y);
+			int y2 = Math.max(corner1.y, corner2.y);
+			int h = y2 - y1 - 2 * borderWidth - 1;
+			int w = x2 - x1 - 2 * borderWidth - 1;
+
+			int ssTop = gridPanel.getAbsoluteTop();
+			int ssLeft = gridPanel.getAbsoluteLeft();
+
+			selectionFrame.setWidth(w + "px");
+			selectionFrame.setHeight(h + "px");
+
+		//	App.debug("x1: " + x1 + " y1 " + y1);
+		//	App.debug("ssLeft: " + ssLeft + " ssTop " + ssTop);
+		//	App.debug("h: " + h + " w: " + w);
+			
+			gridPanel
+			        .setWidgetPosition(selectionFrame, x1 - ssLeft, y1 - ssTop);
+
+		//	selectionFrame.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		//	selectionFrame.getElement().getStyle().setTop(y1, Unit.PX);
+		//	selectionFrame.getElement().getStyle().setLeft(x1, Unit.PX);
+			
+			blueDot.setVisible(showDragHandle);
+			if (showDragHandle) {
+				gridPanel.setWidgetPosition(blueDot, x2 - ssLeft
+				        - MyTableW.DOT_SIZE / 2 - 1, y2 - ssTop
+				        - MyTableW.DOT_SIZE / 2 - 1);
+			}
+
+			selectionFrame.setVisible(true);
+		}
+
+	}
+
+	public void updateDragFrame(boolean visible, GPoint corner1, GPoint corner2) {
+		if (dragFrame == null) {
+			return;
+		}
+		int borderWidth = 2;
+		dragFrame.setVisible(visible);
+
+		if (visible) {
+			int x1 = Math.min(corner1.x, corner2.x);
+			int x2 = Math.max(corner1.x, corner2.x);
+			int y1 = Math.min(corner1.y, corner2.y);
+			int y2 = Math.max(corner1.y, corner2.y);
+			int h = y2 - y1 - 2 * borderWidth - 1;
+			int w = x2 - x1 - 2 * borderWidth - 1;
+
+			gridPanel.setWidgetPosition(dragFrame,
+			        x1 - gridPanel.getAbsoluteLeft(),
+			        y1 - gridPanel.getAbsoluteTop());
+
+			dragFrame.setWidth(w + "px");
+			dragFrame.setHeight(h + "px");
+		}
+	}
+
+	public void positionEditorPanel(boolean visible, int row, int column) {
+
+		if (editorPanel == null)
+			return;
+		// App.debug("edit pos row = " + row + "  col = " + column);
+		editorPanel.setVisible(visible);
+		if (visible) {
+
+			GPoint p = getPixel(column, row, true);
+
+			int ssTop = gridPanel.getAbsoluteTop();
+			int ssLeft = gridPanel.getAbsoluteLeft();
+			int widthOffset = 4;
+			int heightOffset = 0;
+			gridPanel.setWidgetPosition(editorPanel, p.x - ssLeft, p.y
+			        - ssTop);
+			editorPanel.setVisible(true);
+			
+			int w = ssGrid.getCellFormatter().getElement(row, column).getClientWidth() - widthOffset;
+			int h = ssGrid.getCellFormatter().getElement(row, column).getClientHeight() - heightOffset;
+			editorPanel.getElement().getStyle().setWidth(w, Unit.PX);
+			editorPanel.getElement().getStyle().setHeight(h, Unit.PX);
+			//editorPanel.setWidth("20px");
+		}
+
+	}
+
+	public SimplePanel getEditorPanel() {
+		return editorPanel;
+	}
+
+	public void setVerticalScrollPosition(int scrollPosition) {
+	    scroller.setVerticalScrollPosition(scrollPosition);
+    }
+
+	public void setHorizontalScrollPosition(int scrollPosition) {
+	    scroller.setHorizontalScrollPosition(scrollPosition);
+    }
+
+	public int getHorizontalScrollPosition() {
+	    return scroller.getHorizontalScrollPosition();
+    }
+
+	public int getVerticalScrollPosition() {
+	    return scroller.getVerticalScrollPosition();
+    }
+
 }

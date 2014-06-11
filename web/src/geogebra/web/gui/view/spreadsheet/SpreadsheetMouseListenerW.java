@@ -60,7 +60,7 @@ public class SpreadsheetMouseListenerW implements
 		this.table = table;
 		this.view = (SpreadsheetViewW)table.getView();
 		this.model = table.getModel();
-		this.editor = table.editor;
+		this.editor = table.getEditor();
 
 		this.relativeCopy = new RelativeCopy(kernel);
 	}
@@ -99,8 +99,8 @@ public class SpreadsheetMouseListenerW implements
 						.allowSpecialEditor())) {
 					table.setAllowEditing(true);
 					table.editCellAt(
-						table.getSelectedRow()+1,
-						table.getSelectedColumn()+1);
+						table.getSelectedRow(),
+						table.getSelectedColumn());
 	
 					// workaround, see
 					// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625
@@ -120,6 +120,7 @@ public class SpreadsheetMouseListenerW implements
 	public void onClick(ClickEvent e) {
 		if (this.editEnabled) {
 			GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
+			
 			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
@@ -127,7 +128,7 @@ public class SpreadsheetMouseListenerW implements
 					if (point != null) {
 						int column = point.getX();
 						int row = point.getY();
-						GeoElement geo = RelativeCopy.getValue(app, column - 1, row - 1);
+						GeoElement geo = RelativeCopy.getValue(app, column, row);
 					}
 				}
 				selectedCellName = null;
@@ -199,15 +200,16 @@ public class SpreadsheetMouseListenerW implements
 
 		if (this.editEnabled) {
 			GPoint p = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
-			if (p.getY() == 0 && p.getX() > 0) {
+			//App.debug("clicked at: " + p.getX() + " x " + p.getY());
+			if (p.getY() < 0 && p.getX() >= 0) {
 				if (table.isEditing())
 					editor.cancelCellEditing();
-				table.scc.onMouseDown(e);
+				//table.scc.onMouseDown(e);
 				return;
-			} else if (p.getX() == 0 && p.getY() > 0) {
+			} else if (p.getX() < 0 && p.getY() >= 0) {
 				if (table.isEditing())
 					editor.cancelCellEditing();
-				table.srh.onMouseDown(e);
+				//table.srh.onMouseDown(e);
 				return;
 			}
 	
@@ -227,7 +229,7 @@ public class SpreadsheetMouseListenerW implements
 					&& app.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
 				int row = p.getY();//?//table.rowAtPoint(e.getPoint());
 				int col = p.getX();//?//table.columnAtPoint(e.getPoint());
-				GeoElement geo = (GeoElement) model.getValueAt(row - 1, col - 1);
+				GeoElement geo = (GeoElement) model.getValueAt(row, col);
 	
 				// double click or empty geo
 				if (geo != null) {
@@ -281,12 +283,12 @@ public class SpreadsheetMouseListenerW implements
 							int column = point.getX();
 							int row = point.getY();
 							GeoElement geo = RelativeCopy
-									.getValue(app, column - 1, row - 1);
+									.getValue(app, column, row);
 							if (geo != null) {
 	
 								// get cell name
 								String name = GeoElementSpreadsheet
-										.getSpreadsheetCellName(column - 1, row - 1);
+										.getSpreadsheetCellName(column, row);
 								if (geo.isGeoFunction())
 									name += "(x)";
 								selectedCellName = name;
@@ -333,17 +335,17 @@ public class SpreadsheetMouseListenerW implements
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
 	
 			// change selection if left click is outside current selection
-			if (!rightClick && (p.getY() != table.anchorSelectionRow + 1
-				|| p.getX() != table.anchorSelectionColumn + 1)) {
+			if (!rightClick && (p.getY() != table.anchorSelectionRow
+				|| p.getX() != table.anchorSelectionColumn)) {
 				// switch to cell selection mode
 	
-				if (p.getY() > 0 && p.getX() > 0) {
+				if (p.getY() >= 0 && p.getX() >= 0) {
 					if (table.getSelectionType() != MyTable.CELL_SELECT) {
 						table.setSelectionType(MyTable.CELL_SELECT);
 					}
 	
 					// now change the selection
-					table.changeSelection(p.getY() - 1, p.getX() - 1, false, false);
+					table.changeSelection(p.getY(), p.getX(), false, false);
 					table.repaint();
 				}
 			}
@@ -354,19 +356,20 @@ public class SpreadsheetMouseListenerW implements
 
 		if (this.editEnabled) {
 			GPoint p = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
-			if (p.getY() == 0 && p.getX() > 0) {
+			if (p.getY() < 0 && p.getX() >= 0) {
 				if (table.isEditing())
 					editor.cancelCellEditing();
-				table.scc.onMouseUp(e);
+				//table.scc.onMouseUp(e);
 				return;
-			} else if (p.getX() == 0 && p.getY() > 0) {
+			} else if (p.getX() < 0 && p.getY() >= 0) {
 				if (table.isEditing())
 					editor.cancelCellEditing();
-				table.srh.onMouseUp(e);
+				//table.srh.onMouseUp(e);
 				return;
 			}
 	
 			mouseIsDown = false;
+			
 			e.preventDefault();
 			boolean eConsumed = false;
 	
@@ -437,18 +440,18 @@ public class SpreadsheetMouseListenerW implements
 	
 					// copy the cells
 					boolean succ = relativeCopy.doDragCopy(
-							table.minSelectionColumn-1, table.minSelectionRow-1,
-							table.maxSelectionColumn-1, table.maxSelectionRow-1, x1-1,
-							y1-1, x2-1, y2-1);
+							table.minSelectionColumn, table.minSelectionRow,
+							table.maxSelectionColumn, table.maxSelectionRow, x1,
+							y1, x2, y2);
 					if (succ) {
 						app.storeUndoInfo();
 					}
 	
 					// extend the selection to include the drag copy selection
-					table.setSelection(Math.min(x1, table.minSelectionColumn)-1,
-							Math.min(y1, table.minSelectionRow)-1,
-							Math.max(x2, table.maxSelectionColumn)-1,
-							Math.max(y2, table.maxSelectionRow)-1);
+					table.setSelection(Math.min(x1, table.minSelectionColumn),
+							Math.min(y1, table.minSelectionRow),
+							Math.max(x2, table.maxSelectionColumn),
+							Math.max(y2, table.maxSelectionRow));
 	
 					// reset flags and cursor
 					table.isOverDot = false;
@@ -469,7 +472,7 @@ public class SpreadsheetMouseListenerW implements
 			if (!table.isEditing() && e.isAltKeyDown() && app.showAlgebraInput()) {
 				int row = p.getY();//table.rowAtPoint(e.getPoint());
 				int col = p.getX();//table.columnAtPoint(e.getPoint());
-				GeoElement geo = (GeoElement) model.getValueAt(row - 1, col - 1);
+				GeoElement geo = (GeoElement) model.getValueAt(row, col);
 	
 				if (geo != null) {
 					// F3 key: copy definition to input bar
@@ -496,14 +499,14 @@ public class SpreadsheetMouseListenerW implements
 					}
 	
 					// now change the selection
-					if (p.getX() > 0 && p.getY() > 0)
-						table.changeSelection(p.getY() - 1, p.getX() - 1, false, false);
+					if (p.getX() >= 0 && p.getY() >= 0)
+						table.changeSelection(p.getY(), p.getX(), false, false);
 				}
 	
 				// create and show context menu
 				SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
 						table, e.isShiftKeyDown());
-				popupMenu.show(view, e.getX(), e.getY());
+				popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
 			}
 	
 			if (eConsumed)
@@ -512,18 +515,18 @@ public class SpreadsheetMouseListenerW implements
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
 	
 			// change selection if left click is outside current selection
-			if (!rightClick && (p.getY() != table.leadSelectionRow + 1
-				|| p.getX() != table.leadSelectionColumn + 1)) {
+			if (!rightClick && (p.getY() != table.leadSelectionRow 
+				|| p.getX() != table.leadSelectionColumn)) {
 				// switch to cell selection mode
 	
-				if (p.getY() > 0 && p.getX() > 0) {
+				if (p.getY() >= 0 && p.getX() >= 0) {
 	
 					if (table.getSelectionType() != MyTable.CELL_SELECT) {
 						table.setSelectionType(MyTable.CELL_SELECT);
 					}
 	
 					// now change the selection
-					table.changeSelection(p.getY() - 1, p.getX() - 1, false, true);
+					table.changeSelection(p.getY(), p.getX(), false, true);
 					table.repaint();
 				}
 			}
@@ -533,11 +536,11 @@ public class SpreadsheetMouseListenerW implements
 	public void onMouseMove(MouseMoveEvent e) {
 		if (this.editEnabled) {
 			GPoint p = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
-			if (p.getY() == 0 && p.getX() > 0) {
-				table.scc.onMouseMove(e);
+			if (p.getY() == 0 && p.getX() >= 0) {
+				//table.scc.onMouseMove(e);
 				return;
-			} else if (p.getX() == 0 && p.getY() > 0) {
-				table.srh.onMouseMove(e);
+			} else if (p.getX() == 0 && p.getY() >= 0) {
+				//table.srh.onMouseMove(e);
 				return;
 			}
 	
@@ -560,8 +563,8 @@ public class SpreadsheetMouseListenerW implements
 				if (editor.isEditing()) {
 					GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 					if (point != null && selectedCellName != null) {
-						int column2 = point.getX() - 1;
-						int row2 = point.getY() - 1;
+						int column2 = point.getX();
+						int row2 = point.getY();
 	
 						MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 								.exec(selectedCellName);
@@ -706,18 +709,18 @@ public class SpreadsheetMouseListenerW implements
 				// MyTable's default listeners follow, they should be simulated in Web e.g. here
 	
 				// change selection if right click is outside current selection
-				if (p.getY() != table.leadSelectionRow + 1
-					|| p.getX() != table.leadSelectionColumn + 1) {
+				if (p.getY() != table.leadSelectionRow
+					|| p.getX() != table.leadSelectionColumn) {
 					// switch to cell selection mode
 	
-					if (p.getY() > 0 && p.getX() > 0) {
+					if (p.getY() >= 0 && p.getX() >= 0) {
 	
 						if (table.getSelectionType() != MyTable.CELL_SELECT) {
 							table.setSelectionType(MyTable.CELL_SELECT);
 						}
 	
 						// now change the selection
-						table.changeSelection(p.getY() - 1, p.getX() - 1, false, true);
+						table.changeSelection(p.getY(), p.getX(), false, true);
 						table.repaint();
 					}
 				}
@@ -730,7 +733,7 @@ public class SpreadsheetMouseListenerW implements
 				// get GeoElement at mouse location
 				int row = p.getY();//?//table.rowAtPoint(e.getPoint());
 				int col = p.getX();//?//table.columnAtPoint(e.getPoint());
-				GeoElement geo = (GeoElement) model.getValueAt(row - 1, col - 1);
+				GeoElement geo = (GeoElement) model.getValueAt(row, col);
 	
 				// set tooltip with geo's description
 				//if (geo != null & view.getAllowToolTips()) {

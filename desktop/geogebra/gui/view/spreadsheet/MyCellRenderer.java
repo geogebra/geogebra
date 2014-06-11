@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
+import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -36,7 +37,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	// ggb fields
 	private AppD app;
 	private Kernel kernel;
-	private SpreadsheetView view;
+	//private SpreadsheetView view;
+	private MyTableInterface myTable;
 
 	// LaTeX
 	private ImageIcon latexIcon, emptyIcon;
@@ -80,13 +82,13 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	 * @param view
 	 * @param formatHandler
 	 */
-	public MyCellRenderer(AppD app, SpreadsheetView view,
-			CellFormat formatHandler) {
+	public MyCellRenderer(MyTableInterface table) {
 
-		this.app = app;
-		this.kernel = app.getKernel();
-		this.formatHandler = formatHandler;
-		this.view = view;
+		this.myTable = table;
+		app = (AppD) myTable.getApplication();
+		kernel = app.getKernel();
+		formatHandler = (CellFormat) myTable.getCellFormatHandler();
+		
 
 		// Add horizontal padding
 		setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
@@ -143,7 +145,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// use special rendering for buttons, booleans and lists
 		// =======================================================
 
-		if (view.allowSpecialEditor()
+		if (myTable.allowSpecialEditor()
 				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 
 			if (geo.isGeoBoolean()) {

@@ -355,7 +355,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 			// show contextMenu
 			SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
 					table, e.isShiftKeyDown());
-			popupMenu.show(view, e.getX(), e.getY());
+			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
 		}
 
 		// If row resize has happened, resize all other selected rows

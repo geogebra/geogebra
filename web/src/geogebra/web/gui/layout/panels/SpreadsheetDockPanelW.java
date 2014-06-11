@@ -45,7 +45,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");
 			sview = app.getGuiManager().getSpreadsheetView();
-			wrapview.add(sview);
+			wrapview.add(sview.getFocusPanel());
 		}
 		return wrapview;
 	}
@@ -71,8 +71,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				int height2 = ((MyTableW) sview.getSpreadsheetTable())
 				        .getOffsetHeight();
 
-				sview.getFocusPanel().setWidth(width2 + "px");
-				sview.getFocusPanel().setHeight(height2 + "px");
+		
 
 				int width = getComponentInteriorWidth();
 				int height = getComponentInteriorHeight();
@@ -83,16 +82,29 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 				wrapview.setPixelSize(width, height);
 
-				if (app.getSettings().getSpreadsheet().showHScrollBar())
-					sview.getScrollPanel().setHeight(height + "px");
-				else // scrollbar's height usually doesn't exceed 20px
-					sview.getScrollPanel().setHeight((height + 20) + "px");
+				sview.getFocusPanel().setWidth(width + "px");
+				sview.getFocusPanel().setHeight(height + "px");
+				
+				((MyTableW)sview.getSpreadsheetTable()).setSize(width, height);
+				App.debug("wrapview size: " + width + " , "
+				        + height);
+				
+				
+				
+			//	if (app.getSettings().getSpreadsheet().showHScrollBar())
+			//		sview.getScrollPanel().setHeight(height + "px");
+			//	else // scrollbar's height usually doesn't exceed 20px
+			//		sview.getScrollPanel().setHeight((height + 20) + "px");
 
-				if (app.getSettings().getSpreadsheet().showVScrollBar())
-					sview.getScrollPanel().setWidth(width + "px");
-				else // scrollbar's width usually doesn't exceed 20px
-					sview.getScrollPanel().setWidth((width + 20) + "px");
+			//	if (app.getSettings().getSpreadsheet().showVScrollBar())
+			//		sview.getScrollPanel().setWidth(width + "px");
+			//	else // scrollbar's width usually doesn't exceed 20px
+			//		sview.getScrollPanel().setWidth((width + 20) + "px");
+				
+				//sview.onResize();
 			}
+			
+			
 		}
 	}
 
