@@ -1,12 +1,10 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
@@ -21,7 +19,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * type that is expected to be created
 	 */
 	public enum ShapeType {
-		circle, polygon, regularPolygon, rigidPolygon, vectorPolygon;
+		circle, polygon, rigidPolygon, vectorPolygon;
 	}
 
 	private ShapeType expected = null;
@@ -117,22 +115,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			break;
 		case polygon:
 			if (lastCreated instanceof GeoPolygon) {
-				return;
-			}
-			break;
-		case regularPolygon:
-			if (lastCreated instanceof GeoLine) {
-				this.app.getDialogManager()
-				        .showNumberInputDialogRegularPolygon(
-				                this.app.getLocalization()
-				                        .getMenu(
-				                                this.app.getKernel()
-				                                        .getModeText(
-				                                                EuclidianConstants.MODE_REGULAR_POLYGON)),
-				                this.view.getEuclidianController(),
-				                ((GeoLine) lastCreated).startPoint,
-				                ((GeoLine) lastCreated).endPoint);
-				lastCreated.remove();
 				return;
 			}
 			break;

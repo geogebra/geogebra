@@ -271,13 +271,19 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		        || this.mode == EuclidianConstants.MODE_RAY
 		        || this.mode == EuclidianConstants.MODE_VECTOR
 		        || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE) {
+		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE
+		        || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
 
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
 
 			super.wrapMouseReleased(e);
 			e.release();
+
+			if (this.mode == EuclidianConstants.MODE_REGULAR_POLYGON
+			        && this.view.getPreviewDrawable() == null) {
+				this.view.setPreview(view.createPreviewSegment(selectedPoints));
+			}
 
 			this.updatePreview();
 			this.view.updatePreviewableForProcessMode();
@@ -287,7 +293,8 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	@Override
 	protected void wrapMouseDragged(AbstractEvent event) {
 		super.wrapMouseDragged(event);
-		if (view.getPreviewDrawable() != null) {
+		if (view.getPreviewDrawable() != null
+		        && event.getType() == PointerEventType.TOUCH) {
 			this.view.updatePreviewableForProcessMode();
 		}
 	}
@@ -302,7 +309,8 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		        || this.mode == EuclidianConstants.MODE_RAY
 		        || this.mode == EuclidianConstants.MODE_VECTOR
 		        || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE) {
+		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE
+		        || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
 
 			if (getDistance(startPosition,
 			        new GPoint(event.getX(), event.getY())) < this.app
@@ -367,9 +375,6 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
-		} else if (this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.regularPolygon);
 		} else if (this.mode == EuclidianConstants.MODE_RIGID_POLYGON) {
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.rigidPolygon);
