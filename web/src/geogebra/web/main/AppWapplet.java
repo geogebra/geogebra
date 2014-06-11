@@ -207,7 +207,7 @@ public class AppWapplet extends AppW {
 			attachAlgebraInput();
 		}
 		
-		
+		frame.attachGlass();
 	}
 
 	public void refreshSplitLayoutPanel() {

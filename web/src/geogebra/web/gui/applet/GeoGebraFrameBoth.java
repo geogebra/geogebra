@@ -66,4 +66,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	public Object getGlassPane(){
 		return this.glass;
 	}
+	
+	public void attachGlass(){
+		this.add(glass);
+	}
 }

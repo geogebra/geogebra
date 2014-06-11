@@ -582,5 +582,11 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	public Object getGlassPane() {
 	    return null;
     }
+
+
+
+
+	public void attachGlass() {
+    }
 }
 
