@@ -1,6 +1,6 @@
 package geogebra.web.gui.app;
 
-import geogebra.web.gui.menubar.GeoGebraMenuW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class GGWMenuBar extends Composite {
 	
 	HorizontalPanel ggbmenubarwrapper;
-	private GeoGebraMenuW menubar;
+	private MainMenu menubar;
 	private boolean menubar2Showing = false;
 	private FocusPanel clickBox;
 
@@ -30,7 +30,7 @@ public class GGWMenuBar extends Composite {
 		ggbmenubarwrapper.add((Widget) menubar);
 	}
 	
-	public GeoGebraMenuW getMenubar() {
+	public MainMenu getMenubar() {
 		return menubar;
 	}
 

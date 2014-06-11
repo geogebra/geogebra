@@ -1707,6 +1707,12 @@ public class DockManagerW extends DockManager {
 			getPanels()[i].enableDragging(drag);
 		}
     }
+
+	public void resizePanels() {
+		for (int i = 0; i < getPanels().length; i++) {
+			getPanels()[i].onResize();
+		}
+    }
 	
 	
 }

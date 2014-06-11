@@ -52,7 +52,7 @@ import geogebra.web.gui.layout.panels.FunctionInspectorDockPanelW;
 import geogebra.web.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 import geogebra.web.gui.layout.panels.PropertiesDockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
-import geogebra.web.gui.menubar.GeoGebraMenuW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.util.GeoGebraFileChooserW;
@@ -144,7 +144,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void updateMenubar() {
 		GGWMenuBar ggwMenuBar = ((AppW) app).getObjectPool().getGgwMenubar();
 		if (ggwMenuBar != null) {
-			GeoGebraMenuW menuBar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
+			MainMenu menuBar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
 			if (menuBar != null) {
 				menuBar.updateMenubar();
 			}

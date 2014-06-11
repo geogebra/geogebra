@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 
-public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler {
+public class MainMenu extends FlowPanel implements ResizeHandler {
 	
 	/**
 	 * Appw app
@@ -164,7 +164,6 @@ public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler 
 		}
 	}
 
-	@Override
     public MenuItem getSignIn() {
 		return null;
     }

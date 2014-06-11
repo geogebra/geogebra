@@ -18,7 +18,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	private boolean menuClosed = true;
 	
 
-	public static final int MINUS_FROM_HEIGHT = GLookAndFeel.COMMAND_LINE_HEIGHT + GLookAndFeel.MENUBAR_HEIGHT + GLookAndFeel.TOOLBAR_HEIGHT;
+	public static final int MINUS_FROM_HEIGHT = GLookAndFeel.COMMAND_LINE_HEIGHT + GLookAndFeel.TOOLBAR_HEIGHT;
 
 	GGWToolBar ggwToolBar;
 	GGWCommandLine ggwCommandLine;

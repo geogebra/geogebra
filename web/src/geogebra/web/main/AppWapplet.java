@@ -477,7 +477,17 @@ public class AppWapplet extends AppW {
 			this.oldSplitLayoutPanel.setPixelSize(
 					this.oldSplitLayoutPanel.getOffsetWidth() + GLookAndFeel.MENUBAR_WIDTH_MAX,
 			this.oldSplitLayoutPanel.getOffsetHeight());
+			
 			this.splitPanelWrapper.remove(this.getMenuBar());
+			this.getGuiManager().getLayout().getDockManager().resizePanels();
+			this.recalculateEnvironments();
+		}
+		
+		if(!this.menuVisible && this.getGuiManager()!=null){
+			this.getGuiManager().setDraggingViews(false, true);
+		}
+		if(this.menuVisible){
+			this.getGuiManager().refreshDraggingViews();
 		}
 	}
 }
