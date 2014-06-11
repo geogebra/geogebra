@@ -461,6 +461,10 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		        .preferredRowHeight();
 		int leftCornerWidth = view.ROW_HEADER_WIDTH;
 
+		int upperCornerOffset = 3; // just a hack for now.. this represents
+								   // padding and border width for the
+								   // upperLeftCorner
+
 		upperLeftCorner = new FlowPanel();
 		upperLeftCorner.getElement().addClassName(
 		        "geogebraweb-table-spreadsheet-upperLeftCorner");
@@ -522,9 +526,13 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 
 		rowHeaderContainer = new FlowPanel();
 		s = rowHeaderContainer.getElement().getStyle();
-		s.setDisplay(Display.INLINE_BLOCK);
+		s.setDisplay(Display.BLOCK);
 		s.setMarginBottom(lowerLeftCornerHeight, Unit.PX);
 		s.setOverflow(Style.Overflow.HIDDEN);
+		s.setPosition(Style.Position.ABSOLUTE);
+		// hack: upperCornerOffset should be rethought
+		s.setTop(upperCornerHeight + upperCornerOffset, Unit.PX);
+		s.setLeft(0, Unit.PX);
 
 		rowHeaderContainer.add(rowHeader);
 		rowHeaderContainer.add(lowerLeftCorner);
@@ -546,10 +554,10 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		scrollHandlerRegistration = scroller.addScrollHandler(this);
 
 		FlowPanel ssGridContainer = new FlowPanel();
-		ssGridContainer.getElement().getStyle()
-		        .setVerticalAlign(Style.VerticalAlign.TOP);
-		ssGridContainer.getElement().getStyle()
-		        .setDisplay(Display.INLINE_BLOCK);
+		s = ssGridContainer.getElement().getStyle();
+		s.setVerticalAlign(Style.VerticalAlign.TOP);
+		s.setDisplay(Display.INLINE_BLOCK);
+		s.setMarginLeft(leftCornerWidth, Unit.PX);
 		ssGridContainer.add(scroller);
 
 		// create table header row
