@@ -41,12 +41,7 @@ public class DockManagerW extends DockManager {
 	 * False if the application is running in unsigned mode. We can only listen to 
 	 * euclidian view focus changes in this case.
 	 */
-	private boolean hasFullFocusSystem;
-	
-	/**
-	 * The glass panel used for drag'n'drop.
-	 */
-	private DockGlassPaneW glassPane;	
+	private boolean hasFullFocusSystem;	
 	
 	/**
 	 * The root split pane.
@@ -85,10 +80,7 @@ public class DockManagerW extends DockManager {
 		dockPanels = new ArrayList<DockPanelW>();
 		showDockPanelListener=new ArrayList<ShowDockPanelListener>();
 		
-		if (App.isFullAppGui()) {
-			glassPane = (DockGlassPaneW)app.getGlassPane();
-			glassPane.attach(this);
-		}
+		
 		
 		//if(!app.isApplet()) {
 		//	app.setGlassPane(glassPane);
@@ -474,8 +466,10 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		if (App.isFullAppGui())
-			glassPane.startDrag(new DnDState(panel));
+		if (App.isFullAppGui()){
+			((DockGlassPaneW)app.getGlassPane()).attach(this);
+			((DockGlassPaneW)app.getGlassPane()).startDrag(new DnDState(panel));
+		}
 	}
 	
 	/**

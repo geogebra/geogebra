@@ -13,7 +13,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -24,7 +23,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
         MouseMoveHandler {
-	private static final long serialVersionUID = 1L;
 
 	private boolean dragInProgress = false;
 
@@ -41,7 +39,6 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 	private static final int BORDER_WIDTH = 4;
 
 	private SimplePanel previewPanel;
-	private Label previewLabel;
 
 	private com.google.gwt.event.shared.HandlerRegistration reg1;
 
