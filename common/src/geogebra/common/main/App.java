@@ -18,7 +18,6 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
-import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.util.RelationMore;
@@ -1171,30 +1170,11 @@ public abstract class App implements UpdateSelection{
 		Log.trace(string);
 	}
 	
-	/**
-	 * Shows an announcement in the infobar.
-	 * @param message the information (preferably one line)
-	 */
-	public static void showAnnouncement(String message) {
-		if(infobar != null){
-			infobar.show(message);
-		}
-	}
-
-	/**
-	 * Hides the announcement in the infobar.
-	 */
-	public static void hideAnnouncement() {
-		if(infobar != null){
-			infobar.hide();
-		}
-	}
 
 	
 
 	/** Singular web service (CAS) */
 	public static SingularWebService singularWS;
-	public static InfoBar infobar;
 	
 	/**
 	 * Whether we are running on Mac

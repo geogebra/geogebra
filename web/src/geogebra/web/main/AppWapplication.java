@@ -12,7 +12,6 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.helper.ObjectPool;
 
@@ -61,8 +60,6 @@ public class AppWapplication extends AppW {
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
 		setCurrentFileId();
-		
-		infobar = new InfoBarW(this);
 
 		initCommonObjects();
 		

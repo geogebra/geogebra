@@ -8,7 +8,6 @@ import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianSimplePanelW;
 import geogebra.web.gui.applet.GeoGebraFrame;
-import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
@@ -44,7 +43,6 @@ public class AppWsimple extends AppW {
 
 		this.useFullGui = false;
 
-		infobar = new InfoBarW(this);
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "

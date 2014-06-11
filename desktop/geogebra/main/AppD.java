@@ -595,7 +595,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (!isApplet()) {
 			getScriptManager().ggbOnInit();
 			getFactory();
-			infobar = Factory.getPrototype().newInfoBar(this);
 		}
 
 		setSaved();

@@ -38,7 +38,6 @@ import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.factories.SwingFactoryT;
 import geogebra.touch.gui.GeoGebraTouchGUI;
-import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.utils.GeoGebraLoggerT;
@@ -100,7 +99,6 @@ public class TouchApp extends AppWeb {
 		geogebra.common.factories.SwingFactory
 				.setPrototype(new SwingFactoryT());
 
-		infobar = new InfoBarT();
 
 		this.fontManager = new FontManagerW();
 

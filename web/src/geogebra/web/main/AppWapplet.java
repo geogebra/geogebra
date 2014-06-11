@@ -17,7 +17,6 @@ import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
@@ -72,7 +71,6 @@ public class AppWapplet extends AppW {
 				ae.getDataParamShowMenuBar() ||
 				ae.getDataParamEnableRightClick();
 
-		infobar = new InfoBarW(this);
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
