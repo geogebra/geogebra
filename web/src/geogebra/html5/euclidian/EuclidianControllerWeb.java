@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -254,6 +255,82 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		}
 	}
 
+	/**
+	 * position of last mouseDown or touchStart
+	 */
+	protected GPoint startPosition;
+
+	@Override
+	protected void switchModeForMousePressed(AbstractEvent e) {
+		startPosition = new GPoint(e.getX(), e.getY());
+
+		super.switchModeForMousePressed(e);
+
+		if (this.mode == EuclidianConstants.MODE_JOIN
+		        || this.mode == EuclidianConstants.MODE_SEGMENT
+		        || this.mode == EuclidianConstants.MODE_RAY
+		        || this.mode == EuclidianConstants.MODE_VECTOR
+		        || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE) {
+
+			this.mouseLoc = new GPoint(e.getX(), e.getY());
+			this.view.setHits(this.mouseLoc, e.getType());
+
+			super.wrapMouseReleased(e);
+			e.release();
+
+			this.updatePreview();
+			this.view.updatePreviewableForProcessMode();
+		}
+	}
+
+	@Override
+	protected void wrapMouseDragged(AbstractEvent event) {
+		super.wrapMouseDragged(event);
+		if (view.getPreviewDrawable() != null) {
+			this.view.updatePreviewableForProcessMode();
+		}
+	}
+
+	@Override
+	public void wrapMouseReleased(AbstractEvent event) {
+		// will be reset in wrapMouseReleased
+		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
+
+		if (this.mode == EuclidianConstants.MODE_JOIN
+		        || this.mode == EuclidianConstants.MODE_SEGMENT
+		        || this.mode == EuclidianConstants.MODE_RAY
+		        || this.mode == EuclidianConstants.MODE_VECTOR
+		        || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE) {
+
+			if (getDistance(startPosition,
+			        new GPoint(event.getX(), event.getY())) < this.app
+			        .getCapturingThreshold(event.getType())) {
+				return;
+			}
+
+			super.wrapMouseReleased(event);
+
+			this.view.setHits(new GPoint(event.getX(), event.getY()),
+			        event.getType());
+			Hits hits = view.getHits();
+
+			if (p != null && hits.getFirstHit(Test.GEOPOINTND) == null) {
+				if (!selectedPoints.contains(p)) {
+					this.selectedPoints.add(p);
+				}
+				createNewPointForModeOther(hits);
+				this.view.setHits(new GPoint(event.getX(), event.getY()),
+				        event.getType());
+				hits = view.getHits();
+				switchModeForProcessMode(hits, event.isControlDown(), null);
+			}
+		} else {
+			super.wrapMouseReleased(event);
+		}
+	}
+
 	@Override
 	protected boolean moveAxesPossible() {
 		return super.moveAxesPossible() && this.moveAxesAllowed;
@@ -284,7 +361,8 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 
 			// the point will be deleted if no circle can be built, therefore
 			// make sure that only a newly created point is set
-			point = (this.pointCreated != null) && movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
+			point = (this.pointCreated != null)
+			        && movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
 			        : null;
 		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
 			this.pen = new EuclidianPenFreehand(app, view);
@@ -325,6 +403,13 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			this.oldMode = -1;
 			this.pen = null;
 		}
+	}
+
+	private static double getDistance(GPoint p, GPoint q) {
+		if (p == null || q == null) {
+			return 0;
+		}
+		return Math.sqrt((p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y));
 	}
 
 }
