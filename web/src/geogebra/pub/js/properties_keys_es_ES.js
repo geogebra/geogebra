@@ -1399,7 +1399,7 @@ __GGB__keysVar.es_ES.menu = {
     "FunctionInspector": "Analizador de funciones",
     "FunctionInspector_Help": "Elige la funci\xf3n a analizar",
     "Functionality": "Funcionalidad",
-    "GUIFontSize": "Tama\xf1o letras Men\xfa:",
+    "GUIFontSize": "Tama\xf1o letras Men\xfa",
     "General": "General",
     "GeneralTools": "Herramientas generales",
     "GenerateCode": "Genera c\xf3digo",
@@ -2020,7 +2020,7 @@ __GGB__keysVar.es_ES.menu = {
     "ZoomOut": "Alejar",
     "ZoomOut_Help": "Haz clic en la Vista Gr\xe1fica para alejarla (o usa la rueda del rat\xf3n)",
     "insert_worksheet": "Insertar actividad",
-    "off": "Apagar",
+    "off": "Desactivar",
     "on": "Activar",
 }
 
@@ -2482,7 +2482,7 @@ __GGB__keysVar.es_ES.plain = {
     "OpenButton": "Bot\xf3n para abrir la ventana de GeoGebra",
     "Orthographic": "Ortogr\xe1fica",
     "Oscillating": "Oscilante",
-    "OutlineColor": "Color del contorno",
+    "OutlineColor": "Color del borde",
     "OverwriteFile": "\xbfDeseas reescribir este archivo?",
     "PGFExport_Grayscale": "Escala de grises",
     "Parabola": "Par\xe1bola",

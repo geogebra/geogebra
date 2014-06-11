@@ -1979,7 +1979,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Vector": "\u5411\u91cf",
     "Vector_Help": "\u9009\u5b9a\u5411\u91cf\u7684\u8d77\u70b9\u3001\u7ec8\u70b9",
     "VectorFromPoint": "\u76f8\u7b49\u5411\u91cf",
-    "VectorFromPoint_Help": "\u9009\u62e9\u8d77\u70b9\u53ca\u53e6\u4e00\u5411\u91cf",
+    "VectorFromPoint_Help": "\u9009\u62e9\u8d77\u70b9\u4e0e\u76ee\u6807\u5411\u91cf",
     "VectorMenu": "\u5411\u91cf",
     "VectorPolygon": "\u5411\u91cf\u591a\u8fb9\u5f62",
     "VectorPolygon_Help": "\u9009\u5b9a\u5404\u9876\u70b9, \u518d\u70b9\u51fb\u7b2c\u4e00\u4e2a\u9876\u70b9",
