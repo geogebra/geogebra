@@ -93,9 +93,9 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 		setVisible(true);
 		reg1 = addDomHandler(this, MouseMoveEvent.getType());
 		reg2 = addDomHandler(this, MouseUpEvent.getType());
-
+		
 		// this.getElement().getStyle().setZIndex(50);
-
+		//App.debug(this.getOffsetWidth()+","+this.getOffsetHeight()+","+dragInProgress);
 		if (dragInProgress)
 			return;
 

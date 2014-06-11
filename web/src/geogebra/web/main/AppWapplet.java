@@ -78,7 +78,7 @@ public class AppWapplet extends AppW {
 		initCommonObjects();
 		initing = true;
 
-		this.euclidianViewPanel = new EuclidianDockPanelW(this, false);
+		this.euclidianViewPanel = new EuclidianDockPanelW(this, getArticleElement().getDataParamShowMenuBar());
 		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
@@ -488,5 +488,9 @@ public class AppWapplet extends AppW {
 		if(this.menuVisible){
 			this.getGuiManager().refreshDraggingViews();
 		}
+	}
+	
+	public Object getGlassPane(){
+		return frame.getGlassPane();
 	}
 }

@@ -3,6 +3,7 @@ package geogebra.web.gui.applet;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
+import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.AppWsimple;
 
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class GeoGebraFrameBoth extends GeoGebraFrame {
 
 	private AppletFactory factory;
+	private DockGlassPaneW glass;
 
 	public GeoGebraFrameBoth(AppletFactory factory) {
 		super();
@@ -23,6 +25,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
 		AppW app = factory.getApplet(ae, gf);
 		WebStatic.lastApp = app;
+		this.glass = new DockGlassPaneW();
+		this.add(glass);
 		return app;
 	}
 
@@ -57,5 +61,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	 */
 	public static void renderArticleElement(Element el, AppletFactory factory) {
 		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(factory));
+	}
+	
+	public Object getGlassPane(){
+		return this.glass;
 	}
 }

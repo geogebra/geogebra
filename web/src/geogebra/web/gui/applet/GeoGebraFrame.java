@@ -575,5 +575,12 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		inst.createSplash(article);
 		RootPanel.get(article.getId()).add(inst);
 	}
+
+
+
+
+	public Object getGlassPane() {
+	    return null;
+    }
 }
 
