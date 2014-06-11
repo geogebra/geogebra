@@ -47,6 +47,7 @@ public class PerspectivesMenuW extends GMenuBar {
 				app.persistWidthAndHeight();
 				layout.applyPerspective(geogebra.common.gui.Layout.defaultPerspectives[index]);
 				app.updateViewSizes();
+				app.getGuiManager().updateMenubar();
 			}
 		});			
 		}

@@ -1225,6 +1225,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 			app.persistWidthAndHeight();
 			app.getGuiManager().getLayout().applyPerspective(ps);
 			app.updateViewSizes();
+			app.getGuiManager().updateMenubar();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
