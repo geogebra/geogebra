@@ -599,8 +599,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void changeStart(double x) {
-		// TODO Auto-generated method stub
-
+		setStart(x);
 	}
 
 	@Override

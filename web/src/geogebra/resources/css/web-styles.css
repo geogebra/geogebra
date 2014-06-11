@@ -3782,6 +3782,10 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
   min-width: 50px;	
 }
 
+.inspectorTableEditor {
+  width: 50px;	
+}
+
 
 .functionInspectorToolButtons {
 	float: right; 
