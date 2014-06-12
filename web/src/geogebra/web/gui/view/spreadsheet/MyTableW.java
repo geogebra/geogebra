@@ -1517,13 +1517,8 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 			return null;
 
 		int columnFrom = 0;
-		if (!showColumnHeader)
-			columnFrom = 1;
-
 		int rowFrom = 0;
-		if (!showRowHeader)
-			rowFrom = 1;
-
+		
 		int indexX = -1;
 		int indexY = -1;
 		for (int i = columnFrom; i < getColumnCount(); ++i) {
