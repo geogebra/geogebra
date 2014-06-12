@@ -1986,7 +1986,7 @@ __GGB__keysVar.zh_CN.menu = {
     "VerticalScrollbars": "\u5782\u76f4\u6eda\u52a8\u6761",
     "View": "\u89c6\u56fe",
     "ViewInFrontOf": "\u6307\u5b9a\u89c6\u5411",
-    "ViewInFrontOf_Help": "\u5c06\u89c6\u7ebf\u8f6c\u79fb\u5230\u6307\u5b9a\u5e73\u9762\u524d\u9762",
+    "ViewInFrontOf_Help": "\u628a\u89c6\u7ebf\u8f6c\u79fb\u5230\u6307\u5b9a\u5e73\u9762\u524d\u9762",
     "ViewPanel": "\u89c6\u56fe\u9762\u677f",
     "VisualStyle": "\u6837\u5f0f",
     "VisualStyle_Help": "\u5355\u51fb\u6216\u8005\u6846\u9009\u5bf9\u8c61, \u6539\u53d8\u5176\u5c5e\u6027",

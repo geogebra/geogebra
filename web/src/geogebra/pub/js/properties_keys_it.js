@@ -270,7 +270,7 @@ __GGB__keysVar.it.command = {
     "Eliminate": "Eliminazione",
     "Eliminate_Syntax": "[ <Lista di polinomi>, <Lista di variabili> ]",
     "Ellipse": "Ellisse",
-    "Ellipse_Syntax": "[ <Fuoco>, <Fuoco>, <Lunghezza semiasse maggiore> ]\n[ <Fuoco>, <Fuoco>, <Segmento> ]\n[ <Punto>, <Punto>, <Punto> ]",
+    "Ellipse_Syntax": "[ <Fuoco>, <Fuoco>, <Lunghezza semiasse maggiore> ]\n[ <Fuoco>, <Fuoco>, <Segmento> ]\n[ <Fuoco>, <Fuoco>, <Punto> ]",
     "Ends": "BasiInfSup",
     "Ends_Syntax": "[ <Quadrica> ]",
     "Envelope": "Inviluppo",
