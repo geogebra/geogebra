@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -744,7 +743,16 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		}
 	}*/
 
+	Scheduler.ScheduledCommand updateTableFonts = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			table.updateFonts();
+		}
+	};
+	
 	public void updateFonts() {
+		
+		//Scheduler.get().scheduleDeferred(updateTableFonts);
+	
 /*TODO
 		Font font = app.getPlainFont();
 
@@ -818,15 +826,12 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 			} else {
 				aw = table.preferredColumnWidth();
 			}
-			if (aw < 15) {
-				// there is a minimal width in the Desktop version,
-				// Web version should imitate this; this is visually looking
-				// like 5px, but in the code, it seems that it is 15px
-				aw = 15;
-			}
-			table.getGrid().getColumnFormatter().getElement(i).getStyle().setWidth(aw, Style.Unit.PX);
+
+			table.setColumnWidth(i, aw);
+
 		}
 	}
+	
 
 	public void setRowHeightsFromSettings() {
 		HashMap<Integer, Integer> heightMap = app.getSettings()

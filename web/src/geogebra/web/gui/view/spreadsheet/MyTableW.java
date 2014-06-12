@@ -256,7 +256,9 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 
 	private AbsolutePanel gridPanel;
 
-	private FlowPanel upperLeftCorner;	
+	private Grid upperLeftCorner;
+
+	private Grid upperRightCorner;	
 
 	/*******************************************************************
 	 * Construct table
@@ -454,47 +456,49 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 	}	
 		
 	private void createGUI() {
+	
+		
+		int leftCornerWidth = SpreadsheetViewW.ROW_HEADER_WIDTH;
+		int rightCornerWidth = AbstractNativeScrollbar
+		        .getNativeScrollbarWidth();
+		int lowerLeftCornerHeight = AbstractNativeScrollbar
+		        .getNativeScrollbarHeight();
 
-			
 		// ------ upper left corner
-		int upperCornerHeight = app.getSettings().getSpreadsheet()
-		        .preferredRowHeight();
-		int leftCornerWidth = view.ROW_HEADER_WIDTH;
-
-		int upperCornerOffset = 3; // just a hack for now.. this represents
-								   // padding and border width for the
-								   // upperLeftCorner
-
-		upperLeftCorner = new FlowPanel();
+		upperLeftCorner = new Grid(1, 1);
 		upperLeftCorner.getElement().addClassName(
-		        "geogebraweb-table-spreadsheet-upperLeftCorner");
+		        "geogebraweb-table-spreadsheet");
+		upperLeftCorner.getCellFormatter().getElement(0, 0)
+		        .addClassName("SVheader");
+		upperLeftCorner.setText(0, 0, "9999");
+		upperLeftCorner.setCellPadding(0);
+		upperLeftCorner.setCellSpacing(0);
 		Style s = upperLeftCorner.getElement().getStyle();
-		s.setWidth(leftCornerWidth - 1, Unit.PX);
-		s.setHeight(upperCornerHeight - 2, Unit.PX);
+		s.setWidth(leftCornerWidth, Unit.PX);
 		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
+		s.setColor(BACKGROUND_COLOR_HEADER.toString());
 		s.setPosition(Style.Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
 
 		// ----- upper right corner
-		int rightCornerWidth = AbstractNativeScrollbar
-		        .getNativeScrollbarWidth();
-		FlowPanel upperRightCorner = new FlowPanel();
+		upperRightCorner = new Grid(1, 1);
+		upperRightCorner.setText(0, 0, "xxx");
 		upperRightCorner.getElement().addClassName(
-		        "geogebraweb-table-spreadsheet-upperRightCorner");
+		        "geogebraweb-table-spreadsheet");
+		upperRightCorner.getCellFormatter().getElement(0, 0)
+		        .addClassName("SVheader");
 		s = upperRightCorner.getElement().getStyle();
-		s.setWidth(rightCornerWidth - 1, Unit.PX);
-		s.setHeight(upperCornerHeight - 2, Unit.PX);
+		s.setWidth(rightCornerWidth, Unit.PX);
 		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
-
+		s.setColor(BACKGROUND_COLOR_HEADER.toString());
 		s.setPosition(Style.Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setRight(0, Unit.PX);
 
 		// ----- lower left corner
-		int lowerLeftCornerHeight = AbstractNativeScrollbar
-		        .getNativeScrollbarHeight();
-		FlowPanel lowerLeftCorner = new FlowPanel();
+		Grid lowerLeftCorner = new Grid(1,1);
+		upperRightCorner.setText(0, 0, "9999");
 		lowerLeftCorner.getElement().addClassName(
 		        "geogebraweb-table-spreadsheet-lowerLeftCorner");
 		s = lowerLeftCorner.getElement().getStyle();
@@ -530,8 +534,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		s.setMarginBottom(lowerLeftCornerHeight, Unit.PX);
 		s.setOverflow(Style.Overflow.HIDDEN);
 		s.setPosition(Style.Position.ABSOLUTE);
-		// hack: upperCornerOffset should be rethought
-		s.setTop(upperCornerHeight + upperCornerOffset, Unit.PX);
+		//s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
 
 		rowHeaderContainer.add(rowHeader);
@@ -1856,17 +1859,45 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 	 * }
 	 */
 
-	// Keep row heights of table and rowHeader in sync
+	
+	// Keep column widths of table and column header in sync
+	public void setColumnWidth(int column, int width) {
+		int width2 = width;
+
+		// TODO : check if this minimum width is valid,
+		// if so create constant field
+
+		// there is a minimal width in the Desktop version,
+		// Web version should imitate this; this is visually looking
+		// like 5px, but in the code, it seems that it is 15px
+		if (width2 < 15) {
+			width2 = 15;
+		}
+
+		if (column >= 0) {
+			ssGrid.getColumnFormatter().getElement(column).getStyle()
+			        .setWidth(width2, Style.Unit.PX);
+			if (showColumnHeader) {
+				columnHeader.getColumnFormatter().getElement(column).getStyle()
+				        .setWidth(width2, Style.Unit.PX);
+			}
+		}
+
+	}
+	
+	// Keep row heights of table and row header in sync
 	public void setRowHeight(int row, int rowHeight) {
 		int rowHeight2 = rowHeight;
 		if (rowHeight2 < minimumRowHeight)
 			rowHeight2 = minimumRowHeight;
 
-		if (row > 0 || showRowHeader) {
+		if (row >= 0) {
 			ssGrid.getRowFormatter().getElement(row).getStyle()
 			        .setHeight(rowHeight2, Style.Unit.PX);
+			if(showRowHeader){
 			rowHeader.getRowFormatter().getElement(row).getStyle()
 			        .setHeight(rowHeight2, Style.Unit.PX);
+			}
 		}
 		try {
 			if (view != null) {
@@ -2901,6 +2932,16 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 
 	public int getVerticalScrollPosition() {
 	    return scroller.getVerticalScrollPosition();
+    }
+
+	public void updateFonts() {
+	
+	    int rowHeaderWidth = upperLeftCorner.getCellFormatter().getElement(0, 0).getClientWidth();
+	    App.debug("!!!!!!!!!!!!! rowHeaderWidth: " + rowHeaderWidth);
+	//    upperLeftCorner.getElement().getStyle().setHeight(upperCornerHeight, Unit.PX);
+	//    upperRightCorner.getElement().getStyle().setHeight(upperCornerHeight, Unit.PX);
+	//    rowHeaderContainer.getElement().getStyle().setTop(upperCornerHeight + 3, Unit.PX);
+	    
     }
 
 }

@@ -1732,18 +1732,6 @@ Paddings for menuitems.
 	text-align: center;
 }
 
-.geogebraweb-table-spreadsheet-upperLeftCorner {
-	box-sizing:content-box;
-	-webkit-box-sizing:content-box;
-	border-right: 1px solid gray;
-	border-bottom: 1px solid gray;
-	padding: 2px 0px;
-}
-
-.geogebraweb-table-spreadsheet-upperRightCorner {
-	border-bottom: 1px solid gray;
-	padding: 2px 0px;
-}
 
 .geogebraweb-table-spreadsheet-lowerLeftCorner {
 	border-right: 1px solid gray;
