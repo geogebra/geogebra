@@ -10,6 +10,7 @@ import geogebra.web.WebStatic;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
 
 public class LoadFilePresenter{
@@ -157,9 +158,15 @@ public class LoadFilePresenter{
 			getView().processBase64String(dataParamBase64String);
 	}
 	
-	public void processJSON(String dataParamBase64String) {
-		getView().processJSON(dataParamBase64String);
-}
+	public void processJSON(final String dataParamBase64String) {
+		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+			public void execute() {
+				getView().processJSON(dataParamBase64String);
+			}
+		};		
+		
+		Scheduler.get().scheduleDeferred(deferredOnRes);
+	}
 	
 
 	public void onWorksheetConstructionFailed(String errorMessage) {
