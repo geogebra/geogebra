@@ -258,7 +258,21 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 
 	private Grid upperLeftCorner;
 
-	private Grid upperRightCorner;	
+	private Grid upperRightCorner;
+
+	private FlowPanel headerRow;
+
+	private Grid lowerLeftCorner;
+
+	private FlowPanel ssGridContainer;
+
+	private FlowPanel columnHeaderContainer;
+
+	private FlowPanel cornerContainerUpperLeft;
+
+	private FlowPanel cornerContainerLowerLeft;
+
+	private FlowPanel cornerContainerUpperRight;	
 
 	/*******************************************************************
 	 * Construct table
@@ -497,7 +511,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		s.setRight(0, Unit.PX);
 
 		// ----- lower left corner
-		Grid lowerLeftCorner = new Grid(1,1);
+		lowerLeftCorner = new Grid(1,1);
 		upperRightCorner.setText(0, 0, "9999");
 		lowerLeftCorner.getElement().addClassName(
 		        "geogebraweb-table-spreadsheet-lowerLeftCorner");
@@ -509,19 +523,30 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		s.setPosition(Style.Position.ABSOLUTE);
 		s.setLeft(0, Unit.PX);
 		s.setBottom(0, Unit.PX);
+		
+		//---- corner containers
+		cornerContainerUpperLeft = new FlowPanel();
+		cornerContainerUpperLeft.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+		cornerContainerUpperLeft.add(upperLeftCorner);
+		cornerContainerLowerLeft = new FlowPanel();
+		cornerContainerLowerLeft.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+		cornerContainerLowerLeft.add(lowerLeftCorner);
+		cornerContainerUpperRight = new FlowPanel();
+		cornerContainerUpperRight.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+		cornerContainerUpperRight.add(upperRightCorner);
 
 		// ---- column header
 		columnHeader = new SpreadsheetColumnHeaderW(app, this);
 		s = columnHeader.getElement().getStyle();
 		s.setPosition(Style.Position.RELATIVE);
 
-		FlowPanel colHeaderContainer = new FlowPanel();
-		s = colHeaderContainer.getElement().getStyle();
+		columnHeaderContainer = new FlowPanel();
+		s = columnHeaderContainer.getElement().getStyle();
 		s.setDisplay(Display.BLOCK);
 		s.setOverflow(Style.Overflow.HIDDEN);
 		s.setMarginLeft(leftCornerWidth, Unit.PX);
 		s.setMarginRight(rightCornerWidth, Unit.PX);
-		colHeaderContainer.add(columnHeader);
+		columnHeaderContainer.add(columnHeader);
 
 		// ------ row header
 		rowHeader = new SpreadsheetRowHeaderW2(app, this);
@@ -538,7 +563,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		s.setLeft(0, Unit.PX);
 
 		rowHeaderContainer.add(rowHeader);
-		rowHeaderContainer.add(lowerLeftCorner);
+		rowHeaderContainer.add(cornerContainerLowerLeft);
 
 		// spreadsheet table
 		ssGrid = new Grid(tableModel.getRowCount() + 1,
@@ -556,7 +581,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 
 		scrollHandlerRegistration = scroller.addScrollHandler(this);
 
-		FlowPanel ssGridContainer = new FlowPanel();
+		ssGridContainer = new FlowPanel();
 		s = ssGridContainer.getElement().getStyle();
 		s.setVerticalAlign(Style.VerticalAlign.TOP);
 		s.setDisplay(Display.INLINE_BLOCK);
@@ -564,12 +589,12 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		ssGridContainer.add(scroller);
 
 		// create table header row
-		FlowPanel headerRow = new FlowPanel();
+		headerRow = new FlowPanel();
 		headerRow.getElement().getStyle()
 		        .setWhiteSpace(Style.WhiteSpace.NOWRAP);
-		headerRow.add(upperLeftCorner);
-		headerRow.add(colHeaderContainer);
-		headerRow.add(upperRightCorner);
+		headerRow.add(cornerContainerUpperLeft);
+		headerRow.add(columnHeaderContainer);
+		headerRow.add(cornerContainerUpperRight);
 
 		// create table row
 		FlowPanel tableRow = new FlowPanel();
@@ -586,6 +611,41 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		
 	}
 
+	private void updateTableLayout() {
+
+		int leftCornerWidth = SpreadsheetViewW.ROW_HEADER_WIDTH;
+
+		if (showColumnHeader) {
+			headerRow.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+		} else {
+			headerRow.getElement().getStyle().setDisplay(Style.Display.NONE);
+		}
+
+		if (showRowHeader) {
+			cornerContainerUpperLeft.getElement().getStyle()
+			        .setDisplay(Style.Display.BLOCK);
+			cornerContainerLowerLeft.getElement().getStyle()
+			        .setDisplay(Style.Display.BLOCK);
+			rowHeaderContainer.getElement().getStyle()
+			        .setDisplay(Style.Display.BLOCK);
+			ssGridContainer.getElement().getStyle()
+			        .setMarginLeft(leftCornerWidth, Unit.PX);
+			columnHeaderContainer.getElement().getStyle()
+			        .setMarginLeft(leftCornerWidth, Unit.PX);
+
+		} else {
+			cornerContainerUpperLeft.getElement().getStyle()
+			        .setDisplay(Style.Display.NONE);
+			cornerContainerLowerLeft.getElement().getStyle()
+			        .setDisplay(Style.Display.NONE);
+			rowHeaderContainer.getElement().getStyle()
+			        .setDisplay(Style.Display.NONE);
+			ssGridContainer.getElement().getStyle().setMarginLeft(0, Unit.PX);
+			columnHeaderContainer.getElement().getStyle()
+			        .setMarginLeft(0, Unit.PX);
+		}
+	}
+	
 	boolean doAdjustScroll = true;
 
 	protected void adjustScroll() {
@@ -2745,6 +2805,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 			showRowHeader = false;
 			
 		}
+		updateTableLayout();
 	}
 
 	/**
@@ -2763,6 +2824,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 			showColumnHeader = false;
 			
 		}
+		updateTableLayout();
 	}
 
 	public void updateCellFormat(String cellFormatString) {
