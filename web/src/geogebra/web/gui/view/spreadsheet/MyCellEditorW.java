@@ -361,6 +361,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			switch (keyCode) {
 			case KeyCodes.KEY_ESCAPE:
+				e.preventDefault();
 				GeoElement oldGeo = kernel.getGeoAt(column, row);
 				cancelCellEditing();
 
@@ -421,7 +422,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				if (tabReturnCol == -1)
 					tabReturnCol = column;
 				stopCellEditing(e.isShiftKeyDown() ? -1 : 1, 0);
-
+				e.preventDefault();
 				break;
 
 			case KeyCodes.KEY_ENTER:
@@ -488,6 +489,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			case KeyCodes.KEY_PAGEDOWN:
 			case KeyCodes.KEY_PAGEUP:
+				e.preventDefault();
 				//?//e.consume();
 				tabReturnCol = -1;
 				break;
