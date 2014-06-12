@@ -16,9 +16,7 @@ import com.google.gwt.resources.client.ImageResource;
  */
 public enum ToolBarCommand {
 	// Movement
-	Move(EuclidianConstants.MODE_MOVE, toolIcons().move(), null), RecordToSpreadsheet(
-			EuclidianConstants.MODE_RECORD_TO_SPREADSHEET, toolIcons()
-					.record_to_spreadsheet(), null), RotateAroundPoint(
+	Move(EuclidianConstants.MODE_MOVE, toolIcons().move(), null), RotateAroundPoint(
 			EuclidianConstants.MODE_ROTATE_BY_ANGLE, toolIcons()
 					.rotate_around_point(), null),
 

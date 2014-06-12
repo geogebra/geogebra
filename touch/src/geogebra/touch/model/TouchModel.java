@@ -770,16 +770,16 @@ public class TouchModel {
 					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case CircularArcWithCenterBetweenTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().CircleArc(null,
+			newElements.add(this.kernel.getAlgoDispatcher().CircleArcSector(null,
 					(GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+					(GeoPoint) this.getElement(Test.GEOPOINT, 2),GeoConicND.CONIC_PART_ARC));
 			break;
 		case CircularSectorWithCenterBetweenTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().CircleSector(null,
+			newElements.add(this.kernel.getAlgoDispatcher().CircleArcSector(null,
 					(GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+					(GeoPoint) this.getElement(Test.GEOPOINT, 2),GeoConicND.CONIC_PART_SECTOR));
 			break;
 		case CircumCirculuarArcThroughThreePoints:
 			newElements.add(this.kernel.getAlgoDispatcher().CircumcircleArc(
