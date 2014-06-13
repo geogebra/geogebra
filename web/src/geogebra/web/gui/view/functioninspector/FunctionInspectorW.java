@@ -645,7 +645,9 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		options.addItem(mi);
 		
-		btnOptions.addItem("+", options);
+		String image = "<img src=\""+ AppResources.INSTANCE.tool().getSafeUri().asString() 
+				+ "\" >";
+		btnOptions.addItem(image, true, options);
 				
 	}
 
