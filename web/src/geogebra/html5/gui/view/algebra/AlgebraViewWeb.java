@@ -113,13 +113,14 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
 			if (isShowing()){
 				doRepaint();	
-				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+				waitForRepaint = TimerSystemW.SLEEPING_FLAG;	
 			}
 			return;
 		}
 		
 		waitForRepaint--;
 	}
+	
 	
 
 	public final void repaintView() {

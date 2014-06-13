@@ -1460,7 +1460,9 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 	
 	public final void repaint() {
 
-		waitForRepaint = TimerSystemW.SPREADSHEET_LOOPS;
+    	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+    		waitForRepaint = TimerSystemW.SPREADSHEET_LOOPS;
+    	}
 	}
 	
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -1486,6 +1488,8 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		waitForRepaint--;
 	}
 
+
+	
 
 	/**
 	 * This method is used from add and remove, to ensure it is executed after

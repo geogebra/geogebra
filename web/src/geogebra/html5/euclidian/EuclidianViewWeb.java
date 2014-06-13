@@ -319,7 +319,8 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		waitForRepaint--;
 	}
 	
-	
+
+
     
     public void setCoordinateSpaceSize(int width, int height) {
     	int oldWidth = g2p.getCoordinateSpaceWidth();
