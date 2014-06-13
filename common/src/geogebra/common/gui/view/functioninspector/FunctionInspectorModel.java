@@ -456,7 +456,8 @@ public class FunctionInspectorModel {
 
 				x = x + step;
 			}
-
+			pts.updateRepaint();
+			
 		} else {
 			double x = start;
 			double y = f.evaluate(x);
@@ -469,7 +470,6 @@ public class FunctionInspectorModel {
 
 		}
 		
-		pts.updateRepaint();
 		
 		xyTableCopyList.add(xArray);
 		xyTableCopyList.add(yArray);

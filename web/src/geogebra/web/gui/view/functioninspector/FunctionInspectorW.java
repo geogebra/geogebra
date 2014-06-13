@@ -3,7 +3,6 @@ package geogebra.web.gui.view.functioninspector;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
-import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -18,6 +17,8 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.gui.util.RoundingMenu;
+import geogebra.web.gui.util.RoundingMenu.IRoundingMenuListener;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.main.AppW;
@@ -32,9 +33,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -60,7 +64,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	private MyToggleButton2 btnOscCircle;
 
 	private MyToggleButton2 btnHelp;
-    private PopupMenuButton btnOptions;
+//    private PopupMenuButton btnOptions;
+    private MenuBar btnOptions;
     
     private Label lblGeoName, lblStep, lblInterval;
 	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
@@ -74,6 +79,17 @@ public class FunctionInspectorW extends FunctionInspector {
 	private int pointCount = 9;
 
 	private GeoElementSelectionListener sl;
+	
+	private class RoundingCommand implements Command {
+		private int index;
+		public RoundingCommand(int idx) {
+			index = idx;
+		}
+		public void execute() {
+	        getModel().applyDecimalPlaces(index);
+        }
+		
+	}
     public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 	    super(app, selectedGeo);
     }
@@ -291,7 +307,8 @@ public class FunctionInspectorW extends FunctionInspector {
 		buttons.add(btnHelp);
 		buttons.add(btnOptions);
 		header.add(buttons);
-		buttons.setStyleName("functionInspectorToolButtons");
+//		buttons.setStyleName("functionInspectorToolButtons");
+		buttons.setStyleName("panelRow");
 		header.setStyleName("panelRow");
 		buildHelpPanel();
 		createOptionsButton();
@@ -365,7 +382,6 @@ public class FunctionInspectorW extends FunctionInspector {
 			
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
-					App.debug("Entöj!");
 					changeXYStart();
 				}
 					
@@ -606,21 +622,31 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void createOptionsButton() {
 		AppW appW = getAppW();
-		GDimensionW dim = new GDimensionW(-1, -1);
-		ImageOrText[] data = ImageOrText.convert(appW.getLocalization().getRoundingMenu());
-		
-		btnOptions = new PopupMenuButton(appW, data,-1, 1, dim, SelectionTable.MODE_TEXT){
-			@Override
-			public void handlePopupActionEvent(){
-				super.handlePopupActionEvent();
-				getModel().applyDecimalPlaces(getSelectedIndex());
+
+		Localization loc = appW.getLocalization();
+		btnOptions = new MenuBar();
+		MenuBar options = new MenuBar(true);
+		MenuBar rounding = new RoundingMenu(appW, new IRoundingMenuListener()  {
+			
+			public void onChange(int index) {
+				getModel().applyDecimalPlaces(index);
 			}
-		};
+		});
 		
-		ImageResource[] res = {AppResources.INSTANCE.tool()};
-	
-		btnOptions.setFixedIcon(ImageOrText.convert(res)[0]);
+		options.addItem("Roundings", rounding);
+//		// copy to spreadsheet
+		MenuItem mi = new MenuItem(loc.getMenu("CopyToSpreadsheet"), 
+				new Command() {
+					
+					public void execute() {
+						doCopyToSpreadsheet();
+					}
+				});
+
+		options.addItem(mi);
 		
+		btnOptions.addItem("+", options);
+				
 	}
 
 	@Override
