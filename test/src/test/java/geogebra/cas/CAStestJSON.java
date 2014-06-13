@@ -22,6 +22,7 @@ import java.util.Locale;
 import javax.swing.JFrame;
 
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ public class CAStestJSON {
 	  static Kernel kernel;
 	  static AppD app;
 	  static CASTestLogger logger;
-	  static HashMap<String, String> testcases = new HashMap<String,String>();
+	  static HashMap<String,HashMap<String, String>> testcases = new HashMap<String,HashMap<String,String>>();
 
 	
 	@BeforeClass
@@ -61,7 +62,14 @@ public class CAStestJSON {
 				
 			JSONObject test = testsJSON.getJSONObject(""+i);			
 			i++;
-			testcases.put(test.getString("cmd"),test.getString("result"));
+			String cat = "general";
+			if(test.has("cat")){
+				cat = test.getString("cat");
+			}
+			if(!testcases.containsKey(cat)){
+				testcases.put(cat, new HashMap<String,String>());
+			}
+			testcases.get(cat).put(test.getString("cmd"),test.getString("result"));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -100,7 +108,7 @@ public class CAStestJSON {
 	      }
 
 	      result = f.getOutputValidExpression() != null ? f.getOutputValidExpression().toString(
-	          includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplate) : f.getOutput(StringTemplate.testTemplate);
+	          includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplateJSON) : f.getOutput(StringTemplate.testTemplate);
 	    } catch (Throwable t) {
 	      String sts = "";
 	      StackTraceElement[] st = t.getStackTrace();
@@ -116,14 +124,38 @@ public class CAStestJSON {
 	    assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
 	  }
 	
-	private static void t (String input, String expectedResult, String ... validResults) {
-	    ta(false, input, expectedResult, validResults);
+	private static void t (String input, String expectedResult) {
+		String[] validResults = expectedResult.split("\\|OR\\|");
+	    ta(false, input, validResults[0], validResults);
+	}
+	
+	private static void testCat(String name){
+		for(String cmd:testcases.get(name).keySet()){
+			t(cmd, testcases.get(name).get(cmd));
+		}
+		Assert.assertNotEquals(0, testcases.get(name).size());
+	}
+	@Test
+	public void testExpressions(){
+		testCat("general");
 	}
 	
 	@Test
-	public void testExpressions(){
-		for(String cmd:testcases.keySet()){
-			t(cmd, testcases.get(cmd));
-		}
+	public void testLimit(){
+		testCat("Limit");
+	}
+	
+	@Test
+	public void testLimitAbove(){
+		testCat("LimitAbove");
+	}
+	
+	@Test
+	public void testDerivative(){
+		testCat("Derivative");
+	}
+	@Test
+	public void testIntegral(){
+		testCat("Integral");
 	}
 }

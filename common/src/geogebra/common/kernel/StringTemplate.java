@@ -206,6 +206,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 		//testTemplate.localizeCmds = false;
 		testTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
+	public static final StringTemplate testTemplateJSON = new StringTemplate("testTemplate");
+	static {
+		testTemplate.internationalizeDigits = false;
+		//testTemplate.localizeCmds = false;
+		testTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
+	}
 	/** Template for CAS tests involving Numeric command*/
 	public static final StringTemplate testNumeric = new StringTemplate("testNumeric");
 	static {
