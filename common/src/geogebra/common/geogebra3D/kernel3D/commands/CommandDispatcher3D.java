@@ -139,6 +139,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Net:
 				return new CmdPolyhedronNet(kernel);
 			
+			case Polyhedron:
+				return new CmdPolyhedronConvex(kernel);
+			
 				/*
 			case PolyhedronNet2:
 				return new CmdPolyhedronNet2(kernel);

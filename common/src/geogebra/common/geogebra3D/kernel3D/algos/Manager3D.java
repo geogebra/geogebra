@@ -1606,7 +1606,11 @@ public class Manager3D implements Manager3DInterface {
 		
 	}
 	
-	
+
+	public GeoElement[] PolyhedronConvex(String[] labels, GeoElement[] pointList){
+		AlgoElement algo = new AlgoPolyhedronConvex(cons, labels, pointList);
+		return algo.getOutput();
+	}
 	
 	
 	/**

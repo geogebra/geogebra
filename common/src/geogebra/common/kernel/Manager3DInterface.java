@@ -826,6 +826,8 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p, NumberValue v, GeoPolygon bottomFace, GeoSegmentND[] pivotSegments);
 
+	public GeoElement[] PolyhedronConvex(String[] labels, GeoElement[] pointList);
+
 
 	
 	/**
