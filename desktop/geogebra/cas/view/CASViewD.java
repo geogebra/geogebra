@@ -335,4 +335,8 @@ public class CASViewD extends CASView implements Gridable {
 	public CASViewD getCASViewD() {
 		return this;
 	}
+	
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 }

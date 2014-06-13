@@ -396,5 +396,9 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
         	optionPanel.onResize((height - 30 - 16), width - 26);
     	}
     }
+    
+	public void suggestRepaint(){
+		// not used for this view
+	}
 
 }

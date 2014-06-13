@@ -157,4 +157,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	public void setChangeListener(ChangeListener cl) {
 		listener = cl;
 	}
+	
+	public void suggestRepaint(){
+		// not used for this view
+	}
 }

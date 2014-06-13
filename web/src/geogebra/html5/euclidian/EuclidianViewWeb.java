@@ -19,6 +19,7 @@ import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.html5.main.TimerSystemW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -122,9 +123,6 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		
 	}
 	
-	public void doRepaint() {
-			repaintScheduler.requestAnimationFrame(repaintCallback);
-	}
 	
 	/**
      * This doRepaint method should be used instead of repaintView in cases
@@ -132,13 +130,11 @@ public abstract class EuclidianViewWeb extends EuclidianView {
      */
 	public final void doRepaint2()
 	{
-		((AppWeb) this.app).getTimerSystem().viewRepainting(this);
 		long time = System.currentTimeMillis();
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		this.updateBackgroundIfNecessary();
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
-		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
 		
@@ -288,12 +284,42 @@ public abstract class EuclidianViewWeb extends EuclidianView {
     		return;
     	}
 
-    	//TODO: enable this code if this view can be detached
-    	//if (!isShowing())
-    	//	return;
-
-    	((AppWeb)app).getTimerSystem().viewRepaint(this);
+    	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+    		waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+    	}
     }
+
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+    
+    /**
+	 * schedule a repaint
+	 */
+	public void doRepaint() {		
+		repaintScheduler.requestAnimationFrame(repaintCallback);
+	}
+	
+	/**
+	 * timer system suggests a repaint
+	 */
+	public void suggestRepaint(){
+				
+				
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+			return;
+		}
+
+		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
+			if (isShowing()){
+				doRepaint();
+				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+			}
+			return;
+		}
+		
+		waitForRepaint--;
+	}
+	
+	
     
     public void setCoordinateSpaceSize(int width, int height) {
     	int oldWidth = g2p.getCoordinateSpaceWidth();

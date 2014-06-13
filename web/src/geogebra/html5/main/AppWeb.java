@@ -86,6 +86,8 @@ public abstract class AppWeb extends App implements SetLabels{
 		super();
 		
 		loc = new LocalizationW();
+		
+		getTimerSystem();
 	}
 	
 	@Override

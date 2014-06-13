@@ -1240,4 +1240,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		return spreadsheetWrapper;
 	}
 
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 }

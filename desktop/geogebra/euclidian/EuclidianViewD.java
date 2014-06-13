@@ -1184,5 +1184,9 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 		return null;
 	}
+	
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 
 }

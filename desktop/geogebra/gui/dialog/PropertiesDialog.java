@@ -560,6 +560,11 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			// TODO Auto-generated method stub
 			
 		}
+		
+		public void suggestRepaint(){
+			// only used in web for now
+		}
+		
 		public void setLabels() {
 			root.setUserObject(loc.getPlain("Objects"));
 

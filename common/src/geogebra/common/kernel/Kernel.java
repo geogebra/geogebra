@@ -3080,6 +3080,15 @@ public class Kernel {
 			}
 		}
 	}
+	
+	
+	public final void notifySuggestRepaint() {
+		if (notifyViewsActive) {
+			for (View view : views) {
+				view.suggestRepaint();
+			}
+		}
+	}
 
 	final public void notifyReset() {
 		if (notifyViewsActive) {

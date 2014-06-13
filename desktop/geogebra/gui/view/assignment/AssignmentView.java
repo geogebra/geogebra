@@ -141,7 +141,10 @@ public class AssignmentView extends JPanel implements View, Gridable {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 		
 	
 }

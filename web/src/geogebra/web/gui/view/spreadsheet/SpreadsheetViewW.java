@@ -13,6 +13,7 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.gui.view.spreadsheet.SpreadsheetViewWeb;
+import geogebra.html5.main.TimerSystemW;
 import geogebra.web.main.AppW;
 
 import java.util.HashMap;
@@ -1446,14 +1447,6 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		repaint();
 	}
 
-	public void repaint() {
-		// no need to repaint that which is not showing
-		// (but take care of repainting if it appears!)
-		if (!isShowing())
-			return;
-
-		app.getTimerSystem().viewRepaint(this);
-	}
 
 	/**
 	 * This method is called from timers.
@@ -1461,10 +1454,38 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 	 * Otherwise just call repaint().
 	 */
 	public void doRepaint() {
-		app.getTimerSystem().viewRepainting(this);
 		table.repaint();
-		app.getTimerSystem().viewRepainted(this);
 	}
+	
+	
+	public final void repaint() {
+
+		waitForRepaint = TimerSystemW.SPREADSHEET_LOOPS;
+	}
+	
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	
+	 
+	
+	/**
+	 * timer system suggests a repaint
+	 */
+	public void suggestRepaint(){
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+			return;
+		}
+
+		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
+			if (isShowing()){
+				doRepaint();	
+				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+			}
+			return;
+		}
+		
+		waitForRepaint--;
+	}
+
 
 	/**
 	 * This method is used from add and remove, to ensure it is executed after

@@ -490,5 +490,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 		return new EuclidianStyleBar3D(this);
 	}
 
-	
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 }

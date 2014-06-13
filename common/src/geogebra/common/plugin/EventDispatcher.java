@@ -204,5 +204,9 @@ public class EventDispatcher implements ClientView {
 	public void pasteElmsComplete(ArrayList<GeoElement> pastedElms) {
 		dispatchEvent(EventType.PASTE_ELMS_COMPLETE, null);		
 	}
+	
+	public void suggestRepaint(){
+		// not used for this view
+	}
 
 }

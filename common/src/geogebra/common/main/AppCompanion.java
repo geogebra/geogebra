@@ -103,19 +103,6 @@ public class AppCompanion {
 		return null;
 	}
 	
-	/**
-	 * repaint views for plane
-	 */
-	public void doRepaintViewsForPlane(){
-		// used in 3D
-	}
-
-	/**
-	 * repaint views for plane
-	 */
-	public void doRepaint3DView(){
-		// used in 3D
-	}
 
 
 }

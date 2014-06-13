@@ -93,5 +93,10 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 	    App.debug("unimplemented");
 		return false;
 	}
+	
+	
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 
 }

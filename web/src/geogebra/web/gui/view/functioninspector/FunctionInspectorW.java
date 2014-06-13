@@ -660,5 +660,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	public Widget getWrappedPanel() {
 		return mainPanel;
 	}
+	
+	public void suggestRepaint(){
+		// not used for this view
+	}
 
 }

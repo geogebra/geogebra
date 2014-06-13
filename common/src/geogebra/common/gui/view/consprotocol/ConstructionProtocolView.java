@@ -364,6 +364,10 @@ public class ConstructionProtocolView {
 			
 		}
 		
+		public void suggestRepaint(){
+			// not used for this view
+		}
+		
 		public ArrayList<RowData> getrowList(){
 			return rowList;
 		}
@@ -635,5 +639,7 @@ public class ConstructionProtocolView {
 		}
 		
 	}
+	
+	
 	
 }

@@ -1037,5 +1037,9 @@ public class PropertiesViewD extends
 	public void setOptionPanel(OptionType type, int subType) {
 		setOptionPanel(type);
 	}
+	
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 
 }

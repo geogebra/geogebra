@@ -106,5 +106,9 @@ public class CASViewW extends CASView {
 	private CASStylebarW newCASStyleBar() {
 		return new CASStylebarW(this, app);
     }
+	
+	public void suggestRepaint(){
+		// not used for this view
+	}
 
 }

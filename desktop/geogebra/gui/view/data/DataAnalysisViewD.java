@@ -959,5 +959,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void suggestRepaint(){
+		// only used in web for now
+	}
 
 }

@@ -941,4 +941,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		updateIntervalProbability();
 		updateGUI();
 	}
+	
+	public void suggestRepaint(){
+		// not used for this view
+	}
 }

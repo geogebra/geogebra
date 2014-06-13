@@ -13,6 +13,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.TimerSystemW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,17 +87,40 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	public final void repaint() {
 
-		// no need to repaint that which is not showing
-		// (but take care of repainting if it appears!)
-		if (!isShowing())
-			return;
-
-		app.getTimerSystem().viewRepaint(this);
+    	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+    		waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
+    	}
 	}
 	
-	public void doRepaint() {
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	
+	 
+    /**
+	 * schedule a repaint
+	 */
+	public void doRepaint() {		
 		repaintScheduler.requestAnimationFrame(repaintCallback);
-}
+	}
+	
+	/**
+	 * timer system suggests a repaint
+	 */
+	public void suggestRepaint(){
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+			return;
+		}
+
+		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
+			if (isShowing()){
+				doRepaint();	
+				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+			}
+			return;
+		}
+		
+		waitForRepaint--;
+	}
+	
 
 	public final void repaintView() {
 		repaint();
@@ -182,7 +206,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * call repaint() instead.
 	 */
 	public void doRepaint2() {
-		app.getTimerSystem().viewRepainting(this);
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
 		for (int i = 0; i < getItemCount(); i++) {
@@ -199,7 +222,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			}
 		}
-		app.getTimerSystem().viewRepainted(this);
 	}
 
 	private void repaintChildren(TreeItem item) {

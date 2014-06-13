@@ -52,6 +52,12 @@ public interface View {
 	 * Repaints all objects
 	 */
 	public void repaintView();
+	
+	/**
+	 * Suggest repaint now
+	 */
+	public void suggestRepaint();
+	
 	/**
 	 * Resets the view
 	 */

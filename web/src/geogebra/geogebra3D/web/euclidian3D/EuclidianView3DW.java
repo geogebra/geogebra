@@ -18,7 +18,7 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.html5.javax.swing.GBoxW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.TimerSystemW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewWInterface;
 import geogebra.web.euclidian.MyEuclidianViewPanel;
@@ -561,12 +561,6 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	private long lastRepaint;
 
 
-	/**
-	 * schedule a repaint
-	 */
-	public void doRepaint() {
-		repaintScheduler.requestAnimationFrame(repaintCallback);
-	}
 
 	/**
 	 * This doRepaint method should be used instead of repaintView in cases
@@ -574,7 +568,6 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	 */
 	public final void doRepaint2(){
 		
-		((AppWeb) this.app).getTimerSystem().viewRepainting(this);
 		long time = System.currentTimeMillis();
 		//((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		this.updateBackgroundIfNecessary();
@@ -587,7 +580,6 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 
 		 
 		getEuclidianController().setCollectedRepaints(false);
-		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
 
@@ -609,11 +601,40 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
     		return;
     	}
 
-    	//TODO: enable this code if this view can be detached
-    	//if (!isShowing())
-    	//	return;
-
-    	((AppWeb)app).getTimerSystem().viewRepaint(this);
+    	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+    		waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+    	}
     }
+	
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	
+
+	 
+    /**
+	 * schedule a repaint
+	 */
+	public void doRepaint() {		
+		repaintScheduler.requestAnimationFrame(repaintCallback);
+	}
+	
+	/**
+	 * timer system suggests a repaint
+	 */
+	public void suggestRepaint(){
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+			return;
+		}
+
+		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
+			if (isShowing()){
+				doRepaint();	
+				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+			}
+			return;
+		}
+		
+		waitForRepaint--;
+	}
+	
 	
 }
