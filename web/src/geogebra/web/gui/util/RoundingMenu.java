@@ -30,7 +30,6 @@ public class RoundingMenu extends MenuBar {
 		this.app = app;
 		this.listener = listener;
 		String[] items = app.getLocalization().getRoundingMenu();
-		//addRadioButtonMenuItems(strDecimalSpaces, App.strDecimalSpacesAC, 0);
 		for (int i=0; i < items.length; i++) {
 			addItem(items[i], new RoundingCommand(i));
 		}

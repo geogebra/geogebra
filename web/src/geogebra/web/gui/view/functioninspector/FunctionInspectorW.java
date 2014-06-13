@@ -13,6 +13,7 @@ import geogebra.common.main.Localization;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
@@ -21,6 +22,7 @@ import geogebra.web.gui.util.RoundingMenu;
 import geogebra.web.gui.util.RoundingMenu.IRoundingMenuListener;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -653,8 +655,21 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void doCopyToSpreadsheet() {
-		// TODO Auto-generated method stub
+		SpreadsheetViewW sp = ((GuiManagerW) getAppW().getGuiManager())
+				.getSpreadsheetView();
 
+		if (sp == null) {
+			return;
+		}
+
+		if (isIntervalTabSelected()) {
+			getModel()
+			.copyIntervalsToSpreadsheet(modelInterval.getColumnCount(),
+					modelInterval.getRowCount());
+		} else {
+			getModel().copyPointsToSpreadsheet(modelXY.getColumnCount(),
+					modelXY.getRowCount());
+		}
 	}
 	
 	public Widget getWrappedPanel() {
