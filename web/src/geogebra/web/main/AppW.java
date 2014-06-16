@@ -36,7 +36,6 @@ import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
-import geogebra.html5.move.ggtapi.operations.OpenFromGGTOperationW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -116,7 +115,6 @@ public abstract class AppW extends AppWeb {
 	boolean menuKeysLoaded = false;
 	protected ObjectPool objectPool;
 	private GoogleDriveOperationW googleDriveOperation;
-	private OpenFromGGTOperationW openFromGGTOperation;
 	
 	/**
 	 * Constructors will be called from subclasses
@@ -172,20 +170,7 @@ public abstract class AppW extends AppWeb {
 		}
 		
 	}
-	
-	/**
-	 * initializes open from GGT event flow
-	 */
-	public void initOpenFromGGTEventFlow() {
-		if (openFromGGTOperation == null) {
-			openFromGGTOperation = new OpenFromGGTOperationW(this);
-		}
-	}
-	
-	public OpenFromGGTOperationW getOpenFromGGTOperation() {
-		return openFromGGTOperation;
-	}
-	
+
 	/**
 	 * @return GoogleDriveOperation
 	 */

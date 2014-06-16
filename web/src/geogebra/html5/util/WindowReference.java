@@ -7,7 +7,6 @@ import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.move.ggtapi.operations.BASEURL;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
-import geogebra.html5.move.ggtapi.operations.OpenFromGGTOperationW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -118,23 +117,6 @@ public class WindowReference implements EventRenderable {
 	    WindowReference.instance = null;
     }
 
-	/**
-	 * @param app Application
-	 * @return windowReference for the opened window
-	 */
-	public static WindowReference createOpenFromGGTWidnow(App app) {
-		if (instance == null) {
-			((AppW) app).initOpenFromGGTEventFlow();
-			instance = new WindowReference();
-			OpenFromGGTOperationW oGGT = ((AppW) app).getOpenFromGGTOperation();
-					instance.wnd = createWindowReference("GeoGebraTube", oGGT.generateOpenFromGGTURL(), 900, 500);			
-					oGGT.getView().add(instance);
-					instance.initClosedCheck();
-			}
-		
-		return instance;
-    }
-	
 	private static JavaScriptObject createWindowReference(String name, String redirect, int width, int height) {
 		int left = (Window.getClientWidth() / 2) - (width / 2);
 		int top = (Window.getClientHeight() / 2) - (height / 2);
