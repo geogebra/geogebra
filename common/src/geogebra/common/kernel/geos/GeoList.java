@@ -156,7 +156,7 @@ AngleProperties {
 
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element
-			selectedIndex = -1 + (int) ((GeoNumeric) geo).getDouble();
+			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble(), true);
 			isDefined = true;
 
 			return;
@@ -1580,6 +1580,10 @@ AngleProperties {
 	 */
 	public void setSelectedIndex(final int selectedIndex0, boolean update) {
 		selectedIndex = selectedIndex0;
+		
+		if (selectedIndex < 0 || selectedIndex > size() - 1) { 
+			selectedIndex = 0; 
+		}
 
 		if (update) {
 			updateCascade();
