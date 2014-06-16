@@ -3159,10 +3159,20 @@ namespace giac {
 	  return(pollard(n,3,contextptr));
 	}
 	else {
-	  ref_mpz_t * ptr=new ref_mpz_t;
-	  mpz_init_set(ptr->z,g);
-	  mpz_clear(g);
-	  return ptr;
+	  if (is_greater(k,50,contextptr)){
+#if 1
+	    return -1;
+#else
+	    ref_mpz_t * ptr=new ref_mpz_t;
+	    mpz_init_set(ptr->z,g);
+	    mpz_clear(g);
+	    return ptr;
+#endif
+	  }
+	  else {
+	    mpz_clear(g);
+	    return(pollard(n,k+2,contextptr));
+	  }
 	} 
       }
     } 

@@ -2989,8 +2989,21 @@ namespace giac {
     }
     gen v0=remove_equal(v[0]);
     int evalf_after=interv?3:1;
-    if (s==2 && v0.type==_VECT && v[1].type==_VECT && _sort(lvar(v0),contextptr)==_sort(v[1],contextptr))
-      return gsolve(*v0._VECTptr,*v[1]._VECTptr,complex_mode(contextptr),evalf_after,contextptr);
+    if (s>=2 && v0.type==_VECT && v[1].type==_VECT && !v[1]._VECTptr->empty()){
+      // check v[1]
+      vecteur w=*v[1]._VECTptr;
+      unsigned i=0;
+      for (;i<w.size();++i){
+	if (w[i].type==_IDNT)
+	  continue;
+	if (!w[i].is_symb_of_sommet(at_at))
+	  break;
+      }
+      if (i!=w.size())
+	return gensizeerr(gettext("fsolve([equations],[variables],[guesses])"));
+      if (s==2 && _sort(lvar(v0),contextptr)==_sort(v[1],contextptr))
+	return gsolve(*v0._VECTptr,*v[1]._VECTptr,complex_mode(contextptr),evalf_after,contextptr);
+    }
     if (s==2 && v[1].type==_IDNT){ 
       gen v00= evalf(v0,1,contextptr);
       // no initial guess, check for poly-like equation

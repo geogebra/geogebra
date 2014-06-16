@@ -690,7 +690,7 @@ namespace giac {
 		cv[i]=cv[i]._VECTptr->front();
 	    }
 	    csura=inva*c;
-	    cl=laplace(csura,x,x,contextptr);
+	    cl=_laplace(makesequence(csura,x,x),contextptr);
 	  }
 	  else {
 	    if (!is_zero(c))
@@ -717,18 +717,21 @@ namespace giac {
       v.pop_back();
       if (derive(v,x,contextptr)==vecteur(n+1,zero)){
 	// Yes!
-	gen laplace_cst=laplace(-cst,x,t,contextptr);
+	gen laplace_cst=_laplace(makesequence(-cst,x,t),contextptr);
 	if (is_undef(laplace_cst))
 	  return laplace_cst;
-	gen arbitrary,tmp;
-	for (int i=n-1;i>=0;--i){
-	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
-	  tmp=tmp*t+parameters.back();
-	  arbitrary=arbitrary+v[i]*tmp;
+	vecteur lopei=mergevecteur(lop(laplace_cst,at_Ei),lop(laplace_cst,at_integrate));
+	if (lopei.empty()){
+	  gen arbitrary,tmp;
+	  for (int i=n-1;i>=0;--i){
+	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	    tmp=tmp*t+parameters.back();
+	    arbitrary=arbitrary+v[i]*tmp;
+	  }
+	  arbitrary=(laplace_cst+arbitrary)/symb_horner(v,t);
+	  arbitrary=ilaplace(arbitrary,t,x,contextptr);
+	  return arbitrary;
 	}
-	arbitrary=(laplace_cst+arbitrary)/symb_horner(v,t);
-	arbitrary=ilaplace(arbitrary,t,x,contextptr);
-	return arbitrary;
       }
       if (n==2){ // a(x)*y''+b(x)*y'+c(x)*y+d(x)=0
 	gen & a=v[0];

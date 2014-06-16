@@ -2243,6 +2243,10 @@ namespace giac {
 
   polynome resultant(const polynome & p,const polynome & q){
     // polynomial subresultant does not work if p and q have approx coeff
+    if (p.coord.empty())
+      return p;
+    if (q.coord.empty())
+      return q;
     bool approx=has_num_coeff(p) || has_num_coeff(q);
     if (approx){
       polynome P(p),Q(q);

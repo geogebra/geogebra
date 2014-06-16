@@ -2064,8 +2064,8 @@ namespace giac {
     if (has_i(lop(e,at_ln)))
       e=recursive_normal(expln2trig(e,contextptr),contextptr);
     if (loptab(e,sign_floor_ceil_round_tab).empty()){
-      gen first_try;
-      first_try=simplifier(subst(e,x,lim_point,false,contextptr),contextptr);
+      gen first_try=subst(e,x,lim_point,false,contextptr);
+      first_try=simplifier(first_try,contextptr);
       if (!contains(lidnt(first_try),unsigned_inf)){
 	if (has_num_coeff(first_try))
 	  return first_try;

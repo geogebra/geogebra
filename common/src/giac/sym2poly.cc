@@ -3251,6 +3251,10 @@ namespace giac {
     fxnd(f2,f2_num,f2_den);
     if ( (f1_num.type==_POLY) && (f2_num.type==_POLY))
       return r2sym(gen(resultant(*f1_num._POLYptr,*f2_num._POLYptr)),l,contextptr)/pow(r2sym(f1_den,l,contextptr),f2_num._POLYptr->lexsorted_degree(),contextptr)/pow(r2sym(f2_den,l,contextptr),f1_num._POLYptr->lexsorted_degree(),contextptr);
+    if (is_zero(f1))
+      return f1;
+    if (is_zero(f2))
+      return f2;
     return 1;
   }
   static define_unary_function_eval (__resultant,&giac::_resultant,_resultant_s);

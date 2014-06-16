@@ -5074,7 +5074,7 @@ namespace giac {
 #if 0 // def NSPIRE
     return g;
 #endif
-    if (g.type!=_SYMB || g._SYMBptr->sommet==at_pnt || g._SYMBptr->sommet==at_animation || g._SYMBptr->sommet==at_unit || g._SYMBptr->sommet==at_integrate || g._SYMBptr->sommet==at_superieur_strict || g._SYMBptr->sommet==at_superieur_egal || g._SYMBptr->sommet==at_inferieur_strict || g._SYMBptr->sommet==at_inferieur_egal || g._SYMBptr->sommet==at_ou || g._SYMBptr->sommet==at_et || g._SYMBptr->sommet==at_not || g._SYMBptr->sommet==at_xor )
+    if (g.type!=_SYMB || g._SYMBptr->sommet==at_program || g._SYMBptr->sommet==at_pnt || g._SYMBptr->sommet==at_animation || g._SYMBptr->sommet==at_unit || g._SYMBptr->sommet==at_integrate || g._SYMBptr->sommet==at_superieur_strict || g._SYMBptr->sommet==at_superieur_egal || g._SYMBptr->sommet==at_inferieur_strict || g._SYMBptr->sommet==at_inferieur_egal || g._SYMBptr->sommet==at_and || g._SYMBptr->sommet==at_ou || g._SYMBptr->sommet==at_et || g._SYMBptr->sommet==at_not || g._SYMBptr->sommet==at_xor )
       return g;
     if (is_equal(g))
       return apply_to_equal(g,simplifier,contextptr);
@@ -5091,6 +5091,7 @@ namespace giac {
 	    gen f0=simplifier(f._VECTptr->front(),contextptr);
 	    gen z=fast_icontent(f0);
 	    gen n= f._VECTptr->back()._FRACptr->num;
+	    if (d.val<0){ n=-n; d=-d;}
 	    gen zn=pow(z,n,contextptr),a,b;
 	    bool pos; // pos should be true after next call since zn is > 0
 	    zint2simpldoublpos(zn,a,b,pos,d.val,contextptr);

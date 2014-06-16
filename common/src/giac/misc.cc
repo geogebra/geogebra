@@ -1000,8 +1000,9 @@ namespace giac {
     }
     double eps=epsilon(contextptr);
     if (g.type==_VECT && g._VECTptr->size()==2){
-      if (g._VECTptr->back().type==_DOUBLE_){
-	eps=g._VECTptr->back()._DOUBLE_val;
+      gen gf=evalf_double(g._VECTptr->back(),1,contextptr);
+      if (gf.type==_DOUBLE_){
+	eps=gf._DOUBLE_val;
 	g=evalf_double(g._VECTptr->front(),1,contextptr);
       }
       else {
@@ -1022,7 +1023,7 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->empty())
       return gensizeerr(contextptr);
-    vecteur & v (*g._VECTptr);
+    vecteur v =(*g._VECTptr);
     gen res(v.back());
     if (v.back().type==_VECT){
       // represent a quadratic x=[... x], find equation

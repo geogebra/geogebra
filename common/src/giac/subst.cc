@@ -295,7 +295,7 @@ namespace giac {
       return symbolic(at_exp,g);
     identificateur tmp(" x");
     gen gg=subst(g,l,vecteur(1,tmp),false,contextptr),a,b;
-    if (!is_linear_wrt(gg,tmp,a,b,contextptr)) 
+    if (!is_linear_wrt(gg,tmp,a,b,contextptr) || has_i(a)) 
       return symbolic(at_exp,g);
     return exp(b,contextptr)*pow(l[0]._SYMBptr->feuille,a,contextptr);
   }

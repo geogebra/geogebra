@@ -372,13 +372,13 @@ namespace giac {
 	return s;
       }
     }
-    if (pui==plus_one_half){
+    if (pui.type>_REAL && pui==plus_one_half){
       s += "sqrt(";
       add_print(s,arg,contextptr);
       s += ')'; 
       return s;
     }
-    if ( pui==minus_one_half  || pui==fraction(minus_one,plus_two) ){
+    if ( pui.type>_REAL && (pui==minus_one_half  || pui==fraction(minus_one,plus_two) )){
       s += "1/sqrt(";
       add_print(s,arg,contextptr);
       s += ')';
