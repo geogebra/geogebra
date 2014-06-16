@@ -10,8 +10,14 @@ public abstract class BaseEvent {
 	 * Needed for identify the event, otherwise it
 	 * it will be like anonymous functions, can't be removed individually
 	 */
-	protected String name = null;
+	protected final String name;
 	
+	public BaseEvent(String name2) {
+		this.name = name2;
+	}
+
+
+
 	/**
 	 * @return the name of the event, or null
 	 *  needed for identify it

@@ -18,6 +18,7 @@ public class LoginAttemptEvent extends BaseEvent {
 	 * 
 	 */
 	public LoginAttemptEvent(GeoGebraTubeUser user) {
+		super("Attempt");
 		this.user = user;
 	}
 

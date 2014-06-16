@@ -13,9 +13,7 @@ public abstract class OffLineEvent extends BaseEvent {
 	 * if name is null, it will be like anonymus function
 	 */
 	public OffLineEvent(String name) {
-		if (name != null) {
-			this.name = name;
-		}
+			super(name);
 	}
 	
 

@@ -3,17 +3,18 @@ package geogebra.move.ggtapi.events;
 import geogebra.common.move.events.BaseEvent;
 
 /**
- * @author gabor
- * 	Event for login operations
- *
+ * @author gabor Event for login operations
+ * 
  */
 public class TubeAvailabilityCheckEvent extends BaseEvent {
 	private boolean available;
-	
+
 	/**
-	 * @param available Whether Tube is available
+	 * @param available
+	 *            Whether Tube is available
 	 */
 	public TubeAvailabilityCheckEvent(boolean available) {
+		super("tube check");
 		this.available = available;
 	}
 

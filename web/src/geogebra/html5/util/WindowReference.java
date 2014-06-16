@@ -107,10 +107,17 @@ public class WindowReference implements EventRenderable {
     		return;
     	}
 	    if (!this.closed()) {
+	    	nativeDebug(event.getName());
 	    	this.close();
 	    	cleanWindowReferences();
 	    }	    
     }
+
+	private native void nativeDebug(String name) /*-{
+		if($wnd.debug){
+	    	$wnd.debug(name);
+		}
+    }-*/;
 
 	private void cleanWindowReferences() {
 	    requestAnimationFrame.cancel();

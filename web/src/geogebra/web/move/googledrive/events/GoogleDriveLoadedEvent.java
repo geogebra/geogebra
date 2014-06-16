@@ -10,6 +10,10 @@ import geogebra.common.move.events.BaseEvent;
  */
 public class GoogleDriveLoadedEvent extends BaseEvent {
 
+	public GoogleDriveLoadedEvent() {
+	    super("Drive loaded");
+    }
+
 	@Override
 	public void trigger() {
 		// Do nothing

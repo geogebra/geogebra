@@ -20,6 +20,7 @@ public class LoginEvent extends BaseEvent {
 	 * @param automatic true if the login was performed automatically (on startup) or manually by the user
 	 */
 	public LoginEvent(GeoGebraTubeUser user, boolean successful, boolean automatic) {
+		super("login"+successful+","+automatic);
 		this.user = user;
 		this.successful = successful;
 		this.automatic = automatic;

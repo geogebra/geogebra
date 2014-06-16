@@ -16,9 +16,7 @@ public abstract class OnLineEvent extends BaseEvent {
 	 * if name is null, it will be like anonymus function
 	 */
 	public OnLineEvent(String name) {
-		if (name != null) {
-			this.name = name;
-		}
+		super(name);		
 	}
 	
 	
