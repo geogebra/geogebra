@@ -133,7 +133,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 		
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 		setArrowTypeBefore(brush);
-		brush.start(8);
+		brush.start();
 		brush.setThickness(getLineThickness(),(float) getView3D().getScale());
 		brush.setAffineTexture( (float) ((0.5-minmax[0])/(minmax[1]-minmax[0])),  0.25f);		
 

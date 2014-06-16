@@ -68,7 +68,7 @@ public class PlotterCursor {
 		brush.setAffineTexture(0.5f, 0.125f);
 
 		// xy
-		brush.start(8);
+		brush.start();
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
 		brush.segment(new Coords(size_start_move, 0, 0, 1), new Coords(
@@ -85,7 +85,7 @@ public class PlotterCursor {
 		index[TYPE_ALREADY_XY] = brush.end();
 
 		// z
-		brush.start(8);
+		brush.start();
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
 		brush.segment(new Coords(0, 0, size_start_move, 1), new Coords(0, 0,

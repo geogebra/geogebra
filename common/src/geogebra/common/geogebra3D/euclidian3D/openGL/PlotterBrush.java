@@ -52,7 +52,6 @@ public class PlotterBrush implements PathPlotter {
 	private float texturePosZero, textureValZero;
 	/** textures coords */
 	private float[] textureX = new float[2];
-	private float[] textureY = new float[2];
 	/** type of texture */
 	static final public int TEXTURE_CONSTANT_0 = 0; 
 	static final private int TEXTURE_ID = 1;
@@ -104,7 +103,22 @@ public class PlotterBrush implements PathPlotter {
 	
 	//level of detail
 	/** number of rules */
-	private int latitude;
+	final private static int LATITUDES = 8;
+	
+	/**
+	 * pre-calculated cosinus and sinus
+	 */
+	final private static double[] COSINUS, SINUS;
+	
+	static {
+		COSINUS = new double[LATITUDES+1];
+		SINUS = new double[LATITUDES+1];
+		for (int i = 0 ; i <= LATITUDES ; i++){
+			COSINUS[i] = Math.cos(2*i*Math.PI/LATITUDES);
+			SINUS[i] = Math.sin(2*i*Math.PI/LATITUDES);
+		}
+		
+	}
 	
 	
 	/** default constructor
@@ -121,12 +135,10 @@ public class PlotterBrush implements PathPlotter {
 	
 	/**
 	 * start new curve
-	 * @param latitude number of rules
 	 */
-	public void start(int latitude){
+	public void start(){
 		index = manager.startNewList();
 		hasColor = false;
-		this.latitude = latitude;
 		start = null;
 		
 	}
@@ -228,13 +240,10 @@ public class PlotterBrush implements PathPlotter {
 		
 		// draw curve part
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
-    	float dt = (float) 1/latitude;
-    	float da = (float) (2*Math.PI *dt) ; 
-    	float u, v;    	
-    	for( int i = 0; i <= latitude  ; i++ ) { 
-    		u = (float) Math.sin ( i * da ); 
-    		v = (float) Math.cos ( i * da ); 
-    		setTextureY(i*dt);
+    	double u, v;    	
+    	for( int i = 0; i <= LATITUDES  ; i++ ) { 
+    		u = SINUS[i];
+    		v = COSINUS[i];
     		draw(start,u, v, 0); //bottom of the tube rule
     		draw(end,u, v, 1); //top of the tube rule
     	}
@@ -754,10 +763,6 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	
-	private void setTextureY(float y1){
-		this.textureY[0] = y1;
-		this.textureY[1] = y1;
-	}
 
 	
 	

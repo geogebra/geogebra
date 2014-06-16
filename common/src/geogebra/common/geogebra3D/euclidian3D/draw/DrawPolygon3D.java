@@ -264,7 +264,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	private void updateOutline(Renderer renderer, Coords[] vertices){
 
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-		brush.start(8);
+		brush.start();
 		brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
 		for(int i=0;i<vertices.length-1;i++){
 			brush.setAffineTexture(0.5f,  0.25f);

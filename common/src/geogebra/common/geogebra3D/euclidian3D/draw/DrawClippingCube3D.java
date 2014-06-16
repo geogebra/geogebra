@@ -268,7 +268,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		//geometry
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
-		brush.start(8);
+		brush.start();
 		clippingBorder = 
 				brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
 		brush.setAffineTexture(

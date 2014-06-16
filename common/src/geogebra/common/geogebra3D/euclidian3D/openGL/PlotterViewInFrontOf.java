@@ -37,7 +37,7 @@ public class PlotterViewInFrontOf {
 
 		//brush.setAffineTexture(0.5f, 0.125f);
 
-		brush.start(16);
+		brush.start();
 		brush.setColor(GColor.GRAY,0.5f);
 		//brush.setThickness(thickness);//re sets the thickness
 		brush.segment(new Coords(0, 0, start, 1),new Coords(0,0,end, 1));

@@ -167,7 +167,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 		
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-		brush.start(8);
+		brush.start();
 		brush.setThickness(poly.getLineThickness(),(float) getView3D().getScale());
 		
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygonsLinked()){

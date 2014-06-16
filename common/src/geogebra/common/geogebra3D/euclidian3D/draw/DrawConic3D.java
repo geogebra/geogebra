@@ -150,7 +150,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 			if (visible != Visible.FRUSTUM_INSIDE){ // no outline when frustum inside
 				PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-				brush.start(8);
+				brush.start();
 
 				brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());		
 
