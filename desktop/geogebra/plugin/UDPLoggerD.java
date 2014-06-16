@@ -27,7 +27,9 @@ public class UDPLoggerD implements UDPLogger {
 
 	static enum Types {
 		TIMESTAMP("time"), ACCELEROMETER_X("Ax"), ACCELEROMETER_Y("Ay"), ACCELEROMETER_Z(
-				"Az");
+				"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
+				"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
+				"Mz");
 
 		private String string;
 
@@ -46,7 +48,7 @@ public class UDPLoggerD implements UDPLogger {
 		}
 	}
 
-	private HashMap<Types, GeoNumeric> listeners = new HashMap<Types, GeoNumeric>();
+	HashMap<Types, GeoNumeric> listeners = new HashMap<Types, GeoNumeric>();
 
 	/**
 	 * port to receive UDP logging on
@@ -55,9 +57,6 @@ public class UDPLoggerD implements UDPLogger {
 
 	@SuppressWarnings("javadoc")
 	Thread thread;
-
-	@SuppressWarnings("javadoc")
-	boolean running;
 
 	@SuppressWarnings("javadoc")
 	DatagramSocket dsocket;
@@ -73,11 +72,14 @@ public class UDPLoggerD implements UDPLogger {
 	@Override
 	public void stopLogging() {
 
-		App.debug("killing thread");
+		if (dsocket != null) {
+			dsocket.close();
 
-		running = false;
+			// stops thread
+			dsocket = null;
+		}
 
-		thread = null;
+		listeners.clear();
 	}
 
 	@Override
@@ -85,7 +87,13 @@ public class UDPLoggerD implements UDPLogger {
 
 		// Create a socket to listen on the port.
 		try {
+
+			if (dsocket != null) {
+				dsocket.close();
+			}
+
 			dsocket = new DatagramSocket(port);
+
 		} catch (SocketException e) {
 			e.printStackTrace();
 			return false;
@@ -101,6 +109,9 @@ public class UDPLoggerD implements UDPLogger {
 
 		// Now loop forever, waiting to receive packets and printing them.
 
+		// if this changes, another thread has started -> terminate this one
+		final DatagramSocket socketCopy = dsocket;
+
 		thread = new Thread() {
 
 			@Override
@@ -108,20 +119,19 @@ public class UDPLoggerD implements UDPLogger {
 
 				App.debug("thread starting");
 
-				running = true;
-
-				while (running) {
+				while (socketCopy == dsocket) {
 					// Wait to receive a datagram
 					try {
+						App.debug("waiting");
 						dsocket.receive(packet);
 					} catch (IOException e) {
 						dsocket.close();
+						dsocket = null;
 						App.debug("logging failed");
 						e.printStackTrace();
-						running = false;
 					}
 
-					if (running) {
+					if (socketCopy == dsocket) {
 
 						byte c0 = buffer[0];
 						byte c1 = buffer[1];
@@ -133,6 +143,14 @@ public class UDPLoggerD implements UDPLogger {
 							log(Types.ACCELEROMETER_X, getFloat(buffer, 4));
 							log(Types.ACCELEROMETER_Y, getFloat(buffer, 8));
 							log(Types.ACCELEROMETER_Z, getFloat(buffer, 12));
+
+							log(Types.ORIENTATION_X, getFloat(buffer, 16));
+							log(Types.ORIENTATION_Y, getFloat(buffer, 20));
+							log(Types.ORIENTATION_Z, getFloat(buffer, 24));
+
+							log(Types.MAGNETIC_FIELD_X, getFloat(buffer, 28));
+							log(Types.MAGNETIC_FIELD_Y, getFloat(buffer, 36));
+							log(Types.MAGNETIC_FIELD_Z, getFloat(buffer, 44));
 
 							/*
 							 * 
@@ -174,8 +192,6 @@ public class UDPLoggerD implements UDPLogger {
 
 							String[] split = msg.split(",");
 
-							double x, y, z;
-
 							switch (buffer[0]) {
 							case 'A':
 
@@ -189,25 +205,21 @@ public class UDPLoggerD implements UDPLogger {
 								break;
 							case 'M':
 
-								App.debug("M");
-								x = Double.parseDouble(split[3]);
-								y = Double.parseDouble(split[4]);
-								z = Double.parseDouble(split[5]);
-
-								App.debug("accelerometer x = " + x);
-								App.debug("accelerometer y = " + y);
-								App.debug("accelerometer z = " + z);
+								log(Types.MAGNETIC_FIELD_X,
+										Double.parseDouble(split[3]));
+								log(Types.MAGNETIC_FIELD_Y,
+										Double.parseDouble(split[4]));
+								log(Types.MAGNETIC_FIELD_Z,
+										Double.parseDouble(split[5]));
 
 								break;
 							case 'O':
-								App.debug("O");
-								x = Double.parseDouble(split[3]);
-								y = Double.parseDouble(split[4]);
-								z = Double.parseDouble(split[5]);
-
-								App.debug("accelerometer x = " + x);
-								App.debug("accelerometer y = " + y);
-								App.debug("accelerometer z = " + z);
+								log(Types.ORIENTATION_X,
+										Double.parseDouble(split[3]));
+								log(Types.ORIENTATION_Y,
+										Double.parseDouble(split[4]));
+								log(Types.ORIENTATION_Z,
+										Double.parseDouble(split[5]));
 
 								break;
 
