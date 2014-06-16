@@ -371,16 +371,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
     }
 	
 	private WindowReference openFromGGT = null;
-	
-	@Override
-    public void showOpenFromGGTDialog() {
-		if (openFromGGT == null || openFromGGT.closed()) {
-			openFromGGT = WindowReference.createOpenFromGGTWidnow(app);
-		} else {
-			openFromGGT.close();
-			openFromGGT = null;
-		}
-	}
+
 	
 	/**
 	 * closes the openFromGGT dialog

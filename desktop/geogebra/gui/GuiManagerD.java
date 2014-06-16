@@ -1946,7 +1946,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void openFromGGT() {
 		if ((app).isSaved() || saveCurrentFile()) {
-			app.getDialogManager().showOpenFromGGTDialog();
+			((DialogManagerD) app.getDialogManager()).showOpenFromGGTDialog();
 		}
 	}
 
@@ -3110,8 +3110,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return returnVal == 0;
 
 	}
-
-	
 
 	public boolean belongsToToolCreator(ListCellRenderer renderer) {
 		return ToolCreationDialog.isMyCellRenderer(renderer);

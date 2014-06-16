@@ -23,14 +23,16 @@ import javax.swing.JOptionPane;
 public class DialogManagerMinimal extends DialogManager {
 
 	/**
-	 * Minimal implementation of DialogManager
-	 * Potentially can be used in applets without needing GuiManager
+	 * Minimal implementation of DialogManager Potentially can be used in
+	 * applets without needing GuiManager
+	 * 
 	 * @param app
 	 */
 	public DialogManagerMinimal(App app) {
 		this.app = app;
 
 	}
+
 	@Override
 	protected String prompt(String message, String def) {
 		return JOptionPane.showInputDialog(message);
@@ -50,20 +52,20 @@ public class DialogManagerMinimal extends DialogManager {
 	@Override
 	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void showNumberInputDialogSegmentFixed(String menu,
 			GeoPoint geoPoint2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -71,29 +73,28 @@ public class DialogManagerMinimal extends DialogManager {
 			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	@Override
 	public void showNumberInputDialogDilate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void showNumberInputDialogCirclePointRadius(String menu,
 			GeoPointND geoPointND, EuclidianView view) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -117,29 +118,28 @@ public class DialogManagerMinimal extends DialogManager {
 	@Override
 	public void closeAll() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void showRenameDialog(GeoElement geo, boolean b, String label,
 			boolean c) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	@Override
 	public void showPropertiesDialog() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void showToolbarConfigDialog() {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public NumberValue showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText) {
@@ -150,33 +150,33 @@ public class DialogManagerMinimal extends DialogManager {
 	@Override
 	public void openToolHelp() {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void showLogInDialog() {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void showLogOutDialog() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	@Override
-	public void showOpenFromGGTDialog() {
-		// TODO Auto-generated method stub
-	}
+
 	@Override
 	public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2) {
 		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
-		
+
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2);
-	
+
 	}
 }

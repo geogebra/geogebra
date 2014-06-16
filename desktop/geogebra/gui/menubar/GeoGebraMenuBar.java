@@ -12,6 +12,7 @@ import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
@@ -298,7 +299,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						JOptionPane.INFORMATION_MESSAGE, null, options,
 						options[0]);
 				if (n == 0) {
-					app.getDialogManager().showOpenFromGGTDialog();
+					((DialogManagerD) app.getDialogManager())
+							.showOpenFromGGTDialog();
 				}
 			}
 		} else {

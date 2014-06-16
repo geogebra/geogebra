@@ -422,7 +422,7 @@ public abstract class DialogManager {
 		return id;
 	}
 
-	public abstract void showOpenFromGGTDialog();
+	//public abstract void showOpenFromGGTDialog();
 
 	/**
 	 * 

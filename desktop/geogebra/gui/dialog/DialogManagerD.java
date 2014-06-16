@@ -475,7 +475,9 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		}
 	}
 
-	@Override
+	/**
+	 * Opens dialog for Tube
+	 */
 	public void showOpenFromGGTDialog() {
 		app.setWaitCursor();
 

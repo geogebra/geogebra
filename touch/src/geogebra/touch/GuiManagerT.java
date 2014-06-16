@@ -617,12 +617,6 @@ class GuiManagerT extends GuiManager {
 	}
 
 	@Override
-	public void openFromGGT() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected void setCallerApp() {
 		this.caller_APP = TOUCH;
 	}
