@@ -327,8 +327,10 @@ public class AlgebraProcessor {
 		try {
 			app.getCompanion().storeViewCreators();
 			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
-			if(geo instanceof GeoFunction)
+			// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F, G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
+			if (geo instanceof GeoFunction && ((GeoFunction)geo).isDefined()) {
 				cons.registerFunctionVariable(((GeoFunction)geo).getFunction().getVarString(StringTemplate.defaultTemplate));
+			}
 			newLabel = newValue.getLabel();
 
 			if (newLabel == null) {
