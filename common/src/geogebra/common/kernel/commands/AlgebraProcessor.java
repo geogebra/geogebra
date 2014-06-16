@@ -1522,7 +1522,8 @@ public class AlgebraProcessor {
 			ExpressionNode cx = computeCoord(exp, 0);
 			ExpressionNode cy = computeCoord(exp, 1);
 			ExpressionValue[] coefX = new ExpressionValue[5], coefY = new ExpressionValue[5];
-			if(getTrigCoeffs(cx, coefX, new ExpressionNode(kernel,1.0),loc) && getTrigCoeffs(cy, coefY, new ExpressionNode(kernel,1.0),loc)){
+			if(getTrigCoeffs(cx, coefX, new ExpressionNode(kernel,1.0),loc) 
+					&& getTrigCoeffs(cy, coefY, new ExpressionNode(kernel,1.0),loc)){
 				ExpressionNode a , b, c, d, xx, xy, yy;
 				
 				
@@ -1555,6 +1556,16 @@ public class AlgebraProcessor {
 				AlgoDependentConic ac = new AlgoDependentConic(cons, label, eq);
 				return ac.getOutput();
 			}
+			int degX = getPolyCoeffs(cx, coefX, new ExpressionNode(kernel,1.0), loc); 
+			int degY = getPolyCoeffs(cy, coefY, new ExpressionNode(kernel,1.0), loc);
+			if(degX == 1 && degY == 1){
+				Polynomial px = new Polynomial(kernel,"x");
+				Polynomial py = new Polynomial(kernel,"y");
+				Equation eq = new Equation(kernel,coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),coefX[0].wrap().multiply(coefY[1]).subtract(coefX[1].wrap().multiply(coefY[0])));
+				eq.initEquation();
+				AlgoDependentLine al = new AlgoDependentLine(cons,label,eq);
+				return al.getOutput();
+			}
 			AlgoDependentNumber nx =
 					new AlgoDependentNumber(cons, cx, false);
 			
@@ -1572,6 +1583,35 @@ public class AlgebraProcessor {
 				+ exp.toString(StringTemplate.defaultTemplate));
 		throw new MyError(kernel.getApplication().getLocalization(), "InvalidFunction");
 		
+	}
+
+	private int getPolyCoeffs(ExpressionNode cx, ExpressionValue[] coefX, ExpressionNode mult, GeoNumeric loc2) {
+		if(cx.getOperation() == Operation.PLUS){
+			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
+			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult, loc2);
+			if(deg1 < 0 || deg2 <0){
+				return -1;
+			}
+			return Math.max(deg1, deg2);
+		}else if(cx.getOperation() == Operation.MINUS){
+			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
+			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult.multiply(-1), loc2);
+			if(deg1 < 0 || deg2 <0){
+				return -1;
+			}
+			return Math.max(deg1, deg2);
+		}else if(cx.getOperation() == Operation.MULTIPLY){
+			
+		}else if (cx.isLeaf()){
+			if(cx.getLeft()!=loc2){
+				coefX[0]=mult.multiply(cx.getLeft());
+				return 0;
+			}else{
+				coefX[1]=mult;
+				return 1;
+			}
+		}
+		return 0;
 	}
 
 	private ExpressionNode expr(ExpressionValue ev) {
