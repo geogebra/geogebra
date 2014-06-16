@@ -43,6 +43,9 @@ public class WindowReference implements EventRenderable {
 	
 	public native void close() /*-{
 		var wnd = this.@geogebra.html5.util.WindowReference::wnd;
+		if($wnd.debug){
+	    	$wnd.debug("closing");
+		}
 		if (wnd) {
 			wnd.close();
 		}
@@ -107,17 +110,10 @@ public class WindowReference implements EventRenderable {
     		return;
     	}
 	    if (!this.closed()) {
-	    	nativeDebug(event.getName());
 	    	this.close();
 	    	cleanWindowReferences();
 	    }	    
     }
-
-	private native void nativeDebug(String name) /*-{
-		if($wnd.debug){
-	    	$wnd.debug(name);
-		}
-    }-*/;
 
 	private void cleanWindowReferences() {
 	    requestAnimationFrame.cancel();

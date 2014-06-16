@@ -63,8 +63,8 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
 	}
 	
-	public void performCookieLogin(String cookie) {
-		doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
+	public boolean performCookieLogin(String cookie) {
+		return doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
 	}
 	/**
 	 * Performs the API call to authorize the token.
@@ -72,7 +72,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * @param automatic If the login is triggered automatically or by the user. This information will be provided
 	 * 					in the Login Event. 
 	 */
-	protected void doPerformTokenLogin(GeoGebraTubeUser user , boolean automatic) {
+	protected boolean doPerformTokenLogin(GeoGebraTubeUser user , boolean automatic) {
 		GeoGebraTubeAPI api = getGeoGebraTubeAPI();
 		
 
@@ -90,16 +90,17 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 			// Trigger event to signal successful login
 			onEvent(new LoginEvent(user, true, automatic));
-		} else {
-			if (result == GeoGebraTubeAPI.LOGIN_REQUEST_FAILED) {
-				App.error("The call to the GeoGebraTubeAPI failed!");
-			} else {
-				App.debug("The login token is invalid");
-			}
-
-			// Trigger event to signal unsuccessful login
-			onEvent(new LoginEvent(user, false, automatic));
+			return true;
 		}
+		if (result == GeoGebraTubeAPI.LOGIN_REQUEST_FAILED) {
+			App.error("The call to the GeoGebraTubeAPI failed!");
+		} else {
+			App.debug("The login token is invalid");
+		}
+
+		// Trigger event to signal unsuccessful login
+		onEvent(new LoginEvent(user, false, automatic));
+		return false;
 	}
 	
 	/**

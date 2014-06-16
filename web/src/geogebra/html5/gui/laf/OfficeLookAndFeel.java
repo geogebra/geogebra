@@ -33,12 +33,15 @@ public class OfficeLookAndFeel extends SmartLookAndFeel{
 	public void login(final App app, String loginURL) {
 		app.getDialogManager().showLogInDialog();
 		Timer loginChecker = new Timer(){
-
+			private String oldCookie = null;
 			@Override
             public void run() {
-				if(Cookies.getCookie("SSID") != null){
-		    		app.getLoginOperation().performCookieLogin(Cookies.getCookie("SSID"));
-		    		cancel();
+				String cookie = Cookies.getCookie("SSID");
+				if(cookie != null && !cookie.equals(oldCookie)){
+		    		if(app.getLoginOperation().performCookieLogin(cookie)){
+		    			cancel();
+		    		}
+		    		this.oldCookie = cookie;
 				}
             }};
         loginChecker.scheduleRepeating(2000);
