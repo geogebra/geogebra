@@ -2,6 +2,7 @@ package geogebra.html5.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.move.ggtapi.operations.BASEURL;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
@@ -99,6 +100,9 @@ public class WindowReference implements EventRenderable {
 	}-*/;
 
     public void renderEvent(BaseEvent event) {
+    	if(event instanceof LoginEvent && !((LoginEvent)event).isSuccessful()){
+    		return;
+    	}
 	    if (!this.closed()) {
 	    	this.close();
 	    	cleanWindowReferences();
