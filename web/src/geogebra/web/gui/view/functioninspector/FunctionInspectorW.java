@@ -168,9 +168,12 @@ public class FunctionInspectorW extends FunctionInspector {
 		tableXY.setCellEditable(-1, -1);
 
 		if (isTable) {
+			int row = (pointCount) / 2;
 			modelXY.setRowCount(pointCount);
-			tableXY.setSelectedRow((pointCount - 1) / 2);
-			tableXY.setCellEditable((pointCount - 1) / 2, 0);
+			App.debug("[updateXYTable] pointCount: " + pointCount +
+					" row: " + row);
+			tableXY.setSelectedRow(row);
+			tableXY.setCellEditable(row, 0);
 		} else {
 
 			modelXY.setRowCount(1);
@@ -205,6 +208,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public Object getXYValueAt(int row, int col) {
+		App.debug("GETDATA row: " + row + " col: " + col);
 		DataCell value = modelXY.getData(row, col );
 		
 		return value != null ? value.toString() : "";
@@ -271,7 +275,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public int getSelectedXYRow() {
-		return tableXY.getSelectedRow();
+		return tableXY.getSelectedRow() - 1;
 	}
 
 	@Override
