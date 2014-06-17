@@ -45,18 +45,15 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.ScrollEvent;
-import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
+public class MyTableW implements  /* FocusListener, */MyTable {
 	private static final long serialVersionUID = 1L;
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
@@ -235,7 +232,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		return ssGrid;
 	}
 
-	ScrollPanel scroller;
+	protected TableScroller scroller;
 
 	private FlowPanel tableWrapper;
 	protected SpreadsheetRowHeaderW2 rowHeader;
@@ -566,8 +563,8 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		rowHeaderContainer.add(cornerContainerLowerLeft);
 
 		// spreadsheet table
-		ssGrid = new Grid(tableModel.getRowCount() + 1,
-		        tableModel.getColumnCount() + 1);
+		ssGrid = new Grid(tableModel.getRowCount(),
+		        tableModel.getColumnCount());
 		gridPanel = new AbsolutePanel();
 		gridPanel.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
 		gridPanel.add(ssGrid);
@@ -576,10 +573,7 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		gridPanel.add(blueDot);
 		gridPanel.add(editorPanel);
 		
-		scroller = new ScrollPanel(gridPanel);
-		scroller.addStyleName("scroller");
-
-		scrollHandlerRegistration = scroller.addScrollHandler(this);
+		scroller = new TableScroller(this,rowHeader, columnHeader);
 
 		ssGridContainer = new FlowPanel();
 		s = ssGridContainer.getElement().getStyle();
@@ -609,6 +603,10 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		tableWrapper.add(headerRow);
 		tableWrapper.add(tableRow);
 		
+	}
+
+	public AbsolutePanel getGridPanel() {
+		return gridPanel;
 	}
 
 	private void updateTableLayout() {
@@ -646,53 +644,6 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		}
 	}
 	
-	boolean doAdjustScroll = true;
-
-	protected void adjustScroll() {
-		
-		if (!doAdjustScroll) {
-			return;
-		}
-		
-		int offH = ssGrid.getAbsoluteLeft();
-		int offV = ssGrid.getAbsoluteTop();
-		
-		// get pixel coordinates of the upper left corner
-		int x = scroller.getHorizontalScrollPosition() + offH;
-		int y = scroller.getVerticalScrollPosition() + offV;
-
-		// get upper left cell coordinates
-		GPoint p = this.getIndexFromPixel(x , y);
-		if (p == null) {
-			return;
-		}
-		
-		// get new pixel coordinates to place the upper left cell exactly
-		GPoint p2 = this.getPixel(p.x, p.y, true);
-		if (p2 == null) {
-			return;
-		}
-		
-		// now scroll to move the upper left cell into position
-		int newScrollH = p2.x - offH;
-		int newScrollV = p2.y - offV;
-	//	App.debug("scroll: " + x + " , " + y + "  col,row: " + p.x + " , "
-	//	        + p.y + "  scroll2: " + newScrollH + " , " + newScrollV);
-
-		doAdjustScroll = false;
-		scroller.setHorizontalScrollPosition(newScrollH);
-		scroller.setVerticalScrollPosition(newScrollV);
-		doAdjustScroll = true;
-	}
-
-	public void onScroll(ScrollEvent event) {
-		
-		adjustScroll();
-		int t = -scroller.getVerticalScrollPosition();
-		rowHeader.getElement().getStyle().setTop(t, Unit.PX);
-		int l = -scroller.getHorizontalScrollPosition();
-		columnHeader.getElement().getStyle().setLeft(l, Unit.PX);
-	}
 
 	/**
 	 * Returns parent SpreadsheetView for this table
@@ -928,6 +879,12 @@ public class MyTableW implements  /* FocusListener, */MyTable, ScrollHandler {
 		}
 		// let selectionChanged know about a change in single cell selection
 		selectionChanged();
+		
+		GRectangle cellRect = getCellRect(rowIndex, columnIndex, false);
+        if (cellRect != null) {
+        	scroller.scrollRectToVisible(cellRect);
+        }
+		
 	}
 
 	public void selectAll() {

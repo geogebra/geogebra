@@ -85,14 +85,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				// default action
 				if (row > 0) {
 					table.changeSelection(row-1, column, false, e.isShiftKeyDown());
-					int pixely = table.getContainer().getAbsoluteTop();
-					GPoint gip = table.getIndexFromPixel(1, pixely);
-					if (gip != null && gip.getY() >= row - 1) {
-						np = table.getPixel(column, row - 1, false).getY();
-						op = table.getPixel(column, row, false).getY();
-						view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-							+ np - op);
-					}
 				}
 			}
 			// copy description into input bar when a cell is entered
@@ -125,14 +117,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				// default action
 				if (column > 0) {
 					table.changeSelection(row, column - 1, false, e.isShiftKeyDown());
-					int pixelx = view.getFocusPanel().getAbsoluteLeft();
-					GPoint gip = table.getIndexFromPixel(pixelx, 1);
-					if (gip != null && gip.getX()  >= column - 1) {
-						np = table.getPixel(column - 1, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
-						op = table.getPixel(column, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
-						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
-							+ np - op);
-					}
 				}
 			}
 //			// copy description into input bar when a cell is entered
@@ -153,10 +137,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
 
 				table.changeSelection(row+1, column, false, e.isShiftKeyDown());
-				np = table.getPixel(column, row + 1, false).getY();
-				op = table.getPixel(column, row, false).getY();
-				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-					+ np - op);
 			}
 			else if (e.isControlKeyDown()) {
 				//AppD.isControlDown(e)) {
@@ -179,14 +159,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				// default action
 				if (row +1 < table.getRowCount() - 1) {
 					table.changeSelection(row + 1, column, false, e.isShiftKeyDown());
-					int pixely = table.getContainer().getAbsoluteTop() + table.getContainer().getOffsetHeight();
-					GPoint gip = table.getIndexFromPixel(1, pixely);
-					if (gip != null && gip.getY()  <= row + 1) {
-						np = table.getPixel(column, row + 1, false).getY();
-						op = table.getPixel(column, row, false).getY();
-						view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-							+ np - op);
-					}
 				}
 			}
 
@@ -255,11 +227,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				// these two lines are a workaround for Java 6
 				// (Java bug?)
 				table.changeSelection(row, column + 1, false, false);
-				np = table.getPixel(column + 1, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
-				op = table.getPixel(column, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
-				view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
-					+ np - op);
-				//e.consume();
 			}
 			else if (e.isControlKeyDown()) {
 				//AppD.isControlDown(e)) {
@@ -279,14 +246,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				// default action
 				if (column + 1 < table.getColumnCount() - 1) {
 					table.changeSelection(row, column + 1, false, e.isShiftKeyDown());
-					int pixelx = view.getFocusPanel().getAbsoluteLeft() + view.getFocusPanel().getOffsetWidth();
-					GPoint gip = table.getIndexFromPixel(pixelx, 1);
-					if (gip != null && gip.getX()  <= column + 1) {
-						np = table.getPixel(column + 1, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
-						op = table.getPixel(column, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
-						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
-							+ np - op);
-					}
 				}
 			}
 
@@ -415,15 +374,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			GPoint gip = table.getIndexFromPixel(pixelx, pixely);
 			if (gip != null) {
 				table.changeSelection(gip.getY(), column, false, false);
-				int oldpixely = table.getPixel(column, row, false).getY();
-				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-					+ pixely - oldpixely);
 			} else {
 				table.changeSelection(model.getRowCount() - 1, column, false, false);
-				pixely = table.getPixel(column, model.getRowCount() - 1, false).getY();
-				int oldpixely = table.getPixel(column, row, false).getY();
-				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-					+ pixely - oldpixely);
 			}
 			break;
 
@@ -435,16 +387,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			GPoint gi = table.getIndexFromPixel(pixx, pixy);
 			if (gi != null) {
 				table.changeSelection(gi.getY(), column, false, false);
-				int oldpixy = table.getPixel(column, row, false).getY();
-				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-						+ pixy - oldpixy);
 				// stop cell being erased before moving
 			} else {
 				table.changeSelection(0, column, false, false);
-				pixy = table.getPixel(column, 0, false).getY();
-				int oldpixy = table.getPixel(column, row, false).getY();
-				view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-					+ pixy - oldpixy);
 			}
 			break;
 
@@ -461,39 +406,14 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 						// this cannot happen
 
 					table.changeSelection(row, column-1, false, false);
-					int pix = view.getFocusPanel().getAbsoluteLeft();
-					GPoint gipp = table.getIndexFromPixel(pix, 1);
-					if (gipp != null && gipp.getX() - 1 >= column - 1) {
-						np = table.getPixel(column - 1, row, false).getX();
-						op = table.getPixel(column, row, false).getX();
-						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
-							+ np - op);
-					}
+
 				} else {
 					if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1) {
 						if (table.getSelectedRow() + 1 < table.getRowCount() - 1) {
 							table.changeSelection(row+1, 0, false, false);
-							view.setHorizontalScrollPosition(0);
-
-							int piy = view.getFocusPanel().getAbsoluteTop() + view.getFocusPanel().getOffsetHeight();
-							GPoint gipp = table.getIndexFromPixel(1, piy);
-							if (gipp != null && gipp.getY() - 1 <= row + 1) {
-								np = table.getPixel(column, row + 1, false).getY();
-								op = table.getPixel(column, row, false).getY();
-								view.setVerticalScrollPosition(view.getVerticalScrollPosition()
-									+ np - op);
-							}
 						}
 					} else {
 						table.changeSelection(row, column+1, false, false);
-						int pix = view.getFocusPanel().getAbsoluteLeft() + view.getFocusPanel().getOffsetWidth();
-						GPoint gipp = table.getIndexFromPixel(pix, 1);
-						if (gipp != null && gipp.getX() - 1 <= column + 1) {
-							np = table.getPixel(column + 1, row, false).getX();
-							op = table.getPixel(column, row, false).getX();
-							view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
-								+ np - op);
-						}
 					}
 				}
 			}
