@@ -3169,20 +3169,25 @@ public class Kernel {
 	
 	private void printAttachedViews() {
 		
-		if (!notifyViewsActive) {
-			App.debug("Number of registered views = 0");
-		}else{
-			StringBuilder sb = new StringBuilder();
-			sb.append("Number of registered views = ");
-			sb.append(views.size());
-			for (View view : views) {
-				sb.append("\n * ");
-				sb.append(view.getClass());
-			}
+		// can give java.util.ConcurrentModificationException
+		try {
+			if (!notifyViewsActive) {
+				App.debug("Number of registered views = 0");
+			} else {
+				StringBuilder sb = new StringBuilder();
+				sb.append("Number of registered views = ");
+				sb.append(views.size());
+				for (View view : views) {
+					sb.append("\n * ");
+					sb.append(view.getClass());
+				}
 
-			App.debug(sb.toString());
+				App.debug(sb.toString());
+			}
+		} catch (Exception e) {
+			App.debug(e.getMessage());
 		}
-		
+
 	}
 
 	private boolean notifyViewsActive = true;
