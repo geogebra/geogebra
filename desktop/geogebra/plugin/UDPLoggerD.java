@@ -29,7 +29,7 @@ public class UDPLoggerD implements UDPLogger {
 		TIMESTAMP("time"), ACCELEROMETER_X("Ax"), ACCELEROMETER_Y("Ay"), ACCELEROMETER_Z(
 				"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
 				"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
-				"Mz");
+				"Mz"), EDAQ0("EDAQ0"), EDAQ1("EDAQ1"), EDAQ2("EDAQ2");
 
 		private String string;
 
@@ -136,6 +136,8 @@ public class UDPLoggerD implements UDPLogger {
 						byte c0 = buffer[0];
 						byte c1 = buffer[1];
 						byte c2 = buffer[2];
+						byte c3 = buffer[3];
+						byte c4 = buffer[4];
 						if (c0 == 'F' && c1 == 'S' && c2 == 0x01) {
 
 							// https://itunes.apple.com/gb/app/sensor-data-streamer/id608278214?mt=8
@@ -182,6 +184,31 @@ public class UDPLoggerD implements UDPLogger {
 							 * getInt(buffer, 107));
 							 */
 
+						} else if (c0 == 'E' && c1 == 'D' && c2 == 'A'
+								&& c3 == 'Q') {
+							// EDAQ 530
+
+							String msg = new String(buffer, 0,
+									packet.getLength());
+							// App.debug(msg);
+
+							String[] split = msg.split(",");
+
+							switch (c4) {
+							case '0':
+								log(Types.EDAQ0, Double.parseDouble(split[1]));
+								break;
+							case '1':
+								log(Types.EDAQ1, Double.parseDouble(split[1]));
+								break;
+							case '2':
+								log(Types.EDAQ2, Double.parseDouble(split[1]));
+								break;
+
+							default:
+								App.error("unknown EDAQ port " + msg);
+							}
+
 						} else {
 
 							// https://play.google.com/store/apps/details?id=jp.ac.ehime_u.cite.sasaki.SensorUdp&feature=nav_result
@@ -194,6 +221,8 @@ public class UDPLoggerD implements UDPLogger {
 
 							switch (buffer[0]) {
 							case 'A':
+
+								App.debug("received" + msg);
 
 								log(Types.ACCELEROMETER_X,
 										Double.parseDouble(split[3]));
