@@ -591,7 +591,7 @@ public class AlgebraProcessor {
 									
 									//TODO: need we to catch the Exception here,
 									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
-									if (dialogResult[0] == "0"){
+									if ("0".equals(dialogResult[0])){
 										insertStarIfNeeded(undefinedVariables, ve2, fvX2);
 										replaceUndefinedVariables(ve2);
 										try {
