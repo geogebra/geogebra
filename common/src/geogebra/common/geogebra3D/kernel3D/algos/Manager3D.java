@@ -37,7 +37,9 @@ import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConicPart;
@@ -1667,6 +1669,19 @@ public class Manager3D implements Manager3DInterface {
 		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3DOrientation(cons, label, A, B,
 				C, orientation, type);
 		return algo.getConicPart();
+	}
+
+	@Override
+	public GeoLine3D Line3D(String label, ExpressionValue[] coefX,
+			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
+		MyVec3DNode start = new MyVec3DNode(kernel, coefX[0], coefY[0], coefZ[0]);
+		MyVec3DNode v = new MyVec3DNode(kernel, coefX[1], coefY[1], coefZ[1]);
+		AlgoDependentPoint3D pt = new AlgoDependentPoint3D(cons, start.wrap());
+		AlgoDependentVector3D vec = new AlgoDependentVector3D(cons, v.wrap());
+		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label, pt.getPoint3D(),
+				vec.getVector3D());
+		GeoLine3D g = algo.getLine();
+		return g;
 	}
 	
 	

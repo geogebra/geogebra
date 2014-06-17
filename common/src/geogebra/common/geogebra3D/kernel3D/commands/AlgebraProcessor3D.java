@@ -17,6 +17,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCurveCartesian;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -265,13 +266,59 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			loc.setLocalVariableLabel(fv.getSetVarString());
 			exp.replace(fv, loc);
 			
+			ExpressionNode cx = computeCoord(exp, 0);
+			ExpressionNode cy = computeCoord(exp, 1);
+			ExpressionNode cz = computeCoord(exp, 2);
+			
+			ExpressionValue[] coefX = new ExpressionValue[5];
+			ExpressionValue[] coefY = new ExpressionValue[5];
+			ExpressionValue[] coefZ = new ExpressionValue[5];
+			for(int i=0;i<coefX.length;i++){
+				coefX[i] = new ExpressionNode(kernel,0);
+				coefY[i] = new ExpressionNode(kernel,0);
+				coefZ[i] = new ExpressionNode(kernel,0);
+			}
+			int degX = getPolyCoeffs(cx, coefX, new ExpressionNode(kernel,1), loc);
+			int degY = getPolyCoeffs(cy, coefY, new ExpressionNode(kernel,1), loc);
+			int degZ = getPolyCoeffs(cz, coefZ, new ExpressionNode(kernel,1), loc);
+
+			if((degX >= 0 && degY >= 0 && degZ >=0 ) && (degX < 2 && degY < 2 && degZ <2)){
+				/*
+				 if (P.isGeoElement3D() || v.isGeoElement3D()) {
+			if (isConstant) {
+				line = new GeoLine3D(cons);
+				((GeoLine3D) line).setCoord(P.getCoordsInD(3),v.getCoordsInD(3));
+				line.setLabel(par.getLabel());
+			}else{
+				line = kernel.getManager3D().Line3D(par.getLabel(), P, v);
+			}
+		} else {
+			line = Line(par, (GeoPoint) P, (GeoVector) v, isConstant);
+		}
+				 */
+				GeoLine3D line = new GeoLine3D(cons);
+				if(coefX[0].isConstant() &&coefY[0].isConstant() && coefZ[0].isConstant()&&
+						coefX[1].isConstant() &&coefY[1].isConstant() && coefZ[1].isConstant()){
+				
+				Coords start = new Coords(new double[]{coefX[0].evaluateDouble(),coefY[0].evaluateDouble(),
+						coefZ[0].evaluateDouble()});
+				Coords v = new Coords(new double[]{coefX[1].evaluateDouble(),coefY[1].evaluateDouble(),
+						coefZ[1].evaluateDouble()});
+				line.setCoord(start, v);
+				}else{
+					line = kernel.getManager3D().Line3D(label, coefX, coefY, coefZ);
+				
+				}
+				return new GeoElement[]{line};
+				
+			}
 			AlgoDependentNumber nx =
-			new AlgoDependentNumber(cons, computeCoord(exp, 0), false);
+			new AlgoDependentNumber(cons, cx, false);
 			
 			AlgoDependentNumber ny =
-					new AlgoDependentNumber(cons, computeCoord(exp, 1), false);
+					new AlgoDependentNumber(cons, cy, false);
 			AlgoDependentNumber nz =
-					new AlgoDependentNumber(cons, computeCoord(exp, 2), false);
+					new AlgoDependentNumber(cons, cz, false);
 			
 			GeoNumeric from = new GeoNumeric(cons,-10);
 			GeoNumeric to = new GeoNumeric(cons,10);

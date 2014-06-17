@@ -1,10 +1,12 @@
 package geogebra.common.kernel;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -868,6 +870,9 @@ public interface Manager3DInterface {
 	 * circle arc/sector from center and two points on arc (oriented)
 	 */
 	public GeoConicPartND CircleArcSector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type);
+
+	public GeoLine3D Line3D(String label, ExpressionValue[] coefX,
+			ExpressionValue[] coefY, ExpressionValue[] coefZ);
 
 
 

@@ -40,9 +40,15 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
     private GeoPoint3D P;     // output         
     
     private double[] temp;
-        
-    /** Creates new AlgoJoinPoints */
+    
     public AlgoDependentPoint3D(Construction cons, String label, ExpressionNode root) {
+    	this(cons, root);
+        
+
+    	P.setLabel(label);
+    } 
+    /** Creates new AlgoJoinPoints */
+    public AlgoDependentPoint3D(Construction cons, ExpressionNode root) {
     	super(cons);
         this.root = root;        
         
@@ -53,9 +59,7 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
 
     	// compute value of dependent number
         compute();      
-        
 
-    	P.setLabel(label);
     }   
     
 	@Override

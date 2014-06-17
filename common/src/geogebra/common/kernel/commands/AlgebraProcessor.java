@@ -1571,7 +1571,7 @@ public class AlgebraProcessor {
 			App.debug(cx+","+cy);
 			int degX = getPolyCoeffs(cx, coefX, new ExpressionNode(kernel,1.0), loc); 
 			int degY = getPolyCoeffs(cy, coefY, new ExpressionNode(kernel,1.0), loc);
-			if(degX == 1 && degY == 1){
+			if((degX >= 0 && degY >= 0) && (degX < 2 && degY < 2)){
 				Polynomial px = new Polynomial(kernel,"x");
 				Polynomial py = new Polynomial(kernel,"y");
 				App.debug(coefX[0]+","+coefX[1]+","+coefY[0]+","+coefY[1]);
@@ -1602,7 +1602,7 @@ public class AlgebraProcessor {
 		
 	}
 
-	private int getPolyCoeffs(ExpressionNode cx, ExpressionValue[] coefX, ExpressionNode mult, GeoNumeric loc2) {
+	protected int getPolyCoeffs(ExpressionNode cx, ExpressionValue[] coefX, ExpressionNode mult, GeoNumeric loc2) {
 		if(cx.getOperation() == Operation.PLUS){
 			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
 			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult, loc2);
@@ -1630,8 +1630,8 @@ public class AlgebraProcessor {
 		}else if(cx.unwrap() == loc2){
 			add(coefX,1,mult);
 			return 1;
-		};
-		return 0;
+		}
+		return -1;
 	}
 
 	private ExpressionNode expr(ExpressionValue ev) {

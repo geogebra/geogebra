@@ -1660,5 +1660,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return incident;
 	}
 	
+	public boolean evaluatesTo3DVector(){
+		return true;
+	}
+	
 
 }
