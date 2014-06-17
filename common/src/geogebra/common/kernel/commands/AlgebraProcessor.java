@@ -505,11 +505,13 @@ public class AlgebraProcessor {
 					FunctionVariable fv = new FunctionVariable(kernel,varName);
 					ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
 							fv)).wrap();
+					exp.resolveVariables(false);
 					GeoElement[] ret = processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate), fv, null);
 					if(ret!=null){
 						return ret;
 					}
 				}catch(Throwable t){
+					t.printStackTrace();
 					Log.debug("X is not parametric");
 				}
 			}
@@ -1893,7 +1895,7 @@ public class AlgebraProcessor {
 					FunctionVariable fv = new FunctionVariable(kernel, varName);
 					VariableReplacer var = VariableReplacer.getReplacer(varName, fv);
 					ExpressionNode exp = equ.getRHS().traverse(rep).traverse(var).wrap();
-					
+					exp.resolveVariables(false);
 					return this.processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate),
 							fv, equ.getLabel());
 				} catch (MyError funError) {
