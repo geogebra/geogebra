@@ -437,11 +437,7 @@ ValidExpression buildValidExpression() :
      |             
      	// spreadsheet range like A1:B2
 		LOOKAHEAD (3)
-		ve = spreadsheetRange()
-     |     
-        // h: X = (3,2) + t (5,1)
-      	LOOKAHEAD(2147483647) 
-      	l = label() (":" | <ASSIGNMENT> )  ve = parametric()      
+		ve = spreadsheetRange()     
      |     
         // g: 3x + y = 7 
         LOOKAHEAD(2147483647)      
@@ -452,9 +448,6 @@ ValidExpression buildValidExpression() :
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too                                  
 	  	LOOKAHEAD(2147483647)  
 	    l = label() (":" | <ASSIGNMENT> )  ve = cmdexpression()
-	 |
-	    LOOKAHEAD(2147483647)
-	    ve = parametric()
 	 |     
         // distingiush <LABEL> = expressionnode()               and  
         //             expressionnode() = expressionnode()      (Equation)
@@ -747,55 +740,6 @@ Vector labellist():
 }
 
 
-/**
- * parametric =   <PARAMETRICVAR> = vector + <LABEL> * vector  |
- *                <PARAMETRICVAR> = vector - <LABEL> * vector |
- */
-Parametric parametric():
-{         
-    ExpressionValue P, v;
-    Token s, par;
-    Token lhs = null;    
-}
-{    
-    (
-      lhs = < LABEL >
-      < EQUAL >
-    ) P = multterm()
-    ( 
-     (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = expression()
-         {                                    
-            if (s.kind == MINUS) 
-                v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                  
-            return new Parametric(kernel, P, v, par.image, lhs == null ? null : lhs.image);                
-         }
-    ) 
-}
-
-/**
- * parametric3D =   < LABEL > = vector3D + <LABEL> * vector3D  |
- *                  < LABEL > = vector3D - <LABEL> * vector3D |
- */
-Parametric3D parametric3D():
-{         
-    ExpressionValue P, v;
-    Token s, par;
-    Token lhs = null;    
-}
-{    
-    (
-      lhs = < LABEL >
-      < EQUAL >
-    ) P = cartesianvector3D()
-    ( 
-     (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = cartesianvector3D()
-         {                                    
-            if (s.kind == MINUS) 
-                v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                  
-            return new Parametric3D(kernel, P, v, par.image, lhs == null ? null : lhs.image);                
-         }
-    ) 
-}
 
 
 /** NOT USED BY NOW

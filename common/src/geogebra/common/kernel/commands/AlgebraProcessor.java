@@ -499,7 +499,20 @@ public class AlgebraProcessor {
 			if (fvX == null) {
 				fvX = new FunctionVariable(ve.getKernel(), "x");
 			}
-			
+			if(undefinedVariables.size() == 1 && "X".equals(ve.getLabel())){
+				try{
+					String varName = undefinedVariables.first();
+					FunctionVariable fv = new FunctionVariable(kernel,varName);
+					ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
+							fv)).wrap();
+					GeoElement[] ret = processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate), fv, null);
+					if(ret!=null){
+						return ret;
+					}
+				}catch(Throwable t){
+					Log.debug("X is not parametric");
+				}
+			}
 			if (undefinedVariables.size() > 0) {
 
 				// ==========================
@@ -1560,11 +1573,11 @@ public class AlgebraProcessor {
 				Polynomial px = new Polynomial(kernel,"x");
 				Polynomial py = new Polynomial(kernel,"y");
 				App.debug(coefX[0]+","+coefX[1]+","+coefY[0]+","+coefY[1]);
-				Equation eq = new Equation(kernel,coefY[1].wrap().multiply(px).subtract(coefX[1].wrap().multiply(py)),
-						coefX[0].wrap().multiply(coefY[1]).subtract(coefX[1].wrap().multiply(coefY[0])));
+				Equation eq = new Equation(kernel,coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),
+						coefX[1].wrap().multiply(coefY[0]).subtract(coefX[0].wrap().multiply(coefY[1])));
 				eq.initEquation();
 				AlgoDependentLine al = new AlgoDependentLine(cons,label,eq);
-				al.getLine().setMode(GeoLine.PARAMETRIC);
+				al.getLine().setToParametric(fv.getSetVarString());
 				al.getLine().update();
 				return al.getOutput();
 			}
@@ -1866,6 +1879,23 @@ public class AlgebraProcessor {
 					// try to use label of equation
 					fun.setLabel(equ.getLabel());
 					return processFunction(fun);
+				} catch (MyError funError) {
+					funError.printStackTrace();
+				}
+			}
+			else if (lhsStr.equals("X")) {
+				try {
+					// try to create function from right hand side
+					CollectUndefinedVariables cu = new CollectUndefinedVariables();
+					equ.getRHS().traverse(cu);
+					String varName = cu.getResult().first();
+					PolyReplacer rep = PolyReplacer.getReplacer();
+					FunctionVariable fv = new FunctionVariable(kernel, varName);
+					VariableReplacer var = VariableReplacer.getReplacer(varName, fv);
+					ExpressionNode exp = equ.getRHS().traverse(rep).traverse(var).wrap();
+					
+					return this.processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate),
+							fv, equ.getLabel());
 				} catch (MyError funError) {
 					funError.printStackTrace();
 				}
