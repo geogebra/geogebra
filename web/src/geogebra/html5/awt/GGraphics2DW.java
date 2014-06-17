@@ -640,7 +640,6 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 	
 	public void setCoordinateSpaceSize(int width, int height) {
-		App.printStacktrace(height);
 		canvas.setCoordinateSpaceWidth(width * devicePixelRatio);
 		canvas.setCoordinateSpaceHeight(height * devicePixelRatio);
 		scale(devicePixelRatio, devicePixelRatio);
