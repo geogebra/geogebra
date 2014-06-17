@@ -46,7 +46,6 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.Term;
 import geogebra.common.kernel.arithmetic.TextValue;
@@ -1422,11 +1421,6 @@ public class AlgebraProcessor {
 			ret = processFunctionNVar((FunctionNVar) ve);
 		}
 
-		// Parametric Line
-		else if (ve instanceof Parametric) {
-			ret = processParametric((Parametric) ve);
-		}
-
 		// // Assignment: variable
 		// else if (ve instanceof Assignment) {
 		// ret = processAssignment((Assignment) ve);
@@ -2044,78 +2038,9 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
-	/**
-	 * @param par parametric expression
-	 * @return list containing single line
-	 * @throws MyError if invalid
-	 */
-	protected GeoElement[] processParametric(Parametric par)
-			throws MyError {
+	
 
-		/*
-		 * ExpressionValue temp = P.evaluate(); if (!temp.isVectorValue()) {
-		 * String [] str = { "VectorExpected", temp.toString() }; throw new
-		 * MyParseError(kernel.getApplication(), str); }
-		 * 
-		 * v.resolveVariables(); temp = v.evaluate(); if (!(temp instanceof
-		 * VectorValue)) { String [] str = { "VectorExpected", temp.toString()
-		 * }; throw new MyParseError(kernel.getApplication(), str); }
-		 */
-
-		// point and vector are created silently
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		// get point
-		ExpressionNode node = par.getP();
-		node.setForcePoint();
-		GeoElement[] temp = processExpressionNode(node);
-		GeoPoint P = (GeoPoint) temp[0];
-		boolean isConstant = node.isConstant();
-
-		// get vector
-		node = par.getv();
-		node.setForceVector();
-		temp = processExpressionNode(node);
-		GeoVector v = (GeoVector) temp[0];
-		isConstant = isConstant && node.isConstant();
-
-		// switch back to old mode
-		cons.setSuppressLabelCreation(oldMacroMode);
-
-		GeoLine line = Line(par,P,v,isConstant);
-
-		GeoElement[] ret = { line };
-		return ret;
-	}
-
-
-	/**
-	 * 
-	 * @param par parametric equation
-	 * @param P point
-	 * @param v vector
-	 * @param isConstant says if point and vector are constants
-	 * @return parametric line
-	 */
-	final protected GeoLine Line(Parametric par, GeoPoint P, GeoVector v, boolean isConstant) {
-		// Line through P with direction v
-		GeoLine line;
-		// independent line
-		if (isConstant) {
-			line = new GeoLine(cons);
-			line.setCoords(-v.y, v.x, v.y * P.inhomX - v.x * P.inhomY);
-			line.setLabel(par.getLabel());
-		}
-		// dependent line
-		else {
-			line = kernel.getAlgoDispatcher().Line(par.getLabel(), P, v);
-		}
-		line.setToParametric(par.getParameter());
-		line.updateRepaint();
-
-		return line;
-	}
+	
 
 	/**
 	 * @param node expression
@@ -2143,11 +2068,7 @@ public class AlgebraProcessor {
 				FunctionNVar fun = (FunctionNVar) leaf;
 				fun.setLabels(n.getLabels());
 				return processFunctionNVar(fun);
-			} else if (leaf instanceof Parametric) {
-				Parametric par = (Parametric) leaf;
-				par.setLabels(n.getLabels());
-				return processParametric(par);
-			}
+			} 
 
 		}
 		ExpressionValue eval; // ggb3D : used by AlgebraProcessor3D in

@@ -145,9 +145,6 @@ public interface Inspecting {
 			} else if (v instanceof MyList) {
 				type = 6;
 				return false;
-			} else if (v instanceof Parametric) {
-				type = 7;
-				return false;
 			} else if (v instanceof Polynomial){
 				type = 8;
 				return false;

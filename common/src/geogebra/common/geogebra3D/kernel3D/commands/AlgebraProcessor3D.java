@@ -25,19 +25,12 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.MyError;
 
 
 public class AlgebraProcessor3D extends AlgebraProcessor {
@@ -213,51 +206,6 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		return ret;
 	}
 
-	@Override
-	// eg g: X = (-5, 5, 2) + t (4, -3, -2)
-	protected GeoElement[] processParametric(Parametric par)
-			throws MyError {
-
-		// point and vector are created silently
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		// get point
-		ExpressionNode node = par.getP();
-		node.setForcePoint();
-		GeoElement[] temp = processExpressionNode(node);
-		GeoPointND P = (GeoPointND) temp[0];
-		boolean isConstant = node.isConstant();
-
-		// get vector
-		node = par.getv();
-		node.setForceVector();
-		temp = processExpressionNode(node);
-		GeoVectorND v = (GeoVectorND) temp[0];
-		isConstant = isConstant && node.isConstant();
-		
-		// switch back to old mode
-		cons.setSuppressLabelCreation(oldMacroMode);
-
-		// Line through P with direction v
-		GeoLineND line;
-		if (P.isGeoElement3D() || v.isGeoElement3D()) {
-			if (isConstant) {
-				line = new GeoLine3D(cons);
-				((GeoLine3D) line).setCoord(P.getCoordsInD(3),v.getCoordsInD(3));
-				line.setLabel(par.getLabel());
-			}else{
-				line = kernel.getManager3D().Line3D(par.getLabel(), P, v);
-			}
-		} else {
-			line = Line(par, (GeoPoint) P, (GeoVector) v, isConstant);
-		}
-
-		line.setToParametric(par.getParameter());
-		line.updateRepaint();
-		GeoElement[] ret = { (GeoElement) line };
-		return ret;
-	}
 	
 	protected GeoElement[] processParametricFunction(ExpressionNode exp, ExpressionValue ev, FunctionVariable fv,
 			String label) {
