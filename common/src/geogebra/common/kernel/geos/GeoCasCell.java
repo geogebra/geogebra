@@ -524,10 +524,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return true;
 	}
 
-	private void updateLocalizedInput(final StringTemplate tpl, final String input) {
+	private void updateLocalizedInput(final StringTemplate tpl, final String input1) {
 		// for efficiency: localized input with local command names
 		currentLanguage = loc.getLanguage();
-		localizedInput = localizeInput(input, tpl);
+		localizedInput = localizeInput(input1, tpl);
 	}
 
 	/**
@@ -1081,13 +1081,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			for (GeoElement inGeo : inputGeos) {
 				// replacement uses default template
 				GeoDummyReplacer ge = GeoDummyReplacer.getReplacer(
-						inGeo.getLabel(StringTemplate.defaultTemplate), inGeo);
+						inGeo.getLabel(StringTemplate.defaultTemplate), inGeo, false);
 				node.traverse(ge);
 				if (!ge.didReplacement()) {
 					// try $ row reference
 					ge = GeoDummyReplacer.getReplacer(
 							ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX,
-							inGeo);
+							inGeo, false);
 					node.traverse(ge);
 
 				}
@@ -1139,7 +1139,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// look for GeoDummyVariable objects with name of function
 				// variable and replace them
 				GeoDummyReplacer ge = GeoDummyReplacer.getReplacer(varLabel,
-						geo);
+						geo, false);
 				fun.getExpression().traverse(ge);
 			}
 		}

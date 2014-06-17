@@ -203,11 +203,12 @@ public interface Traversing {
 		private String var;
 		private ExpressionValue newObj;
 		private boolean didReplacement;
+		private boolean replaceFVs;
 		public ExpressionValue process(ExpressionValue ev) {
-				
-				if(!(ev instanceof GeoDummyVariable) ||
-						!var.equals(((GeoDummyVariable) ev).toString(StringTemplate.defaultTemplate)))
+				boolean hitClass = ev instanceof GeoDummyVariable || (replaceFVs && ev instanceof FunctionVariable);
+				if(!hitClass || !var.equals(ev.toString(StringTemplate.defaultTemplate))){
 					return ev;
+				}
 				didReplacement = true;
 				return newObj;
 		}
@@ -217,10 +218,11 @@ public interface Traversing {
 		 * @param replacement replacement object
 		 * @return replacer
 		 */
-		public static GeoDummyReplacer getReplacer(String varStr,ExpressionValue replacement){
+		public static GeoDummyReplacer getReplacer(String varStr,ExpressionValue replacement, boolean replaceFVs){
 			replacer.var = varStr;
 			replacer.newObj = replacement;
 			replacer.didReplacement = false;
+			replacer.replaceFVs = replaceFVs;
 			return replacer;
 		}
 		/**
@@ -1028,6 +1030,4 @@ public interface Traversing {
 		public static CASCommandReplacer replacer = new CASCommandReplacer();
 
 	}
-
-
 }

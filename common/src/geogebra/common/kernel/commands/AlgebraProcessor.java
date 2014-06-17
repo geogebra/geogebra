@@ -595,8 +595,7 @@ public class AlgebraProcessor {
 										insertStarIfNeeded(undefinedVariables, ve2, fvX2);
 										replaceUndefinedVariables(ve2);
 										try {
-											ValidExpression ve3 = addBracketsIfNeeded(cmd, ve2, undefinedVariables, fvX2);
-											geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve3);
+											geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve2);
 										} catch (Exception ee) {
 											AlgebraProcessor.this.app.showError(ee.getMessage());
 											return;
@@ -626,12 +625,6 @@ public class AlgebraProcessor {
 				// ==========================
 				replaceUndefinedVariables(ve);
 			}
-
-
-			// Step 7:
-			// reparse and replace sinx -> sin(x) (shouldn't be necessary but bug with autocreation for y=m x + c)
-			// #3605
-			ve = addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX);
 			
 		} catch (Exception e) {
 

@@ -216,9 +216,9 @@ public class Equation extends ValidExpression {
     	
 
     	// replace GeoDummyVariables for "x", "y", "z" which may be coming from CAS view
-    	traverse(GeoDummyReplacer.getReplacer("x", new Polynomial(kernel, "x")));
-    	traverse(GeoDummyReplacer.getReplacer("y", new Polynomial(kernel, "y")));
-    	traverse(GeoDummyReplacer.getReplacer("z", new Polynomial(kernel, "z")));
+    	traverse(GeoDummyReplacer.getReplacer("x", new Polynomial(kernel, "x"),true));
+    	traverse(GeoDummyReplacer.getReplacer("y", new Polynomial(kernel, "y"),true));
+    	traverse(GeoDummyReplacer.getReplacer("z", new Polynomial(kernel, "z"),true));
            
         // resolve variables in lhs         
         if (lhs.isLeaf() && lhs.getLeft().isVariable()) {
@@ -231,7 +231,7 @@ public class Equation extends ValidExpression {
         	// standard case for lhs
         	lhs.resolveVariables(true);
         }
-     
+
         // resolve variables in rhs
         rhs.resolveVariables(true);
         
@@ -239,8 +239,7 @@ public class Equation extends ValidExpression {
         // copy the expression trees
         ExpressionNode leftEN  = lhs.getCopy(kernel);
         ExpressionNode rightEN = rhs.getCopy(kernel);
-        
- 
+
         // ensure that they only consist of polynomials
         leftEN.makePolynomialTree(this);
         rightEN.makePolynomialTree(this);
