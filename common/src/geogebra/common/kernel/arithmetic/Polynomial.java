@@ -591,5 +591,19 @@ public class Polynomial extends ValidExpression implements Serializable
 	public ExpressionValue integral(FunctionVariable fv) {
 		throw new MyError(kernel.getApplication().getLocalization(), "integral called on Polynomial");
 	}
+	
+	@Override
+	public ExpressionValue traverse(Traversing t){
+		ExpressionValue ev = t.process(this);
+		if(ev != this){
+			return ev;
+		}
+		Iterator<Term> it = terms.iterator();
+		while (it.hasNext()) {
+			Term term = it.next();
+			term.coefficient = term.coefficient.traverse(t);
+		}
+		return this;
+	}
 
 } // end of class Polynomial
