@@ -2162,10 +2162,11 @@ namespace giac {
 	  if (res.type==_VECT && !res._VECTptr->empty()){
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v2=(*res._VECTptr)[i];
-	      gen res2=_simplify(subst(eq1,var2,v2,false,contextptr),contextptr);
+	      gen v2val=v2.is_symb_of_sommet(at_equal)?v2._SYMBptr->feuille._VECTptr->back():v2;
+	      gen res2=_simplify(subst(eq1,var2,v2val,false,contextptr),contextptr);
 	      if (!is_zero(res2))
 		res2=_simplify(_solve(makesequence(symb_equal(res2,0),var1),contextptr),contextptr);
-	      gen res3=_simplify(subst(eq2,var2,v2,false,contextptr),contextptr);
+	      gen res3=_simplify(subst(eq2,var2,v2val,false,contextptr),contextptr);
 	      if (!is_zero(res3)){
 		res3=_simplify(_solve(makesequence(symb_equal(res3,0),var1),contextptr),contextptr);
 		if (is_zero(res2))
@@ -2187,10 +2188,11 @@ namespace giac {
 	  if (res.type==_VECT && !res._VECTptr->empty()){
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v1=(*res._VECTptr)[i];
-	      gen res2=_simplify(subst(eq1,var1,v1,false,contextptr),contextptr);
+	      gen v1val=v1.is_symb_of_sommet(at_equal)?v1._SYMBptr->feuille._VECTptr->back():v1;
+	      gen res2=_simplify(subst(eq1,var1,v1val,false,contextptr),contextptr);
 	      if (!is_zero(res2))
 		res2=_simplify(_solve(makesequence(symb_equal(res2,0),var2),contextptr),contextptr);
-	      gen res3=_simplify(subst(eq2,var1,v1,false,contextptr),contextptr);
+	      gen res3=_simplify(subst(eq2,var1,v1val,false,contextptr),contextptr);
 	      if (!is_zero(res3)){
 		res3=_simplify(_solve(makesequence(symb_equal(res3,0),var2),contextptr),contextptr);
 		if (is_zero(res2))
@@ -2251,7 +2253,8 @@ namespace giac {
       res=protect_sort(res,contextptr);
     if (!xcas_mode(contextptr) && calc_mode(contextptr)!=1)
       return gen(res,_LIST__VECT);
-    return solvepostprocess(res,v[1],contextptr);
+    gen vres=solvepostprocess(res,v[1],contextptr);
+    return vres;
   }
   static const char _solve_s []="solve";
   static define_unary_function_eval_quoted (__solve,&_solve,_solve_s);
