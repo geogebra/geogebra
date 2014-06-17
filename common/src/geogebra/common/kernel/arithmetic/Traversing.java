@@ -427,12 +427,14 @@ public interface Traversing {
 	public class CollectUndefinedVariables implements Traversing {
 		
 		private TreeSet<String> tree = new TreeSet<String>();
+		private TreeSet<String> localTree = new TreeSet<String>();
 		
 		/**
 		 *  
 		 * @return list of undefined variables (repeats removed)
 		 */
 		public TreeSet<String> getResult() {
+			tree.removeAll(localTree);
 			return tree;
 		}
 		
@@ -456,7 +458,22 @@ public interface Traversing {
 					tree.add(name);					
 				}
 			}
-			
+			else if(ev instanceof Command){
+				Command com = (Command) ev;
+				if(("Sequence".equals(com.getName()) && com.getArgumentNumber() > 1)||
+						"KeepIf".equals(com.getName()) || "CountIf".equals(com.getName())){
+					localTree.add(com.getArgument(1).toString(StringTemplate.defaultTemplate));
+				}
+				else if("Zip".equals(com.getName())){
+					for(int i= 1; i<com.getArgumentNumber();i+=2){
+						localTree.add(com.getArgument(i).toString(StringTemplate.defaultTemplate));
+					}
+				}else if("TriangleCurve".equals(com.getName())){
+					localTree.add("A");
+					localTree.add("B");
+					localTree.add("C");
+				}
+			}
 			return ev;
 		}
 
