@@ -1534,7 +1534,7 @@ public class AlgebraProcessor {
 					a = expr(coefX[1]);
 					b = expr(coefX[2]);
 					c = expr(coefY[1]);
-					d = expr(coefY[2]);
+					d = expr(coefY[2]);					
 					xx = c.power(2).plus(d.power(2)).multiply(x).multiply(x);
 					xy = c.multiply(a).plus(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
 					yy = a.power(2).plus(b.power(2)).multiply(y).multiply(y);	
@@ -1556,14 +1556,23 @@ public class AlgebraProcessor {
 				AlgoDependentConic ac = new AlgoDependentConic(cons, label, eq);
 				return ac.getOutput();
 			}
+			for(int i =0; i<coefX.length; i++){
+				coefX[i] = new MyDouble(kernel,0);
+				coefY[i] = new MyDouble(kernel,0);
+			}
+			App.debug(cx+","+cy);
 			int degX = getPolyCoeffs(cx, coefX, new ExpressionNode(kernel,1.0), loc); 
 			int degY = getPolyCoeffs(cy, coefY, new ExpressionNode(kernel,1.0), loc);
 			if(degX == 1 && degY == 1){
 				Polynomial px = new Polynomial(kernel,"x");
 				Polynomial py = new Polynomial(kernel,"y");
-				Equation eq = new Equation(kernel,coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),coefX[0].wrap().multiply(coefY[1]).subtract(coefX[1].wrap().multiply(coefY[0])));
+				App.debug(coefX[0]+","+coefX[1]+","+coefY[0]+","+coefY[1]);
+				Equation eq = new Equation(kernel,coefY[1].wrap().multiply(px).subtract(coefX[1].wrap().multiply(py)),
+						coefX[0].wrap().multiply(coefY[1]).subtract(coefX[1].wrap().multiply(coefY[0])));
 				eq.initEquation();
 				AlgoDependentLine al = new AlgoDependentLine(cons,label,eq);
+				al.getLine().setMode(GeoLine.PARAMETRIC);
+				al.getLine().update();
 				return al.getOutput();
 			}
 			AlgoDependentNumber nx =
@@ -1601,16 +1610,19 @@ public class AlgebraProcessor {
 			}
 			return Math.max(deg1, deg2);
 		}else if(cx.getOperation() == Operation.MULTIPLY){
-			
-		}else if (cx.isLeaf()){
-			if(cx.getLeft()!=loc2){
-				coefX[0]=mult.multiply(cx.getLeft());
-				return 0;
-			}else{
-				coefX[1]=mult;
-				return 1;
+			if(!cx.getLeft().contains(loc2)){
+				return getPolyCoeffs(cx.getRightTree(), coefX, mult.multiply(cx.getLeft().unwrap()), loc2);
 			}
-		}
+			else if(!cx.getRight().contains(loc2)){
+				return getPolyCoeffs(cx.getLeftTree(), coefX, mult.multiply(cx.getRight().unwrap()), loc2);
+			}
+		}else if (!cx.contains(loc2)){
+			add(coefX,0,mult.multiply(cx));
+			return 0;
+		}else if(cx.unwrap() == loc2){
+			add(coefX,1,mult);
+			return 1;
+		};
 		return 0;
 	}
 
@@ -1633,7 +1645,7 @@ public class AlgebraProcessor {
 		}
 		else if(cx.getOperation() == Operation.MULTIPLY){
 			if(cx.getLeft().unwrap() instanceof MyDouble && cx.getLeft().isConstant()){
-				return getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getLeft().unwrap()), var);
+				return getTrigCoeffs(cx.getRightTree(), coefX, scale.multiply(cx.getLeft().unwrap()), var);
 			}
 			else if(cx.getRight().unwrap() instanceof MyDouble && cx.getRight().isConstant()){
 				return getTrigCoeffs(cx.getLeftTree(), coefX, scale.multiply(cx.getRight().unwrap()), var);
@@ -1644,35 +1656,42 @@ public class AlgebraProcessor {
 			if(cx.getLeft().unwrap()!=var){
 				return false;
 			}
-			coefX[1] = scale;
+			add(coefX,1, scale);
 		}
 		else if(cx.getOperation() == Operation.COS){
 			if(cx.getLeft().unwrap()!=var){
 				return false;
 			}
-			coefX[2] = scale;
+			add(coefX,2,scale);
 		}
 		else if(cx.getOperation() == Operation.SINH){
 			if(cx.getLeft().unwrap()!=var){
 				return false;
 			}
-			coefX[3] = scale;
+			add(coefX,3,scale);
 		}
 		else if(cx.getOperation() == Operation.COSH){
 			if(cx.getLeft().unwrap()!=var){
 				return false;
 			}
-			coefX[4] = scale;
+			add(coefX,4,scale);
 		}
 		else if(cx.isLeaf()){
 			if(cx.getLeft().contains(var)){
 				return false;
 			}
-			coefX[0] = cx;
+			add(coefX,0,cx.multiply(scale));
 		}else{
 			return false;
 		}
 		return childrenOK  && ((coefX[1] == null && coefX[2] == null) || (coefX[3] == null && coefX[4] == null));
+	}
+
+	private void add(ExpressionValue[] coefX, int i, ExpressionNode scale) {
+		if(coefX[i]==null){
+			coefX[i]=scale;
+		}
+		coefX[i] = scale.plus(coefX[i]);
 	}
 
 	protected ExpressionNode computeCoord(ExpressionNode exp, int i) {
