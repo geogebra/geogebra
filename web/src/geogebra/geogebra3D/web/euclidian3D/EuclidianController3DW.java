@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EnvironmentStyleW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.euclidian.IsEuclidianController;
@@ -520,15 +521,21 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return view.textfieldClicked(x, y, type);
 	}
 
-	@Override
-    public int touchEventX(int clientX) {
-	   return clientX;
-    }
+	public int touchEventX(int clientX) {
+		if(((AppW)app).getLAF().isSmart()){
+			return mouseEventX(clientX - style.getxOffset());
+		}
+		//IE touch events are mouse events
+		return Browser.supportsPointerEvents() ? mouseEventX(clientX) : (clientX - style.getxOffset());
+	}
 
-	@Override
-    public int touchEventY(int clientY) {
-	    return clientY;
-    }
+	public int touchEventY(int clientY) {
+		if(((AppW)app).getLAF().isSmart()){
+			return mouseEventY(clientY - style.getyOffset());
+		}
+		//IE touch events are mouse events
+		return Browser.supportsPointerEvents() ? mouseEventX(clientY) : (clientY - style.getyOffset());
+	}
 
 	/**
 	 * @return the multiplier that must be used to multiply the native event coordinates
