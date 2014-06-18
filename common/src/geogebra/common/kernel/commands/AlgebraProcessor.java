@@ -84,6 +84,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.ParserInterface;
@@ -1556,9 +1557,7 @@ public class AlgebraProcessor {
 						subtract(a.multiply(b).multiply(c).multiply(d).multiply(2));
 				Equation eq = new Equation(kernel,xx.plus(xy).plus(yy).wrap(),den);
 				eq.initEquation();
-				Log.debug(eq.getNormalForm());
-				AlgoDependentConic ac = new AlgoDependentConic(cons, label, eq);
-				return ac.getOutput();
+				return this.processConic(eq);
 			}
 
 			coefX = arrayOfZeros(coefX.length);
@@ -1574,10 +1573,9 @@ public class AlgebraProcessor {
 				Equation eq = new Equation(kernel,coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),
 						coefX[1].wrap().multiply(coefY[0]).subtract(coefX[0].wrap().multiply(coefY[1])));
 				eq.initEquation();
-				AlgoDependentLine al = new AlgoDependentLine(cons,label,eq);
-				al.getLine().setToParametric(fv.getSetVarString());
-				al.getLine().update();
-				return al.getOutput();
+				eq.setLabel(label);
+				GeoElement[] line = processLine(eq);
+				((GeoLineND)line[0]).setToParametric(fv.getSetVarString());
 			//parabola
 		    //x=att+bt+c
 			//y=dtt+et+f
@@ -1598,9 +1596,7 @@ public class AlgebraProcessor {
 						plus(t.multiply(coefY[1].wrap().multiply(coefY[2]).plus(coefX[1].wrap().multiply(coefX[2]))).multiply(d)).
 						plus(d.power(2).multiply(coefY[0].wrap().multiply(coefY[2]).plus(coefX[0].wrap().multiply(coefX[2])))));
 				eq.initEquation();
-				
-				AlgoDependentConic ac = new AlgoDependentConic(cons, label, eq);
-				return ac.getOutput();
+				return processConic(eq);
 			}
 			AlgoDependentNumber nx =
 					new AlgoDependentNumber(cons, cx, false);
