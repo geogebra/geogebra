@@ -76,9 +76,11 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	 * ensure that 3D animator is running
 	 */
 	private void resumeRenderer(){
+		/*
 		if (visible){ 
 			((App3D)app).getEuclidianView3D().getRenderer().resumeAnimator();
 		}
+		*/
 
 	}
 	
