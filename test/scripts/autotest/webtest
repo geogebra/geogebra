@@ -1,14 +1,18 @@
 #!/bin/bash
 
-# Runs all test in the $REVDIR/$REVISION/war/test or in
+# Runs all tests in the $REVDIR/$REVISION/war/test or in
 # the specified directory (-d ...). It can use a
 # different template than the default webtest-template.js
-# (use -t ...) and can skip analying (-a no-analyze).
+# (use -t ...) and can skip analyzing (-a no-analyze).
 # Also BASE can be changed (-b ...).
 # Use -r ... to change the report suffix (REPORT),
 # -s to add an extra substitution variable,
 # in this case specify -S ... for a suffix file pattern
 # and -P ... for an external program to get the substitution string.
+# -c switch caching on (based on GGB's XML's SHA1).
+# -R forces retrying when the phantomjs --debug output contains the parameter.
+
+PHANTOMJS=./phantomjs-1.9.7 # override this with autotest.conf
 
 test -r autotest.conf && . ./autotest.conf
 
@@ -16,6 +20,7 @@ TESTPARAMS="m=test&c=&s=0&h=0&v=1&t=1"
 PNGFILE=output.png
 TEMPLATE=webtest-template.js
 PHANTOMJSFILE=webtest.js
+PDEBUGINFO=phantomjs.debuginfo
 
 REVISION=`./myrevision`
 WEBTESTWARDIR=`echo $WEBTESTWARDIR | sed s/latest/$REVISION/`
@@ -59,7 +64,19 @@ run() {
   | sed s/"\$TIMEOUT"/"$TIMEOUT"/g | sed s/"\$REPEAT"/"$REPEAT"/g \
   | sed s/"\$EXITSTRING"/"$EXITSTRING"/g | sed s/"\$$SUBST_FROM"/"$SUBST_TO"/g \
   > $PHANTOMJSFILE
- timeout -k $TIMEOUT_P2 $TIMEOUT_P phantomjs $PHANTOMJSFILE > $REPORT
+ DONE=0; ATTEMPTS=0; MAXATTEMPTS=5
+ while [ $DONE = 0 -a $ATTEMPTS -lt $MAXATTEMPTS ]; do
+  timeout -k $TIMEOUT_P2 $TIMEOUT_P $PHANTOMJS --debug=true $PHANTOMJSFILE > $REPORT 2> phantomjs.debug-$TEST
+  if [ "$RETRY" = "" ]; then
+   DONE=1
+   fi
+  cat phantomjs.debug-$TEST | grep "$RETRY" && DONE=1
+  if [ $DONE = 0 ]; then
+   date >> $PDEBUGINFO
+   echo "$TEST unreliable ($ATTEMPTS)" >> $PDEBUGINFO
+   fi
+  ATTEMPTS=$((ATTEMPTS+1))
+  done
  echo "Return value: $?" >/dev/stderr
  # Postprocessing:
  tail -10 $REPORT >/dev/stderr
@@ -111,8 +128,11 @@ if [ "$SYNTAXERROR" != "" ]; then
 MYDIR=`pwd`
 TESTDIR=$REVDIR/$REVISION/war/test
 
-while getopts ":d:a:t:b:r:s:S:P:" o; do
+while getopts ":R:d:a:t:b:r:s:S:P:c" o; do
  case "${o}" in
+  R)
+   RETRY=${OPTARG}
+   ;;
   d)
    TESTDIR=${OPTARG}
    ;;
@@ -138,6 +158,9 @@ while getopts ":d:a:t:b:r:s:S:P:" o; do
   P)
    SUBST_PROGRAM=${OPTARG}
    ;;
+  c)
+   CACHE=1
+   ;;
    
   esac
  done
@@ -146,6 +169,17 @@ shift $((OPTIND-1))
 
 TESTFILES=`cd $TESTDIR; ls -1 *.ggb | grep -v ^_`
 for i in $TESTFILES; do
+
+ if [ "$CACHE" = "1" ]; then
+  rm -f /tmp/geogebra.xml
+  unzip $TESTDIR/$i geogebra.xml -d /tmp
+  sha1sum /tmp/geogebra.xml > $i-current.sha1
+  if [ -r $i.sha1 ]; then
+   cmp $i-current.sha1 $i.sha1 && continue 1
+   fi
+   mv $i-current.sha1 $i.sha1
+  fi
+
  run $i
  if [ "$ACTION" = "no-analyze" ]; then
   continue 1;
