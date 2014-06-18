@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -32,15 +33,50 @@ public class CmdSemicircle extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Semicircle(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
+				GeoElement[] ret = { semicircle(c.getLabel(),
+						(GeoPointND) arg[0], (GeoPointND) arg[1]) };
 				return ret;
 			} 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 				
+		case 3:
+			arg = resArgs(c);
+			
+			GeoElement[] ret = process3(c, arg, ok);
+			
+			if (ret != null){
+				return ret;
+			}
+
+			// syntax error
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	/**
+	 * 
+	 * @param label label
+	 * @param A first point
+	 * @param B second point
+	 * @return semicircle joining A and B
+	 */
+	protected GeoElement semicircle(String label, GeoPointND A, GeoPointND B){
+		return getAlgoDispatcher().Semicircle(label,
+				(GeoPoint) A, (GeoPoint) B);
+	}
+	
+	/**
+	 * process semicircle when 3 arguments
+	 * @param c command
+	 * @param arg arguments
+	 * @param ok ok array
+	 * @return result (if one)
+	 * @throws MyError in 2D, not possible with 3 args
+	 */
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
+		throw argNumErr(app, c.getName(), 3);
 	}
 }

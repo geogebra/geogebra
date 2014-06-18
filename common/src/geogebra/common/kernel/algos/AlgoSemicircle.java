@@ -147,12 +147,6 @@ public class AlgoSemicircle extends AlgoElement {
     	conicPart.setParameters(alpha, beta, true);
     }
 
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("SemicircleThroughAandB",A.getLabel(tpl),B.getLabel(tpl));
-    }
 
 	@Override
 	public boolean isLocusEquable() {
@@ -162,4 +156,41 @@ public class AlgoSemicircle extends AlgoElement {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnSemicircle(geo, this, scope);
 	}
+	
+	
+	
+
+
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+	
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+	
+	
+    @Override
+	public String toString(StringTemplate tpl) {
+        if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+        	return loc.getPlain("SemicircleThroughAandB",A.getLabel(tpl),B.getLabel(tpl));
+        }
+        
+        return loc.getPlain("SemicircleThroughAandBInXOYPlane",A.getLabel(tpl),B.getLabel(tpl));
+
+    }
+	
+	
 }

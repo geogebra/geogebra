@@ -54,6 +54,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -1664,8 +1665,27 @@ public class Manager3D implements Manager3DInterface {
 	}
 	
 	
-	final public GeoConicPart3D CircleArcSector3D(String label, GeoPointND A, GeoPointND B,
+	final public GeoConicPartND CircleArcSector3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation, int type) {
+		
+		if (((GeoElement) A).isGeoElement3D() || ((GeoElement) B).isGeoElement3D() || ((GeoElement) C).isGeoElement3D()) { // at least one 3D geo		
+			if (orientation == kernel.getSpace()){ // space is default orientation for 3D objects
+				return CircleArcSector3D(null, A, B, C, type);
+			}
+			
+			// use view orientation
+			AlgoConicPartCircle3D algo = new AlgoConicPartCircle3DOrientation(cons, label, A, B,
+					C, orientation, type);
+			return algo.getConicPart();
+		}
+			
+		// 2D geos
+		if (orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return kernel.getAlgoDispatcher().CircleArcSector(label, (GeoPoint) A,
+					(GeoPoint) B, (GeoPoint) C, type);
+		}
+		
+		// use view orientation
 		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3DOrientation(cons, label, A, B,
 				C, orientation, type);
 		return algo.getConicPart();
@@ -1684,5 +1704,24 @@ public class Manager3D implements Manager3DInterface {
 		return g;
 	}
 	
+	
+	final public GeoConicPartND Semicircle3D(String label, GeoPointND A, GeoPointND B, GeoDirectionND orientation){
+		
+		if (((GeoElement) A).isGeoElement3D() || ((GeoElement) B).isGeoElement3D()) { // at least one 3D geo		
+			// use view orientation
+			AlgoSemicircle3D algo = new AlgoSemicircle3D(cons, label, A, B, orientation);
+			return algo.getSemicircle();
+		}
+			
+		// 2D geos
+		if (orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return kernel.getAlgoDispatcher().Semicircle(label, (GeoPoint) A, (GeoPoint) B);
+		}
+		
+		// use view orientation
+		AlgoSemicircle3D algo = new AlgoSemicircle3D(cons, label, A, B, orientation);
+		return algo.getSemicircle();
+		
+	}
 	
 }

@@ -48,6 +48,11 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
 
     }
     
+    public AlgoCircle3DPointPointDirection(Construction cons, GeoPointND point, GeoPointND pointThrough, GeoDirectionND forAxis) {
+        super(cons, point, (GeoElement) pointThrough, (GeoElement) forAxis);       
+
+    }
+    
 
     
 
@@ -86,6 +91,16 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
     		return "CircleWithCenterAThroughBParallelToC";
     	
 		return "CircleWithCenterAThroughBAxisParallelToC";
+    }
+    
+    
+    @Override
+	final protected boolean setCoordSys(){
+    	if (((GeoDirectionND) getForAxis()).getDirectionInD3() == null){ // e.g. space
+    		return false;
+    	}
+    	
+    	return super.setCoordSys();
     }
 
     

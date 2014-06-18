@@ -75,4 +75,13 @@ public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection
     }
 
     
+    @Override
+	final protected boolean setCoordSys(){
+    	if (((GeoDirectionND) getForAxis()).getDirectionInD3() == null){ // e.g. space
+    		return false;
+    	}
+    	
+    	return super.setCoordSys();
+    }
+    
 }

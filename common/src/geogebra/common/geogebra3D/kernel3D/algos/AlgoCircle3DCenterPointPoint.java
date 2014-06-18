@@ -64,7 +64,7 @@ public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
     
     
     @Override
-	protected void setCoordSys(){
+	final protected boolean setCoordSys(){
 
     	coordsys.resetCoordSys();
 		
@@ -73,6 +73,8 @@ public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
     	coordsys.addPoint(((GeoPointND) forAxis).getInhomCoordsInD(3));
  		
 		coordsys.makeOrthoMatrix(false,false);
+		
+		return true;
     }
 
     @Override

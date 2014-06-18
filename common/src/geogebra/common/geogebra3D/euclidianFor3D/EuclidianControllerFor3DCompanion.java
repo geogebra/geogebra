@@ -411,21 +411,18 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 		
 		GeoDirectionND orientation = ec.view.getDirection();
 		
-		if (((GeoElement) A).isGeoElement3D() || ((GeoElement) B).isGeoElement3D() || ((GeoElement) C).isGeoElement3D()) { // at least one 3D geo		
-			if (orientation == ec.kernel.getSpace()){ // space is default orientation for 3D objects
-				return (GeoElement) ec.kernel.getManager3D().CircleArcSector3D(null, A, B, C, type);
-			}
-			return (GeoElement) ec.kernel.getManager3D().CircleArcSector3D(null, A, B, C, orientation, type); // use view orientation
-			
-		}
-			
-		// 2D geos
-		if (orientation == ec.kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
-			return super.circleArcSector(A, B, C, type);
-		}
 		return (GeoElement) ec.kernel.getManager3D().CircleArcSector3D(null, A, B, C, orientation, type); // use view orientation
-
 		
+	}
+	
+	
+	@Override
+	protected GeoElement semicircle(GeoPointND A, GeoPointND B){
+		
+		GeoDirectionND orientation = ec.view.getDirection();
+		
+		return (GeoElement) ec.kernel.getManager3D().Semicircle3D(null, A, B, orientation); // use view orientation
+
 	}
 	
 	

@@ -297,6 +297,12 @@ public class EuclidianControllerCompanion {
 				(GeoPoint) p1) };
 	}
 	
+	
+	protected GeoElement semicircle(GeoPointND A, GeoPointND B){
+		return ec.getAlgoDispatcher().Semicircle(null,
+				(GeoPoint) A, (GeoPoint) B);
+	}
+	
 	protected GeoConicND circle(Construction cons, GeoPointND center, NumberValue radius){
 		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, null, (GeoPoint) center, radius);
 		return algo.getCircle();

@@ -259,8 +259,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_ORTHOGONAL);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PARALLEL);
-		// sb.append(" ");
-		// sb.append(EuclidianView.MODE_LINE_BISECTOR);
+//		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
 		// sb.append(" , ");
@@ -292,8 +292,8 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
 		sb.append(" , "); 
-//		sb.append(EuclidianView.MODE_SEMICIRCLE);
-//		sb.append("  ");
+		sb.append(EuclidianConstants.MODE_SEMICIRCLE);
+		sb.append("  ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);

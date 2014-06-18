@@ -147,5 +147,25 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	public GeoConicPart getConicPart() {
         return (GeoConicPart) super.getConicPart();
     }
+	
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+	
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
 
 }

@@ -1,9 +1,5 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -52,69 +48,22 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    	}else if (((ok[0] = (arg[0] .isGeoPoint() ) )
 	    			&& (ok[1] = (arg[1] instanceof GeoLineND )))){
 	    		
-	    		
-	    		// first check if we're in macro
-	    		if (kernelA.isMacroKernel()){
-		    		//check if there is a 3D geo: then use 3D algo
-		    		if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
-		    			GeoElement[] ret =
-		    				{
-		    					(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
-		    							c.getLabel(),
-		    							(GeoPointND) arg[0],
-		    							(GeoLineND) arg[1])};
-		    			return ret;
-		    		}
-
-		    		//only 2D objects : use 2D algo
-		    		GeoElement[] ret =
-		    			{
-		    				getAlgoDispatcher().OrthogonalLine(
-		    						c.getLabel(),
-		    						(GeoPoint) arg[0],
-		    						(GeoLine) arg[1])};
-		    		return ret;
-		    		
-
-	    		}
-	    		
-	    		//first check if it's an input line call, with 2D/3D view active
-	    		EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-	    		if (!kernelA.getLoadingMode() && view!=null){
-	    			if (app.getActiveEuclidianView().isDefault2D()){
-	    				//xOy view is active : force parallel to xOy plane
-	    				GeoElement[] ret =
-	    	    			{
-	    	    				(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
-	    	    						c.getLabel(),
-	    	    						(GeoPointND) arg[0],
-	    	    						(GeoLineND) arg[1],
-	    	    						(GeoDirectionND) kernelA.getXOYPlane())};
-	    	    		return ret;
-	    			}
-	    			
-	    			if (view instanceof EuclidianViewForPlaneInterface){
-	    				//plane view is active : force parallel to the plane
-	    				GeoElement[] ret =
-	    	    			{
-	    	    				(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
-	    	    						c.getLabel(),
-	    	    						(GeoPointND) arg[0],
-	    	    						(GeoLineND) arg[1],
-	    	    						((EuclidianViewForPlaneCompanion) ((EuclidianView) view).getCompanion()).getPlane())};
-	    	    		return ret;
-	    			}
-	    			
-	    			//3D view is active : force "in space"
+	    		    		
+	    		// check if there is an active view with orientation
+	    		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernelA, app);
+	    		if (orientation != null){
 	    			GeoElement[] ret =
 	    				{
 	    					(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
-	    							(GeoLineND) arg[1])};
+	    							(GeoLineND) arg[1],
+	    							orientation)};
 	    			return ret;
-	    			
 	    		}
+
+	    		
+	    		
 	    		
 	    		
 	    		//check if there is a 3D geo: then use 3D algo
@@ -128,14 +77,13 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    			return ret;
 	    		}
 
-	    		//else use 3D algo, parallel to xOyPlane
+	    		//else use 2D algo
 	    		GeoElement[] ret =
 	    			{
-	    				(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
+	    				getAlgoDispatcher().OrthogonalLine(
 	    						c.getLabel(),
-	    						(GeoPointND) arg[0],
-	    						(GeoLineND) arg[1],
-	    						(GeoDirectionND) kernelA.getXOYPlane())};
+	    						(GeoPoint) arg[0],
+	    						(GeoLine) arg[1])};
 	    		return ret;
 
 	    	}else if (

@@ -20,6 +20,14 @@ public class CmdCircleArcSector3D extends CmdCircleArcSector {
 	@Override
 	protected GeoElement circleArcSector(String label, GeoPointND center, GeoPointND startPoint, GeoPointND endPoint){
 		
+		
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernelA, app);
+		if (orientation != null){
+			return (GeoElement) kernelA.getManager3D().
+					CircleArcSector3D(label, center, startPoint, endPoint, 
+							orientation, type) ;
+			}
+		
 		if (center.isGeoElement3D() || startPoint.isGeoElement3D() || endPoint.isGeoElement3D()){
 			return (GeoElement) kernelA.getManager3D().CircleArcSector3D(label, center, startPoint, endPoint, type);
 		}
@@ -36,14 +44,6 @@ public class CmdCircleArcSector3D extends CmdCircleArcSector {
 				&& (ok[2] = (arg[2].isGeoPoint()))
 				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
 			
-			if (!arg[0].isGeoElement3D() 
-					&& !arg[1].isGeoElement3D() 
-					&& !arg[2].isGeoElement3D() 
-					&& arg[3] == kernelA.getXOYPlane()){ // ignore xOy plane for 2D
-				return new GeoElement[] {
-						super.circleArcSector(c.getLabel(), 
-								(GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2])};
-			}
 			
 			GeoElement[] ret = { (GeoElement) kernelA.getManager3D().
 					CircleArcSector3D(c.getLabel(), 

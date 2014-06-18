@@ -3170,12 +3170,12 @@ public abstract class EuclidianController {
 		
 		GeoPointND[] points = getSelectedPointsND();
 		if (sphereMode == EuclidianConstants.MODE_SEMICIRCLE) {
-			return new GeoElement[] { getAlgoDispatcher().Semicircle(null,
-					(GeoPoint) points[0], (GeoPoint) points[1]) };
+			return new GeoElement[] { companion.semicircle(points[0], points[1]) };
 		}
 		return companion.createCircle2(points[0], points[1]);
 	
 	}
+
 
 	protected final GeoElement[] circleOrSphere2(Hits hits, int sphereMode) {
 		if (hits.isEmpty()) {

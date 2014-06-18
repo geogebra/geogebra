@@ -142,7 +142,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
      * 
      * @return the output point
      */
-    protected GeoPointND getPoint() {
+    public GeoPointND getPoint() {
         return M;
     }
 

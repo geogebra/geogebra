@@ -120,8 +120,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		super.setVisualStyle(geo);
 
 		if (geo.isGeoConicPart()) {
-			GeoConicPart cp = (GeoConicPart) geo;
-			parameters.allowOutlyingIntersections = cp.parameters.allowOutlyingIntersections;
+			GeoConicPartND cp = (GeoConicPartND) geo;
+			parameters.allowOutlyingIntersections = cp.getParameters().allowOutlyingIntersections;
 		}
 	}
 

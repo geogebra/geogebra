@@ -875,5 +875,9 @@ public interface Manager3DInterface {
 			ExpressionValue[] coefY, ExpressionValue[] coefZ);
 
 
+	/**
+	 * semicircle joining A and B, oriented
+	 */
+	public GeoConicPartND Semicircle3D(String label, GeoPointND A, GeoPointND B, GeoDirectionND orientation);
 
 }

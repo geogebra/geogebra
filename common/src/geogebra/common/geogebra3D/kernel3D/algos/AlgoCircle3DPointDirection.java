@@ -85,18 +85,20 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
     @Override
 	public final void compute() {
     	
-    	
-		setCoordSys();		
-    	
-		//set the circle
-    	circle.setSphereND(new Coords(0,0), getRadius());
+    	if(setCoordSys()){		   	
+    		//set the circle
+    		circle.setSphereND(new Coords(0,0), getRadius());
+    	}else{
+    		circle.setUndefined();
+    	}
 
     }
     
     /**
      * reset the coord sys
+     * @return true if coord sys can be set
      */
-    protected void setCoordSys(){
+    protected boolean setCoordSys(){
 
     	coordsys.resetCoordSys();
 		
@@ -106,6 +108,8 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 		coordsys.addVector(v[1]);
 		
 		coordsys.makeOrthoMatrix(false,false);
+		
+		return true;
     }
     
     /**
