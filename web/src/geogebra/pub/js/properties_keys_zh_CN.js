@@ -2109,7 +2109,7 @@ __GGB__keysVar.zh_CN.plain = {
     "AxisOfA": "%0 \u7684\u8f74",
     "AxisTicks": "\u523b\u5ea6",
     "AxisUnitLabel": "\u5355\u4f4d",
-    "Back": "\u540e\u9000",
+    "Back": "\u4e0a\u4e00\u6b65",
     "BackgroundColor": "\u80cc\u666f\u8272",
     "BackgroundImage": "\u80cc\u666f\u56fe",
     "BarA": "\u76f4\u6761 %0",
