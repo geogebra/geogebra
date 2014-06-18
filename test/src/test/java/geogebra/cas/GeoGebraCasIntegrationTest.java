@@ -4265,7 +4265,7 @@ public class GeoGebraCasIntegrationTest {
   }
 
   /* Ticket 3525: Simplification improvements in Giac */
-
+/*
   @Test
   public void Ticket_Ticket3525_0 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
