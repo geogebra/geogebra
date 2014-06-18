@@ -106,10 +106,12 @@ public class FunctionInspectorModel {
 	public enum Colors {GEO, GEO2, EVEN_ROW, GRID};
 
 	// column types
-	private static final int COL_DERIVATIVE = 0;
-	private static final int COL_DERIVATIVE2 = 1;
-	private static final int COL_DIFFERENCE = 2;
-	private static final int COL_CURVATURE = 3;
+	private static final int COL_X = 0;
+	private static final int COL_FX = 1;
+	private static final int COL_DERIVATIVE = 2;
+	private static final int COL_DERIVATIVE2 = 3;
+	private static final int COL_DIFFERENCE = 4;
+	private static final int COL_CURVATURE = 5;
 
 	// list to store column types of dynamically appended columns
 	private ArrayList<Integer> extraColumnList;
@@ -181,6 +183,8 @@ public class FunctionInspectorModel {
 	}
 
 	public void setColumnNames() {
+		columnNames[COL_X]= loc.getPlain("fncInspector.X");
+		columnNames[COL_FX] = loc.getPlain("fncInspector.Derivative");
 		columnNames[COL_DERIVATIVE] = loc.getPlain("fncInspector.Derivative");
 		columnNames[COL_DERIVATIVE2] = loc.getPlain("fncInspector.Derivative2");
 		columnNames[COL_CURVATURE] = loc.getPlain("fncInspector.Curvature");
@@ -951,10 +955,12 @@ public class FunctionInspectorModel {
 
 		int row = listener.getSelectedXYRow();
 		if (row >= 0) {
-			String str = (String) listener.getXYValueAt(row, 0);
+			String str = (String) listener.getXYValueAt(row,  0);
 			if (!"".equals(str)) {
 				double x = Double.parseDouble(str);
 				double y = selectedGeo.evaluate(x);
+				App.debug("[TESTPOINT] row: " + row + " str: " + str);
+				App.debug("[TESTPOINT] x: " + x + " y: " + y);
 				testPoint.setCoords(x, y, 1);
 				testPoint.updateRepaint();
 			}
@@ -1115,4 +1121,5 @@ public class FunctionInspectorModel {
 		listener.changedNumberFormat();
 	}
 
+	
 }

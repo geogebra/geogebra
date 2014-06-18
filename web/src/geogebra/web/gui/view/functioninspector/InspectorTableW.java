@@ -94,7 +94,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		if (row == -1 || col == -1) {
 			return;
 		}
-		DataCell data = model.getData(row, col);
+		DataCell data = model.getData(row - 1, col);
 		cellEditor.setText(data == null ? "": data.toString());
 		setWidget(row, col, cellEditor);
 	}

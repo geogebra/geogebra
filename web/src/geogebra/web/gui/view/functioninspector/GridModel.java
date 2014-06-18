@@ -1,5 +1,7 @@
 package geogebra.web.gui.view.functioninspector;
 
+import geogebra.common.main.App;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,9 @@ public class GridModel {
 			return result;
 
 		};
-	};
+	}
+
+	private static final String PREFIX = "[GRID MODEL]";
 	
 	private IGridListener listener;
 	private List<String> headers;
@@ -76,12 +80,13 @@ public class GridModel {
 	}
 
 	public void setData(int row, int col, Object value) {
-		// App.debug("[GRIDMODEL] setData(" + row + ", " + col + ", " +value + ")");
 		if (col < getColumnCount() && row < getRowCount())  {
+			App.debug("[GRID MODEL] setData(" + row + ", " + col + ", " +value + ")");
 			List<DataCell> list = data.get(row);
 			DataCell cell = new DataCell(value, false);
-			list.set(col, cell);
+			data.get(row).set(col, cell);
 			listener.updateDataCell(row, col, cell);
+			App.debug(toString());
 		}
 	}
 
@@ -150,25 +155,28 @@ public class GridModel {
 		return rowCount;
 	}
 
+	private List<DataCell> newRowCells() {
+		ArrayList<DataCell> cells = new ArrayList<DataCell>();
+		for (int col=0; col < columnCount; col++) {
+			cells.add(new DataCell(null, false));
+		}
+		return cells;
+	}
+	
 	public void setRowCount(int rows) {
 		if (rows == rowCount) {
 			return;
 		}
 		
 		if (rows > rowCount) {
-			List<DataCell> rowData = new ArrayList<DataCell>();
-			for (int col=0; col < columnCount; col++) {
-				rowData.add(new DataCell(null, false));
-			}
 			for (int row=rowCount;row  < rows; row++ ) {
-				addRow(rowData);
+				addRow(newRowCells());
 			}
 		} else {
 			for (int row = rowCount; row > rows; row--) {
 				removeLastRow();
 			}
 		}
-		
 		this.rowCount = rows;
 	}
 
@@ -220,5 +228,25 @@ public class GridModel {
 			editCell = data.get(row).get(col);
 			editCell.setEditable(false);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n " + PREFIX + "    ");
+		for (String header: headers) {
+			sb.append(header + " ");
+		}
+		sb.append("\n");
+		int rowIdx = 0;
+		for (List<DataCell> row: data) {
+			sb.append(PREFIX + rowIdx +  ". : (");
+			for (DataCell cell: row) {
+				sb.append(cell.toString() + " ");
+			}
+			rowIdx++;
+			sb.append(")\n");
+		}
+		return sb.toString();
 	}
 }

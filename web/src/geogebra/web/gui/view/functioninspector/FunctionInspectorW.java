@@ -172,9 +172,9 @@ public class FunctionInspectorW extends FunctionInspector {
 			modelXY.setRowCount(pointCount);
 			App.debug("[updateXYTable] pointCount: " + pointCount +
 					" row: " + row);
-			tableXY.setSelectedRow(row);
 			tableXY.setCellEditable(row, 0);
-		} else {
+			tableXY.setSelectedRow(row);
+			} else {
 
 			modelXY.setRowCount(1);
 			tableXY.setSelectedRow(0);
@@ -185,6 +185,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		}
 
 		updateXYTable();
+		App.debug(modelXY.toString());
 		updateTestPoint();
 	}
 
@@ -202,7 +203,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	
 
 	public void setXYValueAt(Double value, int row, int col) {
-		debug("setData");
+		debug("[XY] setData");
 		modelXY.setData(row, col, getModel().format(value));
 		debug("setData ended");
 	}
@@ -275,7 +276,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public int getSelectedXYRow() {
-		return tableXY.getSelectedRow() - 1;
+		int row =  tableXY.getSelectedRow() - 1;
+		return row;
 	}
 
 	@Override
@@ -438,6 +440,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	private void changeXYStart() {
 		Double value = tableXY.getDoubleEdited();
+		App.debug("[TESTPOINT] edited value is: " + value); 
 		if (value != null) {
 			changeStart(value);
 		}
@@ -621,8 +624,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void changeStart(double x) {
 		setStart(x);
-		updateXYTable();
-		updateTestPoint();
 	}
 
 	@Override
