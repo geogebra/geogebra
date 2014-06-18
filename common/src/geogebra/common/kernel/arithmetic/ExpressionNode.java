@@ -5113,5 +5113,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public void setBrackets(boolean brackets) {
 		this.brackets = brackets;
 	}
+
+	public ExpressionValue apply(Operation operation2) {
+		return new ExpressionNode(kernel,this,operation2,null);
+	}
 	
 }

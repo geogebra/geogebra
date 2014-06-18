@@ -118,33 +118,8 @@ public class Variable extends ValidExpression {
 	final public ExpressionValue resolveAsExpressionValue(boolean forEquation) {
 		GeoElement geo = resolve(false);
 		if(geo==null){
-		
-			
-			//holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-			int[] exponents = new int[]{0,0,0};
-			int i;
-			ExpressionValue geo2 = null;
-			for(i=name.length()-1;i>=0;i--){
-				if(name.charAt(i)<'x' || name.charAt(i)>'z')
-					break;
-				exponents[name.charAt(i)-'x']++;
-				
-				
-					geo2 =kernel.lookupLabel(name.substring(0,i));
-				
-				if(geo2!=null)
-					break;
-			}
-			if(i>-1 && !(geo2 instanceof GeoElement))
-				resolve(true);
-			if(geo2==null)
-				geo2 = new MyDouble(kernel,1.0);
-			//AbstractApplication.printStacktrace(name+":"+forEquation);
-			if(forEquation)
-				return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));
-			return new ExpressionNode(kernel,geo2,Operation.MULTIPLY,new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
-					multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]))).
-					multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]))));
+			ExpressionValue ret = replacement(kernel, name, forEquation);
+			return ret instanceof Variable ? resolve(true) : ret;
 		}
 		
 		// spreadsheet dollar sign reference
@@ -167,6 +142,37 @@ public class Variable extends ValidExpression {
 		}
 		// standard case: no dollar sign
 		return geo;
+	}
+
+	public static ExpressionValue replacement(Kernel kernel,String name, boolean forEquation) {
+		//holds powers of x,y,z: eg {"xxx","y","zzzzz"}
+		int[] exponents = new int[]{0,0,0};
+		int i;
+		ExpressionValue geo2 = null;
+		for(i=name.length()-1;i>=0;i--){
+			if(name.charAt(i)<'x' || name.charAt(i)>'z')
+				break;
+			exponents[name.charAt(i)-'x']++;
+			String nameNoX = name.substring(0,i);
+			geo2 =kernel.lookupLabel(nameNoX);
+			Operation op = kernel.getApplication().getParserFunctions().get(nameNoX, 1);
+			if(op != null){
+				return new FunctionVariable(kernel,name.charAt(i)+"").wrap().power(new MyDouble(kernel,exponents[name.charAt(i)-'x'])).apply(op);
+			}
+			
+			if(geo2!=null)
+				break;
+		}
+		if(i>-1 && !(geo2 instanceof GeoElement))
+			return new Variable(kernel,name.substring(0,i+1));
+		if(geo2==null)
+			geo2 = new MyDouble(kernel,1.0);
+		//AbstractApplication.printStacktrace(name+":"+forEquation);
+		if(forEquation)
+			return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));
+		return new ExpressionNode(kernel,geo2,Operation.MULTIPLY,new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
+				multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]))).
+				multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]))));
 	}
 
 	public HashSet<GeoElement> getVariables() {

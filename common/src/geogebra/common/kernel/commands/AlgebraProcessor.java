@@ -540,11 +540,6 @@ public class AlgebraProcessor {
 				ArrayList<String> toRemove = new ArrayList<String>();
 
 				// ==========================
-				// step1: sinx -> sin(x)
-				// ==========================
-				wrapXinparentheses(ve, undefinedVariables, fvX, toRemove);
-
-				// ==========================
 				// step2: remove what we've done so far
 				// ==========================
 				Iterator<String> it2 = toRemove.iterator();
@@ -559,15 +554,12 @@ public class AlgebraProcessor {
 				Iterator<String> it = undefinedVariables.iterator();
 				while (it.hasNext()) {
 					String label = it.next();
-
-					if (label.endsWith("x")) {	
-						// remove 'x' from end
-						label = label.substring(0, label.length() - 1);
-					}
-
 					if (kernel.lookupLabel(label) == null) {
+						Log.debug("not found"+label);
 						sb.append(label);
 						sb.append(", ");
+					}else{
+						Log.debug("found"+label);
 					}
 				}
 
@@ -783,46 +775,9 @@ public class AlgebraProcessor {
 
 	}
 	
-	// reparse and replace sinx -> sin(x) (shouldn't be necessary but bug with autocreation for y=m x + c)
-	// #3605
-	public ValidExpression addBracketsIfNeeded(String cmd, ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX) throws ParseException{
-		ve = parser.parseGeoGebraExpression(cmd);	
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		ve.traverse(collecter);
-		undefinedVariables = collecter.getResult();
-		if (undefinedVariables.size() > 0) {
-			wrapXinparentheses(ve, undefinedVariables, fvX, new ArrayList<String>());
-		}
-		
-		return ve;
-	}
 	
-	private void wrapXinparentheses(ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX, ArrayList<String> toRemove) {
-		Iterator<String> it = undefinedVariables.iterator();
-		while (it.hasNext()) {
-			String label = it.next();
-
-			if (label.endsWith("x")) {
-
-				String labelNoX = label.substring(0, label.length() - 1);
-
-				// eg sinx -> Operation.SIN
-				Operation op = kernel.getApplication().getParserFunctions().get(labelNoX, 1);
-
-				if (op != null) {
-					VariableReplacer varep = VariableReplacer.getReplacer(label, new ExpressionNode(kernel, fvX, op, null));
-					ve.traverse(varep);
-					toRemove.add(label);
-
-				} else {
-
-					// eg mx -> m*x
-
-					// do later
-				}
-			}
-
-		}	}
+	
+	
 
 	/**
 	 * Parses given String str and tries to evaluate it to a double. Returns

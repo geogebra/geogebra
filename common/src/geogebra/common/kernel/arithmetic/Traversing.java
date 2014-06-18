@@ -401,18 +401,13 @@ public interface Traversing {
 			
 			if (ev instanceof Variable) {
 				Variable v = (Variable)ev;
-				
 				String name = v.getName(StringTemplate.defaultTemplate);
-				
-				// check if a geo exists with this name
-				GeoElement geo = ev.getKernel().lookupLabel(name);
-				
-				if (geo == null) {
-					App.debug("autocreating slider "+name);
+				ExpressionValue replace = Variable.replacement(ev.getKernel(), name, false);
+				if(replace instanceof Variable){
+					name = ((Variable)replace).getName(StringTemplate.defaultTemplate);
 					GeoNumeric slider = new GeoNumeric(ev.getKernel().getConstruction(), name, 1);
-					
 					GeoNumeric.setSliderFromDefault(slider, false);
-					
+					App.debug("autocreating slider "+name);
 				}
 			}
 			
@@ -450,14 +445,12 @@ public interface Traversing {
 			
 			if (ev instanceof Variable) {
 				Variable v = (Variable)ev;
-				
 				String name = v.getName(StringTemplate.defaultTemplate);
-				
-				GeoElement geo = ev.getKernel().lookupLabel(name);
-				
-				if (geo == null && !ev.getKernel().getConstruction().isRegistredFunctionVariable(name)) {
-					App.debug("found undefined variable: "+name);
-					tree.add(name);					
+				ExpressionValue ret = Variable.replacement(ev.getKernel(), name, false);
+
+				if (ret instanceof Variable && !ev.getKernel().getConstruction().isRegistredFunctionVariable(name)) {
+					App.debug("found undefined variable: "+((Variable)ret).getName(StringTemplate.defaultTemplate));
+					tree.add(((Variable)ret).getName(StringTemplate.defaultTemplate));					
 				}
 			}
 			else if(ev instanceof Command){
