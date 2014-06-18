@@ -1671,11 +1671,11 @@ public class AlgebraProcessor {
 		else if(cx.getOperation() == Operation.POWER){
 			if(cx.getRight().unwrap() instanceof MyDouble && Kernel.isEqual(2, cx.getRight().evaluateDouble())){
 				ExpressionValue[] left = arrayOfZeros(3);
-				int degL = getPolyCoeffs(cx.getLeftTree(), left, mult, loc2);
+				int degL = getPolyCoeffs(cx.getLeftTree(), left, new ExpressionNode(kernel,1), loc2);
 				if(degL == 1){
-					add(coefX,0,left[0].wrap().power(2));
-					add(coefX,1,left[1].wrap().multiply(left[0]).multiply(2));
-					add(coefX,2,left[1].wrap().power(2));
+					add(coefX,0,left[0].wrap().power(2).multiply(mult));
+					add(coefX,1,left[1].wrap().multiply(left[0]).multiply(2).multiply(mult));
+					add(coefX,2,left[1].wrap().power(2).multiply(mult));
 					return 2;
 				}
 				return -1;
