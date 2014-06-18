@@ -49,7 +49,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.*;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import geogebra.common.kernel.arithmetic3D.Parametric3D;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;

@@ -1536,7 +1536,9 @@ public class AlgebraProcessor {
 					a = expr(coefX[1]);
 					b = expr(coefX[2]);
 					c = expr(coefY[1]);
-					d = expr(coefY[2]);					
+					d = expr(coefY[2]);
+					Log.debug(a);
+					Log.debug(b);
 					xx = c.power(2).plus(d.power(2)).multiply(x).multiply(x);
 					xy = c.multiply(a).plus(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
 					yy = a.power(2).plus(b.power(2)).multiply(y).multiply(y);	
@@ -1558,17 +1560,17 @@ public class AlgebraProcessor {
 				AlgoDependentConic ac = new AlgoDependentConic(cons, label, eq);
 				return ac.getOutput();
 			}
-			for(int i =0; i<coefX.length; i++){
-				coefX[i] = new MyDouble(kernel,0);
-				coefY[i] = new MyDouble(kernel,0);
-			}
-			App.debug(cx+","+cy);
+
+			coefX = arrayOfZeros(coefX.length);
+			coefY = arrayOfZeros(coefY.length);
+
 			int degX = getPolyCoeffs(cx, coefX, new ExpressionNode(kernel,1.0), loc); 
 			int degY = getPolyCoeffs(cy, coefY, new ExpressionNode(kernel,1.0), loc);
+
+			//line
 			if((degX >= 0 && degY >= 0) && (degX < 2 && degY < 2)){
 				Polynomial px = new Polynomial(kernel,"x");
 				Polynomial py = new Polynomial(kernel,"y");
-				App.debug(coefX[0]+","+coefX[1]+","+coefY[0]+","+coefY[1]);
 				Equation eq = new Equation(kernel,coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),
 						coefX[1].wrap().multiply(coefY[0]).subtract(coefX[0].wrap().multiply(coefY[1])));
 				eq.initEquation();
@@ -1576,6 +1578,29 @@ public class AlgebraProcessor {
 				al.getLine().setToParametric(fv.getSetVarString());
 				al.getLine().update();
 				return al.getOutput();
+			//parabola
+		    //x=att+bt+c
+			//y=dtt+et+f
+			//t=(d*x-a*y-d*c+a*f)/(d*b-a*e)
+			}else if(degX >= 0 && degY >= 0){
+				Polynomial px = new Polynomial(kernel,"x");
+				Polynomial py = new Polynomial(kernel,"y");
+				Log.debug(coefX[2]+","+coefX[1]+","+coefX[0]);
+				ExpressionNode t = px.wrap().multiply(coefY[2]).subtract(py.wrap().multiply(coefX[2])).plus(coefX[2].wrap().multiply(coefY[0])).subtract(coefY[2].wrap().multiply(coefX[0]));
+				
+				ExpressionNode d = coefX[1].wrap().multiply(coefY[2]).subtract(coefY[1].wrap().multiply(coefX[2]));
+				
+				Equation eq;
+				
+				//Numerically unstable
+				eq = new Equation(kernel, d.power(2).multiply(px).multiply(coefX[2]).plus(d.power(2).multiply(py).multiply(coefY[2])), 
+						t.power(2).multiply(coefY[2].wrap().power(2).plus(coefX[2].wrap().power(2))).
+						plus(t.multiply(coefY[1].wrap().multiply(coefY[2]).plus(coefX[1].wrap().multiply(coefX[2]))).multiply(d)).
+						plus(d.power(2).multiply(coefY[0].wrap().multiply(coefY[2]).plus(coefX[0].wrap().multiply(coefX[2])))));
+				eq.initEquation();
+				
+				AlgoDependentConic ac = new AlgoDependentConic(cons, label, eq);
+				return ac.getOutput();
 			}
 			AlgoDependentNumber nx =
 					new AlgoDependentNumber(cons, cx, false);
@@ -1595,33 +1620,72 @@ public class AlgebraProcessor {
 		throw new MyError(kernel.getApplication().getLocalization(), "InvalidFunction");
 		
 	}
+	
+	protected ExpressionValue[] arrayOfZeros(int length){
+		ExpressionValue[] ret = new ExpressionValue[length];
+		for(int i=0; i< length; i++){
+			ret[i]=new MyDouble(kernel,0);
+		}
+		return ret;
+	}
 
 	protected int getPolyCoeffs(ExpressionNode cx, ExpressionValue[] coefX, ExpressionNode mult, GeoNumeric loc2) {
-		if(cx.getOperation() == Operation.PLUS){
+		if (!cx.contains(loc2)){
+			add(coefX,0,mult.multiply(cx));
+			return 0;
+		}
+		else if(cx.getOperation() == Operation.PLUS){
 			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
 			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult, loc2);
 			if(deg1 < 0 || deg2 <0){
 				return -1;
 			}
 			return Math.max(deg1, deg2);
-		}else if(cx.getOperation() == Operation.MINUS){
+		}
+		else if(cx.getOperation() == Operation.MINUS){
 			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
 			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult.multiply(-1), loc2);
 			if(deg1 < 0 || deg2 <0){
 				return -1;
 			}
 			return Math.max(deg1, deg2);
-		}else if(cx.getOperation() == Operation.MULTIPLY){
+		}
+		else if(cx.getOperation() == Operation.MULTIPLY){
 			if(!cx.getLeft().contains(loc2)){
 				return getPolyCoeffs(cx.getRightTree(), coefX, mult.multiply(cx.getLeft().unwrap()), loc2);
 			}
 			else if(!cx.getRight().contains(loc2)){
 				return getPolyCoeffs(cx.getLeftTree(), coefX, mult.multiply(cx.getRight().unwrap()), loc2);
+			}else {
+				ExpressionValue[] left = arrayOfZeros(3);
+				ExpressionValue[] right = arrayOfZeros(3);
+				int degL = getPolyCoeffs(cx.getLeftTree(), left, mult, loc2);
+				int degR = getPolyCoeffs(cx.getRightTree(), right, new ExpressionNode(kernel,1), loc2);
+				
+				if(degL == 1 && degR ==1){
+					add(coefX,0,left[0].wrap().multiply(right[0]));
+					add(coefX,1,left[1].wrap().multiply(right[0]));
+					add(coefX,1,left[0].wrap().multiply(right[1]));
+					add(coefX,2,left[1].wrap().multiply(right[1]));
+					return 2;
+				}
+				return -1;
 			}
-		}else if (!cx.contains(loc2)){
-			add(coefX,0,mult.multiply(cx));
-			return 0;
-		}else if(cx.unwrap() == loc2){
+		}
+		else if(cx.getOperation() == Operation.POWER){
+			if(cx.getRight().unwrap() instanceof MyDouble && Kernel.isEqual(2, cx.getRight().evaluateDouble())){
+				ExpressionValue[] left = arrayOfZeros(3);
+				int degL = getPolyCoeffs(cx.getLeftTree(), left, mult, loc2);
+				if(degL == 1){
+					add(coefX,0,left[0].wrap().power(2));
+					add(coefX,1,left[1].wrap().multiply(left[0]).multiply(2));
+					add(coefX,2,left[1].wrap().power(2));
+					return 2;
+				}
+				return -1;
+			}
+		}
+		else if(cx.unwrap() == loc2){
 			add(coefX,1,mult);
 			return 1;
 		}
@@ -1692,8 +1756,9 @@ public class AlgebraProcessor {
 	private void add(ExpressionValue[] coefX, int i, ExpressionNode scale) {
 		if(coefX[i]==null){
 			coefX[i]=scale;
+		}else{
+			coefX[i] = scale.plus(coefX[i]);
 		}
-		coefX[i] = scale.plus(coefX[i]);
 	}
 
 	protected ExpressionNode computeCoord(ExpressionNode exp, int i) {
