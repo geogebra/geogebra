@@ -4098,7 +4098,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiply(double d) {
-		if (d == 0) {
+		if (d == 0 || isConstantDouble(this,0)) {
 			// don't use Kernel.isZero() to check == 0 
 			// as can lose leading coefficient of polynomial		
 			return new ExpressionNode(kernel, 0);
@@ -4133,7 +4133,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public ExpressionNode power(double d) {
 		if (Kernel.isZero(d)) {
 			return new ExpressionNode(kernel, 1);
-		} else if (Kernel.isEqual(1,  d)) {
+		} else if (Kernel.isEqual(1,  d) || isConstantDouble(this, 1) || isConstantDouble(this, 0)) {
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.POWER,
@@ -4173,9 +4173,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return result of multiplication
 	 */
 	public ExpressionNode multiply(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0))
+		if (isConstantDouble(v2, 0) || isConstantDouble(this,1))
 			return v2.wrap();
-		if (isConstantDouble(v2, 1))
+		if (isConstantDouble(v2, 1) || isConstantDouble(this,0))
 			return this;
 		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
 	}
