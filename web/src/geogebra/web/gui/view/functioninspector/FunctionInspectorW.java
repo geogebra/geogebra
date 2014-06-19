@@ -669,8 +669,8 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		if (isIntervalTabSelected()) {
 			getModel()
-			.copyIntervalsToSpreadsheet(modelInterval.getColumnCount(),
-					modelInterval.getRowCount());
+			.copyIntervalsToSpreadsheet(2, 9);//modelInterval.getColumnCount(),
+			//		modelInterval.getRowCount());
 		} else {
 			getModel().copyPointsToSpreadsheet(modelXY.getColumnCount(),
 					modelXY.getRowCount());
