@@ -106,12 +106,10 @@ public class FunctionInspectorModel {
 	public enum Colors {GEO, GEO2, EVEN_ROW, GRID};
 
 	// column types
-	private static final int COL_X = 0;
-	private static final int COL_FX = 1;
-	private static final int COL_DERIVATIVE = 2;
-	private static final int COL_DERIVATIVE2 = 3;
-	private static final int COL_DIFFERENCE = 4;
-	private static final int COL_CURVATURE = 5;
+	private static final int COL_DERIVATIVE = 0;
+	private static final int COL_DERIVATIVE2 = 1;
+	private static final int COL_DIFFERENCE = 2;
+	private static final int COL_CURVATURE = 3;
 
 	// list to store column types of dynamically appended columns
 	private ArrayList<Integer> extraColumnList;
@@ -183,8 +181,6 @@ public class FunctionInspectorModel {
 	}
 
 	public void setColumnNames() {
-		columnNames[COL_X]= loc.getPlain("fncInspector.X");
-		columnNames[COL_FX] = loc.getPlain("fncInspector.Derivative");
 		columnNames[COL_DERIVATIVE] = loc.getPlain("fncInspector.Derivative");
 		columnNames[COL_DERIVATIVE2] = loc.getPlain("fncInspector.Derivative2");
 		columnNames[COL_CURVATURE] = loc.getPlain("fncInspector.Curvature");
@@ -194,6 +190,21 @@ public class FunctionInspectorModel {
 	public String getColumnName(int col) {
 		return col < columnNames.length ? columnNames[col] : "-";
 	}
+	
+	public String getColumnNameForCopy(int col) {
+		if (col == 0) {
+			return "x";
+		} else
+		if (col == 1) {
+			return "f(x)";
+		} else {
+			col = extraColumnList.get(col -2);
+		return col < columnNames.length ? columnNames[col] : "-";
+		}
+	}
+	
+	
+	
 	public String getTitleString() {
 
 		if (selectedGeo == null)
@@ -677,8 +688,12 @@ public class FunctionInspectorModel {
 		listener.setGeoName(getTitleString());
 
 		initialX = 0.5 * (activeEV.getXmin() - activeEV.getXmin());
+		//initialX = 0.5* (kernel.getApplication().getEuclidianView1().getXmax()-
+		//		                                 kernel.getApplication().getEuclidianView1().getXmin());
+				 
 		start = initialX;
 
+				
 		// initial step = EV grid step
 		step = 0.25 * kernel.getApplication().getActiveEuclidianView()
 				.getGridDistances()[0];
@@ -687,11 +702,11 @@ public class FunctionInspectorModel {
 
 		defineDisplayGeos();
 
-		double x = initialX - 4 * step;
+		double x = getInitialX() - 4 * step;
 		double y = selectedGeo.evaluate(x);
 		lowPoint.setCoords(x, y, 1);
 
-		x = initialX + 4 * step;
+		x = getInitialX() + 4 * step;
 		y = selectedGeo.evaluate(x);
 		highPoint.setCoords(x, y, 1);
 
@@ -1021,12 +1036,13 @@ public class FunctionInspectorModel {
 		int targetColumn = app.getSpreadsheetTableModel()
 				.getHighestUsedColumn();
 
+			
 		for (int c = 0; c < colCount; c++) {
 			targetColumn++;
 			for (int row = 0; row < rowCount + 1; row++) {
 				// copy table header
 				if (row == 0) {
-					geo = new GeoText(cons, getColumnName(c));
+					geo = new GeoText(cons, getColumnNameForCopy(c));
 					processCellGeo(geo, targetColumn, row);
 				}
 				// copy column data value
@@ -1119,6 +1135,14 @@ public class FunctionInspectorModel {
 			printFigures = App.roundingMenuLookup[index];
 		}
 		listener.changedNumberFormat();
+	}
+
+	public double getInitialX() {
+		return initialX;
+	}
+
+	public void setInitialX(double initialX) {
+		this.initialX = initialX;
 	}
 
 	
