@@ -2482,7 +2482,7 @@ __GGB__keysVar.pt_PT.plain = {
     "OpenButton": "Bot\xe3o para abrir a aplica\xe7\xe3o com a constru\xe7\xe3o",
     "Orthographic": "Ortogr\xe1fico",
     "Oscillating": "Alternado",
-    "OutlineColor": "Outline Color",
+    "OutlineColor": "Cor do Rebordo",
     "OverwriteFile": "Quer substituir este ficheiro?",
     "PGFExport_Grayscale": "Cinzento",
     "Parabola": "Par\xe1bola",
