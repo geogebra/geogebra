@@ -56,14 +56,6 @@ import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
 
-
-/**
- * View for inspecting selected GeoFunctions
- * 
- * @author G. Sturr, 2011-2-12
- * 
- */
-
 public class FunctionInspectorModel {
 
 	public interface IFunctionInspectorListener {
@@ -196,7 +188,7 @@ public class FunctionInspectorModel {
 			return "x";
 		} else
 		if (col == 1) {
-			return "f(x)";
+			return "y(x)";
 		} else {
 			col = extraColumnList.get(col -2);
 		return col < columnNames.length ? columnNames[col] : "-";
@@ -1059,7 +1051,6 @@ public class FunctionInspectorModel {
 	public void copyIntervalsToSpreadsheet(int colCount, int rowCount) {
 		Construction cons = app.getKernel().getConstruction();
 		GeoElement geo = null;
-
 		int targetColumn = app.getSpreadsheetTableModel()
 				.getHighestUsedColumn();
 		for (int c = 0; c < colCount; c++) {
