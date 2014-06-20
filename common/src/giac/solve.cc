@@ -2996,6 +2996,22 @@ namespace giac {
       // check v[1]
       vecteur w=*v[1]._VECTptr;
       unsigned i=0;
+      if (w.front().is_symb_of_sommet(at_equal)){
+	vecteur v1,v2;
+	for (;i<w.size();++i){
+	  if (w[i].is_symb_of_sommet(at_equal)){
+	    v1.push_back(w[i]._SYMBptr->feuille[0]);
+	    v2.push_back(w[i]._SYMBptr->feuille[1]);
+	  }
+	  else {
+	    v1.push_back(w[i]);
+	    v2.push_back(0);
+	  }
+	}
+	v[1]=v1;
+	v.insert(v.begin()+2,v2);
+	return in_fsolve(v,contextptr);
+      }
       for (;i<w.size();++i){
 	if (w[i].type==_IDNT)
 	  continue;

@@ -209,6 +209,10 @@ namespace giac {
   // Find roots of R, S=R' at precision eps, returns number of roots
   // if eps==0 does not compute intervals for roots
   static int csturm_realroots(const modpoly & S,const modpoly & R,const vecteur & listquo,const vecteur & coeffP, const vecteur & coeffR,const gen & a,const gen & b,const gen & t0, const gen & t1,vecteur & realroots,double eps,GIAC_CONTEXT){
+    if (is_inf(t0)) // replace with max(R)
+      return csturm_realroots(S,R,listquo,coeffP,coeffR,a,b,-linfnorm(R,contextptr),t1,realroots,eps,contextptr);
+    if (is_inf(t1)) // replace with max(R)
+      return csturm_realroots(S,R,listquo,coeffP,coeffR,a,b,t0,linfnorm(R,contextptr),realroots,eps,contextptr);    
     int n1=csturm_vertex_ab(S,R,listquo,coeffP,coeffR,t0,1,contextptr);
     int n2=csturm_vertex_ab(S,R,listquo,coeffP,coeffR,t1,1,contextptr);
     int n=(n2-n1);

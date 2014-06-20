@@ -578,8 +578,8 @@ namespace giac {
     ptr->i=1;
     ptr->b=0;
     ptr->s_dynalloc=true;
-#ifdef GIAC_HAS_STO_38
-    string tmp=string("_"+print_INT_(rand()));
+#if defined GIAC_HAS_STO_38 || defined NSPIRE
+    string tmp=string("_"+print_INT_(std_rand()));
 #else
     string tmp=string(" "+print_INT_(std_rand()));
 #endif
@@ -611,7 +611,7 @@ namespace giac {
 #else
     ptr->s=strcpy(c,b?('`'+s+'`').c_str():s.c_str());
 #endif
-#ifdef GIAC_HAS_STO_38
+#if defined GIAC_HAS_STO_38 || defined NSPIRE
     for (;*c;++c){
       if (*c==' ')
 	*c='_';
@@ -641,6 +641,12 @@ namespace giac {
 #else
     ptr->s=strcpy(c,b?('`'+s+'`').c_str():s.c_str());
 #endif
+    /* #if defined GIAC_HAS_STO_38 || defined NSPIRE
+    for (;*c;++c){
+      if (*c==' ')
+	*c='_';
+    }
+    #endif */
     ref_count = &ptr->i ;
     quoted = &ptr->b ;
     localvalue = 0;
@@ -652,7 +658,7 @@ namespace giac {
     if (strchr(s,' ')){
       ref_count=0;
       string S(s);
-#ifdef GIAC_HAS_STO_38
+#if defined GIAC_HAS_STO_38 || defined NSPIRE
       for (unsigned i=0;i<S.size();++i){
 	if (S[i]==' '){
 	  S[i]='_';

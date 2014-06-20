@@ -532,8 +532,10 @@ namespace giac {
     if (args.type==_STRNG && args.subtype==-1) return  args;
     if (is_equal(args))
       return apply_to_equal(args,_derive,contextptr);
+#ifndef NSPIRE
     if (calc_mode(contextptr)==1 && args.type!=_VECT)
       return _derive(makesequence(args,ggb_var(args)),contextptr);
+#endif
     vecteur v;
     if (args.type==_VECT && args.subtype==_POLY1__VECT)
       return gen(derivative(*args._VECTptr),_POLY1__VECT);

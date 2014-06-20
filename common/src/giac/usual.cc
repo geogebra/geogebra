@@ -5223,8 +5223,8 @@ namespace giac {
       return args;
     if (args.type==_FRAC){
       gen n=args._FRACptr->num,d=args._FRACptr->den;
-      if ( ((n.type==_INT_) || (n.type==_ZINT)) && ( (d.type==_INT_) || (d.type==_ZINT)) ){
-	if (is_positive(args,contextptr))
+      if (is_cinteger(n) && is_integer(d)){
+	if (is_positive(args,contextptr) || n.type==_CPLX)
 	  return iquo(n,d);
 	else
 	  return iquo(n,d)-1;

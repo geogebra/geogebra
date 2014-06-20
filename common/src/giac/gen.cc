@@ -6654,18 +6654,22 @@ namespace giac {
     case _CPLX__INT_: case _CPLX__ZINT:
       if ( (a._CPLXptr->type==_DOUBLE_ || a._CPLXptr->type==_FLOAT_) || ((a._CPLXptr+1)->type==_DOUBLE_ || (a._CPLXptr+1)->type==_FLOAT_) )
 	return rdiv(no_context_evalf(a),no_context_evalf(b),contextptr);
-      if (a._CPLXptr->type==_REAL)
+      if (a._CPLXptr->type==_REAL){
+	if ((a._CPLXptr+1)->type==_REAL)
+	  return rdiv(*a._CPLXptr,b,contextptr)+cst_i*rdiv(*(a._CPLXptr+1),b,contextptr);
 #ifdef HAVE_LIBMPFR
 	return rdiv(*a._CPLXptr,b,contextptr)+cst_i*rdiv(real_object(*(a._CPLXptr+1),mpfr_get_prec(a._CPLXptr->_REALptr->inf)),b,contextptr);
 #else
 	return rdiv(*a._CPLXptr,b,contextptr)+cst_i*rdiv(real_object(*(a._CPLXptr+1)),b,contextptr);
 #endif
-      if ((a._CPLXptr+1)->type==_REAL)
+      }
+      if ((a._CPLXptr+1)->type==_REAL){
 #ifdef HAVE_LIBMPFR
 	return rdiv(real_object(*a._CPLXptr,mpfr_get_prec((a._CPLXptr+1)->_REALptr->inf)),b,contextptr)+cst_i*rdiv(*(a._CPLXptr+1),b,contextptr);
 #else
 	return rdiv(real_object(*a._CPLXptr),b)+cst_i*rdiv(*(a._CPLXptr+1),b,contextptr);
 #endif
+      }
       if (is_exactly_zero(b))
 	return unsigned_inf;
       if (is_exactly_zero(a%b))
