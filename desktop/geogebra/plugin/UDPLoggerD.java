@@ -211,7 +211,7 @@ public class UDPLoggerD implements UDPLogger {
 
 						} else {
 
-							// https://play.google.com/store/apps/details?id=jp.ac.ehime_u.cite.sasaki.SensorUdp&feature=nav_result
+							// https://play.google.com/store/apps/details?id=jp.ac.ehime_u.cite.sasaki.SensorUdp
 							App.debug("Assume data is from Android/SensorUDP");
 
 							String msg = new String(buffer, 0,

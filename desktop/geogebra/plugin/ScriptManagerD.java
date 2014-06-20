@@ -94,15 +94,6 @@ public class ScriptManagerD extends ScriptManager {
 		}
 	}
 
-	USBFunctions usb = null;
-
-	public USBFunctions getUSBFunctions() {
-		if (usb == null)
-			usb = new USBFunctions(this);
-
-		return usb;
-	}
-
 	public HashMap<Construction, Scriptable> getGlobalScopeMap() {
 		return globalScopeMap;
 	}

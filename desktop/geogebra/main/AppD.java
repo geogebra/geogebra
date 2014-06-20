@@ -225,7 +225,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			"jlatexmath.jar", // LaTeX
 			"jlm_greek.jar", // Greek Unicode codeblock (for LaTeX texts)
 			"jlm_cyrillic.jar", // Cyrillic Unicode codeblock (for LaTeX texts)
-			"geogebra_usb.jar", "geogebra_properties.jar",
+			"geogebra_properties.jar",
 			// 5.0 specific JARs :
 			"OpenGeoProver.jar"
 	// GEOGEBRA_3D_JAR_NAME, "jogl.all.jar" and "gluegen-rt.jar" and maybe
