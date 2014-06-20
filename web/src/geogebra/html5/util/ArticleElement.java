@@ -128,6 +128,9 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showToolBar (default: false)
 	 */
 	public boolean getDataParamShowToolBar() {
+		if(getDataParamShowMenuBar()){
+			return true;
+		}
 		return ("true".equals(this.getAttribute("data-param-showToolBar")));
 	}
 
@@ -135,6 +138,9 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showToolBar (default: true)
 	 */
 	public boolean getDataParamShowToolBarDefaultTrue() {
+		if(getDataParamShowMenuBar()){
+			return true;
+		}
 		return (!"false".equals(this.getAttribute("data-param-showToolBar")));
 	}
 	
