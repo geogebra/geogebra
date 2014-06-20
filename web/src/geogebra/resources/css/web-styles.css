@@ -1700,8 +1700,8 @@ Paddings for menuitems.
 	border-radius:0px;
 	box-sizing:content-box;
 	-webkit-box-sizing:content-box;
-	padding:0px;
-	box-shadow: 1px 2px 2px lightgray;
+	padding:1px 1px;
+	box-shadow: 2px 2px 3px gray;
 }
 
 /**
