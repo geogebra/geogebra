@@ -752,7 +752,7 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 	
 	public void updateFonts() {
 		
-		//Scheduler.get().scheduleDeferred(updateTableFonts);
+		table.updateFonts();
 	
 /*TODO
 		Font font = app.getPlainFont();
@@ -816,32 +816,32 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 	}*/
 
 	public void setColumnWidthsFromSettings() {
-		table.setPreferredColumnWidth(settings().preferredColumnWidth());
+
+		int prefWidth = table.preferredColumnWidth();
 		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
-
-		int aw = 0;
-
-		for (int i = 0; i < table.getColumnCount(); ++i) {
-			if (widthMap.containsKey(i)) {
-				aw = widthMap.get(i);
+		
+		for (int col = 0; col < table.getColumnCount(); ++col) {
+			if (widthMap.containsKey(col)) {
+				table.setColumnWidth(col, widthMap.get(col));
 			} else {
-				aw = table.preferredColumnWidth();
+				table.setColumnWidth(col, prefWidth);
 			}
-
-			table.setColumnWidth(i, aw);
-
 		}
 	}
 	
 
 	public void setRowHeightsFromSettings() {
-		HashMap<Integer, Integer> heightMap = app.getSettings()
-				.getSpreadsheet().getHeightMap();
-		table.setRowHeight(app.getSettings().getSpreadsheet()
-				.preferredRowHeight());
-		if (!heightMap.isEmpty()) {
-			for (Integer r : heightMap.keySet()) {
-				table.setRowHeight(r, heightMap.get(r));
+
+		// first set all row heights the same
+		int prefHeight = settings().preferredRowHeight();
+		table.setRowHeight(prefHeight);
+
+		// now set custom row heights
+		HashMap<Integer, Integer> heightMap = settings().getHeightMap();
+		App.debug("height map size: " + heightMap.size());
+		for (int row = 0; row < table.getRowCount(); ++row) {
+			if (heightMap.containsKey(row)) {
+				table.setRowHeight(row, heightMap.get(row));
 			}
 		}
 	}
@@ -1291,9 +1291,9 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		//?//setShowFileBrowser(settings().showBrowserPanel());
 
 		// row height and column widths
-		setColumnWidthsFromSettings();
 		setRowHeightsFromSettings();
-
+		setColumnWidthsFromSettings();
+		
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler().processXMLString(
 			settings().cellFormat());

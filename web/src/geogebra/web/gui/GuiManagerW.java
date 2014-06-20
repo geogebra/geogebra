@@ -310,6 +310,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if(hasPropertiesView()){
 			((PropertiesViewW)getPropertiesView()).updateFonts();
 		}
+		
+		if(hasSpreadsheetView()){
+			getSpreadsheetView().updateFonts();
+		}
 			
 	}
 	

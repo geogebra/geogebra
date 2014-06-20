@@ -157,7 +157,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				//e.consume();
 			} else {
 				// default action
-				if (row +1 < table.getRowCount() - 1) {
+				if (row < table.getRowCount() - 1) {
 					table.changeSelection(row + 1, column, false, e.isShiftKeyDown());
 				}
 			}
@@ -213,16 +213,16 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			e.preventDefault();
 			// auto increase spreadsheet size when you go off the right
 
-			if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1 && table.getSelectedColumn() + 1 < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
-
-				table.setRepaintAll();
-				model.setColumnCount(table.getColumnCount());
-				view.columnHeaderRevalidate();
+			if (table.getSelectedColumn() + 1 >= table.getColumnCount()  && table.getSelectedColumn() + 1 < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
+		
+			//	table.setRepaintAll();
+				model.setColumnCount(table.getColumnCount()+1);
+			//	view.columnHeaderRevalidate();
 
 				//view.repaint();//FIXME: setRepaintAll is not compatible with TimerSystemW!
-				table.repaint();
+			//	table.repaint();
 
-				view.getFocusPanel().setWidth(table.getGrid().getOffsetWidth()+"px");
+			//	view.getFocusPanel().setWidth(table.getGrid().getOffsetWidth()+"px");
 
 				// these two lines are a workaround for Java 6
 				// (Java bug?)
@@ -243,8 +243,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				}
 				//e.consume();
 			} else {
+	
 				// default action
-				if (column + 1 < table.getColumnCount() - 1) {
+				if (column  < table.getColumnCount() - 1) {
 					table.changeSelection(row, column + 1, false, e.isShiftKeyDown());
 				}
 			}
@@ -361,7 +362,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 
 		case KeyCodes.KEY_ENTER://KeyEvent.VK_ENTER:
 			if (MyCellEditorW.tabReturnCol > -1) {
-				table.changeSelection(row , MyCellEditorW.tabReturnCol-1, false, false);
+				table.changeSelection(row , MyCellEditorW.tabReturnCol, false, false);
 				MyCellEditorW.tabReturnCol = -1;
 			}
 

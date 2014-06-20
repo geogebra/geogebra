@@ -4,9 +4,11 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
+import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -97,21 +99,49 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 
 		getElement().addClassName("geogebraweb-table-spreadsheet");
 
-		setRowHeight(app.getSettings().getSpreadsheet().preferredRowHeight());
 		getColumnFormatter().getElement(0).getStyle()
 		        .setWidth(view.ROW_HEADER_WIDTH, Style.Unit.PX);
 
-		for (int row = 0; row < this.getRowCount(); row++) {
-
-			setText(row, 0, row + 1 + "");
-			getCellFormatter().getElement(row, 0).addClassName("SVheader");
-
-			getCellFormatter()
-			        .getElement(row, 0)
-			        .getStyle()
-			        .setBackgroundColor(
-			                MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		for (int row = 0; row < getRowCount(); row++) {
+			initializeCell(row);
 		}
+	}
+
+	private void initializeCell(int rowIndex) {
+
+		setText(rowIndex, 0, (rowIndex + 1) + "");
+
+		int rowHeight = app.getSettings().getSpreadsheet().preferredRowHeight();
+		setRowHeight(rowIndex, rowHeight);
+
+		Element elm = getCellFormatter().getElement(rowIndex, 0);
+
+		elm.addClassName("SVheader");
+		elm.getStyle().setBackgroundColor(
+		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
+	}
+
+	public void updateRowCount() {
+
+		if (getRowCount() >= table.getRowCount())
+			return;
+
+		int oldRowCount = getRowCount();
+		resizeRows(table.getRowCount());
+
+		for (int i = oldRowCount; i < table.getRowCount(); ++i) {
+			initializeCell(i);
+		}
+	}
+	
+	public void setRowHeight(int rowIndex, int rowHeight){
+		
+		if(rowIndex >= getRowCount()){
+			return;
+		}
+		
+		getRowFormatter().getElement(rowIndex).getStyle()
+		        .setHeight(rowHeight, Style.Unit.PX);
 	}
 
 	public void renderSelection() {
@@ -139,25 +169,6 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 	private static void setBgColorIfNeeded(Style s, String bgColor) {
 		if (!s.getBackgroundColor().equals(bgColor))
 			s.setBackgroundColor(bgColor);
-	}
-
-	private void setRowHeight(int rowHeight) {
-		int rowHeight2 = rowHeight;
-		if (rowHeight2 < MyTableW.minimumRowHeight)
-			rowHeight2 = MyTableW.minimumRowHeight;
-
-		for (int i = 1; i < getRowCount(); i++)
-			getRowFormatter().getElement(i).getStyle()
-			        .setHeight(rowHeight2, Style.Unit.PX);
-	}
-
-	public void updateRowHeader() {
-		// listModel.changed();
-		for (int row = 0; row < this.getRowCount(); row++) {
-			// int ssRowHeight = 30; TODO: get actual ss row height
-			// this.getRowFormatter().getElement(row).getStyle()
-			// .setHeight(ssRowHeight, Style.Unit.PX);
-		}
 	}
 
 	// ===============================================

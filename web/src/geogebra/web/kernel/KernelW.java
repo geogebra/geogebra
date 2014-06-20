@@ -12,7 +12,7 @@ import geogebra.common.main.App;
  */
 public class KernelW extends Kernel implements KernelWInterface {
 	
-	public static final int MAX_SPREADSHEET_COLUMNS_VISIBLE_WEB = 26;
+	public static final int MAX_SPREADSHEET_COLUMNS_VISIBLE_WEB = 200;
 	public static final int MAX_SPREADSHEET_ROWS_VISIBLE_WEB = 200;
 
 	public KernelW() {

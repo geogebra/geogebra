@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -92,36 +93,47 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 	}
 
 	private void prepareGUI() {
+
 		setCellPadding(0);
 		setCellSpacing(0);
-
 		getElement().addClassName("geogebraweb-table-spreadsheet");
 
 		int rowHeight = app.getSettings().getSpreadsheet().preferredRowHeight();
 		getRowFormatter().getElement(0).getStyle()
 		        .setHeight(rowHeight, Style.Unit.PX);
 
-		int columnWidth = table.preferredColumnWidth;
-		getColumnFormatter().getElement(0).getStyle()
-		        .setWidth(columnWidth, Style.Unit.PX);
-
 		for (int col = 0; col < this.getColumnCount(); col++) {
-			String gva = GeoElementSpreadsheet.getSpreadsheetColumnName(col);
-			String text = (gva == null) ? "" : gva.toString();
-			this.setText(0, col, text);
-
-		//	getCellFormatter().getElement(0, col).getStyle()
-		//	        .setWidth(table.preferredColumnWidth, Style.Unit.PX);
-
-			getCellFormatter().getElement(0, col).addClassName("SVheader");
-
-			getCellFormatter()
-			        .getElement(0, col)
-			        .getStyle()
-			        .setBackgroundColor(
-			                MyTableW.BACKGROUND_COLOR_HEADER.toString());
+			initializeCell(col);
 		}
 
+	}
+
+	private void initializeCell(int colIndex) {
+
+		String name = GeoElementSpreadsheet.getSpreadsheetColumnName(colIndex);
+		setText(0, colIndex, name);
+
+		int columnWidth = table.preferredColumnWidth;
+		getColumnFormatter().getElement(colIndex).getStyle()
+		        .setWidth(columnWidth, Style.Unit.PX);
+
+		Element elm = getCellFormatter().getElement(0, colIndex);
+		elm.addClassName("SVheader");
+		elm.getStyle().setBackgroundColor(
+		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
+	}
+
+	public void updateColumnCount() {
+
+		if (getColumnCount() >= table.getColumnCount())
+			return;
+
+		int oldColumnCount = getColumnCount();
+		resizeColumns(table.getColumnCount());
+
+		for (int i = oldColumnCount; i < table.getColumnCount(); ++i) {
+			initializeCell(i);
+		}
 	}
 
 	public void renderSelection() {
@@ -149,16 +161,6 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 	private static void setBgColorIfNeeded(Style s, String bgColor) {
 		if (!s.getBackgroundColor().equals(bgColor))
 			s.setBackgroundColor(bgColor);
-	}
-
-	private void setRowHeight(int rowHeight) {
-		int rowHeight2 = rowHeight;
-		if (rowHeight2 < MyTableW.minimumRowHeight)
-			rowHeight2 = MyTableW.minimumRowHeight;
-
-		for (int i = 1; i < getRowCount(); i++)
-			getRowFormatter().getElement(i).getStyle()
-			        .setHeight(rowHeight2, Style.Unit.PX);
 	}
 
 	// ===============================================
