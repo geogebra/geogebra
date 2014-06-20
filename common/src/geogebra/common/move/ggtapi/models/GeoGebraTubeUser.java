@@ -112,7 +112,7 @@ public class GeoGebraTubeUser extends BaseModel {
 
 
 	public boolean hasGoogleDrive() {
-		return this.identifier.startsWith("https://www.google.com/");
+		return this.identifier.startsWith("google:");
 	}
 	
 	public boolean hasOneDrive() {

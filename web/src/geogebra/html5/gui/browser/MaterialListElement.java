@@ -242,7 +242,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		            }
 		       });
 				return;
-			}else{
+			}
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
 
 				@Override
@@ -250,10 +250,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 					app.getGgbApi().setBase64(parseResponse.get(0).getBase64());
 	            }
 	       });
-			}
 		}else{
-			app.getGoogleDriveOperation().loadFromGoogleFile(material.getURL(), 
-					material.getDescription(), material.getTitle(), material.getGoogleID());
+			//TODO: non-tube material ?
 		}
 		app.setUnsaved();
 		bg.close();

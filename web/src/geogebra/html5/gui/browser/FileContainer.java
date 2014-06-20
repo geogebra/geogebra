@@ -139,19 +139,9 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 				@Override
 				public void onClick() {
 					FileContainer.this.bg.setProvider(Provider.GOOGLE);
-
-					if (((AppW) FileContainer.this.app)
-					        .getGoogleDriveOperation().isLoggedIntoGoogle()) {
-						((AppW) FileContainer.this.app)
-						        .getGoogleDriveOperation().initFileNameItems(
-						                FileContainer.this.bg);
-					} else {
-						((AppW) FileContainer.this.app)
-				        .getGoogleDriveOperation().getView().add(FileContainer.this.loginCallback ); 
-						
-						((AppW) FileContainer.this.app)
-						        .getGoogleDriveOperation().requestDriveLogin();
-					}
+					((AppW) FileContainer.this.app)
+			        .getGoogleDriveOperation().requestPicker();
+					
 				}
 			});
 		} else if (user != null) {

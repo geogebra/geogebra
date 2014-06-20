@@ -122,7 +122,7 @@ public interface GeoGebraConstants {
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
 	public static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.me";
-	public static final String DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
+	public static final String DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly";
 	public static final String USERINFO_EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";

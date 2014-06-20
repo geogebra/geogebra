@@ -33,6 +33,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	private AppW app;
 	private boolean loggedIn;
 	private JavaScriptObject googleDriveURL;
+	private JavaScriptObject authToken;
+	private boolean needsPicker;
 
 	
 	/**
@@ -86,6 +88,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	
 	private native void loadGoogleDrive() /*-{
 		var _this = this;
+		$wnd.gapi.load('auth', {'callback': function() {
+	     
+        }});
+        $wnd.gapi.load('picker', {'callback': function(){$wnd.console.log("picker loaded");}});
+        
 	    $wnd.gapi.client.load('drive', 'v2', function() {
 	     _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
         });
@@ -118,23 +125,54 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    //config.max_auth_age = 0;
 		$wnd.gapi.auth.authorize(config,
 	            	 function (resp) {
-	            	 		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(resp);
+	            	 		var token = resp ? resp.access_token:{};
+	            	 		var error = resp ? resp.error : "";
+	            	 		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;)(token,error);
 	            	 	}
 	           
 	       );
 	}-*/;
 	
-	private void authorizeCallback(JavaScriptObject resp) {		
-		if (resp == null || JSON.get(resp, "error") != null) {
+	private void authorizeCallback(JavaScriptObject token,String error) {		
+		if (error!= null && error.length() > 0) {
+			App.debug("GOOGLE LOGIN"+error);
 			this.loggedIn = false;
 			onEvent(new GoogleLoginEvent(false));
 		} else {
 			this.loggedIn = true;
+			this.authToken = token;
+			if(this.needsPicker){
+				this.needsPicker = false;
+				createPicker(authToken);
+			}
 			onEvent(new GoogleLoginEvent(true));
+			
 		}
 	}
 
-    public void renderEvent(BaseEvent event) {
+    private native void createPicker(JavaScriptObject token2) /*-{
+    	var _this = this;
+    	var picker = new $wnd.google.picker.PickerBuilder().
+                addView($wnd.google.picker.​ViewId.DOCS).
+                addView($wnd.google.picker.ViewId.FOLDERS).
+                setOAuthToken(token2).
+                setDeveloperKey("AIzaSyBZlOTdZmzNrXZy2QIrDEz8uXJ9lOUFGE0").
+                setCallback(function(data){
+                	if(data.action != "picked" || data.docs.length <1){
+                		return;
+                	}
+                	var request = $wnd.gapi.client.drive.files.get({
+				fileId : data.docs[0].id
+			});
+			request.execute(function(resp) {
+				_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
+			});
+                }).
+                build();
+            picker.setVisible(true);
+    }-*/;
+
+	public void renderEvent(BaseEvent event) {
     	App.debug("event: " + event.toString());
     	if (event instanceof GoogleDriveLoadedEvent) {
     		checkIfOpenedFromGoogleDrive();
@@ -303,6 +341,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
             String title, String id) {
 	    app.refreshCurrentFileDescriptors(title, description);
 		app.setCurrentFileId(id);
+		app.setUnsaved();
     }
 	
 	private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary, String description, String title, String id) {
@@ -437,6 +476,16 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		}
 		return action;
 	}
+
+	public void requestPicker() {
+	    if(this.authToken != null){
+	    	createPicker(this.authToken);
+	    }else{
+	    	this.needsPicker = true;
+	    	login(true);
+	    }
+	    
+    }
 	
 	
 
