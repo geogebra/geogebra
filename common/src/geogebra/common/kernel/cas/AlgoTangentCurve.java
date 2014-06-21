@@ -13,14 +13,18 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.TangentAlgo;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.plugin.Operation;
 
 /**
  * @author Victor Franco Espino 
@@ -36,8 +40,9 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	private GeoLine tangent; // output
 	private GeoPoint T;
 	private boolean pointOnCurve;
+	private boolean pointOnCurveSpecial;
+	private ExpressionValue pointOnCurveSpecialParam;
 	private AlgoDerivative algo;
-	private Construction cons;
 
 	/**
 	 * @param cons construction
@@ -48,7 +53,6 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	public AlgoTangentCurve(Construction cons, String label, GeoPoint P,
 			GeoCurveCartesian f) {
 		super(cons);
-		this.cons = cons;
 		tangent = new GeoLine(cons);
 		this.P = P;
 		initialize(f);
@@ -67,14 +71,28 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		// check if P is defined as a point of the curve's graph
 		pointOnCurve = false;
 		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
-			AlgoPointOnPath algo = (AlgoPointOnPath) P.getParentAlgorithm();
-			pointOnCurve = algo.getPath() == f;
+			AlgoPointOnPath algoPOP = (AlgoPointOnPath) P.getParentAlgorithm();
+			pointOnCurve = algoPOP.getPath() == f;
+		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint) {
+
+			// special code for curve(t)
+			
+			AlgoDependentPoint algoDP = (AlgoDependentPoint) P.getParentAlgorithm();
+			
+			ExpressionNode en = algoDP.getExpressionNode();
+			
+			if (en.getOperation() == Operation.VEC_FUNCTION && en.getLeft().unwrap() == f) {
+				pointOnCurveSpecial = true;
+				pointOnCurveSpecialParam = en.getRight().unwrap();
+			}
+			
 		}
 
-		if (pointOnCurve)
+		if (pointOnCurve || pointOnCurveSpecial) {
 			T = P;
-		else
+		} else {
 			T = new GeoPoint(cons);
+		}
 		tangent.setStartPoint(T);
 
 		// First derivative of curve f
@@ -150,14 +168,24 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		double feval[] = new double[2];
 		double dfeval[] = new double[2];
 
-		double tvalue = f.getClosestParameter(P, f.getMinParameter());
+		double tvalue;
+		
+		if (pointOnCurve) {
+			tvalue = P.getPathParameter().t;
+		} else if (pointOnCurveSpecialParam != null) {
+			tvalue = pointOnCurveSpecialParam.evaluateDouble();
+		} else {
+			tvalue = f.getClosestParameter(P, f.getMinParameter());
+		}
+		
 		f.evaluateCurve(tvalue, feval);
 		df.evaluateCurve(tvalue, dfeval);
 		tangent.setCoords(-dfeval[1], dfeval[0], feval[0] * dfeval[1]
 				- dfeval[0] * feval[1]);
 
-		if (!pointOnCurve)
+		if (!pointOnCurve && !pointOnCurveSpecial) {
 			T.setCoords(feval[0], feval[1], 1.0);
+		}
 	}
 
 	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
