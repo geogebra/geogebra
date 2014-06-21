@@ -28,7 +28,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	private AppW app;
 	private MyTableW table;
 	private CellFormat formatHandler;
-	private ArrayList<CellRange> selectedCells;
+//	private ArrayList<CellRange> selectedCells;
 
 	private MyToggleButton2 btnFormulaBar;
 	private MyToggleButton2 btnLeftAlign, btnCenterAlign, btnRightAlign;
@@ -50,7 +50,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		this.app = view.getApplication();
 		this.table = (MyTableW) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
-		this.selectedCells = table.selectedCellRanges;
+	//	this.selectedCells = table.selectedCellRanges;
 
 		// create and add the buttons
 		createButtons();
@@ -178,6 +178,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		if (!allowActionPerformed)
 			return;
+		
+		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
 
 		// Object source = e.getSource();
 

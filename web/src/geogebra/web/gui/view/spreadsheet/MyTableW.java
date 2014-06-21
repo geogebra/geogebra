@@ -273,7 +273,9 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 
 	private FlowPanel cornerContainerUpperRight;
 
-	public Grid dummyTable;	
+	public Grid dummyTable;
+
+	private boolean autoScrolls = true;	
 
 	/*******************************************************************
 	 * Construct table
@@ -899,30 +901,44 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		// let selectionChanged know about a change in single cell selection
 		selectionChanged();
 		
-		GRectangle cellRect = getCellRect(rowIndex, columnIndex, false);
-        if (cellRect != null) {
-        	scroller.scrollRectToVisible(cellRect);
-        }
+		if (autoScrolls) {
+			GRectangle cellRect = getCellRect(rowIndex, columnIndex, false);
+			if (cellRect != null) {
+				scroller.scrollRectToVisible(cellRect);
+			}
+		}
 		
 	}
 
 	public void selectAll() {
+		
 		setSelectionType(MyTable.CELL_SELECT);
-		// ?//this.setAutoscrolls(false);
+		setAutoscrolls(false);
+		
 		// select the upper left corner cell
 		changeSelection(0, 0, false, false);
+		
 		// extend the selection to the current lower right corner cell
 		changeSelection(getRowCount() - 1, getColumnCount() - 1, false, true);
+		
 		setSelectAll(true);
-		// ?//this.setAutoscrolls(true);
-
-		// this.scrollRectToVisible(getCellRect(0,0,true));
+		setAutoscrolls(true);
+		scrollRectToVisible(getCellRect(0,0,true));
+		
 		// setRowSelectionInterval(0, getRowCount()-1);
 		// getColumnModel().getSelectionModel().setSelectionInterval(0,
 		// getColumnCount()-1);
 		// selectionChanged();
 		// this.getSelectAll();
 
+	}
+
+	private void setAutoscrolls(boolean autoScrolls) {
+	    this.autoScrolls = autoScrolls;
+    }
+
+	private void scrollRectToVisible(GRectangle contentRect) {
+	   scroller.scrollRectToVisible(contentRect);
 	}
 
 	/**
@@ -1024,8 +1040,8 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		maxSelectionRow = newSelection.getMaxRow();
 
 		
-		// newSelection.debug();
-		// printSelectionParameters();
+		//newSelection.debug();
+		//printSelectionParameters();
 
 		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
 			setSelectNone(false);
@@ -2649,42 +2665,16 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		GColor bgColor;
 		Element operate = null;
 
-		// column header
-		for (int i = getColumnCount() - 1; i >= 1; i--) {
-			operate = ssGrid.getCellFormatter().getElement(0, i);
-
-			//if (i >= minSelectionColumn && i <= maxSelectionColumn
-			//        && selectionType != MyTable.ROW_SELECT)
-			//	operate.getStyle().setBackgroundColor(
-			//	        MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-			//else
-			//	operate.getStyle().setBackgroundColor(
-			//	        MyTableW.BACKGROUND_COLOR_HEADER.toString());
-		}
-
-		// row heaader
-		for (int j = getRowCount() - 1; j >= 1; j--) {
-
-			operate = ssGrid.getCellFormatter().getElement(j, 0);
-
-			// if (j >= minSelectionRow && j <= maxSelectionRow
-			 //       && selectionType != MyTable.COLUMN_SELECT)
-		//		operate.getStyle().setBackgroundColor(
-		//		        MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-		//	else
-		//		operate.getStyle().setBackgroundColor(
-		//		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
-		}
 
 		// cells
-		int colCount = tableModel.getHighestUsedColumn() + 2;
-		int rowCount = tableModel.getHighestUsedRow() + 2;
+		int colCount = tableModel.getHighestUsedColumn();
+		int rowCount = tableModel.getHighestUsedRow();
 
 		// fix for empty cells with background colors
 		int altColCount = ((CellFormat) getCellFormatHandler())
-		        .getHighestIndexColumn() + 2;
+		        .getHighestIndexColumn();
 		int altRowCount = ((CellFormat) getCellFormatHandler())
-		        .getHighestIndexRow() + 2;
+		        .getHighestIndexRow();
 		if (altRowCount > rowCount)
 			rowCount = altRowCount;
 		if (altColCount > colCount)
