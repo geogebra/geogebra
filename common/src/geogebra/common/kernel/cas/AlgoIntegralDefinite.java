@@ -259,7 +259,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		 * would be defined (-2)
 		 */
 		if (symbIntegral != null && symbIntegral.isDefined()
-				&& !f.includesDivisionByVar()) {
+				&& !f.includesDivisionByVar() && !f.includesNonContinuousIntegral()) {
 			double val = symbIntegral.evaluate(upperLimit)
 					- symbIntegral.evaluate(lowerLimit);
 			n.setValue(val);

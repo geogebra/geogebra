@@ -75,6 +75,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	// if the function includes a division by var, e.g. 1/x, 1/(2+x)
 	private boolean includesDivisionByVar = false;
+	private boolean includesNonContinuousIntegral = false;
 
 	/** function may be limited to interval [a, b] */
 	protected boolean interval = false;
@@ -622,7 +623,22 @@ public class GeoFunction extends GeoElement implements VarString,
 		}
 		return includesDivisionByVar;
 	}
+	
+	/**
+	 * Returns whether this function includes eg abs(), If[] function
+	 * 
+	 * @return true iff this function includes abs(), If[] etc
+	 */
+	final public boolean includesNonContinuousIntegral() {
+		if (includesNonContinuousIntegralFun != fun) {
+			includesNonContinuousIntegralFun = fun;
+			includesNonContinuousIntegral = fun != null
+					&& fun.includesNonContinuousIntegral();
+		}
+		return includesNonContinuousIntegral;
+	}
 
+	private Function includesNonContinuousIntegralFun = null;
 	private Function includesDivisionByVarFun = null;
 
 	@Override

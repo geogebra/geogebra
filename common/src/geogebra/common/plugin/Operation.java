@@ -1520,6 +1520,38 @@ public enum Operation {
 			String leftStr, String rightStr, boolean valueForm, StringTemplate tpl){
 		return ExpressionNode.operationToString(left, right, this, leftStr, rightStr, valueForm, tpl);
 	}
+	
+	public static boolean integralIsNonContinuous(Operation op) { 
+
+		switch (op) { 
+		case ABS: 
+		case SGN: 
+		case FLOOR: 
+		case CEIL: 
+		case ROUND: 
+		case TAN: 
+		case COT: 
+		case SEC: 
+		case CSC: 
+		case FRACTIONAL_PART: 
+		case ZETA: 
+		case GAMMA: 
+		case GAMMA_INCOMPLETE: 
+		case GAMMA_INCOMPLETE_REGULARIZED: 
+		case BETA: 
+		case BETA_INCOMPLETE: 
+		case BETA_INCOMPLETE_REGULARIZED: 
+		case POLYGAMMA: 
+		case PSI: 
+		case IF:
+		case IF_ELSE:
+
+			return true; 
+		} 
+
+
+		return false; 
+	} 
 }
 
 

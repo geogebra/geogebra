@@ -700,6 +700,30 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		return false;
 	}
+	
+	/**
+	 * Returns true if this tree includes eg abs(), If[] function
+	 * 
+	 * 
+	 * @return true iff contains abs(), If[] etc
+	 */
+	final public boolean includesNonContinuousIntegral() {
+		if (Operation.integralIsNonContinuous(operation)) {
+			return true;			
+		}
+		
+		if (left.isExpressionNode()
+				&& ((ExpressionNode) left).includesNonContinuousIntegral()) {
+			return true;
+		}
+
+		if ((right != null) && right.isExpressionNode()
+				&& ((ExpressionNode) right).includesNonContinuousIntegral()) {
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	 * Replaces all Variable objects with the given varName in tree by the given

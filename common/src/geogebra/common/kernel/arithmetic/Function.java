@@ -999,7 +999,19 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 		return expression.includesDivisionBy(fVars[0]);
 	}
-	
+
+	/**
+	 * Decides whether function includes eg If[], abs() function
+	 * 
+	 * @return true if function includes abs(), If[] etc
+	 */
+	public final boolean includesNonContinuousIntegral() {
+		if (expression == null) {
+			return false;
+		}
+		return expression.includesNonContinuousIntegral();
+	}
+
 	public GeoFunction getGeoFunction(){
 		GeoFunction gf = new GeoFunction(kernel.getConstruction());
 		gf.setFunction(this);
