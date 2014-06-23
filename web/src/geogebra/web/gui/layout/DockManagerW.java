@@ -8,6 +8,7 @@ import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
@@ -280,7 +281,6 @@ public class DockManagerW extends DockManager {
 
 				panel.updatePanel();
 
-				
 				// this might have to belong to panel.updatePanel
 				// maybe not needed if updatePanel is right
 				// maybe wrong if onResize makes things wrong
@@ -290,8 +290,6 @@ public class DockManagerW extends DockManager {
 					panel.setWidth(dpData[i].getEmbeddedSize()+"px");
 				}
 
-
-				
 				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
 					panelDim = panel.getEstimatedSize().getWidth();
 					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
@@ -351,12 +349,16 @@ public class DockManagerW extends DockManager {
 				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);
 
-
 				// Set the window dimensions to the ggb xml <window> tag size.
 				int windowWidth2 = app.getPreferredSize().getWidth();
 				int windowHeight2 = app.getPreferredSize().getHeight();
 				
 				// Set the split pane dividers
+				if(windowWidth2 == 0){
+					windowWidth2 = windowWidth;
+					windowHeight2 = windowHeight;
+					app.setPreferredSize(new GDimensionW(windowWidth2, windowHeight2));
+				}
 				setSplitPaneDividers(spData, splitPanes, windowHeight2, windowWidth2, windowHeight, windowWidth);
 
 				// for debugging
