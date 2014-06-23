@@ -402,7 +402,10 @@ public interface Traversing {
 			if (ev instanceof Variable) {
 				Variable v = (Variable)ev;
 				String name = v.getName(StringTemplate.defaultTemplate);
-				ExpressionValue replace = Variable.replacement(ev.getKernel(), name, false);
+				ExpressionValue replace = ev.getKernel().lookupLabel(name, true);
+				if(replace == null){
+					replace = Variable.replacement(ev.getKernel(), name, false);
+				}
 				if(replace instanceof Variable){
 					name = ((Variable)replace).getName(StringTemplate.defaultTemplate);
 					GeoNumeric slider = new GeoNumeric(ev.getKernel().getConstruction(), name, 1);
@@ -446,7 +449,11 @@ public interface Traversing {
 			if (ev instanceof Variable) {
 				Variable v = (Variable)ev;
 				String name = v.getName(StringTemplate.defaultTemplate);
-				ExpressionValue ret = Variable.replacement(ev.getKernel(), name, false);
+				ExpressionValue ret;
+				ret = ev.getKernel().lookupLabel(name);
+				if(ret == null){
+					ret = Variable.replacement(ev.getKernel(), name, false);
+				}
 
 				if (ret instanceof Variable && !ev.getKernel().getConstruction().isRegistredFunctionVariable(name)) {
 					App.debug("found undefined variable: "+((Variable)ret).getName(StringTemplate.defaultTemplate));
