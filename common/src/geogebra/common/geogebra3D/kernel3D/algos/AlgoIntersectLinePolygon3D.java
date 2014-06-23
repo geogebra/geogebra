@@ -215,7 +215,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     	int index = 0;   	
  
 
-    	if(((GeoElement) p).isDefined() && g.isDefined()){
+    	if(((GeoElement) p).isDefined() && getFirstInput().isDefined()){
     		//fill a new points map
     		//intersectionsCoords(p, newCoords);
     		intersectionsCoords(p, newCoords);
