@@ -1707,10 +1707,7 @@ public abstract class AppW extends AppWeb {
 			windowHeight -= GLookAndFeel.COMMAND_LINE_HEIGHT;
 		if (showToolBar())
 			windowHeight -= GLookAndFeel.TOOLBAR_HEIGHT;
-		if (showMenuBar())
-			windowHeight -= 35;// empirical observation
-		// menubar height might be there too,
-		// but hope it is not there for now (heuristics)
+		// menubar height is always 0
 		if (windowHeight <= 0)
 			windowHeight = fallback;
 		return windowHeight;
