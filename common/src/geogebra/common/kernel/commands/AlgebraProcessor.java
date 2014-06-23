@@ -1531,6 +1531,8 @@ public class AlgebraProcessor {
 				eq.setLabel(label);
 				GeoElement[] line = processLine(eq);
 				((GeoLineND)line[0]).setToParametric(fv.getSetVarString());
+				line[0].update();
+				return line;
 			//parabola
 		    //x=att+bt+c
 			//y=dtt+et+f
