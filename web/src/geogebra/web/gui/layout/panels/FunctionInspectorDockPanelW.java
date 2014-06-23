@@ -28,7 +28,7 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 		super(App.VIEW_FUNCTION_INSPECTOR, // view id
 				"FunctionInspector", // view title phrase
 				null, // toolbar string
-				false, // style bar?
+				true, // style bar?
 				-1, // menu order
 				'F' // menu shortcut
 		);
@@ -47,7 +47,14 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 
 	@Override
 	public void showView(boolean b) {
-		
+		App.debug("FunctionInspector showView " + b);
+	}
+	
+	@Override
+	protected void closePanel(boolean isPermanent) {
+		App.debug("FunctionInspector closePanel");
+		((DialogManagerW) app.getDialogManager()).getFunctionInspector().setInspectorVisible(false);
+		super.closePanel(isPermanent);
 	}
 	
 	@Override

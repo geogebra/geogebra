@@ -96,7 +96,12 @@ public class FunctionInspectorW extends FunctionInspector {
 	    super(app, selectedGeo);
     }
 
-	public void reset() {
+	@Override
+	public void createGUI() {
+		super.createGUI();
+		setInspectorVisible(true);
+	}
+    public void reset() {
 		// TODO Auto-generated method stub
 
 	}
@@ -685,4 +690,12 @@ public class FunctionInspectorW extends FunctionInspector {
 		// not used for this view
 	}
 
+	public void attachView() {
+		getKernel().attach(this);
+	}
+
+	public void detachView() {
+		getKernel().detach(this);
+	}
+	
 }
