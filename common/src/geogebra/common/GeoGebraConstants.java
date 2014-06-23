@@ -64,7 +64,7 @@ public interface GeoGebraConstants {
 	/** URL of GeoGebra jars, zipped */
 	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE + "geogebra-jars.zip";
 	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_JARS_UPDATE_DIR ="\\GeoGebra\\jars\\update";
+	public static final String GEOGEBRA_JARS_UPDATE_DIR ="\\GeoGebra 5.0\\jars\\update";
 	/** online license file, generated from trunk --- FIXME: create a per version file */
 	public final static String GEOGEBRA_ONLINE_LICENSE = "http://www.geogebra.org/info/gui-_license.txt";
 	/** URL of GeoGebra Webstart (to check whether we are running webstart)*/
