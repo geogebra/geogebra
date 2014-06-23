@@ -345,6 +345,31 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
+		
+
+		// polar or cartesian coords
+		switch (toStringMode) {
+		case Kernel.COORD_POLAR:
+			sb.append("\t<coordStyle style=\"polar\"/>\n");
+			break;
+
+		case Kernel.COORD_COMPLEX:
+			sb.append("\t<coordStyle style=\"complex\"/>\n");
+			break;
+
+		case Kernel.COORD_CARTESIAN:
+			sb.append("\t<coordStyle style=\"cartesian\"/>\n");
+			break;
+
+		case Kernel.COORD_SPHERICAL:
+			sb.append("\t<coordStyle style=\"spherical\"/>\n");
+			break;
+
+		default:
+			// don't save default (Kernel.COORD_CARTESIAN_3D)
+		}
+
+		
 		// line thickness and type
 		getLineStyleXML(sb);
 
