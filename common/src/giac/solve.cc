@@ -2280,7 +2280,9 @@ namespace giac {
   static vecteur bisection_solver_sr(const gen & equation,const gen & var,const gen & a0,const gen &b0,int & iszero,double faorig,double fborig,GIAC_CONTEXT){
     gen a=a0,b=b0;
     gen fa=subst(equation,var,a,false,contextptr);
+    fa=eval(fa,1,contextptr);
     gen fb=subst(equation,var,b,false,contextptr);
+    fb=eval(fb,1,contextptr);
     if (is_exactly_zero(fa)){
       iszero=1;
       return vecteur(1,a);
@@ -2299,6 +2301,7 @@ namespace giac {
       try {
 #endif
 	fc=subst(equation,var,c,false,contextptr);
+	fc=eval(fc,1,contextptr);
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
 	iszero=-1;
@@ -2360,6 +2363,7 @@ namespace giac {
 #endif
       for (;is_strictly_greater(b,a,contextptr);){
 	fa=subst(equation,var,a,false,contextptr);
+	fa=eval(fa,1,contextptr);
 	if (!is_zero(fa,contextptr))
 	  break;
 	if (onlyone)
@@ -2369,6 +2373,7 @@ namespace giac {
       }
       for (;is_strictly_greater(b,a,contextptr);){
 	fb=subst(equation,var,b,false,contextptr);
+	fb=eval(fb,1,contextptr);
 	if (!is_zero(fb,contextptr))
 	  break;
 	if (onlyone)
@@ -2388,6 +2393,7 @@ namespace giac {
       for (int i=0;i<ntries;++i){
 	b -= ab;
 	fb=subst(equation,var,b,false,contextptr);
+	fb=eval(fb,1,contextptr);
 	if (fb.type==_DOUBLE_)
 	  break;
       }
@@ -2397,6 +2403,7 @@ namespace giac {
       for (int i=0;i<ntries;++i){
 	a += ab;
 	fa=subst(equation,var,a,false,contextptr);
+	fa=eval(fa,1,contextptr);
 	if (fa.type==_DOUBLE_)
 	  break;
       }
@@ -2423,6 +2430,7 @@ namespace giac {
 	    try {
 #endif
 	      fb=subst(equation,var,b,false,contextptr);
+	      fb=eval(fb,1,contextptr);
 #ifndef NO_STDEXCEPT
 	    } catch (std::runtime_error & ){
 	      iszero=-1;
@@ -2459,6 +2467,7 @@ namespace giac {
       try {
 #endif
 	fb=subst(equation,var,b,false,contextptr);
+	fb=eval(fb,1,contextptr);
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
 	continue;
@@ -2968,6 +2977,19 @@ namespace giac {
     return res;
   }
 
+  vecteur true_lidnt(const gen & g){
+    vecteur v=lvar(g);
+    vecteur w;
+    for (unsigned i=0;i<v.size();++i){
+      if (v[i].is_symb_of_sommet(at_fsolve) ||
+	  v[i].is_symb_of_sommet(at_integrate) ||
+	  v[i].is_symb_of_sommet(at_sum))
+	continue;
+      w.push_back(v[i]);
+    }
+    return lidnt(w);
+  }
+
   gen in_fsolve(vecteur & v,GIAC_CONTEXT){
     if (is_undef(v))
       return v;  
@@ -2991,6 +3013,11 @@ namespace giac {
       return in_fsolve(v,contextptr);
     }
     gen v0=remove_equal(v[0]);
+    vecteur I1(lidnt(v[1]));
+    vecteur I0(true_lidnt(v0)); // should remove embedded fsolve/sum/int
+    I0=lidnt(makevecteur(evalf(I0,1,contextptr),I1));
+    if (I0!=I1)
+      return symbolic(at_fsolve,gen(v,_SEQ__VECT));
     int evalf_after=interv?3:1;
     if (s>=2 && v0.type==_VECT && v[1].type==_VECT && !v[1]._VECTptr->empty()){
       // check v[1]
@@ -3024,26 +3051,36 @@ namespace giac {
 	return gsolve(*v0._VECTptr,*v[1]._VECTptr,complex_mode(contextptr),evalf_after,contextptr);
     }
     if (s==2 && v[1].type==_IDNT){ 
-      gen v00= evalf(v0,1,contextptr);
       // no initial guess, check for poly-like equation
-      vecteur lv(lvar(v00));
+      vecteur lv(lvar(v0));
       int lvs=lv.size();
-      if (lv==vecteur(1,v[1])){
-	gen tmp=_e2r(makesequence(v00,v[1]),contextptr);
+      bool poly=true;
+      for (unsigned i=0;i<lv.size();++i){
+	if (lv[i]==v[1] || lv[i]==cst_pi || lv[i]==cst_euler_gamma)
+	  continue;
+	poly=false;
+	break;
+      }
+      if (poly){
+	gen tmp=_e2r(makesequence(v0,v[1]),contextptr);
 	if (tmp.type==_FRAC)
 	  tmp=tmp._FRACptr->num;
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
-	if (tmp.type==_VECT)
-	  return complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr);
+	if (tmp.type==_VECT){
+	  gen res=complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr);
+	  if (res.type==_VECT && res._VECTptr->size()==1)
+	    return res._VECTptr->front();
+	  return res;
+	}
       }
       if (lvs>1)
-	v00=halftan_hyp2exp(v00,contextptr);
-      lv=lvar(v00);
+	v0=halftan_hyp2exp(v0,contextptr);
+      lv=lvar(v0);
       lvs=lv.size();
       if (lvs==1 && lv[0].type==_SYMB && lv[0]._SYMBptr->feuille.type!=_VECT){
 	int pos=equalposcomp(solve_fcns_tab,lv[0]._SYMBptr->sommet);
 	if (pos){
-	  gen tmp=_e2r(makesequence(v00,lv[0]),contextptr);
+	  gen tmp=_e2r(makesequence(v0,lv[0]),contextptr);
 	  if (tmp.type==_FRAC)
 	    tmp=tmp._FRACptr->num;
 	  tmp=evalf(tmp,eval_level(contextptr),contextptr);

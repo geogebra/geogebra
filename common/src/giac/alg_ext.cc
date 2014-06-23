@@ -355,6 +355,49 @@ namespace giac {
 	// this implies computing approx value of theta1 and theta2
 	// 
 	vecteur rac=real_proot(v1,1e-12,contextptr);
+	if (rac.empty()){
+	  vecteur rac1=proot(v1,1e-12);
+	  gen theta1=in_select_root(rac1,contextptr);
+	  // replace _EXT in vb by r1 and evaluate numerically
+	  vecteur v2=replace_ext(vb,va,theta1,contextptr);
+	  if (!v2.empty() && is_undef(v2))
+	    return v2.front();
+	  // find theta2
+	  if (is_fully_numeric(v2)){
+	    vecteur rac2=proot(v2,1e-12);
+	    if (!rac2.empty() && !is_undef(rac2)){
+	      gen theta2=in_select_root(rac2,contextptr);
+	      int racs=rac1.size();
+	      for (int i=0;i<racs;++i){
+		gen r1=rac1[i],K;
+		if (r1==theta1)
+		  continue;
+		v2=replace_ext(vb,va,r1,contextptr);
+		if (!v2.empty() && is_undef(v2))
+		  return v2.front();
+#ifndef NO_STDEXCEPT
+		try {
+#endif
+		  gen r2=select_root(v2,contextptr);
+		  K=(r2-theta2)/(theta1-r1); // must be <= k
+		  if (is_undef(K))
+		    K=0;
+#ifndef NO_STDEXCEPT
+		}
+		catch (std::runtime_error & ){
+		  K=0;
+		}
+#endif
+		// so that r2-theta2 <= k*theta1-k*r1
+		// or k*r1+r2 <= k*theta1+theta2
+		K=_floor(re(K,contextptr),contextptr)+1;
+		if (is_positive(K,contextptr) && K.type!=_INT_)
+		  return gensizeerr(gettext("Unable to find common minimal polynomial"));
+		k_init=std::max(k_init,K.val);
+	      }
+	    } // !rac2.empty
+	  } // is_fully_numeric(v2)
+	}
 	if (!rac.empty() && !is_undef(rac)){
 	  gen theta1=_max(rac,contextptr);
 	  // replace _EXT in vb by r1 and evaluate numerically
@@ -406,7 +449,7 @@ namespace giac {
     for (k=k_init;;++k){
       polynome p(2);
       p.coord.push_back(monomial<gen>(1,2));
-      polynome q(2);
+      polynome q(2),tmpq(2),tmpr(2);
       q.coord.push_back(monomial<gen>(k,1,1,2)); // k*a: deg=1, var=1, dim=2
       q.coord.push_back(monomial<gen>(1,1,2,2)); // b: deg=1, var=2
       // create the matrix
@@ -423,10 +466,10 @@ namespace giac {
 	p=p*q;
 	// permutation of indices order before making division by pb
 	p.reorder(transposition(0,1,2));
-	p=p%pb;
+	p.TDivRem(pb,tmpq,tmpr,true); p.coord.swap(tmpr.coord); // p=p%pb; // 
 	p.reorder(transposition(0,1,2));
 	// division by a after because b might depend on a
-	p=p%pa;
+	p.TDivRem(pa,tmpq,tmpr,true); p.coord.swap(tmpr.coord); // p=p%pa; //
       }
       // Add the lines corresponding to b and a (i.e. theta2, theta1)
       ligne=vecteur(na*nb);

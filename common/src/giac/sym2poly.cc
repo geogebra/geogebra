@@ -708,8 +708,15 @@ namespace giac {
       }
       if (b.type==_EXT){
 	gen q=evalf(b,1,contextptr)/evalf(num,1,contextptr);
-	if (is_zero(q+1,contextptr))
-	  num=b;
+	gen qr=_round(q,contextptr);
+	if (is_zero(q-qr,contextptr)){
+	  num=b/qr;
+	  if (num.type==_FRAC){
+	    // commented since x^d=num is solved using irr_p, translated to b below
+	    // tmpden=tmpden*num._FRACptr->den; 
+	    num=num._FRACptr->num;
+	  }
+	}
       }
     }
     for (f_it=f.begin();f_it!=f_itend;++f_it){

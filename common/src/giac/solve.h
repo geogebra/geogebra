@@ -92,6 +92,7 @@ namespace giac {
   vecteur gsolve(const vecteur & eq_orig,const vecteur & var,bool complexmode,int evalf_after,GIAC_CONTEXT);
   bool vecteur2vector_polynome(const vecteur & eq_in,const vecteur & l,vectpoly & eqp);
 
+  vecteur true_lidnt(const gen & g); // lidnt without looking in int/sum/fsolve
   gen _greduce(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_greduce ;
 

@@ -2627,6 +2627,12 @@ namespace giac {
   static define_unary_function_eval4 (__limit,&_limit,_limit_s,0,&texprintaslimit);
   define_unary_function_ptr5( at_limit ,alias_at_limit,&__limit,_QUOTE_ARGUMENTS,true);
 
+#if 0
+  static const char _lim_s []="lim";
+  static define_unary_function_eval4 (__lim,&_limit,_lim_s,0,&texprintaslimit);
+  define_unary_function_ptr5( at_lim ,alias_at_lim,&__lim,_QUOTE_ARGUMENTS,true);
+#endif
+
   // like sparse_poly12gen, but if there is only 1 term and no remainder
   // expand it, l.1976
   static gen sparse_poly12gen_expand(const sparse_poly1 & s,const identificateur & x,const gen & mrv_var,int ordre,gen & remains,bool with_order_size,GIAC_CONTEXT){

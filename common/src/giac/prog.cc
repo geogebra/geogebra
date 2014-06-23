@@ -5561,10 +5561,10 @@ namespace giac {
   gen quote_read(const gen & args,GIAC_CONTEXT){
     if (args.type!=_STRNG)
       return symbolic(at_read,args);
+    string fichier=*args._STRNGptr;
 #ifdef NSPIRE
     return undef;
 #else
-    string fichier=*args._STRNGptr;
     ifstream inf(fichier.c_str());
     if (!inf)
       return undef;
@@ -5602,7 +5602,7 @@ namespace giac {
     vecteur v;
     readargs_from_stream(inf2,v,contextptr);
     return v.size()==1?v.front():gen(v,_SEQ__VECT);
-#endif
+#endif // NSPIRE
   }
   gen _read(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;

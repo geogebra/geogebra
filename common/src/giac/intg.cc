@@ -2159,6 +2159,8 @@ namespace giac {
       const_iterateur it=v.begin(),itend=v.end();
       ++it; // don't try x!
       for (;it!=itend;++it){
+	if (it->is_symb_of_sommet(at_fsolve) || it->is_symb_of_sommet(at_equal))
+	  continue;
 	gen df=derive(*it,gen_x,contextptr);
 	gen tmprem;
 	fu=ratnormal(rdiv(e,df,contextptr));
@@ -2603,9 +2605,10 @@ namespace giac {
 	    v[2].type==_FLOAT_ || v[2].type==_DOUBLE_ || v[2].type==_REAL ||
 	    v[3].type==_FLOAT_ || v[3].type==_DOUBLE_ || v[3].type==_REAL)){
 	vecteur ld(1,cst_pi);
-	lidnt(makevecteur(v[0],evalf_double(v[2],1,contextptr),evalf_double(v[3],1,contextptr)),ld);
+	// should first remove mute variables inside embedded sum/int/fsolve
+	lidnt(makevecteur(true_lidnt(v[0]),evalf_double(v[2],1,contextptr),evalf_double(v[3],1,contextptr)),ld);
 	ld.erase(ld.begin());
-	if (ld==vecteur(1,v[1]))
+	if (ld==vecteur(1,v[1]) || ld.empty())
 	  return _gaussquad(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
       }
       v0orig=v[0];
@@ -2830,7 +2833,7 @@ namespace giac {
     if (!is_zero(rem)){
       if (is_inf(res))
 	return symbolic(at_integrate,gen(makevecteur(v[0],x,v[2],v[3]),_SEQ__VECT));
-      if (ordonne)
+      if (ordonne || !desordonne)
 	res = res + symbolic(at_integrate,gen(makevecteur(rem,x,v[2],v[3]),_SEQ__VECT));
       else
 	res = res - symbolic(at_integrate,gen(makevecteur(rem,x,v[3],v[2]),_SEQ__VECT));
@@ -3035,7 +3038,7 @@ namespace giac {
     long_double b6[]={0.10715760948621577132,0.31130901929813818033e-1,0.36171148858397041065,0,0.36171148858397041065,0.31130901929813818033e-1,0.10715760948621577132};
     vecteur v30(15),v30abs(15);
     for (int i=0;i<15;i++){
-      v30[i]=evalf_double(subst(f,x,((a+b)+double(c30[i])*h)/2,false,contextptr),1,contextptr);
+      v30[i]=evalf_double(eval(subst(f,x,((a+b)+double(c30[i])*h)/2,false,contextptr),1,contextptr),1,contextptr);
       v30abs[i]=_l2norm(v30[i],contextptr);
       if (v30abs[i].type!=_DOUBLE_)
 	return false;

@@ -68,6 +68,7 @@
 #include "gauss.h"
 #include "isom.h"
 #include "plot.h"
+#include "ti89.h"
 
 #include "prog.h"
 #include "rpn.h"
@@ -432,6 +433,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "θ"	index_status(yyextra)=1; (*yylval)=theta__IDNT_e; return T_SYMBOL;
 "i"			index_status(yyextra)=1; if (xcas_mode(yyextra) > 0 || !i_sqrt_minus1(yyextra)) { (*yylval)=i__IDNT_e; return T_SYMBOL; } else { (*yylval) = cst_i; return T_LITERAL;};
 "ί"                      index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
+""                      index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 \xa1                    index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
   /* \xef\xbd\x89            index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL; */
 \xe2\x81\xb1            index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
@@ -549,6 +551,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_assign"                  index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return T_QUOTED_BINARY;
 "►"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "▶"                index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
+"→"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "=>"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "=<"                    index_status(yyextra)=0; (*yylval)=gen(at_array_sto,2); return T_AFFECT;
 "@"{D}+                   index_status(yyextra)=1; yytext[0]='0'; (*yylval) = symb_double_deux_points(makevecteur(_IDNT_id_at,chartab2gen(yytext,yyextra))); return T_SYMBOL;
@@ -676,6 +679,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "D"  		if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval) = gen(at_function_diff,1); index_status(yyextra)=1; return T_UNARY_OP;} else { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); }
 "e"                     if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval)=e__IDNT_e; }else (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 "ℯ"                     (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
+""                     (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 "equal"			(*yylval) = gen(at_equal,2); index_status(yyextra)=0; return T_UNARY_OP;
 "error"		        index_status(yyextra)=0; (*yylval)=gen(at_throw,1); return T_RETURN;
 "erase"                 (*yylval) = gen(at_erase,0); index_status(yyextra)=0; return T_UNARY_OP;
@@ -701,6 +705,9 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_intersect"                  index_status(yyextra)=0; (*yylval)=gen(at_intersect,2); return T_QUOTED_BINARY;
 "KILL"		        (*yylval) = gen(at_kill,1); index_status(yyextra)=0; return T_UNARY_OP;
 "log"			(*yylval) = gen(at_ln,1); index_status(yyextra)=1; return T_UNARY_OP; /* index_status(yyextra)=1 to accept log[] for a basis log */
+"sin"                  (*yylval) = gen(at_asin,1); index_status(yyextra)=1; return T_UNARY_OP;
+"cos"                  (*yylval) = gen(at_acos,1); index_status(yyextra)=1; return T_UNARY_OP;
+"tan"                  (*yylval) = gen(at_atan,1); index_status(yyextra)=1; return T_UNARY_OP;
 "'minus'"                  index_status(yyextra)=0; (*yylval)=gen(at_minus,2); return T_QUOTED_BINARY;
 "_minus"                  index_status(yyextra)=0; (*yylval)=gen(at_minus,2); return T_QUOTED_BINARY;
 "not"                 (*yylval) = gen(at_not,1); if (xcas_mode(yyextra)) return T_NOT;  index_status(yyextra)=0; return T_UNARY_OP;
@@ -773,6 +780,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "≤" index_status(yyextra)=0; (*yylval)=gen(at_inferieur_egal,2); return T_TEST_EQUAL;
 "≠" index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_TEST_EQUAL;
 "≥" 		index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_TEST_EQUAL;
+"∏" index_status(yyextra)=0;(*yylval)=gen(at_product); return T_UNARY_OP; 
            /* old format for physical constants
 "_hbar_"        (*yylval) = symbolic(at_unit,makevecteur(1.05457266e-34,_J_unit*_s_unit)); index_status(yyextra)=0; return T_SYMBOL;
 "_c_"        (*yylval) = symbolic(at_unit,makevecteur(299792458,_m_unit/_s_unit)); index_status(yyextra)=0; return T_SYMBOL;
@@ -1414,6 +1422,14 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       }
 #endif // RTOS_THREADX
       string s(s_orig),lexer_string;
+#ifdef NSPIRE
+      for (unsigned i=0;i<s.size()-1;++i){
+	if (s[i]==']' && s[i+1]=='['){
+	  string tmp=s.substr(0,i+1)+string(",");
+	  s=tmp+s.substr(i+1,s.size()-i-1);
+	}
+      }
+#endif
       bool instring=false;
       // stupid match of bracket then parenthesis
       int l=s.size(),nb=0,np=0;
@@ -1523,6 +1539,13 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       for (int i=0;i<l;++i){
 	if (i && (unsigned char)s[i]==0xc2 && (unsigned char)s[i+1]!=0xb0)
 	  ss += ' ';
+	if ( (unsigned char)s[i]==0xef && i<l-3 ){
+          if ((unsigned char)s[i+1]==0x80 && (unsigned char)s[i+2]==0x80 ){  
+	    ss+='e';
+	    i+=2;
+	    continue;
+	  }
+	}
 	if ( (unsigned char)s[i]==0xe2 && i<l-3 ){
           if ((unsigned char)s[i+1]==0x89){ 
 	    ss += ' ';
@@ -1571,6 +1594,16 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	    continue;
 	  } // 0xe2 0x88
           if ((unsigned char)s[i+1]==0x96 && ((unsigned char)s[i+2]==0xba || (unsigned char)s[i+2]==182 )){  
+	    // sto 
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ss += ' ';
+	    continue;
+	  } // 0xe2 0x96
+          if ((unsigned char)s[i+1]==0x86 && (unsigned char)s[i+2]==0x92){  
 	    // sto 
 	    ss += s[i];
 	    ++i;
