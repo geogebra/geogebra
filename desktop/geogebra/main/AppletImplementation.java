@@ -92,6 +92,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	public String ggbOnInitParam = null;
 
+	private String perspective;
+
 	/** Creates a new instance of GeoGebraApplet */
 	public AppletImplementation(final JApplet applet) {
 		this.applet = applet;
@@ -226,6 +228,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// customToolBar = "0 1 2 | 3 4 5 || 7 8 12" to set the visible toolbar
 		// modes
 		customToolBar = applet.getParameter("customToolBar");
+
+		perspective = applet.getParameter("perspective");
+
+		if (perspective == null) {
+			perspective = "";
+		}
 
 		// showMenuBar = "true" or parameter is not available
 		showMenuBar = "true".equals(applet.getParameter("showMenuBar"));
@@ -426,6 +434,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setUseBrowserForJavaScript(useBrowserForJavaScript);
 		app.setShowToolBar(showToolBar, showToolBarHelp);
 		app.setRightClickEnabled(enableRightClick);
+		app.setPerspectiveParam(perspective);
 		app.setErrorDialogsActive(errorDialogsActive);
 		app.setLabelDragsEnabled(enableLabelDrags);
 		app.setShiftDragZoomEnabled(enableShiftDragZoom);

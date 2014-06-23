@@ -34,6 +34,7 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
@@ -563,7 +564,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
-			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+			getGuiManager().getLayout().setPerspectives(
+					tmpPerspectives,
+					PerspectiveDecoder.decode(this.perspectiveParam,
+							getKernel().getParser(), null));
 		}
 
 		if (needsSpreadsheetTableModel) {
@@ -4978,11 +4982,18 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private UDPLogger udpLogger;
 
+	private String perspectiveParam = "";
+
 	public UDPLogger getUDPLogger() {
 		if (udpLogger == null) {
 			udpLogger = new UDPLoggerD(getKernel());
 		}
 		return udpLogger;
+	}
+
+	public void setPerspectiveParam(String perspective) {
+		this.perspectiveParam = perspective;
+
 	}
 
 }
