@@ -46,7 +46,7 @@ public class AlgoOrthoPlanePointLine extends AlgoOrthoPlanePoint {
 
     @Override
 	protected Coords getNormal(){
-    	return getSecondInput().getMainDirection();
+    	return ((GeoLineND) getSecondInput()).getDirectionForEquation();
     }
 
 	// TODO Consider locusequability

@@ -234,7 +234,9 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 	}
 
 	
-	
+	public Coords getDirectionForEquation(){
+		return getCoordSys().getVx();
+	}
 	
 	// Path3D interface
 	@Override

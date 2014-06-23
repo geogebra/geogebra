@@ -146,5 +146,12 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @param pointY y coord
 	 */
 	public void setLineThrough(double pointX, double pointY);
+	
+	
+	/**
+	 * 
+	 * @return line direction for equation (to keep integers if some)
+	 */
+	public Coords getDirectionForEquation();
 
 }

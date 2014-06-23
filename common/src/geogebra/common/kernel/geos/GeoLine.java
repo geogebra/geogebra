@@ -1357,6 +1357,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public Coords getMainDirection() {
 		return getDirectionInD(3);
 	}
+	
+	public Coords getDirectionForEquation(){
+		return getDirectionInD(3);
+	}
+	
 
 	public Coords getCartesianEquationVector(CoordMatrix m) {
 		if (m == null) {
