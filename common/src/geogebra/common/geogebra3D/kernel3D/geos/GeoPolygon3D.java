@@ -885,7 +885,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	public boolean isConvexInverseDirection(){
 
 		// face orientation is created by the points
-		return false;
+		return reverseNormal;
 	}
 
 
