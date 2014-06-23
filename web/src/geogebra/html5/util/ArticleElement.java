@@ -452,6 +452,12 @@ public final class ArticleElement extends Element {
 	    return this.getAttribute("data-param-clientid");
     }
 
+	public String getDataParamPerspective() {
+		String ret = this.getAttribute("data-param-perspective");
+		return ret == null ? "" : ret;
+	    
+    }
+
 	
 	
 	

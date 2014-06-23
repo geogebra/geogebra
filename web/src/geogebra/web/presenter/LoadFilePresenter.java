@@ -1,5 +1,6 @@
 package geogebra.web.presenter;
 
+import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
 import geogebra.common.util.debug.Log;
@@ -63,8 +64,9 @@ public class LoadFilePresenter{
 			Log.debug("no base64content, possibly App loaded?");
 
 			// code moved here from AppWapplication.afterCoreObjectsInited - start
-
-			app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives());
+			String perspective = view.getDataParamPerspective();
+			app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
+					PerspectiveDecoder.decode(perspective, app.getKernel().getParser(), null));
 
 			if (app instanceof AppW) {
 				// default layout doesn't have a Graphics View 2

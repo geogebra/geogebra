@@ -1,6 +1,7 @@
 package geogebra.common.io.layout;
 
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.Layout;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -43,6 +44,14 @@ public class PerspectiveDecoder {
 	 * @return decoded perspective
 	 */
 	public static Perspective decode(String code, Parser parser, String defToolbar){
+		if(code.length() == 0){
+			return null;
+		}
+		for(Perspective predefined: Layout.defaultPerspectives){
+			if(code.equals(predefined.getId())){
+				return predefined;
+			}
+		}
 		String longCode = "";
 		for(int i = 0;i<code.length();i++){
 			longCode += code.charAt(i)+" ";

@@ -3,6 +3,7 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -273,10 +274,10 @@ public class AppWapplet extends AppW {
 
 	@Override
     public void afterLoadFileAppOrNot() {
-
+		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation
-					|| !isJustEuclidianVisible()) {
+					|| !isJustEuclidianVisible() || perspective.length() > 0) {
 				useFullGui = true;
 			}
 		}
@@ -286,7 +287,11 @@ public class AppWapplet extends AppW {
 		} else {
 			// a small thing to fix a rare bug
 			getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
-			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
+			Perspective p = null;
+			if(perspective != null){
+				p = PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), null);
+			}
+			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(), p);
 		}
 		
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown

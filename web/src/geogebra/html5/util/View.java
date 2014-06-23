@@ -126,7 +126,11 @@ public class View {
 	
 	public boolean getDataParamAllowSymbolTable() {
 		return ((ArticleElement) container).getDataParamAllowSymbolTable();
-    }	
+    }
+
+	public String getDataParamPerspective() {
+		return ((ArticleElement) container).getDataParamPerspective();
+    }
 	
 	private void maybeLoadFile() {
 		if (app == null || archiveContent == null) {
@@ -437,8 +441,4 @@ public class View {
 		}
 	    
     }-*/;
-
-
-
-
 }

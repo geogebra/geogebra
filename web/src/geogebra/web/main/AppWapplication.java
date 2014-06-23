@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -174,8 +175,8 @@ public class AppWapplication extends AppW {
 
 	@Override
     public void afterLoadFileAppOrNot() {
-
-		getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
+		String perspective = getArticleElement().getDataParamPerspective();
+		getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), null));
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		

@@ -121,7 +121,7 @@ public abstract class Layout {
 	 * 
 	 * @param perspectives
 	 */
-	public void setPerspectives(ArrayList<Perspective> perspectives) {
+	public void setPerspectives(ArrayList<Perspective> perspectives, Perspective customPerspective) {
 		boolean foundTmp = false;
 		
 		if(perspectives != null) {
@@ -130,7 +130,9 @@ public abstract class Layout {
 			for(Perspective perspective : perspectives) {
 				if(perspective.getId().equals("tmp")) {
 					perspectives.remove(perspective);
-					applyPerspective(perspective);
+					if(customPerspective == null ){
+						applyPerspective(perspective);
+					}
 					foundTmp = true;
 					break;
 				}
@@ -139,9 +141,14 @@ public abstract class Layout {
 			this.perspectives = new ArrayList<Perspective>();
 		}
 		
+		if(customPerspective != null){
+			applyPerspective(customPerspective);
+			return;
+		}
 		if(!foundTmp) {
 			applyPerspective(defaultPerspectives[0]);
 		}
+		
 	}
 
 	public abstract void applyPerspective(Perspective perspective);

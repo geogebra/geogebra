@@ -864,7 +864,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if (success && !isMacroFile
 			&& !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
 
-			getLayout().setPerspectives(app.getTmpPerspectives());
+			getLayout().setPerspectives(app.getTmpPerspectives(), null);
 			//SwingUtilities.updateComponentTreeUI(getLayout().getRootComponent());
 
 			if (!app.isIniting()) {
