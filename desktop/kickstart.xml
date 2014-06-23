@@ -54,17 +54,13 @@ download libs for other architectures than the current one.
 
 	<!-- these targets should come from the GeoGebra repository (currently) -->
 	<target name="ogp" depends="ogp-geogebra"/>
-	<target name="jython" depends="jython-geogebra"/>
 	<target name="jlatexmath" depends="jlatexmath-geogebra"/>
 	<target name="giac" depends="giac-geogebra"/>
 	<target name="p200ant" depends="p200ant-geogebra"/>
 	<target name="jsobject" depends="jsobject-geogebra"/>
 	<target name="mac_extensions" depends="mac_extensions-geogebra"/>
-	<target name="vernier" depends="vernier-geogebra"/>
 	<target name="javacc" depends="javacc-geogebra"/>
 	<target name="ecj" depends="ecj-geogebra"/>
-	<target name="jd2xx" depends="jd2xx-geogebra"/>
-
 
 	<!-- download external libraries -->
 	<target name="_lib" depends="_lib-runtime, _lib-build-geogebra5, _lib-pack, ecj"
@@ -83,7 +79,7 @@ download libs for other architectures than the current one.
 	    description="Internal target, please do not use manually. Download all packages needed for creating the JAR files">
 	</target>
 
-	<target name="_lib-runtime" depends="jlatexmath, vernier, jython, jd2xx, giac"
+	<target name="_lib-runtime" depends="jlatexmath, giac"
 	    description="Internal target, please do not use manually. Downloads all packages needed for runtime use.">
 	</target>
 
@@ -123,11 +119,6 @@ download libs for other architectures than the current one.
 		<get src="http://dev.geogebra.org/download/lib/jlm_greek-1.0.3.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
 	</target>
 	
-	<!-- download jython from GeoGebra repository -->
-	<target name="jython-geogebra">
-	<get src="http://dev.geogebra.org/download/lib/jython.jar" dest="lib/jython.jar" usetimestamp="true"/>
-	</target>
-	
 	<!-- download p200ant from GeoGebra repository -->
 	<target name="p200ant-geogebra">
 	<!--get src="http://dev.geogebra.org/download/lib/build/tools_p200ant_java5only.jar" dest="lib/build/tools_p200ant_java5only.jar"
@@ -148,44 +139,8 @@ download libs for other architectures than the current one.
 	    usetimestamp="true"/>
 	</target>
 
-	<!-- download vernier from GeoGebra repository -->
-	<target name="vernier-geogebra" depends="vernier-common-geogebra, vernier-windows-geogebra"/>
-	
-	<target name="vernier-common-geogebra">
-	<get src="http://dev.geogebra.org/download/lib/vernier_ccsd-macintel-static.jar" dest="lib/vernier_ccsd-macintel-static.jar"
-	    usetimestamp="true"/>
-	<get src="http://dev.geogebra.org/download/lib/vernier_ccsd-mac-static.jar" dest="lib/vernier_ccsd-mac-static.jar"
-	    usetimestamp="true"/>
-	<get src="http://dev.geogebra.org/download/lib/vernier_ccsd-win.jar" dest="lib/vernier_ccsd-win.jar"
-	    usetimestamp="true"/>
-	</target>
-
-	<target name="vernier-windows-geogebra" if="winnt">
-	<unjar src="lib/vernier_ccsd-win.jar" dest="lib/">
-	    <patternset>
-		<include name="*.dll"/>
-	    </patternset>
-	</unjar>
-	</target>
-
-	<target name="jd2xx-geogebra" depends="jd2xx-windows-geogebra"/>
-
-	<target name="jd2xx-windows-geogebra" depends="jd2xx-windows-amd64-geogebra, jd2xx-windows-x86-geogebra" if="winnt"/>
-
-	<target name="jd2xx-windows-x86-geogebra" if="winnt-x86">
-		<get src="http://dev.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
-		    usetimestamp="true"/>
-	</target>
-
 	<target name="jfx-compile"> <!-- Only for compilation -->
 		<get src="http://dev.geogebra.org/download/lib/jfxrt.jar" dest="lib/jfxrt.jar"
-		    usetimestamp="true"/>
-	</target>
-
-	<target name="jd2xx-windows-amd64-geogebra" if="winnt-amd64">
-		<get src="http://dev.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
-		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/ftdi/JD2XX_64_2.08.17.dll" dest="lib/JD2XX_64.dll"
 		    usetimestamp="true"/>
 	</target>
 
@@ -313,7 +268,6 @@ download libs for other architectures than the current one.
 	&lt;classpathentry combineaccessrules="false" kind="src" path="/common"/&gt;
 	&lt;classpathentry kind="lib" path="lib/build/lib_jsobject.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/build/lib_mac_extensions.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/jython.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlatexmath.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
