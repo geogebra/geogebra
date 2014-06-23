@@ -470,7 +470,15 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sbBuildValueString.append(" ");
 			kernel.formatSigned(y,sbBuildValueString,tpl);
 			sbBuildValueString.append(Unicode.IMAGINARY);
-			break;                                
+			break;   
+			
+		case Kernel.COORD_CARTESIAN_3D:
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sbBuildValueString);
+			break;
+			
+		case Kernel.COORD_SPHERICAL:
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sbBuildValueString);
+			break;
 
 		default: // CARTESIAN
 			sbBuildValueString.append("(");		
@@ -519,6 +527,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 		case Kernel.COORD_COMPLEX:
 			xmlsb.append("\t<coordStyle style=\"complex\"/>\n");
+			break;
+			
+		case Kernel.COORD_CARTESIAN_3D:
+			xmlsb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
+			break;
+
+		case Kernel.COORD_SPHERICAL:
+			xmlsb.append("\t<coordStyle style=\"spherical\"/>\n");
 			break;
 
 		default:
@@ -634,6 +650,56 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public boolean isMatrixTransformable() {
 		return true;
 	}
+	
+	/**
+	 * @param kernel kernel
+	 * @param tpl string template
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @param z z-coord
+	 * @param sb string builder
+	 * @param vector the vector
+	 * @param symbolic if symbolic
+	 */
+	public static final void buildLatexValueStringCoordCartesian3D(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sb, GeoVectorND vector, boolean symbolic) {
+		String[] inputs;
+		if (symbolic && vector.getParentAlgorithm() instanceof AlgoDependentVector) {
+			AlgoDependentVector algo = (AlgoDependentVector) vector.getParentAlgorithm();
+			String symbolicStr = algo.toString(tpl);
+			inputs = symbolicStr.substring(1, symbolicStr.length() - 1).split(
+					",");
+		} else {
+			inputs = new String[3];
+			inputs[0] = kernel.format(x,tpl);
+			inputs[1] = kernel.format(y,tpl);
+			inputs[2] = kernel.format(z,tpl);
+		}
+
+		boolean alignOnDecimalPoint = true;
+		for (int i = 0; i < inputs.length; i++) {
+			if (inputs[i].indexOf('.') == -1) {
+				alignOnDecimalPoint = false;
+				continue;
+			}
+		}
+
+		if (alignOnDecimalPoint) {
+			sb.append("\\left( \\begin{tabular}{r@{.}l}");
+			for (int i = 0; i < inputs.length; i++) {
+				inputs[i] = inputs[i].replace('.', '&');
+			}
+		} else {
+			sb.append("\\left( \\begin{tabular}{r}");
+		}
+
+		for (int i = 0; i < inputs.length; i++) {
+			sb.append(inputs[i]);
+			sb.append(" \\\\ ");
+		}
+
+		sb.append("\\end{tabular} \\right)");
+	}
+
 
 	private StringBuilder sb;
 
@@ -643,7 +709,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (sb == null) sb = new StringBuilder();
 		else sb.setLength(0);
+		
+		return buildLatexString(kernel, sb, symbolic, tpl, toStringMode, x, y, this);
+	}
 
+	static final public String buildLatexString(Kernel kernel, StringBuilder sb, boolean symbolic, StringTemplate tpl, int toStringMode, double x, double y, GeoVectorND vector){
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:                	
 			sb.append("(");		
@@ -658,13 +728,22 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sb.append(" ");
 			kernel.formatSigned(y,sb,tpl);
 			sb.append(Unicode.IMAGINARY);
-			break;                                
+			break;     
+			
+		case Kernel.COORD_CARTESIAN_3D:
+			buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb, vector, symbolic);
+			break;
+			
+		case Kernel.COORD_SPHERICAL:
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sb);
+			break;
+
 
 		default: // CARTESIAN
 
 			String[] inputs;
-			if (symbolic && getParentAlgorithm() instanceof AlgoDependentVector) {
-				AlgoDependentVector algo = (AlgoDependentVector)getParentAlgorithm();
+			if (symbolic && vector.getParentAlgorithm() instanceof AlgoDependentVector) {
+				AlgoDependentVector algo = (AlgoDependentVector) vector.getParentAlgorithm();
 				
 				// need to do something different for (xx,yy) and a (1,2) + c
 				

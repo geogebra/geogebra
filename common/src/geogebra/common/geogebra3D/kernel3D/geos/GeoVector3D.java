@@ -7,16 +7,18 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
+import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -37,7 +39,8 @@ import java.util.ArrayList;
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		Vector3DValue, SpreadsheetTraceable, 
-		RotateableND, Traceable, MirrorableAtPlane, Transformable, Dilateable {
+		RotateableND, Traceable, MirrorableAtPlane, Transformable, Dilateable,
+		CoordStyle {
 
 	private GeoPointND startPoint;
 
@@ -53,6 +56,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public GeoVector3D(Construction c) {
 		super(c);
 		matrix = new CoordMatrix(4, 2);
+		setCartesian3D();
 	}
 
 	/**
@@ -66,6 +70,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public GeoVector3D(Construction c, double x, double y, double z) {
 		super(c, x, y, z, 0);
 		matrix = new CoordMatrix(4, 2);
+		setCartesian3D();
 	}
 
 	@Override
@@ -307,44 +312,31 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-
-		String[] inputs;
-		if (symbolic && getParentAlgorithm() instanceof AlgoDependentVector) {
-			AlgoDependentVector algo = (AlgoDependentVector) getParentAlgorithm();
-			String symbolicStr = algo.toString(tpl);
-			inputs = symbolicStr.substring(1, symbolicStr.length() - 1).split(
-					",");
-		} else {
-			inputs = new String[3];
-			inputs[0] = kernel.format(getX(),tpl);
-			inputs[1] = kernel.format(getY(),tpl);
-			inputs[2] = kernel.format(getZ(),tpl);
+		
+		if (getMode()==Kernel.COORD_CARTESIAN_3D){
+			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(), getY(), getZ(), sb, this, symbolic);			
+			return sb.toString();		
 		}
 
-		boolean alignOnDecimalPoint = true;
-		for (int i = 0; i < inputs.length; i++) {
-			if (inputs[i].indexOf('.') == -1) {
-				alignOnDecimalPoint = false;
-				continue;
+		if (getMode()==Kernel.COORD_SPHERICAL){
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sbToString);
+			return sb.toString();
+		}
+
+		// cartesian 2D / polar / complex not possible
+		if (!Kernel.isZero(getZ())){
+			if (getMode()==Kernel.COORD_POLAR){
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sbToString);				
+			}else{
+				GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(), getY(), getZ(), sb, this, symbolic);			
 			}
+			return sb.toString();
 		}
 
-		if (alignOnDecimalPoint) {
-			sb.append("\\left( \\begin{tabular}{r@{.}l}");
-			for (int i = 0; i < inputs.length; i++) {
-				inputs[i] = inputs[i].replace('.', '&');
-			}
-		} else {
-			sb.append("\\left( \\begin{tabular}{r}");
-		}
+		// cartesian 2D / polar / complex are possible
+		return GeoVector.buildLatexString(kernel, sb, symbolic, tpl, toStringMode, getX(), getY(), this);
 
-		for (int i = 0; i < inputs.length; i++) {
-			sb.append(inputs[i]);
-			sb.append(" \\\\ ");
-		}
-
-		sb.append("\\end{tabular} \\right)");
-		return sb.toString();
+		
 	}
 
 	/**
@@ -679,5 +671,16 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		
 		setCoords(v.mul(rval.getDouble()));
 	}
+	
+	
 
+	public void setCartesian() { setMode(Kernel.COORD_CARTESIAN); }
+	public void setCartesian3D() { setMode(Kernel.COORD_CARTESIAN_3D); }
+	public void setSpherical() { setMode(Kernel.COORD_SPHERICAL); }
+
+
+
+	public void setPolar() { setMode(Kernel.COORD_POLAR); }
+
+	public void setComplex() { setMode(Kernel.COORD_COMPLEX); }
 }

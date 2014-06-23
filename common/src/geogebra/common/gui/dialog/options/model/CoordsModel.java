@@ -2,7 +2,6 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.main.Localization;
 
@@ -26,7 +25,7 @@ public class CoordsModel extends MultipleOptionsModel {
 	public boolean isValidAt(int index) {
 		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
-		if (!(geo.isGeoPoint() || geo instanceof GeoVector)) {
+		if (!(geo.isGeoPoint() || geo.isGeoVector())) {
 			valid = false;
 		}
 
