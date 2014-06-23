@@ -11,9 +11,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// update lines below when this is updated
 	/** last build date */
-	public static final String BUILD_DATE = "20 June 2014";
+	public static final String BUILD_DATE = "23 June 2014";
 	/** complete version string */
-	public static final String VERSION_STRING = "4.9.274.0"; 
+	public static final String VERSION_STRING = "4.9.275.0"; 
 	
 	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
 	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow = false
