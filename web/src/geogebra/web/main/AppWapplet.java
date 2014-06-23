@@ -1,6 +1,7 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.PerspectiveDecoder;
@@ -13,7 +14,6 @@ import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -226,10 +226,10 @@ public class AppWapplet extends AppW {
 	public void attachAlgebraInput() {
 		// inputbar's width varies,
 		// so it's probably good to regenerate every time
-		GGWCommandLine inputbar = new GGWCommandLine();
+		/*GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
 		frame.add(inputbar);
-		this.getGuiManager().getAlgebraInput().setInputFieldWidth(this.appletWidth);
+		this.getGuiManager().getAlgebraInput().setInputFieldWidth(this.appletWidth);*/
 	}
 
 	public void attachMenubar() {
@@ -289,7 +289,7 @@ public class AppWapplet extends AppW {
 			getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
 			Perspective p = null;
 			if(perspective != null){
-				p = PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), null);
+				p = PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true, true));
 			}
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(), p);
 		}

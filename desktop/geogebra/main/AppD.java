@@ -30,6 +30,7 @@ import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -567,7 +568,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			getGuiManager().getLayout().setPerspectives(
 					tmpPerspectives,
 					PerspectiveDecoder.decode(this.perspectiveParam,
-							getKernel().getParser(), null));
+							getKernel().getParser(),
+							ToolBar.getAllToolsNoMacros(true, false)));
 		}
 
 		if (needsSpreadsheetTableModel) {
