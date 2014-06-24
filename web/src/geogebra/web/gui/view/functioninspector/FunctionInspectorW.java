@@ -18,8 +18,6 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.gui.util.RoundingMenu;
-import geogebra.web.gui.util.RoundingMenu.IRoundingMenuListener;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -638,14 +636,14 @@ public class FunctionInspectorW extends FunctionInspector {
 		Localization loc = appW.getLocalization();
 		btnOptions = new MenuBar();
 		MenuBar options = new MenuBar(true);
-		MenuBar rounding = new RoundingMenu(appW, new IRoundingMenuListener()  {
-			
-			public void onChange(int index) {
-				getModel().applyDecimalPlaces(index);
-			}
-		});
-		
-		options.addItem("Roundings", rounding);
+//		MenuBar rounding = new RoundingMenu(appW, new IRoundingMenuListener()  {
+//			
+//			public void onChange(int index) {
+//				getModel().applyDecimalPlaces(index);
+//			}
+//		});
+//		
+//		options.addItem("Roundings", rounding);
 //		// copy to spreadsheet
 		MenuItem mi = new MenuItem(loc.getMenu("CopyToSpreadsheet"), 
 				new Command() {
