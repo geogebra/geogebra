@@ -1508,4 +1508,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return getConstructionProtocolNavigation().isConsProtButtonVisible();		
 	}
 
+	@Override
+	public void detachView(int viewId) {
+		switch (viewId) {
+		case App.VIEW_FUNCTION_INSPECTOR:
+			App.debug("Detaching VIEW_FUNCTION_INSPECTOR");
+			((DialogManagerW) app.getDialogManager()).getFunctionInspector().setInspectorVisible(false);
+			break;
+		default:
+			super.detachView(viewId);
+		}
+	}
 }

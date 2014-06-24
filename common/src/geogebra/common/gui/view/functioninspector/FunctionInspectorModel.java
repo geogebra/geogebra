@@ -666,6 +666,12 @@ public class FunctionInspectorModel {
 		};
 	}
 
+	private double getStartX() {
+		int mouseX = activeEV.getEuclidianController().getMouseLoc().getX();
+		return activeEV.toRealWorldCoordX(mouseX);
+		
+	}
+	
 	/**
 	 * Sets the function to be inspected and updates the entire GUI
 	 *  
@@ -678,12 +684,8 @@ public class FunctionInspectorModel {
 		selectedGeo = (GeoFunction) geo;
 
 		listener.setGeoName(getTitleString());
-
-		initialX = 0.5 * (activeEV.getXmin() - activeEV.getXmin());
-		//initialX = 0.5* (kernel.getApplication().getEuclidianView1().getXmax()-
-		//		                                 kernel.getApplication().getEuclidianView1().getXmin());
-				 
-		start = initialX;
+		
+		start = getStartX();
 
 				
 		// initial step = EV grid step
@@ -1129,12 +1131,12 @@ public class FunctionInspectorModel {
 	}
 
 	public double getInitialX() {
-		return initialX;
+		return getStartX();
 	}
 
-	public void setInitialX(double initialX) {
-		this.initialX = initialX;
-	}
+//	public void setInitialX(double initialX) {
+//		this.initialX = initialX;
+//	}
 
 	
 }

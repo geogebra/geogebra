@@ -115,7 +115,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 	 */
 	public FunctionInspectorD(AppD app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
-
 	}
 
 	private AppD getAppD() {
@@ -722,6 +721,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 	public void changeTableSelection() {
 		updateXYTable();
+
 		tableXY.getSelectionModel().removeListSelectionListener(this);
 
 		if (btnTable.isSelected() && tableXY.getSelectedRow() != 4)
@@ -849,7 +849,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 		super.changedNumberFormat();
 	}
 
-	public void suggestRepaint(){
+	public void suggestRepaint() {
 		// only used in web for now
 	}
 }

@@ -176,8 +176,10 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	
 	public void setInspectorVisible(boolean isVisible) {
 		if (isVisible) {
-			getApp().getKernel().attach(this);
-		} else {
+			App.debug("setInspectorVisible(true)");
+				getApp().getKernel().attach(this);
+			} else {
+			App.debug("setInspectorVisible(false)");
 			getApp().getKernel().detach(this);
 			getModel().clearGeoList();
 		}

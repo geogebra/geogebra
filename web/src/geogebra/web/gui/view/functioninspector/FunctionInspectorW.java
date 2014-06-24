@@ -466,18 +466,9 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnAddColumn.setStandardButton(true);
 		btnAddColumn.setText("\u271A");
 		ImageResource[] res = {AppResources.INSTANCE.empty()};
-	//	btnAddColumn.setFixedIcon(ImageOrText.convert(res)[0]);
 	}
 	@Override
 	protected void createGUIElements() {
-
-
-//		tableInterval.getSelectionModel().addListSelectionListener(
-//				new ListSelectionListener() {
-//					public void valueChanged(ListSelectionEvent e) {
-//						getModel().updateIntervalGeoVisiblity();
-//					}
-//				});
 
 		mainPanel = new FlowPanel();
 		
@@ -527,11 +518,7 @@ public class FunctionInspectorW extends FunctionInspector {
 				doTextFieldActionPerformed(fldHigh);	    
 			}
 		});
-		
-//		btnRemoveColumn = new JButton();
-//		btnRemoveColumn.addActionListener(this);
-//		createBtnAddColumn();
-//	
+	
 	}
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
@@ -626,6 +613,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void changeStart(double x) {
+		
 		setStart(x);
 	}
 
@@ -688,12 +676,5 @@ public class FunctionInspectorW extends FunctionInspector {
 		// not used for this view
 	}
 
-	public void attachView() {
-		getKernel().attach(this);
-	}
-
-	public void detachView() {
-		getKernel().detach(this);
-	}
 	
 }

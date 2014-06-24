@@ -47,15 +47,14 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 
 	@Override
 	public void showView(boolean b) {
-		App.debug("FunctionInspector showView " + b);
 	}
-	
-	@Override
-	protected void closePanel(boolean isPermanent) {
-		App.debug("FunctionInspector closePanel");
-		((DialogManagerW) app.getDialogManager()).getFunctionInspector().setInspectorVisible(false);
-		super.closePanel(isPermanent);
-	}
+//	
+//	@Override
+//	public void closePanel() {
+//		App.debug("AAAAAAAAAAAAAAAAA FunctionInspector closePanel");
+//		((DialogManagerW) app.getDialogManager()).getFunctionInspector().setInspectorVisible(false);
+//		super.closePanel();
+//	}
 	
 	@Override
 	protected Widget loadStyleBar() {
