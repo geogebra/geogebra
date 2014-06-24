@@ -47,7 +47,7 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 		if (thumb != null){
 			this.g2p.drawImage(thumb, 0, 0);
 		}
-		this.g2p.drawString("WEBGL NOT SUPPORTED", 10, 10);
+		this.g2p.drawString(getApplication().getPlain("NoWebGL"), 10, 10);
 	}
 	
 	@Override
