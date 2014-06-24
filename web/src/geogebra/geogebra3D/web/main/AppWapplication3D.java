@@ -15,14 +15,10 @@ import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppWapplication;
 
 import java.util.HashMap;
-
-import com.google.gwt.user.client.Command;
 
 /**
  * for 3D
@@ -84,20 +80,8 @@ public class AppWapplication3D extends AppWapplication {
 	private GCheckBoxMenuItem itemEuclidian3D;
 
 	@Override
-	public GCheckBoxMenuItem createMenuItemFor3D() {
-		itemEuclidian3D = 
-				new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_graphics224()
-						.getSafeUri().asString(), getPlain("GraphicsView3D"), true),
-						new Command() {
-					public void execute() {
-						int viewId = App.VIEW_EUCLIDIAN3D;
-						getGuiManager().setShowView(
-								!getGuiManager().showView(viewId), viewId);
-						itemEuclidian3D.setSelected(getGuiManager().showView(App.VIEW_EUCLIDIAN3D));
-					}
-				});
-
-		return itemEuclidian3D;
+	public boolean supportsView(int viewID) {
+		return true;
 	}
 	
 	

@@ -9,6 +9,14 @@ public class ImageOrText {
 	public String url = null;
 	public String text = null;
 	public GColor bgColor = null, fgColor = null;
+	public ImageOrText(String string) {
+	    this.text = string;
+    }
+
+	public ImageOrText() {
+	    // TODO Auto-generated constructor stub
+    }
+
 	public static ImageOrText[] convert(ImageResource[] res) {
 	    ImageOrText[] arr = new ImageOrText[res.length];
 	    for(int i=0; i< arr.length; i++){

@@ -11,6 +11,9 @@ import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.ImageOrText;
+import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import geogebra.web.main.AppW;
@@ -343,9 +346,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	private FlowPanel titleBarPanelContent;
 
 	Label titleBarLabel;
-	private PushButton closeButton;
+	//private PushButton closeButton;
 	private FlowPanel dragPanel;
-	private FlowPanel closeButtonPanel;
+	//private FlowPanel closeButtonPanel;
 
 	private VerticalPanel componentPanel;
 
@@ -405,7 +408,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		dragPanel.setVisible(false);
 		dragPanel.add(dragIcon);
 		
-		closeButton = new PushButton(closeIcon);
+		/*closeButton = new PushButton(closeIcon);
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -418,17 +421,36 @@ public abstract class DockPanelW extends ResizeComposite implements
 		closeButtonPanel = new FlowPanel();
 		closeButtonPanel.setStyleName("closeButtonPanel");
 		closeButtonPanel.setVisible(isStyleBarEmpty());
-		closeButtonPanel.add(closeButton);
+		closeButtonPanel.add(closeButton);*/
 		
 		titleBarPanelContent.add(styleBarPanel);
 		titleBarPanelContent.add(dragPanel);
 		titleBarPanelContent.setVisible(!isStyleBarEmpty());
 		
 		
-		if (this.isStyleBarEmpty()) {
+		/*if (this.isStyleBarEmpty()) {
 			titleBarPanel.add(closeButtonPanel);
-		}
+		}*/
 
+		ImageOrText[] data = new ImageOrText[3];
+		data[0] = new ImageOrText("Graphics");
+		data[1] = new ImageOrText("Algebra");
+		data[2] = new ImageOrText("Close");
+		
+		final PopupMenuButton pb = new PopupMenuButton(app, data, -1, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		pb.addPopupHandler(new PopupMenuHandler(){
+
+			@Override
+            public void fireActionPerformed(Object actionButton) {
+	            if(pb.getSelectedIndex()==2){
+	            	app.getGuiManager().setShowView(false, DockPanelW.this.id);
+	            }
+	            if(pb.getSelectedIndex()==1){
+	            	app.getGuiManager().setShowView(!app.getGuiManager().showView(App.VIEW_ALGEBRA), App.VIEW_ALGEBRA);
+	            }
+            }});
+		titleBarPanel.add(pb);
+		
 		if (app.getGuiManager().isDraggingViews()) {
 			enableDragging(true);
 		}
@@ -1177,7 +1199,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		dragPanel.setVisible(drag);
 		
 		// hide close button when in dragmode
-		closeButtonPanel.setVisible(!drag);
+		//closeButtonPanel.setVisible(!drag);
+		//TODO view menu?
 		
 		if (this.toggleStyleBarButton != null) {
 			this.toggleStyleBarButton.setVisible(!drag);

@@ -92,7 +92,7 @@ public interface GuiManagerInterface {
 	
 	public void setShowView(boolean b, int viewID, boolean isPermanent);
 
-	public boolean showView(int viewSpreadsheet);
+	public boolean showView(int viewID);
 
 	public View getConstructionProtocolData();
 	

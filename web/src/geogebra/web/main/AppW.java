@@ -1636,9 +1636,6 @@ public abstract class AppW extends AppWeb {
 	 * create menu item for 3D
 	 * @return null if no 3D
 	 */
-	public GCheckBoxMenuItem createMenuItemFor3D() {
-	    return null;
-    }
 
 	public void showBrowser(MyHeaderPanel bg) {
 	    //overwritten in AppWApplication
@@ -1723,4 +1720,8 @@ public abstract class AppW extends AppWeb {
 		kernel.initUndoInfo();
 		getScriptManager().enableListeners();
 	}
+
+	public boolean supportsView(int viewID) {
+	    return viewID != App.VIEW_EUCLIDIAN3D;
+    }
 }
