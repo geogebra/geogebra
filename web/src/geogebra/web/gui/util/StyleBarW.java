@@ -1,5 +1,7 @@
 package geogebra.web.gui.util;
 
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
@@ -13,6 +15,12 @@ public abstract class StyleBarW extends HorizontalPanel {
 	 */
 	public StyleBarW() {
 		setStyleName("StyleBar");
+		this.addDomHandler(new MouseMoveHandler(){
+
+			@Override
+            public void onMouseMove(MouseMoveEvent event) {
+	            event.stopPropagation();
+            }}, MouseMoveEvent.getType());
 	}
 
 	

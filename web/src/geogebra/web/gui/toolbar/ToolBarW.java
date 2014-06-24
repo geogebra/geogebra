@@ -133,7 +133,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 		this.add(menuList);
 	}
 
-	public ArrayList<ModeToggleMenu> getModeToggleMenus() {
+	protected ArrayList<ModeToggleMenu> getModeToggleMenus() {
 		return modeToggleMenus;
 	}
 
@@ -338,5 +338,9 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 
 		mtm2.tbutton.getElement().focus();
 	}
+
+	public int getGroupCount() {
+	    return this.modeToggleMenus.size();
+    }
 
 }

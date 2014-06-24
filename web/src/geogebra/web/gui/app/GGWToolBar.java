@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GGWToolBar extends Composite {
 
+	private static final int MENU_ICONS_WIDTH = 200;
+	private static final int UNDO_ICONS_WIDTH = 90;
 	static private MyIconResourceBundle myIconResourceBundle = GWT
 	        .create(MyIconResourceBundle.class);
 
@@ -129,7 +131,6 @@ public class GGWToolBar extends Composite {
 		redoButton.addStyleName("redoButton");
 		//redoButton.getElement().addClassName("button");
 		redoButton.setTitle("Redo");
-		redoButton.setWidth("0px");
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
 		undoButton = new StandardButton(GuiResources.INSTANCE.button_undo());
@@ -229,7 +230,9 @@ public class GGWToolBar extends Composite {
 		
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
-
+		if(animationNeeded()){
+			this.redoButton.setWidth("0px");
+		}
 		toolBPanel.setVisible(true);
 	}
 
@@ -663,7 +666,7 @@ public class GGWToolBar extends Composite {
 
 		final boolean redo = app.getKernel().redoPossible();
 		this.redoButton.setEnabled(redo);
-		if (redo != this.redoPossible) {
+		if (redo != this.redoPossible && animationNeeded()) {
 			this.redoPossible = redo;
 			final int start = redo ? 0 : 40;
 			final int coeff = redo ? 1 : -1;
@@ -682,4 +685,9 @@ public class GGWToolBar extends Composite {
 		}
 
 	}
+
+	private boolean animationNeeded() {
+	    return app.getWidth() < toolbars.get(0).getGroupCount() * 45 + 
+	    		(app.showMenuBar() ? MENU_ICONS_WIDTH : UNDO_ICONS_WIDTH); 
+    }
 }
