@@ -1874,6 +1874,7 @@ namespace giac {
     catch (std::runtime_error & e){
       if (bound)
 	leave(protect,loop_var,newcontextptr);
+      return gensizeerr(e.what());
       gen res(string2gen(e.what(),false));
       res.subtype=-1;
       return res;

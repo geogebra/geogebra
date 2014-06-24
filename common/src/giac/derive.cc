@@ -153,6 +153,17 @@ namespace giac {
       }
       return rdiv(-derive(s.feuille,i,contextptr),pow(s.feuille,2),contextptr);
     }
+    if (equalposcomp(inequality_tab,s.sommet))
+      return 0;
+    if (s.sommet==at_fsolve && s.feuille.type==_VECT && s.feuille._VECTptr->size()>=2){
+      vecteur v=*s.feuille._VECTptr;
+      if (v[1].is_symb_of_sommet(at_equal) && v[1]._SYMBptr->feuille.type==_VECT && !v[1]._SYMBptr->feuille._VECTptr->empty())
+	v[1]=v[1]._SYMBptr->feuille._VECTptr->front();
+      gen eq=remove_equal(v[0]),y=v[1],x=i; // fsolve(eq(x,y),y) -> y(x), dy/dx=-(deq/dx)/(deq/dy)
+      gen res=-derive(eq,x,contextptr)/derive(eq,y,contextptr);
+      res=subst(res,y,s,false,contextptr);
+      return res;
+    }
     if (s.sommet==at_rootof){
       gen f=s.feuille;
       if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front().type==_VECT && f._VECTptr->back().type==_VECT){

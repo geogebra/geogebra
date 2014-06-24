@@ -100,8 +100,6 @@ namespace giac {
   static long pari_maxprime=100000;
   static giac_pari_init bidon(pari_maxprime);
 
-  static gen GEN2gen(const GEN & G,const vecteur & vars);
-
   static gen pow2sizeof_long(pow(256,sizeof(long)));
   // Conversion of a GEN integer to a gen, using Horner method
   static gen t_INT2gen(const GEN & G){
@@ -265,7 +263,7 @@ namespace giac {
     return g;
   }
 
-  static gen GEN2gen(const GEN & G,const vecteur & vars){
+  gen GEN2gen(const GEN & G,const vecteur & vars){
     switch (typ(G)){
     case t_INT:
       return t_INT2gen(G);
@@ -492,7 +490,7 @@ namespace giac {
     GEN res= flisexpr((char *) s.c_str());
     return vars.empty()?res:gel(res,1);
   }
-  static GEN gen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT){
+  GEN gen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT){
 #ifdef PARI23
     if (setjmp(GP_DATA->env)){
       setsizeerr(gettext("Error in PARI subsystem"));
@@ -1019,6 +1017,12 @@ namespace giac {
     return "please recompile giac with PARI";
   }
 
+  gen GEN2gen(const GEN & G,const vecteur & vars){
+    return gensizeerr("please recompile giac with PARI");
+  }
+  GEN gen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT){
+    return 0;
+  }
 
   bool pari_polroots(const vecteur & p,vecteur & res,long prec,GIAC_CONTEXT){
     return false;

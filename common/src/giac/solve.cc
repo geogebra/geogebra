@@ -2977,14 +2977,27 @@ namespace giac {
     return res;
   }
 
+  // same as lidnt but removes mute variable in int/sum/fsolve
   vecteur true_lidnt(const gen & g){
     vecteur v=lvar(g);
     vecteur w;
     for (unsigned i=0;i<v.size();++i){
       if (v[i].is_symb_of_sommet(at_fsolve) ||
 	  v[i].is_symb_of_sommet(at_integrate) ||
-	  v[i].is_symb_of_sommet(at_sum))
+	  v[i].is_symb_of_sommet(at_sum) ||
+	  v[i].is_symb_of_sommet(at_product)
+	  ){
+	if (v[i]._SYMBptr->feuille.type!=_VECT || v[i]._SYMBptr->feuille._VECTptr->size()<2)
+	  continue;
+	gen v1=(*v[i]._SYMBptr->feuille._VECTptr)[1];
+	if (v1.is_symb_of_sommet(at_equal) && v1._SYMBptr->feuille.type==_VECT && !v1._SYMBptr->feuille._VECTptr->empty())
+	  v1=v1._SYMBptr->feuille._VECTptr->front();
+	vecteur tmp=true_lidnt(v[i]._SYMBptr->feuille);
+	if (int pos=equalposcomp(tmp,v1))
+	  tmp.erase(tmp.begin()+pos-1);
+	w=mergevecteur(w,tmp);
 	continue;
+      }
       w.push_back(v[i]);
     }
     return lidnt(w);

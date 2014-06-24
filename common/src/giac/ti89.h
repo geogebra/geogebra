@@ -75,6 +75,7 @@ namespace giac {
   gen _SortA(const gen & g,GIAC_CONTEXT);
   gen _sorta(const gen & g,GIAC_CONTEXT);
   gen _SortD(const gen & g,GIAC_CONTEXT);
+  bool complex_sort(const gen & a,const gen & b,GIAC_CONTEXT);
   gen _int(const gen & g,GIAC_CONTEXT);
   gen _iPart(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_iPart;

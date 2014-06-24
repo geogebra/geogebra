@@ -1315,7 +1315,11 @@ namespace giac {
 
   gen _complexroot(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return _sorta(complexroot(g,true,contextptr),contextptr);
+    gen res=complexroot(g,true,contextptr);
+    if (res.type==_VECT)
+      gen_sort_f_context(res._VECTptr->begin(),res._VECTptr->end(),complex_sort,contextptr);
+    return res;
+    // return _sorta(complexroot(g,true,contextptr),contextptr);
   }
   static const char _complexroot_s []="complexroot";
   static define_unary_function_eval (__complexroot,&giac::_complexroot,_complexroot_s);
