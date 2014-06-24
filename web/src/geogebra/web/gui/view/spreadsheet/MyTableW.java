@@ -338,8 +338,8 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		// TODO//setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
-		defaultTableCellRenderer = new MyCellRendererW(app, view,
-		        (CellFormat) this.getCellFormatHandler());
+		defaultTableCellRenderer = new MyCellRendererW(app, view, this,
+		        (CellFormat) getCellFormatHandler());
 
 		// this needs defaultTableCellRenderer now
 		((SpreadsheetTableModelW) tableModel).attachMyTable(this);
@@ -813,7 +813,7 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		}
 
 		public void valueChange() {
-			setRepaintAll();
+			//setRepaintAll();
 		}
 	}
 	
@@ -2527,13 +2527,39 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 	public void repaint() {
 
 		if (repaintAll) {
-			renderCells();
+			//renderCells();
 			repaintAll = false;
 		}
 
 		renderSelection();
 		// TODO: implementation needed
 	}
+
+	
+	public void updateCellFormat(int row, int column){
+		GeoElement geo = (GeoElement) tableModel.getValueAt(row, column);
+		defaultTableCellRenderer.updateCellFormat( geo, row, column);
+	}
+	
+	public void updateAllCellFormats(){
+		for(int row = 0; row < getRowCount(); row++){
+			for(int column = 0; column <= getColumnCount(); column ++){
+				updateCellFormat(row,column);
+			}
+		}
+	}
+	
+	public void updateCellFormat(ArrayList<CellRange> cellRangeList){
+		for(int i = 0; i<cellRangeList.size(); i++){
+			CellRange cr = cellRangeList.get(i);
+			for(int row = cr.getMinRow(); row <=cr.getMaxRow(); row++){
+				for(int column = cr.getMinColumn(); column <= cr.getMaxColumn(); column ++){
+					updateCellFormat(row,column);
+				}
+			}
+		}
+	}
+
 
 	public void renderCells() {
 
@@ -2545,34 +2571,12 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		for (int i = colCount - 1; i >= 0; i--) {
 			for (int j = rowCount - 1; j >= 0; j--) {
 
-				// TODO: why doesn't this work in win8 chrome?
-				// getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
-				/*
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setWhiteSpace(WhiteSpace.NOWRAP);
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setOverflow(Style.Overflow.HIDDEN);
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setPaddingLeft(4, Style.Unit.PX);
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setPaddingRight(4, Style.Unit.PX);
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setPaddingTop(2, Style.Unit.PX);
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setPaddingBottom(2, Style.Unit.PX);
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setProperty("borderRight","1px solid gray");
-				 * getCellFormatter().getElement(j,
-				 * i).getStyle().setProperty("borderBottom","1px solid gray");
-				 */
-				
-
 				if (renderCellsFirstTime) {
 					// GeoElement or nothing
 					gva = tableModel.getValueAt(j, i);
 
 					// format table cells
-					defaultTableCellRenderer.updateTableCell(ssGrid, gva, j, i);
+					defaultTableCellRenderer.updateTableCellValue(ssGrid, gva, j, i);
 				}
 				// otherwise updateTableCell will be called
 				// at the time of value change anyway,
@@ -2581,10 +2585,10 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		}
 	}
 
-	public void updateTableCell(Object value, int row, int column) {
+	public void updateTableCellValue(Object value, int row, int column) {
 		if (defaultTableCellRenderer != null)
 			defaultTableCellRenderer
-			        .updateTableCell(ssGrid, value, row, column);
+			        .updateTableCellValue(ssGrid, value, row, column);
 	}
 
 	public boolean showCanDragBlueDot() {
@@ -2647,9 +2651,11 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 
 		// selection rectangle
 
-		//App.debug("selected rows: " + minSelectionRow + " x " + maxSelectionRow);
-		//App.debug("selected cols: " + minSelectionColumn + " x " + maxSelectionColumn);
-		
+		// App.debug("selected rows: " + minSelectionRow + " x " +
+		// maxSelectionRow);
+		// App.debug("selected cols: " + minSelectionColumn + " x " +
+		// maxSelectionColumn);
+
 		GPoint min = this.getMinSelectionPixel();
 		GPoint max = this.getMaxSelectionPixel();
 
@@ -2658,58 +2664,16 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 			updateSelectionFrame(true, showCanDragBlueDot(), min, max);
 		} else {
 			updateSelectionFrame(false, false, min, max);
-			
-	}
-
-		GPoint cellPoint = new GPoint();
-		GColor bgColor;
-		Element operate = null;
-
+		}
 
 		// cells
-		int colCount = tableModel.getHighestUsedColumn();
-		int rowCount = tableModel.getHighestUsedRow();
-
-		// fix for empty cells with background colors
-		int altColCount = ((CellFormat) getCellFormatHandler())
-		        .getHighestIndexColumn();
-		int altRowCount = ((CellFormat) getCellFormatHandler())
-		        .getHighestIndexRow();
-		if (altRowCount > rowCount)
-			rowCount = altRowCount;
-		if (altColCount > colCount)
-			colCount = altColCount;
-
-		for (int i = colCount - 1; i >= 0; i--) {
-			for (int j = rowCount - 1; j >= 0; j--) {
-
-				operate = ssGrid.getCellFormatter().getElement(j, i);
-
-				cellPoint.setLocation(i, j);
-				bgColor = (GColor) formatHandler.getCellFormat(cellPoint,
-				        CellFormat.FORMAT_BGCOLOR);
-
-				GeoElement geo = null;
-				if (tableModel.getValueAt(j, i ) instanceof GeoElement)
-					geo = (GeoElement) tableModel.getValueAt(j, i);
-
-				if (bgColor == null && geo != null
-				        && geo.getBackgroundColor() != null)
-					bgColor = geo.getBackgroundColor();
-
-				// adjust selection color when there is a bgColor
-				if (geo != null && geo.doHighlighting()) {
-					if (bgColor != null) {
-						bgColor = bgColor.darker();
-					} else {
-						bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
-					}
-				}
-				if (bgColor != null)
-					operate.getStyle().setBackgroundColor(bgColor.toString());
-				else
-					operate.getStyle().setBackgroundColor(
-					        GColor.WHITE.toString());
+		GeoElement geo = null;
+		int maxColumn = tableModel.getHighestUsedColumn();
+		int maxRow = tableModel.getHighestUsedRow();
+		for (int col = maxColumn; col >= 0; col--) {
+			for (int row = maxRow; row >= 0; row--) {
+				geo = (GeoElement) tableModel.getValueAt(row, col);
+				defaultTableCellRenderer.updateCellBackground(geo, row, col);
 			}
 		}
 
@@ -2718,25 +2682,25 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 		resizeMarkedCells();
 	}
 
-	public int getSelectedRow() {// in table model (logic) coordinates
+	public int getSelectedRow() {
 		if (minSelectionRow < 0)
 			return -1;
 		return minSelectionRow;
 	}
 
-	public int getSelectedColumn() {// in table model (logic) coordinates
+	public int getSelectedColumn() {
 		if (minSelectionColumn < 0)
 			return -1;
 		return minSelectionColumn;
 	}
 
-	public int getMaxSelectedRow() {// in table model (logic) coordinates
+	public int getMaxSelectedRow() {
 		if (maxSelectionRow < 0)
 			return -1;
 		return maxSelectionRow;
 	}
 
-	public int getMaxSelectedColumn() {// in table model (logic) coordinates
+	public int getMaxSelectedColumn() {
 		if (maxSelectionColumn < 0)
 			return -1;
 		return maxSelectionColumn;
@@ -2957,6 +2921,7 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 	
 		setRowHeight(0);
 		resetRowHeights();
+		renderSelection();
 		
 	//    upperLeftCorner.getElement().getStyle().setHeight(upperCornerHeight, Unit.PX);
 	//    upperRightCorner.getElement().getStyle().setHeight(upperCornerHeight, Unit.PX);

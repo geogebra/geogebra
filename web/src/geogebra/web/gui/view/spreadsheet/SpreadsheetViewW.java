@@ -363,6 +363,8 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 			table.oneClickEditMap.remove(geo);
 		}
 		//scheduleRepaint();
+		table.updateCellFormat(location.y, location.x);
+		
 	}
 
 	public void rename(GeoElement geo) {
@@ -481,6 +483,9 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 			if (geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()) {
 				table.oneClickEditMap.put(location, geo);
 			}
+
+			// Update the cell format, it may change with this geo's properties
+			table.updateCellFormat(location.y, location.x);
 		}
 	}
 

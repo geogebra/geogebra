@@ -337,6 +337,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 						keyCode == GWTKeycodes.KEY_BACKSPACE
 						//KeyEvent.VK_BACK_SPACE
 						) {
+					e.preventDefault();
 					//e.consume();
 					//Application.debug("deleting...");
 					boolean storeUndo = table.delete();

@@ -260,9 +260,9 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		// this.requestFocus();
 		app.storeUndoInfo();
 
-		table.renderCells();
+		table.updateCellFormat(selectedCells);
 
-		table.repaint();
+		//table.repaint();
 	}
 
 	public void updateStyleBar() {

@@ -63,7 +63,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 			for (int i = 0; i < rowNum; i++)
 				for (int j = 0; j < colNum; j++)
 					if ((value = getValueAt(i,j)) != null)
-						table.updateTableCell(value, i, j);
+						table.updateTableCellValue(value, i, j);
 	}
 		
 	@Override
@@ -142,7 +142,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 			listener.valueChange();
 
 		if (table != null) {
-			table.updateTableCell(value, row, column);
+			table.updateTableCellValue(value, row, column);
 		}
 
 	}

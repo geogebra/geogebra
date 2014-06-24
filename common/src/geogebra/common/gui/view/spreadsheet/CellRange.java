@@ -547,12 +547,12 @@ public class CellRange {
 	 * Prints debugging information about the cell range
 	 */
 	public void debug() {
-		System.out.println("anchor cell:  (" + anchorColumn + "," + anchorRow
-				+ ")");
-		System.out.println("corner cells: (" + minColumn + "," + minRow
-				+ ")  (" + maxColumn + "," + maxRow + ")");
-		System.out.println("isRow: " + isRow());
-		System.out.println("isColumn: " + isColumn());
+		App.debug("-------------------------");
+		App.debug("anchor cell:  (" + anchorColumn + "," + anchorRow + ")");
+		App.debug("corner cells: (" + minColumn + "," + minRow + ")  ("
+				+ maxColumn + "," + maxRow + ")");
+		App.debug("isRow: " + isRow());
+		App.debug("isColumn: " + isColumn());
 	}
 
 }

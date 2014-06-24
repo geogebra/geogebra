@@ -2,7 +2,6 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.main.App;
 
 import javax.swing.JComponent;
 
@@ -41,9 +40,9 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 	 */
    private int positionAdjustment(int parentWidth, int childWidth, int childAt)    {
 
-	   App.debug("parent width = " + parentWidth);
-	   App.debug("child width = " + childWidth);
-	   App.debug("child at = " + childAt);
+	  // App.debug("parent width = " + parentWidth);
+	  // App.debug("child width = " + childWidth);
+	  // App.debug("child at = " + childAt);
 		// +-----+
 		// | --- | No Change
 		// +-----+
@@ -265,12 +264,13 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 	}
 
 	public void onScroll(ScrollEvent event) {
-
 		adjustScroll();
 		int t = -getVerticalScrollPosition();
 		int l = -getHorizontalScrollPosition();
 		rowHeader.getElement().getStyle().setTop(t, Unit.PX);
 		columnHeader.getElement().getStyle().setLeft(l, Unit.PX);
 	}
+
+
 
 }
