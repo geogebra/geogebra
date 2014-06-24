@@ -24,7 +24,9 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
+import geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
+import geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -198,6 +200,14 @@ Test {
 		}
 	},
 	
+	/** Test for GEOQUADRIC3D */
+	GEOQUADRIC3DLIMITED {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoQuadric3DLimitedInterface;
+		}
+	},
+	
 	/** Test for GEOQUADRICND */
 	GEOQUADRICND {
 		@Override
@@ -205,6 +215,16 @@ Test {
 			return ob instanceof GeoQuadricND;
 		}
 	},
+	
+	
+	/** Test for GEOPOLYHEDRON */
+	GEOPOLYHEDRON {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoPolyhedronInterface;
+		}
+	},
+	
 	/** Test for GEOCURVECARTESIAN */
 	GEOCURVECARTESIAN {
 		@Override

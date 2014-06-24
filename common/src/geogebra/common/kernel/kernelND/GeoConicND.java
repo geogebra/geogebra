@@ -36,6 +36,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
+import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -53,6 +54,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /** Class for conic in any dimension.
  * 
@@ -62,7 +64,8 @@ import java.util.ArrayList;
 public abstract class GeoConicND extends GeoQuadricND implements Path,
 Translateable, GeoConicNDConstants,
 MatrixTransformable, PointRotateable, Transformable, Mirrorable, Dilateable,
-Region3D, GeoDirectionND
+Region3D, GeoDirectionND,
+FromMeta
 {
 	/** avoid very large and small coefficients for numerical stability */	
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;
@@ -3614,5 +3617,45 @@ Region3D, GeoDirectionND
 				
 	}
 	
+	
+
+	@Override
+	public int getMetasLength(){
+		if (metas == null){
+			return 0;
+		}
+
+		return metas.size();
+	}
+
+	public GeoElement[] getMetas(){
+		GeoElement[] ret = new GeoElement[metas.size()];
+		metas.toArray(ret);
+		return ret;
+	}
+
+	private TreeSet<GeoElement> metas;
+
+	/**
+	 * add the limited quadric has meta geo for this
+	 * @param limitedQuadric polyhedron
+	 */
+	public void addMeta(GeoElement limitedQuadric){
+		if (metas == null){
+			metas = new TreeSet<GeoElement>();
+		}
+
+		metas.add(limitedQuadric);
+	}
+
+	/**
+	 * remove limited quadric as meta for this
+	 * @param limitedQuadric limited quadric
+	 */
+	public void removeMeta(GeoElement limitedQuadric){
+		metas.remove(limitedQuadric);
+	}
+
+
 	
 }

@@ -3,6 +3,8 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
+import geogebra.common.kernel.geos.FromMeta;
+import geogebra.common.kernel.geos.GeoElement;
 
 /**
  * draws a quadric part
@@ -34,5 +36,18 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 		
 	}
 	
+	@Override
+	public boolean doHighlighting(){
 
+		//if it depends on a limited quadric, look at the meta' highlighting
+		
+		if (getGeoElement().getMetasLength() > 0){
+			for (GeoElement meta : ((FromMeta) getGeoElement()).getMetas()){
+				if (meta!=null && meta.doHighlighting())
+					return true;
+			}
+		}
+		
+		return super.doHighlighting();
+	}
 }

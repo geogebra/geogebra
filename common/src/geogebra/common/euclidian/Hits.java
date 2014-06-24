@@ -24,7 +24,9 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
+import geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasVolume;
 
@@ -928,7 +930,7 @@ public class Hits extends ArrayList<GeoElement> {
 	
 	
 	/**
-	 * WARNING : only GeoCoordSys2D and GeoQuadric3DInterface implemented yet
+	 * WARNING : only GeoCoordSys2D, GeoQuadric3DInterface and GeoPolyhedronInterface implemented yet
 	 * @param ignoredGeos geos that are ignored
 	 * @return hits containing first surface (not included in ignoredGeos)
 	 */
@@ -936,8 +938,15 @@ public class Hits extends ArrayList<GeoElement> {
 		Hits ret = new Hits();
 		for (int i = 0; i < size(); i++){
 			GeoElement geo = get(i);
-			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3DInterface){
+			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3DInterface || geo instanceof GeoPolyhedronInterface){
 				if (!ignoredGeos.contains(geo)){
+					if (geo instanceof GeoQuadric3DPartInterface){ // temporary fix (TODO implement intersection GeoQuadric3DPart / plane)
+						GeoElement meta = ((FromMeta) geo).getMetas()[0];
+						if (!ignoredGeos.contains(meta)){
+							ret.add(meta);
+							return ret;
+						}
+					}
 					ret.add(geo);
 					return ret;
 				}
@@ -947,6 +956,8 @@ public class Hits extends ArrayList<GeoElement> {
 		
 		return ret;
 	}
+
+	
 	
 	/**
 	 * remove all polygons, if hits are not all instance of GeoCoordSys2D

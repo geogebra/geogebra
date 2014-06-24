@@ -18,6 +18,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -35,7 +36,8 @@ import geogebra.common.plugin.GeoClass;
  */
 public class GeoQuadric3DLimited extends GeoQuadricND 
 implements GeoNumberValue, HasVolume, HasHeight, 
-RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable {
+RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
+GeoQuadric3DLimitedInterface{
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -92,6 +94,19 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable {
 		this.side = side;
 		this.bottom = bottom2;
 		this.top = top;
+		
+		side.setFromMeta(this);
+		bottom.addMeta(this);
+		top.addMeta(this);
+	}
+	
+	@Override
+	public void remove() {
+
+		bottom.removeMeta(this);
+		//no need to remove meta for side and top: theses parts will be removed too
+		
+		super.remove();
 	}
 
 	public GeoQuadric3DLimited(GeoQuadric3DLimited quadric) {

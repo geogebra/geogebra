@@ -31,6 +31,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoCoordSys1D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
@@ -2265,7 +2266,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// if (selectedGeos.size()==1 && !hits.contains(selectedGeos.get(0)))
 		// hits.addAll(0, selectedGeos);
 
-		if (mouseMoved) { // process new intersection only if mouse has moved
+		if (mouseMoved && view3D.hasMouse()) { // process new intersection only if mouse has moved
 			for (int i = 0; i < intersectionCurveList.size(); ++i) {
 				intersectionCurveList.get(i).hitted = false;
 			}
@@ -2301,106 +2302,69 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		if (goodHits != null) {
-			addSelectedCS2D(goodHits, 2, true);
+			addSelectedPolygon(goodHits, 1, false);
+			addSelectedPlane(goodHits, 1, false);
 			addSelectedQuadric(goodHits, 2, true);
+			addSelectedPolyhedron(goodHits, 1, false);
+			addSelectedQuadricLimited(goodHits, 1, false);
+			
 		} else {
 			Hits firstSurface = hits.getFirstSurfaceBefore(selectedGeos);
-			addSelectedCS2D(firstSurface, 2, false);
+			addSelectedPolygon(firstSurface, 1, false);
+			addSelectedPlane(firstSurface, 1, false);
 			addSelectedQuadric(firstSurface, 2, false);
+			addSelectedPolyhedron(firstSurface, 1, false);
+			addSelectedQuadricLimited(firstSurface, 1, false);
 		}
 
-		if (selCS2D() >= 2) { // cs2D-cs2D
-
-			// Application.debug(selCS2D());
-
-			GeoCoordSys2D[] cs2Ds = getSelectedCS2D();
-
-			int pIndex = 0;
-			int npIndex = 0;
-			boolean foundP = false;
-			boolean foundNp = false;
-			for (int i = 0; i < cs2Ds.length; i++) {
-				if (cs2Ds[i] instanceof GeoPolygon) {
-					if (!foundP) {
-						pIndex = i;
-						foundP = true;
-					}
-				} else {
-					if (!foundNp) {
-						npIndex = i;
-						foundNp = true;
-					}
+		if (selPlanes() == 1){
+			
+			if (selQuadric() >= 1) { // plane-quadric
+				GeoPlaneND plane = getSelectedPlanes()[0];
+				GeoQuadric3D quad = getSelectedQuadric()[0];
+				GeoElement[] ret = { kernel.getManager3D().Intersect(null,
+						plane, quad) };
+				if(ret[0].isDefined()){
+					return ret;
 				}
-				if (foundP && foundNp)
-					break;
-			}
-
-			if (!foundP) {
-				GeoElement[] ret = new GeoElement[1];
-				ret[0] = getKernel().getManager3D().IntersectPlanes(null,
-						cs2Ds[0], cs2Ds[1]);
+				return null;
+				
+			} else if (selPolyhedron() == 1){ // plane-polyhedron
+				GeoElement[] ret = getKernel().getManager3D().IntersectRegion(
+						new String[] { null }, getSelectedPlanes()[0], getSelectedPolyhedron()[0], null);
 				if (ret[0].isDefined()){
 					return ret;
 				}
 				return null;
-			} else if (foundP && foundNp) {
-				GeoElement[] ret;
-				GeoPlane3D A = (GeoPlane3D) cs2Ds[npIndex];
-				GeoPolygon B = (GeoPolygon) cs2Ds[pIndex];
-				if (B.getMetasLength() == 1) {
-					ret = getKernel().getManager3D().IntersectRegion(
-							new String[] { null }, A, B.getMetas()[0], null);
-					if (ret[0].isDefined()){
-						return ret;
-					}
+				
+			} else if (selQuadricLimited() == 1){ // plane-limited quadric
+				GeoElement[] ret = new GeoElement[1];
+				ret[0] = kernel.getManager3D()
+						.IntersectQuadricLimited(null, getSelectedPlanes()[0], getSelectedQuadricLimited()[0]);
+				if (!ret[0].isDefined()) {
 					return null;
 				}
-				// else
-				ret = getKernel().getManager3D().IntersectPath(
-						new String[] { null }, A, B);
+				// also compute corner points
+				kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
+
+				return ret;
+				
+			} else if (selPolygons() == 1){ // plane-polygon
+				GeoPlaneND plane = getSelectedPlanes()[0];
+				GeoPolygon poly = getSelectedPolygons()[0];
+				GeoElement[] ret = getKernel().getManager3D().IntersectPath(
+						new String[] { null }, plane, poly);
 				if (ret[0].isDefined()) {
 					// create also intersect points
 					getKernel().getManager3D().IntersectionPoint(
-							new String[] { null }, A, B);
+							new String[] { null }, plane, poly);
 					return ret;
 				}
 				return null;
-			}
-		}
 
-		else if ((selCS2D() >= 1) && (selQuadric() >= 1)) { // plane-quadric
-
-			GeoElement plane = (GeoElement) getSelectedCS2D()[0];
-			GeoQuadric3D quad = getSelectedQuadric()[0];
-			if (quad instanceof GeoQuadric3DPart) {
-				GeoQuadric3DLimited ql = (GeoQuadric3DLimited) ((GeoQuadric3DPart) quad)
-						.getMetas()[0];
-				GeoElement[] ret = new GeoElement[1];
-				if (ql != null){
-					ret[0] = kernel.getManager3D()
-							.IntersectQuadricLimited(null, (GeoPlaneND) plane, ql);
-					if (!ret[0].isDefined()) {
-						return null;
-					}
-					// also compute corner points
-					kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
-				}else{
-					ret[0] = kernel.getManager3D()
-							.Intersect(null, (GeoPlaneND) plane, quad);
-				}
-				
-				return ret;
 			}
-			// else
-			GeoElement[] ret = { kernel.getManager3D().Intersect(null,
-					(GeoPlaneND) plane, quad) };
-			if(ret[0].isDefined()){
-				return ret;
-			}
-			return null;
-
-			// quadric-quadric : intersection circles
-		} else if (selQuadric() >= 2) {
+			
+		} else if (selQuadric() >= 2) { // quadric-quadric : intersection circles
 			GeoQuadric3D[] quads = getSelectedQuadric();
 			GeoElement[] ret = kernel.getManager3D().IntersectAsCircle(null,
 					quads[0], quads[1]);
@@ -2691,7 +2655,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 						.get(1)) == resultedIntersectionCurve.geo2) && !(getMetaIfJustOne(hits
 						.get(0)) == resultedIntersectionCurve.geo2 && getMetaIfJustOne(hits
 						.get(1)) == resultedIntersectionCurve.geo1))) {
-			goodHits.add(hits.get(0));
+			addToGoodHits(hits.get(0));
 			hideIntersection = true;
 			return;
 		}
@@ -2699,12 +2663,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// else, we show the intersection, and add A,B to highligtedgeos
 		hideIntersection = false;
 
-		goodHits.add(hits.get(0));
-		goodHits.add(hits.get(1));
+		addToGoodHits(hits.get(0));
+		addToGoodHits(hits.get(1));
 
 		view3D.setPreview((Previewable) resultedIntersectionCurve.drawable);
 		// resultedGeo.setIsPickable(false);
 
+	}
+	
+	
+	final private void addToGoodHits(GeoElement geo){
+		goodHits.add(getMetaIfJustOne(geo));
 	}
 
 	// /////////////////////////////////////////
@@ -2877,6 +2846,59 @@ public abstract class EuclidianController3D extends EuclidianController {
 		clearSelection(selectedQuadric);
 		return quads;
 	}
+	
+	// /for quadric
+	protected ArrayList<GeoQuadric3DLimited> selectedQuadricLimited = new ArrayList<GeoQuadric3DLimited>();
+
+	final int selQuadricLimited() {
+		return selectedQuadricLimited.size();
+	}
+
+	final protected int addSelectedQuadricLimited(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+		return handleAddSelected(hits, max, addMoreThanOneAllowed,
+				selectedQuadricLimited, Test.GEOQUADRIC3DLIMITED);
+	}
+
+	final protected GeoQuadric3DLimited[] getSelectedQuadricLimited() {
+		GeoQuadric3DLimited[] quads = new GeoQuadric3DLimited[selectedQuadricLimited.size()];
+		int i = 0;
+		Iterator<GeoQuadric3DLimited> it = selectedQuadricLimited.iterator();
+		while (it.hasNext()) {
+			quads[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedQuadricLimited);
+		return quads;
+	}
+	
+	
+	// /for polyhedrons
+	protected ArrayList<GeoPolyhedron> selectedPolyhedron = new ArrayList<GeoPolyhedron>();
+
+	final int selPolyhedron() {
+		return selectedPolyhedron.size();
+	}
+
+	final protected int addSelectedPolyhedron(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+		return handleAddSelected(hits, max, addMoreThanOneAllowed,
+				selectedPolyhedron, Test.GEOPOLYHEDRON);
+	}
+
+	final protected GeoPolyhedron[] getSelectedPolyhedron() {
+		GeoPolyhedron[] polyh = new GeoPolyhedron[selectedPolyhedron.size()];
+		int i = 0;
+		Iterator<GeoPolyhedron> it = selectedPolyhedron.iterator();
+		while (it.hasNext()) {
+			polyh[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedPolyhedron);
+		return polyh;
+	}
+
+	
 
 	@Override
 	protected GeoElement chooseGeo(ArrayList<GeoElement> geos,

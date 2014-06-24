@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasSegments;
@@ -53,7 +54,8 @@ import java.util.TreeSet;
 public class GeoPolyhedron extends GeoElement3D 
 implements HasSegments, HasVolume, Traceable, 
 RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
-HasHeight, Path
+HasHeight, Path,
+GeoPolyhedronInterface
 {
 
 	public static final int TYPE_PYRAMID = 1;

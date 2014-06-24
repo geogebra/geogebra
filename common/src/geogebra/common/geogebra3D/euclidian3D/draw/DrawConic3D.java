@@ -12,6 +12,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
+import geogebra.common.kernel.geos.FromMeta;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
@@ -894,4 +896,18 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	}
 	
 
+	@Override
+	public boolean doHighlighting(){
+
+		//if it depends on a limited quadric, look at the meta' highlighting
+		
+		if (getGeoElement().getMetasLength() > 0){
+			for (GeoElement meta : ((FromMeta) getGeoElement()).getMetas()){
+				if (meta!=null && meta.doHighlighting())
+					return true;
+			}
+		}
+		
+		return super.doHighlighting();
+	}
 }

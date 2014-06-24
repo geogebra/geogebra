@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
@@ -18,7 +19,7 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, FromMeta {
+public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, FromMeta, GeoQuadric3DPartInterface {
 
 	/** min value for limites */
 	private double min;
