@@ -1215,6 +1215,10 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		if (isIniting)
 			return;
+		
+		btnPointCapture.removeActionListener(this);
+		updateButtonPointCapture(ev.getPointCapturingMode());
+		btnPointCapture.addActionListener(this);
 
 		btnMode.removeActionListener(this);
 		switch (mode) {
