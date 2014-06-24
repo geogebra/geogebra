@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -16,6 +17,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.RotateableND;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
 
@@ -24,7 +26,7 @@ import geogebra.common.util.Unicode;
  * 
  */
 public class GeoConic3D extends GeoConicND 
-implements RotateableND, MirrorableAtPlane {
+implements RotateableND, MirrorableAtPlane, ViewCreator {
 
 	/** 2D coord sys where the conic exists */
 	private CoordSys coordSys;
@@ -621,6 +623,69 @@ implements RotateableND, MirrorableAtPlane {
 		
 		dilate(r);
 		
+	}
+	
+	
+	
+
+
+	//////////////////////////////////
+	// 2D VIEW
+
+	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
+
+	public void createView2D() {
+		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel.getApplication().getCompanion().createEuclidianViewForPlane(this,true);
+		euclidianViewForPlane.setTransformRegardingView();
+	}
+
+
+	public void removeView2D(){
+		euclidianViewForPlane.doRemove();
+	}
+
+
+	@Override
+	public void doRemove() {
+		if (euclidianViewForPlane != null){
+			removeView2D();
+		}
+		super.doRemove();
+	}
+
+	public boolean hasView2DVisible(){
+		return euclidianViewForPlane!=null && kernel.getApplication().getGuiManager().showView(euclidianViewForPlane.getId());
+	}
+
+
+	public void setView2DVisible(boolean flag){
+
+		if (euclidianViewForPlane==null){
+			if (flag)
+				createView2D();
+			return;
+		}
+
+		kernel.getApplication().getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
+
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		if (euclidianViewForPlane != null) {
+			euclidianViewForPlane.updateMatrix();
+			updateViewForPlane();
+		}
+	}
+
+	private void updateViewForPlane() {
+		euclidianViewForPlane.updateAllDrawables(true);
+	}
+
+
+	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanion view){
+		euclidianViewForPlane = view;
 	}
 
 }
