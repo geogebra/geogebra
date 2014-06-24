@@ -3452,6 +3452,7 @@ public abstract class App implements UpdateSelection{
 	
 	
 	protected AppCompanion companion;
+	private OpenFileListener openFileListener;
 	
 	protected AppCompanion newAppCompanion(){
 		return new AppCompanion(this);
@@ -3472,4 +3473,13 @@ public abstract class App implements UpdateSelection{
 		return null;
 	}
 	
+	public void registerOpenFileListener(OpenFileListener o){
+		this.openFileListener = o;
+	}
+	
+	protected void onOpenFile(){
+		if(this.openFileListener != null){
+			this.openFileListener.onOpenFile();
+		}
+	}
 }

@@ -331,6 +331,7 @@ public class AppWapplet extends AppW {
 		setDefaultCursor();
 		GeoGebraFrame.useDataParamBorder(getArticleElement(), getGeoGebraFrame());
 		GeoGebraProfiler.getInstance().profileEnd();
+		onOpenFile();
     }
 
 	@Override

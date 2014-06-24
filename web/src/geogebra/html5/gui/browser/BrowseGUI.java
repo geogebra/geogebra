@@ -1,6 +1,7 @@
 package geogebra.html5.gui.browser;
 
 import geogebra.common.main.App;
+import geogebra.common.main.OpenFileListener;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
@@ -29,7 +30,7 @@ import com.google.gwt.user.client.Window;
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler, EventRenderable {
+public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler, EventRenderable, OpenFileListener {
   
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
@@ -72,6 +73,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 				BrowseGUI.this.updateViewSizes();
 			}
 		});
+		
+		app.registerOpenFileListener(this);
 
 	}
 
@@ -253,6 +256,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
 	    	loadFeatured();
 	    }
+    }
+
+	@Override
+    public void onOpenFile() {
+	    this.close();
+	    this.app.registerOpenFileListener(null);
     }
 }
 

@@ -198,6 +198,7 @@ public class AppWapplication extends AppW {
 		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
 		((GGWToolBar)this.getToolbar()).updateToolbarPanel();
+		onOpenFile();
 	}
 
 	@Override
