@@ -217,8 +217,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	
 	public void openFileAsGgb(JavaScriptObject fileToHandle,
 	        JavaScriptObject callback){
-		app.openFileAsGgb(fileToHandle, callback);		
-		close();
+		app.openFileAsGgb(fileToHandle, callback);
 	}
 
 	@Override
