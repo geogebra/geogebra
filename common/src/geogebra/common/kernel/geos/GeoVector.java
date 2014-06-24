@@ -675,6 +675,16 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			inputs[2] = kernel.format(z,tpl);
 		}
 
+		if(inputs.length > 2 && kernel.getApplication().isHTML5Applet()){
+			sb.append("\\openparenonly{\\closeparenonly{\\ggbtable{\\ggbtr{\\ggbtd{");
+			sb.append(inputs[0]);
+			sb.append("}}\\ggbtr{\\ggbtd{");
+			sb.append(inputs[1]);
+			sb.append("}}\\ggbtr{\\ggbtd{");
+			sb.append(inputs[2]);
+			sb.append("}}}}}");
+			return;
+		}
 		boolean alignOnDecimalPoint = true;
 		for (int i = 0; i < inputs.length; i++) {
 			if (inputs[i].indexOf('.') == -1) {
