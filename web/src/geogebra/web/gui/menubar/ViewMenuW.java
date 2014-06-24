@@ -63,7 +63,7 @@ public class ViewMenuW extends GMenuBar {
 				continue;
 			}
 			items[i] = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(Views.icons[i]
-			        .getSafeUri().asString(), app.getPlain("AlgebraWindow"), true),
+			        .getSafeUri().asString(), app.getPlain(Views.keys[i]), true),
 			        new Command() {
 				        public void execute() {
 				        	app.getGuiManager().setShowView(

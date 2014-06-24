@@ -83,7 +83,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private boolean isFixedIcon = false;
 
 
-	private boolean isIniting = true;	
+	private boolean isIniting = true;
+	private ImageOrText fixedIcon;	
 	
 	/*#***********************************
 	/** Button constructors */
@@ -282,31 +283,22 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	public void setIcon(ImageOrText icon) {
 
 		if (isFixedIcon) {			
-			super.setIcon(icon);
+			super.setIcon(fixedIcon);
 			return;
-		}
-
-		if (icon == null) {
-			//icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
-		} else {
-			//icon = GeoGebraIcon.ensureIconSize(icon, iconSize);
 		}
 
 		// add a down_triangle image to the left of the icon
 		if (icon != null) {
 			super.setIcon(icon);
-			//TODO triangle
-			//super.setIcon(GeoGebraIcon.joinIcons(icon, GuiResources.INSTANCE.toolbar_further_tools()));
 		} else {
-			//AppResourcesConverter.setIcon(AppResources.INSTANCE.triangle_down(), this);
 			AppResourcesConverter.setIcon(GuiResources.INSTANCE.toolbar_further_tools(), this);
-			//must be done in callback super.setIcon(AppResources.INSTANCE.triangle_down());
 		}
 	}
 
 
 	public void setFixedIcon(ImageOrText icon){
 		isFixedIcon = true;
+		this.fixedIcon = icon;
 		setIcon(icon);
 	}
 

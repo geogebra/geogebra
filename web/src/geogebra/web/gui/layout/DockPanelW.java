@@ -10,6 +10,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.view.Views;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
@@ -432,22 +433,34 @@ public abstract class DockPanelW extends ResizeComposite implements
 			titleBarPanel.add(closeButtonPanel);
 		}*/
 
-		ImageOrText[] data = new ImageOrText[3];
-		data[0] = new ImageOrText("Graphics");
-		data[1] = new ImageOrText("Algebra");
-		data[2] = new ImageOrText("Close");
-		
-		final PopupMenuButton pb = new PopupMenuButton(app, data, -1, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		ImageOrText[] data = new ImageOrText[Views.ids.length + 1];
+		final int[] viewIDs = new int[Views.ids.length];
+		int k = 0;
+		for(int i = 0; i < Views.ids.length; i++){
+			if(app.supportsView(Views.ids[i])){
+				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
+				viewIDs[k] = Views.ids[i];
+				k++;
+			}
+		}
+		data[k] = new ImageOrText(app.getMenu("Close"));
+		final int closeIndex = k;
+		final PopupMenuButton pb = new PopupMenuButton(app, data, closeIndex, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		ImageOrText views = new ImageOrText();
+		views.url = AppResources.INSTANCE.view_btn().getSafeUri().asString();
+		pb.setFixedIcon(views);
 		pb.addPopupHandler(new PopupMenuHandler(){
 
 			@Override
             public void fireActionPerformed(Object actionButton) {
-	            if(pb.getSelectedIndex()==2){
+				int i = pb.getSelectedIndex();
+	            if(pb.getSelectedIndex() == closeIndex){
 	            	app.getGuiManager().setShowView(false, DockPanelW.this.id);
+	            	return;
 	            }
-	            if(pb.getSelectedIndex()==1){
-	            	app.getGuiManager().setShowView(!app.getGuiManager().showView(App.VIEW_ALGEBRA), App.VIEW_ALGEBRA);
-	            }
+	            app.getGuiManager().setShowView(!app.getGuiManager().showView(viewIDs[i]), viewIDs[i]);
+	            
+	            	
             }});
 		titleBarPanel.add(pb);
 		
