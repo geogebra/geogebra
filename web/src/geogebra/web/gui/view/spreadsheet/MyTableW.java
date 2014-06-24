@@ -937,7 +937,7 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 	    this.autoScrolls = autoScrolls;
     }
 
-	private void scrollRectToVisible(GRectangle contentRect) {
+	protected void scrollRectToVisible(GRectangle contentRect) {
 	   scroller.scrollRectToVisible(contentRect);
 	}
 
@@ -1208,7 +1208,7 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 
 			} else {
 
-				// ?//this.setAutoscrolls(false);
+				setAutoscrolls(false);
 
 				// row selection
 				if (cr.isRow()) {
@@ -1231,10 +1231,9 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 				selectionChanged();
 
 				// scroll to upper left corner of rectangle
-				// ?//this.setAutoscrolls(true);
-
-				// TODO//scrollRectToVisible(getCellRect(cr.getMinRow(),
-				// TODO cr.getMinColumn(), true));
+				setAutoscrolls(true);
+				scrollRectToVisible(getCellRect(cr.getMinRow(),
+				        cr.getMinColumn(), true));
 				repaint();
 			}
 		} catch (Exception e) {

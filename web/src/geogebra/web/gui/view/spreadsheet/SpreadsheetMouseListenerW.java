@@ -536,13 +536,6 @@ public class SpreadsheetMouseListenerW implements
 	public void onMouseMove(MouseMoveEvent e) {
 		if (this.editEnabled) {
 			GPoint p = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
-			if (p.getY() == 0 && p.getX() >= 0) {
-				//table.scc.onMouseMove(e);
-				return;
-			} else if (p.getX() == 0 && p.getY() >= 0) {
-				//table.srh.onMouseMove(e);
-				return;
-			}
 	
 			e.preventDefault();
 			boolean eConsumed = false;
@@ -632,14 +625,14 @@ public class SpreadsheetMouseListenerW implements
 						if (table.dragingToColumn + 1 == table.getColumnCount()
 								&& table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
 							model.setColumnCount(table.getColumnCount() + 1);
-							view.columnHeaderRevalidate();
+							//view.columnHeaderRevalidate();
 							// Java's addColumn method will clear selection, so
 							// re-select our cell
-							table.setSelection(oldSelection);
+							//table.setSelection(oldSelection);
 						}
 	
 						// scroll to show "highest" selected cell
-						//TODO//table.scrollRectToVisible(table.getCellRect(mouseCell.y, mouseCell.x, true));
+						table.scrollRectToVisible(table.getCellRect(mouseCell.y, mouseCell.x, true));
 	
 						if (!selRect.contains(getAbsoluteX(e), getAbsoluteY(e))) {
 	

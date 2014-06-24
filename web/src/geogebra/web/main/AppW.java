@@ -350,8 +350,14 @@ public abstract class AppW extends AppWeb {
 		return Factory.getPrototype();
 	}
 
-	
+	@Override
+	public void setScrollToShow(boolean b) {
+		if (getGuiManager() != null) {
+			getGuiManager().setScrollToShow(b);
+		}
+	}
 
+	
 	//public ToolTipManagerW getToolTipManager(){
 	//	if(toolTipManager == null){
 	//	toolTipManager = new ToolTipManagerW(this);

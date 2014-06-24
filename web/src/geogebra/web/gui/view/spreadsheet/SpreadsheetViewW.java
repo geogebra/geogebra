@@ -336,10 +336,10 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		GPoint location = geo.getSpreadsheetCoords();
 
 		// autoscroll to new cell's location
-		/*TODO if (scrollToShow && location != null)
+		if (scrollToShow && location != null) {
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
-					true));
-		*/
+			        true));
+		}
 
 		//scheduleRepaint();
 	}
