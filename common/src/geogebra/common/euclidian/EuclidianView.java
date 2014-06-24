@@ -311,6 +311,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		
 		companion = newEuclidianViewCompanion();
 		
+		int dim = getDimension();
+		axisCross = new double[dim];
+		positiveAxes = new boolean[dim];
+		drawBorderAxes = new boolean[dim];
+		for (int i = 0 ; i < dim ; i++){
+			axisCross[i] = 0;
+			positiveAxes[i] = false;
+			drawBorderAxes[i] = false;
+		}
+
+		
 		// Michael Borcherds 2008-03-01
 		drawLayers = new DrawableList[EuclidianStyleConstants.MAX_LAYERS + 1];
 		for (int k = 0; k <= EuclidianStyleConstants.MAX_LAYERS; k++) {
@@ -335,6 +346,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 		printScaleNF = FormatFactory.prototype.getNumberFormat("#.#####", 5);
 
+	}
+	
+	/**
+	 * 
+	 * @return dimension (2 or 3)
+	 */
+	protected int getDimension(){
+		return 2;
 	}
 	
 	/**
@@ -2217,9 +2236,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	// axis control vars
-	protected double[] axisCross = { 0, 0 };
-	protected boolean[] positiveAxes = { false, false };
-	private boolean[] drawBorderAxes = { false, false };
+	protected double[] axisCross;
+	protected boolean[] positiveAxes;
+	private boolean[] drawBorderAxes;
 
 	// getters and Setters for axis control vars
 

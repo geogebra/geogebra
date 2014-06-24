@@ -48,9 +48,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	double[] gridDistances = null;// { 2, 2, Math.PI/6 };
 
-	private final double[] axisCross = { 0, 0 };
-	private final boolean[] positiveAxes = { false, false };
-	private final boolean[] drawBorderAxes = { false, false };
+	// we need 3 values for 3D view, as it may copy values from ev1
+	private final double[] axisCross = { 0, 0, 0 };
+	private final boolean[] positiveAxes = { false, false, false };
+	private final boolean[] drawBorderAxes = { false, false, false };
 	private NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 
 	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
@@ -59,6 +60,7 @@ public class EuclidianSettings extends AbstractSettings {
 	private final EuclidianSettings euclidianSettings1;
 
 	public EuclidianSettings(EuclidianSettings euclidianSettings1) {
+		
 		this.euclidianSettings1 = euclidianSettings1;
 		preferredSize = AwtFactory.prototype.newDimension(0,0);
 		resetNoFire();

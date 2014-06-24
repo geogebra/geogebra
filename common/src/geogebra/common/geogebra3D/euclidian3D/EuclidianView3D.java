@@ -134,9 +134,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
 			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
 
-	private double[] axisCross = { 0, 0, 0 };
-	private boolean[] positiveAxes = { false, false, false };
-	private boolean[] drawBorderAxes = { false, false, false };
 
 	/** default scene x-coord of origin */
 	public static final double XZERO_SCENE_STANDARD = 0;
@@ -3301,16 +3298,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public boolean[] getDrawBorderAxes() {
-		return drawBorderAxes;
-	}
-
-	@Override
-	public void setDrawBorderAxes(boolean[] drawBorderAxes) {
-		this.drawBorderAxes = drawBorderAxes;
-	}
-
-	@Override
 	public boolean[] isAutomaticAxesNumberingDistance() {
 		return automaticAxesNumberingDistances;
 	}
@@ -3877,4 +3864,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return axisDrawable[i].getNumbersDistance();
 	}
 	
+	@Override
+	protected int getDimension(){
+		return 3;
+	}
 }
