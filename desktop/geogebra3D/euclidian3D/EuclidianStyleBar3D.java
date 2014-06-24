@@ -66,8 +66,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		add(btnShowPlane);
 	}
 
-	@Override
-	protected void addBtnPointCapture(){}
 	
 
 	@Override
@@ -361,11 +359,12 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@Override
 	protected MyToggleButton[] newToggleBtnList(){
 		MyToggleButton[] superList = super.newToggleBtnList();
-		MyToggleButton[] ret = new MyToggleButton[superList.length+4];
+		MyToggleButton[] ret = new MyToggleButton[superList.length+5];
 		for (int i=0; i<superList.length; i++)
 			ret[i]=superList[i];
 		
 		int index = superList.length;
+		ret[index]=btnShowPlane;index++;
 		ret[index]=btnViewDefault;index++;
 		ret[index]=btnViewXY;index++;
 		ret[index]=btnViewXZ;index++;

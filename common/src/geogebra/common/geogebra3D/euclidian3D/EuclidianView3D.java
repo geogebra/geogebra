@@ -3299,8 +3299,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private boolean viewChangedByTranslate = true;
 	private boolean viewChangedByRotate = true;
 
-	private int pointCapturingMode;
-
 	private int pointStyle;
 
 	protected void setViewChangedByZoom() {
@@ -3344,21 +3342,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		viewChangedByRotate = false;
 	}
 
-	/**
-	 * Returns point capturing mode.
-	 */
-	@Override
-	final public int getPointCapturingMode() {
-		return pointCapturingMode;
-	}
-
-	/**
-	 * Set capturing of points to the grid.
-	 */
-	@Override
-	public void setPointCapturing(int mode) {
-		pointCapturingMode = mode;
-	}
 
 	final public int getPointStyle() {
 		return pointStyle;
@@ -3836,6 +3819,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public GeoDirectionND getDirection() {
 		return kernel.getSpace();
+	}
+	
+	
+	@Override
+	public double getGridDistances(int i) {
+		return axisDrawable[i].getNumbersDistance();
 	}
 	
 }

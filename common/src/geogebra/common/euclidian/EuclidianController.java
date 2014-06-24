@@ -4013,7 +4013,7 @@ public abstract class EuclidianController {
 	
 			// fall through
 		case EuclidianStyleConstants.POINT_CAPTURING_ON:
-			pointCapturingPercentage = 0.125;
+			pointCapturingPercentage = EuclidianStyleConstants.POINT_CAPTURING_GRID;
 	
 			// fall through
 		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:

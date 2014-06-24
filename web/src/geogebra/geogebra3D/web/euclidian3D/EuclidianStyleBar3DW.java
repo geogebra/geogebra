@@ -292,10 +292,6 @@ private PopupMenuButton btnRotateView, btnClipping;
 	}
 
 	@Override
-	protected void addBtnPointCapture(){}
-	
-
-	@Override
 	protected void addBtnRotateView(){
 		
 		addSeparator();
@@ -396,11 +392,12 @@ private PopupMenuButton btnRotateView, btnClipping;
 	@Override
 	protected MyToggleButton2[] newToggleBtnList(){
 		MyToggleButton2[] superList = super.newToggleBtnList();
-		MyToggleButton2[] ret = new MyToggleButton2[superList.length+4];
+		MyToggleButton2[] ret = new MyToggleButton2[superList.length+5];
 		for (int i=0; i<superList.length; i++)
 			ret[i]=superList[i];
 		
 		int index = superList.length;
+		ret[index]=btnShowPlane;index++;
 		ret[index]=btnViewDefault;index++;
 		ret[index]=btnViewXY;index++;
 		ret[index]=btnViewXZ;index++;

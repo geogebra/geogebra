@@ -4,12 +4,14 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Euclidian controller creator for 3D controller
@@ -87,7 +89,27 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 						project.setZ(((EuclidianController3D) ec).zMinMax[1]);
 					else if (project.getZ() < ((EuclidianController3D) ec).zMinMax[0])
 						project.setZ(((EuclidianController3D) ec).zMinMax[0]);
+					
+					// capturing points
+					switch (ec.view.getPointCapturingMode()) {
+					case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+						//TODO
+					case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+						if (!ec.view.isGridOrAxesShown()) {
+							break;
+						}
+					case EuclidianStyleConstants.POINT_CAPTURING_ON:
+					case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+						double z0 = project.getZ();
+						double gz = ec.view.getGridDistances(0);
+						double z = Kernel.roundToScale(z0, gz);
+						if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+								|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
+							project.setZ(z);
+						}
+					}
 
+					// set point coords
 					movedGeoPoint3D.setCoords(project);
 
 					// update the moving plane altitude
