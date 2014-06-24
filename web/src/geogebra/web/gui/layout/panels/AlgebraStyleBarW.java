@@ -1,5 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
@@ -23,6 +24,7 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 		add(auxiliary);
 		app.getSettings().getAlgebra().addListener(this);
 		setToolTips();
+		add(getViewButton(app, App.VIEW_ALGEBRA));
 	}
 	
 	private void setToolTips() {

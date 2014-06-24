@@ -250,8 +250,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			lineStyleMap.put(EuclidianStyleBarStatic.lineStyleArray[i], i);
 
 		initGUI();
-		isIniting = false;
-		
+		isIniting = false;		
 		setMode(ev.getMode()); // this will also update the stylebar
 		setToolTips();
 		
@@ -587,6 +586,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		for(int i=0;i<3;i++){
 			add(btnDeleteSizes[i]);
 		}
+		add(getViewButton(app, ev.getViewID()));
 	}
 	
 	protected void addBtnRotateView() {

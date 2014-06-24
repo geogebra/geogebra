@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
@@ -74,7 +75,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		// add(btnBorderStyle);
 
 		setLabels();
-
+		add(getViewButton(app, App.VIEW_SPREADSHEET));
 		updateStyleBar();
 		addStyleName("SpreadsheetStyleBar");
 	}

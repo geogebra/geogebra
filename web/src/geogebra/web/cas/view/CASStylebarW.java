@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
+import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
@@ -49,6 +50,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		add(btnItalic);
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
+		add(getViewButton(app, App.VIEW_CAS));
 		updateStyleBar();
 	}
 
