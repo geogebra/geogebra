@@ -108,10 +108,10 @@ public class App3D extends AppD {
 		Input3D input3D = Input3DFactory.createInput3D();
 		if (input3D != null){
 			euclidianController3D = new EuclidianControllerInput3D(kernel, input3D); 
-			euclidianView3D = new EuclidianViewInput3D(euclidianController3D,null);
+			euclidianView3D = new EuclidianViewInput3D(euclidianController3D, getSettings().getEuclidian(3));
 		}else{
 			euclidianController3D = new EuclidianController3DD(kernel); 
-			euclidianView3D = new EuclidianView3DD(euclidianController3D,null);
+			euclidianView3D = new EuclidianView3DD(euclidianController3D, getSettings().getEuclidian(3));
 		}
 		
 

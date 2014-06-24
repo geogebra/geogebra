@@ -70,7 +70,7 @@ public class AppWapplication3D extends AppWapplication {
 
 		super.initEuclidianViews();
 		euclidianController3D = App3DW.newEuclidianController3DW(kernel);
-		euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D);
+		euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D, getSettings().getEuclidian(3));
 
 	}
 	

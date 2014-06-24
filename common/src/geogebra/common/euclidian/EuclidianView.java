@@ -192,7 +192,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 	private int gridLineStyle, axesLineType;
 
-	private boolean gridIsBold = false; // Michael Borcherds 2008-04-11
+	protected boolean gridIsBold = false; // Michael Borcherds 2008-04-11
 	/** tooltip mode in this view */
 	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
@@ -480,7 +480,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		}
 	}
 
-	private Double lockedAxesRatio;
+	protected Double lockedAxesRatio;
 	private boolean updateBackgroundOnNextRepaint;
 
 	/**

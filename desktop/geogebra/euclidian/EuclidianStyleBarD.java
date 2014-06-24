@@ -1417,6 +1417,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		if (isIniting)
 			return;
+		
+		btnPointCapture.removeActionListener(this);
+		updateButtonPointCapture(ev.getPointCapturingMode());
+		btnPointCapture.addActionListener(this);
 
 		btnPen.removeActionListener(this);
 		btnPen.setSelected(EuclidianView.isPenMode(mode));

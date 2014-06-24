@@ -303,7 +303,7 @@ public class MyXMLHandler implements DocHandler {
 
 	// flag so that we can reset EVSettings the first time we get them (for EV1
 	// and EV2)
-	private boolean resetEVsettingsNeeded = false;
+	protected boolean resetEVsettingsNeeded = false;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -901,7 +901,6 @@ public class MyXMLHandler implements DocHandler {
 	private void startEuclidianViewElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		
-
 		// must do this first
 		if ("viewNumber".equals(eName)) {
 			int number = Integer.parseInt(attrs.get("viewNo"));
@@ -1139,7 +1138,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleEvSettings(EuclidianSettings ev,
+	protected boolean handleEvSettings(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		try {
 			// axes attribute was removed with V3.0, see handleAxis()

@@ -169,4 +169,9 @@ public abstract class App3DCompanion extends AppCompanion {
 	abstract public geogebra.common.gui.layout.DockPanel getPanelForPlane();
 
 
+
+	@Override
+	public Settings newSettings() {
+		return new Settings(3);
+	}
 }

@@ -17,7 +17,6 @@ import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.common.main.settings.Settings;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
@@ -222,7 +221,7 @@ public abstract class AppW extends AppWeb {
 		kernel = newKernel(this_app);
 
 		// init settings
-		settings = new Settings();
+		settings = companion.newSettings();
 
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 

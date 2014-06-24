@@ -59,6 +59,19 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 		super(ec, settings);
 
 		initView(false);
+		
+		EuclidianSettings es = null;
+		if (settings != null) {
+			es = settings;
+		} else {
+			es = getApplication().getSettings().getEuclidian(3);
+		}
+
+		if (es != null) {
+			settingsChanged(es);
+			es.addListener(this);
+		}
+
 	}
 	
 	private Component canvas;

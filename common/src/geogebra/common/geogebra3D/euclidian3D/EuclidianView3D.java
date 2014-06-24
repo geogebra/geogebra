@@ -282,7 +282,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public EuclidianView3D(EuclidianController3D ec, EuclidianSettings settings) {
 
 		super(ec, settings);
-
+		
+		evNo = 3;
+		
+		
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
 
@@ -2520,7 +2523,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// if (true) return "";
 
 		sb.append("<euclidianView3D>\n");
-
+		
 		// coord system
 		sb.append("\t<coordSystem");
 
@@ -2546,6 +2549,51 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		sb.append("\"");
 
 		sb.append("/>\n");
+		
+
+		// ev settings
+		sb.append("\t<evSettings axes=\"");
+		sb.append(getShowAxis(0) || getShowAxis(1) || getShowAxis(2));
+		
+		sb.append("\" grid=\"");
+		sb.append(getShowGrid());
+		sb.append("\" gridIsBold=\""); //
+		sb.append(gridIsBold); // Michael Borcherds 2008-04-11
+		sb.append("\" pointCapturing=\"");
+
+		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML 
+		sb.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT : getPointCapturingMode()); 
+
+//		sb.append("\" rightAngleStyle=\"");
+//		sb.append(getApplication().rightAngleStyle);
+//		if (asPreference) {
+//			sb.append("\" allowShowMouseCoords=\"");
+//			sb.append(getAllowShowMouseCoords());
+//
+//			sb.append("\" allowToolTips=\"");
+//			sb.append(getAllowToolTips());
+//			
+//			sb.append("\" deleteToolSize=\"");
+//			sb.append(getEuclidianController().getDeleteToolSize());
+//		}
+
+//		sb.append("\" checkboxSize=\"");
+//		sb.append(app.getCheckboxSize()); // Michael Borcherds
+													// 2008-05-12
+
+		sb.append("\" gridType=\"");
+		sb.append(getGridType()); // cartesian/isometric/polar
+
+//		if (lockedAxesRatio != null) {
+//			sb.append("\" lockedAxesRatio=\"");
+//			sb.append(lockedAxesRatio);
+//		}
+
+		sb.append("\"/>\n");
+		// end ev settings
+
+				
+				
 
 		// axis settings
 		for (int i = 0; i < 3; i++) {
@@ -2577,11 +2625,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		sb.append("\t<plate show=\"");
 		sb.append(getxOyPlane().isPlateVisible());
 		sb.append("\"/>\n");
-
-		sb.append("\t<grid show=\"");
-		sb.append(getxOyPlane().isGridVisible());
-		sb.append("\"/>\n");
-
+//
+//		sb.append("\t<grid show=\"");
+//		sb.append(getxOyPlane().isGridVisible());
+//		sb.append("\"/>\n");
+		
+		
+		
 		// background color
 		sb.append("\t<bgColor r=\"");
 		sb.append(bgColor.getRed());
@@ -3054,7 +3104,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 		setAxesIntervals(getXscale(), 0);
 		setAxesIntervals(getYscale(), 1);
-		setAxesIntervals(getZscale(), 2);
+		//setAxesIntervals(getZscale(), 2);
 	}
 
 	@Override
@@ -3197,10 +3247,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public void showGrid(boolean selected) {
+
 		setShowGrid(selected);
 
 	}
-
 
 	@Override
 	public void setAllowShowMouseCoords(boolean selected) {

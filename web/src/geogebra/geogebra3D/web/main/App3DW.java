@@ -85,12 +85,12 @@ public class App3DW {
 	 * @param ec controller for 3D view
 	 * @return new 3D view
 	 */
-	static final public EuclidianView3DW newEuclidianView3DW(EuclidianController3DW ec){
+	static final public EuclidianView3DW newEuclidianView3DW(EuclidianController3DW ec, EuclidianSettings settings){
 		if(Browser.supportsWebGL()){
-			return new EuclidianView3DW(ec, null);
+			return new EuclidianView3DW(ec, settings);
 		}
 		
-		return new EuclidianView3DWnoWebGL(ec, null);
+		return new EuclidianView3DWnoWebGL(ec, settings);
 	}
 
 }

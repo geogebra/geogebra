@@ -38,9 +38,10 @@ public class Settings {
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
+	 * @param euclidianLength 2 or 3 euclidian views
 	 */
-	public Settings() {
-		euclidianSettings = new EuclidianSettings[2];
+	public Settings(int euclidianLength) {
+		euclidianSettings = new EuclidianSettings[euclidianLength];
 		
 		euclidianSettingsForPlane = new HashMap<String, EuclidianSettings>();
 

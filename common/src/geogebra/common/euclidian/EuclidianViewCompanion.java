@@ -177,7 +177,7 @@ public class EuclidianViewCompanion {
 	 * add id to xml
 	 * @param sbxml xml
 	 */
-	protected void getXMLid(StringBuilder sbxml){
+	public void getXMLid(StringBuilder sbxml){
 		if (view.evNo >= 2) {
 			sbxml.append("\t<viewNumber ");
 			sbxml.append("viewNo=\"");
@@ -207,7 +207,7 @@ public class EuclidianViewCompanion {
 	 */
 	public void settingsChanged(AbstractSettings settings) {
 		EuclidianSettings evs = (EuclidianSettings) settings;
-
+		
 		view.setXminObject(evs.getXminObject());
 		view.setXmaxObject(evs.getXmaxObject());
 		view.setYminObject(evs.getYminObject());

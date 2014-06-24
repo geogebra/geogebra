@@ -5,6 +5,7 @@ import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.settings.Settings;
 
 /**
  * 
@@ -101,6 +102,15 @@ public class AppCompanion {
 	 */
 	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
 		return null;
+	}
+	
+
+	/**
+	 * 
+	 * @return new settings
+	 */
+	public Settings newSettings() {
+		return new Settings(2);
 	}
 	
 

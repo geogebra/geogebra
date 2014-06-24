@@ -471,7 +471,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 	
 	
 	@Override
-	protected void getXMLid(StringBuilder sbxml){
+	public void getXMLid(StringBuilder sbxml){
 
 		sbxml.append("\t<viewId ");
 		sbxml.append("plane=\"");

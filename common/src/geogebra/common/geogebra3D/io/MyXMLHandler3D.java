@@ -48,6 +48,19 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	@Override
 	protected void startEuclidianView3DElement(String eName, LinkedHashMap<String, String> attrs) {
 		
+
+		// must do this first
+		if (evSet == null)
+			evSet = app.getSettings().getEuclidian(3);
+
+		// make sure eg is reset the first time (for each EV) we get the
+		// settings
+		// "viewNumber" not stored for EV1 so we need to do this here
+		if (resetEVsettingsNeeded) {
+			resetEVsettingsNeeded = false;
+			evSet.reset();
+		}
+		
 		boolean ok = true;
 		EuclidianView3DInterface ev = app.getEuclidianView3D();
 
@@ -77,6 +90,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				break;
 			}else if (eName.equals("clipping")) {
 				ok = handleClipping(ev, attrs);
+				break;
+			}
+			
+		case 'e':
+			if ("evSettings".equals(eName)) {
+				ok = handleEvSettings(evSet, attrs);
 				break;
 			}
 
@@ -466,6 +485,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	@Override
 	protected void startEuclidianViewElementCheckViewId(String eName,
 			LinkedHashMap<String, String> attrs){
+		
 		if ("viewId".equals(eName)){
 			String plane = attrs.get("plane");
 			evSet = app.getSettings().getEuclidianForPlane(plane);

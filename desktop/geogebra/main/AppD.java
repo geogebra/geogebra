@@ -58,7 +58,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
 import geogebra.common.main.SingularWSSettings;
 import geogebra.common.main.SpreadsheetTableModel;
-import geogebra.common.main.settings.Settings;
 import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import geogebra.common.plugin.UDPLogger;
 import geogebra.common.util.Base64;
@@ -490,7 +489,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		kernel.setPrintDecimals(Kernel.STANDARD_PRINT_DECIMALS);
 
 		// init settings
-		settings = new Settings();
+		settings = companion.newSettings();
 
 		// init euclidian view
 		initEuclidianViews();
