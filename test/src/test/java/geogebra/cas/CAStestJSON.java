@@ -10,6 +10,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
 import geogebra.main.AppD;
 
@@ -27,7 +28,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CAStestJSON {
-	static public boolean silent = false;
 
 	  static GeoGebraCasInterface cas;
 	  static Kernel kernel;
@@ -38,11 +38,7 @@ public class CAStestJSON {
 	
 	@BeforeClass
 	  public static void setupCas () {
-		app = new AppD(new CommandLineArguments(silent ? new String[] { "--silent", "--giac" } : new String[] { "--giac" }), new JFrame(), false);
-
-	    if (silent) {
-	      Log.logger = null;
-	    }
+		app = new AppD(new CommandLineArguments(new String[] { "--giac" }), new JFrame(), false);
 
 	    // Set language to something else than English to test automatic translation.
 	    app.setLanguage(Locale.GERMANY);
@@ -55,8 +51,11 @@ public class CAStestJSON {
 		
 		
 		try {
+			Log.debug("CAS: loading testcases");
 			byte[] encoded = Files.readAllBytes(Paths.get("../web/war/__giac.js"));
+			Log.debug("CAS: parsing testcases");
 			JSONObject testsJSON =  new JSONObject(new String(encoded, "utf-8").substring("__giac = ".length()));
+			Log.debug("CAS: testcases parsed");
 			int i = 1;
 			while(testsJSON.has(""+i)){
 				
@@ -71,7 +70,7 @@ public class CAStestJSON {
 			}
 			testcases.get(cat).put(test.getString("cmd"),test.getString("result"));
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
