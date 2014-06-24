@@ -2460,6 +2460,7 @@ __GGB__keysVar.vi.plain = {
     "NextCell": "\xd4 k\u1ebf ti\u1ebfp",
     "No_": "S\u1ed1 th\u1ee9 t\u1ef1.",
     "NoJavaMessage": "\u0110\xe2y l\xe0 Java Applet \u0111\u01b0\u1ee3c t\u1ea1o b\u1edfi ph\u1ea7n m\u1ec1m GeoGebra t\u1eeb trang web: www.geogebra.org - D\u01b0\u1eddng nh\u01b0 b\u1ea1n ch\u01b0a c\xe0i \u0111\u1eb7t Java, h\xe3y truy c\u1eadp www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Ch\u01b0a s\u1eb5n s\xe0ng",
     "NotIncluded": "Kh\xf4ng bao g\u1ed3m",
     "Numeric": "S\u1ed1",

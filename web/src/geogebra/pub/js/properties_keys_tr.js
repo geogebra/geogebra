@@ -2460,6 +2460,7 @@ __GGB__keysVar.tr.plain = {
     "NextCell": "Sonraki H\xfccre",
     "No_": "No.",
     "NoJavaMessage": "Bu GeoGebra taraf\u0131ndan (www.geogebra.org) \xfcretilen bir Java Applet'dir. Sizde JAVA y\xfckl\xfc g\xf6r\xfcnm\xfcyor, l\xfctfen www.java.com adresinden y\xfckleyiniz.",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Mevcut de\u011fil",
     "NotIncluded": "dahil de\u011fil",
     "Numeric": "Say\u0131sal",

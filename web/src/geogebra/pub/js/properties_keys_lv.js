@@ -2460,6 +2460,7 @@ __GGB__keysVar.lv.plain = {
     "NextCell": "N\u0101kam\u0101 \u0160\u016bna",
     "No_": "N\u0113.",
     "NoJavaMessage": "T\u0101 ir Java, kas tiek lietota GeoGebra  (www.geogebra.org) - izskat\u0101s, ka Tev t\u0101 nav lejupl\u0101d\u0113ta, l\u016bdzu apskati www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Nav Pieejams",
     "NotIncluded": "nav iek\u013cauts",
     "Numeric": "Skaitlis",

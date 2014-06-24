@@ -2460,6 +2460,7 @@ __GGB__keysVar.fi.plain = {
     "NextCell": "Seuraava solu",
     "No_": "No",
     "NoJavaMessage": "T\xe4m\xe4 Java-apletti k\xe4ytt\xe4\xe4 Geogebra-ohjelmaa. (www.geogebra.org). Vaikuttaa silt\xe4, ett\xe4 sinulla ei ole Java asennettuna. Voit asentaa Javan osoitteesta www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Ei saatavilla",
     "NotIncluded": "ei sis\xe4lly",
     "Numeric": "Luku",

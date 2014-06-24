@@ -2460,6 +2460,7 @@ __GGB__keysVar.hr.plain = {
     "NextCell": "Sljede\u0107a \u0107elija",
     "No_": "Br.",
     "NoJavaMessage": "Ovo je Java aplet izra\u0111en GeoGebrom sa www.geogebra.org. \u010cini se da nemate instaliranu Javu. Molimo instalirajte je sa www.java.com.",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Nedostupno",
     "NotIncluded": "nije uklju\u010den",
     "Numeric": "Broj",

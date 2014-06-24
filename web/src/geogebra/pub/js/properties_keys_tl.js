@@ -2460,6 +2460,7 @@ __GGB__keysVar.tl.plain = {
     "NextCell": "Susunod na Cell",
     "No_": "Hindi.",
     "NoJavaMessage": "Ito ay isang Java Applet na ginawa gamit ang GeoGebra mula sa www.geogebra.org - mukhang wala ka pang Java. Mangyari lamang na pumunta ka sa www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Hindi Maaari",
     "NotIncluded": "hindi kasama",
     "Numeric": "Bilang",

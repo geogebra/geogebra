@@ -2460,6 +2460,7 @@ __GGB__keysVar.et.plain = {
     "NextCell": "J\xe4rgmine lahter",
     "No_": "Nr.",
     "NoJavaMessage": "See Java aplett on loodud GeoGebraga veebilehelt www.geogebra.org. N\xe4ib, et Teil pole Java installeeritud. Javat saate veebilehelt www.java.com.",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Pole k\xe4ttesaadav",
     "NotIncluded": "pole kaasa arvatud",
     "Numeric": "Arv",

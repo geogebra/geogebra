@@ -2460,6 +2460,7 @@ __GGB__keysVar.pt.plain = {
     "NextCell": "Pr\xf3xima C\xe9lula",
     "No_": "N.",
     "NoJavaMessage": "Por favor, verifique se o seu navegador n\xe3o est\xe1 bloqueando o acesso a atividade. Para instalar a linguagem JAVA em seu computador, acesse o endere\xe7o www.java.com/pt_BR",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "N\xe3o Dispon\xedvel",
     "NotIncluded": "n\xe3o inclu\xeddo",
     "Numeric": "N\xfamero",

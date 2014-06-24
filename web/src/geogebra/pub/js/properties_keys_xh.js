@@ -2460,6 +2460,7 @@ __GGB__keysVar.xh.plain = {
     "NextCell": "Igumbi elilandelayo",
     "No_": "Hayi.",
     "NoJavaMessage": "This is a Java Applet created using GeoGebra from www.geogebra.org - it looks like you don't have Java installed, please go to www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Ayifumaneki",
     "NotIncluded": "Ayifakwanga",
     "Numeric": "Number",

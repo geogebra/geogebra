@@ -2460,6 +2460,7 @@ __GGB__keysVar.pt_PT.plain = {
     "NextCell": "C\xe9lula Seguinte",
     "No_": "N\xba",
     "NoJavaMessage": "Este \xe9 uma Apliqueta Java criado utilizando o GeoGebra de www.geogebra.org - parece que n\xe3o tem o Java instalado, aceda a www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "N\xe3o Dispon\xedvel",
     "NotIncluded": "N\xe3o Inclu\xeddo",
     "Numeric": "N\xfamero",

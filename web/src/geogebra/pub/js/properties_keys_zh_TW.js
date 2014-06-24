@@ -2460,6 +2460,7 @@ __GGB__keysVar.zh_TW.plain = {
     "NextCell": "\u4e0b\u500b\u5132\u5b58\u683c",
     "No_": "\u5e8f\u865f",
     "NoJavaMessage": "\u9019\u500b\u5c0f\u7a0b\u5f0f\u662f\u5229\u7528 GeoGebra \u505a\u51fa\u4f86\u7684\uff08\u5b98\u7db2\uff1awww.geogebra.org\uff09\uff0c\u5b83\u9700\u8981\u7528\u5230 Java\uff0c\u4f46\u60a8\u6c92\u6709\u5b89\u88dd Java\uff0c\u8acb\u81f3\uff1awww.java.com \u5b89\u88dd\u3002",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Not Available",
     "NotIncluded": "not included",
     "Numeric": "\u6578\u503c",

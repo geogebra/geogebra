@@ -2460,6 +2460,7 @@ __GGB__keysVar.cs.plain = {
     "NextCell": "Dal\u0161\xed bu\u0148ka",
     "No_": "\u010c.",
     "NoJavaMessage": "Toto je Java applet vytvo\u0159en\xfd pomoc\xed GeoGebra z www.geogebra.org - nejsp\xed\u0161 nem\xe1te nainstalovanou Javu, naleznete ji na www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Nen\xed k dispozici",
     "NotIncluded": "nen\xed vlo\u017eeno",
     "Numeric": "\u010c\xedslo",

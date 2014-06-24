@@ -2460,6 +2460,7 @@ __GGB__keysVar.lt.plain = {
     "NextCell": "Kitas langelis",
     "No_": "Ne.",
     "NoJavaMessage": "\u0160i Java dinamin\u0117 prezentacija sukurta su GeoGebra (www.geogebra.org) - pana\u0161u, kad dar ne\u012fdieg\u0117te Java, naujausia Java versij\u0105 rasite www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Neleistina",
     "NotIncluded": "ne\u012ftraukta",
     "Numeric": "Skai\u010dius",

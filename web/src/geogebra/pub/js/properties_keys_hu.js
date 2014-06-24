@@ -2460,6 +2460,7 @@ __GGB__keysVar.hu.plain = {
     "NextCell": "Szomsz\xe9dos cella",
     "No_": "sorsz\xe1m",
     "NoJavaMessage": "Ez a JavaApplet GeoGebr\xe1val (www.geogebra.org) k\xe9sz\xfclt. \xdagy t\u0171nik nincs telep\xedtve Java,  el\xe9rhet\u0151 a www.java.com oldalr\xf3l",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Nem el\xe9rhet\u0151",
     "NotIncluded": "Nem tartalmazott",
     "Numeric": "Sz\xe1m",

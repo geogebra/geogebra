@@ -2460,6 +2460,7 @@ __GGB__keysVar.bg.plain = {
     "NextCell": "\u0421\u043b\u0435\u0434\u0432\u0430\u0449\u0430 \u043a\u043b\u0435\u0442\u043a\u0430",
     "No_": "\u041d\u043e\u043c\u0435\u0440",
     "NoJavaMessage": "This is a Java Applet created using GeoGebra from www.geogebra.org - it looks like you don't have Java installed, please go to www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Not Available",
     "NotIncluded": "not included",
     "Numeric": "\u0427\u0438\u0441\u043b\u043e",

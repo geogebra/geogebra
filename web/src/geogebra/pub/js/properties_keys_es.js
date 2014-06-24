@@ -2460,6 +2460,7 @@ __GGB__keysVar.es.plain = {
     "NextCell": "Siguiente celda",
     "No_": "N\xba",
     "NoJavaMessage": "Esta es una aplicaci\xf3n (applet de Java) creada con GeoGebra desde www.geogebra.org. Java no parece estar instalado. Conviene dirigirse a www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "No disponible",
     "NotIncluded": "no incluido",
     "Numeric": "N\xfamero",

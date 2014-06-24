@@ -2460,6 +2460,7 @@ __GGB__keysVar.sq.plain = {
     "NextCell": "Qeliza tjeter",
     "No_": "Nr.",
     "NoJavaMessage": "Ky eshte nje program Java i krijuar duke perdorur GjeoGjebra nga www.geogebra.org - duket sikur ju nuk e keni instaluar Java, ju lutemi te shkoni tek www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Jo ne Dispozicion",
     "NotIncluded": "jo perfshire",
     "Numeric": "Numer",

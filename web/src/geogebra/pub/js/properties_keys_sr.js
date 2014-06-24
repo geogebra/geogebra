@@ -2460,6 +2460,7 @@ __GGB__keysVar.sr.plain = {
     "NextCell": "Slede\u0107a \u0107elija",
     "No_": "Br.",
     "NoJavaMessage": "Ovo je Java Applet napravljen u GeoGebri sa www.geogebra.org - izgleda da nemate instaliranu Javu; molim otvorite www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Nije dostupno",
     "NotIncluded": "nije uklju\u010deno",
     "Numeric": "Broj",

@@ -2460,6 +2460,7 @@ __GGB__keysVar.ca_XV.plain = {
     "NextCell": "Cel\xb7la seg\xfcent",
     "No_": "N\xfam.",
     "NoJavaMessage": "Esta \xe9s una miniaplicaci\xf3 de Java creada amb el GeoGebra des de www.geogebra.org i sembla que no teniu instal\xb7lat el Java, per tant, \xe9s convenient que visiteu www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "No est\xe0 disponible",
     "NotIncluded": "no est\xe0 inclosa",
     "Numeric": "Nombre",

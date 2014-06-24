@@ -2460,6 +2460,7 @@ __GGB__keysVar.ca.plain = {
     "NextCell": "Cel\xb7la seg\xfcent",
     "No_": "No.",
     "NoJavaMessage": "Aquest \xe9s un applet de Java creat amb el GeoGebra des de www.geogebra.org, sembla que no teniu instal\xb7lat el Java, si us plau, visiteu www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "No disponible",
     "NotIncluded": "no incl\xf2s",
     "Numeric": "Nombre",

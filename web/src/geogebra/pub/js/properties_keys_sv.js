@@ -2460,6 +2460,7 @@ __GGB__keysVar.sv.plain = {
     "NextCell": "N\xe4sta cell",
     "No_": "Nr.",
     "NoJavaMessage": "Detta \xe4r en Java Applet skapad med GeoGebra fr\xe5n www.geogebra.org - det verkar som om du inte har Java installerat p\xe5 din dator, v\xe4nligen bes\xf6k www.java.com\n\nThis is a Java Applet created using GeoGebra from www.geogebra.org - it looks like you don't have Java installed, please go to www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Inte tillg\xe4nglig",
     "NotIncluded": "inte medr\xe4knad",
     "Numeric": "Tal",

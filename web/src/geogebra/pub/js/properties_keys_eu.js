@@ -2460,6 +2460,7 @@ __GGB__keysVar.eu.plain = {
     "NextCell": "Hurrengo gelaxka",
     "No_": "Zkia.",
     "NoJavaMessage": "Hau Java applet bat da, GeoGebrarekin egina www.geogebra.org Webgunetik. Badirudi ez duzula Java instalatuta. Mesedez, bisitatu www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Erabilezina",
     "NotIncluded": "ez sartua",
     "Numeric": "Zenbakia",

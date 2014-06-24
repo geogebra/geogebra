@@ -2460,6 +2460,7 @@ __GGB__keysVar.is.plain = {
     "NextCell": "N\xe6sti reitur",
     "No_": "Nr.",
     "NoJavaMessage": "\xdeetta er Java sm\xe1forrit sem b\xfai\xf0 var til me\xf0 \xfev\xed a\xf0 nota GeoGebra (af www.geogebra.org) - svo vir\xf0ist sem \xfe\xfa s\xe9rt ekki me\xf0 Java \xe1 t\xf6lvunni \xfeinni. Far\xf0u \xe1 www.java.com til a\xf0 leysa \xfar \xfev\xed",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Ekki til",
     "NotIncluded": "ekki innifali\xf0",
     "Numeric": "Tala",

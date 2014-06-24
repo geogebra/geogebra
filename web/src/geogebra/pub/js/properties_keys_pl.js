@@ -2460,6 +2460,7 @@ __GGB__keysVar.pl.plain = {
     "NextCell": "Nast\u0119pna kom\xf3rka",
     "No_": "nr",
     "NoJavaMessage": "To jest Aplet Java utworzony za pomoc\u0105 GeoGebry z www.geogebra.org - wygl\u0105da na to, \u017ce nie zosta\u0142 zainstalowany program Java, nale\u017cy przej\u015b\u0107 do www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Niedost\u0119pny",
     "NotIncluded": "nie zawiera",
     "Numeric": "Liczba",

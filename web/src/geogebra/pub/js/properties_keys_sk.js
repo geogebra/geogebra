@@ -2460,6 +2460,7 @@ __GGB__keysVar.sk.plain = {
     "NextCell": "\u010fal\u0161ia bunka",
     "No_": "\u010d.",
     "NoJavaMessage": "To je Java Applet vytvoren\xfd pomocou softv\xe9ru GeoGebra z www.geogebra.org - vyzer\xe1 to, \u017ee nem\xe1te nain\u0161talovan\xfa Javu, pros\xedm nav\u0161t\xedvte str\xe1nku www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Nie je k dispoz\xedcii",
     "NotIncluded": "neobsahuje",
     "Numeric": "\u010c\xedslo",

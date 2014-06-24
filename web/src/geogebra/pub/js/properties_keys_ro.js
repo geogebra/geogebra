@@ -2460,6 +2460,7 @@ __GGB__keysVar.ro.plain = {
     "NextCell": "Celula urm\u0103toare",
     "No_": "Nu.",
     "NoJavaMessage": "Acesta este un applet Java creat utiliz\xe2nd GeoGebra de la www.geogebra.org - se pare c\u0103 nu ave\u021bi Java instalat, v\u0103 rug\u0103m vizita\u0163i www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Indisponibil",
     "NotIncluded": "neinclus",
     "Numeric": "Num\u0103r",

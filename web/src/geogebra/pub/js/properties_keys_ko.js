@@ -2460,6 +2460,7 @@ __GGB__keysVar.ko.plain = {
     "NextCell": "\ub2e4\uc74c \uc140",
     "No_": "\ubc88\ud638",
     "NoJavaMessage": "\uc9c0\uc624\uc9c0\ube0c\ub77c(www.geogebra.org/)\ub85c \ub9cc\ub4e4\uc5b4\uc9c4 \uc790\ubc14 \uc560\ud50c\ub9bf - \uc790\ubc14\uac00 \uc5c6\ub294 \uacbd\uc6b0 www.java.com \ub97c \ubc29\ubb38\ud558\uc138\uc694.",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "\uc0ac\uc6a9\ud560 \uc218 \uc5c6\uc74c",
     "NotIncluded": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc74c",
     "Numeric": "\uc218",

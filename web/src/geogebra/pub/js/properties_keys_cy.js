@@ -2460,6 +2460,7 @@ __GGB__keysVar.cy.plain = {
     "NextCell": "Cell Nesaf",
     "No_": "Rhif",
     "NoJavaMessage": "Cr\xebwyd yr Applet yma gyda GeoGebra o www.geogebra.org - nid yw Java wedi ei osod ar eich cyfrifiadur; ewch at www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Nid yw ar gael",
     "NotIncluded": "nid yw hwn wedi ei gynnwys",
     "Numeric": "Rhif",

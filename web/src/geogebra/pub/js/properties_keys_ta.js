@@ -2460,6 +2460,7 @@ __GGB__keysVar.ta.plain = {
     "NextCell": "Next Cell",
     "No_": "\u0b87\u0bb2.",
     "NoJavaMessage": "This is a Java Applet created using GeoGebra from www.geogebra.org - it looks like you don't have Java installed, please go to www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Not Available",
     "NotIncluded": "not included",
     "Numeric": "\u0b8e\u0ba3\u0bcd",

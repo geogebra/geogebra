@@ -2460,6 +2460,7 @@ __GGB__keysVar.nl_BE.plain = {
     "NextCell": "Volgende cel",
     "No_": "Nr.",
     "NoJavaMessage": "Dit is een Java Applet gemaakt met GeoGebra van www.geogebra.org - blijkaar is Java niet ge\xefnstalleerd op jouw PC, ga naar de website www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Niet beschikbaar",
     "NotIncluded": "niet inbegrepen",
     "Numeric": "Getal",

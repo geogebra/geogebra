@@ -2460,6 +2460,7 @@ __GGB__keysVar.ar_MA.plain = {
     "NextCell": "\u0627\u0644\u062e\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0627\u0644\u064a\u0629",
     "No_": "\u0639 \u0631",
     "NoJavaMessage": "www.java.com  \u063a\u064a\u0631 \u0645\u062a\u0648\u0641\u0631 \u0627\u0644\u0631\u062c\u0627\u0621 \u0627\u0644\u0625\u062a\u0635\u0627\u0644 \u0628\u0627\u0644\u0645\u0648\u0642\u0639java",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "\u063a\u064a\u0631 \u0645\u062a\u0648\u0641\u0631",
     "NotIncluded": "\u063a\u064a\u0631 \u0645\u062d\u062a\u0648\u0627\u062a \u0641\u064a",
     "Numeric": "\u0639\u062f\u062f",

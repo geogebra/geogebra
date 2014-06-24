@@ -2460,6 +2460,7 @@ __GGB__keysVar.sl.plain = {
     "NextCell": "Naslednja celica",
     "No_": "\u0160t.",
     "NoJavaMessage": "Java Applet, narejen s pomo\u010djo programa GeoGebra iz www.geogebra.org - najbr\u017e nimate name\u0161\u010dene Jave. Preverite na www.java.com",
+    "NoWebGL": "Please enable WebGL in your browser",
     "NotAvailable": "Ni na voljo",
     "NotIncluded": "ni vklju\u010deno",
     "Numeric": "\u0160tevilo",
