@@ -214,10 +214,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		ggwMenuBar.init(app);
 		app.getObjectPool().setGgwMenubar(ggwMenuBar);
 
-		// Toolbar
+		// Toolbar -- the tools are actually added in LoadFilePresenter
 		if (!ggwToolBar.isInited()) {
 			ggwToolBar.init(app);
-			ggwToolBar.updateToolbarPanel();
 		}
 	}
 
