@@ -9,6 +9,7 @@ public class Event {
 	public final GeoElement target;
 	public final String argument;
 	public final ArrayList<GeoElement> targets;
+	private boolean alwaysDispatched;
 	
 	public Event(EventType type, GeoElement target) {
 		this(type, target, null);
@@ -28,5 +29,14 @@ public class Event {
 		this.target = target;
 		this.argument = argument;
 		this.targets = targets;
+	}
+
+	public Event(EventType type, GeoElement geoElement, boolean alwaysDispatch) {
+		this(type,geoElement);
+		this.alwaysDispatched = alwaysDispatch;
+	}
+
+	public boolean isAlwaysDispatched() {
+		return this.alwaysDispatched;
 	}
 }

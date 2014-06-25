@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventType;
 
 /**
@@ -31,7 +32,8 @@ public class CmdRunUpdateScript extends CmdScripting {
 			if (args[0].getScript(EventType.UPDATE) == null) {
 				return;
 			}
-			args[0].runUpdateScripts(null);
+			
+			kernelA.getApplication().dispatchEvent(new Event(EventType.UPDATE, args[0], true));
 			break;
 
 		default:

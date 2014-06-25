@@ -6375,14 +6375,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void runClickScripts(final String arg) {
 		kernel.getApplication().dispatchEvent(new Event(EventType.CLICK, this, arg));
 	}
-	
-	/**
-	 * Runs the update script of this object
-	 * @param arg argument that replaces all %0 in the script
-	 */
-	public void runUpdateScripts(final String arg) {
-		kernel.getApplication().dispatchEvent(new Event(EventType.UPDATE, this, arg));
-	}
 
 	private boolean showTrimmedIntersectionLines = false;
 
