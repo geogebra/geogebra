@@ -50,7 +50,7 @@ public abstract class StyleBarW extends HorizontalPanel {
 		}
 		data[k] = new ImageOrText(app.getMenu("Close"));
 		final int closeIndex = k;
-		final PopupMenuButton pb = new PopupMenuButton(app, data, closeIndex, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		final PopupMenuButton pb = new PopupMenuButton(app, data, closeIndex + 1, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		ImageOrText views = new ImageOrText();
 		views.url = AppResources.INSTANCE.view_btn().getSafeUri().asString();
 		pb.setFixedIcon(views);

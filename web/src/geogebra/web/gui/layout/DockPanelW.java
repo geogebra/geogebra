@@ -343,9 +343,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	private FlowPanel titleBarPanelContent;
 
 	Label titleBarLabel;
-	//private PushButton closeButton;
+	private PushButton closeButton;
 	private FlowPanel dragPanel;
-	//private FlowPanel closeButtonPanel;
+	private FlowPanel closeButtonPanel;
 
 	private VerticalPanel componentPanel;
 
@@ -405,7 +405,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		dragPanel.setVisible(false);
 		dragPanel.add(dragIcon);
 		
-		/*closeButton = new PushButton(closeIcon);
+		closeButton = new PushButton(closeIcon);
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -418,16 +418,16 @@ public abstract class DockPanelW extends ResizeComposite implements
 		closeButtonPanel = new FlowPanel();
 		closeButtonPanel.setStyleName("closeButtonPanel");
 		closeButtonPanel.setVisible(isStyleBarEmpty());
-		closeButtonPanel.add(closeButton);*/
+		closeButtonPanel.add(closeButton);
 		
 		titleBarPanelContent.add(styleBarPanel);
 		titleBarPanelContent.add(dragPanel);
 		titleBarPanelContent.setVisible(!isStyleBarEmpty());
 		
 		
-		/*if (this.isStyleBarEmpty()) {
+		if (this.isStyleBarEmpty()) {
 			titleBarPanel.add(closeButtonPanel);
-		}*/
+		}
 
 		if (app.getGuiManager().isDraggingViews()) {
 			enableDragging(true);
@@ -1177,7 +1177,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		dragPanel.setVisible(drag);
 		
 		// hide close button when in dragmode
-		//closeButtonPanel.setVisible(!drag);
+		closeButtonPanel.setVisible(!drag);
 		//TODO view menu?
 		
 		if (this.toggleStyleBarButton != null) {

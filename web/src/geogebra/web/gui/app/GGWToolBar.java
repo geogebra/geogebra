@@ -19,13 +19,13 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GGWToolBar extends Composite {
+public class GGWToolBar extends Composite implements RequiresResize{
 
 	private static final int MENU_ICONS_WIDTH = 200;
 	private static final int UNDO_ICONS_WIDTH = 90;
@@ -230,9 +230,7 @@ public class GGWToolBar extends Composite {
 		
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
-		if(animationNeeded()){
-			this.redoButton.setWidth("0px");
-		}
+		onResize();
 		toolBPanel.setVisible(true);
 	}
 
@@ -663,31 +661,31 @@ public class GGWToolBar extends Composite {
 
 	public void updateUndoActions() {
 		this.undoButton.setEnabled(app.getKernel().undoPossible());
-
-		final boolean redo = app.getKernel().redoPossible();
-		this.redoButton.setEnabled(redo);
-		if (redo != this.redoPossible && animationNeeded()) {
-			this.redoPossible = redo;
-			final int start = redo ? 0 : 40;
-			final int coeff = redo ? 1 : -1;
-
-			new Timer() {
-				private int steps = 0;
-
-				public void run() {
-					redoButton.setWidth((start + coeff * steps * 2) + "px");
-					steps++;
-					if (steps > 20) {
-						cancel();
-					}
-				}
-			}.scheduleRepeating(20);
-		}
-
+		this.redoButton.setEnabled(app.getKernel().redoPossible());
 	}
 
-	private boolean animationNeeded() {
-	    return app.getWidth() < toolbars.get(0).getGroupCount() * 45 + 
-	    		(app.showMenuBar() ? MENU_ICONS_WIDTH : UNDO_ICONS_WIDTH); 
+	private boolean canShowButtons(int count) {
+	    return app.getWidth() > toolbars.get(0).getGroupCount() * 45 + 
+	    		count * 45 + 10; 
+    }
+
+	@Override
+    public void onResize() {
+		if((app.showMenuBar() && !canShowButtons(4))|| !canShowButtons(2) ){
+			this.redoButton.setVisible(false);
+		}else{
+			this.redoButton.setVisible(true);
+		}
+		if(app.showMenuBar() && !canShowButtons(3)){
+			this.openSearchButton.setVisible(false);
+		}else{
+			this.openSearchButton.setVisible(true);
+		}
+		if((app.showMenuBar() && !canShowButtons(2)) || !canShowButtons(1)){
+			this.undoButton.setVisible(false);
+		}else{
+			this.undoButton.setVisible(true);
+		}
+	    
     }
 }
