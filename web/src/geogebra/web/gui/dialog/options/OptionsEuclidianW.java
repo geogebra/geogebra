@@ -51,7 +51,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected AppW app;
 	protected TabPanel tabPanel;
 	protected EuclidianView view;
-	private EuclidianOptionsModel model;
+	public EuclidianOptionsModel model;
 	protected BasicTab basicTab;
 	private AxisTab xAxisTab;
 	private AxisTab yAxisTab;
@@ -425,6 +425,18 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
         }
 		
 		protected FlowPanel miscPanel;
+		
+		protected void applyBackgroundColor(GColor color){
+			int viewIdx = -1;
+			if (view == app.getEuclidianView1()) {
+				viewIdx = 1; 
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+				viewIdx = 0;
+			} else if (view == app.getEuclidianView2()) {
+				viewIdx = 2;
+			}	
+			model.applyBackgroundColor(viewIdx, color);
+		}
 
 		private void addMiscPanel() {
 			miscTitle = new Label();
@@ -461,15 +473,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 							}
 							
 							public void onColorChange(GColor color) {
-								int viewIdx = -1;
-								if (view == app.getEuclidianView1()) {
-									viewIdx = 1; 
-								} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-									viewIdx = 0;
-								} else if (view == app.getEuclidianView2()) {
-									viewIdx = 2;
-								}	
-								model.applyBackgroundColor(viewIdx, color);
+								applyBackgroundColor(color);
 								updateBackgroundColorButton(color);
 							}
 							

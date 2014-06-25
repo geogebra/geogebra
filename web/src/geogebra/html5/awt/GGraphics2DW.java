@@ -1059,4 +1059,9 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public int getScale() {
 	    return devicePixelRatio;
     }
+	
+	
+	public MyContext2d getContext(){
+		return context;
+	}
 }

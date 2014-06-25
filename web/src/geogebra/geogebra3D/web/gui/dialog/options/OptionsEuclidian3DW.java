@@ -1,5 +1,6 @@
 package geogebra.geogebra3D.web.gui.dialog.options;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
@@ -71,6 +72,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		
 		protected void fillMiscPanel(){
 			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
+		}
+		
+		
+		protected void applyBackgroundColor(GColor color){
+			model.applyBackgroundColor(3, color);
 		}
 		
         private void addClippingOptionsPanel() {

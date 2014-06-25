@@ -126,13 +126,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	protected boolean[] piAxisUnit = { false, false, false };
 
-	protected double[] axesNumberingDistances = { 2, 2, 2 };
-	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
-
-	protected int[] axesTickStyles = {
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
 
 
 	/** default scene x-coord of origin */
@@ -297,6 +290,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		axesLabels = new String[] { "x", "y", "z" };
 		axesLabelsStyle = new int[] { GFont.PLAIN, GFont.PLAIN, GFont.PLAIN };
 		axesUnitLabels = new String[] { null, null, null };
+		axesTickStyles = new int[] {
+				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
+		automaticAxesNumberingDistances = new boolean[] { true, true, true };
+		axesNumberingDistances = new double[] { 2, 2, 2 };
+		drawBorderAxes = new boolean[] { false, false, false };
+		axisCross = new double[] {0, 0, 0};
+		positiveAxes = new boolean[] { false, false, false };
 
 	}
 
@@ -2594,29 +2596,32 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// axis settings
 		for (int i = 0; i < 3; i++) {
-			sb.append("\t<axis id=\"");
-			sb.append(i);
-			sb.append("\" show=\"");
-			sb.append(axis[i].isEuclidianVisible());
-			sb.append("\" label=\"");
-			sb.append(axis[i].getAxisLabel());
-			sb.append("\" unitLabel=\"");
-			sb.append(axis[i].getUnitLabel());
-			sb.append("\" tickStyle=\"");
-			sb.append(axis[i].getTickStyle());
-			sb.append("\" showNumbers=\"");
-			sb.append(axis[i].getShowNumbers());
-
-			// the tick distance should only be saved if
-			// it isn't calculated automatically
-			/*
-			 * if (!automaticAxesNumberingDistances[i]) {
-			 * sb.append("\" tickDistance=\"");
-			 * sb.append(axesNumberingDistances[i]); }
-			 */
-
-			sb.append("\"/>\n");
+//			sb.append("\t<axis id=\"");
+//			sb.append(i);
+//			sb.append("\" show=\"");
+//			sb.append(axis[i].isEuclidianVisible());
+//			sb.append("\" label=\"");
+//			sb.append(axis[i].getAxisLabel());
+//			sb.append("\" unitLabel=\"");
+//			sb.append(axis[i].getUnitLabel());
+//			sb.append("\" tickStyle=\"");
+//			sb.append(axis[i].getTickStyle());
+//			sb.append("\" showNumbers=\"");
+//			sb.append(axis[i].getShowNumbers());
+//
+//			// the tick distance should only be saved if
+//			// it isn't calculated automatically
+//			/*
+//			 * if (!automaticAxesNumberingDistances[i]) {
+//			 * sb.append("\" tickDistance=\"");
+//			 * sb.append(axesNumberingDistances[i]); }
+//			 */
+//
+//			sb.append("\"/>\n");
+			addAxisXML(i, sb);
 		}
+		
+		
 
 		// xOy plane settings
 		sb.append("\t<plate show=\"");
@@ -3660,6 +3665,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public GColor getBackground() {
 		return bgColor;
 	}
+	
+	@Override
+    final public GColor getBackgroundCommon() {
+	    return getBackground();
+    }
 
 	/*
 	 * @Override public geogebra.common.awt.GColor getBackgroundCommon() {
@@ -3862,10 +3872,5 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public double getGridDistances(int i) {
 		return axisDrawable[i].getNumbersDistance();
-	}
-	
-	@Override
-	protected int getDimension(){
-		return 3;
 	}
 }

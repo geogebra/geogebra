@@ -113,14 +113,10 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 				focusGained();
 			}
 		});
-		
-		/*
-		if ((evNo == 1) || (evNo == 2)) {
-			EuclidianSettings es = this.app.getSettings().getEuclidian(evNo);
-			settingsChanged(es);
-			es.addListener(this);
-		}
-		*/
+
+		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
+		settingsChanged(es);
+		es.addListener(this);
     }
 	
 	
@@ -289,11 +285,7 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	}
 
 
-	@Override
-    public GColor getBackgroundCommon() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+
 
 
 
@@ -470,10 +462,12 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 
 
 	@Override
-    public void setPreferredSize(GDimension preferredSize) {
-	    g2p.setPreferredSize(preferredSize);
-	    updateSize();
-	    setReIniting(false);
+	public void setPreferredSize(GDimension preferredSize) {
+		if (g2p != null && g2p.getContext() != null){
+			g2p.setPreferredSize(preferredSize);
+			updateSize();
+			setReIniting(false);
+		}
 	}
 
 

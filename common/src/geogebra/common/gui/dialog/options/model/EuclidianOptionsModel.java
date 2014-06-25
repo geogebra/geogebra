@@ -88,7 +88,7 @@ public class EuclidianOptionsModel {
 	}
 
 	public void applyBackgroundColor(int viewIdx, GColor color) {
-		if (viewIdx == 1 || viewIdx == 2) {
+		if (viewIdx == 1 || viewIdx == 2 || viewIdx == 3) {
 			app.getSettings()
 			.getEuclidian(viewIdx)
 			.setBackground(color);

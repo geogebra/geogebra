@@ -14,7 +14,6 @@ import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 
 import java.util.LinkedHashMap;
@@ -71,8 +70,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				//ok = handleAxesColor(ev, attrs);
 				break;
 			} else if (eName.equals("axis")) {
-				ok = handleAxis(ev, attrs);
-				App.debug("TODO: add EuclidianSettings for 3D");
+				ok = handleAxis(evSet, attrs);
 				break;
 			}
 
@@ -395,90 +393,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return null;
 		}
 	}
-	
-	protected boolean handleAxis(EuclidianViewInterfaceCommon ev, LinkedHashMap<String, String> attrs) {
-		
-		App.debug("TODO: remove this");
-		
-		try {
-			int axis = Integer.parseInt(attrs.get("id"));
-			String strShowAxis = attrs.get("show");
-			String label = attrs.get("label");
-			String unitLabel = attrs.get("unitLabel");
-			boolean showNumbers = parseBoolean(attrs.get("showNumbers"));
-
-			// show this axis
-			if (strShowAxis != null) {
-				boolean showAxis = parseBoolean(strShowAxis);
-				ev.setShowAxis(axis, showAxis, true);
-			}
-
-			// set label
-			ev.setAxisLabel(axis, label);
-			/*
-			if (label != null && label.length() > 0) {
-				String[] labels = ev.getAxesLabels();
-				labels[axis] = label;
-				ev.setAxesLabels(labels);
-			}
-			*/
-
-			// set unitlabel
-			if (unitLabel != null && unitLabel.length() > 0) {
-				String[] unitLabels = ev.getAxesUnitLabels();
-				unitLabels[axis] = unitLabel;
-				ev.setAxesUnitLabels(unitLabels);
-			}
-
-			// set showNumbers
-			ev.setShowAxisNumbers(axis, showNumbers);
-			/*
-			boolean showNums[] = ev.getShowAxesNumbers();
-			showNums[axis] = showNumbers;
-			ev.setShowAxesNumbers(showNums);
-			*/
-
-			// check if tickDistance is given
-			String strTickDist = attrs.get("tickDistance");
-			if (strTickDist != null) {
-				double tickDist = Double.parseDouble(strTickDist);
-				ev.setAxesNumberingDistance(tickDist, axis);
-			}
-
-			// tick style
-			String strTickStyle = attrs.get("tickStyle");
-			if (strTickStyle != null) {
-				int tickStyle = Integer.parseInt(strTickStyle);
-				//ev.getAxesTickStyles()[axis] = tickStyle;
-				ev.setAxisTickStyle(axis, tickStyle);
-			} else {
-				// before v3.0 the default tickStyle was MAJOR_MINOR
-				//ev.getAxesTickStyles()[axis] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR;
-				ev.setAxisTickStyle(axis, EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR);
-			}
-			
-			
-			// axis crossing
-			String axisCross = attrs.get("axisCross");
-			if (axisCross != null) {
-				double ac = Double.parseDouble(axisCross);
-				ev.setAxisCross(axis,ac);
-			}
-
-			// positive direction only
-			String posAxis = attrs.get("positiveAxis");
-			if (posAxis != null) {
-				boolean isPositive = Boolean.parseBoolean(posAxis);
-				ev.setPositiveAxis(axis,isPositive);
-			}			
-			
-			return true;
-		} catch (Exception e) {
-			//e.printStackTrace();
-			return false;
-		}
-	}	
-	
 	
 	
 	

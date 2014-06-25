@@ -311,17 +311,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		
 		companion = newEuclidianViewCompanion();
 		
-		int dim = getDimension();
-		axisCross = new double[dim];
-		positiveAxes = new boolean[dim];
-		drawBorderAxes = new boolean[dim];
-		for (int i = 0 ; i < dim ; i++){
-			axisCross[i] = 0;
-			positiveAxes[i] = false;
-			drawBorderAxes[i] = false;
-		}
-
-		
 		// Michael Borcherds 2008-03-01
 		drawLayers = new DrawableList[EuclidianStyleConstants.MAX_LAYERS + 1];
 		for (int k = 0; k <= EuclidianStyleConstants.MAX_LAYERS; k++) {
@@ -350,14 +339,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	
 	/**
 	 * 
-	 * @return dimension (2 or 3)
-	 */
-	protected int getDimension(){
-		return 2;
-	}
-	
-	/**
-	 * 
 	 * @return new view companion attached to this
 	 */
 	protected EuclidianViewCompanion newEuclidianViewCompanion(){
@@ -382,6 +363,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		axesLabels = new String[] { null, null };
 		axesLabelsStyle = new int[] { GFont.PLAIN, GFont.PLAIN};
 		axesUnitLabels = new String[] { null, null };
+		axesTickStyles = new int[] {
+				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
+		automaticAxesNumberingDistances = new boolean[] { true, true };
+		axesNumberingDistances = new double[] { 2, 2 };
+		drawBorderAxes = new boolean[] { false, false };
+		axisCross = new double[] {0, 0};
+		positiveAxes = new boolean[] { false, false };
 
 	}
 
@@ -1056,14 +1045,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 	private boolean[] piAxisUnit = { false, false };
 
-	protected int[] axesTickStyles = {
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
+	protected int[] axesTickStyles;
 
 	// for axes labeling with numbers
-	private boolean[] automaticAxesNumberingDistances = { true, true };
+	protected boolean[] automaticAxesNumberingDistances = { true, true };
 
-	private double[] axesNumberingDistances = { 2, 2 };
+	protected double[] axesNumberingDistances;
 	private boolean needsAllDrawablesUpdate;
 	private boolean batchUpdate;
 
@@ -2238,7 +2225,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	// axis control vars
 	protected double[] axisCross;
 	protected boolean[] positiveAxes;
-	private boolean[] drawBorderAxes;
+	protected boolean[] drawBorderAxes;
 
 	// getters and Setters for axis control vars
 
@@ -4314,46 +4301,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 		// axis settings
 		for (int i = 0; i < 2; i++) {
-			sbxml.append("\t<axis id=\"");
-			sbxml.append(i);
-			sbxml.append("\" show=\"");
-			sbxml.append(showAxes[i]);
-			sbxml.append("\" label=\"");
-			if (axesLabels[i] != null) {
-				StringUtil.encodeXML(sbxml, axisLabelForXML(i));
-			}
-			sbxml.append("\" unitLabel=\"");
-			if (axesUnitLabels[i] != null) {
-				StringUtil.encodeXML(sbxml, axesUnitLabels[i]);
-			}
-			sbxml.append("\" tickStyle=\"");
-			sbxml.append(axesTickStyles[i]);
-			sbxml.append("\" showNumbers=\"");
-			sbxml.append(showAxesNumbers[i]);
-
-			// the tick distance should only be saved if
-			// it isn't calculated automatically
-			if (!automaticAxesNumberingDistances[i]) {
-				sbxml.append("\" tickDistance=\"");
-				sbxml.append(axesNumberingDistances[i]);
-			}
-
-			// axis crossing values
-			if (drawBorderAxes[i]) {
-				sbxml.append("\" axisCrossEdge=\"");
-				sbxml.append(true);
-			} else if (!Kernel.isZero(axisCross[i]) && !drawBorderAxes[i]) {
-				sbxml.append("\" axisCross=\"");
-				sbxml.append(axisCross[i]);
-			}
-
-			// positive direction only flags
-			if (positiveAxes[i]) {
-				sbxml.append("\" positiveAxis=\"");
-				sbxml.append(positiveAxes[i]);
-			}
-
-			sbxml.append("\"/>\n");
+			addAxisXML(i, sbxml);
 		}
 
 		// grid distances
@@ -4369,6 +4317,49 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			sbxml.append("\"/>\n");
 		}
 
+	}
+	
+	protected void addAxisXML(int i, StringBuilder sbxml){
+		sbxml.append("\t<axis id=\"");
+		sbxml.append(i);
+		sbxml.append("\" show=\"");
+		sbxml.append(getShowAxis(i));
+		sbxml.append("\" label=\"");
+		if (axesLabels[i] != null) {
+			StringUtil.encodeXML(sbxml, axisLabelForXML(i));
+		}
+		sbxml.append("\" unitLabel=\"");
+		if (axesUnitLabels[i] != null) {
+			StringUtil.encodeXML(sbxml, axesUnitLabels[i]);
+		}
+		sbxml.append("\" tickStyle=\"");
+		sbxml.append(axesTickStyles[i]);
+		sbxml.append("\" showNumbers=\"");
+		sbxml.append(showAxesNumbers[i]);
+
+		// the tick distance should only be saved if
+		// it isn't calculated automatically
+		if (!automaticAxesNumberingDistances[i]) {
+			sbxml.append("\" tickDistance=\"");
+			sbxml.append(axesNumberingDistances[i]);
+		}
+
+		// axis crossing values
+		if (drawBorderAxes[i]) {
+			sbxml.append("\" axisCrossEdge=\"");
+			sbxml.append(true);
+		} else if (!Kernel.isZero(axisCross[i]) && !drawBorderAxes[i]) {
+			sbxml.append("\" axisCross=\"");
+			sbxml.append(axisCross[i]);
+		}
+
+		// positive direction only flags
+		if (positiveAxes[i]) {
+			sbxml.append("\" positiveAxis=\"");
+			sbxml.append(positiveAxes[i]);
+		}
+
+		sbxml.append("\"/>\n");
 	}
 	
 	/**

@@ -409,12 +409,6 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 
 		
 	
-	public geogebra.common.awt.GColor getBackgroundCommon() {
-		return new geogebra.awt.GColorD(evjpanel.getBackground());
-	}
-
-	
-	
 	
 	
 	

@@ -124,28 +124,28 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 	private void enableStuff(boolean flag) {
 		// TODO remove when implemented
 
-		tfMinX.setEnabled(flag);
-		tfMaxX.setEnabled(flag);
-		tfMinY.setEnabled(flag);
-		tfMaxY.setEnabled(flag);
-
-		btAxesColor.setEnabled(flag);
-		cbAxesStyle.setEnabled(flag);
-		cbShowMouseCoords.setEnabled(flag);
-		cbTooltips.setEnabled(flag);
-
-//		((AxisPanel3D) xAxisPanel).enableStuff(flag);
-//		((AxisPanel3D) yAxisPanel).enableStuff(flag);
-//		zAxisPanel.enableStuff(flag);
-
-		cbGridManualTick.setEnabled(flag);
-		ncbGridTickX.setEnabled(flag);
-		ncbGridTickY.setEnabled(flag);
-		cbGridTickAngle.setEnabled(flag);
-		cbGridStyle.setEnabled(flag);
-		cbGridType.setEnabled(flag);
-		cbBoldGrid.setEnabled(flag);
-		btGridColor.setEnabled(flag);
+//		tfMinX.setEnabled(flag);
+//		tfMaxX.setEnabled(flag);
+//		tfMinY.setEnabled(flag);
+//		tfMaxY.setEnabled(flag);
+//
+//		btAxesColor.setEnabled(flag);
+//		cbAxesStyle.setEnabled(flag);
+//		cbShowMouseCoords.setEnabled(flag);
+//		cbTooltips.setEnabled(flag);
+//
+////		((AxisPanel3D) xAxisPanel).enableStuff(flag);
+////		((AxisPanel3D) yAxisPanel).enableStuff(flag);
+////		zAxisPanel.enableStuff(flag);
+//
+//		cbGridManualTick.setEnabled(flag);
+//		ncbGridTickX.setEnabled(flag);
+//		ncbGridTickY.setEnabled(flag);
+//		cbGridTickAngle.setEnabled(flag);
+//		cbGridStyle.setEnabled(flag);
+//		cbGridType.setEnabled(flag);
+//		cbBoldGrid.setEnabled(flag);
+//		btGridColor.setEnabled(flag);
 
 	}
 	
