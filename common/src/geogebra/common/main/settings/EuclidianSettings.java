@@ -283,7 +283,8 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected int[] axesTickStyles = {
 			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR};
 
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };

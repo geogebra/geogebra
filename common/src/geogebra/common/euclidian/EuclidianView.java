@@ -5177,4 +5177,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			styleBar.setLabels();
 		}
 	}
+	
+	
+	/**
+	 * 
+	 * @return 2 for 2D and 3 for 3D
+	 */
+	public int getDimension(){
+		return 2;
+	}
 }

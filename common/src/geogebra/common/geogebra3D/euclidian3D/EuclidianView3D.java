@@ -3877,4 +3877,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public double getGridDistances(int i) {
 		return axisDrawable[i].getNumbersDistance();
 	}
+	
+	
+	@Override
+	public int getDimension(){
+		return 3;
+	}
 }

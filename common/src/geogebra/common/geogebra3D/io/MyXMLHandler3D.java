@@ -14,6 +14,7 @@ import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.util.StringUtil;
 
 import java.util.LinkedHashMap;
@@ -99,7 +100,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 		case 'g':
 			if (eName.equals("grid")) {
-				ok = handleGrid(ev, attrs);
+				ok = handleGrid(evSet, attrs);
 				break;
 			} 
 			/*
@@ -281,18 +282,18 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	
 	
 	/** handles plane attributes (show grid) for EuclidianView3D
-	 * @param ev
+	 * @param evs euclidian settings
 	 * @param attrs
 	 * @return true if all is done ok
 	 */
-	protected boolean handleGrid(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
+	protected boolean handleGrid(EuclidianSettings evs, LinkedHashMap<String, String> attrs) {
 		try {
 			String strShowGrid = attrs.get("show");
 
 			// show the plane
 			if (strShowGrid != null) {
 				boolean showGrid = parseBoolean(strShowGrid);
-				ev.setShowGrid(showGrid);
+				evs.showGrid(showGrid);
 			}
 			return true;
 		} catch (Exception e) {

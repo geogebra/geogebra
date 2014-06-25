@@ -208,6 +208,8 @@ public class EuclidianViewCompanion {
 	public void settingsChanged(AbstractSettings settings) {
 		EuclidianSettings evs = (EuclidianSettings) settings;
 		
+		int viewDim = view.getDimension();
+		
 		view.setXminObject(evs.getXminObject());
 		view.setXmaxObject(evs.getXmaxObject());
 		view.setYminObject(evs.getYminObject());
@@ -228,13 +230,15 @@ public class EuclidianViewCompanion {
 			view.setGridDistances(d);
 		}
 
-		view.setShowAxis(0, evs.getShowAxis(0), true);
-		view.setShowAxis(1, evs.getShowAxis(1), true);
+		for (int i = 0; i < viewDim ; i++){
+			view.setShowAxis(i, evs.getShowAxis(i), true);
+		}
 		String[] tempAxesLabels = evs.getAxesLabels(); 
 
 		// make sure <b>, <i> processed 
-		view.setAxisLabel(0, tempAxesLabels[0]); 
-		view.setAxisLabel(1, tempAxesLabels[1]);		
+		for (int i = 0; i < viewDim ; i++){
+			view.setAxisLabel(i, tempAxesLabels[i]);
+		}
 		view.setAxesUnitLabels(evs.getAxesUnitLabels());
 
 		view.showAxesNumbers = evs.getShowAxisNumbers();
@@ -253,15 +257,16 @@ public class EuclidianViewCompanion {
 			view.setAxesNumberingDistance(evs.getAxisNumberingDistanceY(), 1);
 		}
 
-		view.axesTickStyles[0] = evs.getAxesTickStyles()[0];
-		view.axesTickStyles[1] = evs.getAxesTickStyles()[1];
+		for (int i = 0; i < viewDim ; i++){
+			view.axesTickStyles[i] = evs.getAxesTickStyles()[i];
+		}
 
 		view.setDrawBorderAxes(evs.getDrawBorderAxes());
 
-		view.axisCross[0] = evs.getAxesCross()[0];
-		view.axisCross[1] = evs.getAxesCross()[1];
-		view.positiveAxes[0] = evs.getPositiveAxes()[0];
-		view.positiveAxes[1] = evs.getPositiveAxes()[1];
+		for (int i = 0; i < viewDim ; i++){
+			view.axisCross[i] = evs.getAxesCross()[i];
+			view.positiveAxes[i] = evs.getPositiveAxes()[i];
+		}
 
 		GDimension ps = evs.getPreferredSize();
 		if (ps != null) {
