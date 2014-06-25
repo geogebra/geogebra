@@ -201,7 +201,7 @@ public class DrawAxis3D extends DrawLine3D {
        	brush.setTicks(PlotterBrush.TICKS_OFF);
        	
        	
-       	return timesUpForUpdate();
+       	return true;
        	
     }
     
@@ -313,7 +313,6 @@ public class DrawAxis3D extends DrawLine3D {
 	
 	@Override
 	public void setDrawMinMax(double drawMin, double drawMax){
-		setTime();
 		drawMinFinal = drawMin;
 		drawMaxFinal = drawMax;
 	}
@@ -365,20 +364,7 @@ public class DrawAxis3D extends DrawLine3D {
 	
 	@Override
 	public double[] getDrawMinMax(){
-		long deltaT = getDeltaT();
-
-		if (deltaT>0){
-			if (deltaT>TIME_DURATION){
-				super.setDrawMinMax(drawMinFinal, drawMaxFinal);
-			}else{
-				double[] minmaxIni = super.getDrawMinMax();
-				double[] minmax = new double[2];
-				double dt = (double) deltaT*TIME_FACTOR;
-				minmax[0]=drawMinFinal*dt+minmaxIni[0]*(1-dt);
-				minmax[1]=drawMaxFinal*dt+minmaxIni[1]*(1-dt);
-				return minmax;
-			}
-		}
+		
 
 		return super.getDrawMinMax();
 	}

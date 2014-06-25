@@ -1135,38 +1135,7 @@ public abstract class Drawable3D extends DrawableND {
 	
 	
 	
-	/////////////////////////////////////////
-	// TIME
 	
-    /** time the last update (for drawing ends) occured */
-	private long time=0 ;
-	
-	/** delay to wait before doing the update */
-	private static final int TIME_WAIT = 500;
-	/** delay for the update to have ended */
-	private static final int TIME_END = TIME_WAIT+500;
-	/** duration of the update */
-	protected static final int TIME_DURATION = TIME_END-TIME_WAIT;
-	/** time factor for min/max calculation */
-	protected static final float TIME_FACTOR = 1f/TIME_DURATION;
-
-
-	
-	protected void setTime(){
-
-		time = System.currentTimeMillis();
-	}
-	
-	protected long getDeltaT(){
-		long deltaT = System.currentTimeMillis()-(time+TIME_WAIT);
-		
-		return deltaT;
-	}
-	
-	protected boolean timesUpForUpdate(){
-		return (System.currentTimeMillis()>time+TIME_END);
-	}
-
 	
 	//////////////////////
 	// LAST PICKING TYPE
