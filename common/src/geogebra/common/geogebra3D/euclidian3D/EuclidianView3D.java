@@ -287,7 +287,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	protected void initAxesValues() {
 		axesNumberFormat = new NumberFormatAdapter[3];
 		showAxesNumbers = new boolean[] { true, true, true };
-		axesLabels = new String[] { "x", "y", "z" };
+		axesLabels = new String[] { null, null, null };
 		axesLabelsStyle = new int[] { GFont.PLAIN, GFont.PLAIN, GFont.PLAIN };
 		axesUnitLabels = new String[] { null, null, null };
 		axesTickStyles = new int[] {
