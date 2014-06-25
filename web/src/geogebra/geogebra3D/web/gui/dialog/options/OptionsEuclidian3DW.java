@@ -95,6 +95,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				@Override
                 public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setUseClippingCube(cbUseClipping.getValue());
+					view.repaintView();
 				}});
 			
 			cbShowClipping.addClickHandler(new ClickHandler(){
@@ -102,6 +103,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				@Override
                 public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setShowClippingCube(cbShowClipping.getValue());
+					view.repaintView();
 				}});
 
 
@@ -124,6 +126,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				@Override
                 public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_SMALL);
+					view.repaintView();
 				}});
 
 			radioClippingMedium.addClickHandler(new ClickHandler(){
@@ -131,6 +134,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				@Override
                 public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_MEDIUM);
+					view.repaintView();
 				}});
 
 			radioClippingLarge.addClickHandler(new ClickHandler(){
@@ -138,6 +142,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				@Override
                 public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_LARGE);
+					view.repaintView();
 				}});
 
 		}
@@ -207,7 +212,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setProjection(index);	                
+					((EuclidianView3D) view).setProjection(index);	 
+					view.repaintView();
                 }
 				
 			}
@@ -315,6 +321,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setGlassesGrayScaled(cbGlassesGray
 							.getValue());
+					view.repaintView();
                 }});		
 			cbGlassesShutDownGreen= new CheckBox(app.getPlain("ShutDownGreen"));
 			cbGlassesShutDownGreen.addClickHandler(new ClickHandler(){
@@ -323,6 +330,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					((EuclidianView3D) view)
 					.setGlassesShutDownGreen(cbGlassesShutDownGreen
 							.getValue());
+					view.repaintView();
                 }});
 			FlowPanel tfGlassesPanel = new FlowPanel();
 			tfGlassesPanel.setStyleName("panelRowCell");
@@ -400,6 +408,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 					((EuclidianView3D) view)
 							.setProjectionPerspectiveEyeDistance(val);
+					view.repaintView();
 				}
 			} catch (NumberFormatException e) {
 				tfPersp.setText(""
@@ -418,6 +427,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					}
 
 					((EuclidianView3D) view).setEyes(val, 0, 0);
+					view.repaintView();
 				}
 			} catch (NumberFormatException e) {
 				tfGlassesEyeSep.setText(""
@@ -431,6 +441,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				if (!Double.isNaN(val)) {
 
 					((EuclidianView3D) view).setProjectionObliqueAngle(val);
+					view.repaintView();
 				}
 			} catch (NumberFormatException e) {
 				tfObliqueAngle.setText(""
@@ -448,6 +459,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 						tfObliqueFactor.setText("" + val);
 					}
 					((EuclidianView3D) view).setProjectionObliqueFactor(val);
+					view.repaintView();
 				}
 			} catch (NumberFormatException e) {
 				tfObliqueFactor
