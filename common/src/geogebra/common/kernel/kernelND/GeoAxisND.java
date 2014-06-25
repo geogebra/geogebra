@@ -24,8 +24,6 @@ public interface GeoAxisND extends GeoLineND{
 	/////////////////////////////////////////
 	// METHODS FOR AXIS
 	/////////////////////////////////////////	
-	/** @return axis label*/
-	public String getAxisLabel();
 	/** @return axis unit*/
 	public String getUnitLabel();
 	/** @return tick style*/

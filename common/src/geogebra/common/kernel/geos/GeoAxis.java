@@ -45,7 +45,6 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case X_AXIS:
 			setCoords(0, 1, 0);
 			label = "xAxis";
-			setAxisLabel("x");
 			setObjColor(AwtFactory.prototype.newColor(255, 0, 0));// will be
 																	// Color.RED
 			break;
@@ -53,7 +52,6 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case Y_AXIS:
 			setCoords(-1, 0, 0);
 			label = "yAxis";
-			setAxisLabel("y");
 			setObjColor(AwtFactory.prototype.newColor(0, 0.5f, 0));
 			break;
 		}
@@ -114,16 +112,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	// /////////////////////////////////////
 	// GEOAXISND INTERFACE
 	// /////////////////////////////////////
-	/**
-	 * @param label new label for this axis
-	 */
-	public void setAxisLabel(String label) {
-		axisLabel = label;
-	}
 
-	public String getAxisLabel() {
-		return axisLabel;
-	}
 
 	public String getUnitLabel() {
 		// TODO Auto-generated method stub

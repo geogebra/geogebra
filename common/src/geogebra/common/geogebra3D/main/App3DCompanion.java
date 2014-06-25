@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.main;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
@@ -113,7 +114,8 @@ public abstract class App3DCompanion extends AppCompanion {
 	 * Update font sizes of euclidian views for plane
 	 */
 	public void resetFonts() {
-
+		
+		((EuclidianView) app.getEuclidianView3D()).updateFonts();
 
 		if (euclidianViewForPlaneCompanion != null) {
 			euclidianViewForPlaneCompanion.getView().updateFonts();

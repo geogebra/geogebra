@@ -10,8 +10,6 @@ import geogebra.common.util.NumberFormatAdapter;
 
 public class GeoAxis3D extends GeoLine3D implements GeoAxisND {	
 
-	private String axisLabel;
-	
 	private int type;
 	
 	// for numbers and ticks
@@ -37,14 +35,12 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		case X_AXIS_3D:
 			setCoord(Coords.O, Coords.VX);
 			label = "xAxis3D";
-			setAxisLabel("x");
 			setObjColor(GColor.RED);
 			break;
 
 		case Y_AXIS_3D:
 			setCoord(Coords.O, Coords.VY);
 			label = "yAxis3D";
-			setAxisLabel("y");
 			//setObjColor(Color.GREEN);
 			setObjColor(GColor.darkGreen);//(new geogebra.awt.GColorD(0,0.5f,0));
 			break;
@@ -52,7 +48,6 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		case Z_AXIS_3D:
 			setCoord(Coords.O, Coords.VZ);
 			label = "zAxis";
-			setAxisLabel("z");
 			setObjColor(GColor.BLUE);
 			break;
 		}
@@ -84,19 +79,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return label;
 	}
 		
-	/** return label of the axis (e.g. x, y, z ...)
-	 * @return label of the axis
-	 */
-	public String getAxisLabel(){
-		return axisLabel;
-	}
 
-	/** set the label of the axis (e.g. x, y, z ...)
-	 * @param label label of the axis
-	 */
-	public void setAxisLabel(String label){
-		axisLabel = label;
-	}
 
 	/**
 	 * overrides GeoElement method : this is a "constant" element, so the label is set

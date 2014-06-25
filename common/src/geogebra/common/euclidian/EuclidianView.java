@@ -2304,12 +2304,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 */
 
 	public String[] getAxesLabels(boolean addBoldItalicTags) { 
-		String[] ret = new String[2]; 
-		ret[0] = axesLabels[0]; 
-		ret[1] = axesLabels[1]; 
+		String[] ret = new String[axesLabels.length];
+		
+		for (int axis = 0 ; axis < axesLabels.length ; axis++) { 
+			ret[axis] = axesLabels[axis]; 
+		}
 
 		if (addBoldItalicTags) { 
-			for (int axis = 0 ; axis <=1 ; axis++) { 
+			for (int axis = 0 ; axis < axesLabels.length ; axis++) { 
 				if (axesLabels[axis] != null) { 
 					ret[axis] = axisLabelForXML(axis); 
 				} 

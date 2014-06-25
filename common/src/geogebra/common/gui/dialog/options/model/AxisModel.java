@@ -119,9 +119,7 @@ public class AxisModel {
 	}
 
 	public void showAxisNumbers(boolean value) {
-		boolean[] show = view.getShowAxesNumbers();
-		show[axis] = value;
-		view.setShowAxesNumbers(show);
+		view.setShowAxisNumbers(axis, value);
 		view.updateBackground();	
 	}
 

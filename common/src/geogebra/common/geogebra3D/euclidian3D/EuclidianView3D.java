@@ -3049,23 +3049,24 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	// AXES
 	// ////////////////////////////////////////////////////
 
-	@Override
-	public String[] getAxesLabels(boolean addBoldItalicTags) {
-		String[] ret = new String[3];
-		ret[0] = axesLabels[0];
-		ret[1] = axesLabels[1];
-		ret[2] = axesLabels[2];
-
-		if (addBoldItalicTags) {
-			for (int axis = 0; axis <= 2; axis++) {
-				if (axesLabels[axis] != null) {
-					ret[axis] = axisLabelForXML(axis);
-				}
-			}
-		}
-
-		return ret;
+	
+	/**
+	 * 
+	 * @param i index
+	 * @return i-th label
+	 */
+	public String getAxisLabel(int i) {
+		return axesLabels[i];
 	}
+	
+	
+	public GFont getAxisLabelFont(int i){
+//		if (axesLabelsStyle[i] == null){
+//			return app.getPlainFontCommon();
+//		}
+		return getFontLine().deriveFont(axesLabelsStyle[i]);
+	}
+	
 
 	@Override
 	public void setAxesLabels(String[] axesLabels) {
@@ -3079,10 +3080,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public void setAxisLabel(int axis, String axisLabel) {
-		if (axisLabel != null && axisLabel.length() == 0)
-			axesLabels[axis] = null;
-		else
-			axesLabels[axis] = axisLabel;
+		
+		super.setAxisLabel(axis, axisLabel);
+		axisDrawable[axis].setLabelWaitForUpdate();
+		setWaitForUpdate();
+		
 	}
 
 	@Override
@@ -3090,10 +3092,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return axesUnitLabels;
 	}
 
-	@Override
-	public void setShowAxesNumbers(boolean[] showAxesNumbers) {
-		this.showAxesNumbers = showAxesNumbers;
-	}
 
 	@Override
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
@@ -3109,14 +3107,20 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		//setAxesIntervals(getZscale(), 2);
 	}
 
-	@Override
-	public boolean[] getShowAxesNumbers() {
-		return showAxesNumbers;
+	/**
+	 * 
+	 * @param i index
+	 * @return if i-th axis shows numbers
+	 */
+	public boolean getShowAxisNumbers(int i) {
+		return showAxesNumbers[i];
 	}
 
 	@Override
 	public void setShowAxisNumbers(int axis, boolean showAxisNumbers) {
-		showAxesNumbers[axis] = showAxisNumbers;
+		super.setShowAxisNumbers(axis, showAxisNumbers);
+		axisDrawable[axis].setLabelWaitForUpdate();
+		setWaitForUpdate();
 	}
 
 	@Override

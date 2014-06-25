@@ -113,51 +113,61 @@ public class DrawAxis3D extends DrawLine3D {
     		return;
     	}
     	
+    	int axisIndex = axis.getType();
     	
     	//sets all already existing labels not visible
     	for(DrawLabel3D label : labels.values())
     		label.setIsVisible(false);
+  
     	
-    	
-    	for(int i=iMin;i<=iMax;i++){
-    		double val = i*distance;
-    		Coords origin = ((GeoAxisND) getGeoElement()).getPointInD(3,val);
+    	if (getView3D().getShowAxisNumbers(axisIndex)){
     		
-    		//draw numbers
-    		String strNum = getView3D().getKernel().formatPiE(val,numberFormat,StringTemplate.defaultTemplate);
+    		for(int i=iMin;i<=iMax;i++){
+    			double val = i*distance;
+    			Coords origin = ((GeoAxisND) getGeoElement()).getPointInD(3,val);
 
-    		//check if the label already exists
-    		DrawLabel3D label = labels.get(strNum);
-    		if (label!=null){
-    			//sets the label visible
-    			label.setIsVisible(true);
-    			label.update(strNum, getView3D().getApplication().getPlainFontCommon(), 
-    					getGeoElement().getObjectColor(),
-    					origin.copyVector(),
-    					axis.getNumbersXOffset(),axis.getNumbersYOffset());
-    			//TODO optimize this
-    		}else{
-    			//creates new label
-    			label = new DrawLabel3D(getView3D(), this);
-    			label.setAnchor(true);
-    			label.update(strNum, getView3D().getApplication().getPlainFontCommon(), 
-    					getGeoElement().getObjectColor(),
-    					origin.copyVector(),
-    					axis.getNumbersXOffset(),axis.getNumbersYOffset());
-    			labels.put(strNum, label);
+    			//draw numbers
+    			String strNum = getView3D().getKernel().formatPiE(val,numberFormat,StringTemplate.defaultTemplate);
+
+    			//check if the label already exists
+    			DrawLabel3D label = labels.get(strNum);
+    			if (label!=null){
+    				//sets the label visible
+    				label.setIsVisible(true);
+    				label.update(strNum, getView3D().getApplication().getPlainFontCommon(), 
+    						getGeoElement().getObjectColor(),
+    						origin.copyVector(),
+    						axis.getNumbersXOffset(),axis.getNumbersYOffset());
+    				//TODO optimize this
+    			}else{
+    				//creates new label
+    				label = new DrawLabel3D(getView3D(), this);
+    				label.setAnchor(true);
+    				label.update(strNum, getView3D().getApplication().getPlainFontCommon(), 
+    						getGeoElement().getObjectColor(),
+    						origin.copyVector(),
+    						axis.getNumbersXOffset(),axis.getNumbersYOffset());
+    				labels.put(strNum, label);
+    			}
+
     		}
-       		
+
     	}
-    	
 		
-		// update end of axis label
-    	label.setAnchor(true);
-		label.update(axis.getAxisLabel(), getView3D().getApplication().getPlainFontCommon(), 
-				getGeoElement().getObjectColor(),
-				((GeoAxisND) getGeoElement()).getPointInD(3,minmax[1]),
-				getGeoElement().labelOffsetX,//-4,
-				getGeoElement().labelOffsetY//-6
-		);
+    	// update end of axis label    	
+    	String text = getView3D().getAxisLabel(axisIndex);
+    	if (text == null){
+    		label.setIsVisible(false);
+    	}else{
+    		label.setAnchor(true);
+    		label.update(text, 
+    				getView3D().getAxisLabelFont(axisIndex), 
+    				getGeoElement().getObjectColor(),
+    				((GeoAxisND) getGeoElement()).getPointInD(3,minmax[1]),
+    				getGeoElement().labelOffsetX,//-4,
+    				getGeoElement().labelOffsetY//-6
+    				);
+    	}
 
 		
     	
