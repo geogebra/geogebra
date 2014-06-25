@@ -68,6 +68,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			//TODO remove this and implement stuff for 3D
 		}
 		
+		
+		protected void fillMiscPanel(){
+			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
+		}
+		
         private void addClippingOptionsPanel() {
         	
         	// clipping options panel

@@ -91,12 +91,12 @@ public class OptionsEuclidianD extends
 
 	private JPanel consProtocolPanel;
 
-	private JPanel miscPanel;
+	protected JPanel miscPanel;
 
 	private JPanel selectViewPanel;
 
 	// GUI elements
-	private JButton btBackgroundColor;
+	protected JButton btBackgroundColor;
 
 	protected JButton btAxesColor;
 
@@ -126,7 +126,13 @@ public class OptionsEuclidianD extends
 
 	private JLabel[] dimLabel;
 	private JLabel axesRatioLabel, gridLabel1, gridLabel2, gridLabel3,
-			lblColor, tooltips, backgroundColor, color, lineStyle;
+			lblColor, tooltips;
+
+	protected JLabel backgroundColor;
+
+	private JLabel color;
+
+	private JLabel lineStyle;
 
 	// flags
 	private boolean isIniting;
@@ -350,10 +356,15 @@ public class OptionsEuclidianD extends
 
 		miscPanel = new JPanel();
 		miscPanel.setLayout(new BoxLayout(miscPanel, BoxLayout.Y_AXIS));
+		fillMiscPanel();
+
+	}
+	
+	
+	protected void fillMiscPanel(){
 		miscPanel.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
 		miscPanel.add(LayoutUtil.flowPanel(tooltips, cbTooltips));
 		miscPanel.add(LayoutUtil.flowPanel(cbShowMouseCoords));
-
 	}
 
 	protected JPanel buildBasicPanel() {

@@ -113,6 +113,13 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		return basicPanel;
 	}
+	
+	
+	@Override
+	protected void fillMiscPanel(){
+		//TODO remove this override
+		miscPanel.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
+	}
 
 	private void enableStuff(boolean flag) {
 		// TODO remove when implemented

@@ -91,8 +91,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private AutoCompleteTextFieldW axesOptionTitle;
 		private Label axesOptionsTitle;
 		private PopupMenuButton axesStylePopup;
-		private Label backgroundColorLabel;
-		private MyCJButton btBackgroundColor;
+		protected Label backgroundColorLabel;
+		protected MyCJButton btBackgroundColor;
 		private CheckBox cbShowMouseCoords;
 		private Label tooltips;
 		private Label miscTitle;
@@ -423,6 +423,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						
 			
         }
+		
+		protected FlowPanel miscPanel;
 
 		private void addMiscPanel() {
 			miscTitle = new Label();
@@ -440,12 +442,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbTooltips = new ListBox();
 			model.fillTooltipCombo();
 			
-			FlowPanel miscPanel = new FlowPanel();
+			miscPanel = new FlowPanel();
 			add(miscTitle);
-			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
-			miscPanel.add(LayoutUtil.panelRow(tooltips, lbTooltips));
-			miscPanel.add(LayoutUtil.panelRow(cbShowMouseCoords));
 			
+			fillMiscPanel();
+
 			indent(miscPanel);
     
 			btBackgroundColor.addClickHandler(new ClickHandler(){
@@ -504,6 +505,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
                 }});
 			
 		}
+		
+		
+		
+		protected void fillMiscPanel(){
+			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
+			miscPanel.add(LayoutUtil.panelRow(tooltips, lbTooltips));
+			miscPanel.add(LayoutUtil.panelRow(cbShowMouseCoords));
+		}
+
 
 		public void setLabels() {
 			dimTitle.setText(app.getPlain("Dimensions"));
