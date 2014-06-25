@@ -127,9 +127,9 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		cbShowMouseCoords.setEnabled(flag);
 		cbTooltips.setEnabled(flag);
 
-		((AxisPanel3D) xAxisPanel).enableStuff(flag);
-		((AxisPanel3D) yAxisPanel).enableStuff(flag);
-		zAxisPanel.enableStuff(flag);
+//		((AxisPanel3D) xAxisPanel).enableStuff(flag);
+//		((AxisPanel3D) yAxisPanel).enableStuff(flag);
+//		zAxisPanel.enableStuff(flag);
 
 		cbGridManualTick.setEnabled(flag);
 		ncbGridTickX.setEnabled(flag);
@@ -140,6 +140,11 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		cbBoldGrid.setEnabled(flag);
 		btGridColor.setEnabled(flag);
 
+	}
+	
+	@Override
+	protected void addDimPanel(JPanel basicPanel){
+		//TODO remove this and implement stuff for 3D
 	}
 
 	@Override

@@ -192,7 +192,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axesRatioLabel = new Label("");
 
 			dimPanel = new FlowPanel();
-			add(dimTitle);
+			addToDimPanel(dimTitle);
 			
 			FlowPanel xMinPanel = new FlowPanel();
 			FlowPanel xMaxPanel = new FlowPanel();
@@ -218,7 +218,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			dimPanel.add(LayoutUtil.panelRow(tfAxesRatioX, new Label(" : "),
 					tfAxesRatioY, tbLockRatio));
 			
-			indent(dimPanel);
+			indentDimPanel();
 			
 			addMinMaxHandler(tfMinX, MinMaxType.minX);
 			addMinMaxHandler(tfMaxX, MinMaxType.maxX);
@@ -242,6 +242,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				}
 			});
+		}
+		
+		protected void indentDimPanel(){
+			indent(dimPanel);
+		}
+		
+		protected void addToDimPanel(Widget w){
+			add(w);
 		}
 		
 		protected void indent(FlowPanel panel) {

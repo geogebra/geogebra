@@ -364,12 +364,20 @@ public class OptionsEuclidianD extends
 
 		JPanel basicPanel = new JPanel();
 		basicPanel.setLayout(new FullWidthLayout());
-		basicPanel.add(dimPanel);
+		addDimPanel(basicPanel);
 		basicPanel.add(axesOptionsPanel);
 		basicPanel.add(consProtocolPanel);
 		basicPanel.add(miscPanel);
 
 		return basicPanel;
+	}
+	
+	/**
+	 * add dimension panel
+	 * @param basicPanel basic panel
+	 */
+	protected void addDimPanel(JPanel basicPanel){
+		basicPanel.add(dimPanel);
 	}
 
 	private void initGridTypePanel() {

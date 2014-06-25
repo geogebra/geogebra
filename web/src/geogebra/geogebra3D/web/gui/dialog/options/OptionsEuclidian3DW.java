@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Properties for 3D view (web)
@@ -57,6 +58,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			
 		}
 		
+		@Override
+        protected void indentDimPanel(){
+			//TODO remove this and implement stuff for 3D
+		}
+		
+		@Override
+        protected void addToDimPanel(Widget w){
+			//TODO remove this and implement stuff for 3D
+		}
 		
         private void addClippingOptionsPanel() {
         	
