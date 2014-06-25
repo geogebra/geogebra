@@ -36,7 +36,7 @@ test -r sqlite3db || {
 
 runsql () {
  echo "$*" >/dev/stderr
- echo "$*" | sqlite3 $MYDIR/sqlite3db
+ echo "$*" | $SQLITE3 $MYDIR/sqlite3db 2>.errors
 }
 
 # 2. Collecting revision data

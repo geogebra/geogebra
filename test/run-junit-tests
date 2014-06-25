@@ -77,6 +77,8 @@ cat mypom.xml | \
 mv mypom2.xml mypom.xml
 
 # 4. Running the JUnit tests
+export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+export PATH=$PATH:$JAVA_HOME/bin/
 mvn -f mypom.xml clean test
 
 # 5. Summing up errors

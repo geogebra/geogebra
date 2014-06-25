@@ -23,7 +23,7 @@ test -r sqlite3db || {
 
 runsql () {
  echo "$*" >/dev/stderr
- echo "$*" | sqlite3 $MYDIR/sqlite3db
+ echo "$*" | $SQLITE3 $MYDIR/sqlite3db
 }
 
 # 2. Getting the latest and previous revisions
@@ -35,13 +35,16 @@ if [ $NREVS -lt 2 ]; then
 
 REVISION=`runsql "select id from revisions order by tested desc limit 1;"`
 PREV_REVISION=`runsql "select id from revisions order by tested desc limit 1,1;"`
+
 IFS="|"
 
 # 3. Disappearing names
 runsql "select name from tests where revision='$PREV_REVISION' except
  select name from tests where revision='$REVISION';" | while read NAME; do
+  NAME=`echo $NAME | sed s/"'"/"''"/g`
   runsql "select classname, message, type from tests where revision='$PREV_REVISION' and name='$NAME';"\
    | while read CLASSNAME MESSAGE TYPE; do
+   MESSAGE=`echo $MESSAGE | sed s/"'"/"''"/g`
    runsql "insert into warnings (level, warning, name, revision) values
     (5, 'Old problem of [$REVISION] disappeared: The $NAME named $CLASSNAME test with type $TYPE gives no longer message $MESSAGE at [$REVISION]',
      '$NAME','$REVISION');"
@@ -51,8 +54,10 @@ runsql "select name from tests where revision='$PREV_REVISION' except
 # 4. Appearing names
 runsql "select name from tests where revision='$REVISION' except
  select name from tests where revision='$PREV_REVISION';" | while read NAME; do
+  NAME=`echo $NAME | sed s/"'"/"''"/g`
   runsql "select classname, message, type from tests where revision='$REVISION' and name='$NAME';"\
    | while read CLASSNAME MESSAGE TYPE; do
+   MESSAGE=`echo $MESSAGE | sed s/"'"/"''"/g`
    runsql "insert into warnings (level, warning, name, revision) values
     (4, 'New problem appeared at [$REVISION]: The $NAME named $CLASSNAME test with type $TYPE gives message $MESSAGE (does not occur in [$PREV_REVISION])',
      '$NAME','$REVISION');"
@@ -61,8 +66,10 @@ runsql "select name from tests where revision='$REVISION' except
 
 # 5. Errors
 runsql "select name from tests where revision='$REVISION' and error=1;" | while read NAME; do
+  NAME=`echo $NAME | sed s/"'"/"''"/g`
   runsql "select classname, message, type from tests where revision='$REVISION' and name='$NAME';"\
    | while read CLASSNAME MESSAGE TYPE; do
+   MESSAGE=`echo $MESSAGE | sed s/"'"/"''"/g`
    runsql "insert into warnings (level, warning, name, revision) values
     (3, 'Error at [$REVISION]: The $NAME named $CLASSNAME test with type $TYPE gives message $MESSAGE',
      '$NAME','$REVISION');"
