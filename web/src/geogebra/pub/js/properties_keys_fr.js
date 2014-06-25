@@ -2460,7 +2460,7 @@ __GGB__keysVar.fr.plain = {
     "NextCell": "Cellule suivante",
     "No_": "No.",
     "NoJavaMessage": "C'est une appliquette Java cr\xe9\xe9e avec GeoGebra ( www.geogebra.org) - Il semble que Java ne soit pas install\xe9 sur votre ordinateur, merci d'aller sur www.java.com",
-    "NoWebGL": "Please enable WebGL in your browser",
+    "NoWebGL": "Merci d'autoriser WebGL dans votre navigateur",
     "NotAvailable": "Pas accessible",
     "NotIncluded": "n'est pas inclus dans",
     "Numeric": "Nombre",
