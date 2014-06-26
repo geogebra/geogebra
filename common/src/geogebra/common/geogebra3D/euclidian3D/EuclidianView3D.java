@@ -88,7 +88,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.NumberFormatAdapter;
-import geogebra.common.util.Unicode;
 import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
@@ -122,9 +121,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
 	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
 
-	double[] gridDistances = { 2, 2, 2 };
-
-	protected boolean[] piAxisUnit = { false, false, false };
 
 
 
@@ -299,7 +295,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		drawBorderAxes = new boolean[] { false, false, false };
 		axisCross = new double[] {0, 0, 0};
 		positiveAxes = new boolean[] { false, false, false };
-
+		piAxisUnit = new boolean[] { false, false, false };
+		gridDistances = new double[] { 2, 2, 2, Math.PI / 6  };
+		AxesTickInterval = new double[] { 1, 1, 1 };
 	}
 
 	/**
@@ -3087,26 +3085,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		
 	}
 
-	@Override
-	public String[] getAxesUnitLabels() {
-		return axesUnitLabels;
-	}
 
 
 	@Override
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
-		this.axesUnitLabels = axesUnitLabels;
-
-		// check if pi is an axis unit
-		for (int i = 0; i < 3; i++) {
-			piAxisUnit[i] = axesUnitLabels[i] != null
-					&& axesUnitLabels[i].equals(Unicode.PI_STRING);
-		}
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-		//setAxesIntervals(getZscale(), 2);
+		super.setAxesUnitLabels(axesUnitLabels);
+		setAxesIntervals(getZscale(), 2);
 	}
-
+	
+	
 	/**
 	 * 
 	 * @param i index
@@ -3114,29 +3101,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	public boolean getShowAxisNumbers(int i) {
 		return showAxesNumbers[i];
-	}
-
-	@Override
-	public void setShowAxisNumbers(int axis, boolean showAxisNumbers) {
-		super.setShowAxisNumbers(axis, showAxisNumbers);
-		axisDrawable[axis].setLabelWaitForUpdate();
-		setWaitForUpdate();
-	}
-
-	@Override
-	public void setAxesNumberingDistance(double dist, int axis) {
-		axesNumberingDistances[axis] = dist;
-		setAutomaticAxesNumberingDistance(false, axis);
-	}
-
-	@Override
-	public int[] getAxesTickStyles() {
-		return axesTickStyles;
-	}
-
-	@Override
-	public void setAxisTickStyle(int axis, int tickStyle) {
-		axesTickStyles[axis] = tickStyle;
 	}
 
 	// ///////////////////////////
@@ -3199,41 +3163,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return xOyPlane.isGridVisible();
 	}
 
-	@Override
-	public boolean getGridIsBold() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getAllowShowMouseCoords() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int getAxesLineStyle() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getGridLineStyle() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isAutomaticGridDistance() {
-		return automaticGridDistance;
-	}
-
-	@Override
-	public double[] getGridDistances() {
-		return gridDistances;
-	}
-
-
 
 	@Override
 	public void showGrid(boolean selected) {
@@ -3242,63 +3171,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
-	@Override
-	public void setAllowShowMouseCoords(boolean selected) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setGridType(int selectedIndex) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setAxesLineStyle(int selectedIndex) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setGridLineStyle(int type) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void setAutomaticGridDistance(boolean flag) {
-		automaticGridDistance = flag;
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-		setAxesIntervals(getZscale(), 1);
+		super.setAutomaticGridDistance(flag);
+		setAxesIntervals(getZscale(), 2);
 	}
 
-	@Override
-	public void setGridDistances(double[] dist) {
-		gridDistances = dist;
-		setAutomaticGridDistance(false);
-	}
-
-	@Override
-	public void setAutomaticAxesNumberingDistance(boolean b, int axis) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void setAxesTickStyles(int[] styles) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean[] isAutomaticAxesNumberingDistance() {
-		return automaticAxesNumberingDistances;
-	}
-
-	@Override
-	public double[] getAxesNumberingDistances() {
-		return axesNumberingDistances;
-	}
 
 	// //////////////////////////////////////
 	// ALGEBRA VIEW

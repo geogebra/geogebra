@@ -180,7 +180,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	private int fontSize;
 	private geogebra.common.awt.GAffineTransform coordTransform = AwtFactory.prototype
 			.newAffineTransform();
-	private double[] AxesTickInterval = { 1, 1 }; // for axes =
+	protected double[] AxesTickInterval; // for axes =
 	/** number formats for axes */
 	protected NumberFormatAdapter[] axesNumberFormat;
 	protected boolean[] showAxes = { true, true };
@@ -188,7 +188,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	// distances between grid lines
 	private boolean automaticGridDistance = true;
 
-	private double[] gridDistances = { 2, 2, Math.PI / 6 };
+	protected double[] gridDistances;
 
 	private int gridLineStyle, axesLineType;
 
@@ -371,6 +371,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		drawBorderAxes = new boolean[] { false, false };
 		axisCross = new double[] {0, 0};
 		positiveAxes = new boolean[] { false, false };
+		piAxisUnit = new boolean[] { false, false };
+		gridDistances = new double[] { 2, 2, Math.PI / 6 };
+		AxesTickInterval = new double[] { 1, 1 };
 
 	}
 
@@ -1043,7 +1046,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	/** list of background images */
 	private DrawableList bgImageList = new DrawableList();
 
-	private boolean[] piAxisUnit = { false, false };
+	protected boolean[] piAxisUnit;
 
 	protected int[] axesTickStyles;
 
@@ -2102,7 +2105,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		setAxesIntervals(getXscale(), 0);
 		setAxesIntervals(getYscale(), 1);
 		if (flag) {
-			gridDistances[2] = Math.PI / 6;
+			gridDistances[getDimension()] = Math.PI / 6;
 		}
 	}
 
@@ -2413,7 +2416,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		this.axesUnitLabels = axesUnitLabels;
 
 		// check if pi is an axis unit
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < getDimension(); i++) {
 			piAxisUnit[i] = (axesUnitLabels[i] != null)
 					&& axesUnitLabels[i].equals(Unicode.PI_STRING);
 		}
