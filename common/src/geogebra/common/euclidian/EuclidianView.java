@@ -1455,7 +1455,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 					.getNumberFormat("###0.##", maxFractionDigtis);
 		}
 
-		if (automaticGridDistance) {
+		if (automaticGridDistance && axis < 2) {
 			gridDistances[axis] = axesNumberingDistances[axis]
 					* EuclidianStyleConstants.automaticGridDistanceFactor;
 		}
@@ -2105,7 +2105,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		setAxesIntervals(getXscale(), 0);
 		setAxesIntervals(getYscale(), 1);
 		if (flag) {
-			gridDistances[getDimension()] = Math.PI / 6;
+			gridDistances[2] = Math.PI / 6;
 		}
 	}
 

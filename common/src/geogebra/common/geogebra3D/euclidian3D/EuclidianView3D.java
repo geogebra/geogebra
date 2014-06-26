@@ -296,7 +296,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		axisCross = new double[] {0, 0, 0};
 		positiveAxes = new boolean[] { false, false, false };
 		piAxisUnit = new boolean[] { false, false, false };
-		gridDistances = new double[] { 2, 2, 2, Math.PI / 6  };
+		gridDistances = new double[] { 2, 2, Math.PI / 6  };
 		AxesTickInterval = new double[] { 1, 1, 1 };
 	}
 
