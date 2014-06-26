@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
+import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush.Ticks;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
@@ -186,12 +187,23 @@ public class DrawAxis3D extends DrawLine3D {
     	
     	PlotterBrush brush = getView3D().getRenderer().getGeometryManager().getBrush();
        	brush.setArrowType(PlotterBrush.ARROW_TYPE_SIMPLE);
-       	brush.setTicks(PlotterBrush.TICKS_ON);
+       	switch (getView3D().getAxisTickStyle(axisIndex)){
+       	case 0:
+       	default:
+       		brush.setTicks(Ticks.MAJOR_AND_MINOR);
+       		break;
+       	case 1:
+       		brush.setTicks(Ticks.MAJOR);
+       		break;
+       	case 2:
+       		brush.setTicks(Ticks.NONE);
+       		break;
+       	}
        	brush.setTicksDistance( (float) getView3D().getAxisNumberingDistance(axisIndex));
        	brush.setTicksOffset((float) (-minmax[0]/(minmax[1]-minmax[0])));
        	super.updateForItSelf(false);
        	brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
-       	brush.setTicks(PlotterBrush.TICKS_OFF);
+       	brush.setTicks(Ticks.NONE);
        	
        	
        	return true;

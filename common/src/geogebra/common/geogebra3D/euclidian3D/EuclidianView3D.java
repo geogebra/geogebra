@@ -299,6 +299,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		gridDistances = new double[] { 2, 2, Math.PI / 6  };
 		AxesTickInterval = new double[] { 1, 1, 1 };
 	}
+	
+	
+	public int getAxisTickStyle(int i) {
+		return axesTickStyles[i];
+	}
 
 	/**
 	 * create the panel

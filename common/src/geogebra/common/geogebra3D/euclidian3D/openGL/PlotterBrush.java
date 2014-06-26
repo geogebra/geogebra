@@ -84,13 +84,13 @@ public class PlotterBrush implements PathPlotter {
 	//static private float ARROW_HANDLE_LENGTH = ARROW_LENGTH;//ARROW_WIDTH;
 	
 	
-	// ticks	
-	/** no ticks */
-	static final public boolean TICKS_OFF=false;
-	/** with ticks */
-	static final public boolean TICKS_ON=true;
+	/** ticks */	
+	static public enum Ticks {
+		NONE, MAJOR, MAJOR_AND_MINOR
+	}
+	
 	/** has ticks ? */
-	private boolean ticks = TICKS_OFF;
+	private Ticks ticks = Ticks.NONE;
 	/** distance between two ticks */
 	private float ticksDistance;
 	/** offset for origin of the ticks (0: start of the curve, 1: end of the curve) */
@@ -336,34 +336,81 @@ public class PlotterBrush implements PathPlotter {
 			arrowBase = start.getCenter().mul(arrowPos).add(p2.mul(1-arrowPos));
 
 			setTextureX(0);
-			if (hasTicks()){
-				Coords d = p2.sub(p1).normalized();
-				float thickness = this.thickness;
-				
-				float i = ticksOffset*length-((int) (ticksOffset*length/ticksDistance))*ticksDistance;
-				float ticksDelta = thickness;
-				float ticksThickness = 4*thickness;
-				if (i<=ticksDelta)
-					i+=ticksDistance;
+			if (ticksDistance > 0){
+				switch(ticks){
+				case MAJOR:
+				default:
+					Coords d = p2.sub(p1).normalized();
+					float thickness = this.thickness;
 
-				for(;i<=length*(1-arrowPos);i+=ticksDistance){
-					
-					Coords p1b=p1.add(d.mul(i-ticksDelta));
-					Coords p2b=p1.add(d.mul(i+ticksDelta));
-					
-					setTextureType(TEXTURE_AFFINE);
-					setTextureX(i/length);
-					moveTo(p1b);
-					setThickness(ticksThickness);
-					setTextureType(TEXTURE_CONSTANT_0);
-					moveTo(p1b);
-					moveTo(p2b);
-					setThickness(thickness);
-					moveTo(p2b);
-					
+					float i = ticksOffset*length-((int) (ticksOffset*length/ticksDistance))*ticksDistance;
+					float ticksDelta = thickness;
+					float ticksThickness = 4*thickness;
+					if (i<=ticksDelta)
+						i+=ticksDistance;
+
+					for(;i<=length*(1-arrowPos);i+=ticksDistance){
+
+						Coords p1b=p1.add(d.mul(i-ticksDelta));
+						Coords p2b=p1.add(d.mul(i+ticksDelta));
+
+						setTextureType(TEXTURE_AFFINE);
+						setTextureX(i/length);
+						moveTo(p1b);
+						setThickness(ticksThickness);
+						setTextureType(TEXTURE_CONSTANT_0);
+						moveTo(p1b);
+						moveTo(p2b);
+						setThickness(thickness);
+						moveTo(p2b);
+
+					}
+					break;
+				case MAJOR_AND_MINOR:
+					d = p2.sub(p1).normalized();
+					thickness = this.thickness;
+
+					i = ticksOffset*length-((int) (ticksOffset*length/ticksDistance))*ticksDistance;
+					ticksDelta = thickness;
+					ticksThickness = 4*thickness;
+					float ticksMinorThickness = 2.5f*thickness;
+					boolean minor = false;
+					if (i > ticksDistance/2 + ticksDelta){
+						minor = true;
+						i-=ticksDistance/2;
+					}else if (i <= ticksDelta){
+						i+=ticksDistance/2;
+						minor = true;
+					}
+
+
+					for(;i<=length*(1-arrowPos);i+=ticksDistance/2){
+
+						Coords p1b=p1.add(d.mul(i-ticksDelta));
+						Coords p2b=p1.add(d.mul(i+ticksDelta));
+
+						setTextureType(TEXTURE_AFFINE);
+						setTextureX(i/length);
+						moveTo(p1b);
+						if (minor){
+							setThickness(ticksMinorThickness);
+						}else{
+							setThickness(ticksThickness);
+						}
+						setTextureType(TEXTURE_CONSTANT_0);
+						moveTo(p1b);
+						moveTo(p2b);
+						setThickness(thickness);
+						moveTo(p2b);
+
+						minor = !minor;
+					}
+					break;
+				case NONE:
+					break;
 				}
 			}
-			
+
 			setTextureType(TEXTURE_AFFINE);
 			setTextureX(1-arrowPos);
 			moveTo(arrowBase);
@@ -788,7 +835,7 @@ public class PlotterBrush implements PathPlotter {
      * sets the type of arrow used by the pencil.
      * @param ticks 
      */
-    public void setTicks(boolean ticks){
+    public void setTicks(Ticks ticks){
     	this.ticks = ticks;
     } 
     
@@ -808,12 +855,6 @@ public class PlotterBrush implements PathPlotter {
     	this.ticksOffset = offset;
     }
     
-    /**
-     * @return true if it draws ticks
-     */
-    public boolean hasTicks(){
-    	return ticks && (ticksDistance>0);
-    }
 
     
     
