@@ -1,13 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.gui.view.spreadsheet.CellRange;
-import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoPolyLine;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.gui.view.spreadsheet.CreateObjectModel;
+import geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
@@ -22,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -50,21 +44,10 @@ import javax.swing.event.ListSelectionListener;
  */
 @SuppressWarnings({ "javadoc", "rawtypes" })
 public class CreateObjectDialog extends InputDialogD implements
-		ListSelectionListener, FocusListener {
+		ListSelectionListener, FocusListener, ICreateObjectListener {
 
-	private CellRangeProcessor cp;
-	private ArrayList<CellRange> selectedCellRanges;
 	private MyTableD table;
-
-	public static final int TYPE_LIST = 0;
-	public static final int TYPE_MATRIX = 1;
-	public static final int TYPE_LISTOFPOINTS = 2;
-	public static final int TYPE_TABLETEXT = 3;
-	public static final int TYPE_POLYLINE = 4;
-	private int objectType = TYPE_LIST;
-
-	private JList typeList;
-	private DefaultListModel model;
+	private CreateObjectModel coModel;
 	private JLabel lblObject, lblName;
 
 	private JCheckBox ckSort, ckTranspose;
@@ -77,30 +60,32 @@ public class CreateObjectDialog extends InputDialogD implements
 
 	private MyTextField fldName;
 
-	private GeoElement newGeo;
-
 	private JScrollPane previewPanel;
-	private String title = null;
 
 	private boolean keepNewGeo = false;
 	private JComboBox cbLeftRightOrder;
 	private JPanel cards;
 	private JLabel lblPreview;
 	private JPanel namePanel;
+	private DefaultListModel model;
+	private JList typeList;
+	boolean showApply = false;
 
 	public CreateObjectDialog(AppD app, SpreadsheetView view, int objectType) {
 
 		super(app.getFrame(), false, app.getLocalization());
-		this.app = app;
-		this.objectType = objectType;
 		this.table = (MyTableD) view.getSpreadsheetTable();
-		cp = table.getCellRangeProcessor();
-		selectedCellRanges = table.selectedCellRanges;
-
-		boolean showApply = false;
-
-		createGUI(title, "", false, 16, 1, false, false, false, showApply,
-				DialogType.GeoGebraEditor);
+		coModel = new CreateObjectModel(app, view, objectType, this);
+		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
+		coModel.setSelectedCellRanges(table.selectedCellRanges);
+		this.app = app;
+		// cp = table.getCellRangeProcessor();
+		// selectedCellRanges = table.selectedCellRanges;
+		//
+		// boolean showApply = false;
+		//
+		createGUI(coModel.getTitle(), "", false, 16, 1, false, false, false,
+				showApply, DialogType.GeoGebraEditor);
 
 		// this.btCancel.setVisible(false);
 
@@ -158,8 +143,8 @@ public class CreateObjectDialog extends InputDialogD implements
 
 		lblObject = new JLabel();
 
-		if (objectType < 0) {
-			objectType = TYPE_LIST;
+		if (coModel.getObjectType() < 0) {
+			coModel.setListType();
 			typePanel = new JPanel(new BorderLayout());
 			typePanel.add(lblObject, BorderLayout.NORTH);
 			typePanel.add(typeList, loc.borderWest());
@@ -279,11 +264,9 @@ public class CreateObjectDialog extends InputDialogD implements
 		cbLeftRightOrder.addItem(app.getMenu("Y<-X"));
 
 		model.clear();
-		model.addElement(app.getMenu("List"));
-		model.addElement(app.getMenu("Matrix"));
-		model.addElement(app.getMenu("ListOfPoints"));
-		model.addElement(app.getMenu("Table"));
-		model.addElement(app.getMenu("PolyLine"));
+		for (String item : coModel.getObjectTypeNames()) {
+			model.addElement(item);
+		}
 
 		lblObject.setText(app.getMenu("Object") + ":");
 
@@ -297,42 +280,13 @@ public class CreateObjectDialog extends InputDialogD implements
 
 		optionsPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("Options")));
-		// if(typePanel!=null)
-		// typePanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Object")));
 
-		String titleText = "";
-		switch (objectType) {
-		case TYPE_LIST:
-			titleText = app.getMenu("CreateList");
-			break;
-
-		case TYPE_LISTOFPOINTS:
-			titleText = app.getMenu("CreateListOfPoints");
-			break;
-
-		case TYPE_TABLETEXT:
-			titleText = app.getMenu("CreateTable");
-			break;
-
-		case TYPE_POLYLINE:
-			titleText = app.getMenu("CreatePolyLine");
-			break;
-
-		case TYPE_MATRIX:
-			titleText = app.getMenu("CreateMatrix");
-			break;
-		}
-		wrappedDialog.setTitle(titleText);
+		wrappedDialog.setTitle(coModel.getTitle());
 
 	}
 
 	private void updateGUI() {
-
-		if (newGeo == null)
-			fldName.setText("");
-		else
-			fldName.setText(newGeo.getLabel(StringTemplate.defaultTemplate));
-
+		coModel.update();
 		CardLayout cl = (CardLayout) (cards.getLayout());
 		cl.show(cards, "c" + typeList.getSelectedIndex());
 
@@ -347,8 +301,24 @@ public class CreateObjectDialog extends InputDialogD implements
 		 * ckTranspose.setVisible(true); }else{ cbOrder.setVisible(true);
 		 * ckTranspose.setVisible(false); }
 		 */
-		ckSort.setVisible(objectType == TYPE_POLYLINE);
 
+	}
+
+	public void updatePreview(String latexStr, boolean isLatexDrawable) {
+		ImageIcon latexIcon = new ImageIcon();
+		Font latexFont = new Font(app.getPlainFont().getName(), app
+				.getPlainFont().getStyle(), app.getPlainFont().getSize() - 1);
+
+		if (latexStr != null && isLatexDrawable) {
+			app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr,
+					latexFont, false, Color.black, null);
+			lblPreview.setText(" ");
+		} else {
+			lblPreview.setText(coModel.getNonLatexText());
+		}
+		lblPreview.setIcon(latexIcon);
+
+		updateGUI();
 	}
 
 	/**
@@ -368,30 +338,27 @@ public class CreateObjectDialog extends InputDialogD implements
 
 			// btCancel acts as create for now
 			else if (source == btCancel) {
-
-				keepNewGeo = true;
-				setVisible(false);
+				coModel.cancel();
 
 			} else if (source == btApply) {
 				// processInput();
 
 				// btOK acts as cancel for now
 			} else if (source == btOK) {
-				newGeo.remove();
-				setVisible(false);
+				coModel.ok();
 			}
 
 			else if (source == btnObject) {
 				btnValue.setSelected(!btnObject.isSelected());
-				createNewGeo();
+				coModel.createNewGeo(fldName.getText());
 			} else if (source == btnValue) {
 				btnObject.setSelected(!btnValue.isSelected());
-				createNewGeo();
+				coModel.createNewGeo(fldName.getText());
 			}
 
 			else if (source == cbScanOrder || source == cbLeftRightOrder
 					|| source == ckTranspose) {
-				createNewGeo();
+				coModel.createNewGeo(fldName.getText());
 			}
 
 			btnValue.addActionListener(this);
@@ -406,7 +373,7 @@ public class CreateObjectDialog extends InputDialogD implements
 	private void doTextFieldActionPerformed(JTextField source) {
 
 		if (source == fldName) {
-			createNewGeo();
+			coModel.createNewGeo(fldName.getText());
 		}
 	}
 
@@ -424,178 +391,24 @@ public class CreateObjectDialog extends InputDialogD implements
 		// clean up on exit: either remove our geo or keep it and make it
 		// visible
 		if (!isVisible) {
-			if (keepNewGeo) {
-				addNewGeoToConstruction();
-			} else {
-				newGeo.remove();
-			}
+			coModel.cleanUp();
 		}
 		super.setVisible(isVisible);
 	}
 
 	@SuppressWarnings("unused")
 	private void closeDialog() {
-		// either remove our geo or keep it and make it visible
-		if (keepNewGeo) {
-			addNewGeoToConstruction();
-		} else {
-			newGeo.remove();
-		}
+		coModel.close();
 		setVisible(false);
-	}
-
-	private void addNewGeoToConstruction() {
-
-		if (objectType == TYPE_LISTOFPOINTS || objectType == TYPE_POLYLINE) {
-			app.getKernel().getConstruction()
-					.addToConstructionList(newGeo.getParentAlgorithm(), true);
-		}
-
-		newGeo.setEuclidianVisible(true);
-		if (!newGeo.isGeoText())
-			newGeo.setAuxiliaryObject(false);
-
-		if (objectType == TYPE_LISTOFPOINTS) {
-			GeoList gl = (GeoList) newGeo;
-			for (int i = 0; i < gl.size(); i++) {
-				gl.get(i).setEuclidianVisible(true);
-				gl.get(i).setAuxiliaryObject(false);
-			}
-		}
-
-		if (objectType == TYPE_POLYLINE) {
-			GeoPoint[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
-					.getPoints();
-			for (int i = 0; i < pts.length; i++) {
-				pts[i].setEuclidianVisible(true);
-				pts[i].setAuxiliaryObject(false);
-			}
-		}
-
-		newGeo.update();
-		app.storeUndoInfo();
-	}
-
-	private void createNewGeo() {
-
-		boolean nullGeo = newGeo == null;
-
-		if (!nullGeo) {
-			if (objectType == TYPE_LISTOFPOINTS) {
-				GeoList gl = (GeoList) newGeo;
-				for (int i = 0; i < gl.size(); i++)
-					gl.get(i).remove();
-			}
-
-			if (objectType == TYPE_POLYLINE) {
-				GeoPoint[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
-						.getPoints();
-				for (int i = 0; i < pts.length; i++)
-					pts[i].remove();
-			}
-			newGeo.remove();
-		}
-
-		int column1 = table.selectedCellRanges.get(0).getMinColumn();
-		int column2 = table.selectedCellRanges.get(0).getMaxColumn();
-		int row1 = table.selectedCellRanges.get(0).getMinRow();
-		int row2 = table.selectedCellRanges.get(0).getMaxRow();
-
-		boolean copyByValue = btnValue.isSelected();
-		boolean scanByColumn = cbScanOrder.getSelectedIndex() == 1;
-		boolean leftToRight = cbLeftRightOrder.getSelectedIndex() == 0;
-		boolean transpose = ckTranspose.isSelected();
-		boolean doCreateFreePoints = true;
-		boolean doStoreUndo = true;
-		boolean isSorted = false;
-
-		try {
-			switch (objectType) {
-
-			case TYPE_LIST:
-				newGeo = cp.createList(selectedCellRanges, scanByColumn,
-						copyByValue);
-				break;
-
-			case TYPE_LISTOFPOINTS:
-				newGeo = cp.createPointGeoList(selectedCellRanges, copyByValue,
-						leftToRight, isSorted, doStoreUndo, doCreateFreePoints);
-				newGeo.setLabel(null);
-				for (int i = 0; i < ((GeoList) newGeo).size(); i++) {
-					((GeoList) newGeo).get(i).setAuxiliaryObject(true);
-					((GeoList) newGeo).get(i).setEuclidianVisible(false);
-				}
-				newGeo.updateRepaint();
-				break;
-
-			case TYPE_MATRIX:
-				newGeo = cp.createMatrix(column1, column2, row1, row2,
-						copyByValue, transpose);
-				break;
-
-			case TYPE_TABLETEXT:
-				newGeo = cp.createTableText(column1, column2, row1, row2,
-						copyByValue, transpose);
-				break;
-
-			case TYPE_POLYLINE:
-				newGeo = cp.createPolyLine(selectedCellRanges, copyByValue,
-						leftToRight);
-				newGeo.setLabel(null);
-				GeoPoint[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
-						.getPoints();
-				for (int i = 0; i < pts.length; i++) {
-					pts[i].setAuxiliaryObject(true);
-					pts[i].setEuclidianVisible(false);
-				}
-				newGeo.updateRepaint();
-				break;
-
-			}
-
-			ImageIcon latexIcon = new ImageIcon();
-			// String latexStr = newGeo.getLaTeXAlgebraDescription(true);
-
-			String latexStr = newGeo.getFormulaString(
-					StringTemplate.latexTemplate, true);
-
-			// System.out.println(latexStr);
-
-			Font latexFont = new Font(app.getPlainFont().getName(), app
-					.getPlainFont().getStyle(),
-					app.getPlainFont().getSize() - 1);
-
-			if (latexStr != null && newGeo.isLaTeXDrawableGeo()) {
-				app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
-						latexStr, latexFont, false, Color.black, null);
-				lblPreview.setText(" ");
-			} else {
-				lblPreview.setText(newGeo
-						.getAlgebraDescriptionTextOrHTMLDefault());
-			}
-			lblPreview.setIcon(latexIcon);
-
-			if (!nullGeo) {
-				newGeo.setLabel(fldName.getText());
-				newGeo.setAuxiliaryObject(true);
-				newGeo.setEuclidianVisible(false);
-			}
-
-			updateGUI();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
 
 		if (e.getSource() == typeList) {
 			typeList.removeListSelectionListener(this);
-			objectType = typeList.getSelectedIndex();
+			coModel.setObjectType(typeList.getSelectedIndex());
 			// fldName.setText("");
-			createNewGeo();
+			coModel.createNewGeo(fldName.getText());
 			typeList.addListSelectionListener(this);
 		}
 	}
@@ -616,6 +429,34 @@ public class CreateObjectDialog extends InputDialogD implements
 
 	public void focusLost(FocusEvent e) {
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
+	}
+
+	public void setName(String name) {
+		fldName.setText(name);
+	}
+
+	public void setSortVisible(boolean isVisible) {
+		ckSort.setVisible(isVisible);
+	}
+
+	public boolean isVisible() {
+		return isVisible();
+	}
+
+	public boolean isCopiedByValue() {
+		return btnValue.isSelected();
+	}
+
+	public boolean isScannedByColumn() {
+		return cbScanOrder.getSelectedIndex() == 1;
+	}
+
+	public boolean isLeftToRight() {
+		return cbLeftRightOrder.getSelectedIndex() == 0;
+	}
+
+	public boolean isTranspose() {
+		return ckTranspose.isSelected();
 	}
 
 }

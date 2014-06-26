@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.main.AppD;
 
@@ -9,7 +10,7 @@ import geogebra.main.AppD;
  * 
  * 
  * @author G. Sturr
- *
+ * 
  */
 public class SpreadsheetToolbarManager {
 
@@ -19,88 +20,83 @@ public class SpreadsheetToolbarManager {
 
 	private CreateObjectDialog id;
 
-
-	public SpreadsheetToolbarManager(AppD app, SpreadsheetView view){
+	public SpreadsheetToolbarManager(AppD app, SpreadsheetView view) {
 
 		this.app = app;
 		this.view = view;
 		this.table = (MyTableD) view.getSpreadsheetTable();
 	}
 
+	public void handleModeChange(int mode) {
 
-
-	public void  handleModeChange(int mode){
-
-		//Application.printStacktrace("");
+		// Application.printStacktrace("");
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
-		switch (mode) {	
+		switch (mode) {
 
-		
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 
-			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
-			if(!table.selectedCellRanges.get(0).isEmpty()){
-				id = new CreateObjectDialog(app,view, CreateObjectDialog.TYPE_LIST);
+			// if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
+			if (!table.selectedCellRanges.get(0).isEmpty()) {
+				id = new CreateObjectDialog(app, view,
+						CreateObjectModel.TYPE_LIST);
 				id.setVisible(true);
 			}
 			break;
-
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
-			if(table.getCellRangeProcessor().isCreatePointListPossible(table.selectedCellRanges)){
-				id = new CreateObjectDialog(app,view, CreateObjectDialog.TYPE_LISTOFPOINTS);
-				id.setVisible(true);}
+			if (table.getCellRangeProcessor().isCreatePointListPossible(
+					table.selectedCellRanges)) {
+				id = new CreateObjectDialog(app, view,
+						CreateObjectModel.TYPE_LISTOFPOINTS);
+				id.setVisible(true);
+			}
 
 			break;
 
-
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
-			if (table.getCellRangeProcessor().isCreateMatrixPossible(table.selectedCellRanges)){
-				id = new CreateObjectDialog(app,view, CreateObjectDialog.TYPE_MATRIX);
+			if (table.getCellRangeProcessor().isCreateMatrixPossible(
+					table.selectedCellRanges)) {
+				id = new CreateObjectDialog(app, view,
+						CreateObjectModel.TYPE_MATRIX);
 				id.setVisible(true);
 			}
 			break;
 
-
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
-			if(table.getCellRangeProcessor().isCreateMatrixPossible(table.selectedCellRanges)){
-				id = new CreateObjectDialog(app,view, CreateObjectDialog.TYPE_TABLETEXT);
+			if (table.getCellRangeProcessor().isCreateMatrixPossible(
+					table.selectedCellRanges)) {
+				id = new CreateObjectDialog(app, view,
+						CreateObjectModel.TYPE_TABLETEXT);
 				id.setVisible(true);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
-			if(table.getCellRangeProcessor().isCreatePointListPossible(table.selectedCellRanges)){
-				id = new CreateObjectDialog(app,view, CreateObjectDialog.TYPE_POLYLINE);
+			if (table.getCellRangeProcessor().isCreatePointListPossible(
+					table.selectedCellRanges)) {
+				id = new CreateObjectDialog(app, view,
+						CreateObjectModel.TYPE_POLYLINE);
 				id.setVisible(true);
 			}
 			break;
 
-
-			
 		case EuclidianConstants.MODE_SPREADSHEET_SUM:
 		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
 		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
 		case EuclidianConstants.MODE_SPREADSHEET_MIN:
 		case EuclidianConstants.MODE_SPREADSHEET_MAX:
-			
+
 			// Handle autofunction modes
-			
+
 			table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
 
 			break;
 
 		default:
 			// ignore other modes
-		}				
+		}
 
 	}
-
-
-
-
-
-
 
 }
