@@ -250,7 +250,7 @@ public class RelationPaneD implements RelationPane {
 		@Override
 		protected void fireEditingStopped() {
 			/*
-			 *  FIXME: In some cases this throw an exception.
+			 *  FIXME: In some cases this throws an exception.
 			 *  No idea how to fix it.
 			 */
 			super.fireEditingStopped();

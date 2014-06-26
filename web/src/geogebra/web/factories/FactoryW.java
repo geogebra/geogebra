@@ -51,9 +51,10 @@ public class FactoryW extends Factory{
     }
 
 	@Override
-    public RelationPane newRelationPane() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	public RelationPane newRelationPane() {
+		return new geogebra.web.javax.swing.RelationPaneW();
+	}
+
+	
 	
 }
