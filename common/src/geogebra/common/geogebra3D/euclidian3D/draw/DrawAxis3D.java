@@ -311,12 +311,6 @@ public class DrawAxis3D extends DrawLine3D {
 	
 	
 	
-	@Override
-	public void setDrawMinMax(double drawMin, double drawMax){
-		drawMinFinal = drawMin;
-		drawMaxFinal = drawMax;
-	}
-	
 	private boolean outsideBox = false;
 	
 	/**
@@ -329,25 +323,39 @@ public class DrawAxis3D extends DrawLine3D {
 		
 		drawMinFinal = minMax[type][0];
 		drawMaxFinal = minMax[type][1];
+		outsideBox = false;
 		
-		//check if outside the box
-		switch(type){
-		case GeoAxisND.X_AXIS:
-			outsideBox = 
-			(minMax[GeoAxisND.Y_AXIS][0]*minMax[GeoAxisND.Y_AXIS][1]>0)
-			||(minMax[GeoAxisND.Z_AXIS][0]*minMax[GeoAxisND.Z_AXIS][1]>0);
-			break;
-		case GeoAxisND.Y_AXIS:
-			outsideBox = 
-			(minMax[GeoAxisND.Z_AXIS][0]*minMax[GeoAxisND.Z_AXIS][1]>0)
-			||(minMax[GeoAxisND.X_AXIS][0]*minMax[GeoAxisND.X_AXIS][1]>0);
-			break;
-		case GeoAxisND.Z_AXIS:
-			outsideBox = 
-			(minMax[GeoAxisND.X_AXIS][0]*minMax[GeoAxisND.X_AXIS][1]>0)
-			||(minMax[GeoAxisND.Y_AXIS][0]*minMax[GeoAxisND.Y_AXIS][1]>0);
-			break;
+		if (getView3D().getPositiveAxis(type)){
+			if (drawMinFinal < 0){
+				if (drawMaxFinal > 0){
+					drawMinFinal = 0;
+				}else{
+					outsideBox = true;
+				}
+			}
 		}
+
+		if (!outsideBox){
+			//check if outside the box
+			switch(type){
+			case GeoAxisND.X_AXIS:
+				outsideBox = 
+				(minMax[GeoAxisND.Y_AXIS][0]*minMax[GeoAxisND.Y_AXIS][1]>0)
+				||(minMax[GeoAxisND.Z_AXIS][0]*minMax[GeoAxisND.Z_AXIS][1]>0);
+				break;
+			case GeoAxisND.Y_AXIS:
+				outsideBox = 
+				(minMax[GeoAxisND.Z_AXIS][0]*minMax[GeoAxisND.Z_AXIS][1]>0)
+				||(minMax[GeoAxisND.X_AXIS][0]*minMax[GeoAxisND.X_AXIS][1]>0);
+				break;
+			case GeoAxisND.Z_AXIS:
+				outsideBox = 
+				(minMax[GeoAxisND.X_AXIS][0]*minMax[GeoAxisND.X_AXIS][1]>0)
+				||(minMax[GeoAxisND.Y_AXIS][0]*minMax[GeoAxisND.Y_AXIS][1]>0);
+				break;
+			}
+		}
+		
     	//if outside the box, set all labels invisible
     	if (outsideBox)
     		for(DrawLabel3D label : labels.values())
@@ -362,12 +370,6 @@ public class DrawAxis3D extends DrawLine3D {
 		return (!outsideBox) && super.isVisible();
 	}
 	
-	@Override
-	public double[] getDrawMinMax(){
-		
-
-		return super.getDrawMinMax();
-	}
 	
 	
 	

@@ -3180,35 +3180,19 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return null;
 	}
 
-	@Override
-	public void setAxisCross(int axis, double cross) {
-		axisCross[axis] = cross;
-	}
 
+
+	public boolean getPositiveAxis(int i) {
+		return positiveAxes[i];
+	}
+	
 	@Override
 	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
-		positiveAxes[axis] = isPositiveAxis;
+		super.setPositiveAxis(axis, isPositiveAxis);
+		axisDrawable[axis].setLabelWaitForUpdate();
+		setWaitForUpdate();
 	}
 
-	@Override
-	public double[] getAxesCross() {
-		return axisCross;
-	}
-
-	@Override
-	public void setAxesCross(double[] axisCross) {
-		this.axisCross = axisCross;
-	}
-
-	@Override
-	public boolean[] getPositiveAxes() {
-		return positiveAxes;
-	}
-
-	@Override
-	public void setPositiveAxes(boolean[] positiveAxis) {
-		this.positiveAxes = positiveAxis;
-	}
 
 	@Override
 	public boolean getShowGrid() {
