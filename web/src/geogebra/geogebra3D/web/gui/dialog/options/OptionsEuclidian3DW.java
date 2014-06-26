@@ -569,8 +569,12 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		addZAxisTab();
 	}
 	
+	protected AxisTab newAxisTab(int axis){
+		return new AxisTab(axis, true);
+	}
+	
 	private void addZAxisTab() {
-		zAxisTab = new AxisTab(EuclidianOptionsModel.Z_AXIS);
+		zAxisTab = newAxisTab(EuclidianOptionsModel.Z_AXIS);
 		tabPanel.add(zAxisTab, "z");
 	}
 	
@@ -584,6 +588,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		projectionTab = new ProjectionTab();
 		tabPanel.add(projectionTab, "projection");
 	}
+	
+	
 	
 	
 	

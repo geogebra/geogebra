@@ -645,8 +645,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected class AxisTab extends EuclidianTab {
 		private AxisPanel axisPanel;
 		
-		public AxisTab(int axis) {
-			axisPanel = new AxisPanel(app, view, axis);
+//		public AxisTab(int axis) {
+//			this(axis, false);
+//		}
+		
+		public AxisTab(int axis, boolean view3D) {
+			axisPanel = new AxisPanel(app, view, axis, view3D);
 			setStyleName("propertiesTab");
 			add(axisPanel);
 		}
@@ -984,13 +988,22 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	private void addXAxisTab() {
-		xAxisTab = new AxisTab(EuclidianOptionsModel.X_AXIS);
+		xAxisTab = newAxisTab(EuclidianOptionsModel.X_AXIS);
 		tabPanel.add(xAxisTab, "x");
 	}
 	
 	private void addYAxisTab() {
-		yAxisTab = new AxisTab(EuclidianOptionsModel.Y_AXIS);
+		yAxisTab = newAxisTab(EuclidianOptionsModel.Y_AXIS);
 		tabPanel.add(yAxisTab, "y");
+	}
+	
+	/**
+	 * 
+	 * @param axis axis id
+	 * @return axis tab
+	 */
+	protected AxisTab newAxisTab(int axis){
+		return new AxisTab(axis, false);
 	}
 	
 	private void addGridTab() {

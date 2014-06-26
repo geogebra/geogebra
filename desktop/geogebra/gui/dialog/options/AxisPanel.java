@@ -133,9 +133,14 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		add(distancePanel);
 		add(showTicksPanel);
 		add(labelPanel);
-		add(crossPanel);
+		addCrossPanel(crossPanel);
 
 		updatePanel();
+	}
+	
+	
+	protected void addCrossPanel(JPanel crossPanel){
+		add(crossPanel);
 	}
 
 	public void actionPerformed(ActionEvent e) {

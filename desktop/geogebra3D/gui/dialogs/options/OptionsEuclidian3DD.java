@@ -3,7 +3,6 @@ package geogebra3D.gui.dialogs.options;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
-import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.AxisPanel;
 import geogebra.gui.dialog.options.OptionsEuclidianD;
@@ -555,19 +554,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			super(app, view, axis);
 		}
 
-		protected void enableStuff(boolean flag) {
-			// TODO remove when implemented
-
-			cbAxisNumber.setEnabled(flag);
-			cbManualTicks.setEnabled(flag);
-			cbPositiveAxis.setEnabled(flag);
-			cbDrawAtBorder.setEnabled(flag);
-			ncbTickDist.setEnabled(flag);
-			cbTickStyle.setEnabled(flag);
-			cbAxisLabel.setEnabled(flag);
-			cbUnitLabel.setEnabled(flag);
-			tfCross.setEnabled(flag);
-		}
 
 		@Override
 		protected String getString() {
@@ -576,14 +562,21 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			}
 			return super.getString();
 		}
+		
+		
+		@Override
+		protected void addCrossPanel(JPanel crossPanel){
+			//TODO implement this
+		}
 	}
 
 	@Override
 	protected void actionBtBackgroundColor() {
-		App.debug("ici");
 		view.setBackground(new geogebra.awt.GColorD(((GuiManagerD) (app
 				.getGuiManager())).showColorChooser(((EuclidianView3D) view)
 				.getBackground())));
 	}
+	
+	
 
 }

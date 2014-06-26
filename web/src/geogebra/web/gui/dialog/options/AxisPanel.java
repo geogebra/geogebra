@@ -54,7 +54,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	 * @param view
 	 * @param axis
 	 */
-	public AxisPanel(AppW app, EuclidianView view, int axis) {
+	public AxisPanel(AppW app, EuclidianView view, int axis, boolean view3D) {
 
 		this.app = app;
 		this.view = view;
@@ -220,11 +220,12 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		add(showTicksPanel);
 		add(labelPanel);
 		add(unitPanel);
-		add(crossPanel);
-
+		if (!view3D){
+			add(crossPanel);
+		}
 		updatePanel();
 	}
-
+	
 
 	public void updatePanel() {
 		int axis = model.getAxis();
