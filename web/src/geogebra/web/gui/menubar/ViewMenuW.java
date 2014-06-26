@@ -79,6 +79,7 @@ public class ViewMenuW extends GMenuBar {
 		        new Command() {
 			        public void execute() {
 			        	App.debug("AI:"+app.showAlgebraInput());
+			        	app.persistWidthAndHeight();
 				        app.setShowAlgebraInput(!app.showAlgebraInput(), true);
 				        app.updateCenterPanel(true);
 				        app.updateViewSizes();
