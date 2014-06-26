@@ -742,7 +742,7 @@ public abstract class AppW extends AppWeb {
     protected void clearInputBar(){
 		if (isUsingFullGui() && showAlgebraInput() && getGuiManager() != null) {
 			AlgebraInputW ai = (getGuiManager().getAlgebraInput());
-			ai.clear();
+			ai.setText("");
 		}
 	}
 	

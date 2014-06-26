@@ -211,7 +211,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	 */
 	private void addCustomModesToToolbar(UnorderedList mainUl) {
 		Vector<ToolbarItem> toolbarVec;
-
 		try {
 			if (dockPanel != null) {
 				toolbarVec = ToolBar.parseToolbarString(
@@ -230,7 +229,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
-
 		// set toolbar
 		for (int i = 0; i < toolbarVec.size(); i++) {
 			ToolbarItem ob = toolbarVec.get(i);

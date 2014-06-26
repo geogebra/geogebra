@@ -366,4 +366,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 	}
 
+	public void setText(String s) {
+	    this.inputField.setText(s);
+    }
+
 }

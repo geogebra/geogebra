@@ -666,7 +666,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 
 	private boolean canShowButtons(int count) {
 	    return app.getWidth() > toolbars.get(0).getGroupCount() * 45 + 
-	    		count * 45 + 10; 
+	    		count * 45 + 15; 
     }
 
 	@Override
