@@ -23,15 +23,6 @@ public class DrawAxis3D extends DrawLine3D {
 	private TreeMap<String, DrawLabel3D>  labels;
 	
 	
-
-	/** distance between two ticks */
-    //private double distance = 1;
-    
-
-
-	/** min/max when the update is finished */
-	private double drawMinFinal, drawMaxFinal;
-	
 	/**
 	 * common constructor
 	 * @param view3D
@@ -179,14 +170,6 @@ public class DrawAxis3D extends DrawLine3D {
     @Override
 	protected boolean updateForItSelf(){
 
-    	//updateColors();
-    	/*
-    	if (outsideBox){
-    		setGeometryIndex(-1);
-    		return true;
-    	}
-    	*/
-    	
     	setLabelWaitForUpdate();
     	
     	double[] minmax = getDrawMinMax(); 
@@ -285,22 +268,13 @@ public class DrawAxis3D extends DrawLine3D {
      * @return distance between two ticks
      */
     public double getNumbersDistance(){
-    	/*
-    	double dt = (System.currentTimeMillis()-(time+TIME_WAIT))*TIME_FACTOR;
-    	
-    	//update the distance from the geo only if rotation has ended
-    	if (dt>0)
-    		distance = ((GeoAxis3D) getGeoElement()).getNumbersDistance();
-
-    	return distance;
-    	*/
     	return ((GeoAxisND) getGeoElement()).getNumbersDistance();
     }
     
     
 	@Override
 	protected void updateForView(){
-
+		// done in 3D view
 	}
 	
 	
@@ -321,14 +295,14 @@ public class DrawAxis3D extends DrawLine3D {
 		
 		int type = ((GeoAxisND) getGeoElement()).getType();
 		
-		drawMinFinal = minMax[type][0];
-		drawMaxFinal = minMax[type][1];
+		double min = minMax[type][0];
+		double max = minMax[type][1];
 		outsideBox = false;
 		
 		if (getView3D().getPositiveAxis(type)){
-			if (drawMinFinal < 0){
-				if (drawMaxFinal > 0){
-					drawMinFinal = 0;
+			if (min < 0){
+				if (max > 0){
+					min = 0;
 				}else{
 					outsideBox = true;
 				}
@@ -357,12 +331,14 @@ public class DrawAxis3D extends DrawLine3D {
 		}
 		
     	//if outside the box, set all labels invisible
-    	if (outsideBox)
-    		for(DrawLabel3D label : labels.values())
+    	if (outsideBox){
+    		for(DrawLabel3D label : labels.values()){
         		label.setIsVisible(false);
+    		}
+    	}
     	
     	
-		super.setDrawMinMax(drawMinFinal, drawMaxFinal);
+		super.setDrawMinMax(min, max);
 	}
 
 	@Override
