@@ -158,7 +158,7 @@ __GGB__keysVar.hu.command = {
     "Circumference_Syntax": "[ <K\xfapszelet> ]",
     "Classes": "Oszt\xe1lyok",
     "Classes_Syntax": "[ <Adat lista>, <Oszt\xe1lyok sz\xe1ma> ]\n[ <Adat lista>, <Kezdeti \xe9rt\xe9k>, <Oszt\xe1lyok sz\xe9less\xe9ge> ]",
-    "ClosestPoint": "Legk\xf6zelebbiPpont",
+    "ClosestPoint": "Legk\xf6zelebbiPont",
     "ClosestPoint_Syntax": "[ <\xdat>, <Pont> ]\n[ <Tartom\xe1ny>, <Pont> ]\n[ <Egyenes>, <Egyenes> ]",
     "Coefficients": "Egy\xfctthat\xf3k",
     "Coefficients_Syntax": "[ <Polinom> ]\n[ <K\xfapszelet> ]",
