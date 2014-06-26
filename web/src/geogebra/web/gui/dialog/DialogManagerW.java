@@ -68,6 +68,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 			// show the view
 			((GuiManagerW)app.getGuiManager()).setShowView(true, App.VIEW_FUNCTION_INSPECTOR);
+			functionInspector.setInspectorVisible(true);
 	
 
 		} catch (Exception e) {
