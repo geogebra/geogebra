@@ -3059,12 +3059,16 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	
 	
 	public GFont getAxisLabelFont(int i){
-//		if (axesLabelsStyle[i] == null){
-//			return app.getPlainFontCommon();
-//		}
 		return getFontLine().deriveFont(axesLabelsStyle[i]);
 	}
 	
+	public String getAxisUnitLabel(int i) {
+		return axesUnitLabels[i];
+	}
+	
+	public boolean getPiAxisUnit(int i){
+		return piAxisUnit[i];
+	}
 
 	@Override
 	public void setAxesLabels(String[] axesLabels) {
@@ -3091,6 +3095,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
 		super.setAxesUnitLabels(axesUnitLabels);
 		setAxesIntervals(getZscale(), 2);
+		for (int i = 0 ; i < 3 ; i++){
+			axisDrawable[i].setLabelWaitForUpdate();
+		}
+		setWaitForUpdate();
 	}
 	
 	

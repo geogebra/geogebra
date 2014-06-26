@@ -113,13 +113,20 @@ public class DrawAxis3D extends DrawLine3D {
     	
     	if (getView3D().getShowAxisNumbers(axisIndex)){
     		
+    		String unitLabel = getView3D().getAxisUnitLabel(axisIndex);
+    		if (getView3D().getPiAxisUnit(axisIndex)){
+    			unitLabel = null;
+    		}
+    		
     		for(int i=iMin;i<=iMax;i++){
     			double val = i*distance;
     			Coords origin = ((GeoAxisND) getGeoElement()).getPointInD(3,val);
 
     			//draw numbers
     			String strNum = getView3D().getKernel().formatPiE(val,numberFormat,StringTemplate.defaultTemplate);
-
+				if (unitLabel != null) {
+					strNum += unitLabel;
+				}
     			//check if the label already exists
     			DrawLabel3D label = labels.get(strNum);
     			if (label!=null){
