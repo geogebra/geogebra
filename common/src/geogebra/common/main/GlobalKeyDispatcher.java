@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -15,6 +16,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -56,7 +58,38 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private Coords tempVec;
+	protected boolean renameStarted(char ch) {
+		GeoElement geo;
+		if (selection.selectedGeosSize() == 1) {
+			// selected geo
+			geo = selection.getSelectedGeos().get(0);
+		} else {
+			// last created geo
+			geo = app.getLastCreatedGeoElement();
+		}
 
+		// show RENAME dialog when a letter is typed
+		// or edit Textfield for any keypress
+
+		if ((Character.isLetter(ch)) || geo instanceof GeoTextField) {
+
+			// open rename dialog
+			if (geo != null) {
+
+				if (geo instanceof GeoTextField) {
+					DrawTextField dt = (DrawTextField) app
+							.getActiveEuclidianView().getDrawableFor(geo);
+					dt.setFocus(ch + "");
+				} else {
+					app.getDialogManager().showRenameDialog(geo, true,
+							Character.toString(ch), false);
+				}
+				return true;
+			}
+		}
+
+		return false;
+	}
 	/**
 	 * Tries to move the given objects after pressing an arrow key on the
 	 * keyboard.
@@ -1126,10 +1159,10 @@ public abstract class GlobalKeyDispatcher {
 				changeVal = -base;
 		}
 		*/
-
+		App.debug("not yet consumed");
 		// change all geoelements
 		if (changeVal != 0) {
-
+			App.debug("consumed");
 			boolean twoSliders = geos.size() == 2 && geos.get(0).isGeoNumeric()
 					&& geos.get(1).isGeoNumeric();
 

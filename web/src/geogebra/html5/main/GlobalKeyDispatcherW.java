@@ -43,7 +43,7 @@ public class GlobalKeyDispatcherW extends
 	/**
 	 * Used if we need tab working properly
 	 */
-	public static boolean InFocus = true;
+	public boolean InFocus = true;
 	
 	/**
 	 * @param app application
@@ -59,10 +59,17 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
+		App.debug("Key pressed:"+event.getCharCode());
 		setDownKeys(event);
 		event.stopPropagation();
 		if (InFocus ) {
 			event.preventDefault();
+		}
+		
+		//this needs to be done in onKeyPress -- keyUp is not case sensitive
+		if(!event.isAltKeyDown() && !event.isControlKeyDown()){
+			App.debug("Key pressed:"+event.getCharCode());
+			this.renameStarted(event.getCharCode());
 		}
 	}
 
@@ -137,14 +144,12 @@ public class GlobalKeyDispatcherW extends
 	public void onKeyDown(KeyDownEvent event) {
 		setDownKeys(event);
 		//AbstractApplication.debug("onkeydown");
-		if (InFocus) {
-			event.preventDefault();
-		}
+		
 	    event.stopPropagation();
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		handleSelectedGeosKeys(
+		boolean handled = handleSelectedGeosKeys(
 			KeyCodes.translateGWTcode(
 				event.getNativeKeyCode()),
 			app.getSelectionManager().getSelectedGeos(),
@@ -152,6 +157,10 @@ public class GlobalKeyDispatcherW extends
 			event.isControlKeyDown(),
 			event.isAltKeyDown(),
 			false);
+		//if not handled, do not consume so that keyPressed works
+		if (InFocus && handled) {
+			event.preventDefault();
+		}
     }
 
 	@Override

@@ -3,7 +3,6 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
-import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianSimplePanelW;
@@ -117,7 +116,7 @@ public class AppWsimple extends AppW {
 		GeoGebraFrame.useDataParamBorder(
 				getArticleElement(),
 				getGeoGebraFrame());
-		GlobalKeyDispatcherW.InFocus = false;
+		this.getGlobalKeyDispatcher().InFocus = false;
 	}
 
 	@Override
