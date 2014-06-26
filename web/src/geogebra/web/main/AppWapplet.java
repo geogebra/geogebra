@@ -14,6 +14,7 @@ import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -226,10 +227,10 @@ public class AppWapplet extends AppW {
 	public void attachAlgebraInput() {
 		// inputbar's width varies,
 		// so it's probably good to regenerate every time
-		/*GGWCommandLine inputbar = new GGWCommandLine();
+		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
 		frame.add(inputbar);
-		this.getGuiManager().getAlgebraInput().setInputFieldWidth(this.appletWidth);*/
+		this.getGuiManager().getAlgebraInput().setInputFieldWidth(this.appletWidth);
 	}
 
 	public void attachMenubar() {
