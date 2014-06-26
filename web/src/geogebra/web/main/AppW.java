@@ -1594,19 +1594,25 @@ public abstract class AppW extends AppWeb {
 	    return null;
     }
 	
-	private static native void nativeLoseFocus(Element element) /*-{
+	/**
+	 * @return whether the focus was lost
+	 */
+	private static native boolean nativeLoseFocus(Element element) /*-{
 		var active = $doc.activeElement
 		if (active && 
 				((active === element) || 
 					(active.compareDocumentPosition(element) & $wnd.Node.DOCUMENT_POSITION_CONTAINS))) {
 							active.blur();
-							@geogebra.html5.main.GlobalKeyDispatcherW::InFocus = false;
+							return true;
 		}
+		return false;
 	}-*/;
 	
 	@Override
 	public void loseFocus() {
-		nativeLoseFocus(articleElement);
+		if(nativeLoseFocus(articleElement)){
+			getGlobalKeyDispatcher().InFocus = false;
+		}
 	}
 	@Override
 	public boolean isScreenshotGenerator(){
