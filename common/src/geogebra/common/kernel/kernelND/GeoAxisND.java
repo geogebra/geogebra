@@ -1,6 +1,5 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.util.NumberFormatAdapter;
 
 /**
  * Axis in euclidian view (or euclidian view 3D)
@@ -31,30 +30,11 @@ public interface GeoAxisND extends GeoLineND{
 	/** @return whether numbers should be displayed*/
 	public boolean getShowNumbers();
 	
-	/** @return format for numbers*/
-	public NumberFormatAdapter getNumberFormat();
-	/** @return axis distance between numbered ticks*/
-	public double getNumbersDistance();
 	/** @return tick size in pixels*/
 	public int getTickSize();
-	/**
-	 * @param distance tick distance
-	 * @param numberFormat number format
-	 * @param xOffset x-offset for numbers
-	 * @param yOffset y-offset for numbers
-	 * @param labelXoffset x-offset for labels
-	 * @param labelYoffset y-offset for labels
-	 */
-	public void updateDecorations(double distance, NumberFormatAdapter numberFormat,
-			int xOffset, int yOffset, int labelXoffset, int labelYoffset);
-	/**
-	 * @return x-offset of numbers (for 3D)
-	 */
-	public int getNumbersXOffset();
-	/**
-	 * @return y-offset of numbers (for 3D)
-	 */
-	public int getNumbersYOffset(); 
+	
+
+	
 	/** @return axis id*/
 	public int getType();
 

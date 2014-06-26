@@ -2357,14 +2357,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			axesLabels[axis] = axisLabel;
 		}
 	}
+	
+	
+	/**
+	 * 
+	 * @param i axis index
+	 * @return axis scale
+	 */
+	public double getScale(int i){
+		if (i == 0) {
+			return getXscale();
+		}
+		return getYscale();
+	}
 
 	public void setAutomaticAxesNumberingDistance(boolean flag, int axis) {
 		automaticAxesNumberingDistances[axis] = flag;
-		if (axis == 0) {
-			setAxesIntervals(getXscale(), 0);
-		} else {
-			setAxesIntervals(getYscale(), 1);
-		}
+		setAxesIntervals(getScale(axis), axis);
 	}
 
 	public boolean[] isAutomaticAxesNumberingDistance() {

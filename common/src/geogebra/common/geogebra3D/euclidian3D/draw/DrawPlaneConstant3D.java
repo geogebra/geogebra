@@ -50,8 +50,8 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 				);
 		
 		geo.setGridDistances(
-				xAxis.getNumbersDistance(), 
-				yAxis.getNumbersDistance()
+				getView3D().getGridDistances(0), 
+				getView3D().getGridDistances(1)
 				);
 		
 		

@@ -6,16 +6,12 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.plugin.GeoClass;
-import geogebra.common.util.NumberFormatAdapter;
 
 public class GeoAxis3D extends GeoLine3D implements GeoAxisND {	
 
 	private int type;
 	
 	// for numbers and ticks
-	private NumberFormatAdapter numberFormat;
-	private double numbersDistance;
-	private int numbersXOffset, numbersYOffset;
 	private int ticksize = 5; //TODO
 
 	public GeoAxis3D(Construction cons) {
@@ -106,51 +102,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return true;
 	}
 	
-	/** update decorations (ticks, numbers, labels)
-	 * @param distance
-	 * @param numberFormat
-	 * @param xOffset 
-	 * @param yOffset 
-	 * @param labelXOffset 
-	 * @param labelYOffset 
-	 */
-	public void updateDecorations(double distance, NumberFormatAdapter numberFormat,
-			int xOffset, int yOffset,
-			int labelXOffset, int labelYOffset){
-		this.numbersDistance = distance;
-		this.numberFormat = numberFormat;
-		this.numbersXOffset = xOffset;
-		this.numbersYOffset = yOffset;
-		setLabelOffset(labelXOffset, labelYOffset);
-	}
 	
-	/**
-	 * @return distance between ticks
-	 */
-	public double getNumbersDistance(){
-		return numbersDistance;
-	}
-	
-	/**
-	 * @return number format
-	 */
-	public NumberFormatAdapter getNumberFormat(){
-		return numberFormat;
-	}
-	
-	/**
-	 * @return numbers x offset
-	 */
-	public int getNumbersXOffset(){
-		return numbersXOffset;
-	}
-	
-	/**
-	 * @return numbers y offset
-	 */
-	public int getNumbersYOffset(){
-		return numbersYOffset;
-	}
 	
 	
 	/**

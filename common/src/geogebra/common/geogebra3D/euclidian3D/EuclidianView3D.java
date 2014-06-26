@@ -1013,6 +1013,19 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public double getZscale() {
 		return scale;
 	}
+	
+
+	@Override
+	public double getScale(int i){
+		return scale;
+	}
+	
+	@Override
+	protected void setAxesIntervals(double scale, int axis){
+		super.setAxesIntervals(scale, axis);
+		axisDrawable[axis].setLabelWaitForUpdate();	
+		setWaitForUpdate();
+	}
 
 	/**
 	 * set the all-axis scale
@@ -3006,10 +3019,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			xOyPlaneDrawable.setWaitForUpdate();
 			
 			// update decorations and wait for update
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {				
 				axisDrawable[i].setDrawMinMaxImmediatly(minMax);
 				axisDrawable[i].updateDecorations();
+				setAxesIntervals(getScale(i), i);
+				
 				axisDrawable[i].setWaitForUpdate();
+				
 			}
 		}else{ 
 			// we need to update renderer clip planes, since they are in screen coordinates
@@ -3713,7 +3729,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return distance between two number ticks on the x axis
 	 */
 	public double getNumbersDistance() {
-		return getNumbersDistance(AXIS_X);
+		return getAxisNumberingDistance(AXIS_X);
 	}
 
 	/**
@@ -3722,9 +3738,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            axis
 	 * @return distance between two number ticks on the axis
 	 */
-	public double getNumbersDistance(int axis) {
-		return axisDrawable[axis].getNumbersDistance();
+	public double getAxisNumberingDistance(int i) {
+		return axesNumberingDistances[i];
 	}
+	
+	public NumberFormatAdapter getAxisNumberFormat(int i) {
+		return axesNumberFormat[i];
+	}
+	
+
 
 	public EuclidianController getEuclidianController() {
 		return euclidianController;
@@ -3743,11 +3765,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return kernel.getSpace();
 	}
 	
-	
-	@Override
-	public double getGridDistances(int i) {
-		return axisDrawable[i].getNumbersDistance();
-	}
 	
 	
 	@Override

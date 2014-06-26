@@ -18,7 +18,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.plugin.GeoClass;
-import geogebra.common.util.NumberFormatAdapter;
 /**
  * Cartesian axis
  * @author Markus
@@ -130,42 +129,15 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	}
 
 	// for numbers and ticks
-	private NumberFormatAdapter numberFormat;
-	private double numbersDistance;
-	private int numbersXOffset, numbersYOffset;
 	private int ticksize = 5; // TODO
 
-	public NumberFormatAdapter getNumberFormat() {
-		return numberFormat;
-	}
-
-	public double getNumbersDistance() {
-		return numbersDistance;
-	}
 
 	public int getTickSize() {
 		return ticksize;
 	}
 
-	public void updateDecorations(double distance,
-			NumberFormatAdapter numberFormat1, int xOffset, int yOffset,
-			int labelXOffset, int labelYOffset) {
-		this.numbersDistance = distance;
-		this.numberFormat = numberFormat1;
-		this.numbersXOffset = xOffset;
-		this.numbersYOffset = yOffset;
-		setLabelOffset(labelXOffset, labelYOffset);
 
-	}
-
-	public int getNumbersXOffset() {
-		return numbersXOffset;
-	}
-
-	public int getNumbersYOffset() {
-		return numbersYOffset;
-	}
-
+	
 	/**
 	 * overrides GeoElement method : this is a "constant" element, so the label
 	 * is set

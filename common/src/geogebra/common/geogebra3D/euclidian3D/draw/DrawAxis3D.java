@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
-import geogebra.common.factories.FormatFactory;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -83,8 +82,11 @@ public class DrawAxis3D extends DrawLine3D {
   		//draw numbers
   		GeoAxisND axis = (GeoAxisND) getGeoElement();
   		
-		NumberFormatAdapter numberFormat = axis.getNumberFormat();
-		double distance = axis.getNumbersDistance();
+
+    	int axisIndex = axis.getType();
+  		
+		NumberFormatAdapter numberFormat = getView3D().getAxisNumberFormat(axisIndex);
+		double distance = getView3D().getAxisNumberingDistance(axisIndex);
 		
 		//Application.debug("drawMinMax="+getDrawMin()+","+getDrawMax());
 		double[] minmax = getDrawMinMax(); 
@@ -104,7 +106,6 @@ public class DrawAxis3D extends DrawLine3D {
     		return;
     	}
     	
-    	int axisIndex = axis.getType();
     	
     	//sets all already existing labels not visible
     	for(DrawLabel3D label : labels.values())
@@ -135,7 +136,7 @@ public class DrawAxis3D extends DrawLine3D {
     				label.update(strNum, getView3D().getApplication().getPlainFontCommon(), 
     						getGeoElement().getObjectColor(),
     						origin.copyVector(),
-    						axis.getNumbersXOffset(),axis.getNumbersYOffset());
+    						numbersXOffset, numbersYOffset);
     				//TODO optimize this
     			}else{
     				//creates new label
@@ -144,7 +145,7 @@ public class DrawAxis3D extends DrawLine3D {
     				label.update(strNum, getView3D().getApplication().getPlainFontCommon(), 
     						getGeoElement().getObjectColor(),
     						origin.copyVector(),
-    						axis.getNumbersXOffset(),axis.getNumbersYOffset());
+    						numbersXOffset, numbersYOffset);
     				labels.put(strNum, label);
     			}
 
@@ -181,10 +182,12 @@ public class DrawAxis3D extends DrawLine3D {
     	
     	double[] minmax = getDrawMinMax(); 
     	
+    	int axisIndex = ((GeoAxisND) getGeoElement()).getType();
+    	
     	PlotterBrush brush = getView3D().getRenderer().getGeometryManager().getBrush();
        	brush.setArrowType(PlotterBrush.ARROW_TYPE_SIMPLE);
        	brush.setTicks(PlotterBrush.TICKS_ON);
-       	brush.setTicksDistance( (float) ((GeoAxisND) getGeoElement()).getNumbersDistance());
+       	brush.setTicksDistance( (float) getView3D().getAxisNumberingDistance(axisIndex));
        	brush.setTicksOffset((float) (-minmax[0]/(minmax[1]-minmax[0])));
        	super.updateForItSelf(false);
        	brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
@@ -197,7 +200,7 @@ public class DrawAxis3D extends DrawLine3D {
     
     
 
-    
+    private int numbersXOffset, numbersYOffset;
     
     /**
      * update values for ticks and labels
@@ -220,52 +223,20 @@ public class DrawAxis3D extends DrawLine3D {
     	//calc orthogonal offsets
     	int vx = (int) (v.get(1)*1.5*axis.getTickSize()/vScale);
     	int vy = (int) (v.get(2)*1.5*axis.getTickSize()/vScale);
-    	int xOffset = -vy;
-    	int yOffset = vx;
+    	numbersXOffset = -vy;
+    	numbersYOffset = vx;
     	
     	
     	//if (yOffset>0){
     	if (axis.getType()==GeoAxisND.X_AXIS){
-    		xOffset = -xOffset;
-    		yOffset = -yOffset;
+    		numbersXOffset = -numbersXOffset;
+    		numbersYOffset = -numbersYOffset;
     	}
-    	
-    	
-    	//interval between two ticks
-    	//Application.debug("vscale : "+vScale);
-    	double maxPix = 100; // only one tick is allowed per maxPix pixels
-		double units = maxPix / vScale;
-		
-		//TODO see EuclidianView::setAxesIntervals	and Kernel::axisNumberDistance	
-			// calc number of digits
-			int exp = (int) Math.floor(Math.log(units) / Math.log(10));
-			int maxFractionDigits = Math.max(-exp, getView3D().getKernel().getPrintDecimals());
 
-			// format the numbers
-			//numberFormat.applyPattern("###0.##");
-			//numberFormat.setMaximumFractionDigits(maxFractionDigtis);
-			NumberFormatAdapter numberFormat = FormatFactory.prototype.getNumberFormat("###0.##", maxFractionDigits);
-
-			// calc the distance
-			double pot = Math.pow(10, exp);
-			double n = units / pot;
-			double distance;
-
-			if (n > 5) {
-				distance = 5 * pot;
-			} else if (n > 2) {
-				distance = 2 * pot;
-			} else {
-				distance = pot;
-			}
-
-
-		axis.updateDecorations(distance, numberFormat, 
-				xOffset, yOffset,
-				((-vx-xOffset)*3)/2,//-vx,//-2*xOffset,
-				((-vy-yOffset)*3)/2//-vy//-2*yOffset
+		getGeoElement().setLabelOffset(
+				((-vx-numbersXOffset)*3)/2,//-vx,//-2*xOffset,
+				((-vy-numbersYOffset)*3)/2//-vy//-2*yOffset
 				);
-		
     	
     }
     
@@ -275,7 +246,7 @@ public class DrawAxis3D extends DrawLine3D {
      * @return distance between two ticks
      */
     public double getNumbersDistance(){
-    	return ((GeoAxisND) getGeoElement()).getNumbersDistance();
+    	return 1;//((GeoAxisND) getGeoElement()).getNumbersDistance();
     }
     
     
