@@ -10,7 +10,7 @@ import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
-import geogebra.web.gui.app.GGWFrameLayoutPanel;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -369,7 +369,10 @@ public class DockManagerW extends DockManager {
 				//set dividers for application 
 				windowWidth = app.getOWidth();
 				windowHeight = app.getOHeight();
-				windowHeight -= GGWFrameLayoutPanel.MINUS_FROM_HEIGHT;
+				windowHeight -= GLookAndFeel.TOOLBAR_HEIGHT;
+				if(app.showAlgebraInput()){
+					windowHeight -= GLookAndFeel.COMMAND_LINE_HEIGHT;
+				}
 
 				rootPane.clear();
 				rootPane.setSize("100%", "100%");

@@ -1,6 +1,5 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.web.main.AppW;
@@ -8,13 +7,12 @@ import geogebra.web.main.AppW;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.StackPanel;
 
 /**
@@ -23,7 +21,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 
-public class MainMenu extends FlowPanel implements ResizeHandler {
+public class MainMenu extends FlowPanel implements RequiresResize {
 	
 	/**
 	 * Appw app
@@ -113,7 +111,7 @@ public class MainMenu extends FlowPanel implements ResizeHandler {
 		
 	    this.add(menuPanel);
 	    
-	    onResize(null);
+	    onResize();
 	}
 	
 	private String setHTML(ImageResource img, String s){
@@ -169,9 +167,8 @@ public class MainMenu extends FlowPanel implements ResizeHandler {
 		return null;
     }
 
-	public void onResize(ResizeEvent e) {
-		boolean input = app.getArticleElement().getDataParamShowAlgebraInput() || App.isFullAppGui();
-		int menuHeight = (int) (app.getHeight() - (input ? GLookAndFeel.COMMAND_LINE_HEIGHT : 0) - GLookAndFeel.TOOLBAR_HEIGHT);
+	public void onResize() {
+		int menuHeight = (int) (app.getHeight() - (app.showAlgebraInput() ? GLookAndFeel.COMMAND_LINE_HEIGHT : 0) - GLookAndFeel.TOOLBAR_HEIGHT);
 	    this.setHeight(menuHeight + "px");
     }
 	

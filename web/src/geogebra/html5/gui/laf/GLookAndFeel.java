@@ -15,9 +15,8 @@ public class GLookAndFeel {
 	public static final int MENUBAR_WIDTH_MAX = 204;
 	public static final int TOOLBAR_HEIGHT = 53;
 	public MainMenu getMenuBar(AppW app) {
-		MainMenu menubar = new MainMenu(app);
-	    Window.addResizeHandler(menubar);
-	    return menubar;
+		return new MainMenu(app);
+	    
     }
 
 	public boolean undoRedoSupported() {

@@ -1,5 +1,6 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.main.App;
 import geogebra.html5.gui.view.Views;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -73,6 +74,17 @@ public class ViewMenuW extends GMenuBar {
 				      );
 			addItem(items[i].getMenuItem());
 		}
+		GCheckBoxMenuItem inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		        .getSafeUri().asString(), app.getMenu("InputField"), true),
+		        new Command() {
+			        public void execute() {
+			        	App.debug("AI:"+app.showAlgebraInput());
+				        app.setShowAlgebraInput(!app.showAlgebraInput(), true);
+				        app.updateCenterPanel(true);
+				        app.updateViewSizes();
+			        }
+		        });
+		addItem(inputBarItem.getMenuItem());
 		
 		addSeparator();
 		

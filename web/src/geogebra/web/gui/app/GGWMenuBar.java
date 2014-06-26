@@ -6,9 +6,10 @@ import geogebra.web.main.AppW;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GGWMenuBar extends Composite {
+public class GGWMenuBar extends Composite implements RequiresResize{
 	
 	HorizontalPanel ggbmenubarwrapper;
 	private MainMenu menubar;
@@ -41,6 +42,11 @@ public class GGWMenuBar extends Composite {
 	public void focus() {
 	    menubar.focus();
 	    
+    }
+
+	@Override
+    public void onResize() {
+	    menubar.onResize();
     }
 	
 }

@@ -16,9 +16,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	private int MENUBAR_WIDTH = 0;
 	private boolean menuClosed = true;
-	
-
-	public static final int MINUS_FROM_HEIGHT = GLookAndFeel.COMMAND_LINE_HEIGHT + GLookAndFeel.TOOLBAR_HEIGHT;
 
 	GGWToolBar ggwToolBar;
 	GGWCommandLine ggwCommandLine;
@@ -47,12 +44,13 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		// if(app.showToolBar()){
 		dockPanel.addNorth(getToolBar(), GLookAndFeel.TOOLBAR_HEIGHT);
 		// }
-		if (app.showInputTop()) {
-			dockPanel.addNorth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
-		} else {
-			dockPanel.addSouth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
+		if(app.showAlgebraInput()){
+			if (app.showInputTop()) {
+				dockPanel.addNorth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
+			} else {
+				dockPanel.addSouth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
+			}
 		}
-		
 		dockPanel.addEast(getMenuBar(), MENUBAR_WIDTH);
 
 		if (app.getGuiManager().getLayout().getRootComponent() != null) {
@@ -61,6 +59,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		}
 
 		onResize();
+		/*if(ggwMenuBar!=null){
+			ggwMenuBar.getMenubar().onResize(null);
+		}*/
+			
 	}
 
 	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.
