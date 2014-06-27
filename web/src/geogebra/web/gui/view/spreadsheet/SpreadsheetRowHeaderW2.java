@@ -4,7 +4,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -133,13 +132,13 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 			initializeCell(i);
 		}
 	}
-	
-	public void setRowHeight(int rowIndex, int rowHeight){
-		
-		if(rowIndex >= getRowCount()){
+
+	public void setRowHeight(int rowIndex, int rowHeight) {
+
+		if (rowIndex >= getRowCount()) {
 			return;
 		}
-		
+
 		getRowFormatter().getElement(rowIndex).getStyle()
 		        .setHeight(rowHeight, Style.Unit.PX);
 	}
