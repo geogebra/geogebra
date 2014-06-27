@@ -60,9 +60,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 
 		int row = table.getSelectedRow();
 		int column = table.getSelectedColumn();
-		int np = 0;
-		int op = 0;
-
+		
 		switch (keyCode) {
 
 		case KeyCodes.KEY_UP://KeyEvent.VK_UP:
@@ -300,53 +298,46 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			break;
 
 
-		case GWTKeycodes.KEY_C://KeyEvent.VK_C:
-		case GWTKeycodes.KEY_V://KeyEvent.VK_V:
-		case GWTKeycodes.KEY_X://KeyEvent.VK_X:
-		case GWTKeycodes.KEY_DELETE://KeyEvent.VK_DELETE: 	                         
-		case GWTKeycodes.KEY_BACKSPACE://KeyEvent.VK_BACK_SPACE:
-			if (! editor.isEditing()) {
-				if (Character.isLetterOrDigit(
-					Character.toChars(e.getNativeEvent().getCharCode())[0]
-					) &&
-						!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
+		case GWTKeycodes.KEY_C:// KeyEvent.VK_C:
+		case GWTKeycodes.KEY_V:// KeyEvent.VK_V:
+		case GWTKeycodes.KEY_X:// KeyEvent.VK_X:
+			if (!editor.isEditing()) {
+				if (!(ctrlDown || e.isAltKeyDown())) {				
 					letterOrDigitTyped();
-				} else	if (ctrlDown) {
-					//e.consume();
-
+				} else if (ctrlDown) {
+					// e.consume();
 					if (keyCode == GWTKeycodes.KEY_C) {
-							//KeyEvent.VK_C) {
+						// KeyEvent.VK_C) {
 						table.copy(altDown);
-					}
-					else if (keyCode == GWTKeycodes.KEY_V) {
-							//KeyEvent.VK_V) {
+					} else if (keyCode == GWTKeycodes.KEY_V) {
+						// KeyEvent.VK_V) {
 						boolean storeUndo = table.paste();
 						view.rowHeaderRevalidate();
 						if (storeUndo)
 							app.storeUndoInfo();
-					}
-					else if (keyCode == GWTKeycodes.KEY_X) {
-							//KeyEvent.VK_X) {
+					} else if (keyCode == GWTKeycodes.KEY_X) {
+						// KeyEvent.VK_X) {
 						boolean storeUndo = table.cut();
 						if (storeUndo)
 							app.storeUndoInfo();
 					}
 				}
-				if (keyCode == GWTKeycodes.KEY_DELETE ||
-						//KeyEvent.VK_DELETE || 	                                         
-						keyCode == GWTKeycodes.KEY_BACKSPACE
-						//KeyEvent.VK_BACK_SPACE
-						) {
-					e.preventDefault();
-					//e.consume();
-					//Application.debug("deleting...");
-					boolean storeUndo = table.delete();
-					if (storeUndo)
-						app.storeUndoInfo();
-				}
+			}
+			break;
+			
+			
+		case GWTKeycodes.KEY_DELETE:// KeyEvent.VK_DELETE:
+		case GWTKeycodes.KEY_BACKSPACE:// KeyEvent.VK_BACK_SPACE:
+			if (!editor.isEditing()) {
+				e.preventDefault();
+				// e.consume();
+				// Application.debug("deleting...");
+				boolean storeUndo = table.delete();
+				if (storeUndo)
+					app.storeUndoInfo();
 				return;
 			}
-			break;		
+			break;
 			
 		//case KeyEvent.VK_ENTER:	
 		case GWTKeycodes.KEY_F2://KeyEvent.VK_F2:	//FIXME
@@ -521,8 +512,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 			    if (charcode > 0)
 					ch = new String(Character.toChars(charcode));
 
-				Object ce = table.getCellEditor(table.getSelectedRow()+1, table.getSelectedColumn()+1);
-				GeoClass ceType = table.getCellEditorType(table.getSelectedRow()+1, table.getSelectedColumn()+1);
+				Object ce = table.getCellEditor(table.getSelectedRow(), table.getSelectedColumn());
+				GeoClass ceType = table.getCellEditorType(table.getSelectedRow(), table.getSelectedColumn());
 				if (ce instanceof MyCellEditorW && ceType == GeoClass.DEFAULT && ch != "") {
 					((MyCellEditorW)ce).setText(ch);
 					((AutoCompleteTextFieldW)((MyCellEditorW)ce).getTextfield()).setCaretPosition(
