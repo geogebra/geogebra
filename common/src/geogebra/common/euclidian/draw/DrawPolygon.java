@@ -254,7 +254,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 						}
 
 						for (double ang2 = 0; ang2 < 180; ang2 += 15) {
-							if (angle == 90) {
+							if (ang2 == angle) {
+								continue;
+							} else if (ang2 == 90) {
 								l2.setCoords(1.0, 0, -px2);
 							} else {
 								double gradient2 = Math.tan(ang2 * Math.PI
@@ -270,7 +272,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 							double y1 = intersection.y / intersection.z;
 
 							double d = MyMath.length(x1 - xRW, y1 - yRW);
-							// Application.debug(d+" "+x1+","+y1+" "+xRW+","+yRW);
+							//App.debug("angle = "+angle+"\nang2 = "+ang2+"\n("+x1+","+y1+")");// "+xRW+","+yRW);
 							// Application.debug(x1+","+y1);
 							if (d < dist) {
 								nearestX = x1;
