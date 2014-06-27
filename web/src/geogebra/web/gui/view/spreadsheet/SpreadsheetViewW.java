@@ -2,8 +2,6 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
@@ -66,7 +64,7 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 	//private JPanel restorePanel;
 
 	// toolbar manager
-	//SpreadsheetToolbarManager toolbarManager;
+	SpreadsheetToolbarManagerW toolbarManager;
 
 	// file browser defaults
 	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
@@ -112,9 +110,9 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		attachView();
 
 		// Create tool bar manager to handle tool bar mode changes
-		/*toolbarManager = new SpreadsheetToolbarManager(app, this);
+		toolbarManager = new SpreadsheetToolbarManagerW(app, this);
 
-		dndHandler = new SpreadsheetViewDnD(app, this);*/
+//		dndHandler = new SpreadsheetViewDnD(app, this);
 
 		settingsChanged(settings());
 
@@ -412,19 +410,22 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 
 		toolbarManager.handleModeChange(mode);
 */
-		switch(mode){
-		case EuclidianConstants.MODE_SPREADSHEET_SUM:
-		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
-		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
-		case EuclidianConstants.MODE_SPREADSHEET_MIN:
-		case EuclidianConstants.MODE_SPREADSHEET_MAX:
-			
-			// Handle autofunction modes
-			
-			table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
 
-			break;
-		}
+		toolbarManager.handleModeChange(mode);
+//		switch(mode){
+//		case EuclidianConstants.MODE_SPREADSHEET_SUM:
+//		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
+//		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
+//		case EuclidianConstants.MODE_SPREADSHEET_MIN:
+//		case EuclidianConstants.MODE_SPREADSHEET_MAX:
+//			
+//			// Handle autofunction modes
+//			
+//			table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
+//
+//			break;
+//		default:
+//		}
 	}
 
 	/**

@@ -118,7 +118,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	@Override
 	public Object getValueAt(int row, int column) {
 		return defaultTableModel.get(row*colNum+column);
-	}
+}
 
 	@Override
 	public void setValueAt(Object value, int row, int column) {
