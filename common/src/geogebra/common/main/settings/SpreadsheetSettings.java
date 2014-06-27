@@ -706,7 +706,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 			if (showFormulaBar) {
 				sb.append(" showFormulaBar=\"true\"");
-				sb.append(showFormulaBar() ? "true" : "false");
 				sb.append("\"");
 			}
 
