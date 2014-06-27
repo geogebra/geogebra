@@ -1726,33 +1726,22 @@ public class MyTableW implements  /* FocusListener, */MyTable {
 				editRow = row;
 				editColumn = col;
 
-				// do this now, and do it later in renderCells - memorized row
-				// and col
 				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor(
 				        row , col )).getTableCellEditorWidget(this, ob,
 				        false, row, col);
 
-				int cew = ssGrid.getCellFormatter().getElement(row, col)
-				        .getOffsetWidth();
-				cew -= minusColumnWidth;
-				if (cew <= 0)
-					cew = preferredColumnWidth - minusColumnWidth;
-
-				int ceh = ssGrid.getCellFormatter().getElement(row, col)
-				        .getOffsetHeight();
-				ceh -= minusRowHeight + 2;
-				if (ceh <= 0)
-					ceh = minimumRowHeight - minusRowHeight - 2;
-
-				//w.getTextField().setPixelSize(cew, ceh);
-				//App.debug("~~~~~~~~~~ ceh = " + ceh);
-				w.getTextField().getElement().getStyle().setHeight(ceh, Unit.PX);
-				
+				// set height and position of the editor	
+				int editorHeight = ssGrid.getCellFormatter().getElement(row, col)
+				        .getClientHeight();
+				w.getTextField().getElement().getStyle().setHeight(editorHeight, Unit.PX);				
 				positionEditorPanel(true, row, col);
 
+				// give it the focus
 				w.requestFocus();
 				renderSelection();
+				
 				return true;
+				
 			case BOOLEAN:
 			case BUTTON:
 			case LIST:

@@ -1364,18 +1364,6 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		}
 	};
 
-	private int verticalScrollPosition = -1;
-	private int horizontalScrollPosition = -1;
-
-	public void setVerticalScrollPosition(int vsp) {
-		table.setVerticalScrollPosition(vsp);
-		verticalScrollPosition = vsp;
-	}
-
-	public void setHorizontalScrollPosition(int vsp) {
-		table.setHorizontalScrollPosition(vsp);
-		horizontalScrollPosition = vsp;
-	}
 
 	// test all components of SpreadsheetView for hasFocus
 	//@Override
