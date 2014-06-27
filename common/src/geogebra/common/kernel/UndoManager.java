@@ -101,9 +101,11 @@ public abstract class UndoManager {
 	 * needed for "cancel" actions).
 	 */
 	final public synchronized void restoreCurrentUndoInfo() {
+		app.getKernel().storeSelectedGeosNames();
 		loadUndoInfo(iterator.previous());
 		iterator.next();
 		updateUndoActions();
+		app.getKernel().recallSelectedGeosNames();
 	}
 	
 	/**

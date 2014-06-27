@@ -1,5 +1,6 @@
 package geogebra.common.gui.dialog.options.model;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.CoordStyle;
@@ -57,8 +58,19 @@ public class CoordsModel extends MultipleOptionsModel {
 	@Override
 	protected void apply(int index, int value) {
 		getCoordStyleAt(index).setMode(coordValues.get(value));
-		getGeoAt(index).updateRepaint();
 	
+	}
+	
+	
+	@Override
+	public boolean applyChanges(int value) {
+		if(super.applyChanges(value)){
+			// e.g. u*v can create number (dot product) or complex number (complex product)
+			getGeoAt(0).getConstruction().getUndoManager().storeUndoInfo(true);
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override

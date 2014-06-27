@@ -4,13 +4,15 @@ public abstract class NumberOptionsModel extends OptionsModel {
 	protected abstract void apply(int index, int value);
 	protected abstract int getValueAt(int index);
 
-	public void applyChanges(int value) {
+	public boolean applyChanges(int value) {
 		if (!hasGeos()) {
-			return;
+			return false;
 		}
 		
 		for (int i = 0; i < getGeosLength(); i++) {
 			apply(i, value);
 		}
+		
+		return true;
 	}
 }

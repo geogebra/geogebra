@@ -407,16 +407,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// vector * vector (inner/dot product)
 			else if (rt instanceof VectorValue) {
 				vec = ((VectorValue) lt).getVector();
-				if (vec.getMode() == Kernel.COORD_COMPLEX) {
+				GeoVec2D vec2 = ((VectorValue) rt).getVector();
+				if (vec.getMode() == Kernel.COORD_COMPLEX || vec2.getMode() == Kernel.COORD_COMPLEX ) {
 
 					// complex multiply
 
-					GeoVec2D.complexMultiply(vec,
-							((VectorValue) rt).getVector(), vec);
+					GeoVec2D.complexMultiply(vec, vec2, vec);
 					return vec;
 				}
 				num = new MyDouble(kernel);
-				GeoVec2D.inner(vec, ((VectorValue) rt).getVector(), num);
+				GeoVec2D.inner(vec, vec2, num);
 				return num;
 			}
 			return illegalBinary(lt,rt, "IllegalMultiplication","*");

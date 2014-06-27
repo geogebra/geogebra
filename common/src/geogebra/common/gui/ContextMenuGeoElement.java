@@ -64,7 +64,7 @@ public abstract class ContextMenuGeoElement {
 				point1.updateRepaint();
 			}
 		}
-		app.storeUndoInfo();
+		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
 	}
 
 	public void polarCoorsCmd() {
@@ -78,7 +78,7 @@ public abstract class ContextMenuGeoElement {
 				point1.updateRepaint();
 			}
 		}
-		app.storeUndoInfo();
+		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
 	}
 	
 
@@ -135,7 +135,7 @@ public abstract class ContextMenuGeoElement {
 				vector1.updateRepaint();
 			}
 		}
-		app.storeUndoInfo();
+		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
 	}
 
 	public void polarCoordsForVectorItemsCmd() {
@@ -149,7 +149,7 @@ public abstract class ContextMenuGeoElement {
 				vector1.updateRepaint();
 			}
 		}
-		app.storeUndoInfo();
+		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
 	}
 
 	public void implicitConicEquationCmd() {

@@ -3562,7 +3562,7 @@ public class Kernel {
 	/**
 	 * store selected geos names
 	 */
-	private void storeSelectedGeosNames(){
+	public void storeSelectedGeosNames(){
 		selectedGeosNames.clear();
 		for(GeoElement geo: getApplication().getSelectionManager().getSelectedGeos())
 			selectedGeosNames.add(geo.getLabelSimple());
@@ -3571,7 +3571,7 @@ public class Kernel {
 	/**
 	 * set geos selected from their names
 	 */
-	private void recallSelectedGeosNames(){
+	public void recallSelectedGeosNames(){
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 		for (String name: selectedGeosNames){
 			GeoElement geo = lookupLabel(name);
