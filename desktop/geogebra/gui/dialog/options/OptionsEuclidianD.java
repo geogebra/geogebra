@@ -85,7 +85,9 @@ public class OptionsEuclidianD extends
 	// GUI containers
 	protected AxisPanel xAxisPanel, yAxisPanel;
 	protected JTabbedPane tabbedPane;
-	private JPanel dimPanel, stylePanel, typePanel;
+	private JPanel dimPanel, stylePanel;
+
+	protected JPanel typePanel;
 
 	protected JPanel axesOptionsPanel;
 
@@ -101,7 +103,11 @@ public class OptionsEuclidianD extends
 	protected JButton btAxesColor;
 
 	protected JButton btGridColor;
-	private JCheckBox cbShowAxes, cbBoldAxes, cbShowGrid;
+	protected JCheckBox cbShowAxes;
+
+	private JCheckBox cbBoldAxes;
+
+	private JCheckBox cbShowGrid;
 
 	protected JCheckBox cbBoldGrid;
 
@@ -330,6 +336,11 @@ public class OptionsEuclidianD extends
 		axesOptionsPanel = new JPanel();
 		axesOptionsPanel.setLayout(new BoxLayout(axesOptionsPanel,
 				BoxLayout.Y_AXIS));
+		fillAxesOptionsPanel();
+		
+	}
+	
+	protected void fillAxesOptionsPanel(){
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes,
 				Box.createHorizontalStrut(20), cbBoldAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(color, btAxesColor,
@@ -426,12 +437,16 @@ public class OptionsEuclidianD extends
 				cbGridTickAngle);
 		typePanel = new JPanel();
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.Y_AXIS));
-		typePanel.add(LayoutUtil.flowPanel(cbGridType));
+		addComboGridType();
 		typePanel.add(LayoutUtil.flowPanel(cbGridManualTick));
 		typePanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
 				gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
 				cbGridTickAngle));
 
+	}
+	
+	protected void addComboGridType(){
+		typePanel.add(LayoutUtil.flowPanel(cbGridType));
 	}
 
 	private void initGridStylePanel() {
@@ -471,11 +486,15 @@ public class OptionsEuclidianD extends
 		initGridStylePanel();
 
 		JPanel gridPanel = new JPanel(new FullWidthLayout());
+		fillGridPanel(showGridPanel, gridPanel);
+
+		return gridPanel;
+	}
+	
+	protected void fillGridPanel(JPanel showGridPanel, JPanel gridPanel){
 		gridPanel.add(showGridPanel);
 		gridPanel.add(typePanel);
 		gridPanel.add(stylePanel);
-
-		return gridPanel;
 	}
 
 	final protected void updateMinMax() {
@@ -584,9 +603,13 @@ public class OptionsEuclidianD extends
 		ckOpenConsProtocol.setEnabled(isVisible);
 
 	}
+	
+	protected void setTypePanelLabel(){
+		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
+	}
 
 	public void setLabels() {
-		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
+		setTypePanelLabel();
 
 		int index = cbGridType.getSelectedIndex();
 		cbGridType.removeActionListener(this);
@@ -875,7 +898,7 @@ public class OptionsEuclidianD extends
 	 */
 	protected void updateFont(Font font) {
 
-		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
+		setTypePanelLabel();
 
 		cbGridType.setFont(font);
 

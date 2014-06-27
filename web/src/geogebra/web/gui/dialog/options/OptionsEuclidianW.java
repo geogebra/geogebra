@@ -82,12 +82,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private ToggleButton tbLockRatio;
 		
 		
-		private CheckBox cbShowAxes;
+		protected CheckBox cbShowAxes;
 		private CheckBox cbBoldAxes;
 		private Label colorLabel;
 		private MyCJButton btAxesColor;
 		private Label lineStyle;
-		private FlowPanel axesOptionsPanel;
+		protected FlowPanel axesOptionsPanel;
 		private AutoCompleteTextFieldW axesOptionTitle;
 		private Label axesOptionsTitle;
 		private PopupMenuButton axesStylePopup;
@@ -260,7 +260,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
         }
 
-		private void addAxesOptionsPanel() {
+		protected void addAxesOptionsPanel() {
 
 			axesOptionsTitle = new Label();
 			axesOptionsTitle.setStyleName("panelTitle");
@@ -336,10 +336,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// axes options panel
 			axesOptionsPanel = new FlowPanel();
 			add(axesOptionsTitle);
-			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes,
-					 cbBoldAxes));
-			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
-					 lineStyle, axesStylePopup));
+			fillAxesOptionsPanel();
 			cbShowAxes.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
@@ -357,6 +354,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 			indent(axesOptionsPanel);
 		}
+		
+		protected void fillAxesOptionsPanel(){
+			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes,
+					 cbBoldAxes));
+			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
+					 lineStyle, axesStylePopup));
+		}
+
 
 		private void togglePlayButton() {
 			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
@@ -644,11 +649,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
 	protected class AxisTab extends EuclidianTab {
 		private AxisPanel axisPanel;
-		
-//		public AxisTab(int axis) {
-//			this(axis, false);
-//		}
-		
+			
 		public AxisTab(int axis, boolean view3D) {
 			axisPanel = new AxisPanel(app, view, axis, view3D);
 			setStyleName("propertiesTab");
@@ -661,7 +662,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 	}
 		
-	private class GridTab extends EuclidianTab {
+	protected class GridTab extends EuclidianTab {
 		private static final int iconHeight = 24;
 		private CheckBox cbShowGrid;
 		private ListBox lbGridType;
@@ -672,7 +673,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label gridLabel1;
 		private Label gridLabel2;
 		private Label gridLabel3;
-		private Label lblGridType;
+		protected Label lblGridType;
 		private Label lblGridStyle;
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
@@ -738,7 +739,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			FlowPanel gridTickAnglePanel = new FlowPanel();
 			gridTickAnglePanel.setStyleName("panelRow");
-			gridTickAnglePanel.add(lbGridType);
+			addGridType(gridTickAnglePanel);
 		
 			
 			// grid labels
@@ -785,13 +786,17 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			typePanel.setStyleName("panelIndent");
 			add(typePanel);
 		}
+		
+		protected void addGridType(FlowPanel gridTickAnglePanel){
+			gridTickAnglePanel.add(lbGridType);
+		}
 
 
 		private void initGridStylePanel() {
 
 			// line style
 			lblGridStyle = new Label();
-			add(lblGridStyle);
+			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
 			btnGridStyle = LineStylePopup.create(app, iconHeight, -1, false);
 			//			slider.setSnapToTicks(true);
@@ -857,14 +862,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			stylePanel.add(LayoutUtil.panelRowIndent(btnGridStyle));
 			stylePanel.add(LayoutUtil.panelRowIndent(lblColor, btGridColor, cbBoldGrid));
 			
-			add(stylePanel);
+			addOnlyFor2D(stylePanel);
+		}
+		
+		
+		protected void addOnlyFor2D(Widget w){
+			add(w);
 		}
 
 
 		public void setLabels() {
 	        cbShowGrid.setText(app.getPlain("ShowGrid"));
 	        int idx = lbGridType.getSelectedIndex();
-	        lblGridType.setText(app.getPlain("GridType"));
+	        setGridTypeLabel();
 	        lbGridType.clear();
 	        model.fillGridTypeCombo();
 	        lbGridType.setSelectedIndex(idx);
@@ -877,6 +887,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblGridStyle.setText(app.getPlain("LineStyle"));
 			lblColor.setText(app.getPlain("Color") + ":");
 			cbBoldGrid.setText(app.getMenu("Bold"));
+		}
+		
+		protected void setGridTypeLabel(){
+			lblGridType.setText(app.getPlain("GridType"));
 		}
 
 		public void addGridTypeItem(String item) {
@@ -1007,8 +1021,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	private void addGridTab() {
-		gridTab = new GridTab();
+		gridTab = newGridTab();
 		tabPanel.add(gridTab, "grid");
+	}
+	
+	/**
+	 * 
+	 * @return new grid tab
+	 */
+	protected GridTab newGridTab(){
+		return new GridTab();
 	}
 
 	/**

@@ -69,7 +69,33 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		super.initAxesOptionsPanel();
 
+		
+	}
+	
+	
+	@Override
+	protected void fillAxesOptionsPanel(){
+		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbYAxisVertical));
+	}
+	
+	
+	@Override
+	protected void fillGridPanel(JPanel showGridPanel, JPanel gridPanel){
+		gridPanel.add(showGridPanel);
+		gridPanel.add(typePanel);
+	}
+	
+
+	@Override
+	protected void setTypePanelLabel(){
+		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")+" : "+app.getMenu("Cartesian")));
+	}
+
+	
+	@Override
+	protected void addComboGridType(){
+		//TODO remove this when implemented
 	}
 
 	@Override

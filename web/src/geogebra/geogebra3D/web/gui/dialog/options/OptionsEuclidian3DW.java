@@ -43,7 +43,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 	 */
 	protected class BasicTab3D extends BasicTab {
 		
-		
+		private CheckBox cbYAxisVertical;
 		private CheckBox cbUseClipping, cbShowClipping;
 		private FlowPanel clippingOptionsPanel, boxSizePanel;
 		private Label clippingOptionsTitle, boxSizeTitle;
@@ -70,13 +70,38 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 		
 		
-		protected void fillMiscPanel(){
+		@Override
+        protected void fillMiscPanel(){
 			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
 		}
 		
 		
-		protected void applyBackgroundColor(GColor color){
+		@Override
+        protected void applyBackgroundColor(GColor color){
 			model.applyBackgroundColor(3, color);
+		}
+		
+		@Override
+        protected void addAxesOptionsPanel() {
+			
+			cbYAxisVertical = new CheckBox();
+			cbYAxisVertical.setStyleName("YAxisVertical");
+			
+			cbYAxisVertical.addClickHandler(new ClickHandler(){
+
+				@Override
+                public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).setYAxisVertical(cbYAxisVertical.getValue());
+					view.repaintView();
+				}});
+			
+			super.addAxesOptionsPanel();
+		}
+		
+		@Override
+        protected void fillAxesOptionsPanel(){
+			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes));
+			axesOptionsPanel.add(LayoutUtil.panelRow(cbYAxisVertical));
 		}
 		
         private void addClippingOptionsPanel() {
@@ -156,7 +181,10 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
         /**
          * update clipping properties (use and size)
          */
-        public void updateClippingProperties(){
+        public void update3DProperties(){
+        	
+        	cbYAxisVertical.setValue(((EuclidianView3D) view).getYAxisVertical());
+        	
         	cbUseClipping.setValue(((EuclidianView3D) view).useClippingCube());
         	cbShowClipping.setValue(((EuclidianView3D) view).showClippingCube());
         	
@@ -173,6 +201,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		@Override
         public void setLabels() {
 			super.setLabels();
+			
+			cbYAxisVertical.setText("YAxisVertical");
+			
 			clippingOptionsTitle.setText(app.getPlain("Clipping"));
 			cbUseClipping.setText(app.getPlain("UseClipping"));
 			cbShowClipping.setText(app.getPlain("ShowClipping"));
@@ -184,6 +215,33 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 		
 		
+	}
+	
+	@Override
+    protected GridTab newGridTab(){
+		return new GridTab3D();
+	}
+
+	
+	private class GridTab3D extends GridTab {
+
+		public GridTab3D() {
+	       super();
+        }
+		
+		@Override
+        protected void addGridType(FlowPanel gridTickAnglePanel){
+			// TODO remove this when implemented
+		}
+
+		@Override
+        protected void addOnlyFor2D(Widget w){
+			// TODO remove this when implemented
+		}
+		
+		protected void setGridTypeLabel(){
+			lblGridType.setText(app.getPlain("GridType")+" : "+app.getMenu("Cartesian"));
+		}
 	}
 	
 	
@@ -217,7 +275,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					this.index = index;
 				}
 
-				public void onClick(ClickEvent event) {
+				@Override
+                public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setProjection(index);	 
 					view.repaintView();
                 }
@@ -279,7 +338,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfPersp = getTextField();
 			tfPersp.addKeyHandler(new KeyHandler() {
 
-				public void keyReleased(KeyEvent e) {
+				@Override
+                public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processPerspText();
 					}
@@ -310,7 +370,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfGlassesEyeSep = getTextField();
 			tfGlassesEyeSep.addKeyHandler(new KeyHandler() {
 
-				public void keyReleased(KeyEvent e) {
+				@Override
+                public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processGlassesEyeSepText();
 					}
@@ -324,7 +385,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			cbGlassesGray = new CheckBox(app.getPlain("GrayScale"));
 			cbGlassesGray.addClickHandler(new ClickHandler(){
 
-				public void onClick(ClickEvent event) {
+				@Override
+                public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setGlassesGrayScaled(cbGlassesGray
 							.getValue());
 					view.repaintView();
@@ -332,7 +394,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			cbGlassesShutDownGreen= new CheckBox(app.getPlain("ShutDownGreen"));
 			cbGlassesShutDownGreen.addClickHandler(new ClickHandler(){
 
-				public void onClick(ClickEvent event) {
+				@Override
+                public void onClick(ClickEvent event) {
 					((EuclidianView3D) view)
 					.setGlassesShutDownGreen(cbGlassesShutDownGreen
 							.getValue());
@@ -359,7 +422,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfObliqueAngle = getTextField();
 			tfObliqueAngle.addKeyHandler(new KeyHandler() {
 
-				public void keyReleased(KeyEvent e) {
+				@Override
+                public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processObliqueAngleText();
 					}
@@ -375,7 +439,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfObliqueFactor = getTextField();
 			tfObliqueFactor.addKeyHandler(new KeyHandler() {
 
-				public void keyReleased(KeyEvent e) {
+				@Override
+                public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processObliqueFactorText();
 					}
@@ -487,7 +552,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		
 		
 
-		public void setLabels() {
+		@Override
+        public void setLabels() {
 			orthoTitle.setText(app.getPlain("Orthographic"));
 			
 			perspTitle.setText(app.getPlain("Perspective"));
@@ -543,7 +609,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	@Override
     public void updateGUI() {
-		((BasicTab3D) basicTab).updateClippingProperties();
+		((BasicTab3D) basicTab).update3DProperties();
 		projectionTab.updateGUI();
 		super.updateGUI();
 	}
@@ -569,7 +635,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		addZAxisTab();
 	}
 	
-	protected AxisTab newAxisTab(int axis){
+	@Override
+    protected AxisTab newAxisTab(int axis){
 		return new AxisTab(axis, true);
 	}
 	
