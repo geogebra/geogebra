@@ -55,7 +55,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 		//Application.debug(keyCode+"");
 		//boolean shiftDown = e.isShiftDown();
 		boolean altDown = e.isAltKeyDown();
-		boolean ctrlDown = e.isControlKeyDown(); //AppW.isControlDown(e) // Windows ctrl/Mac Meta
+		boolean ctrlDown = e.isControlKeyDown() || e.isMetaKeyDown();
+		
+		//AppW.isControlDown(e) // Windows ctrl/Mac Meta
 		//|| e.isControlDown(); // Fudge (Mac ctrl key)	
 
 		int row = table.getSelectedRow();
