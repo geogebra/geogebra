@@ -29,6 +29,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.kernelND.GeoVecInterface;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Riemann;
@@ -44,7 +45,7 @@ import org.apache.commons.math.complex.Complex;
  */
 
 final public class GeoVec2D extends ValidExpression implements
-		VectorValue {
+		VectorValue, GeoVecInterface {
 
 	private double x = Double.NaN;
 	private double y = Double.NaN;
@@ -1376,6 +1377,10 @@ final public class GeoVec2D extends ValidExpression implements
 	@Override
 	public boolean hasCoords() {
 		return true;
+	}
+
+	public double getZ() {
+		return 0;
 	}
 
 }

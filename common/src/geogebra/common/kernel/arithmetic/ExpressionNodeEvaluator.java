@@ -113,7 +113,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					int rows = myList.getMatrixRows();
 					int cols = myList.getMatrixCols();
 					if (isMatrix && (rows == 3) && (cols == 3)) {
-						Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
+						Geo3DVec myVec = ((Vector3DValue) rt).getVector();
 						// 3x3 matrix * 3D vector / point
 						myVec.multiplyMatrix(myList, rt);
 						return myVec;
@@ -277,8 +277,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (lt instanceof Vector3DValue && rt instanceof Vector3DValue) {
 			Vector3DValue vec1 = (Vector3DValue) lt;
 			Vector3DValue vec2 = (Vector3DValue) rt;
-			return new MyBoolean(kernel, vec1.get3DVec().isEqual(
-					vec2.get3DVec()));
+			return new MyBoolean(kernel, vec1.getVector().isEqual(
+					vec2.getVector()));
 		}
 
 		return new MyBoolean(kernel, false);
@@ -351,10 +351,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return num;
 			}
 			// number * vector
-			else if (rt instanceof VectorValue) {
-				vec = ((VectorValue) rt).getVector();
-				GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
-				return vec;
+			else if (rt instanceof VectorNDValue) {
+				return multiply((NumberValue) lt, (VectorNDValue) rt);
 			}
 			// number * boolean -- already in number * number
 
@@ -397,27 +395,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return num;
 		}
 		// vector * ...
-		else if (lt instanceof VectorValue) {
+		else if (lt instanceof VectorNDValue) {
 			// vector * number
 			if (rt instanceof NumberValue) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.mult(vec, ((NumberValue) rt).getDouble(), vec);
-				return vec;
+				return multiply((NumberValue) rt, (VectorNDValue) lt);
 			}
 			// vector * vector (inner/dot product)
-			else if (rt instanceof VectorValue) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D vec2 = ((VectorValue) rt).getVector();
-				if (vec.getMode() == Kernel.COORD_COMPLEX || vec2.getMode() == Kernel.COORD_COMPLEX ) {
-
+			else if (rt instanceof VectorNDValue) {
+				if (((VectorNDValue) lt).getMode() == Kernel.COORD_COMPLEX || ((VectorNDValue) rt).getMode() == Kernel.COORD_COMPLEX ) {
 					// complex multiply
-
-					GeoVec2D.complexMultiply(vec, vec2, vec);
-					return vec;
+					return complexMult((VectorNDValue) lt, (VectorNDValue) rt, kernel);
 				}
-				num = new MyDouble(kernel);
-				GeoVec2D.inner(vec, vec2, num);
-				return num;
+				return innerProduct((VectorNDValue) lt, (VectorNDValue) rt, kernel);
 			}
 			return illegalBinary(lt,rt, "IllegalMultiplication","*");
 			
@@ -467,6 +456,47 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		
 		return illegalBinary(lt,rt, "IllegalMultiplication","*");
 	}
+	
+	
+	/**
+	 * 
+	 * @param en number
+	 * @param ev vector
+	 * @return en*ev
+	 */
+	protected ExpressionValue multiply(NumberValue en, VectorNDValue ev){
+		GeoVec2D vec = ((VectorValue) ev).getVector();
+		GeoVec2D.mult(vec, en.getDouble(), vec);
+		return vec;
+	}
+	
+	/**
+	 * 
+	 * @param ev1 first vector
+	 * @param ev2 second vector
+	 * @param kernel kernel
+	 * @return ev1*ev2 complex product
+	 */
+	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel){
+		GeoVec2D vec = ((VectorValue) ev1).getVector();
+		GeoVec2D.complexMultiply(vec, ((VectorValue) ev2).getVector(), vec);
+		return vec;
+	}
+	
+	
+	/**
+	 * 
+	 * @param ev1 first vector
+	 * @param ev2 second vector
+	 * @param kernel kernel
+	 * @return ev1*ev2 inner product
+	 */
+	protected ExpressionValue innerProduct(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel){
+		MyDouble num = new MyDouble(kernel);
+		GeoVec2D.inner(((VectorValue) ev1).getVector(), ((VectorValue) ev2).getVector(), num);
+		return num;
+	}
+	
 	/**
 	 * Performs addition
 	 * @param lt left argument

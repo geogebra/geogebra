@@ -31,9 +31,12 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoVecInterface;
 import geogebra.common.main.App;
 
 import java.util.HashSet;
+
+import org.apache.commons.math.complex.Complex;
 
 /** 
  * 
@@ -420,13 +423,30 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     }    
    
 
-    final public static void inner(GeoVec2D a, GeoVec2D b, double c) {
-        c = a.getX() * b.getX() + a.getY() * b.getY();        
-    }       
     
-    final public static void inner(Geo3DVec a, Geo3DVec b, MyDouble c) {
-        c.set(a.x * b.x + a.y * b.y + a.z * b.z);        
-    }           
+    final public static void inner(GeoVecInterface a, GeoVecInterface b, MyDouble c) {
+        c.set(a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ());        
+    }    
+    
+    
+	final public static void complexMultiply(GeoVecInterface a, GeoVecInterface b, GeoVec2D c) {
+		
+		if (!Kernel.isZero(a.getZ()) || !Kernel.isZero(b.getZ())){
+			c.setX(Double.NaN);
+			c.setY(Double.NaN);
+			c.setMode(Kernel.COORD_COMPLEX);
+			return;
+		}
+			
+		
+		Complex out = new Complex(a.getX(), a.getY());
+		out = out.multiply(new Complex(b.getX(), b.getY()));
+		c.setX(out.getReal());
+		c.setY(out.getImaginary());
+
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+    
     
     /** c = a / b */
     final public static void div(Geo3DVec a, double b, Geo3DVec c) {
@@ -583,9 +603,6 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 			return new double [] { getX(),getY(),getZ()};
 		}
 
-		public Geo3DVec get3DVec() {
-			return this;
-		}
 		
 		public String toOutputValueString(StringTemplate tpl) {
 			return toValueString(tpl);
@@ -615,7 +632,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 			double a, b, c, d, e, f, g, h, i, z1, xx = x, yy = y, zz = 1;
 
 			if (rt instanceof Vector3DValue) {
-				geogebra.common.kernel.kernelND.Geo3DVec v = ((Vector3DValue) rt).get3DVec();
+				geogebra.common.kernel.kernelND.Geo3DVec v = ((Vector3DValue) rt).getVector();
 				xx = v.getX();
 				yy = v.getY();
 				zz = v.getZ();

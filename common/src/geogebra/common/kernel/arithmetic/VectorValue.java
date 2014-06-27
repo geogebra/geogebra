@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
  *
  * @author  Markus
  */
-public interface VectorValue extends ExpressionValue { 
+public interface VectorValue extends VectorNDValue { 
 	/**
 	 * @return this vector value as GeoVec2D
 	 */

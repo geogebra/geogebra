@@ -464,7 +464,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	}
 
-	public Geo3DVec get3DVec() {
+	public Geo3DVec getVector() {
 		return new Geo3DVec(kernel, v.getX(), v.getY(), v.getZ());
 	}
 

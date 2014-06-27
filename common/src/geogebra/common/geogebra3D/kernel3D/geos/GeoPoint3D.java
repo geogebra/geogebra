@@ -971,7 +971,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return getInhomCoords().get();
 	}
 
-	public Geo3DVec get3DVec() {
+	public Geo3DVec getVector() {
 		return new Geo3DVec(kernel, getX(), getY(), getZ());
 	}
 

@@ -17,7 +17,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 /**
  * Interface for 3D vectors (not to be confused with GeoVec3D)
  */
-public interface Geo3DVec extends ExpressionValue{
+public interface Geo3DVec extends GeoVecInterface{
 	/**
 	 * @param vec other vector
 	 * @return true if this vector and other vector have same coordinates

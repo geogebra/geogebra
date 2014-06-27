@@ -19,23 +19,19 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic3D;
 
 
-import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.VectorNDValue;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 
 /**
  *
  * @author  Markus + ggb3D
  */
-public interface Vector3DValue extends ExpressionValue { 
+public interface Vector3DValue extends VectorNDValue { 
 	/** 
 	 * Converts vector to array of coords 
 	 * @return array of coords
 	 */
     public double[] getPointAsDouble();    
-    public int getMode(); // SPHERICAL or CARTESIAN_3D
-    //public void setMode(int mode);       
-    /** converts vector to GeoVec3D 
-     * @return vector
-     */
-	public Geo3DVec get3DVec();
+
+	public Geo3DVec getVector();
 }
