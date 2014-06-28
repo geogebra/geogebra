@@ -98,6 +98,10 @@ public class StringUtil {
 	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
 		'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
+	public static String toHTMLString(String title) {
+		return toHTMLString(title, true);
+	}
+	
 	/**
 	 * Converts the given unicode string 
 	 * to an html string where special characters are
@@ -106,7 +110,7 @@ public class StringUtil {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	final public static String toHTMLString(String str) {
+	final public static String toHTMLString(String str, boolean encodeLTGT) {
 		if (str == null)
 			return null;
 
@@ -120,17 +124,22 @@ public class StringUtil {
 
 			//  standard characters have code 32 to 126
 			if ((code >= 32 && code <= 126)) {
-				switch (code) {
-				case 60:
-					sb.append("&lt;");
-					break; //   <
-				case 62:
-					sb.append("&gt;");
-					break; // >
-
-				default:
-					//do not convert                
+				
+				if (!encodeLTGT) {
 					sb.append(c);
+				} else {
+					switch (code) {
+					case 60:
+						sb.append("&lt;");
+						break; //   <
+					case 62:
+						sb.append("&gt;");
+						break; // >
+
+					default:
+						//do not convert                
+						sb.append(c);
+					}
 				}
 			}
 			// special characters

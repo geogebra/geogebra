@@ -1493,9 +1493,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				if ((icon_column && addIcons) || !icon_column) {
 					int col = table.getColumnModel().getColumn(nCol)
 							.getModelIndex();
-					String str = StringUtil
-							.toHTMLString(((ConstructionTableData) data)
-									.getPlainHTMLAt(nRow, col, thisPath));
+					String str = StringUtil.toHTMLString(
+							((ConstructionTableData) data).getPlainHTMLAt(nRow,
+									col, thisPath), false);
 					sb.append("<td>");
 					if (str.equals(""))
 						sb.append("&nbsp;"); // space
