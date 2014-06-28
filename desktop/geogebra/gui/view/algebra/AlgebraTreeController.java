@@ -72,13 +72,23 @@ implements MouseListener, MouseMotionListener{
 	 * MouseListener implementation for popup menus
 	 */
 	public void mouseClicked(java.awt.event.MouseEvent e) {	
+		// use mouse released instead
+	}
+	
+	public void mouseReleased(java.awt.event.MouseEvent e) {
+		
+		// process click if no dragging
+		if (draggingOccured){
+			return;
+		}
+		
 		// right click is consumed in mousePressed, but in GeoGebra 3D,
 		// where heavyweight popup menus are enabled this doesn't work
 		// so make sure that this is no right click as well (ticket #302)
 		if (e.isConsumed() || AppD.isRightClick(e)) {
 			return;
 		}
-
+		
 		// get GeoElement at mouse location		
 		TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
 		GeoElement geo = AlgebraTree.getGeoElementForPath(tp);	
@@ -167,8 +177,20 @@ implements MouseListener, MouseMotionListener{
 	
 
 
-	public void mousePressed(java.awt.event.MouseEvent e) {		
-		leftPress(e);		
+	public void mousePressed(java.awt.event.MouseEvent e) {	
+		leftPress(e);
+		setMousePressed();
+	}
+	
+	private long lastMousePressedTime;
+	
+	/**
+	 * set values (dragging, mouse pressed time)
+	 */
+	protected void setMousePressed(){
+
+		draggingOccured = false;
+		lastMousePressedTime = System.currentTimeMillis();
 	}
 	
 	/**
@@ -316,11 +338,7 @@ implements MouseListener, MouseMotionListener{
 		return null;
 		
 	}
-
-	public void mouseReleased(java.awt.event.MouseEvent e) {
-		//
-	}
-
+	
 	public void mouseEntered(java.awt.event.MouseEvent p1) {
 		//
 	}
@@ -330,9 +348,15 @@ implements MouseListener, MouseMotionListener{
 		highlight(app.getActiveEuclidianView(), (GeoElement) null);
 	}
 
+	
+	private boolean draggingOccured = false;
+	
 	// MOUSE MOTION LISTENER
 	public void mouseDragged(MouseEvent arg0) {
-		//
+		// used for interactive boards
+		if (System.currentTimeMillis() > EuclidianConstants.DRAGGING_DELAY + lastMousePressedTime){		
+			draggingOccured = true;
+		}
 	}
 	
 	/**
