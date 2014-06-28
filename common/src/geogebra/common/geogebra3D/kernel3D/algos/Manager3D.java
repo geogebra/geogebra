@@ -704,15 +704,21 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	public GeoConicND Circle3D(String label, GeoPointND A, GeoPointND B,
-			GeoDirectionND axis) {
+			GeoDirectionND orientation) {
 
+		if (!((GeoElement) A).isGeoElement3D() && !((GeoElement) B).isGeoElement3D()  // 2D geos
+				&& orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return kernel.getAlgoDispatcher().Circle(label, (GeoPoint) A, (GeoPoint) B);
+		}
+
+		// at least one 3D geo	or specific orientation	
 		AlgoCircle3DPointDirection algo = new AlgoCircle3DPointPointDirection(
-				cons, label, A, B, axis);
+				cons, label, A, B, orientation);
 		GeoConic3D circle = algo.getCircle();
 		// circle.setToSpecific();
 		circle.update();
 		kernel.notifyUpdate(circle);
-		return circle;
+		return circle;		
 
 	}
 

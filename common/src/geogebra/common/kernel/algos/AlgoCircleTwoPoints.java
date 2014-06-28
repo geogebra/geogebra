@@ -86,14 +86,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	 * public final void compute() { circle.setCircle(M, P); }
 	 */
 
-	@Override
-	final public String toString(StringTemplate tpl) {
-
-		return loc.getPlain("CircleThroughAwithCenterB",
-				((GeoElement) getP()).getLabel(tpl),
-				((GeoElement) getM()).getLabel(tpl));
-
-	}
+	
 	
 	public Variable[] getBotanaVars(GeoElement geo) {
 		if (botanaVars == null) {
@@ -130,6 +123,43 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleTwoPoints(geo, this, scope);
+	}
+	
+	
+
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+	
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+	
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+
+		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+			return loc.getPlain("CircleThroughAwithCenterB",
+					((GeoElement) getP()).getLabel(tpl),
+					((GeoElement) getM()).getLabel(tpl));
+		}
+
+		return loc.getPlain("CircleThroughAwithCenterBInXOYPlane",
+				((GeoElement) getP()).getLabel(tpl),
+				((GeoElement) getM()).getLabel(tpl));
 	}
 
 }
