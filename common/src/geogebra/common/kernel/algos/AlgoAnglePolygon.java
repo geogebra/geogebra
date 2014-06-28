@@ -168,6 +168,29 @@ public class AlgoAnglePolygon extends AlgoAngle {
 		// nothing to do here
 		return true;
 	}
+	
+	
+
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+	
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+	
 
 	// TODO Consider locusequability
 }

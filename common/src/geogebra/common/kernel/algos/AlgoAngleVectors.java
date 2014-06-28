@@ -165,4 +165,26 @@ public class AlgoAngleVectors extends AlgoAngle {
 	}
 	
 	// TODO Consider locusequability
+	
+
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+	
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+	
 }
