@@ -562,8 +562,10 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 		case MODE_EUCLIDIAN_VIEW3D:
-			if ("euclidianView3D".equals(eName))
+			if ("euclidianView3D".equals(eName)){
+				evSet = null;
 				mode = MODE_GEOGEBRA;
+			}
 			break;
 
 		case MODE_ALGEBRA_VIEW:
