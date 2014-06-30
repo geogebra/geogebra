@@ -1,9 +1,10 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -54,35 +55,90 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 	}
 	
 	
+
+	private GeoPolygon3D[] oldFaces;
+	private int oldFacesIndex;
 	
-	private OutputHandler<GeoPolygon3D> algoParentPolygons;
+	private GeoSegment3D[] oldSegments;
+	
+	@Override
+	public void createFaces() {
+		
+		// save old faces
+		if(polygons!=null){
+			oldFaces = getFaces();
+			oldFacesIndex = 0;
+		}else{
+			oldFaces = null;
+		}
+		
+		// save old edges
+		if (segments!=null){
+			oldSegments = getSegments3D();
+		}else{
+			oldSegments = null;
+		}
+		
+		// clear to renew
+		polygons.clear();
+		segments.clear();
+		
+		
+		super.createFaces();
+		
+		
+		
+		
+	}
 	
 	/**
-	 * 
-	 * @param algoParentPolygons algoParent output polygons
+	 * clear indexes (needed before new call to createFaces)
 	 */
-	public void setAlgoParentPolygons(OutputHandler<GeoPolygon3D> algoParentPolygons){
-		this.algoParentPolygons = algoParentPolygons;
+	public void clearIndexes(){
+		polygonsIndex.clear();
+		polygonsDescriptions.clear();
+		polygonsIndexMax = 0;
+		segmentsIndex.clear();
+		segmentsIndexMax = 0;
 	}
 
 	
 	@Override
 	public GeoPolygon3D createPolygon(GeoPointND[] points, int index) {
-		
-		if (algoParentPolygons != null && index < algoParentPolygons.size()){ // reuse algoParent output			
-			GeoPolygon3D polygon = algoParentPolygons.getElement(index);
-			polygon.modifyInputPoints(points); 
-
+				
+		if (oldFaces != null && oldFacesIndex < oldFaces.length){
+			GeoPolygon3D polygon = oldFaces[oldFacesIndex];
+			polygon.modifyInputPoints(points);
+			polygons.put(index, polygon);
+			oldFacesIndex++;
 			return polygon;
 		}
 
 		return super.createPolygon(points, index);
 	}
 	
+	
+	@Override
+	public GeoSegmentND createNewSegment(GeoPointND startPoint, GeoPointND endPoint, ConstructionElementCycle key) {
+		
+		if (oldSegments != null && segmentsIndexMax < oldSegments.length){
+			GeoSegment3D segment = oldSegments[(int) segmentsIndexMax];
+			segment.modifyInputPoints(startPoint, endPoint);
+			storeSegment(segment, key);
+			return segment;
+		}
+		
+		return super.createNewSegment(startPoint, endPoint, key);
+	}
+	
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.NET;
 	}
+	
+	
+	
+	
 }
 
 

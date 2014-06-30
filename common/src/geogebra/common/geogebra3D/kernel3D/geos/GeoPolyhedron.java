@@ -445,7 +445,19 @@ GeoPolyhedronInterface
 			//App.error("segmentsLinked : "+key);
 			return segmentsLinked.get(key);
 		}
+		
+		return createNewSegment(startPoint, endPoint, key);
 
+	}
+	
+	/**
+	 * create new segment (if not already exists)
+	 * @param startPoint start point
+	 * @param endPoint end point
+	 * @param key key for segment
+	 * @return new segment
+	 */
+	protected GeoSegmentND createNewSegment(GeoPointND startPoint, GeoPointND endPoint, ConstructionElementCycle key) {
 
 		//App.error("new segment : "+key);
 
@@ -470,12 +482,23 @@ GeoPolyhedronInterface
 			}
 		}
 
+		storeSegment(segment, key);
+
+		return segment;
+
+	}
+	
+	
+	/**
+	 * store the segment with the given key
+	 * @param segment segment
+	 * @param key key
+	 */
+	protected void storeSegment(GeoSegment3D segment, ConstructionElementCycle key){
 		Long index = new Long(segmentsIndexMax);
 		segmentsIndex.put(key, index);
 		segments.put(index, segment);
 		segmentsIndexMax++;
-
-		return segment;
 
 	}
 

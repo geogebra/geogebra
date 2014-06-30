@@ -118,20 +118,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		outputSegments = createOutputSegments();
 
 		
-		setSegmentsToFacesLink(p);
-
-		if (iBottom != -1) {
-			netComplete = makeNetMap(p);
-			if (netComplete){
-				createNet();
-
-				// create faces
-				getNet().createFaces();
-
-
-			}
-
-		}			
+		netFacesCompute();
 
 		if (iBottom != -1) {
 			
@@ -148,7 +135,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 					outputSegments.addOutput(segment, false);
 				}
 
-				getNet().setAlgoParentPolygons(outputPolygons);
 
 			}
 
@@ -174,10 +160,11 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		if (iBottom != -1) {
 			netComplete = makeNetMap(p);
 			if (netComplete){
+				getNet().clearIndexes();
 				createNet();
 
 				// create faces
-				//getNet().createFaces();
+				getNet().createFaces();
 
 
 			}
@@ -197,7 +184,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		segmentInfoList.clear();
 		segmentList.clear();
 		polygonChildSegsList.clear();
-
+		
 		//set iBottom as first face if bottomFace null
 		if (bottomFace != null) { 
 			iBottom = -1; // correct value set below
@@ -227,6 +214,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 						break;
 					}
 				}
+
 				if (!found) {
 					//add thisSegment to the segmentList
 					segmentList.add(thisSegment);
@@ -238,7 +226,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 						for (GeoSegmentND pSeg : userCutSegments) {
 							if (pSeg.isEqual(thisSegment)){
 								newSegParent.userCut = true;
-								//App.debug("Cut found -----");
+								//App.debug("===== Cut found ----- "+thisSegment);
 							}
 						}
 					}

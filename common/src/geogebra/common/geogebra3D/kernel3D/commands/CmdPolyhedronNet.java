@@ -6,6 +6,8 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
 
 
@@ -75,8 +77,8 @@ public class CmdPolyhedronNet extends CommandProcessor {
 	    	throw argNumErr(app, c.getName(), n);
 
 	    default :
-	    	throw argNumErr(app, c.getName(), n);
-	    	/*
+//	    	throw argNumErr(app, c.getName(), n);
+	    	
 	    	arg = resArgs(c);
 	    	
 	    	if (
@@ -108,7 +110,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 			if (!ok[1])
 				throw argErr(app, c.getName(), arg[1]);
 			throw argErr(app, c.getName(), arg[2]);
-	    	 */
+	    	 
 
 			
 	    
