@@ -254,7 +254,20 @@ public class AxisModel {
 
 	public void fillAxisCombo() {
 		listener.addAxisLabelItem("");
-		listener.addAxisLabelItem(axis == 0 ? "x" : "y");
+		String defaultLabel;
+		switch(axis){
+		case AXIS_X:
+			defaultLabel = "x";
+			break;
+		case AXIS_Y:
+		default:
+			defaultLabel = "y";
+			break;
+		case AXIS_Z:
+			defaultLabel = "z";
+			break;
+		}
+		listener.addAxisLabelItem(defaultLabel);
 		String[] greeks = TableSymbols.greekLowerCase;
 		for (int i = 0; i < greeks.length; i++) {
 			listener.addAxisLabelItem(greeks[i]);
