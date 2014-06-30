@@ -3,7 +3,9 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
+import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.CardPanel;
 import geogebra.web.gui.dialog.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -12,6 +14,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -48,13 +51,14 @@ public class CreateObjectDialogW extends InputDialogW implements
 	private ScrollPanel previewPanel;
 
 	private ListBox cbLeftRightOrder;
-	private FlowPanel cards;
+	private CardPanel cards;
 	private Label lblPreview;
 	private FlowPanel namePanel;
 	private FlowPanel optionPane;
 	//private DefaultListModel model;
 	private ListBox typeList;
 	boolean showApply = false;
+	private Label lblPreviewHeader;
 
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
 
@@ -69,23 +73,23 @@ public class CreateObjectDialogW extends InputDialogW implements
 		//
 		// boolean showApply = false;
 		//
-		createGUI(coModel.getTitle(), "", false, 16, 1, false, false, false,
+		createGUI(coModel.getTitle(), coModel.getTitle(), false, 16, 1, false, false, false,
 				showApply, DialogType.GeoGebraEditor);
 
-		// this.btCancel.setVisible(false);
 
 		createAdditionalGUI();
 
 		updateGUI();
 
 		isIniting = false;
-		setLabels();
+	
 		// setTitle((String) model.getElementAt(objectType));
 
 		// optionPane.add(inputPanel, BorderLayout.CENTER);
 		typeList.setSelectedIndex(objectType);
 
-		centerOnScreen();
+		centerOnScreen();//
+		setLabels();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -177,6 +181,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 //				p.getPreferredSize().height));
 //
 		optionPane.add(op);
+		inputPanel.add(optionPane);
 
 	}
 
@@ -205,20 +210,20 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		// TODO: this is not a good way to manage visibility of option panels
 		// ..fix it if we need more options in the future
-//		cards = new FlowPanel(new CardLayout());
-//		cards.add("c0", orderPanel);
-//		cards.add("c1", transposePanel);
-//		cards.add("c2", xySwitchPanel);
-//		cards.add("c3", transposePanel);
+		cards = new CardPanel();
+		cards.add(orderPanel);
+		cards.add(transposePanel);
+		cards.add(xySwitchPanel);
+		cards.add(transposePanel);
 
 		optionsPanel = new FlowPanel();
 		optionsPanel.add(northPanel);
 		// optionsPanel.add(Box.createRigidArea(new Dimension(50,10)),
 		// app.borderWest());
-//		optionsPanel.add(cards, BorderLayout.CENTER);
+		optionsPanel.add(cards);
 
-		// lblPreviewHeader = new JLabel();
-		// optionsPanel.add(lblPreviewHeader, BorderLayout.SOUTH);
+		//lblPreviewHeader = new Label();
+		//optionsPanel.add(lblPreviewHeader);
 
 	}
 
@@ -226,8 +231,9 @@ public class CreateObjectDialogW extends InputDialogW implements
 	@Override
 	public void setLabels() {
 
-		if (isIniting)
+		if (isIniting){
 			return;
+		}
 
 		// TODO: using buttons incorrectly for now
 		// btnOK = cancel, cancel = create
@@ -277,14 +283,13 @@ public class CreateObjectDialogW extends InputDialogW implements
 //		optionsPanel.setBorder(BorderFactory.createTitledBorder(app
 //				.getMenu("Options")));
 
-		//setTitle(coModel.getTitle());
+		wrappedPopup.setTitle(coModel.getTitle());
 
 	}
 
 	private void updateGUI() {
 		coModel.update();
-//		CardLayout cl = (CardLayout) (cards.getLayout());
-//		cl.show(cards, "c" + typeList.getSelectedIndex());
+		cards.setSelectedIndex(typeList.getSelectedIndex());
 
 		/*
 		 * cbOrder.removeAllItems(); if(objectType == TYPE_LIST){
@@ -333,6 +338,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 				// btOK acts as cancel for now
 			} else if (source == btOK) {
+				App.debug("OOOOOOOOOOOOOOOK!");
 				coModel.ok();
 			}
 
@@ -356,6 +362,12 @@ public class CreateObjectDialogW extends InputDialogW implements
 		}
 	}
 
+	@Override
+	protected void actionPerformed(DomEvent event) {
+		Widget source = (Widget) event.getSource();
+		apply(source);
+	}
+	
 	private void doTextFieldActionPerformed() {
 		coModel.createNewGeo(fldName.getText());
 	}
