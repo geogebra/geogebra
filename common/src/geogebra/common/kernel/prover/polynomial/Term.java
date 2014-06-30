@@ -183,7 +183,10 @@ public class Term implements Comparable<Term> {
 				sb.append(power);
 			}
 		}
-		return sb.substring(1); // removing first "*" character
+		if (sb.length()>0) {
+			return sb.substring(1); // removing first "*" character
+		}
+		return "";	
 	}
 
 	/**
