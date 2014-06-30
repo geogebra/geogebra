@@ -361,6 +361,18 @@ namespace giac {
   gen _deuxpoints(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_deuxpoints;
 
+  // Maple worksheet translate
+#ifdef NSPIRE
+  template<class T> void in_mws_translate(nio::ios_base<T> &  inf,nio::ios_base<T> &  of);
+  template<class T> void mws_translate(nio::ios_base<T> &  inf,nio::ios_base<T> &  of);
+  template<class T> void ti_translate(nio::ios_base<T> &  inf,nio::ios_base<T> &  of);
+#else
+  void mws_translate(std::istream & inf,std::ostream & of);
+  void in_mws_translate(std::istream & inf,std::ostream & of);
+  // TI function/program ASC file translate
+  void ti_translate(std::istream & inf,std::ostream & of);
+#endif
+
   gen quote_read(const gen & args,GIAC_CONTEXT); // read in a file and return non evaled
   gen _read(const gen & args,GIAC_CONTEXT); // read in a file and return evaled
   extern const unary_function_ptr * const  at_read;

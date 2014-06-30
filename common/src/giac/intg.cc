@@ -3930,6 +3930,9 @@ namespace giac {
       if (is_positive(step,contextptr))
 	step=-step;
       for (;!ctrl_c && !interrupted && is_greater(debut,fin,contextptr);debut=debut+step){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
 	tmp=eval(tmp,contextptr);
 	tmp=quotesubst(tmp,v[1],debut,contextptr);
@@ -3943,6 +3946,9 @@ namespace giac {
       if (is_positive(-step,contextptr))
 	step=-step;
       for (;!ctrl_c && !interrupted && is_greater(fin,debut,contextptr);debut=debut+step){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
 	tmp=eval(tmp,contextptr);
 	tmp=quotesubst(tmp,v[1],debut,contextptr);

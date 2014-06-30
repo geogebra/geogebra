@@ -5515,6 +5515,9 @@ namespace giac {
     pivots.clear();
     pivots.reserve(cmax-c);
     for (;(l<lmax) && (c<cmax);){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	return 0;
       if ( (!fullreduction) && (l==lmax-1) )

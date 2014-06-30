@@ -296,6 +296,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
       if (curu>u)
 	current.insert(current.end(),(curu-u)/var2,T(0));
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted || !gcdsmallmodpoly(pcontxn,current,pminptr,modulo,tmp))
 	return false;
       pcontxn=tmp;
@@ -323,6 +326,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
       if (curu>u)
 	current.insert(current.end(),(curu-u)/var2,T(0));
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted || !DivRem(current,pcontxn,pminptr,modulo,tmp,reste))
 	return false;
       typename vector<T>::const_iterator jt=tmp.begin(),jtend=tmp.end();
@@ -551,6 +557,9 @@ mpz_class smod(const mpz_class & a,int reduce){
     for (++i;i<=degxn;++i){
       if (pcont.size()==1 && pcont.front().u==0)
 	return true;
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted || !mod_gcd(pcont,vp[i],pminptr,modulo,varsn,pcont,pcof,qcof,false,nthreads))
 	return false;
     }
@@ -2107,6 +2116,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 
 #ifndef NO_TEMPLATE_MULTGCD
   static void * do_recursive_gcd_call(void * ptr_){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted)
       return 0;
     gcd_call_param<int> * ptr = (gcd_call_param<int> *) ptr_;
@@ -2615,6 +2627,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 	      ++alpha;
 	      alpha1=alpha%2?-(alpha+1)/2:alpha/2;
 	    }
+#ifdef TIMEOUT
+	    control_c();
+#endif
 	    if (ctrl_c || interrupted || alpha>=modulo)
 	      return false;
 	    int maxtotaldeg=ptotaldeg+1-e;
@@ -2641,6 +2656,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 	      ++alpha;
 	      alpha1=alpha%2?-(alpha+1)/2:alpha/2;
 	    }
+#ifdef TIMEOUT
+	    control_c();
+#endif
 	    if (ctrl_c || interrupted || alpha>=modulo)
 	      return false;
 	    int maxtotaldeg=ptotaldeg+1-e;
@@ -2708,6 +2726,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 	// find a good alpha with respect to leading coeff
 	for (;;){
 	  ++alpha;
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c || interrupted || alpha==modulo){
 	    CERR << "Modgcd: no suitable evaluation point" << endl;
 	    return false;
@@ -2759,6 +2780,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 	do_recursive_gcd_call((void *)&gcd_call_param_v[thread]);
 #endif
       }
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	return false;
 #ifdef HAVE_PTHREAD_H
@@ -3294,6 +3318,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       vector< T_unsigned<int,hashgcd_U> > p1,q1,g1,pcof1,qcof1,p2,q2,g2,pcof2,qcof2;
       for (;;){
 	m=nextprime(m+1);
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (ctrl_c || interrupted || m.type!=_INT_)
 	  return false;
 	int modulo=m.val;
@@ -3409,6 +3436,9 @@ mpz_class smod(const mpz_class & a,int reduce){
     vector< T_unsigned<int,hashgcd_U> > p,q,g,pcof,qcof;
     for (;;){
       m=nextprime(m+1);
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted || m.type!=_INT_)
 	return false;
       int modulo=m.val;
@@ -3560,6 +3590,9 @@ mpz_class smod(const mpz_class & a,int reduce){
   }
 
   static void mulextaux(const modpoly & a,const modpoly &b,int modulo,modpoly & new_coord){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       new_coord=vecteur(1, gensizeerr(gettext("Stopped by user interruption."))); 
@@ -4701,6 +4734,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 
 #ifndef NO_TEMPLATE_MULTGCD
   static void * do_recursive_gcd_ext_call(void * ptr_){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted)
       return 0;
     gcd_call_param< vector<int> > * ptr = (gcd_call_param< vector<int> > *) ptr_;
@@ -5110,6 +5146,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 	    ++alpha;
 	    alpha1=alpha%2?-(alpha+1)/2:alpha/2;
 	  }
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c || interrupted || alpha>=modulo)
 	    return false;
 	  int maxtotaldeg=ptotaldeg+1-e;
@@ -5183,6 +5222,9 @@ mpz_class smod(const mpz_class & a,int reduce){
 	// find a good alpha with respect to leading coeff
 	for (;;){
 	  ++alpha;
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c || interrupted || alpha==modulo){
 	    CERR << "Modgcd: no suitable evaluation point" << endl;
 	    return false;
@@ -5229,6 +5271,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
       // wait for all threads before doing modifications in gcdv and co
       for (int thread=0;thread<nthreads-1;++thread){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (ctrl_c || interrupted)
 	  return 0;
 	int vpos=alphav.size()-(nthreads-thread);
@@ -5494,6 +5539,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       // sqrts of -1 modulo the primes, ichinrem 
       for (int n=0;;n++){
 	m=nextprime(m+1);
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (ctrl_c || interrupted || m.type!=_INT_)
 	  return false;
 	int modulo=m.val;
@@ -5539,11 +5587,17 @@ mpz_class smod(const mpz_class & a,int reduce){
 	  continue;
 	int res=gcd_ext(p1,q1,vars,pmin,modulo,g1,pcof1,qcof1,compute_cofactors,compute_cofactors,nthreads);
 	// ?FIXME? check that g1, pcof1, qcof1 are normalized
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (res==-1 || ctrl_c || interrupted)
 	  return false;
 	if (!res)
 	  continue;
 	res=gcd_ext(p2,q2,vars,pmin,modulo,g2,pcof2,qcof2,compute_cofactors,compute_cofactors,nthreads);
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (res==-1 || ctrl_c || interrupted)
 	  return false;
 	if (!res)
@@ -5636,6 +5690,9 @@ mpz_class smod(const mpz_class & a,int reduce){
     vector< T_unsigned<gen,hashgcd_U> > dtestold;
     for (int n=0;;n++){
       m=nextprime(m+1);
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted || m.type!=_INT_)
 	return false;
       int modulo=m.val;
@@ -5664,6 +5721,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       // then it won't be when variables of p or q are evaluated
       // hence checking in dim 1 is sufficient
       int res=gcd_ext(p,q,vars,pmin,modulo,g,pcof,qcof,compute_cofactors,compute_cofactors,nthreads);
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted || res==-1)
 	return false;
       if (!res)

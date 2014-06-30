@@ -796,7 +796,7 @@ namespace giac {
     double factorialaabbd=std::lgamma(aa+bb+d+1),factorialaabb=std::lgamma(aa+bb+1);
     r=std::exp(factorialaabbd-(factorialaabb+factoriald));
     if (debug_infolevel)
-      CERR << "// Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << std::endl;
+      CERR << "// " << clock() << " Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << std::endl;
     new_coord.clear();
     new_coord.reserve(std::min(int(r),itend-it));
     // add terms with same power

@@ -903,7 +903,7 @@ namespace giac {
       factorialaabb=std::log(evalf_double(factorial(aa+bb+1),1,context0)._DOUBLE_val);
     r=std::exp(factorialaabbd-(factorialaabb+factoriald));
     if (debug_infolevel)
-      CERR << "// Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << endl;
+      CERR << "// " << clock() << " Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << endl;
     new_coord.clear();
     if (my_isinf(r) || my_isnan(r) || r>1e9)
       new_coord.reserve(itend-it);
@@ -1595,6 +1595,10 @@ namespace giac {
 		convert_from(remain32,d,r,true);
 		return true;
 	      }
+	      else {
+		if (debug_infolevel>1)	      
+		  CERR << "hashdivrem1 int32 failure " << clock() << std::endl;
+	      }
 	    }
 	    if (debug_infolevel>1)
 	      CERR << "hashdivrem1 longlong begin " << clock() << " maxp1=" << maxp1 << " maxp2=" << maxp2 << " ddeg=" << ddeg << std::endl;
@@ -1604,6 +1608,10 @@ namespace giac {
 	      convert_from(quot,d,quo,false);
 	      convert_from(remain,d,r,false);
 	      return true;
+	    }
+	    else {
+	      if (debug_infolevel>1)	      
+		CERR << "hashdivrem1 longlong failure " << clock() << std::endl;
 	    }
 	    doit=false;
 	  }
@@ -1624,6 +1632,10 @@ namespace giac {
 	      convert_from(quot,d,quo,false);
 	      convert_from(remain,d,r,false);
 	      return true;
+	    }
+	    else {
+	      if (debug_infolevel>1)	      
+		CERR << "hashdivrem1mpz failure " << clock() << std::endl;
 	    }
 	  }
 	}
@@ -1657,6 +1669,10 @@ namespace giac {
 	      convert_from(remain,d,r,false);
 	      return true;
 	    }
+	    else {
+	      if (debug_infolevel>1)	      
+		CERR << "hashdivrem1 longlong ulonglong failure " << clock() << std::endl;
+	    }
 	  }
 	}
 #ifdef HAVE_GMPXX_H
@@ -1676,6 +1692,10 @@ namespace giac {
 	      convert_from(quot,d,quo,false);
 	      convert_from(remain,d,r,false);
 	      return true;
+	    }
+	    else {
+	      if (debug_infolevel>1)	      
+		CERR << "hashdivrem1 ulonglong failure " << clock() << std::endl;
 	    }
 	  }
 	}
@@ -2241,6 +2261,147 @@ namespace giac {
       it->value=evalf(it->value,1,context0);
   }
 
+  // Ducos: optimizations of the subresultant algorithm
+  
+  // n=d-1-e, d=degree(Sd), e=degree(Sd1), Se=(lc(Sd1)^n*Sd1)/lc(Sd)^n
+  void ducos_e(const polynome & Sd,const polynome & Sd1,polynome & Se){
+    int n=Sd.lexsorted_degree()-Sd1.lexsorted_degree()-1;
+    if (!n){
+      Se=Sd1;
+      return;
+    }
+    if (n==1){
+      Se=(Tfirstcoeff(Sd1)*Sd1)/Tfirstcoeff(Sd);
+      return;
+    }
+    // n>=2
+    polynome sd(Tfirstcoeff(Sd)),sd1(Tfirstcoeff(Sd1)),s((sd1*sd1)/sd);
+    for (int j=2;j<n;++j){
+      s=(s*sd1)/sd;
+    }
+    Se=(s*Sd1)/sd;
+  }
+
+  // compute S_{e-1}
+  void ducos_e1(const polynome & A,const polynome & Sd1,const polynome & Se,const polynome & sd,polynome & res){
+    int d=A.lexsorted_degree(),e=Sd1.lexsorted_degree(),dim=A.dim;
+    if (debug_infolevel)
+      CERR << clock() << "ducos_e1 begin d=" << d << endl;
+    polynome cd1(Tfirstcoeff(Sd1)),se(Tfirstcoeff(Se));
+    index_t sh(dim);
+#if 0
+    vector<polynome> Hv;
+    for (int j=0;j<e;++j){
+      sh[0]=j;
+      Hv.push_back(se.shift(sh));
+    }
+#else
+    vector<polynome> Hv(e);
+    Hv.reserve(d);
+#endif
+    sh[0]=e;
+    Hv.push_back(se.shift(sh)-Se);
+    for (int j=e+1;j<d;++j){
+      polynome XHj1(Hv.back());
+      sh[0]=1; XHj1=XHj1.shift(sh); // X*H_{j-1}
+      polynome piXHj1(XHj1.Tcoeffs() [XHj1.lexsorted_degree()-e].untrunc1());
+      XHj1=XHj1-(piXHj1*Sd1)/cd1;
+      Hv.push_back(XHj1);
+    }
+    polynome D(A.dim),DA(A.dim); // sum_{j<d} pi_j(A)*H_j/lc(A)
+#if 1
+    vector<polynome> Av(A.Tcoeffs()); 
+#else
+    vector<polynome> Av; A.Tcoeffs(Av);
+#endif
+    // split next loop in 2 parts, because Hv indexes lower than e are straightforward
+    if (debug_infolevel)
+      CERR << clock() << "ducos_e1 D begin" << endl;
+    for (int j=e-1;j>=0;--j){
+      sh[0]=j;
+      D.append(Av[Av.size()-1-j].untrunc1()*se.shift(sh));
+    }
+    if (debug_infolevel)
+      CERR << clock() << "ducos_e1 D j=e" << endl;
+    for (int j=e;j<d;++j){
+      D = D + Av[Av.size()-1-j].untrunc1()*Hv[j];
+    }
+    if (debug_infolevel)
+      CERR << clock() << "ducos_e1 D end" << endl;
+#if 1
+    D = D/Av.front().untrunc1();
+#else
+    if (!is_one(Av.front())){
+      polynome quo(dim),rem(dim);
+      divrem1(D,Av.front().untrunc1(),quo,rem,3,false);
+      D.coord.swap(quo.coord);
+    }
+#endif
+    if (debug_infolevel)
+      CERR << clock() << "ducos_e1 D ready" << endl;
+    polynome Hd1(Hv.back());
+    sh[0]=1;
+    Hd1=Hd1.shift(sh); // X*Hd1
+#if 1
+    res=(cd1*(Hd1+D)-(Hd1.coeff(e).untrunc1()*Sd1));
+#else
+    res=(cd1*(Hd1+D)-(Hd1.Tcoeffs()[Hv.size()-1-e]).untrunc1()*Sd1);
+#endif
+#if 1
+    res=res/sd;
+#else
+    if (!is_one(sd)){
+      polynome quo(dim),rem(dim);
+      divrem1(res,sd,quo,rem,3,false);
+      res.coord.swap(quo.coord);
+    }
+#endif
+    if (debug_infolevel)
+      CERR << clock() << "ducos_e1 end" << endl;
+    if ( (d-e+1)%2)
+      res=-res;
+  }
+
+  void subresultant(const polynome & P,const polynome & Q,polynome & C){
+    int d=P.lexsorted_degree(),e=Q.lexsorted_degree();
+    if (d<e){
+      subresultant(Q,P,C);
+      // adjust sign
+      if ((d*e)%2) C=-C;
+      return;
+    }
+    if (e==0){
+      if (Q.coord.empty()){
+	C=Q;
+	return;
+      }
+      C=pow(Q,d);
+      return;
+    }
+    polynome sd(pow(Tfirstcoeff(Q),d-e)), A(Q),a(P.dim),B(P.dim),quo(P.dim),tmp(P.dim);
+    P.TPseudoDivRem(-Q,quo,B,tmp);
+    for (unsigned step=0;;++step){
+      d=A.lexsorted_degree(),e=B.lexsorted_degree();
+      if (B.coord.empty()){
+	C=B;
+	return ;
+      }
+      int delta=d-e;
+      if (delta>1)
+	ducos_e(step?A:pow(Tfirstcoeff(Q),delta-1)*Q,B,C);
+      else
+	C=B;
+      if (e==0){
+	// adjust sign: already done by doing pseudodivrem(-Q,...)
+	//if ((P.lexsorted_degree()*Q.lexsorted_degree())%2) C=-C;
+	return;
+      }
+      ducos_e1(A,B,C,sd,B);
+      A.coord.swap(C.coord); // A=C;
+      sd=Tfirstcoeff(A);
+    }
+  }
+
   polynome resultant(const polynome & p,const polynome & q){
     // polynomial subresultant does not work if p and q have approx coeff
     if (p.coord.empty())
@@ -2255,7 +2416,40 @@ namespace giac {
       evalf_inplace(res);
       return res;
     }
-    return Tresultant<gen>(p,q);
+    double pq=double(p.coord.size())*q.coord.size();
+    unsigned dim=p.dim;
+#if 1 // def HAVE_LIBPARI
+    if (dim>=2 && dim<=4 && pq>256){
+      gen coefft,coeffqt;
+      int pt=coefftype(p,coefft),qt=coefftype(q,coeffqt);
+      if (pt==0 && qt==0){
+	// PARI call
+	vecteur lv=vecteur(1,x__IDNT_e);
+	for (unsigned i=1;i<dim;++i)
+	  lv.push_back(identificateur("x"+print_INT_(i)));
+	gen P=r2sym(p,lv,context0),Q=r2sym(q,lv,context0),res;
+	if (pari_polresultant(P,Q,lv,res,context0)){
+	  res=sym2r(res,lv,context0);
+	  if (res.type==_POLY){
+#if 0
+	    polynome res1=Tresultant<gen>(p,q);
+	    if (res!=res1)
+	      cerr << res._POLYptr->coord.size() << endl;
+#endif
+	    return *res._POLYptr;
+	  }
+	}
+      }
+    }
+#endif // HAVE_LIBPARI
+    polynome R(p.dim);
+    subresultant(p,q,R);
+    return R;
+    polynome R1(Tresultant<gen>(p,q));
+    // COUT << R << "," << R1 << endl;
+    if (R!=R1)
+      COUT << "error " << endl;
+    return R1;
   }
 
   polynome lgcd(const polynome & p){
@@ -4759,6 +4953,40 @@ namespace giac {
 	ii.insert(ii.begin(),0);
 	p_y=p_y+poly1_2_polynome(*(p_it->value._EXTptr->_VECTptr),p_y.dim).shift(ii);
       }
+#ifdef HAVE_LIBPARI
+      if (p_y.dim==2 && p_y.degree(1)>=4 && !complexmode){
+	int dim=p_y.dim;
+	vecteur lv=makevecteur(y__IDNT_e,x__IDNT_e);
+	for (unsigned i=2;i<dim;++i)
+	  lv.push_back(identificateur("x"+print_INT_(i)));
+	gen P=r2sym(p_y,lv,context0),Pmini=r2sym(p_mini,lv,context0),res;
+	swapgen(lv[0],lv[1]);
+	if (pari_nffactor(P,Pmini,lv,res,context0) && res.type==_VECT){
+	  vecteur v=*res._VECTptr;
+	  unsigned j=0;
+	  lv=vecteur(1,vecteur(1,lv[0]));
+	  for (;j<v.size();++j){
+	    res=v[j];
+	    if (res.type!=_VECT || res._VECTptr->size()!=2)
+	      break;
+	    int mult=res._VECTptr->back().val;
+	    res=sym2r(res._VECTptr->front(),lv,context0);
+	    if (res.type==_FRAC)
+	      res=res._FRACptr->num;
+	    if (res.type!=_POLY)
+	      continue;
+	    f.push_back(facteur<polynome>(*res._POLYptr,mult));
+	  }
+	  if (j==v.size()){ //adjust an
+	    factorization::const_iterator f_it=f.begin(),f_itend=f.end();
+	    for (;f_it!=f_itend;++f_it){
+	      an=rdiv(an,pow(f_it->fact.coord.front().value,gen(f_it->mult),context0),context0);
+	    }
+	    return true;
+	  }
+	}
+      }
+#endif
       int k;
       if (!algfactor(p_y,p_mini,k,fz,complexmode,extra_div))
 	return false;

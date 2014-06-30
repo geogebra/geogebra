@@ -123,6 +123,9 @@ namespace giac {
   double caseval_maxtime=15; // max 15 seconds
   int caseval_n=0,caseval_mod=0,caseval_unitialized=-123454321;
   void control_c(){
+#ifdef NSPIRE
+    if (on_key_pressed()){ ctrl_c=true; interrupted=true; }
+#else
     if (caseval_unitialized!=-123454321){
       caseval_unitialized=-123454321;
       caseval_mod=0;
@@ -144,8 +147,9 @@ namespace giac {
 	  } 
       } 
     }
+#endif // NSPIRE
   }
-#endif
+#endif // TIMEOUT
 
 
 #if defined VISUALC || defined BESTA_OS
@@ -1413,7 +1417,11 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   // Other global variables
+#ifdef NSPIRE
+  bool secure_run=false;
+#else
   bool secure_run=true;
+#endif
   bool center_history=false;
   bool in_texmacs=false;
   bool block_signal=false;
@@ -3034,113 +3042,6 @@ extern "C" void Sleep(unsigned int miliSecond);
     return s.substr(0,i)+"."+ext;
   }
 
-#ifndef NSPIRE
-  void in_mws_translate(istream & inf,ostream & of){
-    char c,oldc=0;
-    // now read char by char, 
-    for (;;){
-      inf.get(c);
-      if (c=='"')
-	break;
-    }
-    for (;;){
-      inf.get(c);
-      if (c=='_'){
-	of << '~';
-	continue;
-      }
-      if (c==')' && oldc=='%') // %) -> % )
-	of << " ";
-      if (c=='"'){
-	break;
-      }
-      if (c=='\n' || c==13)
-	continue;
-      if (c=='\\'){
-	inf.get(c);
-	if (c>'0' && c<='3'){ // read three chars -> octal code
-	  unsigned char res=c-'0';
-	  inf.get(c);
-	  res <<= 3;
-	  res += (c-'0');
-	  inf.get(c);
-	  res <<= 3;
-	  res += (c-'0');
-	  of << res;
-	}
-	else {
-	  switch (c) {
-	  case 'n':
-	    of << '\n';
-	    break;
-	  case '+':
-	    break;
-	  case '"':
-	    of << "\""; // Seems one " is needed, not two
-	    // of << "\"\"";
-	    break;
-	  default:
-	    of << c;
-	  } // end switch
-	} // end else octal code
-	continue;
-      } // end c==backslash
-      else
-	of << c;
-      oldc=c;
-    }
-  }
-
-  // Maple worksheet translate
-  void mws_translate(istream & inf,ostream & of){
-    string thet;
-    while (!inf.eof()){
-      inf >> thet;
-      int n1,n2,n3;
-      n1=thet.size();
-      if (n1>7 && thet.substr(n1-7,7)=="MPLTEXT"){
-        inf >> n1 >> n2 >> n3;
-	in_mws_translate(inf,of);	
-	of << "\n";
-      }
-      else {
-	if ( (n1>4 && thet.substr(n1-4,4)=="TEXT") || (n1>7 && thet.substr(n1-7,7)=="XPPEDIT") ){
-	  inf >> n1 >> n2;
-	  of << '"';
-	  in_mws_translate(inf,of);
-	  of << '"' << ";\n";
-	}
-      }
-    }
-  }
-
-  // TI89/92 function/program translate
-  void ti_translate(istream & inf,ostream & of){
-    char thebuf[BUFFER_SIZE];
-    inf.getline(thebuf,BUFFER_SIZE,'\n');
-    inf.getline(thebuf,BUFFER_SIZE,'\n');
-    string lu=thebuf;
-    lu=lu.substr(6,lu.size()-7);
-    CERR << "Function name: " << lu << endl;
-    of << ":" << lu;
-    inf.getline(thebuf,BUFFER_SIZE,'\n');  
-    inf.getline(thebuf,BUFFER_SIZE,'\n');  
-    of << thebuf << endl;
-    for (;inf.good();){
-      inf.getline(thebuf,BUFFER_SIZE,'\n');
-      lu=thebuf;
-      if (lu=="\r")
-        continue;
-      if (lu=="\\STOP92\\\r"){
-        break;
-      }
-      lu = giac::tiasc_translate(lu);
-      if (lu.size())
-        of << ":" << lu << endl;
-    }
-  }
-#endif
-
 #ifdef HAVE_LIBPTHREAD
   pthread_mutex_t context_list_mutex = PTHREAD_MUTEX_INITIALIZER;
 #endif
@@ -3204,6 +3105,10 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   void init_context(context * ptr){
+    if (!ptr){
+      CERR << "init_context on null context" << endl;
+      return;
+    }
      ptr->globalptr->_xcas_mode_=_xcas_mode_;
 #ifdef GIAC_HAS_STO_38
      ptr->globalptr->_calc_mode_=-38;

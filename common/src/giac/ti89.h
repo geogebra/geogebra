@@ -133,6 +133,9 @@ namespace giac {
   gen _sialorssinon(const gen & g,GIAC_CONTEXT);
   gen _pour(const gen & g,GIAC_CONTEXT);
 
+#ifdef NSPIRE
+  extern const unary_function_ptr * const  at_system;
+#endif
   extern const unary_function_ptr * const  at_int;
   extern const unary_function_ptr * const  at_exact ;
   extern const unary_function_ptr * const  at_Input;

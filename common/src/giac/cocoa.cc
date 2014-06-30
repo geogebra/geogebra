@@ -1979,6 +1979,9 @@ namespace giac {
     vectpoly8 q;
     // reduce res
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       poly8 & p=res[i];
@@ -2042,6 +2045,9 @@ namespace giac {
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (res[G[i]].coord.empty() || disjoint(h0,res[G[i]].coord.front().u,res.front().order,res.front().dim))
@@ -2049,6 +2055,9 @@ namespace giac {
       index_lcm(h0,res[G[i]].coord.front().u,tmp1,order); // h0 and G[i] leading monomial not prime together
       unsigned j;
       for (j=0;j<G.size();++j){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return;
 	if (i==j || res[G[j]].coord.empty())
@@ -2068,6 +2077,9 @@ namespace giac {
     vector< pair<unsigned,unsigned> > B1;
     B1.reserve(B.size()+C.size());
     for (unsigned i=0;i<B.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
@@ -2100,6 +2112,9 @@ namespace giac {
     vector<unsigned> hG(1,pos);
     bool small0=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (!res[G[i]].coord.empty() && !tdeg_t_all_greater(res[G[i]].coord.front().u,h0,order)){
@@ -2137,6 +2152,9 @@ namespace giac {
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
 	  break;
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return false;
       }
@@ -2144,6 +2162,9 @@ namespace giac {
       if (sugar)
 	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree(order);
       for (unsigned i=smallpos+1;i<B.size();++i){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return false;
 	if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
@@ -2967,6 +2988,9 @@ namespace giac {
     vectpolymod q;
     // reduce res
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       polymod & p=res[i];
@@ -3127,6 +3151,9 @@ namespace giac {
     }
 #endif
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (res[G[i]].coord.empty() || disjoint(h0,res[G[i]].coord.front().u,res.front().order,res.front().dim))
@@ -3159,6 +3186,9 @@ namespace giac {
     vector< pair<unsigned,unsigned> > B1;
     B1.reserve(B.size()+C.size());
     for (unsigned i=0;i<B.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
@@ -3195,6 +3225,9 @@ namespace giac {
     C.reserve(G.size()+1);
     // bool pos_pushed=false;
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (!res[G[i]].coord.empty() && !tdeg_t_all_greater(res[G[i]].coord.front().u,h0,order)){
@@ -3249,6 +3282,9 @@ namespace giac {
       // -> if g leading monomial is not disjoint from h leading monomial
       //    keep it only if lcm of leading monomial is not divisible by another one
       for (unsigned i=0;i<pos;++i){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return;
 	if (res[G[i]].coord.empty() || disjoint(h0,res[G[i]].coord.front().u,res.front().order,res.front().dim))
@@ -3274,6 +3310,9 @@ namespace giac {
     vector< pair<unsigned,unsigned> > B1;
     B1.reserve(B.size()+C.size());
     for (unsigned i=0;i<B.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
@@ -3311,6 +3350,9 @@ namespace giac {
     vector<unsigned> C;
     C.reserve(G.size());
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (res[G[i]].coord.empty())
@@ -3354,6 +3396,9 @@ namespace giac {
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
 	  break;
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return false;
       }
@@ -3361,6 +3406,9 @@ namespace giac {
       if (sugar)
 	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree(order);
       for (unsigned i=smallpos+1;i<B.size();++i){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return false;
 	if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
@@ -6507,6 +6555,9 @@ namespace giac {
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
 	  break;
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return false;
       }
@@ -6515,6 +6566,9 @@ namespace giac {
       smalltotdeg=small0.total_degree(order);
       smallposv.push_back(smallpos);
       for (unsigned i=smallpos+1;i<B.size();++i){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (interrupted || ctrl_c)
 	  return false;
 	if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
@@ -8005,6 +8059,9 @@ namespace giac {
     if (eps>0)
       convert(res,resmod,p);
     for (unsigned i=0;i<tocheckpairs.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c){
 	CERR << "Check interrupted, assuming Groebner basis. Press Ctrl-C again to interrupt computation" << endl;
 	interrupted=ctrl_c=false;
@@ -8788,6 +8845,9 @@ namespace giac {
     }
 #endif
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (disjoint(h0,res[G[i]].ldeg,order,dim))
@@ -8820,6 +8880,9 @@ namespace giac {
     vector< pair<unsigned,unsigned> > B1;
     B1.reserve(B.size()+C.size());
     for (unsigned i=0;i<B.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
@@ -8856,6 +8919,9 @@ namespace giac {
     C.reserve(G.size()+1);
     // bool pos_pushed=false;
     for (unsigned i=0;i<G.size();++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (interrupted || ctrl_c)
 	return;
       if (!res[G[i]].coord.empty() && !tdeg_t_all_greater(res[G[i]].ldeg,h0,order)){
@@ -8962,6 +9028,9 @@ namespace giac {
     if (debug_infolevel>1000)
       res.dbgprint(); // instantiate
     for (;!B.empty() && !interrupted && !ctrl_c;){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (f4buchberger_info_position>=capa-1)
 	return false;
       if (debug_infolevel>1)

@@ -1,4 +1,6 @@
  /* -*- mode: C++; compile-command: "flex input_lexer.ll && make input_lexer.o " -*- */
+/* Note: for the nspire port, after flex, move from #ifdef HAVE_CONFIG_H 
+   to #include "first.h" before #include<stdio.h> */
 /** @file input_lexer.ll
  *
  *  Lexical analyzer definition for reading expressions.
@@ -1350,8 +1352,14 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
     // export GIAC_DEBUG=-2 to renew static_lexer.h/static_extern.h
     YY_BUFFER_STATE set_lexer_string(const std::string &s_orig,yyscan_t & scanner,GIAC_CONTEXT){
 #if 0
+#ifdef NSPIRE
+      FILE * f= fopen("/documents/log.tns","w"); // ends up in My Documents
+      fprintf(f,"%s",s_orig.c_str());
+      fclose(f);
+#else
       ofstream of("log"); // ends up in fir/windows/log
       of << s_orig<< endl;
+#endif
 #endif
       if (abs_calc_mode(contextptr)==38 && s_orig==string(s_orig.size(),' '))
 	giac_yyerror(scanner,"Void string");

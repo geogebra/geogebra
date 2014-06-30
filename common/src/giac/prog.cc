@@ -1004,6 +1004,9 @@ namespace giac {
     else
       dbgptr->sst_mode=false;
     // Bind local var
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted || args._VECTptr->size()!=3){
       gensizeerr(res,contextptr);
       return res;
@@ -1058,6 +1061,9 @@ namespace giac {
 	itend=prog._VECTptr->end();
 	findlabel=false;
 	for (;!ctrl_c && !interrupted && it!=itend;++it){
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  ++debug_ptr(newcontextptr)->current_instruction;
 	  if (debug_ptr(newcontextptr)->debug_mode){
 	    debug_loop(res,newcontextptr);
@@ -1174,6 +1180,9 @@ namespace giac {
     else {
       const_iterateur it=prog._VECTptr->begin(),itend=prog._VECTptr->end();
       for (;!ctrl_c && !interrupted && it!=itend;++it){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	++dbgptr->current_instruction;
 	if (dbgptr->debug_mode){
 	  debug_loop(res,contextptr);
@@ -1811,6 +1820,9 @@ namespace giac {
 	// add a test for boucle of type program/composite
 	// if that's the case call eval with test for break and continue
 	for (it=itbeg;!interrupted && it!=itend;++it){
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
 	    interrupted = true; ctrl_c=false;
 	    *logptr(contextptr) << "Stopped in loop" << endl;
@@ -2193,6 +2205,9 @@ namespace giac {
 	bool findlabel=false;
 	gen label;
 	for (;!ctrl_c && !interrupted && it!=itend;++it){
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  ++debug_ptr(newcontextptr)->current_instruction;
 	  // cout << *it << endl;
 	  if (debug_ptr(newcontextptr)->debug_mode){
@@ -5337,6 +5352,9 @@ namespace giac {
       gen f=accurate_evalf(g,nbits);
       return eval(gen(makevecteur(f,f),_INTERVAL__VECT),1,contextptr);
     }
+    if (g.type==_FRAC){
+      return convert_interval(g._FRACptr->num,nbits,contextptr)/convert_interval(g._FRACptr->den,nbits,contextptr);
+    }
     if (g.type==_IDNT){
       if (g==cst_pi || g==cst_euler_gamma){
 	mpfi_t tmp;
@@ -5558,15 +5576,137 @@ namespace giac {
   static define_unary_function_eval4 (__deuxpoints,&_deuxpoints,_deuxpoints_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_deuxpoints ,alias_at_deuxpoints ,&__deuxpoints);
 
+
+#ifdef NSPIRE
+  template<class T> void in_mws_translate(ios_base<T> &  inf,ios_base<T> &  of)
+#else
+  void in_mws_translate(istream & inf,ostream & of)
+#endif
+  {
+    char c,oldc=0;
+    // now read char by char, 
+    for (;;){
+      inf.get(c);
+      if (c=='"')
+	break;
+    }
+    for (;;){
+      inf.get(c);
+      if (c=='_'){
+	of << '~';
+	continue;
+      }
+      if (c==')' && oldc=='%') // %) -> % )
+	of << " ";
+      if (c=='"'){
+	break;
+      }
+      if (c=='\n' || c==13)
+	continue;
+      if (c=='\\'){
+	inf.get(c);
+	if (c>'0' && c<='3'){ // read three chars -> octal code
+	  unsigned char res=c-'0';
+	  inf.get(c);
+	  res <<= 3;
+	  res += (c-'0');
+	  inf.get(c);
+	  res <<= 3;
+	  res += (c-'0');
+	  of << res;
+	}
+	else {
+	  switch (c) {
+	  case 'n':
+	    of << '\n';
+	    break;
+	  case '+':
+	    break;
+	  case '"':
+	    of << "\""; // Seems one " is needed, not two
+	    // of << "\"\"";
+	    break;
+	  default:
+	    of << c;
+	  } // end switch
+	} // end else octal code
+	continue;
+      } // end c==backslash
+      else
+	of << c;
+      oldc=c;
+    }
+  }
+
+  // Maple worksheet translate
+#ifdef NSPIRE
+  template<class T> void mws_translate(ios_base<T> &  inf,ios_base<T> &  of)
+#else
+  void mws_translate(istream & inf,ostream & of)
+#endif
+  {
+    string thet;
+    while (!inf.eof()){
+      inf >> thet;
+      int n1,n2,n3;
+      n1=thet.size();
+      if (n1>7 && thet.substr(n1-7,7)=="MPLTEXT"){
+        inf >> n1 >> n2 >> n3;
+	in_mws_translate(inf,of);	
+	of << "\n";
+      }
+      else {
+	if ( (n1>4 && thet.substr(n1-4,4)=="TEXT") || (n1>7 && thet.substr(n1-7,7)=="XPPEDIT") ){
+	  inf >> n1 >> n2;
+	  of << '"';
+	  in_mws_translate(inf,of);
+	  of << '"' << ";\n";
+	}
+      }
+    }
+  }
+
+  // TI89/92 function/program translate
+#ifdef NSPIRE
+  template<class T> void ti_translate(ios_base<T> &  inf,ios_base<T> &  of)
+#else
+  void ti_translate(istream & inf,ostream & of)
+#endif
+  {
+    char thebuf[BUFFER_SIZE];
+    inf.getline(thebuf,BUFFER_SIZE,'\n');
+    inf.getline(thebuf,BUFFER_SIZE,'\n');
+    string lu=thebuf;
+    lu=lu.substr(6,lu.size()-7);
+    CERR << "Function name: " << lu << endl;
+    of << ":" << lu;
+    inf.getline(thebuf,BUFFER_SIZE,'\n');  
+    inf.getline(thebuf,BUFFER_SIZE,'\n');  
+    of << thebuf << endl;
+    for (;inf.good();){
+      inf.getline(thebuf,BUFFER_SIZE,'\n');
+      lu=thebuf;
+      if (lu=="\r")
+        continue;
+      if (lu=="\\STOP92\\\r"){
+        break;
+      }
+      lu = giac::tiasc_translate(lu);
+      if (lu.size())
+        of << ":" << lu << endl;
+    }
+  }
+
   // FIXME SECURITY
   gen quote_read(const gen & args,GIAC_CONTEXT){
     if (args.type!=_STRNG)
       return symbolic(at_read,args);
     string fichier=*args._STRNGptr;
 #ifdef NSPIRE
-    return undef;
+    file inf(fichier.c_str(),"r");
 #else
     ifstream inf(fichier.c_str());
+#endif
     if (!inf)
       return undef;
 #if defined( VISUALC ) || defined( BESTA_OS )
@@ -5574,10 +5714,18 @@ namespace giac {
 #else
     char thebuf[BUFFER_SIZE];
 #endif
-    inf.getline(thebuf,BUFFER_SIZE,'\n');
+    inf.getline(thebuf,BUFFER_SIZE
+#ifndef NSPIRE
+		,'\n'
+#endif
+		);
     string lu(thebuf),thet;
     if (lu.size()>9 && lu.substr(0,9)=="{VERSION "){ // Maple Worksheet
+#ifdef NSPIRE
+      file of("__.map","w");
+#else
       ofstream of("__.map");
+#endif
       mws_translate(inf,of);
       of.close();
       xcas_mode(contextptr)=1;
@@ -5591,19 +5739,28 @@ namespace giac {
       return symbolic(at_xcas_mode,3);
     }
     if (lu=="\\START92\\\r"){ // TI text
+#ifdef NSPIRE
+      file of("__.ti","w");
+#else
       ofstream of("__.ti");
+#endif
       ti_translate(inf,of);
+#ifndef NSPIRE
       of.close();
+#endif
       xcas_mode(contextptr)=3;
       *logptr(contextptr) << gettext("Running TI89 text translation __.ti") << endl;
       fichier="__.ti";
     } // end file of type TI
+#ifdef NSPIRE
+    file inf2(fichier.c_str(),"r");
+#else
     inf.close();
     ifstream inf2(fichier.c_str());
+#endif // NSPIRE
     vecteur v;
     readargs_from_stream(inf2,v,contextptr);
     return v.size()==1?v.front():gen(v,_SEQ__VECT);
-#endif // NSPIRE
   }
   gen _read(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
@@ -5625,9 +5782,6 @@ namespace giac {
   define_unary_function_ptr5( at_read ,alias_at_read ,&__read,0,T_RETURN);
 
   gen _write(const gen & args,GIAC_CONTEXT){
-#ifdef NSPIRE
-    return 0;
-#else
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     gen tmp=check_secure();
     if (is_undef(tmp)) return tmp;
@@ -5636,7 +5790,16 @@ namespace giac {
       v.front()=eval(v.front(),eval_level(contextptr),contextptr);
       if (v.size()<2 || v.front().type!=_STRNG)
 	return gensizeerr(contextptr);
+      if (v.size()==2 && is_zero(v[1])){
+	v[1]=_VARS(0,contextptr);
+	if (v[1].type==_VECT)
+	  v=mergevecteur(vecteur(1,v[0]),*v[1]._VECTptr);
+      }
+#ifdef NSPIRE
+      file inf(v[0]._STRNGptr->c_str(),"w");
+#else
       ofstream inf(v[0]._STRNGptr->c_str());
+#endif
       const_iterateur it=v.begin()+1,itend=v.end();
       for (;it!=itend;++it){
 	if (it->type==_IDNT){
@@ -5649,15 +5812,19 @@ namespace giac {
     }
     if (args.type!=_STRNG)
       return symbolic(at_write,args);
+#ifdef NSPIRE
+    file inf(args._STRNGptr->c_str(),"w");
+#else
     ofstream inf(args._STRNGptr->c_str());
+#endif
     const_iterateur it=history_in(contextptr).begin(),itend=history_in(contextptr).end();
     if (it==itend)
       return zero;
     for (;it!=itend;++it){
-      inf << *it << ";" << endl;
+      if (!it->is_symb_of_sommet(at_write))
+	inf << *it << ";" << endl;
     }
     return plus_one;
-#endif
   }
   static const char _write_s []="write";
   static define_unary_function_eval_quoted (__write,&_write,_write_s);

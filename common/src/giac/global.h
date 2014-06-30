@@ -268,7 +268,11 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   // void control_c();
   // note that ctrl_c=false was removed, should be done before calling eval
 #if defined RTOS_THREADX || defined NSPIRE
-#define control_c() 
+#ifdef RTOS_THREADX
+#define control_c()
+#else
+  void control_c();
+#endif 
 #elif BESTA_OS
 #define control_c()
 #else
@@ -863,13 +867,6 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   std::string & xcasrc();
   std::string & xcasroot();
   std::string add_extension(const std::string & s,const std::string & ext,const std::string & def);
-  // Maple worksheet translate
-#ifndef NSPIRE
-  void mws_translate(std::istream & inf,std::ostream & of);
-  void in_mws_translate(std::istream & inf,std::ostream & of);
-  // TI function/program ASC file translate
-  void ti_translate(std::istream & inf,std::ostream & of);
-#endif
   std::string remove_filename(const std::string & s);
   bool my_isnan(double d);
   bool my_isinf(double d);

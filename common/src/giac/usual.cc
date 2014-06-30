@@ -645,10 +645,30 @@ namespace giac {
       if (!angle_radian(contextptr))
 	tmp=180;
       gen tmp2=evalf(e._SYMBptr->feuille,1,contextptr);
-      tmp2=_floor(tmp2/tmp+plus_one_half,contextptr);
+      if (tmp2.type<_IDNT)
+	tmp2=_floor(tmp2/tmp+plus_one_half,contextptr);
+      else
+	tmp2=_floor(e._SYMBptr->feuille/tmp+plus_one_half,contextptr);
       if (tmp2.type==_FLOAT_)
 	tmp2=get_int(tmp2._FLOAT_val);
       return operator_minus(e._SYMBptr->feuille,tmp2*tmp,contextptr);
+    }
+    vecteur ve=lvar(e);
+    if (ve.size()==1){
+      // atan((1+t)/(1-t))=atan((tan(pi/4)+t)/(1-tan(pi/4+t)))=atan(tan(pi/4+atan(t)))
+      gen t=ve.front();
+      gen test=(1+t)/(1-t);
+      test=ratnormal(e/test);
+      if (is_one(test))
+	return atan(symbolic(at_tan,cst_pi/4+atan(t,contextptr)),contextptr);
+      if (is_minus_one(test))
+	return -atan(symbolic(at_tan,cst_pi/4+atan(t,contextptr)),contextptr);
+      test=(-1+t)/(1+t);
+      test=ratnormal(e/test);
+      if (is_one(test))
+	return atan(symbolic(at_tan,-cst_pi/4+atan(t,contextptr)),contextptr);
+      if (is_minus_one(test))
+	return -atan(symbolic(at_tan,-cst_pi/4+atan(t,contextptr)),contextptr);
     }
     return symb_atan(e);
   }

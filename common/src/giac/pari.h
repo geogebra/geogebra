@@ -32,7 +32,8 @@ namespace giac {
   bool pari_polroots(const vecteur & p,vecteur & res,long l,GIAC_CONTEXT);
   gen GEN2gen(const GEN & G,const vecteur & vars);
   GEN gen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT);
-  
+  bool pari_polresultant(const gen & p,const gen & q,const vecteur & lv,gen & res,GIAC_CONTEXT);
+  bool pari_nffactor(const gen & p,const gen & pmin,const vecteur & lv,gen & res,GIAC_CONTEXT);
 
 #ifndef NO_NAMESPACE_GIAC
 }

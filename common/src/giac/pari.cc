@@ -202,7 +202,13 @@ namespace giac {
   }
 
   static gen t_POLMOD2gen(const GEN & G,const vecteur & vars){
-    gen tmp;
+    gen tmp=_fxnd(GEN2gen((GEN) G[2],vars),context0);
+    gen n(tmp),d(1);
+    if (tmp.type==_VECT && tmp._VECTptr->size()==2){
+      n=tmp._VECTptr->front();
+      d=tmp._VECTptr->back();
+    }
+    return eval(symbolic(at_rootof,makesequence(n,GEN2gen((GEN) G[1],vars))),1,context0)/d;
     find_or_make_symbol("Mod",tmp,0,false,context0);
     return symbolic(at_of,makesequence(tmp,gen(makevecteur(GEN2gen((GEN) G[2],vars),GEN2gen((GEN) G[1],vars)),_SEQ__VECT)));
   }
@@ -365,10 +371,14 @@ namespace giac {
 	res=pariprint_VECT(*e._VECTptr,varnum,e.subtype,contextptr);
       break;
     case _SYMB:
-      if (e._SYMBptr->sommet.ptr()->printsommet) // FIXME
-	res=e.print(contextptr);
-      else
-	res=string(e._SYMBptr->sommet.ptr()->s)+"("+pariprint(e._SYMBptr->feuille,varnum,contextptr)+")";
+      if (e._SYMBptr->sommet==at_rootof && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2)
+	res="Mod("+pariprint(e._SYMBptr->feuille._VECTptr->front(),varnum,contextptr)+","+pariprint(e._SYMBptr->feuille._VECTptr->back(),varnum,contextptr)+")";
+      else {
+	if (e._SYMBptr->sommet.ptr()->printsommet) // FIXME
+	  res=e.print(contextptr);
+	else
+	  res=string(e._SYMBptr->sommet.ptr()->s)+"("+pariprint(e._SYMBptr->feuille,varnum,contextptr)+")";
+      }
       break;
     case _MOD:
       res= "Mod("+pariprint(*e._MODptr,varnum,contextptr)+","+pariprint(*(e._MODptr+1),varnum,contextptr)+")";
@@ -486,9 +496,9 @@ namespace giac {
     // add vars to e
     string s=pariprint(e,0,contextptr);
     if (!vars.empty())
-      s="["+s+","+(vars.size()==1?vars.front().print():print_VECT(vars,_SEQ__VECT,contextptr))+"]";
+      s="["+(vars.size()==1?vars.front().print():print_VECT(vars,_SEQ__VECT,contextptr))+","+s+"]";
     GEN res= flisexpr((char *) s.c_str());
-    return vars.empty()?res:gel(res,1);
+    return vars.empty()?res:gel(res,1+vars.size());
   }
   GEN gen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT){
 #ifdef PARI23
@@ -966,6 +976,47 @@ namespace giac {
     return true;
   }
 
+  bool pari_polresultant(const gen & p,const gen & q,const vecteur & lv,gen & res,GIAC_CONTEXT){
+    if (check_pari_mutex())
+      return false;
+    gen tmp;
+    pthread_cleanup_push(pari_cleanup, (void *) pari_mutex_ptr);
+    long av=avma;
+    void * save_pari_stack_limit = PARI_stack_limit;
+    PARI_stack_limit=0; 
+    tmp=GEN2gen(polresultant0(gen2GEN(p,lv,contextptr),gen2GEN(q,lv,contextptr),-1,2),lv);
+    avma=av;
+    PARI_stack_limit=save_pari_stack_limit;
+    if (pari_mutex_ptr) pthread_mutex_unlock(pari_mutex_ptr);    
+    pthread_cleanup_pop(0);
+    res=tmp;
+    return true;
+  }
+
+  bool pari_nffactor(const gen & p,const gen & pmin,const vecteur & lv,gen & res,GIAC_CONTEXT){
+    if (check_pari_mutex())
+      return false;
+    gen tmp;
+    pthread_cleanup_push(pari_cleanup, (void *) pari_mutex_ptr);
+    long av=avma;
+    void * save_pari_stack_limit = PARI_stack_limit;
+    PARI_stack_limit=0; 
+    GEN P=gen2GEN(p,lv,contextptr);
+    GEN Pmin=gen2GEN(pmin,lv,contextptr);
+    int prec=decimal_digits(contextptr);
+    if (prec<30)
+      prec=30;
+    GEN nf=nfinit0(Pmin,0,prec);
+    tmp=GEN2gen(nffactor(nf,P),lv);
+    avma=av;
+    PARI_stack_limit=save_pari_stack_limit;
+    if (pari_mutex_ptr) pthread_mutex_unlock(pari_mutex_ptr);    
+    pthread_cleanup_pop(0);
+    res=tmp;
+    return true;
+  }
+
+
 #ifndef NO_NAMESPACE_GIAC
 }
 #endif // ndef NO_NAMESPACE_GIAC
@@ -1025,6 +1076,12 @@ namespace giac {
   }
 
   bool pari_polroots(const vecteur & p,vecteur & res,long prec,GIAC_CONTEXT){
+    return false;
+  }
+  bool pari_polresultant(const gen & p,const gen & q,const vecteur & lv,gen & res,GIAC_CONTEXT){
+    return false;
+  }
+  bool pari_nffactor(const gen & p,const gen & pmin,const vecteur & lv,gen & res,GIAC_CONTEXT){
     return false;
   }
   static const char _pari_s []="pari";

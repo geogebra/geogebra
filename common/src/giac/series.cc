@@ -346,6 +346,9 @@ namespace giac {
   };
 
   bool pmul(const sparse_poly1 & celuici,const sparse_poly1 &other, sparse_poly1 & final_seq,bool n_truncate,const gen & n_valuation,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) {
       interrupted=ctrl_c=true;
       return false;
@@ -395,6 +398,9 @@ namespace giac {
       sparse_poly1::const_iterator itacur=ita;
       sparse_poly1::const_iterator itbcur=itb;
       for (;;) {
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (ctrl_c || interrupted) {
 	  interrupted=ctrl_c=true;
 	  return false;
@@ -423,6 +429,9 @@ namespace giac {
       sparse_poly1::const_iterator itacur=ita;
       sparse_poly1::const_iterator itbcur=itb;
       for (;;) {
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (ctrl_c || interrupted) {
 	  interrupted=ctrl_c=true;
 	  return false;
@@ -464,6 +473,9 @@ namespace giac {
       }
       ++it;
       while ( (it!=itend) && (it->exponent==pow)){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (ctrl_c || interrupted) {
 	  interrupted=ctrl_c=true;
 	  return false;
@@ -538,6 +550,9 @@ namespace giac {
 
   // ascending order division
   bool pdiv(const sparse_poly1 & a,const sparse_poly1 &b_orig, sparse_poly1 & res,int ordre_orig,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) {
       interrupted=ctrl_c=true;
       return false;
@@ -604,6 +619,9 @@ namespace giac {
   }
 
   bool pdiv(const sparse_poly1 & a,const gen & b_orig, sparse_poly1 & res,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) {
       interrupted=ctrl_c=true;
       return false;
@@ -730,6 +748,9 @@ namespace giac {
   }
 
   bool pcompose(const vecteur & v,const sparse_poly1 & p, sparse_poly1 & res,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) {
       interrupted=ctrl_c=true;
       return false;
@@ -863,6 +884,9 @@ namespace giac {
   }
 
   bool ppow(const sparse_poly1 & base,int m,int ordre,sparse_poly1 & res,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) {
       interrupted=ctrl_c=true;
       return false;
@@ -895,6 +919,9 @@ namespace giac {
   
   // constant power, otherwise use exp(ln)
   bool ppow(const sparse_poly1 & base,const gen & e,int ordre,int direction,sparse_poly1 & res,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) {
       interrupted=ctrl_c=true;
       return false;
@@ -1026,6 +1053,9 @@ namespace giac {
   }
 
   static bool in_series__SPOL1(const gen & e,const identificateur & x,const vecteur & lvx, const vecteur & lvx_s,int ordre,int direction,sparse_poly1 & s,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) {
       interrupted=ctrl_c=true;
       return false;
@@ -1945,6 +1975,27 @@ namespace giac {
     vs=v.size();
     v1.clear(); v2.clear();
     for (int i=0;i<vs;++i){
+#if 1
+      if (v[i].is_symb_of_sommet(at_sign)){
+	gen g=v[i]._SYMBptr->feuille,tmp;
+	unsigned j=0;
+	for (;j<5;++j){
+	  tmp=simplify(limit(g,x,lim_point,direction,contextptr),contextptr);
+	  if (!is_zero(tmp)){
+	    break;
+	  }
+	  g=derive(g,x,contextptr);
+	}
+	if (j!=5){
+	  // sign( x^j*tmp)
+	  tmp=sign(tmp,contextptr);
+	  if (direction==-1 && j%2)
+	    tmp=-tmp;
+	  v1.push_back(v[i]);
+	  v2.push_back(tmp);	  
+	}
+      }
+#else
       if (v[i].is_symb_of_sommet(at_sign) && v[i]!=e){
 	gen g;
 #ifndef NO_STDEXCEPT
@@ -1958,6 +2009,7 @@ namespace giac {
 	}
 #endif
       }
+#endif
     }
     e=subst(e,v1,v2,false,contextptr);
     return e;
@@ -2428,6 +2480,9 @@ namespace giac {
 	   (p.size()>=1) && is_undef(p.front().coeff) ;ordre=ordre*1.5+1){
       bool inv=false;
       p=series__SPOL1(f,w,0,int(ordre),1,contextptr);
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted) 
 	return false;
       if (!p.empty() && !is_undef(p.front().coeff) ){
@@ -2528,6 +2583,13 @@ namespace giac {
 
   // Main limit entry point
   gen limit(const gen & e,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
+    if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
+      vecteur subst1,subst2;
+      surd2pow(e,subst1,subst2,contextptr);
+      gen g=subst(e,subst1,subst2,false,contextptr);
+      g=limit(g,x,lim_point,direction,contextptr);
+      return subst(g,subst2,subst1,false,contextptr);
+    }
     // Insert here code for cleaning limit remember
     // int save_inside_limit=inside_limit(contextptr);
     // inside_limit(1,contextptr);

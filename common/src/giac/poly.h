@@ -82,7 +82,9 @@ namespace giac {
     int total_degree() const ;
     void reverse() ; // reverse variable ordering
     void append(const tensor<T> &);
+    void Tcoeffs(std::vector< tensor<T> > & v) const;
     std::vector< tensor<T> > Tcoeffs() const;
+    tensor<T> coeff(int deg) const;
     tensor<T> multiplydegrees(int d) const ;
     tensor<T> dividedegrees(int d) const ;
     tensor<T> dividealldegrees(int d) const ;
@@ -1060,17 +1062,43 @@ namespace giac {
     return TDivRem1(b,quo,r,allowrational,exactquo);
   }
 
+  template<class T> tensor<T> tensor<T>::coeff(int deg) const {
+    tensor<T> res(dim-1);
+    typename std::vector< monomial<T> >::const_iterator it=coord.begin(),itend=coord.end();
+    for (;it!=itend;++it){
+      int d=it->index.front();
+      if (d>deg)
+	continue;
+      if (d==deg)
+	return Tnextcoeff<T>(it,itend);
+      else
+	return res;
+    }
+    return res;
+  }
+
+  template<class T>
+  void tensor<T>::Tcoeffs(std::vector< tensor<T> > & v) const{
+    int current_deg=lexsorted_degree();
+    std::vector< tensor<T> > w(current_deg+1,dim-1);
+    typename std::vector< monomial<T> >::const_iterator it=coord.begin(),itend=coord.end();
+    for (;it!=itend;++it){
+      w[current_deg-it->index.front()].coord.push_back(it->trunc1());
+    }
+    w.swap(v);
+  }
 
   template<class T>
   std::vector< tensor<T> > tensor<T>::Tcoeffs() const{
     int current_deg=lexsorted_degree();
     std::vector< tensor<T> > v;
+    v.reserve(current_deg+1);
     typename std::vector< monomial<T> >::const_iterator it=coord.begin(),itend=coord.end();
     for (;it!=itend;--current_deg){
       if (it->index.front()==current_deg){
 	v.push_back(Tnextcoeff<T>(it,itend));
       }
-      else
+      else 
 	v.push_back(tensor<T>(dim-1));
     }
     for (;current_deg>=0;--current_deg) v.push_back(tensor<T>(dim-1));
@@ -1631,12 +1659,14 @@ namespace giac {
       if (m*n %2)
 	sign=-sign;
       ddeg=m-n;
-      tensor<T> tmp1(Tfirstcoeff(qtmp)),tmp2(p.dim),tmp3(pow(h,ddeg)),rem(p.dim);
-      (ptmp*pow(tmp1,ddeg+1)).TDivRem1(qtmp,tmp2,rem,false);
+      if (debug_infolevel)
+	CERR << clock() << "Tresultant n,m,ddeg: " << n << " ," << m << " ," << ddeg << std::endl;
+      tensor<T> tmp1(Tfirstcoeff(qtmp)),tmp2(p.dim),tmp3(pow(h,ddeg)),rem(p.dim),a(p.dim);
+      ptmp.TPseudoDivRem(qtmp,tmp2,rem,a); // (ptmp*pow(tmp1,ddeg+1)).TDivRem1(qtmp,tmp2,rem,false);
       rem.high_order_degree_truncate(n);
       ptmp=qtmp;
       m=n;
-      qtmp=rem/(g*tmp3);
+      qtmp=(rem/g)/tmp3; // qtmp=rem/(g*tmp3);
       n=qtmp.lexsorted_degree();
       if (ddeg==1)
 	h=tmp1;

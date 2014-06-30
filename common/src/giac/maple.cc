@@ -317,6 +317,18 @@ namespace giac {
     double delta;
     int ntimes=1,i=0;
     int level=eval_level(contextptr);
+#ifdef NSPIRE
+    unsigned NSPIRE_RTC_ADDR=0x90090000;
+    unsigned t1= * (volatile unsigned *) NSPIRE_RTC_ADDR;
+    // CERR << t1 << endl;
+    for (unsigned i=1;i<=100;++i){
+      eval(a,level,contextptr);
+      unsigned t2= * (volatile unsigned *) NSPIRE_RTC_ADDR;
+      if (t2>=t1+3)
+	return double(t2-t1)/double(i);
+    }
+    return 0.0;
+#endif
 #if defined(EMCC) && !defined(PNACL)
     // time_t t1,t2;
     // time(&t1);
@@ -1031,6 +1043,9 @@ namespace giac {
     matrice m;
     m.reserve(s+1);
     for (int i=0;i<=s;++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	return gensizeerr(gettext("Stopped by user interruption."));
       vecteur v(s+1);

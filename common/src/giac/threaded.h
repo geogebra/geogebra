@@ -2143,7 +2143,8 @@ namespace giac {
     unsigned as=a.size(),bs=b.size();
     double v1v2=double(as)*bs;
     // FIXME, if bdeg==0
-    if (!quo_only && bdeg && as>=a.front().u/25. // array div disabled, probably too much memory used
+    if ( (!quo_only || quo_only==3) && 
+	bdeg && as>=a.front().u/25. // array div disabled, probably too much memory used
 	&& heap_mult>=0 && a.front().u < 512e6/sizeof(T)){
       U umax=a.front().u,u;
       if (debug_infolevel>20)
@@ -2258,7 +2259,7 @@ namespace giac {
        && v1v2>=heap_mult
        );
 #if 1 // heap division
-    if (heap_mult<0 || use_heap || quo_only){
+    if (heap_mult<0 || use_heap || (quo_only && quo_only!=3)){
       if (debug_infolevel>20)
 	CERR << "heap division, a size " << a.size() << " b size " << b.size() << " vars " << vars << std::endl;
       // heap division:

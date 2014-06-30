@@ -2462,6 +2462,9 @@ namespace giac {
   }
 
   gen recursive_normal(const gen & e,bool distribute_div,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) { 
       gen res;
       interrupted = true; ctrl_c=false;
@@ -3279,7 +3282,11 @@ namespace giac {
     char c;
     for (bool notbackslash=true;;){
       inf.get(c);
-      if (!inf)
+      if (!inf 
+#ifdef NSPIRE
+	  || c==char(EOF)
+#endif
+	  )
 	break;
       if ( notbackslash || (c!='\n') )
 	to_parse +=c;
@@ -3321,6 +3328,12 @@ namespace giac {
     srand(0);
     //srand(time(NULL));
     string s;
+#ifdef NSPIRE
+    if (ARGC==0){ // fake, just to instantiate for file
+      file bidon("bidon","r");
+      readargs_from_stream(bidon,args,contextptr);
+    }
+#endif
     if (ARGC==1)
       readargs_from_stream(CIN,args,contextptr);
     else {

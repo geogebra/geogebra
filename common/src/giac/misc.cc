@@ -141,6 +141,8 @@ namespace giac {
     gen pi(1),res(w[s-1]);
     for (int i=s-2;i>=0;--i){
       res = res*(x-vx[i])+w[i];
+      if (i%100==99) // otherwise segfault 
+	res=ratnormal(res);
     }
     return res;
     /*

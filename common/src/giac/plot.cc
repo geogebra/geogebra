@@ -10371,7 +10371,9 @@ namespace giac {
     fclose(f);
     delete [] buf;
 #ifdef NSPIRE
-    return false;
+    file is(s.c_str(),"r");
+    if (!is)
+      return false;
 #else
     ifstream is(s.c_str());
     if (!is)

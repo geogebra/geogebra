@@ -2222,6 +2222,9 @@ namespace giac {
     vector<int> res;
     double eps1(1+eps);
     for (;!interrupted;){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted) { 
 	interrupted = true; ctrl_c=false;
 	return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -2313,6 +2316,17 @@ namespace giac {
   static const char _simult_s[]="simult";
   static define_unary_function_eval (__simult,&simult,_simult_s);
   define_unary_function_ptr5( at_simult ,alias_at_simult,&__simult,0,true);
+
+#ifdef NSPIRE // (almost) inert function system for keyboard template
+  gen system(const gen & g,GIAC_CONTEXT){
+    if (g.type==_VECT)
+      return *g._VECTptr;
+    return g;
+  }
+  static const char _system_s[]="system";
+  static define_unary_function_eval (__system,&system,_system_s);
+  define_unary_function_ptr5( at_system ,alias_at_system,&__system,0,true);
+#endif
 
   /* TI89 compatibility Notes
      Use xcas_mode(contextptr)(3) in your config file (~/.xcasrc or xcas.rc) or

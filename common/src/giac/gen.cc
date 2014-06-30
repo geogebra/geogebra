@@ -1757,6 +1757,9 @@ namespace giac {
   gen gen::eval(int level,const context * contextptr) const{
     // CERR << "eval " << *this << " " << level << endl;
     gen res;
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       gensizeerr(gettext("Stopped by user interruption."),res);
@@ -4197,6 +4200,9 @@ namespace giac {
   }
 
   gen sym_add(const gen & a,const gen & b,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -4806,6 +4812,9 @@ namespace giac {
   }
 
   gen sym_sub(const gen & a,const gen & b,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -5944,6 +5953,9 @@ namespace giac {
   }
 
   gen sym_mult(const gen & a,const gen & b,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -6754,6 +6766,9 @@ namespace giac {
       else
 	return fraction(a,b);
     default:
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted) { 
 	interrupted = true; ctrl_c=false;
 	return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -9852,6 +9867,9 @@ namespace giac {
     if (is_exactly_zero(smod(res,plus_two)))
       res=res+1;
     for ( ; ; res=res+2){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	return gensizeerr(gettext("Interrupted"));
       if (is_probab_prime_p(res))
@@ -9870,6 +9888,9 @@ namespace giac {
     if (is_exactly_zero(smod(res,plus_two)))
       res=res-1;
     for ( ; res.type==_ZINT || (res.type==_INT_ && res.val>1); res=res-2){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	return gensizeerr(gettext("Interrupted"));
       if (is_probab_prime_p(res))
@@ -11984,11 +12005,7 @@ namespace giac {
 #endif
 #endif
 
-#ifdef NSPIRE
-  template<class T> ios_base<T> & operator<<(ios_base<T> & os,const gen & a){ 
-    return os << a.print(context0); 
-  }
-#else
+#ifndef NSPIRE
   ostream & operator << (ostream & os,const gen & a) { return os << a.print(context0); }
 #endif
 

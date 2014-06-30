@@ -818,7 +818,7 @@ namespace giac {
   };
   struct ref_algext {
     volatile int ref_count;
-    gen P,Pmin;
+    gen P,Pmin,additional;
     ref_algext():ref_count(1) {}
   };
 
@@ -1121,7 +1121,9 @@ namespace giac {
 
   // I/O
 #ifdef NSPIRE
-  template<class T> nio::ios_base<T> & operator<<(nio::ios_base<T> & os,const gen & a);
+  template<class T> nio::ios_base<T> & operator<<(nio::ios_base<T> & os,const gen & a){
+    return os << a.print(context0); 
+  }
   template<class T> nio::ios_base<T> & operator>>(nio::ios_base<T> & is,gen & a);
 #else
   std::ostream & operator << (std::ostream & os,const gen & a);

@@ -232,6 +232,9 @@ namespace giac {
     }
     gen g=_pow2exp(tan2sincos(g_,contextptr),contextptr);
     for (int ordre=2;ordre<max_series_expansion_order;ordre=2*ordre){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted) { 
 	interrupted = true; ctrl_c=false;
 	gen res;
@@ -1081,6 +1084,9 @@ namespace giac {
 	      int s=w.size();
 	      gen somme_residues=0;
 	      for (int i=0;i<s;++i){
+#ifdef TIMEOUT
+		control_c();
+#endif
 		if (ctrl_c || interrupted)
 		  return false;
 		gen wabs=normal(w[i]*conj(w[i],contextptr),contextptr);

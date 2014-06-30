@@ -1934,6 +1934,9 @@ namespace giac {
     mpz_init(zx); mpz_init(zy); mpz_init(zq); mpz_init(zr);
     // fastsmod_prepare(N,zx,zy,zr,N256);
     for (i=1;i<int(sizeof(giac_primes)/sizeof(short));++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	break;
       ushort_t j=giac_primes[i];
@@ -1983,6 +1986,9 @@ namespace giac {
     }
     unsigned lp_basis_pos=0; // position of first prime > 2^16 in the basis
     for (;basis.size()<B;++i){
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	break; 
 #ifndef PRIMES32
@@ -2025,6 +2031,9 @@ namespace giac {
       lp_basis_pos=basis.size();
 #ifdef LP_SMALL_PRIMES
     vector<small_basis_t> small_basis(lp_basis_pos); // will be filled by primes<2^16
+#endif
+#ifdef TIMEOUT
+    control_c();
 #endif
     if (ctrl_c || interrupted){
       mpz_clear(zx); mpz_clear(zy); mpz_clear(zq);  mpz_clear(zr);
@@ -2324,6 +2333,9 @@ namespace giac {
 	}
       }
       // finished?
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c || interrupted)
 	break;
 #ifdef ADDITIONAL_PRIMES_HASHMAP
@@ -2408,6 +2420,9 @@ namespace giac {
       // fastsmod_prepare(a,zx,zy,zr,a256);
       gen b;
       for (int i=0;i< (1<<(afact-1));++i){
+#ifdef TIMEOUT
+	control_c();
+#endif
 	if (ctrl_c || interrupted)
 	  break;
 #ifdef ADDITIONAL_PRIMES_HASHMAP
@@ -2598,6 +2613,9 @@ namespace giac {
 #ifdef LP_TAB_SIZE
 #endif
 	for (int l=0;l<nslices;l++){
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c || interrupted)
 	    break;
 #ifdef ADDITIONAL_PRIMES_HASHMAP
@@ -2668,6 +2686,9 @@ namespace giac {
     if (debug_infolevel)
       *logptr(contextptr) << gettext("Polynomials a,b in use: #a ") << sqrtavals.size() << " and #b " << bvals.size() << endl;
     delete [] slice;
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted || puissancesptr==puissancesend){
       mpz_clear(zx); mpz_clear(zy); mpz_clear(zq);  mpz_clear(zr);
       mpz_clear(alloc1); mpz_clear(alloc2); mpz_clear(alloc3); mpz_clear(alloc4); mpz_clear(alloc5);
@@ -2967,8 +2988,14 @@ namespace giac {
     mpz_init(alloc4);
     mpz_init(alloc5);
     while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0) {
+#ifdef TIMEOUT
+      control_c();
+#endif
       a=2*a+1;//a=2^(e+1)-1=2*l(m)-1 
       while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0 && a>m) { // ok
+#ifdef TIMEOUT
+	control_c();
+#endif
 	// x=f(x,k,n,q);
 #ifdef USE_GMP_REPLACEMENTS
 	mp_sqr(&x,&x2);
@@ -3074,8 +3101,14 @@ namespace giac {
     a=(a1-1)/2; // a=iquo(a1-1,2);
     m=m1;
     while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0) {
+#ifdef TIMEOUT
+      control_c();
+#endif
       a=2*a+1;
       while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0 && a>m) { // ok
+#ifdef TIMEOUT
+	control_c();
+#endif
 	// x=f(x,k,n,q);
 	mpz_mul(x2,x,x);
 	mpz_add(x2k,x2,*k._ZINTptr);
@@ -3144,6 +3177,9 @@ namespace giac {
     mpz_clear(y1);
     mpz_clear(p);
     mpz_clear(q);
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted){
       mpz_clear(g);
       return 0;
@@ -3441,6 +3477,9 @@ namespace giac {
 #ifdef USE_GMP_REPLACEMENTS
   static gen inpollardsieve(const gen &a,gen k,bool & do_pollard,GIAC_CONTEXT){
     gen b=do_pollard?pollard(a,k,contextptr):-1;
+#ifdef TIMEOUT
+    control_c();
+#endif
 #ifdef GIAC_MPQS
     if (b==-1 && !ctrl_c && !interrupted){ 
       do_pollard=false;
@@ -3471,6 +3510,9 @@ namespace giac {
 #else // USE_GMP_REPLACEMENTS
   static gen pollardsieve(const gen &a,gen k,bool & do_pollard,GIAC_CONTEXT){
     gen b=do_pollard?pollard(a,k,contextptr):-1;
+#ifdef TIMEOUT
+    control_c();
+#endif
 #ifdef GIAC_MPQS
     if (b==-1 && !ctrl_c && !interrupted){ 
       do_pollard=false;
@@ -3515,6 +3557,9 @@ namespace giac {
     gen a=pollardsieve(n,1,do_pollard,contextptr);
     if (a==-1)
       return a;
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c || interrupted)
       return gensizeerr("Interrupted");
     gen ba=n/a;
