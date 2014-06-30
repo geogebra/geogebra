@@ -372,7 +372,7 @@ GeoPolyhedronInterface
 
 		// force init labels called to avoid polygon to draw edges
 		polygon.setInitLabelsCalled(true);
-		
+
 		if (condShowObject != null) {
 			try {
 				polygon.setShowObjectCondition(getShowObjectCondition());
@@ -431,7 +431,7 @@ GeoPolyhedronInterface
 		ConstructionElementCycle key = ConstructionElementCycle
 				.SegmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
-		
+
 
 		// check if this segment is not already created
 		if (segmentsIndex.containsKey(key)){
@@ -445,7 +445,7 @@ GeoPolyhedronInterface
 			//App.error("segmentsLinked : "+key);
 			return segmentsLinked.get(key);
 		}
-		
+
 
 		//App.error("new segment : "+key);
 
@@ -461,7 +461,7 @@ GeoPolyhedronInterface
 		segment.setObjColor(getObjectColor());
 		segment.setLineThickness(getLineThickness());
 		segment.setLineType(getLineType());
-		
+
 		if (condShowObject != null) {
 			try {
 				segment.setShowObjectCondition(getShowObjectCondition());
@@ -805,16 +805,16 @@ GeoPolyhedronInterface
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setReverseNormal();
 		}
-		
+
 		setReverseNormalsForDrawing(true);
-		
+
 	}
 
 	@Override
 	public void setEuclidianVisible(boolean visible) {
 
 		super.setEuclidianVisible(visible);		
-		
+
 		if (cons.isFileLoading())
 			return;
 
@@ -838,9 +838,9 @@ GeoPolyhedronInterface
 
 	@Override
 	public void setObjColor(GColor color) {
-		
+
 		super.setObjColor(color);		
-		
+
 		if (cons.isFileLoading())
 			return;
 
@@ -867,15 +867,15 @@ GeoPolyhedronInterface
 
 		getKernel().notifyRepaint();
 	}
-	
+
 	@Override
 	public void removeColorFunction() {
 		super.removeColorFunction();		
-		
+
 		if (polygons == null || cons.isFileLoading()){
 			return;
 		}
-		
+
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.removeColorFunction();
 			polygon.updateVisualStyle();
@@ -898,16 +898,16 @@ GeoPolyhedronInterface
 
 		getKernel().notifyRepaint();
 	}
-	
+
 	@Override
 	public void setColorFunction(final GeoList col){
-		
+
 		super.setColorFunction(col);
-		
+
 		if (polygons == null || cons.isFileLoading()){
 			return;
 		}
-		
+
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setColorFunction(col);
 			polygon.updateVisualStyle();
@@ -929,7 +929,7 @@ GeoPolyhedronInterface
 		}
 
 		getKernel().notifyRepaint();
-		
+
 	}
 
 	@Override
@@ -960,7 +960,7 @@ GeoPolyhedronInterface
 		}
 
 	}
-	
+
 	@Override
 	public void setLayer(int layer2) {
 		super.setLayer(layer2);
@@ -1050,7 +1050,7 @@ GeoPolyhedronInterface
 	public void setAlphaValue(float alpha) {
 
 		super.setAlphaValue(alpha);
-		
+
 		if (cons.isFileLoading())
 			return;
 
@@ -1086,7 +1086,7 @@ GeoPolyhedronInterface
 			return "Prism";
 		case TYPE_PYRAMID:
 			return "Pyramid";
-			
+
 		case TYPE_TETRAHEDRON:
 			return "Tetrahedron";
 		case TYPE_CUBE:
@@ -1097,7 +1097,7 @@ GeoPolyhedronInterface
 			return "Dodecahedron";
 		case TYPE_ICOSAHEDRON:
 			return "Icosahedron";
-			
+
 		default:
 			return "Polyhedron";
 		}
@@ -1150,7 +1150,9 @@ GeoPolyhedronInterface
 				for (int i = index; i <= polygons.lastKey() ; i++){
 					polygons.get(i).setUndefined();
 				}
-			}			
+			}		
+
+
 
 
 			// set segments
@@ -1354,7 +1356,7 @@ GeoPolyhedronInterface
 	 * @return area
 	 */
 	public double getArea() {
-		
+
 		// if parent algo is prism/pyramid, update area from faces
 		AlgoElement algo = getParentAlgorithm();
 		if (algo != null && algo instanceof AlgoPolyhedronPoints){ 
@@ -1369,8 +1371,8 @@ GeoPolyhedronInterface
 				}
 			}
 		}
-		
-		
+
+
 		return area;
 	}
 
@@ -1433,11 +1435,15 @@ GeoPolyhedronInterface
 
 	public void rotate(NumberValue r, GeoPointND S) {
 		for (GeoSegment3D seg: segments.values()){
-			seg.rotate(r, S);
+			if (seg.isDefined()){
+				seg.rotate(r, S);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.rotate(r, S);
+			if (p.isDefined()){
+				p.rotate(r, S);
+			}
 		}
 	}
 
@@ -1445,11 +1451,15 @@ GeoPolyhedronInterface
 	public void rotate(NumberValue r) {
 
 		for (GeoSegment3D seg: segments.values()){
-			seg.rotate(r);
+			if (seg.isDefined()){
+				seg.rotate(r);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.rotate(r);
+			if (p.isDefined()){
+				p.rotate(r);
+			}
 		}
 
 	}
@@ -1457,22 +1467,30 @@ GeoPolyhedronInterface
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 		for (GeoSegment3D seg: segments.values()){
-			seg.rotate(r, S, orientation);
+			if (seg.isDefined()){
+				seg.rotate(r, S, orientation);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.rotate(r, S, orientation);
+			if (p.isDefined()){
+				p.rotate(r, S, orientation);
+			}
 		}
 	}
 
 
 	public void rotate(NumberValue r, GeoLineND line) {
 		for (GeoSegment3D seg: segments.values()){
-			seg.rotate(r, line);
+			if (seg.isDefined()){
+				seg.rotate(r, line);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.rotate(r, line);
+			if (p.isDefined()){
+				p.rotate(r, line);
+			}
 		}
 
 	}
@@ -1485,11 +1503,15 @@ GeoPolyhedronInterface
 
 	public void translate(Coords v) {
 		for (GeoSegment3D seg: segments.values()){
-			seg.translate(v);
+			if (seg.isDefined()){
+				seg.translate(v);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.translate(v);
+			if (p.isDefined()){
+				p.translate(v);
+			}
 		}	
 	}
 
@@ -1501,31 +1523,43 @@ GeoPolyhedronInterface
 
 	public void mirror(Coords Q) {
 		for (GeoSegment3D seg: segments.values()){
-			seg.mirror(Q);
+			if (seg.isDefined()){
+				seg.mirror(Q);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.mirror(Q);
+			if (p.isDefined()){
+				p.mirror(Q);
+			}
 		}	
 	}
 
 	public void mirror(GeoLineND g) {
 		for (GeoSegment3D seg: segments.values()){
-			seg.mirror(g);
+			if (seg.isDefined()){
+				seg.mirror(g);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.mirror(g);
+			if (p.isDefined()){
+				p.mirror(g);
+			}
 		}	
 	}
 
 	public void mirror(GeoPlane3D plane) {
 		for (GeoSegment3D seg: segments.values()){
-			seg.mirror(plane);
+			if (seg.isDefined()){
+				seg.mirror(plane);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.mirror(plane);
+			if (p.isDefined()){
+				p.mirror(plane);
+			}
 		}	
 	}
 
@@ -1537,11 +1571,15 @@ GeoPolyhedronInterface
 	public void dilate(NumberValue rval, Coords S) {
 
 		for (GeoSegment3D seg: segments.values()){
-			seg.dilate(rval,S);
+			if (seg.isDefined()){
+				seg.dilate(rval,S);
+			}
 		}
 
 		for (GeoPolygon3D p : polygons.values()){
-			p.dilate(rval,S);
+			if (p.isDefined()){
+				p.dilate(rval,S);
+			}
 		}	
 
 		double r = rval.getDouble();
@@ -1621,10 +1659,10 @@ GeoPolyhedronInterface
 
 	}
 
-	
+
 	// /////////////////////////////////
 	// Path interface
-	
+
 	@Override
 	public boolean isPath() {
 		return true;
@@ -1679,7 +1717,7 @@ GeoPolyhedronInterface
 		// point
 		pp.setT(pp.getT() - index);
 		seg.pathChanged(P);
-		
+
 		//App.debug(seg+" , "+oldT);
 
 		// recall the old parameter
@@ -1704,7 +1742,7 @@ GeoPolyhedronInterface
 		Coords res = null;
 		double param = 0;
 
-		
+
 
 		// find closest point on each segment
 		PathParameter pp = P.getPathParameter();
@@ -1733,10 +1771,10 @@ GeoPolyhedronInterface
 				param = i + pp.getT();
 				// Application.debug(i);
 			}
-			
+
 			i++;
 		}
-		
+
 		for (GeoSegmentND segment : segments.values()) {
 
 			P.setCoords(coordsOld, false); // prevent circular path.pointChanged
@@ -1761,7 +1799,7 @@ GeoPolyhedronInterface
 				param = i + pp.getT();
 				// Application.debug(i);
 			}
-			
+
 			i++;
 		}
 
@@ -1791,15 +1829,15 @@ GeoPolyhedronInterface
 		}
 		return false;
 	}
-	
-	
+
+
 	@Override
 	public void setShowObjectCondition(final GeoBoolean cond)
 			throws CircularDefinitionException {
-		
+
 		super.setShowObjectCondition(cond);
-		
-	
+
+
 		if (cons.isFileLoading())
 			return;
 
