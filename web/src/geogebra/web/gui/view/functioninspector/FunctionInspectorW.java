@@ -90,8 +90,13 @@ public class FunctionInspectorW extends FunctionInspector {
         }
 		
 	}
+    /**
+     * @param app
+     * @param selectedGeo
+     */
     public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 	    super(app, selectedGeo);
+	    App.debug("[!!!] constructor");
     }
 
 	@Override

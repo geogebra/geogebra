@@ -893,7 +893,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			// not used anyway
 		} else {
 			if (extend) {
-				App.printStacktrace("extending");
+			//	App.printStacktrace("extending");
 				leadSelectionColumn = columnIndex;
 				leadSelectionRow = rowIndex;
 				if (anchorSelectionColumn == -1)

@@ -249,17 +249,27 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
+		App.debug("source is: " + source);
 
 		if (source == btnOK) {
+			App.debug("btnOk");
 			returnOption = GOptionPane.OK_OPTION;
 			close();
 		}
 
 		if (source == btnCancel) {
+			App.debug("btnCancel");
 			returnOption = GOptionPane.CANCEL_OPTION;
 			close();
 		}
 
+//		if (optionButtons == null) {
+//			App.debug("optionButtons is null");
+//
+//			close();
+//			return;
+//		}
+//		
 		for (int i = 0; i < optionButtons.length; i++) {
 			if (source == optionButtons[i]) {
 				returnOption = i;
@@ -313,6 +323,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		this.returnHandler = null;
 		requiresReturnValue = false;
 
+		showDialog();
 		showDialog();
 
 		return returnOption;

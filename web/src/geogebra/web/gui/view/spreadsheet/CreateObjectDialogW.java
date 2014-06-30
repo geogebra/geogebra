@@ -7,7 +7,6 @@ import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CardPanel;
 import geogebra.web.gui.dialog.InputDialogW;
-import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -59,6 +58,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	private ListBox typeList;
 	boolean showApply = false;
 	private Label lblPreviewHeader;
+	private Label lblOptions;
 
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
 
@@ -87,7 +87,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		// optionPane.add(inputPanel, BorderLayout.CENTER);
 		typeList.setSelectedIndex(objectType);
-
 		centerOnScreen();//
 		setLabels();
 	}
@@ -106,12 +105,13 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 			}
 		});
-		
-		lblName = new Label();
-		
-		InputPanelW input = new InputPanelW(null, app, -1, false);
 
-		fldName = input.getTextComponent();
+		//inputPanel.setTitle("wwwwwwwwwww");
+		lblName = new Label();
+		lblName.setStyleName("panelTitle");
+	//	InputPanelW input = new InputPanelW(null, app, -1, false);
+
+		fldName = inputPanel.getTextComponent();
 		fldName.showPopupSymbolButton(true);
 		fldName.addBlurHandler(new BlurHandler() {
 			
@@ -161,7 +161,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		}
 
 		namePanel = new FlowPanel();
-		// namePanel.add(lblName, app.borderWest());
+		namePanel.add(lblName);
 		namePanel.add(fldName);
 
 		buildOptionsPanel();
@@ -170,13 +170,15 @@ public class CreateObjectDialogW extends InputDialogW implements
 		p.add(optionsPanel);
 
 		lblPreview = new Label();
+
 		previewPanel = new ScrollPanel(lblPreview);
 //		previewPanel.setBackground(this.wrappedDialog.getBackground());
 
+		
 		FlowPanel op = new FlowPanel();
 		op.add(p);
-		op.add(previewPanel);
-
+	
+		
 //		previewPanel.setPreferredSize(new Dimension(200,
 //				p.getPreferredSize().height));
 //
@@ -187,6 +189,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	private void buildOptionsPanel() {
 		optionPane = new FlowPanel();
+		lblOptions = new Label();
+		lblOptions.setStyleName("panelTitle");
 		FlowPanel copyPanel = new FlowPanel();
 		copyPanel.add(btnObject);
 		copyPanel.add(btnValue);
@@ -211,6 +215,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// TODO: this is not a good way to manage visibility of option panels
 		// ..fix it if we need more options in the future
 		cards = new CardPanel();
+		cards.setStyleName("panelIndent");
 		cards.add(orderPanel);
 		cards.add(transposePanel);
 		cards.add(xySwitchPanel);
@@ -218,12 +223,12 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		optionsPanel = new FlowPanel();
 		optionsPanel.add(northPanel);
-		// optionsPanel.add(Box.createRigidArea(new Dimension(50,10)),
+		optionsPanel.add(lblOptions);
 		// app.borderWest());
 		optionsPanel.add(cards);
 
-		//lblPreviewHeader = new Label();
-		//optionsPanel.add(lblPreviewHeader);
+		lblPreviewHeader = new Label();
+		optionsPanel.add(lblPreviewHeader);
 
 	}
 
@@ -318,8 +323,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 //			lblPreview.setText(coModel.getNonLatexText());
 //		}
 //		lblPreview.setIcon(latexIcon);
-		lblPreview.setText(coModel.getNonLatexText());
-		updateGUI();
+
 	}
 
 	
