@@ -290,10 +290,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return true;
 	}
 
-	@Override
-	final public boolean isDefined() {
-		return coordsys.getMadeCoordSys() >= 0;
-	}
 
 	// ///////////////////////////////////////
 	// LIMITED PATH
