@@ -33,7 +33,7 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 	private FlowPanel[] texts;
 	private FlowPanel[] buttons;
 	
-	public void showDialog(String title, RelationRow[] relations) {
+	public void showDialog(String title, RelationRow[] relations, String more) {
 
 		setGlassEnabled(true);
 		addStyleName("DialogBox");
@@ -57,7 +57,7 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 			if (relations[i].callback != null) {
 				callbacks[i] = relations[i].callback;
 				btnCallbacks[i] = new Button();
-				btnCallbacks[i].setText("More...");
+				btnCallbacks[i].setText(more + "...");
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}

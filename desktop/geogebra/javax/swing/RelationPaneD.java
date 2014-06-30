@@ -5,7 +5,6 @@ import geogebra.common.javax.swing.RelationPane;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,8 +20,9 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * Desktop implementation of the Relation Tool information window.
+ * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
- *
+ * 
  */
 public class RelationPaneD implements RelationPane {
 
@@ -32,26 +32,25 @@ public class RelationPaneD implements RelationPane {
 	private DefaultTableModel model;
 	private JTable table;
 	/**
-	 * This stores the array of the actions to be fired when
-	 * click on "More...".
+	 * This stores the array of the actions to be fired when click on "More...".
 	 */
 	RelationMore[] callbacks;
 	private boolean areCallbacks = false;
 	private int morewidth = 0;
-	
+
 	private final int INFOWIDTH = 400;
-	private final int ROWHEIGHT = 20;
+	private final int ROWHEIGHT = 25;
 	private final int MARGIN = 0;
-	
+
 	private final int MOREWIDTH = 100;
-		
-	public void showDialog(String title, RelationRow[] relations) {
+
+	public void showDialog(String title, RelationRow[] relations, String more) {
 
 		frame = new JFrame(title);
-		
+
 		int rels = relations.length;
-		
-		for (int i=0; i<rels; ++i) {
+
+		for (int i = 0; i < rels; ++i) {
 			if (relations[i].callback != null) {
 				areCallbacks = true;
 				morewidth = MOREWIDTH;
@@ -64,17 +63,16 @@ public class RelationPaneD implements RelationPane {
 			columnNames = new String[] { "String" };
 			data = new Object[rels][1];
 		}
-		
-		
-		callbacks = new RelationMore[rels];	
+
+		callbacks = new RelationMore[rels];
 		int height = 0;
-		
-		for (int i=0; i<rels; ++i) {
+
+		for (int i = 0; i < rels; ++i) {
 			data[i][0] = relations[i].info;
 			callbacks[i] = relations[i].callback;
 			if (areCallbacks) {
 				if (relations[i].callback != null) {
-					data[i][1] = "More...";
+					data[i][1] = more + "...";
 				} else {
 					data[i][1] = "";
 				}
@@ -96,28 +94,33 @@ public class RelationPaneD implements RelationPane {
 		if (areCallbacks) {
 			table.getColumnModel().getColumn(1)
 					.setCellRenderer(new ClientsTableButtonRenderer());
-			table.getColumnModel().getColumn(1)
-					.setCellEditor(new ClientsTableRenderer(this, new JCheckBox()));
+			table.getColumnModel()
+					.getColumn(1)
+					.setCellEditor(
+							new ClientsTableRenderer(this, new JCheckBox()));
 		}
 
-		for (int i=0; i<rels; ++i) {
+		for (int i = 0; i < rels; ++i) {
 			int thisHeight = ROWHEIGHT * (countLines(relations[i].info));
 			table.setRowHeight(i, thisHeight);
 			height += thisHeight;
 		}
-		
+
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
 		table.setDragEnabled(false);
-		table.setPreferredSize(new Dimension(INFOWIDTH + morewidth, height));
+		// table.setPreferredSize(new Dimension(INFOWIDTH + morewidth, height));
+		table.setSize(INFOWIDTH + morewidth, height);
 		frame.add(table);
-        frame.setPreferredSize(new Dimension(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN));
-        frame.setSize(frame.getPreferredSize());       
-        table.getColumnModel().getColumn(0).setPreferredWidth(INFOWIDTH);
-        if (areCallbacks) {
-        	table.getColumnModel().getColumn(1).setPreferredWidth(MOREWIDTH);
-        }
-		
+		// frame.setPreferredSize(new Dimension(INFOWIDTH + morewidth + 2 *
+		// MARGIN, height + 2 * MARGIN));
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
+		// frame.setSize(frame.getPreferredSize());
+		table.getColumnModel().getColumn(0).setPreferredWidth(INFOWIDTH);
+		if (areCallbacks) {
+			table.getColumnModel().getColumn(1).setPreferredWidth(MOREWIDTH);
+		}
+
 		frame.pack();
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
@@ -126,64 +129,66 @@ public class RelationPaneD implements RelationPane {
 
 	private static int countLines(String html) {
 		int ret = 1;
-		String[] words = {"<br>", "<li>", "<ul>"};
+		String[] words = { "<br>", "<li>", "<ul>" };
 		for (String word : words) {
 			int index = html.indexOf(word);
 			if (index != -1) {
 				ret++;
 			}
 			while (index >= 0) {
-			    index = html.indexOf(word, index + word.length() - 1);
-			    if (index != -1) {
+				index = html.indexOf(word, index + word.length() - 1);
+				if (index != -1) {
 					ret++;
 				}
 			}
 		}
 		return ret;
 	}
-	
+
 	public void updateRow(int row, RelationRow relation) {
 		table.setValueAt(relation.info, row, 0);
 		callbacks[row] = relation.callback;
 		table.setRowHeight(row, ROWHEIGHT * (countLines(relation.info)));
 
 		int height = 0;
-		
+
 		areCallbacks = false;
-		for (int i=0; i<callbacks.length; ++i) {
+		for (int i = 0; i < callbacks.length; ++i) {
 			height += table.getRowHeight(i);
 			if (callbacks[i] != null) {
 				areCallbacks = true;
 			}
 		}
-		
+
 		if (!areCallbacks) {
 			morewidth = 0;
 			table.removeColumn(table.getColumnModel().getColumn(1));
 		}
 
-		table.setPreferredSize(new Dimension(INFOWIDTH+morewidth,height));
+		// table.setPreferredSize(new Dimension(INFOWIDTH + morewidth, height));
+		table.setSize(INFOWIDTH + morewidth, height);
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		frame.setPreferredSize(new Dimension(INFOWIDTH+morewidth+2*MARGIN,height+2*MARGIN));
+		// frame.setPreferredSize(new Dimension(INFOWIDTH + morewidth + 2 *
+		// MARGIN, height + 2 * MARGIN));
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
 		frame.pack();
-		}	
+	}
 
 	/**
-	 * This code is mostly copied from
-	 * http://stackoverflow.com/a/10348919 shared by "Bitmap".
+	 * This code is mostly copied from http://stackoverflow.com/a/10348919
+	 * shared by "Bitmap".
 	 */
 	private class ClientsTableButtonRenderer extends JButton implements
 			TableCellRenderer {
-		
+
 		private static final long serialVersionUID = 5188521324132632032L;
 
 		public ClientsTableButtonRenderer() {
 			setOpaque(true);
 		}
 
-		public Component getTableCellRendererComponent(JTable t,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(JTable t, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
 			setBackground(UIManager.getColor("Button.background"));
 			setText((value == null) ? "" : value.toString());
@@ -215,14 +220,14 @@ public class RelationPaneD implements RelationPane {
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable t,
-				Object value, boolean isSelected, int r, int column) {
+		public Component getTableCellEditorComponent(JTable t, Object value,
+				boolean isSelected, int r, int column) {
 			this.row = r;
 			this.col = column;
 
 			button.setForeground(Color.black);
 			button.setBackground(UIManager.getColor("Button.background"));
-						
+
 			label = (value == null) ? "" : value.toString();
 			button.setText(label);
 			clicked = true;
@@ -250,10 +255,10 @@ public class RelationPaneD implements RelationPane {
 		@Override
 		protected void fireEditingStopped() {
 			/*
-			 *  FIXME: In some cases this throws an exception.
-			 *  No idea how to fix it.
+			 * FIXME: In some cases this throws an exception. No idea how to fix
+			 * it.
 			 */
 			super.fireEditingStopped();
 		}
-	}	
+	}
 }

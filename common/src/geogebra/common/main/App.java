@@ -5,6 +5,7 @@ import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GImage;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -38,17 +39,26 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.Relation;
+import geogebra.common.kernel.RelationNumerical;
+import geogebra.common.kernel.RelationNumerical.Report;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.commands.MyException;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import geogebra.common.kernel.prover.AlgoAreEqual;
+import geogebra.common.kernel.prover.AlgoAreParallel;
+import geogebra.common.kernel.prover.AlgoArePerpendicular;
+import geogebra.common.kernel.prover.AlgoProve;
+import geogebra.common.kernel.prover.AlgoProveDetails;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -72,6 +82,8 @@ import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
@@ -3042,65 +3054,186 @@ public abstract class App implements UpdateSelection{
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE, null);
 	}
 
+	/* TODO: It would be great to move the following 3 methods into a different file. */
 	/**
 	 * This is the proposed version of the new Relation Tool. To try it, rename
 	 * showRelation() to something else and rename this to showRelation.
 	 * This is just a prototype in a very early phase.
+	 * @param ra first object
+	 * @param rb second object
+	 * 
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
 	public void showRelationDemo(final GeoElement ra, final GeoElement rb) {
+		// Forcing CAS to load. This will be essential for the web version
+		// to run the Prove[Are...] commands with getting no "undefined":
+		GeoGebraCAS cas = (GeoGebraCAS) ra.getKernel().getGeoGebraCAS();
+		try {
+			cas.getCurrentCAS().evaluateRaw("1");
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Creating Relation popup window:
 		RelationPane tablePane = getFactory().newRelationPane();
-		String relInfosAll = new Relation(kernel).relation(ra, rb);
-		String[] relInfos = relInfosAll.split("\\)\n");
-		int rels = relInfos.length;
+		// Computing numerical results and collecting them in a HashSet:
+		HashSet<Report> relInfosAll = (HashSet<Report>) new RelationNumerical(kernel).relation(ra, rb);
+		// Collecting information for showing them in the popup window:
+		Iterator<Report> it = relInfosAll.iterator();
+		int rels = relInfosAll.size();
+		String[] relInfos = new String[rels];
+		Commands[] relAlgos = new Commands[rels];
+		Boolean[] relBools = new Boolean[rels];
+		int i = 0;
+		while (it.hasNext()) {
+			Report r = it.next();
+			relInfos[i] = r.stringResult;
+			relAlgos[i] = r.symbolicCheck;
+			relBools[i] = r.boolResult;
+			i++;
+		}
+		// TODO: Fix the order here, e.g. alphabetically.
 		final RelationRow rr[] = new RelationRow[rels];
-		for (int i=0; i<rels; i++) {
-			if (i < rels - 1) {
-				relInfos[i] += ")";
-			}
+		for (i=0; i<rels; i++) {
 			rr[i] = new RelationRow();
-			rr[i].info = "<html>" + relInfos[i].replace("\n", "<br>") + "</html>";
+			final String relInfo = relInfos[i].replace("\n", "<br>");
+			// First information shown (result of numerical checks):
+			rr[i].info = "<html>" + relInfo + "<br>" 
+					+ getPlain("CheckedNumerically") + "</html>";
+			final Commands relAlgo = relAlgos[i];
 
 			RelationMore rm = new RelationMore() {
-				
-				GeoElement a = ra;
-				GeoElement b = rb;
-				
 				@Override
 				public void action(RelationPane table, int row) {
-					final GeoSegment ga = (GeoSegment) a;
-					final GeoSegment gb = (GeoSegment) b;
 					final RelationRow rel = new RelationRow();
-					if (ga.hasSameLengthG(gb)) {
-						rel.info = "<html>Segments " + ga.getLabelSimple() + " and " 
-								+ gb.getLabelSimple() + " are <b>generically</b> equal.</html>";
-						RelationMore rm2 = new RelationMore() {
-							
+					Boolean result = checkGenerically(relAlgo, ra, rb);
+					// Second information shown (result of Prove command):
+					rel.info = "<html>" + relInfo;
+					if (result) {
+						rel.info += "<br><b>" + 
+								getPlain("GenericallyTrue") + "</b>";
+					}
+					if (result == null || result) {
+						RelationMore rm2 = new RelationMore() {		
 							@Override
 							public void action(RelationPane table2, int row2) {
-								rel.info = ga.hasSameLengthNDG(gb);
+								rel.info = "<html>";
+								String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
+								// Third information shown (result of ProveDetails command):
+								if (ndgResult.length == 1) {
+									rel.info += relInfo + "<br><b>" + getPlain("AlwaysTrue")
+											+ "</b>";
+								} else {
+									rel.info += "<b>" + getPlain("If") + "</b><ul>";
+									for (int j = 1; j < ndgResult.length; ++j) {
+										rel.info += "<li>" + getPlain("not") + " " + ndgResult[j];
+										if ( (j<ndgResult.length - 1) ) {
+											rel.info += " " + getPlain("and");
+										}
+									}
+									rel.info += "</ul>" + getPlain("then") + " " + relInfo;
+								}
+								rel.info += "</html>";
 								rel.callback = null;
 								table2.updateRow(row2, rel);
 							}
 						};
 						rel.callback = rm2;
-					} else {
-						rel.info = "<html>Segments " + ga.getLabelSimple() + " and " 
-								+ gb.getLabelSimple() + " are not generically equal.</html>";
+					} else if (!result){
+						rel.info += "<br><b>" +	getPlain("ButNotGenericallyTrue") + "</b>";
 						rel.callback = null;
 					}
-					
+					rel.info += "</html>";
 					table.updateRow(row, rel);
 					}
 			};
 			
-			if (!relInfos[i].contains(" not ")) {
+			if (relBools[i] && relAlgos[i] != null) {
 				rr[i].callback = rm;
 			}
 		}
 		
-		tablePane.showDialog(getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"), rr);
+		tablePane.showDialog(getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"), rr,
+				getPlain("More"));
 	}
-		
+
+	/**
+	 * Tries to compute if a geometry statement holds generically.
+	 * @param command Are... command
+	 * @param g1 first object
+	 * @param g2 second object
+	 * @return true if statement holds generically, false if it does not hold, null if cannot be decided by GeoGebra
+	 * 
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 */
+	final public static Boolean checkGenerically(Commands command, GeoElement g1, GeoElement g2) {
+		Boolean ret = null;
+		Construction cons = g1.getConstruction();
+		GeoElement root = new GeoBoolean(cons);
+		AlgoElement ae = null;
+		switch (command) {
+		case AreEqual:
+			ae = new AlgoAreEqual(cons, null, g1, g2); break;
+		case AreParallel:
+			ae = new AlgoAreParallel(cons, null, g1, g2); break;
+		case ArePerpendicular:
+			ae = new AlgoArePerpendicular(cons, null, g1, g2); break;
+		}
+		root.setParentAlgorithm(ae);
+		AlgoProve ap = new AlgoProve(cons, null, root);
+		ap.compute();
+		GeoElement[] o = ap.getOutput();
+		ret = ((GeoBoolean) o[0]).getBoolean();
+		root.remove();
+		o[0].remove();
+		return ret;
+	}
+	
+	/**
+	 * Tries to compute a necessary condition for a given statement to hold.
+	 * @param command Are... command
+	 * @param g1 first object
+	 * @param g2 second object
+	 * @return true if statement holds generically, false if it does not hold, null if cannot be decided by GeoGebra
+	 * 
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 */
+	final public static String[] getNDGConditions(Commands command, GeoElement g1, GeoElement g2) {
+		Construction cons = g1.getConstruction();
+		GeoElement root = new GeoBoolean(cons);
+		AlgoElement ae = null;
+		switch (command) {
+		case AreEqual:
+			ae = new AlgoAreEqual(cons, null, g1, g2); break;
+		case AreParallel:
+			ae = new AlgoAreParallel(cons, null, g1, g2); break;
+		case ArePerpendicular:
+			ae = new AlgoArePerpendicular(cons, null, g1, g2); break;
+		}
+		root.setParentAlgorithm(ae);
+		AlgoProveDetails ap = new AlgoProveDetails(cons, null, root);
+		ap.compute();
+		GeoElement[] o = ap.getOutput();
+		String[] ret;
+		GeoList list = ((GeoList) o[0]);
+		// Turning the output of ProveDetails into an array:
+		if (list.size() >= 2) {
+			GeoList conds = (GeoList) list.get(1);
+			int condsSize = conds.size();
+			ret = new String[condsSize + 1];
+			for (int i = 0; i < condsSize; ++i) {
+				ret[i+1] = conds.get(i).toString();
+			}
+		} else {
+			ret = new String[1];
+		}
+		ret[0] = (list.get(0).toString());
+		root.remove();
+		o[0].remove();
+		return ret;
+	}
+	
+	
 	//protected abstract Object getMainComponent();
 
 	private GeoElement geoForCopyStyle;

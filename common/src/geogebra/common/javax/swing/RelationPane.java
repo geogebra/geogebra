@@ -30,7 +30,7 @@ public interface RelationPane {
 	 * @param title The title of the window
 	 * @param relations The pieces of information to be shown
 	 */
-	public abstract void showDialog(String title, RelationRow[] relations);
+	public abstract void showDialog(String title, RelationRow[] relations, String more);
 
 	/**
 	 * Updates a row containing information and probably a button. 

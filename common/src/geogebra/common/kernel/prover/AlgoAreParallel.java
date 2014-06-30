@@ -42,11 +42,11 @@ public class AlgoAreParallel extends AlgoElement implements
 	 * @param inputLine1 the first line
 	 * @param inputLine2 the second line
 	 */
-	public AlgoAreParallel(Construction cons, String label, GeoLine inputLine1,
-			GeoLine inputLine2) {
+	public AlgoAreParallel(Construction cons, String label, GeoElement inputLine1,
+			GeoElement inputLine2) {
 		super(cons);
-		this.inputLine1 = inputLine1;
-		this.inputLine2 = inputLine2;
+		this.inputLine1 = (GeoLine) inputLine1;
+		this.inputLine2 = (GeoLine) inputLine2;
 
 		outputBoolean = new GeoBoolean(cons);
 
