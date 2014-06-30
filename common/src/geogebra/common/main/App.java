@@ -3109,9 +3109,13 @@ public abstract class App implements UpdateSelection{
 					Boolean result = checkGenerically(relAlgo, ra, rb);
 					// Second information shown (result of Prove command):
 					rel.info = "<html>" + relInfo;
-					if (result) {
+					if (result != null && result) {
 						rel.info += "<br><b>" + 
 								getPlain("GenericallyTrue") + "</b>";
+					}
+					if (result == null) {
+						rel.info += "<br><b>" + 
+								getPlain("PossiblyGenericallyTrue") + "</b>";
 					}
 					if (result == null || result) {
 						RelationMore rm2 = new RelationMore() {		
@@ -3131,7 +3135,7 @@ public abstract class App implements UpdateSelection{
 											rel.info += " " + getPlain("and");
 										}
 									}
-									rel.info += "</ul>" + getPlain("then") + " " + relInfo;
+									rel.info += "</ul><b>" + getPlain("then") + "</b> " + relInfo;
 								}
 								rel.info += "</html>";
 								rel.callback = null;
@@ -3139,7 +3143,7 @@ public abstract class App implements UpdateSelection{
 							}
 						};
 						rel.callback = rm2;
-					} else if (!result){
+					} else if (!result) {
 						rel.info += "<br><b>" +	getPlain("ButNotGenericallyTrue") + "</b>";
 						rel.callback = null;
 					}
@@ -3183,7 +3187,10 @@ public abstract class App implements UpdateSelection{
 		AlgoProve ap = new AlgoProve(cons, null, root);
 		ap.compute();
 		GeoElement[] o = ap.getOutput();
-		ret = ((GeoBoolean) o[0]).getBoolean();
+		GeoBoolean ans = ((GeoBoolean) o[0]);
+		if (ans.isDefined()) {
+			ret = ans.getBoolean();
+		}
 		root.remove();
 		o[0].remove();
 		return ret;
