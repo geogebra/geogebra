@@ -3042,10 +3042,23 @@ FromMeta
 	 * @param diameter GeoLine for storing the result
 	 */
 	final public void diameterLine(GeoVector v, GeoLine diameter) {
-		diameter.x = matrix[0] * v.x + matrix[3] * v.y;
-		diameter.y = matrix[3] * v.x + matrix[1] * v.y;
-		diameter.z = matrix[4] * v.x + matrix[5] * v.y;
+		diameterLine(v.x, v.y, diameter);
 	}
+	
+	
+	/**
+	 * Sets the GeoLine diameter to X.S.v + a.v (v is a direction), 
+	 * the diameter line parallel to v relativ to this conic.
+	 * @param vx vector x coord
+	 * @param vy vector y coord
+	 * @param diameter GeoLine for storing the result
+	 */
+	final public void diameterLine(double vx, double vy, GeoLine diameter) {
+		diameter.x = matrix[0] * vx + matrix[3] * vy;
+		diameter.y = matrix[3] * vx + matrix[1] * vy;
+		diameter.z = matrix[4] * vx + matrix[5] * vy;
+	}
+	
 
 	/**
 	 * returns all class-specific xml tags for saveXML

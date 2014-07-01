@@ -1752,4 +1752,13 @@ public class Manager3D implements Manager3DInterface {
 		return kernel.getAlgoDispatcher().Tangent(labels, P, c);
 	}
 	
+	public GeoElement[] Tangent3D(String[] labels, GeoLineND l, GeoConicND c){
+		if (l.isGeoElement3D() || c.isGeoElement3D()){
+			AlgoTangentLine3D algo = new AlgoTangentLine3D(cons, labels, l, c);
+			return algo.getOutput();
+		}
+
+		return kernel.getAlgoDispatcher().Tangent(labels, l, c);
+	}
+	
 }

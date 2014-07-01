@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -53,8 +54,8 @@ public class CmdTangent extends CommandProcessor {
 				return tangent(c.getLabels(), (GeoPointND) arg[1], (GeoConicND) arg[0]);
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic())))
-				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoLine) arg[0],
-						(GeoConic) arg[1]);
+				return tangent(c.getLabels(), (GeoLineND) arg[0],
+						(GeoConicND) arg[1]);
 			else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				
@@ -155,4 +156,16 @@ public class CmdTangent extends CommandProcessor {
 	protected GeoElement[] tangent(String[] labels, GeoPointND a, GeoConicND c){
 		return getAlgoDispatcher().Tangent(labels, a, c);
 	}
+	
+	/**
+	 * @param labels labels
+	 * @param l line
+	 * @param c conic
+	 * @return tangent line/conic
+	 */
+	protected GeoElement[] tangent(String[] labels, GeoLineND l, GeoConicND c){
+		return getAlgoDispatcher().Tangent(labels, l, c);
+	}
+	
+	
 }

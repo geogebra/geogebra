@@ -1364,10 +1364,9 @@ public class AlgoDispatcher {
 	/**
 	 * tangents to c parallel to g
 	 */
-	final public GeoLine[] Tangent(String[] labels, GeoLine g, GeoConic c) {
+	final public GeoElement[] Tangent(String[] labels, GeoLineND g, GeoConicND c) {
 		AlgoTangentLine algo = new AlgoTangentLine(cons, labels, g, c);
-		GeoLine[] tangents = algo.getTangents();
-		return tangents;
+		return algo.getOutput();
 	}
 
 

@@ -18,16 +18,14 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 
 
 /**
@@ -35,92 +33,44 @@ import geogebra.common.kernel.geos.GeoVector;
  * @author  Markus
  * @version 
  */
-public class AlgoTangentLine extends AlgoElement implements TangentAlgo {
+public class AlgoTangentLine extends AlgoTangentLineND {
 
-    private GeoLine g;  // input
-    private GeoConic c;  // input
-    private GeoLine [] tangents;     // output  
-    
-    private GeoLine diameter;
     private GeoVector direction;
-    private AlgoIntersectLineConic algoIntersect;
-    private GeoPoint [] tangentPoints;
-    private int i;
-        
+
     /** Creates new AlgoTangentLine */
-    AlgoTangentLine(Construction cons, String label, GeoLine g, GeoConic c) {
-        this(cons, g,c);
-        GeoElement.setLabels(label, tangents);            
+    AlgoTangentLine(Construction cons, String label, GeoLineND g, GeoConicND c) {
+        super(cons, label, g,c);         
     }
     
-    public AlgoTangentLine(Construction cons, String [] labels, GeoLine g, GeoConic c) {
-        this(cons, g,c);
-        GeoElement.setLabels(labels, tangents);            
+    public AlgoTangentLine(Construction cons, String [] labels, GeoLineND g, GeoConicND c) {
+       super(cons, labels, g,c);     
     }
+    
     
     @Override
-	public Commands getClassName() {
-		return Commands.Tangent;
-	}      
-    
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_TANGENTS;
-    }
-    
-    AlgoTangentLine(Construction cons, GeoLine g, GeoConic c) {
-        super(cons);
-        this.g = g;
-        this.c = c;                
-        
-        // the tangents are computed by intersecting the
+	protected void initDiameterAndDirection(){
+    	// the tangents are computed by intersecting the
         // diameter line of g with c
         diameter = new GeoLine(cons);        
         direction = new GeoVector(cons);
-        g.getDirection(direction);
+        ((GeoLine) g).getDirection(direction);
         c.diameterLine(direction, diameter);
-        algoIntersect = new AlgoIntersectLineConic(cons, diameter, c);
+        algoIntersect = new AlgoIntersectLineConic(cons, diameter, (GeoConic) c);
         //  this is only an internal Algorithm that shouldn't be in the construction list
         cons.removeFromConstructionList(algoIntersect); 
         tangentPoints = algoIntersect.getIntersectionPoints();
-        
-        tangents = new GeoLine[2];
-        tangents[0] = new GeoLine(cons);
-        tangents[1] = new GeoLine(cons);
-        tangents[0].setStartPoint(tangentPoints[0]);
-        tangents[1].setStartPoint(tangentPoints[1]);
-        
-        setInputOutput(); // for AlgoElement
-                
-        compute();                      
-    }   
-    
-    // for AlgoElement
-    @Override
-	public void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = g;
-        input[1] = c;
-          
-        super.setOutput(tangents);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoLine [] getTangents() { return tangents; }
-    GeoLine getLine() { return g; }
-    GeoConic getConic() { return c; }
-    
-    public GeoPoint getTangentPoint(GeoElement conic, GeoLine line) {
-        if (conic != c) return null;
-        
-        if (line == tangents[0]) {
-			return tangentPoints[0];
-        } else if (line == tangents[1]) {
-			return tangentPoints[1];
-        } else {
-            return null;
-        }
     }
+    
+    @Override
+	protected void setTangents(){
+    	 tangents = new GeoLine[2];
+         tangents[0] = new GeoLine(cons);
+         tangents[1] = new GeoLine(cons);
+         ((GeoLine) tangents[0]).setStartPoint((GeoPoint) tangentPoints[0]);
+         ((GeoLine) tangents[1]).setStartPoint((GeoPoint) tangentPoints[1]);
+    }
+
+    
     
     /**
      * Inits the helping interesection algorithm to take
@@ -132,13 +82,16 @@ public class AlgoTangentLine extends AlgoElement implements TangentAlgo {
 	public void initForNearToRelationship() {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
-    	if (!tangents[0].isOnFullLine(tangentPoints[0], Kernel.MIN_PRECISION)) {
+    	
+    	GeoPoint firstTangentPoint = (GeoPoint) tangentPoints[0];
+    	
+    	if (!((GeoLine) tangents[0]).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
         	algoIntersect.initForNearToRelationship();
         	
         	// remember first point
-    		double px = tangentPoints[0].x;
-    		double py = tangentPoints[0].y;
-    		double pz = tangentPoints[0].z;
+    		double px = firstTangentPoint.x;
+    		double py = firstTangentPoint.y;
+    		double pz = firstTangentPoint.z;
     		
     		// first = second
     		algoIntersect.setIntersectionPoint(0, tangentPoints[1]);
@@ -149,38 +102,21 @@ public class AlgoTangentLine extends AlgoElement implements TangentAlgo {
      	}		    	
     }
     
-    // calc tangents parallel to g
+    
     @Override
-	public final void compute() {               
-        // degenerates should not have any tangents
-        if (c.isDegenerate()) {
-            tangents[0].setUndefined();
-            tangents[1].setUndefined();
-            return;
-        }         
-        
-        // update diameter line
-        g.getDirection(direction);
+	protected void updateDiameterLine(){
+    	((GeoLine) g).getDirection(direction);
         c.diameterLine(direction, diameter);
-                       
-        // intersect diameter line with conic -> tangentPoints
-        algoIntersect.update();
-
-        // calc tangents through tangentPoints
-        for (i=0; i < tangents.length; i++) {
-            tangents[i].x = g.x;
-            tangents[i].y = g.y;                
-            tangents[i].z = -( tangentPoints[i].inhomX * g.x +
-                                        tangentPoints[i].inhomY * g.y);
-        }                
     }
     
     @Override
-	public final String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-    	return loc.getPlain("TangentToAParallelToB",c.getLabel(tpl),g.getLabel(tpl));
+	protected void updateTangent(int index){
+    	GeoLine tangent = (GeoLine) tangents[index];
+    	GeoLine line = (GeoLine) g;
+    	GeoPoint point = (GeoPoint) tangentPoints[index];
+    	 tangent.x = line.x;
+         tangent.y = line.y;                
+         tangent.z = -( point.inhomX * line.x +
+                                     point.inhomY * line.y);
     }
-
-	// TODO Consider locusequability
 }

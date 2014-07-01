@@ -452,6 +452,11 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 		return ec.kernel.getManager3D().Tangent3D(null, a, c);
 	}
 
+	@Override
+	protected GeoElement[] tangent(GeoLineND l, GeoConicND c){
+		return ec.kernel.getManager3D().Tangent3D(null, l, c);
+	}
+
 	
 
 }

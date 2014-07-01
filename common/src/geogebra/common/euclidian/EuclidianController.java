@@ -2825,12 +2825,12 @@ public abstract class EuclidianController {
 				
 				return companion.tangent(points[0], conics[0]);
 			} else if (selLines() == 1) {
-				GeoConic[] conics = getSelectedConics();
-				GeoLine[] lines = getSelectedLines();
+				GeoConicND[] conics = getSelectedConicsND();
+				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
 				checkZooming(); 
 				
-				return getAlgoDispatcher().Tangent(null, lines[0], conics[0]);
+				return companion.tangent(lines[0], conics[0]);
 			}
 		} else if (selConics() == 2) {
 			GeoConic[] conics = getSelectedConics();

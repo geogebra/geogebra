@@ -886,4 +886,9 @@ public interface Manager3DInterface {
 	 * tangents to c through P
 	 */
 	public GeoElement[] Tangent3D(String[] labels, GeoPointND P, GeoConicND c);
+	
+	public GeoElement[] Tangent3D(String[] labels, GeoLineND l, GeoConicND c);
+	
+	
+	
 }
