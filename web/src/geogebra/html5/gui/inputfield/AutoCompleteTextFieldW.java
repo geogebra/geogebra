@@ -150,7 +150,21 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	        KeyEventsHandler keyHandler) {
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
-		textField = new ScrollableSuggestBox(completionsPopup = new CompletionsPopup());
+		textField = new ScrollableSuggestBox(completionsPopup = new CompletionsPopup()){
+			public void setText(String s){
+				String oldText = getText();
+				int pos = getValueBox().getCursorPos();
+				StringBuilder sb = new StringBuilder();
+				int wp = AutoCompleteTextFieldW.updateCurrentWord(false, new StringBuilder(), oldText, pos);
+				/*if(wp <= 0){
+					wp = pos;
+				}*/
+				sb.append(oldText.substring(0, wp));
+				sb.append(s);
+				sb.append(oldText.substring(pos));
+				super.setText(sb.toString());
+			}
+		};
 		if (columns > 0) {
 			setColumns(columns);
 		}
@@ -579,10 +593,17 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * curWordEnd are set to this word's start and end position
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		String text = getText();
+		int next = updateCurrentWord(searchRight, this.curWord, getText(), getCaretPosition());
+		if(next > -1){
+			this.curWordStart = next;
+		}
+	}
+
+	static int updateCurrentWord(boolean searchRight, StringBuilder curWord,
+            String text, int caretPos) {
+		int curWordStart;
 		if (text == null)
-			return;
-		int caretPos = getCaretPosition();
+			return -1;
 
 		if (searchRight) {
 			// search to right first to see if we are inside [ ]
@@ -629,7 +650,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		if (curWord.toString().endsWith("[")) {
 			curWord.setLength(curWord.length() - 1);
 		}
-	}
+		return curWordStart;
+    }
 
 	/*
 	 * just show syntax error (already correctly formulated by
@@ -1154,7 +1176,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void setText(String s) {
-		textField.setText(s);
+		textField.getValueBox().setText(s);
 	}
 
 	public FocusWidget getTextBox() {
