@@ -7,6 +7,7 @@ import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -556,9 +557,9 @@ public class EuclidianPen {
 				algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 					
 				GeoElement line = algo.getGeoElements()[0];
-				line.setLineThickness(penSize * 2);
-				line.setLineType(penLineStyle);
-				line.setObjColor(penColor);
+//				line.setLineThickness(penSize * 2);
+//				line.setLineType(penLineStyle);
+//				line.setObjColor(penColor);
 				line.updateRepaint();
 				
 				return line;
@@ -712,7 +713,19 @@ public class EuclidianPen {
 			penPoints.clear();
 			return;
 		}
-		
+
+		if(shape instanceof GeoConic){
+			String equation = shape.getAlgebraDescription(StringTemplate.defaultTemplate);
+			try {
+				app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(equation,
+						true, false, true, true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+
 		// now check if it can be a function (increasing or decreasing x)
 		
 		double monotonicTest = 0;
@@ -801,9 +814,9 @@ public class EuclidianPen {
 		
 		GeoElement fun = algo.getGeoElements()[0];
 		
-		fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		fun.setLineType(penLineStyle);
-		fun.setObjColor(penColor);
+//		fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
+//		fun.setLineType(penLineStyle);
+//		fun.setObjColor(penColor);
 		
 
 		minX = Integer.MAX_VALUE;
@@ -1100,9 +1113,9 @@ public class EuclidianPen {
 		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction(), null, p1, q, z);
 		
 		GeoConic circle = (GeoConic) algo.getCircle();
-		circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		circle.setLineType(penLineStyle);
-		circle.setObjColor(penColor);
+//		circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
+//		circle.setLineType(penLineStyle);
+//		circle.setObjColor(penColor);
 		circle.updateRepaint();
 		
 		return circle;
@@ -1584,9 +1597,9 @@ public class EuclidianPen {
     	algo = new AlgoPolygon(cons, null, pts);
     	
 		GeoElement poly = algo.getGeoElements()[0];
-		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		poly.setLineType(penLineStyle);
-		poly.setObjColor(penColor);
+//		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
+//		poly.setLineType(penLineStyle);
+//		poly.setObjColor(penColor);
 		poly.updateRepaint();
 
     	return poly;
@@ -1783,9 +1796,9 @@ public class EuclidianPen {
 		q = new GeoPoint(cons, x_last, y_last, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		GeoElement line = algo.getGeoElements()[0];
-		line.setLineThickness(penSize * 2);
-		line.setLineType(penLineStyle);
-		line.setObjColor(penColor);
+//		line.setLineThickness(penSize * 2);
+//		line.setLineType(penLineStyle);
+//		line.setObjColor(penColor);
 		line.updateRepaint();
 		
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle + delta)));
@@ -1793,9 +1806,9 @@ public class EuclidianPen {
 		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
-		line.setLineThickness(penSize * 2);
-		line.setLineType(penLineStyle);
-		line.setObjColor(penColor);
+//		line.setLineThickness(penSize * 2);
+//		line.setLineType(penLineStyle);
+//		line.setObjColor(penColor);
 		line.updateRepaint();
 		
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle - delta)));
@@ -1803,9 +1816,9 @@ public class EuclidianPen {
 		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
-		line.setLineThickness(penSize * 2);
-		line.setLineType(penLineStyle);
-		line.setObjColor(penColor);
+//		line.setLineThickness(penSize * 2);
+//		line.setLineType(penLineStyle);
+//		line.setObjColor(penColor);
 		line.updateRepaint();
 		return line;
     }
@@ -1939,9 +1952,9 @@ public class EuclidianPen {
     	algo = new AlgoPolygon(cons, null, pts);
     	
 		GeoElement poly = algo.getGeoElements()[0];
-		poly.setLineThickness(penSize * 2);
-		poly.setLineType(penLineStyle);
-		poly.setObjColor(penColor);
+//		poly.setLineThickness(penSize * 2);
+//		poly.setLineType(penLineStyle);
+//		poly.setObjColor(penColor);
 		poly.updateRepaint();
 
     	

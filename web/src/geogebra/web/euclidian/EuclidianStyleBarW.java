@@ -428,6 +428,16 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
 
 		// -----------------------------------------------------
+		// MODE_PEN: for the pen mode there is no ConstructionDefault, but the 
+		// settings are saved in the EuclidianPen
+		// -----------------------------------------------------
+		else if(mode == EuclidianConstants.MODE_PEN){
+			btnColor.setDefaultColor(1, ec.getPen().getPenColor());
+			btnColor.updateColorTable();
+			btnColor.setVisible(true);
+		}
+
+		// -----------------------------------------------------
 		// All other modes: load activeGeoList with current default geo
 		// -----------------------------------------------------
 		else if (defaultGeoMap.containsKey(mode)) {
@@ -1324,7 +1334,11 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		if (source == btnColor) {
 			if (mode == EuclidianConstants.MODE_PEN) {
-				App.debug("Not MODE_PEN in EuclidianStyleBar yet");
+				ec.getPen().setPenColor((btnColor.getSelectedColor()));
+				btnColor.setDefaultColor(1, btnColor.getSelectedColor());
+				btnColor.updateColorTable();
+
+				// App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				/*ec.getPen().setPenColor(
 						geogebra.awt.Color.getAwtColor(btnColor
 								.getSelectedColor()));

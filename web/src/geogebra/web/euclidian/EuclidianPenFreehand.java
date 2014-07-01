@@ -88,6 +88,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			if (list.size() >= 3) {
 				this.app.getKernel().getAlgoDispatcher()
 				        .Circle(null, list.get(0), list.get(1), list.get(2));
+				return;
 			}
 		}
 
