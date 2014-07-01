@@ -3046,7 +3046,7 @@ public abstract class App implements UpdateSelection{
 		}
 	}
 
-	public void showRelation(GeoElement a, GeoElement b) {
+	public void showRelation_old(GeoElement a, GeoElement b) {
 		GOptionPane optionPane = getFactory().newGOptionPane();
 		optionPane.showConfirmDialog(this,
 				new Relation(kernel).relation(a, b),
@@ -3064,7 +3064,7 @@ public abstract class App implements UpdateSelection{
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	public void showRelationDemo(final GeoElement ra, final GeoElement rb) {
+	public void showRelation(final GeoElement ra, final GeoElement rb) {
 		// Forcing CAS to load. This will be essential for the web version
 		// to run the Prove[Are...] commands with getting no "undefined":
 		GeoGebraCAS cas = (GeoGebraCAS) ra.getKernel().getGeoGebraCAS();

@@ -4,6 +4,7 @@ import geogebra.common.gui.util.RelationMore;
 import geogebra.common.javax.swing.RelationPane;
 import geogebra.common.main.App;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -11,10 +12,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
@@ -54,7 +57,7 @@ public class RelationPaneD implements RelationPane {
 	 */
 	double ROWHEIGHT;
 	private final int ORIG_ROWHEIGHT = 30;
-	private final int MARGIN = 0;
+	private final int MARGIN = 10;
 
 	private final int ORIG_MOREWIDTH = 100;
 	private int MOREWIDTH;
@@ -62,6 +65,9 @@ public class RelationPaneD implements RelationPane {
 	public void showDialog(String title, final RelationRow[] relations, App app) {
 
 		frame = new JFrame(title);
+		
+		JPanel panel = new JPanel(new BorderLayout(MARGIN,MARGIN));
+		
 		ROWHEIGHT = ((double) ORIG_ROWHEIGHT) * app.getFontSize() / 12;
 		INFOWIDTH = (ORIG_INFOWIDTH * app.getFontSize() / 12);
 		MOREWIDTH = (ORIG_MOREWIDTH * app.getFontSize() / 12);
@@ -127,13 +133,15 @@ public class RelationPaneD implements RelationPane {
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
 		table.setDragEnabled(false);
-		// table.setPreferredSize(new Dimension(INFOWIDTH + morewidth, height));
 		table.setSize(INFOWIDTH + morewidth, height);
-		frame.add(table);
-		// frame.setPreferredSize(new Dimension(INFOWIDTH + morewidth + 2 *
-		// MARGIN, height + 2 * MARGIN));
+		panel.add(table);
+		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
+		panel.setBorder(BorderFactory.createEmptyBorder(MARGIN,MARGIN,MARGIN,MARGIN));
+		// panel.setBackground(new Color(100,200,30));
+		panel.setBackground(UIManager.getColor("Table.background"));
+		frame.add(panel);
 		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
-		// frame.setSize(frame.getPreferredSize());
+
 		table.getColumnModel().getColumn(0).setPreferredWidth(INFOWIDTH);
 		if (areCallbacks) {
 			table.getColumnModel().getColumn(1).setPreferredWidth(MOREWIDTH);
@@ -141,7 +149,7 @@ public class RelationPaneD implements RelationPane {
 
 		frame.addComponentListener(new ComponentListener() {
 			public void componentResized(ComponentEvent evt) {
-	            int ysize = frame.getSize().height;
+	            int ysize = frame.getSize().height - 2*MARGIN;
 	            int r = relations.length;
 	            int currentHeight = 0;
 	    		for (int i = 0; i < r; ++i) {
@@ -159,20 +167,16 @@ public class RelationPaneD implements RelationPane {
 			@Override
 			public void componentHidden(ComponentEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 
 			@Override
 			public void componentMoved(ComponentEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
-
 
 			@Override
 			public void componentShown(ComponentEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 		}
 		);
@@ -221,11 +225,8 @@ public class RelationPaneD implements RelationPane {
 			table.removeColumn(table.getColumnModel().getColumn(1));
 		}
 
-		// table.setPreferredSize(new Dimension(INFOWIDTH + morewidth, height));
 		table.setSize(INFOWIDTH + morewidth, height);
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		// frame.setPreferredSize(new Dimension(INFOWIDTH + morewidth + 2 *
-		// MARGIN, height + 2 * MARGIN));
 		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
 		frame.pack();
 	}
