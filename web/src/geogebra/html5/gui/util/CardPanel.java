@@ -4,10 +4,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CardPanel extends FlowPanel {
-	private int lastSelectedIndex;
 	private int selectedIndex;
 	public CardPanel() {
-		lastSelectedIndex = -1;
 		selectedIndex = 0;
 	}
 	public int getSelectedIndex() {
@@ -15,19 +13,15 @@ public class CardPanel extends FlowPanel {
     }
 	
 	public void setSelectedIndex(int idx) {
-	   
-	    if (lastSelectedIndex >= 0 && lastSelectedIndex < getWidgetCount()) {
-	    	getWidget(lastSelectedIndex).setVisible(false);
-	    }
-
-	    getWidget(selectedIndex).setVisible(true);
-	    lastSelectedIndex = selectedIndex;
-	    selectedIndex = idx;
+		for (int i=0; i < getWidgetCount();i++) {
+			getWidget(i).setVisible(i == idx);
+		}
+	   selectedIndex = idx;
 	}
 	
 	@Override
 	public void add(Widget w) {
-		w.setVisible(false);
+		//w.setVisible(false);
 		super.add(w);
 	}
 }

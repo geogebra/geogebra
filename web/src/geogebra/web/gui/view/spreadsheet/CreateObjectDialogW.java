@@ -59,7 +59,10 @@ public class CreateObjectDialogW extends InputDialogW implements
 	boolean showApply = false;
 	private Label lblPreviewHeader;
 	private Label lblOptions;
-
+	private static final int OPTION_ORDER = 0;
+	private static final int OPTION_XY = 1;
+	private static final int OPTION_TRANSPOSE = 2;
+	
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
 
 		super(false);
@@ -79,18 +82,27 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		createAdditionalGUI();
 
-		updateGUI();
 
 		isIniting = false;
-	
+		setLabels();
+		
 		// setTitle((String) model.getElementAt(objectType));
 
 		// optionPane.add(inputPanel, BorderLayout.CENTER);
 		typeList.setSelectedIndex(objectType);
+		
 		centerOnScreen();//
-		setLabels();
+	
+		updateGUI();
+//		objectTypeChanged();
+		
 	}
 
+	private void objectTypeChanged() {
+		coModel.setObjectType(typeList.getSelectedIndex());
+		coModel.createNewGeo(fldName.getText());
+
+	}
 	@SuppressWarnings("unchecked")
 	private void createAdditionalGUI() {
 
@@ -99,10 +111,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		typeList.addChangeHandler(new ChangeHandler() {
 			
 			public void onChange(ChangeEvent event) {
-				coModel.setObjectType(typeList.getSelectedIndex());
-				// fldName.setText("");
-				coModel.createNewGeo(fldName.getText());
-
+				objectTypeChanged();
 			}
 		});
 
@@ -151,7 +160,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// show the object list only if an object type is not given
 
 		lblObject = new Label();
-
+		lblObject.setStyleName("panelTitle");
+		
 		if (coModel.getObjectType() < 0) {
 			coModel.setListType();
 			typePanel = new FlowPanel();
@@ -215,12 +225,12 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// TODO: this is not a good way to manage visibility of option panels
 		// ..fix it if we need more options in the future
 		cards = new CardPanel();
+		//cards.getTabBar().setVisible(false);
 		cards.setStyleName("panelIndent");
 		cards.add(orderPanel);
-		cards.add(transposePanel);
 		cards.add(xySwitchPanel);
 		cards.add(transposePanel);
-
+		
 		optionsPanel = new FlowPanel();
 		optionsPanel.add(northPanel);
 		optionsPanel.add(lblOptions);
@@ -232,7 +242,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void setLabels() {
 
@@ -284,18 +293,35 @@ public class CreateObjectDialogW extends InputDialogW implements
 //				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 //		previewPanel.setBorder(BorderFactory.createTitledBorder(app
 //				.getMenu("Preview")));
-//
-//		optionsPanel.setBorder(BorderFactory.createTitledBorder(app
-//				.getMenu("Options")));
 
+		lblOptions.setText(app.getMenu("Options"));
 		wrappedPopup.setTitle(coModel.getTitle());
 
 	}
 
 	private void updateGUI() {
 		coModel.update();
-		cards.setSelectedIndex(typeList.getSelectedIndex());
-
+		int idx = 0;
+		
+		switch (coModel.getObjectType()) {
+		case CreateObjectModel.TYPE_LIST:
+			idx = OPTION_ORDER;
+			break;
+		case CreateObjectModel.TYPE_LISTOFPOINTS:
+			idx = OPTION_TRANSPOSE;
+			break;
+		case CreateObjectModel.TYPE_MATRIX:
+			idx = OPTION_ORDER;
+			break;
+		case CreateObjectModel.TYPE_TABLETEXT:
+			idx = OPTION_TRANSPOSE;
+			
+			break;
+		case CreateObjectModel.TYPE_POLYLINE:
+			idx = OPTION_ORDER;
+		}
+		App.debug("[CO] object type: " + idx);
+		cards.setSelectedIndex(idx);
 		/*
 		 * cbOrder.removeAllItems(); if(objectType == TYPE_LIST){
 		 * cbOrder.addItem(app.getMenu("Row"));
@@ -342,7 +368,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 				// btOK acts as cancel for now
 			} else if (source == btOK) {
-				App.debug("OOOOOOOOOOOOOOOK!");
 				coModel.ok();
 			}
 
