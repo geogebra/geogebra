@@ -255,7 +255,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			//add polyhedron's segments and polygons, without setting this algo as algoparent		
 			int index = 0;
 			if (!bottomAsInput){ //check bottom
-				outputPolygonsBottom.addOutput(polyhedron.getFace(index), false);
+				outputPolygonsBottom.addOutput(polyhedron.getFace3D(index), false);
 				index++;
 				for (int i=0; i<bottomPointsLength; i++)
 					outputSegmentsBottom.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[(i+1) % bottomPointsLength]),false);
@@ -263,7 +263,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			
 			//sides
 			for (int i=0; i<bottomPointsLength; i++){
-				outputPolygonsSide.addOutput(polyhedron.getFace(index), false);
+				outputPolygonsSide.addOutput(polyhedron.getFace3D(index), false);
 				index++;
 				outputSegmentsSide.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[bottomPointsLength]),false);
 			}

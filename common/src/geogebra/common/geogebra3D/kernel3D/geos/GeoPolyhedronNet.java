@@ -66,7 +66,7 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		
 		// save old faces
 		if(polygons!=null){
-			oldFaces = getFaces();
+			oldFaces = getFaces3D();
 			oldFacesIndex = 0;
 		}else{
 			oldFaces = null;

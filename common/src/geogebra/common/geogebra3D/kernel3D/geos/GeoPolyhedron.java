@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * @author ggb3D
@@ -96,7 +95,7 @@ GeoPolyhedronInterface
 	protected TreeMap<Integer, GeoPolygon3D> polygons;
 
 	/** faces linked */
-	protected TreeSet<GeoPolygon> polygonsLinked;
+	protected ArrayList<GeoPolygon> polygonsLinked;
 
 	/** points created by the algo */
 	protected ArrayList<GeoPoint3D> pointsCreated;
@@ -128,7 +127,7 @@ GeoPolyhedronInterface
 
 
 		segmentsLinked = new TreeMap<ConstructionElementCycle, GeoSegmentND>();
-		polygonsLinked = new TreeSet<GeoPolygon>();
+		polygonsLinked = new ArrayList<GeoPolygon>();
 
 		pointsCreated = new ArrayList<GeoPoint3D>();
 	}
@@ -777,8 +776,23 @@ GeoPolyhedronInterface
 		}
 		return ret;
 	}
+	
+	public GeoPolygon[] getFaces() {
+		GeoPolygon[] polygonsArray = new GeoPolygon[polygonsLinked.size()+polygons.size()];
+		int index = 0;
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygonsArray[index] = polygon;
+			index++;
+		}
+		for (GeoPolygon polygon : polygons.values()) {
+			polygonsArray[index] = polygon;
+			index++;
+		}
 
-	public GeoPolygon3D[] getFaces() {
+		return polygonsArray;
+	}
+
+	public GeoPolygon3D[] getFaces3D() {
 		GeoPolygon3D[] polygonsArray = new GeoPolygon3D[polygons.size()];
 		int index = 0;
 		for (GeoPolygon3D polygon : polygons.values()) {
@@ -792,8 +806,21 @@ GeoPolyhedronInterface
 	public Collection<GeoPolygon3D> getFacesCollection(){
 		return polygons.values();
 	}
+	
+	public GeoPolygon getFace(int index){
+		int polygonsLinkedSize = polygonsLinked.size();
+		if (index < polygonsLinkedSize){
+			return polygonsLinked.get(index);
+		}
+		return polygons.get(index - polygonsLinkedSize);
+	}
 
-	public GeoPolygon3D getFace(int index){
+	public int getFacesSize(){
+		return polygonsLinked.size() + polygons.size();
+	}
+
+
+	public GeoPolygon3D getFace3D(int index){
 		return polygons.get(index);
 	}
 
@@ -1640,7 +1667,7 @@ GeoPolyhedronInterface
 		if (polygonsLinked.isEmpty()){
 			return polygons.get(0);
 		}
-		return polygonsLinked.first();
+		return polygonsLinked.get(0);
 	}
 
 

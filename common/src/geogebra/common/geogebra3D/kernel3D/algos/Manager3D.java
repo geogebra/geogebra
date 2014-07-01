@@ -1598,20 +1598,28 @@ public class Manager3D implements Manager3DInterface {
 
 	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p,
 			NumberValue v, GeoPolygon bottomFace, GeoSegmentND[] pivotSegments) {
-		
-		switch(((GeoPolyhedron) p).getType()) {
 
-		case GeoPolyhedron.TYPE_PYRAMID:
-			AlgoElement algo = new AlgoPolyhedronNetPyramid(cons, labels, (GeoPolyhedron) p, v);
-			return algo.getOutput();
+		AlgoElement algo;
 		
-		case GeoPolyhedron.TYPE_PRISM:
-			algo = new AlgoPolyhedronNetPrism(cons, labels, (GeoPolyhedron) p, v);
-			return algo.getOutput();	
-		default:
-			algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p, v, bottomFace, pivotSegments);
-			return algo.getOutput();	
+		if (bottomFace == null && pivotSegments == null){
+			switch(((GeoPolyhedron) p).getType()) {
+
+			case GeoPolyhedron.TYPE_PYRAMID:
+				algo = new AlgoPolyhedronNetPyramid(cons, labels, (GeoPolyhedron) p, v);
+				return algo.getOutput();
+
+			case GeoPolyhedron.TYPE_PRISM:
+				algo = new AlgoPolyhedronNetPrism(cons, labels, (GeoPolyhedron) p, v);
+				return algo.getOutput();	
+//			default:
+//				algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p, v, bottomFace, pivotSegments);
+//				return algo.getOutput();	
+			}
 		}
+		
+		algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p, v, bottomFace, pivotSegments);
+		return algo.getOutput();	
+
 		
 	}
 	
