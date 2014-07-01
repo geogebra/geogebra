@@ -90,6 +90,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 		} else {// LEFT CLICK
 			leftPress(e);
 		}
+		setMousePressed();
 	}
 
 	@Override
