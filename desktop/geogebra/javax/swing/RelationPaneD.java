@@ -149,7 +149,7 @@ public class RelationPaneD implements RelationPane {
 
 		frame.addComponentListener(new ComponentListener() {
 			public void componentResized(ComponentEvent evt) {
-	            int ysize = frame.getSize().height - 2*MARGIN;
+	            int ysize = frame.getContentPane().getHeight() - 2*MARGIN;
 	            int r = relations.length;
 	            int currentHeight = 0;
 	    		for (int i = 0; i < r; ++i) {
