@@ -1,0 +1,17 @@
+{
+  "name": "GeoGebra 5 Beta",
+  "description": "GeoGebra is free dynamic mathematics software for all levels of education that joins geometry, algebra, graphing, and calculus.",
+  "version" : "VERSION",
+  "manifest_version": 2,
+  "icons": { 
+    "16": "icon_16.png",
+    "48": "icon_48.png",
+    "128": "icon_128.png" 
+    },
+  "offline_enabled": true,
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite"],
+  "author": "International GeoGebra Institute",
+  "homepage_url": "http://www.geogebra.org"
+}
