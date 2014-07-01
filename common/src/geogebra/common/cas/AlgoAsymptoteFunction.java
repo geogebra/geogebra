@@ -45,7 +45,7 @@ public class AlgoAsymptoteFunction extends AlgoElement {
     	
         g = new GeoList(cons);    	
 		g.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-	
+		g.setTypeStringForXML("line");
         setInputOutput(); // for AlgoElement        
         compute();
         g.setLabel(label);
