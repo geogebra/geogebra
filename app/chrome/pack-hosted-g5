@@ -14,4 +14,4 @@ cat $APPNAME/manifest.json.template | sed s/VERSION/$VERSION/g > \
 
 # 3. Packaging
 rm -f $APPNAME.zip
-zip -qr -9 -X $APPNAME-$VERSION.zip $APPNAME --exclude $APPNAME/*.template --exclude $APPNAME/svnignore.txt
+zip -qr -9 -X $APPNAME-$VERSION.zip $APPNAME --exclude $APPNAME/*.template --exclude $APPNAME/svnignore.txt --exclude *.svn*
