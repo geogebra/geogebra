@@ -72,7 +72,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	private boolean isDefinedAsTangent;
 	private boolean firstIntersection = true;
 	private boolean isPermutationNeeded = true;
-	private GeoPoint tangentPoint;
+	private GeoPointND tangentPoint;
 
 	private PointPairList pointList = new PointPairList();
 
@@ -230,7 +230,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 
 		// g is defined as tangent of c
 		if (isDefinedAsTangent) {
-			P[0].setCoords(tangentPoint);
+			P[0].setCoordsFromPoint(tangentPoint);
 			return;
 		}
 

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -132,7 +133,30 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
     }
 
  
-
+    /**
+     * Inits the helping interesection algorithm to take
+     * the current position of the lines into account.
+     * This is important so the the tangent lines are not
+     * switched after loading a file
+     */
+    @Override
+	public void initForNearToRelationship() {
+    	// if first tangent point is not on first tangent,
+    	// we switch the intersection points
+    	
+    	Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD(3);
+    	
+    	if (!((GeoLine3D) tangents[0]).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
+        	algoIntersect.initForNearToRelationship();
+        	
+     		// first = second
+    		algoIntersect.setIntersectionPoint(0, tangentPoints[1]);
+    		
+    		// second = first
+    		((GeoPoint3D) tangentPoints[1]).setCoords(firstTangentPoint);
+    		algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
+     	}		    	
+    }
 
 
 }

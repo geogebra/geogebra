@@ -27,7 +27,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Two tangents through point P to conic section c
  */
-public abstract class AlgoTangentPointND extends AlgoElement {
+public abstract class AlgoTangentPointND extends AlgoElement implements TangentAlgo {
 
 	protected GeoPointND P; // input
 	protected GeoConicND c; // input
@@ -209,4 +209,17 @@ public abstract class AlgoTangentPointND extends AlgoElement {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnTangentPoint(geo, this, scope);
 	}
+	
+    @Override
+	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
+        if (geo != c)
+            return null;
+
+        if (line == tangents[0])
+			return tangentPoints[0];
+		else if (line == tangents[1])
+			return tangentPoints[1];
+		else
+            return null;
+    }
 }

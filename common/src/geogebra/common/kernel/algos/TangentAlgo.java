@@ -2,7 +2,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Common tagging interface for AlgoElement objects calculating tangents
@@ -16,5 +16,5 @@ public interface TangentAlgo {
 	 * @param line Tangent to geo
 	 * @return Intersection of geo and line if line is tangent to geo, null otherwise
 	 */
-	GeoPoint getTangentPoint(GeoElement geo, GeoLine line);
+	GeoPointND getTangentPoint(GeoElement geo, GeoLine line);
 }

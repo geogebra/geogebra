@@ -15,7 +15,6 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -25,7 +24,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoTangentPoint extends AlgoTangentPointND implements TangentAlgo {
+public class AlgoTangentPoint extends AlgoTangentPointND {
 
 	
 
@@ -86,18 +85,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements TangentAlgo 
         return (GeoConic) c;
     }       
 
-    @Override
-	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
-        if (geo != c)
-            return null;
 
-        if (line == tangents[0])
-			return (GeoPoint) tangentPoints[0];
-		else if (line == tangents[1])
-			return (GeoPoint) tangentPoints[1];
-		else
-            return null;
-    }
     
     /**
      * Inits the helping interesection algorithm to take

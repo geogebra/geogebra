@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -35,7 +36,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
     private GeoFunction f; // input
     private GeoLine line; // input
     private GeoPoint startPoint, rootPoint;
-    private GeoPoint tangentPoint;
+    private GeoPointND tangentPoint;
     
     private Function diffFunction;
     
@@ -111,7 +112,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		}
         
         if (isDefinedAsTangent) {
-        	rootPoint.setCoords(tangentPoint);
+        	rootPoint.setCoordsFromPoint(tangentPoint);
         	return;
         }
         
