@@ -549,10 +549,10 @@ public class Ggb2giac {
 						+")");
 		p("SolveODE.3",
 				"when((%0)[0]=='=',"
-						+"normal(map(desolve(%0,%2,%1),type(%1)==6?(x->%1=x):(x->y=x))[0])"
+						+"normal(map(desolve(%0,%2,%1),(type(%1)==6)?(x->%1=x):(x->y=x))[0])"
 						+","
 						// add y'= if it's missing
-						+"normal(map(desolve(y'=%0,%2,%1),type(%1)==6?(x->%1=x):(x->y=x))[0])"
+						+"normal(map(desolve(y'=%0,%2,%1),(type(%1)==6)?(x->%1=x):(x->y=x))[0])"
 						+")");
 		p("SolveODE.4",
 				"when((%0)[0]=='=',"
