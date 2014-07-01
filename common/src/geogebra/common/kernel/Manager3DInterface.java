@@ -880,4 +880,10 @@ public interface Manager3DInterface {
 	 */
 	public GeoConicPartND Semicircle3D(String label, GeoPointND A, GeoPointND B, GeoDirectionND orientation);
 
+	
+	
+	/**
+	 * tangents to c through P
+	 */
+	public GeoElement[] Tangent3D(String[] labels, GeoPointND P, GeoConicND c);
 }

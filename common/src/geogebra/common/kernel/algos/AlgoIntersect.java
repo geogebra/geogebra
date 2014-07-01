@@ -83,7 +83,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
     }
 
     @Override
-	protected abstract GeoPoint[] getIntersectionPoints();
+	public abstract GeoPoint[] getIntersectionPoints();
     
     /**
      * Implemented for LocusEqu.

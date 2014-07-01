@@ -12,6 +12,8 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -45,12 +47,10 @@ public class CmdTangent extends CommandProcessor {
 			// tangents through point
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic())))
-				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoPoint) arg[0],
-						(GeoConic) arg[1]);
+				return tangent(c.getLabels(), (GeoPointND) arg[0], (GeoConicND) arg[1]);
 			else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoPoint())))
-				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoPoint) arg[1],
-						(GeoConic) arg[0]);
+				return tangent(c.getLabels(), (GeoPointND) arg[1], (GeoConicND) arg[0]);
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic())))
 				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoLine) arg[0],
@@ -143,5 +143,16 @@ public class CmdTangent extends CommandProcessor {
 
 	private static boolean isSpline(GeoElement geoList) {
 		return geoList instanceof GeoSpline;
+	}
+	
+	/**
+	 * 
+	 * @param labels labels
+	 * @param a point
+	 * @param c conic
+	 * @return tangent point/conic
+	 */
+	protected GeoElement[] tangent(String[] labels, GeoPointND a, GeoConicND c){
+		return getAlgoDispatcher().Tangent(labels, a, c);
 	}
 }

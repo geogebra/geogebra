@@ -1346,10 +1346,9 @@ public class AlgoDispatcher {
 	/**
 	 * tangents to c through P
 	 */
-	final public GeoLine[] Tangent(String[] labels, GeoPoint P, GeoConic c) {
+	final public GeoElement[] Tangent(String[] labels, GeoPointND P, GeoConicND c) {
 		AlgoTangentPoint algo = new AlgoTangentPoint(cons, labels, P, c);
-		GeoLine[] tangents = algo.getTangents();
-		return tangents;
+		return algo.getOutput();
 	}
 
 	/**

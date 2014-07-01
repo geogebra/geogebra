@@ -169,7 +169,7 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 	}
 
 	@Override
-	protected GeoPoint[] getIntersectionPoints() {
+	public GeoPoint[] getIntersectionPoints() {
 		return (GeoPoint[]) super.getOutput();
 	}
 

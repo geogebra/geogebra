@@ -83,7 +83,7 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
     }
 
     @Override
-	protected abstract GeoPoint3D[] getIntersectionPoints();
+	public abstract GeoPoint3D[] getIntersectionPoints();
     @Override
 	protected abstract GeoPoint3D[] getLastDefinedIntersectionPoints();
     

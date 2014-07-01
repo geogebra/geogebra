@@ -173,7 +173,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
     
 
     @Override
-	protected final GeoPoint3D [] getIntersectionPoints() {
+	public final GeoPoint3D [] getIntersectionPoints() {
         return P;
     }
     

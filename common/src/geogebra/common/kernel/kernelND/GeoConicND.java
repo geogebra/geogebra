@@ -2906,10 +2906,19 @@ FromMeta
 	 * @param P point
 	 * @param eps precision
 	 */
-	 public boolean isIntersectionPointIncident(GeoPoint P, double eps) {		
+	public boolean isIntersectionPointIncident(GeoPoint P, double eps) {	
 		return isOnFullConic(P, eps);
-	 }
-	 
+	}
+	
+	/** 
+	 * states wheter P lies on this conic or not 
+	 * @return true iff P lies on this conic
+	 * @param P point (2D coords in conic coordsys)
+	 * @param eps precision
+	 */
+	public boolean isIntersectionPointIncident(Coords P, double eps) {	
+		return isOnFullConic(P, eps);
+	}
 
 
 	/**
@@ -3007,7 +3016,25 @@ FromMeta
 			polar.z = matrix[4] * P.x + matrix[5] * P.y + matrix[2] * P.z;
 		}
 	}
+	
 
+	/**
+	 *  Sets the GeoLine polar to A.P, the polar line of P relativ to this conic.
+	 * @param project 2D projected coords of the point to which we want the polar
+	 * @param polar GeoLine in which the result should be stored 
+	 */
+	final public void polarLine(Coords project, GeoLine polar) {
+		if(!isDefined()){
+			polar.setUndefined();
+		}
+		else{
+		//</Zbynek>	
+			polar.x = matrix[0] * project.getX() + matrix[3] * project.getY() + matrix[4];
+			polar.y = matrix[3] * project.getX() + matrix[1] * project.getY() + matrix[5];
+			polar.z = matrix[4] * project.getX() + matrix[5] * project.getY() + matrix[2];
+		}
+	}
+	
 	/**
 	 * Sets the GeoLine diameter to X.S.v + a.v (v is a direction), 
 	 * the diameter line parallel to v relativ to this conic.

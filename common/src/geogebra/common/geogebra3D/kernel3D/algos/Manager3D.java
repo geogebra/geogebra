@@ -1738,4 +1738,18 @@ public class Manager3D implements Manager3DInterface {
 		
 	}
 	
+	
+	
+	/**
+	 * tangents to c through P
+	 */
+	final public GeoElement[] Tangent3D(String[] labels, GeoPointND P, GeoConicND c) {
+		if (P.isGeoElement3D() || c.isGeoElement3D()){
+			AlgoTangentPoint3D algo = new AlgoTangentPoint3D(cons, labels, P, c);
+			return algo.getOutput();
+		}
+
+		return kernel.getAlgoDispatcher().Tangent(labels, P, c);
+	}
+	
 }

@@ -109,6 +109,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setCartesian3D();
 		setUndefined();
+		this.setIncidenceList(null);
 	}
 
 	/**
@@ -120,7 +121,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setLabel(label);
 		setCartesian3D();
-
+		this.setIncidenceList(null);
 	}
 
 	public GeoPoint3D(Construction c, String label, Coords v) {

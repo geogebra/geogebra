@@ -86,7 +86,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
         }
     }
 	/** @return array of all intersection points*/
-	protected abstract GeoPointND[] getIntersectionPoints();
+	public abstract GeoPointND[] getIntersectionPoints();
 	/** @return array of last defined intersection points*/
 	protected abstract GeoPointND[] getLastDefinedIntersectionPoints();
     

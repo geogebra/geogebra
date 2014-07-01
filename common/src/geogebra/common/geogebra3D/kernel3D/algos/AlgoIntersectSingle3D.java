@@ -109,7 +109,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 	}
 	
 	@Override
-	protected GeoPoint3D [] getIntersectionPoints() {
+	public GeoPoint3D [] getIntersectionPoints() {
 		return (GeoPoint3D []) getOutput();
 	}
 		

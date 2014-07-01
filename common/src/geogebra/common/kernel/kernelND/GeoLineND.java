@@ -153,5 +153,6 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @return line direction for equation (to keep integers if some)
 	 */
 	public Coords getDirectionForEquation();
+	
 
 }

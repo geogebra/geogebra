@@ -112,7 +112,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
     
 
     @Override
-	protected final GeoPoint3D [] getIntersectionPoints() {
+	public final GeoPoint3D [] getIntersectionPoints() {
         return P;
     }
     
@@ -193,15 +193,26 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 				setPointsUndefined(); //TODO infinite points ?
 			}else{//line included
 				g2d.setCoords(dp.getY(), -dp.getX(), -dp.getY()*op.getX() +dp.getX()*op.getY());
-				AlgoIntersectLineConic.intersectLineConic(g2d, c, points2d,Kernel.STANDARD_PRECISION);
-				//Application.debug(points2d[0]+"\n"+points2d[1]);
-				P[0].setCoords(cs.getPoint(points2d[0].x, points2d[0].y), false);
-				checkIsOnFirstGeo(P[0]);
-				P[1].setCoords(cs.getPoint(points2d[1].x, points2d[1].y), false);
-				checkIsOnFirstGeo(P[1]);
+				intersectLineIncluded(c, P, cs, g2d);
 			}
 		}
 				
+	}
+	
+	/**
+	 * intersect with line included
+	 * @param c conic
+	 * @param P points
+	 * @param cs conic coord sys
+	 * @param g line
+	 */
+	protected void intersectLineIncluded(GeoConicND c, GeoPoint3D[] P, CoordSys cs, GeoLine g){
+		AlgoIntersectLineConic.intersectLineConic(g, c, points2d,Kernel.STANDARD_PRECISION);
+		//Application.debug(points2d[0]+"\n"+points2d[1]);
+		P[0].setCoords(cs.getPoint(points2d[0].x, points2d[0].y), false);
+		checkIsOnFirstGeo(P[0]);
+		P[1].setCoords(cs.getPoint(points2d[1].x, points2d[1].y), false);
+		checkIsOnFirstGeo(P[1]);
 	}
 	
 	/**

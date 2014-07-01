@@ -455,6 +455,17 @@ public class EuclidianControllerCompanion {
 	}
 	
 
+	
+
+	/**
+	 * 
+	 * @param a point
+	 * @param c conic
+	 * @return tangent point/conic
+	 */
+	protected GeoElement[] tangent(GeoPointND a, GeoConicND c){
+		return ec.getAlgoDispatcher().Tangent(null, a, c);
+	}
 
 
 }

@@ -131,7 +131,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
     
 
     @Override
-	protected final GeoPoint3D [] getIntersectionPoints() {
+	public final GeoPoint3D [] getIntersectionPoints() {
         return Q;   //TODO  change to P 
     }
     

@@ -18,58 +18,28 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoLineND;
 
 
 
 
 /**
- *
+ * Helper algo to compute intersect points of a line in the conic coord sys
  * @author  mathieu
  */
-public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
+public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
 
-    /**
-     * 
-     * @param cons
-     * @param label
-     * @param g
-     * @param c
-     */
-    AlgoIntersectLineConic3D(Construction cons, String label, GeoLineND g, GeoConicND c) {
-        this(cons, g,c);
-        GeoElement.setLabels(label, P);            
-    }
-    
-    /**
-     * 
-     * @param cons
-     * @param labels
-     * @param g
-     * @param c
-     */
-    AlgoIntersectLineConic3D(Construction cons, String [] labels, GeoLineND g, GeoConicND c) {
-        this(cons, g,c);
-        GeoElement.setLabels(labels, P);            
-    }
     
     @Override
 	public Commands getClassName() {
         return Commands.Intersect;
     }
 
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_INTERSECT;
-    }
 
     
     /**
@@ -78,10 +48,17 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
      * @param g
      * @param c
      */
-    AlgoIntersectLineConic3D(Construction cons, GeoLineND g, GeoConicND c) {
-        super(cons,(GeoElement) g,c);              
+    AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g, GeoConicND c) {
+        super(cons,g,c);              
                       
     }   
+    
+	@Override
+	public void compute() {
+		
+		intersectLineIncluded(c, P, c.getCoordSys(), getLine());
+		
+	}
     
     
 
@@ -91,7 +68,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
      * 
      * @return line input
      */
-    GeoLineND getLine() { return (GeoLineND) getFirtGeo(); }
+    GeoLine getLine() { return (GeoLine) getFirtGeo(); }
     
     
 
@@ -108,14 +85,11 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 
 	@Override
 	protected boolean getFirstGeoRespectLimitedPath(Coords p) {
-		return getLine().respectLimitedPath(p, Kernel.STANDARD_PRECISION);
+		return true;
 	}
 
 	@Override
 	protected void checkIsOnFirstGeo(GeoPoint3D p) {
-		if (!p.isDefined())
-			return;
-		if (!getLine().respectLimitedPath(p.getCoords(),Kernel.MIN_PRECISION))
-			p.setUndefined();
+		// nothing to do
 	}
 }

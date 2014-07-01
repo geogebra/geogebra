@@ -230,7 +230,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	protected GeoPoint[] getIntersectionPoints() {
+	public GeoPoint[] getIntersectionPoints() {
 		return rootPoints;
 	}
 

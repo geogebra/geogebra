@@ -2818,12 +2818,12 @@ public abstract class EuclidianController {
 	
 		if (selConics() == 1) {
 			if (selPoints() == 1) {
-				GeoConic[] conics = getSelectedConics();
-				GeoPoint[] points = getSelectedPoints();
+				GeoConicND[] conics = getSelectedConicsND();
+				GeoPointND[] points = getSelectedPointsND();
 				// create new tangents
 				checkZooming(); 
 				
-				return getAlgoDispatcher().Tangent(null, points[0], conics[0]);
+				return companion.tangent(points[0], conics[0]);
 			} else if (selLines() == 1) {
 				GeoConic[] conics = getSelectedConics();
 				GeoLine[] lines = getSelectedLines();
@@ -2890,6 +2890,8 @@ public abstract class EuclidianController {
 		}
 		return null;
 	}
+	
+	
 
 	
 	
