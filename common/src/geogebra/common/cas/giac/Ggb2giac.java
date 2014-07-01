@@ -118,11 +118,11 @@ public class Ggb2giac {
 		// (4x-3y=2x+1)[2] = right side
 
 		// expressions:
-		// (4x+3y-1)[0] = '+'
+		// (4x+3y-1)[0] = '+' -- no way to handle in GGB, return ?
 		// (4x+3y-1)[1] = 4x
 		// (4x+3y-1)[2] = 3y
 		// (4x+3y-1)[3] = -1
-		p("Element.2", "when(type(%0)==DOM_LIST,(%0)[%1-1],(%0)[%1])");
+		p("Element.2", "when(type(%0)==DOM_LIST,(%0)[%1-1],when(%1>0,(%0)[%1],?))");
 
 		//if %0[0]=='=' then %0[%1] else when(...) fi;
 
