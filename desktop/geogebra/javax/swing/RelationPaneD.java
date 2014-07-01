@@ -2,11 +2,14 @@ package geogebra.javax.swing;
 
 import geogebra.common.gui.util.RelationMore;
 import geogebra.common.javax.swing.RelationPane;
+import geogebra.common.main.App;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -26,11 +29,17 @@ import javax.swing.table.TableCellRenderer;
  */
 public class RelationPaneD implements RelationPane {
 
-	private JFrame frame;
+	/**
+	 * The Relation window.
+	 */
+	JFrame frame;
 	private String[] columnNames;
 	private Object[][] data;
 	private DefaultTableModel model;
-	private JTable table;
+	/**
+	 * The contents of the Relation window.
+	 */
+	JTable table;
 	/**
 	 * This stores the array of the actions to be fired when click on "More...".
 	 */
@@ -38,17 +47,26 @@ public class RelationPaneD implements RelationPane {
 	private boolean areCallbacks = false;
 	private int morewidth = 0;
 
-	private final int INFOWIDTH = 400;
-	private final int ROWHEIGHT = 25;
+	private final int ORIG_INFOWIDTH = 400;
+	private int INFOWIDTH;
+	/**
+	 * Current row height computed by the window size (y), by default it uses ORIG_ROWHEIGHT.
+	 */
+	double ROWHEIGHT;
+	private final int ORIG_ROWHEIGHT = 30;
 	private final int MARGIN = 0;
 
-	private final int MOREWIDTH = 100;
+	private final int ORIG_MOREWIDTH = 100;
+	private int MOREWIDTH;
 
-	public void showDialog(String title, RelationRow[] relations, String more) {
+	public void showDialog(String title, final RelationRow[] relations, App app) {
 
 		frame = new JFrame(title);
-
-		int rels = relations.length;
+		ROWHEIGHT = ((double) ORIG_ROWHEIGHT) * app.getFontSize() / 12;
+		INFOWIDTH = (ORIG_INFOWIDTH * app.getFontSize() / 12);
+		MOREWIDTH = (ORIG_MOREWIDTH * app.getFontSize() / 12);
+		
+		final int rels = relations.length;
 
 		for (int i = 0; i < rels; ++i) {
 			if (relations[i].callback != null) {
@@ -72,7 +90,7 @@ public class RelationPaneD implements RelationPane {
 			callbacks[i] = relations[i].callback;
 			if (areCallbacks) {
 				if (relations[i].callback != null) {
-					data[i][1] = more + "...";
+					data[i][1] = app.getPlain("More") + "...";
 				} else {
 					data[i][1] = "";
 				}
@@ -101,7 +119,7 @@ public class RelationPaneD implements RelationPane {
 		}
 
 		for (int i = 0; i < rels; ++i) {
-			int thisHeight = ROWHEIGHT * (countLines(relations[i].info));
+			int thisHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
 			table.setRowHeight(i, thisHeight);
 			height += thisHeight;
 		}
@@ -121,8 +139,46 @@ public class RelationPaneD implements RelationPane {
 			table.getColumnModel().getColumn(1).setPreferredWidth(MOREWIDTH);
 		}
 
+		frame.addComponentListener(new ComponentListener() {
+			public void componentResized(ComponentEvent evt) {
+	            int ysize = frame.getSize().height;
+	            int r = relations.length;
+	            int currentHeight = 0;
+	    		for (int i = 0; i < r; ++i) {
+	    			int thisHeight = (ORIG_ROWHEIGHT * (countLines(relations[i].info)));
+	    			currentHeight += thisHeight;
+	    		}
+	    		ROWHEIGHT = ((double) ysize) / currentHeight * ORIG_ROWHEIGHT;
+	            // App.debug("resized to rh " + ROWHEIGHT);
+	    		for (int i = 0; i < r; ++i) {
+	    			int newHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
+	    			table.setRowHeight(i, newHeight);
+	    		}
+	        }
+
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		}
+		);
+		
 		frame.pack();
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
@@ -148,7 +204,7 @@ public class RelationPaneD implements RelationPane {
 	public void updateRow(int row, RelationRow relation) {
 		table.setValueAt(relation.info, row, 0);
 		callbacks[row] = relation.callback;
-		table.setRowHeight(row, ROWHEIGHT * (countLines(relation.info)));
+		table.setRowHeight(row, (int) (ROWHEIGHT * (countLines(relation.info))));
 
 		int height = 0;
 

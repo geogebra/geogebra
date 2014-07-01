@@ -3158,7 +3158,7 @@ public abstract class App implements UpdateSelection{
 		}
 		
 		tablePane.showDialog(getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"), rr,
-				getPlain("More"));
+				ra.getConstruction().getApplication());
 	}
 
 	/**

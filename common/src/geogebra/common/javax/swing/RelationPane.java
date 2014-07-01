@@ -1,6 +1,7 @@
 package geogebra.common.javax.swing;
 
 import geogebra.common.gui.util.RelationMore;
+import geogebra.common.main.App;
 
 /**
  * Common interface for the Relation Tool information window.
@@ -29,8 +30,9 @@ public interface RelationPane {
 	 * Shows the information window.
 	 * @param title The title of the window
 	 * @param relations The pieces of information to be shown
+	 * @param app GeoGebra Application
 	 */
-	public abstract void showDialog(String title, RelationRow[] relations, String more);
+	public abstract void showDialog(String title, RelationRow[] relations, App app);
 
 	/**
 	 * Updates a row containing information and probably a button. 

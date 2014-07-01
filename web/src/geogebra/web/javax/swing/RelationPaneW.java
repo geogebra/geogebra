@@ -2,6 +2,7 @@ package geogebra.web.javax.swing;
 
 import geogebra.common.gui.util.RelationMore;
 import geogebra.common.javax.swing.RelationPane;
+import geogebra.common.main.App;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -33,7 +34,7 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 	private FlowPanel[] texts;
 	private FlowPanel[] buttons;
 	
-	public void showDialog(String title, RelationRow[] relations, String more) {
+	public void showDialog(String title, RelationRow[] relations, App app) {
 
 		setGlassEnabled(true);
 		addStyleName("DialogBox");
@@ -57,7 +58,7 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 			if (relations[i].callback != null) {
 				callbacks[i] = relations[i].callback;
 				btnCallbacks[i] = new Button();
-				btnCallbacks[i].setText(more + "...");
+				btnCallbacks[i].setText(app.getPlain("More") + "...");
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}
