@@ -13,5 +13,13 @@
     "clipboardRead",
     "clipboardWrite"],
   "author": "International GeoGebra Institute",
-  "homepage_url": "http://www.geogebra.org"
+  "homepage_url": "http://www.geogebra.org",
+  "app": {
+    "urls": [
+      "http://web.geogebra.org/beta/app.html"
+    ],
+    "launch": {
+      "web_url": "http://web.geogebra.org/beta"
+    }
+  }
 }
