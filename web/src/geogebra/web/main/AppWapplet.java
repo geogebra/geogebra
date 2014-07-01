@@ -147,6 +147,8 @@ public class AppWapplet extends AppW {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget)getEuclidianViewpanel());
+			//we need to make sure trace works after this, see #4373 or #4236
+			this.getEuclidianView1().createImage();
 			((DockPanelW)getEuclidianViewpanel()).setVisible(true);
 			((DockPanelW)getEuclidianViewpanel()).setEmbeddedSize(getSettings().getEuclidian(1).getPreferredSize().getWidth());
 			((DockPanelW)getEuclidianViewpanel()).updatePanel();
