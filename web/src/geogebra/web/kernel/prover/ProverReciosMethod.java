@@ -18,6 +18,11 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
     protected final ProofResult computeNd(HashSet<Variable> freeVariables,
             HashMap<Variable, BigInteger> values, int deg, SymbolicParameters s) {
 	int n = freeVariables.size();
+	if (n>5) {
+		// It would take too much time, it's better to find another method.
+		return ProofResult.UNKNOWN;
+	}
+	
 	Variable[] variables = new Variable[n];
 	Iterator<Variable> it = freeVariables.iterator();
 	for (int i = 0; i < n; i++) {

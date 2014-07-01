@@ -27,7 +27,7 @@ import javax.swing.table.TableCellRenderer;
 /**
  * Desktop implementation of the Relation Tool information window.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan "of Swing" Kovacs <zoltan@geogebra.org>
  * 
  */
 public class RelationPaneD implements RelationPane {
