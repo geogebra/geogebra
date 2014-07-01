@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
  * Algorithm for ImplicitDerivative[f(x,y)]
  *
  */
-public class AlgoImplicitDerivative extends AlgoElement {
+public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 
 	private GeoFunctionNVar result;
 	private FunctionalNVar functional; 
