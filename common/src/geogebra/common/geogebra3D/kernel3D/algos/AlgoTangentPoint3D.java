@@ -19,7 +19,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoTangentPointND;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -80,11 +82,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
          ((GeoLine3D) tangents[1]).setStartPoint(P);
     }
 
-    
-    @Override
-	protected boolean areTangentEqual(){
-    	return ((GeoLine3D) tangents[0]).isEqual((GeoLine3D) tangents[1]);
-    }
+
     
     @Override
 	protected boolean checkUndefined(){
@@ -144,18 +142,33 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
     	
+    	initForNearToRelationship(tangentPoints, tangents[0], algoIntersect);
+    }
+
+    
+    /**
+     * Inits the helping interesection algorithm to take
+     * the current position of the lines into account.
+     * This is important so the the tangent lines are not
+     * switched after loading a file
+     *
+     * @param tangentPoints tangent points
+     * @param tangent tangent line
+     * @param algoIntersect algo used
+     */
+    public static final void initForNearToRelationship(GeoPointND[] tangentPoints, GeoLineND tangent, AlgoIntersectND algoIntersect) {
     	Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD(3);
-    	
-    	if (!((GeoLine3D) tangents[0]).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
-        	algoIntersect.initForNearToRelationship();
-        	
-     		// first = second
+
+    	if (!((GeoLine3D) tangent).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
+    		algoIntersect.initForNearToRelationship();
+
+    		// first = second
     		algoIntersect.setIntersectionPoint(0, tangentPoints[1]);
-    		
+
     		// second = first
     		((GeoPoint3D) tangentPoints[1]).setCoords(firstTangentPoint);
     		algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
-     	}		    	
+    	}	
     }
 
 

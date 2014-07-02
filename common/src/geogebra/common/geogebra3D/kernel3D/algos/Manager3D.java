@@ -1761,4 +1761,18 @@ public class Manager3D implements Manager3DInterface {
 		return kernel.getAlgoDispatcher().Tangent(labels, l, c);
 	}
 	
+	
+	/**
+	 * common tangents to c1 and c2 dsun48 [6/26/2011]
+	 */
+	final public GeoElement[] CommonTangents3D(String[] labels, GeoConicND c1,
+			GeoConicND c2) {
+		if (c1.isGeoElement3D() || c2.isGeoElement3D()){
+			AlgoCommonTangents3D algo = new AlgoCommonTangents3D(cons, labels, c1, c2);
+			return algo.getOutput();
+		}
+
+		return kernel.getAlgoDispatcher().CommonTangents(labels, c1, c2);
+	}
+	
 }

@@ -3,7 +3,6 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -125,9 +124,10 @@ public class CmdTangent extends CommandProcessor {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
 						(GeoLine) arg[0], (GeoImplicitPoly) arg[1]);
 				return ret;
+				
 			} else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				return getAlgoDispatcher().CommonTangents(c.getLabels(), (GeoConic) arg[0], (GeoConic) arg[1]);
+				return tangent(c.getLabels(), (GeoConicND) arg[0], (GeoConicND) arg[1]);
 			}
 
 			// syntax error
@@ -167,5 +167,15 @@ public class CmdTangent extends CommandProcessor {
 		return getAlgoDispatcher().Tangent(labels, l, c);
 	}
 	
+	/**
+	 * @param labels labels
+	 * @param c1 conic
+	 * @param c2 conic
+	 * @return tangent conic/conic
+	 */
+	protected GeoElement[] tangent(String[] labels, GeoConicND c1, GeoConicND c2){
+		return getAlgoDispatcher().CommonTangents(labels, c1, c2);
+	}
+
 	
 }

@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -80,26 +79,7 @@ public class AlgoTangentLine extends AlgoTangentLineND {
      */
     @Override
 	public void initForNearToRelationship() {
-    	// if first tangent point is not on first tangent,
-    	// we switch the intersection points
-    	
-    	GeoPoint firstTangentPoint = (GeoPoint) tangentPoints[0];
-    	
-    	if (!((GeoLine) tangents[0]).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
-        	algoIntersect.initForNearToRelationship();
-        	
-        	// remember first point
-    		double px = firstTangentPoint.x;
-    		double py = firstTangentPoint.y;
-    		double pz = firstTangentPoint.z;
-    		
-    		// first = second
-    		algoIntersect.setIntersectionPoint(0, tangentPoints[1]);
-    		
-    		// second = first
-    		tangentPoints[1].setCoords(px, py, pz);
-    		algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
-     	}		    	
+    	AlgoTangentPoint.initForNearToRelationship(tangentPoints, tangents[0], algoIntersect);
     }
     
     

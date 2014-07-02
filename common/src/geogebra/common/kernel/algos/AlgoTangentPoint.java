@@ -18,7 +18,9 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -70,10 +72,6 @@ public class AlgoTangentPoint extends AlgoTangentPointND {
     }
 
     
-    @Override
-	protected boolean areTangentEqual(){
-    	return ((GeoLine) tangents[0]).isEqual((GeoLine) tangents[1]);
-    }
     
     
     // Made public for LocusEqu
@@ -98,9 +96,26 @@ public class AlgoTangentPoint extends AlgoTangentPointND {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
     	
+    	initForNearToRelationship(tangentPoints, tangents[0], algoIntersect);
+    }
+    
+    /**
+     * Inits the helping interesection algorithm to take
+     * the current position of the lines into account.
+     * This is important so the the tangent lines are not
+     * switched after loading a file
+     *
+     * @param tangentPoints tangent points
+     * @param tangent tangent line
+     * @param algoIntersect algo used
+     */
+    static public void initForNearToRelationship(GeoPointND[] tangentPoints, GeoLineND tangent, AlgoIntersectND algoIntersect) {
+    	// if first tangent point is not on first tangent,
+    	// we switch the intersection points
+    	
     	GeoPoint firstTangentPoint = (GeoPoint) tangentPoints[0];
     	
-    	if (!((GeoLine) tangents[0]).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
+    	if (!((GeoLine) tangent).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
         	algoIntersect.initForNearToRelationship();
         	
         	// remember first point
@@ -114,7 +129,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND {
     		// second = first
     		tangentPoints[1].setCoords(px, py, pz);
     		algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
-     	}		    	
+     	}		
     }
 
 

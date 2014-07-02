@@ -3029,9 +3029,9 @@ FromMeta
 		}
 		else{
 		//</Zbynek>	
-			polar.x = matrix[0] * project.getX() + matrix[3] * project.getY() + matrix[4];
-			polar.y = matrix[3] * project.getX() + matrix[1] * project.getY() + matrix[5];
-			polar.z = matrix[4] * project.getX() + matrix[5] * project.getY() + matrix[2];
+			polar.x = matrix[0] * project.getX() + matrix[3] * project.getY() + matrix[4] * project.getZ();
+			polar.y = matrix[3] * project.getX() + matrix[1] * project.getY() + matrix[5] * project.getZ();
+			polar.z = matrix[4] * project.getX() + matrix[5] * project.getY() + matrix[2] * project.getZ();
 		}
 	}
 	

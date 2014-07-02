@@ -1354,11 +1354,10 @@ public class AlgoDispatcher {
 	/**
 	 * common tangents to c1 and c2 dsun48 [6/26/2011]
 	 */
-	final public GeoLine[] CommonTangents(String[] labels, GeoConic c1,
-			GeoConic c2) {
+	final public GeoElement[] CommonTangents(String[] labels, GeoConicND c1,
+			GeoConicND c2) {
 		AlgoCommonTangents algo = new AlgoCommonTangents(cons, labels, c1, c2);
-		GeoLine[] tangents = algo.getTangents();
-		return tangents;
+		return algo.getOutput();
 	}
 
 	/**

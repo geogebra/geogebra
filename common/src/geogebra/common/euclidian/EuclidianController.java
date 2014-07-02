@@ -2833,11 +2833,11 @@ public abstract class EuclidianController {
 				return companion.tangent(lines[0], conics[0]);
 			}
 		} else if (selConics() == 2) {
-			GeoConic[] conics = getSelectedConics();
+			GeoConicND[] conics = getSelectedConicsND();
 			// create new tangents
 			checkZooming(); 
 			
-			return getAlgoDispatcher().CommonTangents(null, conics[0], conics[1]);
+			return companion.tangent(conics[0], conics[1]);
 		} else if (selFunctions() == 1) {
 			if (selPoints() == 1) {
 				GeoFunction[] functions = getSelectedFunctions();

@@ -70,7 +70,7 @@ public abstract class AlgoTangentPointND extends AlgoElement implements TangentA
         // if they are equal we started with a point on the conic section
         // in this case we only want to see one tangent line,
         // so we make the second one undefined
-        equalLines = areTangentEqual();
+        equalLines = tangents[0].isEqual((GeoElement) tangents[1]);
         if (equalLines) {        
             tangents[1].setUndefined();
             tangentPoints[1].setUndefined();
@@ -88,12 +88,6 @@ public abstract class AlgoTangentPointND extends AlgoElement implements TangentA
      */
     abstract protected void setTangents(); 
     
-    /**
-     * 
-     * @return true if tangents are equal
-     */
-    abstract protected boolean areTangentEqual();
-
     @Override
 	public Commands getClassName() {
         return Commands.Tangent;
