@@ -3121,6 +3121,8 @@ public abstract class App implements UpdateSelection{
 						RelationMore rm2 = new RelationMore() {		
 							@Override
 							public void action(RelationPane table2, int row2) {
+								Localization loc = ra.getConstruction().getApplication().getLocalization();
+								String and = loc.getMenu("Symbol.And").toLowerCase();
 								rel.info = "<html>";
 								String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
 								// Third information shown (result of ProveDetails command):
@@ -3128,7 +3130,7 @@ public abstract class App implements UpdateSelection{
 									rel.info += relInfo + "<br><b>" + getPlain("AlwaysTrue")
 											+ "</b>";
 								} else {
-									rel.info += "<b>" + getPlain("If") + "</b>";
+									rel.info += "<b>" + loc.getCommand("If") + "</b>";
 									int ndgs = ndgResult.length;
 									if (ndgs>2) {
 										rel.info += "<ul>"; 
@@ -3140,9 +3142,9 @@ public abstract class App implements UpdateSelection{
 										if (ndgs>2) {
 											rel.info += "<li>";
 										}
-										rel.info += getPlain("not") + " " + ndgResult[j];
+										rel.info += ndgResult[j];
 										if ( (j < ndgs - 1) ) {
-											rel.info += " " + getPlain("and");
+											rel.info += " " + and;
 										}
 									}
 									if (ndgs>2) {
@@ -3234,7 +3236,7 @@ public abstract class App implements UpdateSelection{
 			ae = new AlgoArePerpendicular(cons, null, g1, g2); break;
 		}
 		root.setParentAlgorithm(ae);
-		AlgoProveDetails ap = new AlgoProveDetails(cons, null, root);
+		AlgoProveDetails ap = new AlgoProveDetails(cons, null, root, true);
 		ap.compute();
 		GeoElement[] o = ap.getOutput();
 		String[] ret;
@@ -3245,7 +3247,9 @@ public abstract class App implements UpdateSelection{
 			int condsSize = conds.size();
 			ret = new String[condsSize + 1];
 			for (int i = 0; i < condsSize; ++i) {
-				ret[i+1] = conds.get(i).toString();
+				String cond = conds.get(i).toString();
+				// Removing quotes:
+				ret[i+1] = cond.substring(1,cond.length()-1);
 			}
 		} else {
 			ret = new String[1];

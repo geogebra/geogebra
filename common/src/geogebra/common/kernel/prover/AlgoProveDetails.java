@@ -14,13 +14,16 @@ package geogebra.common.kernel.prover;
 
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.RelationNumerical;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.UsesCAS;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.ProverSettings;
@@ -44,6 +47,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
     private GeoList list;     // output
     private Boolean result, unreadable;
     private HashSet<NDGCondition> ndgresult;
+    private boolean relTool = false;
     
     /* We need to count the processing number for giac.js:
      * 0: normal state (no giac.js should be considered)
@@ -71,7 +75,19 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
         initialCompute();
         compute();      
         list.setLabel(label);
-    }   
+    }
+    
+    /**
+     * Proves the given statement and gives some details in a list
+     * @param cons The construction
+     * @param label Label for the output
+     * @param root Input statement
+     * @param relationTool true if output should be given for Relation Tool (which is more readable)
+     */
+    public AlgoProveDetails(Construction cons, String label, GeoElement root, boolean relationTool) {
+    	this(cons, label, root);
+    	this.relTool = relationTool;    	
+    }
     
 	@Override
 	public Commands getClassName() {
@@ -196,25 +212,53 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 					// Do not print unnecessary conditions:
 					if (ndgc.getReadability() > 0) {
 						ndgc.rewrite(cons);
-						String s = loc.getCommand(ndgc.getCondition());
-						s += "[";
-						for (int i = 0; i < ndgc.getGeos().length; ++i) {
-							if (i > 0)
-								s += ',';
-							// There can be a case when the underlying prover
-							// sends such objects which cannot be
-							// understood by GeoGebra. In this case we use the
-							// "Objects" word.
-							// In this case we normally return
-							// ProveResult.UNKNOWN to not confuse the student,
-							// but for sure, we still do the check here as well.
-							GeoElement geo = ndgc.getGeos()[i];
-							if (geo != null)
-								s += ndgc.getGeos()[i].getLabelSimple();
-							else
-								s += "...";
+						String s = null;
+						
+						if (relTool) {
+							switch (ndgc.getCondition()) {
+							case "AreParallel":
+								// non-parallism in 2D means intersecting
+								// FIXME: this is not true for 3D
+								s = RelationNumerical.intersectString(ndgc.getGeos()[0], ndgc.getGeos()[1], true, loc);
+								break;
+							case "AreCollinear":
+								s = RelationNumerical.triangleNonDegenerateString((GeoPoint) ndgc.getGeos()[0], 
+										(GeoPoint) ndgc.getGeos()[1], (GeoPoint) ndgc.getGeos()[2], loc);
+								break;
+							case "AreEqual":
+								s = RelationNumerical.equalityStringExact(ndgc.getGeos()[0], ndgc.getGeos()[1], false, loc);
+								break;
+							
+							}
 						}
-						s += "]";
+						if (s == null || !relTool) {
+							s = loc.getCommand(ndgc.getCondition());
+							s += "[";
+							for (int i = 0; i < ndgc.getGeos().length; ++i) {
+								if (i > 0) {
+									s += ',';
+								}
+								/*
+								 * There can be a case when the underlying
+								 * prover sends such objects which cannot be
+								 * understood by GeoGebra. In this case we use
+								 * the "Objects" word. In this case we normally
+								 * return ProveResult.UNKNOWN to not confuse the
+								 * student, but for sure, we still do the check
+								 * here as well.
+								 */
+								GeoElement geo = ndgc.getGeos()[i];
+								if (geo != null)
+									s += ndgc.getGeos()[i].getLabelSimple();
+								else
+									s += "...";
+							}
+							s += "]";
+							if (relTool) {
+								s = loc.getPlain("not") + " " + s;
+							}
+						}
+						
 						ndgConditionText.setTextString(s);
 						ndgConditionText.setLabelVisible(false);
 						ndgConditionText.setEuclidianVisible(false);

@@ -510,6 +510,18 @@ public class RelationNumerical {
 	// "Relation of a and b: unequal"
 	final private String equalityStringExact(GeoElement a, GeoElement b,
 			boolean equal) {
+		return equalityStringExact(a, b, equal, loc);
+	}
+	/**
+	 * Internationalized string of "a and b are equal" (or not)
+	 * @param a first object
+	 * @param b second object
+	 * @param equal yes or no
+	 * @param loc locale
+	 * @return internationalized string
+	 */
+	final static public String equalityStringExact(GeoElement a, GeoElement b,
+			boolean equal, Localization loc) {
 		if (equal) {
 			return loc.getPlain("AandBareEqual", a.getLabelTextOrHTML(false),
 					b.getLabelTextOrHTML(false));
@@ -556,10 +568,39 @@ public class RelationNumerical {
 
 	// "Relation of a and b: parallel"
 	final private String parallelString(GeoLine a, GeoLine b) {
+		return parallelString(a, b, loc);
+	}
+	
+	/**
+	 * Internationalized string of "a and b are parallel"
+	 * @param a first line
+	 * @param b second line
+	 * @param loc locale
+	 * @return internationalized string
+	 */
+	final public static String parallelString(GeoLine a, GeoLine b, Localization loc) {
 		return loc.getPlain("AandBareParallel", a.getLabelTextOrHTML(false),
 				b.getLabelTextOrHTML(false));
 	}
 
+	/* This is not used yet. It requires support for 3 points in the Relation Tool. */
+	final private String triangleNonDegenerateString(GeoPoint A, GeoPoint B, GeoPoint C) {
+		return triangleNonDegenerateString(A, B, C, loc);
+	}
+	
+	/**
+	 * Internationalized string of "Triangle ABC is non-degenerate"
+	 * @param A first vertex
+	 * @param B second vertex
+	 * @param C third vertex
+	 * @param loc locale
+	 * @return internationalized string
+	 */
+	final public static String triangleNonDegenerateString(GeoPoint A, GeoPoint B, GeoPoint C, Localization loc) {
+		return loc.getPlain("TriangleABCnonDegenerate", A.getLabelTextOrHTML(false),
+				B.getLabelTextOrHTML(false), C.getLabelTextOrHTML(false));
+	}
+	
 	// Michael Borcherds 2008-05-15
 	final private String perpendicularString(GeoLine a, GeoLine b) {
 		return loc.getPlain("AandBarePerpendicular",
@@ -569,6 +610,19 @@ public class RelationNumerical {
 	// "a intersects with b"
 	final private String intersectString(GeoElement a, GeoElement b,
 			boolean intersects) {
+		return intersectString(a, b, intersects, loc);
+	}
+
+	/**
+	 * Internationalized string of "a intersects with b" (or not)
+	 * @param a first object
+	 * @param b second object
+	 * @param intersects yes or no
+	 * @param loc locale
+	 * @return internationalized string
+	 */
+	final public static String intersectString(GeoElement a, GeoElement b,
+			boolean intersects, Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		// Michael Borcherds 2008-05-14
 		// updated for better translation
@@ -580,6 +634,8 @@ public class RelationNumerical {
 					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false)));
 		return sb.toString();
 	}
+	
+	
 
 	// e.g "a is tangent of b"
 	// types are defined in AlgoIntersectLineConic
