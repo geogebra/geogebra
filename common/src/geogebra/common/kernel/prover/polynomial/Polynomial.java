@@ -677,7 +677,6 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return if input is a constant
 	 */
 	public boolean isConstant() {
-		System.out.println("terms=" + terms);
 		if (terms.size() > 1) {
 			return false;
 		}
@@ -797,7 +796,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * Creates a Singular program for the elimination ideal given by
 	 * a set of generating polynomials. We get the result in factorized form.
 	 * @param polys set of polynomials generating the ideal
-	 * @param variables the variables of the polynomials
+	 * @param pVariables the variables of the polynomials
 	 * @param dependentVariables the variables that should be eliminated
 	 * @return the Singular program code
 	 */

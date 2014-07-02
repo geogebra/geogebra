@@ -40,8 +40,11 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * 
@@ -82,8 +85,43 @@ public class RelationNumerical {
 			symbolicCheck = command;
 			stringResult = stringres;
 		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (!Report.class.isAssignableFrom(obj.getClass())) {
+                return false;
+            }
+			return this.stringResult.equalsIgnoreCase(((Report) obj).stringResult);
+		}
+		
+	      @Override
+	        public int hashCode() {
+	            return stringResult.hashCode();
+	        }
+		
 	}
 
+	/**
+	 * Sort the relation reports alphabetically
+	 * @param reports unsorted relation reports
+	 * @return alphabetically sorted relation reports
+	 */
+	public static SortedSet<Report> sortAlphabetically(Set<Report> reports) {
+		
+		Comparator<Report> myComparator = new Comparator<Report>() {
+            @Override
+            public int compare(Report r1, Report r2) {
+                return r1.stringResult.compareTo(r2.stringResult);
+            }
+        };
+		
+	    TreeSet<Report> sortedReports = new TreeSet<Report>(myComparator);
+	    sortedReports.addAll(reports);
+	    return sortedReports;
+	}
 	
 	private void register(Boolean boolres, Commands command, String stringres) {
 		Report r = new Report(boolres, command, stringres);
