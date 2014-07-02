@@ -19,12 +19,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
-
-
-
+import com.googlecode.gwtphonegap.client.PhoneGap;
+import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
+import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 /**
  * @author apa
  *
@@ -34,6 +35,9 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Tablet implements EntryPoint {
 
+	static PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
+	private static GeoGebraAppFrame appFrame;
+	
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true, false);
 	}
@@ -96,6 +100,24 @@ public class Tablet implements EntryPoint {
 		
 		//just debug for now
 		PNaCl.exportPNaCltoConsole();
+		
+		phoneGap.initializePhoneGap();
+		phoneGap.getEvent()
+				.getBackButton()
+				.addBackButtonPressedHandler(
+						new BackButtonPressedHandler() {
+
+							@Override
+							public void onBackButtonPressed(
+									final BackButtonPressedEvent event) {
+								goBack();
+							}
+						});
+	}
+	public static void goBack() {
+		if(appFrame!= null && appFrame.app != null){
+			appFrame.app.getHistory().goBack();
+		}
 	}
 
 	private void loadExtensionAsync() {
@@ -151,7 +173,7 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		new GeoGebraAppFrame();
+		this.appFrame = new GeoGebraAppFrame();
 	}
 	
 

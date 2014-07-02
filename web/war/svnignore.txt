@@ -1,3 +1,5 @@
+phone
+tablet
 web
 webSimple
 web3d

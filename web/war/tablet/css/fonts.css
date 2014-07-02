@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'geogebra-sans-serif';
+    src: url('../font/GeogebraSans-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'geogebra-serif';
+    src: url('../font/GeogebraSerif-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}

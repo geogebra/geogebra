@@ -20,7 +20,10 @@ your workstation.
 
 <project default="geogebraweb-developer">
 
-	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer, advanced-gwt"
+    <property name="gwtphonegap.jar" value="gwtphonegap-1.8.1.0.jar" />
+	<property name="phonegap.zip" value="phonegap-2.7.0.zip" />
+	
+	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer, advanced-gwt, phonegap, gwtphonegap"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
@@ -29,7 +32,7 @@ your workstation.
 	</target>
 
 	<target name="geogebraweb-developer"
-	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, advanced-gwt"
+	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, advanced-gwt, phonegap, gwtphonegap"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -148,6 +151,22 @@ your workstation.
 	<mkdir dir="lib/download"/>
 	<get src="http://dev.geogebra.org/download/lib/web/advanced-gwt-2.0.9.jar" dest="lib/advanced-gwt-2.0.9.jar"
 	    usetimestamp="true"/>
+	</target>
+	
+	<target name="gwtphonegap">
+		<mkdir dir="lib" />
+		<get src="http://dev.geogebra.org/download/lib/touch/${gwtphonegap.jar}" dest="lib/${gwtphonegap.jar}" />
+		<copy todir="war/WEB-INF/lib">
+			<fileset dir="lib" includes="${gwtphonegap.jar}" />
+		</copy>
+	</target>
+
+	<target name="phonegap">
+		<mkdir dir="lib" />
+		<get src="http://dev.geogebra.org/download/lib/touch/${phonegap.zip}" dest="lib/${phonegap.zip}" />
+		<copy todir="war/WEB-INF/lib">
+			<fileset dir="lib" includes="${phonegap.zip}" />
+		</copy>
 	</target>
 	
 </project>

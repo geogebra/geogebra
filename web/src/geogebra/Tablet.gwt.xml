@@ -31,6 +31,7 @@
   
 
   <inherits name="com.google.gwt.uibinder.UiBinder" />
+  <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.tablet.Tablet'/>

@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# Unique id #1404296575092.0.06960234814611233
+# Note: must change this every time for cache to invalidate
+
+CACHE:
+# Static app files
+
+# Generated app files
+
+
+# All other resources require the user to be online.
+NETWORK:
+*
