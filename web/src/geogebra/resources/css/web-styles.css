@@ -3318,7 +3318,7 @@ iframe.objectPropertiesTextEditor {
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	color: #666666;
-	padding: 10px 15px 0px 15px;
+	padding: 10px 15px 0px 5px;
 	height: 61px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -3327,8 +3327,7 @@ iframe.objectPropertiesTextEditor {
 }
 
 .headerFirst {
-	margin-right: 30px;
-	padding-top: 10px;
+	margin-right: 20px;
 	float: left;
 }
 
@@ -3395,6 +3394,7 @@ iframe.objectPropertiesTextEditor {
 
 .backButton {
 	cursor: pointer;
+	padding: 10px;
 }
 
 .backButton img {
