@@ -17,6 +17,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -123,6 +124,8 @@ public class RelationPaneD implements RelationPane {
 					.setCellEditor(
 							new ClientsTableRenderer(this, new JCheckBox()));
 		}
+		table.getColumnModel().getColumn(0)
+		.setCellRenderer(new ClientsTableTextRenderer());
 
 		for (int i = 0; i < rels; ++i) {
 			int thisHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
@@ -247,7 +250,7 @@ public class RelationPaneD implements RelationPane {
 		public Component getTableCellRendererComponent(JTable t, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
-			setBackground(UIManager.getColor("Button.background"));
+			// setBackground(UIManager.getColor("Button.background"));
 			setText((value == null) ? "" : value.toString());
 			if (callbacks[row] == null) {
 				return null;
@@ -256,6 +259,26 @@ public class RelationPaneD implements RelationPane {
 		}
 	}
 
+	private class ClientsTableTextRenderer extends JLabel implements
+	TableCellRenderer {
+
+		private static final long serialVersionUID = 5188521324132632032L;
+
+		public ClientsTableTextRenderer() {
+			setOpaque(true);
+		}
+
+		public Component getTableCellRendererComponent(JTable t, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+			setForeground(Color.black);
+			setBackground(UIManager.getColor("Table.background"));
+			setAlignmentX(CENTER_ALIGNMENT);
+			setOpaque(true);
+			setText((value == null) ? "" : value.toString());
+			return this;
+		}
+	}
+	
 	private class ClientsTableRenderer extends DefaultCellEditor {
 		private static final long serialVersionUID = -4426618730428867967L;
 		private JButton button;
