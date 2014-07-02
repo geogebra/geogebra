@@ -44,6 +44,8 @@ public class EuclidianPen {
 	protected double POLYGON_LINEAR_TOLERANCE = 0.20;
 	protected double RECTANGLE_ANGLE_TOLERANCE = 15*Math.PI/180;
 
+	public final GeoPolyLine DEFAULT_PEN_LINE;
+
 	private AlgoElement lastAlgo = null;
 	protected ArrayList<GPoint> penPoints = new ArrayList<GPoint>();
 	private ArrayList<GPoint> temp = null;
@@ -192,6 +194,28 @@ public class EuclidianPen {
 		this.app = app;
 
 		setDefaults();
+		
+		DEFAULT_PEN_LINE = new GeoPolyLine(app.getKernel().getConstruction()){
+			@Override
+			public void setObjColor(GColor color) {
+				super.setObjColor(color);
+				setPenColor(color);
+			}
+
+			@Override
+			public void setLineThickness(int th) {
+				super.setLineThickness(th);
+				setPenSize(th);
+			}
+
+			@Override
+			public void setLineType(int i) {
+				super.setLineType(i);
+				setPenLineStyle(i);
+			}
+		};
+		DEFAULT_PEN_LINE.setObjColor(penColor);
+		DEFAULT_PEN_LINE.setLineThickness(penSize);
 	}
 
 	// ===========================================

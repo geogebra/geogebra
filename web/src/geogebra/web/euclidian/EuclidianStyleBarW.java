@@ -130,9 +130,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		public void handlePopupActionEvent(){
 			model.applyLineTypeFromIndex(getSelectedIndex());
 			getMyPopup().hide();
-		};
-		
-		
+		}
 
 		public void setValue(int value) {
 			getMySlider().setValue(value);
@@ -428,19 +426,11 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
 
 		// -----------------------------------------------------
-		// MODE_PEN: for the pen mode there is no ConstructionDefault, but the 
-		// settings are saved in the EuclidianPen
-		// -----------------------------------------------------
-		else if(mode == EuclidianConstants.MODE_PEN){
-			btnColor.setDefaultColor(1, ec.getPen().getPenColor());
-			btnColor.updateColorTable();
-			btnColor.setVisible(true);
-		}
-
-		// -----------------------------------------------------
+		// MODE_PEN: for the pen mode the default construction is 
+		// saved in EuclidianPen		
 		// All other modes: load activeGeoList with current default geo
 		// -----------------------------------------------------
-		else if (defaultGeoMap.containsKey(mode)) {
+		else if (defaultGeoMap.containsKey(mode) || mode == EuclidianConstants.MODE_PEN) {
 
 			// Save the current default geo state in oldDefaultGeo.
 			// Stylebar buttons can temporarily change a default geo, but this
@@ -457,8 +447,8 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 
 			// get the current default geo
-			GeoElement geo = cons.getConstructionDefaults().getDefaultGeo(
-					defaultGeoMap.get(mode));
+			GeoElement geo = mode == EuclidianConstants.MODE_PEN ? ec.getPen().DEFAULT_PEN_LINE : 
+					cons.getConstructionDefaults().getDefaultGeo(defaultGeoMap.get(mode));
 			if (geo != null)
 				activeGeoList.add(geo);
 
@@ -951,14 +941,14 @@ public class EuclidianStyleBarW extends StyleBarW
 				@Override
 				public void update(Object[] geos) {
 
-					if (EuclidianView.isPenMode(mode)) {
+					if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE){//EuclidianView.isPenMode(mode)) {
 						/*this.setVisible(true);
 
 						setSelectedIndex(getColorIndex(ec.getPen().getPenColor()));
 
 						setSliderValue(100);
 						getMySlider().setVisible(false);*/
-						App.debug("not MODE_PEN_working yet in StyleBar");
+						App.debug("MODE_FREEHAND_SHAPE not working in StyleBar yet");
 
 					} else {
 						boolean geosOK = (geos.length > 0 || EuclidianView.isPenMode(mode));
@@ -1333,23 +1323,23 @@ public class EuclidianStyleBarW extends StyleBarW
 			return;
 
 		if (source == btnColor) {
-			if (mode == EuclidianConstants.MODE_PEN) {
-				ec.getPen().setPenColor((btnColor.getSelectedColor()));
-				btnColor.setDefaultColor(1, btnColor.getSelectedColor());
-				btnColor.updateColorTable();
+//			if (mode == EuclidianConstants.MODE_PEN) {
+//				ec.getPen().setPenColor((btnColor.getSelectedColor()));
+//				btnColor.setDefaultColor(1, btnColor.getSelectedColor());
+//				btnColor.updateColorTable();
 
 				// App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				/*ec.getPen().setPenColor(
 						geogebra.awt.Color.getAwtColor(btnColor
 								.getSelectedColor()));
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());*/
-			} else {
+//			} else {
 				GColor color = btnColor.getSelectedColor();
 				float alpha = btnColor.getSliderValue() / 100.0f;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color, alpha, app);
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
 				// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
-			}
+//			}
 		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
@@ -1372,7 +1362,7 @@ public class EuclidianStyleBarW extends StyleBarW
 					/*ec.getPen().setPenLineStyle(
 							lineStyleArray[btnLineStyle.getSelectedIndex()]);
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
-					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
+					// App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				} else {
 					// handled by the popup itself
 			//		int lineSize = btnLineStyle.getSliderValue();
