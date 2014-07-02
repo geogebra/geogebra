@@ -3600,7 +3600,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void storeUndoInfo() {
 		if (isUndoActive()) {
-			App.printStacktrace("");
 			kernel.storeUndoInfo();
 			setUnsaved();
 		}
