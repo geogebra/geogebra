@@ -1409,11 +1409,12 @@ public class EuclidianStyleBarW extends StyleBarW
 	
 	public static void setGridType(EuclidianView ev, int val) {
 		EuclidianSettings evs = ev.getSettings();
+		boolean gridChanged = false;
 	    if(val == 0){
-	    	evs.showGrid(false);
+	    	gridChanged = evs.showGrid(false);
 	    }else{
 	    	evs.beginBatch();
-	    	evs.showGrid(true);
+	    	gridChanged = evs.showGrid(true);
 	    	switch(val){
 	    	case 2:
 	    	evs.setGridType(EuclidianView.GRID_POLAR);
@@ -1425,7 +1426,9 @@ public class EuclidianStyleBarW extends StyleBarW
 	    	}
 	    	evs.endBatch();
 	    }
-	    
+	    if(gridChanged){
+	    	ev.getApplication().storeUndoInfo();
+	    }
     }
 
 
