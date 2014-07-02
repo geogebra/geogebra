@@ -7,6 +7,7 @@ import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CardPanel;
 import geogebra.web.gui.dialog.InputDialogW;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -92,11 +93,11 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		// optionPane.add(inputPanel, BorderLayout.CENTER);
 		typeList.setSelectedIndex(objectType);
+		objectTypeChanged();
 		
 		centerOnScreen();//
 	
 		updateGUI();
-//		objectTypeChanged();
 		
 	}
 
@@ -117,13 +118,14 @@ public class CreateObjectDialogW extends InputDialogW implements
 			}
 		});
 
-		//inputPanel.setTitle("wwwwwwwwwww");
+		inputPanel.clear();;
 		lblName = new Label();
 		lblName.setStyleName("panelTitle");
-	//	InputPanelW input = new InputPanelW(null, app, -1, false);
+		InputPanelW input = new InputPanelW(null, app, -1, false);
 
-		fldName = inputPanel.getTextComponent();
-		fldName.setText("---------");
+		fldName = input.getTextComponent();
+		inputPanel.add(fldName);
+		//inputPanel.setText("---------");
 		fldName.showPopupSymbolButton(true);
 		fldName.addBlurHandler(new BlurHandler() {
 			
@@ -428,6 +430,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	}
 
 	public void setName(String name) {
+		App.debug("[co] setName: " + name);
 		fldName.setText(name);
 	}
 

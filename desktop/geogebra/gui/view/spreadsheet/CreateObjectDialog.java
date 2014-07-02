@@ -62,7 +62,6 @@ public class CreateObjectDialog extends InputDialogD implements
 
 	private JScrollPane previewPanel;
 
-	private boolean keepNewGeo = false;
 	private JComboBox cbLeftRightOrder;
 	private JPanel cards;
 	private JLabel lblPreview;
@@ -208,8 +207,8 @@ public class CreateObjectDialog extends InputDialogD implements
 		// ..fix it if we need more options in the future
 		cards = new JPanel(new CardLayout());
 		cards.add("c0", orderPanel);
-		cards.add("c1", transposePanel);
-		cards.add("c2", xySwitchPanel);
+		cards.add("c1", xySwitchPanel);
+		cards.add("c2", transposePanel);
 		cards.add("c3", transposePanel);
 
 		optionsPanel = new JPanel(new BorderLayout());

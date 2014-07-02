@@ -35,8 +35,8 @@ public class CreateObjectModel {
 	private ArrayList<CellRange> selectedCellRanges;
 
 	public static final int TYPE_LIST = 0;
-	public static final int TYPE_MATRIX = 1;
-	public static final int TYPE_LISTOFPOINTS = 2;
+	public static final int TYPE_MATRIX = 2;
+	public static final int TYPE_LISTOFPOINTS = 1;
 	public static final int TYPE_TABLETEXT = 3;
 	public static final int TYPE_POLYLINE = 4;
 	private int objectType = TYPE_LIST;
@@ -93,7 +93,7 @@ public class CreateObjectModel {
 			titleText = app.getMenu("CreateMatrix");
 			break;
 		}
-
+		App.debug("[CO] title is " + titleText);
 		return titleText;
 
 	}
@@ -268,7 +268,7 @@ public class CreateObjectModel {
 	public void cleanUp() {
 		if (keepNewGeo) {
 			addNewGeoToConstruction();
-		} else {
+		} else if (newGeo != null){
 			newGeo.remove();
 		}
 	}
@@ -317,5 +317,6 @@ public class CreateObjectModel {
 	public void setListType() {
 		objectType = TYPE_LIST;
 	}
+
 
 }
