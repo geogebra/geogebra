@@ -361,8 +361,10 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 			table.oneClickEditMap.remove(geo);
 		}
 		//scheduleRepaint();
-		table.updateCellFormat(location.y, location.x);
 		
+		if (location != null) {
+			table.updateCellFormat(location.y, location.x);
+		}		
 	}
 
 	public void rename(GeoElement geo) {

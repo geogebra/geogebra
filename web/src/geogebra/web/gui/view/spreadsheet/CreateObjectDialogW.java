@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -121,6 +123,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	//	InputPanelW input = new InputPanelW(null, app, -1, false);
 
 		fldName = inputPanel.getTextComponent();
+		fldName.setText("---------");
 		fldName.showPopupSymbolButton(true);
 		fldName.addBlurHandler(new BlurHandler() {
 			
@@ -139,10 +142,10 @@ public class CreateObjectDialogW extends InputDialogW implements
 		});
 		
 		cbLeftRightOrder = new ListBox();
-		cbScanOrder.addChangeHandler(new ChangeHandler() {
+		cbLeftRightOrder.addChangeHandler(new ChangeHandler() {
 			
 			public void onChange(ChangeEvent event) {
-				apply(cbScanOrder);
+				apply(cbLeftRightOrder);
 				
 			}
 		});
@@ -156,8 +159,12 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		ckTranspose = new CheckBox();
 		ckTranspose.setValue(false);
-		
-		// show the object list only if an object type is not given
+		ckTranspose.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				apply(ckTranspose);
+			}
+		});
 
 		lblObject = new Label();
 		lblObject.setStyleName("panelTitle");
@@ -308,7 +315,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 			idx = OPTION_ORDER;
 			break;
 		case CreateObjectModel.TYPE_LISTOFPOINTS:
-			idx = OPTION_TRANSPOSE;
+			idx = OPTION_XY;
 			break;
 		case CreateObjectModel.TYPE_MATRIX:
 			idx = OPTION_ORDER;
@@ -354,13 +361,13 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	
 	private void apply(Widget source) {
-		try {
-		    if (source == fldName) {
-					doTextFieldActionPerformed();
+		if (source == fldName) {
+			doTextFieldActionPerformed();
 
-				} else 
-				// btCancel acts as create for now
-		    if (source == btCancel) {
+		}
+		else 
+			// btCancel acts as create for now
+			if (source == btCancel) {
 				coModel.cancel();
 
 			} else if (source == btApply) {
@@ -383,12 +390,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 					|| source == ckTranspose) {
 				coModel.createNewGeo(fldName.getText());
 			}
-
-
-		} catch (Exception ex) {
-			// do nothing on uninitializedValue
-			setVisible(false);
-		}
 	}
 
 	@Override
