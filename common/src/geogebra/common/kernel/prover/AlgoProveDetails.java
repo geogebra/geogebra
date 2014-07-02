@@ -271,7 +271,11 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 				if (unreadable) {
 					GeoText ndgConditionText = new GeoText(cons);
-					ndgConditionText.setTextString("...");
+					String cond = "...";
+					if (relTool) {
+						cond = loc.getPlain("not") + " " + cond;
+					}
+					ndgConditionText.setTextString(cond);
 					ndgConditionText.setLabelVisible(false);
 					ndgConditionText.setEuclidianVisible(false);
 					sortedSet.add(ndgConditionText);
