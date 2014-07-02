@@ -91,17 +91,19 @@ public class RelationNumerical {
 			if (obj == null) {
 				return false;
 			}
-			if (!Report.class.isAssignableFrom(obj.getClass())) {
-                return false;
-            }
+			// This does not work in GWT, maybe there is something equivalent.
+			// if (!Report.class.isAssignableFrom(obj.getClass())) {
+            //     return false;
+            // }
+			// Maybe this is not really required at all...
 			return this.stringResult.equalsIgnoreCase(((Report) obj).stringResult);
 		}
 		
-	      @Override
-	        public int hashCode() {
-	            return stringResult.hashCode();
-	        }
-		
+		@Override
+		public int hashCode() {
+			return stringResult.hashCode();
+		}
+	
 	}
 
 	/**
