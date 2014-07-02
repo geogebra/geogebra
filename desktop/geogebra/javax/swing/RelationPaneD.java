@@ -125,7 +125,8 @@ public class RelationPaneD implements RelationPane {
 							new ClientsTableRenderer(this, new JCheckBox()));
 		}
 		table.getColumnModel().getColumn(0)
-		.setCellRenderer(new ClientsTableTextRenderer());
+			.setCellRenderer(new ClientsTableTextRenderer());
+		table.setBackground(UIManager.getColor("Label.background"));
 
 		for (int i = 0; i < rels; ++i) {
 			int thisHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
@@ -140,8 +141,8 @@ public class RelationPaneD implements RelationPane {
 		panel.add(table);
 		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
 		panel.setBorder(BorderFactory.createEmptyBorder(MARGIN,MARGIN,MARGIN,MARGIN));
-		// panel.setBackground(new Color(100,200,30));
-		panel.setBackground(UIManager.getColor("Table.background"));
+
+		panel.setBackground(UIManager.getColor("Label.background"));
 		frame.add(panel);
 		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
 
@@ -236,7 +237,7 @@ public class RelationPaneD implements RelationPane {
 
 	/**
 	 * This code is mostly copied from http://stackoverflow.com/a/10348919
-	 * shared by "Bitmap".
+	 * shared by "Bitmap". Button column settings.
 	 */
 	private class ClientsTableButtonRenderer extends JButton implements
 			TableCellRenderer {
@@ -250,7 +251,8 @@ public class RelationPaneD implements RelationPane {
 		public Component getTableCellRendererComponent(JTable t, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
-			// setBackground(UIManager.getColor("Button.background"));
+			setBackground(UIManager.getColor("Label.background"));
+			setOpaque(true);
 			setText((value == null) ? "" : value.toString());
 			if (callbacks[row] == null) {
 				return null;
@@ -259,6 +261,7 @@ public class RelationPaneD implements RelationPane {
 		}
 	}
 
+	/* Text column settings. */
 	private class ClientsTableTextRenderer extends JLabel implements
 	TableCellRenderer {
 
@@ -271,8 +274,8 @@ public class RelationPaneD implements RelationPane {
 		public Component getTableCellRendererComponent(JTable t, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
-			setBackground(UIManager.getColor("Table.background"));
-			setAlignmentX(CENTER_ALIGNMENT);
+			setBackground(UIManager.getColor("Label.background"));
+			setHorizontalAlignment(CENTER);
 			setOpaque(true);
 			setText((value == null) ? "" : value.toString());
 			return this;
