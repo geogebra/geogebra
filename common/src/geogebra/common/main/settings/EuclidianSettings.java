@@ -336,14 +336,14 @@ public class EuclidianSettings extends AbstractSettings {
 	/*
 	 * change visibility of axes
 	 */
-	public void setShowAxis(int axis, boolean flag) {
+	public boolean setShowAxis(int axis, boolean flag) {
 		boolean changed = flag != showAxes[axis];
 
 		if (changed) {
 			showAxes[axis] = flag;
 			settingChanged();
 		}
-
+		return changed;
 	}
 
 	/**
@@ -655,19 +655,20 @@ public class EuclidianSettings extends AbstractSettings {
 		return preferredSize;
 	}
 
-	public void setShowAxes(boolean x, boolean y) {
-		this.setShowAxis(0, x);
-		this.setShowAxis(1, y);
+	public boolean setShowAxes(boolean x, boolean y) {
+		boolean changedX = this.setShowAxis(0, x);
+		return this.setShowAxis(1, y) || changedX;
 		//settingChanged() is called from those above
 
 	}
 
-	public void showGrid(boolean show) {
+	public boolean showGrid(boolean show) {
 		if (show == showGrid) {
-			return;
+			return false;
 		}
 		setShowGridSetting(show);
 		settingChanged();
+		return true;
 	}
 	
 	public void setShowGridSetting(boolean show){

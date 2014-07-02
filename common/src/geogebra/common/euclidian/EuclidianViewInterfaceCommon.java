@@ -526,7 +526,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param flag show/hide
 	 * @param update update (or not) the background image
 	 */
-	public void setShowAxis(int axis, boolean flag, boolean update);
+	public boolean setShowAxis(int axis, boolean flag, boolean update);
 
 	/**
 	 * Change cursor to drag cursor
@@ -631,7 +631,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param flag show/hide
 	 * @param update update (or not) the background image
 	 */	
-	public void setShowAxes(boolean flag, boolean update);
+	public boolean setShowAxes(boolean flag, boolean update);
 
 	/**
 	 * create a previewable for polygon construction
@@ -672,7 +672,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	/**
 	 * @param show true to show grid
 	 */
-	public void showGrid(boolean show);
+	public boolean showGrid(boolean show);
 	/**
 	 * @param bold true for bold
 	 */

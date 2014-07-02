@@ -1,5 +1,6 @@
 package geogebra.common.gui;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.layout.DockManager;
 import geogebra.common.gui.toolbar.ToolBar;
@@ -150,8 +151,36 @@ public abstract class Layout {
 		}
 		
 	}
+	
+	protected boolean setEVsettingsFromPerspective(App app, Perspective perspective){
+		boolean changed = false;
+		if(!perspective.getId().equals("tmp")) {
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
-	public abstract void applyPerspective(Perspective perspective);
+			if (app.getEuclidianView1() == ev)
+				changed |= app.getSettings().getEuclidian(1).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
+			else if (!app.hasEuclidianView2EitherShowingOrNot())
+				changed |= ev.setShowAxes(perspective.getShowAxes(), false);
+			else if (app.getEuclidianView2() == ev)
+				changed |= app.getSettings().getEuclidian(2).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
+			else
+				changed |= ev.setShowAxes(perspective.getShowAxes(), false);
+
+			if (app.getEuclidianView1() == ev)
+				changed |= app.getSettings().getEuclidian(1).showGrid(perspective.getShowGrid());
+			else if (!app.hasEuclidianView2EitherShowingOrNot())
+				changed |= ev.showGrid(perspective.getShowGrid());
+			else if (app.getEuclidianView2() == ev)
+				changed |= app.getSettings().getEuclidian(2).showGrid(perspective.getShowGrid());
+			else
+				changed |= ev.showGrid(perspective.getShowGrid());
+
+			//ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
+		}
+		return changed;
+	}
+
+	public abstract boolean applyPerspective(Perspective perspective);
 
 	public abstract void getXml(StringBuilder sb, boolean asPreference);
 

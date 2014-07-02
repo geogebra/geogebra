@@ -59,8 +59,9 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 
 	/** sets the visibility of xOy plane grid
 	 * @param flag flag
+	 * @return 
 	 */
-	public void setShowGrid(boolean flag);
+	public boolean setShowGrid(boolean flag);
 
 	/** sets the visibility of xOy plane
 	 * @param flag flag

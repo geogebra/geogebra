@@ -511,11 +511,11 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 	
 
 	@Override
-	public void showGrid(boolean show) {
+	public boolean showGrid(boolean show) {
 		EuclidianSettings settings = view.getApplication().getSettings().getEuclidianForPlane(getFromPlaneString());
 		if (settings!=null)
 			settings.setShowGridSetting(show);
-		super.showGrid(show);
+		return super.showGrid(show);
 	}
 	
 

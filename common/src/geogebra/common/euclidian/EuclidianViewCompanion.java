@@ -364,12 +364,13 @@ public class EuclidianViewCompanion {
 	/**
 	 * @param show true to show grid
 	 */
-	public void showGrid(boolean show) {
+	public boolean showGrid(boolean show) {
 		if (show == view.showGrid) {
-			return;
+			return false;
 		}
 		view.showGrid = show;
 		view.updateBackgroundImage();
+		return true;
 	}
 	
 	

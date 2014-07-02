@@ -1,7 +1,6 @@
 package geogebra.web.gui.layout;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -65,31 +64,9 @@ public class LayoutW extends Layout implements SettingListener {
 	
 	/*Many of this not implemented yet, later we can make it togehter*/
 	@Override
-    public void applyPerspective(Perspective perspective) {
+    public boolean applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
-				if(!perspective.getId().equals("tmp")) {
-					EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-
-					if (app.getEuclidianView1() == ev)
-						app.getSettings().getEuclidian(1).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
-					else if (!app.hasEuclidianView2EitherShowingOrNot())
-						ev.setShowAxes(perspective.getShowAxes(), false);
-					else if (app.getEuclidianView2() == ev)
-						app.getSettings().getEuclidian(2).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
-					else
-						ev.setShowAxes(perspective.getShowAxes(), false);
-
-					if (app.getEuclidianView1() == ev)
-						app.getSettings().getEuclidian(1).showGrid(perspective.getShowGrid());
-					else if (!app.hasEuclidianView2EitherShowingOrNot())
-						ev.showGrid(perspective.getShowGrid());
-					else if (app.getEuclidianView2() == ev)
-						app.getSettings().getEuclidian(2).showGrid(perspective.getShowGrid());
-					else
-						ev.showGrid(perspective.getShowGrid());
-
-					//ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
-				}
+				boolean changed = setEVsettingsFromPerspective(app, perspective);
 
 				app.getGuiManager().setGeneralToolBarDefinition(perspective.getToolbarDefinition());
 				// override the previous command with the data-param-customToolbar setting
@@ -118,7 +95,7 @@ public class LayoutW extends Layout implements SettingListener {
 					app.updateMenubar();
 					app.updateContentPane();
 				}
-
+				return changed;
 		// old behaviour: just updating center, instead of updateContentPane
 		//app.refreshSplitLayoutPanel();
 		

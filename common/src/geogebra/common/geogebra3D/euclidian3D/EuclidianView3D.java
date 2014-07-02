@@ -1357,15 +1357,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public void setShowAxis(int axis, boolean flag, boolean update) {
+	public boolean setShowAxis(int axis, boolean flag, boolean update) {
+		boolean old = this.axis[axis].isEuclidianVisible();
 		this.axis[axis].setEuclidianVisible(flag);
+		return flag != old;
 	}
 
 	@Override
-	public void setShowAxes(boolean flag, boolean update) {
-		setShowAxis(AXIS_X, flag, false);
-		setShowAxis(AXIS_Y, flag, false);
-		setShowAxis(AXIS_Z, flag, true);
+	public boolean setShowAxes(boolean flag, boolean update) {
+		boolean changedX = setShowAxis(AXIS_X, flag, false);
+		boolean changedY = setShowAxis(AXIS_Y, flag, false);
+		return setShowAxis(AXIS_Z, flag, true) || changedX || changedY;
 	}
 
 	public void setShowPlane(boolean flag) {
@@ -1381,9 +1383,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * 
 	 * @param flag
 	 */
-	public void setShowGrid(boolean flag) {
-		getxOyPlane().setGridVisible(flag);
+	public boolean setShowGrid(boolean flag) {
+		boolean changed = getxOyPlane().setGridVisible(flag);
 		xOyPlaneDrawable.setWaitForUpdate();
+		return changed;
 	}
 
 	@Override
@@ -3194,9 +3197,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 
 	@Override
-	public void showGrid(boolean selected) {
+	public boolean showGrid(boolean selected) {
 
-		setShowGrid(selected);
+		return setShowGrid(selected);
 
 	}
 

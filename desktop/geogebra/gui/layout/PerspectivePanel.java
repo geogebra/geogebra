@@ -121,10 +121,10 @@ public class PerspectivePanel extends JPopupMenu {
 
 		// user perspectives
 		Perspective[] perspectives = layout.getPerspectives();
-		
+
 		// don't allow user perspectives in 4.2 (maybe in 5.0)
-		boolean showUserPerpectives  = false;
-		
+		boolean showUserPerpectives = false;
+
 		if (showUserPerpectives && perspectives.length != 0) {
 			addSeparator();
 			for (int i = 0; i < perspectives.length; ++i) {
@@ -148,8 +148,8 @@ public class PerspectivePanel extends JPopupMenu {
 		btnLanguage.setToolTipText(app.getMenu("Language"));
 
 		add(Box.createVerticalStrut(20));
-		//add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
-			//	Box.createHorizontalStrut(20)));
+		// add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
+		// Box.createHorizontalStrut(20)));
 
 	}
 
@@ -196,15 +196,20 @@ public class PerspectivePanel extends JPopupMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				// default perspectives start with a "d"
+				boolean changed;
 				if (e.getActionCommand().startsWith("d")) {
 					int index = Integer.parseInt(e.getActionCommand()
 							.substring(1));
-					layout.applyPerspective(geogebra.common.gui.Layout.defaultPerspectives[index]);
+					changed = layout
+							.applyPerspective(geogebra.common.gui.Layout.defaultPerspectives[index]);
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
-					layout.applyPerspective(layout.getPerspective(index));
+					changed = layout.applyPerspective(layout
+							.getPerspective(index));
 				}
-
+				if (changed) {
+					app.storeUndoInfo();
+				}
 			}
 		};
 

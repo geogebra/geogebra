@@ -3803,8 +3803,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 */
 	public abstract void setPreferredSize(GDimension preferredSize);
 
-	public void showGrid(boolean show) {
-		companion.showGrid(show);
+	public boolean showGrid(boolean show) {
+		return companion.showGrid(show);
 	}
 
 	public void setGridIsBold(boolean gridIsBold) {
@@ -4106,9 +4106,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @param update
 	 *            update (or not) the background image
 	 */
-	public void setShowAxis(int axis, boolean flag, boolean update) {
+	public boolean setShowAxis(int axis, boolean flag, boolean update) {
 		if (flag == showAxes[axis]) {
-			return;
+			return false;
 		}
 
 		showAxes[axis] = flag;
@@ -4116,12 +4116,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		if (update) {
 			updateBackgroundImage();
 		}
-
+		return true;
 	}
 
-	public void setShowAxes(boolean flag, boolean update) {
-		setShowAxis(AXIS_X, flag, false);
-		setShowAxis(AXIS_Y, flag, true);
+	public boolean setShowAxes(boolean flag, boolean update) {
+		boolean changedX = setShowAxis(AXIS_X, flag, false);
+		return setShowAxis(AXIS_Y, flag, true) || changedX;
 	}
 
 	/**

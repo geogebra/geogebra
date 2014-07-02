@@ -240,8 +240,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return gridVisible && isEuclidianVisible();
 	}
 
-	public void setGridVisible(boolean grid) {
+	public boolean setGridVisible(boolean grid) {
+		if(gridVisible == grid){
+			return false;
+		}
 		gridVisible = grid;
+		return true;
 	}
 
 	/** returns if there is a plate visible */
