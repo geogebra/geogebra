@@ -3128,14 +3128,30 @@ public abstract class App implements UpdateSelection{
 									rel.info += relInfo + "<br><b>" + getPlain("AlwaysTrue")
 											+ "</b>";
 								} else {
-									rel.info += "<b>" + getPlain("If") + "</b><ul>";
-									for (int j = 1; j < ndgResult.length; ++j) {
-										rel.info += "<li>" + getPlain("not") + " " + ndgResult[j];
-										if ( (j<ndgResult.length - 1) ) {
+									rel.info += "<b>" + getPlain("If") + "</b>";
+									int ndgs = ndgResult.length;
+									if (ndgs>2) {
+										rel.info += "<ul>"; 
+									}
+									else {
+										rel.info += " ";
+									}
+									for (int j = 1; j < ndgs; ++j) {
+										if (ndgs>2) {
+											rel.info += "<li>";
+										}
+										rel.info += getPlain("not") + " " + ndgResult[j];
+										if ( (j < ndgs - 1) ) {
 											rel.info += " " + getPlain("and");
 										}
 									}
-									rel.info += "</ul><b>" + getPlain("then") + "</b> " + relInfo;
+									if (ndgs>2) {
+										rel.info += "</ul>";
+									}
+									else {
+										rel.info += "<br>";
+									}
+									rel.info += "<b>" + getPlain("then") + "</b> " + relInfo;
 								}
 								rel.info += "</html>";
 								rel.callback = null;
