@@ -17,7 +17,7 @@ public class Material implements Comparable<Material>
 	public enum Provider {TUBE, GOOGLE, ONE};
 	public enum MaterialType
 	{
-		ggb, ggt, link, book;
+		ggb, ggt, link, book, ws;
 	}
 
 	private int id;
