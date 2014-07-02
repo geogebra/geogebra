@@ -88,6 +88,7 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -3076,8 +3077,8 @@ public abstract class App implements UpdateSelection{
 		}
 		// Creating Relation popup window:
 		RelationPane tablePane = getFactory().newRelationPane();
-		// Computing numerical results and collecting them in a HashSet:
-		HashSet<Report> relInfosAll = (HashSet<Report>) new RelationNumerical(kernel).relation(ra, rb);
+		// Computing numerical results and collecting them alphabetically:
+		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(new RelationNumerical(kernel).relation(ra, rb));
 		// Collecting information for showing them in the popup window:
 		Iterator<Report> it = relInfosAll.iterator();
 		int rels = relInfosAll.size();
@@ -3092,7 +3093,6 @@ public abstract class App implements UpdateSelection{
 			relBools[i] = r.boolResult;
 			i++;
 		}
-		// TODO: Fix the order here, e.g. alphabetically.
 		final RelationRow rr[] = new RelationRow[rels];
 		for (i=0; i<rels; i++) {
 			rr[i] = new RelationRow();
