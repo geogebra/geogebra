@@ -215,14 +215,15 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 						String s = null;
 						
 						if (relTool) {
-							if ("AreParallel".equals(ndgc.getCondition())) {
+							String cond = ndgc.getCondition();
+							if ("AreParallel".equals(cond)) {
 								// non-parallism in 2D means intersecting
 								// FIXME: this is not true for 3D
 								s = RelationNumerical.intersectString(ndgc.getGeos()[0], ndgc.getGeos()[1], true, loc);
-							} else if ("AreCollinear".equals(ndgc.getCondition())) {
+							} else if ("AreCollinear".equals(cond)) {
 								s = RelationNumerical.triangleNonDegenerateString((GeoPoint) ndgc.getGeos()[0], 
 									(GeoPoint) ndgc.getGeos()[1], (GeoPoint) ndgc.getGeos()[2], loc);
-							} else if ("AreEqual".equals(ndgc.getCondition())) {
+							} else if ("AreEqual".equals(cond)) {
 								s = RelationNumerical.equalityStringExact(ndgc.getGeos()[0], ndgc.getGeos()[1], false, loc);
 							}
 							// TODO: add here all supported NDG conditions (e.g. ArePerpendicular)
