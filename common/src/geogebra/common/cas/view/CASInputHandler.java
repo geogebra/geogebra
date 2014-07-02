@@ -38,8 +38,6 @@ public class CASInputHandler {
 	 * 
 	 * @param ggbcmd
 	 *            command like "Factor" or "Integral"
-	 * @param params
-	 *            optional command parameters like "x"
 	 */
 	public void processCurrentRow(String ggbcmd) {
 		int selRow = consoleTable.getSelectedRow();
@@ -159,9 +157,8 @@ public class CASInputHandler {
 				}
 			}
 
-			// remember input selection information for future calls of
-			// processRow()
-			// check if structure of selection is ok
+			// we want to avoid user selecting a+b in (a+b)/c
+			// TODO cache this somehow
 			boolean structureOK = cellValue
 					.isStructurallyEqualToLocalizedInput(prefix + evalText
 							+ postfix);
@@ -424,51 +421,6 @@ public class CASInputHandler {
 
 		// process given row and below, then start editing
 		processRowThenEdit(currentRow, true);
-	}
-
-	/**
-	 * Replaces %0, %1, %2 etc. by input variables of cellValue. Note that x, y,
-	 * z are used if possible.
-	 * 
-	 * @param param
-	 * @param cellValue
-	 * @return
-	 */
-	private static String resolveButtonParameter(String param,
-			GeoCasCell cellValue) {
-		if (param.charAt(0) == '%') {
-			int n = Integer.parseInt(param.substring(1));
-
-			// to make sure that for an input like x+y+z the
-			// parameters are not resolved to %0=x %1=x %2=x
-
-			// try x, y, z first
-			String[] vars = { "x", "y", "z" };
-			for (int i = 0; i < vars.length; i++) {
-				if (cellValue.isFunctionVariable(vars[i])
-						|| cellValue.isInputVariable(vars[i])) {
-					if (0 == n)
-						return vars[i];
-
-					n--;
-				}
-			}
-
-			// try function variable like m in f(m) := 2m + b
-			String resolvedParam = cellValue.getFunctionVariable();
-			if (resolvedParam != null)
-				return resolvedParam;
-
-			// try input variables like a in c := a + b
-			resolvedParam = cellValue.getInVar(n);
-			if (resolvedParam != null)
-				return resolvedParam;
-
-			return "x";
-		}
-
-		// standard case
-		return param;
 	}
 
 	/**

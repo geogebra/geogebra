@@ -653,6 +653,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	/**
 	 * Checks if newInput is structurally equal to the current input String.
 	 * 
+	 * a+b/c is equal to a+(b/c), but not to (a+b)/c
+	 * 
 	 * @param newInput
 	 *            new input
 	 * @return whether newInput and current input have same stucture
@@ -661,10 +663,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (localizedInput != null && localizedInput.equals(newInput))
 			return true;
 
-		// check if the structure of inputVE and prefix + evalText + postfix is
-		// equal
-		// this is important to catch wrong selections, e.g.
-		// 2 + 2/3 is not equal to the selection (2+2)/3
 		if (!kernel.getGeoGebraCAS().isStructurallyEqual(getInputVE(), newInput)) {
 			setError("CAS.SelectionStructureError");
 			return false;

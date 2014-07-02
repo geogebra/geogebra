@@ -260,7 +260,6 @@ public abstract class CASView implements View{
 	 * Process currently selected cell using the given command and parameters,
 	 * e.g. "Integral", [ "x" ]
 	 * @param ggbcmd command name
-	 * @param params parameters
 	 */
 	public void processInput(String ggbcmd) {
 		getInputHandler().processCurrentRow(ggbcmd);
