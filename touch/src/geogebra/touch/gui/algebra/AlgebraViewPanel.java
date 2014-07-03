@@ -2,14 +2,13 @@ package geogebra.touch.gui.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
-import geogebra.html5.gui.FastButton;
-import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.StandardButton;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.TouchGUI;
+import geogebra.touch.gui.laf.TabletLAF;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -22,10 +21,10 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 	private final AlgebraViewT algebraView;
-	private FastButton arrow;
+//	private FastButton arrow;
 	private final FlowPanel stylebar;
 	private final ScrollPanel content;
-	final TabletGUI gui;
+	final TouchGUI gui;
 
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
@@ -42,28 +41,27 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 	 */
 	public AlgebraViewPanel(final TouchController controller,
 			final Kernel kernel) {
-		this.gui = (TabletGUI) ((TouchApp) kernel.getApplication())
-				.getTouchGui();
+		this.gui = ((TouchApp) kernel.getApplication()).getTouchGui();
 		this.algebraView = new AlgebraViewT(controller, this);
 		kernel.attach(this.algebraView);
 		this.stylebar = new FlowPanel();
 
-		this.arrow = new StandardButton(TouchEntryPoint.getLookAndFeel()
-				.getIcons().triangle_left());
-		this.arrow.setStyleName("arrowRight");
-		this.arrow.addFastClickHandler(new FastClickHandler() {
+//		this.arrow = new StandardButton(TouchEntryPoint.getLookAndFeel()
+//				.getIcons().triangle_left());
+//		this.arrow.setStyleName("arrowRight");
+//		this.arrow.addFastClickHandler(new FastClickHandler() {
+//
+//			@Override
+//			public void onClick() {
+//				AlgebraViewPanel.this.gui.toggleAlgebraView();
+//				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
+//					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
+//							.enableDisableButtons();
+//				}
+//			}
+//		});
 
-			@Override
-			public void onClick() {
-				AlgebraViewPanel.this.gui.toggleAlgebraView();
-				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
-					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
-							.enableDisableButtons();
-				}
-			}
-		});
-
-		this.stylebar.add(this.arrow);
+//		this.stylebar.add(this.arrow);
 		this.stylebar.setStyleName("algebraStylebar");
 		this.add(this.stylebar);
 		this.stylebar.setVisible(false);
@@ -104,7 +102,7 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 	public void onResize() {
 		if (this.gui.isAlgebraShowing()) {
 			this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
-			
+				
 			boolean showStylebar = Window.getClientWidth() - TabletGUI.computeAlgebraWidth() <= 0;
 			
 			if (showStylebar) {
@@ -112,12 +110,13 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 			} else {
 				this.removeInsideArrow();
 			}
-			this.content
-			.setHeight((TouchEntryPoint.getLookAndFeel()
-					.getContentWidgetHeight() - (showStylebar ? TouchEntryPoint.getLookAndFeel().getToolBarHeight()
-							: 0))
-					+ "px");
+			this.content.setHeight((TouchEntryPoint.getLookAndFeel()
+						.getCanvasHeight() - (showStylebar ? ((TabletLAF) TouchEntryPoint.getLookAndFeel()).getToolBarHeight()
+								: 0)) + "px");
 
+		}
+		else {
+			this.setSize(Window.getClientWidth()+"px", TouchEntryPoint.getLookAndFeel().getCanvasHeight()+"px");
 		}
 	}
 }

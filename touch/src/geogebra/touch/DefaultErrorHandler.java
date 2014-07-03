@@ -65,7 +65,7 @@ class DefaultErrorHandler implements ErrorHandler {
 			this.add(this.dialogPanel);
 			this.setStyleName("inputDialog");
 			this.addStyleName("errorDialog");
-			TouchEntryPoint.tabletGUI.addResizeListener(this);
+			TouchEntryPoint.touchGUI.addResizeListener(this);
 		}
 
 		// only used for Win
