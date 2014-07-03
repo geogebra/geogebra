@@ -121,7 +121,7 @@ public class CmdTangent extends CommandProcessor {
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
-						(GeoLine) arg[0], (GeoImplicitPoly) arg[1]);
+						(GeoLineND) arg[0], (GeoImplicitPoly) arg[1]);
 				return ret;
 				
 			} else if ((ok[0] = (arg[0].isGeoConic()))

@@ -2872,7 +2872,7 @@ public abstract class EuclidianController {
 				
 			} else if (selLines() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
-				GeoLine[] lines = getSelectedLines();
+				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
 				checkZooming(); 
 				

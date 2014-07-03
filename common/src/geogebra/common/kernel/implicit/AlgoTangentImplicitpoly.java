@@ -21,6 +21,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -31,7 +32,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	
 	private GeoImplicitPoly p;
 	private GeoPointND R;
-	private GeoLine g;
+	private GeoLineND g;
 	
 	private GeoPoint[] ip; //tangent points.
 	private OutputHandler<GeoLine> tangents;
@@ -97,7 +98,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	 * @param p implicit polynomial
 	 * @param g line
 	 */
-	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoLine g) {
+	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoLineND g) {
 		this(c,labels,p);
 		this.g=g;
 		setInputOutput();
@@ -111,7 +112,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 		input=new GeoElement[2];
 		input[1]=p;
 		if (g!=null)
-			input[0]=g;
+			input[0]=(GeoElement) g;
 		else 
 			input[0]=(GeoElement) R;
 		tangents=new OutputHandler<GeoLine>(new elementFactory<GeoLine>() {
@@ -133,6 +134,11 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 		// tangent curve
 		// and construct lines through (x_p, y_p) and intersection points, 
 		// where (x_p, y_p) is given point.
+		
+		if (R == null){
+			tangents.adjustOutputSize(0);
+        	return;
+		}
 		
         if (!R.isDefined()) {
         	tangents.adjustOutputSize(0);

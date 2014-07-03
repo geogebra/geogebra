@@ -1392,7 +1392,7 @@ public class AlgoDispatcher {
 	/**
 	 * tangents to p parallel to g
 	 */
-	final public GeoLine[] Tangent(String[] labels, GeoLine g, GeoImplicitPoly p) {
+	final public GeoLine[] Tangent(String[] labels, GeoLineND g, GeoImplicitPoly p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons,
 				labels, p, g);
 		algo.setLabels(labels);
