@@ -9,8 +9,8 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * @author Giuliano Bellucci 15/05/2013
@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoSpline;
  */
 public class AlgoTangentList extends AlgoElement implements TangentAlgo {
 
-	private GeoPoint P;
+	private GeoPointND P;
 	private GeoSpline list;
 	private int size;
 	private GeoLine tangent = null;
@@ -35,7 +35,7 @@ public class AlgoTangentList extends AlgoElement implements TangentAlgo {
 	 * @param list
 	 *            - list of GeoCurvecartesian functions
 	 */
-	public AlgoTangentList(Construction cons, String label, GeoPoint P,
+	public AlgoTangentList(Construction cons, String label, GeoPointND P,
 			GeoSpline list) {
 		super(cons);
 		this.P = P;
@@ -52,7 +52,7 @@ public class AlgoTangentList extends AlgoElement implements TangentAlgo {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = P;
+		input[0] = (GeoElement) P;
 		input[1] = list;
 		setOutputLength(1);
 		setOutput(0, tangent);
@@ -86,7 +86,7 @@ public class AlgoTangentList extends AlgoElement implements TangentAlgo {
 		return Commands.Tangent;
 	}
 
-	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == list && line == tangent) {
 			return P;
 		}

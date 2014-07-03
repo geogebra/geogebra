@@ -4342,7 +4342,7 @@ public class Kernel {
 	/**
 	 * tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
 	 */
-	final public GeoLine Tangent(String label, GeoPoint P, GeoCurveCartesian f) {
+	final public GeoLine Tangent(String label, GeoPointND P, GeoCurveCartesian f) {
 		
 		return KernelCAS.Tangent(cons,  label,  P,  f);
 	}
@@ -4350,7 +4350,7 @@ public class Kernel {
 	/**
 	 * tangent to spline
 	 */
-	final public GeoLine Tangent(String label, GeoPoint P, GeoSpline list) {
+	final public GeoLine Tangent(String label, GeoPointND P, GeoSpline list) {
 		
 		return KernelCAS.Tangent(cons,  label,  P,  list);
 	}

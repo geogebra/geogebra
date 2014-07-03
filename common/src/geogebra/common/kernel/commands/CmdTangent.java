@@ -89,11 +89,11 @@ public class CmdTangent extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 				if(arg[1] instanceof GeoSpline){
 					GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-							(GeoPoint) arg[0], (GeoSpline) arg[1]) };
+							(GeoPointND) arg[0], (GeoSpline) arg[1]) };
 					return ret;
 				}
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]) };
+						(GeoPointND) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
 			}
 			// Victor Franco 11-02-2007: end for curve's
@@ -101,11 +101,11 @@ public class CmdTangent extends CommandProcessor {
 			// For Spline
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = isSpline(arg[1]))) {
-					if (!((GeoPoint)arg[0]).isFinite()){
+					if (!((GeoPointND)arg[0]).isFinite()){
 						throw argErr(app, c.getName(), arg[0]);
 					}
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPoint) arg[0], (GeoSpline) arg[1]) };
+						(GeoPointND) arg[0], (GeoSpline) arg[1]) };
 				return ret;
 			}
 			

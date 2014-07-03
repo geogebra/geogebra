@@ -2838,6 +2838,7 @@ public abstract class EuclidianController {
 			checkZooming(); 
 			
 			return companion.tangent(conics[0], conics[1]);
+			
 		} else if (selFunctions() == 1) {
 			if (selPoints() == 1) {
 				GeoFunction[] functions = getSelectedFunctions();
@@ -2852,7 +2853,7 @@ public abstract class EuclidianController {
 		} else if (selCurves() == 1) {
 			if (selPoints() == 1) {
 				GeoCurveCartesian[] curves = getSelectedCurves();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPointsND();
 				// create new tangents
 				GeoElement[] ret = { null };
 				checkZooming(); 
@@ -2879,7 +2880,7 @@ public abstract class EuclidianController {
 		} else if(selSplines()==1){
 			if (selPoints() == 1) {
 				GeoSpline[] lists = getSelectedSplines();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPointsND();
 				// create new tangents
 				GeoElement[] ret = { null };
 				checkZooming(); 

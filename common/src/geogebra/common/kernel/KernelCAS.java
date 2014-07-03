@@ -8,7 +8,6 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -52,7 +51,7 @@ public class KernelCAS {
 	 * @param f curve
 	 * @return tangent to curve through point
 	 */
-	public static GeoLine Tangent(Construction cons, String label, GeoPoint P,
+	public static GeoLine Tangent(Construction cons, String label, GeoPointND P,
 			GeoCurveCartesian f) {
 		AlgoTangentCurve algo = new AlgoTangentCurve(cons, label, P, f);
 		GeoLine t = algo.getTangent();
@@ -68,7 +67,7 @@ public class KernelCAS {
 	 * @param list - list of functions
 	 * @return tangent to curve through point
 	 */
-	public static GeoLine Tangent(Construction cons, String label, GeoPoint P,
+	public static GeoLine Tangent(Construction cons, String label, GeoPointND P,
 			GeoSpline list) {
 		AlgoTangentList algo = new AlgoTangentList(cons, label, P, list);
 		GeoLine t = algo.getTangent();

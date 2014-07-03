@@ -869,6 +869,21 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return MyMath.length(getFun(0).evaluate(t) - p.getX(),
 				getFun(1).evaluate(t) - p.getY());
 	}
+	
+	@Override
+	public double distance(GeoPointND p) {
+		
+		if (!p.isGeoElement3D()){
+			return distance((GeoPoint) p);
+		}
+		
+		double t = getClosestParameter(p, 0);
+		Coords coords = p.getInhomCoordsInD(3);
+		return MyMath.length(getFun(0).evaluate(t) - coords.getX(),
+				getFun(1).evaluate(t) - coords.getY(), coords.getZ());
+	}
+	
+	
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {

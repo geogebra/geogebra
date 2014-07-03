@@ -223,7 +223,16 @@ public final class MyMath {
 			res = absy;
 		else if (absy == 0)
 			res = absx;
-		else if (absx > absy) {
+		else {
+			res = lengthAbsNoZero(absx, absy);
+		}
+		return res;
+
+	}
+	
+	private static double lengthAbsNoZero(double absx, double absy) {
+		double res;
+		if (absx > absy) {
 			double temp = absy / absx;
 			res = absx * Math.sqrt(1.0 + temp * temp);
 		} else {
@@ -231,10 +240,73 @@ public final class MyMath {
 			res = absy * Math.sqrt(1.0 + temp * temp);
 		}
 		return res;
+	}
+	
+	/**
+	 * Computes length of a vector
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @param z z-coordinate
+	 * @return length of vector (x,y,z)
+	 */
+	public static double length(double x, double y, double z) {
+		double res;
+		double absx = Math.abs(x);
+		double absy = Math.abs(y);
+		double absz = Math.abs(z);
+
+		if (absx == 0){
+			if (absy == 0){
+				return absz;
+			}
+			if (absz == 0){
+				return absy;
+			}
+			return lengthAbsNoZero(absy, absz);
+		}
+		
+		if (absy == 0){
+			if (absz == 0){
+				return absx;
+			}
+			return lengthAbsNoZero(absx, absz);
+		}
+		
+		if (absz == 0){
+			return lengthAbsNoZero(absx, absy);
+		}
+		
+		// no zero value
+		
+		if (absx > absy){
+			if (absx > absz){ // absx is the highest
+				double tempy = absy / absx;
+				double tempz = absz / absx;
+				return absx * Math.sqrt(1.0 + tempy * tempy + tempz * tempz);
+			}
+			
+			// absz is the highest
+			double tempy = absy / absz;
+			double tempx = absx / absz;
+			return absz * Math.sqrt(1.0 + tempy * tempy + tempx * tempx);
+
+		}
+		
+		if (absy > absz){  // absy is the highest
+			double tempx = absx / absy;
+			double tempz = absz / absy;
+			return absx * Math.sqrt(1.0 + tempx * tempx + tempz * tempz);
+		}
+		
+		// absz is the highest
+		double tempy = absy / absz;
+		double tempx = absx / absz;
+		return absz * Math.sqrt(1.0 + tempy * tempy + tempx * tempx);
+
 
 	}
 	
-	
+
 
 	/**
 	 * @param m1 first matrix

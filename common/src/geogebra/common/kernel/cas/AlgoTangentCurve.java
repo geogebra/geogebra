@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -35,7 +36,7 @@ import geogebra.common.plugin.Operation;
 
 public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 
-	private GeoPoint P; // input
+	private GeoPointND P; // input
 	private GeoCurveCartesian f, df; // input f
 	private GeoLine tangent; // output
 	private GeoPoint T;
@@ -50,7 +51,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	 * @param P point on function
 	 * @param f curve
 	 */
-	public AlgoTangentCurve(Construction cons, String label, GeoPoint P,
+	public AlgoTangentCurve(Construction cons, String label, GeoPointND P,
 			GeoCurveCartesian f) {
 		super(cons);
 		tangent = new GeoLine(cons);
@@ -89,7 +90,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		}
 
 		if (pointOnCurve || pointOnCurveSpecial) {
-			T = P;
+			T = (GeoPoint) P;
 		} else {
 			T = new GeoPoint(cons);
 		}
@@ -115,7 +116,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = P;
+		input[0] = (GeoElement) P;
 		input[1] = f;
 
 		setOutputLength(1);
@@ -140,7 +141,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	/**
 	 * @return input point on curve
 	 */
-	GeoPoint getPoint() {
+	GeoPointND getPoint() {
 		return P;
 	}
 
