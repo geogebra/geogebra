@@ -87,10 +87,12 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			GeoElement geo, GeoElement p) {
 		
 		this(c,geo,p);
-
-		setLabels(labels);
-		hasLabels = true;
-
+		
+		if(!c.isSuppressLabelsActive()){
+			setLabels(labels);
+			hasLabels = true;
+		}
+		
 		update();
 
 	}
