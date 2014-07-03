@@ -1389,14 +1389,15 @@ public class AlgoDispatcher {
 
 	/**
 	 * tangents to p parallel to g
-	 */
+	 *
+	 * #4380
 	final public GeoLine[] Tangent(String[] labels, GeoLineND g, GeoImplicitPoly p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons,
 				labels, p, g);
 		algo.setLabels(labels);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
-	}
+	}*/
 
 	/********************************************************************
 	 * TRANSFORMATIONS

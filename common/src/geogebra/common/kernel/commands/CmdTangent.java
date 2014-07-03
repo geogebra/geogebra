@@ -118,12 +118,12 @@ public class CmdTangent extends CommandProcessor {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
 						(GeoPointND) arg[1], (GeoImplicitPoly) arg[0]);
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoLine()))
+			/*} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
 						(GeoLineND) arg[0], (GeoImplicitPoly) arg[1]);
 				return ret;
-				
+			*/	
 			} else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
 				return tangent(c.getLabels(), (GeoConicND) arg[0], (GeoConicND) arg[1]);

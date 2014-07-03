@@ -97,12 +97,14 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	 * @param labels labels for output
 	 * @param p implicit polynomial
 	 * @param g line
-	 */
+	 *
+	 *
+	 *not working #4380
 	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoLineND g) {
 		this(c,labels,p);
 		this.g=g;
 		setInputOutput();
-	}
+	}*/
 	
 	
 	
