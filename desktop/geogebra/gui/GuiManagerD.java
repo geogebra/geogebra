@@ -12,7 +12,6 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
-import geogebra.common.gui.view.assignment.AssignmentView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.View;
@@ -63,7 +62,7 @@ import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.CompressedAlgebraView;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
-import geogebra.gui.view.assignment.AssignmentViewD;
+import geogebra.gui.view.assignment.AssignmentView;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
@@ -142,7 +141,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private SpreadsheetView spreadsheetView;
 	private EuclidianViewD euclidianView2;
 	private ConstructionProtocolViewD constructionProtocolView;
-	private AssignmentViewD assignmentView;
+	private AssignmentView assignmentView;
 	private GeoGebraMenuBar menuBar;
 	private JMenuBar menuBar2;
 	private String strCustomToolbarDefinition;
@@ -276,9 +275,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// register data analysis view
 		layout.registerPanel(new DataAnalysisViewDockPanel((AppD) app));
 
-		// if (!app.isWebstart() || app.is3D()) { // register Assignment view
-		// layout.registerPanel(new AssignmentDockPanel((AppD) app));
-		// }
+		/*
+		 * if (!app.isWebstart() || app.is3D()) { // register Assignment view
+		 * layout.registerPanel(new AssignmentDockPanel(app)); }
+		 */
 
 	}
 
@@ -412,7 +412,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public AssignmentView getAssignmentView() {
 		if (assignmentView == null) {
-			assignmentView = new AssignmentViewD((AppD) app);
+			assignmentView = new AssignmentView((AppD) app);
 		}
 
 		return assignmentView;

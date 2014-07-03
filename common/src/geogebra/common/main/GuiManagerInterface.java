@@ -107,8 +107,6 @@ public interface GuiManagerInterface {
 	public View getPlotPanelView(int id);
 	
 	public View getPropertiesView();
-	
-	public View getAssignmentView();
 
 	public boolean hasProbabilityCalculator();
 
