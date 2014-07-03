@@ -67,7 +67,8 @@ public class CmdExtremum extends CommandProcessor {
 	 */
 	final private GeoPoint[] Extremum(String[] labels, GeoFunction f) {
 		// check if this is a polynomial at the moment
-		if (!f.isPolynomialFunction(true))
+		// uninitialized CAS algo may return non-polynomial 
+		if (f.isDefined() && !f.isPolynomialFunction(true))
 			return null;
 
 		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons, labels,
