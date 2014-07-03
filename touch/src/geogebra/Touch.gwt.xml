@@ -7,7 +7,7 @@
 	<inherits name="com.google.gwt.http.HTTP" />
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name="com.google.gwt.i18n.I18N" />
-
+	<inherits name="com.google.gwt.query.Query" />
 	<inherits name="com.google.gwt.resources.Resources" />
 
 	<inherits name='com.googlecode.gwtphonegap.PhoneGap' />

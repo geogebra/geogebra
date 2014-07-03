@@ -38,7 +38,9 @@ import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.factories.SwingFactoryT;
 import geogebra.touch.gui.GeoGebraTouchGUI;
+import geogebra.touch.gui.PhoneGUI;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.TouchGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.utils.GeoGebraLoggerT;
 import geogebra.touch.utils.TitleChangedListener;
@@ -62,8 +64,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  * 
  */
 public class TouchApp extends AppWeb {
-	private final List<TitleChangedListener> titleListeners;
-	private final GeoGebraTouchGUI touchGUI;
+	private List<TitleChangedListener> titleListeners;
+	private final TouchGUI touchGUI;
 	private final FontManagerW fontManager;
 	private FileManagerT fm;
 	private GuiManager guiManager;
@@ -83,7 +85,7 @@ public class TouchApp extends AppWeb {
 	 * @see geogebra.common.factories.FormatFactory FormatFactory
 	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
-	TouchApp(final GeoGebraTouchGUI touchGUI) {
+	TouchApp(final TouchGUI touchGUI) {
 		super();
 		this.titleListeners = new ArrayList<TitleChangedListener>();
 
@@ -102,7 +104,7 @@ public class TouchApp extends AppWeb {
 
 		this.fontManager = new FontManagerW();
 
-		this.settings = new Settings();
+		this.settings = new Settings(1);
 
 		this.setFontSize(15);
 
@@ -147,17 +149,19 @@ public class TouchApp extends AppWeb {
 		if (!this.getConstructionTitle().equals("")) {
 			this.setConstructionTitle(this.getConstructionTitle());
 		} else {
-			if (TouchEntryPoint.hasBrowseGUI()) {
+			if (TouchEntryPoint.isTablet() && TouchEntryPoint.hasBrowseGUI()) {
 				this.setConstructionTitle(TouchEntryPoint.getBrowseGUI()
-						.getChosenMaterial().getMaterialTitle());
+						.getChosenMaterial().getMaterial().getTitle());
+			}
+			else {
+				this.setConstructionTitle(((PhoneGUI) (TouchEntryPoint.getTouchGUI())).getBrowseViewPanel().getChosenMaterial().getMaterial().getTitle());
 			}
 		}
-
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
 			public void execute() {
-				TouchEntryPoint.tabletGUI.updateViewSizes();
+				TouchEntryPoint.touchGUI.updateViewSizes();
 			}
 		});
 		this.touchGUI.resetMode();
@@ -372,7 +376,7 @@ public class TouchApp extends AppWeb {
 		throw new UnsupportedOperationException();
 	}
 
-	public GeoGebraTouchGUI getTouchGui() {
+	public TouchGUI getTouchGui() {
 		return this.touchGUI;
 	}
 
@@ -495,9 +499,11 @@ public class TouchApp extends AppWeb {
 		}
 		this.touchGUI.setLabels();
 		if (TouchEntryPoint.hasWorksheetGUI()) {
+			System.out.println("has worksheetGUI");
 			TouchEntryPoint.getWorksheetGUI().setLabels();
 		}
 		if (TouchEntryPoint.hasBrowseGUI()) {
+			System.out.println("hasBrowseGUI");
 			TouchEntryPoint.getBrowseGUI().setLabels();
 		}
 	}
@@ -656,6 +662,7 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public void openMaterial(final String s) {
+		System.out.println("opneMaterial");
 		TouchEntryPoint.showWorksheetGUI(JSONparserGGT.parseMaterial(s));
 	}
 
@@ -700,6 +707,7 @@ public class TouchApp extends AppWeb {
 	@Override
 	protected String getClientID() {
 		// TODO Auto-generated method stub
+//		TouchEntryPoint.getPhoneGap().getDevice().getUuid();
 		return "geek";
 	}
 

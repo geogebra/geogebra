@@ -10,6 +10,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.View;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.touch.gui.PhoneGUI;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -79,10 +80,18 @@ public class FileManagerT {
 															@Override
 															public void onSuccess(
 																	final Boolean entryDeleted) {
-																TouchEntryPoint
-																		.getBrowseGUI()
-																		.removeFromLocalList(
-																				mat);
+																
+																if (TouchEntryPoint.isTablet()) {
+																	TouchEntryPoint
+																	.getBrowseGUI()
+																	.removeFromLocalList(mat);
+																}
+																else {
+																	((PhoneGUI) (TouchEntryPoint.getTouchGUI())).getBrowseViewPanel().removeFromLocalList(mat);
+																}
+																
+																
+																
 																/**
 																 * remove
 																 * metadata only
@@ -360,10 +369,15 @@ public class FileManagerT {
 																										if (filter
 																												.check(mat)) {
 																											mat.setURL(name);
-																											TouchEntryPoint
-																													.getBrowseGUI()
-																													.addToLocalList(
-																															mat);
+																											if (TouchEntryPoint.isTablet()) {
+																												TouchEntryPoint
+																												.getBrowseGUI()
+																												.addToLocalList(mat);
+																											}
+																											else {
+																												((PhoneGUI) (TouchEntryPoint.getTouchGUI())).getBrowseViewPanel().addToLocalList(mat);
+																											}
+																								
 																										}
 
 																									}

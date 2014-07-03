@@ -1,7 +1,5 @@
 package geogebra.touch;
 
-import geogebra.touch.gui.WorksheetGUI;
-
 import java.util.EmptyStackException;
 import java.util.Stack;
 
@@ -22,9 +20,9 @@ class TabletDeckLayoutPanel extends DeckLayoutPanel {
 		try {
 			// remove the current shown view
 			final Widget current = this.history.pop();
-
+			System.out.println("goBack");
 			if (TouchEntryPoint.hasWorksheetGUI() && current.equals(TouchEntryPoint.getWorksheetGUI())) {
-				TouchEntryPoint.tabletGUI.restoreEuclidian(((WorksheetGUI) current).getContentPanel());
+//				TouchEntryPoint.touchGUI.restoreEuclidian(((WorksheetGUI) current).getContentPanel());
 				this.app.fileNew();
 			} else if (TouchEntryPoint.hasBrowseGUI() && current.equals(TouchEntryPoint.getBrowseGUI())) {
 				this.app.getFileManager().hasFile(this.app.getConstructionTitle(), new Callback<Boolean, Boolean>() {
