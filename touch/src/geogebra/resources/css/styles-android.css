@@ -17,7 +17,7 @@ body {
 
 body div .headerbar,
 body div .worksheetTitle {
-	color: #FFFFFF;
+	
 	font-weight: normal;
 	font-family: "Roboto", sans serif;
 	font-size: 18px;
@@ -25,18 +25,11 @@ body div .worksheetTitle {
 	/* Border */
 	border: none;
 	/* Background */
-	background-image: linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
-	background-image: -o-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
-	background-image: -moz-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
-	background-image: -webkit-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
-	background-image: -ms-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
-	background-image: -webkit-gradient(linear, left top, left bottom,
-	color-stop(0, rgb(68, 68, 68) ),
-	color-stop(1, rgb(37, 37, 37) ) ) );
+	
 }
 
 body .worksheetTitle {
-	margin-top: 0px;
+	margin-top: 5px;
 }
 
 body .headerbar div.button,
@@ -90,9 +83,8 @@ body .inputbarPanel input {
 	background: none;
 	padding: 4px 0px;
 	color: #999999;
-	height: 28px;
-	font-size: 14px;
 	width: 210px;
+	box-shadow: none;
 }
 
 body .toolbar.visible .inputbarPanel {

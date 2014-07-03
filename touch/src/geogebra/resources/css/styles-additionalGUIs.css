@@ -27,20 +27,6 @@ body div .worksheetgui .headerbar {
 	height: 50px;
 }
 
-body .browsegui .headerbar .gwt-Label,
-body .worksheetgui .headerbar .gwt-Label {
-	font-size: 18px;
-	vertical-align: middle;
-	color: #FFFFFF;
-}
-
-body .browsegui .headerbar .gwt-Label,
-body .browsegui .headerbar img,
-body .worksheetgui .headerbar .gwt-Label,
-body .worksheetgui .headerbar img {
-	opacity: 0.8;
-  	filter: alpha(opacity=80);
-}
 
 body .browsegui .headerFirst,
 body .worksheetgui .headerFirst {
@@ -48,30 +34,11 @@ body .worksheetgui .headerFirst {
 	padding-left: 10px;
 }
 
-body .browsegui .headerFirst td,
-body .browsegui .headerSecond td,
-body .worksheetgui .headerFirsttd,
-body .worksheetgui .headerSecond td {
-	padding: 0px;
-}
-
-body .browsegui .headerbar div.button,
-.worksheetgui .headerbar div.button {
-	border: none;
-	margin: 0px 0px 0px 5px;
-}
-
-body .browsegui .headerFirst div.button,
-body .worksheetgui .headerFirst div.button {
-	width: 11px;
-	padding-right: 5px;
-}
-
 body .browsegui .headerFirst img,
 body .worksheetgui .headerFirst img {
 	height: 20px;
 	width: 11px;
-	margin-top: 5px;
+	margin-top: 8px;
 }
 
 body .backButton {
@@ -86,142 +53,18 @@ body .backButton .gwt-Label {
 	margin-left: 14px;
 }
 
-body .browsegui .headerSecond div.button {
-	width: 24px;
-	margin: 0px;
-	padding: 0px;
-}
 
-body .worksheetgui .headerSecond div.button {
-	margin: 0px;
-}
 
-body .browsegui .headerSecond .button img {
-	height: 24px;
-	width: 24px;
-}
 
-body .browsegui input.gwt-TextBox {
-	background: none;
-	border: none;
-	color: #FFFFFF;
-}
+
 
 /* BrowseGUI CONTENT */
 
-.browsegui table {
-	border-spacing: 0px;
-}
-
-.browsegui .localFilePanel {
-	background-color: #FFFFFF;
-}
-
-.browsegui .tubeFilePanel {
-	padding: 0px;
-	
-	/* Background */
-	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
-	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
-	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
-	background-image: -webkit-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
-	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
-	background-image: -webkit-gradient(linear, left top, left bottom,
-		color-stop(0, rgb(239, 239, 239) ),
-		color-stop(1, rgb(205, 205, 205) ) );
-}
-
-.browsegui .filePanelTitle {
-	color: #999999;
-	font-size: 20px;
-	height: 35px;
-	vertical-align: middle;
-	padding: 15px 20px 0px 20px;
-}
-
-.browsegui .filePanel td {
-	border-spacing: 0px;
-	margin: 0px;
-	padding: 0px;
-}
-
-.browsegui .filePanel td .browserFile {
-	padding: 10px;
-	font-size: 14px;
-	color: #666666;
-}
-
-.browsegui .browserFile {
-	width: 100%;
-}
-.browsegui .filePageControls {
-	float: left;
-}
-
-.browsegui .filePageControls button {
-	background: none;
-	border: none;
-	width: 35px;
-	height: 35px;
-}
-
-.browsegui .filePageControls button.selected {
-	background: #9999FF;
-}
-
-.browsegui .browserFile.selected {
-	background-color: #C2C2FF;
-}
-
-.browsegui .fileImage {
-	width: 198px;
-	height: 118px;
-	overflow: hidden;
-	border: 1px solid #CCCCCC;
-	margin-right: 20px;
-	
-	float: left;
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-color: #FFFFFF;
-}
-
-.browsegui .fileImage.scaleImage {
-	background-size: 100%;
-	width: 91px;
-	height: 49px;
-}
-
-.browsegui .fileDescription {
-	float: left;
-	margin-top: 10px;
-}
-
-.browsegui .fileDescription td {
-	padding-bottom: 10px;
-	text-align: left;
-}
-
-.browsegui .fileTitle {
-	font-weight: bold;
-}
-
-.browsegui .fileLinks {
-	float: right;
-}
-
-.browsegui .fileLinks td {
-	text-align: center;
-}
 
 .browsegui .confirmDelete {
 	height: 41px;
 	margin-top: 17px;
 	width: 100%	
-}
-
-.browsegui .centeredContent {
-	width: 100%;
 }
 
 .browsegui .browserFile td:nth-child(2) {
@@ -240,12 +83,6 @@ body .browsegui input.gwt-TextBox {
 	width: 50%;
 }
 
-body .browsegui .fileLinks .button {
-	border: none;
-	background: none;
-	opacity: 0.8;
-	filter: alpha(opacity = 80);
-}
 
 .browsegui .button.delete {
 	margin-top: 3px;
@@ -255,30 +92,11 @@ body .browsegui .fileLinks .button {
 	clear: both;
 }
 
-.browsegui .fileControlPanel {
-	height: 40px;
-	margin-left: 7px;
-	margin-right: 7px;
-	padding-top: 10px;
-	color: #666666;
+.browsegui {
+	background-color: white;
 }
 
-.browsegui .fileControlPanel .button {
-	opacity: 0.6;
-	filter: alpha(opacity = 60);
-}
 
-.browsegui .filePageControls {
-	float: left;
-}
-
-.prevButton {
-	float: left;
-}
-
-.nextButton {
-	float:right;
-}
 
 /* WORKSHEET GUI CONTENT */
 
@@ -288,16 +106,6 @@ body .browsegui .fileLinks .button {
 
 .worksheetgui .worksheet {
 	padding: 30px 20px 40px 20px;
-	overflow: auto;
-	/* Background
-	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
-	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
-	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
-	background-image: -webkit-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
-	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
-	background-image: -webkit-gradient(linear, left top, left bottom,
-		color-stop(0, rgb(239, 239, 239) ),
-		color-stop(0.1, rgb(255, 255, 255) ) );*/
 }
 
 .worksheet .instructionsPre {

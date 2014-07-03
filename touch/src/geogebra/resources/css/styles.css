@@ -1,5 +1,22 @@
 @charset "utf-8";
 
+/*body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) {
+	overflow-y: hidden !important;
+	overflow-x: scroll !important;
+}*/
+
+.main {
+	white-space: nowrap;
+}
+
+.viewContainer {
+	overflow: auto !important; 
+}
+
+.green {
+	background-color: green;
+}
+
 body {
 	-webkit-user-select: none;
 	
@@ -8,7 +25,7 @@ body {
 	font-size: 15px;
 	font-family: sans serif;
 	color: #000000;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	-ms-touch-action: none;
 	/* Direct all pointer events to JavaScript code. */
 	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -155,25 +172,7 @@ body .browsegui .fileControlPanel .button.disabled {
 ####                    HEADER, STYLEBAR							####
 ##################################################################### */
 .headerbar,.worksheetTitle {
-	height: 50px;
 	width: 100%;
-	/* Background */
-	background-image: linear-gradient(top, rgb(204, 204, 204) 0%,
-		rgb(170, 170, 170) 100% );
-	background-image: -o-linear-gradient(top, rgb(204, 204, 204) 0%,
-		rgb(170, 170, 170) 100% );
-	background-image: -moz-linear-gradient(top, rgb(204, 204, 204) 0%,
-		rgb(170, 170, 170) 100% );
-	background-image: -webkit-linear-gradient(top, rgb(204, 204, 204) 0%,
-		rgb(170, 170, 170) 100% );
-	background-image: -ms-linear-gradient(top, rgb(204, 204, 204) 0%,
-		rgb(170, 170, 170) 100% );
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(204,
-		204, 204) ), color-stop(1, rgb(170, 170, 170) ) ) );
-}
-
-.headerbar { /* Border */
-	border-bottom: #999999 solid 1px;
 }
 
 .headerbar td {
@@ -195,17 +194,8 @@ input.worksheetTitle {
 	text-align: center;
 }
 
-.headerFirst {
-	margin-left: 10px;
-}
-
 .headerFirst td,.headerSecond td {
 	padding-top: 10px;
-}
-
-.headerSecond {
-	float:right;
-	margin-right: 10px;
 }
 
 .headerbar div.button {
@@ -240,11 +230,6 @@ input.worksheetTitle {
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(254,
 		254, 254) ), color-stop(1, rgb(220, 220, 220) ) );
 }
-
-/*.optionsBoxWrapper {
-	width: 195px;
-	margin-top: -3px;
-}*/
 
 .optionsBoxArrow {
 	left: 17px;
@@ -337,7 +322,7 @@ input.worksheetTitle {
 ####                    ALGEBRA VIEW 								####
 ##################################################################### */
 .algebraViewAndStylebar {
-	overflow-y: hidden;
+	/*overflow-y: hidden;*/
 	/* Border */
 	border-left: #CCCCCC solid 1px;
 	/* Background */
@@ -357,7 +342,7 @@ input.worksheetTitle {
 
 .algebraView {
 	padding: 0px 20px 0px 5px;
-	overflow-y: hidden;
+	/*overflow-y: hidden;*/
 	
 }
 
@@ -439,7 +424,7 @@ div.elemHeadingName {
 .elem td span.gwt-InlineHTML {
 	width: 170px;
 	display: block;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 
 .treeItemWrapper {
@@ -450,17 +435,15 @@ body .gwt-Tree .gwt-TreeItem-selected {
 	background: none;
 }
 
-/*.elem.hidden {
-	background: url(img/elemHidden.svg) no-repeat left 10px;
-}*/
 /* #####################################################################
 ####                    TOOL BAR									####
 ##################################################################### */
+
 .toolbar {
 	padding: 10px;
 	padding-bottom: 0px;
 	height: 60px;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	
 	/* Border */
 	border-top: #CCCCCC solid 1px;
@@ -635,14 +618,6 @@ body .buttonPanel {
 	width: 100%;
 }
 
-/*
-.gwt-PopupPanelGlass {
-	background-color: #000;
-	opacity: 0.3;
-	z-index: 20;
-	filter: alpha(opacity = 30);
-}
-*/
 
 .sliderDialog .sliderPanel .gwt-TextBox {
 	width: 90px;

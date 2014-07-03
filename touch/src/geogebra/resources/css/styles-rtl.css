@@ -115,14 +115,14 @@ input.worksheetTitle {
 ####                    ALGEBRA VIEW 								####
 ##################################################################### */
 .algebraViewAndStylebar {
-	overflow-y: hidden;
+	/*overflow-y: hidden;*/
 	
 	border-right: #CCCCCC solid 1px;
 }
 
 .algebraView {
 	padding: 0px 5px 0px 20px;
-	overflow-y: hidden;
+	/*overflow-y: hidden;*/
 }
 
 body .algebraViewButtonPanel { /* Border */
