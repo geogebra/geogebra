@@ -1994,6 +1994,7 @@ __GGB__keysVar.ca_XV.menu = {
     "ViewPanel": "Mostra el tauler d'escenaris",
     "VisualStyle": "Estil visual",
     "VisualStyle_Help": "Cliqueu en els objectes o arrossegueu un rectangle per a canviar-ne les propietats",
+    "Volume": "Volume",
     "Volume_Help": "Seleccioneu una pir\xe0mide, un prisma, una esfera, un con, un cilindre, etc.",
     "Webcam": "C\xe0mera web",
     "Webcam_Chrome": "Cliqueu 'Permet' a la finestra emergent",

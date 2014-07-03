@@ -1994,6 +1994,7 @@ __GGB__keysVar.xh.menu = {
     "ViewPanel": "Jonga iPanel",
     "VisualStyle": "iStayile seMbonakalo",
     "VisualStyle_Help": "Klikha kwiNto okanye utsale uxande ukutshintsha iiproperties zalo",
+    "Volume": "Volume",
     "Volume_Help": "Khetha ipyramid, iprism, isphere, icone, icylinder, etc.",
     "Webcam": "iWebcam",
     "Webcam_Chrome": "Nceda ucofe u 'Vumela' kwi pop-up bar",

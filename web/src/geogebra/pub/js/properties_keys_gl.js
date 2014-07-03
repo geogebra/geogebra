@@ -1994,6 +1994,7 @@ __GGB__keysVar.gl.menu = {
     "ViewPanel": "Ver panel",
     "VisualStyle": "Estilo visual",
     "VisualStyle_Help": "Clic ou enmarcado dos obxectos aos que cambiarlles propiedades",
+    "Volume": "Volume",
     "Volume_Help": "Seleccione pir\xe1mide, prisma, esfera, cono, cilindro, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Por favor, faga clic en 'permitir' na barra emerxente",

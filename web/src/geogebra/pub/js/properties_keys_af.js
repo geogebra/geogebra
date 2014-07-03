@@ -1994,6 +1994,7 @@ __GGB__keysVar.af.menu = {
     "ViewPanel": "View Panel",
     "VisualStyle": "Visuele Styl",
     "VisualStyle_Help": "kliek op die voorwerpe of trek die reghoek om die eienskappe te verander",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

@@ -1994,6 +1994,7 @@ __GGB__keysVar.sv.menu = {
     "ViewPanel": "Visa sidopanel",
     "VisualStyle": "Visuell stil",
     "VisualStyle_Help": "Klicka p\xe5 objekt eller v\xe4lj dem genom att dra en rektangel runt dem f\xf6r att \xe4ndra deras egenskaper",
+    "Volume": "Volume",
     "Volume_Help": "V\xe4lj ett 3D-objekt, t.ex. en pyramid, kon, cylinder, klot, prisma etc.",
     "Webcam": "Webbkamera",
     "Webcam_Chrome": "Var sn\xe4ll och klicka p\xe5 'Till\xe5t' i meddelandelisten.",

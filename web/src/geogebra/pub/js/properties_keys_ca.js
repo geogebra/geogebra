@@ -1994,6 +1994,7 @@ __GGB__keysVar.ca.menu = {
     "ViewPanel": "Mostra panell d'escenaris",
     "VisualStyle": "Estil visual",
     "VisualStyle_Help": "Cliqueu a sobre dels objectes o arrossegueu un rectangle per canviar les seves propietats",
+    "Volume": "Volume",
     "Volume_Help": "Seleccioneu una pir\xe0mide, un prisma, una esfera, un con, un cilindre, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Clique 'Permet' a la finestra emergent",

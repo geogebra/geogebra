@@ -1994,6 +1994,7 @@ __GGB__keysVar.hu.menu = {
     "ViewPanel": "N\xe9zet panel",
     "VisualStyle": "Vizu\xe1lis st\xedlus",
     "VisualStyle_Help": "Kattint\xe1s az objektumokon vagy kijel\xf6l\xe9s kerettel",
+    "Volume": "Volume",
     "Volume_Help": "G\xfala, has\xe1b, g\xf6mb, k\xfap, henger stb. kijel\xf6l\xe9se",
     "Webcam": "Webkamera",
     "Webcam_Chrome": "Kattintson az \"Enged\xe9lyez\xe9s\" gombra a felugr\xf3 ablakban.",

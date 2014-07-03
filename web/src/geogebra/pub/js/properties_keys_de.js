@@ -1994,6 +1994,7 @@ __GGB__keysVar.de.menu = {
     "ViewPanel": "Ansichten",
     "VisualStyle": "Optische Darstellung",
     "VisualStyle_Help": "Klicke auf Objekte oder ziehe ein Rechteck auf, um die Eigenschaften zu \xe4ndern",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

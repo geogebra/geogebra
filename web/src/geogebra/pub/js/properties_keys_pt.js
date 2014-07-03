@@ -1994,6 +1994,7 @@ __GGB__keysVar.pt.menu = {
     "ViewPanel": "Exibir Painel",
     "VisualStyle": "Estilo Visual",
     "VisualStyle_Help": "Clique nos objetos ou use um ret\xe2ngulo de sele\xe7\xe3o para modificar suas propriedades",
+    "Volume": "Volume",
     "Volume_Help": "Selecionar pir\xe2mide, prisma, esfera, cone, cilindro, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Por favor, clique em \"Permitir\" na janela de di\xe1logo",

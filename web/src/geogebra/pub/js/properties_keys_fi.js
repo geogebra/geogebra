@@ -1994,6 +1994,7 @@ __GGB__keysVar.fi.menu = {
     "ViewPanel": "N\xe4yt\xe4 paneeli",
     "VisualStyle": "Ulkoasu",
     "VisualStyle_Help": "Valitse objektit muuttaaksesi ominaisuuksia",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webkamera",
     "Webcam_Chrome": "Ole hyv\xe4 ja paina \"Salli\" ponnahdusikkunassa",

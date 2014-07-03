@@ -1994,6 +1994,7 @@ __GGB__keysVar.tr.menu = {
     "ViewPanel": "G\xf6r\xfcn\xfcm Paneli",
     "VisualStyle": "G\xf6rsel Sitil",
     "VisualStyle_Help": "\xd6zelliklerini de\u011fi\u015ftirmek i\xe7in bir nesneye t\u0131klay\u0131n veya bir dikd\xf6rtgeni \xe7ekin",
+    "Volume": "Volume",
     "Volume_Help": "Piramit, prizma, k\xfcre, koni, silindir vesaire se\xe7in",
     "Webcam": "Web Kameras\u0131",
     "Webcam_Chrome": "L\xfctfen men\xfcdeki '\u0130zin Ver' se\xe7ene\u011fini t\u0131klay\u0131n",

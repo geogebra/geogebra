@@ -1994,6 +1994,7 @@ __GGB__keysVar.it.menu = {
     "ViewPanel": "Mostra pannello",
     "VisualStyle": "Stile visuale",
     "VisualStyle_Help": "Fare clic sugli oggetti o tracciare un rettangolo di selezione per modificarne le propriet\xe0",
+    "Volume": "Volume",
     "Volume_Help": "Selezionare una piramide, un prisma, una sfera, un cono, un cilindro, ecc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Fare clic su 'Consenti' nella barra dell'avviso",

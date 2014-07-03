@@ -1994,6 +1994,7 @@ __GGB__keysVar.nl.menu = {
     "ViewPanel": "Toon Paneel",
     "VisualStyle": "Visuele Stijl",
     "VisualStyle_Help": "Klik op objecten of versleep de selecteer-rechthoek voor wijzigen eigenschappen",
+    "Volume": "Volume",
     "Volume_Help": "Selecteer pyramide, prisma, bol, kegel, cilinder, enz.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

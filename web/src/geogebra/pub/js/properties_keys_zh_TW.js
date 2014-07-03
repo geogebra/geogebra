@@ -1994,6 +1994,7 @@ __GGB__keysVar.zh_TW.menu = {
     "ViewPanel": "\u986f\u793a\u7248\u9762\u9078\u55ae",
     "VisualStyle": "\u6a23\u5f0f",
     "VisualStyle_Help": "\u7528\u6ed1\u9f20\u9ede\u9078\u6216\u6846\u9078\u7269\u4ef6\u5f8c\uff0c\u53ef\u6539\u8b8a\u7269\u4ef6\u5c6c\u6027",
+    "Volume": "Volume",
     "Volume_Help": "\u9078\u64c7\u7acb\u9ad4\u7269\u4ef6\uff0c\u5982\uff1a\u89d2\u9310\u3001\u89d2\u67f1\u3001\u7403\u3001\u5713\u9310\u3001\u5713\u67f1\u7b49\u3002",
     "Webcam": "\u7db2\u8def\u651d\u5f71\u6a5f",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

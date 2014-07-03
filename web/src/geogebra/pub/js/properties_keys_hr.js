@@ -1994,6 +1994,7 @@ __GGB__keysVar.hr.menu = {
     "ViewPanel": "Poka\u017ei plo\u010du",
     "VisualStyle": "Stil izgleda",
     "VisualStyle_Help": "Kliknite na objekte ili povla\u010dite pravokutnik za promjenu njihovih svojstava",
+    "Volume": "Volume",
     "Volume_Help": "Odaberite piramidu, prizmu, kuglu, sto\u017eac, cilindar, itd.",
     "Webcam": "Web kamera",
     "Webcam_Chrome": "Molimo odaberite \"Dozvoli\" u sko\u010dnom prozoru",

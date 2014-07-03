@@ -1994,6 +1994,7 @@ __GGB__keysVar.es_ES.menu = {
     "ViewPanel": "Muestra la Barra Lateral",
     "VisualStyle": "Estilo visual",
     "VisualStyle_Help": "Haz clic en los objetos, o enm\xe1rcalos arrastrando el rat\xf3n, para modificar sus propiedades",
+    "Volume": "Volume",
     "Volume_Help": "Elige una pir\xe1mide, prisma, esfera, cono, cilindro, etc.",
     "Webcam": "C\xe1mara web",
     "Webcam_Chrome": "Por favor, pulsa el bot\xf3n \"Permitir\" del cuadro emergente",

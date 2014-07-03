@@ -1994,6 +1994,7 @@ __GGB__keysVar.in.menu = {
     "ViewPanel": "Panel Tampilan",
     "VisualStyle": "Format Tampilan",
     "VisualStyle_Help": "Klik pada objek atau drag suatu kotak untuk mengubah propertinya",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

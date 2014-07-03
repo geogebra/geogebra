@@ -1994,6 +1994,7 @@ __GGB__keysVar.lv.menu = {
     "ViewPanel": "Skata panelis",
     "VisualStyle": "Vizu\u0101lais stils",
     "VisualStyle_Help": "Izv\u0113lies objektus vai apvelc ap tiem taisnst\u016bri, lai labotu to iesp\u0113jas",
+    "Volume": "Volume",
     "Volume_Help": "Izv\u0113lies piram\u012bdu, prizmu, sf\u0113ru, konusu, cilindru, utt.",
     "Webcam": "Web kamera",
     "Webcam_Chrome": "L\u016bdzu uzspiediet 'At\u013caut' Uznirsto\u0161aj\u0101 log\u0101",

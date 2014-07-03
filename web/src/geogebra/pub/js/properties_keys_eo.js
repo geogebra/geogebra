@@ -1994,6 +1994,7 @@ __GGB__keysVar.eo.menu = {
     "ViewPanel": "View Panel",
     "VisualStyle": "Visual Style",
     "VisualStyle_Help": "Click on objects or drag a rectangle to change their properties",
+    "Volume": "Volume",
     "Volume_Help": "Elektu piramidon, prismon, sferon, konuson, cilindron, ktp.",
     "Webcam": "Retkamerao",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

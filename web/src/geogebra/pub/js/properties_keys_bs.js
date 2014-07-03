@@ -1994,6 +1994,7 @@ __GGB__keysVar.bs.menu = {
     "ViewPanel": "Panel s prikazima",
     "VisualStyle": "Vizuelni stil",
     "VisualStyle_Help": "Klikom na figuru ili ozna\u010davanjem s pravougaonom povr\u0161i mijenjate njene osobine",
+    "Volume": "Volume",
     "Volume_Help": "Ozna\u010dite piramidu, prizmu, sferu, kupu, valjak, itd.",
     "Webcam": "Web-kamera",
     "Webcam_Chrome": "Molimo kliknite na 'Allow' u pop-up traci",

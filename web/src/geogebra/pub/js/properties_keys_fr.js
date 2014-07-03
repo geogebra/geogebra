@@ -1994,6 +1994,7 @@ __GGB__keysVar.fr.menu = {
     "ViewPanel": "Ic\xf4nes pour les vues",
     "VisualStyle": "Style graphique",
     "VisualStyle_Help": "S\xe9lectionner des objets par clic ou par rectangle de s\xe9lection pour changer leurs propri\xe9t\xe9s",
+    "Volume": "Volume",
     "Volume_Help": "S\xe9lectionnez une pyramide, un prisme, une sph\xe8re, un c\xf4ne, un cylindre, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Cliquez sur 'Autoriser' dans le bandeau qui s'est ouvert.",

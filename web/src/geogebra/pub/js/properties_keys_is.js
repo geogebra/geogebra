@@ -1994,6 +1994,7 @@ __GGB__keysVar.is.menu = {
     "ViewPanel": "Sko\xf0a stj\xf3rnbor\xf0",
     "VisualStyle": "\xdatlit",
     "VisualStyle_Help": "Velji\xf0 hluti e\xf0a dragi\xf0 valr\xe9tthyrning til a\xf0 breyta eiginleikum hluta",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

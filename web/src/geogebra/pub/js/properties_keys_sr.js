@@ -1994,6 +1994,7 @@ __GGB__keysVar.sr.menu = {
     "ViewPanel": "Prika\u017ei Panel",
     "VisualStyle": "Vizuelni stil",
     "VisualStyle_Help": "Kliknite na objekte ili razvucite pravougaonik da im izmenite osobine",
+    "Volume": "Volume",
     "Volume_Help": "Izaberite piramidu, prizmu, sferu, kupu, valjak, itd.",
     "Webcam": "Web kamera",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

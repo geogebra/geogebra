@@ -1994,6 +1994,7 @@ __GGB__keysVar.sl.menu = {
     "ViewPanel": "Panel s pogledi",
     "VisualStyle": "Slog",
     "VisualStyle_Help": "Klikni na objekt ali premakni pravokotnik, da mu spremeni\u0161 lastnosti",
+    "Volume": "Volume",
     "Volume_Help": "Izberi piramido, prizmo, sfero, sto\u017eec, valj, itd.",
     "Webcam": "Spletna kamera",
     "Webcam_Chrome": "Klikni na 'Dovoli' v pojavnem oknu",

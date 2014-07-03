@@ -1994,6 +1994,7 @@ __GGB__keysVar.ta.menu = {
     "ViewPanel": "View Panel",
     "VisualStyle": "\u0b95\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf \u0bb5\u0b9f\u0bbf\u0bb5\u0bc1",
     "VisualStyle_Help": "\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd \u0bae\u0bc0\u0ba4\u0bc1 \u0b9a\u0bca\u0b9f\u0bc1\u0b95\u0bcd\u0b95\u0bc1 \u0b85\u0bb2\u0bcd\u0bb2\u0ba4\u0bc1 \u0b9a\u0bc6\u0bb5\u0bcd\u0bb5\u0b95\u0ba4\u0bcd\u0ba4\u0bc8 \u0b87\u0bb4\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1 \u0b87\u0baf\u0bb2\u0bcd\u0baa\u0bc8 \u0bae\u0bbe\u0bb1\u0bcd\u0bb1\u0bc1",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

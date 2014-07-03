@@ -1994,6 +1994,7 @@ __GGB__keysVar.cs.menu = {
     "ViewPanel": "Zobrazit panel",
     "VisualStyle": "Vizu\xe1ln\xed styl",
     "VisualStyle_Help": "Pro zm\u011bnu vlastnost\xed klikn\u011bte na objekty nebo vyberte ta\u017een\xedm",
+    "Volume": "Volume",
     "Volume_Help": "Vyberte jehlan, hranol, kouli, ku\u017eel, v\xe1lec apod.",
     "Webcam": "Webkamery",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

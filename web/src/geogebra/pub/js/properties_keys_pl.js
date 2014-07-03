@@ -1994,6 +1994,7 @@ __GGB__keysVar.pl.menu = {
     "ViewPanel": "Poka\u017c Panel",
     "VisualStyle": "Styl wizualny",
     "VisualStyle_Help": "Kliknij na Obiekt i wyznacz prostok\u0105t, aby zmieni\u0107 jego w\u0142a\u015bciwo\u015bci",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Kamera",
     "Webcam_Chrome": "Prosz\u0119 klikn\u0105\u0107 \"Zezwalaj\" na pasku podr\u0119cznym",

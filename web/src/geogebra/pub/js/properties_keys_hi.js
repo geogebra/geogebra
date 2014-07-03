@@ -1994,6 +1994,7 @@ __GGB__keysVar.hi.menu = {
     "ViewPanel": "\u092a\u0948\u0928\u0932 \u0926\u0947\u0916\u0947\u0902",
     "VisualStyle": "\u0926\u0943\u0936\u094d\u092f \u0936\u0948\u0932\u0940",
     "VisualStyle_Help": "\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f\u094d\u0938 \u0915\u0947 \u0917\u0941\u0923\u094b\u0902 \u0915\u094b \u092c\u0926\u0932\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0909\u0928 \u092a\u0930 \u0915\u094d\u0932\u093f\u0915 \u0915\u0930\u0947\u0902 \u092f\u093e \u090f\u0915 \u0906\u092f\u0924 \u0916\u0940\u0902\u091a\u0947\u0902",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "\u0935\u0947\u092c\u0915\u0948\u092e",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

@@ -1994,6 +1994,7 @@ __GGB__keysVar.et.menu = {
     "ViewPanel": "N\xe4ita paneeli",
     "VisualStyle": "Visuaalne stiil",
     "VisualStyle_Help": "Kl\xf5psake objektil v\xf5i looge objektide valikuristk\xfclik, mille omadusi soovite muuta",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Veebikaamera",
     "Webcam_Chrome": "Palun kl\xf5psake h\xfcpikreal valikule \"Luba\"",

@@ -1994,6 +1994,7 @@ __GGB__keysVar.da.menu = {
     "ViewPanel": "Vis Panel",
     "VisualStyle": "Visuel stil",
     "VisualStyle_Help": "V\xe6lg objekter for at lave om p\xe5 deres egenskaber",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Klik venligst 'Tillad' i pop-up baren",

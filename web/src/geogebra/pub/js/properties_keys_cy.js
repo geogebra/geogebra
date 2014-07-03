@@ -1994,6 +1994,7 @@ __GGB__keysVar.cy.menu = {
     "ViewPanel": "View Panel",
     "VisualStyle": "Arddull gweledol",
     "VisualStyle_Help": "Clicio ar wrthrych neu llusgo petryal i newid eu priodweddau",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

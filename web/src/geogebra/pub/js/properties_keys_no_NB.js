@@ -1994,6 +1994,7 @@ __GGB__keysVar.no_NB.menu = {
     "ViewPanel": "Vis panel",
     "VisualStyle": "Egenskaper og utseende",
     "VisualStyle_Help": "Klikk p\xe5 flere objekt eller dra et rektangel over dem for \xe5 forandre egenskapene",
+    "Volume": "Volume",
     "Volume_Help": "Velg pyramide, prisme, kule, kjegle, sylinder, etc.",
     "Webcam": "Webkamera",
     "Webcam_Chrome": "Klikk 'Tillat' i hurtigmenyen",

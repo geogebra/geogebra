@@ -1994,6 +1994,7 @@ __GGB__keysVar.es_UY.menu = {
     "ViewPanel": "Expone panel",
     "VisualStyle": "Estilo visual",
     "VisualStyle_Help": "Clic o enmarcado rectangular de objetos cuyas propiedades se cambiar\xe1n",
+    "Volume": "Volume",
     "Volume_Help": "Elecci\xf3n de una pir\xe1mide, una esfera o un prisma, cono, cilindro, etc.",
     "Webcam": "C\xe1mara web",
     "Webcam_Chrome": "Se agradece un clic en 'Admite' en la barra emergente",

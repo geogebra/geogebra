@@ -1994,6 +1994,7 @@ __GGB__keysVar.sk.menu = {
     "ViewPanel": "Panel vzh\u013ead",
     "VisualStyle": "Vizu\xe1lny \u0161t\xedl",
     "VisualStyle_Help": "Kliknite na objekt alebo vyzna\u010dte obd\u013a\u017en\xedk pre nastavenie vlastnost\xed",
+    "Volume": "Volume",
     "Volume_Help": "Vyber ihlan, hranol, gu\u013eu, ku\u017ee\u013e, valec, at\u010f.",
     "Webcam": "Webov\xe1 kamera",
     "Webcam_Chrome": "Prosim kliknite na 'Povoli\u0165' v pop-up p\xe1sme",

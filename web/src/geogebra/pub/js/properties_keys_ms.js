@@ -1994,6 +1994,7 @@ __GGB__keysVar.ms.menu = {
     "ViewPanel": "Papar Panel",
     "VisualStyle": "Stail Visual",
     "VisualStyle_Help": "Klik pada objek-objek atau heret satu segiempat tepat untuk menukar sifat-sifat mereka",
+    "Volume": "Volume",
     "Volume_Help": "Pilih piramid, prisma, sfera, kon, silinder, dll.",
     "Webcam": "KameraWeb",
     "Webcam_Chrome": "Sila klik 'Allow' di bar 'pop-up'",

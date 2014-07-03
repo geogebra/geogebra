@@ -1994,6 +1994,7 @@ __GGB__keysVar.kn.menu = {
     "ViewPanel": "View Panel",
     "VisualStyle": "\u0ca6\u0cc3\u0cb6\u0ccd\u0caf \u0cb6\u0cc8\u0cb2\u0cbf",
     "VisualStyle_Help": "Click on objects or drag a rectangle to change their properties",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

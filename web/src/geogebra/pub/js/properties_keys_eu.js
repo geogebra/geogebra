@@ -1994,6 +1994,7 @@ __GGB__keysVar.eu.menu = {
     "ViewPanel": "Ikusi panela",
     "VisualStyle": "Ikuste-Estiloa",
     "VisualStyle_Help": "Egin klik objektuetan edo arrastatu hautespen-laukizuzenak beren propietateak aldatzeko",
+    "Volume": "Volume",
     "Volume_Help": "Piramidea, prisma, esfera, konoa, zilindroa, etab. aukeratu",
     "Webcam": "Web-kamera",
     "Webcam_Chrome": "Mesedez, egin klik 'Baimendu' botoian, barra aterean",

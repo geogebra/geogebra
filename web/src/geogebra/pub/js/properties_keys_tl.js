@@ -1994,6 +1994,7 @@ __GGB__keysVar.tl.menu = {
     "ViewPanel": "View Panel",
     "VisualStyle": "Visual Style",
     "VisualStyle_Help": "I-click ang  mga objects o i-drag ang rectangle para palitan ang kanilang properties",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Webcam",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",

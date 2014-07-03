@@ -1994,6 +1994,7 @@ __GGB__keysVar.lt.menu = {
     "ViewPanel": "Vaizdo pultas",
     "VisualStyle": "Vaizdo stiliai",
     "VisualStyle_Help": "Spauskite ant objekt\u0173 arba pasirinkite sta\u010diakampiu nor\u0117dami keisti \u0161i\u0173 nustatymus",
+    "Volume": "Volume",
     "Volume_Help": "Pasirinkite piramid\u0119, prizm\u0119, sfer\u0105, k\u016bg\u012f, cilindr\u0105, ...",
     "Webcam": "Vaizdo kamera",
     "Webcam_Chrome": "Apustelkite 'Leisti' i\u0161\u0161okan\u010diame lauke",

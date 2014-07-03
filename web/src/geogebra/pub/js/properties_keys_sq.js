@@ -1994,6 +1994,7 @@ __GGB__keysVar.sq.menu = {
     "ViewPanel": "Panele Pamjeje",
     "VisualStyle": "Stil Vizual",
     "VisualStyle_Help": "Kliko ne objekte ose zvarrit nje drejtkendesh per te ndryshuar vetite e tyre",
+    "Volume": "Volume",
     "Volume_Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "Web-kamera",
     "Webcam_Chrome": "Please click 'Allow' in the pop-up bar",
