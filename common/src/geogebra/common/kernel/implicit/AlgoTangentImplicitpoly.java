@@ -21,6 +21,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  *	Algorithm to calculate all tangents to the implicit polynomial equation
@@ -29,7 +30,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo {
 	
 	private GeoImplicitPoly p;
-	private GeoPoint R;
+	private GeoPointND R;
 	private GeoLine g;
 	
 	private GeoPoint[] ip; //tangent points.
@@ -61,7 +62,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	 * @param p implicit polynomial
 	 * @param R point on tangent
 	 */
-	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoPoint R) {
+	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoPointND R) {
 		this(c,labels,p);
 		this.R=R;
 		
@@ -112,7 +113,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 		if (g!=null)
 			input[0]=g;
 		else 
-			input[0]=R;
+			input[0]=(GeoElement) R;
 		tangents=new OutputHandler<GeoLine>(new elementFactory<GeoLine>() {
 			public GeoLine newElement() {
 				GeoLine g1=new GeoLine(getConstruction());
@@ -136,7 +137,13 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
         if (!R.isDefined()) {
         	tangents.adjustOutputSize(0);
         	return;
-        }   
+        }  
+        
+        // set undefined if R is not in xOy plane
+        if (R.isGeoElement3D() && !Kernel.isZero(R.getInhomZ())){
+        	tangents.adjustOutputSize(0);
+        	return;
+        }
 		
         
         tangents.adjustOutputSize(0);
@@ -145,11 +152,11 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 		if(p.isOnPath(R))
 		{
 			tangents.adjustOutputSize(n+1);
-			double dfdx = this.p.evalDiffXPolyAt(R.inhomX, R.inhomY);
-			double dfdy = this.p.evalDiffYPolyAt(R.inhomX, R.inhomY);
+			double dfdx = this.p.evalDiffXPolyAt(R.getInhomX(), R.getInhomY());
+			double dfdy = this.p.evalDiffYPolyAt(R.getInhomX(), R.getInhomY());
 			if (!Kernel.isEqual(dfdx,0,1E-5)||!Kernel.isEqual(dfdy,0,1E-5)){
 				tangents.getElement(n).setCoords(dfdx, dfdy, 
-						-dfdx*R.inhomX - dfdy*R.inhomY);
+						-dfdx*R.getInhomX() - dfdy*R.getInhomY());
 				n++;
 			}
 		}
@@ -162,8 +169,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 		for(int i=0; i<ip.length; i++)
 		{
 			
-			if(Kernel.isEqual(ip[i].inhomX, R.inhomX, 1E-2) 
-					&& Kernel.isEqual(ip[i].inhomY, R.inhomY, 1E-2))
+			if(Kernel.isEqual(ip[i].inhomX, R.getInhomX(), 1E-2) 
+					&& Kernel.isEqual(ip[i].inhomY, R.getInhomY(), 1E-2))
 				continue;
 			
 			//normal vector does not exist, therefore tangent is not defined
@@ -179,8 +186,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 				continue;
 			
 			tangents.adjustOutputSize(n+1);
-			tangents.getElement(n).setCoords(ip[i].getY() - this.R.getY(), this.R.getX() - ip[i].getX(), 
-				ip[i].getX() * this.R.getY() - this.R.getX() * ip[i].getY());
+			tangents.getElement(n).setCoords(ip[i].getY() - this.R.getInhomY(), this.R.getInhomX() - ip[i].getX(), 
+				ip[i].getX() * this.R.getInhomY() - this.R.getInhomX() * ip[i].getY());
 			ip[i].addIncidence(tangents.getElement(n));
 			n++;
 		}
@@ -222,7 +229,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	}
 
 
-	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == p && line == g && R != null && pointOnPath) {
 			return R;
 		}

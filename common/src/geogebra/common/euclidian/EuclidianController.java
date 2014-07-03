@@ -2864,11 +2864,12 @@ public abstract class EuclidianController {
 		} else if (selImplicitpoly() == 1) {
 			if (selPoints() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
-				GeoPoint[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPointsND();
 				// create new tangents
 				checkZooming(); 
 				
 				return getAlgoDispatcher().Tangent(null, points[0], implicitPoly);
+				
 			} else if (selLines() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
 				GeoLine[] lines = getSelectedLines();

@@ -910,6 +910,13 @@ SymbolicParametersBotanaAlgo {
 	final public double getInhomY() {
 		return inhomY;
 	}
+	
+	/**
+	 * @return inhomogeneous Z (in 3D space)
+	 */
+	final public double getInhomZ() {
+		return 0;
+	}
 
 	final public double[] vectorTo(GeoPointND QI) {
 		GeoPoint Q = (GeoPoint) QI;

@@ -48,6 +48,16 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	 */
 	public double getInhomX();
 
+	/**
+	 * @return y-coord 
+	 */
+	public double getInhomY();
+
+	/**
+	 * @return z-coord 
+	 */
+	public double getInhomZ();
+
 
 	/**
 	 * @return x-coord for 2D

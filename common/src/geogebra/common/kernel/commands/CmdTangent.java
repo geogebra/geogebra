@@ -8,7 +8,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -112,12 +111,12 @@ public class CmdTangent extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
-						(GeoPoint) arg[0], (GeoImplicitPoly) arg[1]);
+						(GeoPointND) arg[0], (GeoImplicitPoly) arg[1]);
 				return ret;
 			} else if ((ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[0] = (arg[0].isGeoImplicitPoly()))) {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
-						(GeoPoint) arg[1], (GeoImplicitPoly) arg[0]);
+						(GeoPointND) arg[1], (GeoImplicitPoly) arg[0]);
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {

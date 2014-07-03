@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algorithm for computation of tangent curve
@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	
 	private GeoImplicitPoly poly;
-	private GeoPoint point;
+	private GeoPointND point;
 	
 	private GeoImplicitPoly tangentPoly;
 
@@ -25,7 +25,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	 * @param addToConstructionList true to add this to construction list
 	 * @param calcPath true to calculate path
 	 */
-	public AlgoImplicitPolyTangentCurve(Construction c,GeoImplicitPoly poly,GeoPoint point,String label,boolean addToConstructionList,boolean calcPath) {
+	public AlgoImplicitPolyTangentCurve(Construction c,GeoImplicitPoly poly,GeoPointND point,String label,boolean addToConstructionList,boolean calcPath) {
 		super(c,addToConstructionList);
 		this.poly=poly;
 		this.point=point;
@@ -51,8 +51,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 		 */
 		double [][] coeff = poly.getCoeff();
 		
-		double x = point.getX();
-		double y = point.getY();
+		double x = point.getInhomX();
+		double y = point.getInhomY();
 	
 		double [][] newCoeff = new double[coeff.length][];
 		
@@ -75,7 +75,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input=new GeoElement[]{poly,point};
+		input=new GeoElement[]{poly,(GeoElement) point};
 		setOutputLength(1);
 		setOutput(0, tangentPoly);
 		setDependencies();

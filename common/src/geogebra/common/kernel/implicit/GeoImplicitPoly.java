@@ -1112,17 +1112,28 @@ Dilateable, Transformable, EuclidianViewCE {
 
 		if(!PI.isDefined())
 			return false;
-
-		GeoPoint P = (GeoPoint) PI;
-
-		double px = P.x;
-		double py = P.y;
-		double pz = P.z;
 		
-		if(P.isFinite())
-		{
-			px/=pz;
-			py/=pz;
+		double px, py, pz;
+
+		if (PI.isGeoElement3D()){
+			Coords coords = PI.getInhomCoordsInD(3);
+			if (!Kernel.isZero(coords.getZ())){
+				return false;
+			}
+			px = coords.getX();
+			py = coords.getY();
+		}else{
+			GeoPoint P = (GeoPoint) PI;
+
+			px = P.x;
+			py = P.y;
+			pz = P.z;
+
+			if(P.isFinite())
+			{
+				px/=pz;
+				py/=pz;
+			}
 		}
 		
 		double value = this.evalPolyAt(px, py);
