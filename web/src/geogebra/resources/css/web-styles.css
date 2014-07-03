@@ -3797,3 +3797,17 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 .functionInspectorToolButtons {
 	float: right; 
 }
+
+/* Spreadseet tools */
+
+.createObjectsPreview {
+  min-width: 200px;
+  vertical-align: top;	
+  height: 110px;	
+	
+}
+
+.createObjectsScrollArea {
+  width: 100%;
+  height: 100%;
+}

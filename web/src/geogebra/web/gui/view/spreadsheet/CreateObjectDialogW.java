@@ -6,6 +6,8 @@ import geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListe
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CardPanel;
+import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.dialog.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -17,6 +19,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -55,6 +58,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	private ListBox cbLeftRightOrder;
 	private CardPanel cards;
 	private Label lblPreview;
+	private Label lblPreviewTitle;
 	private FlowPanel namePanel;
 	private FlowPanel optionPane;
 	//private DefaultListModel model;
@@ -62,6 +66,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	boolean showApply = false;
 	private Label lblPreviewHeader;
 	private Label lblOptions;
+	private FlowPanel centerPanel;
 	private static final int OPTION_ORDER = 0;
 	private static final int OPTION_XY = 1;
 	private static final int OPTION_TRANSPOSE = 2;
@@ -118,14 +123,11 @@ public class CreateObjectDialogW extends InputDialogW implements
 			}
 		});
 
-		inputPanel.clear();;
 		lblName = new Label();
 		lblName.setStyleName("panelTitle");
 		InputPanelW input = new InputPanelW(null, app, -1, false);
 
 		fldName = input.getTextComponent();
-		inputPanel.add(fldName);
-		//inputPanel.setText("---------");
 		fldName.showPopupSymbolButton(true);
 		fldName.addBlurHandler(new BlurHandler() {
 			
@@ -187,23 +189,29 @@ public class CreateObjectDialogW extends InputDialogW implements
 		FlowPanel p = new FlowPanel();
 		p.add(namePanel);
 		p.add(optionsPanel);
-
+		
 		lblPreview = new Label();
 
 		previewPanel = new ScrollPanel(lblPreview);
-//		previewPanel.setBackground(this.wrappedDialog.getBackground());
 
+		previewPanel.setStyleName("createObjectsScrollArea");
 		
 		FlowPanel op = new FlowPanel();
 		op.add(p);
-	
 		
-//		previewPanel.setPreferredSize(new Dimension(200,
-//				p.getPreferredSize().height));
-//
-		optionPane.add(op);
-		inputPanel.add(optionPane);
+		
 
+		
+		optionPane.add(op);
+
+		FlowPanel pp = new FlowPanel();
+		
+		lblPreviewHeader = new Label();
+		pp.add(lblPreviewHeader);
+		lblPreviewHeader.setStyleName("panelTitle");
+		pp.add(previewPanel);
+		pp.setStyleName("createObjectsPreview");
+		centerPanel.add(LayoutUtil.panelRow(optionPane, pp));
 	}
 
 	private void buildOptionsPanel() {
@@ -246,9 +254,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// app.borderWest());
 		optionsPanel.add(cards);
 
-		lblPreviewHeader = new Label();
-		optionsPanel.add(lblPreviewHeader);
-
+		
 	}
 
 	@Override
@@ -295,17 +301,15 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		lblObject.setText(app.getMenu("Object") + ":");
 
-		// lblPreviewHeader.setText(app.getMenu("Preview")+ ":");
+		lblPreviewHeader.setText(app.getMenu("Preview")+ ":");
 //
 //		namePanel.setBorder(BorderFactory.createCompoundBorder(
 //				BorderFactory.createTitledBorder(app.getPlain("Name")),
 //				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-//		previewPanel.setBorder(BorderFactory.createTitledBorder(app
-//				.getMenu("Preview")));
 
 		lblOptions.setText(app.getMenu("Options"));
-		wrappedPopup.setTitle(coModel.getTitle());
-
+		wrappedPopup.getCaption().setText(coModel.getTitle());
+		
 	}
 
 	private void updateGUI() {
@@ -346,19 +350,16 @@ public class CreateObjectDialogW extends InputDialogW implements
 	}
 
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
-//		ImageIcon latexIcon = new ImageIcon();
-//		Font latexFont = new Font(app.getPlainFont().getName(), app
-//				.getPlainFont().getStyle(), app.getPlainFont().getSize() - 1);
-//
-//		if (latexStr != null && isLatexDrawable) {
-//			app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr,
-//					latexFont, false, Color.black, null);
-//			lblPreview.setText(" ");
-//		} else {
-//			lblPreview.setText(coModel.getNonLatexText());
-//		}
-//		lblPreview.setIcon(latexIcon);
+		if (latexStr != null && isLatexDrawable) {
+			lblPreview.setText("");
+			String latex = DrawEquationWeb.inputLatexCosmetics(latexStr);
+			DrawEquationWeb.drawEquationAlgebraView(lblPreview.getElement(), "\\mathrm {" + latex
+			        + "}");
+		} else {
+			lblPreview.setText(coModel.getNonLatexText());
+		}
 
+		
 	}
 
 	
@@ -394,6 +395,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 			}
 	}
 
+
 	@Override
 	protected void actionPerformed(DomEvent event) {
 		Widget source = (Widget) event.getSource();
@@ -420,7 +422,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		if (!isVisible) {
 			coModel.cleanUp();
 		}
-		super.setVisible(isVisible);
+		wrappedPopup.setVisible(isVisible);
 	}
 
 	@SuppressWarnings("unused")
@@ -430,7 +432,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 	}
 
 	public void setName(String name) {
-		App.debug("[co] setName: " + name);
 		fldName.setText(name);
 	}
 
@@ -458,4 +459,46 @@ public class CreateObjectDialogW extends InputDialogW implements
 		return ckTranspose.getValue();
 	}
 
+	@Override
+	protected void createGUI(String title, String message,
+	        boolean autoComplete, int columns, int rows,
+	        boolean showSymbolPopupIcon, boolean selectInitText,
+	        boolean showProperties, boolean showApply, DialogType type) {
+
+		centerPanel = new FlowPanel();
+		
+		btOK = new Button();
+		btOK.addClickHandler(this);
+
+		btCancel = new Button();
+		btCancel.addClickHandler(this);
+
+		btApply = new Button();
+		btApply.addClickHandler(this);
+	
+		// create button panel
+		btPanel = new FlowPanel();
+		btPanel.addStyleName("DialogButtonPanel");
+		btPanel.add(btOK);
+		btPanel.add(btCancel);
+		// just tmp.
+		if (showApply) {
+			btPanel.add(btApply);
+		}
+		// if (showProperties) {
+		// btPanel.add(btProperties);
+		// }
+
+		setLabels();
+
+
+		FlowPanel mainPanel = new FlowPanel();
+		mainPanel.addStyleName("Dialog-content");
+		mainPanel.add(centerPanel);
+		mainPanel.add(btPanel);
+
+		wrappedPopup.setWidget(mainPanel);
+
+	}
+	
 }
