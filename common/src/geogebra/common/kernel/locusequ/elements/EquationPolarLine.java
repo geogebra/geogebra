@@ -29,8 +29,8 @@ public class EquationPolarLine extends EquationGenericLine {
 
         AlgoPolarLine algo = (AlgoPolarLine) getResult().getParentAlgorithm();
         
-        GeoConic conic = algo.getConic();
-        GeoPoint point = algo.getPoint();
+        GeoConic conic = (GeoConic) algo.getConic();
+        GeoPoint point = (GeoPoint) algo.getPoint();
         
         this.setPoint(point);
         

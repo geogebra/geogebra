@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolarLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -461,5 +462,18 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 	protected GeoElement[] tangent(GeoConicND c1, GeoConicND c2){
 		return ec.kernel.getManager3D().CommonTangents3D(null, c1, c2);
 	}
+	
+	
+	@Override
+	protected GeoElement polarLine(GeoPointND P, GeoConicND c) {
+
+		if (P.isGeoElement3D() || c.isGeoElement3D()){
+			AlgoPolarLine3D algo = new AlgoPolarLine3D(ec.kernel.getConstruction(), null, c, P);
+			return (GeoElement) algo.getLine();
+		}
+
+		return super.polarLine(P, c);
+	}
+
 
 }

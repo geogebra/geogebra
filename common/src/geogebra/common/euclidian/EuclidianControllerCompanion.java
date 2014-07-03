@@ -11,6 +11,7 @@ import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
+import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
@@ -484,6 +485,18 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoElement[] tangent(GeoConicND c1, GeoConicND c2){
 		return ec.getAlgoDispatcher().CommonTangents(null, c1, c2);
+	}
+	
+	
+	/**
+	 * polar line to P relativ to c
+	 * @param P point
+	 * @param c conic
+	 * @return polar line
+	 */
+	protected GeoElement polarLine(GeoPointND P, GeoConicND c) {
+		AlgoPolarLine algo = new AlgoPolarLine(ec.kernel.getConstruction(), null, c, P);
+		return (GeoElement) algo.getLine();
 	}
 
 

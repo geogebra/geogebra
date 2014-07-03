@@ -33,7 +33,6 @@ import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
-import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
@@ -2932,13 +2931,14 @@ public abstract class EuclidianController {
 		if (selConics() == 1) {
 			GeoElement[] ret = { null };
 			if (selPoints() == 1) {
-				GeoConic[] conics = getSelectedConics();
-				GeoPoint[] points = getSelectedPoints();
+				GeoConicND[] conics = getSelectedConicsND();
+				GeoPointND[] points = getSelectedPointsND();
 				// create new tangents
 				checkZooming(); 
 				
-				ret[0] = PolarLine(null, points[0], conics[0]);
+				ret[0] = companion.polarLine(points[0], conics[0]);
 				return ret;
+				
 			} else if (selLines() == 1) {
 				GeoConic[] conics = getSelectedConics();
 				GeoLine[] lines = getSelectedLines();
@@ -2960,14 +2960,7 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	/**
-	 * polar line to P relativ to c
-	 */
-	final private GeoLine PolarLine(String label, GeoPoint P, GeoConic c) {
-		AlgoPolarLine algo = new AlgoPolarLine(kernel.getConstruction(), label, c, P);
-		GeoLine polar = algo.getLine();
-		return polar;
-	}
+
 
 
 	protected final boolean showHideLabel(Hits hits) {

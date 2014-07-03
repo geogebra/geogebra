@@ -51,6 +51,10 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Tangent:
 				return new CmdTangent3D(kernel);
 				
+			case Polar:
+				return new CmdPolar3D(kernel);
+
+				
 			case Circle:
 				return new CmdCircle3D(kernel);
 				

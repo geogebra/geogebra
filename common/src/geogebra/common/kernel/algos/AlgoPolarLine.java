@@ -18,15 +18,14 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.LocusEquation;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -34,67 +33,24 @@ import geogebra.common.kernel.geos.GeoPoint;
  * @author  Markus
  * @version 
  */
-public class AlgoPolarLine extends AlgoElement {
+public class AlgoPolarLine extends AlgoPolarLineND {
     
-    private GeoConic c;  // input
-    private GeoPoint P;     // input
-    private GeoLine polar;  // output
-        
     /** Creates new AlgoPolarLine */
-    public AlgoPolarLine(Construction cons, String label, GeoConic c, GeoPoint P) {
-        super(cons);
-        this.P = P;
-        this.c = c;                
-        polar = new GeoLine(cons);
-        
-        setInputOutput(); // for AlgoElement
-                
-        compute();              
-        polar.setLabel(label);
+    public AlgoPolarLine(Construction cons, String label, GeoConicND c, GeoPointND P) {
+        super(cons, label, c, P);
     }   
     
     @Override
-	public Commands getClassName() {
-		return Commands.Polar;
-	}
-    
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_POLAR_DIAMETER;
+	protected GeoLineND newGeoLine(Construction cons){
+    	return new GeoLine(cons);
     }
-        
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = P;
-        input[1] = c;
-        
-        super.setOutputLength(1);
-        super.setOutput(0, polar);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    // Made public for LocusEqu
-    public GeoPoint getPoint() { return P; }
-    // Made public for LocusEqu
-    public GeoConic getConic() { return c; }
-    public GeoLine getLine() { return polar; }
     
     // calc polar line of P relativ to c
     @Override
 	public final void compute() {     
-        c.polarLine(P, polar);
+        c.polarLine((GeoPoint) P, (GeoLine) polar);
     }
     
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("PolarLineOfARelativeToB",P.getLabel(tpl),c.getLabel(tpl));
-
-    }
-
 	@Override
 	public boolean isLocusEquable() {
 		return true;
