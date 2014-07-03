@@ -49,9 +49,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * @param mat {@link Material}
 	 */
 	public void addMaterial(Material mat) {
-		final MaterialListElement preview = new MaterialListElement(mat, this.app);
-		this.materials.add(preview);
-		this.add(preview);
+		//final MaterialListElement preview = new MaterialListElement(mat, this.app);
+		//this.materials.add(preview);
+		//this.add(preview);
 	}
 
 	/**
@@ -60,10 +60,10 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 */
 	public void removeMaterial(Material mat) {
 		for(MaterialListElement matElem : this.materials) {
-			if (matElem.getMaterial().equals(mat)) {
+			/*if (matElem.getMaterial().equals(mat)) {
 				this.materials.remove(matElem);
 				this.remove(matElem);
-			}
+			}*/
 		}
 	}
 

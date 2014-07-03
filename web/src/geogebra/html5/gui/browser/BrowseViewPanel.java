@@ -51,7 +51,7 @@ public class BrowseViewPanel extends FlowPanel implements BooleanRenderable, Res
 	}
 
 	private void addSearchPanel() {
-		this.searchPanel = new SearchPanel(app);
+		//this.searchPanel = new SearchPanel(app);
 		this.searchPanel.addSearchListener(new SearchListener() {
           @Override
 			public void onSearch(final String query) {
