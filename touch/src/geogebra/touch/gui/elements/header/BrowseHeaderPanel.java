@@ -8,7 +8,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.BrowseGUI;
+import geogebra.touch.gui.BrowseGUIT;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import java.util.ArrayList;
@@ -43,10 +43,10 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private final FastButton searchButton;
 	private FastButton cancelButton;
 	private final List<SearchListener> listeners;
-	private BrowseGUI browseGUI;
+	private BrowseGUIT browseGUI;
 	private NetworkOperation op;
 
-	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI,
+	public BrowseHeaderPanel(final Localization loc, final BrowseGUIT browseGUI,
 			NetworkOperation op) {
 		super(loc);
 

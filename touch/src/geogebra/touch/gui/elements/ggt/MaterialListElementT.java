@@ -4,21 +4,19 @@ import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.Unicode;
 import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.gui.browser.MaterialListElement;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.PhoneGUI;
 import geogebra.touch.gui.laf.DefaultResources;
+import geogebra.touch.gui.views.ViewsContainer.View;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -28,70 +26,31 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends HorizontalPanel implements
-		ResizeListener {
-	private SimplePanel image;
-	private VerticalPanel infos;
-	private VerticalPanel links;
-	private Label title, date;
-	private Label sharedBy;
-	private final Material material;
-	private final AppWeb app;
-	private final FileManagerT fm;
+public class MaterialListElementT extends MaterialListElement {
+	private FileManagerT fm;
 	private HorizontalPanel confirmDeletePanel;
 	private StandardButton confirm;
 	private StandardButton cancel;
-	private boolean isSelected = false;
+	private StandardButton deleteButton;
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final StandardButton openButton = new StandardButton(
-			LafIcons.document_viewer());
-	private final StandardButton editButton = new StandardButton(
-			LafIcons.document_edit());
-	private final StandardButton deleteButton = new StandardButton(
-			LafIcons.dialog_trash());
 
-	MaterialListElement(final Material m, final AppWeb app) {
 
-		this.app = app;
-		this.material = m;
+	MaterialListElementT(Material m, AppWeb app) {
+		super(m, app);
 		this.fm = ((TouchApp) app).getFileManager();
-		this.setStyleName("browserFile");
-		TouchEntryPoint.getBrowseGUI().addResizeListener(this);
-
-		this.initButtons();
-		this.initConfirmDeletePanel();
-		this.initMaterialInfos();
-
-		final VerticalPanel centeredContent = new VerticalPanel();
-		centeredContent.setStyleName("centeredContent");
-		centeredContent.add(this.infos);
+		this.deleteButton = new StandardButton(LafIcons.dialog_trash());
+		
+		initConfirmDeletePanel();
 
 		if (this.isLocalFile()) {
-			centeredContent.add(this.confirmDeletePanel);
+			this.centeredContent.add(this.confirmDeletePanel);
 		}
-		this.add(centeredContent);
-		this.add(this.links);
-
-		// clearPanel clears flow layout (needed for styling)
-		final LayoutPanel clearPanel = new LayoutPanel();
-		clearPanel.setStyleName("fileClear");
-		this.add(clearPanel);
-
-		this.markUnSelected();
-
-		this.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				materialSelected();
-
-			}
-		}, ClickEvent.getType());
 	}
 
-	void materialSelected() {
+	@Override
+	protected void materialSelected() {
 		if (this.isSelected) {
 			if (this.isLocalFile()) {
 				onEdit();
@@ -103,7 +62,8 @@ public class MaterialListElement extends HorizontalPanel implements
 		}
 	}
 
-	private void initMaterialInfos() {
+	@Override
+	protected void initMaterialInfos() {
 		this.image = new SimplePanel();
 		this.image.addStyleName("fileImage");
 		this.infos = new VerticalPanel();
@@ -172,11 +132,13 @@ public class MaterialListElement extends HorizontalPanel implements
 		this.confirmDeletePanel.setVisible(false);
 	}
 
-	private void initButtons() {
+	@Override
+	protected void initButtons() {
 		this.links = new VerticalPanel();
 		this.links.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.links.setStyleName("fileLinks");
-
+		this.links.setVisible(false);
+		
 		this.initOpenButton();
 		this.initEditButton();
 		// remote material should not have this visible
@@ -203,44 +165,29 @@ public class MaterialListElement extends HorizontalPanel implements
 		this.links.setVisible(false);
 	}
 
-	private void initEditButton() {
-		this.links.add(this.editButton);
-		this.editButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				onEdit();
-			}
-		});
-	}
-
-	void onEdit() {
+	@Override
+	protected void onEdit() {
 		this.fm.getMaterial(this.material, this.app);
 		TouchEntryPoint.allowEditing(true);
-		TouchEntryPoint.goBack();
+		if (TouchEntryPoint.isTablet())
+			TouchEntryPoint.goBack();
+		else {
+			((PhoneGUI) TouchEntryPoint.getTouchGUI()).scrollTo(View.Graphics);
+		}
+			
 	}
 
-	private void initOpenButton() {
-		this.links.add(this.openButton);
-		this.openButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick() {
-				onOpen();
-			}
-		});
-	}
-
-	void onOpen() {
-		TouchEntryPoint.showWorksheetGUI(this.material);
-	}
-
-	private void markSelected() {
+	@Override
+	protected void markSelected() {
 		this.isSelected = true;
-		TouchEntryPoint.getBrowseGUI().unselectMaterials();
+		
+		TouchEntryPoint.getLookAndFeel().unselectMaterials();
+		TouchEntryPoint.getLookAndFeel().rememberSelected(this);
+		
 		this.addStyleName("selected");
 		this.links.setVisible(true);
 		this.confirmDeletePanel.setVisible(false);
-		TouchEntryPoint.getBrowseGUI().rememberSelected(this);
+		
 	}
 
 	void onConfirmDelete() {
@@ -252,36 +199,19 @@ public class MaterialListElement extends HorizontalPanel implements
 		this.confirmDeletePanel.setVisible(false);
 	}
 
+	@Override
 	public void markUnSelected() {
-		this.isSelected = false;
-		this.removeStyleName("selected");
-		this.links.setVisible(false);
+		super.markUnSelected();
 		this.confirmDeletePanel.setVisible(false);
 	}
 
-	void setLabels() {
+	@Override
+	protected void setLabels() {
 		this.sharedBy.setText(this.app.getLocalization().getPlain("SharedByA",
 				this.material.getAuthor()));
 	}
 
 	private boolean isLocalFile() {
 		return this.material.getId() <= 0;
-	}
-
-	@Override
-	public void onResize() {
-		if (Window.getClientWidth() < 780) {
-			this.image.addStyleName("scaleImage");
-		} else {
-			this.image.removeStyleName("scaleImage");
-		}
-	}
-
-	public String getMaterialTitle() {
-		return this.material.getTitle();
-	}
-
-	public Material getMaterial() {
-		return this.material;
 	}
 }

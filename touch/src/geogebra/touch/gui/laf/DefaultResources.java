@@ -26,6 +26,9 @@ public interface DefaultResources extends ClientBundle {
 	@Source("geogebra/resources/css/styles-additional-rtl.css")
 	TextResource additionalRtlStyle();
 	
+	@Source("geogebra/resources/css/phone.css")
+	TextResource phoneStyle();
+	
 	// Dialogs
 
 	@Source("icons/png/algebra_hidden.png")
@@ -70,7 +73,7 @@ public interface DefaultResources extends ClientBundle {
 	@Source("icons/png/android/button_cancel.png")
 	ImageResource dialog_cancel();
 
-	@Source("icons/png/android/button_trashcan.png")
+	@Source("icons/png/view_close.png")
 	ImageResource dialog_trash();
 
 	@Source("icons/png/empty.png")
@@ -208,4 +211,17 @@ public interface DefaultResources extends ClientBundle {
 	
 	@Source("icons/png/menu_edit_undo.png")
 	ImageResource undo();
+	
+	// PHONE GUI
+	@Source("icons/png/menu_view_algebra.png")
+	ImageResource algebraView();
+	
+	@Source("icons/png/menu_view_graphics.png")
+	ImageResource graphicsView();
+	
+	@Source("icons/png/web/menu-button-open-search.png")
+	ImageResource browseView();
+	
+	@Source("icons/png/web/menu-button-open-menu.png")
+	ImageResource options();
 }

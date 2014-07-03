@@ -28,7 +28,7 @@ import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.Window;
 
 /**
  * 
@@ -42,17 +42,15 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	
 	public static final int SLIDER_OFFSET_T = 110;
 
-	EuclidianViewT(final EuclidianViewPanel euclidianViewPanel,
-			final TouchController ec, final Widget widget, final int width,
-			final int height) {
-		super(ec, new Settings().getEuclidian(1));
+	EuclidianViewT(final EuclidianViewPanel euclidianViewPanel, final TouchController ec) {
+		super(ec, new Settings(1).getEuclidian(1));
 
 		ec.setView(this);
 
 		this.setAllowShowMouseCoords(false);
 		this.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 
-		this.init(euclidianViewPanel, widget, width, height);
+		this.init(euclidianViewPanel);
 		// make sure we listen to the changes of settings, eg if file is loaded
 		if (this.evNo == 1 || this.evNo == 2) {
 			final EuclidianSettings es = this.app.getSettings().getEuclidian(
@@ -114,15 +112,14 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	 * This method has to be called before using g2p.
 	 * 
 	 */
-	private void init(final EuclidianViewPanel euclidianViewPanel,
-			final Widget widget, final int width, final int height) {
+	private void init(final EuclidianViewPanel euclidianViewPanel) {
 		this.panel = euclidianViewPanel;
 		this.canvas = Canvas.createIfSupported();
 		this.g2p = new GGraphics2DW(this.canvas);
-		this.setCoordinateSpaceSize(width, height);
+		this.setCoordinateSpaceSize(Window.getClientWidth(), TouchEntryPoint.getLookAndFeel().getCanvasHeight());
 
 		final TouchEventController touchController = new TouchEventController(
-				(TouchController) this.getEuclidianController(), widget);
+				(TouchController) this.getEuclidianController());
 		TouchEntryPoint.getLookAndFeel().attachExternalEvents(this,
 				euclidianViewPanel.getElement());
 		euclidianViewPanel.addDomHandler(touchController,

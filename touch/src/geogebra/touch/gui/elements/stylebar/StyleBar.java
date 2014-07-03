@@ -14,7 +14,6 @@ import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.ToolbarResources;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.gui.laf.DefaultResources;
@@ -51,7 +50,6 @@ public class StyleBar extends FlowPanel {
 	final TouchModel touchModel;
 	final GuiModel guiModel;
 	private OptionsPanel optionsPanel;
-	private final TabletGUI gui;
 	private ImageResource pointStyleImage;
 	private ImageResource lineStyleImage;
 
@@ -59,10 +57,8 @@ public class StyleBar extends FlowPanel {
 	 * Initializes the StyleBar
 	 * 
 	 */
-	public StyleBar(final TouchModel touchModel, final EuclidianViewT view,
-			TabletGUI gui) {
+	public StyleBar(final TouchModel touchModel, final EuclidianViewT view) {
 		this.setStyleName("stylebar");
-		this.gui = gui;
 		this.euclidianView = view;
 		this.touchModel = touchModel;
 		this.guiModel = touchModel.getGuiModel();
@@ -211,14 +207,14 @@ public class StyleBar extends FlowPanel {
 			case Axes:
 				b = this.createStyleBarButton("showAxes",
 						lafIcons.show_or_hide_the_axes());
-				b.setActive(this.euclidianView.getShowAxis(0));
+//				b.setActive(this.euclidianView.getShowAxis(0));
 				checkStyle(b);
 				this.styleButtonsPanel.add(b);
 				break;
 			case Grid:
 				b = this.createStyleBarButton("showGrid",
 						lafIcons.show_or_hide_the_grid());
-				b.setActive(this.euclidianView.getShowGrid());
+//				b.setActive(this.euclidianView.getShowGrid());
 				checkStyle(b);
 				this.styleButtonsPanel.add(b);
 				break;
@@ -318,9 +314,9 @@ public class StyleBar extends FlowPanel {
 
 		if (this.guiModel.getCommand().getStyleBarEntries() != null) {
 			this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
-			if (this.gui.isRTL()) {
-				this.gui.getEuclidianViewPanel().adjustRightWidget();
-			}
+//			if (TouchEntryPoint.getLookAndFeel().isRTL()) {
+//				this.gui.getEuclidianViewPanel().adjustRightWidget();
+//			}
 			this.setVisible(true);
 		} else {
 			// hide the whole StyleBar if no StyleBar is needed
@@ -347,9 +343,9 @@ public class StyleBar extends FlowPanel {
 
 			this.styleButtonsPanel.setVisible(true);
 		}
-		if (this.gui.isRTL()) {
-			this.gui.getEuclidianViewPanel().adjustRightWidget();
-		}
+//		if (this.gui.isRTL()) {
+//			this.gui.getEuclidianViewPanel().adjustRightWidget();
+//		}
 	}
 
 	void onOptionalButtonEvent(final FastButton button, final OptionType type) {

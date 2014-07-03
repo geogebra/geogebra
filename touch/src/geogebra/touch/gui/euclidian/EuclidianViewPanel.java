@@ -9,19 +9,17 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Extends from {@link LayoutPanel}. Holds the instances of the canvas and the
+ * Extends from {@link AbsolutPanel}. Holds the instances of the canvas and the
  * euclidianView.
  */
 public class EuclidianViewPanel extends AbsolutePanel implements ResizeListener {
 	private EuclidianViewT euclidianView;
-	private TabletGUI gui;
 
-	public EuclidianViewPanel(TabletGUI tabletGUI) {
-		this.gui = tabletGUI;
+	public EuclidianViewPanel() {
+	
 	}
 
 	/**
@@ -34,10 +32,9 @@ public class EuclidianViewPanel extends AbsolutePanel implements ResizeListener 
 	 * @param width
 	 * @param height
 	 */
-	public void initEuclidianView(TouchController ec, Widget widget, int width,
-			int height) {
-		this.gui.addResizeListener(this);
-		this.euclidianView = new EuclidianViewT(this, ec, widget, width, height);
+	public void initEuclidianView(TouchController ec) {
+		
+		this.euclidianView = new EuclidianViewT(this, ec);
 		this.add(this.euclidianView.getCanvas());
 	}
 
@@ -65,38 +62,41 @@ public class EuclidianViewPanel extends AbsolutePanel implements ResizeListener 
 
 	@Override
 	public void onResize() {
-		if (!this.gui.isAlgebraShowing()) {
+		if (!TouchEntryPoint.getLookAndFeel().getGUI().isAlgebraShowing()) {
 			this.setPixelSize(Window.getClientWidth(),
-					TouchEntryPoint.getLookAndFeel().getContentWidgetHeight());
+						TouchEntryPoint.getLookAndFeel().getCanvasHeight());
 		} else {
 			this.setPixelSize(Window.getClientWidth()
-					- TabletGUI.computeAlgebraWidth(), TouchEntryPoint
-					.getLookAndFeel().getContentWidgetHeight());
+						- TabletGUI.computeAlgebraWidth(), TouchEntryPoint.getLookAndFeel().getCanvasHeight());
 		}
-		adjustRightWidget();
+		if (TouchEntryPoint.isTablet()) {
+			adjustRightWidget();
+		}
+		
 	}
 	
 	public void adjustRightWidget(){
-		Widget rightWidget = !this.gui.isRTL()? this.gui.getAlgebraViewButtonPanel() : this.gui.getStylebar();
+		Widget rightWidget = (Widget) (!TouchEntryPoint.getLookAndFeel().getGUI().isRTL()? TouchEntryPoint.getLookAndFeel().getGUI().getAlgebraViewButtonPanel() : TouchEntryPoint.getLookAndFeel().getGUI().getStylebar());
 		int widgetWidth =  rightWidget.getOffsetWidth()-6;
 		if(widgetWidth <= 0){
-			widgetWidth = !this.gui.isRTL()? TabletGUI.ALGEBRA_BUTTON_WIDTH : TabletGUI.STYLEBAR_WIDTH;
+			widgetWidth = !TouchEntryPoint.getLookAndFeel().getGUI().isRTL()? TabletGUI.ALGEBRA_BUTTON_WIDTH : TabletGUI.STYLEBAR_WIDTH;
 		}
-		if (!this.gui.isAlgebraShowing()) {
-			this.setPixelSize(Window.getClientWidth(),
-					TouchEntryPoint.getLookAndFeel().getContentWidgetHeight());
-			this.setWidgetPosition(
-					rightWidget,
-					Window.getClientWidth() - widgetWidth, 0);
-		} else {
-			this.setPixelSize(Window.getClientWidth()
-					- TabletGUI.computeAlgebraWidth(), TouchEntryPoint
-					.getLookAndFeel().getContentWidgetHeight());
-			this.setWidgetPosition(
-					rightWidget,
-					Window.getClientWidth() - TabletGUI.computeAlgebraWidth()
-							- widgetWidth, 0);
-		}
+		//TODO use new LAF
+//		if (!TouchEntryPoint.getLookAndFeel().getGUI().isAlgebraShowing()) {
+//			this.setPixelSize(Window.getClientWidth(),
+//					TouchEntryPoint.getLookAndFeel().getContentWidgetHeight());
+//			this.setWidgetPosition(
+//					rightWidget,
+//					Window.getClientWidth() - widgetWidth, 0);
+//		} else {
+//			this.setPixelSize(Window.getClientWidth()
+//					- TabletGUI.computeAlgebraWidth(), TouchEntryPoint
+//					.getLookAndFeel().getContentWidgetHeight());
+//			this.setWidgetPosition(
+//					rightWidget,
+//					Window.getClientWidth() - TabletGUI.computeAlgebraWidth()
+//							- widgetWidth, 0);
+//		}
 	}
 
 	public void removeGBoxes() {

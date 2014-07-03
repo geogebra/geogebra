@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class WinLAF extends DefaultLAF {
+public class WinLAF extends TabletLAF {
 
 	public WinLAF(final TouchApp app) {
 		super(app);

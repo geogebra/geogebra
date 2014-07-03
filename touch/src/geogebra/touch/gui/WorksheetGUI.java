@@ -7,6 +7,7 @@ import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
+import geogebra.touch.gui.laf.TabletLAF;
 import geogebra.web.Web;
 import geogebra.web.WebStatic;
 
@@ -35,7 +36,7 @@ public class WorksheetGUI extends HeaderPanel {
 		this.fm = ((TouchApp) app).getFileManager();
 		this.content = new FlowPanel();
 		this.content.setStyleName("worksheet");
-		this.header = TouchEntryPoint.getLookAndFeel().buildWorksheetHeader(
+		this.header = ((TabletLAF) TouchEntryPoint.getLookAndFeel()).buildWorksheetHeader(
 				this);
 		this.app = app;
 		this.tabletGUI = (TabletGUI) ((TouchApp) app).getTouchGui();
@@ -53,8 +54,7 @@ public class WorksheetGUI extends HeaderPanel {
 	
 	private void resizeContent(){
 		App.debug("resize content");
-		this.content.setHeight((Window.getClientHeight() - TouchEntryPoint
-				.getLookAndFeel().getTabletHeaderHeight() - VERTICAL_PADDING) + "px");
+		this.content.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getHeaderHeight() - VERTICAL_PADDING) + "px");
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.elements.StandardClickButton;
@@ -67,7 +66,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		addInputPanel();
 		addClearPanel();
 
-		((TabletGUI) app.getTouchGui()).addResizeListener(this);
+		app.getTouchGui().addResizeListener(this);
 	}
 
 	private void addToolPanel() {
@@ -140,13 +139,13 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.showHideClosed.setVisible(false);
 		this.toolPanel.setWidth("100%");
 		this.touchModel.getGuiModel().closeOptions();
-		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
+		this.app.getTouchGui().updateViewSizes();
 	}
 
 	void onCollapseToolBar() {
 		this.touchModel.getGuiModel().closeAllOptions();
 		this.closeToolBar();
-		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
+		this.app.getTouchGui().updateViewSizes();
 	}
 
 	private void addInputPanel() {

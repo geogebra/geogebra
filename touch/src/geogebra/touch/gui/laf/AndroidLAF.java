@@ -4,7 +4,7 @@ import geogebra.touch.TouchApp;
 
 import com.google.gwt.dom.client.StyleInjector;
 
-public class AndroidLAF extends DefaultLAF {
+public class AndroidLAF extends TabletLAF {
 
 	public AndroidLAF(final TouchApp app) {
 		super(app);

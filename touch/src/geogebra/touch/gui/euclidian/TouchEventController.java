@@ -21,7 +21,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.Window;
 
 class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
@@ -33,18 +33,15 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 
 	private final TouchController mc;
 
-	private final Widget offsetWidget;
 	private boolean ignoreMouseEvents = false;
 
-	TouchEventController(final TouchController mc, final Widget w) {
+	TouchEventController(final TouchController mc) { //, final Widget w) {
 		this.mc = mc;
-		this.offsetWidget = w;
 	}
 
 	private int getY(final Touch touch) {
 		final int y = touch.getClientY();
-		return this.offsetWidget == null ? y : y
-				- TouchEntryPoint.getLookAndFeel().getTabletHeaderHeight();
+		return y - TouchEntryPoint.getLookAndFeel().getHeaderHeight();
 	}
 
 	// Listeners for Desktop
@@ -115,8 +112,30 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		}
 	}
 
+	public native void abc(String s) /*-{
+	console.log(s);
+}-*/;
+	
 	@Override
 	public void onTouchStart(final TouchStartEvent event) {
+		//von rechts funktionierts
+		if (!TouchEntryPoint.isTablet() && event.getTouches().get(0).getClientX() < 50) {
+//			event.stopPropagation();
+			//switch view from left to right
+//			((PhoneGUI) TouchEntryPoint.getTouchGUI()).swipe(false);
+			return;
+		} 
+		else if (!TouchEntryPoint.isTablet() && event.getTouches().get(0).getClientX() > Window.getClientWidth() - 10) {
+			//switch view from right to left
+//			event.stopPropagation();
+//			((PhoneGUI) TouchEntryPoint.getTouchGUI()).swipe(true);
+			return;
+		}
+		//Stop propagation here????? in order to use the scrollPanel. switch to specific view if touchEnd!
+		
+		abc("onTouchStart - TouchEventController X: " + event.getTouches().get(0).getClientX());
+		abc("onTouchStart - TouchEventController Y: " + event.getTouches().get(0).getClientY());
+
 		if (event.getTouches().length() == 1) {
 			// ensure textfiled loses focus
 			if (!this.mc.isTextfieldHasFocus()) {

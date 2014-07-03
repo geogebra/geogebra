@@ -45,15 +45,15 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 	}
 
 	void onGoBack() {
-		this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
-				.getContentPanel());
+//		this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
+//				.getContentPanel());
 		TouchEntryPoint.goBack();
 	}
 
 	void onEdit() {
 		if (this.material != null) {
-			this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
-					.getContentPanel());
+//			this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
+//					.getContentPanel());
 			TouchEntryPoint.allowEditing(true);
 			this.app.getGgbApi().startEditing();
 			//this.app.getFileManager().getMaterial(this.material, this.app);

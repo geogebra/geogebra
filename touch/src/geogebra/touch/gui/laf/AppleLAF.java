@@ -10,7 +10,7 @@ import com.google.gwt.dom.client.StyleInjector;
  * @author Matthias Meisinger
  * 
  */
-public class AppleLAF extends DefaultLAF {
+public class AppleLAF extends TabletLAF {
 
 	public AppleLAF(final TouchApp app) {
 		super(app);

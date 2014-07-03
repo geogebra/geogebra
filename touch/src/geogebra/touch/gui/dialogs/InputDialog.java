@@ -5,7 +5,6 @@ import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.ErrorHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.InputField;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
@@ -88,7 +87,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 		this.add(this.dialogPanel);
 
-		((TabletGUI) this.app.getTouchGui()).addResizeListener(this);
+		this.app.getTouchGui().addResizeListener(this);
 
 		this.addDomHandler(new KeyDownHandler() {
 

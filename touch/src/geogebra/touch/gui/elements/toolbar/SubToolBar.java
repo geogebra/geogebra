@@ -3,7 +3,6 @@ package geogebra.touch.gui.elements.toolbar;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.TabletGUI;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -63,7 +62,7 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 		this.contentPanel.add(this.arrowPanel);
 		this.arrowPanel.setStyleName("subToolBarArrow");
 
-		((TabletGUI) app.getTouchGui()).addResizeListener(this);
+		app.getTouchGui().addResizeListener(this);
 	}
 
 	public void setSubToolBarArrowPaddingLeft(int padding) {
