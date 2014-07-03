@@ -23,13 +23,14 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algorithm for tangent of function
  */
 public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo {
 
-	private GeoPoint P; // input
+	private GeoPointND P; // input
 	private GeoLine tangent; // output
 	private GeoFunction f;
 	private GeoPoint T;
@@ -44,7 +45,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 	 * @param f function
 	 */
 	public AlgoTangentFunctionPoint(Construction cons, String label,
-			GeoPoint P, GeoFunction f) {
+			GeoPointND P, GeoFunction f) {
 		this(cons, P, f);
 		tangent.setLabel(label);
 	}
@@ -54,7 +55,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 	 * @param P point on function
 	 * @param f function
 	 */
-	public AlgoTangentFunctionPoint(Construction cons, GeoPoint P,
+	public AlgoTangentFunctionPoint(Construction cons, GeoPointND P,
 			GeoFunction f) {
 		super(cons);
 		this.P = P;
@@ -70,7 +71,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 		}
 
 		if (pointOnFunction)
-			T = P;
+			T = (GeoPoint) P;
 		else
 			T = new GeoPoint(cons);
 		tangent.setStartPoint(T);
@@ -99,7 +100,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = P;
+		input[0] = (GeoElement) P;
 		input[1] = f;
 
 		setOutputLength(1);
@@ -124,7 +125,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 	/**
 	 * @return point on function
 	 */
-	GeoPoint getPoint() {
+	GeoPointND getPoint() {
 		return P;
 	}
 
@@ -153,7 +154,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 		}
 
 		// calc the tangent;
-		double a = P.inhomX;
+		double a = P.getInhomX();
 		double fa = f.evaluate(a);
 		double slope = deriv.evaluate(a);
 		tangent.setCoords(-slope, 1.0, a * slope - fa);

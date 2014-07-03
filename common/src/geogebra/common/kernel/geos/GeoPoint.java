@@ -1673,6 +1673,7 @@ SymbolicParametersBotanaAlgo {
 	public void updateCoordsFrom2D(boolean doPathOrRegion, CoordSys coordsys) {
 		//3D only
 	}
+	
 
 	public Coords getInhomCoords() {
 		return new Coords(new double[] { inhomX, inhomY });

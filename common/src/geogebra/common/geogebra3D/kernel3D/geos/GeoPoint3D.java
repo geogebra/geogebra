@@ -331,6 +331,10 @@ Traceable, MirrorableAtPlane, Dilateable{
 			return null;
 		}
 	}
+	
+	final public double getInhomX() {
+		return inhom.getX();
+	}
 
 	public Coords getCoordsInD2(CoordSys coordSys) {
 

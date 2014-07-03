@@ -42,6 +42,12 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	 * Update coords for 2D from homogeneous coords
 	 */
 	public void updateCoords2D();
+	
+	/**
+	 * @return x-coord 
+	 */
+	public double getInhomX();
+
 
 	/**
 	 * @return x-coord for 2D

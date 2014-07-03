@@ -1372,7 +1372,7 @@ public class AlgoDispatcher {
 	/**
 	 * tangent to f in x = x(P)
 	 */
-	final public GeoLine Tangent(String label, GeoPoint P, GeoFunction f) {
+	final public GeoLine Tangent(String label, GeoPointND P, GeoFunction f) {
 		
 		return KernelCAS.Tangent(cons, label, P, f);
 	}

@@ -74,13 +74,13 @@ public class CmdTangent extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				GeoElement[] ret = { getAlgoDispatcher().Tangent(c.getLabel(),
-						(GeoPoint) arg[0], ((GeoFunctionable) arg[1])
+						(GeoPointND) arg[0], ((GeoFunctionable) arg[1])
 								.getGeoFunction()) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { getAlgoDispatcher().Tangent(c.getLabel(),
-						(GeoPoint) arg[1], ((GeoFunctionable) arg[0])
+						(GeoPointND) arg[1], ((GeoFunctionable) arg[0])
 								.getGeoFunction()) };
 				return ret;
 			}

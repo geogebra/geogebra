@@ -2841,7 +2841,7 @@ public abstract class EuclidianController {
 		} else if (selFunctions() == 1) {
 			if (selPoints() == 1) {
 				GeoFunction[] functions = getSelectedFunctions();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPointsND();
 				// create new tangents
 				GeoElement[] ret = { null };
 				checkZooming(); 

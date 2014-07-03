@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algo dispatcher for CAS algos
@@ -35,7 +36,7 @@ public class KernelCAS {
 	 * @param f function
 	 * @return tangent to function through point
 	 */
-	public static GeoLine Tangent(Construction cons, String label, GeoPoint P,
+	public static GeoLine Tangent(Construction cons, String label, GeoPointND P,
 			GeoFunction f) {
 		AlgoTangentFunctionPoint algo = new AlgoTangentFunctionPoint(cons,
 				label, P, f);
