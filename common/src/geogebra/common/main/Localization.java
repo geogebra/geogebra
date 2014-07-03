@@ -391,6 +391,7 @@ public abstract class Localization {
 		String str = getPlain(key);
 
 		sbPlain.setLength(0);
+		boolean found = false;
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
 			if (ch == '%') {
@@ -400,6 +401,7 @@ public abstract class Localization {
 				if ((pos >= 0) && (pos < args.length)) {
 					// success
 					sbPlain.append(args[pos]);
+					found = true;
 				} else {
 					// failed
 					sbPlain.append(ch);
@@ -409,6 +411,18 @@ public abstract class Localization {
 			}
 		}
 
+		if (!found) {
+			/* If no parameters were found in key, this key is missing for
+			 * some reason (maybe it is not added to the ggbtrans database yet).
+			 * In this case all parameters are appended to the displayed string
+			 * to help the developers.  
+			 */
+			for (String arg : args) {
+				sbPlain.append(" ");
+				sbPlain.append(arg);
+			}
+		}
+		
 		return sbPlain.toString();
 	}
 	/**
