@@ -266,13 +266,13 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 
 		super.switchModeForMousePressed(e);
 
-		if (this.mode == EuclidianConstants.MODE_JOIN
-		        || this.mode == EuclidianConstants.MODE_SEGMENT
-		        || this.mode == EuclidianConstants.MODE_RAY
-		        || this.mode == EuclidianConstants.MODE_VECTOR
-		        || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE
-		        || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
+		if (this.selPoints() == 0
+		        && (this.mode == EuclidianConstants.MODE_JOIN
+		                || this.mode == EuclidianConstants.MODE_SEGMENT
+		                || this.mode == EuclidianConstants.MODE_RAY
+		                || this.mode == EuclidianConstants.MODE_VECTOR
+		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
 
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
@@ -312,9 +312,16 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE
 		        || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
 
-			if (getDistance(startPosition,
-			        new GPoint(event.getX(), event.getY())) < this.app
+			if (getDistance(startPosition, new GPoint(event.getX(), event.getY())) < this.app
 			        .getCapturingThreshold(event.getType())) {
+
+				this.view.setHits(new GPoint(event.getX(), event.getY()),
+				        event.getType());
+
+				if (this.selPoints() == 1 && !view.getHits().contains(p)) {
+					super.wrapMouseReleased(event);
+				}
+
 				return;
 			}
 
