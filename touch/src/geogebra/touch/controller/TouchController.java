@@ -359,6 +359,7 @@ public class TouchController extends EuclidianControllerWeb implements
 	}
 
 	public void onTouchStart(final int x, final int y, PointerEventType type) {
+		System.out.println("touchstart - TouchController");
 		reset();
 
 		if (this.mode != this.model.getCommand().getMode()) {
