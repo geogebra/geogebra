@@ -8404,7 +8404,7 @@ public abstract class EuclidianController {
 	
 	private void runScriptsIfNeeded(GeoElement geo1) {
 		// make sure that Input Boxes lose focus (and so update) before running scripts 
-		if (view.getHits().get(0) instanceof GeoTextField){
+		if (view.getHits().size() > 0 && view.getHits().get(0) instanceof GeoTextField){
 			view.requestFocusInWindow();
 		}
 		if (!scriptsHaveRun) { 
