@@ -498,6 +498,26 @@ public class EuclidianControllerCompanion {
 		AlgoPolarLine algo = new AlgoPolarLine(ec.kernel.getConstruction(), null, c, P);
 		return (GeoElement) algo.getLine();
 	}
-
+	
+	/**
+	 * @param l line
+	 * @param c conic
+	 * @return diameter line
+	 */
+	protected GeoElement diameterLine(GeoLineND l, GeoConicND c) {
+		return ec.getAlgoDispatcher().DiameterLine(null, l, c);
+	}
+	
+	
+	/**
+	 * @param v vector
+	 * @param c conic
+	 * @return diameter line
+	 */
+	protected GeoElement diameterLine(GeoVectorND v, GeoConicND c) {
+		return ec.getAlgoDispatcher().DiameterLine(null, v, c);
+	}
+	
+	
 
 }

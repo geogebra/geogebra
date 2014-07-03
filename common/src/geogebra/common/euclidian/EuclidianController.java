@@ -2940,20 +2940,20 @@ public abstract class EuclidianController {
 				return ret;
 				
 			} else if (selLines() == 1) {
-				GeoConic[] conics = getSelectedConics();
-				GeoLine[] lines = getSelectedLines();
+				GeoConicND[] conics = getSelectedConicsND();
+				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
 				checkZooming(); 
 				
-				ret[0] = getAlgoDispatcher().DiameterLine(null, lines[0], conics[0]);
+				ret[0] = companion.diameterLine(lines[0], conics[0]);
 				return ret;
 			} else if (selVectors() == 1) {
-				GeoConic[] conics = getSelectedConics();
-				GeoVector[] vecs = getSelectedVectors();
+				GeoConicND[] conics = getSelectedConicsND();
+				GeoVectorND[] vecs = getSelectedVectorsND();
 				// create new line
 				checkZooming(); 
 				
-				ret[0] = getAlgoDispatcher().DiameterLine(null, vecs[0], conics[0]);
+				ret[0] = companion.diameterLine(vecs[0], conics[0]);
 				return ret;
 			}
 		}

@@ -1775,4 +1775,32 @@ public class Manager3D implements Manager3DInterface {
 		return kernel.getAlgoDispatcher().CommonTangents(labels, c1, c2);
 	}
 	
+	
+	/**
+	 * diameter line conjugate to direction of g relative to c
+	 */
+	final public GeoElement DiameterLine3D(String label, GeoLineND g, GeoConicND c) {
+
+		if (g.isGeoElement3D() || c.isGeoElement3D()){	
+			AlgoDiameterLine3D algo = new AlgoDiameterLine3D(cons, label, c, g);
+			return (GeoElement) algo.getDiameter();
+		}
+
+		return kernel.getAlgoDispatcher().DiameterLine(label, g, c);
+	}
+	
+	/**
+	 * diameter line conjugate to v relative to c
+	 */
+	final public GeoElement DiameterLine3D(String label, GeoVectorND v, GeoConicND c) {
+
+		if (v.isGeoElement3D() || c.isGeoElement3D()){	
+			AlgoDiameterVector3D algo = new AlgoDiameterVector3D(cons, label, c, v);
+			return (GeoElement) algo.getDiameter();
+		}
+
+		return kernel.getAlgoDispatcher().DiameterLine(label, v, c);
+	}
+	
+	
 }

@@ -474,6 +474,17 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 
 		return super.polarLine(P, c);
 	}
+	
+	@Override
+	protected GeoElement diameterLine(GeoLineND l, GeoConicND c) {
+		return ec.kernel.getManager3D().DiameterLine3D(null, l, c);
+	}
+	
+	@Override
+	protected GeoElement diameterLine(GeoVectorND v, GeoConicND c) {
+		return ec.kernel.getManager3D().DiameterLine3D(null, v, c);
+	}
+	
 
 
 }

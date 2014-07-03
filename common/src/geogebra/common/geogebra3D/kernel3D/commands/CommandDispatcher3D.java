@@ -53,7 +53,10 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				
 			case Polar:
 				return new CmdPolar3D(kernel);
-
+				
+			case Diameter:
+			case ConjugateDiameter:
+				return new CmdDiameter3D(kernel);
 				
 			case Circle:
 				return new CmdCircle3D(kernel);

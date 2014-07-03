@@ -658,19 +658,17 @@ public class AlgoDispatcher {
 	/**
 	 * diameter line conjugate to direction of g relative to c
 	 */
-	final public GeoLine DiameterLine(String label, GeoLine g, GeoConic c) {
+	final public GeoElement DiameterLine(String label, GeoLineND g, GeoConicND c) {
 		AlgoDiameterLine algo = new AlgoDiameterLine(cons, label, c, g);
-		GeoLine diameter = algo.getDiameter();
-		return diameter;
+		return (GeoElement) algo.getDiameter();
 	}
 
 	/**
 	 * diameter line conjugate to v relative to c
 	 */
-	final public GeoLine DiameterLine(String label, GeoVector v, GeoConic c) {
+	final public GeoElement DiameterLine(String label, GeoVectorND v, GeoConicND c) {
 		AlgoDiameterVector algo = new AlgoDiameterVector(cons, label, c, v);
-		GeoLine diameter = algo.getDiameter();
-		return diameter;
+		return (GeoElement) algo.getDiameter();
 	}
 	
 

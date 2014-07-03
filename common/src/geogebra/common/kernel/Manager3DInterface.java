@@ -892,5 +892,8 @@ public interface Manager3DInterface {
 	public GeoElement[] CommonTangents3D(String[] labels, GeoConicND c1, GeoConicND c2);
 	
 	
+	public GeoElement DiameterLine3D(String label, GeoLineND g, GeoConicND c);
+	
+	public GeoElement DiameterLine3D(String label, GeoVectorND v, GeoConicND c);
 	
 }

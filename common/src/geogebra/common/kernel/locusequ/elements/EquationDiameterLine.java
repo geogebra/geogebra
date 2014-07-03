@@ -25,7 +25,7 @@ public class EquationDiameterLine extends EquationGenericLine {
         
         AlgoDiameterLine algo  = (AlgoDiameterLine) this.getResult().getParentAlgorithm();
         
-        EquationGenericLine  l = (EquationGenericLine)  this.getScope().getElement(algo.getLine());
+        EquationGenericLine  l = (EquationGenericLine)  this.getScope().getElement((GeoElement) algo.getLine());
         EquationGenericConic c = (EquationGenericConic) this.getScope().getElement(algo.getConic());
         
         EquationExpression[] m = c.getMatrix();
