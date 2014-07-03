@@ -676,10 +676,12 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		}else{
 			this.redoButton.setVisible(true);
 		}
-		if(app.showMenuBar() && !canShowButtons(3)){
-			this.openSearchButton.setVisible(false);
-		}else{
-			this.openSearchButton.setVisible(true);
+		if(this.openSearchButton != null){
+			if(app.showMenuBar() && !canShowButtons(3)){
+				this.openSearchButton.setVisible(false);
+			}else{
+				this.openSearchButton.setVisible(true);
+			}
 		}
 		if((app.showMenuBar() && !canShowButtons(2)) || !canShowButtons(1)){
 			this.undoButton.setVisible(false);
