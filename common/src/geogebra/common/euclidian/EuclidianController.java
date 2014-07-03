@@ -8218,6 +8218,16 @@ public abstract class EuclidianController {
 			break;
 			
 		case EuclidianConstants.MODE_PARABOLA: // Michael Borcherds 2008-04-08
+			view.setHits(mouseLoc,type);
+			hits = view.getHits();
+			
+			// we clicked a line, we want it as a directrix			
+			if (hits.size() > 0 && hits.get(0).isGeoLine()) { 
+				// do nothing
+			} else {
+				createNewPoint(hits, false, false, false, false, false);
+			}
+			break;
 		case EuclidianConstants.MODE_LINE_BISECTOR:
 		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
 		case EuclidianConstants.MODE_TANGENTS:
