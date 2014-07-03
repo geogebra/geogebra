@@ -224,9 +224,11 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 								s = RelationNumerical.triangleNonDegenerateString((GeoPoint) ndgc.getGeos()[0], 
 									(GeoPoint) ndgc.getGeos()[1], (GeoPoint) ndgc.getGeos()[2], loc);
 							} else if ("AreEqual".equals(cond)) {
-								s = RelationNumerical.equalityStringExact(ndgc.getGeos()[0], ndgc.getGeos()[1], false, loc);
+								s = RelationNumerical.equalityString(ndgc.getGeos()[0], ndgc.getGeos()[1], false, loc);
+							} else if ("ArePerpendicular".equals(cond)) {
+								s = RelationNumerical.perpendicularString((GeoLine)ndgc.getGeos()[0], (GeoLine)ndgc.getGeos()[1],
+									false, loc);
 							}
-							// TODO: add here all supported NDG conditions (e.g. ArePerpendicular)
 						}
 						if (s == null || !relTool) {
 							s = loc.getCommand(ndgc.getCondition());

@@ -214,7 +214,7 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(GeoList a, GeoList b) {
 		Boolean bool = a.isEqual(b);
-		String str = equalityStringNumerical(a.toGeoElement(), b.toGeoElement(), bool);
+		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
 		register(bool, Commands.AreEqual, str);
 		return reports;
 	}
@@ -224,7 +224,7 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(NumberValue a, NumberValue b) {
 		Boolean bool = Kernel.isEqual(a.getDouble(), b.getDouble()); 
-		String str = equalityStringNumerical(a.toGeoElement(),
+		String str = equalityString(a.toGeoElement(),
 				b.toGeoElement(),
 				bool);
 		register(bool, Commands.AreEqual, str);
@@ -237,7 +237,7 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b) {
 		Boolean bool = a.isEqual(b);
-		String str = equalityStringNumerical((GeoElement) a, (GeoElement) b, bool);
+		String str = equalityString((GeoElement) a, (GeoElement) b, bool);
 		register(bool, null, str);
 		// TODO: At the moment we don't have equality check for two segments, just
 		// for their length. Maybe we want to implement this someday.
@@ -266,7 +266,7 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(GeoPoint A, GeoPoint B) {
 		Boolean bool = A.isEqual(B);
-		String str = equalityStringNumerical(A, B, bool);
+		String str = equalityString(A, B, bool);
 		register(bool,Commands.AreEqual,str);
 		return reports;
 	}
@@ -279,7 +279,7 @@ public class RelationNumerical {
 		String str;
 		Boolean bool;
 		if (a.isEqual(b)) {
-			str = equalityStringNumerical(a, b, true);
+			str = equalityString(a, b, true);
 			bool = true;
 		} else {
 			str = linDependencyString(a, b, a.linDep(b));
@@ -321,7 +321,7 @@ public class RelationNumerical {
 		String str;
 		// check for equality
 		if (g.isEqual(h)) {
-			str = equalityStringNumerical(g, h, true);
+			str = equalityString(g, h, true);
 			register(true, Commands.AreEqual, str);
 		} else {
 			if (g.isParallel(h)) {
@@ -329,7 +329,7 @@ public class RelationNumerical {
 				register(true, Commands.AreParallel, str);
 			}
 			else if (g.isPerpendicular(h)) {
-				str = perpendicularString(g, h);
+				str = perpendicularString(g, h, true);
 				register(true, Commands.ArePerpendicular, str);
 			}
 			else {
@@ -407,7 +407,7 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(GeoConicPart a, GeoConicPart b) {
 		Boolean bool = a.isEqual(b);
-		String str = equalityStringNumerical(a, b, bool);
+		String str = equalityString(a, b, bool);
 		register(bool, null, str);
 		// TODO: No prover support for conic equality yet.
 
@@ -453,7 +453,7 @@ public class RelationNumerical {
 		String str;
 
 		if (a.isEqual(b)) {
-			str = equalityStringNumerical(a, b, true);
+			str = equalityString(a, b, true);
 			register(true, null, str); // TODO: No symbolically supported.
 		} else {
 			// intersect conics
@@ -485,8 +485,8 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(GeoFunction a, GeoFunction b) {
 		Boolean bool = a.isEqual(b);
-		String str = equalityStringExact(a, b, bool);
-		register(bool, null, str); // No symbolically supported;
+		String str = equalityString(a, b, bool); // This was equalityStringExact originally.
+		register(bool, null, str); // No symbolically supported.
 		return reports;
 	}
 	
@@ -496,21 +496,9 @@ public class RelationNumerical {
 
 	// "Relation of a and b: equal"
 	// "Relation of a and b: unequal"
-	final private String equalityStringNumerical(GeoElement a, GeoElement b,
+	final private String equalityString(GeoElement a, GeoElement b,
 			boolean equal) {
-		if (equal) {
-			return loc.getPlain("AandBareEqual", a.getLabelTextOrHTML(false),
-					b.getLabelTextOrHTML(false));
-		}
-		return loc.getPlain("AandBareNotEqual", a.getLabelTextOrHTML(false),
-				b.getLabelTextOrHTML(false));
-	}
-
-	// "Relation of a and b: equal"
-	// "Relation of a and b: unequal"
-	final private String equalityStringExact(GeoElement a, GeoElement b,
-			boolean equal) {
-		return equalityStringExact(a, b, equal, loc);
+		return equalityString(a, b, equal, loc);
 	}
 	/**
 	 * Internationalized string of "a and b are equal" (or not)
@@ -520,7 +508,7 @@ public class RelationNumerical {
 	 * @param loc locale
 	 * @return internationalized string
 	 */
-	final static public String equalityStringExact(GeoElement a, GeoElement b,
+	final static public String equalityString(GeoElement a, GeoElement b,
 			boolean equal, Localization loc) {
 		if (equal) {
 			return loc.getPlain("AandBareEqual", a.getLabelTextOrHTML(false),
@@ -602,9 +590,24 @@ public class RelationNumerical {
 	}
 	
 	// Michael Borcherds 2008-05-15
-	final private String perpendicularString(GeoLine a, GeoLine b) {
-		return loc.getPlain("AandBarePerpendicular",
+	final private String perpendicularString(GeoLine a, GeoLine b, boolean perp) {
+		return perpendicularString(a, b, perp, loc);		
+	}
+	/**
+	 * Internationalized string of "a and b are perpendicular" (or not)
+	 * @param a first line
+	 * @param b second line
+	 * @param perp yes or no
+	 * @param loc locale
+	 * @return internationalized string
+	 */
+	final static public String perpendicularString(GeoLine a, GeoLine b, boolean perp, Localization loc) {
+		if (perp) {
+			return loc.getPlain("AandBarePerpendicular",
 				a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+		}
+		return loc.getPlain("AandBareNotPerpendicular",
+				a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));		
 	}
 
 	// "a intersects with b"

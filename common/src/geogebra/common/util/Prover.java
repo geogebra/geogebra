@@ -3,9 +3,11 @@ package geogebra.common.util;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPoints;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -234,16 +236,47 @@ public abstract class Prover {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			return line;
 		}
+
+		/* TODO: Unify this code with line(). */
+		private static GeoSegment segment(GeoPoint P1, GeoPoint P2, Construction cons) {
+			TreeSet<GeoElement> ges = cons.getGeoSetConstructionOrder();
+			Iterator<GeoElement> it = ges.iterator();
+			// TODO: Maybe there is a better way here to lookup the appropriate line
+			// if it already exists (by using kernel).
+			while (it.hasNext()) {
+				GeoElement ge = it.next();
+					if (ge instanceof GeoSegment) {
+						GeoPoint Q1 = ((GeoSegment) ge).getStartPoint();
+						GeoPoint Q2 = ((GeoSegment) ge).getEndPoint();
+						if ((Q1 != null && Q2 != null) && 
+								((Q1.equals(P1) && Q2.equals(P2))
+								|| (Q1.equals(P2) && Q2.equals(P1)))) {
+							return (GeoSegment) ge;
+						}
+				}
+			}
+			// If there is no such line, we simply create one.
+			boolean oldMacroMode = cons.isSuppressLabelsActive(); 
+			cons.setSuppressLabelCreation(false);
+			AlgoJoinPointsSegment ajp = new AlgoJoinPointsSegment(cons, null, P1, P2);
+			GeoSegment segment = ajp.getSegment();
+			segment.setEuclidianVisible(true);
+			segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+			segment.setLabelVisible(true);
+			segment.updateVisualStyle();
+			cons.setSuppressLabelCreation(oldMacroMode);
+			return segment;
+		}
+		
 		
 		/**
 		 * Rewrites the NDG to a simpler form.
 		 * @param cons the current construction
 		 */
 		public void rewrite(Construction cons) {
-			if ((this.getCondition().equals("AreEqual") ||
-					this.getCondition().equals("ArePerpendicular") ||
-					this.getCondition().equals("AreParallel")) &&
-					this.geos.length == 4) {
+			String cond = this.getCondition();
+			if (("AreEqual".equals(cond) ||	"ArePerpendicular".equals(cond) ||
+					"AreParallel".equals(cond)) && this.geos.length == 4) {
 				// This is an AreEqual[P1,P2,P3,P4]-like condition.
 				// We should try to rewrite it to
 				// AreEqual[Line[P1,P2],Line[P3,P4]].	
@@ -258,6 +291,22 @@ public abstract class Prover {
 					geos[0] = l1;
 					geos[1] = l2;
 					Arrays.sort(geos);
+				}
+			} else if ("IsIsoscelesTriangle".equals(cond)) {
+				GeoPoint P1 = (GeoPoint) this.geos[0];
+				GeoPoint P2 = (GeoPoint) this.geos[1];
+				GeoPoint P3 = (GeoPoint) this.geos[2];
+				GeoSegment l1 = segment(P1, P2, cons);
+				GeoSegment l2 = segment(P2, P3, cons);
+				if (l1 != null && l2 != null) {
+					geos = new GeoElement[2];
+					geos[0] = l1;
+					geos[1] = l2;
+					Arrays.sort(geos);
+					this.setCondition("AreEqual");
+					/* This equality is length equality, but
+					 * this is the natural interpretation.
+					 */
 				}
 			}
 		}
