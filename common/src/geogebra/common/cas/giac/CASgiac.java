@@ -122,9 +122,10 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// FIXME: This check is too heuristic: in giac.js we can get results starting with \"
 		// and they are still correct (e.g. from eliminateFactorized).
-		// TODO: Find a better way for checking, now we assume that \"[ start is OK.
-		if (result.trim().startsWith("\"")) {
-			if (!result.trim().startsWith("\"[")) {
+		// TODO: Find a better way for checking, now we assume that \"[ start is OK (or \"\").
+		String rtrimmed = result.trim();
+		if (rtrimmed.startsWith("\"")) {
+			if (!rtrimmed.startsWith("\"[") && !"\"\"".equals(rtrimmed)) {
 				// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 				// assume error
 				App.debug("message from giac (assuming error) "+result);

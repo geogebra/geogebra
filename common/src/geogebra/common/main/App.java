@@ -82,7 +82,6 @@ import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.MissingResourceException;
@@ -3127,8 +3126,13 @@ public abstract class App implements UpdateSelection{
 								String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
 								// Third information shown (result of ProveDetails command):
 								if (ndgResult.length == 1) {
-									rel.info += relInfo + "<br><b>" + getPlain("AlwaysTrue")
-											+ "</b>";
+									if ("".equals(ndgResult[0])) {
+										rel.info += relInfo + "<br><b>" + getPlain("PossiblyGenericallyTrue") + "</b>";
+									} else if ("1".equals(ndgResult[0])) {
+										rel.info += relInfo + "<br><b>" + getPlain("AlwaysTrue") + "</b>";
+									} else { // "0"
+										rel.info += relInfo + "<br><b>" + getPlain("ButNotGenericallyTrue") + "</b>";
+									}
 								} else {
 									rel.info += "<b>" + loc.getCommand("If") + "</b>";
 									int ndgs = ndgResult.length;
@@ -3254,7 +3258,14 @@ public abstract class App implements UpdateSelection{
 		} else {
 			ret = new String[1];
 		}
-		ret[0] = (list.get(0).toString());
+		Boolean ans = ((GeoBoolean) list.get(0)).getBoolean();
+		if (ans == null) {
+			ret[0] = ""; // undefined (UNKNOWN)
+		} else if (ans) {
+			ret[0] = "1"; // TRUE
+		} else {
+			ret[0] = "0"; // FALSE
+		}
 		root.remove();
 		o[0].remove();
 		return ret;

@@ -36,7 +36,7 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 	
 	public void showDialog(String title, RelationRow[] relations, App app) {
 
-		setGlassEnabled(true);
+		// setGlassEnabled(true);
 		addStyleName("DialogBox");
 		
 		DialogBox db = new DialogBox();
