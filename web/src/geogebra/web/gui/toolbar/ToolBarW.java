@@ -338,6 +338,9 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	}
 
 	public int getGroupCount() {
+		if(this.modeToggleMenus == null){
+			return -1;
+		}
 	    return this.modeToggleMenus.size();
     }
 

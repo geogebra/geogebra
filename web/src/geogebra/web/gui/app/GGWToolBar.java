@@ -671,6 +671,10 @@ public class GGWToolBar extends Composite implements RequiresResize{
 
 	@Override
     public void onResize() {
+		if(toolbars.get(0).getGroupCount() < 0){
+			//toolbar not initialized, just run away
+			return;
+		}
 		if((app.showMenuBar() && !canShowButtons(4))|| !canShowButtons(2) ){
 			this.redoButton.setVisible(false);
 		}else{
