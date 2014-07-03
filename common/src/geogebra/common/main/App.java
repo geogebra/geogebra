@@ -3105,16 +3105,16 @@ public abstract class App implements UpdateSelection{
 				@Override
 				public void action(RelationPane table, int row) {
 					final RelationRow rel = new RelationRow();
-					Boolean result = checkGenerically(relAlgo, ra, rb);
+					Boolean result = checkGenerally(relAlgo, ra, rb);
 					// Second information shown (result of Prove command):
 					rel.info = "<html>" + relInfo;
 					if (result != null && result) {
 						rel.info += "<br><b>" + 
-								getPlain("GenericallyTrue") + "</b>";
+								getPlain("GenerallyTrue") + "</b>";
 					}
 					if (result == null) {
 						rel.info += "<br><b>" + 
-								getPlain("PossiblyGenericallyTrue") + "</b>";
+								getPlain("PossiblyGenerallyTrue") + "</b>";
 					}
 					if (result == null || result) {
 						RelationMore rm2 = new RelationMore() {		
@@ -3127,11 +3127,11 @@ public abstract class App implements UpdateSelection{
 								// Third information shown (result of ProveDetails command):
 								if (ndgResult.length == 1) {
 									if ("".equals(ndgResult[0])) {
-										rel.info += relInfo + "<br><b>" + getPlain("PossiblyGenericallyTrue") + "</b>";
+										rel.info += relInfo + "<br><b>" + getPlain("PossiblyGenerallyTrue") + "</b>";
 									} else if ("1".equals(ndgResult[0])) {
 										rel.info += relInfo + "<br><b>" + getPlain("AlwaysTrue") + "</b>";
 									} else { // "0"
-										rel.info += relInfo + "<br><b>" + getPlain("ButNotGenericallyTrue") + "</b>";
+										rel.info += relInfo + "<br><b>" + getPlain("ButNotGenerallyTrue") + "</b>";
 									}
 								} else {
 									rel.info += "<b>" + loc.getCommand("If") + "</b>";
@@ -3166,7 +3166,7 @@ public abstract class App implements UpdateSelection{
 						};
 						rel.callback = rm2;
 					} else if (!result) {
-						rel.info += "<br><b>" +	getPlain("ButNotGenericallyTrue") + "</b>";
+						rel.info += "<br><b>" +	getPlain("ButNotGenerallyTrue") + "</b>";
 						rel.callback = null;
 					}
 					rel.info += "</html>";
@@ -3184,15 +3184,15 @@ public abstract class App implements UpdateSelection{
 	}
 
 	/**
-	 * Tries to compute if a geometry statement holds generically.
+	 * Tries to compute if a geometry statement holds generally.
 	 * @param command Are... command
 	 * @param g1 first object
 	 * @param g2 second object
-	 * @return true if statement holds generically, false if it does not hold, null if cannot be decided by GeoGebra
+	 * @return true if statement holds generally, false if it does not hold, null if cannot be decided by GeoGebra
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	final public static Boolean checkGenerically(Commands command, GeoElement g1, GeoElement g2) {
+	final public static Boolean checkGenerally(Commands command, GeoElement g1, GeoElement g2) {
 		Boolean ret = null;
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
@@ -3223,7 +3223,7 @@ public abstract class App implements UpdateSelection{
 	 * @param command Are... command
 	 * @param g1 first object
 	 * @param g2 second object
-	 * @return true if statement holds generically, false if it does not hold, null if cannot be decided by GeoGebra
+	 * @return true if statement holds generally, false if it does not hold, null if cannot be decided by GeoGebra
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
