@@ -2870,14 +2870,14 @@ public abstract class EuclidianController {
 				
 				return getAlgoDispatcher().Tangent(null, points[0], implicitPoly);
 				
-			} else if (selLines() == 1) {
+			} /*else if (selLines() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
 				checkZooming(); 
 				
 				return getAlgoDispatcher().Tangent(null, lines[0], implicitPoly);
-			}
+			} */ // not implemented yet
 		} else if(selSplines()==1){
 			if (selPoints() == 1) {
 				GeoSpline[] lists = getSelectedSplines();
