@@ -8,23 +8,29 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
 
 /**
- * Sector[ <GeoConic>, <Number>, <Number> ] Sector[ <GeoConic>, <GeoPoint>,
- * <GeoPoint> ]
+ * Arc[ <GeoConic>, <Number>, <Number> ] Arc[ <GeoConic>, <GeoPoint>, <GeoPoint>
+ * ]
  */
-public class CmdSector extends CommandProcessor {
+public class CmdArcSector extends CommandProcessor {
+	
+	/**
+	 * arc/sector
+	 */
+	protected int type;
 
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param type arc/sector
 	 */
-	public CmdSector(Kernel kernel) {
+	public CmdArcSector(Kernel kernel, int type) {
 		super(kernel);
+		this.type = type;
 	}
 
 	@Override
@@ -43,7 +49,7 @@ public class CmdSector extends CommandProcessor {
 				AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(
 						cons, c.getLabel(),
 						(GeoConic) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], GeoConicNDConstants.CONIC_PART_SECTOR);
+						(GeoNumberValue) arg[2], type);
 
 				GeoElement[] ret = { algo.getConicPart() };
 				return ret;
@@ -52,18 +58,20 @@ public class CmdSector extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				
 				AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons,
-						c.getLabel(), (GeoConic) arg[0],
-						(GeoPoint) arg[1], (GeoPoint) arg[2], GeoConicNDConstants.CONIC_PART_SECTOR);
+						c.getLabel(),
+						(GeoConic) arg[0], (GeoPoint) arg[1],
+						(GeoPoint) arg[2], type);
 
 				GeoElement[] ret = { algo.getConicPart() };
 				return ret;
 			} else {
-				if (!ok[0])
+				if (!ok[0]) {
 					throw argErr(app, c.getName(), arg[0]);
-				else if (!ok[1])
+				} else if (!ok[1]) {
 					throw argErr(app, c.getName(), arg[1]);
-				else
+				} else {
 					throw argErr(app, c.getName(), arg[2]);
+				}
 			}
 
 		default:

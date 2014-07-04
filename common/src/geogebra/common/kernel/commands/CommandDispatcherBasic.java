@@ -87,9 +87,9 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case Radius:
 			return new CmdRadius(kernel);
 		case Arc:
-			return new CmdArc(kernel);
+			return new CmdArcSector(kernel, GeoConicNDConstants.CONIC_PART_ARC);
 		case Sector:
-			return new CmdSector(kernel);
+			return new CmdArcSector(kernel, GeoConicNDConstants.CONIC_PART_SECTOR);
 
 		case CircleArc:
 		case CircularArc:
