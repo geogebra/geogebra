@@ -5,7 +5,6 @@ import geogebra.common.kernel.algos.AlgoText;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -63,7 +62,7 @@ public class CmdText extends CommandProcessor {
 			arg = resArgs(c);	
 			if ((ok = arg[1].isGeoPoint()) && arg[2].isGeoBoolean()) {
 				algo = new AlgoText(cons, c.getLabel(),
-						arg[0], (GeoPoint)arg[1], (GeoBoolean)arg[2]);
+						arg[0], (GeoPointND)arg[1], (GeoBoolean)arg[2]);
 
 				GeoElement[] ret2 = { algo.getGeoText() };
 				return ret2;
@@ -76,7 +75,7 @@ public class CmdText extends CommandProcessor {
 			if ((ok = arg[1].isGeoPoint()) && (ok1 = arg[2].isGeoBoolean()) && arg[3].isGeoBoolean()) {
 				
 				algo = new AlgoText(cons, c.getLabel(),
-						arg[0], (GeoPoint)arg[1], (GeoBoolean)arg[2], (GeoBoolean)arg[3]);
+						arg[0], (GeoPointND)arg[1], (GeoBoolean)arg[2], (GeoBoolean)arg[3]);
 
 				GeoElement[] ret2 = { algo.getGeoText() };
 				return ret2;
