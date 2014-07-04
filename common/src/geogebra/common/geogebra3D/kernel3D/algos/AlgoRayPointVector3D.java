@@ -16,6 +16,7 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -45,6 +46,9 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
     	return new GeoRay3D(cons);
     }
 
-
+    @Override
+    final public String toString(StringTemplate tpl) {
+    	return loc.getPlain("RayThroughAWithDirectionB",getPoint().getLabel(tpl),getInputParallel().getLabel(tpl));
+    }
 
 }
