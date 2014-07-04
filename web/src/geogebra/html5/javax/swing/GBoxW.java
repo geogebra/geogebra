@@ -2,7 +2,7 @@ package geogebra.html5.javax.swing;
 
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.euclidian.EnvironmentStyle;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GBox;
@@ -16,9 +16,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public class GBoxW extends geogebra.common.javax.swing.GBox{
 
 	private HorizontalPanel impl;
-	private EnvironmentStyle style;
+	private EuclidianController style;
 	
-	public GBoxW(EnvironmentStyle style){
+	public GBoxW(EuclidianController style){
 		this.style = style;
 		impl = new HorizontalPanel();
 		impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -70,15 +70,18 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
     public GRectangle getBounds() {
 		int left = impl.getAbsoluteLeft();
 		int top = impl.getAbsoluteTop();
-		
+
 		if (impl.getParent() != null){
 			left -= impl.getParent().getAbsoluteLeft();
 			top -= impl.getParent().getAbsoluteTop();			
 		}
 		
-		if (style != null) {
-			left = (int) (left * (1 / style.getScaleX()));
-			top = (int) (top * (1 / style.getScaleY()));
+		if (style != null && style.getEnvironmentStyle()!=null) {
+			left = (int) (left * (1 / style.getEnvironmentStyle().getScaleX()));
+			top = (int) (top * (1 / style.getEnvironmentStyle().getScaleY()));
+			App.debug(""+style.getEnvironmentStyle().getScaleX());
+		}else{
+			App.debug("ec null");
 		}
 		
 		return new geogebra.html5.awt.GRectangleW(

@@ -441,4 +441,8 @@ public class View {
 		}
 	    
     }-*/;
+
+	public void adjustScale() {
+	    ((ArticleElement)this.container).adjustScale();
+    }
 }

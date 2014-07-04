@@ -455,10 +455,35 @@ public final class ArticleElement extends Element {
 	public String getDataParamPerspective() {
 		String ret = this.getAttribute("data-param-perspective");
 		return ret == null ? "" : ret;
+    }
+
+	public double getDataParamScale() {
+		String scale = this.getAttribute("data-param-scale");
+		double ret = 1;
+		try{
+			ret = Double.valueOf(scale);
+		}
+		catch(Throwable t){
+			Log.warn("Invalid scale");
+		}
+		return ret;
 	    
     }
 
-	
+	public void adjustScale() {
+		double externalScale = getDataParamScale();
+		setAttribute("data-scalex", ""+(externalScale * envScale("x")));
+		setAttribute("data-scaley", ""+(externalScale * envScale("y")));
+		String transform = "scale("+externalScale * envScale("x")+"," + externalScale * envScale("y")+")";
+	    getParentElement().getStyle().setProperty("webkitTransform",transform);
+	    getParentElement().getStyle().setProperty("mozTransform",transform);
+	    getParentElement().getStyle().setProperty("msTransform",transform);
+	    getParentElement().getStyle().setProperty("transform",transform);	    
+	    getParentElement().getStyle().setProperty("msTransformOrigin","0% 0%");
+	    getParentElement().getStyle().setProperty("mozTransformOrigin","0% 0%");
+	    getParentElement().getStyle().setProperty("webkitTransformOrigin","0% 0%");
+	    getParentElement().getStyle().setProperty("transformOrigin","0% 0%");
+    }
 	
 	
 }

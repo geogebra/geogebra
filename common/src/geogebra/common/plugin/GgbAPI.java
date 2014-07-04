@@ -561,6 +561,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
  		if (app.isHTML5Applet()) {
  			//kernel.getGeoGebraCAS().getCurrentCAS().initCAS();
 			kernel.refreshCASCommands();
+			App.debug("all CAS up");
 			kernel.notifyRepaint();
  		}
 	}

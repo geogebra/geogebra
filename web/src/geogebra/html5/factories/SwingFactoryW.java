@@ -1,7 +1,7 @@
 package geogebra.html5.factories;
 
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EnvironmentStyle;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
@@ -24,7 +24,7 @@ public class SwingFactoryW extends SwingFactory {
 	}
 
 	@Override
-	public GBox createHorizontalBox(EnvironmentStyle style) {
+	public GBox createHorizontalBox(EuclidianController style) {
 		return new geogebra.html5.javax.swing.GBoxW(style);
 	}
 

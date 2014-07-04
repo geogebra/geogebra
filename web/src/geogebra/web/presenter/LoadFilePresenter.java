@@ -40,7 +40,7 @@ public class LoadFilePresenter{
 		String base64String;
 		String fileId;
 		String filename;
-		
+		view.adjustScale();
 		final AppWeb app = view.getApplication();
 		if(WebStatic.urlToOpen != null ){
 			getView().showLoadAnimation();

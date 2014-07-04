@@ -87,7 +87,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 			if (box == null) {
 				box = view.getApplication().getSwingFactory().createHorizontalBox(
-						view.getEuclidianController().getEnvironmentStyle());
+						view.getEuclidianController());
 				box.add(label);
 				box.add(comboBox);
 			}
