@@ -2410,7 +2410,7 @@ public abstract class EuclidianController {
 		if (!hitPoint) {
 			addSelectedLine(hits, 1, false);
 		}
-	
+		
 		if (selPoints() == 1) {
 			if (selLines() == 1) {
 				// fetch selected point and line
@@ -9256,6 +9256,11 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_PARALLEL:
 			previewDrawable = view.createPreviewParallelLine(selectedPoints,
+					selectedLines);
+			break;
+	
+		case EuclidianConstants.MODE_PARABOLA:
+			previewDrawable = view.createPreviewParabola(selectedPoints,
 					selectedLines);
 			break;
 	

@@ -45,6 +45,7 @@ import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
+import geogebra.common.kernel.algos.AlgoParabolaPointLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -53,6 +54,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
@@ -148,8 +150,10 @@ public class DrawConic extends Drawable implements Previewable {
 	// preview of circle (two points or three points)
 	private ArrayList<GeoPointND> prevPoints;
 	private ArrayList<GeoSegmentND> prevSegments;
+	private ArrayList<GeoLineND> prevLines;
 	private ArrayList<GeoConicND> prevConics;
 	private GeoPoint[] previewTempPoints;
+	private GeoLine previewTempLine;
 	private GeoNumeric previewTempRadius;
 	private int previewMode, neededPrevPoints;
 	private boolean isPreview = false;
@@ -231,6 +235,36 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 
 		initPreview();
+		
+	}
+
+	/**
+	 * Creates a new DrawConic for preview of a parabola
+	 * 
+	 * @param view view
+	 * @param mode preview mode
+	 * @param points preview points
+	 */
+	public DrawConic(EuclidianView view, ArrayList<GeoPointND> points, ArrayList<GeoLineND> selectedLines) {
+		this.view = view;
+		prevPoints = points;
+		prevLines = selectedLines;
+		neededPrevPoints = 1;
+		previewMode = EuclidianConstants.MODE_PARABOLA;
+
+		Construction cons = view.getKernel().getConstruction();
+		
+		if (selectedLines.size() == 0) {
+			previewTempLine = new GeoLine(cons);
+		} else {
+			previewTempLine = (GeoLine) selectedLines.get(0);
+		}
+
+		previewTempPoints = new GeoPoint[1];
+		previewTempPoints[0] = new GeoPoint(cons);
+
+		initPreview();
+		
 	}
 
 	/**
@@ -1489,7 +1523,15 @@ public class DrawConic extends Drawable implements Previewable {
 			cons.removeFromConstructionList(algo5);
 			initConic(algo5.getCircle());
 			break;
-		default: App.debug("unknown conic type");
+		
+		case EuclidianConstants.MODE_PARABOLA:
+			AlgoParabolaPointLine algo6 = new AlgoParabolaPointLine(cons, previewTempPoints[0], previewTempLine);
+			cons.removeFromConstructionList(algo6);
+			initConic(algo6.getParabola());
+			break;
+
+		default: 
+			App.debug("unknown conic type");
 		}
 		
 
@@ -1499,12 +1541,14 @@ public class DrawConic extends Drawable implements Previewable {
 
 	// preview of circle with midpoint through a second point
 	final public void updatePreview() {
-		// compass: set radius of preview circle
-		if (previewMode == EuclidianConstants.MODE_COMPASSES) {
+
+		switch (previewMode) {
+		case EuclidianConstants.MODE_COMPASSES:
+			// compass: set radius of preview circle
 			// two points or one segment selected to define radius
 			isVisible = conic != null
-					&& (prevPoints.size() == 2 || prevSegments.size() == 1 || prevConics
-							.size() == 1);
+			&& (prevPoints.size() == 2 || prevSegments.size() == 1 || prevConics
+			.size() == 1);
 			if (isVisible) {
 				if (prevPoints.size() == 2) {
 					GeoPointND p1 = prevPoints.get(0);
@@ -1518,11 +1562,31 @@ public class DrawConic extends Drawable implements Previewable {
 					previewTempRadius.setValue(prevCircle.getCircleRadius());
 				}
 				previewTempRadius.updateCascade();
-			}
-		}
+			}			
+			break;
 
-		// all other conic preview modes: use points to define preview conic
-		else {
+		case EuclidianConstants.MODE_PARABOLA:
+
+			isVisible = prevLines.size() == 1;
+
+			if (prevLines.size() > 0) {
+				GeoLineND line = prevLines.get(0);
+				previewTempLine.set((GeoElement) line);
+			}
+
+			if (prevPoints.size() > 0) {
+				Coords p = view.getCoordsForView(prevPoints.get(0)
+						.getInhomCoordsInD(3));
+				// Application.debug("p["+i+"]=\n"+p);
+				previewTempPoints[0].setCoords(p.projectInfDim(), true);
+
+				previewTempPoints[0].updateCascade();
+			}
+
+			break;
+
+		default:
+			// all other conic preview modes: use points to define preview conic
 			isVisible = conic != null && prevPoints.size() == neededPrevPoints;
 			if (isVisible) {
 				for (int i = 0; i < prevPoints.size(); i++) {
@@ -1533,7 +1597,9 @@ public class DrawConic extends Drawable implements Previewable {
 				}
 				previewTempPoints[0].updateCascade();
 			}
+
 		}
+
 	}
 
 	final public void updateMousePos(double xRW, double yRW) {

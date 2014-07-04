@@ -88,6 +88,15 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public Previewable createPreviewConic(int mode, ArrayList<GeoPointND> selectedPoints);
 
 	/**
+	 * create a previewable for parabolas
+	 * @param mode mode
+	 * @param selectedPoints points
+	 * @param selectedLines the directrix
+	 * @return the conic previewable
+	 */		
+	public Previewable createPreviewParabola(ArrayList<GeoPointND> selectedPoints, ArrayList<GeoLineND> selectedLines);
+
+	/**
 	 * @param selectedPoints points
 	 * @param selectedLines lines
 	 * @return preview parallel line

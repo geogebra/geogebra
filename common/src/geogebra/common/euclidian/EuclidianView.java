@@ -2536,6 +2536,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		return new DrawConic(this, mode1, selectedPoints);
 	}
 
+	public Previewable createPreviewParabola(ArrayList<GeoPointND> selectedPoints,
+			ArrayList<GeoLineND> selectedLines) {
+		return new DrawConic(this, selectedPoints, selectedLines);
+	}
+
 	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints) {
 		return new DrawPolygon(this, selectedPoints);
 	}
