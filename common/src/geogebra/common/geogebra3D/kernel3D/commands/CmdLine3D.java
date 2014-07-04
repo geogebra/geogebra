@@ -36,15 +36,15 @@ public class CmdLine3D extends CmdLine {
 			arg = resArgs(c);
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
 
-				GeoElement geo0 = (GeoElement) arg[0];
-				GeoElement geo1 = (GeoElement) arg[1];
+				GeoElement geo0 = arg[0];
+				GeoElement geo1 = arg[1];
 
 				
 				if ((ok[0] = (geo0.isGeoPoint()))
 						&& (ok[1] = (geo1.isGeoPoint()))) { // line between two 3D points
 					GeoElement[] ret =
 					{
-							((Kernel)kernelA).getManager3D().Line3D(
+							kernelA.getManager3D().Line3D(
 									c.getLabel(),
 									(GeoPointND) geo0,
 									(GeoPointND) geo1)};
@@ -53,7 +53,7 @@ public class CmdLine3D extends CmdLine {
 						&& (ok[1] = (geo1.isGeoVector()))) { // line directed
 					GeoElement[] ret =
 					{
-							(GeoElement) ((Kernel)kernelA).getManager3D().Line3D(
+							(GeoElement) kernelA.getManager3D().Line3D(
 									c.getLabel(),
 									(GeoPointND) geo0,
 									(GeoVectorND) geo1)};
@@ -64,7 +64,7 @@ public class CmdLine3D extends CmdLine {
 						&& (ok[1] = (geo1 instanceof GeoLineND))) { // line parallel
 					GeoElement[] ret =
 					{
-							(GeoElement) ((Kernel)kernelA).getManager3D().Line3D(
+							(GeoElement) kernelA.getManager3D().Line3D(
 									c.getLabel(),
 									(GeoPointND) geo0,
 									(GeoLineND) geo1)};
