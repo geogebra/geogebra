@@ -302,7 +302,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		} else {
 			remove(ihtml);
 			tb = new TextBox();
-			tb.setText( geo.getAlgebraDescriptionTextOrHTMLDefault() );
+			tb.setText( geo.getAlgebraDescriptionDefault() );
 			add(tb);
 			mout = false;
 			tb.setFocus(true);
