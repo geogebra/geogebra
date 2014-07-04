@@ -95,6 +95,9 @@ public abstract class Prover {
 	 */
 	protected GeoElement statement;
 	
+	/**
+	 * Recio's prover.
+	 */
 	protected static AbstractProverReciosMethod reciosProver;
 		 
 	/**
@@ -502,13 +505,19 @@ public abstract class Prover {
 	 * A minimal version of the construction XML. Only elements/commands are preserved,
 	 * the rest is deleted. 
 	 * @param cons The construction
+	 * @param statement The statement to prove
 	 * @return The simplified XML 
 	 */
 	// TODO: Cut even more unneeded parts to reduce unneeded traffic between OGP and GeoGebra.
 	protected static String simplifiedXML(Construction cons, GeoElement statement) {
 		StringBuilder sb = new StringBuilder();
 		cons.getConstructionElementsXML_OGP(sb, statement);
-		return "<construction>\n" + sb.toString() + "</construction>";
+		/* FIXME: EXTREMELY DIRTY HACK. This should be handled in OGP instead here.
+		 * In GeoGebra3D some objects get a 3D parameter, e.g. Circle. OGP is not
+		 * yet prepared for handling this, so we simply remove the a2="xOyPlane" texts
+		 * from the XML. Hopefully this works for most cases...
+		 */
+		return "<construction>\n" + sb.toString().replace(" a2=\"xOyPlane\"", "") + "</construction>";
 	}
 
 	/**
@@ -520,6 +529,7 @@ public abstract class Prover {
 
 	/**
 	 * Calls OpenGeoProver
+	 * @param pe Prover Engine
 	 * @return the proof result
 	 */
 	protected abstract ProofResult openGeoProver(ProverEngine pe);
