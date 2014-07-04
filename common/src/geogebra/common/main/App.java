@@ -3247,13 +3247,17 @@ public abstract class App implements UpdateSelection{
 		} else {
 			ret = new String[1];
 		}
-		Boolean ans = ((GeoBoolean) list.get(0)).getBoolean();
-		if (ans == null) {
-			ret[0] = ""; // undefined (UNKNOWN)
-		} else if (ans) {
-			ret[0] = "1"; // TRUE
+		if (list.size() != 0) {
+			Boolean ans = ((GeoBoolean) list.get(0)).getBoolean();
+			if (ans == null) {
+				ret[0] = ""; // undefined (UNKNOWN)
+			} else if (ans) {
+				ret[0] = "1"; // TRUE
+			} else {
+				ret[0] = "0"; // FALSE
+			}
 		} else {
-			ret[0] = "0"; // FALSE
+			ret[0] = ""; // undefined (UNKNOWN)
 		}
 		root.remove();
 		o[0].remove();
