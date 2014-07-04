@@ -291,6 +291,29 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	}
 
 	@Override
+	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
+	        boolean inRegionPossible, boolean intersectPossible,
+	        boolean doSingleHighlighting, boolean complex) {
+		boolean newPointCreated = super.createNewPoint(hits, onPathPossible,
+		        inRegionPossible, intersectPossible, doSingleHighlighting,
+		        complex);
+
+		GeoElement point = this.view.getHits().getFirstHit(Test.GEOPOINT);
+		if (!newPointCreated
+		        && this.selPoints() == 1
+		        && (this.mode == EuclidianConstants.MODE_JOIN
+		                || this.mode == EuclidianConstants.MODE_SEGMENT
+		                || this.mode == EuclidianConstants.MODE_RAY
+		                || this.mode == EuclidianConstants.MODE_VECTOR
+		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+			handleMovedElement(point, false, PointerEventType.MOUSE);
+		}
+
+		return newPointCreated;
+	}
+
+	@Override
 	protected void wrapMouseDragged(AbstractEvent event) {
 		super.wrapMouseDragged(event);
 		if (view.getPreviewDrawable() != null
@@ -312,7 +335,8 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE
 		        || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
 
-			if (getDistance(startPosition, new GPoint(event.getX(), event.getY())) < this.app
+			if (getDistance(startPosition,
+			        new GPoint(event.getX(), event.getY())) < this.app
 			        .getCapturingThreshold(event.getType())) {
 
 				this.view.setHits(new GPoint(event.getX(), event.getY()),
