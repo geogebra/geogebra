@@ -585,8 +585,8 @@ public class RelationNumerical {
 	 * @return internationalized string
 	 */
 	final public static String triangleNonDegenerateString(GeoPoint A, GeoPoint B, GeoPoint C, Localization loc) {
-		return loc.getPlain("TriangleABCnonDegenerate", A.getLabelTextOrHTML(false),
-				B.getLabelTextOrHTML(false), C.getLabelTextOrHTML(false));
+		return loc.getPlain("TriangleABCnonDegenerate", A.getLabelTextOrHTML(false) +
+				B.getLabelTextOrHTML(false) + C.getLabelTextOrHTML(false));
 	}
 	
 	// Michael Borcherds 2008-05-15

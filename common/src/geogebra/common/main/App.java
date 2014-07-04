@@ -3134,30 +3134,19 @@ public abstract class App implements UpdateSelection{
 										rel.info += relInfo + "<br><b>" + getPlain("ButNotGenerallyTrue") + "</b>";
 									}
 								} else {
-									rel.info += "<b>" + loc.getCommand("If") + "</b>";
 									int ndgs = ndgResult.length;
-									if (ndgs>2) {
-										rel.info += "<ul>"; 
-									}
-									else {
-										rel.info += " ";
-									}
+									// GenerallyTrueAcondB
+									String conds = "<ul>"; 
 									for (int j = 1; j < ndgs; ++j) {
-										if (ndgs>2) {
-											rel.info += "<li>";
-										}
-										rel.info += ndgResult[j];
+										conds += "<li>";
+										conds += ndgResult[j];
 										if ( (j < ndgs - 1) ) {
-											rel.info += " " + and;
+											conds += " " + and;
 										}
 									}
-									if (ndgs>2) {
-										rel.info += "</ul>";
-									}
-									else {
-										rel.info += "<br>";
-									}
-									rel.info += "<b>" + getPlain("then") + "</b> " + relInfo;
+									conds += "</ul>";
+									rel.info += loc.getPlain("GenerallyTrueAcondB", 
+											"<ul><li>" + relInfo + "</ul>", conds);
 								}
 								rel.info += "</html>";
 								rel.callback = null;
