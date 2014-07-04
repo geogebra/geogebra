@@ -1,11 +1,11 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoRayPointVector3D;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdRay;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.MyError;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 
 
@@ -21,36 +21,24 @@ public class CmdRay3D extends CmdRay {
 	}
 
 	
-
-	public GeoElement[] process(Command c) throws MyError {	
-
-
-		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
-		GeoElement[] arg;
-
-
-		if (n==2) {
-            arg = resArgs(c);
-            if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
-            	
-            	GeoElement geo0 = (GeoElement) arg[0];
-            	GeoElement geo1 = (GeoElement) arg[1];
-            	
-            	if ((ok[0] = (geo0.isGeoPoint()))
-            			&& (ok[1] = (geo1.isGeoPoint()))) {
-            		GeoElement[] ret =
-            		{
-            				(GeoElement) ((Kernel)kernelA).getManager3D().Ray3D(
-            						c.getLabel(),
-            						(GeoPointND) geo0,
-            						(GeoPointND) geo1)};
-            		return ret;
-            	}
-            }
-	    }
-
-		return super.process(c);
+	@Override
+	protected GeoElement ray(String label, GeoPointND a, GeoPointND b){
+		if (a.isGeoElement3D() || b.isGeoElement3D()){
+			return (GeoElement) kernelA.getManager3D().Ray3D(label, a, b);
+		}
+		
+		return super.ray(label, a, b);
+	}
+	
+	@Override
+	protected GeoElement ray(String label, GeoPointND a, GeoVectorND v){
+		
+		if (a.isGeoElement3D() || v.isGeoElement3D()){
+			AlgoRayPointVector3D algo = new AlgoRayPointVector3D(kernelA.getConstruction(), label, a, v);
+			return algo.getLine();
+		}
+		
+		return super.ray(label, a, v);
 	}
 
 }

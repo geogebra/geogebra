@@ -6,6 +6,8 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 
@@ -37,10 +39,9 @@ public class CmdRay extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoPoint()))) {
 				GeoElement[] ret =
 				{
-						getAlgoDispatcher().Ray(
-								c.getLabel(),
-								(GeoPoint) arg[0],
-								(GeoPoint) arg[1])};
+						ray(c.getLabel(),
+								(GeoPointND) arg[0],
+								(GeoPointND) arg[1])};
 				return ret;
 			}
 
@@ -50,10 +51,10 @@ public class CmdRay extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoVector()))) {
 				GeoElement[] ret =
 				{
-						getAlgoDispatcher().Ray(
+						ray(
 								c.getLabel(),
-								(GeoPoint) arg[0],
-								(GeoVector) arg[1])};
+								(GeoPointND) arg[0],
+								(GeoVectorND) arg[1])};
 				return ret;
 			}
 
@@ -67,5 +68,26 @@ public class CmdRay extends CommandProcessor {
 		default :
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * @param label label
+	 * @param a first point
+	 * @param b second point
+	 * @return [ab)
+	 */
+	protected GeoElement ray(String label, GeoPointND a, GeoPointND b){
+		return getAlgoDispatcher().Ray(label, (GeoPoint) a, (GeoPoint) b);
+	}
+	
+	
+	/**
+	 * @param label label
+	 * @param a first point
+	 * @param v vector direction
+	 * @return [av)
+	 */
+	protected GeoElement ray(String label, GeoPointND a, GeoVectorND v){
+		return getAlgoDispatcher().Ray(label, (GeoPoint) a, (GeoVector) v);
 	}
 }

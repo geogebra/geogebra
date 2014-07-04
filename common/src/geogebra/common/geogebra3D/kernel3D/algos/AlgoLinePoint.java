@@ -40,13 +40,22 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
         super(cons);
         this.point = point;
         this.inputParallel = inputParallel;
-        line = new GeoLine3D(cons);
+        line = createLine(cons);
         
         setInputOutput(new GeoElement[] {(GeoElement) point, inputParallel}, new GeoElement[] {line});
 
         // compute line 
         compute();
         line.setLabel(label);
+    }
+    
+    /**
+     * create the line
+     * @param cons construction
+     * @return the line
+     */
+    protected GeoLine3D createLine(Construction cons){
+    	return new GeoLine3D(cons);
     }
 
 
