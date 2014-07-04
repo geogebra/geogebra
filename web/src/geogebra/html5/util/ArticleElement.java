@@ -475,14 +475,18 @@ public final class ArticleElement extends Element {
 		setAttribute("data-scalex", ""+(externalScale * envScale("x")));
 		setAttribute("data-scaley", ""+(externalScale * envScale("y")));
 		String transform = "scale("+externalScale * envScale("x")+"," + externalScale * envScale("y")+")";
-	    getParentElement().getStyle().setProperty("webkitTransform",transform);
-	    getParentElement().getStyle().setProperty("mozTransform",transform);
-	    getParentElement().getStyle().setProperty("msTransform",transform);
-	    getParentElement().getStyle().setProperty("transform",transform);	    
-	    getParentElement().getStyle().setProperty("msTransformOrigin","0% 0%");
-	    getParentElement().getStyle().setProperty("mozTransformOrigin","0% 0%");
-	    getParentElement().getStyle().setProperty("webkitTransformOrigin","0% 0%");
-	    getParentElement().getStyle().setProperty("transformOrigin","0% 0%");
+		Element parent = this.getParentElement();
+		if(parent.getParentElement()!=null && "applet_container".equals(parent.getParentElement().getId())){
+			parent = parent.getParentElement();
+		}
+	    parent.getStyle().setProperty("webkitTransform",transform);
+	    parent.getStyle().setProperty("mozTransform",transform);
+	    parent.getStyle().setProperty("msTransform",transform);
+	    parent.getStyle().setProperty("transform",transform);	    
+	    parent.getStyle().setProperty("msTransformOrigin","0% 0%");
+	    parent.getStyle().setProperty("mozTransformOrigin","0% 0%");
+	    parent.getStyle().setProperty("webkitTransformOrigin","0% 0%");
+	    parent.getStyle().setProperty("transformOrigin","0% 0%");
     }
 	
 	
