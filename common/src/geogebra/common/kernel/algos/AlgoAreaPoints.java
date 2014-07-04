@@ -20,28 +20,33 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoAreaPoints extends AlgoElement {
 
-	private GeoPoint [] P;  // input
-    private GeoNumeric area;     // output           
+	protected GeoPointND [] P;  // input
+	protected GeoNumeric area;     // output           
         
-    public AlgoAreaPoints(Construction cons, String label, GeoPoint [] P) {       
+    public AlgoAreaPoints(Construction cons, String label, GeoPointND [] P) {       
         this(cons, P);
         area.setLabel(label);
     }   
     
-    AlgoAreaPoints(Construction cons, GeoPoint [] P) {      
+    AlgoAreaPoints(Construction cons, GeoPointND [] P) {      
         super(cons); 
         this.P = P;
-        area = new GeoNumeric(cons); 
+        createOutput(cons); 
         setInputOutput(); // for AlgoElement
         
         // compute angle
         compute();      
     }   
+    
+    protected void createOutput(Construction cons){
+    	area = new GeoNumeric(cons); 
+    }
     
     @Override
 	public Commands getClassName() {
@@ -56,7 +61,10 @@ public class AlgoAreaPoints extends AlgoElement {
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
-        input = P;
+    	input = new GeoElement[P.length];
+    	for (int i = 0 ; i < P.length ; i++){
+    		input[i] = (GeoElement) P[i];
+    	}
         
         setOutputLength(1);        
         setOutput(0,area);        
@@ -64,12 +72,12 @@ public class AlgoAreaPoints extends AlgoElement {
     }    
     
     public GeoNumeric getArea() { return area; }
-    GeoPoint [] getPoints() { return P; }    
+    GeoPointND [] getPoints() { return P; }    
     
     // calc area of polygon P[0], ..., P[n]  
     // angle in range [0, pi]
     @Override
-	public final void compute() {      
+	public void compute() {      
         area.setValue(Math.abs(AlgoPolygon.calcAreaWithSign(P))); 
     }
 

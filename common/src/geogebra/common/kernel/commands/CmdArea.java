@@ -1,13 +1,14 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoAreaPoints;
 import geogebra.common.kernel.algos.AlgoAreaPolygon;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -56,22 +57,38 @@ public class CmdArea extends CommandProcessor {
 		// area of points
 		else if (n > 2) {
 			arg = resArgs(c);
-			GeoPoint[] points = new GeoPoint[n];
+			GeoPointND[] points = new GeoPointND[n];
+			boolean is3D = false;
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
 					throw argErr(app, c.getName(), arg[i]);
 				}
-				points[i] = (GeoPoint) arg[i];
+				points[i] = (GeoPointND) arg[i];
+				if (!is3D && arg[i].isGeoElement3D()){
+					is3D = true;
+				}
 			}
 			// everything ok
 			
-			AlgoAreaPoints algo = new AlgoAreaPoints(cons, c.getLabel(), points);
+			AlgoAreaPoints algo = getAlgoAreaPoints(cons, c.getLabel(), points, is3D);
 
 			GeoElement[] ret = { algo.getArea() };
 			return ret;
 		} else {
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param cons construction
+	 * @param label label
+	 * @param points points
+	 * @param is3D if there is a 3D point
+	 * @return algo
+	 */
+	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons, String label, GeoPointND[] points, boolean is3D){
+		return new AlgoAreaPoints(cons, label, points);
 	}
 }

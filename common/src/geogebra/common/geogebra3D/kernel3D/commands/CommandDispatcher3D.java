@@ -40,6 +40,8 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdVector3D(kernel);
 			case Polygon:
 				return new CmdPolygon3D(kernel);
+			case Area:
+				return new CmdArea3D(kernel);
 			case PolyLine:
 				return new CmdPolyLine3D(kernel);
 			case Point:
