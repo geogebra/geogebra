@@ -14,12 +14,15 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * FitLineY of a list. adapted from AlgoListMax
@@ -92,10 +95,23 @@ public class AlgoFitLineY extends AlgoElement {
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = geoList.get(i);
 			if (geo.isGeoPoint()) {
-				double xy[] = new double[2];
-				((GeoPoint) geo).getInhomCoords(xy);
-				double x = xy[0];
-				double y = xy[1];
+				double x;
+				double y;
+				if (geo.isGeoElement3D()){
+					Coords coords = ((GeoPointND) geo).getInhomCoordsInD(3);
+					if (!Kernel.isZero(coords.getZ())){
+						g.setUndefined();
+						return;
+					}
+					x = coords.getX();
+					y = coords.getY();
+				}else{
+					double xy[] = new double[2];
+					((GeoPoint) geo).getInhomCoords(xy);
+					x = xy[0];
+					y = xy[1];
+				}
+				
 				sigmax += x;
 				sigmay += y;
 				sigmaxx += x * x;
