@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 
@@ -36,10 +37,9 @@ public class CmdSegment extends CommandProcessor {
 	                && (ok[1] = (arg[1] .isGeoPoint()))) {
 	                GeoElement[] ret =
 	                    {
-	                		getAlgoDispatcher().Segment(
-	                            c.getLabel(),
-	                            (GeoPoint) arg[0],
-	                            (GeoPoint) arg[1])};
+	                		segment(c.getLabel(),
+	                            (GeoPointND) arg[0],
+	                            (GeoPointND) arg[1])};
 	                return ret;
 	            }
 	            
@@ -71,6 +71,20 @@ public class CmdSegment extends CommandProcessor {
 	        default :
 	            throw argNumErr(app, c.getName(), n);
 	    }
+	}
+	
+	
+	/**
+	 * @param label label
+	 * @param a first point
+	 * @param b second point
+	 * @return segment [ab]
+	 */
+	protected GeoElement segment(String label, GeoPointND a, GeoPointND b){
+		return getAlgoDispatcher().Segment(
+                label,
+                (GeoPoint) a,
+                (GeoPoint) b);
 	}
 }
 
