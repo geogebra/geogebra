@@ -90,6 +90,8 @@ namespace giac {
     for (;ptr->name;++ptr){
       pari_function_table[ptr->name]=ptr;
     }
+    // initialize variable ordering x,y,z
+    flisexpr("[x,y,z,t]");
   }
 
   struct giac_pari_init {

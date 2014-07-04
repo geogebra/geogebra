@@ -964,7 +964,8 @@ namespace giac {
   gen pow(unsigned long int base, unsigned long int exponent);
 
   // more advanced arithmetic
-  gen gcd(const gen & A,const gen & B,GIAC_CONTEXT0);
+  gen gcd(const gen & A,const gen & B,GIAC_CONTEXT);
+  gen gcd(const gen & A,const gen & B);
   gen lcm(const gen & a,const gen & b);
   gen simplify(gen & n, gen & d);
   void egcd(const gen &a,const gen &b, gen & u,gen &v,gen &d );

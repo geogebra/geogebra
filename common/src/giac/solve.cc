@@ -3046,7 +3046,7 @@ namespace giac {
     vecteur I1(lidnt(v[1]));
     vecteur I0(true_lidnt(v0)); // should remove embedded fsolve/sum/int
     I0=lidnt(makevecteur(evalf(I0,1,contextptr),I1));
-    if (I0!=I1)
+    if (_sort(I0,contextptr)!=_sort(I1,contextptr))
       return symbolic(at_fsolve,gen(v,_SEQ__VECT));
     int evalf_after=interv?3:1;
     if (s>=2 && v0.type==_VECT && v[1].type==_VECT && !v[1]._VECTptr->empty()){
@@ -5349,6 +5349,12 @@ namespace giac {
     return true;
   }
 
+  vecteur gen2poly(const gen &g){
+    if (g.type==_FRAC && g._FRACptr->num.type==_VECT)
+      return multvecteur(inv(g._FRACptr->den,context0),*g._FRACptr->num._VECTptr);
+    return gen2vecteur(g);
+  }
+
   vecteur gsolve(const vecteur & eq_orig,const vecteur & var_orig,bool complexmode,int evalf_after,GIAC_CONTEXT){
     // replace variables in var_orig by true identificators
     vecteur var(var_orig);
@@ -5576,12 +5582,12 @@ namespace giac {
 	  S=solve(Gv[2],var.front(),complexmode,contextptr);
 	}
 	vecteur res;
-	modpoly minp=gen2vecteur(_symb2poly(makesequence(Gv[2],var.front()),contextptr));
+	modpoly minp=gen2poly(_symb2poly(makesequence(Gv[2],var.front()),contextptr));
 	modpoly minp1=derivative(minp);
-	modpoly denp=gen2vecteur(_symb2poly(makesequence(Gv[3],var.front()),contextptr));
+	modpoly denp=gen2poly(_symb2poly(makesequence(Gv[3],var.front()),contextptr));
 	vector<modpoly> numv;
 	for (unsigned i=4;i<Gv.size();++i){
-	  numv.push_back(gen2vecteur(_symb2poly(makesequence(Gv[i],var.front()),contextptr)));
+	  numv.push_back(gen2poly(_symb2poly(makesequence(Gv[i],var.front()),contextptr)));
 	}
 	for (unsigned i=0;i<S.size();++i){
 	  gen s=S[i];

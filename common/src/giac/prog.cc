@@ -5667,6 +5667,10 @@ namespace giac {
   }
 
   // TI89/92 function/program translate
+#ifdef WIN32
+#define BUFFER_SIZE 16384
+#endif
+
 #ifdef NSPIRE
   template<class T> void ti_translate(ios_base<T> &  inf,ios_base<T> &  of)
 #else
@@ -6340,7 +6344,7 @@ namespace giac {
     return symbolic(at_continue,0);
   }
   static const char _continue_s []="continue";
-  static define_unary_function_eval2_index (104,__continue,&_continue,_continue_s,&printascontinue);
+  static define_unary_function_eval2_index (106,__continue,&_continue,_continue_s,&printascontinue);
   define_unary_function_ptr( at_continue ,alias_at_continue ,&__continue);
 
   static string printaslabel(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){

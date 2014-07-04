@@ -2402,6 +2402,13 @@ namespace giac {
     }
   }
 
+  void subresultant(const polynome & P,const polynome & Q,gen & c,polynome & C){
+    polynome p(P),q(Q);
+    gen pz=ppz(p),qz=ppz(q);
+    subresultant(p,q,C);
+    c=pow(pz,q.lexsorted_degree())*pow(qz,p.lexsorted_degree());
+  }
+
   polynome resultant(const polynome & p,const polynome & q){
     // polynomial subresultant does not work if p and q have approx coeff
     if (p.coord.empty())
@@ -2419,22 +2426,26 @@ namespace giac {
     double pq=double(p.coord.size())*q.coord.size();
     unsigned dim=p.dim;
 #if 1 // def HAVE_LIBPARI
+    // we must keep the same variable ordering than in PARI
     if (dim>=2 && dim<=4 && pq>256){
       gen coefft,coeffqt;
       int pt=coefftype(p,coefft),qt=coefftype(q,coeffqt);
       if (pt==0 && qt==0){
 	// PARI call
-	vecteur lv=vecteur(1,x__IDNT_e);
-	for (unsigned i=1;i<dim;++i)
-	  lv.push_back(identificateur("x"+print_INT_(i)));
+	vecteur lv;
+	if (dim==2) lv=makevecteur(x__IDNT_e,y__IDNT_e);
+	if (dim==3) lv=makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e);
+	if (dim==4) lv=makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e,t__IDNT_e);
 	gen P=r2sym(p,lv,context0),Q=r2sym(q,lv,context0),res;
 	if (pari_polresultant(P,Q,lv,res,context0)){
 	  res=sym2r(res,lv,context0);
 	  if (res.type==_POLY){
 #if 0
-	    polynome res1=Tresultant<gen>(p,q);
-	    if (res!=res1)
+	    polynome res1; subresultant(p,q,res1);
+	    if (res!=res1){
 	      cerr << res._POLYptr->coord.size() << endl;
+	      return res1;
+	    }
 #endif
 	    return *res._POLYptr;
 	  }
@@ -2442,9 +2453,9 @@ namespace giac {
       }
     }
 #endif // HAVE_LIBPARI
-    polynome R(p.dim);
-    subresultant(p,q,R);
-    return R;
+    polynome R(p.dim); gen r;
+    subresultant(p,q,r,R);
+    return r*R;
     polynome R1(Tresultant<gen>(p,q));
     // COUT << R << "," << R1 << endl;
     if (R!=R1)
@@ -4692,6 +4703,8 @@ namespace giac {
 
   // p is primitive wrt the main var
   bool mod_factor(const polynome & p_orig,polynome & p_content,int n,factorization & f){
+    if (!is_probab_prime_p(n))
+      return false;
     environment env;
     env.moduloon = true;
     env.modulo=n;
@@ -4957,8 +4970,6 @@ namespace giac {
       if (p_y.dim==2 && p_y.degree(1)>=4 && !complexmode){
 	int dim=p_y.dim;
 	vecteur lv=makevecteur(y__IDNT_e,x__IDNT_e);
-	for (unsigned i=2;i<dim;++i)
-	  lv.push_back(identificateur("x"+print_INT_(i)));
 	gen P=r2sym(p_y,lv,context0),Pmini=r2sym(p_mini,lv,context0),res;
 	swapgen(lv[0],lv[1]);
 	if (pari_nffactor(P,Pmini,lv,res,context0) && res.type==_VECT){

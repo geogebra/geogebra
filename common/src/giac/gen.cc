@@ -2035,6 +2035,8 @@ namespace giac {
   }
 
   gen accurate_evalf(const gen & g,int nbits){
+    if (g.type==_FRAC && g._FRACptr->num.type==_VECT)
+      return inv(accurate_evalf(g._FRACptr->den,nbits),context0)*accurate_evalf(g._FRACptr->num,nbits);
     if (g.type==_VECT)
       return gen(accurate_evalf(*g._VECTptr,nbits),g.subtype);
     gen r(g.re(context0)),i(g.im(context0)); // only called for numeric values
@@ -9157,6 +9159,9 @@ namespace giac {
     return r2sym(g,l,context0); // ok
   }
 
+  gen gcd(const gen & a,const gen & b){
+    return gcd(a,b,context0);
+  }
   gen gcd(const gen & a,const gen & b,GIAC_CONTEXT){
     ref_mpz_t * res;
     switch ( (a.type<< _DECALAGE) | b.type ) {
