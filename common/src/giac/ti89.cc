@@ -347,7 +347,7 @@ namespace giac {
     int s=v.size();
     if (s>2)
       return gentoomanyargs("solve");
-    return solve(v.front(),v.back(),complexmode,contextptr);
+    return solve(remove_equal(v.front()),v.back(),complexmode,contextptr);
   }
   gen _zeros(const gen & g,GIAC_CONTEXT){
     return zeros(g,complex_mode(contextptr),contextptr);

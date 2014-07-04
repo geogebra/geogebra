@@ -35,6 +35,7 @@
 #endif
 
 #ifdef NSPIRE
+#define clock() 0
 #undef HAVE_LIBDL
 #undef HAVE_LIBPTHREAD
 #include <os.h>
