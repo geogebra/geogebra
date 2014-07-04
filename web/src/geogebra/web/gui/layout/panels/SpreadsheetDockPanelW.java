@@ -134,7 +134,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		sb.append(" , ");*/
 		sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
 				
-		/*sb.append(" || ");
+		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS);
@@ -144,7 +144,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE);
-				*/
+				
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_SUM);
 		sb.append(" , ");

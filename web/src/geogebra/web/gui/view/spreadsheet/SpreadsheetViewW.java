@@ -1342,7 +1342,7 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		boolean hasFocus = false;
 		try {
 			if (((LayoutW) app.getGuiManager().getLayout()).getDockManager()
-					.getFocusedPanel() != null)
+					.getFocusedPanel() != null) co
 				hasFocus = ((LayoutW) app.getGuiManager().getLayout()).getDockManager()
 						.getFocusedPanel().isAncestorOf(this);
 		} catch (Exception e) {
