@@ -2444,7 +2444,7 @@ __GGB__keysVar.fr.plain = {
     "Month_7": "Juillet",
     "Month_8": "Ao\xfbt",
     "Month_9": "Septembre",
-    "More": "Davantage",
+    "More": "Plus",
     "MultivariableFunction": "Fonction \xe0 plusieurs variables",
     "Name": "Nom",
     "Name_button": "Bouton",
