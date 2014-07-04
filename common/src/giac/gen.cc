@@ -5767,6 +5767,8 @@ namespace giac {
 #endif
       else
 	return exp(exponent*log(base,contextptr),contextptr);
+    case _FRAC__DOUBLE_:
+      return exp(exponent*log(base,contextptr),contextptr);      
     case _FLOAT___FLOAT_:
       if (exponent._FLOAT_val==get_int(exponent._FLOAT_val))
 	return pow(base,get_int(exponent._FLOAT_val));
