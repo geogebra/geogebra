@@ -1642,23 +1642,6 @@ namespace giac {
       s=lv.size();
       if (s>1){
 	gen tmp=_texpand(expr,contextptr);
-	vecteur tmplv=lvarx(tmp,x);
-	if (tmplv.size()==2 && tmplv[0].type==_SYMB && tmplv[1].type==_SYMB && tmplv[0]._SYMBptr->feuille==tmplv[1]._SYMBptr->feuille){
-	  gen a,b,c,d;
-	  if (is_linear_wrt(tmp,tmplv[0],a,b,contextptr) && is_linear_wrt(b,tmplv[1],c,d,contextptr)){
-	    // tmp=a*tmplv[0]+c*tmplv[1]+d
-	    if (tmplv[0]._SYMBptr->sommet==at_sin && tmplv[1]._SYMBptr->sommet==at_cos){
-	      // a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
-	      gen phi=arg(halftan(a+cst_i*c,contextptr),contextptr);
-	      tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
-	    }
-	    if (tmplv[0]._SYMBptr->sommet==at_cos && tmplv[1]._SYMBptr->sommet==at_sin){
-	      // a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
-	      gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
-	      tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
-	    }
-	  }
-	}
 	if (lvarx(tmp,x).size()==1)
 	  expr=tmp;
 	else {
@@ -3046,7 +3029,7 @@ namespace giac {
     vecteur I1(lidnt(v[1]));
     vecteur I0(true_lidnt(v0)); // should remove embedded fsolve/sum/int
     I0=lidnt(makevecteur(evalf(I0,1,contextptr),I1));
-    if (_sort(I0,contextptr)!=_sort(I1,contextptr))
+    if (I0!=I1)
       return symbolic(at_fsolve,gen(v,_SEQ__VECT));
     int evalf_after=interv?3:1;
     if (s>=2 && v0.type==_VECT && v[1].type==_VECT && !v[1]._VECTptr->empty()){
@@ -3609,7 +3592,7 @@ namespace giac {
     for (int j=1;j<5;j++,niter2 *=2, niter1 *=2){ 
       gen a;
       int b;
-      //on prend un départ au hasard (a=x0=un _DOUBLE_)
+      //on prend un dÃ©part au hasard (a=x0=un _DOUBLE_)
       // a=gen(2.0);
       if (guess_first)
 	a=j*4*(rand()/(RAND_MAX+1.0)-0.5);
@@ -5349,12 +5332,6 @@ namespace giac {
     return true;
   }
 
-  vecteur gen2poly(const gen &g){
-    if (g.type==_FRAC && g._FRACptr->num.type==_VECT)
-      return multvecteur(inv(g._FRACptr->den,context0),*g._FRACptr->num._VECTptr);
-    return gen2vecteur(g);
-  }
-
   vecteur gsolve(const vecteur & eq_orig,const vecteur & var_orig,bool complexmode,int evalf_after,GIAC_CONTEXT){
     // replace variables in var_orig by true identificators
     vecteur var(var_orig);
@@ -5582,12 +5559,12 @@ namespace giac {
 	  S=solve(Gv[2],var.front(),complexmode,contextptr);
 	}
 	vecteur res;
-	modpoly minp=gen2poly(_symb2poly(makesequence(Gv[2],var.front()),contextptr));
+	modpoly minp=gen2vecteur(_symb2poly(makesequence(Gv[2],var.front()),contextptr));
 	modpoly minp1=derivative(minp);
-	modpoly denp=gen2poly(_symb2poly(makesequence(Gv[3],var.front()),contextptr));
+	modpoly denp=gen2vecteur(_symb2poly(makesequence(Gv[3],var.front()),contextptr));
 	vector<modpoly> numv;
 	for (unsigned i=4;i<Gv.size();++i){
-	  numv.push_back(gen2poly(_symb2poly(makesequence(Gv[i],var.front()),contextptr)));
+	  numv.push_back(gen2vecteur(_symb2poly(makesequence(Gv[i],var.front()),contextptr)));
 	}
 	for (unsigned i=0;i<S.size();++i){
 	  gen s=S[i];
