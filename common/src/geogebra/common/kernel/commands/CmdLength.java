@@ -21,7 +21,9 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 /**
@@ -51,12 +53,11 @@ public class CmdLength extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoVector() || arg[0].isGeoPoint()) {
-				
-				AlgoLengthVector algo = new AlgoLengthVector(cons, c.getLabel(),
-						(GeoVec3D) arg[0]);
-
-				GeoElement[] ret = { algo.getLength() };
+			if (arg[0].isGeoVector()) {
+				GeoElement[] ret = { length(c.getLabel(), (GeoVectorND) arg[0]) };
+				return ret;
+			} else if (arg[0].isGeoPoint()) {
+				GeoElement[] ret = { length(c.getLabel(), (GeoPointND) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoList()) {
 				GeoElement[] ret = { getAlgoDispatcher().Length(c.getLabel(),
@@ -157,4 +158,30 @@ public class CmdLength extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param label label
+	 * @param v vector
+	 * @return vector length
+	 */
+	protected GeoElement length(String label, GeoVectorND v){
+		AlgoLengthVector algo = new AlgoLengthVector(cons, label, (GeoVec3D) v);
+
+		return algo.getLength();
+	}
+	
+	/**
+	 * 
+	 * @param label label
+	 * @param p point
+	 * @return origin-to-point distance
+	 */
+	protected GeoElement length(String label, GeoPointND p){
+		AlgoLengthVector algo = new AlgoLengthVector(cons, label, (GeoVec3D) p);
+
+		return algo.getLength();
+	}
+	
+	
 }
