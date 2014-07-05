@@ -512,12 +512,15 @@ public abstract class Prover {
 	protected static String simplifiedXML(Construction cons, GeoElement statement) {
 		StringBuilder sb = new StringBuilder();
 		cons.getConstructionElementsXML_OGP(sb, statement);
-		/* FIXME: EXTREMELY DIRTY HACK. This should be handled in OGP instead here.
-		 * In GeoGebra3D some objects get a 3D parameter, e.g. Circle. OGP is not
-		 * yet prepared for handling this, so we simply remove the a2="xOyPlane" texts
-		 * from the XML. Hopefully this works for most cases...
-		 */
-		return "<construction>\n" + sb.toString().replace(" a2=\"xOyPlane\"", "") + "</construction>";
+				
+//		/* FIXME: EXTREMELY DIRTY HACK. This should be handled in OGP instead here.
+//		 * In GeoGebra3D some objects get a 3D parameter, e.g. Circle. OGP is not
+//		 * yet prepared for handling this, so we simply remove the a2="xOyPlane" texts
+//		 * from the XML. Hopefully this works for most cases...
+//		 */
+//		return "<construction>\n" + sb.toString().replace(" a2=\"xOyPlane\"", "") + "</construction>";
+		
+		return "<construction>\n" + sb.toString() + "</construction>"; 
 	}
 
 	/**

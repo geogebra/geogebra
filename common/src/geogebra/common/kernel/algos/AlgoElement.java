@@ -1464,6 +1464,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	final protected int getInputLengthForXMLMayNeedXOYPlane(){
 
 		if(kernel.isSaving() 
+				|| kernel.isOGP()
 				|| kernel.getXOYPlane() == null){ // saving mode, or 2D
 			return getInputLength();
 		}

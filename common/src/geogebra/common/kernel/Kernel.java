@@ -1965,6 +1965,21 @@ public class Kernel {
 	public TreeSet<GeoElement> getPointSet() {
 		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
 	}
+	
+
+	/*******************************************************
+	 * OGP
+	 *******************************************************/
+	
+	private boolean isOGP;
+	
+	public synchronized boolean isOGP() {
+		return isOGP;
+	}
+
+	public synchronized void setOGP(boolean flag) {
+		isOGP = flag;
+	}
 
 	/*******************************************************
 	 * SAVING
@@ -4683,7 +4698,7 @@ public class Kernel {
 	 * that we work in (or parallel to) xOy plane
 	 */
 	final public boolean noNeedToSpecifyXOYPlane(){
-		return getXOYPlane() == null || getApplication().getActiveEuclidianView().isDefault2D();
+		return getXOYPlane() == null || getApplication().getActiveEuclidianView().isDefault2D() || isOGP();
 	}
 	
 	

@@ -1137,6 +1137,12 @@ public class Construction {
 	 * @param statement The statement to prove
 	 */
 	public void getConstructionElementsXML_OGP(StringBuilder sb, GeoElement statement) {
+		
+		// set we are in OGP mode
+		boolean oldOGP = kernel.isOGP();
+		kernel.setOGP(true);
+		
+		
 		AlgoElement statementAlgo = statement.getParentAlgorithm();
 		StringTemplate tpl = StringTemplate.ogpTemplate;
 		ConstructionElement ce;
@@ -1163,6 +1169,9 @@ public class Construction {
 			} else
 				ce.getXML_OGP(sb);
 		}
+		
+		// set back old OGP mode
+		kernel.setOGP(oldOGP);
 	}
 	
 	/**
