@@ -42,7 +42,7 @@ public class CmdPolyLine3D extends CmdPolyLine {
 		    	
 				case 1:
 				if (arg[0].isGeoList())
-					return ((Kernel)kernelA).getManager3D().PolyLine3D(c.getLabels(), (GeoList) arg[0]);
+					return kernelA.getManager3D().PolyLine3D(c.getLabels(), (GeoList) arg[0]);
 				
 				
 		       default:
@@ -52,12 +52,10 @@ public class CmdPolyLine3D extends CmdPolyLine {
 			        for (int i = 0; i < n; i++) {
 			            if (!(arg[i].isGeoPoint()))
 							throw argErr(app, c.getName(), arg[i]);
-						else {
-			                points[i] = (GeoPointND) arg[i];
-			            }
+						points[i] = (GeoPointND) arg[i];
 			        }
 			        // everything ok
-			        return ((Kernel)kernelA).getManager3D().PolyLine3D(c.getLabels(), points);
+			        return kernelA.getManager3D().PolyLine3D(c.getLabels(), points);
 				}	
 		}
  
