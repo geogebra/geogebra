@@ -2330,7 +2330,7 @@ __GGB__keysVar.fr.plain = {
     "FunctionNVar": "Fonction",
     "General": "G\xe9n\xe9ral",
     "GenerallyTrue": "(vrai en r\xe8gle g\xe9n\xe9rale)",
-    "GenerallyTrueAcondB": "Il est vrai en r\xe8gle g\xe9n\xe9rale: %0 sous la condition: %1",
+    "GenerallyTrueAcondB": "Il est vrai en r\xe8gle g\xe9n\xe9rale que : %0 sous la condition : %1",
     "GeneratePgf": "G\xe9n\xe9rer le code PGF/TikZ",
     "GeneratePstricks": "G\xe9n\xe9rer le code PSTricks",
     "GeoGebraProperties": "GeoGebra Propri\xe9t\xe9s",
