@@ -209,7 +209,6 @@ public class CreateObjectDialog extends InputDialogD implements
 		cards.add("c0", orderPanel);
 		cards.add("c1", xySwitchPanel);
 		cards.add("c2", transposePanel);
-		cards.add("c3", transposePanel);
 
 		optionsPanel = new JPanel(new BorderLayout());
 		optionsPanel.add(northPanel, BorderLayout.NORTH);
@@ -287,19 +286,18 @@ public class CreateObjectDialog extends InputDialogD implements
 	private void updateGUI() {
 		coModel.update();
 		CardLayout cl = (CardLayout) (cards.getLayout());
-		cl.show(cards, "c" + typeList.getSelectedIndex());
-
-		/*
-		 * cbOrder.removeAllItems(); if(objectType == TYPE_LIST){
-		 * cbOrder.addItem(app.getMenu("Row"));
-		 * cbOrder.addItem(app.getMenu("Column")); }else{
-		 * cbOrder.addItem(app.getMenu("X to Y"));
-		 * cbOrder.addItem(app.getMenu("Y to X")); }
-		 * 
-		 * if(objectType == TYPE_MATRIX){ cbOrder.setVisible(false);
-		 * ckTranspose.setVisible(true); }else{ cbOrder.setVisible(true);
-		 * ckTranspose.setVisible(false); }
-		 */
+		switch (typeList.getSelectedIndex()) {
+		case 0:
+			// row or column order
+			cl.show(cards, "c0");
+		case 1:
+			// XY order
+			cl.show(cards, "c1");
+		case 2:
+		case 3:
+			// transpose
+			cl.show(cards, "c2");
+		}
 
 	}
 
