@@ -4,7 +4,7 @@
 /*
  *  Copyright (C) 2001,14 B. Parisse, R. De Graeve
  *  Institut Fourier, 38402 St Martin d'Heres
- *
+ * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 3 of the License, or
