@@ -45,17 +45,24 @@ public class CmdPolygon3D extends CmdPolygon {
 	}
 	
 	@Override
-	protected GeoElement[] polygon(String[] labels, GeoPointND[] points){
+	protected boolean checkIs3D(boolean is3D, GeoElement geo){
+		if (is3D){
+			return true;
+		}
+		
+		return geo.isGeoElement3D();
+	}
+	
+	@Override
+	protected GeoElement[] polygon(String[] labels, GeoPointND[] points, boolean is3D){
 		
 		// if one point is 3D, use 3D algo
-		for (int i = 0 ; i < points.length ; i++){
-			if (points[i].isGeoElement3D()){
-				return kernelA.getManager3D().Polygon3D(labels, points);
-			}
+		if (is3D){
+			return kernelA.getManager3D().Polygon3D(labels, points);
 		}
 		
 		// else use 2D algo
-		return super.polygon(labels, points);
+		return super.polygon(labels, points, is3D);
 	}
 	
 	

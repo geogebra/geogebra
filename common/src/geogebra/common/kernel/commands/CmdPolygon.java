@@ -63,23 +63,36 @@ public class CmdPolygon extends CommandProcessor {
 			// polygon for given points
 			GeoPointND[] points = new GeoPointND[n];
 			// check arguments
+			boolean is3D = false;
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint()))
 					throw argErr(app, c.getName(), arg[i]);
 				points[i] = (GeoPointND) arg[i];
+				is3D = checkIs3D(is3D, arg[i]);
 			}
 			// everything ok
-			return polygon(c.getLabels(), points);
+			return polygon(c.getLabels(), points, is3D);
 		}	
+	}
+	
+	/**
+	 * 
+	 * @param is3D true if already 3D
+	 * @param geo geo to check
+	 * @return true if is already 3D or geo is 3D
+	 */
+	protected boolean checkIs3D(boolean is3D, GeoElement geo){
+		return false; // check only in 3D mode
 	}
 	
 	/**
 	 * 
 	 * @param labels
 	 * @param points
+	 * @param is3D if in 3D mode
 	 * @return polygon for points
 	 */
-	protected GeoElement[] polygon(String[] labels, GeoPointND[] points){
+	protected GeoElement[] polygon(String[] labels, GeoPointND[] points, boolean is3D){
 		return kernelA.Polygon(labels, points);
 	}
 	
