@@ -1827,6 +1827,10 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	public void mirror(Coords Q) {
+		
+		// important for centroid calculation
+		area *= -1;
+		
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).mirror(Q);
 		updatePathRegion();
@@ -1838,6 +1842,10 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	public void mirror(GeoLineND g) {
+
+		// important for centroid calculation
+		area *= -1;
+
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).mirror(g);
 		updatePathRegion();
