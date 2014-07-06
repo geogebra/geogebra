@@ -45,20 +45,57 @@ public class CmdLineBisector extends CommandProcessor {
 
 		case 2: // two points
 			arg = resArgs(c);
-
-			// line through point orthogonal to vector
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().LineBisector(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
+			
+			return process2(c, arg, ok);
+			
+		case 3:
+			arg = resArgs(c);
+			
+			GeoElement[] ret = process3(c, arg, ok);
+			
+			if (ret != null){
 				return ret;
 			}
 
 			// syntax error
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * process line bisector when 2 arguments
+	 * @param c command
+	 * @param arg arguments
+	 * @param ok ok array
+	 * @return result (if one)
+	 * @throws MyError in 2D, not possible with 3 args
+	 */
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
+
+		// line through point orthogonal to vector
+		if ((ok[0] = (arg[0].isGeoPoint()))
+				&& (ok[1] = (arg[1].isGeoPoint()))) {
+			GeoElement[] ret = { getAlgoDispatcher().LineBisector(c.getLabel(),
+					(GeoPoint) arg[0], (GeoPoint) arg[1]) };
+			return ret;
+		}
+		
+		// syntax error
+		throw argErr(app, c.getName(), getBadArg(ok,arg));
+	}
+	
+	/**
+	 * process line bisector when 3 arguments
+	 * @param c command
+	 * @param arg arguments
+	 * @param ok ok array
+	 * @return result (if one)
+	 * @throws MyError in 2D, not possible with 3 args
+	 */
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
+		throw argNumErr(app, c.getName(), 3);
 	}
 }
