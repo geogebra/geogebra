@@ -314,7 +314,7 @@ public class AlgoMirror extends AlgoTransformation implements RestrictionAlgoFor
         		(!((GeoConic)geo).isCircle()||!((GeoConic)geo).keepsType()))
         	return new GeoImplicitPoly(cons);
 		if(geo instanceof GeoPoly  || (geo.isLimitedPath() && mirror!=mirrorConic))
-			return geo.copyInternal(cons);		
+			return copyInternal(cons, geo);		
 		if(geo.isGeoList())        	
         	return new GeoList(cons);
 		return copy(geo);
