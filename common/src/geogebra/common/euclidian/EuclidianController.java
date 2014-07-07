@@ -5283,9 +5283,22 @@ public abstract class EuclidianController {
 			ret = mirrorAtCircle(hits.getTopHits());
 			break;
 	
-		case EuclidianConstants.MODE_ATTACH_DETACH: // Michael Borcherds
-													// 2008-03-23
+		case EuclidianConstants.MODE_ATTACH_DETACH:
 			changedKernel = attachDetach(hits.getTopHits());
+			if(!changedKernel && hits.size() >= 2 && selPoints() == 1){
+				Hits h = hits.clone();
+				h.removeAllPoints();
+				for(int i = h.size() - 1; i >= 0; i--){
+					if(h.get(i).isChildOf((GeoElement) selectedPoints.get(0))){
+						h.remove(i);
+					}
+				}
+				// removes all polygons, if there is any other GeoObject left
+				h.removePolygons();
+				
+				changedKernel = attachDetach(h);
+			}
+			
 			break;
 	
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -6134,6 +6147,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_POINT:
 		case EuclidianConstants.MODE_COMPLEX_NUMBER:
 		case EuclidianConstants.MODE_POINT_ON_OBJECT:
+		case EuclidianConstants.MODE_ATTACH_DETACH:
 			// removed: polygons can still be selected if they are the only
 			// object clicked on
 			// case EuclidianView.MODE_INTERSECT:
@@ -8278,9 +8292,17 @@ public abstract class EuclidianController {
 			mousePressedTranslatedView(type);
 	
 			break;
+			
+		case EuclidianConstants.MODE_ATTACH_DETACH:
+			GeoPoint p = (GeoPoint)this.view.getHits().getFirstHit(Test.GEOPOINT);
+			if(p != null && p.isMoveable()){
+				handleMovedElement(p, false, PointerEventType.MOUSE);
+			}
+			break;
+
 		case EuclidianConstants.MODE_DELETE:
 			getDeleteMode().mousePressed(type);
-	
+			
 		default:
 			moveMode = MOVE_NONE;
 		}
