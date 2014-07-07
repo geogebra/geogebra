@@ -259,14 +259,14 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_ORTHOGONAL);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PARALLEL);
-//		sb.append(" ");
-//		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
-		// sb.append(" , ");
-		// sb.append(EuclidianView.MODE_TANGENTS);
-		// sb.append(" ");
-		// sb.append(EuclidianView.MODE_POLAR_DIAMETER);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_TANGENTS);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
 		// sb.append(" , ");
 		// sb.append(EuclidianView.MODE_FITLINE);
 		// sb.append(" , ");
@@ -413,7 +413,12 @@ public class ToolBar {
 		sb.append( EuclidianConstants.MODE_PARALLEL);
 		sb.append( " ");
 		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_TANGENTS);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
 		sb.append( " | ");
+		
 		
 		//polygons
 		sb.append( EuclidianConstants.MODE_POLYGON);
