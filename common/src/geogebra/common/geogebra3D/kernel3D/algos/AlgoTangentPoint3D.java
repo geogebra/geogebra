@@ -112,7 +112,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 
     @Override
 	protected boolean isIntersectionPointIncident(){
-		return c.isIntersectionPointIncident(coords2D, Kernel.MIN_PRECISION) || P.getIncidenceList().contains(c);	
+		return c.isIntersectionPointIncident(coords2D, Kernel.MIN_PRECISION); // || P.getIncidenceList().contains(c);	
     }
 
     @Override
