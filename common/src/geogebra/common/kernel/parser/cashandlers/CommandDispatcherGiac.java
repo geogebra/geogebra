@@ -122,6 +122,12 @@ public class CommandDispatcherGiac {
 		sum(Operation.SUM),
 		piecewise(Operation.IF_ELSE),
 		
+		/** laplace functions, need to generate an error */
+		laplace(Operation.NO_OPERATION),
+		ilaplace(Operation.NO_OPERATION),
+		invlaplace(Operation.NO_OPERATION),
+		
+		
 		/** polar coordinate */
 		ggb_ang(Operation.NO_OPERATION),
 
@@ -344,6 +350,9 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
+			case laplace:
+			case ilaplace:
+			case invlaplace:
 			case poly1: // eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))
 			case integrate: // eg Integral[exp(x^3)]
 			case bounded_function: // eg Limit[cos(x),∞]			
