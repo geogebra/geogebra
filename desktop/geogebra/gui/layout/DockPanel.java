@@ -1441,6 +1441,13 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	public boolean hasToolbar() {
 		return defaultToolbarString != null;
 	}
+	
+	/**
+	 * @return If this panel can customize its toolbar.
+	 */
+	public boolean canCustomizeToolbar(){
+		return hasToolbar();
+	}
 
 	/**
 	 * @return The definition string associated with this toolbar.

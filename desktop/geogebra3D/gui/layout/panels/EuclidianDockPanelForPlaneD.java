@@ -48,7 +48,10 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	}
 	
 	
-	
+	@Override
+	public boolean canCustomizeToolbar(){
+		return false;
+	}
 	
 	/**
 	 * 

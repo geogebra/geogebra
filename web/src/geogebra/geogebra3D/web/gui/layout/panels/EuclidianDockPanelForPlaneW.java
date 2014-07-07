@@ -63,6 +63,11 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract {
 	    //this.app = app;
     }
 	
+	@Override
+	public boolean canCustomizeToolbar(){
+		return false;
+	}
+	
 	/**
 	 * set the view attached
 	 * @param view

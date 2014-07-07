@@ -59,7 +59,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		DockPanel[] panels = ((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager().getPanels();
 		
 		for(DockPanel panel : panels) {
-			if(panel.hasToolbar()) {
+			if(panel.canCustomizeToolbar()) {
 				switcher.addItem(new KeyValue(panel.getViewId(), app.getPlain(panel.getViewTitle())));
 			}
 		}
