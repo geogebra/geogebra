@@ -1819,4 +1819,16 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getLine();
 
 	}
+	
+	final public GeoElement LineBisector3D(String label, GeoPointND a, GeoPointND b, GeoDirectionND orientation) {
+
+		if (!a.isGeoElement3D() && !b.isGeoElement3D() // 2D geo
+				&& orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return kernel.getAlgoDispatcher().LineBisector(null, (GeoPoint) a, (GeoPoint) b);
+		}
+
+		AlgoLineBisectorTwoPointsDirection3D algo = new AlgoLineBisectorTwoPointsDirection3D(cons, label, a, b, orientation);
+		return algo.getLine();
+
+	}
 }

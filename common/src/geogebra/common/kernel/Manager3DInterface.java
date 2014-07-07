@@ -900,4 +900,6 @@ public interface Manager3DInterface {
 	
 	public GeoElement LineBisector3D(String label, GeoSegmentND segment, GeoDirectionND orientation);
 	
+	public GeoElement LineBisector3D(String label, GeoPointND a, GeoPointND b, GeoDirectionND orientation);
+	
 }

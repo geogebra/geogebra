@@ -2563,10 +2563,10 @@ public abstract class EuclidianController {
 		GeoElement[] ret = { null };
 		if (selPoints() == 2) {
 			// fetch the two selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().LineBisector(null, points[0], points[1]);
+			companion.lineBisector(points[0], points[1]);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment

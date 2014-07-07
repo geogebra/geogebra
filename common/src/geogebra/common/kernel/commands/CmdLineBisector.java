@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
 
@@ -79,8 +80,8 @@ public class CmdLineBisector extends CommandProcessor {
 		// line through point orthogonal to vector
 		if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[1] = (arg[1].isGeoPoint()))) {
-			GeoElement[] ret = { getAlgoDispatcher().LineBisector(c.getLabel(),
-					(GeoPoint) arg[0], (GeoPoint) arg[1]) };
+			GeoElement[] ret = { lineBisector(c.getLabel(),
+					(GeoPointND) arg[0], (GeoPointND) arg[1]) };
 			return ret;
 		}
 		
@@ -108,5 +109,16 @@ public class CmdLineBisector extends CommandProcessor {
 	 */
 	protected GeoElement lineBisector(String label, GeoSegmentND segment){
 		return getAlgoDispatcher().LineBisector(label, (GeoSegment) segment);
+	}
+	
+	
+	/**
+	 * @param label label
+	 * @param a first point
+	 * @param b second point
+	 * @return perpendicular bisector
+	 */
+	protected GeoElement lineBisector(String label, GeoPointND a, GeoPointND b){
+		return getAlgoDispatcher().LineBisector(label, (GeoPoint) a, (GeoPoint) b);
 	}
 }

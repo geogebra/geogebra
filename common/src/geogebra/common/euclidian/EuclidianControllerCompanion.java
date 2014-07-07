@@ -527,5 +527,14 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().LineBisector(null, (GeoSegment) segment);
 	}
 	
-
+	/**
+	 * 
+	 * @param a first point
+	 * @param b second point
+	 * @return [ab] perpendicular bisector
+	 */
+	protected GeoElement lineBisector(GeoPointND a, GeoPointND b){
+		return ec.getAlgoDispatcher().LineBisector(null, (GeoPoint) a, (GeoPoint) b);
+	}
+	
 }

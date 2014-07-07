@@ -105,12 +105,6 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
         g.z = -(midPoint.x * g.x + midPoint.y * g.y)/2.0;     
     }   
     
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("LineBisectorAB",A.getLabel(tpl),B.getLabel(tpl));
-    }
 
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
@@ -225,5 +219,38 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
 	
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnLineBisector(geo, this, scope);
+	}
+	
+	
+	
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+	
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+	
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+
+		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+			return loc.getPlain("LineBisectorAB",A.getLabel(tpl),B.getLabel(tpl));
+		}
+
+		return loc.getPlain("LineBisectorABInXOYPlane",A.getLabel(tpl),B.getLabel(tpl));
 	}
 }
