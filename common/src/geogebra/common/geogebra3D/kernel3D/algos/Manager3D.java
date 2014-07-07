@@ -51,6 +51,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -1802,5 +1803,15 @@ public class Manager3D implements Manager3DInterface {
 		return kernel.getAlgoDispatcher().DiameterLine(label, v, c);
 	}
 	
-	
+	final public GeoElement LineBisector3D(String label, GeoSegmentND segment, GeoDirectionND orientation) {
+
+		if (!segment.isGeoElement3D() // 2D geo
+				&& orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return kernel.getAlgoDispatcher().LineBisector(null, (GeoSegment) segment);
+		}
+
+		AlgoLineBisectorSegmentDirection3D algo = new AlgoLineBisectorSegmentDirection3D(cons, label, segment, orientation);
+		return algo.getLine();
+
+	}
 }

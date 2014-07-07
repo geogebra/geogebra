@@ -518,6 +518,14 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().DiameterLine(null, v, c);
 	}
 	
+	/**
+	 * 
+	 * @param segment segment
+	 * @return segment perpendicular bisector
+	 */
+	protected GeoElement lineBisector(GeoSegmentND segment){
+		return ec.getAlgoDispatcher().LineBisector(null, (GeoSegment) segment);
+	}
 	
 
 }

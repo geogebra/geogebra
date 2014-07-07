@@ -486,5 +486,10 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 	}
 	
 
-
+	@Override
+	protected GeoElement lineBisector(GeoSegmentND segment){
+		
+		return ec.kernel.getManager3D().LineBisector3D(null, segment, ec.view.getDirection());
+		
+	}
 }

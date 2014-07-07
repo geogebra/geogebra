@@ -2570,10 +2570,10 @@ public abstract class EuclidianController {
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
-			GeoSegment[] segments = getSelectedSegments();
+			GeoSegmentND[] segments = getSelectedSegmentsND();
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().LineBisector(null, segments[0]);
+			companion.lineBisector(segments[0]);
 			return ret;
 		}
 		return null;

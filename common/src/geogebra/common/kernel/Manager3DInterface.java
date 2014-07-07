@@ -896,4 +896,8 @@ public interface Manager3DInterface {
 	
 	public GeoElement DiameterLine3D(String label, GeoVectorND v, GeoConicND c);
 	
+	
+	
+	public GeoElement LineBisector3D(String label, GeoSegmentND segment, GeoDirectionND orientation);
+	
 }
