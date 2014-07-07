@@ -346,7 +346,7 @@ namespace giac {
     return true;
   }
 
-#if defined(GIAC_NO_OPTIMIZATIONS) || ((defined(VISUALC) || defined(__APPLE__)) && !defined(GIAC_VECTOR))
+#if defined(GIAC_NO_OPTIMIZATIONS) || ((defined(VISUALC) || defined(__APPLE__)) && !defined(GIAC_VECTOR)) || defined __clang__ 
   bool operator == (const index_m & i1, const index_m & i2){
     if (i1.riptr==i2.riptr)
       return true;

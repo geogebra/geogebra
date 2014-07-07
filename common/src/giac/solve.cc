@@ -3609,7 +3609,7 @@ namespace giac {
     for (int j=1;j<5;j++,niter2 *=2, niter1 *=2){ 
       gen a;
       int b;
-      //on prend un dÃ©part au hasard (a=x0=un _DOUBLE_)
+      //on prend un départ au hasard (a=x0=un _DOUBLE_)
       // a=gen(2.0);
       if (guess_first)
 	a=j*4*(rand()/(RAND_MAX+1.0)-0.5);

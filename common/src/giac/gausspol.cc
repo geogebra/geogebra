@@ -2304,7 +2304,9 @@ namespace giac {
     for (int j=e+1;j<d;++j){
       polynome XHj1(Hv.back());
       sh[0]=1; XHj1=XHj1.shift(sh); // X*H_{j-1}
-      polynome piXHj1(XHj1.Tcoeffs() [XHj1.lexsorted_degree()-e].untrunc1());
+      polynome piXHj1(A.dim);
+      if (XHj1.lexsorted_degree()-e>=0)
+	piXHj1=XHj1.Tcoeffs() [XHj1.lexsorted_degree()-e].untrunc1();
       XHj1=XHj1-(piXHj1*Sd1)/cd1;
       Hv.push_back(XHj1);
     }

@@ -7215,7 +7215,7 @@ namespace giac {
 
   static gen translationpoint(const gen & a,const gen & b,GIAC_CONTEXT){
     if (has_i(a) || (a.type==_VECT && a._VECTptr->size()>3)){
-      if (b.type==_SYMB)
+      if (evalf(b,1,contextptr).type==_SYMB)
 	return gensizeerr(contextptr);
     }
     return a+b;
