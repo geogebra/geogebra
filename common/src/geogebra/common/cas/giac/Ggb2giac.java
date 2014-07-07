@@ -344,6 +344,8 @@ public class Ggb2giac {
 		
 		p("Laplace.1", "laplace(%0, lname(%0)[0])");
 		p("Laplace.2", "laplace(%0, %1)");
+		p("InverseLaplace.1", "ilaplace(%0, lname(%0)[0])");
+		p("InverseLaplace.2", "ilaplace(%0, %1)");
 		
 		p("Last.1", "{when(type(%0)==DOM_LIST,(%0)[dim(%0)-1],(%0)[dim(%0)])}");
 		p("Last.2", "when(type(%0)==DOM_LIST,(%0)[size(%0)-%1..size(%0)-1],seq((%0)[j],j,dim(%0)-%1+1,dim(%0)))");
@@ -739,6 +741,34 @@ public class Ggb2giac {
 				"[9]");
 		 */
 
+		
+		/*
+		// SolveQuartic[2x^4+3x^3+x^2+1]
+		// SolveQuartic[x^4+6x^2-60x+36]
+		// SolveQuartic[3x^4   + 6x^3   - 123x^2   - 126x + 1080]
+		// SolveQuartic[x^(4) - (10 * x^(3)) + (35 * x^(2)) - (50 * x) + 24]
+		p("SolveQuartic.1", "["+
+				"[ggbcoeffs:=coeffs(%0)],"+
+				"[a:=ggbcoeffs[0]],"+
+				"[b:=ggbcoeffs[1]],"+
+				"[c:=ggbcoeffs[2]],"+
+				"[d:=ggbcoeffs[3]],"+
+				"[ee:=ggbcoeffs[4]],"+
+				"[p:=(8*a*c-3*b*b)/(8*a*a)],"+
+				"[q:=(b^3-4*a*b*c+8*a^2*d)/(8*a^3)],"+
+				"[delta0:=c^2-3*b*d+12*a*ee],"+
+				"[delta1:=2*c^3-9*b*c*d+27*b^2*ee+27*a*d^2-72*a*c*ee],"+
+				"[delta27:=delta1^2-4*delta0^3],"+
+				"[Q:=cbrt((delta1 + sqrt(delta27))/2)],"+
+				"[S:=sqrt(-2*p/3+(Q+delta0/Q)/(3*a))/2],"+
+				"[[-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2,0]],"+
+//				"[],"+
+//				"[],"+
+//				"[],"+
+				"[]"+
+				"][13]");
+*/
+		
 		// Experimental Geometry commands. Giac only
 		p("Radius.1", "normal(regroup(radius(%0)))"); 
 		p("Center.1", "coordinates(center(%0))"); 
