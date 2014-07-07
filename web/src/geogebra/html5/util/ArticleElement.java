@@ -471,6 +471,9 @@ public final class ArticleElement extends Element {
     }
 
 	public void adjustScale() {
+		if(getDataParamApp()){
+			return;
+		}
 		double externalScale = getDataParamScale();
 		setAttribute("data-scalex", ""+(externalScale * envScale("x")));
 		setAttribute("data-scaley", ""+(externalScale * envScale("y")));
