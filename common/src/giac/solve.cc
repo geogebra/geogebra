@@ -4,7 +4,7 @@
 /*
  *  Copyright (C) 2001,14 B. Parisse, R. De Graeve
  *  Institut Fourier, 38402 St Martin d'Heres
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 3 of the License, or
@@ -1642,6 +1642,23 @@ namespace giac {
       s=lv.size();
       if (s>1){
 	gen tmp=_texpand(expr,contextptr);
+	vecteur tmplv=lvarx(tmp,x);
+	if (tmplv.size()==2 && tmplv[0].type==_SYMB && tmplv[1].type==_SYMB && tmplv[0]._SYMBptr->feuille==tmplv[1]._SYMBptr->feuille){
+	  gen a,b,c,d;
+	  if (is_linear_wrt(tmp,tmplv[0],a,b,contextptr) && is_linear_wrt(b,tmplv[1],c,d,contextptr)){
+	    // tmp=a*tmplv[0]+c*tmplv[1]+d
+	    if (tmplv[0]._SYMBptr->sommet==at_sin && tmplv[1]._SYMBptr->sommet==at_cos){
+	      // a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
+	      gen phi=arg(halftan(a+cst_i*c,contextptr),contextptr);
+	      tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
+	    }
+	    if (tmplv[0]._SYMBptr->sommet==at_cos && tmplv[1]._SYMBptr->sommet==at_sin){
+	      // a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
+	      gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
+	      tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
+	    }
+	  }
+	}
 	if (lvarx(tmp,x).size()==1)
 	  expr=tmp;
 	else {
@@ -3592,7 +3609,7 @@ namespace giac {
     for (int j=1;j<5;j++,niter2 *=2, niter1 *=2){ 
       gen a;
       int b;
-      //on prend un d�part au hasard (a=x0=un _DOUBLE_)
+      //on prend un départ au hasard (a=x0=un _DOUBLE_)
       // a=gen(2.0);
       if (guess_first)
 	a=j*4*(rand()/(RAND_MAX+1.0)-0.5);
