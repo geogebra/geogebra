@@ -33,16 +33,19 @@ public class CmdLineBisector3D extends CmdLineBisector {
 	
 	@Override
 	protected GeoElement lineBisector(String label, GeoSegmentND segment){
-		
-		if (segment.isGeoElement3D()){
-			GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernelA, app);
-    		if (orientation == null){
-    			orientation = kernelA.getSpace(); // will create undefined line bisector: use xOy plane as default?
-    		}
-			return kernelA.getManager3D().LineBisector3D(label, segment, orientation);
+
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernelA, app);
+		if (orientation == null){
+			if (segment.isGeoElement3D()){
+				orientation = kernelA.getXOYPlane(); 
+			}else{
+				// use 2D algo
+				return super.lineBisector(label, segment);
+			}
 		}
-		
-		return super.lineBisector(label, segment);
+
+		return kernelA.getManager3D().LineBisector3D(label, segment, orientation);
+
 	}
 
 
