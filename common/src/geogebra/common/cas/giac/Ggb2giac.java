@@ -711,49 +711,22 @@ public class Ggb2giac {
 			//"[when(d==0,[solve(%0,x)],[when(x1s[1][0]=='rootof',x1,x1s),when(x2s[1][0]=='rootof',x2,x2s),when(x3s[1][0]=='rootof',x3,x3s)])]"+
 			"[[x1,x2,x3]]"+
 			"][18][0]");
-
-
-		/*
-		// SolveQuartic[2x^4+3x^3+x^2+1]
-		// SolveQuartic[x^4+6x^2-60x+36]
-		// SolveQuartic[3x^4   + 6x^3   - 123x^2   - 126x + 1080]
-		p("SolveQuartic.1", "["+
-				"[ggbcoeffs:=coeffs(%0)],"+
-				// divide thorugh by coeffient of x^4
-				"[ggbcoeffs2:= ggbcoeffs / ggbcoeffs[0]],"+
-				"[a3:=ggbcoeffs[0]],"+
-				"[a2:=ggbcoeffs[1]],"+
-				"[a1:=ggbcoeffs[2]],"+
-				"[a0:=ggbcoeffs[3]],"+
-				"[p:=a2-3*a3^2/8],"+
-				"[q:=a1-a2*a3/2+a3^3/8],"+
-				"[r:=a0-a1*a3/4+a2*a3^2/16-3*a3^4/256],"+
-				// root of resolvent cubic
-				//"[u1:=zeros(4*(x-p)*(x^2/4-r)-q^2,x)[0]]"+
-				"[y1:=zeros(x^3-a2*x^2+(a1*a3-4*a0)*x+4*a2*a0-a1*a1-a3*a3*a0,x)[0]]"+
-				//"[a3:=ggbcoeffs2[0]/4],"+
-				// substitute x=x-a3/4 to eliminate x^3 term
-				//"[ggbcoeffs3:=coeffs(  (x-a3)^4 + ggbcoeffs2[0] * (x-a3)^3 + ggbcoeffs2[1] (x-a3)^2 + ggbcoeffs2[2]*(x-a3) + ggbcoeffs2[3])]"+
-				//"[],"+
-				//"[],"+
-				//"[],"+
-				"]"+
-				"[9]");
-		 */
-
-		
 		
 		// SolveQuartic[2x^4+3x^3+x^2+1]
 		// SolveQuartic[x^4+6x^2-60x+36] approx = {(-1.872136644123) - (3.810135336798 * ί), (-1.872136644123) + (3.810135336798 * ί), 0.6443988642267, 3.099874424019}
 		// SolveQuartic[3x^4   + 6x^3   - 123x^2   - 126x + 1080]  =  {(-6), (-4), 3, 5}
 		// SolveQuartic[x^(4) - (10 * x^(3)) + (35 * x^(2)) - (50 * x) + 24]  =  {1, 3, 2, 4}
 		// SolveQuartic[x^4 +   2x^3   -   41x^2  -   42x   +   360]   =  {(-6), (-4), 3, 5}
-		// SolveQuartic[ x^4 + 2x^2 + 6sqrt(10) x + 1] 
+		// SolveQuartic[ x^4 + 2x^2 + 6sqrt(10) x + 1] approx {(-2.396488591753), (-0.05300115102973), 1.224744871392 - (2.524476846043 * ί), 1.224744871392 + (2.524476846043 * ί)}
 		// SolveQuartic[x^4 +   x^3   +   x   +   1] = {(-1), (-1), (((-ί) * sqrt(3)) + 1) / 2, ((ί * sqrt(3)) + 1) / 2}
-		// SolveQuartic[x^(4) - (4 * x^(3)) + (6 * x^(2)) - (4 * x) + 1]
-		// SolveQuartic[ x⁴ - 5x³ + 9x² - 7x + 2 ]
+		// SolveQuartic[x^(4) - (4 * x^(3)) + (6 * x^(2)) - (4 * x) + 1] = {1}
+		// 3 repeated roots, S=0, SolveQuartic[ x⁴ - 5x³ + 9x² - 7x + 2 ] = {2,1}
+		// SolveQuartic[x^(4) - (2 * x^(3)) - (7 * x^(2)) + (16 * x) - 5] = ((x^(2) - (3 * x) + 1) * (x^(2) + x - 5))
+		// http://en.wikipedia.org/wiki/Quartic_function
 		p("SolveQuartic.1", "["+
-				"[ggbcoeffs:=coeffs(%0)],"+
+				"[ggbans:={}],"+
+				"[ggbfun:=%0],"+
+				"[ggbcoeffs:=coeffs(ggbfun)],"+
 				"[a:=ggbcoeffs[0]],"+
 				"[b:=ggbcoeffs[1]],"+
 				"[c:=ggbcoeffs[2]],"+
@@ -765,11 +738,20 @@ public class Ggb2giac {
 				"[q:=(b^3-4*a*b*c+8*a^2*d)/(8*a^3)],"+
 				"[delta0:=c^2-3*b*d+12*a*ee],"+//OK
 				"[delta1:=2*c^3-9*b*c*d+27*b^2*ee+27*a*d^2-72*a*c*ee],"+//OK
+				
+				"if (delta0 == 0 && delta1 == 0) then"+
+				// giac's solve should give exact in this case
+				" ggbans:=zeros(ggbfun) else " +
+			
+				" ["+
 				"[minusdelta27:=delta1^2-4*delta0^3],"+//OK
 				// use surd rather than cbrt so that simplify cbrt(27) works
 				//"[Q:=simplify(surd((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2,3))],"+
 				// find all 3 cube-roots
 				"[Qzeros:=czeros(x^3=(delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)],"+
+				// czeros can return an empty list eg czeros(x^(3) = (1150 + ((180 * i) * sqrt(35))) / 2)
+				// from SolveQuartic[x^(4) - (2 * x^(3)) - (7 * x^(2)) + (16 * x) - 5]
+				"[Qzeros:=when(length(Qzeros)==0,{cbrt((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)},Qzeros)],"+
 				"[Q:=Qzeros[0]],"+
 				"[Q1:=when(length(Qzeros) > 1,Qzeros[1],Qzeros[0])],"+
 				"[Q2:=when(length(Qzeros) > 2,Qzeros[2],Qzeros[0])],"+
@@ -778,8 +760,16 @@ public class Ggb2giac {
 				"[S:=sqrt(-2*p/3+(Q+delta0/Q)/(3*a))/2],"+
 				"[S:=when(S!=0,S,sqrt(-2*p/3+(Q1+delta0/Q1)/(3*a))/2)],"+
 				"[S:=when(S!=0,S,sqrt(-2*p/3+(Q2+delta0/Q2)/(3*a))/2)],"+
-				"[simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)]"+
-				"][18]");
+				
+				// could use these for delta > 0 ie minusdelta27 < 0
+				//"[phi:=acos(delta1/2/sqrt(delta0^3))],"+
+				//"[Salt:=sqrt(-2*p/3+2/(3*a)*sqrt(delta0)*cos(phi/3))/2],"+
+				
+				"[ggbans:={simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)}]"+
+				"]" +
+				"fi"+
+				//")]" + 
+				" ,ggbans][13]");
 
 		
 		// Experimental Geometry commands. Giac only
