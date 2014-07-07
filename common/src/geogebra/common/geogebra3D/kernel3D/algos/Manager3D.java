@@ -693,6 +693,11 @@ public class Manager3D implements Manager3DInterface {
 
 	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius,
 			GeoDirectionND axis) {
+		
+		
+		if (!A.isGeoElement3D() && axis == kernel.getXOYPlane()){
+			return kernel.getAlgoDispatcher().Circle(label, (GeoPoint) A, radius);
+		}
 
 		AlgoCircle3DPointDirection algo = new AlgoCircle3DPointRadiusDirection(
 				cons, label, A, radius, axis);

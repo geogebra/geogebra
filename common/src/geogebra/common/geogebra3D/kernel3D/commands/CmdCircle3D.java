@@ -21,97 +21,97 @@ public class CmdCircle3D extends CmdCircle {
 
 	
 	
+	
+	@Override
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
 
-	public GeoElement[] process(Command c) throws MyError {
-	    int n = c.getArgumentNumber();
-	    boolean[] ok = new boolean[n];
-	    GeoElement[] arg;
+		if ((ok[0] = (arg[0] instanceof GeoLineND))
+				&& (ok[1] = (arg[1] .isGeoPoint()))) {
+			GeoElement[] ret =
+			{
+					kernelA.getManager3D().Circle3D(
+							c.getLabel(),
+							(GeoLineND) arg[0],
+							(GeoPointND) arg[1])};
+			return ret;
+		}
+		
+		return super.process2(c, arg, ok);
+	}
+	
+	@Override
+	protected GeoElement circle(String label, GeoPointND a, GeoNumberValue v){
+		
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernelA, app);
+		if (orientation == null){
+			if (a.isGeoElement3D()){
+				orientation = kernelA.getXOYPlane(); 
+			}else{
+				// use 2D algo
+				return super.circle(label, a, v);
+			}
+		}
 
-	    switch (n) {
-	    case 2 :
-	    	arg = resArgs(c);
-	    	if ((ok[0] = (arg[0] instanceof GeoLineND))
-    				&& (ok[1] = (arg[1] .isGeoPoint()))) {
+		return kernelA.getManager3D().Circle3D(label, a, v, orientation);
+	}
+	
+	
+	 
+	@Override
+	protected GeoElement circle(String label, GeoPointND a, GeoPointND b){
+		
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernelA, app);
+		if (orientation == null){
+			if (a.isGeoElement3D() || b.isGeoElement3D()){
+				orientation = kernelA.getXOYPlane(); 
+			}else{
+				// use 2D algo
+				return super.circle(label, a, b);
+			}
+		}
+
+		return kernelA.getManager3D().Circle3D(label, a, b, orientation);
+	}
+
+	
+	
+	@Override
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
+
+		if ((ok[0] = (arg[0] .isGeoPoint())) && (ok[2] = (arg[2] instanceof GeoDirectionND))){
+    		if (ok[1] = (arg[1]  instanceof GeoNumberValue)){
     			GeoElement[] ret =
     			{
     					kernelA.getManager3D().Circle3D(
     							c.getLabel(),
-    							(GeoLineND) arg[0],
-    							(GeoPointND) arg[1])};
+    							(GeoPointND) arg[0],
+    							(GeoNumberValue) arg[1],
+    							(GeoDirectionND) arg[2])};
     			return ret;
-    		}else if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() ){
-	    		 if (ok[0] = (arg[0] .isGeoPoint())){
-	    			if(ok[1] = (arg[1]  instanceof GeoNumberValue)){
-		    			GeoElement[] ret =
-		    				{
-		    					kernelA.getManager3D().Circle3D(
-		    							c.getLabel(),
-		    							(GeoPointND) arg[0],
-		    							(GeoNumberValue) arg[1],
-		    							(GeoDirectionND) kernelA.getXOYPlane())};
-		    			return ret;
-
-		    		}else if(ok[1] = (arg[1] .isGeoPoint())){
-		    			GeoElement[] ret =
-		    				{
-		    					kernelA.getManager3D().Circle3D(
-		    							c.getLabel(),
-		    							(GeoPointND) arg[0],
-		    							(GeoPointND) arg[1],
-		    							(GeoDirectionND) kernelA.getXOYPlane())};
-		    			return ret;
-
-		    		}
-	    		}
-	    	
-	    	}
-	    	break;
-	    
-	    
-	    case 3 :
-	    	arg = resArgs(c);
-	    	if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() || arg[2].isGeoElement3D()){
-	    		if ((ok[0] = (arg[0] .isGeoPoint()))
-	    				&& (ok[1] = (arg[1] .isGeoPoint()))
-	    				&& (ok[2] = (arg[2] .isGeoPoint()))) {
-	    			GeoElement[] ret =
-	    			{
-	    					kernelA.getManager3D().Circle3D(
-	    							c.getLabel(),
-	    							(GeoPointND) arg[0],
-	    							(GeoPointND) arg[1],
-	    							(GeoPointND) arg[2])};
-	    			return ret;
-	    		}
-	    	}
-
-	    	if ((ok[0] = (arg[0] .isGeoPoint())) && (ok[2] = (arg[2] instanceof GeoDirectionND))){
-	    		if (ok[1] = (arg[1]  instanceof GeoNumberValue)){
-	    			GeoElement[] ret =
-	    			{
-	    					kernelA.getManager3D().Circle3D(
-	    							c.getLabel(),
-	    							(GeoPointND) arg[0],
-	    							(GeoNumberValue) arg[1],
-	    							(GeoDirectionND) arg[2])};
-	    			return ret;
-	    		}else if ((ok[1] = (arg[1] .isGeoPoint()))){
-	    			GeoElement[] ret =
-	    			{
-	    					kernelA.getManager3D().Circle3D(
-	    							c.getLabel(),
-	    							(GeoPointND) arg[0],
-	    							(GeoPointND) arg[1],
-	    							(GeoDirectionND) arg[2])};
-	    			return ret;
-	    		}
-	    	}
-	    	
-	    	
-	    	break;
-	    }
-	    
-	    return super.process(c);
+    		}else if ((ok[1] = (arg[1] .isGeoPoint()))){
+    			GeoElement[] ret =
+    			{
+    					kernelA.getManager3D().Circle3D(
+    							c.getLabel(),
+    							(GeoPointND) arg[0],
+    							(GeoPointND) arg[1],
+    							(GeoDirectionND) arg[2])};
+    			return ret;
+    		}
+    	}
+		
+		return super.process3(c, arg, ok);
 	}
+	
+	@Override
+	protected GeoElement circle(String label, GeoPointND a, GeoPointND b, GeoPointND c){
+		
+		if (a.isGeoElement3D() || b.isGeoElement3D() || c.isGeoElement3D()){
+			return kernelA.getManager3D().Circle3D(label, a, b, c);
+		}
+		
+		return super.circle(label, a, b, c);
+	}
+	
 	
 }

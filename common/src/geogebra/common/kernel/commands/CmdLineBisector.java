@@ -72,7 +72,7 @@ public class CmdLineBisector extends CommandProcessor {
 	 * @param arg arguments
 	 * @param ok ok array
 	 * @return result (if one)
-	 * @throws MyError in 2D, not possible with 3 args
+	 * @throws MyError arg error
 	 */
 	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
 
