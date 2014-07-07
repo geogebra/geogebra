@@ -232,6 +232,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdLast(kernel);
 		case RemoveUndefined:
 			return new CmdRemoveUndefined(kernel);
+		case Remove:
+			return new CmdRemove(kernel);
 		case Reverse:
 			return new CmdReverse(kernel);
 		case TableText:

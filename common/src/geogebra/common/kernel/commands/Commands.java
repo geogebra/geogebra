@@ -102,6 +102,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Product(TABLE_LIST), Frequency(TABLE_LIST), Unique(TABLE_LIST), Classes(TABLE_LIST),
    	Zip(TABLE_LIST), Intersection(TABLE_LIST),
    	PointList(TABLE_LIST), OrdinalRank(TABLE_LIST), TiedRank(TABLE_LIST), Union(TABLE_LIST), 
+   	Remove(TABLE_LIST),
    	
 	//=============================================================
 	// charts

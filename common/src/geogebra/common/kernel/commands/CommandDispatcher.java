@@ -592,6 +592,7 @@ public abstract class CommandDispatcher {
 			case Append:
 			case First:
 			case Last:
+			case Remove:
 			case RemoveUndefined:
 			case Reverse:
 			case TableText:
