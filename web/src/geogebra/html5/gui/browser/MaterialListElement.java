@@ -11,6 +11,7 @@ import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -20,7 +21,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -33,74 +33,60 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  */
 public class MaterialListElement extends FlowPanel implements ResizeListener {
-	private SimplePanel image;
-	private VerticalPanel infos;
-	private VerticalPanel links;
-	private Label title, date;
-	private Label sharedBy;
-	private final Material material;
-	private final AppW app;
-	
-	private HorizontalPanel confirmDeletePanel;
-	private StandardButton confirm;
-	private StandardButton cancel;
-	private boolean isSelected = false;
+	protected SimplePanel image;
+	protected VerticalPanel infos, links, centeredContent;
+	protected Label title, date, sharedBy;
+	protected final Material material;
+	protected final AppWeb app;
+	protected boolean isSelected = false;
 
 	//TODO: Translate Insert Worksheet and Edit
-	private final StandardButton openButton, editButton;
-	//Steffi: Delete not needed here
-	/*private final StandardButton deleteButton = new StandardButton(
-			BrowseResources.INSTANCE.dialog_cancel());*/
-	private BrowseGUI bg;
+	protected StandardButton openButton;
+	protected StandardButton editButton;
 
-	MaterialListElement(final Material m, final AppWeb app, BrowseGUI bg) {
+	/**
+	 * 
+	 * @param m {@link Material}
+	 * @param app {@link AppWeb}
+	 */
+    public MaterialListElement(final Material m, final AppWeb app) {
 		openButton = new StandardButton(
 				BrowseResources.INSTANCE.document_viewer(), "");
 		editButton = new StandardButton(
 				BrowseResources.INSTANCE.document_edit(), "");
-		this.app = (AppW) app;
+		this.app = app;
 		this.material = m;
-		this.bg = bg;
-		this.setStyleName("browserFile");
+		this.setStyleName("materialListElement");
 
-		this.initButtons();
-		/*this.initConfirmDeletePanel();*/
-		this.initMaterialInfos();
+		initButtons();
+		initMaterialInfos();
 
-		final VerticalPanel centeredContent = new VerticalPanel();
+		this.centeredContent = new VerticalPanel();
 		centeredContent.setStyleName("centeredContent");
 		centeredContent.add(this.infos);
 
 		this.add(centeredContent);
 		this.add(this.links);
 
-		// clearPanel clears flow layout (needed for styling)
-		/*final LayoutPanel clearPanel = new LayoutPanel();
-		clearPanel.setStyleName("fileClear");
-		this.add(clearPanel);*/
-
-		this.markUnSelected();
-
 		this.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
 				event.preventDefault();
 				materialSelected();
-
 			}
 		}, ClickEvent.getType());
 		setLabels();
 	}
 
-	void materialSelected() {
+	protected void materialSelected() {
 		if (this.isSelected) {
-				onEdit();
+			onEdit();
 		} else {
-			this.markSelected();
+			markSelected();
 		}
 	}
 
-	private void initMaterialInfos() {
+	protected void initMaterialInfos() {
 		this.image = new SimplePanel();
 		this.image.addStyleName("fileImage");
 		this.infos = new VerticalPanel();
@@ -148,46 +134,14 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.infos.add(this.date);
 	}
 
-	/*private void initConfirmDeletePanel() {
-		this.confirm = new StandardButton(this.app.getLocalization().getPlain(
-				"Delete"));
-		this.confirm.addStyleName("confirmButton");
-		this.confirm.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
-				onConfirmDelete();
-			}
-		}, ClickEvent.getType());
-
-		this.cancel = new StandardButton(this.app.getLocalization().getPlain(
-				"Cancel"));
-		this.cancel.addStyleName("confirmCancelButton");
-		this.cancel.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
-				onCancel();
-			}
-		}, ClickEvent.getType());
-
-		this.confirmDeletePanel = new HorizontalPanel();
-		this.confirmDeletePanel.add(this.confirm);
-		this.confirmDeletePanel.add(this.cancel);
-		this.confirmDeletePanel.setStyleName("confirmDelete");
-		this.confirmDeletePanel.setVisible(false);
-	}*/
-
-	public String getMaterialTitle() {
-		return this.material.getTitle();
-	}
-
-	private void initButtons() {
+	/**
+	 * Initializes the panel of the buttons 'edit' and 'open'
+	 */
+	protected void initButtons() {
 		this.links = new VerticalPanel();
 		this.links.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.links.setStyleName("fileLinks");
+		this.links.setVisible(false);
 		
 		FlowPanel arrowPanel = new FlowPanel();
 		Image arrow = new Image(BrowseResources.INSTANCE.arrow_submenu());
@@ -199,27 +153,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.initEditButton();
 		this.initOpenButton();
 	}
-
-	// Steffi: Delete not needed here
-	/*private void initDeleteButton() {
-
-		this.links.add(this.deleteButton);
-		this.deleteButton.addStyleName("delete");
-		this.deleteButton.addFastClickHandler(new FastClickHandler() {
-			
-			@Override
-			public void onClick() {
-				onDelete();
-			}
-		});
-	}*/
-
-	/*void onDelete() {
-		this.confirmDeletePanel.setVisible(true);
-		this.links.setVisible(false);
-	}*/
-
-	private void initEditButton() {
+	
+	/**
+	 * adds a {@link FastClickHandler}
+	 */
+	protected void initEditButton() {
 		this.links.add(this.editButton);
 		this.editButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -229,7 +167,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		});
 	}
 
-	void onEdit() {
+	/**
+	 * 
+	 */
+	protected void onEdit() {
 		/* TODO */
 		if(material.getId() > 0){
 			if(material.getType() == MaterialType.book){
@@ -237,8 +178,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 					@Override
 		            public void onLoaded(List<Material> response) {
-						bg.onSearchResults(response);
-						bg.updateViewSizes();
+						//FIXME don't use browseGUI here!
+						((GuiManagerW) app.getGuiManager()).getBrowseGUI().onSearchResults(response);
 		            }
 		       });
 				return;
@@ -254,10 +195,14 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			//TODO: non-tube material ?
 		}
 		app.setUnsaved();
-		bg.close();
+		//FIXME don't use browseGUI here! -> why we have to close it: see BrowseGUI.onOpenFile()
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().close();
 	}
 
-	private void initOpenButton() {
+	/**
+	 * adds a {@link FastClickHandler}
+	 */
+	protected void initOpenButton() {
 		this.links.add(this.openButton);
 		this.openButton.addFastClickHandler(new FastClickHandler() {
 
@@ -268,44 +213,39 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		});
 	}
 	
-	void onOpen() {
-		app.getLAF().open(material, app);
+	/**
+	 * opens the chosen {@link Material}
+	 */
+	protected void onOpen() {
+		((AppW) app).getLAF().open(material, (AppW) app);
 	}
 
-	
-	
-	private void markSelected() {
+	/**
+	 * marks the material as selected
+	 */
+	protected void markSelected() {
+		//FIXME don't use browseGUI here!
 		this.isSelected = true;
-		bg.unselectMaterials();
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().unselectMaterials();
 		this.addStyleName("selected");
 		this.links.setVisible(true);
-		//this.confirmDeletePanel.setVisible(false);
-		bg.rememberSelected(this);
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().rememberSelected(this);
 	}
 
-	void onConfirmDelete() {
-		/* TODO */
-	}
-
-	void onCancel() {
-		this.links.setVisible(true);
-		/*this.confirmDeletePanel.setVisible(false);*/
-	}
-
+	/**
+	 * removes the selection 
+	 */
 	public void markUnSelected() {
 		this.isSelected = false;
 		this.removeStyleName("selected");
 		this.links.setVisible(false);
-		/*this.confirmDeletePanel.setVisible(false);*/
 	}
 
-	void setLabels() {
-		String viewAction = app.getLAF().getInsertWorksheetTitle(this.material);
-		if(viewAction == null){
-			this.openButton.removeFromParent();
-		}else{
-			this.openButton.setText(app.getMenu(viewAction));
-		}
+	/**
+	 * 
+	 */
+	protected void setLabels() {
+		this.openButton.setText(app.getMenu("Open"));
 		if(this.material.getType() == MaterialType.book){
 			this.editButton.setText(app.getMenu("Open"));
 		}else{
@@ -313,9 +253,18 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		}
 	}
 
+	/**
+	 * 
+	 * @return the {@link Material}
+	 */
+	public Material getMaterial() {
+		return this.material;
+	}
+	
 	@Override
 	public void onResize() {
-		if (bg.getOffsetWidth() < 780) {
+		//FIXME do we need this?
+		if (((GuiManagerW) app.getGuiManager()).getBrowseGUI().getOffsetWidth() < 780) {
 			this.image.addStyleName("scaleImage");
 		}
 		else {

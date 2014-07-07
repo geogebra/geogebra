@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.gui.MyHeaderPanel;
-import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
@@ -83,8 +82,7 @@ public class AppWapplication extends AppW {
 	    if(token != null && !"".equals(token)){
 	    	App.debug("Token received"+token);
 	    	this.getLoginOperation().performTokenLogin(token, false);
-	    	BrowseGUI bg = new BrowseGUI(this);
-			this.showBrowser(bg);
+			this.showBrowser(((GuiManagerW) this.getGuiManager()).getBrowseGUI());
 			nativeLoggedIn();
 	    }else{
 	    	if(Cookies.getCookie("SSID") != null){

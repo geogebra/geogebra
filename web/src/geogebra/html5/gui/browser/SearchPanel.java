@@ -6,6 +6,7 @@ import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.main.AppWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 
 public class SearchPanel extends FlowPanel implements BooleanRenderable {
+	
 	public interface SearchListener {
 		void onSearch(String query);
 	}
@@ -39,18 +41,15 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	private final FastButton searchButton;
 	private FastButton cancelButton;
 	private final List<SearchListener> listeners;
-	private BrowseGUI browseGUI;
 	private NetworkOperation op;
 	protected final Localization loc;
 
-	public SearchPanel (final Localization loc, final BrowseGUI browseGUI,
-			NetworkOperation op) {
-
-		this.browseGUI = browseGUI;
+	public SearchPanel(AppWeb app) {
 		this.searchPanel = new FlowPanel();
 		this.searchPanel.setStyleName("searchPanel");
 		this.listeners = new ArrayList<SearchListener>();
-		this.loc = loc;
+		this.loc = app.getLocalization();
+		this.op = app.getNetworkOperation();
 
 		this.query = new TextBox();
 		this.query.addKeyDownHandler(new KeyDownHandler() {
@@ -109,10 +108,14 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.add(this.searchPanel);
 		this.add(this.info);
 
-		this.op = op;
-		op.getView().add(this);
+		if (this.op != null) {
+			this.op.getView().add(this);
+		}
+		
+		
 		setLabels();
 	}
+
 
 	void doSearch() {
 		if (!this.query.getText().equals("")) {
@@ -127,7 +130,6 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.query.setFocus(false);
 		this.query.setText("");
 		this.cancelButton.setVisible(false);
-		this.browseGUI.loadFeatured();
 	}
 
 	void onFocusQuery() {

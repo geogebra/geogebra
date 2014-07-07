@@ -26,6 +26,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
+import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.main.AppWeb;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
@@ -99,7 +100,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
 	private EuclidianViewW euclidianView2;
-
+	private BrowseGUI browseGUI;
 	protected LayoutW layout;
 
 	private CASViewW casView;
@@ -1518,5 +1519,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		default:
 			super.detachView(viewId);
 		}
+	}
+	
+	/**
+	 * @return {@link BrowseGUI}
+	 */
+	public BrowseGUI getBrowseGUI() {
+		if (this.browseGUI == null) {
+			this.browseGUI = new BrowseGUI((AppWeb)this.app);
+		}
+		return this.browseGUI;
 	}
 }

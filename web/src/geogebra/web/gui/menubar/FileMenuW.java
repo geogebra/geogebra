@@ -2,7 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.browser.BrowseGUI;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
@@ -52,8 +52,7 @@ public class FileMenuW extends GMenuBar {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true,new Command() {
     		
 				public void execute() {
-					BrowseGUI bg = new BrowseGUI(app);
-					app.showBrowser(bg);
+					app.showBrowser(((GuiManagerW) app.getGuiManager()).getBrowseGUI());
 					if(FileMenuW.this.onFileOpen!=null){
 						FileMenuW.this.onFileOpen.run();
 					}

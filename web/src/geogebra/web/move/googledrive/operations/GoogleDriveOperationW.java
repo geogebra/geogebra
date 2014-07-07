@@ -33,7 +33,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	private AppW app;
 	private boolean loggedIn;
 	private JavaScriptObject googleDriveURL;
-	private JavaScriptObject authToken;
+	private String authToken;
 	private boolean needsPicker;
 
 	
@@ -127,13 +127,13 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	            	 function (resp) {
 	            	 		var token = resp ? resp.access_token:{};
 	            	 		var error = resp ? resp.error : "";
-	            	 		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;)(token,error);
+	            	 		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Ljava/lang/String;Ljava/lang/String;)(token,error);
 	            	 	}
 	           
 	       );
 	}-*/;
 	
-	private void authorizeCallback(JavaScriptObject token,String error) {		
+	private void authorizeCallback(String token,String error) {		
 		if (error!= null && error.length() > 0) {
 			App.debug("GOOGLE LOGIN"+error);
 			this.loggedIn = false;
@@ -150,7 +150,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		}
 	}
 
-    private native void createPicker(JavaScriptObject token2) /*-{
+    private native void createPicker(String token2) /*-{
     	var _this = this;
     	var picker = new $wnd.google.picker.PickerBuilder().
                 addView($wnd.google.picker.​ViewId.DOCS).

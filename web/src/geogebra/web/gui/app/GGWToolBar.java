@@ -8,6 +8,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
 import geogebra.web.main.AppW;
@@ -186,8 +187,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {
-				// TODO: Zbynek please check if this is ok - Steffi
-				BrowseGUI bg = new BrowseGUI(app);
+				BrowseGUI bg = ((GuiManagerW)app.getGuiManager()).getBrowseGUI();
 				app.showBrowser(bg);
             }
 		});
@@ -195,7 +195,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		openSearchButton.addDomHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event) {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-	            	BrowseGUI bg = new BrowseGUI(app);
+	            	BrowseGUI bg = ((GuiManagerW)app.getGuiManager()).getBrowseGUI();
 					app.showBrowser(bg);
 	            }
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){

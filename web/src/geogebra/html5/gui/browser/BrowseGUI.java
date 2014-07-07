@@ -5,26 +5,33 @@ import geogebra.common.main.OpenFileListener;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
-import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
-import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.operations.GoogleDriveFileHandler;
+import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * GeoGebraTube Search and Browse GUI
@@ -34,36 +41,86 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
   
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
-	private final AppWeb app;
-	private String lastQuery;
+	protected BrowseViewPanel content;
+	private HorizontalPanel container;
+	
+	private FlowPanel providerPanel;
+	private StandardButton locationTube;
+	private StandardButton locationDrive;
+	private StandardButton locationSkyDrive;
+	
+	protected final AppWeb app;
 	private MaterialListElement lastSelected;
-
-	// HorizontalMaterialPanel featuredMaterials;
-	private VerticalMaterialPanel tubeFilePanel;
-	private FileContainer tubeFileContainer;
-
-	private List<Material> tubeList = new ArrayList<Material>();
-	private List<Material> googleList = new ArrayList<Material>();
-	private List<Material> oneList = new ArrayList<Material>();
-	private Provider provider = Provider.TUBE;
 
 	public final static int HEADING_HEIGHT = 61;
 
+	
+	protected EventRenderable loginCallback = new EventRenderable(){
+		private boolean active = true;
+		public void renderEvent(BaseEvent e){
+			GoogleDriveOperationW op = ((AppW) BrowseGUI.this.app).getGoogleDriveOperation();
+			if (active && op.isLoggedIntoGoogle()) {
+				op.initFileNameItems(BrowseGUI.this);
+				active = false;
+			}
+		}
+	};
+	
+	public class MyButton extends FlowPanel {
+		public MyButton(BrowseGUI bg) {
+			super();
+			this.setStyleName("button");
+			Image icon = new Image(BrowseResources.INSTANCE.location_local());
+			Element span = DOM.createElement("span");
+			span.setAttribute(
+			        "style",
+			        "position: absolute; width: 50px; height: 50px; padding: 10px; top: 0px; left: 0px; overflow: hidden;");
+			span.setInnerHTML("<img src=\"" + icon.getUrl() + "\"/>");
+			Element input = DOM.createElement("input");
+			input.setAttribute("type", "file");
+			input.setAttribute(
+			        "style",
+			        "width: 500px; height: 60px; font-size: 56px;"
+			                + "opacity: 0; position: absolute; right: 0px; top: 0px; cursor: pointer;");
+			span.appendChild(input);
+	
+			DOM.insertChild(getElement(), span, 0);
+			addGgbChangeHandler(input, bg);
+		}
+	
+		public native void addGgbChangeHandler(Element el, BrowseGUI bg) /*-{
+			var dialog = this;
+			//		el.setAttribute("accept", "application/vnd.geogebra.file, application/vnd.geogebra.tool");
+			el.onchange = function(event) {
+				var files = this.files;
+				if (files.length) {
+					var fileToHandle = files[0];
+					bg.@geogebra.html5.gui.browser.BrowseGUI::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+				}
+	
+			};
+		}-*/;
+	}
+	
+	
+
+	
 	/**
-	 * Sets the viewport and other settings, creates a link element at the end
-	 * of the head, appends the css file and initializes the GUI elements.
 	 * 
 	 * @param app
 	 */
 	public BrowseGUI(final AppWeb app) {
 		this.setStyleName("browsegui");
-		//this.fm = ((TouchApp) app).getFileManager();
+		
 		this.app = app;
 		this.app.getNetworkOperation().getView().add(this);
-		if(this.app.getLoginOperation()==null){
+		if(this.app.getLoginOperation() == null){
 			this.app.initSignInEventFlow();
 		}
 		this.app.getLoginOperation().getView().add(this);
+		
+		initContent();
+		
 		addHeader();
 		addContent();
 
@@ -75,84 +132,105 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		});
 		
 		app.registerOpenFileListener(this);
-
+		loadFeatured();
 	}
 
 	void updateViewSizes() {
+		this.container.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
+		this.providerPanel.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}
 	}
 
 	private void addHeader() {
-		this.header = new BrowseHeaderPanel(app, this,app.getNetworkOperation());
-		
+		this.header = new BrowseHeaderPanel(app, this, app.getNetworkOperation());
 		this.setHeaderWidget(this.header);
 		this.addResizeListener(this.header);
 	}
 
+	/**
+	 * Initialize the providers panel, needs to be done after google / MS login
+	 */
+	void initProviders() {
+		this.providerPanel = new FlowPanel();
+		this.providerPanel.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
+		providerPanel.clear();
+		locationTube = new StandardButton(
+		        BrowseResources.INSTANCE.location_tube());
+		locationTube.addFastClickHandler(new FastClickHandler() {
+			
+			@Override
+			public void onClick() {
+				loadFeatured();
+			}
+		});
+		providerPanel.add(locationTube);
+
+		MyButton locationLocal = new MyButton(this);// StandardButton(AppResources.INSTANCE.folder());
+		providerPanel.add(locationLocal);
+		// TODO: Only visible if user is logged in with google Account
+		GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
+		        .getLoggedInUser();
+		if (user != null && user.hasGoogleDrive() && !((AppW)app).getLAF().isSmart()) {
+			locationDrive = new StandardButton(
+			        BrowseResources.INSTANCE.location_drive());
+			providerPanel.add(locationDrive);
+			locationDrive.addFastClickHandler(new FastClickHandler() {
+
+				@Override
+				public void onClick() {
+					 ((AppW) BrowseGUI.this.app).getGoogleDriveOperation().requestPicker();
+				}
+			});
+		} else if (user != null) {
+			App.debug(user.getIdentifier());
+		}
+		
+		// TODO: Only visible if user is logged in with google Account
+		if (user != null && user.hasOneDrive()) {
+			locationSkyDrive = new StandardButton(
+			        BrowseResources.INSTANCE.location_skydrive());
+			this.providerPanel.add(locationSkyDrive);
+		}
+
+		// Set Tube as the active on
+		locationTube.addStyleName("selected");
+	}
+
+	protected void initContent() {
+		this.content = new BrowseViewPanel(app);
+		this.addResizeListener(this.content);
+	}
+	
 	private void addContent() {
-		initTubeFilePanel();
-		this.setContentWidget(this.tubeFileContainer);
-	}
+		this.container = new HorizontalPanel();
+		this.container.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
+		this.container.setStyleName("tubeFilePanel");
+		
+		this.container.add(this.content);
+		
+		initProviders();
+		this.providerPanel.setStyleName("providers");
+		this.container.add(providerPanel);
+		app.getLoginOperation().getView().add(new EventRenderable() {
 
-	private void initTubeFilePanel() {
-		this.tubeFilePanel = new VerticalMaterialPanel(this.app, this);
-		this.tubeFileContainer = new FileContainer("GeoGebraTube",
-				this.tubeFilePanel, this, app);
-		this.tubeFileContainer.setVisible(false);
-		this.tubeFileContainer.setStyleName("tubeFilePanel");
-		this.addResizeListener(this.tubeFileContainer);
-		this.addResizeListener(this.tubeFilePanel);
-	}
+			@Override
+			public void renderEvent(BaseEvent event) {
+				initProviders();
 
-	void displaySearchResults(final String query) {
-		this.lastQuery = query;
-		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
-				query, new MaterialCallback() {
-					@Override
-					public void onError(final Throwable exception) {
-						// FIXME implement Error Handling!
-						BrowseGUI.this.updateGUI();
-						exception.printStackTrace();
-						App.debug(exception.getMessage());
-					}
-
-					@Override
-					public void onLoaded(final List<Material> response) {
-						onSearchResults(response);
-						updateViewSizes();
-					}
-				});
+			}
+		});
+		
+		this.setContentWidget(this.container);
 	}
 
 	public void loadFeatured() {
-		this.lastQuery = null;
-		MaterialCallback rc = new MaterialCallback() {
-			@Override
-			public void onError(
-					final Throwable exception) {
-				BrowseGUI.this.updateGUI();
-			}
-
-			@Override
-			public void onLoaded(final List<Material> response) {
-				onSearchResults(response);
-				updateViewSizes();
-			}
-		};
-		GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
-		
-		if(app.getLoginOperation().isLoggedIn()){
-			api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
-		}else{
-			api.getFeaturedMaterials(rc);
-		}
+		this.content.loadFeatured();
 	}
-
-	void onSearchResults(final List<Material> response) {
-		this.tubeList = response;
-		this.updateGUI();
+	
+	public void onSearchResults(final List<Material> response) {
+		this.content.onSearchResults(response);
 	}
 
 	public void addResizeListener(final ResizeListener rl) {
@@ -161,63 +239,29 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 
 	public void setLabels() {
 		this.header.setLabels();
-		this.tubeFilePanel.setLabels();
+		this.content.setLabels();
 	}
 
-	void updateGUI() {
-			switch(this.provider){
-			case TUBE:
-				this.tubeFilePanel.setMaterials(2, this.tubeList);
-				break;
-			case GOOGLE:
-				this.tubeFilePanel.setMaterials(2, this.googleList);
-				break;
-			case ONE:
-				this.tubeFilePanel.setMaterials(2, this.oneList);
-				break;
-			}
-			this.tubeFileContainer.setVisible(true);
-		
-	}
-
-	@Override
-	public void render(boolean b) {
-		if (!b) {
-			this.tubeList.clear();
-			updateGUI();
-		} else if (this.lastQuery != null) {
-			this.displaySearchResults(this.lastQuery);
-		} else {
-			this.loadFeatured();
-		}
-
-	}
 
 	public MaterialListElement getChosenMaterial() {
-		return this.lastSelected;
+		return this.content.getChosenMaterial();
 	}
 
 	public void unselectMaterials() {
-		if (this.lastSelected != null) {
-			this.lastSelected.markUnSelected();
-		}
+		this.content.unselectMaterials();
 	}
 
 	public void rememberSelected(final MaterialListElement materialElement) {
-		this.lastSelected = materialElement;
+		this.content.rememberSelected(materialElement);
 	}
 
-	
-
 	public void setFrame(GeoGebraAppFrame frame) {
-		this.loadFeatured();
-	    super.setFrame(frame);
-	    
+	    super.setFrame(frame);	    
     }
 	
 	public void openFileAsGgb(JavaScriptObject fileToHandle,
 	        JavaScriptObject callback){
-		app.openFileAsGgb(fileToHandle, callback);
+		app.openFileAsGgb(fileToHandle, callback);		
 	}
 
 	@Override
@@ -231,24 +275,18 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		m.setGoogleID(googleID);
 		m.setTimestamp(Long.parseLong(date)/1000);
 		m.setThumbnail(thumbnail);
-	    this.googleList.add(m);
-	    
     }
 
 	@Override
     public void done() {
-	    this.updateGUI();
+//	    this.updateGUI();
 	    
     }
 
 	@Override
     public void clearMaterials() {
-	    this.googleList.clear();
+//	    this.googleList.clear();
     }
-	
-	public void setProvider(Provider provider){
-		this.provider = provider;
-	}
 
 	@Override
     public void renderEvent(BaseEvent event) {
@@ -259,8 +297,28 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 
 	@Override
     public void onOpenFile() {
+		//FIXME check, why we have to call bg.close() in MaterialListElement.onEdit()
 	    this.close();
 	    this.app.registerOpenFileListener(null);
+    }
+
+	@Override
+    public void render(boolean b) {
+		//FIXME check what we really need
+//		if (!b) {
+//            this.tubeList.clear();
+//            updateGUI();
+//    } else if (this.lastQuery != null) {
+//            this.displaySearchResults(this.lastQuery);
+//    } else {
+//            this.loadFeatured();
+//    }
+	    if(!b) {
+	    	this.clearMaterials();
+	    }
+	    else {
+	    	loadFeatured();
+	    }
     }
 }
 

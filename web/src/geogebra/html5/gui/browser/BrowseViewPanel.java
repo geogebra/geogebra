@@ -2,7 +2,6 @@ package geogebra.html5.gui.browser;
 
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.browser.SearchPanel.SearchListener;
 import geogebra.html5.main.AppWeb;
@@ -19,7 +18,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * 
  * The container for the {@link SearchPanel} and the {@link MaterialListPanel}
  */
-public class BrowseViewPanel extends FlowPanel implements BooleanRenderable, ResizeListener {
+public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	
 	protected final int SEARCH_PANEL_HEIGHT = 40;
 	
@@ -41,6 +40,8 @@ public class BrowseViewPanel extends FlowPanel implements BooleanRenderable, Res
 	
 	public BrowseViewPanel(AppWeb app) {
 		this.setStyleName("contentPanel");
+		//FIXME do this with LAF
+		this.setPixelSize(Window.getClientWidth()-70, Window.getClientHeight()-61);
 		this.app = app;
 		
 		this.container = new FlowPanel();
@@ -51,11 +52,10 @@ public class BrowseViewPanel extends FlowPanel implements BooleanRenderable, Res
 	}
 
 	private void addSearchPanel() {
-		//this.searchPanel = new SearchPanel(app);
+		this.searchPanel = new SearchPanel(app);
 		this.searchPanel.addSearchListener(new SearchListener() {
           @Override
 			public void onSearch(final String query) {
-        	  	System.out.println("onSearch");
 				BrowseViewPanel.this.displaySearchResults(query);
 			}
 		});
@@ -92,7 +92,7 @@ public class BrowseViewPanel extends FlowPanel implements BooleanRenderable, Res
 	}
 
 	public void onSearchResults(final List<Material> response) {
-		this.filePanel.setMaterials(response);
+		this.filePanel.setMaterials(response);		
 	}
 	
 	public MaterialListElement getChosenMaterial() {
@@ -110,7 +110,6 @@ public class BrowseViewPanel extends FlowPanel implements BooleanRenderable, Res
 	}
 	
 	public void displaySearchResults(final String query) {
-		System.out.println("displaySearchResults BrowseViewPanel");
 		this.lastQuery = query;
 		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
 				query, new MaterialCallback() {
@@ -129,18 +128,8 @@ public class BrowseViewPanel extends FlowPanel implements BooleanRenderable, Res
 	}
 	
 	@Override
-	public void render(final boolean b) {
-		if (!b) {
-			this.filePanel.clearList();
-		} else if (this.lastQuery != null) {
-			this.displaySearchResults(this.lastQuery);
-		} else {
-			this.loadFeatured();
-		}
-	}
-
-	@Override
 	public void onResize() {
+		//FIXME do this with LAF
 		this.setPixelSize(Window.getClientWidth()-70, Window.getClientHeight()-61);
 		this.filePanel.onResize();
 	}
