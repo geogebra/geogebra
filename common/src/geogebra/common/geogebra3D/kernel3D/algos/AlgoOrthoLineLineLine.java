@@ -52,8 +52,8 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 
 	@Override
 	protected void setOriginAndDirection2() {
-    	Coords o2 = line2.getPointInD(3, 0);
-    	direction2 = line2.getPointInD(3, 1).sub(o2);
+    	Coords o2 = line2.getPointInD(3, 0).getInhomCoordsInSameDimension();
+    	direction2 = line2.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
 		Coords[] points = CoordMatrixUtil.nearestPointsFromTwoLines(origin1, direction1, o2, direction2);
 		origin = points[0];
 	

@@ -111,8 +111,8 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	   
 	   protected void setIntersectionLine(){
 		   
-		   o1 = g.getPointInD(3, 0);
-		   d1 = g.getPointInD(3, 1).sub(o1);
+		   o1 = g.getPointInD(3, 0).getInhomCoordsInSameDimension();
+		   d1 = g.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
 	   }
 	   
 
@@ -158,8 +158,8 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		   for(int i=0; i<p.getSegments().length; i++){
 			   GeoSegmentND seg = p.getSegments()[i];
 
-			   Coords o2 = seg.getPointInD(3, 0);
-			   Coords d2 = seg.getPointInD(3, 1).sub(o2);
+			   Coords o2 = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
+			   Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
 
 			   Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
 					   o1,d1,o2,d2

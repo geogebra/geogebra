@@ -219,12 +219,12 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
     		tLast = g.getMinParameter();
     		//coordsLast = ((GeoLine) g).startPoint.getCoordsInD(2);
     	}
-    	coordsFirst = ((GeoLine)g).getPointInD(spaceDim, tFirst);
-    	coordsLast = ((GeoLine)g).getPointInD(spaceDim, tLast);
+    	coordsFirst = ((GeoLine)g).getPointInD(spaceDim, tFirst).getInhomCoordsInSameDimension();
+    	coordsLast = ((GeoLine)g).getPointInD(spaceDim, tLast).getInhomCoordsInSameDimension();
     	
     	//deal with the first point
     	tOld = tFirst;
-   		coordsOld = ((GeoLine)g).getPointInD(spaceDim, tOld);//TODO optimize it
+   		coordsOld = ((GeoLine)g).getPointInD(spaceDim, tOld).getInhomCoordsInSameDimension();//TODO optimize it
 
    		isEnteringRegion = (p.isInRegion(coordsOld.get(1),coordsOld.get(2))
     			&& !Kernel.isEqual(tOld, maxKey));

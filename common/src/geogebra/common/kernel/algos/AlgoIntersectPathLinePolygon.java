@@ -189,8 +189,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	protected void setIntersectionLine(){
 
-		o1 = g.getPointInD(3, 0);
-		d1 = g.getPointInD(3, 1).sub(o1);
+		o1 = g.getPointInD(3, 0).getInhomCoordsInSameDimension();
+		d1 = g.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
 	}
 	
     /**
@@ -215,8 +215,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			
 			//check if the segment is defined (e.g. for regular polygons)
 			if (seg.isDefined()){
-				Coords o2 = seg.getPointInD(3, 0);
-				Coords d2 = seg.getPointInD(3, 1).sub(o2);
+				Coords o2 = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
+				Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
 
 				Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
 						o1,d1,o2,d2

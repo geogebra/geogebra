@@ -58,7 +58,7 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
 
     @Override
 	protected Coords getPoint(){
-    	return segment.getPointInD(3, 0.5);
+    	return segment.getPointInD(3, 0.5).getInhomCoordsInSameDimension();
     }
 
 	// TODO Consider locusequability

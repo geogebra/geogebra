@@ -29,7 +29,7 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 	@Override
 	protected Coords getDirection(){
 		GeoLineND axis = (GeoLineND) getSecondInput();
-		return axis.getPointInD(3, 1).sub(axis.getPointInD(3, 0));
+		return axis.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(axis.getPointInD(3, 0).getInhomCoordsInSameDimension());
 	}
 	
     @Override

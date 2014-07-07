@@ -99,8 +99,8 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
     }
 	
     private Coords intersectionCoords(GeoSegmentND seg){
-    	Coords o = seg.getPointInD(3, 0);
-		Coords d = seg.getPointInD(3, 1).sub(o);
+    	Coords o = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
+		Coords d = seg.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
 
 		Coords[] project = 
 				o.projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), d);

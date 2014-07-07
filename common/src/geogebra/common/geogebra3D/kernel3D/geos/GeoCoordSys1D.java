@@ -536,7 +536,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 		double dist;
 		Coords cVector = this.getDirectionInD3().crossProduct(g.getDirectionInD3());
-		Coords diffPoints = this.getPointInD(3, 0).sub(g.getPointInD(3, 0));
+		Coords diffPoints = this.getPointInD(3, 0).getInhomCoordsInSameDimension().sub(g.getPointInD(3, 0).getInhomCoordsInSameDimension());
 		
 		if (cVector.isZero()) { // two lines are parallel
 			Coords n = diffPoints.crossProduct(this.getDirectionInD3()).crossProduct(this.getDirectionInD3());

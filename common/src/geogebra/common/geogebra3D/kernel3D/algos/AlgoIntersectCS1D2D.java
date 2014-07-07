@@ -81,8 +81,8 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
     	GeoLineND line = (GeoLineND) getCS1();
     	GeoCoordSys2D cs2D = (GeoCoordSys2D) getCS2();
     	
-    	Coords o = line.getPointInD(3, 0);
-    	Coords d = line.getPointInD(3, 1).sub(o);
+    	Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
+    	Coords d = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
     	Coords[] project = 
     		o.projectPlaneThruV(cs2D.getCoordSys().getMatrixOrthonormal(), d);
     	
@@ -125,7 +125,7 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
      */
     public static ConfigLinePlane getConfigLinePlane(GeoLineND line, GeoCoordSys2D plane) {
     	if (Kernel.isZero(line.getDirectionInD3().dotproduct(plane.getDirectionInD3()))) {
-    		if (Kernel.isZero(line.getPointInD(3, 0).sub(plane.getCoordSys().getOrigin()).dotproduct(plane.getDirectionInD3()))) {
+    		if (Kernel.isZero(line.getPointInD(3, 0).getInhomCoordsInSameDimension().sub(plane.getCoordSys().getOrigin()).dotproduct(plane.getDirectionInD3()))) {
     			return ConfigLinePlane.CONTAINED;
     		}
 			return ConfigLinePlane.PARALLEL;	
@@ -141,8 +141,8 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
      */
     public static Coords getIntersectLinePlane(GeoLineND line, GeoCoordSys2D cs2D) {
 
-    	Coords o = line.getPointInD(3, 0);
-    	Coords d = line.getPointInD(3, 1).sub(o);
+    	Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
+    	Coords d = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
     	Coords[] project = 
     		o.projectPlaneThruV(cs2D.getCoordSys().getMatrixOrthonormal(), d);
     	

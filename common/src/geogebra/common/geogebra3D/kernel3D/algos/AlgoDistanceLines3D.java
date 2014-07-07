@@ -97,9 +97,9 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
         Coords a1, a2, b1, b2;
         double A1, B1, C1, A2, B2, C2; //A1t1+B1t2=C1, A2t1+B2t2=C2
         double det, t1, t2;
-        a1 = g3D.getPointInD(3, 0);
+        a1 = g3D.getPointInD(3, 0).getInhomCoordsInSameDimension();
         b1 = g3D.getDirectionInD3();
-        a2 = h3D.getPointInD(3, 0);
+        a2 = h3D.getPointInD(3, 0).getInhomCoordsInSameDimension();
         b2 = h3D.getDirectionInD3();
         A1 = b1.dotproduct(b1);
         B1 = -b1.dotproduct(b2);
@@ -111,13 +111,13 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
         if (!Kernel.isZero(det)) {
         	t1 = det(C1,B1,C2,B2)/det;
         	t2 = det(A1,C1,A2,C2)/det;
-        	pointOnG = g3D.getPointInD(3, t1);
-        	pointOnH = h3D.getPointInD(3, t2);
+        	pointOnG = g3D.getPointInD(3, t1).getInhomCoordsInSameDimension();
+        	pointOnH = h3D.getPointInD(3, t2).getInhomCoordsInSameDimension();
         } else {
         	t1 = 0;
         	t2 = -C1/Math.abs(B2);
-        	pointOnG = g3D.getPointInD(3, t1);
-        	pointOnH = h3D.getPointInD(3, t2);
+        	pointOnG = g3D.getPointInD(3, t1).getInhomCoordsInSameDimension();
+        	pointOnH = h3D.getPointInD(3, t2).getInhomCoordsInSameDimension();
         }
         
         

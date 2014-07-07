@@ -1307,7 +1307,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public Coords getLabelPosition() {
-		return getPointInD(3, 0.5);
+		return getPointInD(3, 0.5).getInhomCoordsInSameDimension();
 	}
 
 	public Coords getPointInD(int dimension, double lambda) {
@@ -1383,7 +1383,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (getEndPoint() != null) {
 			return getEndPoint().getInhomCoordsInD(3);
 		}
-		return getPointInD(3, 1);
+		return getPointInD(3, 1).getInhomCoordsInSameDimension();
 	}
 
 	@Override

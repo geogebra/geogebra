@@ -74,10 +74,10 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
     	GeoLineND line1 = (GeoLineND) getCS1();
     	GeoLineND line2 = (GeoLineND) getCS2();
     	
-    	Coords o1 = line1.getPointInD(3, 0);
-    	Coords d1 = line1.getPointInD(3, 1).sub(o1);
-    	Coords o2 = line2.getPointInD(3, 0);
-       	Coords d2 = line2.getPointInD(3, 1).sub(o2);
+    	Coords o1 = line1.getPointInD(3, 0).getInhomCoordsInSameDimension();
+    	Coords d1 = line1.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
+    	Coords o2 = line2.getPointInD(3, 0).getInhomCoordsInSameDimension();
+       	Coords d2 = line2.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
            	
 
     	Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(

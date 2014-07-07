@@ -92,8 +92,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     		return;
     	}
     	//line origin, direction, min and max parameter values
-    	Coords o1 = g.getPointInD(3, 0);
-    	Coords d1 = g.getPointInD(3, 1).sub(o1);
+    	Coords o1 = g.getPointInD(3, 0).getInhomCoordsInSameDimension();
+    	Coords d1 = g.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
     	double min = g.getMinParameter();
     	double max = g.getMaxParameter();
     	
@@ -180,7 +180,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     		!Kernel.isEqual(tOld, maxKey))
     			newSegmentCoords.put(tOld,
     				new Coords[] {
-    					g.getPointInD(spaceDim, tFirst),
+    					g.getPointInD(spaceDim, tFirst).getInhomCoordsInSameDimension(),
     					newCoords.get(maxKey)
     				}
     			);
@@ -272,7 +272,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     			if (isEnteringRegion) //add the segment only if it is entering the region
     				newSegmentCoords.put(tOld,  new Coords[] {
     						newCoords.get(tOld), 
-    						g.getPointInD(spaceDim, tLast)
+    						g.getPointInD(spaceDim, tLast).getInhomCoordsInSameDimension()
     						});
     			isEnteringRegion = !isEnteringRegion;
     	}

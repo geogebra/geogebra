@@ -46,7 +46,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 		}
 		 
 		
-		Coords o = axis.getPointInD(3, 0);
+		Coords o = axis.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		Coords d = axis.getPointInD(3, 1).sub(o);
 		
 		if (d.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
@@ -75,7 +75,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 
 	@Override
 	protected Coords getDirection(){
-		return axis.getPointInD(3, 1).sub(axis.getPointInD(3, 0));
+		return axis.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(axis.getPointInD(3, 0).getInhomCoordsInSameDimension());
 	}
 
 	@Override
