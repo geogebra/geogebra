@@ -15,12 +15,15 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.plugin.Operation;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -29,9 +32,9 @@ import geogebra.common.plugin.Operation;
  */
 public class AlgoIf extends AlgoElement {
 
-	private GeoBoolean condition; // input
-	private GeoElement ifGeo, elseGeo; // input
 	private GeoElement result; // output
+	private ArrayList<GeoElement> alternatives;
+	private ArrayList<GeoBoolean> conditions;
 
 	/**
 	 * Algorithm for handling of an if-then-else construct
@@ -43,19 +46,21 @@ public class AlgoIf extends AlgoElement {
 	 * @param elseGeo
 	 *            may be null
 	 */
-	public AlgoIf(Construction cons, String label, GeoBoolean condition,
-			GeoElement ifGeo, GeoElement elseGeo) {
+	public AlgoIf(Construction cons, String label, ArrayList<GeoBoolean> conditions,
+			ArrayList<GeoElement> alternatives) {
 		super(cons);
-		this.condition = condition;
-		this.ifGeo = ifGeo;
-		this.elseGeo = elseGeo;
+		this.conditions = conditions;
+		this.alternatives = alternatives;
 
+		this.result = alternatives.get(0);
 		// create output GeoElement of same type as ifGeo
-		if (Test.canSet(elseGeo, ifGeo)) {
-			result = elseGeo.copyInternal(cons);
-		} else {
-			result = ifGeo.copyInternal(cons);
-		}
+		int i = 1;
+		while(i<alternatives.size() && Test.canSet(alternatives.get(i), result)) {
+			result = alternatives.get(i);
+			i++;
+		} 
+		result = result.copyInternal(cons);
+		
 
 		setInputOutput(); // for AlgoElement
 
@@ -72,14 +77,14 @@ public class AlgoIf extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		if (elseGeo != null)
-			input = new GeoElement[3];
-		else
-			input = new GeoElement[2];
-		input[0] = condition;
-		input[1] = ifGeo;
-		if (elseGeo != null)
-			input[2] = elseGeo;
+		input = new GeoElement[conditions.size() + alternatives.size()];
+		for(int i =0; i< this.conditions.size(); i++){
+			input[2*i] = conditions.get(i);
+			input[2*i+1] = alternatives.get(i);
+		}
+		if(alternatives.size() > conditions.size()){
+			input[input.length - 1] = alternatives.get(alternatives.size() -1);
+		}
 
 		super.setOutputLength(1);
 		super.setOutput(0, result);
@@ -94,29 +99,28 @@ public class AlgoIf extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		/*
-		 * TODO do we want this? if
-		 * (!ifGeo.getClass().isAssignableFrom(elseGeo.getClass()) &&
-		 * !elseGeo.getClass().isAssignableFrom(ifGeo.getClass())) {
-		 * result.setUndefined(); return; }
-		 */
+		
 
 		try {
-			if (condition.getBoolean()) {
-				result.set(ifGeo);
-				if (ifGeo.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-					result.setDrawAlgorithm(((DrawInformationAlgo) ifGeo
+			for(int i = 0; i< conditions.size();i++){
+			if (conditions.get(i).getBoolean()) {
+				result.set(alternatives.get(i));
+				if (alternatives.get(i).getDrawAlgorithm() instanceof DrawInformationAlgo) {
+					result.setDrawAlgorithm(((DrawInformationAlgo) alternatives.get(i)
 							.getDrawAlgorithm()).copy());
 				}
-			} else {
-				if (elseGeo == null)
+				return;
+			} 
+			GeoElement last = alternatives.get(alternatives.size()-1);
+				if (conditions.size() == alternatives.size())
 					result.setUndefined();
 				else
-					result.set(elseGeo);
-				if (elseGeo.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-					result.setDrawAlgorithm(((DrawInformationAlgo) elseGeo
+					result.set(last);
+				if (last.getDrawAlgorithm() instanceof DrawInformationAlgo) {
+					result.setDrawAlgorithm(((DrawInformationAlgo) last
 							.getDrawAlgorithm()).copy());
 				}
+			
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -131,17 +135,27 @@ public class AlgoIf extends AlgoElement {
 
 	// Curve[If[t>0,t^2,-t^2],t,t,-5,5]
 	public ExpressionNode toExpression() {
-		if (this.elseGeo == null) {
+		if (this.alternatives.size() == 1) {
 			return new ExpressionNode(kernel,
-					kernel.convertNumberValueToExpressionNode(this.condition),
+					kernel.convertNumberValueToExpressionNode(this.conditions.get(0)),
 					Operation.IF,
-					kernel.convertNumberValueToExpressionNode(this.ifGeo));
-		}
+					kernel.convertNumberValueToExpressionNode(this.alternatives.get(0)));
+		}else if(this.conditions.size() == 1){
 		return new ExpressionNode(kernel, new MyNumberPair(kernel,
-				kernel.convertNumberValueToExpressionNode(this.condition),
-				kernel.convertNumberValueToExpressionNode(this.ifGeo)),
+				kernel.convertNumberValueToExpressionNode(this.conditions.get(0)),
+				kernel.convertNumberValueToExpressionNode(this.alternatives.get(0))),
 				Operation.IF_ELSE,
-				kernel.convertNumberValueToExpressionNode(this.elseGeo));
+				kernel.convertNumberValueToExpressionNode(this.alternatives.get(1)));
+		}
+		MyList cond = new MyList(kernel), funs = new MyList(kernel);
+		for(GeoBoolean f:conditions){
+			cond.addListElement(kernel.convertNumberValueToExpressionNode(f));
+		}
+		for(GeoElement f:alternatives){
+			funs.addListElement(kernel.convertNumberValueToExpressionNode(f));
+		}
+		return new ExpressionNode(kernel,
+				cond, Operation.IF_LIST, funs);
 	}
 
 	// TODO Consider locusequability

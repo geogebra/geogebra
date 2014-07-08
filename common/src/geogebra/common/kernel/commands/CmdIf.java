@@ -55,19 +55,23 @@ public class CmdIf extends CommandProcessor {
 			}
 		}
 		arg = resArgs(c);
-		GeoElement geoElse = n == 3 ? arg[2] : null;
+		if(arg[0] instanceof GeoBoolean){
 		// standard case: simple boolean condition
-		if (arg[0].isGeoBoolean()) {
-			if (n > 3) {
-				throw argNumErr(app, c.getName(), n);
+		ArrayList<GeoBoolean> cond = new ArrayList();
+		ArrayList<GeoElement> alternatives = new ArrayList();
+		for(int i = 0; i < n - 1; i +=2){
+			if(arg[i] instanceof GeoBoolean){
+				cond.add((GeoBoolean)arg[i]);
+			}else{
+				throw argErr(app, c.getName(), arg[i]);
 			}
-			AlgoIf algo = new AlgoIf(cons, c.getLabel(), (GeoBoolean) arg[0],
-					arg[1], geoElse);
-
-			GeoElement[] ret = { algo.getGeoElement() };
-			return ret;
+			alternatives.add(arg[i+1]);
 		}
-
+		if(n % 2 == 1){
+			alternatives.add(arg[n-1]);
+		}
+		return new AlgoIf(cons,c.getLabel(), cond,alternatives).getOutput();
+		}
 		// SPECIAL CASE for functions:
 		// boolean function in x as condition
 		// example: If[ x < 2, x^2, x + 2 ]
