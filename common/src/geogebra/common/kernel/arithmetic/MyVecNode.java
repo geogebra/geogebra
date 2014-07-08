@@ -188,7 +188,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return toString(tpl, true);
 	}
 
-	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		return toString(tpl, !symbolic);
 	}
 

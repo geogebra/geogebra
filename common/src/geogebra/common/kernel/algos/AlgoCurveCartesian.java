@@ -63,7 +63,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 		Function[] fun = new Function[coords.length];
 
 		for (int i=0;i<coords.length;i++){
-			exp[i]= kernel.convertNumberValueToExpressionNode(coords[i]);
+			exp[i]= kernel.convertNumberValueToExpressionNode(coords[i].toGeoElement());
 			exp[i]=exp[i].replace(localVar, funVar).wrap();
 			fun[i] = new Function(exp[i], funVar);
 		}

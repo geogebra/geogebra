@@ -3407,6 +3407,41 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("]");
 			}
 			break;
+			
+		case IF_LIST:
+			if (stringType == StringType.GIAC) {
+				//TODO
+				sb.append("when(");
+				sb.append(leftStr);
+				sb.append(",");
+				sb.append(rightStr);
+				sb.append(")");
+			} else {
+				if (tpl.isPrintLocalizedCommandNames()) {
+					sb.append(loc.getCommand("If"));
+				}else{
+					sb.append("If");
+				}
+				sb.append("[");
+				MyList cond = (MyList) left;
+				MyList fn = (MyList) right;
+				for(int i=0; i<cond.size(); i++){
+					if(i > 0){
+						sb.append(", ");
+					}
+					sb.append(valueForm ? cond.getListElement(i).toValueString(tpl) : cond.getListElement(i).toString(tpl));
+					sb.append(", ");
+					sb.append(valueForm ? fn.getListElement(i).toValueString(tpl) : fn.getListElement(i).toString(tpl));
+				}
+				if(fn.size() > cond.size()){
+					sb.append(", ");
+					sb.append(valueForm ? fn.getListElement(fn.size() -1).toValueString(tpl) : 
+						fn.getListElement(fn.size() -1).toString(tpl));
+				}
+				
+				sb.append("]");
+			}
+			break;
 
 
 		default:

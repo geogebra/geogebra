@@ -8,21 +8,24 @@ import geogebra.common.factories.FormatFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.algos.AlgoCasBase;
+import geogebra.common.kernel.algos.AlgoDependentBoolean;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoIf;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import geogebra.common.kernel.cas.UsesCAS;
@@ -4107,13 +4110,29 @@ public class Kernel {
 	/**
 	 * Converts a NumberValue object to an ExpressionNode object.
 	 */
-	public ExpressionNode convertNumberValueToExpressionNode(NumberValue nv) {
-		GeoElement geo = nv.toGeoElement();
+	public ExpressionNode convertNumberValueToExpressionNode(GeoElement geo) {
 		AlgoElement algo = geo.getParentAlgorithm();
+		Traversing ifReplacer = new Traversing(){
 
-		if (algo != null && algo instanceof AlgoDependentNumber) {
+			@Override
+			public ExpressionValue process(ExpressionValue ev) {
+				if(ev instanceof GeoElement){
+					return Kernel.this.convertNumberValueToExpressionNode((GeoElement)ev).unwrap();
+				}
+				return ev;
+			}
+			
+		};
+		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoDependentNumber) {
 			AlgoDependentNumber algoDep = (AlgoDependentNumber) algo;
+			return algoDep.getExpression().getCopy(this).traverse(ifReplacer).wrap();
+		}
+		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoDependentBoolean) {
+			AlgoDependentBoolean algoDep = (AlgoDependentBoolean) algo;
 			return algoDep.getExpression().getCopy(this);
+		}
+		if(!geo.isLabelSet() && algo != null && algo instanceof AlgoIf){
+			return ((AlgoIf)algo).toExpression();
 		}
 		return new ExpressionNode(this, geo);
 	}

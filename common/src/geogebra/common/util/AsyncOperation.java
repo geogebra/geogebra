@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 public abstract class AsyncOperation {
 	protected HashMap<String, Object> properties = new HashMap<String, Object>();
-	
+	public AsyncOperation(){
+		
+	}
 	
 	public abstract void callback(Object obj);
 	

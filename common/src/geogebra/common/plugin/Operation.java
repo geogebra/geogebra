@@ -1333,6 +1333,31 @@ public enum Operation {
 			return ev.illegalArgument(lt, rt, "if(");
 		}
 	},
+	IF_LIST {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof MyList && rt instanceof MyList) {
+				MyList cond = (MyList) lt;
+				for(int i = 0; i < cond.size(); i++){
+					ExpressionValue curr = cond.getListElement(i).evaluate(tpl);
+					//Log.debug(curr);
+					if (curr instanceof BooleanValue) {
+						if (((BooleanValue) curr).getBoolean()) {
+							return ((MyList) rt).getListElement(i).evaluate(tpl);
+						}
+						
+					}
+				}
+				return cond.size() == ((MyList) rt).size() ? new MyDouble(lt.getKernel(), Double.NaN) :
+					((MyList) rt).getListElement(cond.size()).evaluate(tpl);
+				
+			}
+			
+			return ev.illegalArgument(lt, rt, "if(");
+		}
+	},
 
 	// spreadsheet absolute reference using $ signs
 	$VAR_ROW {

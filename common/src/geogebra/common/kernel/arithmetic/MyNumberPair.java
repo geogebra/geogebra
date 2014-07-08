@@ -91,5 +91,10 @@ public class MyNumberPair extends MyVecNode {
 	public void setY(ExpressionValue y) {
 		this.y = y;
 	}
+	
+	@Override
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl){
+		return symbolic ? toString(tpl) : toValueString(tpl);
+	}
 
 }
