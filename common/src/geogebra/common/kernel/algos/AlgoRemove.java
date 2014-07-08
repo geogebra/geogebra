@@ -97,16 +97,29 @@ public class AlgoRemove extends AlgoElement {
     	if (size == 0) return;
     	
     	
-    	geosToRemove.clear(); 	
+    	geosToRemove.clear();
+    	int undefinedToRemove = 0;
     	for (int i = 0 ; i < inputList2.size() ; i++){
-    		geosToRemove.add(inputList2.get(i));
+    		GeoElement geo = inputList2.get(i);
+    		if (AlgoRemoveUndefined.isDefined(geo)){
+    			geosToRemove.add(geo);
+    		}else{
+    			undefinedToRemove++;
+    		}
     	}
     	
+
     	for (int i=0 ; i<size ; i++)
     	{
     		GeoElement geo = inputList.get(i);
     		
     		boolean lookFor = true;
+    		
+    		if (undefinedToRemove > 0 && !AlgoRemoveUndefined.isDefined(geo)){
+    			undefinedToRemove--;
+    			lookFor = false;
+    		}
+    		
     		for (int j = 0 ; j < geosToRemove.size() && lookFor ; j++){
     			if (geo.isEqual(geosToRemove.get(j))){
     				geosToRemove.remove(j);

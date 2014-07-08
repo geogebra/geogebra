@@ -94,17 +94,27 @@ public class AlgoRemoveUndefined extends AlgoElement {
     	{
     		GeoElement geo=inputList.get(i);
     		
-    		boolean isDefined = geo.isDefined();
-    		
-    		// intersection of 2 parallel lines "undefined" in AlgebraView
-    		// but isDefined() returns true
-    		if (isDefined && geo.isGeoPoint()) {
-    			isDefined = ((GeoPointND)geo).isFinite();
-    		}
-    		//Application.debug(isDefined+"");
-    		if (isDefined) outputList.add(geo.copyInternal(cons));
+    		if (isDefined(geo)) outputList.add(geo.copyInternal(cons));
     	}
-    } 	
+    } 
+    
+    /**
+     * 
+     * @param geo geo
+     * @return true if geo is defined (and finite for a point)
+     */
+    static final public boolean isDefined(GeoElement geo){
+    	
+    	boolean isDefined = geo.isDefined();
+		
+		// intersection of 2 parallel lines "undefined" in AlgebraView
+		// but isDefined() returns true
+		if (isDefined && geo.isGeoPoint()) {
+			isDefined = ((GeoPointND)geo).isFinite();
+		}
+		
+		return isDefined;
+    }
 
 	// TODO Consider locusequability
   
