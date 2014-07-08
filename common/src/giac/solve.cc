@@ -1645,7 +1645,7 @@ namespace giac {
 	vecteur tmplv=lvarx(tmp,x);
 	if (tmplv.size()==2 && tmplv[0].type==_SYMB && tmplv[1].type==_SYMB && tmplv[0]._SYMBptr->feuille==tmplv[1]._SYMBptr->feuille){
 	  gen a,b,c,d;
-	  if (is_linear_wrt(tmp,tmplv[0],a,b,contextptr) && is_linear_wrt(b,tmplv[1],c,d,contextptr)){
+	  if (is_linear_wrt(tmp,tmplv[0],a,b,contextptr) && is_zero(derive(a,x,contextptr)) && is_linear_wrt(b,tmplv[1],c,d,contextptr) && is_zero(derive(c,x,contextptr)) && is_zero(derive(d,x,contextptr))){
 	    // tmp=a*tmplv[0]+c*tmplv[1]+d
 	    if (tmplv[0]._SYMBptr->sommet==at_sin && tmplv[1]._SYMBptr->sommet==at_cos){
 	      // a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
@@ -1656,6 +1656,21 @@ namespace giac {
 	      // a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
 	      gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
 	      tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
+	    }
+	  }
+	  else {
+	    if (is_linear_wrt(tmp,tmplv[1],a,b,contextptr) && is_zero(derive(a,x,contextptr)) && is_linear_wrt(b,tmplv[0],c,d,contextptr) && is_zero(derive(c,x,contextptr)) && is_zero(derive(d,x,contextptr))){
+	    // tmp=a*tmplv[0]+c*tmplv[1]+d
+	      if (tmplv[1]._SYMBptr->sommet==at_sin && tmplv[0]._SYMBptr->sommet==at_cos){
+		// a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
+		gen phi=arg(halftan(a+cst_i*c,contextptr),contextptr);
+		tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[1]._SYMBptr->feuille+phi,contextptr)+d;
+	      }
+	      if (tmplv[1]._SYMBptr->sommet==at_cos && tmplv[0]._SYMBptr->sommet==at_sin){
+		// a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
+		gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
+		tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[1]._SYMBptr->feuille+phi,contextptr)+d;
+	      }
 	    }
 	  }
 	}
