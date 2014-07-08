@@ -693,6 +693,8 @@ __GGB__keysVar.is.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Fylki> ]",
     "Relation": "Tengsl",
     "Relation_Syntax": "[ <Hlutur>, <Hlutur> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "Fjarl\xe6gja\xd3skilgreint",
     "RemoveUndefined_Syntax": "[ <Listi> ]",
     "Rename": "Endurnefna",

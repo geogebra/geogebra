@@ -693,6 +693,8 @@ __GGB__keysVar.es_ES.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matriz> ]",
     "Relation": "Relaci\xf3n",
     "Relation_Syntax": "[ <Objeto>, <Objeto> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "EliminaIndefinidos",
     "RemoveUndefined_Syntax": "[ <Lista> ]",
     "Rename": "Renombra",

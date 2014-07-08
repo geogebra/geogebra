@@ -693,6 +693,8 @@ __GGB__keysVar.si.command = {
     "ReducedRowEchelonForm_Syntax": "[ <\u0db1\u0dca\u200d\u0dba\u0dcf\u0dc3> ]",
     "Relation": "\u0dc3\u0db8\u0dd2\u0db6\u0db1\u0dca\u0db0\u0dba",
     "Relation_Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "\u0d85\u0dbb\u0dca\u0dae\u0daf\u0d9a\u0dca\u0dc0\u0dcf_\u0db1\u0ddc\u0db8\u0dd0\u0dad\u0dca\u0dad_\u0d89\u0dc0\u0dad\u0dca_\u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "RemoveUndefined_Syntax": "[ <\u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]",
     "Rename": "Rename",

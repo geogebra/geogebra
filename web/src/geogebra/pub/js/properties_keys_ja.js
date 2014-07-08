@@ -693,6 +693,8 @@ __GGB__keysVar.ja.command = {
     "ReducedRowEchelonForm_Syntax": "[ <\u884c\u5217> ]",
     "Relation": "Relation",
     "Relation_Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "RemoveUndefined",
     "RemoveUndefined_Syntax": "[ <\u30ea\u30b9\u30c8> ]",
     "Rename": "Rename",

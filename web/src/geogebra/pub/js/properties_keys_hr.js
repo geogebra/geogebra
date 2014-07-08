@@ -693,6 +693,8 @@ __GGB__keysVar.hr.command = {
     "ReducedRowEchelonForm_Syntax": "[ <matrica> ]",
     "Relation": "Veza",
     "Relation_Syntax": "[ <objekt>, <objekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "UkloniNedefinirano",
     "RemoveUndefined_Syntax": "[ <lista> ]",
     "Rename": "Preimenuj",

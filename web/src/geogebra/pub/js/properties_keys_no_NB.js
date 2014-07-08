@@ -693,6 +693,8 @@ __GGB__keysVar.no_NB.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrise> ]",
     "Relation": "Forhold",
     "Relation_Syntax": "[ <Objekt>, <Objekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "FjernUdefinerte",
     "RemoveUndefined_Syntax": "[ <Liste> ]",
     "Rename": "NyttNavn",

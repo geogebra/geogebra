@@ -693,6 +693,8 @@ __GGB__keysVar.ca_XV.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matriu> ]",
     "Relation": "Relaci\xf3",
     "Relation_Syntax": "[ <Objecte>, <Objecte> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "EliminaNoDefinits",
     "RemoveUndefined_Syntax": "[ <Llista> ]",
     "Rename": "CanviaNom",

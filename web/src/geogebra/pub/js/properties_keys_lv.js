@@ -693,6 +693,8 @@ __GGB__keysVar.lv.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrix> ]",
     "Relation": "Novietojums",
     "Relation_Syntax": "[ <Objekts>, <Objekts> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "RemoveUndefined",
     "RemoveUndefined_Syntax": "[ <Sarakts> ]",
     "Rename": "P\u0101rd\u0113v\u0113",

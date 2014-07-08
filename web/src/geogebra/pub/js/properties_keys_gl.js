@@ -693,6 +693,8 @@ __GGB__keysVar.gl.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matriz> ]",
     "Relation": "Relaci\xf3n",
     "Relation_Syntax": "[ <Obxecto>, <Obxecto> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "EliminaIndefinidos",
     "RemoveUndefined_Syntax": "[ <Lista> ]",
     "Rename": "Renomea",

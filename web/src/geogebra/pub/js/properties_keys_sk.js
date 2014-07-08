@@ -693,6 +693,8 @@ __GGB__keysVar.sk.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matica> ]",
     "Relation": "Vz\u0165ah",
     "Relation_Syntax": "[ <Objekt>, <Objekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "Odstr\xe1ni\u0165Nedefinovan\xe9",
     "RemoveUndefined_Syntax": "[ <Zoznam> ]",
     "Rename": "Premenova\u0165",

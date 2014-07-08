@@ -693,6 +693,8 @@ __GGB__keysVar.ar_TN.command = {
     "ReducedRowEchelonForm_Syntax": "[ <\u0645\u0635\u0641\u0648\u0641\u0629> ]",
     "Relation": "\u0639\u0644\u0627\u0642\u0629",
     "Relation_Syntax": "[ <\u0639\u0646\u0635\u0631>, <\u0639\u0646\u0635\u0631> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "\u062a\u0646\u0636\u064a\u0641",
     "RemoveUndefined_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629> ]",
     "Rename": "\u0625\u0639\u0627\u062f\u0629_\u062a\u0633\u0645\u064a\u0629",

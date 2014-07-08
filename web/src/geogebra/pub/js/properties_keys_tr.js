@@ -693,6 +693,8 @@ __GGB__keysVar.tr.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matris> ]",
     "Relation": "Ba\u011f\u0131nt\u0131",
     "Relation_Syntax": "[ <Nesne>, <Nesne> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "Tan\u0131ms\u0131zsaKald\u0131r",
     "RemoveUndefined_Syntax": "[ <Liste> ]",
     "Rename": "Ad\u0131n\u0131De\u011fi\u015ftir",

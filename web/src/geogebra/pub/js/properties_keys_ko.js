@@ -693,6 +693,8 @@ __GGB__keysVar.ko.command = {
     "ReducedRowEchelonForm_Syntax": "[ <\ud589\ub82c> ]",
     "Relation": "\uad00\uacc4",
     "Relation_Syntax": "[ <\ub300\uc0c1>, <\ub300\uc0c1> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "\ubbf8\uc815\uc758\uc0ad\uc81c",
     "RemoveUndefined_Syntax": "[ <\ub9ac\uc2a4\ud2b8> ]",
     "Rename": "\uc774\ub984\ubc14\uafb8\uae30",

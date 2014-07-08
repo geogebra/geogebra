@@ -693,6 +693,8 @@ __GGB__keysVar.eo.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrico> ]",
     "Relation": "Rilato",
     "Relation_Syntax": "[ <Objekto>, <Objekto> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "RemoveUndefined",
     "RemoveUndefined_Syntax": "[ <Listo> ]",
     "Rename": "Alinomi",

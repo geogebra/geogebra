@@ -693,6 +693,8 @@ __GGB__keysVar.fi.command = {
     "ReducedRowEchelonForm_Syntax": "[ Matriisi ]",
     "Relation": "Suhde",
     "Relation_Syntax": "[ <Objekti>, <Objekti> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "PoistaM\xe4\xe4rittelem\xe4t\xf6n",
     "RemoveUndefined_Syntax": "[ <Lista> ]",
     "Rename": "Nime\xe4",

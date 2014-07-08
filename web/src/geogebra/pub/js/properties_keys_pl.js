@@ -693,6 +693,8 @@ __GGB__keysVar.pl.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Macierz> ]",
     "Relation": "Relacja",
     "Relation_Syntax": "[ <Obiekt>, <Obiekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "Usu\u0144Niezdefiniowane",
     "RemoveUndefined_Syntax": "[ <Lista> ]",
     "Rename": "Zmie\u0144Nazw\u0119",

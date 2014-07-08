@@ -693,6 +693,8 @@ __GGB__keysVar.da.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrix> ]",
     "Relation": "Relation",
     "Relation_Syntax": "[ <Objekt>, <Objekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "FjernUdefinerede",
     "RemoveUndefined_Syntax": "[ <Liste> ]",
     "Rename": "Omd\xf8b",

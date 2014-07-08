@@ -693,6 +693,8 @@ __GGB__keysVar.lt.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrica> ]",
     "Relation": "Santykis",
     "Relation_Syntax": "[ <Objektas>, <Objektas> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "I\u0161trintiNeapibr\u0117\u017etus",
     "RemoveUndefined_Syntax": "[ <S\u0105ra\u0161as> ]",
     "Rename": "KeistiPavadinim\u0105",

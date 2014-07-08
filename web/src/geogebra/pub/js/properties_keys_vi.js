@@ -693,6 +693,8 @@ __GGB__keysVar.vi.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Ma tr\u1eadn> ]",
     "Relation": "QuanHe",
     "Relation_Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ed1i t\u01b0\u1ee3ng> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "XoaDoiTuongChuaDinhNghia",
     "RemoveUndefined_Syntax": "[ <Danh s\xe1ch> ]",
     "Rename": "DoiTen",

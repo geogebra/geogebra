@@ -693,6 +693,8 @@ __GGB__keysVar.in.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matriks> ]",
     "Relation": "Relasi",
     "Relation_Syntax": "[ <Objek>, <Objek> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "HapusTakTerdefinisi",
     "RemoveUndefined_Syntax": "[ <Daftar> ]",
     "Rename": "NamaiUlung",

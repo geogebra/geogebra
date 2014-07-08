@@ -693,6 +693,8 @@ __GGB__keysVar.cs.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matice> ]",
     "Relation": "Vztah",
     "Relation_Syntax": "[ <Objekt>, <Objekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "OdstranitNedefinovane",
     "RemoveUndefined_Syntax": "[ <Seznam> ]",
     "Rename": "Prejmenovat",

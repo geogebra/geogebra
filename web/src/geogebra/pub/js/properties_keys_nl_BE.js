@@ -693,6 +693,8 @@ __GGB__keysVar.nl_BE.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrix> ]",
     "Relation": "Relatie",
     "Relation_Syntax": "[ <Object>, <Object> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "VerwijderOngedefini\xeberd",
     "RemoveUndefined_Syntax": "[ <Lijst> ]",
     "Rename": "Hernoem",

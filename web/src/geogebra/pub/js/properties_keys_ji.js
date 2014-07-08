@@ -693,6 +693,8 @@ __GGB__keysVar.ji.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrix> ]",
     "Relation": "Relation",
     "Relation_Syntax": "[ <Object>, <Object> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "RemoveUndefined",
     "RemoveUndefined_Syntax": "[ <List> ]",
     "Rename": "Rename",

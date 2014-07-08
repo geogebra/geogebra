@@ -693,6 +693,8 @@ __GGB__keysVar.hu.command = {
     "ReducedRowEchelonForm_Syntax": "[ <M\xe1trix> ]",
     "Relation": "Kapcsolat",
     "Relation_Syntax": "[ <Alakzat>, <Alakzat> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "NemDefini\xe1ltT\xf6rl\xe9se",
     "RemoveUndefined_Syntax": "[ <Lista> ]",
     "Rename": "\xc1tnevez\xe9s",

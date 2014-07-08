@@ -693,6 +693,8 @@ __GGB__keysVar.sv.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matris> ]",
     "Relation": "Relation",
     "Relation_Syntax": "[ <Objekt>, <Objekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "TaBortOdefinierat",
     "RemoveUndefined_Syntax": "[ <Lista> ]",
     "Rename": "BytNamn",

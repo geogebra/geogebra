@@ -693,6 +693,8 @@ __GGB__keysVar.et.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Maatriks> ]",
     "Relation": "V\xf5rdlus",
     "Relation_Syntax": "[ <Objekt>, <Objekt> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "EemaldaMittedefineeritudObjektid",
     "RemoveUndefined_Syntax": "[ <Loend> ]",
     "Rename": "Nimeta\xdcmber",

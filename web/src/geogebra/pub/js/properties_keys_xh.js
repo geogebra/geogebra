@@ -693,6 +693,8 @@ __GGB__keysVar.xh.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matrix> ]",
     "Relation": "iRelation",
     "Relation_Syntax": "[ <Object>, <Object> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "SusaeUndefined",
     "RemoveUndefined_Syntax": "[ <Uluhlu> ]",
     "Rename": "NikaElinyeIgama",

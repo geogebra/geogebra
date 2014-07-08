@@ -693,6 +693,8 @@ __GGB__keysVar.ms.command = {
     "ReducedRowEchelonForm_Syntax": "[ <Matriks> ]",
     "Relation": "Hubungan",
     "Relation_Syntax": "[ <Objek>, <Objek> ]",
+    "Remove": "Remove",
+    "Remove_Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "SingkirTakTertakrif",
     "RemoveUndefined_Syntax": "[ <Senarai> ]",
     "Rename": "NamakanSemula",
