@@ -1,9 +1,7 @@
 package geogebra.html5.gui.laf;
 
 import geogebra.common.main.App;
-
-import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Timer;
+import geogebra.html5.gui.browser.SignInButton;
 
 
 /**
@@ -29,21 +27,7 @@ public class OfficeLookAndFeel extends SmartLookAndFeel{
     }
 
 	
-	@Override
-	public void login(final App app, String loginURL) {
-		app.getDialogManager().showLogInDialog();
-		Timer loginChecker = new Timer(){
-			private String oldCookie = null;
-			@Override
-            public void run() {
-				String cookie = Cookies.getCookie("SSID");
-				if(cookie != null && !cookie.equals(oldCookie)){
-		    		if(app.getLoginOperation().performCookieLogin(cookie)){
-		    			cancel();
-		    		}
-		    		this.oldCookie = cookie;
-				}
-            }};
-        loginChecker.scheduleRepeating(2000);
+	public SignInButton getSignInButton(App app) {
+	    return new SignInButton(app, 2000);
     }
 }

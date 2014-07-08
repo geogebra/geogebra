@@ -13,7 +13,6 @@ import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import java.util.List;
 
@@ -212,13 +211,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			}
 		});
 	}
-	
-	/**
-	 * opens the chosen {@link Material}
-	 */
-	protected void onOpen() {
-		((AppW) app).getLAF().open(material, (AppW) app);
-	}
 
 	/**
 	 * marks the material as selected
@@ -246,11 +238,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 */
 	protected void setLabels() {
 		this.openButton.setText(app.getMenu("Open"));
-		if(this.material.getType() == MaterialType.book){
-			this.editButton.setText(app.getMenu("Open"));
-		}else{
-			this.editButton.setText(app.getMenu("Edit"));
-		}
+		
+		this.editButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+		
 	}
 
 	/**
@@ -271,4 +261,27 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			this.image.removeStyleName("scaleImage");
 		}
 	}
+	
+/*** LAF dependent methods **/
+	
+	public String getInsertWorksheetTitle(Material m) {
+	    return "View";
+    }
+	
+	/**
+	 * Opens GeoGebraTube material in a new window (overwritten for tablet app, smart widget)
+	 */
+	void onOpen() {
+		openTubeWindow(material.getURL());
+	}
+	
+	/**
+	 * Opens GeoGebraTube material in a new window
+	 * @param id material id
+	 */
+	
+
+	private native void openTubeWindow(String url)/*-{
+		$wnd.open(url);
+	}-*/;
 }

@@ -342,6 +342,5 @@ public interface GuiManagerInterface {
 	
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
 	
-	public void login();
 	public void logout();
 }

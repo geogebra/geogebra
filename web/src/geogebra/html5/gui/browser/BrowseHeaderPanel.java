@@ -35,7 +35,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private NetworkOperation op;
 	
 	private FlowPanel signInPanel;
-	private Button signInButton;
+	private SignInButton signInButton;
 	
 	private FlowPanel profilePanel;
 	private Image profileImage;
@@ -101,13 +101,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	private void onLogout() {
 		if(this.signInButton == null){
-			this.signInButton = new Button(loc.getMenu("SignIn"));
-			this.signInButton.addStyleName("signInButton");
-			this.signInButton.addClickHandler(new ClickHandler(){
-				@Override
-                public void onClick(ClickEvent event) {
-					app.getGuiManager().login();
-                }});
+			this.signInButton = ((AppW)app).getLAF().getSignInButton(app);
+			
 			this.signInPanel.add(this.signInButton);
 		}
 		this.rightPanel.clear();

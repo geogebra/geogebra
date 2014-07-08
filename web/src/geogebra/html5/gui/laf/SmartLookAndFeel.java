@@ -3,12 +3,11 @@ package geogebra.html5.gui.laf;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.move.ggtapi.models.Material.MaterialType;
-import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
-import geogebra.html5.move.ggtapi.models.MaterialCallback;
-import geogebra.web.main.AppW;
-
-import java.util.List;
+import geogebra.html5.gui.browser.EmbeddedMaterialElement;
+import geogebra.html5.gui.browser.MaterialListElement;
+import geogebra.html5.gui.browser.SignInButton;
+import geogebra.html5.gui.browser.SmartSignInButton;
+import geogebra.html5.main.AppWeb;
 
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -41,23 +40,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 		RootLayoutPanel.get().getElement().addClassName("AppFrameParent");
     }
 
-	@Override
-    public void open(Material m, AppW app) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(m.getId(), new MaterialCallback(){
-
-			@Override
-            public void onLoaded(List<Material> parseResponse) {
-	            loadNative(parseResponse.get(0).toJson().toString());
-	            
-            }
-
-			private native void loadNative(String data) /*-{
-	            if($wnd.loadWorksheet){
-	            	$wnd.loadWorksheet(JSON.parse(data));
-	            }
-            }-*/;
-       });
-    }
+	
 	
 	@Override
     public String getType() {
@@ -74,15 +57,13 @@ public class SmartLookAndFeel extends GLookAndFeel{
     }
 
 	@Override
-    public String getInsertWorksheetTitle(Material m) {
-	    return m.getType() == MaterialType.book ? null : "insert_worksheet";
+    public SignInButton getSignInButton(App app) {
+	    return new SmartSignInButton(app);
     }
 	
-	public void login(App app, String s){
-		gotoURL(s);
-	}
+	public MaterialListElement getMaterialElement(Material m, AppWeb app) {
+	    return new EmbeddedMaterialElement(m, app);
+    }
 	
-	private native void gotoURL(String s)/*-{
-		$wnd.location.replace(s);
-	}-*/;
+	
 }

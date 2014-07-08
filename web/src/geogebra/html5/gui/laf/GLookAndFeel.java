@@ -3,6 +3,9 @@ package geogebra.html5.gui.laf;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.gui.browser.MaterialListElement;
+import geogebra.html5.gui.browser.SignInButton;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.main.AppW;
 
@@ -40,17 +43,7 @@ public class GLookAndFeel {
         });
 	}
 
-	/**
-	 * Opens GeoGebraTube material in a new window (or similar for tablet apps / smart widget)
-	 * @param id material id
-	 */
-	public void open(Material m, AppW app) {
-	    openTubeWindow(m.getURL());
-    }
-
-	private native void openTubeWindow(String url)/*-{
-		$wnd.open(url);
-	}-*/;
+	
 	
 	/**
 	 * @return app type for API calls
@@ -67,17 +60,18 @@ public class GLookAndFeel {
 	    return null;
     }
 
-	public String getInsertWorksheetTitle(Material m) {
-	    return "View";
-    }
+	
 
 	public boolean isEmbedded() {
 	    return false;
     }
 
-	public void login(App app, String loginURL) {
-		app.getDialogManager().showLogInDialog();
-	    
+	public MaterialListElement getMaterialElement(Material m, AppWeb app) {
+	    return new MaterialListElement(m, app);
+    }
+
+	public SignInButton getSignInButton(App app) {
+	    return new SignInButton(app, 0);
     }
 
 }
