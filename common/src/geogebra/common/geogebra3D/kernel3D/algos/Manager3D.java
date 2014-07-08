@@ -1831,4 +1831,12 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getLine();
 
 	}
+	
+	
+	
+	final public GeoConicND Conic3D(String label, GeoPointND[] points) {
+		AlgoConicFivePoints3D algo = new AlgoConicFivePoints3D(cons, label, points);
+		return algo.getConic();
+	}
+
 }

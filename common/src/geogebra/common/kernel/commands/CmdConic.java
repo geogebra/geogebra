@@ -40,9 +40,7 @@ public class CmdConic extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[i]);
 				}
 			}
-			GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
-					(GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4] };
-			GeoElement[] ret = { getAlgoDispatcher().Conic(c.getLabel(), points) };
+			GeoElement[] ret = { Conic(c.getLabel(), arg) };
 			return ret;
 		default:
 			if (arg[0] instanceof GeoNumberValue) {
@@ -71,5 +69,17 @@ public class CmdConic extends CommandProcessor {
 
 		return new GeoElement[] { algo.getConic() };
 
+	}
+	
+	
+	/**
+	 * @param label label
+	 * @param arg points
+	 * @return conic 5 points
+	 */
+	protected GeoElement Conic(String label, GeoElement[] arg){
+		GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
+				(GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4] };
+		return getAlgoDispatcher().Conic(label, points);
 	}
 }

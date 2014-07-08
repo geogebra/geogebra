@@ -902,4 +902,7 @@ public interface Manager3DInterface {
 	
 	public GeoElement LineBisector3D(String label, GeoPointND a, GeoPointND b, GeoDirectionND orientation);
 	
+	
+	
+	public GeoConicND Conic3D(String label, GeoPointND[] points);
 }

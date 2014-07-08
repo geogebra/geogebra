@@ -29,6 +29,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 
@@ -43,26 +45,36 @@ public class AlgoConicFivePoints extends AlgoElement {
 	//#4156 these are rather arbitrary tradeoffs between compatibility and numeric stability
     private static final double MULTIPLIER_MIN = 0.001;
 	private static final double MULTIPLIER_MAX = 1000;
-	private GeoPoint[] P; // input  five points      
-	private GeoConic conic; // output             
+	protected GeoPoint[] P; // input  five points      
+	protected GeoConicND conic; // output             
     private boolean criticalCase; // true when 5 points is on a parabola
     
     private double[][] A, B, C;
     private double e1, e2;
     private GeoVec3D[] line;
     private int i, j;
+    
+    
 
-    public AlgoConicFivePoints(Construction cons, String label, GeoPoint[] P) {
-        this(cons, P);
+    public AlgoConicFivePoints(Construction cons, String label, GeoPointND[] inputP) {
+        this(cons, inputP);
         conic.setLabel(label);
     }
 
-    public AlgoConicFivePoints(Construction cons, GeoPoint[] P) {
+    
+    protected void setInputPoints(){
+    	input = P;
+    }
+    
+    
+    protected GeoPoint[] createPoints2D(GeoPointND[] inputP){
+    	return (GeoPoint[]) inputP;
+    }
+    
+    public AlgoConicFivePoints(Construction cons, GeoPointND[] inputP) {
         super(cons);
-        this.P = P;
-        conic = new GeoConic(cons);
-        
-      
+        this.P = createPoints2D(inputP);
+        conic = newGeoConic(cons);
         
         setInputOutput(); // for AlgoElement
 
@@ -83,6 +95,15 @@ public class AlgoConicFivePoints extends AlgoElement {
         }
         */
         
+    }
+    
+    /**
+     * 
+     * @param cons construction
+     * @return output conic
+     */
+    protected GeoConicND newGeoConic(Construction cons){
+    	return new GeoConic(cons);
     }
 
     private void checkCriticalCase() {
@@ -139,16 +160,17 @@ public class AlgoConicFivePoints extends AlgoElement {
     }
 
     // for AlgoElement
-    @Override
+	@Override
 	protected void setInputOutput() {
-        input = P;
-
+		
+        setInputPoints();
+		
         super.setOutputLength(1);
         super.setOutput(0, conic);
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoConic getConic() {
+    public GeoConicND getConic() {
         return conic;
     }
     
@@ -169,7 +191,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     // compute conic through five points P[0] ... P[4]
     // with Pl���cker ��� method
     @Override
-	public final void compute() {
+	public void compute() {
         // compute lines P0 P1, P2 P3, 
         //               P0 P2, P1 P3
         GeoVec3D.cross(P[0], P[1], line[0]);
@@ -453,6 +475,7 @@ public class AlgoConicFivePoints extends AlgoElement {
 		return true;
 	}
 	
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnConicFivePoints(geo, this, scope);
 	}

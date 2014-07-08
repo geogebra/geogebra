@@ -304,12 +304,14 @@ public class ToolBar {
 
 
 		// conics
-		/*
-		 * sb.append(" | "); sb.append(EuclidianView.MODE_ELLIPSE_THREE_POINTS);
-		 * sb.append(" "); sb.append(EuclidianView.MODE_HYPERBOLA_THREE_POINTS);
-		 * sb.append(" "); sb.append(EuclidianView.MODE_PARABOLA);
-		 * sb.append(" , "); sb.append(EuclidianView.MODE_CONIC_FIVE_POINTS);
-		 */
+		sb.append(" | ");
+//		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+//		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+//		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_PARABOLA);
+//		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
 	
 		// measurements
 		
@@ -441,6 +443,18 @@ public class ToolBar {
 //		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
 		sb.append( " | ");
+		
+		
+		// conics
+//		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+//		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+//		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_PARABOLA);
+//		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+		sb.append(" | ");
+		
 		
 		//intersection curve
 		sb.append( EuclidianConstants.MODE_INTERSECTION_CURVE);

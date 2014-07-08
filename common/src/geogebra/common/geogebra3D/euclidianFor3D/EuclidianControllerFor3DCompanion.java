@@ -498,4 +498,16 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 	protected GeoElement lineBisector(GeoPointND a, GeoPointND b){
 		return ec.kernel.getManager3D().LineBisector3D(null, a, b, ec.view.getDirection());
 	}
+	
+	
+	
+	@Override
+	protected GeoConicND conic5(GeoPointND[] points){
+		for (int i = 0 ; i < 5 ; i++){
+			if (points[i].isGeoElement3D()){
+				return ec.kernel.getManager3D().Conic3D(null, points);
+			}
+		}
+		return super.conic5(points);
+	}
 }

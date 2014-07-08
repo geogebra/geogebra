@@ -2758,15 +2758,17 @@ public abstract class EuclidianController {
 		addSelectedPoint(hits, 5, false);
 		if (selPoints() == 5) {
 			// fetch the three selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPointND[] points = getSelectedPointsND();
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().Conic(null, points);
+			ret[0] = companion.conic5(points);
 			return ret;
 		}
 		return null;
 	}
+	
+	
 
 	protected GeoElement[] slope(Hits hits) {
 		if (hits.isEmpty()) {

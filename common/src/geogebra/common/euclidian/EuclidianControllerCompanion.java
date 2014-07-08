@@ -537,4 +537,15 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().LineBisector(null, (GeoPoint) a, (GeoPoint) b);
 	}
 	
+	/**
+	 * @param points points
+	 * @return conic throught 5 points
+	 */
+	protected GeoConicND conic5(GeoPointND[] points){
+		GeoPoint[] p = new GeoPoint[5];
+		for (int i = 0 ; i < 5 ; i++){
+			p[i] = (GeoPoint) points[i];
+		}
+		return ec.getAlgoDispatcher().Conic(null, p);
+	}
 }

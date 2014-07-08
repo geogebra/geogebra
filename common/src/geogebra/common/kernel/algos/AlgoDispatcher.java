@@ -648,9 +648,9 @@ public class AlgoDispatcher {
 	/**
 	 * conic through five points
 	 */
-	final public GeoConic Conic(String label, GeoPoint[] points) {
+	final public GeoConicND Conic(String label, GeoPoint[] points) {
 		AlgoConicFivePoints algo = new AlgoConicFivePoints(cons, label, points);
-		GeoConic conic = algo.getConic();
+		GeoConicND conic = algo.getConic();
 		return conic;
 	}
 
