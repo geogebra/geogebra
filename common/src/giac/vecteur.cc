@@ -6582,18 +6582,22 @@ namespace giac {
     }
   }
 
-  bool remove_identity(matrice & res){
+  bool remove_identity(matrice & res,GIAC_CONTEXT){
     int s=res.size();
     // "shrink" res
     for (int i=0;i<s;++i){
-      vecteur & v = *res[i]._VECTptr;
+      vecteur v = *res[i]._VECTptr;
       if (is_zero(v[i],context0))
 	return false;
       gen tmp=new ref_vecteur(v.begin()+s,v.end());
       divvecteur(*tmp._VECTptr,v[i],*tmp._VECTptr);
-      res[i] = tmp;
+      res[i] = normal(tmp,contextptr);
     }
     return true;
+  }
+
+  bool remove_identity(matrice & res){
+    return remove_identity(res,context0);
   }
 
   bool remove_identity(vector< vector<int> > & res,int modulo){
@@ -8169,7 +8173,7 @@ namespace giac {
       return false;
     if (debug_infolevel)
       CERR << clock() << " remove identity" << endl;
-    if (ok!=2 && !remove_identity(res))
+    if (ok!=2 && !remove_identity(res,contextptr))
       return false;
     if (debug_infolevel)
       CERR << clock() << " end matrix inv" << endl;

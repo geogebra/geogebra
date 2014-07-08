@@ -1920,9 +1920,9 @@ namespace giac {
 	if (is_undef(pp)) return pp;
 	return r2sym(pp,lt,ltend,contextptr);
       }
-      gen f=*(pp._EXTptr+1);
+      gen f=*(pp._EXTptr+1),fvalue;
 #if 1
-      if (ltend-lt==1 && lt->type==_VECT && lt->_VECTptr->empty() && f.type==_VECT){
+      if (ltend-lt==1 && lt->type==_VECT && lt->_VECTptr->empty() && f.type==_VECT && !has_rootof_value(f,fvalue,contextptr)){
 	// univariate case
 	// find minimal poly of the whole _EXT if extension degree is > 2
 	int d=f._VECTptr->size();
@@ -1945,7 +1945,7 @@ namespace giac {
       }
       vecteur v;
       int t=0;
-      gen fvalue=undef;
+      fvalue=undef;
       if (!has_rootof_value(f,fvalue,contextptr))
 	t=is_root_of_deg2(pp,v,contextptr);
       // if (t==2) return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);

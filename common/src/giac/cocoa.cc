@@ -6151,7 +6151,11 @@ namespace giac {
     polymod & R = info_ptr->R;
     vectpolymod & quo = info_ptr->quo;
     unsigned N=R.coord.size(),i,j=0;
-    if (N==0) return 1;
+    if (N==0){
+      if (learning && f4buchberger_info)
+	f4buchberger_info->push_back(*info_ptr);
+      return 1;
+    }
 #if GIAC_SHORTSHIFTTYPE==16
     bool useshort=true;
 #else
