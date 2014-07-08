@@ -483,15 +483,17 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		
 		CoordMatrix m = null;
-		if (view.getMatrix()==null){
-			if (conic.isGeoElement3D()){
-				m = conic.getCoordSys().getMatrixOrthonormal().inverse();	
-			}
-		}else{
-			if (conic.isGeoElement3D()){
-				m = conic.getCoordSys().getMatrixOrthonormal().inverse().mul(view.getMatrix());	
+		if (!isPreview){
+			if (view.getMatrix()==null){
+				if (conic.isGeoElement3D()){
+					m = conic.getCoordSys().getMatrixOrthonormal().inverse();	
+				}
 			}else{
-				m = view.getMatrix();
+				if (conic.isGeoElement3D()){
+					m = conic.getCoordSys().getMatrixOrthonormal().inverse().mul(view.getMatrix());	
+				}else{
+					m = view.getMatrix();
+				}
 			}
 		}
 		
@@ -781,17 +783,28 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 
 		// check if in view
-		Coords M = view.getCoordsForView(conic.getMidpoint3D());
-		if (!Kernel.isZero(M.getZ())) {// check if in view
-			isVisible = false;
-			return;
-		}
-		Coords[] ev = new Coords[2];
-		for (int j = 0; j < 2; j++) {
-			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+		Coords M;
+		if (isPreview){ // midpoint has been calculated in view coords
+			M = conic.getMidpoint3D().getInhomCoords();
+		}else{
+			M = view.getCoordsForView(conic.getMidpoint3D());
+			if (!Kernel.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
+			}
+		}
+		Coords[] ev = new Coords[2];
+		if (isPreview){ // calculations were in view coords
+			for (int j = 0; j < 2; j++) {
+				ev[j] = conic.getEigenvec(j);
+			}
+		}else{
+			for (int j = 0; j < 2; j++) {
+				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
+				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+					isVisible = false;
+					return;
+				}
 			}
 		}
 
@@ -839,17 +852,28 @@ public class DrawConic extends Drawable implements Previewable {
 	final private void updateHyperbola() {
 
 		// check if in view
-		Coords M = view.getCoordsForView(conic.getMidpoint3D());
-		if (!Kernel.isZero(M.getZ())) {// check if in view
-			updateHyperbolaEdge();
-			return;
-		}
-		Coords[] ev = new Coords[2];
-		for (int j = 0; j < 2; j++) {
-			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+		Coords M;
+		if (isPreview){ // midpoint has been calculated in view coords
+			M = conic.getMidpoint3D().getInhomCoords();
+		}else{
+			M = view.getCoordsForView(conic.getMidpoint3D());
+			if (!Kernel.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
+			}
+		}
+		Coords[] ev = new Coords[2];
+		if (isPreview){ // calculations were in view coords
+			for (int j = 0; j < 2; j++) {
+				ev[j] = conic.getEigenvec(j);
+			}
+		}else{
+			for (int j = 0; j < 2; j++) {
+				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
+				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+					isVisible = false;
+					return;
+				}
 			}
 		}
 
@@ -1039,17 +1063,28 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 
 		// check if in view
-		Coords M = view.getCoordsForView(conic.getMidpoint3D());
-		if (!Kernel.isZero(M.getZ())) {// check if in view
-			updateParabolaEdge();
-			return;
-		}
-		Coords[] ev = new Coords[2];
-		for (int j = 0; j < 2; j++) {
-			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+		Coords M;
+		if (isPreview){ // midpoint has been calculated in view coords
+			M = conic.getMidpoint3D().getInhomCoords();
+		}else{
+			M = view.getCoordsForView(conic.getMidpoint3D());
+			if (!Kernel.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
+			}
+		}
+		Coords[] ev = new Coords[2];
+		if (isPreview){ // calculations were in view coords
+			for (int j = 0; j < 2; j++) {
+				ev[j] = conic.getEigenvec(j);
+			}
+		}else{
+			for (int j = 0; j < 2; j++) {
+				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
+				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+					isVisible = false;
+					return;
+				}
 			}
 		}
 
@@ -1592,8 +1627,8 @@ public class DrawConic extends Drawable implements Previewable {
 				for (int i = 0; i < prevPoints.size(); i++) {
 					Coords p = view.getCoordsForView(prevPoints.get(i)
 							.getInhomCoordsInD(3));
-					// Application.debug("p["+i+"]=\n"+p);
-					previewTempPoints[i].setCoords(p.projectInfDim(), true);
+					//App.debug("p["+i+"]=\n"+p);
+					previewTempPoints[i].setCoords(p.projectInfDim(), false);
 				}
 				previewTempPoints[0].updateCascade();
 			}
