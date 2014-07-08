@@ -14,7 +14,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
- * NOT IN USE YET
  * 
  * The container for the {@link SearchPanel} and the {@link MaterialListPanel}
  */

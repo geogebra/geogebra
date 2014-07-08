@@ -11,7 +11,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
- * NOT IN USE YET
  * 
  * The preview panel for the {@link MaterialListElement materials}
  *

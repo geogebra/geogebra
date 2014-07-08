@@ -3764,3 +3764,154 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
   width: 100%;
   height: 100%;
 }
+
+
+
+/* ##########################################
+   ##########################################
+   #### 								 ####
+   ####             PHONE                ####
+   #### 								 ####
+   ##########################################
+   ########################################## */
+
+
+/* ########################################
+   ###              HEADER              ###
+   ######################################## */
+
+body div .PhoneHeader {
+	background-color: #F8F8F8;
+}
+
+body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tbody > tr:nth-child(1) > td {
+	height: 43px;
+}
+
+.PhoneGUI .tab {
+	
+}
+
+.PhoneGUI .activeTab {
+	height: 40px;
+	border-bottom: 3px solid #6666FF;
+}
+
+.PhoneGUI .headerTitlePanel {
+	color: #999999;
+	font-size: 20px;
+	padding: 11px 0px 0px 8px;
+}
+
+.PhoneGUI .phoneHeaderButton {
+	border: none !important;
+	background: transparent;
+	width: 30px;
+	height: 30px;
+	margin: 0 auto;
+}
+
+.PhoneGUI .phoneHeaderButton .image {
+	width: 30px;
+	height: 30px;
+	padding-top: 5px;
+	background-color: #F8F8F8;
+}
+
+.PhoneGUI .phoneHeaderButton:focus {
+	outline: none;
+}
+
+
+/* ########################################
+   ###          ALGEBRA VIEW            ###
+   ######################################## */
+   
+.PhoneGUI .algebraViewPanel {
+	background-color: #FFFFFF;
+	font-size: 16px;
+}
+
+.PhoneGUI .elemHeadingName {
+	padding: 10px 8px 10px 32px;
+}
+
+.PhoneGUI .arrowBottom.algebraOpenButton {
+	margin-top: 3px;
+}
+
+/* ########################################
+   ###         GRAPHICS VIEW            ###
+   ######################################## */
+   
+   
+   
+/* ########################################
+   ###        WORKSHEETS VIEW           ###
+   ######################################## */
+   
+.PhoneGUI .viewContainer {
+	overflow: hidden !important;
+}
+   
+.PhoneGUI .browseViewPanel {
+	background-color: #FFFFFF;
+	font-size: 16px;
+}
+
+.PhoneGUI .browseTitlePanel {
+	padding-top: 5px;
+}
+/*
+.browseTitlePanel.active {
+	border-bottom: 2px solid;
+	font-weight: bold;
+}
+
+.browseTitleText {
+	
+}
+*/
+
+.PhoneGUI .materialListPanel {
+	width: 100%;
+}
+
+.PhoneGUI .browsegui {
+
+}
+
+.PhoneGUI .filePanel {
+	overflow-y: scroll !important;
+}
+
+.PhoneGUI .browsegui .fileLinks {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.PhoneGUI .materialListElement.selected { /* materialListElement instead of browserFile */
+}
+
+.PhoneGUI .materialListElement .fileImage {
+	margin: 9px;
+}
+
+/* Search Panel */
+.PhoneGUI .searchPanel {
+	padding: 4px;
+}
+
+.PhoneGUI .searchPanel div.button {
+	border: none;
+}
+
+.PhoneGUI .searchPanel .searchButton {
+	top: 12px;
+	padding-left: 10px;
+}
+
+.PhoneGUI input[type="text"], .gwt-TextBox, select, textarea, .gwt-TextArea, iframe.objectPropertiesTextEditor {
+	border-radius: 25px;
+}
+
