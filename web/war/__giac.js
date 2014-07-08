@@ -1259,7 +1259,7 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 1259: { cat:"Tangent", cmd:"Tangent[(1,0),x^3+y^3=1]", result:"x=1" },
 1260: { cat:"Tangent", cmd:"Tangent[(1,1),x^3+y^3=1]", result:"{x = 1, y = 1}", notes:"(1,1) not on curve" },
 1261: { cat:"Tangent", cmd:"Tangent[(a,sqrt(1-a^2)),x^2+y^2=1]", result:"y = a sqrt(-a² + 1) / (a² - 1) x - sqrt(-a² + 1) / (a² - 1)" },
-1262: { cat:"Tangent", cmd:"Tangent[(a,cbrt(1-a^3)),x^3+y^3=1]", result:"y=(a^2*(-a^3+1)^(1/3)/(a^3-1)*x+(-a^3+1)*(-a^3+1)^(1/3)/(a^6-2*a^3+1))", notes:"doesn't work with surd(1-a^3,3)" },
+1262: { cat:"Tangent", cmd:"Tangent[(a,cbrt(1-a^3)),x^3+y^3=1]", result:"y = a² cbrt(-a³ + 1) / (a³ - 1) x + (-a³ + 1) cbrt(-a³ + 1) / (a⁶ - 2a³ + 1)" },
 1263: { cat:"Tangent", cmd:"Tangent[(0,0),x² - y³ + 2y² - y = 0]", result:"y=0" },
 1264: { cat:"Tangent", cmd:"Tangent[(0,1),x² - y³ + 2y² - y = 0]", result:"?", notes:"two tangents" },
 1265: { cat:"Intersection", cmd:"Intersection[{a,b,c},{c,d}]", result:"{c}", notes:"#3385" },
@@ -1444,6 +1444,11 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 1444: { cmd:"(x=3)^(1/999)", result:"nroot(x,999) = 3^(1 / 999)" },
 1445: { cat:"Solve", cmd:"Solve[{4^2/a^2+1/b^2=1,2^2/a^2+2^2/b^2=1}]", result:"{{a = 2sqrt(5), b = -sqrt(5)}, {a = -2 sqrt(5), b = sqrt(5)}, {a = 2sqrt(5), b = sqrt(5)}, {a = -2 sqrt(5), b = -sqrt(5)}}", notes:"#4332" },
 1446: { cat:"Integral", cmd:"Integral[sin(x)/x,0,∞]", result:"1 / 2 π", notes:"#4258" },
+1447: { cat:"Limit", cmd:"Limit[(3^x+5^x)^(1/x),∞]", result:"5" },
+1448: { cat:"Integral", cmd:"InverseLaplace[1/(1+t^2)]", result:"sin(t)" },
+1449: { cat:"Integral", cmd:"InverseLaplace[1/(1+t^2),t]", result:"sin(t)" },
+1450: { cat:"Integral", cmd:"Laplace[sin(t)]", result:"1 / (t² + 1)" },
+1451: { cat:"Integral", cmd:"Laplace[sin(t),t]", result:"1 / (t² + 1)" },
 
 
 
@@ -1454,6 +1459,7 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 
 // Java-killers
 // Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/ℯ]
+// Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)
 
 // test numeric solving by substituting back in
 //Numeric[Substitute[{π / x = cos(x - 2y), 2 y - π = sin(x)}, NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=3,y=1}]]]
