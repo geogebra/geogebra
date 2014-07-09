@@ -168,7 +168,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	private int ch;
 
 
-	protected void init() {
+	public void init() {
 		setVisible(true);
 		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
 		GeoGebraLogger.startLogger(article);
