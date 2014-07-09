@@ -63,6 +63,8 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Circle:
 				return new CmdCircle3D(kernel);
 				
+			case Ellipse:
+				return new CmdEllipse3D(kernel);
 			case Conic:
 				return new CmdConic3D(kernel);
 				

@@ -2628,8 +2628,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().Ellipse(null, (GeoPoint) points[0],
-					(GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = companion.ellipse(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:

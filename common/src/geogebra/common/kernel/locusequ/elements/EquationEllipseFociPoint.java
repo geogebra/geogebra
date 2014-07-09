@@ -47,9 +47,9 @@ public class EquationEllipseFociPoint extends EquationGenericConic {
     protected void computeMatrix() {
         AlgoEllipseFociPoint algo = (AlgoEllipseFociPoint) this.getResult().getParentAlgorithm();
         
-        f1 = algo.getFocus1();
-        f2 = algo.getFocus2();
-        ep = algo.getExternalPoint();
+        f1 = (GeoPoint) algo.getFocus1();
+        f2 = (GeoPoint) algo.getFocus2();
+        ep = (GeoPoint) algo.getExternalPoint();
         
         ef1 = this.getScope().getPoint(f1);
         ef2 = this.getScope().getPoint(f2);

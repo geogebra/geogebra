@@ -22,136 +22,118 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  *
  * @author  Markus
  * @version 
  */
-public class AlgoEllipseFociPoint extends AlgoElement {
+public class AlgoEllipseFociPoint extends AlgoEllipseFociPointND {
 
-    private GeoPoint A, B, C; // input    
-    private GeoConic ellipse; // output             
-
+	
     public AlgoEllipseFociPoint(
             Construction cons,
             String label,
-            GeoPoint A,
-            GeoPoint B,
-            GeoPoint C) {
-        	this(cons, A, B, C);
-            ellipse.setLabel(label);
+            GeoPointND A,
+            GeoPointND B,
+            GeoPointND C) {
+        	super(cons, label, A, B, C, null);
         }
 
+    
+    
     public AlgoEllipseFociPoint(
             Construction cons,
-            GeoPoint A,
-            GeoPoint B,
-            GeoPoint C) {
-            super(cons);
-            this.A = A;
-            this.B = B;
-            this.C = C;
-            ellipse = new GeoConic(cons);
-            setInputOutput(); // for AlgoElement
-
-            compute();
-        	addIncidence();
-        }
-
-    /**
-     * @author Tam
-     * 
-     * for special cases of e.g. AlgoIntersectLineConic
-     */
-	private void addIncidence() {
-		if (C != null)
-			C.addIncidence( ellipse);
-
-	}
-
-	@Override
-	public Commands getClassName() {
-		return Commands.Ellipse;
-	}
-    
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
-    }
-    
-
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-        input = new GeoElement[3];
-        input[0] = A;
-        input[1] = B;
-        input[2] = C;
-
-        super.setOutputLength(1);
-        super.setOutput(0, ellipse);
-        setDependencies(); // done by AlgoElement
-    }
-
-    public GeoConic getEllipse() {
-        return ellipse;
-    }
-    
-    public GeoPoint getFocus1() {
-    	// Public for LocusEqu
-        return A;
-    }
-    public GeoPoint getFocus2() {
-    	// Public for LocusEqu
-        return B;
-    }
-    
-    /**
-     * Method for LocusEqu
-     * @return returns external point for ellipse.
-     */
-    public GeoPoint getExternalPoint() {
-    	return C;
-    }
-
-    // compute ellipse with foci A, B passing through C
-    @Override
-	public final void compute() {
+            GeoPointND A,
+            GeoPointND B,
+            GeoPointND C) {
     	
-		double xyA[] = new double[2];
-		double xyB[] = new double[2];
-		double xyC[] = new double[2];
-		A.getInhomCoords(xyA);
-		B.getInhomCoords(xyB);
-		C.getInhomCoords(xyC);
-		
-		double length = Math.sqrt((xyA[0]-xyC[0])*(xyA[0]-xyC[0])+(xyA[1]-xyC[1])*(xyA[1]-xyC[1])) +
-		Math.sqrt((xyB[0]-xyC[0])*(xyB[0]-xyC[0])+(xyB[1]-xyC[1])*(xyB[1]-xyC[1]));
+    	super(cons, A, B, C, null);
     	
-        ellipse.setEllipseHyperbola(A, B, length/2);
     }
 
+    
+
+
+    
+
     @Override
-	final public String toString(StringTemplate tpl) {
-        return loc.getPlain("EllipseWithFociABPassingThroughC",A.getLabel(tpl),
-        		B.getLabel(tpl),C.getLabel(tpl));
+	protected GeoConicND newGeoConic(Construction cons){
+    	return new GeoConic(cons);
     }
+
+    
+    @Override
+	protected GeoPoint getA2d(){
+    	return (GeoPoint) A;
+    }
+    
+
+    @Override
+	protected GeoPoint getB2d(){
+    	return (GeoPoint) B;
+    }
+    
+
+    @Override
+	protected GeoPoint getC2d(){
+    	return (GeoPoint) C;
+    }
+    
+ 
+
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
 	
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnEllipseFociPoint(geo, this, scope);
 	}
+	
+
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+
+
+	@Override
+	public String toString(StringTemplate tpl) {
+
+		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+			return super.toString(tpl);
+		}
+
+		return loc.getPlain("EllipseWithFociABPassingThroughCInXOYPlane",A.getLabel(tpl),
+				B.getLabel(tpl),C.getLabel(tpl));
+	}
+	
+
+    
 }

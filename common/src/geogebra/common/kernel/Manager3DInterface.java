@@ -905,4 +905,22 @@ public interface Manager3DInterface {
 	
 	
 	public GeoConicND Conic3D(String label, GeoPointND[] points);
+	
+	/**
+	 * ellipse with foci A, B passing thorugh C
+	 */
+	public GeoConicND Ellipse3D(String label, GeoPointND A, GeoPointND B, GeoPointND C);
+	
+	
+	/**
+	 * ellipse with foci A, B passing thorugh C, oriented
+	 */
+	public GeoConicND Ellipse3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation);
+	
+	
+	
+	
+	
+	
+	
 }

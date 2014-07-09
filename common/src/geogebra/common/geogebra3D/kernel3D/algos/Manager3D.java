@@ -1838,5 +1838,30 @@ public class Manager3D implements Manager3DInterface {
 		AlgoConicFivePoints3D algo = new AlgoConicFivePoints3D(cons, label, points);
 		return algo.getConic();
 	}
+	
+	
+	final public GeoConicND Ellipse3D(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C) {
+		AlgoEllipseFociPoint3D algo = new AlgoEllipseFociPoint3D(cons, label, A, B, C);
+		
+		return algo.getEllipse();
+	}
+	
+	final public GeoConicND Ellipse3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation){
+		
+		if (!A.isGeoElement3D() && !B.isGeoElement3D() && !C.isGeoElement3D() // 2D geo
+				&& orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return kernel.getAlgoDispatcher().Ellipse(null, A, B, C);
+		}
+		
+		if (orientation == kernel.getSpace()){ // space is default orientation for 2D objects
+			return Ellipse3D(null, A, B, C);
+		}
+		
+		AlgoEllipseFociPoint3DOriented algo = new AlgoEllipseFociPoint3DOriented(cons, label, A, B, C, orientation);
+		
+		return algo.getEllipse();
+		
+	}
 
 }

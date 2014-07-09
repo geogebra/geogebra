@@ -510,4 +510,10 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 		}
 		return super.conic5(points);
 	}
+	
+	
+	@Override
+	protected GeoConicND ellipse(GeoPointND a, GeoPointND b, GeoPointND c){
+		return ec.kernel.getManager3D().Ellipse3D(null, a, b, c, ec.view.getDirection());
+	}
 }

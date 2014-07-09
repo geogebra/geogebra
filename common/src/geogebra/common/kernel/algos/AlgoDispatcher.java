@@ -615,12 +615,12 @@ public class AlgoDispatcher {
 	/**
 	 * ellipse with foci A, B passing thorugh C Michael Borcherds 2008-04-06
 	 */
-	final public GeoConic Ellipse(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C) {
+	final public GeoConicND Ellipse(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C) {
 		AlgoEllipseFociPoint algo = new AlgoEllipseFociPoint(cons, label, A, B,
 				C);
-		GeoConic ellipse = algo.getEllipse();
-		return ellipse;
+		
+		return algo.getEllipse();
 	}
 
 	/**

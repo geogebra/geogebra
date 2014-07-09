@@ -305,8 +305,8 @@ public class ToolBar {
 
 		// conics
 		sb.append(" | ");
-//		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
-//		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+		sb.append(" ");
 //		sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
 //		sb.append(" ");
 //		sb.append(EuclidianConstants.MODE_PARABOLA);
@@ -446,8 +446,8 @@ public class ToolBar {
 		
 		
 		// conics
-//		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
-//		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+		sb.append(" ");
 //		sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
 //		sb.append(" ");
 //		sb.append(EuclidianConstants.MODE_PARABOLA);

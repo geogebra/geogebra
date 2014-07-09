@@ -548,4 +548,16 @@ public class EuclidianControllerCompanion {
 		}
 		return ec.getAlgoDispatcher().Conic(null, p);
 	}
+	
+	/**
+	 * 
+	 * @param a first focus
+	 * @param b second focus
+	 * @param c point on ellipse
+	 * @return ellipse
+	 */
+	protected GeoConicND ellipse(GeoPointND a, GeoPointND b, GeoPointND c){
+		return ec.getAlgoDispatcher().Ellipse(null, a, b, c);
+	}
+	
 }
