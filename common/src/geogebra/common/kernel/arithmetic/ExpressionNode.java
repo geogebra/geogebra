@@ -4595,6 +4595,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case IF:
 
 			return new ExpressionNode(kernel, left, Operation.IF, right.derivative(fv));
+			
+		case IF_LIST:
+			MyList rtDiff = new MyList(kernel);
+			MyList rt = (MyList) right;
+			for(int i=0;i<rt.size();i++){
+				rtDiff.addListElement(rt.getListElement(i).derivative(fv));
+			}
+			return new ExpressionNode(kernel, left, Operation.IF_LIST, rtDiff);
 
 		case LOG:
 			// base e (ln)
