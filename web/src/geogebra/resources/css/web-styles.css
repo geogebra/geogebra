@@ -3470,13 +3470,13 @@ PROVIDERS
 	cursor: pointer;
 }
 
-.browsegui .filePanel {
+.browsegui .filePanel, .PhoneGUI .filePanel {
 	padding-left: 15px;
 	overflow-y: scroll;
 	/*width: 100%;*/
 }
 
-.browsegui .materialListElement {
+.browsegui .materialListElement, .PhoneGUI .materialListElement {
 	width: 450px;
 	height: 132px;
 	margin-right: 15px;
@@ -3485,7 +3485,7 @@ PROVIDERS
 	color: #999999;
 }
 
-.browsegui .fileImage {
+.browsegui .fileImage, .PhoneGUI .fileImage {
 	width: 152px;
 	height: 112px;
 	overflow: hidden;
@@ -3501,31 +3501,33 @@ PROVIDERS
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
-.browsegui .materialListElement.selected, .browsegui .materialListElement:hover {
+.browsegui .materialListElement.selected, .browsegui .materialListElement:hover,
+.PhoneGUI .materialListElement.selected, .PhoneGUI .materialListElement:hover {
 	color: #666666;
 }
 
-.browsegui .materialListElement.selected .fileImage, .browsegui .materialListElement:hover .fileImage {
+.browsegui .materialListElement.selected .fileImage, .browsegui .materialListElement:hover .fileImage, 
+.PhoneGUI .materialListElement.selected .fileImage, .PhoneGUI .materialListElement:hover .fileImage {
 	border-color: #6666FF;
 }
 
-.browsegui .fileImage.scaleImage {
+.browsegui .fileImage.scaleImage, .PhoneGUI .fileImage.scaleImage {
 	background-size: 100%;
 	width: 91px;
 	height: 49px;
 }
 
-.browsegui .fileDescription {
+.browsegui .fileDescription, .PhoneGUI .fileDescription {
 	float: left;
 	margin-top: 5px;
 }
 
-.browsegui .fileDescription td {
+.browsegui .fileDescription td, .PhoneGUI .fileDesctiption td {
 	padding-bottom: 10px;
 	text-align: left;
 }
 
-.browsegui .fileTitle {
+.browsegui .fileTitle, .PhoneGUI .fileTitle {
 	font-weight: bold;
 }
 
@@ -3533,7 +3535,7 @@ PROVIDERS
 	width: 100%;
 }
 
-.browsegui .fileLinks {
+.browsegui .fileLinks, .PhoneGUI .fileLinks {
 	position: absolute;
 	top: 3px;
 	right: 0px;
@@ -3544,9 +3546,6 @@ PROVIDERS
 	padding: 5px;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-}
-
-.browsegui .fileLinks {
 	text-align: center;
 }
 
@@ -3558,7 +3557,7 @@ PROVIDERS
 	left: -18px;
 }
 
-.browsegui .fileLinks .button {
+.browsegui .fileLinks .button, .PhoneGUI .fileLinks .button {
 	border: none;
 	background: none;
 	padding: 5px;
@@ -3856,7 +3855,8 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 /* ########################################
    ###        WORKSHEETS VIEW           ###
    ######################################## */
-   
+ 
+ /*  
 .PhoneGUI .viewContainer {
 	overflow: hidden !important;
 }
@@ -3869,16 +3869,7 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 .PhoneGUI .browseTitlePanel {
 	padding-top: 5px;
 }
-/*
-.browseTitlePanel.active {
-	border-bottom: 2px solid;
-	font-weight: bold;
-}
 
-.browseTitleText {
-	
-}
-*/
 
 .PhoneGUI .materialListPanel {
 	width: 100%;
@@ -3898,13 +3889,12 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 }
 
 .PhoneGUI .materialListElement.selected { 
-/* materialListElement instead of browserFile */
 }
 
 .PhoneGUI .materialListElement .fileImage {
 	margin: 9px;
 }
-
+*/
 /* Search Panel */
 .PhoneGUI .searchPanel {
 	padding: 4px;
