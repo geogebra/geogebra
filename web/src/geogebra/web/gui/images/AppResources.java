@@ -560,6 +560,9 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("icons/png16x16/bar_graph.png")
 	ImageResource bar_graph();
 
+	@Source("icons/png/dots.png")
+	ImageResource dots();
+
 	/*@Source("icons/png16x16/export16.png")
 	ImageResource export16();*/
 	

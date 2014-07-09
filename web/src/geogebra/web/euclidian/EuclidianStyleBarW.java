@@ -586,7 +586,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		for(int i=0;i<3;i++){
 			add(btnDeleteSizes[i]);
 		}
-		add(getViewButton(app, ev.getViewID()));
+		getViewButton(app, ev.getViewID());
 	}
 	
 	protected void addBtnRotateView() {

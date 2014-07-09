@@ -1,6 +1,9 @@
 package geogebra.web.gui.util;
 
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.view.Views;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -37,7 +40,7 @@ public abstract class StyleBarW extends HorizontalPanel {
 
 	public abstract void setOpen(boolean showStyleBar);
 	
-	protected static PopupMenuButton getViewButton(final AppW app, final int viewID){
+	protected void getViewButton(final AppW app, final int viewID){
 		ImageOrText[] data = new ImageOrText[Views.ids.length + 1];
 		final int[] viewIDs = new int[Views.ids.length];
 		int k = 0;
@@ -48,25 +51,33 @@ public abstract class StyleBarW extends HorizontalPanel {
 				k++;
 			}
 		}
-		data[k] = new ImageOrText(app.getMenu("Close"));
-		final int closeIndex = k;
-		final PopupMenuButton pb = new PopupMenuButton(app, data, closeIndex + 1, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		
+		final PopupMenuButton pb = new PopupMenuButton(app, data, Views.ids.length, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		ImageOrText views = new ImageOrText();
-		views.url = AppResources.INSTANCE.view_btn().getSafeUri().asString();
+		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
 		pb.setFixedIcon(views);
 		pb.addPopupHandler(new PopupMenuHandler(){
 
 			@Override
             public void fireActionPerformed(Object actionButton) {
 				int i = pb.getSelectedIndex();
-	            if(pb.getSelectedIndex() == closeIndex){
-	            	app.getGuiManager().setShowView(false, viewID);
-	            	return;
-	            }
+	            
 	            app.getGuiManager().setShowView(!app.getGuiManager().showView(viewIDs[i]), viewIDs[i]);
 	            
 	            	
             }});
-		return pb;
+		add(pb);
+		
+		StandardButton close = new StandardButton(GuiResources.INSTANCE.dockbar_close());
+		close.addFastClickHandler(new FastClickHandler(){
+
+			@Override
+            public void onClick() {
+				app.getGuiManager().setShowView(false, viewID);
+	            
+            }
+			
+		});
+		add(close);
 	}
 }

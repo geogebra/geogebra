@@ -24,7 +24,7 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 		add(auxiliary);
 		app.getSettings().getAlgebra().addListener(this);
 		setToolTips();
-		add(getViewButton(app, App.VIEW_ALGEBRA));
+		getViewButton(app, App.VIEW_ALGEBRA);
 	}
 	
 	private void setToolTips() {

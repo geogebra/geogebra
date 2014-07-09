@@ -75,7 +75,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		// add(btnBorderStyle);
 
 		setLabels();
-		add(getViewButton(app, App.VIEW_SPREADSHEET));
+		getViewButton(app, App.VIEW_SPREADSHEET);
 		updateStyleBar();
 		addStyleName("SpreadsheetStyleBar");
 	}
