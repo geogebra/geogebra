@@ -1280,7 +1280,7 @@ td.datePickerMonth {
 /*************************************************************/
 /*           GeoGebraWeb styles from here                    */
 /*============ App common styles ============*/
-.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup, .ToolTip
+.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup, .ToolTip, .PhoneGUI
 	{
 	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype",
 		Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad,
@@ -3780,7 +3780,7 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
    ###              HEADER              ###
    ######################################## */
 
-body div .PhoneHeader {
+.PhoneGUI .PhoneHeader {
 	background-color: #F8F8F8;
 }
 
@@ -3789,7 +3789,13 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 }
 
 .PhoneGUI .tab {
-	
+	float: left;
+	padding: 0px 10px;
+}
+
+.PhoneGUI .tabContainer {
+	float: right;
+	display: inline-block;
 }
 
 .PhoneGUI .activeTab {
@@ -3801,6 +3807,7 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	color: #999999;
 	font-size: 20px;
 	padding: 11px 0px 0px 8px;
+	display: inline-block;
 }
 
 .PhoneGUI .phoneHeaderButton {
@@ -3890,7 +3897,8 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	box-shadow: none;
 }
 
-.PhoneGUI .materialListElement.selected { /* materialListElement instead of browserFile */
+.PhoneGUI .materialListElement.selected { 
+/* materialListElement instead of browserFile */
 }
 
 .PhoneGUI .materialListElement .fileImage {
@@ -3914,4 +3922,10 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 .PhoneGUI input[type="text"], .gwt-TextBox, select, textarea, .gwt-TextArea, iframe.objectPropertiesTextEditor {
 	border-radius: 25px;
 }
+
+/* ########################################
+   ###           END OF PHONE           ###
+   ######################################## */
+
+
 

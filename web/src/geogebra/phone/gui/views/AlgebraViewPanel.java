@@ -1,14 +1,14 @@
 package geogebra.phone.gui.views;
 
+import geogebra.html5.gui.ResizeListener;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class AlgebraViewPanel extends FlowPanel implements RequiresResize {
+public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 	
 	private AlgebraViewW algebraView;
 	private ScrollPanel content;

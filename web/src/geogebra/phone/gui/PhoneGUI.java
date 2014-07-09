@@ -54,6 +54,7 @@ public class PhoneGUI extends VerticalPanel {
 	}
 
 	void updateViewSizes() {
+		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}
@@ -80,7 +81,7 @@ public class PhoneGUI extends VerticalPanel {
 		//FIXME do this with LAF
 		final int height = Window.getClientHeight() - 43;
 		
-		// *** graphics ***
+		// *** euclidian ***
 		this.euclidianViewPanel = new EuclidianViewPanel(app);
 		this.euclidianViewPanel.setStyleName("euclidianViewPanel");
 		this.euclidianViewPanel.setPixelSize(width, height);
@@ -115,7 +116,9 @@ public class PhoneGUI extends VerticalPanel {
 		this.add(this.views);	
 		
 		this.addResizeListener(this.views);
-//		this.addResizeListener(this.algebraViewPanel);
+		this.addResizeListener(this.algebraViewPanel);
+		this.addResizeListener(this.browseViewPanel);
+		this.addResizeListener(this.euclidianViewPanel);
 	}
 	
 	/**
