@@ -615,12 +615,12 @@ public class AlgoDispatcher {
 	/**
 	 * ellipse with foci A, B passing thorugh C Michael Borcherds 2008-04-06
 	 */
-	final public GeoConicND Ellipse(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C) {
-		AlgoEllipseFociPoint algo = new AlgoEllipseFociPoint(cons, label, A, B,
-				C);
+	final public GeoConicND EllipseHyperbola(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C, int type) {
+		AlgoEllipseHyperbolaFociPoint algo = new AlgoEllipseHyperbolaFociPoint(cons, label, A, B,
+				C, type);
 		
-		return algo.getEllipse();
+		return algo.getConic();
 	}
 
 	/**
@@ -631,17 +631,6 @@ public class AlgoDispatcher {
 		AlgoHyperbolaFociLength algo = new AlgoHyperbolaFociLength(cons, label,
 				A, B, a);
 		GeoConic hyperbola = algo.getConic();
-		return hyperbola;
-	}
-
-	/**
-	 * hyperbola with foci A, B passing thorugh C Michael Borcherds 2008-04-06
-	 */
-	final public GeoConic Hyperbola(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C) {
-		AlgoHyperbolaFociPoint algo = new AlgoHyperbolaFociPoint(cons, label,
-				A, B, C);
-		GeoConic hyperbola = algo.getHyperbola();
 		return hyperbola;
 	}
 

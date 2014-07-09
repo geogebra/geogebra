@@ -9,7 +9,7 @@ import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.div;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.half;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqr;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
-import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
+import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationMidpoint;
@@ -21,7 +21,7 @@ import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
 
 /**
  * @author sergio
- * EquationElement for {@link AlgoEllipseFociPoint}
+ * EquationElement for {@link AlgoEllipseHyperbolaFociPoint}
  */
 public class EquationEllipseFociPoint extends EquationGenericConic {
 
@@ -45,7 +45,7 @@ public class EquationEllipseFociPoint extends EquationGenericConic {
     
     @Override
     protected void computeMatrix() {
-        AlgoEllipseFociPoint algo = (AlgoEllipseFociPoint) this.getResult().getParentAlgorithm();
+        AlgoEllipseHyperbolaFociPoint algo = (AlgoEllipseHyperbolaFociPoint) this.getResult().getParentAlgorithm();
         
         f1 = (GeoPoint) algo.getFocus1();
         f2 = (GeoPoint) algo.getFocus2();

@@ -64,7 +64,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdCircle3D(kernel);
 				
 			case Ellipse:
-				return new CmdEllipse3D(kernel);
+				return new CmdEllipseHyperbola3D(kernel, GeoConicNDConstants.CONIC_ELLIPSE);
+			case Hyperbola:
+				return new CmdEllipseHyperbola3D(kernel, GeoConicNDConstants.CONIC_HYPERBOLA);
 			case Conic:
 				return new CmdConic3D(kernel);
 				

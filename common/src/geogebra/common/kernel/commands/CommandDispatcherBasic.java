@@ -147,9 +147,9 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case TrapezoidalSum:
 			return new CmdTrapezoidalSum(kernel);
 		case Ellipse:
-			return new CmdEllipse(kernel);
+			return new CmdEllipseHyperbola(kernel, GeoConicNDConstants.CONIC_ELLIPSE);
 		case Hyperbola:
-			return new CmdHyperbola(kernel);
+			return new CmdEllipseHyperbola(kernel, GeoConicNDConstants.CONIC_HYPERBOLA);
 		case Conic:
 			return new CmdConic(kernel);
 		case Circle:

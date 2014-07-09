@@ -5,22 +5,24 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoEllipseFociPointND;
+import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPointND;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoEllipseFociPoint3D extends AlgoEllipseFociPointND {
+public class AlgoEllipseHyperbolaFociPoint3D extends AlgoEllipseHyperbolaFociPointND {
 
-	public AlgoEllipseFociPoint3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
-		super(cons, label, A, B, C, orientation);
+	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
+			GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, 
+            int type) {
+		super(cons, label, A, B, C, orientation, type);
 	}
 	
-	public AlgoEllipseFociPoint3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C) {
-		this(cons, label, A, B, C, null);
+	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
+			GeoPointND A, GeoPointND B, GeoPointND C, 
+            int type) {
+		this(cons, label, A, B, C, null, type);
 	}
 	
     @Override
@@ -79,7 +81,7 @@ public class AlgoEllipseFociPoint3D extends AlgoEllipseFociPointND {
     @Override
 	public void compute() {
     	
-    	CoordSys cs = ellipse.getCoordSys();
+    	CoordSys cs = conic.getCoordSys();
     	cs.resetCoordSys();
     	
     	Coords Ac = A.getInhomCoordsInD(3);
@@ -88,7 +90,7 @@ public class AlgoEllipseFociPoint3D extends AlgoEllipseFociPointND {
     	
        	
        	if (!setCoordSys(cs, Ac, Bc, Cc)){
-       		ellipse.setUndefined();
+       		conic.setUndefined();
        		return;
        	}
 

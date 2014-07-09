@@ -29,6 +29,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -37,37 +38,44 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  Markus
  * @version 
  */
-public abstract class AlgoEllipseFociPointND extends AlgoElement {
+public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 
 	protected GeoPointND A, B, C; // input    
-    protected GeoConicND ellipse; // output             
+    protected GeoConicND conic; // output     
+    
+    protected int type; // ellipse or hyperbola
 
 
     
-    public AlgoEllipseFociPointND(
+    public AlgoEllipseHyperbolaFociPointND(
             Construction cons,
             String label,
             GeoPointND A,
             GeoPointND B,
             GeoPointND C, 
-            GeoDirectionND orientation) {
-        	this(cons, A, B, C, orientation);
-            ellipse.setLabel(label);
+            GeoDirectionND orientation,
+            int type) {
+        	this(cons, A, B, C, orientation, type);
+            conic.setLabel(label);
         }
     
 
-    public AlgoEllipseFociPointND(
+    public AlgoEllipseHyperbolaFociPointND(
             Construction cons,
             GeoPointND A,
             GeoPointND B,
             GeoPointND C, 
-            GeoDirectionND orientation) {
+            GeoDirectionND orientation,
+            int type) {
             super(cons);
+            
+            this.type = type;
+            
             this.A = A;
             this.B = B;
             this.C = C;
             setOrientation(orientation);
-            ellipse = newGeoConic(cons);
+            conic = newGeoConic(cons);
             setInputOutput(); // for AlgoElement
 
             compute();
@@ -96,17 +104,25 @@ public abstract class AlgoEllipseFociPointND extends AlgoElement {
      */
 	private void addIncidence() {
 		if (C != null)
-			C.addIncidence( ellipse);
+			C.addIncidence( conic);
 
 	}
 
 	@Override
 	public Commands getClassName() {
+		
+		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+			return Commands.Hyperbola;
+		}
 		return Commands.Ellipse;
 	}
     
     @Override
 	public int getRelatedModeID() {
+    	
+    	if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+			return EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
+		}
     	return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
     }
     
@@ -127,12 +143,12 @@ public abstract class AlgoEllipseFociPointND extends AlgoElement {
     	setInput();
 
     	super.setOutputLength(1);
-        super.setOutput(0, ellipse);
+        super.setOutput(0, conic);
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoConicND getEllipse() {
-        return ellipse;
+    public GeoConicND getConic() {
+        return conic;
     }
     
     public GeoPointND getFocus1() {
@@ -163,10 +179,17 @@ public abstract class AlgoEllipseFociPointND extends AlgoElement {
 		getB2d().getInhomCoords(xyB);
 		getC2d().getInhomCoords(xyC);
 		
-		double length = Math.sqrt((xyA[0]-xyC[0])*(xyA[0]-xyC[0])+(xyA[1]-xyC[1])*(xyA[1]-xyC[1])) +
-		Math.sqrt((xyB[0]-xyC[0])*(xyB[0]-xyC[0])+(xyB[1]-xyC[1])*(xyB[1]-xyC[1]));
+		double length;
+		double length1 = Math.sqrt((xyA[0]-xyC[0])*(xyA[0]-xyC[0])+(xyA[1]-xyC[1])*(xyA[1]-xyC[1]));
+		double length2 = Math.sqrt((xyB[0]-xyC[0])*(xyB[0]-xyC[0])+(xyB[1]-xyC[1])*(xyB[1]-xyC[1]));
+		
+		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+			length = Math.abs(length1 - length2);
+		}else{
+			length = length1 + length2; // ellipse
+		}
     	
-        ellipse.setEllipseHyperbola(getA2d(), getB2d(), length/2);
+        conic.setEllipseHyperbola(getA2d(), getB2d(), length/2);
     }
     
     /**
@@ -193,6 +216,11 @@ public abstract class AlgoEllipseFociPointND extends AlgoElement {
 
     @Override
     public String toString(StringTemplate tpl) {
+    	if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+    		 return loc.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(tpl),
+    	        		B.getLabel(tpl),C.getLabel(tpl));     
+    	}
+    	
     	return loc.getPlain("EllipseWithFociABPassingThroughC",A.getLabel(tpl),
     			B.getLabel(tpl),C.getLabel(tpl));
     }

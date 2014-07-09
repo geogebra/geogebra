@@ -513,7 +513,7 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 	
 	
 	@Override
-	protected GeoConicND ellipse(GeoPointND a, GeoPointND b, GeoPointND c){
-		return ec.kernel.getManager3D().Ellipse3D(null, a, b, c, ec.view.getDirection());
+	protected GeoConicND ellipseHyperbola(GeoPointND a, GeoPointND b, GeoPointND c, int type){
+		return ec.kernel.getManager3D().EllipseHyperbola3D(null, a, b, c, ec.view.getDirection(), type);
 	}
 }

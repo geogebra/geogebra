@@ -6,15 +6,17 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoEllipseFociPoint3DOriented extends AlgoEllipseFociPoint3D{
+public class AlgoEllipseHyperbolaFociPoint3DOriented extends AlgoEllipseHyperbolaFociPoint3D{
 
-	public AlgoEllipseFociPoint3DOriented(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
-		super(cons, label, A, B, C, orientation);
+	public AlgoEllipseHyperbolaFociPoint3DOriented(Construction cons, String label,
+			GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, 
+            int type) {
+		super(cons, label, A, B, C, orientation, type);
 
 	}
 	
@@ -69,11 +71,23 @@ public class AlgoEllipseFociPoint3DOriented extends AlgoEllipseFociPoint3D{
     
     @Override
 	public String toString(StringTemplate tpl) {
+ 
     	//direction is plane
-    	if (orientation instanceof GeoCoordSys2D)
+    	if (orientation instanceof GeoCoordSys2D){
+    		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+    			return loc.getPlain("HyperbolaWithFociABPassingThroughCParallelToD",A.getLabel(tpl),
+                		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
+    		}
     		return loc.getPlain("EllipseWithFociABPassingThroughCParallelToD",A.getLabel(tpl),
             		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
+    	}
+    	
+    	
      	//direction is line
+    	if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+    		return loc.getPlain("HyperbolaWithFociABPassingThroughCPerpendicularToD",A.getLabel(tpl),
+            		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
+    	}
     	return loc.getPlain("EllipseWithFociABPassingThroughCPerpendicularToD",A.getLabel(tpl),
         		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
     	

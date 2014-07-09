@@ -2628,14 +2628,13 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = companion.ellipse(points[0], points[1], points[2]);
+			ret[0] = companion.ellipseHyperbola(points[0], points[1], points[2], GeoConicNDConstants.CONIC_ELLIPSE);
 			break;
 	
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().Hyperbola(null, (GeoPoint) points[0],
-					(GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = companion.ellipseHyperbola(points[0], points[1], points[2], GeoConicNDConstants.CONIC_HYPERBOLA);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:

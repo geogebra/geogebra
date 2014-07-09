@@ -9,8 +9,9 @@ import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.dist2;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.div;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.pow;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.times;
-import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
+import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationMidpoint;
 import geogebra.common.kernel.locusequ.EquationPoint;
@@ -39,12 +40,12 @@ public class EquationHyperbolaFociPoint extends EquationGenericConic {
     protected void computeMatrix() {
         EquationExpression[] matrix = new EquationExpression[6];
 
-        AlgoHyperbolaFociPoint algo = (AlgoHyperbolaFociPoint) this.getResult().getParentAlgorithm();
+        AlgoEllipseHyperbolaFociPoint algo = (AlgoEllipseHyperbolaFociPoint) this.getResult().getParentAlgorithm();
         
         EquationPoint f1, f2, ep;
-        f1 = this.getScope().getPoint(algo.getFocus1());
-        f2 = this.getScope().getPoint(algo.getFocus2());
-        ep = this.getScope().getPoint(algo.getExternalPoint());
+        f1 = this.getScope().getPoint((GeoPoint) algo.getFocus1());
+        f2 = this.getScope().getPoint((GeoPoint) algo.getFocus2());
+        ep = this.getScope().getPoint((GeoPoint) algo.getExternalPoint());
         EquationPoint cp = new EquationMidpoint(f1, f2);
         
         EquationExpression a2 = pow(div(diff(dist(f1, ep), dist(f2, ep))

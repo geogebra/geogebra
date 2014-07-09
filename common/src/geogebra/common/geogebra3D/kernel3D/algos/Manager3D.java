@@ -1840,27 +1840,27 @@ public class Manager3D implements Manager3DInterface {
 	}
 	
 	
-	final public GeoConicND Ellipse3D(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C) {
-		AlgoEllipseFociPoint3D algo = new AlgoEllipseFociPoint3D(cons, label, A, B, C);
+	final public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C, int type) {
+		AlgoEllipseHyperbolaFociPoint3D algo = new AlgoEllipseHyperbolaFociPoint3D(cons, label, A, B, C, type);
 		
-		return algo.getEllipse();
+		return algo.getConic();
 	}
 	
-	final public GeoConicND Ellipse3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation){
+	final public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type){
 		
 		if (!A.isGeoElement3D() && !B.isGeoElement3D() && !C.isGeoElement3D() // 2D geo
 				&& orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
-			return kernel.getAlgoDispatcher().Ellipse(null, A, B, C);
+			return kernel.getAlgoDispatcher().EllipseHyperbola(null, A, B, C, type);
 		}
 		
 		if (orientation == kernel.getSpace()){ // space is default orientation for 2D objects
-			return Ellipse3D(null, A, B, C);
+			return EllipseHyperbola3D(null, A, B, C, type);
 		}
 		
-		AlgoEllipseFociPoint3DOriented algo = new AlgoEllipseFociPoint3DOriented(cons, label, A, B, C, orientation);
+		AlgoEllipseHyperbolaFociPoint3DOriented algo = new AlgoEllipseHyperbolaFociPoint3DOriented(cons, label, A, B, C, orientation, type);
 		
-		return algo.getEllipse();
+		return algo.getConic();
 		
 	}
 

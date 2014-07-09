@@ -5,22 +5,27 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
  * Ellipse[ <GeoPoint>, <GeoPoint>, <NumberValue> ]
  */
-public class CmdEllipse extends CommandProcessor {
+public class CmdEllipseHyperbola extends CommandProcessor {
+	
+	protected int type; // ellipse or hyperbola
 
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param type ellipse/hyperbola
 	 */
-	public CmdEllipse(Kernel kernel) {
+	public CmdEllipseHyperbola(Kernel kernel, int type) {
 		super(kernel);
+		this.type = type;
 	}
 
 	@Override
@@ -35,10 +40,14 @@ public class CmdEllipse extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				GeoElement[] ret = { getAlgoDispatcher().Ellipse(c.getLabel(),
+				if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+					return new GeoElement[]	{ getAlgoDispatcher().Hyperbola(c.getLabel(),
+							(GeoPoint) arg[0], (GeoPoint) arg[1],
+							(GeoNumberValue) arg[2]) };
+				}
+				return new GeoElement[]	{ getAlgoDispatcher().Ellipse(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
 						(GeoNumberValue) arg[2]) };
-				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
@@ -75,7 +84,7 @@ public class CmdEllipse extends CommandProcessor {
 	 * @return ellipse
 	 */
 	protected GeoElement ellipse(String label, GeoPointND a, GeoPointND b, GeoPointND c){
-		return getAlgoDispatcher().Ellipse(label, a, b, c);
+		return getAlgoDispatcher().EllipseHyperbola(label, a, b, c, type);
 	}
 	
 	

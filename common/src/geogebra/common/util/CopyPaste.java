@@ -21,8 +21,7 @@ import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
-import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
+import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.algos.AlgoJoinPoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -236,8 +235,7 @@ public class CopyPaste {
 					if (!geos.contains(pgeos[1]))
 						geos.add(pgeos[1]);
 				} else if (geo.getParentAlgorithm() instanceof AlgoCircleThreePoints
-						|| geo.getParentAlgorithm()instanceof AlgoEllipseFociPoint
-						|| geo.getParentAlgorithm() instanceof AlgoHyperbolaFociPoint) {
+						|| geo.getParentAlgorithm()instanceof AlgoEllipseHyperbolaFociPoint) {
 					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 					if (!geos.contains(pgeos[0]))
 						geos.add(pgeos[0]);

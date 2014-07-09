@@ -43,8 +43,7 @@ import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
-import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
-import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
+import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.algos.AlgoParabolaPointLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -1537,19 +1536,19 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-			AlgoEllipseFociPoint algo3 = new AlgoEllipseFociPoint(cons,
+			AlgoEllipseHyperbolaFociPoint algo3 = new AlgoEllipseHyperbolaFociPoint(cons,
 					previewTempPoints[0], previewTempPoints[1],
-					previewTempPoints[2]);
+					previewTempPoints[2], GeoConicNDConstants.CONIC_ELLIPSE);
 			cons.removeFromConstructionList(algo3);
-			initConic(algo3.getEllipse());
+			initConic(algo3.getConic());
 			break;
 
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			AlgoHyperbolaFociPoint algo4 = new AlgoHyperbolaFociPoint(cons,
+			AlgoEllipseHyperbolaFociPoint algo4 = new AlgoEllipseHyperbolaFociPoint(cons,
 					previewTempPoints[0], previewTempPoints[1],
-					previewTempPoints[2]);
+					previewTempPoints[2], GeoConicNDConstants.CONIC_HYPERBOLA);
 			cons.removeFromConstructionList(algo4);
-			initConic(algo4.getHyperbola());
+			initConic(algo4.getConic());
 			break;
 
 		case EuclidianConstants.MODE_COMPASSES:

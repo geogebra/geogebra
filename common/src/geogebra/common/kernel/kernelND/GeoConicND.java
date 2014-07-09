@@ -28,7 +28,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoEllipseFociLength;
-import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
+import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
@@ -3441,7 +3441,7 @@ FromMeta
 			return true;
 		if(getParentAlgorithm() instanceof AlgoConicFivePoints)
 			return false;
-		if(getParentAlgorithm() instanceof AlgoEllipseFociPoint)
+		if(getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint)
 			return false;
 		if(getParentAlgorithm() instanceof AlgoEllipseFociLength)
 			return false;

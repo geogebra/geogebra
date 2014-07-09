@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -36,27 +37,29 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  Markus
  * @version 
  */
-public class AlgoEllipseFociPoint extends AlgoEllipseFociPointND {
+public class AlgoEllipseHyperbolaFociPoint extends AlgoEllipseHyperbolaFociPointND {
 
 	
-    public AlgoEllipseFociPoint(
+    public AlgoEllipseHyperbolaFociPoint(
             Construction cons,
             String label,
             GeoPointND A,
             GeoPointND B,
-            GeoPointND C) {
-        	super(cons, label, A, B, C, null);
+            GeoPointND C, 
+            int type) {
+        	super(cons, label, A, B, C, null, type);
         }
 
     
     
-    public AlgoEllipseFociPoint(
+    public AlgoEllipseHyperbolaFociPoint(
             Construction cons,
             GeoPointND A,
             GeoPointND B,
-            GeoPointND C) {
+            GeoPointND C, 
+            int type) {
     	
-    	super(cons, A, B, C, null);
+    	super(cons, A, B, C, null, type);
     	
     }
 
@@ -98,6 +101,11 @@ public class AlgoEllipseFociPoint extends AlgoEllipseFociPointND {
 	
 	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		
+		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+			return LocusEquation.eqnHyperbolaFociPoint(geo, this, scope);			
+		}
+		
 		return LocusEquation.eqnEllipseFociPoint(geo, this, scope);
 	}
 	
@@ -129,7 +137,12 @@ public class AlgoEllipseFociPoint extends AlgoEllipseFociPointND {
 		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
 			return super.toString(tpl);
 		}
-
+		
+		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+			return loc.getPlain("HyperbolaWithFociABPassingThroughCInXOYPlane",A.getLabel(tpl),
+					B.getLabel(tpl),C.getLabel(tpl));
+		}
+		
 		return loc.getPlain("EllipseWithFociABPassingThroughCInXOYPlane",A.getLabel(tpl),
 				B.getLabel(tpl),C.getLabel(tpl));
 	}

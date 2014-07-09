@@ -553,11 +553,12 @@ public class EuclidianControllerCompanion {
 	 * 
 	 * @param a first focus
 	 * @param b second focus
-	 * @param c point on ellipse
-	 * @return ellipse
+	 * @param c point on ellipse/hyperbola
+	 * @param type ellipse/hyperbola
+	 * @return ellipse/hyperbola
 	 */
-	protected GeoConicND ellipse(GeoPointND a, GeoPointND b, GeoPointND c){
-		return ec.getAlgoDispatcher().Ellipse(null, a, b, c);
+	protected GeoConicND ellipseHyperbola(GeoPointND a, GeoPointND b, GeoPointND c, int type){
+		return ec.getAlgoDispatcher().EllipseHyperbola(null, a, b, c, type);
 	}
 	
 }
