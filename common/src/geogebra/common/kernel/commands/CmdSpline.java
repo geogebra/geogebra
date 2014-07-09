@@ -4,11 +4,11 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.main.MyError;
 
 /**
@@ -38,11 +38,11 @@ public class CmdSpline extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() > 2
+			if (arg[0].isGeoList() 
 					&& arePoint((GeoList) arg[0])) {
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
 						(GeoList) arg[0],new GeoNumeric(cons,3));
-				GeoSpline list = algo.getSpline();
+				GeoCurveCartesian list = algo.getSpline();
 				
 				GeoElement[] ret = { list };
 				return ret;
@@ -50,7 +50,7 @@ public class CmdSpline extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
 			arg = resArgs(c);
-			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() > 2
+			if (arg[0].isGeoList() 
 					&& arePoint((GeoList) arg[0])) {
 				int degree = (int) c.getArgument(1).evaluateDouble();
 				if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size() || degree < 3) {
@@ -59,7 +59,7 @@ public class CmdSpline extends CommandProcessor {
 				GeoNumberValue degreeNum=(GeoNumberValue) arg[1]; 
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
 						(GeoList) arg[0],degreeNum);
-				GeoSpline list = algo.getSpline();
+				GeoCurveCartesian list = algo.getSpline();
 				GeoElement[] ret = { list };
 				return ret;
 			}
