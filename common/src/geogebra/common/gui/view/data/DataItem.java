@@ -290,8 +290,8 @@ public class DataItem {
 			break;
 
 		case SPREADSHEET:
-			sourceString = spreadsheetTable(app).getCellRangeProcessor()
-					.getCellRangeString(getRangeList());
+			sourceString = null;//spreadsheetTable(app).getCellRangeProcessor()
+	//				.getCellRangeString(getRangeList());
 			break;
 
 		case INTERNAL:
@@ -623,7 +623,7 @@ public class DataItem {
 	}
 
 	private static CellRangeProcessor crProcessor(App app) {
-		return spreadsheetTable(app).getCellRangeProcessor();
+		return null;//spreadsheetTable(app).getCellRangeProcessor();
 	}
 
 	private static MyTable spreadsheetTable(App app) {

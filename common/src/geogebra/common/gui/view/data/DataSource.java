@@ -148,7 +148,7 @@ public class DataSource {
 	}
 
 	protected CellRangeProcessor crProcessor(App app) {
-		return spreadsheetTable().getCellRangeProcessor();
+		return null;//spreadsheetTable().getCellRangeProcessor();
 	}
 
 	private MyTable spreadsheetTable() {
@@ -199,8 +199,8 @@ public class DataSource {
 		}
 
 		else if (geo.getSpreadsheetCoords() != null) {
-			return new DataItem(CellRangeProcessor.clone(spreadsheetTable()
-					.getSelectedCellRanges()));
+			return null;//new DataItem(CellRangeProcessor.clone(spreadsheetTable()
+					//.getSelectedCellRanges()));
 		}
 
 		return null;
@@ -458,8 +458,9 @@ public class DataSource {
 
 		// The cell range list returned by the spreadsheet can change
 		// dynamically, so we need to use a copy.
-		ArrayList<CellRange> rangeList = CellRangeProcessor
-				.clone(spreadsheetTable().getSelectedCellRanges());
+		ArrayList<CellRange> rangeList = null;
+//		CellRangeProcessor
+//				.clone(spreadsheetTable().getSelectedCellRanges());
 
 		DataVariable var = new DataVariable(app);
 
