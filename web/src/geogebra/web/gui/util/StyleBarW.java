@@ -47,6 +47,7 @@ public abstract class StyleBarW extends HorizontalPanel {
 		for(int i = 0; i < Views.ids.length; i++){
 			if(app.supportsView(Views.ids[i])){
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
+				data[k].url = Views.icons[i].getSafeUri().asString();
 				viewIDs[k] = Views.ids[i];
 				k++;
 			}

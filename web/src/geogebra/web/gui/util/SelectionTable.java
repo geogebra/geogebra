@@ -7,7 +7,6 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -239,7 +238,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 				}
 			}
 			isIniting = false;
-	    } else {
+	    } else if(mode != geogebra.common.gui.util.SelectionTable.MODE_TEXT){
 	    	for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
 				if (getWidget(r, c) instanceof Label) {
 					data[i].applyToLabel((Label) getWidget(r, c));
@@ -258,12 +257,6 @@ public class SelectionTable extends Grid implements ClickHandler {
 		Widget w = null;
 		switch (mode) {
 		case MODE_TEXT:
-			if (object.text != null) {
-				w = new Anchor(object.text);
-			} else {
-				App.debug("Problem in SelectionTable.createWidget (String wanted)");
-			}
-			break;
 		case MODE_ICON:
 		case MODE_IMAGE: //fall through
 			w = new Label();

@@ -39,12 +39,16 @@ public class ImageOrText {
 		//button.setPixelSize(32,32);
 		if(this.url != null){
 			button.getElement().getStyle().setBackgroundImage("url("+this.url+")");
+			if(this.text != null){
+				button.addStyleName("textIconButton");
+			}
 		}
 		if(this.text != null){
 			button.setText(this.text);
 			if(this.fgColor != null){
 				button.getElement().getStyle().setColor(GColor.getColorString(this.fgColor));
 			}
+			button.setWidth("auto");
 			return;
 		}
 		if(this.fgColor != null){

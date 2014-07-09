@@ -1667,6 +1667,11 @@ Paddings for menuitems.
 	padding: 3px;
 }
 
+.gwt-Label.textIconButton{
+	background-position:0 0;
+	padding-left:28px;
+}
+
 .SelectionTable .gwt-Label.borderButton {
 	border: 1px solid;
 	-webkit-border-radius: 5px;
