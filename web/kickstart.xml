@@ -23,7 +23,7 @@ your workstation.
     <property name="gwtphonegap.jar" value="gwtphonegap-1.8.1.0.jar" />
 	<property name="phonegap.zip" value="phonegap-2.7.0.zip" />
 	
-	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer, advanced-gwt, phonegap, gwtphonegap"
+	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer, advanced-gwt, phonegap, gwtphonegap, gwtquery"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
@@ -32,7 +32,7 @@ your workstation.
 	</target>
 
 	<target name="geogebraweb-developer"
-	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, advanced-gwt, phonegap, gwtphonegap"
+	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, advanced-gwt, phonegap, gwtphonegap, gwtquery"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -168,5 +168,12 @@ your workstation.
 			<fileset dir="lib" includes="${phonegap.zip}" />
 		</copy>
 	</target>
-	
+
+	<target name="gwtquery">
+		<mkdir dir="lib" />
+		<get src="http://dev.geogebra.org/download/lib/gwtquery-1.4.2.jar" dest="lib/gwtquery-1.4.2.jar" />
+		<copy todir="war/WEB-INF/lib">
+			<fileset dir="lib" includes="gwtquery-1.4.2.jar" />
+		</copy>
+	</target>
 </project>
