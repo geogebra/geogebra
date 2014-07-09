@@ -1,8 +1,11 @@
 package geogebra.phone.gui.views;
 
+import static com.google.gwt.query.client.GQuery.$;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.web.main.EuclidianViewPanel;
 
+import com.google.gwt.query.client.css.CSS;
+import com.google.gwt.query.client.css.Length;
+import com.google.gwt.query.client.plugins.effects.PropertiesAnimation.EasingCurve;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -42,7 +45,7 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 		this.content = new HorizontalPanel();
 		this.add(this.content);
 		
-//		$(this.content).css(CSS.LEFT.with(Length.px(0)));
+		$(this.content).css(CSS.LEFT.with(Length.px(0)));
 	}
 
 	/**
@@ -52,11 +55,7 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	public void addView(FlowPanel view) {
 		this.content.add(view);
 	}
-	
-	public void addView(EuclidianViewPanel view) {
-		this.content.add(view);
-	}
-	
+
 	public void setCurrentView(View view) {
 		this.currentView = view;
 	}
@@ -81,7 +80,8 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	 * @param to scrollPosition in pixel
 	 */
 	private void animateScroll(int to) {
-//		$(this.content).animate("{left:'-" + to + "px'}", 300, EasingCurve.swing);
+		//FIXME
+		$(this.content).animate("{left:'-" + to + "px'}", 300, EasingCurve.swing);
 	}
 
 	private View getView(int index) {

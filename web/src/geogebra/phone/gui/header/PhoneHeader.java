@@ -5,16 +5,19 @@ import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
+import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class PhoneHeader extends HorizontalPanel implements ResizeListener {
+public class PhoneHeader extends FlowPanel implements ResizeListener {
 
 	private SimplePanel title;
+
+	
 	SimplePanel algebra;
 	SimplePanel graphics;
 	SimplePanel worksheets;
@@ -35,7 +38,6 @@ public class PhoneHeader extends HorizontalPanel implements ResizeListener {
 		this.titleLabel = new Label();
 		this.title.add(this.titleLabel);
 		this.title.setStyleName("headerTitlePanel");
-		this.title.setWidth(Window.getClientWidth()/3 + "px");
 		this.add(this.title);
 	}
 	
@@ -46,8 +48,8 @@ public class PhoneHeader extends HorizontalPanel implements ResizeListener {
 			
 			@Override
 			public void onClick() {
-//				((PhoneGUI) TouchEntryPoint.getLookAndFeel().getGUI()).scrollTo(View.Algebra);
-//				setTabActive(PhoneHeader.this.algebra);
+				Phone.getGUI().scrollTo(View.Algebra);
+				setTabActive(PhoneHeader.this.algebra);
 			}
 		});
 
@@ -57,8 +59,8 @@ public class PhoneHeader extends HorizontalPanel implements ResizeListener {
 			
 			@Override
 			public void onClick() {
-//				((PhoneGUI) TouchEntryPoint.getLookAndFeel().getGUI()).scrollTo(View.Graphics);
-//				setTabActive(PhoneHeader.this.graphics);
+				Phone.getGUI().scrollTo(View.Graphics);
+				setTabActive(PhoneHeader.this.graphics);
 			}
 		});
 		
@@ -68,9 +70,9 @@ public class PhoneHeader extends HorizontalPanel implements ResizeListener {
 			
 			@Override
 			public void onClick() {
-//				((PhoneGUI) TouchEntryPoint.getLookAndFeel().getGUI()).scrollTo(View.Worksheets);
-//				((PhoneGUI) TouchEntryPoint.getLookAndFeel().getGUI()).getBrowseViewPanel().loadFeatured();
-//				setTabActive(PhoneHeader.this.worksheets);
+				Phone.getGUI().scrollTo(View.Worksheets);
+				Phone.getGUI().getBrowseViewPanel().loadFeatured();
+				setTabActive(PhoneHeader.this.worksheets);
 			}
 		});
 		
@@ -81,8 +83,8 @@ public class PhoneHeader extends HorizontalPanel implements ResizeListener {
 			
 			@Override
 			public void onClick() {
-//				((PhoneGUI) TouchEntryPoint.getLookAndFeel().getGUI()).scrollTo(View.Options);
-//				setTabActive(PhoneHeader.this.options);
+				Phone.getGUI().scrollTo(View.Options);
+				setTabActive(PhoneHeader.this.options);
 				// context-sensitive options
 			}
 		});
@@ -103,15 +105,20 @@ public class PhoneHeader extends HorizontalPanel implements ResizeListener {
 		this.worksheets.add(worksheetsViewButton);
 		this.options.add(optionsButton);
 		
-		this.add(this.algebra);
-		this.add(this.graphics);
-		this.add(this.worksheets);
-		this.add(this.options);
+		FlowPanel tabContainer = new FlowPanel();
+		tabContainer.setStyleName("tabContainer");
+		
+		tabContainer.add(this.algebra);
+		tabContainer.add(this.graphics);
+		tabContainer.add(this.worksheets);
+		tabContainer.add(this.options);
+		
+		this.add(tabContainer);
 	}
 
 	@Override
 	public void onResize() {
-		this.setPixelSize(Window.getClientWidth(), 35);
+		this.setPixelSize(Window.getClientWidth(), 43);
 	}
 	
 	public void changeTitle(String newTitle) {

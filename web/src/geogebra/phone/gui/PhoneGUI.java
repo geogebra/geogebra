@@ -3,9 +3,11 @@ package geogebra.phone.gui;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.browser.BrowseViewPanel;
 import geogebra.phone.gui.header.PhoneHeader;
+import geogebra.phone.gui.views.AlgebraViewPanel;
+import geogebra.phone.gui.views.EuclidianViewPanel;
 import geogebra.phone.gui.views.ViewsContainer;
 import geogebra.phone.gui.views.ViewsContainer.View;
-import geogebra.web.main.EuclidianViewPanel;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,6 @@ import java.util.List;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -28,16 +29,17 @@ public class PhoneGUI extends VerticalPanel {
 	
 	private ViewsContainer views;
 	private PhoneHeader header;
-	private BrowseViewPanel browseViewPanel; //hier war browseViewPanelT
-	private FlowPanel graphicsViewPanel;
+	private BrowseViewPanel browseViewPanel;
 	private EuclidianViewPanel euclidianViewPanel;
-	//FIXME - only needed for setLabels()
+	private AlgebraViewPanel algebraViewPanel;
+	private AppW app;
 
 	
 //	private EuclidianOptions euclidianOptions;
 	// TODO add additional option-views
 
-	public PhoneGUI() {
+	public PhoneGUI(AppW app) {
+		this.app = app;
 		this.setStyleName("PhoneGUI");
 		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 		initGUIElements();
@@ -79,39 +81,35 @@ public class PhoneGUI extends VerticalPanel {
 		final int height = Window.getClientHeight() - 43;
 		
 		// *** graphics ***
-		this.graphicsViewPanel = new FlowPanel();
-//		this.euclidianViewPanel.setStyleName("euclidianViewPanel");
-//		this.euclidianViewPanel.setPixelSize(width, height);
+		this.euclidianViewPanel = new EuclidianViewPanel(app);
+		this.euclidianViewPanel.setStyleName("euclidianViewPanel");
+		this.euclidianViewPanel.setPixelSize(width, height);
 //		this.euclidianViewPanel.initEuclidianView(this.touchController);
-//		this.addResizeListener(this.euclidianViewPanel);
+		this.addResizeListener(this.euclidianViewPanel);
 //
 //		//FIXME - can we use styleBar from WEB?
 //		this.styleBar = new StyleBar(this.touchModel,
 //				this.euclidianViewPanel.getEuclidianView());
-//		
-//		
-//		this.graphicsViewPanel.add(this.euclidianViewPanel);
-//		
 ////		this.touchModel.getGuiModel().setStyleBar(this.styleBar);
 //		this.euclidianViewPanel.add(this.styleBar);
 //		this.euclidianViewPanel.setWidgetPosition(this.styleBar, this.rtl ? width - STYLEBAR_WIDTH :0, 0);
 //		
-//		this.algebraViewPanel = new AlgebraViewPanel(this.touchController, this.kernel);
-//		this.algebraViewPanel.setPixelSize(width, height);
-//		this.algebraViewPanel.setStyleName("algebraViewPanel");
+		this.algebraViewPanel = new AlgebraViewPanel(app);
+		this.algebraViewPanel.setPixelSize(width, height);
+		this.algebraViewPanel.setStyleName("algebraViewPanel");
 //		
 		// *** browseView ***
-//		this.browseViewPanel = new BrowseViewPanel(this.app);
-//		this.browseViewPanel.setPixelSize(width, height);
+		this.browseViewPanel = new BrowseViewPanel(app);
+		this.browseViewPanel.setPixelSize(width, height);
 //		
 //		// *** optionsView ***
 ////		this.euclidianOptions = new EuclidianOptions();
 ////		this.euclidianOptions.setPixelSize(width, height);
 ////		
 //		
-//		this.views.addView(this.algebraViewPanel);		
-//		this.views.addView(this.graphicsViewPanel);
-//		this.views.addView(this.browseViewPanel);
+		this.views.addView(this.algebraViewPanel);		
+		this.views.addView(this.euclidianViewPanel);
+		this.views.addView(this.browseViewPanel);
 ////		this.views.addView(this.euclidianOptions);
 //		
 		this.add(this.views);	
@@ -124,10 +122,10 @@ public class PhoneGUI extends VerticalPanel {
 	 * scrolls to the given {@link View view}
 	 * @param view
 	 */
-	private void scrollTo(View view) {
-//		this.views.scrollTo(view);
-//		changeTitle();
-//		this.header.setTabActive(view);
+	public void scrollTo(View view) {
+		this.views.scrollTo(view);
+		changeTitle();
+		this.header.setTabActive(view);
 	}
 	
 	private void changeTitle() {
@@ -156,10 +154,10 @@ public class PhoneGUI extends VerticalPanel {
 		this.header.changeTitle(newTitle);
 	}
 	
-//	private BrowseViewPanel getBrowseViewPanel() {
-//		return this.browseViewPanel;
-//	}
-//	
+	public BrowseViewPanel getBrowseViewPanel() {
+		return this.browseViewPanel;
+	}
+	
 	private void addResizeListener(ResizeListener rl) {
 		this.resizeListeners.add(rl);
 	}
