@@ -248,13 +248,6 @@ Test {
 			return ob instanceof GeoCurveCartesianND;
 		}
 	},
-	/** Test for GEOSPLINE */
-	GEOSPLINE {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoSpline;
-		}
-	},
 	/** Test for GEOINTERVAL */
 	GEOINTERVAL {
 		@Override

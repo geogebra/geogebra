@@ -54,7 +54,6 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -4380,15 +4379,6 @@ public class Kernel {
 		
 		return KernelCAS.Tangent(cons,  label,  P,  f);
 	}
-
-	/**
-	 * tangent to spline
-	 */
-	final public GeoLine Tangent(String label, GeoPointND P, GeoSpline list) {
-		
-		return KernelCAS.Tangent(cons,  label,  P,  list);
-	}
-
 
 	/**
 	 * Numeric search for extremum of function f in interval [left,right] Ulven

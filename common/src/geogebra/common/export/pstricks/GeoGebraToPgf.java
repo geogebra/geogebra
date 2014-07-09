@@ -19,7 +19,6 @@ import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
@@ -40,7 +39,6 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -1399,15 +1397,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// Only done using gnuplot
 		// add Warning
 		addWarningGnuplot();
-		if (geo.getParentAlgorithm() instanceof AlgoSpline
-				|| geo instanceof GeoSpline) {
-			GeoSpline s = (GeoSpline) geo;
-			for (int i = 0; i < s.size(); i++) {
-				drawSingleCurve(s.get(i), sb);
-			}
-		} else {
-			drawSingleCurve((GeoCurveCartesian) geo, sb);
-		}
+		
+		drawSingleCurve((GeoCurveCartesian) geo, sb);
+		
 	}
 
 	private void drawSingleCurve(GeoCurveCartesian geo, StringBuilder sb) {

@@ -24,7 +24,6 @@ import geogebra.common.euclidian.draw.DrawRay;
 import geogebra.common.euclidian.draw.DrawSegment;
 import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.draw.DrawSlope;
-import geogebra.common.euclidian.draw.DrawSpline;
 import geogebra.common.euclidian.draw.DrawText;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.draw.DrawTurtle;
@@ -56,7 +55,6 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoTransferFunction;
@@ -277,10 +275,6 @@ public class EuclidianDraw {
 			if (geo.getParentAlgorithm() instanceof AlgoTransferFunction){
 				d = new DrawNyquist(ev, (GeoTransferFunction) geo);
 			}
-			break;
-			
-		case SPLINE:
-			d = new DrawSpline(ev, (GeoSpline) geo);
 			break;
 		case LIST:
 			d = new DrawList(ev, (GeoList) geo);

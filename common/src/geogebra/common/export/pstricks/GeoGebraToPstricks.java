@@ -27,7 +27,6 @@ import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -46,7 +45,6 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -997,15 +995,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawCurveCartesian(GeoElement geo) {
 		// \parametricplot[algebraic=true,linecolor=red]
 		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
-		if (geo.getParentAlgorithm() instanceof AlgoSpline
-				|| geo instanceof GeoSpline) {
-			GeoSpline s = (GeoSpline) geo;
-			for (int i = 0; i < s.size(); i++) {
-				drawSingleCurve(s.get(i));
-			}
-		} else {
-			drawSingleCurve((GeoCurveCartesian) geo);
-		}
+		drawSingleCurve((GeoCurveCartesian) geo);
 	}
 
 	private void drawSingleCurve(GeoCurveCartesian geo) {

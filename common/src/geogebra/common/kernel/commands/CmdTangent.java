@@ -8,7 +8,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -86,11 +85,7 @@ public class CmdTangent extends CommandProcessor {
 			// Victor Franco 11-02-2007: for curve's
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
-				if(arg[1] instanceof GeoSpline){
-					GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-							(GeoPointND) arg[0], (GeoSpline) arg[1]) };
-					return ret;
-				}
+				
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
 						(GeoPointND) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
@@ -98,15 +93,7 @@ public class CmdTangent extends CommandProcessor {
 			// Victor Franco 11-02-2007: end for curve's
 			
 			// For Spline
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = isSpline(arg[1]))) {
-					if (!((GeoPointND)arg[0]).isFinite()){
-						throw argErr(app, c.getName(), arg[0]);
-					}
-				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPointND) arg[0], (GeoSpline) arg[1]) };
-				return ret;
-			}
+			
 			
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
@@ -141,9 +128,7 @@ public class CmdTangent extends CommandProcessor {
 		}
 	}
 
-	private static boolean isSpline(GeoElement geoList) {
-		return geoList instanceof GeoSpline;
-	}
+	
 	
 	/**
 	 * 

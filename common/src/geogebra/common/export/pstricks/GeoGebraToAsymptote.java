@@ -26,7 +26,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -45,7 +44,6 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -1101,15 +1099,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void drawCurveCartesian (GeoElement geo){
         importpackage.add("graph");
         
-        if (geo.getParentAlgorithm() instanceof AlgoSpline
-        		|| geo instanceof GeoSpline){
-        	GeoSpline s=(GeoSpline)geo;
-        	for (int i=0;i<s.size();i++){
-        		drawSingleCurve(s.get(i));
-        	}
-        } else {
-        	drawSingleCurve((GeoCurveCartesian)geo);
-        }
+        drawSingleCurve((GeoCurveCartesian)geo);
     }
 	private void drawSingleCurve(GeoCurveCartesian geo) {
 		double start = geo.getMinParameter(),
