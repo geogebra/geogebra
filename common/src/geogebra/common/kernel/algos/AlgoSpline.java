@@ -181,8 +181,8 @@ public class AlgoSpline extends AlgoElement  {
 			}
 			altX.addListElement(nodeX);
 			altY.addListElement(nodeY);
-			if(t < parametersValues.length){
-				cond.addListElement(fv.wrap().lessThan(this.parametersValues[t++]));
+			if(t < this.parameterIntervalLimits.length){
+				cond.addListElement(fv.wrap().lessThan(this.parameterIntervalLimits[t++]));
 			}
 		}
 		Function fx= new Function(new ExpressionNode(kernel,cond,Operation.IF_LIST,altX),fv);
