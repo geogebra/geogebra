@@ -348,7 +348,7 @@ public abstract class DataAnalysisController {
 
 		removeRegressionGeo();
 
-		geoRegression = getStatGeo().createRegressionPlot(dataSelected,
+		geoRegression = statGeo.createRegressionPlot(dataSelected,
 				getModel().getRegressionMode(), getModel().getRegressionOrder(), false);
 
 		updateRegressionPanel();
