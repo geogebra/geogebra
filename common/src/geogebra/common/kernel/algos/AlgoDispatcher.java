@@ -604,19 +604,18 @@ public class AlgoDispatcher {
 	/**
 	 * ellipse with foci A, B and length of first half axis a
 	 */
-	final public GeoConic Ellipse(String label, GeoPoint A, GeoPoint B,
+	final public GeoConicND Ellipse(String label, GeoPoint A, GeoPoint B,
 			NumberValue a) {
 		AlgoEllipseFociLength algo = new AlgoEllipseFociLength(cons, label, A,
 				B, a);
-		GeoConic ellipse = algo.getConic();
-		return ellipse;
+		return algo.getConic();
 	}
 
 	/**
 	 * ellipse with foci A, B passing thorugh C Michael Borcherds 2008-04-06
 	 */
 	final public GeoConicND EllipseHyperbola(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C, int type) {
+			GeoPointND C, final int type) {
 		AlgoEllipseHyperbolaFociPoint algo = new AlgoEllipseHyperbolaFociPoint(cons, label, A, B,
 				C, type);
 		
@@ -626,12 +625,11 @@ public class AlgoDispatcher {
 	/**
 	 * hyperbola with foci A, B and length of first half axis a
 	 */
-	final public GeoConic Hyperbola(String label, GeoPoint A, GeoPoint B,
+	final public GeoConicND Hyperbola(String label, GeoPoint A, GeoPoint B,
 			NumberValue a) {
 		AlgoHyperbolaFociLength algo = new AlgoHyperbolaFociLength(cons, label,
 				A, B, a);
-		GeoConic hyperbola = algo.getConic();
-		return hyperbola;
+		return algo.getConic();
 	}
 
 	/**

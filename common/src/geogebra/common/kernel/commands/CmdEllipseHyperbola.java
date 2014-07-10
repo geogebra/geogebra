@@ -14,7 +14,7 @@ import geogebra.common.main.MyError;
  */
 public class CmdEllipseHyperbola extends CommandProcessor {
 	
-	protected int type; // ellipse or hyperbola
+	final protected int type; // ellipse or hyperbola
 
 	/**
 	 * Create new command processor
@@ -23,7 +23,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	 *            kernel
 	 * @param type ellipse/hyperbola
 	 */
-	public CmdEllipseHyperbola(Kernel kernel, int type) {
+	public CmdEllipseHyperbola(Kernel kernel, final int type) {
 		super(kernel);
 		this.type = type;
 	}

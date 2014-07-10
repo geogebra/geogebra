@@ -1841,13 +1841,13 @@ public class Manager3D implements Manager3DInterface {
 	
 	
 	final public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B,
-			GeoPointND C, int type) {
+			GeoPointND C, final int type) {
 		AlgoEllipseHyperbolaFociPoint3D algo = new AlgoEllipseHyperbolaFociPoint3D(cons, label, A, B, C, type);
 		
 		return algo.getConic();
 	}
 	
-	final public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type){
+	final public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, final int type){
 		
 		if (!A.isGeoElement3D() && !B.isGeoElement3D() && !C.isGeoElement3D() // 2D geo
 				&& orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects

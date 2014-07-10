@@ -909,13 +909,13 @@ public interface Manager3DInterface {
 	/**
 	 * ellipse with foci A, B passing thorugh C
 	 */
-	public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, int type);
+	public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, final int type);
 	
 	
 	/**
 	 * ellipse with foci A, B passing thorugh C, oriented
 	 */
-	public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type);
+	public GeoConicND EllipseHyperbola3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, final int type);
 	
 	
 	
