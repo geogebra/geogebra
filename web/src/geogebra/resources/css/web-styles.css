@@ -3448,6 +3448,11 @@ PROVIDERS
 	positon: relative;
 }
 
+.searchPanel .searchTextBox {
+	color: #999999;
+	font-size: 90%;
+}
+
 .searchPanel .searchButton {
 	position: absolute;
 	top: 23px;
@@ -3861,52 +3866,15 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
    ###        WORKSHEETS VIEW           ###
    ######################################## */
  
- /*  
-.PhoneGUI .viewContainer {
-	overflow: hidden !important;
-}
-   
-.PhoneGUI .browseViewPanel {
-	background-color: #FFFFFF;
-	font-size: 16px;
-}
 
-.PhoneGUI .browseTitlePanel {
-	padding-top: 5px;
-}
-
-
-.PhoneGUI .materialListPanel {
-	width: 100%;
-}
-
-.PhoneGUI .browsegui {
-
-}
-
-.PhoneGUI .filePanel {
-	overflow-y: scroll !important;
-}
-
-.PhoneGUI .browsegui .fileLinks {
-	background-color: transparent;
-	box-shadow: none;
-}
-
-.PhoneGUI .materialListElement.selected { 
-}
-
-.PhoneGUI .materialListElement .fileImage {
-	margin: 9px;
-}
-*/
 /* Search Panel */
 .PhoneGUI .searchPanel {
 	padding: 4px;
 }
 
-.PhoneGUI .searchPanel div.button {
-	border: none;
+.PhoneGUI .searchPanel .cancelButton {
+	top: 12px;
+	right: 15px;
 }
 
 .PhoneGUI .searchPanel .searchButton {
@@ -3914,7 +3882,7 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	padding-left: 10px;
 }
 
-.PhoneGUI input[type="text"], .gwt-TextBox, select, textarea, .gwt-TextArea, iframe.objectPropertiesTextEditor {
+.PhoneGUI input.gwt-TextBox.searchTextBox {
 	border-radius: 25px;
 }
 

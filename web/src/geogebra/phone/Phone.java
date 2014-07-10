@@ -25,6 +25,7 @@ public class Phone implements EntryPoint {
 		appFrame.init();
 		phoneGui = new PhoneGUI(appFrame.app);
 		ResourcesInjector.injectResources();
+		RootLayoutPanel.get().clear();
 		RootLayoutPanel.get().add(phoneGui);
 	}
 }
