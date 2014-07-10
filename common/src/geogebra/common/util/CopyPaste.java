@@ -294,6 +294,15 @@ public class CopyPaste {
 				if (!ret.contains(geo2) && !geos.contains(geo2)
 						&& !(geo2 instanceof GeoAxis)) {
 					ret.add(geo2);
+
+					// probably not needed?
+					/*if ((geo2.getParentAlgorithm() instanceof AlgoDrawingPadCorner) &&
+						(!ret.contains(geo2.getParentAlgorithm())) &&
+						(!geos.contains(geo2.getParentAlgorithm()))) {
+						// other algos will be added to this anyway,
+						// so we can handle this issue in this method
+						ret.add(geo2.getParentAlgorithm());
+					}*/
 				}
 			}
 		}

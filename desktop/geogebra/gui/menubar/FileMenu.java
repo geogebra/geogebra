@@ -247,6 +247,22 @@ class FileMenu extends BaseMenu implements EventRenderable {
 						// from loadAction
 						ad.getGuiManager().openFile();
 
+						// now we have to copy the macros from ad to app
+						// in order to make some advanced constructions work
+						// as it was hard to copy macro classes, let's use
+						// strings, but how to load them into the application?
+						try {
+							app.getXMLio().processXMLString(ad.getMacroXML(),
+									false, true);
+
+							// alternative solution
+							// app.addMacroXML(ad.getKernel().getMacroXML(
+							// ad.getKernel().getAllMacros()));
+						} catch (Exception ex) {
+							App.debug("Could not load any macros at \"Insert File\"");
+							ex.printStackTrace();
+						}
+
 						// afterwards, the file is loaded into "ad" in theory,
 						// so we have to use the CopyPaste class to copy it
 
@@ -254,6 +270,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 								.getKernel().getConstruction()
 								.getGeoSetConstructionOrder()));
 
+						// and paste
 						CopyPaste.pasteFromXML(app);
 						app.setDefaultCursor();
 					}
