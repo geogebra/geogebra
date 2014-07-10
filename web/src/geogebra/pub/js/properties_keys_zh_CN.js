@@ -862,7 +862,7 @@ __GGB__keysVar.zh_CN.command = {
     "SolveQuartic": "\u89e3\u56db\u6b21\u591a\u9879\u5f0f",
     "SolveQuartic_Syntax": "[ <\u56db\u6b21\u591a\u9879\u5f0f> ]",
     "Sort": "\u6392\u5e8f",
-    "Sort_Syntax": "[ <\u96c6\u5408> ]\n[ <\u6570\u503c>, <\u7d22\u5f15> ]",
+    "Sort_Syntax": "[ <\u96c6\u5408> ]\n[ <\u6570\u503c>, <\u7d22\u5f15\u96c6\u5408> ]",
     "Spearman": "\u79e9\u76f8\u5173\u7cfb\u6570",
     "Spearman_Syntax": "[ <\u70b9\u96c6> ]\n[ <\u6570\u96c61>, <\u6570\u96c62> ]",
     "Sphere": "\u7403\u9762",
