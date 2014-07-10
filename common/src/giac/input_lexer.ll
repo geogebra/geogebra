@@ -130,8 +130,8 @@
     void unlock_syms_mutex(){}
 #endif
 
-    sym_tab & syms(){
-      static sym_tab * ans=new sym_tab;
+    sym_string_tab & syms(){
+      static sym_string_tab * ans=new sym_string_tab;
       return * ans;
     }
 
@@ -1217,7 +1217,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	return i->second.subtype+256 ;
       }
       lock_syms_mutex();
-      sym_tab::const_iterator i2 = syms().find(s),i2end=syms().end();
+      sym_string_tab::const_iterator i2 = syms().find(s),i2end=syms().end();
       if (i2 == i2end) {
 	unlock_syms_mutex();  
 	const char * S = s.c_str();
@@ -1242,7 +1242,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	      }
 	      res = identificateur(name);
 	      lock_syms_mutex();
-	      syms()[name.c_str()] = res;
+	      syms()[name] = res;
 	      unlock_syms_mutex();
 	      args.push_back(res);
 	    }
@@ -1316,7 +1316,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       if (it->type!=_IDNT)
 	continue;
       lock_syms_mutex();
-      sym_tab::const_iterator i = syms().find(it->_IDNTptr->id_name),iend=syms().end();
+      sym_string_tab::const_iterator i = syms().find(it->_IDNTptr->id_name),iend=syms().end();
       if (i==iend)
 	syms()[it->_IDNTptr->name()] = *it;
       unlock_syms_mutex();  

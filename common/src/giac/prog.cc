@@ -753,7 +753,7 @@ namespace giac {
 	    s[i]='_';
 	}
 	lock_syms_mutex();  
-	sym_tab::const_iterator i = syms().find(s);
+	sym_string_tab::const_iterator i = syms().find(s);
 	if (i == syms().end()) {
 	  *it = *(new identificateur(s));
 	  syms()[s] = *it;
@@ -7976,6 +7976,7 @@ namespace giac {
 #else
     std::map<const char *, const mksa_unit *,ltstr>::const_iterator it=unit_conversion_map().find(s.c_str()),itend=unit_conversion_map().end();
 #endif
+    int nchar=1;
     if (it==itend && l>1){
       switch (s[0]){
       case 'Y':
@@ -8017,8 +8018,11 @@ namespace giac {
       case 'm':
 	exposant=-3;
 	break;
-      case 'µ':
-	exposant=-6;
+      case char(0xc2): // micro 
+	if (l>2 && s[1]==char(0xB5)) {
+	  nchar=2;
+	  exposant=-6;
+	}	
 	break;
       case 'n':
 	exposant=-9;
@@ -8041,7 +8045,7 @@ namespace giac {
       }
     }
     if (exposant!=0){
-      s=s.substr(1,l-1);
+      s=s.substr(nchar,l-nchar);
       res=std::pow(10.0,double(exposant));
 #ifdef USTL
       ustl::pair<const char * const * const,const char * const * const> pp=ustl::equal_range(unitname_tab,unitname_tab_end,("_"+s).c_str(),mksa_tri3());

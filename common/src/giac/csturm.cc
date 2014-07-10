@@ -1238,6 +1238,9 @@ namespace giac {
   gen complexroot(const gen & g,bool complexe,GIAC_CONTEXT){
     vecteur v=gen2vecteur(g);
     bool use_vas=!complexe,use_proot=true;
+#ifndef HAVE_LIBMPFR
+    use_proot=false;
+#endif
     bool isolation=false;
     if (!v.empty() && v[0]==at_sturm){
       use_vas=false;

@@ -2780,6 +2780,7 @@ namespace giac {
     // here s==4
     bool ordonne=is_greater(borne_sup,borne_inf,contextptr);
     bool desordonne=false;
+#ifdef NO_STDEXCEPT
     if (ordonne)
       res=limit(primitive,*x._IDNTptr,borne_sup,-1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,1,contextptr);
     else {
@@ -2788,6 +2789,21 @@ namespace giac {
       else
 	res=limit(primitive,*x._IDNTptr,borne_sup,0,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,0,contextptr);
     }
+#else
+    try {
+      if (ordonne)
+	res=limit(primitive,*x._IDNTptr,borne_sup,-1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,1,contextptr);
+      else {
+	if ( (desordonne=is_greater(borne_inf,borne_sup,contextptr) ))
+	  res=limit(primitive,*x._IDNTptr,borne_sup,1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,-1,contextptr) ;
+	else
+	  res=limit(primitive,*x._IDNTptr,borne_sup,0,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,0,contextptr);
+      }
+    } catch (std::runtime_error & e){
+      *logptr(contextptr) << "Error trying to find limit of " << primitive << endl;
+      return symbolic(at_integrate,makesequence(v[0],x,borne_inf,borne_sup));
+    }
+#endif
     vecteur sp;
     sp=lidnt(evalf(primitive,1,contextptr));
     if (sp.size()>1){

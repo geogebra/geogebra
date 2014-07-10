@@ -1416,8 +1416,8 @@ static yyconst flex_int16_t yy_chk[2016] =
     void unlock_syms_mutex(){}
 #endif
 
-    sym_tab & syms(){
-      static sym_tab * ans=new sym_tab;
+    sym_string_tab & syms(){
+      static sym_string_tab * ans=new sym_string_tab;
       return * ans;
     }
 
@@ -5511,7 +5511,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	return i->second.subtype+256 ;
       }
       lock_syms_mutex();
-      sym_tab::const_iterator i2 = syms().find(s),i2end=syms().end();
+      sym_string_tab::const_iterator i2 = syms().find(s),i2end=syms().end();
       if (i2 == i2end) {
 	unlock_syms_mutex();  
 	const char * S = s.c_str();
@@ -5536,7 +5536,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	      }
 	      res = identificateur(name);
 	      lock_syms_mutex();
-	      syms()[name.c_str()] = res;
+	      syms()[name] = res;
 	      unlock_syms_mutex();
 	      args.push_back(res);
 	    }
@@ -5610,7 +5610,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
       if (it->type!=_IDNT)
 	continue;
       lock_syms_mutex();
-      sym_tab::const_iterator i = syms().find(it->_IDNTptr->id_name),iend=syms().end();
+      sym_string_tab::const_iterator i = syms().find(it->_IDNTptr->id_name),iend=syms().end();
       if (i==iend)
 	syms()[it->_IDNTptr->name()] = *it;
       unlock_syms_mutex();  

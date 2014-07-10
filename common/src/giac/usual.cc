@@ -8054,6 +8054,10 @@ namespace giac {
 #endif
   define_unary_function_ptr5( at_Ei_f ,alias_at_Ei_f,&__Ei_f,0,true);
   static gen Ei_replace(const gen & g,GIAC_CONTEXT){
+    if (has_i(g)){
+      *logptr(contextptr) << "Ei with non real argument: "+g.print() << endl;
+      return Ei(g,contextptr);
+    }
     return _Ei_f(g,contextptr)*exp(g,contextptr);
   }  
   gen _Ei0(const gen & args,GIAC_CONTEXT);

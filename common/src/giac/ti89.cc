@@ -2362,13 +2362,13 @@ namespace giac {
 
   // FIXME SECURITY
   // archive is made of couples name/value
-  static sym_tab read_ti_archive(const string & s,GIAC_CONTEXT){
+  static sym_string_tab read_ti_archive(const string & s,GIAC_CONTEXT){
     vecteur v;
 #ifndef NSPIRE
     ifstream inf(s.c_str());
     readargs_from_stream(inf,v,contextptr);
 #endif
-    sym_tab res;
+    sym_string_tab res;
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
       if (it->type!=_STRNG)
@@ -2383,14 +2383,14 @@ namespace giac {
     return res;
   }
   
-  static void print_ti_archive(const string & s,const sym_tab & m){
+  static void print_ti_archive(const string & s,const sym_string_tab & m){
 #ifdef NSPIRE
     return;
 #else
     if (is_undef(check_secure()))
       return ;
     ofstream of(s.c_str());
-    sym_tab::const_iterator it=m.begin(),itend=m.end();
+    sym_string_tab::const_iterator it=m.begin(),itend=m.end();
     if (it==itend){
       of << "[ ]" << endl;
       return;
@@ -2408,7 +2408,7 @@ namespace giac {
   }
   gen _Archive(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    sym_tab arc(read_ti_archive("archive",contextptr));
+    sym_string_tab arc(read_ti_archive("archive",contextptr));
     if (g.type==_IDNT)
       arc[g.print(contextptr)]=eval(g,eval_level(contextptr),contextptr);
     else {
@@ -2429,7 +2429,7 @@ namespace giac {
 
   gen _Unarchiv(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    sym_tab arc(read_ti_archive("archive",contextptr));
+    sym_string_tab arc(read_ti_archive("archive",contextptr));
     gen tmpsto;
     if (g.type==_IDNT)
       return sto(arc[g.print(contextptr)],g,contextptr);

@@ -100,7 +100,7 @@ namespace giac {
 
   int lock_syms_mutex();
   void unlock_syms_mutex();
-  sym_tab & syms();
+  sym_string_tab & syms();
   // The lexer recognize first static declared symbols as declared in
   // input_lexer.ll, then it does 2 steps:
   // step 1: look in lexer_translator if the name is a recognized

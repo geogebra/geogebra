@@ -4455,7 +4455,7 @@ unsigned int ConvertUTF8toUTF16 (
     }
     else {
       lock_syms_mutex();  
-      sym_tab::const_iterator it=syms().begin(),itend=syms().end();
+      sym_string_tab::const_iterator it=syms().begin(),itend=syms().end();
       for (;it!=itend;++it){
 	gen id=it->second;
 	if (id.type==_IDNT && id._IDNTptr->value)

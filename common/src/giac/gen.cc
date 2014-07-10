@@ -3441,6 +3441,8 @@ namespace giac {
     case _VECT:
       return gen(subtype==_POLY1__VECT?trim(_VECTim(*_VECTptr,contextptr),0):_VECTim(*_VECTptr,contextptr),subtype);
     case _IDNT: 
+      if (is_inf(*this) || is_undef(*this))
+	return undef;
       if (is_assumed_real(*this,contextptr))
 	return zero;
       if ( (_IDNTptr->value) && (is_zero(_IDNTptr->value->im(contextptr),contextptr)) )

@@ -421,7 +421,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern std::string (*fl_widget_texprint_function)(void * ptr);
   extern gen (*fl_widget_updatepict_function)(const gen & g);
   // name -> gen table
-  typedef std::map<std::string, gen> sym_tab;
+  typedef std::map<std::string, gen> sym_string_tab;
   struct ltstr
   {
     bool operator()(const char* s1, const char* s2) const
@@ -431,6 +431,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   };
   
   typedef std::map<const char *, gen,ltstr> map_charptr_gen;
+  typedef map_charptr_gen sym_tab;
 
   struct parser_lexer {
     int _index_status_; // 0 if [ -> T_VECT_DISPATCH, 1 if [ -> T_INDEX_BEGIN

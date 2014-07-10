@@ -4376,7 +4376,6 @@ yyparse (scanner)
 #endif
 #endif
 {
-  //yydebug=1;
   /* The look-ahead symbol.  */
 int yychar;
 
@@ -6348,6 +6347,41 @@ yyreturn:
 int giac_yyget_column  (yyscan_t yyscanner);
 
 // Error print routine (store error string in parser_error)
+#if 1
+int giac_yyerror(yyscan_t scanner,const char *s) {
+ const giac::context * contextptr = giac_yyget_extra(scanner);
+ int col = giac_yyget_column(scanner);
+ int line = giac::lexer_line_number(contextptr);
+ std::string token_name=string(giac_yyget_text(scanner));
+ bool is_at_end = (token_name.size()==2 && (token_name[0]==char(0xC3)) && (token_name[1]==char(0xBF)));
+ std::string suffix = " (reserved word)";
+ if (token_name.size()>suffix.size() && token_name.compare(token_name.size()-suffix.size(),suffix.size(),suffix)) {
+  if (col>=token_name.size()-suffix.size()) {
+   col -= token_name.size()-suffix.size();
+  }
+ } else if (col>=token_name.size()) {
+   col -= token_name.size();
+ }
+ giac::lexer_column_number(contextptr)=col;
+ if (is_at_end) {
+  parser_error(":" + giac::print_INT_(line) + ": " +string(s) + " at end of input\n",contextptr);
+  giac::parsed_gen(giac::undef,contextptr);
+ } else {
+ parser_error( ":" + giac::print_INT_(line) + ": " + string(s) + " line " + giac::print_INT_(line) + " col " + giac::print_INT_(col) + " at " + token_name +"\n",contextptr);
+ giac::parsed_gen(giac::string2gen(token_name,false),contextptr);
+ }
+ if (!giac::first_error_line(contextptr)) {
+  giac::first_error_line(line,contextptr);
+  if (is_at_end) {
+   token_name="end of input";
+  }
+  giac:: error_token_name(token_name,contextptr);
+ }
+ return line;
+}
+
+#else
+
 int giac_yyerror(yyscan_t scanner,const char *s)
 {
   const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6371,4 +6405,5 @@ int giac_yyerror(yyscan_t scanner,const char *s)
   }
   return giac::lexer_line_number(contextptr);
 }
+#endif
 

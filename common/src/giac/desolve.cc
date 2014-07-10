@@ -539,7 +539,7 @@ namespace giac {
       gen solgenchk=eval(subst(f,y,solgen,false,contextptr),1,contextptr);
       bool ok=true;
       for (unsigned i=0;i<yvar.size();++i){
-	gen tmp=subst(solgenchk,x,yvar[2],false,contextptr);
+	gen tmp=subst(solgenchk,x,yvar[i][2],false,contextptr);
 	if (lidnt(tmp).empty() && !is_zero(simplify(tmp,contextptr))){
 	  ok=false;
 	  break;
