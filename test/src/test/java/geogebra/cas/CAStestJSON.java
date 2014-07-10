@@ -66,12 +66,16 @@ public class CAStestJSON {
 				cat = test.getString("cat");
 			}
 			if(!testcases.containsKey(cat)){
+				/*System.out.println("@Test");
+				System.out.println("public void test"+cat+"(){");
+				System.out.println("	testCat(\""+cat+"\");");
+				System.out.println("}\n");*/
+				
 				testcases.put(cat, new HashMap<String,String>());
 			}
 			testcases.get(cat).put(test.getString("cmd"),test.getString("result"));
 			}
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -119,8 +123,11 @@ public class CAStestJSON {
 
 	      result = t.getClass().getName() + ":" + t.getMessage() + sts;
 	    }
-
+	    try{
 	    assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
+	    }catch(Throwable t){
+	    	Assert.assertEquals(result, expectedResult + " input:"+input);
+	    }
 	  }
 	
 	private static void t (String input, String expectedResult) {
@@ -129,32 +136,894 @@ public class CAStestJSON {
 	}
 	
 	private static void testCat(String name){
+		kernel.clearConstruction(true);
 		for(String cmd:testcases.get(name).keySet()){
 			t(cmd, testcases.get(name).get(cmd));
 		}
 		Assert.assertNotEquals(0, testcases.get(name).size());
 	}
+	
+	
 	@Test
-	public void testExpressions(){
+	public void testgeneral(){
 		testCat("general");
 	}
-	
-	@Test
-	public void testLimit(){
-		testCat("Limit");
-	}
-	
-	@Test
-	public void testLimitAbove(){
-		testCat("LimitAbove");
-	}
-	
-	@Test
-	public void testDerivative(){
-		testCat("Derivative");
-	}
+
 	@Test
 	public void testIntegral(){
 		testCat("Integral");
 	}
+
+	@Test
+	public void testFactor(){
+		testCat("Factor");
+	}
+
+	@Test
+	public void testCoefficients(){
+		testCat("Coefficients");
+	}
+
+	@Test
+	public void testAppend(){
+		testCat("Append");
+	}
+
+	@Test
+	public void testBinomialCoefficient(){
+		testCat("BinomialCoefficient");
+	}
+
+	@Test
+	public void testBinomialDist(){
+		testCat("BinomialDist");
+	}
+
+	@Test
+	public void testCauchy(){
+		testCat("Cauchy");
+	}
+
+	@Test
+	public void testCFactor(){
+		testCat("CFactor");
+	}
+
+	@Test
+	public void testNumeric(){
+		testCat("Numeric");
+	}
+
+	@Test
+	public void testCompleteSquare(){
+		testCat("CompleteSquare");
+	}
+
+	@Test
+	public void testCommonDenominator(){
+		testCat("CommonDenominator");
+	}
+
+	@Test
+	public void testCovariance(){
+		testCat("Covariance");
+	}
+
+	@Test
+	public void testCross(){
+		testCat("Cross");
+	}
+
+	@Test
+	public void testComplexRoot(){
+		testCat("ComplexRoot");
+	}
+
+	@Test
+	public void testCSolutions(){
+		testCat("CSolutions");
+	}
+
+	@Test
+	public void testCSolve(){
+		testCat("CSolve");
+	}
+
+	@Test
+	public void testDegree(){
+		testCat("Degree");
+	}
+
+	@Test
+	public void testDenominator(){
+		testCat("Denominator");
+	}
+
+	@Test
+	public void testDerivative(){
+		testCat("Derivative");
+	}
+
+	@Test
+	public void testDeterminant(){
+		testCat("Determinant");
+	}
+
+	@Test
+	public void testDimension(){
+		testCat("Dimension");
+	}
+
+	@Test
+	public void testDiv(){
+		testCat("Div");
+	}
+
+	@Test
+	public void testDivision(){
+		testCat("Division");
+	}
+
+	@Test
+	public void testDivisors(){
+		testCat("Divisors");
+	}
+
+	@Test
+	public void testDivisorsList(){
+		testCat("DivisorsList");
+	}
+
+	@Test
+	public void testDivisorsSum(){
+		testCat("DivisorsSum");
+	}
+
+	@Test
+	public void testDot(){
+		testCat("Dot");
+	}
+
+	@Test
+	public void testElement(){
+		testCat("Element");
+	}
+
+	@Test
+	public void testExpand(){
+		testCat("Expand");
+	}
+
+	@Test
+	public void testExponential(){
+		testCat("Exponential");
+	}
+
+	@Test
+	public void testFactors(){
+		testCat("Factors");
+	}
+
+	@Test
+	public void testFDistribution(){
+		testCat("FDistribution");
+	}
+
+	@Test
+	public void testFlatten(){
+		testCat("Flatten");
+	}
+
+	@Test
+	public void testFirst(){
+		testCat("First");
+	}
+
+	@Test
+	public void testFitExp(){
+		testCat("FitExp");
+	}
+
+	@Test
+	public void testFitLog(){
+		testCat("FitLog");
+	}
+
+	@Test
+	public void testFitPoly(){
+		testCat("FitPoly");
+	}
+
+	@Test
+	public void testFitPow(){
+		testCat("FitPow");
+	}
+
+	@Test
+	public void testGamma(){
+		testCat("Gamma");
+	}
+
+	@Test
+	public void testGCD(){
+		testCat("GCD");
+	}
+
+	@Test
+	public void testHyperGeometric(){
+		testCat("HyperGeometric");
+	}
+
+	@Test
+	public void testIdentity(){
+		testCat("Identity");
+	}
+
+	@Test
+	public void testIf(){
+		testCat("If");
+	}
+
+	@Test
+	public void testImplicitDerivative(){
+		testCat("ImplicitDerivative");
+	}
+
+	@Test
+	public void testIntegralBetween(){
+		testCat("IntegralBetween");
+	}
+
+	@Test
+	public void testIntersect(){
+		testCat("Intersect");
+	}
+
+	@Test
+	public void testIteration(){
+		testCat("Iteration");
+	}
+
+	@Test
+	public void testIterationList(){
+		testCat("IterationList");
+	}
+
+	@Test
+	public void testPointList(){
+		testCat("PointList");
+	}
+
+	@Test
+	public void testRootList(){
+		testCat("RootList");
+	}
+
+	@Test
+	public void testInvert(){
+		testCat("Invert");
+	}
+
+	@Test
+	public void testIsPrime(){
+		testCat("IsPrime");
+	}
+
+	@Test
+	public void testJoin(){
+		testCat("Join");
+	}
+
+	@Test
+	public void testLine(){
+		testCat("Line");
+	}
+
+	@Test
+	public void testLast(){
+		testCat("Last");
+	}
+
+	@Test
+	public void testLCM(){
+		testCat("LCM");
+	}
+
+	@Test
+	public void testLeftSide(){
+		testCat("LeftSide");
+	}
+
+	@Test
+	public void testLength(){
+		testCat("Length");
+	}
+
+	@Test
+	public void testLimit(){
+		testCat("Limit");
+	}
+
+	@Test
+	public void testLimitBelow(){
+		testCat("LimitBelow");
+	}
+
+	@Test
+	public void testLimitAbove(){
+		testCat("LimitAbove");
+	}
+
+	@Test
+	public void testMax(){
+		testCat("Max");
+	}
+
+	@Test
+	public void testMatrixRank(){
+		testCat("MatrixRank");
+	}
+
+	@Test
+	public void testMean(){
+		testCat("Mean");
+	}
+
+	@Test
+	public void testMedian(){
+		testCat("Median");
+	}
+
+	@Test
+	public void testMin(){
+		testCat("Min");
+	}
+
+	@Test
+	public void testMidpoint(){
+		testCat("Midpoint");
+	}
+
+	@Test
+	public void testMod(){
+		testCat("Mod");
+	}
+
+	@Test
+	public void testNextPrime(){
+		testCat("NextPrime");
+	}
+
+	@Test
+	public void testNIntegral(){
+		testCat("NIntegral");
+	}
+
+	@Test
+	public void testNormal(){
+		testCat("Normal");
+	}
+
+	@Test
+	public void testnPr(){
+		testCat("nPr");
+	}
+
+	@Test
+	public void testNSolutions(){
+		testCat("NSolutions");
+	}
+
+	@Test
+	public void testNSolve(){
+		testCat("NSolve");
+	}
+
+	@Test
+	public void testNumerator(){
+		testCat("Numerator");
+	}
+
+	@Test
+	public void testPartialFractions(){
+		testCat("PartialFractions");
+	}
+
+	@Test
+	public void testPerpendicularVector(){
+		testCat("PerpendicularVector");
+	}
+
+	@Test
+	public void testOrthogonalVector(){
+		testCat("OrthogonalVector");
+	}
+
+	@Test
+	public void testPascal(){
+		testCat("Pascal");
+	}
+
+	@Test
+	public void testPoisson(){
+		testCat("Poisson");
+	}
+
+	@Test
+	public void testPreviousPrime(){
+		testCat("PreviousPrime");
+	}
+
+	@Test
+	public void testPrimeFactors(){
+		testCat("PrimeFactors");
+	}
+
+	@Test
+	public void testProduct(){
+		testCat("Product");
+	}
+
+	@Test
+	public void testMixedNumber(){
+		testCat("MixedNumber");
+	}
+
+	@Test
+	public void testRandomBetween(){
+		testCat("RandomBetween");
+	}
+
+	@Test
+	public void testRandomBinomial(){
+		testCat("RandomBinomial");
+	}
+
+	@Test
+	public void testRandomElement(){
+		testCat("RandomElement");
+	}
+
+	@Test
+	public void testRandomPoisson(){
+		testCat("RandomPoisson");
+	}
+
+	@Test
+	public void testRandomNormal(){
+		testCat("RandomNormal");
+	}
+
+	@Test
+	public void testRandomPolynomial(){
+		testCat("RandomPolynomial");
+	}
+
+	@Test
+	public void testRationalize(){
+		testCat("Rationalize");
+	}
+
+	@Test
+	public void testReverse(){
+		testCat("Reverse");
+	}
+
+	@Test
+	public void testRightSide(){
+		testCat("RightSide");
+	}
+
+	@Test
+	public void testRoot(){
+		testCat("Root");
+	}
+
+	@Test
+	public void testReducedRowEchelonForm(){
+		testCat("ReducedRowEchelonForm");
+	}
+
+	@Test
+	public void testSample(){
+		testCat("Sample");
+	}
+
+	@Test
+	public void testSort(){
+		testCat("Sort");
+	}
+
+	@Test
+	public void testSampleVariance(){
+		testCat("SampleVariance");
+	}
+
+	@Test
+	public void testSampleSD(){
+		testCat("SampleSD");
+	}
+
+	@Test
+	public void testSequence(){
+		testCat("Sequence");
+	}
+
+	@Test
+	public void testSD(){
+		testCat("SD");
+	}
+
+	@Test
+	public void testShuffle(){
+		//testCat("Shuffle");//TODO
+	}
+
+	@Test
+	public void testSimplify(){
+		testCat("Simplify");
+	}
+
+	@Test
+	public void testTrigCombine(){
+		testCat("TrigCombine");
+	}
+
+	@Test
+	public void testSolutions(){
+		testCat("Solutions");
+	}
+
+	@Test
+	public void testSolve(){
+		testCat("Solve");
+	}
+
+	@Test
+	public void testSolveODE(){
+		testCat("SolveODE");
+	}
+
+	@Test
+	public void testSubstitute(){
+		testCat("Substitute");
+	}
+
+	@Test
+	public void testSum(){
+		testCat("Sum");
+	}
+
+	@Test
+	public void testTangent(){
+		testCat("Tangent");
+	}
+
+	@Test
+	public void testTake(){
+		testCat("Take");
+	}
+
+	@Test
+	public void testTaylorPolynomial(){
+		testCat("TaylorPolynomial");
+	}
+
+	@Test
+	public void testTDistribution(){
+		testCat("TDistribution");
+	}
+
+	@Test
+	public void testToComplex(){
+		testCat("ToComplex");
+	}
+
+	@Test
+	public void testToExponential(){
+		testCat("ToExponential");
+	}
+
+	@Test
+	public void testToPolar(){
+		testCat("ToPolar");
+	}
+
+	@Test
+	public void testToPoint(){
+		testCat("ToPoint");
+	}
+
+	@Test
+	public void testTranspose(){
+		testCat("Transpose");
+	}
+
+	@Test
+	public void testTrigExpand(){
+		testCat("TrigExpand");
+	}
+
+	@Test
+	public void testTrigSimplify(){
+		testCat("TrigSimplify");
+	}
+
+	@Test
+	public void testUnique(){
+		testCat("Unique");
+	}
+
+	@Test
+	public void testUnitPerpendicularVector(){
+		testCat("UnitPerpendicularVector");
+	}
+
+	@Test
+	public void testUnitVector(){
+		testCat("UnitVector");
+	}
+
+	@Test
+	public void testVariance(){
+		testCat("Variance");
+	}
+
+	@Test
+	public void testWeibull(){
+		testCat("Weibull");
+	}
+
+	@Test
+	public void testZipf(){
+		testCat("Zipf");
+	}
+
+	@Test
+	public void testsin(){
+		testCat("sin");
+	}
+
+	@Test
+	public void testassignment(){
+		testCat("assignment");
+	}
+
+	@Test
+	public void testEvaluate(){
+		testCat("Evaluate");
+	}
+
+	@Test
+	public void testAbs(){
+		testCat("Abs");
+	}
+
+	@Test
+	public void testvecExpr(){
+		testCat("vec expr");
+	}
+
+	@Test
+	public void testChiSquared(){
+		testCat("ChiSquared");
+	}
+
+	@Test
+	public void testxx(){
+		testCat("xx");
+	}
+
+	@Test
+	public void testFractionalPart(){
+		testCat("FractionalPart");
+	}
+
+	@Test
+	public void testDelete(){
+		testCat("Delete");
+	}
+
+	@Test
+	public void testImaginary(){
+		testCat("Imaginary");
+	}
+
+	@Test
+	public void testNRoot(){
+		testCat("NRoot");
+	}
+
+	@Test
+	public void testReal(){
+		testCat("Real");
+	}
+
+	@Test
+	public void testRound(){
+		testCat("Round");
+	}
+
+	@Test
+	public void testFloor(){
+		testCat("Floor");
+	}
+
+	@Test
+	public void testCeil(){
+		testCat("Ceil");
+	}
+
+	@Test
+	public void testlistExpr(){
+		testCat("list expr");
+	}
+
+	@Test
+	public void testexpr(){
+		testCat("expr");
+	}
+
+	@Test
+	public void testtan(){
+		testCat("tan");
+	}
+
+	@Test
+	public void testcot(){
+		testCat("cot");
+	}
+
+	@Test
+	public void testAsymptote(){
+		testCat("Asymptote");
+	}
+
+	@Test
+	public void testconjugate(){
+		testCat("conjugate");
+	}
+
+	@Test
+	public void testtrig(){
+		testCat("trig");
+	}
+
+	@Test
+	public void testarg(){
+		testCat("arg");
+	}
+
+	@Test
+	public void testln(){
+		testCat("ln");
+	}
+
+	@Test
+	public void testXXSolve(){
+		testCat("XXSolve");
+	}
+
+	@Test
+	public void testXXCFactor(){
+		testCat("XXCFactor");
+	}
+
+	@Test
+	public void testCIFactor(){
+		testCat("CIFactor");
+	}
+
+	@Test
+	public void testIFactor(){
+		testCat("IFactor");
+	}
+
+	@Test
+	public void testCurve(){
+		testCat("Curve");
+	}
+
+	@Test
+	public void testRadius(){
+		testCat("Radius");
+	}
+
+	@Test
+	public void testCenter(){
+		testCat("Center");
+	}
+
+	@Test
+	public void testCircumference(){
+		testCat("Circumference");
+	}
+
+	@Test
+	public void testDistance(){
+		testCat("Distance");
+	}
+
+	@Test
+	public void testAngle(){
+		testCat("Angle");
+	}
+
+	@Test
+	public void testCircle(){
+		testCat("Circle");
+	}
+
+	@Test
+	public void testAngularBisector(){
+		testCat("AngularBisector");
+	}
+
+	@Test
+	public void testLineBisector(){
+		testCat("LineBisector");
+	}
+
+	@Test
+	public void testEllipse(){
+		testCat("Ellipse");
+	}
+
+	@Test
+	public void testConic(){
+		testCat("Conic");
+	}
+
+	@Test
+	public void testHyperbola(){
+		testCat("Hyperbola");
+	}
+
+	@Test
+	public void testIntersection(){
+		testCat("Intersection");
+	}
+
+	@Test
+	public void testUnion(){
+		testCat("Union");
+	}
+
+	@Test
+	public void testsqrt(){
+		testCat("sqrt");
+	}
+
+	@Test
+	public void testexp(){
+		testCat("exp");
+	}
+
+	@Test
+	public void testPolynomial(){
+		testCat("Polynomial");
+	}
+
+	@Test
+	public void testXXXXNSolve(){
+		testCat("XXXXNSolve");
+	}
+
+	@Test
+	public void testabs(){
+		testCat("abs");
+	}
+
+	@Test
+	public void testlength(){
+		testCat("length");
+	}
+
+	@Test
+	public void testXXEvaluate(){
+		testCat("XXEvaluate");
+	}
+
+
+	
 }
