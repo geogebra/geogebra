@@ -235,6 +235,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 					public void run() {
 
 						app.setWaitCursor();
+						app.setMoveMode();
 
 						// using code from newWindowAction, combined with
 						// Michael's suggestion
