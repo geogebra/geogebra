@@ -15,7 +15,7 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented extends AlgoEllipseHyperbol
 
 	public AlgoEllipseHyperbolaFociPoint3DOriented(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, 
-            int type) {
+            final int type) {
 		super(cons, label, A, B, C, orientation, type);
 
 	}

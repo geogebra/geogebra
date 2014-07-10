@@ -46,7 +46,7 @@ public class AlgoEllipseHyperbolaFociPoint extends AlgoEllipseHyperbolaFociPoint
             GeoPointND A,
             GeoPointND B,
             GeoPointND C, 
-            int type) {
+            final int type) {
         	super(cons, label, A, B, C, null, type);
         }
 
@@ -57,7 +57,7 @@ public class AlgoEllipseHyperbolaFociPoint extends AlgoEllipseHyperbolaFociPoint
             GeoPointND A,
             GeoPointND B,
             GeoPointND C, 
-            int type) {
+            final int type) {
     	
     	super(cons, A, B, C, null, type);
     	

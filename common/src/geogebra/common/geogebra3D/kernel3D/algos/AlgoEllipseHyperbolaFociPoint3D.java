@@ -15,13 +15,13 @@ public class AlgoEllipseHyperbolaFociPoint3D extends AlgoEllipseHyperbolaFociPoi
 
 	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, 
-            int type) {
+            final int type) {
 		super(cons, label, A, B, C, orientation, type);
 	}
 	
 	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C, 
-            int type) {
+            final int type) {
 		this(cons, label, A, B, C, null, type);
 	}
 	

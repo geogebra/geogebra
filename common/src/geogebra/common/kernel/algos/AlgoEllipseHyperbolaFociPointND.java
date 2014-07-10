@@ -43,7 +43,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	protected GeoPointND A, B, C; // input    
     protected GeoConicND conic; // output     
     
-    protected int type; // ellipse or hyperbola
+    final protected int type; // ellipse or hyperbola
 
 
     
@@ -54,7 +54,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
             GeoPointND B,
             GeoPointND C, 
             GeoDirectionND orientation,
-            int type) {
+            final int type) {
         	this(cons, A, B, C, orientation, type);
             conic.setLabel(label);
         }
@@ -66,7 +66,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
             GeoPointND B,
             GeoPointND C, 
             GeoDirectionND orientation,
-            int type) {
+            final int type) {
             super(cons);
             
             this.type = type;
