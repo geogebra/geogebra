@@ -129,13 +129,14 @@ public class NoExceptionsTest {
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,
 					false, false, true, false));
+			syntaxes--;
+			System.out.print("+");
 		} catch (Throwable e) {
 			System.out.println("error occured:" + e.getClass().getName());
 			e.printStackTrace();
-			Assert.assertNull(e.getMessage()+e.getClass(),e);
-		}finally{
 			syntaxes--;
-			System.out.print("*");
+			System.out.print("-");
+			Assert.assertNull(e.getMessage()+","+e.getClass(),e);
 		}
 
 	}
@@ -2648,6 +2649,20 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSetPerspective(){
 		t("SetPerspective[\"SAG/C\"]");
+	}
+	
+	@Test
+	public void cmdStartLogging(){
+		t("a=1");
+		t("StartLogging[\"Ax\",a]");
+	}
+	
+	public void cmdStopLogging(){
+		t("StartLogging[]");
+	}
+	
+	public void cmdRemove(){
+		t("Remove[{1,2,2},{2}]");
 	}
 
 
