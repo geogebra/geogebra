@@ -3878,6 +3878,10 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	top: 0px;
 }
 
+.PhoneGUI .centeredContent {
+	padding-right: 50px;
+}
+
 .PhoneGUI .searchPanel .cancelButton {
 	top: 12px;
 	right: 15px;
