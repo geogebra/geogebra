@@ -1,8 +1,11 @@
 package geogebra.gui.menubar;
 
+import geogebra.CommandLineArguments;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.common.util.CopyPaste;
 import geogebra.export.pstricks.GeoGebraToAsymptoteD;
 import geogebra.export.pstricks.GeoGebraToPgfD;
 import geogebra.export.pstricks.GeoGebraToPstricksD;
@@ -16,10 +19,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 /**
@@ -31,7 +36,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 	private AbstractAction newWindowAction, deleteAll, saveAction,
 			saveAsAction, loadAction, loadURLAction, exportWorksheet,
 			shareAction, exportGraphicAction, exportAnimationAction,
-			exportPgfAction, exportPSTricksAction, exportAsymptoteAction;
+			exportPgfAction, exportPSTricksAction, exportAsymptoteAction,
+			insertFileAction;
 
 	JMenuItem loadURLMenuItem;
 
@@ -71,7 +77,6 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			mi = new JMenuItem(newWindowAction);
 			setMenuShortCutAccelerator(mi, 'N');
 			add(mi);
-
 		}
 
 		// "New": reset
@@ -93,6 +98,9 @@ class FileMenu extends BaseMenu implements EventRenderable {
 					loadURLAction.setEnabled(false);
 				}
 			}
+
+			mi = new JMenuItem(insertFileAction);
+			add(mi);
 
 			// recent SubMenu
 			JMenu submenuRecent = new JMenu(app.getMenu("Recent"));
@@ -210,6 +218,42 @@ class FileMenu extends BaseMenu implements EventRenderable {
 					public void run() {
 						app.setWaitCursor();
 						app.createNewWindow();
+						app.setDefaultCursor();
+					}
+				};
+				runner.start();
+			}
+		};
+
+		insertFileAction = new AbstractAction(app.getMenu("InsertFile"),
+				app.getImageIcon("document-open.png")) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				Thread runner = new Thread() {
+					@Override
+					public void run() {
+
+						app.setWaitCursor();
+
+						// using code from newWindowAction, combined with
+						// Michael's suggestion
+						AppD ad = new AppD(new CommandLineArguments(null),
+								new JPanel(), true);// true as undo info is
+													// necessary for copy-paste!
+
+						// now, we have to load the file into AppD, using code
+						// from loadAction
+						ad.getGuiManager().openFile();
+
+						// afterwards, the file is loaded into "ad" in theory,
+						// so we have to use the CopyPaste class to copy it
+
+						CopyPaste.copyToXML(ad, new ArrayList<GeoElement>(ad
+								.getKernel().getConstruction()
+								.getGeoSetConstructionOrder()));
+
+						CopyPaste.pasteFromXML(app);
 						app.setDefaultCursor();
 					}
 				};
