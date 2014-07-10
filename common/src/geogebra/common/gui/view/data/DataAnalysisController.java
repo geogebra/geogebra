@@ -52,6 +52,7 @@ public abstract class DataAnalysisController {
 
 	}
 
+	
 	// ==========================================
 	// Getters/Setters
 	// ==========================================
@@ -124,7 +125,7 @@ public abstract class DataAnalysisController {
 	 * @param doCopy
 	 *            if true lists are loaded as copies
 	 */
-	protected void loadDataLists(boolean doCopy) {
+	public void loadDataLists(boolean doCopy) {
 
 		if (dataSelected != null)
 			dataSelected.remove();
@@ -347,7 +348,7 @@ public abstract class DataAnalysisController {
 
 		removeRegressionGeo();
 
-		geoRegression = statGeo.createRegressionPlot(dataSelected,
+		geoRegression = getStatGeo().createRegressionPlot(dataSelected,
 				getModel().getRegressionMode(), getModel().getRegressionOrder(), false);
 
 		updateRegressionPanel();

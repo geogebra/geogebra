@@ -2,6 +2,8 @@ package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Kernel;
 
+import java.util.ArrayList;
+
 public interface MyTable extends MyTableInterface {
 
 	public static final int TABLE_MODE_STANDARD = 0;
@@ -16,6 +18,9 @@ public interface MyTable extends MyTableInterface {
 	
 	public SpreadsheetViewInterface getView();
 	public CopyPasteCut getCopyPasteCut();
+
+
+	public ArrayList<CellRange> getSelectedCellRanges();
 
 
 		

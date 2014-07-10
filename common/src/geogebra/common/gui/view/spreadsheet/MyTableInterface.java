@@ -37,7 +37,7 @@ public interface MyTableInterface {
 	
 	public boolean allowSpecialEditor();
 
-	
+	public CellRangeProcessor getCellRangeProcessor();
 	
 	
 }
