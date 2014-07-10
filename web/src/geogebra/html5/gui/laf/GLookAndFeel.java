@@ -17,6 +17,7 @@ public class GLookAndFeel {
 	public static final int COMMAND_LINE_HEIGHT = 43;
 	public static final int MENUBAR_WIDTH_MAX = 204;
 	public static final int TOOLBAR_HEIGHT = 53;
+	
 	public MainMenu getMenuBar(AppW app) {
 		return new MainMenu(app);
 	    

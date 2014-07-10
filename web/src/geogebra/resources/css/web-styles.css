@@ -3872,6 +3872,12 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	padding: 4px;
 }
 
+.PhoneGUI .materialListElement .fileLinks {
+	box-shadow: none;
+	background-color: transparent;
+	top: 0px;
+}
+
 .PhoneGUI .searchPanel .cancelButton {
 	top: 12px;
 	right: 15px;

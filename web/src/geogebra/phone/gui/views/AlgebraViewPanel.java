@@ -24,7 +24,7 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		//FIXME do this with LAF
+		//FIXME do this with LAF - use GLookAndFeel...
 		this.setSize(Window.getClientWidth()+"px", Window.getClientHeight() - 43+"px");
     }
 }

@@ -3,7 +3,6 @@ package geogebra.html5.gui.browser;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.browser.SearchPanel.SearchListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
@@ -19,8 +18,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	
-	protected final int SEARCH_PANEL_HEIGHT = 40;
-	
 	protected AppWeb app;
 	
 	protected String lastQuery;
@@ -34,8 +31,7 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	protected MaterialListPanel filePanel;
 	/** */
 	protected FlowPanel container;
-	
-	protected SearchPanel searchPanel;
+
 	
 	public BrowseViewPanel(AppWeb app) {
 		this.setStyleName("contentPanel");
@@ -46,19 +42,11 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 		this.container = new FlowPanel();
 		this.add(this.container);
 		
-		addSearchPanel();
-		addFilePanel();
+		addContent();
 	}
 
-	private void addSearchPanel() {
-		this.searchPanel = new SearchPanel(app);
-		this.searchPanel.addSearchListener(new SearchListener() {
-          @Override
-			public void onSearch(final String query) {
-				BrowseViewPanel.this.displaySearchResults(query);
-			}
-		});
-		this.container.add(this.searchPanel);
+	protected void addContent() {
+		addFilePanel();
 	}
 
 	protected void addFilePanel() {

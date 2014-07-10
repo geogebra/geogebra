@@ -24,6 +24,9 @@ public interface BrowseResources extends ClientBundle {
 	@Source("icons/png/web/document_edit.png")
 	ImageResource document_edit();
 	
+	@Source("icons/png/web/menu_icons/menu-edit-delete.png")
+	ImageResource document_delete();
+	
 	@Source("icons/png/web/open-from-location_geogebratube.png")
 	ImageResource location_tube();
 	
