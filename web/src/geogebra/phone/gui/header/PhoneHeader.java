@@ -71,7 +71,6 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 			@Override
 			public void onClick() {
 				Phone.getGUI().scrollTo(View.Worksheets);
-				Phone.getGUI().getBrowseViewPanel().loadFeatured();
 				setTabActive(PhoneHeader.this.worksheets);
 			}
 		});
