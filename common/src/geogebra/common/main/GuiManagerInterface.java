@@ -343,4 +343,6 @@ public interface GuiManagerInterface {
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
 	
 	public void logout();
+
+	public void invokeLater(Runnable runnable);
 }

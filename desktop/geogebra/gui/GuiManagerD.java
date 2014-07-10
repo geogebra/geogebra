@@ -3137,4 +3137,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	protected void setCallerApp() {
 		caller_APP = DESKTOP;
 	}
+
+	@Override
+	public void invokeLater(Runnable runnable) {
+		SwingUtilities.invokeLater(runnable);
+
+	}
 }

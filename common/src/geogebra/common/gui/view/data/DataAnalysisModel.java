@@ -12,7 +12,6 @@ import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 
-import javax.swing.SwingUtilities;
 
 
 /**
@@ -404,7 +403,7 @@ public class DataAnalysisModel {
 		if (!isIniting() && ctrl.isInDataSource(geo)) {
 
 			// use a runnable to allow spreadsheet table model to update
-			SwingUtilities.invokeLater(new Runnable() {
+			app.getGuiManager().invokeLater(new Runnable() {
 				public void run() {
 					ctrl.updateDataAnalysisView();
 				}

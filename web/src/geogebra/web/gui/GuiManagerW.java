@@ -1511,4 +1511,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 		return this.browseGUI;
 	}
+
+	@Override
+    public void invokeLater(Runnable runnable) {
+	    runnable.run();
+	    
+    }
 }
