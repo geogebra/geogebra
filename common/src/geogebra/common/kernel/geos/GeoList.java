@@ -129,7 +129,7 @@ AngleProperties {
 	/**
 	 * Returns the element type of this list.
 	 * 
-	 * @return ELEMENT_TYPE_MIXED or GeoElement.GEO_CLASS_xx constant
+	 * @return ELEMENT_TYPE_MIXED == GeoClass.DEFAULT or GeoClass.NUMERIC, GeoClass.POINT etc constant
 	 */
 	public GeoClass getElementType() {
 		return elementType;

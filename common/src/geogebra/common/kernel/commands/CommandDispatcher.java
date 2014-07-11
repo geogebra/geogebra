@@ -656,6 +656,7 @@ public abstract class CommandDispatcher {
 			case FillColumn:
 			case FillRow:
 			case Fit:
+			case FitImplicit:
 			case FitExp:
 			case FitGrowth:
 			case FitLine:

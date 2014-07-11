@@ -110,6 +110,8 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdFitPow(kernel);
 		case Fit:
 			return new CmdFit(kernel);
+		case FitImplicit:
+			return new CmdFitImplicit(kernel);
 		case FitGrowth:
 			return new CmdFitGrowth(kernel);
 		case FitSin:
