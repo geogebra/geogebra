@@ -1824,6 +1824,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits.removeAllPolygonsButOne();
 			break;
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
+		case EuclidianConstants.MODE_INTERSECT:
 			break;
 		case EuclidianConstants.MODE_PLANE:
 			break;
@@ -2168,8 +2169,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		addSelectedLine(hits, 10, true);
 		addSelectedConic(hits, 10, true);
-		addSelectedCS2D(hits, 10, true);
-		// addSelectedPolygon(hits, 1, true);
+		addSelectedPlane(hits, 1, true);
+		addSelectedPolygon(hits, 1, true);
 		addSelectedQuadric(hits, 1, true);
 
 		if (selLines() >= 2) {// two lines
@@ -2225,32 +2226,23 @@ public abstract class EuclidianController3D extends EuclidianController {
 				ret[i] = (GeoElement) points[i];
 			}
 			return ret;
-		} else if (selConics() >= 1 && selCS2D() >= 1) { // conic-polygon not
-															// available
+		} else if (selConics() >= 1 && selPlanes() >= 1) { 
 
-			GeoCoordSys2D plane = getSelectedCS2D()[0];
-			if (((GeoElement) plane).isGeoPolygon())
-				return null;
+			GeoPlane3D plane = getSelectedPlanes()[0];
 			GeoConicND conic = getSelectedConicsND()[0];
+			
 			GeoElement[] ret = new GeoElement[2];
 
+			
 			GeoPointND[] points = getKernel().getManager3D()
 					.IntersectPlaneConic(null, plane, conic);
 			for (int i = 0; i < 2; i++)
 				ret[i] = (GeoElement) points[i];
 
 			return ret;
-		} else if (selCS2D() >= 2) { // plane-polygon
-
-			GeoCoordSys2D[] CS2Ds = getSelectedCS2D();
-			if (CS2Ds[0] instanceof GeoPolygon
-					&& CS2Ds[1] instanceof GeoPlane3D)
-				return getKernel().getManager3D().IntersectionPoint(null,
-						(GeoPlane3D) CS2Ds[1], (GeoPolygon) CS2Ds[0]);
-			else if (CS2Ds[1] instanceof GeoPolygon
-					&& CS2Ds[0] instanceof GeoPlane3D)
-				return getKernel().getManager3D().IntersectionPoint(null,
-						(GeoPlane3D) CS2Ds[0], (GeoPolygon) CS2Ds[1]);
+		} else if (selPolygons() >= 1 && selPlanes() >= 1) { // plane-polygon
+			return getKernel().getManager3D().IntersectionPoint(null,
+						getSelectedPlanes()[0], getSelectedPolygons()[0]);
 		}
 
 		return null;
