@@ -21,7 +21,7 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAngleVectors;
+import geogebra.common.kernel.algos.AlgoAngleVectorsND;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,7 +33,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
  * @author  mathieu
  * @version 
  */
-public class AlgoAngleVectors3D extends AlgoAngleVectors{
+public class AlgoAngleVectors3D extends AlgoAngleVectorsND{
 	
 	protected Coords vn;
 	private Coords o;

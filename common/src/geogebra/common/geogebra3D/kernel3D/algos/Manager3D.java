@@ -30,7 +30,6 @@ import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
@@ -1338,14 +1337,14 @@ public class Manager3D implements Manager3DInterface {
 
 	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-		AlgoAnglePoints algo = new AlgoAnglePoints3D(cons, label, A, B, C);
+		AlgoAnglePoints3D algo = new AlgoAnglePoints3D(cons, label, A, B, C);
 		GeoAngle angle = algo.getAngle();
 		return angle;
 	}
 	
 	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation) {
-		AlgoAnglePoints algo = new AlgoAnglePoints3DOrientation(cons, label, A, B, C, orientation);
+		AlgoAnglePoints3DOrientation algo = new AlgoAnglePoints3DOrientation(cons, label, A, B, C, orientation);
 		GeoAngle angle = algo.getAngle();
 		return angle;
 	}

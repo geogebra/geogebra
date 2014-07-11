@@ -18,21 +18,12 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-public class AlgoAngleVectors extends AlgoAngle {
-
-	private GeoVectorND v, w; // input
-    private GeoAngle angle; // output           
+public class AlgoAngleVectors extends AlgoAngleVectorsND {
 
     public AlgoAngleVectors(
             Construction cons,
@@ -40,23 +31,9 @@ public class AlgoAngleVectors extends AlgoAngle {
             GeoVectorND v,
             GeoVectorND w) {
     	
-    	this(cons, label, v, w, null);
+    	super(cons, label, v, w, null);
     }
     
-    public AlgoAngleVectors(
-        Construction cons,
-        String label,
-        GeoVectorND v,
-        GeoVectorND w, GeoDirectionND orientation) {
-        super(cons);
-        setInput(v, w, orientation);
-        angle = newGeoAngle(cons);
-        setInputOutput(); // for AlgoElement
-
-        // compute angle
-        compute();
-        angle.setLabel(label);
-    }
 
     
     // for AlgoElement
@@ -71,26 +48,9 @@ public class AlgoAngleVectors extends AlgoAngle {
         setDependencies(); // done by AlgoElement
     }
     
-	/**
-	 * set inputs
-	 * @param v first vector
-	 * @param w second vector
-	 * @param orientation orientation
-	 */
-	protected void setInput(GeoVectorND v, GeoVectorND w, GeoDirectionND orientation){
-		this.v = v;
-		this.w = w;
-	}
 
-    public GeoAngle getAngle() {
-        return angle;
-    }
-    public GeoVectorND getv() {
-        return v;
-    }
-    public GeoVectorND getw() {
-        return w;
-    }
+
+
 
     // calc angle between vectors v and w
     // angle in range [0, 2pi) 
@@ -107,62 +67,9 @@ public class AlgoAngleVectors extends AlgoAngle {
         angle.setValue(value);
     }
 
-    @Override
-	public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("AngleBetweenAB",v.getLabel(tpl),w.getLabel(tpl));
-
-    }
     
 
     
-
-	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
-		GeoPointND vertex = v.getStartPoint();
-		if (centerIsNotDrawable(vertex)){
-			return false;
-		}
-
-		
-		Coords origin = drawable.getCoordsInView(vertex);
-		if (!drawable.inView(origin)) {
-			return false;
-		}
-		
-		
-		Coords direction = drawable.getCoordsInView(v.getCoordsInD(3));
-		if (!drawable.inView(direction)) {
-			return false;
-		}
-
-		// origin
-		m[0] = origin.get()[0];
-		m[1] = origin.get()[1];		
-
-		// first vec
-		firstVec[0] = direction.getX();
-		firstVec[1] = direction.getY();
-		
-		return true;
-
-	}
-
-	
-	@Override
-	public boolean getCoordsInD3(Coords[] drawCoords){
-		GeoPointND vertex = v.getStartPoint();
-		if (centerIsNotDrawable(vertex)){
-			return false;
-		}			
-			
-		drawCoords[0] = vertex.getInhomCoordsInD(3);
-		drawCoords[1] = v.getCoordsInD(3);
-		drawCoords[2] = w.getCoordsInD(3);
-		
-		return true;
-	}
 	
 	// TODO Consider locusequability
 	

@@ -20,8 +20,8 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoAnglePoints;
-import geogebra.common.kernel.algos.AlgoAnglePolygon;
+import geogebra.common.kernel.algos.AlgoAnglePointsND;
+import geogebra.common.kernel.algos.AlgoAnglePolygonND;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -31,7 +31,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
  *
  * @author  mathieu
  */
-public class AlgoAnglePolygon3D extends AlgoAnglePolygon{
+public class AlgoAnglePolygon3D extends AlgoAnglePolygonND{
 
 
 	/**
@@ -54,7 +54,7 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygon{
 	}
 	
     @Override
-	protected AlgoAnglePoints newAlgoAnglePoints(Construction cons1){
+	protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1){
     	return new AlgoAnglePoints3DOrientation(cons1, getPolygon());
     }
 	

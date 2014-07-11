@@ -22,7 +22,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAnglePoints;
+import geogebra.common.kernel.algos.AlgoAnglePointsND;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -32,7 +32,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author  mathieu
  */
-public class AlgoAnglePoints3D extends AlgoAnglePoints{
+public class AlgoAnglePoints3D extends AlgoAnglePointsND{
 	
 
 	AlgoAnglePoints3D(Construction cons, String label, GeoPointND A, GeoPointND B,
@@ -165,7 +165,7 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
     
 	
 	@Override
-	public AlgoAnglePoints copy() {
+	public AlgoAnglePoints3D copy() {
 		return new AlgoAnglePoints3D(
 				getA().copy(), getB().copy(), getC().copy(), 
 				center.copyVector(), v1.copyVector(), v2.copyVector(), vn.copyVector());

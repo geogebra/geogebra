@@ -23,7 +23,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAngleLines;
+import geogebra.common.kernel.algos.AlgoAngleLinesND;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -34,7 +34,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
  * @author  mathieu
  * @version 
  */
-public class AlgoAngleLines3D extends AlgoAngleLines{
+public class AlgoAngleLines3D extends AlgoAngleLinesND{
 	
 	protected Coords vn;
 	private Coords o;
@@ -151,6 +151,14 @@ public class AlgoAngleLines3D extends AlgoAngleLines{
 		
 		return true;
 	}
-	
+
+	private AlgoAngleLines3D(GeoLineND g, GeoLineND h) {  
+		super(g, h);
+	}
+
+	public AlgoAngleLines3D copy(){
+		return new AlgoAngleLines3D(g.copy(),h.copy());
+	}
+
 	
 }
