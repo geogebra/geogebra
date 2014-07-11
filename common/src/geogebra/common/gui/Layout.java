@@ -26,7 +26,7 @@ public abstract class Layout {
 	 * 	 
 	 */
 	protected static void initializeDefaultPerspectives(boolean showAllTools, boolean html5, double AVpercent) {
-		defaultPerspectives = new Perspective[5];
+		defaultPerspectives = new Perspective[6];
 		
 		DockPanelData[] dpData;
 		DockSplitPaneData[] spData;
@@ -91,6 +91,27 @@ public abstract class Layout {
 		
 		defaultPerspectives[4] = new Perspective("CASAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 		defaultPerspectives[4].setIconString("menu_view_cas.png");
+		
+		
+		
+		// algebra & 3D graphics
+		dpData = new DockPanelData[6];
+		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1,1", 500);
+		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3", 200);
+		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 300);
+		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 300);
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1,1", 400);
+		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
+		//dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 600), "1,1", 500);
+		
+		spData = new DockSplitPaneData[1];
+		spData[0] = new DockSplitPaneData("", AVpercent, GSplitPane.HORIZONTAL_SPLIT);
+	
+		defToolbar = ToolBar.getAllToolsNoMacros3D();
+	
+		defaultPerspectives[5] = new Perspective("AlgebraAndGraphics3D", spData, dpData, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[5].setIconString("menu_view_graphics3D.png");
+
 		
 //		// Python Scripting & Graphocs ** Doesn't work **
 //		dpData = new DockPanelData[6];
