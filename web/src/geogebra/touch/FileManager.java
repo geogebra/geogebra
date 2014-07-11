@@ -1,4 +1,13 @@
-//package geogebra.touch;
+package geogebra.touch;
+
+import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.main.AppWeb;
+import geogebra.html5.util.View;
+import geogebra.phone.Phone;
+
+import com.google.gwt.user.client.ui.RootPanel;
+import com.googlecode.gwtphonegap.client.PhoneGap;
+
 //
 //import geogebra.common.main.App;
 //import geogebra.common.main.Localization;
@@ -28,24 +37,24 @@
 //import com.googlecode.gwtphonegap.client.file.ReaderCallback;
 //import com.googlecode.gwtphonegap.collection.shared.LightArray;
 //
-//public class FileManagerT {
-//	private static final String META_PREFIX = "meta_";
-//	private static final String GGB_DIR = "GeoGebra";
-//	private static final String META_DIR = "meta";
-//	private static final String FILE_EXT = ".ggb";
-//
-//	boolean hasFile = false;
-//	String data;
-//	PhoneGap phonegap;
-//	
-//	String filename;
-//	int count;
-//	
-//
-//	public FileManagerT() {
-//		this.phonegap = TouchEntryPoint.getPhoneGap();
-//	}
-//
+public class FileManager {
+	private static final String META_PREFIX = "meta_";
+	private static final String GGB_DIR = "GeoGebra";
+	private static final String META_DIR = "meta";
+	private static final String FILE_EXT = ".ggb";
+
+	boolean hasFile = false;
+	String data;
+	PhoneGap phonegap;
+	
+	String filename;
+	int count;
+	
+
+	public FileManager() {
+		this.phonegap = Phone.getPhoneGap();
+	}
+
 //	public void delete(final Material mat) {
 //		final String consTitle = mat.getURL();
 //		this.phonegap.getFile().requestFileSystem(
@@ -420,19 +429,19 @@
 //				});
 //	}
 //
-//	public void getMaterial(final Material material, final AppWeb app) {
+	public void getMaterial(final Material material, final AppWeb app) {
 //		if (material.getId() > 0) {
 //			// remote material
-//			new View(RootPanel.getBodyElement(), app)
-//					.processFileName("http://www.geogebratube.org/files/material-"
-//							+ material.getId() + FILE_EXT);
-//			app.setUnsaved();
+			new View(RootPanel.getBodyElement(), app)
+					.processFileName("http://www.geogebratube.org/files/material-"
+							+ material.getId() + FILE_EXT);
+			app.setUnsaved();
 //		} else {
-//			((TouchApp) app).setConstructionTitle(material.getTitle());
+//			app.setConstructionTitle(material.getTitle());
 //			this.getFileData(material.getURL(), app);
 //		}
-//
-//	}
+
+	}
 //
 //	/**
 //	 * Checks if the file with given filename is already saved on the device.
@@ -748,4 +757,4 @@
 //	public void search(final String query) {
 //		this.getFiles(MaterialFilter.getSearchFilter(query));
 //	}
-//}
+}

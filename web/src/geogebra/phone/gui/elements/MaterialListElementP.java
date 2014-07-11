@@ -10,6 +10,7 @@ import geogebra.html5.gui.browser.MaterialListElement;
 import geogebra.html5.main.AppWeb;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
+import geogebra.touch.FileManager;
 
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -18,7 +19,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MaterialListElementP extends MaterialListElement {
-//	private FileManagerT fm;
+	private FileManager fm;
 	private HorizontalPanel confirmDeletePanel;
 	private StandardButton confirm;
 	private StandardButton cancel;
@@ -26,7 +27,7 @@ public class MaterialListElementP extends MaterialListElement {
 
 	public MaterialListElementP(Material m, AppWeb app) {
 		super(m, app);
-//		this.fm = ((TouchApp) app).getFileManager();
+		this.fm = new FileManager();
 		this.deleteButton = new StandardButton(BrowseResources.INSTANCE.document_delete());
 		
 		initConfirmDeletePanel();
@@ -42,7 +43,7 @@ public class MaterialListElementP extends MaterialListElement {
 			if (this.isLocalFile()) {
 				onEdit();
 			} else {
-//				onOpen();
+				onOpen();
 			}
 		} else {
 			this.markSelected();
@@ -154,7 +155,7 @@ public class MaterialListElementP extends MaterialListElement {
 
 	@Override
 	protected void onEdit() {
-//		this.fm.getMaterial(this.material, this.app);
+		this.fm.getMaterial(this.material, this.app);
 		Phone.getGUI().scrollTo(View.Graphics);
 	}
 

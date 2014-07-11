@@ -271,7 +271,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	/**
 	 * Opens GeoGebraTube material in a new window (overwritten for tablet app, smart widget)
 	 */
-	void onOpen() {
+	protected void onOpen() {
 		openTubeWindow(material.getURL());
 	}
 	
