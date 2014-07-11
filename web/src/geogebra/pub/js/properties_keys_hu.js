@@ -316,6 +316,8 @@ __GGB__keysVar.hu.command = {
     "FitExp_Syntax": "[ <Pontok list\xe1ja> ]",
     "FitGrowth": "G\xf6rbeilleszt\xe9sExp2",
     "FitGrowth_Syntax": "[ <Pontok list\xe1ja> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "G\xf6rbeilleszt\xe9sEgyenesX",
     "FitLineX_Syntax": "[ <Pontok list\xe1ja> ]",
     "FitLineY": "G\xf6rbeilleszt\xe9sEgyenes",

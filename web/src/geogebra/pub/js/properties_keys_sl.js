@@ -316,6 +316,8 @@ __GGB__keysVar.sl.command = {
     "FitExp_Syntax": "[ <seznam to\u010dk> ]",
     "FitGrowth": "TrendRasti",
     "FitGrowth_Syntax": "[ <seznam to\u010dk> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "LinearnaTrendna\u010crtaX",
     "FitLineX_Syntax": "[ <seznam to\u010dk> ]",
     "FitLineY": "LinearnaTrendna\u010crtaY",

@@ -316,6 +316,8 @@ __GGB__keysVar.is.command = {
     "FitExp_Syntax": "[ <Listi af punktum> ]",
     "FitGrowth": "A\xf0hvarfVaxtar",
     "FitGrowth_Syntax": "[ <Listi af punktum> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "A\xf0hvarfL\xednuX",
     "FitLineX_Syntax": "[ <Listi af Punktum> ]",
     "FitLineY": "A\xf0hvarfL\xednu",

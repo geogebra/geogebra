@@ -316,6 +316,8 @@ __GGB__keysVar.lt.command = {
     "FitExp_Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]",
     "FitGrowth": "TalpintiPrieaug\u012f",
     "FitGrowth_Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "TalpintiTies\u0119X",
     "FitLineX_Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]",
     "FitLineY": "TalpintiTies\u0119",

@@ -316,6 +316,8 @@ __GGB__keysVar.bs.command = {
     "FitExp_Syntax": "[ <Lista ta\u010daka> ]",
     "FitGrowth": "RegresijaRasta",
     "FitGrowth_Syntax": "[ <Lista ta\u010daka> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "LinearnaRegresijapoX",
     "FitLineX_Syntax": "[ <Lista ta\u010daka> ]",
     "FitLineY": "LinearnaRegresijapoY",

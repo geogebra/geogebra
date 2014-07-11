@@ -316,6 +316,8 @@ __GGB__keysVar.cy.command = {
     "FitExp_Syntax": "[ <Rhestr y pwyntiau> ]",
     "FitGrowth": "FfitTwf",
     "FitGrowth_Syntax": "[ <Rhestr o Bwyntiau> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "LlinellFfitX",
     "FitLineX_Syntax": "[ <Rhestr y pwyntiau> ]",
     "FitLineY": "LlinellFfitOrau",

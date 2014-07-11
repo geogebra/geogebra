@@ -316,6 +316,8 @@ __GGB__keysVar.vi.command = {
     "FitExp_Syntax": "[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]",
     "FitGrowth": "HoiQuyTangTruong",
     "FitGrowth_Syntax": "[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "DuongHoiQuyX",
     "FitLineX_Syntax": "[ <Danh s\xe1ch \u0111i\u1ec3m> ]",
     "FitLineY": "DuongHoiQuyY",

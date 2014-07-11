@@ -316,6 +316,8 @@ __GGB__keysVar.in.command = {
     "FitExp_Syntax": "[ <Daftar titik> ]",
     "FitGrowth": "CocokanPertumbuhan",
     "FitGrowth_Syntax": "[ <Daftar Titik> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "CocokGarisX",
     "FitLineX_Syntax": "[ <Daftar Titik> ]",
     "FitLineY": "CocokGarisY",

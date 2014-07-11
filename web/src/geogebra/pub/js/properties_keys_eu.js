@@ -316,6 +316,8 @@ __GGB__keysVar.eu.command = {
     "FitExp_Syntax": "[ <Puntuen Zerrenda> ]",
     "FitGrowth": "BiderketaErregresioa",
     "FitGrowth_Syntax": "[ <Puntuen Zerrenda> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "DoituZuzenaX",
     "FitLineX_Syntax": "[ <Puntuen Zerrenda> ]",
     "FitLineY": "DoituZuzena",

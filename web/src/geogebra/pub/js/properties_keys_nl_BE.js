@@ -316,6 +316,8 @@ __GGB__keysVar.nl_BE.command = {
     "FitExp_Syntax": "[ <Lijst van punten> ]",
     "FitGrowth": "PassendeGroei",
     "FitGrowth_Syntax": "[ <Lijst met punten> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "RegressielijnX",
     "FitLineX_Syntax": "[ <Lijst van punten> ]",
     "FitLineY": "Regressielijn",

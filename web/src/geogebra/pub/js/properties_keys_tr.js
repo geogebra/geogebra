@@ -316,6 +316,8 @@ __GGB__keysVar.tr.command = {
     "FitExp_Syntax": "[ <Nokta Listesi> ]",
     "FitGrowth": "B\xfcy\xfcmeYakla\u015ft\u0131r",
     "FitGrowth_Syntax": "[ <Noktalar Listesi> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "Yakla\u015ft\u0131rDo\u011fruX",
     "FitLineX_Syntax": "[ <Noktalar Listesi> ]",
     "FitLineY": "Yakla\u015ft\u0131rDo\u011fru",

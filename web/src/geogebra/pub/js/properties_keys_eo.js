@@ -316,6 +316,8 @@ __GGB__keysVar.eo.command = {
     "FitExp_Syntax": "[ <Listo de Punktoj> ]",
     "FitGrowth": "FitGrowth",
     "FitGrowth_Syntax": "[ <Listo de Punktoj> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "FitLineX",
     "FitLineX_Syntax": "[ <Listo de Punktoj> ]",
     "FitLineY": "FitLine",

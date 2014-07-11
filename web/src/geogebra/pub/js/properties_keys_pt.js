@@ -316,6 +316,8 @@ __GGB__keysVar.pt.command = {
     "FitExp_Syntax": "[ <Lista de Pontos> ]",
     "FitGrowth": "Regress\xe3oDeCrescimento",
     "FitGrowth_Syntax": "[ <Lista de Pontos> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "Regress\xe3oLinearX",
     "FitLineX_Syntax": "[ <Lista de Pontos> ]",
     "FitLineY": "Regress\xe3oLinear",

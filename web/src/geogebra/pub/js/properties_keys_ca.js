@@ -316,6 +316,8 @@ __GGB__keysVar.ca.command = {
     "FitExp_Syntax": "[ <Llista de Punts> ]",
     "FitGrowth": "RegExpBaseb",
     "FitGrowth_Syntax": "[ <Llista de punts> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "RegLinealX",
     "FitLineX_Syntax": "[ <Llista de Punts> ]",
     "FitLineY": "RegLinealY",

@@ -316,6 +316,8 @@ __GGB__keysVar.ms.command = {
     "FitExp_Syntax": "[ <Senarai Titik> ]",
     "FitGrowth": "PenyuaianPertumbuhan",
     "FitGrowth_Syntax": "[ <Senarai Titik> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "PenyuaianGarisX",
     "FitLineX_Syntax": "[ <Senarai Titik> ]",
     "FitLineY": "PenyuaianGaris",

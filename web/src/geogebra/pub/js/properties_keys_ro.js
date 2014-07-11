@@ -316,6 +316,8 @@ __GGB__keysVar.ro.command = {
     "FitExp_Syntax": "[ <List\u0103 de puncte> ]",
     "FitGrowth": "AjustareCre\u0219tere",
     "FitGrowth_Syntax": "[ <List\u0103 de puncte> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "XDreapt\u0103Regresie",
     "FitLineX_Syntax": "[ <List\u0103 de puncte> ]",
     "FitLineY": "YDreapt\u0103Regresie",

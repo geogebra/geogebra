@@ -316,6 +316,8 @@ __GGB__keysVar.sq.command = {
     "FitExp_Syntax": "[ <Liste Pikash> ]",
     "FitGrowth": "PershtatjeEksponenciale",
     "FitGrowth_Syntax": "[ <Liste e Pikave> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "PershatjeLineareX",
     "FitLineX_Syntax": "[ <Liste Pikash> ]",
     "FitLineY": "TendenceLineareY",

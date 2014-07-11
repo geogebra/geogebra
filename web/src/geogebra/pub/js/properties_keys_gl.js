@@ -316,6 +316,8 @@ __GGB__keysVar.gl.command = {
     "FitExp_Syntax": "[ <Lista de puntos> ]",
     "FitGrowth": "AxusteCrecemento",
     "FitGrowth_Syntax": "[ <Lista de puntos> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "AxusteLinealX",
     "FitLineX_Syntax": "[ <Lista de puntos> ]",
     "FitLineY": "AxusteLineal",

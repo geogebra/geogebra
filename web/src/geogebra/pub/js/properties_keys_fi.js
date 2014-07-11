@@ -316,6 +316,8 @@ __GGB__keysVar.fi.command = {
     "FitExp_Syntax": "[ <Pistelista> ]",
     "FitGrowth": "SovitaKasvu",
     "FitGrowth_Syntax": "[ <Pistelista> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "SovitaSuoraX",
     "FitLineX_Syntax": "[ <Pistelista> ]",
     "FitLineY": "SovitaSuora",

@@ -316,6 +316,8 @@ __GGB__keysVar.et.command = {
     "FitExp_Syntax": "[ <Punktide loend> ]",
     "FitGrowth": "Regressioonik\xf5verEkspa",
     "FitGrowth_Syntax": "[ <Punktide loend> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "RegressioonisirgeX",
     "FitLineX_Syntax": "[ <Punktide loend> ]",
     "FitLineY": "Regressioonisirge",

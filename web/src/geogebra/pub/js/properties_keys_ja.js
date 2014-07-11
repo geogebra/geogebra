@@ -316,6 +316,8 @@ __GGB__keysVar.ja.command = {
     "FitExp_Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
     "FitGrowth": "FitGrowth",
     "FitGrowth_Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "FitLineX",
     "FitLineX_Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
     "FitLineY": "FitLine",

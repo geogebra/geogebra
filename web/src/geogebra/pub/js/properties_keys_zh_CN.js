@@ -316,6 +316,8 @@ __GGB__keysVar.zh_CN.command = {
     "FitExp_Syntax": "[ <\u70b9\u96c6> ]",
     "FitGrowth": "\u751f\u957f\u56de\u5f52",
     "FitGrowth_Syntax": "[ <\u70b9\u96c6> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "\u7ebf\u6027\u56de\u5f52X",
     "FitLineX_Syntax": "[ <\u70b9\u96c6> ]",
     "FitLineY": "\u7ebf\u6027\u56de\u5f52Y",

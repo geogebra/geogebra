@@ -316,6 +316,8 @@ __GGB__keysVar.ka.command = {
     "FitExp_Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d8\u10d0> ]",
     "FitGrowth": "FitGrowth",
     "FitGrowth_Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d8\u10d0> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "FitLineX",
     "FitLineX_Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d8\u10d0> ]",
     "FitLineY": "FitLine",

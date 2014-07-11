@@ -316,6 +316,8 @@ __GGB__keysVar.ar_TN.command = {
     "FitExp_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0627\u0637> ]",
     "FitGrowth": "\u062a\u0639\u062f\u064a\u0644_\u062a\u0635\u0627\u0639\u062f\u064a",
     "FitGrowth_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0627\u0637> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "X\u062a\u0639\u062f\u064a\u0644_\u0627\u0644\u0645\u062d\u0648\u0631",
     "FitLineX_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0627\u0637> ]",
     "FitLineY": "\u062a\u0639\u062f\u064a\u0644_\u0627\u0644\u062e\u0637",

@@ -316,6 +316,8 @@ __GGB__keysVar.cs.command = {
     "FitExp_Syntax": "[ <Seznam bod\u016f> ]",
     "FitGrowth": "RegreseRustu",
     "FitGrowth_Syntax": "[ <Seznam bod\u016f> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "RegreseX",
     "FitLineX_Syntax": "[ <Seznam bod\u016f> ]",
     "FitLineY": "Regrese",

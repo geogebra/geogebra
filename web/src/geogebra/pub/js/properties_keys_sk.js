@@ -316,6 +316,8 @@ __GGB__keysVar.sk.command = {
     "FitExp_Syntax": "[ <Zoznam bodov> ]",
     "FitGrowth": "Prilo\u017eRast",
     "FitGrowth_Syntax": "[ <Zoznam bodov> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "Prilo\u017ePriamkuX",
     "FitLineX_Syntax": "[ <Zoznam bodov> ]",
     "FitLineY": "Prilo\u017ePriamku",

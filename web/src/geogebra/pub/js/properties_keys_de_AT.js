@@ -316,6 +316,8 @@ __GGB__keysVar.de_AT.command = {
     "FitExp_Syntax": "[ <Liste von Punkten> ]",
     "FitGrowth": "TrendExp2",
     "FitGrowth_Syntax": "[ <Liste von Punkten> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "TrendlinieX",
     "FitLineX_Syntax": "[ <Liste von Punkten> ]",
     "FitLineY": "Trendlinie",

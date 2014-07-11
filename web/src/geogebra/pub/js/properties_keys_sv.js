@@ -316,6 +316,8 @@ __GGB__keysVar.sv.command = {
     "FitExp_Syntax": "[ <Lista med punkter> ]",
     "FitGrowth": "RegressionExp",
     "FitGrowth_Syntax": "[ <Lista med Punkter> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "RegressionLinX",
     "FitLineX_Syntax": "[ <Lista med punkter> ]",
     "FitLineY": "RegressionLin",

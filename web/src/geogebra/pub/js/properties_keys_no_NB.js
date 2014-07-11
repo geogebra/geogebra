@@ -316,6 +316,8 @@ __GGB__keysVar.no_NB.command = {
     "FitExp_Syntax": "[ <Liste med punkt> ]",
     "FitGrowth": "RegEksp",
     "FitGrowth_Syntax": "[ <Liste med punkt> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "RegLinX",
     "FitLineX_Syntax": "[ <Liste med punkt> ]",
     "FitLineY": "RegLin",

@@ -316,6 +316,8 @@ __GGB__keysVar.hr.command = {
     "FitExp_Syntax": "[ <lista to\u010daka> ]",
     "FitGrowth": "PrilagodbaRasta",
     "FitGrowth_Syntax": "[ <lista to\u010daka> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "PrilagodbaLinearnaX",
     "FitLineX_Syntax": "[ <lista to\u010daka> ]",
     "FitLineY": "PrilagodbaLinearna",

@@ -316,6 +316,8 @@ __GGB__keysVar.ne.command = {
     "FitExp_Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
     "FitGrowth": "\u090a\u091a\u093f\u0924\u092c\u0943\u0927\u094d\u0926\u093f",
     "FitGrowth_Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "\u0920\u093f\u0915\u0930\u0947\u0916\u093eX",
     "FitLineX_Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
     "FitLineY": "\u0920\u093f\u0915\u0930\u0947\u0916\u093e",

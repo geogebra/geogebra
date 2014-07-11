@@ -316,6 +316,8 @@ __GGB__keysVar.fr.command = {
     "FitExp_Syntax": "[ <Liste Points> ]",
     "FitGrowth": "AjustCroissance",
     "FitGrowth_Syntax": "[ <Liste Points> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "AjustLinX",
     "FitLineX_Syntax": "[ <Liste Points> ]",
     "FitLineY": "AjustLin",

@@ -316,6 +316,8 @@ __GGB__keysVar.ko.command = {
     "FitExp_Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "FitGrowth": "\ucd5c\uc18c\uc81c\uacf1\uc131\uc7a5",
     "FitGrowth_Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "\ucd5c\uc18c\uc81c\uacf1\uc9c1\uc120X",
     "FitLineX_Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "FitLineY": "\ucd5c\uc18c\uc81c\uacf1\uc9c1\uc120Y",

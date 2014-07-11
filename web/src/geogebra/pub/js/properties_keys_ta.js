@@ -316,6 +316,8 @@ __GGB__keysVar.ta.command = {
     "FitExp_Syntax": "[ <List of Points> ]",
     "FitGrowth": "FitGrowth",
     "FitGrowth_Syntax": "[ <\u0b8e\u0ba3\u0bcd \u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "\u0baa\u0bca\u0bb0\u0bc1\u0ba4\u0bcd\u0ba4\u0bae\u0bbe\u0ba9\u0b95\u0bcb\u0b9f\u0bc1X",
     "FitLineX_Syntax": "[ <\u0b8e\u0ba3\u0bcd \u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd> ]",
     "FitLineY": "\u0baa\u0bca\u0bb0\u0bc1\u0ba4\u0bcd\u0ba4\u0bae\u0bbe\u0ba9\u0b95\u0bcb\u0b9f\u0bc1",

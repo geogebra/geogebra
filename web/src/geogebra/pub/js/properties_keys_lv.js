@@ -316,6 +316,8 @@ __GGB__keysVar.lv.command = {
     "FitExp_Syntax": "[ <Punktu Saraksts> ]",
     "FitGrowth": "Piem\u0113rotAugo\u0161s",
     "FitGrowth_Syntax": "[ <Punktu Saraksts> ]",
+    "FitImplicit": "FitImplicit",
+    "FitImplicit_Syntax": "[ <List of Points>, <Order> ]",
     "FitLineX": "Piem\u0113rotTaisniX",
     "FitLineX_Syntax": "[ <Punktu Saraksts> ]",
     "FitLineY": "Piem\u0113rotTaisniY",
