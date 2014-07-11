@@ -198,13 +198,13 @@ public class MatrixUtils {
      * @return diagonal matrix
      * @since 2.0
      */
-    /*ARpublic static RealMatrix createRealDiagonalMatrix(final double[] diagonal) {
+    public static RealMatrix createRealDiagonalMatrix(final double[] diagonal) {
         final RealMatrix m = createRealMatrix(diagonal.length, diagonal.length);
         for (int i = 0; i < diagonal.length; ++i) {
             m.setEntry(i, i, diagonal[i]);
         }
         return m;
-    }*/
+    }
 
     /**
      * Returns a diagonal matrix with specified elements.
