@@ -1637,6 +1637,7 @@ __GGB__keysVar.lv.menu = {
     "Pencil": "Z\u012bmulis",
     "Pencil_Help": "Z\u012bm\u0113t grafiskaj\u0101 skat\u0101. Main\u012bt kr\u0101su, lietojot Stylebar",
     "Perspective_AlgebraAndGraphics": "Algebra & Grafiks",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u0122eomerijas pamati",
     "Perspective_CASAndGraphics": "CAS & Grafiks",
     "Perspective_Geometry": "\u0122eometrija",

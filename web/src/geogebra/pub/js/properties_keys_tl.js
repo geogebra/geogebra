@@ -1637,6 +1637,7 @@ __GGB__keysVar.tl.menu = {
     "Pencil": "Pencil",
     "Pencil_Help": "Gumuhit sa Graphics View. Palitan ang kulay gamit ang Stylebar",
     "Perspective_AlgebraAndGraphics": "Algebra & Graphics",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Basic Geometry",
     "Perspective_CASAndGraphics": "CAS at Graphics",
     "Perspective_Geometry": "Geometry",

@@ -1637,6 +1637,7 @@ __GGB__keysVar.sl.menu = {
     "Pencil": "Pisalo",
     "Pencil_Help": "Risanje v grafi\u010dnem pogledu. Barvo spremeni\u0161 z uporabo okvirja s slogi",
     "Perspective_AlgebraAndGraphics": "Algebra in risalna povr\u0161ina",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Risalna povr\u0161ina",
     "Perspective_CASAndGraphics": "Simbolno ra\u010dunanje in grafi\u010dni prikaz",
     "Perspective_Geometry": "Risalna povr\u0161ina",

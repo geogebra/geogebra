@@ -1637,6 +1637,7 @@ __GGB__keysVar.fi.menu = {
     "Pencil": "Kyn\xe4",
     "Pencil_Help": "Piirr\xe4 vapaasti Piirtoalueelle. Vaihda v\xe4ri\xe4 Tyylipalkista",
     "Perspective_AlgebraAndGraphics": "Algebra ja grafiikka",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Perusgeometria",
     "Perspective_CASAndGraphics": "CAS & Piirtoalue",
     "Perspective_Geometry": "Geometria",

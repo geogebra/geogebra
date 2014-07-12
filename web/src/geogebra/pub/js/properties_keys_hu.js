@@ -1637,6 +1637,7 @@ __GGB__keysVar.hu.menu = {
     "Pencil": "Ceruza",
     "Pencil_Help": "\xc1bra-, f\xfcggv\xe9nyrajzol\xe1s a Geometria ablakba. Sz\xedn v\xe1laszt\xe1sa a Form\xe1z\xf3 l\xe9cen.",
     "Perspective_AlgebraAndGraphics": "Algebra \xe9s grafika",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Alap geometria",
     "Perspective_CASAndGraphics": "CAS \xe9s grafika",
     "Perspective_Geometry": "Geometria",

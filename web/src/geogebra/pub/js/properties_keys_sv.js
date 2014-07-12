@@ -1637,6 +1637,7 @@ __GGB__keysVar.sv.menu = {
     "Pencil": "Penna",
     "Pencil_Help": "Rita i ritomr\xe5det. \xc4ndra f\xe4rg i formateringslisten.",
     "Perspective_AlgebraAndGraphics": "Algebra och grafik",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Grundl\xe4ggande geometri",
     "Perspective_CASAndGraphics": "CAS & Grafik",
     "Perspective_Geometry": "Geometri",

@@ -1637,6 +1637,7 @@ __GGB__keysVar.et.menu = {
     "Pencil": "Pintsel",
     "Pencil_Help": "Joonistage graafikavaatele. Stiilirealt on v\xf5imalik muuta v\xe4rvi.",
     "Perspective_AlgebraAndGraphics": "Algebra ja graafika",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "P\xf5hiline geomeetria",
     "Perspective_CASAndGraphics": "CAS ja graafika",
     "Perspective_Geometry": "Geomeetria",

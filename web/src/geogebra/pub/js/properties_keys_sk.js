@@ -1637,6 +1637,7 @@ __GGB__keysVar.sk.menu = {
     "Pencil": "Ceruzka",
     "Pencil_Help": "Kreslenie do n\xe1kresne. Farbu mo\u017eno zmeni\u0165 pri vlastnostiach.",
     "Perspective_AlgebraAndGraphics": "Algebra a Grafika",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Z\xe1kladn\xe1 geometria",
     "Perspective_CASAndGraphics": "CAS a Grafika",
     "Perspective_Geometry": "Geometria",

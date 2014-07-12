@@ -1637,6 +1637,7 @@ __GGB__keysVar.pl.menu = {
     "Pencil": "O\u0142\xf3wek",
     "Pencil_Help": "Narysuj w Widoku Grafiki. Zmiana koloru za pomoc\u0105 Paska Stylu",
     "Perspective_AlgebraAndGraphics": "Algebra i Grafika",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometria podstawowa",
     "Perspective_CASAndGraphics": "CAS i Grafika",
     "Perspective_Geometry": "Geometria",

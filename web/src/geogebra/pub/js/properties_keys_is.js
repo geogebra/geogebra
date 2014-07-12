@@ -1637,6 +1637,7 @@ __GGB__keysVar.is.menu = {
     "Pencil": "Bl\xfdantur",
     "Pencil_Help": "Teikni\xf0 \xed myndaglugga. Breyti\xf0 lit me\xf0 \xfev\xed a\xf0 nota \xfatlitsstiku",
     "Perspective_AlgebraAndGraphics": "Algebrugluggi og myndagluggi",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Einfaldur r\xfamfr\xe6\xf0igluggi",
     "Perspective_CASAndGraphics": "CAS og myndagluggi",
     "Perspective_Geometry": "R\xfamfr\xe6\xf0i",

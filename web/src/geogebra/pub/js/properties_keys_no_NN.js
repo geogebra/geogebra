@@ -1637,6 +1637,7 @@ __GGB__keysVar.no_NN.menu = {
     "Pencil": "Blyant",
     "Pencil_Help": "Teikn i grafikkfeltet. Bruk stilmenyen for \xe5 endre farge.",
     "Perspective_AlgebraAndGraphics": "Algebra og grafikk",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Grunnleggande geometri",
     "Perspective_CASAndGraphics": "CAS og grafikk",
     "Perspective_Geometry": "Geometri",

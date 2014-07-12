@@ -1637,6 +1637,7 @@ __GGB__keysVar.ro.menu = {
     "Pencil": "Creion",
     "Pencil_Help": "Desena\u021bi \xeen fereastra grafic\u0103. Schimba\u021bi culoarea folosind bara de stiluri",
     "Perspective_AlgebraAndGraphics": "Algebr\u0103 & Grafic\u0103",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometrie elementar\u0103",
     "Perspective_CASAndGraphics": "CAS & Grafic\u0103",
     "Perspective_Geometry": "Geometrie",

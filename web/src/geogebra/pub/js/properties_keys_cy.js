@@ -1637,6 +1637,7 @@ __GGB__keysVar.cy.menu = {
     "Pencil": "Pensil",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
     "Perspective_AlgebraAndGraphics": "Algebra a graffeg",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometreg sylfaenol",
     "Perspective_CASAndGraphics": "CAS & Graffeg",
     "Perspective_Geometry": "Geometreg",

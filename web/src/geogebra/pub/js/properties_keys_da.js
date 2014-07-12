@@ -1637,6 +1637,7 @@ __GGB__keysVar.da.menu = {
     "Pencil": "Blyant",
     "Pencil_Help": "Tegn i grafikvinduet. V\xe6lg farve ved at bruge stilbj\xe6lken.",
     "Perspective_AlgebraAndGraphics": "Algebra og tegning",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Element\xe6r geometri",
     "Perspective_CASAndGraphics": "cas og tegneblok",
     "Perspective_Geometry": "Geometri",

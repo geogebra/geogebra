@@ -1637,6 +1637,7 @@ __GGB__keysVar.de_AT.menu = {
     "Pencil": "Bleistift",
     "Pencil_Help": "Zeichne in die Grafik-Ansicht. Verwende die Gestaltungsleiste, um die Farbe zu \xe4ndern.",
     "Perspective_AlgebraAndGraphics": "Algebra & Grafik",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Elementare Geometrie",
     "Perspective_CASAndGraphics": "CAS & Grafik",
     "Perspective_Geometry": "Geometrie",

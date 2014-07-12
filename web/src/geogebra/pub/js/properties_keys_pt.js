@@ -1637,6 +1637,7 @@ __GGB__keysVar.pt.menu = {
     "Pencil": "L\xe1pis",
     "Pencil_Help": "Desenhe na Janela de Visualiza\xe7\xe3o. Mude a cor usando a Barra de Estilo",
     "Perspective_AlgebraAndGraphics": "\xc1lgebra e Gr\xe1ficos",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometria B\xe1sica",
     "Perspective_CASAndGraphics": "CAS e Gr\xe1ficos",
     "Perspective_Geometry": "Geometria",

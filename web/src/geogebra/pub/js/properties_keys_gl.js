@@ -1637,6 +1637,7 @@ __GGB__keysVar.gl.menu = {
     "Pencil": "Lapis",
     "Pencil_Help": "Debuxa na vista gr\xe1fica. Para cambiar cor e estilo acceder \xe1s propiedades",
     "Perspective_AlgebraAndGraphics": "\xc1lxebra e gr\xe1ficos",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Xeometr\xeda b\xe1sica",
     "Perspective_CASAndGraphics": "CAS e gr\xe1ficos",
     "Perspective_Geometry": "Xeometr\xeda",

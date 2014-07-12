@@ -1637,6 +1637,7 @@ __GGB__keysVar.ja.menu = {
     "Pencil": "\u925b\u7b46",
     "Pencil_Help": "\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9\u30d3\u30e5\u30fc\u306b\u63cf\u753b\u3057\u307e\u3059\u3002\u30b9\u30bf\u30a4\u30eb\u30d0\u30fc\u3067\u8272\u304c\u5909\u3048\u3089\u308c\u307e\u3059\u3002",
     "Perspective_AlgebraAndGraphics": "\u6570\u5f0f & \u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u57fa\u672c\u7684\u306a\u5e7e\u4f55",
     "Perspective_CASAndGraphics": "CAS\u3068\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9",
     "Perspective_Geometry": "\u5e7e\u4f55",

@@ -1637,6 +1637,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Pencil": "Llapis antic",
     "Pencil_Help": "Dibuixeu un tra\xe7 a la finestra gr\xe0fica. Podeu canviar-ne el color i l'estil des de la barra d'estil.",
     "Perspective_AlgebraAndGraphics": "\xc0lgebra i gr\xe0fics",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometria b\xe0sica",
     "Perspective_CASAndGraphics": "CAS i gr\xe0fics",
     "Perspective_Geometry": "Geometria",

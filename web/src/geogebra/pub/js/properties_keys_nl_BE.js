@@ -1637,6 +1637,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Pencil": "Stift",
     "Pencil_Help": "Teken in het tekenvenster. Wijzig kleur met de opmaakbalk",
     "Perspective_AlgebraAndGraphics": "Algebravenster en tekenvenster",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Basistekenvenster",
     "Perspective_CASAndGraphics": "CAS & Tekenvenster",
     "Perspective_Geometry": "Meetkundevenster",

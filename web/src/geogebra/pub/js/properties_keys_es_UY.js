@@ -1637,6 +1637,7 @@ __GGB__keysVar.es_UY.menu = {
     "Pencil": "L\xe1piz",
     "Pencil_Help": "Dibuja en la Vista gr\xe1fica. En la barra de estilo se cambia de color.",
     "Perspective_AlgebraAndGraphics": "\xc1lgebra y gr\xe1ficos",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometr\xeda b\xe1sica",
     "Perspective_CASAndGraphics": "CAS y gr\xe1ficos",
     "Perspective_Geometry": "Geometr\xeda",

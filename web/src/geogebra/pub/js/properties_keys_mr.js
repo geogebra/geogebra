@@ -1637,6 +1637,7 @@ __GGB__keysVar.mr.menu = {
     "Pencil": "Pencil",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
     "Perspective_AlgebraAndGraphics": "\u092c\u0940\u091c\u0917\u0923\u093f\u0924 \u0906\u0923\u093f \u0906\u0932\u0947\u0916\u0940",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u092e\u0942\u0933 \u092d\u0942\u092e\u093f\u0924\u0940",
     "Perspective_CASAndGraphics": "CAS & Graphics",
     "Perspective_Geometry": "\u092d\u0942\u092e\u093f\u0924\u0940",

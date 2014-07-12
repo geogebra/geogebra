@@ -1637,6 +1637,7 @@ __GGB__keysVar.ms.menu = {
     "Pencil": "Pensel",
     "Pencil_Help": "Lukis pada Paparan Grafik. Tukar warna menggunakan Bar Stail",
     "Perspective_AlgebraAndGraphics": "Algebra & Grafik",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometri Asas",
     "Perspective_CASAndGraphics": "CAS & Grafik",
     "Perspective_Geometry": "Geometri",

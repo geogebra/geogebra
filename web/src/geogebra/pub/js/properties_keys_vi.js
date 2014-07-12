@@ -1637,6 +1637,7 @@ __GGB__keysVar.vi.menu = {
     "Pencil": "B\xfat ch\xec",
     "Pencil_Help": "V\u1ebd trong c\u1eeda s\u1ed5 h\xecnh h\u1ecdc. Thay \u0111\u1ed5i m\xe0u s\u1eed d\u1ee5ng thanh khi\u1ec3n ki\u1ec3u hi\u1ec3n th\u1ecb",
     "Perspective_AlgebraAndGraphics": "\u0110\u1ea1i s\u1ed1 & \u0111\u1ed3 th\u1ecb",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "H\xecnh h\u1ecdc c\u01a1 b\u1ea3n",
     "Perspective_CASAndGraphics": "CAS & \u0111\u1ed3 th\u1ecb",
     "Perspective_Geometry": "H\xecnh h\u1ecdc",

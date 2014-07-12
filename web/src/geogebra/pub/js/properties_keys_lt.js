@@ -1637,6 +1637,7 @@ __GGB__keysVar.lt.menu = {
     "Pencil": "Pie\u0161tukas",
     "Pencil_Help": "Pie\u0161ti grafikos lauke. Spalv\u0105 galite pakeisti stili\u0173 juostoje",
     "Perspective_AlgebraAndGraphics": "Algebra ir grafika",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Elementari geometrija",
     "Perspective_CASAndGraphics": "CAS & Grafika",
     "Perspective_Geometry": "Geometrija",

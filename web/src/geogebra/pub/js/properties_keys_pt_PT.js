@@ -1637,6 +1637,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Pencil": "Caneta",
     "Pencil_Help": "Escreva na Folha Gr\xe1fica. Altere a cor usando a Barra de Estilo",
     "Perspective_AlgebraAndGraphics": "\xc1lgebra & Gr\xe1ficos",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometria B\xe1sica",
     "Perspective_CASAndGraphics": "CAS & Gr\xe1ficos",
     "Perspective_Geometry": "Geometria",

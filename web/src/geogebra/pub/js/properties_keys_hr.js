@@ -1637,6 +1637,7 @@ __GGB__keysVar.hr.menu = {
     "Pencil": "Olovka",
     "Pencil_Help": "Crtanje u grafi\u010dkom prikazu. Mijenjajte boju pomo\u0107u trake stilova",
     "Perspective_AlgebraAndGraphics": "Algebarski i grafi\u010dki",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Osnovna geometrija",
     "Perspective_CASAndGraphics": "CAS i grafi\u010dki",
     "Perspective_Geometry": "Geometrija",

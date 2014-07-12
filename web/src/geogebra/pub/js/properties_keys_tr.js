@@ -1637,6 +1637,7 @@ __GGB__keysVar.tr.menu = {
     "Pencil": "Kalem",
     "Pencil_Help": "Grafik G\xf6r\xfcn\xfcm\xfcnde \xe7izer. Sitil \xe7ubu\u011funu kullanarak rengi de\u011fi\u015ftirin.",
     "Perspective_AlgebraAndGraphics": "Cebiir & Grafik",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Basit Geometri",
     "Perspective_CASAndGraphics": "CAS & Grafik",
     "Perspective_Geometry": "Geometri",

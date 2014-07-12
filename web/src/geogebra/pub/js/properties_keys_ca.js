@@ -1637,6 +1637,7 @@ __GGB__keysVar.ca.menu = {
     "Pencil": "Llapis antic",
     "Pencil_Help": "Dibuixa a la finestra gr\xe0fica, fixat als eixos. Per canviar el color i l'estil accedeix a Propietats",
     "Perspective_AlgebraAndGraphics": "\xc0lgebra i gr\xe0fics",
+    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometria B\xe0sica",
     "Perspective_CASAndGraphics": "CAS i gr\xe0fics",
     "Perspective_Geometry": "Geometria",
