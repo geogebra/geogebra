@@ -1637,7 +1637,7 @@ __GGB__keysVar.eu.menu = {
     "Pencil": "Arkatza",
     "Pencil_Help": "Marraztu ikuspegi grafikoan. Aldatu kolorea Estiloen Barra erabiliz",
     "Perspective_AlgebraAndGraphics": "Aljebra eta Grafikoak",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
+    "Perspective_AlgebraAndGraphics3D": "Aljebra eta 3D Grafikoak",
     "Perspective_BasicGeometry": "Oinarrizko Geometria",
     "Perspective_CASAndGraphics": "CAS eta Grafikoak",
     "Perspective_Geometry": "Geometria",

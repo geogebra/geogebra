@@ -1637,7 +1637,7 @@ __GGB__keysVar.fr.menu = {
     "Pencil": "Crayon",
     "Pencil_Help": "Dessinez dans Graphique. Changez la couleur dans la barre de style.",
     "Perspective_AlgebraAndGraphics": "Alg\xe8bre & Graphique",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
+    "Perspective_AlgebraAndGraphics3D": "Alg\xe8bre & Graphique 3D",
     "Perspective_BasicGeometry": "G\xe9om\xe9trie de base",
     "Perspective_CASAndGraphics": "CAS & Graphique",
     "Perspective_Geometry": "G\xe9om\xe9trie",
