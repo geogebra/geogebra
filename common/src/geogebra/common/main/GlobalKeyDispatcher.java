@@ -659,7 +659,7 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected void handleCtrlV() {
 		app.setWaitCursor();
-		CopyPaste.pasteFromXML(app);
+		CopyPaste.pasteFromXML(app, false);
 		app.setDefaultCursor();
 	}
 

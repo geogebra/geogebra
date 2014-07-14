@@ -692,7 +692,7 @@ public class CopyPaste {
 	 * 
 	 * @param app
 	 */
-	public static void pasteFromXML(App app) {
+	public static void pasteFromXML(App app, boolean putdown) {
 
 		if (copiedXML == null)
 			return;
@@ -751,10 +751,15 @@ public class CopyPaste {
 			handleLabels(app, copiedXMLlabels);
 		}
 
-		app.getActiveEuclidianView().getEuclidianController()
+		if (!putdown) {
+			app.getActiveEuclidianView().getEuclidianController()
 				.setPastePreviewSelected();
+		} else {
+			app.getActiveEuclidianView().getEuclidianController().clearSelections(true,false);
+		}
+
 		app.setMode(EuclidianConstants.MODE_MOVE);
-		
+
 		app.getKernel().notifyPasteComplete();
 	}
 

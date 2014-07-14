@@ -23,60 +23,37 @@ import javax.swing.event.MenuEvent;
 public class EditMenu extends BaseMenu {
 	private static final long serialVersionUID = -2649808771324470803L;
 	SelectionManager selection;
-	private AbstractAction
-		deleteAction,
-		invertAction,
-		showhideAction,
-		showhideLabelsAction,
-		propertiesAction,
-		selectAllAction,
-		selectAllAncestorsAction,
-		selectAllDescendantsAction,
-		selectCurrentLayerAction,
-		copyToClipboardAction,
-		copyAction,
-		pasteAction,
-		insertImageFromClipboardAction,
-		insertImageFromFileAction
-	;
-	
-	private JMenuItem
-		deleteItem,
-		invertItem,
-		showhideItem,
-		showhideLabelsItem,
-		selectAllItem,
-		selectAllAncestorsItem,
-		selectAllDescendantsItem,
-		selectCurrentLayerItem,
-		copyToClipboardItem,
-		copyItem,
-		pasteItem,
-		clipboardMenu
-	;
-	
-	private JSeparator
-		selectionSeparator,
-		deleteSeparator
-	;
-	
+	private AbstractAction deleteAction, invertAction, showhideAction,
+			showhideLabelsAction, propertiesAction, selectAllAction,
+			selectAllAncestorsAction, selectAllDescendantsAction,
+			selectCurrentLayerAction, copyToClipboardAction, copyAction,
+			pasteAction, insertImageFromClipboardAction,
+			insertImageFromFileAction;
+
+	private JMenuItem deleteItem, invertItem, showhideItem, showhideLabelsItem,
+			selectAllItem, selectAllAncestorsItem, selectAllDescendantsItem,
+			selectCurrentLayerItem, copyToClipboardItem, copyItem, pasteItem,
+			clipboardMenu;
+
+	private JSeparator selectionSeparator, deleteSeparator;
+
 	public EditMenu(AppD app) {
 		super(app, app.getMenu("Edit"));
 		selection = app.getSelectionManager();
-		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+		// items are added to the menu when it's opened, see BaseMenu:
+		// addMenuListener(this);
 
 	}
-	
+
 	/**
 	 * Initialize the items.
 	 */
 	@Override
-	protected void initItems()
-	{
+	protected void initItems() {
 		removeAll();
-		
+
 		JMenuItem mi;
-		
+
 		if (app.isUndoActive()) {
 			mi = add(((GuiManagerD) app.getGuiManager()).getUndoAction());
 			setMenuShortCutAccelerator(mi, 'Z');
@@ -92,18 +69,18 @@ public class EditMenu extends BaseMenu {
 
 		copyItem = add(copyAction);
 		setMenuShortCutAccelerator(copyItem, 'C');
-		
+
 		pasteItem = add(pasteAction);
 		setMenuShortCutAccelerator(pasteItem, 'V');
-		
+
 		if (!app.isMacOS() || !app.isJava7()) {
 			copyToClipboardItem = add(copyToClipboardAction);
 			// ctrl-shift-c is also handled in MyKeyListener
 			setMenuShortCutShiftAccelerator(copyToClipboardItem, 'C');
 		}
-		
+
 		addSeparator();
-		
+
 		// doesn't work in unsigned applets
 		if (AppD.hasFullPermissions()) {
 			// insert image from...
@@ -111,19 +88,18 @@ public class EditMenu extends BaseMenu {
 			submenu.addMenuListener(this);
 			submenu.setIcon(app.getEmptyIcon());
 			add(submenu);
-			
+
 			submenu.add(insertImageFromFileAction);
 			clipboardMenu = submenu.add(insertImageFromClipboardAction);
-	
+
 			addSeparator();
 		}
-		
+
 		if (app.letShowPropertiesDialog()) {
 			mi = add(propertiesAction);
 			setMenuShortCutAccelerator(mi, 'E');
 			addSeparator();
 		}
-
 
 		selectAllItem = add(selectAllAction);
 		setMenuShortCutAccelerator(selectAllItem, 'A');
@@ -152,50 +128,49 @@ public class EditMenu extends BaseMenu {
 		if (app.letDelete()) {
 			deleteSeparator = new JSeparator();
 			add(deleteSeparator);
-			
+
 			deleteItem = add(deleteAction);
 
 			if (AppD.MAC_OS) {
 				deleteItem.setAccelerator(KeyStroke.getKeyStroke(
 						KeyEvent.VK_BACK_SPACE, 0));
 			} else {
-				deleteItem
-						.setAccelerator(KeyStroke.getKeyStroke(
-								KeyEvent.VK_DELETE, 0));
+				deleteItem.setAccelerator(KeyStroke.getKeyStroke(
+						KeyEvent.VK_DELETE, 0));
 			}
 		}
-		
+
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
 
 	}
-	
+
 	/**
 	 * Initialize the actions.
 	 */
 	@Override
-	protected void initActions()
-	{
+	protected void initActions() {
 		propertiesAction = new AbstractAction(app.getPlain("Properties")
 				+ " ...", app.getImageIcon("view-properties16.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
+				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
+						null);
 			}
 		};
 
-		selectAllAction = new AbstractAction(app.getMenu("SelectAll"), app
-				.getEmptyIcon()) {
+		selectAllAction = new AbstractAction(app.getMenu("SelectAll"),
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				selection.selectAll(-1); //pass "-1" to select all
+				selection.selectAll(-1); // pass "-1" to select all
 			}
 		};
 
-		selectCurrentLayerAction = new AbstractAction(app
-				.getMenu("SelectCurrentLayer"), app.getEmptyIcon()) {
+		selectCurrentLayerAction = new AbstractAction(
+				app.getMenu("SelectCurrentLayer"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -207,8 +182,8 @@ public class EditMenu extends BaseMenu {
 			}
 		};
 
-		selectAllAncestorsAction = new AbstractAction(app
-				.getMenu("SelectAncestors"), app.getEmptyIcon()) {
+		selectAllAncestorsAction = new AbstractAction(
+				app.getMenu("SelectAncestors"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -217,8 +192,8 @@ public class EditMenu extends BaseMenu {
 			}
 		};
 
-		selectAllDescendantsAction = new AbstractAction(app
-				.getMenu("SelectDescendants"), app.getEmptyIcon()) {
+		selectAllDescendantsAction = new AbstractAction(
+				app.getMenu("SelectDescendants"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -227,8 +202,8 @@ public class EditMenu extends BaseMenu {
 			}
 		};
 
-		showhideAction = new AbstractAction(app
-				.getMenu("ShowHide"), app.getEmptyIcon()) {
+		showhideAction = new AbstractAction(app.getMenu("ShowHide"),
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -238,8 +213,8 @@ public class EditMenu extends BaseMenu {
 			}
 		};
 
-		showhideLabelsAction = new AbstractAction(app
-				.getMenu("ShowHideLabels"), app.getEmptyIcon()) {
+		showhideLabelsAction = new AbstractAction(
+				app.getMenu("ShowHideLabels"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -248,108 +223,104 @@ public class EditMenu extends BaseMenu {
 			}
 		};
 
-		copyAction = new AbstractAction(
-				app.getMenu("Copy"),
-				app.getEmptyIcon()) {
+		copyAction = new AbstractAction(app.getMenu("Copy"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
-			public void actionPerformed(ActionEvent e) {			
+			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 				CopyPaste.copyToXML(app, selection.getSelectedGeos());
 				app.updateMenubar();
 				app.setDefaultCursor();
 			}
 		};
-		
-		pasteAction = new AbstractAction(
-				app.getMenu("Paste"),
+
+		pasteAction = new AbstractAction(app.getMenu("Paste"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				CopyPaste.pasteFromXML(app);
+				CopyPaste.pasteFromXML(app, false);
 				app.setDefaultCursor();
 			}
 		};
-		
+
 		copyToClipboardAction = new AbstractAction(
 				app.getMenu("DrawingPadToClipboard"),
 				app.getImageIcon("edit-copy.png")) {
 			private static final long serialVersionUID = 1L;
 
-			public void actionPerformed(ActionEvent e) {			
+			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				app.copyGraphicsViewToClipboard();	
+				app.copyGraphicsViewToClipboard();
 				app.setDefaultCursor();
 			}
 		};
-		
+
 		insertImageFromClipboardAction = new AbstractAction(
-				app.getMenu("Clipboard"),
-				app.getEmptyIcon()) {
+				app.getMenu("Clipboard"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
-			public void actionPerformed(ActionEvent e) {			
+			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				((GuiManagerD)app.getGuiManager()).loadImage(null, true);
+				((GuiManagerD) app.getGuiManager()).loadImage(null, true);
 				app.setDefaultCursor();
 			}
 		};
-		
-		insertImageFromFileAction = new AbstractAction(
-				app.getMenu("File"),
+
+		insertImageFromFileAction = new AbstractAction(app.getMenu("File"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
-			public void actionPerformed(ActionEvent e) {			
+			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				((GuiManagerD)app.getGuiManager()).loadImage(null, false);
+				((GuiManagerD) app.getGuiManager()).loadImage(null, false);
 				app.setDefaultCursor();
 			}
 		};
-		
-		deleteAction = new AbstractAction(app.getPlain("Delete"), app
-				.getImageIcon("delete_small.gif")) {
+
+		deleteAction = new AbstractAction(app.getPlain("Delete"),
+				app.getImageIcon("delete_small.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				app.deleteSelectedObjects();
 			}
 		};
-	
-	
-	invertAction = new AbstractAction(app.getMenu("InvertSelection"), app.getEmptyIcon()) {
-		private static final long serialVersionUID = 1L;
 
-		public void actionPerformed(ActionEvent e) {
-			selection.invertSelection();
-		}
-	};
-}
+		invertAction = new AbstractAction(app.getMenu("InvertSelection"),
+				app.getEmptyIcon()) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				selection.invertSelection();
+			}
+		};
+	}
 
 	@Override
 	public void update() {
 		updateSelection();
 	}
-	
+
 	/**
 	 * Called if the user changes the selected items.
 	 */
 	public void updateSelection() {
-		
+
 		if (!initialized) {
 			return;
-		}		
-		
+		}
+
 		int layer = selection.getSelectedLayer();
-		
-		/* layer values:
-		 *  -1 means nothing selected
-		 *  -2 means different layers selected
+
+		/*
+		 * layer values: -1 means nothing selected -2 means different layers
+		 * selected
 		 */
-		
-		boolean justCreated = !(app.getActiveEuclidianView().getEuclidianController().getJustCreatedGeos().isEmpty());
+
+		boolean justCreated = !(app.getActiveEuclidianView()
+				.getEuclidianController().getJustCreatedGeos().isEmpty());
 
 		copyAction.setEnabled(!selection.getSelectedGeos().isEmpty());
 		pasteAction.setEnabled(!CopyPaste.isEmpty());
@@ -357,17 +328,17 @@ public class EditMenu extends BaseMenu {
 		deleteAction.setEnabled(layer != -1 || justCreated);
 		deleteItem.setVisible(layer != -1 || justCreated);
 		deleteSeparator.setVisible(layer != -1 || justCreated);
-		
+
 		showhideAction.setEnabled(layer != -1);
 		showhideItem.setVisible(layer != -1);
-		
+
 		showhideLabelsAction.setEnabled(layer != -1);
 		showhideLabelsItem.setVisible(layer != -1);
-		
+
 		// exactly one layer selected
 		selectCurrentLayerAction.setEnabled(selection.getSelectedLayer() >= 0);
 		selectCurrentLayerItem.setVisible(selection.getSelectedLayer() >= 0);
-		
+
 		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 		invertAction.setEnabled(haveSelection);
 		invertItem.setVisible(haveSelection);
@@ -384,23 +355,24 @@ public class EditMenu extends BaseMenu {
 
 	@Override
 	public void menuSelected(MenuEvent e) {
-		
+
 		// build menu if necessary
 		super.menuSelected(e);
-		
+
 		if (!e.getSource().equals(this)) { // ie submenu opened
-				
+
 			// disable for unsigned applets
 			if (app.isApplet() && !AppD.hasFullPermissions()) {
 				clipboardMenu.setEnabled(false);
 				return;
 			}
-			
+
 			// check if there's an image on the clipboard
-			String[] fileName = ((GuiManagerD) app.getGuiManager()).getImageFromTransferable(null);
+			String[] fileName = ((GuiManagerD) app.getGuiManager())
+					.getImageFromTransferable(null);
 			clipboardMenu.setEnabled(fileName.length > 0);
 		}
-		
+
 	}
 
 }

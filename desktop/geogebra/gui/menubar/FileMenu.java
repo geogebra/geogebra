@@ -271,7 +271,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 								.getGeoSetConstructionOrder()));
 
 						// and paste
-						CopyPaste.pasteFromXML(app);
+						CopyPaste.pasteFromXML(app, true);
 						app.setDefaultCursor();
 					}
 				};

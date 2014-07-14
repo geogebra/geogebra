@@ -86,7 +86,7 @@ public class EditMenuW extends GMenuBar {
 			        true, new Command() {
 				        public void execute() {
 					        app.setWaitCursor();
-					        CopyPaste.pasteFromXML(app);
+					        CopyPaste.pasteFromXML(app, false);
 					        app.setDefaultCursor();
 				        }
 			        });
