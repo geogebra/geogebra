@@ -51,7 +51,7 @@ public class RelationPaneD implements RelationPane {
 	private boolean areCallbacks = false;
 	private int morewidth = 0;
 
-	private final int ORIG_INFOWIDTH = 400;
+	private final int ORIG_INFOWIDTH = 300;
 	private int INFOWIDTH;
 	/**
 	 * Current row height computed by the window size (y), by default it uses ORIG_ROWHEIGHT.
@@ -60,7 +60,7 @@ public class RelationPaneD implements RelationPane {
 	private final int ORIG_ROWHEIGHT = 30;
 	private final int MARGIN = 10;
 
-	private final int ORIG_MOREWIDTH = 100;
+	private final int ORIG_MOREWIDTH = 140;
 	private int MOREWIDTH;
 
 	public void showDialog(String title, final RelationRow[] relations, App app) {
@@ -341,7 +341,12 @@ public class RelationPaneD implements RelationPane {
 			 * FIXME: In some cases this throws an exception. No idea how to fix
 			 * it.
 			 */
-			super.fireEditingStopped();
+			try {
+				super.fireEditingStopped();
+			} catch (Exception e) {
+				App.error("Swing error in RelationPaneD");
+			}
+			
 		}
 	}
 }
