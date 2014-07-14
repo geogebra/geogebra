@@ -169,7 +169,12 @@ public class MainMenu extends FlowPanel implements RequiresResize {
 
 	public void onResize() {
 		int menuHeight = (int) (app.getHeight() - (app.showAlgebraInput() ? GLookAndFeel.COMMAND_LINE_HEIGHT : 0) - GLookAndFeel.TOOLBAR_HEIGHT);
-	    this.setHeight(menuHeight + "px");
+
+		if (menuHeight < 0) {
+			this.setHeight("0px");
+		} else {
+			this.setHeight(menuHeight + "px");
+		}
     }
 	
 	public void focus(){

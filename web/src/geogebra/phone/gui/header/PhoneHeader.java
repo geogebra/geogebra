@@ -7,30 +7,69 @@ import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
+import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.toolbar.ToolBarW;
+import geogebra.web.main.AppWapplication;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class PhoneHeader extends FlowPanel implements ResizeListener {
 
+	SimplePanel openToolBarPanel;
+
 	private SimplePanel title;
 
-	
 	SimplePanel algebra;
 	SimplePanel graphics;
 	SimplePanel worksheets;
 	SimplePanel options;
 	private Label titleLabel;
-	
-	public PhoneHeader() {
+
+	public PhoneHeader(AppWapplication app) {
 		this.setStyleName("PhoneHeader");
-		//FIXME do this with LAF
+		// FIXME do this with LAF
 		this.setPixelSize(Window.getClientWidth(), 43);
-		
-		addTitleTab();
+
+		addOpenToolbar(app);
+		// addTitleTab();
 		addViewTabs();
+	}
+
+	private void addOpenToolbar(AppWapplication app) {
+		this.openToolBarPanel = new SimplePanel();
+		final PopupPanel panel = new PopupPanel();
+
+		GGWToolBar ggwToolbar = new GGWToolBar();
+		ggwToolbar.init(app);
+
+		app.getAppFrame().ggwToolBar = ggwToolbar;
+
+		final ToolBarW toolBar = new ToolBarW(ggwToolbar); //
+		toolBar.init(app);
+		toolBar.buildGui();
+		app.setToolBarForUpdate(toolBar);
+
+		panel.add(toolBar);
+		panel.setAutoHideEnabled(true);
+
+		// TODO: set icon of actual tool
+		FastButton openToolBarButton = new StandardButton(GGWToolBar
+		        .getMyIconResourceBundle().mode_point_32());
+		openToolBarButton.addStyleName("phoneHeaderButton");
+		openToolBarButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick() {
+				panel.show();
+			}
+		});
+		openToolBarPanel.add(openToolBarButton);
+		openToolBarPanel.addStyleName("tabLeft");
+
+		this.add(openToolBarPanel);
 	}
 
 	private void addTitleTab() {
@@ -40,12 +79,13 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 		this.title.setStyleName("headerTitlePanel");
 		this.add(this.title);
 	}
-	
+
 	private void addViewTabs() {
-		FastButton algebraViewButton = new StandardButton(GuiResources.INSTANCE.algebraView());
+		FastButton algebraViewButton = new StandardButton(
+		        GuiResources.INSTANCE.algebraView());
 		algebraViewButton.addStyleName("phoneHeaderButton");
 		algebraViewButton.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick() {
 				Phone.getGUI().scrollTo(View.Algebra);
@@ -53,33 +93,35 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 			}
 		});
 
-		FastButton graphicsViewButton = new StandardButton(GuiResources.INSTANCE.graphicsView());
+		FastButton graphicsViewButton = new StandardButton(
+		        GuiResources.INSTANCE.graphicsView());
 		graphicsViewButton.addStyleName("phoneHeaderButton");
 		graphicsViewButton.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick() {
 				Phone.getGUI().scrollTo(View.Graphics);
 				setTabActive(PhoneHeader.this.graphics);
 			}
 		});
-		
-		FastButton worksheetsViewButton = new StandardButton(GuiResources.INSTANCE.browseView());
+
+		FastButton worksheetsViewButton = new StandardButton(
+		        GuiResources.INSTANCE.browseView());
 		worksheetsViewButton.addStyleName("phoneHeaderButton");
 		worksheetsViewButton.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick() {
 				Phone.getGUI().scrollTo(View.Worksheets);
 				setTabActive(PhoneHeader.this.worksheets);
 			}
 		});
-		
-		
-		FastButton optionsButton = new StandardButton(GuiResources.INSTANCE.options());
+
+		FastButton optionsButton = new StandardButton(
+		        GuiResources.INSTANCE.options());
 		optionsButton.addStyleName("phoneHeaderButton");
 		optionsButton.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick() {
 				Phone.getGUI().scrollTo(View.Options);
@@ -87,8 +129,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 				// context-sensitive options
 			}
 		});
-		
-		
+
 		this.algebra = new SimplePanel();
 		this.algebra.setStyleName("tab");
 		this.graphics = new SimplePanel();
@@ -98,20 +139,20 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 		this.options = new SimplePanel();
 		this.options.setStyleName("tab");
 		this.options.addStyleName("lastTab");
-		
+
 		this.algebra.add(algebraViewButton);
 		this.graphics.add(graphicsViewButton);
 		this.worksheets.add(worksheetsViewButton);
 		this.options.add(optionsButton);
-		
+
 		FlowPanel tabContainer = new FlowPanel();
 		tabContainer.setStyleName("tabContainer");
-		
+
 		tabContainer.add(this.algebra);
 		tabContainer.add(this.graphics);
 		tabContainer.add(this.worksheets);
 		tabContainer.add(this.options);
-		
+
 		this.add(tabContainer);
 	}
 
@@ -119,9 +160,11 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 	public void onResize() {
 		this.setPixelSize(Window.getClientWidth(), 43);
 	}
-	
+
 	public void changeTitle(String newTitle) {
-		this.titleLabel.setText(newTitle);
+		if (this.titleLabel != null) {
+			this.titleLabel.setText(newTitle);
+		}
 	}
 
 	void setTabActive(SimplePanel tab) {

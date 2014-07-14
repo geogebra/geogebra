@@ -3,6 +3,7 @@ package geogebra.phone;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.phone.gui.PhoneGUI;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.main.AppWapplication;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -26,7 +27,7 @@ public class Phone implements EntryPoint {
 	public void onModuleLoad() {
 		appFrame = new GeoGebraAppFrame();
 		appFrame.init();
-		phoneGui = new PhoneGUI(appFrame.app);
+		phoneGui = new PhoneGUI((AppWapplication) appFrame.app);
 		phoneGap.initializePhoneGap();
 		ResourcesInjector.injectResources();
 		RootLayoutPanel.get().clear();

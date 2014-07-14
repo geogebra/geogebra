@@ -3807,6 +3807,11 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	display: inline-block;
 }
 
+.PhoneGUI .tabLeft {
+	float: left;
+/* 	TODO padding */
+}
+
 .PhoneGUI .activeTab {
 	height: 40px;
 	border-bottom: 3px solid #6666FF;

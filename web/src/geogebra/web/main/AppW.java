@@ -50,6 +50,7 @@ import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.menubar.MainMenu;
+import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.ObjectPool;
@@ -1739,4 +1740,23 @@ public abstract class AppW extends AppWeb {
 	    }
 	    return this.history;
     }
+
+	private ToolBarW updateToolBar = null;
+
+	/**
+	 * 
+	 * @param toolBar will be updated every time setMode(int) is called
+	 */
+	public void setToolBarForUpdate(ToolBarW toolBar){
+		this.updateToolBar = toolBar;
+	}
+
+	@Override
+    public void setMode(int mode) {
+		super.setMode(mode);
+
+		if(updateToolBar != null){
+			updateToolBar.buildGui();
+		}
+	}
 }

@@ -8,7 +8,7 @@ import geogebra.phone.gui.views.EuclidianViewPanel;
 import geogebra.phone.gui.views.ViewsContainer;
 import geogebra.phone.gui.views.ViewsContainer.View;
 import geogebra.phone.gui.views.browseView.BrowseViewPanelP;
-import geogebra.web.main.AppW;
+import geogebra.web.main.AppWapplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +33,13 @@ public class PhoneGUI extends VerticalPanel {
 	private BrowseViewPanelP browseViewPanel;
 	private EuclidianViewPanel euclidianViewPanel;
 	private AlgebraViewPanel algebraViewPanel;
-	private AppW app;
+	private AppWapplication app;
 
 	
 //	private EuclidianOptions euclidianOptions;
 	// TODO add additional option-views
 
-	public PhoneGUI(AppW app) {
+	public PhoneGUI(AppWapplication app) {
 		this.app = app;
 		this.setStyleName("PhoneGUI");
 		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
@@ -70,7 +70,7 @@ public class PhoneGUI extends VerticalPanel {
 	}
 	
 	private void addHeader() {
-		this.header = new PhoneHeader();
+		this.header = new PhoneHeader(app);
 		this.add(this.header);
 		this.addResizeListener(this.header);
 	}

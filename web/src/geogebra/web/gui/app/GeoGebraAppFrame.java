@@ -47,7 +47,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	/** Loads file into active GeoGebraFrame */
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 	
-	private GGWToolBar ggwToolBar;
+	public GGWToolBar ggwToolBar;
 	private GGWCommandLine ggwCommandLine;
 	private GGWMenuBar ggwMenuBar;
 
