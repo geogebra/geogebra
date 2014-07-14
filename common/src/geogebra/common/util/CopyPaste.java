@@ -485,7 +485,7 @@ public class CopyPaste {
 	 * @param geos
 	 */
 	public static void copyToXML(App app,
-			ArrayList<GeoElement> geos) {
+			ArrayList<GeoElement> geos, boolean putdown) {
 
 		if (geos.isEmpty())
 			return;
@@ -504,7 +504,10 @@ public class CopyPaste {
 		// create geoslocal and geostohide
 		ArrayList<ConstructionElement> geoslocal = new ArrayList<ConstructionElement>();
 		geoslocal.addAll(geos);
-		removeFixedSliders(geoslocal);
+
+		if (!putdown) {
+			removeFixedSliders(geoslocal);
+		}
 
 		if (geoslocal.isEmpty()) {
 			app.setBlockUpdateScripts(scriptsBlocked);

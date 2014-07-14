@@ -66,7 +66,7 @@ public class EditMenuW extends GMenuBar {
 			        true, new Command() {
 				        public void execute() {
 					        app.setWaitCursor();
-					        CopyPaste.copyToXML(app, selection.getSelectedGeos());
+					        CopyPaste.copyToXML(app, selection.getSelectedGeos(), false);
 					        initActions(); //app.updateMenubar(); - it's needn't to update the all menubar here
 					        app.setDefaultCursor();
 				        }
