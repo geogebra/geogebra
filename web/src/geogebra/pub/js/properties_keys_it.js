@@ -1637,7 +1637,7 @@ __GGB__keysVar.it.menu = {
     "Pencil": "Matita",
     "Pencil_Help": "Disegnare nella Vista Grafica. Per modificare il colore utilizzare la barra di stile.",
     "Perspective_AlgebraAndGraphics": "Algebra e grafici",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
+    "Perspective_AlgebraAndGraphics3D": "Algebra e grafici 3D",
     "Perspective_BasicGeometry": "Geometria di base",
     "Perspective_CASAndGraphics": "CAS e grafici",
     "Perspective_Geometry": "Geometria",
