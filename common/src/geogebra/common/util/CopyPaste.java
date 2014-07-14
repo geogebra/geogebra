@@ -754,8 +754,6 @@ public class CopyPaste {
 		if (!putdown) {
 			app.getActiveEuclidianView().getEuclidianController()
 				.setPastePreviewSelected();
-		} else {
-			app.getActiveEuclidianView().getEuclidianController().clearSelections(true,false);
 		}
 
 		app.setMode(EuclidianConstants.MODE_MOVE);
