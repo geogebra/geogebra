@@ -1462,9 +1462,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @return input length for XML (undo/redo), maybe +1 for xOy plane
 	 */
 	final protected int getInputLengthForXMLMayNeedXOYPlane(){
-
-		if(kernel.isSaving() 
-				|| kernel.isOGP()
+		
+		if(!cons.isGettingXMLForReplace() 
 				|| kernel.getXOYPlane() == null){ // saving mode, or 2D
 			return getInputLength();
 		}

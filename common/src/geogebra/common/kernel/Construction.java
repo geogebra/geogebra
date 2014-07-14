@@ -1138,11 +1138,6 @@ public class Construction {
 	 */
 	public void getConstructionElementsXML_OGP(StringBuilder sb, GeoElement statement) {
 		
-		// set we are in OGP mode
-		boolean oldOGP = kernel.isOGP();
-		kernel.setOGP(true);
-		
-		
 		AlgoElement statementAlgo = statement.getParentAlgorithm();
 		StringTemplate tpl = StringTemplate.ogpTemplate;
 		ConstructionElement ce;
@@ -1170,8 +1165,6 @@ public class Construction {
 				ce.getXML_OGP(sb);
 		}
 		
-		// set back old OGP mode
-		kernel.setOGP(oldOGP);
 	}
 	
 	/**
@@ -1460,7 +1453,9 @@ public class Construction {
 					.getLabel(StringTemplate.defaultTemplate);
 		}
 		// get current construction XML
+		isGettingXMLForReplace = true;
 		StringBuilder consXML = getCurrentUndoXML(false);
+		isGettingXMLForReplace = false;
 
 		// 3) replace oldGeo by newGeo in XML
 		doReplaceInXML(consXML, oldGeo, newGeo);
@@ -1474,6 +1469,16 @@ public class Construction {
 			app.getActiveEuclidianView().getEuclidianController()
 					.handleMovedElement(selGeo, false, PointerEventType.MOUSE);
 		}
+	}
+	
+	private boolean isGettingXMLForReplace;
+	
+	/**
+	 * 
+	 * @return true if is getting XML for replace
+	 */
+	public boolean isGettingXMLForReplace(){
+		return isGettingXMLForReplace;
 	}
 	
 	
