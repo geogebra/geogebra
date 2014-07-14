@@ -319,14 +319,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		}
 
 		if (getMode()==Kernel.COORD_SPHERICAL){
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sbToString);
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sb);
 			return sb.toString();
 		}
 
 		// cartesian 2D / polar / complex not possible
 		if (!Kernel.isZero(getZ())){
 			if (getMode()==Kernel.COORD_POLAR){
-				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sbToString);				
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sb);				
 			}else{
 				GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(), getY(), getZ(), sb, this, symbolic);			
 			}
