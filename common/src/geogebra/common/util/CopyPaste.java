@@ -25,7 +25,6 @@ import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.algos.AlgoJoinPoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
@@ -335,7 +334,7 @@ public class CopyPaste {
 			for (int j = 0; j < geoal.size(); j++) {
 				ale = geoal.get(j);
 
-				if (!(ale instanceof AlgoMacro)) {
+				//if (!(ale instanceof AlgoMacro)) {
 
 					ac = new ArrayList<ConstructionElement>();
 					ac.addAll(Arrays.asList(ale.getInput()));
@@ -353,7 +352,7 @@ public class CopyPaste {
 						}
 					}
 
-				}
+				//}
 			}
 		}
 		conels.addAll(ret);
@@ -519,12 +518,12 @@ public class CopyPaste {
 			return;
 		}
 
-		removeHavingMacroPredecessors(geoslocal);
+		/*removeHavingMacroPredecessors(geoslocal);
 
 		if (geoslocal.isEmpty()) {
 			app.setBlockUpdateScripts(scriptsBlocked);
 			return;
-		}
+		}*/
 
 		addSubGeos(geoslocal);
 
