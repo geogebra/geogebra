@@ -288,11 +288,11 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     } 
     
     /** c = Vector (Cross) Product of a and b */
-    final public static void vectorProduct(Geo3DVec a, Geo3DVec b, Geo3DVec c) {    
+    final public static void vectorProduct(GeoVecInterface a, GeoVecInterface b, Geo3DVec c) {    
     	// tempX/Y needed because a and c can be the same variable
-    	double tempX = a.y * b.z - a.z * b.y;
-    	double tempY = - a.x * b.z + a.z * b.x;
-    	c.z = a.x * b.y - a.y * b.x;
+    	double tempX = a.getY() * b.getZ() - a.getZ() * b.getY();
+    	double tempY = - a.getX() * b.getZ() + a.getZ() * b.getX();
+    	c.z = a.getX() * b.getY() - a.getY() * b.getX();
         c.x = tempX;
         c.y = tempY;
     }

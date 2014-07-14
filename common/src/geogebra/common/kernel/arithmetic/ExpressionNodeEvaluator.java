@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.Geo3DVec;
+import geogebra.common.kernel.kernelND.GeoVecInterface;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
@@ -57,8 +58,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		Operation operation = expressionNode.getOperation();
 
 		boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
-
-		// Application.debug(operation+"");
 
 		ExpressionValue lt, rt;
 
@@ -1273,4 +1272,38 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		throw new MyError(l10n, strings);
 
 	}
+	
+	/**
+	 * Performs vector product
+	 * @param lt left argument
+	 * @param rt right argument
+	 * @param tpl string template (may be  string concatenation)
+	 * @param holdsLaTeXtext whether parent node holds LaTeX
+	 * @return result
+	 */
+	public ExpressionValue handleVectorProduct(ExpressionValue lt, ExpressionValue rt,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		
+		if (lt instanceof VectorNDValue && rt instanceof VectorNDValue) {
+			return vectorProduct((VectorNDValue) lt, (VectorNDValue) rt);
+		}
+		
+		return illegalBinary(lt, rt, "IllegalMultiplication",
+				ExpressionNodeConstants.strVECTORPRODUCT);
+	}
+	
+	/**
+	 * 
+	 * @param v1 first vector
+	 * @param v2 second vector
+	 * @return v1 * v2 vector product
+	 */
+	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2){
+		GeoVecInterface vec1 = v1.getVector();
+		GeoVecInterface vec2 = v2.getVector();
+		MyDouble num = new MyDouble(v1.getKernel());
+		GeoVec2D.vectorProduct(vec1, vec2, num);
+		return num;
+	}
+	
 }

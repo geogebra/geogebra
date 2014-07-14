@@ -1079,8 +1079,8 @@ final public class GeoVec2D extends ValidExpression implements
 	 * @param c
 	 *            vector product
 	 */
-	final public static void vectorProduct(GeoVec2D a, GeoVec2D b, MyDouble c) {
-		c.set(a.x * b.y - a.y * b.x);
+	final public static void vectorProduct(GeoVecInterface a, GeoVecInterface b, MyDouble c) {
+		c.set(a.getX() * b.getY() - a.getY() * b.getX());
 	}
 
 	/**

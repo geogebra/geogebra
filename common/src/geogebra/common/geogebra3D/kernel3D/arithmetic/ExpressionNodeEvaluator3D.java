@@ -106,19 +106,15 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			}
 			break;
 
-		case VECTORPRODUCT:
-			// 3D vector * 3D Vector (inner/dot product)
-			if (lt instanceof Vector3DValue && rt instanceof Vector3DValue) {
-				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).getVector();
-				Geo3DVec.vectorProduct(vec3D,
-						(Geo3DVec) ((Vector3DValue) rt).getVector(), vec3D);
-				return vec3D;
-			}
+		
 		}
 		
 		return super.handleOp(op, lt, rt, left, right, tpl, holdsLaTeX);
 
 	}
+	
+	
+	
 	
 	
 	
@@ -159,6 +155,26 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		
 		// 2D vec * 2D vec
 		return super.complexMult(ev1, ev2, kernel);
+	}
+	
+	
+	@Override
+	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2){
+		
+		if (v1.getMode() == Kernel.COORD_CARTESIAN_3D 
+				|| v1.getMode() == Kernel.COORD_SPHERICAL
+				|| v2.getMode() == Kernel.COORD_CARTESIAN_3D 
+				|| v2.getMode() == Kernel.COORD_SPHERICAL) {
+			
+			// 3D vector product
+			Geo3DVec vec3D = new Geo3DVec(v1.getKernel());
+			Geo3DVec.vectorProduct(v1.getVector(), v2.getVector(), vec3D);
+			return vec3D;
+						
+		}
+		
+		// 2D vector product (number)
+		return super.vectorProduct(v1, v2);
 	}
 	
 }

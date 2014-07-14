@@ -320,15 +320,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof VectorValue && rt instanceof VectorValue) {
-				GeoVec2D vec = ((VectorValue) lt).getVector();
-				GeoVec2D vec2 = ((VectorValue) rt).getVector();
-				MyDouble num = new MyDouble(lt.getKernel());
-				GeoVec2D.vectorProduct(vec, vec2, num);
-				return num;
-			}
-			return ev.illegalBinary(lt, rt, "IllegalMultiplication",
-					ExpressionNodeConstants.strVECTORPRODUCT);
+			
+			return ev.handleVectorProduct(lt, rt, tpl, holdsLaTeX);
 		}
 	},
 
