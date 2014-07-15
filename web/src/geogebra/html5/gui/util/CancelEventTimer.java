@@ -2,7 +2,7 @@ package geogebra.html5.gui.util;
 
 public class CancelEventTimer {
 
-	private long lastTouchEvent = 0;
+	private static long lastTouchEvent = 0;
 
 	/**
 	 * amount of time (ms) in which all mouse events are ignored after a touch
@@ -13,8 +13,8 @@ public class CancelEventTimer {
 	/**
 	 * called at the end of any touch event
 	 */
-	public void touchEventOccured() {
-		this.lastTouchEvent = System.currentTimeMillis();
+	public static void touchEventOccured() {
+		lastTouchEvent = System.currentTimeMillis();
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class CancelEventTimer {
 	 * 
 	 * @return whether the actual mouse event should be canceled
 	 */
-	public boolean cancelMouseEvent() {
+	public static boolean cancelMouseEvent() {
 		return System.currentTimeMillis() - lastTouchEvent < TIME_BETWEEN_TOUCH_AND_MOUSE;
 	}
 }

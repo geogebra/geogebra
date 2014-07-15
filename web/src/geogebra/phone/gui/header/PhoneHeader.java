@@ -19,10 +19,9 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class PhoneHeader extends FlowPanel implements ResizeListener {
 
-	SimplePanel openToolBarPanel;
-
 	private SimplePanel title;
 
+	SimplePanel openToolBarPanel;
 	SimplePanel algebra;
 	SimplePanel graphics;
 	SimplePanel worksheets;
@@ -68,6 +67,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 		});
 		openToolBarPanel.add(openToolBarButton);
 		openToolBarPanel.addStyleName("tabLeft");
+		openToolBarPanel.setVisible(false);
 
 		this.add(openToolBarPanel);
 	}
@@ -88,6 +88,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 
 			@Override
 			public void onClick() {
+				openToolBarPanel.setVisible(false);
 				Phone.getGUI().scrollTo(View.Algebra);
 				setTabActive(PhoneHeader.this.algebra);
 			}
@@ -100,6 +101,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 
 			@Override
 			public void onClick() {
+				openToolBarPanel.setVisible(true);
 				Phone.getGUI().scrollTo(View.Graphics);
 				setTabActive(PhoneHeader.this.graphics);
 			}
@@ -112,6 +114,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 
 			@Override
 			public void onClick() {
+				openToolBarPanel.setVisible(false);
 				Phone.getGUI().scrollTo(View.Worksheets);
 				setTabActive(PhoneHeader.this.worksheets);
 			}
@@ -124,6 +127,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 
 			@Override
 			public void onClick() {
+				openToolBarPanel.setVisible(false);
 				Phone.getGUI().scrollTo(View.Options);
 				setTabActive(PhoneHeader.this.options);
 				// context-sensitive options

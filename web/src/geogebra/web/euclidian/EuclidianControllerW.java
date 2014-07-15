@@ -68,8 +68,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private AbstractEvent waitingTouchMove = null;
 	private AbstractEvent waitingMouseMove = null;
 
-	private CancelEventTimer cancelEvent = new CancelEventTimer();
-
 	public EnvironmentStyleW style; 
 	
 	
@@ -238,7 +236,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
 			twoTouchMove(targets.get(0),targets.get(1));
 		}
-		cancelEvent.touchEventOccured();
+		CancelEventTimer.touchEventOccured();
 	}
 	
 	void twoTouchMove(Touch touch, Touch touch2) {
@@ -283,7 +281,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			//mouseLoc was already adjusted to the EVs coords, do not use offset again
 			this.wrapMouseReleased(new PointerEvent(mouseLoc.x, mouseLoc.y, PointerEventType.TOUCH, ZeroOffset.instance));
 		}
-		cancelEvent.touchEventOccured();
+		CancelEventTimer.touchEventOccured();
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
@@ -300,7 +298,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			twoTouchStart(targets.get(0),targets.get(1));
 		}
 		preventTouchIfNeeded(event);
-		cancelEvent.touchEventOccured();
+		CancelEventTimer.touchEventOccured();
 	}
 	
 	void preventTouchIfNeeded(TouchStartEvent event) {
@@ -378,7 +376,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public void onMouseMove(MouseMoveEvent event) {
-		if(cancelEvent.cancelMouseEvent()){
+		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
 
@@ -430,7 +428,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 //			this.ignoreNextMouseEvent = false;
 //			return;
 //		}
-		if(cancelEvent.cancelMouseEvent()){
+		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
 
@@ -465,7 +463,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 //			this.ignoreNextMouseEvent = false;
 //			return;
 //		}
-		if(cancelEvent.cancelMouseEvent()){
+		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
 

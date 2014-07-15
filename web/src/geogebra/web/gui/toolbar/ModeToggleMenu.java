@@ -57,8 +57,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	private String toolTipText;
 
-	private CancelEventTimer cancelTimer = new CancelEventTimer();
-
 	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb) {
 		super();
 		this.app = appl;
@@ -258,7 +256,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	@Override
     public void onTouchEnd(TouchEndEvent event) {
 		onEnd(event);
-		cancelTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccured();
     }
 	
 	/**
@@ -311,14 +309,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     public void onTouchStart(TouchStartEvent event) {
 	    if (event.getSource() == tbutton){
 	    	onStart(event);
-	    	cancelTimer.touchEventOccured();
+	    	CancelEventTimer.touchEventOccured();
 	    }
 	    
     }
 
 	@Override
     public void onMouseUp(MouseUpEvent event) {
-		if(cancelTimer.cancelMouseEvent()){
+		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
 		onEnd(event);
@@ -326,7 +324,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	@Override
     public void onMouseDown(MouseDownEvent event) {
-	    if (event.getSource() == tbutton && !cancelTimer.cancelMouseEvent()){
+	    if (event.getSource() == tbutton && !CancelEventTimer.cancelMouseEvent()){
 	    	onStart(event);
 	    }    
     }
