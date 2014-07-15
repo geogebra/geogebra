@@ -364,7 +364,12 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		
 		if (location != null) {
 			table.updateCellFormat(location.y, location.x);
-		}		
+		}	
+		
+		// update the rowHeader height in case an oversized element has been
+		// removed and the table row has resized itself 
+		table.syncRowHeaderHeight(location.y);
+		table.renderSelectionDeferred();
 	}
 
 	public void rename(GeoElement geo) {

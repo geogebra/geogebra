@@ -1716,6 +1716,7 @@ Paddings for menuitems.
 .geogebraweb-table-spreadsheet {
 	table-layout: fixed;
 	width: 0px;
+	cursor: default;
 }
 
 .geogebraweb-table-spreadsheet td {

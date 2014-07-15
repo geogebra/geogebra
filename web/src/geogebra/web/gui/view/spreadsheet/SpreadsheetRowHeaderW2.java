@@ -3,7 +3,9 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.view.spreadsheet.MyTable;
+import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -16,10 +18,12 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -316,15 +320,29 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 
 	// Returns index of row to be resized if mouse point P is
 	// near a row boundary (within 3 pixels)
-	/*
-	 * private int getResizingRow(java.awt.Point p) { int resizeRow = -1; GPoint
-	 * point = table.getIndexFromPixel(p.x, p.y); if (point != null) { // test
-	 * if mouse is 3 pixels from row boundary int cellRow = point.getY(); if
-	 * (cellRow >= 0) { Rectangle r = table.getCellRect(cellRow, 0, true); //
-	 * near row bottom if (p.y < r.y + 3) { resizeRow = cellRow - 1; } // near
-	 * row top if (p.y > r.y + r.height - 3) { resizeRow = cellRow; } } } return
-	 * resizeRow; }
-	 */
+	
+	private int getResizingRow(GPoint p) {
+		int resizeRow = -1;
+		GPoint point = table.getIndexFromPixel(0, p.y);
+		if (point != null) {
+			// test if mouse is 3 pixels from row boundary
+			int cellRow = point.getY();
+			
+			if (cellRow >= 0) {
+				GRectangle r = table.getCellRect(cellRow, 0, true);
+				//App.debug("cell row = " + cellRow + " p.y = " + p.y + "   r.y = " + r.getY() + "r.height = " + r.getHeight());
+				// near row bottom ?
+				if (p.y < r.getY() + 3) {
+					resizeRow = cellRow - 1;
+				}
+				// near row top ?
+				if (p.y > r.getY() + r.getHeight() - 3) {
+					resizeRow = cellRow;
+				}
+			}
+		}
+		return resizeRow;
+	}
 
 	// Cursor change for when mouse is over a row boundary
 	/*
@@ -368,20 +386,21 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 		// Update resizingRow. If nonnegative, then mouse is over a boundary
 		// and it gives the row to be resized (resizing is done in
 		// mouseDragged).
-		// ?//java.awt.Point p = e.getPoint();
-		// ?//resizingRow = getResizingRow(p);
-		// ?//mouseYOffset = p.y - table.getRowHeight(resizingRow);
-		//
+		GPoint p = new GPoint(x, y);
+		resizingRow = getResizingRow(p);
+		if (resizingRow >= 0) {
+			mouseYOffset = p.y - table.getRowHeight(resizingRow);
+		}
 
 		// left click
 		if (!rightClick) {
 
 			if (resizingRow >= 0)
-				return; // GSTURR 2010-1-9
+				return; 
 
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
-				// G.STURR 2010-1-29
+				
 				if (table.getSelectionType() != MyTable.ROW_SELECT) {
 					table.setSelectionType(MyTable.ROW_SELECT);
 					// ?//requestFocusInWindow();
@@ -425,7 +444,7 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 				return;
 
 			// if click is outside current selection then change selection
-			if (p.getY() < minSelectionRow || p.getY() > maxSelectionRow
+			if (p.getY() < table.minSelectionRow || p.getY() > table.maxSelectionRow
 			        || p.getX() < table.minSelectionColumn
 			        || p.getX() > table.maxSelectionColumn) {
 
@@ -445,38 +464,61 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
 		}
 
-		// If row resize has happened, resize all other selected rows
-		/*
-		 * ? if (doRowResize) { if (minSelectionRow != -1 && maxSelectionRow !=
-		 * -1 && (maxSelectionRow - minSelectionRow > 1)) { if
-		 * (table.isSelectAll())
-		 * table.setRowHeight(table.getRowHeight(resizingRow)); else for (int
-		 * row = minSelectionRow; row <= maxSelectionRow; row++) {
-		 * table.setRowHeight(row, table.getRowHeight(resizingRow)); } }
-		 * doRowResize = false; }
-		 */
+		// If row resize has happened, resize all other selected rows	
+		if (doRowResize) {
+			
+			int rowHeight = table.getRowHeight(resizingRow);
+			//App.debug("doRowResiz for selection: " + rowHeight);
+			//App.debug("min/max " + table.minSelectionRow + " , " + table.maxSelectionRow);
+			if (table.minSelectionRow != -1 && table.maxSelectionRow != -1
+			        && (table.maxSelectionRow - table.minSelectionRow > 0)) {
+				if (table.isSelectAll())
+					table.setRowHeight(rowHeight);
+				else
+					for (int row = table.minSelectionRow; row <= table.maxSelectionRow; row++) {
+						//App.debug("set row height row/height: " + row + " / " + rowHeight);
+						table.setRowHeight(row, rowHeight);
+					}
+			}
+			table.repaint();
+			table.renderSelectionDeferred();
+			doRowResize = false;
+		}
+		 
 	}
 
 	// ===============================================
 	// MouseMotion Listener Methods
 	// ===============================================
 
+	private String getCursor(){
+		return this.getElement().getStyle().getCursor();
+	}
+	private void setRowResizeCursor(){
+		this.getElement().getStyle().setCursor(Style.Cursor.ROW_RESIZE);
+	}
+	private void setDefaultCursor(){
+		this.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+	}
+	
 	public void onMouseMove(MouseMoveEvent e) {
 
 		e.preventDefault();
 
-		// Show resize cursor when mouse is over a row boundary
-		// ?//if ((getResizingRow(e.getPoint()) >= 0) != (getCursor() ==
-		// resizeCursor)) {
-		// ?// swapCursor();
-		// ?//}
+		// Show resize cursor when mouse is over a row boundary	
+		GPoint p = new GPoint(e.getClientX(), e.getClientY());
+		int r = this.getResizingRow(p);
+		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE)) {
+			setRowResizeCursor();
+		} else if (!getCursor().equals(Style.Cursor.DEFAULT)) {
+			setDefaultCursor();
+		}
 
 		if (isMouseDown) {
 
 			if (e.getNativeButton() == NativeEvent.BUTTON_RIGHT)
-				return; // G.Sturr 2009-9-30
+				return; 
 
-			// G.STURR 2010-1-9
 			// On mouse drag either resize or select a row
 			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
 			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
@@ -488,6 +530,8 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 					// set this flag to resize all selected rows on mouse
 					// release
 					doRowResize = true;
+					table.repaint();
+					renderSelection();
 				}
 			} else { // select row
 				GPoint point = table.getIndexFromPixel(x, y);
@@ -576,4 +620,21 @@ public class SpreadsheetRowHeaderW2 extends Grid implements MouseDownHandler,
 	 * public void keyReleased(KeyEvent e) { }
 	 */
 
+	
+	
+	public static int getAbsoluteX(MouseEvent e, AppW app) {
+		return (int) ((e.getClientX() + Window.getScrollLeft()) / app.getArticleElement().getScaleX());
+	}
+	
+	public int getAbsoluteX(MouseEvent e) {
+		return getAbsoluteX(e, app);
+	}
+
+	public static int getAbsoluteY(MouseEvent e, AppW app) {
+		return (int) ((e.getClientY() + Window.getScrollTop()) / app.getArticleElement().getScaleY());
+	}
+
+	public int getAbsoluteY(MouseEvent e) {
+		return getAbsoluteY(e, app);
+	}
 }

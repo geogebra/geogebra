@@ -777,6 +777,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return editor;
 	}
 
+	public int getRowHeight(int row) {
+	    return ssGrid.getRowFormatter().getElement(row).getOffsetHeight();
+    }
+	
+	
 	/**
 	 * sets requirement that commands entered into cells must start with "="
 	 */
@@ -1934,7 +1939,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	// Keep row heights of table and row header in sync
 	public void setRowHeight(final int row, final int rowHeight) {
-
+		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -1947,18 +1952,33 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (row >= 0) {
 					ssGrid.getRowFormatter().getElement(row).getStyle()
 					        .setHeight(rowHeight2, Style.Unit.PX);
+					
 					if (showRowHeader) {
-						rowHeader.setRowHeight(row, rowHeight2);
+						syncRowHeaderHeight(row);
 					}
 				}
 				if (view != null) {
 					if (doRecordRowHeights)
-						adjustedRowHeights.add(new GPoint(row, rowHeight));
+						adjustedRowHeights.add(new GPoint(row, rowHeight2));
 				}
 			}
 		});
 	}
 
+	// Keep table and row header heights in sync
+	public void syncRowHeaderHeight(final int row) {
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				int rowHeight = ssGrid.getRowFormatter().getElement(row)
+				        .getOffsetHeight();
+				rowHeader.setRowHeight(row, rowHeight);
+			}
+		});
+	}
+		
+		
 	public void setRowHeight(final int rowHeight) {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -2605,6 +2625,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;
 	}
 
+	public void renderSelectionDeferred() {
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				renderSelection();
+			}
+		});
+	}
+
 	public void renderSelection() {
 
 		// TODO implement other features from the old paint method
@@ -2930,5 +2960,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// 3, Unit.PX);
 
 	}
+
+	
 
 }
