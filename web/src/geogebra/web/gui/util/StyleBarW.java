@@ -52,7 +52,16 @@ public abstract class StyleBarW extends HorizontalPanel {
 				k++;
 			}
 		}
-		
+
+		if(k != data.length){
+			// make sure that data contains no entries that are null
+			ImageOrText[] temp = data;
+			data = new ImageOrText[k];
+			for(int i = 0; i < k; i++){
+				data[i] = temp[i];
+			}
+		}
+
 		final PopupMenuButton pb = new PopupMenuButton(app, data, Views.ids.length, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		ImageOrText views = new ImageOrText();
 		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
