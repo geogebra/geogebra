@@ -3107,61 +3107,64 @@ public abstract class App implements UpdateSelection{
 					final RelationRow rel = new RelationRow();
 					Boolean result = checkGenerally(relAlgo, ra, rb);
 					// Second information shown (result of Prove command):
-					rel.info = "<html>" + relInfo;
+					rel.info = "<html>" + relInfo + "<br><b>";
 					if (result != null && result) {
-						rel.info += "<br><b>" + 
-								getPlain("GenerallyTrue") + "</b>";
+						rel.info += getPlain("GenerallyTrue");
 					}
 					if (result == null) {
-						rel.info += "<br><b>" + 
-								getPlain("PossiblyGenerallyTrue") + "</b>";
+						rel.info += getPlain("PossiblyGenerallyTrue");
 					}
-					if (result == null || result) {
-						RelationMore rm2 = new RelationMore() {		
-							@Override
-							public void action(RelationPane table2, int row2) {
-								Localization loc = ra.getConstruction().getApplication().getLocalization();
-								String and = loc.getMenu("Symbol.And").toLowerCase();
-								rel.info = "<html>";
-								String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
-								// Third information shown (result of ProveDetails command):
-								if (ndgResult.length == 1) {
-									if ("".equals(ndgResult[0])) {
-										rel.info += relInfo + "<br><b>" + getPlain("PossiblyGenerallyTrue") + "</b>";
-									} else if ("1".equals(ndgResult[0])) {
-										rel.info += relInfo + "<br><b>" + getPlain("AlwaysTrue") + "</b>";
-									} else { // "0"
-										rel.info += relInfo + "<br><b>" + getPlain("ButNotGenerallyTrue") + "</b>";
-									}
-								} else {
-									int ndgs = ndgResult.length;
-									// GenerallyTrueAcondB
-									String conds = "<ul>"; 
-									for (int j = 1; j < ndgs; ++j) {
-										conds += "<li>";
-										conds += ndgResult[j];
-										if ( (j < ndgs - 1) ) {
-											conds += " " + and;
-										}
-									}
-									conds += "</ul>";
-									rel.info += loc.getPlain("GenerallyTrueAcondB", 
-											"<ul><li>" + relInfo + "</ul>", conds);
-								}
-								rel.info += "</html>";
-								rel.callback = null;
-								table2.updateRow(row2, rel);
+					if (result != null && !result) {
+						rel.info += getPlain("ButNotGenerallyTrue");					
+					}
+					rel.callback = null;
+					rel.info += "</b></html>";
+					table.updateRow(row, rel);
+					
+					// Third info start:
+					Localization loc = ra.getConstruction().getApplication().getLocalization();
+					String and = loc.getMenu("Symbol.And").toLowerCase();
+					rel.info = "<html>";
+					String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
+					// Third information shown (result of ProveDetails command):
+					if (ndgResult.length == 1) {
+						rel.info += relInfo + "<br><b>";
+						if ("".equals(ndgResult[0])) {
+							if (result) {
+								// Using Prove's result (since ProveDetails couldn't find any interesting):
+								rel.info += getPlain("GenerallyTrue");
+							} else {
+								rel.info += getPlain("PossiblyGenerallyTrue");
 							}
-						};
-						rel.callback = rm2;
-					} else if (!result) {
-						rel.info += "<br><b>" +	getPlain("ButNotGenerallyTrue") + "</b>";
-						rel.callback = null;
+						} else if ("1".equals(ndgResult[0])) {
+							rel.info += getPlain("AlwaysTrue");
+						} else { // "0"
+							rel.info += getPlain("ButNotGenerallyTrue");
+						}
+						rel.info += "</b>";
+					} else {
+						int ndgs = ndgResult.length;
+						// GenerallyTrueAcondB
+						String conds = "<ul>"; 
+						for (int j = 1; j < ndgs; ++j) {
+							conds += "<li>";
+							conds += ndgResult[j];
+							if ( (j < ndgs - 1) ) {
+								conds += " " + and;
+							}
+						}
+						conds += "</ul>";
+						rel.info += loc.getPlain("GenerallyTrueAcondB", 
+								"<ul><li>" + relInfo + "</ul>", conds);
 					}
 					rel.info += "</html>";
-					table.updateRow(row, rel);
+					rel.callback = null;
+					table.updateRow(row, rel);				
 					}
 			};
+			
+
+			
 			
 			if (relBools[i] && relAlgos[i] != null) {
 				rr[i].callback = rm;

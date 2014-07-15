@@ -209,7 +209,7 @@ public class RelationPaneD implements RelationPane {
 		return ret;
 	}
 
-	public void updateRow(int row, RelationRow relation) {
+	public synchronized void updateRow(int row, RelationRow relation) {
 		table.setValueAt(relation.info, row, 0);
 		callbacks[row] = relation.callback;
 		table.setRowHeight(row, (int) (ROWHEIGHT * (countLines(relation.info))));
@@ -226,13 +226,16 @@ public class RelationPaneD implements RelationPane {
 
 		if (!areCallbacks) {
 			morewidth = 0;
-			table.removeColumn(table.getColumnModel().getColumn(1));
+			if (table.getColumnModel().getColumnCount() > 1) {
+				table.removeColumn(table.getColumnModel().getColumn(1));
+			}
 		}
 
 		table.setSize(INFOWIDTH + morewidth, height);
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
 		frame.pack();
+		frame.paint(frame.getGraphics());
 	}
 
 	/**

@@ -116,6 +116,13 @@ public abstract class AbstractProverReciosMethod {
 		}
 		
 		int nrFreeVariables=freeVariables.size();
+		if (nrFreeVariables>5) {
+			// It would take too much time, it's better to find another method.
+			// TODO: This is not a problem in the method, it is in the implementation.
+			// FIXME: Make the implementation faster.
+			App.debug("Recio's method is currently disabled when # of free variables > 5");
+			return ProofResult.UNKNOWN;
+		}
 
 		int[] degs;
 		try {
