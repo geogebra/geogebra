@@ -19,6 +19,7 @@ import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
@@ -66,7 +67,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private long lastMoveEvent = 0;
 	private AbstractEvent waitingTouchMove = null;
 	private AbstractEvent waitingMouseMove = null;
-	
+
+	private CancelEventTimer cancelEvent = new CancelEventTimer();
+
 	public EnvironmentStyleW style; 
 	
 	
@@ -145,7 +148,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			moveIfWaiting();
 		}
 	};
-	private boolean ignoreNextMouseEvent;
+//	private boolean ignoreNextMouseEvent;
 	
 	protected void moveIfWaiting(){
 		long time = System.currentTimeMillis();
@@ -235,6 +238,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
 			twoTouchMove(targets.get(0),targets.get(1));
 		}
+		cancelEvent.touchEventOccured();
 	}
 	
 	void twoTouchMove(Touch touch, Touch touch2) {
@@ -268,7 +272,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
-		this.ignoreNextMouseEvent = true;
+//		this.ignoreNextMouseEvent = true;
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		event.stopPropagation();
@@ -279,10 +283,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			//mouseLoc was already adjusted to the EVs coords, do not use offset again
 			this.wrapMouseReleased(new PointerEvent(mouseLoc.x, mouseLoc.y, PointerEventType.TOUCH, ZeroOffset.instance));
 		}
+		cancelEvent.touchEventOccured();
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
-		this.ignoreNextMouseEvent = true;
+//		this.ignoreNextMouseEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
 		calculateEnvironment();
@@ -295,6 +300,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			twoTouchStart(targets.get(0),targets.get(1));
 		}
 		preventTouchIfNeeded(event);
+		cancelEvent.touchEventOccured();
 	}
 	
 	void preventTouchIfNeeded(TouchStartEvent event) {
@@ -372,6 +378,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public void onMouseMove(MouseMoveEvent event) {
+		if(cancelEvent.cancelMouseEvent()){
+			return;
+		}
+
 		if(isExternalHandling()){
 			return;
 		}
@@ -416,8 +426,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		if(this.ignoreNextMouseEvent){
-			this.ignoreNextMouseEvent = false;
+//		if(this.ignoreNextMouseEvent){
+//			this.ignoreNextMouseEvent = false;
+//			return;
+//		}
+		if(cancelEvent.cancelMouseEvent()){
 			return;
 		}
 
@@ -448,10 +461,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onMouseDown(MouseDownEvent event) {
 		deltaSum = 0;
-		if(this.ignoreNextMouseEvent){
-			this.ignoreNextMouseEvent = false;
+//		if(this.ignoreNextMouseEvent){
+//			this.ignoreNextMouseEvent = false;
+//			return;
+//		}
+		if(cancelEvent.cancelMouseEvent()){
 			return;
 		}
+
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}

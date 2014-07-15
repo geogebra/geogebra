@@ -2,6 +2,7 @@ package geogebra.web.gui.toolbar;
 
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.web.gui.app.GGWToolBar;
@@ -55,6 +56,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	private final Vector<Integer> menu;
 
 	private String toolTipText;
+
+	private CancelEventTimer cancelTimer = new CancelEventTimer();
 
 	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb) {
 		super();
@@ -255,6 +258,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	@Override
     public void onTouchEnd(TouchEndEvent event) {
 		onEnd(event);
+		cancelTimer.touchEventOccured();
     }
 	
 	/**
@@ -307,18 +311,22 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     public void onTouchStart(TouchStartEvent event) {
 	    if (event.getSource() == tbutton){
 	    	onStart(event);
+	    	cancelTimer.touchEventOccured();
 	    }
 	    
     }
 
 	@Override
     public void onMouseUp(MouseUpEvent event) {
+		if(cancelTimer.cancelMouseEvent()){
+			return;
+		}
 		onEnd(event);
     }
 
 	@Override
     public void onMouseDown(MouseDownEvent event) {
-	    if (event.getSource() == tbutton){
+	    if (event.getSource() == tbutton && !cancelTimer.cancelMouseEvent()){
 	    	onStart(event);
 	    }    
     }
