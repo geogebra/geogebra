@@ -34,6 +34,7 @@ import java.util.List;
 public class Function extends FunctionNVar implements RealRootFunction,
 		Functional {
 
+	private static final double MAX_EXPAND_DEGREE = 10; 
 	/**
 	 * Creates new Function from expression where x is the variable. Note: call
 	 * {@link #initFunction()} after this constructor.
@@ -822,7 +823,21 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			 // ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
 
 			 // NB keepFractions ignored, so different answer given for f(x) = 3x^2 / 5, f'(x)
-			 return polyDeriv.getFunction(kernel, getFunctionVariable());
+			 boolean factor = getExpression().inspect(new Inspecting(){ 
+				 
+				                                        @Override 
+				                                         public boolean check(ExpressionValue v) { 
+				                                                if(v instanceof ExpressionNode && ((ExpressionNode)v).getOperation() == Operation.POWER){ 
+				 	                                                        if(((ExpressionNode)v).getLeft().unwrap().isExpressionNode() && ((ExpressionNode)v).getRight().evaluateDouble() > Function.MAX_EXPAND_DEGREE){ 
+				 	                                                                return true; 
+				                                                        } 
+				                                               } 
+			                                               return false; 
+			                                     }}); 
+			                              if(factor){ 
+			                                     return getDerivativeNoCAS(n); 
+				                            } 
+				 	return polyDeriv.getFunction(kernel, getFunctionVariable()); 
 		}
 		 
 		 if (fast || !kernel.useCASforDerivatives()) {
@@ -1029,7 +1044,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		for (int i = 0 ; i < n ; i++) {
 			expDeriv = expDeriv.derivative(fVars[0]);
 		}
-		
+		expDeriv.simplifyConstantIntegers(); 
 		return new Function(expDeriv, fVars[0]);
 	}
 

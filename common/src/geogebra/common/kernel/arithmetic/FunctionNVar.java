@@ -910,7 +910,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		for (int i = 0 ; i < n ; i++) {
 			expDeriv = expDeriv.derivative(fv);
 		}
-		
+		expDeriv.simplifyConstantIntegers(); 
 		return new FunctionNVar(expDeriv, fVars);
 	}
 

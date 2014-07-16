@@ -20,7 +20,6 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -114,31 +113,10 @@ public class AlgoDerivative extends AlgoCasBase {
 
 		if (f instanceof GeoFunction) {
 			
-			Function inFun = ((GeoFunction)f).getFunction();
-			if (fast || !kernel.useCASforDerivatives()) {
-				
-				// fast general non-CAS method, output form not so nice
-				inFun = inFun.getDerivativeNoCAS(orderInt);
-				
-				((GeoFunction)g).setFunction(inFun);
-				((GeoFunction)g).setDefined(true);
-				return;
-			}
-			// check if it's a polynomial
-			PolyFunction polyDeriv = inFun.getNumericPolynomialDerivative(orderInt, true);
-
-			// it it is...
-			if (polyDeriv != null) {
-				// ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
-				Function funDeriv = polyDeriv.getFunction(kernel, inFun.getFunctionVariable());
-
-				//App.debug(f.toString());
-				//App.debug(funDeriv.toString());
-
-				((GeoFunction)g).setFunction(funDeriv);
-				((GeoFunction)g).setDefined(true);
-				return;
-			}
+			Function funDeriv = ((GeoFunction)f).getFunction().getDerivative(orderInt, fast); 
+			((GeoFunction)g).setFunction(funDeriv); 
+			((GeoFunction)g).setDefined(true); 
+			return;
 		}
 		
 		if (f instanceof GeoCurveCartesianND) {
