@@ -3106,6 +3106,7 @@ public abstract class App implements UpdateSelection{
 				public void action(RelationPane table, int row) {
 					final RelationRow rel = new RelationRow();
 					Boolean result = checkGenerally(relAlgo, ra, rb);
+					/*
 					// Second information shown (result of Prove command):
 					rel.info = "<html>" + relInfo + "<br><b>";
 					if (result != null && result) {
@@ -3120,6 +3121,8 @@ public abstract class App implements UpdateSelection{
 					rel.callback = null;
 					rel.info += "</b></html>";
 					table.updateRow(row, rel);
+					*/
+					// We don't show the second information unless ProveDetails is unsuccessful.
 					
 					// Third info start:
 					Localization loc = ra.getConstruction().getApplication().getLocalization();
