@@ -6,6 +6,9 @@ import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.ScriptError;
 import geogebra.common.plugin.ScriptType;
+import geogebra.common.util.StringUtil;
+
+import java.util.ArrayList;
 
 /**
  * @author arno
@@ -21,7 +24,7 @@ public abstract class Script {
 	/**
 	 * source code for the script
 	 */
-	protected final String text;
+	protected String text;
 	
 	/**
 	 * @param app the script's application
@@ -102,4 +105,27 @@ public abstract class Script {
 	 * @return a new copy of this object
 	 */
 	public abstract Script copy();
+
+	/**
+	 * The text of this script is modified by changing every
+	 * whole word oldLabel to newLabel.
+	 * 
+	 * @return whether any renaming happened
+	 */
+	public boolean renameGeo(String oldLabel, String newLabel) {
+		if (oldLabel == null || "".equals(oldLabel) ||
+			newLabel == null || "".equals(newLabel)) {
+			return false;
+		}
+		ArrayList<String> work = StringUtil.wholeWordTokenize(text);
+		boolean ret = false;
+		for (int i = 1; i < work.size(); i += 2) {
+			if (oldLabel.equals(work.get(i))) {
+				work.set(i, newLabel);
+				ret = true;
+			}
+		}
+		text = StringUtil.joinTokens(work, null);
+		return ret;
+	}
 }
