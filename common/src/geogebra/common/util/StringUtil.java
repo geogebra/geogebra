@@ -4,6 +4,8 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.util.debug.Log;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -1150,4 +1152,73 @@ public class StringUtil {
        
     }
 
+	/**
+	 * Tokenize a string so that every odd indices of the returned
+	 * array should contain a String not containing any letters (or digits),
+	 * and every odd incides of it should contain a String
+	 * having only letters (or digits).
+	 *  
+	 * @param input the input String
+	 * @return the tokenized String
+	 */
+	public static ArrayList<String> wholeWordTokenize(String input) {
+		// ArrayList is easier for now as we don't know
+		// the length of the returned String yet
+		ArrayList<String> ret = new ArrayList<String>();
+		Character actChar;
+		String actWord = "";
+		boolean odd = true;
+		for (int i = 0; i < input.length(); i++) {
+			actChar = input.charAt(i);
+			// although the syntax might not allow whole words
+			// starting with digits, we're going to allow them
+			// here, as it is easier and will not change the outcome
+			if (isLetterOrDigitOrUnderscore(actChar)) {
+				if (odd) {
+					ret.add(actWord);
+					actWord = "" + actChar;
+					odd = false;
+				} else {
+					actWord += actChar;
+				}
+			} else {
+				if (odd) {
+					actWord += actChar;
+				} else {
+					ret.add(actWord);
+					actWord = "" + actChar;
+					odd = true;
+				}
+			}
+		}
+		ret.add(actWord);
+		if (!odd) {
+			ret.add("");
+		}
+		return ret;
+	}
+
+	/**
+	 * Join tokens which are in a similar format as
+	 * StringUtil.wholeWordTokenize produces...
+	 * delimiter can be null, or can be a glue string
+	 *  
+	 * @param tokens the input
+	 * @param delimiter the glue string (optional)
+	 * @return the joined String
+	 */
+	public static String joinTokens(Iterable<String> tokens, String delimiter) {
+		String ret = "";
+		Iterator<String> it = tokens.iterator();
+		if (it.hasNext()) {
+			ret += it.next();
+		}
+		while (it.hasNext()) {
+			if (delimiter != null) {
+				ret += delimiter;
+			}
+			ret += it.next();
+		}
+		return ret;
+	}
 }
