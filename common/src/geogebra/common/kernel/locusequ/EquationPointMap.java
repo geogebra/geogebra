@@ -91,7 +91,7 @@ public class EquationPointMap {
         EquationPoint point;
         
         if(mustTakeNumericCoordinates(geoPoint)) {
-        	Log.debug("creating free point for"+geoPoint);
+        	Log.debug("creating free point for "+geoPoint);
             point = new EquationFreePoint(geoPoint);
         } else if(geoPoint == this.locusPoint) {
             // there should be only one of this type

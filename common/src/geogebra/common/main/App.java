@@ -41,6 +41,7 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.RelationNumerical;
 import geogebra.common.kernel.RelationNumerical.Report;
+import geogebra.common.kernel.RelationNumerical.Report.RelationCommand;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -52,8 +53,11 @@ import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import geogebra.common.kernel.prover.AlgoAreCollinear;
 import geogebra.common.kernel.prover.AlgoAreEqual;
 import geogebra.common.kernel.prover.AlgoAreParallel;
 import geogebra.common.kernel.prover.AlgoArePerpendicular;
@@ -3082,7 +3086,7 @@ public abstract class App implements UpdateSelection{
 		Iterator<Report> it = relInfosAll.iterator();
 		int rels = relInfosAll.size();
 		String[] relInfos = new String[rels];
-		Commands[] relAlgos = new Commands[rels];
+		RelationCommand[] relAlgos = new RelationCommand[rels];
 		Boolean[] relBools = new Boolean[rels];
 		int i = 0;
 		while (it.hasNext()) {
@@ -3099,7 +3103,7 @@ public abstract class App implements UpdateSelection{
 			// First information shown (result of numerical checks):
 			rr[i].info = "<html>" + relInfo + "<br>" 
 					+ getPlain("CheckedNumerically") + "</html>";
-			final Commands relAlgo = relAlgos[i];
+			final RelationCommand relAlgo = relAlgos[i];
 
 			RelationMore rm = new RelationMore() {
 				@Override
@@ -3166,9 +3170,6 @@ public abstract class App implements UpdateSelection{
 					}
 			};
 			
-
-			
-			
 			if (relBools[i] && relAlgos[i] != null) {
 				rr[i].callback = rm;
 			}
@@ -3187,7 +3188,7 @@ public abstract class App implements UpdateSelection{
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	final public static Boolean checkGenerally(Commands command, GeoElement g1, GeoElement g2) {
+	final public static Boolean checkGenerally(RelationCommand command, GeoElement g1, GeoElement g2) {
 		Boolean ret = null;
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
@@ -3199,6 +3200,17 @@ public abstract class App implements UpdateSelection{
 			ae = new AlgoAreParallel(cons, null, g1, g2); break;
 		case ArePerpendicular:
 			ae = new AlgoArePerpendicular(cons, null, g1, g2); break;
+		case IsOnPath:
+			if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
+				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1, ((GeoLine) g2).getStartPoint(), ((GeoLine) g2).getEndPoint());
+			} else
+			if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
+				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2, ((GeoLine) g1).getStartPoint(), ((GeoLine) g1).getEndPoint());
+			}
+			break;
+		}
+		if (ae == null) {
+			return ret; // which is null here
 		}
 		root.setParentAlgorithm(ae);
 		AlgoProve ap = new AlgoProve(cons, null, root);
@@ -3222,10 +3234,11 @@ public abstract class App implements UpdateSelection{
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	final public static String[] getNDGConditions(Commands command, GeoElement g1, GeoElement g2) {
+	final public static String[] getNDGConditions(RelationCommand command, GeoElement g1, GeoElement g2) {
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
 		AlgoElement ae = null;
+		String[] ret;
 		switch (command) {
 		case AreEqual:
 			ae = new AlgoAreEqual(cons, null, g1, g2); break;
@@ -3233,12 +3246,25 @@ public abstract class App implements UpdateSelection{
 			ae = new AlgoAreParallel(cons, null, g1, g2); break;
 		case ArePerpendicular:
 			ae = new AlgoArePerpendicular(cons, null, g1, g2); break;
+		case IsOnPath:
+			if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
+				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1, ((GeoLine) g2).getStartPoint(), ((GeoLine) g2).getEndPoint());
+			} else
+			if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
+				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2, ((GeoLine) g1).getStartPoint(), ((GeoLine) g1).getEndPoint());
+			}
+			break;
+		}
+		if (ae == null) {
+			ret = new String[1];
+			ret[0] = ""; // undefined (UNKNOWN)
+			return ret;
 		}
 		root.setParentAlgorithm(ae);
 		AlgoProveDetails ap = new AlgoProveDetails(cons, null, root, true);
 		ap.compute();
 		GeoElement[] o = ap.getOutput();
-		String[] ret;
+
 		GeoList list = ((GeoList) o[0]);
 		// Turning the output of ProveDetails into an array:
 		if (list.size() >= 2) {
@@ -3269,7 +3295,6 @@ public abstract class App implements UpdateSelection{
 		o[0].remove();
 		return ret;
 	}
-	
 	
 	//protected abstract Object getMainComponent();
 

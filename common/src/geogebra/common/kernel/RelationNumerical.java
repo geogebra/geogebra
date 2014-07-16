@@ -21,10 +21,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.RelationNumerical.Report.RelationCommand;
 import geogebra.common.kernel.algos.AlgoIntersectConics;
 import geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
@@ -64,11 +64,28 @@ public class RelationNumerical {
 		 */
 		public Boolean boolResult;
 		/**
-		 * Null if no further symbolical check is proposed.
-		 * (Sometimes there are no suitable checks.) 
-		 * Otherwise the name of the symbolical check (mostly AreEqual).
+		 * The internal name of the symbolic check, mostly the name of the Are* command.
 		 */
-		public Commands symbolicCheck;
+		public enum RelationCommand {/**
+		 * equality
+		 */
+		AreEqual, /**
+		 * parallelism
+		 */
+		AreParallel, /**
+		 * orthogonality
+		 */
+		ArePerpendicular, /**
+		 * member of a path
+		 */
+		IsOnPath}
+		/**
+		 * Null if no further symbolic check is proposed.
+		 * (Sometimes there are no suitable checks.) 
+		 * Otherwise the name of the symbolic check (mostly AreEqual).
+		 */
+		public RelationCommand symbolicCheck;
+		
 		/**
 		 * Localized version of the numerical computation check.
 		 */
@@ -80,12 +97,12 @@ public class RelationNumerical {
 		 * @param command GeoGebra's Are... command to be done for further symbolic checking.
 		 * @param stringres Localized string result.
 		 */
-		Report (Boolean boolres, Commands command, String stringres) {
+		Report (Boolean boolres, RelationCommand command, String stringres) {
 			boolResult = boolres;
 			symbolicCheck = command;
 			stringResult = stringres;
 		}
-		
+			
 		@Override
 		public boolean equals(Object obj) {
 			if (obj == null) {
@@ -125,7 +142,7 @@ public class RelationNumerical {
 	    return sortedReports;
 	}
 	
-	private void register(Boolean boolres, Commands command, String stringres) {
+	private void register(Boolean boolres, RelationCommand command, String stringres) {
 		Report r = new Report(boolres, command, stringres);
 		reports.add(r);
 	}
@@ -215,7 +232,7 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoList a, GeoList b) {
 		Boolean bool = a.isEqual(b);
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
-		register(bool, Commands.AreEqual, str);
+		register(bool, RelationCommand.AreEqual, str);
 		return reports;
 	}
 
@@ -227,7 +244,7 @@ public class RelationNumerical {
 		String str = equalityString(a.toGeoElement(),
 				b.toGeoElement(),
 				bool);
-		register(bool, Commands.AreEqual, str);
+		register(bool, RelationCommand.AreEqual, str);
 		return reports;
 	}
 
@@ -257,7 +274,7 @@ public class RelationNumerical {
 					((GeoElement) a).getLabelTextOrHTML(false), ((GeoElement) b).getLabelTextOrHTML(false));
 			bool = false;
 		}
-		register(bool, Commands.AreEqual, str);
+		register(bool, RelationCommand.AreEqual, str);
 		return reports;
 	}
 
@@ -267,7 +284,7 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoPoint A, GeoPoint B) {
 		Boolean bool = A.isEqual(B);
 		String str = equalityString(A, B, bool);
-		register(bool,Commands.AreEqual,str);
+		register(bool,RelationCommand.AreEqual,str);
 		return reports;
 	}
 
@@ -285,7 +302,7 @@ public class RelationNumerical {
 			str = linDependencyString(a, b, a.linDep(b));
 			bool = false;
 		}
-		register(bool,Commands.AreEqual,str);
+		register(bool,RelationCommand.AreEqual,str);
 		return reports;
 	}
 
@@ -308,8 +325,7 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoPoint A, Path path) {
 		Boolean bool = path.isOnPath(A, Kernel.STANDARD_PRECISION);
 		String str = incidenceString(A, path.toGeoElement(), bool);
-		register(bool, null, str); 
-		// TODO: The special case point lies on a line should be handled here!
+		register(bool, RelationCommand.IsOnPath, str);
 		return reports;
 	}
 
@@ -322,15 +338,15 @@ public class RelationNumerical {
 		// check for equality
 		if (g.isEqual(h)) {
 			str = equalityString(g, h, true);
-			register(true, Commands.AreEqual, str);
+			register(true, RelationCommand.AreEqual, str);
 		} else {
 			if (g.isParallel(h)) {
 				str = parallelString(g, h);
-				register(true, Commands.AreParallel, str);
+				register(true, RelationCommand.AreParallel, str);
 			}
 			else if (g.isPerpendicular(h)) {
 				str = perpendicularString(g, h, true);
-				register(true, Commands.ArePerpendicular, str);
+				register(true, RelationCommand.ArePerpendicular, str);
 			}
 			else {
 				// check if intersection point really lies on both objects (e.g.
