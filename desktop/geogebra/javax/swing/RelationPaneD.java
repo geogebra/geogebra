@@ -7,6 +7,7 @@ import geogebra.common.main.App;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -31,7 +32,7 @@ import javax.swing.table.TableCellRenderer;
  * @author Zoltan "of Swing" Kovacs <zoltan@geogebra.org>
  * 
  */
-public class RelationPaneD implements RelationPane {
+public class RelationPaneD implements RelationPane, ActionListener {
 
 	/**
 	 * The Relation window.
@@ -62,8 +63,13 @@ public class RelationPaneD implements RelationPane {
 
 	private final int ORIG_MOREWIDTH = 140;
 	private int MOREWIDTH;
+	
+	private final int ORIG_OKHEIGHT = 30;
+	private int OKHEIGHT;
+	private final int ORIG_OKWIDTH = 140;
+	private int OKWIDTH;
 
-	public void showDialog(String title, final RelationRow[] relations, App app) {
+	public void showDialog (String title, final RelationRow[] relations, App app) {
 
 		frame = new JFrame(title);
 		
@@ -72,6 +78,8 @@ public class RelationPaneD implements RelationPane {
 		ROWHEIGHT = ((double) ORIG_ROWHEIGHT) * app.getFontSize() / 12;
 		INFOWIDTH = (ORIG_INFOWIDTH * app.getFontSize() / 12);
 		MOREWIDTH = (ORIG_MOREWIDTH * app.getFontSize() / 12);
+		OKHEIGHT = (ORIG_OKHEIGHT * app.getFontSize() / 12);
+		OKWIDTH = (ORIG_OKWIDTH * app.getFontSize() / 12);
 		
 		final int rels = relations.length;
 
@@ -139,12 +147,21 @@ public class RelationPaneD implements RelationPane {
 		table.setDragEnabled(false);
 		table.setSize(INFOWIDTH + morewidth, height);
 		panel.add(table);
-		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
+
+		// Adding OK button:
+		JPanel buttonrow = new JPanel(new FlowLayout());
+		JButton ok = new JButton(app.getPlain("OK"));
+		buttonrow.add(ok);
+		ok.setSize(OKWIDTH, OKHEIGHT);
+		panel.add(buttonrow, BorderLayout.SOUTH);
+		ok.addActionListener(this);
+		
+		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
 		panel.setBorder(BorderFactory.createEmptyBorder(MARGIN,MARGIN,MARGIN,MARGIN));
 
 		panel.setBackground(UIManager.getColor("Label.background"));
 		frame.add(panel);
-		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(INFOWIDTH);
 		if (areCallbacks) {
@@ -153,7 +170,7 @@ public class RelationPaneD implements RelationPane {
 
 		frame.addComponentListener(new ComponentListener() {
 			public void componentResized(ComponentEvent evt) {
-	            int ysize = frame.getContentPane().getHeight() - 2*MARGIN;
+	            int ysize = frame.getContentPane().getHeight() - 3*MARGIN - OKHEIGHT;
 	            int r = relations.length;
 	            int currentHeight = 0;
 	    		for (int i = 0; i < r; ++i) {
@@ -233,7 +250,7 @@ public class RelationPaneD implements RelationPane {
 
 		table.setSize(INFOWIDTH + morewidth, height);
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 2 * MARGIN);
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
 		frame.pack();
 		frame.paint(frame.getGraphics());
 	}
@@ -348,8 +365,12 @@ public class RelationPaneD implements RelationPane {
 				super.fireEditingStopped();
 			} catch (Exception e) {
 				App.error("Swing error in RelationPaneD");
-			}
-			
+			}		
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		frame.dispose();
 	}
 }
