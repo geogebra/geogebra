@@ -316,6 +316,15 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	@Override
 	protected void wrapMouseDragged(AbstractEvent event) {
 		super.wrapMouseDragged(event);
+		if(movedGeoPoint != null&& (this.mode == EuclidianConstants.MODE_JOIN
+                || this.mode == EuclidianConstants.MODE_SEGMENT
+                || this.mode == EuclidianConstants.MODE_RAY
+                || this.mode == EuclidianConstants.MODE_VECTOR
+                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)){
+			// nothing was dragged
+			super.wrapMouseMoved(event);
+		}
 		if (view.getPreviewDrawable() != null
 		        && event.getType() == PointerEventType.TOUCH) {
 			this.view.updatePreviewableForProcessMode();
