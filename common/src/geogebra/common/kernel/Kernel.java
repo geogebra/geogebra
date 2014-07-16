@@ -72,8 +72,11 @@ import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.plugin.script.GgbScript;
+import geogebra.common.plugin.script.Script;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
@@ -3247,9 +3250,34 @@ public class Kernel {
 
 	private void notifyRenameListenerAlgos() {
 		// #4073 command Object[] registers rename listeners 
-		if (cons != null && !cons.isFileLoading()) { 
-			AlgoElement.updateCascadeAlgos(renameListenerAlgos); 
-		}	
+		if (cons != null && !cons.isFileLoading()) {
+			AlgoElement.updateCascadeAlgos(renameListenerAlgos);
+		}
+	}
+
+	/**
+	 * Currently, this method should rename every oldLabel
+	 * to newLabel in GgbScript-type objects, for use of
+	 * CopyPaste and InsertFile
+	 * 
+	 * @param oldLabel the label to be renamed from
+	 * @param newLabel the label to be renamed to
+	 * @return whether any renaming happened
+	 */
+	final public boolean renameLabelInScripts(String oldLabel, String newLabel) {
+		Script work;
+		boolean somethingHappened = false;
+		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
+			work = geo.getScript(EventType.UPDATE);
+			if (work instanceof GgbScript) {
+				somethingHappened |= work.renameGeo(oldLabel, newLabel);
+			}
+			work = geo.getScript(EventType.CLICK);
+			if (work instanceof GgbScript) {
+				somethingHappened |= work.renameGeo(oldLabel, newLabel);
+			}
+		}
+		return somethingHappened;
 	}
 
 	final public void notifyAddAll(View view, int consStep) {
