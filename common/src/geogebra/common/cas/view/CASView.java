@@ -2,6 +2,7 @@ package geogebra.common.cas.view;
 
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
@@ -15,7 +16,7 @@ import geogebra.common.util.debug.Log;
 /**
  * Platform independent abstract CAS view
  */
-public abstract class CASView implements View{
+public abstract class CASView implements View, SetLabels{
 	/** Default CAS toolbar */
 	public static final String TOOLBAR_DEFINITION_D = "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 1009 || 66 68 || 6";
 	/** Default CAS toolbar for Web (before the prob. calc and function inspector are implemented)*/
