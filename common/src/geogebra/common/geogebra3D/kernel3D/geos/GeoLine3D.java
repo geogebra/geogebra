@@ -17,6 +17,7 @@ import geogebra.common.util.Unicode;
 public class GeoLine3D extends GeoCoordSys1D {
 
 	GeoPointND startPoint;
+	private String parameter = Unicode.lambda+"";
 	
 	/** creates a line joining O and I */
 	public GeoLine3D(Construction c, GeoPointND O, GeoPointND I) {
@@ -33,6 +34,10 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	public GeoLine3D(Construction c, Coords o, Coords v) {
 		super(c,o,v);
+	}
+	
+	public void setParameter(String s){
+		this.parameter = s;
 	}
 
 	public final void setStartPoint(GeoPointND P) {        	
@@ -85,7 +90,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		
 		StringBuilder sbToString = getSbBuildValueString();
 		sbToString.setLength(0);
-		String parameter = Unicode.lambda+"";
+		
 		AlgoElement algo = getParentAlgorithm();
 		
 		if (algo instanceof AlgoLinePoint) {
