@@ -232,7 +232,7 @@ public class GgbScript extends Script {
 					} else if ("\"".equals(work.get(i+1).charAt(0)) &&
 						work.get(i-1) != null &&
 						work.get(i-1).length() > 0 &&
-						"\"".equals(work.get(i-1).charAt(0))) {
+						"\"".equals(work.get(i-1).charAt(work.get(i-1).length()-1))) {
 						// We also have to rule out the case when
 						// the string is used as a "string"
 						continue;
