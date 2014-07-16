@@ -1,11 +1,8 @@
 package geogebra.web.gui.view.spreadsheet;
 
-import geogebra.common.awt.GColor;
-import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -25,15 +22,9 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
         MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler
-/*
- * extends JList implements MouseListener, MouseMotionListener, KeyListener,
- * ListSelectionListener
- */
 
 {
 	private static final long serialVersionUID = 1L;
@@ -41,17 +32,6 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	private SpreadsheetViewW view;
 	private MyTableW table;
 
-	// note: MyTable uses its own minSelectionRow and maxSelectionRow.
-	// The selection listener keeps them in sync.
-	private int minSelectionRow = -1;
-	private int maxSelectionRow = -1;
-	/*
-	 * private ListSelectionModel selectionModel;
-	 * 
-	 * // fields for resizing rows private static Cursor resizeCursor = Cursor
-	 * .getPredefinedCursor(Cursor.N_RESIZE_CURSOR); private Cursor otherCursor
-	 * = resizeCursor;
-	 */
 	private int mouseYOffset, resizingRow = -1;
 	private boolean doRowResize = false;
 
@@ -59,8 +39,9 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 
 	private boolean isMouseDown = false;
 
-	/***************************************************
-	 * Constructor
+	/**
+	 * @param app
+	 * @param table
 	 */
 	public SpreadsheetRowHeaderW(AppW app, MyTableW table) {
 
@@ -84,6 +65,10 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		 */
 
 	}
+
+	// ============================================
+	// GUI handlers
+	// ============================================
 
 	private void registerListeners() {
 
@@ -124,6 +109,9 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
 	}
 
+	/**
+	 * updates header row count to match table row count
+	 */
 	public void updateRowCount() {
 
 		if (getRowCount() >= table.getRowCount())
@@ -137,6 +125,28 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		}
 	}
 
+	// ============================================
+	// Getters/Setters
+	// ============================================
+
+	private String getCursor() {
+		return this.getElement().getStyle().getCursor();
+	}
+
+	private void setRowResizeCursor() {
+		this.getElement().getStyle().setCursor(Style.Cursor.ROW_RESIZE);
+	}
+
+	private void setDefaultCursor() {
+		this.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+	}
+
+	/**
+	 * @param rowIndex
+	 *            index of row to set height
+	 * @param rowHeight
+	 *            new row height
+	 */
 	public void setRowHeight(int rowIndex, int rowHeight) {
 
 		if (rowIndex >= getRowCount()) {
@@ -147,6 +157,9 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		        .setHeight(rowHeight, Style.Unit.PX);
 	}
 
+	/**
+	 * Renders selected and unselected rows
+	 */
 	public void renderSelection() {
 
 		String defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER.toString();
@@ -174,140 +187,6 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 			s.setBackgroundColor(bgColor);
 	}
 
-	// ===============================================
-	// Renderer
-	// ===============================================
-
-	public class RowHeaderRenderer /*
-									 * extends JLabel implements
-									 * ListCellRenderer
-									 */{
-
-		private static final long serialVersionUID = 1L;
-
-		// protected JList rowHeader;
-		private GColor defaultBackground;
-
-		public RowHeaderRenderer(/* JTable table, JList rowHeader */) {
-			// super("", SwingConstants.CENTER);
-			// setOpaque(true);
-			defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER;
-			// this.rowHeader = rowHeader;
-			// setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-			// MyTableW.HEADER_GRID_COLOR));
-		}
-
-		public Widget changeListCellRendererWidget(Widget retwidget,
-		        Object value, int index, boolean isSelected,
-		        boolean cellHasFocus) {
-			String text = (value == null) ? "" : value.toString();
-
-			// setFont(app.getPlainFont());//instead of this:
-			/*
-			 * GFont gf = app.getFontCanDisplay(text, GFont.PLAIN);
-			 * ((Label)retwidget
-			 * ).getElement().getStyle().setFontSize(gf.getSize(),
-			 * Style.Unit.PX);
-			 * ((Label)retwidget).getElement().getStyle().setFontStyle(
-			 * gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
-			 * ((Label)retwidget).getElement().getStyle().setFontWeight(
-			 * gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);
-			 */
-
-			// adjust row height to match spreadsheet table row height
-			// TODO?//Dimension size = getPreferredSize();
-			// TODO?//size.height = table.getRowHeight(index);
-			// TODO?//setPreferredSize(size);
-
-			if (text != "")
-				((Label) retwidget).setText(text);
-			else
-				((Label) retwidget).setText("" + (char) 160);
-
-			/*
-			 * if (table.getSelectionType() == MyTable.COLUMN_SELECT) { //if
-			 * (defaultBackground != null)
-			 * ((Label)retwidget).getElement().getStyle
-			 * ().setBackgroundColor(defaultBackground.toString()); } else { if
-			 * (table.selectedRowSet.contains(index) || (index >=
-			 * minSelectionRow && index <= maxSelectionRow)) {
-			 * ((Label)retwidget)
-			 * .getElement().getStyle().setBackgroundColor(MyTableW
-			 * .SELECTED_BACKGROUND_COLOR_HEADER.toString()); } else { //if
-			 * (defaultBackground != null)
-			 * ((Label)retwidget).getElement().getStyle
-			 * ().setBackgroundColor(defaultBackground.toString()); } }
-			 */
-
-			// retwidget.getElement().getStyle().setProperty("textAlign",
-			// "center");
-			// retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
-			// retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
-			return retwidget;
-		}
-
-		public Widget getListCellRendererWidget(Object value, int index,
-		        boolean isSelected, boolean cellHasFocus) {
-
-			Widget retwidget = new Label();
-
-			String text = (value == null) ? "" : value.toString();
-
-			// setFont(app.getPlainFont());//instead of this:
-			GFont gf = app.getFontCanDisplay(text, GFont.PLAIN);
-			((Label) retwidget).getElement().getStyle()
-			        .setFontSize(gf.getSize(), Style.Unit.PX);
-			((Label) retwidget)
-			        .getElement()
-			        .getStyle()
-			        .setFontStyle(
-			                gf.isItalic() ? Style.FontStyle.ITALIC
-			                        : Style.FontStyle.NORMAL);
-			((Label) retwidget)
-			        .getElement()
-			        .getStyle()
-			        .setFontWeight(
-			                gf.isBold() ? Style.FontWeight.BOLD
-			                        : Style.FontWeight.NORMAL);
-
-			// adjust row height to match spreadsheet table row height
-			// TODO?//Dimension size = getPreferredSize();
-			// TODO?//size.height = table.getRowHeight(index);
-			// TODO?//setPreferredSize(size);
-
-			if (text != "")
-				((Label) retwidget).setText(text);
-			else
-				((Label) retwidget).setText("" + (char) 160);
-
-			if (table.getSelectionType() == MyTable.COLUMN_SELECT) {
-				// if (defaultBackground != null)
-				((Label) retwidget).getElement().getStyle()
-				        .setBackgroundColor(defaultBackground.toString());
-			} else {
-				if (table.selectedRowSet.contains(index)
-				        || (index >= minSelectionRow && index <= maxSelectionRow)) {
-					((Label) retwidget)
-					        .getElement()
-					        .getStyle()
-					        .setBackgroundColor(
-					                MyTableW.SELECTED_BACKGROUND_COLOR_HEADER
-					                        .toString());
-				} else {
-					// if (defaultBackground != null)
-					((Label) retwidget).getElement().getStyle()
-					        .setBackgroundColor(defaultBackground.toString());
-				}
-			}
-
-			retwidget.getElement().getStyle()
-			        .setProperty("textAlign", "center");
-			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
-			retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
-			return retwidget;
-		}
-	}
-
 	/**
 	 * Update the rowHeader list when row selection changes in the table
 	 */
@@ -318,19 +197,23 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	 * selectionModel.getMaxSelectionIndex(); repaint(); }
 	 */
 
-	// Returns index of row to be resized if mouse point P is
-	// near a row boundary (within 3 pixels)
-	
+	/**
+	 * @param p
+	 *            location of mouse (in client area pixels)
+	 * @return index of the row to be resized if mouse point p is near a row
+	 *         boundary (within 3 pixels)
+	 */
 	private int getResizingRow(GPoint p) {
 		int resizeRow = -1;
 		GPoint point = table.getIndexFromPixel(0, p.y);
 		if (point != null) {
 			// test if mouse is 3 pixels from row boundary
 			int cellRow = point.getY();
-			
+
 			if (cellRow >= 0) {
 				GRectangle r = table.getCellRect(cellRow, 0, true);
-				//App.debug("cell row = " + cellRow + " p.y = " + p.y + "   r.y = " + r.getY() + "r.height = " + r.getHeight());
+				// App.debug("cell row = " + cellRow + " p.y = " + p.y +
+				// "   r.y = " + r.getY() + "r.height = " + r.getHeight());
 				// near row bottom ?
 				if (p.y < r.getY() + 3) {
 					resizeRow = cellRow - 1;
@@ -344,14 +227,26 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		return resizeRow;
 	}
 
-	// Cursor change for when mouse is over a row boundary
-	/*
-	 * private void swapCursor() { Cursor tmp = getCursor();
-	 * setCursor(otherCursor); otherCursor = tmp; }
-	 */
+	public static int getAbsoluteX(MouseEvent e, AppW app) {
+		return (int) ((e.getClientX() + Window.getScrollLeft()) / app
+		        .getArticleElement().getScaleX());
+	}
+
+	public int getAbsoluteX(MouseEvent e) {
+		return getAbsoluteX(e, app);
+	}
+
+	public static int getAbsoluteY(MouseEvent e, AppW app) {
+		return (int) ((e.getClientY() + Window.getScrollTop()) / app
+		        .getArticleElement().getScaleY());
+	}
+
+	public int getAbsoluteY(MouseEvent e) {
+		return getAbsoluteY(e, app);
+	}
 
 	// ===============================================
-	// Mouse Listener Methods
+	// Mouse Listener
 	// ===============================================
 
 	/*
@@ -396,11 +291,11 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		if (!rightClick) {
 
 			if (resizingRow >= 0)
-				return; 
+				return;
 
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
-				
+
 				if (table.getSelectionType() != MyTable.ROW_SELECT) {
 					table.setSelectionType(MyTable.ROW_SELECT);
 					// ?//requestFocusInWindow();
@@ -444,7 +339,8 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 				return;
 
 			// if click is outside current selection then change selection
-			if (p.getY() < table.minSelectionRow || p.getY() > table.maxSelectionRow
+			if (p.getY() < table.minSelectionRow
+			        || p.getY() > table.maxSelectionRow
 			        || p.getX() < table.minSelectionColumn
 			        || p.getX() > table.maxSelectionColumn) {
 
@@ -464,19 +360,21 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
 		}
 
-		// If row resize has happened, resize all other selected rows	
+		// If row resize has happened, resize all other selected rows
 		if (doRowResize) {
-			
+
 			int rowHeight = table.getRowHeight(resizingRow);
-			//App.debug("doRowResiz for selection: " + rowHeight);
-			//App.debug("min/max " + table.minSelectionRow + " , " + table.maxSelectionRow);
+			// App.debug("doRowResiz for selection: " + rowHeight);
+			// App.debug("min/max " + table.minSelectionRow + " , " +
+			// table.maxSelectionRow);
 			if (table.minSelectionRow != -1 && table.maxSelectionRow != -1
 			        && (table.maxSelectionRow - table.minSelectionRow > 0)) {
 				if (table.isSelectAll())
 					table.setRowHeight(rowHeight);
 				else
 					for (int row = table.minSelectionRow; row <= table.maxSelectionRow; row++) {
-						//App.debug("set row height row/height: " + row + " / " + rowHeight);
+						// App.debug("set row height row/height: " + row + " / "
+						// + rowHeight);
 						table.setRowHeight(row, rowHeight);
 					}
 			}
@@ -484,28 +382,14 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 			table.renderSelectionDeferred();
 			doRowResize = false;
 		}
-		 
+
 	}
 
-	// ===============================================
-	// MouseMotion Listener Methods
-	// ===============================================
-
-	private String getCursor(){
-		return this.getElement().getStyle().getCursor();
-	}
-	private void setRowResizeCursor(){
-		this.getElement().getStyle().setCursor(Style.Cursor.ROW_RESIZE);
-	}
-	private void setDefaultCursor(){
-		this.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-	}
-	
 	public void onMouseMove(MouseMoveEvent e) {
 
 		e.preventDefault();
 
-		// Show resize cursor when mouse is over a row boundary	
+		// Show resize cursor when mouse is over a row boundary
 		GPoint p = new GPoint(e.getClientX(), e.getClientY());
 		int r = this.getResizingRow(p);
 		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE)) {
@@ -517,7 +401,7 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		if (isMouseDown) {
 
 			if (e.getNativeButton() == NativeEvent.BUTTON_RIGHT)
-				return; 
+				return;
 
 			// On mouse drag either resize or select a row
 			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
@@ -564,7 +448,7 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	}
 
 	// ===============================================
-	// Key Listener Methods
+	// Key Listener
 	// ===============================================
 
 	/*
@@ -620,21 +504,4 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	 * public void keyReleased(KeyEvent e) { }
 	 */
 
-	
-	
-	public static int getAbsoluteX(MouseEvent e, AppW app) {
-		return (int) ((e.getClientX() + Window.getScrollLeft()) / app.getArticleElement().getScaleX());
-	}
-	
-	public int getAbsoluteX(MouseEvent e) {
-		return getAbsoluteX(e, app);
-	}
-
-	public static int getAbsoluteY(MouseEvent e, AppW app) {
-		return (int) ((e.getClientY() + Window.getScrollTop()) / app.getArticleElement().getScaleY());
-	}
-
-	public int getAbsoluteY(MouseEvent e) {
-		return getAbsoluteY(e, app);
-	}
 }
