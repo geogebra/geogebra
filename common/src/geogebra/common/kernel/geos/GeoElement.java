@@ -70,6 +70,7 @@ import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.ScriptManager;
+import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.Language;
@@ -4917,18 +4918,22 @@ public abstract class GeoElement extends ConstructionElement implements
 		Script clickScript = scripts[EventType.CLICK.ordinal()];
 		Script updateScript = scripts[EventType.UPDATE.ordinal()];
 		if (clickScript != null) {
-			sb.append("\t<");
-			sb.append(clickScript.getXMLName());
-			sb.append(" val=\"");
-			StringUtil.encodeXML(sb, clickScript.getInternalText());
-			sb.append("\"/>\n");
+			if (kernel.getSaveScriptsToXML() || clickScript instanceof GgbScript) {
+				sb.append("\t<");
+				sb.append(clickScript.getXMLName());
+				sb.append(" val=\"");
+				StringUtil.encodeXML(sb, clickScript.getInternalText());
+				sb.append("\"/>\n");
+			}
 		}
 		if (updateScript != null) {
-			sb.append("\t<");
-			sb.append(updateScript.getXMLName());
-			sb.append(" onUpdate=\"");
-			StringUtil.encodeXML(sb, updateScript.getInternalText());
-			sb.append("\"/>\n");
+			if (kernel.getSaveScriptsToXML() || updateScript instanceof GgbScript) {
+				sb.append("\t<");
+				sb.append(updateScript.getXMLName());
+				sb.append(" onUpdate=\"");
+				StringUtil.encodeXML(sb, updateScript.getInternalText());
+				sb.append("\"/>\n");
+			}
 		}
 	}
 
@@ -5241,9 +5246,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		getXMLfixedTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
-		if (kernel.getSaveScriptsToXML()) {
+		//if (kernel.getSaveScriptsToXML()) {// TODO: this may be temporary #3874
 			getScriptTags(sb);
-		}
+		//}
 	}
 
 	private void getExtraTagsXML(StringBuilder sb) {

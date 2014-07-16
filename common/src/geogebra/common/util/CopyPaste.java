@@ -419,6 +419,8 @@ public class CopyPaste {
 						copiedXMLlabels
 								.add(((GeoElement) geo).getLabelSimple());
 
+					geo.getKernel().renameLabelInScripts(label, labelPrefix + label);
+
 					// TODO: check possible realLabel issues
 					// reallabel = ((GeoElement)geo).getRealLabel();
 					// if (!reallabel.equals( ((GeoElement)geo).getLabelSimple()
@@ -461,6 +463,9 @@ public class CopyPaste {
 							labelPrefix)) {
 						try {
 							((GeoElement) geo).setLabelSimple(label
+									.substring(labelPrefix.length()));
+
+							geo.getKernel().renameLabelInScripts(label, label
 									.substring(labelPrefix.length()));
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -630,6 +635,7 @@ public class CopyPaste {
 
 		Kernel kernel = app.getKernel();
 		GeoElement geo;
+		String oldLabel;
 		for (int i = 0; i < labels.size(); i++) {
 			String ll = labels.get(i);
 			geo = kernel.lookupLabel(ll);
@@ -646,8 +652,12 @@ public class CopyPaste {
 					app.getEuclidianView2().add(geo);
 				}
 
+				oldLabel = geo.getLabelSimple();
 				geo.setLabel(geo.getIndexLabel(geo.getLabelSimple().substring(
 						labelPrefix.length())));
+				// geo.getLabelSimple() is now not the oldLabel, ideally
+				geo.getKernel().renameLabelInScripts(oldLabel, geo.getLabelSimple());
+
 				// geo.setLabel(geo.getDefaultLabel(false));
 				app.getSelectionManager().addSelectedGeo(geo);
 
