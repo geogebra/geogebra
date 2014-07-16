@@ -123,7 +123,7 @@ public abstract class App implements UpdateSelection{
 	 */
 	public static final String WIKI_ADVANCED = "Advanced Features";
 	/** Url for wiki article about functions */
-	public static final String WIKI_TEXT_TOOL = "Insert Text Tool";
+	public static final String WIKI_TEXT_TOOL = "Text Tool";
 
 	/** id for dummy view */
 	public static final int VIEW_NONE = 0;
