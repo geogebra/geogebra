@@ -88,11 +88,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public CopyPasteCut copyPasteCut;
 
 	protected SpreadsheetColumnControllerW scc;
-	protected SpreadsheetRowHeaderW srh;
+	
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
 	// columnHeaderRenderer;
 	// protected SpreadsheetRowHeaderW.RowHeaderRenderer rowHeaderRenderer;
-	protected SpreadsheetRowHeaderW.MyListModel rowHeaderModel;
+	
 
 	protected SpreadsheetViewW view;
 	protected SpreadsheetTableModel tableModel;
@@ -239,7 +239,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected TableScroller scroller;
 
 	private FlowPanel tableWrapper;
-	protected SpreadsheetRowHeaderW2 rowHeader;
+	protected SpreadsheetRowHeaderW rowHeader;
 	protected SpreadsheetColumnHeaderW columnHeader;
 
 	private FlowPanel rowHeaderContainer;
@@ -401,8 +401,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		 * ctrl-tab rather than mouse // click // changeSelection(0, 0, false,
 		 * false);
 		 */
-		rowHeaderModel = new SpreadsheetRowHeaderW.MyListModel(
-		        (SpreadsheetTableModelW) tableModel);
+		
 		// rowHeaderRenderer = srh.new RowHeaderRenderer();
 		// columnHeaderRenderer = scc.new ColumnHeaderRenderer();
 
@@ -572,7 +571,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		columnHeaderContainer.add(columnHeader);
 
 		// ------ row header
-		rowHeader = new SpreadsheetRowHeaderW2(app, this);
+		rowHeader = new SpreadsheetRowHeaderW(app, this);
 		s = rowHeader.getElement().getStyle();
 		s.setPosition(Style.Position.RELATIVE);
 
