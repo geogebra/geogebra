@@ -102,6 +102,7 @@ public class NoExceptionsTest {
 		t("degree=4");
 		t("P=(2,3)");
 		t("c3:circle[P,2]");
+		t("alog=1");
 	}
 	public static int syntaxes;
 	@Before
@@ -2581,7 +2582,7 @@ public class NoExceptionsTest {
 	
 	@AfterClass
 	public static void testSaving(){
-		System.out.println(app.getXML());
+		//System.out.println(app.getXML());
 		XmlTest.testCurrentXML(app);
 		
 		app.getKernel().getConstruction().initUndoInfo();
@@ -2653,16 +2654,19 @@ public class NoExceptionsTest {
 	
 	@Test
 	public void cmdStartLogging(){
-		t("a=1");
-		t("StartLogging[\"Ax\",a]");
+		t("StartLogging[\"Ax\",alog]");
 	}
-	
+	@Test
 	public void cmdStopLogging(){
-		t("StartLogging[]");
+		t("StopLogging[]");
 	}
-	
+	@Test
 	public void cmdRemove(){
 		t("Remove[{1,2,2},{2}]");
+	}
+	@Test
+	public void cmdFitImplicit(){
+		t("FitImplicit[{Pt1,Pt2,Pt3},2]");
 	}
 
 
