@@ -3844,6 +3844,17 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	outline: none;
 }
 
+.phoneToolButton {
+	margin: 0px 0px 5px 0px;
+	text-align: center;
+	position: relative;
+	width: 40px;
+	height: 40px;
+	display: block;
+	float: none;
+	list-style-type: none;
+}
+
 
 /* ########################################
    ###          ALGEBRA VIEW            ###

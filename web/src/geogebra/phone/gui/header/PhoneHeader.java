@@ -8,13 +8,13 @@ import geogebra.html5.gui.StandardButton;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.main.AppWapplication;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class PhoneHeader extends FlowPanel implements ResizeListener {
@@ -41,18 +41,20 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 	private void addOpenToolbar(AppWapplication app) {
 		this.openToolBarPanel = new SimplePanel();
 		final PopupPanel panel = new PopupPanel();
+		ScrollPanel content = new ScrollPanel();
 
 		GGWToolBar ggwToolbar = new GGWToolBar();
 		ggwToolbar.init(app);
 
 		app.getAppFrame().ggwToolBar = ggwToolbar;
 
-		final ToolBarW toolBar = new ToolBarW(ggwToolbar); //
+		final ToolBarP toolBar = new ToolBarP(ggwToolbar);
 		toolBar.init(app);
 		toolBar.buildGui();
 		app.setToolBarForUpdate(toolBar);
 
-		panel.add(toolBar);
+		content.add(toolBar);
+		panel.add(content);
 		panel.setAutoHideEnabled(true);
 
 		// TODO: set icon of actual tool
@@ -63,6 +65,11 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 			@Override
 			public void onClick() {
 				panel.show();
+
+				// FIXME replace with dynamic value
+				if(panel.getOffsetHeight() > Window.getClientHeight() - 43){
+					panel.setHeight((Window.getClientHeight() - 43)+"px");
+				}
 			}
 		});
 		openToolBarPanel.add(openToolBarButton);

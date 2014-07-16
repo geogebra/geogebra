@@ -41,7 +41,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 
 	private ArrayList<ModeToggleMenu> modeToggleMenus;
 	boolean keepDown;
-	private UnorderedList menuList;
+	protected UnorderedList menuList;
 	private GGWToolBar tb;
 
 	/**
