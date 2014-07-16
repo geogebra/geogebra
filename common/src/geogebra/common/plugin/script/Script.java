@@ -121,8 +121,22 @@ public abstract class Script {
 		boolean ret = false;
 		for (int i = 1; i < work.size(); i += 2) {
 			if (oldLabel.equals(work.get(i))) {
-				work.set(i, newLabel);
-				ret = true;
+				// now it's still possible that oldLabel
+				// is used as a command name here,
+				// so we have to rule out that possibility first.
+				// Luckily, command names are always followed
+				// by a [, as far as we know, so it is easy.
+				if (i+1 < work.size() && work.get(i+1) != null &&
+					work.get(i+1).length() > 0 &&
+					"[".equals(work.get(i+1).charAt(0))) {
+					// this is a command name, so false positive
+					// do nothing
+				} else {
+					// this is really something to be renamed!
+					// ...or not? (pi, e, i, JavaScript, etc) TODO: check
+					work.set(i, newLabel);
+					ret = true;
+				}
 			}
 		}
 		text = StringUtil.joinTokens(work, null);
