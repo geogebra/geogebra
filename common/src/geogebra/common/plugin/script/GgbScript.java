@@ -216,7 +216,15 @@ public class GgbScript extends Script {
 		}
 		ArrayList<String> work = StringUtil.wholeWordTokenize(text);
 		boolean ret = false;
+		int numChars = 0, lengthChars;
+		String forLength1, forLength2;
 		for (int i = 1; i < work.size(); i += 2) {
+			if (i > 1 && work.get(i-2) != null) {
+				numChars += work.get(i-2).length();
+			}
+			if (work.get(i-1) != null) {
+				numChars += work.get(i-1).length();
+			}
 			if (oldLabel.equals(work.get(i))) {
 				if (i+1 < work.size() &&
 					work.get(i+1) != null &&
@@ -229,17 +237,40 @@ public class GgbScript extends Script {
 						// Luckily, command names are always followed
 						// by a [, as far as we know, so it is easy.
 						continue;
-					} else if ("\"".equals(work.get(i+1).charAt(0)) &&
-						work.get(i-1) != null &&
-						work.get(i-1).length() > 0 &&
-						"\"".equals(work.get(i-1).charAt(work.get(i-1).length()-1))) {
-						// We also have to rule out the case when
-						// the string is used as a "string"
+					}
+
+					// We also have to rule out the case when
+					// the string is used as a "string",
+					// or used as e.g. "blabla !!* string ---+ ".
+					// The easiest way to do that is to count the
+					// number of " signs in the string until our
+					// string, except the \" signs, and if it's odd,
+					// then we're probably in a string.
+					// For this computation, we use numChars.
+
+					forLength1 = text.substring(0, numChars).replaceAll("\\\"", "");// String: /"
+					forLength2 = forLength1.replaceAll("\"", "");// String: "
+					lengthChars = forLength1.length() - forLength2.length();
+
+					if (lengthChars % 2 == 1) {
+						// there is an odd number of living " signs before this
+						// whole-word token, and this means that we're in a
+						// string, so this whole-word token doesn't matter
 						continue;
 					}
+
+					// If the string equals to "e" or "i",
+					// and we get here, then they mean their
+					// geo labels, but only after they get
+					// them, and if they get them in the script,
+					// then some original "e" or "i" constants
+					// may be renamed as well... however, we
+					// guess it's no problem as in the second
+					// running of the script they should all mean
+					// the geos, and it's the bug of the code elsewhere
 				}
 				// this is really something to be renamed!
-				// ...or not? (pi, e, i, etc) TODO: check
+				// ...or not? TODO: check
 				work.set(i, newLabel);
 				ret = true;
 			}
