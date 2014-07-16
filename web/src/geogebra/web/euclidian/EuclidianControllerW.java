@@ -267,10 +267,16 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    	EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 	    }
 	    
+	    moveCounter++;
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
 //		this.ignoreNextMouseEvent = true;
+
+		if(moveCounter  < 2){
+			resetModeAfterFreehand();
+		}
+
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		event.stopPropagation();
@@ -282,6 +288,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			this.wrapMouseReleased(new PointerEvent(mouseLoc.x, mouseLoc.y, PointerEventType.TOUCH, ZeroOffset.instance));
 		}
 		CancelEventTimer.touchEventOccured();
+
+		resetModeAfterFreehand();
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
@@ -299,6 +307,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 		preventTouchIfNeeded(event);
 		CancelEventTimer.touchEventOccured();
+
+		setModeToFreehand();
+		moveCounter = 0;
 	}
 	
 	void preventTouchIfNeeded(TouchStartEvent event) {

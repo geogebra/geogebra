@@ -447,6 +447,7 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			view.setPreview(switchPreviewableForInitNewMode(this.mode));
 			this.oldMode = -1;
 			this.pen = null;
+			this.view.repaint();
 		}
 	}
 
