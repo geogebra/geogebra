@@ -203,4 +203,48 @@ public class GgbScript extends Script {
 		return new GgbScript(app, text);
 	}
 
+	/**
+	 * The text of this script is modified by changing every
+	 * whole word oldLabel to newLabel.
+	 * 
+	 * @return whether any renaming happened
+	 */
+	public boolean renameGeo(String oldLabel, String newLabel) {
+		if (oldLabel == null || "".equals(oldLabel) ||
+			newLabel == null || "".equals(newLabel)) {
+			return false;
+		}
+		ArrayList<String> work = StringUtil.wholeWordTokenize(text);
+		boolean ret = false;
+		for (int i = 1; i < work.size(); i += 2) {
+			if (oldLabel.equals(work.get(i))) {
+				if (i+1 < work.size() &&
+					work.get(i+1) != null &&
+					work.get(i+1).length() > 0) {
+
+					if ("[".equals(work.get(i+1).charAt(0))) {
+						// Now it's still possible that oldLabel
+						// is used as a command name here,
+						// so we have to rule out that possibility first.
+						// Luckily, command names are always followed
+						// by a [, as far as we know, so it is easy.
+						continue;
+					} else if ("\"".equals(work.get(i+1).charAt(0)) &&
+						work.get(i-1) != null &&
+						work.get(i-1).length() > 0 &&
+						"\"".equals(work.get(i-1).charAt(0))) {
+						// We also have to rule out the case when
+						// the string is used as a "string"
+						continue;
+					}
+				}
+				// this is really something to be renamed!
+				// ...or not? (pi, e, i, etc) TODO: check
+				work.set(i, newLabel);
+				ret = true;
+			}
+		}
+		text = StringUtil.joinTokens(work, null);
+		return ret;
+	}
 }

@@ -65,4 +65,16 @@ public class JsScript extends Script {
 		return new JsScript(app, text);
 	}
 
+	/**
+	 * The text of this script is modified by changing every
+	 * whole word oldLabel to newLabel.
+	 * 
+	 * @return whether any renaming happened
+	 */
+	public boolean renameGeo(String oldLabel, String newLabel) {
+		// TODO: this method is hard to write,
+		// as JavaScript might contain many kinds of strings
+		// which may clash with oldLabel...
+		return false;
+	}
 }
