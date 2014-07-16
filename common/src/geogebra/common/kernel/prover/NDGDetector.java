@@ -41,7 +41,6 @@ public class NDGDetector {
 	/**
 	 * Returns the NDG condition (as a GeoGebra object) if the input polynomial is detected as a
 	 * recognizable geometrically meaningful condition (collinearity, equality etc.).
-	 * TODO: Implement missing features (parallelism, perpendicularity etc.).
 	 * @param p input polynomial
 	 * @return the NDG condition
 	 */
