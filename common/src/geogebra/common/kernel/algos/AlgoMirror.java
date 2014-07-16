@@ -239,6 +239,9 @@ public class AlgoMirror extends AlgoTransformation implements RestrictionAlgoFor
      */
     protected void computeRegardingMirror(){
     	if (mirror == mirrorLine) {
+    		if(mirrorLine.getStartPoint() == null){
+    			mirrorLine.setStandardStartPoint();
+    		}
         	out.mirror(mirrorLine);
         } else if (mirror == mirrorPoint) {
         	if(outGeo.isGeoFunction()) {

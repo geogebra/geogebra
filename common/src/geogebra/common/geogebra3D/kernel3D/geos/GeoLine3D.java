@@ -227,6 +227,12 @@ public class GeoLine3D extends GeoCoordSys1D {
 	public boolean respectLimitedPath(double parameter){
 		return true;
 	}
+
+	@Override
+	public void setStandardStartPoint() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/*
 	////////////////////

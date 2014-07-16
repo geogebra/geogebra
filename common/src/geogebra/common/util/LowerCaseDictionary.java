@@ -149,4 +149,10 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 
 		return completions.isEmpty() ? null : completions;
 	}
+	
+	@Override
+	public void clear(){
+		super.clear();
+		this.treeSet.clear();
+	}
 }
