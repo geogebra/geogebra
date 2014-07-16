@@ -18,15 +18,15 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.LocusEquation;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -34,74 +34,36 @@ import geogebra.common.kernel.geos.GeoPoint;
  * @author  Markus
  * @version 
  */
-public class AlgoParabolaPointLine extends AlgoElement {
-
-    private GeoPoint F;  // input    
-    private GeoLine l;  // input    
-    private GeoConic parabola; // output             
+public class AlgoParabolaPointLine extends AlgoParabolaPointLineND {
+           
             
-    public AlgoParabolaPointLine(Construction cons, String label, GeoPoint F, GeoLine l) {
-        this(cons, F, l);     
-        parabola.setLabel(label);
+    public AlgoParabolaPointLine(Construction cons, String label, GeoPointND F, GeoLineND l) {
+        super(cons, label, F, l);   
     }   
     
-    public AlgoParabolaPointLine(Construction cons, GeoPoint F, GeoLine l) {
-        super(cons);
-        this.F = F;
-        this.l = l;                
-        parabola = new GeoConic(cons); 
-        setInputOutput(); // for AlgoElement
-                
-        compute();      
+    public AlgoParabolaPointLine(Construction cons, GeoPointND F, GeoLineND l) {
+        super(cons, F, l);
     }   
     
     @Override
-	public Commands getClassName() {
-        return Commands.Parabola;
+	protected GeoConicND newGeoConic(Construction cons){
+    	return new GeoConic(cons);
     }
     
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_PARABOLA;
-    }   
-    
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = F;
-        input[1] = l;
-        
-        super.setOutputLength(1);
-        super.setOutput(0, parabola);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoConic getParabola() { return parabola; }
-    // Made public for LocusEqu
-    public GeoPoint getFocus() { return F; }
-    // Made public for LocusEqu
-    public GeoLine getLine() { return l; }
     
     // compute parabola with focus F and line l
     @Override
 	public final void compute() {                           
-        parabola.setParabola(F, l);
+        parabola.setParabola((GeoPoint) F, (GeoLine) l);
     }   
     
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("ParabolaWithFocusAandDirectrixB",F.getLabel(tpl),l.getLabel(tpl));
-
-    }
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
 	
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnParabolaPointLine(geo, this, scope);
 	}

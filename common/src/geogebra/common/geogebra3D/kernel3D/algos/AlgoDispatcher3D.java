@@ -1,15 +1,22 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
+import geogebra.common.geogebra3D.kernel3D.commands.CommandProcessor3D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoVertexPolygon;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -118,6 +125,71 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		
 		return super.newAlgoVertexPolygon(cons1, labels, p);
 	}
+	
+	@Override
+	protected GeoElement[] SegmentFixed(String pointLabel, String segmentLabel, GeoPointND A, NumberValue n){
+		
+		Kernel kernel = cons.getKernel();
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernel, cons.getApplication());
+
+		if (orientation == kernel.getSpace()){ // create a sphere
+			return SegmentFixedSphere(pointLabel, segmentLabel, A, n);
+		}
+		
+		if (A.isGeoElement3D()){
+			
+			if (orientation == null){ // create a sphere
+				return SegmentFixedSphere(pointLabel, segmentLabel, A, n);
+			}
+			
+			// create a circle around A with radius n
+			AlgoCircle3DPointRadiusDirection algoCircle = new AlgoCircle3DPointRadiusDirection(cons, A, n, orientation);
+
+			cons.removeFromConstructionList(algoCircle);
+			// place the new point on the circle
+			Coords coords = A.getInhomCoordsInD(3);
+			if (orientation instanceof GeoCoordSys2D){
+				CoordSys cs = ((GeoCoordSys2D) orientation).getCoordSys();
+				Coords project = cs.getNormalProjection(coords)[1];
+				coords = cs.getPoint(project.getX() + n.getDouble(), project.getY());
+			}else{
+				coords.setX(coords.getX() + n.getDouble());
+			}
+			AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons, pointLabel,
+					algoCircle.getCircle(), 
+					coords.getX(), coords.getY(), coords.getZ());
+
+			// return segment and new point
+			GeoElement[] ret = { 
+					(GeoElement) getManager3D().Segment3D(segmentLabel, A, algoPoint.getP()),
+					(GeoElement) algoPoint.getP() };
+
+			return ret;
+		}
+		
+		return super.SegmentFixed(pointLabel, segmentLabel, A, n);
+	}
+	
+	private GeoElement[] SegmentFixedSphere(String pointLabel, String segmentLabel, GeoPointND A, NumberValue n){
+		// create a sphere around A with radius n
+		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A, n);
+
+		cons.removeFromConstructionList(algoSphere);
+		// place the new point on the circle
+		Coords coords = A.getInhomCoordsInD(3);
+		coords.setX(coords.getX() + n.getDouble());
+		AlgoPoint3DInRegion algoPoint = new AlgoPoint3DInRegion(cons, pointLabel,
+				algoSphere.getSphere(), 
+				coords);
+
+		// return segment and new point
+		GeoElement[] ret = { 
+				(GeoElement) getManager3D().Segment3D(segmentLabel, A, algoPoint.getP()),
+				algoPoint.getP() };
+
+		return ret;
+	}
+		
 
 
 }

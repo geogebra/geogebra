@@ -11,7 +11,6 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.kernel.kernelND.GeoVecInterface;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
@@ -81,43 +80,69 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX){
 		return op.handle(this, lt, rt, left, right, tpl, holdsLaTeX);
 	}
+	
+	/**
+	 * 
+	 * @param myList list (matrix)
+	 * @param rt vector
+	 * @return list (matrix) * vector/point
+	 */
+	protected ExpressionValue multiply(MyList myList, VectorNDValue rt){
+		if (rt instanceof VectorValue) {	
+			return multiply2D(myList, myList.getMatrixRows(), myList.getMatrixCols(), (VectorValue) rt);
+		} 
+		
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param myList list (matrix)
+	 * @param rows matrix rows length
+	 * @param cols matrix cols length
+	 * @param rt vector
+	 * @return list (matrix) * 2D vector / point
+	 */
+	final protected ExpressionValue multiply2D(MyList myList, int rows, int cols, VectorValue rt){
 
-	private static ExpressionValue handleSpecial(ExpressionValue lt,
+		return multiply2D(myList, rows, cols, rt, rt.getVector());
+	}
+		
+	/**
+	 * @param myList list (matrix)
+	 * @param rows matrix rows length
+	 * @param cols matrix cols length
+	 * @param rt vector
+	 * @param myVec vector set to result
+	 * @return list (matrix) * 2D vector / point
+	 */
+	final protected ExpressionValue multiply2D(MyList myList, int rows, int cols, VectorNDValue rt, GeoVec2D myVec){
+
+		if ((rows == 2) && (cols == 2)) {
+			// 2x2 matrix
+			GeoVec2D.multiplyMatrix(myList, rt.getVector(), myVec);
+
+			return myVec;
+		} else if ((rows == 3) && (cols == 3)) {
+			// 3x3 matrix, assume it's affine
+			myVec.multiplyMatrixAffine(myList, rt);
+			return myVec;
+		}
+		
+		return null;
+	}
+
+	private ExpressionValue handleSpecial(ExpressionValue lt,
 			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
 			Operation operation, StringTemplate tpl) {
 		if (lt instanceof ListValue) {
 			if ((operation == Operation.MULTIPLY)) {
-
-				if (rt instanceof VectorValue) {
-					MyList myList = ((ListValue) lt).getMyList();
-					boolean isMatrix = myList.isMatrix();
-					int rows = myList.getMatrixRows();
-					int cols = myList.getMatrixCols();
-					if (isMatrix && (rows == 2) && (cols == 2)) {
-						GeoVec2D myVec = ((VectorValue) rt).getVector();
-						// 2x2 matrix
-						myVec.multiplyMatrix(myList);
-
-						return myVec;
-					} else if (isMatrix && (rows == 3) && (cols == 3)) {
-						GeoVec2D myVec = ((VectorValue) rt).getVector();
-						// 3x3 matrix, assume it's affine
-						myVec.multiplyMatrixAffine(myList, rt);
-						return myVec;
+				MyList myList = ((ListValue) lt).getMyList();
+				if(myList.isMatrix()){
+					ExpressionValue ret = multiply(myList, (VectorNDValue) rt);
+					if (ret != null){
+						return ret;
 					}
-
-				} else if (rt instanceof Vector3DValue) {
-					MyList myList = ((ListValue) lt).getMyList();
-					boolean isMatrix = myList.isMatrix();
-					int rows = myList.getMatrixRows();
-					int cols = myList.getMatrixCols();
-					if (isMatrix && (rows == 3) && (cols == 3)) {
-						Geo3DVec myVec = ((Vector3DValue) rt).getVector();
-						// 3x3 matrix * 3D vector / point
-						myVec.multiplyMatrix(myList, rt);
-						return myVec;
-					}
-
 				}
 
 			} else if ((operation == Operation.VECTORPRODUCT)

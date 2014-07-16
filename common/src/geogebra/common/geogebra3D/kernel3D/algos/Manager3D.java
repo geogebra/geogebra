@@ -1862,5 +1862,13 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getConic();
 		
 	}
+	
+	
+
+	final public GeoConicND Parabola3D(String label, GeoPointND F, GeoLineND l) {
+		AlgoParabolaPointLine3D algo = new AlgoParabolaPointLine3D(cons, label, F,
+				l);
+		return algo.getParabola();
+	}
 
 }

@@ -1888,6 +1888,24 @@ FromMeta
 				
 		classifyConic();
 	}
+	
+	/**
+	 *  set Parabola from focus (0,0) and line y = y0
+	 *  @param y0 y coord for line
+	 */
+	final public void setParabola(double y0) {
+
+		// set parabola's matrix
+
+		matrix[0] = 1;
+		matrix[1] = 0;
+		matrix[2] = - y0 * y0;
+		matrix[3] = 0;
+		matrix[4] = 0;
+		matrix[5] = y0;
+				
+		classifyConic();
+	}
 
 	/**
 	 * set the matrix of ellipse or hyperbola 

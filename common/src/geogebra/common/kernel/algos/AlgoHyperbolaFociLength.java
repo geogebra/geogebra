@@ -25,7 +25,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Hyperbola for given foci and first semi-axis length
@@ -37,8 +37,8 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
     public AlgoHyperbolaFociLength(
         Construction cons,
         String label,
-        GeoPoint A,
-        GeoPoint B,
+        GeoPointND A,
+        GeoPointND B,
         NumberValue a) {
         super(cons, label, A, B, a);
     }
@@ -53,13 +53,6 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
     	return EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
     }   
 
-	@Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthC",A.getLabel(tpl),
-        		B.getLabel(tpl),a.toGeoElement().getLabel(tpl)); 
-    }
 
 	@Override
 	public boolean isLocusEquable() {
@@ -68,5 +61,38 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 	
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnHyperbolaFociLength(geo, this, scope);
+	}
+
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+
+		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+			return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthC",A.getLabel(tpl),
+					B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	 
+		}
+
+		return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthCInXOYPlane",A.getLabel(tpl),
+				B.getLabel(tpl),a.toGeoElement().getLabel(tpl));
 	}
 }

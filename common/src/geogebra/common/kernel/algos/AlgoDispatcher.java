@@ -360,7 +360,7 @@ public class AlgoDispatcher {
 	 * Creates new point B with distance n from A and new segment AB The
 	 * labels[0] is for the segment, labels[1] for the new point
 	 */
-	final public GeoElement[] Segment(String[] labels, GeoPoint A,
+	final public GeoElement[] Segment(String[] labels, GeoPointND A,
 			NumberValue n) {
 		// this is actually a macro
 		String pointLabel = null, segmentLabel = null;
@@ -376,6 +376,14 @@ public class AlgoDispatcher {
 			}
 		}
 
+		
+		return SegmentFixed(pointLabel, segmentLabel, A, n);
+	}
+
+	protected GeoElement[] SegmentFixed(String pointLabel, String segmentLabel, GeoPointND a, NumberValue n){
+		
+		GeoPoint A = (GeoPoint) a;
+		
 		// create a circle around A with radius n
 		AlgoCirclePointRadius algoCircle = new AlgoCirclePointRadius(cons, A, n);
 		cons.removeFromConstructionList(algoCircle);
@@ -386,6 +394,7 @@ public class AlgoDispatcher {
 		// return segment and new point
 		GeoElement[] ret = { Segment(segmentLabel, A, (GeoPoint) algoPoint.getP()),
 				(GeoElement) algoPoint.getP() };
+
 		return ret;
 	}
 
@@ -594,17 +603,16 @@ public class AlgoDispatcher {
 	/**
 	 * parabola with focus F and line l
 	 */
-	final public GeoConic Parabola(String label, GeoPoint F, GeoLine l) {
+	final public GeoConicND Parabola(String label, GeoPointND F, GeoLineND l) {
 		AlgoParabolaPointLine algo = new AlgoParabolaPointLine(cons, label, F,
 				l);
-		GeoConic parabola = algo.getParabola();
-		return parabola;
+		return algo.getParabola();
 	}
 
 	/**
 	 * ellipse with foci A, B and length of first half axis a
 	 */
-	final public GeoConicND Ellipse(String label, GeoPoint A, GeoPoint B,
+	final public GeoConicND Ellipse(String label, GeoPointND A, GeoPointND B,
 			NumberValue a) {
 		AlgoEllipseFociLength algo = new AlgoEllipseFociLength(cons, label, A,
 				B, a);
@@ -625,7 +633,7 @@ public class AlgoDispatcher {
 	/**
 	 * hyperbola with foci A, B and length of first half axis a
 	 */
-	final public GeoConicND Hyperbola(String label, GeoPoint A, GeoPoint B,
+	final public GeoConicND Hyperbola(String label, GeoPointND A, GeoPointND B,
 			NumberValue a) {
 		AlgoHyperbolaFociLength algo = new AlgoHyperbolaFociLength(cons, label,
 				A, B, a);

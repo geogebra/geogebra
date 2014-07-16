@@ -3,8 +3,8 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,8 +33,8 @@ public class CmdParabola extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Parabola(c.getLabel(),
-						(GeoPoint) arg[0], (GeoLine) arg[1]) };
+				GeoElement[] ret = { parabola(c.getLabel(),
+						(GeoPointND) arg[0], (GeoLineND) arg[1]) };
 				return ret;
 			} 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
@@ -42,5 +42,16 @@ public class CmdParabola extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param label label
+	 * @param a point
+	 * @param d line
+	 * @return point-line parabola
+	 */
+	protected GeoElement parabola(String label, GeoPointND a, GeoLineND d){
+		return getAlgoDispatcher().Parabola(label, a, d);
 	}
 }

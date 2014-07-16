@@ -34,7 +34,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
@@ -96,7 +95,7 @@ public abstract class DialogManager {
 	}
 
 	public abstract void showNumberInputDialogSegmentFixed(String menu,
-			GeoPoint geoPoint2);
+			GeoPointND geoPoint2);
 
 	public void showNumberInputDialogAngleFixed(String menu,
 			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
@@ -369,11 +368,12 @@ public abstract class DialogManager {
 		return false;
 	}
 	
-	public static void doSegmentFixed(Kernel kernel, GeoPoint geoPoint1, NumberValue num) {
+	public static void doSegmentFixed(Kernel kernel, GeoPointND geoPoint1, NumberValue num) {
 
 		// apply abs() to number so that entering -3 doesn't give an undefined point
 	 	ExpressionNode en = new ExpressionNode(kernel, num, Operation.ABS, null);
 	 	AlgoDependentNumber algo = new AlgoDependentNumber(kernel.getConstruction(), en, false);
+	 	kernel.getConstruction().removeFromConstructionList(algo);
 	 	
 	 	GeoElement[] segment = kernel.getAlgoDispatcher().Segment(null, geoPoint1, algo.getNumber());
 		GeoElement[] onlysegment = { null };

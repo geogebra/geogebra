@@ -4,7 +4,7 @@ import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.gui.GuiManagerD;
@@ -18,12 +18,12 @@ import java.awt.event.WindowEvent;
  */
 public class InputDialogSegmentFixed extends InputDialogD {
 
-	private GeoPoint geoPoint1;
+	private GeoPointND geoPoint1;
 
 	private Kernel kernel;
 
 	public InputDialogSegmentFixed(AppD app, String title,
-			InputHandler handler, GeoPoint point1, Kernel kernel) {
+			InputHandler handler, GeoPointND point1, Kernel kernel) {
 		super(app, app.getPlain("Length"), title, "", false, handler);
 
 		geoPoint1 = point1;

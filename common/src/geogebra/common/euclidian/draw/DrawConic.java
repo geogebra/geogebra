@@ -1604,8 +1604,9 @@ public class DrawConic extends Drawable implements Previewable {
 			isVisible = prevLines.size() == 1;
 
 			if (prevLines.size() > 0) {
-				GeoLineND line = prevLines.get(0);
-				previewTempLine.set((GeoElement) line);
+				GeoLineND lND = prevLines.get(0);
+				Coords equation = lND.getCartesianEquationVector(view.getMatrix());
+				previewTempLine.setCoords(equation.getX(), equation.getY(), equation.getZ());
 			}
 
 			if (prevPoints.size() > 0) {

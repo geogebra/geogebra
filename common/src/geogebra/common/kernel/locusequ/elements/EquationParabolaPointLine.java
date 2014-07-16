@@ -9,6 +9,7 @@ import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
 import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.times;
 import geogebra.common.kernel.algos.AlgoParabolaPointLine;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
@@ -36,8 +37,8 @@ public class EquationParabolaPointLine extends EquationGenericConic {
 
         AlgoParabolaPointLine algo = (AlgoParabolaPointLine) this.getResult().getParentAlgorithm();
         
-        EquationGenericLine line = (EquationGenericLine) this.getScope().getElement(algo.getLine());
-        EquationPoint f = this.getScope().getPoint(algo.getFocus());
+        EquationGenericLine line = (EquationGenericLine) this.getScope().getElement((GeoElement) algo.getLine());
+        EquationPoint f = this.getScope().getPoint((GeoPoint) algo.getFocus());
         
         EquationExpression b2 = sqr(line.getB());
         EquationExpression a2 = sqr(line.getA());

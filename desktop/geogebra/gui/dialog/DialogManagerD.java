@@ -394,7 +394,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 	@Override
 	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPoint geoPoint1) {
+			GeoPointND geoPoint1) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());

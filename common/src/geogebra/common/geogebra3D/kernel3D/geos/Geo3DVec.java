@@ -27,12 +27,13 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.VectorNDValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVecInterface;
-import geogebra.common.main.App;
 
 import java.util.HashSet;
 
@@ -623,23 +624,16 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 		 * @param list
 		 *            3x3 matrix
 		 * @param rt
-		 *            Vector3DValue (as ExpressionValue) to get coords from
+		 *            VectorNDValue (as ExpressionValue) to get coords from
 		 */
-		public void multiplyMatrix(MyList list, ExpressionValue rt) {
-			if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3)
-				return;
+		public void multiplyMatrix3x3(MyList list, VectorNDValue rt) {
+			
+			double a, b, c, d, e, f, g, h, i, xx, yy, zz;
 
-			double a, b, c, d, e, f, g, h, i, z1, xx = x, yy = y, zz = 1;
-
-			if (rt instanceof Vector3DValue) {
-				geogebra.common.kernel.kernelND.Geo3DVec v = ((Vector3DValue) rt).getVector();
-				xx = v.getX();
-				yy = v.getY();
-				zz = v.getZ();
-
-			} else {
-				App.debug("error in Geo3DVec");
-			}
+			GeoVecInterface v = rt.getVector();
+			xx = v.getX();
+			yy = v.getY();
+			zz = v.getZ();
 
 			a = MyList.getCell(list, 0, 0).evaluateDouble();
 			b = MyList.getCell(list, 1, 0).evaluateDouble();
@@ -654,6 +648,150 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 			x = a * xx + b * yy + c * zz;
 			y = d * xx + e * yy + f * zz;
 			z = g * xx + h * yy + i * zz;
+
+			return;
+		}
+		
+		
+		/**
+		 * multiplies 3D vector/point by a 4x4 matrix a b c d e f g h i
+		 * 
+		 * @param list
+		 *            4x4 matrix
+		 * @param rt
+		 *            VectorNDValue (as ExpressionValue) to get coords from
+		 */
+		public void multiplyMatrix4x4(MyList list, VectorNDValue rt) {
+			
+			double m, n, o, p, xx, yy, zz, ww;
+
+			boolean vector = false;
+			if (rt instanceof GeoPointND) { // 3D point		
+				GeoPointND point = (GeoPointND) rt;
+				// use homogeneous coordinates
+				Coords coords = point.getCoordsInD(3);
+				xx = coords.getX();
+				yy = coords.getY();
+				zz = coords.getZ();
+				ww = coords.getW();
+			}else{
+				GeoVecInterface v = rt.getVector();
+				xx = v.getX();
+				yy = v.getY();
+				zz = v.getZ();
+				ww = 0;
+				vector = true;
+			}
+
+
+			m = MyList.getCell(list, 0, 3).evaluateDouble();
+			n = MyList.getCell(list, 1, 3).evaluateDouble();
+			o = MyList.getCell(list, 2, 3).evaluateDouble();
+			p = MyList.getCell(list, 3, 3).evaluateDouble();
+
+			double w = m * xx + n * yy + o * zz + p * ww;
+			
+			if (vector && !Kernel.isZero(w)){
+				x = Double.NaN;
+				y = Double.NaN;
+				z = Double.NaN;
+				return;
+			}
+			
+			double a, b, c, d, e, f, g, h, i, j, k, l;
+
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			c = MyList.getCell(list, 2, 0).evaluateDouble();
+			d = MyList.getCell(list, 3, 0).evaluateDouble();
+			
+			e = MyList.getCell(list, 0, 1).evaluateDouble();
+			f = MyList.getCell(list, 1, 1).evaluateDouble();
+			g = MyList.getCell(list, 2, 1).evaluateDouble();
+			h = MyList.getCell(list, 3, 1).evaluateDouble();
+			
+			i = MyList.getCell(list, 0, 2).evaluateDouble();
+			j = MyList.getCell(list, 1, 2).evaluateDouble();
+			k = MyList.getCell(list, 2, 2).evaluateDouble();
+			l = MyList.getCell(list, 3, 2).evaluateDouble();
+
+
+			x = a * xx + b * yy + c * zz + d * ww;
+			y = e * xx + f * yy + g * zz + h * ww;
+			z = i * xx + j * yy + k * zz + l * ww;
+			
+			if (!vector){
+				x = x / w;
+				y = y / w;
+				z = z / w;
+			}
+			
+			
+
+		}
+
+		
+		
+		/**
+		 * multiplies 3D vector/point by a 2x3 matrix a b  d e  g h 
+		 * 
+		 * @param list
+		 *            2x3 matrix
+		 * @param rt
+		 *            VectorNDValue (as ExpressionValue) to get coords from
+		 */
+		public void multiplyMatrix3x2(MyList list, VectorNDValue rt) {
+			
+			double a, b, d, e, g, h, xx, yy;
+
+			GeoVecInterface v = rt.getVector();
+			xx = v.getX();
+			yy = v.getY();
+
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			d = MyList.getCell(list, 0, 1).evaluateDouble();
+			e = MyList.getCell(list, 1, 1).evaluateDouble();
+			g = MyList.getCell(list, 0, 2).evaluateDouble();
+			h = MyList.getCell(list, 1, 2).evaluateDouble();
+
+			x = a * xx + b * yy;
+			y = d * xx + e * yy;
+			z = g * xx + h * yy;
+
+			return;
+		}
+
+		
+		/**
+		 * multiplies 3D vector/point by a 2x3 matrix a b c d e f 
+		 * 
+		 * @param list
+		 *            2x3 matrix
+		 * @param rt
+		 *            VectorNDValue (as ExpressionValue) to get coords from
+		 * @param ret 
+		 *            2D vector / point with computed coords
+		 */
+		static public void multiplyMatrix(MyList list, VectorNDValue rt, GeoVec2D ret) {
+
+			double a, b, c, d, e, f, xx, yy, zz;
+
+			GeoVecInterface v = rt.getVector();
+			xx = v.getX();
+			yy = v.getY();
+			zz = v.getZ();
+
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			c = MyList.getCell(list, 2, 0).evaluateDouble();
+			d = MyList.getCell(list, 0, 1).evaluateDouble();
+			e = MyList.getCell(list, 1, 1).evaluateDouble();
+			f = MyList.getCell(list, 2, 1).evaluateDouble();
+
+			ret.setCoords(
+					a * xx + b * yy + c * zz,
+					d * xx + e * yy + f * zz);
 
 			return;
 		}

@@ -561,4 +561,29 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().EllipseHyperbola(null, a, b, c, type);
 	}
 	
+	/**
+	 * 
+	 * @param a focus
+	 * @param l line
+	 * @return parabola
+	 */
+	protected GeoConicND parabola(GeoPointND a, GeoLineND l){
+		return ec.getAlgoDispatcher().Parabola(null, a, l);
+	}
+	
+	
+	/**
+	 * 
+	 * @param a start point
+	 * @param v vector
+	 * @return vector equal to v with a for start point
+	 */
+	protected GeoElement vectorPoint(GeoPointND a, GeoVectorND v){
+		
+		GeoPoint endPoint = (GeoPoint) ec.getAlgoDispatcher().Translate(null, (GeoPoint) a,
+				(GeoVector) v)[0];
+		return ec.getAlgoDispatcher().Vector(null, (GeoPoint) a, endPoint);
+	}
+	
+	
 }

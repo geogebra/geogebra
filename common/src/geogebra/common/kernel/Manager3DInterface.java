@@ -919,7 +919,10 @@ public interface Manager3DInterface {
 	
 	
 	
-	
+	/**
+	 * parabola with focus F and line l
+	 */
+	public GeoConicND Parabola3D(String label, GeoPointND F, GeoLineND l);
 	
 	
 	

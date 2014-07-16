@@ -78,6 +78,11 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case CircumcircularArc:
 				return new CmdCircumcircleArc3D(kernel);
 				
+			case Arc:
+				return new CmdArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_ARC);
+			case Sector:
+				return new CmdArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_SECTOR);
+				
 			case CircleArc:
 			case CircularArc:
 					return new CmdCircleArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_ARC);
@@ -89,6 +94,8 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Semicircle:
 				return new CmdSemicircle3D(kernel);
 				
+			case Parabola:
+				return new CmdParabola3D(kernel);
 				
 			case Corner:
 				return new CmdCorner3D(kernel);

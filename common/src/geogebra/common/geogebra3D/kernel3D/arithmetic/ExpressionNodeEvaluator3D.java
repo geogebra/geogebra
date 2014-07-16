@@ -6,6 +6,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorNDValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
@@ -176,5 +177,68 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		// 2D vector product (number)
 		return super.vectorProduct(v1, v2);
 	}
+	
+	
+	@Override
+	protected ExpressionValue multiply(MyList myList, VectorNDValue rt){
+
+		if (!myList.isMatrix()){
+			return null;
+		}
+				
+		int rows = myList.getMatrixRows();
+		int cols = myList.getMatrixCols();	
+		
+		
+		// 2D coords
+		if (rt.getMode() != Kernel.COORD_CARTESIAN_3D && rt.getMode() != Kernel.COORD_SPHERICAL){
+			if (rows == 3 && cols == 2){ // creates 3D vector from 2D coords
+				Geo3DVec myVec = new Geo3DVec(rt.getKernel());
+				// 3x2 matrix * 3D vector / point
+				myVec.multiplyMatrix3x2(myList, rt);
+				return myVec;
+			}
+			
+			if (rt instanceof VectorValue) { // 2D vector / point
+				return multiply2D(myList, rows, cols, (VectorValue) rt);
+			}
+			
+			// 3D vector / point
+			GeoVec2D myVec = new GeoVec2D(rt.getKernel());
+			return multiply2D(myList, rows, cols, rt, myVec);				
+			
+		}
+		
+		
+		// 3D coords	
+		if (cols == 3){
+			if (rows == 3) { // creates 3D vector/point
+				Geo3DVec myVec = new Geo3DVec(rt.getKernel());
+				// 3x3 matrix * 3D vector / point
+				myVec.multiplyMatrix3x3(myList, rt);
+				return myVec;
+			}
+
+			if (rows == 2) { // creates 2D vector/point
+				GeoVec2D myVec = new GeoVec2D(rt.getKernel());
+				// 2x3 matrix * 3D vector / point
+				Geo3DVec.multiplyMatrix(myList, rt, myVec);
+				return myVec;
+			}
+
+		}else if (cols == 4){
+			if (rows == 4) { // affine multiplication
+				Geo3DVec myVec = new Geo3DVec(rt.getKernel());
+				// 3x3 matrix * 3D vector / point
+				myVec.multiplyMatrix4x4(myList, rt);
+				return myVec;
+			}
+		}
+		
+		
+		return null;
+	}
+	
+	
 	
 }

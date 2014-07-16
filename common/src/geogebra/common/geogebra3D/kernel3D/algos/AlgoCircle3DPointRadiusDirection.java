@@ -46,6 +46,19 @@ public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection
 
     }
     
+    /**
+     * 
+     * @param cons
+     * @param label
+     * @param point
+     * @param forAxis
+     * @param radius
+     */
+    public AlgoCircle3DPointRadiusDirection(Construction cons, GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
+        super(cons, point, (GeoElement) radius, (GeoElement) forAxis);
+
+    }
+    
 
     
 

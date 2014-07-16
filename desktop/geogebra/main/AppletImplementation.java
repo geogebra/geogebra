@@ -1313,6 +1313,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	public synchronized void initJavaScript() {
 
+		/*
 		if (!app.useBrowserForJavaScript()) {
 			return;
 		}
@@ -1329,6 +1330,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 				App.debug("Exception: could not initialize JSObject.getWindow() for GeoGebraApplet");
 			}
 		}
+		*/
 	}
 
 	public Object callJavaScript(String jsFunction, Object[] args) {
@@ -1478,6 +1480,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 */
 	public String evalJS(String exp) {
 
+		/*
 		JSObject window = JSObject.getWindow(applet);
 
 		// get an object from JavaScript and retrieve its contents
@@ -1492,6 +1495,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 		}
 
 		return ob.toString();
+		*/
+		return null;
 	}
 
 	public void registerStoreUndoListener(String objName) {

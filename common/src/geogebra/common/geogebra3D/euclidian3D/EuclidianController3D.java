@@ -3094,8 +3094,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_RAY:
 			case EuclidianConstants.MODE_VECTOR:
 
-			case EuclidianConstants.MODE_VECTOR_FROM_POINT:
-
 			case EuclidianConstants.MODE_POLYGON:
 			case EuclidianConstants.MODE_POLYLINE:
 			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
@@ -3106,6 +3104,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
 			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
 			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
+				return true;
+				
+			case EuclidianConstants.MODE_VECTOR_FROM_POINT:
+				Hits hits = view3D.getHits();
+				if (!hits.isEmpty() && hits.get(0).isGeoVector()){
+					return false; // no cursor if on a vector
+				}
 				return true;
 				
 			case EuclidianConstants.MODE_PYRAMID:

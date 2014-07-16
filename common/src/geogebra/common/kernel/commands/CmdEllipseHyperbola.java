@@ -4,7 +4,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
@@ -40,13 +39,8 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
-					return new GeoElement[]	{ getAlgoDispatcher().Hyperbola(c.getLabel(),
-							(GeoPoint) arg[0], (GeoPoint) arg[1],
-							(GeoNumberValue) arg[2]) };
-				}
-				return new GeoElement[]	{ getAlgoDispatcher().Ellipse(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1],
+				return new GeoElement[]	{ ellipseHyperbola(c.getLabel(),
+						(GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoNumberValue) arg[2]) };
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
@@ -89,7 +83,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	
 	
 	/**
-	 * process lwhen 4 arguments
+	 * process when 4 arguments
 	 * @param c command
 	 * @param arg arguments
 	 * @param ok ok array
@@ -98,5 +92,20 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	 */
 	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok) throws MyError{
 		throw argNumErr(app, c.getName(), 4);
+	}
+	
+	/**
+	 * 
+	 * @param label label
+	 * @param a first focus
+	 * @param b second focus
+	 * @param v value
+	 * @return ellipse/hypebola
+	 */
+	protected GeoElement ellipseHyperbola(String label, GeoPointND a, GeoPointND b, GeoNumberValue v){
+		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
+			return getAlgoDispatcher().Hyperbola(label, a, b, v);
+		}
+		return getAlgoDispatcher().Ellipse(label, a, b, v);
 	}
 }

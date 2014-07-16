@@ -2391,13 +2391,13 @@ public abstract class EuclidianController {
 		if (selPoints() == 1) {
 			if (selLines() == 1) {
 				// fetch selected point and line
-				GeoPoint[] points = getSelectedPoints();
-				GeoLine[] lines = getSelectedLines();
+				GeoPointND[] points = getSelectedPointsND();
+				GeoLineND[] lines = getSelectedLinesND();
 				// create new parabola
 				GeoElement[] ret = { null };
 				checkZooming(); 
 				
-				ret[0] = getAlgoDispatcher().Parabola(null, points[0], lines[0]);
+				ret[0] = companion.parabola(points[0], lines[0]);
 				return ret;
 			}
 		}
@@ -3088,7 +3088,7 @@ public abstract class EuclidianController {
 			getDialogManager()
 					.showNumberInputDialogSegmentFixed(
 							l10n.getMenu(getKernel().getModeText(mode)),
-							getSelectedPoints()[0]);
+							getSelectedPointsND()[0]);
 	
 			return true;
 		}
@@ -4588,18 +4588,18 @@ public abstract class EuclidianController {
 		}
 	
 		if ((selPoints() == 1) && (selVectors() == 1)) {
-			GeoVector[] vecs = getSelectedVectors();
-			GeoPoint[] points = getSelectedPoints();
+			GeoVectorND[] vecs = getSelectedVectorsND();
+			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 
 			
-			GeoPoint endPoint = (GeoPoint) getAlgoDispatcher().Translate(null, points[0],
-					vecs[0])[0];
 			GeoElement[] ret = { null };
-			ret[0] = getAlgoDispatcher().Vector(null, points[0], endPoint);
+			ret[0] = companion.vectorPoint(points[0], vecs[0]);
 			return ret;
 		}
 		return null;
 	}
+	
+	
 
 	protected final boolean circlePointRadius(Hits hits) {
 		if (hits.isEmpty()) {

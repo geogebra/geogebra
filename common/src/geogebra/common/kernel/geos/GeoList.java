@@ -2427,10 +2427,10 @@ AngleProperties {
 			} else if ((Path)get(i) instanceof GeoConicPart) {
 				if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartConicPoints) {
 					minParArray[i] =
-						((AlgoConicPartConicPoints)
+						(GeoPoint) ((AlgoConicPartConicPoints)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getStartPoint();
 					maxParArray[i] = 
-						((AlgoConicPartConicPoints)
+						(GeoPoint) ((AlgoConicPartConicPoints)
 							((GeoConicPart)get(i)).getParentAlgorithm()).getEndPoint();
 				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartCircumcircle) {
 					minParArray[i] = (GeoPoint)

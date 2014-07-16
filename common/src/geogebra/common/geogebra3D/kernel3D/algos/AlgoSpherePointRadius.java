@@ -45,6 +45,14 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
             super(cons, label, M, r);
         }
 
+	public AlgoSpherePointRadius(
+            Construction cons,
+            GeoPointND M,
+            NumberValue r) {
+        	
+            super(cons, M, r);
+        }
+
     
     
     @Override

@@ -37,12 +37,22 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
         startParam = startParameter;
         endParam = endParameter;        
         
-        conicPart = new GeoConicPart(cons, type);
+        conicPart = newGeoConicPart(cons, type);
         setInputOutput(); // for AlgoElement      
         compute();
         
         conicPart.setLabel(label);
     }    	
+    
+    /**
+     * 
+     * @param cons construction
+     * @param type arc/sector
+     * @return new conic part
+     */
+    protected GeoConicND newGeoConicPart(Construction cons, int type){
+    	return new GeoConicPart(cons, type);
+    }
 
     // for AlgoElement
     @Override
@@ -62,7 +72,7 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 
 
 	@Override
-	public GeoConicPart getConicPart() {
-        return (GeoConicPart) super.getConicPart();
+	public GeoConicND getConicPart() {
+        return super.getConicPart();
     }
 }

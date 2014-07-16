@@ -28,7 +28,9 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.VectorNDValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVecInterface;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
@@ -1232,6 +1234,30 @@ final public class GeoVec2D extends ValidExpression implements
 
 		matrixTransform(a, b, c, d);
 	}
+	
+	/**
+	 * ret = list * v
+	 * @param list matrix (assume 2x2)
+	 * @param v vector
+	 * @param ret list * v
+	 */
+	static public void multiplyMatrix(MyList list, GeoVecInterface v, GeoVec2D ret){
+		
+		double a, b, c, d;
+		
+		a = MyList.getCell(list, 0, 0).evaluateDouble();
+		b = MyList.getCell(list, 1, 0).evaluateDouble();
+		c = MyList.getCell(list, 0, 1).evaluateDouble();
+		d = MyList.getCell(list, 1, 1).evaluateDouble();
+		
+		Double x1 = a * v.getX() + b * v.getY();
+		Double y1 = c * v.getX() + d * v.getY();
+
+		ret.x = x1;
+		ret.y = y1;
+		
+	}
+	
 	/**
 	 * multiplies 2D vector by a 2x2 matrix
 	 * 
@@ -1292,14 +1318,22 @@ final public class GeoVec2D extends ValidExpression implements
 			xx = p.x;
 			yy = p.y;
 			zz = p.z;
-		} else if (rt instanceof VectorValue) {
-			GeoVec2D v = ((VectorValue) rt).getVector();
-			xx = v.x;
-			yy = v.y;
+
+		} else if (rt instanceof VectorNDValue) {
+			GeoVecInterface v = ((VectorNDValue) rt).getVector();
+			xx = v.getX();
+			yy = v.getY();
 
 			// consistent with 3D vectors
 			zz = 0;
 			vector = true;
+			
+		} else if (rt instanceof GeoPointND) { // 3D point		
+			GeoPointND p = (GeoPointND) rt;
+			// use inhomogeneous coordinates
+			xx = p.getInhomX();
+			yy = p.getInhomY();
+			zz = 1;			
 
 		} else
 			App.debug("error in GeoVec2D");
