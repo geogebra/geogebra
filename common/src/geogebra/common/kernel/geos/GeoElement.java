@@ -5336,7 +5336,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private String getShowObjectConditionXML() {
-		if ((condShowObject != null) && kernel.getSaveScriptsToXML()) {
+		if (condShowObject != null) {
 			final StringBuilder sb = new StringBuilder();
 			sb.append("\t<condition showObject=\"");
 			StringUtil.encodeXML(sb, condShowObject.getLabel(StringTemplate.xmlTemplate));
