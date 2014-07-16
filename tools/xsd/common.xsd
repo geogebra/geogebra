@@ -529,9 +529,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	</xs:simpleType>
 	
 	<xs:simpleType name="lineThickness">
+	<xs:annotation>
+			<xs:documentation>
+	Maximum value doable by GUI is 13. SetLineThickness command allows unlimited thickness.
+	</xs:documentation>
+		</xs:annotation>
 		<xs:restriction base="xs:int">
 			<xs:minInclusive value="0"/>
-			<xs:maxInclusive value="13"/>
 		</xs:restriction>
 	
 	</xs:simpleType>
