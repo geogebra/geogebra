@@ -135,4 +135,5 @@ public interface GeoGebraConstants {
 	public static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	public static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	public static final String WEB_CUSTOM_HTML_ELEMENT_NAME = "geogebra-web";
+	public static final boolean SINGULARWS_ENABLED_BY_DEFAULT = false;
 }

@@ -1,4 +1,7 @@
 package geogebra.common.main;
+
+import geogebra.common.GeoGebraConstants;
+
 /**
  * SingularWS settings (see AppD's handleHelpVersionArgs for details)
  */
@@ -7,7 +10,7 @@ public class SingularWSSettings {
     /**
      * Do we want to use SingularWS for specific computations?
      */
-    public static boolean useSingularWebService = true;
+    public static boolean useSingularWebService = GeoGebraConstants.SINGULARWS_ENABLED_BY_DEFAULT;
     /**
      * The remote machine to be used for outsourced computations.
      */
