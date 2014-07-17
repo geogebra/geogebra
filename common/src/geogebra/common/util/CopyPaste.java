@@ -396,7 +396,7 @@ public class CopyPaste {
 	 */
 	protected static void beforeSavingToXML(
 			ArrayList<ConstructionElement> conels,
-			ArrayList<ConstructionElement> geostohide, boolean samewindow) {
+			ArrayList<ConstructionElement> geostohide, boolean samewindow, boolean putdown) {
 
 		if (samewindow)
 			copiedXMLlabelsforSameWindow = new ArrayList<String>();
@@ -419,7 +419,9 @@ public class CopyPaste {
 						copiedXMLlabels
 								.add(((GeoElement) geo).getLabelSimple());
 
-					geo.getKernel().renameLabelInScripts(label, labelPrefix + label);
+					if (putdown) {
+						geo.getKernel().renameLabelInScripts(label, labelPrefix + label);
+					}
 
 					// TODO: check possible realLabel issues
 					// reallabel = ((GeoElement)geo).getRealLabel();
@@ -450,7 +452,7 @@ public class CopyPaste {
 	 */
 	protected static void afterSavingToXML(
 			ArrayList<ConstructionElement> conels,
-			ArrayList<ConstructionElement> geostoshow) {
+			ArrayList<ConstructionElement> geostoshow, boolean putdown) {
 
 		ConstructionElement geo;
 		String label;
@@ -465,8 +467,10 @@ public class CopyPaste {
 							((GeoElement) geo).setLabelSimple(label
 									.substring(labelPrefix.length()));
 
-							geo.getKernel().renameLabelInScripts(label, label
-									.substring(labelPrefix.length()));
+							if (putdown) {
+								geo.getKernel().renameLabelInScripts(label, label
+										.substring(labelPrefix.length()));
+							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -551,11 +555,13 @@ public class CopyPaste {
 		Kernel kernel = app.getKernel();
 
 		// // FIRST XML SAVE
-		beforeSavingToXML(geoslocal, geostohide, false);
+		beforeSavingToXML(geoslocal, geostohide, false, putdown);
 		// change kernel settings temporarily
 		//StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
-		kernel.setSaveScriptsToXML(false);
+		if (!putdown) {
+			kernel.setSaveScriptsToXML(false);
+		}
 		try {
 			// step 5
 			copiedXML = new StringBuilder();
@@ -575,13 +581,17 @@ public class CopyPaste {
 		}
 		// restore kernel settings
 		//kernel.setCASPrintForm(oldPrintForm);
-		kernel.setSaveScriptsToXML(saveScriptsToXML);
-		afterSavingToXML(geoslocal, geostohide);
+		if (!putdown) {
+			kernel.setSaveScriptsToXML(saveScriptsToXML);
+		}
+		afterSavingToXML(geoslocal, geostohide, putdown);
 		// FIRST XML SAVE END
 
 		// SECOND XML SAVE
-		beforeSavingToXML(geoslocalsw, geostohidesw, true);
-		kernel.setSaveScriptsToXML(false);
+		beforeSavingToXML(geoslocalsw, geostohidesw, true, putdown);
+		if (!putdown) {
+			kernel.setSaveScriptsToXML(false);
+		}
 		try {
 			// step 5
 			copiedXMLforSameWindow = new StringBuilder();
@@ -601,8 +611,10 @@ public class CopyPaste {
 		}
 		// restore kernel settings
 		//kernel.setCASPrintForm(oldPrintForm);
-		kernel.setSaveScriptsToXML(saveScriptsToXML);
-		afterSavingToXML(geoslocalsw, geostohidesw);
+		if (!putdown) {
+			kernel.setSaveScriptsToXML(saveScriptsToXML);
+		}
+		afterSavingToXML(geoslocalsw, geostohidesw, putdown);
 		// SECOND XML SAVE END
 
 		app.setMode(EuclidianConstants.MODE_MOVE);
@@ -631,7 +643,7 @@ public class CopyPaste {
 	 * @param labels
 	 */
 	protected static void handleLabels(App app,
-			ArrayList<String> labels) {
+			ArrayList<String> labels, boolean putdown) {
 
 		Kernel kernel = app.getKernel();
 		GeoElement geo;
@@ -656,7 +668,9 @@ public class CopyPaste {
 				geo.setLabel(geo.getIndexLabel(geo.getLabelSimple().substring(
 						labelPrefix.length())));
 				// geo.getLabelSimple() is now not the oldLabel, ideally
-				geo.getKernel().renameLabelInScripts(oldLabel, geo.getLabelSimple());
+				if (putdown) {
+					geo.getKernel().renameLabelInScripts(oldLabel, geo.getLabelSimple());
+				}
 
 				// geo.setLabel(geo.getDefaultLabel(false));
 				app.getSelectionManager().addSelectedGeo(geo);
@@ -748,7 +762,7 @@ public class CopyPaste {
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			handleLabels(app, copiedXMLlabelsforSameWindow);
+			handleLabels(app, copiedXMLlabelsforSameWindow, putdown);
 		} else {
 			EuclidianViewInterfaceCommon ev = app
 					.getActiveEuclidianView();
@@ -761,7 +775,7 @@ public class CopyPaste {
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			handleLabels(app, copiedXMLlabels);
+			handleLabels(app, copiedXMLlabels, putdown);
 		}
 
 		if (!putdown) {
