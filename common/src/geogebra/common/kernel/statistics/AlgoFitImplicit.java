@@ -169,7 +169,7 @@ public class AlgoFitImplicit extends AlgoElement {
 
 	}
 
-	private static double power(double x, int power) {
+	public static double power(double x, int power) {
 		if (power == 0) {
 			return 1;
 		}
