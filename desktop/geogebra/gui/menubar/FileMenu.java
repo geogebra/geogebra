@@ -268,7 +268,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 
 						CopyPaste.copyToXML(ad, new ArrayList<GeoElement>(ad
 								.getKernel().getConstruction()
-								.getGeoSetConstructionOrder()), true);
+								.getGeoSetWithCasCellsConstructionOrder()),
+								true);
 
 						// and paste
 						CopyPaste.pasteFromXML(app, true);
