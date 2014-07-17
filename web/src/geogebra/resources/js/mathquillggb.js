@@ -1989,6 +1989,7 @@ var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpa
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
 LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
 LatexCmds.cr = bind(Symbol, '\\cr', '<div style="display:block;height:1px;width:1px;"> </div>');
+LatexCmds.equals = bind(Symbol, '\\equals', ' <span>=</span> ');// to be different from simple "="
 
 var ggbtableHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0">&0</table>';
 var ggbtrHTML = '<tr>&0</tr>';
