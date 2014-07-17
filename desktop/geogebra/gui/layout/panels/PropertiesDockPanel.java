@@ -21,6 +21,7 @@ public class PropertiesDockPanel extends DockPanel implements
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private PropertiesViewD view;
+	private boolean closed;
 
 	JDialog dialog = null;
 
@@ -41,7 +42,6 @@ public class PropertiesDockPanel extends DockPanel implements
 		super.setDialog(true);
 
 	}
-	
 
 	private void getPropertiesView() {
 		view = (PropertiesViewD) app.getGuiManager().getPropertiesView();
@@ -66,10 +66,10 @@ public class PropertiesDockPanel extends DockPanel implements
 	}
 
 	@Override
-	protected void updateTitleBarIfNecessary(){
+	protected void updateTitleBarIfNecessary() {
 		updateTitleBar();
 	}
-	
+
 	@Override
 	protected void windowPanel() {
 		super.windowPanel();
@@ -83,14 +83,13 @@ public class PropertiesDockPanel extends DockPanel implements
 		getPropertiesView();
 		view.unwindowPanel();
 	}
-	
+
 	@Override
 	protected void closePanel(boolean isPermanent) {
-		super.closePanel(isPermanent);		
+		super.closePanel(isPermanent);
 		getPropertiesView();
 		view.applyModifications();
 	}
-	
 
 	@Override
 	public ImageIcon getIcon() {
@@ -134,9 +133,13 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		getPropertiesView();
-		view.applyModifications();
-		closeDialog();
+		if (!closed) {
+			closed = true;
+			getPropertiesView();
+			view.applyModifications();
+			App.printStacktrace("EVENT" + e.hashCode());
+			closeDialog();
+		}
 	}
 
 	public void closeDialog() {
@@ -150,23 +153,26 @@ public class PropertiesDockPanel extends DockPanel implements
 
 		setFocus(hasFocus);
 	}
-	
+
 	/**
-	 * update menubar (and dockbar) on visibility changes 
+	 * update menubar (and dockbar) on visibility changes
 	 */
 	@Override
-	public void setVisible(boolean isVisible){
+	public void setVisible(boolean isVisible) {
 		super.setVisible(isVisible);
-		if (isVisible || (view!=null)){
+		if (isVisible || (view != null)) {
 			dockManager.getLayout().getApplication().updateMenubar();
 			getPropertiesView();
 			view.setSelectedOptionPanelVisible(isVisible);
 		}
+		if (isVisible) {
+			closed = false;
+		}
 	}
-	
-	@Override	
+
+	@Override
 	protected void setFocus(boolean hasFocus) {
-		//nothing to do for properties view
+		// nothing to do for properties view
 	}
 
 }
