@@ -23,11 +23,18 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.statistics.AlgoFitImplicit;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.linear.SingularValueDecomposition;
+import org.apache.commons.math.linear.SingularValueDecompositionImpl;
 
 /**
  * Handles pen and freehand tool
@@ -76,45 +83,45 @@ public class EuclidianPen {
 	private RecoSegment reco_queue_d = new RecoSegment();
 	private RecoSegment reco_queue_e = new RecoSegment();
 	/**
-     * String representation of slant movement.
-     */
+	 * String representation of slant movement.
+	 */
 	private static final String LEFT_UP = "Q";
 	private static final String RIGHT_UP = "W";
 	private static final String RIGHT_DOWN = "E";
 	private static final String LEFT_DOWN = "T";
 	/**
-     * String representation of left movement.
-     */
+	 * String representation of left movement.
+	 */
 	private static final String LEFT_MOVE = "L";
-    /**
-     * String representation of right movement.
-     */
-    private static final String RIGHT_MOVE = "R";
-    /**
-     * String representation of up movement.
-     */
-    private static final String UP_MOVE = "U";
-    /**
-     * String representation of down movement.
-     */
-    private static final String DOWN_MOVE = "D";
-    /**
-     * Grid size. Default is 30.
-     */
-    private int gridSize = 15;
-    private GPoint startPoint = null;
-    /**
-     * String representation of gesture.
-     */
-    private StringBuffer gesture = new StringBuffer();
-    private int deltaX = 0;
-    private int deltaY = 0;
-    private int absDeltaX = 0;
-    private int absDeltaY = 0;
-    private float absTangent = 0;
-    
-    private final static int PEN_SIZE_FACTOR=2;
-	
+	/**
+	 * String representation of right movement.
+	 */
+	private static final String RIGHT_MOVE = "R";
+	/**
+	 * String representation of up movement.
+	 */
+	private static final String UP_MOVE = "U";
+	/**
+	 * String representation of down movement.
+	 */
+	private static final String DOWN_MOVE = "D";
+	/**
+	 * Grid size. Default is 30.
+	 */
+	private int gridSize = 15;
+	private GPoint startPoint = null;
+	/**
+	 * String representation of gesture.
+	 */
+	private StringBuffer gesture = new StringBuffer();
+	private int deltaX = 0;
+	private int deltaY = 0;
+	private int absDeltaX = 0;
+	private int absDeltaY = 0;
+	private float absTangent = 0;
+
+	private final static int PEN_SIZE_FACTOR=2;
+
 	private boolean startNewStroke=false;
 
 	private int penSize;
@@ -177,10 +184,10 @@ public class EuclidianPen {
 	private int eraserSize;
 	private int penLineStyle;
 	private GColor penColor;
-	
+
 	// being used for Freehand Function tool
 	private boolean freehand = false;
-	
+
 	// being used for Freehand Shape tool (not done yet)
 	//private boolean recognizeShapes = false;
 
@@ -194,7 +201,7 @@ public class EuclidianPen {
 		this.app = app;
 
 		setDefaults();
-		
+
 		DEFAULT_PEN_LINE = new GeoPolyLine(app.getKernel().getConstruction()){
 			@Override
 			public void setObjColor(GColor color) {
@@ -247,7 +254,7 @@ public class EuclidianPen {
 	 * @param penGeo last object created with pen
 	 */
 	public void setPenGeo(GeoElement penGeo) {
-		
+
 		if (penGeo == null) {
 			lastAlgo = null;
 		} else if (penGeo.getParentAlgorithm() instanceof AlgoPolyLine) {
@@ -264,8 +271,8 @@ public class EuclidianPen {
 	// ===========================================
 	// Mouse Event Handlers
 	// ===========================================
-	
-	
+
+
 	/**
 	 * Mouse dragged while in pen mode, decide whether erasing or new points.
 	 * @param e mouse event
@@ -288,14 +295,14 @@ public class EuclidianPen {
 			addPointPenMode(e,hits);
 		}
 	}
-		
+
 	/**
 	 * add the saved points to the last stroke or create a new one
 	 * @param e event
 	 * @param h hits
 	 */
 	public void addPointPenMode(AbstractEvent e, Hits h){
-			
+
 		// if a PolyLine is selected, we can append to it.
 
 		ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
@@ -334,41 +341,41 @@ public class EuclidianPen {
 		if (startPoint == null)
 			startPoint = e.getPoint();
 		deltaX = getDeltaX(startPoint, point);
-	    deltaY = getDeltaY(startPoint, point);
-	    absDeltaX = Math.abs(deltaX);
-	    absDeltaY = Math.abs(deltaY);
-	    absTangent = ((float) absDeltaX) / absDeltaY;
-	    if (!((absDeltaX < gridSize) && (absDeltaY < gridSize)))
-	    {
-	    	if (absTangent < 0.5) 
-	        {
-	    		if (deltaY < 0)
-	    			this.saveMove(UP_MOVE);
-	    		else
-	    			this.saveMove(DOWN_MOVE);
-	            startPoint = point;
-	        } 
-	    	if (absTangent >= 0.5 && absTangent <= 2)
-	    	{
-	    		if (deltaX > 0 && deltaY < 0)
-	    			this.saveMove(LEFT_UP);
-	    		if (deltaX < 0 && deltaY < 0)
-	    			this.saveMove(RIGHT_UP);
-	    		if (deltaX < 0 && deltaY > 0)
-	    			this.saveMove(RIGHT_DOWN);
-	    		if (deltaX > 0 && deltaY > 0)
-	    			this.saveMove(LEFT_DOWN);
-	    		startPoint = point;
-	    	}
-	        if (absTangent > 2)
-	        {
-	        	if (deltaX < 0)
-	        		this.saveMove(LEFT_MOVE);
-	            else
-	            	this.saveMove(RIGHT_MOVE);
-	            startPoint = point;
-	        }
-	    }
+		deltaY = getDeltaY(startPoint, point);
+		absDeltaX = Math.abs(deltaX);
+		absDeltaY = Math.abs(deltaY);
+		absTangent = ((float) absDeltaX) / absDeltaY;
+		if (!((absDeltaX < gridSize) && (absDeltaY < gridSize)))
+		{
+			if (absTangent < 0.5) 
+			{
+				if (deltaY < 0)
+					this.saveMove(UP_MOVE);
+				else
+					this.saveMove(DOWN_MOVE);
+				startPoint = point;
+			} 
+			if (absTangent >= 0.5 && absTangent <= 2)
+			{
+				if (deltaX > 0 && deltaY < 0)
+					this.saveMove(LEFT_UP);
+				if (deltaX < 0 && deltaY < 0)
+					this.saveMove(RIGHT_UP);
+				if (deltaX < 0 && deltaY > 0)
+					this.saveMove(RIGHT_DOWN);
+				if (deltaX > 0 && deltaY > 0)
+					this.saveMove(LEFT_DOWN);
+				startPoint = point;
+			}
+			if (absTangent > 2)
+			{
+				if (deltaX < 0)
+					this.saveMove(LEFT_MOVE);
+				else
+					this.saveMove(RIGHT_MOVE);
+				startPoint = point;
+			}
+		}
 	}
 
 	/**
@@ -376,17 +383,113 @@ public class EuclidianPen {
 	 * @param e event
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
+
+		Construction cons = app.getKernel().getConstruction();
+		double px, py;
 		
+		if (false) {
+
+			// adapted from FitImplicit
+
+			// order 2 ie conic
+			int order = 2;
+
+			// sample 10 points from what we're given
+			int datasize = 10;
+			
+			if (this.penPoints.size() < datasize) {
+				penPoints.clear();
+				return;
+			}
+			
+			int step = this.penPoints.size() / datasize;
+
+			Array2DRowRealMatrix M = new Array2DRowRealMatrix(datasize, order * (order + 1));
+
+			try {
+
+				int r = 0;
+				for (int j = 0; j < datasize; j++) {
+
+					GPoint point = penPoints.get(r);
+					r += step;
+
+					px = view.toRealWorldCoordX(point.getX());
+					py = view.toRealWorldCoordY(point.getY());
+					
+					// uncomment for debugging (to see which points were sampled)
+					new GeoPoint(cons, null, px, py, 1);
+					
+					int c1 = 0;
+
+					// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
+					for (int i = 0 ; i <= order ; i++) {
+						for (int xpower = 0 ; xpower <= i ; xpower++) {
+
+							int ypower = i - xpower;
+
+							double val = AlgoFitImplicit.power(px, xpower) * AlgoFitImplicit.power(py, ypower);
+							App.debug(val + "x^"+xpower+" * y^"+ypower);
+
+							M.setEntry(j, c1++, val);					
+
+						}
+					}
+
+				}
+
+				SingularValueDecomposition svd =
+						new SingularValueDecompositionImpl(M);
+
+				RealMatrix V = svd.getV();
+
+				RealVector coeffsRV = V.getColumnVector(5);
+
+
+
+				double [] coeffs = new double[6];
+
+				// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
+				for (int i = 0 ; i < 6 ; i++) {
+
+					coeffs[5-i] = coeffsRV.getEntry(i);
+					App.debug("coeff of " + i + " = "+ coeffs[i]);
+
+				}
+
+
+				GeoConic conic = new GeoConic(this.app.getKernel().getConstruction(), null, coeffs);
+
+				//double eccentricity = conic.eccentricity;
+
+				//GeoVec2D midpoint = conic.b;
+
+
+				//App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
+				//App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
+
+
+			} catch (Throwable t) {
+
+				t.printStackTrace();
+				return;
+			}
+
+			penPoints.clear();
+			return;
+		}
+
+
 		if (right && !freehand){
 			return;
 		}
-		
+
 		if (freehand) {
 			mouseReleasedFreehand(x, y);
 			penPoints.clear();
 
 			app.refreshViews(); // clear trace
-			
+
 			minX = Integer.MAX_VALUE;
 			maxX = Integer.MIN_VALUE;
 
@@ -399,14 +502,14 @@ public class EuclidianPen {
 		//if (!erasing && recognizeShapes) {
 		//	checkShapes(e);
 		//}
-		
+
 		// if (lastPenImage != null) penImage = lastPenImage.getImage();
 		// //app.getExternalImage(lastPenImage);
 
 		// Application.debug(penPoints.size()+"");
 
 		addPointsToPolyLine(penPoints);
-		
+
 		penPoints.clear();		
 	}
 
@@ -476,7 +579,7 @@ public class EuclidianPen {
 					if(te2 == 3)
 						t2 = reco_queue_d;
 					if(te2 == 4)
-					t2 = reco_queue_e;
+						t2 = reco_queue_e;
 					t1.startpt = t2.startpt;
 					t1.endpt = t2.endpt;
 					t1.xcenter = t2.xcenter;
@@ -497,7 +600,7 @@ public class EuclidianPen {
 			for(j=0; j<n; ++j)
 			{
 				if(temp_reco+j == 0)
-						rs = reco_queue_a;
+					rs = reco_queue_a;
 				if(temp_reco+j == 1)
 					rs = reco_queue_b;
 				if(temp_reco+j == 2)
@@ -518,7 +621,7 @@ public class EuclidianPen {
 				rs.endpt = brk[j+1];
 				this.get_segment_geometry(brk[j], brk[j+1], ss, rs);
 			}
-			
+
 			GeoElement geo = try_rectangle();
 			if (geo != null)
 			{
@@ -533,7 +636,7 @@ public class EuclidianPen {
 				App.debug("Arrow Recognized");
 				return geo;
 			}
-			
+
 			geo = try_closed_polygon(3);
 			if (geo != null)
 			{
@@ -541,7 +644,7 @@ public class EuclidianPen {
 				App.debug("Triangle Recognized");
 				return geo;
 			}
-			
+
 			geo = try_closed_polygon(4);
 			if (geo != null)
 			{
@@ -549,7 +652,7 @@ public class EuclidianPen {
 				App.debug("Quadrilateral Recognized");
 				return geo;
 			}
-			
+
 			if(n==1)//then stroke is a line
 			{
 				App.debug("Current stroke is a line");
@@ -570,7 +673,7 @@ public class EuclidianPen {
 				double x_last=view.toRealWorldCoordX(rs.x2);
 				double y_last=view.toRealWorldCoordY(rs.y2);
 				AlgoJoinPointsSegment algo = null;
-				
+
 				GeoPoint p;
 				if(this.initialPoint != null){
 					p = initialPoint;
@@ -579,13 +682,13 @@ public class EuclidianPen {
 				}
 				GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), null, x_last, y_last, 1.0);
 				algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
-					
+
 				GeoElement line = algo.getGeoElements()[0];
-//				line.setLineThickness(penSize * 2);
-//				line.setLineType(penLineStyle);
-//				line.setObjColor(penColor);
+				//				line.setLineThickness(penSize * 2);
+				//				line.setLineType(penLineStyle);
+				//				line.setObjColor(penColor);
 				line.updateRepaint();
-				
+
 				return line;
 			}
 		}
@@ -597,13 +700,13 @@ public class EuclidianPen {
 				return this.makeACircle(EuclidianPen.center_x(s), EuclidianPen.center_y(s), EuclidianPen.I_rad(s));
 			}
 		}		
-		
+
 		this.initialPoint = null;
 		return null;
 	}
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
-		
+
 		Construction cons = app.getKernel().getConstruction();
 		//GeoList newPts;// = new GeoList(cons);
 		GeoPoint[] newPts;// = new GeoList(cons);
@@ -619,50 +722,50 @@ public class EuclidianPen {
 			offset = 0;
 		} else {
 			//newPts = lastPolyLine.getPointsList();
-			
+
 			// force a gap
 			//newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
-			
-			
+
+
 			GeoPoint[] pts = getAlgoPolyline(lastAlgo).getPoints();
-			
+
 			newPts = new GeoPoint[penPoints2.size() + 1 + pts.length];
-			
+
 			for (int i = 0 ; i < pts.length ; i++) {
 				newPts[i] = (GeoPoint) pts[i].copyInternal(cons);
 			}
-			
+
 			newPts[pts.length] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
 
-			
-			offset = pts.length + 1;
-			
-		}
-		
-    	Iterator<geogebra.common.awt.GPoint> it = penPoints2.iterator();
-    	while (it.hasNext()) {
-    		GPoint p = it.next();
-    		//newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1));
-    		newPts[offset++] = new GeoPoint(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
-		}
-		
-		
-    	AlgoElement algo;
-    	AlgoPolyLine newPolyLine;
-    	if (!absoluteScreenPosition) {
-    		
-    		// set label
-        	newPolyLine = new AlgoPolyLine(cons, null, newPts, null, true);
-        	algo = newPolyLine;
-    	} else {
-    		
-    		// don't set label
-        	newPolyLine = new AlgoPolyLine(cons, newPts, null, true);
 
-        	EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			
+			offset = pts.length + 1;
+
+		}
+
+		Iterator<geogebra.common.awt.GPoint> it = penPoints2.iterator();
+		while (it.hasNext()) {
+			GPoint p = it.next();
+			//newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1));
+			newPts[offset++] = new GeoPoint(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
+		}
+
+
+		AlgoElement algo;
+		AlgoPolyLine newPolyLine;
+		if (!absoluteScreenPosition) {
+
+			// set label
+			newPolyLine = new AlgoPolyLine(cons, null, newPts, null, true);
+			algo = newPolyLine;
+		} else {
+
+			// don't set label
+			newPolyLine = new AlgoPolyLine(cons, newPts, null, true);
+
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
 			Kernel kernelA = app.getKernel();
-	
+
 			GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
 			GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
 			GeoPoint screenCorner1 = new GeoPoint(kernelA.getConstruction());
@@ -673,21 +776,21 @@ public class EuclidianPen {
 				screenCorner1.setCoords(0, ev.getHeight(), 1);
 				screenCorner3.setCoords(ev.getWidth(), 0, 1);
 			}
-	
-			MyDouble evNo = new MyDouble(kernelA, ev.getEuclidianViewNo());
-			
-			cons.removeFromConstructionList(newPolyLine);
-	    	
-	    	algo = new AlgoAttachCopyToView(cons, null, newPolyLine.getGeoElements()[0], evNo, corner1, corner3, screenCorner1,screenCorner3);
-    	}
-    	
-    	newPolyLine.getGeoElements()[0].setTooltipMode(GeoElement.TOOLTIP_OFF);
 
-    	
+			MyDouble evNo = new MyDouble(kernelA, ev.getEuclidianViewNo());
+
+			cons.removeFromConstructionList(newPolyLine);
+
+			algo = new AlgoAttachCopyToView(cons, null, newPolyLine.getGeoElements()[0], evNo, corner1, corner3, screenCorner1,screenCorner3);
+		}
+
+		newPolyLine.getGeoElements()[0].setTooltipMode(GeoElement.TOOLTIP_OFF);
+
+
 		if (lastAlgo == null) {
 			//lastPolyLine = new AlgoPolyLine(cons, null, newPts);
 		} else {
-	    	try {
+			try {
 				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
 				//String label = lastPolyLine.getPoly().getLabelSimple();
 				//lastPolyLine.getPoly().remove();
@@ -698,25 +801,25 @@ public class EuclidianPen {
 			}
 			//lastPolyLine.setPointsList(newPts);
 		}
-		
-		
+
+
 		lastAlgo = algo;
-		
-		
+
+
 		GeoPolyLine poly = (GeoPolyLine) algo.getOutput(0);
-		
+
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
 		poly.setObjColor(penColor);
-		
+
 		app.getSelectionManager().clearSelectedGeos(false);
 		app.getSelectionManager().addSelectedGeo(poly);
-		
+
 		//app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors("AttachCopyToView["+poly.getLabelSimple()+",1]", false);
 
-		
+
 		poly.updateRepaint();
-		
+
 		app.storeUndoInfo();
 	}
 
@@ -729,9 +832,9 @@ public class EuclidianPen {
 	private void mouseReleasedFreehand(int x, int y) {
 		int n = maxX - minX + 1;
 		double[] freehand1 = new double[n];
-		
+
 		GeoElement shape = checkShapes(x, y);
-		
+
 		if (shape != null && shape.isGeoLine()) {
 			// lines take priority over functions
 			penPoints.clear();
@@ -751,40 +854,40 @@ public class EuclidianPen {
 		}
 
 		// now check if it can be a function (increasing or decreasing x)
-		
+
 		double monotonicTest = 0;
-		
+
 		for (int i = 0; i < penPoints.size() - 1; i++) {
 
 			GPoint p1 = penPoints.get(i);
 			GPoint p2 = penPoints.get(i + 1);
-			
+
 			if (Math.signum(p2.x - p1.x) != 1) {
 				monotonicTest ++;
 			}
-			
+
 		}
-		
+
 		App.debug("mono"+monotonicTest + " "+monotonicTest/penPoints.size());
-		
+
 		monotonicTest = monotonicTest/penPoints.size();
-		
+
 		// allow 10% error
 		boolean monotonic = monotonicTest > 0.9 || monotonicTest < 0.1;
-		
+
 		if (!monotonic) {
 			// may or may not have recognized a shape eg circle in checkShapes() earlier
 			penPoints.clear();
 			return;
 		}
-		
+
 		// now definitely a function
-		
+
 		if (shape != null) {
 			shape.remove();
 		}
-		
-		
+
+
 
 		for (int i = 0; i < n; i++) {
 			freehand1[i] = Double.NaN;
@@ -823,9 +926,9 @@ public class EuclidianPen {
 				valIndex = i;
 			}
 		}
-		
+
 		Construction cons = app.getKernel().getConstruction();
-		
+
 		GeoList list = new GeoList(cons);
 		// checkDecimalFraction() -> shorter XML
 		list.add(new GeoNumeric(cons, Kernel.checkDecimalFraction(view.toRealWorldCoordX(minX))));
@@ -833,15 +936,15 @@ public class EuclidianPen {
 		for (int i = 0; i < n; i++) {
 			list.add(new GeoNumeric(cons, Kernel.checkDecimalFraction(freehand1[i])));
 		}
-		
+
 		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, null, list);
-		
+
 		GeoElement fun = algo.getGeoElements()[0];
-		
-//		fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
-//		fun.setLineType(penLineStyle);
-//		fun.setObjColor(penColor);
-		
+
+		//		fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
+		//		fun.setLineType(penLineStyle);
+		//		fun.setObjColor(penColor);
+
 
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;
@@ -854,7 +957,7 @@ public class EuclidianPen {
 		freehand = b;
 	}
 
-	
+
 	/*
 	 * ported from xournal by Neel Shah
 	 */
@@ -1079,17 +1182,17 @@ public class EuclidianPen {
 		}
 		return sum/(s.mass*r0);
 	}
-	
+
 	private static double center_x(Inertia s)
 	{
 		return s.sx/s.mass;
 	}
-	
+
 	private static double center_y(Inertia s)
 	{
 		return s.sy/s.mass;
 	}
-	
+
 	private static double I_rad(Inertia s)
 	{
 		double ixx=EuclidianPen.I_xx(s);
@@ -1098,7 +1201,7 @@ public class EuclidianPen {
 			return 0.;
 		return Math.sqrt(ixx+iyy);
 	}
-	
+
 	private GeoConic makeACircle(double x, double y, double r)
 	{
 		temp = new ArrayList<GPoint>();
@@ -1132,601 +1235,601 @@ public class EuclidianPen {
 			y3=view.toRealWorldCoordY(temp.get(11*size/12).y);
 		}
 		GeoPoint p1 = new GeoPoint(app.getKernel().getConstruction(), x1, y1, 1.0);
-	    GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x2, y2, 1.0);
-	    GeoPoint z = new GeoPoint(app.getKernel().getConstruction(), x3, y3, 1.0);
+		GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x2, y2, 1.0);
+		GeoPoint z = new GeoPoint(app.getKernel().getConstruction(), x3, y3, 1.0);
 		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction(), null, p1, q, z);
-		
+
 		GeoConic circle = (GeoConic) algo.getCircle();
-//		circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
-//		circle.setLineType(penLineStyle);
-//		circle.setObjColor(penColor);
+		//		circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
+		//		circle.setLineType(penLineStyle);
+		//		circle.setObjColor(penColor);
 		circle.updateRepaint();
-		
+
 		return circle;
-		
+
 	}
 	/**
-     * Returns delta x.
-     *
-     * @param startPoint2 First point
-     * @param point Second point
-     * @return Delta x
-     */
-    private static int getDeltaX(GPoint startPoint2, GPoint point)
-    {
-        return point.x - startPoint2.x;
-    }
+	 * Returns delta x.
+	 *
+	 * @param startPoint2 First point
+	 * @param point Second point
+	 * @return Delta x
+	 */
+	private static int getDeltaX(GPoint startPoint2, GPoint point)
+	{
+		return point.x - startPoint2.x;
+	}
 
-    /**
-     * Returns delta y.
-     *
-     * @param startPoint2 First point
-     * @param point Second point
-     * @return Delta y
-     */
-    private static int getDeltaY(GPoint startPoint2, GPoint point) 
-    {
-        return point.y - startPoint2.y;
-    }
-    /**
-     * Adds movement to buffer.
-     *
-     * @param move String representation of recognized movement
-     */
-    private void saveMove(String move)
-    {
-    	if((gesture.length() == 0) || (gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count == 1)
-    		count++;
-    	else
-    		count = 1;
-        // should not store two equal moves in succession
-        if ((gesture.length() > 0) && ((gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count!=2))
-            return;
-        gesture.append(move);
-    }
-    /**
-     * Returns string representation of mouse gesture.
-     *
-     * @return String representation of mouse gesture. "L" for left, "R" for right,
-     *         "U" for up, "D" for down movements. For example: "ULD".
-     */
-    private String getGesture()
-    {
-        return gesture.toString();
-    }
-    
-    private void clearTemporaryInfo()
-    {
-        startPoint = null;
-        gesture.delete(0, gesture.length());
-    }
-    
-    private void optimize_polygonal(int nsides)
-    {
-    	int i;
-    	double cost, newcost;
-    	boolean improved;
-    	Inertia temp1 = new Inertia();
-    	Inertia temp2 = new Inertia();
-    	for(i=1; i<nsides; ++i)
-    	{
-    		if((i-1) == 0)
-    		{
-    			temp1.mass = a.mass;
-    			temp1.sx = a.sx;
-    			temp1.sxx = a.sxx;
-    			temp1.sxy = a.sxy;
-    			temp1.sy = a.sy;
-    			temp1.syy = a.syy;
-    			temp2.mass = b.mass;
-    			temp2.sx = b.sx;
-    			temp2.sxx = b.sxx;
-    			temp2.sxy = b.sxy;
-    			temp2.sy = b.sy;
-    			temp2.syy = b.syy;
-    		}
-    		if((i-1) == 1)
-    		{
-    			temp1.mass = b.mass;
-    			temp1.sx = b.sx;
-    			temp1.sxx = b.sxx;
-    			temp1.sxy = b.sxy;
-    			temp1.sy = b.sy;
-    			temp1.syy = b.syy;
-    			temp2.mass = c.mass;
-    			temp2.sx = c.sx;
-    			temp2.sxx = c.sxx;
-    			temp2.sxy = c.sxy;
-    			temp2.sy = c.sy;
-    			temp2.syy = c.syy;
-    		}
-    		if((i-1) == 2)
-    		{
-    			temp1.mass = c.mass;
-    			temp1.sx = c.sx;
-    			temp1.sxx = c.sxx;
-    			temp1.sxy = c.sxy;
-    			temp1.sy = c.sy;
-    			temp1.syy = c.syy;
-    			temp2.mass = d.mass;
-    			temp2.sx = d.sx;
-    			temp2.sxx = d.sxx;
-    			temp2.sxy = d.sxy;
-    			temp2.sy = d.sy;
-    			temp2.syy = d.syy;
-    		}
-    		cost = EuclidianPen.I_det(temp1)*EuclidianPen.I_det(temp1) + EuclidianPen.I_det(temp2)*EuclidianPen.I_det(temp2);
-    		improved = false;
-    		while(brk[i] > brk[i-1]+1)
-    		{
-    			this.incr_inertia(brk[i]-1, temp1, -1);
-    			this.incr_inertia(brk[i]-1, temp2, 1);
-    			newcost = EuclidianPen.I_det(temp1)*EuclidianPen.I_det(temp1) + EuclidianPen.I_det(temp2)*EuclidianPen.I_det(temp2);
-    			if(newcost >= cost)
-    				break;
-    			improved = true;
-    			cost = newcost;
-    			brk[i]--;
-    			if(i-1 == 0)
-    			{
-    				a.mass = temp1.mass;
-    				a.sx = temp1.sx;
-    				a.sy = temp1.sy;
-    				a.sxx = temp1.sxx;
-    				a.sxy = temp1.sxy;
-    				a.syy = temp1.syy;
-    				b.mass = temp2.mass;
-    				b.sx = temp2.sx;
-    				b.sy = temp2.sy;
-    				b.sxx = temp2.sxx;
-    				b.sxy = temp2.sxy;
-    				b.syy = temp2.syy;
-    			}
-    			if(i-1 == 1)
-    			{
-    				b.mass = temp1.mass;
-    				b.sx = temp1.sx;
-    				b.sy = temp1.sy;
-    				b.sxx = temp1.sxx;
-    				b.sxy = temp1.sxy;
-    				b.syy = temp1.syy;
-    				c.mass = temp2.mass;
-    				c.sx = temp2.sx;
-    				c.sy = temp2.sy;
-    				c.sxx = temp2.sxx;
-    				c.sxy = temp2.sxy;
-    				c.syy = temp2.syy;
-    			}
-    			if(i-1 == 2)
-    			{
-    				c.mass = temp1.mass;
-    				c.sx = temp1.sx;
-    				c.sy = temp1.sy;
-    				c.sxx = temp1.sxx;
-    				c.sxy = temp1.sxy;
-    				c.syy = temp1.syy;
-    				d.mass = temp2.mass;
-    				d.sx = temp2.sx;
-    				d.sy = temp2.sy;
-    				d.sxx = temp2.sxx;
-    				d.sxy = temp2.sxy;
-    				d.syy = temp2.syy;
-    	  		}
-    		}
-    		if(improved)
-    			continue;
-    		if((i-1) == 0)
-    		{
-    			temp1.mass = a.mass;
-    			temp1.sx = a.sx;
-    			temp1.sxx = a.sxx;
-    			temp1.sxy = a.sxy;
-    			temp1.sy = a.sy;
-    			temp1.syy = a.syy;
-    			temp2.mass = b.mass;
-    			temp2.sx = b.sx;
-    			temp2.sxx = b.sxx;
-    			temp2.sxy = b.sxy;
-    			temp2.sy = b.sy;
-    			temp2.syy = b.syy;
-    		}
-    		if((i-1) == 1)
-    		{
-    			temp1.mass = b.mass;
-    			temp1.sx = b.sx;
-    			temp1.sxx = b.sxx;
-    			temp1.sxy = b.sxy;
-    			temp1.sy = b.sy;
-    			temp1.syy = b.syy;
-    			temp2.mass = c.mass;
-    			temp2.sx = c.sx;
-    			temp2.sxx = c.sxx;
-    			temp2.sxy = c.sxy;
-    			temp2.sy = c.sy;
-    			temp2.syy = c.syy;
-    		}
-    		if((i-1) == 2)
-    		{
-    			temp1.mass = c.mass;
-    			temp1.sx = c.sx;
-    			temp1.sxx = c.sxx;
-    			temp1.sxy = c.sxy;
-    			temp1.sy = c.sy;
-    			temp1.syy = c.syy;
-    			temp2.mass = d.mass;
-    			temp2.sx = d.sx;
-    			temp2.sxx = d.sxx;
-    			temp2.sxy = d.sxy;
-    			temp2.sy = d.sy;
-    			temp2.syy = d.syy;
-    		}
-    		while (brk[i] < brk[i+1]-1) 
-    		{
-    			this.incr_inertia(brk[i], temp1, 1);
-    			this.incr_inertia(brk[i], temp2, -1);
-    			newcost = (EuclidianPen.I_det(temp1)*EuclidianPen.I_det(temp1)) + (EuclidianPen.I_det(temp2)*EuclidianPen.I_det(temp2));
-    			if(newcost >= cost)
-    				break;
-    			cost = newcost;
-    			brk[i]++;
-    			if(i-1 == 0)
-    			{
-    				a.mass = temp1.mass;
-    				a.sx = temp1.sx;
-    				a.sy = temp1.sy;
-    				a.sxx = temp1.sxx;
-    				a.sxy = temp1.sxy;
-    				a.syy = temp1.syy;
-    				b.mass = temp2.mass;
-    				b.sx = temp2.sx;
-    				b.sy = temp2.sy;
-    				b.sxx = temp2.sxx;
-    				b.sxy = temp2.sxy;
-    				b.syy = temp2.syy;
-    			}
-    			if(i-1 == 1)
-    			{
-    				b.mass = temp1.mass;
-    				b.sx = temp1.sx;
-    				b.sy = temp1.sy;
-    				b.sxx = temp1.sxx;
-    				b.sxy = temp1.sxy;
-    				b.syy = temp1.syy;
-    				c.mass = temp2.mass;
-    				c.sx = temp2.sx;
-    				c.sy = temp2.sy;
-    				c.sxx = temp2.sxx;
-    				c.sxy = temp2.sxy;
-    				c.syy = temp2.syy;
-    			}
-    			if(i-1 == 2)
-    			{
-    				c.mass = temp1.mass;
-    				c.sx = temp1.sx;
-    				c.sy = temp1.sy;
-    				c.sxx = temp1.sxx;
-    				c.sxy = temp1.sxy;
-    				c.syy = temp1.syy;
-    				d.mass = temp2.mass;
-    				d.sx = temp2.sx;
-    				d.sy = temp2.sy;
-    				d.sxx = temp2.sxx;
-    				d.sxy = temp2.sxy;
-    				d.syy = temp2.syy;
-    	  		}
-    		}
-    	}
-    }
-    
-    private void incr_inertia(int start, Inertia s, int coeff)
-    {
-    	double pt1_x = penPoints.get(start).x;
-    	double pt1_y = penPoints.get(start).y;
-    	double pt2_x = penPoints.get(start+1).x;
-    	double pt2_y = penPoints.get(start+1).y;
-    	double dm = 0;
-    	dm = coeff*Math.hypot(pt2_x - pt1_x, pt2_y - pt1_y);
-    	s.mass = s.mass + dm;
-    	s.sx = s.sx + (dm*pt1_x);
-    	s.sy = s.sy + (dm*pt1_y);
-    	s.sxx = s.sxx + (dm*pt1_x*pt1_x);
-    	s.syy = s.syy + (dm*pt1_y*pt1_y);
-    	s.sxy = s.sxy + (dm*pt1_x*pt1_y);
-    }
-    
-    private void get_segment_geometry(int begin, int end, Inertia s,RecoSegment r)
-    {
-    	double a1, b1, c1, lmin, lmax, l;
-    	int i;
-    	int start = begin;
-    	r.xcenter = EuclidianPen.center_x(s);
-    	r.ycenter = EuclidianPen.center_y(s);
-    	a1 = EuclidianPen.I_xx(s);
-    	b1 = EuclidianPen.I_xy(s);
-    	c1 = EuclidianPen.I_yy(s);
-    	r.angle = Math.atan2(2*b1, a1-c1)/2;
-    	r.radius = Math.sqrt(3*(a1+c1));
-    	lmin=lmax=0;
-    	for(i=start; i<=end; ++i)
-    	{
-    		l = (penPoints.get(start).x - r.xcenter)*Math.cos(r.angle) + (penPoints.get(start).y - r.ycenter)*Math.sin(r.angle);
-    		if(l < lmin)
-    			lmin = l;
-    		if(l > lmax)
-    			lmax = l;
-    		start++;
-    	}
-    	r.x1 = r.xcenter + lmin*Math.cos(r.angle);
-    	r.y1 = r.ycenter + lmin*Math.sin(r.angle);
-    	r.x2 = r.xcenter + lmax*Math.cos(r.angle);
-    	r.y2 = r.ycenter + lmax*Math.sin(r.angle);
-    }
-    
-    private GeoElement try_rectangle()
-    {
-    	RecoSegment rs = null;
-    	RecoSegment r1 = null;
-    	RecoSegment r2 = null;
-    	int i;
-    	double dist, avg_angle=0;
-    	double pt[] = new double[2];
-    	Construction cons = app.getKernel().getConstruction();
-    	AlgoPolygon algo = null;
-    	double x_first = 0;
-    	double y_first = 0;
-    	double points[] = new double[10];
+	/**
+	 * Returns delta y.
+	 *
+	 * @param startPoint2 First point
+	 * @param point Second point
+	 * @return Delta y
+	 */
+	private static int getDeltaY(GPoint startPoint2, GPoint point) 
+	{
+		return point.y - startPoint2.y;
+	}
+	/**
+	 * Adds movement to buffer.
+	 *
+	 * @param move String representation of recognized movement
+	 */
+	private void saveMove(String move)
+	{
+		if((gesture.length() == 0) || (gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count == 1)
+			count++;
+		else
+			count = 1;
+		// should not store two equal moves in succession
+		if ((gesture.length() > 0) && ((gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count!=2))
+			return;
+		gesture.append(move);
+	}
+	/**
+	 * Returns string representation of mouse gesture.
+	 *
+	 * @return String representation of mouse gesture. "L" for left, "R" for right,
+	 *         "U" for up, "D" for down movements. For example: "ULD".
+	 */
+	private String getGesture()
+	{
+		return gesture.toString();
+	}
 
-    	if(recognizer_queue_length < 4)
-    		return null;
-    	if(recognizer_queue_length-4 == 0)
-    		rs = reco_queue_a;
-    	if(recognizer_queue_length-4 == 1)
-    		rs = reco_queue_b;
-    	if(recognizer_queue_length-4 == 2)
-    		rs = reco_queue_c;
-    	if(recognizer_queue_length-4 == 3)
-    		rs = reco_queue_d;
-    	if(recognizer_queue_length-4 == 4)
-    		rs = reco_queue_e;
-    	//AbstractApplication.debug(rs.startpt);
-    	if(rs.startpt != 0)
-    		return null;
-    	for(i=0; i<=3; ++i)
-    	{
-    		if(recognizer_queue_length-4+i == 0)
-    			r1 = reco_queue_a;
-    		if(recognizer_queue_length-4+i == 1)
-    			r1 = reco_queue_b;
-    		if(recognizer_queue_length-4+i == 2)
-    			r1 = reco_queue_c;
-    		if(recognizer_queue_length-4+i == 3)
-    			r1 = reco_queue_d;
-    		if(recognizer_queue_length-4+i == 4)
-    			r1 = reco_queue_e;
-    		if(recognizer_queue_length-4+((i+1)%4) == 0)
-    			r2 = reco_queue_a;
-    		if(recognizer_queue_length-4+((i+1)%4) == 1)
-    			r2 = reco_queue_b;
-    		if(recognizer_queue_length-4+((i+1)%4) == 2)
-    			r2 = reco_queue_c;
-    		if(recognizer_queue_length-4+((i+1)%4) == 3)
-    			r2 = reco_queue_d;
-    		if(recognizer_queue_length-4+((i+1)%4) == 4)
-    			r2 = reco_queue_e;
-    		//AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE);
-    		if(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE)
-    			return null;
-    		avg_angle = avg_angle + r1.angle;
-    		if(r2.angle > r1.angle)
-    			avg_angle = avg_angle + ((i+1)*Math.PI/2);
-    		else
-    			avg_angle = avg_angle - ((i+1)*Math.PI/2);
-    		r1.reversed = ((r1.x2 - r1.x1)*(r2.xcenter - r1.xcenter) + (r1.y2 - r1.y1)*(r2.ycenter - r1.ycenter)) < 0;
-    	}
-    	for(i=0; i<=3; ++i)
-    	{
-    		if(recognizer_queue_length-4+i == 0)
-    			r1 = reco_queue_a;
-    		if(recognizer_queue_length-4+i == 1)
-    			r1 = reco_queue_b;
-    		if(recognizer_queue_length-4+i == 2)
-    			r1 = reco_queue_c;
-    		if(recognizer_queue_length-4+i == 3)
-    			r1 = reco_queue_d;
-    		if(recognizer_queue_length-4+i == 4)
-    			r1 = reco_queue_e;
-    		if(recognizer_queue_length-4+((i+1)%4) == 0)
-    			r2 = reco_queue_a;
-    		if(recognizer_queue_length-4+((i+1)%4) == 1)
-    			r2 = reco_queue_b;
-    		if(recognizer_queue_length-4+((i+1)%4) == 2)
-    			r2 = reco_queue_c;
-    		if(recognizer_queue_length-4+((i+1)%4) == 3)
-    			r2 = reco_queue_d;
-    		if(recognizer_queue_length-4+((i+1)%4) == 4)
-    			r2 = reco_queue_e;
-    		dist = Math.hypot((r1.reversed?r1.x1:r1.x2) - (r2.reversed?r2.x2:r2.x1), (r1.reversed?r1.y1:r1.y2) - (r2.reversed?r2.y2:r2.y1));
-    		if(dist > RECTANGLE_LINEAR_TOLERANCE*(r1.radius+r2.radius))
-    			return null;
-    	}
-    	avg_angle = avg_angle/4;
-    	if(Math.abs(avg_angle) < SLANT_TOLERANCE)
-    		avg_angle = 0;
-    	if(Math.abs(avg_angle) > Math.PI/2-SLANT_TOLERANCE)
-    		avg_angle = Math.PI/2;
-    	for(i=0; i<=3; ++i)
-    	{
-    		if(recognizer_queue_length-4+i==0)
-    			r1 = reco_queue_a;
-    		if(recognizer_queue_length-4+i==1)
-    			r1 = reco_queue_b;
-    		if(recognizer_queue_length-4+i==2)
-    			r1 = reco_queue_c;
-    		if(recognizer_queue_length-4+i==3)
-    			r1 = reco_queue_d;
-    		if(recognizer_queue_length-4+i==4)
-    			r1 = reco_queue_e;
-    		r1.angle = avg_angle + i*Math.PI/2;
-    	}
-    	for(i=0; i<=3; ++i)
-    	{
-    		if(recognizer_queue_length-4+i == 0)
-    			r1 = reco_queue_a;
-    		if(recognizer_queue_length-4+i == 1)
-    			r1 = reco_queue_b;
-    		if(recognizer_queue_length-4+i == 2)
-    			r1 = reco_queue_c;
-    		if(recognizer_queue_length-4+i == 3)
-    			r1 = reco_queue_d;
-    		if(recognizer_queue_length-4+i == 4)
-    			r1 = reco_queue_e;
-    		if(recognizer_queue_length-4+(i+1)%4 == 0)
-    			r2 = reco_queue_a;
-    		if(recognizer_queue_length-4+(i+1)%4 == 1)
-    			r2 = reco_queue_b;
-    		if(recognizer_queue_length-4+(i+1)%4 == 2)
-    			r2 = reco_queue_c;
-    		if(recognizer_queue_length-4+(i+1)%4 == 3)
-    			r2 = reco_queue_d;
-    		if(recognizer_queue_length-4+(i+1)%4 == 4)
-    			r2 = reco_queue_e;
-    		EuclidianPen.calc_edge_isect(r1, r2, pt);
-    		points[2*i+2] = pt[0];
-    		points[2*i+3] = pt[1];
-    	}
-    	points[0] = points[8];
-    	points[1] = points[9];
-    	
-       	GeoPointND [] pts = new GeoPointND[4];
+	private void clearTemporaryInfo()
+	{
+		startPoint = null;
+		gesture.delete(0, gesture.length());
+	}
 
-       	// in case a initialPoint is defined, move the polygon so that its first point matches the initialPoint
-       	double offsetInitialPointX = 0;
-       	double offsetInitialPointY = 0;
+	private void optimize_polygonal(int nsides)
+	{
+		int i;
+		double cost, newcost;
+		boolean improved;
+		Inertia temp1 = new Inertia();
+		Inertia temp2 = new Inertia();
+		for(i=1; i<nsides; ++i)
+		{
+			if((i-1) == 0)
+			{
+				temp1.mass = a.mass;
+				temp1.sx = a.sx;
+				temp1.sxx = a.sxx;
+				temp1.sxy = a.sxy;
+				temp1.sy = a.sy;
+				temp1.syy = a.syy;
+				temp2.mass = b.mass;
+				temp2.sx = b.sx;
+				temp2.sxx = b.sxx;
+				temp2.sxy = b.sxy;
+				temp2.sy = b.sy;
+				temp2.syy = b.syy;
+			}
+			if((i-1) == 1)
+			{
+				temp1.mass = b.mass;
+				temp1.sx = b.sx;
+				temp1.sxx = b.sxx;
+				temp1.sxy = b.sxy;
+				temp1.sy = b.sy;
+				temp1.syy = b.syy;
+				temp2.mass = c.mass;
+				temp2.sx = c.sx;
+				temp2.sxx = c.sxx;
+				temp2.sxy = c.sxy;
+				temp2.sy = c.sy;
+				temp2.syy = c.syy;
+			}
+			if((i-1) == 2)
+			{
+				temp1.mass = c.mass;
+				temp1.sx = c.sx;
+				temp1.sxx = c.sxx;
+				temp1.sxy = c.sxy;
+				temp1.sy = c.sy;
+				temp1.syy = c.syy;
+				temp2.mass = d.mass;
+				temp2.sx = d.sx;
+				temp2.sxx = d.sxx;
+				temp2.sxy = d.sxy;
+				temp2.sy = d.sy;
+				temp2.syy = d.syy;
+			}
+			cost = EuclidianPen.I_det(temp1)*EuclidianPen.I_det(temp1) + EuclidianPen.I_det(temp2)*EuclidianPen.I_det(temp2);
+			improved = false;
+			while(brk[i] > brk[i-1]+1)
+			{
+				this.incr_inertia(brk[i]-1, temp1, -1);
+				this.incr_inertia(brk[i]-1, temp2, 1);
+				newcost = EuclidianPen.I_det(temp1)*EuclidianPen.I_det(temp1) + EuclidianPen.I_det(temp2)*EuclidianPen.I_det(temp2);
+				if(newcost >= cost)
+					break;
+				improved = true;
+				cost = newcost;
+				brk[i]--;
+				if(i-1 == 0)
+				{
+					a.mass = temp1.mass;
+					a.sx = temp1.sx;
+					a.sy = temp1.sy;
+					a.sxx = temp1.sxx;
+					a.sxy = temp1.sxy;
+					a.syy = temp1.syy;
+					b.mass = temp2.mass;
+					b.sx = temp2.sx;
+					b.sy = temp2.sy;
+					b.sxx = temp2.sxx;
+					b.sxy = temp2.sxy;
+					b.syy = temp2.syy;
+				}
+				if(i-1 == 1)
+				{
+					b.mass = temp1.mass;
+					b.sx = temp1.sx;
+					b.sy = temp1.sy;
+					b.sxx = temp1.sxx;
+					b.sxy = temp1.sxy;
+					b.syy = temp1.syy;
+					c.mass = temp2.mass;
+					c.sx = temp2.sx;
+					c.sy = temp2.sy;
+					c.sxx = temp2.sxx;
+					c.sxy = temp2.sxy;
+					c.syy = temp2.syy;
+				}
+				if(i-1 == 2)
+				{
+					c.mass = temp1.mass;
+					c.sx = temp1.sx;
+					c.sy = temp1.sy;
+					c.sxx = temp1.sxx;
+					c.sxy = temp1.sxy;
+					c.syy = temp1.syy;
+					d.mass = temp2.mass;
+					d.sx = temp2.sx;
+					d.sy = temp2.sy;
+					d.sxx = temp2.sxx;
+					d.sxy = temp2.sxy;
+					d.syy = temp2.syy;
+				}
+			}
+			if(improved)
+				continue;
+			if((i-1) == 0)
+			{
+				temp1.mass = a.mass;
+				temp1.sx = a.sx;
+				temp1.sxx = a.sxx;
+				temp1.sxy = a.sxy;
+				temp1.sy = a.sy;
+				temp1.syy = a.syy;
+				temp2.mass = b.mass;
+				temp2.sx = b.sx;
+				temp2.sxx = b.sxx;
+				temp2.sxy = b.sxy;
+				temp2.sy = b.sy;
+				temp2.syy = b.syy;
+			}
+			if((i-1) == 1)
+			{
+				temp1.mass = b.mass;
+				temp1.sx = b.sx;
+				temp1.sxx = b.sxx;
+				temp1.sxy = b.sxy;
+				temp1.sy = b.sy;
+				temp1.syy = b.syy;
+				temp2.mass = c.mass;
+				temp2.sx = c.sx;
+				temp2.sxx = c.sxx;
+				temp2.sxy = c.sxy;
+				temp2.sy = c.sy;
+				temp2.syy = c.syy;
+			}
+			if((i-1) == 2)
+			{
+				temp1.mass = c.mass;
+				temp1.sx = c.sx;
+				temp1.sxx = c.sxx;
+				temp1.sxy = c.sxy;
+				temp1.sy = c.sy;
+				temp1.syy = c.syy;
+				temp2.mass = d.mass;
+				temp2.sx = d.sx;
+				temp2.sxx = d.sxx;
+				temp2.sxy = d.sxy;
+				temp2.sy = d.sy;
+				temp2.syy = d.syy;
+			}
+			while (brk[i] < brk[i+1]-1) 
+			{
+				this.incr_inertia(brk[i], temp1, 1);
+				this.incr_inertia(brk[i], temp2, -1);
+				newcost = (EuclidianPen.I_det(temp1)*EuclidianPen.I_det(temp1)) + (EuclidianPen.I_det(temp2)*EuclidianPen.I_det(temp2));
+				if(newcost >= cost)
+					break;
+				cost = newcost;
+				brk[i]++;
+				if(i-1 == 0)
+				{
+					a.mass = temp1.mass;
+					a.sx = temp1.sx;
+					a.sy = temp1.sy;
+					a.sxx = temp1.sxx;
+					a.sxy = temp1.sxy;
+					a.syy = temp1.syy;
+					b.mass = temp2.mass;
+					b.sx = temp2.sx;
+					b.sy = temp2.sy;
+					b.sxx = temp2.sxx;
+					b.sxy = temp2.sxy;
+					b.syy = temp2.syy;
+				}
+				if(i-1 == 1)
+				{
+					b.mass = temp1.mass;
+					b.sx = temp1.sx;
+					b.sy = temp1.sy;
+					b.sxx = temp1.sxx;
+					b.sxy = temp1.sxy;
+					b.syy = temp1.syy;
+					c.mass = temp2.mass;
+					c.sx = temp2.sx;
+					c.sy = temp2.sy;
+					c.sxx = temp2.sxx;
+					c.sxy = temp2.sxy;
+					c.syy = temp2.syy;
+				}
+				if(i-1 == 2)
+				{
+					c.mass = temp1.mass;
+					c.sx = temp1.sx;
+					c.sy = temp1.sy;
+					c.sxx = temp1.sxx;
+					c.sxy = temp1.sxy;
+					c.syy = temp1.syy;
+					d.mass = temp2.mass;
+					d.sx = temp2.sx;
+					d.sy = temp2.sy;
+					d.sxx = temp2.sxx;
+					d.sxy = temp2.sxy;
+					d.syy = temp2.syy;
+				}
+			}
+		}
+	}
 
-    	for (i=0; i<4; ++i)
-    	{
-    		x_first = view.toRealWorldCoordX(points[2*i]) + offsetInitialPointX;
-    		y_first = view.toRealWorldCoordY(points[2*i + 1]) + offsetInitialPointY;
+	private void incr_inertia(int start, Inertia s, int coeff)
+	{
+		double pt1_x = penPoints.get(start).x;
+		double pt1_y = penPoints.get(start).y;
+		double pt2_x = penPoints.get(start+1).x;
+		double pt2_y = penPoints.get(start+1).y;
+		double dm = 0;
+		dm = coeff*Math.hypot(pt2_x - pt1_x, pt2_y - pt1_y);
+		s.mass = s.mass + dm;
+		s.sx = s.sx + (dm*pt1_x);
+		s.sy = s.sy + (dm*pt1_y);
+		s.sxx = s.sxx + (dm*pt1_x*pt1_x);
+		s.syy = s.syy + (dm*pt1_y*pt1_y);
+		s.sxy = s.sxy + (dm*pt1_x*pt1_y);
+	}
 
-    		if(i == 0 && this.initialPoint != null && this.initialPoint.isIndependent()){
-    			offsetInitialPointX = this.initialPoint.x - x_first;
-    			offsetInitialPointY = this.initialPoint.y - y_first;
-    			pts[0] = this.initialPoint;
-    		} else {
-    			// null -> created labeled point
-    			pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
-    		}
-    	}
+	private void get_segment_geometry(int begin, int end, Inertia s,RecoSegment r)
+	{
+		double a1, b1, c1, lmin, lmax, l;
+		int i;
+		int start = begin;
+		r.xcenter = EuclidianPen.center_x(s);
+		r.ycenter = EuclidianPen.center_y(s);
+		a1 = EuclidianPen.I_xx(s);
+		b1 = EuclidianPen.I_xy(s);
+		c1 = EuclidianPen.I_yy(s);
+		r.angle = Math.atan2(2*b1, a1-c1)/2;
+		r.radius = Math.sqrt(3*(a1+c1));
+		lmin=lmax=0;
+		for(i=start; i<=end; ++i)
+		{
+			l = (penPoints.get(start).x - r.xcenter)*Math.cos(r.angle) + (penPoints.get(start).y - r.ycenter)*Math.sin(r.angle);
+			if(l < lmin)
+				lmin = l;
+			if(l > lmax)
+				lmax = l;
+			start++;
+		}
+		r.x1 = r.xcenter + lmin*Math.cos(r.angle);
+		r.y1 = r.ycenter + lmin*Math.sin(r.angle);
+		r.x2 = r.xcenter + lmax*Math.cos(r.angle);
+		r.y2 = r.ycenter + lmax*Math.sin(r.angle);
+	}
 
-    	algo = new AlgoPolygon(cons, null, pts);
-    	
+	private GeoElement try_rectangle()
+	{
+		RecoSegment rs = null;
+		RecoSegment r1 = null;
+		RecoSegment r2 = null;
+		int i;
+		double dist, avg_angle=0;
+		double pt[] = new double[2];
+		Construction cons = app.getKernel().getConstruction();
+		AlgoPolygon algo = null;
+		double x_first = 0;
+		double y_first = 0;
+		double points[] = new double[10];
+
+		if(recognizer_queue_length < 4)
+			return null;
+		if(recognizer_queue_length-4 == 0)
+			rs = reco_queue_a;
+		if(recognizer_queue_length-4 == 1)
+			rs = reco_queue_b;
+		if(recognizer_queue_length-4 == 2)
+			rs = reco_queue_c;
+		if(recognizer_queue_length-4 == 3)
+			rs = reco_queue_d;
+		if(recognizer_queue_length-4 == 4)
+			rs = reco_queue_e;
+		//AbstractApplication.debug(rs.startpt);
+		if(rs.startpt != 0)
+			return null;
+		for(i=0; i<=3; ++i)
+		{
+			if(recognizer_queue_length-4+i == 0)
+				r1 = reco_queue_a;
+			if(recognizer_queue_length-4+i == 1)
+				r1 = reco_queue_b;
+			if(recognizer_queue_length-4+i == 2)
+				r1 = reco_queue_c;
+			if(recognizer_queue_length-4+i == 3)
+				r1 = reco_queue_d;
+			if(recognizer_queue_length-4+i == 4)
+				r1 = reco_queue_e;
+			if(recognizer_queue_length-4+((i+1)%4) == 0)
+				r2 = reco_queue_a;
+			if(recognizer_queue_length-4+((i+1)%4) == 1)
+				r2 = reco_queue_b;
+			if(recognizer_queue_length-4+((i+1)%4) == 2)
+				r2 = reco_queue_c;
+			if(recognizer_queue_length-4+((i+1)%4) == 3)
+				r2 = reco_queue_d;
+			if(recognizer_queue_length-4+((i+1)%4) == 4)
+				r2 = reco_queue_e;
+			//AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE);
+			if(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE)
+				return null;
+			avg_angle = avg_angle + r1.angle;
+			if(r2.angle > r1.angle)
+				avg_angle = avg_angle + ((i+1)*Math.PI/2);
+			else
+				avg_angle = avg_angle - ((i+1)*Math.PI/2);
+			r1.reversed = ((r1.x2 - r1.x1)*(r2.xcenter - r1.xcenter) + (r1.y2 - r1.y1)*(r2.ycenter - r1.ycenter)) < 0;
+		}
+		for(i=0; i<=3; ++i)
+		{
+			if(recognizer_queue_length-4+i == 0)
+				r1 = reco_queue_a;
+			if(recognizer_queue_length-4+i == 1)
+				r1 = reco_queue_b;
+			if(recognizer_queue_length-4+i == 2)
+				r1 = reco_queue_c;
+			if(recognizer_queue_length-4+i == 3)
+				r1 = reco_queue_d;
+			if(recognizer_queue_length-4+i == 4)
+				r1 = reco_queue_e;
+			if(recognizer_queue_length-4+((i+1)%4) == 0)
+				r2 = reco_queue_a;
+			if(recognizer_queue_length-4+((i+1)%4) == 1)
+				r2 = reco_queue_b;
+			if(recognizer_queue_length-4+((i+1)%4) == 2)
+				r2 = reco_queue_c;
+			if(recognizer_queue_length-4+((i+1)%4) == 3)
+				r2 = reco_queue_d;
+			if(recognizer_queue_length-4+((i+1)%4) == 4)
+				r2 = reco_queue_e;
+			dist = Math.hypot((r1.reversed?r1.x1:r1.x2) - (r2.reversed?r2.x2:r2.x1), (r1.reversed?r1.y1:r1.y2) - (r2.reversed?r2.y2:r2.y1));
+			if(dist > RECTANGLE_LINEAR_TOLERANCE*(r1.radius+r2.radius))
+				return null;
+		}
+		avg_angle = avg_angle/4;
+		if(Math.abs(avg_angle) < SLANT_TOLERANCE)
+			avg_angle = 0;
+		if(Math.abs(avg_angle) > Math.PI/2-SLANT_TOLERANCE)
+			avg_angle = Math.PI/2;
+		for(i=0; i<=3; ++i)
+		{
+			if(recognizer_queue_length-4+i==0)
+				r1 = reco_queue_a;
+			if(recognizer_queue_length-4+i==1)
+				r1 = reco_queue_b;
+			if(recognizer_queue_length-4+i==2)
+				r1 = reco_queue_c;
+			if(recognizer_queue_length-4+i==3)
+				r1 = reco_queue_d;
+			if(recognizer_queue_length-4+i==4)
+				r1 = reco_queue_e;
+			r1.angle = avg_angle + i*Math.PI/2;
+		}
+		for(i=0; i<=3; ++i)
+		{
+			if(recognizer_queue_length-4+i == 0)
+				r1 = reco_queue_a;
+			if(recognizer_queue_length-4+i == 1)
+				r1 = reco_queue_b;
+			if(recognizer_queue_length-4+i == 2)
+				r1 = reco_queue_c;
+			if(recognizer_queue_length-4+i == 3)
+				r1 = reco_queue_d;
+			if(recognizer_queue_length-4+i == 4)
+				r1 = reco_queue_e;
+			if(recognizer_queue_length-4+(i+1)%4 == 0)
+				r2 = reco_queue_a;
+			if(recognizer_queue_length-4+(i+1)%4 == 1)
+				r2 = reco_queue_b;
+			if(recognizer_queue_length-4+(i+1)%4 == 2)
+				r2 = reco_queue_c;
+			if(recognizer_queue_length-4+(i+1)%4 == 3)
+				r2 = reco_queue_d;
+			if(recognizer_queue_length-4+(i+1)%4 == 4)
+				r2 = reco_queue_e;
+			EuclidianPen.calc_edge_isect(r1, r2, pt);
+			points[2*i+2] = pt[0];
+			points[2*i+3] = pt[1];
+		}
+		points[0] = points[8];
+		points[1] = points[9];
+
+		GeoPointND [] pts = new GeoPointND[4];
+
+		// in case a initialPoint is defined, move the polygon so that its first point matches the initialPoint
+		double offsetInitialPointX = 0;
+		double offsetInitialPointY = 0;
+
+		for (i=0; i<4; ++i)
+		{
+			x_first = view.toRealWorldCoordX(points[2*i]) + offsetInitialPointX;
+			y_first = view.toRealWorldCoordY(points[2*i + 1]) + offsetInitialPointY;
+
+			if(i == 0 && this.initialPoint != null && this.initialPoint.isIndependent()){
+				offsetInitialPointX = this.initialPoint.x - x_first;
+				offsetInitialPointY = this.initialPoint.y - y_first;
+				pts[0] = this.initialPoint;
+			} else {
+				// null -> created labeled point
+				pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
+			}
+		}
+
+		algo = new AlgoPolygon(cons, null, pts);
+
 		GeoElement poly = algo.getGeoElements()[0];
-//		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
-//		poly.setLineType(penLineStyle);
-//		poly.setObjColor(penColor);
+		//		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
+		//		poly.setLineType(penLineStyle);
+		//		poly.setObjColor(penColor);
 		poly.updateRepaint();
 
-    	return poly;
-    }
-    
-    private GeoElement try_arrow()
-    {
-    	RecoSegment rs = null;
-    	RecoSegment temp1 = null;
-    	RecoSegment temp2 = null;
-    	int i,j;
-    	double alpha[] = new double[3];
-    	double pt[] = new double[2];
-    	double dist, delta;
-    	double x1, y1, x2, y2, angle;
-    	boolean rev[] = new boolean[3];
-    	Construction cons = app.getKernel().getConstruction();
-    	GeoPoint p = null;
-    	GeoPoint q = null;
-    	AlgoJoinPointsSegment algo = null;
-    	double x_first = 0;
-    	double y_first = 0;
-    	double x_last = 0;
-    	double y_last = 0;
-    	if (recognizer_queue_length<3) 
-    		return null;
-    	if(recognizer_queue_length-3 == 0)
-    		rs = reco_queue_a;
-    	if(recognizer_queue_length-3 == 1)
-    		rs = reco_queue_b;
-    	if(recognizer_queue_length-3 == 2)
-    		rs = reco_queue_c;
-    	if(recognizer_queue_length-3 == 3)
-    		rs = reco_queue_d;
-    	if(recognizer_queue_length-3 == 4)
-    		rs = reco_queue_e;
-    	//AbstractApplication.debug(rs.startpt);
-    	if(rs.startpt != 0)
-    		return null;
-    	for(i=1; i<=2; ++i)
-    	{
-    		if(recognizer_queue_length-3+i == 0)
-    			temp1 = reco_queue_a;
-    		if(recognizer_queue_length-3+i == 1)
-    			temp1 = reco_queue_b;
-    		if(recognizer_queue_length-3+i == 2)
-    			temp1 = reco_queue_c;
-    		if(recognizer_queue_length-3+i == 3)
-    			temp1 = reco_queue_d;
-    		if(recognizer_queue_length-3+i == 4)
-    			temp1 = reco_queue_e;
-    		if (temp1.radius > ARROW_MAXSIZE*rs.radius)
-    			return null;
-    		rev[i] = (Math.hypot(temp1.xcenter - rs.x1, temp1.ycenter - rs.y1)) < (Math.hypot(temp1.xcenter - rs.x2, temp1.ycenter - rs.y2));
-    	}
-    	if(rev[1] != rev[2])
-    		return null;
-    	if(rev[1])
-    	{
-    		x1 = rs.x2;
-    		y1 = rs.y2; 
-    		x2 = rs.x1; 
-    		y2 = rs.y1;
-    		angle = rs.angle + Math.PI;
-    	}
-    	else
-    	{
-    		x1 = rs.x1;
-    		y1 = rs.y1; 
-    		x2 = rs.x2; 
-    		y2 = rs.y2;
-    		angle = rs.angle;
-    	}
-    	for(i=1; i<=2; ++i)
-    	{
-    		if(recognizer_queue_length-3+i == 0)
-    			temp1 = reco_queue_a;
-    		if(recognizer_queue_length-3+i == 1)
-    			temp1 = reco_queue_b;
-    		if(recognizer_queue_length-3+i == 2)
-    			temp1 = reco_queue_c;
-    		if(recognizer_queue_length-3+i == 3)
-    			temp1 = reco_queue_d;
-    		if(recognizer_queue_length-3+i == 4)
-    			temp1 = reco_queue_e;
-    		temp1.reversed = false;
-    		alpha[i] = temp1.angle - angle;
-    		while(alpha[i] < -Math.PI/2)
-    		{
-    			alpha[i] = alpha[i] + Math.PI;
-    			temp1.reversed = !temp1.reversed;
-    		}
-    		while(alpha[i] > Math.PI/2)
-    		{
-    			alpha[i] = alpha[i] - Math.PI;
-    			temp1.reversed = !temp1.reversed;
-    		}
-    		if(Math.abs(alpha[i]) < ARROW_ANGLE_MIN || Math.abs(alpha[i]) > ARROW_ANGLE_MAX)
-    			return null;
-    	}
-    	if(alpha[1]*alpha[2] > 0 || Math.abs(alpha[1] + alpha[2]) > ARROW_ASYMMETRY_MAX_ANGLE)
-    		return null;
-    	if(recognizer_queue_length-2 == 0)
+		return poly;
+	}
+
+	private GeoElement try_arrow()
+	{
+		RecoSegment rs = null;
+		RecoSegment temp1 = null;
+		RecoSegment temp2 = null;
+		int i,j;
+		double alpha[] = new double[3];
+		double pt[] = new double[2];
+		double dist, delta;
+		double x1, y1, x2, y2, angle;
+		boolean rev[] = new boolean[3];
+		Construction cons = app.getKernel().getConstruction();
+		GeoPoint p = null;
+		GeoPoint q = null;
+		AlgoJoinPointsSegment algo = null;
+		double x_first = 0;
+		double y_first = 0;
+		double x_last = 0;
+		double y_last = 0;
+		if (recognizer_queue_length<3) 
+			return null;
+		if(recognizer_queue_length-3 == 0)
+			rs = reco_queue_a;
+		if(recognizer_queue_length-3 == 1)
+			rs = reco_queue_b;
+		if(recognizer_queue_length-3 == 2)
+			rs = reco_queue_c;
+		if(recognizer_queue_length-3 == 3)
+			rs = reco_queue_d;
+		if(recognizer_queue_length-3 == 4)
+			rs = reco_queue_e;
+		//AbstractApplication.debug(rs.startpt);
+		if(rs.startpt != 0)
+			return null;
+		for(i=1; i<=2; ++i)
+		{
+			if(recognizer_queue_length-3+i == 0)
+				temp1 = reco_queue_a;
+			if(recognizer_queue_length-3+i == 1)
+				temp1 = reco_queue_b;
+			if(recognizer_queue_length-3+i == 2)
+				temp1 = reco_queue_c;
+			if(recognizer_queue_length-3+i == 3)
+				temp1 = reco_queue_d;
+			if(recognizer_queue_length-3+i == 4)
+				temp1 = reco_queue_e;
+			if (temp1.radius > ARROW_MAXSIZE*rs.radius)
+				return null;
+			rev[i] = (Math.hypot(temp1.xcenter - rs.x1, temp1.ycenter - rs.y1)) < (Math.hypot(temp1.xcenter - rs.x2, temp1.ycenter - rs.y2));
+		}
+		if(rev[1] != rev[2])
+			return null;
+		if(rev[1])
+		{
+			x1 = rs.x2;
+			y1 = rs.y2; 
+			x2 = rs.x1; 
+			y2 = rs.y1;
+			angle = rs.angle + Math.PI;
+		}
+		else
+		{
+			x1 = rs.x1;
+			y1 = rs.y1; 
+			x2 = rs.x2; 
+			y2 = rs.y2;
+			angle = rs.angle;
+		}
+		for(i=1; i<=2; ++i)
+		{
+			if(recognizer_queue_length-3+i == 0)
+				temp1 = reco_queue_a;
+			if(recognizer_queue_length-3+i == 1)
+				temp1 = reco_queue_b;
+			if(recognizer_queue_length-3+i == 2)
+				temp1 = reco_queue_c;
+			if(recognizer_queue_length-3+i == 3)
+				temp1 = reco_queue_d;
+			if(recognizer_queue_length-3+i == 4)
+				temp1 = reco_queue_e;
+			temp1.reversed = false;
+			alpha[i] = temp1.angle - angle;
+			while(alpha[i] < -Math.PI/2)
+			{
+				alpha[i] = alpha[i] + Math.PI;
+				temp1.reversed = !temp1.reversed;
+			}
+			while(alpha[i] > Math.PI/2)
+			{
+				alpha[i] = alpha[i] - Math.PI;
+				temp1.reversed = !temp1.reversed;
+			}
+			if(Math.abs(alpha[i]) < ARROW_ANGLE_MIN || Math.abs(alpha[i]) > ARROW_ANGLE_MAX)
+				return null;
+		}
+		if(alpha[1]*alpha[2] > 0 || Math.abs(alpha[1] + alpha[2]) > ARROW_ASYMMETRY_MAX_ANGLE)
+			return null;
+		if(recognizer_queue_length-2 == 0)
 			temp1 = reco_queue_a;
 		if(recognizer_queue_length-2 == 1)
 			temp1 = reco_queue_b;
@@ -1754,18 +1857,18 @@ public class EuclidianPen {
 		for(j=1; j<=2; ++j)
 		{
 			if(recognizer_queue_length-3+j == 0)
-    			temp1 = reco_queue_a;
-    		if(recognizer_queue_length-3+j == 1)
-    			temp1 = reco_queue_b;
-    		if(recognizer_queue_length-3+j == 2)
-    			temp1 = reco_queue_c;
-    		if(recognizer_queue_length-3+j == 3)
-    			temp1 = reco_queue_d;
-    		if(recognizer_queue_length-3+j == 4)
-    			temp1 = reco_queue_e;
-    		dist = Math.hypot(pt[0] - (temp1.reversed?temp1.x1:temp1.x2), pt[1] - (temp1.reversed?temp1.y1:temp1.y2));
-    		if (dist > ARROW_TIP_LINEAR_TOLERANCE*temp1.radius) 
-    			return null;
+				temp1 = reco_queue_a;
+			if(recognizer_queue_length-3+j == 1)
+				temp1 = reco_queue_b;
+			if(recognizer_queue_length-3+j == 2)
+				temp1 = reco_queue_c;
+			if(recognizer_queue_length-3+j == 3)
+				temp1 = reco_queue_d;
+			if(recognizer_queue_length-3+j == 4)
+				temp1 = reco_queue_e;
+			dist = Math.hypot(pt[0] - (temp1.reversed?temp1.x1:temp1.x2), pt[1] - (temp1.reversed?temp1.y1:temp1.y2));
+			if (dist > ARROW_TIP_LINEAR_TOLERANCE*temp1.radius) 
+				return null;
 		}
 		dist = (pt[0] - x2)*Math.sin(angle) - (pt[1] - y2)*Math.cos(angle);
 		if(recognizer_queue_length-3+1 == 0)
@@ -1797,18 +1900,18 @@ public class EuclidianPen {
 			return null;
 		if (Math.abs(rs.angle) < SLANT_TOLERANCE) 
 		{ // nearly horizontal
-		    angle = angle - rs.angle;
-		    y1 = y2 = rs.ycenter;
+			angle = angle - rs.angle;
+		y1 = y2 = rs.ycenter;
 		}
 		if (rs.angle > Math.PI/2-SLANT_TOLERANCE) 
 		{ // nearly vertical
-		    angle = angle - (rs.angle - Math.PI/2);
-		    x1 = x2 = rs.xcenter;
+			angle = angle - (rs.angle - Math.PI/2);
+		x1 = x2 = rs.xcenter;
 		}
 		if (rs.angle < -Math.PI/2+SLANT_TOLERANCE)
 		{ // nearly vertical
-		    angle = angle - (rs.angle+Math.PI/2);
-		    x1 = x2 = rs.xcenter;
+			angle = angle - (rs.angle+Math.PI/2);
+			x1 = x2 = rs.xcenter;
 		}
 		delta = Math.abs(alpha[1] - alpha[2])/2;
 		dist = (Math.hypot(temp1.x1 - temp1.x2, temp1.y1 - temp1.y2) + Math.hypot(temp2.x1 - temp2.x2, temp2.y1 - temp2.y2))/2;
@@ -1820,179 +1923,179 @@ public class EuclidianPen {
 		q = new GeoPoint(cons, x_last, y_last, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		GeoElement line = algo.getGeoElements()[0];
-//		line.setLineThickness(penSize * 2);
-//		line.setLineType(penLineStyle);
-//		line.setObjColor(penColor);
+		//		line.setLineThickness(penSize * 2);
+		//		line.setLineType(penLineStyle);
+		//		line.setObjColor(penColor);
 		line.updateRepaint();
-		
+
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle + delta)));
 		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle + delta)));
 		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
-//		line.setLineThickness(penSize * 2);
-//		line.setLineType(penLineStyle);
-//		line.setObjColor(penColor);
+		//		line.setLineThickness(penSize * 2);
+		//		line.setLineType(penLineStyle);
+		//		line.setObjColor(penColor);
 		line.updateRepaint();
-		
+
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle - delta)));
 		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle - delta)));
 		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
-//		line.setLineThickness(penSize * 2);
-//		line.setLineType(penLineStyle);
-//		line.setObjColor(penColor);
+		//		line.setLineThickness(penSize * 2);
+		//		line.setLineType(penLineStyle);
+		//		line.setObjColor(penColor);
 		line.updateRepaint();
 		return line;
-    }
-    
-    private GeoElement try_closed_polygon(int nsides)
-    {
-    	RecoSegment rs = null;
-    	RecoSegment r1 = null;
-    	RecoSegment r2 = null;
-    	int i;
-    	double dist = 0;
-    	double pt[] = new double[2];
-    	Construction cons = app.getKernel().getConstruction();
-    	AlgoPolygon algo = null;
-    	double x_first = 0;
-    	double y_first = 0;
-    	double points[] = new double[nsides*2 + 2];
-    	
-    	if(recognizer_queue_length < nsides)
-    		return null;
-    	if(recognizer_queue_length-nsides == 0)
-    		rs = reco_queue_a;
-    	if(recognizer_queue_length-nsides == 1)
-    		rs = reco_queue_b;
-    	if(recognizer_queue_length-nsides == 2)
-    		rs = reco_queue_c;
-    	if(recognizer_queue_length-nsides == 3)
-    		rs = reco_queue_d;
-    	if(recognizer_queue_length-nsides == 4)
-    		rs = reco_queue_e;
-    	if(rs.startpt != 0)
-    		return null;
-    	for(i=0 ; i<nsides; ++i)
-    	{
-    		if(recognizer_queue_length-nsides+i == 0)
-        		r1 = reco_queue_a;
-        	if(recognizer_queue_length-nsides+i == 1)
-        		r1 = reco_queue_b;
-        	if(recognizer_queue_length-nsides+i == 2)
-        		r1 = reco_queue_c;
-        	if(recognizer_queue_length-nsides+i == 3)
-        		r1 = reco_queue_d;
-        	if(recognizer_queue_length-nsides+i == 4)
-        		r1 = reco_queue_e;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
-        		r2 = reco_queue_a;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
-        		r2 = reco_queue_b;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
-        		r2 = reco_queue_c;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
-        		r2 = reco_queue_d;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
-        		r2 = reco_queue_e;
-        	EuclidianPen.calc_edge_isect(r1, r2, pt);
-        	r1.reversed = (Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1)) < (Math.hypot(pt[0] - r1.x2, pt[1] - r1.y2));
-    	}
-    	for(i=0; i<nsides; ++i)
-    	{
-    		if(recognizer_queue_length-nsides+i == 0)
-        		r1 = reco_queue_a;
-        	if(recognizer_queue_length-nsides+i == 1)
-        		r1 = reco_queue_b;
-        	if(recognizer_queue_length-nsides+i == 2)
-        		r1 = reco_queue_c;
-        	if(recognizer_queue_length-nsides+i == 3)
-        		r1 = reco_queue_d;
-        	if(recognizer_queue_length-nsides+i == 4)
-        		r1 = reco_queue_e;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
-        		r2 = reco_queue_a;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
-        		r2 = reco_queue_b;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
-        		r2 = reco_queue_c;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
-        		r2 = reco_queue_d;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
-        		r2 = reco_queue_e;
-        	EuclidianPen.calc_edge_isect(r1, r2, pt);
-        	dist = Math.hypot((r1.reversed ? r1.x1:r1.x2) - pt[0], (r1.reversed? r1.y1:r1.y2) - pt[1]) + Math.hypot((r2.reversed? r2.x2:r2.x1) - pt[0], (r2.reversed? r2.y2:r2.y1) - pt[1]);
-        	if(dist > POLYGON_LINEAR_TOLERANCE*(r1.radius + r2.radius))
-        		return null;
-    	}
-    	for(i=0; i<nsides; ++i)
-    	{
-    		if(recognizer_queue_length-nsides+i == 0)
-        		r1 = reco_queue_a;
-        	if(recognizer_queue_length-nsides+i == 1)
-        		r1 = reco_queue_b;
-        	if(recognizer_queue_length-nsides+i == 2)
-        		r1 = reco_queue_c;
-        	if(recognizer_queue_length-nsides+i == 3)
-        		r1 = reco_queue_d;
-        	if(recognizer_queue_length-nsides+i == 4)
-        		r1 = reco_queue_e;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
-        		r2 = reco_queue_a;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
-        		r2 = reco_queue_b;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
-        		r2 = reco_queue_c;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
-        		r2 = reco_queue_d;
-        	if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
-        		r2 = reco_queue_e;
-        	EuclidianPen.calc_edge_isect(r1, r2, pt);
-        	points[2*i + 2] = pt[0];
-        	points[2*i + 3] = pt[1];
-    	}
-    	points[0] = points[2*nsides];
-    	points[1] = points[2*nsides + 1];
-    	
-    	GeoPointND [] pts = new GeoPointND[nsides];
-    	
-    	for(i=0; i<nsides; ++i)
-    	{
-    		x_first = view.toRealWorldCoordX(points[2*i]);
-    		y_first = view.toRealWorldCoordY(points[2*i + 1]);
-     		
-    		if(i == 0 && this.initialPoint != null){
-    			pts[0] = initialPoint;
-    			initialPoint = null;
-    		} else {
-	    		// null -> created labeled point
-	    		pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
-    		}
+	}
 
-    	}
-    	
-    	algo = new AlgoPolygon(cons, null, pts);
-    	
+	private GeoElement try_closed_polygon(int nsides)
+	{
+		RecoSegment rs = null;
+		RecoSegment r1 = null;
+		RecoSegment r2 = null;
+		int i;
+		double dist = 0;
+		double pt[] = new double[2];
+		Construction cons = app.getKernel().getConstruction();
+		AlgoPolygon algo = null;
+		double x_first = 0;
+		double y_first = 0;
+		double points[] = new double[nsides*2 + 2];
+
+		if(recognizer_queue_length < nsides)
+			return null;
+		if(recognizer_queue_length-nsides == 0)
+			rs = reco_queue_a;
+		if(recognizer_queue_length-nsides == 1)
+			rs = reco_queue_b;
+		if(recognizer_queue_length-nsides == 2)
+			rs = reco_queue_c;
+		if(recognizer_queue_length-nsides == 3)
+			rs = reco_queue_d;
+		if(recognizer_queue_length-nsides == 4)
+			rs = reco_queue_e;
+		if(rs.startpt != 0)
+			return null;
+		for(i=0 ; i<nsides; ++i)
+		{
+			if(recognizer_queue_length-nsides+i == 0)
+				r1 = reco_queue_a;
+			if(recognizer_queue_length-nsides+i == 1)
+				r1 = reco_queue_b;
+			if(recognizer_queue_length-nsides+i == 2)
+				r1 = reco_queue_c;
+			if(recognizer_queue_length-nsides+i == 3)
+				r1 = reco_queue_d;
+			if(recognizer_queue_length-nsides+i == 4)
+				r1 = reco_queue_e;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
+				r2 = reco_queue_a;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
+				r2 = reco_queue_b;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
+				r2 = reco_queue_c;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
+				r2 = reco_queue_d;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
+				r2 = reco_queue_e;
+			EuclidianPen.calc_edge_isect(r1, r2, pt);
+			r1.reversed = (Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1)) < (Math.hypot(pt[0] - r1.x2, pt[1] - r1.y2));
+		}
+		for(i=0; i<nsides; ++i)
+		{
+			if(recognizer_queue_length-nsides+i == 0)
+				r1 = reco_queue_a;
+			if(recognizer_queue_length-nsides+i == 1)
+				r1 = reco_queue_b;
+			if(recognizer_queue_length-nsides+i == 2)
+				r1 = reco_queue_c;
+			if(recognizer_queue_length-nsides+i == 3)
+				r1 = reco_queue_d;
+			if(recognizer_queue_length-nsides+i == 4)
+				r1 = reco_queue_e;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
+				r2 = reco_queue_a;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
+				r2 = reco_queue_b;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
+				r2 = reco_queue_c;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
+				r2 = reco_queue_d;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
+				r2 = reco_queue_e;
+			EuclidianPen.calc_edge_isect(r1, r2, pt);
+			dist = Math.hypot((r1.reversed ? r1.x1:r1.x2) - pt[0], (r1.reversed? r1.y1:r1.y2) - pt[1]) + Math.hypot((r2.reversed? r2.x2:r2.x1) - pt[0], (r2.reversed? r2.y2:r2.y1) - pt[1]);
+			if(dist > POLYGON_LINEAR_TOLERANCE*(r1.radius + r2.radius))
+				return null;
+		}
+		for(i=0; i<nsides; ++i)
+		{
+			if(recognizer_queue_length-nsides+i == 0)
+				r1 = reco_queue_a;
+			if(recognizer_queue_length-nsides+i == 1)
+				r1 = reco_queue_b;
+			if(recognizer_queue_length-nsides+i == 2)
+				r1 = reco_queue_c;
+			if(recognizer_queue_length-nsides+i == 3)
+				r1 = reco_queue_d;
+			if(recognizer_queue_length-nsides+i == 4)
+				r1 = reco_queue_e;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
+				r2 = reco_queue_a;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
+				r2 = reco_queue_b;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
+				r2 = reco_queue_c;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
+				r2 = reco_queue_d;
+			if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
+				r2 = reco_queue_e;
+			EuclidianPen.calc_edge_isect(r1, r2, pt);
+			points[2*i + 2] = pt[0];
+			points[2*i + 3] = pt[1];
+		}
+		points[0] = points[2*nsides];
+		points[1] = points[2*nsides + 1];
+
+		GeoPointND [] pts = new GeoPointND[nsides];
+
+		for(i=0; i<nsides; ++i)
+		{
+			x_first = view.toRealWorldCoordX(points[2*i]);
+			y_first = view.toRealWorldCoordY(points[2*i + 1]);
+
+			if(i == 0 && this.initialPoint != null){
+				pts[0] = initialPoint;
+				initialPoint = null;
+			} else {
+				// null -> created labeled point
+				pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
+			}
+
+		}
+
+		algo = new AlgoPolygon(cons, null, pts);
+
 		GeoElement poly = algo.getGeoElements()[0];
-//		poly.setLineThickness(penSize * 2);
-//		poly.setLineType(penLineStyle);
-//		poly.setObjColor(penColor);
+		//		poly.setLineThickness(penSize * 2);
+		//		poly.setLineType(penLineStyle);
+		//		poly.setObjColor(penColor);
 		poly.updateRepaint();
 
-    	
-    	return poly;
-    }
-    
-    private static void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[])
-    {
-    	double t;
-    	t = (r2.xcenter - r1.xcenter)*Math.sin(r2.angle) - (r2.ycenter - r1.ycenter)*Math.cos(r2.angle);
-    	t = t/Math.sin(r2.angle - r1.angle);
-    	pt[0] = r1.xcenter + t*Math.cos(r1.angle);
-    	pt[1] = r1.ycenter + t*Math.sin(r1.angle);
-    }
+
+		return poly;
+	}
+
+	private static void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[])
+	{
+		double t;
+		t = (r2.xcenter - r1.xcenter)*Math.sin(r2.angle) - (r2.ycenter - r1.ycenter)*Math.cos(r2.angle);
+		t = t/Math.sin(r2.angle - r1.angle);
+		pt[0] = r1.xcenter + t*Math.cos(r1.angle);
+		pt[1] = r1.ycenter + t*Math.sin(r1.angle);
+	}
 
 	/**
 	 * @param color pen color
@@ -2002,17 +2105,17 @@ public class EuclidianPen {
 			startNewStroke=true;
 		}
 		this.penColor = color;
-		
+
 	}
 
 	private boolean absoluteScreenPosition;
-	
+
 	/**
 	 * @param b true for absolute position (AttachCopyToView)
 	 */
 	public void setAbsoluteScreenPosition(boolean b) {
 		absoluteScreenPosition = b;
-		
+
 	}
 
 	private class RecoSegment 
@@ -2025,7 +2128,7 @@ public class EuclidianPen {
 		boolean reversed;
 
 	}
-	
+
 	private class Inertia 
 	{
 		public Inertia() {
