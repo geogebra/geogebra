@@ -592,33 +592,31 @@ public class CopyPaste {
 		// FIRST XML SAVE END
 
 		// SECOND XML SAVE
-		beforeSavingToXML(geoslocalsw, geostohidesw, true, putdown);
 		if (!putdown) {
+			beforeSavingToXML(geoslocalsw, geostohidesw, true, putdown);
 			kernel.setSaveScriptsToXML(false);
-		}
-		try {
-			// step 5
-			copiedXMLforSameWindow = new StringBuilder();
-			ConstructionElement ce;
+			try {
+				// step 5
+				copiedXMLforSameWindow = new StringBuilder();
+				ConstructionElement ce;
 
-			// loop through Construction to keep the good order of
-			// ConstructionElements
-			Construction cons = app.getKernel().getConstruction();
-			for (int i = 0; i < cons.steps(); ++i) {
-				ce = cons.getConstructionElement(i);
-				if (geoslocalsw.contains(ce))
-					ce.getXML(false, copiedXMLforSameWindow);
+				// loop through Construction to keep the good order of
+				// ConstructionElements
+				Construction cons = app.getKernel().getConstruction();
+				for (int i = 0; i < cons.steps(); ++i) {
+					ce = cons.getConstructionElement(i);
+					if (geoslocalsw.contains(ce))
+						ce.getXML(false, copiedXMLforSameWindow);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				copiedXMLforSameWindow = new StringBuilder();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			copiedXMLforSameWindow = new StringBuilder();
-		}
-		// restore kernel settings
-		//kernel.setCASPrintForm(oldPrintForm);
-		if (!putdown) {
+			// restore kernel settings
+			//kernel.setCASPrintForm(oldPrintForm);
 			kernel.setSaveScriptsToXML(saveScriptsToXML);
+			afterSavingToXML(geoslocalsw, geostohidesw, putdown);
 		}
-		afterSavingToXML(geoslocalsw, geostohidesw, putdown);
 		// SECOND XML SAVE END
 
 		app.setMode(EuclidianConstants.MODE_MOVE);
@@ -739,7 +737,7 @@ public class CopyPaste {
 		copyObject2 = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
 
-		if (pasteFast(app)) {
+		if (pasteFast(app) && !putdown) {
 			if (copiedXMLforSameWindow == null)
 				return;
 
@@ -754,7 +752,7 @@ public class CopyPaste {
 		app.getActiveEuclidianView().getEuclidianController()
 				.setPastePreviewSelected();
 
-		if (pasteFast(app)) {
+		if (pasteFast(app) && !putdown) {
 			EuclidianViewInterfaceCommon ev = app
 					.getActiveEuclidianView();
 			if (ev == app.getEuclidianView1()) {
