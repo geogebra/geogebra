@@ -29,6 +29,7 @@ import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
+import geogebra.common.kernel.algos.AlgoTextfield;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -287,6 +288,7 @@ public class CopyPaste {
 		Iterator<GeoElement> it;
 		for (int i = 0; i < geos.size(); i++) {
 			geo = (GeoElement) geos.get(i);
+
 			ts = geo.getAllPredecessors();
 			it = ts.iterator();
 			while (it.hasNext()) {
@@ -294,15 +296,6 @@ public class CopyPaste {
 				if (!ret.contains(geo2) && !geos.contains(geo2)
 						&& !(geo2 instanceof GeoAxis)) {
 					ret.add(geo2);
-
-					// probably not needed?
-					/*if ((geo2.getParentAlgorithm() instanceof AlgoDrawingPadCorner) &&
-						(!ret.contains(geo2.getParentAlgorithm())) &&
-						(!geos.contains(geo2.getParentAlgorithm()))) {
-						// other algos will be added to this anyway,
-						// so we can handle this issue in this method
-						ret.add(geo2.getParentAlgorithm());
-					}*/
 				}
 			}
 		}
@@ -330,6 +323,26 @@ public class CopyPaste {
 		GeoElement[] geos;
 		for (int i = conels.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) conels.get(i);
+
+			// also doing this here, which is not about the name of the method,
+			// but making sure textfields (which require algos) are shown
+			if ((geo.getParentAlgorithm() instanceof AlgoTextfield) &&
+				(!ret.contains(geo.getParentAlgorithm())) &&
+				(!conels.contains(geo.getParentAlgorithm()))) {
+				// other algos will be added to this anyway,
+				// so we can handle this issue in this method
+				ret.add(geo.getParentAlgorithm());
+			}
+			// probably not needed? although corner number is NumberValue,
+			// it is converted to a GeoElement, so this might be Okay
+			/*if ((geo.getParentAlgorithm() instanceof AlgoDrawingPadCorner) &&
+				(!ret.contains(geo.getParentAlgorithm())) &&
+				(!geos.contains(geo.getParentAlgorithm()))) {
+				// other algos will be added to this anyway,
+				// so we can handle this issue in this method
+				ret.add(geo.getParentAlgorithm());
+			}*/
+
 			geoal = geo.getAlgorithmList();
 
 			for (int j = 0; j < geoal.size(); j++) {
@@ -549,6 +562,13 @@ public class CopyPaste {
 		}
 
 		ArrayList<ConstructionElement> geostohide = addPredecessorGeos(geoslocal);
+
+		// what about a GeoElement which is the result of an algo with no input?
+		// this is especially important if the GeoElement cannot be shown,
+		// e.g. in case the GeoElement is a textfield. In other cases, the bug is
+		// not visible, but it would still be nice to include the parent algo too.
+		// it is okay to handle it after this, as algos are resistant to hiding
+
 		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown));
 
 		ArrayList<ConstructionElement> geoslocalsw = removeFreeNonselectedGeoNumerics(
