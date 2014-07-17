@@ -27,6 +27,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.MatrixTransformable;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.PathMover;
@@ -2365,6 +2366,13 @@ SymbolicParametersBotanaAlgo {
 
 	public void setCoordsFromPoint(GeoPointND point){
 		setCoords((GeoPoint) point);
+	}
+	
+	
+	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint){
+		x = param2 * leftPoint.x + param1 * rightPoint.x;
+		y = param2 * leftPoint.y + param1 * rightPoint.y;
+		z = 1.0;
 	}
 
 }

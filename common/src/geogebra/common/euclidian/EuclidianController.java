@@ -2701,7 +2701,7 @@ public abstract class EuclidianController {
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			GeoPoint[] points = getSelectedPoints();
-			GeoLocus locus;
+			GeoElement locus;
 			checkZooming(); 
 			
 			if (points[0].getPath() == null) {

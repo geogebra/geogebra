@@ -37,6 +37,10 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 		this.lineTo = lineTo;
 	}
 
+	public MyPoint() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param px x-coordinate
 	 * @param py y-coordinate
@@ -80,6 +84,7 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 		return new GeoPoint(cons, null, x, y, 1.0);
 	}
 	
+	
 	/**
 	 * @return lineTo flag
 	 */
@@ -116,5 +121,14 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	@Override
 	public double distance(geogebra.common.awt.GPoint2D q) {
 		return distance(q.getX(), q.getY());
+	}
+
+	/**
+	 * 
+	 * @param point point
+	 * @return true if same (x,y)
+	 */
+	public boolean isEqual(MyPoint point) {
+		return isEqual(point.x, point.y);
 	}
 }

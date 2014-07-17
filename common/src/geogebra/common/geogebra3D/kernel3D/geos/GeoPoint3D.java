@@ -21,11 +21,13 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.MatrixTransformable;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathOrPoint;
@@ -1676,6 +1678,14 @@ Traceable, MirrorableAtPlane, Dilateable{
 	public boolean evaluatesTo3DVector(){
 		return true;
 	}
-	
+
+	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint){
+
+		setCoords(
+				param2 * leftPoint.x + param1 * rightPoint.x,
+				param2 * leftPoint.y + param1 * rightPoint.y,
+				param2 * ((MyPoint3D) leftPoint).z + param1 * ((MyPoint3D) rightPoint).z,
+				1.0);
+	}
 
 }

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Path mover for most common paths
@@ -79,13 +79,13 @@ public class PathMoverGeneric implements PathMover {
 		
 	}
 
-	public void init(GeoPoint p, int min_steps) {
+	public void init(GeoPointND p, int min_steps) {
 		MIN_STEPS_INSTANCE = min_steps;
 		PathParameter pp = p.getPathParameter();
 		init(pp.t);
 	}
 
-	public void init(GeoPoint p) {
+	public void init(GeoPointND p) {
 		PathParameter pp = p.getPathParameter();
 		init(pp.t);
 	}
@@ -178,11 +178,11 @@ public class PathMoverGeneric implements PathMover {
 		step_width = max_step_width;
 	}
 
-	public void getCurrentPosition(GeoPoint p) {
+	public void getCurrentPosition(GeoPointND p) {
 		calcPoint(p);
 	}
 
-	public boolean getNext(GeoPoint p) {
+	public boolean getNext(GeoPointND p) {
 		// check if we are in our interval
 		boolean lineTo = true;
 		last_param = curr_param;
@@ -248,7 +248,7 @@ public class PathMoverGeneric implements PathMover {
 	 * 
 	 * @param p point
 	 */
-	protected void calcPoint(GeoPoint p) {
+	protected void calcPoint(GeoPointND p) {
 		double param;
 		switch (mode) {
 		case BOUNDS_FIXED:

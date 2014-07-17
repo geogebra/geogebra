@@ -294,7 +294,7 @@ public class AlgoLocusList extends AlgoElement {
 			if (actLocus instanceof AlgoLocusList)
 				actGeo = ((AlgoLocusList) actLocus).getLocus();
 			else if (actLocus instanceof AlgoLocus)
-				actGeo = ((AlgoLocus)actLocus).getLocus();
+				actGeo = (GeoLocus) ((AlgoLocus)actLocus).getLocus();
 			else
 				continue;
 			for (int j = 0; j < actGeo.getPointLength(); j++) {

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * @author Markus
@@ -40,7 +40,7 @@ public interface PathMover {
 	 * Note: the path parameter of p may be changed here!
 	 * @param p initial point
 	 */
-	public void init(GeoPoint p);
+	public void init(GeoPointND p);
 	
 	/**
 	 * Inits the path mover using a point p on the path
@@ -49,7 +49,7 @@ public interface PathMover {
 	 * @param p initial point
 	 * @param min_steps minimal number of steps for the particular instance
 	 */
-	public void init(GeoPoint p, int min_steps);
+	public void init(GeoPointND p, int min_steps);
 	
 	/**
 	 * Inits the path mover using a path parameter on the path
@@ -61,14 +61,14 @@ public interface PathMover {
 	 * Sets point p to the current position on the path
 	 * @param p current position
 	 */
-	public void getCurrentPosition(GeoPoint p);
+	public void getCurrentPosition(GeoPointND p);
 	
 	/**
 	 * Sets point p to the next position on the path
 	 * @param p point to be set
 	 * @return true: draw line to point p; false: move to point p
 	 */
-	public boolean getNext(GeoPoint p);
+	public boolean getNext(GeoPointND p);
 	
 	/**
 	 * @return false whenever the next call of getNext() 

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.LocateableList;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
@@ -303,5 +304,9 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public boolean isEqualPointND(GeoPointND geo);
 
 	public boolean isGeoPoint();
+	
+	
+	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint);
+
 
 }

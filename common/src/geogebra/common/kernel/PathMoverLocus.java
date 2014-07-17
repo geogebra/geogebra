@@ -12,17 +12,18 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoLocusND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 
 /**
  * Path mover for locus
+ * @param <T> for 2D/3D locus
  */
-public class PathMoverLocus extends PathMoverGeneric {
+public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 
-	private ArrayList<MyPoint> myPointList;
+	private ArrayList<T> myPointList;
 	private boolean noLineToSet, lastNoLineToSet;
 
 	/**
@@ -30,24 +31,24 @@ public class PathMoverLocus extends PathMoverGeneric {
 	 * 
 	 * @param locus locus
 	 */
-	public PathMoverLocus(GeoLocus locus) {
+	public PathMoverLocus(GeoLocusND<T> locus) {
 		super(locus);
 		myPointList = locus.getPoints();
 	}
 
 	@Override
-	public void init(GeoPoint p, int min_steps) {
-		if (p.getPath() instanceof GeoLocus) {
-			myPointList = ((GeoLocus) p.getPath()).getPoints();
+	public void init(GeoPointND p, int min_steps) {
+		if (p.getPath() instanceof GeoLocusND) {
+			myPointList = ((GeoLocusND<T>) p.getPath()).getPoints();
 		}
 		lastNoLineToSet = noLineToSet = false;
 		super.init(p, min_steps);
 	}
 
 	@Override
-	public void init(GeoPoint p) {
-		if (p.getPath() instanceof GeoLocus) {
-			myPointList = ((GeoLocus) p.getPath()).getPoints();
+	public void init(GeoPointND p) {
+		if (p.getPath() instanceof GeoLocusND) {
+			myPointList = ((GeoLocusND<T>) p.getPath()).getPoints();
 		}
 		lastNoLineToSet = noLineToSet = false;
 		super.init(p);
@@ -60,7 +61,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 	}
 
 	@Override
-	protected void calcPoint(GeoPoint p) {
+	protected void calcPoint(GeoPointND p) {
 		// curr_param is between 0 and myPointList.size()-1 now
 		double param = curr_param;
 		PathParameter pp = p.getPathParameter();
@@ -71,21 +72,18 @@ public class PathMoverLocus extends PathMoverGeneric {
 		int leftIndex = (int) Math.max(0, Math.floor(param));
 		int rightIndex = (int) Math.min(myPointList.size() - 1,
 				Math.ceil(param));
-		MyPoint leftPoint = myPointList.get(leftIndex);
-		MyPoint rightPoint = myPointList.get(rightIndex);
+		T leftPoint = myPointList.get(leftIndex);
+		T rightPoint = myPointList.get(rightIndex);
 
 		// interpolate between leftPoint and rightPoint
 		double param1 = (param - leftIndex);
 		double param2 = 1.0 - param1;
-		p.x = param2 * leftPoint.x + param1 * rightPoint.x;
-		p.y = param2 * leftPoint.y + param1 * rightPoint.y;
-		p.z = 1.0;
-
+		p.set(param1, param2, leftPoint, rightPoint);
 		p.updateCoords();
 	}
 
 	@Override
-	public boolean getNext(GeoPoint p) {
+	public boolean getNext(GeoPointND p) {
 		// check if we are in our interval
 		boolean lineTo = true;
 		last_param = curr_param;

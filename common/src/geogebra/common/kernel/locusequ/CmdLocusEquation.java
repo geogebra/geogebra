@@ -35,13 +35,13 @@ public class CmdLocusEquation extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			if (arg[0].isGeoLocus() &&
+			if (arg[0] instanceof GeoLocus &&
 					arg[0].getParentAlgorithm() != null &&
 					arg[0].getParentAlgorithm() instanceof AlgoLocus) {
 				GeoLocus locus = (GeoLocus) arg[0];
 				AlgoLocus algo = (AlgoLocus) locus.getParentAlgorithm();
-				locusPoint = algo.getLocusPoint();
-				movingPoint = algo.getMovingPoint();
+				locusPoint = (GeoPoint) algo.getLocusPoint();
+				movingPoint = (GeoPoint) algo.getMovingPoint();
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}

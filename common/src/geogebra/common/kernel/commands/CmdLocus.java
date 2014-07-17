@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -52,10 +53,10 @@ public class CmdLocus extends CommandProcessor {
 
 				if (p2.isPointOnPath()) {
 
-					GeoElement[] ret = { getAlgoDispatcher().Locus(c.getLabel(), p1, p2) };
+					GeoElement[] ret = { locus(c.getLabel(), p1, p2) };
 					return ret;
 				}
-				GeoElement[] ret = { getAlgoDispatcher().Locus(c.getLabel(), p2, p1) };
+				GeoElement[] ret = { locus(c.getLabel(), p2, p1) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))) {
@@ -72,5 +73,15 @@ public class CmdLocus extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * @param label label
+	 * @param p1 dependent point
+	 * @param p2 point on path
+	 * @return locus
+	 */
+	protected GeoElement locus(String label, GeoPointND p1, GeoPointND p2){
+		return getAlgoDispatcher().Locus(label, (GeoPoint) p1, (GeoPoint) p2);
 	}
 }
