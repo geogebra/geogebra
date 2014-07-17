@@ -25,6 +25,7 @@ import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.algos.AlgoJoinPoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
@@ -318,7 +319,7 @@ public class CopyPaste {
 	 * @return the possible side-effect geos
 	 */
 	protected static ArrayList<ConstructionElement> addAlgosDependentFromInside(
-			ArrayList<ConstructionElement> conels) {
+			ArrayList<ConstructionElement> conels, boolean putdown) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
 
@@ -334,7 +335,7 @@ public class CopyPaste {
 			for (int j = 0; j < geoal.size(); j++) {
 				ale = geoal.get(j);
 
-				//if (!(ale instanceof AlgoMacro)) {
+				if (!(ale instanceof AlgoMacro) || putdown) {
 
 					ac = new ArrayList<ConstructionElement>();
 					ac.addAll(Arrays.asList(ale.getInput()));
@@ -352,7 +353,7 @@ public class CopyPaste {
 						}
 					}
 
-				//}
+				}
 			}
 		}
 		conels.addAll(ret);
@@ -490,8 +491,9 @@ public class CopyPaste {
 	/**
 	 * This method saves geos and all predecessors of them in XML
 	 * 
-	 * @param app
-	 * @param geos
+	 * @param app the App object (the main application instance)
+	 * @param geos the set of GeoElement's that should be copied
+	 * @param putdown boolean which means the InsertFile case
 	 */
 	public static void copyToXML(App app,
 			ArrayList<GeoElement> geos, boolean putdown) {
@@ -530,12 +532,14 @@ public class CopyPaste {
 			return;
 		}
 
-		/*removeHavingMacroPredecessors(geoslocal);
+		if (putdown) {
+			removeHavingMacroPredecessors(geoslocal);
 
-		if (geoslocal.isEmpty()) {
-			app.setBlockUpdateScripts(scriptsBlocked);
-			return;
-		}*/
+			if (geoslocal.isEmpty()) {
+				app.setBlockUpdateScripts(scriptsBlocked);
+				return;
+			}
+		}
 
 		addSubGeos(geoslocal);
 
@@ -545,7 +549,7 @@ public class CopyPaste {
 		}
 
 		ArrayList<ConstructionElement> geostohide = addPredecessorGeos(geoslocal);
-		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
+		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown));
 
 		ArrayList<ConstructionElement> geoslocalsw = removeFreeNonselectedGeoNumerics(
 				geoslocal, geos);
