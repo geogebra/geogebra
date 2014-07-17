@@ -259,7 +259,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	
 	@Override
 	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPoint geoPoint1) {
+			GeoPointND geoPoint1) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
