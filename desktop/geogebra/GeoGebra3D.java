@@ -19,10 +19,7 @@ package geogebra;
 
 import geogebra3D.euclidian3D.opengl.RendererJogl;
 
-
-
 public class GeoGebra3D extends GeoGebra {
-
 
 	static {
 		RendererJogl.initCaps();
@@ -38,11 +35,6 @@ public class GeoGebra3D extends GeoGebra {
 	protected void startGeoGebra(CommandLineArguments args) {
 		// create and open first GeoGebra window
 		geogebra.gui.app.GeoGebraFrame3D.main(args);
-	}
-
-	@Override
-	protected String getSplashString() {
-		return "/geogebra3D/splash5beta.png";
 	}
 
 }

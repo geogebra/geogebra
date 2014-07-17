@@ -44,7 +44,8 @@ public class GeoGebra {
 
 		if (showSplash) {
 			// Show splash screen
-			URL imageURL = GeoGebra.class.getResource(getSplashString());
+			URL imageURL = GeoGebra.class.getResource("/geogebra/"
+					+ GeoGebraConstants.SPLASH_STRING);
 			if (imageURL != null) {
 				splashFrame = SplashWindow.splash(Toolkit.getDefaultToolkit()
 						.createImage(imageURL));
@@ -71,10 +72,6 @@ public class GeoGebra {
 	protected void startGeoGebra(CommandLineArguments args) {
 		// create and open first GeoGebra window
 		geogebra.gui.app.GeoGebraFrame.main(args);
-	}
-
-	protected String getSplashString() {
-		return "/geogebra/" + GeoGebraConstants.SPLASH_STRING;
 	}
 
 }
