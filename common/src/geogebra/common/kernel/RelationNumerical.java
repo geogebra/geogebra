@@ -275,6 +275,14 @@ public class RelationNumerical {
 			bool = false;
 		}
 		register(bool, RelationCommand.AreEqual, str);
+		
+		// Checking parallelism:
+		bool = ((GeoLine) a).isParallel((GeoLine) b);
+		if (bool) {
+			str = parallelString((GeoLine) a, (GeoLine) b);
+			register(true, RelationCommand.AreParallel, str);
+		}
+		
 		return reports;
 	}
 
