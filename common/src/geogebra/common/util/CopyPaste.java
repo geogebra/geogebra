@@ -532,7 +532,7 @@ public class CopyPaste {
 			return;
 		}
 
-		if (putdown) {
+		if (!putdown) {
 			removeHavingMacroPredecessors(geoslocal);
 
 			if (geoslocal.isEmpty()) {
