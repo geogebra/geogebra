@@ -86,6 +86,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// e.consume();
 			} else {
 				// default action
+				row = table.getLeadSelectionRow();
+				column = table.getLeadSelectionColumn();
 				if (row > 0) {
 					table.changeSelection(row - 1, column, false,
 					        e.isShiftKeyDown());
@@ -128,6 +130,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// e.consume();
 			} else {
 				// default action
+				row = table.getLeadSelectionRow();
+				column = table.getLeadSelectionColumn();
 				if (column > 0) {
 					table.changeSelection(row, column - 1, false,
 					        e.isShiftKeyDown());
@@ -154,6 +158,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 				table.changeSelection(row + 1, column, false,
 				        e.isShiftKeyDown());
+
 			} else if (e.isControlKeyDown()) {
 				// AppD.isControlDown(e)) {
 
@@ -173,14 +178,17 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						row++;
 					table.changeSelection(
 					        Math.min(table.getRowCount() - 1, row + 1), column,
-					        false, false);
+					        false, e.isShiftKeyDown());
 
 				}
 
 				// e.consume();
 			} else {
 				// default action
+				row = table.getLeadSelectionRow();
+				column = table.getLeadSelectionColumn();
 				if (row < table.getRowCount() - 1) {
+
 					table.changeSelection(row + 1, column, false,
 					        e.isShiftKeyDown());
 				}
@@ -280,6 +288,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			} else {
 
 				// default action
+				row = table.getLeadSelectionRow();
+				column = table.getLeadSelectionColumn();
 				if (column < table.getColumnCount() - 1) {
 					table.changeSelection(row, column + 1, false,
 					        e.isShiftKeyDown());

@@ -48,7 +48,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	private FlowPanel container;
 
 	private FocusPanel focusPanel;
-	
+
 	private int mouseYOffset, resizingRow = -1;
 	private boolean doRowResize = false;
 
@@ -114,12 +114,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 		focusPanel = new FocusPanel();
 		focusPanel.addKeyDownHandler(this);
-		Style s  = focusPanel.getElement().getStyle();
-		//s.setDisplay(Style.Display.NONE);
+		Style s = focusPanel.getElement().getStyle();
+		// s.setDisplay(Style.Display.NONE);
 		s.setPosition(Style.Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
-		
+
 		container = new FlowPanel();
 		container.add(grid);
 		container.add(focusPanel);
@@ -495,7 +495,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			focusPanel.setFocus(true);
 		}
 	};
-	
 
 	// ===============================================
 	// Key Listeners
@@ -515,7 +514,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		case KeyCodes.KEY_UP:
 			if (shiftDown) {
 				// extend the column selection
-				int row = table.minSelectionRow;
+				int row = table.getLeadSelectionRow();
+				table.setSelectionType(MyTableW.ROW_SELECT);
 				table.changeSelection(row - 1, -1, false, true);
 			} else {
 				// select topmost cell in first column left of the selection
@@ -531,7 +531,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		case KeyCodes.KEY_DOWN:
 			if (shiftDown) {
 				// extend the row selection
-				int row = table.maxSelectionRow;
+				int row = table.getLeadSelectionRow();
+				table.setSelectionType(MyTableW.ROW_SELECT);
 				table.changeSelection(row + 1, -1, false, true);
 			} else {
 				// select topmost cell in first column left of the selection
@@ -598,37 +599,32 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		container.getElement().getStyle().setTop(top, Unit.PX);
 	}
 
-	
-	public class MyFocusPanel extends SimplePanel implements Focusable{
+	public class MyFocusPanel extends SimplePanel implements Focusable {
 
-		public MyFocusPanel(Widget widget){
+		public MyFocusPanel(Widget widget) {
 			super(widget);
 			this.getElement().setPropertyInt("tabIndex", 0);
 		}
-		
-		
+
 		public int getTabIndex() {
-	        // TODO Auto-generated method stub
-	        return this.getElement().getPropertyInt("tabIndex");
-        }
+			// TODO Auto-generated method stub
+			return this.getElement().getPropertyInt("tabIndex");
+		}
 
 		public void setAccessKey(char key) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		public void setFocus(boolean focused) {
-	        this.getElement().focus();
-	        
-        }
+			this.getElement().focus();
+
+		}
 
 		public void setTabIndex(int index) {
 			this.getElement().setPropertyInt("tabIndex", index);
-        }
-		
+		}
+
 	}
 
-
-	
-	
 }

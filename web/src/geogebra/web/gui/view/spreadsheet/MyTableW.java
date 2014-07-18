@@ -783,6 +783,19 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	    return ssGrid.getRowFormatter().getElement(row).getOffsetHeight();
     }
 	
+	public int getLeadSelectionRow() {
+		if (leadSelectionRow < 0) {
+			return getSelectedRow();
+		}
+		return leadSelectionRow;
+	}
+
+	public int getLeadSelectionColumn() {
+		if (leadSelectionColumn < 0) {
+			return getSelectedColumn();
+		}
+		return leadSelectionColumn;
+	}
 	
 	/**
 	 * sets requirement that commands entered into cells must start with "="
@@ -900,7 +913,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			// not used anyway
 		} else {
 			if (extend) {
-			//	App.printStacktrace("extending");
 				leadSelectionColumn = columnIndex;
 				leadSelectionRow = rowIndex;
 				if (anchorSelectionColumn == -1)
@@ -2969,6 +2981,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	
 	
 
 }
