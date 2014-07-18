@@ -561,7 +561,7 @@ __GGB__keysVar.eu.command = {
     "Name": "Izena",
     "Name_Syntax": "[ <Objektua> ]",
     "Net": "Sarea",
-    "Net_Syntax": "[ <Poliedroa>, <Zenbakia> ]",
+    "Net_Syntax": "[ <Poliedroa>, <Zenbakia> ]\n[ <Poliedroa>, <Zenbakia>, <Aurpegia>, <Ertza>, <Ertza>, ... ]",
     "NextPrime": "HurrengoLehena",
     "NextPrime_Syntax": "[ <Zenbakia> ]",
     "Normal": "Normala",

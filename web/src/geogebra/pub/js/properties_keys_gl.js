@@ -561,7 +561,7 @@ __GGB__keysVar.gl.command = {
     "Name": "Nome",
     "Name_Syntax": "[ <Obxecto> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "PrimoSeguinte",
     "NextPrime_Syntax": "[ <N\xfamero> ]",
     "Normal": "Distribuci\xf3nNormal",

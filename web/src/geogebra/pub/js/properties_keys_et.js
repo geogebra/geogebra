@@ -561,7 +561,7 @@ __GGB__keysVar.et.command = {
     "Name": "T\xe4his",
     "Name_Syntax": "[ <Objekt> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "J\xe4rgmineAlgarv",
     "NextPrime_Syntax": "[ <Arv> ]",
     "Normal": "Normaaljaotus",

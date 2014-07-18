@@ -561,7 +561,7 @@ __GGB__keysVar.vi.command = {
     "Name": "Ten",
     "Name_Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "NguyenToKeTiep",
     "NextPrime_Syntax": "[ <S\u1ed1> ]",
     "Normal": "PhanPhoiChuan",

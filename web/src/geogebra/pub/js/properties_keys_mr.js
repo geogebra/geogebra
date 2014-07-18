@@ -561,7 +561,7 @@ __GGB__keysVar.mr.command = {
     "Name": "\u0928\u093e\u0935",
     "Name_Syntax": "[ <\u0935\u0938\u094d\u0924\u0942> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "NextPrime",
     "NextPrime_Syntax": "[ <Number> ]",
     "Normal": "\u092a\u094d\u0930\u0938\u093e\u092e\u093e\u0928\u094d\u092f",

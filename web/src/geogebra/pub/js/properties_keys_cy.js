@@ -561,7 +561,7 @@ __GGB__keysVar.cy.command = {
     "Name": "Enw",
     "Name_Syntax": "[ <Gwrthrych> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "CysefinNesaf",
     "NextPrime_Syntax": "[ <Number> ]",
     "Normal": "Normal",

@@ -561,7 +561,7 @@ __GGB__keysVar.cs.command = {
     "Name": "Nazev",
     "Name_Syntax": "[ <Objekt> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "NasledujiciPrvocislo",
     "NextPrime_Syntax": "[ <\u010c\xedslo> ]",
     "Normal": "NormalniRozdeleni",

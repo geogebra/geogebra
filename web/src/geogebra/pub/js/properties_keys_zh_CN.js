@@ -2349,7 +2349,7 @@ __GGB__keysVar.zh_CN.plain = {
     "GoToDownloadPage": "\u5230\u4e0b\u8f7d\u9875\u9762",
     "GraphicsView3D": "3D \u7ed8\u56fe\u533a",
     "GraphicsViewAsAsymptote": "Asymptote \u4ee3\u7801",
-    "GraphicsViewForPlaneA": "%0 \u7684\u89c6\u56fe",
+    "GraphicsViewForPlaneA": "%0\u89c6\u56fe",
     "GrayScale": "\u7070\u9636",
     "GreekCharacterA": "\u5e0c\u814a\u5b57\u6bcd\uff1a%0",
     "GridType": "\u7f51\u683c\u7c7b\u578b",

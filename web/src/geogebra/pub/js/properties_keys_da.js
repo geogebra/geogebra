@@ -561,7 +561,7 @@ __GGB__keysVar.da.command = {
     "Name": "Navn",
     "Name_Syntax": "[ <Objekt> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "N\xe6stePrimtal",
     "NextPrime_Syntax": "[ <tal> ]",
     "Normal": "Normal",

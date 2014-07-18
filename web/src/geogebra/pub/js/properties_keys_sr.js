@@ -561,7 +561,7 @@ __GGB__keysVar.sr.command = {
     "Name": "Ime",
     "Name_Syntax": "[ <objekat> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "Slede\u0107iProstBroj",
     "NextPrime_Syntax": "[ <broj> ]",
     "Normal": "NormalnaRaspodela",

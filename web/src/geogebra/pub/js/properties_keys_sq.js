@@ -561,7 +561,7 @@ __GGB__keysVar.sq.command = {
     "Name": "Emertim",
     "Name_Syntax": "[ <Objekt> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "PrimiRadhes",
     "NextPrime_Syntax": "[ <Numer> ]",
     "Normal": "ShperndarjeNormale",

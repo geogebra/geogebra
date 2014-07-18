@@ -561,7 +561,7 @@ __GGB__keysVar.fi.command = {
     "Name": "Nimi",
     "Name_Syntax": "[ <Objekti> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "SeuraavaAlkuluku",
     "NextPrime_Syntax": "[ <Luku> ]",
     "Normal": "Normaalijakauma",

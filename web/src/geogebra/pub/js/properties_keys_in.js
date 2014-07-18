@@ -561,7 +561,7 @@ __GGB__keysVar.in.command = {
     "Name": "Nama",
     "Name_Syntax": "[ <Objek> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "BilanganPrimaSelanjutnya",
     "NextPrime_Syntax": "[ <Angka> ]",
     "Normal": "Normal",

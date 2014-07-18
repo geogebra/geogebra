@@ -561,7 +561,7 @@ __GGB__keysVar.no.command = {
     "Name": "Name",
     "Name_Syntax": "[ <Object> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "NextPrime",
     "NextPrime_Syntax": "[ <Number> ]",
     "Normal": "Normal",

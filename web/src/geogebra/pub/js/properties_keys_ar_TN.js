@@ -561,7 +561,7 @@ __GGB__keysVar.ar_TN.command = {
     "Name": "\u0627\u0644\u0625\u0633\u0645",
     "Name_Syntax": "[ <\u0639\u0646\u0635\u0631> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "\u0627\u0644\u0623\u0648\u0644_\u0627\u0644\u0645\u0648\u0627\u0644\u064a",
     "NextPrime_Syntax": "[ <\u0639\u062f\u062f> ]",
     "Normal": "\u0627\u0644\u0639\u0627\u062f\u064a",

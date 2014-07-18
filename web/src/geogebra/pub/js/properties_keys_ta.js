@@ -561,7 +561,7 @@ __GGB__keysVar.ta.command = {
     "Name": "\u0baa\u0bc6\u0baf\u0bb0\u0bcd",
     "Name_Syntax": "[ <Object> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "NextPrime",
     "NextPrime_Syntax": "[ <Number> ]",
     "Normal": "\u0b9a\u0bbe\u0ba4\u0bbe\u0bb0\u0ba3\u0bae\u0bcd",

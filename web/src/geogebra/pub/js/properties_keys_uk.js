@@ -561,7 +561,7 @@ __GGB__keysVar.uk.command = {
     "Name": "\u041d\u0430\u0437\u0432\u0430",
     "Name_Syntax": "[ <\u041e\u0431\u2019\u0454\u043a\u0442> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "\u041d\u0430\u0441\u0442\u0443\u043f\u043d\u0435\u041f\u0440\u043e\u0441\u0442\u0435\u0427\u0438\u0441\u043b\u043e",
     "NextPrime_Syntax": "[ <\u0427\u0438\u0441\u043b\u043e> ]",
     "Normal": "\u041d\u043e\u0440\u043c\u0430\u043b\u044c\u043d\u0438\u0439\u0420\u043e\u0437\u043f\u043e\u0434\u0456\u043b",

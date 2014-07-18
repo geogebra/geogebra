@@ -561,7 +561,7 @@ __GGB__keysVar.is.command = {
     "Name": "Nafn",
     "Name_Syntax": "[ <Hlutur> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "N\xe6staFrumtala",
     "NextPrime_Syntax": "[ <Tala> ]",
     "Normal": "Normal",

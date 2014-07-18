@@ -561,7 +561,7 @@ __GGB__keysVar.ro.command = {
     "Name": "Nume",
     "Name_Syntax": "[ <Obiect> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "PrimUrm\u0103tor",
     "NextPrime_Syntax": "[ <Num\u0103r> ]",
     "Normal": "Normal\u0103",

@@ -561,7 +561,7 @@ __GGB__keysVar.nl.command = {
     "Name": "Naam",
     "Name_Syntax": "[ <Object> ]",
     "Net": "Net",
-    "Net_Syntax": "[ <Polyhedron>, <Number> ]",
+    "Net_Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "Volgend_Priemgetal",
     "NextPrime_Syntax": "[ <Getal> ]",
     "Normal": "Normaal",
