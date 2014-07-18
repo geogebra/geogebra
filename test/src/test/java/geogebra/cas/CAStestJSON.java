@@ -14,6 +14,9 @@ import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
 import geogebra.main.AppD;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -35,6 +38,19 @@ public class CAStestJSON {
 	  static CASTestLogger logger;
 	  static HashMap<String,HashMap<String, String>> testcases = new HashMap<String,HashMap<String,String>>();
 
+	  private static String readFileAsString(String filePath) throws IOException {
+	        StringBuffer fileData = new StringBuffer();
+	        BufferedReader reader = new BufferedReader(
+	                new FileReader(filePath));
+	        char[] buf = new char[1024];
+	        int numRead=0;
+	        while((numRead=reader.read(buf)) != -1){
+	            String readData = String.valueOf(buf, 0, numRead);
+	            fileData.append(readData);
+	        }
+	        reader.close();
+	        return fileData.toString();
+	    }
 	
 	@BeforeClass
 	  public static void setupCas () {
@@ -52,9 +68,9 @@ public class CAStestJSON {
 		
 		try {
 			Log.debug("CAS: loading testcases");
-			byte[] encoded = Files.readAllBytes(Paths.get("../web/war/__giac.js"));
+			String json = readFileAsString("../web/war/__giac.js");
 			Log.debug("CAS: parsing testcases");
-			JSONObject testsJSON =  new JSONObject(new String(encoded, "utf-8").substring("__giac = ".length()));
+			JSONObject testsJSON =  new JSONObject(json.substring("__giac = ".length()));
 			Log.debug("CAS: testcases parsed");
 			int i = 1;
 			while(testsJSON.has(""+i)){
