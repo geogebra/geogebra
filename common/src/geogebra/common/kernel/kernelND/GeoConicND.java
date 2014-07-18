@@ -1532,8 +1532,8 @@ FromMeta
 							char firstVar, secondVar;
 							double b1, b2;
 							// we have to check the first eigenvector: it could be (1,0) or (0,1)
-							// if it is (0,1) we have to swap the x and y
-							if (eigenvec[0].getY() == 0.0) {
+							// if it is (0,1) we have to swap the x and y, needs isZero for #4248
+							if (Kernel.isZero(eigenvec[0].getY())) {
 								firstVar = 'x';
 								secondVar = 'y';			
 								b1 = b.getX();
