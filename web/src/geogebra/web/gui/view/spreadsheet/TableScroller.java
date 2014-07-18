@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
@@ -15,23 +16,23 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TableScroller extends ScrollPanel implements ScrollHandler{
-	
+public class TableScroller extends ScrollPanel implements ScrollHandler {
+
 	private MyTableW table;
 	private Grid cellTable;
 	private SpreadsheetRowHeaderW rowHeader;
 	private Widget columnHeader;
-	
-	public TableScroller(MyTableW table, SpreadsheetRowHeaderW rowHeader, Widget columnHeader) {
-	    super(table.getGridPanel());
-	    this.table = table;
-	    this.cellTable = table.getGrid();
-	    this.rowHeader = rowHeader;
-	    this.columnHeader = columnHeader;
-	    
-	    addScrollHandler(this);
-    }
 
+	public TableScroller(MyTableW table, SpreadsheetRowHeaderW rowHeader,
+	        Widget columnHeader) {
+		super(table.getGridPanel());
+		this.table = table;
+		this.cellTable = table.getGrid();
+		this.rowHeader = rowHeader;
+		this.columnHeader = columnHeader;
+
+		addScrollHandler(this);
+	}
 
 	/**
 	 * Used by the scrollRectToVisible method to determine the proper direction
@@ -39,93 +40,92 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 	 * method is applicable to height also. The code assumes that
 	 * parentWidth/childWidth are positive and childAt can be negative.
 	 */
-   private int positionAdjustment(int parentWidth, int childWidth, int childAt)    {
+	private int positionAdjustment(int parentWidth, int childWidth, int childAt) {
 
-	  // App.debug("parent width = " + parentWidth);
-	  // App.debug("child width = " + childWidth);
-	  // App.debug("child at = " + childAt);
+		// App.debug("parent width = " + parentWidth);
+		// App.debug("child width = " + childWidth);
+		// App.debug("child at = " + childAt);
 		// +-----+
 		// | --- | No Change
 		// +-----+
-       if (childAt >= 0 && childWidth + childAt <= parentWidth)    {
-           return 0;
-       }
+		if (childAt >= 0 && childWidth + childAt <= parentWidth) {
+			return 0;
+		}
 
-       //   +-----+
-       //  ---------   No Change
-       //   +-----+
-       if (childAt <= 0 && childWidth + childAt >= parentWidth) {
-           return 0;
-       }
+		// +-----+
+		// --------- No Change
+		// +-----+
+		if (childAt <= 0 && childWidth + childAt >= parentWidth) {
+			return 0;
+		}
 
-       //   +-----+          +-----+
-       //   |   ----    ->   | ----|
-       //   +-----+          +-----+
-       if (childAt > 0 && childWidth <= parentWidth)    {
-           return -childAt + parentWidth - childWidth;
-       }
+		// +-----+ +-----+
+		// | ---- -> | ----|
+		// +-----+ +-----+
+		if (childAt > 0 && childWidth <= parentWidth) {
+			return -childAt + parentWidth - childWidth;
+		}
 
-       //   +-----+             +-----+
-       //   |  --------  ->     |--------
-       //   +-----+             +-----+
-       if (childAt >= 0 && childWidth >= parentWidth)   {
-           return -childAt;
-       }
+		// +-----+ +-----+
+		// | -------- -> |--------
+		// +-----+ +-----+
+		if (childAt >= 0 && childWidth >= parentWidth) {
+			return -childAt;
+		}
 
-       //   +-----+          +-----+
-       // ----    |     ->   |---- |
-       //   +-----+          +-----+
-       if (childAt <= 0 && childWidth <= parentWidth)   {
-           return -childAt;
-       }
+		// +-----+ +-----+
+		// ---- | -> |---- |
+		// +-----+ +-----+
+		if (childAt <= 0 && childWidth <= parentWidth) {
+			return -childAt;
+		}
 
-       //   +-----+             +-----+
-       //-------- |      ->   --------|
-       //   +-----+             +-----+
-       if (childAt < 0 && childWidth >= parentWidth)    {
-           return -childAt + parentWidth - childWidth;
-       }
+		// +-----+ +-----+
+		// -------- | -> --------|
+		// +-----+ +-----+
+		if (childAt < 0 && childWidth >= parentWidth) {
+			return -childAt + parentWidth - childWidth;
+		}
 
-       return 0;
-   }
+		return 0;
+	}
 
 	public void scrollRectToVisible(GRectangle contentRect) {
-			this.contentRect = contentRect;
-			Scheduler.get().scheduleDeferred(scrollRectCommand);
+		this.contentRect = contentRect;
+		Scheduler.get().scheduleDeferred(scrollRectCommand);
 	}
-   
+
 	GRectangle contentRect;
-	
+
 	Scheduler.ScheduledCommand scrollRectCommand = new Scheduler.ScheduledCommand() {
 		public void execute() {
 			scrollRectToVisibleCommand();
 		}
 	};
-	
-	
-   /**
-    * Scrolls the view so that <code>Rectangle</code>
-    * within the view becomes visible.
-    * <p>
-    * This attempts to validate the view before scrolling if the
-    * view is currently not valid - <code>isValid</code> returns false.
-    * To avoid excessive validation when the containment hierarchy is
-    * being created this will not validate if one of the ancestors does not
-    * have a peer, or there is no validate root ancestor, or one of the
-    * ancestors is not a <code>Window</code> or <code>Applet</code>.
-    * <p>
-    * Note that this method will not scroll outside of the
-    * valid viewport; for example, if <code>contentRect</code> is larger
-    * than the viewport, scrolling will be confined to the viewport's
-    * bounds.
-    *
-    * @param contentRect the <code>Rectangle</code> to display
-    * @see JComponent#isValidateRoot
-    * @see java.awt.Component#isValid
-    * @see java.awt.Component#getPeer
-    */
+
+	/**
+	 * Scrolls the view so that <code>Rectangle</code> within the view becomes
+	 * visible.
+	 * <p>
+	 * This attempts to validate the view before scrolling if the view is
+	 * currently not valid - <code>isValid</code> returns false. To avoid
+	 * excessive validation when the containment hierarchy is being created this
+	 * will not validate if one of the ancestors does not have a peer, or there
+	 * is no validate root ancestor, or one of the ancestors is not a
+	 * <code>Window</code> or <code>Applet</code>.
+	 * <p>
+	 * Note that this method will not scroll outside of the valid viewport; for
+	 * example, if <code>contentRect</code> is larger than the viewport,
+	 * scrolling will be confined to the viewport's bounds.
+	 * 
+	 * @param contentRect
+	 *            the <code>Rectangle</code> to display
+	 * @see JComponent#isValidateRoot
+	 * @see java.awt.Component#isValid
+	 * @see java.awt.Component#getPeer
+	 */
 	public void scrollRectToVisibleCommand() {
-	
+
 		Element view = this.getWidget().getElement();
 
 		if (view == null) {
@@ -136,24 +136,28 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 		int barHeight = AbstractNativeScrollbar.getNativeScrollbarHeight();
 		int barWidth = AbstractNativeScrollbar.getNativeScrollbarWidth();
 
-		
-		dx = positionAdjustment(this.getOffsetWidth() - barWidth, (int) contentRect.getWidth(),
-		        (int) contentRect.getX()-getAbsoluteLeft());
+		dx = positionAdjustment(this.getOffsetWidth() - barWidth,
+		        (int) contentRect.getWidth(), (int) contentRect.getX()
+		                - getAbsoluteLeft());
 		dy = positionAdjustment(this.getOffsetHeight() - barHeight,
-		        (int) contentRect.getHeight(), (int) contentRect.getY() - getAbsoluteTop());
+		        (int) contentRect.getHeight(), (int) contentRect.getY()
+		                - getAbsoluteTop());
 
-		//App.debug("-------- dx / dy : " + dx + " / " + dy);
+		// App.debug("-------- dx / dy : " + dx + " / " + dy);
 		if (dx != 0 || dy != 0) {
 			GPoint viewPosition = getViewPosition();
 			Dimension viewSize = new Dimension(view.getOffsetWidth(),
 			        view.getOffsetHeight());
 			int startX = viewPosition.x;
 			int startY = viewPosition.y;
-			Dimension extent = new Dimension(this.getOffsetWidth() - barWidth, this.getOffsetHeight() - barHeight);
+			Dimension extent = new Dimension(this.getOffsetWidth() - barWidth,
+			        this.getOffsetHeight() - barHeight);
 
-			//App.debug("viewSize w / h : " + viewSize.width + " / " + viewSize.height);
-			//App.debug("viewPosition x / y : " + viewPosition.x + " / " + viewPosition.y);
-			
+			// App.debug("viewSize w / h : " + viewSize.width + " / " +
+			// viewSize.height);
+			// App.debug("viewPosition x / y : " + viewPosition.x + " / " +
+			// viewPosition.y);
+
 			viewPosition.x -= dx;
 			viewPosition.y -= dy;
 
@@ -174,8 +178,9 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 				viewPosition.y = 0;
 			}
 
-		//	App.debug("viewPosition x / y : " + viewPosition.x + " / " + viewPosition.y);
-			
+			// App.debug("viewPosition x / y : " + viewPosition.x + " / " +
+			// viewPosition.y);
+
 			if (viewPosition.x != startX || viewPosition.y != startY) {
 				doAdjustScroll = false;
 				setViewPosition(viewPosition);
@@ -272,6 +277,21 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 		columnHeader.getElement().getStyle().setLeft(l, Unit.PX);
 	}
 
+	/**
+	 * @param showHScrollBar
+	 *            true = hide the horizontal scroll bar
+	 */
+	public void setShowHScrollBar(boolean showHScrollBar) {
+		getScrollableElement().getStyle().setOverflowX(
+		        showHScrollBar ? Style.Overflow.AUTO : Style.Overflow.HIDDEN);
+	}
 
+	/**
+	 * @param showVScrollBar true = hide the vertical scroll bar
+	 */
+	public void setShowVScrollBar(boolean showVScrollBar) {
+		getScrollableElement().getStyle().setOverflowY(
+		        showVScrollBar ? Style.Overflow.AUTO : Style.Overflow.HIDDEN);
+	}
 
 }

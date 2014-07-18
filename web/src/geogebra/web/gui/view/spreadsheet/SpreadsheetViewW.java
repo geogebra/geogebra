@@ -1098,25 +1098,13 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		table.setShowColumnHeader(showColumnHeader);
 	}
 
-	/*public void setShowVScrollBar(boolean showVScrollBar) {
-		if (showVScrollBar) {
-			spreadsheet
-					.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		} else {
-			spreadsheet
-					.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		}
-	}*/
+	public void setShowVScrollBar(boolean showVScrollBar) {
+		table.setShowVScrollBar(showVScrollBar);
+	}
 
-	/*public void setShowHScrollBar(boolean showHScrollBar) {
-		if (showHScrollBar) {
-			spreadsheet
-					.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		} else {
-			spreadsheet
-					.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		}
-	}*/
+	public void setShowHScrollBar(boolean showHScrollBar) {
+		table.setShowHScrollBar(showHScrollBar);
+	}
 
 	public void setShowGrid(boolean showGrid) {
 		//table.setShowGrid(showGrid);
@@ -1278,8 +1266,8 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		// layout
 		setShowColumnHeader(settings().showColumnHeader());
 		setShowRowHeader(settings().showRowHeader());
-		//?//setShowVScrollBar(settings().showVScrollBar());
-		//?//setShowHScrollBar(settings().showHScrollBar());
+		setShowVScrollBar(settings().showVScrollBar());
+		setShowHScrollBar(settings().showHScrollBar());
 		setShowGrid(settings().showGrid());
 		setAllowToolTips(settings().allowToolTips());
 		//?//setShowFormulaBar(settings().showFormulaBar());

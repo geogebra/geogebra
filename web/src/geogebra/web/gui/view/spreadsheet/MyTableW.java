@@ -2981,7 +2981,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
-	
+	public void setShowVScrollBar(boolean showVScrollBar) {
+	    scroller.setShowVScrollBar(showVScrollBar);
+    }
+
+	public void setShowHScrollBar(boolean showHScrollBar) {
+	    scroller.setShowHScrollBar(showHScrollBar);
+    }
 	
 
 }
