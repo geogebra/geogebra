@@ -1,6 +1,8 @@
 package geogebra.common.kernel.scripting;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoDependentGeoCopy;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,8 +36,15 @@ public class CmdParseToFunction extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok = arg[0].isGeoFunction()) && arg[1].isGeoText()) {
-
+				
 				GeoFunction fun = (GeoFunction) arg[0];
+				if(!fun.isLabelSet()){
+					AlgoElement algo = fun.getParentAlgorithm();
+					if(algo instanceof AlgoDependentGeoCopy){
+						fun = (GeoFunction) algo.getInput(0);
+					}
+				}
+				
 				String str = ((GeoText) arg[1]).getTextString();
 
 				try {
