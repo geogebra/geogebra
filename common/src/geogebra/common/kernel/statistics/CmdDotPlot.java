@@ -40,13 +40,14 @@ public class CmdDotPlot extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 			
 		case 2:
-			if (arg[0].isGeoList() && arg[1].isGeoNumeric()) {
+			boolean[] ok = new boolean[2];
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
 				AlgoDotPlotScale algo = new AlgoDotPlotScale(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]);
 				GeoElement[] ret = {algo.getResult() };
 				return ret;
 			} 
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 	
 		     // more than one argument
         default :     	
