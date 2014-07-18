@@ -13,14 +13,11 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-
-import java.util.Arrays;
 
 
 /**
@@ -42,23 +39,32 @@ import java.util.Arrays;
  * @version 2010-8-10
  */
 
-public class AlgoDotPlot extends AlgoElement {
+public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 
-	private GeoList inputList; //input
-    private GeoList outputList; //output	
+	protected GeoList inputList; //input
+    protected GeoList outputList; //output	
     private int size;
 	private double[] sortedData;
 
-    public AlgoDotPlot(Construction cons, String label, GeoList inputList) {
+	public AlgoDotPlot(Construction cons, String label, GeoList inputList) {
+		this(cons, label, inputList, null);
+	}
+	
+	public AlgoDotPlot(Construction cons, GeoList inputList) {
+		this(cons, inputList, null);
+	}
+	
+    protected AlgoDotPlot(Construction cons, String label, GeoList inputList, GeoNumeric scale) {
         
-    	this(cons, inputList);
+    	this(cons, inputList, scale);
     	outputList.setLabel(label);
         
     }
 
-    public AlgoDotPlot(Construction cons, GeoList inputList) {
+    protected AlgoDotPlot(Construction cons, GeoList inputList, GeoNumeric scale) {
         super(cons);
         this.inputList = inputList;
+        setScale(scale);
                
         outputList = new GeoList(cons);
 
@@ -66,18 +72,36 @@ public class AlgoDotPlot extends AlgoElement {
         compute();
         
     }
+    
+    /**
+     * 
+     * @param scale vertical scale (if specified)
+     */
+    protected void setScale(GeoNumeric scale){
+    	//not used here
+    }
 
     
     @Override
 	public Commands getClassName() {
 		return Commands.DotPlot;
 	}
+    
+    /**
+     * set the input
+     */
+    protected void setInput(){
+    	 input = new GeoElement[1];
+         input[0] = inputList;
+    }
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[1];
-        input[0] = inputList;
+    	
+        createHelperAlgos(inputList);
 
+        setInput();
+        
         setOutputLength(1);
         setOutput(0,outputList);
         setDependencies(); // done by AlgoElement
@@ -86,9 +110,11 @@ public class AlgoDotPlot extends AlgoElement {
     public GeoList getResult() {
         return outputList;
     }
+    
+    private int oldListSize;
 
     @Override
-	public final void compute() {
+	public void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {
@@ -98,21 +124,8 @@ public class AlgoDotPlot extends AlgoElement {
 
     	//========================================
     	// sort the raw data
-    	
-    	// convert geoList to sorted array of double
-		sortedData = new double[size];
-		for (int i=0; i < size; i++) {
-			GeoElement geo = inputList.get(i);
-			if (geo instanceof NumberValue) {
-				NumberValue num = (NumberValue) geo;
-				sortedData[i] = num.getDouble();
-
-			} else {
-				outputList.setUndefined();
-				return;
-			}    		    		
-		}   
-		Arrays.sort(sortedData);
+    	GeoList list1 = algoUnique.getResult();		
+    	GeoList list2 = algoFreq.getResult();
 	       
         
 		// prepare output list. Pre-existing geos will be recycled, 
@@ -124,38 +137,51 @@ public class AlgoDotPlot extends AlgoElement {
 			outputList.remove(extraGeo);			
 		}	
 		
-		int oldListSize = outputList.size();
+		oldListSize = outputList.size();
     	 
                      
         //========================================
-        // iterate through the sorted data and 
         // create dot plot points
         boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
+		
+		int index = 0;
+		for (int i = 0; i < list1.size(); i++) {
+			double x;
+			if (list1.get(i).isGeoNumeric()) {
+				x = list1.get(i).evaluateDouble();
+			} else {
+				// use integers 1,2,3 ...  to position non-numeric data 
+				x = i+1;
+			}
+			
+			int height = (int) list2.get(i).evaluateDouble();
+			
+			for (int y = 1; y <= height; y++){
+				double scaledY = getScaledY(y);
+				if(index < oldListSize){
+					((GeoPoint)outputList.get(index)).setCoords(x, scaledY, 1.0);
+				}else{
+					outputList.add(new GeoPoint(cons, null, x, scaledY, 1.0));
+				}
+				index++;
+			}
 
-        double k = 1.0;
-        
-        // first point
-        if(outputList.size()>0)
-			((GeoPoint)outputList.get(0)).setCoords(sortedData[0], k, 1.0);
-    	else
-    	 outputList.add(new GeoPoint(cons, null, sortedData[0], k, 1.0));
-        
-        // remaining points
-        for(int i = 1; i< size; i++){
-        	// stack repeated values
-        	if(sortedData[i] == sortedData[i-1]) 
-        		++k;
-        	else
-        		k = 1;
-        	if(i<oldListSize)
-				((GeoPoint)outputList.get(i)).setCoords(sortedData[i], k, 1.0);
-        	else
-        	 outputList.add(new GeoPoint(cons, null, sortedData[i], k, 1.0));
-        }      
+		}
+
 		
         cons.setSuppressLabelCreation(suppressLabelCreation); 
     }
+   
+    /**
+     * 
+     * @param y current height
+     * @return scaled y
+     */
+    protected double getScaledY(int y){
+    	return y;
+    }
+
 
 	// TODO Consider locusequability
   

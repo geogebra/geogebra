@@ -17,7 +17,6 @@ import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.euclidian.draw.DrawBarGraph.DrawType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.advanced.AlgoUnique;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
@@ -27,7 +26,7 @@ import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.statistics.AlgoFrequency;
+import geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
 import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
 
@@ -48,7 +47,7 @@ import org.apache.commons.math.distribution.ZipfDistributionImpl;
  * @author G. Sturr
  * 
  */
-public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
+public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInformationAlgo {
 	
 	private Map<Integer,HashMap<Integer,Object>> tags=new HashMap<Integer,HashMap<Integer,Object>>();
 	
@@ -102,9 +101,6 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	// flag to determine if result sum measures area or length
 	private boolean isAreaSum = true;
 
-	// helper algos
-	private AlgoUnique algoUnique;
-	private AlgoFrequency algoFreq;
 
 	/******************************************************
 	 * BarChart[<interval start>,<interval stop>, <list of heights>]
@@ -428,10 +424,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			break;
 
 		case TYPE_BARCHART_RAWDATA:
-			algoUnique = new AlgoUnique(cons, list1);
-			algoFreq = new AlgoFrequency(cons, null, null, list1);
-			cons.removeFromConstructionList(algoUnique);
-			cons.removeFromConstructionList(algoFreq);
+			createHelperAlgos(list1);
 
 			// fall through
 		case TYPE_BARCHART_FREQUENCY_TABLE:
@@ -1116,13 +1109,10 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			return;
 		}
 		
-		if (algoFreq != null) {
-			algoFreq.remove();
-		}
-		if (algoUnique != null) {
-			algoUnique.remove();
-		}
+		removeHelperAlgos();
 	}
+	
+	
 	public void setBarColor(GColor color, int numBar){
 		if (color==null){
 			if (tags.containsKey(numBar)){
