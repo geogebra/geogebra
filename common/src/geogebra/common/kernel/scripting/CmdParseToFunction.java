@@ -6,7 +6,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
@@ -35,21 +34,23 @@ public class CmdParseToFunction extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if ((ok = arg[0].isGeoFunction()) && arg[1].isGeoText()) {
+			if ((ok = (arg[0].isGeoFunction() || arg[0].isGeoFunctionNVar())) && arg[1].isGeoText()) {
 				
-				GeoFunction fun = (GeoFunction) arg[0];
+				GeoElement fun = arg[0];
 				if(!fun.isLabelSet()){
 					AlgoElement algo = fun.getParentAlgorithm();
 					if(algo instanceof AlgoDependentGeoCopy){
-						fun = (GeoFunction) algo.getInput(0);
+						fun = algo.getInput(0);
 					}
 				}
 				
 				String str = ((GeoText) arg[1]).getTextString();
 
 				try {
-					fun.set(kernelA.getAlgebraProcessor().evaluateToFunction(
-							str, true));
+					GeoElement parsed = arg[0].isGeoFunction() ? kernelA.getAlgebraProcessor().evaluateToFunction(
+							str, true):kernelA.getAlgebraProcessor().evaluateToFunctionNVar(
+									str, true);
+					fun.set(parsed);
 					fun.updateCascade();
 				} catch (Exception e) {
 					// eg ParseToFunction[f, "hello"]
