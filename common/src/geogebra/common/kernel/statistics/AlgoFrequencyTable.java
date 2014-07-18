@@ -44,6 +44,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	private GeoBoolean isCumulative; // input
 	private GeoBoolean useDensity; // input
 	private GeoNumeric density; // input
+	private GeoNumeric scale; // input
 	private GeoNumeric chart; // input
 
 	// private GeoList frequency; //output
@@ -59,19 +60,30 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 	public AlgoFrequencyTable(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
-		this(cons, label, isCumulative, classList, dataList, null, null);
+		this(cons, label, isCumulative, classList, dataList, null, null, null);
+	}
+
+	public AlgoFrequencyTable(Construction cons, String label,
+			GeoBoolean isCumulative, GeoList classList, GeoList dataList, GeoNumeric scale) {
+		this(cons, label, isCumulative, classList, dataList, null, null, scale);
 	}
 
 	public AlgoFrequencyTable(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
-		this(cons, isCumulative, classList, dataList, useDensity, density);
+		this(cons, label, isCumulative, classList, dataList, useDensity, density, null);
+	}
+	
+	public AlgoFrequencyTable(Construction cons, String label,
+			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
+			GeoBoolean useDensity, GeoNumeric density, GeoNumeric scale) {
+		this(cons, isCumulative, classList, dataList, useDensity, density, scale);
 		table.setLabel(label);
 	}
 
 	public AlgoFrequencyTable(Construction cons, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
-			GeoNumeric density) {
+			GeoNumeric density, GeoNumeric scale) {
 		super(cons);
 
 		this.classList = classList;
@@ -79,8 +91,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		this.isCumulative = isCumulative;
 		this.useDensity = useDensity;
 		this.density = density;
+		this.scale = scale;
 		freq = new AlgoFrequency(cons, isCumulative, classList, dataList,
-				useDensity, density);
+				useDensity, density, scale);
 		cons.removeFromConstructionList(freq);
 		table = new GeoText(cons);
 
@@ -92,6 +105,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		table.setLaTeX(true, false);
 
 	}
+	
+    
 
 	public AlgoFrequencyTable(Construction cons, String label, GeoNumeric chart) {
 		this(cons, chart);
@@ -151,6 +166,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			if (density != null)
 				tempList.add(density);
 
+			if (scale != null)
+				tempList.add(scale);
+
 			input = new GeoElement[tempList.size()];
 			input = tempList.toArray(input);
 			break;
@@ -160,6 +178,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		setOutput(0, table);
 		setDependencies(); // done by AlgoElement
 	}
+	
 
 	public GeoText getResult() {
 		return table;
@@ -185,10 +204,12 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		}
 		return strHeader;
 	}
+	
+	private double scaleFactor;
 
 	@Override
 	public final void compute() {
-
+		
 		switch (type) {
 		case HISTOGRAM:
 			AlgoHistogram algoHistogram = (AlgoHistogram) chart
@@ -262,6 +283,10 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			// get the unique value list and compute frequencies for this list
 			if (classList == null) {
 
+				if (scale != null){
+					useDens = true; //we assume this will be used to compute frequencies
+				}
+				
 				strHeader = new String[2];
 				strHeader[0] = loc.getMenu("Value");
 				strHeader[1] = useDens ? loc.getMenu("Frequency") : loc
@@ -275,7 +300,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 					strValue[i] = va.get(i).toValueString(
 							table.getStringTemplate());
 					strFrequency[i] = fr.get(i).toValueString(
-							table.getStringTemplate());
+								table.getStringTemplate());
 				}
 				createLaTeXTable(false);
 			}

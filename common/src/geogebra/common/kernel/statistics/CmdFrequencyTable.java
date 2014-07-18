@@ -60,21 +60,30 @@ public class CmdFrequencyTable extends CommandProcessor {
 		case 2:
 
 			//  arg[0] = is cumulative,  arg[1] = data list,
-			if ((arg[0].isGeoBoolean()) && (arg[1].isGeoList())) {
+			if ((ok[0] = arg[0].isGeoBoolean()) && (ok[1] = arg[1].isGeoList())) {
 				GeoElement[] ret = { FrequencyTable(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1]) };
 				return ret;
 			}
 
 			// arg[0] = class list, arg[1] = data list
-			else if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
-				if (arg[1].isGeoList()) {
-					GeoElement[] ret = { FrequencyTable(c.getLabel(),
-							(GeoList) arg[0], (GeoList) arg[1]) };
-					return ret;
-				}
+			else if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
+				GeoElement[] ret = { FrequencyTable(c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1]) };
+				return ret;
 				
-			} else if (!ok[0])
+			} 
+			
+			// arg[0] = data list,  arg[1] = scale factor,
+			else if ((ok[0] = arg[0].isGeoList())  && (ok[1] = arg[1].isGeoNumeric())) {
+				GeoElement[] ret = { FrequencyTable(c.getLabel(),
+								(GeoList) arg[0], (GeoNumeric) arg[1]) };
+				return ret;
+
+			} 
+
+			
+			else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			else {
 				throw argErr(app, c.getName(), arg[1]);
@@ -99,6 +108,8 @@ public class CmdFrequencyTable extends CommandProcessor {
 				return ret;
 
 			} 
+			
+			
 			else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			else if (!ok[1])
@@ -192,6 +203,17 @@ public class CmdFrequencyTable extends CommandProcessor {
 			GeoList dataList) {
 		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
 				isCumulative, null, dataList);
+		GeoText table = algo.getResult();
+		return table;
+	}
+	
+	/**
+	 * FrequencyTable[isCumulative, dataList] Zbynek Konecny
+	 */
+	final private GeoText FrequencyTable(String label, 
+			GeoList dataList, GeoNumeric scale) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+				null, null, dataList, scale);
 		GeoText table = algo.getResult();
 		return table;
 	}

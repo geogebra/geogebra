@@ -67,7 +67,7 @@ public class AlgoFrequency extends AlgoElement {
 	 */
 	public AlgoFrequency(Construction cons, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
-		this(cons, isCumulative, classList, dataList, null, null);
+		this(cons, isCumulative, classList, dataList, null, null, null);
 	}
 
 	/**
@@ -82,9 +82,11 @@ public class AlgoFrequency extends AlgoElement {
 	public AlgoFrequency(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
-		this(cons, isCumulative, classList, dataList, useDensity, density);
+		this(cons, isCumulative, classList, dataList, useDensity, density, null);
 		frequency.setLabel(label);
 	}
+	
+	private GeoNumeric scale;
 
 	/**
 	 * @param cons
@@ -93,10 +95,11 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param dataList
 	 * @param useDensity
 	 * @param density
+	 * @param scale scale factor
 	 */
 	AlgoFrequency(Construction cons, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
-			GeoNumeric density) {
+			GeoNumeric density, GeoNumeric scale) {
 		super(cons);
 
 		this.classList = classList;
@@ -104,6 +107,7 @@ public class AlgoFrequency extends AlgoElement {
 		this.isCumulative = isCumulative;
 		this.useDensity = useDensity;
 		this.density = density;
+		this.scale = scale;
 
 		frequency = new GeoList(cons);
 		setInputOutput();
@@ -172,6 +176,9 @@ public class AlgoFrequency extends AlgoElement {
 		if (density != null)
 			tempList.add(density);
 
+		if (scale != null)
+			tempList.add(scale);
+
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
 
@@ -196,6 +203,9 @@ public class AlgoFrequency extends AlgoElement {
 		return contingencyColumnValues;
 	}
 
+	
+	private double scaleFactor;
+	
 	@Override
 	public final void compute() {
 
@@ -231,6 +241,14 @@ public class AlgoFrequency extends AlgoElement {
 				frequency.setUndefined();
 				return;
 			}
+		}
+		
+		if (scale != null){
+			if (!scale.isDefined()){
+				frequency.setUndefined();
+				return;
+			}
+			scaleFactor = scale.getValue();
 		}
 
 		frequency.setDefined(true);
@@ -277,9 +295,9 @@ public class AlgoFrequency extends AlgoElement {
 				value.add(text);
 				if (classList == null) {
 					if (doCumulative) {
-						frequency.add(new GeoNumeric(cons, f.getCumFreq(s)));
+						addValue(f.getCumFreq(s));
 					} else {
-						frequency.add(new GeoNumeric(cons, f.getCount(s)));
+						addValue(f.getCount(s));
 					}
 				}
 			}
@@ -302,9 +320,9 @@ public class AlgoFrequency extends AlgoElement {
 
 				if (classList == null)
 					if (doCumulative)
-						frequency.add(new GeoNumeric(cons, f.getCumFreq(n)));
+						addValue(f.getCumFreq(n));
 					else
-						frequency.add(new GeoNumeric(cons, f.getCount(n)));
+						addValue(f.getCount(n));
 			}
 		}
 
@@ -366,13 +384,21 @@ public class AlgoFrequency extends AlgoElement {
 				// System.out.println("class freq: " + classFreq);
 
 				// add the frequency to the output GeoList
-				frequency.add(new GeoNumeric(cons,
-						doCumulative ? cumulativeClassFreq : classFreq));
+				addValue(doCumulative ? cumulativeClassFreq : classFreq);
 			}
 
 			// handle the last (highest) class frequency specially
 			// it must also count values equal to the highest class bound
 
+		}
+	}
+	
+
+	private void addValue(double v){
+		if (scale != null){
+			frequency.add(new GeoNumeric(cons, v * scaleFactor));
+		}else{
+			frequency.add(new GeoNumeric(cons, v));
 		}
 	}
 
