@@ -572,9 +572,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// ------ row header
 		rowHeader = new SpreadsheetRowHeaderW(app, this);
-		s = rowHeader.getElement().getStyle();
+		s = rowHeader.getContainer().getElement().getStyle();
 		s.setPosition(Style.Position.RELATIVE);
-
+		
+		
 		rowHeaderContainer = new FlowPanel();
 		s = rowHeaderContainer.getElement().getStyle();
 		s.setDisplay(Display.BLOCK);
@@ -584,9 +585,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
 
-		rowHeaderContainer.add(rowHeader);
+		rowHeaderContainer.add(rowHeader.getContainer());
 		rowHeaderContainer.add(cornerContainerLowerLeft);
-
+		
+		
+		
 		// spreadsheet table
 		ssGrid = new Grid(tableModel.getRowCount(), tableModel.getColumnCount());
 		gridPanel = new AbsolutePanel();
@@ -1551,7 +1554,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	public GRectangle getCellRect(int row, int column, boolean spacing) {
 		GPoint min = getPixel(column, row, true);
+		if(min == null){
+			return null;
+		}
 		GPoint max = getPixel(column, row, false);
+		if(max == null){
+			return null;
+		}
 		return new GRectangleW(min.x, min.y, max.x - min.x, max.y - min.y);
 	}
 

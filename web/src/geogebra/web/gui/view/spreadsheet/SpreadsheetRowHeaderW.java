@@ -3,16 +3,22 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.view.spreadsheet.MyTable;
+import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -21,17 +27,28 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
-        MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler
+/**
+ */
+public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
+        MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyDownHandler
 
 {
 	private static final long serialVersionUID = 1L;
 	private AppW app;
 	private SpreadsheetViewW view;
 	private MyTableW table;
+	private Grid grid;
+	private FlowPanel container;
 
+	private FocusPanel focusPanel;
+	
 	private int mouseYOffset, resizingRow = -1;
 	private boolean doRowResize = false;
 
@@ -44,8 +61,6 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	 * @param table
 	 */
 	public SpreadsheetRowHeaderW(AppW app, MyTableW table) {
-
-		super(table.getModel().getRowCount(), 1);
 
 		this.app = app;
 		this.table = table;
@@ -72,37 +87,52 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 
 	private void registerListeners() {
 
-		addDomHandler(this, MouseDownEvent.getType());
-		addDomHandler(this, MouseUpEvent.getType());
-		addDomHandler(this, MouseMoveEvent.getType());
-		addDomHandler(this, ClickEvent.getType());
-		addDomHandler(this, DoubleClickEvent.getType());
+		grid.addDomHandler(this, MouseDownEvent.getType());
+		grid.addDomHandler(this, MouseUpEvent.getType());
+		grid.addDomHandler(this, MouseMoveEvent.getType());
+		grid.addDomHandler(this, ClickEvent.getType());
+		grid.addDomHandler(this, DoubleClickEvent.getType());
+
 	}
 
 	private void prepareGUI() {
 
-		setCellPadding(0);
-		setCellSpacing(0);
-		this.setHeight("0px");
+		grid = new Grid(table.getModel().getRowCount(), 1);
 
-		getElement().addClassName("geogebraweb-table-spreadsheet");
+		grid.setCellPadding(0);
+		grid.setCellSpacing(0);
+		grid.setHeight("0px");
 
-		getColumnFormatter().getElement(0).getStyle()
+		grid.getElement().addClassName("geogebraweb-table-spreadsheet");
+
+		grid.getColumnFormatter().getElement(0).getStyle()
 		        .setWidth(view.ROW_HEADER_WIDTH, Style.Unit.PX);
 
-		for (int row = 0; row < getRowCount(); row++) {
+		for (int row = 0; row < grid.getRowCount(); row++) {
 			initializeCell(row);
 		}
+
+		focusPanel = new FocusPanel();
+		focusPanel.addKeyDownHandler(this);
+		Style s  = focusPanel.getElement().getStyle();
+		//s.setDisplay(Style.Display.NONE);
+		s.setPosition(Style.Position.ABSOLUTE);
+		s.setTop(0, Unit.PX);
+		s.setLeft(0, Unit.PX);
+		
+		container = new FlowPanel();
+		container.add(grid);
+		container.add(focusPanel);
 	}
 
 	private void initializeCell(int rowIndex) {
 
-		setText(rowIndex, 0, (rowIndex + 1) + "");
+		grid.setText(rowIndex, 0, (rowIndex + 1) + "");
 
 		int rowHeight = app.getSettings().getSpreadsheet().preferredRowHeight();
 		setRowHeight(rowIndex, rowHeight);
 
-		Element elm = getCellFormatter().getElement(rowIndex, 0);
+		Element elm = grid.getCellFormatter().getElement(rowIndex, 0);
 
 		elm.addClassName("SVheader");
 		elm.getStyle().setBackgroundColor(
@@ -114,11 +144,11 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	 */
 	public void updateRowCount() {
 
-		if (getRowCount() >= table.getRowCount())
+		if (grid.getRowCount() >= table.getRowCount())
 			return;
 
-		int oldRowCount = getRowCount();
-		resizeRows(table.getRowCount());
+		int oldRowCount = grid.getRowCount();
+		grid.resizeRows(table.getRowCount());
 
 		for (int i = oldRowCount; i < table.getRowCount(); ++i) {
 			initializeCell(i);
@@ -129,16 +159,20 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	// Getters/Setters
 	// ============================================
 
+	public Widget getContainer() {
+		return container;
+	}
+
 	private String getCursor() {
-		return this.getElement().getStyle().getCursor();
+		return grid.getElement().getStyle().getCursor();
 	}
 
 	private void setRowResizeCursor() {
-		this.getElement().getStyle().setCursor(Style.Cursor.ROW_RESIZE);
+		grid.getElement().getStyle().setCursor(Style.Cursor.ROW_RESIZE);
 	}
 
 	private void setDefaultCursor() {
-		this.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+		grid.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
 	}
 
 	/**
@@ -149,11 +183,11 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	 */
 	public void setRowHeight(int rowIndex, int rowHeight) {
 
-		if (rowIndex >= getRowCount()) {
+		if (rowIndex >= grid.getRowCount()) {
 			return;
 		}
 
-		getRowFormatter().getElement(rowIndex).getStyle()
+		grid.getRowFormatter().getElement(rowIndex).getStyle()
 		        .setHeight(rowHeight, Style.Unit.PX);
 	}
 
@@ -166,8 +200,9 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 		String selectedBackground = MyTableW.SELECTED_BACKGROUND_COLOR_HEADER
 		        .toString();
 
-		for (int rowIndex = 0; rowIndex < this.getRowCount(); rowIndex++) {
-			Style s = getCellFormatter().getElement(rowIndex, 0).getStyle();
+		for (int rowIndex = 0; rowIndex < grid.getRowCount(); rowIndex++) {
+			Style s = grid.getCellFormatter().getElement(rowIndex, 0)
+			        .getStyle();
 
 			if (table.getSelectionType() == MyTable.COLUMN_SELECT) {
 				setBgColorIfNeeded(s, defaultBackground);
@@ -246,7 +281,7 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 	}
 
 	// ===============================================
-	// Mouse Listener
+	// Mouse Listeners
 	// ===============================================
 
 	/*
@@ -267,6 +302,8 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 
 		isMouseDown = true;
 		e.preventDefault();
+
+		requestFocus();
 
 		boolean shiftPressed = e.isShiftKeyDown();
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
@@ -447,61 +484,151 @@ public class SpreadsheetRowHeaderW extends Grid implements MouseDownHandler,
 
 	}
 
+	// transfer focus to the table
+	// @Override
+	public void requestFocus() {
+		Scheduler.get().scheduleDeferred(requestFocusCommand);
+	}
+
+	Scheduler.ScheduledCommand requestFocusCommand = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			focusPanel.setFocus(true);
+		}
+	};
+	
+
 	// ===============================================
-	// Key Listener
+	// Key Listeners
 	// ===============================================
 
-	/*
-	 * public void keyTyped(KeyEvent e) { }
-	 * 
-	 * public void keyPressed(KeyEvent e) {
-	 * 
-	 * int keyCode = e.getKeyCode();
-	 * 
-	 * boolean metaDown = AppD.isControlDown(e); boolean altDown =
-	 * e.isAltDown(); boolean shiftDown = e.isShiftDown();
-	 * 
-	 * // Application.debug(keyCode); switch (keyCode) {
-	 * 
-	 * case KeyEvent.VK_UP:
-	 * 
-	 * if (shiftDown) { // extend the column selection int row =
-	 * table.getSelectionModel().getLeadSelectionIndex();
-	 * table.changeSelection(row - 1, -1, false, true); } else { // select
-	 * topmost cell in first column to the left of the // selection if
-	 * (table.minSelectionRow > 0) table.setSelection(0, table.minSelectionRow -
-	 * 1); else table.setSelection(0, table.minSelectionRow);
-	 * table.requestFocus(); } break;
-	 * 
-	 * case KeyEvent.VK_DOWN: if (shiftDown) { // extend the column selection
-	 * int row = table.getSelectionModel().getLeadSelectionIndex();
-	 * table.changeSelection(row + 1, -1, false, true); } else { // select
-	 * topmost cell in first column to the left of the // selection if
-	 * (table.minSelectionRow > 0) table.setSelection(0, table.minSelectionRow +
-	 * 1); else table.setSelection(0, table.minSelectionRow);
-	 * table.requestFocus(); } break;
-	 * 
-	 * case KeyEvent.VK_C: // control + c if (metaDown && minSelectionRow != -1
-	 * && maxSelectionRow != -1) { table.copyPasteCut.copy(0, minSelectionRow,
-	 * table.getModel() .getColumnCount() - 1, maxSelectionRow, altDown);
-	 * e.consume(); } break; case KeyEvent.VK_V: // control + v if (metaDown &&
-	 * minSelectionRow != -1 && maxSelectionRow != -1) { boolean storeUndo =
-	 * table.copyPasteCut.paste(0, minSelectionRow,
-	 * table.getModel().getColumnCount() - 1, maxSelectionRow); if (storeUndo)
-	 * app.storeUndoInfo(); e.consume(); } break; case KeyEvent.VK_X: // control
-	 * + x if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
-	 * table.copyPasteCut.copy(0, minSelectionRow, table.getModel()
-	 * .getColumnCount() - 1, maxSelectionRow, altDown); e.consume(); } boolean
-	 * storeUndo = table.copyPasteCut.delete(0, minSelectionRow,
-	 * table.getModel().getColumnCount() - 1, maxSelectionRow); if (storeUndo)
-	 * app.storeUndoInfo(); break;
-	 * 
-	 * case KeyEvent.VK_DELETE: // delete case KeyEvent.VK_BACK_SPACE: // delete
-	 * on MAC storeUndo = table.copyPasteCut.delete(0, minSelectionRow, table
-	 * .getModel().getColumnCount() - 1, maxSelectionRow); if (storeUndo)
-	 * app.storeUndoInfo(); break; } }
-	 * 
-	 * public void keyReleased(KeyEvent e) { }
-	 */
+	public void onKeyDown(KeyDownEvent e) {
+		App.debug("row header key down");
+		e.stopPropagation();
+		int keyCode = e.getNativeKeyCode();
 
+		boolean shiftDown = e.isShiftKeyDown();
+		boolean altDown = e.isAltKeyDown();
+		boolean ctrlDown = e.isControlKeyDown() || e.isMetaKeyDown();
+
+		switch (keyCode) {
+
+		case KeyCodes.KEY_UP:
+			if (shiftDown) {
+				// extend the column selection
+				int row = table.minSelectionRow;
+				table.changeSelection(row - 1, -1, false, true);
+			} else {
+				// select topmost cell in first column left of the selection
+				if (table.minSelectionRow > 0) {
+					table.setSelection(0, table.minSelectionRow - 1);
+				} else {
+					table.setSelection(0, table.minSelectionRow);
+					// table.requestFocus();
+				}
+			}
+			break;
+
+		case KeyCodes.KEY_DOWN:
+			if (shiftDown) {
+				// extend the row selection
+				int row = table.maxSelectionRow;
+				table.changeSelection(row + 1, -1, false, true);
+			} else {
+				// select topmost cell in first column left of the selection
+				if (table.minSelectionRow >= 0)
+					table.setSelection(0, table.minSelectionRow + 1);
+				else
+					table.setSelection(0, table.minSelectionRow);
+				// table.requestFocus();
+			}
+			break;
+
+		case KeyCodes.KEY_C:
+			// control + c
+			if (ctrlDown && table.minSelectionRow != -1
+			        && table.maxSelectionRow != -1) {
+				table.copyPasteCut.copy(0, table.minSelectionRow, table
+				        .getModel().getColumnCount() - 1,
+				        table.maxSelectionRow, altDown);
+			}
+			break;
+
+		case KeyCodes.KEY_V: // control + v
+			if (ctrlDown && table.minSelectionRow != -1
+			        && table.maxSelectionRow != -1) {
+				boolean storeUndo = table.copyPasteCut.paste(0,
+				        table.minSelectionRow, table.getModel()
+				                .getColumnCount() - 1, table.maxSelectionRow);
+				if (storeUndo)
+					app.storeUndoInfo();
+			}
+			break;
+
+		case KeyCodes.KEY_X: // control + x
+			if (ctrlDown && table.minSelectionRow != -1
+			        && table.maxSelectionRow != -1) {
+				table.copyPasteCut.copy(0, table.minSelectionRow, table
+				        .getModel().getColumnCount() - 1,
+				        table.maxSelectionRow, altDown);
+			}
+			boolean storeUndo = table.copyPasteCut.delete(0,
+			        table.minSelectionRow,
+			        table.getModel().getColumnCount() - 1,
+			        table.maxSelectionRow);
+			if (storeUndo)
+				app.storeUndoInfo();
+			break;
+
+		case KeyCodes.KEY_DELETE: // delete
+		case KeyCodes.KEY_BACKSPACE: // delete on MAC
+			storeUndo = table.copyPasteCut.delete(0, table.minSelectionRow,
+			        table.getModel().getColumnCount() - 1,
+			        table.maxSelectionRow);
+			if (storeUndo)
+				app.storeUndoInfo();
+			break;
+		}
+	}
+
+	public int getOffsetWidth() {
+		return getContainer().getOffsetWidth();
+	}
+
+	public void setTop(int top) {
+		container.getElement().getStyle().setTop(top, Unit.PX);
+	}
+
+	
+	public class MyFocusPanel extends SimplePanel implements Focusable{
+
+		public MyFocusPanel(Widget widget){
+			super(widget);
+			this.getElement().setPropertyInt("tabIndex", 0);
+		}
+		
+		
+		public int getTabIndex() {
+	        // TODO Auto-generated method stub
+	        return this.getElement().getPropertyInt("tabIndex");
+        }
+
+		public void setAccessKey(char key) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setFocus(boolean focused) {
+	        this.getElement().focus();
+	        
+        }
+
+		public void setTabIndex(int index) {
+			this.getElement().setPropertyInt("tabIndex", index);
+        }
+		
+	}
+
+
+	
+	
 }

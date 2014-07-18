@@ -38,7 +38,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	private AppW app;
 	private Kernel kernel;
 	private SpreadsheetViewW view;
-
 	private Grid table;
 	
 	// LaTeX
@@ -236,9 +235,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 			}
 		}
-
-		if (view.allowSpecialEditor()
-		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+		
+		if (useSpecialEditor(row, column)) {
 			updateSpecialEditor(table, geo, row, column);
 			return;
 		}
@@ -269,6 +267,14 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		e.stopPropagation();
 	}
 
+	private boolean useSpecialEditor(int row, int column) {
+		if (!view.allowSpecialEditor() || (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE)) {
+			return false;
+		}
+		return geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList();
+	}
+    
+	
 	private void updateSpecialEditor(Grid table, GeoElement geo, int row,
 	        int column) {
 

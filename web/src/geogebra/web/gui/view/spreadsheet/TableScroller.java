@@ -19,9 +19,10 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 	
 	private MyTableW table;
 	private Grid cellTable;
-	private Widget rowHeader, columnHeader;
+	private SpreadsheetRowHeaderW rowHeader;
+	private Widget columnHeader;
 	
-	public TableScroller(MyTableW table, Widget rowHeader, Widget columnHeader) {
+	public TableScroller(MyTableW table, SpreadsheetRowHeaderW rowHeader, Widget columnHeader) {
 	    super(table.getGridPanel());
 	    this.table = table;
 	    this.cellTable = table.getGrid();
@@ -267,7 +268,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler{
 		adjustScroll();
 		int t = -getVerticalScrollPosition();
 		int l = -getHorizontalScrollPosition();
-		rowHeader.getElement().getStyle().setTop(t, Unit.PX);
+		rowHeader.setTop(t);
 		columnHeader.getElement().getStyle().setLeft(l, Unit.PX);
 	}
 
