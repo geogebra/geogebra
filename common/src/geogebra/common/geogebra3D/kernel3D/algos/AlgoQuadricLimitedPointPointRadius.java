@@ -84,6 +84,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		//check end points
 		if (!((GeoElement) origin).isDefined() || origin.isInfinite()
 				||	!((GeoElement) secondPoint).isDefined() || secondPoint.isInfinite()
+				|| !radius.isDefined()
 		){
 			getQuadric().setUndefined();
 			return;

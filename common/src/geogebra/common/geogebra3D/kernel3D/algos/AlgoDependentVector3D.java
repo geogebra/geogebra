@@ -22,6 +22,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.algos.DependentAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 
@@ -30,7 +31,7 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
  * @author  Michael
  * @version 
  */
-public class AlgoDependentVector3D extends AlgoElement3D {
+public class AlgoDependentVector3D extends AlgoElement3D implements DependentAlgo {
 
     /**
 	 * 

@@ -17,8 +17,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 
 /**
@@ -72,7 +72,7 @@ public class AlgoDefined extends AlgoElement {
     		return;
     	}
     	else if (inputGeo.isGeoVector()) {
-    		GeoVector v = (GeoVector)inputGeo;
+    		GeoVectorND v = (GeoVectorND)inputGeo;
     		outputBoolean.setValue(inputGeo.isDefined() && !v.isInfinite());
     		return;
     	}

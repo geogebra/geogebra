@@ -30,6 +30,8 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.DependentAlgo;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -663,8 +665,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 */
 	public static final void buildLatexValueStringCoordCartesian3D(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sb, GeoVectorND vector, boolean symbolic) {
 		String[] inputs;
-		if (symbolic && vector.getParentAlgorithm() instanceof AlgoDependentVector) {
-			AlgoDependentVector algo = (AlgoDependentVector) vector.getParentAlgorithm();
+		if (symbolic && vector.getParentAlgorithm() instanceof DependentAlgo) {
+			AlgoElement algo = vector.getParentAlgorithm();
 			String symbolicStr = algo.toString(tpl);
 			inputs = symbolicStr.substring(1, symbolicStr.length() - 1).split(
 					",");

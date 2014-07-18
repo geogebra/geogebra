@@ -58,6 +58,11 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND{
     @Override
 	public void compute() {
     	
+    	if (!getg().isDefined() || !geth().isDefined()){
+    		getAngle().setUndefined();
+    		return;
+    	}
+    	
     	// lines origins and directions
     	Coords o1 = getg().getStartInhomCoords();
     	v1 = getg().getDirectionInD3();   	

@@ -105,6 +105,14 @@ public class DrawAngle3D extends Drawable3DCurves {
 		
 		GeoAngle angle = (GeoAngle) getGeoElement();
 		double a = angle.getDouble();
+		
+		if (Kernel.isZero(a)){ // nothing to display
+			setGeometryIndex(-1);
+			setSurfaceIndex(-1);
+			angleVisible = false;
+			return true;
+		}
+		
 		double size = angle.getArcSize() / getView3D().getScale();
 		double labelRadius = 1;
 		
