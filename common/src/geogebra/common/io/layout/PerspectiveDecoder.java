@@ -47,7 +47,7 @@ public class PerspectiveDecoder {
 		if(code.length() == 0){
 			return null;
 		}
-		for(int i=0; i < Layout.defaultPerspectives.length; i++){
+		for(int i=1; i <= Layout.defaultPerspectives.length; i++){
 			if(code.equals(i+"")){
 				return Layout.defaultPerspectives[i-1];
 			}
