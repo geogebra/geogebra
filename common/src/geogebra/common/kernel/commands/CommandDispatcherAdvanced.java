@@ -53,7 +53,6 @@ import geogebra.common.kernel.advanced.CmdIsPrime;
 import geogebra.common.kernel.advanced.CmdIteration;
 import geogebra.common.kernel.advanced.CmdIterationList;
 import geogebra.common.kernel.advanced.CmdLeftRightSide;
-import geogebra.common.kernel.advanced.CmdMatrixPlot;
 import geogebra.common.kernel.advanced.CmdMatrixRank;
 import geogebra.common.kernel.advanced.CmdMaximize;
 import geogebra.common.kernel.advanced.CmdMinimize;
@@ -194,8 +193,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdReducedRowEchelonForm(kernel);
 		case Determinant:
 			return new CmdDeterminant(kernel);
-		case MatrixPlot:
-			return new CmdMatrixPlot(kernel);
+		//case MatrixPlot:
+		//	return new CmdMatrixPlot(kernel);
 		case Identity:
 			return new CmdIdentity(kernel);
 		case Centroid:

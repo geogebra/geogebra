@@ -81,7 +81,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	PathParameter(TABLE_FUNCTION), Asymptote(TABLE_FUNCTION), CurvatureVector(TABLE_FUNCTION), Curvature(TABLE_FUNCTION),
    	OsculatingCircle(TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(TABLE_FUNCTION),
    	ImplicitCurve(TABLE_FUNCTION),ImplicitDerivative(TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION),
-   	ContourPlot(TABLE_FUNCTION), Spline(TABLE_FUNCTION), Nyquist(TABLE_FUNCTION),
+   	Spline(TABLE_FUNCTION), Nyquist(TABLE_FUNCTION),
 	//=============================================================
 	// conics
 	//=============================================================
@@ -155,7 +155,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	ApplyMatrix(TABLE_VECTOR), UnitVector(TABLE_VECTOR), Vector(TABLE_VECTOR), UnitOrthogonalVector(TABLE_VECTOR),
    	OrthogonalVector(TABLE_VECTOR), Invert(TABLE_VECTOR), Transpose(TABLE_VECTOR), ReducedRowEchelonForm(TABLE_VECTOR),
    	Determinant(TABLE_VECTOR), Identity(TABLE_VECTOR),Dimension(TABLE_VECTOR),
-   	MatrixRank(TABLE_VECTOR), MatrixPlot(TABLE_VECTOR),
+   	MatrixRank(TABLE_VECTOR), 
    	
 	//=============================================================
 	// transformations
@@ -183,7 +183,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Checkbox(TABLE_SCRIPTING), Textfield(TABLE_SCRIPTING), Button(TABLE_SCRIPTING), Execute(TABLE_SCRIPTING),
    	GetTime(TABLE_SCRIPTING), ShowLabel(TABLE_SCRIPTING), SetAxesRatio(TABLE_SCRIPTING), SetVisibleInView(TABLE_SCRIPTING),
    	ShowAxes(TABLE_SCRIPTING), ShowGrid(TABLE_SCRIPTING),AttachCopyToView(TABLE_SCRIPTING),RunClickScript(TABLE_SCRIPTING),
-   	RunUpdateScript(TABLE_SCRIPTING),DensityPlot(TABLE_FUNCTION), SetPerspective(TABLE_SCRIPTING),
+   	RunUpdateScript(TABLE_SCRIPTING), SetPerspective(TABLE_SCRIPTING),
    	StartLogging(TABLE_SCRIPTING), StopLogging(TABLE_SCRIPTING), 
    	
 	//=============================================================	
@@ -236,6 +236,9 @@ public enum Commands implements CommandsConstants, GetCommand{
 	//=============================================================
 
    	Turtle(TABLE_GEOGEBRA), TurtleForward(TABLE_GEOGEBRA), TurtleBack(TABLE_GEOGEBRA), TurtleLeft(TABLE_GEOGEBRA), TurtleRight(TABLE_GEOGEBRA),
+   	
+   	// disabled in GeoGebra 5.0, include in GeoGebra 5.2
+   	MatrixPlot(TABLE_VECTOR), DensityPlot(TABLE_FUNCTION), ContourPlot(TABLE_FUNCTION), 
    	
    	//==
    	

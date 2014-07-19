@@ -350,7 +350,7 @@ public abstract class CommandDispatcher {
 			case TurtleRight:
 			case RunClickScript:
 			case RunUpdateScript:
-			case DensityPlot:
+			//case DensityPlot:
 				return getScriptingDispatcher().dispatch(command,kernel);
 	
 				
@@ -413,7 +413,7 @@ public abstract class CommandDispatcher {
 			case Transpose:
 			case ReducedRowEchelonForm:
 			case Determinant:
-			case MatrixPlot:
+			//case MatrixPlot:
 			case Identity:
 			case Centroid:
 			case MajorAxis:
@@ -550,7 +550,7 @@ public abstract class CommandDispatcher {
 			case Center:
 			case Element:
 			case Sequence:
-			case ContourPlot:
+			//case ContourPlot:
 				
 			case Reflect:
 			case Mirror:

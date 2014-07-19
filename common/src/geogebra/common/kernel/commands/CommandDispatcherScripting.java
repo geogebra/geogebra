@@ -185,8 +185,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 						return new CmdRunClickScript(kernel);
 					case RunUpdateScript:
 						return new CmdRunUpdateScript(kernel);
-					case DensityPlot:
-						return new CmdDensityPlot(kernel);
+					//case DensityPlot:
+					//	return new CmdDensityPlot(kernel);
 		}
 		return null;
 	}

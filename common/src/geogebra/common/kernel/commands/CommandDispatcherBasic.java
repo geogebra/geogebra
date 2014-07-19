@@ -164,8 +164,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdElement(kernel);
 		case Sequence:
 			return new CmdSequence(kernel);
-		case ContourPlot:
-			return new CmdContourPlot(kernel);
+		//case ContourPlot:
+		//	return new CmdContourPlot(kernel);
 			
 		case Reflect:
 		case Mirror:
