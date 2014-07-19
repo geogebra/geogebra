@@ -561,7 +561,7 @@ __GGB__keysVar.fr.command = {
     "Name": "Nom",
     "Name_Syntax": "[ <Objet> ]",
     "Net": "Patron",
-    "Net_Syntax": "[ <Poly\xe8dre>, <Nombre> ]",
+    "Net_Syntax": "[ <Poly\xe8dre>, <Nombre> ]\n[ <Poly\xe8dre>, <Nombre>, <Face>, <Ar\xeate>, <Ar\xeate>, ... ]",
     "NextPrime": "PremierSuivant",
     "NextPrime_Syntax": "[ <Nombre> ]",
     "Normal": "Normale",

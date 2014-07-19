@@ -561,7 +561,7 @@ __GGB__keysVar.es.command = {
     "Name": "Nombre",
     "Name_Syntax": "[ <Objeto> ]",
     "Net": "Desarrollo",
-    "Net_Syntax": "[ <Poliedro>, <N\xfamero> ]",
+    "Net_Syntax": "[ <Poliedro>, <N\xfamero> ]\n[ <Poliedro>, <N\xfamero>, <Cara>, <Arista>, <Arista>, ... ]",
     "NextPrime": "PrimoSiguiente",
     "NextPrime_Syntax": "[ <N\xfamero> ]",
     "Normal": "Normal",
