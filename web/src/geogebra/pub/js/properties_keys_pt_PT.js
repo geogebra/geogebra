@@ -2454,7 +2454,7 @@ __GGB__keysVar.pt_PT.plain = {
     "Month_8": "agosto",
     "Month_9": "setembro",
     "More": "Mais",
-    "MultivariableFunction": "Fun\xe7\xe3o Multivariada",
+    "MultivariableFunction": "Fun\xe7\xe3o de v\xe1rias vari\xe1veis",
     "Name": "Nome",
     "Name_button": "bot\xe3o",
     "Name_edge": "aresta",
