@@ -2700,14 +2700,14 @@ public abstract class EuclidianController {
 	
 		if (selPoints() == 2) {
 			// fetch the two selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPointND[] points = getSelectedPointsND();
 			GeoElement locus;
 			checkZooming(); 
 			
 			if (points[0].getPath() == null) {
-				locus = getAlgoDispatcher().Locus(null, points[0], points[1]);
+				locus = companion.locus(points[0], points[1]);
 			} else {
-				locus = getAlgoDispatcher().Locus(null, points[1], points[0]);
+				locus = companion.locus(points[1], points[0]);
 			}
 			GeoElement[] ret = { null };
 			ret[0] = locus;

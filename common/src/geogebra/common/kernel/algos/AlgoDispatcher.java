@@ -862,12 +862,12 @@ public class AlgoDispatcher {
 	/**
 	 * locus line for Q dependent on P. Note: P must be a point on a path.
 	 */
-	final public GeoElement Locus(String label, GeoPoint Q, GeoPoint P) {
+	final public GeoElement Locus(String label, GeoPointND Q, GeoPointND P) {
 		if (!LocusCheck(P, Q))
 			return null;
 		if (P.getPath() instanceof GeoList)
 			if (((GeoList)P.getPath()).shouldUseAlgoLocusList(true))
-				return (new AlgoLocusList(cons, label, Q, P)).getLocus();
+				return (new AlgoLocusList(cons, label, (GeoPoint) Q, (GeoPoint) P)).getLocus();
 		return (new AlgoLocus(cons, label, Q, P)).getLocus();
 	}
 	

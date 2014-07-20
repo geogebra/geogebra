@@ -585,5 +585,16 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().Vector(null, (GeoPoint) a, endPoint);
 	}
 	
+	/**
+	 * 
+	 * @param a dependent point
+	 * @param b point on path
+	 * @return locus
+	 */
+	protected GeoElement locus(GeoPointND a, GeoPointND b){
+		
+		return ec.getAlgoDispatcher().Locus(null, a, b);
+	}
+	
 	
 }

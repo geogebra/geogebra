@@ -538,4 +538,15 @@ public class EuclidianControllerFor3DCompanion extends EuclidianControllerCompan
 		
 	}
 	
+	
+	@Override
+	protected GeoElement locus(GeoPointND a, GeoPointND b){
+		
+		if (a.isGeoElement3D() || b.isGeoElement3D()){
+			return ec.kernel.getManager3D().Locus3D(null, a, b);
+		}
+		
+		return super.locus(a, b);
+	}
+	
 }

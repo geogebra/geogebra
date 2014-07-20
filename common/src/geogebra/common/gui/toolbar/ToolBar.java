@@ -429,6 +429,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_TANGENTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_LOCUS);
 		sb.append( " | ");
 		
 		
