@@ -81,7 +81,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	PathParameter(TABLE_FUNCTION), Asymptote(TABLE_FUNCTION), CurvatureVector(TABLE_FUNCTION), Curvature(TABLE_FUNCTION),
    	OsculatingCircle(TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(TABLE_FUNCTION),
    	ImplicitCurve(TABLE_FUNCTION),ImplicitDerivative(TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION),
-   	Spline(TABLE_FUNCTION), Nyquist(TABLE_FUNCTION),
+   	Spline(TABLE_FUNCTION),
 	//=============================================================
 	// conics
 	//=============================================================
@@ -238,7 +238,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Turtle(TABLE_GEOGEBRA), TurtleForward(TABLE_GEOGEBRA), TurtleBack(TABLE_GEOGEBRA), TurtleLeft(TABLE_GEOGEBRA), TurtleRight(TABLE_GEOGEBRA),
    	
    	// disabled in GeoGebra 5.0, include in GeoGebra 5.2
-   	MatrixPlot(TABLE_VECTOR), DensityPlot(TABLE_FUNCTION), ContourPlot(TABLE_FUNCTION), 
+   	MatrixPlot(TABLE_VECTOR), DensityPlot(TABLE_FUNCTION), ContourPlot(TABLE_FUNCTION), Nyquist(TABLE_FUNCTION),
    	
    	//==
    	
