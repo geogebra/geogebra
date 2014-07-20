@@ -144,6 +144,13 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		sum.setLabel(label);
 
 	}
+	
+	public AlgoBarChart(Construction cons, String label, GeoList list1,
+			GeoNumeric width, GeoNumeric scale) {
+		this(cons, list1, null, width, null, null, null, scale, TYPE_BARCHART_RAWDATA);
+		sum.setLabel(label);
+
+	}
 
 	/******************************************************
 	 * BarChart[<a>,<b>, <list of raw data>, <bar width>] (no label)
@@ -240,7 +247,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		sum.setLabel(label);
 
 	}
-
+	
+	private GeoNumeric scale;
+	
 	/******************************************************
 	 * General constructor
 	 * 
@@ -258,6 +267,29 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			NumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
 			GeoNumeric pointType, int type) {
+		
+		this(cons, list1, list2, width, isHorizontal, join, pointType, null, type);
+
+	}
+
+	/******************************************************
+	 * General constructor
+	 * 
+	 * @param cons
+	 * @param list1
+	 * @param list2
+	 * @param width
+	 * @param isHorizontal
+	 * @param join
+	 * @param showStepJump
+	 * @param showPoints
+	 * @param pointType
+	 * @param scale
+	 * @param type
+	 */
+	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
+			NumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
+			GeoNumeric pointType, GeoNumeric scale, int type) {
 		super(cons);
 
 		this.type = type;
@@ -270,6 +302,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		this.isHorizontal = isHorizontal;
 		this.hasJoin = join;
 		this.pointType = pointType;
+		
+		this.scale = scale;
 
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
@@ -424,7 +458,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 			break;
 
 		case TYPE_BARCHART_RAWDATA:
-			createHelperAlgos(list1);
+			createHelperAlgos(list1, scale);
 
 			// fall through
 		case TYPE_BARCHART_FREQUENCY_TABLE:
@@ -436,6 +470,10 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 			}
 			if (widthGeo != null) {
 				list.add(widthGeo);
+			}
+
+			if (scale != null) {
+				list.add(scale);
 			}
 
 			input = new GeoElement[list.size()];
@@ -902,7 +940,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 
 			// frequencies
 			double y = list2.get(i).evaluateDouble();
-			if (!Double.isNaN(y) && y >= 0) {
+			if (!Double.isNaN(y)) {
 				yval[i] = y;
 				ySum += y;
 			} else {
@@ -914,10 +952,10 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		// set the sum
 		if (isAreaSum) {
 			// sum = total area
-			sum.setValue(ySum * barWidth);
+			sum.setValue(Math.abs(ySum) * barWidth);
 		} else {
 			// sum = total length
-			sum.setValue(ySum);
+			sum.setValue(Math.abs(ySum));
 		}
 	}
 

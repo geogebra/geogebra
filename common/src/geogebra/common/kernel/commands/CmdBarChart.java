@@ -75,8 +75,20 @@ public class CmdBarChart extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}if ((ok[0] = (arg[0].isGeoList()))
+					&& (ok[1] = (arg[1].isGeoNumeric())) 
+					&& (ok[2] = (arg[2].isGeoNumeric()))) {
+				
+				AlgoBarChart algo = new AlgoBarChart(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2]);
+
+				GeoElement[] ret = { algo.getSum() };
+				return ret;
+			}
+			
+			throw argErr(app, c.getName(), null);
+			
+			
 		case 6:
 			// create local variable at position 3 and resolve arguments
 			arg = resArgsLocalNumVar(c, 3, 4);

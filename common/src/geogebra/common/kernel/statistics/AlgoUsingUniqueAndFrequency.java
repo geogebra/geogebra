@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.advanced.AlgoUnique;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * for algos using AlgoUnique and AlgoFrequency to sort raw datas
@@ -38,8 +39,18 @@ public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 	 * @param list1 list
 	 */
 	protected void createHelperAlgos(GeoList list1){
+		createHelperAlgos(list1, null);
+	}
+	
+	/**
+	 * create helper algos about the list
+	 * with scaled freq
+	 * @param list1 list
+	 * @param scale scale factor
+	 */
+	protected void createHelperAlgos(GeoList list1, GeoNumeric scale){
 		algoUnique = new AlgoUnique(cons, list1);
-		algoFreq = new AlgoFrequency(cons, null, null, list1);
+		algoFreq = new AlgoFrequency(cons, null, null, list1, scale);
 		cons.removeFromConstructionList(algoUnique);
 		cons.removeFromConstructionList(algoFreq);
 	}

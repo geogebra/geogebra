@@ -110,6 +110,18 @@ public class CmdFrequencyTable extends CommandProcessor {
 			} 
 			
 			
+			// arg[0] = isCumulative, arg[1] = data list,  arg[2] = scale factor,
+			else if ((ok[0] = arg[0].isGeoBoolean())  && 
+					(ok[1] = arg[1].isGeoList())  && (ok[2] = arg[2].isGeoNumeric())) {
+				GeoElement[] ret = { FrequencyTable(c.getLabel(),
+						(GeoBoolean) arg[0],
+								(GeoList) arg[1], (GeoNumeric) arg[2]) };
+				return ret;
+
+			} 
+
+			
+			
 			else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			else if (!ok[1])
@@ -208,7 +220,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 	
 	/**
-	 * FrequencyTable[isCumulative, dataList] Zbynek Konecny
+	 * FrequencyTable[dataList, scale factor]
 	 */
 	final private GeoText FrequencyTable(String label, 
 			GeoList dataList, GeoNumeric scale) {
@@ -217,6 +229,20 @@ public class CmdFrequencyTable extends CommandProcessor {
 		GeoText table = algo.getResult();
 		return table;
 	}
+	
+	/**
+	 * FrequencyTable[isCumulative, dataList, scale factor] 
+	 */
+	final private GeoText FrequencyTable(String label, 
+			GeoBoolean isCumulative,
+			GeoList dataList, GeoNumeric scale) {
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+				isCumulative, null, dataList, scale);
+		GeoText table = algo.getResult();
+		return table;
+	}
+
+
 
 	/**
 	 * FrequencyTable[classList, dataList] Zbynek Konecny

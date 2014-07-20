@@ -69,6 +69,17 @@ public class AlgoFrequency extends AlgoElement {
 			GeoList classList, GeoList dataList) {
 		this(cons, isCumulative, classList, dataList, null, null, null);
 	}
+	
+	/**
+	 * @param cons
+	 * @param isCumulative
+	 * @param classList
+	 * @param dataList
+	 */
+	public AlgoFrequency(Construction cons, GeoBoolean isCumulative,
+			GeoList classList, GeoList dataList, GeoNumeric scale) {
+		this(cons, isCumulative, classList, dataList, null, null, scale);
+	}
 
 	/**
 	 * @param cons
