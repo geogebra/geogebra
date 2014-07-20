@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoTransformation;
@@ -105,12 +104,12 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	
 	@Override
 	protected GeoElement copy(GeoElement geo) {
-		return ((Kernel3D) kernel).copy3D(geo);
+		return kernel.copy3D(geo);
 	}
 
 	@Override
 	protected GeoElement copyInternal(Construction cons, GeoElement geo){
-		return ((Kernel3D) kernel).copyInternal3D(cons,geo);
+		return kernel.copyInternal3D(cons,geo);
 	}
 	
     

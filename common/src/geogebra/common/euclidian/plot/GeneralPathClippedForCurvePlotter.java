@@ -169,6 +169,23 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 		}
 	}
 	
+	public double[] newDoubleArray(){
+		return new double[2];
+	}
+
+	public boolean copyCoords(MyPoint point, double[] ret){
+		
+		if (!Kernel.isZero(point.getZ())){
+			return false;
+		}
+		
+		ret[0] = point.x;
+		ret[1] = point.y;
+		
+		return true;
+	}
+
+	
 	
 
 }

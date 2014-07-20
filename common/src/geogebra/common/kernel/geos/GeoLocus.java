@@ -56,4 +56,5 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 
 
 
+
 }

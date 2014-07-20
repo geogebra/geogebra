@@ -25,6 +25,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawCurve3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusion3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawList3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawLocus3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPlane3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPlaneConstant3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
@@ -69,6 +70,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoLocusND;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
@@ -541,6 +543,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			case CURVE_CARTESIAN:
 			case CURVE_CARTESIAN3D:
 				d = new DrawCurve3D(this, (CurveEvaluable) geo);
+				break;
+				
+			case LOCUS:
+				d = new DrawLocus3D(this, (GeoLocusND) geo);
 				break;
 
 			case ANGLE:
@@ -3007,11 +3013,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	
 	
 	
-
-	public void notifyEuclidianViewCE() {
-		kernel.notifyEuclidianViewCE();
+	public void updateBounds() {
+		((Kernel3D) kernel).setEuclidianView3DBounds(evNo, getXmin(), getXmax(),
+				getYmin(), getYmax(), getXscale(), getYscale(), getZscale());
 	}
-
+	
 	private void viewChangedOwnDrawables() {
 
 		// update, but not in case where view changed by rotation

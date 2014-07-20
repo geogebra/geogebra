@@ -71,11 +71,12 @@ public class CoordSys {
 	/**
 	 * @return "identity" coord sys
 	 */
-	public static final CoordSys Identity3D() {
-		CoordSys ret = new CoordSys(2);
-		ret.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
-		ret.makeOrthoMatrix(true, true);
-		return ret;
+	public static final CoordSys Identity3D;
+	
+	static{
+		Identity3D = new CoordSys(2);
+		Identity3D.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
+		Identity3D.makeOrthoMatrix(true, true);
 	}
 
 	public CoordMatrix getMatrix() {

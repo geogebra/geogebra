@@ -37,6 +37,10 @@ public class MyPoint3D extends MyPoint{
 		this.z = z;
 	}
 
+	public MyPoint3D() {
+		super();
+	}
+
 	/**
 	 * @param px x-coordinate
 	 * @param py y-coordinate
@@ -111,5 +115,10 @@ public class MyPoint3D extends MyPoint{
 	 */
 	public boolean isEqual(MyPoint3D point) {
 		return isEqual(point.x, point.y, point.z);
+	}
+	
+	@Override
+	public boolean isFinite(){
+		return super.isFinite() && isFinite(z);
 	}
 }

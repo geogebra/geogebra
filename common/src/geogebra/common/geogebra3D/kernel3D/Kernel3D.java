@@ -429,11 +429,8 @@ public class Kernel3D extends Kernel {
 
 
 	
-	/**
-	 * 
-	 * @param geo
-	 * @return 3D copy of the geo (if exists)
-	 */
+	
+	@Override
 	public GeoElement copy3D(GeoElement geo) {
 
 		switch (geo.getGeoClassType()) {
@@ -468,18 +465,12 @@ public class Kernel3D extends Kernel {
 			return new GeoConic3D((GeoConicND) geo);
 
 		default:
-			return geo.copy();
+			return super.copy3D(geo);
 		}
 	}
 	
 	
-
-	/**
-	 * 
-	 * @param cons
-	 * @param geo
-	 * @return 3D copy internal of the geo (if exists)
-	 */
+	@Override
 	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
 
 		switch (geo.getGeoClassType()) {
@@ -489,7 +480,7 @@ public class Kernel3D extends Kernel {
 			((GeoPolygon) geo).copyInternal(cons, poly);
 			return poly;
 		default:
-			return geo.copyInternal(cons);
+			return super.copyInternal3D(cons, geo);
 		}
 	}
 
@@ -542,6 +533,7 @@ public class Kernel3D extends Kernel {
 	}
 	
 	
+	@Override
 	protected AlgoDispatcher newAlgoDispatcher(){
 		return new AlgoDispatcher3D(cons);
 	}
@@ -564,6 +556,94 @@ public class Kernel3D extends Kernel {
 			point.setCartesian();
 		}
 		point.update();
+	}
+
+	
+
+	@Override
+	public double getXmax(int i) {
+		if (i==3){
+			return xmax3;
+		}
+		return super.getXmax(i);
+	}
+	
+	@Override
+	public double getXmin(int i) {
+		if (i==3){
+			return xmin3;
+		}
+		return super.getXmin(i);
+	}
+	
+	@Override
+	public double getYmax(int i) {
+		if (i==3){
+			return ymax3;
+		}
+		return super.getYmax(i);
+	}
+	
+	@Override
+	public double getYmin(int i) {
+		if (i==3){
+			return ymin3;
+		}
+		return super.getYmin(i);
+	}
+
+	@Override
+	public double getYscale(int i) {
+		if (i==3){
+			return yscale3;
+		}
+		return super.getYscale(i);
+	}
+	
+	@Override
+	public double getXscale(int i) {
+		if (i==3){
+			return xscale3;
+		}
+		return super.getXscale(i);
+	}
+	
+
+	/**
+	 * 
+	 * @return 3D view z scale
+	 */
+	public double getZscale() {
+		return zscale3;
+	}
+	
+	private double xmin3, xmax3, ymin3, ymax3, xscale3, yscale3, zscale3;
+	
+	
+	/**
+	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis
+	 * used in EudlidianView. The scale is the number of pixels per unit.
+	 * (useful for some algorithms like findminimum). All
+	 * @param view view
+	 * @param xmin left x-coord
+	 * @param xmax right x-coord
+	 * @param ymin bottom y-coord
+	 * @param ymax top y-coord
+	 * @param xscale x scale (pixels per unit)
+	 * @param yscale y scale (pixels per unit)
+	 */
+	final public void setEuclidianView3DBounds(int view, double xmin,
+			double xmax, double ymin, double ymax, double xscale, double yscale, double zscale) {
+
+		this.xmin3 = xmin;
+		this.xmax3 = xmax;
+		this.ymin3 = ymin;
+		this.ymax3 = ymax;
+		this.xscale3 = xscale;
+		this.yscale3 = yscale;
+		this.zscale3 = zscale;
+		
+		notifyEuclidianViewCE();
 	}
 
 

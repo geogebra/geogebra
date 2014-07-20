@@ -2320,7 +2320,7 @@ public class Kernel {
 			this.yscale2 = yscale;
 			break;
 		}
-
+		
 		graphicsView2showing = getApplication().isShowingEuclidianView2();
 		notifyEuclidianViewCE();
 	}
@@ -2463,6 +2463,67 @@ public class Kernel {
 			return xmax;
 		}
 		return getXmax();
+	}
+	
+	
+	public double getXmax(int i) {
+		switch(i){
+		case 1:
+			return getXmax(true, false);
+		case 2:
+			return getXmax(false, true);
+		}
+		return getXmax();
+	}
+	
+	public double getXmin(int i) {
+		switch(i){
+		case 1:
+			return getXmin(true, false);
+		case 2:
+			return getXmin(false, true);
+		}
+		return getXmin();
+	}
+	
+	public double getYmax(int i) {
+		switch(i){
+		case 1:
+			return getYmax(true, false);
+		case 2:
+			return getYmax(false, true);
+		}
+		return getYmax();
+	}
+	
+	public double getYmin(int i) {
+		switch(i){
+		case 1:
+			return getYmin(true, false);
+		case 2:
+			return getYmin(false, true);
+		}
+		return getYmin();
+	}
+
+	public double getYscale(int i) {
+		switch(i){
+		case 1:
+			return getYscale(true, false);
+		case 2:
+			return getYscale(false, true);
+		}
+		return getYscale();
+	}
+	
+	public double getXscale(int i) {
+		switch(i){
+		case 1:
+			return getXscale(true, false);
+		case 2:
+			return getXscale(false, true);
+		}
+		return getXscale();
 	}
 
 	public double getXmin(boolean ev1, boolean ev2) {
@@ -4726,6 +4787,25 @@ public class Kernel {
 		return getXOYPlane() == null || getApplication().getActiveEuclidianView().isDefault2D();
 	}
 	
+	
+	/**
+	 * 
+	 * @param geo
+	 * @return 3D copy of the geo (if exists)
+	 */
+	public GeoElement copy3D(GeoElement geo){
+		return geo.copy();
+	}
+	
+	/**
+	 * 
+	 * @param cons
+	 * @param geo
+	 * @return 3D copy internal of the geo (if exists)
+	 */
+	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
+		return geo.copyInternal(cons);
+	}
 	
 
 }

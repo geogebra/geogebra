@@ -46,7 +46,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -1873,13 +1872,13 @@ public class Manager3D implements Manager3DInterface {
 	}
 	
 
-	final public GeoLocus Locus3D(String label, GeoPointND Q, GeoPointND P) {
+	final public GeoElement Locus3D(String label, GeoPointND Q, GeoPointND P) {
 		if (!kernel.getAlgoDispatcher().LocusCheck(P, Q)){
 			return null;
 		}
 		
 		
-		return null;
+		return (new AlgoLocus3D(cons, label, Q, P)).getLocus();
 	}
 
 }

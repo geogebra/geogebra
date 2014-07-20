@@ -43,7 +43,7 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	
 	
 
-	public AlgoLocus(Construction cons, String label, GeoPoint Q, GeoPoint P) {
+	public AlgoLocus(Construction cons, String label, GeoPointND Q, GeoPointND P) {
 		super(cons, label, Q, P);
 	}
 
@@ -56,13 +56,8 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	
 	
 	@Override
-	protected boolean isFarAway(GeoPointND point){
-		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY);
-	}
-	
-	@Override
-	protected boolean isFarAway2(GeoPointND point){
-		return isFarAway2(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY);
+	protected boolean isFarAway(GeoPointND point, int i){
+		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY, i);
 	}
 
 	@Override
@@ -96,17 +91,28 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	protected boolean distanceSmall(GeoPointND point, boolean orInsteadOfAnd) {
 		
 		GeoPoint Q = (GeoPoint) point;
-		
-		boolean distSmall = Math.abs(Q.inhomX - lastX) < maxXdist
-				&& Math.abs(Q.inhomY - lastY) < maxYdist;
-		boolean distSmall2 = Math.abs(Q.inhomX - lastX) < maxXdist2
-				&& Math.abs(Q.inhomY - lastY) < maxYdist2;
 
+		boolean[] distSmall = new boolean[3];
+		for (int i = 0 ; i < distSmall.length ; i++){
+			distSmall[i] = Math.abs(Q.inhomX - lastX) < maxXdist[i]
+					&& Math.abs(Q.inhomY - lastY) < maxYdist[i];
+		}
+		
 		if (orInsteadOfAnd) { 
-			return (distSmall && visibleEV1) || (distSmall2 && visibleEV2); 
+			for (int i = 0 ; i < distSmall.length ; i++){
+				if (distSmall[i] && visibleEV[i]){
+					return true;
+				}
+			}
+			return false;
 		} 
 
-		return (distSmall || !visibleEV1) && (distSmall2 || !visibleEV2); 
+		for (int i = 0 ; i < distSmall.length ; i++){
+			if (!distSmall[i] && visibleEV[i]){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 
@@ -123,19 +129,16 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 		((GeoLocus) locus).insertPoint(x, y, lineTo);
 		lastX = x;
 		lastY = y;
-		lastFarAway = isFarAway(lastX, lastY);
-		lastFarAway2 = isFarAway2(lastX, lastY);
+		for (int i = 0 ; i < lastFarAway.length ; i++){
+			lastFarAway[i] = isFarAway(lastX, lastY, i);
+		}
 	}
 
-	private boolean isFarAway(double x, double y) {
-		boolean farAway = (x > farXmax || x < farXmin || y > farYmax || y < farYmin);
+	private boolean isFarAway(double x, double y, int i) {
+		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i] || y < farYmin[i]);
 		return farAway;
 	}
 
-	private boolean isFarAway2(double x, double y) {
-		boolean farAway = (x > farXmax2 || x < farXmin2 || y > farYmax2 || y < farYmin2);
-		return farAway;
-	}
 	
 	
 	@Override

@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
@@ -33,11 +32,9 @@ public class AlgoDilate3D extends AlgoDilate {
 
 	
     
-    @Override
+	@Override
 	protected GeoElement copy(GeoElement geo){
-    	//if (mirror.isGeoElement3D())
-    		return ((Kernel3D) kernel).copy3D(geo);
-		//return super.copy(geo);
+		return kernel.copy3D(geo);
     }
     
     @Override
@@ -47,12 +44,10 @@ public class AlgoDilate3D extends AlgoDilate {
 
 		return super.getResultTemplate(geo);
 	}
-    
+
     @Override
-	protected GeoElement copyInternal(Construction cons1, GeoElement geo){
-    	//if (mirror.isGeoElement3D())
-    		return ((Kernel3D) kernel).copyInternal3D(cons1,geo);
-		//return super.copyInternal(cons,geo);
+    protected GeoElement copyInternal(Construction cons1, GeoElement geo){
+    	return kernel.copyInternal3D(cons1,geo);
     }
     
 	@Override

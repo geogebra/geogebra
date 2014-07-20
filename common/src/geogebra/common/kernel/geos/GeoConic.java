@@ -422,7 +422,7 @@ public class GeoConic extends GeoConicND implements
 		return ':';
 	}
 
-	private CoordSys coordSys = CoordSys.Identity3D();
+	private CoordSys coordSys = CoordSys.Identity3D;
 
 	@Override
 	public CoordSys getCoordSys() {

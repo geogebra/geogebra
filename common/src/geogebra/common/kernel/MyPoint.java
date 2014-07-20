@@ -101,6 +101,10 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	public double getY() {
 		return y;
 	}
+	
+	public double getZ() {
+		return 0;
+	}
 
 	@Override
 	public double distance(double x1, double y1) {
@@ -130,5 +134,22 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	 */
 	public boolean isEqual(MyPoint point) {
 		return isEqual(point.x, point.y);
+	}
+
+	/**
+	 * 
+	 * @return true if coords are finite numbers
+	 */
+	public boolean isFinite(){
+		return isFinite(x) && isFinite(y);
+	}
+	
+	/**
+	 * 
+	 * @param value value
+	 * @return true if the value is finite number
+	 */
+	static final protected boolean isFinite(double value){
+		return !java.lang.Double.isInfinite(value) && !java.lang.Double.isInfinite(value);
 	}
 }

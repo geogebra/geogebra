@@ -936,6 +936,16 @@ SymbolicParametersBotanaAlgo {
 	final public double distance(GeoPoint P) {
 		return MyMath.length(P.inhomX - inhomX, P.inhomY - inhomY);
 	}
+	
+	/**
+	 * 
+	 * @param x x coord
+	 * @param y y coord
+	 * @return distance between this and (x,y)
+	 */
+	final public double distance(double x, double y) {
+		return MyMath.length(x - inhomX, y - inhomY);
+	}
 
 	/**
 	 * Convenience method to tell whether these two points are in the same place
@@ -1679,6 +1689,10 @@ SymbolicParametersBotanaAlgo {
 
 	// only used for 3D stuff
 	public void updateCoordsFrom2D(boolean doPathOrRegion, CoordSys coordsys) {
+		//3D only
+	}
+	
+	public void updateCoordsFrom2D(boolean doPathOrRegion) {
 		//3D only
 	}
 	

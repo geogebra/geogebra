@@ -57,5 +57,4 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 
 
 
-
 }

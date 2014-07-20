@@ -1728,7 +1728,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	// //////////////////////////////////////
 
 	public CoordSys getCoordSys() {
-		return CoordSys.Identity3D();
+		return CoordSys.Identity3D;
 	}
 
 	public Coords getPoint(double x2d, double y2d) {

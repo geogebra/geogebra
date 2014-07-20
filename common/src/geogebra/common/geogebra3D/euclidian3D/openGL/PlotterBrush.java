@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import geogebra.common.euclidian.plot.PathPlotter;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
@@ -903,6 +904,20 @@ public class PlotterBrush implements PathPlotter {
 		moveTo(pos);
 		
 	}
+	
+	public double[] newDoubleArray(){
+		return new double[3];
+	}
+	
+	public boolean copyCoords(MyPoint point, double[] ret){
+		ret[0] = point.x;
+		ret[1] = point.y;
+		ret[2] = point.getZ(); // maybe 0 if 2D point
+		
+		return true;
+	}
+	
+
 	
 	/**
 	 * set the length for texture pos

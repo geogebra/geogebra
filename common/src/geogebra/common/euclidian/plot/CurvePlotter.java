@@ -3,8 +3,11 @@ package geogebra.common.euclidian.plot;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.util.Cloner;
+
+import java.util.ArrayList;
 
 /**
  * Class to plot x->f(x) functions and 2D/3D parametric curves
@@ -654,5 +657,46 @@ public class CurvePlotter {
 		}
 
 		return !isUndefined(borders);
+	}
+	
+	
+	/**
+	 * draw list of points
+	 * @param gp path plotter that actually draws the points list
+	 * @param pointList list of points
+	 * @return last point drawn
+	 */
+	static public double[] draw(PathPlotter gp, ArrayList<MyPoint> pointList) {
+		double[] coords = gp.newDoubleArray();
+
+		// this is for making sure that there is no lineto from nothing
+		// and there is no lineto if there is an infinite point between the
+		// points
+		boolean linetofirst = true;
+
+		int size = pointList.size();
+		for (int i = 0; i < size; i++) {
+			MyPoint p = pointList.get(i);
+
+			// don't add infinite points
+			// otherwise hit-testing doesn't work
+			if (p.isFinite()) {
+				if (gp.copyCoords(p, coords)){
+
+					if (p.lineTo && !linetofirst) {
+						gp.lineTo(coords);
+					} else {
+						gp.moveTo(coords);
+					}
+					linetofirst = false;
+				}else{
+					linetofirst = true;
+				}
+			} else {
+				linetofirst = true;
+			}
+		}
+
+		return coords;
 	}
 }

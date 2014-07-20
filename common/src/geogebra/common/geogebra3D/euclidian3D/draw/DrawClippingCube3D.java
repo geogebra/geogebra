@@ -199,7 +199,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		minMaxLarge[1][1] = zmax-zr;
 
 		// update ev 3D depending algos
-		getView3D().notifyEuclidianViewCE();
+		getView3D().updateBounds();
 		
 		
 		return minMax;

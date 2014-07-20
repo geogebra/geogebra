@@ -1,6 +1,7 @@
 package geogebra.common.euclidian.plot;
 
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import geogebra.common.kernel.MyPoint;
 
 
 /**
@@ -37,6 +38,20 @@ public interface PathPlotter {
 	 */
 	public void firstPoint(double pos[], Gap moveToAllowed);
 	
-
+	/**
+	 * 
+	 * @return 2D/3D double array
+	 */
+	public double[] newDoubleArray();
+	
+	/**
+	 * copy coords from MyPoint to double[]
+	 * @param point point
+	 * @param ret double values
+	 * @return true if coords are on the view
+	 */
+	public boolean copyCoords(MyPoint point, double[] ret);
+	
+	
 
 }

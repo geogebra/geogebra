@@ -13,7 +13,6 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -928,6 +927,6 @@ public interface Manager3DInterface {
 	/**
 	 * locus line for Q dependent on P. Note: P must be a point on a path.
 	 */
-	public GeoLocus Locus3D(String label, GeoPointND Q, GeoPointND P);
+	public GeoElement Locus3D(String label, GeoPointND Q, GeoPointND P);
 	
 }

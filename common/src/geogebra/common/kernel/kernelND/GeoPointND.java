@@ -77,6 +77,11 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public void updateCoordsFrom2D(boolean b, CoordSys coordsys);
 
 	/**
+	 * @param doPathOrRegion do path or region
+	 */
+	public void updateCoordsFrom2D(boolean doPathOrRegion);
+	
+	/**
 	 * @return mode (complex / polar / cartesian)
 	 */
 	public int getMode();

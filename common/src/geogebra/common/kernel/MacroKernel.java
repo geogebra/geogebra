@@ -198,5 +198,15 @@ public class MacroKernel extends Kernel {
 	public boolean hasCasCache() {
 		return parentKernel.hasCasCache();
 	}
+	
+	@Override
+	public GeoElement copy3D(GeoElement geo){
+		return parentKernel.copy3D(geo);
+	}
+	
+	@Override
+	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
+		return parentKernel.copyInternal3D(cons, geo);
+	}
 
 }

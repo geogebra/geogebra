@@ -21,7 +21,6 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -399,7 +398,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 			 * v.setX(coords.getX()); v.setY(coords.getY());
 			 * v.setZ(coords.getW()); return v;
 			 */
-			return getCoordsInD2(CoordSys.Identity3D());
+			return getCoordsInD2(CoordSys.Identity3D);
 		default:
 			return null;
 		}
@@ -635,6 +634,10 @@ Traceable, MirrorableAtPlane, Dilateable{
 					doPathOrRegion);
 		} else
 			setCoords(new Coords(getX2D(), getY2D(), 0, 1), doPathOrRegion);
+	}
+	
+	public void updateCoordsFrom2D(boolean doPathOrRegion) {
+		updateCoordsFrom2D(doPathOrRegion, CoordSys.Identity3D);
 	}
 
 	// /////////////////////////////////////////////////////////
@@ -1684,7 +1687,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		setCoords(
 				param2 * leftPoint.x + param1 * rightPoint.x,
 				param2 * leftPoint.y + param1 * rightPoint.y,
-				param2 * ((MyPoint3D) leftPoint).z + param1 * ((MyPoint3D) rightPoint).z,
+				param2 * leftPoint.getZ() + param1 * rightPoint.getZ(),
 				1.0);
 	}
 

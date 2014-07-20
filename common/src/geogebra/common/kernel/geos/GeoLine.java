@@ -354,8 +354,18 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	@Override
 	public double distance(GeoPoint p) {
+		return distance(p.inhomX, p.inhomY);
+	}
+
+	/**
+	 * Calculates the euclidian distance between this GeoLine and (x0, y0).
+	 * @param x0 x coord
+	 * @param y0 y coord
+	 * @return distance
+	 */
+	public double distance(double x0, double y0) {
 		return Math
-				.abs((x * p.inhomX + y * p.inhomY + z) / MyMath.length(x, y));
+				.abs((x * x0 + y * y0 + z) / MyMath.length(x, y));
 	}
 
 	/**

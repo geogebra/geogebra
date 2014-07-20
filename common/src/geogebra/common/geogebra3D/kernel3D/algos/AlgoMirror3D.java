@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
@@ -68,7 +67,7 @@ public class AlgoMirror3D extends AlgoMirror {
     @Override
 	protected GeoElement copy(GeoElement geo){
     	if (mirror.isGeoElement3D())
-    		return ((Kernel3D) kernel).copy3D(geo);
+    		return kernel.copy3D(geo);
 		return super.copy(geo);
     }
     
@@ -83,7 +82,7 @@ public class AlgoMirror3D extends AlgoMirror {
     @Override
 	protected GeoElement copyInternal(Construction cons, GeoElement geo){
     	if (mirror.isGeoElement3D())
-    		return ((Kernel3D) kernel).copyInternal3D(cons,geo);
+    		return kernel.copyInternal3D(cons,geo);
 		return super.copyInternal(cons,geo);
     }
     

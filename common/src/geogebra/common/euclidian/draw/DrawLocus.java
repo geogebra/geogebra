@@ -16,10 +16,11 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.plot.CurvePlotter;
+import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLocus;
+import geogebra.common.kernel.geos.GeoLocusND;
 import geogebra.common.kernel.geos.Traceable;
 
 import java.util.ArrayList;
@@ -30,10 +31,10 @@ import java.util.ArrayList;
  */
 public class DrawLocus extends Drawable {
 
-	private GeoLocus locus;
+	private GeoLocusND locus;
 
 	private boolean isVisible, labelVisible;
-	private GeneralPathClipped gp;
+	private GeneralPathClippedForCurvePlotter gp;
 	private double[] lastPointCoords;
 
 	/**
@@ -41,7 +42,7 @@ public class DrawLocus extends Drawable {
 	 * @param view view
 	 * @param locus locus
 	 */
-	public DrawLocus(EuclidianView view, GeoLocus locus) {
+	public DrawLocus(EuclidianView view, GeoLocusND locus) {
 		this.view = view;
 		this.locus = locus;
 		geo = locus;
@@ -106,40 +107,12 @@ public class DrawLocus extends Drawable {
 
 	private void buildGeneralPath(ArrayList<MyPoint> pointList) {
 		if (gp == null)
-			gp = new GeneralPathClipped(view);
+			gp = new GeneralPathClippedForCurvePlotter(view);
 		else
 			gp.reset();
-		double[] coords = new double[2];
+		
 
-		// this is for making sure that there is no lineto from nothing
-		// and there is no lineto if there is an infinite point between the
-		// points
-		boolean linetofirst = true;
-
-		int size = pointList.size();
-		for (int i = 0; i < size; i++) {
-			MyPoint p = pointList.get(i);
-
-			// don't add infinite points
-			// otherwise hit-testing doesn't work
-			if (!Double.isInfinite(p.x) && !Double.isInfinite(p.y)
-					&& !Double.isNaN(p.x) && !Double.isNaN(p.y)) {
-				coords[0] = p.x;
-				coords[1] = p.y;
-				view.toScreenCoords(coords);
-
-				if (p.lineTo && !linetofirst) {
-					gp.lineTo(coords[0], coords[1]);
-				} else {
-					gp.moveTo(coords[0], coords[1]);
-				}
-				linetofirst = false;
-			} else {
-				linetofirst = true;
-			}
-		}
-
-		lastPointCoords = coords;
+		lastPointCoords = CurvePlotter.draw(gp, pointList);
 	}
 
 	@Override

@@ -581,6 +581,18 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return super.distance(p);
 	}
 
+	@Override
+	final public double distance(double x, double y) {     
+
+		double t = getParameter(x, y);
+
+		// if t is outside the range [0,1] then the closest point is not on the Segment
+		if (t < 0) return startPoint.distance(x,y);
+		if (t > 1) return endPoint.distance(x,y);
+
+		return super.distance(x, y);
+	}
+
 
 
 

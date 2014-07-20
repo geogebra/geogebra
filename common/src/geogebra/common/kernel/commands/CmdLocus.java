@@ -48,8 +48,8 @@ public class CmdLocus extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 
-				GeoPoint p1 = (GeoPoint) arg[0];
-				GeoPoint p2 = (GeoPoint) arg[1];
+				GeoPointND p1 = (GeoPointND) arg[0];
+				GeoPointND p2 = (GeoPointND) arg[1];
 
 				if (p2.isPointOnPath()) {
 

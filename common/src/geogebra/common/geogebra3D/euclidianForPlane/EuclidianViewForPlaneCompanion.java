@@ -349,6 +349,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 		case CONICPART:
 		case ANGLE3D:
 		case TEXT:
+		case LOCUS:
 			return geo.isVisibleInView3D();
 		case ANGLE:
 			if (geo.isIndependent()){ // no slider in view for plane (for now)
