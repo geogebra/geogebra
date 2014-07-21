@@ -18,6 +18,7 @@ import geogebra.common.euclidian.draw.DrawLocus;
 import geogebra.common.euclidian.draw.DrawNyquist;
 import geogebra.common.euclidian.draw.DrawParametricCurve;
 import geogebra.common.euclidian.draw.DrawPoint;
+import geogebra.common.euclidian.draw.DrawPointPlot;
 import geogebra.common.euclidian.draw.DrawPolyLine;
 import geogebra.common.euclidian.draw.DrawPolygon;
 import geogebra.common.euclidian.draw.DrawRay;
@@ -68,6 +69,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.statistics.AlgoDotPlot;
 
 /**
  *	Factory class for drawables
@@ -277,7 +279,12 @@ public class EuclidianDraw {
 			}
 			break;
 		case LIST:
-			d = new DrawList(ev, (GeoList) geo);
+			algo = geo.getParentAlgorithm();
+			if (algo instanceof AlgoDotPlot) {
+				d = new DrawPointPlot(ev, (GeoList) geo, DrawPointPlot.DrawType.DOT_PLOT);
+			} else {
+				d = new DrawList(ev, (GeoList) geo);
+			}
 			break;
 
 		case TURTLE:

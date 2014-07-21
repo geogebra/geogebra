@@ -49,13 +49,20 @@ public class AlgoDotPlotScale extends AlgoDotPlot {
     	}
     	
     	scaleFactor = scale.getValue();
+    	setUseDensityPlot(scaleFactor == 0);
     	
     	super.compute();
     }
 
     @Override
     protected double getScaledY(int y){
+  
+    	if(useDensityPlot()){
+    		return y;
+    	}
     	return y * scaleFactor;
     }
+    
+
 
 }

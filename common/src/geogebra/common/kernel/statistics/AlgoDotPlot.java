@@ -44,7 +44,8 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	protected GeoList inputList; //input
     protected GeoList outputList; //output	
     private int size;
-	private double[] sortedData;
+    private boolean useDensityPlot = false;
+   
 
 	public AlgoDotPlot(Construction cons, String label, GeoList inputList) {
 		this(cons, label, inputList, null);
@@ -66,8 +67,11 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
         this.inputList = inputList;
         setScale(scale);
                
-        outputList = new GeoList(cons);
-
+        outputList = new GeoList(cons){
+        	public String getTooltipText(boolean colored, boolean alwaysOn){        		
+        		return ((AlgoDotPlot)getParentAlgorithm()).getTooltipText();
+        	}
+        };
         setInputOutput();
         compute();
         
@@ -112,6 +116,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
     }
     
     private int oldListSize;
+	private String toolTipText;
 
     @Override
 	public void compute() {
@@ -134,7 +139,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		for (int i = outputList.size() - 1; i >= size; i--) {
 			GeoElement extraGeo = outputList.get(i);
 			extraGeo.remove();
-			outputList.remove(extraGeo);			
+			outputList.remove(extraGeo);
 		}	
 		
 		oldListSize = outputList.size();
@@ -182,7 +187,30 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
     	return y;
     }
 
+	public GeoList getUniqueXList() {
+		return algoUnique.getResult();
+	}
 
+	public GeoList getFrequencyList() {
+		return algoFreq.getResult();
+	}
+
+	public String getTooltipText() {
+		return toolTipText;
+	}
+
+	public void setToolTipPointText(String text) {
+		toolTipText = text;
+	}
+
+	public boolean useDensityPlot() {
+		return useDensityPlot;
+	}
+
+	public void setUseDensityPlot(boolean useDensityPlot) {
+		this.useDensityPlot = useDensityPlot;
+	}
+	
 	// TODO Consider locusequability
   
 }
