@@ -69,33 +69,29 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		super.initAxesOptionsPanel();
 
-		
 	}
-	
-	
+
 	@Override
-	protected void fillAxesOptionsPanel(){
+	protected void fillAxesOptionsPanel() {
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbYAxisVertical));
 	}
-	
-	
+
 	@Override
-	protected void fillGridPanel(JPanel showGridPanel, JPanel gridPanel){
+	protected void fillGridPanel(JPanel showGridPanel, JPanel gridPanel) {
 		gridPanel.add(showGridPanel);
 		gridPanel.add(typePanel);
 	}
-	
 
 	@Override
-	protected void setTypePanelLabel(){
-		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")+" : "+app.getMenu("Cartesian")));
+	protected void setTypePanelLabel() {
+		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")
+				+ " : " + app.getMenu("Cartesian")));
 	}
 
-	
 	@Override
-	protected void addComboGridType(){
-		//TODO remove this when implemented
+	protected void addComboGridType() {
+		// TODO remove this when implemented
 	}
 
 	@Override
@@ -138,45 +134,44 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		return basicPanel;
 	}
-	
-	
+
 	@Override
-	protected void fillMiscPanel(){
-		//TODO remove this override
+	protected void fillMiscPanel() {
+		// TODO remove this override
 		miscPanel.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
 	}
 
 	private void enableStuff(boolean flag) {
 		// TODO remove when implemented
 
-//		tfMinX.setEnabled(flag);
-//		tfMaxX.setEnabled(flag);
-//		tfMinY.setEnabled(flag);
-//		tfMaxY.setEnabled(flag);
-//
-//		btAxesColor.setEnabled(flag);
-//		cbAxesStyle.setEnabled(flag);
-//		cbShowMouseCoords.setEnabled(flag);
-//		cbTooltips.setEnabled(flag);
-//
-////		((AxisPanel3D) xAxisPanel).enableStuff(flag);
-////		((AxisPanel3D) yAxisPanel).enableStuff(flag);
-////		zAxisPanel.enableStuff(flag);
-//
-//		cbGridManualTick.setEnabled(flag);
-//		ncbGridTickX.setEnabled(flag);
-//		ncbGridTickY.setEnabled(flag);
-//		cbGridTickAngle.setEnabled(flag);
-//		cbGridStyle.setEnabled(flag);
-//		cbGridType.setEnabled(flag);
-//		cbBoldGrid.setEnabled(flag);
-//		btGridColor.setEnabled(flag);
+		// tfMinX.setEnabled(flag);
+		// tfMaxX.setEnabled(flag);
+		// tfMinY.setEnabled(flag);
+		// tfMaxY.setEnabled(flag);
+		//
+		// btAxesColor.setEnabled(flag);
+		// cbAxesStyle.setEnabled(flag);
+		// cbShowMouseCoords.setEnabled(flag);
+		// cbTooltips.setEnabled(flag);
+		//
+		// // ((AxisPanel3D) xAxisPanel).enableStuff(flag);
+		// // ((AxisPanel3D) yAxisPanel).enableStuff(flag);
+		// // zAxisPanel.enableStuff(flag);
+		//
+		// cbGridManualTick.setEnabled(flag);
+		// ncbGridTickX.setEnabled(flag);
+		// ncbGridTickY.setEnabled(flag);
+		// cbGridTickAngle.setEnabled(flag);
+		// cbGridStyle.setEnabled(flag);
+		// cbGridType.setEnabled(flag);
+		// cbBoldGrid.setEnabled(flag);
+		// btGridColor.setEnabled(flag);
 
 	}
-	
+
 	@Override
-	protected void addDimPanel(JPanel basicPanel){
-		//TODO remove this and implement stuff for 3D
+	protected void addDimPanel(JPanel basicPanel) {
+		// TODO remove this and implement stuff for 3D
 	}
 
 	@Override
@@ -411,7 +406,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		tabbedPane.setTitleAt(2, app.getPlain("yAxis"));
 		tabbedPane.setTitleAt(3, app.getPlain("zAxis"));
 		tabbedPane.setTitleAt(4, app.getMenu("Grid"));
-		tabbedPane.setTitleAt(5, app.getMenu("Projection"));
+		tabbedPane.setTitleAt(5, app.getPlain("Projection"));
 	}
 
 	@Override
@@ -580,7 +575,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			super(app, view, axis);
 		}
 
-
 		@Override
 		protected String getString() {
 			if (getModel().getAxis() == AXIS_Z) {
@@ -588,11 +582,10 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			}
 			return super.getString();
 		}
-		
-		
+
 		@Override
-		protected void addCrossPanel(JPanel crossPanel){
-			//TODO implement this
+		protected void addCrossPanel(JPanel crossPanel) {
+			// TODO implement this
 		}
 	}
 
@@ -602,7 +595,5 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 				.getGuiManager())).showColorChooser(((EuclidianView3D) view)
 				.getBackground())));
 	}
-	
-	
 
 }
