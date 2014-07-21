@@ -2557,6 +2557,7 @@ __GGB__keysVar.iw.plain = {
     "PreviewUnavailable": "\u05d0\u05d9\u05df \u05ea\u05e6\u05d5\u05d2\u05d4 \u05de\u05e7\u05d3\u05d9\u05de\u05d4",
     "Prism": "\u05de\u05e0\u05e1\u05e8\u05d4",
     "ProbabilityCalculator": "\u05de\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05e1\u05ea\u05d1\u05e8\u05d5\u05ea",
+    "Projection": "Projection",
     "Properties": "\u05ea\u05db\u05d5\u05e0\u05d5\u05ea",
     "PropertiesOfA": "\u05ea\u05db\u05d5\u05e0\u05d5\u05ea \u2013 \u200f%0\u200f",
     "Pyramid": "\u05e4\u05d9\u05e8\u05de\u05d9\u05d3\u05d4",

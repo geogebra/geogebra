@@ -2557,6 +2557,7 @@ __GGB__keysVar.lv.plain = {
     "PreviewUnavailable": "Ieskats nav iesp\u0113jams",
     "Prism": "Prizma",
     "ProbabilityCalculator": "Varb\u016bt\u012bbu kalkulators",
+    "Projection": "Projection",
     "Properties": "Objekta \u012apa\u0161\u012bbas",
     "PropertiesOfA": "\u012apa\u0161\u012bbas - %0",
     "Pyramid": "Piram\u012bda",

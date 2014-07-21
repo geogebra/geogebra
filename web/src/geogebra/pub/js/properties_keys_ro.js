@@ -2557,6 +2557,7 @@ __GGB__keysVar.ro.plain = {
     "PreviewUnavailable": "Previzualizare indisponibil\u0103",
     "Prism": "Prism\u0103",
     "ProbabilityCalculator": "Calculator probabilitate",
+    "Projection": "Projection",
     "Properties": "Propriet\u0103\u0163ile obiectelor",
     "PropertiesOfA": "Propriet\u0103\u021bi - %0",
     "Pyramid": "Piramid\u0103",

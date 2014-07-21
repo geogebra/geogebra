@@ -2557,6 +2557,7 @@ __GGB__keysVar.gl.plain = {
     "PreviewUnavailable": "Previsualizaci\xf3n inaccesible",
     "Prism": "Prisma",
     "ProbabilityCalculator": "C\xe1lculos de probabilidade",
+    "Projection": "Projection",
     "Properties": "Propiedades",
     "PropertiesOfA": "Propiedades de %0",
     "Pyramid": "Pir\xe1mide",

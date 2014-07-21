@@ -2557,6 +2557,7 @@ __GGB__keysVar.none.plain = {
     "PreviewUnavailable": "Preview Unavailable",
     "Prism": "Prism",
     "ProbabilityCalculator": "Probability Calculator",
+    "Projection": "Projection",
     "Properties": "Object Properties",
     "PropertiesOfA": "Properties - %0",
     "Pyramid": "Pyramid",

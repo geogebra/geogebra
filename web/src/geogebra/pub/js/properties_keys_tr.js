@@ -2557,6 +2557,7 @@ __GGB__keysVar.tr.plain = {
     "PreviewUnavailable": "Bask\u0131 \xf6nizleme mevcut de\u011fil",
     "Prism": "Prizma",
     "ProbabilityCalculator": "Olas\u0131l\u0131k Hesap makinesi",
+    "Projection": "Projection",
     "Properties": "\xd6zellikler",
     "PropertiesOfA": "\xd6zellikler - %0",
     "Pyramid": "Piramit",

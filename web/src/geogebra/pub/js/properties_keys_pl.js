@@ -2557,6 +2557,7 @@ __GGB__keysVar.pl.plain = {
     "PreviewUnavailable": "Podgl\u0105d niedost\u0119pny",
     "Prism": "Prism",
     "ProbabilityCalculator": "Kalkulator Prawdopodobie\u0144stwa",
+    "Projection": "Projection",
     "Properties": "W\u0142a\u015bciwo\u015bci",
     "PropertiesOfA": "W\u0142a\u015bciwo\u015bci - %0",
     "Pyramid": "Pyramid",

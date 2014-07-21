@@ -2557,6 +2557,7 @@ __GGB__keysVar.vi.plain = {
     "PreviewUnavailable": "Ch\u1ee9c n\u0103ng xem tr\u01b0\u1edbc ch\u01b0a s\u1eb5n s\xe0ng",
     "Prism": "Prism",
     "ProbabilityCalculator": "Ph\xe9p t\xednh x\xe1c su\u1ea5t",
+    "Projection": "Projection",
     "Properties": "Thu\u1ed9c t\xednh",
     "PropertiesOfA": "C\xe1c thu\u1ed9c t\xednh - %0",
     "Pyramid": "Pyramid",

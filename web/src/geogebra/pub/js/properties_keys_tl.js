@@ -2557,6 +2557,7 @@ __GGB__keysVar.tl.plain = {
     "PreviewUnavailable": "Hindi maaaring mag-preview",
     "Prism": "Prism",
     "ProbabilityCalculator": "Kalkulador ng Kalagmitan",
+    "Projection": "Projection",
     "Properties": "Mga Katangian ng Bagay",
     "PropertiesOfA": "Mga Katangian- %0",
     "Pyramid": "Pyramid",

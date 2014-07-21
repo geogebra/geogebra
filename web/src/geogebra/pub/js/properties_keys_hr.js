@@ -2557,6 +2557,7 @@ __GGB__keysVar.hr.plain = {
     "PreviewUnavailable": "Pregled nije dostupan",
     "Prism": "Prizma",
     "ProbabilityCalculator": "Kalkulator vjerojatnosti",
+    "Projection": "Projection",
     "Properties": "Svojstva",
     "PropertiesOfA": "Svojstva - %0",
     "Pyramid": "Piramida",

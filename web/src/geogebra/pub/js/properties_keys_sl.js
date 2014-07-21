@@ -2557,6 +2557,7 @@ __GGB__keysVar.sl.plain = {
     "PreviewUnavailable": "Predogled ni na voljo",
     "Prism": "Prizma",
     "ProbabilityCalculator": "Ra\u010dunanje verjetnosti",
+    "Projection": "Projection",
     "Properties": "Lastnosti",
     "PropertiesOfA": "Lastnosti - %0",
     "Pyramid": "Piramida",

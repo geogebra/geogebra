@@ -2557,6 +2557,7 @@ __GGB__keysVar.ar_MA.plain = {
     "PreviewUnavailable": "\u0627\u0644\u0645\u0639\u0627\u064a\u0646\u0629 \u063a\u064a\u0631 \u0645\u062a\u0648\u0641\u0631\u0629",
     "Prism": "Prism",
     "ProbabilityCalculator": "\u062d\u0633\u0627\u0628 \u0627\u0644\u0625\u062d\u062a\u0645\u0627\u0644\u0627\u062a",
+    "Projection": "Projection",
     "Properties": "\u0627\u0644\u062e\u0627\u0635\u064a\u0627\u062a",
     "PropertiesOfA": "\u062e\u0635\u0627\u0626\u0635 \u0640 %0",
     "Pyramid": "Pyramid",

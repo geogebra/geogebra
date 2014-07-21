@@ -2557,6 +2557,7 @@ __GGB__keysVar.nl_BE.plain = {
     "PreviewUnavailable": "Preview niet beschikbaar",
     "Prism": "Prisma",
     "ProbabilityCalculator": "Probabiliteits Calculator",
+    "Projection": "Projection",
     "Properties": "Eigenschappen",
     "PropertiesOfA": "Eigenschappen - %0",
     "Pyramid": "Pyramide",

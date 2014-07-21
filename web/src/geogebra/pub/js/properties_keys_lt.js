@@ -2557,6 +2557,7 @@ __GGB__keysVar.lt.plain = {
     "PreviewUnavailable": "Per\u017ei\u016bra negalima",
     "Prism": "Prizm\u0117",
     "ProbabilityCalculator": "Tikimyb\u0117s skai\u010diuotuvas",
+    "Projection": "Projection",
     "Properties": "Nustatymai",
     "PropertiesOfA": "Nustatymai - %0",
     "Pyramid": "Piramid\u0117",

@@ -2557,6 +2557,7 @@ __GGB__keysVar.sq.plain = {
     "PreviewUnavailable": "Para-parje jo ne dispozicion",
     "Prism": "Prism",
     "ProbabilityCalculator": "Kalkulator Probabiliteti",
+    "Projection": "Projection",
     "Properties": "Veti Objekti",
     "PropertiesOfA": "Veti - %0",
     "Pyramid": "Pyramid",

@@ -2557,6 +2557,7 @@ __GGB__keysVar.hu.plain = {
     "PreviewUnavailable": "El\u0151n\xe9zet nincs",
     "Prism": "Has\xe1b",
     "ProbabilityCalculator": "Val\xf3sz\xedn\u0171s\xe9g sz\xe1m\xedt\xe1s",
+    "Projection": "Projection",
     "Properties": "Tulajdons\xe1gok",
     "PropertiesOfA": "%0 tulajdons\xe1gai",
     "Pyramid": "G\xfala",

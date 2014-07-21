@@ -2557,6 +2557,7 @@ __GGB__keysVar.cs.plain = {
     "PreviewUnavailable": "N\xe1hled nen\xed k dispozici",
     "Prism": "Prism",
     "ProbabilityCalculator": "Pravd\u011bpododbstn\xed kalkula\u010dka",
+    "Projection": "Projection",
     "Properties": "Vlastnosti",
     "PropertiesOfA": "Vlastnosti - %0",
     "Pyramid": "Pyramid",

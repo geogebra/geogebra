@@ -2557,6 +2557,7 @@ __GGB__keysVar.sk.plain = {
     "PreviewUnavailable": "N\xe1h\u013ead nie je k dispoz\xedcii",
     "Prism": "Hranol",
     "ProbabilityCalculator": "Kalkul\xe1tor pravdepodobnosti",
+    "Projection": "Projection",
     "Properties": "Vlastnosti",
     "PropertiesOfA": "Vlastnosti - %0",
     "Pyramid": "ihlan",

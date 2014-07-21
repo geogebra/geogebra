@@ -2557,6 +2557,7 @@ __GGB__keysVar.xh.plain = {
     "PreviewUnavailable": "iPreview Ayifumaneki",
     "Prism": "iPrism",
     "ProbabilityCalculator": "iCalculator yeProbability",
+    "Projection": "Projection",
     "Properties": "Iimpawu zento",
     "PropertiesOfA": "Iimpawu - %0",
     "Pyramid": "iPyramid",

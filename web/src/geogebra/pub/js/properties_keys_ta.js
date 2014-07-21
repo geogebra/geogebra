@@ -2557,6 +2557,7 @@ __GGB__keysVar.ta.plain = {
     "PreviewUnavailable": "Preview Unavailable",
     "Prism": "Prism",
     "ProbabilityCalculator": "Probability Calculator",
+    "Projection": "Projection",
     "Properties": "\u0b89\u0b9f\u0bc8\u0bae\u0bc8\u0b95\u0bb3\u0bcd",
     "PropertiesOfA": "Properties - %0",
     "Pyramid": "Pyramid",

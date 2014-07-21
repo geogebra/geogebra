@@ -2557,6 +2557,7 @@ __GGB__keysVar.et.plain = {
     "PreviewUnavailable": "Eelvaade pole k\xe4ttesaadav",
     "Prism": "Prism",
     "ProbabilityCalculator": "T\xf5en\xe4osuse kalkulaator",
+    "Projection": "Projection",
     "Properties": "Omadused",
     "PropertiesOfA": "Omadused - %0",
     "Pyramid": "Pyramid",

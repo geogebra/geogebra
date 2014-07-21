@@ -2557,6 +2557,7 @@ __GGB__keysVar.ca.plain = {
     "PreviewUnavailable": "Vista pr\xe8via no disponible",
     "Prism": "Prisma",
     "ProbabilityCalculator": "Calculadora de probabilitat",
+    "Projection": "Projection",
     "Properties": "Propietats",
     "PropertiesOfA": "Propietats - %0",
     "Pyramid": "Pir\xe0mide",

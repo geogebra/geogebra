@@ -2557,6 +2557,7 @@ __GGB__keysVar.da.plain = {
     "PreviewUnavailable": "Visning er ikke tilg\xe6ngelig",
     "Prism": "Prisme",
     "ProbabilityCalculator": "Sandsynligheds lommeregner",
+    "Projection": "Projection",
     "Properties": "Egenskaber",
     "PropertiesOfA": "Egenskaber ved %0",
     "Pyramid": "Pyramide",

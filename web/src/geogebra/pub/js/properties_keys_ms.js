@@ -2557,6 +2557,7 @@ __GGB__keysVar.ms.plain = {
     "PreviewUnavailable": "PraTonton Tak Tersedia",
     "Prism": "Prisma",
     "ProbabilityCalculator": "Kalkulator Kebarangkalian",
+    "Projection": "Projection",
     "Properties": "Sifat-sifat Objek",
     "PropertiesOfA": "Sifat-sifat - %0",
     "Pyramid": "Piramid",

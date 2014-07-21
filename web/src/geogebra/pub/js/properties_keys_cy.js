@@ -2557,6 +2557,7 @@ __GGB__keysVar.cy.plain = {
     "PreviewUnavailable": "Nid oes rhagolwg ar gael",
     "Prism": "Prism",
     "ProbabilityCalculator": "Cyfrifiannell Debygolrwydd",
+    "Projection": "Projection",
     "Properties": "Nodweddion",
     "PropertiesOfA": "Properties - %0",
     "Pyramid": "Pyramid",

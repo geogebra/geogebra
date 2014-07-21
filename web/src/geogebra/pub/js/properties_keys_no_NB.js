@@ -2557,6 +2557,7 @@ __GGB__keysVar.no_NB.plain = {
     "PreviewUnavailable": "Forh\xe5nsvisning er ikke tilgjengelig",
     "Prism": "Prisme",
     "ProbabilityCalculator": "Sannsynlighetskalkulator",
+    "Projection": "Projection",
     "Properties": "Egenskaper",
     "PropertiesOfA": "Egenskaper - %0",
     "Pyramid": "Pyramide",

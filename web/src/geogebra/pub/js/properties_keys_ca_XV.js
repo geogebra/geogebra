@@ -2557,6 +2557,7 @@ __GGB__keysVar.ca_XV.plain = {
     "PreviewUnavailable": "La previsualitzaci\xf3 no est\xe0 disponible",
     "Prism": "Prisma",
     "ProbabilityCalculator": "Calculadora de probabilitat",
+    "Projection": "Projection",
     "Properties": "Propietats de l'objecte",
     "PropertiesOfA": "Propietats - %0",
     "Pyramid": "Pir\xe0mide",

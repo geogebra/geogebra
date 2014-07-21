@@ -2557,6 +2557,7 @@ __GGB__keysVar.fi.plain = {
     "PreviewUnavailable": "Esikatselu ei saatavilla",
     "Prism": "Prism",
     "ProbabilityCalculator": "Todenn\xe4k\xf6isyyslaskuri",
+    "Projection": "Projection",
     "Properties": "Ominaisuudet",
     "PropertiesOfA": "Asetukset - %0",
     "Pyramid": "Pyramid",

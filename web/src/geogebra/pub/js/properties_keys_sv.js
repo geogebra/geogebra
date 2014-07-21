@@ -2557,6 +2557,7 @@ __GGB__keysVar.sv.plain = {
     "PreviewUnavailable": "F\xf6rhandsgranskning ej tillg\xe4nglig",
     "Prism": "Prisma",
     "ProbabilityCalculator": "Sannolikhetskalkylator",
+    "Projection": "Projection",
     "Properties": "Egenskaper",
     "PropertiesOfA": "Egenskaper f\xf6r %0",
     "Pyramid": "Pyramid",

@@ -2557,6 +2557,7 @@ __GGB__keysVar.eu.plain = {
     "PreviewUnavailable": "Aurrebista erabilezina",
     "Prism": "Prisma",
     "ProbabilityCalculator": "Probabilitate-kalkulagailua",
+    "Projection": "Projection",
     "Properties": "Propietateak",
     "PropertiesOfA": "Propietateak - %0",
     "Pyramid": "Piramidea",

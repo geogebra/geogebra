@@ -2557,6 +2557,7 @@ __GGB__keysVar.eo.plain = {
     "PreviewUnavailable": "Preview Unavailable",
     "Prism": "Prismo",
     "ProbabilityCalculator": "Probability Calculator",
+    "Projection": "Projection",
     "Properties": "Ecoj",
     "PropertiesOfA": "Ecoj - %0",
     "Pyramid": "Piramido",

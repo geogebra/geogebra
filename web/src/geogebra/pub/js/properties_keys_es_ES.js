@@ -2557,6 +2557,7 @@ __GGB__keysVar.es_ES.plain = {
     "PreviewUnavailable": "Previsualizaci\xf3n inhabilitada",
     "Prism": "Prisma",
     "ProbabilityCalculator": "Calculadora de probabilidad",
+    "Projection": "Proyecci\xf3n",
     "Properties": "Propiedades",
     "PropertiesOfA": "Propiedades de %0",
     "Pyramid": "Pir\xe1mide",

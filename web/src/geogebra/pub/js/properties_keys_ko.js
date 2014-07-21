@@ -2557,6 +2557,7 @@ __GGB__keysVar.ko.plain = {
     "PreviewUnavailable": "\ubbf8\ub9ac\ubcfc \uc218 \uc5c6\uc74c",
     "Prism": "\uac01\uae30\ub465",
     "ProbabilityCalculator": "\ud655\ub960 \uacc4\uc0b0\uae30",
+    "Projection": "Projection",
     "Properties": "\uc124\uc815\uc0ac\ud56d",
     "PropertiesOfA": "\uc124\uc815\uc0ac\ud56d - %0",
     "Pyramid": "\uac01\ubfd4",
