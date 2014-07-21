@@ -356,7 +356,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		
 		StringBuffer output = new StringBuffer();
 			
-		RegExp re = RegExp.compile("[\\d]\\.[\\d]+", "g");
+		RegExp re = RegExp.compile("[\\d]+\\.[\\d]+", "g");
 		
 		int from = 0;
 		
