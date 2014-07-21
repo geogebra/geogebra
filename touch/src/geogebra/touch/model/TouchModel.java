@@ -794,16 +794,16 @@ public class TouchModel {
 					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case Ellipse:
-			newElements.add(this.kernel.getAlgoDispatcher().Ellipse(null,
+			newElements.add(this.kernel.getAlgoDispatcher().EllipseHyperbola(null,
 					(GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+					(GeoPoint) this.getElement(Test.GEOPOINT, 2),GeoConicND.CONIC_ELLIPSE));
 			break;
 		case Hyperbola:
-			newElements.add(this.kernel.getAlgoDispatcher().Hyperbola(null,
+			newElements.add(this.kernel.getAlgoDispatcher().EllipseHyperbola(null,
 					(GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+					(GeoPoint) this.getElement(Test.GEOPOINT, 2),GeoConicND.CONIC_HYPERBOLA));
 			break;
 		case Compasses:
 			if (this.getNumberOf(Test.GEOPOINT) >= 3) {

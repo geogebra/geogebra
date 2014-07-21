@@ -605,12 +605,6 @@ class GuiManagerT extends GuiManager {
 	}
 
 	@Override
-	public void login() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void logout() {
 		// TODO Auto-generated method stub
 		
@@ -625,6 +619,12 @@ class GuiManagerT extends GuiManager {
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void invokeLater(Runnable runnable) {
+		runnable.run();
 		
 	}
 
