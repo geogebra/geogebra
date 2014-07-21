@@ -280,6 +280,9 @@ class FileMenu extends BaseMenu implements EventRenderable {
 						// forgotten something important!
 						// ad should be closed!
 						ad.exit();
+						// this is also needed to make it possible
+						// to load the same file once again
+						ad.getFrame().dispose();
 
 						app.setDefaultCursor();
 					}
@@ -317,6 +320,9 @@ class FileMenu extends BaseMenu implements EventRenderable {
 						// almost forgotten something important!
 						// ad should be closed!
 						ad.exit();
+						// this is also needed to make it possible
+						// to load the same style file once again
+						ad.getFrame().dispose();
 
 						app.setDefaultCursor();
 					}
