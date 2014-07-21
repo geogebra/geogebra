@@ -175,10 +175,10 @@ public class RelationNumerical {
 	final public Set<Report> relation(GeoElement a, GeoElement b) {
 		// check defined state
 		if (!a.isDefined()) {
-			register(null, null, loc.getPlain("AisNotDefined", a.getLabelTextOrHTML(false)));
+			register(null, null, loc.getPlain("AisNotDefined", a.getColoredLabel()));
 			return reports;
 		} else if (!b.isDefined()) {
-			register(null, null, loc.getPlain("AisNotDefined", b.getLabelTextOrHTML(false)));
+			register(null, null, loc.getPlain("AisNotDefined", b.getColoredLabel()));
 			return reports;
 		}
 
@@ -221,7 +221,7 @@ public class RelationNumerical {
 			return relation((GeoList) a, (GeoList) b);
 		else {
 			register(null, null, loc.getPlain("AandBcannotBeCompared",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false)));
+					a.getColoredLabel(), b.getColoredLabel()));
 			return reports;
 		}
 	}
@@ -266,12 +266,12 @@ public class RelationNumerical {
 		if (Kernel.isEqual(((NumberValue) a).getDouble(),
 				((NumberValue) b).getDouble())) {
 			str = loc.getPlain("AhasTheSameLengthAsB",
-					((GeoElement) a).getLabelTextOrHTML(false), ((GeoElement) b).getLabelTextOrHTML(false));
+					((GeoElement) a).getColoredLabel(), ((GeoElement) b).getColoredLabel());
 			bool = true;
 		}
 		else {
 			str = loc.getPlain("AdoesNothaveTheSameLengthAsB",
-					((GeoElement) a).getLabelTextOrHTML(false), ((GeoElement) b).getLabelTextOrHTML(false));
+					((GeoElement) a).getColoredLabel(), ((GeoElement) b).getColoredLabel());
 			bool = false;
 		}
 		register(bool, RelationCommand.AreEqual, str);
@@ -441,12 +441,12 @@ public class RelationNumerical {
 				if (Kernel.isEqual(((NumberValue) a).getDouble(),
 						((NumberValue) b).getDouble())) {
 						str = loc.getPlain("AhasTheSameLengthAsB",
-							a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+							a.getColoredLabel(), b.getColoredLabel());
 						register(true, null, str); // TODO: No symbolic support.
 				}
 				else {
 					str = loc.getPlain("AdoesNothaveTheSameLengthAsB",
-							a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+							a.getColoredLabel(), b.getColoredLabel());
 					register(false, null, str);
 				}
 			} else {
@@ -454,12 +454,12 @@ public class RelationNumerical {
 				if (Kernel.isEqual(((NumberValue) a).getDouble(),
 						((NumberValue) b).getDouble())) {
 					str = loc.getPlain("AhasTheSameAreaAsB",
-							a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+							a.getColoredLabel(), b.getColoredLabel());
 					register(true, null, str); // TODO: No symbolic support.
 				}
 				else {
 					str = loc.getPlain("AdoesNothaveTheSameAreaAsB",
-							a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+							a.getColoredLabel(), b.getColoredLabel());
 					register(false, null, str);
 				}
 			}
@@ -535,11 +535,11 @@ public class RelationNumerical {
 	final static public String equalityString(GeoElement a, GeoElement b,
 			boolean equal, Localization loc) {
 		if (equal) {
-			return loc.getPlain("AandBareEqual", a.getLabelTextOrHTML(false),
-					b.getLabelTextOrHTML(false));
+			return loc.getPlain("AandBareEqual", a.getColoredLabel(),
+					b.getColoredLabel());
 		}
-		return loc.getPlain("AandBareNotEqual", a.getLabelTextOrHTML(false),
-				b.getLabelTextOrHTML(false));
+		return loc.getPlain("AandBareNotEqual", a.getColoredLabel(),
+				b.getColoredLabel());
 	}
 
 	// "Relation of a and b: linear dependent"
@@ -548,10 +548,10 @@ public class RelationNumerical {
 			boolean dependent) {
 		if (dependent) {
 			return loc.getPlain("AandBareLinearlyDependent",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+					a.getColoredLabel(), b.getColoredLabel());
 		}
 		return loc.getPlain("AandBareLinearlyIndependent",
-				a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+				a.getColoredLabel(), b.getColoredLabel());
 	}
 
 	// "a lies on b"
@@ -559,11 +559,11 @@ public class RelationNumerical {
 	final private String incidenceString(GeoPoint a, GeoElement b,
 			boolean incident) {
 		if (incident) {
-			return loc.getPlain("AliesOnB", a.getLabelTextOrHTML(false),
-					b.getLabelTextOrHTML(false));
+			return loc.getPlain("AliesOnB", a.getColoredLabel(),
+					b.getColoredLabel());
 		}
-		return loc.getPlain("AdoesNotLieOnB", a.getLabelTextOrHTML(false),
-				b.getLabelTextOrHTML(false));
+		return loc.getPlain("AdoesNotLieOnB", a.getColoredLabel(),
+				b.getColoredLabel());
 	}
 
 	// "a lies on the perimeter of b"
@@ -572,10 +572,10 @@ public class RelationNumerical {
 			boolean incident) {
 		if (incident) {
 			return loc.getPlain("AliesOnThePerimeterOfB",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+					a.getColoredLabel(), b.getColoredLabel());
 		}
 		return loc.getPlain("AdoesNotLieOnThePerimeterOfB",
-				a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+				a.getColoredLabel(), b.getColoredLabel());
 	}
 
 	// "Relation of a and b: parallel"
@@ -591,8 +591,8 @@ public class RelationNumerical {
 	 * @return internationalized string
 	 */
 	final public static String parallelString(GeoLine a, GeoLine b, Localization loc) {
-		return loc.getPlain("AandBareParallel", a.getLabelTextOrHTML(false),
-				b.getLabelTextOrHTML(false));
+		return loc.getPlain("AandBareParallel", a.getColoredLabel(),
+				b.getColoredLabel());
 	}
 
 	/* This is not used yet. It requires support for 3 points in the Relation Tool. */
@@ -609,8 +609,8 @@ public class RelationNumerical {
 	 * @return internationalized string
 	 */
 	final public static String triangleNonDegenerateString(GeoPoint A, GeoPoint B, GeoPoint C, Localization loc) {
-		return loc.getPlain("TriangleABCnonDegenerate", A.getLabelTextOrHTML(false) +
-				B.getLabelTextOrHTML(false) + C.getLabelTextOrHTML(false));
+		return loc.getPlain("TriangleABCnonDegenerate", A.getColoredLabel() +
+				B.getColoredLabel() + C.getColoredLabel());
 	}
 	
 	// Michael Borcherds 2008-05-15
@@ -628,10 +628,10 @@ public class RelationNumerical {
 	final static public String perpendicularString(GeoLine a, GeoLine b, boolean perp, Localization loc) {
 		if (perp) {
 			return loc.getPlain("AandBarePerpendicular",
-				a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+				a.getColoredLabel(), b.getColoredLabel());
 		}
 		return loc.getPlain("AandBareNotPerpendicular",
-				a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));		
+				a.getColoredLabel(), b.getColoredLabel());		
 	}
 
 	// "a intersects with b"
@@ -655,10 +655,10 @@ public class RelationNumerical {
 		// updated for better translation
 		if (intersects)
 			sb.append(loc.getPlain("AIntersectsWithB",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false)));
+					a.getColoredLabel(), b.getColoredLabel()));
 		else
 			sb.append(loc.getPlain("ADoesNotIntersectWithB",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false)));
+					a.getColoredLabel(), b.getColoredLabel()));
 		return sb.toString();
 	}
 	
@@ -672,39 +672,41 @@ public class RelationNumerical {
 		case AlgoIntersectLineConic.INTERSECTION_PRODUCING_LINE:
 			// strType = getPlain("producingLine");
 			return loc.getPlain("AisaDegenerateBranchOfB",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+					a.getColoredLabel(), b.getColoredLabel());
 			// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE:
 			// strType = getPlain("asymptoticLine");
 			return loc.getPlain("AisAnAsymptoteToB",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+					a.getColoredLabel(), b.getColoredLabel());
 			// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_MEETING_LINE:
 			// strType = getPlain("meetingLine");
 			return loc.getPlain("AintersectsWithBOnce",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+					a.getColoredLabel(), b.getColoredLabel());
 			// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE:
 			// strType = getPlain("tangentLine");
-			return loc.getPlain("AisaTangentToB", a.getLabelTextOrHTML(false),
-					b.getLabelTextOrHTML(false));
+			return loc.getPlain("AisaTangentToB", a.getColoredLabel(),
+					b.getColoredLabel());
 			// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_SECANT_LINE:
 			// strType = getPlain("secantLine");
 			return loc.getPlain("AintersectsWithBTwice",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+					a.getColoredLabel(), b.getColoredLabel());
 			// break;
 
 		default:
 			// case AlgoIntersectLineConic.INTERSECTION_PASSING_LINE:
 			// strType = getPlain("passingLine");
 			return loc.getPlain("ADoesNotIntersectWithB",
-					a.getLabelTextOrHTML(false), b.getLabelTextOrHTML(false));
+					a.getColoredLabel(), b.getColoredLabel());
 			// break;
 		}
 	}
+	
+	
 }

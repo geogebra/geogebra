@@ -4317,7 +4317,23 @@ public abstract class GeoElement extends ConstructionElement implements
 		return sbLongDescHTML.toString();
 	}
 
-	
+	/**
+	 * Colored label of the GeoElement. 
+	 * @return the colored label
+	 */
+	final public String getColoredLabel() {
+		String formatedLabel = getLabel(StringTemplate.defaultTemplate);
+		StringBuilder sb = new StringBuilder();
+		final GColor colorAdapter = AwtFactory.prototype.newColor(
+				getAlgebraColor().getRed(), getAlgebraColor().getGreen(), 
+				getAlgebraColor().getBlue());
+		sb.append("<b><font color=\"#");
+		sb.append(StringUtil.toHexString(colorAdapter));
+		sb.append("\">");
+		sb.append(indicesToHTML(formatedLabel, false));
+		sb.append("</font></b>");
+		return sb.toString();
+	}
 
 	/**
 	 * Returns long description for all GeoElements in given array,

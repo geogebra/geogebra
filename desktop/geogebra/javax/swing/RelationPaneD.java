@@ -140,8 +140,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		for (int i = 0; i < rels; ++i) {
 			int thisHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
-			table.setRowHeight(i, thisHeight - 2 * (ROWMARGIN + 1)); // button
-																		// border
+			table.setRowHeight(i, thisHeight - 2 * (ROWMARGIN + 1)); // button border
 			height += thisHeight;
 		}
 
@@ -177,20 +176,27 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		frame.addComponentListener(new ComponentListener() {
 			public void componentResized(ComponentEvent evt) {
-				int ysize = frame.getContentPane().getHeight() - 3 * MARGIN
-						- OKHEIGHT;
+				// Extremely ugly way to learn if this event comes from resizing or refresh.
+				// TODO: Find a better way.
+				String event = Thread.currentThread().getStackTrace()[3].getMethodName();
+				if ("processEvent".equals(event)) {
+					return;
+				}
+				// App.debug(event);
+					
+				int ysize = frame.getContentPane().getHeight() - 3 * MARGIN	- OKHEIGHT;
 				int r = relations.length;
 				int currentHeight = 0;
 				for (int i = 0; i < r; ++i) {
-					int thisHeight = (ORIG_ROWHEIGHT * (countLines(relations[i].info)));
+					int thisHeight = (ORIG_ROWHEIGHT * (countLines(table.getValueAt(i, 0).toString())));
 					currentHeight += thisHeight;
 				}
 				ROWHEIGHT = ((double) ysize) / currentHeight * ORIG_ROWHEIGHT;
 				// App.debug("resized to rh " + ROWHEIGHT);
 				for (int i = 0; i < r; ++i) {
-					int newHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
+					int newHeight = (int) (ROWHEIGHT * (countLines(table.getValueAt(i, 0).toString())));
 					table.setRowHeight(i, newHeight - 2 * (ROWMARGIN + 1));
-				}
+				}				
 			}
 
 			@Override
@@ -230,16 +236,14 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				}
 			}
 		}
+		// App.debug("# " + ret + html);
 		return ret;
 	}
 
 	public synchronized void updateRow(int row, RelationRow relation) {
 		table.setValueAt(relation.info, row, 0);
 		callbacks[row] = relation.callback;
-		table.setRowHeight(
-				row,
-				(int) (ROWHEIGHT * (countLines(relation.info)) - 2 * (ROWMARGIN + 1)));
-
+		table.setRowHeight(row,	(int) (ROWHEIGHT * (countLines(relation.info)) - 2 * (ROWMARGIN + 1)));
 		int height = 0;
 
 		areCallbacks = false;
