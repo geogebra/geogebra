@@ -10,6 +10,7 @@ import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
+import geogebra.touch.PhoneGapManager;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
@@ -74,6 +75,7 @@ public class Tablet implements EntryPoint {
 			return;			
 		}
 		Browser.checkFloat64();
+		PhoneGapManager.initializePhoneGap();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());

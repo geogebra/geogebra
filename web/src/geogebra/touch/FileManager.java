@@ -3,40 +3,11 @@ package geogebra.touch;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
-import geogebra.phone.Phone;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.gwtphonegap.client.PhoneGap;
 
-//
-//import geogebra.common.main.App;
-//import geogebra.common.main.Localization;
-//import geogebra.common.move.ggtapi.models.Material;
-//import geogebra.common.move.ggtapi.models.Material.MaterialType;
-//import geogebra.common.move.ggtapi.models.MaterialFilter;
-//import geogebra.html5.euclidian.EuclidianViewWeb;
-//import geogebra.html5.main.AppWeb;
-//import geogebra.html5.main.StringHandler;
-//import geogebra.html5.util.View;
-//import geogebra.html5.util.ggtapi.JSONparserGGT;
-//import geogebra.phone.gui.PhoneGUI;
-//
-//import com.google.gwt.core.client.Callback;
-//import com.google.gwt.user.client.ui.RootPanel;
-//import com.googlecode.gwtphonegap.client.PhoneGap;
-//import com.googlecode.gwtphonegap.client.file.DirectoryEntry;
-//import com.googlecode.gwtphonegap.client.file.DirectoryReader;
-//import com.googlecode.gwtphonegap.client.file.EntryBase;
-//import com.googlecode.gwtphonegap.client.file.FileCallback;
-//import com.googlecode.gwtphonegap.client.file.FileEntry;
-//import com.googlecode.gwtphonegap.client.file.FileError;
-//import com.googlecode.gwtphonegap.client.file.FileReader;
-//import com.googlecode.gwtphonegap.client.file.FileSystem;
-//import com.googlecode.gwtphonegap.client.file.FileWriter;
-//import com.googlecode.gwtphonegap.client.file.Flags;
-//import com.googlecode.gwtphonegap.client.file.ReaderCallback;
-//import com.googlecode.gwtphonegap.collection.shared.LightArray;
-//
+
 public class FileManager {
 	private static final String META_PREFIX = "meta_";
 	private static final String GGB_DIR = "GeoGebra";
@@ -52,7 +23,7 @@ public class FileManager {
 	
 
 	public FileManager() {
-		this.phonegap = Phone.getPhoneGap();
+		this.phonegap = PhoneGapManager.getPhoneGap();
 	}
 
 //	public void delete(final Material mat) {
