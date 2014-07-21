@@ -37,7 +37,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			saveAsAction, loadAction, loadURLAction, exportWorksheet,
 			shareAction, exportGraphicAction, exportAnimationAction,
 			exportPgfAction, exportPSTricksAction, exportAsymptoteAction,
-			insertFileAction;
+			insertFileAction, applyFormattingStylesAction;
 
 	JMenuItem loadURLMenuItem;
 
@@ -100,6 +100,9 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			}
 
 			mi = new JMenuItem(insertFileAction);
+			add(mi);
+
+			mi = new JMenuItem(applyFormattingStylesAction);
 			add(mi);
 
 			// recent SubMenu
@@ -273,6 +276,48 @@ class FileMenu extends BaseMenu implements EventRenderable {
 
 						// and paste
 						CopyPaste.pasteFromXML(app, true);
+
+						// forgotten something important!
+						// ad should be closed!
+						ad.exit();
+
+						app.setDefaultCursor();
+					}
+				};
+				runner.start();
+			}
+		};
+
+		applyFormattingStylesAction = new AbstractAction(
+				app.getMenu("ApplyFormattingStyles"),
+				app.getImageIcon("document-open.png")) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				Thread runner = new Thread() {
+					@Override
+					public void run() {
+
+						app.setWaitCursor();
+						app.setMoveMode();
+
+						// using code from newWindowAction, combined with
+						// Michael's suggestion
+						AppD ad = new AppD(new CommandLineArguments(null),
+								new JPanel(), true);// true as undo info is
+													// necessary for copy-paste!
+
+						// now, we have to load the file into AppD, using code
+						// from loadAction
+						ad.getGuiManager().openFile();
+
+						app.getKernel().setVisualStyles(ad.getKernel());
+						app.getKernel().updateConstruction();
+
+						// almost forgotten something important!
+						// ad should be closed!
+						ad.exit();
+
 						app.setDefaultCursor();
 					}
 				};

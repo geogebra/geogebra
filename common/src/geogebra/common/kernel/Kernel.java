@@ -717,7 +717,11 @@ public class Kernel {
 		while (okit.hasNext()) {
 			okactual = okit.next();
 			okcapt = okactual.getCaptionSimple();
-			okpos = okcapt.indexOf("%style=");
+			if (okcapt == null) {
+				okpos = -1;
+			} else {
+				okpos = okcapt.indexOf("%style=");
+			}
 			if (okpos < 0) {
 				// not having "%style=" setting, can be removed
 				// lucky that iterator has this method
@@ -735,7 +739,11 @@ public class Kernel {
 		while (it.hasNext()) {
 			actual = it.next();
 			capt = actual.getCaptionSimple();
-			pos = capt.indexOf("%style=");
+			if (capt == null) {
+				pos = -1;
+			} else {
+				pos = capt.indexOf("%style=");
+			}
 			if (pos > -1) {
 				// capt will not be needed until the next iteration
 				capt = capt.substring(pos);
@@ -745,6 +753,7 @@ public class Kernel {
 				while (okit.hasNext()) {
 					okactual = okit.next();
 					okcapt = okactual.getCaptionSimple();
+					// as okts is pre-filtered, okcapt is not null
 					okpos = okcapt.indexOf("%style=");
 					// as okts is pre-filtered, okpos is not -1
 					// although we could double-check, it's not important
