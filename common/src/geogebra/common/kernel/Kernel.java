@@ -698,6 +698,69 @@ public class Kernel {
 	}
 
 	/**
+	 * Find geos with caption ending %style=... in this kernel,
+	 * and set their visual styles to those geos in the
+	 * otherKernel which have the same %style=... caption ending
+	 * 
+	 * @param otherKernel
+	 */
+	public void setVisualStyles(Kernel otherKernel) {
+		TreeSet<GeoElement> okts = otherKernel.getConstruction().getGeoSetWithCasCellsConstructionOrder();
+
+		// maybe it's efficient to pre-filter this set to only contain
+		// elements that have "%style=" styling
+
+		Iterator<GeoElement> okit = okts.iterator();
+		GeoElement okactual;
+		String okcapt;
+		int okpos;
+		while (okit.hasNext()) {
+			okactual = okit.next();
+			okcapt = okactual.getCaptionSimple();
+			okpos = okcapt.indexOf("%style=");
+			if (okpos < 0) {
+				// not having "%style=" setting, can be removed
+				// lucky that iterator has this method
+				okit.remove();
+			}
+		}
+
+		// okts is ready, now to the main loop
+
+		TreeSet<GeoElement> ts = cons.getGeoSetWithCasCellsConstructionOrder();
+		Iterator<GeoElement> it = ts.iterator();
+		GeoElement actual;
+		String capt;
+		int pos;
+		while (it.hasNext()) {
+			actual = it.next();
+			capt = actual.getCaptionSimple();
+			pos = capt.indexOf("%style=");
+			if (pos > -1) {
+				// capt will not be needed until the next iteration
+				capt = capt.substring(pos);
+				// now, it's time to search for geos in otherKernel,
+				// whether any of them has the same style ending
+				okit = okts.iterator();
+				while (okit.hasNext()) {
+					okactual = okit.next();
+					okcapt = okactual.getCaptionSimple();
+					okpos = okcapt.indexOf("%style=");
+					// as okts is pre-filtered, okpos is not -1
+					// although we could double-check, it's not important
+
+					// okcapt will not be needed until the next iteration
+					okcapt = okcapt.substring(okpos);
+					if (capt.equals(okcapt)) {
+						// match! this is what this loop and this method is for:
+						actual.setVisualStyle(okactual);
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * @param flag switches on or off putting scripts into XML
 	 */
 	public void setSaveScriptsToXML(boolean flag) {
