@@ -1,20 +1,22 @@
 package geogebra.gui.view.data;
 
-import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.awt.GColorD;
+import geogebra.common.awt.GColor;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
+import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
+import geogebra.common.gui.view.data.DataSource;
+import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.common.util.debug.Log;
 import geogebra.export.PrintPreview;
 import geogebra.gui.util.FullWidthLayout;
-import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -36,7 +38,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
 
 /**
  * View to display plots and statistical analysis of data.
@@ -45,27 +46,16 @@ import javax.swing.SwingUtilities;
  * 
  */
 public class DataAnalysisViewD extends JPanel implements View, Printable,
-		SetLabels {
+		SetLabels, IDataAnalysisListener {
 
 	private static final long serialVersionUID = 1L;
 
 	// ggb
 	private AppD app;
 	private Kernel kernel;
-	private StatGeo statGeo;
+	private DataAnalysisModel model;
 	protected DataAnalysisControllerD daCtrl;
 	private DataAnalysisStyleBar stylebar;
-
-	public static final int MODE_ONEVAR = EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS;
-	public static final int MODE_REGRESSION = EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS;
-	public static final int MODE_MULTIVAR = EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS;
-	private int mode = -1;
-
-	// flags
-	private boolean showDataPanel = false;
-	private boolean showStatPanel = false;
-	private boolean showDataDisplayPanel2 = false;
-	protected boolean isIniting = true;
 
 	// colors
 	public static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD
@@ -86,40 +76,10 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public static final Color OVERLAY_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.DARKBLUE);
 
-	public static final float opacityBarChart = 0.3f;
-	public static final int thicknessCurve = 4;
-	public static final int thicknessBarChart = 3;
-
-	/**
-	 * @author mrb
-	 * 
-	 *         Order determines order in Two Variable Regression Analysis menu
-	 *         For each String, getMenu(s) must be defined
-	 */
-	public enum Regression {
-		NONE("None"), LINEAR("Linear"), LOG("Log"), POLY("Polynomial"), POW(
-				"Power"), EXP("Exponential"), GROWTH("Growth"), SIN("Sin"), LOGISTIC(
-				"Logistic");
-
-		// getMenu(label) must be defined
-		private String label;
-
-		Regression(String s) {
-			this.label = s;
-		}
-
-		public String getLabel() {
-			return label;
-		}
-	}
-
-	// rounding constants for local number format
-	private int printDecimals = 4, printFigures = -1;
-
-	// public static final int regressionTypes = 9;
-	private Regression regressionMode = Regression.NONE;
-	private int regressionOrder = 2;
-
+	private Color[] colors = { TABLE_GRID_COLOR, TABLE_HEADER_COLOR,
+			HISTOGRAM_COLOR, BOXPLOT_COLOR, BARCHART_COLOR, DOTPLOT_COLOR,
+			NQPLOT_COLOR, REGRESSION_COLOR, OVERLAY_COLOR, Color.BLACK,
+			Color.WHITE };
 	// main GUI panels
 	private DataPanel dataPanel;
 	private StatisticsPanel statisticsPanel;
@@ -132,8 +92,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	private int defaultDividerSize;
 
-	final static String MainCard = "Card with main panel";
-	final static String SourceCard = "Card with data type options";
+	private static final String MainCard = "Card with main panel";
+	private static final String SourceCard = "Card with data type options";
 
 	/*************************************************
 	 * Constructs the view.
@@ -142,18 +102,17 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	 * @param mode
 	 */
 	public DataAnalysisViewD(AppD app, int mode) {
-
-		isIniting = true;
 		this.app = app;
 		this.kernel = app.getKernel();
 
 		daCtrl = new DataAnalysisControllerD(app, this);
+		model = new DataAnalysisModel(app, mode, this, daCtrl);
 
 		dataDisplayPanel1 = new DataDisplayPanel(this);
 		dataDisplayPanel2 = new DataDisplayPanel(this);
 
 		setView(null, mode, true);
-		isIniting = false;
+		model.setIniting(false);
 
 	}
 
@@ -164,46 +123,10 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
-		daCtrl.setDataSource(dataSource);
-
-		if (dataSource == null) {
-			daCtrl.setValidData(false);
-		} else {
-			daCtrl.setValidData(true);
-		}
-
-		if (mode == MODE_ONEVAR) {
-			if (showDataPanel == true
-					&& dataSource.getGroupType() != GroupType.RAWDATA) {
-				setShowDataPanel(false);
-			}
-		}
-
-		// reinit the GUI if mode is changed
-		if (this.mode != mode || forceModeUpdate) {
-
-			this.mode = mode;
-			dataPanel = null;
-			buildStatisticsPanel();
-			daCtrl.updateDataLists();
-			setDataPlotPanels();
-			updateLayout();
-
-			// TODO: why do this here?
-			daCtrl.updateDataAnalysisView();
-
-		} else {
-			// just update data source
-			daCtrl.updateDataAnalysisView();
-		}
-
-		// TODO is this needed?
-		daCtrl.setLeftToRight(true);
-
+		model.setView(dataSource, mode, forceModeUpdate);
 		updateFonts();
 		setLabels();
 		updateGUI();
-
 		revalidate();
 
 	}
@@ -231,53 +154,45 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
 	}
 
+	public void setPlotPanelOVNotNumeric(int mode) {
+		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
+		dataDisplayPanel2.setPanel(PlotType.BARCHART, mode);
+
+	}
+
+	public void setPlotPanelOVRawData(int mode) {
+		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
+		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
+
+	}
+
+	public void setPlotPanelOVFrequency(int mode) {
+		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
+		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
+
+	}
+
+	public void setPlotPanelOVClass(int mode) {
+		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
+		dataDisplayPanel2.setPanel(PlotType.HISTOGRAM, mode);
+
+	}
+
+	public void setPlotPanelRegression(int mode) {
+		dataDisplayPanel1.setPanel(PlotType.SCATTERPLOT, mode);
+		dataDisplayPanel2.setPanel(PlotType.RESIDUAL, mode);
+	}
+
+	public void setPlotPanelMultiVar(int mode) {
+		dataDisplayPanel1.setPanel(PlotType.MULTIBOXPLOT, mode);
+
+	}
+
 	/**
 	 * set the data plot panels with default plots
 	 */
 	public void setDataPlotPanels() {
-
-		switch (mode) {
-
-		case MODE_ONEVAR:
-			if (!isNumericData()) {
-				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.BARCHART,
-						mode);
-				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.BARCHART,
-						mode);
-
-			} else if (groupType() == GroupType.RAWDATA) {
-				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.HISTOGRAM,
-						mode);
-				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT,
-						mode);
-
-			} else if (groupType() == GroupType.FREQUENCY) {
-				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.BARCHART,
-						mode);
-				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.BOXPLOT,
-						mode);
-
-			} else if (groupType() == GroupType.CLASS) {
-				dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.HISTOGRAM,
-						mode);
-				dataDisplayPanel2.setPanel(DataDisplayPanel.PlotType.HISTOGRAM,
-						mode);
-			}
-			break;
-
-		case MODE_REGRESSION:
-			dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.SCATTERPLOT,
-					mode);
-			dataDisplayPanel2
-					.setPanel(DataDisplayPanel.PlotType.RESIDUAL, mode);
-			break;
-
-		case MODE_MULTIVAR:
-			dataDisplayPanel1.setPanel(DataDisplayPanel.PlotType.MULTIBOXPLOT,
-					mode);
-			showDataDisplayPanel2 = false;
-			break;
-		}
+		model.setDataPlotPanels();
 	}
 
 	// Create DataPanel to display the current data set(s) and allow
@@ -288,7 +203,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			// TODO handle any orphaned data panel geos
 			dataPanel = null;
 		}
-		if (mode != MODE_MULTIVAR) {
+		if (!model.isMultiVar()) {
 			dataPanel = new DataPanel(app, this);
 			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		}
@@ -319,13 +234,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// ===========================================
 		// statData panel
 
-		if (mode != MODE_MULTIVAR) {
+		if (!model.isMultiVar()) {
 			statDataPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 					statisticsPanel, null);
 			statDataPanel.setResizeWeight(0.5);
 			statDataPanel.setBorder(BorderFactory.createEmptyBorder());
 		}
-		if (mode == MODE_MULTIVAR) {
+		if (model.isMultiVar()) {
 			statDataPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 					statisticsPanel, null);
 			statDataPanel.setDividerSize(0);
@@ -335,7 +250,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// ===========================================
 		// regression panel
 
-		if (mode == MODE_REGRESSION) {
+		if (model.isRegressionMode()) {
 			regressionPanel = new RegressionPanel(app, this);
 		}
 
@@ -357,7 +272,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 		// display panel
 		// ============================================
-		if (mode != MODE_MULTIVAR) {
+		if (!model.isMultiVar()) {
 			displayPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 					statDataPanel, plotComboPanel);
 			displayPanel.setResizeWeight(0.5);
@@ -375,7 +290,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// mainPanel.add(getStyleBar(), BorderLayout.NORTH);
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
 
-		if (mode == MODE_REGRESSION) {
+		if (model.isRegressionMode()) {
 			mainPanel.add(regressionPanel, BorderLayout.SOUTH);
 		}
 
@@ -389,7 +304,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		add(p, SourceCard);
 		showMainPanel();
 
-		setShowComboPanel2(showDataDisplayPanel2);
+		model.setShowComboPanel2(model.showDataDisplayPanel2());
 		updateStatDataPanelVisibility();
 
 	}
@@ -414,7 +329,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	}
 
 	public DataSource getDataSource() {
-		return daCtrl.getDataSource();
+		return model.getDataSource();
 	}
 
 	public GroupType groupType() {
@@ -446,34 +361,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		return this;
 	}
 
-	public boolean showDataDisplayPanel2() {
-		return showDataDisplayPanel2;
-	}
-
-	public boolean showDataPanel() {
-		return showDataPanel;
-	}
-
-	public void setShowDataPanel(boolean isVisible) {
-		if (showDataPanel == isVisible) {
-			return;
-		}
-		showDataPanel = isVisible;
-		updateStatDataPanelVisibility();
-	}
-
-	public void setShowStatistics(boolean isVisible) {
-		if (showStatPanel == isVisible) {
-			return;
-		}
-		showStatPanel = isVisible;
-		updateStatDataPanelVisibility();
-	}
-
-	public boolean showStatPanel() {
-		return showStatPanel;
-	}
-
 	public DataAnalysisControllerD getController() {
 		return daCtrl;
 	}
@@ -482,102 +369,26 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		return daCtrl.getRegressionModel();
 	}
 
-	public StatGeo getStatGeo() {
-		if (statGeo == null)
-			statGeo = new StatGeo(app);
-		return statGeo;
-	}
-
-	public int getRegressionOrder() {
-		return regressionOrder;
-	}
-
-	public void setRegressionMode(int regressionMode) {
-
-		for (Regression l : Regression.values()) {
-			if (l.ordinal() == regressionMode) {
-				this.regressionMode = l;
-
-				daCtrl.setRegressionGeo();
-				daCtrl.updateAllPanels(true);
-
-				return;
-			}
-		}
-
-		Log.warn("no mode set in setRegressionMode()");
-		this.regressionMode = Regression.NONE;
-
-	}
-
-	public Regression getRegressionMode() {
-		return regressionMode;
-	}
-
-	public void setRegressionOrder(int regressionOrder) {
-		this.regressionOrder = regressionOrder;
-	}
-
 	public AppD getApp() {
 		return app;
 	}
 
-	public int getMode() {
-		return mode;
-	}
-
-	public void setShowDataOptionsDialog(boolean showDialog) {
-		// if (showDialog) {
-		// showSourcePanel();
-		// this.dataTypePanel;
-		// } else {
-		// showMainPanel();
-		// }
-
-		app.getDialogManager().showDataSourceDialog(mode, false);
-
-	}
-
-	public boolean isNumericData() {
-		if (daCtrl.getDataSource() == null) {
-			return false;
-		}
-		return daCtrl.getDataSource().isNumericData();
-	}
+	// public int getMode() {
+	// return mode;
+	// }
 
 	// =================================================
 	// Handlers for Component Visibility
 	// =================================================
-
-	public void setShowComboPanel2(boolean showComboPanel2) {
-
-		this.showDataDisplayPanel2 = showComboPanel2;
-
-		if (showComboPanel2) {
-			if (comboPanelSplit == null) {
-				// Application.debug("splitpane null");
-			}
-			comboPanelSplit.setBottomComponent(dataDisplayPanel2);
-			comboPanelSplit.setDividerLocation(200);
-			comboPanelSplit.setDividerSize(4);
-		} else {
-			comboPanelSplit.setBottomComponent(null);
-			comboPanelSplit.setLastDividerLocation(comboPanelSplit
-					.getDividerLocation());
-			comboPanelSplit.setDividerLocation(0);
-			comboPanelSplit.setDividerSize(0);
-		}
-
-	}
 
 	public void updateStatDataPanelVisibility() {
 
 		if (statDataPanel == null)
 			return;
 
-		if (mode != MODE_MULTIVAR) {
+		if (!model.isMultiVar()) {
 
-			if (showDataPanel) {
+			if (model.showDataPanel()) {
 				if (statDataPanel.getRightComponent() == null) {
 					statDataPanel.setRightComponent(dataPanel);
 					statDataPanel.resetToPreferredSizes();
@@ -589,7 +400,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 				}
 			}
 
-			if (showStatPanel) {
+			if (model.showStatPanel()) {
 				if (statDataPanel.getLeftComponent() == null) {
 					statDataPanel.setLeftComponent(statisticsPanel);
 					statDataPanel.resetToPreferredSizes();
@@ -602,13 +413,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			}
 
 			// hide/show divider
-			if (showDataPanel && showStatPanel)
+			if (model.showDataPanel() && model.showStatPanel())
 				statDataPanel.setDividerSize(defaultDividerSize);
 			else
 				statDataPanel.setDividerSize(0);
 
 			// hide/show statData panel
-			if (showDataPanel || showStatPanel) {
+			if (model.showDataPanel() || model.showStatPanel()) {
 				if (displayPanel.getLeftComponent() == null) {
 					displayPanel.setLeftComponent(statDataPanel);
 					// displayPanel.resetToPreferredSizes();
@@ -626,7 +437,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 		} else { // handle multi-variable case
 
-			if (showStatPanel) {
+			if (model.showStatPanel()) {
 				if (displayPanel.getBottomComponent() == null) {
 					displayPanel.setBottomComponent(statDataPanel);
 					// displayPanel.resetToPreferredSizes();
@@ -691,13 +502,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	public void setLabels() {
 
-		if (isIniting) {
+		if (model.isIniting()) {
 			return;
 		}
 
 		// setTitle(app.getMenu("OneVariableStatistics"));
 
-		if (mode == MODE_REGRESSION && regressionPanel != null) {
+		if (model.isRegressionMode() && regressionPanel != null) {
 			regressionPanel.setLabels();
 		}
 
@@ -728,80 +539,16 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	// (use GeoGebra rounding settings unless decimals < 4)
 	// =================================================
 
-	/**
-	 * Converts a double numeric value to formatted String
-	 * 
-	 * @param x
-	 *            number to be converted
-	 * @return formatted number string
-	 */
-	public String format(double x) {
-		StringTemplate highPrecision;
-
-		// override the default decimal place setting if less than 4 decimals
-		if (printDecimals >= 0) {
-			int d = printDecimals < 4 ? 4 : printDecimals;
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					d, false);
-		} else {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					printFigures, false);
-		}
-		// get the formatted string
-		String result = kernel.format(x, highPrecision);
-
-		return result;
-	}
-
-	/**
-	 * Adjust local rounding constants to match global rounding constants and
-	 * update GUI when needed
-	 */
-	private void updateRounding() {
-
-		if (kernel.useSignificantFigures) {
-			if (printFigures != kernel.getPrintFigures()) {
-				printFigures = kernel.getPrintFigures();
-				printDecimals = -1;
-				updateGUI();
-			}
-		} else if (printDecimals != kernel.getPrintDecimals()) {
-			printDecimals = kernel.getPrintDecimals();
-			updateGUI();
-		}
-	}
-
-	public int getPrintDecimals() {
-		return printDecimals;
-	}
-
-	public int getPrintFigures() {
-		return printFigures;
-	}
-
 	// =================================================
 	// View Implementation
 	// =================================================
 
 	public void remove(GeoElement geo) {
-		// Application.debug("removed geo: " + geo.toString());
-		daCtrl.handleRemovedDataGeo(geo);
+		model.remove(geo);
 	}
 
 	public void update(GeoElement geo) {
-
-		updateRounding();
-
-		// update the view if the geo is in the data source
-		if (!isIniting && daCtrl.isInDataSource(geo)) {
-
-			// use a runnable to allow spreadsheet table model to update
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					daCtrl.updateDataAnalysisView();
-				}
-			});
-		}
+		model.update(geo);
 	}
 
 	final public void updateVisualStyle(GeoElement geo) {
@@ -959,9 +706,53 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		// TODO Auto-generated method stub
 
 	}
-	
-	public void suggestRepaint(){
+
+	public void suggestRepaint() {
 		// only used in web for now
+	}
+
+	public DataAnalysisModel getModel() {
+		return model;
+	}
+
+	public void setModel(DataAnalysisModel model) {
+		this.model = model;
+	}
+
+	public void onModeChange() {
+		dataPanel = null;
+		buildStatisticsPanel();
+
+		setDataPlotPanels();
+		updateLayout();
+
+	}
+
+	public void showComboPanel2(boolean show) {
+		if (show) {
+			if (comboPanelSplit == null) {
+				// Application.debug("splitpane null");
+			}
+			comboPanelSplit.setBottomComponent(dataDisplayPanel2);
+			comboPanelSplit.setDividerLocation(200);
+			comboPanelSplit.setDividerSize(4);
+		} else {
+			comboPanelSplit.setBottomComponent(null);
+			comboPanelSplit.setLastDividerLocation(comboPanelSplit
+					.getDividerLocation());
+			comboPanelSplit.setDividerLocation(0);
+			comboPanelSplit.setDividerSize(0);
+		}
+
+	}
+
+	public String format(double value) {
+		return model.format(value);
+	}
+
+	public GColor createColor(int idx) {
+		Color c = colors[idx];
+		return new GColorD(c.getRed(), c.getGreen(), c.getBlue());
 	}
 
 }

@@ -1,10 +1,12 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
+import geogebra.common.gui.view.data.DataVariable.GroupType;
+import geogebra.common.gui.view.data.StatPanelSettings;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.data.DataDisplayPanel.PlotType;
-import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -87,6 +89,8 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 	private static final int tab = 5;
 	private boolean isUpdating = false;
 
+	private DataAnalysisModel daModel;
+
 	private final static int fieldWidth = 8;
 
 	/************************************************************
@@ -94,16 +98,17 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 	 * 
 	 * @param app
 	 *            App
+	 * @param settings
 	 * @param statDialog
 	 *            statDialog
 	 * @param settings
 	 *            settings
 	 */
-	public OptionsPanel(AppD app, DataAnalysisViewD statDialog,
+	public OptionsPanel(AppD app, DataAnalysisModel model,
 			StatPanelSettings settings) {
 
 		this.app = app;
-		this.statDialog = statDialog;
+		this.daModel = model;
 		this.settings = settings;
 
 		// create option panels
@@ -569,20 +574,20 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		isUpdating = true;
 
 		// histogram/barchart
-		ckManual.setSelected(settings.useManualClasses);
-		rbFreq.setSelected(settings.frequencyType == StatPanelSettings.TYPE_COUNT);
+		ckManual.setSelected(settings.isUseManualClasses());
+		rbFreq.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
 		rbRelative
-				.setSelected(settings.frequencyType == StatPanelSettings.TYPE_RELATIVE);
+				.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
 		rbNormalized
-				.setSelected(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
-		rbLeftRule.setSelected(settings.isLeftRule);
-		ckCumulative.setSelected(settings.isCumulative);
-		ckOverlayNormal.setSelected(settings.hasOverlayNormal);
-		ckOverlayPolygon.setSelected(settings.hasOverlayPolygon);
+				.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		rbLeftRule.setSelected(settings.isLeftRule());
+		ckCumulative.setSelected(settings.isCumulative());
+		ckOverlayNormal.setSelected(settings.isHasOverlayNormal());
+		ckOverlayPolygon.setSelected(settings.isHasOverlayPolygon());
 		ckShowGrid.setSelected(settings.showGrid);
-		ckAutoWindow.setSelected(settings.isAutomaticWindow);
-		ckShowFrequencyTable.setSelected(settings.showFrequencyTable);
-		ckShowHistogram.setSelected(settings.showHistogram);
+		ckAutoWindow.setSelected(settings.isAutomaticWindow());
+		ckShowFrequencyTable.setSelected(settings.isShowFrequencyTable());
+		ckShowHistogram.setSelected(settings.isShowHistogram());
 
 		if (settings.dataSource != null) {
 			ckManual.setVisible(settings.getDataSource().getGroupType() != GroupType.CLASS);
@@ -591,11 +596,11 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		}
 		// normal overlay
 		ckOverlayNormal
-				.setEnabled(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED);
+				.setEnabled(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
 
 		// bar chart width
-		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth);
-		fldBarWidth.setText("" + settings.barWidth);
+		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
+		fldBarWidth.setText("" + settings.getBarWidth());
 		fldBarWidth.setEnabled(!ckAutoBarWidth.isSelected());
 
 		// window dimension
@@ -622,16 +627,16 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		lblYInterval.setEnabled(!ckAutoWindow.isSelected());
 
 		// update automatic dimensions
-		fldXMin.setText("" + statDialog.format(settings.xMin));
-		fldXMax.setText("" + statDialog.format(settings.xMax));
-		fldXInterval.setText("" + statDialog.format(settings.xAxesInterval));
+		fldXMin.setText("" + daModel.format(settings.xMin));
+		fldXMax.setText("" + daModel.format(settings.xMax));
+		fldXInterval.setText("" + daModel.format(settings.xAxesInterval));
 
-		fldYMin.setText("" + statDialog.format(settings.yMin));
-		fldYMax.setText("" + statDialog.format(settings.yMax));
-		fldYInterval.setText("" + statDialog.format(settings.yAxesInterval));
+		fldYMin.setText("" + daModel.format(settings.yMin));
+		fldYMax.setText("" + daModel.format(settings.yMax));
+		fldYInterval.setText("" + daModel.format(settings.yAxesInterval));
 
 		// show outliers
-		ckShowOutliers.setSelected(settings.showOutliers);
+		ckShowOutliers.setSelected(settings.isShowOutliers());
 
 		isUpdating = false;
 		repaint();
@@ -668,7 +673,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 				settings.yAxesInterval = value;
 				firePropertyChange("settings", true, false);
 			} else if (source == fldBarWidth && value >= 0) {
-				settings.barWidth = value;
+				settings.setBarWidth(value);
 				firePropertyChange("settings", true, false);
 			}
 			updateGUI();
@@ -689,51 +694,51 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		}
 
 		else if (source == ckManual) {
-			settings.useManualClasses = ckManual.isSelected();
+			settings.setUseManualClasses(ckManual.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == ckCumulative) {
-			settings.isCumulative = ckCumulative.isSelected();
+			settings.setCumulative(ckCumulative.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == rbFreq) {
-			settings.frequencyType = StatPanelSettings.TYPE_COUNT;
+			settings.setFrequencyType(StatPanelSettings.TYPE_COUNT);
 			firePropertyChange("settings", true, false);
 		} else if (source == rbRelative) {
-			settings.frequencyType = StatPanelSettings.TYPE_RELATIVE;
+			settings.setFrequencyType(StatPanelSettings.TYPE_RELATIVE);
 			firePropertyChange("settings", true, false);
 		} else if (source == rbNormalized) {
-			settings.frequencyType = StatPanelSettings.TYPE_NORMALIZED;
+			settings.setFrequencyType(StatPanelSettings.TYPE_NORMALIZED);
 			firePropertyChange("settings", true, false);
 		} else if (source == ckOverlayNormal) {
-			settings.hasOverlayNormal = ckOverlayNormal.isSelected();
+			settings.setHasOverlayNormal(ckOverlayNormal.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == ckOverlayPolygon) {
-			settings.hasOverlayPolygon = ckOverlayPolygon.isSelected();
+			settings.setHasOverlayPolygon(ckOverlayPolygon.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == ckShowGrid) {
 			settings.showGrid = ckShowGrid.isSelected();
 			firePropertyChange("settings", true, false);
 		} else if (source == ckAutoWindow) {
-			settings.isAutomaticWindow = ckAutoWindow.isSelected();
+			settings.setAutomaticWindow(ckAutoWindow.isSelected());
 			settings.xAxesIntervalAuto = ckAutoWindow.isSelected();
 			settings.yAxesIntervalAuto = ckAutoWindow.isSelected();
 			firePropertyChange("settings", true, false);
 		} else if (source == ckShowFrequencyTable) {
-			settings.showFrequencyTable = ckShowFrequencyTable.isSelected();
+			settings.setShowFrequencyTable(ckShowFrequencyTable.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == ckShowHistogram) {
-			settings.showHistogram = ckShowHistogram.isSelected();
+			settings.setShowHistogram(ckShowHistogram.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == rbLeftRule || source == rbRightRule) {
-			settings.isLeftRule = rbLeftRule.isSelected();
+			settings.setLeftRule(rbLeftRule.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == ckShowLines) {
-			settings.showScatterplotLine = ckShowLines.isSelected();
+			settings.setShowScatterplotLine(ckShowLines.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == ckShowOutliers) {
-			settings.showOutliers = ckShowOutliers.isSelected();
+			settings.setShowOutliers(ckShowOutliers.isSelected());
 			firePropertyChange("settings", true, false);
 		} else if (source == ckAutoBarWidth) {
-			settings.isAutomaticBarWidth = ckAutoBarWidth.isSelected();
+			settings.setAutomaticBarWidth(ckAutoBarWidth.isSelected());
 			firePropertyChange("settings", true, false);
 		} else {
 			firePropertyChange("settings", true, false);

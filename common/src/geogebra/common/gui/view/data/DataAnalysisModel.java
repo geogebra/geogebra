@@ -121,13 +121,15 @@ public class DataAnalysisModel {
 	 * @param app
 	 * @param mode
 	 */
-	public DataAnalysisModel(App app, int mode, IDataAnalysisListener listener) {
+	public DataAnalysisModel(App app, int mode, IDataAnalysisListener listener,
+			DataAnalysisController ctrl) {
 		setIniting(true);
 		this.app = app;
 		this.kernel = app.getKernel();
 		
 		this.setListener(listener);
-		this.ctrl = listener.getController();
+		this.ctrl = ctrl;
+		ctrl.setModel(this);
 		setIniting(false);
 
 	}

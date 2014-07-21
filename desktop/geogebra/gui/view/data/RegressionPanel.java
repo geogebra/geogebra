@@ -1,5 +1,7 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -8,7 +10,6 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.data.DataAnalysisViewD.Regression;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
 
@@ -30,7 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 /**
- * Panel to select and display the DataAnalysisView regression model. 
+ * Panel to select and display the DataAnalysisView regression model.
  * 
  * @author G. Sturr
  */
@@ -55,6 +56,8 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	private boolean isIniting = true;
 	private JPanel predictionPanel;
 
+	private DataAnalysisModel daModel;
+
 	/**
 	 * Construct a regression panel
 	 * 
@@ -68,6 +71,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.statDialog = statDialog;
+		this.daModel = statDialog.getModel();
 		this.setLayout(new BorderLayout());
 		this.add(createRegressionPanel(), BorderLayout.CENTER);
 		setLabels();
@@ -230,24 +234,21 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		try {
 			// prepare number format
 			StringTemplate highPrecision;
-				if (statDialog.getPrintDecimals() >= 0)
-					highPrecision = StringTemplate.printDecimals(
-							StringType.LATEX, statDialog.getPrintDecimals(),
-							false);
-				else
-					highPrecision = StringTemplate.printFigures(
-							StringType.LATEX, statDialog.getPrintFigures(),
-							false);
-			
+			if (daModel.getPrintDecimals() >= 0)
+				highPrecision = StringTemplate.printDecimals(StringType.LATEX,
+						daModel.getPrintDecimals(), false);
+			else
+				highPrecision = StringTemplate.printFigures(StringType.LATEX,
+						daModel.getPrintFigures(), false);
 
 			// no regression
-			if (statDialog.getRegressionMode().equals(Regression.NONE)
+			if (daModel.getRegressionMode().equals(Regression.NONE)
 					|| statDialog.getRegressionModel() == null) {
 				eqn = app.getPlain("");
 			}
 
 			// linear
-			else if (statDialog.getRegressionMode().equals(Regression.LINEAR)) {
+			else if (daModel.getRegressionMode().equals(Regression.LINEAR)) {
 				((GeoLine) statDialog.getRegressionModel()).setToExplicit();
 				eqn = statDialog.getRegressionModel().getFormulaString(
 						highPrecision, true);
@@ -291,9 +292,9 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 	private void updateGUI() {
 
-		cbPolyOrder.setVisible(statDialog.getRegressionMode().equals(
+		cbPolyOrder.setVisible(daModel.getRegressionMode().equals(
 				Regression.POLY));
-		predictionPanel.setVisible(!(statDialog.getRegressionMode()
+		predictionPanel.setVisible(!(daModel.getRegressionMode()
 				.equals(Regression.NONE)));
 		repaint();
 
@@ -309,17 +310,17 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 		else if (source == cbRegression) {
 			cbRegression.removeActionListener(this);
-			statDialog.setRegressionMode(cbRegression.getSelectedIndex());
+			daModel.setRegressionMode(cbRegression.getSelectedIndex());
 			cbRegression.addActionListener(this);
 		}
 
 		else if (source == cbPolyOrder) {
-			statDialog.setRegressionOrder(cbPolyOrder.getSelectedIndex() + 2);
+			daModel.setRegressionOrder(cbPolyOrder.getSelectedIndex() + 2);
 			statDialog.getController().setRegressionGeo();
 			setRegressionEquationLabel();
-			
-			// force update 
-			statDialog.setRegressionMode(Regression.POLY.ordinal());
+
+			// force update
+			daModel.setRegressionMode(Regression.POLY.ordinal());
 		}
 
 	}

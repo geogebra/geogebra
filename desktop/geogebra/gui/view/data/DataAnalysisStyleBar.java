@@ -1,8 +1,9 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.MyToggleButton;
-import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -107,13 +108,14 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	public void updateGUI() {
 
-		btnShowStatistics.setSelected(daView.showStatPanel());
-		if(daView.showStatPanel() && daView.getStatisticsPanel().isVisible()){
+		DataAnalysisModel model = daView.getModel();
+		btnShowStatistics.setSelected(model.showStatPanel());
+		if (model.showStatPanel() && daView.getStatisticsPanel().isVisible()) {
 			daView.getStatisticsPanel().updatePanel();
 		}
 
-		switch (daView.getMode()) {
-		case DataAnalysisViewD.MODE_ONEVAR:
+		switch (model.getMode()) {
+		case DataAnalysisModel.MODE_ONEVAR:
 			if (daView.getDataSource() != null
 					&& daView.groupType() == GroupType.RAWDATA) {
 				btnShowData.setVisible(true);
@@ -121,28 +123,26 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 				btnShowData.setVisible(false);
 			}
 			break;
-		case DataAnalysisViewD.MODE_REGRESSION:
+		case DataAnalysisModel.MODE_REGRESSION:
 			btnShowData.setVisible(true);
 			break;
-		case DataAnalysisViewD.MODE_MULTIVAR:
+		case DataAnalysisModel.MODE_MULTIVAR:
 			btnShowData.setVisible(false);
 			break;
 		default:
 			btnShowData.setVisible(false);
 		}
 
-		btnShowData.setSelected(daView.showDataPanel());
+		btnShowData.setSelected(model.showDataPanel());
 
-		btnShowPlot2
-				.setVisible(daView.getMode() != DataAnalysisViewD.MODE_MULTIVAR);
-		btnShowPlot2.setSelected(daView.showDataDisplayPanel2());
+		btnShowPlot2.setVisible(!model.isMultiVar());
+		btnShowPlot2.setSelected(model.showDataDisplayPanel2());
 
 		// fldDataSource.setText(statDialog.getStatDialogController()
 		// .getSourceString());
 		fldDataSource.revalidate();
 
-		btnSwapXY
-				.setVisible(daView.getMode() == DataAnalysisViewD.MODE_REGRESSION);
+		btnSwapXY.setVisible(model.isRegressionMode());
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 	}
 
@@ -202,17 +202,18 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		DataAnalysisModel model = daView.getModel();
 		Object source = e.getSource();
 		if (source == btnShowStatistics) {
-			daView.setShowStatistics(btnShowStatistics.isSelected());
+			model.setShowStatistics(btnShowStatistics.isSelected());
 			updateGUI();
 		} else if (source == btnShowData) {
-			daView.setShowDataPanel(btnShowData.isSelected());
+			model.setShowDataPanel(btnShowData.isSelected());
 			updateGUI();
 		}
 
 		else if (source == btnShowPlot2) {
-			daView.setShowComboPanel2(btnShowPlot2.isSelected());
+			model.setShowComboPanel2(btnShowPlot2.isSelected());
 			updateGUI();
 		}
 
@@ -223,7 +224,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 		else if (source == btnDataSource) {
 			btnDataSource.setSelected(false);
-			daView.setShowDataOptionsDialog(true);
+			model.setShowDataOptionsDialog(true);
 		}
 
 		else if (source == btnExport) {

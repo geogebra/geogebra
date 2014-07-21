@@ -42,14 +42,11 @@ public abstract class DataAnalysisController {
 	 * @param app
 	 * @param statDialog
 	 */
-	public DataAnalysisController(App app, DataAnalysisModel model) {
+	public DataAnalysisController(App app) {
 
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
-		this.setModel(model);
-		this.statGeo = model.getStatGeo();
-
 	}
 
 	
@@ -319,7 +316,6 @@ public abstract class DataAnalysisController {
 	public void updateDataLists() {
 		removeStatGeos();
 		loadDataLists(true);
-		return;
 	}
 
 	/**
@@ -404,6 +400,7 @@ public abstract class DataAnalysisController {
 
 	public void setModel(DataAnalysisModel model) {
 		this.model = model;
+		this.statGeo = model.getStatGeo();
 	}
 
 }

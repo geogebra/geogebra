@@ -1,11 +1,15 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataItem;
+import geogebra.common.gui.view.data.DataSource;
+import geogebra.common.gui.view.data.DataVariable;
+import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
 import geogebra.util.Validation;
@@ -213,7 +217,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		}
 
 		controlPanel.removeAll();
-		if (mode == DataAnalysisViewD.MODE_MULTIVAR) {
+		if (mode == DataAnalysisModel.MODE_MULTIVAR) {
 			controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
 					loc.borderWest());
 		}
@@ -245,11 +249,11 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	}
 
 	private String[] getDataTypeLabels() {
-		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
+		if (mode == DataAnalysisModel.MODE_ONEVAR) {
 			String[] dataTypeLabels = { loc.getMenu("Number"),
 					loc.getMenu("Text") };
 			return dataTypeLabels;
-		} else if (mode == DataAnalysisViewD.MODE_REGRESSION) {
+		} else if (mode == DataAnalysisModel.MODE_REGRESSION) {
 			String[] dataTypeLabels = { loc.getMenu("Numbers"),
 					loc.getMenu("Points") };
 			return dataTypeLabels;
@@ -452,13 +456,13 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	 * 
 	 * switch (mode) {
 	 * 
-	 * case DataAnalysisViewD.MODE_ONEVAR: if (dataSource.isNumericData()) {
+	 * case DataAnalysisModel.MODE_ONEVAR: if (dataSource.isNumericData()) {
 	 * return geo.isGeoNumeric(); } return geo.isGeoText();
 	 * 
-	 * case DataAnalysisViewD.MODE_REGRESSION: if (dataSource.isPointList()) {
+	 * case DataAnalysisModel.MODE_REGRESSION: if (dataSource.isPointList()) {
 	 * return geo.isGeoPoint(); } return geo.isGeoNumeric();
 	 * 
-	 * case DataAnalysisViewD.MODE_MULTIVAR: return geo.isGeoNumeric();
+	 * case DataAnalysisModel.MODE_MULTIVAR: return geo.isGeoNumeric();
 	 * 
 	 * default:
 	 * 
@@ -495,7 +499,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 		} else if (source == btnAdd) {
 			dataSource.getSelectedDataVariable().addNewValue();
-			updatePanel(DataAnalysisViewD.MODE_MULTIVAR, false);
+			updatePanel(DataAnalysisModel.MODE_MULTIVAR, false);
 
 		} else if (source == btnClear) {
 			// int n = dataSource.size();
@@ -508,7 +512,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			if (dataSource.getSelectedDataVariable().getValues().size() > 2) {
 				dataSource.getSelectedDataVariable().removeLastValue();
 				loadSourceTableFromDataSource();
-				updatePanel(DataAnalysisViewD.MODE_MULTIVAR, false);
+				updatePanel(DataAnalysisModel.MODE_MULTIVAR, false);
 			}
 		}
 
@@ -753,7 +757,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			{
 				if (btnHoverColumn == vColIndex) {
 					lblImportBtn.setIcon(importIconRollover);
-					setToolTipText(app.getLocalization().getMenuTooltip("AddSelection"));
+					setToolTipText(app.getLocalization().getMenuTooltip(
+							"AddSelection"));
 				} else {
 					lblImportBtn.setIcon(importIcon);
 					setToolTipText(null);
@@ -844,7 +849,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		JMenu subMenu;
 		final DataVariable var = dataSource.getSelectedDataVariable();
 
-		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
+		if (mode == DataAnalysisModel.MODE_ONEVAR) {
 
 			// ==========================
 			// one var data type
@@ -930,7 +935,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 		}
 
-		if (mode == DataAnalysisViewD.MODE_REGRESSION) {
+		if (mode == DataAnalysisModel.MODE_REGRESSION) {
 
 			// ==========================
 			// two var data type
@@ -1054,7 +1059,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	 * 
 	 * switch (mode) {
 	 * 
-	 * case DataAnalysisViewD.MODE_ONEVAR: if (dataSource.getGroupType() ==
+	 * case DataAnalysisModel.MODE_ONEVAR: if (dataSource.getGroupType() ==
 	 * GroupType.RAWDATA) { columnCount = 1;
 	 * columnNameList.add(app.getMenu("Data")); } else if
 	 * (dataSource.getGroupType() == GroupType.FREQUENCY) { columnCount = 2;
@@ -1064,13 +1069,13 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	 * columnNameList.add(app.getMenu("Classes"));
 	 * columnNameList.add(app.getMenu("Frequency")); } break;
 	 * 
-	 * case DataAnalysisViewD.MODE_REGRESSION: if (dataSource.isPointList()) {
+	 * case DataAnalysisModel.MODE_REGRESSION: if (dataSource.isPointList()) {
 	 * columnCount = 1; columnNameList.add("(" + app.getMenu("Column.X") + "," +
 	 * app.getMenu("Column.Y") + ")"); } else { columnCount = 2;
 	 * columnNameList.add(app.getMenu("Column.X"));
 	 * columnNameList.add(app.getMenu("Column.Y")); } break;
 	 * 
-	 * case DataAnalysisViewD.MODE_MULTIVAR:
+	 * case DataAnalysisModel.MODE_MULTIVAR:
 	 * 
 	 * if (dataSource.size() > 2) { columnCount = dataSource.size(); } else {
 	 * columnCount = 2; dataSource.ensureMinimumSize(2); }

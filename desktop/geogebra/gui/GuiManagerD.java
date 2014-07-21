@@ -12,6 +12,7 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.View;
@@ -482,7 +483,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public DataAnalysisViewD getDataAnalysisView() {
 		if (dataView == null)
 			dataView = new DataAnalysisViewD((AppD) app,
-					DataAnalysisViewD.MODE_ONEVAR);
+					DataAnalysisModel.MODE_ONEVAR);
 		return dataView;
 	}
 

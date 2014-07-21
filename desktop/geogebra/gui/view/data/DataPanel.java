@@ -1,5 +1,6 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -222,9 +223,9 @@ public class DataPanel extends JPanel implements ActionListener,
 		GeoPoint geo = null;
 		String[] titles = daView.getDataTitles();
 
-		switch (daView.getMode()) {
+		switch (daView.getModel().getMode()) {
 
-		case DataAnalysisViewD.MODE_ONEVAR:
+		case DataAnalysisModel.MODE_ONEVAR:
 
 			dataModel = new DefaultTableModel(dataArray.size(), 1);
 			for (int row = 0; row < dataArray.size(); ++row) {
@@ -240,7 +241,7 @@ public class DataPanel extends JPanel implements ActionListener,
 
 			break;
 
-		case DataAnalysisViewD.MODE_REGRESSION:
+		case DataAnalysisModel.MODE_REGRESSION:
 
 			// a data source may be a list of points with a single title
 			// so we must create a title for the y column

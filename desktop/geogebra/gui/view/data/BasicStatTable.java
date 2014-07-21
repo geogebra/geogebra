@@ -1,5 +1,8 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataAnalysisModel.Regression;
+import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
@@ -28,8 +31,6 @@ import geogebra.common.kernel.statistics.AlgoSigmaXX;
 import geogebra.common.kernel.statistics.AlgoSpearman;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
-import geogebra.gui.view.data.DataAnalysisViewD.Regression;
-import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -124,7 +125,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		GeoElement geoRegression = daView.getRegressionModel();
 		// when the regression mode is NONE geoRegression is a dummy linear
 		// model, so reset it to null
-		if (daView.getRegressionMode().equals(Regression.NONE)) {
+		if (daView.getModel().getRegressionMode().equals(Regression.NONE)) {
 			geoRegression = null;
 		}
 
@@ -142,7 +143,8 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 						cons.removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
-						model.setValueAt(daView.format(value), row, 0);
+						model.setValueAt(daView.getModel().format(value), row,
+								0);
 					}
 				}
 			}
@@ -157,8 +159,8 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 			return list;
 		}
 
-		switch (daView.getMode()) {
-		case DataAnalysisViewD.MODE_ONEVAR:
+		switch (daView.getModel().getMode()) {
+		case DataAnalysisModel.MODE_ONEVAR:
 
 			if (!daView.getDataSource().isNumericData()) {
 				list.add(Stat.LENGTH);
@@ -190,7 +192,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 
 			break;
 
-		case DataAnalysisViewD.MODE_REGRESSION:
+		case DataAnalysisModel.MODE_REGRESSION:
 
 			list.add(Stat.MEANX);
 			list.add(Stat.MEANY);
@@ -265,9 +267,9 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
 			GeoElement geoRegression) {
 
-		switch (daView.getMode()) {
+		switch (daView.getModel().getMode()) {
 
-		case DataAnalysisViewD.MODE_ONEVAR:
+		case DataAnalysisModel.MODE_ONEVAR:
 			if (daView.groupType() == GroupType.RAWDATA) {
 				return getAlgoRawData(algoName, dataList, geoRegression);
 
@@ -278,10 +280,10 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 				return getAlgoClass(algoName, dataList, geoRegression);
 			}
 
-		case DataAnalysisViewD.MODE_REGRESSION:
+		case DataAnalysisModel.MODE_REGRESSION:
 			return getAlgoRawData(algoName, dataList, geoRegression);
 
-		case DataAnalysisViewD.MODE_MULTIVAR:
+		case DataAnalysisModel.MODE_MULTIVAR:
 			return getAlgoRawData(algoName, dataList, geoRegression);
 
 		default:

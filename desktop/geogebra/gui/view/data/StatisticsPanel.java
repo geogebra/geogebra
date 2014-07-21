@@ -1,5 +1,6 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -68,6 +69,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	// ggb fields
 	private DataAnalysisViewD statDialog;
 	private AppD app;
+	private DataAnalysisModel daModel;
 
 	/*************************************
 	 * Constructor
@@ -79,7 +81,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 		this.app = app;
 		this.statDialog = statDialog;
-
+		this.daModel = statDialog.getModel();
 		// create the sub-panels
 		createSelectionPanel();
 		createStatTable();
@@ -102,11 +104,11 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	 */
 	private void createStatTable() {
 		// create a statTable according to dialog type
-		if (statDialog.getMode() == DataAnalysisViewD.MODE_ONEVAR) {
+		if (daModel.getMode() == DataAnalysisModel.MODE_ONEVAR) {
 			statTable = new BasicStatTable(app, statDialog);
-		} else if (statDialog.getMode() == DataAnalysisViewD.MODE_REGRESSION) {
+		} else if (daModel.getMode() == DataAnalysisModel.MODE_REGRESSION) {
 			statTable = new BasicStatTable(app, statDialog);
-		} else if (statDialog.getMode() == DataAnalysisViewD.MODE_MULTIVAR) {
+		} else if (daModel.getMode() == DataAnalysisModel.MODE_MULTIVAR) {
 			statTable = new MultiVarStatPanel(app, statDialog);
 		}
 	}
@@ -213,9 +215,9 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			cbInferenceMode.removeAllItems();
 		}
 
-		switch (statDialog.getMode()) {
+		switch (daModel.getMode()) {
 
-		case DataAnalysisViewD.MODE_ONEVAR:
+		case DataAnalysisModel.MODE_ONEVAR:
 			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
 			cbInferenceMode.addItem(labelMap.get(INFER_ZTEST));
 			cbInferenceMode.addItem(labelMap.get(INFER_TTEST));
@@ -224,11 +226,11 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			cbInferenceMode.addItem(labelMap.get(INFER_TINT));
 			break;
 
-		case DataAnalysisViewD.MODE_REGRESSION:
+		case DataAnalysisModel.MODE_REGRESSION:
 			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
 			break;
 
-		case DataAnalysisViewD.MODE_MULTIVAR:
+		case DataAnalysisModel.MODE_MULTIVAR:
 			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
 			cbInferenceMode.addItem(labelMap.get(INFER_ANOVA));
 			cbInferenceMode.addItem(labelMap.get(INFER_TTEST_2MEANS));
@@ -288,7 +290,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	}
 
 	public void updatePanel() {
-		//System.out.println("============= update stat panel");
+		// System.out.println("============= update stat panel");
 		if (statTable == null) {
 			return;
 		}
