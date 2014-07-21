@@ -55,32 +55,34 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	private final int ORIG_INFOWIDTH = 300;
 	private int INFOWIDTH;
 	/**
-	 * Current row height computed by the window size (y), by default it uses ORIG_ROWHEIGHT.
+	 * Current row height computed by the window size (y), by default it uses
+	 * ORIG_ROWHEIGHT.
 	 */
 	double ROWHEIGHT;
 	private final int ORIG_ROWHEIGHT = 30;
 	private final int MARGIN = 10;
+	private final int ROWMARGIN = 1;
 
 	private final int ORIG_MOREWIDTH = 140;
 	private int MOREWIDTH;
-	
+
 	private final int ORIG_OKHEIGHT = 30;
 	private int OKHEIGHT;
 	private final int ORIG_OKWIDTH = 140;
 	private int OKWIDTH;
 
-	public void showDialog (String title, final RelationRow[] relations, App app) {
+	public void showDialog(String title, final RelationRow[] relations, App app) {
 
 		frame = new JFrame(title);
-		
-		JPanel panel = new JPanel(new BorderLayout(MARGIN,MARGIN));
-		
+
+		JPanel panel = new JPanel(new BorderLayout(MARGIN, MARGIN));
+
 		ROWHEIGHT = ((double) ORIG_ROWHEIGHT) * app.getFontSize() / 12;
 		INFOWIDTH = (ORIG_INFOWIDTH * app.getFontSize() / 12);
 		MOREWIDTH = (ORIG_MOREWIDTH * app.getFontSize() / 12);
 		OKHEIGHT = (ORIG_OKHEIGHT * app.getFontSize() / 12);
 		OKWIDTH = (ORIG_OKWIDTH * app.getFontSize() / 12);
-		
+
 		final int rels = relations.length;
 
 		for (int i = 0; i < rels; ++i) {
@@ -133,12 +135,13 @@ public class RelationPaneD implements RelationPane, ActionListener {
 							new ClientsTableRenderer(this, new JCheckBox()));
 		}
 		table.getColumnModel().getColumn(0)
-			.setCellRenderer(new ClientsTableTextRenderer());
+				.setCellRenderer(new ClientsTableTextRenderer());
 		table.setBackground(UIManager.getColor("Label.background"));
 
 		for (int i = 0; i < rels; ++i) {
 			int thisHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
-			table.setRowHeight(i, thisHeight);
+			table.setRowHeight(i, thisHeight - 2 * (ROWMARGIN + 1)); // button
+																		// border
 			height += thisHeight;
 		}
 
@@ -146,6 +149,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		table.setShowVerticalLines(false);
 		table.setDragEnabled(false);
 		table.setSize(INFOWIDTH + morewidth, height);
+		table.setRowMargin(ROWMARGIN);
 		panel.add(table);
 
 		// Adding OK button:
@@ -155,13 +159,16 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		ok.setSize(OKWIDTH, OKHEIGHT);
 		panel.add(buttonrow, BorderLayout.SOUTH);
 		ok.addActionListener(this);
-		
-		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
-		panel.setBorder(BorderFactory.createEmptyBorder(MARGIN,MARGIN,MARGIN,MARGIN));
+
+		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN
+				+ OKHEIGHT);
+		panel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN,
+				MARGIN));
 
 		panel.setBackground(UIManager.getColor("Label.background"));
 		frame.add(panel);
-		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN
+				+ OKHEIGHT);
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(INFOWIDTH);
 		if (areCallbacks) {
@@ -170,20 +177,21 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		frame.addComponentListener(new ComponentListener() {
 			public void componentResized(ComponentEvent evt) {
-	            int ysize = frame.getContentPane().getHeight() - 3*MARGIN - OKHEIGHT;
-	            int r = relations.length;
-	            int currentHeight = 0;
-	    		for (int i = 0; i < r; ++i) {
-	    			int thisHeight = (ORIG_ROWHEIGHT * (countLines(relations[i].info)));
-	    			currentHeight += thisHeight;
-	    		}
-	    		ROWHEIGHT = ((double) ysize) / currentHeight * ORIG_ROWHEIGHT;
-	            // App.debug("resized to rh " + ROWHEIGHT);
-	    		for (int i = 0; i < r; ++i) {
-	    			int newHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
-	    			table.setRowHeight(i, newHeight);
-	    		}
-	        }
+				int ysize = frame.getContentPane().getHeight() - 3 * MARGIN
+						- OKHEIGHT;
+				int r = relations.length;
+				int currentHeight = 0;
+				for (int i = 0; i < r; ++i) {
+					int thisHeight = (ORIG_ROWHEIGHT * (countLines(relations[i].info)));
+					currentHeight += thisHeight;
+				}
+				ROWHEIGHT = ((double) ysize) / currentHeight * ORIG_ROWHEIGHT;
+				// App.debug("resized to rh " + ROWHEIGHT);
+				for (int i = 0; i < r; ++i) {
+					int newHeight = (int) (ROWHEIGHT * (countLines(relations[i].info)));
+					table.setRowHeight(i, newHeight - 2 * (ROWMARGIN + 1));
+				}
+			}
 
 			@Override
 			public void componentHidden(ComponentEvent arg0) {
@@ -199,9 +207,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			public void componentShown(ComponentEvent arg0) {
 				// TODO Auto-generated method stub
 			}
-		}
-		);
-		
+		});
+
 		frame.pack();
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
@@ -229,7 +236,9 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	public synchronized void updateRow(int row, RelationRow relation) {
 		table.setValueAt(relation.info, row, 0);
 		callbacks[row] = relation.callback;
-		table.setRowHeight(row, (int) (ROWHEIGHT * (countLines(relation.info))));
+		table.setRowHeight(
+				row,
+				(int) (ROWHEIGHT * (countLines(relation.info)) - 2 * (ROWMARGIN + 1)));
 
 		int height = 0;
 
@@ -250,7 +259,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		table.setSize(INFOWIDTH + morewidth, height);
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN
+				+ OKHEIGHT);
 		frame.pack();
 		frame.paint(frame.getGraphics());
 	}
@@ -283,7 +293,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 	/* Text column settings. */
 	private class ClientsTableTextRenderer extends JLabel implements
-	TableCellRenderer {
+			TableCellRenderer {
 
 		private static final long serialVersionUID = 5188521324132632032L;
 
@@ -301,7 +311,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			return this;
 		}
 	}
-	
+
 	private class ClientsTableRenderer extends DefaultCellEditor {
 		private static final long serialVersionUID = -4426618730428867967L;
 		private JButton button;
@@ -365,7 +375,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				super.fireEditingStopped();
 			} catch (Exception e) {
 				App.error("Swing error in RelationPaneD");
-			}		
+			}
 		}
 	}
 
