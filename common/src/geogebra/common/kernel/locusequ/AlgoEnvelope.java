@@ -1,7 +1,7 @@
 package geogebra.common.kernel.locusequ;
 
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.singularws.SingularWebService;
-import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -151,10 +151,6 @@ public class AlgoEnvelope extends AlgoElement {
 
         String locusLib = SingularWebService.getLocusLib();
         
-        if (locusLib.length() == 0) {
-        	throw new CASException("No envelope support in CAS");
-        }       	
-        		
 		/* First we collect all the restriction equations except for the linear itself.
 		 * This is exactly the same as in AlgoLocusEquation.
 		 */
@@ -269,14 +265,58 @@ public class AlgoEnvelope extends AlgoElement {
 				polys += ",";
 			}
 		}
-       	
-        // Constructing the Singular script. This code contains a modified version
-		// of Francisco Botana's locusdgto() and envelopeto() procedures in the grobcov library.
-		// I.e. we no longer use these two commands, but locusto(), locus() and locusdg() only.
+
         StringBuilder script = new StringBuilder();
+
+        // Constructing the script.
         // Single points [y-A,x-B] are returned in the form (x-B)^2+(y-A)^2.
         // Empty envelopes are drawn as 0=-1.
         // Multiple curves are drawn as products of the curves.
+
+		if (locusLib.length() == 0) {
+			// If there is no Singular support with the Groebner cover package, then we use Giac
+			// and construct the Jacobi matrix on our own. Here we use two Giac calls, one for
+			// the Jacobian and one for the elimination.
+			script.append("[[");
+			script.append("m:=[").append(polys).append("]],[J:=det(");
+			for (i=0; i<varsN-2; ++i) {
+				script.append("[");
+				for (int j=0; j<varsN-2; ++j) {
+					script.append("diff(m[" + i + "],x" + scopeVarsI[j] + ")");
+					if (j!=varsN-3) {
+						script.append(",");
+					}
+				}
+				script.append("]");
+				if (i!=varsN-3) {
+					script.append(",");
+				}
+			}
+			script.append(")]][1][0]");
+
+			Log.info("[Envelope] input to giac (compute det of Jacobi matrix): "+script);
+			GeoGebraCAS cas = (GeoGebraCAS) locusPoint.getKernel().getGeoGebraCAS();
+			try {
+				String det = cas.getCurrentCAS().evaluateRaw(script.toString());
+				Log.info("[Envelope] output from giac (compute det of Jacobi matrix): " + det);
+				String script2 = cas.getCurrentCAS().createLocusEquationScript(polys + "," + det, vars + ",x,y", vars);
+				Log.info("[Envelope] input to giac: " + script2);
+				String result = cas.getCurrentCAS().evaluateRaw(script2);
+				// Trimming [ and ]
+				result = result.substring(1,result.length()-1); 
+				return result;
+
+			} catch (Exception ex) {
+				Log.warn("Error computing envelope");
+				return null;
+			}
+        	
+        }       	
+		
+        // Constructing the Singular script. This code contains a modified version
+		// of Francisco Botana's locusdgto() and envelopeto() procedures in the grobcov library.
+		// I.e. we no longer use these two commands, but locusto(), locus() and locusdg() only.
+		// We use one single Singular call instead of two (as above for Giac).
         script.append("proc mylocusdgto(list L) {" +
         		"poly p=1;" +
         		"int i; int j; int k;" +
@@ -306,7 +346,7 @@ public class AlgoEnvelope extends AlgoElement {
 		Log.info("[Envelope] input to singular: "+script);
 		String result = App.singularWS.directCommand(script.toString());
 		Log.info("[Envelope] output from singular: "+result);
-
+		
 		return result;
 	}
 	
