@@ -61,11 +61,12 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 			public void onError(final Throwable exception) {
 				// FIXME implement Error Handling!
 				exception.printStackTrace();
-				App.debug(exception.getMessage());
+				App.debug("API error"+exception.getMessage());
 			}
 
 			@Override
 			public void onLoaded(final List<Material> response) {
+				App.debug("API success"+response.size());
 				onSearchResults(response);
 			}
 		};

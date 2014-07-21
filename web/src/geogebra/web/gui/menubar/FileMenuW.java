@@ -34,7 +34,14 @@ public class FileMenuW extends GMenuBar {
 	    // TODO Auto-generated method stub
 	    
     }
-
+	private native boolean nativeShare()/*-{
+		if($wnd.android){
+			$wnd.android.share("a","b");
+			return true;
+		}else{
+			return false;
+		}
+	}-*/;
 	private void initActions() {
 
 		// this is enabled always
@@ -72,7 +79,9 @@ public class FileMenuW extends GMenuBar {
 		// this is enabled always
 	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
 	    	public void execute() {
+	    		if(!nativeShare()){
 	    		app.uploadToGeoGebraTube();
+	    		}
 	    	}
 	    });
 	    
