@@ -185,6 +185,15 @@ public abstract class Drawable extends DrawableND {
 		if (labelDesc == null)
 			return;
 		String label = labelDesc;
+
+		// stripping off helper syntax from captions
+		// assuming that non-caption labels will not contain
+		// that helper syntax anyway
+		int ind = label.indexOf("%style=");
+		if (ind > -1) {
+			label = label.substring(0, ind);
+		}
+
 		GFont oldFont = null;
 
 		// allow LaTeX caption surrounded by $ $
