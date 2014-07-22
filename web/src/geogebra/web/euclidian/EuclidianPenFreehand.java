@@ -3,6 +3,7 @@ package geogebra.web.euclidian;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -105,12 +106,28 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					this.initialPoint.remove();
 				}
 
+				boolean recreate = false;
+
+				ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
 				for (GeoPointND geo : ((GeoConic) lastCreated)
 				        .getPointsOnConic()) {
 					if (!geo.isLabelSet()) {
+						recreate = true;
 						geo.setLabel(null);
 					}
+					list.add(geo);
 				}
+
+				// the circle needs to be recreated to prevent errors in the XML
+				if (recreate) {
+					lastCreated.remove();
+					AlgoCircleThreePoints algo = new AlgoCircleThreePoints(app
+					        .getKernel().getConstruction(), null, list.get(0),
+					        list.get(1), list.get(2));
+					GeoConic circle = (GeoConic) algo.getCircle();
+					circle.updateRepaint();
+				}
+
 				return;
 			}
 			break;

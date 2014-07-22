@@ -1231,7 +1231,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
-		if (euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
+		if (euclidianView2 == null || euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
 			return false;
 		return true;
 	}
@@ -1524,6 +1524,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	
 	@Override
 	public int getEuclidianViewCount() {
-		return euclidianView2.size();
+		return euclidianView2 == null ? 0 : euclidianView2.size();
 	}
 }
