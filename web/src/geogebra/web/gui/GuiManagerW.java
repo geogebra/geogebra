@@ -1521,4 +1521,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    runnable.run();
 	    
     }
+	
+	@Override
+	public int getEuclidianViewCount() {
+		return euclidianView2.size();
+	}
 }

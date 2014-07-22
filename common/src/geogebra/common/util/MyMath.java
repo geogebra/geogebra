@@ -389,4 +389,24 @@ public final class MyMath {
 		return Math.floor(0.5+Math.exp(MyMath2.logGamma(n+1d)-MyMath2.logGamma(r+1)-MyMath2.logGamma((n-r)+1)));
 		
 	}
+
+	public static double max(double[] data) {
+		double max = data[0];
+		for(int i = 0; i < data.length; i++){
+			if(data[i] > max){
+				max = data[i];
+			}
+		}
+		return max;
+	}
+	
+	public static double min(double[] data) {
+		double max = data[0];
+		for(int i = 0; i < data.length; i++){
+			if(data[i] < max){
+				max = data[i];
+			}
+		}
+		return max;
+	}
 }

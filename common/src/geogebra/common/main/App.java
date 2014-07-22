@@ -3691,4 +3691,16 @@ public abstract class App implements UpdateSelection{
 			this.openFileListener.onOpenFile();
 		}
 	}
+
+	public boolean isShowingMultipleEVs() {
+		if(getGuiManager() == null || getGuiManager().getEuclidianViewCount() < 2){
+			return false;
+		}
+		for(int i = 1; i < getGuiManager().getEuclidianViewCount(); i++){
+			if(getGuiManager().hasEuclidianView2(i)){
+				return true;
+			}
+		}
+		return false;
+	}
 }

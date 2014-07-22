@@ -3148,4 +3148,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		SwingUtilities.invokeLater(runnable);
 
 	}
+
+	@Override
+	public int getEuclidianViewCount() {
+		return euclidianView2.size();
+	}
 }

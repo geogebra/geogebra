@@ -3090,12 +3090,14 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void setDefaultCursor() {
 		mainComp.setCursor(Cursor.getDefaultCursor());
-		if (euclidianView != null) {
+
+		if (guiManager != null) {
+			for (int i = 0; i < guiManager.getEuclidianViewCount(); i++) {
+				((EuclidianViewInterfaceCommon) guiManager.getEuclidianView2(i))
+						.setDefaultCursor();
+			}
+		} else if (euclidianView != null) {
 			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
-		}
-		if ((guiManager != null) && guiManager.hasEuclidianView2(1)) {
-			((EuclidianViewInterfaceCommon) guiManager.getEuclidianView2(1))
-					.setDefaultCursor();
 		}
 
 	}

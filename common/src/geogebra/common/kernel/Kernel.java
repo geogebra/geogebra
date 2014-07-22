@@ -78,6 +78,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.util.MaxSizeHashMap;
+import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.StringUtil;
@@ -2353,9 +2354,9 @@ public class Kernel {
 		return ggbCasCache != null;
 	}
 
-	private double xmin, xmax, ymin, ymax, xscale, yscale;
+	private double[] xmin = new double[1], xmax = new double[1], ymin = new double[1], ymax = new double[1], xscale = new double[1], yscale = new double[1];
 	// for 2nd Graphics View
-	private double xmin2, xmax2, ymin2, ymax2, xscale2, yscale2;
+	
 	private boolean graphicsView2showing = false;
 
 	/**
@@ -2370,31 +2371,37 @@ public class Kernel {
 	 * @param xscale x scale (pixels per unit)
 	 * @param yscale y scale (pixels per unit)
 	 */
-	final public void setEuclidianViewBounds(int view, double xmin,
+	final public void setEuclidianViewBounds(int viewNo, double xmin,
 			double xmax, double ymin, double ymax, double xscale, double yscale) {
-
-		switch (view) {
-		case 1:
-			this.xmin = xmin;
-			this.xmax = xmax;
-			this.ymin = ymin;
-			this.ymax = ymax;
-			this.xscale = xscale;
-			this.yscale = yscale;
-			break;
-
-		case 2:
-			this.xmin2 = xmin;
-			this.xmax2 = xmax;
-			this.ymin2 = ymin;
-			this.ymax2 = ymax;
-			this.xscale2 = xscale;
-			this.yscale2 = yscale;
-			break;
+		int view = viewNo -1;
+		if(view >= this.xmin.length){
+			
+			this.xmin = prolong(this.xmin,viewNo);
+			this.xmax = prolong(this.xmin,viewNo);
+			
+			this.ymin = prolong(this.ymin,viewNo);
+			this.ymax = prolong(this.ymax,viewNo);
+			
+			this.xscale = prolong(this.xscale,viewNo);
+			this.yscale = prolong(this.yscale,viewNo);
 		}
+			this.xmin[view] = xmin;
+			this.xmax[view] = xmax;
+			this.ymin[view] = ymin;
+			this.ymax[view] = ymax;
+			this.xscale[view] = xscale;
+			this.yscale[view] = yscale;
+			
 		
-		graphicsView2showing = getApplication().isShowingEuclidianView2(1);
+		graphicsView2showing = getApplication().isShowingMultipleEVs();
 		notifyEuclidianViewCE();
+	}
+
+	private double[] prolong(double[] xmin2, int viewNo) {
+		
+		double[] ret = new double[viewNo];
+		System.arraycopy(xmin2, 0, ret, 0, xmin2.length);
+		return ret;
 	}
 
 	/**
@@ -2483,56 +2490,56 @@ public class Kernel {
 
 	public double getXmax() {
 		if (graphicsView2showing) {
-			return Math.max(xmax, xmax2);
+			return MyMath.max(xmax);
 		}
-		return xmax;
+		return xmax[0];
 	}
 
 	public double getXmin() {
 		if (graphicsView2showing) {
-			return Math.min(xmin, xmin2);
+			return MyMath.min(xmin);
 		}
-		return xmin;
+		return xmin[0];
 	}
 
 	public double getXscale() {
 		if (graphicsView2showing) {
 			// xscale = pixel per unit
 			// higher xscale means more pixels per unit, i.e. higher precision
-			return Math.max(xscale, xscale2);
+			return MyMath.max(xscale);
 		}
-		return xscale;
+		return xscale[0];
 
 	}
 
 	public double getYmax() {
 		if (graphicsView2showing) {
-			return Math.max(ymax, ymax2);
+			return MyMath.max(ymax);
 		}
-		return ymax;
+		return ymax[0];
 	}
 
 	public double getYmin() {
 		if (graphicsView2showing) {
-			return Math.min(ymin, ymin2);
+			return MyMath.min(ymin);
 		}
-		return ymin;
+		return ymin[0];
 	}
 
 	public double getYscale() {
 		if (graphicsView2showing) {
 			// yscale = pixel per unit
 			// higher xscale means more pixels per unit, i.e. higher precision
-			return Math.max(yscale, yscale2);
+			return MyMath.max(yscale);
 		}
-		return yscale;
+		return yscale[0];
 	}
 
 	public double getXmax(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
-			return xmax2;
+			return xmax[1];
 		} else if (ev1 && !ev2) {
-			return xmax;
+			return xmax[0];
 		}
 		return getXmax();
 	}
@@ -2600,9 +2607,9 @@ public class Kernel {
 
 	public double getXmin(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
-			return xmin2;
+			return xmin[1];
 		} else if (ev1 && !ev2) {
-			return xmin;
+			return xmin[0];
 		}
 		return getXmin();
 	}
@@ -2611,36 +2618,36 @@ public class Kernel {
 		if (ev2 && !ev1) {
 			// xscale = pixel per unit
 			// higher xscale means more pixels per unit, i.e. higher precision
-			return xscale2;
+			return xscale[1];
 		} else if (ev1 && !ev2) {
-			return xscale;
+			return xscale[0];
 		}
 		return getXscale();
 	}
 
 	public double getYmax(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
-			return ymax2;
+			return ymax[1];
 		} else if (ev1 && !ev2) {
-			return ymax;
+			return ymax[0];
 		}
 		return getYmax();
 	}
 
 	public double getYmin(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
-			return ymin2;
+			return ymin[1];
 		} else if (ev1 && !ev2) {
-			return ymin;
+			return ymin[0];
 		}
 		return getYmin();
 	}
 
 	public double getYscale(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
-			return yscale2;
+			return yscale[1];
 		} else if (ev1 && !ev2) {
-			return yscale;
+			return yscale[0];
 		}
 		return getYscale(); 
 	}

@@ -1627,11 +1627,13 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public void recalculateEnvironments() {
-	    if (getEuclidianView1() != null) {
+	    
+	    if (getGuiManager() != null) {
+			for (int i = 0; i < getGuiManager().getEuclidianViewCount(); i++) {
+	    	((EuclidianView) getGuiManager().getEuclidianView2(i)).getEuclidianController().calculateEnvironment();
+			}
+	    } else if (getEuclidianView1() != null) {
 	    	getEuclidianView1().getEuclidianController().calculateEnvironment();
-	    }
-	    if (getGuiManager() != null && getGuiManager().hasEuclidianView2(1)) {
-	    	((EuclidianView) getGuiManager().getEuclidianView2(1)).getEuclidianController().calculateEnvironment();	    	
 	    }
 	    if (getGuiManager() != null && getGuiManager().hasProbabilityCalculator()) {
 	    	((ProbabilityCalculatorViewW)getGuiManager().getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();
