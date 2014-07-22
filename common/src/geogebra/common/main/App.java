@@ -38,6 +38,7 @@ import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.ModeSetter;
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.RelationNumerical;
 import geogebra.common.kernel.RelationNumerical.Report;
@@ -53,7 +54,6 @@ import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
@@ -3205,10 +3205,10 @@ public abstract class App implements UpdateSelection{
 				ae = new AlgoArePerpendicular(cons, null, g1, g2);
 				break;
 			case IsOnPath:
-				if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (GeoLine) g2);
-				} else if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (GeoLine) g1);
+				if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (Path) g2);
+				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (Path) g1);
 				}
 				break;
 			}
@@ -3257,10 +3257,10 @@ public abstract class App implements UpdateSelection{
 				ae = new AlgoArePerpendicular(cons, null, g1, g2);
 				break;
 			case IsOnPath:
-				if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (GeoLine) g2);
-				} else if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (GeoLine) g1);
+				if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (Path) g2);
+				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (Path) g1);
 				}
 				break;
 			}

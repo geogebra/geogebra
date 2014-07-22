@@ -1,10 +1,12 @@
 package geogebra.common.kernel.prover;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -24,7 +26,7 @@ public class AlgoIsOnPath extends AlgoElement implements
 	SymbolicParametersBotanaAlgoAre {
 
 	private GeoPoint inputPoint;
-	private GeoLine inputLine;
+	private Path inputPath;
 	
     private GeoBoolean outputBoolean; //output	
 	private Polynomial[][] botanaPolynomials;
@@ -37,10 +39,10 @@ public class AlgoIsOnPath extends AlgoElement implements
      * @param inputLine the line
      */
 	public AlgoIsOnPath(final Construction cons, final String label,
-			final GeoPoint inputPoint, final GeoLine inputLine) {
+			final GeoPoint inputPoint, final Path inputPath) {
 		super(cons);
         this.inputPoint=inputPoint;
-        this.inputLine=inputLine;
+        this.inputPath=inputPath;
                
         outputBoolean = new GeoBoolean(cons);
 
@@ -59,7 +61,7 @@ public class AlgoIsOnPath extends AlgoElement implements
 	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = inputPoint;
-        input[1] = inputLine;
+        input[1] = (GeoElement) inputPath;
 
         super.setOutputLength(1);
         super.setOutput(0, outputBoolean);
@@ -85,16 +87,29 @@ public class AlgoIsOnPath extends AlgoElement implements
 			return botanaPolynomials;
 		}
 
-		if (inputPoint != null && inputLine != null) {
+		if (inputPoint != null && inputPath != null) {
+			if (inputPath instanceof GeoLine) {
 			
 			Variable[] fv1 = new Variable[2];
 			Variable[] fv2 = new Variable[4];
 			fv1 = inputPoint.getBotanaVars(inputPoint);
-			fv2 = inputLine.getBotanaVars(inputLine);
+			fv2 = ((GeoLine) inputPath).getBotanaVars((GeoLine)inputPath);
 
 			botanaPolynomials = new Polynomial[1][1];
 			botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv2[2], fv2[3]); 
 			return botanaPolynomials;
+			} else if (inputPath instanceof GeoConic) {
+				if (((GeoConic)inputPath).isCircle()) {
+					Variable[] fv1 = new Variable[2];
+					Variable[] fv2 = new Variable[4];
+					fv1 = inputPoint.getBotanaVars(inputPoint);
+					fv2 = ((GeoConic) inputPath).getBotanaVars((GeoConic)inputPath);
+
+					botanaPolynomials = new Polynomial[1][1];
+					botanaPolynomials[0][0] = Polynomial.equidistant(fv1[0], fv1[1], fv2[0], fv2[1], fv2[2], fv2[3]); 
+					return botanaPolynomials;
+				}
+			}
 			
 		}
 		throw new NoSymbolicParametersException();
