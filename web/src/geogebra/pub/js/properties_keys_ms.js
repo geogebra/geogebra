@@ -1914,7 +1914,7 @@ __GGB__keysVar.ms.menu = {
     "Table": "Jadual",
     "Tangent": "Tangen",
     "Tangent_Help": "Pilih titik atau garis, kemudian bulatan, keratan kon atau fungsi",
-    "Tetrahedron": "Regular tetrahedron",
+    "Tetrahedron": "Regular Tetrahedron",
     "Tetrahedron_Help": "Click on a plane (optional) and then 2 points",
     "Text": "Teks",
     "Text_Help": "Klik pada Paparan Grafik atau atas titik untuk menentukan kedudukan",

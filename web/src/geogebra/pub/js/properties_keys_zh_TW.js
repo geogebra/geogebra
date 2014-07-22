@@ -1914,7 +1914,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Table": "\u8868\u683c",
     "Tangent": "\u5207\u7dda",
     "Tangent_Help": "\u8acb\u9078\u4e00\u9ede\uff0c\u518d\u9ede\u9078\u4e0b\u5217\u4e4b\u4e00\uff1a(1)\u5713 (2)\u5713\u9310\u66f2\u7dda (3)\u51fd\u6578",
-    "Tetrahedron": "Regular tetrahedron",
+    "Tetrahedron": "Regular Tetrahedron",
     "Tetrahedron_Help": "Click on a plane (optional) and then 2 points",
     "Text": "\u63d2\u5165\u6587\u5b57",
     "Text_Help": "\u8acb\u5728\u7e6a\u5716\u5340\u6309\u4e00\u4e0b\uff0c\u7136\u5f8c\u8f38\u5165\u6587\u5b57",

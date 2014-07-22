@@ -1914,7 +1914,7 @@ __GGB__keysVar.xh.menu = {
     "Table": "iTheybhile",
     "Tangent": "UmgcaOchukumisayo",
     "Tangent_Help": "Khetha iChaphaza okanye uMgca, ulandelise ngeSangqa, okanye iFankshini",
-    "Tetrahedron": "Regular tetrahedron",
+    "Tetrahedron": "Regular Tetrahedron",
     "Tetrahedron_Help": "Click on a plane (optional) and then 2 points",
     "Text": "Amagama",
     "Text_Help": "Cofa kuMbonoWomfanekiso okanye phezu kweChaphaza ukuxela iNdawo",

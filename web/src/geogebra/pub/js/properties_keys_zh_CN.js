@@ -2557,7 +2557,7 @@ __GGB__keysVar.zh_CN.plain = {
     "PreviewUnavailable": "\u65e0\u6cd5\u9884\u89c8",
     "Prism": "\u68f1\u67f1",
     "ProbabilityCalculator": "\u6982\u7387\u4e0e\u7edf\u8ba1",
-    "Projection": "Projection",
+    "Projection": "\u6295\u5f71",
     "Properties": "\u5c5e\u6027",
     "PropertiesOfA": "\u5c5e\u6027 - %0",
     "Pyramid": "\u68f1\u9525",
