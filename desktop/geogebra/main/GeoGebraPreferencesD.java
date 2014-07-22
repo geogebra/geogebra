@@ -86,6 +86,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	// user data
 	public static final String USER_LOGIN_TOKEN = "user_login_token";
 	public static final String USER_LOGINNAME = "user_login_name";
+	public static final String USER_LOGIN_SKIP = "user_login_skip";
 
 	// preferences node name for GeoGebra
 	private Preferences ggbPrefs, ggbPrefsSystem;

@@ -419,8 +419,21 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		if (args != null && args.getNoOfFiles() == 0) {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 				public void run() {
-					if (app.isShowDockBar())
+
+					if (!app.getLoginOperation().getModel().isLoggedIn()
+							&& GeoGebraPreferencesD
+									.getPref()
+									.loadPreference(
+											GeoGebraPreferencesD.USER_LOGIN_SKIP,
+											"false").equals("true")) {
+						GeoGebraPreferencesD.getPref().savePreference(
+								GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
+
+						app.getGuiManager().login();
+
+					} else if (app.isShowDockBar()) {
 						app.getDockBar().showPopup();
+					}
 				}
 			});
 		}
