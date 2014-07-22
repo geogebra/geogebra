@@ -44,6 +44,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	public void performTokenLogin() {
 		String token = getModel().getLoginToken();
 		if (token != null) {
+			App.debug("LTOKEN found in model");
 			performTokenLogin(token, true);
 		}
 	}

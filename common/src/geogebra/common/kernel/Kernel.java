@@ -2393,7 +2393,7 @@ public class Kernel {
 			break;
 		}
 		
-		graphicsView2showing = getApplication().isShowingEuclidianView2();
+		graphicsView2showing = getApplication().isShowingEuclidianView2(1);
 		notifyEuclidianViewCE();
 	}
 

@@ -411,9 +411,9 @@ public class EuclidianStyleBarStatic {
 			if (app.getEuclidianView1() == ev)
 				changed = app.getSettings().getEuclidian(1)
 						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			else if (!app.hasEuclidianView2EitherShowingOrNot(1))
 				changed = ev.setShowAxes(!ev.getShowXaxis(), true);
-			else if (app.getEuclidianView2() == ev)
+			else if (app.getEuclidianView2(1) == ev)
 				changed = app.getSettings().getEuclidian(2)
 						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
 			else
@@ -424,9 +424,9 @@ public class EuclidianStyleBarStatic {
 		else if (actionCommand.equals("showGrid")) {
 			if (app.getEuclidianView1() == ev)
 				changed = app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			else if (!app.hasEuclidianView2EitherShowingOrNot(1))
 				changed = ev.showGrid(!ev.getShowGrid());
-			else if (app.getEuclidianView2() == ev)
+			else if (app.getEuclidianView2(1) == ev)
 				changed = app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
 			else
 				changed = ev.showGrid(!ev.getShowGrid());

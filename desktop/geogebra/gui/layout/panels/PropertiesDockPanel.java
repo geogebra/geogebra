@@ -137,7 +137,6 @@ public class PropertiesDockPanel extends DockPanel implements
 			closed = true;
 			getPropertiesView();
 			view.applyModifications();
-			App.printStacktrace("EVENT" + e.hashCode());
 			closeDialog();
 		}
 	}

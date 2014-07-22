@@ -929,7 +929,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
 				euclidianViewID = ((AppD) app).getShiftDown() ? app
-						.getEuclidianView2().getViewID() : app
+						.getEuclidianView2(1).getViewID() : app
 						.getEuclidianView1().getViewID();
 			}
 
@@ -968,7 +968,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		return wrapperPanel;
 	}
 
-	public void suggestRepaint(){
+	public void suggestRepaint() {
 		// only used in web for now
 	}
 }

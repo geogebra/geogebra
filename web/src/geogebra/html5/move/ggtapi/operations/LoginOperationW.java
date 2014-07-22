@@ -1,6 +1,7 @@
 package geogebra.html5.move.ggtapi.operations;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BaseEventView;
@@ -81,6 +82,7 @@ public class LoginOperationW extends LogInOperation {
 	}*/
 	
 	private void processToken(String token) {
+		App.debug("LTOKEN send via message");
 		performTokenLogin(token, false);
 	}
 }

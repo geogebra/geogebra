@@ -77,7 +77,7 @@ public class BrowseViewPanelT extends BrowseViewPanel {
 		});
 	}
 	
-	@Override
+	/*@Override
 	public void render(final boolean b) {
 		if (!b) {
 			this.filePanel.clearList();
@@ -86,13 +86,13 @@ public class BrowseViewPanelT extends BrowseViewPanel {
 		} else {
 			this.loadFeatured();
 		}
-	}
+	}*/
 
 	@Override
 	public void onResize() {
 		this.setPixelSize(Window.getClientWidth(), TouchEntryPoint.getLookAndFeel().getCanvasHeight());
 		this.container.setPixelSize(Window.getClientWidth(), TouchEntryPoint.getLookAndFeel().getCanvasHeight());
-		this.searchPanel.setPixelSize(Window.getClientWidth(), this.SEARCH_PANEL_HEIGHT);
+		//this.searchPanel.setPixelSize(Window.getClientWidth(), this.SEARCH_PANEL_HEIGHT);
 		this.filePanel.onResize();
 //		this.localFilePanel.onResize();
 	}

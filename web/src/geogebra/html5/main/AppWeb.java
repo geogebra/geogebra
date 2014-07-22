@@ -490,8 +490,8 @@ public abstract class AppWeb extends App implements SetLabels{
 				this.getImageManager().reset();
 			}
 			getEuclidianView1().setReIniting(true);
-			if (hasEuclidianView2EitherShowingOrNot()) {
-				getEuclidianView2().setReIniting(true);
+			if (hasEuclidianView2EitherShowingOrNot(1)) {
+				getEuclidianView2(1).setReIniting(true);
 			}
 		}
 		
@@ -679,8 +679,8 @@ public abstract class AppWeb extends App implements SetLabels{
 			}
 
 			getEuclidianView1().resetXYMinMaxObjects();
-			if (hasEuclidianView2EitherShowingOrNot()) {
-				getEuclidianView2().resetXYMinMaxObjects();
+			if (hasEuclidianView2EitherShowingOrNot(1)) {
+				getEuclidianView2(1).resetXYMinMaxObjects();
 			}
 
 			resetUniqueId();

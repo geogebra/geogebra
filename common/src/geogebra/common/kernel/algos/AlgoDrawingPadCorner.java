@@ -95,11 +95,11 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		if (evNum == null || evNum.getDouble() == 1.0)
 			ev = app.getEuclidianView1();
 		else {
-			if (!app.hasEuclidianView2()) {
+			if (!app.hasEuclidianView2(1)) {
 				corner.setUndefined();
 				return;
 			} 
-			ev = app.getEuclidianView2();
+			ev = app.getEuclidianView2(1);
 		}
 
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);

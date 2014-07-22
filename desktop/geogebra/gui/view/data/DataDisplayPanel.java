@@ -669,8 +669,9 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
-				euclidianViewID = AppD.getShiftDown() ? app.getEuclidianView2()
-						.getViewID() : app.getEuclidianView1().getViewID();
+				euclidianViewID = AppD.getShiftDown() ? app
+						.getEuclidianView2(1).getViewID() : app
+						.getEuclidianView1().getViewID();
 			}
 
 			// do the export

@@ -227,7 +227,7 @@ class GuiManagerT extends GuiManager {
 	}
 
 	@Override
-	public View getEuclidianView2() {
+	public View getEuclidianView2(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -287,13 +287,13 @@ class GuiManagerT extends GuiManager {
 	}
 
 	@Override
-	public boolean hasEuclidianView2() {
+	public boolean hasEuclidianView2(int i) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean hasEuclidianView2EitherShowingOrNot() {
+	public boolean hasEuclidianView2EitherShowingOrNot(int i) {
 		// TODO Auto-generated method stub
 		return false;
 	}

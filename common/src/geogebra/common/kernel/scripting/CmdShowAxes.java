@@ -71,8 +71,8 @@ public class CmdShowAxes extends CmdScripting {
 			
 			switch ((int)(((NumberValue)arg[0]).getDouble())) {
 			case 2: 
-				if (app.hasEuclidianView2()) {
-					ev = app.getEuclidianView2();
+				if (app.hasEuclidianView2(1)) {
+					ev = app.getEuclidianView2(1);
 				}
 				break;
 			case 3:

@@ -217,8 +217,8 @@ public abstract class AnimationManager {
 			if(kernel.getApplication().getEuclidianView1()!=null){
 				compTime += kernel.getApplication().getEuclidianView1().getLastRepaintTime();
 			}
-			if(kernel.getApplication().hasEuclidianView2()){
-				compTime += kernel.getApplication().getEuclidianView2().getLastRepaintTime();
+			if(kernel.getApplication().hasEuclidianView2(1)){
+				compTime += kernel.getApplication().getEuclidianView2(1).getLastRepaintTime();
 			}
 			adaptFrameRate(compTime);
 			// System.out.println("UPDATE compTime: " + compTime +

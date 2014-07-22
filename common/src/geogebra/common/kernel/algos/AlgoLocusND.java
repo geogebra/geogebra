@@ -819,7 +819,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		case 2:
 			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) 
 				return false; 
-			if (!kernel.getApplication().hasEuclidianView2()) 
+			if (!kernel.getApplication().hasEuclidianView2(1)) 
 				return false; 
 			return true; 
 			

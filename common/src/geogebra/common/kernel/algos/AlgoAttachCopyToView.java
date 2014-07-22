@@ -158,7 +158,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		int view = (int) viewID.getDouble();
 		EuclidianView ev = null;
 		if (view == 2)
-			ev = kernel.getApplication().getEuclidianView2();
+			ev = kernel.getApplication().getEuclidianView2(1);
 		else if (view == 1)
 			ev = kernel.getApplication().getEuclidianView1();
 		if (ev == null && view != 0) {

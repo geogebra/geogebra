@@ -43,7 +43,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 				int viewID = (int) ((NumberValue) arg[1]).getDouble();
 				EuclidianView ev;
 				if (viewID == 2)
-					ev = app.getEuclidianView2();
+					ev = app.getEuclidianView2(1);
 				else
 					ev = app.getEuclidianView1();
 				if (n == 2) {

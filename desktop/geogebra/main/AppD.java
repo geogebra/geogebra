@@ -963,7 +963,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (!antiAliasing) {
 			this.antialiasing = false;
 			this.getEuclidianView1().setAntialiasing(antiAliasing);
-			this.getEuclidianView2().setAntialiasing(antiAliasing);
+			this.getEuclidianView2(1).setAntialiasing(antiAliasing);
 		}
 
 		boolean macSandbox = args.getBooleanValue("macSandbox", false);
@@ -1340,8 +1340,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		getEuclidianView1().resetXYMinMaxObjects();
-		if (hasEuclidianView2EitherShowingOrNot()) {
-			getEuclidianView2().resetXYMinMaxObjects();
+		if (hasEuclidianView2EitherShowingOrNot(1)) {
+			getEuclidianView2(1).resetXYMinMaxObjects();
 		}
 
 		resetUniqueId();
@@ -1766,25 +1766,25 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public EuclidianViewD getEuclidianView2() {
-		return (EuclidianViewD) getGuiManager().getEuclidianView2();
+	public EuclidianViewD getEuclidianView2(int idx) {
+		return (EuclidianViewD) getGuiManager().getEuclidianView2(idx);
 	}
 
 	@Override
-	public boolean hasEuclidianView2() {
-		return (guiManager != null) && getGuiManager().hasEuclidianView2();
+	public boolean hasEuclidianView2(int idx) {
+		return (guiManager != null) && getGuiManager().hasEuclidianView2(idx);
 	}
 
 	@Override
-	public boolean hasEuclidianView2EitherShowingOrNot() {
+	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
 		return (guiManager != null)
-				&& getGuiManager().hasEuclidianView2EitherShowingOrNot();
+				&& getGuiManager().hasEuclidianView2EitherShowingOrNot(1);
 	}
 
 	@Override
-	public boolean isShowingEuclidianView2() {
-		return (guiManager != null) && getGuiManager().hasEuclidianView2()
-				&& getGuiManager().getEuclidianView2().isShowing();
+	public boolean isShowingEuclidianView2(int idx) {
+		return (guiManager != null) && getGuiManager().hasEuclidianView2(idx)
+				&& getGuiManager().getEuclidianView2(idx).isShowing();
 	}
 
 	@Override
@@ -2487,8 +2487,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		// update sizes
 		euclidianView.updateSize();
 
-		if (hasEuclidianView2()) {
-			getEuclidianView2().updateSize();
+		if (hasEuclidianView2(1)) {
+			getEuclidianView2(1).updateSize();
 		}
 
 		// update layout
@@ -2791,8 +2791,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			getEuclidianView1().getStyleBar().updateStyleBar();
 		}
 
-		if (hasEuclidianView2() && getEuclidianView2().hasStyleBar()) {
-			getEuclidianView2().getStyleBar().updateStyleBar();
+		if (hasEuclidianView2(1) && getEuclidianView2(1).hasStyleBar()) {
+			getEuclidianView2(1).getStyleBar().updateStyleBar();
 		}
 	}
 
@@ -3093,8 +3093,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (euclidianView != null) {
 			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
 		}
-		if ((guiManager != null) && guiManager.hasEuclidianView2()) {
-			((EuclidianViewInterfaceCommon) guiManager.getEuclidianView2())
+		if ((guiManager != null) && guiManager.hasEuclidianView2(1)) {
+			((EuclidianViewInterfaceCommon) guiManager.getEuclidianView2(1))
 					.setDefaultCursor();
 		}
 
@@ -4674,7 +4674,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		ComponentEvent event = new ComponentEvent(c,
 				ComponentEvent.COMPONENT_RESIZED);
 		getEuclidianView1().dispatchEvent(event);
-		getEuclidianView2().dispatchEvent(event);
+		getEuclidianView2(1).dispatchEvent(event);
 
 	}
 

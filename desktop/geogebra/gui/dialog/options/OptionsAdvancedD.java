@@ -82,8 +82,7 @@ public class OptionsAdvancedD extends
 	/**	 */
 	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits,
 			cbUseLocalLabels, cbReturnAngleInverseTrig, cbIgnoreDocumentLayout,
-			cbEnableScripting, cbUseJavaFonts,
-			cbReverseMouseWheel;
+			cbEnableScripting, cbUseJavaFonts, cbReverseMouseWheel;
 
 	/** */
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
@@ -177,7 +176,7 @@ public class OptionsAdvancedD extends
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
 
 		setLabels();
-		
+
 		app.setComponentOrientation(panel);
 	}
 
@@ -292,13 +291,15 @@ public class OptionsAdvancedD extends
 	private void initPerspectivesPanel() {
 		perspectivesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		/*cbShowTitleBar = new JCheckBox();
-		cbShowTitleBar.addActionListener(this);
-		perspectivesPanel.add(cbShowTitleBar);
-
-		cbAllowStyleBar = new JCheckBox();
-		cbAllowStyleBar.addActionListener(this);
-		perspectivesPanel.add(cbAllowStyleBar);*/
+		/*
+		 * cbShowTitleBar = new JCheckBox();
+		 * cbShowTitleBar.addActionListener(this);
+		 * perspectivesPanel.add(cbShowTitleBar);
+		 * 
+		 * cbAllowStyleBar = new JCheckBox();
+		 * cbAllowStyleBar.addActionListener(this);
+		 * perspectivesPanel.add(cbAllowStyleBar);
+		 */
 
 		cbIgnoreDocumentLayout = new JCheckBox();
 		cbIgnoreDocumentLayout.addActionListener(this);
@@ -519,8 +520,11 @@ public class OptionsAdvancedD extends
 
 		cbIgnoreDocumentLayout.setSelected(settings.getLayout()
 				.isIgnoringDocumentLayout());
-		/*cbShowTitleBar.setSelected(settings.getLayout().showTitleBar());
-		cbAllowStyleBar.setSelected(settings.getLayout().isAllowingStyleBar());*/
+		/*
+		 * cbShowTitleBar.setSelected(settings.getLayout().showTitleBar());
+		 * cbAllowStyleBar
+		 * .setSelected(settings.getLayout().isAllowingStyleBar());
+		 */
 
 		KeyboardSettings kbs = settings.getKeyboard();
 		cbKeyboardShowAutomatic.setSelected(kbs.isShowKeyboardOnStart());
@@ -575,7 +579,7 @@ public class OptionsAdvancedD extends
 		cbKeyboardLanguage.addActionListener(this);
 
 		// avoid blanking it out
-		((GuiManagerD)app.getGuiManager()).toggleKeyboard(false);
+		((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);
 
 		updateGUIFont();
 	}
@@ -605,8 +609,8 @@ public class OptionsAdvancedD extends
 	}
 
 	public void updateTooltipLanguages() {
-		if (cbTooltipLanguage.getItemCount() == LocalizationD.getSupportedLocales()
-				.size() + 1) {
+		if (cbTooltipLanguage.getItemCount() == LocalizationD
+				.getSupportedLocales().size() + 1) {
 			Locale ttl = app.getLocalization().getTooltipLocale();
 			if (ttl == null) {
 				cbTooltipLanguage.setSelectedIndex(0);
@@ -648,8 +652,8 @@ public class OptionsAdvancedD extends
 			if (index == -1)
 				app.setTooltipLanguage(null);
 			else
-				app.setTooltipLanguage(LocalizationD.getSupportedLocales().get(index)
-						.toString());
+				app.setTooltipLanguage(LocalizationD.getSupportedLocales()
+						.get(index).toString());
 		} else if (source == cbEnableScripting) {
 			app.setScriptingDisabled(!cbEnableScripting.isSelected());
 		} else if (source == cbUseJavaFonts) {
@@ -658,7 +662,7 @@ public class OptionsAdvancedD extends
 		} else if (source == cbReverseMouseWheel) {
 			app.reverseMouseWheel(cbReverseMouseWheel.isSelected());
 		} else if (source == cbUseLocalDigits) {
-			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(),app);
+			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbReturnAngleInverseTrig) {
 			app.getKernel().setInverseTrigReturnsAngle(
 					cbReturnAngleInverseTrig.isSelected());
@@ -670,13 +674,19 @@ public class OptionsAdvancedD extends
 
 		} else if (source == cbUseLocalLabels) {
 			loc.setUseLocalizedLabels(cbUseLocalLabels.isSelected());
-		/*} else if (source == cbShowTitleBar) {
-			settings.getLayout().setShowTitleBar(cbShowTitleBar.isSelected());*/
+			/*
+			 * } else if (source == cbShowTitleBar) {
+			 * settings.getLayout().setShowTitleBar
+			 * (cbShowTitleBar.isSelected());
+			 */
 		} else if (source == cbIgnoreDocumentLayout) {
 			settings.getLayout().setIgnoreDocumentLayout(
 					cbIgnoreDocumentLayout.isSelected());
-		/*} else if (source == cbAllowStyleBar) {
-			settings.getLayout().setAllowStyleBar(cbAllowStyleBar.isSelected());*/
+			/*
+			 * } else if (source == cbAllowStyleBar) {
+			 * settings.getLayout().setAllowStyleBar
+			 * (cbAllowStyleBar.isSelected());
+			 */
 		} else if (source == angleUnitRadioDegree) {
 			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 			app.getKernel().updateConstruction();
@@ -733,8 +743,8 @@ public class OptionsAdvancedD extends
 			changeWidthOrHeight(source);
 		} else {
 			handleEVOption(source, app.getEuclidianView1());
-			if (app.hasEuclidianView2EitherShowingOrNot()) {
-				handleEVOption(source, app.getEuclidianView2());
+			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+				handleEVOption(source, app.getEuclidianView2(1));
 			}
 		}
 	}
@@ -867,8 +877,10 @@ public class OptionsAdvancedD extends
 		perspectivesPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("Perspectives")));
 		cbIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
-		/*cbShowTitleBar.setText(app.getPlain("ShowTitleBar"));
-		cbAllowStyleBar.setText(app.getPlain("AllowStyleBar"));*/
+		/*
+		 * cbShowTitleBar.setText(app.getPlain("ShowTitleBar"));
+		 * cbAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
+		 */
 
 		miscPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Miscellaneous")));
@@ -965,7 +977,8 @@ public class OptionsAdvancedD extends
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipLanguages() {
-		String[] languages = new String[LocalizationD.getSupportedLocales().size() + 1];
+		String[] languages = new String[LocalizationD.getSupportedLocales()
+				.size() + 1];
 		languages[0] = loc.getPlain("Default");
 		String ggbLangCode;
 
@@ -1023,9 +1036,9 @@ public class OptionsAdvancedD extends
 	}
 
 	public void updateFont() {
-		
+
 		Font font = app.getPlainFont();
-		
+
 		virtualKeyboardPanel.setFont(font);
 		keyboardLanguageLabel.setFont(font);
 		widthLabel.setFont(font);
@@ -1074,8 +1087,9 @@ public class OptionsAdvancedD extends
 
 		perspectivesPanel.setFont(font);
 		cbIgnoreDocumentLayout.setFont(font);
-		/*cbShowTitleBar.setFont(font);
-		cbAllowStyleBar.setFont(font);*/
+		/*
+		 * cbShowTitleBar.setFont(font); cbAllowStyleBar.setFont(font);
+		 */
 
 		miscPanel.setFont(font);
 		cbEnableScripting.setFont(font);
@@ -1085,17 +1099,14 @@ public class OptionsAdvancedD extends
 		cbReverseMouseWheel.setFont(font);
 		cbReturnAngleInverseTrig.setFont(font);
 		cbReturnAngleInverseTrig.setFont(font);
-		
-		
-		
+
 		cbKeyboardLanguage.setFont(font);
-		cbTooltipLanguage.setFont(font); 
+		cbTooltipLanguage.setFont(font);
 		cbTooltipTimeout.setFont(font);
 		cbGUIFont.setFont(font);
 	}
-	
-	
-	public void setSelected(boolean flag){
-		//see OptionsEuclidianD for possible implementation
+
+	public void setSelected(boolean flag) {
+		// see OptionsEuclidianD for possible implementation
 	}
 }

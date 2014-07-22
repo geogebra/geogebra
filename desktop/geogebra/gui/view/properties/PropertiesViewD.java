@@ -532,7 +532,7 @@ public class PropertiesViewD extends
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
 				euclidianPanel2 = new OptionsEuclidianD((AppD) app,
-						((AppD) app).getEuclidianView2());
+						((AppD) app).getEuclidianView2(1));
 				euclidianPanel2.setLabels();
 				// euclidianPanel2.setView(((AppD) app).getEuclidianView2());
 			}
@@ -1037,8 +1037,8 @@ public class PropertiesViewD extends
 	public void setOptionPanel(OptionType type, int subType) {
 		setOptionPanel(type);
 	}
-	
-	public void suggestRepaint(){
+
+	public void suggestRepaint() {
 		// only used in web for now
 	}
 

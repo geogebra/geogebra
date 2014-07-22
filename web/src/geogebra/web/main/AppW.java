@@ -417,23 +417,23 @@ public abstract class AppW extends AppWeb {
 	}
 
 	@Override
-	public boolean hasEuclidianView2EitherShowingOrNot() {
+	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
 		return (getGuiManager() != null) &&
-			getGuiManager().hasEuclidianView2EitherShowingOrNot();
+			getGuiManager().hasEuclidianView2EitherShowingOrNot(idx);
 	}
 
 	@Override
-    public boolean hasEuclidianView2() {
-		return (getGuiManager() != null) && getGuiManager().hasEuclidianView2();
+    public boolean hasEuclidianView2(int idx) {
+		return (getGuiManager() != null) && getGuiManager().hasEuclidianView2(idx);
 	}
 
 	@Override
-	public EuclidianViewW getEuclidianView2() {
+	public EuclidianViewW getEuclidianView2(int idx) {
 
 		if (getGuiManager() == null)
 			return null;
 
-		return (EuclidianViewW)getGuiManager().getEuclidianView2();
+		return (EuclidianViewW)getGuiManager().getEuclidianView2(idx);
 	}
 	
 
@@ -447,9 +447,9 @@ public abstract class AppW extends AppWeb {
 	}
 
 	@Override
-	public boolean isShowingEuclidianView2() {
-		return (getGuiManager() != null) && getGuiManager().hasEuclidianView2()
-			&& getGuiManager().getEuclidianView2().isShowing();
+	public boolean isShowingEuclidianView2(int idx) {
+		return (getGuiManager() != null) && getGuiManager().hasEuclidianView2(idx)
+			&& getGuiManager().getEuclidianView2(idx).isShowing();
 	}
 
 	@Override
@@ -1035,8 +1035,8 @@ public abstract class AppW extends AppWeb {
 			getEuclidianView1().getStyleBar().updateStyleBar();
 		}
 
-		if (hasEuclidianView2() && getEuclidianView2().hasStyleBar()) {
-			getEuclidianView2().getStyleBar().updateStyleBar();
+		if (hasEuclidianView2(1) && getEuclidianView2(1).hasStyleBar()) {
+			getEuclidianView2(1).getStyleBar().updateStyleBar();
 		}
 	}
 
@@ -1096,8 +1096,8 @@ public abstract class AppW extends AppWeb {
 		//appCanvasHeight = height;
 		//appCanvasWidth = width;
 
-		getEuclidianView2().synCanvasSize();
-		getEuclidianView2().doRepaint2();
+		getEuclidianView2(1).synCanvasSize();
+		getEuclidianView2(1).doRepaint2();
 		stopCollectingRepaints();
 	}
 	
@@ -1630,8 +1630,8 @@ public abstract class AppW extends AppWeb {
 	    if (getEuclidianView1() != null) {
 	    	getEuclidianView1().getEuclidianController().calculateEnvironment();
 	    }
-	    if (getGuiManager() != null && getGuiManager().hasEuclidianView2()) {
-	    	((EuclidianView) getGuiManager().getEuclidianView2()).getEuclidianController().calculateEnvironment();	    	
+	    if (getGuiManager() != null && getGuiManager().hasEuclidianView2(1)) {
+	    	((EuclidianView) getGuiManager().getEuclidianView2(1)).getEuclidianController().calculateEnvironment();	    	
 	    }
 	    if (getGuiManager() != null && getGuiManager().hasProbabilityCalculator()) {
 	    	((ProbabilityCalculatorViewW)getGuiManager().getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();

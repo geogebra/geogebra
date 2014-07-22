@@ -29,7 +29,7 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 			@Override
             public void onFocus(FocusEvent event) {
 				
-				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2() : app.getEuclidianView1());
+				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2(1) : app.getEuclidianView1());
 				
 	            ev.getEuclidianController().setComboboxFocused(true);
             }});
@@ -38,7 +38,7 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 			@Override
             public void onBlur(BlurEvent event) {
 				
-				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2() : app.getEuclidianView1());
+				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2(1) : app.getEuclidianView1());
 
 	            ev.getEuclidianController().setComboboxFocused(false);
             }});

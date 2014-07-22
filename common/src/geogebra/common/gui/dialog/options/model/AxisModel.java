@@ -68,9 +68,9 @@ public class AxisModel {
 			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1)
 				.setAxesNumberingDistance(value, axis);
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+			} else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
 				view.setAxesNumberingDistance(value, axis);
-			} else if (app.getEuclidianView2() == view) {
+			} else if (app.getEuclidianView2(1) == view) {
 				app.getSettings().getEuclidian(2)
 				.setAxesNumberingDistance(value, axis);
 			} else {
@@ -104,10 +104,10 @@ public class AxisModel {
 			app.getSettings().getEuclidian(1)
 					.setShowAxis(axis, value); 
 		}
-		else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+		else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
 			view.setShowAxis(axis, value, true);
 		}
-		else if (app.getEuclidianView2() == view) {
+		else if (app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2)
 					.setShowAxis(axis, value);
 		}
@@ -131,11 +131,11 @@ public class AxisModel {
 					.setAutomaticAxesNumberingDistance(
 							!value, axis, true);
 		}
-		else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+		else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
 			view.setAutomaticAxesNumberingDistance(
 					!value, axis);
 		}
-		else if (app.getEuclidianView2() == view) {
+		else if (app.getEuclidianView2(1) == view) {
 			app.getSettings()
 					.getEuclidian(2)
 					.setAutomaticAxesNumberingDistance(
@@ -161,10 +161,10 @@ public class AxisModel {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setAxisLabel(axis, text);
 		}
-		else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+		else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
 			view.setAxisLabel(axis, text);
 		}
-		else if (app.getEuclidianView2() == view) { 
+		else if (app.getEuclidianView2(1) == view) { 
 			app.getSettings().getEuclidian(2).setAxisLabel(axis, text);
 
 		}
@@ -185,9 +185,9 @@ public class AxisModel {
 
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setAxisTickStyle(axis, type);
-		} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+		} else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
 			view.setAxesTickStyles(styles);
-		} else if (app.getEuclidianView2() == view) {
+		} else if (app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setAxisTickStyle(axis, type);
 		} else {
 			view.setAxesTickStyles(styles);
@@ -199,9 +199,9 @@ public class AxisModel {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1)
 					.setPositiveAxis(axis, value);
-		} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+		} else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
 			view.setPositiveAxis(axis, value);
-		} else if (view == app.getEuclidianView2()) {
+		} else if (view == app.getEuclidianView2(1)) {
 			app.getSettings().getEuclidian(2)
 					.setPositiveAxis(axis, value);
 		} else {
@@ -233,9 +233,9 @@ public class AxisModel {
 
 			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).setAxisCross(axis, cross);
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+			} else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
 				view.setAxesCross(ac);
-			} else if (app.getEuclidianView2() == view) {
+			} else if (app.getEuclidianView2(1) == view) {
 				app.getSettings().getEuclidian(2).setAxisCross(axis, cross);
 			} else {
 				view.setAxesCross(ac);

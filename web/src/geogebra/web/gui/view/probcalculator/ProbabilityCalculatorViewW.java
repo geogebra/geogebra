@@ -208,7 +208,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 			
 				// if null ID then use EV1 unless shift is down, then use EV2
 				if (euclidianViewID == null) {
-					euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app.getEuclidianView2()
+					euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app.getEuclidianView2(1)
 							.getViewID() : app.getEuclidianView1().getViewID();
 				}
 

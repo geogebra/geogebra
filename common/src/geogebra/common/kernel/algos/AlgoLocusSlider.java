@@ -750,7 +750,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	boolean isVisibleInEV2() {
 		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2))
 			return false;
-		if (!kernel.getApplication().hasEuclidianView2())
+		if (!kernel.getApplication().hasEuclidianView2(1))
 			return false;
 		return true;
 	}

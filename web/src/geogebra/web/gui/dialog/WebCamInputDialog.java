@@ -97,7 +97,7 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 				},
 				
 			    function(err) {
-			      @geogebra.web.main.AppW::debug(Ljava/lang/String;)("Error from WebCam: "+err);
+			      @geogebra.common.main.App::debug(Ljava/lang/String;)("Error from WebCam: "+err);
 			    } );
 			    
 				return video;

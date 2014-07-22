@@ -980,7 +980,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			updateAllDrawables(repaint);
 
 			// needed so that eg Corner[2,1] updates properly on zoom / pan
-			if (getApplication().hasEuclidianView2()) {
+			if (getApplication().hasEuclidianView2(1)) {
 				kernel.notifyRepaint();
 				// app.updateStatusLabelAxesRatio();
 			}

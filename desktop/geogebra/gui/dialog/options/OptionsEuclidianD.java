@@ -337,10 +337,10 @@ public class OptionsEuclidianD extends
 		axesOptionsPanel.setLayout(new BoxLayout(axesOptionsPanel,
 				BoxLayout.Y_AXIS));
 		fillAxesOptionsPanel();
-		
+
 	}
-	
-	protected void fillAxesOptionsPanel(){
+
+	protected void fillAxesOptionsPanel() {
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes,
 				Box.createHorizontalStrut(20), cbBoldAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(color, btAxesColor,
@@ -370,9 +370,8 @@ public class OptionsEuclidianD extends
 		fillMiscPanel();
 
 	}
-	
-	
-	protected void fillMiscPanel(){
+
+	protected void fillMiscPanel() {
 		miscPanel.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
 		miscPanel.add(LayoutUtil.flowPanel(tooltips, cbTooltips));
 		miscPanel.add(LayoutUtil.flowPanel(cbShowMouseCoords));
@@ -393,12 +392,14 @@ public class OptionsEuclidianD extends
 
 		return basicPanel;
 	}
-	
+
 	/**
 	 * add dimension panel
-	 * @param basicPanel basic panel
+	 * 
+	 * @param basicPanel
+	 *            basic panel
 	 */
-	protected void addDimPanel(JPanel basicPanel){
+	protected void addDimPanel(JPanel basicPanel) {
 		basicPanel.add(dimPanel);
 	}
 
@@ -444,8 +445,8 @@ public class OptionsEuclidianD extends
 				cbGridTickAngle));
 
 	}
-	
-	protected void addComboGridType(){
+
+	protected void addComboGridType() {
 		typePanel.add(LayoutUtil.flowPanel(cbGridType));
 	}
 
@@ -490,8 +491,8 @@ public class OptionsEuclidianD extends
 
 		return gridPanel;
 	}
-	
-	protected void fillGridPanel(JPanel showGridPanel, JPanel gridPanel){
+
+	protected void fillGridPanel(JPanel showGridPanel, JPanel gridPanel) {
 		gridPanel.add(showGridPanel);
 		gridPanel.add(typePanel);
 		gridPanel.add(stylePanel);
@@ -603,8 +604,8 @@ public class OptionsEuclidianD extends
 		ckOpenConsProtocol.setEnabled(isVisible);
 
 	}
-	
-	protected void setTypePanelLabel(){
+
+	protected void setTypePanelLabel() {
 		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
 	}
 
@@ -788,7 +789,8 @@ public class OptionsEuclidianD extends
 		if (index == 0)
 			setView(app.getEuclidianView1());
 		else
-			setView(((GuiManagerD) (app.getGuiManager())).getEuclidianView2());
+			setView(((GuiManagerD) (app.getGuiManager()))
+					.getEuclidianView2(index));
 
 	}
 

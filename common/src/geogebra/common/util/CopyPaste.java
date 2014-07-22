@@ -676,14 +676,14 @@ public class CopyPaste {
 			if (geo != null) {
 				if (app.getActiveEuclidianView() == app.getEuclidianView1()) {
 					app.addToEuclidianView(geo);
-					if (app.hasEuclidianView2()) {
+					if (app.hasEuclidianView2(1)) {
 						geo.removeView(App.VIEW_EUCLIDIAN2);
-						app.getEuclidianView2().remove(geo);
+						app.getEuclidianView2(1).remove(geo);
 					}
 				} else {
 					app.removeFromEuclidianView(geo);
 					geo.addView(App.VIEW_EUCLIDIAN2);
-					app.getEuclidianView2().add(geo);
+					app.getEuclidianView2(1).add(geo);
 				}
 
 				oldLabel = geo.getLabelSimple();

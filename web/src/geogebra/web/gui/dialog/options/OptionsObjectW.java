@@ -896,8 +896,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				Integer view = it.next();
 				if (view.intValue() == App.VIEW_EUCLIDIAN) {
 					app.getEuclidianView1().drawListAsComboBox(geo, value);
-				} else if (view.intValue() == App.VIEW_EUCLIDIAN2 && app.hasEuclidianView2()) {
-					app.getEuclidianView2().drawListAsComboBox(geo, value);
+				} else if (view.intValue() == App.VIEW_EUCLIDIAN2 && app.hasEuclidianView2(1)) {
+					app.getEuclidianView2(1).drawListAsComboBox(geo, value);
 				}
 
 			}

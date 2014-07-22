@@ -1,13 +1,9 @@
 package geogebra.touch.gui.views;
 
-import static com.google.gwt.query.client.GQuery.$;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 
-import com.google.gwt.query.client.css.CSS;
-import com.google.gwt.query.client.css.Length;
-import com.google.gwt.query.client.plugins.effects.PropertiesAnimation.EasingCurve;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -46,7 +42,7 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 		this.content = new HorizontalPanel();
 		this.add(this.content);
 		
-		$(this.content).css(CSS.LEFT.with(Length.px(0)));
+		//$(this.content).css(CSS.LEFT.with(Length.px(0)));
 	}
 
 	/**
@@ -85,7 +81,7 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	 * @param to scrollPosition in pixel
 	 */
 	private void animateScroll(int to) {
-		$(this.content).animate("{left:'-" + to + "px'}", 300, EasingCurve.swing);
+		//$(this.content).animate("{left:'-" + to + "px'}", 300, EasingCurve.swing);
 	}
 	
 	public native void abc(String s) /*-{

@@ -80,7 +80,7 @@ public class AppWapplication extends AppW {
 		
 		String token = Location.getParameter("token");
 	    if(token != null && !"".equals(token)){
-	    	App.debug("Token received"+token);
+	    	App.debug("LTOKEN set via URL");
 	    	this.getLoginOperation().performTokenLogin(token, false);
 			this.showBrowser(((GuiManagerW) this.getGuiManager()).getBrowseGUI());
 			nativeLoggedIn();
@@ -202,8 +202,8 @@ public class AppWapplication extends AppW {
 	@Override
 	public void updateViewSizes() {
 		getEuclidianViewpanel().deferredOnResize();
-		if (hasEuclidianView2()) {
-			getGuiManager().getEuclidianView2DockPanel().deferredOnResize();
+		if (hasEuclidianView2(1)) {
+			getGuiManager().getEuclidianView2DockPanel(1).deferredOnResize();
 		}
 		if (getGuiManager().hasSpreadsheetView()) {
 			DockPanelW sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);

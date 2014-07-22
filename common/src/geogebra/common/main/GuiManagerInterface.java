@@ -278,7 +278,7 @@ public interface GuiManagerInterface {
 
 	public void updateToolbar();
 
-	public boolean hasEuclidianView2();
+	public boolean hasEuclidianView2(int idx);
 
 	public void allowGUIToRefresh();
 
@@ -288,9 +288,9 @@ public interface GuiManagerInterface {
 
 	public void setShowToolBarHelp(boolean showToolBarHelp);
 
-	public View getEuclidianView2();
+	public View getEuclidianView2(int idx);
 
-	public boolean hasEuclidianView2EitherShowingOrNot();
+	public boolean hasEuclidianView2EitherShowingOrNot(int idx);
 
 	public View getAlgebraView();
 	

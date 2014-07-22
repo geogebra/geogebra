@@ -140,7 +140,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private AlgebraViewD algebraView;
 	private CASViewD casView;
 	private SpreadsheetView spreadsheetView;
-	private EuclidianViewD euclidianView2;
+	private ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<EuclidianViewD>();
 	private ConstructionProtocolViewD constructionProtocolView;
 	private AssignmentView assignmentView;
 	private GeoGebraMenuBar menuBar;
@@ -261,7 +261,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			layout.registerPanel(new CasDockPanel((AppD) app));
 
 		// register EuclidianView2
-		layout.registerPanel(newEuclidian2DockPanel());
+		layout.registerPanel(newEuclidian2DockPanel(1));
 
 		// register ConstructionProtocol view
 		layout.registerPanel(new ConstructionProtocolDockPanel((AppD) app));
@@ -300,8 +300,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return new EuclidianDockPanel((AppD) app, null);
 	}
 
-	protected Euclidian2DockPanel newEuclidian2DockPanel() {
-		return new Euclidian2DockPanel((AppD) app, null);
+	protected Euclidian2DockPanel newEuclidian2DockPanel(int idx) {
+		return new Euclidian2DockPanel((AppD) app, null, idx);
 	}
 
 	public boolean isInputFieldSelectionListener() {
@@ -559,17 +559,21 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	// ==================================
 	// End XML
 
-	public EuclidianViewD getEuclidianView2() {
-		if (euclidianView2 == null) {
+	public EuclidianViewD getEuclidianView2(int idx) {
+		for (int i = euclidianView2.size(); i <= idx; i++) {
+			euclidianView2.add(null);
+		}
+		if (euclidianView2.get(idx) == null) {
 			boolean[] showAxis = { true, true };
 			boolean showGrid = false;
 			App.debug("Creating 2nd Euclidian View");
-			euclidianView2 = newEuclidianView(showAxis, showGrid, 2);
+			EuclidianViewD ev = newEuclidianView(showAxis, showGrid, 2);
 			// euclidianView2.setEuclidianViewNo(2);
-			euclidianView2.setAntialiasing(true);
-			euclidianView2.updateFonts();
+			ev.setAntialiasing(true);
+			ev.updateFonts();
+			euclidianView2.set(idx, ev);
 		}
-		return euclidianView2;
+		return euclidianView2.get(idx);
 	}
 
 	protected EuclidianViewD newEuclidianView(boolean[] showAxis,
@@ -578,16 +582,16 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
-	public boolean hasEuclidianView2() {
-		if (euclidianView2 == null)
+	public boolean hasEuclidianView2(int idx) {
+		if (euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
 			return false;
-		if (!euclidianView2.isShowing())
+		if (!euclidianView2.get(idx).isShowing())
 			return false;
 		return true;
 	}
 
-	public boolean hasEuclidianView2EitherShowingOrNot() {
-		if (euclidianView2 == null)
+	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
+		if (euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
 			return false;
 		return true;
 	}
@@ -1635,8 +1639,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public boolean saveCurrentFile() {
 
 		app.getEuclidianView1().reset();
-		if (app.hasEuclidianView2()) {
-			app.getEuclidianView2().reset();
+		if (app.hasEuclidianView2(1)) {
+			app.getEuclidianView2(1).reset();
 		}
 		// use null component for iconified frame
 		Component comp = ((AppD) app).getMainComponent();

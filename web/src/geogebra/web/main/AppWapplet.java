@@ -370,7 +370,7 @@ public class AppWapplet extends AppW {
 				getSplitLayoutPanel().setPixelSize(
 					getSplitLayoutPanel().getOffsetWidth() + widthDiff,
 					getSplitLayoutPanel().getOffsetHeight() + heightDiff);
-		} else if (evno == 2 && hasEuclidianView2() && getEuclidianView2().isShowing()) {// or the EuclidianView 2
+		} else if (evno == 2 && hasEuclidianView2(1) && getEuclidianView2(1).isShowing()) {// or the EuclidianView 2
 			if (getSplitLayoutPanel() != null)
 				getSplitLayoutPanel().setPixelSize(
 					getSplitLayoutPanel().getOffsetWidth() + widthDiff,

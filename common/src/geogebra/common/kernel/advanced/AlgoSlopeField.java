@@ -152,9 +152,9 @@ public class AlgoSlopeField extends AlgoElement {
 			xmin = minX.getDouble(); 
 			ymin = minY.getDouble();
 			mainView = kernel.getApplication().getEuclidianView1();
-			if (kernel.getApplication().hasEuclidianView2() && kernel.getApplication().getEuclidianView2().isVisibleInThisView(locus)
+			if (kernel.getApplication().hasEuclidianView2(1) && kernel.getApplication().getEuclidianView2(1).isVisibleInThisView(locus)
 					&& !mainView.isVisibleInThisView(locus)) {
-					mainView = kernel.getApplication().getEuclidianView2();
+					mainView = kernel.getApplication().getEuclidianView2(1);
 			}
 		} else {
 
@@ -170,8 +170,8 @@ public class AlgoSlopeField extends AlgoElement {
 				ymin = Math.min(ymin,  view.toRealWorldCoordY((view.getHeight())));
 			}
 
-			if (kernel.getApplication().hasEuclidianView2()) {
-				EuclidianView view2 = kernel.getApplication().getEuclidianView2();
+			if (kernel.getApplication().hasEuclidianView2(1)) {
+				EuclidianView view2 = kernel.getApplication().getEuclidianView2(1);
 				if (view2.isVisibleInThisView(locus)) {
 					if(mainView == null)
 						mainView = view2;

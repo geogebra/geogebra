@@ -49,7 +49,7 @@ public class GraphicsViewLocationModel extends OptionsModel {
 	public void applyToEuclidianView2(boolean value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
-			EuclidianView ev2 = app.getEuclidianView2();
+			EuclidianView ev2 = app.getEuclidianView2(1);
 
 			if (value) {
 				geo.addView(App.VIEW_EUCLIDIAN2);

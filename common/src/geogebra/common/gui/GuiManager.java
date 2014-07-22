@@ -295,9 +295,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 		if (app.getEuclidianView1() == ev)
 			app.getSettings().getEuclidian(1)
 					.setShowAxes(!bothAxesShown, !bothAxesShown);
-		else if (!app.hasEuclidianView2EitherShowingOrNot())
+		else if (!app.hasEuclidianView2EitherShowingOrNot(1))
 			ev.setShowAxes(!bothAxesShown, true);
-		else if (app.getEuclidianView2() == ev)
+		else if (app.getEuclidianView2(1) == ev)
 			app.getSettings().getEuclidian(2)
 					.setShowAxes(!bothAxesShown, !bothAxesShown);
 		else
@@ -315,9 +315,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 		if (app.getEuclidianView1() == ev)
 			app.getSettings().getEuclidian(1)
 					.showGrid(!ev.getShowGrid());
-		else if (!app.hasEuclidianView2EitherShowingOrNot())
+		else if (!app.hasEuclidianView2EitherShowingOrNot(1))
 			ev.showGrid(!ev.getShowGrid());
-		else if (app.getEuclidianView2() == ev)
+		else if (app.getEuclidianView2(1) == ev)
 			app.getSettings().getEuclidian(2)
 					.showGrid(!ev.getShowGrid());
 		else

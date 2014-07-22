@@ -401,7 +401,7 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public boolean hasEuclidianView2EitherShowingOrNot() {
+	public boolean hasEuclidianView2EitherShowingOrNot(int i) {
 		return false;
 	}
 
@@ -425,7 +425,7 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public boolean isShowingEuclidianView2() {
+	public boolean isShowingEuclidianView2(int i) {
 		return false;
 	}
 

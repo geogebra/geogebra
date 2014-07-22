@@ -181,18 +181,18 @@ public abstract class Layout {
 
 			if (app.getEuclidianView1() == ev)
 				changed |= app.getSettings().getEuclidian(1).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			else if (!app.hasEuclidianView2EitherShowingOrNot(1))
 				changed |= ev.setShowAxes(perspective.getShowAxes(), false);
-			else if (app.getEuclidianView2() == ev)
+			else if (app.getEuclidianView2(1) == ev)
 				changed |= app.getSettings().getEuclidian(2).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
 			else
 				changed |= ev.setShowAxes(perspective.getShowAxes(), false);
 
 			if (app.getEuclidianView1() == ev)
 				changed |= app.getSettings().getEuclidian(1).showGrid(perspective.getShowGrid());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			else if (!app.hasEuclidianView2EitherShowingOrNot(1))
 				changed |= ev.showGrid(perspective.getShowGrid());
-			else if (app.getEuclidianView2() == ev)
+			else if (app.getEuclidianView2(1) == ev)
 				changed |= app.getSettings().getEuclidian(2).showGrid(perspective.getShowGrid());
 			else
 				changed |= ev.showGrid(perspective.getShowGrid());

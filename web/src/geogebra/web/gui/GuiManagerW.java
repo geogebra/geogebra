@@ -96,7 +96,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
-	private EuclidianViewW euclidianView2;
+	private ArrayList<EuclidianViewW> euclidianView2;
 	private BrowseGUI browseGUI;
 	protected LayoutW layout;
 
@@ -270,7 +270,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if (evID == 1)
 			setFocusedPanel((DockPanel)((AppW) app).getEuclidianViewpanel(), updatePropertiesView);
 		else if (evID == 2)
-			setFocusedPanel(getEuclidianView2DockPanel(), updatePropertiesView);
+			setFocusedPanel(getEuclidianView2DockPanel(1), updatePropertiesView);
 	}
 
 	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
@@ -623,7 +623,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			layout.registerPanel(new CASDockPanelW(app));
 
 		// register EuclidianView2
-		layout.registerPanel(getEuclidianView2DockPanel());
+		layout.registerPanel(getEuclidianView2DockPanel(1));
 
 		// register ConstructionProtocol view
 		layout.registerPanel(new ConstructionProtocolDockPanelW((AppW) app));
@@ -1144,10 +1144,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return false;
 	}
 
-	public boolean hasEuclidianView2() {
+	public boolean hasEuclidianView2(int idx) {
 		if (euclidianView2 == null)
 			return false;
-		if (!euclidianView2.isShowing())
+		if (!euclidianView2.get(idx).isShowing())
 			return false;
 		return true;
 	}
@@ -1196,22 +1196,26 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	}
 
-	public View getEuclidianView2() {
-		if (euclidianView2 == null) {
+	public View getEuclidianView2(int idx) {
+		for(int i = euclidianView2.size(); i<=idx; i++){
+			euclidianView2.add(null);
+		}
+		if (euclidianView2.get(idx) == null) {
 			boolean[] showAxis = { true, true };
 			boolean showGrid = false;
 			App.debug("Creating 2nd Euclidian View");
-			euclidianView2 = newEuclidianView(showAxis, showGrid, 2);
+			EuclidianViewW ev =  newEuclidianView(showAxis, showGrid, 2);
+			euclidianView2.set(idx, ev);
 			// euclidianView2.setEuclidianViewNo(2);
-			euclidianView2.setAntialiasing(true);
-			euclidianView2.updateFonts();
+			ev.setAntialiasing(true);
+			ev.updateFonts();
 		}
-		return euclidianView2;
+		return euclidianView2.get(idx);
 	}
 
-	public Euclidian2DockPanelW getEuclidianView2DockPanel() {
+	public Euclidian2DockPanelW getEuclidianView2DockPanel(int idx) {
 		if (euclidianView2DockPanel == null) {
-			euclidianView2DockPanel = new Euclidian2DockPanelW(app.isFullAppGui());
+			euclidianView2DockPanel = new Euclidian2DockPanelW(app.isFullAppGui(), idx);
 		}
 		return euclidianView2DockPanel;
 	}
@@ -1219,15 +1223,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	protected EuclidianViewW newEuclidianView(boolean[] showAxis,
 			boolean showGrid, int id) {
 		if (id == 2) {
-			return ((AppW) app).newEuclidianView(getEuclidianView2DockPanel(), app.newEuclidianController(kernel), showAxis,
+			return ((AppW) app).newEuclidianView(getEuclidianView2DockPanel(1), app.newEuclidianController(kernel), showAxis,
 				showGrid, id, app.getSettings().getEuclidian(id));
 		}
 		return ((AppW) app).newEuclidianView(((AppW) app).getEuclidianViewpanel(), app.newEuclidianController(kernel), showAxis,
 			showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
-	public boolean hasEuclidianView2EitherShowingOrNot() {
-		if (euclidianView2 == null)
+	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
+		if (euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
 			return false;
 		return true;
 	}

@@ -19,11 +19,10 @@ public class LanguageActionListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		app.setLanguage(AppD.getLocale(e.getActionCommand()));
-		// make sure axes labels are updated eg for Arabic 
+		// make sure axes labels are updated eg for Arabic
 		app.getEuclidianView1().updateBackground();
-		if(app.hasEuclidianView2EitherShowingOrNot())
-			app.getEuclidianView2().updateBackground();
+		if (app.hasEuclidianView2EitherShowingOrNot(1))
+			app.getEuclidianView2(1).updateBackground();
 		GeoGebraPreferencesD.getPref().saveDefaultLocale(app.getLocale());
 	}
 }
-

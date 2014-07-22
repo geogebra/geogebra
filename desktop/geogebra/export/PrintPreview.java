@@ -104,7 +104,7 @@ public class PrintPreview extends JDialog {
 		} else if (viewID == App.VIEW_SPREADSHEET) {
 			return wrap(gui.getSpreadsheetView());
 		} else if (viewID == App.VIEW_EUCLIDIAN2) {
-			return wrap(app.getEuclidianView2());
+			return wrap(app.getEuclidianView2(1));
 		} else if (viewID == App.VIEW_ALGEBRA) {
 			return wrap(gui.getAlgebraView());
 		} else if (viewID == App.VIEW_DATA_ANALYSIS) {
@@ -311,9 +311,9 @@ public class PrintPreview extends JDialog {
 						}
 						if (selItem.equals(app.getPlain("DrawingPad2"))
 								|| (selItem.equals(app.getPlain("AllViews")) && app
-										.hasEuclidianView2())) {
+										.hasEuclidianView2(1))) {
 							tempPanel.add(createPanelForScaling(app
-									.getEuclidianView2()));
+									.getEuclidianView2(1)));
 						}
 						panelForTitleAndScaling.revalidate();
 
@@ -373,7 +373,7 @@ public class PrintPreview extends JDialog {
 
 		// show scale panel for euclidian view
 		EuclidianViewD ev = app.getEuclidianView1();
-		EuclidianViewD ev2 = app.getEuclidianView2();
+		EuclidianViewD ev2 = app.getEuclidianView2(1);
 		// CASView cas = app.getca
 		app.getSelectionManager().clearSelectedGeos();
 
@@ -501,8 +501,8 @@ public class PrintPreview extends JDialog {
 							GeoGebraPreferencesD.getPref().loadPreference(
 									GeoGebraPreferencesD.PRINT_SHOW_SCALE,
 									"false")).booleanValue());
-			if (app.hasEuclidianView2EitherShowingOrNot()) {
-				app.getEuclidianView2().setPrintScaleString(
+			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+				app.getEuclidianView2(1).setPrintScaleString(
 						Boolean.valueOf(
 								GeoGebraPreferencesD.getPref().loadPreference(
 										GeoGebraPreferencesD.PRINT_SHOW_SCALE2,
@@ -531,9 +531,9 @@ public class PrintPreview extends JDialog {
 		// show printing scale in cm
 		pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE,
 				Boolean.toString(app.getEuclidianView1().isPrintScaleString()));
-		if (app.hasEuclidianView2EitherShowingOrNot()) {
+		if (app.hasEuclidianView2EitherShowingOrNot(1)) {
 			pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE2, Boolean
-					.toString(app.getEuclidianView2().isPrintScaleString()));
+					.toString(app.getEuclidianView2(1).isPrintScaleString()));
 		}
 	}
 

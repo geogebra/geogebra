@@ -81,8 +81,8 @@ public class OptionsMenu {
 		else if (cmd.endsWith("PointCapturing")) {
 			int mode = Integer.parseInt(cmd.substring(0, 1));
 			app.getEuclidianView1().setPointCapturing(mode);
-			if (app.hasEuclidianView2EitherShowingOrNot()) {
-				app.getEuclidianView2().setPointCapturing(mode);
+			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+				app.getEuclidianView2(1).setPointCapturing(mode);
 			}
 			app.setUnsaved();
 		}

@@ -1115,12 +1115,12 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return whether EV2 was initialized
 	 */
-	public abstract boolean hasEuclidianView2EitherShowingOrNot();
+	public abstract boolean hasEuclidianView2EitherShowingOrNot(int idx);
 
 	/**
 	 * @return whether EV2 is visible
 	 */
-	public abstract boolean isShowingEuclidianView2();
+	public abstract boolean isShowingEuclidianView2(int idx);
 
 	/**
 	 * @return image manager
@@ -1447,8 +1447,8 @@ public abstract class App implements UpdateSelection{
 	
 	public void refreshViews() {
 		getEuclidianView1().updateBackground();
-		if (hasEuclidianView2()) {
-			getEuclidianView2().updateBackground();
+		if (hasEuclidianView2(1)) {
+			getEuclidianView2(1).updateBackground();
 		}
 		kernel.notifyRepaint();
 	}
@@ -1516,7 +1516,7 @@ public abstract class App implements UpdateSelection{
 
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 
-	public boolean hasEuclidianView2() {
+	public boolean hasEuclidianView2(int idx) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -1609,7 +1609,7 @@ public abstract class App implements UpdateSelection{
 				return null;
 			return getGuiManager().getCasView();
 		case VIEW_EUCLIDIAN2:
-			return hasEuclidianView2() ? getEuclidianView2() : null;
+			return hasEuclidianView2(1) ? getEuclidianView2(1) : null;
 		case VIEW_CONSTRUCTION_PROTOCOL:
 			if (!isUsingFullGui())
 				return null;
@@ -1654,13 +1654,13 @@ public abstract class App implements UpdateSelection{
 		getEuclidianView1().getXML(sb, asPreference);
 
 		// save euclidian view 2 settings
-		if (hasEuclidianView2()) {
-			getEuclidianView2().getXML(sb, asPreference);
+		if (hasEuclidianView2(1)) {
+			getEuclidianView2(1).getXML(sb, asPreference);
 		} else if (asPreference && (getGuiManager() != null)) {
 			// TODO: After the implementing of getEuclidianView2() on web remove
 			// the nullcheck from here
 			// getEuclidianView2().getXML(sb, true);
-			EuclidianView ev2 = getEuclidianView2();
+			EuclidianView ev2 = getEuclidianView2(1);
 			if (ev2 != null)
 				ev2.getXML(sb, true);
 		}
@@ -1864,7 +1864,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return EV2
 	 */
-	public EuclidianView getEuclidianView2() {
+	public EuclidianView getEuclidianView2(int idx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -2358,8 +2358,8 @@ public abstract class App implements UpdateSelection{
 
 		if (getGuiManager() != null) {
 			getGuiManager().updateFonts();
-			if (hasEuclidianView2()) {
-				getEuclidianView2().updateFonts();
+			if (hasEuclidianView2(1)) {
+				getEuclidianView2(1).updateFonts();
 			}
 		}
 	}
@@ -3445,8 +3445,8 @@ public abstract class App implements UpdateSelection{
 
 		getEuclidianView1().getEuclidianController().resetPen();
 
-		if (hasEuclidianView2()) {
-			getEuclidianView2().getEuclidianController().resetPen();
+		if (hasEuclidianView2(1)) {
+			getEuclidianView2(1).getEuclidianController().resetPen();
 		}
 
 	}

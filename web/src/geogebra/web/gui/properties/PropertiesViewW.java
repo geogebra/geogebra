@@ -143,9 +143,9 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
 				euclidianPanel2 = new OptionsEuclidianW((AppW) app,
-						((AppW)app).getEuclidianView2());
+						((AppW)app).getEuclidianView2(1));
 				euclidianPanel2.setLabels();
-				euclidianPanel2.setView(((AppW)app).getEuclidianView2());
+				euclidianPanel2.setView(((AppW)app).getEuclidianView2(1));
 				euclidianPanel2.showCbView(false);
 			}
 			App.debug("euclidianPanel2");

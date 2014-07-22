@@ -26,8 +26,9 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null;// static foreground
+	private int idx;
 	
-	public Euclidian2DockPanelW(boolean stylebar) {
+	public Euclidian2DockPanelW(boolean stylebar, int idx) {
 		super(
 				App.VIEW_EUCLIDIAN2,	// view id 
 				"DrawingPad2", 				// view title
@@ -36,7 +37,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 				6,							// menu order
 				'2' // ctrl-shift-1
 			);
-
+		this.idx = idx;
 		// copied here from loadComponent
 		setEmbeddedSize(300);
 
@@ -60,7 +61,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 		// so it is this place where EuclidianView 2 should be inited
 		// in EuclidianDockPanelW, EuclidianView is created automatically
 		if (app != null) {
-			app.getEuclidianView2();
+			app.getEuclidianView2(1);
 		}
 
 		return euclidianpanel;
@@ -95,8 +96,8 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 					oldWidth = w;
 				} else {
 					// it's possible that the width/height didn't change but the position of EV did
-					if (app.hasEuclidianView2EitherShowingOrNot()) {
-						app.getEuclidianView2().getEuclidianController().calculateEnvironment();
+					if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+						app.getEuclidianView2(1).getEuclidianController().calculateEnvironment();
 					}
 				}
 			}
@@ -114,7 +115,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 	protected Widget loadStyleBar() {
 
 		if (espanel == null) {
-			espanel = app.getEuclidianView2().getStyleBar();
+			espanel = app.getEuclidianView2(idx).getStyleBar();
 		}
 
 		return (Widget) espanel;
@@ -149,8 +150,8 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 	}
 
 	public EuclidianView getEuclidianView() {
-		if (app != null && app.hasEuclidianView2())
-			return app.getEuclidianView2();
+		if (app != null && app.hasEuclidianView2(idx))
+			return app.getEuclidianView2(idx);
 		return null;
 	}
 

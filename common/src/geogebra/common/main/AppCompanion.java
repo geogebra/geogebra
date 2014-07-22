@@ -58,8 +58,8 @@ public class AppCompanion {
 	 */
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
 		app.getEuclidianView1().getXML(sb, asPreference);
-		if (app.hasEuclidianView2EitherShowingOrNot()) {
-			app.getEuclidianView2().getXML(sb, asPreference);
+		if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+			app.getEuclidianView2(1).getXML(sb, asPreference);
 		}
 	}
 	

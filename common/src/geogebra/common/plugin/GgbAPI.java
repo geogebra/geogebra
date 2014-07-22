@@ -414,8 +414,8 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		else if(geo instanceof Locateable){
 			GeoPoint corner = new GeoPoint(kernel.getConstruction());
 			EuclidianView ev = app.getEuclidianView1();
-			if(geo.isVisibleInView(ev.getViewID()) && app.hasEuclidianView2EitherShowingOrNot()
-					&& geo.isVisibleInView(app.getEuclidianView2().getViewID())){
+			if(geo.isVisibleInView(ev.getViewID()) && app.hasEuclidianView2EitherShowingOrNot(1)
+					&& geo.isVisibleInView(app.getEuclidianView2(1).getViewID())){
 				App.debug("EV2");
 				//ev = app.getEuclidianView2();
 			}
@@ -926,8 +926,8 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	 */
 	public synchronized void setAxesCornerCoordsVisible(boolean showAxesCornerCoords) {		
 		app.getEuclidianView1().setAxesCornerCoordsVisible(showAxesCornerCoords);
-		if(app.hasEuclidianView2()){
-			app.getEuclidianView2().setAxesCornerCoordsVisible(showAxesCornerCoords);
+		if(app.hasEuclidianView2(1)){
+			app.getEuclidianView2(1).setAxesCornerCoordsVisible(showAxesCornerCoords);
 		}
 	}	
 	
@@ -1139,7 +1139,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
     }
     
     public String getViewProperties(int view){
-    	EuclidianView ev = view == 2 ? app.getEuclidianView2() : app.getEuclidianView1();
+    	EuclidianView ev = view == 2 ? app.getEuclidianView2(1) : app.getEuclidianView1();
     	StringBuilder sb = new StringBuilder(100);
     	sb.append("{\"invXscale\":");
     	sb.append(ev.getInvXscale());
@@ -1216,6 +1216,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
      */
     public void login(String token){
     	if(app.getLoginOperation()!=null){
+    		App.debug("LTOKEN send via API");
     		app.getLoginOperation().performTokenLogin(token, false);
     	}
     }
