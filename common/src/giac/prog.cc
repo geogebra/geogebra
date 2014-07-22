@@ -8526,7 +8526,7 @@ namespace giac {
 
   
   static string printaspiecewise(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if ( feuille.type!=_VECT || feuille._VECTptr->empty() || calc_mode(contextptr)!=38)
+    if ( feuille.type!=_VECT || feuille._VECTptr->empty() || abs_calc_mode(contextptr)!=38)
       return string(sommetstr)+('('+feuille.print(contextptr)+')');
     vecteur & v = *feuille._VECTptr;
     string res("CASE");

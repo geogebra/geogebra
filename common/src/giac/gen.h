@@ -1092,7 +1092,7 @@ namespace giac {
     }
     virtual bool operator == (const gen_user & a) const { return (*this) == gen(a); }
     // must redefine > AND <= since we do not have symetrical type arguments
-    virtual gen operator > (const gen &) const { return gensizeerr(gettext("== not redefined")); }
+    virtual gen operator > (const gen &) const { return gensizeerr(gettext("> not redefined")); }
     virtual gen operator > (const gen_user & a) const { return superieur_strict(*this, gen(a),0); }
     virtual gen operator <= (const gen &) const { return gensizeerr(gettext("<= not redefined")); }
     virtual gen operator <= (const gen_user & a) const { return inferieur_egal(*this, gen(a),0); }

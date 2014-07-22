@@ -465,7 +465,11 @@ namespace giac {
 	return ;
       }
     }
-    v.push_back(e);
+    gen te=_tlin(e._SYMBptr->feuille,contextptr);
+    if (s==at_pow && te.type==_VECT && te._VECTptr->size()==2 && te._VECTptr->back()==plus_one_half)
+      v.push_back(sqrt(te._VECTptr->front(),contextptr));
+    else
+      v.push_back(s(te,contextptr));
     v.push_back(1);
   }
 

@@ -10841,9 +10841,12 @@ namespace giac {
     if (g1.type!=_VECT || g2.type!=_VECT){
       g1=complex2vecteur(g1,contextptr);      
       g2=complex2vecteur(g2,contextptr);
-      if (g1._VECTptr->size()!=2 || g2._VECTptr->size()!=2)
-	return gensizeerr(contextptr);
-      return g1._VECTptr->front()*g2._VECTptr->back()-g1._VECTptr->back()*g2._VECTptr->front();
+      if (g1._VECTptr->size()==2 && g2._VECTptr->size()==2)
+	return g1._VECTptr->front()*g2._VECTptr->back()-g1._VECTptr->back()*g2._VECTptr->front();
+      if (g1._VECTptr->size()==2)
+	g1=makevecteur(g1._VECTptr->front(),g1._VECTptr->back(),0);
+      if (g2._VECTptr->size()==2)
+	g2=makevecteur(g2._VECTptr->front(),g2._VECTptr->back(),0);
     }
     if (is_undef(g1) || g1.type!=_VECT || is_undef(g2) || g2.type!=_VECT)
       return gensizeerr(gettext("cross"));
@@ -12279,7 +12282,7 @@ namespace giac {
   // decsep = decimal separator (, -> .)
 #ifndef NSPIRE
   matrice csv2gen(istream & i,char sep,char nl,char decsep,char eof,GIAC_CONTEXT){
-    return vecteur(1,gensizeerr(contextptr));
+    // return vecteur(1,gensizeerr(contextptr));
     vecteur res,line;
     size_t nrows=0,ncols=0;
     char c;
@@ -12314,6 +12317,7 @@ namespace giac {
 	    s=s.substr(1,ss-2);
 	    ss -= 2;
 	  }
+#ifdef NO_STDEXCEPT
 	  if (s[0]=='=' || s[0]=='-'){
 	    line.push_back(gen(s,contextptr));
 	  }
@@ -12324,6 +12328,22 @@ namespace giac {
 	    else
 	      line.push_back(string2gen(s,s[0]=='"'));
 	  }
+#else
+	  try {
+	    if (s[0]=='=' || s[0]=='-'){
+	      line.push_back(gen(s,contextptr));
+	    }
+	    else {
+	      if (s[0]==decsep ||(s[0]>='0' && s[0]<='9')){
+		line.push_back(gen(s,contextptr));
+	      }
+	      else
+		line.push_back(string2gen(s,s[0]=='"'));
+	    }
+	  } catch (std::runtime_error & e){
+	    line.push_back(string2gen(e.what(),false));
+	  }
+#endif
 	}
 	s="";
 	if (c==nl){

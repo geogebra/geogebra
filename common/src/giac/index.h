@@ -35,6 +35,15 @@
 #endif
 ///////////////////////////////////////////
 
+#ifdef C11_UNORDERED_MAP
+#undef HASH_MAP
+#undef EXT_HASH_MAP
+#undef UNORDERD_MAP
+#define HASH_MAP_NAMESPACE std
+#define hash_map unordered_map
+#include <unorderd_map>
+#endif
+
 #if defined UNORDERED_MAP && !defined(__APPLE__) && !defined(__clang__) && !defined(VISUALC)
 #include <tr1/unordered_map>
 #define HASH_MAP_NAMESPACE std::tr1

@@ -726,6 +726,226 @@ namespace giac {
   static define_unary_function_eval (__arcLen,&_arcLen,_arcLen_s);
   define_unary_function_ptr5( at_arcLen ,alias_at_arcLen,&__arcLen,0,true);
 
+  static const char _arclen_s[]="arclen";
+  static define_unary_function_eval (__arclen,&_arcLen,_arclen_s);
+  define_unary_function_ptr5( at_arclen ,alias_at_arclen,&__arclen,0,true);
+  
+  // find T,N,B,kappa,tau, Nsurkappa (center of osc circle-M) return dimension
+  gen frenet(const gen &g,gen & M,gen & T, gen &N, gen &B, gen & kappa,gen &Nsurkappa,gen & tau,gen & t,bool compute_torsion,GIAC_CONTEXT){
+    if (g.is_symb_of_sommet(at_pnt)){
+      if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()>=2){ // element
+	gen arg=(*g._SYMBptr->feuille._VECTptr)[1];
+	if (arg.type==_VECT)
+	  return frenet((*arg._VECTptr)[1],M,T,N,B,kappa,Nsurkappa,tau,t,compute_torsion,contextptr);
+      }
+      return frenet(remove_at_pnt(g),M,T,N,B,kappa,Nsurkappa,tau,t,compute_torsion,contextptr);
+    }
+    if (g.is_symb_of_sommet(at_curve)){
+      gen f=g._SYMBptr->feuille;
+      gen res=frenet(f[0],M,T,N,B,kappa,Nsurkappa,tau,t,compute_torsion,contextptr);
+      return res;
+    }
+    if (g.type!=_VECT || g._VECTptr->size()<2)
+      return gensizeerr(contextptr);
+    vecteur v=*g._VECTptr;
+    gen f=v[0],x=v[1],x0=undef;
+    if (f.is_symb_of_sommet(at_pnt)){
+      x0=v[1];
+      if (x0.is_symb_of_sommet(at_pnt))
+	x0=projection(f,x0,contextptr);
+      f=remove_at_pnt(f);
+      if (!f.is_symb_of_sommet(at_curve))
+	return gensizeerr(contextptr);
+      f=f._SYMBptr->feuille[0];
+      x=f[1];
+      t=makesequence(x,f[2],f[3],f[4]);
+      f=f[0];
+    }
+    else
+      t=x;
+    if (v.size()==3)
+      x0=v[2];
+    if (v.size()>3)
+      t=gen(vecteur(v.begin()+1,v.begin()+4),_SEQ__VECT);
+    if (f.type!=_VECT){
+      gen r,i;
+      reim(f,r,i,contextptr);
+      f=makevecteur(r,i);
+    }
+    M=f;
+    int dim=f._VECTptr->size();
+    gen vitesse=derive(f,x,contextptr),v2=normal(l2norm2(vitesse),contextptr);
+    gen sqrtv2=sqrt(v2,contextptr); // v=ds/dt
+    T=vitesse/sqrtv2;
+    gen accel=derive(vitesse,x,contextptr);
+    if (dim==2 && T.type==_VECT && T._VECTptr->size()==2){
+      kappa=normal(vitesse[0]*accel[1]-vitesse[1]*accel[0],contextptr)/pow(v2,2)*sqrtv2;
+      Nsurkappa=normal(v2/(vitesse[0]*accel[1]-vitesse[1]*accel[0])*makevecteur(-vitesse[1],vitesse[0]),contextptr);
+      N=makevecteur(-T._VECTptr->back(),T._VECTptr->front());
+    }
+    else {
+      gen an=normal(accel-(scalar_product(accel,vitesse,contextptr)/v2)*vitesse,contextptr); // normal accel
+      gen normean=_l2norm(an,contextptr);
+      N=an/normean;
+      kappa=normean/v2;
+      Nsurkappa=normal(an*v2/l2norm2(an),contextptr);
+    }
+    if (dim!=3 || !compute_torsion)
+      B=tau=undef;
+    else {
+      B=cross(T,N,contextptr);
+      gen f3=derive(accel,x,contextptr);
+      tau=_det(makesequence(vitesse,accel,f3),contextptr)/l2norm2(cross(vitesse,accel,contextptr));
+    }
+    if (!is_undef(x0)){
+      M=subst(M,x,x0,false,contextptr);
+      T=subst(T,x,x0,false,contextptr);
+      N=subst(N,x,x0,false,contextptr);
+      B=subst(B,x,x0,false,contextptr);
+      tau=subst(tau,x,x0,false,contextptr);
+      kappa=subst(kappa,x,x0,false,contextptr);
+      Nsurkappa=subst(Nsurkappa,x,x0,false,contextptr);
+    }
+    return dim;
+  }
+  // curvature([x(t),y(t)],t)
+  gen curvature(const gen & g,GIAC_CONTEXT){
+    if (g.is_symb_of_sommet(at_pnt)){
+      if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()>=2){ // element
+	gen arg=(*g._SYMBptr->feuille._VECTptr)[1];
+	if (arg.type==_VECT)
+	  return curvature((*arg._VECTptr)[1],contextptr);
+      }
+      return curvature(remove_at_pnt(g),contextptr);
+    }
+    if (g.is_symb_of_sommet(at_curve)){
+      gen f=g._SYMBptr->feuille;
+      return curvature(f[0],contextptr);
+    }    
+    if (g.type!=_VECT || g._VECTptr->size()<2)
+      return gensizeerr(contextptr);
+    vecteur v=*g._VECTptr;
+    gen f=v[0],x=v[1],x0(undef);
+    if (f.is_symb_of_sommet(at_pnt)){
+      x0=v[1];
+      if (x0.is_symb_of_sommet(at_pnt))
+	x0=projection(f,x0,contextptr);
+      f=remove_at_pnt(f);
+      if (!f.is_symb_of_sommet(at_curve))
+	return gensizeerr(contextptr);
+      f=f._SYMBptr->feuille[0];
+      x=f[1];
+      f=f[0];
+    }
+    if (v.size()>=3)
+      x0=v[2];
+    if (f.type!=_VECT){
+      gen r,i;
+      reim(f,r,i,contextptr);
+      f=makevecteur(r,i);
+    }
+    int dim=f._VECTptr->size();
+    gen vitesse=derive(f,x,contextptr),v2=normal(l2norm2(vitesse),contextptr);
+    gen sqrtv2=sqrt(v2,contextptr); // v=ds/dt
+    gen accel=derive(vitesse,x,contextptr),res;
+    if (dim==2)
+      res= normal(vitesse[0]*accel[1]-vitesse[1]*accel[0],contextptr)/pow(v2,2)*sqrtv2;
+    else {
+      if (dim==3){
+	gen f3=cross(vitesse,accel,contextptr);
+	res= _l2norm(f3,contextptr)/pow(v2,2)*sqrtv2;
+      }
+      else {
+	gen an=accel-(scalar_product(accel,vitesse,contextptr)/v2)*vitesse; // normal
+	res=_l2norm(an,contextptr)/v2;
+      }
+    }
+    if (!is_undef(x0))
+      res=subst(res,x,x0,false,contextptr);
+    return res;
+  }
+  gen _curvature(const gen & g,GIAC_CONTEXT){
+    bool b=complex_variables(contextptr);
+    complex_variables(false,contextptr);
+    gen res=curvature(g,contextptr);
+    complex_variables(b,contextptr);
+    return res;
+  }
+  static const char _curvature_s[]="curvature";
+  static define_unary_function_eval (__curvature,&_curvature,_curvature_s);
+  define_unary_function_ptr5( at_curvature ,alias_at_curvature,&__curvature,0,true);
+
+  gen _frenet(const gen & g,GIAC_CONTEXT){
+    bool b=complex_variables(contextptr);
+    complex_variables(false,contextptr);
+    gen t,M,T,N,B,kappa,Nsurkappa,tau,dim=frenet(g,M,T,N,B,kappa,Nsurkappa,tau,t,true,contextptr);
+    complex_variables(b,contextptr);
+    if (dim.type!=_INT_)
+      return dim;
+    if (dim.val==2)
+      return makesequence(kappa,M+Nsurkappa,T,N);
+    else
+      return makesequence(kappa,M+Nsurkappa,tau,T,N,B);
+  }
+  static const char _frenet_s[]="frenet";
+  static define_unary_function_eval (__frenet,&_frenet,_frenet_s);
+  define_unary_function_ptr5( at_frenet ,alias_at_frenet,&__frenet,0,true);
+
+  gen _osculating_circle(const gen & args,GIAC_CONTEXT){
+    vecteur attributs(1,default_color(contextptr));
+    vecteur v(seq2vecteur(args));
+    int s=read_attributs(v,attributs,contextptr);
+    if (s==0)
+      return gendimerr(contextptr);
+    gen g;
+    if (s==1)
+      g=v.front();
+    else
+      g=gen(vecteur(v.begin(),v.begin()+s),_SEQ__VECT);
+    bool b=complex_variables(contextptr);
+    complex_variables(false,contextptr);
+    gen t,M,T,N,B,kappa,Nsurkappa,tau,dim=frenet(g,M,T,N,B,kappa,Nsurkappa,tau,t,false,contextptr);
+    complex_variables(b,contextptr);
+    if (dim.type!=_INT_)
+      return dim;
+    if (dim.val==2)
+      return put_attributs(_cercle(makesequence(_point(M,contextptr),_point(M+2*Nsurkappa,contextptr)),contextptr),attributs,contextptr);
+    return gendimerr(contextptr);
+  }
+  static const char _osculating_circle_s[]="osculating_circle";
+  static define_unary_function_eval (__osculating_circle,&_osculating_circle,_osculating_circle_s);
+  define_unary_function_ptr5( at_osculating_circle ,alias_at_osculating_circle,&__osculating_circle,0,true);
+
+  gen _evolute(const gen & args,GIAC_CONTEXT){
+    vecteur attributs(1,default_color(contextptr));
+    vecteur v(seq2vecteur(args));
+    int s=read_attributs(v,attributs,contextptr);
+    if (s==0)
+      return gendimerr(contextptr);
+    gen g;
+    if (s==1)
+      g=v.front();
+    else
+      g=gen(vecteur(v.begin(),v.begin()+s),_SEQ__VECT);
+    bool b=complex_variables(contextptr);
+    complex_variables(false,contextptr);
+    gen t,M,T,N,B,kappa,Nsurkappa,tau,dim=frenet(g,M,T,N,B,kappa,Nsurkappa,tau,t,false,contextptr);
+    complex_variables(b,contextptr);
+    if (dim.type!=_INT_)
+      return dim;
+    if (dim.val==2){
+      if (t.type==_VECT)
+	t=gen(mergevecteur(vecteur(1,M+Nsurkappa),*t._VECTptr),_SEQ__VECT);
+      else
+	t=gen(makevecteur(M+Nsurkappa,t),_SEQ__VECT);
+      return put_attributs(_plotparam(t,contextptr),attributs,contextptr);
+    }
+    return gendimerr(contextptr);
+  }
+  static const char _evolute_s[]="evolute";
+  static define_unary_function_eval (__evolute,&_evolute,_evolute_s);
+  define_unary_function_ptr5( at_evolute ,alias_at_evolute,&__evolute,0,true);
+
   gen _dim(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (!ckmatrix(g))

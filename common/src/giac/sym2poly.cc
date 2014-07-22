@@ -2598,6 +2598,51 @@ namespace giac {
     }
     return r2sym(fg,l,context0);
   }
+  gen recursive_ratnormal(const gen & e,GIAC_CONTEXT){
+    // COUT << e << endl;
+    if (e.type==_VECT)
+      return apply(e,recursive_ratnormal,contextptr);
+    if (e.type==_FRAC){
+      gen n=e._FRACptr->num;
+      gen d=e._FRACptr->den;
+      simplify(n,d);
+      if (is_one(d))
+	return n;
+      if (is_minus_one(d))
+	return -n;
+      if (is_zero(d)){
+	if (is_zero(n))
+	  return undef;
+	else
+	  return unsigned_inf;
+      }
+      if (is_zero(n))
+	return zero;
+      return fraction(n,d);
+    }
+    if (e.type!=_SYMB && e.type!=_MOD)
+      return e;
+    if (is_inf(e) || is_undef(e) )
+      return e;
+    matrice l; lvar(e,l);
+    if (l.size()>1) l=sort1(l);
+    gen fg=e2r(e,l,contextptr);
+    for (unsigned i=0;i<l.size();++i){
+      if (l[i].type==_SYMB)
+	l[i]=l[i]._SYMBptr->sommet(recursive_ratnormal(l[i]._SYMBptr->feuille,contextptr),contextptr);
+    }
+    if (fg.type==_FRAC && fg._FRACptr->num.type==_FRAC){
+      fraction f(fg._FRACptr->num._FRACptr->num,fg._FRACptr->den*fg._FRACptr->num._FRACptr->den);
+      f.normal();
+      return r2sym(f,l,contextptr); 
+    }
+    if (fg.type==_FRAC && fg._FRACptr->den.type==_CPLX){
+      gen tmp=conj(fg._FRACptr->den,contextptr);
+      fg._FRACptr->num = fg._FRACptr->num * tmp;
+      fg._FRACptr->den = fg._FRACptr->den * tmp;
+    }
+    return r2sym(fg,l,contextptr);
+  }
   gen rationalgcd(const gen & a, const gen & b,GIAC_CONTEXT){
     gen A,B,C,D;
     if (is_algebraic_program(a,A,B) && is_algebraic_program(b,C,D)){
@@ -2784,6 +2829,8 @@ namespace giac {
     }
     vecteur l;
     alg_lvar(e,l);
+    if (!l.empty() && l.front().type==_VECT && l.front()._VECTptr->empty())
+      l=lvar(e);
     /* if (calc_mode(contextptr)==1 && l.size()==1 && l.front().type==_VECT){
       sort(l.front()._VECTptr->begin(),l.front()._VECTptr->end(),islesscomplexthanf);
       } */

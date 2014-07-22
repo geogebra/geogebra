@@ -4749,18 +4749,25 @@ namespace giac {
       return giac_gcd_modular_algo1(p,q,d);
     bool res=true;
     try {
-      inttype tabp[np+1]; // dense rep of the polynomial
-      if (!polynome2tab(p,np,tabp))
+      inttype * tabp = new inttype[np+1]; // dense rep of the polynomial
+      if (!polynome2tab(p,np,tabp)){
+	delete [] tabp;
 	return false;
-      inttype tabq[nq+1]; // dense rep of the polynomial
-      if (!polynome2tab(q,nq,tabq))
+      }
+      inttype * tabq = new inttype[nq+1]; // dense rep of the polynomial
+      if (!polynome2tab(q,nq,tabq)){
+	delete [] tabp;
+	delete [] tabq;
 	return false;
+      }
       int nd;
       inttype * res;
       ntlgcd(tabp,np,tabq,nq,res,nd);
       d=tab2polynome(res,nd);
       // COUT << "PGCD=" << d << endl;
       delete [] res;
+      delete [] tabp;
+      delete [] tabq;
       if (compute_cof){
 	p = p/d;
 	q = q/d;

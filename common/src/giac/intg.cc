@@ -2761,6 +2761,25 @@ namespace giac {
       }
     }
     gen primitive;
+    // fast check if we are integrating over a period
+    // if so we can shift integration to
+    // simplify one of the functions
+    if (s==4 && !is_inf(borne_sup) && !is_inf(borne_inf)){
+      gen v0ab=subst(v[0],x,x+borne_sup-borne_inf,false,contextptr)-v[0];
+      v0ab=recursive_ratnormal(v0ab,contextptr);
+      if (is_zero(v0ab)){
+	vecteur l(rlvarx(v[0],x));
+	unsigned i=0; gen a,b;
+	for (;i<l.size();++i){
+	  if (l[i].type==_SYMB && is_linear_wrt(l[i]._SYMBptr->feuille,x,a,b,contextptr) && !is_zero(a) && !is_zero(b))
+	    break;
+	}
+	if (i<l.size()){
+	  vecteur vin=makevecteur(x,l[i]),vout=makevecteur(x-b/a,l[i]._SYMBptr->sommet(a*x,contextptr));
+	  v[0]=subst(v[0],vin,vout,false,contextptr);
+	}
+      }
+    }
     if (has_num_coeff(v[0])){
       primitive=integrate0(exact(v[0],contextptr),*x._IDNTptr,rem,contextptr);
       primitive=evalf(primitive,1,contextptr);

@@ -1167,6 +1167,27 @@ namespace giac {
 	  }
 	}
       }
+      for (unsigned i=0;i<v.size();++i){
+	gen vi=v[i];
+	if (vi.is_symb_of_sommet(at_cos)){
+	  gen a,b;
+	  if (is_linear_wrt(e,vi,a,b,contextptr)){
+	    if (a==b)
+	      return sqrt(2*a,contextptr)*abs(cos(vi._SYMBptr->feuille/2,contextptr),contextptr);
+	    if (a==-b)
+	      return sqrt(-2*a,contextptr)*abs(sin(vi._SYMBptr->feuille/2,contextptr),contextptr);
+	  }
+	}
+	if (vi.is_symb_of_sommet(at_sin)){
+	  gen a,b;
+	  if (is_linear_wrt(e,vi,a,b,contextptr)){
+	    if (a==b)
+	      return sqrt(2*a,contextptr)*abs(cos(vi._SYMBptr->feuille/2-cst_pi/4,contextptr),contextptr);
+	    if (a==-b)
+	      return sqrt(-2*a,contextptr)*abs(sin(vi._SYMBptr->feuille/2-cst_pi/4,contextptr),contextptr);
+	  }
+	}
+      } // end loop on vars
     }
     return pow(e,plus_one_half,contextptr);
   }
@@ -1342,6 +1363,25 @@ namespace giac {
 	    return cos(b,contextptr);
 	  else
 	    return pow(minus_one,a,contextptr)*cos(b,contextptr);
+	}
+	a=expand(a,contextptr);
+	if (a.is_symb_of_sommet(at_plus) && a._SYMBptr->feuille.type==_VECT){
+	  vecteur av=*a._SYMBptr->feuille._VECTptr;
+	  vecteur av1;
+	  int neg=0;
+	  for (unsigned i=0;i<av.size();++i){
+	    if (is_integer(av[i]))
+	      neg += smod(av[i],2).val;
+	    else
+	      av1.push_back(av[i]);
+	  }
+	  if (neg){
+	    if (av1.empty())
+	      return (neg%2?-1:1)*cos(b,contextptr);
+	    if (av1.size()==1)
+	      return (neg%2?-1:1)*cos(av1.front()*cst_pi+b,contextptr);
+	    return (neg%2?-1:1)*cos(symbolic(at_plus,gen(av1,_SEQ__VECT))*cst_pi+b,contextptr);
+	  }
 	}
 	int n,d,q,r;
 	if (is_zero(b,contextptr) && is_rational(a,n,d)){
@@ -1526,6 +1566,25 @@ namespace giac {
 	    return sin(b,contextptr);
 	  else
 	    return pow(minus_one,a,contextptr)*sin(b,contextptr);
+	}
+	a=expand(a,contextptr);
+	if (a.is_symb_of_sommet(at_plus) && a._SYMBptr->feuille.type==_VECT){
+	  vecteur av=*a._SYMBptr->feuille._VECTptr;
+	  vecteur av1;
+	  int neg=0;
+	  for (unsigned i=0;i<av.size();++i){
+	    if (is_integer(av[i]))
+	      neg += smod(av[i],2).val;
+	    else
+	      av1.push_back(av[i]);
+	  }
+	  if (neg){
+	    if (av1.empty())
+	      return (neg%2?-1:1)*sin(b,contextptr);
+	    if (av1.size()==1)
+	      return (neg%2?-1:1)*sin(av1.front()*cst_pi+b,contextptr);
+	    return (neg%2?-1:1)*sin(symbolic(at_plus,gen(av1,_SEQ__VECT))*cst_pi+b,contextptr); 
+	  }
 	}
 	int n,d,q,r;
 	if (is_zero(b,contextptr) && is_rational(a,n,d)){

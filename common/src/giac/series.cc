@@ -2602,7 +2602,7 @@ namespace giac {
   }
 
   gen quotedlimit(const gen & e,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
-    vecteur v(1,e);
+    vecteur v(1,exact(e,contextptr));
     v=quote_eval(v,vecteur(1,x),contextptr);
     return limit(v[0],x,lim_point,direction,contextptr);
   }

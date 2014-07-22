@@ -1334,11 +1334,13 @@ namespace giac {
     }
     try {
       int n=q.lexsorted_degree();
-      inttype tab[n+1]; // dense rep of the polynomial
+      inttype * tab=new inttype[n+1]; // dense rep of the polynomial
       inttype * result[n]; // array of dense rep of the polynomial
       int resultdeg[n];
-      if (!polynome2tab(q,n,tab))
+      if (!polynome2tab(q,n,tab)){
+	delete [] tab;
 	return false;
+      }
       // CERR << "NTL factor begins" << endl;
       int size=ntlfactor(tab,n,result,resultdeg,debug); 
       // CERR << "NTL factor end" << endl;
@@ -1347,6 +1349,7 @@ namespace giac {
 	v.push_back(tab2polynome(result[i],resultdeg[i]));
 	delete [] result[i];
       }
+      delete [] tab;
     } catch (std::runtime_error & e){
     }
 #ifdef HAVE_LIBPTHREAD

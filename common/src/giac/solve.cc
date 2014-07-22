@@ -3669,7 +3669,7 @@ namespace giac {
   }
 
   gen newton(const gen & f0, const gen & x,const gen & guess_,int niter,double eps1, double eps2,bool real,double xmin,double xmax,double rand_xmin,double rand_xmax,double init_prefactor,GIAC_CONTEXT){
-    if (real && !is_zero(im(f0,contextptr),contextptr) || !is_zero(im(guess_,contextptr),contextptr) )
+    if (real && (!is_zero(im(f0,contextptr),contextptr) || !is_zero(im(guess_,contextptr),contextptr)) )
       real=false;
     if (x.type!=_IDNT && x.type!=_VECT){
       if (x.type!=_SYMB || (x._SYMBptr->sommet!=at_at && x._SYMBptr->sommet!=at_of))
@@ -6359,7 +6359,7 @@ namespace giac {
     }
     // is r in ideal eqp?
     gen res=in_ideal(eqr,eqp,order,with_cocoa,with_f5,&env);
-    if (res.type==_VECT && !res._VECTptr->size()==1 && v[0].type!=_VECT)
+    if (res.type==_VECT && res._VECTptr->size()==1 && v[0].type!=_VECT)
       return res._VECTptr->front();
     return res;
   }

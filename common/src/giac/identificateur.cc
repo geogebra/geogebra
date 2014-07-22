@@ -284,7 +284,7 @@ namespace giac {
   const identificateur & xx__IDNT=* (const identificateur *) &alias_identificateur_xx38;
   const alias_ref_identificateur ref_xx38={-1,0,0,"x",0,0};
   const define_alias_gen(alias_xx38,_IDNT,0,&ref_xx38);
-//  const gen & x__IDNT_e = * (gen *) & alias_xx38;
+//  const gen & xx__IDNT_e = * (gen *) & alias_xx38;
 
   static const alias_identificateur alias_identificateur_y38={0,0,"Y",0,0};
   const identificateur & y__IDNT=* (const identificateur *) &alias_identificateur_y38;

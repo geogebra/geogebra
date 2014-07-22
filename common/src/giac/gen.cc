@@ -3512,14 +3512,26 @@ namespace giac {
       return s;
     if (!eval_abs(contextptr))
       return new_ref_symbolic(symbolic(at_abs,s));
-    gen i=im(s,contextptr);
+    gen r,i;
+    reim(s,r,i,contextptr);
     if (is_zero(i,contextptr))
       return real_abs(s,contextptr);
     else {
-      gen r=re(s,contextptr);
       if (i.type==_SYMB && i._SYMBptr->sommet==at_im && !lop(r,at_re).empty())
 	return new_ref_symbolic(symbolic(at_abs,s));
-      return sqrt(pow(r,2)+pow(i,2),contextptr);
+      gen r2i2=pow(r,2)+pow(i,2);
+      if (has_op(r2i2,*at_cos) || has_op(r2i2,*at_sin)){
+	r2i2=_tlin(r2i2,contextptr); // _tcollect?
+	vecteur l=lvar(r2i2);
+	unsigned count=0;
+	for (unsigned i=0;i<l.size();++i){
+	  if (l[i].is_symb_of_sommet(at_sin) || l[i].is_symb_of_sommet(at_cos))
+	    ++count;
+	}
+	if (count>=2)
+	  r2i2=_tcollect(r2i2,contextptr);
+      }
+      return sqrt(r2i2,contextptr);
     }
   }
 
@@ -6971,7 +6983,9 @@ namespace giac {
     case _FLOAT_:
       return fsign(a._FLOAT_val);
     case _REAL:
-      return a._REALptr->is_positive() && !a._REALptr->maybe_zero();
+      if (a._REALptr->maybe_zero())
+	return 0;
+      return a._REALptr->is_positive(); // this is the sign
     case _SYMB:
       if (a._SYMBptr->sommet==at_abs || (a._SYMBptr->sommet==at_exp && is_real(a._SYMBptr->feuille,contextptr)))
 	return 1;
@@ -11917,7 +11931,7 @@ namespace giac {
 	      )
 	    return "∞";
 	  else
-	    "+infinity";
+	    return "+infinity";
 	}
 	if (_SYMBptr->sommet==at_neg){
 	  if (
