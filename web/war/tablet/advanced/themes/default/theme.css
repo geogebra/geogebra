@@ -1,0 +1,1046 @@
+/*********************
+ * Grid panel styles
+ */
+
+/* GridPanel table styles */
+.advanced-GridPanel {
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+/** GridPanel sections styles */
+.advanced-GridPanel td {
+    padding: 0;
+}
+
+/* GRidPanel top subpanel styles */
+.advanced-GridPanel .top-panel {
+    width: 100%;
+}
+
+/* GRidPanel bottom subpanel styles */
+.advanced-GridPanel .bottom-panel {
+    width: 100%;
+}
+
+/** grid section focus panel styles */
+.advanced-FocusPanel {
+    padding: 0;
+    border: 0;
+}
+
+/** grid section styles */
+.advanced-FocusPanel .advanced-Grid {
+    padding: 0;
+    border: 0;
+}
+
+/*********************
+ * Pager styles
+ */
+
+/** main Pager panel styles */
+.advanced-Pager {
+    background: url( images/gradient.gif ) repeat-x;
+    height: 26px;
+    cursor: default;
+    margin-left: 1px;
+    border-bottom: 1px solid #8b8a8a;
+}
+
+/** links inside the Pager styles */
+.advanced-Pager a {
+    color: white;
+    text-decoration: none;
+}
+
+/** nested table styles */
+.advanced-Pager table {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    border-collapse: collapse;
+    border: 0;
+}
+
+/** nested table cells styles */
+.advanced-Pager td {
+    padding: 0 0 0 4px;
+}
+
+/** arrow images styles */
+.advanced-Pager img {
+    margin: 1px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 0;
+}
+
+/** page number text box styles */
+.advanced-Pager input {
+    width: 50px;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    border: 0;
+    height: 18px;
+    margin: 2px 1px 0 1px;
+    padding: 0;
+}
+
+/** pager button styles */
+.advanced-Pager .button, .advanced-Pager .page-number {
+    cursor: pointer;
+    border: 1px solid #8b8a8a;
+    background-color: white;
+    height: 22px;
+    padding: 0;
+}
+
+.advanced-Pager .button-down, .advanced-Pager .button-down-hovering {
+    background-color: #7b7a7a;
+}
+
+.advanced-Pager .button-up-hovering {
+    background-color: #1774D5;
+}
+
+/** total page count label styles */
+.advanced-Pager .label {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    border: 0;
+    padding: 3px 0 0 0;
+    margin: 1px 1px 1px 10px;
+    height: 100%;
+    white-space: nowrap;
+}
+
+/*********************
+ * Grid toolbar styles
+ */
+
+/** main GridToolbar panel styles */
+.advanced-GridToolbar {
+    height: 26px;
+    background: url( images/gradient.gif ) repeat-x;
+    margin-left: 1px;
+    border-bottom: 1px solid #8b8a8a;
+}
+
+/** toolbar button styles */
+.advanced-GridToolbar-button {
+    margin-top: 1px;
+    margin-left: 4px;
+    cursor: pointer;
+    display: inline;
+    border: 1px solid #8b8a8a;
+    background-color: white;
+    float: left;
+}
+
+/** toolbar pressed button styles */
+.advanced-GridToolbar-button-down, .advanced-GridToolbar-button-down-hovering {
+    background-color: #7b7a7a;
+}
+
+/** toolbar selected (on mouse over) button styles */
+.advanced-GridToolbar-button-up-hovering {
+    background-color: #1774D5;
+}
+
+/** toolbar button image styles */
+.advanced-GridToolbar-button img {
+    margin: 1px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 0;
+}
+
+/*********************
+ * Grid styles
+ */
+
+/** main flex table styles */
+.advanced-Grid {
+    border-collapse: collapse;
+    padding: 2px 2px 2px 2px;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: black;
+}
+
+/** flex table cells styles */
+.advanced-Grid td, .advanced-Grid .subgrid-row .advanced-FocusPanel td {
+    border-bottom: 1px solid lightgray;
+}
+
+/** flex table header styles */
+.advanced-Grid thead {
+    background: white;
+}
+
+/** flex table head cells styles */
+.advanced-Grid th {
+    border-left: 1px solid white;
+    padding: 0;
+    background: url( images/gradient.gif ) repeat-x;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.advanced-Grid th .gwt-Label {
+    height: 19px;
+    padding: 3px 0;
+}
+
+/** data cells nested panel styles (if editable) */
+.advanced-Grid .editable-cell {
+    cursor: pointer;
+}
+
+/** data cells nested panel styles (if readonly) */
+.advanced-Grid .readonly-cell {
+    cursor: default;
+}
+
+/** header cells nested panel styles */
+.advanced-Grid .header-cell {
+    height: 100%;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px 0;
+    background-color: transparent;
+}
+
+/** header cells nested panel table styles */
+.advanced-Grid .header-cell table {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    display: inline;
+}
+
+/** header cells nested panel table styles */
+.advanced-Grid .header-cell td {
+    text-align: center;
+    height: 100%;
+    border-bottom: 0;
+}
+
+.advanced-Grid .header-cell div {
+    white-space: nowrap;
+}
+
+.advanced-Grid .header-cell img {
+    width: 15px;
+    height: 10px;
+}
+
+/** header sortable cells nested panel styles */
+.advanced-Grid .sortable-header table {
+    cursor: pointer;
+}
+
+/** header non-sortable cells nested panel styles */
+.advanced-Grid .non-sortable-header, .advanced-Grid .sortable-header  {
+    cursor: default;
+}
+
+/** grid selected row styles */
+.advanced-Grid .selected-row {
+    background-color: #D7E9FF;
+}
+
+/** grid selected cell styles */
+.advanced-Grid .selected-column {
+}
+
+/** grid selected cell */
+.advanced-Grid .selected-cell {
+    background-color: #99ccff;
+}
+
+/** grid column styles */
+.advanced-Grid .grid-column {
+}
+
+/** data cell nested panel styles */
+.advanced-Grid .data-cell {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: black;
+    padding-left: 1px;
+}
+
+/** data cell nested panel styles (if active) */
+.advanced-Grid .active-cell {
+    background-color: transparent;
+    border: 1px #dddbdb dotted;
+    padding: 0;
+}
+
+/** input controls styles */
+.advanced-Grid .active-cell input,
+.advanced-Grid .active-cell textarea {
+    width: 100%;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    border: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.advanced-Grid .active-cell input {
+    height: 13px;
+}
+
+/** select box controls styles */
+.advanced-Grid .active-cell select {
+    width: 100%;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+/** data cell nested panel styles (if passive) */
+.advanced-Grid .passive-cell {
+    background-color: transparent;
+    border: 0;
+    padding: 1px;
+}
+
+/** textual cell additional styles */
+.advanced-Grid .text-cell {
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/** textual cell additional styles */
+.advanced-Grid .text-cell div {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/** numeric cell additional styles */
+.advanced-Grid .numeric-cell {
+    text-align: right;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/** numeric cell additional styles */
+.advanced-Grid .numeric-cell div {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/** list cell additional styles */
+.advanced-Grid .list-cell {
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/** list cell additional styles */
+.advanced-Grid .list-cell div {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/** image cell additional styles */
+.advanced-Grid .image-cell {
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/** boolean cell additional styles */
+.advanced-Grid .boolean-cell {
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/** date cell additional styles */
+.advanced-Grid .date-cell {
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/** date cell additional styles */
+.advanced-Grid .date-cell div {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/** subtree pager left arrow style */
+.advanced-Grid .subtree-pager .arrow-left {
+    cursor: pointer;
+}
+
+/** subtree pager right arrow style */
+.advanced-Grid .subtree-pager .arrow-right {
+    cursor: pointer;
+}
+
+/*********************
+ * Subgrid styles
+ */
+
+/** expandable cell styles */
+.advanced-Grid .expandable-cell table {
+    width: 100%;
+}
+
+/** expandable cell styles */
+.advanced-Grid .expandable-cell td {
+    border-bottom: 0;
+    padding-left: 3px;
+}
+
+/** subgrid row styles */
+.advanced-Grid .subgrid-row td {
+    border-bottom: 0;
+    padding: 0;
+}
+
+/** subgrid cell styles */
+.advanced-Grid .subgrid-cell .advanced-GridPanel {
+    margin-left: 15px;
+}
+
+/** footer styles */
+.footer-table-cell .advanced-Grid td {
+    font-weight: bold;
+}
+
+/*********************
+ * Locking panel
+ */
+
+/** locking panel styles */
+.advanced-LockingPanel {
+    background-color: white;
+    filter: alpha(opacity=65);
+    -moz-opacity: 0.65;
+    opacity: 0.65;
+}
+
+/*********************
+ * Calendar widget styles
+ */
+
+/** calendar panel styles */
+.advanced-Calendar {
+    background-color: white;
+}
+
+/** calendar layout flex table styles */
+.advanced-Calendar .layout-table {
+    border: 1px solid lightgray;
+    font-family: sans-serif;
+    font-size: 10px;
+    cursor: default;
+    padding: 0;
+    border-collapse: collapse;
+    width: 200px;
+}
+
+/** layout cells styles */
+.advanced-Calendar .layout-table td {
+    vertical-align: middle;
+    padding: 1px;
+}
+
+/** button cell styles */
+.advanced-Calendar .switch-cell {
+    width: 18px;
+    text-align: center;
+}
+
+/** today button cell styles */
+.advanced-Calendar .today-button-cell {
+    width: 126px;
+    text-align: center;
+}
+
+/** header cell styles */
+.advanced-Calendar .header-cell {
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    padding: 1px 1px 1px 1px;
+    background: url( images/gradient.gif ) repeat-x;
+}
+
+/** small button styles */
+.advanced-Calendar .switch-button {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    color: black;
+    padding: 1px 1px 1px 1px;
+    background-color: gainsboro;
+    border: 1px solid darkgray;
+    cursor: pointer;
+    width: 18px;
+}
+
+/** today button styles */
+.advanced-Calendar .today-button {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    color: black;
+    padding: 1px 1px 1px 1px;
+    background-color: gainsboro;
+    border: 1px solid darkgray;
+    cursor: pointer;
+    width: 126px;
+}
+
+/** days flex table styles */
+.advanced-Calendar .days-table {
+    font-family: sans-serif;
+    font-size: 10px;
+    width: 100%;
+    padding: 1px;
+    border-collapse: collapse;
+}
+
+/** week days header cell styles */
+.advanced-Calendar .week-day-cell {
+    background-color: gainsboro;
+    text-align: center;
+    vertical-align: middle;
+    width: 14%;
+}
+
+/** week number column cell styles */
+.advanced-Calendar .week-number-cell {
+    background-color: gainsboro;
+    text-align: right;
+    vertical-align: middle;
+    width: 0;
+}
+
+/** day cell styles */
+.advanced-Calendar .day-cell {
+    text-align: right;
+    vertical-align: middle;
+    color: black;
+    cursor: pointer;
+}
+
+/** today cell styles */
+.advanced-Calendar .today-cell {
+    border: 1px dashed #99ccff;
+}
+
+/** selected day styles */
+.advanced-Calendar .selected-day-cell {
+    font-weight: bold;
+    background-color: #D7E9FF;
+    cursor: default;
+    border: 1px solid #99ccff;
+}
+
+/** holiday cell styles */
+.advanced-Calendar .holiday-cell {
+    color: red;
+}
+
+/** neighbour month day cell styles */
+.advanced-Calendar .disabled-day-cell {
+    text-align: right;
+    vertical-align: middle;
+    color: darkgray;
+}
+
+/** time cell styles */
+.advanced-Calendar .time-cell {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+/** time table styles */
+.advanced-Calendar .time-table {
+    font-family: sans-serif;
+    font-size: 10px;
+    padding: 0;
+    border-collapse: collapse;
+    display: inline;
+}
+
+/** select box of the time section styles */
+.advanced-Calendar select {
+    font-family: sans-serif;
+    font-size: 10px;
+    width: 45px;
+    border: 1px solid darkgray;
+}
+
+/** date picker component styles */
+.advanced-DatePicker {
+}
+
+/*********************
+ * Master-detail panel styles
+ */
+
+/** main panel style */
+.advanced-masterDetailPanel {
+    width: 100%;
+    border: 0;
+    padding: 0;
+}
+
+/** panel cell style */
+.advanced-masterDetailPanel .gridPanel-cell {
+    width: 100%;
+    padding: 0;
+}
+
+/** grid panel layout style */
+.advanced-masterDetailPanel .grid-panel-layout {
+    width: 100%;
+    border: 0;
+    padding: 0;
+}
+
+/** caption cell styles */
+.advanced-masterDetailPanel .grid-panel-layout .layout-caption {
+    width: 100%;
+    padding: 2px 1px 1px 1px;
+}
+
+/** caption label styles */
+.advanced-masterDetailPanel .grid-panel-layout .layout-caption div {
+    background-color: #D7E9FF;
+    padding: 1px;
+    color: #003366;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: default;
+    border: 1px solid #99ccff;
+}
+
+/** layout body styles */
+.advanced-masterDetailPanel .grid-panel-layout .layout-body {
+    width: 100%;
+    padding: 0;
+}
+
+/*********************
+ * Combo box, suggestion box and date picker styles
+ */
+
+/** main combo box style */
+.advanced-TextButtonPanel {
+    border: 1px;
+    padding: 0;
+}
+
+/** main combo box style */
+.advanced-Grid .advanced-TextButtonPanel {
+    border: 0;
+    padding: 0;
+}
+
+/** layout styles */
+.advanced-TextButtonPanel table {
+    border: 0;
+    padding: 0;
+    border-collapse: collapse;
+    height: 18px;
+}
+
+/** layout styles */
+.advanced-TextButtonPanel>table {
+    width: 100%;
+}
+
+/** layout styles */
+.advanced-Grid .advanced-TextButtonPanel table {
+    height: 13px;
+}
+
+/** common layout cell styles */
+.advanced-TextButtonPanel td {
+    border: 1px solid #99ccff;
+    padding: 0;
+    vertical-align: middle;
+}
+
+/** common layout cell styles */
+.advanced-Grid .advanced-TextButtonPanel td, .advanced-Grid .subgrid-row .advanced-FocusPanel .advanced-TextButtonPanel td {
+    border: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+/** text box styles */
+.advanced-TextButtonPanel .selected-value {
+    border: 1px solid white;
+    font-family: sans-serif;
+    font-size: 12px;
+    color: black;
+    height: 16px;
+    padding: 0;
+    width: 100%;
+}
+
+.advanced-Grid .selected-value {
+    border: 0;
+    height: 13px;
+}
+
+/** selected text box style */
+.advanced-TextButtonPanel .selected-row {
+    background-color: #D7E9FF;
+}
+
+/** button styles */
+.advanced-TextButtonPanel .choice-button {
+    width: 16px;
+    height: 16px;
+    background-color: gainsboro;
+    border: 1px outset darkgray;
+    padding: 0;
+}
+
+.advanced-Grid .choice-button {
+    height: 13px;
+    width: 16px;
+    overflow: hidden;
+    margin-right: 5px;
+}
+
+/** button styles */
+.advanced-TextButtonPanel .choice-button-up-hovering {
+    cursor: pointer;
+}
+
+/** button styles */
+.advanced-TextButtonPanel .choice-button-down {
+    background-color: gainsboro;
+    border: 1px solid darkgray;
+}
+
+/** button styles */
+.advanced-TextButtonPanel .choice-button-down-hovering {
+    background-color: gainsboro;
+    border: 1px solid darkgray;
+    cursor: default;
+}
+
+/** button image styles */
+.advanced-TextButtonPanel img {
+    display: inline;
+    border: 0;
+}
+
+/** button image styles */
+.advanced-Grid .advanced-TextButtonPanel img {
+    position: relative;
+    top: -3px;
+}
+
+/*********************
+ * Additional Combo box styles
+ */
+
+/** popup panel styles */
+.advanced-ListPopupPanel {
+    border: 1px solid darkgray;
+    background-color: white;
+    padding: 0;
+}
+
+/** items list style */
+.advanced-ListPopupPanel .list {
+    border-collapse: collapse;
+    padding: 0;
+    cursor: pointer;
+}
+
+/** items list selected row style */
+.advanced-ListPopupPanel .list .selected-row {
+    background-color: #D7E9FF;
+}
+
+/** item style **/
+.advanced-ListPopupPanel .list .item {
+    padding: 1px;
+    font-size: 10px;
+    font-family: sans-serif;
+    font-weight: normal;
+}
+
+/** icon item image style **/
+.advanced-ListPopupPanel .list .icon-item img {
+    padding: 1px;
+    border: 0;
+}
+
+/** icon item label style **/
+.advanced-ListPopupPanel .list .icon-item div {
+    padding: 1px;
+    font-size: 10px;
+    font-family: sans-serif;
+    font-weight: normal;
+}
+
+/*********************
+ * Border styles
+ */
+
+/** rounded border styles */
+.advanced-RoundCornerBorder .line {
+    border-style: solid;
+}
+
+/** rounded border content styles */
+.advanced-RoundCornerBorder .round-container {
+    border-style: solid;
+}
+
+.advanced-RoundCornerBorder div {
+    background-color: #C5DBF2;
+}
+
+/** rounded border shadow styles */
+.advanced-RoundCornerBorder .shadow1 {
+    border-color: #B8B6B8;
+}
+
+/** rounded border shadow styles */
+.advanced-RoundCornerBorder .shadow2 {
+    border-color: #DBDADB;
+}
+
+/** rounded border shadow styles */
+.advanced-RoundCornerBorder .shadow3 {
+    border-color: #F1F0F1;
+}
+
+/** single border styles */
+.advanced-SingleBorder .single-container {
+    border: 1px solid black;
+    padding: 1px;
+    margin: 0;
+}
+
+/** single border shadow styles */
+.advanced-SingleBorder .shadow1 {
+    background-color: #B8B6B8;
+}
+
+/** single border shadow styles */
+.advanced-SingleBorder .shadow2 {
+    background-color: #DBDADB;
+}
+
+/** single border shadow styles */
+.advanced-SingleBorder .shadow3 {
+    background-color: #F1F0F1;
+}
+
+/*********************
+ * Advanced Tab Panel styles
+ */
+
+/** main tab panel & layout styles  */
+.advanced-TabPanel, .advanced-TabPanel .layout {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
+
+.advanced-TabPanel .layout td {
+    padding: 0;
+}
+
+
+.advanced-TabPanel .disabled-tab {
+    color: #777777;
+    cursor: default;
+}
+
+/** selected tab border container element styles */
+.advanced-TabPanel .selected .round-container {
+    height: 15px;
+}
+
+/** unselected tab border container element styles */
+.advanced-TabPanel .unselected .round-container {
+    height: 14px;
+}
+
+/** top tab separator element styles */
+.advanced-TabPanel .tabs-top .separator {
+    border-bottom: 1px solid black;
+}
+
+/** top tab separator element styles */
+.advanced-TabPanel .tabs-top .separator img {
+    width: 3px;
+}
+
+/** top last empty cell element styles */
+.advanced-TabPanel .tabs-top .last-empty {
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+/** top unselected tab element styles */
+.advanced-TabPanel .tabs-top .unselected {
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+
+/** top & bottom tabs container element styles */
+.advanced-TabPanel .tabs-top .round-container, .advanced-TabPanel .tabs-bottom .round-container {
+    width: 137px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/** bottom tab seperator element styles */
+.advanced-TabPanel .tabs-bottom .separator {
+    border-top: 1px solid black;
+}
+
+/** bottom tab seperator element styles */
+.advanced-TabPanel .tabs-bottom .separator img {
+    width: 3px;
+}
+
+/** bottom last empty cell element styles */
+.advanced-TabPanel .tabs-bottom .last-empty {
+    border-top: 1px solid black;
+    width: 100%;
+}
+
+/** bottom unselected tab element styles */
+.advanced-TabPanel .tabs-bottom .unselected {
+    border-top: 1px solid black;
+    cursor: pointer;
+}
+
+/** left tab seperator element styles */
+.advanced-TabPanel .tabs-left .separator {
+    border-right: 1px solid black;
+    height: 3px;
+}
+
+/** left tab seperator element styles */
+.advanced-TabPanel .tabs-left .separator img {
+    width: 3px;
+}
+
+/** left last empty cell element styles */
+.advanced-TabPanel .tabs-left .last-empty {
+    border-right: 1px solid black;
+    height: 100%;
+}
+
+/** left unselected tab element styles */
+.advanced-TabPanel .tabs-left .unselected {
+    border-right: 1px solid black;
+    cursor: pointer;
+}
+
+/** left & right tab panel element styles */
+.advanced-TabPanel .tabs-left, .advanced-TabPanel .tabs-right {
+    height: 100%;
+}
+
+/** left & right tab container element styles */
+.advanced-TabPanel .tabs-left .selected .round-container, .advanced-TabPanel .tabs-right .selected .round-container {
+    width: 137px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/** left & right tab container element styles */
+.advanced-TabPanel .tabs-left .unselected .round-container, .advanced-TabPanel .tabs-right .unselected .round-container {
+    width: 136px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/** right tab seperator element styles */
+.advanced-TabPanel .tabs-right .separator {
+    border-left: 1px solid black;
+    height: 3px;
+}
+
+/** right tab seperator element styles */
+.advanced-TabPanel .tabs-right .separator img {
+    width: 3px;
+}
+
+/** right last empty cell element styles */
+.advanced-TabPanel .tabs-right .last-empty {
+    border-left: 1px solid black;
+    height: 100%;
+}
+
+/** right unselected tab element styles */
+.advanced-TabPanel .tabs-right .unselected {
+    border-left: 1px solid black;
+    cursor: pointer;
+}
+
+/** selected tabs border background styles  */
+.advanced-TabPanel .selected .advanced-RoundCornerBorder div {
+    background-color: #C5DBF2;
+}
+
+/** unselected tabs border background styles  */
+.advanced-TabPanel .unselected .advanced-RoundCornerBorder div {
+    background-color: #5F9ADA;
+}
+
+/** tab panel content container styles  */
+.advanced-TabPanel .single-container, .advanced-TabPanel .round-container {
+    font-family: sans-serif;
+    font-size: 12px;
+    color: black;
+    vertical-align: top;
+}
+
+.advanced-TabPanel .outer-border .single-container,
+.advanced-TabPanel .inner-border .single-container .outer-border .single-container {
+    border: 1px solid black;
+    padding: 3px;
+    margin: 0;
+    background-color: #C5DBF2;
+}
+
+.advanced-TabPanel .inner-border .single-container,
+.advanced-TabPanel .inner-border .single-container .outer-border .single-container .inner-border .single-container {
+    border: 1px solid black;
+    padding: 1px;
+    margin: 0;
+    background-color: white;
+}

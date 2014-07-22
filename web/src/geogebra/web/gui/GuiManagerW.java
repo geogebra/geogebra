@@ -96,7 +96,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
-	private ArrayList<EuclidianViewW> euclidianView2;
+	private ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<EuclidianViewW>();
 	private BrowseGUI browseGUI;
 	protected LayoutW layout;
 
@@ -1145,7 +1145,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public boolean hasEuclidianView2(int idx) {
-		if (euclidianView2 == null)
+		if (euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
 			return false;
 		if (!euclidianView2.get(idx).isShowing())
 			return false;
