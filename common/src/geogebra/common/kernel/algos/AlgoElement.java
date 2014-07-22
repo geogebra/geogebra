@@ -486,6 +486,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// init rbalgo2command if needed
 		// for translation of Algo-classname to command name
 
+		if (classname == null)
+			return "";
 		// translate algorithm class name to internal command name
 		return classname.getCommand();
 	}

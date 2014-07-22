@@ -57,10 +57,10 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
-import geogebra.common.kernel.prover.AlgoAreCollinear;
 import geogebra.common.kernel.prover.AlgoAreEqual;
 import geogebra.common.kernel.prover.AlgoAreParallel;
 import geogebra.common.kernel.prover.AlgoArePerpendicular;
+import geogebra.common.kernel.prover.AlgoIsOnPath;
 import geogebra.common.kernel.prover.AlgoProve;
 import geogebra.common.kernel.prover.AlgoProveDetails;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -3206,13 +3206,9 @@ public abstract class App implements UpdateSelection{
 				break;
 			case IsOnPath:
 				if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
-					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1,
-							((GeoLine) g2).getStartPoint(),
-							((GeoLine) g2).getEndPoint());
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (GeoLine) g2);
 				} else if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
-					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2,
-							((GeoLine) g1).getStartPoint(),
-							((GeoLine) g1).getEndPoint());
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (GeoLine) g1);
 				}
 				break;
 			}
@@ -3262,13 +3258,9 @@ public abstract class App implements UpdateSelection{
 				break;
 			case IsOnPath:
 				if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
-					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1,
-							((GeoLine) g2).getStartPoint(),
-							((GeoLine) g2).getEndPoint());
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (GeoLine) g2);
 				} else if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
-					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2,
-							((GeoLine) g1).getStartPoint(),
-							((GeoLine) g1).getEndPoint());
+					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (GeoLine) g1);
 				}
 				break;
 			}
