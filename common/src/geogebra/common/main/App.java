@@ -3137,7 +3137,7 @@ public abstract class App implements UpdateSelection{
 					if (ndgResult.length == 1) {
 						rel.info += relInfo + "<br><b>";
 						if ("".equals(ndgResult[0])) {
-							if (result) {
+							if (result != null && result) {
 								// Using Prove's result (since ProveDetails couldn't find any interesting):
 								rel.info += getPlain("GenerallyTrue");
 							} else {
@@ -3193,21 +3193,31 @@ public abstract class App implements UpdateSelection{
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
 		AlgoElement ae = null;
-		switch (command) {
-		case AreEqual:
-			ae = new AlgoAreEqual(cons, null, g1, g2); break;
-		case AreParallel:
-			ae = new AlgoAreParallel(cons, null, g1, g2); break;
-		case ArePerpendicular:
-			ae = new AlgoArePerpendicular(cons, null, g1, g2); break;
-		case IsOnPath:
-			if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
-				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1, ((GeoLine) g2).getStartPoint(), ((GeoLine) g2).getEndPoint());
-			} else
-			if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
-				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2, ((GeoLine) g1).getStartPoint(), ((GeoLine) g1).getEndPoint());
+		try {
+			switch (command) {
+			case AreEqual:
+				ae = new AlgoAreEqual(cons, null, g1, g2);
+				break;
+			case AreParallel:
+				ae = new AlgoAreParallel(cons, null, g1, g2);
+				break;
+			case ArePerpendicular:
+				ae = new AlgoArePerpendicular(cons, null, g1, g2);
+				break;
+			case IsOnPath:
+				if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
+					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1,
+							((GeoLine) g2).getStartPoint(),
+							((GeoLine) g2).getEndPoint());
+				} else if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
+					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2,
+							((GeoLine) g1).getStartPoint(),
+							((GeoLine) g1).getEndPoint());
+				}
+				break;
 			}
-			break;
+		} catch (Exception ex) {
+			return ret; // there was an error during Prove
 		}
 		if (ae == null) {
 			return ret; // which is null here
@@ -3239,21 +3249,33 @@ public abstract class App implements UpdateSelection{
 		GeoElement root = new GeoBoolean(cons);
 		AlgoElement ae = null;
 		String[] ret;
-		switch (command) {
-		case AreEqual:
-			ae = new AlgoAreEqual(cons, null, g1, g2); break;
-		case AreParallel:
-			ae = new AlgoAreParallel(cons, null, g1, g2); break;
-		case ArePerpendicular:
-			ae = new AlgoArePerpendicular(cons, null, g1, g2); break;
-		case IsOnPath:
-			if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
-				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1, ((GeoLine) g2).getStartPoint(), ((GeoLine) g2).getEndPoint());
-			} else
-			if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
-				ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2, ((GeoLine) g1).getStartPoint(), ((GeoLine) g1).getEndPoint());
+		try {
+			switch (command) {
+			case AreEqual:
+				ae = new AlgoAreEqual(cons, null, g1, g2);
+				break;
+			case AreParallel:
+				ae = new AlgoAreParallel(cons, null, g1, g2);
+				break;
+			case ArePerpendicular:
+				ae = new AlgoArePerpendicular(cons, null, g1, g2);
+				break;
+			case IsOnPath:
+				if ((g1 instanceof GeoPoint) && (g2 instanceof GeoLine)) {
+					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g1,
+							((GeoLine) g2).getStartPoint(),
+							((GeoLine) g2).getEndPoint());
+				} else if ((g2 instanceof GeoPoint) && (g1 instanceof GeoLine)) {
+					ae = new AlgoAreCollinear(cons, null, (GeoPoint) g2,
+							((GeoLine) g1).getStartPoint(),
+							((GeoLine) g1).getEndPoint());
+				}
+				break;
 			}
-			break;
+		} catch (Exception ex) {
+			ret = new String[1];
+			ret[0] = ""; // on error: undefined (UNKNOWN)
+			return ret;
 		}
 		if (ae == null) {
 			ret = new String[1];
