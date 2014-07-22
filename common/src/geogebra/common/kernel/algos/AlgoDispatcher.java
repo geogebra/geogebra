@@ -1531,7 +1531,32 @@ public class AlgoDispatcher {
 		//clearSelections();
 		return true;
 	}
-	
+
+	/**
+	 * detaches a GeoPoint and sets its real world coordinates to (rwX, rwY) 
+	 * 
+	 * @param point the GeoPoint to be detached
+	 * @param rwX new real world x-coordinate
+	 * @param rwY new real world y-coordinate
+	 * @return success
+	 */
+	public boolean detach(GeoPointND point, double d, double e) {
+		try {
+			boolean oldLabelCreationFlag = cons
+					.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+
+			GeoPoint newPoint = new GeoPoint(
+					cons, null, d, e, 1.0);
+			cons.setSuppressLabelCreation(oldLabelCreationFlag);
+			cons.replace((GeoElement) point, newPoint);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * one intersection point of polynomial f and line l near to (xRW, yRW)
 	 */

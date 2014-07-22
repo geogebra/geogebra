@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -59,6 +60,8 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 * threshold for moving in case of a multitouch-event (pixel)
 	 */
 	protected final static int MIN_MOVE = 5;
+
+	private static final int INCREASED_THRESHOLD_FACTOR = 3;
 
 	/**
 	 * the mode of the actual multitouch-event
@@ -316,23 +319,131 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	@Override
 	protected void wrapMouseDragged(AbstractEvent event) {
 		super.wrapMouseDragged(event);
-		if(movedGeoPoint != null&& (this.mode == EuclidianConstants.MODE_JOIN
-                || this.mode == EuclidianConstants.MODE_SEGMENT
-                || this.mode == EuclidianConstants.MODE_RAY
-                || this.mode == EuclidianConstants.MODE_VECTOR
-                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)){
+		if (movedGeoPoint != null
+		        && (this.mode == EuclidianConstants.MODE_JOIN
+		                || this.mode == EuclidianConstants.MODE_SEGMENT
+		                || this.mode == EuclidianConstants.MODE_RAY
+		                || this.mode == EuclidianConstants.MODE_VECTOR
+		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
 			// nothing was dragged
 			super.wrapMouseMoved(event);
+		} else if (movedGeoPoint != null
+		        && this.mode == EuclidianConstants.MODE_ATTACH_DETACH) {
+			attachDetachDragged(event);
 		}
+
 		if (view.getPreviewDrawable() != null
 		        && event.getType() == PointerEventType.TOUCH) {
 			this.view.updatePreviewableForProcessMode();
 		}
 	}
 
+	protected void attachDetachDragged(AbstractEvent event) {
+		if (movedGeoPoint.isPointOnPath() || movedGeoPoint.isPointInRegion()) {
+			int th = app.getCapturingThreshold(PointerEventType.MOUSE);
+			app.setCapturingThreshold(INCREASED_THRESHOLD_FACTOR * th);
+			this.view.setHits(new GPoint(event.getX(), event.getY()),
+			        event.getType());
+			app.setCapturingThreshold(th);
+		} else {
+			this.view.setHits(new GPoint(event.getX(), event.getY()),
+			        event.getType());
+		}
+		// clone because that way view.getHits still contains Polygons
+		Hits hits = view.getHits().clone();
+		hits.removePolygons();
+		String name = movedGeoPoint.getLabel(StringTemplate.defaultTemplate);
+
+		// use view.getHits for Region, because it still contains Polygons
+		if ((movedGeoPoint.isPointOnPath() && !hits.contains(movedGeoPoint
+		        .getPath()))
+		        || (movedGeoPoint.isPointInRegion() && !view.getHits()
+		                .contains(movedGeoPoint.getRegion()))) {
+			// moved away from the Path/Region the point is attached to ->
+			// detach
+			if (this.kernel.getAlgoDispatcher().detach(movedGeoPoint,
+			        this.view.toRealWorldCoordX(event.getX()),
+			        this.view.toRealWorldCoordY(event.getY()))) {
+				clearSelections(false, false);
+				movedGeoPoint = (GeoPointND) this.kernel.getConstruction()
+				        .geoTableVarLookup(name);
+				select((GeoElement) movedGeoPoint);
+			}
+		} else {
+			for (int i = hits.size() - 1; i >= 0; i--) {
+				if (hits.get(i).isChildOf((GeoElement) movedGeoPoint)) {
+					hits.remove(i);
+				}
+			}
+
+			addSelectedPath(hits, 1, false);
+			if (selectedPaths.size() > 0) {
+				// moved point to a Path -> attach
+				this.kernel.getAlgoDispatcher().attach(movedGeoPoint,
+				        selectedPaths.get(0), view,
+				        new GPoint(event.getX(), event.getY()));
+				movedGeoPoint = (GeoPointND) this.kernel.getConstruction()
+				        .geoTableVarLookup(name);
+				select((GeoElement) selectedPaths.get(0));
+			} else {
+				// use view.getHits, because it still contains all the Polygons
+				addSelectedRegion(view.getHits(), 1, false);
+				if (selectedRegions.size() > 0) {
+					// moved point to a Region -> attach
+					this.kernel.getAlgoDispatcher().attach(movedGeoPoint,
+					        selectedRegions.get(0), view,
+					        new GPoint(event.getX(), event.getY()));
+					movedGeoPoint = (GeoPointND) this.kernel.getConstruction()
+					        .geoTableVarLookup(name);
+					select((GeoElement) selectedRegions.get(0));
+				}
+			}
+		}
+	}
+
+	/**
+	 * selects a GeoElement; no effect, if it is already selected
+	 * 
+	 * @param geo
+	 *            the GeoElement to be selected
+	 */
+	public void select(GeoElement geo) {
+		if (!selectedGeos.contains(geo)) {
+			Hits h = new Hits();
+			h.add(geo);
+			addSelectedGeo(h, 1, false);
+		}
+	}
+
 	@Override
 	public void wrapMouseReleased(AbstractEvent event) {
+		if (this.mode == EuclidianConstants.MODE_ATTACH_DETACH
+		        && getDistance(startPosition,
+		                new GPoint(event.getX(), event.getY())) > this.app
+		                .getCapturingThreshold(event.getType())) {
+			clearSelections();
+			this.view.setHits(new GPoint(event.getX(), event.getY()),
+			        event.getType());
+
+			Hits h = view.getHits().clone();
+			h.remove(movedGeoPoint);
+			if (h.containsGeoPoint()
+			        && ((GeoElement) movedGeoPoint).hasChildren()) {
+				try {
+					this.kernel.getConstruction().replace(
+					        (GeoElement) movedGeoPoint,
+					        h.getFirstHit(Test.GEOPOINTND));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				resetMovedGeoPoint();
+			}
+
+			endOfWrapMouseReleased(view.getHits(), event);
+			return;
+		}
+
 		// will be reset in wrapMouseReleased
 		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
 

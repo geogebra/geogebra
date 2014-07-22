@@ -1458,7 +1458,7 @@ public class Construction {
 		isGettingXMLForReplace = false;
 
 		// 3) replace oldGeo by newGeo in XML
-		doReplaceInXML(consXML, oldGeo, newGeo);
+		consXML = doReplaceInXML(consXML, oldGeo, newGeo);
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
@@ -1516,7 +1516,7 @@ public class Construction {
 			GeoElement newGeo = redefineMap.get(oldGeo);
 
 			// 3) replace oldGeo by newGeo in XML
-			doReplaceInXML(consXML, oldGeo, newGeo);
+			consXML = doReplaceInXML(consXML, oldGeo, newGeo);
 		}
 
 		try {
@@ -1566,7 +1566,7 @@ public class Construction {
 	 * @param newGeo
 	 *            replacement
 	 */
-	protected void doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
+	protected StringBuilder doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
 			GeoElement newGeo) {
 		String oldXML, newXML; // a = old string, b = new string
 
@@ -1579,7 +1579,15 @@ public class Construction {
 		// set label to get replaceable XML
 		if (newGeo.isLabelSet()) { // newGeo already exists in construction
 			// oldGeo is replaced by newGeo, so oldGeo get's newGeo's label
-			oldGeo.setLabelSimple(newGeo.getLabelSimple());
+			if(!oldGeo.getLabelSimple().equals(newGeo.getLabelSimple())){
+				oldGeo.setLabelSimple(newGeo.getLabelSimple());
+
+				// reload consXML to get the new name in the description of 
+				// dependent elements
+				isGettingXMLForReplace = true;
+				consXML = getCurrentUndoXML(false);
+				isGettingXMLForReplace = false;
+			}
 
 			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML() : oldGeoAlgo
 					.getXML();
@@ -1637,6 +1645,7 @@ public class Construction {
 		// replace oldXML by newXML in consXML
 		consXML.replace(pos, pos + oldXML.length(), newXML);
 
+		return consXML;
 	}
 
 	/**
