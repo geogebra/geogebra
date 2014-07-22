@@ -1130,6 +1130,10 @@ public class Polynomial implements Comparable<Polynomial> {
 			ret.add(polys);
 			return ret;
 		}
+		// Giac returns ? if there was a timeout:
+		if ("?".equals(elimResult)) {
+			return null; // cannot decide
+		}
 		try {
 			return PolynomialParser.parseFactoredPolynomialSet(
 					elimResult, variables);
