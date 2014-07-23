@@ -119,7 +119,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 		
 		netFacesCompute();
-
+		
 		if (iBottom != -1) {
 			
 			if (netComplete){
@@ -206,7 +206,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				// search for thisSegment in the segment list
 				boolean found = false;
 				for (int i=0 ; i<segmentList.size() ; i++){
-					if (segmentList.get(i) == thisSegment) {
+					if (segmentList.get(i).isEqual(thisSegment)) {
 						found = true;
 						//add the second polygon parent to thisSegment
 						segmentInfoList.get(i).segmentParent2 = iP;
