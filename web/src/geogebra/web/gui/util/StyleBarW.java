@@ -73,7 +73,7 @@ public abstract class StyleBarW extends HorizontalPanel {
 				int i = pb.getSelectedIndex();
 	            
 	            app.getGuiManager().setShowView(!app.getGuiManager().showView(viewIDs[i]), viewIDs[i]);
-	            
+	            app.updateMenubar();
 	            	
             }});
 		add(pb);

@@ -20,6 +20,7 @@ public class ViewMenuW extends GMenuBar {
 	 */
 	GCheckBoxMenuItem[] items;
 	AppW app;
+	private GCheckBoxMenuItem inputBarItem;
 	
 	/**
 	 * Constructs the "View" menu
@@ -74,7 +75,7 @@ public class ViewMenuW extends GMenuBar {
 				      );
 			addItem(items[i].getMenuItem());
 		}
-		GCheckBoxMenuItem inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		        .getSafeUri().asString(), app.getMenu("InputField"), true),
 		        new Command() {
 			        public void execute() {
@@ -100,6 +101,7 @@ public class ViewMenuW extends GMenuBar {
 				items[k].setSelected(app.getGuiManager().showView(Views.ids[k]));
 			}
 		}
+		inputBarItem.setSelected(app.showAlgebraInput());
 	}
 
 }
