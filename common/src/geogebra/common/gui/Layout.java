@@ -78,7 +78,7 @@ public abstract class Layout {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3,1", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
 		
-		defaultPerspectives[3] = new Perspective("TableAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
+		defaultPerspectives[3] = new Perspective("Spreadsheet", spData, dpData, defToolbar, true, false, true, false, true, false);
 		defaultPerspectives[3].setIconString("menu_view_spreadsheet.png");
 		
 		// CAS & Graphics - cas and euclidian view
@@ -89,7 +89,7 @@ public abstract class Layout {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
 		
-		defaultPerspectives[4] = new Perspective("CASAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
+		defaultPerspectives[4] = new Perspective("CAS", spData, dpData, defToolbar, true, false, true, false, true, false);
 		defaultPerspectives[4].setIconString("menu_view_cas.png");
 		
 		
@@ -109,7 +109,7 @@ public abstract class Layout {
 	
 		//Note: toolbar definition is always for EV1, for 3D we use definition from the 3D dock panel classes
 	
-		defaultPerspectives[5] = new Perspective("AlgebraAndGraphics3D", spData, dpData, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[5] = new Perspective("3DGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
 		defaultPerspectives[5].setIconString("menu_view_graphics3D.png");
 
 		
