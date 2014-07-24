@@ -11,6 +11,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoFocus;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolyLine;
@@ -121,6 +122,7 @@ public class EuclidianPen {
 	private float absTangent = 0;
 
 	private final static int PEN_SIZE_FACTOR=2;
+	private static final double CONIC_AXIS_ERROR_RATIO = 5;
 
 	private boolean startNewStroke=false;
 
@@ -383,103 +385,6 @@ public class EuclidianPen {
 	 * @param e event
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
-
-		Construction cons = app.getKernel().getConstruction();
-		double px, py;
-		
-		if (false) {
-
-			// adapted from FitImplicit
-
-			// order 2 ie conic
-			int order = 2;
-
-			// sample 10 points from what we're given
-			int datasize = 10;
-			
-			if (this.penPoints.size() < datasize) {
-				penPoints.clear();
-				return;
-			}
-			
-			int step = this.penPoints.size() / datasize;
-
-			Array2DRowRealMatrix M = new Array2DRowRealMatrix(datasize, order * (order + 1));
-
-			try {
-
-				int r = 0;
-				for (int j = 0; j < datasize; j++) {
-
-					GPoint point = penPoints.get(r);
-					r += step;
-
-					px = view.toRealWorldCoordX(point.getX());
-					py = view.toRealWorldCoordY(point.getY());
-					
-					// uncomment for debugging (to see which points were sampled)
-					new GeoPoint(cons, null, px, py, 1);
-					
-					int c1 = 0;
-
-					// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
-					for (int i = 0 ; i <= order ; i++) {
-						for (int xpower = 0 ; xpower <= i ; xpower++) {
-
-							int ypower = i - xpower;
-
-							double val = AlgoFitImplicit.power(px, xpower) * AlgoFitImplicit.power(py, ypower);
-							App.debug(val + "x^"+xpower+" * y^"+ypower);
-
-							M.setEntry(j, c1++, val);					
-
-						}
-					}
-
-				}
-
-				SingularValueDecomposition svd =
-						new SingularValueDecompositionImpl(M);
-
-				RealMatrix V = svd.getV();
-
-				RealVector coeffsRV = V.getColumnVector(5);
-
-
-
-				double [] coeffs = new double[6];
-
-				// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
-				for (int i = 0 ; i < 6 ; i++) {
-
-					coeffs[5-i] = coeffsRV.getEntry(i);
-					App.debug("coeff of " + i + " = "+ coeffs[i]);
-
-				}
-
-
-				GeoConic conic = new GeoConic(this.app.getKernel().getConstruction(), null, coeffs);
-
-				//double eccentricity = conic.eccentricity;
-
-				//GeoVec2D midpoint = conic.b;
-
-
-				//App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
-				//App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
-
-
-			} catch (Throwable t) {
-
-				t.printStackTrace();
-				return;
-			}
-
-			penPoints.clear();
-			return;
-		}
-
-
 		if (right && !freehand){
 			return;
 		}
@@ -699,10 +604,10 @@ public class EuclidianPen {
 			{
 				return this.makeACircle(EuclidianPen.center_x(s), EuclidianPen.center_y(s), EuclidianPen.I_rad(s));
 			}
-		}		
+		}
 
 		this.initialPoint = null;
-		return null;
+		return makeAConic(); // might return null
 	}
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
@@ -841,7 +746,7 @@ public class EuclidianPen {
 			return;
 		}
 
-		if(shape instanceof GeoConic){
+		if(shape instanceof GeoConic && ((GeoConic) shape).isCircle()){
 			String equation = shape.getAlgebraDescription(StringTemplate.defaultTemplate);
 			try {
 				app.getKernel().getAlgebraProcessor()
@@ -1248,6 +1153,146 @@ public class EuclidianPen {
 		return circle;
 
 	}
+
+	/**
+	 * creates a conic form the points in penPoints, if there are enough points
+	 * and a conic exists that fits good enough
+	 * 
+	 * @return the conic that fits best to the given points; null in case that
+	 *         there are too few points or the thresholds cannot be fulfilled
+	 */
+	private GeoConic makeAConic() {
+		double px, py;
+		Construction cons = this.app.getKernel().getConstruction();
+
+		// adapted from FitImplicit
+
+		// order 2 ie conic
+		int order = 2;
+
+		// sample 10 points from what we're given
+		int datasize = 10;
+
+		if (this.penPoints.size() < datasize) {
+			penPoints.clear();
+			return null;
+		}
+
+		int step = this.penPoints.size() / datasize;
+
+		Array2DRowRealMatrix M = new Array2DRowRealMatrix(datasize, order
+		        * (order + 1));
+
+		double[] coeffs = new double[6];
+
+		try {
+			int r = 0;
+			for (int j = 0; j < datasize; j++) {
+
+				GPoint point = penPoints.get(r);
+				r += step;
+
+				px = view.toRealWorldCoordX(point.getX());
+				py = view.toRealWorldCoordY(point.getY());
+
+				// uncomment for debugging (to see which points were sampled)
+				// new GeoPoint(app.getKernel().getConstruction(), null, px, py,
+				// 1);
+
+				int c1 = 0;
+
+				// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
+				for (int i = 0; i <= order; i++) {
+					for (int xpower = 0; xpower <= i; xpower++) {
+
+						int ypower = i - xpower;
+
+						double val = AlgoFitImplicit.power(px, xpower)
+						        * AlgoFitImplicit.power(py, ypower);
+						// App.debug(val + "x^"+xpower+" * y^"+ypower);
+
+						M.setEntry(j, c1++, val);
+					}
+				}
+			}
+
+			SingularValueDecomposition svd = new SingularValueDecompositionImpl(
+			        M);
+			RealMatrix V = svd.getV();
+			RealVector coeffsRV = V.getColumnVector(5);
+
+			// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
+			for (int i = 0; i < 6; i++) {
+				coeffs[5 - i] = coeffsRV.getEntry(i);
+				// App.debug("coeff of " + i + " = "+ coeffs[i]);
+			}
+
+			// double eccentricity = conic.eccentricity;
+
+			// GeoVec2D midpoint = conic.b;
+
+			// App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
+			// App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
+
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return null;
+		}
+
+		GeoConic conic = new GeoConic(this.app.getKernel().getConstruction(),
+		        null, coeffs);
+
+		GeoPoint point = new GeoPoint(this.app.getKernel().getConstruction(),
+		        0, 0, 1);
+		double error = 0;
+		for (GPoint p : penPoints) {
+			point.setCoords(view.toRealWorldCoordX(p.x),
+			        view.toRealWorldCoordY(p.y), 1);
+			error += conic.distance(point);
+		}
+		error /= penPoints.size();
+
+		if (conic.isDefined()
+		        && conic.getHalfAxis(0) / error > CONIC_AXIS_ERROR_RATIO
+		        && conic.getHalfAxis(1) / error > CONIC_AXIS_ERROR_RATIO) {
+			AlgoFocus algo = new AlgoFocus(cons, new String[] { null, null },
+			        conic);
+			GeoPointND[] focus = algo.getFocus();
+
+			int type = conic.getType();
+			int constructionIndex = conic.getConstructionIndex();
+			GeoPoint pointOnConic = this.app.getKernel().getAlgoDispatcher()
+			        .Point(null, conic, null);
+			conic.getAlgorithmList().clear();
+			conic.remove();
+
+			((GeoPoint) focus[0]).setParentAlgorithm(null);
+			((GeoElement) focus[0]).setConstructionIndex(constructionIndex);
+			((GeoElement) focus[0]).setConstructionDefaults(true);
+
+			((GeoPoint) focus[1]).setParentAlgorithm(null);
+			((GeoElement) focus[1]).setConstructionIndex(constructionIndex);
+			((GeoElement) focus[1]).setConstructionDefaults(true);
+
+			pointOnConic.removePath();
+			pointOnConic.setParentAlgorithm(null);
+			pointOnConic.setConstructionIndex(constructionIndex);
+			pointOnConic.setConstructionDefaults(true);
+
+			conic = (GeoConic) this.app
+			        .getKernel()
+			        .getAlgoDispatcher()
+			        .EllipseHyperbola(null, focus[0], focus[1], pointOnConic,
+			                type);
+		} else {
+			conic.remove();
+			conic = null;
+		}
+
+		penPoints.clear();
+		return conic;
+	}
+
 	/**
 	 * Returns delta x.
 	 *

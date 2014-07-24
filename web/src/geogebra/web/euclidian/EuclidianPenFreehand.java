@@ -101,7 +101,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		switch (this.expected) {
 		case circle:
-			if (lastCreated instanceof GeoConic) {
+			if (lastCreated instanceof GeoConic && ((GeoConic) lastCreated).isCircle()) {
 				if (this.initialPoint != null) {
 					this.initialPoint.remove();
 				}
@@ -175,9 +175,11 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		// shape is not of the expected type -> delete it
-		for (GeoPointND geo : lastCreated.getParentAlgorithm()
-		        .getFreeInputPoints()) {
-			geo.remove();
+		if (lastCreated.getParentAlgorithm() != null) {
+			for (GeoPointND geo : lastCreated.getParentAlgorithm()
+			        .getFreeInputPoints()) {
+				geo.remove();
+			}
 		}
 		lastCreated.remove();
 		lastCreated = null;
