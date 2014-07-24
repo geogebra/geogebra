@@ -38,4 +38,8 @@ public class ScrollableSuggestBox extends SuggestBox {
 		tb.getElement().setAttribute("autocomplete", "off");
 	}
 
+	public void hideSuggestions() {
+		((DefaultSuggestionDisplay)getSuggestionDisplay()).hideSuggestions();
+    }
+
 }

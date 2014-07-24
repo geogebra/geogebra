@@ -89,7 +89,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	private static CompletionsPopup completionsPopup;
 
 	private HistoryPopupW historyPopup;
-	protected SuggestBox textField = null;
+	protected ScrollableSuggestBox textField = null;
 
 	private DrawTextField drawTextField = null;
 
@@ -121,7 +121,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	// Simplified to this as there are too many non-alphabetic character in
 	// parameter descriptions:
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
-	        .compile("[,\\[] *(?:<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]])");
+	        .compile("[,\\[] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]])");
 
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
@@ -706,26 +706,32 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 		// make sure it works if caret is just after [
 		// if (caretPos > 0 && text.charAt(caretPos - 1) == '[') caretPos--;
-
+		String suffix = text.substring(caretPos);
+		int index = -1;
 		// AGMatcher argMatcher = syntaxArgPattern.matcher(text);
-		MatchResult argMatcher = syntaxArgPattern.exec(text);
+		MatchResult argMatcher = syntaxArgPattern.exec(suffix);
 		// boolean hasNextArgument = argMatcher.find(caretPos);
-		boolean hasNextArgument = syntaxArgPattern.test(text);
+		boolean hasNextArgument = syntaxArgPattern.test(suffix);
+		if(hasNextArgument){
+			index = argMatcher.getIndex() + caretPos;
+		}
+
 		if (find && !hasNextArgument) {
 			// hasNextArgument = argMatcher.find();
 			hasNextArgument = syntaxArgPattern.test(text);
+			argMatcher = syntaxArgPattern.exec(text);
+			index = argMatcher.getIndex();
 		}
 		// if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
-		if (hasNextArgument && (find || argMatcher.getIndex() == caretPos)) {
+		if (hasNextArgument && argMatcher.getGroup(1) != null &&(find || index == caretPos)) {
 			// setCaretPosition(argMatcher.end();
 			// moveCaretPosition(argMatcher.start() + 1);
-			for (int i = 0; i < argMatcher.getGroupCount(); i++) {
-				String groupStr = argMatcher.getGroup(i);
+				String groupStr = argMatcher.getGroup(1);
 				textField.getValueBox().setSelectionRange(
-				        text.indexOf(groupStr) + 1, groupStr.length() - 1);
-			}
+				        index + 2, groupStr.length());
+			
 			return true;
-		}
+		}		
 		return false;
 	}
 
@@ -924,10 +930,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			if (app.isApplet())
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			break;
-
+		case GWTKeycodes.KEY_LEFT:
+			textField.hideSuggestions();
+			break;
 		case GWTKeycodes.KEY_RIGHT:
 			if (moveToNextArgument(false)) {
 				e.stopPropagation();
+				textField.hideSuggestions();
 			}
 			break;
 
