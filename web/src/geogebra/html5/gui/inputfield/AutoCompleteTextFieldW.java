@@ -163,6 +163,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 				sb.append(s);
 				sb.append(oldText.substring(pos));
 				super.setText(sb.toString());
+				//AutoCompleteTextFieldW.this.moveToNextArgument(false);
 			}
 		};
 		if (columns > 0) {
@@ -705,7 +706,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		int caretPos = getCaretPosition();
 
 		// make sure it works if caret is just after [
-		// if (caretPos > 0 && text.charAt(caretPos - 1) == '[') caretPos--;
+		if(caretPos > 0 && text.charAt(caretPos) != '[') caretPos--;
 		String suffix = text.substring(caretPos);
 		int index = -1;
 		// AGMatcher argMatcher = syntaxArgPattern.matcher(text);
