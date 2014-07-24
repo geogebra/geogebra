@@ -2158,7 +2158,7 @@ __GGB__keysVar.pt_PT.plain = {
     "CAS_AutomaticRename": "O nome %0 j\xe1 est\xe1 em uso e foi alterado para %1",
     "CASFieldHelp": "<html><body><p><b>Utilizar a vista CAS</b></p><table border=\"1\"><tr><td>Enter </td><td>Avaliar input</td></tr><tr><td>; </td><td>Apagar output</td></tr><tr><td>Ctrl + Enter </td><td>Avalia\xe7\xe3o no modo num\xe9rico</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Apagar input</td></tr><tr><td>$</td><td>Anterior output (refer\xeancia din\xe2mica)</td></tr><tr><td>#</td><td>Anterior output (referencia est\xe1tica)</td></tr><tr><td>$3</td><td>Output da 3a. c\xe9lula (refer\xeancia din\xe2mica)</td></tr><tr><td>#3</td><td>Output da 3a. c\xe9lula (refe\xearencia est\xe1tica)</td></tr><tr><td>F1</td><td>Ajuda para o comando atual</td></tr><tr><td>TAB</td><td>Exibir pr\xf3ximo comando</td></tr></table><p><br><b>Autocompletar Comandos</b><br>Ap\xf3s digitar as primeiras duas letras de um comando,<br>o GeoGebra ir\xe1 completar o comando para si.</p><table border=\"1\"><tr><td>Enter</td><td>Aceita o comando proposto</td></tr><tr><td>Uma outra letra</td><td>Adapta o comando proposto</td></tr></table></body></html>",
     "CASInitializing": "Inicializa\xe7\xe3o CAS",
-    "CASShowRationalExponentsAsRoots": "Mostrar Expoentes Racionais como Ra\xedzes",
+    "CASShowRationalExponentsAsRoots": "Mostrar Expoentes Racionais como Radicais",
     "CASTimedOut": "Tempo esgotado CAS",
     "CASViewOnly": "O Comando \"%0\" s\xf3 est\xe1 dispon\xedvel na Vista CAS",
     "Cancel": "Cancelar",
