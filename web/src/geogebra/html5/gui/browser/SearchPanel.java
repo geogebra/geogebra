@@ -53,7 +53,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 
 		this.query = new TextBox();
 		//TODO translate Search material
-		this.query.setText("Search material");
+		this.query.getElement().setAttribute("placeholder",loc.getMenu("search_geogebra_materials"));
 		this.query.addStyleName("searchTextBox");
 		this.query.addKeyDownHandler(new KeyDownHandler() {
 
@@ -131,14 +131,10 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 
 	void onCancel() {
 		this.query.setFocus(false);
-		this.query.setText("Search material");
 		this.cancelButton.setVisible(false);
 	}
 
 	void onFocusQuery() {
-		if (this.query.getText().equals("Search material")) {
-			this.query.setText("");
-		}
 		this.query.setFocus(true);
 		this.cancelButton.setVisible(true);
 	}
@@ -146,7 +142,6 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	void onBlurQuery() {
 		if (this.query.getText().equals("")) {
 			this.query.setFocus(false);
-			this.query.setText("Search material");
 			this.cancelButton.setVisible(false);
 		}
 	}
