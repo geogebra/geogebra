@@ -417,6 +417,8 @@ __GGB__keysVar.pl.command = {
     "Intersect": "Przeci\u0119cie",
     "Intersect_Syntax": "[ <Obiekt>, <Obiekt> ]\n[ <Obiekt>, <Obiekt>, <Indeks Punktu Przeci\u0119cia> ]\n[ <Obiekt>, <Obiekt>, <Punkt Pocz\u0105tkowy> ]\n[ <Funkcja>, <Funkcja>, <Warto\u015b\u0107 Pocz\u0105tkowa x>, <Warto\u015b\u0107 Ko\u0144cowa x> ]",
     "Intersect_SyntaxCAS": "[ <Funkcja>, <Funkcja> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "\u015acie\u017ckiPrzeci\u0119cia",
     "IntersectPath_Syntax": "[ <Prosta>, <Wielok\u0105t> ]\n[ <Prosta>, <Sto\u017ckowa> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.pl.menu = {
     "Pen_Help": "Napisz w Widoku Grafiki. Zmiana koloru za pomoc\u0105 Paska Stylu",
     "Pencil": "O\u0142\xf3wek",
     "Pencil_Help": "Narysuj w Widoku Grafiki. Zmiana koloru za pomoc\u0105 Paska Stylu",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra i Grafika",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometria podstawowa",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS i Grafika",
     "Perspective_Geometry": "Geometria",
     "Perspective_Primary": "Podstawowy",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabela i Grafika",
     "Perspective_Whiteboard": "Tablica",
     "PerspectivePanel": "Panel Widok\xf3w",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.pl.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Wy\u0142\u0105cz",
     "on": "W\u0142\u0105cz",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

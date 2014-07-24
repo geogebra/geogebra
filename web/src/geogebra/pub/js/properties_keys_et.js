@@ -417,6 +417,8 @@ __GGB__keysVar.et.command = {
     "Intersect": "L\xf5ikepunkt",
     "Intersect_Syntax": "[ <Objekt>, <Objekt> ]\n[ <Objekt>, <Objekt>, <L\xf5ikepunkti indeks> ]\n[ <Objekt>, <Objekt>, <Alguspunkt> ]\n[ <Funktsioon>, <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus> ]",
     "Intersect_SyntaxCAS": "[ <Funktsioon>, <Funktsioon> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "L\xf5iketeed",
     "IntersectPath_Syntax": "[ <Sirge>, <Hulknurk> ]\n[ <Sirge>, <Koonusel\xf5ige> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.et.menu = {
     "Pen_Help": "Kirjutage graafikavaatele. Stiilirealt on v\xf5imalik valida v\xe4rv.",
     "Pencil": "Pintsel",
     "Pencil_Help": "Joonistage graafikavaatele. Stiilirealt on v\xf5imalik muuta v\xe4rvi.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra ja graafika",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "P\xf5hiline geomeetria",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS ja graafika",
     "Perspective_Geometry": "Geomeetria",
     "Perspective_Primary": "Esmaj\xe4rguline",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabel ja graafika",
     "Perspective_Whiteboard": "Tahvel",
     "PerspectivePanel": "Perspektiivide paneel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.et.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "V\xe4ljas",
     "on": "Sees",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

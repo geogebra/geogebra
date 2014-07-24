@@ -417,6 +417,8 @@ __GGB__keysVar.sv.command = {
     "Intersect": "Sk\xe4rning",
     "Intersect_Syntax": "[ <Objekt>, <Objekt> ]\n[ <Objekt>, <Objekt>, <Sk\xe4rningspunktens ordningstal> ]\n[ <Objekt>, <Objekt>, <Startpunkt> ]\n[ <Funktion>, <Funktion>, <Fr\xe5n x>, <Till x> ]\n[ <Kurva 1>, <Kurva 2>, <Parameter 1>, <Parameter 2> ]",
     "Intersect_SyntaxCAS": "[ <Funktion>, <Funktion> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Sk\xe4rningsKurvor",
     "IntersectPath_Syntax": "[ <Linje>, <Polygon> ]\n[ <Linje>, <K\xe4gelsnitt> ]",
     "IntersectPath_Syntax3D": "[ <Linje>, <Polygon> ]\n[ <Linje>, <K\xe4gelsnitt> ]\n[ <Plan>, <Polygon> ]\n[ <Plan>, <Kvadratisk funktion> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.sv.menu = {
     "Pen_Help": "Skriv i ritomr\xe5det. \xc4ndra f\xe4rg i formateringslisten.",
     "Pencil": "Penna",
     "Pencil_Help": "Rita i ritomr\xe5det. \xc4ndra f\xe4rg i formateringslisten.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra och grafik",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Grundl\xe4ggande geometri",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafik",
     "Perspective_Geometry": "Geometri",
     "Perspective_Primary": "Prim\xe4rt",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabeller och grafik",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspektivpanel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.sv.menu = {
     "insert_worksheet": "Infoga konstruktion",
     "off": "Av",
     "on": "P\xe5",
+    "search_geogebra_materials": "S\xf6k efter GeoGebramaterial",
 }
 
 

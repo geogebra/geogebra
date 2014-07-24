@@ -417,6 +417,8 @@ __GGB__keysVar.mr.command = {
     "Intersect": "\u092a\u0930\u0938\u094d\u092a\u0930\u091b\u0947\u0926",
     "Intersect_Syntax": "[ <\u0918\u091f\u0915>, <\u0918\u091f\u0915> ]\n[ <\u0918\u091f\u0915>, <\u0918\u091f\u0915>, <\u091b\u0947\u0926\u0928\u092c\u093f\u0902\u0926\u0942\u091a\u093e \u0915\u094d\u0930\u092e\u093e\u0902\u0915> ]\n[ <\u0918\u091f\u0915>, <\u0918\u091f\u0915>, <\u0906\u0926\u094d\u092f\u092c\u093f\u0902\u0926\u0942> ]",
     "Intersect_SyntaxCAS": "[ <Function>, <Function> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.mr.menu = {
     "Pen_Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pencil",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u092c\u0940\u091c\u0917\u0923\u093f\u0924 \u0906\u0923\u093f \u0906\u0932\u0947\u0916\u0940",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u092e\u0942\u0933 \u092d\u0942\u092e\u093f\u0924\u0940",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Graphics",
     "Perspective_Geometry": "\u092d\u0942\u092e\u093f\u0924\u0940",
     "Perspective_Primary": "Primary",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u091f\u0947\u092c\u0932 \u0906\u0923\u093f \u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.mr.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "\u092c\u0902\u0926",
     "on": "\u0938\u0941\u0930\u0942",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

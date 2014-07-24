@@ -417,6 +417,8 @@ __GGB__keysVar.in.command = {
     "Intersect": "Perpotongan",
     "Intersect_Syntax": "[ <Objek>, <Objek> ]\n[ <Objek>, <Objek>, <Banyaknya Titik Perpotongan> ]\n[ <Objek>, <Objek>, <Titik Awal> ]",
     "Intersect_SyntaxCAS": "[ <Fungsi>, <Fungsi> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "SegmenPerpotongan",
     "IntersectPath_Syntax": "[ <Garis>, <Poligon> ]\n[ <Garis>, <Konik> ]",
     "IntersectPath_Syntax3D": "[ <Garis>, <Poligon> ]\n[ <Garis>, <Konik> ]\n[ <Bidang>, <Poligon> ]\n[ <Bidang>, <Bidang Kuadrat> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.in.menu = {
     "Pen_Help": "Tulis di Tampilan Grafik. Ubah warna menggunakan Batang Format",
     "Pencil": "Pensil",
     "Pencil_Help": "Tulis di Tampilan Grafik. Ubah warna menggunakan Batang Format",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Aljabar & Grafik",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometri Dasar",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Graphics",
     "Perspective_Geometry": "Geometri",
     "Perspective_Primary": "Utama",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabel & Grafik",
     "Perspective_Whiteboard": "Papan Tulis",
     "PerspectivePanel": "Panel Persfektif",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.in.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Mati",
     "on": "Hidup",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

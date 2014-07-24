@@ -417,6 +417,8 @@ __GGB__keysVar.vi.command = {
     "Intersect": "GiaoDiem",
     "Intersect_Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ed1i t\u01b0\u1ee3ng> ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ed1i t\u01b0\u1ee3ng>, <Ch\u1ec9 s\u1ed1 giao \u0111i\u1ec3m> ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110i\u1ec3m \u0111\u1ea7u> ]\n[ <H\xe0m s\u1ed1>, <H\xe0m s\u1ed1>, <\u0110i\u1ec3m \u0111\u1ea7u x>, <\u0110i\u1ec3m cu\u1ed1i x> ]",
     "Intersect_SyntaxCAS": "[ <H\xe0m s\u1ed1>, <H\xe0m s\u1ed1> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "PhanGiao",
     "IntersectPath_Syntax": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110a gi\xe1c> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <C\xf4n\xedc> ]",
     "IntersectPath_Syntax3D": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110a gi\xe1c> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <C\xf4n\xedc> ]\n[ <M\u1eb7t ph\u1eb3ng>, <\u0110a gi\xe1c> ]\n[ <M\u1eb7t ph\u1eb3ng>, <B\u1eadc hai> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.vi.menu = {
     "Pen_Help": "Vi\u1ebft trong c\u1eeda s\u1ed5 h\xecnh h\u1ecdc. Thay \u0111\u1ed5i m\xe0u s\u1eed d\u1ee5ng thanh \u0111i\u1ec1u khi\u1ec3n ki\u1ec3u hi\u1ec3n th\u1ecb",
     "Pencil": "B\xfat ch\xec",
     "Pencil_Help": "V\u1ebd trong c\u1eeda s\u1ed5 h\xecnh h\u1ecdc. Thay \u0111\u1ed5i m\xe0u s\u1eed d\u1ee5ng thanh khi\u1ec3n ki\u1ec3u hi\u1ec3n th\u1ecb",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u0110\u1ea1i s\u1ed1 & \u0111\u1ed3 th\u1ecb",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "H\xecnh h\u1ecdc c\u01a1 b\u1ea3n",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & \u0111\u1ed3 th\u1ecb",
     "Perspective_Geometry": "H\xecnh h\u1ecdc",
     "Perspective_Primary": "C\u01a1 s\u1edf",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "B\u1ea3ng t\xednh & \u0111\u1ed3 th\u1ecb",
     "Perspective_Whiteboard": "B\u1ea3ng tr\u1eafng",
     "PerspectivePanel": "B\u1ea3ng v\u1ebd",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.vi.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "T\u1eaft",
     "on": "B\u1eadt",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

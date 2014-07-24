@@ -417,6 +417,8 @@ __GGB__keysVar.ta.command = {
     "Intersect": "\u0b87\u0b9f\u0bc8\u0bb5\u0bc6\u0b9f\u0bcd\u0b9f\u0bc1",
     "Intersect_Syntax": "[ <\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd>, <\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd> ]\n[ <\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd>, <\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd>, <\u0bb5\u0bc6\u0b9f\u0bcd\u0b9f\u0bc1\u0bae\u0bcd \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf\u0baf\u0bbf\u0ba9\u0bcd \u0b95\u0bc1\u0bb1\u0bbf\u0baf\u0bc0\u0b9f\u0bc1> ]\n[ <\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd>, <\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd>, <\u0b86\u0bb0\u0bae\u0bcd\u0baa\u0baa\u0bcd \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf> ]\n[ <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1>, <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1>, <x-\u0b86\u0bb0\u0bae\u0bcd\u0baa \u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1>, <x-\u0b87\u0bb1\u0bc1\u0ba4\u0bbf \u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1> ]",
     "Intersect_SyntaxCAS": "[ <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1>, <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.ta.menu = {
     "Pen_Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pencil",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u0b85\u0b9f\u0bcd\u0b9a\u0bb0\u0b95\u0ba3\u0bbf\u0ba4\u0bae\u0bcd \u0bae\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0bcd \u0bb5\u0bb0\u0bc8\u0baa\u0bc1\u0b95\u0bb3\u0bcd",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u0b85\u0b9f\u0bbf\u0baa\u0bcd\u0baa\u0b9f\u0bc8\u0b95\u0bcd \u0b95\u0bc7\u0ba4\u0bcd\u0ba4\u0bbf\u0bb0\u0b95\u0ba3\u0bbf\u0ba4\u0bae\u0bcd",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Graphics",
     "Perspective_Geometry": "\u0b95\u0bc7\u0ba4\u0bcd\u0ba4\u0bbf\u0bb0 \u0b95\u0ba3\u0bbf\u0ba4\u0bae\u0bcd",
     "Perspective_Primary": "Primary",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u0b85\u0b9f\u0bcd\u0b9f\u0bb5\u0ba3\u0bc8 \u0bae\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0bcd \u0bb5\u0bb0\u0bc8\u0baa\u0bc1\u0b95\u0bb3\u0bcd",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.ta.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "\u0ba8\u0bbf\u0bb1\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1\u0b95",
     "on": "\u0baa\u0bcb\u0b9f\u0bc1\u0b95",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

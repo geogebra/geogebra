@@ -417,6 +417,8 @@ __GGB__keysVar.cy.command = {
     "Intersect": "Croestorri",
     "Intersect_Syntax": "[ <Gwrthrych>, <Gwrthrych> ]\n[ <Gwrthrych>, <Gwrthrych>, <Rhif y pwynt croesdorri> ]\n[ <Gwrthrych>, <Gwrthrych>, <Pwynt cychwyn> ]",
     "Intersect_SyntaxCAS": "[ <Ffwythiant>, <Ffwythiant> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "LLwybrTrawsdoriadau",
     "IntersectPath_Syntax": "[ <Llinell>, <Polygon> ]\n[ <Llinell>, <Conig> ]",
     "IntersectPath_Syntax3D": "[ <Llinell>, <Polygon> ]\n[ <Llinell>, <Conig> ]\n[ <Pl\xe2n>, <Polygon> ]\n[ <Pl\xe2n>, <Cwadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.cy.menu = {
     "Pen_Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pensil",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra a graffeg",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometreg sylfaenol",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Graffeg",
     "Perspective_Geometry": "Geometreg",
     "Perspective_Primary": "Cynradd",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tablau a graffeg",
     "Perspective_Whiteboard": "Bwrdd gwyn",
     "PerspectivePanel": "Panel Perspectif",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.cy.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Diffodd",
     "on": "Ymlaen",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

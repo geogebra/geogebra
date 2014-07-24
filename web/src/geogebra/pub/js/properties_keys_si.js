@@ -417,6 +417,8 @@ __GGB__keysVar.si.command = {
     "Intersect": "\u0d85\u0db1\u0dca\u0dad\u0dbb\u0dca\u0da1\u0dda\u0daf\u0db1\u0dba_\u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "Intersect_Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]\n[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0d85\u0db1\u0dca\u0dad\u0dbb\u0dca\u0da1\u0dda\u0daf\u0db1_\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba_\u0dc3\u0d82\u0d9b\u0dca\u200d\u0dba\u0dcf\u0dc0> ]\n[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0d86\u0dbb\u0db8\u0dd2\u0db7\u0d9a_\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]\n[ <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba>, <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba>, <\u0d86\u0dbb\u0db8\u0dca\u0db7\u0d9a x-\u0d85\u0d9c\u0dba>, <\u0d85\u0dc0\u0dc3\u0dcf\u0db1 x-\u0d85\u0d9c\u0dba> ]\n[ <\u0dc0\u0d9a\u0dca\u200d\u0dbb\u0dba 1>, <\u0dc0\u0d9a\u0dca\u200d\u0dbb\u0dba 2>, <\u0db4\u0dbb\u0dcf\u0db8\u0dd2\u0dad\u0dd2\u0dba 1>, <\u0db4\u0dbb\u0dcf\u0db8\u0dd2\u0dad\u0dd2\u0dba 2> ]",
     "Intersect_SyntaxCAS": "[ <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba>, <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0>, <\u0db6\u0dc4\u0dd4\u0d85\u0dc1\u0dca\u200d\u0dbb\u0dba> ]\n[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0>, <\u0d9a\u0dda\u0dad\u0dd4\u0d9a> ]",
     "IntersectPath_Syntax3D": "[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0>, <\u0db6\u0dc4\u0dd4\u0d85\u0dc1\u0dca\u200d\u0dbb\u0dba> ]\n[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0>, <\u0d9a\u0ddd\u0dab\u0dd2\u0d9a> ]\n[ <\u0dad\u0dbd\u0dba>, <\u0db6\u0dc4\u0dd4\u0d85\u0dc1\u0dca\u200d\u0dbb\u0dba> ]\n[ <\u0dad\u0dbd\u0dba>, <\u0dc0\u0dbb\u0dca\u0d9c\u0da2> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.si.menu = {
     "Pen_Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pencil",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u0dc0\u0dd3\u0da2 \u0d9c\u0dab\u0dd2\u0dad\u0dba \u0dc3\u0dc4 \u0da0\u0dd2\u0dad\u0dca\u200d\u0dbb\u0d9a",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u0db8\u0dd6\u0dbd\u0dd2\u0d9a \u0da2\u0dca\u200d\u0dba\u0dcf\u0db8\u0dd2\u0dad\u0dd2\u0dba",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Graphics",
     "Perspective_Geometry": "\u0da2\u0dca\u200d\u0dba\u0dcf\u0db8\u0dd2\u0dad\u0dd2\u0dba",
     "Perspective_Primary": "Primary",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u0dc0\u0d9c\u0dd4 \u0dc3\u0dc4 \u0da0\u0dd2\u0dad\u0dca\u200d\u0dbb\u0d9a",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.si.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "\u0d9a\u0dca\u200d\u0dbb\u0dd2\u0dba\u0dcf \u0dc0\u0dd2\u0dbb\u0dc4\u0dd2\u0dad \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "on": "\u0d9a\u0dca\u200d\u0dbb\u0dd2\u0dba\u0dcf\u0dad\u0dca\u0db8\u0d9a \u0d9a\u0dbb\u0db1\u0dca\u0db1",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

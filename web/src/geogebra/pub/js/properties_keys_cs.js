@@ -417,6 +417,8 @@ __GGB__keysVar.cs.command = {
     "Intersect": "Prusecik",
     "Intersect_Syntax": "[ <Objekt>, <Objekt> ]\n[ <Objekt>, <Objekt>, <Po\u0159ad\xed pr\u016fse\u010d\xedku> ]\n[ <Objekt>, <Objekt>, <Po\u010d\xe1te\u010dn\xed bod> ]\n[ <Funkce>, <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]",
     "Intersect_SyntaxCAS": "[ <Funkce>, <Funkce> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Prusecnice",
     "IntersectPath_Syntax": "[ <P\u0159\xedmka>, <Mnoho\xfaheln\xedk> ]\n[ <P\u0159\xedmka>, <Ku\u017eelose\u010dka> ]",
     "IntersectPath_Syntax3D": "[ <P\u0159\xedmka>, <Polynom> ]\n[ <P\u0159\xedmka>, <Ku\u017eelose\u010dka> ]\n[ <Rovina>, <Polynom> ]\n[ <Rovina>, <Kvadrika> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.cs.menu = {
     "Pen_Help": "Pi\u0161te do n\xe1kresny. Barvu lze m\u011bnit na form\xe1tovac\xedm panelu.",
     "Pencil": "Tu\u017eka",
     "Pencil_Help": "Kreslete do n\xe1kresny. Barvu lze m\u011bnit na form\xe1tovac\xedm panelu.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra & N\xe1kresna",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Element\xe1rn\xed geometrie",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS a grafika",
     "Perspective_Geometry": "Geometrie",
     "Perspective_Primary": "Z\xe1klado\u0161kolsk\xe1",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabulka & N\xe1kresna",
     "Perspective_Whiteboard": "Tabule",
     "PerspectivePanel": "Panel perspektiv",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.cs.menu = {
     "insert_worksheet": "Vlo\u017eit pracovn\xed list",
     "off": "vypnuto",
     "on": "zapnuto",
+    "search_geogebra_materials": "Hledat GeoGebra materi\xe1ly",
 }
 
 

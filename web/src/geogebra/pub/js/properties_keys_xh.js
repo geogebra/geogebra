@@ -417,6 +417,8 @@ __GGB__keysVar.xh.command = {
     "Intersect": "Ziyaphambana",
     "Intersect_Syntax": "[ <Object>, <Object> ]\n[ <Object>, <Object>, <Index of Intersection Point> ]\n[ <Object>, <Object>, <Initial Point> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]\n[ <Curve 1>, <Curve 2>, <Parameter 1>, <Parameter 2> ]",
     "Intersect_SyntaxCAS": "[ <Function>, <Function> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.xh.menu = {
     "Pen_Help": "Bhala kuMbonoWegrafu. Tshintsha umbala usebenzisa iStylebar",
     "Pencil": "iPensile",
     "Pencil_Help": "Zoba kuMbono weGrafu. Tshintsha umbala usebenzisa iStylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "iAljibra & Mizobo",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "isiSeko seJometri",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & imiZobo",
     "Perspective_Geometry": "iJometri",
     "Perspective_Primary": "Okuqala",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "iSpreadsheet & nemiZobo",
     "Perspective_Whiteboard": "iWhiteboard",
     "PerspectivePanel": "iPerspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.xh.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Icimile",
     "on": "Ilaytile",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

@@ -417,6 +417,8 @@ __GGB__keysVar.fi.command = {
     "Intersect": "Leikkauspiste",
     "Intersect_Syntax": "[ <Objekti>, <Objekti> ]\n[ <Lista>, <Lista> ]\n[ <Objekti>, <Objekti>, <Leikkauspisteiden lukum\xe4\xe4r\xe4> ]\n[ <Objekti>, <Objekti>, <L\xe4ht\xf6piste> ]\n[ <Functio>, <Functio>, <Alku x>, <Loppu x> ]",
     "Intersect_SyntaxCAS": "[ <Funktio>, <Funktio> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "YhteisetPisteet",
     "IntersectPath_Syntax": "[ <Suora>, <Monikulmio> ]\n[ <Suora>, <Kartio> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.fi.menu = {
     "Pen_Help": "Kirjoita Piirtoalueelle. Vaihda v\xe4ri\xe4 Tyylipalkista.",
     "Pencil": "Kyn\xe4",
     "Pencil_Help": "Piirr\xe4 vapaasti Piirtoalueelle. Vaihda v\xe4ri\xe4 Tyylipalkista",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra ja grafiikka",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Perusgeometria",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Piirtoalue",
     "Perspective_Geometry": "Geometria",
     "Perspective_Primary": "Alkeisgeometria",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Taulukko ja grafiikka",
     "Perspective_Whiteboard": "Valkotaulu",
     "PerspectivePanel": "Perspektiivipaneeli",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.fi.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "pois",
     "on": "k\xe4ytt\xf6\xf6n",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

@@ -417,6 +417,8 @@ __GGB__keysVar.sq.command = {
     "Intersect": "Nderpres",
     "Intersect_Syntax": "[ <Objekt>, <Objekt> ]\n[ <Objekt>, <Objekt>, <Numri i Pikave te Nderprerjes> ]\n[ <Objekt>, <Objekt>, <Pika Fillestare> ]",
     "Intersect_SyntaxCAS": "[ <Funksion>, <Funksion> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "ShtegPrerje",
     "IntersectPath_Syntax": "[ <Vije>, <Poligon> ]\n[ <Vije>, <Konike> ]",
     "IntersectPath_Syntax3D": "[ <Vije>, <Poligon> ]\n[ <Vije>, <Konike> ]\n[ <Plan>, <Poligon> ]\n[ <Plan>, <Kuadrike> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.sq.menu = {
     "Pen_Help": "Shkruaj ne Pamjen Grafikore. Ndrysho ngjyren duke perdorur shufren e stileve",
     "Pencil": "Laps",
     "Pencil_Help": "Vizato ne Pamjen Grafikore. Ndrysho ngjyren duke perdorur shufren e stileve",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algjeber dhe Grafike",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Gjeometri Themelore",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafike",
     "Perspective_Geometry": "Gjeometri",
     "Perspective_Primary": "Primare",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabela dhe Grafike",
     "Perspective_Whiteboard": "Derrase e bardhe",
     "PerspectivePanel": "Panele Perspektive",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.sq.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "JoAktiv",
     "on": "Aktiv",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

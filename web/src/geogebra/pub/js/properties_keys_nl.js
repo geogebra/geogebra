@@ -417,6 +417,8 @@ __GGB__keysVar.nl.command = {
     "Intersect": "Snijpunten",
     "Intersect_Syntax": "[ <Object>, <Object> ]\n[ <Object>, <Object>, <Getal> ]\n[ <Object>, <Object>, <Punt> ]\n[ <Functie>, <Functie>, <Start x-Waarde>, <Eind x-Waarde> ]",
     "Intersect_SyntaxCAS": "[ <Functie>, <Functie> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectiePaden",
     "IntersectPath_Syntax": "[ <Rechte>, <Veelhoek> ]\n[ <Rechte>, <Kegelsnede> ]",
     "IntersectPath_Syntax3D": "[ <Lijn>, <Veelhoek> ]\n[ <Lijn>, <Kegelsnede> ]\n[ <Vlak>, <Veelhoek> ]\n[ <Vlak>, <Tweedegraads kromme> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.nl.menu = {
     "Pen_Help": "Schrijf in het tekenvenster. Wijzig kleur met de opmaakbalk",
     "Pencil": "Stift",
     "Pencil_Help": "Teken in het tekenvenster. Wijzig kleur met de opmaakbalk",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebravenster en tekenvenster",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Basistekenvenster",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Tekenvenster",
     "Perspective_Geometry": "Meetkundevenster",
     "Perspective_Primary": "Basis",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Rekenblad en tekenvenster",
     "Perspective_Whiteboard": "Interactief bord",
     "PerspectivePanel": "Perspectief Paneel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.nl.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Uit",
     "on": "Aan",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

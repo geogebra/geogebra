@@ -417,6 +417,8 @@ __GGB__keysVar.pt.command = {
     "Intersect": "Interse\xe7\xe3o",
     "Intersect_Syntax": "[ <Objeto>, <Objeto> ]\n[ <Lista>, <Listas> ]\n[ <Objeto>, <Objeto>, <\xcdndice do Ponto de Interse\xe7\xe3o> ]\n[ <Objeto>, <Objeto>, <Ponto Inicial> ]\n[ <Fun\xe7\xe3o>, <Fun\xe7\xe3o>, <Valor de x Inicial>, <Valor de x Final> ]",
     "Intersect_SyntaxCAS": "[ <Fun\xe7\xe3o>, <Fun\xe7\xe3o> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Interse\xe7\xe3oDeCaminhos",
     "IntersectPath_Syntax": "[ <Reta>, <Pol\xedgono> ]\n[ <Reta>, <C\xf4nica> ]",
     "IntersectPath_Syntax3D": "[ <Reta>, <Pol\xedgono> ]\n[ <Reta>, <C\xf4nica> ]\n[ <Plano>, <Pol\xedgono> ]\n[ <Plano>, <Qu\xe1drica> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.pt.menu = {
     "Pen_Help": "Escreva na Janela de Visualiza\xe7\xe3o. Mude a cor usando a Barra de Estilo",
     "Pencil": "L\xe1pis",
     "Pencil_Help": "Desenhe na Janela de Visualiza\xe7\xe3o. Mude a cor usando a Barra de Estilo",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\xc1lgebra e Gr\xe1ficos",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometria B\xe1sica",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS e Gr\xe1ficos",
     "Perspective_Geometry": "Geometria",
     "Perspective_Primary": "Prim\xe1rio",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabelas e Gr\xe1ficos",
     "Perspective_Whiteboard": "Quadro Interativo",
     "PerspectivePanel": "Painel das Disposi\xe7\xf5es",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.pt.menu = {
     "insert_worksheet": "Incluir Folha de Trabalho",
     "off": "Desabilitar",
     "on": "Habilitar",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

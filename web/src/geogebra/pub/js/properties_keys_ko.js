@@ -417,6 +417,8 @@ __GGB__keysVar.ko.command = {
     "Intersect": "\uad50\uc810",
     "Intersect_Syntax": "[ <\ub300\uc0c1>, <\ub300\uc0c1> ]\n[ <\ub300\uc0c1>, <\ub300\uc0c1>, <\uad50\uc810\uc758 \uc778\ub371\uc2a4> ]\n[ <\ub300\uc0c1>, <\ub300\uc0c1>, <\uc2dc\uc791\uc810> ]\n[ <\ud568\uc218>, <\ud568\uc218>, <\ucc98\uc74c x-\uac12>, <\ub9c8\uc9c0\ub9c9 x-\uac12> ]\n[ <\uace1\uc120>, <\uace1\uc120>, <\ubcc0\uc218 1>, <\ubcc0\uc218 2> ]",
     "Intersect_SyntaxCAS": "[ <\ud568\uc218>, <\ud568\uc218> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "\uad50\uc120",
     "IntersectPath_Syntax": "[ <\uae30\ud558 \uc9c1\uc120>, <\uae30\ud558 \ub2e4\uac01\ud615> ]\n[ <\uae30\ud558 \uc9c1\uc120>, <\uae30\ud558 \uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)> ]",
     "IntersectPath_Syntax3D": "[ <\uae30\ud558 \uc9c1\uc120>, <\uae30\ud558 \ub2e4\uac01\ud615> ]\n[ <\uae30\ud558 \uc9c1\uc120>, <\uae30\ud558 \uc6d0\ubfd4> ]\n[ <\uae30\ud558 \ud3c9\uba74>, <\uae30\ud558 \ub2e4\uac01\ud615> ]\n[ <\uae30\ud558 \ud3c9\uba74>, <\uae30\ud558 \uc774\ucc28\uace1\uc120> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.ko.menu = {
     "Pen_Help": "\uae30\ud558\ucc3d\uc5d0 \uc9c1\uc811 \uc4f8 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \uc2a4\ud0c0\uc77c \ubc14\uc5d0\uc11c \uc0c9\uc0c1\uc744 \ubcc0\uacbd\ud558\uc138\uc694.",
     "Pencil": "\uc5f0\ud544",
     "Pencil_Help": "\uae30\ud558\ucc3d\uc5d0 \uc9c1\uc811 \uadf8\ub9ac\uc138\uc694. \uc2a4\ud0c0\uc77c \ubc14\uc5d0\uc11c \uc0c9\uc0c1\uc744 \ubcc0\uacbd\ud558\uc138\uc694.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\ub300\uc218\uc640 \uadf8\ub798\ud504",
-    "Perspective_AlgebraAndGraphics3D": "\ub300\uc218\ucc3d\uacfc 3\ucc28\uc6d0 \uae30\ud558\ucc3d",
     "Perspective_BasicGeometry": "\ucd08\ub4f1 \uae30\ud558",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS\uc640 \uadf8\ub798\ud504",
     "Perspective_Geometry": "\uae30\ud558",
     "Perspective_Primary": "\ucd08\ub4f1\uc218\ud559",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\ud45c\uc640 \uadf8\ub798\ud504",
     "Perspective_Whiteboard": "\uc804\uc790\uce60\ud310",
     "PerspectivePanel": "\ub3c4\uad6c\uc0c1\uc790\uad6c\uc131 \ud328\ub110",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.ko.menu = {
     "insert_worksheet": "\uc6cc\ud06c\uc2dc\ud2b8 \uc0bd\uc785",
     "off": "\uc0ac\uc6a9\uc548\ud568",
     "on": "\uc0ac\uc6a9",
+    "search_geogebra_materials": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc790\ub8cc \uac80\uc0c9",
 }
 
 

@@ -417,6 +417,8 @@ __GGB__keysVar.lt.command = {
     "Intersect": "Sukirsti",
     "Intersect_Syntax": "[ <Objektas>, <Objektas> ]\n[ <Objektas>, <Objektas>, <Sankirtos ta\u0161ko skai\u010dius> ]\n[ <Objektas>, <Objektas>, <Prad\u017eios ta\u0161kas> ]\n[ <Funkcija>, <Funkcija>, <Prad\u017eios x vert\u0117>, <Galo x vert\u0117> ]",
     "Intersect_SyntaxCAS": "[ <Funkcija>, <Funkcija> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "SukirstiKelius",
     "IntersectPath_Syntax": "[ <Ties\u0117>, <Daugiakampis> ]\n[ <Ties\u0117>, <Antros eil\u0117s kreiv\u0117> ]",
     "IntersectPath_Syntax3D": "[ <Ties\u0117>, <Daugiakampis> ]\n[ <Ties\u0117>, <K\u016bginis> ]\n[ <Plok\u0161tuma>, <Daugiakampis> ]\n[ <Plok\u0161tuma>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.lt.menu = {
     "Pen_Help": "Ra\u0161yti grafikos lauke. Spalv\u0105 galite pakeisti stili\u0173 juostoje",
     "Pencil": "Pie\u0161tukas",
     "Pencil_Help": "Pie\u0161ti grafikos lauke. Spalv\u0105 galite pakeisti stili\u0173 juostoje",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra ir grafika",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Elementari geometrija",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafika",
     "Perspective_Geometry": "Geometrija",
     "Perspective_Primary": "Pagrindinis",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Lentel\u0117s ir grafika",
     "Perspective_Whiteboard": "Balta lenta",
     "PerspectivePanel": "Perpektyvos pultas",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.lt.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "I\u0161jungti",
     "on": "\u012ejungti",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

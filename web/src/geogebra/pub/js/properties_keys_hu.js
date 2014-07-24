@@ -417,6 +417,8 @@ __GGB__keysVar.hu.command = {
     "Intersect": "Metsz\xe9spont",
     "Intersect_Syntax": "[ <Alakzat>, <Alakzat> ]\n[ <Alakzat>, <Alakzat>, <Metsz\xe9spontok sz\xe1ma> ]\n[ <Alakzat>, <Alakzat>, <Kezd\u0151pont> ]\n[ <F\xfcggv\xe9ny>, <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k> ]\n[ <G\xf6rbe 1>, <G\xf6rbe 2>, <Param\xe9ter 1>, <Param\xe9ter 2> ]",
     "Intersect_SyntaxCAS": "[ <F\xfcggv\xe9ny>, <F\xfcggv\xe9ny> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "UtakMetszete",
     "IntersectPath_Syntax": "[ <Egyenes>, <Soksz\xf6g> ]\n[ <Egyenes>, <K\xfapszelet> ]",
     "IntersectPath_Syntax3D": "[ <Egyenes>, <Soksz\xf6g> ]\n[ <Egyenes>, <K\xfapszelet> ]\n[ <S\xedk>, <Soksz\xf6g> ]\n[ <S\xedk>, <M\xe1sodrend\u0171 fel\xfclet> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.hu.menu = {
     "Pen_Help": "\xcdr\xe1s a Geometria ablakba. Sz\xedn v\xe1laszt\xe1sa a Form\xe1z\xf3 l\xe9cen.",
     "Pencil": "Ceruza",
     "Pencil_Help": "\xc1bra-, f\xfcggv\xe9nyrajzol\xe1s a Geometria ablakba. Sz\xedn v\xe1laszt\xe1sa a Form\xe1z\xf3 l\xe9cen.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra \xe9s grafika",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D grafika",
     "Perspective_BasicGeometry": "Alap geometria",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS \xe9s grafika",
     "Perspective_Geometry": "Geometria",
     "Perspective_Primary": "\xc1ltal\xe1nos",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "T\xe1bl\xe1zat \xe9s grafika",
     "Perspective_Whiteboard": "Feh\xe9r t\xe1bla",
     "PerspectivePanel": "Perspekt\xedv panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.hu.menu = {
     "insert_worksheet": "Munkalap besz\xfar\xe1sa",
     "off": "Ki",
     "on": "Be",
+    "search_geogebra_materials": "GeoGebra anyagok keres\xe9se",
 }
 
 

@@ -417,6 +417,8 @@ __GGB__keysVar.sr.command = {
     "Intersect": "Preseci",
     "Intersect_Syntax": "[ <objekat>, <objekat> ]\n[ <objekat>, <objekat>, <broj prese\u010dne ta\u010dke> ]\n[ <objekat>, <objekat>, <po\u010detna ta\u010dka> ]",
     "Intersect_SyntaxCAS": "[ <funkcija>, <funkcija> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "PresekKrivih",
     "IntersectPath_Syntax": "[ <prava>, <mnogougao> ]\n[ <prava>, <konusni presek> ]",
     "IntersectPath_Syntax3D": "[ <prava>, <mnogougao> ]\n[ <prava>, <konusni presek> ]\n[ <ravan>, <mnogougao> ]\n[ <ravan>, <konusni presek> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.sr.menu = {
     "Pen_Help": "Pisanje u grafi\u010dkom prikazu. Promenite boju pomo\u0107u trake za stil",
     "Pencil": "Olovka",
     "Pencil_Help": "Crtanje u grafi\u010dkom prikazu. Promenite boju pomo\u0107u trake za stil",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebarski i grafi\u010dki prikaz",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Osnovna geometrija",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafi\u010dki",
     "Perspective_Geometry": "Geometrija",
     "Perspective_Primary": "Primarno",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabelarni i grafi\u010dki prikaz",
     "Perspective_Whiteboard": "Tabla",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.sr.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Isklju\u010deno",
     "on": "Uklju\u010deno",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

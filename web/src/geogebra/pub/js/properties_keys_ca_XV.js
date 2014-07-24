@@ -417,6 +417,8 @@ __GGB__keysVar.ca_XV.command = {
     "Intersect": "Intersecci\xf3",
     "Intersect_Syntax": "[ <Objecte>, <Objecte> ]\n[ <Objecte>, <Objecte>, <\xcdndex del punt d'intersecci\xf3> ]\n[ <Objecte>, <Objecte>, <Punt inicial> ]\n[ <Funci\xf3>, <Funci\xf3>, <Valor inicial de x>, <Valor final de x> ]\n[ <Corba 1>, <Corba 2>, <Par\xe0metre 1>, <Par\xe0metre 2> ]",
     "Intersect_SyntaxCAS": "[ <Funci\xf3>, <Funci\xf3> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Intersecci\xf3ComAL\xednia",
     "IntersectPath_Syntax": "[ <Recta>, <Pol\xedgon> ]\n[ <Recta>, <C\xf2nica> ]",
     "IntersectPath_Syntax3D": "[ <L\xednia>, <Pol\xedgon> ]\n[ <L\xednia>, <C\xf2nica> ]\n[ <Pla>, <Pol\xedgon> ]\n[ <Pla>, <Qu\xe0drica> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.ca_XV.menu = {
     "Pen_Help": "Dibuixeu un tra\xe7 a la finestra gr\xe0fica. Podeu canviar-ne el color i l'estil des de la barra d'estil.",
     "Pencil": "Llapis antic",
     "Pencil_Help": "Dibuixeu un tra\xe7 a la finestra gr\xe0fica. Podeu canviar-ne el color i l'estil des de la barra d'estil.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\xc0lgebra i gr\xe0fics",
-    "Perspective_AlgebraAndGraphics3D": "\xc0lgebra i Gr\xe0fics 3D",
     "Perspective_BasicGeometry": "Geometria b\xe0sica",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS i gr\xe0fics",
     "Perspective_Geometry": "Geometria",
     "Perspective_Primary": "Prim\xe0ria",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Full de c\xe0lcul i Gr\xe0fics",
     "Perspective_Whiteboard": "Pissarra",
     "PerspectivePanel": "Tauler d'escenaris",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.ca_XV.menu = {
     "insert_worksheet": "Inserix una construcci\xf3 din\xe0mica",
     "off": "Inactiu",
     "on": "Actiu",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

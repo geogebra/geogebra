@@ -417,6 +417,8 @@ __GGB__keysVar.tl.command = {
     "Intersect": "Intersect",
     "Intersect_Syntax": "[ <Object>, <Object> ]\n[ <Object>, <Object>, <Index of Intersection Point> ]\n[ <Object>, <Object>, <Initial Point> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]",
     "Intersect_SyntaxCAS": "[ <Function>, <Function> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectionPaths",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.tl.menu = {
     "Pen_Help": "Magsulat sa Graphics View. Palitan ang kulay gamit ang Stylebar",
     "Pencil": "Pencil",
     "Pencil_Help": "Gumuhit sa Graphics View. Palitan ang kulay gamit ang Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra & Graphics",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Basic Geometry",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS at Graphics",
     "Perspective_Geometry": "Geometry",
     "Perspective_Primary": "Primary",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Spreadsheet at Graphics",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.tl.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Off",
     "on": "On",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

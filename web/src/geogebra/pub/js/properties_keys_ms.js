@@ -417,6 +417,8 @@ __GGB__keysVar.ms.command = {
     "Intersect": "Silang",
     "Intersect_Syntax": "[ <Objek>, <Objek> ]\n[ <Objek>, <Objek>, <Indeks Titik Persilangan> ]\n[ <Objek>, <Objek>, <Titik Permulaan> ]\n[ <Fungsi>, <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x> ]",
     "Intersect_SyntaxCAS": "[ <Fungsi>, <Fungsi> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "LaluanPersilangan",
     "IntersectPath_Syntax": "[ <Garis>, <Poligon> ]\n[ <Garis>, <KeratanKon> ]",
     "IntersectPath_Syntax3D": "[ <Garis>, <Poligon> ]\n[ <Garis>, <KeratanKon> ]\n[ <Satah>, <Poligon> ]\n[ <Satah>, <Kuadrik> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.ms.menu = {
     "Pen_Help": "Tulis pada Paparan Grafik. Tukar warna menggunakan Bar Gaya",
     "Pencil": "Pensel",
     "Pencil_Help": "Lukis pada Paparan Grafik. Tukar warna menggunakan Bar Stail",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra & Grafik",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometri Asas",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafik",
     "Perspective_Geometry": "Geometri",
     "Perspective_Primary": "Utama",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Jadual & Grafik",
     "Perspective_Whiteboard": "Papan Putih",
     "PerspectivePanel": "Panel Perspektif",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.ms.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Padam",
     "on": "Pasang",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

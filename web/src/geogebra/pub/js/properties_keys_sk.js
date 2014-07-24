@@ -417,6 +417,8 @@ __GGB__keysVar.sk.command = {
     "Intersect": "Priese\u010dn\xedk",
     "Intersect_Syntax": "[ <Objekt>, <Objekt> ]\n[ <Objekt>, <Objekt>, <\u010c\xedslo prese\u010dn\xedku> ]\n[ <Objekt>, <Objekt>, <Za\u010diato\u010dn\xfd bod> ]\n[ <Funkcia>, <Funkcia>, <Od>, <Do> ]\n[ <1. krivka>, <2. krivka>, <1. parameter>, <2. parameter> ]",
     "Intersect_SyntaxCAS": "[ <Funkcia>, <Funkcia> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "PrienikCiest",
     "IntersectPath_Syntax": "[ <Priamka>, <Mnohouholn\xedk> ]\n[ <Priamka>, <Ku\u017ee\u013eose\u010dka> ]",
     "IntersectPath_Syntax3D": "[ <Priamka>, <Mnohouholn\xedk> ]\n[ <Priamka>, <Ku\u017ee\u013eose\u010dka> ]\n[ <Rovina>, <Mnohouholn\xedk> ]\n[ <Rovina>, <Kvadratick\xe1 plocha> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.sk.menu = {
     "Pen_Help": "P\xedsanie do n\xe1kresne. Farbu mo\u017eno zmeni\u0165 pri vlastnostiach.",
     "Pencil": "Ceruzka",
     "Pencil_Help": "Kreslenie do n\xe1kresne. Farbu mo\u017eno zmeni\u0165 pri vlastnostiach.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra a Grafika",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Z\xe1kladn\xe1 geometria",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS a Grafika",
     "Perspective_Geometry": "Geometria",
     "Perspective_Primary": "Prim\xe1rna",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabu\u013eka a Grafika",
     "Perspective_Whiteboard": "Tabu\u013ea",
     "PerspectivePanel": "Panel Perspekt\xedvy",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.sk.menu = {
     "insert_worksheet": "Vlo\u017ei\u0165 pracovn\xfd h\xe1rok",
     "off": "vypnut\xe9",
     "on": "zapnut\xe9",
+    "search_geogebra_materials": "Vyh\u013ead\xe1vanie medzi materi\xe1lmi",
 }
 
 

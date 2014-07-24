@@ -417,6 +417,8 @@ __GGB__keysVar.ga.command = {
     "Intersect": "Intersect",
     "Intersect_Syntax": "[ <Object>, <Object> ]\n[ <Object>, <Object>, <Index of Intersection Point> ]\n[ <Object>, <Object>, <Initial Point> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]\n[ <Curve 1>, <Curve 2>, <Parameter 1>, <Parameter 2> ]",
     "Intersect_SyntaxCAS": "[ <Function>, <Function> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.ga.menu = {
     "Pen_Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pencil",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra & Graphics",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "C\xe9imseata Bun\xfasach",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Graphics",
     "Perspective_Geometry": "C\xe9imseata",
     "Perspective_Primary": "Primary",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Spreadsheet & Graphics",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.ga.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Off",
     "on": "On",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

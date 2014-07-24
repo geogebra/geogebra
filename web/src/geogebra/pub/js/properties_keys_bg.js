@@ -417,6 +417,8 @@ __GGB__keysVar.bg.command = {
     "Intersect": "\u0421\u0435\u0447\u0435\u043d\u0438\u0435",
     "Intersect_Syntax": "[ <\u041e\u0431\u0435\u043a\u0442>, <\u041e\u0431\u0435\u043a\u0442> ]\n[ <\u041e\u0431\u0435\u043a\u0442>, <\u041e\u0431\u0435\u043a\u0442>, <\u041f\u0440\u0435\u0441\u0435\u0447\u043d\u0430 \u0442\u043e\u0447\u043a\u0430> ]\n[ <\u041e\u0431\u0435\u043a\u0442>, <\u041e\u0431\u0435\u043a\u0442>, <\u0422\u043e\u0447\u043a\u0430> ]\n[ <\u0424\u0443\u043d\u043a\u0446\u0438\u044f>, <\u0424\u0443\u043d\u043a\u0446\u0438\u044f>, <\u041d\u0430\u0447\u0430\u043b\u043d\u0430 \u0441\u0442\u043e\u0439\u043d\u043e\u0441\u0442 \u0445>, <\u041a\u0440\u0430\u0439\u043d\u0430 \u0441\u0442\u043e\u0439\u043d\u043e\u0441\u0442 \u0445> ]\n[ <\u041a\u0440\u0438\u0432\u0430 1>, <\u041a\u0440\u0438\u0432\u0430 2>, <\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u044a\u0440 1>, <\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u044a\u0440 2> ]",
     "Intersect_SyntaxCAS": "[ <\u0424\u0443\u043d\u043a\u0446\u0438\u044f>, <\u0424\u0443\u043d\u043a\u0446\u0438\u044f> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <\u041f\u0440\u0430\u0432\u0430>, <\u041c\u043d\u043e\u0433\u043e\u044a\u0433\u044a\u043b\u043d\u0438\u043a> ]\n[ <\u041f\u0440\u0430\u0432\u0430>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <\u041f\u0440\u0430\u0432\u0430>, <\u041f\u043e\u043b\u0438\u0433\u043e\u043d> ]\n[ <\u041f\u0440\u0430\u0432\u0430>, <Conic> ]\n[ <\u0420\u0430\u0432\u043d\u0438\u043d\u0430>, <\u041f\u043e\u043b\u0438\u0433\u043e\u043d> ]\n[ <\u0420\u0430\u0432\u043d\u0438\u043d\u0430>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.bg.menu = {
     "Pen_Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "\u041c\u043e\u043b\u0438\u0432",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u0410\u043b\u0433\u0435\u0431\u0440\u0430 \u0438 \u0433\u0440\u0430\u0444\u0438\u043a\u0438",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u041e\u0441\u043d\u043e\u0432\u043d\u0430 \u0433\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u044f",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS \u0438 \u0433\u0440\u0430\u0444\u0438\u043a\u0438",
     "Perspective_Geometry": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u044f",
     "Perspective_Primary": "\u041e\u0441\u043d\u043e\u0432\u043d\u0438",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u0422\u0430\u0431\u043b\u0438\u0446\u0438 \u0438 \u0413\u0440\u0430\u0444\u0438\u043a\u0438",
     "Perspective_Whiteboard": "\u0418\u043d\u0442\u0435\u0440\u043a\u0430\u0442\u0438\u0432\u043d\u0430 \u0431\u044f\u043b\u0430 \u0434\u044a\u0441\u043a\u0430",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.bg.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "\u041d\u0435 \u043f\u0440\u0438\u043a\u0440\u0435\u043f\u0432\u0430\u0439",
     "on": "\u041f\u0440\u0438\u043a\u0440\u0435\u043f\u0438",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

@@ -417,6 +417,8 @@ __GGB__keysVar.hi.command = {
     "Intersect": "\u092a\u094d\u0930\u0924\u093f\u091a\u094d\u091b\u0947\u0926",
     "Intersect_Syntax": "[ <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f>, <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f> ]\n[ <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f>, <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f>, <\u092a\u094d\u0930\u0924\u093f\u091a\u094d\u091b\u0947\u0926 \u092c\u093f\u0928\u094d\u0926\u0941\u0913 \u0915\u0940 \u0938\u0942\u091a\u0940> ]\n[ <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f>, <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f>, <\u092a\u094d\u0930\u093e\u0930\u092e\u094d\u092d\u093f\u0915 \u092c\u093f\u0928\u094d\u0926\u0941> ]\n[ <\u092b\u093c\u0932\u0928>, <\u092b\u093c\u0932\u0928>, <x-\u092e\u093e\u0928 \u092a\u094d\u0930\u093e\u0930\u092e\u094d\u092d>, <x-\u092e\u093e\u0928 \u0905\u0928\u094d\u0924> ]",
     "Intersect_SyntaxCAS": "[ <\u092b\u0932\u0928>, <\u092b\u0932\u0928> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.hi.menu = {
     "Pen_Help": "\u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938 \u0935\u094d\u092f\u0942 \u092e\u0947\u0902 \u0932\u093f\u0916\u0947\u0902\u0964\u0938\u094d\u091f\u093e\u0907\u0932 \u092c\u093e\u0930 \u0915\u0947 \u092a\u094d\u0930\u092f\u094b\u0917 \u0938\u0947 \u0930\u0902\u0917 \u092c\u0926\u0932\u0947\u0902\u0964",
     "Pencil": "\u092a\u0947\u0902\u0938\u093f\u0932",
     "Pencil_Help": "\u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938 \u0935\u094d\u092f\u0942 \u092e\u0947\u0902 \u0921\u094d\u0930\u093e \u0915\u0930\u0947\u0902\u0964 \u0938\u094d\u091f\u093e\u0907\u0932 \u092c\u093e\u0930 \u0915\u0947 \u092a\u094d\u0930\u092f\u094b\u0917 \u0938\u0947 \u0930\u0902\u0917 \u092c\u0926\u0932\u0947\u0902\u0964",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u092c\u0940\u091c\u0917\u0923\u093f\u0924 \u090f\u0935\u0902 \u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u092c\u0941\u0928\u093f\u092f\u093e\u0926\u0940 \u091c\u094d\u092f\u093e\u092e\u093f\u0924\u093f",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "\u0915\u0949\u0938 \u090f\u0935\u0902 \u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938",
     "Perspective_Geometry": "\u091c\u094d\u092f\u093e\u092e\u093f\u0924\u093f",
     "Perspective_Primary": "\u092a\u094d\u0930\u093e\u0925\u092e\u093f\u0915",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u0938\u094d\u092a\u094d\u0930\u0947\u0921\u094d\u0936\u0940\u091f \u090f\u0935\u0902 \u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "\u092a\u0930\u093f\u092a\u094d\u0930\u0947\u0915\u094d\u0937\u094d\u092f \u092a\u0948\u0928\u0932",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.hi.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "\u092c\u0902\u0926",
     "on": "\u091a\u093e\u0932\u0942",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

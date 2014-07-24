@@ -417,6 +417,8 @@ __GGB__keysVar.no_NN.command = {
     "Intersect": "Skjering",
     "Intersect_Syntax": "[ <Objekt>, <Objekt> ]\n[ <Objekt>, <Objekt>, <Skjeringspunkt nr.> ]\n[ <Objekt>, <Objekt>, <Startpunkt> ]\n[ <Funksjon>, <Funksjon>, <Start x-verdi>, <Slutt x-verdi> ]\n[ <Kurve 1>, <Kurve 2>, <Parameter 1>, <Parameter 2> ]",
     "Intersect_SyntaxCAS": "[ <Funksjon>, <Funksjon> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "SkjeringBaner",
     "IntersectPath_Syntax": "[ <Linje>, <Mangekant> ]\n[ <Linje>, <Kjeglesnitt> ]",
     "IntersectPath_Syntax3D": "[ <Linje>, <Mangekant> ]\n[ <Linje>, <Kjeglesnitt> ]\n[ <Plan>, <Mangekant> ]\n[ <Plan>, <Firkant> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.no_NN.menu = {
     "Pen_Help": "Skriv i grafikkfeltet. Bruk stilmenyen for \xe5 endre farge.",
     "Pencil": "Blyant",
     "Pencil_Help": "Teikn i grafikkfeltet. Bruk stilmenyen for \xe5 endre farge.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra og grafikk",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Grunnleggande geometri",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS og grafikk",
     "Perspective_Geometry": "Geometri",
     "Perspective_Primary": "Basis",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabell og grafikk",
     "Perspective_Whiteboard": "Tavle",
     "PerspectivePanel": "Oppsett for sidefelt",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.no_NN.menu = {
     "insert_worksheet": "Set inn arbeidsark",
     "off": "Av",
     "on": "P\xe5",
+    "search_geogebra_materials": "S\xf8k ettet GeoGebra-materiell",
 }
 
 

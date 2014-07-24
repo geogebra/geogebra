@@ -417,6 +417,8 @@ __GGB__keysVar.eo.command = {
     "Intersect": "Komuna\u0135o",
     "Intersect_Syntax": "[ <Objekto>, <Objekto> ]\n[ <Objekto>, <Objekto>, <Indico> ]\n[ <Objekto>, <Objekto>, <Komenca Punkto> ]\n[ <Funkcio>, <Funkcio>, <Komenca Valoro>, <Fina Valoro> ]\n[ <Kurbo 1>, <Kurbo 2>, <Parametro 1>, <Parametro 2> ]",
     "Intersect_SyntaxCAS": "[ <Funkcio>, <Funkcio> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Rekto>, <Plurlatero> ]\n[ <Rekto>, <Koniko> ]",
     "IntersectPath_Syntax3D": "[ <Rekto>, <Plurlatero> ]\n[ <Rekto>, <Koniko> ]\n[ <Ebeno>, <Plurlatero> ]\n[ <Ebeno>, <Kvadriko> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.eo.menu = {
     "Pen_Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Krajono",
     "Pencil_Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebro & Grafika\u0135o",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Basic Geometry",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Graphics",
     "Perspective_Geometry": "Geometrio",
     "Perspective_Primary": "Primary",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Kalkultabelo & Grafika\u0135o",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspective Panel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.eo.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Off",
     "on": "On",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

@@ -417,6 +417,8 @@ __GGB__keysVar.sl.command = {
     "Intersect": "Prese\u010di\u0161\u010de",
     "Intersect_Syntax": "[ <objekt>, <objekt> ]\n[ <objekt>, <objekt>, <index prese\u010di\u0161\u010da> ]\n[ <objekt>, <objekt>, <za\u010detna to\u010dka> ]\n[ <funkcija>, <funkcija>, <za\u010detna vrednost x>, <kon\u010dna vrednost x> ]\n[ <krivulja 1>, <krivulja 2>, <parameter 1>, <parameter 2> ]",
     "Intersect_SyntaxCAS": "[ <funkcija>, <funkcija> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "PresekPoti",
     "IntersectPath_Syntax": "[ <\u010drta>, <mnogokotnik> ]\n[ <\u010drta>, <sto\u017enica> ]",
     "IntersectPath_Syntax3D": "[ <premica>, <poligon> ]\n[ <premica>, <sto\u017eec> ]\n[ <ravnina>, <poligon> ]\n[ <ravnina>, <ploskev> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.sl.menu = {
     "Pen_Help": "Pi\u0161i v grafi\u010dnem pogledu. Barvo spremeni\u0161 z uporabo okvirja s slogi",
     "Pencil": "Pisalo",
     "Pencil_Help": "Risanje v grafi\u010dnem pogledu. Barvo spremeni\u0161 z uporabo okvirja s slogi",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra in risalna povr\u0161ina",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Risalna povr\u0161ina",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "Simbolno ra\u010dunanje in grafi\u010dni prikaz",
     "Perspective_Geometry": "Risalna povr\u0161ina",
     "Perspective_Primary": "Osnovni prikaz",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabele in risalna povr\u0161ina",
     "Perspective_Whiteboard": "Tabla",
     "PerspectivePanel": "Okvir s perspektivo",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.sl.menu = {
     "insert_worksheet": "Vstavi delovni list",
     "off": "Izklju\u010deno",
     "on": "Vklju\u010deno",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

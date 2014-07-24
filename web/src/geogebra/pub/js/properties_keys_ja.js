@@ -417,6 +417,8 @@ __GGB__keysVar.ja.command = {
     "Intersect": "Intersect",
     "Intersect_Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8> ]\n[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u4ea4\u70b9\u306e\u6570> ]\n[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u521d\u671f\u70b9> ]",
     "Intersect_SyntaxCAS": "[ <\u95a2\u6570>, <\u95a2\u6570> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectionPaths",
     "IntersectPath_Syntax": "[ <\u76f4\u7dda>, <\u591a\u89d2\u5f62> ]\n[ <\u76f4\u7dda>, <\uff12\u6b21\u66f2\u7dda> ]",
     "IntersectPath_Syntax3D": "[ <\u76f4\u7dda>, <\u591a\u89d2\u5f62> ]\n[ <\u76f4\u7dda>, <\uff12\u6b21\u66f2\u7dda> ]\n[ <\u5e73\u9762>, <\u591a\u89d2\u5f62> ]\n[ <\u5e73\u9762>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.ja.menu = {
     "Pen_Help": "\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9\u30d3\u30e5\u30fc\u306b\u63cf\u753b\u3057\u307e\u3059\u3002\u30b9\u30bf\u30a4\u30eb\u30d0\u30fc\u3067\u8272\u3092\u5909\u3048\u3089\u308c\u307e\u3059\u3002",
     "Pencil": "\u925b\u7b46",
     "Pencil_Help": "\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9\u30d3\u30e5\u30fc\u306b\u63cf\u753b\u3057\u307e\u3059\u3002\u30b9\u30bf\u30a4\u30eb\u30d0\u30fc\u3067\u8272\u304c\u5909\u3048\u3089\u308c\u307e\u3059\u3002",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u6570\u5f0f & \u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u57fa\u672c\u7684\u306a\u5e7e\u4f55",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS\u3068\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9",
     "Perspective_Geometry": "\u5e7e\u4f55",
     "Perspective_Primary": "\u521d\u7b49",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u8868 & \u30b0\u30e9\u30d5\u30a3\u30af\u30b9",
     "Perspective_Whiteboard": "\u30db\u30ef\u30a4\u30c8\u30dc\u30fc\u30c9",
     "PerspectivePanel": "\u30d1\u30fc\u30b9\u30da\u30af\u30c6\u30a3\u30d6\u30d1\u30cd\u30eb",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.ja.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "\u30aa\u30d5",
     "on": "\u30aa\u30f3",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

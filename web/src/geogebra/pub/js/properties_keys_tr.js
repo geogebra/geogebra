@@ -417,6 +417,8 @@ __GGB__keysVar.tr.command = {
     "Intersect": "Kesi\u015ftir",
     "Intersect_Syntax": "[ <Nesne>, <Nesne> ]\n[ <Nesne>, <Nesne>, <Kesi\u015fim Noktas\u0131 \u0130ndeksi> ]\n[ <Nesne>, <Nesne>, <Ba\u015flang\u0131\xe7 Noktas\u0131> ]\n[ <\u0130\u015flev>, <\u0130\u015flev>, <Ba\u015flang\u0131\xe7-x De\u011feri>, <Biti\u015f-x De\u011feri> ]\n[ <E\u011fri 1>, <E\u011fri 2>, <Parametre 1>, <Parametre 2> ]",
     "Intersect_SyntaxCAS": "[ <Fonksiyon>, <Fonksiyon> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Yollar\u0131Kesi\u015ftir",
     "IntersectPath_Syntax": "[ <Do\u011fru>, <\xc7okgen> ]\n[ <Do\u011fru>, <Konik> ]",
     "IntersectPath_Syntax3D": "[ <Do\u011fru>, <\xc7okgen> ]\n[ <Do\u011fru>, <Konik> ]\n[ <D\xfczlem>, <\xc7okgen> ]\n[ <D\xfczlem>, <\u0130kinci dereceden> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.tr.menu = {
     "Pen_Help": "Grafik G\xf6r\xfcn\xfcm\xfcnde yaz. Sitil \xe7ubu\u011funu kullanarak rengi de\u011fi\u015ftir",
     "Pencil": "Kalem",
     "Pencil_Help": "Grafik G\xf6r\xfcn\xfcm\xfcnde \xe7izer. Sitil \xe7ubu\u011funu kullanarak rengi de\u011fi\u015ftirin.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Cebiir & Grafik",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Basit Geometri",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafik",
     "Perspective_Geometry": "Geometri",
     "Perspective_Primary": "Birincil",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tablo & Grafik",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspektif Paneli",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.tr.menu = {
     "insert_worksheet": "\xc7al\u0131ma Sayfas\u0131 Yerle\u015ftir",
     "off": "Kapal\u0131",
     "on": "A\xe7\u0131k",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

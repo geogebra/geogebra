@@ -417,6 +417,8 @@ __GGB__keysVar.lv.command = {
     "Intersect": "Krustpunkts",
     "Intersect_Syntax": "[ <Objekts>, <Objekts> ]\n[ <Objekts>, <Objekts>, <Krustpunkta Indekss> ]\n[ <Objekts>, <Objekts>, <S\u0101kumpunkts> ]\n[ <Funkcija>, <Funkcija>, <S\u0101kuma x-V\u0113rt\u012bba>, <Beigu x-V\u0113rt\u012bba> ]\n[ <L\u012bkne 1>, <L\u012bkne 2>, <Parametrs 1>, <Parametrs 2> ]",
     "Intersect_SyntaxCAS": "[ <Funkcija>, <Funkcija> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "KrustpunktuApgabals",
     "IntersectPath_Syntax": "[ <Taisne>, <Daudzst\u016bris> ]\n[ <Taisne>, <konisks> ]",
     "IntersectPath_Syntax3D": "[ <Taisne>, <Daudzst\u016bris> ]\n[ <Taisne>, <Konisks> ]\n[ <Plakne>, <Daudzst\u016bris> ]\n[ <Plakne>, <Kvadr\u0101tisks> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.lv.menu = {
     "Pen_Help": "Rakst\u012bt grafiskaj\u0101 skat\u0101. Main\u012bt kr\u0101su, lietojot Stylebar",
     "Pencil": "Z\u012bmulis",
     "Pencil_Help": "Z\u012bm\u0113t grafiskaj\u0101 skat\u0101. Main\u012bt kr\u0101su, lietojot Stylebar",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra & Grafiks",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u0122eomerijas pamati",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafiks",
     "Perspective_Geometry": "\u0122eometrija",
     "Perspective_Primary": "Galvenais",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Izkl\u0101jlapa & Grafiks",
     "Perspective_Whiteboard": "Balt\u0101 t\u0101fele",
     "PerspectivePanel": "Perspekt\u012bvais Panelis",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.lv.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Izsl\u0113gts",
     "on": "Iesl\u0113gts",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

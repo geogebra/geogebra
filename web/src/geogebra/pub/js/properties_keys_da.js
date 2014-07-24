@@ -417,6 +417,8 @@ __GGB__keysVar.da.command = {
     "Intersect": "Sk\xe6ring",
     "Intersect_Syntax": "[ <Objekt>, <Objekt> ]\n[ <Objekt>, <Objekt>, <indeks for sk\xe6ringspunkt> ]\n[ <Objekt>, <Objekt>, <Udgangspunkt> ]\n[ <Objekt>, <Objekt>, <Start x-v\xe6rdi>, <Slut x-v\xe6rdi> ]\n[ <Kurve 1>, <Kurve 2>, <Parameter 1>, <Parameter 2> ]",
     "Intersect_SyntaxCAS": "[ <funktion>, <funktion> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "linjestykkeSti",
     "IntersectPath_Syntax": "[ <Linje>, <Polygon> ]\n[ <Linje>, <Keglesnit> ]",
     "IntersectPath_Syntax3D": "[ <Linje>, <Polygon> ]\n[ <Linje>, <Keglesnit> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Kvadratisk> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.da.menu = {
     "Pen_Help": "Skriv p\xe5 tegneblokken. V\xe6lg farve ved at bruge stilbj\xe6lken.",
     "Pencil": "Blyant",
     "Pencil_Help": "Tegn i grafikvinduet. V\xe6lg farve ved at bruge stilbj\xe6lken.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebra og tegning",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Element\xe6r geometri",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "cas og tegneblok",
     "Perspective_Geometry": "Geometri",
     "Perspective_Primary": "Prim\xe6rt",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabel og tegning",
     "Perspective_Whiteboard": "IWB",
     "PerspectivePanel": "Perspektivpanel",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.da.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "fra",
     "on": "til",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

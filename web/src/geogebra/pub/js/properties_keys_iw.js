@@ -417,6 +417,8 @@ __GGB__keysVar.iw.command = {
     "Intersect": "Intersect",
     "Intersect_Syntax": "[ <Object>, <Object> ]\n[ <Object>, <Object>, <Index of Intersection Point> ]\n[ <Object>, <Object>, <Initial Point> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]",
     "Intersect_SyntaxCAS": "[ <Function>, <Function> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPaths",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.iw.menu = {
     "Pen_Help": "\u05db\u05ea\u05d1\u05d9 \u05d1\u05ea\u05e6\u05d5\u05d2\u05d4 \u05d4\u05d2\u05e8\u05e4\u05d9\u05ea. \u05e9\u05e0\u05d9 \u05e6\u05d1\u05e2 \u05d1\u05e2\u05d6\u05e8\u05ea \u05e1\u05e8\u05d2\u05dc \u05d4\u05e1\u05d2\u05e0\u05d5\u05df.",
     "Pencil": "\u05e2\u05d9\u05e4\u05e8\u05d5\u05df",
     "Pencil_Help": "\u05e6\u05d9\u05d9\u05e8\u05d9 \u05d1\u05ea\u05e6\u05d5\u05d2\u05d4 \u05d4\u05d2\u05e8\u05e4\u05d9\u05ea. \u05e9\u05e0\u05d9 \u05e6\u05d1\u05e2 \u05d1\u05e2\u05d6\u05e8\u05ea \u05e1\u05e8\u05d2\u05dc \u05d4\u05e1\u05d2\u05e0\u05d5\u05df.",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u05d0\u05dc\u05d2\u05d1\u05e8\u05d4 \u05d5\u05dc\u05d5\u05d7 \u05e1\u05e8\u05d8\u05d5\u05d8",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u05d2\u05d0\u05d5\u05de\u05d8\u05e8\u05d9\u05d4 \u05d1\u05e1\u05d9\u05e1\u05d9\u05ea",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "\u05d7\u05d9\u05e9\u05d5\u05d1 \u05d0\u05dc\u05d2\u05d1\u05e8\u05d9 \u05d5\u05ea\u05e6\u05d5\u05d2\u05d4 \u05d2\u05e8\u05e4\u05d9\u05ea",
     "Perspective_Geometry": "\u05d2\u05d0\u05d5\u05de\u05d8\u05e8\u05d9\u05d4",
     "Perspective_Primary": "\u05e2\u05d9\u05e7\u05e8\u05d9\u05ea",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u05d8\u05d1\u05dc\u05d4 \u05d5\u05dc\u05d5\u05d7 \u05e1\u05e8\u05d8\u05d5\u05d8",
     "Perspective_Whiteboard": "\u05dc\u05d5\u05d7",
     "PerspectivePanel": "\u05dc\u05d5\u05d7 \u05ea\u05e6\u05d5\u05e8\u05d5\u05ea",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.iw.menu = {
     "insert_worksheet": "\u05d4\u05db\u05e0\u05e1 \u05d2\u05d9\u05dc\u05d9\u05d5\u05df",
     "off": "\u05db\u05d1\u05d5\u05d9",
     "on": "\u05de\u05d5\u05e4\u05e2\u05dc",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

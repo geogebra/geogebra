@@ -417,6 +417,8 @@ __GGB__keysVar.zh_TW.command = {
     "Intersect": "Intersect",
     "Intersect_Syntax": "[ <\u7269\u4ef6>, <\u7269\u4ef6> ]\n[ <\u7269\u4ef6>, <\u7269\u4ef6>, <\u4ea4\u9ede\u7de8\u865f> ]\n[ <\u7269\u4ef6>, <\u7269\u4ef6>, <Initial Point> ]\n[ <\u51fd\u6578>, <\u51fd\u6578>, <x \u521d\u503c>, <x \u672b\u503c> ]",
     "Intersect_SyntaxCAS": "[ <Function>, <Function> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.zh_TW.menu = {
     "Pen_Help": "\u7528\u65bc\u7e6a\u5716\u5340\u5beb\u5b57\uff0c\u53ef\u7528\u6a23\u5f0f\u5217\u6539\u8b8a\u984f\u8272",
     "Pencil": "\u925b\u7b46",
     "Pencil_Help": "\u7528\u65bc\u7e6a\u5716\u5340\u756b\u756b\uff0c\u53ef\u7528\u6a23\u5f0f\u5217\u66f4\u6539\u984f\u8272\u3002",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "\u7e6a\u5716\u5340+\u4ee3\u6578\u5340",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "\u7e6a\u5716\u5340+\u57fa\u672c\u5de5\u5177",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "\u7e6a\u5716\u5340+\u904b\u7b97\u5340",
     "Perspective_Geometry": "\u7e6a\u5716\u5340",
     "Perspective_Primary": "\u9810\u8a2d\u914d\u7f6e",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "\u7e6a\u5716\u5340+\u8a66\u7b97\u8868",
     "Perspective_Whiteboard": "\u767d\u677f",
     "PerspectivePanel": "\u7248\u9762\u683c\u5c40",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.zh_TW.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "\u95dc\u9589",
     "on": "\u555f\u52d5",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

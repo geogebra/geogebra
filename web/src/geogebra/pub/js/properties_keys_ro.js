@@ -417,6 +417,8 @@ __GGB__keysVar.ro.command = {
     "Intersect": "Intersec\u0163ie",
     "Intersect_Syntax": "[ <Obiect>, <Obiect> ]\n[ <Obiect>, <Obiect>, <Num\u0103rul puncte de intersec\u0163ie> ]\n[ <Obiect>, <Obiect>, <Punct Ini\u0163ial> ]",
     "Intersect_SyntaxCAS": "[ <Func\u0163ie>, <Func\u0163ie> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Intersec\u021bieDirec\u021bii",
     "IntersectPath_Syntax": "[ <Dreapt\u0103>, <Poligon> ]\n[ <Dreapt\u0103>, <Conic\u0103> ]",
     "IntersectPath_Syntax3D": "[ <Dreapt\u0103>, <Poligon> ]\n[ <Dreapt\u0103>, <Conic\u0103> ]\n[ <Plan>, <Poligon> ]\n[ <Plan>, <Curb\u0103 de gradul doi> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.ro.menu = {
     "Pen_Help": "Scrie\u021bi \xeen fereastra grafic\u0103. Schimba\u021bi culoarea folosind bara de stiluri",
     "Pencil": "Creion",
     "Pencil_Help": "Desena\u021bi \xeen fereastra grafic\u0103. Schimba\u021bi culoarea folosind bara de stiluri",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebr\u0103 & Grafic\u0103",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Geometrie elementar\u0103",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS & Grafic\u0103",
     "Perspective_Geometry": "Geometrie",
     "Perspective_Primary": "Primar",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tabele & Grafic\u0103",
     "Perspective_Whiteboard": "Tabl\u0103 alb\u0103",
     "PerspectivePanel": "Panel perspectiv\u0103",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.ro.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "Oprit",
     "on": "Pornit",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 

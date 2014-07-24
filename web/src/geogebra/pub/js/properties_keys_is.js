@@ -417,6 +417,8 @@ __GGB__keysVar.is.command = {
     "Intersect": "Skur\xf0punktar",
     "Intersect_Syntax": "[ <Hlutur>, <Hlutur> ]\n[ <Hlutur>, <Hlutur>, <N\xfamer skur\xf0punkts> ]\n[ <Hlutur>, <Hlutur>, <Upphafspunktur> ]\n[ <Fall>, <Fall>, <Upphafs-x-gildi>, <Loka-x-gildi> ]",
     "Intersect_SyntaxCAS": "[ <Fall>, <Fall> ]",
+    "IntersectConic": "IntersectConic",
+    "IntersectConic_Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Skur\xf0Ferlar",
     "IntersectPath_Syntax": "[ <L\xedna>, <Marghyrningur> ]\n[ <L\xedna>, <Keilusni\xf0> ]",
     "IntersectPath_Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
@@ -1646,12 +1648,14 @@ __GGB__keysVar.is.menu = {
     "Pen_Help": "Skrifi\xf0 \xed myndaglugga. Breyti\xf0 lit me\xf0 \xfev\xed a\xf0 nota \xfatlitsstiku",
     "Pencil": "Bl\xfdantur",
     "Pencil_Help": "Teikni\xf0 \xed myndaglugga. Breyti\xf0 lit me\xf0 \xfev\xed a\xf0 nota \xfatlitsstiku",
+    "Perspective_3DGraphics": "3D Graphics",
     "Perspective_AlgebraAndGraphics": "Algebrugluggi og myndagluggi",
-    "Perspective_AlgebraAndGraphics3D": "Algebra & 3D Graphics",
     "Perspective_BasicGeometry": "Einfaldur r\xfamfr\xe6\xf0igluggi",
+    "Perspective_CAS": "CAS",
     "Perspective_CASAndGraphics": "CAS og myndagluggi",
     "Perspective_Geometry": "R\xfamfr\xe6\xf0i",
     "Perspective_Primary": "Einf\xf6ld",
+    "Perspective_Spreadsheet": "Spreadsheet",
     "Perspective_TableAndGraphics": "Tafla og mynd",
     "Perspective_Whiteboard": "Whiteboard",
     "PerspectivePanel": "Stj\xf3rnbor\xf0 fyrir mismunandi s\xfdn",
@@ -2046,6 +2050,7 @@ __GGB__keysVar.is.menu = {
     "insert_worksheet": "Insert Worksheet",
     "off": "af",
     "on": "\xe1",
+    "search_geogebra_materials": "Search GeoGebra Materials",
 }
 
 
