@@ -1935,7 +1935,8 @@ namespace giac {
     }
     if (e.is_symb_of_sommet(at_sin)){
       a=e._SYMBptr->feuille;
-      return a-_round(a/cste,contextptr)*cste;
+      gen n=_round(a/cste,contextptr);
+      return symbolic(at_pow,makesequence(-1,n))*(a-n*cste);
     }
     if ( (e.type==_INT_) && (e.val<0) )
       return -asin(-e,contextptr);

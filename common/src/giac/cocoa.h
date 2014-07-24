@@ -24,6 +24,7 @@
 // special code for polynomial up to 11 variables (max deg<32768) 
 //#define GROEBNER_VARS 11
 #define GROEBNER_VARS 15
+#define GIAC_REDUCEMODULO // reduce initial input only at modular step
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {

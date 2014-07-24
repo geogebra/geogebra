@@ -3102,8 +3102,28 @@ namespace giac {
       swap(rem.coord,TMP1.coord);
       continue;
     }
-    if (normalize && !rem.coord.empty() && rem.coord.front().g!=1)
+    if (normalize && !rem.coord.empty() && rem.coord.front().g!=1){
       smallmult(invmod(rem.coord.front().g,env),rem.coord,rem.coord,env);
+      rem.coord.front().g=1;
+    }
+  }
+
+  static void reducemod(vectpolymod &resmod,modint env){
+    if (resmod.empty())
+      return;
+    // Initial interreduce step
+    polymod TMP1(resmod.front().order,resmod.front().dim);
+    vector<unsigned> G(resmod.size());
+    for (unsigned j=0;j<G.size();++j)
+      G[j]=j;
+    for (unsigned j=0; j<resmod.size();++j){
+#ifdef TIMEOUT
+      control_c();
+#endif
+      if (interrupted || ctrl_c)
+	return;
+      reducesmallmod(resmod[j],resmod,G,j,env,TMP1,true);
+    }
   }
 
   static void gbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned pos,polymod & TMP2,modint env,bool reduce){
@@ -3385,6 +3405,9 @@ namespace giac {
     if (order==_PLEX_ORDER)
       sugar=false;
     for (unsigned l=0;l<ressize;++l){
+#ifdef GIAC_REDUCEMODULO
+      reducesmallmod(res[l],res,G,-1,env,TMP2,env);
+#endif      
       gbasis_updatemod(G,B,res,l,TMP2,env,true);
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
@@ -6528,6 +6551,9 @@ namespace giac {
     if (order==_PLEX_ORDER) // if (order!=_REVLEX_ORDER && order!=_TDEG_ORDER)
       totdeg=false;
     for (unsigned l=0;l<ressize;++l){
+#ifdef GIAC_REDUCEMODULO
+      reducesmallmod(res[l],res,G,-1,env,TMP2,env);
+#endif      
       gbasis_updatemod(G,B,res,l,TMP2,env,true);
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
@@ -9018,6 +9044,9 @@ namespace giac {
     if (order!=_REVLEX_ORDER && order!=_TDEG_ORDER)
       totdeg=false;
     for (unsigned l=0;l<ressize;++l){
+#ifdef GIAC_REDUCEMODULO
+      reducesmallmod(resmod[l],resmod,G,-1,env,TMP2,env);
+#endif
       gbasis_updatemod(G,B,resmod,l,TMP2,env,true);
     }
     // init zpolymod before main loop
@@ -10023,23 +10052,34 @@ namespace giac {
 	    return true;
 	  }
 	  if (debug_infolevel)
-	    CERR << clock() << " begin final check" << endl;
+	    CERR << clock() << " begin final check, checking " << initial << " generators" << endl;
 	  // first verify that the initial generators reduce to 0
 	  poly8 tmp0,tmp1,tmp2;
 	  vectpoly8 wtmp;
-	  unsigned j=0;
+	  unsigned j=0,finalchecks=initial;
+	  if (eps>0)
+	    finalchecks=giacmin(2*W[i].front().dim,initial);
 	  G.resize(W[i].size());
 	  for (j=0;j<W[i].size();++j)
 	    G[j]=j;
-	  for (j=0;j<initial;++j){
+	  for (j=0;j<finalchecks;++j){
+	    if (debug_infolevel)
+	      CERR << "+";
 	    reduce(res[j],W[i],G,-1,wtmp,tmp0,tmp1,tmp2,0);
 	    if (!tmp0.coord.empty()){
 	      break;
 	    }
+	    if (debug_infolevel && (j%10==9))
+	      CERR << j+1 << endl;
 	  }
-	  if (j!=initial){
-	    if (debug_infolevel)
+	  if (j!=finalchecks){
+	    if (debug_infolevel){
 	      CERR << clock() << " final check failure, retrying with another prime " << endl;
+	      CERR << "Non-zero remainder " << tmp0 << endl;
+	      CERR << "checking res[j], " << j << "<" << initial << endl;
+	      CERR << "res[j]=" << res[j] << endl;
+	      CERR << "basis candidate " << W[i] << endl;
+	    }
 	    continue;
 	  }
 	  if (int(W[i].size())<=GBASIS_DETERMINISTIC)
@@ -10161,23 +10201,34 @@ namespace giac {
 	    CERR << clock() << " end rational reconstruction " << endl;
 	  // now check if W[i] is a Groebner basis over Q, if so it's the answer
 	  if (debug_infolevel)
-	    CERR << clock() << " begin final check" << endl;
+	    CERR << clock() << " begin final check, checking " << initial << " generators " << endl;
 	  // first verify that the initial generators reduce to 0
 	  poly8 tmp0,tmp1,tmp2;
 	  vectpoly8 wtmp;
-	  unsigned j=0;
+	  unsigned j=0,finalchecks=initial;
+	  if (eps>0)
+	    finalchecks=giacmin(2*W[i].front().dim,initial);
 	  G.resize(W[i].size());
 	  for (j=0;j<W[i].size();++j)
 	    G[j]=j;
-	  for (j=0;j<initial;++j){
+	  for (j=0;j<finalchecks;++j){
+	    if (debug_infolevel)
+	      CERR << "+";
 	    reduce(res[j],W[i],G,-1,wtmp,tmp0,tmp1,tmp2,0);
 	    if (!tmp0.coord.empty()){
 	      break;
 	    }
+	    if (debug_infolevel	&& (j%10==9))
+	      CERR << j+1 << endl;
 	  }
-	  if (j!=initial){
-	    if (debug_infolevel)
+	  if (j!=finalchecks){
+	    if (debug_infolevel){
 	      CERR << clock() << " final check failure, retrying with another prime " << endl;
+	      CERR << "Non-zero remainder " << tmp0 << endl;
+	      CERR << "checking res[j], " << j << "<" << initial << endl;
+	      CERR << "res[j]=" << res[j] << endl;
+	      CERR << "basis candidate " << W[i] << endl;
+	    }
 	    break;
 	}
 	  /* (final check requires that we have reconstructed a Groebner basis,
@@ -10262,7 +10313,7 @@ namespace giac {
       rur=false;
       order=absint(order);
     }
-    if (!env || env->modulo==0){
+    if (!env || env->modulo==0 || env->moduloon==false){
       if (mod_gbasis(res,modularcheck,
 		     order==_REVLEX_ORDER /* zdata*/,
 		     // true /* zdata*/,
@@ -10292,8 +10343,15 @@ namespace giac {
       if (debug_infolevel)
 	CERR << "G=" << G << endl;
     }
-    else
+    else {
+#ifdef GIAC_REDUCEMODULO
+      vectpoly w(v);
+      reduce(w,env);
+      sort_vectpoly(w.begin(),w.end());
+      vectpoly_2_vectpoly8(w,order,res);
+#endif
       in_gbasis(res,G,env,true);
+    }
     newres=vectpoly(G.size(),polynome(v.front().dim,v.front()));
     for (unsigned i=0;i<G.size();++i)
       res[G[i]].get_polynome(newres[i]);

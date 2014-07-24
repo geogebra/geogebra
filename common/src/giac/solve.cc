@@ -5182,7 +5182,9 @@ namespace giac {
       order=-order;
       rur=true;
     }
+#ifndef GIAC_REDUCEMODULO
     reduce(res,env);
+#endif
     sort_vectpoly(res.begin(),res.end());
     reverse(res.begin(),res.end());
     if (debug_infolevel>6)
@@ -5427,36 +5429,38 @@ namespace giac {
     }
     if (var.size()>1){
 #if 1 // ATESTER
-      // first check for linear dependencies -> substitutions
-      for (unsigned i=0;i<eq.size();++i){
-	for (unsigned j=0;j<var.size();++j){
-	  gen a,b;
-	  if (is_linear_wrt(eq[i],var[j],a,b,contextptr) 
-	      && is_zero(derive(eq[i]-a*var[j],var,contextptr),contextptr) 
-	      && !is_zero(simplify(a,contextptr),contextptr)){
-	    // eq[i]=a*var[j]+b
-	    // replace var[j] by -b/a
-	    gen elimj=-b/a;
-	    vecteur eqs(eq);
-	    vecteur elim(var);
-	    eqs.erase(eqs.begin()+i);
-	    for (unsigned k=0;k<eqs.size();++k){
-	      eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
-	    }
-	    elim.erase(elim.begin()+j);
-	    vecteur res=gsolve(eqs,elim,complexmode,evalf_after,contextptr);
-	    for (unsigned k=0;k<res.size();++k){
-	      gen & resk=res[k];
-	      if (resk.type==_VECT && resk._VECTptr->size()==elim.size()){
-		vecteur resmodif(*resk._VECTptr);
-		gen resval=subst(elimj,elim,resk,false,contextptr);
-		resmodif.insert(resmodif.begin()+j,resval);
-		resk=gen(resmodif,resk.subtype);
+      if (eq.size()<=lidnt(eq).size()+3){
+	// first check for linear dependencies -> substitutions
+	for (unsigned i=0;i<eq.size();++i){
+	  for (unsigned j=0;j<var.size();++j){
+	    gen a,b;
+	    if (is_linear_wrt(eq[i],var[j],a,b,contextptr) 
+		&& is_zero(derive(eq[i]-a*var[j],var,contextptr),contextptr) 
+		&& !is_zero(simplify(a,contextptr),contextptr)){
+	      // eq[i]=a*var[j]+b
+	      // replace var[j] by -b/a
+	      gen elimj=-b/a;
+	      vecteur eqs(eq);
+	      vecteur elim(var);
+	      eqs.erase(eqs.begin()+i);
+	      for (unsigned k=0;k<eqs.size();++k){
+		eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
 	      }
-	      else
-		resk=gensizeerr(contextptr);
+	      elim.erase(elim.begin()+j);
+	      vecteur res=gsolve(eqs,elim,complexmode,evalf_after,contextptr);
+	      for (unsigned k=0;k<res.size();++k){
+		gen & resk=res[k];
+		if (resk.type==_VECT && resk._VECTptr->size()==elim.size()){
+		  vecteur resmodif(*resk._VECTptr);
+		  gen resval=subst(elimj,elim,resk,false,contextptr);
+		  resmodif.insert(resmodif.begin()+j,resval);
+		  resk=gen(resmodif,resk.subtype);
+		}
+		else
+		  resk=gensizeerr(contextptr);
+	      }
+	      return res;
 	    }
-	    return res;
 	  }
 	}
       }
@@ -6190,31 +6194,36 @@ namespace giac {
 
   // eliminate(eqs,vars)
   gen _eliminate(const gen & args,GIAC_CONTEXT){
-    if (args.type!=_VECT || args._VECTptr->size()!=2)
+    if (args.type!=_VECT || args._VECTptr->size()<2)
       return gensizeerr(contextptr);
+    bool returngb=false;
+    if (args._VECTptr->back()==at_gbasis)
+      returngb=true;
     vecteur eqs=gen2vecteur(remove_equal(args._VECTptr->front()));
-    vecteur elim=gen2vecteur(args._VECTptr->back());
+    vecteur elim=gen2vecteur((*args._VECTptr)[1]);
     if (elim.empty())
       return eqs;
     vecteur l(elim);
     lvar(eqs,l); // add other vars after vars to eliminate
-#if 1
-    // eliminate variables with linear dependency 
-    // (in order to lower the number of vars, since <= 11 vars is handled faster)
-    for (unsigned i=0;i<eqs.size();++i){
-      for (unsigned j=0;j<elim.size();++j){
-	gen a,b;
-	if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr),contextptr) && is_zero(derive(a,l,contextptr),contextptr)){
-	  // Warning: a is not identically 0 but may vanish for some values of elim...
-	  // eqs[i]=a*elim[j]+b
-	  // replace elim[j] by -b/a
-	  gen elimj=-b/a;
-	  eqs.erase(eqs.begin()+i);
-	  for (unsigned k=0;k<eqs.size();++k){
-	    eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
+#if 1 
+    if (!returngb && eqs.size()<=l.size()+3){
+      // eliminate variables with linear dependency 
+      // (in order to lower the number of vars, since <= 11 vars is handled faster)
+      for (unsigned i=0;i<eqs.size();++i){
+	for (unsigned j=0;j<elim.size();++j){
+	  gen a,b;
+	  if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr),contextptr) && is_zero(derive(a,l,contextptr),contextptr)){
+	    // Warning: a is not identically 0 but may vanish for some values of elim...
+	    // eqs[i]=a*elim[j]+b
+	    // replace elim[j] by -b/a
+	    gen elimj=-b/a;
+	    eqs.erase(eqs.begin()+i);
+	    for (unsigned k=0;k<eqs.size();++k){
+	      eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
+	    }
+	    elim.erase(elim.begin()+j);
+	    return _eliminate(makesequence(eqs,elim),contextptr);
 	  }
-	  elim.erase(elim.begin()+j);
-	  return _eliminate(makesequence(eqs,elim),contextptr);
 	}
       }
     }
@@ -6273,6 +6282,8 @@ namespace giac {
       if (is_zero(derive(v,elim,contextptr),contextptr))
 	res.push_back(gb[i]);
     }
+    if (returngb)
+      return makevecteur(res,gb);
     return res;
   }
   static const char _eliminate_s []="eliminate";

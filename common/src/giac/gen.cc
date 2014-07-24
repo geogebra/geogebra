@@ -5142,8 +5142,13 @@ namespace giac {
     if (!t && tmp.type==_INT_ ){
       register longlong ab=longlong(a.val)*b.val;
       tmp.val=(int)ab;
+#if 1
+      if (ab>>31)
+	tmp=ab;
+#else
       if (tmp.val!=ab)
 	tmp=ab;
+#endif
       return;
     }
     if (tmp.type==_ZINT && tmp.ref_count()==1){
@@ -6707,7 +6712,7 @@ namespace giac {
       else
 	return rdivsimp(a,b);
     case _CPLX__CPLX: 
-      adjust_complex_display(rdiv(a*conj(b,contextptr),b.squarenorm(contextptr),contextptr),a,b);
+      return adjust_complex_display(rdiv(a*conj(b,contextptr),b.squarenorm(contextptr),contextptr),a,b);
     case _DOUBLE___CPLX: case _FLOAT___CPLX: case _INT___CPLX: case _ZINT__CPLX: case _REAL__CPLX:
       if (is_one(a))
 	return inv(b,contextptr);
@@ -9556,6 +9561,8 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       setsizeerr(gettext("Not invertible ")+a.print(context0)+" mod "+modulo.print(context0));
 #endif
+      delete res;
+      res=0;
       return false;
     }
     return true;
@@ -9576,7 +9583,7 @@ namespace giac {
     case _INT___ZINT: case _ZINT__INT_: case _ZINT__ZINT:
       if (!_ZINTinvmod(a,modulo,res))
 	return gentypeerr(gettext("invmod"));
-      return(res);
+      return gen(res);
     default: 
       return gentypeerr(gettext("invmod"));
     }
