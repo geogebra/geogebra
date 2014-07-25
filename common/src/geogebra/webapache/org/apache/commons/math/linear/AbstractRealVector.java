@@ -14,21 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.linear;
 
+import geogebra.common.util.Cloner;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.BinaryFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class provides default basic implementations for many methods in the
- * {@link RealVector} interface with.
- * @version $Revision: 904231 $ $Date: 2010-01-28 14:42:31 -0500 (Thu, 28 Jan 2010) $
+ * {@link RealVector} interface.
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  * @since 2.1
  */
 public abstract class AbstractRealVector implements RealVector {
@@ -36,7 +42,7 @@ public abstract class AbstractRealVector implements RealVector {
     /**
      * Check if instance and specified vectors have the same dimension.
      * @param v vector to compare instance with
-     * @exception IllegalArgumentException if the vectors do not
+     * @exception DimensionMismatchException if the vectors do not
      * have the same dimension
      */
     protected void checkVectorDimensions(RealVector v) {
@@ -47,16 +53,14 @@ public abstract class AbstractRealVector implements RealVector {
      * Check if instance dimension is equal to some expected value.
      *
      * @param n expected dimension.
-     * @exception IllegalArgumentException if the dimension is
+     * @exception DimensionMismatchException if the dimension is
      * inconsistent with vector size
      */
     protected void checkVectorDimensions(int n)
-        throws IllegalArgumentException {
-        double d = getDimension();
+        throws DimensionMismatchException {
+        int d = getDimension();
         if (d != n) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  "vector length mismatch: got {0} but expected {1}",
-                  d, n);
+            throw new DimensionMismatchException(d, n);
         }
     }
 
@@ -68,9 +72,8 @@ public abstract class AbstractRealVector implements RealVector {
     protected void checkIndex(final int index)
         throws MatrixIndexException {
         if (index < 0 || index >= getDimension()) {
-            throw new MatrixIndexException(
-                  "index {0} out of allowed range [{1}, {2}]",
-                  index, 0, getDimension() - 1);
+            throw new MatrixIndexException(LocalizedFormats.INDEX_OUT_OF_RANGE,
+                                           index, 0, getDimension() - 1);
         }
     }
 
@@ -92,11 +95,11 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector add(double[] v) throws IllegalArgumentException {
-        double[] result = new double[v.length]; //AR v.clone();
+        double[] result = Cloner.clone(v);
         Iterator<Entry> it = sparseIterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            result[e.getIndex()] = v[e.getIndex()] + e.getValue(); //AR += e.getValue();
+            result[e.getIndex()] += e.getValue();
         }
         return new ArrayRealVector(result, false);
     }
@@ -119,12 +122,12 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector subtract(double[] v) throws IllegalArgumentException {
-        double[] result = new double[v.length]; //AR v.clone();
+        double[] result = Cloner.clone(v);
         Iterator<Entry> it = sparseIterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
             final int index = e.getIndex();
-            result[index] = e.getValue() - v[index]; //AR result[index];
+            result[index] = e.getValue() - result[index];
         }
         return new ArrayRealVector(result, false);
     }
@@ -202,7 +205,7 @@ public abstract class AbstractRealVector implements RealVector {
             final double diff = e.getValue() - v.getEntry(e.getIndex());
             d += diff * diff;
         }
-        return Math.sqrt(d);
+        return FastMath.sqrt(d);
     }
 
     /** {@inheritDoc} */
@@ -214,7 +217,7 @@ public abstract class AbstractRealVector implements RealVector {
             final double value = e.getValue();
             sum += value * value;
         }
-        return Math.sqrt(sum);
+        return FastMath.sqrt(sum);
     }
 
     /** {@inheritDoc} */
@@ -223,7 +226,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = sparseIterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            norm += Math.abs(e.getValue());
+            norm += FastMath.abs(e.getValue());
         }
         return norm;
     }
@@ -234,7 +237,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = sparseIterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            norm = Math.max(norm, Math.abs(e.getValue()));
+            norm = FastMath.max(norm, FastMath.abs(e.getValue()));
         }
         return norm;
     }
@@ -251,7 +254,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d += Math.abs(e.getValue() - v.getEntry(e.getIndex()));
+            d += FastMath.abs(e.getValue() - v.getEntry(e.getIndex()));
         }
         return d;
     }
@@ -263,7 +266,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d += Math.abs(e.getValue() - v[e.getIndex()]);
+            d += FastMath.abs(e.getValue() - v[e.getIndex()]);
         }
         return d;
     }
@@ -275,7 +278,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d = Math.max(Math.abs(e.getValue() - v.getEntry(e.getIndex())), d);
+            d = FastMath.max(FastMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
         }
         return d;
     }
@@ -287,7 +290,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d = Math.max(Math.abs(e.getValue() - v[e.getIndex()]), d);
+            d = FastMath.max(FastMath.abs(e.getValue() - v[e.getIndex()]), d);
         }
         return d;
     }
@@ -721,13 +724,11 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealMatrix outerProduct(RealVector v) throws IllegalArgumentException {
         RealMatrix product;
-        if (!(v instanceof ArrayRealVector))//AR
-        	throw new IllegalArgumentException();//AR 
-//AR        if (v instanceof SparseRealVector || this instanceof SparseRealVector) {
-//AR            product = new OpenMapRealMatrix(this.getDimension(), v.getDimension());
-//AR        } else {
+        //if (v instanceof SparseRealVector || this instanceof SparseRealVector) {
+        //    product = new OpenMapRealMatrix(this.getDimension(), v.getDimension());
+        //} else {
             product = new Array2DRowRealMatrix(this.getDimension(), v.getDimension());
-//AR        }
+        //}
         Iterator<Entry> thisIt = sparseIterator();
         Entry thisE = null;
         while (thisIt.hasNext() && (thisE = thisIt.next()) != null) {
@@ -818,7 +819,7 @@ public abstract class AbstractRealVector implements RealVector {
 
             /** {@inheritDoc} */
             public void remove() {
-                throw new UnsupportedOperationException("Not supported");
+                throw new MathUnsupportedOperationException();
             }
         };
     }
@@ -877,34 +878,23 @@ public abstract class AbstractRealVector implements RealVector {
         /** Dimension of the vector. */
         private final int dim;
 
-        /** Temporary entry (reused on each call to {@link #next()}. */
-        private EntryImpl tmp = new EntryImpl();
-
-        /** Current entry. */
+        /** last entry returned by {@link #next()} */
         private EntryImpl current;
 
-        /** Next entry. */
+        /** Next entry for {@link #next()} to return. */
         private EntryImpl next;
 
         /** Simple constructor. */
         protected SparseEntryIterator() {
             dim = getDimension();
             current = new EntryImpl();
-            if (current.getValue() == 0) {
-                advance(current);
-            }
-            if(current.getIndex() >= 0){
-                // There is at least one non-zero entry
-                next = new EntryImpl();
-                next.setIndex(current.getIndex());
+            next = new EntryImpl();
+            if (next.getValue() == 0) {
                 advance(next);
-            } else {
-                // The vector consists of only zero entries, so deny having a next
-                current = null;
             }
         }
 
-        /** Advance an entry up to the next non null one.
+        /** Advance an entry up to the next nonzero one.
          * @param e entry to advance
          */
         protected void advance(EntryImpl e) {
@@ -921,27 +911,23 @@ public abstract class AbstractRealVector implements RealVector {
 
         /** {@inheritDoc} */
         public boolean hasNext() {
-            return current != null;
+            return next.getIndex() >= 0;
         }
 
         /** {@inheritDoc} */
         public Entry next() {
-            tmp.setIndex(current.getIndex());
-            if (next != null) {
-                current.setIndex(next.getIndex());
-                advance(next);
-                if (next.getIndex() < 0) {
-                    next = null;
-                }
-            } else {
-                current = null;
+            int index = next.getIndex();
+            if (index < 0) {
+                throw new NoSuchElementException();
             }
-            return tmp;
+            current.setIndex(index);
+            advance(next);
+            return current;
         }
 
         /** {@inheritDoc} */
         public void remove() {
-            throw new UnsupportedOperationException("Not supported");
+            throw new MathUnsupportedOperationException();
         }
     }
 

@@ -15,7 +15,7 @@ public class FastMath {
 	            return Double.POSITIVE_INFINITY;
 	        }
 	        return abs(x - Double.longBitsToDouble(Double.doubleToLongBits(x) ^ 1));
-	}
+	 	}
 
 	public static double max(int m, int n) {
 		return Math.max(m, n);
