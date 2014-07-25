@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
@@ -25,7 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Interface for univariate real integration algorithms.
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  * @since 1.2
  */
 public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
@@ -76,8 +75,8 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * since 2.0
      */
     @Deprecated
-    double integrate(double min, double max) throws ConvergenceException,
-        FunctionEvaluationException, IllegalArgumentException;
+    double integrate(double min, double max)
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Integrate the function in the given interval.
@@ -88,13 +87,12 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * @return the value of integral
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the integrator detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the integrator
      */
-    double integrate(UnivariateRealFunction f, double min, double max) throws ConvergenceException,
-        FunctionEvaluationException, IllegalArgumentException;
+    double integrate(UnivariateRealFunction f, double min, double max)
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Get the result of the last run of the integrator.
@@ -102,8 +100,7 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * @return the last result
      * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed
-     * @throws Exception 
      */
-    double getResult() throws IllegalStateException, Exception;
+    double getResult() throws IllegalStateException;
 
 }

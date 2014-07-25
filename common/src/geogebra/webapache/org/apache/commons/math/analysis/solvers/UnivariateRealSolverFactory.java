@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis.solvers;
 
 /**
@@ -36,7 +35,7 @@ package org.apache.commons.math.analysis.solvers;
  * BrentSolver solver = factory.newBrentSolver();
  * </pre>
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
  */
 public abstract class UnivariateRealSolverFactory {
     /**
@@ -65,7 +64,7 @@ public abstract class UnivariateRealSolverFactory {
      * solver is an implementation of the bisection method.
      * @return the new solver.
      */
-    //AR public abstract UnivariateRealSolver newBisectionSolver();
+    //public abstract UnivariateRealSolver newBisectionSolver();
 
     /**
      * Create a new {@link UnivariateRealSolver}.  The

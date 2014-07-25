@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
@@ -22,6 +21,8 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -38,7 +39,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <p>
  * The function is assumed to be continuous but not necessarily smooth.</p>
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  */
 public class SecantSolver extends UnivariateRealSolverImpl {
 
@@ -57,7 +58,9 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public SecantSolver() {
         super(100, 1E-6);
     }
@@ -83,13 +86,36 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param initial the start value to use (ignored)
+     * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, initial);
+    }
+
+    /**
+     * Find a zero in the given interval.
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @param initial the start value to use (ignored)
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
         throws MaxIterationsExceededException, FunctionEvaluationException {
@@ -101,13 +127,34 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @param f the function to solve
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
+     * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
+
+    /**
+     * Find a zero in the given interval.
+     * @param f the function to solve
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException {
@@ -128,9 +175,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         // Verify bracketing
         if (y0 * y1 >= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "function values at endpoints do not have different signs, " +
-                  "endpoints: [{0}, {1}], values: [{2}, {3}]",
-                  min, max, y0, y1);
+                  LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, min, max, y0, y1);
         }
 
         double x2 = x0;
@@ -138,7 +183,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         double oldDelta = x2 - x1;
         int i = 0;
         while (i < maximalIterationCount) {
-            if (Math.abs(y2) < Math.abs(y1)) {
+            if (FastMath.abs(y2) < FastMath.abs(y1)) {
                 x0 = x1;
                 x1 = x2;
                 x2 = x0;
@@ -146,17 +191,17 @@ public class SecantSolver extends UnivariateRealSolverImpl {
                 y1 = y2;
                 y2 = y0;
             }
-            if (Math.abs(y1) <= functionValueAccuracy) {
+            if (FastMath.abs(y1) <= functionValueAccuracy) {
                 setResult(x1, i);
                 return result;
             }
-            if (Math.abs(oldDelta) <
-                Math.max(relativeAccuracy * Math.abs(x1), absoluteAccuracy)) {
+            if (FastMath.abs(oldDelta) <
+                FastMath.max(relativeAccuracy * FastMath.abs(x1), absoluteAccuracy)) {
                 setResult(x1, i);
                 return result;
             }
             double delta;
-            if (Math.abs(y1) > Math.abs(y0)) {
+            if (FastMath.abs(y1) > FastMath.abs(y0)) {
                 // Function value increased in last iteration. Force bisection.
                 delta = 0.5 * oldDelta;
             } else {

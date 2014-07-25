@@ -14,28 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
-
-
 
 /**
  * An interface representing a bivariate real function.
  *
  * @since 2.1
- * @version $Revision: 924453 $ $Date: 2010-03-17 16:05:20 -0400 (Wed, 17 Mar 2010) $
+ * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 févr. 2011) $
  */
 public interface BivariateRealFunction {
-
     /**
      * Compute the value for the function.
-     * @param x abscissa for which the function value should be computed
-     * @param y ordinate for which the function value should be computed
-     * @return the value
-     * @throws FunctionEvaluationException if the function evaluation fails
+     *
+     * @param x Abscissa for which the function value should be computed.
+     * @param y Ordinate for which the function value should be computed.
+     * @return the value.
+     * @throws FunctionEvaluationException if the function evaluation fails.
      */
-    double value(double x, double y) throws FunctionEvaluationException;
+    double value(double x, double y)
+        throws FunctionEvaluationException;
 
 }

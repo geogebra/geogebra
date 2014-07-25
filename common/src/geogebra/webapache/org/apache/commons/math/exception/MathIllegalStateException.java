@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.exception;
+
 
 /**
- * Extension of {@link UnivariateRealFunction} representing a differentiable univariate real function.
+ * Base class for all exceptions that signal a mismatch between the
+ * current state and the user's expectations.
  *
- * @version $Revision: 811786 $ $Date: 2009-09-06 11:36:08 +0200 (dim. 06 sept. 2009) $
+ * @since 2.2
+ * @version $Revision: 1061496 $ $Date: 2011-01-20 21:32:16 +0100 (jeu. 20 janv. 2011) $
  */
-public interface DifferentiableUnivariateRealFunction
-    extends UnivariateRealFunction {
+public class MathIllegalStateException extends IllegalStateException implements MathThrowable {
 
-    /**
-     * Returns the derivative of the function
-     *
-     * @return  the derivative function
-     */
-    UnivariateRealFunction derivative();
-
+	public MathIllegalStateException(String specific, String noData,
+			Object[] objects) {
+		// TODO Auto-generated constructor stub
+	}
+	
 }

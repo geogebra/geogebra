@@ -13,17 +13,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * Modified by GeoGebra Inc.
  */
 package org.apache.commons.math.analysis.polynomials;
+
+import geogebra.common.util.Cloner;
 
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.
@@ -31,13 +33,9 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
  *  is used to evaluate the function.</p>
  *
- * @version $Revision: 922714 $ $Date: 2010-03-13 20:35:14 -0500 (Sat, 13 Mar 2010) $
+ * @version $Revision: 1042376 $ $Date: 2010-12-05 16:54:55 +0100 (dim. 05 déc. 2010) $
  */
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
-
-    /** Message for empty coefficients array. */
-    private static final String EMPTY_ARRAY_MESSAGE =
-        "empty polynomials coefficients array";
 
     /**
      * Serialization identifier
@@ -63,19 +61,19 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      *
      * @param c polynomial coefficients
      * @throws NullPointerException if c is null
-     * @throws IllegalArgumentException if c is empty
+     * @throws NoDataException if c is empty
      */
     public PolynomialFunction(double c[]) {
         super();
-        if (c.length < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(EMPTY_ARRAY_MESSAGE);
+        int n = c.length;
+        if (n == 0) {
+            throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
-        int l = c.length;
-        while ((l > 1) && (c[l - 1] == 0)) {
-            --l;
+        while ((n > 1) && (c[n - 1] == 0)) {
+            --n;
         }
-        this.coefficients = new double[l];
-        System.arraycopy(c, 0, this.coefficients, 0, l);
+        this.coefficients = new double[n];
+        System.arraycopy(c, 0, this.coefficients, 0, n);
     }
 
     /**
@@ -112,10 +110,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * @return  a fresh copy of the coefficients array
      */
     public double[] getCoefficients() {
-    	double[] ret = new double[coefficients.length];
-    	for (int i = 0; i < coefficients.length; i++)
-    		ret[i] = coefficients[i];
-        return ret; //AR coefficients.clone();
+        return Cloner.clone(coefficients);
     }
 
     /**
@@ -125,13 +120,13 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * @param coefficients  the coefficients of the polynomial to evaluate
      * @param argument  the input value
      * @return  the value of the polynomial
-     * @throws IllegalArgumentException if coefficients is empty
+     * @throws NoDataException if coefficients is empty
      * @throws NullPointerException if coefficients is null
      */
     protected static double evaluate(double[] coefficients, double argument) {
         int n = coefficients.length;
-        if (n < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(EMPTY_ARRAY_MESSAGE);
+        if (n == 0) {
+            throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         double result = coefficients[n - 1];
         for (int j = n -2; j >=0; j--) {
@@ -148,8 +143,8 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     public PolynomialFunction add(final PolynomialFunction p) {
 
         // identify the lowest degree polynomial
-        final int lowLength  = Math.min(coefficients.length, p.coefficients.length);
-        final int highLength = Math.max(coefficients.length, p.coefficients.length);
+        final int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
+        final int highLength = FastMath.max(coefficients.length, p.coefficients.length);
 
         // build the coefficients array
         double[] newCoefficients = new double[highLength];
@@ -174,8 +169,8 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     public PolynomialFunction subtract(final PolynomialFunction p) {
 
         // identify the lowest degree polynomial
-        int lowLength  = Math.min(coefficients.length, p.coefficients.length);
-        int highLength = Math.max(coefficients.length, p.coefficients.length);
+        int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
+        int highLength = FastMath.max(coefficients.length, p.coefficients.length);
 
         // build the coefficients array
         double[] newCoefficients = new double[highLength];
@@ -218,8 +213,8 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
 
         for (int i = 0; i < newCoefficients.length; ++i) {
             newCoefficients[i] = 0.0;
-            for (int j = Math.max(0, i + 1 - p.coefficients.length);
-                 j < Math.min(coefficients.length, i + 1);
+            for (int j = FastMath.max(0, i + 1 - p.coefficients.length);
+                 j < FastMath.min(coefficients.length, i + 1);
                  ++j) {
                 newCoefficients[i] += coefficients[j] * p.coefficients[i-j];
             }
@@ -234,13 +229,13 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      *
      * @param coefficients  the coefficients of the polynomial to differentiate
      * @return the coefficients of the derivative or null if coefficients has length 1.
-     * @throws IllegalArgumentException if coefficients is empty
+     * @throws NoDataException if coefficients is empty
      * @throws NullPointerException if coefficients is null
      */
     protected static double[] differentiate(double[] coefficients) {
         int n = coefficients.length;
-        if (n < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(EMPTY_ARRAY_MESSAGE);
+        if (n == 0) {
+            throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         if (n == 1) {
             return new double[]{0};
@@ -288,7 +283,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     @Override
      public String toString() {
 
-       StringBuffer s = new StringBuffer();
+       StringBuilder s = new StringBuilder();
        if (coefficients[0] == 0.0) {
          if (coefficients.length == 1) {
            return "0";
@@ -313,7 +308,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
              }
            }
 
-           double absAi = Math.abs(coefficients[i]);
+           double absAi = FastMath.abs(coefficients[i]);
            if ((absAi - 1) != 0) {
              s.append(Double.toString(absAi));
              s.append(' ');

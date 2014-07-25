@@ -13,8 +13,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * Modified by GeoGebra Inc.
  */
 package org.apache.commons.math.analysis.solvers;
 
@@ -25,6 +23,8 @@ import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -35,18 +35,10 @@ import org.apache.commons.math.complex.Complex;
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.</p>
  *
- * @version $Revision: 922708 $ $Date: 2010-03-13 20:15:47 -0500 (Sat, 13 Mar 2010) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  * @since 1.2
  */
 public class LaguerreSolver extends UnivariateRealSolverImpl {
-
-    /** Message for non-polynomial function. */
-    private static final String NON_POLYNOMIAL_FUNCTION_MESSAGE =
-        "function is not polynomial";
-
-    /** Message for non-positive degree. */
-    private static final String NON_POSITIVE_DEGREE_MESSAGE =
-        "polynomial degree must be positive: degree={0}";
 
     /** polynomial function to solve.
      * @deprecated as of 2.0 the function is not stored anymore in the instance
@@ -65,19 +57,20 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * method.
      */
     @Deprecated
-    public LaguerreSolver(UnivariateRealFunction f) throws
-        IllegalArgumentException {
+    public LaguerreSolver(UnivariateRealFunction f) throws IllegalArgumentException {
         super(f, 100, 1E-6);
         if (f instanceof PolynomialFunction) {
             p = (PolynomialFunction) f;
         } else {
-            throw MathRuntimeException.createIllegalArgumentException(NON_POLYNOMIAL_FUNCTION_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_POLYNOMIAL);
         }
     }
 
     /**
      * Construct a solver.
+     * @deprecated in 2.2 (to be removed in 3.0)
      */
+    @Deprecated
     public LaguerreSolver() {
         super(100, 1E-6);
         p = null;
@@ -117,13 +110,38 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param initial the start value to use
+     * @param maxEval Maximum number of evaluations.
      * @return the point at which the function value is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
+        throws ConvergenceException, FunctionEvaluationException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, initial);
+    }
+
+    /**
+     * Find a real root in the given interval with initial value.
+     * <p>
+     * Requires bracketing condition.</p>
+     *
+     * @param f function to solve (must be polynomial)
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @param initial the start value to use
+     * @return the point at which the function value is zero
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
         throws ConvergenceException, FunctionEvaluationException {
@@ -161,20 +179,48 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
+     * @param maxEval Maximum number of evaluations.
      * @return the point at which the function value is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws ConvergenceException, FunctionEvaluationException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
+
+    /**
+     * Find a real root in the given interval.
+     * <p>
+     * Despite the bracketing condition, the root returned by solve(Complex[],
+     * Complex) may not be a real zero inside [min, max]. For example,
+     * p(x) = x^3 + 1, min = -2, max = 2, initial = 0. We can either try
+     * another initial value, or, as we did here, call solveAll() to obtain
+     * all roots and pick up the one that we're looking for.</p>
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @return the point at which the function value is zero
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
         throws ConvergenceException, FunctionEvaluationException {
 
         // check function type
         if (!(f instanceof PolynomialFunction)) {
-            throw MathRuntimeException.createIllegalArgumentException(NON_POLYNOMIAL_FUNCTION_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_POLYNOMIAL);
         }
 
         // check for zeros before verifying bracketing
@@ -217,9 +263,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return true iff z is the sought-after real zero
      */
     protected boolean isRootOK(double min, double max, Complex z) {
-        double tolerance = Math.max(relativeAccuracy * z.abs(), absoluteAccuracy);
+        double tolerance = FastMath.max(relativeAccuracy * z.abs(), absoluteAccuracy);
         return (isSequence(min, z.getReal(), max)) &&
-               (Math.abs(z.getImaginary()) <= tolerance ||
+               (FastMath.abs(z.getImaginary()) <= tolerance ||
                 z.abs() <= functionValueAccuracy);
     }
 
@@ -232,10 +278,11 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2.
      */
+    @Deprecated
     public Complex[] solveAll(double coefficients[], double initial) throws
         ConvergenceException, FunctionEvaluationException {
 
@@ -256,10 +303,11 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2.
      */
+    @Deprecated
     public Complex[] solveAll(Complex coefficients[], Complex initial) throws
         MaxIterationsExceededException, FunctionEvaluationException {
 
@@ -267,7 +315,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         int iterationCount = 0;
         if (n < 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREE_MESSAGE, n);
+                  LocalizedFormats.NON_POSITIVE_POLYNOMIAL_DEGREE, n);
         }
         Complex c[] = new Complex[n+1];    // coefficients for deflated polynomial
         for (int i = 0; i <= n; i++) {
@@ -305,17 +353,18 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2.
      */
+    @Deprecated
     public Complex solve(Complex coefficients[], Complex initial) throws
         MaxIterationsExceededException, FunctionEvaluationException {
 
         int n = coefficients.length - 1;
         if (n < 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREE_MESSAGE, n);
+                  LocalizedFormats.NON_POSITIVE_POLYNOMIAL_DEGREE, n);
         }
         Complex N  = new Complex(n,     0.0);
         Complex N1 = new Complex(n - 1, 0.0);
@@ -345,7 +394,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
             d2v = d2v.multiply(new Complex(2.0, 0.0));
 
             // check for convergence
-            double tolerance = Math.max(relativeAccuracy * z.abs(),
+            double tolerance = FastMath.max(relativeAccuracy * z.abs(),
                                         absoluteAccuracy);
             if ((z.subtract(oldz)).abs() <= tolerance) {
                 resultComputed = true;

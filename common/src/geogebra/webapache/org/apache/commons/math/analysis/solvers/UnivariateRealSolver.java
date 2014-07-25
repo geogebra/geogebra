@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
@@ -28,7 +27,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <p>
  * Implementations will search for only one zero in the given interval.</p>
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  */
 public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
@@ -70,16 +69,14 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @return a value where the function is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise.
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the solver
      * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double)}
      * since 2.0
      */
     @Deprecated
-    double solve(double min, double max) throws ConvergenceException,
-        FunctionEvaluationException;
+    double solve(double min, double max) throws ConvergenceException, FunctionEvaluationException;
 
     /**
      * Solve for a zero root in the given interval.
@@ -93,15 +90,15 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @return a value where the function is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise.
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the solver
      * @since 2.0
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     double solve(UnivariateRealFunction f, double min, double max)
-        throws ConvergenceException,
-        FunctionEvaluationException;
+        throws ConvergenceException, FunctionEvaluationException;
 
     /**
      * Solve for a zero in the given interval, start at startValue.
@@ -115,8 +112,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @return a value where the function is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise.
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the arguments do not
      * satisfy the requirements specified by the solver
      * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double, double)}
@@ -139,12 +135,13 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @return a value where the function is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise.
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the arguments do not
      * satisfy the requirements specified by the solver
      * @since 2.0
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     double solve(UnivariateRealFunction f, double min, double max, double startValue)
         throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
 

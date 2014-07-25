@@ -14,24 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Utility routines for {@link UnivariateRealSolver} objects.
  *
- * @version $Revision: 885278 $ $Date: 2009-11-29 16:47:51 -0500 (Sun, 29 Nov 2009) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  */
 public class UnivariateRealSolverUtils {
-
-    /** Message for null function.*/
-    private static final String NULL_FUNCTION_MESSAGE =
-        "function is null";
 
     /**
      * Default constructor.
@@ -49,8 +47,7 @@ public class UnivariateRealSolverUtils {
      * @param x1 the upper bound for the interval.
      * @return a value where the function is zero.
      * @throws ConvergenceException if the iteration count was exceeded
-     * @throws FunctionEvaluationException if an error occurs evaluating
-     * the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if f is null or the endpoints do not
      * specify a valid interval
      */
@@ -70,8 +67,7 @@ public class UnivariateRealSolverUtils {
      * @param absoluteAccuracy the accuracy to be used by the solver
      * @return a value where the function is zero
      * @throws ConvergenceException if the iteration count is exceeded
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if f is null, the endpoints do not
      * specify a valid interval, or the absoluteAccuracy is not valid for the
      * default solver
@@ -122,8 +118,7 @@ public class UnivariateRealSolverUtils {
      * value)
      * @return a two element array holding {a, b}
      * @throws ConvergenceException if a root can not be bracketted
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if function is null, maximumIterations
      * is not positive, or initial is not between lowerBound and upperBound
      */
@@ -163,8 +158,7 @@ public class UnivariateRealSolverUtils {
      * @return a two element array holding {a, b}.
      * @throws ConvergenceException if the algorithm fails to find a and b
      * satisfying the desired conditions
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if function is null, maximumIterations
      * is not positive, or initial is not between lowerBound and upperBound
      */
@@ -174,15 +168,15 @@ public class UnivariateRealSolverUtils {
             FunctionEvaluationException {
 
         if (function == null) {
-            throw MathRuntimeException.createIllegalArgumentException(NULL_FUNCTION_MESSAGE);
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
         if (maximumIterations <= 0)  {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "bad value for maximum iterations number: {0}", maximumIterations);
+                  LocalizedFormats.INVALID_MAX_ITERATIONS, maximumIterations);
         }
         if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}",
+                  LocalizedFormats.INVALID_BRACKETING_PARAMETERS,
                   lowerBound, initial, upperBound);
         }
         double a = initial;
@@ -192,8 +186,8 @@ public class UnivariateRealSolverUtils {
         int numIterations = 0 ;
 
         do {
-            a = Math.max(a - 1.0, lowerBound);
-            b = Math.min(b + 1.0, upperBound);
+            a = FastMath.max(a - 1.0, lowerBound);
+            b = FastMath.min(b + 1.0, upperBound);
             fa = function.value(a);
 
             fb = function.value(b);
@@ -203,9 +197,7 @@ public class UnivariateRealSolverUtils {
 
         if (fa * fb > 0.0 ) {
             throw new ConvergenceException(
-                      "number of iterations={0}, maximum iterations={1}, " +
-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
-                      "final b value={6}, f(a)={7}, f(b)={8}",
+                      LocalizedFormats.FAILED_BRACKETING,
                       numIterations, maximumIterations, initial,
                       lowerBound, upperBound, a, b, fa, fb);
         }
@@ -231,7 +223,7 @@ public class UnivariateRealSolverUtils {
      */
     private static void setup(UnivariateRealFunction f) {
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException(NULL_FUNCTION_MESSAGE);
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
     }
 

@@ -19,7 +19,6 @@
 package org.apache.commons.math;
 
 import java.math.BigInteger;
-import java.util.MissingResourceException;
 
 /**
 * Base class for commons-math unchecked exceptions.
@@ -120,5 +119,36 @@ public class MathRuntimeException extends RuntimeException {
 		return new ArithmeticException(string);
 	}
 
-  
+    /**
+     * Constructs a new <code>UnsupportedOperationException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @return built exception
+     * @since 2.2
+     * @deprecated in 2.2. Please use {@link org.apache.commons.math.exception.MathUnsupportedOperationException}
+     * instead.
+     */
+    @Deprecated
+    public static UnsupportedOperationException createUnsupportedOperationException(final String pattern,
+                                                                                    final Object ... arguments) {
+        return new UnsupportedOperationException() {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = -4284649691002411505L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return pattern;
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public String getLocalizedMessage() {
+                return pattern;
+            }
+
+        };
+    }
 }

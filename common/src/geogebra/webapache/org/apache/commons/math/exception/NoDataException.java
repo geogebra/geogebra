@@ -14,21 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.exception;
+
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Extension of {@link UnivariateRealFunction} representing a differentiable univariate real function.
+ * Exception to be thrown when the required data is missing.
  *
- * @version $Revision: 811786 $ $Date: 2009-09-06 11:36:08 +0200 (dim. 06 sept. 2009) $
+ * @since 2.2
+ * @version $Revision$ $Date$
  */
-public interface DifferentiableUnivariateRealFunction
-    extends UnivariateRealFunction {
+public class NoDataException extends MathIllegalStateException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -3629324471511904459L;
 
     /**
-     * Returns the derivative of the function
-     *
-     * @return  the derivative function
+     * Construct the exception.
      */
-    UnivariateRealFunction derivative();
-
+    public NoDataException() {
+        this(null);
+    }
+    /**
+     * Construct the exception with a specific context.
+     *
+     * @param specific Contextual information on what caused the exception.
+     */
+    public NoDataException(String specific) {
+        super(specific, LocalizedFormats.NO_DATA, (Object[]) null);
+    }
 }

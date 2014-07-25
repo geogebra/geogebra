@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
 
 
 
@@ -25,8 +26,10 @@ import org.apache.commons.math.FunctionEvaluationException;
  * Base class for {@link BivariateRealFunction} that can be composed with other functions.
  *
  * @since 2.1
- * @version $Revision: 924453 $ $Date: 2010-03-17 16:05:20 -0400 (Wed, 17 Mar 2010) $
+ * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 févr. 2011) $
+ * @deprecated in 2.2
  */
+@Deprecated
 public abstract class BinaryFunction implements BivariateRealFunction {
 
     /** The + operator method wrapped as a {@link BinaryFunction}. */
@@ -65,21 +68,21 @@ public abstract class BinaryFunction implements BivariateRealFunction {
         }
     };
 
-    /** The {@code Math.pow} method wrapped as a {@link BinaryFunction}. */
+    /** The {@code FastMath.pow} method wrapped as a {@link BinaryFunction}. */
     public static final BinaryFunction POW = new BinaryFunction() {
         /** {@inheritDoc} */
         @Override
         public double value(double x, double y) {
-            return Math.pow(x, y);
+            return FastMath.pow(x, y);
         }
     };
 
-    /** The {@code Math.atan2} method wrapped as a {@link BinaryFunction}. */
+    /** The {@code FastMath.atan2} method wrapped as a {@link BinaryFunction}. */
     public static final BinaryFunction ATAN2 = new BinaryFunction() {
         /** {@inheritDoc} */
         @Override
         public double value(double x, double y) {
-            return Math.atan2(x, y);
+            return FastMath.atan2(x, y);
         }
     };
 

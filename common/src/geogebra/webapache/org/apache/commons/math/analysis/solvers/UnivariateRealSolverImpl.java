@@ -14,20 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.analysis.solvers;
 
+import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *
- * @version $Revision: 811833 $ $Date: 2009-09-06 12:27:50 -0400 (Sun, 06 Sep 2009) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @deprecated in 2.2 (to be removed in 3.0).
  */
+@Deprecated
 public abstract class UnivariateRealSolverImpl
     extends ConvergingAlgorithmImpl implements UnivariateRealSolver {
 
@@ -73,7 +78,7 @@ public abstract class UnivariateRealSolverImpl
                                        final double defaultAbsoluteAccuracy) {
         super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException("function to solve cannot be null");
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
         this.f = f;
         this.defaultFunctionValueAccuracy = 1.0e-15;
@@ -100,7 +105,7 @@ public abstract class UnivariateRealSolverImpl
      */
     protected void checkResultComputed() throws IllegalStateException {
         if (!resultComputed) {
-            throw MathRuntimeException.createIllegalStateException("no result available");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
         }
     }
 
@@ -129,6 +134,53 @@ public abstract class UnivariateRealSolverImpl
     /** {@inheritDoc} */
     public void resetFunctionValueAccuracy() {
         functionValueAccuracy = defaultFunctionValueAccuracy;
+    }
+
+    /**
+     * Solve for a zero root in the given interval.
+     * <p>A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.</p>
+     *
+     * @param function the function to solve.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param maxEval Maximum number of evaluations.
+     * @return a value where the function is zero
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise.
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min > max or the endpoints do not
+     * satisfy the requirements specified by the solver
+     * @since 2.2
+     */
+    public double solve(int maxEval, UnivariateRealFunction function, double min, double max)
+        throws ConvergenceException, FunctionEvaluationException {
+        throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
+    }
+
+    /**
+     * Solve for a zero in the given interval, start at startValue.
+     * <p>A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.</p>
+     *
+     * @param function the function to solve.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param startValue the start value to use
+     * @param maxEval Maximum number of evaluations.
+     * @return a value where the function is zero
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise.
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min > max or the arguments do not
+     * satisfy the requirements specified by the solver
+     * @since 2.2
+     */
+    public double solve(int maxEval, UnivariateRealFunction function, double min, double max, double startValue)
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException {
+        throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
     }
 
     /**
@@ -173,8 +225,7 @@ public abstract class UnivariateRealSolverImpl
      * @param upper  the upper endpoint
      * @param function the function
      * @return true if f(lower) * f(upper) < 0
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function at the endpoints
+     * @throws FunctionEvaluationException if an error occurs evaluating the function at the endpoints
      */
     protected boolean isBracketing(final double lower, final double upper,
                                    final UnivariateRealFunction function)
@@ -207,7 +258,7 @@ public abstract class UnivariateRealSolverImpl
     protected void verifyInterval(final double lower, final double upper) {
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "endpoints do not specify an interval: [{0}, {1}]",
+                    LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
                     lower, upper);
         }
     }
@@ -224,21 +275,20 @@ public abstract class UnivariateRealSolverImpl
     protected void verifySequence(final double lower, final double initial, final double upper) {
         if (!isSequence(lower, initial, upper)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
+                    LocalizedFormats.INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS,
                     lower, initial, upper);
         }
     }
 
     /**
      * Verifies that the endpoints specify an interval and the function takes
-     * opposite signs at the enpoints, throws IllegalArgumentException if not
+     * opposite signs at the endpoints, throws IllegalArgumentException if not
      *
      * @param lower  lower endpoint
      * @param upper upper endpoint
      * @param function function
      * @throws IllegalArgumentException
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function at the endpoints
+     * @throws FunctionEvaluationException if an error occurs evaluating the function at the endpoints
      */
     protected void verifyBracketing(final double lower, final double upper,
                                     final UnivariateRealFunction function)
@@ -247,8 +297,7 @@ public abstract class UnivariateRealSolverImpl
         verifyInterval(lower, upper);
         if (!isBracketing(lower, upper, function)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "function values at endpoints do not have different signs.  " +
-                    "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+                    LocalizedFormats.SAME_SIGN_AT_ENDPOINTS,
                     lower, upper, function.value(lower), function.value(upper));
         }
     }

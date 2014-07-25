@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
@@ -22,7 +21,8 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/Legendre-GaussQuadrature.html">
@@ -31,7 +31,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * Legendre-Gauss integrators are efficient integrators that can
  * accurately integrate functions with few functions evaluations. A
  * Legendre-Gauss integrator using an n-points quadrature formula can
- * integrate exactly 2n-1 degree polynomialss.
+ * integrate exactly 2n-1 degree polynomials.
  * </p>
  * <p>
  * These integrators evaluate the function on n carefully chosen
@@ -47,7 +47,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * &prod; (x-x<sub>k</sub>)/(x<sub>i</sub>-x<sub>k</sub>) for k != i.
  * </p>
  * <p>
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  * @since 1.2
  */
 
@@ -55,8 +55,8 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
     /** Abscissas for the 2 points method. */
     private static final double[] ABSCISSAS_2 = {
-        -1.0 / Math.sqrt(3.0),
-         1.0 / Math.sqrt(3.0)
+        -1.0 / FastMath.sqrt(3.0),
+         1.0 / FastMath.sqrt(3.0)
     };
 
     /** Weights for the 2 points method. */
@@ -67,9 +67,9 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
     /** Abscissas for the 3 points method. */
     private static final double[] ABSCISSAS_3 = {
-        -Math.sqrt(0.6),
+        -FastMath.sqrt(0.6),
          0.0,
-         Math.sqrt(0.6)
+         FastMath.sqrt(0.6)
     };
 
     /** Weights for the 3 points method. */
@@ -81,36 +81,36 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
     /** Abscissas for the 4 points method. */
     private static final double[] ABSCISSAS_4 = {
-        -Math.sqrt((15.0 + 2.0 * Math.sqrt(30.0)) / 35.0),
-        -Math.sqrt((15.0 - 2.0 * Math.sqrt(30.0)) / 35.0),
-         Math.sqrt((15.0 - 2.0 * Math.sqrt(30.0)) / 35.0),
-         Math.sqrt((15.0 + 2.0 * Math.sqrt(30.0)) / 35.0)
+        -FastMath.sqrt((15.0 + 2.0 * FastMath.sqrt(30.0)) / 35.0),
+        -FastMath.sqrt((15.0 - 2.0 * FastMath.sqrt(30.0)) / 35.0),
+         FastMath.sqrt((15.0 - 2.0 * FastMath.sqrt(30.0)) / 35.0),
+         FastMath.sqrt((15.0 + 2.0 * FastMath.sqrt(30.0)) / 35.0)
     };
 
     /** Weights for the 4 points method. */
     private static final double[] WEIGHTS_4 = {
-        (90.0 - 5.0 * Math.sqrt(30.0)) / 180.0,
-        (90.0 + 5.0 * Math.sqrt(30.0)) / 180.0,
-        (90.0 + 5.0 * Math.sqrt(30.0)) / 180.0,
-        (90.0 - 5.0 * Math.sqrt(30.0)) / 180.0
+        (90.0 - 5.0 * FastMath.sqrt(30.0)) / 180.0,
+        (90.0 + 5.0 * FastMath.sqrt(30.0)) / 180.0,
+        (90.0 + 5.0 * FastMath.sqrt(30.0)) / 180.0,
+        (90.0 - 5.0 * FastMath.sqrt(30.0)) / 180.0
     };
 
     /** Abscissas for the 5 points method. */
     private static final double[] ABSCISSAS_5 = {
-        -Math.sqrt((35.0 + 2.0 * Math.sqrt(70.0)) / 63.0),
-        -Math.sqrt((35.0 - 2.0 * Math.sqrt(70.0)) / 63.0),
+        -FastMath.sqrt((35.0 + 2.0 * FastMath.sqrt(70.0)) / 63.0),
+        -FastMath.sqrt((35.0 - 2.0 * FastMath.sqrt(70.0)) / 63.0),
          0.0,
-         Math.sqrt((35.0 - 2.0 * Math.sqrt(70.0)) / 63.0),
-         Math.sqrt((35.0 + 2.0 * Math.sqrt(70.0)) / 63.0)
+         FastMath.sqrt((35.0 - 2.0 * FastMath.sqrt(70.0)) / 63.0),
+         FastMath.sqrt((35.0 + 2.0 * FastMath.sqrt(70.0)) / 63.0)
     };
 
     /** Weights for the 5 points method. */
     private static final double[] WEIGHTS_5 = {
-        (322.0 - 13.0 * Math.sqrt(70.0)) / 900.0,
-        (322.0 + 13.0 * Math.sqrt(70.0)) / 900.0,
+        (322.0 - 13.0 * FastMath.sqrt(70.0)) / 900.0,
+        (322.0 + 13.0 * FastMath.sqrt(70.0)) / 900.0,
         128.0 / 225.0,
-        (322.0 + 13.0 * Math.sqrt(70.0)) / 900.0,
-        (322.0 - 13.0 * Math.sqrt(70.0)) / 900.0
+        (322.0 + 13.0 * FastMath.sqrt(70.0)) / 900.0,
+        (322.0 - 13.0 * FastMath.sqrt(70.0)) / 900.0
     };
 
     /** Abscissas for the current method. */
@@ -119,7 +119,8 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
     /** Weights for the current method. */
     private final double[] weights;
 
-    /** Build a Legendre-Gauss integrator.
+    /**
+     * Build a Legendre-Gauss integrator.
      * @param n number of points desired (must be between 2 and 5 inclusive)
      * @param defaultMaximalIterationCount maximum number of iterations
      * @exception IllegalArgumentException if the number of points is not
@@ -147,8 +148,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
             break;
         default :
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} points Legendre-Gauss integrator not supported, " +
-                    "number of points must be in the {1}-{2} range",
+                    LocalizedFormats.N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED,
                     n, 2, 5);
         }
 
@@ -162,8 +162,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
     }
 
     /** {@inheritDoc} */
-    public double integrate(final UnivariateRealFunction f,
-            final double min, final double max)
+    public double integrate(final UnivariateRealFunction f, final double min, final double max)
         throws ConvergenceException,  FunctionEvaluationException, IllegalArgumentException {
 
         clearResult();
@@ -180,10 +179,10 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
             final double t = stage(f, min, max, n);
 
             // estimate error
-            final double delta = Math.abs(t - oldt);
+            final double delta = FastMath.abs(t - oldt);
             final double limit =
-                Math.max(absoluteAccuracy,
-                         relativeAccuracy * (Math.abs(oldt) + Math.abs(t)) * 0.5);
+                FastMath.max(absoluteAccuracy,
+                         relativeAccuracy * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
 
             // check convergence
             if ((i + 1 >= minimalIterationCount) && (delta <= limit)) {
@@ -192,8 +191,8 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
             }
 
             // prepare next iteration
-            double ratio = Math.min(4, Math.pow(delta / limit, 0.5 / abscissas.length));
-            n = Math.max((int) (ratio * n), n + 1);
+            double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / abscissas.length));
+            n = FastMath.max((int) (ratio * n), n + 1);
             oldt = t;
 
         }

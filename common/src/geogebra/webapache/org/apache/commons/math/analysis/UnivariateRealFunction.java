@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
@@ -22,7 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * An interface representing a univariate real function.
  *
- * @version $Revision: 811786 $ $Date: 2009-09-06 05:36:08 -0400 (Sun, 06 Sep 2009) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
  */
 public interface UnivariateRealFunction {
 

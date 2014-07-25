@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.analysis.solvers;
 
 /**
@@ -23,7 +22,7 @@ package org.apache.commons.math.analysis.solvers;
  * <p>
  * The default solver returned by this factory is a {@link BrentSolver}.</p>
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
  */
 public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory {
 
@@ -38,12 +37,6 @@ public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory
     public UnivariateRealSolver newDefaultSolver() {
         return newBrentSolver();
     }
-
-    /** {@inheritDoc} */
-    /*AR @Override
-    public UnivariateRealSolver newBisectionSolver() {
-        return null;//AR new BisectionSolver();
-    }*/
 
     /** {@inheritDoc} */
     @Override
