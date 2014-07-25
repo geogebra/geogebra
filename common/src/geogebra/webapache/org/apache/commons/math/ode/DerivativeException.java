@@ -19,6 +19,7 @@ package org.apache.commons.math.ode;
 
 import org.apache.commons.math.MathException;
 
+
 /**
  * This exception is made available to users to report
  * the error conditions that are triggered while computing
@@ -31,16 +32,16 @@ public class DerivativeException extends MathException {
   /** Serializable version identifier */
   private static final long serialVersionUID = 5666710788967425123L;
 
+
   /** Simple constructor.
    * Build an exception by translating and formating a message
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
+   * @since 2.2
    */
   public DerivativeException(final String specifier, final Object ... parts) {
     super(specifier, parts);
   }
-
-  
 
  /** Build an instance from an underlying cause.
    * @param cause cause for the exception

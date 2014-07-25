@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import geogebra.common.kernel.Kernel;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,12 +28,14 @@ import java.util.TreeSet;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -325,7 +325,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 state.stepAccepted(currentT, currentY);
                 isLastStep = isLastStep || state.stop();
             }
-            isLastStep = isLastStep || MathUtils.equals(currentT, tEnd, Kernel.MAX_PRECISION);
+            isLastStep = isLastStep || MathUtils.equals(currentT, tEnd, 1);
 
             // handle the remaining part of the step, after all events if any
             for (StepHandler handler : stepHandlers) {
@@ -360,18 +360,18 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
         if (ode.getDimension() != y0.length) {
             throw new IntegratorException(
-                    "Dimensions do not match: {0}, {1}", ode.getDimension(), y0.length);
+                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, ode.getDimension(), y0.length);
         }
 
         if (ode.getDimension() != y.length) {
             throw new IntegratorException(
-            		"Dimensions do not match: {0}, {1}", ode.getDimension(), y.length);
+                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, ode.getDimension(), y.length);
         }
 
-        if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
+        if (FastMath.abs(t - t0) <= 1.0e-12 * FastMath.max(FastMath.abs(t0), FastMath.abs(t))) {
             throw new IntegratorException(
-            		"Interval too small: {0}",
-                    Math.abs(t - t0));
+                    LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
+                    FastMath.abs(t - t0));
         }
 
     }
@@ -400,7 +400,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         }
         newManager.addEventHandler(new EndTimeChecker(endTime),
                                    Double.POSITIVE_INFINITY,
-                                   Kernel.MAX_PRECISION,
+                                   FastMath.ulp(FastMath.max(FastMath.abs(startTime), FastMath.abs(endTime))),
                                    100);
         return newManager;
     }

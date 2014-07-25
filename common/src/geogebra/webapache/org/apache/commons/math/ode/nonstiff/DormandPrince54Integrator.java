@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.ode.nonstiff;
 
-//MAYBENOTIMPORTANT import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -142,10 +142,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
                               E4 * yDotK[3][j] +  E5 * yDotK[4][j] +
                               E6 * yDotK[5][j] +  E7 * yDotK[6][j];
 
-        final double yScale = /*Fast*/
-        		Math.max(/*Fast*/
-        				Math.abs(y0[j]), /*Fast*/
-        				Math.abs(y1[j]));
+        final double yScale = FastMath.max(FastMath.abs(y0[j]), FastMath.abs(y1[j]));
         final double tol = (vecAbsoluteTolerance == null) ?
                            (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                                (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
@@ -154,8 +151,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
 
     }
 
-    return /*Fast*/
-    		Math.sqrt(error / mainSetDimension);
+    return FastMath.sqrt(error / mainSetDimension);
 
   }
 

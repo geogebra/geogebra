@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.ode.DerivativeException;
@@ -23,7 +23,7 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
-//MAYBENOTIMPORTANT import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements the common part of all embedded Runge-Kutta
@@ -247,13 +247,11 @@ public abstract class EmbeddedRungeKuttaIntegrator
           final double[] scale = new double[mainSetDimension];
           if (vecAbsoluteTolerance == null) {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * /*Fast*/
-                		Math.abs(y[i]);
+                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * FastMath.abs(y[i]);
               }
           } else {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * /*Fast*/
-                		Math.abs(y[i]);
+                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * FastMath.abs(y[i]);
               }
           }
           hNew = initializeStep(equations, forward, getOrder(), scale,
@@ -292,11 +290,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
         if (error >= 1.0) {
           // reject the step and attempt to reduce error by stepsize control
           final double factor =
-              /*Fast*/
-        		  Math.min(maxGrowth,
-                           /*Fast*/
-        				  Math.max(minReduction, safety * /*Fast*/
-        						  Math.pow(error, exp)));
+              FastMath.min(maxGrowth,
+                           FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
           hNew = filterStep(stepSize * factor, forward, false);
         }
 
@@ -320,10 +315,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
           // stepsize control for next step
           final double factor =
-              /*Fast*/
-        		  Math.min(maxGrowth, /*Fast*/
-        				  Math.max(minReduction, safety * /*Fast*/
-        						  Math.pow(error, exp)));
+              FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
           final double  scaledH    = stepSize * factor;
           final double  nextT      = stepStart + scaledH;
           final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);

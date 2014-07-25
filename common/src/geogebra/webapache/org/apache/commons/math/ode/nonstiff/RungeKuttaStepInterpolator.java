@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.IOException;
-
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 

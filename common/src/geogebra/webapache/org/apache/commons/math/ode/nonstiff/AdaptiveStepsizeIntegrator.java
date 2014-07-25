@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.ode.nonstiff;
 
 import geogebra.common.util.Cloner;
 
-//NOTIMPORTANT import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-//MAYBENOTIMPORTANT import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This abstract class holds the common part of all adaptive
@@ -108,10 +108,8 @@ public abstract class AdaptiveStepsizeIntegrator
 
     super(name);
 
-    this.minStep     = /*Fast*/
-    		Math.abs(minStep);
-    this.maxStep     = /*Fast*/
-    		Math.abs(maxStep);
+    this.minStep     = FastMath.abs(minStep);
+    this.maxStep     = FastMath.abs(maxStep);
     this.initialStep = -1.0;
 
     this.scalAbsoluteTolerance = scalAbsoluteTolerance;
@@ -195,15 +193,13 @@ public abstract class AdaptiveStepsizeIntegrator
       }
 
       if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != mainSetDimension)) {
-          throw new IntegratorException("IntegratorException",
-                  //NOTIMPORTANT LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                  mainSetDimension, vecAbsoluteTolerance.length);
+          throw new IntegratorException(
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, mainSetDimension, vecAbsoluteTolerance.length);
       }
 
       if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != mainSetDimension)) {
-          throw new IntegratorException("IntegratorException",
-                  //NOTIMPORTANT LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                  mainSetDimension, vecRelativeTolerance.length);
+          throw new IntegratorException(
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, mainSetDimension, vecRelativeTolerance.length);
       }
 
   }
@@ -246,8 +242,7 @@ public abstract class AdaptiveStepsizeIntegrator
     }
 
     double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?
-               1.0e-6 : (0.01 * /*Fast*/
-            		   Math.sqrt(yOnScale2 / yDotOnScale2));
+               1.0e-6 : (0.01 * FastMath.sqrt(yOnScale2 / yDotOnScale2));
     if (! forward) {
       h = -h;
     }
@@ -264,26 +259,16 @@ public abstract class AdaptiveStepsizeIntegrator
       ratio         = (yDot1[j] - yDot0[j]) / scale[j];
       yDDotOnScale += ratio * ratio;
     }
-    yDDotOnScale = /*Fast*/
-    		Math.sqrt(yDDotOnScale) / h;
+    yDDotOnScale = FastMath.sqrt(yDDotOnScale) / h;
 
     // step size is computed such that
     // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
-    final double maxInv2 = /*Fast*/
-    		Math.max(/*Fast*/
-    				Math.sqrt(yDotOnScale2), yDDotOnScale);
+    final double maxInv2 = FastMath.max(FastMath.sqrt(yDotOnScale2), yDDotOnScale);
     final double h1 = (maxInv2 < 1.0e-15) ?
-                      /*Fast*/
-    		Math.max(1.0e-6, 0.001 * /*Fast*/
-    				Math.abs(h)) :
-                      /*Fast*/
-    					Math.pow(0.01 / maxInv2, 1.0 / order);
-    h = /*Fast*/
-    		Math.min(100.0 * /*Fast*/
-    				Math.abs(h), h1);
-    h = /*Fast*/
-    		Math.max(h, 1.0e-12 * /*Fast*/
-    				Math.abs(t0));  // avoids cancellation when computing t1 - t0
+                      FastMath.max(1.0e-6, 0.001 * FastMath.abs(h)) :
+                      FastMath.pow(0.01 / maxInv2, 1.0 / order);
+    h = FastMath.min(100.0 * FastMath.abs(h), h1);
+    h = FastMath.max(h, 1.0e-12 * FastMath.abs(t0));  // avoids cancellation when computing t1 - t0
     if (h < getMinStep()) {
       h = getMinStep();
     }
@@ -311,15 +296,13 @@ public abstract class AdaptiveStepsizeIntegrator
     throws IntegratorException {
 
       double filteredH = h;
-      if (/*Fast*/
-    		  Math.abs(h) < minStep) {
+      if (FastMath.abs(h) < minStep) {
           if (acceptSmall) {
               filteredH = forward ? minStep : -minStep;
           } else {
-              throw new IntegratorException("IntegratorException",
-                      //NOTIMPORTANT LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
-                      minStep, /*Fast*/
-                      Math.abs(h));
+              throw new IntegratorException(
+                      LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
+                      minStep, FastMath.abs(h));
           }
       }
 
@@ -348,8 +331,7 @@ public abstract class AdaptiveStepsizeIntegrator
   /** Reset internal state to dummy values. */
   protected void resetInternalState() {
     stepStart = Double.NaN;
-    stepSize  = /*Fast*/
-    		Math.sqrt(minStep * maxStep);
+    stepSize  = FastMath.sqrt(minStep * maxStep);
   }
 
   /** Get the minimal step.
