@@ -136,12 +136,12 @@ public interface SingularValueDecomposition {
      * is the least significant bit of the largest singular value.</p>
      * @return effective numerical matrix rank
      */
-    //int getRank();
+    int getRank();
 
     /**
      * Get a solver for finding the A &times; X = B solution in least square sense.
      * @return a solver
      */
-    //DecompositionSolver getSolver();
+    DecompositionSolver getSolver();
 
 }

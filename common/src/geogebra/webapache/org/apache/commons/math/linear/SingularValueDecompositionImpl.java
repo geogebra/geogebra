@@ -16,7 +16,12 @@
  */
 
 package org.apache.commons.math.linear;
+
 import geogebra.common.util.Cloner;
+
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Calculates the compact Singular Value Decomposition of a matrix.
@@ -135,7 +140,7 @@ public class SingularValueDecompositionImpl implements
             cachedV = eigenDecomposition.getV().getSubMatrix(0,n-1,0,p-1);
         }
         for (int i = 0; i < p; i++) {
-            singularValues[i] = Math.sqrt(Math.abs(singularValues[i]));
+            singularValues[i] = FastMath.sqrt(FastMath.abs(singularValues[i]));
         }
         // Up to this point, U and V are computed independently of each other.
         // There still a sign indetermination of each column of, say, U.
@@ -216,10 +221,9 @@ public class SingularValueDecompositionImpl implements
         }
 
         if (dimension == 0) {
-            //throw MathRuntimeException.createIllegalArgumentException(
-            //        LocalizedFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE,
-            //        minSingularValue, singularValues[0]);
-        	throw new Error("TOO_LARGE_CUTOFF_SINGULAR_VALUE");
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE,
+                    minSingularValue, singularValues[0]);
         }
 
         final double[][] data = new double[dimension][p];
@@ -247,7 +251,7 @@ public class SingularValueDecompositionImpl implements
         return singularValues[0] / singularValues[singularValues.length - 1];
     }
 
-    /** {@inheritDoc} *
+    /** {@inheritDoc} */
     public int getRank() throws IllegalStateException {
 
         final double threshold = FastMath.max(m, n) * FastMath.ulp(singularValues[0]);
@@ -261,11 +265,11 @@ public class SingularValueDecompositionImpl implements
 
     }
 
-    /** {@inheritDoc} *
+    /** {@inheritDoc} */
     public DecompositionSolver getSolver() {
         return new Solver(singularValues, getUT(), getV(), getRank() == Math
                 .max(m, n));
-    }*/
+    }
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
