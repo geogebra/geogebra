@@ -846,7 +846,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 			return;
 		}
 
-		computeFromValueFrequencyLists(algoUnique.getResult(),
+		computeFromValueFrequencyLists(algoFreq.getValue(),
 				algoFreq.getResult());
 
 	}

@@ -129,7 +129,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 
     	//========================================
     	// sort the raw data
-    	GeoList list1 = algoUnique.getResult();		
+    	GeoList list1 = algoFreq.getValue();		
     	GeoList list2 = algoFreq.getResult();
 	       
         
@@ -188,7 +188,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
     }
 
 	public GeoList getUniqueXList() {
-		return algoUnique.getResult();
+		return algoFreq.getValue();
 	}
 
 	public GeoList getFrequencyList() {

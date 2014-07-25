@@ -1,21 +1,25 @@
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.advanced.AlgoUnique;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * for algos using AlgoUnique and AlgoFrequency to sort raw datas
+ * For algos that use AlgoFrequency to sort raw data into a unique value list
+ * and frequency list.
+ * 
+ * AlgoFrequency.getValue() gives the unique value list
+ * 
+ * AlgoFrequency.getResult() gives the frequency list
+ * 
  * @author mathieu
- *
+ * 
  */
 public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 
 	// helper algos
-	protected AlgoUnique algoUnique;
-	protected AlgoFrequency algoFreq;
+	protected AlgoFrequency algoFreq; 
 
 	/**
 	 * Creates new algorithm
@@ -48,10 +52,8 @@ public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 	 * @param list1 list
 	 * @param scale scale factor
 	 */
-	protected void createHelperAlgos(GeoList list1, GeoNumeric scale){
-		algoUnique = new AlgoUnique(cons, list1);
+	protected void createHelperAlgos(GeoList list1, GeoNumeric scale) {
 		algoFreq = new AlgoFrequency(cons, null, null, list1, scale);
-		cons.removeFromConstructionList(algoUnique);
 		cons.removeFromConstructionList(algoFreq);
 	}
 	
@@ -62,9 +64,6 @@ public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 	protected void removeHelperAlgos(){
 		if (algoFreq != null) {
 			algoFreq.remove();
-		}
-		if (algoUnique != null) {
-			algoUnique.remove();
 		}
 	}
 
