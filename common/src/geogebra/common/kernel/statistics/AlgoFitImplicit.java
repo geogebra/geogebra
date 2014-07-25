@@ -110,10 +110,14 @@ public class AlgoFitImplicit extends AlgoElement {
 				return;
 			}
 
+			//App.debug("M = "+M.toString());
+
 			SingularValueDecomposition svd =
 					new SingularValueDecompositionImpl(M);
 
 			V = svd.getV();
+
+			//App.debug("V = "+V.toString());
 
 			//App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
 			//App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
@@ -164,6 +168,7 @@ public class AlgoFitImplicit extends AlgoElement {
 			}
 
 		}
+		
 
 		return true;
 
@@ -194,9 +199,11 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		double[][] coeffs = new double[order+1][order+1];
 
-		//App.debug("row/cols = "+V.getRowDimension() + " "+ V.getColumnDimension());
+		//App.debug("row/cols = "+V.getRowDimension() + " "+ V.getColumnDimension()+" "+(order * (order + 3) / 2 -1));
+		
+		//App.debug(V.toString());
 
-		RealVector coeffsRV = V.getColumnVector(order * (order + 3) / 2 -1);
+		RealVector coeffsRV = V.getColumnVector(V.getColumnDimension() - 1);
 
 		int c = 0;
 
