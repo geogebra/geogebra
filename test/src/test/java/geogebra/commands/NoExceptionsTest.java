@@ -1313,11 +1313,11 @@ public class NoExceptionsTest {
 		t("Numerator[ f1 ]");
 	}
 
-	@Test
+	/*@Test
 	public void cmdNyquist() {
 		t("Nyquist[ {1,1},{1,1,1} ]");
 		t("Nyquist[ {-1,3},{3,4,1},6 ]");
-	}
+	}*/
 	
 	@Test
 	public void cmdObject() {
@@ -2582,7 +2582,7 @@ public class NoExceptionsTest {
 	
 	@AfterClass
 	public static void testSaving(){
-		//System.out.println(app.getXML());
+		System.out.println(app.getXML());
 		XmlTest.testCurrentXML(app);
 		
 		app.getKernel().getConstruction().initUndoInfo();
@@ -2597,11 +2597,11 @@ public class NoExceptionsTest {
 		t("UpdateConstruction[n2]");
 
 	}
-	@Test
+	/*@Test
 	public void cmdDensityPlot() {
 		t("DensityPlot[sin(x)*sin(y)]");
 		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1]");
-	}
+	}*/
 	@Test
 	public void cmdShowAxes(){
 		t("ShowAxes[]");
@@ -2632,15 +2632,15 @@ public class NoExceptionsTest {
 		//don't test; user interaction needed
 	}
 	
-	@Test
+	/*@Test
 	public void cmdContourPlot(){
 		t("ContourPlot[x^2+y^2]");
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void cmdMatrixPlot(){
 		t("MatrixPlot[{{0.1,0.2,0.3},{0.5,0.6,0.1}}]");
-	}
+	}*/
 	
 	@Test
 	public void cmdSetSeed(){
