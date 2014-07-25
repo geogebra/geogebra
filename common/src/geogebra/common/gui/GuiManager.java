@@ -538,6 +538,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 				}
 				
 				if (app.getGuiManager() != null) {
+					
 					app.getDialogManager().showDataSourceDialog(mode, true);
 					app.setMoveMode();
 				}

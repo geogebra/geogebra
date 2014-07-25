@@ -126,12 +126,12 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_MOVE);
 				
 		sb.append(" || ");
-		/*sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
-		sb.append(" , ");*/
+		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
 				
 		sb.append(" || ");

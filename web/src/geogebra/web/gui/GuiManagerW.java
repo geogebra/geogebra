@@ -46,6 +46,7 @@ import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
 import geogebra.web.gui.layout.panels.ConstructionProtocolDockPanelW;
+import geogebra.web.gui.layout.panels.DataAnalysisViewDockPanelW;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -62,6 +63,7 @@ import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
+import geogebra.web.gui.view.data.DataAnalysisViewW;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
@@ -440,7 +442,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 	
 	public boolean showView(int viewId) {
-		/*
+		/*8
 		Element e = Document.get().getElementById("View_" + viewId);
 		if (e != null) {
 			return !(e.getStyle().getDisplay().equals("none") || e.getStyle()
@@ -639,7 +641,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		layout.registerPanel(new PropertiesDockPanelW((AppW) app));
 
 		// register data analysis view
-	//	layout.registerPanel(new DataAnalysisViewDockPanel(app));
+		layout.registerPanel(new DataAnalysisViewDockPanelW(app));
 		
 		if (!app.isApplet()) {
 			// register python view
@@ -760,6 +762,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	private PropertiesView propertiesView;
+
+	private DataAnalysisViewW dataAnalysisView = null;
 
 	public View getPropertiesView() {
 
@@ -976,8 +980,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public View getDataAnalysisView() {
-		App.debug("unimplemented");
-		return null;
+		if (dataAnalysisView == null) {
+			dataAnalysisView = new DataAnalysisViewW((AppW) app, 0);
+		}
+		return dataAnalysisView;
 	}
 
 	public void attachDataAnalysisView() {

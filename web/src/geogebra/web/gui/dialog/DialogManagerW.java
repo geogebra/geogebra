@@ -345,7 +345,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
-		App.debug("showDataSourceDialog: unimplemented");
+		app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
+		app.setMoveMode();
 	}
 
 	
