@@ -873,7 +873,7 @@ __GGB__keysVar.es_UY.command = {
     "SolveODE": "ResuelveEDO",
     "SolveODE_Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punto en f> ]\n[ <f'(x, y)>, <x inicial>, <y inicial>, <x final>, <Paso> ]\n[ <y'>, <x'>, <x inicial>, <y inicial>, <t final>, <Paso> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x inicial>, <y inicial>, <y' inicial>, <x final>, <Paso> ]",
     "SolveODE_SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Punto(s) de f> ]\n[ <Ecuaci\xf3n>, <Punto(s) de f>, <Punto(s) de f'> ]\n[ <Ecuaci\xf3n>, <Variable dependiente>, <Variable independiente>, <Punto(s) de f> ]\n[ <Ecuaci\xf3n>, <Variable dependiente>, <Variable independiente>, <Punto(s) de f>, <Punto(s) de f'> ]",
-    "SolveQuartic": "ResuelveCu\xe1rtico",
+    "SolveQuartic": "ResuelveCu\xe1rtica",
     "SolveQuartic_Syntax": "[ <Polinomio Cu\xe1rtico> ]",
     "Sort": "Ordena",
     "Sort_Syntax": "[ <Lista> ]\n[ <Lista>, <Lista modelo> ]",
