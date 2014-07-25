@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.linear;
+
 
 
 /**
@@ -24,7 +25,7 @@ package org.apache.commons.math.linear;
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</p>
  *
- * @version $Revision: 811786 $ $Date: 2009-09-06 05:36:08 -0400 (Sun, 06 Sep 2009) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
  */
 public interface RealMatrix extends AnyMatrix {
 
