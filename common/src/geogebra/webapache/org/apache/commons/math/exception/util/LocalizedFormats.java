@@ -27,5 +27,6 @@ public class LocalizedFormats {
 	public static final String ZERO_NORM = "ZERO_NORM";
 	public static final String CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR = "CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR";
 	public static final String POSITION_SIZE_MISMATCH_INPUT_ARRAY = "POSITION_SIZE_MISMATCH_INPUT_ARRAY";
+	public static final String WRONG_BLOCK_LENGTH = "WRONG_BLOCK_LENGTH";
 
 }
