@@ -21,5 +21,11 @@ public class LocalizedFormats {
 	public static final String AT_LEAST_ONE_COLUMN = "AT_LEAST_ONE_COLUMN";
 	public static final String INDEX_OUT_OF_RANGE = "INDEX_OUT_OF_RANGE";
 	public static final String DIMENSIONS_MISMATCH_SIMPLE = "DIMENSIONS_MISMATCH_SIMPLE";
+	public static final String FIRST_ROWS_NOT_INITIALIZED_YET = "FIRST_ROWS_NOT_INITIALIZED_YET";
+	public static final String FIRST_COLUMNS_NOT_INITIALIZED_YET = "FIRST_COLUMNS_NOT_INITIALIZED_YET";
+	public static final String NO_SUCH_MATRIX_ENTRY = "NO_SUCH_MATRIX_ENTRY";
+	public static final String ZERO_NORM = "ZERO_NORM";
+	public static final String CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR = "CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR";
+	public static final String POSITION_SIZE_MISMATCH_INPUT_ARRAY = "POSITION_SIZE_MISMATCH_INPUT_ARRAY";
 
 }

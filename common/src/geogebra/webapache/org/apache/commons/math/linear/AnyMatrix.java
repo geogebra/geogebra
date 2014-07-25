@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.linear;
 
 
 /**
  * Interface defining very basic matrix operations.
- * @version $Revision: 772119 $ $Date: 2009-05-06 05:43:28 -0400 (Wed, 06 May 2009) $
+ * @version $Revision: 772119 $ $Date: 2009-05-06 11:43:28 +0200 (mer. 06 mai 2009) $
  * @since 2.0
  */
 public interface AnyMatrix {
