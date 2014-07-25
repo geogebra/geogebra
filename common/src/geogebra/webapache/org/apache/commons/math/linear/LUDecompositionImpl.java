@@ -14,10 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.linear;
 
+import geogebra.common.util.Cloner;
+
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -28,17 +32,13 @@ import org.apache.commons.math.MathRuntimeException;
  * <p>As shown by the presence of the P matrix, this decomposition is
  * implemented using partial pivoting.</p>
  *
- * @version $Revision: 885278 $ $Date: 2009-11-29 16:47:51 -0500 (Sun, 29 Nov 2009) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
  * @since 2.0
  */
 public class LUDecompositionImpl implements LUDecomposition {
 
     /** Default bound to determine effective singularity in LU decomposition */
     private static final double DEFAULT_TOO_SMALL = 10E-12;
-
-    /** Message for vector length mismatch. */
-    private static final String VECTOR_LENGTH_MISMATCH_MESSAGE =
-        "vector length mismatch: got {0} but expected {1}";
 
     /** Entries of LU decomposition. */
     private double lu[][];
@@ -126,14 +126,14 @@ public class LUDecompositionImpl implements LUDecomposition {
                 luRow[col] = sum;
 
                 // maintain best permutation choice
-                if (Math.abs(sum) > largest) {
-                    largest = Math.abs(sum);
+                if (FastMath.abs(sum) > largest) {
+                    largest = FastMath.abs(sum);
                     max = row;
                 }
             }
 
             // Singularity check
-            if (Math.abs(lu[max][col]) < singularityThreshold) {
+            if (FastMath.abs(lu[max][col]) < singularityThreshold) {
                 singular = true;
                 return;
             }
@@ -167,7 +167,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     public RealMatrix getL() {
         if ((cachedL == null) && !singular) {
             final int m = pivot.length;
-            cachedL = new Array2DRowRealMatrix(m, m);//AR MatrixUtils.createRealMatrix(m, m);
+            cachedL = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
                 final double[] luI = lu[i];
                 for (int j = 0; j < i; ++j) {
@@ -183,7 +183,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     public RealMatrix getU() {
         if ((cachedU == null) && !singular) {
             final int m = pivot.length;
-            cachedU = new Array2DRowRealMatrix(m, m);//AR MatrixUtils.createRealMatrix(m, m);
+            cachedU = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
                 final double[] luI = lu[i];
                 for (int j = i; j < m; ++j) {
@@ -198,7 +198,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     public RealMatrix getP() {
         if ((cachedP == null) && !singular) {
             final int m = pivot.length;
-            cachedP = new Array2DRowRealMatrix(m, m); //AR MatrixUtils.createRealMatrix(m, m);
+            cachedP = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
                 cachedP.setEntry(i, pivot[i], 1.0);
             }
@@ -208,12 +208,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 
     /** {@inheritDoc} */
     public int[] getPivot() {
-//AR        return pivot.clone();
-    	int [] inp = pivot;//AR
-    	int [] oup = new int[inp.length];//AR
-    	for (int i = 0; i < inp.length; i++)//AR
-    		oup[i] = inp[i];//AR
-    	return oup;//AR
+        return Cloner.clone(pivot);
     }
 
     /** {@inheritDoc} */
@@ -271,7 +266,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             final int m = pivot.length;
             if (b.length != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        VECTOR_LENGTH_MISMATCH_MESSAGE, b.length, m);
+                        LocalizedFormats.VECTOR_LENGTH_MISMATCH, b.length, m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -315,7 +310,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 final int m = pivot.length;
                 if (b.getDimension() != m) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            VECTOR_LENGTH_MISMATCH_MESSAGE, b.getDimension(), m);
+                            LocalizedFormats.VECTOR_LENGTH_MISMATCH, b.getDimension(), m);
                 }
                 if (singular) {
                     throw new SingularMatrixException();
@@ -369,7 +364,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             final int m = pivot.length;
             if (b.getRowDimension() != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                        LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
                         b.getRowDimension(), b.getColumnDimension(), m, "n");
             }
             if (singular) {
@@ -422,12 +417,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 
         /** {@inheritDoc} */
         public RealMatrix getInverse() throws InvalidMatrixException {
-            //AR return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
-            final RealMatrix m = new Array2DRowRealMatrix(pivot.length, pivot.length);
-            for (int i = 0; i < pivot.length; ++i) {
-                m.setEntry(i, i, 1.0);
-            }
-            return solve(m);
+            return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
         }
 
     }

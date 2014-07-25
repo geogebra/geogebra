@@ -11,6 +11,15 @@ public class Cloner {
 		return arrayClone;
 	}
 	
+	public static int[] clone(int[] array){
+
+		int[] arrayClone = new int[array.length];
+		for (int i = 0 ; i < array.length ; i++) {
+			arrayClone[i] = array[i];
+		}
+		return arrayClone;
+	}
+	
 	public static double[][] clone2(double[][] array){
 		
 		double[][] arrayClone = new double[array.length][array[0].length];

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.linear;
 
 
@@ -40,7 +40,7 @@ package org.apache.commons.math.linear;
  *
  * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
- * @version $Revision: 826627 $ $Date: 2009-10-19 06:27:47 -0400 (Mon, 19 Oct 2009) $
+ * @version $Revision: 826627 $ $Date: 2009-10-19 12:27:47 +0200 (lun. 19 oct. 2009) $
  * @since 2.0
  */
 public interface LUDecomposition {
