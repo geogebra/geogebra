@@ -1260,30 +1260,19 @@ public class EuclidianPen {
 			GeoPointND[] focus = algo.getFocus();
 
 			int type = conic.getType();
-			int constructionIndex = conic.getConstructionIndex();
 			GeoPoint pointOnConic = this.app.getKernel().getAlgoDispatcher()
 			        .Point(null, conic, null);
-			conic.getAlgorithmList().clear();
 			conic.remove();
 
-			((GeoPoint) focus[0]).setParentAlgorithm(null);
-			((GeoElement) focus[0]).setConstructionIndex(constructionIndex);
-			((GeoElement) focus[0]).setConstructionDefaults(true);
+			GeoPoint f0 = new GeoPoint(cons, null, focus[0].getInhomX(),
+			        focus[0].getInhomY(), 1);
+			GeoPoint f1 = new GeoPoint(cons, null, focus[1].getInhomX(),
+			        focus[1].getInhomY(), 1);
+			GeoPoint additionalPoint = new GeoPoint(cons, null,
+			        pointOnConic.getInhomX(), pointOnConic.getInhomY(), 1);
 
-			((GeoPoint) focus[1]).setParentAlgorithm(null);
-			((GeoElement) focus[1]).setConstructionIndex(constructionIndex);
-			((GeoElement) focus[1]).setConstructionDefaults(true);
-
-			pointOnConic.removePath();
-			pointOnConic.setParentAlgorithm(null);
-			pointOnConic.setConstructionIndex(constructionIndex);
-			pointOnConic.setConstructionDefaults(true);
-
-			conic = (GeoConic) this.app
-			        .getKernel()
-			        .getAlgoDispatcher()
-			        .EllipseHyperbola(null, focus[0], focus[1], pointOnConic,
-			                type);
+			conic = (GeoConic) this.app.getKernel().getAlgoDispatcher()
+			        .EllipseHyperbola(null, f0, f1, additionalPoint, type);
 		} else {
 			conic.remove();
 			conic = null;
