@@ -5,7 +5,7 @@ public enum GeoClass {
 	TURTLE("Turtle"),
 	CAS_CELL("CasCell"),
 
-	ANGLE3D("Angle3D"), POINT3D("Point3D"), VECTOR3D("Vector3D"), SEGMENT3D("Segment3D"), LINE3D("Line3D"), RAY3D("Ray3D"), CONIC3D("Conic3D"), CONICSECTION("Conic3DPart"), AXIS3D("Axis3D"), CURVE_CARTESIAN3D("CurveCartesian3D"), POLYGON3D("Polygon3D"), PLANE3D("Plane3D"), QUADRIC("Quadric"), QUADRIC_PART("QuadricPart"), QUADRIC_LIMITED("QuadricLimited"), POLYLINE3D("PolyLine3D"), POLYHEDRON("Polyhedron"), NET("Net"),
+	ANGLE3D("Angle","Angle3D"), POINT3D("Point","Point3D"), VECTOR3D("Vector","Vector3D"), SEGMENT3D("Segment","Segment3D"), LINE3D("Line","Line3D"), RAY3D("Ray","Ray3D"), CONIC3D("Conic","Conic3D"), CONICSECTION("Conic3DPart"), AXIS3D("Axis","Axis3D"), CURVE_CARTESIAN3D("CurveCartesian","CurveCartesian3D"), POLYGON3D("Polygon","Polygon3D"), PLANE3D("Plane3D"), QUADRIC("Quadric"), QUADRIC_PART("QuadricPart"), QUADRIC_LIMITED("QuadricLimited"), POLYLINE3D("PolyLine","PolyLine3D"), POLYHEDRON("Polyhedron"), NET("Net"),
 
 	SURFACECARTESIAN3D("SurfaceCartesian3D"),
 	
@@ -15,9 +15,14 @@ public enum GeoClass {
 
 	DEFAULT("Default");
 	
-	public String name;
+	public String name, xmlName;
 
 	GeoClass(String name) {
 		this.name = name;
+		this.xmlName = name;
+	}
+	GeoClass(String name, String xmlName) {
+		this.name = name;
+		this.xmlName = xmlName;
 	}
 }
