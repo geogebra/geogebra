@@ -88,10 +88,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		//sides of the pyramid
 		for (int i=0; i<bottomPointsLength; i++){
 			polyhedron.startNewFace();
-			
-			polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%(bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(bottomPoints[i]);
-			
+			polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%(bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(topPoint);//apex
 			polyhedron.endCurrentFace();
 		}
@@ -128,10 +126,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 				//App.debug("bottomPoints["+i+"]="+bottomPoints[i]);
 				//App.debug("bottomPoints["+((i+1)%newBottomPointsLength)+"]="+bottomPoints[(i+1)%newBottomPointsLength]);
 				polyhedron.startNewFace();
-				
-				polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%newBottomPointsLength]);
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
-				
+				polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%newBottomPointsLength]);
 				polyhedron.addPointToCurrentFace(getTopPoint());
 				polyhedron.endCurrentFace();
 				GeoPolygon3D polygon = polyhedron.createPolygon(i);

@@ -100,11 +100,10 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		//sides of the prism
 		for (int i=0; i<bottomPointsLength; i++){
 			polyhedron.startNewFace();
-			
-			polyhedron.addPointToCurrentFace(points[(i+1)%(bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(points[i]);
-			polyhedron.addPointToCurrentFace(points[bottomPointsLength + i]);
+			polyhedron.addPointToCurrentFace(points[(i+1)%(bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(points[bottomPointsLength + ((i+1)%(bottomPointsLength))]);
+			polyhedron.addPointToCurrentFace(points[bottomPointsLength + i]);
 			polyhedron.endCurrentFace();
 		}
 		
@@ -165,10 +164,10 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			int l = nOld+length;
 			for (int i=nOld; i<l; i++){
 				polyhedron.startNewFace();
-				polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%l]);
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
-				polyhedron.addPointToCurrentFace(getTopPoint(i));
+				polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%l]);
 				polyhedron.addPointToCurrentFace(getTopPoint((i+1)%l));
+				polyhedron.addPointToCurrentFace(getTopPoint(i));
 				polyhedron.endCurrentFace();
 				GeoPolygon3D polygon = polyhedron.createPolygon(i+1); //i+1 due to top face
 				if (polyhedron.allLabelsAreSet()){
