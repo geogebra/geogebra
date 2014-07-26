@@ -402,7 +402,9 @@ Dilateable, Transformable, EuclidianViewCE {
 						pos=false;
 						number=number.substring(1);
 					}
-					if (!number.equals("0")){
+					// don't use Kernel.isEqual as a small coefficient can be significant
+					// check for "0" doesn't work for 0.00
+					if (!number.equals("0") && coeff[i][j] != 0){
 						if (pos){
 							if (!first){
 								sb.append('+');
@@ -414,7 +416,8 @@ Dilateable, Transformable, EuclidianViewCE {
 							sb.append(' ');
 						}
 						first=false;
-						if (!number.equals("1")){
+						// check both in case of 1.000
+						if (!number.equals("1") && coeff[i][j] != 1){
 							sb.append(number);
 							if(tpl.hasType(StringType.GIAC)){
 								appendMultiply(sb);
