@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.util;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Provides a generic means to evaluate continued fractions.  Subclasses simply
@@ -33,7 +33,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * </ul>
  * </p>
  *
- * @version $Revision: 920558 $ $Date: 2010-03-08 17:57:32 -0500 (Mon, 08 Mar 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
  */
 public abstract class ContinuedFraction {
 
@@ -149,10 +149,10 @@ public abstract class ContinuedFraction {
                 double scaleFactor = 1d;
                 double lastScaleFactor = 1d;
                 final int maxPower = 5;
-                final double scale = Math.max(a,b);
+                final double scale = FastMath.max(a,b);
                 if (scale <= 0) {  // Can't scale
                     throw new ConvergenceException(
-                            "Continued fraction convergents diverged to +/- infinity for value {0}",
+                            LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
                              x);
                 }
                 infinite = true;
@@ -176,7 +176,7 @@ public abstract class ContinuedFraction {
             if (infinite) {
                // Scaling failed
                throw new ConvergenceException(
-                 "Continued fraction convergents diverged to +/- infinity for value {0}",
+                 LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
                   x);
             }
 
@@ -184,10 +184,10 @@ public abstract class ContinuedFraction {
 
             if (Double.isNaN(r)) {
                 throw new ConvergenceException(
-                  "Continued fraction diverged to NaN for value {0}",
+                  LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
                   x);
             }
-            relativeError = Math.abs(r / c - 1.0);
+            relativeError = FastMath.abs(r / c - 1.0);
 
             // prepare for next iteration
             c = p2 / q2;
@@ -199,7 +199,7 @@ public abstract class ContinuedFraction {
 
         if (n >= maxIterations) {
             throw new MaxIterationsExceededException(maxIterations,
-                "Continued fraction convergents failed to converge for value {0}",
+                LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,
                 x);
         }
 
