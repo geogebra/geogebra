@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -96,8 +97,6 @@ public class AlgoFitImplicit extends AlgoElement {
 			return;
 		}
 
-		M = new Array2DRowRealMatrix(datasize, order * (order + 1));
-
 		if (!pointlist.getElementType().equals(GeoClass.POINT)) {
 			fitfunction.setUndefined();
 			return;
@@ -110,6 +109,10 @@ public class AlgoFitImplicit extends AlgoElement {
 				return;
 			}
 
+			App.debug("datasize = " + datasize);
+			App.debug("order = " + order);
+			App.debug("M cols = "+M.getColumnDimension());
+			App.debug("M rows = "+M.getRowDimension());
 			//App.debug("M = "+M.toString());
 
 			SingularValueDecomposition svd =
@@ -139,9 +142,9 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		int order = (int) orderGeo.evaluateDouble();
 
-
 		// Make matrixes with the right values: M*P=Y
-		M = new Array2DRowRealMatrix(datasize, order * (order + 1));
+		M = new Array2DRowRealMatrix(datasize, (order + 1) * (order + 2) / 2);
+		
 		for (int r = 0; r < datasize; r++) {
 			geo = pointlist.get(r);
 			if (!geo.isGeoPoint()) {
