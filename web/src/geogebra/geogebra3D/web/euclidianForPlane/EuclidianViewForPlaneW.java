@@ -30,7 +30,7 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements EuclidianV
 	 * @param settings euclidian settings
 	 */
 	public EuclidianViewForPlaneW(EuclidianPanelWAbstract euclidianViewPanel, EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
-		super(euclidianViewPanel, ec, new boolean[]{ false, false }, false, 0, settings);
+		super(euclidianViewPanel, ec, new boolean[]{ false, false }, false, EVNO_GENERAL, settings);
 		
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}

@@ -26,7 +26,7 @@ public class EuclidianViewForPlaneD extends EuclidianViewD implements EuclidianV
 	 * @param settings euclidian settings
 	 */
 	public EuclidianViewForPlaneD(EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
-		super(ec, new boolean[]{ false, false }, false, 0, settings); //TODO euclidian settings
+		super(ec, new boolean[]{ false, false }, false, EVNO_GENERAL, settings); //TODO euclidian settings
 		
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}
