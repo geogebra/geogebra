@@ -43,6 +43,8 @@ public class DrawPointPlot extends Drawable {
 	private GColor oldColor = null;
 	private GColor pointColor;
 
+	private GeoList pointList;
+
 	/*************************************************
 	 * @param view
 	 *            view
@@ -54,6 +56,7 @@ public class DrawPointPlot extends Drawable {
 		this.view = view;
 		this.drawType = drawType;
 		geo = pointList;
+		this.pointList = pointList;
 		init();
 		update();
 	}
@@ -86,7 +89,7 @@ public class DrawPointPlot extends Drawable {
 		if (isVisible) {
 
 			for (int i = 0; i < drawPoints.size(); i++) {
-				((GeoList) geo).get(i).setHighlighted(geo.doHighlighting());
+				pointList.get(i).setHighlighted(geo.doHighlighting());
 				drawPoints.get(i).draw(g2);
 			}
 
@@ -162,8 +165,8 @@ public class DrawPointPlot extends Drawable {
 			doDotDensity();
 		}
 
-		pointStyle = ((GeoList) geo).getPointStyle();
-		pointSize = ((GeoList) geo).getPointSize();
+		pointStyle = pointList.getPointStyle();
+		pointSize = pointList.getPointSize();
 		pointColor = geo.getObjectColor();
 
 		boolean doVisualStyleUpdate = (oldPointSize != pointSize)
@@ -174,8 +177,8 @@ public class DrawPointPlot extends Drawable {
 		oldPointStyle = pointStyle;
 		oldColor = geo.getObjectColor();
 
-		for (int i = 0; i < ((GeoList) geo).size(); i++) {
-			GeoPoint pt = (GeoPoint) ((GeoList) geo).get(i);
+		for (int i = 0; i < pointList.size(); i++) {
+			GeoPoint pt = (GeoPoint) pointList.get(i);
 
 			if (doVisualStyleUpdate) {
 				pt.setObjColor(pointColor);
@@ -186,7 +189,7 @@ public class DrawPointPlot extends Drawable {
 			drawPoints.get(i).update();
 		}
 
-		GeoPoint pt = (GeoPoint) ((GeoList) geo).get(0);
+		GeoPoint pt = (GeoPoint) pointList.get(0);
 		coords[0] = pt.getX();
 		coords[1] = pt.getY();
 		view.toScreenCoords(coords);
@@ -203,14 +206,14 @@ public class DrawPointPlot extends Drawable {
 	private void updatePointLists() {
 
 		// find the number of points to draw
-		int n = ((GeoList) geo).size();
+		int n = pointList.size();
 		drawPoints.ensureCapacity(n);
 
 		// adjust the lists
 		if (n > drawPoints.size()) {
 			// add
 			for (int i = drawPoints.size(); i < n; i++) {
-				GeoPoint pt = (GeoPoint) ((GeoList) geo).get(i);
+				GeoPoint pt = (GeoPoint) pointList.get(i);
 				DrawPoint d = new DrawPoint(view, pt);
 				d.setGeoElement(pt);
 				drawPoints.add(d);
@@ -229,7 +232,7 @@ public class DrawPointPlot extends Drawable {
 	 */
 	private void stackDots() {
 
-		pointSize = ((GeoList) geo).getPointSize();
+		pointSize = pointList.getPointSize();
 
 		int xIndex = 0;
 		GeoPoint pt = null;
@@ -242,7 +245,7 @@ public class DrawPointPlot extends Drawable {
 			// stacked on top of each other
 			int dotCountMax = (int) ((GeoNumeric) list2.get(i)).getDouble();
 			for (int dotCount = 1; dotCount <= dotCountMax; dotCount++) {
-				pt = (GeoPoint) ((GeoList) geo).get(xIndex);
+				pt = (GeoPoint) pointList.get(xIndex);
 				setDotHeight(pt, dotCount);
 				xIndex++;
 			}
@@ -259,7 +262,7 @@ public class DrawPointPlot extends Drawable {
 	 */
 	private void setDotHeight(GeoPoint pt, int dotCount) {
 		double y;
-		pointSize = ((GeoList) geo).getPointSize();
+		pointSize = pointList.getPointSize();
 
 		// get y coord for the stacked dot
 		y = (view.getYZero() - pointSize); // first dot on axis
@@ -277,7 +280,7 @@ public class DrawPointPlot extends Drawable {
 	 */
 	private void doDotDensity() {
 
-		pointSize = ((GeoList) geo).getPointSize();
+		pointSize = pointList.getPointSize();
 		double h = 2 * pointSize * view.getInvXscale();
 
 		GeoPoint pt = null;
@@ -299,7 +302,7 @@ public class DrawPointPlot extends Drawable {
 			}
 
 			for (int k = 0; k < freq; k++) {
-				pt = (GeoPoint) ((GeoList) geo).get(xIndex);
+				pt = (GeoPoint) pointList.get(xIndex);
 				pt.setX(stackX);
 				pt.updateCoords();
 				setDotHeight(pt, dotCount);
