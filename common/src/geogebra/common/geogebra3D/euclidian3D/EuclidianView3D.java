@@ -3014,8 +3014,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	
 	
 	public void updateBounds() {
-		((Kernel3D) kernel).setEuclidianView3DBounds(evNo, getXmin(), getXmax(),
-				getYmin(), getYmax(), getXscale(), getYscale(), getZscale());
+		((Kernel3D) kernel).setEuclidianView3DBounds(evNo, 
+				getXmin(), getXmax(),
+				getYmin(), getYmax(), 
+				getZmin(), getZmax(), 
+				getXscale(), getYscale(), getZscale());
 	}
 	
 	private void viewChangedOwnDrawables() {

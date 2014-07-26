@@ -559,65 +559,32 @@ public class Kernel3D extends Kernel {
 	}
 
 	
-
+	
 	@Override
-	public double getXmax(int i) {
-		if (i==3){
-			return xmax3;
+	public double getZmax(int i) {
+		if (i==2){
+			return zmax3;
 		}
-		return super.getXmax(i);
+		return super.getZmax(i);
 	}
 	
 	@Override
-	public double getXmin(int i) {
-		if (i==3){
-			return xmin3;
+	public double getZmin(int i) {
+		if (i==2){
+			return zmin3;
 		}
-		return super.getXmin(i);
-	}
-	
-	@Override
-	public double getYmax(int i) {
-		if (i==3){
-			return ymax3;
-		}
-		return super.getYmax(i);
-	}
-	
-	@Override
-	public double getYmin(int i) {
-		if (i==3){
-			return ymin3;
-		}
-		return super.getYmin(i);
+		return super.getZmin(i);
 	}
 
 	@Override
-	public double getYscale(int i) {
-		if (i==3){
-			return yscale3;
+	public double getZscale(int i) {
+		if (i==2){
+			return zscale3;
 		}
-		return super.getYscale(i);
+		return super.getZscale(i);
 	}
 	
-	@Override
-	public double getXscale(int i) {
-		if (i==3){
-			return xscale3;
-		}
-		return super.getXscale(i);
-	}
-	
-
-	/**
-	 * 
-	 * @return 3D view z scale
-	 */
-	public double getZscale() {
-		return zscale3;
-	}
-	
-	private double xmin3, xmax3, ymin3, ymax3, xscale3, yscale3, zscale3;
+	private double zmin3, zmax3, zscale3;
 	
 	
 	/**
@@ -629,18 +596,35 @@ public class Kernel3D extends Kernel {
 	 * @param xmax right x-coord
 	 * @param ymin bottom y-coord
 	 * @param ymax top y-coord
+	 * @param zmin min z
+	 * @param zmax max z
 	 * @param xscale x scale (pixels per unit)
 	 * @param yscale y scale (pixels per unit)
+	 * @param zscale z scale
 	 */
 	final public void setEuclidianView3DBounds(int view, double xmin,
-			double xmax, double ymin, double ymax, double xscale, double yscale, double zscale) {
+			double xmax, double ymin, double ymax, double zmin, double zmax, double xscale, double yscale, double zscale) {
 
-		this.xmin3 = xmin;
-		this.xmax3 = xmax;
-		this.ymin3 = ymin;
-		this.ymax3 = ymax;
-		this.xscale3 = xscale;
-		this.yscale3 = yscale;
+		if(3 > this.xmin.length){
+			
+			this.xmin = prolong(this.xmin,2);
+			this.xmax = prolong(this.xmin,2);
+			
+			this.ymin = prolong(this.ymin,2);
+			this.ymax = prolong(this.ymax,2);
+			
+			this.xscale = prolong(this.xscale,2);
+			this.yscale = prolong(this.yscale,2);
+		}
+		
+		this.xmin[2] = xmin;
+		this.xmax[2] = xmax;
+		this.ymin[2] = ymin;
+		this.ymax[2] = ymax;
+		this.zmin3 = zmin;
+		this.zmax3 = zmax;
+		this.xscale[2] = xscale;
+		this.yscale[2] = yscale;
 		this.zscale3 = zscale;
 		
 		notifyEuclidianViewCE();

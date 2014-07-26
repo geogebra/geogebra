@@ -845,26 +845,14 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	}
 	
 	void updateScreenBorders(int i) {
-		
-		int viewIndex = i+1;
-		xmax[i] = kernel.getXmax(viewIndex); 
-		xmin[i] = kernel.getXmin(viewIndex); 
-		ymax[i] = kernel.getYmax(viewIndex); 
-		ymin[i] = kernel.getYmin(viewIndex); 
 
-		double widthRW = xmax[i] - xmin[i]; 
-		double heightRW = ymax[i] - ymin[i]; 
+		xmax[i] = kernel.getXmax(i); 
+		xmin[i] = kernel.getXmin(i); 
+		ymax[i] = kernel.getYmax(i); 
+		ymin[i] = kernel.getYmin(i); 
+
 		setMaxDistances(i);
 
-		// we take a bit more than the screen 
-		// itself so that we don't loose locus 
-		// lines too often 
-		// that leave and reenter the screen 
-
-		farXmin[i] = xmin[i] - widthRW / 2; 
-		farXmax[i] = xmax[i] + widthRW / 2; 
-		farYmin[i] = ymin[i] - heightRW / 2; 
-		farYmax[i] = ymax[i] + heightRW / 2; 
 
 		// near to screen rectangle 
 		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i], farXmax[i] - farXmin[i], farYmax[i] - farYmin[i]); 
@@ -874,8 +862,21 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	}
 	
 	protected void setMaxDistances(int i){
-		maxXdist[i] = MAX_X_PIXEL_DIST / kernel.getXscale(i+1); // widthRW / 100; 
-		maxYdist[i] = MAX_Y_PIXEL_DIST / kernel.getYscale(i+1); // heightRW / 100; 
+		maxXdist[i] = MAX_X_PIXEL_DIST / kernel.getXscale(i); // widthRW / 100; 
+		maxYdist[i] = MAX_Y_PIXEL_DIST / kernel.getYscale(i); // heightRW / 100; 
+		
+		// we take a bit more than the screen 
+		// itself so that we don't loose locus 
+		// lines too often 
+		// that leave and reenter the screen 
+		double widthRW = xmax[i] - xmin[i]; 
+		double heightRW = ymax[i] - ymin[i]; 
+
+		farXmin[i] = xmin[i] - widthRW / 2; 
+		farXmax[i] = xmax[i] + widthRW / 2; 
+		farYmin[i] = ymin[i] - heightRW / 2; 
+		farYmax[i] = ymax[i] + heightRW / 2; 
+
 	}
 
 	void updateScreenBorders() {

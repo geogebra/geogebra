@@ -2354,7 +2354,7 @@ public class Kernel {
 		return ggbCasCache != null;
 	}
 
-	private double[] xmin = new double[1], xmax = new double[1], ymin = new double[1], ymax = new double[1], xscale = new double[1], yscale = new double[1];
+	protected double[] xmin = new double[1], xmax = new double[1], ymin = new double[1], ymax = new double[1], xscale = new double[1], yscale = new double[1];
 	// for 2nd Graphics View
 	
 	private boolean graphicsView2showing = false;
@@ -2397,7 +2397,7 @@ public class Kernel {
 		notifyEuclidianViewCE();
 	}
 
-	private double[] prolong(double[] xmin2, int viewNo) {
+	protected double[] prolong(double[] xmin2, int viewNo) {
 		
 		double[] ret = new double[viewNo];
 		System.arraycopy(xmin2, 0, ret, 0, xmin2.length);
@@ -2545,63 +2545,45 @@ public class Kernel {
 	}
 	
 	
-	public double getXmax(int i) {
-		switch(i){
-		case 1:
-			return getXmax(true, false);
-		case 2:
-			return getXmax(false, true);
-		}
-		return getXmax();
+	final public double getXmax(int i) {
+		return xmax[i];
 	}
 	
-	public double getXmin(int i) {
-		switch(i){
-		case 1:
-			return getXmin(true, false);
-		case 2:
-			return getXmin(false, true);
-		}
-		return getXmin();
+	final public double getXmin(int i) {
+		return xmin[i];
 	}
 	
-	public double getYmax(int i) {
-		switch(i){
-		case 1:
-			return getYmax(true, false);
-		case 2:
-			return getYmax(false, true);
-		}
-		return getYmax();
+	final public double getYmax(int i) {
+		return ymax[i];
 	}
 	
-	public double getYmin(int i) {
-		switch(i){
-		case 1:
-			return getYmin(true, false);
-		case 2:
-			return getYmin(false, true);
-		}
-		return getYmin();
+	final public double getYmin(int i) {
+		return ymin[i];
 	}
 
-	public double getYscale(int i) {
-		switch(i){
-		case 1:
-			return getYscale(true, false);
-		case 2:
-			return getYscale(false, true);
-		}
-		return getYscale();
+	final public double getYscale(int i) {
+		return yscale[i];
 	}
 	
-	public double getXscale(int i) {
-		switch(i){
-		case 1:
-			return getXscale(true, false);
-		case 2:
-			return getXscale(false, true);
-		}
+	final public double getXscale(int i) {
+		return xscale[i];
+	}
+	
+	public double getZmax(int i) {
+		return 0;
+	}
+	
+
+	public double getZmin(int i) {
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @return 3D view z scale
+	 */
+	public double getZscale(int i) {
+		// use xscale since there is no z
 		return getXscale();
 	}
 

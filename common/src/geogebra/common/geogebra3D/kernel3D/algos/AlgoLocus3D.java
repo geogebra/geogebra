@@ -29,7 +29,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
-	double[] maxZdist;
+	double[] maxZdist, farZmin, farZmax;
 	
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;
 	
@@ -45,16 +45,32 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	protected void createMaxDistances(){
 		super.createMaxDistances();
 		maxZdist = new double[3];
+		farZmin = new double[3];
+		farZmax = new double[3];
 	}
 
 	@Override
 	protected void setMaxDistances(int i){
 		super.setMaxDistances(i);
 		if (i == 2){ // 3D view
-			maxZdist[i] = MAX_Z_PIXEL_DIST / ((Kernel3D) kernel).getZscale();
+			maxZdist[i] = MAX_Z_PIXEL_DIST / ((Kernel3D) kernel).getZscale(i);
+			
+			double zmin = kernel.getZmin(i); 
+			double zmax = kernel.getZmax(i);
+
+			double widthRW =  zmax - zmin; 
+
+			farZmin[i] = zmin - widthRW / 2; 
+			farZmax[i] = zmax + widthRW / 2; 
+			
 		}else{
 			maxZdist[i] = Double.POSITIVE_INFINITY; // we don't check z for 2D views
+
+			farZmin[i] = Double.NEGATIVE_INFINITY; 
+			farZmax[i] = Double.POSITIVE_INFINITY; 
 		}
+		
+
 	}
 	
 	@Override
@@ -175,7 +191,11 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	private double lastZ;
 
 	private boolean isFarAway(double x, double y, double z, int i) {
-		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i] || y < farYmin[i]);
+		boolean farAway = (
+				x > farXmax[i] || x < farXmin[i] || 
+				y > farYmax[i] || y < farYmin[i] || 
+				z > farZmax[i] || z < farZmin[i]								
+				);
 		return farAway;
 	}
 
