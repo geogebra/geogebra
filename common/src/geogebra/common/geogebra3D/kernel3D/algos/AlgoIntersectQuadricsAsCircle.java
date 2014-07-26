@@ -193,7 +193,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
     
     @Override
 	public Commands getClassName() {
-		return Commands.IntersectCircle;
+		return Commands.IntersectConic;
 	}
 	
     @Override

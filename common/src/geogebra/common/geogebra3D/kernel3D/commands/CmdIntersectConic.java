@@ -9,9 +9,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
 
-public class CmdIntersectCircle extends CommandProcessor {
+public class CmdIntersectConic extends CommandProcessor {
 
-	public CmdIntersectCircle(Kernel kernel) {
+	public CmdIntersectConic(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -35,6 +35,11 @@ public class CmdIntersectCircle extends CommandProcessor {
 				return ret;
 			} 
 
+			//intersection plane/quadric
+			GeoElement ret = CmdIntersectPath3D.processQuadricPlane(kernelA, c, arg, ok);
+			if (ret != null){
+				return new GeoElement[] { ret };
+			}
 			
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 			

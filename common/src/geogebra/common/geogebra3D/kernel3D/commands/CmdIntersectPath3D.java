@@ -103,49 +103,67 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			}
 
 			
-			//intersection plane/limited quadric
-			if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[0] = (arg[1] instanceof GeoQuadric3DLimited))){
-				GeoElement[] ret =
-					{
-						kernelA.getManager3D().IntersectQuadricLimited(
-								c.getLabel(),
-								(GeoPlaneND) arg[0],
-								(GeoQuadric3DLimited) arg[1])};
-				return ret;
-			}else if ((ok[0] = (arg[0] instanceof GeoQuadric3DLimited)) && (ok[0] = (arg[1] instanceof GeoPlaneND))){
-				GeoElement[] ret =
-					{
-						kernelA.getManager3D().IntersectQuadricLimited(
-								c.getLabel(),
-								(GeoPlaneND) arg[1],
-								(GeoQuadric3DLimited) arg[0])};
-				return ret;
+			//intersection plane/quadric
+			GeoElement ret = processQuadricPlane(kernelA, c, arg, ok);
+			if (ret != null){
+				return new GeoElement[] { ret };
 			}
 			
-
-			//intersection plane/quadric
-			if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[1] = (arg[1] instanceof GeoQuadricND))){
-				GeoElement[] ret =
-					{
-						kernelA.getManager3D().Intersect(
-								c.getLabel(),
-								(GeoPlaneND) arg[0],
-								(GeoQuadricND) arg[1])};
-				return ret;
-			}else if ((arg[0] instanceof GeoQuadricND) && (arg[1] instanceof GeoPlaneND)){
-				GeoElement[] ret =
-					{
-						kernelA.getManager3D().Intersect(
-								c.getLabel(),
-								(GeoPlaneND) arg[1],
-								(GeoQuadricND) arg[0])};
-				return ret;
-			}
 			
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default :
 			return super.process(c);
 		}
+	}
+	
+	/**
+	 * (try to) process for plane / quadric (or limited quadric)	
+	 * @param kernelA kernel
+	 * @param c command
+	 * @param arg arguments
+	 * @param ok check
+	 * @return intersection
+	 */
+	static public final GeoElement processQuadricPlane(Kernel kernelA, Command c, GeoElement[] arg, boolean[] ok){
+		//intersection plane/limited quadric
+		if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[0] = (arg[1] instanceof GeoQuadric3DLimited))){
+			GeoElement ret =
+				kernelA.getManager3D().IntersectQuadricLimited(
+							c.getLabel(),
+							(GeoPlaneND) arg[0],
+							(GeoQuadric3DLimited) arg[1]);
+			return ret;
+		}else if ((ok[0] = (arg[0] instanceof GeoQuadric3DLimited)) && (ok[0] = (arg[1] instanceof GeoPlaneND))){
+			GeoElement ret =
+				
+					kernelA.getManager3D().IntersectQuadricLimited(
+							c.getLabel(),
+							(GeoPlaneND) arg[1],
+							(GeoQuadric3DLimited) arg[0]);
+			return ret;
+		}
+		
+
+		//intersection plane/quadric
+		if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[1] = (arg[1] instanceof GeoQuadricND))){
+			GeoElement ret =
+				
+					kernelA.getManager3D().Intersect(
+							c.getLabel(),
+							(GeoPlaneND) arg[0],
+							(GeoQuadricND) arg[1]);
+			return ret;
+		}else if ((arg[0] instanceof GeoQuadricND) && (arg[1] instanceof GeoPlaneND)){
+			GeoElement ret =
+				
+					kernelA.getManager3D().Intersect(
+							c.getLabel(),
+							(GeoPlaneND) arg[1],
+							(GeoQuadricND) arg[0]);
+			return ret;
+		}
+		
+		return null;
 	}
 }
