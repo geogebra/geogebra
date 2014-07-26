@@ -14,14 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
-package org.apache.commons.math.complex;
 
-import org.apache.commons.math.Field;
+package org.apache.commons.math.complex;
 
 import java.io.Serializable;
 
-
+import org.apache.commons.math.Field;
 
 /**
  * Representation of the complex numbers field.
@@ -29,7 +27,7 @@ import java.io.Serializable;
  * This class is a singleton.
  * </p>
  * @see Complex
- * @version $Revision: 1.1 $ $Date: 2009-08-09 07:40:20 $
+ * @version $Revision: 811827 $ $Date: 2009-09-06 17:32:50 +0200 (dim. 06 sept. 2009) $
  * @since 2.0
  */
 public class ComplexField implements Field<Complex>, Serializable  {
@@ -59,6 +57,7 @@ public class ComplexField implements Field<Complex>, Serializable  {
         return Complex.ZERO;
     }
 
+    // CHECKSTYLE: stop HideUtilityClassConstructor
     /** Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
@@ -66,13 +65,14 @@ public class ComplexField implements Field<Complex>, Serializable  {
         /** Cached field instance. */
         private static final ComplexField INSTANCE = new ComplexField();
     }
+    // CHECKSTYLE: resume HideUtilityClassConstructor
 
     /** Handle deserialization of the singleton.
      * @return the singleton instance
      */
     private Object readResolve() {
         // return the singleton instance
-        return LazyHolder.INSTANCE; 
+        return LazyHolder.INSTANCE;
     }
 
 }

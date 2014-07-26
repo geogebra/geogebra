@@ -47,5 +47,6 @@ public class LocalizedFormats {
 	public static final String FAILED_BRACKETING = "FAILED_BRACKETING";
 	public static final String FUNCTION_NOT_DIFFERENTIABLE = "FUNCTION_NOT_DIFFERENTIABLE";
 	public static final String NOT_OVERRIDEN = "NOT_OVERRIDEN";
+	public static final String CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N = "CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N";
 
 }
