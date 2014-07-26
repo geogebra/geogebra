@@ -68,5 +68,15 @@ public class LocalizedFormats {
 	public static final String NOT_POSITIVE_ALPHA = "NOT_POSITIVE_ALPHA";
 	public static final String NOT_POSITIVE_BETA = "NOT_POSITIVE_BETA";
 	public static final String NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE = "NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE";
+	public static final String ZERO_DENOMINATOR = "ZERO_DENOMINATOR";
+	public static final String NUMERATOR = "NUMERATOR";
+	public static final String DENOMINATOR = "DENOMINATOR";
+	public static final String NAN_VALUE_CONVERSION = "NAN_VALUE_CONVERSION";
+	public static final String INFINITE_VALUE_CONVERSION = "INFINITE_VALUE_CONVERSION";
+	public static final String FRACTION = "FRACTION";
+	public static final String OVERFLOW_IN_FRACTION = "OVERFLOW_IN_FRACTION";
+	public static final String ZERO_DENOMINATOR_IN_FRACTION = "ZERO_DENOMINATOR_IN_FRACTION";
+	public static final String NUMERATOR_OVERFLOW_AFTER_MULTIPLY = "NUMERATOR_OVERFLOW_AFTER_MULTIPLY";
+	public static final String ZERO_FRACTION_TO_DIVIDE_BY = "ZERO_FRACTION_TO_DIVIDE_BY";
 
 }

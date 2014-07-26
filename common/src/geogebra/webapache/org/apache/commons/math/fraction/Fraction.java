@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.fraction;
 
 import java.io.Serializable;
@@ -23,6 +21,9 @@ import java.math.BigInteger;
 
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -31,7 +32,7 @@ import org.apache.commons.math.util.MathUtils;
  * implements Serializable since 2.0
  *
  * @since 1.1
- * @version $Revision: 922715 $ $Date: 2010-03-13 20:38:14 -0500 (Sat, 13 Mar 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
  */
 public class Fraction
     extends Number
@@ -78,18 +79,6 @@ public class Fraction
 
     /** A fraction representing "-1 / 1". */
     public static final Fraction MINUS_ONE = new Fraction(-1, 1);
-
-    /** Message for zero denominator. */
-    private static final String ZERO_DENOMINATOR_MESSAGE =
-        "zero denominator in fraction {0}/{1}";
-
-    /** Message for overflow. */
-    private static final String OVERFLOW_MESSAGE =
-        "overflow in fraction {0}/{1}, cannot negate";
-
-    /** Message for null fraction. */
-    private static final String NULL_FRACTION =
-        "null fraction";
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 3698073679419233275L;
@@ -188,14 +177,14 @@ public class Fraction
     {
         long overflow = Integer.MAX_VALUE;
         double r0 = value;
-        long a0 = (long)Math.floor(r0);
+        long a0 = (long)FastMath.floor(r0);
         if (a0 > overflow) {
             throw new FractionConversionException(value, a0, 1l);
         }
 
         // check for (almost) integer arguments, which should not go
         // to iterations.
-        if (Math.abs(a0 - value) < epsilon) {
+        if (FastMath.abs(a0 - value) < epsilon) {
             this.numerator = (int) a0;
             this.denominator = 1;
             return;
@@ -214,7 +203,7 @@ public class Fraction
         do {
             ++n;
             double r1 = 1.0 / (r0 - a0);
-            long a1 = (long)Math.floor(r1);
+            long a1 = (long)FastMath.floor(r1);
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
             if ((p2 > overflow) || (q2 > overflow)) {
@@ -222,7 +211,7 @@ public class Fraction
             }
 
             double convergent = (double)p2 / (double)q2;
-            if (n < maxIterations && Math.abs(convergent - value) > epsilon && q2 < maxDenominator) {
+            if (n < maxIterations && FastMath.abs(convergent - value) > epsilon && q2 < maxDenominator) {
                 p0 = p1;
                 p1 = p2;
                 q0 = q1;
@@ -267,12 +256,12 @@ public class Fraction
     public Fraction(int num, int den) {
         if (den == 0) {
             throw MathRuntimeException.createArithmeticException(
-                  ZERO_DENOMINATOR_MESSAGE, num, den);
+                  LocalizedFormats.ZERO_DENOMINATOR_IN_FRACTION, num, den);
         }
         if (den < 0) {
             if (num == Integer.MIN_VALUE || den == Integer.MIN_VALUE) {
                 throw MathRuntimeException.createArithmeticException(
-                      OVERFLOW_MESSAGE, num, den);
+                      LocalizedFormats.OVERFLOW_IN_FRACTION, num, den);
             }
             num = -num;
             den = -den;
@@ -415,7 +404,7 @@ public class Fraction
     public Fraction negate() {
         if (numerator==Integer.MIN_VALUE) {
             throw MathRuntimeException.createArithmeticException(
-                  OVERFLOW_MESSAGE, numerator, denominator);
+                  LocalizedFormats.OVERFLOW_IN_FRACTION, numerator, denominator);
         }
         return new Fraction(-numerator, denominator);
     }
@@ -486,7 +475,7 @@ public class Fraction
      */
     private Fraction addSub(Fraction fraction, boolean isAdd) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException(NULL_FRACTION);
+            throw new NullArgumentException(LocalizedFormats.FRACTION);
         }
         // zero is identity for addition.
         if (numerator == 0) {
@@ -523,7 +512,7 @@ public class Fraction
         // result is (t/d2) / (u'/d1)(v'/d2)
         BigInteger w = t.divide(BigInteger.valueOf(d2));
         if (w.bitLength() > 31) {
-            throw MathRuntimeException.createArithmeticException("overflow, numerator too large after multiply: {0}",
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.NUMERATOR_OVERFLOW_AFTER_MULTIPLY,
                                                                  w);
         }
         return new Fraction (w.intValue(),
@@ -543,7 +532,7 @@ public class Fraction
      */
     public Fraction multiply(Fraction fraction) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException(NULL_FRACTION);
+            throw new NullArgumentException(LocalizedFormats.FRACTION);
         }
         if (numerator == 0 || fraction.numerator == 0) {
             return ZERO;
@@ -578,11 +567,11 @@ public class Fraction
      */
     public Fraction divide(Fraction fraction) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException(NULL_FRACTION);
+            throw new NullArgumentException(LocalizedFormats.FRACTION);
         }
         if (fraction.numerator == 0) {
             throw MathRuntimeException.createArithmeticException(
-                    "the fraction to divide by must not be zero: {0}/{1}",
+                    LocalizedFormats.ZERO_FRACTION_TO_DIVIDE_BY,
                     fraction.numerator, fraction.denominator);
         }
         return multiply(fraction.reciprocal());
@@ -611,7 +600,7 @@ public class Fraction
     public static Fraction getReducedFraction(int numerator, int denominator) {
         if (denominator == 0) {
             throw MathRuntimeException.createArithmeticException(
-                  ZERO_DENOMINATOR_MESSAGE, numerator, denominator);
+                  LocalizedFormats.ZERO_DENOMINATOR_IN_FRACTION, numerator, denominator);
         }
         if (numerator==0) {
             return ZERO; // normalize zero.
@@ -624,7 +613,7 @@ public class Fraction
             if (numerator==Integer.MIN_VALUE ||
                     denominator==Integer.MIN_VALUE) {
                 throw MathRuntimeException.createArithmeticException(
-                      OVERFLOW_MESSAGE, numerator, denominator);
+                      LocalizedFormats.OVERFLOW_IN_FRACTION, numerator, denominator);
             }
             numerator = -numerator;
             denominator = -denominator;

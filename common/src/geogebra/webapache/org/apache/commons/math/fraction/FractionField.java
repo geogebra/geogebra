@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-/* This file was modified by GeoGebra Inc. */
-
 package org.apache.commons.math.fraction;
 
 import java.io.Serializable;
@@ -29,7 +27,7 @@ import org.apache.commons.math.Field;
  * This class is a singleton.
  * </p>
  * @see Fraction
- * @version $Revision: 811827 $ $Date: 2009-09-06 11:32:50 -0400 (Sun, 06 Sep 2009) $
+ * @version $Revision: 811827 $ $Date: 2009-09-06 17:32:50 +0200 (dim. 06 sept. 2009) $
  * @since 2.0
  */
 public class FractionField implements Field<Fraction>, Serializable  {
