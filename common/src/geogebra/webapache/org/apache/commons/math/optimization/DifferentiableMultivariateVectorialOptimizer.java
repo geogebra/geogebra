@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 
 /**
  * This interface represents an optimization algorithm for {@link DifferentiableMultivariateVectorialFunction

@@ -24,15 +24,17 @@ import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialConvergenceChecker;
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Base class for implementing least squares optimizers.
@@ -191,13 +193,12 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         ++jacobianEvaluations;
         jacobian = jF.value(point);
         if (jacobian.length != rows) {
-            throw new FunctionEvaluationException(point, 
-            		"Dimensions do not match: {0}, {1}",
+            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                                                   jacobian.length, rows);
         }
         for (int i = 0; i < rows; i++) {
             final double[] ji = jacobian[i];
-            double wi = Math.sqrt(residualsWeights[i]);
+            double wi = FastMath.sqrt(residualsWeights[i]);
             for (int j = 0; j < cols; ++j) {
                 ji[j] *=  -1.0;
                 wjacobian[i][j] = ji[j]*wi;
@@ -220,19 +221,17 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         }
         objective = function.value(point);
         if (objective.length != rows) {
-            throw new FunctionEvaluationException(point, "Dimensions do not match: {0}, {1}",
+            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                                                   objective.length, rows);
         }
         cost = 0;
-        int index = 0;
         for (int i = 0; i < rows; i++) {
             final double residual = targetValues[i] - objective[i];
             residuals[i] = residual;
-            wresiduals[i]= residual*Math.sqrt(residualsWeights[i]);
+            wresiduals[i]= residual*FastMath.sqrt(residualsWeights[i]);
             cost += residualsWeights[i] * residual * residual;
-            index += cols;
         }
-        cost = Math.sqrt(cost);
+        cost = FastMath.sqrt(cost);
 
     }
 
@@ -247,7 +246,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
      * @return RMS value
      */
     public double getRMS() {
-        return Math.sqrt(getChiSquare() / rows);
+        return FastMath.sqrt(getChiSquare() / rows);
     }
 
     /**
@@ -293,7 +292,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
                 new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj)).getSolver().getInverse();
             return inverse.getData();
         } catch (InvalidMatrixException ime) {
-            throw new OptimizationException("UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM");
+            throw new OptimizationException(LocalizedFormats.UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM);
         }
 
     }
@@ -311,14 +310,14 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         throws FunctionEvaluationException, OptimizationException {
         if (rows <= cols) {
             throw new OptimizationException(
-                    "No degrees of freedom: {0} equations for {1} variables",
+                    LocalizedFormats.NO_DEGREES_OF_FREEDOM,
                     rows, cols);
         }
         double[] errors = new double[cols];
-        final double c = Math.sqrt(getChiSquare() / (rows - cols));
+        final double c = FastMath.sqrt(getChiSquare() / (rows - cols));
         double[][] covar = getCovariances();
         for (int i = 0; i < errors.length; ++i) {
-            errors[i] = Math.sqrt(covar[i][i]) * c;
+            errors[i] = FastMath.sqrt(covar[i][i]) * c;
         }
         return errors;
     }
@@ -330,7 +329,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         if (target.length != weights.length) {
-            throw new OptimizationException("Dimensions do not match: {0}, {1}",
+            throw new OptimizationException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                                             target.length, weights.length);
         }
 

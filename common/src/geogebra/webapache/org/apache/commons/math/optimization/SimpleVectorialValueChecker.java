@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -76,8 +77,8 @@ public class SimpleVectorialValueChecker implements VectorialConvergenceChecker 
         for (int i = 0; i < p.length; ++i) {
             final double pi         = p[i];
             final double ci         = c[i];
-            final double difference = Math.abs(pi - ci);
-            final double size       = Math.max(Math.abs(pi), Math.abs(ci));
+            final double difference = FastMath.abs(pi - ci);
+            final double size       = FastMath.max(FastMath.abs(pi), FastMath.abs(ci));
             if ((difference > (size * relativeThreshold)) &&
                 (difference > absoluteThreshold)) {
                 return false;
