@@ -51,5 +51,5 @@ public enum TiesStrategy {
     AVERAGE,
 
     /** Ties get a random integral value from among applicable ranks */
-    RANDOM
+    //RANDOM
 }

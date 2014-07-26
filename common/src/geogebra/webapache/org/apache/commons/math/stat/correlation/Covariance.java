@@ -17,8 +17,9 @@
 package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
+import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
 
@@ -223,10 +224,10 @@ public class Covariance {
         int length = xArray.length;
         if (length != yArray.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "lengths must match {0}, {1}", length, yArray.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, length, yArray.length);
         } else if (length < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-            		"length must be atl least {1}, but is {0}", length, 2);
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, length, 2);
         } else {
             double xMean = mean.evaluate(xArray);
             double yMean = mean.evaluate(yArray);
@@ -266,7 +267,7 @@ public class Covariance {
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "insufficient rows and columns: {0}, {1}",
+                    LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
                     nRows, nCols);
         }
     }

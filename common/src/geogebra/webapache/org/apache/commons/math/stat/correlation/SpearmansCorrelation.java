@@ -18,6 +18,7 @@
 package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
@@ -147,10 +148,10 @@ public class SpearmansCorrelation {
     throws IllegalArgumentException {
         if (xArray.length != yArray.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Dimensions do not match: {0}, {1}", xArray.length, yArray.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, xArray.length, yArray.length);
         } else if (xArray.length < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Insufficient dimension {0}, expected {1}", xArray.length, 2);
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, xArray.length, 2);
         } else {
             return new PearsonsCorrelation().correlation(rankingAlgorithm.rank(xArray),
                     rankingAlgorithm.rank(yArray));

@@ -18,6 +18,7 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -109,7 +110,7 @@ public class StatisticalSummaryValues implements Serializable,
      * @return Returns the standard deviation
      */
     public double getStandardDeviation() {
-        return Math.sqrt(variance);
+        return FastMath.sqrt(variance);
     }
 
     /**

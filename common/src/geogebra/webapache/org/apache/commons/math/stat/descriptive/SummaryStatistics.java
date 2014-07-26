@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.descriptive;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
-// import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
@@ -29,6 +29,7 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -217,7 +218,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         double stdDev = Double.NaN;
         if (getN() > 0) {
             if (getN() > 1) {
-                stdDev = Math.sqrt(getVariance());
+                stdDev = FastMath.sqrt(getVariance());
             } else {
                 stdDev = 0.0;
             }
@@ -628,8 +629,9 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     private void checkEmpty() {
         if (n > 0) {
-        	throw new IllegalStateException(
-            		n+" values added before configuring statistics");
+            throw MathRuntimeException.createIllegalStateException(
+                    LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC,
+                    (int) n);
         }
     }
 

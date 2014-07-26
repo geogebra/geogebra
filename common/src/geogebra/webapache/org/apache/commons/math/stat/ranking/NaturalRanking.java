@@ -22,11 +22,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-// import org.apache.commons.math.exception.MathInternalError;
-// import org.apache.commons.math.random.RandomData;
-// import org.apache.commons.math.random.RandomDataImpl;
-// import org.apache.commons.math.random.RandomGenerator;
-// import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MathInternalError;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -82,9 +79,6 @@ public class NaturalRanking implements RankingAlgorithm {
     /** Ties strategy - defaults to ties averaged */
     private final TiesStrategy tiesStrategy;
 
-    /** Source of random data - used only when ties strategy is RANDOM */
-    //private final RandomData randomData;
-
     /**
      * Create a NaturalRanking with default strategies for handling ties and NaNs.
      */
@@ -92,7 +86,6 @@ public class NaturalRanking implements RankingAlgorithm {
         super();
         tiesStrategy = DEFAULT_TIES_STRATEGY;
         nanStrategy = DEFAULT_NAN_STRATEGY;
-        //randomData = null;
     }
 
     /**
@@ -104,7 +97,6 @@ public class NaturalRanking implements RankingAlgorithm {
         super();
         this.tiesStrategy = tiesStrategy;
         nanStrategy = DEFAULT_NAN_STRATEGY;
-        //randomData = new RandomDataImpl();
     }
 
     /**
@@ -116,7 +108,6 @@ public class NaturalRanking implements RankingAlgorithm {
         super();
         this.nanStrategy = nanStrategy;
         tiesStrategy = DEFAULT_TIES_STRATEGY;
-        //randomData = null;
     }
 
     /**
@@ -129,37 +120,7 @@ public class NaturalRanking implements RankingAlgorithm {
         super();
         this.nanStrategy = nanStrategy;
         this.tiesStrategy = tiesStrategy;
-        //randomData = new RandomDataImpl();
     }
-
-    /**
-     * Create a NaturalRanking with TiesStrategy.RANDOM and the given
-     * RandomGenerator as the source of random data.
-     *
-     * @param randomGenerator source of random data
-     */
-   /* public NaturalRanking(RandomGenerator randomGenerator) {
-        super();
-        this.tiesStrategy = TiesStrategy.RANDOM;
-        nanStrategy = DEFAULT_NAN_STRATEGY;
-        randomData = new RandomDataImpl(randomGenerator);
-    }*/
-
-
-    /**
-     * Create a NaturalRanking with the given NaNStrategy, TiesStrategy.RANDOM
-     * and the given source of random data.
-     *
-     * @param nanStrategy NaNStrategy to use
-     * @param randomGenerator source of random data
-     
-    public NaturalRanking(NaNStrategy nanStrategy,
-            RandomGenerator randomGenerator) {
-        super();
-        this.nanStrategy = nanStrategy;
-        this.tiesStrategy = TiesStrategy.RANDOM;
-        randomData = new RandomDataImpl(randomGenerator);
-    }*/
 
     /**
      * Return the NaNStrategy
@@ -211,7 +172,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 nanPositions = getNanPositions(ranks);
                 break;
             default: // this should not happen unless NaNStrategy enum is changed
-                throw new Error(); //MathInternalError thrown in original code
+                throw new MathInternalError();
         }
 
         // Sort the IntDoublePairs
@@ -331,7 +292,9 @@ public class NaturalRanking implements RankingAlgorithm {
         // length of sequence of tied ranks
         final int length = tiesTrace.size();
 
-        switch (tiesStrategy) {
+        Iterator<Integer> iterator;
+		long f;
+		switch (tiesStrategy) {
             case  AVERAGE:  // Replace ranks with average
                 fill(ranks, tiesTrace, (2 * c + length - 1) / 2d);
                 break;
@@ -341,25 +304,26 @@ public class NaturalRanking implements RankingAlgorithm {
             case MINIMUM:   // Replace ties with minimum
                 fill(ranks, tiesTrace, c);
                 break;
+/*
             case RANDOM:    // Fill with random integral values in [c, c + length - 1]
-               /* Iterator<Integer> iterator = tiesTrace.iterator();
-                long f = Math.round(c);
+                Iterator<Integer> iterator = tiesTrace.iterator();
+                long f = FastMath.round(c);
                 while (iterator.hasNext()) {
                     ranks[iterator.next()] =
                         randomData.nextLong(f, f + length - 1);
-                }*/
-                break;
+                }
+                break;*/
             case SEQUENTIAL:  // Fill sequentially from c to c + length - 1
                 // walk and fill
-            	Iterator<Integer> iterator = tiesTrace.iterator();
-                long f = Math.round(c);
+                iterator = tiesTrace.iterator();
+                f = FastMath.round(c);
                 int i = 0;
                 while (iterator.hasNext()) {
                     ranks[iterator.next()] = f + i++;
                 }
                 break;
             default: // this should not happen unless TiesStrategy enum is changed
-                throw new Error();//MathInternalError thrown in original code
+                throw new MathInternalError();
         }
     }
 

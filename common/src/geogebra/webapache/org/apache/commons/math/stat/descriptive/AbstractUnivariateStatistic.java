@@ -19,7 +19,10 @@ package org.apache.commons.math.stat.descriptive;
 import geogebra.common.util.Cloner;
 
 import org.apache.commons.math.MathRuntimeException;
-//import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Abstract base class for all implementations of the
@@ -134,20 +137,20 @@ public abstract class AbstractUnivariateStatistic
         final int length) {
 
         if (values == null) {
-            throw new IllegalArgumentException("Input array");
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
 
         if (begin < 0) {
-            throw new IllegalArgumentException("Start position: "+begin);
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
         }
 
         if (length < 0) {
-            throw new IllegalArgumentException("Length: "+length);
+            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
         }
 
         if (begin + length > values.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Subarray ends after array");
+                  LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END);
         }
 
         if (length == 0) {
@@ -194,27 +197,26 @@ public abstract class AbstractUnivariateStatistic
         final int length) {
 
         if (weights == null) {
-            throw new IllegalArgumentException("Input array cannot be null");
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
 
         if (weights.length != values.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-            		"Dimensions do not match {0}, {1}",weights.length, values.length);
+            throw new DimensionMismatchException(weights.length, values.length);
         }
 
         boolean containsPositiveWeight = false;
         for (int i = begin; i < begin + length; i++) {
             if (Double.isNaN(weights[i])) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "NaN element at index {0}", i);
+                        LocalizedFormats.NAN_ELEMENT_AT_INDEX, i);
             }
             if (Double.isInfinite(weights[i])) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "Infinite array element {0} at index {1}", weights[i], i);
+                        LocalizedFormats.INFINITE_ARRAY_ELEMENT, weights[i], i);
             }
             if (weights[i] < 0) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                		"Negative array element {0} at index {1}", i, weights[i]);
+                      LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weights[i]);
             }
             if (!containsPositiveWeight && weights[i] > 0.0) {
                 containsPositiveWeight = true;
@@ -223,7 +225,7 @@ public abstract class AbstractUnivariateStatistic
 
         if (!containsPositiveWeight) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "Must contain at least one positive integer");
+                    LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
         }
 
         return test(values, begin, length);

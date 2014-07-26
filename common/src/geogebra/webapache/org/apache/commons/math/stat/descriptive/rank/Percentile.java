@@ -20,7 +20,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Provides percentile computation.
@@ -257,7 +259,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
 
         if ((p > 100) || (p <= 0)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Quantile value out of bounds: {0}", p);
+                  LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p);
         }
         if (length == 0) {
             return Double.NaN;
@@ -267,7 +269,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         }
         double n = length;
         double pos = p * (n + 1) / 100;
-        double fpos = Math.floor(pos);
+        double fpos = FastMath.floor(pos);
         int intPos = (int) fpos;
         double dif = pos - fpos;
         double[] work;
@@ -461,7 +463,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     public void setQuantile(final double p) {
         if (p <= 0 || p > 100) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Quantile value out of bounds: {0}", p);
+                  LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p);
         }
         quantile = p;
     }

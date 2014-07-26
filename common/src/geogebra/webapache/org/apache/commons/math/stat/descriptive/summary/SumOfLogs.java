@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive.summary;
 import java.io.Serializable;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Returns the sum of the natural logs for this collection of values.
@@ -77,7 +78,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      */
     @Override
     public void increment(final double d) {
-        value += Math.log(d);
+        value += FastMath.log(d);
         n++;
     }
 
@@ -132,7 +133,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
         if (test(values, begin, length)) {
             sumLog = 0.0;
             for (int i = begin; i < begin + length; i++) {
-                sumLog += Math.log(values[i]);
+                sumLog += FastMath.log(values[i]);
             }
         }
         return sumLog;

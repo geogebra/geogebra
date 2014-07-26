@@ -17,17 +17,18 @@
 package org.apache.commons.math.stat;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
-import org.apache.commons.math.stat.descriptive.rank.Percentile;
-import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Max;
+import org.apache.commons.math.stat.descriptive.rank.Min;
+import org.apache.commons.math.stat.descriptive.rank.Percentile;
+import org.apache.commons.math.stat.descriptive.summary.Product;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
-import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
-
+import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
 /**
  * StatUtils provides static methods for computing statistics based on data
@@ -44,7 +45,7 @@ public final class StatUtils {
     private static final UnivariateStatistic SUM_OF_SQUARES = new SumOfSquares();
 
     /** prod */
-   /* private static final UnivariateStatistic PRODUCT = new Product();*/
+    private static final UnivariateStatistic PRODUCT = new Product();
 
     /** sumLog */
     private static final UnivariateStatistic SUM_OF_LOGS = new SumOfLogs();
@@ -152,9 +153,9 @@ public final class StatUtils {
      * @return the product of the values or Double.NaN if the array is empty
      * @throws IllegalArgumentException if the array is null
      */
-    /*public static double product(final double[] values) {
+    public static double product(final double[] values) {
         return PRODUCT.evaluate(values);
-    }*/
+    }
 
     /**
      * Returns the product of the entries in the specified portion of
@@ -170,10 +171,10 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
-   /* public static double product(final double[] values, final int begin,
+    public static double product(final double[] values, final int begin,
             final int length) {
         return PRODUCT.evaluate(values, begin, length);
-    }*/
+    }
 
     /**
      * Returns the sum of the natural logs of the entries in the input array, or
@@ -211,7 +212,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
-     public static double sumLog(final double[] values, final int begin,
+    public static double sumLog(final double[] values, final int begin,
             final int length) {
         return SUM_OF_LOGS.evaluate(values, begin, length);
     }
@@ -566,11 +567,11 @@ public final class StatUtils {
         int n = sample1.length;
         if (n  != sample2.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Dimensions do not match: {0}, {1}", n, sample2.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, n, sample2.length);
         }
         if (n < 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-            		"Insufficient dimension {0}, expected at least {1}", sample2.length, 1);
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, sample2.length, 1);
         }
         double result = 0;
         for (int i = 0; i < n; i++) {
@@ -612,15 +613,14 @@ public final class StatUtils {
         double sum2 = 0d;
         double diff = 0d;
         int n = sample1.length;
-        if (n  != sample2.length) {
+        if (n != sample2.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Dimensions do not match: {0}, {1}", n, sample2.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, n, sample2.length);
         }
         if (n < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-            		"Insufficient dimension {0}, expected at least {1}", sample2.length, 2);
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, n, 2);
         }
-        
         for (int i = 0; i < n; i++) {
             diff = sample1[i] - sample2[i];
             sum1 += (diff - meanDifference) *(diff - meanDifference);
@@ -636,8 +636,8 @@ public final class StatUtils {
      * @param sample sample to normalize
      * @return normalized (standardized) sample
      * @since 2.2
-     */
-    /*public static double[] normalize(final double[] sample) {
+     *
+    public static double[] normalize(final double[] sample) {
         DescriptiveStatistics stats = new DescriptiveStatistics();
 
         // Add the data from the series to stats

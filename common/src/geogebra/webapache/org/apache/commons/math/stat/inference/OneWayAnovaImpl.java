@@ -22,6 +22,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
@@ -102,7 +103,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Significance level {0} out of bounds: {1},{2}",
+                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                   alpha, 0, 0.5);
         }
         return anovaPValue(categoryData) < alpha;
@@ -125,7 +126,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
         // check if we have enough categories
         if (categoryData.size() < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Two or more categories required, got {0}",
+                  LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
                   categoryData.size());
         }
 
@@ -133,7 +134,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
         for (double[] array : categoryData) {
             if (array.length <= 1) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                		"Two or more values in category required, got {0}",
+                      LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
                       array.length);
             }
         }

@@ -20,9 +20,13 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
+import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.regression.SimpleRegression;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Computes Pearson's product-moment correlation coefficients for pairs of arrays
@@ -91,7 +95,7 @@ public class PearsonsCorrelation {
     public PearsonsCorrelation(Covariance covariance) {
         RealMatrix covarianceMatrix = covariance.getCovarianceMatrix();
         if (covarianceMatrix == null) {
-            throw MathRuntimeException.createIllegalArgumentException("Invalid covariance: null");
+            throw new NullArgumentException(LocalizedFormats.COVARIANCE_MATRIX);
         }
         nObs = covariance.getN();
         correlationMatrix = covarianceToCorrelation(covarianceMatrix);
@@ -138,7 +142,7 @@ public class PearsonsCorrelation {
         for (int i = 0; i < nVars; i++) {
             for (int j = 0; j < nVars; j++) {
                 double r = correlationMatrix.getEntry(i, j);
-                out[i][j] = Math.sqrt((1 - r * r) /(nObs - 2));
+                out[i][j] = FastMath.sqrt((1 - r * r) /(nObs - 2));
             }
         }
         return new BlockRealMatrix(out);
@@ -167,7 +171,7 @@ public class PearsonsCorrelation {
                     out[i][j] = 0d;
                 } else {
                     double r = correlationMatrix.getEntry(i, j);
-                    double t = Math.abs(r * Math.sqrt((nObs - 2)/(1 - r * r)));
+                    double t = FastMath.abs(r * FastMath.sqrt((nObs - 2)/(1 - r * r)));
                     out[i][j] = 2 * tDistribution.cumulativeProbability(-t);
                 }
             }
@@ -224,11 +228,10 @@ public class PearsonsCorrelation {
     public double correlation(final double[] xArray, final double[] yArray) throws IllegalArgumentException {
         SimpleRegression regression = new SimpleRegression();
         if (xArray.length != yArray.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-            		"Dimensions do not match: {0}, {1}",xArray.length, yArray.length);
+            throw new DimensionMismatchException(xArray.length, yArray.length);
         } else if (xArray.length < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Insufficient dimension {0}, expected {1}", xArray.length, 2);
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, xArray.length, 2);
         } else {
             for(int i=0; i<xArray.length; i++) {
                 regression.addData(xArray[i], yArray[i]);
@@ -252,11 +255,11 @@ public class PearsonsCorrelation {
         int nVars = covarianceMatrix.getColumnDimension();
         RealMatrix outMatrix = new BlockRealMatrix(nVars, nVars);
         for (int i = 0; i < nVars; i++) {
-            double sigma = Math.sqrt(covarianceMatrix.getEntry(i, i));
+            double sigma = FastMath.sqrt(covarianceMatrix.getEntry(i, i));
             outMatrix.setEntry(i, i, 1d);
             for (int j = 0; j < i; j++) {
                 double entry = covarianceMatrix.getEntry(i, j) /
-                       (sigma * Math.sqrt(covarianceMatrix.getEntry(j, j)));
+                       (sigma * FastMath.sqrt(covarianceMatrix.getEntry(j, j)));
                 outMatrix.setEntry(i, j, entry);
                 outMatrix.setEntry(j, i, entry);
             }
@@ -275,7 +278,7 @@ public class PearsonsCorrelation {
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "Insufficient rows and columns: {0}, {1}",
+                    LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
                     nRows, nCols);
         }
     }

@@ -17,11 +17,13 @@
 package org.apache.commons.math.stat;
 
 import java.io.Serializable;
-import java.util.Iterator;
+import java.text.NumberFormat;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Maintains a frequency distribution.
@@ -74,7 +76,7 @@ public class Frequency implements Serializable {
      * distribution.
      *
      * @return a string representation.
-     *//*
+     */
     @Override
     public String toString() {
         NumberFormat nf = NumberFormat.getPercentInstance();
@@ -94,7 +96,7 @@ public class Frequency implements Serializable {
         }
         return outBuffer.toString();
     }
-*/
+
     /**
      * Adds 1 to the frequency count for v.
      * <p>
@@ -113,7 +115,7 @@ public class Frequency implements Serializable {
             addValue((Comparable<?>) v);
         } else {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Class {0} does not implement Comparable",
+                  LocalizedFormats.CLASS_DOESNT_IMPLEMENT_COMPARABLE,
                   v.getClass().getName());
         }
     }
@@ -143,7 +145,7 @@ public class Frequency implements Serializable {
         } catch (ClassCastException ex) {
             //TreeMap will throw ClassCastException if v is not comparable
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Instances of {0} not comparable to existing values",
+                  LocalizedFormats.INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES,
                   v.getClass().getName());
         }
     }
@@ -285,7 +287,9 @@ public class Frequency implements Serializable {
     public long getCount(char v) {
         return getCount(Character.valueOf(v));
     }
-
+       
+    
+   
     /**
      * Returns the number of values in the frequency table.
      *
@@ -466,6 +470,11 @@ public class Frequency implements Serializable {
         return getCumFreq(Character.valueOf(v));
     }
 
+
+    
+    
+    
+    
     //----------------------------------------------------------------------------------------------
 
     /**

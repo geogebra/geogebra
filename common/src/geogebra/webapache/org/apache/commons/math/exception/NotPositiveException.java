@@ -16,23 +16,33 @@
  */
 package org.apache.commons.math.exception;
 
-
 /**
- * Base class for all exceptions that signal a mismatch between the
- * current state and the user's expectations.
+ * Exception to be thrown when the argument is negative.
  *
  * @since 2.2
- * @version $Revision: 1061496 $ $Date: 2011-01-20 21:32:16 +0100 (jeu. 20 janv. 2011) $
+ * @version $Revision$ $Date$
  */
-public class MathIllegalStateException extends IllegalStateException implements MathThrowable {
+public class NotPositiveException extends NumberIsTooSmallException {
 
-	public MathIllegalStateException(String specific, String noData,
-			Object[] objects) {
-		// TODO Auto-generated constructor stub
-	}
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -2250556892093726375L;
 
-	public MathIllegalStateException(String internalError, String reportUrl) {
-		// TODO Auto-generated constructor stub
-	}
-	
+    /**
+     * Construct the exception.
+     *
+     * @param value Argument.
+     */
+    public NotPositiveException(Number value) {
+        super(value, 0, true);
+    }
+    /**
+     * Construct the exception with a specific context.
+     *
+     * @param specific Specific context where the error occurred.
+     * @param value Argument.
+     */
+    public NotPositiveException(String specific,
+                                Number value) {
+        super(specific, value, 0, true);
+    }
 }

@@ -20,8 +20,10 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
@@ -909,7 +911,7 @@ public class TTestImpl implements TTest  {
      * @return t test statistic
      */
     protected double t(double m, double mu, double v, double n) {
-        return (m - mu) / Math.sqrt(v / n);
+        return (m - mu) / FastMath.sqrt(v / n);
     }
 
     /**
@@ -927,7 +929,7 @@ public class TTestImpl implements TTest  {
      */
     protected double t(double m1, double m2,  double v1, double v2, double n1,
             double n2)  {
-            return (m1 - m2) / Math.sqrt((v1 / n1) + (v2 / n2));
+            return (m1 - m2) / FastMath.sqrt((v1 / n1) + (v2 / n2));
     }
 
     /**
@@ -945,7 +947,7 @@ public class TTestImpl implements TTest  {
     protected double homoscedasticT(double m1, double m2,  double v1,
             double v2, double n1, double n2)  {
             double pooledVariance = ((n1  - 1) * v1 + (n2 -1) * v2 ) / (n1 + n2 - 2);
-            return (m1 - m2) / Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+            return (m1 - m2) / FastMath.sqrt(pooledVariance * (1d / n1 + 1d / n2));
     }
 
     /**
@@ -960,7 +962,7 @@ public class TTestImpl implements TTest  {
      */
     protected double tTest(double m, double mu, double v, double n)
     throws MathException {
-        double t = Math.abs(t(m, mu, v, n));
+        double t = FastMath.abs(t(m, mu, v, n));
         distribution.setDegreesOfFreedom(n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
@@ -983,7 +985,7 @@ public class TTestImpl implements TTest  {
     protected double tTest(double m1, double m2, double v1, double v2,
             double n1, double n2)
     throws MathException {
-        double t = Math.abs(t(m1, m2, v1, v2, n1, n2));
+        double t = FastMath.abs(t(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = 0;
         degreesOfFreedom = df(v1, v2, n1, n2);
         distribution.setDegreesOfFreedom(degreesOfFreedom);
@@ -1008,7 +1010,7 @@ public class TTestImpl implements TTest  {
     protected double homoscedasticTTest(double m1, double m2, double v1,
             double v2, double n1, double n2)
     throws MathException {
-        double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
+        double t = FastMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = n1 + n2 - 2;
         distribution.setDegreesOfFreedom(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
@@ -1033,7 +1035,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((alpha <= 0) || (alpha > 0.5)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Significance level {0} out of bounds: {1}, {2}",
+                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                   alpha, 0.0, 0.5);
         }
     }
@@ -1046,7 +1048,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((data == null) || (data.length < 2)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Insufficient data for T-statistic: {0}",
+                  LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
                   (data == null) ? 0 : data.length);
         }
     }
@@ -1059,7 +1061,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((stat == null) || (stat.getN() < 2)) {
             throw MathRuntimeException.createIllegalArgumentException(
-            		"Insufficient data for T-statistic: {0}",
+                  LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
                   (stat == null) ? 0 : stat.getN());
         }
     }

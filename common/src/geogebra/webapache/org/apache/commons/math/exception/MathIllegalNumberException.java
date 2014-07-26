@@ -7,4 +7,9 @@ public class MathIllegalNumberException extends MathIllegalArgumentException {
 		// TODO Auto-generated constructor stub
 	}
 
+	public MathIllegalNumberException(String specific, String string,
+			Number wrong, Number min) {
+		// TODO Auto-generated constructor stub
+	}
+
 }
