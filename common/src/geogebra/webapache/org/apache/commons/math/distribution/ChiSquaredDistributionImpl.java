@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
@@ -24,7 +23,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  *
- * @version $Revision: 925812 $ $Date: 2010-03-21 11:49:31 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
@@ -116,6 +115,7 @@ public class ChiSquaredDistributionImpl
      * @return The pdf at point x.
      * @deprecated
      */
+    @Deprecated
     public double density(Double x) {
         return density(x.doubleValue());
     }
@@ -268,5 +268,57 @@ public class ChiSquaredDistributionImpl
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * Returns the lower bound of the support for the distribution.
+     *
+     * The lower bound of the support is always 0 no matter the
+     * degrees of freedom.
+     *
+     * @return lower bound of the support (always 0)
+     * @since 2.2
+     */
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * Returns the upper bound for the support for the distribution.
+     *
+     * The upper bound of the support is always positive infinity no matter the
+     * degrees of freedom.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * Returns the mean of the distribution.
+     *
+     * For <code>k</code> degrees of freedom, the mean is
+     * <code>k</code>
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    public double getNumericalMean() {
+        return getDegreesOfFreedom();
+    }
+
+    /**
+     * Returns the variance of the distribution.
+     *
+     * For <code>k</code> degrees of freedom, the variance is
+     * <code>2 * k</code>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        return 2*getDegreesOfFreedom();
     }
 }

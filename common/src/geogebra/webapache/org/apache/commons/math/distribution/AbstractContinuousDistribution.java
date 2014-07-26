@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
@@ -26,13 +25,15 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Base class for continuous distributions.  Default implementations are
  * provided for some of the methods that do not vary from distribution to
  * distribution.
  *
- * @version $Revision: 925812 $ $Date: 2010-03-21 11:49:31 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 févr. 2011) $
  */
 public abstract class AbstractContinuousDistribution
     extends AbstractDistribution
@@ -42,7 +43,7 @@ public abstract class AbstractContinuousDistribution
     private static final long serialVersionUID = -38038050983108802L;
 
     /**
-     * Solver absolute accuracy for inverse cum computation
+     * Solver absolute accuracy for inverse cumulative computation
      * @since 2.1
      */
     private double solverAbsoluteAccuracy = BrentSolver.DEFAULT_ABSOLUTE_ACCURACY;
@@ -63,7 +64,7 @@ public abstract class AbstractContinuousDistribution
      */
     public double density(double x) throws MathRuntimeException {
         throw new MathRuntimeException(new UnsupportedOperationException(),
-                "This distribution does not have a density function implemented");
+                LocalizedFormats.NO_DENSITY_FOR_THIS_DISTRIBUTION);
     }
 
     /**
@@ -81,7 +82,7 @@ public abstract class AbstractContinuousDistribution
         throws MathException {
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         }
 
         // by default, do simple root finding using bracketing and default solver.
@@ -93,17 +94,16 @@ public abstract class AbstractContinuousDistribution
                 try {
                     ret = cumulativeProbability(x) - p;
                 } catch (MathException ex) {
-                    throw new FunctionEvaluationException(ex, x, ex.getPattern(), ex.getArguments());
+                    throw new FunctionEvaluationException(x, ex.getSpecificPattern(), ex.getGeneralPattern(), ex.getArguments());
                 }
                 if (Double.isNaN(ret)) {
-                    throw new FunctionEvaluationException(x,
-                        "Cumulative probability function returned NaN for argument {0} p = {1}", x, p);
+                    throw new FunctionEvaluationException(x, LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p);
                 }
                 return ret;
             }
         };
 
-        // Try to bracket root, test domain endoints if this fails
+        // Try to bracket root, test domain endpoints if this fails
         double lowerBound = getDomainLowerBound(p);
         double upperBound = getDomainUpperBound(p);
         double[] bracket = null;
@@ -117,10 +117,10 @@ public abstract class AbstractContinuousDistribution
              * the default solver's defaultAbsoluteAccuracy of 0 (will be the
              * case if density has bounded support and p is 0 or 1).
              */
-            if (Math.abs(rootFindingFunction.value(lowerBound)) < getSolverAbsoluteAccuracy()) {
+            if (FastMath.abs(rootFindingFunction.value(lowerBound)) < getSolverAbsoluteAccuracy()) {
                 return lowerBound;
             }
-            if (Math.abs(rootFindingFunction.value(upperBound)) < getSolverAbsoluteAccuracy()) {
+            if (FastMath.abs(rootFindingFunction.value(upperBound)) < getSolverAbsoluteAccuracy()) {
                 return upperBound;
             }
             // Failed bracket convergence was not because of corner solution
@@ -168,7 +168,7 @@ public abstract class AbstractContinuousDistribution
     protected abstract double getDomainUpperBound(double p);
 
     /**
-     * Returns the solver absolute accuracy for inverse cum computation.
+     * Returns the solver absolute accuracy for inverse cumulative computation.
      *
      * @return the maximum absolute error in inverse cumulative probability estimates
      * @since 2.1
@@ -176,4 +176,5 @@ public abstract class AbstractContinuousDistribution
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
+
 }

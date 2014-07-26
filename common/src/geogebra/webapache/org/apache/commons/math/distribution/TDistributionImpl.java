@@ -14,21 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.TDistribution}.
  *
- * @version $Revision: 925812 $ $Date: 2010-03-21 11:49:31 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution
@@ -81,6 +82,7 @@ public class TDistributionImpl
     public void setDegreesOfFreedom(double degreesOfFreedom) {
         setDegreesOfFreedomInternal(degreesOfFreedom);
     }
+
     /**
      * Modify the degrees of freedom.
      * @param newDegreesOfFreedom the new degrees of freedom.
@@ -88,7 +90,7 @@ public class TDistributionImpl
     private void setDegreesOfFreedomInternal(double newDegreesOfFreedom) {
         if (newDegreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "degrees of freedom must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_DEGREES_OF_FREEDOM,
                   newDegreesOfFreedom);
         }
         this.degreesOfFreedom = newDegreesOfFreedom;
@@ -113,14 +115,14 @@ public class TDistributionImpl
     public double density(double x) {
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
-        return Math.exp(Gamma.logGamma(nPlus1Over2) - 0.5 * (Math.log(Math.PI) + Math.log(n)) -
-                Gamma.logGamma(n/2) - nPlus1Over2 * Math.log(1 + x * x /n));
+        return FastMath.exp(Gamma.logGamma(nPlus1Over2) - 0.5 * (FastMath.log(FastMath.PI) + FastMath.log(n)) -
+                Gamma.logGamma(n/2) - nPlus1Over2 * FastMath.log(1 + x * x /n));
     }
 
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>.
+     * @return CDF evaluated at <code>x</code>.
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
@@ -222,4 +224,80 @@ public class TDistributionImpl
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
+
+    /**
+     * Returns the lower bound of the support for the distribution.
+     *
+     * The lower bound of the support is always negative infinity
+     * no matter the parameters.
+     *
+     * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The upper bound of the support is always positive infinity
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * Returns the mean.
+     *
+     * For degrees of freedom parameter df, the mean is
+     * <ul>
+     *  <li>if <code>df &gt; 1</code> then <code>0</code></li>
+     * <li>else <code>undefined</code></li>
+     * </ul>
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    public double getNumericalMean() {
+        final double df = getDegreesOfFreedom();
+
+        if (df > 1) {
+            return 0;
+        }
+
+        return Double.NaN;
+    }
+
+    /**
+     * Returns the variance.
+     *
+     * For degrees of freedom parameter df, the variance is
+     * <ul>
+     *  <li>if <code>df &gt; 2</code> then <code>df / (df - 2)</code> </li>
+     *  <li>if <code>1 &lt; df &lt;= 2</code> then <code>positive infinity</code></li>
+     *  <li>else <code>undefined</code></li>
+     * </ul>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        final double df = getDegreesOfFreedom();
+
+        if (df > 2) {
+            return df / (df - 2);
+        }
+
+        if (df > 1 && df <= 2) {
+            return Double.POSITIVE_INFINITY;
+        }
+
+        return Double.NaN;
+    }
+
 }

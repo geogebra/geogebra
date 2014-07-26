@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
  * The default implementation of {@link PascalDistribution}.
- * @version $Revision: 920852 $ $Date: 2010-03-09 07:53:44 -0500 (Tue, 09 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  * @since 1.2
  */
 public class PascalDistributionImpl extends AbstractIntegerDistribution
@@ -42,7 +43,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     private double probabilityOfSuccess;
 
     /**
-     * Create a binomial distribution with the given number of trials and
+     * Create a Pascal distribution with the given number of trials and
      * probability of success.
      * @param r the number of successes
      * @param p the probability of success
@@ -80,6 +81,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     public void setNumberOfSuccesses(int successes) {
         setNumberOfSuccessesInternal(successes);
     }
+
     /**
      * Change the number of successes for this distribution.
      * @param successes the new number of successes
@@ -89,7 +91,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     private void setNumberOfSuccessesInternal(int successes) {
         if (successes < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "number of successes must be non-negative ({0})",
+                  LocalizedFormats.NEGATIVE_NUMBER_OF_SUCCESSES,
                   successes);
         }
         numberOfSuccesses = successes;
@@ -106,6 +108,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     public void setProbabilityOfSuccess(double p) {
         setProbabilityOfSuccessInternal(p);
     }
+
     /**
      * Change the probability of success for this distribution.
      * @param p the new probability of success
@@ -115,7 +118,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     private void setProbabilityOfSuccessInternal(double p) {
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         }
         probabilityOfSuccess = p;
     }
@@ -176,8 +179,8 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         } else {
             ret = MathUtils.binomialCoefficientDouble(x +
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
-                  Math.pow(probabilityOfSuccess, numberOfSuccesses) *
-                  Math.pow(1.0 - probabilityOfSuccess, x);
+                  FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
+                  FastMath.pow(1.0 - probabilityOfSuccess, x);
         }
         return ret;
     }
@@ -209,5 +212,65 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         }
 
         return ret;
+    }
+
+    /**
+     * Returns the lower bound of the support for the distribution.
+     *
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     * @since 2.2
+     */
+    public int getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The upper bound of the support is always positive infinity
+     * no matter the parameters. Positive infinity is represented
+     * by <code>Integer.MAX_VALUE</code> together with
+     * {@link #isSupportUpperBoundInclusive()} being <code>false</code>
+     *
+     * @return upper bound of the support (always <code>Integer.MAX_VALUE</code> for positive infinity)
+     * @since 2.2
+     */
+    public int getSupportUpperBound() {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
+     * Returns the mean.
+     *
+     * For number of successes <code>r</code> and
+     * probability of success <code>p</code>, the mean is
+     * <code>( r * p ) / ( 1 - p )</code>
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    public double getNumericalMean() {
+        final double p = getProbabilityOfSuccess();
+        final double r = getNumberOfSuccesses();
+        return ( r * p ) / ( 1 - p );
+    }
+
+    /**
+     * Returns the variance.
+     *
+     * For number of successes <code>r</code> and
+     * probability of success <code>p</code>, the mean is
+     * <code>( r * p ) / ( 1 - p )^2</code>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        final double p = getProbabilityOfSuccess();
+        final double r = getNumberOfSuccesses();
+        final double pInv = 1 - p;
+        return ( r * p ) / (pInv * pInv);
     }
 }

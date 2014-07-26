@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link GammaDistribution}.
  *
- * @version $Revision: 925812 $ $Date: 2010-03-21 11:49:31 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {
@@ -146,7 +147,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     private void setAlphaInternal(double newAlpha) {
         if (newAlpha <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "alpha must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_ALPHA,
                   newAlpha);
         }
         this.alpha = newAlpha;
@@ -179,7 +180,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     private void setBetaInternal(double newBeta) {
         if (newBeta <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "beta must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_BETA,
                   newBeta);
         }
         this.beta = newBeta;
@@ -202,7 +203,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     @Override
     public double density(double x) {
         if (x < 0) return 0;
-        return Math.pow(x / beta, alpha - 1) / beta * Math.exp(-x / beta) / Math.exp(Gamma.logGamma(alpha));
+        return FastMath.pow(x / beta, alpha - 1) / beta * FastMath.exp(-x / beta) / FastMath.exp(Gamma.logGamma(alpha));
     }
 
     /**
@@ -212,6 +213,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @return The pdf at point x.
      * @deprecated
      */
+    @Deprecated
     public double density(Double x) {
         return density(x.doubleValue());
     }
@@ -295,5 +297,59 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The lower bound of the support is always 0, regardless of the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     * @since 2.2
+     */
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The upper bound of the support is always positive infinity,
+     * regardless of the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * Returns the mean.
+     *
+     * For shape parameter <code>alpha</code> and scale
+     * parameter <code>beta</code>, the mean is
+     * <code>alpha * beta</code>
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    public double getNumericalMean() {
+        return getAlpha() * getBeta();
+    }
+
+    /**
+     * Returns the variance.
+     *
+     * For shape parameter <code>alpha</code> and scale
+     * parameter <code>beta</code>, the variance is
+     * <code>alpha * beta^2</code>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        final double b = getBeta();
+        return getAlpha() * b * b;
     }
 }

@@ -14,17 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implementation for the {@link ZipfDistribution}.
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 07:53:44 -0500 (Tue, 09 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class ZipfDistributionImpl extends AbstractIntegerDistribution
     implements ZipfDistribution, Serializable {
@@ -87,8 +89,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         throws IllegalArgumentException {
         if (n <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid number of elements {0} (must be positive)",
-                    n);
+                    LocalizedFormats.INSUFFICIENT_DIMENSION, n, 0);
         }
         this.numberOfElements = n;
     }
@@ -115,6 +116,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     public void setExponent(final double s) {
         setExponentInternal(s);
     }
+
     /**
      * Set the exponent characterising the distribution.
      * The parameter value must be positive; otherwise an
@@ -127,7 +129,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         throws IllegalArgumentException {
         if (s <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid exponent {0} (must be positive)",
+                    LocalizedFormats.NOT_POSITIVE_EXPONENT,
                     s);
         }
         this.exponent = s;
@@ -144,7 +146,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
             return 0.0;
         }
 
-        return (1.0 / Math.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
+        return (1.0 / FastMath.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
 
     }
 
@@ -205,9 +207,80 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     private double generalizedHarmonic(final int n, final double m) {
         double value = 0;
         for (int k = n; k > 0; --k) {
-            value += 1.0 / Math.pow(k, m);
+            value += 1.0 / FastMath.pow(k, m);
         }
         return value;
     }
 
+    /**
+     * Returns the lower bound of the support for the distribution.
+     *
+     * The lower bound of the support is always 1 no matter the parameters.
+     *
+     * @return lower bound of the support (always 1)
+     * @since 2.2
+     */
+    public int getSupportLowerBound() {
+        return 1;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The upper bound of the support is the number of elements
+     *
+     * @return upper bound of the support
+     * @since 2.2
+     */
+    public int getSupportUpperBound() {
+        return getNumberOfElements();
+    }
+
+    /**
+     * Returns the mean.
+     *
+     * For number of elements N and exponent s, the mean is
+     * <code>Hs1 / Hs</code> where
+     * <ul>
+     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li>
+     *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
+     * </ul>
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    protected double getNumericalMean() {
+        final int N = getNumberOfElements();
+        final double s = getExponent();
+
+        final double Hs1 = generalizedHarmonic(N, s - 1);
+        final double Hs = generalizedHarmonic(N, s);
+
+        return Hs1 / Hs;
+    }
+
+    /**
+     * Returns the variance.
+     *
+     * For number of elements N and exponent s, the mean is
+     * <code>(Hs2 / Hs) - (Hs1^2 / Hs^2)</code> where
+     * <ul>
+     *  <li><code>Hs2 = generalizedHarmonic(N, s - 2)</code></li>
+     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li>
+     *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
+     * </ul>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    protected double getNumericalVariance() {
+        final int N = getNumberOfElements();
+        final double s = getExponent();
+
+        final double Hs2 = generalizedHarmonic(N, s - 2);
+        final double Hs1 = generalizedHarmonic(N, s - 1);
+        final double Hs = generalizedHarmonic(N, s);
+
+        return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
+    }
 }

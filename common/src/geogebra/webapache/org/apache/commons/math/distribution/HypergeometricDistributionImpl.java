@@ -14,18 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 07:53:44 -0500 (Tue, 09 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         implements HypergeometricDistribution, Serializable {
@@ -56,13 +58,13 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         if (numberOfSuccesses > populationSize) {
             throw MathRuntimeException
                     .createIllegalArgumentException(
-                            "number of successes ({0}) must be less than or equal to population size ({1})",
+                            LocalizedFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE,
                             numberOfSuccesses, populationSize);
         }
         if (sampleSize > populationSize) {
             throw MathRuntimeException
                     .createIllegalArgumentException(
-                            "sample size ({0}) must be less than or equal to population size ({1})",
+                            LocalizedFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE,
                             sampleSize, populationSize);
         }
 
@@ -143,7 +145,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return the lowest domain value of the hypergeometric distribution.
      */
     private int getLowerDomain(int n, int m, int k) {
-        return Math.max(0, m - (n - k));
+        return FastMath.max(0, m - (n - k));
     }
 
     /**
@@ -182,7 +184,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return the highest domain value of the hypergeometric distribution.
      */
     private int getUpperDomain(int m, int k) {
-        return Math.min(k, m);
+        return FastMath.min(k, m);
     }
 
     /**
@@ -207,7 +209,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
                     populationSize - numberOfSuccesses, p, q);
             double p3 =
                 SaddlePointExpansion.logBinomialProbability(sampleSize, populationSize, p, q);
-            ret = Math.exp(p1 + p2 - p3);
+            ret = FastMath.exp(p1 + p2 - p3);
         }
 
         return ret;
@@ -224,7 +226,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return PMF for the distribution.
      */
     private double probability(int n, int m, int k, int x) {
-        return Math.exp(MathUtils.binomialCoefficientLog(m, x) +
+        return FastMath.exp(MathUtils.binomialCoefficientLog(m, x) +
                MathUtils.binomialCoefficientLog(n - m, k - x) -
                MathUtils.binomialCoefficientLog(n, k));
     }
@@ -240,6 +242,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     public void setNumberOfSuccesses(int num) {
         setNumberOfSuccessesInternal(num);
     }
+
     /**
      * Modify the number of successes.
      *
@@ -249,7 +252,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     private void setNumberOfSuccessesInternal(int num) {
         if (num < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "number of successes must be non-negative ({0})", num);
+                    LocalizedFormats.NEGATIVE_NUMBER_OF_SUCCESSES, num);
         }
         numberOfSuccesses = num;
     }
@@ -265,6 +268,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     public void setPopulationSize(int size) {
         setPopulationSizeInternal(size);
     }
+
     /**
      * Modify the population size.
      *
@@ -274,7 +278,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     private void setPopulationSizeInternal(int size) {
         if (size <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "population size must be positive ({0})", size);
+                    LocalizedFormats.NOT_POSITIVE_POPULATION_SIZE, size);
         }
         populationSize = size;
     }
@@ -299,7 +303,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     private void setSampleSizeInternal(int size) {
         if (size < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "sample size must be positive ({0})", size);
+                    LocalizedFormats.NOT_POSITIVE_SAMPLE_SIZE, size);
         }
         sampleSize = size;
     }
@@ -348,5 +352,70 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
             ret += probability(n, m, k, x0);
         }
         return ret;
+    }
+
+    /**
+     * Returns the lower bound for the support for the distribution.
+     *
+     * For population size <code>N</code>,
+     * number of successes <code>m</code>, and
+     * sample size <code>n</code>,
+     * the lower bound of the support is
+     * <code>max(0, n + m - N)</code>
+     *
+     * @return lower bound of the support
+     * @since 2.2
+     */
+    public int getSupportLowerBound() {
+        return FastMath.max(0,
+                getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
+    }
+
+    /**
+     * Returns the upper bound for the support of the distribution.
+     *
+     * For number of successes <code>m</code> and
+     * sample size <code>n</code>,
+     * the upper bound of the support is
+     * <code>min(m, n)</code>
+     *
+     * @return upper bound of the support
+     * @since 2.2
+     */
+    public int getSupportUpperBound() {
+        return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+    }
+
+    /**
+     * Returns the mean.
+     *
+     * For population size <code>N</code>,
+     * number of successes <code>m</code>, and
+     * sample size <code>n</code>, the mean is
+     * <code>n * m / N</code>
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    protected double getNumericalMean() {
+        return (double)(getSampleSize() * getNumberOfSuccesses()) / (double)getPopulationSize();
+    }
+
+    /**
+     * Returns the variance.
+     *
+     * For population size <code>N</code>,
+     * number of successes <code>m</code>, and
+     * sample size <code>n</code>, the variance is
+     * <code>[ n * m * (N - n) * (N - m) ] / [ N^2 * (N - 1) ]</code>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        final double N = getPopulationSize();
+        final double m = getNumberOfSuccesses();
+        final double n = getSampleSize();
+        return ( n * m * (N - n) * (N - m) ) / ( (N*N * (N - 1)) );
     }
 }

@@ -14,19 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.CauchyDistribution}.
  *
  * @since 1.1
- * @version $Revision: 925900 $ $Date: 2010-03-21 17:10:07 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class CauchyDistributionImpl extends AbstractContinuousDistribution
         implements CauchyDistribution, Serializable {
@@ -84,10 +86,10 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>.
+     * @return CDF evaluated at <code>x</code>.
      */
     public double cumulativeProbability(double x) {
-        return 0.5 + (Math.atan((x - median) / scale) / Math.PI);
+        return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
     }
 
     /**
@@ -116,7 +118,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Override
     public double density(double x) {
         final double dev = x - median;
-        return (1 / Math.PI) * (scale / (dev * dev + scale * scale));
+        return (1 / FastMath.PI) * (scale / (dev * dev + scale * scale));
     }
 
     /**
@@ -136,13 +138,13 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         double ret;
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         } else if (p == 0) {
             ret = Double.NEGATIVE_INFINITY;
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = median + scale * Math.tan(Math.PI * (p - .5));
+            ret = median + scale * FastMath.tan(FastMath.PI * (p - .5));
         }
         return ret;
     }
@@ -156,6 +158,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     public void setMedian(double median) {
         setMedianInternal(median);
     }
+
     /**
      * Modify the median.
      * @param newMedian for this distribution
@@ -174,6 +177,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     public void setScale(double s) {
         setScaleInternal(s);
     }
+
     /**
      * Modify the scale parameter.
      * @param s scale parameter for this distribution
@@ -182,7 +186,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     private void setScaleInternal(double s) {
         if (s <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "scale must be positive ({0})", s);
+                  LocalizedFormats.NOT_POSITIVE_SCALE, s);
         }
         scale = s;
     }
@@ -264,5 +268,53 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * Returns the lower bound of the support for this distribution.
+     * The lower bound of the support of the Cauchy distribution is always
+     * negative infinity, regardless of the parameters.
+     *
+     * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * Returns the upper bound of the support for this distribution.
+     * The upper bound of the support of the Cauchy distribution is always
+     * positive infinity, regardless of the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * Returns the mean.
+     *
+     * The mean is always undefined, regardless of the parameters.
+     *
+     * @return mean (always Double.NaN)
+     * @since 2.2
+     */
+    public double getNumericalMean() {
+        return Double.NaN;
+    }
+
+    /**
+     * Returns the variance.
+     *
+     * The variance is always undefined, regardless of the parameters.
+     *
+     * @return variance (always Double.NaN)
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        return Double.NaN;
     }
 }

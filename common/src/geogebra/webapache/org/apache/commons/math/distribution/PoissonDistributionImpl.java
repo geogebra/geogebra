@@ -20,7 +20,9 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -167,14 +169,13 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     private void setNormalAndMeanInternal(NormalDistribution z,
                                           double p) {
         if (p <= 0) {
-        	throw MathRuntimeException.createIllegalArgumentException(
-                    "number p must be positive ({0})",
-                    p);
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NOT_POSITIVE_POISSON_MEAN, p);
         }
         mean = p;
         normal = z;
         normal.setMean(p);
-        normal.setStandardDeviation(Math.sqrt(p));
+        normal.setStandardDeviation(FastMath.sqrt(p));
     }
 
     /**
@@ -189,11 +190,11 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         if (x < 0 || x == Integer.MAX_VALUE) {
             ret = 0.0;
         } else if (x == 0) {
-            ret = Math.exp(-mean);
+            ret = FastMath.exp(-mean);
         } else {
-            ret = Math.exp(-SaddlePointExpansion.getStirlingError(x) -
+            ret = FastMath.exp(-SaddlePointExpansion.getStirlingError(x) -
                   SaddlePointExpansion.getDeviancePart(x, mean)) /
-                  Math.sqrt(MathUtils.TWO_PI * x);
+                  FastMath.sqrt(MathUtils.TWO_PI * x);
         }
         return ret;
     }
@@ -236,28 +237,6 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     public double normalApproximateProbability(int x) throws MathException {
         // calculate the probability using half-correction
         return normal.cumulativeProbability(x + 0.5);
-    }
-
-    /**
-     * Generates a random value sampled from this distribution.
-     *
-     * <p><strong>Algorithm Description</strong>:
-     * <ul><li> For small means, uses simulation of a Poisson process
-     * using Uniform deviates, as described
-     * <a href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here.</a>
-     * The Poisson process (and hence value returned) is bounded by 1000 * mean.</li><
-     *
-     * <li> For large means, uses the rejection algorithm described in <br/>
-     * Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
-     * <strong>Computing</strong> vol. 26 pp. 197-207.</li></ul></p>
-     *
-     * @return random value
-     * @since 2.2
-     * @throws MathException if an error occurs generating the random value
-     
-    @Override
-    public int sample() throws MathException {
-        return (int) Math.min(randomData.nextPoisson(mean), Integer.MAX_VALUE);
     }
 
     /**

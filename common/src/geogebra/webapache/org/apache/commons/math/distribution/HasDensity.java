@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
@@ -29,8 +29,9 @@ import org.apache.commons.math.MathException;
  * interface will be extended to include a <code>density(double)<code> method.</p>
  *
  * @deprecated to be removed in math 3.0
- * @version $Revision: 924362 $ $Date: 2010-03-17 12:45:31 -0400 (Wed, 17 Mar 2010) $
+ * @version $Revision: 1042336 $ $Date: 2010-12-05 13:40:48 +0100 (dim. 05 déc. 2010) $
  */
+@Deprecated
 public interface HasDensity<P> {
 
     /**

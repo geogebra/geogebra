@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.FDistribution}.
  *
- * @version $Revision: 925897 $ $Date: 2010-03-21 17:06:46 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class FDistributionImpl
     extends AbstractContinuousDistribution
@@ -38,10 +39,6 @@ public class FDistributionImpl
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
-    /** Message for non positive degrees of freddom. */
-    private static final String NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE =
-        "degrees of freedom must be positive ({0})";
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -8516354193418641566L;
@@ -92,11 +89,11 @@ public class FDistributionImpl
     public double density(double x) {
         final double nhalf = numeratorDegreesOfFreedom / 2;
         final double mhalf = denominatorDegreesOfFreedom / 2;
-        final double logx = Math.log(x);
-        final double logn = Math.log(numeratorDegreesOfFreedom);
-        final double logm = Math.log(denominatorDegreesOfFreedom);
-        final double lognxm = Math.log(numeratorDegreesOfFreedom * x + denominatorDegreesOfFreedom);
-        return Math.exp(nhalf*logn + nhalf*logx - logx + mhalf*logm - nhalf*lognxm -
+        final double logx = FastMath.log(x);
+        final double logn = FastMath.log(numeratorDegreesOfFreedom);
+        final double logm = FastMath.log(denominatorDegreesOfFreedom);
+        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x + denominatorDegreesOfFreedom);
+        return FastMath.exp(nhalf*logn + nhalf*logx - logx + mhalf*logm - nhalf*lognxm -
                mhalf*lognxm - Beta.logBeta(nhalf, mhalf));
     }
 
@@ -223,7 +220,7 @@ public class FDistributionImpl
     private void setNumeratorDegreesOfFreedomInternal(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);
+                  LocalizedFormats.NOT_POSITIVE_DEGREES_OF_FREEDOM, degreesOfFreedom);
         }
         this.numeratorDegreesOfFreedom = degreesOfFreedom;
     }
@@ -257,7 +254,7 @@ public class FDistributionImpl
     private void setDenominatorDegreesOfFreedomInternal(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);
+                  LocalizedFormats.NOT_POSITIVE_DEGREES_OF_FREEDOM, degreesOfFreedom);
         }
         this.denominatorDegreesOfFreedom = degreesOfFreedom;
     }
@@ -280,5 +277,84 @@ public class FDistributionImpl
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * Returns the lower bound of the support for the distribution.
+     *
+     * The lower bound of the support is always 0, regardless of the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     * @since 2.2
+     */
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The upper bound of the support is always positive infinity,
+     * regardless of the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * Returns the mean of the distribution.
+     *
+     * For denominator degrees of freedom parameter <code>b</code>,
+     * the mean is
+     * <ul>
+     *  <li>if <code>b &gt; 2</code> then <code>b / (b - 2)</code></li>
+     *  <li>else <code>undefined</code>
+     * </ul>
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    public double getNumericalMean() {
+        final double denominatorDF = getDenominatorDegreesOfFreedom();
+
+        if (denominatorDF > 2) {
+            return denominatorDF / (denominatorDF - 2);
+        }
+
+        return Double.NaN;
+    }
+
+    /**
+     * Returns the variance of the distribution.
+     *
+     * For numerator degrees of freedom parameter <code>a</code>
+     * and denominator degrees of freedom parameter <code>b</code>,
+     * the variance is
+     * <ul>
+     *  <li>
+     *    if <code>b &gt; 4</code> then
+     *    <code>[ 2 * b^2 * (a + b - 2) ] / [ a * (b - 2)^2 * (b - 4) ]</code>
+     *  </li>
+     *  <li>else <code>undefined</code>
+     * </ul>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        final double denominatorDF = getDenominatorDegreesOfFreedom();
+
+        if (denominatorDF > 4) {
+            final double numeratorDF = getNumeratorDegreesOfFreedom();
+            final double denomDFMinusTwo = denominatorDF - 2;
+
+            return ( 2 * (denominatorDF * denominatorDF) * (numeratorDF + denominatorDF - 2) ) /
+                    ( (numeratorDF * (denomDFMinusTwo * denomDFMinusTwo) * (denominatorDF - 4)) );
+        }
+
+        return Double.NaN;
     }
 }

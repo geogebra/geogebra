@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
@@ -22,7 +21,7 @@ import org.apache.commons.math.MathException;
 /**
  * Base interface for probability distributions.
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public interface Distribution {
     /**
@@ -53,4 +52,5 @@ public interface Distribution {
      * @throws IllegalArgumentException if <code>x0 > x1</code>
      */
     double cumulativeProbability(double x0, double x1) throws MathException;
+
 }

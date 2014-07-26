@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
@@ -22,7 +21,7 @@ import org.apache.commons.math.MathException;
 /**
  * Interface for discrete distributions of integer-valued random variables.
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 949535 $ $Date: 2010-05-30 19:00:15 +0200 (dim. 30 mai 2010) $
  */
 public interface IntegerDistribution extends DiscreteDistribution {
     /**
@@ -64,8 +63,8 @@ public interface IntegerDistribution extends DiscreteDistribution {
      * P(X &le; x) <= p.
      * <p>
      * Note that this definition implies: <ul>
-     * <li> If there is a minimum value, <code>m</code>, with postive
-     * probablility under (the density of) X, then <code>m - 1</code> is
+     * <li> If there is a minimum value, <code>m</code>, with positive
+     * probability under (the density of) X, then <code>m - 1</code> is
      * returned by <code>inverseCumulativeProbability(0).</code>  If there is
      * no such value <code>m,  Integer.MIN_VALUE</code> is
      * returned.</li>

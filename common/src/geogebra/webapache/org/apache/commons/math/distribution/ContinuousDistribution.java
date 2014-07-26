@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
@@ -29,7 +28,7 @@ import org.apache.commons.math.MathException;
  * 2.1, all continuous distribution implementations included in commons-math
  * provide implementations of this method.</p>
  *
- * @version $Revision: 924362 $ $Date: 2010-03-17 12:45:31 -0400 (Wed, 17 Mar 2010) $
+ * @version $Revision: 924362 $ $Date: 2010-03-17 17:45:31 +0100 (mer. 17 mars 2010) $
  */
 public interface ContinuousDistribution extends Distribution {
 

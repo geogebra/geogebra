@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -46,7 +46,7 @@ import org.apache.commons.math.util.MathUtils;
 final class SaddlePointExpansion {
 
     /** 1/2 * log(2 &#960;). */
-    private static final double HALF_LOG_2_PI = 0.5 * Math.log(MathUtils.TWO_PI);
+    private static final double HALF_LOG_2_PI = 0.5 * FastMath.log(MathUtils.TWO_PI);
 
     /** exact Stirling expansion error for certain values. */
     private static final double[] EXACT_STIRLING_ERRORS = { 0.0, /* 0.0 */
@@ -108,10 +108,10 @@ final class SaddlePointExpansion {
         double ret;
         if (z < 15.0) {
             double z2 = 2.0 * z;
-            if (Math.floor(z2) == z2) {
+            if (FastMath.floor(z2) == z2) {
                 ret = EXACT_STIRLING_ERRORS[(int) z2];
             } else {
-                ret = Gamma.logGamma(z + 1.0) - (z + 0.5) * Math.log(z) +
+                ret = Gamma.logGamma(z + 1.0) - (z + 0.5) * FastMath.log(z) +
                       z - HALF_LOG_2_PI;
             }
         } else {
@@ -144,7 +144,7 @@ final class SaddlePointExpansion {
      */
     static double getDeviancePart(double x, double mu) {
         double ret;
-        if (Math.abs(x - mu) < 0.1 * (x + mu)) {
+        if (FastMath.abs(x - mu) < 0.1 * (x + mu)) {
             double d = x - mu;
             double v = d / (x + mu);
             double s1 = v * d;
@@ -160,7 +160,7 @@ final class SaddlePointExpansion {
             }
             ret = s1;
         } else {
-            ret = x * Math.log(x / mu) + mu - x;
+            ret = x * FastMath.log(x / mu) + mu - x;
         }
         return ret;
     }
@@ -181,20 +181,20 @@ final class SaddlePointExpansion {
             if (p < 0.1) {
                 ret = -getDeviancePart(n, n * q) - n * p;
             } else {
-                ret = n * Math.log(q);
+                ret = n * FastMath.log(q);
             }
         } else if (x == n) {
             if (q < 0.1) {
                 ret = -getDeviancePart(n, n * p) - n * q;
             } else {
-                ret = n * Math.log(p);
+                ret = n * FastMath.log(p);
             }
         } else {
             ret = getStirlingError(n) - getStirlingError(x) -
                   getStirlingError(n - x) - getDeviancePart(x, n * p) -
                   getDeviancePart(n - x, n * q);
             double f = (MathUtils.TWO_PI * x * (n - x)) / n;
-            ret = -0.5 * Math.log(f) + ret;
+            ret = -0.5 * FastMath.log(f) + ret;
         }
         return ret;
     }

@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Base class for probability distributions.
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public abstract class AbstractDistribution
     implements Distribution, Serializable {
@@ -61,7 +61,7 @@ public abstract class AbstractDistribution
         throws MathException {
         if (x0 > x1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
+                  LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                   x0, x1);
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0);

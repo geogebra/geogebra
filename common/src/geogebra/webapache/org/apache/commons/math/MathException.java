@@ -187,4 +187,12 @@ public class MathException extends Exception {
     	App.debug(out);
     }
 
+	public String getSpecificPattern() {
+		return pattern;
+	}
+
+	public Object getGeneralPattern() {
+		return arguments;
+	}
+
 }

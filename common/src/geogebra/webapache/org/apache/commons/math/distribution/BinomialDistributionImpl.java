@@ -20,7 +20,9 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link BinomialDistribution}.
@@ -92,9 +94,8 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
      */
     private void setNumberOfTrialsInternal(int trials) {
         if (trials < 0) {
-        	throw MathRuntimeException.createIllegalArgumentException(
-                    "number of trials must be non-negative ({0})",
-                    trials);
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NEGATIVE_NUMBER_OF_TRIALS, trials);
         }
         numberOfTrials = trials;
     }
@@ -121,9 +122,8 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
      */
     private void setProbabilityOfSuccessInternal(double p) {
         if (p < 0.0 || p > 1.0) {
-        	throw MathRuntimeException.createIllegalArgumentException(
-                    "number p must be between 0 and 1 ({0})",
-                    p);
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         }
         probabilityOfSuccess = p;
     }
@@ -187,7 +187,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
         if (x < 0 || x > numberOfTrials) {
             ret = 0.0;
         } else {
-            ret = Math.exp(SaddlePointExpansion.logBinomialProbability(x,
+            ret = FastMath.exp(SaddlePointExpansion.logBinomialProbability(x,
                     numberOfTrials, probabilityOfSuccess,
                     1.0 - probabilityOfSuccess));
         }
@@ -259,7 +259,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
      * @since 2.2
      */
     public double getNumericalMean() {
-        return (double)getNumberOfTrials() * getProbabilityOfSuccess();
+        return getNumberOfTrials() * getProbabilityOfSuccess();
     }
 
     /**
@@ -274,6 +274,6 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
      */
     public double getNumericalVariance() {
         final double p = getProbabilityOfSuccess();
-        return (double)getNumberOfTrials() * p * (1 - p);
+        return getNumberOfTrials() * p * (1 - p);
     }
 }

@@ -14,21 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Erf;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.NormalDistribution}.
  *
- * @version $Revision: 925812 $ $Date: 2010-03-21 11:49:31 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution
         implements NormalDistribution, Serializable {
@@ -43,7 +44,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     private static final long serialVersionUID = 8589540077390120676L;
 
     /** &sqrt;(2 &pi;) */
-    private static final double SQRT2PI = Math.sqrt(2 * Math.PI);
+    private static final double SQRT2PI = FastMath.sqrt(2 * FastMath.PI);
 
     /** The mean of this distribution. */
     private double mean = 0;
@@ -104,6 +105,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     public void setMean(double mean) {
         setMeanInternal(mean);
     }
+
     /**
      * Modify the mean.
      * @param newMean for this distribution
@@ -130,6 +132,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     public void setStandardDeviation(double sd) {
         setStandardDeviationInternal(sd);
     }
+
     /**
      * Modify the standard deviation.
      * @param sd standard deviation for this distribution
@@ -138,7 +141,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     private void setStandardDeviationInternal(double sd) {
         if (sd <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "standard deviation must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_STANDARD_DEVIATION,
                   sd);
         }
         standardDeviation = sd;
@@ -151,6 +154,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @return The pdf at point x.
      * @deprecated
      */
+    @Deprecated
     public double density(Double x) {
         return density(x.doubleValue());
     }
@@ -162,32 +166,28 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @return The pdf at point x.
      * @since 2.1
      */
+    @Override
     public double density(double x) {
         double x0 = x - mean;
-        return Math.exp(-x0 * x0 / (2 * standardDeviation * standardDeviation)) / (standardDeviation * SQRT2PI);
+        return FastMath.exp(-x0 * x0 / (2 * standardDeviation * standardDeviation)) / (standardDeviation * SQRT2PI);
     }
 
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
+     * If <code>x</code>is more than 40 standard deviations from the mean, 0 or 1 is returned,
+     * as in these cases the actual value is within <code>Double.MIN_VALUE</code> of 0 or 1.
+     *
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>.
-     * @throws MathException if the algorithm fails to converge; unless
-     * x is more than 20 standard deviations from the mean, in which case the
-     * convergence exception is caught and 0 or 1 is returned.
+     * @return CDF evaluated at <code>x</code>.
+     * @throws MathException if the algorithm fails to converge
      */
     public double cumulativeProbability(double x) throws MathException {
-        try {
-            return 0.5 * (1.0 + Erf.erf((x - mean) /
-                    (standardDeviation * Math.sqrt(2.0))));
-        } catch (MaxIterationsExceededException ex) {
-            if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
-                return 0.0d;
-            } else if (x > (mean + 20 * standardDeviation)) {
-                return 1.0d;
-            } else {
-                throw ex;
-            }
+        final double dev = x - mean;
+        if (FastMath.abs(dev) > 40 * standardDeviation) {
+            return dev < 0 ? 0.0d : 1.0d;
         }
+        return 0.5 * (1.0 + Erf.erf(dev /
+                    (standardDeviation * FastMath.sqrt(2.0))));
     }
 
     /**
@@ -293,5 +293,45 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         }
 
         return ret;
+    }
+
+    /**
+     * Returns the lower bound of the support for the distribution.
+     *
+     * The lower bound of the support is always negative infinity
+     * no matter the parameters.
+     *
+     * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The upper bound of the support is always positive infinity
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * Returns the variance.
+     *
+     * For standard deviation parameter <code>s</code>,
+     * the variance is <code>s^2</code>
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        final double s = getStandardDeviation();
+        return s * s;
     }
 }

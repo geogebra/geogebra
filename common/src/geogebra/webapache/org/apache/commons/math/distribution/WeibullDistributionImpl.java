@@ -14,19 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* This file was modified by GeoGebra Inc. */
+
 package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.WeibullDistribution}.
  *
  * @since 1.1
- * @version $Revision: 925812 $ $Date: 2010-03-21 11:49:31 -0400 (Sun, 21 Mar 2010) $
+ * @version $Revision: 1054524 $ $Date: 2011-01-03 05:59:18 +0100 (lun. 03 janv. 2011) $
  */
 public class WeibullDistributionImpl extends AbstractContinuousDistribution
         implements WeibullDistribution, Serializable {
@@ -48,6 +51,18 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 
     /** Inverse cumulative probability accuracy */
     private final double solverAbsoluteAccuracy;
+
+    /** Cached numerical mean */
+    private double numericalMean = Double.NaN;
+
+    /** Whether or not the numerical mean has been calculated */
+    private boolean numericalMeanIsCalculated = false;
+
+    /** Cached numerical variance */
+    private double numericalVariance = Double.NaN;
+
+    /** Whether or not the numerical variance has been calculated */
+    private boolean numericalVarianceIsCalculated = false;
 
     /**
      * Creates weibull distribution with the given shape and scale and a
@@ -78,14 +93,14 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>.
+     * @return CDF evaluated at <code>x</code>.
      */
     public double cumulativeProbability(double x) {
         double ret;
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = 1.0 - Math.exp(-Math.pow(x / scale, shape));
+            ret = 1.0 - FastMath.exp(-FastMath.pow(x / scale, shape));
         }
         return ret;
     }
@@ -120,16 +135,16 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         }
 
         final double xscale = x / scale;
-        final double xscalepow = Math.pow(xscale, shape - 1);
+        final double xscalepow = FastMath.pow(xscale, shape - 1);
 
         /*
-         * Math.pow(x / scale, shape) =
-         * Math.pow(xscale, shape) =
-         * Math.pow(xscale, shape - 1) * xscale
+         * FastMath.pow(x / scale, shape) =
+         * FastMath.pow(xscale, shape) =
+         * FastMath.pow(xscale, shape - 1) * xscale
          */
         final double xscalepowshape = xscalepow * xscale;
 
-        return (shape / scale) * xscalepow * Math.exp(-xscalepowshape);
+        return (shape / scale) * xscalepow * FastMath.exp(-xscalepowshape);
     }
 
     /**
@@ -149,13 +164,13 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         double ret;
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         } else if (p == 0) {
             ret = 0.0;
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = scale * Math.pow(-Math.log(1.0 - p), 1.0 / shape);
+            ret = scale * FastMath.pow(-FastMath.log(1.0 - p), 1.0 / shape);
         }
         return ret;
     }
@@ -168,6 +183,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setShape(double alpha) {
         setShapeInternal(alpha);
+        invalidateParameterDependentMoments();
     }
     /**
      * Modify the shape parameter.
@@ -176,7 +192,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     private void setShapeInternal(double alpha) {
         if (alpha <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "shape must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_SHAPE,
                   alpha);
         }
         this.shape = alpha;
@@ -190,6 +206,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setScale(double beta) {
         setScaleInternal(beta);
+        invalidateParameterDependentMoments();
     }
     /**
      * Modify the scale parameter.
@@ -198,7 +215,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     private void setScaleInternal(double beta) {
         if (beta <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "scale must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_SCALE,
                   beta);
         }
         this.scale = beta;
@@ -243,7 +260,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getInitialDomain(double p) {
         // use median
-        return Math.pow(scale * Math.log(2.0), 1.0 / shape);
+        return FastMath.pow(scale * FastMath.log(2.0), 1.0 / shape);
     }
 
     /**
@@ -256,5 +273,106 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * Returns the lower bound of the support for the distribution.
+     *
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     * @since 2.2
+     */
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * Returns the upper bound of the support for the distribution.
+     *
+     * The upper bound of the support is always positive infinity
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * Calculates the mean.
+     *
+     * The mean is <code>scale * Gamma(1 + (1 / shape))</code>
+     * where <code>Gamma(...)</code> is the Gamma-function
+     *
+     * @return the mean
+     * @since 2.2
+     */
+    protected double calculateNumericalMean() {
+        final double sh = getShape();
+        final double sc = getScale();
+
+        return sc * FastMath.exp(Gamma.logGamma(1 + (1 / sh)));
+    }
+
+    /**
+     * Calculates the variance.
+     *
+     * The variance is
+     * <code>scale^2 * Gamma(1 + (2 / shape)) - mean^2</code>
+     * where <code>Gamma(...)</code> is the Gamma-function
+     *
+     * @return the variance
+     * @since 2.2
+     */
+    private double calculateNumericalVariance() {
+        final double sh = getShape();
+        final double sc = getScale();
+        final double mn = getNumericalMean();
+
+        return (sc * sc) *
+            FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
+            (mn * mn);
+    }
+
+    /**
+     * Returns the mean of the distribution.
+     *
+     * @return the mean or Double.NaN if it's not defined
+     * @since 2.2
+     */
+    public double getNumericalMean() {
+        if (!numericalMeanIsCalculated) {
+            numericalMean = calculateNumericalMean();
+            numericalMeanIsCalculated = true;
+        }
+
+        return numericalMean;
+    }
+
+    /**
+     * Returns the variance of the distribution.
+     *
+     * @return the variance (possibly Double.POSITIVE_INFINITY as
+     * for certain cases in {@link TDistributionImpl}) or
+     * Double.NaN if it's not defined
+     * @since 2.2
+     */
+    public double getNumericalVariance() {
+        if (!numericalVarianceIsCalculated) {
+            numericalVariance = calculateNumericalVariance();
+            numericalVarianceIsCalculated = true;
+        }
+
+        return numericalVariance;
+    }
+
+    /**
+     * Invalidates the cached mean and variance.
+     */
+    private void invalidateParameterDependentMoments() {
+        numericalMeanIsCalculated = false;
+        numericalVarianceIsCalculated = false;
     }
 }
