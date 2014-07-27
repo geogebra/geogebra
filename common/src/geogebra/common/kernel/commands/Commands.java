@@ -265,7 +265,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Solutions(TABLE_CAS),
    	Solve(TABLE_CAS),
    	SolveCubic(TABLE_CAS),
-   	SolveQuartic(TABLE_CAS),
+   	//SolveQuartic(TABLE_CAS),
    	Laplace(TABLE_CAS),
    	InverseLaplace(TABLE_CAS),
    	Substitute(TABLE_CAS),

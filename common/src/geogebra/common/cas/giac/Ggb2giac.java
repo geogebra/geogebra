@@ -726,6 +726,7 @@ public class Ggb2giac {
 		// 3 repeated roots, S=0, SolveQuartic[ x⁴ - 5x³ + 9x² - 7x + 2 ] = {2,1}
 		// SolveQuartic[x^(4) - (2 * x^(3)) - (7 * x^(2)) + (16 * x) - 5] = ((x^(2) - (3 * x) + 1) * (x^(2) + x - 5))
 		// http://en.wikipedia.org/wiki/Quartic_function
+		/*
 		p("SolveQuartic.1", "["+
 				"[ggbans:={}],"+
 				"[ggbfun:=%0],"+
@@ -773,7 +774,7 @@ public class Ggb2giac {
 				"fi"+
 				//")]" + 
 				" ,ggbans][13]");
-
+*/
 		
 		// Experimental Geometry commands. Giac only
 		p("Radius.1", "normal(regroup(radius(%0)))"); 
