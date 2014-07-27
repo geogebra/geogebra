@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.StringTemplate;
@@ -497,6 +498,28 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		
 	}
 
+	
+
+	public void setCoords(MyPoint locusPoint, MyPoint locusPoint2){
+		setCoordFromPoints(
+				new Coords(
+						locusPoint.x, 
+						locusPoint.y, 
+						locusPoint.getZ(),
+						1.0), 
+						new Coords(
+								locusPoint2.x, 
+								locusPoint2.y, 
+								locusPoint2.getZ(),
+								1.0)
+				);
+	}
+
+	/*
+	public double distance(Coords P){
+		return P.distLine(getStartInhomCoords(), getDirectionInD3());
+	}
+	*/
 
 
 }

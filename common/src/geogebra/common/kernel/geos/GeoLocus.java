@@ -14,6 +14,10 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * Locus of points
@@ -51,10 +55,57 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 
 
 
+	public void pointChanged(GeoPointND P) {
+		
+		Coords coords = P.getCoordsInD(2).getInhomCoordsInSameDimension();
+		setChangingPoint(P);
+		 
+		// this updates closestPointParameter and closestPointIndex
+		MyPoint closestPoint = getClosestPoint();
+
+		PathParameter pp = P.getPathParameter();
+		// Application.debug(pp.t);
+		if (closestPoint != null) {
+			coords.setX(closestPoint.x);// (1 - closestPointParameter) * locusPoint.x +
+									// closestPointParameter * locusPoint2.x;
+			coords.setY(closestPoint.y);// (1 - closestPointParameter) * locusPoint.y +
+									// closestPointParameter * locusPoint2.y;
+			coords.setZ(1.0);
+			pp.t = closestPointIndex + closestPointParameter;
+		}
+		
+		 P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
+		 P.updateCoordsFrom2D(false);
+		 P.updateCoords();
+	}
 
 
+	@Override
+	protected GeoSegmentND newGeoSegment(){
+		GeoSegment segment = new GeoSegment(cons);
+		GeoPoint p1 = new GeoPoint(cons);
+		GeoPoint p2 = new GeoPoint(cons);
+		segment.setStartPoint(p1);
+		segment.setEndPoint(p2);
+		
+		return segment;
+	}
+	
+	private Coords changingPoint;
+	
+	@Override
+	protected void setChangingPoint(GeoPointND P){
+		changingPoint = P.getCoordsInD(2).getInhomCoordsInSameDimension();
+	}
+	
+	@Override
+	protected double changingPointDistance(GeoSegmentND segment){
+		return ((GeoSegment) segment).distance(changingPoint.getX(), changingPoint.getY());
+	}
 
-
-
+	@Override
+	protected double getChangingPointParameter(GeoSegmentND segment){
+		return ((GeoSegment) segment).getParameter(changingPoint.getX(), changingPoint.getY());
+	}
 
 }

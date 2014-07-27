@@ -14,7 +14,12 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoLocusND;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * Locus of points
@@ -54,7 +59,95 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 
 
 
+	@Override
+	public boolean isGeoElement3D() {
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	public void pointChanged(GeoPointND P) {
+		
+		Coords coords = P.getInhomCoordsInD(3);
+		setChangingPoint(P);
+		 
+		// this updates closestPointParameter and closestPointIndex
+		MyPoint closestPoint = getClosestPoint();
 
-
+		PathParameter pp = P.getPathParameter();
+		// Application.debug(pp.t);
+		if (closestPoint != null) {
+			coords.setX(closestPoint.x);// (1 - closestPointParameter) * locusPoint.x +
+									// closestPointParameter * locusPoint2.x;
+			coords.setY(closestPoint.y);// (1 - closestPointParameter) * locusPoint.y +
+									// closestPointParameter * locusPoint2.y;
+			coords.setZ(closestPoint.getZ());
+			coords.setW(1.0);
+			pp.t = closestPointIndex + closestPointParameter;
+		}
+		
+		 P.setCoords(coords, false);
+		 P.updateCoords();
+	}
+	
+	
+	@Override
+	protected GeoSegmentND newGeoSegment(){
+		GeoSegment3D segment = new GeoSegment3D(cons);
+		/*
+		GeoPoint p1 = new GeoPoint(cons);
+		GeoPoint p2 = new GeoPoint(cons);
+		segment.setStartPoint(p1);
+		segment.setEndPoint(p2);
+		*/
+		
+		return segment;
+	}
+	
+	private GeoPointND changingPoint;
+	private Coords changingCoords;
+	
+	@Override
+	protected void setChangingPoint(GeoPointND P){
+		changingPoint = P;
+		changingCoords = P.getInhomCoordsInD(3);
+	}
+	
+	@Override
+	protected double changingPointDistance(GeoSegmentND segment){
+		GeoSegment3D seg = (GeoSegment3D) segment;
+		
+		double t = seg.getParamOnLine(changingPoint);
+		if (t < 0){
+			t = 0;
+		}else if (t > 1){
+			t = 1;
+		}
+		
+		Coords project = seg.getPoint(t);
+		
+		Coords coords = changingCoords;
+		
+		if (changingPoint.isGeoElement3D()){
+			if (((GeoPoint3D) changingPoint).getWillingCoords()!=null){
+				
+				coords = ((GeoPoint3D) changingPoint).getWillingCoords();
+				
+				if(((GeoPoint3D) changingPoint).getWillingDirection()!=null){
+					return project.distLine(coords, ((GeoPoint3D) changingPoint).getWillingDirection());
+				}
+			}		
+		}
+		
+		return coords.distance(project);
+	}
+	
+	@Override
+	protected double getChangingPointParameter(GeoSegmentND segment){
+		return ((GeoSegment3D) segment).getParamOnLine(changingPoint);
+	}
 
 }

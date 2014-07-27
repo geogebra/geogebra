@@ -1,5 +1,6 @@
 package geogebra.common.kernel.kernelND;
 
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
@@ -61,6 +62,14 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 
 
 	public boolean isEqual(GeoSegmentND thisSegment);
+	
+	/**
+	 * set the segment throught the two points
+	 * @param locusPoint first point
+	 * @param locusPoint2 second point
+	 */
+	public void setCoords(MyPoint locusPoint, MyPoint locusPoint2);
+	
 	
 	
 

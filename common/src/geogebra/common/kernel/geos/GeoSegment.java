@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -539,7 +540,6 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 
-
 	/**
 	 * returns the paramter for the closest point to P on the Segment (extrapolated)
 	 * so answers can be returned outside the range [0,1]
@@ -806,6 +806,19 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	}
 
+
+	public void setCoords(MyPoint locusPoint, MyPoint locusPoint2){
+		double x1 = locusPoint.x;
+		double x2 = locusPoint2.x;
+		double y1 = locusPoint.y;
+		double y2 = locusPoint2.y;
+
+		// line thro' 2 points
+		setCoords(y1 - y2, x2 - x1, x1 * y2 - y1 * x2);
+		startPoint.setCoords(x1, y1, 1.0);
+		endPoint.setCoords(x2, y2, 1.0);
+	}
+	
 
 
 

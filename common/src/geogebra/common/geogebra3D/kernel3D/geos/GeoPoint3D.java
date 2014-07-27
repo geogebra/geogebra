@@ -1684,11 +1684,14 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint){
 
-		setCoords(
+		setCoords(new Coords(
 				param2 * leftPoint.x + param1 * rightPoint.x,
 				param2 * leftPoint.y + param1 * rightPoint.y,
 				param2 * leftPoint.getZ() + param1 * rightPoint.getZ(),
-				1.0);
+				1.0), 
+				false);
+
+		updateCoords();
 	}
 
 }

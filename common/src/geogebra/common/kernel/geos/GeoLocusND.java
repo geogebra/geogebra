@@ -19,9 +19,9 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverLocus;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -185,19 +185,34 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 
 	public boolean isOnPath(GeoPointND P, double eps) {
 
-		MyPoint closestPoint = getClosestPoint(P.getCoordsInD(2).getInhomCoordsInSameDimension());
+		setChangingPoint(P);
+		MyPoint closestPoint = getClosestPoint();
 		if (closestPoint != null) {
 			return Math.sqrt(closestPointDist) < eps;
 		}
 		return false;
 	}
+	
+	/**
+	 * set infos for current changing point
+	 * @param P point
+	 */
+	abstract protected void setChangingPoint(GeoPointND P);
+	
+	/**
+	 * 
+	 * @param segment segment
+	 * @return closest parameter on the segment from the changing point
+	 */
+	abstract protected double getChangingPointParameter(GeoSegmentND segment);
 
-	private MyPoint getClosestPoint(Coords P) {
-		GeoLine l = getClosestLine(P);
+	protected MyPoint getClosestPoint() {
+		
+		getClosestLine();
 
 		boolean temp = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		GeoSegment closestSegment = new GeoSegment(cons);
+		GeoSegmentND closestSegment = newGeoSegment();
 		cons.setSuppressLabelCreation(temp);
 
 		if (closestPointIndex == -1)
@@ -206,33 +221,38 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 		MyPoint locusPoint = myPointList.get(closestPointIndex);
 		MyPoint locusPoint2 = myPointList.get(closestPointIndex + 1);
 
-		closestSegment.setCoords(l.x, l.y, l.z);
+		closestSegment.setCoords(locusPoint, locusPoint2);
 
-		cons.setSuppressLabelCreation(true);
-		closestSegment.setStartPoint(locusPoint.getGeoPoint(cons));
-		closestSegment.setEndPoint(locusPoint2.getGeoPoint(cons));
-		cons.setSuppressLabelCreation(temp);
-
-		closestPointParameter = closestSegment.getParameter(P.getX(), P.getY());
+		closestPointParameter = getChangingPointParameter(closestSegment);
 
 		if (closestPointParameter < 0)
 			closestPointParameter = 0;
 		else if (closestPointParameter > 1)
 			closestPointParameter = 1;
 
-		return new MyPoint((1 - closestPointParameter) * locusPoint.x
-				+ closestPointParameter * locusPoint2.x,
-				(1 - closestPointParameter) * locusPoint.y
-						+ closestPointParameter * locusPoint2.y, false);
+		return locusPoint.barycenter(closestPointParameter, locusPoint2);
 	}
+	
+	/**
+	 * 
+	 * @return new GeoSegment
+	 */
+	abstract protected GeoSegmentND newGeoSegment();
+	
+	/**
+	 * 
+	 * @param segment segment
+	 * @return distance from current point infos to segment
+	 */
+	abstract protected double changingPointDistance(GeoSegmentND segment);
 
 	/**
-	 * Returns the point of this locus that is closest to GeoPoint P.
+	 * Returns the point of this locus that is closest to current point infos.
 	 */
-	private GeoLine getClosestLine(Coords P) {
+	private void getClosestLine() {
 		int size = myPointList.size();
 		if (size == 0)
-			return null;
+			return;
 
 		
 		// search for closest point on path
@@ -241,13 +261,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 		closestPointIndex = -1;
 
 		// make a segment and points to reuse
-		GeoSegment segment = new GeoSegment(cons);
-		GeoPoint p1 = new GeoPoint(cons);
-		GeoPoint p2 = new GeoPoint(cons);
-		segment.setStartPoint(p1);
-		segment.setEndPoint(p2);
-
-		double closestx = 0, closesty = 0, closestz = 0;
+		GeoSegmentND segment = newGeoSegment();
 
 		// search for closest point
 		for (int i = 0; i < size - 1; i++) {
@@ -258,34 +272,21 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 			if (!locusPoint2.lineTo)
 				continue;
 
-			double x1 = locusPoint.x;
-			double x2 = locusPoint2.x;
-			double y1 = locusPoint.y;
-			double y2 = locusPoint2.y;
-
 			// line thro' 2 points
-			segment.setCoords(y1 - y2, x2 - x1, x1 * y2 - y1 * x2);
-			p1.setCoords(x1, y1, 1.0);
-			p2.setCoords(x2, y2, 1.0);
+			segment.setCoords(locusPoint, locusPoint2);
 
-			double dist = segment.distance(P.getX(), P.getY());
+			double dist = changingPointDistance(segment);
 			if (dist < closestPointDist) {
 				closestPointDist = dist;
 				closestPointIndex = i;
-				closestx = segment.x;
-				closesty = segment.y;
-				closestz = segment.z;
 			}
 		}
-
-		segment.setCoords(closestx, closesty, closestz);
-
-		return segment;
+		
 	}
 
 	private double closestPointDist;
-	private int closestPointIndex;
-	private double closestPointParameter;
+	protected int closestPointIndex;
+	protected double closestPointParameter;
 
 	private boolean trace;
 
@@ -327,28 +328,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 	}
 	
 	
-	public void pointChanged(GeoPointND P) {
-		
-		Coords coords = P.getCoordsInD(2).getInhomCoordsInSameDimension();
-		 
-		// this updates closestPointParameter and closestPointIndex
-		MyPoint closestPoint = getClosestPoint(coords);
 
-		PathParameter pp = P.getPathParameter();
-		// Application.debug(pp.t);
-		if (closestPoint != null) {
-			coords.setX(closestPoint.x);// (1 - closestPointParameter) * locusPoint.x +
-									// closestPointParameter * locusPoint2.x;
-			coords.setY(closestPoint.y);// (1 - closestPointParameter) * locusPoint.y +
-									// closestPointParameter * locusPoint2.y;
-			coords.setZ(1.0);
-			pp.t = closestPointIndex + closestPointParameter;
-		}
-		
-		 P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
-		 P.updateCoordsFrom2D(false);
-		 P.updateCoords();
-	}
 
 	@Override
 	public boolean isPath() {

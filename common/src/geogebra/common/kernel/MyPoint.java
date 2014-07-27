@@ -152,4 +152,18 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	static final protected boolean isFinite(double value){
 		return !java.lang.Double.isInfinite(value) && !java.lang.Double.isInfinite(value);
 	}
+	
+	
+
+	/**
+	 * 
+	 * @param t parameter
+	 * @param point2 second point
+	 * @return (1-t) * this + t * point2
+	 */
+	public MyPoint barycenter(double t, MyPoint point2){
+		return new MyPoint((1 - t) * x + t * point2.x,
+				(1 - t) * y + t * point2.y, 
+				false);
+	}
 }
