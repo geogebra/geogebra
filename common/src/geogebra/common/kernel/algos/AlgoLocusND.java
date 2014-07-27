@@ -828,7 +828,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 				return false; 
 			if (kernel.getApplication().hasEuclidianView3D()) 
 				return kernel.getApplication().getEuclidianView3D().isShowing(); 
-			return true; 
 		}
 		return false;
 		
