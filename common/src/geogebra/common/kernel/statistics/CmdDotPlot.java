@@ -3,6 +3,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -26,6 +27,7 @@ public class CmdDotPlot extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
+		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 		arg = resArgs(c);
 
@@ -40,16 +42,38 @@ public class CmdDotPlot extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 			
 		case 2:
-			boolean[] ok = new boolean[2];
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
-				AlgoDotPlotScale algo = new AlgoDotPlotScale(cons, c.getLabel(),
+				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]);
 				GeoElement[] ret = {algo.getResult() };
 				return ret;
+				
+			}else if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoBoolean())) {
+				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoBoolean) arg[1], null);
+				GeoElement[] ret = {algo.getResult() };
+				return ret;
 			} 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			else if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			else 
+				throw argErr(app, c.getName(), arg[1]);
 	
-		     // more than one argument
+		case 3:
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoBoolean())
+					&& (ok[2] = arg[2].isGeoNumeric())) {
+				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoBoolean) arg[1],(GeoNumeric) arg[2]);
+				GeoElement[] ret = {algo.getResult() };
+				return ret;
+			}
+				else if (!ok[0])
+					throw argErr(app, c.getName(), arg[0]);
+				else if (!ok[1])
+					throw argErr(app, c.getName(), arg[1]);
+				else 
+					throw argErr(app, c.getName(), arg[2]);
+		
         default :     	
         	throw argNumErr(app, c.getName(), n);
 		}

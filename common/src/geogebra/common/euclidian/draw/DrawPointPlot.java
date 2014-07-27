@@ -43,6 +43,7 @@ public class DrawPointPlot extends Drawable {
 	private GColor oldColor = null;
 	private GColor pointColor;
 
+	private double scaleFactor = 1;
 	private GeoList pointList;
 
 	/*************************************************
@@ -161,7 +162,7 @@ public class DrawPointPlot extends Drawable {
 
 		// adjust point coordinates for a density plot
 		if (drawType == DrawType.DOT_PLOT
-				&& ((AlgoDotPlot) algo).useDensityPlot()) {
+				&& ((AlgoDotPlot) algo).stackAdjacentDots()) {
 			doDotDensity();
 		}
 
@@ -226,32 +227,6 @@ public class DrawPointPlot extends Drawable {
 		}
 	}
 
-	/**
-	 * Adjusts the y-coordinates of all points so that they appear as stacks of
-	 * dots with no vertical gaps between them.
-	 */
-	private void stackDots() {
-
-		pointSize = pointList.getPointSize();
-
-		int xIndex = 0;
-		GeoPoint pt = null;
-		GeoList list2 = ((AlgoDotPlot) algo).getFrequencyList();
-
-		// iterate through the frequency list
-		for (int i = 0; i < list2.size(); i++) {
-
-			// for each frequency adjust the y coords so that dots appear
-			// stacked on top of each other
-			int dotCountMax = (int) ((GeoNumeric) list2.get(i)).getDouble();
-			for (int dotCount = 1; dotCount <= dotCountMax; dotCount++) {
-				pt = (GeoPoint) pointList.get(xIndex);
-				setDotHeight(pt, dotCount);
-				xIndex++;
-			}
-
-		}
-	}
 
 	/**
 	 * Sets the real world height of a point so that it fits in a stack of dots
@@ -266,7 +241,7 @@ public class DrawPointPlot extends Drawable {
 
 		// get y coord for the stacked dot
 		y = (view.getYZero() - pointSize); // first dot on axis
-		y = y - 2 * (dotCount - 1) * pointSize; // higher dot
+		y = y - 2 * (dotCount - 1) * pointSize *scaleFactor; // higher dot
 		y = view.toRealWorldCoordY(y);
 
 		// set the y coord of the GeoPoint
@@ -282,6 +257,7 @@ public class DrawPointPlot extends Drawable {
 
 		pointSize = pointList.getPointSize();
 		double h = 2 * pointSize * view.getInvXscale();
+		scaleFactor  = ((AlgoDotPlot)algo).getScaleFactor();
 
 		GeoPoint pt = null;
 		GeoList xList = ((AlgoDotPlot) algo).getUniqueXList();
