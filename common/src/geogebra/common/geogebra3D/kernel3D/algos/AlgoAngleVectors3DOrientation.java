@@ -70,8 +70,13 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D{
     @Override
 	public String toString(StringTemplate tpl) {
 
-		return loc.getPlain("AngleBetweenABOrientedByC", getv().getLabel(tpl),
-				getw().getLabel(tpl), orientation.getLabel(tpl));
+		//return loc.getPlain("AngleBetweenABOrientedByC", getv().getLabel(tpl),
+		//		getw().getLabel(tpl), orientation.getLabel(tpl));
+		
+    	// clearer just as "angle between u and v"
+		return loc.getPlain("AngleBetweenAB", getv().getLabel(tpl),
+				getw().getLabel(tpl));
+
 	}
     
     

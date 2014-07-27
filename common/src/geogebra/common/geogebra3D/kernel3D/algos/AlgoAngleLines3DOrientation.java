@@ -75,8 +75,12 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D{
     @Override
 	public String toString(StringTemplate tpl) {
 
-		return loc.getPlain("AngleBetweenABOrientedByC", getg().getLabel(tpl),
-				geth().getLabel(tpl), orientation.getLabel(tpl));
+		//return loc.getPlain("AngleBetweenABOrientedByC", getg().getLabel(tpl),
+		//		geth().getLabel(tpl), orientation.getLabel(tpl));
+		
+    	// clearer just as "angle between u and v"
+    	return loc.getPlain("AngleBetweenAB", getg().getLabel(tpl),
+				geth().getLabel(tpl));
 	}
     
 	@Override
