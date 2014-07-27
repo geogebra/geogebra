@@ -259,7 +259,7 @@ __GGB__keysVar.ca_XV.command = {
     "Dot": "PuntGr\xe0fic",
     "Dot_SyntaxCAS": "[ <Vector>, <Vector> ]",
     "DotPlot": "Gr\xe0ficDePunts",
-    "DotPlot_Syntax": "[ <Llista de totes les dades> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "CoordenadesDin\xe0miques",
     "DynamicCoordinates_Syntax": "[ <Punt>, <Nombre>, <Nombre> ]",
     "Eccentricity": "Excentricitat",

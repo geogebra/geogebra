@@ -259,7 +259,7 @@ __GGB__keysVar.ko.command = {
     "Dot": "\ub0b4\uc801",
     "Dot_SyntaxCAS": "[ <\ubca1\ud130>, <\ubca1\ud130> ]",
     "DotPlot": "\uc810\uadf8\ub9bc",
-    "DotPlot_Syntax": "[ <\uc6d0\uc790\ub8cc\uc758 \ub9ac\uc2a4\ud2b8> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "\ubcc0\ud654\ud558\ub294\uc88c\ud45c",
     "DynamicCoordinates_Syntax": "[ <\uc810>, <\uc218>, <\uc218> ]",
     "Eccentricity": "\uc774\uc2ec\ub960",

@@ -259,7 +259,7 @@ __GGB__keysVar.ro.command = {
     "Dot": "Produs Scalar",
     "Dot_SyntaxCAS": "[ <Vector>, <Vector> ]",
     "DotPlot": "DotPlot",
-    "DotPlot_Syntax": "[ <List\u0103 de date brute> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "CoordonateDinamice",
     "DynamicCoordinates_Syntax": "[ <Punct>, <Num\u0103r>, <Num\u0103r> ]",
     "Eccentricity": "Excentricitate",

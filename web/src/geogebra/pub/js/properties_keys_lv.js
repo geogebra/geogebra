@@ -259,7 +259,7 @@ __GGB__keysVar.lv.command = {
     "Dot": "Punkts",
     "Dot_SyntaxCAS": "[ <Vektors>, <Vektors> ]",
     "DotPlot": "PunktuKopa",
-    "DotPlot_Syntax": "[ <S\u0101kuma Elementu Sarakts> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DinamiskasKoordin\u0101tas",
     "DynamicCoordinates_Syntax": "[ <Punkts>, <Skaitlis>, <Skaitlis> ]",
     "Eccentricity": "Ekscentrit\u0101te",

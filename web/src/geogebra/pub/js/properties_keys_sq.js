@@ -259,7 +259,7 @@ __GGB__keysVar.sq.command = {
     "Dot": "Pikesor",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "VizatimPikesor",
-    "DotPlot_Syntax": "[ <Liste te Dhenash te Paperpunuara> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "KoordinataDinamike",
     "DynamicCoordinates_Syntax": "[ <Pike>, <Numer>, <Numer> ]",
     "Eccentricity": "Eksentricitet",

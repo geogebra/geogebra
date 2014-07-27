@@ -259,7 +259,7 @@ __GGB__keysVar.cs.command = {
     "Dot": "SkalarniSoucin",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "BodovyGraf",
-    "DotPlot_Syntax": "[ <Seznam zdrojov\xfdch dat> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamickeSouradnice",
     "DynamicCoordinates_Syntax": "[ <Bod>, <\u010c\xedslo>, <\u010c\xedslo> ]",
     "Eccentricity": "Excentricita",

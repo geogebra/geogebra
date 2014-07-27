@@ -259,7 +259,7 @@ __GGB__keysVar.eu.command = {
     "Dot": "BiderkaduraEskalarra",
     "Dot_SyntaxCAS": "[ <Bektorea>, <Bektorea> ]",
     "DotPlot": "PuntuenGrafikoa",
-    "DotPlot_Syntax": "[ <Datu Gordinen Zerrenda> ]",
+    "DotPlot_Syntax": "[ <Datu Gordinen Zerrenda>, <Pilatu Elkarren Ondoko Puntuak (aukerakoa)>, <Eskala-faktorea (aukerakoa)> ]",
     "DynamicCoordinates": "KoordenatuDinamikoak",
     "DynamicCoordinates_Syntax": "[ <Puntua>, <Zenbakia>, <Zenbakia> ]",
     "Eccentricity": "Eszentrikotasuna",

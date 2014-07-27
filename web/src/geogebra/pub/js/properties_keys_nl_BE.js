@@ -259,7 +259,7 @@ __GGB__keysVar.nl_BE.command = {
     "Dot": "ScalairProduct",
     "Dot_SyntaxCAS": "[ <Vector>, <Vector> ]",
     "DotPlot": "PuntenPlot",
-    "DotPlot_Syntax": "[ <Lijst alle waarnemingsgetallen> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamischeCo\xf6rdinaten",
     "DynamicCoordinates_Syntax": "[ <Punt>, <Getal>, <Getal> ]",
     "Eccentricity": "Excentriciteit",

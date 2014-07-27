@@ -259,7 +259,7 @@ __GGB__keysVar.lt.command = {
     "Dot": "Skaliarin\u0117Sandauga",
     "Dot_SyntaxCAS": "[ <Vektorius>, <Vektorius> ]",
     "DotPlot": "Ta\u0161k\u0173Vaizdavimas",
-    "DotPlot_Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "Dinamin\u0117sKoordinat\u0117s",
     "DynamicCoordinates_Syntax": "[ <Ta\u0161kas>, <Skai\u010dius>, <Skai\u010dius> ]",
     "Eccentricity": "EkscentricitetoSantykis",

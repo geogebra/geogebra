@@ -259,7 +259,7 @@ __GGB__keysVar.ja.command = {
     "Dot": "Dot",
     "Dot_SyntaxCAS": "[ <\u30d9\u30af\u30c8\u30eb>, <\u30d9\u30af\u30c8\u30eb> ]",
     "DotPlot": "DotPlot",
-    "DotPlot_Syntax": "[ <\u751f\u30c7\u30fc\u30bf\u306e\u30ea\u30b9\u30c8> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamicCoordinates",
     "DynamicCoordinates_Syntax": "[ <\u70b9>, <\u6570\u5024>, <\u6570\u5024> ]",
     "Eccentricity": "Eccentricity",

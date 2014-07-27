@@ -259,7 +259,7 @@ __GGB__keysVar.ar.command = {
     "Dot": "\u0646\u0642\u0637\u0629",
     "Dot_SyntaxCAS": "[ <\u0645\u062a\u062c\u0647>, <\u0645\u062a\u062c\u0647> ]",
     "DotPlot": "\u062a\u062e\u0637\u064a\u0637_\u0646\u0642\u0637\u0629",
-    "DotPlot_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0628\u064a\u0627\u0646\u0627\u062a \u062e\u0627\u0645> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "\u0625\u062d\u062f\u0627\u062b\u064a\u0627\u062a_\u062d\u0631\u0643\u064a\u0629",
     "DynamicCoordinates_Syntax": "[ <\u0646\u0642\u0637\u0629>, <\u0639\u062f\u062f>, <\u0639\u062f\u062f> ]",
     "Eccentricity": "\u0627\u062e\u062a\u0644\u0627\u0641_\u0645\u0631\u0643\u0632\u064a",

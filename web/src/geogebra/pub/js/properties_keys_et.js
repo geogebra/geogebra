@@ -259,7 +259,7 @@ __GGB__keysVar.et.command = {
     "Dot": "Skalaarkorrutis",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "Punktdiagramm",
-    "DotPlot_Syntax": "[ <Algandmete loend> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "D\xfcnaamilisedKoordinaadid",
     "DynamicCoordinates_Syntax": "[ <Punkt>, <Arv>, <Arv> ]",
     "Eccentricity": "Ekstsentrilisus",

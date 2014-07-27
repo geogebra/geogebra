@@ -259,7 +259,7 @@ __GGB__keysVar.sr.command = {
     "Dot": "SkalarniProizvod",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "Ta\u010dkaskiDijagram",
-    "DotPlot_Syntax": "[ <lista neobra\u0111enih podataka> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "Dinami\u010dkeKoordinate",
     "DynamicCoordinates_Syntax": "[ <Ta\u010dka>, <Broj>, <Broj> ]",
     "Eccentricity": "EkscentricitetKonusnogPreseka",

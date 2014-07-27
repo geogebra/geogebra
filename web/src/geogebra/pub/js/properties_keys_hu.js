@@ -259,7 +259,7 @@ __GGB__keysVar.hu.command = {
     "Dot": "Skal\xe1risSzorzat",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "PontDiagram",
-    "DotPlot_Syntax": "[ <Nyers adatok list\xe1ja> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DinamikusKoordin\xe1t\xe1k",
     "DynamicCoordinates_Syntax": "[ <Pont>, <X>, <Y> ]",
     "Eccentricity": "Excentricit\xe1s",

@@ -259,7 +259,7 @@ __GGB__keysVar.pl.command = {
     "Dot": "IloczynSkalarny",
     "Dot_SyntaxCAS": "[ <Wektor>, <Wektor> ]",
     "DotPlot": "WykresPunktowy",
-    "DotPlot_Syntax": "[ <Lista Surowych Danych> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "Wsp\xf3\u0142rz\u0119dneDynamiczne",
     "DynamicCoordinates_Syntax": "[ <Punkt>, <Liczba>, <Liczba> ]",
     "Eccentricity": "Mimo\u015br\xf3d",

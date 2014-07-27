@@ -259,7 +259,7 @@ __GGB__keysVar.sv.command = {
     "Dot": "Skal\xe4rProdukt",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "Punktdiagram",
-    "DotPlot_Syntax": "[ <Lista med r\xe5data> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamiskaKoordinater",
     "DynamicCoordinates_Syntax": "[ <Punkt>, <Tal>, <Tal> ]",
     "Eccentricity": "Eccentricitet",

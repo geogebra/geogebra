@@ -259,7 +259,7 @@ __GGB__keysVar.hr.command = {
     "Dot": "SkalarniUmno\u017eak",
     "Dot_SyntaxCAS": "[ <vektor>, <vektor> ]",
     "DotPlot": "DijagramTo\u010daka",
-    "DotPlot_Syntax": "[ <lista neobra\u0111enih podataka> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "Dinami\u010dneKoordinate",
     "DynamicCoordinates_Syntax": "[ <to\u010dka>, <broj X>, <broj Y> ]",
     "Eccentricity": "Ekscentricitet",

@@ -259,7 +259,7 @@ __GGB__keysVar.is.command = {
     "Dot": "Depilfeldi",
     "Dot_SyntaxCAS": "[ <Vigur>, <Vigur> ]",
     "DotPlot": "PunktaRit",
-    "DotPlot_Syntax": "[ <Listi af g\xf6gnum> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "KvikHnit",
     "DynamicCoordinates_Syntax": "[ <Punktur>, <Tala>, <Tala> ]",
     "Eccentricity": "Hringvik",

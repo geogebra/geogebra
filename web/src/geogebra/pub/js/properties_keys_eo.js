@@ -259,7 +259,7 @@ __GGB__keysVar.eo.command = {
     "Dot": "SkalaraProduto",
     "Dot_SyntaxCAS": "[ <Vektoro>, <Vektoro> ]",
     "DotPlot": "Punktonubo",
-    "DotPlot_Syntax": "[ <Listo de Krudaj Datumoj> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamicCoordinates",
     "DynamicCoordinates_Syntax": "[ <Punkto>, <Nombro>, <Nombro> ]",
     "Eccentricity": "Discentreco",

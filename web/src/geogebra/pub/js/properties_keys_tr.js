@@ -259,7 +259,7 @@ __GGB__keysVar.tr.command = {
     "Dot": "Noktasal",
     "Dot_SyntaxCAS": "[ <Vekt\xf6r>, <Vekt\xf6r> ]",
     "DotPlot": "Nokta\xc7iz",
-    "DotPlot_Syntax": "[ <Ham Veri Listesi> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DinamikKoordinatlar",
     "DynamicCoordinates_Syntax": "[ <Nokta>, <Say\u0131>, <Say\u0131> ]",
     "Eccentricity": "D\u0131\u015fmerkezlik",

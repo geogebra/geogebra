@@ -259,7 +259,7 @@ __GGB__keysVar.gl.command = {
     "Dot": "ProductoEscalar",
     "Dot_SyntaxCAS": "[ <Vector>, <Vector> ]",
     "DotPlot": "Gr\xe1ficoDePuntos",
-    "DotPlot_Syntax": "[ <Lista de datos en bruto> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "CoordenadasDin\xe1micas",
     "DynamicCoordinates_Syntax": "[ <Punto>, <N\xfamero>, <N\xfamero> ]",
     "Eccentricity": "Excentricidade",

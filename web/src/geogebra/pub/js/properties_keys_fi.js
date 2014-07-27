@@ -259,7 +259,7 @@ __GGB__keysVar.fi.command = {
     "Dot": "Pistetulo",
     "Dot_SyntaxCAS": "[ <Vektori>, <Vektori> ]",
     "DotPlot": "Pistekaavio",
-    "DotPlot_Syntax": "[ <Lista Tietoa> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynaaminenPiste",
     "DynamicCoordinates_Syntax": "[ <Piste>, <Luku>, <Luku> ]",
     "Eccentricity": "Eksentrisyys",

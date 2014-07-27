@@ -259,7 +259,7 @@ __GGB__keysVar.sk.command = {
     "Dot": "Skal\xe1rnyS\xfa\u010din",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "Bodov\xfdDiagram",
-    "DotPlot_Syntax": "[ <Zoznam surov\xfdch \xfadajov> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "Dynamick\xe9S\xfaradnice",
     "DynamicCoordinates_Syntax": "[ <Bod>, <\u010c\xedslo>, <\u010c\xedslo> ]",
     "Eccentricity": "Excentricita",

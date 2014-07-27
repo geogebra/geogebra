@@ -259,7 +259,7 @@ __GGB__keysVar.in.command = {
     "Dot": "ProdukSkalar",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "PlotTitik",
-    "DotPlot_Syntax": "[ <Daftar Data Mentah> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "KoordinatDinamis",
     "DynamicCoordinates_Syntax": "[ <Titik>, <Angka>, <Angka> ]",
     "Eccentricity": "Eksentrisitas",

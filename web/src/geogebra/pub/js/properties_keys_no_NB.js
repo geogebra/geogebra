@@ -259,7 +259,7 @@ __GGB__keysVar.no_NB.command = {
     "Dot": "Skalarprodukt",
     "Dot_SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "Prikkplott",
-    "DotPlot_Syntax": "[ <Liste med r\xe5data> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamiskeKoordinater",
     "DynamicCoordinates_Syntax": "[ <Punkt>, <Tall>, <Tall> ]",
     "Eccentricity": "Eksentrisitet",

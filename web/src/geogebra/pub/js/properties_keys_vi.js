@@ -259,7 +259,7 @@ __GGB__keysVar.vi.command = {
     "Dot": "TichVoHuong",
     "Dot_SyntaxCAS": "[ <V\xe9c t\u01a1>, <V\xe9c t\u01a1> ]",
     "DotPlot": "DoThiDauNhan",
-    "DotPlot_Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "ToaDoDong",
     "DynamicCoordinates_Syntax": "[ <\u0110i\u1ec3m>, <S\u1ed1>, <S\u1ed1> ]",
     "Eccentricity": "TamSai",

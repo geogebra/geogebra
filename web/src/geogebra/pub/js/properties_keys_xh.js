@@ -259,7 +259,7 @@ __GGB__keysVar.xh.command = {
     "Dot": "Ichaphaza",
     "Dot_SyntaxCAS": "[ <Vector>, <Vector> ]",
     "DotPlot": "iDotPlot",
-    "DotPlot_Syntax": "[ <List of Raw Data> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "iiCoordinatesEzitshintshayo",
     "DynamicCoordinates_Syntax": "[ <Point>, <Number>, <Number> ]",
     "Eccentricity": "iEccentricity",

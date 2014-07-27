@@ -259,7 +259,7 @@ __GGB__keysVar.zh_TW.command = {
     "Dot": "Dot",
     "Dot_SyntaxCAS": "[ <Vector>, <Vector> ]",
     "DotPlot": "DotPlot",
-    "DotPlot_Syntax": "[ <List of Raw Data> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamicCoordinates",
     "DynamicCoordinates_Syntax": "[ <\u53c3\u8003\u9ede>, <\u65b0 x \u5ea7\u6a19>, <\u65b0 y \u5ea7\u6a19> ]",
     "Eccentricity": "Eccentricity",

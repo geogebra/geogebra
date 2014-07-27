@@ -259,7 +259,7 @@ __GGB__keysVar.sl.command = {
     "Dot": "Pika",
     "Dot_SyntaxCAS": "[ <vektor>, <vektor> ]",
     "DotPlot": "To\u010dkovniDiagram",
-    "DotPlot_Syntax": "[ <seznam vrstic s podatki> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "OdvisnaTo\u010dka",
     "DynamicCoordinates_Syntax": "[ <to\u010dka>, <\u0161tevilo>, <\u0161tevilo> ]",
     "Eccentricity": "Numeri\u010dnaEkscentri\u010dnost",

@@ -259,7 +259,7 @@ __GGB__keysVar.en_AU.command = {
     "Dot": "Dot",
     "Dot_SyntaxCAS": "[ <Vector>, <Vector> ]",
     "DotPlot": "DotPlot",
-    "DotPlot_Syntax": "[ <List of Raw Data> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamicCoordinates",
     "DynamicCoordinates_Syntax": "[ <Point>, <Number>, <Number> ]",
     "Eccentricity": "Eccentricity",

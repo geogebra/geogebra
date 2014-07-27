@@ -259,7 +259,7 @@ __GGB__keysVar.da.command = {
     "Dot": "Prik",
     "Dot_SyntaxCAS": "[ <vektor>, <vektor> ]",
     "DotPlot": "Punktplot",
-    "DotPlot_Syntax": "[ <liste af r\xe5data> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamiskeKoordinator",
     "DynamicCoordinates_Syntax": "[ <punkt>, <tal>, <tal> ]",
     "Eccentricity": "Eksentricitet",

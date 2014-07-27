@@ -259,7 +259,7 @@ __GGB__keysVar.it.command = {
     "Dot": "ProdottoScalare",
     "Dot_SyntaxCAS": "[ <Vettore>, <Vettore> ]",
     "DotPlot": "DiagrammaPunti",
-    "DotPlot_Syntax": "[ <Lista dei dati grezzi> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "CoordinateDinamiche",
     "DynamicCoordinates_Syntax": "[ <Punto>, <Numero>, <Numero> ]",
     "Eccentricity": "Eccentricit\xe0",

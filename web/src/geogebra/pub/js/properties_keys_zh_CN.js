@@ -259,7 +259,7 @@ __GGB__keysVar.zh_CN.command = {
     "Dot": "\u70b9\u79ef",
     "Dot_SyntaxCAS": "[ <\u5411\u91cf1>, <\u5411\u91cf2> ]",
     "DotPlot": "\u70b9\u9635\u56fe",
-    "DotPlot_Syntax": "[ <\u539f\u59cb\u6570\u636e\u96c6\u5408> ]",
+    "DotPlot_Syntax": "[ <\u539f\u59cb\u6570\u636e\u96c6\u5408>, <\u5806\u6808\u76f8\u90bb\u70b9(\u53ef\u9009)>, <\u7f29\u653e\u56e0\u5b50(\u53ef\u9009)> ]",
     "DynamicCoordinates": "\u52a8\u6001\u5750\u6807",
     "DynamicCoordinates_Syntax": "[ <\u70b9>, <\u6a2a\u5750\u6807>, <\u7eb5\u5750\u6807> ]",
     "Eccentricity": "\u79bb\u5fc3\u7387",

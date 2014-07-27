@@ -259,7 +259,7 @@ __GGB__keysVar.cy.command = {
     "Dot": "Dot",
     "Dot_SyntaxCAS": "[ <Fector>, <Fector> ]",
     "DotPlot": "PlotDot",
-    "DotPlot_Syntax": "[ <Rhestr Data Crai> ]",
+    "DotPlot_Syntax": "DotPlot[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "CyfesurynnauDynamig",
     "DynamicCoordinates_Syntax": "[ <Pwynt>, <Rhif>, <Rhif> ]",
     "Eccentricity": "Echreiddiad",
