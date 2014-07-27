@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -109,10 +108,10 @@ public class AlgoFitImplicit extends AlgoElement {
 				return;
 			}
 
-			App.debug("datasize = " + datasize);
-			App.debug("order = " + order);
-			App.debug("M cols = "+M.getColumnDimension());
-			App.debug("M rows = "+M.getRowDimension());
+			//App.debug("datasize = " + datasize);
+			//App.debug("order = " + order);
+			//App.debug("M cols = "+M.getColumnDimension());
+			//App.debug("M rows = "+M.getRowDimension());
 			//App.debug("M = "+M.toString());
 
 			SingularValueDecomposition svd =
