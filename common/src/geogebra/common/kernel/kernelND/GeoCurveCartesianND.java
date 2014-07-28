@@ -361,4 +361,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	public int getDimension() {
 		return this.fun.length;
 	}
+
+	public abstract double getClosestParameter(GeoPointND a, double minParameter);
+
+	public abstract double evaluateCurvature(double t);
 }

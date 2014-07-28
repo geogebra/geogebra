@@ -7,7 +7,9 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.debug.Log;
 
 /**
  * @author  Victor Franco Espino, Markus Hohenwarter
@@ -18,11 +20,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoCurvatureCurve extends AlgoElement {
 
 	private GeoPointND A; // input
-	private GeoCurveCartesian f;
+	private GeoCurveCartesianND f;
     private GeoNumeric K; //output
     private GeoConicND gc = null;
     
-    public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A, GeoCurveCartesian f){
+    public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A, GeoCurveCartesianND f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -43,7 +45,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
     	    K.setLabel("k"); 
     	}    	
     }
-    public AlgoCurvatureCurve(Construction cons, GeoPointND A, GeoCurveCartesian f) {
+    public AlgoCurvatureCurve(Construction cons, GeoPointND A, GeoCurveCartesianND f) {
         super(cons);
         this.f = f;
         this.A = A;
@@ -74,7 +76,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
         input[0] = A.toGeoElement();
         if (gc!=null){
         	f=new GeoCurveCartesian(cons);
-        	gc.toGeoCurveCartesian(f);
+        	gc.toGeoCurveCartesian((GeoCurveCartesian)f);
         	input[1] = gc;
         } else
         input[1] = f;
@@ -93,14 +95,16 @@ public class AlgoCurvatureCurve extends AlgoElement {
 
 		if (gc != null) {
 			f = new GeoCurveCartesian(cons);
-			gc.toGeoCurveCartesian(f);
+			gc.toGeoCurveCartesian((GeoCurveCartesian)f);
 		}
 
 		if (f.isDefined()) {
 			try {
 				double t = f.getClosestParameter(A, f.getMinParameter());
+				Log.debug("param"+t);
 				K.setValue(f.evaluateCurvature(t));
 			} catch (Exception ex) {
+				ex.printStackTrace();
 				K.setUndefined();
 			}
 		} else {

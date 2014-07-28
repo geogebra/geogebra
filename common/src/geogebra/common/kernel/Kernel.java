@@ -83,7 +83,6 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.common.util.debug.GeoGebraProfiler;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -3512,13 +3511,8 @@ public class Kernel {
 		//event dispatcher should not collect calls to stay compatible with 4.0
 		long t = System.currentTimeMillis();
 		if (notifyViewsActive) {
-			int i = 0;
 			for (View view : views) {
 				view.update(geo);
-				long t2 = System.currentTimeMillis();
-				GeoGebraProfiler.updateTimes[i] += t2 - t;
-				t = t2;
-				i++;				
 			}
 		}
 	}

@@ -31,6 +31,7 @@ import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.Log;
 
 /**
  * Class for cartesian curves in 3D
@@ -79,6 +80,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 
 	public Coords evaluateTangent(double t) {
+		updateDerivatives();
 		Coords v = new Coords(3);
 		for (int i = 0; i < 3; i++)
 			v.set(i + 1, funD1[i].evaluate(t));
@@ -104,6 +106,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	public Coords3D evaluateTangent3D(double t) {
+		updateDerivatives();
 		return new Coords3D(funD1[0].evaluate(t), funD1[1].evaluate(t),
 				funD1[2].evaluate(t), 1).normalize();
 
@@ -112,9 +115,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	/**
 	 * Returns the curvature at the specified point
 	 * 
-	 * @param t
+	 * @param t parameter
 	 */
+	@Override
 	public double evaluateCurvature(double t) {
+		updateDerivatives();
 		Coords D1 = new Coords(3);
 		Coords D2 = new Coords(3);
 
@@ -126,7 +131,19 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// compute curvature using the formula k = |f'' x f'| / |f'|^3
 		Coords cross = D1.crossProduct(D2);
+		Log.debug(cross.norm() / Math.pow(D1.norm(), 3));
 		return cross.norm() / Math.pow(D1.norm(), 3);
+	}
+
+	private void updateDerivatives() {
+		int dim = 3;
+		funD1 = new Function[dim];
+		funD2 = new Function[dim];
+		for(int i = 0; i < dim; i++){
+			funD1[i] = getFun(i).getDerivative(1, true);
+			funD2[i] = getFun(i).getDerivative(2, true);
+		}
+		
 	}
 
 	@Override
@@ -398,6 +415,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 *            point to which the distance is minimized
 	 * @return optimal parameter value t
 	 */
+	@Override
 	public double getClosestParameter(GeoPointND P, double startValue) {
 		double startVal = startValue;
 		if (distFun == null)
