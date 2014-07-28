@@ -223,7 +223,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Bottom(TABLE_3D),Cone(TABLE_3D),Cube(TABLE_3D),Cylinder(TABLE_3D),Dodecahedron(TABLE_3D),Ends(TABLE_3D),Icosahedron(TABLE_3D),InfiniteCone(TABLE_3D),InfiniteCylinder(TABLE_3D),
    	Octahedron(TABLE_3D),Plane(TABLE_3D),QuadricSide(TABLE_3D),Surface(TABLE_3D),Tetrahedron(TABLE_3D),Top(TABLE_3D),CylinderInfinite(TABLE_ENGLISH),Sphere(TABLE_3D),
    	OrthogonalPlane(TABLE_ENGLISH),PerpendicularPlane(TABLE_3D), Prism(TABLE_3D), Pyramid(TABLE_3D), PlaneBisector(TABLE_3D),IntersectionPaths(TABLE_ENGLISH),ConeInfinite(TABLE_ENGLISH),
-   	IntersectCircle(TABLE_ENGLISH), IntersectConic(TABLE_3D), Height(TABLE_3D), CornerThreeD(TABLE_ENGLISH), Net(TABLE_3D), Polyhedron(TABLE_3D),
+   	IntersectCircle(TABLE_ENGLISH), IntersectConic(TABLE_3D), Height(TABLE_3D), CornerThreeD(TABLE_ENGLISH), Net(TABLE_3D), 
    	
   	//=============================================================	
   	// scripting 3D
@@ -238,7 +238,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Turtle(TABLE_GEOGEBRA), TurtleForward(TABLE_GEOGEBRA), TurtleBack(TABLE_GEOGEBRA), TurtleLeft(TABLE_GEOGEBRA), TurtleRight(TABLE_GEOGEBRA),
    	
    	// disabled in GeoGebra 5.0, include in GeoGebra 5.2
-   	MatrixPlot(TABLE_VECTOR), DensityPlot(TABLE_FUNCTION), ContourPlot(TABLE_FUNCTION), Nyquist(TABLE_FUNCTION),
+   	MatrixPlot(TABLE_VECTOR), DensityPlot(TABLE_FUNCTION), ContourPlot(TABLE_FUNCTION), Nyquist(TABLE_FUNCTION), Polyhedron(TABLE_ENGLISH),
    	
    	//==
    	
