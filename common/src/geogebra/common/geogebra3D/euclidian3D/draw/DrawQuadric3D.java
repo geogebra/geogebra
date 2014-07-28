@@ -488,6 +488,15 @@ implements Previewable {
 		
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		
+		//TODO remove this
+		if (quadric.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_SINGLE_POINT
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE				
+				){
+			return false;
+		}
+		
 		Coords p3d = quadric.getProjection(null, hitting.origin, hitting.direction)[0];
 		
 		if (!hitting.isInsideClipping(p3d)){
