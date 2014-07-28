@@ -110,7 +110,7 @@ public abstract class Layout {
 		//Note: toolbar definition is always for EV1, for 3D we use definition from the 3D dock panel classes
 	
 		defaultPerspectives[5] = new Perspective("3DGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
-		defaultPerspectives[5].setIconString("menu_view_graphics3D.png");
+		defaultPerspectives[5].setIconString("perspectives_algebra_3Dgraphics.png");
 
 		
 //		// Python Scripting & Graphocs ** Doesn't work **
