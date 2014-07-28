@@ -6,6 +6,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 
@@ -38,6 +39,21 @@ public class CmdSetViewDirection extends CmdScripting {
 				Coords v = d.getDirectionInD3();
 				if (v!=null){					
 					view3D.setClosestRotAnimation(v);				
+				}
+				
+				return;
+
+			} 
+
+			if (arg[0].isGeoPoint()) {
+				GeoPointND p = (GeoPointND) arg[0];
+
+				if (p.isDefined()){
+					Coords v = p.getInhomCoordsInD(3);
+					v.setW(0);
+					EuclidianView3DInterface view3D = app.getEuclidianView3D();
+					view3D.setClosestRotAnimation(v);				
+
 				}
 				
 				return;
