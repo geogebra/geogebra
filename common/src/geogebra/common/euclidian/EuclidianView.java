@@ -1480,6 +1480,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	public void update(GeoElement geo) {
+		if(this.getEuclidianViewNo() == 1){
+			geo.setNeedsEVUpdate(true);
+			return;
+		}
+		
 		Object d = DrawableMap.get(geo);
 		if (d != null) {
 			((Drawable) d).resetHatch();

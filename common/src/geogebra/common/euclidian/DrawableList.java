@@ -179,8 +179,13 @@ public class DrawableList {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size
-			if (cur.d.getGeoElement().isDefined())
+			if (cur.d.getGeoElement().isDefined()){
+				if(cur.d.geo.needsEVupdate() && cur.d.view.getEuclidianViewNo() == 1){
+					cur.d.geo.setNeedsEVUpdate(false);
+					cur.d.update();
+				}
 				cur.d.draw(g2);
+			}
 			cur = cur.next;
 		}
 	}

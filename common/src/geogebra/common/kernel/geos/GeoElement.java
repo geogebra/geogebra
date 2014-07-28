@@ -78,6 +78,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.GeoGebraProfiler;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -3547,10 +3548,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * afterwards! synchronized for animation
 	 */
 	public void updateCascade() {
+		long l = System.currentTimeMillis();
 		kernel.notifyBatchUpdate();
 		update();
 		updateDependentObjects();
+		GeoGebraProfiler.addUpdateCascade(System.currentTimeMillis() -l);
 		kernel.notifyEndBatchUpdate();
+		
 	}
 
 	private void updateDependentObjects() {
@@ -7219,6 +7223,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	/////////////////////////////
 	
 	private boolean canBeRemovedAsInput = true;
+
+
+	private boolean needsEVupdate;
 	
 	/**
 	 * set this can (not) be removed when input of algo
@@ -7234,5 +7241,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean canBeRemovedAsInput(){
 		return canBeRemovedAsInput;
+	}
+
+	public void setNeedsEVUpdate(boolean b) {
+		this.needsEVupdate = true;
+		
+	}
+	
+	public boolean needsEVupdate(){
+		return this.needsEVupdate;
 	}
 }

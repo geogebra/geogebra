@@ -14,7 +14,7 @@ public abstract class GeoGebraProfiler {
 
 	private static GeoGebraProfiler instance = null;
 	
-	public static int repaints, repaintTime, drags, dragTime, hitTime, hits;
+	public static int repaints, repaintTime, drags, dragTime, hitTime, hits, cascades, cascadeTime;
 	public static int moveEventsIgnored;
 
 	
@@ -77,18 +77,19 @@ public abstract class GeoGebraProfiler {
 				App.debug("   Drag: " + realDrags + " x " + (dragTime / realDrags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
 			}
 			App.debug("Hits: " + hits + " x " + (hitTime / hits) + " = " + hitTime);
+			App.debug("Cascades: " + cascades + " x " + (cascadeTime / cascades) + " = " + cascadeTime);
 			StringBuilder sb = new StringBuilder("  Views: ");
 			
 			App.debug(sb.toString());
 			
 				
-			repaints = 0;
+			/*repaints = 0;
 			drags = 0;
 			repaintTime = 0;
 			dragTime = 0;
 			moveEventsIgnored = 0;
 			hitTime = 0;
-			hits = 0;
+			hits = 0;*/
 		}
 		
 	}
@@ -96,6 +97,12 @@ public abstract class GeoGebraProfiler {
 	public static void addHit(long l) {
 		hitTime += l;
 		hits++;
+		
+	}
+
+	public static void addUpdateCascade(long l) {
+		cascades++;
+		cascadeTime += l;
 		
 	}
 }
