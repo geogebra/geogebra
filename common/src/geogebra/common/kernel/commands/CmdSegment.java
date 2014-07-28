@@ -49,7 +49,7 @@ public class CmdSegment extends CommandProcessor {
 					return
 							getAlgoDispatcher().Segment(
 	                            c.getLabels(),
-	                            (GeoPoint) arg[0],
+	                            (GeoPointND) arg[0],
 	                            (GeoNumberValue) arg[1]);
 				else {
 	                if (!ok[0])
