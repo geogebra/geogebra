@@ -3,11 +3,11 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * @author  Victor Franco Espino, Markus Hohenwarter
@@ -17,12 +17,12 @@ import geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoCurvatureCurve extends AlgoElement {
 
-	private GeoPoint A; // input
+	private GeoPointND A; // input
 	private GeoCurveCartesian f;
     private GeoNumeric K; //output
-    private GeoConic gc=null;
+    private GeoConicND gc = null;
     
-    public AlgoCurvatureCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f){
+    public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A, GeoCurveCartesian f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -33,7 +33,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
     	}    	
     }
     
-    public AlgoCurvatureCurve(Construction cons, String label, GeoPoint A, GeoConic f){
+    public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A, GeoConicND f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -43,7 +43,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
     	    K.setLabel("k"); 
     	}    	
     }
-    public AlgoCurvatureCurve(Construction cons, GeoPoint A, GeoCurveCartesian f) {
+    public AlgoCurvatureCurve(Construction cons, GeoPointND A, GeoCurveCartesian f) {
         super(cons);
         this.f = f;
         this.A = A;
@@ -53,7 +53,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
         compute();
     }
  
-    public AlgoCurvatureCurve(Construction cons, GeoPoint A, GeoConic gc) {
+    public AlgoCurvatureCurve(Construction cons, GeoPointND A, GeoConicND gc) {
         super(cons);
         this.gc=gc;
         this.A = A;
@@ -71,7 +71,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
     @Override
 	protected void setInputOutput(){
         input = new GeoElement[2];
-        input[0] = A;
+        input[0] = A.toGeoElement();
         if (gc!=null){
         	f=new GeoCurveCartesian(cons);
         	gc.toGeoCurveCartesian(f);

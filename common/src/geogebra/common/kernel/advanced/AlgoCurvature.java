@@ -6,7 +6,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -18,11 +18,11 @@ import geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoCurvature extends AlgoElement {
 
-	private GeoPoint A; // input
+	private GeoPointND A; // input
 	private GeoFunction f;
     private GeoNumeric K; //output
     
-    public AlgoCurvature(Construction cons, String label, GeoPoint A, GeoFunction f){
+    public AlgoCurvature(Construction cons, String label, GeoPointND A, GeoFunction f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -33,7 +33,7 @@ public class AlgoCurvature extends AlgoElement {
     	}    	
     }
     
-    public AlgoCurvature(Construction cons, GeoPoint A, GeoFunction f) {
+    public AlgoCurvature(Construction cons, GeoPointND A, GeoFunction f) {
         super(cons);
         this.f = f;
         this.A = A;
@@ -52,7 +52,7 @@ public class AlgoCurvature extends AlgoElement {
     @Override
 	protected void setInputOutput(){
         input = new GeoElement[2];
-        input[0] = A;
+        input[0] = A.toGeoElement();
         input[1] = f;
        
         super.setOutputLength(1);
@@ -67,7 +67,7 @@ public class AlgoCurvature extends AlgoElement {
     @Override
 	public final void compute() {
     	if (f.isDefined())
-    		K.setValue( f.evaluateCurvature(A.inhomX) );
+    		K.setValue( f.evaluateCurvature(A.getInhomX()) );
     	else     	
     		K.setUndefined();    	
     }   

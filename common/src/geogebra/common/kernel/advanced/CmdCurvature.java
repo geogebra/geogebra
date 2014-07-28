@@ -3,11 +3,11 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -39,7 +39,7 @@ public class CmdCurvature extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				
 				AlgoCurvature algo = new AlgoCurvature(cons, c.getLabel(),
-						(GeoPoint) arg[0], (GeoFunction) arg[1]);
+						(GeoPointND) arg[0], (GeoFunction) arg[1]);
 				GeoElement[] ret = { algo.getResult() };
 				
 				return ret;
@@ -47,14 +47,14 @@ public class CmdCurvature extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 				
 				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons, c.getLabel(),
-						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]);
+						(GeoPointND) arg[0], (GeoCurveCartesian) arg[1]);
 				
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))){
 				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons, c.getLabel(),
-						(GeoPoint) arg[0], (GeoConic)arg[1]);
+						(GeoPointND) arg[0], (GeoConicND)arg[1]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;			
 			}  else {
