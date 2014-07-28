@@ -76,7 +76,12 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	@Override
 	protected void createStartPos(Construction cons){
 		QstartPos = new GeoPoint3D(cons);
-		PstartPos = new GeoPoint3D(cons);
+		
+		if (movingPoint.isGeoElement3D()){
+			PstartPos = new GeoPoint3D(cons);
+		}else{
+			PstartPos = new GeoPoint(cons);
+		}
 	}
 	
 	@Override

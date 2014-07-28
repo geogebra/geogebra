@@ -53,7 +53,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	protected static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
-	private GeoPointND movingPoint, locusPoint; // input
+	protected GeoPointND movingPoint, locusPoint; // input
 	protected GeoLocusND<T> locus; // output
 
 	// for efficient dependency handling
