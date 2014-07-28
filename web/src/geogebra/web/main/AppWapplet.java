@@ -50,8 +50,8 @@ public class AppWapplet extends AppW {
 	 * @param ae
 	 * @param gf
 	 */
-	public AppWapplet(ArticleElement ae, GeoGebraFrame gf) {
-		this(ae, gf, true);
+	public AppWapplet(ArticleElement ae, GeoGebraFrame gf, int dimension) {
+		this(ae, gf, true, dimension);
 	}
 
 	/******************************************************
@@ -60,8 +60,8 @@ public class AppWapplet extends AppW {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWapplet(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
-		super(ae);
+	public AppWapplet(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive, int dimension) {
+		super(ae, dimension);
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
 		setAppletHeight(frame.getComputedHeight());

@@ -34,7 +34,7 @@ public class AppWsimple extends AppW {
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
 	public AppWsimple(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
-		super(ae);
+		super(ae, 2);
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
 		setAppletHeight(frame.getComputedHeight());

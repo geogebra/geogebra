@@ -7,7 +7,7 @@ import geogebra.web.main.AppWapplet;
 public class AppletFactory {
 
 	public AppW getApplet(ArticleElement ae, GeoGebraFrame gf) {
-	    return new AppWapplet(ae, gf);
+	    return new AppWapplet(ae, gf, 2);
     }
 
 }

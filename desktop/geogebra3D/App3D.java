@@ -37,6 +37,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
+import geogebra.main.LocalizationD;
 import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -62,24 +63,20 @@ public class App3D extends AppD {
 
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
-	
 
-	
-	public App3D(CommandLineArguments args, JFrame frame,
-			boolean undoActive) {
+	public App3D(CommandLineArguments args, JFrame frame, boolean undoActive) {
 		this(args, frame, null, undoActive);
 	}
 
-	public App3D(CommandLineArguments args,
-			AppletImplementation applet, boolean undoActive) {
+	public App3D(CommandLineArguments args, AppletImplementation applet,
+			boolean undoActive) {
 		this(args, null, applet, undoActive);
 	}
 
 	private App3D(CommandLineArguments args, JFrame frame,
 			AppletImplementation applet, boolean undoActive) {
 
-		super(args, frame, applet, null, undoActive,new Localization3D());
-
+		super(args, frame, applet, null, undoActive, new LocalizationD(3));
 
 		// euclidianView3D.initAxisAndPlane();
 
@@ -87,7 +84,6 @@ public class App3D extends AppD {
 		// new Test3D(kernel3D,euclidianView,euclidianView3D,this);
 
 	}
-
 
 	@Override
 	protected void initImageManager(Component component) {
@@ -103,32 +99,31 @@ public class App3D extends AppD {
 		// init the 2D euclidian view
 		super.initEuclidianViews();
 
-		
 		// init the 3D euclidian view (with perhaps a specific 3D input)
 		Input3D input3D = Input3DFactory.createInput3D();
-		if (input3D != null){
-			euclidianController3D = new EuclidianControllerInput3D(kernel, input3D); 
-			euclidianView3D = new EuclidianViewInput3D(euclidianController3D, getSettings().getEuclidian(3));
-		}else{
-			euclidianController3D = new EuclidianController3DD(kernel); 
-			euclidianView3D = new EuclidianView3DD(euclidianController3D, getSettings().getEuclidian(3));
+		if (input3D != null) {
+			euclidianController3D = new EuclidianControllerInput3D(kernel,
+					input3D);
+			euclidianView3D = new EuclidianViewInput3D(euclidianController3D,
+					getSettings().getEuclidian(3));
+		} else {
+			euclidianController3D = new EuclidianController3DD(kernel);
+			euclidianView3D = new EuclidianView3DD(euclidianController3D,
+					getSettings().getEuclidian(3));
 		}
-		
 
 	}
-	
-	
+
 	@Override
 	public boolean isRightClick(AbstractEvent e) {
-		if (e instanceof MouseEventD){
-			return isRightClick(geogebra.euclidian.event.MouseEventD.getEvent(e));
+		if (e instanceof MouseEventD) {
+			return isRightClick(geogebra.euclidian.event.MouseEventD
+					.getEvent(e));
 		}
-		
+
 		return e.isRightClick();
 	}
 
-
-	
 	@Override
 	public EuclidianController newEuclidianController(Kernel kernel) {
 		return new EuclidianControllerFor3DD(kernel);
@@ -137,8 +132,8 @@ public class App3D extends AppD {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1) {
-		return new EuclidianViewFor3DD(euclidianController, showAxes1, showGrid1,
-				1, getSettings().getEuclidian(1));
+		return new EuclidianViewFor3DD(euclidianController, showAxes1,
+				showGrid1, 1, getSettings().getEuclidian(1));
 	}
 
 	@Override
@@ -157,10 +152,11 @@ public class App3D extends AppD {
 		sb.append(super.getCompleteUserInterfaceXML(asPreference));
 
 		// save euclidianView3D settings
-		euclidianView3D.getXML(sb,asPreference);
-		
+		euclidianView3D.getXML(sb, asPreference);
+
 		// save euclidian views for plane settings
-		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb, asPreference);
+		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb,
+				asPreference);
 
 		return sb.toString();
 	}
@@ -180,8 +176,6 @@ public class App3D extends AppD {
 		return euclidianView3D != null;
 	}
 
-
-
 	@Override
 	public boolean saveGeoGebraFile(File file) {
 		// TODO generate it before
@@ -189,10 +183,6 @@ public class App3D extends AppD {
 
 		return super.saveGeoGebraFile(file);
 	}
-
-
-
-
 
 	// ///////////////////////////////
 	// GUI
@@ -266,7 +256,6 @@ public class App3D extends AppD {
 	 * @see geogebra.main.Application#getCommandSyntax(java.lang.String) check
 	 * if there's a Command.Syntax3D key. If not, return Command.Syntax key
 	 */
-	
 
 	@Override
 	public void addToEuclidianView(GeoElement geo) {
@@ -291,53 +280,43 @@ public class App3D extends AppD {
 	// ///////////////////////////////
 	// FOR TESTING : TODO remove all
 
-
-
-
 	@Override
 	public boolean is3D() {
 		return true;
 	}
-	
-	
-	
-	
+
 	private int oldCursorMode;
 
 	@Override
-	protected void handleShiftEvent(boolean isShiftDown){
-		if (isShiftDown){
-			oldCursorMode=getEuclidianView3D().getCursor();
+	protected void handleShiftEvent(boolean isShiftDown) {
+		if (isShiftDown) {
+			oldCursorMode = getEuclidianView3D().getCursor();
 			getEuclidianView3D().setMoveCursor();
-		}else{
+		} else {
 			getEuclidianView3D().setCursor(oldCursorMode);
 
 		}
 	}
-	
+
 	@Override
 	public String getVersionString() {
 		return super.getVersionString() + "-" + RendererJogl.JOGL_VERSION;
 	}
 
-	
-	
-	
-	
-	
-	
 	@Override
-	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
-		
+	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num,
+			int n, double val, double min, double max, double step) {
+
 		if (!(getActiveEuclidianView() instanceof EuclidianView3D)) {
 			// regular 2D export
 			super.exportAnimatedGIF(gifEncoder, num, n, val, min, max, step);
 			return;
 		}
-		
-		((RendererD) getEuclidianView3D().getRenderer()).startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
+
+		((RendererD) getEuclidianView3D().getRenderer())
+				.startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
 	}
-	
+
 	@Override
 	public void copyGraphicsViewToClipboard() {
 
@@ -348,68 +327,66 @@ public class App3D extends AppD {
 		}
 
 		getEuclidianView3D().getRenderer().exportToClipboard();
-	
+
 	}
 
-	
 	@Override
 	public void fileNew() {
 		super.fileNew();
-		
+
 		((App3DCompanion) companion).removeAllEuclidianViewForPlane();
 	}
-	
+
 	@Override
-	public void createNewWindow(){
+	public void createNewWindow() {
 		GeoGebraFrame3D.createNewWindow3D(null);
 	}
-	
+
 	@Override
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
-		
+
 		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
 				maxY / getEuclidianView1().getSelectedHeight());
-		
+
 		EuclidianView3D ev3D = getEuclidianView3D();
-		
+
 		if (ev3D.isShowing()) {
-			return ((RendererD) getEuclidianView3D().getRenderer()).getExportImage();
+			return ((RendererD) getEuclidianView3D().getRenderer())
+					.getExportImage();
 		}
 
-		return ((EuclidianViewInterfaceDesktop) getActiveEuclidianView()).getExportImage(scale);
+		return ((EuclidianViewInterfaceDesktop) getActiveEuclidianView())
+				.getExportImage(scale);
 	}
-	
+
 	/**
 	 * only for 3D really. Overridden in App3D
 	 */
 	@Override
 	public void uploadToGeoGebraTubeOnCallback() {
-		
+
 		EuclidianView3D ev3D = getEuclidianView3D();
-		
+
 		if (ev3D.isShowing()) {
 			ev3D.getRenderer().uploadToGeoGebraTube();
 		} else {
 			uploadToGeoGebraTube();
 		}
-		
-		
+
 	}
 
-	
 	@Override
 	protected void initFactories() {
 		super.initFactories();
-		
-		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryD();
-		
-	}
 
+		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryD();
+
+	}
 
 	@Override
-	protected AppCompanion newAppCompanion(){
+	protected AppCompanion newAppCompanion() {
 		return new App3DCompanionD(this);
 	}
-	
+
 }

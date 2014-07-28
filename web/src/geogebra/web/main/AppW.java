@@ -121,8 +121,8 @@ public abstract class AppW extends AppWeb {
 	 * Constructors will be called from subclasses
 	 * AppWapplication, AppWapplet, and AppWsimple
 	 */
-	protected AppW(ArticleElement ae) {
-		super();		
+	protected AppW(ArticleElement ae, int dimension) {
+		super(dimension);	
 		this.articleElement = ae;
 		if("smart".equals(ae.getDataParamLAF())){
 			this.laf = new SmartLookAndFeel();

@@ -82,10 +82,10 @@ public abstract class AppWeb extends App implements SetLabels{
 	private String uniqueId = null;// FIXME: generate new UUID: +
 	                               // UUID.randomUUID();
 
-	protected AppWeb(){
+	protected AppWeb(int dimension){
 		super();
 		
-		loc = new LocalizationW();
+		loc = new LocalizationW(dimension);
 		
 		getTimerSystem();
 	}

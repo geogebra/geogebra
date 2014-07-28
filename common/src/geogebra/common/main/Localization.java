@@ -19,9 +19,10 @@ public abstract class Localization {
 	
 	// Giac works to 13 sig digits (for "double" calculations)
 	private int maxFigures = 15;
+	private int dimension = 2;
 
-	public Localization(int maxFigures) {
-		
+	public Localization(int dimension, int maxFigures) {
+		this.dimension  = dimension;
 		this.maxFigures = maxFigures;
 	}
 
@@ -842,20 +843,24 @@ public abstract class Localization {
 			return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji"
 					.equals(lang) || "he".equals(lang) || "ug".equals(lang));
 		}
-		/**
-		 * @return syntaxStr or syntax3D, depending on whether 3d is active
-		 */
-		protected abstract String getSyntaxString();
+
 		/**
 		 * @param key
 		 *            command name
 		 * @return command syntax TODO check whether getSyntaxString works here
 		 */
 		public String getCommandSyntax(String key) {
-
 			String command = getCommand(key);
+			if(dimension == 3){
+					String key3D = key + Localization.syntax3D;
+					String cmdSyntax3D = getCommand(key3D);
+					if (!cmdSyntax3D.equals(key3D)) {
+						cmdSyntax3D = cmdSyntax3D.replace("[", command + '[');
+						return cmdSyntax3D;
+					}
+			}
 
-			String syntaxString = getSyntaxString();
+			String syntaxString = Localization.syntaxStr;
 
 			String syntax = null;
 

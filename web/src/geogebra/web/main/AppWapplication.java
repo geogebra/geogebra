@@ -40,8 +40,8 @@ public class AppWapplication extends AppW {
 	 * @param undoActive
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
-	        boolean undoActive) {
-		super(article);
+	        boolean undoActive, int dimension) {
+		super(article, dimension);
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
 			appFrame.getElement().addClassName("zoomed");
@@ -103,8 +103,8 @@ public class AppWapplication extends AppW {
 	 * @param article
 	 * @param geoGebraAppFrame
 	 */
-	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
-		this(article, geoGebraAppFrame, true);
+	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension) {
+		this(article, geoGebraAppFrame, true, dimension);
 	}
 
 	public GeoGebraAppFrame getAppFrame() {

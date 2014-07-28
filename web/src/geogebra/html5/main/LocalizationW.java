@@ -11,10 +11,10 @@ import java.util.MissingResourceException;
 
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class LocalizationW extends Localization {
+public final class LocalizationW extends Localization {
 
-	public LocalizationW() {
-	    super(13);
+	public LocalizationW(int dimension) {
+	    super(dimension, 13);
     }
 
 	/** eg "en_GB", "es"
@@ -305,11 +305,6 @@ public class LocalizationW extends Localization {
 
 		return key;
 
-	}
-
-	@Override
-	protected String getSyntaxString() {
-		return syntaxStr;
 	}
 	
 	/**

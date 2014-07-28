@@ -37,7 +37,7 @@ public class AppWapplication3D extends AppWapplication {
 	 * @param geoGebraAppFrame
 	 */
 	public AppWapplication3D(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame)  {
-	    super(article, geoGebraAppFrame);
+	    super(article, geoGebraAppFrame, 3);
 	    //Window.alert("AppWapplication3D : I will be threeD :-)");
     }
 	

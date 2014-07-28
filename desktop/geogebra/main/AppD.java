@@ -373,7 +373,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, JFrame frame, boolean undoActive) {
-		this(args, frame, null, null, undoActive, new LocalizationD());
+		this(args, frame, null, null, undoActive, new LocalizationD(2));
 	}
 
 	/*************************************************************
@@ -385,7 +385,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public AppD(CommandLineArguments args, AppletImplementation appletImpl,
 			boolean undoActive) {
-		this(args, null, appletImpl, null, undoActive, new LocalizationD());
+		this(args, null, appletImpl, null, undoActive, new LocalizationD(2));
 	}
 
 	/*************************************************************
@@ -396,7 +396,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, Container comp, boolean undoActive) {
-		this(args, null, null, comp, undoActive, new LocalizationD());
+		this(args, null, null, comp, undoActive, new LocalizationD(2));
 	}
 
 	/*************************************************************

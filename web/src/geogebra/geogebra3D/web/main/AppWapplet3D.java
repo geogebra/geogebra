@@ -25,7 +25,7 @@ public class AppWapplet3D extends AppWapplet{
 	private EuclidianController3DW euclidianController3D;
 
 	public AppWapplet3D(ArticleElement ae, GeoGebraFrame gf) {
-	    super(ae, gf);
+	    super(ae, gf, 3);
     }
 
 	@Override
