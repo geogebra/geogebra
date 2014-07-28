@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -66,7 +67,7 @@ public class AlgoCurvature extends AlgoElement {
 
     @Override
 	public final void compute() {
-    	if (f.isDefined())
+    	if (f.isDefined() && Kernel.isZero(A.getInhomZ()))
     		K.setValue( f.evaluateCurvature(A.getInhomX()) );
     	else     	
     		K.setUndefined();    	
