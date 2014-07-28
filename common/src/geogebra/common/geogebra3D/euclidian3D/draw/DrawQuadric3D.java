@@ -232,7 +232,7 @@ implements Previewable {
 				double min = minmax[0]; 
 				double max = minmax[1];	
 				if (getView3D().useClippingCube()){
-					surface.cone(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, max, false, false);
+					surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min, max, false, false);
 				}else{
 					double delta = (max - min)/10;
 					surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, min + delta, max - delta, false, false);
