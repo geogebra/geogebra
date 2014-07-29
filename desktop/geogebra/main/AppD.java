@@ -751,7 +751,11 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "  --logFile=FILENAME\tset log file\n"
 							+ "  --silent\tCompletely mute logging\n"
 							+ "  --prover=OPTIONS\tSet options for the prover subsystem (use --proverhelp for more information)\n"
-							+ "  --singularWS=OPTIONS\tSet options for SingularWS (use --singularWShelp for more information)\n");
+					/*
+					 * +
+					 * "  --singularWS=OPTIONS\tSet options for SingularWS (use --singularWShelp for more information)\n"
+					 */
+					);
 
 			System.exit(0);
 		}
@@ -772,16 +776,22 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
 							+ ProverSettings.proverMethod
 							+ "] (OpenGeoProver only)\n"
-							+ "      fpnevercoll:BOOLEAN\tassume three free points are never collinear for Prove ["
-							+ ProverSettings.freePointsNeverCollinear
-							+ "] (Botana only, forced to 'yes' when SingularWS is unavailable)\n"
+							/*
+							 * +
+							 * "      fpnevercoll:BOOLEAN\tassume three free points are never collinear for Prove ["
+							 * + ProverSettings.freePointsNeverCollinear +
+							 * "] (Botana only, forced to 'yes' when SingularWS is unavailable)\n"
+							 */
 							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
 							+ ProverSettings.useFixCoordinatesProve
 							+ ProverSettings.useFixCoordinatesProveDetails
 							+ "] (Botana only)\n"
-							+ "      transcext:BOOLEAN\tuse polynomial ring with coeffs from a transcendental extension for Prove ["
-							+ ProverSettings.transcext
-							+ "] (Botana only, needs SingularWS)\n"
+							/*
+							 * +
+							 * "      transcext:BOOLEAN\tuse polynomial ring with coeffs from a transcendental extension for Prove ["
+							 * + ProverSettings.transcext +
+							 * "] (Botana only, needs SingularWS)\n"
+							 */
 							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information in object captions ["
 							+ ProverSettings.captionAlgebra
 							+ "] (Botana only)\n"
