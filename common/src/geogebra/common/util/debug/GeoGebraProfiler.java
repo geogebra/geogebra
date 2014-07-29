@@ -14,8 +14,12 @@ public abstract class GeoGebraProfiler {
 
 	private static GeoGebraProfiler instance = null;
 	
-	public static int repaints, repaintTime, drags, dragTime, hitTime, hits, cascades, cascadeTime;
+	public static int repaints, repaintTime, drags, dragTime;
 	public static int moveEventsIgnored;
+
+	private static int algebra, event, hits, cascades;
+
+	private static long algebraTime, eventTime, hitTime, cascadeTime;
 
 	
 
@@ -77,10 +81,16 @@ public abstract class GeoGebraProfiler {
 				App.debug("Profile Drag: " + realDrags + " x " + (dragTime / realDrags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
 			}
 			if(hits > 0){
-				App.debug("Profile Hits: " + hits + " x " + (hits == 0 ? hitTime : (hitTime / hits)) + " = " + hitTime);
+				App.debug("Profile Hits: " + hits + " x " +  (hitTime / hits) + " = " + hitTime);
 			}
 			if(cascades > 0){
-				App.debug("Profile Cascades: " + cascades + " x " + (cascades == 0 ? cascadeTime : (cascadeTime / cascades)) + " = " + cascadeTime);
+				App.debug("Profile Cascades: " + cascades + " x " + (cascadeTime / cascades) + " = " + cascadeTime);
+			}
+			if(algebra > 0){
+				App.debug("Profile Algebra: " + algebra + " x " + (algebraTime / algebra) + " = " + algebraTime);
+			}
+			if(event > 0){
+				App.debug("Profile EventDispatcher: " + event + " x " + (eventTime / event) + " = " + eventTime);
 			}
 		}
 		
@@ -96,5 +106,15 @@ public abstract class GeoGebraProfiler {
 		cascades++;
 		cascadeTime += l;
 		
+	}
+
+	public static void addAlgebra(long l) {
+		algebra++;
+		algebraTime += l;
+	}
+	
+	public static void addEvent(long l) {
+		event++;
+		eventTime += l;
 	}
 }

@@ -12,6 +12,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.TimerSystemW;
 
@@ -145,6 +146,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * @see EuclidianView#setHighlighted()
 	 */
 	public void update(GeoElement geo) {
+		long start = System.currentTimeMillis();
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
@@ -200,6 +202,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				}
 			}
 		}
+		GeoGebraProfiler.addAlgebra(System.currentTimeMillis()-start);
 	}
 
 	/**

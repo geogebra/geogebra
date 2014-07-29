@@ -4,6 +4,7 @@ import geogebra.common.kernel.ClientView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.GeoGebraProfiler;
 
 import java.util.ArrayList;
 
@@ -109,7 +110,9 @@ public class EventDispatcher implements ClientView {
 	}
 
 	public void update(GeoElement geo) {
+		long start = System.currentTimeMillis();
 		dispatchEvent(EventType.UPDATE, geo);
+		GeoGebraProfiler.addEvent(System.currentTimeMillis() - start);
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
