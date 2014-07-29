@@ -13,7 +13,7 @@ public interface App3DResources extends ClientBundleWithLookup {
 //	ImageResource icon();
 //	
 	
-	@Source("view-graphics3D24.png")
+	@Source("menu_view_graphics3D.png")
 	ImageResource view_graphics3D();
 	
 

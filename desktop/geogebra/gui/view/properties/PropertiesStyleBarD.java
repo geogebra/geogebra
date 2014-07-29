@@ -260,7 +260,7 @@ public class PropertiesStyleBarD extends
 		case EUCLIDIAN2:
 			return app.getImageIcon("view-graphics224.png");
 		case EUCLIDIAN3D:
-			return app.getImageIcon("view-graphics3D24.png");
+			return app.getImageIcon("menu_view_graphics3D.png");
 		case CAS:
 			return app.getImageIcon("view-cas24.png");
 		case ADVANCED:
