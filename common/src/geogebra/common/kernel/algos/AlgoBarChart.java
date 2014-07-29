@@ -97,6 +97,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 	private String[] value; // value string for each bar
 	private double barWidth;
 	private double freqMax;
+	private double dataSize;
+	
+	private String toolTipText;
 
 	// flag to determine if result sum measures area or length
 	private boolean isAreaSum = true;
@@ -123,7 +126,14 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
 
-		sum = new GeoNumeric(cons); // output
+		// output
+		sum = new GeoNumeric(cons){
+			@Override
+			public String getTooltipText(final boolean colored, final boolean alwaysOn) {
+				return toolTipText;
+			}
+		}; 
+		
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setLabel(label);
@@ -305,7 +315,13 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		
 		this.scale = scale;
 
-		sum = new GeoNumeric(cons); // output
+		sum = new GeoNumeric(cons){
+			@Override
+			public String getTooltipText(final boolean colored, final boolean alwaysOn) {
+				return toolTipText;
+			}
+		}; 
+		
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setDrawable(true);
@@ -337,7 +353,15 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		if (p3 != null)
 			p3geo = p3.toGeoElement();
 		this.isCumulative = isCumulative;
-		sum = new GeoNumeric(cons); // output
+		
+		sum = new GeoNumeric(cons){
+			@Override
+			public String getTooltipText(final boolean colored, final boolean alwaysOn) {
+				return toolTipText;
+			}
+		}; 
+		
+		
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setLabel(label);
@@ -831,6 +855,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 
 		// calc area of rectangles
 		sum.setValue(ySum * barWidth);
+		dataSize = ySum;
 
 	}
 
@@ -891,8 +916,16 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 
 		if (barWidth < 0) {
 			if (list1.size() > 1) {
-				double x1 = list1.get(0).evaluateDouble();
-				double x2 = list1.get(1).evaluateDouble();
+				double x1, x2;
+				if (list1.get(1).isGeoNumeric()) {
+					 x1 = list1.get(1).evaluateDouble();
+					 x2 = list1.get(1).evaluateDouble();
+				} else {
+					// use integers 1,2,3 ... for non-numeric data 
+					 x1 = 1;
+					 x2 = 2;
+				}
+				
 				if (!Double.isNaN(x1) && !Double.isNaN(x2)) {
 					barWidth = x2 - x1;
 				} else {
@@ -957,6 +990,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 			// sum = total length
 			sum.setValue(Math.abs(ySum));
 		}
+		dataSize = ySum;
+
 	}
 
 	/**
@@ -1349,5 +1384,19 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 			}
 		}
 		sb.append("\t</tags>\n");
+	}
+
+	public void setToolTipText(int index) {
+		int freq = (int) yval[index];
+		double percent = 100 * freq / dataSize;
+		StringBuilder sb = new StringBuilder();
+		sb.append(loc.getMenu("Value") + " = " + value[index]);
+		sb.append("<br>");
+		sb.append(loc.getMenu("Count") + " = "
+				+ kernel.format(freq, StringTemplate.defaultTemplate));
+		sb.append("<br>");
+		sb.append(kernel.format(percent, StringTemplate.defaultTemplate) + "%");
+
+		toolTipText = sb.toString();
 	}
 }

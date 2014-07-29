@@ -239,6 +239,7 @@ public class DrawBarGraph extends Drawable {
 		if (gp != null){
 			for(int i=0;i<gp.length;i++){
 				if ((gp[i].contains(x, y) || gp[i].intersects(x, y, hitThreshold))){
+						setToolTip(i);
 					return true;
 				}
 			}
@@ -553,6 +554,11 @@ public class DrawBarGraph extends Drawable {
 
 		pts.add(p);
 		drawPoints.add(d);
+	}
+	
+	private void setToolTip(int barIndex){
+		algo.setToolTipText(barIndex);
+		view.setToolTipText(null);
 	}
 
 }
