@@ -678,7 +678,7 @@ public class Coords extends CoordMatrix {
 	 *         and the original point in plane coords
 	 */
 	public Coords[] projectPlane(CoordMatrix m) {
-		Coords inPlaneCoords, globalCoords;
+		
 
 		if (Kernel.isEqual(
 				(m.getVx().crossProduct(m.getVy())).dotproduct(m.getVz()), 0,
@@ -686,18 +686,40 @@ public class Coords extends CoordMatrix {
 			// direction of projection is parallel to the plane : point is
 			// infinite
 			// Application.printStacktrace("infinity");
+			Coords inPlaneCoords, globalCoords;
 			inPlaneCoords = new Coords(new double[] { 0, 0, -1, 0 });
 			globalCoords = m.getVz().copyVector();
-		} else {
-			// m*inPlaneCoords=this
-			inPlaneCoords = m.solve(this);
-
-			// globalCoords=this-inPlaneCoords_z*plane_vz
-			globalCoords = this.add(m.getColumn(3).mul(-inPlaneCoords.get(3)));
+			return new Coords[] { globalCoords, inPlaneCoords };
 		}
+		
+		// direction is not parallel to the plane
+		return projectPlaneNoCheck(m);
+
+
+	}
+
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), no check if direction is parallel to the plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param m
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            plane, and v3 the direction used for projection
+	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
+	 *         and the original point in plane coords
+	 */
+	public Coords[] projectPlaneNoCheck(CoordMatrix m) {
+		Coords inPlaneCoords, globalCoords;
+
+		// m*inPlaneCoords=this
+		inPlaneCoords = m.solve(this);
+
+		// globalCoords=this-inPlaneCoords_z*plane_vz
+		globalCoords = this.add(m.getColumn(3).mul(-inPlaneCoords.get(3)));
 
 		return new Coords[] { globalCoords, inPlaneCoords };
-
 	}
 
 	/**

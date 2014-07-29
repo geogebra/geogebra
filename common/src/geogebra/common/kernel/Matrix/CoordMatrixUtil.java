@@ -45,15 +45,15 @@ public final class CoordMatrixUtil {
 		plane.set(v2, 3);
 		plane.set(o1, 4);
 		// projection of o2 on this plane
-		Coords[] project2 = o2.projectPlane(plane);
+		Coords[] project2 = o2.projectPlaneNoCheck(plane);
 
 		// plane containing o2, v2, vn, with v1 direction
 		plane.set(v2, 1);
-		plane.set(vn, 2);
+		//plane.set(vn, 2);
 		plane.set(v1, 3);
 		plane.set(o2, 4);
 		// projection of o2 on this plane
-		Coords[] project1 = o1.projectPlane(plane);
+		Coords[] project1 = o1.projectPlaneNoCheck(plane);
 
 		// points in lines coords
 		Coords lineCoords = new Coords(new double[] { -project1[1].get(3),
