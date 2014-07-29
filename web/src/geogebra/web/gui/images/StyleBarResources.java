@@ -12,6 +12,9 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_show_or_hide_the_axes.png")
 	ImageResource axes();
 	
+	@Source("icons/png/web/stylingbar/stylingbar_empty.png")
+	ImageResource stylingbar_empty();
+
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_show_or_hide_the_grid.png")
 	ImageResource grid();
 	

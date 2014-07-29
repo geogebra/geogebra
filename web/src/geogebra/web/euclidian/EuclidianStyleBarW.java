@@ -47,14 +47,13 @@ import java.util.HashMap;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianStyleBarW extends StyleBarW
-	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler<Boolean>, ClickHandler,
+	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler<Boolean>, //ClickHandler,
 	PopupMenuHandler{
 
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
@@ -650,7 +649,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnMode = new PopupMenuButton((AppW) ev.getApplication(),
 				modeArray, -1, 1, new GDimensionW(20, iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON);
-		btnMode.addActionListener(this);
+//		btnMode.addActionListener(this);
 		btnMode.setKeepVisible(false);
 		// add(btnMode);
 		
@@ -739,7 +738,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
-		btnLineStyle.addActionListener(this);
+//		btnLineStyle.addActionListener(this);
 		btnLineStyle.addPopupHandler(this);
 
 		// create button
@@ -751,7 +750,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);
-		btnPointStyle.addActionListener(this);
+//		btnPointStyle.addActionListener(this);
 		btnPointStyle.addPopupHandler(this);
 
 		// ========================================
@@ -876,7 +875,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
 		//must be done with callback btnLabelStyle.setIcon(ic);
 		AppResourcesConverter.setIcon(ic, btnLabelStyle);
-		btnLabelStyle.addActionListener(this);
+//		btnLabelStyle.addActionListener(this);
 		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
 
@@ -1004,7 +1003,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 			};
 
-			btnColor.addActionListener(this);
+//			btnColor.addActionListener(this);
 			btnColor.addPopupHandler(this);
 		}
 		
@@ -1065,7 +1064,7 @@ public class EuclidianStyleBarW extends StyleBarW
 				}
 			};
 			btnBgColor.setKeepVisible(true);
-			btnBgColor.addActionListener(this);
+//			btnBgColor.addActionListener(this);
 			btnBgColor.addPopupHandler(this);
 		}
 	
@@ -1117,7 +1116,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		};
 		btnTextColor.addStyleName("btnTextColor");
-		btnTextColor.addActionListener(this);
+//		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
 
@@ -1199,7 +1198,7 @@ public class EuclidianStyleBarW extends StyleBarW
 				}
 			}
 		};
-		btnTextSize.addActionListener(this);
+//		btnTextSize.addActionListener(this);
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
 		btnTextSize.setIcon(GeoGebraIcon.createResourceImageIcon(app, StyleBarResources.INSTANCE.font_size(), 1, null));
@@ -1218,7 +1217,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		
 		btnPointCapture.removeActionListener(this);
 		updateButtonPointCapture(ev.getPointCapturingMode());
-		btnPointCapture.addActionListener(this);
+//		btnPointCapture.addActionListener(this);
 
 		btnMode.removeActionListener(this);
 		switch (mode) {
@@ -1236,7 +1235,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			btnMode.setSelectedIndex(3);
 			break;
 		}
-		btnMode.addActionListener(this);
+//		btnMode.addActionListener(this);
 
 		//btnPen.removeActionListener(this);
 		//btnPen.setSelected(mode == EuclidianConstants.MODE_PEN);
@@ -1256,7 +1255,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		btnShowGrid.removeActionListener(this);
 		btnShowGrid.setSelectedIndex(gridIndex(ev));
-		btnShowGrid.addActionListener(this);
+//		btnShowGrid.addActionListener(this);
 
 		btnStandardView.removeValueChangeHandler();
 		btnStandardView.setSelected(false);
@@ -1457,11 +1456,10 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
 
 
-	public void onClick(ClickEvent event) {
-			Object source = event.getSource();
-
-			handleEventHandlers(source);
-    }
+//	public void onClick(ClickEvent event) {
+//			Object source = event.getSource();
+//			handleEventHandlers(source);
+//    }
 
 	/**
 	 * @param actionButton runs programatically the action performed event.

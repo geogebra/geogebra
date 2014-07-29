@@ -54,7 +54,7 @@ public class GeoGebraIcon extends BasicIcons{
 		(LafIcons.point_right()),
 		(LafIcons.point_left())};
 	private static ImageResource[] gridStyleIcons =  {
-		(LafIcons.axes()),
+		(LafIcons.stylingbar_empty()),
 		(LafIcons.grid()),
 		(LafIcons.polar_grid()),
 		(LafIcons.isometric_grid())};

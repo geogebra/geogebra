@@ -110,7 +110,7 @@ private PopupMenuButton btnRotateView, btnClipping;
 		//btnRotateView.getMySlider().setSnapToTicks(true);
 		btnRotateView.setSliderValue(5);
 		btnRotateView.addPopupHandler(this);
-		btnRotateView.addActionListener(this);
+//		btnRotateView.addActionListener(this);
 		
 		
 		//========================================

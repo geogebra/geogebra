@@ -13,13 +13,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 public class GridPopup extends PopupMenuButton {
 
 	private EuclidianView ev;
+	private ImageOrText defaultIcon;
 
 	public GridPopup(AppW app, ImageOrText[] data, int rows,
             int columns, SelectionTable mode,
             EuclidianView ev) {
 	    super(app, data, rows, columns, new GDimensionW(32,32), mode, true, false);
 	    this.ev = ev;
-	    this.setIcon(data[EuclidianStyleBarW.gridIndex(ev)]);
+	    defaultIcon = data.length > 1 ? data[1] : null;
+	    this.setIcon(data[EuclidianStyleBarW.gridIndex(ev)]);	    
 	    // TODO Auto-generated constructor stub
     }
 	
@@ -37,5 +39,14 @@ public class GridPopup extends PopupMenuButton {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void setIcon(ImageOrText icon) {
+	    if(getSelectedIndex() == 0 && defaultIcon != null){
+	    	super.setIcon(defaultIcon);
+	    } else {
+	    	super.setIcon(icon);
+	    }
 	}
 }

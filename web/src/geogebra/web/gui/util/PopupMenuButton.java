@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
 	private geogebra.common.gui.util.SelectionTable mode;
-	private ImageOrText[] data;	
+	private ImageOrText[] data;
 	protected AppW app;
 	private PopupMenuButton thisButton;
 	private ButtonPopupMenu myPopup;
@@ -149,7 +149,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				
 				onClickAction();
 				
-				if(prepareToShowPopup(event) == false) {
+				if(!prepareToShowPopup(event)) {
 					return;
 				}
 
