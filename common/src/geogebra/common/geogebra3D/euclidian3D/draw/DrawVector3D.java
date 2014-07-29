@@ -47,8 +47,9 @@ public class DrawVector3D extends DrawJoinPoints {
 	
 	@Override
 	protected void updateForView(){
-		if (getView3D().viewChangedByZoom())
+		if (getView3D().viewChangedByZoom()){
 			updateForItSelf();
+		}
 	}
 	
 	

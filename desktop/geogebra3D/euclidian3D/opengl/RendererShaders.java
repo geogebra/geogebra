@@ -100,6 +100,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     private int modelviewLocation, projectionLocation; // matrices
     private int lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
     private int eyePositionLocation; //eye position
+    private int cullingLocation; // culling type
     private int textureTypeLocation; // textures
     private int colorLocation; // color
     private int normalLocation; // one normal for all vertices
@@ -258,6 +259,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         eyePositionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "eyePosition");
         enableLightLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "enableLight");
        
+        cullingLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "culling");
+
         //texture
         textureTypeLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "textureType");
                
@@ -1095,18 +1098,10 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	@Override
 	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
        
-		/*
+		
 		ambiantDiffuse = new float[][] {
 				{ambiant0, diffuse0},
 				{ambiant1, diffuse1}
-		};
-		*/
-		
-		float a0 = (float) (ambiant0 * Math.sqrt(2));
-		float a1 = (float) (ambiant1 * Math.sqrt(2));
-		ambiantDiffuse = new float[][] {
-				{a0, 1f-a0},
-				{a1, 1f-a1}
 		};
         
 	}
@@ -1569,5 +1564,39 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	
 	public void resetCenter(){
 		jogl.getGL2ES2().glUniform4fv(centerLocation, 1, resetCenter, 0);
+	}
+	
+	
+	
+	
+	@Override
+	public void disableCulling(){
+		super.disableCulling();
+		jogl.getGL2ES2().glUniform1i(cullingLocation, 0);
+	}
+	
+	@Override
+	public void setCullFaceFront(){
+		super.setCullFaceFront();
+		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
+	}
+	
+	@Override
+	public void setCullFaceBack(){
+		super.setCullFaceBack();
+		jogl.getGL2ES2().glUniform1i(cullingLocation, 2);
+	}
+	
+	
+	@Override
+	protected void drawTranspNotCurved(){
+		enableCulling();
+		setCullFaceFront();
+		drawable3DLists.drawTransp(this);
+		drawable3DLists.drawTranspClosedNotCurved(this);
+		setCullFaceBack();
+		drawable3DLists.drawTransp(this);
+		drawable3DLists.drawTranspClosedNotCurved(this);
+
 	}
 }

@@ -123,6 +123,7 @@ public class Drawable3DListsForView extends Drawable3DLists{
 		view3D.drawForPicking(renderer);
 		
 		renderer.enableCulling();
+		renderer.setCullFaceBack();
 
 	}
 	

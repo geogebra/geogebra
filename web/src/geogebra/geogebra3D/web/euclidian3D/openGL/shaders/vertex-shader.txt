@@ -6,6 +6,7 @@ uniform vec3	lightPosition;
 uniform vec4	eyePosition;
 uniform vec2	ambiantDiffuse;
 uniform int		enableLight;
+uniform int		culling;
 uniform vec4	color;
 uniform vec3	normal;
 uniform vec4	center;
@@ -63,21 +64,58 @@ void main(void)
 	  }
 	  
 	  float factor = dot(n, lightPosition);
+	  
+	  if (culling == 1){ // front-face culling
+	  	factor = -factor;
+	  }
+	  
+	  if (factor < 0.0){ 
+	  	factor = 0.0;
+	  }
+	  
+	  float ambiant = ambiantDiffuse[0];
+	  float diffuse = ambiantDiffuse[1];
+	  
+	  /*
+	  // specular
+	  
+	  // makes natural specular
 	  vec3 viewDirection;
 	  if (eyePosition[3] < 0.5){ // parallel projection
 	  	viewDirection = vec3(eyePosition);
 	  }else{ // perspective projection
 	  	viewDirection = position - vec3(eyePosition);
 	  }
-	  if (factor * dot(n, viewDirection) >= 0.0){ // check if back faced
-	  	factor = 0.0;
-	  }else if (factor < 0.0){
-	    factor = -factor;
-	  }
+	  vec3 lightReflect = normalize(reflect(lightPosition, n));
+	  float specular = dot(lightReflect, viewDirection);
 	  
-	  float ambiant = ambiantDiffuse[0];
-	  float diffuse = ambiantDiffuse[1];
-	
+	  
+	  // makes specular has if eye was lighting
+	  //float specular = - dot(n, viewDirection);
+	  //if (culling == 1){ // front-face culling
+	  //	specular = -specular;
+	  //}
+	  
+	  
+	  // specular as diffuse
+	  //float specular = factor;
+	  
+	  if (specular > 0.0){
+	  	specular = pow(specular, 32.0);
+	  }else{
+	  	specular = 0.0;
+	  } 
+	  
+	  // specular light from eye
+	  //varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.5 * specular * vec3(1.0, 1.0, 1.0);
+	  //specular natural way
+	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.8 * specular * vec3(1.0, 1.0, 1.0);
+	  
+	  */
+	  
+	  
+	  
+	  // no specular
 	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
 	  varying_Color.a = c.a;
 	  

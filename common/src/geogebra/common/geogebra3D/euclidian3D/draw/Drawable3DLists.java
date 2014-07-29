@@ -513,6 +513,7 @@ public class Drawable3DLists {
 		}		
 
 		renderer.enableCulling();
+		renderer.setCullFaceBack();
 		
 		// lists
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS].iterator(); d.hasNext();){

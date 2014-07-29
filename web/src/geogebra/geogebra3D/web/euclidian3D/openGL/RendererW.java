@@ -57,6 +57,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     private WebGLUniformLocation modelviewLocation, projectionLocation; // matrices
     private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
     private WebGLUniformLocation eyePositionLocation; //eye position
+    private WebGLUniformLocation cullingLocation; // culling
     private WebGLUniformLocation textureTypeLocation; // textures
     private WebGLUniformLocation colorLocation; // color
     private WebGLUniformLocation normalLocation; // one normal for all vertices
@@ -213,6 +214,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         ambiantDiffuseLocation = glContext.getUniformLocation(shaderProgram, "ambiantDiffuse");
         eyePositionLocation = glContext.getUniformLocation(shaderProgram, "eyePosition");
         enableLightLocation = glContext.getUniformLocation(shaderProgram, "enableLight");
+ 
+        cullingLocation = glContext.getUniformLocation(shaderProgram, "culling");
      
         
         //texture
@@ -609,29 +612,32 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	    // TODO Auto-generated method stub
 	    
     }
+	
+
+	private int cullingType = 1;
+	
 
 	@Override
     public void enableCulling() {
 		glContext.enable(WebGLRenderingContext.CULL_FACE);
-	    
     }
 
 	@Override
     public void disableCulling() {
 		glContext.disable(WebGLRenderingContext.CULL_FACE);
-	    
+		glContext.uniform1i(cullingLocation, 0);
     }
 
 	@Override
 	public void setCullFaceFront() {
 		glContext.cullFace(WebGLRenderingContext.FRONT);
-
+		glContext.uniform1i(cullingLocation, 1);
 	}
 
 	@Override
 	public void setCullFaceBack() {
 		glContext.cullFace(WebGLRenderingContext.BACK);
-
+		glContext.uniform1i(cullingLocation, 2);
 	}
 
 	@Override
@@ -803,19 +809,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	@Override
 	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
-       	       
-			/*
+       	       		
 			ambiantDiffuse = new float[][] {
 					{ambiant0, diffuse0},
 					{ambiant1, diffuse1}
-			};
-			*/
-			
-			float a0 = (float) (ambiant0 * Math.sqrt(2));
-			float a1 = (float) (ambiant1 * Math.sqrt(2));
-			ambiantDiffuse = new float[][] {
-					{a0, 1f-a0},
-					{a1, 1f-a1}
 			};
         
 	}
@@ -1628,5 +1625,26 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	public void resetCenter(){
 		glContext.uniform4fv(centerLocation, resetCenter);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	protected void drawTranspNotCurved(){
+		enableCulling();
+		setCullFaceFront();
+		drawable3DLists.drawTransp(this);
+		drawable3DLists.drawTranspClosedNotCurved(this);
+		setCullFaceBack();
+		drawable3DLists.drawTransp(this);
+		drawable3DLists.drawTranspClosedNotCurved(this);
+
 	}
 }

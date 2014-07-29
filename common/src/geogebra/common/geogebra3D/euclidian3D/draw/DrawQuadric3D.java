@@ -359,7 +359,9 @@ implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
-			updateForItSelf();
+			if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
+				updateForItSelf();
+			}
 			break;
 		}
 	}

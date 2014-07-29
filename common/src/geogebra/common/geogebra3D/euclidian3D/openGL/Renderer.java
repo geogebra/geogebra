@@ -298,20 +298,22 @@ public abstract class Renderer {
 	 * enable blending
 	 */
 	abstract public void enableBlending();
+	
+	protected void drawTranspNotCurved(){
+		
+		disableCulling();
+		drawable3DLists.drawTransp(this);
+		drawable3DLists.drawTranspClosedNotCurved(this);
+
+		enableCulling();
+	}
 
 	protected void drawTransp() {
 
 		setLight(1);
 
-		disableCulling();
-		drawable3DLists.drawTransp(this);
-		drawable3DLists.drawTranspClosedNotCurved(this);
-
-		// TODO fix it
-		// getGL().glDisable(GLlocal.GL_TEXTURE_2D);
-		// TODO improve this !
-
-		enableCulling();
+		drawTranspNotCurved();
+		
 		setCullFaceFront();
 		drawable3DLists.drawTranspClosedCurved(this);// draws inside parts
 		if (drawable3DLists.containsClippedSurfaces()) {
@@ -348,12 +350,10 @@ public abstract class Renderer {
 
 		enableBlending();
 
-		disableCulling();
-		drawable3DLists.drawNotTransparentSurfaces(this);
-
 		// TODO improve this !
 		enableCulling();
 		setCullFaceFront();
+		drawable3DLists.drawNotTransparentSurfaces(this);
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);// draws inside
 																// parts
 		if (drawable3DLists.containsClippedSurfaces()) {
@@ -364,6 +364,7 @@ public abstract class Renderer {
 			disableClipPlanesIfNeeded();
 		}
 		setCullFaceBack();
+		drawable3DLists.drawNotTransparentSurfaces(this);
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);// draws outside
 																// parts
 		if (drawable3DLists.containsClippedSurfaces()) {
@@ -572,6 +573,7 @@ public abstract class Renderer {
 		if (enableClipPlanes){
 			disableClipPlanes();
 		}
+		setCullFaceBack();
 		view3D.drawCursor(this);
 		if (enableClipPlanes){
 			enableClipPlanes();
@@ -654,6 +656,7 @@ public abstract class Renderer {
 		// drawing not hidden parts
 		enableDash();
 		enableCulling();
+		setCullFaceBack();
 		drawable3DLists.draw(this);
 
 		
@@ -1159,8 +1162,9 @@ public abstract class Renderer {
 	// LIGHTS
 	// ////////////////////////////////
 
-	static final protected float[] LIGHT_POSITION_W = { 1f, 0f, 1f };
-	static final protected float[] LIGHT_POSITION_D = { 1f, 0f, 1f, 0f };
+	static final private float SQRT2_DIV2 = (float) Math.sqrt(2)/2;
+	static final protected float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f, SQRT2_DIV2 };
+	static final protected float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f, SQRT2_DIV2, 0f };
 
 	protected void setLightPosition() {
 		setLightPosition(getLightPosition());
@@ -1769,6 +1773,7 @@ public abstract class Renderer {
         setDepthFunc();
 		enablePolygonOffsetFill();
         enableCulling();
+        setCullFaceBack();
         
         //blending
         setBlendFunc();

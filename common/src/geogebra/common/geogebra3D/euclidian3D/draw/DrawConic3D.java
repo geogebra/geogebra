@@ -452,7 +452,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 	@Override
 	protected void updateForView(){
-		if (getView3D().viewChanged())
+		if (getView3D().viewChanged()){
 			switch(((GeoConicND) getGeoElement()).getType()){
 			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 			case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -460,7 +460,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			case GeoConicNDConstants.CONIC_LINE:
 			case GeoConicNDConstants.CONIC_PARABOLA:
 			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				updateForItSelf();
+				if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
+					updateForItSelf();
+				}
 				break;
 			case GeoConicNDConstants.CONIC_CIRCLE:
 			case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -473,6 +475,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 					updateForItSelf();
 				break;
 			}
+		}
 		
 	}
 	

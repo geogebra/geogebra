@@ -75,8 +75,9 @@ public class DrawRay3D extends DrawCoordSys1D {
 
 	@Override
 	protected void updateForView(){
-		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate())
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
 			updateForItSelf();
+		}
 	}
 	
 

@@ -827,9 +827,9 @@ public class PlotterSurface {
 		
     	float dt = (float) 1/longitude;
     	float da = (float) (extent *dt) ; 
-    	if (height > 0){ // ensure correct back/front face culling
-    		da *= -1;
-    	}
+    	//if (height > 0){ // ensure correct back/front face culling
+    	//	da *= -1;
+    	//}
     	
     	
     	if (fading == 1){ // no fading
@@ -891,7 +891,19 @@ public class PlotterSurface {
     	double r1 = radius * min;
     	double r2 = radius * max;
     	
-    	Coords vzR = vz.mul(radius); 
+    	
+    	// ensure radius are positive and normals go outside
+    	int sgn = 1;
+    	if (max > 0){
+    		sgn = -1;
+    	}else{
+    		r1 *= -1;
+    		r2 *= -1;
+    	}  	
+
+    	Coords vzR = vz.mul(radius * sgn); 
+    	
+    	
     	
     	boolean fading = minFading || maxFading;
     	if (!fading){
