@@ -712,7 +712,7 @@ public class PlotterSurface {
 	public void parallelogram(Coords center, Coords v1, Coords v2, double l1, double l2){
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
-		manager.texture(0, 0);
+		manager.setDummyTexture();
 		manager.normal(v1.crossProduct(v2));
 
 		Coords c2 = center.add(v1.mul(l1));
@@ -720,12 +720,9 @@ public class PlotterSurface {
 		Coords c4 = center.add(v2.mul(l2));
 		
 		manager.vertex(center);  
-		//manager.texture(1, 0);//TODO ?
-		manager.vertex(c3);  
-		//manager.texture(0, 1);
 		manager.vertex(c2);  
-		//manager.texture(1, 1);
 		manager.vertex(c4);      	           	
+		manager.vertex(c3);  
 
 		manager.endGeometry();
 	}
