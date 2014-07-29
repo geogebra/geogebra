@@ -47,6 +47,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -1480,7 +1481,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	public void update(GeoElement geo) {
-		if(this.getEuclidianViewNo() == 1){
+		if(this.getEuclidianViewNo() == 1 && (!geo.isGeoText() || !((GeoText)geo).isNeedsUpdatedBoundingBox())){
 			geo.setNeedsEVUpdate(true);
 			return;
 		}
