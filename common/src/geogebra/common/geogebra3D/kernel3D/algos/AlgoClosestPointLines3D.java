@@ -34,7 +34,7 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
         super(c);
         this.g3D = g3D;
         this.h3D = h3D;
-        helpAlgo = new AlgoDistanceLines3D(c,null,g3D,h3D);
+        helpAlgo = new AlgoDistanceLines3D(c, g3D, h3D);
         helpAlgo.setPrintedInXML(false);
         geoPointOnG = new GeoPoint3D(c);
         setInputOutput(); // for AlgoElement
@@ -54,8 +54,8 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = (GeoElement)h3D;
-        input[1] = (GeoElement)g3D;
+        input[0] = (GeoElement)g3D;
+        input[1] = (GeoElement)h3D;
 
         super.setOutputLength(1);
         super.setOutput(0, (GeoElement3D)geoPointOnG);

@@ -26,13 +26,17 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 public class AlgoDistanceLines3D extends AlgoElement3D {
 
 	private GeoLineND g3D, h3D;
-	private String label;
 	private Coords pointOnG, pointOnH;
 	
 	private GeoNumeric dist;
 
     public AlgoDistanceLines3D(Construction c,
     		String label, GeoLineND g3D, GeoLineND h3D) {
+        this(c, g3D, h3D);
+        dist.setLabel(label);
+    }
+    
+    public AlgoDistanceLines3D(Construction c, GeoLineND g3D, GeoLineND h3D) {
         super(c);
         this.g3D = g3D;
         this.h3D = h3D;
@@ -44,7 +48,6 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
 
         // compute length
         compute();
-        dist.setLabel(label);
     }
     
 
