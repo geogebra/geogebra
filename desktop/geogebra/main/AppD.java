@@ -4999,4 +4999,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
+	@Override
+	public void set1rstMode() {
+		// TODO Auto-generated method stub
+		App.debug("set1rstmode");
+	}
+
 }

@@ -2065,7 +2065,12 @@ public abstract class App implements UpdateSelection{
 	public void setMoveMode() {
 		setMode(EuclidianConstants.MODE_MOVE);
 	}
-
+	
+	/**
+	 * Changes current mode to mode of the toolbar's 1rst tool.
+	 */
+	public abstract void set1rstMode();
+	
 	/**
 	 * @return spreadsheet table model
 	 */

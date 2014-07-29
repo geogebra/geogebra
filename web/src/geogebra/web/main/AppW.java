@@ -3,6 +3,7 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -44,6 +45,7 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
@@ -1114,7 +1116,7 @@ public abstract class AppW extends AppWeb {
 			getGuiManager().updateToolbar();
 		}
 
-		setMoveMode();
+		set1rstMode();
 	}
 
 	@Override
@@ -1521,7 +1523,7 @@ public abstract class AppW extends AppWeb {
 		}
 
 		// reset mode and focus
-		setMoveMode();
+		set1rstMode();
 
 		if (euclidianView.isShowing()) {
 			requestFocusInWindow();
@@ -1760,5 +1762,19 @@ public abstract class AppW extends AppWeb {
 		if(updateToolBar != null){
 			updateToolBar.buildGui();
 		}
+	}
+	
+	public void set1rstMode(){
+		setMode(EuclidianConstants.MODE_RAY);
+		if (getToolbar() == null) return;
+		if (((GGWToolBar)getToolbar()).getToolBar() == null) return;
+
+		int firstMode = ((GGWToolBar)getToolbar()).
+				getToolBar().
+				getFirstMode();
+		
+		setMode(((GGWToolBar)getToolbar()).
+				getToolBar().
+				getFirstMode());
 	}
 }
