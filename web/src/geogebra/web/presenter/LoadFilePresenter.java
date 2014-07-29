@@ -66,9 +66,10 @@ public class LoadFilePresenter{
 
 			// code moved here from AppWapplication.afterCoreObjectsInited - start
 			String perspective = view.getDataParamPerspective();
-			app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
-					PerspectiveDecoder.decode(perspective, app.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true, true)));
-
+			if(app.getGuiManager()!=null){
+				app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
+						PerspectiveDecoder.decode(perspective, app.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true, true)));
+			}
 			if (app instanceof AppW) {
 				// default layout doesn't have a Graphics View 2
 				((AppW)app).getEuclidianViewpanel().deferredOnResize();

@@ -102,7 +102,9 @@ public class AppWsimple extends AppW {
 
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
-		frame.splash.canNowHide();
+		if(frame.splash != null){
+			frame.splash.canNowHide();
+		}
 		if (!articleElement.preventFocus()) {
 			requestFocusInWindow();
 		}
