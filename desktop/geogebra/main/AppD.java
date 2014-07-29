@@ -750,8 +750,8 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
 							+ "  --logFile=FILENAME\tset log file\n"
 							+ "  --silent\tCompletely mute logging\n"
-							+ "  --prover=OPTIONS\tset options for the prover subsystem (use --proverhelp for more information)\n"
-							+ "  --singularWS=OPTIOMS\tset options for SingularWS (use --singularWShelp for more information)\n");
+							+ "  --prover=OPTIONS\tSet options for the prover subsystem (use --proverhelp for more information)\n"
+							+ "  --singularWS=OPTIONS\tSet options for SingularWS (use --singularWShelp for more information)\n");
 
 			System.exit(0);
 		}
