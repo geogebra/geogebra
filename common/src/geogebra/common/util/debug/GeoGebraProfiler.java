@@ -76,8 +76,8 @@ public abstract class GeoGebraProfiler {
 			if(realDrags > 0){
 				App.debug("   Drag: " + realDrags + " x " + (dragTime / realDrags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
 			}
-			App.debug("Hits: " + hits + " x " + (hitTime / hits) + " = " + hitTime);
-			App.debug("Cascades: " + cascades + " x " + (cascadeTime / cascades) + " = " + cascadeTime);
+			App.debug("Hits: " + hits + " x " + (hits == 0 ? hitTime : (hitTime / hits)) + " = " + hitTime);
+			App.debug("Cascades: " + cascades + " x " + (cascades == 0 ? cascadeTime : (cascadeTime / cascades)) + " = " + cascadeTime);
 			StringBuilder sb = new StringBuilder("  Views: ");
 			
 			App.debug(sb.toString());

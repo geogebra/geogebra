@@ -440,6 +440,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_VECTOR_NO_GRID = 122;
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 	protected static final int MOVE_FREEHAND = 124;
+	protected static final int MOVE_ATTACH_DETACH = 125;
 
 	private static final int ZOOM_RECT_THRESHOLD = 30;
 	private static final int DRAG_THRESHOLD = 10;
@@ -3561,11 +3562,61 @@ public abstract class EuclidianController {
 		stopCollectingMinorRepaints();
 	}
 
-
-	
-	
-
 	final protected boolean attachDetach(Hits hits) {
+		if(detachFrom != null || needsAttach) {
+			hits.remove(movedGeoPoint);
+
+			// replace point with point it was dragged to
+			if (hits.containsGeoPoint()
+			        && ((GeoElement) movedGeoPoint).hasChildren()) {
+				try {
+					this.kernel.getConstruction().replace(
+					        (GeoElement) movedGeoPoint,
+					        hits.getFirstHit(Test.GEOPOINTND));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			} else {
+				// if the GeoPoint is moved from one element to the other it is
+				// first detached (which deletes the information about the
+				// target) and then attached. Therefore the target has to be
+				// stored beforehand
+				String attachTo = movedGeoPoint.isPointOnPath() ? movedGeoPoint
+				        .getPath().getLabel(StringTemplate.defaultTemplate)
+				        : "";
+
+				// deatch
+				if (movedGeoPoint != null && detachFrom != null
+				        && !hits.contains(detachFrom)) {
+					String name = movedGeoPoint
+					        .getLabel(StringTemplate.defaultTemplate);
+					this.app.getKernel()
+					        .getAlgoDispatcher()
+					        .detach(movedGeoPoint,
+					                view.toRealWorldCoordX(mouseLoc.x),
+					                view.toRealWorldCoordY(mouseLoc.y));
+					movedGeoPoint = (GeoPointND) this.kernel.getConstruction()
+					        .geoTableVarLookup(name);
+				}
+
+				// attch
+				if (movedGeoPoint != null && needsAttach) {
+					if (!attachTo.equals("")) {
+						Path path = (Path) this.kernel.getConstruction()
+						        .geoTableVarLookup(attachTo);
+						this.kernel.getAlgoDispatcher().attach(movedGeoPoint,
+						        path, view,
+						        new GPoint(mouseLoc.x, mouseLoc.y));
+					}
+				}
+			}
+
+			needsAttach = false;
+			detachFrom = null;
+			return true;
+		}
+
 		if (hits.isEmpty()) {
 			return false;
 		}
@@ -5249,20 +5300,6 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_ATTACH_DETACH:
 			changedKernel = attachDetach(hits.getTopHits());
-			if(!changedKernel && hits.size() >= 2 && selPoints() == 1){
-				Hits h = hits.clone();
-				h.removeAllPoints();
-				for(int i = h.size() - 1; i >= 0; i--){
-					if(h.get(i).isChildOf((GeoElement) selectedPoints.get(0))){
-						h.remove(i);
-					}
-				}
-				// removes all polygons, if there is any other GeoObject left
-				h.removePolygons();
-				
-				changedKernel = attachDetach(h);
-			}
-			
 			break;
 	
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -7315,7 +7352,11 @@ public abstract class EuclidianController {
 		case MOVE_POINT_WITH_OFFSET:
 			movePointWithOffset(repaint);
 			break;
-	
+
+		case MOVE_ATTACH_DETACH:
+			moveAttachDetach(repaint, event);
+			break;
+
 		case MOVE_LINE:
 			moveLine(repaint);
 			break;
@@ -8260,7 +8301,9 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_ATTACH_DETACH:
 			GeoPoint p = (GeoPoint)this.view.getHits().getFirstHit(Test.GEOPOINT);
 			if(p != null && p.isMoveable()){
+				// set movedGeoPoint etc.
 				handleMovedElement(p, false, PointerEventType.MOUSE);
+				this.moveMode = MOVE_ATTACH_DETACH;
 			}
 			break;
 
@@ -9646,6 +9689,76 @@ public abstract class EuclidianController {
 
 	public final PointerEventType getDefaultEventType() {
 		return this.defaultEventType;
+	}
+
+	/**
+	 * factor by which hit-threshold is increased while dragging for 
+	 * attachDetach (while the point is attached to a Path or Region)
+	 */
+	private static final int INCREASED_THRESHOLD_FACTOR = 3;
+	protected Object detachFrom;
+	private boolean needsAttach = false;
+
+	private void moveAttachDetach(boolean repaint, AbstractEvent event) {
+		if (movedGeoPoint.isPointOnPath() || movedGeoPoint.isPointInRegion()) {
+			int th = app.getCapturingThreshold(PointerEventType.MOUSE);
+			app.setCapturingThreshold(INCREASED_THRESHOLD_FACTOR * th);
+			this.view.setHits(new GPoint(event.getX(), event.getY()),
+			        event.getType());
+			app.setCapturingThreshold(th);
+		} else {
+			this.view.setHits(new GPoint(event.getX(), event.getY()),
+			        event.getType());
+		}
+		// clone because that way view.getHits still contains Polygons
+		Hits hits = view.getHits().clone();
+		hits.removePolygons();
+
+		// use view.getHits for Region, because it still contains Polygons
+		if (movedGeoPoint.isPointOnPath()
+		        && !hits.contains(movedGeoPoint.getPath())) {
+			needsAttach = false;
+			if (detachFrom == null) {
+				detachFrom = movedGeoPoint.getPath();
+			}
+			this.addToSelectionList(selectedPaths, movedGeoPoint.getPath(), 1);
+			((GeoPoint) movedGeoPoint).removePath();
+			movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
+			        view.toRealWorldCoordY(event.getY()), 1);
+		} else if (movedGeoPoint.isPointInRegion()
+		        && !view.getHits().contains(movedGeoPoint.getRegion())) {
+			// moved away from the Path/Region the point is attached to ->
+			// detach
+			needsAttach = false;
+			if (detachFrom == null) {
+				detachFrom = movedGeoPoint.getRegion();
+			}
+			this.addToSelectionList(selectedRegions, movedGeoPoint.getRegion(), 1);
+			((GeoPoint) movedGeoPoint).setRegion(null);
+			movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
+			        view.toRealWorldCoordY(event.getY()), 1);
+		} else {
+			for (int i = hits.size() - 1; i >= 0; i--) {
+				if (hits.get(i).isChildOf((GeoElement) movedGeoPoint)) {
+					hits.remove(i);
+				}
+			}
+
+			addSelectedPath(hits, 1, false);
+			if (selectedPaths.size() > 0) {
+				// moved point to a Path -> attach
+				needsAttach = true;
+				movedGeoPoint.setPath(selectedPaths.get(0));
+				movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
+				        view.toRealWorldCoordY(event.getY()), 1);
+			} else {
+				// move point
+				companion.movePoint(repaint, event);
+				// already includes updateCascade
+				return;
+			}
+		}
+		((GeoElement) movedGeoPoint).updateCascade();
 	}
 	
 	/**
