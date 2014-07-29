@@ -2,6 +2,8 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -25,8 +27,8 @@ public class CmdIntersectConic extends CommandProcessor {
 			arg = resArgs(c);
 
 			// between 2 quadrics
-			if ((ok[0] = (arg[0] instanceof GeoQuadricND))
-					&& (ok[1] = (arg[1] instanceof GeoQuadricND))) {
+			if ((ok[0] = (arg[0] instanceof GeoQuadric3D || arg[0] instanceof GeoQuadric3DLimited))
+					&& (ok[1] = (arg[1] instanceof GeoQuadric3D || arg[1] instanceof GeoQuadric3DLimited))) {
 				GeoElement[] ret =
 						kernelA.getManager3D().IntersectAsCircle(
 								c.getLabels(),

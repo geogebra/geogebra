@@ -244,8 +244,8 @@ public  GeoElement[] process(Command c) throws MyError {
 
 
            		// between 2 quadrics
-           		if ((ok[0] = (arg[0] instanceof GeoQuadricND))
-           				&& (ok[1] = (arg[1] instanceof GeoQuadricND))) {
+    			if ((ok[0] = (arg[0] instanceof GeoQuadric3D || arg[0] instanceof GeoQuadric3DLimited))
+    					&& (ok[1] = (arg[1] instanceof GeoQuadric3D || arg[1] instanceof GeoQuadric3DLimited))) {
            			GeoElement[] ret =
            					kernelA.getManager3D().IntersectAsCircle(
            							c.getLabels(),
