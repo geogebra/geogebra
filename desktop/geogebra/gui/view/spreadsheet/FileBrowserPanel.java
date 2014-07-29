@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
 import geogebra.gui.dialog.InputDialogD;
+import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
 
@@ -243,7 +244,12 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 					app.getImageIcon("document-open.png"));
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JFileChooser fc = new JFileChooser();
+					
+					GeoGebraFileChooser fc = new GeoGebraFileChooser(
+							((AppD) app), null);
+	
+					//JFileChooser fc = new JFileChooser();
+					//fc.setCurrentDirectory(null);
 					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					int returnVal = fc.showOpenDialog(browserPanel);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {

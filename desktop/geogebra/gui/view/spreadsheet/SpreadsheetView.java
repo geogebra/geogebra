@@ -1111,9 +1111,9 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 			if (settings().initialBrowserMode() < 0)
 				settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE);
 			if (settings().defaultFile() == null)
-				settings().setDefaultFile(System.getProperty("user.dir"));
+				settings().setDefaultFile(System.getProperty("user.home"));
 			if (settings().initialFilePath() == null)
-				settings().setInitialFilePath(System.getProperty("user.dir"));
+				settings().setInitialFilePath(System.getProperty("user.home"));
 			if (settings().initialURL() == null)
 				settings().setInitialURL(DEFAULT_URL);
 			settings().addListener(this);
