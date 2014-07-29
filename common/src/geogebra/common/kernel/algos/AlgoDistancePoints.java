@@ -38,18 +38,25 @@ public class AlgoDistancePoints extends AlgoElement implements DistanceAlgo {
     private GeoNumeric dist; // output       
 
     public AlgoDistancePoints(
+            Construction cons,
+            GeoPointND P,
+            GeoPointND Q) {
+            super(cons);
+            this.P = P;
+            this.Q = Q;
+            dist = new GeoNumeric(cons);
+            setInputOutput(); // for AlgoElement
+
+            // compute length
+            compute();
+        }
+    
+    public AlgoDistancePoints(
         Construction cons,
         String label,
         GeoPointND P,
         GeoPointND Q) {
-        super(cons);
-        this.P = P;
-        this.Q = Q;
-        dist = new GeoNumeric(cons);
-        setInputOutput(); // for AlgoElement
-
-        // compute length
-        compute();
+        this(cons, P, Q);
         dist.setLabel(label);
     }
 

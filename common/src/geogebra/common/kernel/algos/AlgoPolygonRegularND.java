@@ -248,7 +248,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 	 * 
 	 * @return resulting polygon
 	 */
-	protected GeoPolygon getPoly() {
+	public final GeoPolygon getPoly() {
 		return outputPolygon.getElement(0);
 	}
 
