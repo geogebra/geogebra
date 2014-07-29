@@ -753,7 +753,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			int index = rd.getGeo().getConstructionIndex();
 			if (useColors)
 				comp.setForeground(geogebra.awt.GColorD.getAwtColor(rd.getGeo()
-						.getObjectColor()));
+						.getAlgebraColor()));
 			else
 				comp.setForeground(Color.black);
 
@@ -918,7 +918,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			try {
 				if (useColors)
 					return geogebra.awt.GColorD.getAwtColor(rowList.get(nRow)
-							.getGeo().getObjectColor());
+							.getGeo().getAlgebraColor());
 				return Color.black;
 			} catch (Exception e) {
 				return Color.black;
