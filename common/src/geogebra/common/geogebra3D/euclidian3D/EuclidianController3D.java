@@ -2192,7 +2192,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					ret[i] = (GeoElement) points[i];
 
 				return ret;
-			} else if (selQuadric() >= 1) { // line-quadric3D
+			} else if (selQuadric() == 1) { // line-quadric3D
 				GeoLineND line = getSelectedLinesND()[0];
 				GeoQuadric3D quadric = getSelectedQuadric()[0];
 				GeoElement[] ret = new GeoElement[2];
@@ -2202,19 +2202,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 				for (int i = 0; i < 2; i++)
 					ret[i] = (GeoElement) points[i];
 				return ret;
-			} else if (selCS2D() >= 1) {// line-CS2D
-				GeoLineND line = getSelectedLinesND()[0];
-				GeoCoordSys2D cs2Ds = getSelectedCS2D()[0];
-
-				if (cs2Ds instanceof GeoPolygon) {
-					return getKernel().getManager3D().IntersectionPoint(
-							new String[] { null }, line, (GeoPolygon) cs2Ds);
-				} else {
-					GeoElement[] ret = new GeoElement[1];
-					ret[0] = getKernel().getManager3D().Intersect(null,
-							(GeoElement) line, (GeoElement) cs2Ds);
-					return ret;
-				}
+			} else if (selPolygons() == 1) {// line-polygon
+				return getKernel().getManager3D().IntersectionPoint(
+						new String[] { null },  getSelectedLinesND()[0],  getSelectedPolygons()[0]);
+				
+			} else if (selPlanes() == 1) {// line-plane				
+				GeoElement[] ret = new GeoElement[1];
+				ret[0] = getKernel().getManager3D().Intersect(null,
+						(GeoElement) getSelectedLinesND()[0],  getSelectedPlanes()[0]);
+				return ret;
 			}
 		} else if (selConics() >= 2) {// conic-conic
 			GeoConicND[] conics = getSelectedConicsND();
@@ -2226,7 +2222,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				ret[i] = (GeoElement) points[i];
 			}
 			return ret;
-		} else if (selConics() >= 1 && selPlanes() >= 1) { 
+		} else if (selConics() >= 1 && selPlanes() == 1) { 
 
 			GeoPlane3D plane = getSelectedPlanes()[0];
 			GeoConicND conic = getSelectedConicsND()[0];
@@ -2240,7 +2236,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				ret[i] = (GeoElement) points[i];
 
 			return ret;
-		} else if (selPolygons() >= 1 && selPlanes() >= 1) { // plane-polygon
+		} else if (selPolygons() == 1 && selPlanes() == 1) { // plane-polygon
 			return getKernel().getManager3D().IntersectionPoint(null,
 						getSelectedPlanes()[0], getSelectedPolygons()[0]);
 		}
