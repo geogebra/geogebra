@@ -882,6 +882,7 @@ __GGB__keysVar.de.command = {
     "Spline_Syntax": "[ <Liste von Punkten> ]\n[ <Liste von Punkten>, <Grad \u2265 3> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation_Syntax": "[ ]\n[ <Wahrheitswert> ]\n[ <Schieberegler oder Punkt>, <Schieberegler oder Punkt>, ... ]\n[ <Schieberegler oder Punkt>, <Schieberegler oder Punkt>, ..., <Wahrheitswert> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StammBlattDiagramm",
     "StemPlot_Syntax": "[ <Liste> ]\n[ <Liste>, <Anordnung -1|0|1> ]",

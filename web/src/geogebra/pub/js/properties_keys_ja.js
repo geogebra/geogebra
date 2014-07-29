@@ -882,6 +882,7 @@ __GGB__keysVar.ja.command = {
     "Spline_Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]\n[ <\u70b9\u306e\u30ea\u30b9\u30c8>, <\u6b21\u6570 \u2265 3> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation_Syntax": "[ ]\n[ <\u771f\u507d\u5024> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <\u771f\u507d\u5024> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StemPlot",
     "StemPlot_Syntax": "[ <\u30ea\u30b9\u30c8> ]\n[ <\u30ea\u30b9\u30c8>, <Adjustment -1|0|1> ]",

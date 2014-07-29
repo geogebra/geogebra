@@ -882,6 +882,7 @@ __GGB__keysVar.no_NN.command = {
     "Spline_Syntax": "[ <Liste med punkt> ]\n[ <Liste med punkt>, <Orden \u2265 3> ]",
     "StartAnimation": "StartAnimasjon",
     "StartAnimation_Syntax": "[ ]\n[ <Boolsk> ]\n[ <Glidar eller punkt>, <Glidar eller punkt>, ... ]\n[ <Glidar eller punkt>, <Glidar eller punkt>, ..., <Boolsk> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StilkOgBladPlott",
     "StemPlot_Syntax": "[ <Liste> ]\n[ <Liste>, <Justering -1|0|1> ]",

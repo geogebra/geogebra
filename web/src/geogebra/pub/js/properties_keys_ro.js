@@ -882,6 +882,7 @@ __GGB__keysVar.ro.command = {
     "Spline_Syntax": "[ <List\u0103 de puncte> ]\n[ <List\u0103>, <Ordinul \u2265 3> ]",
     "StartAnimation": "\xcencepeAnima\u0163ie",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Cursor sau punct>, <Cursor sau punct>, ... ]\n[ <Cursor sau punct>, <Cursor sau punct>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "Diagram\u0103Stem",
     "StemPlot_Syntax": "[ <List\u0103> ]\n[ <List\u0103>, <Ajustare -1|0|1> ]",

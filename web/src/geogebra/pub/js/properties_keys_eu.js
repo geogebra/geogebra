@@ -882,6 +882,7 @@ __GGB__keysVar.eu.command = {
     "Spline_Syntax": "[ <Puntuen Zerrenda> ]\n[ <Puntuen Zerrenda>, <Maila \u2265 3> ]",
     "StartAnimation": "HasiAnimazioa",
     "StartAnimation_Syntax": "[ ]\n[ <Boolearra> ]\n[ <Irristailua edo Puntua>, <Irristailua edo Puntua>, ... ]\n[ <Irristailua edo Puntua>, <Irristailua edo Puntua>, ..., <Boolearra> ]",
+    "StartLogging": "HasiSaioa",
     "StartLogging_Syntax": "[ \"<Sentsorea>\", <Aldagaia>, \"<Sentsorea>\", <Aldagaia>, ... ]",
     "StemPlot": "ZurtoinHostoDiagrama",
     "StemPlot_Syntax": "[ <Zerrenda> ]\n[ <Zerrenda>, <Doitzea -1|0|1> ]",

@@ -882,6 +882,7 @@ __GGB__keysVar.ca.command = {
     "Spline_Syntax": "[ <Llista de Punts> ]\n[ <Llist de Punts>, <Ordre \u2265 3> ]",
     "StartAnimation": "IniciaAnimaci\xf3",
     "StartAnimation_Syntax": "[ ]\n[ <Boole\xe0> ]\n[ <Punt lliscant o Punt>, <Punt lliscant o Punt>, ... ]\n[ <Punt lliscant o Punt>, <Punt lliscant o Punt>, ..., <Boole\xe0> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "DiagramaDeTijaIFulles",
     "StemPlot_Syntax": "[ <Llista> ]\n[ <Llista>, <Ajusta unitat de la tija -1|0|1> ]",

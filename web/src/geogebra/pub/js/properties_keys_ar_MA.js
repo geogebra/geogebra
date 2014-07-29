@@ -882,6 +882,7 @@ __GGB__keysVar.ar_MA.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "\u0627\u0628\u062f\u0623_\u0627\u0644\u062a\u062d\u0631\u064a\u0643\u0629",
     "StartAnimation_Syntax": "[ ]\n[ <\u0645\u0646\u0637\u0642\u064a> ]\n[ <\u0645\u0646\u0632\u0644\u0642\u0629 \u0623\u0648 \u0646\u0642\u0637\u0629>, <\u0645\u0646\u0632\u0644\u0642\u0629 \u0623\u0648 \u0646\u0642\u0637\u0629>, ... ]\n[ <\u0645\u0646\u0632\u0644\u0642\u0629 \u0623\u0648 \u0646\u0642\u0637\u0629>, <\u0645\u0646\u0632\u0644\u0642\u0629 \u0623\u0648 \u0646\u0642\u0637\u0629>, ..., <\u0645\u0646\u0637\u0642\u064a> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "\u062a\u062e\u0637\u064a\u0637_\u062c\u0630\u0639\u064a",
     "StemPlot_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629> ]\n[ <\u0642\u0627\u0626\u0645\u0629>, <\u062a\u0639\u062f\u064a\u0644 -1|0|1> ]",

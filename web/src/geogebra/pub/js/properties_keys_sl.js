@@ -882,6 +882,7 @@ __GGB__keysVar.sl.command = {
     "Spline_Syntax": "[ <seznam to\u010dk> ]\n[ <seznam to\u010dk>, <red \u2265 3> ]",
     "StartAnimation": "Za\u010dniAnimacijo",
     "StartAnimation_Syntax": "[ ]\n[ <logi\u010dna vrednost> ]\n[ <drsnik ali to\u010dka>, <drsnik ali to\u010dka>, ... ]\n[ <drsnik ali to\u010dka>, <drsnik ali to\u010dka>, ..., <logi\u010dna vrednost> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "DrevesniDiagram",
     "StemPlot_Syntax": "[ <seznam> ]\n[ <seznam>, <poravnava -1|0|1> ]",

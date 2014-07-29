@@ -882,6 +882,7 @@ __GGB__keysVar.ar_TN.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "\u0628\u062f\u0627\u064a\u0629_\u062a\u0646\u0634\u064a\u0637",
     "StartAnimation_Syntax": "[ ]\n[ <\u0645\u0646\u0637\u0642\u064a> ]\n[ <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629>, ... ]\n[ <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629>, ..., <\u0645\u0646\u0637\u0642\u064a> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "\u0648\u0631\u0642\u0629",
     "StemPlot_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629> ]\n[ <\u0642\u0627\u0626\u0645\u0629>, <\u0627\u0644\u062f\u0642\u0629 -1|0|1> ]",

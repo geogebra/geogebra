@@ -882,6 +882,7 @@ __GGB__keysVar.vi.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "BatDauChuyenDong",
     "StartAnimation_Syntax": "[ ]\n[ <Bi\u1ebfn Boolean> ]\n[ <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, ... ]\n[ <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, <Thanh tr\u01b0\u1ee3t ho\u1eb7c \u0111i\u1ec3m>, ..., <Bi\u1ebfn Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "DoThiCanhLa",
     "StemPlot_Syntax": "[ <danh s\xe1ch> ]\n[ <danh s\xe1ch>, <\u0111i\u1ec1u ch\u1ec9nh -1|0|1> ]",

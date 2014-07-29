@@ -882,6 +882,7 @@ __GGB__keysVar.fi.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "AloitaAnimaatio",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Liuku tai piste>, <Liuku tai piste>, ... ]\n[ <Liuku tai piste>, <Liuku tai piste>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "Lehtiruotikuvio",
     "StemPlot_Syntax": "[ <Lista> ]\n[ <Lista>, <Sovitus -1|0|1> ]",

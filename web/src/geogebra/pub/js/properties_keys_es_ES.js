@@ -882,6 +882,7 @@ __GGB__keysVar.es_ES.command = {
     "Spline_Syntax": "[ <Lista de puntos> ]\n[ <Lista de puntos>, <Orden (mayor o igual que 3)> ]",
     "StartAnimation": "IniciaAnimaci\xf3n",
     "StartAnimation_Syntax": "[ ]\n[ <Animado o no (true/false)> ]\n[ <Deslizador o punto>, <Deslizador o punto>, ... ]\n[ <Deslizador o punto>, <Deslizador o punto>, ..., <Animados o no (true/false)> ]",
+    "StartLogging": "IniciaRegistro",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ... ]",
     "StemPlot": "DiagramaTalloHojas",
     "StemPlot_Syntax": "[ <Lista> ]\n[ <Lista>, <Ajuste (-1, 0 \xf3 1)> ]",

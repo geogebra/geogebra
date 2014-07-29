@@ -882,6 +882,7 @@ __GGB__keysVar.nl.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "StartAnimatie",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StengelBladDiagram",
     "StemPlot_Syntax": "[ <Lijst> ]\n[ <Lijst>, <Adjustment -1|0|1> ]",

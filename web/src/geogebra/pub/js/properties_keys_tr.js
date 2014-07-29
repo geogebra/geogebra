@@ -882,6 +882,7 @@ __GGB__keysVar.tr.command = {
     "Spline_Syntax": "[ <Nokta Listesi> ]\n[ <Nokta Listesi>, <Derece \u2265 3> ]",
     "StartAnimation": "AnimasyonBa\u015flat",
     "StartAnimation_Syntax": "[ ]\n[ <Mant\u0131ksal> ]\n[ <S\xfcrg\xfc veya Nokta>, <S\xfcrg\xfc veya Nokta>, ... ]\n[ <S\xfcrg\xfc veya Nokta>, <S\xfcrg\xfc veya Nokta>, ..., <Mant\u0131ksal> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "G\xf6vde\xc7izim",
     "StemPlot_Syntax": "[ <Liste> ]\n[ <Liste>, <D\xfczenleme -1|0|1> ]",

@@ -882,6 +882,7 @@ __GGB__keysVar.lt.command = {
     "Spline_Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]\n[ <Ta\u0161k\u0173 s\u0105ra\u0161as>, <Laipsnis \u2265 3> ]",
     "StartAnimation": "Prad\u0117tiAnimacij\u0105",
     "StartAnimation_Syntax": "[ ]\n[ <Login\u0117 vert\u0117> ]\n[ <Slankjuost\u0117 arba skai\u010dius>, <Slankjuost\u0117 arba skai\u010dius>, ... ]\n[ <Slankjuost\u0117 arba skai\u010dius>, <Slankjuost\u0117 arba skai\u010dius>, ..., <Login\u0117 vert\u0117> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "KamienoGrafikas",
     "StemPlot_Syntax": "[ <S\u0105ra\u0161as> ]\n[ <S\u0105ra\u0161as>, <Parinkimas -1|0|1> ]",

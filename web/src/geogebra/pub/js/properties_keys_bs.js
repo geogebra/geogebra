@@ -882,6 +882,7 @@ __GGB__keysVar.bs.command = {
     "Spline_Syntax": "[ <Lista ta\u010daka> ]\n[ <Lista ta\u010daka>, <red \u2265 3> ]",
     "StartAnimation": "StartAnimacije",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean-logi\u010dka vrijednost> ]\n[ <Kliza\u010d ili Ta\u010dka>, <Kliza\u010d ili Ta\u010dka>, ... ]\n[ <Kliza\u010d ili Ta\u010dka>, <Kliza\u010d ili Ta\u010dka>, ..., <Boolean-logi\u010dka vrijednost> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StemDijagram",
     "StemPlot_Syntax": "[ <Lista> ]\n[ <Lista>, <Podesi -1|0|1> ]",

@@ -882,6 +882,7 @@ __GGB__keysVar.pl.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "RozpocznijAnimacj\u0119",
     "StartAnimation_Syntax": "[ ]\n[ <Warto\u015b\u0107 Logiczna> ]\n[ <Suwak lub Punkt>, <Suwak lub Punkt>, ... ]\n[ <Suwak lub Punkt>, <Suwak lub Punkt>, ..., <Warto\u015b\u0107 Logiczna> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "Diagram\u0141odygowoListkowy",
     "StemPlot_Syntax": "[ <Lista> ]\n[ <Lista>, <Regulacja -1|0|1> ]",

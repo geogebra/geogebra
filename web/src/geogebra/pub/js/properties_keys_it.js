@@ -882,6 +882,7 @@ __GGB__keysVar.it.command = {
     "Spline_Syntax": "[ <Lista di punti> ]\n[ <Lista di punti>, <Ordine \u2265 3> ]",
     "StartAnimation": "AvviaAnimazione",
     "StartAnimation_Syntax": "[ ]\n[ <Booleano> ]\n[ <Slider o punto>, <Slider o punto>, ... ]\n[ <Slider o punto>, <Slider o punto>, ..., <Booleano> ]",
+    "StartLogging": "AvviaRegistrazione",
     "StartLogging_Syntax": "[ \"<Sensore>\", <Variabile>, \"<Sensore>\", <Variabile>, ... ]",
     "StemPlot": "DiagrammaRamoFoglia",
     "StemPlot_Syntax": "[ <Lista> ]\n[ <Lista>, <Regolazione -1|0|1> ]",

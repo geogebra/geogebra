@@ -882,6 +882,7 @@ __GGB__keysVar.pt.command = {
     "Spline_Syntax": "[ <Lista de Pontos> ]\n[ <Lista de Pontos>, <Ordem \u2265 3> ]",
     "StartAnimation": "IniciarAnima\xe7\xe3o",
     "StartAnimation_Syntax": "[ ]\n[ <true | false> ]\n[ <Controle Deslizante ou Ponto>, <Controle Deslizante ou Ponto>, ... ]\n[ <Controle Deslizante ou Ponto>, <Controle Deslizante ou Ponto>, ..., <true | false> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "DiagramaDeCauleEFolhas",
     "StemPlot_Syntax": "[ <Lista> ]\n[ <Lista>, <Ajuste (-1 | 0 | 1)> ]",

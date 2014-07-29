@@ -882,6 +882,7 @@ __GGB__keysVar.et.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "AlustaAnimeerimist",
     "StartAnimation_Syntax": "[ ]\n[ <T\xf5ev\xe4\xe4rtus> ]\n[ <Liugur v\xf5i punkt>, <Liugur v\xf5i punkt>, ... ]\n[ <Liugur v\xf5i punkt>, <Liugur v\xf6i punkt>, ..., <T\xf5ev\xe4\xe4rtus> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "T\xfcviLehtDiagramm",
     "StemPlot_Syntax": "[ <Loend> ]\n[ <Loend>, <Sobitus -1|0|1> ]",

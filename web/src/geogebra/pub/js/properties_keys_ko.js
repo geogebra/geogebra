@@ -882,6 +882,7 @@ __GGB__keysVar.ko.command = {
     "Spline_Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8>, <\ucc28\uc218 \u2265 3> ]",
     "StartAnimation": "\uc560\ub2c8\uba54\uc774\uc158\uc2dc\uc791",
     "StartAnimation_Syntax": "[ ]\n[ <true|false> ]\n[ <\uc2ac\ub77c\uc774\ub354 \ub610\ub294 \uc810>, <\uc2ac\ub77c\uc774\ub354 \ub610\ub294 \uc810>, ... ]\n[ <\uc2ac\ub77c\uc774\ub354 \ub610\ub294 \uc810>, <\uc2ac\ub77c\uc774\ub354 \ub610\ub294 \uc810>, ..., <true|false> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "\uc904\uae30\uc78e\uadf8\ub9bc",
     "StemPlot_Syntax": "[ <\ub9ac\uc2a4\ud2b8> ]\n[ <\ub9ac\uc2a4\ud2b8>, <\uc870\uc815 1|0|1> ]",

@@ -882,6 +882,7 @@ __GGB__keysVar.sq.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "FilloLevizje",
     "StartAnimation_Syntax": "[ ]\n[ <Bulean> ]\n[ <Rreshqites ose Pike>, <Rreshqites ose Pike>, ... ]\n[ <Rreshqites ose Pike>, <Rreshqites ose Pike>, ..., <Bulean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "VizatimKercelli",
     "StemPlot_Syntax": "[ <Liste> ]\n[ <Liste>, <Pershtatje -1|0|1> ]",

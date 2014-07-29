@@ -882,6 +882,7 @@ __GGB__keysVar.gl.command = {
     "Spline_Syntax": "[ <Lista de Puntos> ]\n[ <Lista de Puntos>, <Orde \u2265 3> ]",
     "StartAnimation": "IniciaAnimaci\xf3n",
     "StartAnimation_Syntax": "[ ]\n[ <Esvarador ou punto>, <Esvarador ou punto>, ... ]\n[ <Booleana> ]\n[ <Esvarador ou punto>, <Esvarador ou punto>, ... , <Booleana> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "Gr\xe1ficoTaloFollas",
     "StemPlot_Syntax": "[ <lista> ]\n[ <Lista>, <Axuste -1|0|1> ]",

@@ -882,6 +882,7 @@ __GGB__keysVar.cs.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "StartAnimace",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Posuvn\xedk nebo bod>, <Posuvn\xedk nebo bod>, ... ]\n[ <Posuvn\xedk nebo bod>, <Posuvn\xedk nebo bod>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "SGraf",
     "StemPlot_Syntax": "[ <Seznam> ]\n[ <Seznam>, <Nastaven\xed -1|0|1> ]",

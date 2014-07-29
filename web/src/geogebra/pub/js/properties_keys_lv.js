@@ -882,6 +882,7 @@ __GGB__keysVar.lv.command = {
     "Spline_Syntax": "[ <Punktu saraksts> ]\n[ <Punktu Saraksts>, <Order \u2265 3> ]",
     "StartAnimation": "S\u0101ktAnim\u0101ciju",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Sl\u012bdnis vai Punkts>, <Sl\u012bdnis vai Punkts>, ... ]\n[ <Sl\u012bdnis vai Punkts>, <Sl\u012bdnis vai Punkts>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StemPlot",
     "StemPlot_Syntax": "[ <Saraksts> ]\n[ <Saraksts>, <Adjustment -1|0|1> ]",

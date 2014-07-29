@@ -882,6 +882,7 @@ __GGB__keysVar.km.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StemPlot",
     "StemPlot_Syntax": "[ <List> ]\n[ <List>, <Adjustment -1|0|1> ]",

@@ -882,6 +882,7 @@ __GGB__keysVar.sv.command = {
     "Spline_Syntax": "[ <Lista med Punkter> ]\n[ <Lista med Punkter>, <Ordning \u2265 3> ]",
     "StartAnimation": "StartaAnimering",
     "StartAnimation_Syntax": "[ ]\n[ <true | false (animering p\xe5 eller ej)> ]\n[ <Glidare eller punkt>, <Glidare eller punkt>, ... ]\n[ <Glidare eller punkt>, <Glidare eller punkt>, ..., <true | false (animering p\xe5 eller ej)> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StamBladDiagram",
     "StemPlot_Syntax": "[ <Lista> ]\n[ <Lista>, <-1|0|1 (justering)> ]",

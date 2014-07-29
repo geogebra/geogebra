@@ -882,6 +882,7 @@ __GGB__keysVar.is.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "SetjaHreyfingu\xc1",
     "StartAnimation_Syntax": "[ ]\n[ <Boole-gildi> ]\n[ <Rennistika e\xf0a punktur>, <Rennistika e\xf0a punktur>, ... ]\n[ <Rennistika e\xf0a punktur>, <Rennistika e\xf0a punktur>, ..., <Boole-gildi> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StilkRit",
     "StemPlot_Syntax": "[ <Listi> ]\n[ <Listi>, <A\xf0l\xf6gun -1 | 0 |1> ]",

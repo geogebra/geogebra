@@ -882,6 +882,7 @@ __GGB__keysVar.cy.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "CychwynAnimeddio",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Llithrydd neu Bwynt>, <Llithrydd neu Bwynt>, ... ]\n[ <Llithrydd neu Bwynt>, <Llithrydd neu Bwynt>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "PlotCoesaDail",
     "StemPlot_Syntax": "[ <Rhestr> ]\n[ <List>, <Adjustment -1|0|1> ]",

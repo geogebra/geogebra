@@ -882,6 +882,7 @@ __GGB__keysVar.ms.command = {
     "Spline_Syntax": "[ <Senarai Titil> ]\n[ <Senarai Titik>, <Tertib \u2265 3> ]",
     "StartAnimation": "MulaAnimasi",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <Gelongsor atau Titik>, <Gelongsor atau Titik>, ... ]\n[ <Gelongsor atau Titik>, <Gelongsor atau Titik>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "PlotBatang",
     "StemPlot_Syntax": "[ <Senarai> ]\n[ <Senarai>, <Pelarasan -1|0|1> ]",

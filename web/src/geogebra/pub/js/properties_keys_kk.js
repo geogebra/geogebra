@@ -882,6 +882,7 @@ __GGB__keysVar.kk.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "\u0410\u043d\u0438\u043c\u0430\u0446\u0438\u044f\u043d\u044b\u049a\u043e\u0441",
     "StartAnimation_Syntax": "[ ]\n[ <Boolean> ]\n[ <\u0421\u043b\u0430\u0439\u0434\u0435\u0440 \u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, <\u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, ... ]\n[ <\u0421\u043b\u0430\u0439\u0434\u0435\u0440 \u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, <\u0421\u043b\u0430\u0439\u0434\u0435\u0440 \u043d\u0435\u043c\u0435\u0441\u0435 \u041d\u04af\u043a\u0442\u0435>, ..., <Boolean> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StemPlot",
     "StemPlot_Syntax": "[ <\u0422\u0456\u0437\u0456\u043c> ]\n[ <\u0422\u0456\u0437\u0456\u043c>, <Adjustment -1|0|1> ]",

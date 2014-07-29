@@ -882,6 +882,7 @@ __GGB__keysVar.da.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation_Syntax": "[ ]\n[ <Boolesk> ]\n[ <Glider eller Punkt>, <Glider eller Punkt>, ... ]\n[ <Glider eller Punkt>, <Glider eller Punkt>, ..., <Boolesk> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StilkGraf",
     "StemPlot_Syntax": "[ <liste> ]\n[ <liste>, <justering -1|0|1> ]",

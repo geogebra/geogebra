@@ -882,6 +882,7 @@ __GGB__keysVar.hr.command = {
     "Spline_Syntax": "[ <lista to\u010daka> ]\n[ <lista to\u010daka>, <red \u2265 3> ]",
     "StartAnimation": "Animiraj",
     "StartAnimation_Syntax": "[ ]\n[ <logi\u010dka vrijednost> ]\n[ <kliza\u010d ili to\u010dka>, <kliza\u010d ili to\u010dka>, ... ]\n[ <kliza\u010d ili to\u010dka>, <kliza\u010d ili to\u010dka>, ..., <logi\u010dka vrijednost> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "DijagramPeteljkaList",
     "StemPlot_Syntax": "[ <lista> ]\n[ <lista>, <pode\u0161avanje -1|0|1> ]",

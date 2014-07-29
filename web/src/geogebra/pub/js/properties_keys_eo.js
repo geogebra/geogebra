@@ -882,6 +882,7 @@ __GGB__keysVar.eo.command = {
     "Spline_Syntax": "[ <Listo de Punktoj> ]\n[ <Listo de Punktoj>, <Grado \u2265 3> ]",
     "StartAnimation": "StartAnimation",
     "StartAnimation_Syntax": "[ ]\n[ <Bulea> ]\n[ <\u015covilo a\u016d Punkto>, <\u015covilo a\u016d Punkto>, ... ]\n[ <\u015covilo a\u016d Punkto>, <\u015covilo a\u016d Punkto>, ..., <Bulea> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "StemPlot",
     "StemPlot_Syntax": "[ <List> ]\n[ <List>, <Adjustment -1|0|1> ]",

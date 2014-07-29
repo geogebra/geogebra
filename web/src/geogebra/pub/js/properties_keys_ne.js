@@ -882,6 +882,7 @@ __GGB__keysVar.ne.command = {
     "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
     "StartAnimation": "\u090f\u0928\u093f\u092e\u0947\u0938\u0928\u0936\u0941\u0930\u0941",
     "StartAnimation_Syntax": "[ ]\n[ <\u092c\u0941\u0932\u0928> ]\n[ <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094d\u0926\u0941>, <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094d>, ... ]\n[ <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094dt>, <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094dt>, ..., <\u092c\u0941\u0932\u0928> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "\u0938\u094d\u091f\u093f\u092e\u092a\u094d\u0932\u091f",
     "StemPlot_Syntax": "[ <\u0938\u0941\u091a\u0940> ]\n[ <\u0938\u0941\u091a\u0940>, <\u0938\u092e\u093e\u092f\u094b\u091c\u0928 -1|0|1> ]",

@@ -882,6 +882,7 @@ __GGB__keysVar.sk.command = {
     "Spline_Syntax": "[ <Zoznam bodov> ]\n[ <Zoznam bodov>, <Stupe\u0148 \u2265 3> ]",
     "StartAnimation": "Za\u010da\u0165Anim\xe1ciu",
     "StartAnimation_Syntax": "[ ]\n[ <Logick\xe1 premenn\xe1> ]\n[ <Posuvn\xedk alebo bod>, <Posuvn\xedk alebo bod>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Logick\xe1 premenn\xe1> ]",
+    "StartLogging": "StartLogging",
     "StartLogging_Syntax": "[ \"<Sensor>\", <Variable>, \"<Sensor>\", <Variable>, ...]",
     "StemPlot": "ListVetvaDiagram",
     "StemPlot_Syntax": "[ <Zoznam> ]\n[ <Zoznam>, <Upravi\u0165 -1|0|1> ]",
