@@ -45,8 +45,15 @@ public class GridPopup extends PopupMenuButton {
 	public void setIcon(ImageOrText icon) {
 	    if(getSelectedIndex() == 0 && defaultIcon != null){
 	    	super.setIcon(defaultIcon);
+	    	this.removeStyleName("selected");
 	    } else {
 	    	super.setIcon(icon);
+	    	this.addStyleName("selected");
 	    }
+	}
+
+	@Override
+	protected void setDownState(boolean downState) {
+	    // ignore
 	}
 }
