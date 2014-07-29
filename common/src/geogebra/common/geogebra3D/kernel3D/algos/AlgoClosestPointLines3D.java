@@ -15,6 +15,8 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Matrix.CoordMatrixUtil;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -25,7 +27,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 public class AlgoClosestPointLines3D extends AlgoElement3D {
 
 	private GeoLineND g3D, h3D;
-	private AlgoDistanceLines3D helpAlgo;
 	
 	private GeoPoint3D geoPointOnG;
 
@@ -34,8 +35,7 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
         super(c);
         this.g3D = g3D;
         this.h3D = h3D;
-        helpAlgo = new AlgoDistanceLines3D(c, g3D, h3D);
-        helpAlgo.setPrintedInXML(false);
+
         geoPointOnG = new GeoPoint3D(c);
         setInputOutput(); // for AlgoElement
 
@@ -75,7 +75,19 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
     
     @Override
 	public void compute() {
-    	geoPointOnG.setCoords(helpAlgo.getPointOnG(), false);
+    	
+    	if (!g3D.isDefined() || !h3D.isDefined()) {
+    		geoPointOnG.setUndefined();
+    		return;
+    	}
+    	
+    	Coords[] points = CoordMatrixUtil.nearestPointsFromTwoLines(
+    			g3D.getStartInhomCoords(),
+    			g3D.getDirectionInD3(),
+    			h3D.getStartInhomCoords(),
+    			h3D.getDirectionInD3());
+    	
+    	geoPointOnG.setCoords(points[0], false);
     	        
     }
 
