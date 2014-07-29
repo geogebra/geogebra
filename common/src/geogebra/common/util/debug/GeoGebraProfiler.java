@@ -71,25 +71,17 @@ public abstract class GeoGebraProfiler {
 		repaintTime += time;
 		if (repaints % 100 == 0)
 		{
-			App.debug("Repaint: " + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);
+			App.debug("Profile Repaint: " + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);
 			int realDrags = drags - moveEventsIgnored;
 			if(realDrags > 0){
-				App.debug("   Drag: " + realDrags + " x " + (dragTime / realDrags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
+				App.debug("Profile Drag: " + realDrags + " x " + (dragTime / realDrags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
 			}
-			App.debug("Hits: " + hits + " x " + (hits == 0 ? hitTime : (hitTime / hits)) + " = " + hitTime);
-			App.debug("Cascades: " + cascades + " x " + (cascades == 0 ? cascadeTime : (cascadeTime / cascades)) + " = " + cascadeTime);
-			StringBuilder sb = new StringBuilder("  Views: ");
-			
-			App.debug(sb.toString());
-			
-				
-			/*repaints = 0;
-			drags = 0;
-			repaintTime = 0;
-			dragTime = 0;
-			moveEventsIgnored = 0;
-			hitTime = 0;
-			hits = 0;*/
+			if(hits > 0){
+				App.debug("Profile Hits: " + hits + " x " + (hits == 0 ? hitTime : (hitTime / hits)) + " = " + hitTime);
+			}
+			if(cascades > 0){
+				App.debug("Profile Cascades: " + cascades + " x " + (cascades == 0 ? cascadeTime : (cascadeTime / cascades)) + " = " + cascadeTime);
+			}
 		}
 		
 	}
