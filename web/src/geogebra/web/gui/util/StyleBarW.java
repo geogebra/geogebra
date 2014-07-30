@@ -2,8 +2,6 @@ package geogebra.web.gui.util;
 
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.view.Views;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -16,7 +14,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * @author G. Sturr
  * 
  */
-public abstract class StyleBarW extends HorizontalPanel {
+public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedListener {
+
+	protected PopupMenuButton viewButton;
+	protected AppW app;
+	protected int viewID;
 
 	/**
 	 * Constructor
@@ -40,14 +42,18 @@ public abstract class StyleBarW extends HorizontalPanel {
 
 	public abstract void setOpen(boolean showStyleBar);
 	
-	protected void getViewButton(final AppW app, final int viewID){
+	protected void getViewButton(){
 		ImageOrText[] data = new ImageOrText[Views.ids.length + 1];
-		final int[] viewIDs = new int[Views.ids.length];
-		int k = 0;
+		final int[] viewIDs = new int[Views.ids.length+1];
+
+		data[0] = new ImageOrText(app.getMenu("Close"));
+		data[0].url = GuiResources.INSTANCE.dockbar_close().getSafeUri().asString();
+
+		int k = 1;
 		for(int i = 0; i < Views.ids.length; i++){
-			if(app.supportsView(Views.ids[i])){
+			if(app.supportsView(Views.ids[i]) && !app.getGuiManager().showView(Views.ids[i])){
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
-				data[k].url = Views.icons[i].getSafeUri().asString();
+				data[k].url = GuiResources.INSTANCE.dockbar_open().getSafeUri().asString();//Views.icons[i].getSafeUri().asString();
 				viewIDs[k] = Views.ids[i];
 				k++;
 			}
@@ -62,32 +68,34 @@ public abstract class StyleBarW extends HorizontalPanel {
 			}
 		}
 
-		final PopupMenuButton pb = new PopupMenuButton(app, data, Views.ids.length, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		viewButton = new PopupMenuButton(app, data, Views.ids.length, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		ImageOrText views = new ImageOrText();
 		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
-		pb.setFixedIcon(views);
-		pb.addPopupHandler(new PopupMenuHandler(){
+		viewButton.setFixedIcon(views);
+		viewButton.addPopupHandler(new PopupMenuHandler(){
 
 			@Override
             public void fireActionPerformed(Object actionButton) {
-				int i = pb.getSelectedIndex();
-	            
-	            app.getGuiManager().setShowView(!app.getGuiManager().showView(viewIDs[i]), viewIDs[i]);
-	            app.updateMenubar();
-	            	
-            }});
-		add(pb);
-		
-		StandardButton close = new StandardButton(GuiResources.INSTANCE.dockbar_close());
-		close.addFastClickHandler(new FastClickHandler(){
+				int i = viewButton.getSelectedIndex();
 
-			@Override
-            public void onClick() {
-				app.getGuiManager().setShowView(false, viewID);
-	            
-            }
-			
-		});
-		add(close);
+				// the first item is the close button
+				if(i==0){
+					app.getGuiManager().setShowView(false, viewID);
+				} else {
+					app.getGuiManager().setShowView(true, viewIDs[i]);
+				}
+
+				app.updateMenubar();
+	            app.fireViewsChangedEvent();
+            }});
+		add(viewButton);
+	}
+
+	@Override
+	public void onViewsChanged() {
+	    if(viewButton != null){
+	    	remove(viewButton);
+	    	getViewButton();
+	    }
 	}
 }

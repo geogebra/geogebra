@@ -23,7 +23,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHandler{
 	
 	private MyToggleButton2 btnUseAsText;
-	private AppW app;
 	private int iconHeight = 18;
 	private GDimensionW iconDimension = new GDimensionW(16, iconHeight);
 	private ColorPopupMenuButton btnTextColor;
@@ -38,6 +37,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 	public CASStylebarW(CASViewW view, AppW appl){
 		casView = view;
 		app = appl;
+		this.viewID = App.VIEW_CAS;
+		this.app.addViewsChangedListener(this);
 		selectedRows = new ArrayList<GeoElement>();
 		initGUI();
 	}
@@ -50,7 +51,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		add(btnItalic);
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
-		getViewButton(app, App.VIEW_CAS);
+		getViewButton();
 		updateStyleBar();
 	}
 

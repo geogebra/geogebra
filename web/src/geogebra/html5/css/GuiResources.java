@@ -255,11 +255,13 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/dockbar_drag.png")
 	ImageResource dockbar_drag();
-	
-	@Source("icons/png/web/dockbar_close.png")
+
+	@Source("icons/png/web/menu_icons/menu-view-close.png")
 	ImageResource dockbar_close();
-	
-	
+
+	@Source("icons/png/web/menu_icons/menu-file-new.png")
+	ImageResource dockbar_open();
+
 	//PROPABILITY CALCULATOR
 	@Source("icons/png/web/probability_calculator_cumulative_distribution.png")
 	ImageResource cumulative_distribution();

@@ -51,6 +51,7 @@ import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.View;
 import geogebra.web.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.util.ViewsChangedListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1156,4 +1157,16 @@ public abstract class AppWeb extends App implements SetLabels{
 	protected void initGoogleDriveEventFlow() {
 	    //overriden in AppW
     }
+
+	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<ViewsChangedListener>();
+
+	public void addViewsChangedListener(ViewsChangedListener l){
+		viewsChangedListener.add(l);
+	}
+
+	public void fireViewsChangedEvent(){
+		for(ViewsChangedListener l : viewsChangedListener){
+			l.onViewsChanged();
+		}
+	}
 }

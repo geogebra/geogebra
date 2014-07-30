@@ -13,7 +13,6 @@ import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.StyleBarW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,6 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
         ValueChangeHandler<Boolean>, PopupMenuHandler {
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetViewW view;
-	private AppW app;
 	private MyTableW table;
 	private CellFormat formatHandler;
 //	private ArrayList<CellRange> selectedCells;
@@ -49,6 +47,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		this.view = view;
 		this.app = view.getApplication();
+		this.viewID = App.VIEW_SPREADSHEET;
+		this.app.addViewsChangedListener(this);
 		this.table = (MyTableW) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
 	//	this.selectedCells = table.selectedCellRanges;
@@ -75,7 +75,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		// add(btnBorderStyle);
 
 		setLabels();
-		getViewButton(app, App.VIEW_SPREADSHEET);
+		getViewButton();
 		updateStyleBar();
 		addStyleName("SpreadsheetStyleBar");
 	}

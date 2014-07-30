@@ -15,16 +15,18 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Boolean>, SettingListener {
 	MyToggleButton2 auxiliary;
-	private AppW app;
+
 	public AlgebraStyleBarW(AppW app){
 		this.app = app;
+		this.viewID = App.VIEW_ALGEBRA;
+		this.app.addViewsChangedListener(this);
 		auxiliary = new MyToggleButton2(StyleBarResources.INSTANCE.auxiliary());
 		auxiliary.setDown(app.showAuxiliaryObjects());
 		auxiliary.addValueChangeHandler(this);
 		add(auxiliary);
 		app.getSettings().getAlgebra().addListener(this);
 		setToolTips();
-		getViewButton(app, App.VIEW_ALGEBRA);
+		getViewButton();
 	}
 	
 	private void setToolTips() {

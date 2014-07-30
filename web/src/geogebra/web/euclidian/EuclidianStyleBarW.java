@@ -46,7 +46,6 @@ import java.util.HashMap;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -59,7 +58,6 @@ public class EuclidianStyleBarW extends StyleBarW
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianController ec;
 	protected EuclidianView ev;
-	protected AppW app;
 	private Construction cons;
 
 	protected HashMap<Integer, Integer> defaultGeoMap;
@@ -222,6 +220,8 @@ public class EuclidianStyleBarW extends StyleBarW
 		this.ev = ev;
 		ec = ev.getEuclidianController();
 		app = (AppW) ev.getApplication();
+		this.viewID = ev.getViewID();
+		this.app.addViewsChangedListener(this);
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
@@ -585,7 +585,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		for(int i=0;i<3;i++){
 			add(btnDeleteSizes[i]);
 		}
-		getViewButton(app, ev.getViewID());
+		getViewButton();
 	}
 	
 	protected void addBtnRotateView() {
