@@ -28,6 +28,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 	public static final int TABLE_CELL_WIDTH = 70;
 	public static final int TABLE_CELL_HEIGHT = 21; //G.Sturr (old height 20) + 1 to stop cell editor clipping
+
+	public static final int MODE_FILE = 0;
+	public static final int MODE_URL = 1;
+	public static final String DEFAULT_URL = "";
+	
 	// layout settings
 	private boolean showFormulaBar = Defaults.SHOW_FORMULA_BAR;
 	private boolean showGrid = Defaults.SHOW_GRID;
