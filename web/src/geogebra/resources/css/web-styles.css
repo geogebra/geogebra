@@ -1659,17 +1659,27 @@ Paddings for menuitems.
 	width: 24px;
 	height: 24px;
 	text-align: center;
+/* 	-webkit-border-radius: 5px; */
+/* 	-khtml-border-radius: 5px; */
+/* 	-moz-border-radius: 5px; */
+/* 	border-radius: 5px; */
+/* 	border: #DCDCDC solid 1px; */
+	padding: 3px;
+}
+
+.gwt-Label.border {
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	border: #DCDCDC solid 1px;
-	padding: 3px;
 }
 
 .gwt-Label.textIconButton{
 	background-position:0 0;
 	padding-left:28px;
+	border: none;
+	text-align: left;
 }
 
 .SelectionTable .gwt-Label.borderButton {

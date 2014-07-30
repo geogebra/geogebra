@@ -68,7 +68,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 			}
 		}
 
-		viewButton = new PopupMenuButton(app, data, Views.ids.length, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		viewButton = new PopupMenuButton(app, data, k, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		ImageOrText views = new ImageOrText();
 		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
 		viewButton.setFixedIcon(views);

@@ -22,7 +22,13 @@ public class GridPopup extends PopupMenuButton {
 	    this.ev = ev;
 	    defaultIcon = data.length > 1 ? data[1] : null;
 	    this.setIcon(data[EuclidianStyleBarW.gridIndex(ev)]);	    
-	    // TODO Auto-generated constructor stub
+
+	    geogebra.web.gui.util.SelectionTable table = getMyTable();
+	    for(int i = 0; i < table.getRowCount(); i++){
+	    	for(int j = 0; j < table.getColumnCount(); j++){
+	    		table.getWidget(i, j).addStyleName("border");
+	    	}
+	    }
     }
 	
 	@Override
