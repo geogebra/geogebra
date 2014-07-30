@@ -138,40 +138,39 @@ public class CmdIf extends CommandProcessor {
 		FunctionVariable fv = conditions.get(0).getFunctionVariables()[0];
 		ExpressionNode expr;
 
-		boolean mayIndependent = true;
+		boolean mayUseIndependent = true;
 		for(int i = 0; i < functions.size(); i++){
-			if(!Inspecting.dynamicGeosFinder.check(functions.get(i)) ||
-					(i < conditions.size() && !Inspecting.dynamicGeosFinder.check(conditions.get(i)))){
-				mayIndependent = false;
+			if(Inspecting.dynamicGeosFinder.check(functions.get(i)) ||
+					(i < conditions.size() && Inspecting.dynamicGeosFinder.check(conditions.get(i)))){
+				mayUseIndependent = false;
 				break;
 			}
 		}
-		
 
 		if (functions.size() == 1) {
 			expr = new ExpressionNode(kernelA,
-					wrap(conditions.get(0), fv, mayIndependent), Operation.IF, wrap(
-							functions.get(0), fv, mayIndependent));
+					wrap(conditions.get(0), fv, mayUseIndependent), Operation.IF, wrap(
+							functions.get(0), fv, mayUseIndependent));
 		} else if(functions.size() == 2 && conditions.size() == 1){
 			expr = new ExpressionNode(kernelA, new MyNumberPair(kernelA, wrap(
-					conditions.get(0), fv, mayIndependent), wrap(functions.get(0), fv,
-					mayIndependent)), Operation.IF_ELSE, wrap(functions.get(1), fv,
-					mayIndependent));
+					conditions.get(0), fv, mayUseIndependent), wrap(functions.get(0), fv,
+					mayUseIndependent)), Operation.IF_ELSE, wrap(functions.get(1), fv,
+					mayUseIndependent));
 		}else {
 			MyList cond = new MyList(kernelA), funs = new MyList(kernelA);
 			for(GeoFunction f:conditions){
 				cond.addListElement(wrap(f, fv,
-					mayIndependent));
+					mayUseIndependent));
 			}
 			for(GeoFunction f:functions){
 				funs.addListElement(wrap(f, fv,
-						mayIndependent));
+						mayUseIndependent));
 			}
 			expr = new ExpressionNode(kernelA,
 					cond, Operation.IF_LIST, funs);
 		}
 		Function fun = new Function(expr, fv);
-		if (mayIndependent) {
+		if (mayUseIndependent) {
 			return new GeoFunction(cons, label, fun);
 		}
 		AlgoDependentFunction algo = new AlgoDependentFunction(cons, label, fun);
@@ -179,8 +178,8 @@ public class CmdIf extends CommandProcessor {
 	}
 
 	private ExpressionNode wrap(GeoFunction boolFun, FunctionVariable fv,
-			boolean b) {
-		if (!b) {
+			boolean mayUseIndependent) {
+		if (!mayUseIndependent) {
 			return new ExpressionNode(kernelA, boolFun, Operation.FUNCTION, fv);
 		}
 		return boolFun.getFunctionExpression().deepCopy(kernelA)
