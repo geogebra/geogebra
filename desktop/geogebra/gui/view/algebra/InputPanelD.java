@@ -122,6 +122,7 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 			noWrapPanel.add(textComponent);
 			scrollPane = new JScrollPane(noWrapPanel); 
 			scrollPane.setAutoscrolls(true);
+			scrollPane.getVerticalScrollBar().setUnitIncrement(5);
 			add(scrollPane, BorderLayout.CENTER);
 				
 		} 
