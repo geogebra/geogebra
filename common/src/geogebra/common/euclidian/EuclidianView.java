@@ -1481,7 +1481,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	public void update(GeoElement geo) {
-		if(this.getEuclidianViewNo() == 1 && (!geo.isGeoText() || !((GeoText)geo).isNeedsUpdatedBoundingBox())){
+		//Keep update of input boxes synchronous #4416
+		if(this.getEuclidianViewNo() == 1 && (!geo.isGeoText() || !((GeoText)geo).isNeedsUpdatedBoundingBox())
+				&& !geo.isGeoTextField()){
 			geo.setNeedsEVUpdate(true);
 			return;
 		}
