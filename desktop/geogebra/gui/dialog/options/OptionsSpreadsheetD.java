@@ -14,33 +14,22 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.view.spreadsheet.FileBrowserPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 /**
@@ -58,13 +47,6 @@ public class OptionsSpreadsheetD extends
 			cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
 			cbShowBrowser, cbAllowSpecialEditor, cbAllowToolTips,
 			cbPrependCommands, cbEnableAutoComplete;
-
-	private JTextField dirField, urlField;
-	private JButton browseButton, restoreButton, setCurrentButton;
-	private JRadioButton dirRadioButton, urlRadioButton;
-	private JPanel locationPanel;
-
-	private JTabbedPane tabbedPane;
 
 	private JPanel wrappedPanel;
 
@@ -90,16 +72,9 @@ public class OptionsSpreadsheetD extends
 
 		wrappedPanel.removeAll();
 		wrappedPanel.setLayout(new BorderLayout());
+		wrappedPanel.add(new JScrollPane(buildLayoutOptionsPanel()),
+				BorderLayout.CENTER);
 
-		tabbedPane = new JTabbedPane();
-
-		tabbedPane.addTab(app.getMenu("Layout"), null, new JScrollPane(
-				buildLayoutOptionsPanel()));
-		if (AppD.hasFullPermissions())
-			tabbedPane.addTab(app.getMenu("Browser"), null, new JScrollPane(
-					buildBrowserOptionsPanel()));
-		wrappedPanel.add(tabbedPane, BorderLayout.CENTER);
-		
 		app.setComponentOrientation(wrappedPanel);
 	}
 
@@ -134,11 +109,8 @@ public class OptionsSpreadsheetD extends
 		cbShowVScrollbar.addActionListener(this);
 		layoutOptions.add(cbShowVScrollbar);
 
-		/*
-		 * cbShowBrowser = new JCheckBox();
-		 * cbShowBrowser.addActionListener(this);
-		 * layoutOptions.add(cbShowBrowser);
-		 */
+		// spacer
+		layoutOptions.add(Box.createVerticalStrut(16));
 
 		cbAllowSpecialEditor = new JCheckBox();
 		cbAllowSpecialEditor.addActionListener(this);
@@ -156,105 +128,14 @@ public class OptionsSpreadsheetD extends
 		cbEnableAutoComplete.addActionListener(this);
 		layoutOptions.add(cbEnableAutoComplete);
 
-		
-		return layoutOptions;
-	}
-
-	private JPanel buildBrowserOptionsPanel() {
-
-		// ====================================================
-		// create GUI elements
+		// spacer
+		layoutOptions.add(Box.createVerticalStrut(16));
 
 		cbShowBrowser = new JCheckBox();
 		cbShowBrowser.addActionListener(this);
+		layoutOptions.add(cbShowBrowser);
 
-		dirRadioButton = new JRadioButton("");
-		urlRadioButton = new JRadioButton("");
-
-		// Register a listener for the radio buttons.
-		dirRadioButton.addActionListener(this);
-		urlRadioButton.addActionListener(this);
-
-		// Group the radio buttons.
-		ButtonGroup group = new ButtonGroup();
-		group.add(dirRadioButton);
-		group.add(urlRadioButton);
-
-		dirField = new MyTextField(app);
-		dirField.setAlignmentX(0.0f);
-		// dirField.setMaximumSize(new Dimension(300,20));
-		dirField.setColumns(30);
-		dirField.addActionListener(this);
-		dirField.addFocusListener(this);
-		dirField.setEditable(false);
-
-		urlField = new MyTextField(app);
-		urlField.setAlignmentX(0.0f);
-		// urlField.setMaximumSize(new Dimension(300,20));
-		urlField.setColumns(30);
-		urlField.addActionListener(this);
-		urlField.addFocusListener(this);
-		urlField.setEditable(false);
-
-		browseButton = new JButton("...", app.getImageIcon("aux_folder.gif"));
-		browseButton.addActionListener(this);
-
-		restoreButton = new JButton("");
-		restoreButton.addActionListener(this);
-
-		setCurrentButton = new JButton("");
-		setCurrentButton.addActionListener(this);
-
-		// ====================================================
-		// create sub panels
-
-		int tab = 15;
-
-		locationPanel = new JPanel();
-		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
-		locationPanel.add(dirRadioButton);
-
-		JPanel dirPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		dirPanel.setAlignmentX(0.0f);
-		dirPanel.add(Box.createHorizontalStrut(tab));
-		dirPanel.add(dirField);
-		// dirPanel.add(browseButton);
-
-		locationPanel.add(dirPanel);
-
-		locationPanel.add(Box.createVerticalStrut(tab));
-
-		locationPanel.add(urlRadioButton);
-		JPanel urlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		urlPanel.setAlignmentX(0.0f);
-		urlPanel.add(Box.createHorizontalStrut(tab));
-		urlPanel.add(urlField);
-
-		locationPanel.add(urlPanel);
-
-		JPanel setButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		setButtonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		setButtonPanel.add(Box.createHorizontalStrut(2 * tab));
-		setButtonPanel.add(restoreButton);
-		setButtonPanel.add(setCurrentButton);
-		locationPanel.add(setButtonPanel);
-
-		locationPanel.setBorder(BorderFactory.createTitledBorder(""));
-
-		// ====================================================
-		// layout the browser panel
-
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		mainPanel.add(cbShowBrowser);
-		mainPanel.add(Box.createVerticalStrut(tab));
-		mainPanel.add(locationPanel);
-
-		JPanel browserPanel = new JPanel(new BorderLayout());
-		browserPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		browserPanel.add(mainPanel, BorderLayout.NORTH);
-
-		return browserPanel;
+		return layoutOptions;
 	}
 
 	/**
@@ -275,15 +156,6 @@ public class OptionsSpreadsheetD extends
 		cbAllowToolTips.setText(app.getMenu("AllowTooltips"));
 		cbPrependCommands.setText(app.getMenu("RequireEquals"));
 		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
-		locationPanel.setBorder(BorderFactory.createTitledBorder(app
-				.getMenu("HomeDirectory")));
-		dirRadioButton.setText(app.getMenu("FileSystem") + ":");
-		urlRadioButton.setText(app.getMenu("URL") + ":");
-		restoreButton.setText(app.getMenu("Settings.ResetDefault"));
-		setCurrentButton.setText(app.getMenu("SetToCurrentLocation"));
-
-		tabbedPane.setTitleAt(0, app.getMenu("Layout"));
-		tabbedPane.setTitleAt(1, app.getMenu("Browser"));
 	}
 
 	/**
@@ -334,49 +206,15 @@ public class OptionsSpreadsheetD extends
 		cbPrependCommands.removeActionListener(this);
 		cbPrependCommands.setSelected(settings().equalsRequired());
 		cbPrependCommands.addActionListener(this);
-		
+
 		cbEnableAutoComplete.removeActionListener(this);
 		cbEnableAutoComplete.setSelected(settings().isEnableAutoComplete());
 		cbEnableAutoComplete.addActionListener(this);
-
-		// ======================================
-		// browser tab GUI
 
 		cbShowBrowser.removeActionListener(this);
 		cbShowBrowser.setSelected(settings().showBrowserPanel());
 		cbShowBrowser.addActionListener(this);
 
-		dirRadioButton.removeActionListener(this);
-		dirRadioButton
-				.setSelected(settings().initialBrowserMode() == FileBrowserPanel.MODE_FILE);
-		dirRadioButton.addActionListener(this);
-
-		urlRadioButton.removeActionListener(this);
-		urlRadioButton
-				.setSelected(settings().initialBrowserMode() == FileBrowserPanel.MODE_URL);
-		urlRadioButton.addActionListener(this);
-
-		dirField.removeActionListener(this);
-		dirField.setText(settings().initialFilePath());
-		dirField.setCaretPosition(0);
-		dirField.addActionListener(this);
-
-		urlField.removeActionListener(this);
-		urlField.setText(settings().initialURL());
-		urlField.setCaretPosition(0);
-		urlField.addActionListener(this);
-
-		// disable/enable
-		dirRadioButton.setEnabled(cbShowBrowser.isSelected());
-		urlRadioButton.setEnabled(cbShowBrowser.isSelected());
-		restoreButton.setEnabled(cbShowBrowser.isSelected());
-		setCurrentButton.setEnabled(cbShowBrowser.isSelected());
-
-		dirField.setEnabled(cbShowBrowser.isSelected()
-				&& dirRadioButton.isSelected());
-		browseButton.setEnabled(dirField.isEnabled());
-		urlField.setEnabled(cbShowBrowser.isSelected()
-				&& urlRadioButton.isSelected());
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -427,58 +265,9 @@ public class OptionsSpreadsheetD extends
 		else if (source == cbEnableAutoComplete) {
 			settings().setEnableAutoComplete(cbEnableAutoComplete.isSelected());
 		}
-		
-		// ========================================
-		// browser options
 
 		else if (source == cbShowBrowser) {
 			settings().setShowFileBrowser(cbShowBrowser.isSelected());
-		}
-
-		else if (source == dirRadioButton) {
-			dirField.selectAll();
-			settings().beginBatch();
-			settings().setInitialFilePath(dirField.getText());
-			settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE);
-			settings().endBatch();
-		}
-
-		else if (source == urlRadioButton) {
-			urlField.selectAll();
-			settings().beginBatch();
-			settings().setInitialURL(urlField.getText());
-			settings().setInitialBrowserMode(FileBrowserPanel.MODE_URL);
-			settings().endBatch();
-
-		}
-
-		else if (source == browseButton) {
-			// System.out.println("browse button");
-			JFileChooser fc = new JFileChooser();
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int returnVal = fc.showOpenDialog(this.wrappedPanel);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				dirField.setText(fc.getSelectedFile().getName());
-			}
-		}
-
-		else if (source == restoreButton) {
-			settings().setDefaultBrowser(true);
-		}
-
-		else if (source == setCurrentButton) {
-			settings().beginBatch();
-			settings().setDefaultBrowser(false);
-			if (settings().initialBrowserMode() == FileBrowserPanel.MODE_URL) {
-				settings().setInitialURL(
-						((URL) view.getFileBrowser().getRoot())
-								.toExternalForm());
-			} else {
-				settings().setInitialFilePath(
-						view.getFileBrowser().getRootString());
-				System.out.println(view.getFileBrowser().getRootString());
-			}
-			settings().endBatch();
 		}
 
 		updateGUI();
@@ -503,14 +292,11 @@ public class OptionsSpreadsheetD extends
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
-	
 
 	public void updateFont() {
-		
+
 		Font font = app.getPlainFont();
-		
-		
-		
+
 		cbShowFormulaBar.setFont(font);
 		cbShowGrid.setFont(font);
 		cbShowColumnHeader.setFont(font);
@@ -522,25 +308,11 @@ public class OptionsSpreadsheetD extends
 		cbAllowToolTips.setFont(font);
 		cbPrependCommands.setFont(font);
 		cbEnableAutoComplete.setFont(font);
-		
-		locationPanel.setFont(font);
-		dirRadioButton.setFont(font);
-		urlRadioButton.setFont(font);
-		restoreButton.setFont(font);
-		setCurrentButton.setFont(font);
 
-		tabbedPane.setFont(font);
-		
-		dirField.setFont(font);
-		urlField.setFont(font);
-		
 	}
-	
-	
-	
 
-	public void setSelected(boolean flag){
-		//see OptionsEuclidianD for possible implementation
+	public void setSelected(boolean flag) {
+		// see OptionsEuclidianD for possible implementation
 	}
 
 }

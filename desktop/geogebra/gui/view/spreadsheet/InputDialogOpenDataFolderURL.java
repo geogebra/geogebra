@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.algebra.DialogType;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 
@@ -68,7 +69,7 @@ public class InputDialogOpenDataFolderURL extends InputDialogD{
 	
 	
 	private boolean processInput() {
-		return	view.setFileBrowserDirectory(inputPanel.getText(),FileBrowserPanel.MODE_URL);
+		return	view.setFileBrowserDirectory(inputPanel.getText(),SpreadsheetSettings.MODE_URL);
 	}
 
 

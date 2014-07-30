@@ -2,6 +2,8 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
+import geogebra.common.main.App;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.main.AppD;
@@ -93,10 +95,6 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 	final static Color bgColor = Color.white;
 	final static Color fgColor = Color.black;
 
-	// mode constants
-	public final static int MODE_URL = 0;
-	public final static int MODE_FILE = 1;
-	public final static int MODE_HTML = 2;
 	private int mode;
 	private final LocalizationD loc;
 
@@ -114,8 +112,6 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		xmlParser = new QDParser();
 		handler = new MyFileTreeHandler();
 
-		//TODO: use geogebra color constants for this
-		setBackground(((MyTableD) view.getSpreadsheetTable()).getBackground());
 		setLayout(new BorderLayout());
 
 		// ======================================
@@ -149,7 +145,8 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		tree.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (AppD.isRightClick(e) && mode == MODE_FILE) {
+				if (AppD.isRightClick(e)
+						&& mode == SpreadsheetSettings.MODE_FILE) {
 					// ContextMenu contextMenu = new ContextMenu();
 					FileBrowserMenu contextMenu = new FileBrowserMenu();
 					contextMenu.show(e.getComponent(), e.getX(), e.getY());
@@ -244,17 +241,21 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 					app.getImageIcon("document-open.png"));
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 					GeoGebraFileChooser fc = new GeoGebraFileChooser(
 							((AppD) app), null);
-	
-					//JFileChooser fc = new JFileChooser();
-					//fc.setCurrentDirectory(null);
+
+					// JFileChooser fc = new JFileChooser();
+					// fc.setCurrentDirectory(null);
 					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					int returnVal = fc.showOpenDialog(browserPanel);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						setRoot(fc.getSelectedFile(), MODE_FILE);
-						view.settings().setInitialBrowserMode(MODE_FILE);
+						view.settings().beginBatch();
+						view.settings().setInitialBrowserMode(
+								SpreadsheetSettings.MODE_FILE);
+						view.settings().setInitialFilePath(
+								fc.getSelectedFile().getPath());
+						view.settings().endBatch();
 					}
 
 				}
@@ -276,7 +277,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 						// URL url = new
 						// URL("http://www.santarosa.edu/~gsturr/data/BPS5/BPS5.xml");
 						String initString = "http://";
-						initString = view.DEFAULT_URL;
+						initString = SpreadsheetSettings.DEFAULT_URL;
 
 						InputDialogD id = new InputDialogOpenDataFolderURL(app,
 								view, initString);
@@ -309,7 +310,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 
 			add(menuItem);
 			menuItem.setBackground(bgColor);
-			menuItem.setEnabled(mode == MODE_FILE);
+			menuItem.setEnabled(mode == SpreadsheetSettings.MODE_FILE);
 
 		}
 	}
@@ -326,9 +327,9 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 
 		String rootString = null;
 
-		if (mode == MODE_FILE)
+		if (mode == SpreadsheetSettings.MODE_FILE)
 			rootString = rootFile.getPath();
-		if (mode == MODE_URL)
+		if (mode == SpreadsheetSettings.MODE_URL)
 			rootString = rootURL.getPath();
 
 		return rootString;
@@ -340,9 +341,13 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 
 	public boolean setRoot(String rootString, int mode) {
 
+		if (rootString == null) {
+			return false;
+		}
+
 		Object root = null;
 
-		if (mode == MODE_FILE)
+		if (mode == SpreadsheetSettings.MODE_FILE)
 			root = new File(rootString);
 		else
 			try {
@@ -363,10 +368,12 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		this.root = root;
 		this.mode = mode;
 
-		if (mode == MODE_URL)
+		if (mode == SpreadsheetSettings.MODE_URL) {
 			this.rootURL = (URL) root;
-		if (mode == MODE_FILE)
+		}
+		if (mode == SpreadsheetSettings.MODE_FILE) {
 			this.rootFile = (File) root;
+		}
 
 		loadRootDirectory();
 	}
@@ -377,7 +384,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 
 		switch (mode) {
 
-		case MODE_URL:
+		case SpreadsheetSettings.MODE_URL:
 			this.rootURL = (URL) root;
 			InputStream is;
 			try {
@@ -399,7 +406,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 			}
 			break;
 
-		case MODE_FILE:
+		case SpreadsheetSettings.MODE_FILE:
 
 			try {
 				this.rootFile = (File) root;
@@ -460,7 +467,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 			TreePath p = e.getPath();
 
 			switch (mode) {
-			case MODE_URL:
+			case SpreadsheetSettings.MODE_URL:
 				try {
 					view.loadSpreadsheetFromURL(getURLFromPath(p));
 				} catch (MalformedURLException e1) {
@@ -469,7 +476,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 				}
 				break;
 
-			case MODE_FILE:
+			case SpreadsheetSettings.MODE_FILE:
 				view.loadSpreadsheetFromURL(getFileFromPath(p));
 				break;
 			}
@@ -484,7 +491,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 	 */
 	public void treeExpanded(TreeExpansionEvent e) {
 
-		if (mode == MODE_FILE) {
+		if (mode == SpreadsheetSettings.MODE_FILE) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath()
 					.getLastPathComponent();
 
@@ -755,12 +762,15 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		}
 
 		public void startDocument() {
+			// ignore
 		}
 
 		public void endDocument() {
+			// ignore
 		}
 
 		public void text(String text) {
+			// ignore
 		}
 
 		public int getConsStep() {

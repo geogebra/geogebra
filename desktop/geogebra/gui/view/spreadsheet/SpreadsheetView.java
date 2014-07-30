@@ -90,14 +90,6 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	// toolbar manager
 	SpreadsheetToolbarManager toolbarManager;
 
-	// file browser defaults
-	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
-	public static final int DEFAULT_MODE = FileBrowserPanel.MODE_FILE;
-
-	// private int initialBrowserMode = DEFAULT_MODE;
-	// file browser settings
-	// private String initialURL = DEFAULT_URL;
-
 	// current toolbar mode
 	private int mode = -1;
 
@@ -854,8 +846,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 		if (doRestore) {
 			settings().setInitialFilePath(settings().defaultFile());
-			settings().setInitialURL(DEFAULT_URL);
-			settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE);
+			settings().setInitialURL(SpreadsheetSettings.DEFAULT_URL);
+			settings().setInitialBrowserMode(SpreadsheetSettings.MODE_FILE);
 			// initFileBrowser();
 
 		} else {
@@ -870,7 +862,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		if (!AppD.hasFullPermissions() || !settings().showBrowserPanel())
 			return;
 
-		if (settings().initialBrowserMode() == FileBrowserPanel.MODE_FILE)
+		if (settings().initialBrowserMode() == SpreadsheetSettings.MODE_FILE)
 			setFileBrowserDirectory(settings().initialFilePath(), settings()
 					.initialBrowserMode());
 		else
@@ -879,7 +871,15 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	}
 
 	public boolean setFileBrowserDirectory(String rootString, int mode) {
+		
+		settings().beginBatch();
 		settings().setInitialBrowserMode(mode);
+		settings().setDefaultBrowser(false);
+		if (mode == SpreadsheetSettings.MODE_URL) {
+			settings().setInitialURL(rootString);
+		}
+		settings().endBatch();
+		
 		return getFileBrowser().setRoot(rootString, mode);
 	}
 
@@ -1109,13 +1109,13 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		if (AppD.hasFullPermissions()) {
 			settings().removeListener(this);
 			if (settings().initialBrowserMode() < 0)
-				settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE);
+				settings().setInitialBrowserMode(SpreadsheetSettings.MODE_FILE);
 			if (settings().defaultFile() == null)
 				settings().setDefaultFile(System.getProperty("user.home"));
 			if (settings().initialFilePath() == null)
 				settings().setInitialFilePath(System.getProperty("user.home"));
 			if (settings().initialURL() == null)
-				settings().setInitialURL(DEFAULT_URL);
+				settings().setInitialURL(SpreadsheetSettings.DEFAULT_URL);
 			settings().addListener(this);
 		}
 
