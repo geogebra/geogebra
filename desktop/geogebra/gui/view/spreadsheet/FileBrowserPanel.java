@@ -2,26 +2,22 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.util.GeoGebraFileChooser;
+import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,14 +35,12 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
@@ -70,8 +64,8 @@ import javax.swing.tree.TreePath;
  * @author G.Sturr 2010-2-6
  * 
  */
-public class FileBrowserPanel extends JPanel implements ActionListener,
-		TreeSelectionListener, TreeExpansionListener {
+public class FileBrowserPanel extends JPanel implements TreeSelectionListener,
+		TreeExpansionListener {
 	private static final long serialVersionUID = 1L;
 	// components
 	private SpreadsheetView view;
@@ -90,10 +84,9 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 	private URL rootURL;
 
 	// GUI
-	public JButton minimizeButton;
-	private JButton menuButton;
-	final static Color bgColor = Color.white;
-	final static Color fgColor = Color.black;
+	private PopupMenuButton menuButton;
+	final static Color BGCOLOR = Color.white;
+	final static Color FGCOLOR = Color.black;
 
 	private int mode;
 	private final LocalizationD loc;
@@ -112,7 +105,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		xmlParser = new QDParser();
 		handler = new MyFileTreeHandler();
 
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(0, 0));
 
 		// ======================================
 		// Create file tree
@@ -141,47 +134,25 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		// enclose tree in a scroll pane
 		JScrollPane treePane = new JScrollPane(tree);
 
-		// mouse listener to trigger context menu
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if (AppD.isRightClick(e)
-						&& mode == SpreadsheetSettings.MODE_FILE) {
-					// ContextMenu contextMenu = new ContextMenu();
-					FileBrowserMenu contextMenu = new FileBrowserMenu();
-					contextMenu.show(e.getComponent(), e.getX(), e.getY());
-				}
-			}
-		});
-
 		// ======================================
 		// Create header
 
-		JToolBar toolbar = new JToolBar();
-		toolbar.setFloatable(false);
-		// menuButton = new JButton(loc.getMenu("Load")+ "...");
-		menuButton = new JButton(dropDownIcon(
-				app.getImageIcon("aux_folder.gif"), this.getBackground()));
-		// menuButton = new JButton(app.getImageIcon("aux_folder.gif"));
+		menuButton = new PopupMenuButton(app);
+		menuButton.setKeepVisible(true);
+		menuButton.setStandardButton(true);
+		menuButton.setFixedIcon(app.getImageIcon("view-properties16.png"));
+		menuButton.setDownwardPopup(true);
+
+		menuButton.setPopupMenu(new SettingsMenu());
 		menuButton.setBorderPainted(false);
 		menuButton.setFont(app.getPlainFont());
-		menuButton.addActionListener(this);
-		toolbar.add(menuButton);
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-		minimizeButton = new JButton(app.getImageIcon("view-close.png"));
-		minimizeButton.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
-		minimizeButton.addActionListener(this);
-		minimizeButton.setFocusPainted(false);
-		minimizeButton.setPreferredSize(new Dimension(16, 16));
-		buttonPanel.add(minimizeButton);
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+		buttonPanel.add(menuButton);
 
-		JPanel header = new JPanel(new BorderLayout());
-		header.add(toolbar, loc.borderWest());
+		JPanel header = new JPanel(new BorderLayout(0, 0));
 		header.add(buttonPanel, loc.borderEast());
-		// header.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-		// .createEtchedBorder(), BorderFactory.createEmptyBorder(2, 5, 2,5)));
 
 		// ===========================================
 		// Add all components to the browser panel
@@ -194,52 +165,26 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 	}
 
 	// =============================================
-	// Context Menu
+	// Settings Menu
 	// =============================================
 
-	private class ContextMenu extends JPopupMenu {
+	private class SettingsMenu extends JPopupMenu {
 		private static final long serialVersionUID = 1L;
 		JMenuItem menuItem;
+		JCheckBoxMenuItem menuItemCheck;
 
-		public ContextMenu() {
-			this.setOpaque(true);
-			setBackground(bgColor);
-			setFont(app.getPlainFont());
-
-			menuItem = new JMenuItem(loc.getMenu("SaveToXML") + "...",
-					app.getEmptyIcon());
-			menuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-
-					try {
-						saveXMLTree(rootFile);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
-
-			add(menuItem);
-			menuItem.setBackground(bgColor);
+		public SettingsMenu() {
 		}
-	}
 
-	// =============================================
-	// File Browser Menu
-	// =============================================
-
-	private class FileBrowserMenu extends JPopupMenu {
-		private static final long serialVersionUID = 1L;
-		JMenuItem menuItem;
-
-		public FileBrowserMenu() {
+		public void buildSettingsMenu() {
+			this.removeAll();
 			this.setOpaque(true);
-			setBackground(bgColor);
+			setBackground(BGCOLOR);
 			setFont(app.getPlainFont());
 
-			menuItem = new JMenuItem(loc.getMenu("OpenFileFolder") + "...",
-					app.getImageIcon("document-open.png"));
-			menuItem.addActionListener(new ActionListener() {
+			JCheckBoxMenuItem menuItemCheck = new JCheckBoxMenuItem(
+					loc.getMenu("OpenFileFolder") + "...");
+			menuItemCheck.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					GeoGebraFileChooser fc = new GeoGebraFileChooser(
@@ -260,12 +205,13 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 
 				}
 			});
-			add(menuItem);
-			menuItem.setBackground(bgColor);
+			add(menuItemCheck);
+			menuItemCheck.setSelected(mode == SpreadsheetSettings.MODE_FILE);
+			menuItemCheck.setBackground(BGCOLOR);
 
-			menuItem = new JMenuItem(loc.getMenu("OpenFromWebpage") + "...",
-					app.getImageIcon("wiki.png"));
-			menuItem.addActionListener(new ActionListener() {
+			menuItemCheck = new JCheckBoxMenuItem(
+					loc.getMenu("OpenFromWebpage") + "...");
+			menuItemCheck.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					try {
@@ -289,13 +235,12 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 					}
 				}
 			});
-			add(menuItem);
-			menuItem.setBackground(bgColor);
-
+			add(menuItemCheck);
+			menuItemCheck.setBackground(BGCOLOR);
+			menuItemCheck.setSelected(mode == SpreadsheetSettings.MODE_URL);
 			addSeparator();
 
-			menuItem = new JMenuItem(loc.getMenu("SaveToXML") + "...",
-					app.getEmptyIcon());
+			menuItem = new JMenuItem(loc.getMenu("SaveToXML") + "...");
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
@@ -309,8 +254,17 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 			});
 
 			add(menuItem);
-			menuItem.setBackground(bgColor);
+			menuItem.setBackground(BGCOLOR);
 			menuItem.setEnabled(mode == SpreadsheetSettings.MODE_FILE);
+
+		}
+
+		@Override
+		public void setVisible(boolean isVisible) {
+			if (isVisible) {
+				buildSettingsMenu();
+			}
+			super.setVisible(isVisible);
 
 		}
 	}
@@ -433,26 +387,6 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 	// =============================================
 
 	/**
-	 * Handle button clicks.
-	 */
-	public void actionPerformed(ActionEvent e) {
-
-		// open the drop down menu
-		if (e.getSource() == menuButton) {
-			FileBrowserMenu menu = new FileBrowserMenu();
-			Point locButton = menuButton.getLocationOnScreen();
-			Point locApp = app.getMainComponent().getLocationOnScreen();
-			menu.show(app.getMainComponent(), locButton.x - locApp.x,
-					locButton.y - locApp.y + menuButton.getHeight());
-
-			// minimize the browser
-		} else if (e.getSource() == minimizeButton) {
-			view.minimizeBrowserPanel();
-			minimizeButton.getModel().setRollover(false);
-		}
-	}
-
-	/**
 	 * Listener for data file (tree leaf) selection. Creates a path string for
 	 * the file and then loads the file into the spreadsheet.
 	 */
@@ -540,12 +474,13 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 			String text = value.toString();
 			if (leaf) {
 				setIcon(null);
+				// remove file extensions
 				if (text != null && text.contains(".")) {
 					text = text.substring(0, text.lastIndexOf("."));
 				}
 			}
-			setText(text);
 
+			setText(text);
 			return this;
 		}
 	}
@@ -776,34 +711,6 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		public int getConsStep() {
 			return 0;
 		}
-	}
-
-	/**
-	 * Add a downward triangle to an icon to indicate a drop down menu.
-	 */
-	private static ImageIcon dropDownIcon(ImageIcon icon, Color bgColor) {
-
-		// Create image
-		int w = icon.getIconWidth();
-		int h = icon.getIconHeight();
-
-		BufferedImage image = new BufferedImage(w + 14, h,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-
-		g2.drawImage(icon.getImage(), 0, 0, w, h, 0, 0, w, h, null);
-
-		// right hand side: a downward triangle
-		g2.setColor(Color.BLACK);
-		int x = w + 5;
-		int y = h / 2 - 1;
-		g2.drawLine(x, y, x + 6, y);
-		g2.drawLine(x + 1, y + 1, x + 5, y + 1);
-		g2.drawLine(x + 2, y + 2, x + 4, y + 2);
-		g2.drawLine(x + 3, y + 3, x + 3, y + 3);
-
-		return new ImageIcon(image);
-
 	}
 
 }

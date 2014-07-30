@@ -96,6 +96,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	private JSplitPane splitPane;
 	private FormulaBar formulaBar;
 	private JPanel spreadsheetPanel;
+	
+	private boolean isBrowserVisible;
 
 	private SpreadsheetViewDnD dndHandler;
 
@@ -784,51 +786,22 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 	}
 
-	public void minimizeBrowserPanel() {
-		splitPane.setDividerLocation(10);
-		splitPane.setDividerSize(0);
-		splitPane.setLeftComponent(getRestorePanel());
-	}
-
-	public void restoreBrowserPanel() {
-		splitPane.setDividerLocation(splitPane.getLastDividerLocation());
-		splitPane.setDividerSize(4);
-		splitPane.setLeftComponent(getFileBrowser());
-
-	}
-
-	/**
-	 * Returns restorePanel, if none exists a new one is built. RestorePanel is
-	 * a slim vertical bar that holds the place of the minimized fileBrowser.
-	 * When clicked it restores the file browser to full size.
-	 * 
-	 */
-	public JPanel getRestorePanel() {
-		if (restorePanel == null) {
-			restorePanel = new JPanel();
-			restorePanel.setMinimumSize(new Dimension(10, 0));
-			restorePanel.setBorder(BorderFactory.createEtchedBorder(1));
-			restorePanel.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					restoreBrowserPanel();
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					restorePanel.setBackground(Color.LIGHT_GRAY);
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					restorePanel.setBackground(null);
-				}
-			});
+	public void setBrowserVisible(boolean isVisible) {
+		if (isVisible) {
+			splitPane.setDividerLocation(splitPane.getLastDividerLocation());
+			splitPane.setDividerSize(4);
+			isBrowserVisible = true;
+		} else {
+			splitPane.setDividerLocation(0);
+			splitPane.setDividerSize(0);
+			isBrowserVisible = true;
 		}
-		restorePanel.setBackground(null);
-		return restorePanel;
 	}
+
+	public boolean isBrowserVisible() {
+		return isBrowserVisible;
+	}
+	
 
 	public int getInitialBrowserMode() {
 		return settings().initialBrowserMode();

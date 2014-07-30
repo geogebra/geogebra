@@ -33,6 +33,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private CellFormat formatHandler;
 	private ArrayList<CellRange> selectedCells;
 
+	private MyToggleButton btnFileBrowser;
 	private MyToggleButton btnFormulaBar;
 	private MyToggleButton btnLeftAlign, btnCenterAlign, btnRightAlign;
 	private ColorPopupMenuButton btnBgColor;
@@ -62,6 +63,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 		// create and add the buttons
 		createButtons();
+		add(btnFileBrowser);
 		add(btnFormulaBar);
 
 		this.addSeparator();
@@ -84,6 +86,10 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	}
 
 	private void createButtons() {
+
+		btnFileBrowser = new MyToggleButton(app.getImageIcon("aux_folder.gif"),
+				iconHeight);
+		btnFileBrowser.addActionListener(this);
 
 		btnFormulaBar = new MyToggleButton(app.getImageIcon("formula_bar.png"),
 				iconHeight);
@@ -154,7 +160,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	}
 
 	public void setLabels() {
-
+		btnFormulaBar.setToolTipText(loc.getMenu("ShowFileBrowser"));
 		btnFormulaBar.setToolTipText(loc.getMenu("ShowInputField"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
@@ -266,6 +272,9 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 			if (view.getSpreadsheetTable().isSelectNone())
 				view.getSpreadsheetTable().setSelection(0, 0);
 			view.updateFormulaBar();
+
+		} else if (source == btnFileBrowser) {
+			view.setBrowserVisible(btnFileBrowser.isSelected());
 		}
 
 		this.requestFocus();
@@ -309,6 +318,9 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		}
 
 		btnFormulaBar.setSelected(view.getShowFormulaBar());
+
+		btnFileBrowser.setVisible(view.settings().showBrowserPanel());
+		btnFileBrowser.setSelected(!view.isBrowserVisible());
 		allowActionPerformed = true;
 
 	}
