@@ -700,7 +700,8 @@ public class Kernel {
 	/**
 	 * Find geos with caption ending %style=... in this kernel,
 	 * and set their visual styles to those geos in the
-	 * otherKernel which have the same %style=... caption ending
+	 * otherKernel which have the same %style=... caption ending;
+	 * as well as set %style=defaultStyle for all geos
 	 * 
 	 * @param otherKernel
 	 */
@@ -738,6 +739,25 @@ public class Kernel {
 		int pos;
 		while (it.hasNext()) {
 			actual = it.next();
+
+			// at first, apply default styles!
+			// these are applied anyway, caption is not needed;
+			// however, Geo type is needed!
+			GeoClass gc = actual.getGeoClassType();
+
+			okit = okts.iterator();
+			while (okit.hasNext()) {
+				okactual = okit.next();
+				okcapt = okactual.getCaptionSimple();
+				// as okts is pre-filtered, okcapt is not null
+				okpos = okcapt.indexOf("%style=defaultStyle");
+				if (okpos > -1 && okactual.getGeoClassType() == gc) {
+					// match!
+					actual.setVisualStyle(okactual);
+				}
+			}
+			// now, okit, okactual, okcapt, okpos can be redefined...
+
 			capt = actual.getCaptionSimple();
 			if (capt == null) {
 				pos = -1;
@@ -761,7 +781,7 @@ public class Kernel {
 					// okcapt will not be needed until the next iteration
 					okcapt = okcapt.substring(okpos);
 					if (capt.equals(okcapt)) {
-						// match! this is what this loop and this method is for:
+						// match!
 						actual.setVisualStyle(okactual);
 					}
 				}
