@@ -14,7 +14,7 @@ import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.main.MyError;
+import geogebra.common.main.App;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -111,7 +111,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 
 	private void compute(boolean first) {
 		if (!first){
-			try{
+
 				if (equation.isFunctionDependent()){
 //					boolean functionChanged=false;
 					Set<FunctionNVar> functions=new HashSet<FunctionNVar>();
@@ -135,8 +135,12 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 						coeff=equation.getNormalForm().getCoeff();
 						dependentFromFunctions=functions;
 					}
+				}else if(equation.hasVariableDegree()){
+					App.printStacktrace("");
+					equation.initEquation();
+					coeff=equation.getNormalForm().getCoeff();
 				}
-			}catch(MyError e){
+			if(!equation.isPolynomial()){
 				geoElement.setUndefined();
 				return;
 			}

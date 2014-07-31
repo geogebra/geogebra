@@ -514,7 +514,7 @@ public class Polynomial implements Serializable
 	 * @param rt second parameter
 	 * @return result as polynomial
 	 */
-	Polynomial apply(Operation operation, Polynomial rt) {
+	Polynomial apply(Operation operation, Polynomial rt, Equation equ) {
 		switch(operation){
 			case PLUS:
 				this.add(rt);
@@ -526,12 +526,12 @@ public class Polynomial implements Serializable
 			case MULTIPLY:
 				this.multiply(rt);
 				break;
-			case POWER:
-				this.power((int)rt.getConstantCoefficient().evaluateDouble());
-				break;
 			case DIVIDE:
-				this.divide(rt);
-				break;
+			case POWER:
+				if(rt.degree() != 0){
+					equ.setIsPolynomial(false);
+				}
+				return apply(operation, rt.getConstantCoefficient(), equ);
 		}
 		return this;
 	}
@@ -542,7 +542,7 @@ public class Polynomial implements Serializable
 	 * @param rt second parameter
 	 * @return result as polynomial
 	 */
-	Polynomial apply(Operation operation, ExpressionValue rt) {
+	Polynomial apply(Operation operation, ExpressionValue rt, Equation equ) {
 		switch(operation){
 			case PLUS:
 				this.add(rt);
@@ -555,6 +555,12 @@ public class Polynomial implements Serializable
 				this.multiply(rt);
 				break;
 			case POWER:
+				double power = rt.evaluateDouble();
+				if(Inspecting.dynamicGeosFinder.check(rt)){
+					equ.setVariableDegree(true);
+				}else if(!Kernel.isInteger(power)){
+						equ.setIsPolynomial(false);
+				}
 				this.power((int)rt.evaluateDouble());
 				break;
 			case DIVIDE:

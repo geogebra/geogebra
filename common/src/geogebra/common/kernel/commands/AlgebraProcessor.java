@@ -52,7 +52,6 @@ import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.CollectFunctionVariables;
 import geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
-import geogebra.common.kernel.arithmetic.Traversing.PolyReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -1834,105 +1833,73 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param equ equation
-	 * @param allowConstant true to allow equations like 2=3 or x=x, false to throw MyError for those
+	 * @param equ
+	 *            equation
+	 * @param allowConstant
+	 *            true to allow equations like 2=3 or x=x, false to throw
+	 *            MyError for those
 	 * @return line, conic, implicit poly or plane
-	 * @throws MyError e.g. for invalid operation
+	 * @throws MyError
+	 *             e.g. for invalid operation
 	 */
-	public final GeoElement[] processEquation(Equation equ, boolean allowConstant) throws MyError {
+	public final GeoElement[] processEquation(Equation equ,
+			boolean allowConstant) throws MyError {
 		// AbstractApplication.debug("EQUATION: " + equ);
 		// AbstractApplication.debug("NORMALFORM POLYNOMIAL: " +
 		// equ.getNormalForm());
 
-		try {
-			equ.initEquation();
-			// AbstractApplication.debug("EQUATION: " + equ.getNormalForm());
-			// check no terms in z
-			checkNoTermsInZ(equ);
+		equ.initEquation();
 
-			if (equ.isFunctionDependent()) {
-				return processImplicitPoly(equ);
+		// check no terms in z
+		checkNoTermsInZ(equ);
+
+		if (equ.isFunctionDependent() && equ.isPolynomial()) {
+			return processImplicitPoly(equ);
+		}
+		int deg = equ.isPolynomial() && !equ.hasVariableDegree() ? equ.degree() : -1;
+		// consider algebraic degree of equation
+		// check not equation of eg plane
+		switch (deg) {
+		// linear equation -> LINE
+		case 1:
+			return processLine(equ);
+
+			// quadratic equation -> CONIC
+		case 2:
+			return processConic(equ);
+			// pi = 3 is not an equation, #1391
+		case 0:
+			if (!allowConstant) {
+				throw new MyError(app.getLocalization(), "InvalidEquation");
 			}
-
-			// consider algebraic degree of equation
-			// check not equation of eg plane
-			switch (equ.degree()) {
-			// linear equation -> LINE
-			case 1:
-				return processLine(equ);
-
-				// quadratic equation -> CONIC
-			case 2:
-				return processConic(equ);
-				//pi = 3 is not an equation, #1391
-			case 0:
-				if(!allowConstant){
-					throw new MyError(app.getLocalization(),"InvalidEquation");
-				}
-				//if constants are allowed, build implicit poly	
-			default:
-				// test for "y= <rhs>" here as well
-				if (equ.getLHS().toString(StringTemplate.xmlTemplate).trim().equals("y")) {
-					PolyReplacer rep = PolyReplacer.getReplacer();
-					Function fun = new Function(equ.getRHS().traverse(rep).wrap());
-					// try to use label of equation					
-					fun.setLabel(equ.getLabel());
-					return processFunction(fun);
-				}
-				return processImplicitPoly(equ);
-			}
-		} catch (MyError eqnError) {
-			eqnError.printStackTrace();
-			// invalid equation: maybe a function of form "y = <rhs>"?
-			String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate).trim();
+			// if constants are allowed, build implicit poly
+		default:
+			// test for "y= <rhs>" here as well
+			String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate)
+					.trim();
 			if (lhsStr.equals("y")) {
-				try {
-					// try to create function from right hand side
-					PolyReplacer rep = PolyReplacer.getReplacer();
-					Function fun = new Function(equ.getRHS().traverse(rep).wrap());
 
-					// try to use label of equation
-					fun.setLabel(equ.getLabel());
-					return processFunction(fun);
-				} catch (MyError funError) {
-					funError.printStackTrace();
-				}
+				Function fun = new Function(equ.getRHS());
+				// try to use label of equation
+				fun.setLabel(equ.getLabel());
+				return processFunction(fun);
 			}
-			else if (lhsStr.equals("X")) {
-				try {
-					// try to create function from right hand side
-					CollectUndefinedVariables cu = new CollectUndefinedVariables();
-					equ.getRHS().traverse(cu);
-					String varName = cu.getResult().first();
-					PolyReplacer rep = PolyReplacer.getReplacer();
-					FunctionVariable fv = new FunctionVariable(kernel, varName);
-					VariableReplacer var = VariableReplacer.getReplacer(varName, fv);
-					ExpressionNode exp = equ.getRHS().traverse(rep).traverse(var).wrap();
-					exp.resolveVariables(false);
-					return this.processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate),
-							fv, equ.getLabel());
-				} catch (MyError funError) {
-					funError.printStackTrace();
-				}
+			if (equ.isPolynomial()) {
+				return processImplicitPoly(equ);
 			}
 
-			// throw invalid equation error if we get here
-			if (eqnError.getMessage() == "InvalidEquation") {
-				throw eqnError;
-			}
-			String[] errors = { "InvalidEquation",
-					eqnError.getLocalizedMessage() };
+			String[] errors = { "InvalidEquation" };
 			throw new MyError(loc, errors);
 		}
+
 	}
 
 	/**
 	 * @param equ equation
-	 * @throws MyError if equation contains terms in Z
 	 */
-	protected void checkNoTermsInZ(Equation equ) throws MyError{
+	protected void checkNoTermsInZ(Equation equ){
 		if (!equ.getNormalForm().isFreeOf('z'))
-			throw new MyError(loc, "InvalidEquation");
+			equ.setIsPolynomial(false);
 	}
 
 	/**
@@ -2034,7 +2001,7 @@ public class AlgebraProcessor {
 		GeoElement[] ret = new GeoElement[1];
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
-		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant();
+		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant() && !equ.hasVariableDegree();
 		GeoImplicitPoly poly;
 		GeoElement geo = null;
 		if (isIndependent) {

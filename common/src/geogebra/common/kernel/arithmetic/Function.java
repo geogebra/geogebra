@@ -710,7 +710,6 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		Equation equ = new Equation(kernel,replaced,new MyDouble(kernel,0));
 		
 		try{
-			equ.initEquation();
 			coeff = Polynomial.fromNode(replaced, equ).getCoeff();
 			terms = coeff.length;
 		}

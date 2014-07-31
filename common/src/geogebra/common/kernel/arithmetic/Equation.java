@@ -91,6 +91,8 @@ public class Equation extends ValidExpression {
     private boolean forcePlane = false, forceLine = false;
     private boolean forceConic = false, forceImplicitPoly = false ;
     private boolean forceQuadric = false;
+	private boolean variableDegree = true;
+	private boolean isPolynomial;
  
 
     /**
@@ -235,6 +237,8 @@ public class Equation extends ValidExpression {
         rhs.resolveVariables(true);
 
         // simplify the both sides to single polynomials
+        this.isPolynomial = true;
+        this.variableDegree = false;
         leftPoly  = Polynomial.fromNode(lhs, this);
         rightPoly = Polynomial.fromNode(rhs, this);
         		
@@ -561,6 +565,22 @@ public class Equation extends ValidExpression {
 		}
 		
 		return false;
+	}
+
+	public void setVariableDegree(boolean b) {
+		this.variableDegree  = b;
+	}
+
+	public boolean hasVariableDegree() {
+		return variableDegree;
+	}
+
+	public void setIsPolynomial(boolean b) {
+		this.isPolynomial = b;
+	}
+	
+	public boolean isPolynomial(){
+		return isPolynomial;
 	}
  
 } // end of class Equation

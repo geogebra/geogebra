@@ -98,69 +98,6 @@ public interface Traversing {
 	}
 	
 	/**
-	 * Replaces dummy variable with given name
-	 *
-	 */
-	public class PolyReplacer implements Traversing {
-		public ExpressionValue process(ExpressionValue ev) {
-			if(ev instanceof Polynomial && ((Polynomial)ev).length()==1){
-				int[] exponents = new int[]{0,0,0};
-				String xyz = ((Polynomial)ev).getTerm(0).getVars();
-				for(int i=0;i<xyz.length();i++){
-					exponents[xyz.charAt(i)-'x']++;
-				}
-				Kernel kernel = ev.getKernel();
-				
-				ExpressionValue coeff = ((Polynomial)ev).getTerm(0).getCoefficient();
-				
-				ExpressionNode ret = null;
-				
-				if (!Kernel.isEqual(coeff.evaluateDouble(), 1d)) {
-					ret = new ExpressionNode(kernel, coeff);
-				}
-				
-				ExpressionNode en;
-
-				if (exponents[2] > 0) {
-					en = new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]));
-					if (ret == null) {
-						ret = en;
-					} else {
-						ret = ret.multiplyR(en);
-					}
-				}
-				if (exponents[1] > 0) {
-					en = new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]));
-					if (ret == null) {
-						ret = en;
-					} else {
-						ret = ret.multiplyR(en);
-					}
-				}
-				if (exponents[0] > 0) {
-					en = new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0]));
-					if (ret == null) {
-						ret = en;
-					} else {
-						ret = ret.multiplyR(en);
-					}
-				}
-				
-				return ret;
-			
-			}
-			return ev;
-		}
-		private static PolyReplacer replacer = new PolyReplacer();
-		/**
-		 * @return replacer
-		 */
-		public static PolyReplacer getReplacer(){
-			return replacer;
-		}
-	}
-	
-	/**
 	 * Replaces variables and polynomials
 	 *
 	 */

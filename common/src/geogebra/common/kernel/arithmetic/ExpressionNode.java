@@ -1084,6 +1084,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 		}
 		if (!polynomialOperation(operation)) {
+			if(left instanceof FunctionVariable || 
+					(left instanceof ExpressionNode && ((ExpressionNode)left).includesFunctionVariable())){
+				equ.setIsPolynomial(false);
+			}
+			if(right instanceof FunctionVariable ||
+					(right instanceof ExpressionNode && ((ExpressionNode)left).includesFunctionVariable())){
+				equ.setIsPolynomial(false);
+			}
 			return new Polynomial(kernel, new Term( new ExpressionNode(
 					kernel, left, operation, right), ""));
 		}
@@ -1114,10 +1122,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					}
 				}
 				//both for f(x,x) and x+3 we don't need the second argument wrapped
-				return lt.apply(operation, right);
+				return lt.apply(operation, right, equ);
 			}
 		}
-		return lt.apply(operation, rt);
+		return lt.apply(operation, rt, equ);
 	}
 
 	private static boolean polynomialOperation(Operation operation2) {

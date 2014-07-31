@@ -159,10 +159,10 @@ public class Inequality {
 					((ExpressionNode) normal.deepCopy(kernel)).replace(fv[0], xVar).wrap().
 					replace(fv[1], yVar).wrap();
 			Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
-			try{
-				equ.initEquation();			
-			}
-			catch(Throwable t){
+			
+			equ.initEquation();			
+			
+			if(!equ.isPolynomial()){
 				type = IneqType.INEQUALITY_INVALID;
 				return;
 			}
