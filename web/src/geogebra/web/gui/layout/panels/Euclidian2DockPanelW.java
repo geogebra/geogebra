@@ -3,6 +3,7 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -37,6 +38,8 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 				6,							// menu order
 				'2' // ctrl-shift-1
 			);
+		setViewLabel(GuiResources.INSTANCE.graphics2View());
+
 		this.idx = idx;
 		// copied here from loadComponent
 		setEmbeddedSize(300);

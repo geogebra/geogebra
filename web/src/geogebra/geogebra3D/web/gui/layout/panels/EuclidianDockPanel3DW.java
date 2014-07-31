@@ -3,6 +3,7 @@ package geogebra.geogebra3D.web.gui.layout.panels;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
@@ -31,7 +32,8 @@ public class EuclidianDockPanel3DW extends DockPanelW {
 				4,							// menu order
 				'3' // ctrl-shift-3
 			);
-		
+		setViewLabel(GuiResources.INSTANCE.graphics3dView());
+
 		this.app = (AppW) app;
 		this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);

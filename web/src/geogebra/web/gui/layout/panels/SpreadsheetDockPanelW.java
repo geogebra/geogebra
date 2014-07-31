@@ -3,6 +3,7 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
@@ -35,7 +36,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				3, 									// menu order
 				'S'									// menu shortcut
 			);
-		
+		setViewLabel(GuiResources.INSTANCE.spreadsheetView());
+
 		app = (AppW)appl;
 	}
 

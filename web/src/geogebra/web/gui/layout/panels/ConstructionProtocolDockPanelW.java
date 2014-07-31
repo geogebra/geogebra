@@ -1,6 +1,7 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
@@ -26,7 +27,8 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 			7,						// menu order
 			'L' // ctrl-shift-L
 		);
-		
+		setViewLabel(GuiResources.INSTANCE.ConstructionProtocol());
+
 		this.app = app;
 		this.setShowStyleBar(true);
 		this.setEmbeddedSize(300);

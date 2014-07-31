@@ -2,6 +2,7 @@ package geogebra.web.gui.layout.panels;
 
 import geogebra.common.cas.view.CASView;
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.VerticalPanelSmart;
@@ -33,7 +34,7 @@ public class CASDockPanelW extends DockPanelW {
 				4,						// menu order
 				'K' // ctrl-shift-K
 			);
-			
+		setViewLabel(GuiResources.INSTANCE.CASView());
 		
 		//initWidget(toplevel = new SimpleLayoutPanel());
 		//ancestor = new VerticalPanelSmart();

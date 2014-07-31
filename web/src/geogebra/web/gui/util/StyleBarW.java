@@ -8,6 +8,7 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
@@ -26,11 +27,11 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	public StyleBarW() {
 		setStyleName("StyleBar");
 		this.addDomHandler(new MouseMoveHandler(){
-
 			@Override
             public void onMouseMove(MouseMoveEvent event) {
 	            event.stopPropagation();
-            }}, MouseMoveEvent.getType());
+            }
+		}, MouseMoveEvent.getType());
 	}
 
 	
@@ -53,7 +54,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		for(int i = 0; i < Views.ids.length; i++){
 			if(app.supportsView(Views.ids[i]) && !app.getGuiManager().showView(Views.ids[i])){
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
-				data[k].url = GuiResources.INSTANCE.dockbar_open().getSafeUri().asString();//Views.icons[i].getSafeUri().asString();
+				data[k].url = GuiResources.INSTANCE.dockbar_open().getSafeUri().asString();
 				viewIDs[k] = Views.ids[i];
 				k++;
 			}
@@ -68,10 +69,20 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 			}
 		}
 
-		viewButton = new PopupMenuButton(app, data, k, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		viewButton = new PopupMenuButton(app, data, k+1, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		ImageOrText views = new ImageOrText();
 		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
 		viewButton.setFixedIcon(views);
+		
+		geogebra.web.gui.util.SelectionTable table = viewButton.getMyTable();
+	    for(int i =  table.getRowCount()-1; i > 1; i--){
+	    	table.setWidget(i, 0, table.getWidget(i-1, 0));
+	    }
+
+	    FlowPanel separator = new FlowPanel();
+	    separator.addStyleName("Separator");
+	    table.setWidget(1, 0, separator);
+
 		viewButton.addPopupHandler(new PopupMenuHandler(){
 
 			@Override
@@ -81,8 +92,8 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 				// the first item is the close button
 				if(i==0){
 					app.getGuiManager().setShowView(false, viewID);
-				} else {
-					app.getGuiManager().setShowView(true, viewIDs[i]);
+				} else if(i != 1) { // ignore separator
+					app.getGuiManager().setShowView(true, viewIDs[i-1]);
 				}
 
 				app.updateMenubar();

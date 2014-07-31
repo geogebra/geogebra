@@ -9,6 +9,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
@@ -351,6 +352,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	PushButton toggleStyleBarButton;
 
+	private StandardButton viewLabel;
+
 	public int getHeight() {
 		return dockPanel.getOffsetHeight();
 	}
@@ -455,6 +458,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 		};
 		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
+
+		if(viewLabel != null){
+			titleBarPanelContent.add(viewLabel);
+		}
 		titleBarPanelContent.add(toggleStyleBarButton);
 	}
 
@@ -1268,4 +1275,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return embeddedDimHeight;
 	}
 
+	/**
+	 * Initializes the view-icon of the DockPanel; 
+	 * has to be called before addToggleButton
+	 * 
+	 * @param imageResource: the icon the be shown
+	 */
+	public void setViewLabel(ImageResource imageResource){
+		this.viewLabel = new StandardButton(imageResource);
+		viewLabel.addStyleName("toggleStyleBar");
+	}
 }

@@ -3,6 +3,7 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.main.AppW;
@@ -40,7 +41,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 				5,							// menu order
 				'1' // ctrl-shift-1
 			);
-		
+		setViewLabel(GuiResources.INSTANCE.graphicsView());
+
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
 		
