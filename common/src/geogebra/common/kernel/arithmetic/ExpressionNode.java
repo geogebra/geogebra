@@ -303,8 +303,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		// deep copy
 		//important to check for commands before we call isConstant as that might
 		//result in evaluation, FunctionNVar important because of FunctionExpander
-		else if (ev.isPolynomialInstance()
-				|| (ev.inspect(Inspecting.CommandFinder.INSTANCE))
+		else if (
+				 (ev.inspect(Inspecting.CommandFinder.INSTANCE))
 				|| ev.isConstant() 
 				|| ev instanceof FunctionNVar
 				|| ev instanceof Equation
@@ -568,7 +568,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	/**
 	 * @return true if there is at least one Polynomial in the tree
 	 */
-	public boolean includesPolynomial() {
+	public boolean includesFunctionVariable() {
 		return getPolynomialVars().size() > 0;
 	}
 
@@ -592,7 +592,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	private void getPolynomialVars(Set<String> vars) {
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).getPolynomialVars(vars);
-		} else if (left.isPolynomialInstance()) {
+		} else if (left instanceof FunctionVariable) {
 			vars.add(left.toString(StringTemplate.defaultTemplate));
 		}else if (left instanceof MyVecNode) {
 			((MyVecNode)left).getX().wrap().getPolynomialVars(vars);
@@ -602,7 +602,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).getPolynomialVars(vars);
-			} else if (right.isPolynomialInstance()) {
+			} else if (right instanceof FunctionVariable) {
 				vars.add(right.toString(StringTemplate.defaultTemplate));
 				// changed to avoid deepcopy in MyList.getMyList() eg
 				// Sequence[f(Element[GP,k]),k,1,NP]
@@ -617,7 +617,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					ExpressionValue elem = list.getListElement(i);
 					if (elem.isExpressionNode()) {
 						((ExpressionNode) elem).getPolynomialVars(vars);
-					} else if (elem.isPolynomialInstance()) {
+					} else if (elem instanceof FunctionVariable) {
 						vars.add(elem.toString(StringTemplate.defaultTemplate));
 					}
 				}
@@ -796,46 +796,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					right = fVar;
 					replacements++;
 				}
-			}
-		}
-
-		return replacements;
-	}
-
-	/**
-	 * Replaces all Polynomials in tree by function variable
-	 * 
-	 * @param x
-	 *            replacement variable
-	 * 
-	 * @return number of replacements done
-	 */
-	protected int replacePolynomials(FunctionVariable x) {
-		int replacements = 0;
-
-		// left tree
-		if (left.isExpressionNode()) {
-			replacements += ((ExpressionNode) left).replacePolynomials(x);
-		} else if (left instanceof MyList) {
-			replacements += ((MyList) left).replacePolynomials(x);
-		} else if (left.isPolynomialInstance()
-				&& x.toString(StringTemplate.defaultTemplate).equals(
-						left.toString(StringTemplate.defaultTemplate))) {
-			left = x;
-			replacements++;
-		}
-
-		// right tree
-		if (right != null) {
-			if (right.isExpressionNode()) {
-				replacements += ((ExpressionNode) right).replacePolynomials(x);
-			} else if (right instanceof MyList) {
-				replacements += ((MyList) right).replacePolynomials(x);
-			} else if (right.isPolynomialInstance()
-					&& x.toString(StringTemplate.defaultTemplate).equals(
-							right.toString(StringTemplate.defaultTemplate))) {
-				right = x;
-				replacements++;
 			}
 		}
 
@@ -1081,13 +1041,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 									.getCopy(kernel);
 							if (!equ.isFunctionDependent()) {
 								equ.setFunctionDependent(en
-										.includesPolynomial());
+										.includesFunctionVariable());
 							}
 							// we may only make polynomial trees after replacement
 							// en.makePolynomialTree(equ);
 							ev = en;
 						} else if (list.getListElement(i)
-								.isPolynomialInstance()) {
+								instanceof FunctionVariable) {
 							equ.setFunctionDependent(true);
 						}
 						expr = expr.replace(
@@ -1099,10 +1059,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 				
 				if(equ.isFunctionDependent()){
-					expr.makePolynomialTree(equ);
-					left = expr.left;
-					right = expr.right;
-					operation = expr.getOperation();
+					return expr.makePolynomialTree(equ);
 				}
 			}
 		} else if (operation == Operation.FUNCTION) {
@@ -1112,21 +1069,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if (right instanceof ExpressionNode) {
 					if (!equ.isFunctionDependent()) {
 						equ.setFunctionDependent(((ExpressionNode) right)
-								.includesPolynomial());
+								.includesFunctionVariable());
 					}
 					// we may only make polynomial trees after replacement
 					// ((ExpressionNode) right).makePolynomialTree(equ);
-				} else if (right.isPolynomialInstance()) {
+				} else if (right instanceof FunctionVariable) {
 					equ.setFunctionDependent(true);
 				}
 				if(equ.isFunctionDependent()){
 					ExpressionNode expr = func.getExpression().getCopy(kernel);
 					expr = expr.replace(func.getFunctionVariable(), right).wrap();
-					expr.makePolynomialTree(equ);
-				
-					left = expr.left;
-					right = expr.right;
-					operation = expr.getOperation();
+					return expr.makePolynomialTree(equ);
 				}
 			}
 		}
@@ -1150,16 +1103,18 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				rt = ((ExpressionNode) right).makePolynomialTree(equ);
 			}  else if(right instanceof FunctionVariable){
 				rt = new Polynomial(kernel, ((FunctionVariable)right).getSetVarString());
-			} else { if (right instanceof MyList) {
-				MyList list = (MyList) right;
-				for (int i = 0; i < list.size(); i++) {
-					ExpressionValue ev = list.getListElement(i);
-					if (ev instanceof ExpressionNode) {
-						((ExpressionNode) ev).makePolynomialTree(equ);
+			} else { 
+				if (right instanceof MyList) {
+					MyList list = (MyList) right;
+					for (int i = 0; i < list.size(); i++) {
+						ExpressionValue ev = list.getListElement(i);
+						if (ev instanceof ExpressionNode) {
+							((ExpressionNode) ev).makePolynomialTree(equ);
+						}
 					}
 				}
-			} 
-			rt = new Polynomial(kernel, new Term( right, ""));
+				//both for f(x,x) and x+3 we don't need the second argument wrapped
+				return lt.apply(operation, right);
 			}
 		}
 		return lt.apply(operation, rt);

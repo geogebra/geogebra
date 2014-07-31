@@ -261,7 +261,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		//	ret = getCopy(kernel, en);
 		}
 		// deep copy
-		else if (ev.isPolynomialInstance() || ev.isConstant()
+		else if ( ev.isConstant()
 				|| (ev instanceof Command)) {
 			ret = ev.deepCopy(kernel);
 		} else if (ev.isGeoElement()) {

@@ -5,7 +5,7 @@ http://www.geogebra.org
 This file is part of GeoGebra.
 
 This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
+under the terms of the GNU General private License as published by 
 the Free Software Foundation.
 
  */
@@ -39,7 +39,7 @@ public class Polynomial implements Serializable
 	/**
 	 * @param kernel kernel
 	 */
-	public Polynomial(Kernel kernel) {
+	private Polynomial(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
@@ -47,7 +47,7 @@ public class Polynomial implements Serializable
 	 * @param kernel kernel
 	 * @param t single term
 	 */
-	public Polynomial(Kernel kernel, Term t) {
+	Polynomial(Kernel kernel, Term t) {
 		this(kernel);
 		terms.add(t);
 	}
@@ -56,7 +56,7 @@ public class Polynomial implements Serializable
 	 * @param kernel kernel
 	 * @param vars variables string (to create one term)
 	 */
-	public Polynomial(Kernel kernel, String vars) {
+	Polynomial(Kernel kernel, String vars) {
 		this(kernel);
 		terms.add(new Term(kernel, 1.0d, vars));
 	}
@@ -65,7 +65,7 @@ public class Polynomial implements Serializable
 	 * @param kernel kernel
 	 * @param poly polynomial to copy
 	 */
-	public Polynomial(Kernel kernel, Polynomial poly) {
+	Polynomial(Kernel kernel, Polynomial poly) {
 		this(kernel);
 		// Application.debug("poly copy constructor input: " + poly);
 		for (int i = 0; i < poly.length(); i++) {
@@ -74,22 +74,18 @@ public class Polynomial implements Serializable
 		// Application.debug("poly copy constructor output: " + this);
 	}
 
-	public Polynomial deepCopy(Kernel kernel1) {
-		return new Polynomial(kernel1, this);
-	}
-
 	/**
 	 * @param i index
 	 * @return i-th term
 	 */
-	public Term getTerm(int i) {
+	Term getTerm(int i) {
 		return terms.get(i);
 	}
 
 	/**
 	 * @return number of terms
 	 */
-	public int length() {
+	int length() {
 		return terms.size();
 	}
 
@@ -129,7 +125,7 @@ public class Polynomial implements Serializable
 	 * add another Polynomial
 	 * @param e addend
 	 */
-	public void add(Polynomial e) {
+	void add(Polynomial e) {
 		for (int i = 0; i < e.length(); i++) {
 			append(e.getTerm(i));
 		}
@@ -140,7 +136,7 @@ public class Polynomial implements Serializable
 	 * subtract another Polynomial
 	 * @param e subtrahend
 	 */
-	public void sub(Polynomial e) {
+	private void sub(Polynomial e) {
 		Polynomial temp = new Polynomial(kernel, e);
 		temp.multiply(-1.0d);
 		add(temp); // append -e
@@ -150,7 +146,7 @@ public class Polynomial implements Serializable
 	 * add a Number
 	 * @param number constant addend
 	 */
-	public void add(ExpressionValue number) {
+	private void add(ExpressionValue number) {
 		append(new Term(number, ""));
 		simplify(); // add up parts with same variables
 	}
@@ -159,7 +155,7 @@ public class Polynomial implements Serializable
 	 * subtract a Number
 	 * @param number constant subtrahend
 	 */
-	public void sub(ExpressionValue number) {
+	private void sub(ExpressionValue number) {
 		Term subTerm = new Term(number, "");
 		subTerm.multiply(new MyDouble(kernel,-1.0d));
 		append(subTerm);
@@ -170,7 +166,7 @@ public class Polynomial implements Serializable
 	 * multiply with another Polynomial store result in this Polynomial
 	 * @param e factor
 	 */
-	public void multiply(Polynomial e) {
+	private void multiply(Polynomial e) {
 		ArrayList<Term> temp = new ArrayList<Term>();
 		int i, j;
 		Term ti, newTerm;
@@ -193,7 +189,7 @@ public class Polynomial implements Serializable
 	 * multiply every term with a double store result in this Polynomial
 	 * @param number constant factor
 	 */
-	public void multiply(ExpressionValue number) {
+	private void multiply(ExpressionValue number) {
 		for (int i = 0; i < length(); i++) {
 			terms.get(i).multiply(number);
 		}
@@ -203,7 +199,7 @@ public class Polynomial implements Serializable
 	 * divide every term with a ExpressionValue store result in this Polynomial
 	 * @param number constant divisor
 	 */
-	public void divide(ExpressionValue number) {
+	private void divide(ExpressionValue number) {
 		for (int i = 0; i < length(); i++) {
 			getTerm(i).divide(number);
 		}
@@ -213,7 +209,7 @@ public class Polynomial implements Serializable
 	 * divides through a polynomial's constant coefficient
 	 * @param poly polynomial
 	 */
-	public void divide(Polynomial poly) {
+	private void divide(Polynomial poly) {
 		divide(poly.getConstantCoefficient());
 	}
 
@@ -221,7 +217,7 @@ public class Polynomial implements Serializable
 	 * multiply every term with a double store result in this Polynomial
 	 * @param d constant factor
 	 */
-	public void multiply(double d) {
+	void multiply(double d) {
 		multiply(new MyDouble(kernel, d));
 	}
 
@@ -229,7 +225,7 @@ public class Polynomial implements Serializable
 	 * compute Polynomial^power store result in this Polynomial
 	 * @param p exponent
 	 */
-	public void power(int p) {
+	private void power(int p) {
 		if (p == 0) {
 			terms.clear(); // drop everything
 			append(new Term(new MyDouble(kernel, 1), ""));
@@ -242,52 +238,7 @@ public class Polynomial implements Serializable
 		}
 	}
 
-	/**
-	 * multiply with another Polynomial return result as Polynomial
-	 * 
-	 * public Polynomial mult(Polynomial e) { Polynomial exp = (Polynomial)
-	 * Util.copy(this); exp.multiply(e); return exp; }
-	 **/
-
-	/**
-	 * multiply every term with a double store result in this Polynomial
-	 * 
-	 * public Polynomial mult(double d) { Polynomial exp = new Polynomial(this);
-	 * exp.multiply(d); return exp; }
-	 **/
-
-	/**
-	 * returns true if all terms of this epression are constant
-	 * @return true if all terms of this epression are constant
-	 */
-	public boolean hasOnlyConstantCoeffs() {
-		simplify();
-		boolean isConst = true;
-		Iterator<Term> i = terms.iterator();
-
-		while (i.hasNext()) {
-			isConst = isConst && i.next().hasNoVars();
-		}
-		return isConst;
-	}
-
-	/**
-	 * @return true iff all coefficients are integer constants
-	 */
-	public boolean isInteger() {
-		boolean isInt = true;
-		Term t;
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			t = i.next();
-			isInt = isInt
-					&& t.hasNoVars()
-					&& Kernel.isInteger(t.getCoefficient()
-							.evaluateDouble());
-		}
-		return isInt;
-	}
-
+	
 	/**
 	 * returns the sum of constant numbers in this Polynomial <BR>
 	 * returns 0 if there is no constant number
@@ -324,13 +275,6 @@ public class Polynomial implements Serializable
 	 */
 	public double getCoeffValue(String variables) {
 		return getCoefficient(variables).evaluateDouble();
-	}
-
-	/**
-	 * @return value of constant coefficient
-	 */
-	public double getConstantCoeffValue() {
-		return getCoeffValue("");
 	}
 
 	/**
@@ -444,7 +388,7 @@ public class Polynomial implements Serializable
 	/**
 	 * @return 3 for eg x^3 y^2
 	 */
-	public int singleDegree() {
+	int singleDegree() {
 		// a quadratic Polynomial may only have terms with one or two variables
 		// or constant terms
 		int deg = 0;
@@ -470,8 +414,12 @@ public class Polynomial implements Serializable
 		}
 		return deg;
 	}
-
-	public String toString(StringTemplate tpl) {
+	@Override
+	public String toString(){
+		return "POLY"+toString(StringTemplate.defaultTemplate);
+		
+	}
+	private String toString(StringTemplate tpl) {
 		int size = terms.size();
 		if (size == 0)
 			return null;
@@ -501,13 +449,6 @@ public class Polynomial implements Serializable
 		return sb.toString();
 	}
 
-	public String toValueString(StringTemplate tpl) {
-		return toString(tpl);
-	}
-
-	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
-		return toString(tpl);
-	}
 
 	/**
 	 * 
@@ -533,7 +474,7 @@ public class Polynomial implements Serializable
 		return coeff;
 	}
 
-	public HashSet<GeoElement> getVariables() {
+	private HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> temp, vars = new HashSet<GeoElement>();
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
@@ -545,60 +486,21 @@ public class Polynomial implements Serializable
 		return vars;
 	}
 
-	public void resolveVariables(boolean forEquation) {
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			i.next().getCoefficient().resolveVariables(forEquation);
-		}
-	}
-
+	/**
+	 * @return whether this depends on geos
+	 */
 	public boolean isConstant() {
 		HashSet<GeoElement> vars = getVariables();
 		return (vars == null || vars.size() == 0);
 	}
 
-	public boolean isLeaf() {
-		return true;
-	}
-
-	final public boolean isNumberValue() {
-		return false;
-	}
-
-	final public boolean isPolynomialInstance() {
-		return true;
-	}
-
-	final public boolean contains(ExpressionValue ev) {
-		return ev == this;
-	}
-
-	public String toOutputValueString(StringTemplate tpl) {
-		return toValueString(tpl);
-	}
-
-	public Kernel getKernel() {
-		return kernel;
-	}
-	
-	public ExpressionValue derivative(FunctionVariable fv) {
-		throw new MyError(kernel.getApplication().getLocalization(), "derivative called on Polynomial");
-	}
-
-	public ExpressionValue integral(FunctionVariable fv) {
-		throw new MyError(kernel.getApplication().getLocalization(), "integral called on Polynomial");
-	}
-	
-	public Polynomial traverse(Traversing t){
-		Iterator<Term> it = terms.iterator();
-		while (it.hasNext()) {
-			Term term = it.next();
-			term.coefficient = term.coefficient.traverse(t);
-		}
-		return this;
-	}
-
-	public static Polynomial fromNode(ExpressionNode lhs, Equation eqn) {
+	/**
+	 * Converts expression node to polynomial
+	 * @param lhs expression to be converted
+	 * @param eqn equation -- used for setting the dependsOnFunction flag
+	 * @return polynomial
+	 */
+	static Polynomial fromNode(ExpressionNode lhs, Equation eqn) {
 		ExpressionNode leftEN  = lhs.getCopy(lhs.getKernel());
 		Polynomial poly = leftEN.makePolynomialTree(eqn);
 		Log.debug("Coefficients:");
@@ -606,18 +508,58 @@ public class Polynomial implements Serializable
 		return poly;
 	}
 
-	public Polynomial apply(Operation operation, Polynomial rt) {
+	/**
+	 * Applies an operation
+	 * @param operation operation
+	 * @param rt second parameter
+	 * @return result as polynomial
+	 */
+	Polynomial apply(Operation operation, Polynomial rt) {
 		switch(operation){
 			case PLUS:
 				this.add(rt);
 				break;
 			case MINUS:
-				rt.multiply(-1);
-				this.add(rt);
+				this.sub(rt);
+				break;
+			case MULTIPLY_OR_FUNCTION:
 			case MULTIPLY:
 				this.multiply(rt);
+				break;
 			case POWER:
 				this.power((int)rt.getConstantCoefficient().evaluateDouble());
+				break;
+			case DIVIDE:
+				this.divide(rt);
+				break;
+		}
+		return this;
+	}
+	
+	/**
+	 * Applies an operation
+	 * @param operation operation
+	 * @param rt second parameter
+	 * @return result as polynomial
+	 */
+	Polynomial apply(Operation operation, ExpressionValue rt) {
+		switch(operation){
+			case PLUS:
+				this.add(rt);
+				break;
+			case MINUS:
+				this.sub(rt);
+				break;
+			case MULTIPLY_OR_FUNCTION:
+			case MULTIPLY:
+				this.multiply(rt);
+				break;
+			case POWER:
+				this.power((int)rt.evaluateDouble());
+				break;
+			case DIVIDE:
+				this.divide(rt);
+				break;
 		}
 		return this;
 	}

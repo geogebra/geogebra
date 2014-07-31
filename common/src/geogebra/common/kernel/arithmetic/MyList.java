@@ -141,35 +141,6 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * Replaces all Polynomial objects with the name fVar.toString() in this
-	 * list by the given FunctionVariable object.
-	 * 
-	 * @param fVar replacement variable
-	 * @return number of replacements done
-	 */
-	public int replacePolynomials(FunctionVariable fVar) {
-		int replacements = 0;
-
-		for (int i = 0; i < listElements.size(); i++) {
-			ExpressionValue element = listElements.get(i);
-			if (element instanceof ExpressionNode) {
-				replacements += ((ExpressionNode) element)
-						.replacePolynomials(fVar);
-			}
-			if (element instanceof Polynomial) {
-				if (isPolynomialInstance()
-						&& fVar.toString(StringTemplate.defaultTemplate).
-						equals(element.toString(StringTemplate.defaultTemplate))) {
-					listElements.set(i, fVar);
-					replacements++;
-				}
-			}
-		}
-
-		return replacements;
-	}
-
-	/**
 	 * Applies an operation to this list using the given value: <this>
 	 * <operation> <value>.
 	 * 

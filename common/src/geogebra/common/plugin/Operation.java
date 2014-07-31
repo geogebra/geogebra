@@ -14,7 +14,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -1227,10 +1226,7 @@ public enum Operation {
 			if (rt instanceof NumberValue) {
 				NumberValue arg = (NumberValue) rt;
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
-			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
-					&& (((Polynomial) rt).degree() == 0)) {
-				
-			}
+			} 
 			return ev.illegalArgument(rt);
 		}
 	},

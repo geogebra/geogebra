@@ -1882,6 +1882,7 @@ public class AlgebraProcessor {
 				return processImplicitPoly(equ);
 			}
 		} catch (MyError eqnError) {
+			eqnError.printStackTrace();
 			// invalid equation: maybe a function of form "y = <rhs>"?
 			String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate).trim();
 			if (lhsStr.equals("y")) {

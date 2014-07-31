@@ -168,7 +168,7 @@ public interface Traversing {
 		private FunctionVariable fv;
 		private int replacements;
 		public ExpressionValue process(ExpressionValue ev) {
-			if ((ev.isPolynomialInstance() || ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable)
+			if ((ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable)
 					&& fv.toString(StringTemplate.defaultTemplate).equals(
 							ev.toString(StringTemplate.defaultTemplate))) {
 				replacements++;

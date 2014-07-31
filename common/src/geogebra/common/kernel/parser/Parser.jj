@@ -459,7 +459,7 @@ ValidExpression buildValidExpression() :
         lhs = expressionnode() <EQUAL> rhs = expressionnode()
         {             
             // maybe it's an assignment, i.e. there is no x, y, or z on the right side
-			if (!rhs.includesPolynomial())
+			if (!rhs.includesFunctionVariable())
 			{
 			    // assignment, e.g. z = 23
 	  			if (lhs.isSingleVariable()) {                                  	               
@@ -807,7 +807,7 @@ ExpressionNode expression():
     rhs = expressionnode()              
     {
       // Giac uses x,y not ggbtmpvarx/y
-        if (!GeoGebraCASParsing && !GiacParsing && rhs.includesPolynomial()) {
+        if (!GeoGebraCASParsing && !GiacParsing && rhs.includesFunctionVariable()) {
         	throw new MyError(loc, "IncompleteEquation");
         }
         
@@ -940,7 +940,7 @@ ExpressionNode functionExpressionnode():
 		  	String funLabel = funName.image.substring(0,funName.image.length()-1);	 
 
 			// command without variables: return expressionnode
-	    	if (rhs.getLeft() instanceof Command && !rhs.includesPolynomial()) {
+	    	if (rhs.getLeft() instanceof Command && !rhs.includesFunctionVariable()) {
 				rhs.setLabel(funLabel);
 				return rhs;
 			}
