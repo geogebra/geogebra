@@ -234,19 +234,10 @@ public class Equation extends ValidExpression {
 
         // resolve variables in rhs
         rhs.resolveVariables(true);
-        
-        // build normal form polynomial        
-        // copy the expression trees
-        ExpressionNode leftEN  = lhs.getCopy(kernel);
-        ExpressionNode rightEN = rhs.getCopy(kernel);
-
-        // ensure that they only consist of polynomials
-        leftEN.makePolynomialTree(this);
-        rightEN.makePolynomialTree(this);
 
         // simplify the both sides to single polynomials
-        leftPoly  = (Polynomial) leftEN.evaluate(StringTemplate.defaultTemplate);
-        rightPoly = (Polynomial) rightEN.evaluate(StringTemplate.defaultTemplate);	      
+        leftPoly  = Polynomial.fromNode(lhs, this);
+        rightPoly = Polynomial.fromNode(rhs, this);
         		
         // bring to normal form left - right = 0
         normalForm = new Polynomial(kernel, rightPoly);

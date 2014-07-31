@@ -606,4 +606,10 @@ public class Polynomial extends ValidExpression implements Serializable
 		return this;
 	}
 
+	public static Polynomial fromNode(ExpressionNode lhs, Equation eqn) {
+		ExpressionNode leftEN  = lhs.getCopy(lhs.getKernel());
+		leftEN.makePolynomialTree(eqn);
+		return (Polynomial) leftEN.evaluate(StringTemplate.defaultTemplate);
+	}
+
 } // end of class Polynomial

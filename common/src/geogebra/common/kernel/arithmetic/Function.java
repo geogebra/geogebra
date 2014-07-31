@@ -703,14 +703,15 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		VariableReplacer varep = VariableReplacer.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate), xVar);
 		if (evCopy instanceof ExpressionNode){
 			replaced = 
-					((ExpressionNode) ev.deepCopy(kernel)).traverse(varep).wrap();
+					((ExpressionNode) evCopy).traverse(varep).wrap();
 		} else {
 			replaced = (new ExpressionNode(kernel,evCopy)).traverse(varep).wrap();
 		}
-		Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
+		Equation equ = new Equation(kernel,replaced,new MyDouble(kernel,0));
+		
 		try{
 			equ.initEquation();
-			coeff =equ.getNormalForm().getCoeff();
+			coeff = Polynomial.fromNode(replaced, equ).getCoeff();
 			terms = coeff.length;
 		}
 		catch(Throwable t){
