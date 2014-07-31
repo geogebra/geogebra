@@ -25,41 +25,62 @@ public final class CoordMatrixUtil {
 	 */
 	static final public Coords[] nearestPointsFromTwoLines(Coords o1,
 			Coords v1, Coords o2, Coords v2) {
+		
+		double[] project1 = new double[4], project2 = new double[4], lineCoords = new double[2];
+
+		nearestPointsFromTwoLines(o1, v1, o2, v2, project1, project2, lineCoords);
+		
+		return new Coords[] {new Coords(project1), new Coords(project2), new Coords(lineCoords)};
+	}
+
+	
+	/**
+	 * Set points from line1 and from line2 that are the nearest
+	 * possible. Return infinite points if the two lines are parallel.
+	 * 
+	 * @param o1
+	 *            origin of line1
+	 * @param v1
+	 *            direction of line1
+	 * @param o2
+	 *            origin of line2
+	 * @param v2
+	 *            direction of line2
+	 * @param project1 point on line 1
+	 * @param project2 point on line 2
+	 * @param lineCoords parameters of each point on each line
+	 *            
+	 */
+	static final public void nearestPointsFromTwoLines(Coords o1,
+			Coords v1, Coords o2, Coords v2,
+			double[] project1, double[] project2, double[] lineCoords
+			) {
+		
 
 		// if v1 and v2 are parallel, return infinite points v1 and v2
 		Coords vn = v1.crossProduct(v2);
 		if (vn.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 			// Application.debug("v1="+v1.toString()+"\nv2="+v2.toString());
-			return new Coords[] { v1.copyVector().normalize(),
-					v2.copyVector().normalize(),
-					new Coords(new double[] { Double.NaN, Double.NaN }) };
+			v1.copy(project1);
+			v2.copy(project2);
+			lineCoords[0] = Double.NaN;
+			lineCoords[1] = Double.NaN;
 		}
-		// return null;
-
-		// vn.normalize();
 
 		// plane containing o1, v1, vn, with v2 direction
-		CoordMatrix plane = new CoordMatrix(4, 4);
-		plane.set(v1, 1);
-		plane.set(vn, 2);
-		plane.set(v2, 3);
-		plane.set(o1, 4);
 		// projection of o2 on this plane
-		Coords[] project2 = o2.projectPlaneNoCheck(plane);
+		double[] project2b = new double[4];
+		o2.projectPlaneNoCheck(v1, vn, v2, o1, project2, project2b);
 
 		// plane containing o2, v2, vn, with v1 direction
-		plane.set(v2, 1);
-		//plane.set(vn, 2);
-		plane.set(v1, 3);
-		plane.set(o2, 4);
 		// projection of o2 on this plane
-		Coords[] project1 = o1.projectPlaneNoCheck(plane);
+		double[] project1b = new double[4];
+		o1.projectPlaneNoCheck(v2, vn, v1, o2, project1, project1b);
 
 		// points in lines coords
-		Coords lineCoords = new Coords(new double[] { -project1[1].get(3),
-				-project2[1].get(3) });
-
-		return new Coords[] { project1[0], project2[0], lineCoords };
+		lineCoords[0] = -project1b[2];
+		lineCoords[1] = -project2b[2];
+		
 	}
 
 	/**

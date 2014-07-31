@@ -218,6 +218,16 @@ public class Coords extends CoordMatrix {
 		return val[i - 1];
 
 	}
+	
+	/**
+	 * @param ret copy of this
+	 * 
+	 */
+	public void copy(double[] ret){
+		for (int i = 0 ; i < rows ; i++){
+			ret[i] = val[i];
+		}
+	}
 
 	/**
 	 * returns v "x-coord"
@@ -721,6 +731,31 @@ public class Coords extends CoordMatrix {
 
 		return new Coords[] { globalCoords, inPlaneCoords };
 	}
+	
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), no check if direction is parallel to the plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param vx 
+	 * @param vy 
+	 * @param vz 
+	 * @param o 
+	 *
+	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
+	 *            plane, and vz the direction used for projection
+	 */
+	public void projectPlaneNoCheck(Coords vx, Coords vy, Coords vz, Coords o, double[] globalCoords, double[] inPlaneCoords) {
+
+		// m*inPlaneCoords=this
+		CoordMatrix.solve(inPlaneCoords, this, vx, vy, vz, o);
+
+		// globalCoords=this-inPlaneCoords_z*plane_vz
+		this.add(vz.mul(-inPlaneCoords[2]), globalCoords);
+
+	}
+
 
 	/**
 	 * returns this projected on the plane represented by the matrix, with
@@ -1095,6 +1130,18 @@ public class Coords extends CoordMatrix {
 	public Coords add(Coords v) {
 
 		return (Coords) super.add(v);
+	}
+	
+	/**
+	 * put this + v into result
+	 * @param v vector
+	 * @param result result
+	 */
+	public void add(Coords v, double[] result) {
+
+		for (int i = 0 ; i < rows ; i++){
+			result[i] = val[i] + v.val[i];
+		}
 	}
 	
 	public Coords addSmaller(Coords v) {

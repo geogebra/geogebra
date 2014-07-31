@@ -961,6 +961,24 @@ public class CoordMatrix {
 		return sol;
 		
 	}
+	
+	
+	static final public void solve(double[] sol, Coords res, Coords... columns){
+		
+		int size = res.rows;
+		
+		double[][] matrix = new double[size][];
+		for (int i = 0 ; i < size ; i++){
+			matrix[i] = new double[size];
+			columns[i].copy(matrix[i]);
+		}
+		
+		double[] resD = new double[size];
+		res.copy(resD);
+		
+		pivot(matrix, sol, resD);
+		
+	}
 
 	/**
 	 * makes Gauss pivot about this matrix 
