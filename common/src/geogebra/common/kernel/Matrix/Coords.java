@@ -1164,6 +1164,28 @@ public class Coords extends CoordMatrix {
 		return (Coords) super.mul(val0);
 	}
 
+	/**
+	 * 
+	 * @param val0 factor
+	 * @param res gets this * val0
+	 */
+	public void mul(double val0, Coords res){
+		for (int i = 0 ; i < res.rows ; i++){
+			res.val[i] = val[i] * val0;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param v vector
+	 * @param res gets this + v
+	 */
+	public void add(Coords v, Coords res){
+		for (int i = 0 ; i < res.rows ; i++){
+			res.val[i] = v.val[i] + val[i];
+		}
+	}
+	
 	// /////////////////////////////////////////////////:
 	/** for testing the package */
 	public static synchronized void main(String[] args) {
