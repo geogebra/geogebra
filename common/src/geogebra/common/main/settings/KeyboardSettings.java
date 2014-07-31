@@ -40,7 +40,7 @@ public class KeyboardSettings extends AbstractSettings {
 		supportedLocales.add(Language.Hungarian.locale); // Hungarian		
 		supportedLocales.add(Language.Korean.locale); // Korean
 		supportedLocales.add(Language.Macedonian.locale); // Macedonian
-		supportedLocales.add(Language.Malayalam.locale); // Malayalam
+		//supportedLocales.add(Language.Malayalam.locale); // Malayalam
 		supportedLocales.add("no"); // Norwegian (covers both)
 		supportedLocales.add(Language.Persian.locale); // Persian
 		//supportedLocales.add("pt_PT"); // Portuguese (Portugal)
