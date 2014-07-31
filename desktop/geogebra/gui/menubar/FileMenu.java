@@ -31,8 +31,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 	private AbstractAction newWindowAction, deleteAll, saveAction,
 			saveAsAction, loadAction, loadURLAction, exportWorksheet,
 			shareAction, exportGraphicAction, exportAnimationAction,
-			exportPgfAction, exportPSTricksAction, exportAsymptoteAction,
-			insertFileAction, applyFormattingStylesAction;
+			exportPgfAction, exportPSTricksAction, exportAsymptoteAction;
 
 	JMenuItem loadURLMenuItem;
 
@@ -93,12 +92,6 @@ class FileMenu extends BaseMenu implements EventRenderable {
 					loadURLAction.setEnabled(false);
 				}
 			}
-
-			mi = new JMenuItem(insertFileAction);
-			add(mi);
-
-			mi = new JMenuItem(applyFormattingStylesAction);
-			add(mi);
 
 			// recent SubMenu
 			JMenu submenuRecent = new JMenu(app.getMenu("Recent"));
