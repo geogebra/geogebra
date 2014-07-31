@@ -121,6 +121,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
 
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
@@ -2034,17 +2035,23 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			// GeoGebra File Filter
 			MyFileFilter fileFilter = new MyFileFilter();
-			// This order seems to make sure that .ggb files come first
-			// so that getFileExtension() returns "ggb"
-			// TODO: more robust method
 			fileFilter.addExtension(AppD.FILE_EXT_GEOGEBRA);
 			fileFilter.addExtension(AppD.FILE_EXT_GEOGEBRA_TOOL);
 			fileFilter.addExtension(AppD.FILE_EXT_HTML);
 			fileFilter.addExtension(AppD.FILE_EXT_HTM);
-			fileFilter.setDescription(app.getPlain("ApplicationName") + " "
-					+ app.getMenu("Files"));
+			fileFilter.setDescription("GeoGebra" + app.getMenu("Files"));
 			fileChooser.resetChoosableFileFilters();
 			fileChooser.addChoosableFileFilter(fileFilter);
+
+			MyFileFilter insertFilter = new MyFileFilter();
+			insertFilter.addExtension(AppD.FILE_EXT_GEOGEBRA);
+			insertFilter.setDescription(app.getMenu("InsertFile"));
+			fileChooser.addChoosableFileFilter(insertFilter);
+
+			MyFileFilter templateFilter = new MyFileFilter();
+			templateFilter.addExtension(AppD.FILE_EXT_GEOGEBRA);
+			templateFilter.setDescription(app.getMenu("ApplyTemplate"));
+			fileChooser.addChoosableFileFilter(templateFilter);
 
 			if (oldCurrentFile == null
 					|| AppD.getExtension(oldCurrentFile).equals(
@@ -2063,11 +2070,49 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				files = fileChooser.getSelectedFiles();
 			}
 
-			if (fileChooser.getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
+			FileFilter filter = fileChooser.getFileFilter();
+
+			if (filter == fileFilter) {
 				fileFilter = (MyFileFilter) fileChooser.getFileFilter();
 				doOpenFiles(files, true, fileFilter.getExtension());
+			} else if (filter == templateFilter) {
+				// #4403
+				app.setWaitCursor();
+				app.setMoveMode();
+
+				for (int i = 0; i < files.length; i++) {
+
+					File file0 = files[i];
+
+					if (!file0.exists()) {
+						file0 = addExtension(file0, AppD.FILE_EXT_GEOGEBRA);
+					}
+
+					((AppD) app).applyTemplate(file0);
+
+				}
+
+				app.setDefaultCursor();
+
+			} else if (filter == insertFilter) {
+
+				app.setWaitCursor();
+				app.setMoveMode();
+
+				for (int i = 0; i < files.length; i++) {
+
+					File file0 = files[i];
+
+					if (!file0.exists()) {
+						file0 = addExtension(file0, AppD.FILE_EXT_GEOGEBRA);
+					}
+
+					((AppD) app).insertFile(file0);
+				}
+
+				app.setDefaultCursor();
+
 			} else {
-				// doOpenFiles(files, true);
 				doOpenFiles(files, true);
 			}
 

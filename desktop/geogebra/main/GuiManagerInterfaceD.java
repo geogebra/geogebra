@@ -18,7 +18,7 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	void removeFromToolbarDefinition(int i);
 
-	boolean loadFile(File currentFile, boolean b);
+	boolean loadFile(File file, boolean isMacroFile);
 
 	void updateMenuBarLayout();
 

@@ -61,6 +61,7 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import geogebra.common.plugin.UDPLogger;
 import geogebra.common.util.Base64;
+import geogebra.common.util.CopyPaste;
 import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
@@ -5013,6 +5014,78 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void set1rstMode() {
 		// TODO Auto-generated method stub
 		App.debug("set1rstmode");
+	}
+
+	public void insertFile(File file) {
+
+		// using code from newWindowAction, combined with
+		// Michael's suggestion
+		AppD ad = new AppD(new CommandLineArguments(null), new JPanel(), true);// true
+																				// as
+																				// undo
+																				// info
+																				// is
+																				// necessary
+																				// for
+																				// copy-paste!
+
+		// now, we have to load the file into AppD
+		ad.getGuiManager().loadFile(file, false);
+
+		// now we have to copy the macros from ad to app
+		// in order to make some advanced constructions work
+		// as it was hard to copy macro classes, let's use
+		// strings, but how to load them into the application?
+		try {
+			getXMLio().processXMLString(ad.getMacroXML(), false, true);
+
+			// alternative solution
+			// app.addMacroXML(ad.getKernel().getMacroXML(
+			// ad.getKernel().getAllMacros()));
+		} catch (Exception ex) {
+			App.debug("Could not load any macros at \"Insert File\"");
+			ex.printStackTrace();
+		}
+
+		// afterwards, the file is loaded into "ad" in theory,
+		// so we have to use the CopyPaste class to copy it
+
+		CopyPaste.copyToXML(ad, new ArrayList<GeoElement>(ad.getKernel()
+				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
+				true);
+
+		// and paste
+		CopyPaste.pasteFromXML(this, true);
+
+		// forgotten something important!
+		// ad should be closed!
+		ad.exit();
+		// this is also needed to make it possible
+		// to load the same file once again
+		ad.getFrame().dispose();
+
+	}
+
+	public void applyTemplate(File file) {
+
+		// using code from newWindowAction, combined with
+		// Michael's suggestion
+		// true as undo info is necessary for copy-paste!
+		AppD ad = new AppD(new CommandLineArguments(null), new JPanel(), true);
+
+		// now, we have to load the file into AppD
+		ad.getGuiManager().loadFile(file, false);
+
+		getKernel().setVisualStyles(ad.getKernel());
+		getKernel().updateConstruction();
+
+		// almost forgotten something important!
+		// ad should be closed!
+		ad.exit();
+		// this is also needed to make it possible
+		// to load the same style file once again
+		ad.getFrame().dispose();
+
 	}
 
 }
