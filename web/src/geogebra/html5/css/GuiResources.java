@@ -49,7 +49,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/menu_view_construction_protocol.png")
 	ImageResource ConstructionProtocol();
 
-	@Source("icons/png/menu_view_graphics3d.png")
+	@Source("icons/png/menu_view_graphics3D.png")
 	ImageResource graphics3dView();
 
 	@Source("icons/png/menu_view_graphics2.png")
