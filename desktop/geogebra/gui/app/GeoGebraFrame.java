@@ -415,27 +415,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		checkCommandLineExport(app);
 
-		// open the sidebar popup once the GUI has initialized
+		// open the sign-in and/or sidebar popup once the GUI has initialized
 		if (args != null && args.getNoOfFiles() == 0) {
-			java.awt.EventQueue.invokeLater(new Runnable() {
-				public void run() {
-
-					if (!app.getLoginOperation().getModel().isLoggedIn()
-							&& GeoGebraPreferencesD
-									.getPref()
-									.loadPreference(
-											GeoGebraPreferencesD.USER_LOGIN_SKIP,
-											"false").equals("true")) {
-						GeoGebraPreferencesD.getPref().savePreference(
-								GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
-
-						app.getGuiManager().login();
-
-					} else if (app.isShowDockBar()) {
-						app.getDockBar().showPopup();
-					}
-				}
-			});
+			app.openPopUps(true);
 		}
 
 		for (NewInstanceListener l : instanceListener) {

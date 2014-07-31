@@ -243,12 +243,14 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		} else if (!((LoginOperationD) signIn).isTubeAvailable()) {
 			signInButton.setVisible(false);
 		}
+
 	}
 
 	/**
 	 * Display the result of login events
 	 */
 	public void renderEvent(BaseEvent event) {
+
 		if (event instanceof LoginAttemptEvent) {
 			signInButton.setAction(signInInProgressAction);
 			signInButton.setVisible(true);
@@ -256,14 +258,70 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			signInButton.setAction(signInAction);
 			signInButton.setVisible(true);
 		} else if (event instanceof LoginEvent) {
+
+			// show login / perspective popup as appropriate
+			showPopups();
+
 			LoginEvent loginEvent = (LoginEvent) event;
 			onLogin(loginEvent.isSuccessful(), loginEvent.getUser(),
 					loginEvent.isAutomatic());
 			signInButton.setVisible(true);
 		} else if (event instanceof TubeAvailabilityCheckEvent) {
+
+			// show perspective popup
+			showPopups();
+
 			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
 			onTubeAvailable(checkEvent.isAvailable());
 		}
+	}
+
+	private boolean popupsDone = false;
+
+	private void showPopups() {
+
+		if (popupsDone) {
+			return;
+		}
+
+		popupsDone = true;
+
+		if (app.showPopUps()) {
+			java.awt.EventQueue.invokeLater(new Runnable() {
+				@SuppressWarnings("synthetic-access")
+				public void run() {
+
+					LogInOperation signIn = app.getLoginOperation();
+					if (!signIn.isLoggedIn()) {
+
+						// for debugging only
+						// force sign-in popup if not logged in
+						// GeoGebraPreferencesD.getPref().savePreference(
+						// GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
+
+						String skipLogin = GeoGebraPreferencesD.getPref()
+								.loadPreference(
+										GeoGebraPreferencesD.USER_LOGIN_SKIP,
+										"false");
+
+						if (!"true".equals(skipLogin)) {
+							GeoGebraPreferencesD.getPref().savePreference(
+									GeoGebraPreferencesD.USER_LOGIN_SKIP,
+									"true");
+
+							app.getGuiManager().login();
+
+						} else if (app.isShowDockBar()) {
+							app.getDockBar().showPopup();
+						}
+					} else if (app.isShowDockBar()) {
+						app.getDockBar().showPopup();
+
+					}
+				}
+			});
+		}
+
 	}
 
 	private void onTubeAvailable(boolean available) {
@@ -301,6 +359,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				if (n == 0) {
 					((DialogManagerD) app.getDialogManager())
 							.showOpenFromGGTDialog();
+				} else {
+					// open perspective popup after logging in
+					if (app.isShowDockBar()) {
+						app.getDockBar().showPopup();
+					}
 				}
 			}
 		} else {
