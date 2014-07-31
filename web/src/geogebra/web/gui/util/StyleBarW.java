@@ -6,10 +6,15 @@ import geogebra.html5.gui.view.Views;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author G. Sturr
@@ -83,8 +88,24 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	    separator.addStyleName("Separator");
 	    table.setWidget(1, 0, separator);
 
-		viewButton.addPopupHandler(new PopupMenuHandler(){
+	    viewButton.addClickHandler(new ClickHandler() {
+	    	@Override
+			public void onClick(ClickEvent event) {
+				ImageOrText icon = new ImageOrText();
+				icon.url = AppResources.INSTANCE.dots_active().getSafeUri().asString();
+				viewButton.setFixedIcon(icon);
+			}
+		});
 
+	    viewButton.getMyPopup().addCloseHandler(new CloseHandler<PopupPanel>() {
+			public void onClose(CloseEvent<PopupPanel> event) {
+				ImageOrText icon = new ImageOrText();
+				icon.url = AppResources.INSTANCE.dots().getSafeUri().asString();
+				viewButton.setFixedIcon(icon);
+			}
+		});
+
+	    viewButton.addPopupHandler(new PopupMenuHandler(){
 			@Override
             public void fireActionPerformed(Object actionButton) {
 				int i = viewButton.getSelectedIndex();
