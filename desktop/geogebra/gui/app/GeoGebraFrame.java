@@ -465,7 +465,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			if (!app.isApplet() && !AppD.isWebstart()) {
 				checkVersion();
 			}
-
 		}
 
 		/**
@@ -586,6 +585,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					newestVersion = httpr.sendRequestGetResponseSync(sb
 							.toString());
+
+					if (newestVersion == null) {
+						// probably not online
+						return;
+					}
 					newestVersion = newestVersion.replaceAll("-", ".");
 					newestVersionL = versionToLong(newestVersion);
 
