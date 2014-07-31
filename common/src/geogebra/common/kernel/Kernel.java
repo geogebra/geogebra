@@ -707,6 +707,7 @@ public class Kernel {
 	 */
 	public void setVisualStyles(Kernel otherKernel) {
 		TreeSet<GeoElement> okts = otherKernel.getConstruction().getGeoSetWithCasCellsConstructionOrder();
+		ArrayList<GeoElement> selected = getApplication().getSelectionManager().getSelectedGeos();
 
 		// maybe it's efficient to pre-filter this set to only contain
 		// elements that have "%style=" styling
@@ -732,8 +733,13 @@ public class Kernel {
 
 		// okts is ready, now to the main loop
 
-		TreeSet<GeoElement> ts = cons.getGeoSetWithCasCellsConstructionOrder();
-		Iterator<GeoElement> it = ts.iterator();
+		Iterator<GeoElement> it;
+		if (selected.isEmpty()) {
+			it = cons.getGeoSetWithCasCellsConstructionOrder().iterator();
+		} else {
+			it = selected.iterator();
+		}
+
 		GeoElement actual;
 		String capt;
 		int pos;
