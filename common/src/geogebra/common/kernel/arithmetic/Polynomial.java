@@ -16,6 +16,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.Iterator;
  * An Polynomial is a list of Terms
  */
 
-public class Polynomial extends ValidExpression implements Serializable
+public class Polynomial implements Serializable
 		{
 
 	private static final long serialVersionUID = 1L;
@@ -72,7 +74,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		// Application.debug("poly copy constructor output: " + this);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public Polynomial deepCopy(Kernel kernel1) {
 		return new Polynomial(kernel1, this);
 	}
 
@@ -469,7 +471,6 @@ public class Polynomial extends ValidExpression implements Serializable
 		return deg;
 	}
 
-	@Override
 	public String toString(StringTemplate tpl) {
 		int size = terms.size();
 		if (size == 0)
@@ -500,7 +501,6 @@ public class Polynomial extends ValidExpression implements Serializable
 		return sb.toString();
 	}
 
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
@@ -565,7 +565,6 @@ public class Polynomial extends ValidExpression implements Serializable
 		return false;
 	}
 
-	@Override
 	final public boolean isPolynomialInstance() {
 		return true;
 	}
@@ -582,22 +581,15 @@ public class Polynomial extends ValidExpression implements Serializable
 		return kernel;
 	}
 	
-	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
 		throw new MyError(kernel.getApplication().getLocalization(), "derivative called on Polynomial");
 	}
 
-	@Override
 	public ExpressionValue integral(FunctionVariable fv) {
 		throw new MyError(kernel.getApplication().getLocalization(), "integral called on Polynomial");
 	}
 	
-	@Override
-	public ExpressionValue traverse(Traversing t){
-		ExpressionValue ev = t.process(this);
-		if(ev != this){
-			return ev;
-		}
+	public Polynomial traverse(Traversing t){
 		Iterator<Term> it = terms.iterator();
 		while (it.hasNext()) {
 			Term term = it.next();
@@ -608,8 +600,26 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	public static Polynomial fromNode(ExpressionNode lhs, Equation eqn) {
 		ExpressionNode leftEN  = lhs.getCopy(lhs.getKernel());
-		leftEN.makePolynomialTree(eqn);
-		return (Polynomial) leftEN.evaluate(StringTemplate.defaultTemplate);
+		Polynomial poly = leftEN.makePolynomialTree(eqn);
+		Log.debug("Coefficients:");
+		Log.debug(poly);
+		return poly;
+	}
+
+	public Polynomial apply(Operation operation, Polynomial rt) {
+		switch(operation){
+			case PLUS:
+				this.add(rt);
+				break;
+			case MINUS:
+				rt.multiply(-1);
+				this.add(rt);
+			case MULTIPLY:
+				this.multiply(rt);
+			case POWER:
+				this.power((int)rt.getConstantCoefficient().evaluateDouble());
+		}
+		return this;
 	}
 
 } // end of class Polynomial

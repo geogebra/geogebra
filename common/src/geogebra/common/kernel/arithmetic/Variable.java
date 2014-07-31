@@ -25,7 +25,6 @@ import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
 
@@ -168,8 +167,8 @@ public class Variable extends ValidExpression {
 		if(geo2==null)
 			geo2 = new MyDouble(kernel,1.0);
 		//AbstractApplication.printStacktrace(name+":"+forEquation);
-		if(forEquation)
-			return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));
+		/*if(forEquation)
+			return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));*/
 		return new ExpressionNode(kernel,geo2,Operation.MULTIPLY,new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
 				multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]))).
 				multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]))));

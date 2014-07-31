@@ -433,19 +433,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			
 		}
 		// polynomial * polynomial
-		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-			poly = new Polynomial(kernel, (Polynomial) lt);
-			poly.multiply((Polynomial) rt);
-			return poly;
-		} else if (lt.isPolynomialInstance()) {
-			poly = new Polynomial(kernel, (Polynomial) lt);
-			poly.multiply(rt);
-			return poly;
-		} else if (rt.isPolynomialInstance()) {
-			poly = new Polynomial(kernel, (Polynomial) rt);
-			poly.multiply(lt);
-			return poly;
-		} else if (lt instanceof TextValue) {
+
+		 else if (lt instanceof TextValue) {
 			msb = ((TextValue) lt).getText();
 			if (holdsLaTeXtext) {
 				msb.append(rt.toLaTeXString(false, tpl));
@@ -624,11 +613,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return msb;
 		}
 		// polynomial + polynomial
-		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-			poly = new Polynomial(kernel, (Polynomial) lt);
-			poly.add((Polynomial) rt);
-			return poly;
-		} else {
+		else {
 			str = new String[] { "IllegalAddition", lt.toString(errorTemplate),
 					"+", rt.toString(errorTemplate) };
 			App.error(lt.getClass() +""+rt.getClass());
@@ -682,19 +667,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 		}
 		// polynomial / polynomial
-		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-			// the divisor must be a polynom of degree 0
-			if (((Polynomial) rt).degree() != 0) {
-				str = new String[] { "DivisorMustBeConstant",
-						lt.toString(errorTemplate), "/",
-						rt.toString(errorTemplate) };
-				throw new MyError(l10n, str);
-			}
-
-			poly = new Polynomial(kernel, (Polynomial) lt);
-			poly.divide((Polynomial) rt);
-			return poly;
-		}
+		
 		// vector / vector (complex division Michael Borcherds 2007-12-09)
 		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
@@ -777,11 +750,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return vec;
 		}
 		// polynomial - polynomial
-		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-			poly = new Polynomial(kernel, (Polynomial) lt);
-			poly.sub((Polynomial) rt);
-			return poly;
-		} else {
+		 else {
 			str = new String[] { "IllegalSubtraction",
 					lt.toString(errorTemplate), "-", rt.toString(errorTemplate) };
 			App.debug(lt.getClass() + "," + rt.getClass());
@@ -936,87 +905,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		}
 		// polynomial ^ number
-		else if (lt.isPolynomialInstance() && rt instanceof NumberValue) {
-
-			double exponent = rt.evaluateDouble();
-
-			// the exponent must be a number
-			if (!Kernel.isInteger(exponent)) {
-				str = new String[] { "ExponentMustBeInteger",
-						lt.toString(errorTemplate), "^",
-						rt.toString(errorTemplate) };
-				throw new MyError(l10n, str);
-			}
-
-			// is the base also a number? In this case pull base^exponent
-			// together into lt polynomial
-			boolean baseIsNumber = ((Polynomial) lt).degree() == 0;
-			if (baseIsNumber) {
-				Term base = ((Polynomial) lt).getTerm(0);
-				Term newBase = new Term(new ExpressionNode(kernel,
-						base.getCoefficient(), Operation.POWER,
-						rt), "");
-
-				return new Polynomial(kernel, newBase);
-			}
-
-			// number is not a base
-			if (!rt.isConstant()) {
-				str = new String[] { "ExponentMustBeConstant",
-						lt.toString(errorTemplate), "^",
-						rt.toString(errorTemplate) };
-				throw new MyError(l10n, str);
-			}
-
-			if ((int) exponent >= 0 && !Double.isInfinite(exponent)) {
-				poly = new Polynomial(kernel, (Polynomial) lt);
-				poly.power((int) exponent);
-				return poly;
-			}
-			str = new String[] { "ExponentMustBeInteger",
-					lt.toString(errorTemplate), "^", rt.toString(errorTemplate) };
-			throw new MyError(l10n, str);
-		} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-			// the exponent must be a number
-			if (((Polynomial) rt).degree() != 0) {
-				str = new String[] { "ExponentMustBeInteger",
-						lt.toString(errorTemplate), "^",
-						rt.toString(errorTemplate) };
-				throw new MyError(l10n, str);
-			}
-
-			// is the base also a number? In this case pull base^exponent
-			// together into lt polynomial
-			boolean baseIsNumber = ((Polynomial) lt).degree() == 0;
-			if (baseIsNumber) {
-				Term base = ((Polynomial) lt).getTerm(0);
-				Term exponent = ((Polynomial) rt).getTerm(0);
-				Term newBase = new Term(new ExpressionNode(kernel,
-						base.getCoefficient(), Operation.POWER,
-						exponent.getCoefficient()), "");
-
-				return new Polynomial(kernel, newBase);
-			}
-
-			// number is not a base
-			if (!rt.isConstant()) {
-				str = new String[] { "ExponentMustBeConstant",
-						lt.toString(errorTemplate), "^",
-						rt.toString(errorTemplate) };
-				throw new MyError(l10n, str);
-			}
-
-			// get constant coefficent of given polynomial
-			double exponent = ((Polynomial) rt).getConstantCoeffValue();
-			if ((Kernel.isInteger(exponent) && ((int) exponent >= 0)) && !Double.isInfinite(exponent)) {
-				poly = new Polynomial(kernel, (Polynomial) lt);
-				poly.power((int) exponent);
-				return poly;
-			}
-			str = new String[] { "ExponentMustBeInteger",
-					lt.toString(errorTemplate), "^", rt.toString(errorTemplate) };
-			throw new MyError(l10n, str);
-		} else {
+		else {
 			App.printStacktrace("ExpressionNodeEvaluator.handlePower()");
 			 App.debug("Problem in ExpressionNodeEvaluator.handlePower(): lt :" + lt.getClass()
 			 + ", rt: " + rt.getClass());
@@ -1076,12 +965,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					App.error("missing case in ExpressionNodeEvaluator");
 				}
 			}
-		} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
-				&& (((Polynomial) rt).degree() == 0)) {
-			ExpressionValue c1 = ((Polynomial) lt).getConstantCoefficient();
-			ExpressionValue c2 = ((Polynomial) rt).getConstantCoefficient();
-			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
-					c1, Operation.FUNCTION, c2), ""));
 		}
 		// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
 		// + " rt: " + rt + ", " + rt.getClass());
@@ -1287,11 +1170,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue polynomialOrDie(ExpressionValue lt, Operation op,
 			String prefix, String suffix) {
 		Kernel kernel = lt.getKernel();
-		if (lt.isPolynomialInstance() && (((Polynomial) lt).degree() == 0)) {
-			ExpressionValue coeff = ((Polynomial) lt).getConstantCoefficient();
-			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
-					coeff, op, null), ""));
-		}
 		String[] strings = new String[] { "IllegalArgument", prefix,
 				lt.toString(errorTemplate), suffix };
 		throw new MyError(l10n, strings);

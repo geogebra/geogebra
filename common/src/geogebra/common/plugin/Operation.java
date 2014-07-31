@@ -15,7 +15,6 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.arithmetic.Term;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -576,13 +575,7 @@ public enum Operation {
 						MyDouble.pow(root, exp, root);
 					}
 					return root;
-				} else if (lt.isPolynomialInstance()
-						&& (((Polynomial) lt).degree() == 0)) {
-					ExpressionValue coeff = ((Polynomial) lt)
-							.getConstantCoefficient();
-					return new Polynomial(kernel, new Term(new ExpressionNode(
-							kernel, coeff, Operation.NROOT, rt), ""));
-				} else if (lt instanceof VectorValue) {
+				}  else if (lt instanceof VectorValue) {
 					GeoVec2D vec = ((VectorValue) lt).getVector();
 
 					// complex sqrt
@@ -1236,11 +1229,7 @@ public enum Operation {
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
 					&& (((Polynomial) rt).degree() == 0)) {
-				ExpressionValue c1 = ((Polynomial) lt).getConstantCoefficient();
-				ExpressionValue c2 = ((Polynomial) rt).getConstantCoefficient();
-				return new Polynomial(lt.getKernel(), new Term(
-						new ExpressionNode(lt.getKernel(), c1,
-								Operation.VEC_FUNCTION, c2), ""));
+				
 			}
 			return ev.illegalArgument(rt);
 		}
@@ -1259,14 +1248,7 @@ public enum Operation {
 					return ((GeoCurveCartesian) lt).getGeoDerivative((int) Math
 							.round(((NumberValue) rt).getDouble()));
 				}
-			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
-					&& (((Polynomial) rt).degree() == 0)) {
-				ExpressionValue c1 = ((Polynomial) lt).getConstantCoefficient();
-				ExpressionValue c2 = ((Polynomial) rt).getConstantCoefficient();
-				return new Polynomial(lt.getKernel(), new Term(
-						new ExpressionNode(lt.getKernel(), c1,
-								Operation.DERIVATIVE, c2), ""));
-			}
+			} 
 			return ev.illegalArgument(rt);
 		}
 	},

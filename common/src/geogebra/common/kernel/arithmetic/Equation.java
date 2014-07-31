@@ -15,7 +15,6 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
@@ -216,9 +215,9 @@ public class Equation extends ValidExpression {
     	
 
     	// replace GeoDummyVariables for "x", "y", "z" which may be coming from CAS view
-    	traverse(GeoDummyReplacer.getReplacer("x", new Polynomial(kernel, "x"),true));
+    	/*traverse(GeoDummyReplacer.getReplacer("x", new Polynomial(kernel, "x"),true));
     	traverse(GeoDummyReplacer.getReplacer("y", new Polynomial(kernel, "y"),true));
-    	traverse(GeoDummyReplacer.getReplacer("z", new Polynomial(kernel, "z"),true));
+    	traverse(GeoDummyReplacer.getReplacer("z", new Polynomial(kernel, "z"),true));*/
            
         // resolve variables in lhs         
         if (lhs.isLeaf() && lhs.getLeft().isVariable()) {

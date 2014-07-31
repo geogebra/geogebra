@@ -259,8 +259,8 @@ public class AlgoContourPlot extends AlgoElement {
 		}
 		try {
 			en = f.getExpression().getCopy(kernel);
-			Polynomial xVar = new Polynomial(kernel, "x");
-			Polynomial yVar = new Polynomial(kernel, "y");
+			FunctionVariable xVar = new FunctionVariable(kernel, "x");
+			FunctionVariable yVar = new FunctionVariable(kernel, "y");
 			en.replace(fvars[0], xVar);
 			en.replace(fvars[1], yVar);
 			equ = new Equation(kernel, en, new MyDouble(kernel));

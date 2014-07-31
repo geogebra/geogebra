@@ -1064,8 +1064,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @param equ
 	 *            equation
 	 */
-	protected final void makePolynomialTree(Equation equ) {
-
+	protected final Polynomial makePolynomialTree(Equation equ) {
+		Polynomial lt;
+		Polynomial rt = null;
+		
 		if (operation == Operation.FUNCTION_NVAR) {
 			if ((left instanceof FunctionalNVar) && (right instanceof MyList)) {
 				MyList list = ((MyList) right);
@@ -1129,26 +1131,26 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 		}
 		if (!polynomialOperation(operation)) {
-			left = new Polynomial(kernel, new Term( new ExpressionNode(
+			return new Polynomial(kernel, new Term( new ExpressionNode(
 					kernel, left, operation, right), ""));
-			leaf = true;
-			operation = Operation.NO_OPERATION;
-			right = null;
-			return;
 		}
 
 		// transfer left subtree
 		if (left.isExpressionNode()) {
-			((ExpressionNode) left).makePolynomialTree(equ);
-		} else if (!(left.isPolynomialInstance())) {
-			left = new Polynomial(kernel, new Term( left, ""));
+			lt = ((ExpressionNode) left).makePolynomialTree(equ);
+		} else if(left instanceof FunctionVariable){
+			lt = new Polynomial(kernel, ((FunctionVariable)left).getSetVarString());
+		} else {
+			lt = new Polynomial(kernel, new Term( left, ""));
 		}
 
 		// transfer right subtree
 		if (right != null) {
 			if (right.isExpressionNode()) {
-				((ExpressionNode) right).makePolynomialTree(equ);
-			} else if (right instanceof MyList) {
+				rt = ((ExpressionNode) right).makePolynomialTree(equ);
+			}  else if(right instanceof FunctionVariable){
+				rt = new Polynomial(kernel, ((FunctionVariable)right).getSetVarString());
+			} else { if (right instanceof MyList) {
 				MyList list = (MyList) right;
 				for (int i = 0; i < list.size(); i++) {
 					ExpressionValue ev = list.getListElement(i);
@@ -1156,10 +1158,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						((ExpressionNode) ev).makePolynomialTree(equ);
 					}
 				}
-			} else if (!(right.isPolynomialInstance())) {
-				right = new Polynomial(kernel, new Term( right, ""));
+			} 
+			rt = new Polynomial(kernel, new Term( right, ""));
 			}
 		}
+		return lt.apply(operation, rt);
 	}
 
 	private static boolean polynomialOperation(Operation operation2) {

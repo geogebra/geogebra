@@ -25,10 +25,10 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.arithmetic.Term;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -129,7 +129,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     	// add 0*z to expression
     	if (lhs0z == null){
     		ExpressionNode lhs = equation.getLHS();
-    		Polynomial z = new Polynomial(kernel, new Term(kernel, 1, "z"));
+    		FunctionVariable z = new FunctionVariable(kernel, "z");
     		lhs0z = new ExpressionNode(kernel, lhs, Operation.PLUS, new ExpressionNode(kernel, new ExpressionNode(kernel, 0), Operation.MULTIPLY, z));
     	}
     	return equation.toString(tpl, lhs0z);

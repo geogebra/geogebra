@@ -695,7 +695,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
 			boolean symbolic){
 		PolyFunction polyFun = null;
-		Polynomial xVar=new Polynomial(kernel,"x");
+		FunctionVariable xVar=new FunctionVariable(kernel,"x");
 		ExpressionValue[][] coeff = null;
 		int terms = -1;
 		ExpressionValue evCopy=ev.deepCopy(kernel);

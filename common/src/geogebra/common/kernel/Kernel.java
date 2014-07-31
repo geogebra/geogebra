@@ -21,10 +21,10 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
@@ -3830,7 +3830,7 @@ public class Kernel {
 			ExpressionNode en, String operation) {		
 		
 		if("x".equals(operation) || "y".equals(operation)|| "z".equals(operation)){
-			return new ExpressionNode(this,new ExpressionNode(this,new Polynomial(this,operation),Operation.POWER,convertIndexToNumber(image)),
+			return new ExpressionNode(this,new ExpressionNode(this,new FunctionVariable(this,operation),Operation.POWER,convertIndexToNumber(image)),
 					Operation.MULTIPLY_OR_FUNCTION,en);
 		}
 		GeoElement ge=lookupLabel(operation);

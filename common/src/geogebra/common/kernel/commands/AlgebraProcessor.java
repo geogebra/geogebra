@@ -47,7 +47,6 @@ import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.arithmetic.Term;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.CollectFunctionVariables;
@@ -756,7 +755,7 @@ public class AlgebraProcessor {
 				ExpressionValue toReplace;
 				if (ve instanceof Equation) {
 					// eg y=mx
-					toReplace = new Polynomial(kernel,new Term(geo, "x"));
+					toReplace = new FunctionVariable(kernel,"x");
 				} else {
 					// eg f(x)=mx
 					toReplace = new ExpressionNode(kernel, geo, Operation.MULTIPLY, fvX);
@@ -1486,8 +1485,8 @@ public class AlgebraProcessor {
 				ExpressionNode a , b, c, d, xx, xy, yy;
 				
 				
-				ExpressionNode x = new Polynomial(kernel,"x").wrap().subtract(expr(coefX[0]));
-				ExpressionNode y = new Polynomial(kernel,"y").wrap().subtract(expr(coefY[0]));
+				ExpressionNode x = new FunctionVariable(kernel,"x").wrap().subtract(expr(coefX[0]));
+				ExpressionNode y = new FunctionVariable(kernel,"y").wrap().subtract(expr(coefY[0]));
 				
 				if(coefX[1]!=null || coefX[2]!=null){
 					a = expr(coefX[1]);
@@ -1524,8 +1523,8 @@ public class AlgebraProcessor {
 
 			//line
 			if((degX >= 0 && degY >= 0) && (degX < 2 && degY < 2)){
-				Polynomial px = new Polynomial(kernel,"x");
-				Polynomial py = new Polynomial(kernel,"y");
+				FunctionVariable px = new FunctionVariable(kernel,"x");
+				FunctionVariable py = new FunctionVariable(kernel,"y");
 				Equation eq = new Equation(kernel,coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),
 						coefX[1].wrap().multiply(coefY[0]).subtract(coefX[0].wrap().multiply(coefY[1])));
 				eq.initEquation();
@@ -1539,8 +1538,8 @@ public class AlgebraProcessor {
 			//y=dtt+et+f
 			//t=(d*x-a*y-d*c+a*f)/(d*b-a*e)
 			}else if(degX >= 0 && degY >= 0){
-				Polynomial px = new Polynomial(kernel,"x");
-				Polynomial py = new Polynomial(kernel,"y");
+				FunctionVariable px = new FunctionVariable(kernel,"x");
+				FunctionVariable py = new FunctionVariable(kernel,"y");
 				Log.debug(coefX[2]+","+coefX[1]+","+coefX[0]);
 				ExpressionNode t = px.wrap().multiply(coefY[2]).subtract(py.wrap().multiply(coefX[2])).plus(coefX[2].wrap().multiply(coefY[0])).subtract(coefY[2].wrap().multiply(coefX[0]));
 				

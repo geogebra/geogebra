@@ -1,6 +1,7 @@
 package geogebra.common.util.debug;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
 import java.util.Set;
@@ -372,8 +373,16 @@ public abstract class Log {
 	 */
 	public static void debug(Object s) {
 		if (s instanceof ExpressionValue) {
-			debug(ValidExpression.debugString((ExpressionValue) s),5);
+			debug(ValidExpression.debugString((ExpressionValue) s), 5);
 			return;
+		}
+		if(s instanceof Polynomial){
+			ExpressionValue[][] coeff = ((Polynomial)s).getCoeff();
+			for(int i = 0; i < coeff.length; i++){
+				for(int j = 0; j < coeff[i].length; j++){
+					debug(ValidExpression.debugString(coeff[i][j]), 5);		
+				}
+			}
 		}
 		if (s == null) {
 			debug("<null>",5);

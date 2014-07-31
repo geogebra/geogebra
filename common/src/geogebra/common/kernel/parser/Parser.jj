@@ -1674,7 +1674,7 @@ ExpressionValue numVecVariable():
         if (GeoGebraCASParsing)
  			return new Variable(kernel, c.image);
 		else		
-        	return new Polynomial(kernel, c.image);
+        	return new FunctionVariable(kernel, c.image);
     }
 |
     c = <VARY>  
@@ -1682,7 +1682,7 @@ ExpressionValue numVecVariable():
         if (GeoGebraCASParsing)
  			return new Variable(kernel, c.image);
 		else
-        	return new Polynomial(kernel, c.image);
+        	return new FunctionVariable(kernel, c.image);
     }
 |
     c = <VARZ>  
@@ -1692,7 +1692,7 @@ ExpressionValue numVecVariable():
  			return new Variable(kernel, c.image);
 		} else {
 	 		// z is not defined: treat as equation variable for 3D view
-    		return new Polynomial(kernel, c.image);
+    		return new FunctionVariable(kernel, c.image);
        }
     }
 |

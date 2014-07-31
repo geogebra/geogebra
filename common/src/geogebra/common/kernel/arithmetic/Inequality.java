@@ -153,8 +153,8 @@ public class Inequality {
 					IneqType.INEQUALITY_1VAR_X:IneqType.INEQUALITY_INVALID;
 		}
 		else {						
-			Polynomial xVar=new Polynomial(kernel,"x");
-			Polynomial yVar=new Polynomial(kernel,"y");
+			FunctionVariable xVar=new FunctionVariable(kernel,"x");
+			FunctionVariable yVar=new FunctionVariable(kernel,"y");
 			ExpressionNode replaced = 
 					((ExpressionNode) normal.deepCopy(kernel)).replace(fv[0], xVar).wrap().
 					replace(fv[1], yVar).wrap();
