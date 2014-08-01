@@ -1853,10 +1853,10 @@ public class AlgebraProcessor {
 		// check no terms in z
 		checkNoTermsInZ(equ);
 
-		if (equ.isFunctionDependent() && equ.isPolynomial()) {
+		if (equ.isFunctionDependent()) {
 			return processImplicitPoly(equ);
 		}
-		int deg = equ.isPolynomial() && !equ.hasVariableDegree() ? equ.degree() : -1;
+		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree() ? equ.degree() : -1;
 		// consider algebraic degree of equation
 		// check not equation of eg plane
 		switch (deg) {
@@ -1884,7 +1884,7 @@ public class AlgebraProcessor {
 				fun.setLabel(equ.getLabel());
 				return processFunction(fun);
 			}
-			if (equ.isPolynomial()) {
+			if (equ.mayBePolynomial()) {
 				return processImplicitPoly(equ);
 			}
 

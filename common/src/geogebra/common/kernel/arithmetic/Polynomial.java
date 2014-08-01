@@ -557,7 +557,10 @@ public class Polynomial implements Serializable
 			case POWER:
 				double power = rt.evaluateDouble();
 				if(Inspecting.dynamicGeosFinder.check(rt)){
-					equ.setVariableDegree(true);
+					if(!(rt.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue)){
+						equ.setIsPolynomial(false); 
+					}
+					equ.addVariableDegree(rt);
 				}else if(!Kernel.isInteger(power)){
 						equ.setIsPolynomial(false);
 				}

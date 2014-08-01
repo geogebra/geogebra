@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -36,6 +37,12 @@ public class Equation extends ValidExpression {
     private Polynomial normalForm; // polynomial in normalForm
     private boolean isFunctionDependent; //Equation depends (non-constant) on functions (set in InitEquation)
     private Kernel kernel;
+    
+    private boolean forcePlane = false, forceLine = false;
+    private boolean forceConic = false, forceImplicitPoly = false ;
+    private boolean forceQuadric = false;
+	private ArrayList<ExpressionValue> variableDegrees = null;
+	private boolean isPolynomial;
    
     /** check whether ExpressionNodes are evaluable to instances of Polynomial
      * or NumberValue and build an Equation out of them
@@ -87,12 +94,6 @@ public class Equation extends ValidExpression {
     	if(lhs != null)
     		this.lhs = lhs;
     }
-      
-    private boolean forcePlane = false, forceLine = false;
-    private boolean forceConic = false, forceImplicitPoly = false ;
-    private boolean forceQuadric = false;
-	private boolean variableDegree = true;
-	private boolean isPolynomial;
  
 
     /**
@@ -238,7 +239,7 @@ public class Equation extends ValidExpression {
 
         // simplify the both sides to single polynomials
         this.isPolynomial = true;
-        this.variableDegree = false;
+        this.variableDegrees = null;
         leftPoly  = Polynomial.fromNode(lhs, this);
         rightPoly = Polynomial.fromNode(rhs, this);
         		
@@ -567,12 +568,15 @@ public class Equation extends ValidExpression {
 		return false;
 	}
 
-	public void setVariableDegree(boolean b) {
-		this.variableDegree  = b;
+	public void addVariableDegree(ExpressionValue gn) {
+		if(this.variableDegrees == null){
+			this.variableDegrees = new ArrayList<ExpressionValue>();
+		}
+		this.variableDegrees.add(gn);
 	}
 
 	public boolean hasVariableDegree() {
-		return variableDegree;
+		return variableDegrees != null;
 	}
 
 	public void setIsPolynomial(boolean b) {
@@ -580,6 +584,22 @@ public class Equation extends ValidExpression {
 	}
 	
 	public boolean isPolynomial(){
+		if(!isPolynomial){
+			return false;
+		}
+		if(this.variableDegrees == null){
+			return true;
+		}
+		for(ExpressionValue ev: this.variableDegrees){
+			double exp = ev.evaluateDouble();
+			if(!Kernel.isInteger(exp) || Kernel.isGreater(0,exp)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean mayBePolynomial(){
 		return isPolynomial;
 	}
  

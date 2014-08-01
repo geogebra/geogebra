@@ -413,11 +413,12 @@ public class CmdIntersect extends CommandProcessor {
 						c.getLabel(),
 						(GeoFunction) arg[1],
 						(GeoConic) arg[0],(GeoNumberValue)arg[2])};
-			//ImplicitPoly - Functionable
+			//ImplicitPoly - Functionable 
+			//TODO decide polynomial before CAS loaded
 			else if (
 					(ok[0] = (arg[0] .isGeoImplicitPoly()))
 					&& (ok[1] = (arg[1] .isGeoFunctionable())
-					&& (ok[1]=((GeoFunctionable) arg[1]).getGeoFunction().isPolynomialFunction(false)))
+					&& (ok[1] = ((GeoFunctionable) arg[1]).getGeoFunction().isPolynomialFunction(false)))
 					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				
 				GeoPoint ret = IntersectImplicitpolyPolynomialSingle(
@@ -634,7 +635,7 @@ public class CmdIntersect extends CommandProcessor {
 	 */
 	final private GeoPoint IntersectImplicitpolyPolynomialSingle(String label,
 			GeoImplicitPoly p, GeoFunction f, GeoNumberValue idx) {
-		if (!f.isPolynomialFunction(false))
+		if (!f.getConstruction().isFileLoading() &&!f.isPolynomialFunction(false))
 			return null;
 		AlgoIntersect algo = getAlgoDispatcher().getIntersectionAlgorithm(p, f);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo,
@@ -721,7 +722,7 @@ public class CmdIntersect extends CommandProcessor {
 	 */
 	final private GeoPoint IntersectPolynomialLineSingle(String label,
 			GeoFunction f, GeoLine l, GeoNumberValue index) {
-		if (!f.isPolynomialFunction(false))
+		if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(false))
 			return null;
 
 		AlgoIntersectPolynomialLine algo = getAlgoDispatcher().getIntersectionAlgorithm(f, l);
@@ -741,10 +742,10 @@ public class CmdIntersect extends CommandProcessor {
 	final private GeoPoint IntersectPolynomialsSingle(Command c, GeoElement[] arg,
 			GeoFunction a, GeoFunction b, GeoNumberValue index) {
 		
-		if (!a.isPolynomialFunction(false)) {
+		if (!a.getConstruction().isFileLoading() && !a.isPolynomialFunction(false)) {
 			throw argErr(app, c.getName(), arg[0]);
 		}
-		if (!b.isPolynomialFunction(false)) {
+		if (!b.getConstruction().isFileLoading() && !b.isPolynomialFunction(false)) {
 			throw argErr(app, c.getName(), arg[1]);
 		}
 

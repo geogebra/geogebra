@@ -1037,7 +1037,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoPoint[] IntersectPolynomials(String[] labels,
 			GeoFunction a, GeoFunction b) {
-
+		//TODO decide polynomial when CAS not loaded
 		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 
 			// dummy point
@@ -1081,7 +1081,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoPoint[] IntersectPolynomialLine(String[] labels,
 			GeoFunction f, GeoLine l) {
-
+		//TODO decide polynomial when CAS not loaded ?
 		if (!f.isPolynomialFunction(false)) {
 
 			// dummy point
@@ -1563,7 +1563,7 @@ public class AlgoDispatcher {
 	public final GeoPoint IntersectPolynomialLineSingle(String label,
 			GeoFunction f, GeoLine l, double xRW, double yRW) {
 
-		if (!f.isPolynomialFunction(false))
+		if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(false))
 			return null;
 
 		AlgoIntersectPolynomialLine algo = getIntersectionAlgorithm(f, l);
@@ -1614,7 +1614,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoPoint IntersectImplicitpolyPolynomialSingle(String label,
 			GeoImplicitPoly p, GeoFunction f, double x, double y) {
-		if (!f.isPolynomialFunction(false))
+		if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(false))
 			return null;
 		AlgoIntersect algo = getIntersectionAlgorithm(p, f);
 		int idx = algo.getClosestPointIndex(x, y);

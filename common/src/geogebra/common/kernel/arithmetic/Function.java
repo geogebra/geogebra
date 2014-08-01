@@ -716,7 +716,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		catch(Throwable t){
 			App.debug(ev+" couldn't be transformed to polynomial");
 		}
-		if(terms == -1)
+		if(terms == -1 || !equ.isPolynomial())
 			return null;
 		if(!symbolic){
 			double [] coeffValues = new double[terms];

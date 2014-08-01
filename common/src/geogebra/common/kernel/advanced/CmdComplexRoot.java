@@ -37,7 +37,7 @@ public class CmdComplexRoot extends CommandProcessor {
 				GeoFunction f = ((GeoFunctionable) arg[0]).getGeoFunction();
 				
 				// allow functions that can be simplified to factors of polynomials
-				if (!f.isPolynomialFunction(true))
+				if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(true))
 					return null;
 
 				AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(cons,
