@@ -40,7 +40,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	protected boolean isSelected = false;
 
 	//TODO: Translate Insert Worksheet and Edit
-	protected StandardButton openButton;
+	protected StandardButton viewButton;
 	protected StandardButton editButton;
 
 	/**
@@ -49,7 +49,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * @param app {@link AppWeb}
 	 */
     public MaterialListElement(final Material m, final AppWeb app) {
-		openButton = new StandardButton(
+		viewButton = new StandardButton(
 				BrowseResources.INSTANCE.document_viewer(), "");
 		editButton = new StandardButton(
 				BrowseResources.INSTANCE.document_edit(), "");
@@ -202,8 +202,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * adds a {@link FastClickHandler}
 	 */
 	protected void initOpenButton() {
-		this.links.add(this.openButton);
-		this.openButton.addFastClickHandler(new FastClickHandler() {
+		this.links.add(this.viewButton);
+		this.viewButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
 			public void onClick() {
@@ -237,9 +237,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * 
 	 */
 	protected void setLabels() {
-		this.openButton.setText(app.getMenu("Open"));
+		this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
 		
-		this.editButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+		this.editButton.setText(app.getMenu("Open"));
 		
 	}
 
