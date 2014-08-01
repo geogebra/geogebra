@@ -3132,6 +3132,8 @@ namespace giac {
     if (debug_infolevel>3)
       CERR << G << endl;
     const polymod & h = res[pos];
+    if (h.coord.empty())
+      return;
     short order=h.order;
     vector<unsigned> C;
     C.reserve(G.size()+1);
@@ -9260,9 +9262,9 @@ namespace giac {
       index_t l;
       get_index(gblm.coord[i].u,l,order,dim);
       unsigned j,k;
-      for (j=0;j<d;++j){
+      for (j=0;int(j)<d;++j){
 	if (l[j]){
-	  for (k=j+1;k<d;++k){
+	  for (k=j+1;int(k)<d;++k){
 	    if (l[k])
 	      break;
 	  }
@@ -9360,7 +9362,7 @@ namespace giac {
     polymod si(order,dim);
     int d=rur_dim(dim,order);
     vecteur tmp(lm.coord.size());
-    for (unsigned i=0;i<d;++i){
+    for (unsigned i=0;int(i)<d;++i){
       index_t l(dim);
       l[i]=1;
       smallshift(s.coord,tdeg_t(l,order),si.coord);
@@ -9450,7 +9452,7 @@ namespace giac {
     int order=tmp.order;
     tmp.coord.clear();
     index_t l(tmp.dim);
-    for (unsigned j=0;j<vs;++j){
+    for (unsigned j=0;int(j)<vs;++j){
       l[varno]=vs-1-j;
       if (v[j].val)
 	tmp.coord.push_back(T_unsigned<modint,tdeg_t>(v[j].val,tdeg_t(index_m(l),order)));
@@ -9493,8 +9495,8 @@ namespace giac {
       for (unsigned essai=0;essai<40;++essai){
 	s.coord.clear(); m.clear(); M.clear();
 	int n=(3+essai/5);
-	int r=std_rand()*std::pow(double(n),double(d))/RAND_MAX,r1;
-	for (unsigned i=0;i<d;++i){
+	int r=int(std_rand()*std::pow(double(n),double(d))/RAND_MAX),r1;
+	for (unsigned i=0;int(i)<d;++i){
 	  index_t l(dim);
 	  l[i]=1;
 	  r1=(r%n)-n/2;
@@ -9515,7 +9517,7 @@ namespace giac {
     environment env;
     env.modulo=p;
     env.moduloon=true;
-    for (unsigned i=0;i<d;++i){
+    for (unsigned i=0;int(i)<d;++i){
       if (minp[i].type!=_VECT)
 	continue;
       m=*minp[i]._VECTptr;

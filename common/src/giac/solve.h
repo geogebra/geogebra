@@ -99,6 +99,10 @@ namespace giac {
 
   gen _gbasis(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_gbasis ;
+
+  gen _eliminate(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_eliminate ;
+
   gen _in_ideal(const gen & args,GIAC_CONTEXT);
 
   double nan();

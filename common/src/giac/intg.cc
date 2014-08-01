@@ -3948,9 +3948,9 @@ namespace giac {
     if (!is_integral(v[3]) || !is_integral(v[2])){
       if (v.size()==4 && g.subtype==_SEQ__VECT)
 	return gentypeerr(contextptr);
-      if (type==1)
+      if (type==1 && (g.subtype!=_SEQ__VECT || v.size()!=5))
 	return prodsum(v,true);
-      if (type==2)
+      if (type==2 && (g.subtype!=_SEQ__VECT || v.size()!=5))
 	return prodsum(v,false);
     }
     // This will not work if v[0] has auto-quoting functions inside

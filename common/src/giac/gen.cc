@@ -6050,10 +6050,6 @@ namespace giac {
       return b;
     if (b.type==_FLOAT_ && is_zero(b._FLOAT_val) )
       return b;
-    if (is_one(a) && ((a.type!=_MOD) || (b.type==_MOD) ))
-      return b;
-    if (is_one(b) && ((b.type!=_MOD) || (a.type==_MOD) ))
-      return a;
     if ( a.is_approx()){
       gen b1;
       if (has_evalf(b,b1,1,contextptr)&& (b.type!=b1.type || b!=b1)){
@@ -6114,6 +6110,10 @@ namespace giac {
 	return a1*b;
       }
     }
+    if (is_one(a) && ((a.type!=_MOD) || (b.type==_MOD) ))
+      return b;
+    if (is_one(b) && ((b.type!=_MOD) || (a.type==_MOD) ))
+      return a;
     if ((a.type==_SYMB) && equalposcomp(plot_sommets,a._SYMBptr->sommet)){
       gen tmp=remove_at_pnt(a);
       if (tmp.type==_VECT && tmp.subtype==_VECTOR__VECT){
@@ -7538,6 +7538,8 @@ namespace giac {
     if (a.type==_CPLX || b.type==_CPLX)
       return symb_superieur_strict(a,b);
     gen approx;
+    if (has_evalf(a,approx,1,contextptr) && approx.type==_CPLX && !is_zero(im(approx,contextptr)/re(approx,contextptr),contextptr))
+      return symb_superieur_strict(a,b);
     if (has_evalf(a-b,approx,1,contextptr)){
       if (approx.type==_CPLX && is_zero(im(approx,contextptr)/re(approx,contextptr),contextptr))
 	approx=re(approx,contextptr);

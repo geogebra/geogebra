@@ -5577,10 +5577,16 @@ namespace giac {
 	if (evalf_after & 1){
 	  gen pol=Gv[2],tmp;
 	  if (complexmode){
-	    if (deg>28)
-	      tmp=_proot(makesequence(pol,var.front(),deg/2),contextptr);
-	    else
-	      tmp=_proot(makesequence(pol,var.front()),contextptr);
+	    // FIXME: implement interval arit. for complexes
+	    if (0 && (evalf_after & 2)){
+	      tmp=complexroot(makesequence(pol,eps),true,contextptr);
+	    }
+	    else {
+	      if (deg>28)
+		tmp=_proot(makesequence(pol,var.front(),deg/2),contextptr);
+	      else
+		tmp=_proot(makesequence(pol,var.front()),contextptr);
+	    }
 	  }
 	  else {
 	    if (deg>28){
@@ -5619,6 +5625,7 @@ namespace giac {
 	      // accuracy
 	      int nbits=0;
 	      gen deuxn=1,lr=r-l;
+	      gen Eps=pow(gen(10),int(floor(std::log10(eps))),contextptr);
 	      for (;is_greater(1,deuxn*lr,contextptr);){
 		++nbits;
 		deuxn=plus_two*deuxn;
@@ -5627,13 +5634,13 @@ namespace giac {
 		den=horner_interval(denp,l,r);
 		gen den0=den[0],den1=den[1];
 		bool lpos=is_positive(den0,contextptr),rpos=is_positive(den1,contextptr);
-		if ( !(lpos ^ rpos) && is_greater(eps/3,den[1]/den[0]-1,contextptr)){
+		if ( !(lpos ^ rpos) && is_greater(Eps/3,abs(den[1]/den[0]-1,contextptr),contextptr)){
 		  // try numerators
 		  unsigned pos=0;
 		  vecteur Hs;
 		  for (;pos<numv.size();++pos){
 		    vecteur num=horner_interval(numv[pos],l,r);
-		    if (is_greater(num[1]/num[0]-1,eps/3,contextptr))
+		    if (is_greater(abs(num[1]/num[0]-1,contextptr),Eps/3,contextptr))
 		      break;
 		    gen num0=num[0],num1=num[1],a=makesequence(num0/den0,num0/den1,num1/den0,num1/den1);
 #ifdef HAVE_LIBMPFI
@@ -6196,9 +6203,11 @@ namespace giac {
   gen _eliminate(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args._VECTptr->size()<2)
       return gensizeerr(contextptr);
-    bool returngb=false;
+    int returngb=0;
     if (args._VECTptr->back()==at_gbasis)
-      returngb=true;
+      returngb=1;
+    if (args._VECTptr->back()==at_lcoeff)
+      returngb=2;
     vecteur eqs=gen2vecteur(remove_equal(args._VECTptr->front()));
     vecteur elim=gen2vecteur((*args._VECTptr)[1]);
     if (elim.empty())
@@ -6281,6 +6290,9 @@ namespace giac {
       vecteur v=lidnt(gb[i]);
       if (is_zero(derive(v,elim,contextptr),contextptr))
 	res.push_back(gb[i]);
+      if (returngb==2 && gb[i].is_symb_of_sommet(at_plus)){
+	gb[i]=gb[i][1];
+      }
     }
     if (returngb)
       return makevecteur(res,gb);

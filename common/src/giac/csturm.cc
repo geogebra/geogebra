@@ -960,7 +960,7 @@ namespace giac {
   bool newton_improve(const vecteur & P,const vecteur & P1,bool Preal,vecteur & v,vecteur & vradius,int i,int kmax,int n,int epsn,const gen & epsg2surdeg2,const gen & epsg){
     gen r=v[i];
     bool nextconj=false;
-    if (Preal && i+1<v.size())
+    if (Preal && i+1<int(v.size()))
       nextconj=is_exactly_zero(r-conj(v[i+1],context0));
     if (r.type==_FRAC || is_cinteger(r))
       return true;
@@ -1060,7 +1060,7 @@ namespace giac {
       r=rr+cst_i*ri;
     } // end for k
 #else
-    if (N>P.size()/4-epsn/2)
+    if (N>int(P.size())/4-epsn/2)
       N=P.size()/4-epsn/2;
     gen deuxN=pow(2,N,context0);
     for (int k=0;k<kmax;++k){
@@ -1096,7 +1096,7 @@ namespace giac {
 	CERR << "Unable to certify " << v[i] << endl ;
 	return false;
       }
-      if (N<P.size()-epsn){
+      if (N<int(P.size())-epsn){
 	// add 10 bits of precision or double it
 	if (N<-epsn){
 	  deuxN=deuxN*deuxN;
