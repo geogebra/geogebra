@@ -2036,7 +2036,9 @@ ExpressionNode numberFunction():
 	      		return new ExpressionNode(kernel, derivative, Operation.FUNCTION, myList.getListElement(0)); 
 	      		
 	      }
-	      if(cell!=null && geo==null)	{
+	      //f(t):=(t,t) produces line, we do not want CAS to use that line
+	      //Perhaps we should prefer cell over geo in all cases ?
+	      if(cell!=null && (geo==null || geo.isGeoLine()))	{
 			  	if(((GeoCasCell)cell).getFunctionVariables().length <2)
 			  	{
 			  	  
