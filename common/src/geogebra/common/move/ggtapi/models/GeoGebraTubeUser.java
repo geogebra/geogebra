@@ -43,6 +43,14 @@ public class GeoGebraTubeUser extends BaseModel {
 	}
 	
 	/**
+	 * Token needs to be set on cookie authentication
+	 * @param token new token
+	 */
+	public void setToken(String token){
+		this.token = token;
+	}
+	
+	/**
 	 * @return The user name of the user
 	 */
 	public String getUserName() {
