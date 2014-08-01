@@ -3711,12 +3711,13 @@ public abstract class App implements UpdateSelection{
 
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
-	public void openPopUps(boolean b) {
+	public void setAllowPopups(boolean b) {
 		allowPopUps = b;
-		
 	}
-	public boolean showPopUps() {
+	public boolean isAllowPopups() {
 		return allowPopUps;
-		
+	}
+	
+	public void showPopUps() {
 	}
 }

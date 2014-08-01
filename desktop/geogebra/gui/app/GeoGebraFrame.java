@@ -351,6 +351,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// set Application's size, position and font size
 
 		final AppD app = wnd.createApplication(args, wnd);
+		// app.openPopUps(true);
 
 		// app.getApplicationGUImanager().setMenubar(new
 		// geogebra.gui.menubar.GeoGebraMenuBar(app));
@@ -417,7 +418,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		// open the sign-in and/or sidebar popup once the GUI has initialized
 		if (args != null && args.getNoOfFiles() == 0) {
-			app.openPopUps(true);
+			app.setAllowPopups(true);
+			app.showPopUps();
 		}
 
 		for (NewInstanceListener l : instanceListener) {

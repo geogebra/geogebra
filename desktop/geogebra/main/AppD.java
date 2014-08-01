@@ -5088,4 +5088,56 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
+	private boolean popupsDone = false;
+
+	public void showPopUps() {
+		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
+		if (!signIn.isTubeCheckDone()) {
+			return;
+		}
+
+		if (isAllowPopups()) {
+
+			// Show login popup
+			if (!popupsDone) {
+				popupsDone = true;
+
+				java.awt.EventQueue.invokeLater(new Runnable() {
+					@SuppressWarnings("synthetic-access")
+					public void run() {
+						boolean showDockPopup = true;
+
+						LoginOperationD signIn = (LoginOperationD) getLoginOperation();
+						if (signIn.isTubeAvailable() && !signIn.isLoggedIn()) {
+
+							// for debugging only
+							// force sign-in popup if not logged in
+							// GeoGebraPreferencesD.getPref().savePreference(
+							// GeoGebraPreferencesD.USER_LOGIN_SKIP,
+							// "false");
+
+							String skipLogin = GeoGebraPreferencesD
+									.getPref()
+									.loadPreference(
+											GeoGebraPreferencesD.USER_LOGIN_SKIP,
+											"false");
+
+							if (!"true".equals(skipLogin)) {
+								showDockPopup = false;
+								GeoGebraPreferencesD.getPref().savePreference(
+										GeoGebraPreferencesD.USER_LOGIN_SKIP,
+										"true");
+
+								getGuiManager().login();
+							}
+						}
+
+						if (showDockPopup && isShowDockBar()) {
+							getDockBar().showPopup();
+						}
+					}
+				});
+			}
+		}
+	}
 }
