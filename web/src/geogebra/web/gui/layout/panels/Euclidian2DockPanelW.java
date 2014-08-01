@@ -38,7 +38,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 				6,							// menu order
 				'2' // ctrl-shift-1
 			);
-		setViewLabel(GuiResources.INSTANCE.graphics2View());
+		setViewImage(GuiResources.INSTANCE.styleBar_graphics2View());
 
 		this.idx = idx;
 		// copied here from loadComponent

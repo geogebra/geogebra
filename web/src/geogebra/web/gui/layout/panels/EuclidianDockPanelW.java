@@ -41,7 +41,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 				5,							// menu order
 				'1' // ctrl-shift-1
 			);
-		setViewLabel(GuiResources.INSTANCE.graphicsView());
+		setViewImage(GuiResources.INSTANCE.styleBar_graphicsView());
 
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets

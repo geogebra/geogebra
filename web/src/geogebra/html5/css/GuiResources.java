@@ -33,7 +33,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/algebra-view-tree-closed.png")
 	ImageResource algebra_tree_closed();
 	
-	// PHONE GUI (also used for the icons in the StyleBars)
+	// PHONE GUI
 	@Source("icons/png/menu_view_algebra.png")
 	ImageResource algebraView();
 	
@@ -62,6 +62,30 @@ public interface GuiResources extends ClientBundle {
 	ImageResource options();
 	
 	// end PHONE GUI
+	
+	// StyleBar
+	@Source("icons/png24x24/stylebar_icon_algebra.png")
+	ImageResource styleBar_algebraView();
+
+	@Source("icons/png24x24/stylebar_icon_graphics.png")
+	ImageResource styleBar_graphicsView();
+
+	@Source("icons/png24x24/stylebar_icon_cas.png")
+	ImageResource styleBar_CASView();
+
+	@Source("icons/png24x24/stylebar_icon_construction_protocol.png")
+	ImageResource styleBar_ConstructionProtocol();
+
+	@Source("icons/png24x24/stylebar_icon_3Dgraphics.png")
+	ImageResource styleBar_graphics3dView();
+
+	@Source("icons/png24x24/stylebar_icon_graphics2.png")
+	ImageResource styleBar_graphics2View();
+
+	@Source("icons/png24x24/stylebar_icon_spreadsheet.png")
+	ImageResource styleBar_spreadsheetView();
+
+	// end StyleBar
 	
 	/*@Source("geogebra/resources/images/triangle-down.png")
 	ImageResource triangle_down();*/

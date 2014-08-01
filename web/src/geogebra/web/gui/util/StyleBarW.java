@@ -55,7 +55,10 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		data[0] = new ImageOrText(app.getMenu("Close"));
 		data[0].url = GuiResources.INSTANCE.dockbar_close().getSafeUri().asString();
 
-		int k = 1;
+		// placeholder for the separator (needs to be != null)
+		data[1] = new ImageOrText("");
+
+		int k = 2;
 		for(int i = 0; i < Views.ids.length; i++){
 			if(app.supportsView(Views.ids[i]) && !app.getGuiManager().showView(Views.ids[i])){
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
@@ -74,19 +77,14 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 			}
 		}
 
-		viewButton = new PopupMenuButton(app, data, k+1, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		viewButton = new PopupMenuButton(app, data, k, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		ImageOrText views = new ImageOrText();
 		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
 		viewButton.setFixedIcon(views);
 		
-		geogebra.web.gui.util.SelectionTable table = viewButton.getMyTable();
-	    for(int i =  table.getRowCount()-1; i > 1; i--){
-	    	table.setWidget(i, 0, table.getWidget(i-1, 0));
-	    }
-
-	    FlowPanel separator = new FlowPanel();
+		FlowPanel separator = new FlowPanel();
 	    separator.addStyleName("Separator");
-	    table.setWidget(1, 0, separator);
+	    viewButton.getMyTable().setWidget(1, 0, separator);
 
 	    viewButton.addClickHandler(new ClickHandler() {
 	    	@Override
@@ -114,7 +112,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 				if(i==0){
 					app.getGuiManager().setShowView(false, viewID);
 				} else if(i != 1) { // ignore separator
-					app.getGuiManager().setShowView(true, viewIDs[i-1]);
+					app.getGuiManager().setShowView(true, viewIDs[i]);
 				}
 
 				app.updateMenubar();

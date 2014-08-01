@@ -34,7 +34,7 @@ public class CASDockPanelW extends DockPanelW {
 				4,						// menu order
 				'K' // ctrl-shift-K
 			);
-		setViewLabel(GuiResources.INSTANCE.CASView());
+		setViewImage(GuiResources.INSTANCE.styleBar_CASView());
 		
 		//initWidget(toplevel = new SimpleLayoutPanel());
 		//ancestor = new VerticalPanelSmart();

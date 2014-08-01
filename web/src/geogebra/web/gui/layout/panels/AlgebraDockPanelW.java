@@ -26,7 +26,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
-		setViewLabel(GuiResources.INSTANCE.algebraView());
+		setViewImage(GuiResources.INSTANCE.styleBar_algebraView());
 	}
 
 	protected Widget loadComponent() {

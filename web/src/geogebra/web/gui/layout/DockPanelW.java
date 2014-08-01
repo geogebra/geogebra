@@ -9,7 +9,6 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
@@ -352,7 +351,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	PushButton toggleStyleBarButton;
 
-	private StandardButton viewLabel;
+	private Image viewImage;
 
 	public int getHeight() {
 		return dockPanel.getOffsetHeight();
@@ -442,9 +441,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	private void addToggleButton() {
-		toggleStyleBarButton = new PushButton(showStyleBar ? triangleRight
-		        : triangleLeft);
+		toggleStyleBarButton = new PushButton(showStyleBar ?  triangleRight
+		        : (viewImage == null ? triangleLeft : viewImage));
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
+
+		if(!showStyleBar && viewImage != null){
+			toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
+		}
 
 		ClickHandler toggleStyleBarHandler = new ClickHandler() {
 
@@ -458,10 +461,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 		};
 		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
-
-		if(viewLabel != null){
-			titleBarPanelContent.add(viewLabel);
-		}
 		titleBarPanelContent.add(toggleStyleBarButton);
 	}
 
@@ -849,7 +848,12 @@ public abstract class DockPanelW extends ResizeComposite implements
 			this.toggleStyleBarButton.getElement().removeAllChildren();
 			this.toggleStyleBarButton.getElement().appendChild(
 			        showStyleBar ? this.triangleRight.getElement()
-			                : this.triangleLeft.getElement());
+			                : (viewImage == null ? this.triangleLeft.getElement() : viewImage.getElement()));
+			if(!showStyleBar && viewImage != null){
+				toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
+			} else {
+				toggleStyleBarButton.removeStyleName("toggleStyleBarViewIcon");
+			}
 		}
 	}
 
@@ -1276,13 +1280,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	/**
-	 * Initializes the view-icon of the DockPanel; 
-	 * has to be called before addToggleButton
+	 * Initializes the view-specific icon of the DockPanel
 	 * 
 	 * @param imageResource: the icon the be shown
 	 */
-	public void setViewLabel(ImageResource imageResource){
-		this.viewLabel = new StandardButton(imageResource);
-		viewLabel.addStyleName("toggleStyleBar");
+	public void setViewImage(ImageResource imageResource){
+		this.viewImage = new Image(imageResource);
 	}
 }

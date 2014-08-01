@@ -32,7 +32,7 @@ public class EuclidianDockPanel3DW extends DockPanelW {
 				4,							// menu order
 				'3' // ctrl-shift-3
 			);
-		setViewLabel(GuiResources.INSTANCE.graphics3dView());
+		setViewImage(GuiResources.INSTANCE.styleBar_graphics3dView());
 
 		this.app = (AppW) app;
 		this.setOpenInFrame(true);

@@ -36,7 +36,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				3, 									// menu order
 				'S'									// menu shortcut
 			);
-		setViewLabel(GuiResources.INSTANCE.spreadsheetView());
+		setViewImage(GuiResources.INSTANCE.styleBar_spreadsheetView());
 
 		app = (AppW)appl;
 	}

@@ -27,7 +27,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 			7,						// menu order
 			'L' // ctrl-shift-L
 		);
-		setViewLabel(GuiResources.INSTANCE.ConstructionProtocol());
+		setViewImage(GuiResources.INSTANCE.styleBar_ConstructionProtocol());
 
 		this.app = app;
 		this.setShowStyleBar(true);

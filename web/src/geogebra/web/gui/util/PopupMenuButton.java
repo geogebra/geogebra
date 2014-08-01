@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -130,7 +131,16 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 
 		// create the popup
-		myPopup = new ButtonPopupMenu();
+		myPopup = new ButtonPopupMenu(){
+			@Override
+			public void setVisible(boolean visible) {
+			    super.setVisible(visible);
+
+			    // if another button is pressed only the visibility is changed,
+			    // by firing the event we can react as if it was closed
+			    CloseEvent.fire(this, this, false);
+			}
+		};
 		//myPopup.setFocusable(false);
 		//myPopup.setBackground(Color.WHITE);
 		//myPopup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.GRAY),
