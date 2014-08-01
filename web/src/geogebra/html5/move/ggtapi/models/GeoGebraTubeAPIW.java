@@ -179,6 +179,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 			user.setRealName(((JSONString)userinfo.get("realname")).stringValue());
 			user.setIdentifier(((JSONString)userinfo.get("identifier")).stringValue());
 			
+			if(userinfo.get("token") instanceof JSONString){
+				user.setToken(((JSONString)userinfo.get("token")).stringValue());
+			}
+			
 			// Further fields are not parsed yet, because they are not needed
 			// This is the complete response with all available fields:
 			/*
