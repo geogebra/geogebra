@@ -1700,17 +1700,21 @@ SymbolicParametersBotanaAlgo {
 	public Coords getInhomCoords() {
 		return new Coords(new double[] { inhomX, inhomY });
 	}
+	private Coords coords2D;
+	private Coords inhomCoords;
 
 	public Coords getInhomCoordsInD(int dimension) {
 		switch (dimension) {
 		case 2:
 			return getInhomCoords();
 		case 3:
-			/*
-			 * if (label!=null && label.equals("S3'"))
-			 * Application.debug(label+": "+inhomX+","+inhomY);
-			 */
-			return new Coords(inhomX, inhomY, 0, 1);
+			if(inhomCoords == null){
+				inhomCoords = new Coords(new double[] { inhomX, inhomY, 0, 1});
+			}else{
+				this.inhomCoords.set(1, inhomX);
+				this.inhomCoords.set(2, inhomY);
+			}
+			return inhomCoords;
 		default:
 			return null;
 		}
@@ -1719,11 +1723,18 @@ SymbolicParametersBotanaAlgo {
 	public Coords getCoordsInD2(CoordSys coordSys) { // TODO use coord sys ?
 		return new Coords(new double[] { x, y, z });
 	}
-
+	
 	public Coords getCoordsInD(int dimension) {
 		switch (dimension) {
 		case 2:
-			return new Coords(new double[] { x, y, z });
+			if(coords2D == null){
+				coords2D = new Coords(new double[] { x, y, z });
+			}else{
+				coords2D.set(1, x);
+				coords2D.set(2, y);
+				coords2D.set(3, z);
+			}
+			return coords2D;
 		case 3:
 			// Application.debug(getLabel()+": "+x+","+y+","+z);
 			return new Coords(x, y, 0, z);

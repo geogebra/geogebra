@@ -6,9 +6,9 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -58,8 +58,8 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		ExpressionNode lhs = (ExpressionNode)d.getEquation().getLHS().deepCopy(kernel);
 		ExpressionNode rhs = (ExpressionNode)d.getEquation().getRHS().deepCopy(kernel);
 		ExpressionNode[] abcExp = new ExpressionNode[3];
-		GeoDummyVariable x = new GeoDummyVariable(cons,"x");
-		GeoDummyVariable y = new GeoDummyVariable(cons,"y");
+		FunctionVariable x = new FunctionVariable(kernel,"x");
+		FunctionVariable y = new FunctionVariable(kernel,"y");
 		
 		xcoef = new GeoNumeric[3];
 		ycoef = new GeoNumeric[3];
