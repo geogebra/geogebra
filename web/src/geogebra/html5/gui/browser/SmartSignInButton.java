@@ -12,7 +12,7 @@ public class SmartSignInButton extends SignInButton{
     }
 
 	public void login(){
-		String url =  "http://www.geogebratube.org/user/login" 
+		String url =  "https://login.geogebra.org/user/login" 
 					+ "/caller/web/"
 					+"/expiration/600/"
 					+"/clientinfo/smart"
