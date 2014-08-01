@@ -1,6 +1,5 @@
 package geogebra.common.main.settings;
 
-
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.factories.AwtFactory;
@@ -24,112 +23,121 @@ public class SpreadsheetSettings extends AbstractSettings {
 		public static final boolean IS_COLUMN_SELECT = false;
 		public static final boolean ALLOW_SPECIAL_EDITOR = false;
 		public static final boolean ALLOW_TOOLTIPS = true;
-				
-	}
-	public static final int TABLE_CELL_WIDTH = 70;
-	public static final int TABLE_CELL_HEIGHT = 21; //G.Sturr (old height 20) + 1 to stop cell editor clipping
 
-	public static final int MODE_FILE = 0;
-	public static final int MODE_URL = 1;
-	public static final String DEFAULT_URL = "";
-	
+	}
+
+	public static final int TABLE_CELL_WIDTH = 70;
+	public static final int TABLE_CELL_HEIGHT = 21; // G.Sturr (old height 20) +
+													// 1 to stop cell editor
+													// clipping
+
+	// file browser mode constants
+	public final static int MODE_URL = 0;
+	public final static int MODE_FILE = 1;
+	public final static int MODE_HTML = 2;
+
+	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
+	public static final int DEFAULT_MODE = MODE_FILE;
+
 	// layout settings
 	private boolean showFormulaBar = Defaults.SHOW_FORMULA_BAR;
 	private boolean showGrid = Defaults.SHOW_GRID;
 	private boolean showRowHeader = Defaults.SHOW_ROW_HEADER;
-	private boolean showColumnHeader = Defaults.SHOW_COLUMN_HEADER;	
+	private boolean showColumnHeader = Defaults.SHOW_COLUMN_HEADER;
 	private boolean showVScrollBar = Defaults.SHOW_VSCROLLBAR;
 	private boolean showHScrollBar = Defaults.SHOW_HSCROLLBAR;
 	private boolean showBrowserPanel = Defaults.SHOW_BROWSER_PANEL;
-	private boolean isColumnSelect = Defaults.IS_COLUMN_SELECT; //TODO: do we need forced column select?
+	private boolean isColumnSelect = Defaults.IS_COLUMN_SELECT; // TODO: do we
+																// need forced
+																// column
+																// select?
 	private boolean allowSpecialEditor = Defaults.ALLOW_SPECIAL_EDITOR;
 	private boolean allowToolTips = Defaults.ALLOW_TOOLTIPS;
-	private boolean equalsRequired; 
+	private boolean equalsRequired;
 	private boolean enableAutoComplete;
-	
+
 	// file browser settings
-	private String defaultFile; 
-	private String initialURL;
-	private String initialFilePath; 
-	private int initialBrowserMode = -1;
+	private String defaultFile;
+	private String initialURL = DEFAULT_URL;
+	private String initialFilePath;
+	private int initialBrowserMode = DEFAULT_MODE;
 	private boolean isDefaultBrowser = true;
 
 	// row and column size
-	private HashMap<Integer,Integer> widthMap;
-	private HashMap<Integer,Integer> heightMap;
+	private HashMap<Integer, Integer> widthMap;
+	private HashMap<Integer, Integer> heightMap;
 	private int preferredColumnWidth = TABLE_CELL_WIDTH;
 	private int preferredRowHeight = TABLE_CELL_HEIGHT;
 
 	// cell format
 	private String cellFormat;
-	
+
 	// initial selection
-	private GPoint scrollPosition = new GPoint(0,0);
-	private GPoint selectedCell = new GPoint(0,0);
-	
+	private GPoint scrollPosition = new GPoint(0, 0);
+	private GPoint selectedCell = new GPoint(0, 0);
+
 	// preferred size
 	private GDimension preferredSize;
 	private int HScrollBarValue;
 	private int VScrollBarValue;
-	
-	//============================================
-	//  Row/Column Dimension Settings
-	//============================================
+
+	// ============================================
+	// Row/Column Dimension Settings
+	// ============================================
 
 	public SpreadsheetSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
-		preferredSize = AwtFactory.prototype.newDimension(0,0);
+		preferredSize = AwtFactory.prototype.newDimension(0, 0);
 	}
 
 	public SpreadsheetSettings() {
 		super();
-		preferredSize = AwtFactory.prototype.newDimension(0,0);
+		preferredSize = AwtFactory.prototype.newDimension(0, 0);
 	}
 
-	public HashMap<Integer,Integer> getWidthMap(){
-		if(widthMap == null)
-			widthMap = new HashMap<Integer,Integer>();
+	public HashMap<Integer, Integer> getWidthMap() {
+		if (widthMap == null)
+			widthMap = new HashMap<Integer, Integer>();
 		return widthMap;
 	}
 
-	public void addWidth(int index, int width){
-		getWidthMap().put(index,width);
-		settingChanged();		
+	public void addWidth(int index, int width) {
+		getWidthMap().put(index, width);
+		settingChanged();
 	}
-	
-	public int preferredColumnWidth(){
+
+	public int preferredColumnWidth() {
 		return preferredColumnWidth;
 	}
 
-	public void setPreferredColumnWidth(int prefWidth){
+	public void setPreferredColumnWidth(int prefWidth) {
 		this.preferredColumnWidth = prefWidth;
-		settingChanged();		
-	}	
-	
-	public HashMap<Integer,Integer> getHeightMap(){
-		if(heightMap == null)
-			heightMap = new HashMap<Integer,Integer>();
+		settingChanged();
+	}
+
+	public HashMap<Integer, Integer> getHeightMap() {
+		if (heightMap == null)
+			heightMap = new HashMap<Integer, Integer>();
 		return heightMap;
 	}
 
-	public void addHeight(int index, int height){
-		getHeightMap().put(index,height);
-		settingChanged();	
+	public void addHeight(int index, int height) {
+		getHeightMap().put(index, height);
+		settingChanged();
 	}
-	
-	public int preferredRowHeight(){
+
+	public int preferredRowHeight() {
 		return preferredRowHeight;
 	}
 
-	public void setPreferredRowHeight(int preferredRowHeight){
+	public void setPreferredRowHeight(int preferredRowHeight) {
 		this.preferredRowHeight = preferredRowHeight;
 		settingChanged();
 	}
-	
 
-	//============================================
-	//  Layout Settings
-	//============================================
+	// ============================================
+	// Layout Settings
+	// ============================================
 
 	/**
 	 * @return the showFormulaBar
@@ -139,10 +147,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showFormulaBar the showFormulaBar to set
+	 * @param showFormulaBar
+	 *            the showFormulaBar to set
 	 */
 	public void setShowFormulaBar(boolean showFormulaBar) {
-		if(this.showFormulaBar != showFormulaBar) {
+		if (this.showFormulaBar != showFormulaBar) {
 			this.showFormulaBar = showFormulaBar;
 			settingChanged();
 		}
@@ -156,10 +165,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showGrid the showGrid to set
+	 * @param showGrid
+	 *            the showGrid to set
 	 */
 	public void setShowGrid(boolean showGrid) {
-		if(this.showGrid != showGrid) {
+		if (this.showGrid != showGrid) {
 			this.showGrid = showGrid;
 			settingChanged();
 		}
@@ -173,10 +183,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showRowHeader the showRowHeader to set
+	 * @param showRowHeader
+	 *            the showRowHeader to set
 	 */
 	public void setShowRowHeader(boolean showRowHeader) {
-		if(this.showRowHeader != showRowHeader) {
+		if (this.showRowHeader != showRowHeader) {
 			this.showRowHeader = showRowHeader;
 			settingChanged();
 		}
@@ -190,10 +201,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showColumnHeader the showColumnHeader to set
+	 * @param showColumnHeader
+	 *            the showColumnHeader to set
 	 */
 	public void setShowColumnHeader(boolean showColumnHeader) {
-		if(this.showColumnHeader != showColumnHeader) {
+		if (this.showColumnHeader != showColumnHeader) {
 			this.showColumnHeader = showColumnHeader;
 			settingChanged();
 		}
@@ -207,10 +219,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showVScrollBar the showVScrollBar to set
+	 * @param showVScrollBar
+	 *            the showVScrollBar to set
 	 */
 	public void setShowVScrollBar(boolean showVScrollBar) {
-		if(this.showVScrollBar != showVScrollBar) {
+		if (this.showVScrollBar != showVScrollBar) {
 			this.showVScrollBar = showVScrollBar;
 			settingChanged();
 		}
@@ -224,10 +237,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showHScrollBar the showHScrollBar to set
+	 * @param showHScrollBar
+	 *            the showHScrollBar to set
 	 */
 	public void setShowHScrollBar(boolean showHScrollBar) {
-		if(this.showHScrollBar != showHScrollBar) {
+		if (this.showHScrollBar != showHScrollBar) {
 			this.showHScrollBar = showHScrollBar;
 			settingChanged();
 		}
@@ -241,10 +255,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showBrowserPanel the showBrowserPanel to set
+	 * @param showBrowserPanel
+	 *            the showBrowserPanel to set
 	 */
 	public void setShowFileBrowser(boolean showBrowserPanel) {
-		if(this.showBrowserPanel != showBrowserPanel) {
+		if (this.showBrowserPanel != showBrowserPanel) {
 			this.showBrowserPanel = showBrowserPanel;
 			settingChanged();
 		}
@@ -258,10 +273,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param allowSpecialEditor the allowSpecialEditor to set
+	 * @param allowSpecialEditor
+	 *            the allowSpecialEditor to set
 	 */
 	public void setAllowSpecialEditor(boolean allowSpecialEditor) {
-		if(this.allowSpecialEditor != allowSpecialEditor) {
+		if (this.allowSpecialEditor != allowSpecialEditor) {
 			this.allowSpecialEditor = allowSpecialEditor;
 			settingChanged();
 		}
@@ -275,10 +291,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param allowToolTips the allowToolTips to set
+	 * @param allowToolTips
+	 *            the allowToolTips to set
 	 */
 	public void setAllowToolTips(boolean allowToolTips) {
-		if(this.allowToolTips != allowToolTips) {
+		if (this.allowToolTips != allowToolTips) {
 			this.allowToolTips = allowToolTips;
 			settingChanged();
 		}
@@ -292,12 +309,13 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param equalsRequired the equalsRequired to set
+	 * @param equalsRequired
+	 *            the equalsRequired to set
 	 */
 	public void setEqualsRequired(boolean equalsRequired) {
-		if(this.equalsRequired != equalsRequired) {
+		if (this.equalsRequired != equalsRequired) {
 			this.equalsRequired = equalsRequired;
-			//settingChanged();
+			// settingChanged();
 		}
 	}
 
@@ -309,20 +327,20 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param isColumnSelect the isColumnSelect to set
+	 * @param isColumnSelect
+	 *            the isColumnSelect to set
 	 */
 	public void setColumnSelect(boolean isColumnSelect) {
-		if(this.isColumnSelect != isColumnSelect) {
+		if (this.isColumnSelect != isColumnSelect) {
 			this.isColumnSelect = isColumnSelect;
 			settingChanged();
 		}
 	}
 
+	// ============================================
+	// Cell Format PreferredCSettings
+	// ============================================
 
-	//============================================
-	//  Cell Format PreferredCSettings
-	//============================================
-	
 	/**
 	 * @return the cellFormat
 	 */
@@ -331,18 +349,19 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param cellFormat the cellFormat to set
+	 * @param cellFormat
+	 *            the cellFormat to set
 	 */
 	public void setCellFormat(String cellFormat) {
-		if(this.cellFormat != null && this.cellFormat.equals(cellFormat)) return;
-			this.cellFormat = cellFormat;
-			settingChanged();
+		if (this.cellFormat != null && this.cellFormat.equals(cellFormat))
+			return;
+		this.cellFormat = cellFormat;
+		settingChanged();
 	}
-	
 
-	//============================================
-	//  Initial Position Settings
-	//============================================
+	// ============================================
+	// Initial Position Settings
+	// ============================================
 	/**
 	 * @return the scrollPosition
 	 */
@@ -351,15 +370,17 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param scrollPosition the scrollPosition to set
+	 * @param scrollPosition
+	 *            the scrollPosition to set
 	 */
 	public void setScrollPosition(GPoint scrollPosition) {
-		if(this.scrollPosition == null || !this.scrollPosition.equals(scrollPosition)) {
+		if (this.scrollPosition == null
+				|| !this.scrollPosition.equals(scrollPosition)) {
 			this.scrollPosition = scrollPosition;
 			settingChanged();
 		}
 	}
-	
+
 	/**
 	 * @return the selectedCell
 	 */
@@ -368,19 +389,20 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param selectedCell the selectedCell to set
+	 * @param selectedCell
+	 *            the selectedCell to set
 	 */
 	public void setSelectedCell(GPoint selectedCell) {
-		if(this.selectedCell == null || !this.selectedCell.equals(selectedCell)) {
+		if (this.selectedCell == null
+				|| !this.selectedCell.equals(selectedCell)) {
 			this.selectedCell = selectedCell;
 			settingChanged();
 		}
 	}
-		
 
-	//============================================
-	//  PreferredSize Settings
-	//============================================
+	// ============================================
+	// PreferredSize Settings
+	// ============================================
 	/**
 	 * @return the preferredSize
 	 */
@@ -389,19 +411,20 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param preferredSize the preferredSize to set
+	 * @param preferredSize
+	 *            the preferredSize to set
 	 */
 	public void setPreferredSize(GDimension preferredSize) {
-		if(this.preferredSize == null || !this.preferredSize.equals(preferredSize)) {
+		if (this.preferredSize == null
+				|| !this.preferredSize.equals(preferredSize)) {
 			this.preferredSize = preferredSize;
 			settingChanged();
 		}
 	}
-	
-	
-	//============================================
-	//  File Browser Settings
-	//============================================
+
+	// ============================================
+	// File Browser Settings
+	// ============================================
 
 	/**
 	 * @return the defaultFile
@@ -411,12 +434,14 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param defaultFile the defaultFile to set
+	 * @param defaultFile
+	 *            the defaultFile to set
 	 */
 	public void setDefaultFile(String defaultFile) {
-		if(this.defaultFile != null && this.defaultFile.equals(defaultFile)) return;
-			this.defaultFile = defaultFile;
-			settingChanged();
+		if (this.defaultFile != null && this.defaultFile.equals(defaultFile))
+			return;
+		this.defaultFile = defaultFile;
+		settingChanged();
 	}
 
 	/**
@@ -427,14 +452,16 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param initialURL the initialURL to set
+	 * @param initialURL
+	 *            the initialURL to set
 	 */
 	public void setInitialURL(String initialURL) {
-		if(this.initialURL != null && this.initialURL.equals(initialURL)) return;
+		if (this.initialURL != null && this.initialURL.equals(initialURL))
+			return;
 		this.initialURL = initialURL;
 		settingChanged();
 	}
-	
+
 	/**
 	 * @return the initialFilePath
 	 */
@@ -443,14 +470,17 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param initialFilePath the initialFilePath to set
+	 * @param initialFilePath
+	 *            the initialFilePath to set
 	 */
 	public void setInitialFilePath(String initialFilePath) {
-		if(this.initialFilePath != null && this.initialFilePath.equals(initialFilePath)) return;
-			this.initialFilePath = initialFilePath;
-			settingChanged();
+		if (this.initialFilePath != null
+				&& this.initialFilePath.equals(initialFilePath))
+			return;
+		this.initialFilePath = initialFilePath;
+		settingChanged();
 	}
-	
+
 	/**
 	 * @return the initialBrowserMode
 	 */
@@ -459,10 +489,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param initialBrowserMode the initialBrowserMode to set
+	 * @param initialBrowserMode
+	 *            the initialBrowserMode to set
 	 */
 	public void setInitialBrowserMode(int initialBrowserMode) {
-		if(this.initialBrowserMode != initialBrowserMode) {
+		if (this.initialBrowserMode != initialBrowserMode) {
 			this.initialBrowserMode = initialBrowserMode;
 			settingChanged();
 		}
@@ -476,27 +507,29 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param isDefaultBrowser the isDefaultBrowser to set
+	 * @param isDefaultBrowser
+	 *            the isDefaultBrowser to set
 	 */
 	public void setDefaultBrowser(boolean isDefaultBrowser) {
-		if(this.isDefaultBrowser != isDefaultBrowser) {
+		if (this.isDefaultBrowser != isDefaultBrowser) {
 			this.isDefaultBrowser = isDefaultBrowser;
 			settingChanged();
 		}
 	}
 
 	/**
-	 * @param enableAutoComplete	flag to allow auto-complete in the editor
+	 * @param enableAutoComplete
+	 *            flag to allow auto-complete in the editor
 	 */
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
-		if(this.enableAutoComplete != enableAutoComplete) {
+		if (this.enableAutoComplete != enableAutoComplete) {
 			this.enableAutoComplete = enableAutoComplete;
 			settingChanged();
 		}
 	}
-	
+
 	/**
-	 * @return	is auto-complete allowed in the editor
+	 * @return is auto-complete allowed in the editor
 	 */
 	public boolean isEnableAutoComplete() {
 		return enableAutoComplete;
@@ -523,29 +556,23 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	public boolean isAllDefaults() {
-		return (isDefaultPreferredSize() &&
-				isSelectionDefaults() &&
-				isLayoutDefaults() &&
-				!hasCellFormat());
+		return (isDefaultPreferredSize() && isSelectionDefaults()
+				&& isLayoutDefaults() && !hasCellFormat());
 	}
+
 	public boolean isSelectionDefaults() {
-		return (HScrollBarValue == 0 && VScrollBarValue == 00 && 
-				selectedCell.getX() == 0 && selectedCell.getY() == 0);
+		return (HScrollBarValue == 0 && VScrollBarValue == 00
+				&& selectedCell.getX() == 0 && selectedCell.getY() == 0);
 	}
+
 	public boolean isLayoutDefaults() {
-		return (isDefaultShowFormulaBar() &&
-				isDefaultShowGrid() &&
-				isDefaultShowRowHeader() &&
-				isDefaultShowColumnHeader() &&
-				isDefaultVScrollBar() &&
-				isDefaultHScrollBar() &&
-				isDefaultShowBrowserPanel() &&
-				isDefaultColumnSelect() && 
-				isDefaultSpecialEditorAllowed() &&
-				isDefaultToolTipsAllowed() &&
-				isDefaultSpecialEditorAllowed() &&
-				!equalsRequired() &&
-				!isEnableAutoComplete());
+		return (isDefaultShowFormulaBar() && isDefaultShowGrid()
+				&& isDefaultShowRowHeader() && isDefaultShowColumnHeader()
+				&& isDefaultVScrollBar() && isDefaultHScrollBar()
+				&& isDefaultShowBrowserPanel() && isDefaultColumnSelect()
+				&& isDefaultSpecialEditorAllowed()
+				&& isDefaultToolTipsAllowed()
+				&& isDefaultSpecialEditorAllowed() && !equalsRequired() && !isEnableAutoComplete());
 	}
 
 	public boolean isDefaultToolTipsAllowed() {
@@ -584,6 +611,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	public boolean isDefaultShowFormulaBar() {
 		return showFormulaBar == Defaults.SHOW_FORMULA_BAR;
 	}
+
 	public boolean isDefaultShowGrid() {
 		return showGrid == Defaults.SHOW_GRID;
 	}
@@ -591,11 +619,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	public boolean isDefaultPreferredSize() {
 		int w = preferredSize.getWidth();
 		int h = preferredSize.getHeight();
-		
-		return (w == 0 && h == 0) ||
-				(w == TABLE_CELL_WIDTH
-					&& h == TABLE_CELL_HEIGHT);
+
+		return (w == 0 && h == 0)
+				|| (w == TABLE_CELL_WIDTH && h == TABLE_CELL_HEIGHT);
 	}
+
 	/**
 	 * returns settings in XML format
 	 */
@@ -629,8 +657,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 		int prefWidth = preferredColumnWidth();
 		int prefHeight = preferredRowHeight();
 
-		if (prefWidth != TABLE_CELL_WIDTH
-				|| prefHeight != TABLE_CELL_HEIGHT) {
+		if (prefWidth != TABLE_CELL_WIDTH || prefHeight != TABLE_CELL_HEIGHT) {
 			sb.append("\t<prefCellSize ");
 			if (prefWidth != TABLE_CELL_WIDTH) {
 				sb.append(" width=\"");
@@ -670,7 +697,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 			}
 
 			// initial selection
-			
+
 			if (!isSelectionDefaults()) {
 				sb.append("\t<selection ");
 
@@ -746,7 +773,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 			}
 
-			if (equalsRequired){
+			if (equalsRequired) {
 				sb.append(" equalsRequired=\"true\"");
 			}
 
@@ -757,31 +784,25 @@ public class SpreadsheetSettings extends AbstractSettings {
 			sb.append("/>\n");
 		}
 
-		// ---- end layout
+		// file browser
 
-		/*
-		 * // file browser if (isDefaultBrowser()) {
-		 * sb.append("\t<spreadsheetBrowser "); String initPath =
-		 * initialFilePath(); if (initPath != null &&
-		 * initPath.equals(defaultFile()) || initialURL() !=
-		 * DEFAULT_URL || initialBrowserMode() != DEFAULT_MODE) {
-		 * sb.append(" default=\""); sb.append("false"); sb.append("\"");
-		 * 
-		 * sb.append(" dir=\""); sb.append(initialFilePath());
-		 * sb.append("\"");
-		 * 
-		 * sb.append(" URL=\""); sb.append(initialURL());
-		 * sb.append("\"");
-		 * 
-		 * sb.append(" mode=\""); sb.append(initialBrowserMode());
-		 * sb.append("\"");
-		 * 
-		 * } else {
-		 * 
-		 * sb.append(" default=\""); sb.append("true"); sb.append("\""); }
-		 * 
-		 * sb.append("/>\n"); }
-		 */
+		if (!isDefaultBrowser()) {
+			sb.append("\t<spreadsheetBrowser ");
+
+			sb.append(" default=\"");
+			sb.append("false");
+			sb.append("\"");
+
+			sb.append(" URL=\"");
+			sb.append(initialURL());
+			sb.append("\"");
+
+			sb.append(" mode=\"");
+			sb.append(initialBrowserMode());
+			sb.append("\"");
+
+			sb.append("/>\n");
+		}
 
 		// cell formats
 
@@ -793,7 +814,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 		sb.append("</spreadsheetView>\n");
 
-		// Application.debug(sb);
 
 	}
 

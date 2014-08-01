@@ -1400,6 +1400,7 @@ public class MyXMLHandler implements DocHandler {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		try {
+			settings.beginBatch();
 			if (Boolean.parseBoolean(attrs.get("default"))) {
 				settings.setDefaultBrowser(true);
 
@@ -1409,7 +1410,8 @@ public class MyXMLHandler implements DocHandler {
 				settings.setInitialFilePath(attrs.get("dir"));
 				settings.setInitialURL(attrs.get("URL"));
 			}
-
+			settings.endBatch();
+			
 			return true;
 
 		} catch (Exception e) {
