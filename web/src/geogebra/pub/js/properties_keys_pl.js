@@ -1184,7 +1184,7 @@ __GGB__keysVar.pl.menu = {
     "Brackets": "Nawias",
     "Browser": "Przegl\u0105darka",
     "Button_Caption": "Opis",
-    "ButtonAction": "Wstaw Przycisk",
+    "ButtonAction": "Przycisk",
     "ButtonAction_Help": "Kliknij w Widoku Grafiki, aby do\u0142\u0105czy\u0107 przycisk",
     "ByLayering": "Poprzez nak\u0142adanie warstw",
     "CASPlot": "Diagram",
