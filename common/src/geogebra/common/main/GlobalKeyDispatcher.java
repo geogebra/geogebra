@@ -974,22 +974,30 @@ public abstract class GlobalKeyDispatcher {
 			return false;
 		}
 
+		Iterator<GeoElement> it;
+		
 		// FUNCTION and DELETE keys
 		switch (key) {
 
 		case PAGEUP:
-			Iterator<GeoElement> it = geos.iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geo.setLayer(geo.getLayer() + 1);
+			// 3D handled later (move object up/down)
+			if (!app.getActiveEuclidianView().isEuclidianView3D()) {
+				it = geos.iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+					geo.setLayer(geo.getLayer() + 1);
+				}
 			}
 			break;
 
 		case PAGEDOWN:
-			it = geos.iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geo.setLayer(geo.getLayer() - 1);
+			// 3D handled later (move object up/down)
+			if (!app.getActiveEuclidianView().isEuclidianView3D()) {
+				it = geos.iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+					geo.setLayer(geo.getLayer() - 1);
+				}
 			}
 			break;
 
