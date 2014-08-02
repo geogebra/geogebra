@@ -828,7 +828,7 @@ __GGB__keysVar.zh_CN.command = {
     "SetTrace": "\u8ffd\u8e2a",
     "SetTrace_Syntax": "[ <\u5bf9\u8c61>, <true|false> ]",
     "SetValue": "\u8bbe\u5b9a\u503c",
-    "SetValue_Syntax": "[ <true | false>, <0|1> ]\n[ <\u5bf9\u8c611>, <\u5bf9\u8c612> ]\n[ <\u96c6\u5408>, <\u6570\u503c>, <\u5bf9\u8c61> ]",
+    "SetValue_Syntax": "[ <\u5e03\u5c14\u5bf9\u8c61>, <0|1> ]\n[ <\u5bf9\u8c611>, <\u5bf9\u8c612> ]\n[ <\u96c6\u5408>, <\u96c6\u5408\u6307\u9488>, <\u5bf9\u8c61> ]",
     "SetViewDirection": "\u6307\u5b9a\u89c6\u5411",
     "SetViewDirection_Syntax": "[ <\u65b9\u5411, eg.(0, 0, 1)> ]",
     "SetVisibleInView": "\u663e\u793a\u5bf9\u8c61",
