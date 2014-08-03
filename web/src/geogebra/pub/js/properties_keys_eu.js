@@ -1138,7 +1138,7 @@ __GGB__keysVar.eu.menu = {
     "AboutLicense": "GGBri buruz / Lizentzia",
     "Accents": "Azentuak",
     "AccentsExt": "Azentu Zabalduak",
-    "ActionObjectTools": "Ekintza-Objektuen Tresnak",
+    "ActionObjectTools": "Ekintza-objektuen Tresnak",
     "AddCustomColor": "Gehitu Kolore Pertsonalizatua",
     "AddSelection": "Gehitu hautapena",
     "AddTrace": "Gehitu objektua arrasto-zerrendari",
