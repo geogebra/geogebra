@@ -101,11 +101,10 @@ public final class DrawImage extends Drawable {
 			GeoPoint A = geoImage.getCorner(0);
 			GeoPoint B = geoImage.getCorner(1);
 			GeoPoint D = geoImage.getCorner(2);
-
 			double ax = 0;
 			double ay = 0;
 			if (A != null) {
-				if (!A.isDefined()) {
+				if (!A.isDefined() || A.isInfinite()) {
 					isVisible = false;
 					return;
 				}
@@ -126,7 +125,7 @@ public final class DrawImage extends Drawable {
 				}
 				// we have corners A and D
 				else {
-					if (!D.isDefined()) {
+					if (!D.isDefined() || D.isInfinite()) {
 						isVisible = false;
 						return;
 					}
@@ -141,7 +140,7 @@ public final class DrawImage extends Drawable {
 					at.scale(yscale, -yscale);
 				}
 			} else {
-				if (!B.isDefined()) {
+				if (!B.isDefined() || B.isInfinite()) {
 					isVisible = false;
 					return;
 				}
@@ -158,7 +157,7 @@ public final class DrawImage extends Drawable {
 					double xscale = 1.0 / width;
 					at.scale(xscale, -xscale);
 				} else { // we have corners A, B and D
-					if (!D.isDefined()) {
+					if (!D.isDefined() || D.isInfinite()) {
 						isVisible = false;
 						return;
 					}
