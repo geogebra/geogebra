@@ -881,36 +881,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			return left.contains(ev);
 		}
 		return left.contains(ev) || right.contains(ev);
-	}
-
-	/**
-	 * @return true when function variable is found in this expression tree.
-	 */
-	@Override
-	final public boolean containsFunctionVariable() {
-		if ((left instanceof FunctionVariable)
-				|| (right instanceof FunctionVariable)) {
-			return true;
-		}
-
-		if ((left instanceof ExpressionNode)
-				&& ((ExpressionNode) left).containsFunctionVariable()) {
-			return true;
-		}
-		if ((left instanceof MyVecNode)
-				&& ((MyVecNode) left).containsFunctionVariable()) {
-			return true;
-		}
-		if ((right instanceof ExpressionNode)
-				&& ((ExpressionNode) right).containsFunctionVariable()) {
-			return true;
-		}
-		if ((right instanceof MyVecNode)
-				&& ((MyVecNode) right).containsFunctionVariable()) {
-			return true;
-		}
-		return false;
-	}
+	}	
 
 	/**
 	 * @return true if contains CAS evaluable function

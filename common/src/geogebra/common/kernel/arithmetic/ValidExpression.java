@@ -439,8 +439,13 @@ public abstract class ValidExpression implements ExpressionValue {
 				.toString(tpl);
 	}
 	
-	public boolean containsFunctionVariable(){
-		return false;
+	public final boolean containsFunctionVariable(){
+		return this.inspect(new Inspecting(){
+
+			@Override
+			public boolean check(ExpressionValue v) {
+				return v instanceof FunctionVariable;
+			}});
 	}
 
 }

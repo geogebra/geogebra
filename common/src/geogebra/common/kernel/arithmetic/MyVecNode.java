@@ -272,11 +272,5 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	public boolean hasCoords() {
 		return true;
 	}
-	/**
-	 * @return whether x or y depend on function variable
-	 */
-	public boolean containsFunctionVariable() {
-		return x.wrap().containsFunctionVariable() || y.wrap().containsFunctionVariable();
-	}
 	
 }

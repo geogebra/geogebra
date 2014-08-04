@@ -128,6 +128,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			GeoElement geo = ((GeoElement) ev);
 			if (geo.isLabelSet())
 				return ((GeoElement) ev).getLabelSimple();
+		} else if(ev instanceof FunctionVariable){
+			return ((FunctionVariable)ev).getSetVarString();
 		} else if (ev instanceof Function) {
 			String str = ev.toString(StringTemplate.defaultTemplate);
 			if (str.length() == 1 && StringUtil.isLetter(str.charAt(0)))
