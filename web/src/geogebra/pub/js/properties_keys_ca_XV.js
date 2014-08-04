@@ -2056,7 +2056,7 @@ __GGB__keysVar.ca_XV.menu = {
     "insert_worksheet": "Inserix una construcci\xf3 din\xe0mica",
     "off": "Inactiu",
     "on": "Actiu",
-    "search_geogebra_materials": "Search GeoGebra Materials",
+    "search_geogebra_materials": "Recerca de materials de GeoGebra",
 }
 
 
@@ -2152,10 +2152,10 @@ __GGB__keysVar.ca_XV.plain = {
     "BarA": "Barra %0",
     "Bold": "Negreta",
     "Boolean": "Boole\xe0",
-    "BoxSize": "Mida de la capsa de retall",
+    "BoxSize": "Mida de la caixa de representaci\xf3",
     "BoxSize_large": "Gran",
-    "BoxSize_medium": "Mitj\xe0",
-    "BoxSize_small": "Petit",
+    "BoxSize_medium": "Mitjana",
+    "BoxSize_small": "Petita",
     "Breakpoint": "Punt d'interrupci\xf3",
     "ButNotGenerallyTrue": "(per\xf2 no \xe9s generalment veritat)",
     "Button": "Bot\xf3",
@@ -2735,7 +2735,7 @@ __GGB__keysVar.ca_XV.plain = {
     "Upload": "Transferix",
     "UploadError": "No es pot accedir al GeoGebraTube. S'ha susp\xe9s la transfer\xe8ncia. (Codi de l'error: %0)",
     "UploadPrepare": "S'est\xe0 preparant la transfer\xe8ncia",
-    "UseClipping": "Utilitzar retall",
+    "UseClipping": "Caixa de representaci\xf3 visible",
     "UseJavaFontsForLaTeX": "Fes servir les fonts de Java per als textos de LaTeX",
     "Value": "Valor",
     "ValueOfA": "Valor de %0",
