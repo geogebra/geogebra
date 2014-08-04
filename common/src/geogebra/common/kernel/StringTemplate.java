@@ -122,6 +122,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	};
 	static {
 		xmlTemplate.forceSF=true;
+		xmlTemplate.allowMoreDigits = true;
 		xmlTemplate.internationalizeDigits = false;
 		xmlTemplate.setType(StringType.GEOGEBRA_XML);
 		xmlTemplate.localizeCmds = false;
@@ -2057,9 +2058,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return convertScientificNotationGiac(scientificStr);
 		}
 		
-		StringBuilder sb = new StringBuilder(scientificStr.length() * 2 + 2);
-
-		sb.append("(");
+		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
 		boolean Efound = false;
 		for (int i = 0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
@@ -2081,7 +2080,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(")");
 			}
 		}
-		sb.append(")");
 
 		return sb.toString();
 	}
