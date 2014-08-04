@@ -546,12 +546,24 @@ public class RelativeCopy {
 		// Application.debug("add text = " + text + ", name = " + (char)('A' +
 		// column + dx) + (row + dy + 1));
 
+		// get location of source cell
+		// TODO: Why not always use getSpreadsheetCoords()? 
+		int column0 = -1, row0 = -1; 
+		if (value.labelSet) {
+			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+					.exec(value.getLabel(StringTemplate.defaultTemplate));
+			column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+			row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
+		}
+		else if(value.getSpreadsheetCoords() != null){
+			// the cell has been deleted but still exists in clipboard memory
+			column0 = value.getSpreadsheetCoords().x;
+			row0 = value.getSpreadsheetCoords().y;
+		}
+		
 		// create the new cell geo
-		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-				.exec(value.getLabel(StringTemplate.defaultTemplate));
-		int column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
-		int row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 		GeoElement value2;
+
 		if (freeImage || value.isGeoButton()) {
 			value2 = value.copy();
 			if (oldValue != null) {
