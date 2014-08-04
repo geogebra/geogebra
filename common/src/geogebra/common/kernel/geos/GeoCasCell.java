@@ -1517,10 +1517,15 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return ret;
 		}
 		boolean wasFunction = outputVE instanceof FunctionNVar;
-		FunctionVariable fv = new FunctionVariable(kernel,"x");
-		ve.wrap().replaceVariables("x", fv);
+		
+		// replace variables x and y with a FunctionVariable object
+		FunctionVariable fvX = new FunctionVariable(kernel,"x");
+		Traversing variableReplacer = Traversing.VariableReplacer.getReplacer("x", fvX);
+		ve.traverse(variableReplacer);
 		FunctionVariable fvY = new FunctionVariable(kernel,"y");
-		ve.wrap().replaceVariables("y", fvY);
+		variableReplacer = Traversing.VariableReplacer.getReplacer("y", fvY);
+		ve.traverse(variableReplacer);
+		
 		App.debug("reeval");
 		boolean oldValue = kernel.isSilentMode();
 
