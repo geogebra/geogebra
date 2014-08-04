@@ -1718,6 +1718,14 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				
 			}
 			
+			// convert to cumulative frequencies if cumulative option is set
+			if (isCumulative != null
+					&& ((GeoBoolean) isCumulative).getBoolean()) {
+				for (int i = 1; i < N; i++) {
+					yval[i] += yval[i - 1];
+				}
+			}
+
 			// turn frequencies into frequency densities
 			// if densityFactor = -1 then do not convert frequency to
 			// density
@@ -1725,14 +1733,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				for (int i = 1; i < N; i++) {
 					yval[i - 1] = densityFactor * yval[i - 1]
 							/ (leftBorder[i] - leftBorder[i - 1]);
-				}
-			}
-
-			// convert to cumulative frequencies if cumulative option is set
-			if (isCumulative != null
-					&& ((GeoBoolean) isCumulative).getBoolean()) {
-				for (int i = 1; i < N; i++) {
-					yval[i] += yval[i - 1];
 				}
 			}
 

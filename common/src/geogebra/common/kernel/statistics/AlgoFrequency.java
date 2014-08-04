@@ -385,16 +385,16 @@ public class AlgoFrequency extends AlgoElement {
 				// System.out.println(" =================================");
 				// System.out.println("class freq: " + classFreq + "   " +
 				// density);
-				if (hasDensity) {
-					classFreq = densityValue * classFreq
-							/ (upperClassBound - lowerClassBound);
-				}
+				
 				if (doCumulative)
 					cumulativeClassFreq += classFreq;
-				// System.out.println("class freq: " + classFreq);
 
-				// add the frequency to the output GeoList
-				addValue(doCumulative ? cumulativeClassFreq : classFreq);
+				// adjust the frequency and add to the output GeoList
+				double v = doCumulative ? cumulativeClassFreq : classFreq;
+				if (hasDensity) {
+					v = densityValue * v / (upperClassBound - lowerClassBound);
+				}			
+				addValue(v);
 			}
 
 			// handle the last (highest) class frequency specially
