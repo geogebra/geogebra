@@ -6689,7 +6689,7 @@ namespace giac {
   gen _string(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     string res;
-    if (args.type==_VECT){
+    if (args.type==_VECT && args.subtype==_SEQ__VECT){
       const_iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();
       for (;it!=itend;){
 	if (it->type!=_STRNG){

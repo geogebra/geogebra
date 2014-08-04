@@ -3606,6 +3606,8 @@ namespace giac {
     }
     gen resu=_lagrange(makesequence(x,y,l.front()),context0);
     resu=e2r(resu,l,context0);
+    if (resu.type!=_POLY)
+      return vecteur(0);
     polynome pres=*resu._POLYptr;
     // Make the list of the positive integer roots k in t of the resultant
     return iroots(pres);

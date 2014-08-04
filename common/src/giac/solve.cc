@@ -3155,7 +3155,7 @@ namespace giac {
 	  ){
 	*logptr(contextptr) << gettext("Solving by bisection with change of variable x=tan(t) and t=-1.57..1.57. Try fsolve(equation,x=guess) for iterative solver or fsolve(equation,x=xmin..xmax) for bisection.") << endl;
 	gen eq=subst(v[0],v[1],tan(v[1],contextptr),false,contextptr);
-	v=makevecteur(eq,symb_equal(v[1],symb_interval(-1.57,1.57)));
+	v=makevecteur(eq,symb_equal(v[1],angle_radian(contextptr)?symb_interval(-1.57,1.57):symb_interval(-44.97,44.97)));
 	gen res=in_fsolve(v,contextptr);
 	if (is_undef(res))
 	  return res;
