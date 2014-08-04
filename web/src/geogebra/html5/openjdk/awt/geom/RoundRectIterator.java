@@ -28,6 +28,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 
+import geogebra.common.awt.GAffineTransform;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -39,10 +41,10 @@ import java.util.NoSuchElementException;
  */
 class RoundRectIterator implements PathIterator {
     double x, y, w, h, aw, ah;
-    AffineTransform affine;
+    GAffineTransform affine;
     int index;
 
-    RoundRectIterator(RoundRectangle2D rr, AffineTransform at) {
+    RoundRectIterator(RoundRectangle2D rr, GAffineTransform at) {
 	this.x = rr.getX();
 	this.y = rr.getY();
 	this.w = rr.getWidth();

@@ -27,6 +27,9 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
 import geogebra.html5.kernel.external.AreaOp;
 import geogebra.html5.kernel.external.Crossings;
 import geogebra.html5.kernel.external.Curve;
@@ -302,7 +305,7 @@ public class Area implements Shape, Cloneable {
      * @return    the bounding <code>Rectangle2D</code> for the
      * <code>Area</code>.
      */
-    public Rectangle2D getBounds2D() {
+    public GRectangle2D getBounds2D() {
 	return getCachedBounds().getBounds2D();
     }
 
@@ -321,7 +324,7 @@ public class Area implements Shape, Cloneable {
      * @return    the bounding <code>Rectangle</code> for the
      * <code>Area</code>.
      */
-    public Rectangle getBounds() {
+    public GRectangle getBounds() {
 	return getCachedBounds().getBounds();
     }
 
@@ -409,6 +412,18 @@ public class Area implements Shape, Cloneable {
 	return ((crossings & 1) == 1);
     }
 
+    public boolean contains(int x, int y) {
+    	if (!getCachedBounds().contains(x, y)) {
+    	    return false;
+    	}
+    	Enumeration enum_ = curves.elements();
+    	int crossings = 0;
+    	while (enum_.hasMoreElements()) {
+    	    Curve c = (Curve) enum_.nextElement();
+    	    crossings += c.crossingsFor(x, y);
+    	}
+    	return ((crossings & 1) == 1);
+        }
     /**
      * Tests if a specified {@link Point2D} lies inside the boundary of the
      * this <code>Area</code> object.
@@ -451,7 +466,7 @@ public class Area implements Shape, Cloneable {
      *            completely within the interior of the <code>Area</code>;
      *            <code>false</code> otherwise.
      */
-    public boolean contains(Rectangle2D p) {
+    public boolean contains(GRectangle2D p) {
 	return contains(p.getX(), p.getY(), p.getWidth(), p.getHeight());
     }
 
@@ -475,6 +490,17 @@ public class Area implements Shape, Cloneable {
 	Crossings c = Crossings.findCrossings(curves, x, y, x+w, y+h);
 	return (c == null || !c.isEmpty());
     }
+    
+    public boolean intersects(int x, int y, int w, int h) {
+    	if (w < 0 || h < 0) {
+    	    return false;
+    	}
+    	if (!getCachedBounds().intersects(x, y, w, h)) {
+    	    return false;
+    	}
+    	Crossings c = Crossings.findCrossings(curves, x, y, x+w, y+h);
+    	return (c == null || !c.isEmpty());
+        }
 
     /**
      * Tests whether the interior of this <code>Area</code> object
@@ -484,7 +510,7 @@ public class Area implements Shape, Cloneable {
      *			specified <code>Rectangle2D</code>;
      *			<code>false</code> otherwise.
      */
-    public boolean intersects(Rectangle2D p) {
+    public boolean intersects(GRectangle2D p) {
 	return intersects(p.getX(), p.getY(), p.getWidth(), p.getHeight());
     }
 
@@ -498,7 +524,7 @@ public class Area implements Shape, Cloneable {
      *		geometry of the outline of this <code>Area</code>, one
      *		segment at a time.
      */
-    public PathIterator getPathIterator(AffineTransform at) {
+    public PathIterator getPathIterator(GAffineTransform at) {
     	return new AreaIterator(curves, at);
     }
 
@@ -519,7 +545,7 @@ public class Area implements Shape, Cloneable {
      * geometry of the outline of this <code>Area</code>, one segment
      * at a time.
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
+    public PathIterator getPathIterator(GAffineTransform at, double flatness) {
     	return new FlatteningPathIterator(getPathIterator(at), flatness);
     }
 }

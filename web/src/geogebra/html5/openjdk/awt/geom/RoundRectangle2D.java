@@ -27,6 +27,8 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+
 
 /**
  * The <code>RoundRectangle2D</code> class defines a rectangle with
@@ -523,6 +525,33 @@ public abstract class RoundRectangle2D extends RectangularShape {
 	y = (y - rry0) / ah;
 	return (x * x + y * y <= 1.0);
     }
+    
+    public boolean contains(int x, int y) {
+    	if (isEmpty()) {
+    	    return false;
+    	}
+    	double rrx0 = getX();
+    	double rry0 = getY();
+    	double rrx1 = rrx0 + getWidth();
+    	double rry1 = rry0 + getHeight();
+    	// Check for trivial rejection - point is outside bounding rectangle
+    	if (x < rrx0 || y < rry0 || x >= rrx1 || y >= rry1) {
+    	    return false;
+    	}
+    	double aw = Math.min(getWidth(), Math.abs(getArcWidth())) / 2.0;
+    	double ah = Math.min(getHeight(), Math.abs(getArcHeight())) / 2.0;
+    	// Check which corner point is in and do circular containment
+    	// test - otherwise simple acceptance
+    	if (x >= (rrx0 += aw) && x < (rrx0 = rrx1 - aw)) {
+    	    return true;
+    	}
+    	if (y >= (rry0 += ah) && y < (rry0 = rry1 - ah)) {
+    	    return true;
+    	}
+    	x = (int) ((x - rrx0) / aw);
+    	y = (int) ((y - rry0) / ah);
+    	return (x * x + y * y <= 1.0);
+        }
 
     private int classify(double coord, double left, double right,
 			 double arcsize) {
@@ -592,6 +621,45 @@ public abstract class RoundRectangle2D extends RectangularShape {
 	return (x * x + y * y <= 1.0);
     }
 
+    
+    public boolean intersects(int x, int y, int w, int h) {
+    	if (isEmpty() || w <= 0 || h <= 0) {
+    	    return false;
+    	}
+    	double rrx0 = getX();
+    	double rry0 = getY();
+    	double rrx1 = rrx0 + getWidth();
+    	double rry1 = rry0 + getHeight();
+    	// Check for trivial rejection - bounding rectangles do not intersect
+    	if (x + w <= rrx0 || x >= rrx1 || y + h <= rry0 || y >= rry1) {
+    	    return false;
+    	}
+    	double aw = Math.min(getWidth(), Math.abs(getArcWidth())) / 2.0;
+    	double ah = Math.min(getHeight(), Math.abs(getArcHeight())) / 2.0;
+    	int x0class = classify(x, rrx0, rrx1, aw);
+    	int x1class = classify(x + w, rrx0, rrx1, aw);
+    	int y0class = classify(y, rry0, rry1, ah);
+    	int y1class = classify(y + h, rry0, rry1, ah);
+    	// Trivially accept if any point is inside inner rectangle
+    	if (x0class == 2 || x1class == 2 || y0class == 2 || y1class == 2) {
+    	    return true;
+    	}
+    	// Trivially accept if either edge spans inner rectangle
+    	if ((x0class < 2 && x1class > 2) || (y0class < 2 && y1class > 2)) {
+    	    return true;
+    	}
+    	// Since neither edge spans the center, then one of the corners
+    	// must be in one of the rounded edges.  We detect this case if
+    	// a [xy]0class is 3 or a [xy]1class is 1.  One of those two cases
+    	// must be true for each direction.
+    	// We now find a "nearest point" to test for being inside a rounded
+    	// corner.
+    	x = (x1class == 1) ? (x = (int) (x + w - (rrx0 + aw))) : (x = (int) (x - (rrx1 - aw)));
+    	y = (y1class == 1) ? (y = (int) (y + h - (rry0 + ah))) : (y = (int) (y - (rry1 - ah)));
+    	x = (int) (x / aw);
+    	y = (int) (y / ah);
+    	return (x * x + y * y <= 1.0);
+        }
     /**
      * Tests if the interior of this <code>RoundRectangle2D</code>
      * entirely contains the specified set of rectangular coordinates.
@@ -630,7 +698,7 @@ public abstract class RoundRectangle2D extends RectangularShape {
      *          geometry of the outline of this
      *          <code>RoundRectangle2D</code>, one segment at a time.
      */
-    public PathIterator getPathIterator(AffineTransform at) {
+    public PathIterator getPathIterator(GAffineTransform at) {
 	return new RoundRectIterator(this, at);
     }
 }

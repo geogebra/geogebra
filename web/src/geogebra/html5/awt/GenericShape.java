@@ -40,7 +40,7 @@ public class GenericShape implements geogebra.html5.awt.GShapeW {
 	}
 
 	
-	public boolean contains(GRectangle r) {
+	public boolean contains(GRectangle2D r) {
 		return impl.contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 

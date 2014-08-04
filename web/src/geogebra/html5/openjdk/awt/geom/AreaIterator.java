@@ -1,18 +1,19 @@
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
 import geogebra.html5.kernel.external.Curve;
 
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
 class AreaIterator implements PathIterator {
-    private AffineTransform transform;
+    private GAffineTransform transform;
     private Vector curves;
     private int index;
     private Curve prevcurve;
     private Curve thiscurve;
 
-    public AreaIterator(Vector curves, AffineTransform at) {
+    public AreaIterator(Vector curves, GAffineTransform at) {
 	this.curves = curves;
 	this.transform = at;
 	if (curves.size() >= 1) {

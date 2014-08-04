@@ -2,7 +2,6 @@ package geogebra.html5.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.html5.openjdk.awt.geom.Shape;
 
@@ -32,8 +31,8 @@ geogebra.html5.awt.GShapeW{
     }
 	
 
-	public boolean contains(GRectangle rectangle) {
-		return impl.contains(geogebra.html5.awt.GRectangleW.getGawtRectangle(rectangle));
+	public boolean contains(GRectangle2D rectangle) {
+		return impl.contains(GRectangle2DW.getGawtRectangle2D(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {

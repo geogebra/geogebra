@@ -27,6 +27,10 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
+
 
 
 /**
@@ -658,6 +662,10 @@ public abstract class Line2D implements Shape, Cloneable {
 	public boolean contains(double x, double y) {
 		return false;
 	}
+	
+	public boolean contains(int x, int y) {
+		return false;
+	}
 
 	/**
 	 * Tests if the interior of this <code>Line2D</code> entirely contains the
@@ -708,7 +716,7 @@ public abstract class Line2D implements Shape, Cloneable {
 	 * @return <code>false</code> because a <code>Line2D</code> contains no
 	 *         area.
 	 */
-	public boolean contains(Rectangle2D r) {
+	public boolean contains(GRectangle2D r) {
 		return false;
 	}
 
@@ -718,7 +726,7 @@ public abstract class Line2D implements Shape, Cloneable {
 	 * @return a {@link Rectangle} that is the bounding box of the
 	 *         <code>Line2D</code>.
 	 */
-	public Rectangle getBounds() {
+	public GRectangle getBounds() {
 		return getBounds2D().getBounds();
 	}
 
@@ -749,7 +757,7 @@ public abstract class Line2D implements Shape, Cloneable {
 	 * @return a {@link PathIterator} that defines the boundary of this
 	 *         <code>Line2D</code>.
 	 */
-	public PathIterator getPathIterator(AffineTransform at) {
+	public PathIterator getPathIterator(GAffineTransform at) {
 		return new LineIterator(this, at);
 	}
 
@@ -771,7 +779,7 @@ public abstract class Line2D implements Shape, Cloneable {
 	 * @return a <code>PathIterator</code> that defines the boundary of the
 	 *         flattened <code>Line2D</code>
 	 */
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+	public PathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new LineIterator(this, at);
 	}
 
@@ -825,6 +833,10 @@ public abstract class Line2D implements Shape, Cloneable {
 	public boolean intersects(double x, double y, double w, double h) {
 		return intersects(new Rectangle2D.Double(x, y, w, h));
 	}
+	
+	public boolean intersects(int x, int y, int w, int h) {
+		return intersects(new Rectangle2D.Double(x, y, w, h));
+	}
 
 	/**
 	 * Tests if this <code>Line2D</code> intersects the interior of a specified
@@ -836,7 +848,7 @@ public abstract class Line2D implements Shape, Cloneable {
 	 *         interior of the specified <code>Rectangle2D</code>;
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean intersects(Rectangle2D r) {
+	public boolean intersects(GRectangle2D r) {
 		return r.intersectsLine(getX1(), getY1(), getX2(), getY2());
 	}
 

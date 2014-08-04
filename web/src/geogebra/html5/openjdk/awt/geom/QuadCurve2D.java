@@ -26,6 +26,10 @@
  */
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
+
 
 
 
@@ -950,6 +954,104 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
 	       (y >= yl && y < yb);
     }
 
+    public boolean contains(int x, int y) {
+
+    	double x1 = getX1();
+    	double y1 = getY1();
+    	double xc = getCtrlX();
+    	double yc = getCtrlY();
+    	double x2 = getX2();
+    	double y2 = getY2();
+
+    	/*
+    	 * We have a convex shape bounded by quad curve Pc(t)
+    	 * and ine Pl(t).
+    	 *
+    	 *     P1 = (x1, y1) - start point of curve
+    	 *     P2 = (x2, y2) - end point of curve
+    	 *     Pc = (xc, yc) - control point
+    	 *
+    	 *     Pq(t) = P1*(1 - t)^2 + 2*Pc*t*(1 - t) + P2*t^2 =
+    	 *           = (P1 - 2*Pc + P2)*t^2 + 2*(Pc - P1)*t + P1
+    	 *     Pl(t) = P1*(1 - t) + P2*t
+    	 *     t = [0:1]
+    	 *
+    	 *     P = (x, y) - point of interest
+    	 *
+    	 * Let's look at second derivative of quad curve equation:
+    	 *
+    	 *     Pq''(t) = 2 * (P1 - 2 * Pc + P2) = Pq''
+    	 *     It's constant vector.
+    	 *
+    	 * Let's draw a line through P to be parallel to this
+    	 * vector and find the intersection of the quad curve
+    	 * and the line.
+    	 *
+    	 * Pq(t) is point of intersection if system of equations
+    	 * below has the solution.
+    	 *
+    	 *     L(s) = P + Pq''*s == Pq(t)
+    	 *     Pq''*s + (P - Pq(t)) == 0
+    	 *
+    	 *     | xq''*s + (x - xq(t)) == 0
+    	 *     | yq''*s + (y - yq(t)) == 0
+    	 *
+    	 * This system has the solution if rank of its matrix equals to 1.
+    	 * That is, determinant of the matrix should be zero.
+    	 *
+    	 *     (y - yq(t))*xq'' == (x - xq(t))*yq''
+    	 *
+    	 * Let's solve this equation with 't' variable.
+    	 * Also let kx = x1 - 2*xc + x2
+    	 *          ky = y1 - 2*yc + y2
+    	 *
+    	 *     t0q = (1/2)*((x - x1)*ky - (y - y1)*kx) /
+    	 *                 ((xc - x1)*ky - (yc - y1)*kx)
+    	 *
+    	 * Let's do the same for our line Pl(t):
+    	 *
+    	 *     t0l = ((x - x1)*ky - (y - y1)*kx) /
+    	 *           ((x2 - x1)*ky - (y2 - y1)*kx)
+    	 *
+    	 * It's easy to check that t0q == t0l. This fact means
+    	 * we can compute t0 only one time.
+    	 *
+    	 * In case t0 < 0 or t0 > 1, we have an intersections outside
+    	 * of shape bounds. So, P is definitely out of shape.
+    	 *
+    	 * In case t0 is inside [0:1], we should calculate Pq(t0)
+    	 * and Pl(t0). We have three points for now, and all of them
+    	 * lie on one line. So, we just need to detect, is our point
+    	 * of interest between points of intersections or not.
+    	 *
+    	 * If the denominator in the t0q and t0l equations is
+    	 * zero, then the points must be collinear and so the
+    	 * curve is degenerate and encloses no area.  Thus the
+    	 * result is false.
+    	 */
+    	double kx = x1 - 2 * xc + x2;
+    	double ky = y1 - 2 * yc + y2;
+    	double dx = x - x1;
+    	double dy = y - y1;
+    	double dxl = x2 - x1;
+    	double dyl = y2 - y1;
+
+    	double t0 = (dx * ky - dy * kx) / (dxl * ky - dyl * kx);
+    	if (t0 < 0 || t0 > 1 || t0 != t0) {
+    	    return false;
+    	}
+
+    	double xb = kx * t0 * t0 + 2 * (xc - x1) * t0 + x1;
+    	double yb = ky * t0 * t0 + 2 * (yc - y1) * t0 + y1;
+    	double xl = dxl * t0 + x1;
+    	double yl = dyl * t0 + y1;
+
+    	return (x >= xb && x < xl) ||
+    	       (x >= xl && x < xb) ||
+    	       (y >= yb && y < yl) ||
+    	       (y >= yl && y < yb);
+        }
+
     /**
      * Tests if a specified <code>Point2D</code> is inside the boundary of
      * the shape of this <code>QuadCurve2D</code>.
@@ -1247,6 +1349,186 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
 	// overlap the Y range of the rectangle.
 	return (c1tag * c2tag <= 0);
     }
+    
+    public boolean intersects(int x, int y, int w, int h) {
+    	// Trivially reject non-existant rectangles
+    	if (w < 0 || h < 0) {
+    	    return false;
+    	}
+
+    	// Trivially accept if either endpoint is inside the rectangle
+    	// (not on its border since it may end there and not go inside)
+    	// Record where they lie with respect to the rectangle.
+    	//     -1 => left, 0 => inside, 1 => right
+    	double x1 = getX1();
+    	double y1 = getY1();
+    	int x1tag = getTag(x1, x, x+w);
+    	int y1tag = getTag(y1, y, y+h);
+    	if (x1tag == INSIDE && y1tag == INSIDE) {
+    	    return true;
+    	}
+    	double x2 = getX2();
+    	double y2 = getY2();
+    	int x2tag = getTag(x2, x, x+w);
+    	int y2tag = getTag(y2, y, y+h);
+    	if (x2tag == INSIDE && y2tag == INSIDE) {
+    	    return true;
+    	}
+    	double ctrlx = getCtrlX();
+    	double ctrly = getCtrlY();
+    	int ctrlxtag = getTag(ctrlx, x, x+w);
+    	int ctrlytag = getTag(ctrly, y, y+h);
+
+    	// Trivially reject if all points are entirely to one side of
+    	// the rectangle.
+    	if (x1tag < INSIDE && x2tag < INSIDE && ctrlxtag < INSIDE) {
+    	    return false;	// All points left
+    	}
+    	if (y1tag < INSIDE && y2tag < INSIDE && ctrlytag < INSIDE) {
+    	    return false;	// All points above
+    	}
+    	if (x1tag > INSIDE && x2tag > INSIDE && ctrlxtag > INSIDE) {
+    	    return false;	// All points right
+    	}
+    	if (y1tag > INSIDE && y2tag > INSIDE && ctrlytag > INSIDE) {
+    	    return false;	// All points below
+    	}
+
+    	// Test for endpoints on the edge where either the segment
+    	// or the curve is headed "inwards" from them
+    	// Note: These tests are a superset of the fast endpoint tests
+    	//       above and thus repeat those tests, but take more time
+    	//       and cover more cases
+    	if (inwards(x1tag, x2tag, ctrlxtag) &&
+    	    inwards(y1tag, y2tag, ctrlytag))
+    	{
+    	    // First endpoint on border with either edge moving inside
+    	    return true;
+    	}
+    	if (inwards(x2tag, x1tag, ctrlxtag) &&
+    	    inwards(y2tag, y1tag, ctrlytag))
+    	{
+    	    // Second endpoint on border with either edge moving inside
+    	    return true;
+    	}
+
+    	// Trivially accept if endpoints span directly across the rectangle
+    	boolean xoverlap = (x1tag * x2tag <= 0);
+    	boolean yoverlap = (y1tag * y2tag <= 0);
+    	if (x1tag == INSIDE && x2tag == INSIDE && yoverlap) {
+    	    return true;
+    	}
+    	if (y1tag == INSIDE && y2tag == INSIDE && xoverlap) {
+    	    return true;
+    	}
+
+    	// We now know that both endpoints are outside the rectangle
+    	// but the 3 points are not all on one side of the rectangle.
+    	// Therefore the curve cannot be contained inside the rectangle,
+    	// but the rectangle might be contained inside the curve, or
+    	// the curve might intersect the boundary of the rectangle.
+
+    	double[] eqn = new double[3];
+    	double[] res = new double[3];
+    	if (!yoverlap) {
+    	    // Both y coordinates for the closing segment are above or
+    	    // below the rectangle which means that we can only intersect
+    	    // if the curve crosses the top (or bottom) of the rectangle
+    	    // in more than one place and if those crossing locations
+    	    // span the horizontal range of the rectangle.
+    	    fillEqn(eqn, (y1tag < INSIDE ? y : y+h), y1, ctrly, y2);
+    	    return (solveQuadratic(eqn, res) == 2 &&
+    		    evalQuadratic(res, 2, true, true, null,
+    				  x1, ctrlx, x2) == 2 &&
+    		    getTag(res[0], x, x+w) * getTag(res[1], x, x+w) <= 0);
+    	}
+
+    	// Y ranges overlap.  Now we examine the X ranges
+    	if (!xoverlap) {
+    	    // Both x coordinates for the closing segment are left of
+    	    // or right of the rectangle which means that we can only
+    	    // intersect if the curve crosses the left (or right) edge
+    	    // of the rectangle in more than one place and if those
+    	    // crossing locations span the vertical range of the rectangle.
+    	    fillEqn(eqn, (x1tag < INSIDE ? x : x+w), x1, ctrlx, x2);
+    	    return (solveQuadratic(eqn, res) == 2 &&
+    		    evalQuadratic(res, 2, true, true, null,
+    				  y1, ctrly, y2) == 2 &&
+    		    getTag(res[0], y, y+h) * getTag(res[1], y, y+h) <= 0);
+    	}
+
+    	// The X and Y ranges of the endpoints overlap the X and Y
+    	// ranges of the rectangle, now find out how the endpoint
+    	// line segment intersects the Y range of the rectangle
+    	double dx = x2 - x1;
+    	double dy = y2 - y1;
+    	double k = y2 * x1 - x2 * y1;
+    	int c1tag, c2tag;
+    	if (y1tag == INSIDE) {
+    	    c1tag = x1tag;
+    	} else {
+    	    c1tag = getTag((k + dx * (y1tag < INSIDE ? y : y+h)) / dy, x, x+w);
+    	}
+    	if (y2tag == INSIDE) {
+    	    c2tag = x2tag;
+    	} else {
+    	    c2tag = getTag((k + dx * (y2tag < INSIDE ? y : y+h)) / dy, x, x+w);
+    	}
+    	// If the part of the line segment that intersects the Y range
+    	// of the rectangle crosses it horizontally - trivially accept
+    	if (c1tag * c2tag <= 0) {
+    	    return true;
+    	}
+
+    	// Now we know that both the X and Y ranges intersect and that
+    	// the endpoint line segment does not directly cross the rectangle.
+    	//
+    	// We can almost treat this case like one of the cases above
+    	// where both endpoints are to one side, except that we will
+    	// only get one intersection of the curve with the vertical
+    	// side of the rectangle.  This is because the endpoint segment
+    	// accounts for the other intersection.
+    	//
+    	// (Remember there is overlap in both the X and Y ranges which
+    	//  means that the segment must cross at least one vertical edge
+    	//  of the rectangle - in particular, the "near vertical side" -
+    	//  leaving only one intersection for the curve.)
+    	//
+    	// Now we calculate the y tags of the two intersections on the
+    	// "near vertical side" of the rectangle.  We will have one with
+    	// the endpoint segment, and one with the curve.  If those two
+    	// vertical intersections overlap the Y range of the rectangle,
+    	// we have an intersection.  Otherwise, we don't.
+
+    	// c1tag = vertical intersection class of the endpoint segment
+    	//
+    	// Choose the y tag of the endpoint that was not on the same
+    	// side of the rectangle as the subsegment calculated above.
+    	// Note that we can "steal" the existing Y tag of that endpoint
+    	// since it will be provably the same as the vertical intersection.
+    	c1tag = ((c1tag * x1tag <= 0) ? y1tag : y2tag);
+
+    	// c2tag = vertical intersection class of the curve
+    	//
+    	// We have to calculate this one the straightforward way.
+    	// Note that the c2tag can still tell us which vertical edge
+    	// to test against.
+    	fillEqn(eqn, (c2tag < INSIDE ? x : x+w), x1, ctrlx, x2);
+    	int num = solveQuadratic(eqn, res);
+
+    	// Note: We should be able to assert(num == 2); since the
+    	// X range "crosses" (not touches) the vertical boundary,
+    	// but we pass num to evalQuadratic for completeness.
+    	evalQuadratic(res, num, true, true, null, y1, ctrly, y2);
+
+    	// Note: We can assert(num evals == 1); since one of the
+    	// 2 crossings will be out of the [0,1] range.
+    	c2tag = getTag(res[0], y, y+h);
+
+    	// Finally, we have an intersection if the two crossings
+    	// overlap the Y range of the rectangle.
+    	return (c1tag * c2tag <= 0);
+        }
 
     /**
      * Tests if the shape of this <code>QuadCurve2D</code> intersects the
@@ -1257,7 +1539,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      *		the specified <code>Rectangle2D</code>;
      *		<code>false</code> otherwise.
      */
-    public boolean intersects(Rectangle2D r) {
+    public boolean intersects(GRectangle2D r) {
 	return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -1291,7 +1573,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      *		<code>QuadCurve2D</code> entirely contains the specified
      *		<code>Rectangle2D</code>; <code>false</code> otherwise.
      */
-    public boolean contains(Rectangle2D r) {
+    public boolean contains(GRectangle2D r) {
     	return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -1300,7 +1582,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * @return a {@link Rectangle} that is the bounding box of the shape
      * 		of this <code>QuadCurve2D</code>.
      */
-    public Rectangle getBounds() {
+    public GRectangle getBounds() {
     	return getBounds2D().getBounds();
     }
 
@@ -1317,7 +1599,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * @return a {@link PathIterator} object that defines the boundary
      *		of the shape.
      */
-    public PathIterator getPathIterator(AffineTransform at) {
+    public PathIterator getPathIterator(GAffineTransform at) {
     	return new QuadIterator(this, at);
     }
 
@@ -1338,7 +1620,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * @return a <code>PathIterator</code> object that defines the
      *		flattened boundary of the shape.
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
+    public PathIterator getPathIterator(GAffineTransform at, double flatness) {
     	return new FlatteningPathIterator(getPathIterator(at), flatness);
     }
 

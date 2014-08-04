@@ -27,6 +27,10 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPathIterator;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.kernel.external.Crossings;
 import geogebra.html5.kernel.external.Curve;
@@ -194,7 +198,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 *            <code>moveTo</code> segment into a <code>lineTo</code> segment
 	 *            to connect the new geometry to the existing path
 	 */
-	public void append(PathIterator pi, boolean connect) {
+	public void append(GPathIterator pi, boolean connect) {
 		float coords[] = new float[6];
 		while (!pi.isDone()) {
 			switch (pi.currentSegment(coords)) {
@@ -310,6 +314,18 @@ public final class GeneralPath implements Shape, Cloneable {
 			return ((cross & 1) != 0);
 		}
 	}
+	
+	public boolean contains(int x, int y) {
+		if (numTypes < 2) {
+			return false;
+		}
+		int cross = Curve.crossingsForPath(getPathIterator(null), x, y);
+		if (windingRule == WIND_NON_ZERO) {
+			return (cross != 0);
+		} else {
+			return ((cross & 1) != 0);
+		}
+	}
 
 	/**
 	 * Tests if the specified rectangular area is inside the boundary of this
@@ -352,7 +368,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 * @return <code>true</code> if this <code>Shape</code> bounds the specified
 	 *         <code>Rectangle2D</code>; <code>false</code> otherwise.
 	 */
-	public boolean contains(Rectangle2D r) {
+	public boolean contains(GRectangle2D r) {
 		return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
@@ -406,7 +422,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 * @return a {@link GRectangleW.client.Rectangle} object that bounds the current
 	 *         path.
 	 */
-	public Rectangle getBounds() {
+	public GRectangle getBounds() {
 		return getBounds2D().getBounds();
 	}
 
@@ -489,7 +505,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 *         of this <code>Shape</code> and provides access to the geometry of
 	 *         this <code>Shape</code>'s outline
 	 */
-	public PathIterator getPathIterator(AffineTransform at) {
+	public PathIterator getPathIterator(GAffineTransform at) {
 		return new GeneralPathIterator(this, at);
 	}
 
@@ -511,7 +527,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 * @return a new <code>PathIterator</code> that iterates along the flattened
 	 *         <code>Shape</code> boundary.
 	 */
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+	public PathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new FlatteningPathIterator(getPathIterator(at), flatness);
 	}
 
@@ -546,6 +562,12 @@ public final class GeneralPath implements Shape, Cloneable {
 				+ w, y + h);
 		return (c == null || !c.isEmpty());
 	}
+	
+	public boolean intersects(int x, int y, int w, int h) {
+		Crossings c = Crossings.findCrossings(getPathIterator(null), x, y, x
+				+ w, y + h);
+		return (c == null || !c.isEmpty());
+	}
 
 	/**
 	 * Tests if the interior of this <code>Shape</code> intersects the interior
@@ -557,7 +579,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 *         the specified <code>Rectangle2D</code> intersect each other;
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean intersects(Rectangle2D r) {
+	public boolean intersects(GRectangle2D r) {
 		return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 

@@ -28,6 +28,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 
+import geogebra.common.awt.GAffineTransform;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -39,10 +41,10 @@ import java.util.NoSuchElementException;
  */
 class LineIterator implements PathIterator {
     Line2D line;
-    AffineTransform affine;
+    GAffineTransform affine;
     int index;
 
-    LineIterator(Line2D l, AffineTransform at) {
+    LineIterator(Line2D l, GAffineTransform at) {
 	this.line = l;
 	this.affine = at;
     }

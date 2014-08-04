@@ -27,6 +27,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 
+import geogebra.common.awt.GAffineTransform;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -38,10 +40,10 @@ import java.util.NoSuchElementException;
  */
 class QuadIterator implements PathIterator {
     QuadCurve2D quad;
-    AffineTransform affine;
+    GAffineTransform affine;
     int index;
 
-    QuadIterator(QuadCurve2D q, AffineTransform at) {
+    QuadIterator(QuadCurve2D q, GAffineTransform at) {
 	this.quad = q;
 	this.affine = at;
     }

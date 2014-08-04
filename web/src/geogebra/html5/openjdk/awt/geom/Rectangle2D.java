@@ -26,6 +26,9 @@
  */
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle2D;
+
 
 /**
  * The <code>Rectangle2D</code> class describes a rectangle defined by a
@@ -38,7 +41,7 @@ package geogebra.html5.openjdk.awt.geom;
  * @version 1.29, 12/19/03
  * @author Jim Graham
  */
-public abstract class Rectangle2D extends RectangularShape {
+public abstract class Rectangle2D extends RectangularShape implements GRectangle2D {
 	/**
 	 * The bitmask that indicates that a point lies to the left of this
 	 * <code>Rectangle2D</code>.
@@ -300,7 +303,7 @@ public abstract class Rectangle2D extends RectangularShape {
 		 * @return the bounding box of this <code>Rectangle2D</code>.
 		 * @since 1.2
 		 */
-		public Rectangle2D getBounds2D() {
+		public GRectangle2D getBounds2D() {
 			return new Float(x, y, width, height);
 		}
 
@@ -317,7 +320,7 @@ public abstract class Rectangle2D extends RectangularShape {
 		 *         <code>Rectangle2D</code>.
 		 * @since 1.2
 		 */
-		public Rectangle2D createIntersection(Rectangle2D r) {
+		public Rectangle2D createIntersection(GRectangle2D r) {
 			Rectangle2D dest;
 			if (r instanceof Float) {
 				dest = new Rectangle2D.Float();
@@ -564,7 +567,7 @@ public abstract class Rectangle2D extends RectangularShape {
 		 * @return the bounding box of this <code>Rectangle2D</code>.
 		 * @since 1.2
 		 */
-		public Rectangle2D getBounds2D() {
+		public GRectangle2D getBounds2D() {
 			return new Double(x, y, width, height);
 		}
 
@@ -581,7 +584,7 @@ public abstract class Rectangle2D extends RectangularShape {
 		 *         <code>Rectangle2D</code>.
 		 * @since 1.2
 		 */
-		public Rectangle2D createIntersection(Rectangle2D r) {
+		public Rectangle2D createIntersection(GRectangle2D r) {
 			Rectangle2D dest = new Rectangle2D.Double();
 			Rectangle2D.intersect(this, r, dest);
 			return dest;
@@ -814,6 +817,13 @@ public abstract class Rectangle2D extends RectangularShape {
 		return (x >= x0 && y >= y0 && x < x0 + getWidth() && y < y0
 				+ getHeight());
 	}
+	
+	public boolean contains(int x, int y) {
+		double x0 = getX();
+		double y0 = getY();
+		return (x >= x0 && y >= y0 && x < x0 + getWidth() && y < y0
+				+ getHeight());
+	}
 
 	/**
 	 * Tests if the interior of this <code>Rectangle2D</code> intersects the
@@ -832,6 +842,16 @@ public abstract class Rectangle2D extends RectangularShape {
 	 * @since 1.2
 	 */
 	public boolean intersects(double x, double y, double w, double h) {
+		if (isEmpty() || w <= 0 || h <= 0) {
+			return false;
+		}
+		double x0 = getX();
+		double y0 = getY();
+		return (x + w > x0 && y + h > y0 && x < x0 + getWidth() && y < y0
+				+ getHeight());
+	}
+	
+	public boolean intersects(int x, int y, int w, int h) {
 		if (isEmpty() || w <= 0 || h <= 0) {
 			return false;
 		}
@@ -880,7 +900,7 @@ public abstract class Rectangle2D extends RectangularShape {
 	 *         <code>Rectangle2D</code>.
 	 * @since 1.2
 	 */
-	public abstract Rectangle2D createIntersection(Rectangle2D r);
+	public abstract Rectangle2D createIntersection(GRectangle2D r);
 
 	/**
 	 * Intersects the pair of specified source <code>Rectangle2D</code> objects
@@ -901,7 +921,7 @@ public abstract class Rectangle2D extends RectangularShape {
 	 *            intersection of <code>src1</code> and <code>src2</code>
 	 * @since 1.2
 	 */
-	public static void intersect(Rectangle2D src1, Rectangle2D src2,
+	public static void intersect(GRectangle2D src1, GRectangle2D src2,
 			Rectangle2D dest) {
 		double x1 = Math.max(src1.getMinX(), src2.getMinX());
 		double y1 = Math.max(src1.getMinY(), src2.getMinY());
@@ -1035,7 +1055,7 @@ public abstract class Rectangle2D extends RectangularShape {
 	 *         time.
 	 * @since 1.2
 	 */
-	public PathIterator getPathIterator(AffineTransform at) {
+	public PathIterator getPathIterator(GAffineTransform at) {
 		return new RectIterator(this, at);
 	}
 

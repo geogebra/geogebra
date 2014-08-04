@@ -27,6 +27,8 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GPathIterator;
+
 /**
  * The <code>PathIterator</code> interface provides the mechanism
  * for objects that implement the {@link java.awt.Shape Shape}
@@ -60,7 +62,7 @@ package geogebra.html5.openjdk.awt.geom;
  * @version 1.16, 12/19/03
  * @author Jim Graham
  */
-public interface PathIterator {
+public interface PathIterator extends GPathIterator{
     /**
      * The winding rule constant for specifying an even-odd rule
      * for determining the interior of a path.

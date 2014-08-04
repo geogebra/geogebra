@@ -27,6 +27,8 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GPoint2D;
+
 /**
  * The <code>Point2D</code> class defines a point representing a location in
  * (x,&nbsp;y) coordinate space.
@@ -38,7 +40,7 @@ package geogebra.html5.openjdk.awt.geom;
  * @version 1.18, 12/19/03
  * @author Jim Graham
  */
-public abstract class Point2D {
+public abstract class Point2D extends GPoint2D{
 	/**
 	 * The <code>Double</code> class defines a point specified in
 	 * <code>double</code> precision.
@@ -127,6 +129,16 @@ public abstract class Point2D {
 		public String toString() {
 			return "Point2D.Double[" + x + ", " + y + "]";
 		}
+
+		@Override
+        public void setX(double x) {
+	        this.x = x;
+        }
+
+		@Override
+        public void setY(double y) {
+	        this.y = y;
+        }
 
 		//@Override
 		//public Object duplicate() {
@@ -239,6 +251,17 @@ public abstract class Point2D {
 			return "Point2D.Float[" + x + ", " + y + "]";
 		}
 
+		@Override
+        public void setX(double x) {
+	        this.x = (float) x;
+	        
+        }
+
+		@Override
+        public void setY(double y) {
+	        this.y= (float) y;
+        }
+
 		//@Override
 		//public Object duplicate() {
 		//	return new Point2D.Float(this.x, this.y);
@@ -313,7 +336,7 @@ public abstract class Point2D {
 	 * @return the distance between this <code>Point2D</code> and the specified
 	 *         <code>Point2D</code>.
 	 */
-	public double distance(Point2D pt) {
+	public double distance(GPoint2D pt) {
 		double PX = pt.getX() - this.getX();
 		double PY = pt.getY() - this.getY();
 		return Math.sqrt(PX * PX + PY * PY);

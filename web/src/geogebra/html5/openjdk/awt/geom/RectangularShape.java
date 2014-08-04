@@ -26,6 +26,10 @@
  */
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
+
 
 
 /**
@@ -75,7 +79,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	 * @return <code>true</code> if the <code>Shape</code> entirely contains the
 	 *         specified <code>Rectangle2D</code>; <code>false</code> otherwise.
 	 */
-	public boolean contains(Rectangle2D r) {
+	public boolean contains(GRectangle2D r) {
 		return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
@@ -84,7 +88,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	 *
 	 * @return a {@link Rectangle} object that bounds the <code>Shape</code>.
 	 */
-	public Rectangle getBounds() {
+	public GRectangle getBounds() {
 		double width = getWidth();
 		double height = getHeight();
 		if (width < 0 || height < 0) {
@@ -214,7 +218,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	 * @return a <code>PathIterator</code> object that provides access to the
 	 *         <code>Shape</code> object's flattened geometry.
 	 */
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+	public PathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new FlatteningPathIterator(getPathIterator(at), flatness);
 	}
 
@@ -254,7 +258,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	 *         <code>Rectangle2D</code> intersect each other; <code>false</code>
 	 *         otherwise.
 	 */
-	public boolean intersects(Rectangle2D r) {
+	public boolean intersects(GRectangle2D r) {
 		return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 

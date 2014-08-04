@@ -3,19 +3,21 @@ package geogebra.html5.awt;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
+import geogebra.html5.openjdk.awt.geom.Rectangle2D;
 import geogebra.html5.openjdk.awt.geom.Shape;
 
 public class GRectangle2DW implements geogebra.common.awt.GRectangle2D, geogebra.html5.awt.GShapeW {
 	
-	private geogebra.html5.openjdk.awt.geom.Rectangle2D impl;
+	private final Rectangle2D impl;
 
 
 	public GRectangle2DW() {
 		impl = new geogebra.html5.openjdk.awt.geom.Rectangle2D.Double();
 	}
 	
-	public GRectangle2DW(geogebra.html5.openjdk.awt.geom.Rectangle2D bounds2d) {
-		impl = bounds2d;
+	public GRectangle2DW(GRectangle2D bounds2d) {
+		impl = GRectangleW.getGawtRectangle2D(bounds2d);
 	}
 	public GRectangle2DW(int x, int y, int width, int height) {
 		impl = new geogebra.html5.openjdk.awt.geom.Rectangle2D.Double(x, y, width, height);
@@ -108,6 +110,9 @@ public class GRectangle2DW implements geogebra.common.awt.GRectangle2D, geogebra
 
 	public static geogebra.html5.openjdk.awt.geom.Rectangle2D getGawtRectangle2D(
 			geogebra.common.awt.GRectangle2D p){
+		if(p instanceof Rectangle2D){
+			return (Rectangle2D)p;
+		}
 		if(!(p instanceof geogebra.html5.awt.GRectangle2DW))
 			return null;
 		return ((geogebra.html5.awt.GRectangle2DW)p).getImpl();
@@ -119,6 +124,36 @@ public class GRectangle2DW implements geogebra.common.awt.GRectangle2D, geogebra
 
 	protected geogebra.html5.openjdk.awt.geom.Rectangle2D getImpl() {
 	    return impl;
+    }
+
+	@Override
+    public boolean contains(GRectangle2D rectangle) {
+	    return impl.contains(rectangle);
+    }
+
+	@Override
+    public double getMinX() {
+	    return impl.getMinX();
+    }
+
+	@Override
+    public double getMaxX() {
+	    return impl.getMaxX();
+    }
+
+	@Override
+    public double getMinY() {
+	    return impl.getMinY();
+    }
+
+	@Override
+    public double getMaxY() {
+	    return impl.getMaxY();
+    }
+
+	@Override
+    public boolean intersectsLine(double x1, double y1, double x2, double y2) {
+	    return impl.intersectsLine(x1, y1, x2, y2);
     }
 
 	

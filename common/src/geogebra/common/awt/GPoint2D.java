@@ -62,4 +62,9 @@ public abstract class GPoint2D {
         double d_y = y2 - y1;
         return d_x * d_x + d_y * d_y;
     }
+	public void setLocation(double x, double y) {
+		setX(x);
+		setY(y);
+		
+	}
 }

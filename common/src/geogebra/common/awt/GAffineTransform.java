@@ -9,12 +9,16 @@ public interface GAffineTransform {
 	public double getShearX();
 	public double getShearY();
 	public GShape createTransformedShape(GShape shape);
-	public void transform(GPoint2D p, GPoint2D p2);
+	public GPoint2D transform(GPoint2D p, GPoint2D p2);
 	public void transform(double[] labelCoords, int i, double[] labelCoords2,
+			int j, int k);
+	public void transform(float[] labelCoords, int i, float[] labelCoords2,
 			int j, int k);
 	public geogebra.common.awt.GAffineTransform createInverse() throws Exception;
 	public void scale(double xscale, double d);
 	public void translate(double ax, double ay);
 	public double getTranslateX();
 	public double getTranslateY();
+	public void transform(float[] pointCoords, int pointIdx, double[] coords,
+			int j, int k);
 }

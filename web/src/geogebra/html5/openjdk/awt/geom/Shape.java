@@ -26,6 +26,11 @@
  */
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
+
 
 /**
  * The <code>Shape</code> interface provides definitions for objects
@@ -81,7 +86,7 @@ package geogebra.html5.openjdk.awt.geom;
  * @author Jim Graham
  * @author dave.trudes
  */
-public interface Shape {
+public interface Shape extends GShape {
     /**
      * Returns an integer {@link Rectangle} that completely encloses the
      * <code>Shape</code>.  Note that there is no guarantee that the
@@ -98,7 +103,7 @@ public interface Shape {
      *                 the <code>Shape</code>.
      * @see #getBounds2D
      */
-    public Rectangle getBounds();
+    public GRectangle getBounds();
 
     /**
      * Returns a high precision and more accurate bounding box of
@@ -116,7 +121,7 @@ public interface Shape {
      *                 high-precision bounding box of the <code>Shape</code>.
      * @see #getBounds
      */
-    public Rectangle2D getBounds2D();
+    public GRectangle2D getBounds2D();
 
     /**
      * Tests if the specified coordinates are inside the boundary of the
@@ -195,7 +200,7 @@ public interface Shape {
      * 		otherwise.
      * @see #intersects(double, double, double, double)
      */
-    public boolean intersects(Rectangle2D r);
+    public boolean intersects(GRectangle2D r);
 
     /**
      * Tests if the interior of the <code>Shape</code> entirely contains
@@ -262,7 +267,7 @@ public interface Shape {
      *          perform.
      * @see #contains(double, double, double, double)
      */
-    public boolean contains(Rectangle2D r);
+    public boolean contains(GRectangle2D r);
 
     /**
      * Returns an iterator object that iterates along the
@@ -291,7 +296,7 @@ public interface Shape {
      * @return a new <code>PathIterator</code> object, which independently
      *		traverses the geometry of the <code>Shape</code>.
      */
-    public PathIterator getPathIterator(AffineTransform at);
+    public PathIterator getPathIterator(GAffineTransform at);
 
     /**
      * Returns an iterator object that iterates along the <code>Shape</code>
@@ -337,5 +342,5 @@ public interface Shape {
      * @return a new <code>PathIterator</code> that independently traverses
      * 		the <code>Shape</code> geometry.
     */
-    public PathIterator getPathIterator(AffineTransform at, double flatness);
+    public PathIterator getPathIterator(GAffineTransform at, double flatness);
 }

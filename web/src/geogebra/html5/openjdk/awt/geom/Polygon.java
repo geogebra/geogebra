@@ -24,6 +24,8 @@
  */
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle2D;
 import geogebra.html5.kernel.external.Crossings;
 
 
@@ -465,6 +467,8 @@ public class Polygon implements Shape {
 
         return ((hits & 1) != 0);
     }
+    
+    
 
     private Crossings getCrossings(double xlo, double ylo,
                                    double xhi, double yhi)
@@ -508,12 +512,21 @@ public class Polygon implements Shape {
         Crossings cross = getCrossings(x, y, x+w, y+h);
         return (cross == null || !cross.isEmpty());
     }
+    
+    public boolean intersects(int x, int y, int w, int h) {
+        if (npoints <= 0 || !getBoundingBox().intersects(x, y, w, h)) {
+            return false;
+        }
+
+        Crossings cross = getCrossings(x, y, x+w, y+h);
+        return (cross == null || !cross.isEmpty());
+    }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(Rectangle2D r) {
+    public boolean intersects(GRectangle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -534,7 +547,7 @@ public class Polygon implements Shape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Rectangle2D r) {
+    public boolean contains(GRectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -551,7 +564,7 @@ public class Polygon implements Shape {
      *          geometry of this <code>Polygon</code>.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
+    public PathIterator getPathIterator(GAffineTransform at) {
         return new PolygonPathIterator(this, at);
     }
 
@@ -576,16 +589,16 @@ public class Polygon implements Shape {
      *          <code>Shape</code> object's geometry.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
+    public PathIterator getPathIterator(GAffineTransform at, double flatness) {
         return getPathIterator(at);
     }
 
     class PolygonPathIterator implements PathIterator {
         Polygon poly;
-        AffineTransform transform;
+        GAffineTransform transform;
         int index;
 
-        public PolygonPathIterator(Polygon pg, AffineTransform at) {
+        public PolygonPathIterator(Polygon pg, GAffineTransform at) {
             poly = pg;
             transform = at;
             if (pg.npoints == 0) {

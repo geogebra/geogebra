@@ -28,6 +28,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 
+import geogebra.common.awt.GAffineTransform;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -39,12 +41,12 @@ import java.util.NoSuchElementException;
  */
 class ArcIterator implements PathIterator {
     double x, y, w, h, angStRad, increment, cv;
-    AffineTransform affine;
+    GAffineTransform affine;
     int index;
     int arcSegs;
     int lineSegs;
 
-    ArcIterator(Arc2D a, AffineTransform at) {
+    ArcIterator(Arc2D a, GAffineTransform at) {
 	this.w = a.getWidth() / 2;
 	this.h = a.getHeight() / 2;
 	this.x = a.getX() + w;

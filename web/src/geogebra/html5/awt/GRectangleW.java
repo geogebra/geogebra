@@ -1,6 +1,7 @@
 package geogebra.html5.awt;
 
 import geogebra.common.awt.GPoint2D;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 
 public class GRectangleW extends geogebra.html5.awt.GRectangle2DW implements geogebra.common.awt.GRectangle {
 	
@@ -11,7 +12,7 @@ public class GRectangleW extends geogebra.html5.awt.GRectangle2DW implements geo
 	}
 	
 	public GRectangleW(geogebra.common.awt.GRectangle r) {
-		impl = ((GRectangleW)r).impl;
+		impl = GRectangleW.getGawtRectangle(r);
 	}
 	
 	public GRectangleW(int w, int h) {
@@ -104,6 +105,9 @@ public class GRectangleW extends geogebra.html5.awt.GRectangle2DW implements geo
 	}
 	
 	public static geogebra.html5.openjdk.awt.geom.Rectangle getGawtRectangle(geogebra.common.awt.GRectangle r) {
+		if(r instanceof Rectangle){
+			return (Rectangle)r;
+		}
 		if(!(r instanceof GRectangleW))
 			return null;
 		return ((GRectangleW)r).impl;

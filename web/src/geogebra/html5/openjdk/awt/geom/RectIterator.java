@@ -27,6 +27,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 
+import geogebra.common.awt.GAffineTransform;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -38,10 +40,10 @@ import java.util.NoSuchElementException;
  */
 class RectIterator implements PathIterator {
     double x, y, w, h;
-    AffineTransform affine;
+    GAffineTransform affine;
     int index;
 
-    RectIterator(Rectangle2D r, AffineTransform at) {
+    RectIterator(Rectangle2D r, GAffineTransform at) {
 	this.x = r.getX();
 	this.y = r.getY();
 	this.w = r.getWidth();

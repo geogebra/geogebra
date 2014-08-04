@@ -28,6 +28,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 
+import geogebra.common.awt.GAffineTransform;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -39,10 +41,10 @@ import java.util.NoSuchElementException;
  */
 class CubicIterator implements PathIterator {
     CubicCurve2D cubic;
-    AffineTransform affine;
+    GAffineTransform affine;
     int index;
 
-    CubicIterator(CubicCurve2D q, AffineTransform at) {
+    CubicIterator(CubicCurve2D q, GAffineTransform at) {
 	this.cubic = q;
 	this.affine = at;
     }

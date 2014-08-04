@@ -26,6 +26,10 @@
  */
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRectangle2D;
+
 
 /**
  * A <code>Rectangle</code> specifies an area in a coordinate space that is
@@ -56,7 +60,7 @@ package geogebra.html5.openjdk.awt.geom;
  * @author 	Sami Shaio
  * @since       JDK1.0
  */
-public class Rectangle extends Rectangle2D implements Shape {
+public class Rectangle extends Rectangle2D implements Shape, GRectangle {
 
     /**
      * The <i>x</i> coordinate of the <code>Rectangle</code>.
@@ -254,8 +258,8 @@ public class Rectangle extends Rectangle2D implements Shape {
      * @see	  java.awt.Component#setBounds(java.awt.Rectangle)
      * @since     JDK1.1
      */
-    public void setBounds(Rectangle r) {
-    	setBounds(r.x, r.y, r.width, r.height);
+    public void setBounds(GRectangle r) {
+    	setBounds((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
     }
 
     /**
@@ -473,8 +477,8 @@ public class Rectangle extends Rectangle2D implements Shape {
      *            <code>false</code> otherwise.
      * @since     JDK1.1
      */
-    public boolean contains(Point p) {
-    	return contains(p.x, p.y);
+    public boolean contains(GPoint2D p) {
+    	return contains(p.getX(), p.getY());
     }
 
     /**
@@ -602,18 +606,18 @@ public class Rectangle extends Rectangle2D implements Shape {
      *            and this <code>Rectangle</code> intersect;
      *            <code>false</code> otherwise.
      */
-    public boolean intersects(Rectangle r) {
+    public boolean intersects(GRectangle r) {
 		int tw = this.width;
 		int th = this.height;
-		int rw = r.width;
-		int rh = r.height;
+		int rw = (int) r.getWidth();
+		int rh = (int) r.getHeight();
 		if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
 		    return false;
 		}
 		int tx = this.x;
 		int ty = this.y;
-		int rx = r.x;
-		int ry = r.y;
+		int rx = (int) r.getX();
+		int ry = (int) r.getY();
 		rw += rx;
 		rh += ry;
 		tw += tx;
@@ -671,11 +675,11 @@ public class Rectangle extends Rectangle2D implements Shape {
      *		  the specified <code>Rectangle</code> and this
      *		  <code>Rectangle</code>.
      */
-    public Rectangle union(Rectangle r) {
-		int x1 = Math.min(x, r.x);
-		int x2 = Math.max(x + width, r.x + r.width);
-		int y1 = Math.min(y, r.y);
-		int y2 = Math.max(y + height, r.y + r.height);
+    public Rectangle union(GRectangle r) {
+		int x1 = (int) Math.min(x, r.getX());
+		int x2 = (int) Math.max(x + width, r.getX() + r.getWidth());
+		int y1 = (int) Math.min(y, r.getY());
+		int y2 = (int) Math.max(y + height, r.getY() + r.getHeight());
 		return new Rectangle(x1, y1, x2 - x1, y2 - y1);
     }
 
@@ -736,11 +740,11 @@ public class Rectangle extends Rectangle2D implements Shape {
      * rectangles.
      * @param  r the specified <code>Rectangle</code>
      */
-    public void add(Rectangle r) {
-		int x1 = Math.min(x, r.x);
-		int x2 = Math.max(x + width, r.x + r.width);
-		int y1 = Math.min(y, r.y);
-		int y2 = Math.max(y + height, r.y + r.height);
+    public void add(GRectangle r) {
+		int x1 = (int) Math.min(x, r.getX());
+		int x2 = (int) Math.max(x + width, r.getX() + r.getWidth());
+		int y1 = (int) Math.min(y, r.getY());
+		int y2 = (int) Math.max(y + height, r.getY() + r.getHeight());
 		x = x1;
 		y = y1;
 		width = x2 - x1;
@@ -843,7 +847,7 @@ public class Rectangle extends Rectangle2D implements Shape {
      *		  this <code>Rectangle</code>.
      * @since 1.2
      */
-    public Rectangle2D createIntersection(Rectangle2D r) {
+    public Rectangle2D createIntersection(GRectangle2D r) {
 		if (r instanceof Rectangle) {
 		    return intersection((Rectangle) r);
 		}

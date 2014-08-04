@@ -27,6 +27,8 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GPathIterator;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -41,7 +43,7 @@ import java.util.NoSuchElementException;
 public class FlatteningPathIterator implements PathIterator {
     static final int GROW_SIZE = 24;	// Multiple of cubic & quad curve size
 
-    PathIterator src;			// The source iterator
+    GPathIterator src;			// The source iterator
 
     double squareflat;			// Square of the flatness parameter
 					// for testing against squared lengths
@@ -94,7 +96,7 @@ public class FlatteningPathIterator implements PathIterator {
      * @param flatness the maximum allowable distance between the
      * control points and the flattened curve
      */
-    public FlatteningPathIterator(PathIterator src, double flatness) {
+    public FlatteningPathIterator(GPathIterator src, double flatness) {
 	this(src, flatness, 10);
     }
 
@@ -116,7 +118,7 @@ public class FlatteningPathIterator implements PathIterator {
      * 		<code>flatness</code> or <code>limit</code>
      *		is less than zero
      */
-    public FlatteningPathIterator(PathIterator src, double flatness,
+    public FlatteningPathIterator(GPathIterator src, double flatness,
 				  int limit) {
 	if (flatness < 0.0) {
 	    throw new IllegalArgumentException("flatness must be >= 0");

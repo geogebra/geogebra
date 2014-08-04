@@ -27,6 +27,8 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+
 
 /**
  * This class represents the iterator for General Paths.
@@ -46,7 +48,7 @@ class GeneralPathIterator implements PathIterator {
     int typeIdx = 0;
     int pointIdx   = 0;
     GeneralPath path;
-    AffineTransform affine;
+    GAffineTransform affine;
 
     private static final int curvesize[] = {2, 2, 4, 6, 0};
 
@@ -63,7 +65,7 @@ class GeneralPathIterator implements PathIterator {
      * AffineTransform.
      * @see GeneralPath#getPathIterator
      */
-    GeneralPathIterator(GeneralPath path, AffineTransform at) {
+    GeneralPathIterator(GeneralPath path, GAffineTransform at) {
         this.path = path;
 	this.affine = at;
     }

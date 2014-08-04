@@ -33,7 +33,7 @@ public class GLine2DW extends geogebra.common.awt.GLine2D implements GShapeW {
 	}
 
 	
-	public boolean contains(GRectangle r) {
+	public boolean contains(GRectangle2D r) {
 		return impl.contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 

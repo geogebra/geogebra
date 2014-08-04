@@ -2,14 +2,14 @@ package geogebra.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
-public class GQuadCurve2DD extends geogebra.common.awt.GQuadCurve2D implements geogebra.awt.GShapeD{
+public class GQuadCurve2DD extends geogebra.common.awt.GQuadCurve2D implements
+		geogebra.awt.GShapeD {
 
 	private java.awt.geom.QuadCurve2D.Double impl;
-	
-	public GQuadCurve2DD(){
+
+	public GQuadCurve2DD() {
 		impl = new java.awt.geom.QuadCurve2D.Double();
 	}
 
@@ -18,47 +18,54 @@ public class GQuadCurve2DD extends geogebra.common.awt.GQuadCurve2D implements g
 		impl.setCurve(parpoints, i);
 	}
 
-
-	
 	public boolean contains(double xTry, double yTry) {
 		return impl.contains(xTry, yTry);
 	}
-	
-	public boolean intersects(double x, double y, double lengthX,
-			double lengthY) {
+
+	public boolean intersects(double x, double y, double lengthX, double lengthY) {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
-	
+
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i, j, k, l);
 	}
+
 	public boolean contains(int x, int y) {
-		return impl.contains(x,y);
+		return impl.contains(x, y);
 	}
-	
+
 	public geogebra.awt.GRectangleD getBounds() {
 		return new geogebra.awt.GRectangleD(impl.getBounds());
 	}
+
 	public GRectangle2D getBounds2D() {
 		return new geogebra.awt.GGenericRectangle2DD(impl.getBounds2D());
 	}
-	public boolean contains(GRectangle rectangle) {
-		return impl.contains(geogebra.awt.GRectangleD.getAWTRectangle(rectangle));
+
+	public boolean contains(GRectangle2D rectangle) {
+		return impl.contains(geogebra.awt.GRectangleD
+				.getAWTRectangle2D(rectangle));
 	}
-	
+
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new geogebra.awt.GPathIteratorD(impl.getPathIterator(geogebra.awt.GAffineTransformD.getAwtAffineTransform(affineTransform)));
+		return new geogebra.awt.GPathIteratorD(
+				impl.getPathIterator(geogebra.awt.GAffineTransformD
+						.getAwtAffineTransform(affineTransform)));
 	}
+
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new geogebra.awt.GPathIteratorD(impl.getPathIterator(geogebra.awt.GAffineTransformD.getAwtAffineTransform(at), flatness));
+		return new geogebra.awt.GPathIteratorD(impl.getPathIterator(
+				geogebra.awt.GAffineTransformD.getAwtAffineTransform(at),
+				flatness));
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(geogebra.awt.GGenericRectangle2DD.getAWTRectangle2D(r));
+		return impl.intersects(geogebra.awt.GGenericRectangle2DD
+				.getAWTRectangle2D(r));
 	}
 
 	public java.awt.Shape getAwtShape() {
 		return impl;
 	}
-	
+
 }

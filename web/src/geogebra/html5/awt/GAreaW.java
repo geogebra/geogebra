@@ -47,7 +47,7 @@ public class GAreaW implements geogebra.common.awt.GArea, geogebra.html5.awt.GSh
 	}
 
 	
-	public boolean contains(GRectangle r) {
+	public boolean contains(GRectangle2D r) {
 		return impl.contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 

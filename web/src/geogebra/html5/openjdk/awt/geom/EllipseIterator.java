@@ -28,6 +28,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 
+import geogebra.common.awt.GAffineTransform;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -39,10 +41,10 @@ import java.util.NoSuchElementException;
  */
 class EllipseIterator implements PathIterator {
     double x, y, w, h;
-    AffineTransform affine;
+    GAffineTransform affine;
     int index;
 
-    EllipseIterator(Ellipse2D e, AffineTransform at) {
+    EllipseIterator(Ellipse2D e, GAffineTransform at) {
 	this.x = e.getX();
 	this.y = e.getY();
 	this.w = e.getWidth();

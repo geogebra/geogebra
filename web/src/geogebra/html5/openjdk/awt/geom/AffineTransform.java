@@ -27,6 +27,11 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPathIterator;
+import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GShape;
+
 
 /**
  * The <code>AffineTransform</code> class represents a 2D affine transform that
@@ -57,7 +62,7 @@ package geogebra.html5.openjdk.awt.geom;
  * @author Jim Graham
  * @author dave.trudes
  */
-public class AffineTransform implements Cloneable {
+public class AffineTransform implements Cloneable, GAffineTransform {
 	/*
 	 * This constant is only useful for the cached type field. It indicates that
 	 * the type has been decached and must be recalculated.
@@ -698,7 +703,8 @@ public class AffineTransform implements Cloneable {
 	 *            with this <code>AffineTransform</code> object.
 	 * @see #preConcatenate
 	 */
-	public void concatenate(AffineTransform Tx) {
+	public void concatenate(GAffineTransform TxA) {
+		AffineTransform Tx = (AffineTransform) TxA;
 		double M0, M1;
 		double T00, T01, T10, T11;
 		double T02, T12;
@@ -976,7 +982,7 @@ public class AffineTransform implements Cloneable {
 	 * @return a new <code>Shape</code> object that defines the geometry of the
 	 *         transformed <code>Shape</code>.
 	 */
-	public Shape createTransformedShape(Shape pSrc) {
+	public Shape createTransformedShape(GShape pSrc) {
 		if (pSrc == null) {
 			return null;
 		}
@@ -984,7 +990,7 @@ public class AffineTransform implements Cloneable {
 		if (pSrc instanceof GeneralPath) {
 			return ((GeneralPath) pSrc).createTransformedShape(this);
 		} else {
-			PathIterator pi = pSrc.getPathIterator(this);
+			GPathIterator pi = pSrc.getPathIterator(this);
 			GeneralPath gp = new GeneralPath(pi.getWindingRule());
 			gp.append(pi, false);
 			return gp;
@@ -2212,7 +2218,8 @@ public class AffineTransform implements Cloneable {
 	 *            the <code>AffineTransform</code> object from which to copy the
 	 *            transform
 	 */
-	public void setTransform(AffineTransform Tx) {
+	public void setTransform(GAffineTransform TxA) {
+		AffineTransform Tx = (AffineTransform) TxA;
 		this.m00 = Tx.m00;
 		this.m10 = Tx.m10;
 		this.m01 = Tx.m01;
@@ -2823,7 +2830,7 @@ public class AffineTransform implements Cloneable {
 	 * @return the <code>ptDst</code> after transforming <code>ptSrc</code> and
 	 *         stroring the result in <code>ptDst</code>.
 	 */
-	public Point2D transform(Point2D ptSrc, Point2D ptDst) {
+	public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
 		if (ptDst == null) {
 			if (ptSrc instanceof Point2D.Double) {
 				ptDst = new Point2D.Double();

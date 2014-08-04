@@ -250,6 +250,18 @@ public class Point extends Point2D {
 		return getClass().getName() + "[x=" + x + ",y=" + y + "]";
 	}
 
+	@Override
+    public void setX(double x) {
+	    this.x = (int) x;
+	    
+    }
+
+	@Override
+    public void setY(double y) {
+	    this.y = (int) y;
+	    
+    }
+
 	/*
 	 * (non-Javadoc)
 	 * 

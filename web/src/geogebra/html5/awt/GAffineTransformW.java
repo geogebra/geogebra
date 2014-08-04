@@ -100,7 +100,7 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 		return ((GAffineTransformW) at2).at;
 	}
 
-	public void transform(GPoint2D p, GPoint2D p2) {
+	public GPoint2D transform(GPoint2D p, GPoint2D p2) {
 		geogebra.html5.openjdk.awt.geom.Point2D point = geogebra.html5.awt.GPoint2DW
 		        .getGawtPoint2D(p);
 		geogebra.html5.openjdk.awt.geom.Point2D point2 = geogebra.html5.awt.GPoint2DW
@@ -108,6 +108,7 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 		at.transform(point, point2);
 		p2.setX(point2.getX());
 		p2.setY(point2.getY());
+		return p2;
 	}
 
 	public void transform(double[] labelCoords, int i, double[] labelCoords2,
@@ -128,6 +129,20 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 
 	public void translate(double ax, double ay) {
 		at.translate(ax, ay);
+
+	}
+	
+	@Override
+	public void transform(float[] srcPts, int srcOff, float[] dstPts,
+			int dstOff, int numPts) {
+		at.transform(srcPts, srcOff, dstPts, dstOff, numPts);
+
+	}
+
+	@Override
+	public void transform(float[] srcPts, int srcOff, double[] dstPts,
+			int dstOff, int numPts) {
+		at.transform(srcPts, srcOff, dstPts, dstOff, numPts);
 
 	}
 

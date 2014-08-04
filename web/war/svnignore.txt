@@ -3,6 +3,7 @@ tablet
 web
 webSimple
 web3d
+performanceTest
 _*.ggb
 ggbloadworker
 mpreducejs

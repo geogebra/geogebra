@@ -2,7 +2,6 @@ package geogebra.html5.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
 public class GQuadCurve2DW extends geogebra.common.awt.GQuadCurve2D implements GShapeW{
@@ -30,8 +29,8 @@ public class GQuadCurve2DW extends geogebra.common.awt.GQuadCurve2D implements G
     }
 	
 
-	public boolean contains(GRectangle rectangle) {
-		return impl.contains(geogebra.html5.awt.GRectangleW.getGawtRectangle(rectangle));
+	public boolean contains(GRectangle2D rectangle) {
+		return impl.contains(geogebra.html5.awt.GRectangle2DW.getGawtRectangle2D(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {

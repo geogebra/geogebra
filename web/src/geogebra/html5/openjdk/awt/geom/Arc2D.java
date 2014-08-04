@@ -27,6 +27,9 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GRectangle2D;
+
 
 /**
  * <CODE>Arc2D</CODE> is the abstract superclass for all objects that store a 2D
@@ -725,6 +728,57 @@ public abstract class Arc2D extends RectangularShape {
 		return inarc ? !inside : inside;
 	}
 
+	public boolean contains(int x, int y) {
+		// Normalize the coordinates compared to the ellipse
+		// having a center at 0,0 and a radius of 0.5.
+		double ellw = getWidth();
+		if (ellw <= 0.0) {
+			return false;
+		}
+		double normx = (x - getX()) / ellw - 0.5;
+		double ellh = getHeight();
+		if (ellh <= 0.0) {
+			return false;
+		}
+		double normy = (y - getY()) / ellh - 0.5;
+		double distSq = (normx * normx + normy * normy);
+		if (distSq >= 0.25) {
+			return false;
+		}
+		double angExt = Math.abs(getAngleExtent());
+		if (angExt >= 360.0) {
+			return true;
+		}
+		boolean inarc = containsAngle(-Math.toDegrees(Math.atan2(normy, normx)));
+		if (type == PIE) {
+			return inarc;
+		}
+		// CHORD and OPEN behave the same way
+		if (inarc) {
+			if (angExt >= 180.0) {
+				return true;
+			}
+			// point must be outside the "pie triangle"
+		} else {
+			if (angExt <= 180.0) {
+				return false;
+			}
+			// point must be inside the "pie triangle"
+		}
+		// The point is inside the pie triangle iff it is on the same
+		// side of the line connecting the ends of the arc as the center.
+		double angle = Math.toRadians(-getAngleStart());
+		double x1 = Math.cos(angle);
+		double y1 = Math.sin(angle);
+		angle += Math.toRadians(-getAngleExtent());
+		double x2 = Math.cos(angle);
+		double y2 = Math.sin(angle);
+		boolean inside = (Line2D.relativeCCW(x1, y1, x2, y2, 2 * normx,
+				2 * normy)
+				* Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
+		return inarc ? !inside : inside;
+	}
+	
 	/**
 	 * Determine whether or not the interior of the arc entirely contains the
 	 * specified rectangle.
@@ -754,7 +808,7 @@ public abstract class Arc2D extends RectangularShape {
 	 * @return <CODE>true</CODE> if the arc contains the rectangle,
 	 *         <CODE>false</CODE> if the arc doesn't contain the rectangle.
 	 */
-	public boolean contains(Rectangle2D r) {
+	public boolean contains(GRectangle2D r) {
 		return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight(), r);
 	}
 
@@ -902,7 +956,7 @@ public abstract class Arc2D extends RectangularShape {
 	 *
 	 * @return A <CODE>PathIterator</CODE> that defines the arc's boundary.
 	 */
-	public PathIterator getPathIterator(AffineTransform at) {
+	public PathIterator getPathIterator(GAffineTransform at) {
 		return new ArcIterator(this, at);
 	}
 
@@ -938,6 +992,91 @@ public abstract class Arc2D extends RectangularShape {
 	 */
 
 	public boolean intersects(double x, double y, double w, double h) {
+
+		double aw = getWidth();
+		double ah = getHeight();
+
+		if (w <= 0 || h <= 0 || aw <= 0 || ah <= 0) {
+			return false;
+		}
+		double ext = getAngleExtent();
+		if (ext == 0) {
+			return false;
+		}
+
+		double ax = getX();
+		double ay = getY();
+		double axw = ax + aw;
+		double ayh = ay + ah;
+		double xw = x + w;
+		double yh = y + h;
+
+		// check bbox
+		if (x >= axw || y >= ayh || xw <= ax || yh <= ay) {
+			return false;
+		}
+
+		// extract necessary data
+		double axc = getCenterX();
+		double ayc = getCenterY();
+		Point2D sp = getStartPoint();
+		Point2D ep = getEndPoint();
+		double sx = sp.getX();
+		double sy = sp.getY();
+		double ex = ep.getX();
+		double ey = ep.getY();
+
+		/*
+		 * Try to catch rectangles that intersect arc in areas outside of
+		 * rectagle with left top corner coordinates (min(center x, start point
+		 * x, end point x), min(center y, start point y, end point y)) and rigth
+		 * bottom corner coordinates (max(center x, start point x, end point x),
+		 * max(center y, start point y, end point y)). So we'll check axis
+		 * segments outside of rectangle above.
+		 */
+		if (ayc >= y && ayc <= yh) { // 0 and 180
+			if ((sx < xw && ex < xw && axc < xw && axw > x && containsAngle(0))
+					|| (sx > x && ex > x && axc > x && ax < xw && containsAngle(180))) {
+				return true;
+			}
+		}
+		if (axc >= x && axc <= xw) { // 90 and 270
+			if ((sy > y && ey > y && ayc > y && ay < yh && containsAngle(90))
+					|| (sy < yh && ey < yh && ayc < yh && ayh > y && containsAngle(270))) {
+				return true;
+			}
+		}
+
+		/*
+		 * For PIE we should check intersection with pie slices; also we should
+		 * do the same for arcs with extent is greater than 180, because we
+		 * should cover case of rectangle, which situated between center of arc
+		 * and chord, but does not intersect the chord.
+		 */
+		Rectangle2D rect = new Rectangle2D.Double(x, y, w, h);
+		if (type == PIE || Math.abs(ext) > 180) {
+			// for PIE: try to find intersections with pie slices
+			if (rect.intersectsLine(axc, ayc, sx, sy)
+					|| rect.intersectsLine(axc, ayc, ex, ey)) {
+				return true;
+			}
+		} else {
+			// for CHORD and OPEN: try to find intersections with chord
+			if (rect.intersectsLine(sx, sy, ex, ey)) {
+				return true;
+			}
+		}
+
+		// finally check the rectangle corners inside the arc
+		if (contains(x, y) || contains(x + w, y) || contains(x, y + h)
+				|| contains(x + w, y + h)) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	public boolean intersects(int x, int y, int w, int h) {
 
 		double aw = getWidth();
 		double ah = getHeight();
@@ -1306,7 +1445,7 @@ public abstract class Arc2D extends RectangularShape {
 	}
 
 	private boolean contains(double x, double y, double w, double h,
-			Rectangle2D origrect) {
+			GRectangle2D origrect) {
 		if (!(contains(x, y) && contains(x + w, y) && contains(x, y + h) && contains(
 				x + w, y + h))) {
 			return false;

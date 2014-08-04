@@ -11,7 +11,7 @@ public interface GShape {
 
 	GRectangle2D getBounds2D();
 
-	boolean contains(geogebra.common.awt.GRectangle rectangle);
+	boolean contains(GRectangle2D rectangle);
 	
 	boolean contains(double xTry, double yTry);
 

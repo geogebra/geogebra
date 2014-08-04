@@ -27,6 +27,8 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
+import geogebra.common.awt.GAffineTransform;
+
 
 /**
  * The <code>Ellipse2D</code> class describes an ellipse that is defined by a
@@ -372,6 +374,22 @@ public abstract class Ellipse2D extends RectangularShape {
 		double normy = (y - getY()) / ellh - 0.5;
 		return (normx * normx + normy * normy) < 0.25;
 	}
+	
+	public boolean contains(int x, int y) {
+		// Normalize the coordinates compared to the ellipse
+		// having a center at 0,0 and a radius of 0.5.
+		double ellw = getWidth();
+		if (ellw <= 0.0) {
+			return false;
+		}
+		double normx = (x - getX()) / ellw - 0.5;
+		double ellh = getHeight();
+		if (ellh <= 0.0) {
+			return false;
+		}
+		double normy = (y - getY()) / ellh - 0.5;
+		return (normx * normx + normy * normy) < 0.25;
+	}
 
 	/**
 	 * Tests if the interior of this <code>Ellipse2D</code> intersects the
@@ -430,6 +448,49 @@ public abstract class Ellipse2D extends RectangularShape {
 		return (nearx * nearx + neary * neary) < 0.25;
 	}
 
+	public boolean intersects(int x, int y, int w, int h) {
+		if (w <= 0.0 || h <= 0.0) {
+			return false;
+		}
+		// Normalize the rectangular coordinates compared to the ellipse
+		// having a center at 0,0 and a radius of 0.5.
+		double ellw = getWidth();
+		if (ellw <= 0.0) {
+			return false;
+		}
+		double normx0 = (x - getX()) / ellw - 0.5;
+		double normx1 = normx0 + w / ellw;
+		double ellh = getHeight();
+		if (ellh <= 0.0) {
+			return false;
+		}
+		double normy0 = (y - getY()) / ellh - 0.5;
+		double normy1 = normy0 + h / ellh;
+		// find nearest x (left edge, right edge, 0.0)
+		// find nearest y (top edge, bottom edge, 0.0)
+		// if nearest x,y is inside circle of radius 0.5, then intersects
+		double nearx, neary;
+		if (normx0 > 0.0) {
+			// center to left of X extents
+			nearx = normx0;
+		} else if (normx1 < 0.0) {
+			// center to right of X extents
+			nearx = normx1;
+		} else {
+			nearx = 0.0;
+		}
+		if (normy0 > 0.0) {
+			// center above Y extents
+			neary = normy0;
+		} else if (normy1 < 0.0) {
+			// center below Y extents
+			neary = normy1;
+		} else {
+			neary = 0.0;
+		}
+		return (nearx * nearx + neary * neary) < 0.25;
+	}
+	
 	/**
 	 * Tests if the interior of this <code>Ellipse2D</code> entirely contains
 	 * the specified rectangular area.
@@ -464,7 +525,7 @@ public abstract class Ellipse2D extends RectangularShape {
 	 *         the outline of this <code>Ellipse2D</code>, one segment at a
 	 *         time.
 	 */
-	public PathIterator getPathIterator(AffineTransform at) {
+	public PathIterator getPathIterator(GAffineTransform at) {
 		return new EllipseIterator(this, at);
 	}
 }
