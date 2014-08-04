@@ -5,6 +5,8 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.web.gui.layout.panels.ConstructionProtocolStyleBarW;
+import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.cell.client.Cell;
@@ -22,6 +24,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	private ConstructionProtocolNavigationW protNavBar;
 	public FlowPanel cpPanel;
 	CellTable<RowData> table;
+	private StyleBarW styleBar;
 
 	public ConstructionProtocolViewW(final AppW app) {
 		cpPanel = new FlowPanel();
@@ -203,4 +206,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 		}
 	}
+
+	public StyleBarW getStyleBar() {
+	    if(styleBar == null){
+	    	styleBar = new ConstructionProtocolStyleBarW((AppW) this.app);
+	    }
+	    return styleBar;
+    }
 }

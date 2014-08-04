@@ -39,7 +39,12 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		}, MouseMoveEvent.getType());
 	}
 
-	
+	public StyleBarW(AppW app, int viewID) {
+	    this.app = app;
+	    this.viewID = viewID;
+	    this.app.addViewsChangedListener(this);
+    }
+
 	protected void addSeparator(){
 		VerticalSeparator s = new VerticalSeparator(10,25);
 		add(s);

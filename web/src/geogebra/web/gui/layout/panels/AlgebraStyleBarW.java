@@ -17,9 +17,7 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 	MyToggleButton2 auxiliary;
 
 	public AlgebraStyleBarW(AppW app){
-		this.app = app;
-		this.viewID = App.VIEW_ALGEBRA;
-		this.app.addViewsChangedListener(this);
+		super(app, App.VIEW_ALGEBRA);
 		auxiliary = new MyToggleButton2(StyleBarResources.INSTANCE.auxiliary());
 		auxiliary.setDown(app.showAuxiliaryObjects());
 		auxiliary.addValueChangeHandler(this);

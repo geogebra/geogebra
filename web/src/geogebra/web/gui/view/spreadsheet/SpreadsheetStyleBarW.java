@@ -42,13 +42,9 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	// ?//private Dimension iconDimension = new Dimension(16, iconHeight);
 
 	public SpreadsheetStyleBarW(SpreadsheetViewW view) {
-
-		super();
+		super(view.getApplication(), App.VIEW_SPREADSHEET);
 
 		this.view = view;
-		this.app = view.getApplication();
-		this.viewID = App.VIEW_SPREADSHEET;
-		this.app.addViewsChangedListener(this);
 		this.table = (MyTableW) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
 	//	this.selectedCells = table.selectedCellRanges;

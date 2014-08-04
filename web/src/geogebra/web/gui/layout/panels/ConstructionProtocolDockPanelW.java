@@ -4,16 +4,17 @@ import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
+import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ConstructionProtocolDockPanelW extends DockPanelW{
 
 	private static final long serialVersionUID = 1L;
+	private StyleBarW cpStyleBar;
 
 	/**
 	 * @param app
@@ -41,7 +42,11 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 
 	@Override
 	protected Widget loadStyleBar() {
-		return new SimplePanel(); //return ((ConstructionProtocolView)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
+		if (cpStyleBar == null) {
+			cpStyleBar = ((ConstructionProtocolViewW) app.getGuiManager().getConstructionProtocolView()).getStyleBar();
+		}
+		return cpStyleBar; 
+		//return ((ConstructionProtocolView)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
 	}
 	
 	@Override

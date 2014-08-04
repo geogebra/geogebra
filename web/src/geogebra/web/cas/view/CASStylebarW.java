@@ -34,11 +34,9 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton2[] toggleBtnList;
 
-	public CASStylebarW(CASViewW view, AppW appl){
+	public CASStylebarW(CASViewW view, AppW app){
+		super(app, App.VIEW_CAS);
 		casView = view;
-		app = appl;
-		this.viewID = App.VIEW_CAS;
-		this.app.addViewsChangedListener(this);
 		selectedRows = new ArrayList<GeoElement>();
 		initGUI();
 	}

@@ -215,13 +215,11 @@ public class EuclidianStyleBarW extends StyleBarW
 	}
 
 	public EuclidianStyleBarW(EuclidianView ev) {
-		isIniting = true;
+		super((AppW) ev.getApplication(), ev.getViewID());
 
+		isIniting = true;
 		this.ev = ev;
 		ec = ev.getEuclidianController();
-		app = (AppW) ev.getApplication();
-		this.viewID = ev.getViewID();
-		this.app.addViewsChangedListener(this);
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
