@@ -6,8 +6,6 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -396,10 +394,6 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			}
 		} else {
 			super.wrapMouseReleased(event);
-		}
-
-		if(view.getPreviewDrawable() != null){
-		view.getPreviewDrawable().disposePreview();
 		}
 	}
 
