@@ -98,6 +98,10 @@ public class FunctionVariable extends MyDouble {
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
 	}
+	
+	public boolean containsFunctionVariable(){
+		return true;
+	}
 
 
 }

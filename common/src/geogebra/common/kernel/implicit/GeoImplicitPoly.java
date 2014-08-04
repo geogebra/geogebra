@@ -1542,12 +1542,20 @@ Dilateable, Transformable, EuclidianViewCE {
 						&& (scaledNormSquared(startX-sx,startY-sy)<scaledNormSquared(startX-lx,startY-ly))){
 						/* loop found */
 						if (firstDirPoints!=null){
+							
 							MyPoint firstPoint=firstDirPoints.get(0);
 							firstPoint.lineTo=false;
 							loc1.getPoints().addAll(firstDirPoints);
 						}
 						loc1.insertPoint(x, y, true);
 						return;
+					}
+				}
+				if(w > grid.length || h > grid[w].length || grid[w][h] == null){
+					if(w > grid.length || h > grid[w].length){
+						App.printStacktrace("GRID"+grid.length+","+w+","+h);
+					}else{
+						App.printStacktrace("GRID NULL"+grid.length+","+w+","+h+","+gridWidth+","+gridHeight);
 					}
 				}
 				while (sx<grid[w][h].x){

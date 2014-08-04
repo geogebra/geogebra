@@ -493,7 +493,9 @@ ValidExpression buildValidExpression() :
     ( <POLAR_SEPARATOR> | <EOF> )     
     {                      
         if (labels.size() > 0) ve.addLabel(labels);  // command with ouput labels
-        else if (ve.labelCount() == 0) ve.addLabel(l.image);  // standard case                         
+        else if (ve.labelCount() == 0)        {
+          ve.addLabel(l.image);  // standard case
+        }                         
         return ve;
     }    
 }

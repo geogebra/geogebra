@@ -2057,16 +2057,19 @@ public class AlgebraProcessor {
 			} 
 
 		}
+//		App.printStacktrace(message);
 		ExpressionValue eval; // ggb3D : used by AlgebraProcessor3D in
 		// extended processExpressionNode
 
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(false);
+		String label = n.getLabel();
 		if(n.containsFunctionVariable()){
 			Set<String> fvSet = new TreeSet<String>();
 			FVarCollector fvc = FVarCollector.getCollector(fvSet);
 			n.traverse(fvc);
+			
 			if(fvSet.size()==1){
 				n= new ExpressionNode(kernel,new Function(n,new FunctionVariable(kernel,fvSet.iterator().next())));
 			}else{
@@ -2080,6 +2083,9 @@ public class AlgebraProcessor {
 			}
 		}
 		eval = n.evaluate(StringTemplate.defaultTemplate);
+		if(eval instanceof ValidExpression && label != null){
+			((ValidExpression)eval).setLabel(label);
+		}
 		boolean dollarLabelFound = false;
 
 		ExpressionNode myNode = n;
