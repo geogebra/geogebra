@@ -438,5 +438,9 @@ public abstract class ValidExpression implements ExpressionValue {
 		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
 				.toString(tpl);
 	}
+	
+	public boolean containsFunctionVariable(){
+		return false;
+	}
 
 }

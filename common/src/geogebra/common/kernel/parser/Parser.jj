@@ -222,26 +222,6 @@ public class Parser implements ParserInterface{
  	    default:return null;
  	  }
  	}
-
-	private ExpressionNode polysToFunctionVariables(ExpressionNode en)
-	{
-			TreeSet<String> vars = en.getPolynomialVars();
-          	switch (vars.size()) {
-          		case 0: break;
-          		case 1: // single var function
-	        		return new ExpressionNode(kernel, new Function(en, new FunctionVariable(kernel, vars.first())));
-
-				default: // multivariate function
-					FunctionVariable [] funs = new FunctionVariable[vars.size()];    	
-					int i=0;
-			    	for (String var : vars) {
-			    		funs[i++] = new FunctionVariable(kernel, var);
-			    	}
-			    	return new ExpressionNode(kernel, new FunctionNVar(en, funs));
-			    	
-          	}
-          	return en;
-	  }
 }
 PARSER_END(Parser)
 
@@ -459,7 +439,7 @@ ValidExpression buildValidExpression() :
         lhs = expressionnode() <EQUAL> rhs = expressionnode()
         {             
             // maybe it's an assignment, i.e. there is no x, y, or z on the right side
-			if (!rhs.includesFunctionVariable())
+			if (!rhs.containsFunctionVariable())
 			{
 			    // assignment, e.g. z = 23
 	  			if (lhs.isSingleVariable()) {                                  	               
@@ -807,7 +787,7 @@ ExpressionNode expression():
     rhs = expressionnode()              
     {
       // Giac uses x,y not ggbtmpvarx/y
-        if (!GeoGebraCASParsing && !GiacParsing && rhs.includesFunctionVariable()) {
+        if (!GeoGebraCASParsing && !GiacParsing && rhs.containsFunctionVariable()) {
         	throw new MyError(loc, "IncompleteEquation");
         }
         
@@ -830,16 +810,6 @@ ExpressionNode cmdexpression():
 
    en = expressionOrEquation()              
     {
-        
-
- 	
-       if (!GeoGebraCASParsing && !(en.unwrap() instanceof Equation)) {
-          	en = polysToFunctionVariables(en);
-        	//throw new MyError(app, "IncompleteEquation");
-        }
-        
-       
-        
         // since v3.0: commands have to take care of resolving the variables of 
         // their arguments on their own, e.g. Sequence[ (i, i^2), i , 1, 10 ]       
 		//rhs.resolveVariables();
@@ -940,7 +910,7 @@ ExpressionNode functionExpressionnode():
 		  	String funLabel = funName.image.substring(0,funName.image.length()-1);	 
 
 			// command without variables: return expressionnode
-	    	if (rhs.getLeft() instanceof Command && !rhs.includesFunctionVariable()) {
+	    	if (rhs.getLeft() instanceof Command && !rhs.containsFunctionVariable()) {
 				rhs.setLabel(funLabel);
 				return rhs;
 			}
@@ -2019,8 +1989,7 @@ ExpressionNode numberFunction():
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
       				for (int i=0; i < myList.size(); i++)
       				{
-      				  cmd.addArgument(GeoGebraCASParsing ? (ExpressionNode) myList.getListElement(i) :
-      				  polysToFunctionVariables((ExpressionNode) myList.getListElement(i)));
+      				  cmd.addArgument((ExpressionNode) myList.getListElement(i));
       				}
       				return new ExpressionNode(kernel, cmd);      						
       			

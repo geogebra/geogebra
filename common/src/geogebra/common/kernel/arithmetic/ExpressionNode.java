@@ -44,8 +44,6 @@ import geogebra.common.util.Unicode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Tree node for expressions like "3*a - b/5"
@@ -565,69 +563,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * right, ExpressionNode.FUNCTION, polyX); } } }
 	 */
 
-	/**
-	 * @return true if there is at least one Polynomial in the tree
-	 */
-	public boolean includesFunctionVariable() {
-		return getPolynomialVars().size() > 0;
-	}
 
-	/**
-	 * Returns all polynomial variables (x, y, and/or z) in this tree as a list.
-	 * 
-	 * @return list with all variables as Strings
-	 */
-	public TreeSet<String> getPolynomialVars() {
-		TreeSet<String> vars = new TreeSet<String>();
-		getPolynomialVars(vars);
-		return vars;
-	}
-
-	/**
-	 * Adds all polynomial variables (x, y, and/or z) in this tree to vars.
-	 * 
-	 * @param vars
-	 *            the set to add all variables as Strings
-	 */
-	private void getPolynomialVars(Set<String> vars) {
-		if (left.isExpressionNode()) {
-			((ExpressionNode) left).getPolynomialVars(vars);
-		} else if (left instanceof FunctionVariable) {
-			vars.add(left.toString(StringTemplate.defaultTemplate));
-		}else if (left instanceof MyVecNode) {
-			((MyVecNode)left).getX().wrap().getPolynomialVars(vars);
-			((MyVecNode)left).getY().wrap().getPolynomialVars(vars);
-		}
-
-		if (right != null) {
-			if (right.isExpressionNode()) {
-				((ExpressionNode) right).getPolynomialVars(vars);
-			} else if (right instanceof FunctionVariable) {
-				vars.add(right.toString(StringTemplate.defaultTemplate));
-				// changed to avoid deepcopy in MyList.getMyList() eg
-				// Sequence[f(Element[GP,k]),k,1,NP]
-				// } else if (right.isListValue()){ //to get polynomial vars in
-				// GeoFunctionNVar
-				// MyList list=((ListValue)right).getMyList();
-			} else if (right instanceof MyList) { // to get polynomial
-				// vars in
-				// GeoFunctionNVar
-				MyList list = (MyList) right;
-				for (int i = 0; i < list.size(); i++) {
-					ExpressionValue elem = list.getListElement(i);
-					if (elem.isExpressionNode()) {
-						((ExpressionNode) elem).getPolynomialVars(vars);
-					} else if (elem instanceof FunctionVariable) {
-						vars.add(elem.toString(StringTemplate.defaultTemplate));
-					}
-				}
-			}
-			else if (right instanceof MyVecNode) {
-				((MyVecNode)right).getX().wrap().getPolynomialVars(vars);
-				((MyVecNode)right).getY().wrap().getPolynomialVars(vars);
-			}
-		}
-	}
 
 	/**
 	 * Returns whether this ExpressionNode should evaluate to a GeoVector. This
@@ -950,6 +886,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	/**
 	 * @return true when function variable is found in this expression tree.
 	 */
+	@Override
 	final public boolean containsFunctionVariable() {
 		if ((left instanceof FunctionVariable)
 				|| (right instanceof FunctionVariable)) {
@@ -1023,6 +960,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * 
 	 * @param equ
 	 *            equation
+	 * @return expanded polynomial
 	 */
 	protected final Polynomial makePolynomialTree(Equation equ) {
 		Polynomial lt;
@@ -1041,7 +979,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 									.getCopy(kernel);
 							if (!equ.isFunctionDependent()) {
 								equ.setFunctionDependent(en
-										.includesFunctionVariable());
+										.containsFunctionVariable());
 							}
 							// we may only make polynomial trees after replacement
 							// en.makePolynomialTree(equ);
@@ -1069,7 +1007,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if (right instanceof ExpressionNode) {
 					if (!equ.isFunctionDependent()) {
 						equ.setFunctionDependent(((ExpressionNode) right)
-								.includesFunctionVariable());
+								.containsFunctionVariable());
 					}
 					// we may only make polynomial trees after replacement
 					// ((ExpressionNode) right).makePolynomialTree(equ);
@@ -1084,12 +1022,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 		}
 		if (!polynomialOperation(operation)) {
-			if(left instanceof FunctionVariable || 
-					(left instanceof ExpressionNode && ((ExpressionNode)left).includesFunctionVariable())){
+			if(left instanceof ValidExpression && ((ValidExpression)left).containsFunctionVariable()){
 				equ.setIsPolynomial(false);
 			}
-			if(right instanceof FunctionVariable ||
-					(right instanceof ExpressionNode && ((ExpressionNode)left).includesFunctionVariable())){
+			if(right instanceof ValidExpression && ((ExpressionNode)left).containsFunctionVariable()){
 				equ.setIsPolynomial(false);
 			}
 			return new Polynomial(kernel, new Term( new ExpressionNode(
