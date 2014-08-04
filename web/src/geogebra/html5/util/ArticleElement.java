@@ -477,7 +477,7 @@ public final class ArticleElement extends Element {
 		double externalScale = getDataParamScale();
 		setAttribute("data-scalex", ""+(externalScale * envScale("x")));
 		setAttribute("data-scaley", ""+(externalScale * envScale("y")));
-		String transform = "scale("+externalScale * envScale("x")+"," + externalScale * envScale("y")+")";
+		String transform = "scale("+externalScale +"," + externalScale +")";
 		Element parent = this.getParentElement();
 		if(parent.getParentElement()!=null && "applet_container".equals(parent.getParentElement().getId())){
 			parent = parent.getParentElement();
