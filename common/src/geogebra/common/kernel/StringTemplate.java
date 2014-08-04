@@ -2057,7 +2057,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return convertScientificNotationGiac(scientificStr);
 		}
 		
-		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
+		StringBuilder sb = new StringBuilder(scientificStr.length() * 2 + 2);
+
+		sb.append("(");
 		boolean Efound = false;
 		for (int i = 0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
@@ -2079,6 +2081,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(")");
 			}
 		}
+		sb.append(")");
 
 		return sb.toString();
 	}
