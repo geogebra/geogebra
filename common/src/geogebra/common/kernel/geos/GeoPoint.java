@@ -251,6 +251,7 @@ SymbolicParametersBotanaAlgo {
 
 	@Override
 	public void set(GeoElement geo) {
+		this.isDefined = geo.isDefined();
 		if (geo.isGeoPoint()) {
 			GeoPoint p = (GeoPoint) geo;
 			if (p.pathParameter != null) {
