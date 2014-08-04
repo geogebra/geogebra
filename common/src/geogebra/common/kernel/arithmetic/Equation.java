@@ -42,7 +42,7 @@ public class Equation extends ValidExpression {
     private boolean forceConic = false, forceImplicitPoly = false ;
     private boolean forceQuadric = false;
 	private ArrayList<ExpressionValue> variableDegrees = null;
-	private boolean isPolynomial;
+	private boolean isPolynomial = true;
    
     /** check whether ExpressionNodes are evaluable to instances of Polynomial
      * or NumberValue and build an Equation out of them
