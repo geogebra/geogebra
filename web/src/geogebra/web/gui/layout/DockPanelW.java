@@ -1287,4 +1287,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 	public void setViewImage(ImageResource imageResource){
 		this.viewImage = new Image(imageResource);
 	}
+
+	/**
+	 * show/hide the whole Panel
+	 */
+	public void setPanelVisible(boolean visible){
+		this.titleBarPanel.setVisible(visible);;
+	}
 }

@@ -117,10 +117,11 @@ public class CASTableW extends Grid implements CASTable {
 		if (editing != null)
 			editing.cancelEditing();
 		editing = null;
-
 	}
 
 	public void startEditingRow(int n) {
+		app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_CAS).setPanelVisible(n!=0); 
+
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
 
 		if (w == editing)

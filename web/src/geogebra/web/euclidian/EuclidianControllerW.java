@@ -68,7 +68,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private AbstractEvent waitingTouchMove = null;
 	private AbstractEvent waitingMouseMove = null;
 
-	public EnvironmentStyleW style; 
+	public EnvironmentStyleW style = new EnvironmentStyleW(); 
 	
 	
 	public EnvironmentStyleW getEnvironmentStyle () {
