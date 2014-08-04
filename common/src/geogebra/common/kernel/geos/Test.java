@@ -558,6 +558,8 @@ Test {
 				return gen(GEOCONIC,second);
 			case GEOPLANEND:
 				return gen(GEOLINE,second);
+			case GEOPOINT:
+				return gen(GEONUMERIC, second);
 		}
 		return false;
 	}
