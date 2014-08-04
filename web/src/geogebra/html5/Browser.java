@@ -29,7 +29,7 @@ public class Browser {
 	}-*/;
 
 	public static  boolean checkWorkerSupport(String workerpath){
-		if("touch".equals(GWT.getModuleName())){
+		if("tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())){
 			return false;
 		}
 		return nativeCheckWorkerSupport(workerpath);
