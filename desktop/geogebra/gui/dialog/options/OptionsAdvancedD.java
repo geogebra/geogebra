@@ -18,7 +18,6 @@ import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -66,9 +65,8 @@ public class OptionsAdvancedD extends
 
 	/** */
 	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel,
-			languagePanel, perspectivesPanel, miscPanel, angleUnitPanel,
-			continuityPanel, usePathAndRegionParametersPanel,
-			checkboxSizePanel, rightAnglePanel, coordinatesPanel;
+			languagePanel, angleUnitPanel, continuityPanel,
+			usePathAndRegionParametersPanel, rightAnglePanel, coordinatesPanel;
 
 	/**	*/
 	private JLabel keyboardLanguageLabel, guiFontSizeLabel, widthLabel,
@@ -81,17 +79,15 @@ public class OptionsAdvancedD extends
 
 	/**	 */
 	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits,
-			cbUseLocalLabels, cbReturnAngleInverseTrig, cbIgnoreDocumentLayout,
-			cbEnableScripting, cbUseJavaFonts, cbReverseMouseWheel;
+			cbUseLocalLabels, cbReturnAngleInverseTrig;
 
 	/** */
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
 			continuityRadioOn, continuityRadioOff,
 			usePathAndRegionParametersRadioOn,
-			usePathAndRegionParametersRadioOff, checkboxSizeRadioRegular,
-			checkboxSizeRadioLarge, rightAngleRadio1, rightAngleRadio2,
-			rightAngleRadio3, rightAngleRadio4, coordinatesRadio1,
-			coordinatesRadio2, coordinatesRadio3;
+			usePathAndRegionParametersRadioOff, rightAngleRadio1,
+			rightAngleRadio2, rightAngleRadio3, rightAngleRadio4,
+			coordinatesRadio1, coordinatesRadio2, coordinatesRadio3;
 
 	/** */
 	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup,
@@ -142,12 +138,10 @@ public class OptionsAdvancedD extends
 		initGUIFontSizePanel();
 		initTooltipPanel();
 		initLanguagePanel();
-		initPerspectivesPanel();
-		initScriptingPanel();
+		// initPerspectivesPanel();
 		initAngleUnitPanel();
 		initContinuityPanel();
 		initUsePathAndRegionParametersPanel();
-		initCheckboxSizePanel();
 		initRightAnglePanel();
 		initCoordinatesPanel();
 
@@ -161,13 +155,11 @@ public class OptionsAdvancedD extends
 		panel.add(usePathAndRegionParametersPanel);
 
 		panel.add(virtualKeyboardPanel);
-		panel.add(checkboxSizePanel);
 		panel.add(guiFontsizePanel);
 		panel.add(tooltipPanel);
 		panel.add(languagePanel);
-		panel.add(perspectivesPanel);
+		// panel.add(perspectivesPanel);
 
-		panel.add(miscPanel);
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		JScrollPane scrollPane = new JScrollPane(panel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(4);
@@ -287,62 +279,16 @@ public class OptionsAdvancedD extends
 
 	/**
 	 * Initialize the perspectives panel.
+	 * 
+	 * private void initPerspectivesPanel() { perspectivesPanel = new JPanel(new
+	 * FlowLayout(FlowLayout.LEFT));
+	 * 
+	 * cbIgnoreDocumentLayout = new JCheckBox();
+	 * cbIgnoreDocumentLayout.addActionListener(this);
+	 * perspectivesPanel.add(LayoutUtil.flowPanel(cbIgnoreDocumentLayout));
+	 * 
+	 * }
 	 */
-	private void initPerspectivesPanel() {
-		perspectivesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-		/*
-		 * cbShowTitleBar = new JCheckBox();
-		 * cbShowTitleBar.addActionListener(this);
-		 * perspectivesPanel.add(cbShowTitleBar);
-		 * 
-		 * cbAllowStyleBar = new JCheckBox();
-		 * cbAllowStyleBar.addActionListener(this);
-		 * perspectivesPanel.add(cbAllowStyleBar);
-		 */
-
-		cbIgnoreDocumentLayout = new JCheckBox();
-		cbIgnoreDocumentLayout.addActionListener(this);
-		perspectivesPanel.add(LayoutUtil.flowPanel(cbIgnoreDocumentLayout));
-
-	}
-
-	/**
-	 * Initialize the scripting panel.
-	 */
-	private void initScriptingPanel() {
-
-		miscPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-		// two columns
-		JPanel guiPanelWest = new JPanel();
-		guiPanelWest.setLayout(new BoxLayout(guiPanelWest, BoxLayout.Y_AXIS));
-		JPanel guiPanelEast = new JPanel();
-		guiPanelEast.setLayout(new BoxLayout(guiPanelEast, BoxLayout.Y_AXIS));
-		JPanel twoColumns = new JPanel();
-		twoColumns.setLayout(new BorderLayout());
-		twoColumns.add(guiPanelEast, loc.borderEast());
-		twoColumns.add(guiPanelWest, loc.borderWest());
-		twoColumns.setAlignmentX(Component.LEFT_ALIGNMENT);
-		miscPanel.add(twoColumns);
-
-		cbEnableScripting = new JCheckBox();
-		cbEnableScripting.addActionListener(this);
-		guiPanelWest.add(cbEnableScripting);
-
-		cbReturnAngleInverseTrig = new JCheckBox();
-		cbReturnAngleInverseTrig.addActionListener(this);
-		guiPanelEast.add(cbReturnAngleInverseTrig);
-
-		cbUseJavaFonts = new JCheckBox();
-		cbUseJavaFonts.addActionListener(this);
-		guiPanelEast.add(cbUseJavaFonts);
-
-		cbReverseMouseWheel = new JCheckBox();
-		cbReverseMouseWheel.addActionListener(this);
-		guiPanelWest.add(cbReverseMouseWheel);
-
-	}
 
 	/**
 	 * Initialize the angle unit panel
@@ -361,6 +307,11 @@ public class OptionsAdvancedD extends
 		angleUnitRadioRadian.addActionListener(this);
 		angleUnitPanel.add(angleUnitRadioRadian);
 		angleUnitButtonGroup.add(angleUnitRadioRadian);
+
+		cbReturnAngleInverseTrig = new JCheckBox();
+		cbReturnAngleInverseTrig.addActionListener(this);
+		angleUnitPanel.add(cbReturnAngleInverseTrig);
+
 	}
 
 	/**
@@ -403,25 +354,6 @@ public class OptionsAdvancedD extends
 		usePathAndRegionParametersButtonGroup
 				.add(usePathAndRegionParametersRadioOff);
 
-	}
-
-	/**
-	 * Initialize the checkbox size panel
-	 */
-	private void initCheckboxSizePanel() {
-		checkboxSizePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-		checkboxSizeButtonGroup = new ButtonGroup();
-
-		checkboxSizeRadioRegular = new JRadioButton();
-		checkboxSizeRadioRegular.addActionListener(this);
-		checkboxSizePanel.add(checkboxSizeRadioRegular);
-		checkboxSizeButtonGroup.add(checkboxSizeRadioRegular);
-
-		checkboxSizeRadioLarge = new JRadioButton();
-		checkboxSizeRadioLarge.addActionListener(this);
-		checkboxSizePanel.add(checkboxSizeRadioLarge);
-		checkboxSizeButtonGroup.add(checkboxSizeRadioLarge);
 	}
 
 	/**
@@ -484,7 +416,6 @@ public class OptionsAdvancedD extends
 	 */
 	public void updateGUI() {
 
-		cbEnableScripting.setSelected(!app.isScriptingDisabled());
 		cbUseLocalDigits.setSelected(loc.isUsingLocalizedDigits());
 		cbUseLocalLabels.setSelected(loc.isUsingLocalizedLabels());
 
@@ -500,10 +431,6 @@ public class OptionsAdvancedD extends
 				.setSelected(app.getKernel().usePathAndRegionParameters == PathRegionHandling.ON);
 		usePathAndRegionParametersRadioOff
 				.setSelected(app.getKernel().usePathAndRegionParameters == PathRegionHandling.OFF);
-		checkboxSizeRadioRegular.setSelected(app.getEuclidianView1()
-				.getBooleanSize() == 13);
-		checkboxSizeRadioLarge.setSelected(app.getEuclidianView1()
-				.getBooleanSize() == 26);
 
 		rightAngleRadio1.setSelected(app.getEuclidianView1()
 				.getRightAngleStyle() == 0);
@@ -518,8 +445,9 @@ public class OptionsAdvancedD extends
 		coordinatesRadio2.setSelected(app.getKernel().getCoordStyle() == 1);
 		coordinatesRadio3.setSelected(app.getKernel().getCoordStyle() == 2);
 
-		cbIgnoreDocumentLayout.setSelected(settings.getLayout()
-				.isIgnoringDocumentLayout());
+		// cbIgnoreDocumentLayout.setSelected(settings.getLayout()
+		// .isIgnoringDocumentLayout());
+
 		/*
 		 * cbShowTitleBar.setSelected(settings.getLayout().showTitleBar());
 		 * cbAllowStyleBar
@@ -563,8 +491,6 @@ public class OptionsAdvancedD extends
 	public void updateAfterReset() {
 		cbReturnAngleInverseTrig.setSelected(app.getKernel()
 				.getInverseTrigReturnsAngle());
-		cbUseJavaFonts.setSelected(app.useJavaFontsForLaTeX());
-		cbReverseMouseWheel.setSelected(app.isMouseWheelReversed());
 
 		int selectedIndex = 0;
 		String loc = settings.getKeyboard().getKeyboardLocale();
@@ -654,13 +580,6 @@ public class OptionsAdvancedD extends
 			else
 				app.setTooltipLanguage(LocalizationD.getSupportedLocales()
 						.get(index).toString());
-		} else if (source == cbEnableScripting) {
-			app.setScriptingDisabled(!cbEnableScripting.isSelected());
-		} else if (source == cbUseJavaFonts) {
-			app.getDrawEquation().setUseJavaFontsForLaTeX(app,
-					cbUseJavaFonts.isSelected());
-		} else if (source == cbReverseMouseWheel) {
-			app.reverseMouseWheel(cbReverseMouseWheel.isSelected());
 		} else if (source == cbUseLocalDigits) {
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbReturnAngleInverseTrig) {
@@ -679,14 +598,9 @@ public class OptionsAdvancedD extends
 			 * settings.getLayout().setShowTitleBar
 			 * (cbShowTitleBar.isSelected());
 			 */
-		} else if (source == cbIgnoreDocumentLayout) {
-			settings.getLayout().setIgnoreDocumentLayout(
-					cbIgnoreDocumentLayout.isSelected());
-			/*
-			 * } else if (source == cbAllowStyleBar) {
-			 * settings.getLayout().setAllowStyleBar
-			 * (cbAllowStyleBar.isSelected());
-			 */
+			// } else if (source == cbIgnoreDocumentLayout) {
+			// settings.getLayout().setIgnoreDocumentLayout(
+			// cbIgnoreDocumentLayout.isSelected());
 		} else if (source == angleUnitRadioDegree) {
 			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 			app.getKernel().updateConstruction();
@@ -750,11 +664,7 @@ public class OptionsAdvancedD extends
 	}
 
 	private void handleEVOption(Object source, EuclidianViewD view) {
-		if (source == checkboxSizeRadioRegular) {
-			view.setBooleanSize(13);
-		} else if (source == checkboxSizeRadioLarge) {
-			view.setBooleanSize(26);
-		} else if (source == rightAngleRadio1) {
+		if (source == rightAngleRadio1) {
 			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
 		} else if (source == rightAngleRadio2) {
 			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
@@ -855,11 +765,6 @@ public class OptionsAdvancedD extends
 		usePathAndRegionParametersRadioOn.setText(app.getMenu("on"));
 		usePathAndRegionParametersRadioOff.setText(app.getMenu("off"));
 
-		checkboxSizePanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("CheckboxSize")));
-		checkboxSizeRadioRegular.setText(app.getMenu("CheckboxSize.Regular"));
-		checkboxSizeRadioLarge.setText(app.getMenu("CheckboxSize.Large"));
-
 		rightAnglePanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("RightAngleStyle")));
 		rightAngleRadio1.setText(app.getMenu(app.getPlain("off")));
@@ -874,22 +779,14 @@ public class OptionsAdvancedD extends
 		coordinatesRadio2.setText(app.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(app.getMenu("A: (x, y)"));
 
-		perspectivesPanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("Perspectives")));
-		cbIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
+		// perspectivesPanel.setBorder(LayoutUtil.titleBorder(app
+		// .getMenu("Perspectives")));
+		// cbIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
 		/*
 		 * cbShowTitleBar.setText(app.getPlain("ShowTitleBar"));
 		 * cbAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
 		 */
 
-		miscPanel.setBorder(LayoutUtil.titleBorder(app
-				.getPlain("Miscellaneous")));
-		cbEnableScripting.setText(app.getPlain("EnableScripting"));
-		// cbEnableScripting.setSelected(b)
-		cbUseJavaFonts.setText(app.getPlain("UseJavaFontsForLaTeX"));
-		cbUseJavaFonts.setSelected(app.useJavaFontsForLaTeX());
-		cbReverseMouseWheel.setText(app.getPlain("ReverseMouseWheel"));
-		cbReverseMouseWheel.setSelected(app.isMouseWheelReversed());
 		cbReturnAngleInverseTrig.setText(app.getMenu("ReturnAngleInverseTrig"));
 		cbReturnAngleInverseTrig.setSelected(app.getKernel()
 				.getInverseTrigReturnsAngle());
@@ -1069,10 +966,6 @@ public class OptionsAdvancedD extends
 		usePathAndRegionParametersRadioOn.setFont(font);
 		usePathAndRegionParametersRadioOff.setFont(font);
 
-		checkboxSizePanel.setFont(font);
-		checkboxSizeRadioRegular.setFont(font);
-		checkboxSizeRadioLarge.setFont(font);
-
 		rightAnglePanel.setFont(font);
 		rightAngleRadio1.setFont(font);
 		rightAngleRadio2.setFont(font);
@@ -1085,19 +978,12 @@ public class OptionsAdvancedD extends
 		coordinatesRadio2.setFont(font);
 		coordinatesRadio3.setFont(font);
 
-		perspectivesPanel.setFont(font);
-		cbIgnoreDocumentLayout.setFont(font);
+		// perspectivesPanel.setFont(font);
+		// cbIgnoreDocumentLayout.setFont(font);
 		/*
 		 * cbShowTitleBar.setFont(font); cbAllowStyleBar.setFont(font);
 		 */
 
-		miscPanel.setFont(font);
-		cbEnableScripting.setFont(font);
-		cbUseJavaFonts.setFont(font);
-		cbUseJavaFonts.setFont(font);
-		cbReverseMouseWheel.setFont(font);
-		cbReverseMouseWheel.setFont(font);
-		cbReturnAngleInverseTrig.setFont(font);
 		cbReturnAngleInverseTrig.setFont(font);
 
 		cbKeyboardLanguage.setFont(font);
