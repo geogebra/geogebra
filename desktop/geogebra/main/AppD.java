@@ -2446,7 +2446,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// getPlain() and removed try/catch
 
 		JOptionPane.showConfirmDialog(mainComp, text,
-				getPlain("ApplicationName") + " - " + getMenu("Help"),
+				GeoGebraConstants.APPLICATION_NAME + " - " + getMenu("Help"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -4043,7 +4043,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		Object[] options = { getPlain("OK"), getPlain("ShowOnlineHelp") };
 		int n = JOptionPane.showOptionDialog(mainComp, message,
-				getPlain("ApplicationName") + " - "
+				GeoGebraConstants.APPLICATION_NAME + " - "
 						+ getLocalization().getError("Error"),
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, // do
 																				// not
@@ -4089,7 +4089,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				// TODO investigate why this freezes Firefox sometimes
 				JOptionPane
 						.showConfirmDialog(mainComp, msg,
-								getPlain("ApplicationName") + " - "
+								GeoGebraConstants.APPLICATION_NAME + " - "
 										+ getLocalization().getError("Error"),
 								JOptionPane.DEFAULT_OPTION,
 								JOptionPane.WARNING_MESSAGE);
@@ -4111,8 +4111,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				JOptionPane.showConfirmDialog(mainComp, message,
-						getPlain("ApplicationName") + " - " + getMenu("Info"),
-						JOptionPane.DEFAULT_OPTION,
+						GeoGebraConstants.APPLICATION_NAME + " - "
+								+ getMenu("Info"), JOptionPane.DEFAULT_OPTION,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});

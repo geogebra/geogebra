@@ -27,7 +27,6 @@ import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.javax.swing.GImageIcon;
-import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.javax.swing.RelationPane;
 import geogebra.common.javax.swing.RelationPane.RelationRow;
 import geogebra.common.kernel.AnimationManager;
@@ -39,7 +38,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.Path;
-import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.RelationNumerical;
 import geogebra.common.kernel.RelationNumerical.Report;
 import geogebra.common.kernel.RelationNumerical.Report.RelationCommand;
@@ -3055,14 +3053,6 @@ public abstract class App implements UpdateSelection{
 		}
 	}
 
-	public void showRelation_old(GeoElement a, GeoElement b) {
-		GOptionPane optionPane = getFactory().newGOptionPane();
-		optionPane.showConfirmDialog(this,
-				new Relation(kernel).relation(a, b),
-				getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"),
-				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE, null);
-	}
-
 	/* TODO: It would be great to move the following 3 methods into a different file. */
 	/**
 	 * This is the proposed version of the new Relation Tool. To try it, rename
@@ -3180,7 +3170,7 @@ public abstract class App implements UpdateSelection{
 			}
 		}
 		
-		tablePane.showDialog(getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"), rr,
+		tablePane.showDialog(GeoGebraConstants.APPLICATION_NAME + " - " + getLocalization().getCommand("Relation"), rr,
 				ra.getConstruction().getApplication());
 	}
 

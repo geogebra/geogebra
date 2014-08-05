@@ -671,10 +671,6 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		sb.append(settings().showVScrollBar() ? "true" : "false");
 		sb.append("\"");
 
-		sb.append(" showBrowserPanel=\"");
-		sb.append(settings().showBrowserPanel() ? "true" : "false");
-		sb.append("\"");
-
 		sb.append(" showColumnHeader=\"");
 		sb.append(settings().showColumnHeader() ? "true" : "false");
 		sb.append("\"");
@@ -983,11 +979,6 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 
 	}*/
 
-	public boolean getShowBrowserPanel() {
-		return settings().showBrowserPanel();
-
-	}
-
 	/*public void minimizeBrowserPanel() {
 		splitPane.setDividerLocation(10);
 		splitPane.setDividerSize(0);
@@ -1033,18 +1024,6 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		restorePanel.setBackground(null);
 		return restorePanel;
 	}*/
-
-	public int getInitialBrowserMode() {
-		return settings().initialBrowserMode();
-	}
-
-	public String getInitialURLString() {
-		return settings().initialURL();
-	}
-
-	public String getInitialFileString() {
-		return settings().initialFilePath();
-	}
 
 	/*public void setBrowserDefaults(boolean doRestore) {
 

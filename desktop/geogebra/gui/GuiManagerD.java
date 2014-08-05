@@ -1662,8 +1662,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		/*
 		 * int returnVal = JOptionPane.showConfirmDialog( comp,
-		 * getMenu("SaveCurrentFileQuestion"), app.getPlain("ApplicationName") +
-		 * " - " + app.getPlain("Question"), JOptionPane.YES_NO_CANCEL_OPTION,
+		 * getMenu("SaveCurrentFileQuestion"),
+		 * GeoGebraConstants.APPLICATION_NAME + " - " +
+		 * app.getPlain("Question"), JOptionPane.YES_NO_CANCEL_OPTION,
 		 * JOptionPane.QUESTION_MESSAGE);
 		 */
 
@@ -1719,8 +1720,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		String[] fileExtensions;
 		String[] fileDescriptions;
 		fileExtensions = new String[] { AppD.FILE_EXT_GEOGEBRA };
-		fileDescriptions = new String[] { app.getPlain("ApplicationName") + " "
-				+ app.getMenu("Files") };
+		fileDescriptions = new String[] { GeoGebraConstants.APPLICATION_NAME
+				+ " " + app.getMenu("Files") };
 		File file = showSaveDialog(fileExtensions,
 				((AppD) app).getCurrentFile(), fileDescriptions, true, false);
 		if (file == null)
@@ -2039,7 +2040,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileFilter.addExtension(AppD.FILE_EXT_GEOGEBRA_TOOL);
 			fileFilter.addExtension(AppD.FILE_EXT_HTML);
 			fileFilter.addExtension(AppD.FILE_EXT_HTM);
-			fileFilter.setDescription("GeoGebra" + app.getMenu("Files"));
+			fileFilter.setDescription(GeoGebraConstants.APPLICATION_NAME
+					+ app.getMenu("Files"));
 			fileChooser.resetChoosableFileFilters();
 			fileChooser.addChoosableFileFilter(fileFilter);
 
@@ -2709,7 +2711,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (((AppD) app).getCurrentFile() != null) {
 			sb.append(((AppD) app).getCurrentFile().getName());
 		} else {
-			sb.append(app.getPlain("ApplicationName"));
+			sb.append(GeoGebraConstants.APPLICATION_NAME);
 			if (GeoGebraFrame.getInstanceCount() > 1) {
 				int nr = frame.getInstanceNumber();
 				sb.append(" (");

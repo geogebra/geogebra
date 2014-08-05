@@ -12,6 +12,7 @@ package geogebra.gui.view.consprotocol;
 
  */
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.javax.swing.table.GAbstractTableModel;
@@ -1401,12 +1402,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
 		sb.append("<head>\n");
 		sb.append("<title>");
-		sb.append(StringUtil.toHTMLString(app.getPlain("ApplicationName")));
+		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
 		sb.append(" - ");
 		sb.append(app.getPlain("ConstructionProtocol"));
 		sb.append("</title>\n");
 		sb.append("<meta keywords = \"");
-		sb.append(StringUtil.toHTMLString(app.getPlain("ApplicationName")));
+		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
 		sb.append(" export\">");
 		String css = ((AppD) app).getSetting("cssConstructionProtocol");
 		if (css != null) {
@@ -1452,7 +1453,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			sb.append("<img src=\"");
 			sb.append(imgFile.getName());
 			sb.append("\" alt=\"");
-			sb.append(StringUtil.toHTMLString(app.getPlain("ApplicationName")));
+			sb.append(StringUtil
+					.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
 			sb.append(' ');
 			sb.append(StringUtil.toHTMLString(app.getPlain("DrawingPad")));
 			sb.append("\" border=\"1\">\n");

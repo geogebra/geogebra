@@ -959,7 +959,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 					 * AG not yet... int n =
 					 * JOptionPane.showOptionDialog(app.getMainComponent(),
 					 * app.getPlain("InputFieldHelp"),
-					 * app.getPlain("ApplicationName") + " - " +
+					 * GeoGebraConstants.APPLICATION_NAME) + " - " +
 					 * app.getMenu("Help"), JOptionPane.YES_NO_OPTION,
 					 * JOptionPane.QUESTION_MESSAGE, null, // do not use a
 					 * custom Icon options, // the titles of buttons

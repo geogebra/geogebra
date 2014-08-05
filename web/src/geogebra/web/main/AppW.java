@@ -183,7 +183,7 @@ public abstract class AppW extends AppWeb {
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {
-			String geogebra = "GeoGebra";
+			String geogebra = GeoGebraConstants.APPLICATION_NAME;
 
 			canvas.setWidth("427px");
 			canvas.setHeight("120px");
@@ -828,7 +828,7 @@ public abstract class AppW extends AppWeb {
 		// TODO
 		App.debug("TODO later: make sure splash screen not showing");
 
-		String title = getLocalization().getPlain("ApplicationName") + " - "
+		String title = GeoGebraConstants.APPLICATION_NAME + " - "
 		        + getLocalization().getError("Error");
 
 		String[] optionNames = { getLocalization().getPlain("OK"),
@@ -859,7 +859,7 @@ public abstract class AppW extends AppWeb {
 	public void showMessage(final String message) {
 		App.printStacktrace("showMessage: " + message);
 		GOptionPaneW.INSTANCE.showConfirmDialog(null, message,
-		        getPlain("ApplicationName") + " - " + getMenu("Info"),
+				GeoGebraConstants.APPLICATION_NAME + " - " + getMenu("Info"),
 		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.INFORMATION_MESSAGE,
 		        null);
 	}
@@ -870,7 +870,7 @@ public abstract class AppW extends AppWeb {
 			return;
 		}
 
-		String title = getLocalization().getPlain("ApplicationName") + " - "
+		String title = GeoGebraConstants.APPLICATION_NAME + " - "
 		        + getLocalization().getError("Error");
 
 		GOptionPaneW.INSTANCE.showConfirmDialog(this, msg, title,

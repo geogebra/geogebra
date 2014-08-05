@@ -15,6 +15,10 @@ public interface GeoGebraConstants {
 	/** complete version string */
 	public static final String VERSION_STRING = "4.9.298.0"; 
 	
+	// proper noun, should NOT be translated / transliterated
+	public static final String APPLICATION_NAME = "GeoGebra"; 
+
+	
 	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
 	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow = false
 	 * */

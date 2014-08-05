@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -444,10 +445,12 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		if (sel == null || sel.length == 0)
 			return;
 
-		File file = app.getGuiManager().showSaveDialog(
-				AppD.FILE_EXT_GEOGEBRA_TOOL, null,
-				loc.getPlain("ApplicationName") + " " + loc.getMenu("Tools"),
-				true, false);
+		File file = app.getGuiManager()
+				.showSaveDialog(
+						AppD.FILE_EXT_GEOGEBRA_TOOL,
+						null,
+						GeoGebraConstants.APPLICATION_NAME + " "
+								+ loc.getMenu("Tools"), true, false);
 		if (file == null)
 			return;
 

@@ -1,5 +1,6 @@
 package geogebra.gui.inputfield;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.Drawable;
@@ -413,7 +414,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 							app.getMainComponent(),
 							app.getPlain(isCASInput ? "CASFieldHelp"
 									: "InputFieldHelp"),
-							app.getPlain("ApplicationName") + " - "
+							GeoGebraConstants.APPLICATION_NAME + " - "
 									+ app.getMenu("Help"),
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null, // do not use a

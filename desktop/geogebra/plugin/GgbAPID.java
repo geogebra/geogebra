@@ -11,6 +11,7 @@ package geogebra.plugin;
  the Free Software Foundation.
 
  */
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -472,8 +473,8 @@ public class GgbAPID extends geogebra.common.plugin.GgbAPI {
 	 */
 	public String prompt(Object value0, Object value1) {
 		return (String) JOptionPane.showInputDialog(((AppD) app).getFrame(),
-				value0, "GeoGebra", JOptionPane.PLAIN_MESSAGE, null, null,
-				value1);
+				value0, GeoGebraConstants.APPLICATION_NAME,
+				JOptionPane.PLAIN_MESSAGE, null, null, value1);
 	}
 
 	/**
@@ -485,7 +486,7 @@ public class GgbAPID extends geogebra.common.plugin.GgbAPI {
 	public void alert(String message) {
 		Object[] options = { app.getPlain("StopScript"), app.getPlain("OK") };
 		int n = JOptionPane.showOptionDialog(((AppD) app).getFrame(), message,
-				"GeoGebra", JOptionPane.YES_NO_OPTION,
+				GeoGebraConstants.APPLICATION_NAME, JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
 				options, // the titles of buttons
 				options[0]); // default button title
