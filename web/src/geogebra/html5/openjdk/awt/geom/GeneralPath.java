@@ -29,8 +29,10 @@ package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.kernel.external.Crossings;
 import geogebra.html5.kernel.external.Curve;
@@ -56,7 +58,7 @@ import geogebra.html5.kernel.external.Curve;
  * @version 1.59, 12/19/03
  * @author Jim Graham
  */
-public final class GeneralPath implements Shape, Cloneable {
+public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.GGeneralPath {
 	/**
 	 * An even-odd winding rule for determining the interior of a path.
 	 */
@@ -253,8 +255,8 @@ public final class GeneralPath implements Shape, Cloneable {
 	 *            <code>moveTo</code> segment into a <code>lineTo</code> segment
 	 *            to connect the new geometry to the existing path
 	 */
-	public void append(Shape s, boolean connect) {
-		PathIterator pi = s.getPathIterator(null);
+	public void append(GShape s, boolean connect) {
+		GPathIterator pi = s.getPathIterator(null);
 		append(pi, connect);
 	}
 
@@ -355,7 +357,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 * @return <code>true</code> if this <code>Shape</code> contains the
 	 *         specified <code>Point2D</code>, <code>false</code> otherwise.
 	 */
-	public boolean contains(Point2D p) {
+	public boolean contains(GPoint2D p) {
 		return contains(p.getX(), p.getY());
 	}
 
@@ -381,7 +383,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 * @return a new <code>Shape</code>, transformed with the specified
 	 *         <code>AffineTransform</code>.
 	 */
-	public Shape createTransformedShape(AffineTransform at) {
+	public Shape createTransformedShape(GAffineTransform at) {
 		GeneralPath gp = (GeneralPath) clone();
 		if (at != null) {
 			gp.transform(at);
@@ -671,7 +673,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	 * @param at
 	 *            the <code>AffineTransform</code> used to transform the area
 	 */
-	public void transform(AffineTransform at) {
+	public void transform(GAffineTransform at) {
 		at.transform(pointCoords, 0, pointCoords, 0, numCoords / 2);
 	}
 

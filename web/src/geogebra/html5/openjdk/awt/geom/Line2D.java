@@ -28,6 +28,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
@@ -700,7 +701,7 @@ public abstract class Line2D implements Shape, Cloneable {
 	 * @return <code>false</code> because a <code>Line2D</code> contains no
 	 *         area.
 	 */
-	public boolean contains(Point2D p) {
+	public boolean contains(GPoint2D p) {
 		return false;
 	}
 

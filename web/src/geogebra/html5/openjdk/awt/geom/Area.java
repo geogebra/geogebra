@@ -28,6 +28,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.html5.kernel.external.AreaOp;
@@ -432,7 +433,7 @@ public class Area implements Shape, Cloneable {
      *		 lies completely within the interior of the <code>Area</code>;
      *		 <code>false</code> otherwise.
      */
-    public boolean contains(Point2D p) {
+    public boolean contains(GPoint2D p) {
 	return contains(p.getX(), p.getY());
     }
 

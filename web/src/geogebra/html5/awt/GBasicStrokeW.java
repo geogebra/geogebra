@@ -19,6 +19,8 @@
  */
 package geogebra.html5.awt;
 
+import geogebra.html5.openjdk.awt.geom.GeneralPath;
+
 import com.google.gwt.canvas.dom.client.Context2d.LineCap;
 import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 
@@ -1777,7 +1779,7 @@ public class GBasicStrokeW implements geogebra.common.awt.GBasicStroke {
         }
 
         geogebra.common.awt.GGeneralPath createGeneralPath() {
-            geogebra.html5.awt.GeneralPath p = new geogebra.html5.awt.GeneralPath();
+            GeneralPath p = new GeneralPath();
             int j = 0;
             for(int i = 0; i < typeSize; i++) {
                 int type = types[i];

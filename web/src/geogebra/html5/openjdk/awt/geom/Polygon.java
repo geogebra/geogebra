@@ -25,6 +25,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.html5.kernel.external.Crossings;
 
@@ -496,7 +497,7 @@ public class Polygon implements Shape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Point2D p) {
+    public boolean contains(GPoint2D p) {
         return contains(p.getX(), p.getY());
     }
 

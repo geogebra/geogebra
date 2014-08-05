@@ -28,6 +28,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
@@ -1213,7 +1214,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 * @return <code>true</code> if the <code>p</code> is inside the boundary of
 	 *         the shape; <code>false</code> otherwise.
 	 */
-	public boolean contains(Point2D p) {
+	public boolean contains(GPoint2D p) {
 		return contains(p.getX(), p.getY());
 	}
 

@@ -27,6 +27,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
@@ -66,7 +67,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	 *         <code>Shape</code> object's boundary; <code>false</code>
 	 *         otherwise.
 	 */
-	public boolean contains(Point2D p) {
+	public boolean contains(GPoint2D p) {
 		return contains(p.getX(), p.getY());
 	}
 

@@ -27,6 +27,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
@@ -1060,7 +1061,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      *		inside the boundary of the shape of this
      *		<code>QuadCurve2D</code>.
      */
-    public boolean contains(Point2D p) {
+    public boolean contains(GPoint2D p) {
 	return contains(p.getX(), p.getY());
     }
 

@@ -1,7 +1,7 @@
 package geogebra.common.awt;
 
 
-public abstract class GGeneralPath implements geogebra.common.awt.GShape {
+public interface GGeneralPath extends geogebra.common.awt.GShape {
 
 	public abstract void moveTo(float f, float g);
 

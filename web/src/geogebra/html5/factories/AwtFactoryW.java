@@ -34,6 +34,7 @@ import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGradientPaintW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.awt.GTexturePaintW;
+import geogebra.html5.openjdk.awt.geom.GeneralPath;
 
 /**
  * Creates AWT wrappers for web
@@ -115,7 +116,7 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public GGeneralPath newGeneralPath() {
 		// default winding rule changed for ggb50 (for Polygons) #3983
-		return new geogebra.html5.awt.GeneralPath(geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD);
+		return new GeneralPath(geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD);
 	}
 
 	@Override
@@ -196,7 +197,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public GGeneralPath newGeneralPath(int rule) {
-		return new geogebra.html5.awt.GeneralPath(rule);
+		return new GeneralPath(rule);
     }
 
 	@Override
