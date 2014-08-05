@@ -5539,7 +5539,7 @@ public abstract class EuclidianController {
 	
 		tempNum.set(angle);
 		if(rotGeoElement.isChangeable()){
-			((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter.getInhomCoords());
+			((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter);
 			if (repaint) {
 				rotGeoElement.updateRepaint();
 			} else {
@@ -5548,7 +5548,7 @@ public abstract class EuclidianController {
 		}else{
 			ArrayList<GeoPointND> pts = rotGeoElement.getFreeInputPoints(view);
 			for(GeoPointND pt:pts){
-				pt.rotate(tempNum, rotationCenter.getInhomCoords());
+				pt.rotate(tempNum, rotationCenter);
 			}
 			GeoElement.updateCascade(pts, new TreeSet<AlgoElement>(), false);
 			view.repaint();

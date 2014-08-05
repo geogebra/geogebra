@@ -1084,6 +1084,10 @@ SymbolicParametersBotanaAlgo {
 		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
 				+ (y - qy) * cos + qy, z);
 	}
+	
+	final public void rotate(NumberValue phiValue,  GeoPointND point) {
+		rotate(phiValue, point.getInhomCoords());
+	}
 
 	/**
 	 * mirror this point at point Q

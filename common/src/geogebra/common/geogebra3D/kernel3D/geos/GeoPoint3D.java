@@ -1250,6 +1250,11 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	final public void rotate(NumberValue phiValue, GeoPointND point) {
 
+		rotate(phiValue, point.getInhomCoords());
+	}
+	
+	final public void rotate(NumberValue phiValue, Coords point) {
+
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
@@ -1259,7 +1264,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		double z = getZ();
 		double w = getW();
 
-		Coords Q = point.getInhomCoords();
+		Coords Q = point;
 		double qx = w * Q.getX();
 		double qy = w * Q.getY();
 

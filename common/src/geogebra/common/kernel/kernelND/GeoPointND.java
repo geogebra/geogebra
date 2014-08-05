@@ -9,6 +9,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -313,5 +314,5 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	
 	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint);
 
-
+	public void rotate(NumberValue phi, Coords center);
 }
