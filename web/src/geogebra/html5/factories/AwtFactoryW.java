@@ -33,6 +33,7 @@ import geogebra.html5.awt.GBufferedImageW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGradientPaintW;
 import geogebra.html5.awt.GTexturePaintW;
+import geogebra.html5.openjdk.awt.geom.AffineTransform;
 import geogebra.html5.openjdk.awt.geom.Arc2D;
 import geogebra.html5.openjdk.awt.geom.Area;
 import geogebra.html5.openjdk.awt.geom.Ellipse2D;
@@ -79,7 +80,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GAffineTransform newAffineTransform() {
-		return new geogebra.html5.awt.GAffineTransformW();
+		return new AffineTransform();
 	}
 
 	@Override

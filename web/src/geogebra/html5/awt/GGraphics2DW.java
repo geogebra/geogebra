@@ -24,6 +24,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.openjdk.awt.geom.AffineTransform;
 import geogebra.html5.openjdk.awt.geom.PathIterator;
 import geogebra.html5.openjdk.awt.geom.Shape;
 import geogebra.html5.util.ImageLoadCallback;
@@ -69,7 +70,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		setDirection();
 		
 		this.context = (MyContext2d) canvas.getContext2d();
-		savedTransform = new GAffineTransformW();
+		savedTransform = new AffineTransform();
 		preventContextMenu (canvas.getElement());
 		//TODO put this back in
 		//devicePixelRatio = checkPixelRatio(canvas.getElement());
@@ -443,7 +444,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public void rotate(double theta) {
 		context.rotate(theta);
 		savedTransform.concatenate(
-				new GAffineTransformW(
+				new AffineTransform(
 						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), 0, 0));
 
 	}
@@ -455,7 +456,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.rotate(theta);
 		context.translate(-x, -y);
 		savedTransform.concatenate(
-				new GAffineTransformW(
+				new AffineTransform(
 						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), x, y));
 	}
 
@@ -469,7 +470,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
 	public void shear(double shx, double shy) {
-		transform(new GAffineTransformW(
+		transform(new AffineTransform(
 			1, shy, shx, 1, 0, 0
 		));
 	}
@@ -479,8 +480,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public void transform(GAffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(),
 				Tx.getShearX(), Tx.getScaleY(),
-				((GAffineTransformW)Tx).getTranslateX(),
-				((GAffineTransformW)Tx).getTranslateY());
+				((AffineTransform)Tx).getTranslateX(),
+				((AffineTransform)Tx).getTranslateY());
 		savedTransform.concatenate(Tx);
 	}
 
@@ -489,8 +490,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public void setTransform(GAffineTransform Tx) {
 		context.setTransform(Tx.getScaleX(), Tx.getShearY(),
 		Tx.getShearX(), Tx.getScaleY(),
-		((GAffineTransformW)Tx).getTranslateX(),
-		((GAffineTransformW)Tx).getTranslateY());
+		((AffineTransform)Tx).getTranslateX(),
+		((AffineTransform)Tx).getTranslateY());
 		savedTransform = Tx;
 
 	}
@@ -498,7 +499,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
 	public GAffineTransform getTransform() {
-		GAffineTransform ret = new GAffineTransformW();
+		GAffineTransform ret = new AffineTransform();
 		ret.setTransform(savedTransform);
 		return ret;
 	}
