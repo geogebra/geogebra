@@ -442,7 +442,7 @@ public final class DrawPoint extends Drawable {
 				// draw diamond
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getFillStroke(pointSize));
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				g2.drawWithValueStrokePure(gp);
 				g2.fill(gp);
 				break;
 

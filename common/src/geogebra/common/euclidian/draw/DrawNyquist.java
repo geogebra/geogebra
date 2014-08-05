@@ -4,7 +4,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
@@ -97,9 +96,9 @@ public class DrawNyquist extends Drawable {
 		GColor color = AwtFactory.prototype.newColor(geoColor.getRed(),
 				geoColor.getGreen(), geoColor.getBlue(), 127);
 		g2.setColor(color);
-		EuclidianStatic.drawWithValueStrokePure(gpN, g2);
+		g2.drawWithValueStrokePure(gpN);
 		g2.setColor(geoColor);
-		EuclidianStatic.drawWithValueStrokePure(gpP, g2);
+		g2.drawWithValueStrokePure(gpP);
 		drawArrow(g2);
 	}
 

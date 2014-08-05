@@ -16,7 +16,6 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
@@ -159,12 +158,12 @@ public class DrawParametricCurve extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				g2.drawWithValueStrokePure(gp);
 			}
 
 			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			g2.drawWithValueStrokePure(gp);
 
 			if (fillCurve) {
 				try {
@@ -191,7 +190,7 @@ public class DrawParametricCurve extends Drawable {
 		g2.setPaint(geo
 				.getObjectColor());
 		g2.setStroke(objStroke);
-		EuclidianStatic.drawWithValueStrokePure(gp, g2);
+		g2.drawWithValueStrokePure(gp);
 	}
 
 	@Override

@@ -14,7 +14,6 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
@@ -101,7 +100,7 @@ public class DrawLocus extends Drawable {
 			g2.setPaint(geo
 					.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			g2.drawWithValueStrokePure(gp);
 		}
 	}
 
@@ -122,14 +121,14 @@ public class DrawLocus extends Drawable {
 				// draw locus
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				g2.drawWithValueStrokePure(gp);
 			}
 
 			// draw locus
 			g2.setPaint(geo
 					.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			g2.drawWithValueStrokePure(gp);
 
 			if (geo.isFillable()
 					&& (geo.getAlphaValue() > 0 || geo.isHatchingEnabled())) {

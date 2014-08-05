@@ -156,7 +156,7 @@ public class DrawIntegralFunctions extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(n.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				g2.drawWithValueStrokePure(gp);
 			}
 
 			fill(g2, gp, true); // fill using default/hatching/image as
@@ -164,7 +164,7 @@ public class DrawIntegralFunctions extends Drawable {
 
 			g2.setPaint(n.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			g2.drawWithValueStrokePure(gp);
 
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());

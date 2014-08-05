@@ -18,6 +18,7 @@ import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.View;
@@ -41,7 +42,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.user.client.Element;
 
-public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
+public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 	
 	protected final Canvas canvas;
 	private final MyContext2d context;
@@ -148,14 +149,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}-*/;
 
 
-	@Override
+
 	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
 		App.debug("draw3DRect: implementation needed"); 
 
 	}
 
 	
-	@Override
+
 	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
 		App.debug("fill3DRect: implementation needed"); 
 	}
@@ -216,14 +217,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public boolean drawImage(GImage img, GAffineTransform xform, GImageObserver obs) {
 		App.debug("drawImage: implementation needed for beauty"); // TODO Auto-generated
 		return false;
 	}
 
 	//
-	@Override
+
 	public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
 			int y) {
 		BufferedImage bi = GBufferedImageW.getGawtImage(img);
@@ -237,40 +238,40 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
 		App.debug("drawRenderedImage: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
-	@Override
+
 	public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
 		App.debug("drawRenderableImage: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
-	@Override
+
 	public void drawString(String str, int x, int y) {
 		context.fillText(str, x, y);
 	}
 
 	
-	@Override
+
 	public void drawString(String str, float x, float y) {
 		context.fillText(str, x, y);
 	}
 
 	
-	@Override
+
 	public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
 		App.debug("drawString: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
-	@Override
+
 	public void drawString(GAttributedCharacterIterator iterator, float x,
 			float y) {
 		App.debug("drawString: implementation needed 2"); // TODO Auto-generated
@@ -278,7 +279,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public void drawGlyphVector(GGlyphVector g, float x, float y) {
 		App.debug("drawGlyphVector: implementation needed"); // TODO Auto-generated
 
@@ -286,14 +287,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 
-	@Override
+
 	public GGraphicsConfiguration getDeviceConfiguration() {
 		App.debug("getDeviceConfiguration: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
 	
-	@Override
+
 	public void setComposite(GComposite comp) {
 		context.setGlobalAlpha(((GAlphaCompositeW)comp).getAlpha());
 		
@@ -307,7 +308,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 //		}
 	}
 
-	@Override
+
 	public void setPaint(final GPaint paint) {
 		if (paint instanceof GColor) {
 			setColor((GColor)paint);
@@ -346,7 +347,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		}
 	}
 
-	@Override
+
 	public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
 			context.setLineWidth(((GBasicStrokeW)stroke).getLineWidth());
@@ -390,49 +391,49 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}-*/;
 
 
-	@Override
+
 	public void setRenderingHint(GKey hintKey, Object hintValue) {
 		//
 
 	}
 
 	
-	@Override
+
 	public Object getRenderingHint(GKey hintKey) {
 		//
 		return null;
 	}
 
 	
-	@Override
+
 	public void setRenderingHints(Map<?, ?> hints) {
 		//
 
 	}
 
 	
-	@Override
+
 	public void addRenderingHints(Map<?, ?> hints) {
 		//
 
 	}
 
 	
-	@Override
+
 	public GRenderingHints getRenderingHints() {
 		//
 		return null;
 	}
 
 	
-	@Override
+
 	public void translate(int x, int y) {
 		context.translate(x, y);
 		savedTransform.translate(x, y);
 	}
 
 	
-	@Override
+
 	public void translate(double tx, double ty) {
 		context.translate(tx, ty);
 		savedTransform.translate(tx, ty);
@@ -440,7 +441,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public void rotate(double theta) {
 		context.rotate(theta);
 		savedTransform.concatenate(
@@ -450,7 +451,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public void rotate(double theta, double x, double y) {
 		context.translate(x, y);
 		context.rotate(theta);
@@ -461,14 +462,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
 	public void scale(double sx, double sy) {
 		context.scale(sx, sy);
 		savedTransform.scale(sx, sy);
 	}
 
 	
-	@Override
+
 	public void shear(double shx, double shy) {
 		transform(new AffineTransform(
 			1, shy, shx, 1, 0, 0
@@ -476,7 +476,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void transform(GAffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(),
 				Tx.getShearX(), Tx.getScaleY(),
@@ -486,7 +486,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public void setTransform(GAffineTransform Tx) {
 		context.setTransform(Tx.getScaleX(), Tx.getShearY(),
 		Tx.getShearX(), Tx.getScaleY(),
@@ -497,7 +497,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public GAffineTransform getTransform() {
 		GAffineTransform ret = new AffineTransform();
 		ret.setTransform(savedTransform);
@@ -505,7 +505,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 	
 
-	@Override
+
 	public GPaint getPaint() {
 		return currentPaint;
 		/* The other possible solution would be:
@@ -525,7 +525,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public GComposite getComposite() {
 		return new GAlphaCompositeW(3, (float) context.getGlobalAlpha());
 	
@@ -536,7 +536,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void setBackground(GColor color) {
 		// This method only affects Graphics2D.clearRect (if there will be present)
 		// and getBackground calls - currently Drawable.drawLabel
@@ -544,13 +544,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public GColor getBackground() {
 		return bgColor;
 	}
 
 
-	@Override
+
 	public GBasicStroke getStroke() {
 
 		return new GBasicStrokeW(
@@ -578,19 +578,19 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public GFontRenderContext getFontRenderContext() {
 		return new GFontRenderContextW(context);
 	}
 
 	
-	@Override
+
 	public GColor getColor() {
 		return color;
 	}
 
 	
-	@Override
+
 	public GFontW getFont() {
 		return currentFont;
 	}
@@ -631,7 +631,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public void setFont(geogebra.common.awt.GFont font) {
 		if(font instanceof GFontW){
 			currentFont=(GFontW)font;
@@ -647,7 +647,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-	@Override
+
 	public void setColor(GColor fillColor) {
 		//checking for the same color here speeds up axis drawing by 25%
 		//if(fillColor != null && fillColor.equals(color)){
@@ -674,7 +674,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void clip(geogebra.common.awt.GShape shape) {
 		if (shape == null) {
 			App.error("Error in Graphics2D.clip");
@@ -698,12 +698,12 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.drawImage(gother.getCanvas().getCanvasElement(), x, y);
 	}
 
-	@Override
+
 	public void fillRect(int x, int y, int w, int h) {
 		context.fillRect(x, y, w, h);
 	}
 
-	@Override
+
 	public void clearRect(int x, int y, int w, int h) {
 		context.save();
 		context.setTransform(1,0,0,1,0,0);
@@ -711,7 +711,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.restore();
 	}
 
-	@Override
+
 	public void drawLine(int x1, int y1, int x2, int y2) {
 
 		/* TODO: there is some differences between the result of
@@ -746,7 +746,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void setClip(geogebra.common.awt.GShape shape) {
 		clipShape = shape;
 		if (shape == null) {
@@ -767,7 +767,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void draw(geogebra.common.awt.GShape shape) {
 		if (shape == null) {
 			App.error("Error in EuclidianView.draw");
@@ -782,7 +782,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void fill(geogebra.common.awt.GShape gshape) {
 		if (gshape == null) {
 			App.error("Error in EuclidianView.draw");
@@ -818,19 +818,19 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		}
 	}
 
-	@Override
+
 	public geogebra.common.awt.GShape getClip() {
 		return clipShape;
 	}
 
-	@Override
+
 	public void drawRect(int x, int y, int width, int height) {
 	 context.rect(x, y, width, height);
 	 context.stroke();
 	 
 	}
 
-	@Override
+
 	public void setClip(int x, int y, int width, int height) {
 
 		float [] dash_array_save = dash_array;
@@ -883,7 +883,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight) {
 		roundRect(x, y, width, height, arcHeight - arcHeight/2);
@@ -918,7 +918,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.closePath();
 	}
 
-	@Override
+
 	public void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight) {
 		roundRect(x,y,width,height,arcHeight - arcHeight/2);
@@ -987,25 +987,25 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 
-	@Override
+
 	public void drawImage(GImage img, int x, int y) {
 		App.debug("drawImage: implementation needed");
 	}
 
 
-	@Override
+
 	public void drawImage(GBufferedImage img, int x, int y) {
 		drawImage(img, null, x, y);
 	}
 
 
-	@Override
+
 	public void setAntialiasing() {
 		// not needed
 	}
 
 
-	@Override
+
 	public void setTransparent() {
 		setComposite(GAlphaCompositeW.Src);		
 	}
@@ -1050,4 +1050,27 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public MyContext2d getContext(){
 		return context;
 	}
+
+
+    public void drawWithValueStrokePure(GShape shape) {
+	    draw(shape);
+    }
+
+
+    public void fillWithValueStrokePure(GShape shape) {
+	    fill(shape);
+	    
+    }
+
+
+    public Object setInterpolationHint(boolean needsInterpolationRenderingHint) {
+	    this.setImageInterpolation(needsInterpolationRenderingHint);
+	    return null;
+    }
+
+
+    public void resetInterpolationHint(Object oldInterpolationHint) {
+	    this.setImageInterpolation(true);
+	    
+    }
 }

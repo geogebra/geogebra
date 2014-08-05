@@ -5,11 +5,9 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.awt.GShape;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GBufferedImageW;
-import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
@@ -82,28 +80,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 		}
 	}
 
-	@Override
-	protected void doFillWithValueStrokePure(GShape shape, GGraphics2D g2) {
-		g2.fill(shape);
-	}
 
-	@Override
-	protected void doDrawWithValueStrokePure(GShape shape, GGraphics2D g2) {
-		g2.draw(shape);
-	}
-
-	@Override
-    protected Object doSetInterpolationHint(GGraphics2D g3,
-            boolean needsInterpolationRenderingHint) {
-        GGraphics2DW g = (GGraphics2DW) g3;
-        g.setImageInterpolation(needsInterpolationRenderingHint);
-                 return null;
-}
-
-	@Override
-    protected void doResetInterpolationHint(GGraphics2D g3, Object hint) {
-		GGraphics2DW g = (GGraphics2DW) g3;
-	    g.setImageInterpolation(true);	    
-    }
+	
 
 }

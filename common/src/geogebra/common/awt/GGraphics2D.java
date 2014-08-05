@@ -2,7 +2,7 @@ package geogebra.common.awt;
 
 import java.util.Map;
 
-public abstract class GGraphics2D {
+public interface GGraphics2D {
 	
 	/**
 	 * Draws a 3-D highlighted outline of the specified rectangle.
@@ -794,4 +794,12 @@ public abstract class GGraphics2D {
 	public abstract void setAntialiasing();
 
 	public abstract void setTransparent();
+	
+	public abstract void drawWithValueStrokePure(GShape shape);
+	
+	public abstract void fillWithValueStrokePure(GShape shape);
+
+	public abstract Object setInterpolationHint(boolean needsInterpolationRenderingHint);
+
+	public abstract  void resetInterpolationHint(Object oldInterpolationHint);
 }

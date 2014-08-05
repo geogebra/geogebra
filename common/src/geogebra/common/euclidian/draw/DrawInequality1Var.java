@@ -51,14 +51,14 @@ public class DrawInequality1Var extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
+				g2.drawWithValueStrokePure(gp[i]);
 			}			
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f, ((GeoElement)ineq
 						.getFunBorder()).lineType));
-				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
+				g2.drawWithValueStrokePure(gp[i]);
 			}
 
 			// TODO: draw label
@@ -70,14 +70,14 @@ public class DrawInequality1Var extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
+				g2.drawWithValueStrokePure(circle[i]);
 			}	
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f,
 						EuclidianStyleConstants.LINE_TYPE_FULL));
-				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
+				g2.drawWithValueStrokePure(circle[i]);
 				if (!ineq.isStrict()) {
 					g2.fill(circle[i]);
 				}

@@ -6,7 +6,6 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.factories.AwtFactory;
@@ -20,27 +19,25 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.util.ArrayList;
 
-public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
+public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic {
 
 	// This has to be made singleton or use prototype,
 	// while its static methods be made non-static,
 	// or implement by some other solution e.g. AbstractEuclidianStatic,
 	// in order to be usable from Common. (like an adapter)
 
-
-
 	@Override
 	public final GRectangle doDrawMultilineLaTeX(App app,
-			GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2, GFont font,
-			GColor fgColor, GColor bgColor, String labelDesc, int xLabel,
-			int yLabel, boolean serif) {
+			GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2,
+			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
+			int xLabel, int yLabel, boolean serif) {
 		int fontSize = g2.getFont().getSize();
 		int lineSpread = (int) (fontSize * 1.0f);
 		int lineSpace = (int) (fontSize * 0.5f);
 
 		// latex delimiters \[ \] \( \) $$ -> $
-		//labelDesc = labelDesc.replaceAll(
-		//		"(\\$\\$|\\\\\\[|\\\\\\]|\\\\\\(|\\\\\\))", "\\$");
+		// labelDesc = labelDesc.replaceAll(
+		// "(\\$\\$|\\\\\\[|\\\\\\]|\\\\\\(|\\\\\\))", "\\$");
 
 		// split on $ but not \$
 		String[] elements = labelDesc.split("(?<![\\\\])(\\$)", -1);
@@ -60,10 +57,10 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 				// save the height of this element by drawing it to a temporary
 				// buffer
 				GDimension dim = new geogebra.awt.GDimensionD();
-				dim = app.getDrawEquation().
-						drawEquation(app, geo, tempGraphics, 0, 0,
-						elements[i], font, ((GeoText) geo).isSerifFont(),
-						fgColor, bgColor, false, false);
+				dim = app.getDrawEquation().drawEquation(app, geo,
+						tempGraphics, 0, 0, elements[i], font,
+						((GeoText) geo).isSerifFont(), fgColor, bgColor, false,
+						false);
 
 				int height = dim.getHeight();
 
@@ -112,10 +109,10 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 
 				DrawEquation de = app.getDrawEquation();
 				// draw the equation and save the x offset
-				xOffset += de.drawEquation(app, geo, g2, xLabel
-						+ xOffset, (yLabel + height) + yOffset, elements[i],
-						font, ((GeoText) geo).isSerifFont(), fgColor, bgColor,
-						true, false).getWidth();
+				xOffset += de.drawEquation(app, geo, g2, xLabel + xOffset,
+						(yLabel + height) + yOffset, elements[i], font,
+						((GeoText) geo).isSerifFont(), fgColor, bgColor, true,
+						false).getWidth();
 
 				++currentElement;
 			} else {
@@ -162,11 +159,10 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 			isLaTeX = !isLaTeX;
 		}
 
-		return AwtFactory.prototype.newRectangle(xLabel - 3, yLabel - 3 + depth, width + 6,
-				height + 6);
+		return AwtFactory.prototype.newRectangle(xLabel - 3,
+				yLabel - 3 + depth, width + 6, height + 6);
 
 	}
-
 
 	public final static GRectangle drawMultiLineIndexedText(AppD app,
 			String labelDesc, int xLabel, int yLabel, GGraphics2D g2,
@@ -207,14 +203,12 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 		// labelHasIndex = yoffset > 0;
 		int height = (int) ((lines + 1) * lineSpread);
 
-		return new geogebra.awt.GRectangleD(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
-				height + 6);
+		return new geogebra.awt.GRectangleD(xLabel - 3, yLabel - fontSize - 3,
+				xoffset + 6, height + 6);
 		// labelRectangle.setBounds(xLabel, yLabel - fontSize, xoffset, height
 		// );
 
 	}
-
-	
 
 	/**
 	 * @param shape
@@ -228,63 +222,9 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
-	@Override
-	protected void doDrawWithValueStrokePure(GShape shape, GGraphics2D g2) {
-		drawWithValueStrokePure(geogebra.awt.GGenericShapeD.getAwtShape(shape), geogebra.awt.GGraphics2DD.getAwtGraphics(g2));
-	}
-	
-	@Override
-	protected void doFillWithValueStrokePure(GShape shape, GGraphics2D g3) {
-		Graphics2D awtg2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
-		Object oldHint = awtg2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-		awtg2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
-		g3.fill(shape);
-		awtg2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
-	}
-	
-	/**
-	 * @param shape
-	 * @param g3
-	 */
-	final public static void doDrawWithValueStrokePure(Shape shape, GGraphics2D g3) {
-		drawWithValueStrokePure(shape, geogebra.awt.GGraphics2DD.getAwtGraphics(g3));
-	}
-
-	
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {
-		return geogebra.awt.GBasicStrokeD.getAwtStroke(EuclidianStatic.getDefaultStroke());
+		return geogebra.awt.GBasicStrokeD.getAwtStroke(EuclidianStatic
+				.getDefaultStroke());
 	}
-
-	@Override
-	public Object doSetInterpolationHint(GGraphics2D g3,
-			boolean needsInterpolationRenderingHint) {
-		java.awt.Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
-		Object oldInterpolationHint = g2
-				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-
-		if (oldInterpolationHint == null)
-			oldInterpolationHint = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-
-		if (needsInterpolationRenderingHint) {
-			// improve rendering quality for transformed images
-			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		} else {
-			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);					
-		}
-		return oldInterpolationHint;
-	}
-
-	@Override
-	protected void doResetInterpolationHint(GGraphics2D g3,
-			Object hint) {
-		java.awt.Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				hint);
-		
-	}
-	
 
 }

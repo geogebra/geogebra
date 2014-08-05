@@ -3,11 +3,19 @@ package geogebra.awt;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 
+import java.awt.font.TextLayout;
+
 public class GTextLayoutD implements geogebra.common.awt.font.GTextLayout {
 	private java.awt.font.TextLayout impl;
-	public GTextLayoutD(String string, GFont fontLine,
+	private String str;
+	private GFont font;
+
+	public GTextLayoutD(String string, GFont font,
 			geogebra.common.awt.GFontRenderContext frc) {
-		impl = new java.awt.font.TextLayout(string,geogebra.awt.GFontD.getAwtFont(fontLine),
+		this.font = font;
+		this.str = string;
+		impl = new java.awt.font.TextLayout(string,
+				geogebra.awt.GFontD.getAwtFont(font),
 				geogebra.awt.GFontRenderContextD.getAwtFrc(frc));
 	}
 
@@ -28,8 +36,18 @@ public class GTextLayoutD implements geogebra.common.awt.font.GTextLayout {
 	}
 
 	public void draw(GGraphics2D g2, int x, int y) {
-		impl.draw(geogebra.awt.GGraphics2DD.getAwtGraphics(g2), x, y);
+		if (g2 instanceof GGraphics2DD) {
+			impl.draw(GGraphics2DD.getAwtGraphics(g2), x, y);
+		} else {
+			GFont tempFont = g2.getFont();
+			g2.setFont(font);
+			g2.drawString(str, x, y);
+			g2.setFont(tempFont);
+		}
+	}
 
+	public TextLayout getImpl() {
+		return impl;
 	}
 
 }

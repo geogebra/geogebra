@@ -546,7 +546,7 @@ public abstract class Drawable extends DrawableND {
 
 			if (!geo.getKernel().getApplication().isHTML5Applet()) {
 				if (usePureStroke)
-					EuclidianStatic.fillWithValueStrokePure(fillShape, g2);
+					g2.fillWithValueStrokePure(fillShape);
 				else
 					g2.fill(fillShape);
 			} else {

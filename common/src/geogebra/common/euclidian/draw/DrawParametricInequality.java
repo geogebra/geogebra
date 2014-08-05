@@ -2,7 +2,6 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
@@ -51,7 +50,7 @@ class DrawParametricInequality extends Drawable {
 		if (geo.doHighlighting()) {
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(selStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			g2.drawWithValueStrokePure(gp);
 		}
 
 		fill(g2, gp, true); // fill using default/hatching/image as
@@ -60,7 +59,7 @@ class DrawParametricInequality extends Drawable {
 		if (geo.lineThickness > 0) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			g2.drawWithValueStrokePure(gp);
 		}
 
 

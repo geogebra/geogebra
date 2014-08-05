@@ -5,7 +5,6 @@ import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.clipping.ClipShape;
@@ -533,12 +532,12 @@ public class DrawConicSection extends DrawConic {
 		if (geo.doHighlighting()) {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
-			EuclidianStatic.drawWithValueStrokePure(shape, g2);
+			g2.drawWithValueStrokePure(shape);
 		}
 
 		g2.setStroke(objStroke);
 		g2.setColor(geo.getObjectColor());
-		EuclidianStatic.drawWithValueStrokePure(shape, g2);
+		g2.drawWithValueStrokePure(shape);
 
 		if (labelVisible) {
 			g2.setFont(view.getFontConic());

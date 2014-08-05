@@ -3,7 +3,6 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GFontRenderContext;
-import geogebra.common.awt.GGraphics2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -336,19 +335,7 @@ public abstract class EuclidianStatic {
 			return AwtFactory.prototype.newTextLayout(tempStr, font, frc).getAdvance();
 		return StringUtil.estimateLength(tempStr, font);
 	}
-	/**
-	 * @param shape shape tobe filled
-	 * @param g3 graphics
-	 */
-	protected abstract  void doFillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3);
-	/**
-	 * @param shape shape to be filled
-	 * @param g3 graphics
-	 */
-	public static void fillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3){
-		prototype.doFillWithValueStrokePure(shape, g3);
-		
-	}
+
 
 	/**
 	 * This hack was needed for ticket #3265
@@ -428,54 +415,6 @@ public abstract class EuclidianStatic {
 		return AwtFactory.prototype.newRectangle(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
 				height + 6);
 	}
-
-	/**
-	 * @param shape shape to be drawn
-	 * @param g2 graphics
-	 */
-	public static void drawWithValueStrokePure(geogebra.common.awt.GShape shape, GGraphics2D g2) {
-		prototype.doDrawWithValueStrokePure(shape, g2);
-		
-	}
-	/**
-	 * @param shape shapeto be drawn
-	 * @param g2 graphics
-	 */
-	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.GShape shape, GGraphics2D g2);
-	/**
-	 * @param g3 graphics
-	 * @param needsInterpolation true to turn interpolation on
-	 * @return hint
-	 */
-	public static Object setInterpolationHint(
-			geogebra.common.awt.GGraphics2D g3,
-			boolean needsInterpolation) {
-		
-		return prototype.doSetInterpolationHint(g3,needsInterpolation);
-	}
-	/**
-	 * @param g3 graphics
-	 * @param hint old hint value
-	 */
-	public static void resetInterpolationHint(
-			geogebra.common.awt.GGraphics2D g3,
-			Object hint) {
-		
-		prototype.doResetInterpolationHint(g3,hint);
-	}
-	/**
-	 * @param g3 graphics
-	 * @param needsInterpolation true to turn interpolation on
-	 * @return hint
-	 */
-	protected abstract Object doSetInterpolationHint(GGraphics2D g3,
-			boolean needsInterpolation);
-	/**
-	 * @param g3 graphics
-	 * @param hint old hint value
-	 */
-	protected abstract void doResetInterpolationHint(
-			geogebra.common.awt.GGraphics2D g3,
-			Object hint);
+	
 		
 }

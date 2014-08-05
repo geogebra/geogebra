@@ -14,7 +14,6 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.Previewable;
@@ -104,7 +103,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (isVisible) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			g2.drawWithValueStrokePure(gp);
 		}
 	}
 

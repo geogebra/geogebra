@@ -22,7 +22,6 @@ import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
@@ -244,7 +243,7 @@ public final class DrawImage extends Drawable {
 				g3.transform(at);
 
 				// improve rendering quality for transformed images
-				Object oldInterpolationHint = geogebra.common.euclidian.EuclidianStatic.setInterpolationHint(g3,needsInterpolationRenderingHint);
+				Object oldInterpolationHint = g3.setInterpolationHint(needsInterpolationRenderingHint);
 
 				// g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
@@ -292,7 +291,7 @@ public final class DrawImage extends Drawable {
 				}
 
 				// reset previous values
-				EuclidianStatic.resetInterpolationHint(g3,oldInterpolationHint);
+				g3.resetInterpolationHint(oldInterpolationHint);
 				g3.setTransform(oldAT);
 			}
 
