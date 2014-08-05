@@ -968,10 +968,6 @@ public class MyXMLHandler implements DocHandler {
 				break;
 			}
 
-			if ("spreadsheetBrowser".equals(eName)) {
-				ok = handleSpreadsheetBrowser(attrs);
-				break;
-			}
 			if ("spreadsheetCellFormat".equals(eName)) {
 				ok = handleSpreadsheetFormat(attrs);
 				break;
@@ -1354,8 +1350,6 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			settings.setShowFormulaBar(parseBoolean(attrs.get("showFormulaBar")));
 			settings.setShowGrid(parseBoolean(attrs.get("showGrid")));
-			settings.setShowFileBrowser(parseBoolean(attrs
-					.get("showBrowserPanel")));
 			settings.setShowColumnHeader(parseBoolean(attrs
 					.get("showColumnHeader")));
 			settings.setShowRowHeader(parseBoolean(attrs.get("showRowHeader")));
@@ -1389,29 +1383,6 @@ public class MyXMLHandler implements DocHandler {
 			settings.setScrollPosition(new geogebra.common.awt.GPoint(row,
 					column));
 
-			return true;
-
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	private boolean handleSpreadsheetBrowser(LinkedHashMap<String, String> attrs) {
-
-		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
-		try {
-			settings.beginBatch();
-			if (Boolean.parseBoolean(attrs.get("default"))) {
-				settings.setDefaultBrowser(true);
-
-			} else {
-				settings.setInitialBrowserMode(Integer.parseInt(attrs
-						.get("mode")));
-				settings.setInitialFilePath(attrs.get("dir"));
-				settings.setInitialURL(attrs.get("URL"));
-			}
-			settings.endBatch();
-			
 			return true;
 
 		} catch (Exception e) {

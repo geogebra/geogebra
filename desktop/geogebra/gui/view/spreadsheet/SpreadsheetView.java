@@ -42,7 +42,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.JTableHeader;
@@ -80,9 +79,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	// button to launch trace dialog from upper left corner
 	private JButton btnTraceDialog;
 
-	// fields for split panel, fileBrowser and stylebar
+	// fields for split panel, stylebar
 	private JScrollPane spreadsheet;
-	private FileBrowserPanel fileBrowser;
 	private int defaultDividerLocation = 150;
 	private SpreadsheetStyleBar styleBar;
 	private JPanel restorePanel;
@@ -93,11 +91,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	// current toolbar mode
 	private int mode = -1;
 
-	private JSplitPane splitPane;
 	private FormulaBar formulaBar;
 	private JPanel spreadsheetPanel;
-	
-	private boolean isBrowserVisible;
 
 	private SpreadsheetViewDnD dndHandler;
 
@@ -127,10 +122,6 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 	}
 
-	/**
-	 * Create spreadsheet view as a split panel. Left panel holds file tree
-	 * browser, right panel holds spreadsheet.
-	 */
 	private void createGUI() {
 
 		spreadsheetWrapper = new JPanel();
@@ -142,17 +133,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		spreadsheetPanel = new JPanel(new BorderLayout());
 		spreadsheetPanel.add(spreadsheet, BorderLayout.CENTER);
 
-		// Set the spreadsheet panel as the right component of this JSplitPane
-		splitPane = new JSplitPane();
-		splitPane.setRightComponent(spreadsheetPanel);
-		splitPane.setBorder(BorderFactory.createEmptyBorder());
-
-		// Set the browser as the left component or to null if showBrowserPanel
-		// == false
-		setShowFileBrowser(settings().showBrowserPanel());
-
 		spreadsheetWrapper.setLayout(new BorderLayout());
-		spreadsheetWrapper.add(splitPane, BorderLayout.CENTER);
+		spreadsheetWrapper.add(spreadsheetPanel, BorderLayout.CENTER);
 
 		spreadsheetWrapper.setBorder(BorderFactory.createEmptyBorder());
 
@@ -259,7 +241,6 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		setShowColumnHeader(true);
 		setShowVScrollBar(true);
 		setShowHScrollBar(true);
-		setShowFileBrowser(false);
 		setAllowSpecialEditor(false);
 		setEnableAutoComplete(false);
 	}
@@ -593,9 +574,6 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		// Adjust row heights for tall LaTeX images
 		table.fitAll(true, false);
 
-		if (fileBrowser != null)
-			fileBrowser.updateFonts();
-
 		if (formulaBar != null)
 			formulaBar.updateFonts(font);
 	}
@@ -724,7 +702,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	}
 
 	// ===============================================================
-	// Data Import & File Browser
+	// Data Import
 	// ===============================================================
 
 	public boolean loadSpreadsheetFromURL(File f) {
@@ -752,116 +730,6 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		}
 		return succ;
 	}
-
-	public FileBrowserPanel getFileBrowser() {
-		if (fileBrowser == null && AppD.hasFullPermissions()) {
-			fileBrowser = new FileBrowserPanel(this);
-			fileBrowser.setMinimumSize(new Dimension(50, 0));
-			// initFileBrowser();
-			// fileBrowser.setRoot(settings.initialPath(),
-			// settings.initialBrowserMode());
-		}
-		return fileBrowser;
-	}
-
-	public void setShowFileBrowser(boolean showFileBrowser) {
-
-		if (showFileBrowser) {
-			splitPane.setLeftComponent(getFileBrowser());
-			splitPane.setDividerLocation(defaultDividerLocation);
-			splitPane.setDividerSize(4);
-			initFileBrowser();
-
-		} else {
-			splitPane.setLeftComponent(null);
-			splitPane.setLastDividerLocation(splitPane.getDividerLocation());
-			splitPane.setDividerLocation(0);
-			splitPane.setDividerSize(0);
-		}
-
-	}
-
-	public boolean getShowBrowserPanel() {
-		return settings().showBrowserPanel();
-
-	}
-
-	public void setBrowserVisible(boolean isVisible) {
-		if (isVisible) {
-			splitPane.setDividerLocation(splitPane.getLastDividerLocation());
-			splitPane.setDividerSize(4);
-			isBrowserVisible = true;
-		} else {
-			splitPane.setDividerLocation(0);
-			splitPane.setDividerSize(0);
-			isBrowserVisible = true;
-		}
-	}
-
-	public boolean isBrowserVisible() {
-		return isBrowserVisible;
-	}
-	
-
-	public int getInitialBrowserMode() {
-		return settings().initialBrowserMode();
-	}
-
-	public String getInitialURLString() {
-		return settings().initialURL();
-	}
-
-	public String getInitialFileString() {
-		return settings().initialFilePath();
-	}
-
-	public void setBrowserDefaults(boolean doRestore) {
-
-		if (doRestore) {
-			settings().setInitialFilePath(settings().defaultFile());
-			settings().setInitialURL(SpreadsheetSettings.DEFAULT_URL);
-			settings().setInitialBrowserMode(SpreadsheetSettings.MODE_FILE);
-			// initFileBrowser();
-
-		} else {
-			settings().setInitialFilePath(fileBrowser.getRootString());
-			settings().setInitialBrowserMode(fileBrowser.getMode());
-		}
-	}
-
-	public void initFileBrowser() {
-		// don't init file browser without full permissions (e.g. unsigned
-		// applets)
-		if (!AppD.hasFullPermissions() || !settings().showBrowserPanel())
-			return;
-
-		if (settings().initialBrowserMode() == SpreadsheetSettings.MODE_FILE)
-			setFileBrowserDirectory(settings().initialFilePath(), settings()
-					.initialBrowserMode());
-		else
-			setFileBrowserDirectory(settings().initialURL(), settings()
-					.initialBrowserMode());
-	}
-
-	public boolean setFileBrowserDirectory(String rootString, int mode) {
-		
-		settings().beginBatch();
-		settings().setInitialBrowserMode(mode);
-		settings().setDefaultBrowser(false);
-		if (mode == SpreadsheetSettings.MODE_URL) {
-			settings().setInitialURL(rootString);
-		}
-		settings().endBatch();
-		
-		return getFileBrowser().setRoot(rootString, mode);
-	}
-
-	/*
-	 * public void setDefaultFileBrowserDirectory() { if(this.DEFAULT_MODE ==
-	 * FileBrowserPanel.MODE_FILE) setFileBrowserDirectory(String rootString,
-	 * int mode) else setFileBrowserDirectory(DEFAULT_URL,
-	 * FileBrowserPanel.MODE_URL); }
-	 */
 
 	// ================================================
 	// Spreadsheet Settings
@@ -1078,22 +946,6 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		setEqualsRequired(settings().equalsRequired());
 		setEnableAutoComplete(settings().isEnableAutoComplete());
 
-		// browser panel
-		if (AppD.hasFullPermissions()) {
-			settings().removeListener(this);
-			if (settings().initialBrowserMode() < 0)
-				settings().setInitialBrowserMode(SpreadsheetSettings.MODE_FILE);
-			if (settings().defaultFile() == null)
-				settings().setDefaultFile(System.getProperty("user.home"));
-			if (settings().initialFilePath() == null)
-				settings().setInitialFilePath(System.getProperty("user.home"));
-			if (settings().initialURL() == null)
-				settings().setInitialURL(SpreadsheetSettings.DEFAULT_URL);
-			settings().addListener(this);
-		}
-
-		setShowFileBrowser(settings().showBrowserPanel());
-
 		// row height and column widths
 		setColumnWidthsFromSettings();
 		setRowHeightsFromSettings();
@@ -1213,7 +1065,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		return spreadsheetWrapper;
 	}
 
-	public void suggestRepaint(){
+	public void suggestRepaint() {
 		// only used in web for now
 	}
 }

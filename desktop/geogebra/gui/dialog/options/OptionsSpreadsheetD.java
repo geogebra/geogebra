@@ -45,8 +45,8 @@ public class OptionsSpreadsheetD extends
 
 	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader,
 			cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
-			cbShowBrowser, cbAllowSpecialEditor, cbAllowToolTips,
-			cbPrependCommands, cbEnableAutoComplete;
+			cbAllowSpecialEditor, cbAllowToolTips, cbPrependCommands,
+			cbEnableAutoComplete;
 
 	private JPanel wrappedPanel;
 
@@ -131,10 +131,6 @@ public class OptionsSpreadsheetD extends
 		// spacer
 		layoutOptions.add(Box.createVerticalStrut(16));
 
-		cbShowBrowser = new JCheckBox();
-		cbShowBrowser.addActionListener(this);
-		layoutOptions.add(cbShowBrowser);
-
 		return layoutOptions;
 	}
 
@@ -151,7 +147,6 @@ public class OptionsSpreadsheetD extends
 		cbShowRowHeader.setText(app.getMenu("ShowRowHeader"));
 		cbShowHScrollbar.setText(app.getMenu("ShowHorizontalScrollbars"));
 		cbShowVScrollbar.setText(app.getMenu("ShowVerticalScrollbars"));
-		cbShowBrowser.setText(app.getMenu("ShowFileBrowser"));
 		cbAllowSpecialEditor.setText(app.getMenu("UseButtonsAndCheckboxes"));
 		cbAllowToolTips.setText(app.getMenu("AllowTooltips"));
 		cbPrependCommands.setText(app.getMenu("RequireEquals"));
@@ -211,10 +206,6 @@ public class OptionsSpreadsheetD extends
 		cbEnableAutoComplete.setSelected(settings().isEnableAutoComplete());
 		cbEnableAutoComplete.addActionListener(this);
 
-		cbShowBrowser.removeActionListener(this);
-		cbShowBrowser.setSelected(settings().showBrowserPanel());
-		cbShowBrowser.addActionListener(this);
-
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -266,10 +257,6 @@ public class OptionsSpreadsheetD extends
 			settings().setEnableAutoComplete(cbEnableAutoComplete.isSelected());
 		}
 
-		else if (source == cbShowBrowser) {
-			settings().setShowFileBrowser(cbShowBrowser.isSelected());
-		}
-
 		updateGUI();
 	}
 
@@ -303,7 +290,6 @@ public class OptionsSpreadsheetD extends
 		cbShowRowHeader.setFont(font);
 		cbShowHScrollbar.setFont(font);
 		cbShowVScrollbar.setFont(font);
-		cbShowBrowser.setFont(font);
 		cbAllowSpecialEditor.setFont(font);
 		cbAllowToolTips.setFont(font);
 		cbPrependCommands.setFont(font);

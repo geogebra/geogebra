@@ -186,15 +186,15 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 							if (geos.size() == 1)
 								geoRecordToSpreadSheet = geo;
 							else {
-								geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher().List(
-										null, geos, false);
+								geoRecordToSpreadSheet = app.getKernel()
+										.getAlgoDispatcher()
+										.List(null, geos, false);
 								geoRecordToSpreadSheet.setAuxiliaryObject(true);
 							}
 
-							((GuiManagerD)app.getGuiManager())
-									.getSpreadsheetView()
-									.showTraceDialog(geoRecordToSpreadSheet,
-											null);
+							((GuiManagerD) app.getGuiManager())
+									.getSpreadsheetView().showTraceDialog(
+											geoRecordToSpreadSheet, null);
 						}
 					});
 					addItem(cbItem);
@@ -413,22 +413,13 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 			subMenu.setIcon(app.getEmptyIcon());
 			// addItem(subMenu);
 
-			cbItem = new JCheckBoxMenuItem(app.getMenu("FileBrowser"));
-			// cbItem.setIcon(app.getEmptyIcon());
-			cbItem.setSelected(view.getShowBrowserPanel());
-			cbItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					view.setShowFileBrowser(!view.getShowBrowserPanel());
-				}
-			});
-			addSubItem(subMenu, cbItem);
-
 			item = new JMenuItem(app.getMenu("SpreadsheetOptions") + "...",
 					app.getImageIcon("view-properties16.png"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-			    	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-			    	app.getGuiManager().setFocusedPanel(App.VIEW_SPREADSHEET, true);
+					app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+					app.getGuiManager().setFocusedPanel(App.VIEW_SPREADSHEET,
+							true);
 				}
 			});
 			addItem(item);
@@ -438,7 +429,8 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 		// Object properties
 		// ===============================================
 
-		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
+		if (app.getSelectionManager().selectedGeosSize() > 0
+				&& app.letShowPropertiesDialog()) {
 			addSeparator();
 			item = new JMenuItem(app.getMenu(app.getPlain("Properties"))
 					+ "...", app.getImageIcon("view-properties16.png"));
@@ -449,9 +441,8 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 			});
 			addItem(item);
 		}
-		
-		app.setComponentOrientation(this);
 
+		app.setComponentOrientation(this);
 
 	}
 

@@ -19,7 +19,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		public static final boolean SHOW_COLUMN_HEADER = true;
 		public static final boolean SHOW_VSCROLLBAR = true;
 		public static final boolean SHOW_HSCROLLBAR = true;
-		public static final boolean SHOW_BROWSER_PANEL = false;
 		public static final boolean IS_COLUMN_SELECT = false;
 		public static final boolean ALLOW_SPECIAL_EDITOR = false;
 		public static final boolean ALLOW_TOOLTIPS = true;
@@ -31,14 +30,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 													// 1 to stop cell editor
 													// clipping
 
-	// file browser mode constants
-	public final static int MODE_URL = 0;
-	public final static int MODE_FILE = 1;
-	public final static int MODE_HTML = 2;
-
-	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
-	public static final int DEFAULT_MODE = MODE_FILE;
-
 	// layout settings
 	private boolean showFormulaBar = Defaults.SHOW_FORMULA_BAR;
 	private boolean showGrid = Defaults.SHOW_GRID;
@@ -46,7 +37,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private boolean showColumnHeader = Defaults.SHOW_COLUMN_HEADER;
 	private boolean showVScrollBar = Defaults.SHOW_VSCROLLBAR;
 	private boolean showHScrollBar = Defaults.SHOW_HSCROLLBAR;
-	private boolean showBrowserPanel = Defaults.SHOW_BROWSER_PANEL;
 	private boolean isColumnSelect = Defaults.IS_COLUMN_SELECT; // TODO: do we
 																// need forced
 																// column
@@ -55,13 +45,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private boolean allowToolTips = Defaults.ALLOW_TOOLTIPS;
 	private boolean equalsRequired;
 	private boolean enableAutoComplete;
-
-	// file browser settings
-	private String defaultFile;
-	private String initialURL = DEFAULT_URL;
-	private String initialFilePath;
-	private int initialBrowserMode = DEFAULT_MODE;
-	private boolean isDefaultBrowser = true;
 
 	// row and column size
 	private HashMap<Integer, Integer> widthMap;
@@ -248,24 +231,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @return the showBrowserPanel
-	 */
-	public boolean showBrowserPanel() {
-		return showBrowserPanel;
-	}
-
-	/**
-	 * @param showBrowserPanel
-	 *            the showBrowserPanel to set
-	 */
-	public void setShowFileBrowser(boolean showBrowserPanel) {
-		if (this.showBrowserPanel != showBrowserPanel) {
-			this.showBrowserPanel = showBrowserPanel;
-			settingChanged();
-		}
-	}
-
-	/**
 	 * @return the allowSpecialEditor
 	 */
 	public boolean allowSpecialEditor() {
@@ -422,101 +387,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
-	// ============================================
-	// File Browser Settings
-	// ============================================
-
-	/**
-	 * @return the defaultFile
-	 */
-	public String defaultFile() {
-		return defaultFile;
-	}
-
-	/**
-	 * @param defaultFile
-	 *            the defaultFile to set
-	 */
-	public void setDefaultFile(String defaultFile) {
-		if (this.defaultFile != null && this.defaultFile.equals(defaultFile))
-			return;
-		this.defaultFile = defaultFile;
-		settingChanged();
-	}
-
-	/**
-	 * @return the initialURL
-	 */
-	public String initialURL() {
-		return initialURL;
-	}
-
-	/**
-	 * @param initialURL
-	 *            the initialURL to set
-	 */
-	public void setInitialURL(String initialURL) {
-		if (this.initialURL != null && this.initialURL.equals(initialURL))
-			return;
-		this.initialURL = initialURL;
-		settingChanged();
-	}
-
-	/**
-	 * @return the initialFilePath
-	 */
-	public String initialFilePath() {
-		return initialFilePath;
-	}
-
-	/**
-	 * @param initialFilePath
-	 *            the initialFilePath to set
-	 */
-	public void setInitialFilePath(String initialFilePath) {
-		if (this.initialFilePath != null
-				&& this.initialFilePath.equals(initialFilePath))
-			return;
-		this.initialFilePath = initialFilePath;
-		settingChanged();
-	}
-
-	/**
-	 * @return the initialBrowserMode
-	 */
-	public int initialBrowserMode() {
-		return initialBrowserMode;
-	}
-
-	/**
-	 * @param initialBrowserMode
-	 *            the initialBrowserMode to set
-	 */
-	public void setInitialBrowserMode(int initialBrowserMode) {
-		if (this.initialBrowserMode != initialBrowserMode) {
-			this.initialBrowserMode = initialBrowserMode;
-			settingChanged();
-		}
-	}
-
-	/**
-	 * @return the isDefaultBrowser
-	 */
-	public boolean isDefaultBrowser() {
-		return isDefaultBrowser;
-	}
-
-	/**
-	 * @param isDefaultBrowser
-	 *            the isDefaultBrowser to set
-	 */
-	public void setDefaultBrowser(boolean isDefaultBrowser) {
-		if (this.isDefaultBrowser != isDefaultBrowser) {
-			this.isDefaultBrowser = isDefaultBrowser;
-			settingChanged();
-		}
-	}
-
 	/**
 	 * @param enableAutoComplete
 	 *            flag to allow auto-complete in the editor
@@ -569,7 +439,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return (isDefaultShowFormulaBar() && isDefaultShowGrid()
 				&& isDefaultShowRowHeader() && isDefaultShowColumnHeader()
 				&& isDefaultVScrollBar() && isDefaultHScrollBar()
-				&& isDefaultShowBrowserPanel() && isDefaultColumnSelect()
+				&& isDefaultColumnSelect()
 				&& isDefaultSpecialEditorAllowed()
 				&& isDefaultToolTipsAllowed()
 				&& isDefaultSpecialEditorAllowed() && !equalsRequired() && !isEnableAutoComplete());
@@ -585,10 +455,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public boolean isDefaultColumnSelect() {
 		return isColumnSelect == Defaults.IS_COLUMN_SELECT;
-	}
-
-	public boolean isDefaultShowBrowserPanel() {
-		return showBrowserPanel == Defaults.SHOW_BROWSER_PANEL;
 	}
 
 	public boolean isDefaultVScrollBar() {
@@ -752,10 +618,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 				sb.append(" showVScrollBar=\"true\"");
 			}
 
-			if (showBrowserPanel) {
-				sb.append(" showBrowserPanel=\"true\"");
-			}
-
 			if (showColumnHeader) {
 				sb.append(" showColumnHeader=\"true\"");
 			}
@@ -780,26 +642,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 			if (enableAutoComplete) {
 				sb.append(" autoComplete=\"true\"");
 			}
-
-			sb.append("/>\n");
-		}
-
-		// file browser
-
-		if (!isDefaultBrowser()) {
-			sb.append("\t<spreadsheetBrowser ");
-
-			sb.append(" default=\"");
-			sb.append("false");
-			sb.append("\"");
-
-			sb.append(" URL=\"");
-			sb.append(initialURL());
-			sb.append("\"");
-
-			sb.append(" mode=\"");
-			sb.append(initialBrowserMode());
-			sb.append("\"");
 
 			sb.append("/>\n");
 		}
