@@ -896,7 +896,11 @@ FromMeta
 		double Pz = P.getZ();
 														
 		// convert P to eigenvector coord system
-		coordsRWtoEV(P);	
+		if(type == GeoConicNDConstants.CONIC_CIRCLE){
+			translateByCenter(P);
+		}else{
+			coordsRWtoEV(P);
+		}
 		double px = P.getX() / P.getZ();
 		double py = P.getY() / P.getZ();
 		
@@ -977,11 +981,14 @@ FromMeta
 		P.setX(px * eigenvec0.getX() + py * eigenvec0.getY());
 		P.setY(px * eigenvec1.getX() + py * eigenvec1.getY());
 	}
-	
-	
-	
-	
-	
+	private void translateByCenter(Coords P) {
+
+		Coords mid = getMidpoint();
+
+		// translate by -b
+		P.setX(P.getX() - P.getZ() * mid.getX());
+		P.setY(P.getY() - P.getZ() * mid.getY());
+	}
 	
 	@Override
 	public boolean isFillable() {

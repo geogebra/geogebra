@@ -728,9 +728,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	final public void rotate(NumberValue phiVal,  GeoPointND point) {
 
 		super.rotate(phiVal, point);
-		
-		startPoint.rotate(phiVal, point);
-		endPoint.rotate(phiVal, point);
+		Coords sCoords = point.getInhomCoords();
+		startPoint.rotate(phiVal, sCoords);
+		endPoint.rotate(phiVal, sCoords);
 		
 		// not needed for rotate
 		//calcLength();

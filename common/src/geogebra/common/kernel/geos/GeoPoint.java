@@ -1073,8 +1073,8 @@ SymbolicParametersBotanaAlgo {
 	/**
 	 * rotate this point by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiValue,  GeoPointND point) {
-		Coords Q = point.getInhomCoords();
+	final public void rotate(NumberValue phiValue,  Coords point) {
+		Coords Q = point;
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);

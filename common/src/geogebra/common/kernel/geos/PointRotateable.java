@@ -11,8 +11,8 @@ the Free Software Foundation.
 */
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Elements rotateable around arbitrary point
@@ -23,5 +23,5 @@ public interface PointRotateable extends Rotateable {
 	 * @param r angle
 	 * @param S center
 	 */
-	public void rotate(NumberValue r, GeoPointND S);
+	public void rotate(NumberValue r, Coords S);
 }

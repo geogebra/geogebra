@@ -113,7 +113,7 @@ public final class DrawPoint extends Drawable {
 	
 		
 
-
+	private double[] coords1 = new double[2];
 	@Override
 	final public void update() {
 
@@ -123,7 +123,7 @@ public final class DrawPoint extends Drawable {
 
 		isVisible = geo.isEuclidianVisible();
 
-		double[] coords1 = new double[2];
+		
 		if (isPreview) {
 			Coords p = P.getInhomCoordsInD(2);
 			coords1[0] = p.getX();

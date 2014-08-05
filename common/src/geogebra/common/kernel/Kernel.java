@@ -3535,7 +3535,6 @@ public class Kernel {
 
 	public final void notifyUpdate(GeoElement geo) {
 		//event dispatcher should not collect calls to stay compatible with 4.0
-		long t = System.currentTimeMillis();
 		if (notifyViewsActive) {
 			for (View view : views) {
 				view.update(geo);

@@ -1797,8 +1797,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	public void rotate(NumberValue r, GeoPointND S) {
+		Coords Scoords = S.getInhomCoords();
 		for (int i = 0; i < getPointsLength(); i++)
-			getPoint(i).rotate(r, S);
+			getPoint(i).rotate(r, Scoords);
 		updatePathRegion();
 	}
 

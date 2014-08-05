@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -26,6 +27,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author Markus Hohenwarter
  */
 public class AlgoPolygonRegular extends AlgoPolygonRegularND {
+
+	private Coords centerPointCoords;
+
 
 	/**
 	 * Creates a new regular polygon algorithm
@@ -83,12 +87,13 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 		double tanBetaHalf = Math.tan(beta) / 2;
 		centerPoint
 				.setCoords(mx + tanBetaHalf * nx, my + tanBetaHalf * ny, 1.0);
+		centerPointCoords = centerPoint.getInhomCoords();
 	}
 	
 	
 	@Override
 	protected void rotate(GeoPointND point){
-		point.rotate(rotAngle, centerPoint);
+		point.rotate(rotAngle, centerPointCoords);
 	}
 
 	// for AlgoElement
