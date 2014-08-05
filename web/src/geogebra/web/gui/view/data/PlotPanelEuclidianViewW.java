@@ -35,7 +35,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		super(new PlotPanelEuclidianControllerW(kernel), PlotPanelEuclidianViewCommon.showAxes, PlotPanelEuclidianViewCommon.showGrid,
 				null);
 
-		
+	
 		
 		if (commonFields == null) {
 			setCommonFields();

@@ -95,9 +95,9 @@ public class OptionsPanelW extends FlowPanel implements
 
 		mainPanel = new FlowPanel();
 		mainPanel.add(histogramPanel);
-		mainPanel.add(scatterplotPanel);
-		mainPanel.add(barChartPanel);
-		mainPanel.add(boxPlotPanel);
+//		mainPanel.add(scatterplotPanel);
+//		mainPanel.add(barChartPanel);
+//		mainPanel.add(boxPlotPanel);
 
 		tabPanel = new TabPanel();
 
@@ -188,7 +188,8 @@ public class OptionsPanelW extends FlowPanel implements
 	}
 
 	private void createHistogramPanel() {
-
+		histogramPanel = new FlowPanel();
+		histogramPanel.add(new Label("histogram coming soon"));
 		// create components
 //		ckCumulative = new JCheckBox();
 //		ckCumulative.addActionListener(this);

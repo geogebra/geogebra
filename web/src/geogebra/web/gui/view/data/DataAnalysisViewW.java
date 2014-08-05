@@ -19,7 +19,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DataAnalysisViewW extends FlowPanel implements View, 
@@ -96,7 +95,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		model.setView(dataSource, mode, forceModeUpdate);
 //		updateFonts();
 		setLabels();
-		add(new Label("Ezezezezez"));
 		updateGUI();
 
 	}
@@ -326,8 +324,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	 * @return reference to self
 	 */
 	public Widget getDataAnalysisViewComponent() {
-		App.debug("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-		return new Label("WWWWWWWWWWWWWWWW");
+		return this;
 	}
 
 	public DataAnalysisControllerW getController() {

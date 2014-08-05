@@ -12,11 +12,16 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CardPanel;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.Slider;
+import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import java.util.HashMap;
+
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -86,6 +91,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	private AutoCompleteTextFieldW fldNumClasses;
 
 	private DataAnalysisModel daModel;
+
+	private ScheduledCommand exportToEVAction;
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
@@ -170,7 +177,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			controlPanel.add(LayoutUtil.panelRow(btnOptions, btnExport));
 		}
 
-		plotPanel = new PlotPanelEuclidianViewW(app.getKernel(), null);
+		createExportToEvAction();
+		plotPanel = new PlotPanelEuclidianViewW(app.getKernel(), exportToEVAction);
 
 		plotPanelNorth = new FlowPanel();
 		plotPanelSouth = new FlowPanel();
@@ -179,7 +187,9 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new Label();
 		lblTitleY = new Label();
-//		fldTitleX = new MyTextField(app, 20);
+		
+		fldTitleX = (new InputPanelW(null, app, -1, false)).getTextComponent();
+		fldTitleY = (new InputPanelW(null, app, -1, false)).getTextComponent();
 //		fldTitleY = new MyTextField(app, 20);
 		fldTitleX.setEditable(false);
 		fldTitleY.setEditable(false);
@@ -618,6 +628,49 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	public void setModel(DataDisplayModel model) {
 		this.model = model;
+	}
+
+	private void createExportToEvAction() {
+		/**
+		 * Action to export all GeoElements that are currently displayed in this
+		 * panel to a EuclidianView. The viewID for the target EuclidianView is
+		 * stored as a property with key "euclidianViewID".
+		 * 
+		 * This action is passed as a parameter to plotPanel where it is used in the
+		 * plotPanel context menu and the EuclidianView transfer handler when the
+		 * plot panel is dragged into an EV.
+		 */
+		exportToEVAction = new ScheduledCommand() {
+			
+			private HashMap<String, Object> value = new HashMap<String, Object>();
+			
+			public Object getValue(String key) {
+				return value.get(key);
+			}
+			
+			public void putValue(String key, Object value) {
+				this.value.put(key, value);
+			}
+			
+			public void execute() {
+				Integer euclidianViewID = (Integer) this
+						.getValue("euclidianViewID");
+
+			
+				// if null ID then use EV1 unless shift is down, then use EV2
+				if (euclidianViewID == null) {
+					euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app.getEuclidianView2(1)
+							.getViewID() : app.getEuclidianView1().getViewID();
+				}
+
+				// do the export
+				//exportGeosToEV(euclidianViewID);
+
+				// null out the ID property
+				this.putValue("euclidianViewID", null);
+			}
+		};
+
 	}
 
 }

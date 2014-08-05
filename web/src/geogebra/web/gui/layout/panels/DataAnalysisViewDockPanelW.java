@@ -8,9 +8,9 @@ import geogebra.web.gui.view.data.DataAnalysisViewW;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author gabor
+ * @author Laszlo
  * 
- * FunctionInspector dockpanel for Web
+ * DataAnalysis dockpanel for Web
  *
  */
 public class DataAnalysisViewDockPanelW extends DockPanelW {

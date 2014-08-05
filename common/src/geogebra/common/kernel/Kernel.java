@@ -2399,6 +2399,11 @@ public class Kernel {
 	final public void setEuclidianViewBounds(int viewNo, double xmin,
 			double xmax, double ymin, double ymax, double xscale, double yscale) {
 		int view = viewNo -1;
+		
+		if (view < 0 || viewNo < 0) {
+			return;
+		}
+		
 		if(view >= this.xmin.length){
 			
 			this.xmin = prolong(this.xmin,viewNo);
