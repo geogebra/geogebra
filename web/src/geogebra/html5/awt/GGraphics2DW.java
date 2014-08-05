@@ -161,12 +161,12 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		App.debug("fill3DRect: implementation needed"); 
 	}
 
-	
+	private double[] coords = new double[6];
 
 	protected void doDrawShape(Shape shape, boolean enableDashEmulation) {
 		context.beginPath();
 		PathIterator it = shape.getPathIterator(null);
-		double[] coords = new double[6];
+		
 		
 		// see #1718
 		//boolean enableDashEmulation = true;//nativeDashUsed || App.isFullAppGui(); 
