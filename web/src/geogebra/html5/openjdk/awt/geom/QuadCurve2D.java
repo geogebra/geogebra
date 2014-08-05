@@ -28,6 +28,7 @@ package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GQuadCurve2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
@@ -46,7 +47,7 @@ import geogebra.common.awt.GRectangle2D;
  * @version 	1.29, 12/19/03
  * @author	Jim Graham
  */
-public abstract class QuadCurve2D implements Shape, Cloneable {
+public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
     /**
      * A quadratic parametric curve segment specified with
      * <code>float</code> coordinates.
@@ -247,7 +248,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
      * A quadratic parametric curve segment specified with
      * <code>double</code> coordinates.
      */
-    public static class Double extends QuadCurve2D {
+    public static class Double extends QuadCurve2D implements geogebra.common.awt.GQuadCurve2D {
 	/**
 	 * The x coordinate of the start point of the quadratic curve
          * segment.

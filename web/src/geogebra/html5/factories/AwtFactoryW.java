@@ -32,9 +32,15 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GBufferedImageW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGradientPaintW;
-import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.awt.GTexturePaintW;
+import geogebra.html5.openjdk.awt.geom.Arc2D;
+import geogebra.html5.openjdk.awt.geom.Area;
+import geogebra.html5.openjdk.awt.geom.Ellipse2D;
 import geogebra.html5.openjdk.awt.geom.GeneralPath;
+import geogebra.html5.openjdk.awt.geom.Line2D;
+import geogebra.html5.openjdk.awt.geom.QuadCurve2D;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
+import geogebra.html5.openjdk.awt.geom.Rectangle2D;
 
 /**
  * Creates AWT wrappers for web
@@ -78,12 +84,12 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GRectangle2D newRectangle2D() {
-		return new geogebra.html5.awt.GRectangle2DW();
+		return new Rectangle2D.Double();
 	}
 
 	@Override
 	public GRectangle newRectangle(int x, int y, int w, int h) {
-		return new geogebra.html5.awt.GRectangleW(x, y, w, h);
+		return new Rectangle(x, y, w, h);
 	}
 
 	@Override
@@ -110,7 +116,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GRectangle newRectangle(int x, int y) {
-		return new geogebra.html5.awt.GRectangleW(x, y);
+		return new Rectangle(x, y);
 	}
 
 	@Override
@@ -132,22 +138,22 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GLine2D newLine2D() {
-		return new geogebra.html5.awt.GLine2DW();
+		return new Line2D.Double();
 	}
 
 	@Override
 	public GRectangle newRectangle(GRectangle bb) {
-		return new geogebra.html5.awt.GRectangleW(bb);
+		return new Rectangle(bb);
 	}
 
 	@Override
     public GEllipse2DDouble newEllipse2DDouble() {
-	    return new geogebra.html5.awt.GEllipse2DDoubleW();
+	    return new Ellipse2D.Double();
     }
 
 	@Override
     public GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
-		return new geogebra.html5.awt.GEllipse2DFloatW(i, j, k, l);
+		return new Ellipse2D.Float(i, j, k, l);
     }
 
 	@Override
@@ -164,17 +170,17 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public GRectangle newRectangle() {
-		return new geogebra.html5.awt.GRectangleW();
+		return new Rectangle();
     }
 
 	@Override
     public GArc2D newArc2D() {
-		return new geogebra.html5.awt.GArc2DW();
+		return new Arc2D.Double();
     }
 
 	@Override
     public GQuadCurve2D newQuadCurve2D() {
-		return new geogebra.html5.awt.GQuadCurve2DW();
+		return new QuadCurve2D.Double();
     }
 
 	/*
@@ -187,12 +193,12 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public GArea newArea() {
-		return new geogebra.html5.awt.GAreaW();
+		return new Area();
     }
 
 	@Override
     public GArea newArea(GShape shape) {
-		return new geogebra.html5.awt.GAreaW(shape);
+		return new Area(shape);
     }
 
 	@Override
@@ -229,7 +235,7 @@ public class AwtFactoryW extends AwtFactory {
 	
 	@Override
     public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-	    return new GTexturePaintW((GBufferedImageW)subimage, (GRectangleW)rect);
+	    return new GTexturePaintW((GBufferedImageW)subimage, (Rectangle)rect);
     }
 
 	@Override

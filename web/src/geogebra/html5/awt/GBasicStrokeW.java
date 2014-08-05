@@ -20,6 +20,7 @@
 package geogebra.html5.awt;
 
 import geogebra.html5.openjdk.awt.geom.GeneralPath;
+import geogebra.html5.openjdk.awt.geom.Shape;
 
 import com.google.gwt.canvas.dom.client.Context2d.LineCap;
 import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
@@ -1838,7 +1839,7 @@ public class GBasicStrokeW implements geogebra.common.awt.GBasicStroke {
     }
 
 	// Methods
-	public GShapeW createStrokedShape(GShapeW shape) {
+	public Shape createStrokedShape(Shape shape) {
 		return shape;
 	}
 	

@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GBufferedImageW;
 import geogebra.html5.awt.GGraphics2DW;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
 
@@ -28,7 +29,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 
 		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false, true);
 
-		return new geogebra.html5.awt.GRectangleW(x, y, dim.getWidth(), dim.getHeight());
+		return new Rectangle(x, y, dim.getWidth(), dim.getHeight());
 	}
 
 	private static GFont getIndexFont(GFont f) {

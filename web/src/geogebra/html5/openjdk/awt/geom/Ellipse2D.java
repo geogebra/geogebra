@@ -28,6 +28,8 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GEllipse2DDouble;
+import geogebra.common.awt.GEllipse2DFloat;
 
 
 /**
@@ -46,7 +48,7 @@ public abstract class Ellipse2D extends RectangularShape {
 	 * The <code>Float</code> class defines an ellipse specified in
 	 * <code>float</code> precision.
 	 */
-	public static class Float extends Ellipse2D {
+	public static class Float extends Ellipse2D implements GEllipse2DFloat {
 		/**
 		 * The x coordinate of the upper left corner of this
 		 * <code>Ellipse2D</code>.
@@ -205,7 +207,7 @@ public abstract class Ellipse2D extends RectangularShape {
 	 * The <code>Double</code> class defines an ellipse specified in
 	 * <code>double</code> precision.
 	 */
-	public static class Double extends Ellipse2D {
+	public static class Double extends Ellipse2D implements GEllipse2DDouble {
 		/**
 		 * The x coordinate of the upper left corner of this
 		 * <code>Ellipse2D</code>.

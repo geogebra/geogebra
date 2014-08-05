@@ -1,14 +1,14 @@
 package geogebra.awt;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle2D;
 
 import java.awt.Shape;
 
-public class GArc2DD extends geogebra.common.awt.GArc2D implements
-		GRectangularShapeD {
+public class GArc2DD implements GRectangularShapeD, GArc2D {
 
 	private java.awt.geom.Arc2D.Double impl;
 
@@ -66,14 +66,12 @@ public class GArc2DD extends geogebra.common.awt.GArc2D implements
 		return impl;
 	}
 
-	@Override
 	public void setArc(double x, double y, double w, double h, double angSt,
 			double angExt, int closure) {
 		impl.setArc(x, y, w, h, angSt, angExt, closure);
 
 	}
 
-	@Override
 	public GPoint2D getStartPoint() {
 		// impl.getStartPoint() return-type is java.awt.geom.Point2D
 		// but it returns with java.awt.geom.Point2D.Double
@@ -81,13 +79,11 @@ public class GArc2DD extends geogebra.common.awt.GArc2D implements
 				(java.awt.geom.Point2D.Double) impl.getStartPoint());
 	}
 
-	@Override
 	public GPoint2D getEndPoint() {
 		return new geogebra.awt.GPoint2DD(
 				(java.awt.geom.Point2D.Double) impl.getEndPoint());
 	}
 
-	@Override
 	public void setArcByCenter(double x, double y, double radius, double angSt,
 			double angExt, int closure) {
 		impl.setArcByCenter(x, y, radius, angSt, angExt, closure);

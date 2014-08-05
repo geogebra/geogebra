@@ -5,6 +5,7 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GFontRenderContextW;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 
 public class GTextLayoutW implements geogebra.common.awt.font.GTextLayout {
 	
@@ -37,7 +38,7 @@ public class GTextLayoutW implements geogebra.common.awt.font.GTextLayout {
 	}
 
 	public GRectangle2D getBounds() {
-	    return new geogebra.html5.awt.GRectangleW((int)getAdvance(),(int)getAscent());
+	    return new Rectangle((int)getAdvance(),(int)getAscent());
     }
 
 	public float getAscent() {

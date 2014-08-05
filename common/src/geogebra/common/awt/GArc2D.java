@@ -3,7 +3,7 @@ package geogebra.common.awt;
 /**
  * Wrapper for java.awt.geom.Arc2D compatible classes
  */
-public abstract class GArc2D implements GRectangularShape{
+public interface GArc2D extends GRectangularShape{
 	/** open type (just the arc)*/
 	public final static int OPEN = 0;
 	/** chord type (include line connecting ends)*/

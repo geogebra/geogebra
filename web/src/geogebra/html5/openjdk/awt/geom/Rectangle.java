@@ -120,8 +120,8 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle {
      *           to a newly constructed <code>Rectangle</code>
      * @since JDK1.1
      */
-    public Rectangle(Rectangle r) {
-    	this(r.x, r.y, r.width, r.height);
+    public Rectangle(GRectangle r) {
+    	this((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
     }
 
     /**

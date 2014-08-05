@@ -7,7 +7,7 @@ import geogebra.common.awt.GRectangle2D;
 
 import java.awt.Shape;
 
-public class GLine2DD extends geogebra.common.awt.GLine2D implements
+public class GLine2DD implements geogebra.common.awt.GLine2D,
 		geogebra.awt.GShapeD {
 	private java.awt.geom.Line2D impl;
 
@@ -75,7 +75,6 @@ public class GLine2DD extends geogebra.common.awt.GLine2D implements
 				.getAWTRectangle2D(r));
 	}
 
-	@Override
 	public geogebra.common.awt.GPoint2D getP1() {
 		java.awt.geom.Point2D p1 = impl.getP1();
 		if (p1 == null)
@@ -83,7 +82,6 @@ public class GLine2DD extends geogebra.common.awt.GLine2D implements
 		return new GPoint2DD(p1.getX(), p1.getY());
 	}
 
-	@Override
 	public geogebra.common.awt.GPoint2D getP2() {
 		java.awt.geom.Point2D p2 = impl.getP2();
 		if (p2 == null)

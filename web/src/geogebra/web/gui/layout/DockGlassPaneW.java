@@ -1,7 +1,7 @@
 package geogebra.web.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
-import geogebra.html5.awt.GRectangleW;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.html5.util.ArticleElement;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 	private DockManagerW dockManager;
 	private DockPanelW[] dockPanels;
-	private GRectangleW[] dockPanelsBounds;
+	private Rectangle[] dockPanelsBounds;
 	private DnDState dndState;
 
 	private String color;
@@ -107,8 +107,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 		// cache the absolute bounds of all DockPanels
 		dockPanels = dockManager.getPanels();
 		ArrayList<DockPanelW> dockPanelsList = new ArrayList<DockPanelW>();
-		ArrayList<GRectangleW> bounds = new ArrayList<GRectangleW>();
-		GRectangleW tmpRect;
+		ArrayList<Rectangle> bounds = new ArrayList<Rectangle>();
+		Rectangle tmpRect;
 
 		for (int i = 0; i < dockPanels.length; ++i) {
 			// we don't need to care about invisible or views in a different
@@ -117,7 +117,7 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 				continue;
 
 			// tmpRect = dockPanels[i].getBounds();
-			tmpRect = new GRectangleW(dockPanels[i].getAbsoluteLeft(),
+			tmpRect = new Rectangle(dockPanels[i].getAbsoluteLeft(),
 			        dockPanels[i].getAbsoluteTop(),
 			        dockPanels[i].getOffsetWidth(),
 			        dockPanels[i].getOffsetHeight());
@@ -129,7 +129,7 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 			// + tmpRect.getHeight());
 		}
 
-		dockPanelsBounds = new GRectangleW[bounds.size()];
+		dockPanelsBounds = new Rectangle[bounds.size()];
 		dockPanelsBounds = (bounds.toArray(dockPanelsBounds));
 
 		dockPanels = new DockPanelW[dockPanelsList.size()];

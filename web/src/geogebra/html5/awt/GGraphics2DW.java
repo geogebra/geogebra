@@ -18,13 +18,13 @@ import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
+import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.openjdk.awt.geom.PathIterator;
-import geogebra.html5.openjdk.awt.geom.Polygon;
 import geogebra.html5.openjdk.awt.geom.Shape;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
@@ -159,21 +159,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		App.debug("fill3DRect: implementation needed"); 
 	}
 
-	//tmp
-	/**<p>
-	 * Draws a shape.
-	 * </p>
-	 * 
-	 * @param shape
-	 */
-	public void draw(Shape shape) {
-		if (shape == null) {
-			App.error("Error in EuclidianView.draw");
-			return;
-		}
-		doDrawShape(shape, true);
-		context.stroke();	
-	}
+	
 
 	protected void doDrawShape(Shape shape, boolean enableDashEmulation) {
 		context.beginPath();
@@ -297,37 +283,6 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	}
 
-
-	/**
-	 * @param shape
-	 */
-	public void fill(Shape shape) {
-		if (shape == null) {
-			App.printStacktrace("Error in EuclidianView.fill");
-			return;
-		}
-		doDrawShape(shape, false);
-
-		/*
-		App.debug((shape instanceof GeneralPath)+"");
-		App.debug((shape instanceof GeneralPathClipped)+"");
-		App.debug((shape.getClass().toString())+"");
-		*/
-		
-		// default winding rule changed for ggb50 (for Polygons) #3983
-		if (shape instanceof geogebra.html5.openjdk.awt.geom.GeneralPath) {
-			geogebra.html5.openjdk.awt.geom.GeneralPath gp = (geogebra.html5.openjdk.awt.geom.GeneralPath)shape;
-			int rule = gp.getWindingRule();
-			if (rule == geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD) {
-				context.fill("evenodd");		
-			} else {
-				// context.fill("") differs between browsers
-				context.fill();
-			}
-		} else {
-			context.fill();
-		}
-	}
 
 
 	@Override
@@ -615,7 +570,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			App.error("Error in Graphics2D.setClip");
 			return;
 		}
-		clipShape = new GenericShape(shape2);
+		clipShape = shape2;
 		doDrawShape(shape2, false);
 		context.save();
 		context.clip();
@@ -725,11 +680,9 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			return;
 		}
 		clipShape = shape;
-		Shape shape2 = GenericShape.getGawtShape(shape);
-		if (shape2 == null) {
-			App.error("Error in Graphics2D.clip");
-			return;
-		}
+		
+		Shape shape2 = (Shape)shape;
+		
 		doDrawShape(shape2, false);
 		context.save();
 		context.clip();
@@ -800,11 +753,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			context.restore();
 			return;
 		}
-		Shape shape2 = GenericShape.getGawtShape(shape);
-		if (shape2 == null) {
-			App.error("Error in Graphics2D.setClip");
-			return;
-		}
+		Shape shape2 = (Shape) shape;
+		
 		doDrawShape(shape2, false);
 		if (clipShape != null) {
 			// we should call this only if no clip was set or just after another clip to overwrite
@@ -817,14 +767,54 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-	public void draw(geogebra.common.awt.GShape s) {
-		draw(GenericShape.getGawtShape(s));
+	public void draw(geogebra.common.awt.GShape shape) {
+		if (shape == null) {
+			App.error("Error in EuclidianView.draw");
+			return;
+		}
+		if(shape instanceof GeneralPathClipped){
+			doDrawShape((Shape)((GeneralPathClipped)shape).getGeneralPath(), true);
+		}else{
+			doDrawShape((Shape)shape, true);
+		}
+		context.stroke();
 	}
 
 
 	@Override
-	public void fill(geogebra.common.awt.GShape s) {
-		fill(GenericShape.getGawtShape(s));
+	public void fill(geogebra.common.awt.GShape gshape) {
+		if (gshape == null) {
+			App.error("Error in EuclidianView.draw");
+			return;
+		}
+		Shape shape;
+		if(gshape instanceof GeneralPathClipped){
+			shape = (Shape)((GeneralPathClipped)gshape).getGeneralPath();
+		}else{
+			shape = (Shape)gshape;
+		}
+
+		doDrawShape(shape, false);
+
+		/*
+		App.debug((shape instanceof GeneralPath)+"");
+		App.debug((shape instanceof GeneralPathClipped)+"");
+		App.debug((shape.getClass().toString())+"");
+		*/
+		
+		// default winding rule changed for ggb50 (for Polygons) #3983
+		if (shape instanceof geogebra.html5.openjdk.awt.geom.GeneralPath) {
+			geogebra.html5.openjdk.awt.geom.GeneralPath gp = (geogebra.html5.openjdk.awt.geom.GeneralPath)shape;
+			int rule = gp.getWindingRule();
+			if (rule == geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD) {
+				context.fill("evenodd");		
+			} else {
+				// context.fill("") differs between browsers
+				context.fill();
+			}
+		} else {
+			context.fill();
+		}
 	}
 
 	@Override
@@ -933,11 +923,6 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		roundRect(x,y,width,height,arcHeight - arcHeight/2);
 		context.fill("evenodd");
 		
-	}
-
-
-	public void fillPolygon(Polygon p) {
-	 fill(p);
 	}
 	
 	private native void drawDashedLine(double fromX, double fromY, double toX, double toY, JsArrayNumber pattern,Context2d ctx) /*-{

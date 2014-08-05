@@ -8,6 +8,7 @@ import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.App;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -84,7 +85,7 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 			App.debug("ec null");
 		}
 		
-		return new geogebra.html5.awt.GRectangleW(
+		return new Rectangle(
 				left, top,
 				impl.getOffsetWidth(), impl.getOffsetHeight());
     }

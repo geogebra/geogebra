@@ -11,8 +11,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
-import geogebra.html5.awt.GRectangle2DW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.openjdk.awt.geom.Rectangle2D;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -745,7 +745,7 @@ public class SpreadsheetMouseListenerW implements
 					int dotX = maxPoint.getX();
 					int dotY = maxPoint.getY();
 					int s = MyTableW.DOT_SIZE + 2;
-					GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
+					Rectangle2D dotRect = new Rectangle2D.Double(dotX - s / 2, dotY - s / 2, s, s);
 					boolean overDot = dotRect.contains(getAbsoluteX(e), getAbsoluteY(e));
 					if (table.isOverDot != overDot) {
 						table.isOverDot = overDot;
@@ -765,7 +765,7 @@ public class SpreadsheetMouseListenerW implements
 					int minY = minPoint.getY();
 					int maxX = maxPoint.getX();
 					int w = maxX - minX;
-					GRectangle2DW dndRect = new GRectangle2DW(minX, minY - 2, w, 4);
+					Rectangle2D dndRect = new Rectangle2D.Double(minX, minY - 2, w, 4);
 					boolean overDnD = dndRect.contains(getAbsoluteX(e), getAbsoluteY(e));
 					if (table.isOverDnDRegion != overDnD) {
 						table.isOverDnDRegion = overDnD;

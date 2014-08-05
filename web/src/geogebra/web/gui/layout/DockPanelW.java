@@ -7,9 +7,9 @@ import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
@@ -82,7 +82,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * The dimensions of the external window of this panel.
 	 */
-	protected GRectangleW frameBounds = new GRectangleW(50, 50, 500, 500);
+	protected Rectangle frameBounds = new Rectangle(50, 50, 500, 500);
 
 	/**
 	 * If this panel should be opened in a frame the next time it's visible.
@@ -813,7 +813,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public DockPanelData createInfo() {
 		return new DockPanelData(id, getToolbarString(), visible, openInFrame,
-		        showStyleBar, new geogebra.html5.awt.GRectangleW(frameBounds),
+		        showStyleBar, new Rectangle(frameBounds),
 		        embeddedDef, embeddedSize);
 	}
 
@@ -882,11 +882,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return hasStyleBar;
 	}
 
-	public void setFrameBounds(GRectangleW frameBounds) {
+	public void setFrameBounds(Rectangle frameBounds) {
 		this.frameBounds = frameBounds;
 	}
 
-	public GRectangleW getFrameBounds() {
+	public Rectangle getFrameBounds() {
 		return this.frameBounds;
 	}
 

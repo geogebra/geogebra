@@ -4,7 +4,7 @@ import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle2D;
 
-public class GQuadCurve2DD extends geogebra.common.awt.GQuadCurve2D implements
+public class GQuadCurve2DD implements geogebra.common.awt.GQuadCurve2D,
 		geogebra.awt.GShapeD {
 
 	private java.awt.geom.QuadCurve2D.Double impl;
@@ -13,7 +13,6 @@ public class GQuadCurve2DD extends geogebra.common.awt.GQuadCurve2D implements
 		impl = new java.awt.geom.QuadCurve2D.Double();
 	}
 
-	@Override
 	public void setCurve(double[] parpoints, int i) {
 		impl.setCurve(parpoints, i);
 	}

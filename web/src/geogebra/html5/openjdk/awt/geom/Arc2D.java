@@ -28,6 +28,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GRectangle2D;
 
 
@@ -50,7 +51,7 @@ import geogebra.common.awt.GRectangle2D;
  * @version 10 Feb 1997
  * @author Jim Graham
  */
-public abstract class Arc2D extends RectangularShape {
+public abstract class Arc2D extends RectangularShape implements GArc2D {
 	/**
 	 * This class defines an arc specified in double precision.
 	 */

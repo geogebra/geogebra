@@ -28,6 +28,7 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
@@ -50,7 +51,7 @@ import geogebra.common.awt.GRectangle2D;
  * @version 1.28, 12/19/03
  * @author Jim Graham
  */
-public abstract class Line2D implements Shape, Cloneable {
+public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	/**
 	 * A line segment specified with double coordinates.
 	 */

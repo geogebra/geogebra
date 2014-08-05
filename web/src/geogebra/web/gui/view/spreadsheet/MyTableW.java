@@ -24,9 +24,9 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.plugin.GeoClass;
 import geogebra.html5.awt.GBasicStrokeW;
-import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -1573,7 +1573,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if(max == null){
 			return null;
 		}
-		return new GRectangleW(min.x, min.y, max.x - min.x, max.y - min.y);
+		return new Rectangle(min.x, min.y, max.x - min.x, max.y - min.y);
 	}
 
 	public GRectangle getCellBlockRect(int column1, int row1, int column2,

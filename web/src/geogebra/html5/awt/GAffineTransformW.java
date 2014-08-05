@@ -82,11 +82,10 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 
 	public GShape createTransformedShape(geogebra.common.awt.GShape shape) {
 		geogebra.html5.openjdk.awt.geom.Shape ret = null;
-		ret = at.createTransformedShape(geogebra.html5.awt.GenericShape
-		        .getGawtShape(shape));
+		ret = at.createTransformedShape(shape);
 		if (ret == null)
 			App.debug("type of shape is: " + shape.getClass());
-		return new geogebra.html5.awt.GenericShape(ret);
+		return ret;
 	}
 
 	/**

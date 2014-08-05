@@ -33,7 +33,6 @@ import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
-import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.kernel.external.Crossings;
 import geogebra.html5.kernel.external.Curve;
 

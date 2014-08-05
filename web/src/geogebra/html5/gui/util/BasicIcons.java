@@ -57,7 +57,7 @@ public class BasicIcons {
 		p.addPoint(midx+3,midy-1);
 		p.addPoint(midx,midy-6);
 
-		g2.fillPolygon(p);  
+		g2.fill(p);  
 
 		// make a triangle.
 		p = new Polygon();
@@ -65,7 +65,7 @@ public class BasicIcons {
 		p.addPoint(midx+3,midy+1);
 		p.addPoint(midx,midy+6);
 
-		g2.fillPolygon(p);
+		g2.fill(p);
 
 		/*
 		g2.drawLine(x, y, x+6, y);

@@ -28,9 +28,12 @@
 package geogebra.html5.openjdk.awt.geom;
 
 import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GArea;
+import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
 import geogebra.html5.kernel.external.AreaOp;
 import geogebra.html5.kernel.external.Crossings;
 import geogebra.html5.kernel.external.Curve;
@@ -47,7 +50,7 @@ import java.util.Vector;
  * Intersect, and ExclusiveOR. For example, an <code>Area</code> can be
  * made up of the area of a rectangle minus the area of an ellipse.
  */
-public class Area implements Shape, Cloneable {
+public class Area implements Shape, Cloneable, GArea {
     private static Vector EmptyCurves = new Vector();
 
     private Vector curves;
@@ -67,13 +70,13 @@ public class Area implements Shape, Cloneable {
      * <code>Shape</code> is used to determine the resulting enclosed area.
      * @param s  the <code>Shape</code> from which the area is constructed
      */
-    public Area(Shape s) {
+    public Area(GShape s) {
 	if (s instanceof Area) {
 	    curves = ((Area) s).curves;
 	    return;
 	}
 	curves = new Vector();
-	PathIterator pi = s.getPathIterator(null);
+	GPathIterator pi = s.getPathIterator(null);
 	int windingRule = pi.getWindingRule();
 	// coords array is big enough for holding:
 	//     coordinates returned from currentSegment (6)
@@ -147,8 +150,8 @@ public class Area implements Shape, Cloneable {
      * @param   rhs  the <code>Area</code> to be added to the
      *          current shape
      */
-    public void add(Area rhs) {
-	curves = new AreaOp.AddOp().calculate(this.curves, rhs.curves);
+    public void add(GArea rhs) {
+	curves = new AreaOp.AddOp().calculate(this.curves, ((Area)rhs).curves);
 	invalidateBounds();
     }
 
@@ -158,8 +161,8 @@ public class Area implements Shape, Cloneable {
      * @param   rhs  the <code>Area</code> to be subtracted from the
      *		current shape
      */
-    public void subtract(Area rhs) {
-	curves = new AreaOp.SubOp().calculate(this.curves, rhs.curves);
+    public void subtract(GArea rhs) {
+	curves = new AreaOp.SubOp().calculate(this.curves, ((Area)rhs).curves);
 	invalidateBounds();
     }
 
@@ -169,8 +172,8 @@ public class Area implements Shape, Cloneable {
      * @param   rhs  the <code>Area</code> to be intersected with this
      *		<code>Area</code>
      */
-    public void intersect(Area rhs) {
-	curves = new AreaOp.IntOp().calculate(this.curves, rhs.curves);
+    public void intersect(GArea rhs) {
+	curves = new AreaOp.IntOp().calculate(this.curves, ((Area)rhs).curves);
 	invalidateBounds();
     }
 
@@ -181,8 +184,8 @@ public class Area implements Shape, Cloneable {
      * @param   rhs  the <code>Area</code> to be exclusive ORed with this
      *		<code>Area</code>.
      */
-    public void exclusiveOr(Area rhs) {
-	curves = new AreaOp.XorOp().calculate(this.curves, rhs.curves);
+    public void exclusiveOr(GArea rhs) {
+	curves = new AreaOp.XorOp().calculate(this.curves, ((Area)rhs).curves);
 	invalidateBounds();
     }
 
