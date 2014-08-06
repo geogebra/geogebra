@@ -7244,7 +7244,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public void setNeedsEVUpdate(boolean b) {
-		this.needsEVupdate = true;
+		this.needsEVupdate = b;
 		
 	}
 	
