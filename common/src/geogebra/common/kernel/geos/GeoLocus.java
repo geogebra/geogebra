@@ -107,5 +107,10 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 	protected double getChangingPointParameter(GeoSegmentND segment){
 		return ((GeoSegment) segment).getParameter(changingPoint.getX(), changingPoint.getY());
 	}
+	
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
 
 }

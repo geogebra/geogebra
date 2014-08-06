@@ -3585,6 +3585,10 @@ public class MyXMLHandler implements DocHandler {
 			String typeHidden = attrs.get("typeHidden");
 			if (typeHidden != null)
 				geo.setLineTypeHidden(Integer.parseInt(typeHidden));
+			String opacity = attrs.get("opacity");
+			if (opacity != null) {
+				geo.setLineOpacity(Integer.parseInt(opacity));
+			}
 
 			return true;
 		} catch (Exception e) {

@@ -5334,6 +5334,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		sb.append(" typeHidden=\"");
 		sb.append(lineTypeHidden);
 		sb.append("\"");
+		if (hasLineOpacity()) {
+			sb.append(" opacity=\"");
+			sb.append(lineOpacity);
+			sb.append("\"");
+		}
 		sb.append("/>\n");
 	}
 
@@ -7258,6 +7263,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if it has a line opacity value between 0 and 255
 	 */
 	public boolean hasLineOpacity() {
+		App.debug(this.getClass() + "");
 		return false;
 	}
 
