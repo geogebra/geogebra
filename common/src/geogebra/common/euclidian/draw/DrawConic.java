@@ -1179,7 +1179,7 @@ public class DrawConic extends Drawable implements Previewable {
 	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (!isVisible)
 			return;
-		g2.setColor(geo.getObjectColor());
+		g2.setColor(getObjectColor());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			int pointType;
@@ -1229,7 +1229,7 @@ public class DrawConic extends Drawable implements Previewable {
 				g2.draw(shape);
 			}
 			g2.setStroke(objStroke);
-			g2.setColor(geo.getObjectColor());
+			g2.setColor(getObjectColor());
 			g2.draw(shape);
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
@@ -1286,7 +1286,7 @@ public class DrawConic extends Drawable implements Previewable {
 				g2.drawWithValueStrokePure(hypRight);
 		}
 		g2.setStroke(objStroke);
-		g2.setColor(geo.getObjectColor());
+		g2.setColor(getObjectColor());
 		if (hypLeftOnScreen)
 			g2.drawWithValueStrokePure(hypLeft);
 		if (hypRightOnScreen)
@@ -1324,7 +1324,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	@Override
 	final public void drawTrace(GGraphics2D g2) {
-		g2.setColor(conic.getObjectColor());
+		g2.setColor(getObjectColor());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			drawPoint.drawTrace(g2);
@@ -1345,13 +1345,13 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			g2.setStroke(objStroke);
-			g2.setColor(conic.getObjectColor());
+			g2.setColor(getObjectColor());
 			g2.draw(shape);
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			g2.setStroke(objStroke);
-			g2.setColor(conic.getObjectColor());
+			g2.setColor(getObjectColor());
 			g2.draw(hypLeft);
 			g2.draw(hypRight);
 			break;

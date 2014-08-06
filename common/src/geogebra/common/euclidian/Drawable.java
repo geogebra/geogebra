@@ -639,4 +639,19 @@ public abstract class Drawable extends DrawableND {
 	public boolean isEuclidianVisible(){
 		return geo.isEuclidianVisible();
 	}
+	
+	/**
+	 * @return If the {@code GeoElement} has line opacity then a {@code GColor}
+	 * object with the alpha value set, else the original {@code GColor}.
+	 */
+	protected GColor getObjectColor() {
+		GColor color = geo.getObjectColor();
+		if (geo.hasLineOpacity()) {
+	        color = AwtFactory.prototype.newColor(color.getRed(), 
+	        		color.getGreen(), 
+	        		color.getBlue(), 
+	        		geo.getLineOpacity());
+		}
+		return color;
+	}
 }

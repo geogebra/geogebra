@@ -582,5 +582,8 @@ public class GeoConic extends GeoConicND implements
 		setPositiveEigenvectorOrientation(oldOrientation);
 	}
 
-	
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}	
 }

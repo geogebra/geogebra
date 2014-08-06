@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
-import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
@@ -399,7 +398,7 @@ public class DrawLine extends Drawable implements Previewable {
             }
             
             // draw line
-            g2.setPaint(getColorWithOpacity());
+            g2.setPaint(getObjectColor());
             g2.setStroke(objStroke);            
 			g2.draw(line);              
 
@@ -414,19 +413,11 @@ public class DrawLine extends Drawable implements Previewable {
         
 	@Override
 	public final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
-		g2.setPaint(geo.getObjectColor());
+		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);  
 		g2.draw(line);
 	}
-	
-	private GColor getColorWithOpacity() {
-		GColor objectColor = geo.getObjectColor();
-        return AwtFactory.prototype.newColor(objectColor.getRed(), 
-        		objectColor.getGreen(), 
-        		objectColor.getBlue(), 
-        		geo.getLineOpacity());
-	}
-    
+
 	final public void updatePreview() {		
 		switch (previewMode) {
 		case LINE:
@@ -597,7 +588,7 @@ public class DrawLine extends Drawable implements Previewable {
     
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {            
-            g2.setPaint(geo.getObjectColor());
+            g2.setPaint(getObjectColor());
             updateStrokes(geo);
             g2.setStroke(objStroke);            
 			g2.draw(line);              
