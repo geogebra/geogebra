@@ -1527,6 +1527,7 @@ __GGB__keysVar.sv.menu = {
     "LineBisector_Help": "Tv\xe5 punkter eller en str\xe4cka",
     "LineGraph": "Linjediagram",
     "LineMenu": "Linje",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linj\xe4r",
     "LinkedFiles": "L\xe4nkade filer",
     "List": "Lista",

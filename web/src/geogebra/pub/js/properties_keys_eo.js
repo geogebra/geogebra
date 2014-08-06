@@ -1527,6 +1527,7 @@ __GGB__keysVar.eo.menu = {
     "LineBisector_Help": "Elektu du punktojn a\u016d strekon",
     "LineGraph": "Bastona diagramo",
     "LineMenu": "Rekto",
+    "LineOpacity": "Line Opacity",
     "Linear": "Lineara",
     "LinkedFiles": "Ligitaj dosieroj",
     "List": "Listo",

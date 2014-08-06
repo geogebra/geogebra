@@ -1527,6 +1527,7 @@ __GGB__keysVar.fr.menu = {
     "LineBisector_Help": "Deux points[cr\xe9\xe9s ou non] ou un segment",
     "LineGraph": "Diagramme en b\xe2tons",
     "LineMenu": "Droite",
+    "LineOpacity": "Opacit\xe9 Trac\xe9",
     "Linear": "affine",
     "LinkedFiles": "Fichiers li\xe9s",
     "List": "Liste",

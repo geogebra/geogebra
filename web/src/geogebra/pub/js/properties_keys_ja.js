@@ -1527,6 +1527,7 @@ __GGB__keysVar.ja.menu = {
     "LineBisector_Help": "\uff12\u70b9\u3042\u308b\u3044\u306f\u3072\u3068\u3064\u306e\u7dda\u5206\u3092\u9078\u629e",
     "LineGraph": "\u6298\u308c\u7dda\u30b0\u30e9\u30d5",
     "LineMenu": "\u76f4\u7dda",
+    "LineOpacity": "Line Opacity",
     "Linear": "\u7dda\u578b",
     "LinkedFiles": "\u30ea\u30f3\u30af\u3055\u308c\u305f\u30d5\u30a1\u30a4\u30eb",
     "List": "\u30ea\u30b9\u30c8",

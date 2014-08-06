@@ -1527,6 +1527,7 @@ __GGB__keysVar.ta.menu = {
     "LineBisector_Help": "\u0b87\u0bb0\u0ba3\u0bcd\u0b9f\u0bc1 \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf\u0b95\u0bb3\u0bcd \u0b85\u0bb2\u0bcd\u0bb2\u0ba4\u0bc1 \u0b92\u0bb0\u0bc1 \u0ba4\u0bc1\u0ba3\u0bcd\u0b9f\u0ba4\u0bcd\u0ba4\u0bbf\u0ba9\u0bc8\u0ba4\u0bcd \u0ba4\u0bc6\u0bb0\u0bbf\u0bb5\u0bc1 \u0b9a\u0bc6\u0baf\u0bcd\u0b95",
     "LineGraph": "Line Graph",
     "LineMenu": "\u0b95\u0bcb\u0b9f\u0bc1",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Linked Files",
     "List": "List",

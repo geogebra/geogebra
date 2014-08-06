@@ -1527,6 +1527,7 @@ __GGB__keysVar.ms.menu = {
     "LineBisector_Help": "Pilih dua titik atau satu segmen",
     "LineGraph": "Graf Garis",
     "LineMenu": "Garis",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Fail-fail berpaut",
     "List": "Senarai",

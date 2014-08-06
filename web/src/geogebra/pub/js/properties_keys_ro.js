@@ -1527,6 +1527,7 @@ __GGB__keysVar.ro.menu = {
     "LineBisector_Help": "Selecta\u0163i dou\u0103 puncte sau un segment",
     "LineGraph": "Linie grafic",
     "LineMenu": "Dreapt\u0103",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Fi\u0219iere legate",
     "List": "List\u0103",

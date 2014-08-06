@@ -1527,6 +1527,7 @@ __GGB__keysVar.gl.menu = {
     "LineBisector_Help": "Escoller dous puntos ou un segmento",
     "LineGraph": "Li\xf1a gr\xe1fica",
     "LineMenu": "Recta",
+    "LineOpacity": "Line Opacity",
     "Linear": "Lineal",
     "LinkedFiles": "Arquivos vinculados",
     "List": "Lista",

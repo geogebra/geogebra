@@ -1527,6 +1527,7 @@ __GGB__keysVar.no_NB.menu = {
     "LineBisector_Help": "To punkt eller et linjestykke",
     "LineGraph": "Line\xe6r graf",
     "LineMenu": "Linje gjennom to punkt",
+    "LineOpacity": "Line Opacity",
     "Linear": "Line\xe6r",
     "LinkedFiles": "Avhengige filer",
     "List": "Liste",

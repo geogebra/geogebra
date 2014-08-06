@@ -1527,6 +1527,7 @@ __GGB__keysVar.ar_MA.menu = {
     "LineBisector_Help": "\u0623\u0646\u0642\u0631 \u0639\u0644\u0649 \u0646\u0642\u0637\u062a\u064a\u0646 \u0623\u0648 \u0639\u0644\u0649 \u0642\u0637\u0639\u0629",
     "LineGraph": "\u0645\u0628\u064a\u0627\u0646 \u062e\u0637\u064a",
     "LineMenu": "\u0645\u0633\u062a\u0642\u064a\u0645",
+    "LineOpacity": "Line Opacity",
     "Linear": "\u062e\u0637\u064a",
     "LinkedFiles": "\u0645\u0644\u0641\u0627\u062a \u0645\u0631\u062a\u0628\u0637\u0629",
     "List": "\u0642\u0627\u0626\u0645\u0629",

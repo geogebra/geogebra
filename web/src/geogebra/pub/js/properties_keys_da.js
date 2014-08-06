@@ -1527,6 +1527,7 @@ __GGB__keysVar.da.menu = {
     "LineBisector_Help": "Klik p\xe5 to punkter eller et linjestykke",
     "LineGraph": "Linjegraf",
     "LineMenu": "Linje",
+    "LineOpacity": "Line Opacity",
     "Linear": "Line\xe6r",
     "LinkedFiles": "Forbundne filer",
     "List": "Liste",

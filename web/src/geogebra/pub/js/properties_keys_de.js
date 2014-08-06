@@ -1527,6 +1527,7 @@ __GGB__keysVar.de.menu = {
     "LineBisector_Help": "W\xe4hle zwei Punkte oder eine Strecke",
     "LineGraph": "Streckendiagramm",
     "LineMenu": "Gerade",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Verlinkte Dateien",
     "List": "Liste",

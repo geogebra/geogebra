@@ -1527,6 +1527,7 @@ __GGB__keysVar.sk.menu = {
     "LineBisector_Help": "Vyzna\u010d dva body alebo \xfase\u010dku!",
     "LineGraph": "\u010ciarov\xfd diagram",
     "LineMenu": "Priamka",
+    "LineOpacity": "Line Opacity",
     "Linear": "Line\xe1rne",
     "LinkedFiles": "Pripojen\xe9 s\xfabory",
     "List": "Zoznam",

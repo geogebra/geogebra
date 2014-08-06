@@ -1527,6 +1527,7 @@ __GGB__keysVar.kn.menu = {
     "LineBisector_Help": "Select two points or one segment",
     "LineGraph": "Line Graph",
     "LineMenu": "\u0cb0\u0cc7\u0c96\u0cc6",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Linked Files",
     "List": "\u0caa\u0c9f\u0ccd\u0c9f\u0cbf",

@@ -1527,6 +1527,7 @@ __GGB__keysVar.iw.menu = {
     "LineBisector_Help": "\u05e9\u05ea\u05d9 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d0\u05d5 \u05e7\u05d8\u05e2 \u05d0\u05d7\u05d3",
     "LineGraph": "\u05d2\u05e8\u05e3 \u05dc\u05d9\u05e0\u05d9\u05d0\u05e8\u05d9",
     "LineMenu": "\u05d9\u05e9\u05e8",
+    "LineOpacity": "Line Opacity",
     "Linear": "\u05dc\u05d9\u05e0\u05d9\u05d0\u05e8\u05d9",
     "LinkedFiles": "\u05e7\u05d1\u05e6\u05d9\u05dd \u05de\u05e7\u05d5\u05e9\u05e8\u05d9\u05dd",
     "List": "\u05e8\u05e9\u05d9\u05de\u05d4",

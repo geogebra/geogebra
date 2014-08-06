@@ -1527,6 +1527,7 @@ __GGB__keysVar.zh_TW.menu = {
     "LineBisector_Help": "\u8acb\u9ede\u9078\u5169\u9ede\uff0c\u6216\u4e00\u7dda\u6bb5",
     "LineGraph": "\u7dda\u5716",
     "LineMenu": "\u7dda",
+    "LineOpacity": "Line Opacity",
     "Linear": "\u7dda\u6027",
     "LinkedFiles": "\u9023\u7d50\u7684\u6a94\u6848",
     "List": "\u4e32\u5217",

@@ -1527,6 +1527,7 @@ __GGB__keysVar.xh.menu = {
     "LineBisector_Help": "Khetha amachaphaza amabini okanye",
     "LineGraph": "Igrafu yoMgca",
     "LineMenu": "uMgca",
+    "LineOpacity": "Line Opacity",
     "Linear": "yoMgca",
     "LinkedFiles": "IiFayile ezidityanisiweyo",
     "List": "uLuhlu",

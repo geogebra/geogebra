@@ -1527,6 +1527,7 @@ __GGB__keysVar.vi.menu = {
     "LineBisector_Help": "Ch\u1ecdn 2 \u0111i\u1ec3m ho\u1eb7c \u0111o\u1ea1n th\u1eb3ng",
     "LineGraph": "\u0110\u1ed3 th\u1ecb d\u1ea1ng \u0111\u01b0\u1eddng th\u1eb3ng",
     "LineMenu": "\u0110\u01b0\u1eddng th\u1eb3ng",
+    "LineOpacity": "Line Opacity",
     "Linear": "Tuy\u1ebfn t\xednh",
     "LinkedFiles": "C\xe1c t\u1eadp tin li\xean k\u1ebft",
     "List": "Danh s\xe1ch",

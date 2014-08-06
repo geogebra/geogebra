@@ -1527,6 +1527,7 @@ __GGB__keysVar.hu.menu = {
     "LineBisector_Help": "K\xe9t pont vagy egy szakasz",
     "LineGraph": "Vonal grafikon",
     "LineMenu": "Egyenes",
+    "LineOpacity": "Line Opacity",
     "Linear": "Line\xe1ris",
     "LinkedFiles": "Csatolt f\xe1jlok",
     "List": "Lista",

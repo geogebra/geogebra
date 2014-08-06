@@ -1527,6 +1527,7 @@ __GGB__keysVar.bs.menu = {
     "LineBisector_Help": "Ozna\u010dite dvije ta\u010dke ili du\u017e",
     "LineGraph": "Linijski dijagram",
     "LineMenu": "Prava",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linearno",
     "LinkedFiles": "Povezane datoteke",
     "List": "Lista",

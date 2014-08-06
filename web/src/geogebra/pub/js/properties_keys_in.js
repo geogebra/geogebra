@@ -1527,6 +1527,7 @@ __GGB__keysVar.in.menu = {
     "LineBisector_Help": "Pilih dua titik atau suatu ruas garis",
     "LineGraph": "Grafik Garis",
     "LineMenu": "Garis",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linier",
     "LinkedFiles": "File bertautan",
     "List": "Daftar",

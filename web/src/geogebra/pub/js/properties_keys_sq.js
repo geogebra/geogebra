@@ -1527,6 +1527,7 @@ __GGB__keysVar.sq.menu = {
     "LineBisector_Help": "Zgjidh dy pika ose nje segment",
     "LineGraph": "Graf Vijor",
     "LineMenu": "Vije",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Dokumenta te Lidhur",
     "List": "Liste",

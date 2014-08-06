@@ -1527,6 +1527,7 @@ __GGB__keysVar.nl_BE.menu = {
     "LineBisector_Help": "Twee punten of lijnstuk",
     "LineGraph": "Lijngrafiek",
     "LineMenu": "Rechte",
+    "LineOpacity": "Line Opacity",
     "Linear": "Lineair",
     "LinkedFiles": "Gelinkte bestanden",
     "List": "Lijst",

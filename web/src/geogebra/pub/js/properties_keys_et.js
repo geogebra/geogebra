@@ -1527,6 +1527,7 @@ __GGB__keysVar.et.menu = {
     "LineBisector_Help": "Valige kaks punkti v\xf5i \xfcks l\xf5ik",
     "LineGraph": "Kriipsdiagramm",
     "LineMenu": "Sirge",
+    "LineOpacity": "Line Opacity",
     "Linear": "Lineaar",
     "LinkedFiles": "Lingitud failid",
     "List": "Loend",

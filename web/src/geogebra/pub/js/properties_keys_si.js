@@ -1527,6 +1527,7 @@ __GGB__keysVar.si.menu = {
     "LineBisector_Help": "\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba2\u0d9a\u0dca \u0dc4\u0ddd \u0d91\u0d9a\u0dca \u0d9b\u0dab\u0dca\u0da9\u0dba\u0d9a\u0dca \u0dad\u0ddd\u0dbb\u0db1\u0dca\u0db1",
     "LineGraph": "Line Graph",
     "LineMenu": "\u0dbb\u0dda\u0d9b\u0dcf\u0dc0",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Linked Files",
     "List": "List",

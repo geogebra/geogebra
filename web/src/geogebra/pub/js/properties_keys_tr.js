@@ -1527,6 +1527,7 @@ __GGB__keysVar.tr.menu = {
     "LineBisector_Help": "2 nokta veya bir do\u011fru par\xe7as\u0131",
     "LineGraph": "Do\u011fru Grafi\u011fi",
     "LineMenu": "Do\u011fru",
+    "LineOpacity": "Line Opacity",
     "Linear": "Do\u011frusal",
     "LinkedFiles": "Ba\u011fl\u0131 Dosyalar",
     "List": "Liste",

@@ -1527,6 +1527,7 @@ __GGB__keysVar.hr.menu = {
     "LineBisector_Help": "Odaberite dvije to\u010dke ili jednu du\u017einu",
     "LineGraph": "Graf pravca",
     "LineMenu": "Pravac",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linearna",
     "LinkedFiles": "Povezane datoteke",
     "List": "Lista",

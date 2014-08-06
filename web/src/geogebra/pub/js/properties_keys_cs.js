@@ -1527,6 +1527,7 @@ __GGB__keysVar.cs.menu = {
     "LineBisector_Help": "Dva body nebo \xfase\u010dka",
     "LineGraph": "Spojnicov\xfd graf",
     "LineMenu": "P\u0159\xedmka",
+    "LineOpacity": "Line Opacity",
     "Linear": "Line\xe1rn\xed",
     "LinkedFiles": "Spojen\xe9 soubory",
     "List": "Seznam",

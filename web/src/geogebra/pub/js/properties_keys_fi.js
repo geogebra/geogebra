@@ -1527,6 +1527,7 @@ __GGB__keysVar.fi.menu = {
     "LineBisector_Help": "Valitse kaksi pistett\xe4 tai jana",
     "LineGraph": "Viivakaavio",
     "LineMenu": "Suora",
+    "LineOpacity": "Line Opacity",
     "Linear": "Lineaarinen",
     "LinkedFiles": "Tinkitetty tiedostot",
     "List": "Lista",

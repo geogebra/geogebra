@@ -1527,6 +1527,7 @@ __GGB__keysVar.cy.menu = {
     "LineBisector_Help": "Dewis dau bwynt neu un segment",
     "LineGraph": "Graff Llinell",
     "LineMenu": "Llinell",
+    "LineOpacity": "Line Opacity",
     "Linear": "Llinol",
     "LinkedFiles": "Ffeiliau Cyswllt",
     "List": "Rhestr",

@@ -1527,6 +1527,7 @@ __GGB__keysVar.ko.menu = {
     "LineBisector_Help": "\ub450 \uc810 \ub610\ub294 \ud55c \uc120\ubd84\uc744 \uc120\ud0dd\ud558\uc138\uc694",
     "LineGraph": "\uc120 \uadf8\ub798\ud504",
     "LineMenu": "\uc9c1\uc120",
+    "LineOpacity": "Line Opacity",
     "Linear": "\uc77c\ucc28(\uc120\ud615)",
     "LinkedFiles": "\uc5f0\uacb0\ub41c \ud30c\uc77c",
     "List": "\ub9ac\uc2a4\ud2b8",

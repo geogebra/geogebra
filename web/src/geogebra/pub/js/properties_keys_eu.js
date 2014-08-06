@@ -1527,6 +1527,7 @@ __GGB__keysVar.eu.menu = {
     "LineBisector_Help": "Bi puntu edo zuzenki bat",
     "LineGraph": "Lerro Grafikoa",
     "LineMenu": "Zuzena",
+    "LineOpacity": "Lerroaren Opakotasuna",
     "Linear": "Lineala",
     "LinkedFiles": "Estekatutako Fitxategiak",
     "List": "Zerrenda",

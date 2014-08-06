@@ -1527,6 +1527,7 @@ __GGB__keysVar.is.menu = {
     "LineBisector_Help": "Velji\xf0 tvo punkta e\xf0a eitt l\xednustrik",
     "LineGraph": "Leggjanet",
     "LineMenu": "L\xedna",
+    "LineOpacity": "Line Opacity",
     "Linear": "L\xednulegt",
     "LinkedFiles": "Tengdar skr\xe1r",
     "List": "Listi",

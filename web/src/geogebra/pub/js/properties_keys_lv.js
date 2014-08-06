@@ -1527,6 +1527,7 @@ __GGB__keysVar.lv.menu = {
     "LineBisector_Help": "Izv\u0113lies divus punktus vai vienu segmentu",
     "LineGraph": "L\u012bnijas grafiks",
     "LineMenu": "Taisne",
+    "LineOpacity": "Line Opacity",
     "Linear": "Line\u0101rs",
     "LinkedFiles": "Saist\u012btie faili",
     "List": "Saraksts",

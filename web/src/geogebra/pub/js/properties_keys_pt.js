@@ -1527,6 +1527,7 @@ __GGB__keysVar.pt.menu = {
     "LineBisector_Help": "Selecione dois pontos ou segmento",
     "LineGraph": "Grafo Linear",
     "LineMenu": "Reta",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linear",
     "LinkedFiles": "Arquivos Vinculados",
     "List": "Lista",

@@ -1527,6 +1527,7 @@ __GGB__keysVar.lt.menu = {
     "LineBisector_Help": "Pasirinkite du ta\u0161kus ar atkarp\u0105",
     "LineGraph": "Ties\u0117s grafikas",
     "LineMenu": "Ties\u0117",
+    "LineOpacity": "Line Opacity",
     "Linear": "Tiesinis",
     "LinkedFiles": "Sujungti dokumentai",
     "List": "S\u0105ra\u0161as",

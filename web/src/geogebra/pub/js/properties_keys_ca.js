@@ -1527,6 +1527,7 @@ __GGB__keysVar.ca.menu = {
     "LineBisector_Help": "Seleccioneu dos punts o un segment",
     "LineGraph": "L\xednia gr\xe0fica",
     "LineMenu": "Recta",
+    "LineOpacity": "Line Opacity",
     "Linear": "Lineal",
     "LinkedFiles": "Fitxers vinculats",
     "List": "Llista",

@@ -1527,6 +1527,7 @@ __GGB__keysVar.sl.menu = {
     "LineBisector_Help": "Izberi dve to\u010dki ali daljico",
     "LineGraph": "Linijski graf",
     "LineMenu": "Premica",
+    "LineOpacity": "Line Opacity",
     "Linear": "Linearno",
     "LinkedFiles": "Povezane datoteke",
     "List": "Seznam",
