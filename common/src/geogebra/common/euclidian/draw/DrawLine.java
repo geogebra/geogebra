@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
@@ -397,8 +398,8 @@ public class DrawLine extends Drawable implements Previewable {
                 g2.draw(line);                              
             }
             
-            // draw line              
-            g2.setPaint(geo.getObjectColor());
+            // draw line
+            g2.setPaint(getColorWithOpacity());
             g2.setStroke(objStroke);            
 			g2.draw(line);              
 
@@ -416,6 +417,14 @@ public class DrawLine extends Drawable implements Previewable {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);  
 		g2.draw(line);
+	}
+	
+	private GColor getColorWithOpacity() {
+		GColor objectColor = geo.getObjectColor();
+        return AwtFactory.prototype.newColor(objectColor.getRed(), 
+        		objectColor.getGreen(), 
+        		objectColor.getBlue(), 
+        		geo.getLineOpacity());
 	}
     
 	final public void updatePreview() {		

@@ -1175,11 +1175,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
-		public void setValue(int value) {
+		public void setThicknessSliderValue(int value) {
 			slider.setValue(value);
 
 		}
-		public void setMinimum(int minimum) {
+		public void setThicknessSliderMinimum(int minimum) {
 			slider.setMinimum(minimum);
 
 		}
@@ -1194,6 +1194,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 		public void setLineTypeVisible(boolean value) {
 	        stylePanel.setVisible(value);
+        }
+		public void setOpacitySliderValue(int value) {
+	        // TODO Auto-generated method stub
+	        
         }
 	}
 

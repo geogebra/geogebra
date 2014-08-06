@@ -4075,8 +4075,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private JSlider slider;
+		private JSlider thicknessSlider;
 		private JPanel thicknessPanel;
+		private JPanel opacityPanel;
+		private JSlider opacitySlider;
 		private JLabel dashLabel;
 		private JComboBox dashCB;
 		private LineStyleModel model;
@@ -4085,12 +4087,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public LineStylePanel() {
 			model = new LineStyleModel(this);
 			// thickness slider
-			slider = new JSlider(1, GeoElement.MAX_LINE_WIDTH);
-			slider.setMajorTickSpacing(2);
-			slider.setMinorTickSpacing(1);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
-			slider.setSnapToTicks(true);
+			thicknessSlider = new JSlider(1, GeoElement.MAX_LINE_WIDTH);
+			thicknessSlider.setMajorTickSpacing(2);
+			thicknessSlider.setMinorTickSpacing(1);
+			thicknessSlider.setPaintTicks(true);
+			thicknessSlider.setPaintLabels(true);
+			thicknessSlider.setSnapToTicks(true);
 
 			/*
 			 * Dimension dim = slider.getPreferredSize(); dim.width =
@@ -4098,10 +4100,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			 * slider.setPreferredSize(dim);
 			 */
 
+			thicknessSlider.addChangeListener(this);
+
+			opacitySlider = new JSlider(0, 256);
+			opacitySlider.setMajorTickSpacing(64);
+			opacitySlider.setMinorTickSpacing(16);
+			opacitySlider.setPaintTicks(true);
+			opacitySlider.setPaintLabels(true);
+			// create opacity labels
+			Hashtable labelTable = new Hashtable();
+			labelTable.put(new Integer(0),
+					new JLabel(app.getMenu("Transparent")));
+			labelTable.put(new Integer(255), new JLabel(app.getMenu("Opaque")));
+			opacitySlider.setLabelTable(labelTable);
+
+			opacitySlider.addChangeListener(this);
+
 			updateSliderFonts();
-
-			slider.addChangeListener(this);
-
 			// line style combobox (dashing)
 			DashListRenderer renderer = new DashListRenderer();
 			renderer.setPreferredSize(new Dimension(130,
@@ -4118,6 +4133,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// thickness panel
 			thicknessPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			// opacity panel
+			opacityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			/*
 			 * JLabel thicknessLabel = new JLabel(app.getPlain("Thickness") +
 			 * ":"); thicknessPanel.setLayout(new BoxLayout(thicknessPanel,
@@ -4131,18 +4148,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			 * thicknessPanel.add(Box.createRigidArea(new Dimension(5,0)));
 			 * thicknessPanel.add(thicknessLabel);
 			 */
-			thicknessPanel.add(slider);
+			thicknessPanel.add(thicknessSlider);
+			opacityPanel.add(opacitySlider);
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			thicknessPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+			opacityPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			dashPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			add(thicknessPanel);
+			add(opacityPanel);
 			add(dashPanel);
 		}
 
 		public void setLabels() {
 			thicknessPanel.setBorder(BorderFactory.createTitledBorder(app
 					.getPlain("Thickness")));
+			opacityPanel.setBorder(BorderFactory.createTitledBorder(app
+					.getMenu("LineOpacity")));
 
 			dashLabel.setText(app.getPlain("LineStyle") + ":");
 		}
@@ -4166,12 +4188,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				return null;
 			}
 
-			slider.removeChangeListener(this);
+			thicknessSlider.removeChangeListener(this);
+			opacitySlider.removeChangeListener(this);
 			dashCB.removeActionListener(this);
 
 			model.updateProperties();
 
-			slider.addChangeListener(this);
+			thicknessSlider.addChangeListener(this);
+			opacitySlider.addChangeListener(this);
 			dashCB.addActionListener(this);
 			return this;
 		}
@@ -4180,8 +4204,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * change listener implementation for slider
 		 */
 		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				model.applyThickness(slider.getValue());
+			if (e.getSource() == thicknessSlider) {
+				if (!thicknessSlider.getValueIsAdjusting()) {
+					model.applyThickness(thicknessSlider.getValue());
+				}
+			} else if (e.getSource() == opacitySlider) {
+				if (!opacitySlider.getValueIsAdjusting()) {
+					int value = opacitySlider.getValue();
+					// opacity slider has values from 0 to 256
+					// so that the ticks arrange nicely
+					if (value == 256) {
+						value = 255;
+					}
+					model.applyOpacity(value);
+				}
 			}
 		}
 
@@ -4200,6 +4236,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			Font font = app.getPlainFont();
 
 			thicknessPanel.setFont(font);
+			opacityPanel.setFont(font);
 			dashLabel.setFont(font);
 
 			updateSliderFonts();
@@ -4207,9 +4244,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void updateSliderFonts() {
 			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Dictionary<?, ?> labelTable = thicknessSlider.getLabelTable();
 			Enumeration<?> en = labelTable.elements();
 			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+
+			labelTable = opacitySlider.getLabelTable();
+			en = labelTable.elements();
 			while (en.hasMoreElements()) {
 				label = (JLabel) en.nextElement();
 				label.setFont(app.getSmallFont());
@@ -4222,14 +4266,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			dashCB.setSelectedIndex(index);
 		}
 
-		public void setValue(int value) {
-			slider.setValue(value);
-
+		public void setThicknessSliderValue(int value) {
+			thicknessSlider.setValue(value);
 		}
 
-		public void setMinimum(int minimum) {
-			slider.setMinimum(minimum);
+		public void setThicknessSliderMinimum(int minimum) {
+			thicknessSlider.setMinimum(minimum);
+		}
 
+		public void setOpacitySliderValue(int value) {
+			opacitySlider.setValue(value);
 		}
 
 		public void selectCommonLineStyle(boolean equalStyle, int type) {

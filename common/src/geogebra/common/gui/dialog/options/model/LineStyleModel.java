@@ -6,9 +6,11 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LineStyleModel extends OptionsModel {
 	public interface ILineStyleListener {
-		void setValue(int value);
+		void setThicknessSliderValue(int value);
 
-		void setMinimum(int minimum);
+		void setThicknessSliderMinimum(int minimum);
+
+		void setOpacitySliderValue(int value);
 
 		void selectCommonLineStyle(boolean equalStyle, int type);
 
@@ -72,10 +74,11 @@ public class LineStyleModel extends OptionsModel {
 	public void updateProperties() {
 		GeoElement temp, geo0 = getGeoAt(0);
 		if (listener != null) {
-			listener.setValue(geo0.getLineThickness());
+			listener.setThicknessSliderValue(geo0.getLineThickness());
 			// allow polygons to have thickness 0
-			listener.setMinimum(maxMinimumThickness());
+			listener.setThicknessSliderMinimum(maxMinimumThickness());
 
+			listener.setOpacitySliderValue(geo0.getLineOpacity());
 			listener.setLineTypeVisible(lineTypeEnabled); 
 		}
 		// check if geos have same line style
@@ -104,11 +107,18 @@ public class LineStyleModel extends OptionsModel {
 		}
 	}
 
-
 	public void applyLineType(int type) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineType(type);
+			geo.updateVisualStyleRepaint();
+		}
+	}
+
+	public void applyOpacity(int value) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			geo.setLineOpacity(value);
 			geo.updateVisualStyleRepaint();
 		}
 	}

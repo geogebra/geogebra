@@ -7251,4 +7251,28 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean needsEVupdate(){
 		return this.needsEVupdate;
 	}
+
+	/**
+	 * @return true if has line opacity value between 0-255
+	 */
+	public boolean hasLineOpacity() {
+		return false;
+	}
+
+	/**
+	 * @return The value for the line opacity (0 - 255). </br>
+	 * 			The default value is 255 (opaque)
+	 */
+	public int getLineOpacity() {
+		return 255;
+	}
+
+	/**
+	 * Sets the line opacity for this {@link GeoElement}. </br>
+	 * Does nothing iff {@link GeoElement#hasLineOpacity()} returns false.
+	 * @param lineOpacity opacity value between 0 - 255
+	 */
+	public void setLineOpacity(int lineOpacity) {
+		// do nothing
+	}
 }

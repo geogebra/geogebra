@@ -129,12 +129,12 @@ public class EuclidianStyleBarW extends StyleBarW
 			getMyPopup().hide();
 		}
 
-		public void setValue(int value) {
+		public void setThicknessSliderValue(int value) {
 			getMySlider().setValue(value);
 
 		}
 
-		public void setMinimum(int minimum) {
+		public void setThicknessSliderMinimum(int minimum) {
 			getMySlider().setMinimum(minimum);
 
 		}
@@ -145,6 +145,12 @@ public class EuclidianStyleBarW extends StyleBarW
 
 
 		public void setLineTypeVisible(boolean value) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+
+		public void setOpacitySliderValue(int value) {
 	        // TODO Auto-generated method stub
 	        
         }	    
