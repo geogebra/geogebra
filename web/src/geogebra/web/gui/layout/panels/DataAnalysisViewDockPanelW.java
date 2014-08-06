@@ -1,9 +1,12 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
+import geogebra.web.gui.view.data.DataAnalysisStyleBarW;
 import geogebra.web.gui.view.data.DataAnalysisViewW;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,9 +32,9 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 		super(App.VIEW_DATA_ANALYSIS, // view id
 				"DataAnalysis", // view title phrase
 				null, // toolbar string
-				false, // style bar?
+				true, // style bar?
 				-1, // menu order
-				'D' // menu shortcut
+				'-' // menu shortcut
 		);
 
 		this.app = app;
@@ -62,12 +65,15 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadStyleBar() {
-		return null;
+		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
+		da.getModel().setMode(DataAnalysisModel.MODE_ONEVAR);
+		DataAnalysisStyleBarW daStyleBar = new DataAnalysisStyleBarW((AppW) app, da);
+		return daStyleBar.asWidget();
 	}
 	
 	@Override
 	public boolean isStyleBarEmpty(){
-		return true;
+		return false;
 	}
 
 }
