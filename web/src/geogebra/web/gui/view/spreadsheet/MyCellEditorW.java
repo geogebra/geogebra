@@ -227,8 +227,10 @@ public class MyCellEditorW implements BaseCellEditor {
 	public void cancelCellEditing() {
 		editing = false;
 		errorOnStopEditing = false;
-
-		table.finishEditing();// ?
+		
+		if (table != null) { // ?
+			table.finishEditing();
+		}
 
 		// ?//super.cancelCellEditing();
 
