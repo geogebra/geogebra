@@ -4102,17 +4102,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			thicknessSlider.addChangeListener(this);
 
-			opacitySlider = new JSlider(0, 256);
-			opacitySlider.setMajorTickSpacing(64);
-			opacitySlider.setMinorTickSpacing(16);
+			opacitySlider = new JSlider(0, 100);
+			opacitySlider.setMajorTickSpacing(25);
+			opacitySlider.setMinorTickSpacing(5);
 			opacitySlider.setPaintTicks(true);
 			opacitySlider.setPaintLabels(true);
-			// create opacity labels
-			Hashtable labelTable = new Hashtable();
-			labelTable.put(new Integer(0),
-					new JLabel(app.getMenu("Transparent")));
-			labelTable.put(new Integer(255), new JLabel(app.getMenu("Opaque")));
-			opacitySlider.setLabelTable(labelTable);
+			opacitySlider.setSnapToTicks(true);
 
 			opacitySlider.addChangeListener(this);
 
@@ -4210,12 +4205,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				}
 			} else if (e.getSource() == opacitySlider) {
 				if (!opacitySlider.getValueIsAdjusting()) {
-					int value = opacitySlider.getValue();
-					// opacity slider has values from 0 to 256
-					// so that the ticks arrange nicely
-					if (value == 256) {
-						value = 255;
-					}
+					int value = (int) ((opacitySlider.getValue() / 100.0f) * 255);
 					model.applyOpacity(value);
 				}
 			}

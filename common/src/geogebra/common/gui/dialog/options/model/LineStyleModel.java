@@ -77,8 +77,8 @@ public class LineStyleModel extends OptionsModel {
 			listener.setThicknessSliderValue(geo0.getLineThickness());
 			// allow polygons to have thickness 0
 			listener.setThicknessSliderMinimum(maxMinimumThickness());
-
-			listener.setOpacitySliderValue(geo0.getLineOpacity());
+			int opacity = (int) ((geo0.getLineOpacity() / 255.0f) * 100);
+			listener.setOpacitySliderValue(opacity);
 			listener.setLineTypeVisible(lineTypeEnabled); 
 		}
 		// check if geos have same line style

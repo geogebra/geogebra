@@ -97,8 +97,7 @@ public class DrawLocus extends Drawable {
 	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geo
-					.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.drawWithValueStrokePure(gp);
 		}
@@ -125,8 +124,7 @@ public class DrawLocus extends Drawable {
 			}
 
 			// draw locus
-			g2.setPaint(geo
-					.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.drawWithValueStrokePure(gp);
 
