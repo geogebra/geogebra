@@ -2702,6 +2702,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 */
 	final protected void clearBackground(geogebra.common.awt.GGraphics2D g) {
 		g.setColor(getBackgroundCommon());
+		g.updateCanvasColor();
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 

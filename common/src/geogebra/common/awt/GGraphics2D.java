@@ -802,4 +802,6 @@ public interface GGraphics2D {
 	public abstract Object setInterpolationHint(boolean needsInterpolationRenderingHint);
 
 	public abstract  void resetInterpolationHint(Object oldInterpolationHint);
+
+	public abstract void updateCanvasColor();
 }

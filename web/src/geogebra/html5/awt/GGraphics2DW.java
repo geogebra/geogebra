@@ -650,9 +650,9 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 	public void setColor(GColor fillColor) {
 		//checking for the same color here speeds up axis drawing by 25%
-		//if(fillColor != null && fillColor.equals(color)){
-		//	return;
-		//}
+		if(fillColor != null && fillColor.equals(color)){
+			return;
+		}
 		//but it seems that setColor is not only for setting "color",
 		//but also for setFillStyle and setStrokeStyle,
 		//and it seems that this is necessary to run,
@@ -663,7 +663,7 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		this.currentPaint = new GColorW((GColorW)fillColor);
 	}
 
-	private void updateCanvasColor() {
+	public void updateCanvasColor() {
 		if(color == null){
 			return;
 		}

@@ -382,4 +382,11 @@ public class TextGraphics implements geogebra.common.awt.GGraphics2D{
 		
 	}
 
+
+	@Override
+	public void updateCanvasColor() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
