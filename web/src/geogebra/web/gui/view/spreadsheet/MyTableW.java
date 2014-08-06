@@ -88,11 +88,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public CopyPasteCut copyPasteCut;
 
 	protected SpreadsheetColumnControllerW scc;
-	
+
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
 	// columnHeaderRenderer;
 	// protected SpreadsheetRowHeaderW.RowHeaderRenderer rowHeaderRenderer;
-	
 
 	protected SpreadsheetViewW view;
 	protected SpreadsheetTableModel tableModel;
@@ -401,7 +400,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		 * ctrl-tab rather than mouse // click // changeSelection(0, 0, false,
 		 * false);
 		 */
-		
+
 		// rowHeaderRenderer = srh.new RowHeaderRenderer();
 		// columnHeaderRenderer = scc.new ColumnHeaderRenderer();
 
@@ -559,7 +558,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// ---- column header
 		columnHeader = new SpreadsheetColumnHeaderW(app, this);
-		s = columnHeader.getElement().getStyle();
+		s = columnHeader.getContainer().getElement().getStyle();
 		s.setPosition(Style.Position.RELATIVE);
 
 		columnHeaderContainer = new FlowPanel();
@@ -568,14 +567,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		s.setOverflow(Style.Overflow.HIDDEN);
 		s.setMarginLeft(leftCornerWidth, Unit.PX);
 		s.setMarginRight(rightCornerWidth, Unit.PX);
-		columnHeaderContainer.add(columnHeader);
+		columnHeaderContainer.add(columnHeader.getContainer());
 
 		// ------ row header
 		rowHeader = new SpreadsheetRowHeaderW(app, this);
 		s = rowHeader.getContainer().getElement().getStyle();
 		s.setPosition(Style.Position.RELATIVE);
-		
-		
+
 		rowHeaderContainer = new FlowPanel();
 		s = rowHeaderContainer.getElement().getStyle();
 		s.setDisplay(Display.BLOCK);
@@ -587,9 +585,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		rowHeaderContainer.add(rowHeader.getContainer());
 		rowHeaderContainer.add(cornerContainerLowerLeft);
-		
-		
-		
+
 		// spreadsheet table
 		ssGrid = new Grid(tableModel.getRowCount(), tableModel.getColumnCount());
 		gridPanel = new AbsolutePanel();
@@ -780,9 +776,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public int getRowHeight(int row) {
-	    return ssGrid.getRowFormatter().getElement(row).getOffsetHeight();
-    }
-	
+		return ssGrid.getRowFormatter().getElement(row).getOffsetHeight();
+	}
+
+	public int getColumnWidth(int column) {
+		// columnFormatter returns 0 (in Chrome at least)
+		// so cellFormatter used instead
+		return ssGrid.getCellFormatter().getElement(0,column)
+                .getOffsetWidth();
+	}
+
 	public int getLeadSelectionRow() {
 		if (leadSelectionRow < 0) {
 			return getSelectedRow();
@@ -796,7 +799,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 		return leadSelectionColumn;
 	}
-	
+
 	/**
 	 * sets requirement that commands entered into cells must start with "="
 	 */
@@ -1566,11 +1569,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	public GRectangle getCellRect(int row, int column, boolean spacing) {
 		GPoint min = getPixel(column, row, true);
-		if(min == null){
+		if (min == null) {
 			return null;
 		}
 		GPoint max = getPixel(column, row, false);
-		if(max == null){
+		if (max == null) {
 			return null;
 		}
 		return new Rectangle(min.x, min.y, max.x - min.x, max.y - min.y);
@@ -1950,16 +1953,44 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			ssGrid.getColumnFormatter().getElement(column).getStyle()
 			        .setWidth(width2, Style.Unit.PX);
 			if (showColumnHeader) {
-				columnHeader.getColumnFormatter().getElement(column).getStyle()
-				        .setWidth(width2, Style.Unit.PX);
+				columnHeader.setColumnWidth(column, width2);
 			}
 		}
 
 	}
 
+	
+	public void setColumnWidth(final int width) {
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+
+				minimumRowHeight = dummyTable.getCellFormatter()
+				        .getElement(0, 0).getOffsetHeight();
+
+				int width2 = Math.max(width, minimumRowHeight);
+
+				for (int col = 0; col < getColumnCount(); col++) {
+					ssGrid.getColumnFormatter().getElement(col).getStyle()
+					        .setWidth(width2, Style.Unit.PX);
+					if (showColumnHeader) {
+						columnHeader.setColumnWidth(col, width2);
+					}
+				}
+
+				if (view != null) {
+					// view.updatePreferredRowHeight(rowHeight2);
+				}
+
+			}
+		});
+	}
+	
+	
 	// Keep row heights of table and row header in sync
 	public void setRowHeight(final int row, final int rowHeight) {
-		
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -1972,7 +2003,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (row >= 0) {
 					ssGrid.getRowFormatter().getElement(row).getStyle()
 					        .setHeight(rowHeight2, Style.Unit.PX);
-					
+
 					if (showRowHeader) {
 						syncRowHeaderHeight(row);
 					}
@@ -1997,8 +2028,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		});
 	}
-		
-		
+
 	public void setRowHeight(final int rowHeight) {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -2089,8 +2119,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 														 */
 			, Style.Unit.PX);
 
-			columnHeader.getColumnFormatter().getElement(col).getStyle()
-			        .setWidth(resultWidth, Unit.PX);
+			columnHeader.setColumnWidth(col, resultWidth);
 
 		}
 
@@ -2150,8 +2179,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 												 */
 		, Style.Unit.PX);
 
-		columnHeader.getColumnFormatter().getElement(column).getStyle()
-		        .setWidth(prefWidth, Unit.PX);
+		columnHeader.setColumnWidth(column, prefWidth);
 	}
 
 	/**
@@ -2982,12 +3010,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void setShowVScrollBar(boolean showVScrollBar) {
-	    scroller.setShowVScrollBar(showVScrollBar);
-    }
+		scroller.setShowVScrollBar(showVScrollBar);
+	}
 
 	public void setShowHScrollBar(boolean showHScrollBar) {
-	    scroller.setShowHScrollBar(showHScrollBar);
-    }
+		scroller.setShowHScrollBar(showHScrollBar);
+	}
+
 	
 
 }

@@ -3,7 +3,6 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -443,13 +442,13 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			// On mouse drag either resize or select a row
 			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
 			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
+			
 			if (resizingRow >= 0) {
 				// resize row
 				int newHeight = y - mouseYOffset;
 				if (newHeight > 0) {
 					table.setRowHeight(resizingRow, newHeight);
-					// set this flag to resize all selected rows on mouse
-					// release
+					// flag to resize all selected rows on mouse release
 					doRowResize = true;
 					table.repaint();
 					renderSelection();
@@ -501,7 +500,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	// ===============================================
 
 	public void onKeyDown(KeyDownEvent e) {
-		App.debug("row header key down");
+		//App.debug("row header key down");
 		e.stopPropagation();
 		int keyCode = e.getNativeKeyCode();
 

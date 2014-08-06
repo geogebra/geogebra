@@ -1,33 +1,38 @@
 package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
-        MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler
-/*
- * extends JList implements MouseListener, MouseMotionListener, KeyListener,
- * ListSelectionListener
- */
+public class SpreadsheetColumnHeaderW implements MouseDownHandler,
+        MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler,
+        KeyDownHandler
 
 {
 	private static final long serialVersionUID = 1L;
@@ -35,24 +40,17 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 	private SpreadsheetViewW view;
 	private Kernel kernel;
 	private MyTableW table;
+	private Grid grid;
 
-	// note: MyTable uses its own minSelectionRow and maxSelectionRow.
-	// The selection listener keeps them in sync.
-	private int minSelectionRow = -1;
-	private int maxSelectionRow = -1;
-	/*
-	 * private ListSelectionModel selectionModel;
-	 * 
-	 * // fields for resizing rows private static Cursor resizeCursor = Cursor
-	 * .getPredefinedCursor(Cursor.N_RESIZE_CURSOR); private Cursor otherCursor
-	 * = resizeCursor;
-	 */
-	private int mouseYOffset, resizingRow = -1;
+	private FlowPanel container;
+	private FocusPanel focusPanel;
+
+	private int mouseXOffset, resizingColumn = -1;
 
 	private boolean isMouseDown = false;
 
 	protected int column0 = -1;
-	protected boolean isResizing = false;
+	private boolean doColumnResize = false;
 
 	private int overTraceButtonColumn = -1;
 
@@ -60,8 +58,6 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 	 * Constructor
 	 */
 	public SpreadsheetColumnHeaderW(AppW app, MyTableW table) {
-
-		super(1, table.getModel().getColumnCount());
 
 		this.app = app;
 		this.table = table;
@@ -85,55 +81,104 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 
 	private void registerListeners() {
 
-		addDomHandler(this, MouseDownEvent.getType());
-		addDomHandler(this, MouseUpEvent.getType());
-		addDomHandler(this, MouseMoveEvent.getType());
-		addDomHandler(this, ClickEvent.getType());
-		addDomHandler(this, DoubleClickEvent.getType());
-	}
-
-	private void prepareGUI() {
-
-		setCellPadding(0);
-		setCellSpacing(0);
-		getElement().addClassName("geogebraweb-table-spreadsheet");
-
-		int rowHeight = app.getSettings().getSpreadsheet().preferredRowHeight();
-		getRowFormatter().getElement(0).getStyle()
-		        .setHeight(rowHeight, Style.Unit.PX);
-
-		for (int col = 0; col < this.getColumnCount(); col++) {
-			initializeCell(col);
-		}
+		grid.addDomHandler(this, MouseDownEvent.getType());
+		grid.addDomHandler(this, MouseUpEvent.getType());
+		grid.addDomHandler(this, MouseMoveEvent.getType());
+		grid.addDomHandler(this, ClickEvent.getType());
+		grid.addDomHandler(this, DoubleClickEvent.getType());
 
 	}
+
+	// ============================================
+	// GUI handlers
+	// ============================================
 
 	private void initializeCell(int colIndex) {
 
 		String name = GeoElementSpreadsheet.getSpreadsheetColumnName(colIndex);
-		setText(0, colIndex, name);
+		grid.setText(0, colIndex, name);
 
 		int columnWidth = table.preferredColumnWidth;
-		getColumnFormatter().getElement(colIndex).getStyle()
+		grid.getColumnFormatter().getElement(colIndex).getStyle()
 		        .setWidth(columnWidth, Style.Unit.PX);
 
-		Element elm = getCellFormatter().getElement(0, colIndex);
+		Element elm = grid.getCellFormatter().getElement(0, colIndex);
 		elm.addClassName("SVheader");
 		elm.getStyle().setBackgroundColor(
 		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
 	}
 
+	private void prepareGUI() {
+
+		grid = new Grid(1, table.getModel().getColumnCount());
+
+		grid.setCellPadding(0);
+		grid.setCellSpacing(0);
+		grid.setHeight("0px");
+
+		grid.getElement().addClassName("geogebraweb-table-spreadsheet");
+
+		int rowHeight = app.getSettings().getSpreadsheet().preferredRowHeight();
+		grid.getRowFormatter().getElement(0).getStyle()
+		        .setHeight(rowHeight, Style.Unit.PX);
+
+		for (int col = 0; col < grid.getColumnCount(); col++) {
+			initializeCell(col);
+		}
+
+		focusPanel = new FocusPanel();
+		focusPanel.addKeyDownHandler(this);
+		Style s = focusPanel.getElement().getStyle();
+		// s.setDisplay(Style.Display.NONE);
+		s.setPosition(Style.Position.ABSOLUTE);
+		s.setTop(0, Unit.PX);
+		s.setLeft(0, Unit.PX);
+
+		container = new FlowPanel();
+		container.add(grid);
+		container.add(focusPanel);
+
+	}
+
 	public void updateColumnCount() {
 
-		if (getColumnCount() >= table.getColumnCount())
+		if (grid.getColumnCount() >= table.getColumnCount())
 			return;
 
-		int oldColumnCount = getColumnCount();
-		resizeColumns(table.getColumnCount());
+		int oldColumnCount = grid.getColumnCount();
+		grid.resizeColumns(table.getColumnCount());
 
 		for (int i = oldColumnCount; i < table.getColumnCount(); ++i) {
 			initializeCell(i);
 		}
+	}
+
+	// ============================================
+	// Getters/Setters
+	// ============================================
+
+	public Widget getContainer() {
+		return container;
+	}
+
+	public void setLeft(int left) {
+		container.getElement().getStyle().setLeft(left, Unit.PX);
+	}
+
+	public int getOffsetHeight() {
+		return getContainer().getOffsetHeight();
+	}
+
+	private String getCursor() {
+		return grid.getElement().getStyle().getCursor();
+	}
+
+	private void setColumnResizeCursor() {
+		grid.getElement().getStyle().setCursor(Style.Cursor.COL_RESIZE);
+	}
+
+	private void setDefaultCursor() {
+		grid.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
 	}
 
 	public void renderSelection() {
@@ -142,8 +187,9 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 		String selectedBackground = MyTableW.SELECTED_BACKGROUND_COLOR_HEADER
 		        .toString();
 
-		for (int colIndex = 0; colIndex < this.getColumnCount(); colIndex++) {
-			Style s = getCellFormatter().getElement(0, colIndex).getStyle();
+		for (int colIndex = 0; colIndex < grid.getColumnCount(); colIndex++) {
+			Style s = grid.getCellFormatter().getElement(0, colIndex)
+			        .getStyle();
 
 			if (table.getSelectionType() == MyTable.ROW_SELECT) {
 				setBgColorIfNeeded(s, defaultBackground);
@@ -158,9 +204,53 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 		}
 	}
 
+	/**
+	 * @param rowIndex
+	 *            index of row to set height
+	 * @param rowHeight
+	 *            new row height
+	 */
+	public void setColumnWidth(int columnIndex, int width) {
+
+		if (columnIndex >= grid.getColumnCount()) {
+			return;
+		}
+
+		grid.getColumnFormatter().getElement(columnIndex).getStyle()
+		        .setWidth(width, Style.Unit.PX);
+	}
+
 	private static void setBgColorIfNeeded(Style s, String bgColor) {
 		if (!s.getBackgroundColor().equals(bgColor))
 			s.setBackgroundColor(bgColor);
+	}
+
+	/**
+	 * @param p
+	 *            location of mouse (in client area pixels)
+	 * @return index of the column to be resized if mouse point p is near a
+	 *         column boundary (within 3 pixels)
+	 */
+	private int getResizingColumn(GPoint p) {
+		int resizeColumn = -1;
+		GPoint point = table.getIndexFromPixel(p.x, 0);
+		if (point != null) {
+			// test if mouse is 3 pixels from column boundary
+			int cellColumn = point.getX();
+			if (cellColumn >= 0) {
+				GRectangle r = table.getCellRect(0, cellColumn, true);
+				// near column left ?
+				if (p.x < r.getX() + 3) {
+					resizeColumn = cellColumn - 1;
+				}
+				// near column right ?
+				if (p.x > r.getX() + r.getWidth() - 3) {
+					resizeColumn = cellColumn;
+				}
+			}
+		}
+
+		return resizeColumn;
 	}
 
 	// ===============================================
@@ -231,54 +321,54 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 
 		if (!rightClick) {
 			GPoint point = table.getIndexFromPixel(x, y);
-			if (point != null) {
 
-				// check if the cursor is within the resizing region (i.e.
-				// border +- 3pixels)
-				GPoint point2 = table
-				        .getPixel(point.getX(), point.getY(), true);
-				GPoint point3 = table.getPixel(point.getX(), point.getY(),
-				        false);
-				int x2 = point2.getX();
-				int x3 = point3.getX();
-				isResizing = !(x > x2 + 2 && x < x3 - 3);
+			if (point == null) {
+				return;
+			}
 
-				if (!isResizing) {
+			// mouse down in resizing region
+			GPoint p = new GPoint(x, y);
+			resizingColumn = getResizingColumn(p);
+			if (resizingColumn >= 0) {
+				mouseXOffset = p.x - table.getColumnWidth(resizingColumn);
+			}
 
-					// launch trace dialog if over a trace button
-					if (point.x == this.overTraceButtonColumn) {
-						int column = point.getX();
-						table.setColumnSelectionInterval(column, column);
-						// ?//view.showTraceDialog(null,
-						// ?// table.selectedCellRanges.get(0));
-						// ?//e.consume();
-						return;
-					}
+			// standard mouse down
+			else {
 
-					// otherwise handle column selection
-					if (table.getSelectionType() != MyTable.COLUMN_SELECT) {
-						table.setSelectionType(MyTable.COLUMN_SELECT);
-						// ?//if (table.getTableHeader() != null) {
-						// ?// table.getTableHeader().requestFocusInWindow();
-						// ?//}
-					}
-
-					if (shiftDown) {
-						if (column0 != -1) {
-							int column = point.getX();
-							table.setColumnSelectionInterval(column0, column);
-						}
-					} else if (metaDown) {
-						column0 = point.getX();
-						// Note: ctrl-select now handled in
-						// table.changeSelection
-						table.setColumnSelectionInterval(column0, column0);
-					} else {
-						column0 = point.getX();
-						table.setColumnSelectionInterval(column0, column0);
-					}
-					renderSelection();
+				// launch trace dialog if over a trace button
+				if (point.x == this.overTraceButtonColumn) {
+					int column = point.getX();
+					table.setColumnSelectionInterval(column, column);
+					// ?//view.showTraceDialog(null,
+					// ?// table.selectedCellRanges.get(0));
+					// ?//e.consume();
+					return;
 				}
+
+				// otherwise handle column selection
+				if (table.getSelectionType() != MyTable.COLUMN_SELECT) {
+					table.setSelectionType(MyTable.COLUMN_SELECT);
+					// ?//if (table.getTableHeader() != null) {
+					// ?// table.getTableHeader().requestFocusInWindow();
+					// ?//}
+				}
+
+				if (shiftDown) {
+					if (column0 != -1) {
+						int column = point.getX();
+						table.setColumnSelectionInterval(column0, column);
+					}
+				} else if (metaDown) {
+					column0 = point.getX();
+					// Note: ctrl-select now handled in
+					// table.changeSelection
+					table.setColumnSelectionInterval(column0, column0);
+				} else {
+					column0 = point.getX();
+					table.setColumnSelectionInterval(column0, column0);
+				}
+				renderSelection();
 			}
 
 		}
@@ -290,10 +380,6 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 		e.preventDefault();
 
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
-
-		if (!((AppW) kernel.getApplication()).letShowPopupMenu()) {
-			return;
-		}
 
 		if (rightClick) {
 
@@ -328,53 +414,34 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 			        .getGuiManager()).getSpreadsheetContextMenu(table,
 			        e.isShiftKeyDown());
 			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
-
-		} else if (isResizing) {
-
-			// ?//if (e.getClickCount() == 2) {
-			// ?// return;
-			// ?//}
-
-			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
-			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
-			GPoint point = table.getIndexFromPixel(x, y);
-			if (point == null) {
-				return;
-			}
-			GPoint point2 = table.getPixel(point.getX(), point.getY(), false);
-			int column = point.getX();
-			if (x < point2.getX() - 3) {
-				--column;
-			}
-
-			if (x <= 0) {
-				x = 0; // G.Sturr 2010-4-10 prevent x=-1 with very small row
-				       // size
-			}
-
-			int width = table.getGrid().getColumnFormatter().getElement(column)
-			        .getOffsetWidth();
-			int[] selected = table.getSelectedColumns();
-			if (selected == null) {
-				return;
-			}
-			boolean in = false;
-			for (int i = 0; i < selected.length; ++i) {
-				if (column == selected[i])
-					in = true;
-			}
-			if (!in) {
-				return;
-			}
-			for (int i = 0; i < selected.length; ++i) {
-				table.getGrid().getColumnFormatter()
-				        .setWidth(selected[i], width + "px");
-				// FIXME: don't forget to write it as:
-				// table.getColumnFormatter().getElement(selected[i]).getStyle().setWidth(width,
-				// Style.Unit.PX);
-				// the other syntax doesn't work probably
-			}
 		}
+
+		// left click
+		
+		if (doColumnResize) {
+			// If column resize has happened, resize all other selected columns
+			App.debug("doing column resize");
+			int columnWidth = table.getColumnWidth(resizingColumn);
+			// App.debug("doRowResiz for selection: " + rowHeight);
+			// App.debug("min/max " + table.minSelectionRow + " , " +
+			// table.maxSelectionRow);
+			if (table.minSelectionColumn != -1
+			        && table.maxSelectionColumn != -1
+			        && (table.maxSelectionColumn - table.minSelectionColumn > 0)) {
+				if (table.isSelectAll())
+					table.setColumnWidth(columnWidth);
+				else
+					for (int col = table.minSelectionColumn; col <= table.maxSelectionColumn; col++) {
+						App.debug("setting column, width: " + col + " , "
+						        + columnWidth);
+						table.setColumnWidth(col, columnWidth);
+					}
+			}
+			table.repaint();
+			table.renderSelectionDeferred();
+			doColumnResize = false;
+		}
+
 	}
 
 	// ===============================================
@@ -384,6 +451,15 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 	public void onMouseMove(MouseMoveEvent e) {
 
 		e.preventDefault();
+
+		// Show resize cursor when mouse is over a row boundary
+		GPoint p = new GPoint(e.getClientX(), e.getClientY());
+		int r = this.getResizingColumn(p);
+		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE)) {
+			setColumnResizeCursor();
+		} else if (!getCursor().equals(Style.Cursor.DEFAULT)) {
+			setDefaultCursor();
+		}
 
 		// handles mouse over a trace button
 
@@ -416,25 +492,42 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 		// DRAG
 
 		if (isMouseDown) {
-			if (e.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-				return; // G.Sturr 2009-9-30
-			}
 
-			if (isResizing) {
+			if (e.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
 				return;
 			}
+
 			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
 			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
-			GPoint point = table.getIndexFromPixel(x, y);
-			if (point != null) {
-				int column = point.getX();
-				if (column0 == -1) {
-					column0 = column;
+
+			// Handle mouse drag
+
+			if (resizingColumn >= 0) {
+				// Resize a column
+				int newWidth = x - mouseXOffset;
+				if (newWidth > 0) {
+					table.setColumnWidth(resizingColumn, newWidth);
+					// flag to resize all selected rows on mouse release
+					doColumnResize = true;
+					table.repaint();
+					renderSelection();
 				}
-				table.setColumnSelectionInterval(column0, column);
-				renderSelection();
+			}
+
+			else {
+				// Select a column
+				GPoint point = table.getIndexFromPixel(x, y);
+				if (point != null) {
+					int column = point.getX();
+					if (column0 == -1) {
+						column0 = column;
+					}
+					table.setColumnSelectionInterval(column0, column);
+					renderSelection();
+				}
 			}
 		}
+
 	}
 
 	public void onDoubleClick(DoubleClickEvent event) {
@@ -443,6 +536,11 @@ public class SpreadsheetColumnHeaderW extends Grid implements MouseDownHandler,
 	}
 
 	public void onClick(ClickEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onKeyDown(KeyDownEvent event) {
 		// TODO Auto-generated method stub
 
 	}

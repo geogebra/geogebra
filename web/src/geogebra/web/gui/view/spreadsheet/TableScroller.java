@@ -8,23 +8,21 @@ import javax.swing.JComponent;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class TableScroller extends ScrollPanel implements ScrollHandler {
 
 	private MyTableW table;
 	private Grid cellTable;
 	private SpreadsheetRowHeaderW rowHeader;
-	private Widget columnHeader;
+	private SpreadsheetColumnHeaderW columnHeader;
 
 	public TableScroller(MyTableW table, SpreadsheetRowHeaderW rowHeader,
-	        Widget columnHeader) {
+			SpreadsheetColumnHeaderW columnHeader) {
 		super(table.getGridPanel());
 		this.table = table;
 		this.cellTable = table.getGrid();
@@ -274,7 +272,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		int t = -getVerticalScrollPosition();
 		int l = -getHorizontalScrollPosition();
 		rowHeader.setTop(t);
-		columnHeader.getElement().getStyle().setLeft(l, Unit.PX);
+		columnHeader.setLeft(l);
 	}
 
 	/**
