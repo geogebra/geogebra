@@ -387,4 +387,10 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 		return impl;
 	}
 
+	@Override
+	public void updateCanvasColor() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
