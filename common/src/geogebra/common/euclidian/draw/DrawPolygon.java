@@ -189,8 +189,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
 			else if (!poly.wasInitLabelsCalled() && poly.lineThickness > 0) {
-				g2.setPaint(poly
-						.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(gp);
 			}
@@ -316,7 +315,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			
 			fill(g2,  (geo.isInverseFill() ? getShape() : gp), false);
 
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(gp);

@@ -101,7 +101,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.drawWithValueStrokePure(gp);
 		}
@@ -160,7 +160,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 
-			g2.setPaint(poly.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 
@@ -234,7 +234,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-            g2.setPaint(geo.getObjectColor());
+            g2.setPaint(getObjectColor());
             updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(gp);

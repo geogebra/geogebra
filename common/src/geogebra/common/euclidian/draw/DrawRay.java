@@ -225,7 +225,7 @@ public class DrawRay extends Drawable implements Previewable {
 				g2.draw(line);
 			}
 
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(line);
 

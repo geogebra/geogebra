@@ -824,6 +824,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		// return defined;
 		return true;
 	}
+	
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
 
 	/**
 	 * Yields true if the area of this polygon is equal to the area of polygon
