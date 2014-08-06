@@ -112,6 +112,7 @@ public class AppWapplication extends AppW {
 	}
 	
 	private AuthenticationModelW authenticationModel = null;
+	private boolean menuInited = false;
 	
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
@@ -300,6 +301,10 @@ public class AppWapplication extends AppW {
 	
 	@Override
 	public void toggleMenu(){
+		if(!this.menuInited ){
+			appFrame.getMenuBar().init(this);
+			this.menuInited = true;
+		}
 		boolean menuOpen = appFrame.toggleMenu();
 		if(!menuOpen && this.getGuiManager()!=null){
 			this.getGuiManager().setDraggingViews(false, true);

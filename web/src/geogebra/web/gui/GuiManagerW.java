@@ -155,7 +155,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	@Override
 	public void updateActions() {
 		GGWMenuBar ggwMenuBar = ((AppW) app).getObjectPool().getGgwMenubar();
-		if (ggwMenuBar != null) {
+		if (ggwMenuBar != null && ggwMenuBar.getMenubar() != null) {
 			ggwMenuBar.getMenubar().updateSelection();
 		}
 		if(getToolbarPanel() != null){

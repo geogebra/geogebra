@@ -46,7 +46,9 @@ public class GGWMenuBar extends Composite implements RequiresResize{
 
 	@Override
     public void onResize() {
-	    menubar.onResize();
+		if(menubar!=null){
+			menubar.onResize();
+		}
     }
 	
 }

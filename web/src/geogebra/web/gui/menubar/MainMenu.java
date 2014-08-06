@@ -152,13 +152,13 @@ public class MainMenu extends FlowPanel implements RequiresResize {
 
 	public void updateMenubar() {
 		app.getOptionsMenu().update();
-		
-		viewMenu.update();
-		
+		if(viewMenu != null){
+			viewMenu.update();
+		}
     }
 	
 	public void updateSelection() {
-		if(this != null){
+		if(this.getEditMenu()!=null){
 			getEditMenu().initActions();
 		}
 	}
