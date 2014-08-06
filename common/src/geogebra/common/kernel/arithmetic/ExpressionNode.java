@@ -996,7 +996,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if(left instanceof ValidExpression && ((ValidExpression)left).containsFunctionVariable()){
 				equ.setIsPolynomial(false);
 			}
-			if(right instanceof ValidExpression && ((ExpressionNode)left).containsFunctionVariable()){
+			if(right instanceof ValidExpression && ((ValidExpression)right).containsFunctionVariable()){
 				equ.setIsPolynomial(false);
 			}
 			return new Polynomial(kernel, new Term( new ExpressionNode(
