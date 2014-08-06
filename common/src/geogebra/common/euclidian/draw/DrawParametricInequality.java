@@ -57,7 +57,7 @@ class DrawParametricInequality extends Drawable {
 		// appropriate
 
 		if (geo.lineThickness > 0) {
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.drawWithValueStrokePure(gp);
 		}

@@ -260,7 +260,7 @@ public class DrawInequality extends Drawable {
 						g2.draw(gpAxis[i]);
 					}
 				}
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				for (int i = 0; gpAxis[i] != null; i++) {
 					g2.draw(gpAxis[i]);

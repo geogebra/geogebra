@@ -55,7 +55,7 @@ public class DrawInequality1Var extends Drawable {
 			}			
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f, ((GeoElement)ineq
 						.getFunBorder()).lineType));
 				g2.drawWithValueStrokePure(gp[i]);
@@ -74,7 +74,7 @@ public class DrawInequality1Var extends Drawable {
 			}	
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f,
 						EuclidianStyleConstants.LINE_TYPE_FULL));
 				g2.drawWithValueStrokePure(circle[i]);
