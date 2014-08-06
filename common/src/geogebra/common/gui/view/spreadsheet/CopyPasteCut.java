@@ -59,7 +59,7 @@ public abstract class CopyPasteCut {
 		return view;
 	}
 
-	private MyTableInterface getTable() {
+	protected MyTableInterface getTable() {
 		if (table == null) {
 			table = getView().getSpreadsheetTable();
 		}
