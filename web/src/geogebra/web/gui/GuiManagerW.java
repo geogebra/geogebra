@@ -134,8 +134,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void updateMenubarSelection() {
-		if (((AppW) app).getObjectPool().getGgwMenubar() != null) {
-			((AppW) app).getObjectPool().getGgwMenubar().getMenubar().updateSelection();
+		GGWMenuBar mb = ((AppW) app).getObjectPool().getGgwMenubar();
+		if (mb != null && mb.getMenubar()!=null) {
+			mb.getMenubar().updateSelection();
 		}
 
 	}
