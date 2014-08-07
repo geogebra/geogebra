@@ -511,28 +511,6 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	}
 
 	/**
-	 * Returns a <code>PathIterator</code> object that iterates along the
-	 * boundary of the flattened <code>Shape</code> and provides access to the
-	 * geometry of the outline of the <code>Shape</code>. The iterator for this
-	 * class is not multi-threaded safe, which means that this
-	 * <code>GeneralPath</code> class does not guarantee that modifications to
-	 * the geometry of this <code>GeneralPath</code> object do not affect any
-	 * iterations of that geometry that are already in process.
-	 *
-	 * @param at
-	 *            an <code>AffineTransform</code>
-	 * @param flatness
-	 *            the maximum distance that the line segments used to
-	 *            approximate the curved segments are allowed to deviate from
-	 *            any point on the original curve
-	 * @return a new <code>PathIterator</code> that iterates along the flattened
-	 *         <code>Shape</code> boundary.
-	 */
-	public PathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new FlatteningPathIterator(getPathIterator(at), flatness);
-	}
-
-	/**
 	 * Returns the fill style winding rule.
 	 *
 	 * @return an integer representing the current winding rule.

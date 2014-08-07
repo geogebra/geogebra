@@ -1605,26 +1605,4 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
     	return new QuadIterator(this, at);
     }
 
-    /**
-     * Returns an iteration object that defines the boundary of the
-     * flattened shape of this <code>QuadCurve2D</code>.
-     * The iterator for this class is not multi-threaded safe,
-     * which means that this <code>QuadCurve2D</code> class does not
-     * guarantee that modifications to the geometry of this
-     * <code>QuadCurve2D</code> object do not affect any iterations of
-     * that geometry that are already in process.
-     * @param at an optional <code>AffineTransform</code> to apply
-     *		to the boundary of the shape
-     * @param flatness the maximum distance that the control points for a
-     *		subdivided curve can be with respect to a line connecting
-     * 		the endpoints of this curve before this curve is
-     *		replaced by a straight line connecting the endpoints.
-     * @return a <code>PathIterator</code> object that defines the
-     *		flattened boundary of the shape.
-     */
-    public PathIterator getPathIterator(GAffineTransform at, double flatness) {
-    	return new FlatteningPathIterator(getPathIterator(at), flatness);
-    }
-
-
 }

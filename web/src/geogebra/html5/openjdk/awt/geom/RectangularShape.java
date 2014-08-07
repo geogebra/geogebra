@@ -26,7 +26,6 @@
  */
 package geogebra.html5.openjdk.awt.geom;
 
-import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
@@ -193,35 +192,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 		return getY();
 	}
 
-	/**
-	 * Returns an iterator object that iterates along the <code>Shape</code>
-	 * object's boundary and provides access to a flattened view of the outline
-	 * of the <code>Shape</code> object's geometry.
-	 * <p>
-	 * Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point types will be returned
-	 * by the iterator.
-	 * <p>
-	 * The amount of subdivision of the curved segments is controlled by the
-	 * <code>flatness</code> parameter, which specifies the maximum distance
-	 * that any point on the unflattened transformed curve can deviate from the
-	 * returned flattened path segments. An optional {@link AffineTransform} can
-	 * be specified so that the coordinates returned in the iteration are
-	 * transformed accordingly.
-	 *
-	 * @param at
-	 *            an optional <code>AffineTransform</code> to be applied to the
-	 *            coordinates as they are returned in the iteration, or
-	 *            <code>null</code> if untransformed coordinates are desired.
-	 * @param flatness
-	 *            the maximum distance that the line segments used to
-	 *            approximate the curved segments are allowed to deviate from
-	 *            any point on the original curve
-	 * @return a <code>PathIterator</code> object that provides access to the
-	 *         <code>Shape</code> object's flattened geometry.
-	 */
-	public PathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new FlatteningPathIterator(getPathIterator(at), flatness);
-	}
+	
 
 	/**
 	 * Returns the width of the framing rectangle in <code>double</code>

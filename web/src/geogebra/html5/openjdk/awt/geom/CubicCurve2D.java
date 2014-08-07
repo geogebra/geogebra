@@ -1345,28 +1345,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	public PathIterator getPathIterator(GAffineTransform at) {
 		return new CubicIterator(this, at);
 	}
-	/**
-	 * Return an iteration object that defines the boundary of the flattened
-	 * shape. The iterator for this class is not multi-threaded safe, which
-	 * means that this <code>CubicCurve2D</code> class does not guarantee that
-	 * modifications to the geometry of this <code>CubicCurve2D</code> object do
-	 * not affect any iterations of that geometry that are already in process.
-	 *
-	 * @param at
-	 *            an optional <code>AffineTransform</code> to be applied to the
-	 *            coordinates as they are returned in the iteration, or
-	 *            <code>null</code> if untransformed coordinates are desired
-	 * @param flatness
-	 *            the maximum amount that the control points for a given curve
-	 *            can vary from colinear before a subdivided curve is replaced
-	 *            by a straight line connecting the endpoints
-	 * @return the <code>PathIterator</code> object that returns the geometry of
-	 *         the outline of this <code>CubicCurve2D</code>, one segment at a
-	 *         time.
-	 */
-	public PathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new FlatteningPathIterator(getPathIterator(at), flatness);
-	}
+
 	/**
 	 * Returns the X coordinate of the start point in double precision.
 	 *

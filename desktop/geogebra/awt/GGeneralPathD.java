@@ -98,12 +98,6 @@ public class GGeneralPathD implements geogebra.common.awt.GGeneralPath,
 						.getAwtAffineTransform(affineTransform)));
 	}
 
-	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new geogebra.awt.GPathIteratorD(impl.getPathIterator(
-				geogebra.awt.GAffineTransformD.getAwtAffineTransform(at),
-				flatness));
-	}
-
 	public boolean intersects(double x, double y, double w, double h) {
 		return impl.intersects(x, y, w, h);
 	}

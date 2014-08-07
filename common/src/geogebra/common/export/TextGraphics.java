@@ -277,4 +277,11 @@ public class TextGraphics implements geogebra.common.awt.GGraphics2D{
 		
 	}
 
+
+	@Override
+	public void resetInterpolationHint(Object oldInterpolationHint) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

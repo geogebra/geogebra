@@ -16,8 +16,6 @@ public interface GShape {
 	boolean contains(double xTry, double yTry);
 
 	 GPathIterator getPathIterator(GAffineTransform affineTransform);
-	
-	 public GPathIterator getPathIterator(GAffineTransform at, double flatness);
 
 	 public boolean intersects(double x, double y, double w, double h);
 

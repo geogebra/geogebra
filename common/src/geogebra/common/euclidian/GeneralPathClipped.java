@@ -345,17 +345,6 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 		return getGeneralPath().getPathIterator(arg0);
 	}
 
-	/*
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return geogebra.awt.GeneralPath.getAwtGeneralPath(getGeneralPath()).getPathIterator(at, flatness);
-	}*/
-	
-	public geogebra.common.awt.GPathIterator getPathIterator(
-			geogebra.common.awt.GAffineTransform at, double flatness) {
-		// TODO Auto-generated method stub
-		return getGeneralPath().getPathIterator(at, flatness);
-	}
-
 	public boolean intersects(geogebra.common.awt.GRectangle2D arg0) {
 		return getGeneralPath().intersects(arg0);
 	}

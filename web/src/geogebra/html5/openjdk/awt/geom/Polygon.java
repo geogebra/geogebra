@@ -569,30 +569,7 @@ public class Polygon implements Shape {
         return new PolygonPathIterator(this, at);
     }
 
-    /**
-     * Returns an iterator object that iterates along the boundary of
-     * the <code>Shape</code> and provides access to the geometry of the
-     * outline of the <code>Shape</code>.  Only SEG_MOVETO, SEG_LINETO, and
-     * SEG_CLOSE point types are returned by the iterator.
-     * Since polygons are already flat, the <code>flatness</code> parameter
-     * is ignored.  An optional <code>AffineTransform</code> can be specified
-     * in which case the coordinates returned in the iteration are transformed
-     * accordingly.
-     * @param at an optional <code>AffineTransform</code> to be applied to the
-     *          coordinates as they are returned in the iteration, or
-     *          <code>null</code> if untransformed coordinates are desired
-     * @param flatness the maximum amount that the control points
-     *          for a given curve can vary from colinear before a subdivided
-     *          curve is replaced by a straight line connecting the
-     *          endpoints.  Since polygons are already flat the
-     *          <code>flatness</code> parameter is ignored.
-     * @return a <code>PathIterator</code> object that provides access to the
-     *          <code>Shape</code> object's geometry.
-     * @since 1.2
-     */
-    public PathIterator getPathIterator(GAffineTransform at, double flatness) {
-        return getPathIterator(at);
-    }
+
 
     class PolygonPathIterator implements PathIterator {
         Polygon poly;

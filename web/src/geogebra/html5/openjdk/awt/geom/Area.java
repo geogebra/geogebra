@@ -532,26 +532,6 @@ public class Area implements Shape, Cloneable, GArea {
     	return new AreaIterator(curves, at);
     }
 
-    /**
-     * Creates a <code>PathIterator</code> for the flattened outline of
-     * this <code>Area</code> object.  Only uncurved path segments
-     * represented by the SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point
-     * types are returned by the iterator.  This <code>Area</code>
-     * object is unchanged.
-     * @param at an optional <code>AffineTransform</code> to be
-     * applied to the coordinates as they are returned in the
-     * iteration, or <code>null</code> if untransformed coordinates
-     * are desired
-     * @param flatness the maximum amount that the control points
-     * for a given curve can vary from colinear before a subdivided
-     * curve is replaced by a straight line connecting the endpoints
-     * @return    the <code>PathIterator</code> object that returns the
-     * geometry of the outline of this <code>Area</code>, one segment
-     * at a time.
-     */
-    public PathIterator getPathIterator(GAffineTransform at, double flatness) {
-    	return new FlatteningPathIterator(getPathIterator(at), flatness);
-    }
 }
 
 
