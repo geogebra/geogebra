@@ -8314,6 +8314,10 @@ namespace giac {
     }
     if (a.type==b.type)
       return a.islesscomplexthan(b);
+    if (a.type==_FRAC && b.type>=_POLY)
+      return false;
+    if (a.type>=_POLY && b.type>=_FRAC)
+      return true;
     return !a.islesscomplexthan(b);
   }
 
