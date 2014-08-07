@@ -108,7 +108,7 @@ public class HatchingHandler {
 			drawHoneycomb( (float) dist, g2d);
 			double side = dist * Math.sqrt(3) / 2;
 			startY = 0;
-			startX = (int) (dist + dist / 2 - side);
+			startX = 0;
 			height = (int) (dist * 3);
 			width = (int) (2 * side);
 			break;
@@ -297,28 +297,28 @@ public class HatchingHandler {
 	}
 
 	private static void drawHoneycomb(float dist, GGraphics2D g2d) {		
-		float halfSide=(float)(dist*Math.sqrt(3)/2);		
 		
 		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
-		float centerX = dist+dist/2;
+		float centerX = (float)(dist*Math.sqrt(3)/2);
+		float width = centerX + centerX;
 		path.moveTo( centerX, dist);
 		path.lineTo( centerX, 2*dist );
-		path.lineTo( centerX-halfSide, 2*dist+dist/2 );
-		path.lineTo( centerX-halfSide, 3*dist);
+		path.lineTo( 0, 2*dist+dist/2 );
+		path.lineTo( 0, 3*dist);
 		g2d.draw(path);
 		
 		path.reset();
 		path.moveTo( centerX, 2*dist);
-		path.lineTo( centerX+halfSide, 2*dist+dist/2);
-		path.lineTo( centerX+halfSide, 3*dist);
+		path.lineTo( width, 2*dist+dist/2);
+		path.lineTo( width, 3*dist);
 		g2d.draw(path);
 		
 		path.reset();
-		path.moveTo( centerX-halfSide, 0 );
-		path.lineTo( centerX-halfSide, dist/2);
+		path.moveTo( 0, 0 );
+		path.lineTo( 0, dist/2);
 		path.lineTo( centerX, dist);
-		path.lineTo( centerX+halfSide, dist/2);
-		path.lineTo( centerX+halfSide, 0);
+		path.lineTo( width, dist/2);
+		path.lineTo( width, 0);
 		g2d.draw(path);		
 	}
 
