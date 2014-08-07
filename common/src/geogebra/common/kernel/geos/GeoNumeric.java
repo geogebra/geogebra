@@ -1343,6 +1343,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean isLaTeXDrawableGeo() {
 		return false;
 	}
+	
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
 
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {

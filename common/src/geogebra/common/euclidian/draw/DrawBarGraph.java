@@ -136,8 +136,8 @@ public class DrawBarGraph extends Drawable {
 									col.getAlpha()));
 						}
 						g2.draw(gp[i]);
-						g2.setPaint(color);
 					}
+					g2.setPaint(color);
 				}
 			} catch (Exception e) {
 				App.debug(e.getMessage());
@@ -194,7 +194,7 @@ public class DrawBarGraph extends Drawable {
 
 			try {
 				if (geo.lineThickness > 0) {
-					g2.setPaint(sum.getObjectColor());
+					g2.setPaint(getObjectColor());
 					g2.setStroke(objStroke);
 					for(int i=0;i<gp.length;i++) {
 						k=i+1;
@@ -203,13 +203,11 @@ public class DrawBarGraph extends Drawable {
 							g2.setPaint(AwtFactory.prototype.newColor(col.getRed(),
 									col.getGreen(),
 									col.getBlue(),
-									col.getAlpha()));
+									geo.getLineOpacity()));
 						}
 						g2.draw(gp[i]);
-						g2.setPaint(color);
-						g2.draw(gp[i]);
-						g2.setPaint(color);
 					}
+					g2.setPaint(color);
 				}
 			} catch (Exception e) {
 				App.debug(e.getMessage());

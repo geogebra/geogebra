@@ -1455,6 +1455,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		setLineType(geo.lineType);
 		setLineTypeHidden(geo.lineTypeHidden);
 		setDecorationType(geo.decorationType);
+		setLineOpacity(geo.getLineOpacity());
 
 		// set whether it's an auxilliary object
 		setAuxiliaryObject(geo.isAuxiliaryObject());
