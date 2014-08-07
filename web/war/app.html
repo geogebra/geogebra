@@ -24,6 +24,18 @@ if (!window.console.log) window.console.log = function () { };
                 }
             };
 </script>
+<script type="text/javascript">
+// test to see if the app is running as a chrome webapp
+document.isChromeWebapp = function isChromeWebapp() {
+	if (typeof chrome === 'object' && 
+			typeof chrome.app === 'object' && 
+			typeof chrome.app.isInstalled === 'boolean' && 
+			chrome.app.isInstalled) {
+			return true;
+		}
+		return false;
+	};
+</script>
 <script src="web/js/webfont.js?v=1.15"></script>
 
 

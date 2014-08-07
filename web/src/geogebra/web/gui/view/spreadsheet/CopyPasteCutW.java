@@ -169,14 +169,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	private static native boolean isChromeWebapp() /*-{
 		// check if the app is running in chrome and is installed (has an id)
-		$wnd.console.log(chrome);
-		if (typeof chrome === 'object' && 
-			typeof chrome.app === 'object' && 
-			typeof chrome.app.isInstalled === 'boolean' && 
-			chrome.app.isInstalled) {
-			return true;
-		}
-		return false;
+		// the function is defined in app.html
+		return $doc.isChromeWebapp();
 	}-*/;
 	
 	private static native Element getHiddenTextArea() /*-{
