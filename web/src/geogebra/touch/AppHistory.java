@@ -4,7 +4,7 @@ import geogebra.html5.gui.History;
 
 import java.util.Stack;
 
-public class AppHistory extends History{
+public class AppHistory extends History {
 	
 	public class HistoryItem {
 

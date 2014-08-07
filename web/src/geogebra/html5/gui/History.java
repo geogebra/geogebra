@@ -2,7 +2,7 @@ package geogebra.html5.gui;
 
 import java.util.Stack;
 
-public class History{
+public class History {
 	
 	public class HistoryItem {
 		

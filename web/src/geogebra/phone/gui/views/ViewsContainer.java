@@ -33,7 +33,8 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	}
 		
 	private HorizontalPanel content;
-	private View currentView;
+	private View currentView = View.Worksheets;
+	private View lastView;
 	private int scrollOffset;
 	
 	public ViewsContainer() {
@@ -57,6 +58,7 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	}
 
 	public void setCurrentView(View view) {
+		this.lastView = this.currentView;
 		this.currentView = view;
 	}
 	
@@ -70,7 +72,7 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	 */
 	public void scrollTo(View view) {
 		animateScroll(view.getIndex()*this.scrollOffset);
-		this.currentView = view;
+		setCurrentView(view);
 	}
 
 	private boolean toggle = false;
@@ -92,28 +94,33 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 		}
 		return null;
 	}
-	
-	private void swipe(boolean toLeft) {
-		int switchTo = toLeft ? 1 : -1;
-		View view = getView(this.currentView.getIndex() + switchTo);
-		if (view != null) {
-			scrollTo(view);
-		}
-	}
-	
-	@Override
-	public void scrollToLeft() {
-		swipe(true);
-	}
-	
-	@Override
-	public void scrollToRight() {
-		swipe(false);
-	}
+/** not in use yet - to swipe views	
+//	private void swipe(boolean toLeft) {
+//		int switchTo = toLeft ? 1 : -1;
+//		View view = getView(this.currentView.getIndex() + switchTo);
+//		if (view != null) {
+//			scrollTo(view);
+//		}
+//	}
+//	
+//	@Override
+//	public void scrollToLeft() {
+//		swipe(true);
+//	}
+//	
+//	@Override
+//	public void scrollToRight() {
+//		swipe(false);
+//	}
+//	**/
 	
 	@Override
 	public void onResize() {
 		this.setPixelSize(Window.getClientWidth(),  Window.getClientHeight()-43);
 		this.scrollOffset = Window.getClientWidth();
+	}
+
+	public View getLastView() {
+		return this.lastView;
 	}
 }

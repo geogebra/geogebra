@@ -311,7 +311,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 	private boolean[] childVisible = new boolean[0];
+	private boolean isBrowserShowing = false;
 	public void showBrowser(final MyHeaderPanel bg) {
+		this.isBrowserShowing = true;
 	    final int count = frameLayout.getWidgetCount();
 	    childVisible = new boolean[count];
 	    for(int i = 0; i<count;i++){
@@ -326,6 +328,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
     }
 
 	public void hideBrowser(final MyHeaderPanel bg) {
+		this.isBrowserShowing = false;
 		frameLayout.remove(bg);
 		final int count = frameLayout.getWidgetCount();
 		for(int i = 0; i<count;i++){
@@ -335,9 +338,12 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    }
 	    frameLayout.setLayout(app);
 	    frameLayout.forceLayout();
-	    app.updateViewSizes();
-	    
+	    app.updateViewSizes(); 
     }
+	
+	public boolean isBrowserShowing() {
+		return this.isBrowserShowing;
+	}
 
 	public boolean toggleMenu() {
 	    return frameLayout.toggleMenu();

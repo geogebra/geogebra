@@ -8,6 +8,8 @@ import geogebra.web.main.AppWapplication;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
+import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 
 /**
  * @author geogebra
@@ -24,7 +26,17 @@ public class Phone implements EntryPoint {
 		appFrame.app.setFileManager(new FileManagerP());
 		phoneGui = new PhoneGUI((AppWapplication) appFrame.app);
 		PhoneGapManager.initializePhoneGap();
+		PhoneGapManager.getPhoneGap().getEvent().getBackButton()
+		        .addBackButtonPressedHandler(new BackButtonPressedHandler() {
+
+			        @Override
+			        public void onBackButtonPressed(
+			                final BackButtonPressedEvent event) {
+				        goBack();
+			        }
+		        });
 		ResourcesInjector.injectResources();
+		
 		RootLayoutPanel.get().clear();
 		RootLayoutPanel.get().add(phoneGui);
 	}
@@ -32,4 +44,9 @@ public class Phone implements EntryPoint {
 	public static PhoneGUI getGUI() {
 		return phoneGui;
 	}
+	
+	public static void goBack() {
+		phoneGui.showLastView();
+	}
+
 }

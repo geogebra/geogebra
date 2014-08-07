@@ -125,13 +125,17 @@ public class PhoneGUI extends VerticalPanel {
 	}
 	
 	/**
-	 * scrolls to the given {@link View view}
+	 * scrolls to the given {@link View view} and updates the header
 	 * @param view
 	 */
 	public void scrollTo(View view) {
 		this.views.scrollTo(view);
 		changeTitle();
 		this.header.setTabActive(view);
+	}
+	
+	public void showLastView() {
+		scrollTo(this.views.getLastView());
 	}
 	
 	private void changeTitle() {
