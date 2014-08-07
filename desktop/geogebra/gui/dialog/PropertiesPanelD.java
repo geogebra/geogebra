@@ -4284,6 +4284,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void setLineTypeVisible(boolean value) {
 			dashPanel.setVisible(value);
 		}
+
+		public void setLineOpacityVisible(boolean value) {
+			opacityPanel.setVisible(value);
+		}
 	}
 
 	/**

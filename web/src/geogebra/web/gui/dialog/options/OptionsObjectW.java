@@ -1228,6 +1228,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public void setOpacitySliderValue(int value) {
 	        opacitySlider.setValue(value);
         }
+		public void setLineOpacityVisible(boolean value) {
+	        opacitySlider.setVisible(value);
+        }
 	}
 
 

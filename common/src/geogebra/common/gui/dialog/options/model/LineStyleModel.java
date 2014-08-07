@@ -15,10 +15,13 @@ public class LineStyleModel extends OptionsModel {
 		void selectCommonLineStyle(boolean equalStyle, int type);
 
 		void setLineTypeVisible(boolean value); 
+		
+		void setLineOpacityVisible(boolean value);
 	}
 
 	private ILineStyleListener listener;
-	private boolean lineTypeEnabled; 
+	private boolean lineTypeEnabled;
+	private boolean lineOpacityEnabled;
 
 	private static Integer[] lineStyleArray=null;
 
@@ -79,7 +82,8 @@ public class LineStyleModel extends OptionsModel {
 			listener.setThicknessSliderMinimum(maxMinimumThickness());
 			int opacity = (int) ((geo0.getLineOpacity() / 255.0f) * 100);
 			listener.setOpacitySliderValue(opacity);
-			listener.setLineTypeVisible(lineTypeEnabled); 
+			listener.setLineTypeVisible(lineTypeEnabled);
+			listener.setLineOpacityVisible(lineOpacityEnabled);
 		}
 		// check if geos have same line style
 		if (lineTypeEnabled) { 
@@ -138,6 +142,7 @@ public class LineStyleModel extends OptionsModel {
 	public boolean checkGeos() {
 		boolean geosOK = true;
 		lineTypeEnabled = true;
+		lineOpacityEnabled = true;
 		for (int i = 0; i < getGeosLength(); i++) {
 			if (!isValidAt(i)) {
 				geosOK = false;
@@ -147,7 +152,8 @@ public class LineStyleModel extends OptionsModel {
 			
 			GeoElement geo = getGeoAt(i);
 			if ((geo instanceof GeoNumeric) && ((GeoNumeric)geo).isSlider() ) {
-			lineTypeEnabled = false;
+				lineTypeEnabled = false;
+				lineOpacityEnabled = false;
 			}
 		}
 		return geosOK;

@@ -153,6 +153,12 @@ public class EuclidianStyleBarW extends StyleBarW
 		public void setOpacitySliderValue(int value) {
 	        // TODO Auto-generated method stub
 	        
+        }
+
+
+		public void setLineOpacityVisible(boolean value) {
+	        // TODO Auto-generated method stub
+	        
         }	    
 
 		

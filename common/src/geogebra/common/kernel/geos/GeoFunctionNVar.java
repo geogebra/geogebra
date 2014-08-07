@@ -432,11 +432,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return fun.getExpression().getCASstring(tpl,symbolic);
 	}
 	
-	@Override
-	public boolean hasLineOpacity() {
-		return true;
-	}
-    
 	/* public String getLabelForAssignment() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabel());

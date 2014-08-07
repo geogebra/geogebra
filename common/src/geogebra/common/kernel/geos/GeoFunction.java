@@ -2528,7 +2528,11 @@ public class GeoFunction extends GeoElement implements VarString,
 		return true;
 	}
 
-	
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
+
 	public double[] newDoubleArray(){
 		return new double[2];
 	}

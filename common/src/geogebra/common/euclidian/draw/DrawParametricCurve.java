@@ -161,7 +161,7 @@ public class DrawParametricCurve extends Drawable {
 				g2.drawWithValueStrokePure(gp);
 			}
 
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.drawWithValueStrokePure(gp);
 
@@ -187,8 +187,7 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	protected
 	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
-		g2.setPaint(geo
-				.getObjectColor());
+		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.drawWithValueStrokePure(gp);
 	}
