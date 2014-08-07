@@ -19,7 +19,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
-import geogebra.html5.awt.GBufferedImageW;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
 
@@ -1001,7 +1001,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		label.setDimensionPowerOfTwo(firstPowerOfTwoGreaterThan(label.getWidth()), firstPowerOfTwoGreaterThan(label.getHeight()));
 
 		// create and return a buffered image with power-of-two dimensions
-		return new GBufferedImageW(label.getWidthPowerOfTwo(), label.getHeightPowerOfTwo(), 0);
+		return new BufferedImage(label.getWidthPowerOfTwo(), label.getHeightPowerOfTwo(), 0);
 	}
 	
     @Override
@@ -1012,7 +1012,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
     	// check if image is ready
-    	ImageElement image = ((GBufferedImageW) bimg).getImageElement();    	
+    	ImageElement image = ((BufferedImage) bimg).getImageElement();    	
     	if (!image.getPropertyBoolean("complete")) {	
     		ImageWrapper.nativeon(image,
     				"load",

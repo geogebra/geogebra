@@ -29,10 +29,10 @@ import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
-import geogebra.html5.awt.GBufferedImageW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGradientPaintW;
 import geogebra.html5.awt.GTexturePaintW;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.openjdk.awt.geom.AffineTransform;
 import geogebra.html5.openjdk.awt.geom.Arc2D;
 import geogebra.html5.openjdk.awt.geom.Area;
@@ -96,7 +96,7 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth,
 	        int pixelHeight, int typeIntArgb) {
-		return new geogebra.html5.awt.GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb);
+		return new BufferedImage(pixelWidth, pixelHeight, typeIntArgb);
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class AwtFactoryW extends AwtFactory {
 	
 	@Override
     public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-	    return new GTexturePaintW((GBufferedImageW)subimage, (Rectangle)rect);
+	    return new GTexturePaintW((BufferedImage)subimage, (Rectangle)rect);
     }
 
 	@Override

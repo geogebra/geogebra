@@ -540,7 +540,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			if (fileName != null) {
 				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
-				BufferedImage img = geogebra.html5.awt.GBufferedImageW.getGawtImage(geo.getFillImage());
+				BufferedImage img = (BufferedImage)geo.getFillImage();
 				
 				if (url == null && (img != null && img.getImageElement() != null)) {
 					Canvas cv = Canvas.createIfSupported();

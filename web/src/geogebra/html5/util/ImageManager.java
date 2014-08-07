@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.StringUtil;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.main.AppWeb;
 
@@ -93,7 +94,7 @@ public class ImageManager extends AbstractImageManager {
 	}
 
 	public static GBufferedImage toBufferedImage(ImageElement im) {
-	    return new geogebra.html5.awt.GBufferedImageW(im);
+	    return new BufferedImage(im);
     }
 
 	class ImageLoadCallback2 implements ImageLoadCallback {

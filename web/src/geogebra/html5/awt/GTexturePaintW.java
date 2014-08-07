@@ -1,5 +1,6 @@
 package geogebra.html5.awt;
 
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.html5.openjdk.awt.geom.Rectangle2D;
 
@@ -16,12 +17,12 @@ public class GTexturePaintW implements geogebra.common.awt.GPaint {
 		this.img = (ImageElement)tp.img.cloneNode(true);
 	}
 
-	public GTexturePaintW(GBufferedImageW subimage, Rectangle rect) {
+	public GTexturePaintW(BufferedImage subimage, Rectangle rect) {
 	    img = subimage.getImageElement();
 	    //anchor = rect;
     }
 
-	public GTexturePaintW(GBufferedImageW copy, Rectangle2D tr) {
+	public GTexturePaintW(BufferedImage copy, Rectangle2D tr) {
 	    img = copy.getImageElement();
 	    //anchor  = new GRectangleW((int) tr.getX(),(int) tr.getY(),(int) tr.getWidth(),(int) tr.getHeight());
     }

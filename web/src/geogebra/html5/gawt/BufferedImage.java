@@ -1,5 +1,7 @@
 package geogebra.html5.gawt;
 
+import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -8,7 +10,7 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.DOM;
-public class BufferedImage {
+public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 
 	ImageElement img = null; // necessary
 
@@ -137,4 +139,16 @@ public class BufferedImage {
 	public boolean isLoaded() {
 		return img.getPropertyBoolean("complete");
 	}
+
+	@Override
+	public GGraphics2D createGraphics() {
+		return new geogebra.html5.awt.GGraphics2DW(getCanvas(), true);
+    }
+
+	@Override
+    public GBufferedImage getSubimage(int x, int y, int width, int height) {
+		Context2d ctx = getCanvas().getContext2d(); 
+	    ImageData imageData = ctx.getImageData(x, y, width, height);
+	    return new BufferedImage(imageData);
+    }
 }

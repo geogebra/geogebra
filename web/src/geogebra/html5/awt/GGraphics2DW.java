@@ -227,7 +227,7 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 	public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
 			int y) {
-		BufferedImage bi = GBufferedImageW.getGawtImage(img);
+		BufferedImage bi = (BufferedImage)img;
 		if(bi==null)
 			return;
 		try{

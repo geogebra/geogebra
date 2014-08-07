@@ -7,7 +7,7 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.html5.awt.GBufferedImageW;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
@@ -45,7 +45,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	@Override
 	protected void doFillAfterImageLoaded(final geogebra.common.awt.GShape shape, final geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi, final App app)
 	{
-		if (((GBufferedImageW)gi).isLoaded()) {
+		if (((BufferedImage)gi).isLoaded()) {
 			// when the image is already loaded, no new repaint is necessary
 			// in theory, the image will be loaded after some repaints so
 			// this will not be an infinite loop ...
@@ -55,7 +55,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 
 			// note: AFAIK (?), DOM's addEventListener method can add more listeners 
 			ImageWrapper.nativeon(
-				((GBufferedImageW)gi).getImageElement(), 
+				((BufferedImage)gi).getImageElement(), 
 				"load", 
 				new ImageLoadCallback() { 
 					public void onLoad() {

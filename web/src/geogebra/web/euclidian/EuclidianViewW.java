@@ -16,6 +16,7 @@ import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.euclidian.MsZoomer;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.util.ImageLoadCallback;
@@ -379,13 +380,13 @@ public class EuclidianViewW extends EuclidianViewWeb implements EuclidianViewWIn
 		final ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
 				: getPlayImage();
 		if (img.getPropertyBoolean("complete")) {
-			g2.drawImage(new geogebra.html5.awt.GBufferedImageW(img), null, x, y);
+			g2.drawImage(new BufferedImage(img), null, x, y);
 		} else {
 			ImageWrapper.nativeon(img,
 				"load",
 				new ImageLoadCallback() {
 					public void onLoad() {
-						g2.drawImage(new geogebra.html5.awt.GBufferedImageW(img), null, x, y);
+						g2.drawImage(new BufferedImage(img), null, x, y);
 					}
 				}
 			);

@@ -17,6 +17,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.main.TimerSystemW;
@@ -391,7 +392,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	}
 	
 	public void createImage() {
-		bgImage = new geogebra.html5.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);
+		bgImage = new BufferedImage(getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 	}
 

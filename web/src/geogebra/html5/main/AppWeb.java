@@ -39,6 +39,7 @@ import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.kernel.AnimationManagerW;
@@ -634,7 +635,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			ImageElement im = getImageManager().getExternalImage(fileName);
 			if (im == null)
 				return null;
-			return new geogebra.html5.awt.GBufferedImageW(im);
+			return new BufferedImage(im);
 		}
 		
 		@Override
