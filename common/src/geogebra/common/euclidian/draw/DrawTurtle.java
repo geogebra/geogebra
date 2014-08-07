@@ -325,41 +325,38 @@ public class DrawTurtle extends Drawable {
 	private GShape body;
 	private GShape dot;
 
-	private void drawTurtleShape(GGraphics2D g2){
-		int r = 8; // turtle radius
-		float x, y;
+	private void drawTurtleShape(GGraphics2D g2) {
 		gPath.reset();
 
+		// back legs
+		g2.setStroke(stroke2);
 
-			// back legs
-			g2.setStroke(stroke2);
-			
-			g2.setColor(GColor.black);
-			
-			g2.draw(legs);
+		g2.setColor(GColor.black);
 
-			// front legs
-			
-			g2.setStroke(stroke1);
+		g2.draw(legs);
 
-			// head
-			g2.setColor(GColor.gray);
-			g2.fill(head);
-			g2.setColor(GColor.black);
-			g2.draw(head);
-			
-			// body
-			g2.setColor(GColor.green);
-			g2.fill(body);
-			g2.setColor(GColor.black);
-			g2.draw(body);
-			
-			// pen color dot
-			g2.setColor(turtle.getPenColor());
-			g2.fill(dot);
-			//g2.setColor(Color.black);
-			//g2.draw(ellipse);
-		
+		// front legs
+
+		g2.setStroke(stroke1);
+
+		// head
+		g2.setColor(GColor.gray);
+		g2.fill(head);
+		g2.setColor(GColor.black);
+		g2.draw(head);
+
+		// body
+		g2.setColor(GColor.green);
+		g2.fill(body);
+		g2.setColor(GColor.black);
+		g2.draw(body);
+
+		// pen color dot
+		g2.setColor(turtle.getPenColor());
+		g2.fill(dot);
+		// g2.setColor(Color.black);
+		// g2.draw(ellipse);
+
 	}
 	
 	private void updateTurtleShape(){

@@ -149,13 +149,13 @@ public final class DrawPoint extends Drawable {
 	
 	/**
 	 * update regarding coords values
-	 * @param coords1 (x,y) real world coords
+	 * @param coords2 (x,y) real world coords
 	 */
-	final public void update(double[] coords1){
+	final public void update(double[] coords2){
 
 		isVisible = true;
 		labelVisible = geo.isLabelVisible();
-		this.coords = coords1;
+		this.coords = coords2;
 
 		// convert to screen
 		view.toScreenCoords(coords);
@@ -369,7 +369,6 @@ public final class DrawPoint extends Drawable {
 		}
 
 		if (drawable != null) {
-			double[] coords1 = new double[2];
 			P.getInhomCoords(coords1);
 
 			view.toScreenCoords(coords1);

@@ -666,7 +666,7 @@ public class CurvePlotter {
 	 * @param pointList list of points
 	 * @return last point drawn
 	 */
-	static public double[] draw(PathPlotter gp, ArrayList<MyPoint> pointList) {
+	static public double[] draw(PathPlotter gp, ArrayList<? extends MyPoint> pointList) {
 		double[] coords = gp.newDoubleArray();
 
 		// this is for making sure that there is no lineto from nothing

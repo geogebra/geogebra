@@ -240,7 +240,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 * Creates a new DrawConic for preview of a parabola
 	 * 
 	 * @param view view
-	 * @param mode preview mode
+	 * @param selectedLines possible directrix
 	 * @param points preview points
 	 */
 	public DrawConic(EuclidianView view, ArrayList<GeoPointND> points, ArrayList<GeoLineND> selectedLines) {

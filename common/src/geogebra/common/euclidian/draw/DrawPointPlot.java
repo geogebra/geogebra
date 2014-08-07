@@ -51,6 +51,7 @@ public class DrawPointPlot extends Drawable {
 	 *            view
 	 * @param pointList
 	 *            list of GeoPoints to plot
+	 * @param drawType type
 	 */
 	public DrawPointPlot(EuclidianView view, GeoList pointList,
 			DrawType drawType) {

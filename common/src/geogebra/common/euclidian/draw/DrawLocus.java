@@ -30,7 +30,7 @@ import java.util.ArrayList;
  */
 public class DrawLocus extends Drawable {
 
-	private GeoLocusND locus;
+	private GeoLocusND<? extends MyPoint> locus;
 
 	private boolean isVisible, labelVisible;
 	private GeneralPathClippedForCurvePlotter gp;
@@ -41,7 +41,7 @@ public class DrawLocus extends Drawable {
 	 * @param view view
 	 * @param locus locus
 	 */
-	public DrawLocus(EuclidianView view, GeoLocusND locus) {
+	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus) {
 		this.view = view;
 		this.locus = locus;
 		geo = locus;
@@ -103,7 +103,7 @@ public class DrawLocus extends Drawable {
 		}
 	}
 
-	private void buildGeneralPath(ArrayList<MyPoint> pointList) {
+	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
 		if (gp == null)
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		else
