@@ -1039,7 +1039,7 @@ public class CoordMatrix {
 				stackIndex++;
 				index = stack.get(stackIndex);
 				value = matrix[index][step];
-			}while(stackIndex < stack.size() && Kernel.isZero(value));
+			}while(stackIndex < stack.size() - 1 && Kernel.isZero(value));
 			
 			
 			// divide step line by value in matrix and res
