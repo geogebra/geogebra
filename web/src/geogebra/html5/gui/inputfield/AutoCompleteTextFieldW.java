@@ -373,6 +373,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			completions = null;
 			return null;
 		}
+		// start autocompletion only if curWord is not a defined variable
+		if (app.getKernel().lookupLabel(curWord.toString()) != null) {
+			completions = null;
+			return null;
+		}
 		cmdPrefix = curWord.toString();
 		if (dict != null) {
 			if (korean) {
