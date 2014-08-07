@@ -2438,6 +2438,7 @@ __GGB__keysVar.lt.plain = {
     "Line": "Ties\u0117",
     "LineBisectorAB": "Sankirta %0, %1",
     "LineBisectorOfA": "Pusiaukampin\u0117 %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Ties\u0117s stilius",
     "LineThroughAB": "Ties\u0117 per %0, %1",
     "LineThroughAParallelToB": "Ties\u0117 per %0 lygiagreti %1",

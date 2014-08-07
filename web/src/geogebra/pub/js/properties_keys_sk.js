@@ -2438,6 +2438,7 @@ __GGB__keysVar.sk.plain = {
     "Line": "Priamka",
     "LineBisectorAB": "Os \xfase\u010dky %0 %1",
     "LineBisectorOfA": "Os \xfase\u010dky %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u0160t\xfdl priamky",
     "LineThroughAB": "Priamka cez %0, %1",
     "LineThroughAParallelToB": "Priamka cez %0 rovnobe\u017en\xe1 s %1",

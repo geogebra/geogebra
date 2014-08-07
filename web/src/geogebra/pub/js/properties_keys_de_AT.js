@@ -2438,6 +2438,7 @@ __GGB__keysVar.de_AT.plain = {
     "Line": "Gerade",
     "LineBisectorAB": "Streckensymmetrale %0, %1",
     "LineBisectorOfA": "Streckensymmetrale %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Linienart",
     "LineThroughAB": "Gerade durch %0, %1",
     "LineThroughAParallelToB": "Gerade durch %0 parallel zu %1",

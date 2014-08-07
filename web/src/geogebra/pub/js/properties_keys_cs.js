@@ -2438,6 +2438,7 @@ __GGB__keysVar.cs.plain = {
     "Line": "P\u0159\xedmka",
     "LineBisectorAB": "Osa %0, %1",
     "LineBisectorOfA": "Osa %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Styl \u010dar",
     "LineThroughAB": "P\u0159\xedmka veden\xe1 %0, %1",
     "LineThroughAParallelToB": "P\u0159\xedmka bodem %0 rovnob\u011b\u017en\u011b k %1",

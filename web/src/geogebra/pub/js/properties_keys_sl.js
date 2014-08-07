@@ -2438,6 +2438,7 @@ __GGB__keysVar.sl.plain = {
     "Line": "Premica",
     "LineBisectorAB": "Simetrala %0, %1",
     "LineBisectorOfA": "Simetrala daljice %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Vzorec premice",
     "LineThroughAB": "Premica skozi %0, %1",
     "LineThroughAParallelToB": "Vzporednica k %1 skozi %0",

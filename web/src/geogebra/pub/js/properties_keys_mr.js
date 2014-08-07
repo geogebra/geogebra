@@ -2438,6 +2438,7 @@ __GGB__keysVar.mr.plain = {
     "Line": "\u0930\u0947\u0937\u093e",
     "LineBisectorAB": "%0, %1 \u091a\u093e \u0926\u0941\u092d\u093e\u091c\u0915",
     "LineBisectorOfA": "%0 \u091a\u093e \u0926\u0941\u092d\u093e\u091c\u0915",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u0930\u0947\u0937\u093e\u0936\u0948\u0932\u0940 (line style)",
     "LineThroughAB": "%0, %1 \u092e\u0927\u0942\u0928 \u0930\u0947\u0937\u093e",
     "LineThroughAParallelToB": "%0 \u092e\u0927\u0942\u0928 %1 \u0932\u093e \u0938\u092e\u093e\u0902\u0924\u0930 \u0930\u0947\u0937\u093e",

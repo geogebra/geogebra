@@ -2438,6 +2438,7 @@ __GGB__keysVar.ar_TN.plain = {
     "Line": "\u0645\u0633\u062a\u0642\u064a\u0645",
     "LineBisectorAB": "[%0%1]\u0627\u0644\u0645\u0648\u0633\u0637 \u0627\u0644\u0639\u0645\u0648\u062f\u064a \u0644\u0640",
     "LineBisectorOfA": "\u0627\u0644\u0645\u0648\u0633\u0637 \u0627\u0644\u0639\u0645\u0648\u062f\u064a \u0644\u0640 %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u0646\u0645\u0637 \u0627\u0644\u062e\u0637",
     "LineThroughAB": "\u0645\u0633\u062a\u0642\u064a\u0645 (%0%1)",
     "LineThroughAParallelToB": "\u0627\u0644\u0645\u0648\u0627\u0632\u064a \u0644\u0640 %1 \u0648 \u0627\u0644\u0645\u0627\u0631 \u0645\u0646 %0",

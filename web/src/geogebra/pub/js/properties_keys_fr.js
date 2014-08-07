@@ -2438,6 +2438,7 @@ __GGB__keysVar.fr.plain = {
     "Line": "Droite",
     "LineBisectorAB": "M\xe9diatrice de [%0%1]",
     "LineBisectorOfA": "M\xe9diatrice de %0",
+    "LinePerpendicularToAandB": "Perpendiculaire commune \xe0 %0 et %1",
     "LineStyle": "Style du trait",
     "LineThroughAB": "Droite (%0%1)",
     "LineThroughAParallelToB": "Parall\xe8le \xe0 %1 passant par %0",

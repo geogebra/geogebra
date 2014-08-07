@@ -2438,6 +2438,7 @@ __GGB__keysVar.bg.plain = {
     "Line": "\u041f\u0440\u0430\u0432\u0430",
     "LineBisectorAB": "\u042a\u0433\u043b\u043e\u043f\u043e\u043b\u043e\u0432\u044f\u0449\u0430 %0, %1",
     "LineBisectorOfA": "\u042a\u0433\u043b\u043e\u043f\u043e\u043b\u043e\u0432\u044f\u0449\u0430 %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u0421\u0442\u0438\u043b \u043d\u0430 \u043f\u0440\u0430\u0432\u0430\u0442\u0430",
     "LineThroughAB": "\u041f\u0440\u0430\u0432\u0430 \u043f\u0440\u0435\u0437 %0 \u0438 %1",
     "LineThroughAParallelToB": "\u041f\u0440\u0430\u0432\u0430 \u043f\u0440\u0435\u0437 %0, \u0443\u0441\u043f\u043e\u0440\u0435\u0434\u043d\u0430 \u043d\u0430 %1",

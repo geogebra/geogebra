@@ -2438,6 +2438,7 @@ __GGB__keysVar.si.plain = {
     "Line": "\u0dbb\u0dda\u0d9b\u0dcf\u0dc0",
     "LineBisectorAB": "%0,%1 \u0dc3\u0db8\u0da0\u0dca\u0da1\u0dda\u0daf\u0d9a\u0dba",
     "LineBisectorOfA": "%0 \u0dc3\u0db8\u0da0\u0dca\u0da1\u0dda\u0daf\u0d9a\u0dba",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u0dbb\u0dda\u0d9b\u0dcf \u0db8\u0ddd\u0dc3\u0dca\u0dad\u0dbb",
     "LineThroughAB": "Line through %0, %1",
     "LineThroughAParallelToB": "Line through %0 parallel to %1",

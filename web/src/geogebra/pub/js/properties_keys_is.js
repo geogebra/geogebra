@@ -2438,6 +2438,7 @@ __GGB__keysVar.is.plain = {
     "Line": "L\xedna",
     "LineBisectorAB": "Mi\xf0\xfeverill %0, %1",
     "LineBisectorOfA": "Mi\xf0\xfeverill %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Ger\xf0 l\xednu",
     "LineThroughAB": "L\xedna gegnum %0, %1",
     "LineThroughAParallelToB": "L\xedna gegnum %0 sams\xed\xf0a %1",

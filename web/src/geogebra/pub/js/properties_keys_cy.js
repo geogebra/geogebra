@@ -2438,6 +2438,7 @@ __GGB__keysVar.cy.plain = {
     "Line": "Llinell",
     "LineBisectorAB": "Hanerydd %0, %1",
     "LineBisectorOfA": "Hanerydd %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Arddull y llinell",
     "LineThroughAB": "Llinell trwy %0, %1",
     "LineThroughAParallelToB": "Llinell trwy %0 yn paralel \xe2 %1",

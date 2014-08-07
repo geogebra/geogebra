@@ -2438,6 +2438,7 @@ __GGB__keysVar.hr.plain = {
     "Line": "Pravac",
     "LineBisectorAB": "Simetrala du\u017eine %0, %1",
     "LineBisectorOfA": "Simetrala du\u017eine %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Vrsta crte",
     "LineThroughAB": "Pravac kroz %0, %1",
     "LineThroughAParallelToB": "Pravac kroz %0 usporedan s %1",

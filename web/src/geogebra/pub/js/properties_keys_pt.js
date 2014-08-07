@@ -2438,6 +2438,7 @@ __GGB__keysVar.pt.plain = {
     "Line": "Reta",
     "LineBisectorAB": "Mediatriz de %0%1",
     "LineBisectorOfA": "Mediatriz de %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Estilo",
     "LineThroughAB": "Reta %0%1",
     "LineThroughAParallelToB": "Reta passando por %0 e paralela a %1",

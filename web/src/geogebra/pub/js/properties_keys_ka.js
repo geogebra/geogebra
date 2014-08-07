@@ -2438,6 +2438,7 @@ __GGB__keysVar.ka.plain = {
     "Line": "\u10ec\u10e0\u10e4\u10d4",
     "LineBisectorAB": "\u10e8\u10d8\u10d0\u10db\u10d0\u10e0\u10d7\u10dd\u10d1\u10d8\u10d0 %0, %1-\u10e1\u10d8",
     "LineBisectorOfA": "\u10e8\u10e3\u10d0\u10db\u10d0\u10e0\u10d7\u10dd\u10d1\u10d8\u10d0 %0-\u10e1\u10d8",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u10ec\u10e0\u10e4\u10d8\u10e1 \u10e1\u10e2\u10d8\u10da\u10d8",
     "LineThroughAB": "\u10d2\u10d0\u10d3\u10d8\u10e1 %0 \u10d3\u10d0 %1-\u10d6\u10d4",
     "LineThroughAParallelToB": "\u10d2\u10d0\u10d3\u10d8\u10e1 %0-\u10d6\u10d4, \u10de\u10d0\u10e0\u10d0\u10da\u10d0\u10da\u10d4\u10e3\u10da\u10e3\u10e0\u10d8\u10d0 %1-\u10e1\u10d8",

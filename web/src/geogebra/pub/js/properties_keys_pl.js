@@ -2438,6 +2438,7 @@ __GGB__keysVar.pl.plain = {
     "Line": "Prosta",
     "LineBisectorAB": "Symetralna %0, %1",
     "LineBisectorOfA": "Symetralna %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Styl prostej",
     "LineThroughAB": "Prosta przechodz\u0105ca przez %0, %1",
     "LineThroughAParallelToB": "Prosta przechodz\u0105ca przez %0 r\xf3wnoleg\u0142a do %1",

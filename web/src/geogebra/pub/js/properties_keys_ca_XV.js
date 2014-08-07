@@ -2438,6 +2438,7 @@ __GGB__keysVar.ca_XV.plain = {
     "Line": "Recta",
     "LineBisectorAB": "Mediatriu %0, %1",
     "LineBisectorOfA": "Mediatriu %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Estil de l\xednia",
     "LineThroughAB": "Recta que passa per %0 i %1",
     "LineThroughAParallelToB": "Recta que passa per %0 i \xe9s paral\xb7lela a %1",

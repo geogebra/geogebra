@@ -2438,6 +2438,7 @@ __GGB__keysVar.sr.plain = {
     "Line": "prava",
     "LineBisectorAB": "Simetrala du\u017ei %0, %1",
     "LineBisectorOfA": "Simetrala du\u017ei %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Vrsta linije",
     "LineThroughAB": "Prava kroz %0, %1",
     "LineThroughAParallelToB": "Prava kroz %0 paralelna sa %1",

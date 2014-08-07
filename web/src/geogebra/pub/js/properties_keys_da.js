@@ -2438,6 +2438,7 @@ __GGB__keysVar.da.plain = {
     "Line": "Linje",
     "LineBisectorAB": "Midtnormal for %0%1",
     "LineBisectorOfA": "Midtnormal p\xe5 %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Linje stil",
     "LineThroughAB": "Linje gennem %0%1",
     "LineThroughAParallelToB": "Linje gennem %0 parallel med %1",

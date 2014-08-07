@@ -2438,6 +2438,7 @@ __GGB__keysVar.vi.plain = {
     "Line": "\u0110\u01b0\u1eddng th\u1eb3ng",
     "LineBisectorAB": "\u0110\u01b0\u1eddng ph\xe2n gi\xe1c %0, %1",
     "LineBisectorOfA": "\u0110\u01b0\u1eddng ph\xe2n gi\xe1c %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Ki\u1ec3u \u0111\u01b0\u1eddng th\u1eb3ng",
     "LineThroughAB": "\u0110\u01b0\u1eddng th\u1eb3ng qua %0, %1",
     "LineThroughAParallelToB": "\u0110\u01b0\u1eddng th\u1eb3ng qua %0 song song v\u1edbi %1",

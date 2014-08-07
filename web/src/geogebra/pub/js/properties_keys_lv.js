@@ -2438,6 +2438,7 @@ __GGB__keysVar.lv.plain = {
     "Line": "Taisne",
     "LineBisectorAB": "Bisektrise %0, %1",
     "LineBisectorOfA": "Bisektrise %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Taisnes Stils",
     "LineThroughAB": "Taisne Caur %0, %1",
     "LineThroughAParallelToB": "Taisne Caur %0 paral\u0113li %1",

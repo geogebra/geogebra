@@ -2438,6 +2438,7 @@ __GGB__keysVar.ms.plain = {
     "Line": "Garis",
     "LineBisectorAB": "Pembahagi dua sama %0, %1",
     "LineBisectorOfA": "Pembahagi dua sama %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Gaya Garis",
     "LineThroughAB": "Garis melalui %0, %1",
     "LineThroughAParallelToB": "Garis melalui %0 selari dengan %1",

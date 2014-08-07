@@ -2438,6 +2438,7 @@ __GGB__keysVar.zh_TW.plain = {
     "Line": "\u76f4\u7dda",
     "LineBisectorAB": "%0 \u548c %1 \u7684\u4e2d\u5782\u7dda",
     "LineBisectorOfA": "%0 \u7684\u4e2d\u5782\u7dda",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u7dda\u7684\u6a23\u5f0f",
     "LineThroughAB": "\u76f4\u7dda (\u904e %0\u3001%1)",
     "LineThroughAParallelToB": "\u76f4\u7dda (\u904e %0\u3001\u5e73\u884c %1)",

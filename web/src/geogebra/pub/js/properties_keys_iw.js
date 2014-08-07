@@ -2438,6 +2438,7 @@ __GGB__keysVar.iw.plain = {
     "Line": "\u05d9\u05e9\u05e8",
     "LineBisectorAB": "\u05d0\u05e0\u05da \u05d0\u05de\u05e6\u05e2\u05d9 \u200f\u200e%0\u200e\u200f, \u200f\u200e%1\u200e\u200f",
     "LineBisectorOfA": "\u05d0\u05e0\u05da \u05d0\u05de\u05e6\u05e2\u05d9 \u200f\u200e%0\u200e\u200f",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\u05e1\u05d2\u05e0\u05d5\u05df \u05e7\u05d5",
     "LineThroughAB": "\u05d9\u05e9\u05e8 \u05d3\u05e8\u05da \u200f\u200e%0\u200e\u200f, \u200f\u200e%1\u200e\u200f",
     "LineThroughAParallelToB": "\u05d9\u05e9\u05e8 \u05d3\u05e8\u05da \u200f\u200e%0\u200e\u200f \u05de\u05e7\u05d1\u05d9\u05dc \u05dc\u05be\u200f\u200e%1\u200e\u200f",

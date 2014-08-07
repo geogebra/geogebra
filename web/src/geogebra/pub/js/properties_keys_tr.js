@@ -2438,6 +2438,7 @@ __GGB__keysVar.tr.plain = {
     "Line": "Do\u011fru",
     "LineBisectorAB": "%0 ve %1 Kenar Orta Dikme",
     "LineBisectorOfA": "%0 Kenar Orta Dikme",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Do\u011fru Sitili",
     "LineThroughAB": "%0 ve %1den ge\xe7en do\u011fru",
     "LineThroughAParallelToB": "%0 dan ge\xe7en ve %1 e paralel do\u011fru",

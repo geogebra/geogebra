@@ -2438,6 +2438,7 @@ __GGB__keysVar.en_AU.plain = {
     "Line": "Line",
     "LineBisectorAB": "Bisector %0, %1",
     "LineBisectorOfA": "Bisector %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Line Style",
     "LineThroughAB": "Line through %0, %1",
     "LineThroughAParallelToB": "Line through %0 parallel to %1",

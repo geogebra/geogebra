@@ -2438,6 +2438,7 @@ __GGB__keysVar.eo.plain = {
     "Line": "Rekto",
     "LineBisectorAB": "Mezortanto de [%0%1]",
     "LineBisectorOfA": "Mezortanto de %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Line Style",
     "LineThroughAB": "Rekto (%0%1)",
     "LineThroughAParallelToB": "Line through %0 parallel to %1",

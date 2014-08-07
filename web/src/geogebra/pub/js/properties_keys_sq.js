@@ -2438,6 +2438,7 @@ __GGB__keysVar.sq.plain = {
     "Line": "Drejtez",
     "LineBisectorAB": "Permesorja %0%1 e Segmentit",
     "LineBisectorOfA": "Permesore e %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Stili i Drejtezes",
     "LineThroughAB": "Drejtez qe Kalon neper %0, %1",
     "LineThroughAParallelToB": "Drejtez qe Kalon nga %0 dhe Paralele me %1",

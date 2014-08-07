@@ -2438,6 +2438,7 @@ __GGB__keysVar.in.plain = {
     "Line": "Garis",
     "LineBisectorAB": "Garis tengah %0, %1",
     "LineBisectorOfA": "Garis tengah %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Format garis",
     "LineThroughAB": "Garis melalui %0, %1",
     "LineThroughAParallelToB": "Garis melalui %0 sejajar dengan %1",

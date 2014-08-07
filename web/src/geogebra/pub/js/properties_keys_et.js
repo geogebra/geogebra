@@ -2438,6 +2438,7 @@ __GGB__keysVar.et.plain = {
     "Line": "Sirge",
     "LineBisectorAB": "%0%1 keskristsirge",
     "LineBisectorOfA": "%0 keskristsirge",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Joone stiil",
     "LineThroughAB": "Sirge l\xe4bi punktide %0 ja %1",
     "LineThroughAParallelToB": "Sirge l\xe4bi punkti %0 ja paralleelne %1-ga",

@@ -2438,6 +2438,7 @@ __GGB__keysVar.tl.plain = {
     "Line": "Linya",
     "LineBisectorAB": "Tagapaghati %0, %1",
     "LineBisectorOfA": "Tagapaghati %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Istilo ng Linya",
     "LineThroughAB": "Linya sa %0, %1",
     "LineThroughAParallelToB": "Linya sa %0 kahilera ng %1",

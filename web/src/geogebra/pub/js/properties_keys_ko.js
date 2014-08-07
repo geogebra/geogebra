@@ -2438,6 +2438,7 @@ __GGB__keysVar.ko.plain = {
     "Line": "\uc9c1\uc120",
     "LineBisectorAB": "%0, %1 \uc758 \uc774\ub4f1\ubd84\uc120",
     "LineBisectorOfA": "%0 \uc758 \uc774\ub4f1\ubd84\uc120",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "\uc120 \uc2a4\ud0c0\uc77c",
     "LineThroughAB": "%0, %1 \uc744(\ub97c) \uc9c0\ub098\ub294 \uc9c1\uc120",
     "LineThroughAParallelToB": "%1 \uc5d0 \ud3c9\ud589\ud558\uace0, %0 \uc744(\ub97c) \uc9c0\ub098\ub294 \uc9c1\uc120",

@@ -2438,6 +2438,7 @@ __GGB__keysVar.gl.plain = {
     "Line": "Recta",
     "LineBisectorAB": "Mediatriz %0, %1",
     "LineBisectorOfA": "Mediatriz %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Estilo de recta",
     "LineThroughAB": "Recta pasando por %0, %1",
     "LineThroughAParallelToB": "Recta pasando por %0 paralela a %1",

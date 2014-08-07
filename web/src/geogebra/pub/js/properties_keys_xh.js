@@ -2438,6 +2438,7 @@ __GGB__keysVar.xh.plain = {
     "Line": "uMgca",
     "LineBisectorAB": "iSicandaKubini u %0, %1",
     "LineBisectorOfA": "iSicandaKubini esingu %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Isitayile somgca",
     "LineThroughAB": "Umgca ophumela ku %0, %1",
     "LineThroughAParallelToB": "uMgca ophumela ku %0 oNxusene no %1",

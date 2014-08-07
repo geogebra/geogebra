@@ -2438,6 +2438,7 @@ __GGB__keysVar.nl_BE.plain = {
     "Line": "Rechte",
     "LineBisectorAB": "Middelloodlijn %0, %1",
     "LineBisectorOfA": "Middelloodlijn %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Lijnsoort",
     "LineThroughAB": "Rechte door %0, %1",
     "LineThroughAParallelToB": "Rechte door %0 evenwijdig met %1",

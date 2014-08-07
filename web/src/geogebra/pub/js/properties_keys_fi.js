@@ -2438,6 +2438,7 @@ __GGB__keysVar.fi.plain = {
     "Line": "Suora",
     "LineBisectorAB": "Janan %0%1 keskinormaali",
     "LineBisectorOfA": "Janan %0 keskinormaali",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Suoran tyyli",
     "LineThroughAB": "%0:n ja %1:n kautta kulkeva suora",
     "LineThroughAParallelToB": "%0:n kautta kulkeva ja %1:n suuntainen suora",

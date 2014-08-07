@@ -2438,6 +2438,7 @@ __GGB__keysVar.ro.plain = {
     "Line": "Linie",
     "LineBisectorAB": "Mediatoarea lui %0, %1",
     "LineBisectorOfA": "Mediatoarea lui %0",
+    "LinePerpendicularToAandB": "Line perpendicular to %0 and %1",
     "LineStyle": "Stilul liniei",
     "LineThroughAB": "Linie prin %0, %1",
     "LineThroughAParallelToB": "Linie prin %0 paralel\u0103 cu %1",
