@@ -50,7 +50,6 @@ import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
@@ -80,8 +79,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public static final int PARAMETRIC = 2;
 	/** non-canonical implicit equation */
 	public static final int EQUATION_IMPLICIT_NON_CANONICAL = 3;
-
-	private int lineOpacity = 255;
 
 	private boolean showUndefinedInAlgebraView = false;
 
@@ -1618,14 +1615,4 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return true;
 	}
 
-	@Override
-	public int getLineOpacity() {
-		return lineOpacity;
-	}
-
-	@Override
-	public void setLineOpacity(int lineOpacity) {
-		App.debug("Line opacity set to " + lineOpacity);
-		this.lineOpacity = lineOpacity;
-	}
 }
