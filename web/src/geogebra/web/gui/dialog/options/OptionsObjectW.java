@@ -1113,40 +1113,69 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	} 
 
 	private class LineStylePanel extends OptionPanel implements ILineStyleListener {
+		
 		LineStyleModel model;
-		private Label sliderLabel;
-		private SliderPanel slider;
+		private Label thicknessSliderLabel;
+		private SliderPanel thicknessSlider;
+		private Label opacitySliderLabel;
+		private SliderPanel opacitySlider;
 		private Label popupLabel;
 		LineStylePopup btnLineStyle;
 		private int iconHeight = 24;
 		private FlowPanel stylePanel;
+		
 		public LineStylePanel() {
 			model = new LineStyleModel(this);
 			setModel(model);
 
 			FlowPanel mainPanel = new FlowPanel();
-			sliderLabel = new Label();
+			thicknessSliderLabel = new Label();
 			
 			FlowPanel lineThicknessPanel = new FlowPanel();
 			lineThicknessPanel.setStyleName("optionsPanel");
-			lineThicknessPanel.add(sliderLabel);
+			lineThicknessPanel.add(thicknessSliderLabel);
 			mainPanel.add(lineThicknessPanel);
 
-			slider = new SliderPanel(1, GeoElement.MAX_LINE_WIDTH);
-			slider.setMajorTickSpacing(2);
-			slider.setMinorTickSpacing(1);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
+			thicknessSlider = new SliderPanel(1, GeoElement.MAX_LINE_WIDTH);
+			thicknessSlider.setMajorTickSpacing(2);
+			thicknessSlider.setMinorTickSpacing(1);
+			thicknessSlider.setPaintTicks(true);
+			thicknessSlider.setPaintLabels(true);
 			//			slider.setSnapToTicks(true);
-			lineThicknessPanel.add(slider);
+			lineThicknessPanel.add(thicknessSlider);
 
-			slider.addChangeHandler(new ChangeHandler() {
+			thicknessSlider.addChangeHandler(new ChangeHandler() {
 
 				public void onChange(ChangeEvent event) {
 					if (true){//!slider.getValueIsAdjusting()) {
-						model.applyThickness(slider.getValue());
+						model.applyThickness(thicknessSlider.getValue());
 					}
 				}});
+			opacitySliderLabel = new Label();
+			
+			FlowPanel lineOpacityPanel = new FlowPanel();
+			lineOpacityPanel.setStyleName("optionsPanel");
+			lineOpacityPanel.add(opacitySliderLabel);
+			mainPanel.add(lineOpacityPanel);
+
+			opacitySlider = new SliderPanel(0, 100);
+			opacitySlider.setMajorTickSpacing(25);
+			opacitySlider.setMinorTickSpacing(5);
+			opacitySlider.setPaintTicks(true);
+			opacitySlider.setPaintLabels(true);
+			//opacitySlider.setSnapToTicks(true);
+			lineOpacityPanel.add(opacitySlider);
+
+			opacitySlider.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					if (true){//!slider.getValueIsAdjusting()) {
+						int value = (int) ((opacitySlider.getValue() / 100.0f) * 255);
+						model.applyOpacity(value);
+					}
+				}});
+			
+			
 
 			stylePanel = new FlowPanel();
 			stylePanel.setStyleName("optionsPanel");
@@ -1170,17 +1199,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 		@Override
 		public void setLabels() {
-			sliderLabel.setText(localize("Thickness"));
+			thicknessSliderLabel.setText(localize("Thickness"));
+			opacitySliderLabel.setText(localize("LineOpacity"));
 			popupLabel.setText(localize("LineStyle") + ":");
 
 		}
 
 		public void setThicknessSliderValue(int value) {
-			slider.setValue(value);
+			thicknessSlider.setValue(value);
 
 		}
 		public void setThicknessSliderMinimum(int minimum) {
-			slider.setMinimum(minimum);
+			thicknessSlider.setMinimum(minimum);
 
 		}
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
@@ -1196,8 +1226,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	        stylePanel.setVisible(value);
         }
 		public void setOpacitySliderValue(int value) {
-	        // TODO Auto-generated method stub
-	        
+	        opacitySlider.setValue(value);
         }
 	}
 
