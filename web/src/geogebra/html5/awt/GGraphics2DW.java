@@ -231,7 +231,11 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		if(bi==null)
 			return;
 		try{
-			context.drawImage(bi.getImageElement(), x, y);
+			if(bi.hasCanvas()){
+				context.drawImage(bi.getCanvas().getCanvasElement(), x, y);
+			}else{
+				context.drawImage(bi.getImageElement(), x, y);
+			}
 		} catch (Exception e){
 			App.error("error in context.drawImage method");
 		}

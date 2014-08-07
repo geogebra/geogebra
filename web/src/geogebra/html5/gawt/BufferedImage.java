@@ -110,6 +110,10 @@ public class BufferedImage {
 		}
 		return img;
     }
+	
+	public boolean hasCanvas() {
+		return canv != null;
+    }
 
 	public BufferedImage cloneDeep() {
 		if (canv != null)
