@@ -41,8 +41,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 	private int selectedMode = SUMMARY_STATISTICS;
 
 	// panels
-//	private BasicStatTable statTable;
-//	private OneVarInferencePanel oneVarInferencePanel;
+	private BasicStatTableW statTable;
+	private OneVarInferencePanelW oneVarInferencePanel;
 //	private LinearRegressionPanel regressionPanel;
 //	private TwoVarInferencePanel twoVarInferencePanel;
 //	private ANOVATable anovaTable;
@@ -68,33 +68,32 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		this.daModel = statDialog.getModel();
 		// create the sub-panels
 		createSelectionPanel();
+		daModel.setMode(DataAnalysisModel.MODE_ONEVAR);
+		
 		createStatTable();
-//		if (statTable != null) {
-//			statTable.setBorder(BorderFactory.createEmptyBorder());
-//			inferencePanel = new JPanel(new BorderLayout());
-//			inferencePanel.add(statTable, BorderLayout.CENTER);
-//
-//			// add sub-panels to layout
-//			setLayout(new BorderLayout());
-//			add(selectionPanel, BorderLayout.NORTH);
-//			add(inferencePanel, BorderLayout.CENTER);
+		if (statTable != null) {
+	//		statTable.setBorder(BorderFactory.createEmptyBorder());
+			inferencePanel = new FlowPanel();
+			inferencePanel.add(statTable);
+			//add(selectionPanel);
+			add(inferencePanel);
 
-//			setLabels();
-//		}
+			setLabels();
+		}
 	}
 
 	/**
 	 * Creates a table to display summary statistics for the current data set(s)
 	 */
 	private void createStatTable() {
-		// create a statTable according to dialog type
-//		if (daModel.getMode() == DataAnalysisModel.MODE_ONEVAR) {
-//			statTable = new BasicStatTable(app, statDialog);
-//		} else if (daModel.getMode() == DataAnalysisModel.MODE_REGRESSION) {
-//			statTable = new BasicStatTable(app, statDialog);
-//		} else if (daModel.getMode() == DataAnalysisModel.MODE_MULTIVAR) {
-//			statTable = new MultiVarStatPanel(app, statDialog);
-//		}
+//		 create a statTable according to dialog type
+		if (daModel.getMode() == DataAnalysisModel.MODE_ONEVAR) {
+			statTable = new BasicStatTableW(app, statDialog);
+		} else if (daModel.getMode() == DataAnalysisModel.MODE_REGRESSION) {
+			statTable = new BasicStatTableW(app, statDialog);
+		} else if (daModel.getMode() == DataAnalysisModel.MODE_MULTIVAR) {
+		//	statTable = new MultiVarStatPanelW(app, statDialog);
+		}
 	}
 
 	/**
@@ -103,29 +102,29 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 	 */
 	private void setInferencePanel() {
 
-//		if (inferencePanel == null)
-//			return;
-//
-//		inferencePanel.removeAll();
-//		switch (selectedMode) {
-//
-//		case INFER_ZTEST:
-//		case INFER_TTEST:
-//		case INFER_ZINT:
-//		case INFER_TINT:
-//			inferencePanel.add(getOneVarInferencePanel(), BorderLayout.NORTH);
-//			break;
-//
-//		case INFER_TTEST_2MEANS:
-//		case INFER_TTEST_PAIRED:
-//		case INFER_TINT_2MEANS:
-//		case INFER_TINT_PAIRED:
-//			inferencePanel.add(getTwoVarInferencePanel(), BorderLayout.NORTH);
-//			// inferencePanel.add(statTable, BorderLayout.CENTER);
-//			break;
-//
-//		case INFER_ANOVA:
-//
+		if (inferencePanel == null)
+			return;
+
+		inferencePanel.clear();
+		switch (selectedMode) {
+
+		case INFER_ZTEST:
+		case INFER_TTEST:
+		case INFER_ZINT:
+		case INFER_TINT:
+			inferencePanel.add(getOneVarInferencePanel());
+			break;
+
+		case INFER_TTEST_2MEANS:
+		case INFER_TTEST_PAIRED:
+		case INFER_TINT_2MEANS:
+		case INFER_TINT_PAIRED:
+			//inferencePanel.add(getTwoVarInferencePanel(), BorderLayout.NORTH);
+			// inferencePanel.add(statTable, BorderLayout.CENTER);
+			break;
+
+		case INFER_ANOVA:
+
 //			GridBagConstraints tab = new GridBagConstraints();
 //			tab.gridx = 0;
 //			tab.gridy = GridBagConstraints.RELATIVE;
@@ -139,16 +138,13 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 //			p.add(getMinMVStatPanel(), tab);
 //			inferencePanel.add(p, BorderLayout.CENTER);
 //
-//			break;
-//
-//		default:
-//			inferencePanel.add(statTable, BorderLayout.CENTER);
-//		}
-//
-//		revalidate();
-//		repaint();
-//		this.setMinimumSize(this.getPreferredSize());
-//		statDialog.updateStatDataPanelVisibility();
+			break;
+
+		default:
+			inferencePanel.add(statTable);
+		}
+
+		statDialog.updateStatDataPanelVisibility();
 	}
 
 	private void createSelectionPanel() {
@@ -165,12 +161,12 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 //		return anovaTable;
 //	}
 //
-//	private OneVarInferencePanel getOneVarInferencePanel() {
-//		if (oneVarInferencePanel == null)
-//			oneVarInferencePanel = new OneVarInferencePanel(app, statDialog);
-//		return oneVarInferencePanel;
-//	}
-//
+	private OneVarInferencePanelW getOneVarInferencePanel() {
+		if (oneVarInferencePanel == null)
+			oneVarInferencePanel = new OneVarInferencePanelW(app, statDialog);
+		return oneVarInferencePanel;
+	}
+
 //	private TwoVarInferencePanel getTwoVarInferencePanel() {
 //		if (twoVarInferencePanel == null)
 //			twoVarInferencePanel = new TwoVarInferencePanel(app, statDialog);
@@ -266,18 +262,18 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 	}
 
 	public void setLabels() {
-//	statTable.setLabels();
+		statTable.setLabels();
 		
 	}
 
 	public void updatePanel() {
 		// System.out.println("============= update stat panel");
-//		if (statTable == null) {
-//			return;
-//		}
-//
-//		statTable.updatePanel();
-//
+		if (statTable == null) {
+			return;
+		}
+
+		statTable.updatePanel();
+
 //		switch (selectedMode) {
 //
 //		case INFER_ZTEST:
@@ -302,10 +298,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 //			break;
 //		}
 //
-//		revalidate();
-//		repaint();
 //		this.setMinimumSize(this.getPreferredSize());
 //		// statDialog.updateStatDataPanelVisibility();
-//
+
 	}
 }

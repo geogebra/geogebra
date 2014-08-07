@@ -4,9 +4,7 @@ import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
-import geogebra.web.gui.view.data.DataAnalysisStyleBarW;
 import geogebra.web.gui.view.data.DataAnalysisViewW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -67,8 +65,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	protected Widget loadStyleBar() {
 		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
 		da.getModel().setMode(DataAnalysisModel.MODE_ONEVAR);
-		DataAnalysisStyleBarW daStyleBar = new DataAnalysisStyleBarW((AppW) app, da);
-		return daStyleBar.asWidget();
+		return da.getStyleBar();
 	}
 	
 	@Override

@@ -31,7 +31,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	private Kernel kernel;
 	private DataAnalysisModel model;
 	protected DataAnalysisControllerW daCtrl;
-	//private DataAnalysisStyleBarW stylebar;
+	private DataAnalysisStyleBarW stylebar;
 
 	// colors
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
@@ -100,10 +100,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	public Widget getStyleBar() {
-//		if (stylebar == null) {
-//			stylebar = new DataAnalysisStyleBar(app, this);
-//		}
-		return null;//stylebar;
+		if (stylebar == null) {
+			stylebar = new DataAnalysisStyleBarW(app, this);
+		}
+		return stylebar;
 	}
 
 	private void createGUI() {
