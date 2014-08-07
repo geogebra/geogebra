@@ -829,6 +829,26 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	public boolean hasLineOpacity() {
 		return true;
 	}
+	
+	@Override
+	public void setLineOpacity(int lineOpacity) {
+		setLineOpacity(lineOpacity, true);
+	}
+	
+	/**
+	 * Sets the line opacity for this GeoElement. 
+	 * @param lineOpacity  opacity value between 0 - 255
+	 * @param updateSegments true to apply this setting to segments
+	 */
+	public void setLineOpacity(int lineOpacity, boolean updateSegments) {
+		super.setLineOpacity(lineOpacity);
+		if (updateSegments && segments != null) {
+			for (int i = 0; i < segments.length; i++) {
+				segments[i].setLineOpacity(lineOpacity);
+				segments[i].updateVisualStyle();
+			}
+		}
+	}
 
 	/**
 	 * Yields true if the area of this polygon is equal to the area of polygon

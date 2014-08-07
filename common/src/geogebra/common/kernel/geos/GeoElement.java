@@ -406,7 +406,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public int lineType = EuclidianStyleConstants.DEFAULT_LINE_TYPE;
 	/** line type for hidden parts (for 3D) */
 	public int lineTypeHidden = EuclidianStyleConstants.DEFAULT_LINE_TYPE_HIDDEN;
-	
+	/** line opacity */
 	private int lineOpacity = 255;
 
 	/** decoration type */
@@ -7259,26 +7259,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		return this.needsEVupdate;
 	}
 
-	/**
-	 * @return true if it has a line opacity value between 0 and 255
-	 */
+	@Override
 	public boolean hasLineOpacity() {
-		App.debug(this.getClass() + "");
 		return false;
 	}
 
-	/**
-	 * @return The value for the line opacity (0 - 255). </br>
-	 * 			The default value is 255 (opaque)
-	 */
+	@Override
 	public int getLineOpacity() {
 		return lineOpacity;
 	}
 
-	/**
-	 * Sets the line opacity for this {@code GeoElement}. </br>
-	 * @param lineOpacity opacity value between 0 - 255
-	 */
+	@Override
 	public void setLineOpacity(int lineOpacity) {
 		this.lineOpacity = lineOpacity;
 	}

@@ -120,8 +120,23 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @param th line thickness
 	 */
 	public void setLineThickness(int th);
-
 	
+	/**
+	 * @return true if it has a line opacity value between 0 and 255
+	 */
+	public boolean hasLineOpacity();
+	
+	/**
+	 * Sets the line opacity for this {@code GeoElement}. </br>
+	 * @param opacity opacity value between 0 - 255
+	 */
+	public void setLineOpacity(int opacity);
+	
+	/**
+	 * @return The value for the line opacity (0 - 255). </br>
+	 * 			The default value is 255 (opaque)
+	 */
+	public int getLineOpacity();
 
 	/**
 	 * @param b true to make label visible
