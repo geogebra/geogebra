@@ -236,7 +236,7 @@ public class AwtFactoryW extends AwtFactory {
 	
 	@Override
     public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-	    return new GTexturePaintW((BufferedImage)subimage, (Rectangle)rect);
+	    return new GTexturePaintW((BufferedImage)subimage);
     }
 
 	@Override

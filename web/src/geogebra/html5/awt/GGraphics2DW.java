@@ -325,18 +325,25 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 				//https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
 				//NS_ERROR_NOT_AVAILABLE: Component is not available
 				//https://bugzilla.mozilla.org/show_bug.cgi?id=574330
-				if (((GTexturePaintW)paint).getImg().getPropertyBoolean("complete")) {
+				final BufferedImage bi = ((GTexturePaintW)paint).getImg();
+				CanvasPattern ptr;
+				if (bi.hasCanvas()) {
 					currentPaint = new GTexturePaintW((GTexturePaintW)paint);
-					CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
+					ptr = context.createPattern(bi.getCanvas().getCanvasElement(), Repetition.REPEAT);
+					context.setFillStyle(ptr);
+					color = null;
+				} else if (bi.isLoaded()) {
+					currentPaint = new GTexturePaintW((GTexturePaintW)paint);
+					ptr = context.createPattern(bi.getImageElement(), Repetition.REPEAT);
 					context.setFillStyle(ptr);
 					color = null;
 				} else {
-					ImageWrapper.nativeon(((GTexturePaintW)paint).getImg(),
+					ImageWrapper.nativeon(bi.getImageElement(),
 						"load",
 						new ImageLoadCallback() {
 							public void onLoad() {
 								currentPaint = new GTexturePaintW((GTexturePaintW)paint);
-								CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
+								CanvasPattern ptr = context.createPattern(bi.getImageElement(), Repetition.REPEAT);
 								context.setFillStyle(ptr);
 								color = null;
 							}

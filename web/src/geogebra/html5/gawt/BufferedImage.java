@@ -45,7 +45,7 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 			//c2d.setFillStyle(fsf);
 		}
 
-		img = getImageElement();
+		//img = getImageElement();
 	}
 
 	public BufferedImage(int width, int height, int imageType) {
@@ -73,7 +73,7 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 							cv.getCoordinateSpaceWidth(),
 							cv.getCoordinateSpaceHeight()),
 					0,0);
-			img = getImageElement();
+			//img = getImageElement();
 		} else {
 			App.debug("BufferedImage (gawt) called with null Canvas");
 		}
@@ -86,7 +86,7 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 		canv.setWidth(imageData.getWidth()+"px");
 		canv.setHeight(imageData.getHeight()+"px");
 		canv.getContext2d().putImageData(imageData, 0, 0);
-		img = getImageElement();
+		//img = getImageElement();
     }
 
 	public int getWidth() {
@@ -137,7 +137,7 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 	}
 
 	public boolean isLoaded() {
-		return img.getPropertyBoolean("complete");
+		return img == null || img.getPropertyBoolean("complete");
 	}
 
 	@Override
