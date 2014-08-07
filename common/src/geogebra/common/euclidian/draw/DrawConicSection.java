@@ -206,10 +206,7 @@ public class DrawConicSection extends DrawConic {
 			((GGeneralPath) arcs).append(arc,true);
 			((GGeneralPath) arcs).closePath();
 		}
-		
-		
-		
-		
+
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
 		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));

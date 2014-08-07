@@ -24,7 +24,6 @@ package geogebra.common.euclidian.clipping;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GGeneralPath;
-import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
@@ -329,16 +328,6 @@ public class ClipShape {
 			return k;
 		}
 	}
-	
-	/** This creates a <code>GeneralPath</code> representing <code>s</code> when
-	 * clipped to <code>r</code>
-	 * @param s a shape that you want clipped
-	 * @param r the rectangle to clip it to
-	 * @return a <code>GeneralPath</code> enclosing the new shape.
-	 */
-	public static GGeneralPath clipToRect(GShape s,GRectangle2D r) {
-		return clipToRect(s,null,r);
-	}
 
 	/**
 	 * @param result
@@ -521,50 +510,5 @@ public class ClipShape {
 		p.flush();
 		doubleFactory.putArray(f);
 		return p.g;
-	}
-
-	/** By default if a Graphics2D is asked to clip to a new shape,
-	 * it may resort to Area objects if either the current clipping
-	 * and the new clipping are not rectangles.
-	 * <P>This method with offer a slight improvement over this model:
-	 * if <i>either</i> the old clip or the new clip is a rectangle,
-	 * then this uses the <code>Clipper.clipToRect()</code> method.
-	 * This avoids the slow-but-accurate Area class.
-	 * <P>This should only be used to replace <code>Graphics2D.clip()</code>,
-	 * not <code>Graphics2D.setClip()</code>.
-	 * @param g the graphics2D to clip to
-	 * @param newClip the new clip
-	 */
-	public static void clip(GGraphics2D g,GShape newClip) {
-		GShape oldClip = g.getClip();
-		if(oldClip==null) {
-			g.setClip(newClip);
-			return;
-		}
-		GRectangle2D oldRect = null;
-		GRectangle2D newRect = null;
-		if(oldClip instanceof GRectangle2D) {
-			oldRect = (GRectangle2D)oldClip;
-		}
-		if(newClip instanceof GRectangle2D) {
-			newRect = (GRectangle2D)newClip;
-		}
-		
-		if(oldRect!=null && newRect!=null) {
-			g.setClip(oldRect.createIntersection(newRect));
-			return;
-		}
-		
-		if(newRect!=null && oldRect==null) {
-			g.setClip( ClipShape.clipToRect(oldClip, newRect));
-			return;
-		}
-		
-		if(newRect==null && oldRect!=null) {
-			g.setClip( ClipShape.clipToRect(newClip, oldRect));
-			return;
-		}
-
-		g.clip(newClip);
 	}
 }

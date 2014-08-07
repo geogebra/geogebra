@@ -422,9 +422,10 @@ public abstract class App implements UpdateSelection{
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
-			putInTranslateCommandTable(Commands.valueOf(cmd));
+			
 			try {
 				String local = getLocalization().getCommand(cmd);
+				putInTranslateCommandTable(Commands.valueOf(cmd), local);
 				if (local != null) {
 					commandDictCAS.addEntry(local);
 					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
@@ -533,14 +534,15 @@ public abstract class App implements UpdateSelection{
 			String internal = comm.name();
 			if (!companion.tableVisible(comm.getTable())) {
 				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-					putInTranslateCommandTable(comm);
+					putInTranslateCommandTable(comm, null);
 				}
 				continue;
 			}
-			putInTranslateCommandTable(comm);
+			
 			// App.debug(internal);
 			String local = getLocalization().getCommand(internal);
-
+			putInTranslateCommandTable(comm, local);
+			
 			if (local != null) {
 				local = local.trim();
 				// case is ignored in translating local command names to
@@ -564,7 +566,7 @@ public abstract class App implements UpdateSelection{
 		getLocalization().setCommandChanged(false);
 	}
 
-	private void putInTranslateCommandTable(Commands comm) {
+	private void putInTranslateCommandTable(Commands comm, String local) {
 			String internal = comm.name();
 			//Check that we don't overwrite local with English
 			if(!translateCommandTable.containsKey(StringUtil.toLowerCase(internal))){
@@ -574,9 +576,9 @@ public abstract class App implements UpdateSelection{
 			if(comm.getTable() == CommandsConstants.TABLE_ENGLISH){
 				return;
 			}
-			String s = getLocalization().getCommand(internal);
-			if(s!=null){
-				translateCommandTable.put(StringUtil.toLowerCase(s),
+
+			if(local != null){
+				translateCommandTable.put(StringUtil.toLowerCase(local),
 						Commands.englishToInternal(comm).name());
 			}
 		
