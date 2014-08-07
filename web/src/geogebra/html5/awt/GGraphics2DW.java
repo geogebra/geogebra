@@ -1,7 +1,6 @@
 package geogebra.html5.awt;
 
 import geogebra.common.awt.GAffineTransform;
-import geogebra.common.awt.GAttributedCharacterIterator;
 import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GBufferedImageOp;
@@ -9,15 +8,9 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GComposite;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFontRenderContext;
-import geogebra.common.awt.GGlyphVector;
-import geogebra.common.awt.GGraphicsConfiguration;
 import geogebra.common.awt.GImage;
-import geogebra.common.awt.GImageObserver;
 import geogebra.common.awt.GKey;
 import geogebra.common.awt.GPaint;
-import geogebra.common.awt.GRenderableImage;
-import geogebra.common.awt.GRenderedImage;
-import geogebra.common.awt.GRenderingHints;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
@@ -49,7 +42,7 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 	protected geogebra.common.awt.GShape clipShape = null;
 
 	private GFontW currentFont = new GFontW("normal");
-	private GColor color = new GColorW(255,255,255,255), bgColor;
+	private GColor color = new GColorW(255,255,255,255);
 	private GAffineTransform savedTransform;
 	private float [] dash_array = null;
 
@@ -218,11 +211,7 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 
 
-	public boolean drawImage(GImage img, GAffineTransform xform, GImageObserver obs) {
-		App.debug("drawImage: implementation needed for beauty"); // TODO Auto-generated
-		return false;
-	}
-
+	
 	//
 
 	public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
@@ -241,22 +230,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		}
 	}
 
-	
-
-	public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
-		App.debug("drawRenderedImage: implementation needed"); // TODO Auto-generated
-
-	}
-
-	
-
-	public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
-		App.debug("drawRenderableImage: implementation needed"); // TODO Auto-generated
-
-	}
-
-	
-
 	public void drawString(String str, int x, int y) {
 		context.fillText(str, x, y);
 	}
@@ -267,37 +240,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		context.fillText(str, x, y);
 	}
 
-	
-
-	public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
-		App.debug("drawString: implementation needed"); // TODO Auto-generated
-
-	}
-
-	
-
-	public void drawString(GAttributedCharacterIterator iterator, float x,
-			float y) {
-		App.debug("drawString: implementation needed 2"); // TODO Auto-generated
-
-	}
-
-	
-
-	public void drawGlyphVector(GGlyphVector g, float x, float y) {
-		App.debug("drawGlyphVector: implementation needed"); // TODO Auto-generated
-
-	}
-
-
-
-
-	public GGraphicsConfiguration getDeviceConfiguration() {
-		App.debug("getDeviceConfiguration: implementation needed"); // TODO Auto-generated
-		return null;
-	}
-
-	
 
 	public void setComposite(GComposite comp) {
 		context.setGlobalAlpha(((GAlphaCompositeW)comp).getAlpha());
@@ -422,28 +364,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 	}
 
-	
-
-	public void addRenderingHints(Map<?, ?> hints) {
-		//
-
-	}
-
-	
-
-	public GRenderingHints getRenderingHints() {
-		//
-		return null;
-	}
-
-	
-
-	public void translate(int x, int y) {
-		context.translate(x, y);
-		savedTransform.translate(x, y);
-	}
-
-	
 
 	public void translate(double tx, double ty) {
 		context.translate(tx, ty);
@@ -451,42 +371,10 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 	}
 
-	
-
-	public void rotate(double theta) {
-		context.rotate(theta);
-		savedTransform.concatenate(
-				new AffineTransform(
-						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), 0, 0));
-
-	}
-
-	
-
-	public void rotate(double theta, double x, double y) {
-		context.translate(x, y);
-		context.rotate(theta);
-		context.translate(-x, -y);
-		savedTransform.concatenate(
-				new AffineTransform(
-						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), x, y));
-	}
-
-	
 	public void scale(double sx, double sy) {
 		context.scale(sx, sy);
 		savedTransform.scale(sx, sy);
 	}
-
-	
-
-	public void shear(double shx, double shy) {
-		transform(new AffineTransform(
-			1, shy, shx, 1, 0, 0
-		));
-	}
-
-
 
 	public void transform(GAffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(),
@@ -514,28 +402,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		ret.setTransform(savedTransform);
 		return ret;
 	}
-	
-
-
-	public GPaint getPaint() {
-		return currentPaint;
-		/* The other possible solution would be:
-
-		// this could be an array as well, according to the documentation, so more difficult
-		FillStrokeStyle fs = context.getFillStyle();
-		Paint ret;
-		if (fs.getType() == FillStrokeStyle.TYPE_CSSCOLOR) {
-			// it is difficult to make a color out of csscolor
-			ret = new Color((CssColor)fs);
-		} else if (fs.getType() == FillStrokeStyle.TYPE_GRADIENT) {
-			
-		} else if (fs.getType() == FillStrokeStyle.TYPE_PATTERN) {
-			
-		}
-		*/
-	}
-
-	
 
 	public GComposite getComposite() {
 		return new GAlphaCompositeW(3, (float) context.getGlobalAlpha());
@@ -548,16 +414,11 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 
 
-	public void setBackground(GColor color) {
-		// This method only affects Graphics2D.clearRect (if there will be present)
-		// and getBackground calls - currently Drawable.drawLabel
-		this.bgColor = new GColorW((GColorW)color);
-	}
-
+	
 
 
 	public GColor getBackground() {
-		return bgColor;
+		return GColor.WHITE;
 	}
 
 
@@ -573,21 +434,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 			0
 		);
 	}
-
-	public void clip(Shape shape2) {
-
-		if (shape2 == null) {
-			// for simple clip, no null is allowed
-			clipShape = null;
-			App.error("Error in Graphics2D.setClip");
-			return;
-		}
-		clipShape = shape2;
-		doDrawShape(shape2, false);
-		context.save();
-		context.clip();
-	}
-
 	
 
 	public GFontRenderContext getFontRenderContext() {

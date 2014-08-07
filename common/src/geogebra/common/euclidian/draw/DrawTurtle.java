@@ -18,8 +18,8 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GEllipse2DDouble;
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGraphics2D;
-import geogebra.common.awt.GImage;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
@@ -48,6 +48,7 @@ public class DrawTurtle extends Drawable {
 	private geogebra.common.awt.GRectangle turtleImageBounds = AwtFactory.prototype.newRectangle();
 	private double imageSize = 10;
 	private double[] currentCoords = new double[2];
+	private GAffineTransform at = AwtFactory.prototype.newAffineTransform();
 
 	/**
 	 * @param view
@@ -209,7 +210,12 @@ public class DrawTurtle extends Drawable {
 		isVisible = getBounds() != null
 				&& getBounds().intersects(0, 0, view.getWidth(),
 						view.getHeight());
-
+		if(isVisible){
+			at.setTransform(1, 0, 0, 1, 1, 0);
+			at.translate(currentCoords[0], currentCoords[1]);
+			at.rotate(-turnAngle);
+			updateTurtleShape();
+		}
 	}
 
 	@Override
@@ -239,11 +245,9 @@ public class DrawTurtle extends Drawable {
 			}
 
 			// draw rotated turtle
-			GAffineTransform tr = g2.getTransform();
-			g2.translate(currentCoords[0], currentCoords[1]);
-			g2.rotate(-turnAngle);
-			drawTurtleShape(g2, turtle.getTurtle(), turtle.getPenColor());
-			g2.setTransform(tr);
+			
+			drawTurtleShape(g2);
+			
 
 		}
 	}
@@ -312,16 +316,99 @@ public class DrawTurtle extends Drawable {
 	// TODO: handle images when Common supports loading internal images
 	// ===================================================
 
-	private static GEllipse2DDouble ellipse = AwtFactory.prototype.newEllipse2DDouble();
-	private static GBasicStroke stroke1 = AwtFactory.prototype.newBasicStroke(1f);
-	private static GBasicStroke stroke2 = AwtFactory.prototype.newBasicStroke(2f);
-	private static GGeneralPath gPath = AwtFactory.prototype.newGeneralPath();
+	private GEllipse2DDouble ellipse = AwtFactory.prototype.newEllipse2DDouble();
+	private GBasicStroke stroke1 = AwtFactory.prototype.newBasicStroke(1f);
+	private GBasicStroke stroke2 = AwtFactory.prototype.newBasicStroke(2f);
+	private GGeneralPath gPath = AwtFactory.prototype.newGeneralPath();
+	private GShape legs;
+	private GShape head;
+	private GShape body;
+	private GShape dot;
 
+	private void drawTurtleShape(GGraphics2D g2){
+		int r = 8; // turtle radius
+		float x, y;
+		gPath.reset();
+
+
+			// back legs
+			g2.setStroke(stroke2);
+			
+			g2.setColor(GColor.black);
+			
+			g2.draw(legs);
+
+			// front legs
+			
+			g2.setStroke(stroke1);
+
+			// head
+			g2.setColor(GColor.gray);
+			g2.fill(head);
+			g2.setColor(GColor.black);
+			g2.draw(head);
+			
+			// body
+			g2.setColor(GColor.green);
+			g2.fill(body);
+			g2.setColor(GColor.black);
+			g2.draw(body);
+			
+			// pen color dot
+			g2.setColor(turtle.getPenColor());
+			g2.fill(dot);
+			//g2.setColor(Color.black);
+			//g2.draw(ellipse);
+		
+	}
+	
+	private void updateTurtleShape(){
+		int r = 8; // turtle radius
+		float x, y;
+		gPath.reset();
+
+
+			// back legs
+			
+			x = (float) (1.3 * r * Math.cos(Math.PI / 6));
+			y = (float) (1.3 * r * Math.sin(Math.PI / 6));
+			gPath.moveTo(0, 0);
+			gPath.lineTo(-x, y);
+			gPath.moveTo(0, 0);
+			gPath.lineTo(-x, -y);
+			
+
+			// front legs
+			x = (float) (1.2 * r * Math.cos(Math.PI / 4));
+			y = (float) (1.2 * r * Math.sin(Math.PI / 4));
+			gPath.moveTo(0, 0);
+			gPath.lineTo(x, y);
+			gPath.moveTo(0, 0);
+			gPath.lineTo(x, -y);
+			legs = gPath.createTransformedShape(at);
+
+			// head
+			ellipse.setFrame(r - 3, -3, 6, 6);
+			head = at.createTransformedShape(ellipse);
+			// body
+			ellipse.setFrame(-r, -r, 2 * r, 1.8 * r);
+			body = at.createTransformedShape(ellipse);
+			
+			
+			// pen color dot
+			ellipse.setFrame(-3, -3, 6, 6);
+			dot = at.createTransformedShape(ellipse);
+			//g2.setColor(Color.black);
+			//g2.draw(ellipse);
+		
+	}
+	
 	/**
 	 * Draw turtle shapes.
 	 * 
 	 * @param g2
-	 */
+	 **/
+	/*
 	private void drawTurtleShape(geogebra.common.awt.GGraphics2D g2,
 			int shapeNumber, GColor penColor) {
 
@@ -356,6 +443,7 @@ public class DrawTurtle extends Drawable {
 			gPath.moveTo(0, 0);
 			gPath.lineTo(x, -y);
 			g2.setColor(GColor.black);
+			gPath.createTransformedShape(at);
 			g2.draw(gPath);
 
 			g2.setStroke(stroke1);
@@ -366,7 +454,7 @@ public class DrawTurtle extends Drawable {
 			g2.fill(ellipse);
 			g2.setColor(GColor.black);
 			g2.draw(ellipse);
-
+			
 			// body
 			ellipse.setFrame(-r, -r, 2 * r, 1.8 * r);
 			g2.setColor(GColor.green);
@@ -409,8 +497,12 @@ public class DrawTurtle extends Drawable {
 		case 3:
 
 			GImage img = turtle.getTurtleImageList().get(0);
+			GAffineTransform tr = g2.getTransform(); 
+			g2.setTransform(at);
 			g2.drawImage(img, -8, -8);
+			g2.setTransform(tr);
 
 		}
 	}
+	*/
 }

@@ -48,7 +48,6 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 
 	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
 		impl.fill3DRect(x, y, width, height, raised);
-
 	}
 
 	public boolean drawImage(GImage img, GAffineTransform xform,

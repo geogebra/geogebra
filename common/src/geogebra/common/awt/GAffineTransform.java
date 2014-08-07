@@ -21,4 +21,5 @@ public interface GAffineTransform {
 	public double getTranslateY();
 	public void transform(float[] pointCoords, int pointIdx, double[] coords,
 			int j, int k);
+	public void rotate(double theta);
 }

@@ -169,7 +169,6 @@ public class MyButton implements Observer{
 			p = geogebra.common.factories.AwtFactory.prototype
 					.newGradientPaint(x, y, bg.darker(), x, y + getHeight(), bg);
 		}
-		geogebra.common.awt.GPaint oldPaint = g.getPaint();
 
 		// =======================================
 		// Drawing
@@ -181,7 +180,6 @@ public class MyButton implements Observer{
 		g.fillRoundRect(x, y, geoButton.getWidth()+(int)add, geoButton.getHeight(), arcSize, arcSize);
 
 		// draw border
-		g.setPaint(oldPaint);
 		g.setColor(geogebra.common.awt.GColor.DARK_GRAY);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.drawRoundRect(x, y, getWidth()+(int)add - 1, getHeight() - 1, arcSize, arcSize);

@@ -114,4 +114,9 @@ public class GAffineTransformD implements geogebra.common.awt.GAffineTransform {
 		at.transform(srcPts, srcOff, dstPts, dstOff, numPts);
 
 	}
+
+	@Override
+	public void rotate(double theta) {
+		at.rotate(theta);
+	}
 }

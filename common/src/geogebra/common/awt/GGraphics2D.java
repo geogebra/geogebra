@@ -67,34 +67,6 @@ public interface GGraphics2D {
 	public abstract void draw(GShape s);
 
 	/**
-	 * Renders an image, applying a transform from image space into user space
-	 * before drawing.
-	 * The transformation from user space into device space is done with
-	 * the current <code>Transform</code> in the <code>Graphics2D</code>.
-	 * The specified transformation is applied to the image before the
-	 * transform attribute in the <code>Graphics2D</code> context is applied.
-	 * The rendering attributes applied include the <code>Clip</code>,
-	 * <code>Transform</code>, and <code>Composite</code> attributes.
-	 * Note that no rendering is done if the specified transform is
-	 * noninvertible.
-	 * @param img the specified image to be rendered.
-	 *            This method does nothing if <code>img</code> is null.
-	 * @param xform the transformation from image space into user space
-	 * @param obs the {@link GImageObserver}
-	 * to be notified as more of the <code>Image</code>
-	 * is converted
-	 * @return <code>true</code> if the <code>Image</code> is
-	 * fully loaded and completely rendered, or if it's null;
-	 * <code>false</code> if the <code>Image</code> is still being loaded.
-	 * @see #transform
-	 * @see #setTransform
-	 * @see #setComposite
-	 * @see #clip
-	 * @see #setClip
-	 */
-	public abstract boolean drawImage(GImage img, GAffineTransform xform,
-			GImageObserver obs);
-	/**
 	 * Renders a <code>BufferedImage</code> that is
 	 * filtered with a
 	 * {@link GBufferedImageOp}.
@@ -125,63 +97,7 @@ public interface GGraphics2D {
 	
 	public abstract void drawImage(GBufferedImage img, int x, int y);
 
-	/**
-	 * Renders a {@link GRenderedImage},
-	 * applying a transform from image
-	 * space into user space before drawing.
-	 * The transformation from user space into device space is done with
-	 * the current <code>Transform</code> in the <code>Graphics2D</code>.
-	 * The specified transformation is applied to the image before the
-	 * transform attribute in the <code>Graphics2D</code> context is applied.
-	 * The rendering attributes applied include the <code>Clip</code>,
-	 * <code>Transform</code>, and <code>Composite</code> attributes. Note
-	 * that no rendering is done if the specified transform is
-	 * noninvertible.
-	 * @param img the image to be rendered. This method does
-	 *            nothing if <code>img</code> is null.
-	 * @param xform the transformation from image space into user space
-	 * @see #transform
-	 * @see #setTransform
-	 * @see #setComposite
-	 * @see #clip
-	 * @see #setClip
-	 */
-	public abstract void drawRenderedImage(GRenderedImage img,
-			GAffineTransform xform);
-
-	/**
-	 * Renders a
-	 * {@link GRenderableImage},
-	 * applying a transform from image space into user space before drawing.
-	 * The transformation from user space into device space is done with
-	 * the current <code>Transform</code> in the <code>Graphics2D</code>.
-	 * The specified transformation is applied to the image before the
-	 * transform attribute in the <code>Graphics2D</code> context is applied.
-	 * The rendering attributes applied include the <code>Clip</code>,
-	 * <code>Transform</code>, and <code>Composite</code> attributes. Note
-	 * that no rendering is done if the specified transform is
-	 * noninvertible.
-	 *<p>
-	 * Rendering hints set on the <code>Graphics2D</code> object might
-	 * be used in rendering the <code>RenderableImage</code>.
-	 * If explicit control is required over specific hints recognized by a
-	 * specific <code>RenderableImage</code>, or if knowledge of which hints
-	 * are used is required, then a <code>RenderedImage</code> should be
-	 * obtained directly from the <code>RenderableImage</code>
-	 * and rendered using
-	 *{@link #drawRenderedImage(GRenderedImage, GAffineTransform) drawRenderedImage}.
-	 * @param img the image to be rendered. This method does
-	 *            nothing if <code>img</code> is null.
-	 * @param xform the transformation from image space into user space
-	 * @see #transform
-	 * @see #setTransform
-	 * @see #setComposite
-	 * @see #clip
-	 * @see #setClip
-	 * @see #drawRenderedImage
-	 */
-	public abstract void drawRenderableImage(GRenderableImage img,
-			GAffineTransform xform);
+	
 
 	/**
 	 * Renders the text of the specified <code>String</code>, using the
@@ -235,85 +151,7 @@ public interface GGraphics2D {
 	 */
 	public abstract void drawString(String str, float x, float y);
 
-	/**
-	 * Renders the text of the specified iterator applying its attributes
-	 * in accordance with the specification of the {@link java.awt.font.TextAttribute} class.
-	 * <p>
-	 * The baseline of the first character is at position
-	 * (<i>x</i>,&nbsp;<i>y</i>) in User Space.
-	 * For characters in script systems such as Hebrew and Arabic,
-	 * the glyphs can be rendered from right to left, in which case the
-	 * coordinate supplied is the location of the leftmost character
-	 * on the baseline.
-	 * @param iterator the iterator whose text is to be rendered
-	 * @param x the x coordinate where the iterator's text is to be
-	 * rendered
-	 * @param y the y coordinate where the iterator's text is to be
-	 * rendered
-	 * @throws NullPointerException if <code>iterator</code> is
-	 *         <code>null</code>
-	 * @see #setPaint
-	 * @see java.awt.Graphics#setColor
-	 * @see #setTransform
-	 * @see #setComposite
-	 * @see #setClip
-	 */
-	public abstract void drawString(GAttributedCharacterIterator iterator,
-			int x, int y);
-
-	/**
-	 * Renders the text of the specified iterator applying its attributes
-	 * in accordance with the specification of the {@link java.awt.font.TextAttribute} class.
-	 * <p>
-	 * The baseline of the first character is at position
-	 * (<i>x</i>,&nbsp;<i>y</i>) in User Space.
-	 * For characters in script systems such as Hebrew and Arabic,
-	 * the glyphs can be rendered from right to left, in which case the
-	 * coordinate supplied is the location of the leftmost character
-	 * on the baseline.
-	 * @param iterator the iterator whose text is to be rendered
-	 * @param x the x coordinate where the iterator's text is to be
-	 * rendered
-	 * @param y the y coordinate where the iterator's text is to be
-	 * rendered
-	 * @throws NullPointerException if <code>iterator</code> is
-	 *         <code>null</code>
-	 * @see #setPaint
-	 * @see java.awt.Graphics#setColor
-	 * @see #setTransform
-	 * @see #setComposite
-	 * @see #setClip
-	 */
-	public abstract void drawString(GAttributedCharacterIterator iterator,
-			float x, float y);
-
-	/**
-	 * Renders the text of the specified
-	 * {@link GGlyphVector} using
-	 * the <code>Graphics2D</code> context's rendering attributes.
-	 * The rendering attributes applied include the <code>Clip</code>,
-	 * <code>Transform</code>, <code>Paint</code>, and
-	 * <code>Composite</code> attributes.  The <code>GlyphVector</code>
-	 * specifies individual glyphs from a {@link GFont}.
-	 * The <code>GlyphVector</code> can also contain the glyph positions.
-	 * This is the fastest way to render a set of characters to the
-	 * screen.
-	 * @param g the <code>GlyphVector</code> to be rendered
-	 * @param x the x position in User Space where the glyphs should
-	 * be rendered
-	 * @param y the y position in User Space where the glyphs should
-	 * be rendered
-	 * @throws NullPointerException if <code>g</code> is <code>null</code>.
-	 *
-	 * @see java.awt.Font#createGlyphVector
-	 * @see java.awt.font.GlyphVector
-	 * @see #setPaint
-	 * @see java.awt.Graphics#setColor
-	 * @see #setTransform
-	 * @see #setComposite
-	 * @see #setClip
-	 */
-	public abstract void drawGlyphVector(GGlyphVector g, float x, float y);
+	
 
 	/**
 	 * Fills the interior of a <code>Shape</code> using the settings of the
@@ -330,44 +168,6 @@ public interface GGraphics2D {
 	 * @see #setClip
 	 */
 	public abstract void fill(GShape s);
-
-	/*//* Currently, this is not needed but the comment is left here in case it were needed
-	 * Checks whether or not the specified <code>Shape</code> intersects
-	 * the specified {@link Rectangle}, which is in device
-	 * space. If <code>onStroke</code> is false, this method checks
-	 * whether or not the interior of the specified <code>Shape</code>
-	 * intersects the specified <code>Rectangle</code>.  If
-	 * <code>onStroke</code> is <code>true</code>, this method checks
-	 * whether or not the <code>Stroke</code> of the specified
-	 * <code>Shape</code> outline intersects the specified
-	 * <code>Rectangle</code>.
-	 * The rendering attributes taken into account include the
-	 * <code>Clip</code>, <code>Transform</code>, and <code>Stroke</code>
-	 * attributes.
-	 * @param rect the area in device space to check for a hit
-	 * @param s the <code>Shape</code> to check for a hit
-	 * @param onStroke flag used to choose between testing the
-	 * stroked or the filled shape.  If the flag is <code>true</code>, the
-	 * <code>Stroke</code> oultine is tested.  If the flag is
-	 * <code>false</code>, the filled <code>Shape</code> is tested.
-	 * @return <code>true</code> if there is a hit; <code>false</code>
-	 * otherwise.
-	 * @see #setStroke
-	 * @see #fill
-	 * @see #draw
-	 * @see #transform
-	 * @see #setTransform
-	 * @see #clip
-	 * @see #setClip
-	 */
-	//public abstract boolean hit(Rectangle rect, Shape s, boolean onStroke);
-
-	/**
-	 * Returns the device configuration associated with this
-	 * <code>Graphics2D</code>.
-	 * @return the device configuration of this <code>Graphics2D</code>.
-	 */
-	public abstract GGraphicsConfiguration getDeviceConfiguration();
 
 	/**
 	 * Sets the <code>Composite</code> for the <code>Graphics2D</code> context.
@@ -467,50 +267,7 @@ public interface GGraphics2D {
 	 */
 	public abstract void setRenderingHints(Map<?, ?> hints);
 
-	/**
-	 * Sets the values of an arbitrary number of preferences for the
-	 * rendering algorithms.
-	 * Only values for the rendering hints that are present in the
-	 * specified <code>Map</code> object are modified.
-	 * All other preferences not present in the specified
-	 * object are left unmodified.
-	 * Hint categories include controls for rendering quality and
-	 * overall time/quality trade-off in the rendering process.
-	 * Refer to the <code>RenderingHints</code> class for definitions of
-	 * some common keys and values.
-	 * @param hints the rendering hints to be set
-	 * @see GRenderingHints
-	 */
-	public abstract void addRenderingHints(Map<?, ?> hints);
-
-	/**
-	 * Gets the preferences for the rendering algorithms.  Hint categories
-	 * include controls for rendering quality and overall time/quality
-	 * trade-off in the rendering process.
-	 * Returns all of the hint key/value pairs that were ever specified in
-	 * one operation.  Refer to the
-	 * <code>RenderingHints</code> class for definitions of some common
-	 * keys and values.
-	 * @return a reference to an instance of <code>RenderingHints</code>
-	 * that contains the current preferences.
-	 * @see GRenderingHints
-	 * @see #setRenderingHints(Map)
-	 */
-	public abstract GRenderingHints getRenderingHints();
-
-	/**
-	 * Translates the origin of the <code>Graphics2D</code> context to the
-	 * point (<i>x</i>,&nbsp;<i>y</i>) in the current coordinate system.
-	 * Modifies the <code>Graphics2D</code> context so that its new origin
-	 * corresponds to the point (<i>x</i>,&nbsp;<i>y</i>) in the
-	 * <code>Graphics2D</code> context's former coordinate system.  All
-	 * coordinates used in subsequent rendering operations on this graphics
-	 * context are relative to this new origin.
-	 * @param  x the specified x coordinate
-	 * @param  y the specified y coordinate
-	 * @since   JDK1.0
-	 */
-	public abstract void translate(int x, int y);
+	
 
 	/**
 	 * Concatenates the current
@@ -530,44 +287,6 @@ public interface GGraphics2D {
 	 */
 	public abstract void translate(double tx, double ty);
 
-	/**
-	 * Concatenates the current <code>Graphics2D</code>
-	 * <code>Transform</code> with a rotation transform.
-	 * Subsequent rendering is rotated by the specified radians relative
-	 * to the previous origin.
-	 * This is equivalent to calling <code>transform(R)</code>, where R is an
-	 * <code>AffineTransform</code> represented by the following matrix:
-	 * <pre>
-	 *          [   cos(theta)    -sin(theta)    0   ]
-	 *          [   sin(theta)     cos(theta)    0   ]
-	 *          [       0              0         1   ]
-	 * </pre>
-	 * Rotating with a positive angle theta rotates points on the positive
-	 * x axis toward the positive y axis.
-	 * @param theta the angle of rotation in radians
-	 */
-	public abstract void rotate(double theta);
-
-	/**
-	 * Concatenates the current <code>Graphics2D</code>
-	 * <code>Transform</code> with a translated rotation
-	 * transform.  Subsequent rendering is transformed by a transform
-	 * which is constructed by translating to the specified location,
-	 * rotating by the specified radians, and translating back by the same
-	 * amount as the original translation.  This is equivalent to the
-	 * following sequence of calls:
-	 * <pre>
-	 *          translate(x, y);
-	 *          rotate(theta);
-	 *          translate(-x, -y);
-	 * </pre>
-	 * Rotating with a positive angle theta rotates points on the positive
-	 * x axis toward the positive y axis.
-	 * @param theta the angle of rotation in radians
-	 * @param x the x coordinate of the origin of the rotation
-	 * @param y the y coordinate of the origin of the rotation
-	 */
-	public abstract void rotate(double theta, double x, double y);
 
 	/**
 	 * Concatenates the current <code>Graphics2D</code>
@@ -589,26 +308,6 @@ public interface GGraphics2D {
 	 * rendering operations.
 	 */
 	public abstract void scale(double sx, double sy);
-
-	/**
-	 * Concatenates the current <code>Graphics2D</code>
-	 * <code>Transform</code> with a shearing transform.
-	 * Subsequent renderings are sheared by the specified
-	 * multiplier relative to the previous position.
-	 * This is equivalent to calling <code>transform(SH)</code>, where SH
-	 * is an <code>AffineTransform</code> represented by the following
-	 * matrix:
-	 * <pre>
-	 *          [   1   shx   0   ]
-	 *          [  shy   1    0   ]
-	 *          [   0    0    1   ]
-	 * </pre>
-	 * @param shx the multiplier by which coordinates are shifted in
-	 * the positive X axis direction as a function of their Y coordinate
-	 * @param shy the multiplier by which coordinates are shifted in
-	 * the positive Y axis direction as a function of their X coordinate
-	 */
-	public abstract void shear(double shx, double shy);
 
 	/**
 	 * Composes an <code>AffineTransform</code> object with the
@@ -673,16 +372,6 @@ public interface GGraphics2D {
 	public abstract GAffineTransform getTransform();
 
 	/**
-	 * Returns the current <code>Paint</code> of the
-	 * <code>Graphics2D</code> context.
-	 * @return the current <code>Graphics2D</code> <code>Paint</code>,
-	 * which defines a color or pattern.
-	 * @see #setPaint
-	 * @see java.awt.Graphics#setColor
-	 */
-	public abstract GPaint getPaint();
-
-	/**
 	 * Returns the current <code>Composite</code> in the
 	 * <code>Graphics2D</code> context.
 	 * @return the current <code>Graphics2D</code> <code>Composite</code>,
@@ -690,24 +379,6 @@ public interface GGraphics2D {
 	 * @see #setComposite
 	 */
 	public abstract GComposite getComposite();
-
-	/**
-	 * Sets the background color for the <code>Graphics2D</code> context.
-	 * The background color is used for clearing a region.
-	 * When a <code>Graphics2D</code> is constructed for a
-	 * <code>Component</code>, the background color is
-	 * inherited from the <code>Component</code>. Setting the background color
-	 * in the <code>Graphics2D</code> context only affects the subsequent
-	 * <code>clearRect</code> calls and not the background color of the
-	 * <code>Component</code>.  To change the background
-	 * of the <code>Component</code>, use appropriate methods of
-	 * the <code>Component</code>.
-	 * @param color the background color that isused in
-	 * subsequent calls to <code>clearRect</code>
-	 * @see #getBackground
-	 * @see java.awt.Graphics#clearRect
-	 */
-	public abstract void setBackground(GColor color);
 
 	/**
 	 * Returns the background color used for clearing a region.

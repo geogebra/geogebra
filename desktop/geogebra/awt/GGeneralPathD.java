@@ -115,8 +115,9 @@ public class GGeneralPathD implements geogebra.common.awt.GGeneralPath,
 
 	public geogebra.common.awt.GShape createTransformedShape(
 			GAffineTransform affineTransform) {
-		return (geogebra.common.awt.GShape) impl
-				.createTransformedShape((java.awt.geom.AffineTransform) affineTransform);
+		return new GGenericShapeD(
+				impl.createTransformedShape(((GAffineTransformD) affineTransform)
+						.getImpl()));
 	}
 
 	public GPoint2D getCurrentPoint() {
