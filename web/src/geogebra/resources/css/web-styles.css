@@ -109,7 +109,7 @@ hr {
 	margin-bottom: 10px;
 }
 
-.gwt-Button {
+.gwt-Button, .confirmDelete .button {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6666FF;
@@ -124,12 +124,12 @@ hr {
 	margin-left: 5px;
 }
 
-.gwt-Button:active {
+.gwt-Button:active, .confirmDelete .button:active {
 	border: 1px inset #6666FF;
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
-.gwt-Button:hover {
+.gwt-Button:hover, .confirmDelete .button:hover {
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
@@ -3934,9 +3934,31 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	border-radius: 25px;
 }
 
+
 /* ########################################
-   ###           END OF PHONE           ###
+   ###          PHONE & TABLET          ###
    ######################################## */
 
+.centeredContent {
+	width: 50%;
+}
+
+.centeredContent .confirmDelete {
+	width: 100%	
+}
+
+.centeredContent .confirmDelete .button {
+	border: 1px solid #C2C2FF;
+	border-radius: 11px;
+	color: #C2C2FF;
+	font-weight: bold;
+	text-align: center;
+	margin: 5px;
+	padding: 5px;
+}
+
+/* ########################################
+   ###       END OF PHONE & TABLET      ###
+   ######################################## */
 
 

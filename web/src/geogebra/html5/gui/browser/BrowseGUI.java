@@ -57,8 +57,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	
 	protected EventRenderable loginCallback = new EventRenderable(){
 		private boolean active = true;
-		public void renderEvent(BaseEvent e){
-			GoogleDriveOperationW op = ((AppW) BrowseGUI.this.app).getGoogleDriveOperation();
+		public void renderEvent(final BaseEvent e){
+			final GoogleDriveOperationW op = ((AppW) BrowseGUI.this.app).getGoogleDriveOperation();
 			if (active && op.isLoggedIntoGoogle()) {
 				op.initFileNameItems(BrowseGUI.this);
 				active = false;
@@ -67,16 +67,16 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	};
 	
 	public class MyButton extends FlowPanel {
-		public MyButton(BrowseGUI bg) {
+		public MyButton(final BrowseGUI bg) {
 			super();
 			this.setStyleName("button");
-			Image icon = new Image(BrowseResources.INSTANCE.location_local());
-			Element span = DOM.createElement("span");
+			final Image icon = new Image(BrowseResources.INSTANCE.location_local());
+			final Element span = DOM.createElement("span");
 			span.setAttribute(
 			        "style",
 			        "position: absolute; width: 50px; height: 50px; padding: 10px; top: 0px; left: 0px; overflow: hidden;");
 			span.setInnerHTML("<img src=\"" + icon.getUrl() + "\"/>");
-			Element input = DOM.createElement("input");
+			final Element input = DOM.createElement("input");
 			input.setAttribute("type", "file");
 			input.setAttribute(
 			        "style",
@@ -167,10 +167,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		});
 		providerPanel.add(locationTube);
 
-		MyButton locationLocal = new MyButton(this);// StandardButton(AppResources.INSTANCE.folder());
+		final MyButton locationLocal = new MyButton(this);// StandardButton(AppResources.INSTANCE.folder());
 		providerPanel.add(locationLocal);
 		// TODO: Only visible if user is logged in with google Account
-		GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
+		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
 		        .getLoggedInUser();
 		if (user != null && user.hasGoogleDrive() && !((AppW)app).getLAF().isSmart()) {
 			locationDrive = new StandardButton(
@@ -216,7 +216,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		app.getLoginOperation().getView().add(new EventRenderable() {
 
 			@Override
-			public void renderEvent(BaseEvent event) {
+			public void renderEvent(final BaseEvent event) {
 				initProviders();
 
 			}
@@ -232,7 +232,15 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	public void onSearchResults(final List<Material> response) {
 		this.content.onSearchResults(response);
 	}
-
+	
+	public void addMaterial(final Material mat) {
+		this.content.addMaterial(mat);
+	}
+	
+	public void removeFromLocalList(final Material mat) {
+		this.content.removeMaterial(mat);
+	}
+	
 	public void addResizeListener(final ResizeListener rl) {
 		this.resizeListeners.add(rl);
 	}
@@ -255,19 +263,19 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		this.content.rememberSelected(materialElement);
 	}
 
-	public void setFrame(GeoGebraAppFrame frame) {
+	public void setFrame(final GeoGebraAppFrame frame) {
 	    super.setFrame(frame);	    
     }
 	
-	public void openFileAsGgb(JavaScriptObject fileToHandle,
-	        JavaScriptObject callback){
+	public void openFileAsGgb(final JavaScriptObject fileToHandle,
+	        final JavaScriptObject callback){
 		app.openFileAsGgb(fileToHandle, callback);		
 	}
 
 	@Override
-    public void show(String title, String author, String date,
-            String url, String description, String googleID, String thumbnail) {
-		Material m = new Material(-1, MaterialType.ggb);
+    public void show(final String title, final String author, final String date,
+            final String url, final String description, final String googleID, final String thumbnail) {
+		final Material m = new Material(-1, MaterialType.ggb);
 		m.setTitle(title);
 		m.setURL(url);
 		m.setAuthor(author);
@@ -285,11 +293,11 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 
 	@Override
     public void clearMaterials() {
-//	    this.googleList.clear();
+	    this.content.clearMaterials();
     }
 
 	@Override
-    public void renderEvent(BaseEvent event) {
+    public void renderEvent(final BaseEvent event) {
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
 	    	loadFeatured();
 	    }
@@ -303,7 +311,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
     }
 
 	@Override
-    public void render(boolean b) {
+    public void render(final boolean b) {
 		//FIXME check what we really need
 //		if (!b) {
 //            this.tubeList.clear();

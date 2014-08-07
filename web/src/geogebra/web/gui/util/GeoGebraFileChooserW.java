@@ -9,6 +9,7 @@ import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -160,8 +161,18 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
-				if(GeoGebraFileChooserW.this.downloadCallback != null){
-					call(GeoGebraFileChooserW.this.downloadCallback);
+				if ("tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
+					String consTitle = fileName.getText();
+					if(consTitle.endsWith(".ggb")){
+						consTitle = consTitle.substring(0, consTitle.indexOf(".ggb"));
+					}
+					app.getKernel().getConstruction().setTitle(consTitle);
+					((AppW) app).getFileManager().saveFile(app);
+				}
+				else {
+					if(GeoGebraFileChooserW.this.downloadCallback != null){
+						call(GeoGebraFileChooserW.this.downloadCallback);
+					}
 				}
 				hide();
 			}
@@ -219,7 +230,6 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	    enableGoogleDrive(((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle());
 	    
     }
-	
 	
 	@Override
     public void show(){

@@ -33,6 +33,7 @@ import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.FileManagerInterface;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
@@ -118,6 +119,13 @@ public abstract class AppW extends AppWeb {
 	boolean menuKeysLoaded = false;
 	protected ObjectPool objectPool;
 	private GoogleDriveOperationW googleDriveOperation;
+	
+	/**
+	 * Touch only
+	 */
+	private History history;
+	private FileManagerInterface fm;
+	
 	
 	/**
 	 * Constructors will be called from subclasses
@@ -1659,7 +1667,7 @@ public abstract class AppW extends AppWeb {
     }
 
 	private ArrayList<Widget> popups = new ArrayList<Widget>();
-	private History history;
+
 	public void registerPopup(Widget widget) {
 		popups.add(widget);
 	}
@@ -1744,6 +1752,14 @@ public abstract class AppW extends AppWeb {
 	    }
 	    return this.history;
     }
+	
+	public FileManagerInterface getFileManager() {
+		return this.fm;
+	}
+
+	public void setFileManager(FileManagerInterface fileManager) {
+		this.fm = fileManager;
+    }
 
 	private ToolBarW updateToolBar = null;
 
@@ -1777,4 +1793,6 @@ public abstract class AppW extends AppWeb {
 				getToolBar().
 				getFirstMode());
 	}
+
+	
 }

@@ -22,6 +22,7 @@ import geogebra.web.presenter.LoadFilePresenter;
 import java.util.Date;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -48,12 +49,14 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 	
 	public GGWToolBar ggwToolBar;
-	private GGWCommandLine ggwCommandLine;
-	private GGWMenuBar ggwMenuBar;
+	private final GGWCommandLine ggwCommandLine;
+	private final GGWMenuBar ggwMenuBar;
 
 	MyDockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
 	public AppW app;
+
+	private Callback<String, String> callback;
 
 	public GeoGebraAppFrame() {
 		frameLayout = newGGWFrameLayoutPanel();		
@@ -77,12 +80,21 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	    // Add the outer panel to the RootLayoutPanel, so that it will be
 	    // displayed.
-	    RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
+	    final RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 	    rootLayoutPanel.add(this);
 	    rootLayoutPanel.forceLayout();
 	    
 	}
 	
+	/**
+	 * For touch
+	 * @param callback
+	 */
+	public GeoGebraAppFrame(final Callback<String, String> callback) {
+		this();
+	    this.callback = callback;
+    }
+
 	/**
 	 * 
 	 * @return new GGWFrameLayoutPanel
@@ -100,8 +112,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		 * tooltips will work. Tooltip positions are based on RootPanel.
 		 */
 
-		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
-		RootPanel rootPanel = RootPanel.get();
+		final RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
+		final RootPanel rootPanel = RootPanel.get();
 		rootPanel.setPixelSize(rootLayoutPanel.getOffsetWidth(),
 		        rootLayoutPanel.getOffsetHeight());
 	}
@@ -110,7 +122,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	public static void removeCloseMessage(){
 		Window.addWindowClosingHandler(new Window.ClosingHandler() {
-			public void onWindowClosing(ClosingEvent event) {
+			public void onWindowClosing(final ClosingEvent event) {
 				event.setMessage(null);
 			}
 		});
@@ -127,23 +139,23 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	private void geoIPCall() {
 		
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(Browser.normalizeURL(GeoGebraConstants.GEOIP_URL)));
+		final RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(Browser.normalizeURL(GeoGebraConstants.GEOIP_URL)));
 		
 		try {
-			Request request = builder.sendRequest(null, new RequestCallback() {
-				public void onError(Request request, Throwable exception) {
+			final Request request = builder.sendRequest(null, new RequestCallback() {
+				public void onError(final Request request, final Throwable exception) {
 					AppW.geoIPCountryName = "";
 					AppW.geoIPLanguage = "";
 					init();
 				}
 				
-				public void onResponseReceived(Request request, Response response) {
+				public void onResponseReceived(final Request request, final Response response) {
 					AppW.geoIPCountryName = "";
 					AppW.geoIPLanguage = "";
 					if (200 == response.getStatusCode()) {
-						JavaScriptObject geoIpInfos = JSON.parse(response.getText());
+						final JavaScriptObject geoIpInfos = JSON.parse(response.getText());
 						AppW.geoIPCountryName = JSON.get(geoIpInfos, "geoIp");
-						String languages = JSON.get(geoIpInfos,"acceptLanguage");
+						final String languages = JSON.get(geoIpInfos,"acceptLanguage");
 						if(languages!=null){
 							if(languages.contains(",")){
 								AppW.geoIPLanguage = languages.substring(0, languages.indexOf(","));	
@@ -156,7 +168,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 					
 				}
 			});
-		} catch (Exception e) {
+		} catch (final Exception e) {
 		       App.error(e.getLocalizedMessage());
 		       AppW.geoIPCountryName = "";
 		       AppW.geoIPLanguage = "";
@@ -170,9 +182,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	public void init() {
 		setVisible(true);
-		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
+		final ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
 		GeoGebraLogger.startLogger(article);
-		Date creationDate = new Date();
+		final Date creationDate = new Date();
 		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		//cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
 		//ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
@@ -180,12 +192,15 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		cw = Window.getClientWidth(); 
 		ch = Window.getClientHeight() ;
 		
-		app = createApplication(article,this);
+		app = createApplication(article,this); 
+		if (this.callback != null) {
+			this.callback.onSuccess("");
+		}
 		app.getLAF().setCloseMessage(app.getLocalization());
 		this.addDomHandler(new ClickHandler(){
 
 			@Override
-            public void onClick(ClickEvent event) {
+            public void onClick(final ClickEvent event) {
 	            app.closePopups();
 	            
             }},ClickEvent.getType());
@@ -239,20 +254,20 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 
-	protected AppW createApplication(ArticleElement article,
-            GeoGebraAppFrame geoGebraAppFrame) {
+	protected AppW createApplication(final ArticleElement article,
+            final GeoGebraAppFrame geoGebraAppFrame) {
 		return new AppWapplication(article, geoGebraAppFrame, 2);
     }
 
 
-	public void finishAsyncLoading(ArticleElement articleElement,
-            GeoGebraAppFrame ins, AppW app) {
+	public void finishAsyncLoading(final ArticleElement articleElement,
+            final GeoGebraAppFrame ins, final AppW app) {
 	    handleLoadFile(articleElement,app);	    
     }
 	
-	private static void handleLoadFile(ArticleElement articleElement,
-			AppW app) {
-		View view = new View(articleElement, app);
+	private static void handleLoadFile(final ArticleElement articleElement,
+			final AppW app) {
+		final View view = new View(articleElement, app);
 		fileLoader.setView(view);
 		fileLoader.onPageLoad();
 	}
@@ -296,8 +311,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 	private boolean[] childVisible = new boolean[0];
-	public void showBrowser(MyHeaderPanel bg) {
-	    int count = frameLayout.getWidgetCount();
+	public void showBrowser(final MyHeaderPanel bg) {
+	    final int count = frameLayout.getWidgetCount();
 	    childVisible = new boolean[count];
 	    for(int i = 0; i<count;i++){
 	    	childVisible[i] = frameLayout.getWidget(i).isVisible(); 
@@ -310,9 +325,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    
     }
 
-	public void hideBrowser(MyHeaderPanel bg) {
+	public void hideBrowser(final MyHeaderPanel bg) {
 		frameLayout.remove(bg);
-		int count = frameLayout.getWidgetCount();
+		final int count = frameLayout.getWidgetCount();
 		for(int i = 0; i<count;i++){
 			if(childVisible.length > i){
 				frameLayout.getWidget(i).setVisible(childVisible[i]);

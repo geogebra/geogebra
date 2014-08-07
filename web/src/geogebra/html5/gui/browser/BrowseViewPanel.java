@@ -7,6 +7,7 @@ import geogebra.html5.gui.browser.SearchPanel.SearchListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
+import geogebra.web.main.AppW;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	private SearchPanel searchPanel;
 
 	
-	public BrowseViewPanel(AppWeb app) {
+	public BrowseViewPanel(final AppWeb app) {
 		this.setStyleName("contentPanel");
 		//FIXME do this with LAF
 		this.setPixelSize(Window.getClientWidth()-70, Window.getClientHeight()-61);
@@ -53,18 +54,16 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 		addFilePanel();
 	}
 	
-	 private void addSearchPanel() { 
-		 	              this.searchPanel = new SearchPanel(app); 
-		  		                //this.searchPanel = new SearchPanel(app); 
-		 		                this.searchPanel.addSearchListener(new SearchListener() { 
-		 		          @Override 
-		 		                        public void onSearch(final String query) { 
-		 		                        System.out.println("onSearch"); 
-		 		                                BrowseViewPanel.this.displaySearchResults(query); 
-		 		                        } 
-		 		                }); 
-		 		                this.container.add(this.searchPanel); 
-		 		        } 
+	private void addSearchPanel() { 
+		this.searchPanel = new SearchPanel(app); 
+		this.searchPanel.addSearchListener(new SearchListener() { 
+			@Override 
+			public void onSearch(final String query) { 
+				BrowseViewPanel.this.displaySearchResults(query); 
+			} 
+		}); 
+		this.container.add(this.searchPanel); 
+	} 
 
 	protected void addFilePanel() {
 		this.filePanel = new MaterialListPanel(this.app);
@@ -73,7 +72,13 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 
 	public void loadFeatured() {
 		this.lastQuery = null;
-		MaterialCallback rc = new MaterialCallback() {
+		filePanel.clearMaterials();
+		//local files
+		if (((AppW) app).getFileManager() != null) {
+			((AppW) app).getFileManager().getAllFiles();
+		}
+
+		final MaterialCallback rc = new MaterialCallback() {
 			@Override
 			public void onError(final Throwable exception) {
 				// FIXME implement Error Handling!
@@ -83,21 +88,27 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 
 			@Override
 			public void onLoaded(final List<Material> response) {
-				App.debug("API success"+response.size());
+				App.debug("API success: " + response.size());
 				onSearchResults(response);
 			}
 		};
-		GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
+		final GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
 		
+		//load userMaterials first
 		if(app.getLoginOperation().isLoggedIn()){
 			api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
-		}else{
-			api.getFeaturedMaterials(rc);
 		}
+//		else{
+			api.getFeaturedMaterials(rc);
+//		}	
 	}
 
 	public void onSearchResults(final List<Material> response) {
 		this.filePanel.setMaterials(response);		
+	}
+	
+	public void addMaterial(final Material mat) {
+		this.filePanel.addMaterial(mat);
 	}
 	
 	public MaterialListElement getChosenMaterial() {
@@ -116,6 +127,13 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	
 	public void displaySearchResults(final String query) {
 		this.lastQuery = query;
+		clearMaterials();
+		//search local
+		if (((AppW) this.app).getFileManager() != null) {
+			((AppW) this.app).getFileManager().search(query);
+		}
+		
+		//search GeoGebraTube
 		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
 				query, new MaterialCallback() {
 					@Override
@@ -142,4 +160,12 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	public void setLabels() {
 		this.filePanel.setLabels();
 	}
+
+	public void removeMaterial(final Material mat) {
+	    this.filePanel.removeMaterial(mat);
+    }
+
+	public void clearMaterials() {
+	   this.filePanel.clearMaterials(); 
+    }
 }

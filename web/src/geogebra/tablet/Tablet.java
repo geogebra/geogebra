@@ -19,8 +19,8 @@ import geogebra.web.html5.Dom;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -36,8 +36,9 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
  */
 public class Tablet implements EntryPoint {
 
-	static PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
-	private static GeoGebraAppFrame appFrame;
+	static PhoneGap phoneGap;
+	//zum testen von private zu public
+	public static GeoGebraAppFrame appFrame;
 	
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true, false);
@@ -76,6 +77,7 @@ public class Tablet implements EntryPoint {
 		}
 		Browser.checkFloat64();
 		PhoneGapManager.initializePhoneGap();
+		phoneGap = PhoneGapManager.getPhoneGap();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());
@@ -103,7 +105,7 @@ public class Tablet implements EntryPoint {
 		//just debug for now
 		PNaCl.exportPNaCltoConsole();
 		
-		phoneGap.initializePhoneGap();
+//		phoneGap.initializePhoneGap();
 		phoneGap.getEvent()
 				.getBackButton()
 				.addBackButtonPressedHandler(
@@ -157,7 +159,6 @@ public class Tablet implements EntryPoint {
 
 	private void loadAppAsync() {
 	    //GWT.runAsync(new RunAsyncCallback() {
-			
 		//	public void onSuccess() {
 				ResourcesInjector.injectResources();
 				createGeoGebraAppFrame();
@@ -175,7 +176,20 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		this.appFrame = new GeoGebraAppFrame();
+		appFrame = new GeoGebraAppFrame(new Callback<String, String>() {
+
+			@Override
+            public void onFailure(String reason) {
+	            // TODO Auto-generated method stub
+	            
+            }
+
+			@Override
+            public void onSuccess(String result) {
+	            appFrame.app.setFileManager(new FileManagerT());
+            }
+			
+		});
 	}
 	
 
@@ -237,9 +251,7 @@ public class Tablet implements EntryPoint {
 	
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
-	 	
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory());
-	   
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory());	   
     }
 
 }

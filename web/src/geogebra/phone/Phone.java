@@ -16,16 +16,12 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 public class Phone implements EntryPoint {
 	
 	private static PhoneGUI phoneGui;
-	private static GeoGebraAppFrame appFrame;
-	
+	static GeoGebraAppFrame appFrame;
 
-	public static PhoneGUI getGUI() {
-		return phoneGui;
-	}
-	
 	public void onModuleLoad() {
 		appFrame = new GeoGebraAppFrame();
 		appFrame.init();
+		appFrame.app.setFileManager(new FileManagerP());
 		phoneGui = new PhoneGUI((AppWapplication) appFrame.app);
 		PhoneGapManager.initializePhoneGap();
 		ResourcesInjector.injectResources();
@@ -33,5 +29,7 @@ public class Phone implements EntryPoint {
 		RootLayoutPanel.get().add(phoneGui);
 	}
 	
-	
+	public static PhoneGUI getGUI() {
+		return phoneGui;
+	}
 }
