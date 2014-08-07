@@ -298,29 +298,27 @@ public class HatchingHandler {
 
 	private static void drawHoneycomb(float dist, GGraphics2D g2d) {		
 		float halfSide=(float)(dist*Math.sqrt(3)/2);		
-		//Web view is better with rotation
-		g2d.rotate(Math.PI/2,dist + dist / 2, dist + dist / 2);
 		
 		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
-		path.moveTo(dist, dist+dist/2);
-		path.lineTo( 2*dist, dist+dist/2 );
-		path.lineTo(2*dist+dist/2 ,dist+dist/2-halfSide );
-		path.lineTo(3*dist, dist+dist/2-halfSide);
+		float centerX = dist+dist/2;
+		path.moveTo( centerX, dist);
+		path.lineTo( centerX, 2*dist );
+		path.lineTo( centerX-halfSide, 2*dist+dist/2 );
+		path.lineTo( centerX-halfSide, 3*dist);
 		g2d.draw(path);
+		
 		path.reset();
-		path.moveTo( 2*dist, dist+dist/2 );
-		path.lineTo(2*dist+dist/2 , dist+dist/2+halfSide);
-		path.lineTo(3*dist, dist+dist/2+halfSide);
+		path.moveTo( centerX, 2*dist);
+		path.lineTo( centerX+halfSide, 2*dist+dist/2);
+		path.lineTo( centerX+halfSide, 3*dist);
 		g2d.draw(path);
+		
 		path.reset();
-		path.moveTo(dist , dist+dist/2);
-		path.lineTo(dist/2 , dist+dist/2-halfSide);
-		path.lineTo(0 , dist+dist/2-halfSide);
-		g2d.draw(path);
-		path.reset();
-		path.moveTo(dist , dist+dist/2);
-		path.lineTo(dist/2 , dist+dist/2+halfSide);
-		path.lineTo(0 , dist+dist/2+halfSide);
+		path.moveTo( centerX-halfSide, 0 );
+		path.lineTo( centerX-halfSide, dist/2);
+		path.lineTo( centerX, dist);
+		path.lineTo( centerX+halfSide, dist/2);
+		path.lineTo( centerX+halfSide, 0);
 		g2d.draw(path);		
 	}
 
