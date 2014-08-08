@@ -152,6 +152,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 		if (isChromeWebapp()) { // use chrome web app paste API
 			clipboard = getSystemClipboardChromeWebapp();
 			getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
+		} else if (isInternetExplorer()) {
+			clipboard = getSystemClipboardIE();
 		} else { // use internal clipboard
 			clipboard = staticClipboardString;
 		}
@@ -162,7 +164,11 @@ public class CopyPasteCutW extends CopyPasteCut {
 		if (isChromeWebapp()) { // use chrome web app copy API
 			copyToSystemClipboardChromeWebapp(value);
 			getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
+		} else if (isInternetExplorer()) {
+			App.debug("is IE");
+			copyToSystemClipboardIE(value);
 		} else { // use internal clipboard
+			App.debug("static");
 			staticClipboardString = value;
 		}
 	}
@@ -171,6 +177,17 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// check if the app is running in chrome and is installed (has an id)
 		// the function is defined in app.html
 		return $doc.isChromeWebapp();
+	}-*/;
+	
+	private static native boolean isInternetExplorer() /*-{
+		// check if app is running in IE5 or greater
+		// clipboardData object is available from IE5 and onwards
+		var userAgent = window.navigator.userAgent;
+		$wnd.console.log(userAgent);
+		if ((userAgent.indexOf('MSIE ') > -1) || (userAgent.indexOf('Trident/') > -1)) {
+			return true;
+		}
+		return false;
 	}-*/;
 	
 	private static native Element getHiddenTextArea() /*-{
@@ -202,7 +219,14 @@ public class CopyPasteCutW extends CopyPasteCut {
 		copyFrom.select();
 		$doc.execCommand('copy');
 	}-*/;
+	
+	private static native String getSystemClipboardIE() /*-{
+		return $wnd.clipboardData.getData('Text');
+	}-*/;
 
+	private static native void copyToSystemClipboardIE(String value) /*-{
+		return $wnd.clipboardData.setData('Text', value);
+	}-*/;
 
 	// default pasteFromFile: clear spreadsheet and then paste from upper left
 	// corner
