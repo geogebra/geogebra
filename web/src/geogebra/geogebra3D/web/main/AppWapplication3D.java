@@ -52,11 +52,15 @@ public class AppWapplication3D extends AppWapplication {
 
 	@Override
     public boolean hasEuclidianView3D() {
-		return euclidianView3D != null;
+		return this.euclidianController3D != null;
 	}
 
 	@Override
     public EuclidianView3DInterface getEuclidianView3D() {
+		if(this.euclidianView3D == null){
+			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D, getSettings().getEuclidian(3));
+			App.printStacktrace("");
+		}
 		//Window.alert("getEuclidianView3D()");
 		return euclidianView3D;
 	}
@@ -66,7 +70,7 @@ public class AppWapplication3D extends AppWapplication {
 
 		super.initEuclidianViews();
 		euclidianController3D = App3DW.newEuclidianController3DW(kernel);
-		euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D, getSettings().getEuclidian(3));
+		//euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D, getSettings().getEuclidian(3));
 
 	}
 	

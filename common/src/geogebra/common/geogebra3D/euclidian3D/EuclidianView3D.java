@@ -849,6 +849,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			this.b = EuclidianController3D.ANGLE_MAX;
 		else if (this.b < -EuclidianController3D.ANGLE_MAX)
 			this.b = -EuclidianController3D.ANGLE_MAX;
+		this.getSettings().updateRotation(a,b);
 
 	}
 
@@ -2643,7 +2644,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 //			 */
 //
 //			sb.append("\"/>\n");
-			addAxisXML(i, sb);
+			this.getSettings().addAxisXML(i, sb);
 		}
 		
 		

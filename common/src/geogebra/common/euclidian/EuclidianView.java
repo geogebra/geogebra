@@ -2324,7 +2324,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		if (addBoldItalicTags) { 
 			for (int axis = 0 ; axis < axesLabels.length ; axis++) { 
 				if (axesLabels[axis] != null) { 
-					ret[axis] = axisLabelForXML(axis); 
+					ret[axis] = this.settings.axisLabelForXML(axis); 
 				} 
 			} 
 		} 
@@ -4329,7 +4329,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 		// axis settings
 		for (int i = 0; i < 2; i++) {
-			addAxisXML(i, sbxml);
+			getSettings().addAxisXML(i, sbxml);
 		}
 
 		// grid distances
@@ -4354,7 +4354,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		sbxml.append(getShowAxis(i));
 		sbxml.append("\" label=\"");
 		if (axesLabels[i] != null) {
-			StringUtil.encodeXML(sbxml, axisLabelForXML(i));
+			StringUtil.encodeXML(sbxml, this.settings.axisLabelForXML(i));
 		}
 		sbxml.append("\" unitLabel=\"");
 		if (axesUnitLabels[i] != null) {
@@ -4400,26 +4400,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		sbxml.append("</euclidianView>\n");
 	}
 
-	/**
-	 * Returns axis label including &lt;b> and &lt;i>
-	 * 
-	 * @param i
-	 *            index of axis (0 for x, 1 for y)
-	 * @return axis label including formating tags
-	 */
-	public String axisLabelForXML(int i) {
-		StringBuilder sb = new StringBuilder(20);
-		if ((axesLabelsStyle[i] & GFont.ITALIC) != 0)
-			sb.append("<i>");
-		if ((axesLabelsStyle[i] & GFont.BOLD) != 0)
-			sb.append("<b>");
-		sb.append(axesLabels[i]);
-		if ((axesLabelsStyle[i] & GFont.BOLD) != 0)
-			sb.append("</b>");
-		if ((axesLabelsStyle[i] & GFont.ITALIC) != 0)
-			sb.append("</i>");
-		return sb.toString();
-	}
+	
 
 	/**
 	 * Draws points into an image

@@ -9,6 +9,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 /**
@@ -78,8 +79,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private void resetNoFire() {
 		gridDistances = null;
-		axisNumberingDistanceX = Double.NaN;
-		axisNumberingDistanceY = Double.NaN;
+		axisNumberingDistances = new double[]{ Double.NaN, Double.NaN, Double.NaN};
 		
 		xminObject = null;
 		xmaxObject = null;
@@ -289,8 +289,7 @@ public class EuclidianSettings extends AbstractSettings {
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
 
-	protected double axisNumberingDistanceX = Double.NaN;
-	protected double axisNumberingDistanceY = Double.NaN;
+	protected double axisNumberingDistances[] = new double[] { Double.NaN, Double.NaN, Double.NaN};
 
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
@@ -298,6 +297,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private double xZero;
 
 	private double yZero;
+	
+	private double zZero;
 
 	private double xscale;
 
@@ -320,6 +321,10 @@ public class EuclidianSettings extends AbstractSettings {
 	private Double lockedAxesRatio = null;
 
 	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
+
+	private double b;
+
+	private double a;
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
@@ -412,11 +417,11 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public double getAxisNumberingDistanceX() {
-		return axisNumberingDistanceX;
+		return axisNumberingDistances[0];
 	}
 
 	public double getAxisNumberingDistanceY() {
-		return axisNumberingDistanceY;
+		return axisNumberingDistances[1];
 	}
 
 	/**
@@ -425,7 +430,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setAxisNumberingDistanceX(double dist) {
 
-		axisNumberingDistanceX = dist;
+		axisNumberingDistances[0] = dist;
 
 		setAutomaticAxesNumberingDistance(false, 0, false);
 
@@ -438,7 +443,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setAxisNumberingDistanceY(double dist) {
 
-		axisNumberingDistanceY = dist;
+		axisNumberingDistances[1] = dist;
 
 		setAutomaticAxesNumberingDistance(false, 1, false);
 
@@ -451,8 +456,9 @@ public class EuclidianSettings extends AbstractSettings {
 			automaticAxesNumberingDistances[axis] = flag;
 
 			if (flag) {
-				axisNumberingDistanceX = Double.NaN;
-				axisNumberingDistanceY = Double.NaN;
+				axisNumberingDistances[0] = Double.NaN;
+				axisNumberingDistances[1] = Double.NaN;
+				axisNumberingDistances[3] = Double.NaN;
 				if (callsc) {
 					settingChanged();
 				}
@@ -594,6 +600,13 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public double getYZero() {
 		return yZero;
+	}
+	
+	/**
+	 * Returns y coordinate of axes origin.
+	 */
+	public double getZZero() {
+		return zZero;
 	}
 
 	/**
@@ -783,5 +796,170 @@ public class EuclidianSettings extends AbstractSettings {
 		this.deleteToolSize = size;
 	}
 
+	public void getXML(StringBuilder sb, boolean asPreference) {
 
+		// Application.debug("getXML: "+a+","+b);
+
+		// if (true) return "";
+
+		sb.append("<euclidianView3D>\n");
+		
+		// coord system
+		sb.append("\t<coordSystem");
+
+		sb.append(" xZero=\"");
+		sb.append(getXZero());
+		sb.append("\"");
+		sb.append(" yZero=\"");
+		sb.append(getYZero());
+		sb.append("\"");
+		sb.append(" zZero=\"");
+		sb.append(getZZero());
+		sb.append("\"");
+
+		sb.append(" scale=\"");
+		sb.append(getXscale());
+		sb.append("\"");
+
+		sb.append(" xAngle=\"");
+		sb.append(b);
+		sb.append("\"");
+		sb.append(" zAngle=\"");
+		sb.append(a);
+		sb.append("\"");
+
+		sb.append("/>\n");
+		
+
+		// ev settings
+		sb.append("\t<evSettings axes=\"");
+		sb.append(getShowAxis(0) || getShowAxis(1) || getShowAxis(2));
+		
+		sb.append("\" grid=\"");
+		sb.append(getShowGrid());
+		sb.append("\" gridIsBold=\""); //
+		sb.append(gridIsBold); // Michael Borcherds 2008-04-11
+		sb.append("\" pointCapturing=\"");
+
+		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML 
+		sb.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT : getPointCapturingMode()); 
+
+//		sb.append("\" rightAngleStyle=\"");
+//		sb.append(getApplication().rightAngleStyle);
+//		if (asPreference) {
+//			sb.append("\" allowShowMouseCoords=\"");
+//			sb.append(getAllowShowMouseCoords());
+//
+//			sb.append("\" allowToolTips=\"");
+//			sb.append(getAllowToolTips());
+//			
+//			sb.append("\" deleteToolSize=\"");
+//			sb.append(getEuclidianController().getDeleteToolSize());
+//		}
+
+//		sb.append("\" checkboxSize=\"");
+//		sb.append(app.getCheckboxSize()); // Michael Borcherds
+													// 2008-05-12
+
+		sb.append("\" gridType=\"");
+		sb.append(getGridType()); // cartesian/isometric/polar
+
+//		if (lockedAxesRatio != null) {
+//			sb.append("\" lockedAxesRatio=\"");
+//			sb.append(lockedAxesRatio);
+//		}
+
+		sb.append("\"/>\n");
+		// end ev settings
+
+				
+				
+
+		// axis settings
+		for (int i = 0; i < 3; i++) {
+//			sb.append("\t<axis id=\"");
+//			sb.append(i);
+//			sb.append("\" show=\"");
+//			sb.append(axis[i].isEuclidianVisible());
+//			sb.append("\" label=\"");
+//			sb.append(axis[i].getAxisLabel());
+//			sb.append("\" unitLabel=\"");
+//			sb.append(axis[i].getUnitLabel());
+//			sb.append("\" tickStyle=\"");
+//			sb.append(axis[i].getTickStyle());
+//			sb.append("\" showNumbers=\"");
+//			sb.append(axis[i].getShowNumbers());
+//
+//			// the tick distance should only be saved if
+//			// it isn't calculated automatically
+//			/*
+//			 * if (!automaticAxesNumberingDistances[i]) {
+//			 * sb.append("\" tickDistance=\"");
+//			 * sb.append(axesNumberingDistances[i]); }
+//			 */
+//
+//			sb.append("\"/>\n");
+			addAxisXML(i, sb);
+		}
+	}
+	
+	public void addAxisXML(int i, StringBuilder sbxml){
+		sbxml.append("\t<axis id=\"");
+		sbxml.append(i);
+		sbxml.append("\" show=\"");
+		sbxml.append(getShowAxis(i));
+		sbxml.append("\" label=\"");
+		if (axesLabels[i] != null) {
+			StringUtil.encodeXML(sbxml, axisLabelForXML(i));
+		}
+		sbxml.append("\" unitLabel=\"");
+		if (axesUnitLabels[i] != null) {
+			StringUtil.encodeXML(sbxml, axesUnitLabels[i]);
+		}
+		sbxml.append("\" tickStyle=\"");
+		sbxml.append(axesTickStyles[i]);
+		sbxml.append("\" showNumbers=\"");
+		sbxml.append(showAxesNumbers[i]);
+
+		// the tick distance should only be saved if
+		// it isn't calculated automatically
+		if (!automaticAxesNumberingDistances[i]) {
+			sbxml.append("\" tickDistance=\"");
+			sbxml.append(axisNumberingDistances[i]);
+		}
+
+		// axis crossing values
+		if (drawBorderAxes[i]) {
+			sbxml.append("\" axisCrossEdge=\"");
+			sbxml.append(true);
+		} else if (!Kernel.isZero(axisCross[i]) && !drawBorderAxes[i]) {
+			sbxml.append("\" axisCross=\"");
+			sbxml.append(axisCross[i]);
+		}
+
+		// positive direction only flags
+		if (positiveAxes[i]) {
+			sbxml.append("\" positiveAxis=\"");
+			sbxml.append(positiveAxes[i]);
+		}
+
+		sbxml.append("\"/>\n");
+	}
+	
+	/**
+	 * Returns axis label including &lt;b> and &lt;i>
+	 * 
+	 * @param i
+	 *            index of axis (0 for x, 1 for y)
+	 * @return axis label including formating tags
+	 */
+	public String axisLabelForXML(int i) {
+		return axesLabels[i];
+	}
+
+	public void updateRotation(double a2, double b2) {
+		this.a = a2;
+		this.b = b2;
+		
+	}
 }
