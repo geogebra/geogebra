@@ -24,7 +24,6 @@ public class Phone implements EntryPoint {
 		appFrame = new GeoGebraAppFrame();
 		appFrame.init();
 		appFrame.app.setFileManager(new FileManagerP());
-		phoneGui = new PhoneGUI((AppWapplication) appFrame.app);
 		PhoneGapManager.initializePhoneGap();
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()
 		        .addBackButtonPressedHandler(new BackButtonPressedHandler() {
@@ -36,7 +35,7 @@ public class Phone implements EntryPoint {
 			        }
 		        });
 		ResourcesInjector.injectResources();
-		
+		phoneGui = new PhoneGUI((AppWapplication) appFrame.app);
 		RootLayoutPanel.get().clear();
 		RootLayoutPanel.get().add(phoneGui);
 	}

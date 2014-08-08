@@ -35,7 +35,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		void onSearch(String query);
 	}
 
-	private FlowPanel searchPanel;
+//	private FlowPanel searchPanel;
 	private TextBox query;
 	private Label info;
 	private final FastButton searchButton;
@@ -45,8 +45,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	protected final Localization loc;
 
 	public SearchPanel(AppWeb app) {
-		this.searchPanel = new FlowPanel();
-		this.searchPanel.setStyleName("searchPanel");
+		this.setStyleName("searchDiv");
 		this.listeners = new ArrayList<SearchListener>();
 		this.loc = app.getLocalization();
 		this.op = app.getNetworkOperation();
@@ -102,14 +101,11 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 			}
 		});
 
-		this.searchPanel.add(this.searchButton);
-		this.searchPanel.add(this.query);
-		this.searchPanel.add(this.cancelButton);
+		this.add(this.searchButton);
+		this.add(this.query);
+		this.add(this.cancelButton);
 		
 		this.info = new Label();
-		
-		this.add(this.searchPanel);
-		this.add(this.info);
 
 		if (this.op != null) {
 			this.op.getView().add(this);
@@ -132,6 +128,8 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	void onCancel() {
 		this.query.setFocus(false);
 		this.cancelButton.setVisible(false);
+		this.query.setText("");
+		this.query.getElement().setAttribute("placeholder",loc.getMenu("search_geogebra_materials"));
 	}
 
 	void onFocusQuery() {
@@ -158,9 +156,9 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 
 	}
 
-	private void setText(String string) {
-	    info.setText(string);
-    }
+//	private void setText(String string) {
+//	    info.setText(string);
+//    }
 
 	public void setLabels() {
 		render(this.op.getOnline());

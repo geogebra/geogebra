@@ -2,6 +2,7 @@ package geogebra.phone.gui.views;
 
 import static com.google.gwt.query.client.GQuery.$;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.laf.GLookAndFeel;
 
 import com.google.gwt.query.client.css.CSS;
 import com.google.gwt.query.client.css.Length;
@@ -38,11 +39,8 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	private int scrollOffset;
 	
 	public ViewsContainer() {
-		//FIXME do this with LAF
-		this.setPixelSize(Window.getClientWidth(),  Window.getClientHeight());//TouchEntryPoint.getLookAndFeel().getCanvasHeight());
 		this.setStyleName("viewContainer");
 		this.scrollOffset = Window.getClientWidth();
-		
 		this.content = new HorizontalPanel();
 		this.add(this.content);
 		
@@ -73,6 +71,7 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 	public void scrollTo(View view) {
 		animateScroll(view.getIndex()*this.scrollOffset);
 		setCurrentView(view);
+		updateSize();
 	}
 
 	private boolean toggle = false;
@@ -113,14 +112,24 @@ public class ViewsContainer extends ScrollPanel implements ResizeListener {
 //		swipe(false);
 //	}
 //	**/
-	
-	@Override
-	public void onResize() {
-		this.setPixelSize(Window.getClientWidth(),  Window.getClientHeight()-43);
-		this.scrollOffset = Window.getClientWidth();
-	}
 
 	public View getLastView() {
 		return this.lastView;
+	}
+	
+	private void updateSize() {
+		int height = Window.getClientHeight() - GLookAndFeel.PHONE_HEADER_HEIGHT;
+		int width = Window.getClientWidth();
+	    if (currentView.equals(View.Worksheets)) {
+	    	this.getElement().setAttribute("style", "overflow-x: hidden; overflow-y: auto; position: relative; zoom: 1; width: "+ width + "px; height: " + height + "px;");
+	    } else {
+	    	this.getElement().setAttribute("style", "overflow-x: hidden; overflow-y: hidden; position: relative; zoom: 1; width: "+ width + "px; height: " + height + "px;");
+	    }
+    }
+
+	@Override
+	public void onResize() {
+		this.scrollOffset = Window.getClientWidth();
+		updateSize();
 	}
 }

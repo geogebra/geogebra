@@ -2,6 +2,7 @@ package geogebra.html5.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
 
 import java.util.ArrayList;
@@ -25,9 +26,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 */
 	public MaterialListPanel(final AppWeb app) {
 		this.app = app;
-//		this.setStyleName("materialListPanel");
-		this.setStyleName("filePanel");
-		this.setHeight(Window.getClientHeight() - 61 - 65 +"px");
+		this.setStyleName("materialListPanel");
+		this.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT +"px");
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		this.setHeight(Window.getClientHeight() - 61 - 65 +"px");
+		this.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT +"px");
 		for (final MaterialListElement elem : this.materials) {
 			elem.onResize();
 		}

@@ -11,6 +11,8 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.AuxiliaryHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.browser.SearchPanel.SearchListener;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -49,14 +51,15 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private FlowPanel arrowPanel;
 	private FlowPanel optionsPanelContent;
 
-	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI,
-			NetworkOperation op) {
+	private SearchPanel searchPanel;
+	private BrowseGUI bg;
+
+	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI, NetworkOperation op) {
 		super(app.getLocalization(), browseGUI);
+		this.bg = browseGUI;
 		this.op = op;
 		this.app = app;
-		this.login = app.getLoginOperation();
-
-		
+		this.login = app.getLoginOperation();		
 
 		//TODO: Make sign in
 		this.signInPanel = new FlowPanel();
@@ -67,17 +70,25 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		
 		//TODO: Insert in rightPanel if SIGNED IN
 		
+		addSearchPanel();
 		
 		this.add(this.rightPanel);
 		
-		//TODO: Set correct text
-		this.setText("GeoGebraTube");
 		createSignIn();
 		setLabels();
 		
 	}
 	
-	
+	private void addSearchPanel() { 
+		this.searchPanel = new SearchPanel((AppWeb)app); 
+		this.searchPanel.addSearchListener(new SearchListener() { 
+			@Override 
+			public void onSearch(final String query) { 
+				BrowseHeaderPanel.this.bg.displaySearchResults(query); 
+			} 
+		}); 
+		this.add(this.searchPanel); 
+	} 
 	
 	private void createSignIn() {
 		 op.getView().add(this);
@@ -97,7 +108,9 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	    
     }
 
-
+	protected void clearSearchPanel() {
+		this.searchPanel.onCancel();
+	}
 
 	private void onLogout() {
 		if(this.signInButton == null){

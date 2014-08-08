@@ -3,7 +3,7 @@ package geogebra.html5.gui.browser;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.browser.SearchPanel.SearchListener;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
@@ -38,9 +38,8 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 
 	
 	public BrowseViewPanel(final AppWeb app) {
-		this.setStyleName("contentPanel");
-		//FIXME do this with LAF
-		this.setPixelSize(Window.getClientWidth()-70, Window.getClientHeight()-61);
+		this.setStyleName("browseViewPanel");
+		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.app = app;
 		
 		this.container = new FlowPanel();
@@ -50,20 +49,8 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	}
 
 	protected void addContent() {
-		addSearchPanel();
 		addFilePanel();
 	}
-	
-	private void addSearchPanel() { 
-		this.searchPanel = new SearchPanel(app); 
-		this.searchPanel.addSearchListener(new SearchListener() { 
-			@Override 
-			public void onSearch(final String query) { 
-				BrowseViewPanel.this.displaySearchResults(query); 
-			} 
-		}); 
-		this.container.add(this.searchPanel); 
-	} 
 
 	protected void addFilePanel() {
 		this.filePanel = new MaterialListPanel(this.app);
@@ -149,17 +136,6 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 					}
 				});
 	}
-	
-	@Override
-	public void onResize() {
-		//FIXME do this with LAF
-		this.setPixelSize(Window.getClientWidth()-70, Window.getClientHeight()-61);
-		this.filePanel.onResize();
-	}
-
-	public void setLabels() {
-		this.filePanel.setLabels();
-	}
 
 	public void removeMaterial(final Material mat) {
 	    this.filePanel.removeMaterial(mat);
@@ -168,4 +144,14 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	public void clearMaterials() {
 	   this.filePanel.clearMaterials(); 
     }
+	
+	public void setLabels() {
+		this.filePanel.setLabels();
+	}
+
+	@Override
+	public void onResize() {
+		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.filePanel.onResize();
+	}
 }

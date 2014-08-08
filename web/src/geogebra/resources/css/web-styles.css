@@ -3349,26 +3349,23 @@ iframe.objectPropertiesTextEditor {
 	box-sizing: border-box;
 	position: relative;
 	z-index: 100;
+	display: flex;
 }
 
 .headerFirst {
-	margin-right: 30px;
-	padding-top: 6px;
-	float: left;
+	padding-top: 12px;
 }
 
 .locationTitle {
 	font-size: 150%;
 	color: #6666FF;
 	float: left;
-	padding-top: 15px;
+	padding-top: 22px;
 }
 
 .headerSecond {
-	float: right;
-	margin-left: 10px;
 	margin-right: 10px;
-	margin-top: 10px;
+	margin-top: 11px;
 }
 
 .signInButton {
@@ -3465,47 +3462,58 @@ PROVIDERS
 }
 
 /* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-.searchPanel {
-	padding: 15px;
-	positon: relative;
+
+.searchDiv {
+	flex-grow: 1;
+	display: flex;
+	border: #DCDCDC solid 1px;
+	background: #FFFFFF;
+	border-radius: 5px;
+	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
+	margin-top: 16px;
+	margin-bottom: 14px;
+	margin-left: 5px;
+	margin-right: 10px;
+	position: relative;
 }
 
-.searchPanel .searchTextBox {
+.searchDiv .searchTextBox {
 	color: #999999;
 	font-size: 90%;
+	border: none;
+	box-shadow: none;
 }
 
-.searchPanel .searchButton {
+.searchDiv .searchButton {
 	position: absolute;
-	top: 23px;
-	padding-left: 7px;
+	top: 5px;
+	left: 6px;
 	z-index: 10;
 	cursor: pointer;
 }
 
-.searchPanel input.gwt-TextBox {
-	width: 100%;
-	position: relative;
-	top: 0px;
-	left: 0px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+.searchDiv input.gwt-TextBox {
 	padding-left: 35px;
 	z-index: 5;
+	flex-grow: 1;
 }
 
-.searchPanel .cancelButton {
+.searchDiv .cancelButton {
 	z-index: 10;
 	position: absolute;
-	top: 23px;
-	right: 95px;
+	top: 6px;
+	right: 6px;
 	cursor: pointer;
 }
 
-.browsegui .filePanel, .PhoneGUI .filePanel {
+
+.browsegui .materialListPanel {
 	padding-left: 15px;
 	overflow-y: scroll;
-	/*width: 100%;*/
+}
+
+.browsegui .materialListPanel {
+	padding-top: 15px;	
 }
 
 .browsegui .materialListElement, .PhoneGUI .materialListElement {
@@ -3616,20 +3624,20 @@ PROVIDERS
 	overflow: auto !important;
 }
 
-.languageGUI .contentPanel {
+.languageGUI .browseViewPanel {
 	padding: 15px 20px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
 
-.languageGUI .contentPanel .gwt-Label {
+.languageGUI .browseViewPanel .gwt-Label {
 	float: left;
 	width: 350px;
 	line-height: 30px;
 	cursor: pointer;
 }
 
-.languageGUI .contentPanel .gwt-Label:hover {
+.languageGUI .browseViewPanel .gwt-Label:hover {
 	color: #6666FF;
 }
 
@@ -3901,13 +3909,12 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
    
    
 /* ########################################
-   ###        WORKSHEETS VIEW           ###
+   ###           BROWSE VIEW            ###
    ######################################## */
- 
 
-/* Search Panel */
-.PhoneGUI .searchPanel {
-	padding: 4px;
+.PhoneGUI .searchDiv {
+	margin-top: 10px;
+	margin-left: 15px;
 }
 
 .PhoneGUI .materialListElement .fileLinks {
@@ -3920,20 +3927,9 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	padding-right: 50px;
 }
 
-.PhoneGUI .searchPanel .cancelButton {
-	top: 12px;
-	right: 15px;
+.PhoneGUI .materialListPanel {
+	padding-left: 15px;
 }
-
-.PhoneGUI .searchPanel .searchButton {
-	top: 12px;
-	padding-left: 10px;
-}
-
-.PhoneGUI input.gwt-TextBox.searchTextBox {
-	border-radius: 25px;
-}
-
 
 /* ########################################
    ###          PHONE & TABLET          ###

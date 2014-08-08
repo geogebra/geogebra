@@ -226,6 +226,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	}
 
 	public void loadFeatured() {
+		this.header.clearSearchPanel();
 		this.content.loadFeatured();
 	}
 	
@@ -327,6 +328,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	    else {
 	    	loadFeatured();
 	    }
+    }
+
+	public void displaySearchResults(String query) {
+	    this.content.displaySearchResults(query);
     }
 }
 
