@@ -4409,7 +4409,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CASRundbrief_Figure2_2 () {
-    t("(x - 1 / 2 = 2x + 3) + 1 / 2", "x = (4 * x + 7) / 2", "x = 7 / 2 + 2 * x");
+    t("(x - 1 / 2 = 2x + 3) + 1 / 2", "x = (4 * x + 7) / 2", "x = 7 / 2 + 2 * x", "x = 2 * x + 7 / 2");
   }
 
   @Test
