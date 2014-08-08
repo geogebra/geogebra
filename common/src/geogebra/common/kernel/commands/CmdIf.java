@@ -55,54 +55,56 @@ public class CmdIf extends CommandProcessor {
 			}
 		}
 		arg = resArgs(c);
-		if(arg[0] instanceof GeoBoolean){
-		// standard case: simple boolean condition
-		ArrayList<GeoBoolean> cond = new ArrayList();
-		ArrayList<GeoElement> alternatives = new ArrayList();
-		for(int i = 0; i < n - 1; i +=2){
-			if(arg[i] instanceof GeoBoolean){
-				cond.add((GeoBoolean)arg[i]);
-			}else{
-				throw argErr(app, c.getName(), arg[i]);
+		if (arg[0] instanceof GeoBoolean) {
+			// standard case: simple boolean condition
+			ArrayList<GeoBoolean> cond = new ArrayList();
+			ArrayList<GeoElement> alternatives = new ArrayList();
+			for (int i = 0; i < n - 1; i += 2) {
+				if (arg[i] instanceof GeoBoolean) {
+					cond.add((GeoBoolean) arg[i]);
+				} else {
+					throw argErr(app, c.getName(), arg[i]);
+				}
+				alternatives.add(arg[i + 1]);
 			}
-			alternatives.add(arg[i+1]);
-		}
-		if(n % 2 == 1){
-			alternatives.add(arg[n-1]);
-		}
-		return new AlgoIf(cons,c.getLabel(), cond,alternatives).getOutput();
+			if (n % 2 == 1) {
+				alternatives.add(arg[n - 1]);
+			}
+			return new AlgoIf(cons, c.getLabel(), cond, alternatives)
+					.getOutput();
 		}
 		// SPECIAL CASE for functions:
 		// boolean function in x as condition
 		// example: If[ x < 2, x^2, x + 2 ]
 		// DO NOT change instanceof here (see
 		// GeoFunction.isGeoFunctionable())
-		
-			ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();
-			ArrayList<GeoFunction> functions = new ArrayList<GeoFunction>();
-			for(int i = 0; i < n - 1; i +=2){
-				if(arg[i] instanceof GeoFunction && ((GeoFunction)arg[i]).isBooleanFunction()){
-					conditions.add((GeoFunction)arg[i]);
-				}else{
-					throw argErr(app, c.getName(), arg[i]);
-				}
-				checkAdd(c, functions, arg[i+1]);
+
+		ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();
+		ArrayList<GeoFunction> functions = new ArrayList<GeoFunction>();
+		for (int i = 0; i < n - 1; i += 2) {
+			if (arg[i] instanceof GeoFunction
+					&& ((GeoFunction) arg[i]).isBooleanFunction()) {
+				conditions.add((GeoFunction) arg[i]);
+			} else {
+				throw argErr(app, c.getName(), arg[i]);
 			}
-			if(n % 2 == 1){
-				checkAdd(c, functions, arg[n-1]);
-			}
-			return new GeoElement[]{If(c.getLabel(), conditions, functions)};
+			checkAdd(c, functions, arg[i + 1]);
+		}
+		if (n % 2 == 1) {
+			checkAdd(c, functions, arg[n - 1]);
+		}
+		return new GeoElement[] { If(c.getLabel(), conditions, functions) };
 
 	}
 
 	private void checkAdd(Command c, ArrayList<GeoFunction> functions,
 			GeoElement fn) {
-		if(fn.isGeoFunctionable() && !(fn instanceof GeoLine)){
-			functions.add(((GeoFunctionable)fn).getGeoFunction());
-		}else{
+		if (fn.isGeoFunctionable() && !(fn instanceof GeoLine)) {
+			functions.add(((GeoFunctionable) fn).getGeoFunction());
+		} else {
 			throw argErr(app, c.getName(), fn);
 		}
-		
+
 	}
 
 	private GeoElement[] specialFunction(Command c, String varName,
@@ -110,18 +112,30 @@ public class CmdIf extends CommandProcessor {
 
 		boolean oldFlag = kernelA.getConstruction().isSuppressLabelsActive();
 		kernelA.getConstruction().setSuppressLabelCreation(true);
-		GeoFunction elseFun = null;
-		c.getArgument(1).replaceVariables(varName, fv);
-
-		// AbstractApplication.debug("LEFT"+.getClass());
-		if (c.getArgumentNumber() == 3) {
-			c.getArgument(2).replaceVariables(varName, fv);
-			elseFun = resolveFunction(c, 2, fv);
+		ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();
+		ArrayList<GeoFunction> functions = new ArrayList<GeoFunction>();
+		
+		
+		int n = c.getArgumentNumber();
+		
+		for (int i = 0; i < n - 1; i += 2) {
+			c.getArgument(i).replaceVariables(varName, fv);
+			GeoFunction current = resolveFunction(c, i, fv);
+			if (current.isBooleanFunction()) {
+				conditions.add(current);
+			} else {
+				throw argErr(app, c.getName(), current);
+			}
+			c.getArgument(i+1).replaceVariables(varName, fv);
+			checkAdd(c, functions, resolveFunction(c, i+1, fv));
 		}
-		GeoFunction ifFun = resolveFunction(c, 1, fv);
-		GeoFunction condFun = resolveFunction(c, 0, fv);
+		if (n % 2 == 1) {
+			c.getArgument(n-1).replaceVariables(varName, fv);
+			checkAdd(c, functions, resolveFunction(c, n - 1, fv));
+		}
+
 		kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
-		return new GeoElement[] { If(c.getLabel(), null, null) };
+		return new GeoElement[] { If(c.getLabel(), conditions, functions) };
 	}
 
 	private GeoFunction resolveFunction(Command c, int i, FunctionVariable fv) {
@@ -133,41 +147,40 @@ public class CmdIf extends CommandProcessor {
 	/**
 	 * If-then-else construct for functions. example: If[ x < 2, x^2, x + 2 ]
 	 */
-	final private GeoFunction If(String label, ArrayList<GeoFunction> conditions,
-			ArrayList<GeoFunction> functions) {
+	final private GeoFunction If(String label,
+			ArrayList<GeoFunction> conditions, ArrayList<GeoFunction> functions) {
 		FunctionVariable fv = conditions.get(0).getFunctionVariables()[0];
 		ExpressionNode expr;
 
 		boolean mayUseIndependent = true;
-		for(int i = 0; i < functions.size(); i++){
-			if(Inspecting.dynamicGeosFinder.check(functions.get(i)) ||
-					(i < conditions.size() && Inspecting.dynamicGeosFinder.check(conditions.get(i)))){
+		for (int i = 0; i < functions.size(); i++) {
+			if (Inspecting.dynamicGeosFinder.check(functions.get(i))
+					|| (i < conditions.size() && Inspecting.dynamicGeosFinder
+							.check(conditions.get(i)))) {
 				mayUseIndependent = false;
 				break;
 			}
 		}
 
 		if (functions.size() == 1) {
-			expr = new ExpressionNode(kernelA,
-					wrap(conditions.get(0), fv, mayUseIndependent), Operation.IF, wrap(
-							functions.get(0), fv, mayUseIndependent));
-		} else if(functions.size() == 2 && conditions.size() == 1){
+			expr = new ExpressionNode(kernelA, wrap(conditions.get(0), fv,
+					mayUseIndependent), Operation.IF, wrap(functions.get(0),
+					fv, mayUseIndependent));
+		} else if (functions.size() == 2 && conditions.size() == 1) {
 			expr = new ExpressionNode(kernelA, new MyNumberPair(kernelA, wrap(
-					conditions.get(0), fv, mayUseIndependent), wrap(functions.get(0), fv,
-					mayUseIndependent)), Operation.IF_ELSE, wrap(functions.get(1), fv,
-					mayUseIndependent));
-		}else {
+					conditions.get(0), fv, mayUseIndependent), wrap(
+					functions.get(0), fv, mayUseIndependent)),
+					Operation.IF_ELSE, wrap(functions.get(1), fv,
+							mayUseIndependent));
+		} else {
 			MyList cond = new MyList(kernelA), funs = new MyList(kernelA);
-			for(GeoFunction f:conditions){
-				cond.addListElement(wrap(f, fv,
-					mayUseIndependent));
+			for (GeoFunction f : conditions) {
+				cond.addListElement(wrap(f, fv, mayUseIndependent));
 			}
-			for(GeoFunction f:functions){
-				funs.addListElement(wrap(f, fv,
-						mayUseIndependent));
+			for (GeoFunction f : functions) {
+				funs.addListElement(wrap(f, fv, mayUseIndependent));
 			}
-			expr = new ExpressionNode(kernelA,
-					cond, Operation.IF_LIST, funs);
+			expr = new ExpressionNode(kernelA, cond, Operation.IF_LIST, funs);
 		}
 		Function fun = new Function(expr, fv);
 		if (mayUseIndependent) {
