@@ -4,6 +4,7 @@ import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
@@ -42,6 +43,7 @@ public class LoadFilePresenter{
 		String filename;
 		view.adjustScale();
 		final AppWeb app = view.getApplication();
+		boolean fileOpened = true;
 		if(WebStatic.urlToOpen != null ){
 			getView().showLoadAnimation();
 			getView().processFileName(WebStatic.urlToOpen);
@@ -63,7 +65,7 @@ public class LoadFilePresenter{
 		else {
 			//we dont have content, it is an app
 			Log.debug("no base64content, possibly App loaded?");
-
+			fileOpened = false;
 			// code moved here from AppWapplication.afterCoreObjectsInited - start
 			String perspective = view.getDataParamPerspective();
 			if(app.getGuiManager()!=null){
@@ -140,6 +142,9 @@ public class LoadFilePresenter{
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		((AppW)app).updateToolBar();
+		if(!fileOpened){
+			GeoGebraProfiler.getInstance().profileEnd();
+		}
 	}
 	
 	private boolean isReloadDataInStorage(){
