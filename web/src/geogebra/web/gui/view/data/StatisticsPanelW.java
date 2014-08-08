@@ -6,6 +6,7 @@ import geogebra.web.main.AppW;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 /**
@@ -77,7 +78,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 			inferencePanel.add(statTable);
 			//add(selectionPanel);
 			add(inferencePanel);
-
+			add(new Label("Howdee"));
 			setLabels();
 		}
 	}

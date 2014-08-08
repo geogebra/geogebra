@@ -1,6 +1,5 @@
 package geogebra.web.gui.layout.panels;
 
-import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
@@ -53,7 +52,8 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 			App.debug("[DATA ANALYSIS] VIEW IS NOT NULL");
 			
 		}
-		return da.getDataAnalysisViewComponent();
+		return da.getDummy();
+		//return da.getDataAnalysisViewComponent();
 		
 	}
 
@@ -64,7 +64,6 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	@Override
 	protected Widget loadStyleBar() {
 		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
-		da.getModel().setMode(DataAnalysisModel.MODE_ONEVAR);
 		return da.getStyleBar();
 	}
 	
