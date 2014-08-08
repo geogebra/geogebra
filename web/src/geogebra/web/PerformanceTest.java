@@ -22,12 +22,16 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.css.GuiResources;
+import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.applet.GeoGebraFrameSimple;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppWsimple;
+import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,6 +64,8 @@ public class PerformanceTest implements EntryPoint {
 	 */
 
 	public void onModuleLoad() {
+		GeoGebraProfiler.init(new GeoGebraProfilerW());
+		GeoGebraProfiler.getInstance().profile();
 		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		Log.logger = new GeoGebraLogger();
 		ArticleElement ae = ArticleElement.as(nodes.getItem(0));
@@ -68,6 +74,7 @@ public class PerformanceTest implements EntryPoint {
 		gfs.setComputedWidth(800);
 		gfs.setComputedHeight(600);
 		RootPanel.get(ae.getId()).add(gfs);
+		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 		AppWsimple app = new AppWsimple(ae, gfs, false);
 		gfs.setApplication(app);
 		gfs.setWidth(800);
@@ -167,6 +174,7 @@ public class PerformanceTest implements EntryPoint {
 		/** Construction end*/
 		app.getEuclidianView1().getGraphicsForPen().setCoordinateSpaceSize(800, 600);
 		app.afterLoadFileAppOrNot();
+		GeoGebraProfiler.getInstance().profileEnd();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 	}
