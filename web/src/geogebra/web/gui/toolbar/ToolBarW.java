@@ -304,7 +304,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 
 	public boolean hasPopupOpen() {
 		for (int i = 0; i < this.modeToggleMenus.size(); i++) {
-			if (this.modeToggleMenus.get(i).isSubmenuOpen()) {
+			if (this.modeToggleMenus.get(i).isMenuShown()) {
 				return true;
 			}
 		}
@@ -315,6 +315,20 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			modeToggleMenus.get(i).hideMenu();
 		}
+	}
+	
+	/**
+	 * 
+	 * @return true iff any of the submenus are opened
+	 */
+	public boolean isAnyOtherSubmenuOpen(ModeToggleMenu exceptMenu) {
+		for (int i = 0; i < modeToggleMenus.size(); i++) {
+			ModeToggleMenu menu = modeToggleMenus.get(i);
+			if (exceptMenu != menu && menu.isMenuShown()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void onClick(ClickEvent event) {

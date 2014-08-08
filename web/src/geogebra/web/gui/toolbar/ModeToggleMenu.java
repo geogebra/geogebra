@@ -27,10 +27,8 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -51,11 +49,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	private ToolBarW toolbar;
 
-	boolean keepDown;
-
 	private final Vector<Integer> menu;
-
+	
 	private String toolTipText;
+	
+	private boolean wasMenuShownOnMouseDown;
 
 	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb) {
 		super();
@@ -77,17 +75,13 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		addDomHandlers(tbutton);
 		tbutton.addDomHandler(this, MouseOutEvent.getType());
 		tbutton.addDomHandler(this, KeyUpEvent.getType());
+		tbutton.addDomHandler(this, MouseOverEvent.getType());
 		this.add(tbutton);
 		addNativeToolTipHandler(tbutton.getElement(), this);
 		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
 		
 		//Adding submenus if needed.
 		if (menu.size()>1){
-			
-			FlowPanel furtherToolsArrowPanel = new FlowPanel();
-			furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
-			furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
-			tbutton.add(furtherToolsArrowPanel);
 			
 			submenu = new FlowPanel();
 			this.add(submenu);
@@ -151,20 +145,35 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 	}
 	
-	public void showMenu(){
-		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
-		for(int i=0; i< modeToggleMenus.size(); i++){
-			if (modeToggleMenus.get(i).submenu != submenu){
-				modeToggleMenus.get(i).hideMenu();
-			} else if (submenu != null){
-				submenu.addStyleName("visible");
-			}
+	/**
+	 * Sets the menu visible if it exists
+	 */
+	public void showMenu() {
+		if (submenu != null) {
+			submenu.addStyleName("visible");
+		}
+	}
+
+	/**
+	 * Hides the menu if it exists
+	 */
+	public void hideMenu() {
+		if (submenu != null) {
+			submenu.removeStyleName("visible");
 		}
 	}
 	
-	public void hideMenu(){
-		if (submenu == null) return;
-		submenu.removeStyleName("visible");
+	/**
+	 * @param visible if true sets the menu visible, otherwise it hides it
+	 */
+	public void setMenuVisibility(boolean visible) {
+		if (submenu != null) {
+			if (visible) {
+				submenu.addStyleName("visible");
+			} else {
+				submenu.removeStyleName("visible");
+			}
+		}
 	}
 	
 	public boolean selectMode(int mode) {
@@ -219,11 +228,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		buttonImage.addStyleName("toolbar_icon");
 		tbutton.add(buttonImage);
 		
-		FlowPanel furtherToolsArrowPanel = new FlowPanel();
-		furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
-		furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
-		tbutton.add(furtherToolsArrowPanel);
-		
 //		tbutton.getElement().setInnerHTML(new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)))+"");
 		toolbar.update();
 		setCssToSelected();
@@ -259,50 +263,22 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		CancelEventTimer.touchEventOccured();
     }
 	
-	/**
-	 * Check if the bottom half of the button has clicked.
-	 */
-	private boolean isBottomHalfClicked(DomEvent event){
-		if(menu.size() < 2){
-			return false;
-		}
-		int clickYPos;
-		if (event instanceof TouchEvent){
-			clickYPos = event.getNativeEvent().getChangedTouches().get(0).getPageY();
-		} else {
-			clickYPos = event.getNativeEvent().getClientY();
-		}
-		return (clickYPos - tbutton.getAbsoluteTop() > tbutton.getOffsetHeight() / 2);
-	}
-	
-	public void onEnd(DomEvent<?> event){
+	public void onEnd(DomEvent<?> event) {
 		tbutton.getElement().focus();
-		if (event.getSource() == tbutton){
+		if (event.getSource() == tbutton) { // if click ended on the button
+			// if enter was pressed
 			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
-				if(isSubmenuOpen()){
-					hideMenu();
-				} else {
-					showMenu();
-				}
-				return;
+				setMenuVisibility(!isMenuShown());
 			}
-			if(("true".equals(event.getRelativeElement().getAttribute("isSelected"))
-					|| isBottomHalfClicked(event)) && !isSubmenuOpen()){
-				showMenu();
-				keepDown = false;
-				return;
+			// if submenu was open
+			if (wasMenuShownOnMouseDown) {
+				hideMenu();
 			}
-			
-			// At one click close the other buttons' submenu, but don't close
-			// own submenu, otherwise there would be problems, if the submenu opened
-			// because of a long-press
-			if (!isSubmenuOpen()) toolbar.closeAllSubmenu();
+		} else { // click ended on menu item
+			hideMenu();
 		}
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
-		if(event.getSource() != tbutton || keepDown) hideMenu();
-		keepDown = false;
 		tbutton.getElement().focus();
-		
 	}
 
 	@Override
@@ -336,20 +312,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public void onStart(DomEvent event){	
 		event.preventDefault();
 		this.setFocus(true);
-		final ModeToggleMenu tm = this;
-		keepDown = true;
-		//toolbar.closeAllSubmenu();
-		
-		Timer longPressTimer = new Timer(){
-			@Override
-            public void run() {
-				if (keepDown){
-					tm.showMenu();
-					keepDown = false;
-				}
-            }
-		};
-		longPressTimer.schedule(1000); 		
+		if (isMenuShown()) {
+			wasMenuShownOnMouseDown = true;
+		} else {
+			wasMenuShownOnMouseDown = false;
+			showMenu();
+		}
 	}
 	
 	public void setToolTipText(String string) {
@@ -369,9 +337,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		ToolTipManagerW.sharedInstance().hideToolTip();
 	}
 	
-	public boolean isSubmenuOpen(){
-		if (submenu==null) return false;
-		return (submenu.getElement().hasClassName("visible"));
+	/**
+	 * @return true if the menu is open
+	 */
+	public boolean isMenuShown() {
+		if (submenu != null) {
+			return submenu.getElement().hasClassName("visible");
+		}
+		return false;
 	}
 	
 	private native void addNativeToolTipHandler(Element element, ModeToggleMenu mtm) /*-{
@@ -385,9 +358,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		//submenu's menuitem will be highlighted
-		setHovered(event.getRelativeElement(), true);
-	    
+		if (event.getSource() != tbutton) {
+			setHovered(event.getRelativeElement(), true);
+			return;
+		}
+		if (!isMenuShown() && toolbar.isAnyOtherSubmenuOpen(this)) {
+			toolbar.closeAllSubmenu();
+			showMenu();
+		}
 	}
 	
 	@Override
@@ -395,7 +373,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		// Avoid opening submenu, if a user presses a button for a while,
 		// then move on an another button without mouseup. 
 		if(event.getSource() == tbutton){
-			keepDown=false;
 			return;
 		}
 		//submenu's menuitem won't be highlighted
@@ -435,7 +412,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			break;
 		case KeyCodes.KEY_DOWN:
 			if (event.getSource() == tbutton){
-				if(isSubmenuOpen()){
+				if(isMenuShown()){
 					this.itemList.getWidget(0).getElement().focus();
 				} else {
 					hideToolTip();
@@ -468,7 +445,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		ModeToggleMenu mtm2 = toolbar.getModeToggleMenus().get(index);
 	
 		mtm2.tbutton.getElement().focus();
-		if(isSubmenuOpen()){
+		if(isMenuShown()){
 			hideMenu();
 			mtm2.showMenu();
 		}
