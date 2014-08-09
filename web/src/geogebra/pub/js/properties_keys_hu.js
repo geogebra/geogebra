@@ -1979,6 +1979,7 @@ __GGB__keysVar.hu.menu = {
     "Type_Chart": "Diagram",
     "Type_Conic": "K\xfapszelet",
     "Type_DiscreteMath": "Diszkr\xe9t matematika",
+    "Type_Financial": "Financial",
     "Type_FunctionsAndCalculus": "F\xfcggv\xe9nyek \xe9s kalkulus",
     "Type_GeoGebra": "GeoGebra",
     "Type_Geometry": "Geometria",

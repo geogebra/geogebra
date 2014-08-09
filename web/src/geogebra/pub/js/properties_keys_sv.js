@@ -1979,6 +1979,7 @@ __GGB__keysVar.sv.menu = {
     "Type_Chart": "Statistikdiagram",
     "Type_Conic": "K\xe4gelsnitt",
     "Type_DiscreteMath": "Diskret Matematik",
+    "Type_Financial": "Financial",
     "Type_FunctionsAndCalculus": "Funktioner & Analys",
     "Type_GeoGebra": "GeoGebra",
     "Type_Geometry": "Geometri",

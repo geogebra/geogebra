@@ -1979,6 +1979,7 @@ __GGB__keysVar.eu.menu = {
     "Type_Chart": "Diagrama",
     "Type_Conic": "Konika",
     "Type_DiscreteMath": "Matematika Diskretua",
+    "Type_Financial": "Financial",
     "Type_FunctionsAndCalculus": "Funtzioak eta Kalkulua",
     "Type_GeoGebra": "GeoGebra",
     "Type_Geometry": "Geometria",

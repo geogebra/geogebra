@@ -1979,6 +1979,7 @@ __GGB__keysVar.bs.menu = {
     "Type_Chart": "Dijagram",
     "Type_Conic": "Konika",
     "Type_DiscreteMath": "Diskretna matematika",
+    "Type_Financial": "Financial",
     "Type_FunctionsAndCalculus": "Funkcije&Analiza",
     "Type_GeoGebra": "GeoGebra",
     "Type_Geometry": "Geometrija",

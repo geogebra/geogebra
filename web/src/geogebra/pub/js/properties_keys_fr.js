@@ -1979,6 +1979,7 @@ __GGB__keysVar.fr.menu = {
     "Type_Chart": "Stats Graphiques",
     "Type_Conic": "Coniques",
     "Type_DiscreteMath": "Maths discr\xe8tes",
+    "Type_Financial": "Financial",
     "Type_FunctionsAndCalculus": "Calculs & Fonctions",
     "Type_GeoGebra": "GeoGebra",
     "Type_Geometry": "G\xe9om\xe9trie",

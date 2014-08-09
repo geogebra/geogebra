@@ -1979,6 +1979,7 @@ __GGB__keysVar.no_NB.menu = {
     "Type_Chart": "Diagram",
     "Type_Conic": "Kjeglesnitt",
     "Type_DiscreteMath": "Diskret matematikk",
+    "Type_Financial": "Financial",
     "Type_FunctionsAndCalculus": "Funksjoner og utregninger",
     "Type_GeoGebra": "GeoGebra",
     "Type_Geometry": "Geometri",
