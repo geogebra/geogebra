@@ -93,8 +93,8 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D{
     @Override
 	public String toString(StringTemplate tpl) {
 
-		return loc.getPlain("AngleBetweenABCOrientedByD", getA().getLabel(tpl),
-				getB().getLabel(tpl), getC().getLabel(tpl), orientation.getLabel(tpl));
+		return loc.getPlain("AngleBetweenABC", getA().getLabel(tpl),
+				getB().getLabel(tpl), getC().getLabel(tpl));
 	}
     
     
