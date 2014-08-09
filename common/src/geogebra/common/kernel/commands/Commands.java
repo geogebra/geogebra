@@ -168,6 +168,7 @@ public enum Commands implements CommandsConstants, GetCommand{
 	//=============================================================
    	CellRange(TABLE_SPREADSHEET), Row(TABLE_SPREADSHEET), Column(TABLE_SPREADSHEET), ColumnName(TABLE_SPREADSHEET),
    	FillRow(TABLE_SPREADSHEET), FillColumn(TABLE_SPREADSHEET), FillCells(TABLE_SPREADSHEET), Cell(TABLE_SPREADSHEET),
+   	Rate(TABLE_SPREADSHEET), Periods(TABLE_SPREADSHEET), Payment(TABLE_SPREADSHEET), FutureValue(TABLE_SPREADSHEET), PresentValue(TABLE_SPREADSHEET),
    	
   	//=============================================================	
   	// scripting

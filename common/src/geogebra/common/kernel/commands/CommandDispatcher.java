@@ -465,6 +465,11 @@ public abstract class CommandDispatcher {
 			case ToPolar:
 			case Factors:
 			case NSolveODE:
+			case Rate:
+			case Periods:
+			case Payment:
+			case FutureValue:
+			case PresentValue:
 				return getAdvancedDispatcher().dispatch(command,kernel);
 				
 				

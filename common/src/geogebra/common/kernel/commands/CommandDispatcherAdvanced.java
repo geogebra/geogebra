@@ -36,6 +36,11 @@ import geogebra.common.kernel.advanced.CmdDynamicCoordinates;
 import geogebra.common.kernel.advanced.CmdEccentricity;
 import geogebra.common.kernel.advanced.CmdExcentricity;
 import geogebra.common.kernel.advanced.CmdFactors;
+import geogebra.common.kernel.advanced.CmdFinancialFV;
+import geogebra.common.kernel.advanced.CmdFinancialNper;
+import geogebra.common.kernel.advanced.CmdFinancialPV;
+import geogebra.common.kernel.advanced.CmdFinancialPmt;
+import geogebra.common.kernel.advanced.CmdFinancialRate;
 import geogebra.common.kernel.advanced.CmdFirstAxis;
 import geogebra.common.kernel.advanced.CmdFirstAxisLength;
 import geogebra.common.kernel.advanced.CmdFlatten;
@@ -289,6 +294,16 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdToComplexPolar(kernel,Kernel.COORD_POLAR);
 		case NSolveODE:
 			return new CmdNSolveODE(kernel);
+		case Rate:
+			return new CmdFinancialRate(kernel);
+		case Periods:
+			return new CmdFinancialNper(kernel);
+		case Payment:
+			return new CmdFinancialPmt(kernel);
+		case PresentValue:
+			return new CmdFinancialPV(kernel);
+		case FutureValue:
+			return new CmdFinancialFV(kernel);
 		}
 		return null;
 	}
