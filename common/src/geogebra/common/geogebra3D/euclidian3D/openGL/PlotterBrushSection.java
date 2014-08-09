@@ -7,7 +7,7 @@ import geogebra.common.kernel.Matrix.Coords;
 
 /** class describing the section of the brush
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class PlotterBrushSection {
@@ -111,7 +111,7 @@ public class PlotterBrushSection {
 		//Application.debug("direction=\n"+direction.toString());
 	}
 	
-	
+	private Coords tmpCoords = new Coords(3);
 	
 	/**
 	 * return the normal vector for parameters u,v
@@ -119,18 +119,28 @@ public class PlotterBrushSection {
 	 * @param v
 	 * @return the normal vector
 	 */
-	public Coords[] getNormalAndPosition(double u, double v){
-		Coords vn = clockV.mul(v).add(clockU.mul(u));
-		Coords pos = vn.mul(thickness).add(center);
-		if (normal!=null)
-			return new Coords[] {normal,pos};
-		else
-			if (normalDevD!=0){
-				//Application.debug("normalDev="+normalDevD+","+normalDevN);
-				//return new GgbVector[] {vn,pos};
-				return new Coords[] {vn.mul(normalDevN).add(direction.mul(normalDevD)),pos};
-			}else
-				return new Coords[] {vn,pos};
+	public void getNormalAndPosition(double u, double v, Coords vn, Coords pos){
+		
+		//vn.set(clockV.mul(v).add(clockU.mul(u)));
+		clockU.mul(u, vn);
+		clockV.mul(v, tmpCoords);
+		vn.add(tmpCoords, vn);
+		
+		//pos.set(vn.mul(thickness).add(center));
+		vn.mul(thickness, pos);
+		pos.add(center, pos);
+		
+		
+		if (normal!=null){
+			vn.setFirstValues(normal);
+		}else if (normalDevD!=0){
+			//Application.debug("normalDev="+normalDevD+","+normalDevN);
+			//vn.set(vn.mul(normalDevN).add(direction.mul(normalDevD)));	
+			vn.mul(normalDevN, vn);
+			direction.mul(normalDevD, tmpCoords);
+			vn.add(tmpCoords, vn);
+		}
+
 	}
 	
 	

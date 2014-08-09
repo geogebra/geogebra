@@ -976,9 +976,38 @@ public class CoordMatrix {
 		double[] resD = new double[size];
 		res.copy(resD);
 		
-		pivot(matrix, sol, resD);
+		pivotSolRes.sol = sol;
+		pivotSolRes.res = resD;
+		
+		pivot(matrix, pivotSolRes);
 		
 	}
+	
+	
+	private interface PivotInterface {
+		
+	}
+	
+	private static class PivotSolRes implements PivotInterface {
+		
+		/**
+		 * solution vector
+		 */
+		public double[] sol;
+		
+		/**
+		 * result vector
+		 */
+		public double[] res;
+		
+		public PivotSolRes(){
+			
+		}
+	}
+	
+	private static PivotSolRes pivotSolRes = new PivotSolRes();
+	
+	
 
 	/**
 	 * makes Gauss pivot about this matrix 
@@ -1000,53 +1029,59 @@ public class CoordMatrix {
 			resd[r] = res.val[r];
 		}
 		
-		pivot(matrix, sol.val, resd);
+		pivotSolRes.sol = sol.val;
+		pivotSolRes.res = resd;
+		
+		pivot(matrix, pivotSolRes);
 	}
 	
 	/**
 	 * makes Gauss pivot about the matrix 
 	 * and compute sol so that matrix * sol = ret
 	 * @param matrix array of columns
-	 * @param sol solution
-	 * @param res result
+	 * @param psr pivot solution-result
 	 */
-	static final public void pivot(double[][] matrix, double[] sol, double[] res){
-		int size = sol.length;
+	static final public void pivot(double[][] matrix, PivotSolRes psr){
+		int size = matrix.length;
 		ArrayList<Integer> stack = new ArrayList<Integer>();
 		for (int i = size - 1 ; i >= 0 ; i--){
 			stack.add(i);
 		}
-		pivot(matrix, sol, res, size - 1, stack);
+		pivot(matrix, psr, size - 1, stack);
 	}
 	/**
 	 * one step Gauss pivot 
 	 *
 	 */
-	static final private void pivot(double[][] matrix, double[] sol, double[] res, 
+	static final private void pivot(double[][] matrix, PivotSolRes psr, 
 			int step, ArrayList<Integer> stack){
 		
 		// last step
 		if (step == 0){
 			int index = stack.get(0);
-			sol[index] = res[0] / matrix[index][0];
+			psr.sol[index] = psr.res[0] / matrix[index][0];
 		
 		}else{
-			// look for a non-zero value at step line
-			int index;
-			int stackIndex = -1;
-			double value;
-			do{
-				stackIndex++;
-				index = stack.get(stackIndex);
-				value = matrix[index][step];
-			}while(stackIndex < stack.size() - 1 && Kernel.isZero(value));
+			// look for the biggest value at step line
+			int stackIndex = 0;
+			int index = stack.get(0);
+			double value = matrix[index][step];
+			for (int currentStackIndex = 1 ; currentStackIndex < stack.size() ; currentStackIndex++){
+				int currentIndex = stack.get(currentStackIndex);
+				double currentValue = matrix[currentIndex][step];
+				if (Math.abs(currentValue) > Math.abs(value)){
+					stackIndex = currentStackIndex;
+					index = currentIndex;
+					value = currentValue;					
+				}
+			}
 			
 			
 			// divide step line by value in matrix and res
 			for (int i : stack){
 				matrix[i][step] /= value;
 			}
-			res[step] /= value;
+			psr.res[step] /= value;
 			
 			// sub step line in each line above
 			for (int l = 0 ; l < step ; l++){
@@ -1054,7 +1089,7 @@ public class CoordMatrix {
 				for (int i : stack){
 					matrix[i][l] -= coef * matrix[i][step];
 				}
-				res[l] -= coef * res[step];
+				psr.res[l] -= coef * psr.res[step];
 			}
 			
 			/*
@@ -1075,15 +1110,15 @@ public class CoordMatrix {
 			
 			// remove current index and apply pivot at next step
 			stack.remove(stackIndex);
-			pivot(matrix, sol, res, step - 1, stack);
+			pivot(matrix, psr, step - 1, stack);
 			
 			// calc sol at this index
 			//System.out.println("step "+step+" : "+stack);
-			double s = res[step]; // value at (step, index) is 1
+			double s = psr.res[step]; // value at (step, index) is 1
 			for (int i : stack){
-				s -= matrix[i][step] * sol[i]; // sub for non-zero matrix coeffs
+				s -= matrix[i][step] * psr.sol[i]; // sub for non-zero matrix coeffs
 			}
-			sol[index] = s;	
+			psr.sol[index] = s;	
 			
 			// re-add current index for pivot caller
 			stack.add(index);

@@ -128,20 +128,19 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 	static public final GeoElement processQuadricPlane(Kernel kernelA, Command c, GeoElement[] arg, boolean[] ok){
 		//intersection plane/limited quadric
 		if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[0] = (arg[1] instanceof GeoQuadric3DLimited))){
-			GeoElement ret =
-				kernelA.getManager3D().IntersectQuadricLimited(
-							c.getLabel(),
-							(GeoPlaneND) arg[0],
-							(GeoQuadric3DLimited) arg[1]);
-			return ret;
+
+			return intersectPlaneQuadricLimited(kernelA, 
+					c.getLabel(),
+					(GeoPlaneND) arg[0],
+					(GeoQuadric3DLimited) arg[1]);
+			
 		}else if ((ok[0] = (arg[0] instanceof GeoQuadric3DLimited)) && (ok[0] = (arg[1] instanceof GeoPlaneND))){
-			GeoElement ret =
-				
-					kernelA.getManager3D().IntersectQuadricLimited(
-							c.getLabel(),
-							(GeoPlaneND) arg[1],
-							(GeoQuadric3DLimited) arg[0]);
-			return ret;
+
+			return intersectPlaneQuadricLimited(kernelA, 
+					c.getLabel(),
+					(GeoPlaneND) arg[1],
+					(GeoQuadric3DLimited) arg[0]);
+			
 		}
 		
 
@@ -166,4 +165,11 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 		
 		return null;
 	}
+	
+	
+	static private final GeoElement intersectPlaneQuadricLimited(Kernel kernelA, String label, GeoPlaneND plane, GeoQuadric3DLimited quadric){
+		return kernelA.getManager3D().IntersectQuadricLimited(
+				label, plane, quadric);
+	}
+	
 }

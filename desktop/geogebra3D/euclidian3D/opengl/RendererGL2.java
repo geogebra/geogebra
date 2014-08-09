@@ -11,6 +11,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -687,6 +688,11 @@ public class RendererGL2 extends RendererD {
     	// sets the flag and mouse location for openGL picking
     	setMouseLoc(mouseLoc, Renderer.PICKING_MODE_LABELS);
     	
+    }
+    
+    @Override
+	public GeoElement getLabelHit(GPoint mouseLoc){
+    	return view3D.getHits3D().getLabelHit();
     }
 
 

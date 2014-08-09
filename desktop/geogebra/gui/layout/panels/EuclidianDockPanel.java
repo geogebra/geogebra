@@ -41,7 +41,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 			"DrawingPad", 				// view title
 			toolbar,						// toolbar string
 			true,						// style bar?
-			5,							// menu order
+			4,							// menu order
 			'1' // ctrl-shift-1
 		);
 		

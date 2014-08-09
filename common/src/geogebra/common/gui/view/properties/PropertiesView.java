@@ -90,6 +90,8 @@ public abstract class PropertiesView implements View {
 			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad"));
 		case EUCLIDIAN2:
 			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad2"));
+		case EUCLIDIAN3D:
+			return loc.getPlain("PreferencesOfA", loc.getPlain("GraphicsView3D"));
 		case CAS:
 			return loc.getPlain("PreferencesOfA", loc.getPlain("CAS"));
 		case ADVANCED:
@@ -127,6 +129,8 @@ public abstract class PropertiesView implements View {
 			// return objectPanel.getSelectionDescription();
 		case LAYOUT:
 			return loc.getMenu("Layout");
+		case EUCLIDIAN3D:
+			return loc.getPlain("GraphicsView3D");
 		}
 		return null;
 	}
@@ -160,6 +164,9 @@ public abstract class PropertiesView implements View {
 			break;
 		case EUCLIDIAN2:
 			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
+			break;
+		case EUCLIDIAN3D:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D);
 			break;
 		case SPREADSHEET:
 			isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);

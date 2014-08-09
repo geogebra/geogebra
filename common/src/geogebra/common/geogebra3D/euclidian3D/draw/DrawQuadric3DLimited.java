@@ -32,6 +32,9 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		drawBottom.setCreatedByDrawList(this);
 		drawTop.setCreatedByDrawList(this);
 		drawSide.setCreatedByDrawList(this);
+		
+		setPickingType(PickingType.POINT_OR_CURVE);
+
 
 	}
 	
@@ -204,19 +207,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	}
 
 
-	
-	
-	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
-	
-	@Override
-	public void setPickingType(PickingType type){
-		lastPickingType = type;
-	}
-	
-	@Override
-	public PickingType getPickingType(){
-		return lastPickingType;
-	}
 	
 
 

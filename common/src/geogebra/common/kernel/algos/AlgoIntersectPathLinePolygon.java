@@ -217,7 +217,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			if (seg.isDefined()){
 				Coords o2 = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
 				Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
-
+				
 				Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
 						o1,d1,o2,d2
 						);

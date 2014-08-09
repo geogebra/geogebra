@@ -454,7 +454,9 @@ public class ToolBar {
 //		sb.append(EuclidianView.MODE_CIRCLE_SECTOR_THREE_POINTS);
 //		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
-		sb.append( " | ");
+
+//		sb.append( " | ");
+		sb.append( " , "); // regroup conic stuff to avoid too much toolbar items
 		
 		
 		// conics
@@ -476,7 +478,7 @@ public class ToolBar {
 		sb.append( EuclidianConstants.MODE_PLANE_THREE_POINTS);
 		sb.append( " ");
 		sb.append( EuclidianConstants.MODE_PLANE);
-		sb.append( " | ");
+		sb.append( " , ");
 		
 		//specific planes
 		sb.append( EuclidianConstants.MODE_ORTHOGONAL_PLANE);
@@ -563,7 +565,7 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_COPY_VISUAL_STYLE);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_DELETE);
-		sb.append( " | ");
+		sb.append( " , ");
 		
 		sb.append( EuclidianConstants.MODE_VIEW_IN_FRONT_OF);
 

@@ -972,6 +972,8 @@ public class PropertiesViewD extends
 			return app.getImageIcon("options-objects24.png");
 		case LAYOUT:
 			return app.getImageIcon("options-layout24.png");
+		case EUCLIDIAN3D:
+			return app.getImageIcon("menu_view_graphics3D.png");
 		}
 		return null;
 	}

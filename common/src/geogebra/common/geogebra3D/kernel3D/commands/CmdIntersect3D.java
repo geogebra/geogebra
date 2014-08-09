@@ -3,7 +3,6 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 
 
-import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
@@ -169,7 +168,7 @@ public  GeoElement[] process(Command c) throws MyError {
 							arg[0],
 							arg[1]);
         			
-        			((Kernel3D) kernelA).setStringMode(point);
+        			kernelA.setStringMode(point);
         			
         			return new GeoElement[] {point};
 
@@ -182,7 +181,7 @@ public  GeoElement[] process(Command c) throws MyError {
 							arg[0],
 							arg[1]);
         			
-        			((Kernel3D) kernelA).setStringMode(point);
+        			kernelA.setStringMode(point);
         			
         			return new GeoElement[] {point};
 

@@ -364,6 +364,14 @@ public abstract class Drawable3D extends DrawableND {
 	
 	
 	/**
+	 * for logic hitting, we may need an update
+	 */
+	public void updateForHitting(){
+		updateForItSelf();
+	}
+	
+	
+	/**
 	 * says that it has to be updated
 	 */
 	@Override
@@ -1145,20 +1153,22 @@ public abstract class Drawable3D extends DrawableND {
 	 * set last picking type
 	 * @param type picking type
 	 */
-	public void setPickingType(PickingType type){
-		// nothing to do for almost all drawables
+	final public void setPickingType(PickingType type){
+		lastPickingType = type;
 	}
-	
+
 	/**
 	 * 
 	 * @return last picking type
 	 */
-	abstract public PickingType getPickingType();
-	/*
-	public PickingType getPickingType(){
-		return PickingType.POINT_OR_CURVE;
+	final public PickingType getPickingType(){
+		return lastPickingType;
 	}
-	*/
+
+	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
+	
+	
+
     
 	
 
@@ -1464,7 +1474,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param hitting e.g. ray
 	 * @return true if hit
 	 */
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		// do nothing by default
 		return false;
 	}
@@ -1477,9 +1487,35 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param hits storing the drawable if hit
 	 */
 	final public void hitIfVisibleAndPickable(Hitting hitting, Hits3D hits){
-		if (isVisible() && getGeoElement().isPickable() && hit(hitting)){
-			hits.addDrawable3D(this, getPickingType());	
+		if (isVisible() && getGeoElement().isPickable()){
+			
+			// try to hit label
+			if(hitLabel(hitting, hits)){
+				return; // label is hitten
+			}
+			
+			// try to hit geo
+			if(hit(hitting)){
+				hits.addDrawable3D(this, getPickingType());
+			}
+			
 		}
+	}
+	
+	/**
+	 * 
+	 * @param hitting hitting
+	 * @param hits hits to record
+	 * @return true if label is hitted
+	 */
+	protected boolean hitLabel(Hitting hitting, Hits3D hits){
+		if (isLabelVisible() && label.hit(hitting.pos)){
+			setZPick(label.getDrawZ(), label.getDrawZ());
+			hits.addDrawable3D(this, PickingType.LABEL);
+			return true;
+		}
+		
+		return false;
 	}
 
 	

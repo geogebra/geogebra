@@ -355,13 +355,19 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 	public boolean isOnFullLine(Coords p, double eps){
 		Coords cross;
 		
-		if (Kernel.isEqual(p.getW(),0,eps))//infinite point : check direction
+		if (Kernel.isZero(p.getW())){//infinite point : check direction
 			cross = p.crossProduct(getDirectionInD3());
-		else
-			cross = p.sub(getStartInhomCoords()).crossProduct(getDirectionInD3());
+			return cross.equalsForKernel(0,  Kernel.MIN_PRECISION);
+		}
+		
+		// standard case
+		Coords d = getDirectionInD3().normalized();
+		Coords v = p.sub(getStartInhomCoords());
+		Coords n = v.sub(d.mul(v.dotproduct(d)));
+		return n.dotproduct(n) < eps * eps;
 		
 		
-		return cross.equalsForKernel(0,  Kernel.MIN_PRECISION);
+		
 	}
 
 	public boolean respectLimitedPath(Coords coords, double eps) {    	

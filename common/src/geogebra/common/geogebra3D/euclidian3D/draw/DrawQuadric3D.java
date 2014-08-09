@@ -478,7 +478,7 @@ implements Previewable {
 	
 	
 	@Override
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		
 		if (waitForReset){ // prevent NPE 
 			return false;

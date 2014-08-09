@@ -3,11 +3,14 @@ package geogebra.geogebra3D.web.euclidian3D.openGL;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.MyZoomer;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
@@ -16,6 +19,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
@@ -784,10 +788,22 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     }
 
 	@Override
-    public void pickIntersectionCurves() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void pickIntersectionCurves() {
+
+		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
+				.getEuclidianController()).getIntersectionCurves();
+
+		// picking objects
+		for (IntersectionCurve intersectionCurve : curves) {			
+			Drawable3D d = intersectionCurve.drawable;
+			d.updateForHitting(); // we may need an update
+			if(!d.hit(hitting) || d.getPickingType() != PickingType.POINT_OR_CURVE){ // we assume that hitting infos are updated from last mouse move
+				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+			}
+			
+		}
+		
+	}
 
 	@Override
     public void glLoadName(int loop) {
@@ -1605,6 +1621,17 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		hitting.setHits(mouseLoc, threshold);
 
 	}
+	
+	@Override
+	public GeoElement getLabelHit(GPoint mouseLoc){
+		
+		if (mouseLoc == null){
+			return null;
+		}
+		
+    	return hitting.getLabelHit(mouseLoc);
+    }
+	
 	
 	@Override
 	public boolean useLogicalPicking(){

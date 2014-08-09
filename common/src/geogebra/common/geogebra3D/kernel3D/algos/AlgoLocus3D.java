@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.awt.GRectangle2D;
-import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLocus3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -53,7 +52,7 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	protected void setMaxDistances(int i){
 		super.setMaxDistances(i);
 		if (i == 2){ // 3D view
-			maxZdist[i] = MAX_Z_PIXEL_DIST / ((Kernel3D) kernel).getZscale(i);
+			maxZdist[i] = MAX_Z_PIXEL_DIST / kernel.getZscale(i);
 			
 			double zmin = kernel.getZmin(i); 
 			double zmax = kernel.getZmax(i);

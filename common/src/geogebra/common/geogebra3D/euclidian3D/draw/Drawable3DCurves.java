@@ -29,6 +29,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	 */
 	public Drawable3DCurves(EuclidianView3D a_view3d, GeoElement a_geo) {
 		super(a_view3d, a_geo);
+		setPickingType(PickingType.POINT_OR_CURVE);
 	}
 	
 
@@ -39,6 +40,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	 */
 	public Drawable3DCurves(EuclidianView3D a_view3d) {
 		super(a_view3d);
+		setPickingType(PickingType.POINT_OR_CURVE);
 	}
 
 	@Override
@@ -126,8 +128,4 @@ public abstract class Drawable3DCurves extends Drawable3D {
 		setWaitForUpdate();
 	}
 	
-	@Override
-	public PickingType getPickingType(){
-		return PickingType.POINT_OR_CURVE;
-	}
 }

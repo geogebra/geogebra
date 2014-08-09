@@ -101,7 +101,7 @@ import java.util.TreeSet;
 /**
  * Class for 3D view
  * 
- * @author matthieu
+ * @author mathieu
  * 
  */
 @SuppressWarnings("javadoc")
@@ -1142,6 +1142,16 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		return pickPoint.copyVector();
 	}
+	
+	/**
+	 * 
+	 * @param mouse mouse position
+	 * @param result mouse position with (0,0) on window center
+	 */
+	public void setCenteredPosition(GPoint mouse, GPoint result){
+		result.x = mouse.getX() + renderer.getLeft();
+		result.y = -mouse.getY() + renderer.getTop();
+	}
 
 	protected void setPickPointFromMouse(GPoint mouse) {
 		pickPoint.setX(mouse.getX() + renderer.getLeft());
@@ -1337,8 +1347,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public GeoElement getLabelHit(geogebra.common.awt.GPoint p) {
-
-		return hits.getLabelHit();
+		
+		return renderer.getLabelHit(p);
 	}
 
 	@Override
@@ -1843,6 +1853,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	
 	public DrawAxis3D getAxisDrawable(int i){
 		return axisDrawable[i];
+	}
+
+	public DrawPlane3D getPlaneDrawable(){
+		return xOyPlaneDrawable;
 	}
 
 

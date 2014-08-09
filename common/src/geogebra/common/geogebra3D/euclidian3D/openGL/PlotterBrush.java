@@ -252,17 +252,17 @@ public class PlotterBrush implements PathPlotter {
 		manager.endGeometry();
 	}
 	
-	
+	private Coords drawNormal = new Coords(3), drawPos = new Coords(3);
 	
 	/** draws a section point
 	 * 
 	 */
 	private void draw(PlotterBrushSection s, double u, double v, int texture){
 		
-		Coords[] vectors = s.getNormalAndPosition(u, v);
+		s.getNormalAndPosition(u, v, drawNormal, drawPos);
 		
 		//set normal
-		manager.normal(vectors[0]);
+		manager.normal(drawNormal);
 		
 		//set texture
 		float pos = textureX[texture];
@@ -287,7 +287,7 @@ public class PlotterBrush implements PathPlotter {
 		
 		
 		//set vertex
-		vertex(vectors[1]);
+		vertex(drawPos);
 		
 	}
 	
@@ -544,7 +544,15 @@ public class PlotterBrush implements PathPlotter {
 		u = (float) Math.cos (start); 
 		v = (float) Math.sin (start); 
      	
-		m = v1.mul(a*u).add(v2.mul(b*v));
+		//m = v1.mul(a*u).add(v2.mul(b*v));
+		m = new Coords(4);
+		Coords m1 = new Coords(4);
+		v2.mul(b*v, m);
+		v1.mul(a*u, m1);
+		m1.add(m,m);
+		
+		mold = new Coords(4);
+		
 		vn1 = (m.sub(f1).normalized()).add((m.sub(f2).normalized())).normalized(); //bissector
 		down(center.add(m),vn1,vn2);  	
     	
@@ -552,9 +560,14 @@ public class PlotterBrush implements PathPlotter {
     		u = (float) Math.cos (start + i * da ); 
     		v = (float) Math.sin (start + i * da ); 
     		
-    		mold=m;
-    		m = v1.mul(a*u).add(v2.mul(b*v));
-    		addCurvePos((float) m.sub(mold).norm());
+    		mold.set(m);
+    		//m = v1.mul(a*u).add(v2.mul(b*v));
+    		v2.mul(b*v, m);
+    		v1.mul(a*u, m1);
+    		m1.add(m, m);
+    		//addCurvePos((float) m.sub(mold).norm());
+    		m.sub(mold, mold);
+    		addCurvePos((float) mold.norm());
     		
     		vn1 = (m.sub(f1).normalized()).add((m.sub(f2).normalized())).normalized(); //bissector
     		moveTo(center.add(m),vn1,vn2);

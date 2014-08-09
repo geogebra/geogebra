@@ -834,9 +834,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 			for (final OptionType type : OptionType.values()) {
 				
-				if(type==OptionType.EUCLIDIAN3D){
-					continue;
-				}
+				//if(type==OptionType.EUCLIDIAN3D){
+				//	continue;
+				//}
 				
 				String menuText = PropertiesView.getTypeStringSimple(loc,type);
 				ImageIcon ic = PropertiesViewD.getTypeIcon(app,type);

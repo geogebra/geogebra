@@ -6830,6 +6830,65 @@ public abstract class EuclidianController {
 		return false;
 	}
 	
+	final protected boolean handleMovedElementFreeText(){
+		
+		if (movedGeoElement.isGeoText()) {
+			moveMode = MOVE_TEXT;
+			movedGeoText = (GeoText) movedGeoElement;
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+	
+			if (movedGeoText.isAbsoluteScreenLocActive()) {
+				oldLoc.setLocation(movedGeoText.getAbsoluteScreenLocX(),
+						movedGeoText.getAbsoluteScreenLocY());
+				startLoc = mouseLoc;
+	
+				// part of snap to grid code - buggy, so commented out
+				// setStartPointLocation(xRW -
+				// view.toRealWorldCoordX(oldLoc.x), yRW -
+				// view.toRealWorldCoordY(oldLoc.y));
+				// movedGeoText.setNeedsUpdatedBoundingBox(true);
+				// movedGeoText.update();
+				// transformCoordsOffset[0]=movedGeoText.getBoundingBox().getX()-xRW;
+				// transformCoordsOffset[1]=movedGeoText.getBoundingBox().getY()-yRW;
+			} else if (movedGeoText.hasAbsoluteLocation()) {
+
+				// absolute location: change location
+				GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
+				if (loc == null) {
+					loc = new GeoPoint(kernel.getConstruction());
+					loc.setCoords(0, 0, 1.0);
+					try {
+						movedGeoText.setStartPoint(loc);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					setStartPointLocation();
+				} else {
+					setStartPointLocationWithOrigin(loc.inhomX, loc.inhomY);
+	
+					GeoPoint loc2 = new GeoPoint(loc);
+					movedGeoText.setNeedsUpdatedBoundingBox(true);
+					movedGeoText.update();
+					loc2.setCoords(movedGeoText.getBoundingBox().getX(),
+							movedGeoText.getBoundingBox().getY(), 1.0);
+	
+					transformCoordsOffset[0] = loc2.inhomX - xRW;
+					transformCoordsOffset[1] = loc2.inhomY - yRW;
+				}
+			} else {
+				// for relative locations label has to be moved
+				oldLoc.setLocation(movedGeoText.labelOffsetX,
+						movedGeoText.labelOffsetY);
+				startLoc = mouseLoc;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	protected void handleMovedElementFree(PointerEventType type){
 
 		if (handleMovedElementFreePoint()) {
@@ -6890,56 +6949,8 @@ public abstract class EuclidianController {
 		}
 	
 		// free text
-		else if (movedGeoElement.isGeoText()) {
-			moveMode = MOVE_TEXT;
-			movedGeoText = (GeoText) movedGeoElement;
-			view.setShowMouseCoords(false);
-			view.setDragCursor();
-	
-			if (movedGeoText.isAbsoluteScreenLocActive()) {
-				oldLoc.setLocation(movedGeoText.getAbsoluteScreenLocX(),
-						movedGeoText.getAbsoluteScreenLocY());
-				startLoc = mouseLoc;
-	
-				// part of snap to grid code - buggy, so commented out
-				// setStartPointLocation(xRW -
-				// view.toRealWorldCoordX(oldLoc.x), yRW -
-				// view.toRealWorldCoordY(oldLoc.y));
-				// movedGeoText.setNeedsUpdatedBoundingBox(true);
-				// movedGeoText.update();
-				// transformCoordsOffset[0]=movedGeoText.getBoundingBox().getX()-xRW;
-				// transformCoordsOffset[1]=movedGeoText.getBoundingBox().getY()-yRW;
-			} else if (movedGeoText.hasAbsoluteLocation()) {
-
-				// absolute location: change location
-				GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
-				if (loc == null) {
-					loc = new GeoPoint(kernel.getConstruction());
-					loc.setCoords(0, 0, 1.0);
-					try {
-						movedGeoText.setStartPoint(loc);
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					setStartPointLocation();
-				} else {
-					setStartPointLocationWithOrigin(loc.inhomX, loc.inhomY);
-	
-					GeoPoint loc2 = new GeoPoint(loc);
-					movedGeoText.setNeedsUpdatedBoundingBox(true);
-					movedGeoText.update();
-					loc2.setCoords(movedGeoText.getBoundingBox().getX(),
-							movedGeoText.getBoundingBox().getY(), 1.0);
-	
-					transformCoordsOffset[0] = loc2.inhomX - xRW;
-					transformCoordsOffset[1] = loc2.inhomY - yRW;
-				}
-			} else {
-				// for relative locations label has to be moved
-				oldLoc.setLocation(movedGeoText.labelOffsetX,
-						movedGeoText.labelOffsetY);
-				startLoc = mouseLoc;
-			}
+		else if (handleMovedElementFreeText()) {
+			return;
 		}
 	
 		// free conic
@@ -7548,7 +7559,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
+	final protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
 	
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {

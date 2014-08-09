@@ -258,7 +258,7 @@ implements Previewable, Functional2Var{
 	
 	
 	@Override
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		
 		GeoPointND point = (GeoPointND) getGeoElement();
 		Coords p = point.getInhomCoordsInD(3);		

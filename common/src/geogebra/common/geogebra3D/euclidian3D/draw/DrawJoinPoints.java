@@ -277,7 +277,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 	
 	
 	@Override
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		
 		if (waitForReset){ // prevent NPE for startPoint or endPoint
 			return false;

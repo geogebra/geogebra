@@ -1123,6 +1123,17 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		}
 		return false;
 	}
+	
+	public boolean isOnPath(Coords coords, double eps) {
+
+
+		// check if P is on one of the segments
+		for (int i = 0; i < segments.length; i++) {
+			if (segments[i].isOnPath(coords, eps))
+				return true;
+		}
+		return false;
+	}
 
 	public void pathChanged(GeoPointND PI) {
 

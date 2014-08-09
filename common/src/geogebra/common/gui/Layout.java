@@ -52,12 +52,13 @@ public abstract class Layout {
 		defaultPerspectives[0].setIconString("menu_view_algebra.png");
 		
 		// basic geometry - just the euclidian view
-		dpData = new DockPanelData[5];
+		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3", 200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 300);
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1,1", 400);
+		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1,1", 500);
 		
 		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 | 16 | 51 | 10 53 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26 17 62 | 25 | 40 41 42 27 , 6", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
@@ -71,24 +72,26 @@ public abstract class Layout {
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", 0.45, GSplitPane.HORIZONTAL_SPLIT);
 		
-		dpData = new DockPanelData[5];
+		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3,3", 200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 300);
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3,1", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
-		
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
+		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 500);
+
 		defaultPerspectives[3] = new Perspective("Spreadsheet", spData, dpData, defToolbar, true, false, true, false, true, false);
 		defaultPerspectives[3].setIconString("menu_view_spreadsheet.png");
 		
 		// CAS & Graphics - cas and euclidian view
-		dpData = new DockPanelData[5];
+		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3,3", 200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3,1", 300);
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
-		
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
+		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 500);
+
 		defaultPerspectives[4] = new Perspective("CAS", spData, dpData, defToolbar, true, false, true, false, true, false);
 		defaultPerspectives[4].setIconString("menu_view_cas.png");
 		
@@ -96,12 +99,12 @@ public abstract class Layout {
 		
 		// algebra & 3D graphics
 		dpData = new DockPanelData[6];
-		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 500);
+		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3", 200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 300);
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3,3", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1,1", 400);
-		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
+		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
 		//dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 600), "1,1", 500);
 		
 		spData = new DockSplitPaneData[1];

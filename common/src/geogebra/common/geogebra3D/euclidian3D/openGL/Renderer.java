@@ -11,6 +11,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 
@@ -1036,6 +1037,13 @@ public abstract class Renderer {
 	 * @param threshold threshold
 	 */
 	abstract public void setHits(GPoint mouseLoc, int threshold);
+
+	/**
+	 * set label hits for mouse location
+	 * @param mouseLoc mouse location
+	 * @return first label hitted geo
+	 */
+	abstract public GeoElement getLabelHit(GPoint mouseLoc);
 
 	/*
 	 * private boolean intersectionCurvesWaitForPick = false;

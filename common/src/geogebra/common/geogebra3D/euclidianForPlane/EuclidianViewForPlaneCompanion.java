@@ -365,7 +365,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 	
 	@Override
 	public Coords getCoordsForView(Coords coords){
-		return coords.projectPlane(getMatrix())[1];
+		return coords.projectPlaneWithInverseMatrix(getInverseMatrix());
 	}
 	
 	

@@ -242,6 +242,7 @@ public class PlotterSurface {
 		drawSphere(center, radius, longitude, 0, longitude);
 	}
 	
+	private Coords[] coordsArray = new Coords[0];
 	
 	/**
 	 * draw a sphere with center and radius.
@@ -305,7 +306,13 @@ public class PlotterSurface {
 		
 		
 		// start drawing
-		Coords[] n = new Coords[longitudeLength + 1];
+		if (coordsArray.length <= longitudeLength){
+			coordsArray = new Coords[longitudeLength + 1];
+			for (int ui=0; ui<=longitudeLength; ui++){		
+				coordsArray[ui] = new Coords(4);
+			}
+		}
+		
 		Coords n1 = new Coords(4), n2 = new Coords(4), n1b = new Coords(4), n2b = new Coords(4);
 		
 		double[] cosSinV = new double[2]; 
@@ -315,9 +322,8 @@ public class PlotterSurface {
 		//cosSinV[1] = 0; // sin(0)
 		cosSin(latitudeMin, latitude, cosSinV);
 		double lastCos = 1;
-		for (int ui=0; ui<=longitudeLength; ui++){		
-			n[ui] = new Coords(4);
-			sphericalCoords(ui,longitude,longitudeStart,cosSinV, n[ui]);
+		for (int ui=0; ui<=longitudeLength; ui++){	
+			sphericalCoords(ui,longitude,longitudeStart,cosSinV, coordsArray[ui]);
 		}
 		
 		//shift for longitude
@@ -341,7 +347,7 @@ public class PlotterSurface {
 						
 
 			//first values 
-			n2.set(n[0]);
+			n2.set(coordsArray[0]);
 			sphericalCoords(0, longitude, longitudeStart, cosSinV, n2b);
 
 
@@ -353,7 +359,7 @@ public class PlotterSurface {
 			
 				//last latitude values
 				n1.set(n2);
-				n2.set(n[ui]);
+				n2.set(coordsArray[ui]);
 				
 				
 				//new latitude values and draw triangles
@@ -434,7 +440,7 @@ public class PlotterSurface {
 				}
 				
 				
-				n[ui].set(n2b);
+				coordsArray[ui].set(n2b);
 				
 				if (jumpNeeded){
 					jump = !jump;
@@ -448,7 +454,7 @@ public class PlotterSurface {
 			}
 			
 
-			sphericalCoords(0,longitude, longitudeStart, cosSinV, n[0]);
+			sphericalCoords(0,longitude, longitudeStart, cosSinV, coordsArray[0]);
 			
 			
 			
@@ -456,10 +462,10 @@ public class PlotterSurface {
 
 		if (latitudeMax == latitude){
 			//pole
-			n2.set(n[0]);
+			n2.set(coordsArray[0]);
 			for (int ui=shift; ui<=longitudeLength; ui += shift){
 				n1.set(n2);
-				n2.set(n[ui]);
+				n2.set(coordsArray[ui]);
 
 				if (latitudeMaxTop == latitude){//top triangles
 					drawNCr(n1,center,radius);
@@ -1184,7 +1190,7 @@ public class PlotterSurface {
 		drawNV(functional2Var.evaluateNormal(u, v),functional2Var.evaluatePoint(u, v));
 	}
 	
-	private Coords c1 = new Coords(4);
+	private Coords coords1 = new Coords(4);
 
 	/**
 	 * draws normal and point at center + normal * radius
@@ -1193,13 +1199,13 @@ public class PlotterSurface {
 	 * @param radius
 	 */
 	private void drawNCr(Coords normal, Coords center, double radius){
-		normal.mul(radius, c1);
-		center.add(c1, c1);
+		normal.mul(radius, coords1);
+		center.add(coords1, coords1);
 		//drawNV(normal, center.add(normal.mul(radius)));
-		drawNV(normal, c1);
+		drawNV(normal, coords1);
 	}
 	
-	private Coords n2 = new Coords(4);
+	private Coords normal2 = new Coords(4);
 
 	/**
 	 * draws normal and point at center - normal * radius
@@ -1208,10 +1214,10 @@ public class PlotterSurface {
 	 * @param radius
 	 */
 	private void drawNCrm(Coords normal, Coords center, double radius){
-		n2.setX(normal.getX());
-		n2.setY(normal.getY());
-		n2.setZ(-normal.getZ());
-		drawNCr(n2, center, radius);
+		normal2.setX(normal.getX());
+		normal2.setY(normal.getY());
+		normal2.setZ(-normal.getZ());
+		drawNCr(normal2, center, radius);
 	}
 	
 	private void drawNV(Coords normal, Coords point){

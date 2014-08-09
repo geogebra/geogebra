@@ -24,6 +24,8 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	 */
 	public Drawable3DSurfaces(EuclidianView3D a_view3d, GeoElement a_geo) {
 		super(a_view3d, a_geo);
+		setPickingType(PickingType.SURFACE);
+
 	}
 
 	/**
@@ -32,6 +34,8 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	 */
 	public Drawable3DSurfaces(EuclidianView3D a_view3d) {
 		super(a_view3d);
+		setPickingType(PickingType.SURFACE);
+
 	}
 	
 	
@@ -153,10 +157,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 	
 	
-	@Override
-	public PickingType getPickingType(){
-		return PickingType.SURFACE;
-	}
 
 
 }

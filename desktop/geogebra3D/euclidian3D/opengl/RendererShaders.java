@@ -3,16 +3,20 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -22,6 +26,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -1036,7 +1041,19 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 	@Override
 	public void pickIntersectionCurves() {
-		// TODO Auto-generated method stub
+
+		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
+				.getEuclidianController()).getIntersectionCurves();
+
+		// picking objects
+		for (IntersectionCurve intersectionCurve : curves) {			
+			Drawable3D d = intersectionCurve.drawable;
+			d.updateForHitting(); // we may need an update
+			if(!d.hit(hitting) || d.getPickingType() != PickingType.POINT_OR_CURVE){ // we assume that hitting infos are updated from last mouse move
+				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+			}
+			
+		}
 		
 	}
 
@@ -1532,7 +1549,15 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 	}
 	
-	
+	@Override
+	public GeoElement getLabelHit(GPoint mouseLoc){
+		
+		if (mouseLoc == null){
+			return null;
+		}
+		
+    	return hitting.getLabelHit(mouseLoc);
+    }
 
 	@Override
 	public void enableLighting(){

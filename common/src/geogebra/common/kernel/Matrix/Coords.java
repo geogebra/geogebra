@@ -193,6 +193,16 @@ public class Coords extends CoordMatrix {
 	}
 	
 	/**
+	 * set this values to v's, until completed
+	 * @param v coords
+	 */
+	public void setFirstValues(Coords v){
+		for (int i = 0; i < val.length; i++){
+			val[i] = v.val[i];
+		}
+	}
+	
+	/**
 	 * set values from v
 	 * @param v coords
 	 */
@@ -733,6 +743,16 @@ public class Coords extends CoordMatrix {
 	}
 	
 	/**
+	 * project on plane with known inverse matrix
+	 * @param m inverse matrix
+	 * @return 3D point in plane coords (z = distance(point, plane))
+	 */
+	final public Coords projectPlaneWithInverseMatrix(CoordMatrix m) {
+		return m.mul(this);
+	}
+
+	
+	/**
 	 * returns this projected on the plane represented by the matrix (third
 	 * vector used for direction), no check if direction is parallel to the plane.
 	 * <p>
@@ -846,6 +866,8 @@ public class Coords extends CoordMatrix {
 
 		return projectPlane(m1);
 	}
+	
+	static private Coords tmpCoords = new Coords(4);
 
 	/**
 	 * calculates projection of this on the 3D-line represented by the matrix {V
@@ -859,11 +881,11 @@ public class Coords extends CoordMatrix {
 	 */
 	public Coords[] projectLine(Coords O, Coords V) {
 
-		Coords OM = this.sub(O);
+		this.sub(O, tmpCoords); // OM
 		Coords N = V.normalized();
-		double parameter = OM.dotproduct(N);
-		Coords OH = N.mul(parameter);
-		Coords H = O.add(OH); 
+		double parameter = tmpCoords.dotproduct(N); // OM.N
+		N.mul(parameter, tmpCoords); // OH
+		Coords H = O.add(tmpCoords); 
 
 		return new Coords[] { H,
 				new Coords(new double[] { parameter / V.norm(), parameter }) };
@@ -942,6 +964,17 @@ public class Coords extends CoordMatrix {
 			result.val[i] = val[i] - v.val[i];
 
 		return result;
+	}
+
+	/**
+	 * 
+	 * @param v vector
+	 * @param result gets this - v
+	 */
+	public void sub(Coords v, Coords result) {
+		for (int i = 0; i < result.rows; i++){
+			result.val[i] = val[i] - v.val[i];
+		}
 	}
 
 	/**

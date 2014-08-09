@@ -119,7 +119,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	public Coords[] getNormalProjection(Coords coords) {
-		return coords.projectPlane(getCoordSys().getMatrixOrthonormal());
+		return getCoordSys().getNormalProjection(coords);
 	}
 
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,

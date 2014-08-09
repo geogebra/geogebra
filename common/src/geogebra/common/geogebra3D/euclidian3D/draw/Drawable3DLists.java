@@ -1,10 +1,12 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -575,6 +577,29 @@ public class Drawable3DLists {
 			}
 		}
 	}
+	
+	
+	
+	/**
+	 * 
+	 * @param mouseLoc mouse location
+	 * @return first hitted label geo
+	 */
+	public GeoElement getLabelHit(GPoint mouseLoc){
+		for(Drawable3DList list : lists){
+			for (Drawable3D d : list) {
+				if (d.isVisible()){
+					GeoElement geo = d.getGeoElement();
+					if (!geo.isGeoText() && geo.isPickable() && d.label.hit(mouseLoc)){
+						return geo;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+
 	
 
 }

@@ -424,7 +424,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	
 	
 	@Override
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		
 		if (waitForReset){ // prevent NPE 
 			return false;
@@ -438,11 +438,12 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		GeoPlane3D plane = (GeoPlane3D) getGeoElement();
 		
 		// project hitting origin on polygon plane
-		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(plane.getCoordSys().getMatrixOrthonormal(), hitting.direction);
+		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(plane.getCoordSys().getDrawingMatrix(), hitting.direction);
 
 		if(!hitting.isInsideClipping(project[0])){
 			return false;
 		}
+		
 		
 		double x = project[1].getX();
 		if (x < plane.getXmin()){
@@ -463,6 +464,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 		double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
 		setZPick(parameterOnHitting, parameterOnHitting);
+		
 		
 		return true;
 		

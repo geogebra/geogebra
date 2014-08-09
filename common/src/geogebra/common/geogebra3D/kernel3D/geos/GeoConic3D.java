@@ -459,7 +459,7 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 
 	@Override
 	public Coords[] getNormalProjection(Coords coords) {
-		return coords.projectPlane(getCoordSys().getMatrixOrthonormal());
+		return getCoordSys().getNormalProjection(coords);
 	}
 
 	public Coords[] getProjection(Coords coords, Coords willingDirection) {

@@ -24,7 +24,7 @@ public class SpreadsheetDockPanel extends DockPanel {
 				"Spreadsheet", // view title phrase
 				getDefaultToolbar(), // toolbar string
 				true, // style bar?
-				3, // menu order
+				2, // menu order
 				'S' // menu shortcut
 		);
 

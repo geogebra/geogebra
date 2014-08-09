@@ -65,6 +65,7 @@ public final class CoordMatrixUtil {
 			v2.copy(project2);
 			lineCoords[0] = Double.NaN;
 			lineCoords[1] = Double.NaN;
+			return;
 		}
 
 		// plane containing o1, v1, vn, with v2 direction

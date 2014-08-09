@@ -5,6 +5,7 @@ import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
+import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
@@ -306,6 +307,74 @@ public class DrawLabel3D {
 		draw(renderer, false);
 	}
 	
+	private int drawX, drawY, drawZ;
+	
+	public int getDrawX(){
+		return drawX;
+	}
+	
+	public int getDrawY(){
+		return drawY;
+	}
+	
+	public int getDrawZ(){
+		return drawZ;
+	}
+	
+	/**
+	 * update draw position
+	 */
+	public void updateDrawPosition(){
+		Coords v = view.getToScreenMatrix().mul(origin);
+		drawX = (int) (v.getX()+xOffset);
+		if (anchor && xOffset<0){ 
+			drawX-=width;
+		}else{
+			drawX+=xOffset2;
+		}
+			
+		drawY = (int) (v.getY()+yOffset);
+		if (anchor && yOffset<0){ 
+			drawY-=height;
+		}else{
+			drawY+=yOffset2;
+		}
+		
+		
+		drawZ = (int) v.getZ();
+
+	}
+	
+	public int getPickingX(){
+		return pickingX;
+	}
+	
+	public int getPickingY(){
+		return pickingY;
+	}
+	
+	public int getPickingW(){
+		return pickingW;
+	}
+	
+	public int getPickingH(){
+		return pickingH;
+	}
+	
+	/**
+	 * 
+	 * @param pos mouse position
+	 * @return true if pos hits the label
+	 */
+	public boolean hit(GPoint pos){
+		
+		
+		return drawX + pickingX <= pos.x
+				&& drawX + pickingX + pickingW >= pos.x
+				&& drawY + pickingY <= pos.y
+				&& drawY + pickingY + pickingH >= pos.y;
+	}
+	
 	/**
 	 * draws the label
 	 * @param renderer renderer
@@ -321,27 +390,10 @@ public class DrawLabel3D {
 		
 		renderer.setLabelOrigin(origin);
 		
-		Coords v = view.getToScreenMatrix().mul(origin);
-		int x = (int) (v.getX()+xOffset);
-		if (anchor && xOffset<0){ 
-			x-=width;
-		}else{
-			x+=xOffset2;
-		}
-			
-		int y = (int) (v.getY()+yOffset);
-		if (anchor && yOffset<0){ 
-			y-=height;
-		}else{
-			y+=yOffset2;
-		}
-		
-		
-		int z = (int) v.getZ();
-		
+		updateDrawPosition();		
 
 		if (forPicking){
-			renderer.getGeometryManager().rectangle(x + pickingX, y + pickingY, z, pickingW, pickingH);
+			renderer.getGeometryManager().rectangle(drawX + pickingX, drawY + pickingY, drawZ, pickingW, pickingH);
 
 		}else{
 
@@ -349,11 +401,11 @@ public class DrawLabel3D {
 			if (backgroundColor!=null){
 				renderer.setColor(backgroundColor);
 				renderer.disableTextures();
-				renderer.getGeometryManager().rectangle(x, y, z, width, height);
+				renderer.getGeometryManager().rectangle(drawX, drawY, drawZ, width, height);
 			}
 
 			//draw text
-			draw(renderer,x,y,z);
+			draw(renderer,drawX,drawY,drawZ);
 			
 		}
 	}

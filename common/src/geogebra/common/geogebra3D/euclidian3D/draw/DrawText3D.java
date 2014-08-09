@@ -3,7 +3,10 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -15,6 +18,8 @@ public class DrawText3D extends Drawable3DCurves {
 		super(a_view3d, text);
 		
 		((DrawLabel3DForText) label).setGeo(text);
+		
+		setPickingType(PickingType.POINT_OR_CURVE);
 		
 	}
 	
@@ -128,6 +133,24 @@ public class DrawText3D extends Drawable3DCurves {
 	public int getPickOrder() {
 		
 		return DRAW_PICK_ORDER_0D;
+	}
+	
+	
+	@Override
+	public boolean hit(Hitting hitting){
+	
+		if (label.hit(hitting.pos)){
+			setZPick(label.getDrawZ(), label.getDrawZ());
+			return true;
+		}
+		
+		
+		return false;
+	}
+	
+	@Override
+	protected boolean hitLabel(Hitting hitting, Hits3D hits){
+		return false; // no label
 	}
 
 }

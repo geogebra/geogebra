@@ -5,7 +5,9 @@
 
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves implements Preview
 		super(a_view3D, geo);
 		
 		drawables = new ArrayList<Drawable3D>();
+		
+		setPickingType(PickingType.POINT_OR_CURVE);
+
 		
 	}
 	
@@ -138,6 +143,34 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves implements Preview
 		}
 		
 	}
+
+	
+	@Override
+	public boolean hit(Hitting hitting){
+		
+		if (waitForReset){ // prevent NPE 
+			return false;
+		}
+		
+		boolean ret = false;
+		
+		setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		
+		for (Drawable3D d : drawables){
+			if (d.hit(hitting)){
+				if (d.getZPickNear() > getZPickNear()){
+					setPickingType(d.getPickingType());
+					setZPick(d.getZPickNear(), d.getZPickFar());
+				}
+				ret = true;
+			}
+		}
+		
+		return ret;
+
+
+	}
+	
 
 
 

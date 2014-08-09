@@ -14,6 +14,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.FromMeta;
@@ -50,7 +51,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		super(a_view3D, polygon);
 		
 		
-		
+		setPickingType(PickingType.SURFACE);
+
 		
 
 		
@@ -337,8 +339,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		segments = new ArrayList<DrawSegment3D>();
 		segmentsPoints = new ArrayList<ArrayList>();
 		
+		setPickingType(PickingType.SURFACE);
 
 		updatePreview();
+		
+		
 		
 	}	
 
@@ -490,10 +495,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		return super.doHighlighting();
 	}
 	
-	
+	private GeoPoint3D hittingPointForOutline;
 
 	@Override
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		
 		if (waitForReset){ // prevent NPE 
 			return false;
@@ -513,16 +518,55 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 		
+		boolean ret = false;
+		
 		// check if hitting projection hits the polygon
 		if (poly.isInRegion(project[1].getX(),project[1].getY())){
 			double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
 			setZPick(parameterOnHitting, parameterOnHitting);
-			return true;
+			setPickingType(PickingType.SURFACE);
+			ret = true;
 		}
 		
-		return false;
+		// check if hitting is on path
+		if (!poly.wasInitLabelsCalled()){
+			/*
+			double eps = (getGeoElement().getLineThickness() + 2)/getView3D().getScale();
+			if (poly.isOnPath(project[0], eps)){
+				double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+				setZPick(parameterOnHitting + eps, parameterOnHitting - eps);
+				setPickingType(PickingType.POINT_OR_CURVE);
+				ret = true;
+			}
+			*/
+			
+			if (hittingPointForOutline == null){
+				hittingPointForOutline = new GeoPoint3D(poly.getConstruction());
+			}
+			hittingPointForOutline.setCoords(project[0]);
+			poly.pointChanged(hittingPointForOutline);
+			Coords p3d = hittingPointForOutline.getInhomCoordsInD(3);
+
+			if (hitting.isInsideClipping(p3d)){
+				project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
+				double d = p3d.distance(project[0]);
+				double scale = getView3D().getScale();
+				if (d * scale <= poly.getLineThickness() + hitting.getThreshold()){
+					double z = -project[1].getX();
+					double dz = poly.getLineThickness()/scale;
+					setZPick(z+dz, z-dz);
+					setPickingType(PickingType.POINT_OR_CURVE);
+					return true;
+				}
+			}
+		}
+		
+		return ret;
 		
 	}
+	
+
+
 	
 
 }

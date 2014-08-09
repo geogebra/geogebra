@@ -33,6 +33,8 @@ public class DrawList3D extends Drawable3D {
 		drawables = new DrawList3DArray(view3D, this);
 		this.geoList = geo;
 		drawable3DLists = new Drawable3DListsForDrawList3D(view3D);
+		
+		setPickingType(PickingType.POINT_OR_CURVE);
 	}
 
 	@Override
@@ -246,7 +248,7 @@ public class DrawList3D extends Drawable3D {
 	protected Drawable3D getDrawablePicked(Drawable3D drawableSource){
 		
 		pickOrder = drawableSource.getPickOrder();
-		pickingType = drawableSource.getPickingType();
+		setPickingType(drawableSource.getPickingType());
 		
 		return super.getDrawablePicked(drawableSource);
 	}
@@ -259,17 +261,12 @@ public class DrawList3D extends Drawable3D {
 		return pickOrder;
 	}
 	
-	private PickingType pickingType = PickingType.POINT_OR_CURVE;
-
-	@Override
-	public PickingType getPickingType(){
-		return pickingType;
-	}
+	
 	
 	
 	
 	@Override
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		
 		boolean ret = false;
 		
@@ -283,7 +280,7 @@ public class DrawList3D extends Drawable3D {
 				if (!ret || zNear > listZNear){
 					listZNear = zNear;
 					listZFar = zFar;
-					pickingType = d3d.getPickingType();
+					setPickingType(d3d.getPickingType());
 					pickOrder = d3d.getPickOrder();
 					ret = true;
 				}

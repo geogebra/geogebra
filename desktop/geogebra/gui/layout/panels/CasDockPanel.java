@@ -26,7 +26,7 @@ public class CasDockPanel extends DockPanel {
 			"CAS", 					// view title phrase 
 			getDefaultToolbar(),	// toolbar string
 			true,					// style bar?
-			4,						// menu order
+			3,						// menu order
 			'K' // ctrl-shift-K
 		);
 		

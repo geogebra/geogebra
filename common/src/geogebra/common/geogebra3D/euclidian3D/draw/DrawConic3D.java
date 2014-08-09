@@ -38,8 +38,15 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 */
 	public DrawConic3D(EuclidianView3D view3d, GeoConicND conic) {
 		super(view3d,conic);
+		setPickingType(PickingType.POINT_OR_CURVE);
+
 	}
 
+    @Override
+	public void setGeoElement(GeoElement a_geo) {
+       super.setGeoElement(a_geo);
+       conic = (GeoConicND) a_geo;
+    } 
 	
 
 	@Override
@@ -129,8 +136,6 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		updateColors();
     	
 		Renderer renderer = getView3D().getRenderer();
-		
-		conic = (GeoConicND) getGeoElement();
 		
 		
 		// check is visible (and update values)
@@ -658,17 +663,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	
 	
-	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
-	
-	@Override
-	public void setPickingType(PickingType type){
-		lastPickingType = type;
-	}
-	
-	@Override
-	public PickingType getPickingType(){
-		return lastPickingType;
-	}
+
 
 	
 	@Override
@@ -837,7 +832,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	
 	@Override
-	protected boolean hit(Hitting hitting){
+	public boolean hit(Hitting hitting){
 		
 		if (waitForReset){ // prevent NPE 
 			return false;
