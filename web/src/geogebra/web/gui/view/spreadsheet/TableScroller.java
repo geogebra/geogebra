@@ -211,6 +211,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	private void setViewPosition(GPoint viewPosition) {
 		this.setHorizontalScrollPosition(viewPosition.x);
 		this.setVerticalScrollPosition(viewPosition.y);
+		syncHeaders();
 	}
 
 	private GPoint getViewPosition() {
@@ -269,6 +270,11 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 
 	public void onScroll(ScrollEvent event) {
 		adjustScroll();
+		syncHeaders();
+	}
+	
+	private void syncHeaders(){
+		
 		int t = -getVerticalScrollPosition();
 		int l = -getHorizontalScrollPosition();
 		rowHeader.setTop(t);

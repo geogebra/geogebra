@@ -247,20 +247,11 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 	// Defaults
 	// ===============================================================
 
-	/*public void setDefaultLayout() {
-		setShowGrid(true);
-		setShowRowHeader(true);
-		setShowColumnHeader(true);
-		setShowVScrollBar(true);
-		setShowHScrollBar(true);
-		setShowFileBrowser(false);
-		setAllowSpecialEditor(false);
-	}*/
 
-	/*public void setDefaultSelection() {
+	public void setDefaultSelection() {
 		setSpreadsheetScrollPosition(0, 0);
 		table.setInitialCellSelection(0, 0);
-	}*/
+	}
 
 	// ===============================================================
 	// getters/setters
@@ -395,13 +386,11 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 
 	public void clearView() {
 
-		// Application.debug(new Date() + " CLEAR VIEW");
-/*TODO
-		// clear the table model
-		setDefaultLayout();
+		// restore defaults;
+		app.getSettings().restoreDefaultSpreadsheetSettings();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
-*/
+		
 	}
 
 	/** Respond to changes in mode sent by GUI manager */
@@ -861,10 +850,13 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 		}
 	}*/
 
-	/*public void setSpreadsheetScrollPosition(int hScroll, int vScroll) {
-		spreadsheet.getHorizontalScrollBar().setValue(hScroll);
-		spreadsheet.getVerticalScrollBar().setValue(vScroll);
-	}*/
+	public void setSpreadsheetScrollPosition(int hScroll, int vScroll) {
+		table.setHorizontalScrollPosition(hScroll);
+		table.setVerticalScrollPosition(vScroll);
+		
+		settings().setHScrollBalValue(hScroll);
+		settings().setVScrollBalValue(vScroll);
+	}
 
 	// ==========================================================
 	// Handle spreadsheet resize.
@@ -1280,8 +1272,8 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 
 		// preferredSize
 		setPreferredSize(
-			((SpreadsheetSettings)settings0).preferredSize().getWidth(),
-			((SpreadsheetSettings)settings0).preferredSize().getHeight());
+			settings().preferredSize().getWidth(),
+			settings().preferredSize().getHeight());
 
 		// initial position
 		// TODO not working yet ...

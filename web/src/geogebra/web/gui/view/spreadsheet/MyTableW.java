@@ -1147,6 +1147,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		minSelectionRow = row;
 		maxSelectionRow = row;
 
+		renderSelectionDeferred();
+		columnHeader.renderSelection();
+		rowHeader.renderSelection();
+
 		// ?//getColumnModel().getSelectionModel().setSelectionInterval(column,
 		// column);
 		// ?//getSelectionModel().setSelectionInterval(row, row);
@@ -2591,6 +2595,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		if (repaintAll) {
 			// renderCells();
+			updateAllCellFormats();
 			repaintAll = false;
 		}
 
@@ -2605,7 +2610,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	public void updateAllCellFormats() {
 		for (int row = 0; row < getRowCount(); row++) {
-			for (int column = 0; column <= getColumnCount(); column++) {
+			for (int column = 0; column < getColumnCount(); column++) {
 				updateCellFormat(row, column);
 			}
 		}
@@ -2683,7 +2688,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		});
 	}
 
-	public void renderSelection() {
+	private void renderSelection() {
 
 		// TODO implement other features from the old paint method
 
