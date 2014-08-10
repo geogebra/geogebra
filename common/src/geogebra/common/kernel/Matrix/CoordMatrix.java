@@ -973,13 +973,14 @@ public class CoordMatrix {
 			columns[i].copy(matrix[i]);
 		}
 		
-		double[] resD = new double[size];
-		res.copy(resD);
+		PivotSolRes psr = new PivotSolRes();
 		
-		pivotSolRes.sol = sol;
-		pivotSolRes.res = resD;
+		psr.res = new double[size];
+		res.copy(psr.res);
 		
-		pivot(matrix, pivotSolRes);
+		psr.sol = sol;
+		
+		pivot(matrix, psr);
 		
 	}
 	
@@ -988,7 +989,7 @@ public class CoordMatrix {
 		
 	}
 	
-	private static class PivotSolRes implements PivotInterface {
+	static private class PivotSolRes implements PivotInterface {
 		
 		/**
 		 * solution vector
@@ -1005,7 +1006,7 @@ public class CoordMatrix {
 		}
 	}
 	
-	private static PivotSolRes pivotSolRes = new PivotSolRes();
+	private PivotSolRes pivotSolRes = new PivotSolRes();
 	
 	
 
