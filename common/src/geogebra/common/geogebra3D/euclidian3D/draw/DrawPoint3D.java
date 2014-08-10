@@ -78,14 +78,14 @@ implements Previewable, Functional2Var{
 	}
 	
 	
-	private Coords center;
+	private Coords center = new Coords(4);
 
 	@Override
 	protected boolean updateForItSelf(){
 		
 	
 		GeoPointND point = (GeoPointND) getGeoElement(); 
-		center = point.getInhomCoordsInD(3);
+		center.set(point.getInhomCoordsInD(3));
 		center.setW(point.getPointSize()); // put point size in fourth unused coord
 		setGeometryIndex(
 				getView3D().getRenderer().getGeometryManager().
