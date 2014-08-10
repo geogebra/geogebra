@@ -93,9 +93,9 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 	public String toString(StringTemplate tpl) {
     	//direction is plane
     	if (direction instanceof GeoCoordSys2D)
-    		return loc.getPlain("LineBisectorABParallelToC",a.getLabel(tpl),b.getLabel(tpl),direction.getLabel(tpl));
+    		return loc.getPlain("PerpendicularBisectorOfAParallelToB",a.getLabel(tpl) + b.getLabel(tpl),direction.getLabel(tpl));
      	//direction is line
-    	return loc.getPlain("LineBisectorABPerpendicularToC",a.getLabel(tpl),b.getLabel(tpl),direction.getLabel(tpl));
+    	return loc.getPlain("PerpendicularBisectorOfAPerpendicularToB",a.getLabel(tpl) + b.getLabel(tpl),direction.getLabel(tpl));
     	
     }
     
