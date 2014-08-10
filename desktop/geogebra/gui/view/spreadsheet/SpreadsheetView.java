@@ -235,16 +235,6 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	// Defaults
 	// ===============================================================
 
-	public void setDefaultLayout() {
-		setShowGrid(true);
-		setShowRowHeader(true);
-		setShowColumnHeader(true);
-		setShowVScrollBar(true);
-		setShowHScrollBar(true);
-		setAllowSpecialEditor(false);
-		setEnableAutoComplete(false);
-	}
-
 	public void setDefaultSelection() {
 		setSpreadsheetScrollPosition(0, 0);
 		table.setInitialCellSelection(0, 0);
@@ -375,10 +365,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 	public void clearView() {
 
-		// Application.debug(new Date() + " CLEAR VIEW");
-
-		// clear the table model
-		// setDefaultLayout();
+		// restore defaults;
+		app.getSettings().restoreDefaultSpreadsheetSettings();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
 

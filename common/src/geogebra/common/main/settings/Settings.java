@@ -239,6 +239,18 @@ public class Settings {
 	}
 
 	/**
+	 * Restores spreadsheet defaults
+	 */
+	public void restoreDefaultSpreadsheetSettings() {
+		if (spreadsheetSettings == null) {
+			spreadsheetSettings = new SpreadsheetSettings();
+		} else {
+			spreadsheetSettings = new SpreadsheetSettings(
+					spreadsheetSettings.getListeners());
+		}
+	}
+	
+	/**
 	 * @return Settings of the probability calculator view.
 	 */
 	public final ProbabilityCalculatorSettings getProbCalcSettings() {

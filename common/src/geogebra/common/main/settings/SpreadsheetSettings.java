@@ -3,6 +3,7 @@ package geogebra.common.main.settings;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.main.App;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,7 +23,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 		public static final boolean IS_COLUMN_SELECT = false;
 		public static final boolean ALLOW_SPECIAL_EDITOR = false;
 		public static final boolean ALLOW_TOOLTIPS = true;
-
+		public static final boolean EQUALS_REQUIRED = false;
+		public static final boolean ENABLE_AUTOCOMPLETE = false;
 	}
 
 	public static final int TABLE_CELL_WIDTH = 70;
@@ -43,8 +45,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 																// select?
 	private boolean allowSpecialEditor = Defaults.ALLOW_SPECIAL_EDITOR;
 	private boolean allowToolTips = Defaults.ALLOW_TOOLTIPS;
-	private boolean equalsRequired;
-	private boolean enableAutoComplete;
+	private boolean equalsRequired = Defaults.EQUALS_REQUIRED;
+	private boolean enableAutoComplete = Defaults.ENABLE_AUTOCOMPLETE;
 
 	// row and column size
 	private HashMap<Integer, Integer> widthMap;
@@ -63,6 +65,10 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private GDimension preferredSize;
 	private int HScrollBarValue;
 	private int VScrollBarValue;
+
+	public boolean hasInitialized() {
+		return !(heightMap == null && widthMap == null);
+	}
 
 	// ============================================
 	// Row/Column Dimension Settings
@@ -303,7 +309,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	// ============================================
-	// Cell Format PreferredCSettings
+	// Cell Format Settings
 	// ============================================
 
 	/**
@@ -322,6 +328,10 @@ public class SpreadsheetSettings extends AbstractSettings {
 			return;
 		this.cellFormat = cellFormat;
 		settingChanged();
+	}
+
+	private boolean hasCellFormat() {
+		return cellFormat != null;
 	}
 
 	// ============================================
@@ -421,13 +431,19 @@ public class SpreadsheetSettings extends AbstractSettings {
 		VScrollBarValue = vScrollBalValue;
 	}
 
-	public boolean hasInitialized() {
-		return !(heightMap == null && widthMap == null);
-	}
+	// ============================================
+	// Defaults
+	// ============================================
 
 	public boolean isAllDefaults() {
 		return (isDefaultPreferredSize() && isSelectionDefaults()
-				&& isLayoutDefaults() && !hasCellFormat());
+				&& isLayoutDefaults() && !hasCellFormat() && isRowColumnSizeDefaults());
+	}
+
+	public boolean isRowColumnSizeDefaults() {
+		return preferredColumnWidth == TABLE_CELL_WIDTH
+				&& preferredRowHeight == TABLE_CELL_HEIGHT
+				&& getWidthMap().size() == 0 && getHeightMap().size() == 0;
 	}
 
 	public boolean isSelectionDefaults() {
@@ -439,8 +455,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return (isDefaultShowFormulaBar() && isDefaultShowGrid()
 				&& isDefaultShowRowHeader() && isDefaultShowColumnHeader()
 				&& isDefaultVScrollBar() && isDefaultHScrollBar()
-				&& isDefaultColumnSelect()
-				&& isDefaultSpecialEditorAllowed()
+				&& isDefaultColumnSelect() && isDefaultSpecialEditorAllowed()
 				&& isDefaultToolTipsAllowed()
 				&& isDefaultSpecialEditorAllowed() && !equalsRequired() && !isEnableAutoComplete());
 	}
@@ -490,11 +505,15 @@ public class SpreadsheetSettings extends AbstractSettings {
 				|| (w == TABLE_CELL_WIDTH && h == TABLE_CELL_HEIGHT);
 	}
 
+	// ============================================
+	// XML
+	// ============================================
+
 	/**
 	 * returns settings in XML format
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
-		if (!hasInitialized() || isAllDefaults()) {
+		if (!hasInitialized()) {
 			return;
 		}
 		sb.append("<spreadsheetView>\n");
@@ -657,11 +676,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 		sb.append("</spreadsheetView>\n");
 
-
-	}
-
-	private boolean hasCellFormat() {
-		return cellFormat != null;
 	}
 
 }
