@@ -247,10 +247,11 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-			return loc.getPlain("LineBisectorOfA",A.getLabel(tpl) + B.getLabel(tpl));
-		}
+		//if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+		return loc.getPlain("LineBisectorOfA",A.getLabel(tpl) + B.getLabel(tpl));
+		//}
 
-		return loc.getPlain("LineBisectorABInXOYPlane",A.getLabel(tpl),B.getLabel(tpl));
+		// not necessary for tooltip
+		//return loc.getPlain("LineBisectorABInXOYPlane",A.getLabel(tpl),B.getLabel(tpl));
 	}
 }
