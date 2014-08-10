@@ -1231,8 +1231,18 @@ public class SpreadsheetViewW  implements SpreadsheetViewWeb, /*ComponentListene
 	}
 
 	public void settingsChanged(AbstractSettings settings0) {
+		Scheduler.get().scheduleDeferred(deferredSettingsChanged);
+	}
 
-		allowSettingUpate = false;
+	Scheduler.ScheduledCommand deferredSettingsChanged = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			settingsChangedCommand();
+		}
+	};
+	
+	public void settingsChangedCommand() {
+
+		allowSettingUpate = true;
 
 		// layout
 		setShowColumnHeader(settings().showColumnHeader());
