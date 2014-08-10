@@ -248,7 +248,7 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
 	final public String toString(StringTemplate tpl) {
 
 		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-			return loc.getPlain("LineBisectorAB",A.getLabel(tpl),B.getLabel(tpl));
+			return loc.getPlain("LineBisectorOfA",A.getLabel(tpl) + B.getLabel(tpl));
 		}
 
 		return loc.getPlain("LineBisectorABInXOYPlane",A.getLabel(tpl),B.getLabel(tpl));
