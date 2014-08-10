@@ -254,7 +254,11 @@ public class SelectionTable extends Grid implements ClickHandler {
     }
 
 	private Widget createWidget(ImageOrText object) {
+		
 		Widget w = null;
+		if(object == null){
+			return w;
+		}
 		switch (mode) {
 		case MODE_TEXT:
 		case MODE_ICON:
