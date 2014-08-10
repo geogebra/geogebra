@@ -99,6 +99,8 @@ public abstract class CommandDispatcher {
 			return app.getMenu("Type.CAS");
 		case CommandsConstants.TABLE_3D:
 			return app.getMenu("Type.3D");
+		case CommandsConstants.TABLE_FINANCIAL:
+			return app.getMenu("Type.Financial");
 			// Commands.TABLE_ENGLISH:
 		default:
 			return null;

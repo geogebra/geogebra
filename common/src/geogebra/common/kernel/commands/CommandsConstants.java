@@ -54,6 +54,9 @@ public interface CommandsConstants {
     public static final int TABLE_3D=17;
     /** CAS commands -- do not display this table by default */
     public static final int TABLE_CAS=18;
+    /** Financial commands */
+    public static final int TABLE_FINANCIAL = 19;
+   
     
 
     
