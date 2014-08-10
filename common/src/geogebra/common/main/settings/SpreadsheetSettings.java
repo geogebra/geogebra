@@ -529,6 +529,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 				sb.append(" width=\"");
 				sb.append(prefWidth);
 				sb.append("\"");
+				sb.append("/>\n");
 			}
 
 			if (prefHeight != TABLE_CELL_HEIGHT) {
