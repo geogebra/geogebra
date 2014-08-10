@@ -726,7 +726,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 					dockPanel.add(component);
 				else
 					dockPanel.add(componentPanel);
-
+				dockPanel.onResize();
 				// this doesn't work
 				// dockPanel.setWidgetSize(titleBarPanel, 50);
 			}
@@ -737,7 +737,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 				dockPanel.add(component);
 			else
 				dockPanel.add(componentPanel);
-
+			dockPanel.onResize();
 			// this doesn't work
 			// dockPanel.setWidgetSize(titleBarPanel, 0);
 		}
