@@ -649,7 +649,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// if the geo selection has changed, update selected geos
-		boolean changed = !list.equals(app.getSelectionManager().getSelectedGeos());
+		boolean changed = !list.equals(app.getSelectionManager()
+				.getSelectedGeos());
 		if (changed) {
 
 			if (getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
@@ -1075,9 +1076,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	final static BasicStroke dashed = new BasicStroke(3.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
-
 	public boolean showCanDragBlueDot() {
-		boolean showBlueDot = !editor.isEditing() && !view.isTraceDialogVisible();
+		boolean showBlueDot = !editor.isEditing()
+				&& !view.isTraceDialogVisible();
 
 		if (minSelectionRow != -1 && maxSelectionRow != -1
 				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
@@ -1086,7 +1087,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
 					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
 						if (tableModel.getValueAt(i, j) instanceof GeoElement)
-							showBlueDot &= !((GeoElement)tableModel.getValueAt(i, j)).isFixed();
+							showBlueDot &= !((GeoElement) tableModel
+									.getValueAt(i, j)).isFixed();
 
 			return showBlueDot;
 		}
@@ -1252,7 +1254,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
 				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2
 						- y1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1, LINE_THICKNESS2);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1,
+						LINE_THICKNESS2);
 			}
 			// draw small frame around current editing cell
 			else {
@@ -1962,9 +1965,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return cursor;
 	}
 
-	public void updateCellFormat(String s) {
-		// TODO Auto-generated method stub
-		
+	public void updateCellFormat(String cellFormat) {
+		view.updateCellFormat(cellFormat);
+
 	}
 
 	public boolean allowSpecialEditor() {
