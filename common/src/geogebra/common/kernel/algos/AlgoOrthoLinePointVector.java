@@ -97,13 +97,42 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
         GeoVec3D.cross(P, -v.y, v.x, 0.0, g);
     }   
     
+    
+
+	/////////////////////////////////
+	// TRICKS FOR XOY PLANE
+	/////////////////////////////////
+
+	
+	@Override
+	protected int getInputLengthForXML(){
+		return getInputLengthForXMLMayNeedXOYPlane();
+	}	
+		
+	@Override
+	protected int getInputLengthForCommandDescription(){
+		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		return getInputMaybeXOYPlane(i);
+	}
+	
+	
     @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),v.getLabel(tpl));
+	public String toString(StringTemplate tpl) {
+        if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
+        	return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),v.getLabel(tpl));
+        }
+        
+        return loc.getPlain("LineThroughAPerpendicularToBInXOYPlane",P.getLabel(tpl),v.getLabel(tpl));
 
     }
+	
+    
+    
+    
 
 	// TODO Consider locusequability
 }

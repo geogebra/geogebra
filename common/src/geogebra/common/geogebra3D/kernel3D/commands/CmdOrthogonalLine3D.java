@@ -7,10 +7,12 @@ import geogebra.common.kernel.commands.CmdOrthogonalLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 /*
@@ -86,6 +88,37 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    						(GeoLine) arg[1])};
 	    		return ret;
 
+	    	}else if (((ok[0] = (arg[0] .isGeoPoint() ) )
+	    			&& (ok[1] = (arg[1] .isGeoVector() )))){
+	    		
+	    		    		
+	    		// check if there is an active view with orientation
+	    		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernelA, app);
+	    		if (orientation == null || orientation == kernelA.getSpace()){
+	    			orientation = kernelA.getXOYPlane();
+	    		}
+	    		
+	    		
+	    		if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() || orientation != kernelA.getXOYPlane()){
+	    			GeoElement[] ret =
+	    				{
+	    					(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
+	    							c.getLabel(),
+	    							(GeoPointND) arg[0],
+	    							(GeoVectorND) arg[1],
+	    							orientation)};
+	    			return ret;
+	    		}
+
+	    		// 2D geos and xOy plane for direction : use 2D algo
+	    		GeoElement[] ret =
+	    			{
+	    				getAlgoDispatcher().OrthogonalLine(
+	    						c.getLabel(),
+	    						(GeoPoint) arg[0],
+	    						(GeoVector) arg[1])};
+	    		return ret;
+					
 	    	}else if (
 	    			((ok[0] = (arg[0] instanceof GeoLineND ) )
 	    			&& (ok[1] = (arg[1] instanceof GeoLineND )))
