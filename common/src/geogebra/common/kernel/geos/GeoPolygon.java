@@ -557,6 +557,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		GeoPolygon poly = (GeoPolygon) geo;
 		area = poly.area;
 		
+		setReverseNormalForDrawing(poly.getReverseNormalForDrawing());
+		
 		if (!notFixedPointsLength){ // maybe already set by AlgoListElement
 			notFixedPointsLength = poly.notFixedPointsLength;
 		}
