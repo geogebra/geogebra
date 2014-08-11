@@ -63,5 +63,12 @@ public interface GeoConicPartND {
 	 * @return arc length
 	 */
 	public double getArcLength();
+	
+	/**
+	 * Returns the area
+	 * 
+	 * @return area
+	 */
+	public double getArea();
 }
 
