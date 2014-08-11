@@ -211,7 +211,30 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		return g4copy.getCanvas().toDataUrl();
 	}
 	
-	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
+	public BufferedImage getExportImage(double scale) {
+		return getExportImage(scale, false);
+	}
+	
+	public BufferedImage getExportImage(double scale, boolean transparency) {
+		int width = (int) Math.floor(getExportWidth() * scale);
+		int height = (int) Math.floor(getExportHeight() * scale);
+		BufferedImage img = new BufferedImage(width, height, 0, true);
+		exportPaint(new GGraphics2DW(img.getCanvas()), scale, transparency);
+		return img;
+	}
+	
+	/**
+	 * @param canvas
+	 *            canvas
+	 * @param scale
+	 *            ratio of desired size and current size of the graphics
+	 */
+	public void exportPaint(Canvas canvas, double scale) {
+		exportPaint(new GGraphics2DW(canvas), scale, false);
+	}
+	
+	@Override
+	protected void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
 			boolean transparency) {
 		g2d.scale(scale, scale);
 

@@ -110,6 +110,12 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/js/zipjs/arraybuffer.js")
 	TextResource arrayBufferJs();
+	
+	@Source("geogebra/resources/js/gif.js")
+	TextResource gifJs();
+	
+	@Source("geogebra/resources/js/gif.worker.js")
+	TextResource gifWorkerJs();
 
 	
 	@Source("geogebra/resources/css/mathquillggb.css")

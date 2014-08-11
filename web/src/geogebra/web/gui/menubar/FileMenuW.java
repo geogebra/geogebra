@@ -3,6 +3,7 @@ package geogebra.web.gui.menubar;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
@@ -84,6 +85,9 @@ public class FileMenuW extends GMenuBar {
 	    		}
 	    	}
 	    });
+	    
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true),
+		        true, new ExportMenuW(app));
 	    
 	    app.getNetworkOperation().getView().add(new BooleanRenderable() {
 			

@@ -154,4 +154,12 @@ public class InputPanelW extends FlowPanel {
 			textAreaComponent.setVisible(visible);
 		}
 	}
+	
+	/**
+	 * Sets the input field enabled/disabled
+	 * @param b true iff input field should be enabled
+	 */
+	public void setEnabled(boolean b) {
+		textComponent.setEditable(b);
+	}
 }

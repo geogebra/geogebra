@@ -12,6 +12,7 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
@@ -54,6 +55,7 @@ import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.toolbar.ToolBarW;
+import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.ObjectPool;
@@ -1796,5 +1798,33 @@ public abstract class AppW extends AppWeb {
 				getFirstMode());
 	}
 
+	public void exportAnimatedGIF(FrameCollectorW gifEncoder, GeoNumeric num,
+			int n, double val, double min, double max, double step) {
+		for (int i = 0; i < n; i++) {
+
+			// avoid values like 14.399999999999968
+			val = Kernel.checkDecimalFraction(val);
+
+			num.setValue(val);
+			num.updateRepaint();
+
+			geogebra.html5.gawt.BufferedImage img = ((EuclidianViewW) getActiveEuclidianView())
+					.getExportImage(1);
+			if (img == null) {
+				Log.error("image null");
+			} else {
+				gifEncoder.addFrame(img);
+			}
+
+			val += step;
+
+			if (val > max + 0.00000001 || val < min - 0.00000001) {
+				val -= 2 * step;
+				step *= -1;
+			}
+
+		}
+		gifEncoder.finish();
+	}
 	
 }

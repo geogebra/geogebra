@@ -413,38 +413,8 @@ public class EuclidianViewD extends EuclidianView implements
 		exportPaint(new GGraphics2DD(g2d), scale, false);
 	}
 
-	/**
-	 * Scales construction and draws it to g2d.
-	 * 
-	 * @param g2d
-	 *            export graphics
-	 * @param scale
-	 *            ratio of desired size and current size of the graphics
-	 * 
-	 * @param transparency
-	 *            states if export should be optimized for eps. Note: if this is
-	 *            set to false, no traces are drawn.
-	 * 
-	 */
-	public void exportPaint(geogebra.common.awt.GGraphics2D g2d, double scale,
-			boolean transparency) {
-		getApplication().exporting = true;
-		exportPaintPre(g2d, scale, transparency);
-		drawObjects(g2d);
-		getApplication().exporting = false;
-	}
-
-	/**
-	 * @param g2d
-	 *            target graphics object
-	 * @param scale
-	 *            ratio of desired size and current size of the graphics
-	 */
-	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale) {
-		exportPaintPre(g2d, scale, false);
-	}
-
-	private void exportPaintPre(geogebra.common.awt.GGraphics2D g2d,
+	@Override
+	protected void exportPaintPre(geogebra.common.awt.GGraphics2D g2d,
 			double scale, boolean transparency) {
 		g2d.scale(scale, scale);
 
@@ -1184,8 +1154,8 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 		return null;
 	}
-	
-	public void suggestRepaint(){
+
+	public void suggestRepaint() {
 		// only used in web for now
 	}
 

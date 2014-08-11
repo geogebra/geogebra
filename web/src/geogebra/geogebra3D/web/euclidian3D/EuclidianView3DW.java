@@ -629,6 +629,14 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		
 		waitForRepaint--;
 	}
+
+
+	@Override
+    protected void exportPaintPre(GGraphics2D g2d, double scale,
+            boolean transparency) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 	
 }

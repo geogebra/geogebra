@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -499,5 +500,13 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 
 	public void suggestRepaint(){
 		// only used in web for now
+	}
+
+
+	@Override
+	protected void exportPaintPre(GGraphics2D g2d, double scale,
+			boolean transparency) {
+		// TODO Auto-generated method stub
+		
 	}
 }
