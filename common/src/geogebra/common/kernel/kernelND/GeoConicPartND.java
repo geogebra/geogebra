@@ -56,5 +56,12 @@ public interface GeoConicPartND {
 	 * @return coords of segment end point
 	 */
 	public Coords getSegmentEnd3D();
+	
+	/**
+	 * Returns arc length 
+	 * 
+	 * @return arc length
+	 */
+	public double getArcLength();
 }
 

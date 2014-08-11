@@ -21,9 +21,9 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 
 
 /**
@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoArcLength extends AlgoElement {
 
-    private GeoConicPart arc; // input
+    private GeoConicPartND arc; // input
     private GeoNumeric num; // output 
     
     /**
@@ -40,7 +40,7 @@ public class AlgoArcLength extends AlgoElement {
      * @param label label
      * @param arc partial conic
      */
-    public AlgoArcLength(Construction cons, String label, GeoConicPart arc) {
+    public AlgoArcLength(Construction cons, String label, GeoConicPartND arc) {
         super(cons);
         this.arc = arc;
         num = new GeoNumeric(cons);
@@ -60,7 +60,7 @@ public class AlgoArcLength extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = arc;
+        input[0] = (GeoElement) arc;
 
         super.setOutputLength(1);
         super.setOutput(0, num);

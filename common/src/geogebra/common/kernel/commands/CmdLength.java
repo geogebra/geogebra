@@ -11,7 +11,6 @@ import geogebra.common.kernel.cas.AlgoLengthCurve;
 import geogebra.common.kernel.cas.AlgoLengthCurve2Points;
 import geogebra.common.kernel.cas.AlgoLengthFunction;
 import geogebra.common.kernel.cas.AlgoLengthFunction2Points;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -21,6 +20,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -86,7 +86,7 @@ public class CmdLength extends CommandProcessor {
 				// Arc length
 				
 				AlgoArcLength algo = new AlgoArcLength(cons, c.getLabel(),
-						(GeoConicPart) arg[0]);
+						(GeoConicPartND) arg[0]);
 
 				GeoElement[] ret = { algo.getArcLength() };
 				return ret;
