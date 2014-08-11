@@ -38,7 +38,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 	private static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
 	private static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
 //	private static final GColor TABLE_HEADER_COLOR = GeoGebraColorConstants.TABLE_HEADER_COLOR;
-
+	
 	/*************************************************
 	 * Construct a DataPanel
 	 */
@@ -51,6 +51,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		buildDataTable();
 //		populateDataTable(statController.getDataArray());
 		createGUI();
+		add(new Label("o lenne az!"));
 	}
 
 	private void buildDataTable() {

@@ -385,6 +385,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 			if (model.showStatPanel()) {
 				if (true){//statDataPanel..getRightComponent() == null) {
+					App.debug("Adding statisticsPanel");
 					statDataPanel.addWest(statisticsPanel, 100.0);
 				}
 			} else {
@@ -394,7 +395,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			}
 		}
 
-//			if (model.showStatPanel()) {
+
+		//			if (model.showStatPanel()) {
 //				if (statDataPanel.getLeftComponent() == null) {
 //					statDataPanel.setLeftComponent(statisticsPanel);
 //					statDataPanel.resetToPreferredSizes();

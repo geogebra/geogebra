@@ -47,7 +47,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 //	private LinearRegressionPanel regressionPanel;
 //	private TwoVarInferencePanel twoVarInferencePanel;
 //	private ANOVATable anovaTable;
-//	private MultiVarStatPanel minMVStatPanel;
+	private MultiVarStatPanelW minMVStatPanel;
 	private FlowPanel selectionPanel;
 	private FlowPanel inferencePanel;
 
@@ -73,12 +73,11 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		
 		createStatTable();
 		if (statTable != null) {
-	//		statTable.setBorder(BorderFactory.createEmptyBorder());
 			inferencePanel = new FlowPanel();
 			inferencePanel.add(statTable);
-			//add(selectionPanel);
+			add(selectionPanel);
 			add(inferencePanel);
-			add(new Label("Howdee"));
+			add(new Label("Statistics panel"));
 			setLabels();
 		}
 	}
@@ -93,7 +92,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		} else if (daModel.getMode() == DataAnalysisModel.MODE_REGRESSION) {
 			statTable = new BasicStatTableW(app, statDialog);
 		} else if (daModel.getMode() == DataAnalysisModel.MODE_MULTIVAR) {
-		//	statTable = new MultiVarStatPanelW(app, statDialog);
+			statTable = new MultiVarStatPanelW(app, statDialog);
 		}
 	}
 
@@ -120,8 +119,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		case INFER_TTEST_PAIRED:
 		case INFER_TINT_2MEANS:
 		case INFER_TINT_PAIRED:
-			//inferencePanel.add(getTwoVarInferencePanel(), BorderLayout.NORTH);
-			// inferencePanel.add(statTable, BorderLayout.CENTER);
+			//inferencePanel.add(getTwoVarInferencePanel());
+			inferencePanel.add(statTable);
 			break;
 
 		case INFER_ANOVA:
@@ -152,8 +151,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		createLabelMap();
 		createInferenceTypeComboBox();
 
-//		selectionPanel = new JPanel(new BorderLayout());
-//		selectionPanel.add(cbInferenceMode, app.getLocalization().borderWest());
+		selectionPanel = new FlowPanel();
+		selectionPanel.add(lbInferenceMode);
 	}
 
 //	private ANOVATable getAnovaTable() {
@@ -173,60 +172,57 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 //			twoVarInferencePanel = new TwoVarInferencePanel(app, statDialog);
 //		return twoVarInferencePanel;
 //	}
-//
-//	private MultiVarStatPanel getMinMVStatPanel() {
-//		if (minMVStatPanel == null)
-//			minMVStatPanel = new MultiVarStatPanel(app, statDialog);
-//		minMVStatPanel.setMinimalTable(true);
-//		return minMVStatPanel;
-//	}
+
+	private MultiVarStatPanelW getMinMVStatPanel() {
+		if (minMVStatPanel == null)
+			minMVStatPanel = new MultiVarStatPanelW(app, statDialog);
+		minMVStatPanel.setMinimalTable(true);
+		return minMVStatPanel;
+	}
 
 	/**
 	 * Creates the JComboBox that selects inference mode
 	 */
 	private void createInferenceTypeComboBox() {
-//
-//		if (cbInferenceMode == null) {
-//			cbInferenceMode = new JComboBox();
-//			cbInferenceMode.setFocusable(false);
-//			cbInferenceMode.setRenderer(new MyRenderer());
-//
-//		} else {
-//			cbInferenceMode.removeActionListener(this);
-//			cbInferenceMode.removeAllItems();
-//		}
-//
-//		switch (daModel.getMode()) {
-//
-//		case DataAnalysisModel.MODE_ONEVAR:
-//			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-//			cbInferenceMode.addItem(labelMap.get(INFER_ZTEST));
-//			cbInferenceMode.addItem(labelMap.get(INFER_TTEST));
-//			cbInferenceMode.addItem(MyRenderer.SEPARATOR);
-//			cbInferenceMode.addItem(labelMap.get(INFER_ZINT));
-//			cbInferenceMode.addItem(labelMap.get(INFER_TINT));
-//			break;
-//
-//		case DataAnalysisModel.MODE_REGRESSION:
-//			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-//			break;
-//
-//		case DataAnalysisModel.MODE_MULTIVAR:
-//			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-//			cbInferenceMode.addItem(labelMap.get(INFER_ANOVA));
-//			cbInferenceMode.addItem(labelMap.get(INFER_TTEST_2MEANS));
-//			cbInferenceMode.addItem(labelMap.get(INFER_TTEST_PAIRED));
-//			cbInferenceMode.addItem(MyRenderer.SEPARATOR);
-//			cbInferenceMode.addItem(labelMap.get(INFER_TINT_2MEANS));
-//			cbInferenceMode.addItem(labelMap.get(INFER_TINT_PAIRED));
-//			break;
-//		}
-//
-//		cbInferenceMode.setSelectedItem(labelMap.get(selectedMode));
-//		cbInferenceMode.addActionListener(this);
-//		cbInferenceMode.setMaximumRowCount(cbInferenceMode.getItemCount());
-//		cbInferenceMode.addActionListener(this);
-//
+
+		if (lbInferenceMode == null) {
+			lbInferenceMode = new ListBox();
+
+		} else {
+			lbInferenceMode.clear();
+		}
+
+		switch (daModel.getMode()) {
+
+		case DataAnalysisModel.MODE_ONEVAR:
+			lbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
+			lbInferenceMode.addItem(labelMap.get(INFER_ZTEST));
+			lbInferenceMode.addItem(labelMap.get(INFER_TTEST));
+			lbInferenceMode.addItem("------------");
+			lbInferenceMode.addItem(labelMap.get(INFER_ZINT));
+			lbInferenceMode.addItem(labelMap.get(INFER_TINT));
+			break;
+
+		case DataAnalysisModel.MODE_REGRESSION:
+			lbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
+			break;
+
+		case DataAnalysisModel.MODE_MULTIVAR:
+			lbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
+			lbInferenceMode.addItem(labelMap.get(INFER_ANOVA));
+			lbInferenceMode.addItem(labelMap.get(INFER_TTEST_2MEANS));
+			lbInferenceMode.addItem(labelMap.get(INFER_TTEST_PAIRED));
+			lbInferenceMode.addItem("-----------------");
+			lbInferenceMode.addItem(labelMap.get(INFER_TINT_2MEANS));
+			lbInferenceMode.addItem(labelMap.get(INFER_TINT_PAIRED));
+			break;
+		}
+
+//		lbInferenceMode.setSelectedItem(labelMap.get(selectedMode));
+//		lbInferenceMode.addActionListener(this);
+//		lbInferenceMode.setMaximumRowCount(lbInferenceMode.getItemCount());
+//		lbInferenceMode.addActionListener(this);
+
 	}
 
 	/**
@@ -275,32 +271,31 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		statTable.updatePanel();
 
-//		switch (selectedMode) {
-//
-//		case INFER_ZTEST:
-//		case INFER_TTEST:
-//		case INFER_ZINT:
-//		case INFER_TINT:
-//			getOneVarInferencePanel().setSelectedPlot(selectedMode);
-//			getOneVarInferencePanel().updatePanel();
-//			break;
-//
-//		case INFER_TTEST_2MEANS:
-//		case INFER_TTEST_PAIRED:
-//		case INFER_TINT_2MEANS:
-//		case INFER_TINT_PAIRED:
+		switch (selectedMode) {
+
+		case INFER_ZTEST:
+		case INFER_TTEST:
+		case INFER_ZINT:
+		case INFER_TINT:
+			getOneVarInferencePanel().setSelectedPlot(selectedMode);
+			getOneVarInferencePanel().updatePanel();
+			break;
+
+		case INFER_TTEST_2MEANS:
+		case INFER_TTEST_PAIRED:
+		case INFER_TINT_2MEANS:
+		case INFER_TINT_PAIRED:
 //			getTwoVarInferencePanel().setSelectedInference(selectedMode);
 //			getTwoVarInferencePanel().updatePanel();
-//			break;
-//
-//		case INFER_ANOVA:
+			break;
+
+		case INFER_ANOVA:
 //			getAnovaTable().updatePanel();
 //			getMinMVStatPanel().updatePanel();
-//			break;
-//		}
-//
-//		this.setMinimumSize(this.getPreferredSize());
-//		// statDialog.updateStatDataPanelVisibility();
+			break;
+		}
+
+		// statDialog.updateStatDataPanelVisibility();
 
 	}
 }

@@ -52,8 +52,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 			App.debug("[DATA ANALYSIS] VIEW IS NOT NULL");
 			
 		}
-		return da.getDummy();
-		//return da.getDataAnalysisViewComponent();
+		return da.getDataAnalysisViewComponent();
 		
 	}
 
