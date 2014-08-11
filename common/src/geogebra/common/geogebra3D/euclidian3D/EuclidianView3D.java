@@ -272,11 +272,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		super(ec, settings);
 		
 		evNo = 3;
-		
-		
+
+		settings.setXscale(50);
+		settings.setYscale(50);
+
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
-
+		
 		start();
 
 	}
@@ -1009,27 +1011,27 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	// TODO specific scaling for each direction
-	private double scale = 50;
+	//private double scale = 50;
 
 	@Override
 	public double getXscale() {
-		return scale;
+		return getSettings().getXscale();
 	}
 
 	@Override
 	public double getYscale() {
-		return scale;
+		return getSettings().getYscale();
 	}
 
 	/** @return the z-scale */
 	public double getZscale() {
-		return scale;
+		return getSettings().getXscale();
 	}
 	
 
 	@Override
 	public double getScale(int i){
-		return scale;
+		return getSettings().getXscale();
 	}
 	
 	@Override
@@ -1045,7 +1047,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param val
 	 */
 	public void setScale(double val) {
-		scale = val;
+		getSettings().setXscale(val);
+		getSettings().setYscale(val);
 		setViewChangedByZoom();
 	}
 
@@ -1053,7 +1056,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return the all-axis scale
 	 */
 	public double getScale() {
-		return scale;
+		return getSettings().getXscale();
 	}
 
 	/** remembers the origins values (xzero, ...) */
