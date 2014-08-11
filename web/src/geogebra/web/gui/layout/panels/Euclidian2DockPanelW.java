@@ -38,7 +38,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 				6,							// menu order
 				'2' // ctrl-shift-1
 			);
-		setViewImage(GuiResources.INSTANCE.styleBar_graphics2View());
 
 		this.idx = idx;
 		// copied here from loadComponent
@@ -52,6 +51,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected Widget loadComponent() {
+		setViewImage(GuiResources.INSTANCE.styleBar_graphics2View());
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();

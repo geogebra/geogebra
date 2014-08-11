@@ -171,12 +171,12 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * Images for Stylingbar
 	 */
-	private Image triangleRight = new Image(
+	private static Image triangleRight = new Image(
 	        GuiResources.INSTANCE.dockbar_triangle_right());
-	private Image triangleLeft = new Image(
+	private static Image triangleLeft = new Image(
 	        GuiResources.INSTANCE.dockbar_triangle_left());
-	private Image dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
-	private Image closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
+	private static Image dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
+	private static Image closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
 
 	/**
 	 * For calling the onResize method in a deferred way

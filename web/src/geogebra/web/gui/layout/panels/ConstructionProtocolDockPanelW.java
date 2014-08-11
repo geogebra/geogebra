@@ -28,7 +28,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 			7,						// menu order
 			'L' // ctrl-shift-L
 		);
-		setViewImage(GuiResources.INSTANCE.styleBar_ConstructionProtocol());
+		
 
 		this.app = app;
 		this.setShowStyleBar(true);
@@ -37,6 +37,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 
 	@Override
 	protected Widget loadComponent() {
+		setViewImage(GuiResources.INSTANCE.styleBar_ConstructionProtocol());
 		return ((ConstructionProtocolViewW) app.getGuiManager().getConstructionProtocolView()).getCpPanel();
 	}
 

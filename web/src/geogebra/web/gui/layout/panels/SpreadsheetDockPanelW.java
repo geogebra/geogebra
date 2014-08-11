@@ -36,13 +36,14 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				3, 									// menu order
 				'S'									// menu shortcut
 			);
-		setViewImage(GuiResources.INSTANCE.styleBar_spreadsheetView());
+		
 
 		app = (AppW)appl;
 	}
 
 	@Override
     protected Widget loadComponent() {
+		setViewImage(GuiResources.INSTANCE.styleBar_spreadsheetView());
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");
