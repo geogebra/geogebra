@@ -86,6 +86,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    
 	}
 	
+	public GGWCommandLine getAlgebraInput(){
+		return ggwCommandLine;
+	}
 	/**
 	 * For touch
 	 * @param callback
@@ -223,7 +226,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		frameLayout.getGGWGraphicsView().attachApp(app);
 
 		// Algebra input
-		ggwCommandLine.attachApp(app);
+		if(app.showAlgebraInput()){
+			getAlgebraInput().attachApp(app);
+		}
 
 		// Menu bar
 		//Do not call init here, wait for toggle

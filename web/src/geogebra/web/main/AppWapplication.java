@@ -19,7 +19,6 @@ import geogebra.web.helper.ObjectPool;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -226,8 +225,9 @@ public class AppWapplication extends AppW {
 
 	@Override
     public void updateCenterPanel(boolean updateUI) {
-		LayoutPanel centerPanel = null;
-		
+		if(showAlgebraInput()){
+			appFrame.getAlgebraInput().attachApp(this);
+		}
 		if (isUsingFullGui()) {
 			appFrame.setFrameLayout();
 		} else {
