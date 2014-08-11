@@ -72,33 +72,7 @@ public final class LocalizationW extends Localization {
 		
 	}-*/;
 	
-	/**
-	 * @author Rana Cross-Referencing properties keys: from old system of
-	 *         properties keys' naming convention to new GWt compatible system
-	 *         The old naming convention used dots in the syntax of keys in the
-	 *         properties files. Since dots are not allowed in syntaxes of
-	 *         methods (refer to GWT Constants and ConstantsWithLookup
-	 *         interfaces), the new naming convention uses underscore instead of
-	 *         dots. And since we are still using the old naming convention in
-	 *         passing the key, we need to cross-reference.
-	 */
-	public static String crossReferencingPropertiesKeys(String key) {
-
-		if (key == null) {
-			return "";
-		}
-
-		String aStr = null;
-		if (key.equals("X->Y")) {
-			aStr = "X_Y";
-		} else if (key.equals("Y<-X")) {
-			aStr = "Y_X";
-		} else {
-			aStr = key;
-		}
-
-		return aStr.replace(A_DOT, AN_UNDERSCORE);
-	}
+	
 	
 	@Override
 	public String getCommand(String key) {
@@ -113,7 +87,7 @@ public final class LocalizationW extends Localization {
 		}
 
 
-		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "command");
+		String ret = getPropertyNative(language, key, "command");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("command key not found: "+key);
@@ -146,7 +120,7 @@ public final class LocalizationW extends Localization {
 			return key;
 		}
 
-		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "plain");
+		String ret = getPropertyNative(language, key, "plain");
 		
 		if (ret == null || "".equals(ret)) {
 		//	App.debug("plain key not found: "+key+" "+ret);
@@ -173,7 +147,7 @@ public final class LocalizationW extends Localization {
 			return key;
 		}
 
-		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "menu");
+		String ret = getPropertyNative(language, key, "menu");
 		
 		if (ret == null || "".equals(ret)) {
 			//App.debug("menu key not found: "+key);
@@ -196,7 +170,7 @@ public final class LocalizationW extends Localization {
 			return key;
 		}
 
-		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "error");
+		String ret = getPropertyNative(language, key, "error");
 		
 		if (ret == null || "".equals(ret)) {
 			App.debug("error key not found: "+key);
