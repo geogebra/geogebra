@@ -220,7 +220,11 @@ public class CmdAngle3D extends CmdAngle {
 		
 		GeoDirectionND direction = kernelA.getApplication().getActiveEuclidianView().getDirection();
 
-		if (direction == kernelA.getXOYPlane() || direction == kernelA.getSpace()){ // use xOy plane
+		if (direction == kernelA.getSpace()){ // TODO: should create point on circle
+			return new GeoElement[] {};
+		}
+		
+		if (direction == kernelA.getXOYPlane() /* || direction == kernelA.getSpace()*/){ // use xOy plane
 			if (p1.isGeoElement3D() || p2.isGeoElement3D()){
 				return kernelA.getManager3D().Angle(labels, p1, p2, a, kernelA.getXOYPlane(), true);
 			}
