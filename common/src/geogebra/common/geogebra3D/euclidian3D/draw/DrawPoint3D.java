@@ -85,7 +85,7 @@ implements Previewable, Functional2Var{
 		
 	
 		GeoPointND point = (GeoPointND) getGeoElement(); 
-		center.set(point.getInhomCoordsInD(3));
+		center.setValues(point.getInhomCoordsInD(3), 3);
 		center.setW(point.getPointSize()); // put point size in fourth unused coord
 		setGeometryIndex(
 				getView3D().getRenderer().getGeometryManager().

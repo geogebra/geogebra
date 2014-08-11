@@ -132,7 +132,7 @@ public class PlotterBrushSection {
 		
 		
 		if (normal!=null){
-			vn.setFirstValues(normal);
+			vn.setValues(normal, 3);
 		}else if (normalDevD!=0){
 			//Application.debug("normalDev="+normalDevD+","+normalDevN);
 			//vn.set(vn.mul(normalDevN).add(direction.mul(normalDevD)));	

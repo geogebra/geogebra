@@ -193,11 +193,12 @@ public class Coords extends CoordMatrix {
 	}
 	
 	/**
-	 * set this values to v's, until completed
+	 * set this values to v's
 	 * @param v coords
+	 * @param length length first values only are updated
 	 */
-	public void setFirstValues(Coords v){
-		for (int i = 0; i < val.length; i++){
+	public void setValues(Coords v, int length){
+		for (int i = 0; i < length; i++){
 			val[i] = v.val[i];
 		}
 	}
