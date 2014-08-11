@@ -15,6 +15,7 @@ import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.TimerSystemW;
+import geogebra.web.gui.inputbar.AlgebraInputW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected final Localization loc;
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
-	
+	protected AlgebraInputW inputPanel;
+
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
 			doRepaint2();
@@ -686,7 +688,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				int pos = getItemCount();
 				for (int i = 0; i < pos; i++) {
 					TreeItem child = getItem(i);
-					if (transTypeString.compareTo(child.toString()) < 0) {
+					if (transTypeString.compareTo(child.toString()) < 0 || 
+							(child.getWidget() != null && child.getWidget().equals(this.inputPanel.getTextField()))){
 						pos = i;
 						break;
 					}
@@ -1047,5 +1050,33 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	protected TreeItem inputPanelTreeItem;
+
+	public void setInputPanel(AlgebraInputW inputPanel){
+		this.inputPanel = inputPanel;
+		if(this.inputPanel != null && !app.showAlgebraInput()){
+			super.addItem(inputPanel.getTextField());
+		}
+	}
+
+	public void setShowAlgebraInput(boolean show){
+		removeItem(inputPanelTreeItem);
+		if(this.inputPanel != null && show){
+			inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+		}
+	}
+
+	@Override
+	public void addItem(TreeItem item) {
+		// make sure the item is inserted before the inputPanel
+		if(this.inputPanel != null){
+			removeItem(inputPanelTreeItem);
+	    }
+		super.addItem(item);
+		if(this.inputPanel != null && !app.showAlgebraInput()){
+			inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+		}
 	}
 }

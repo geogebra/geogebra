@@ -50,6 +50,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	protected FlowPanel labelPanel;
 	protected ToggleButton btnHelpToggle;
 	protected PopupPanel helpPopup;
+	private boolean focused = false;
 
 	/**
 	 * Creates AlgebraInput for Web
@@ -221,11 +222,13 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
 		app.getSelectionManager().clearSelectedGeos();
+		this.focused = true;
     }
 	
 	public void onBlur(BlurEvent event) {
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
+		this.focused = false;
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
@@ -373,5 +376,13 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	public void setText(String s) {
 	    this.inputField.setText(s);
     }
+	
+	public boolean hasFocus(){
+		return this.focused || AutoCompleteTextFieldW.showSymbolButtonFocused;
+	}
+
+	public AutoCompleteTextFieldW getTextField(){
+		return this.inputField;
+	}
 
 }

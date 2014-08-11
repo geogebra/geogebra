@@ -108,7 +108,7 @@ public class LoadFilePresenter{
 
 		boolean showToolBar = view.getDataParamShowToolBar();
 		boolean showMenuBar = view.getDataParamShowMenuBar() || App.isFullAppGui();
-		boolean showAlgebraInput = view.getDataParamShowAlgebraInput() || App.isFullAppGui();
+		boolean showAlgebraInput = view.getDataParamShowAlgebraInput(); //|| App.isFullAppGui();
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);
 		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());

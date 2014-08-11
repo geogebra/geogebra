@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppW;
@@ -50,6 +51,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			} else {
 				dockPanel.addSouth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
 			}
+			((AlgebraViewWeb) app.getAlgebraView()).setShowAlgebraInput(false);
+		} else {
+			((AlgebraViewWeb) app.getAlgebraView()).setShowAlgebraInput(true);
 		}
 		dockPanel.addEast(getMenuBar(), MENUBAR_WIDTH);
 

@@ -22,7 +22,9 @@ public class GGWCommandLine extends Composite implements RequiresResize{
 
 	public void onResize() {
 		algebraInput.onResize();
-	    
     }
 
+	public boolean hasFocus() {
+		return algebraInput.hasFocus();
+    }
 }

@@ -141,6 +141,8 @@ public abstract class AppW extends AppWeb {
 		}else{
 			this.laf = new GLookAndFeel();
 		}
+
+		showAlgebraInput = false;
 	}
 
 	// ========================================================

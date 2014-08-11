@@ -80,6 +80,12 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	public void onClick(ClickEvent event) {
 
 		Cell clickCell = getCellForEvent(event);
+
+		if(clickCell == null){
+			// click on the gap between two buttons
+			return;
+		}
+
 		int cellIndex = rowLength * clickCell.getRowIndex()
 		        + clickCell.getCellIndex();
 
