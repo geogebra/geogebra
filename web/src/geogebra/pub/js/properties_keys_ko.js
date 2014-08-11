@@ -507,6 +507,7 @@ __GGB__keysVar.ko.command = {
     "Line.Syntax": "[ <\uc810>, <\uc810> ]\n[ <\uc810>, <\ud3c9\ud589\ud55c \uc9c1\uc120> ]\n[ <\uc810>, <\ubc29\ud5a5 \ubca1\ud130> ]",
     "LineBisector": "\uc218\uc9c1\uc774\ub4f1\ubd84\uc120",
     "LineBisector.Syntax": "[ <\uc120\ubd84> ]\n[ <\uc810>, <\uc810> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "\uc790\ucde8\uadf8\ub9ac\uae30",
     "Locus.Syntax": "[ <\uc790\ucde8\uc120\uc744 \ub9cc\ub4dc\ub294 \uc810>, <\uc810> ]\n[ <\uc790\ucde8\uc120\uc744 \ub9cc\ub4dc\ub294 \uc810>, <\uc2ac\ub77c\uc774\ub354> ]\n[ <\ubca1\ud130\uc7a5(2\ubcc0\uc218\ud568\uc218)>, <\uc810> ]\n[ <f(x, y)>, <\uc810> ]",
     "LocusEquation": "\uc790\ucde8\ubc29\uc815\uc2dd",

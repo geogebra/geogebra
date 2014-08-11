@@ -507,6 +507,7 @@ __GGB__keysVar.ji.command = {
     "Line.Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Parallel Line> ]\n[ <Point>, <Direction Vector> ]",
     "LineBisector": "PerpendicularBisector",
     "LineBisector.Syntax": "[ <Segment> ]\n[ <Point>, <Point> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "Locus",
     "Locus.Syntax": "[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]",
     "LocusEquation": "LocusEquation",

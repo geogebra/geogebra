@@ -507,6 +507,7 @@ __GGB__keysVar.tr.command = {
     "Line.Syntax": "[ <Nokta>, <Nokta> ]\n[ <Nokta>, <Paralel Do\u011fru> ]\n[ <Nokta>, <Do\u011frultman Vekt\xf6r\xfc> ]",
     "LineBisector": "KenarOrtaDikme",
     "LineBisector.Syntax": "[ <Do\u011fru Par\xe7as\u0131> ]\n[ <Nokta>, <Nokta> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "Yertan\u0131m",
     "Locus.Syntax": "[ <Yer tan\u0131m do\u011frusu olu\u015fturan nokta>, <Nokta> ]\n[ <Yer tan\u0131m do\u011frusu olu\u015fturan nokta>, <S\xfcrg\xfc> ]\n[ <E\u011fim sahas\u0131>, <Nokta> ]\n[ <f(x, y)>, <Nokta> ]",
     "LocusEquation": "YerTan\u0131mDenklemi",

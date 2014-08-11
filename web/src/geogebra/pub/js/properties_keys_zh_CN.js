@@ -507,6 +507,7 @@ __GGB__keysVar.zh_CN.command = {
     "Line.Syntax": "[ <\u70b91>, <\u70b92> ]\n[ <\u70b9>, <\u5e73\u884c\u7ebf> ]\n[ <\u70b9>, <\u65b9\u5411\u5411\u91cf> ]",
     "LineBisector": "\u4e2d\u5782\u7ebf",
     "LineBisector.Syntax": "[ <\u7ebf\u6bb5> ]\n[ <\u70b91>, <\u70b92> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "\u8f68\u8ff9",
     "Locus.Syntax": "[ <\u6784\u9020\u8f68\u8ff9\u7684\u70b9>, <\u70b9> ]\n[ <\u6784\u9020\u8f68\u8ff9\u7684\u70b9>, <\u53c2\u6570> ]\n[ <\u659c\u7387\u573a>, <\u70b9> ]\n[ <f(x, y)>, <\u70b9> ]",
     "LocusEquation": "\u8f68\u8ff9\u65b9\u7a0b",

@@ -507,6 +507,7 @@ __GGB__keysVar.si.command = {
     "Line.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dc3\u0db8\u0dcf\u0db1\u0dca\u0dad\u0dbb \u0dbb\u0dda\u0d9b\u0dcf\u0dc0> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0daf\u0dd2\u0dc1\u0dcf \u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba> ]",
     "LineBisector": "\u0dbd\u0db8\u0dd2\u0db6\u0d9a_\u0dc3\u0db8\u0da0\u0dd2\u0da1\u0dda\u0daf\u0d9a\u0dba",
     "LineBisector.Syntax": "[ <\u0d9b\u0dab\u0dca\u0da9\u0dba> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "\u0db4\u0dae\u0dba",
     "Locus.Syntax": "[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]",
     "LocusEquation": "LocusEquation",

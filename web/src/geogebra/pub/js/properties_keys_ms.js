@@ -507,6 +507,7 @@ __GGB__keysVar.ms.command = {
     "Line.Syntax": "[ <Titik>, <Titik> ]\n[ <Titik>, <Garis Selari> ]\n[ <Titik>, <Vektor Arah> ]",
     "LineBisector": "PembahagiDuaSamaSerenjang",
     "LineBisector.Syntax": "[ <Segmen> ]\n[ <Titik>, <Titik> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "Lokus",
     "Locus.Syntax": "[ <Titik Mencipta Garis Lokus>, <Titik> ]\n[ <Titik Mencipta Garis Lokus>, <Gelongsor> ]\n[ <ArahLereng>, <Titik> ]\n[ <f(x, y)>, <Titik> ]",
     "LocusEquation": "PersamaanLokus",

@@ -507,6 +507,7 @@ __GGB__keysVar.it.command = {
     "Line.Syntax": "[ <Punto>, <Punto> ]\n[ <Punto>, <Retta parallela> ]\n[ <Punto>, <Vettore direzione> ]",
     "LineBisector": "AsseSegmento",
     "LineBisector.Syntax": "[ <Segmento> ]\n[ <Punto>, <Punto> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "Luogo",
     "Locus.Syntax": "[ <Punto che genera il luogo>, <Punto> ]\n[ <Punto che genera il luogo>, <Slider> ]\n[ <Campo direzioni>, <Punto> ]\n[ <f(x, y)>, <Punto> ]",
     "LocusEquation": "EquazioneLuogo",

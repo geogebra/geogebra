@@ -507,6 +507,7 @@ __GGB__keysVar.ro.command = {
     "Line.Syntax": "[ <Punct>, <Punct> ]\n[ <Punct>, <Dreapt\u0103 Paralel\u0103> ]\n[ <Punct>, <Vector Direc\u0163ie> ]",
     "LineBisector": "Mediatoare",
     "LineBisector.Syntax": "[ <Segment> ]\n[ <Punct>, <Punct> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "LocGeometric",
     "Locus.Syntax": "[ <Punct Origine Curb\u0103 Locus>, <Punct> ]\n[ <Punct Origine Curb\u0103 Locus>, <Cursor> ]\n[ <Pant\u0103>, <Punct> ]\n[ <f(x y)>, <Punct> ]",
     "LocusEquation": "Ecua\u021bieLocus",

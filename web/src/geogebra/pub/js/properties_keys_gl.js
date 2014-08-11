@@ -507,6 +507,7 @@ __GGB__keysVar.gl.command = {
     "Line.Syntax": "[ <Punto>, <Punto> ]\n[ <Punto>, <Recta paralela> ]\n[ <Punto>, <Vector de direcci\xf3n> ]",
     "LineBisector": "Mediatriz",
     "LineBisector.Syntax": "[ <Punto>, <Punto> ]\n[ <Segmento> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "LugarXeom\xe9trico",
     "Locus.Syntax": "[ <Punto que crea o lugar>, <Punto> ]\n[ <Punto que crea o lugar>, <Esvarador> ]\n[ <Campo de direcci\xf3ns>, <Punto> ]\n[ <f(x, y)>, <Punto> ]",
     "LocusEquation": "Ecuaci\xf3nLugar",

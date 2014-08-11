@@ -507,6 +507,7 @@ __GGB__keysVar.no_NB.command = {
     "Line.Syntax": "[ <Punkt>, <Punkt> ]\n[ <Punkt>, <Parallell linje> ]\n[ <Punkt>, <Retningsvektor> ]",
     "LineBisector": "Midtnormal",
     "LineBisector.Syntax": "[ <Linjestykke> ]\n[ <Punkt>, <Punkt> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "GeometriskSted",
     "Locus.Syntax": "[ <Punkt p\xe5 geometrisk sted>, <Punkt> ]\n[ <Punkt p\xe5 geometrisk sted>, <Glider> ]\n[ <Retningsdiagram>, <Punkt> ]\n[ <f(x, y)>, <Punkt> ]",
     "LocusEquation": "LikningForGeometriskSted",

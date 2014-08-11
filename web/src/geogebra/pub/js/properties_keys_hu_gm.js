@@ -507,6 +507,7 @@ __GGB__keysVar.hu_gm.command = {
     "Line.Syntax": "[ <Pont>, <Pont> ]\n[ <Pont>, <P\xe1rhuzamos egyenes> ]\n[ <Pont>, <Ir\xe1nyvektor> ]",
     "LineBisector": "Szakaszfelez\u0151",
     "LineBisector.Syntax": "[ <Szakasz> ]\n[ <Pont>, <Pont> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "M\xe9rtaniHely",
     "Locus.Syntax": "[ <Pont a m\xe9rtani hely kirajzol\xe1s\xe1hoz>, <Pont> ]\n[ <Pont a m\xe9rtani hely kirajzol\xe1s\xe1hoz>, <Cs\xfaszka> ]\n[ <Ir\xe1nymez\u0151>, <Pont> ]\n[ <f(x, y)>, <Pont> ]",
     "LocusEquation": "M\xe9rtanihelyEgyenlete",

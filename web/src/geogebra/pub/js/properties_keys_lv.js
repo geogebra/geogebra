@@ -507,6 +507,7 @@ __GGB__keysVar.lv.command = {
     "Line.Syntax": "[ <Punkts>, <Punkts> ]\n[ <Punkts>, <Paral\u0113la Taisne> ]\n[ <Punkts>, <Vektora Virziens> ]",
     "LineBisector": "Perpendikuls",
     "LineBisector.Syntax": "[ <Nogrieznis> ]\n[ <Punkts>, <Punkts> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "Koordin\u0101ta",
     "Locus.Syntax": "[ <S\u0101kumpunkts>, <Punkts> ]\n[ <S\u0101kumpunkts>, <Sl\u012bdnis> ]\n[ <Virziena koeficients>, <Punkts> ]\n[ <f(x, y)>, <Punkts> ]",
     "LocusEquation": "LocusEquation",

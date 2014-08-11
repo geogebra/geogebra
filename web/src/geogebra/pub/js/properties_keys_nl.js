@@ -507,6 +507,7 @@ __GGB__keysVar.nl.command = {
     "Line.Syntax": "[ <Punt>, <Punt> ]\n[ <Punt>, <Rechte> ]\n[ <Punt>, <Vector> ]",
     "LineBisector": "Middelloodlijn",
     "LineBisector.Syntax": "[ <Lijnstuk> ]\n[ <Punt>, <Punt> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "MeetkundigePlaats",
     "Locus.Syntax": "[ <Punt van MP>, <Punt> ]\n[ <Punt van MP>, <Schuifknop> ]\n[ <Slopefield>, <Punt> ]\n[ <f(x)>, <Punt> ]",
     "LocusEquation": "VergelijkingMP",

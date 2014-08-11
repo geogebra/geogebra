@@ -507,6 +507,7 @@ __GGB__keysVar.bs.command = {
     "Line.Syntax": "[ <Ta\u010dka>, <Ta\u010dka> ]\n[ <Ta\u010dka>, <Paralelno s> ]\n[ <Ta\u010dka>, <Vektor smjera> ]",
     "LineBisector": "SimetralaDu\u017ei",
     "LineBisector.Syntax": "[ <Du\u017e> ]\n[ <Ta\u010dka>, <Ta\u010dka> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "Lokus",
     "Locus.Syntax": "[ <Ta\u010dka koja kreira Lokus krivu>, <Ta\u010dka> ]\n[ <Ta\u010dka koja kreira Lokus krivu>, <Kliza\u010d> ]\n[ <Nagib polja>, <Ta\u010dka> ]\n[ <f(x, y)>, <Ta\u010dka> ]",
     "LocusEquation": "Jedna\u010dinaLokusa",

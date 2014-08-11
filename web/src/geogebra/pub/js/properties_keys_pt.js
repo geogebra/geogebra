@@ -507,6 +507,7 @@ __GGB__keysVar.pt.command = {
     "Line.Syntax": "[ <Ponto>, <Ponto> ]\n[ <Ponto>, <Reta Paralela> ]\n[ <Ponto>, <Vetor Diretor> ]",
     "LineBisector": "Mediatriz",
     "LineBisector.Syntax": "[ <Segmento> ]\n[ <Ponto>, <Ponto> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "LugarGeom\xe9trico",
     "Locus.Syntax": "[ <Ponto do Lugar Geom\xe9trico>, <Ponto> ]\n[ <Ponto do Lugar Geom\xe9trico>, <Controle Deslizante> ]\n[ <Campo de Dire\xe7\xf5es>, <Ponto> ]\n[ <f(x, y)>, <Ponto> ]",
     "LocusEquation": "Equa\xe7\xe3oDoLugarGeom\xe9trico",

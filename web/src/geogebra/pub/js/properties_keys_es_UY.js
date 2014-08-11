@@ -507,6 +507,7 @@ __GGB__keysVar.es_UY.command = {
     "Line.Syntax": "[ <Punto>, <Punto> ]\n[ <Punto>, <Direcci\xf3n (vector)> ]\n[ <Punto>, <Paralela (recta, semirrecta o segmento)> ]",
     "LineBisector": "Mediatriz",
     "LineBisector.Syntax": "[ <Segmento> ]\n[ <Punto>, <Punto> ]",
+    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Locus": "LugarGeom\xe9trico",
     "Locus.Syntax": "[ <Punto que traza el lugar geom\xe9trico>, <Punto> ]\n[ <Punto que traza el lugar geom\xe9trico>, <Deslizador> ]\n[ <CampoDirecci\xf3n>, <Punto> ]\n[ <f(x, y)>, <Punto> ]",
     "LocusEquation": "Ecuaci\xf3nLugar",
