@@ -1,5 +1,6 @@
 package geogebra.web.gui.toolbar;
 
+import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
@@ -61,11 +62,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		this.toolbar = tb;
 		this.menu = menu1;
 		this.addStyleName("toolbar_item");
-		buildGui();
+		buildButton();
+		
 		
 	}
 	
-	public void buildGui(){
+	private void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
 		Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()));
@@ -79,6 +81,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		this.add(tbutton);
 		addNativeToolTipHandler(tbutton.getElement(), this);
 		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
+    }
+
+	private void buildGui(){
+		
 		
 		//Adding submenus if needed.
 		if (menu.size()>1){
@@ -123,7 +129,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			}
 			this.submenu.add(itemList);
 		
-		
 			hideMenu();
 		}
 	}
@@ -149,6 +154,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 * Sets the menu visible if it exists
 	 */
 	public void showMenu() {
+		if(this.submenu == null){
+			this.buildGui();
+		}
 		if (submenu != null) {
 			submenu.addStyleName("visible");
 		}
@@ -191,6 +199,22 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			return false;
 		}
 		
+		if(this.getItemList() == null){
+			if (menu.get(0) == mode){
+				
+				this.setCssToSelected();
+				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
+								//remove, if it will be updated without this.
+				return true;
+			}
+			for(Integer i: this.menu){
+				if(i == mode){
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		for (int i = 0; i < this.getItemList().getWidgetCount(); i++) {
 			Widget mi = this.getItemList().getWidget(i);
 			// found item for mode?
@@ -216,6 +240,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	void selectItem(Widget mi) {
 		
 		final String miMode = mi.getElement().getAttribute("mode");
+		App.debug(miMode);
 		// check if the menu item is already selected
 		if (tbutton.getElement().getAttribute("isSelected").equals(true)
 				&& tbutton.getElement().getAttribute("mode").equals(miMode)) {
