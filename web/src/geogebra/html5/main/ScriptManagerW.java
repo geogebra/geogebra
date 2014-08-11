@@ -546,11 +546,11 @@ public class ScriptManagerW extends ScriptManager {
 		};
 		
 		$wnd[ggbApplet].isIndependent = function(label){
-				ggbAPI.@geogebra.html5.main.GgbAPIW::isIndependent(Ljava/lang/String;)(label);
+				return ggbAPI.@geogebra.html5.main.GgbAPIW::isIndependent(Ljava/lang/String;)(label);
 		};
 		
 		$wnd[ggbApplet].isMoveable = function(label){
-				ggbAPI.@geogebra.html5.main.GgbAPIW::isMoveable(Ljava/lang/String;)(label);
+				return ggbAPI.@geogebra.html5.main.GgbAPIW::isMoveable(Ljava/lang/String;)(label);
 		};
 		
 		$wnd[ggbApplet].setPerspective = function(code){
