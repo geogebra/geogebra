@@ -714,22 +714,66 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	@Override
 	public void rotate(NumberValue r) {
 		getCoordSys().rotate(r.getDouble(), Coords.O);
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).rotate(r);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).rotate(r);
+			}
+		}
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		getCoordSys().rotate(r.getDouble(), S.getInhomCoordsInD(3));
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).rotate(r, S);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).rotate(r, S);
+			}
+		}
 	}
 
 	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
 
 		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).rotate(phiVal, Q, orientation);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).rotate(phiVal, Q, orientation);
+			}
+		}
 
 	}
 
 	public void rotate(NumberValue phiVal, GeoLineND line) {
 
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).rotate(phiVal, line);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).rotate(phiVal, line);
+			}
+		}
 
 	}
 
@@ -745,6 +789,18 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	@Override
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			super.getPointND(i).translate(v);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).translate(v);
+			}
+		}
+		
 	}
 
 
@@ -755,7 +811,18 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 	@Override
 	public void mirror(Coords Q) {
-		getCoordSys().mirror(Q);		
+		getCoordSys().mirror(Q);
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).mirror(Q);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).mirror(Q);
+			}
+		}
 	}
 
 	@Override
@@ -765,12 +832,34 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 		Coords direction = line.getDirectionInD3().normalized();
 
 		getCoordSys().mirror(point, direction);
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).mirror(line);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).mirror(line);
+			}
+		}
 	}
 
 
 	public void mirror(GeoPlane3D plane) {
 
 		getCoordSys().mirror(plane.getCoordSys());
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).mirror(plane);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).mirror(plane);
+			}
+		}
 	}
 
 	////////////////////////
@@ -793,6 +882,17 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 			getPoint(i).dilate(r);
 
 		this.calcArea();
+		
+		// we need to update points and segments also
+		for (int i = 0; i < getPointsLength(); i++){
+			((GeoPoint3D) super.getPointND(i)).dilate(rval, S);
+		}
+
+		for (GeoSegmentND seg : getSegments()){
+			if (seg.isGeoElement3D()){
+				((GeoSegment3D) seg).dilate(rval, S);
+			}
+		}
 
 	}
 
