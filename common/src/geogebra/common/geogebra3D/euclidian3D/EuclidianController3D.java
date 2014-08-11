@@ -969,7 +969,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 			slider.setLabel(null);
 			slider.setValue(1);
 			// slider.setSliderLocation(x, y, true);
-			slider.setEuclidianVisible(false);
 			slider.update();
 
 			return new GeoElement[] {
