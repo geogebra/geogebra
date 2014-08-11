@@ -3104,8 +3104,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (guiManager != null) {
 			for (int i = 0; i < guiManager.getEuclidianViewCount(); i++) {
-				((EuclidianViewInterfaceCommon) guiManager.getEuclidianView2(i))
-						.setDefaultCursor();
+				if (guiManager.hasEuclidianView2EitherShowingOrNot(i)) {
+					((EuclidianViewInterfaceCommon) guiManager
+							.getEuclidianView2(i)).setDefaultCursor();
+				}
 			}
 		} else if (euclidianView != null) {
 			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
