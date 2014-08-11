@@ -385,6 +385,21 @@ GeoQuadric3DLimitedInterface{
 	}
 	
 	@Override
+	public void updateVisualStyle(){
+		
+		super.updateVisualStyle();
+
+		if (bottom == null)
+			return;
+		
+		bottom.updateVisualStyle();
+		if (!silentTop)
+			top.updateVisualStyle();
+		side.updateVisualStyle();
+		
+	}
+	
+	@Override
 	public void setLineType(int type) {
 		super.setLineType(type);
 
