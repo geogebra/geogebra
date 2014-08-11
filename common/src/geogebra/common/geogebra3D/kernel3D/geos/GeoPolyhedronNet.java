@@ -136,7 +136,15 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		return GeoClass.NET;
 	}
 	
-	
+	@Override
+	public void setEuclidianVisible(boolean visible) {
+
+		super.setEuclidianVisible(visible);
+		
+		for (GeoPoint3D point : pointsCreated) {
+			point.setEuclidianVisible(visible);
+		}
+	}
 	
 	
 }

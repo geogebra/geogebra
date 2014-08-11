@@ -1911,5 +1911,32 @@ GeoPolyhedronInterface
 			((GeoElement) segment).setShowObjectCondition(cond);
 		}
 	}
+	
+	@Override
+	public void updateVisualStyle() {
+		
+		super.updateVisualStyle();
+
+		for (GeoPoint3D point : pointsCreated) {
+			point.updateVisualStyle();
+		}
+
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.updateVisualStyle();
+		}
+
+		for (GeoSegmentND segment : getSegmentsLinked()) {
+			((GeoElement) segment).updateVisualStyle();
+		}
+
+	}
 
 }
