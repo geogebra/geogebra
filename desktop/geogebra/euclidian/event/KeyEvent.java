@@ -5,7 +5,7 @@ import geogebra.main.AppD;
 
 import java.util.LinkedList;
 
-public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
+public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent {
 
 	public static LinkedList<KeyEvent> pool = new LinkedList<KeyEvent>();
 	private java.awt.event.KeyEvent event;
@@ -14,9 +14,10 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 		App.debug("possible missing release()");
 		this.event = e;
 	}
-	
-	public static geogebra.euclidian.event.KeyEvent wrapEvent(java.awt.event.KeyEvent e) {
-		if(!pool.isEmpty()){
+
+	public static geogebra.euclidian.event.KeyEvent wrapEvent(
+			java.awt.event.KeyEvent e) {
+		if (!pool.isEmpty()) {
 			KeyEvent wrap = pool.getLast();
 			wrap.event = e;
 			pool.removeLast();
@@ -24,11 +25,11 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 		}
 		return new KeyEvent(e);
 	}
-	
+
 	public void release() {
 		KeyEvent.pool.add(this);
 	}
-	
+
 	@Override
 	public boolean isEnterKey() {
 		return event.getKeyChar() == '\n';
@@ -42,6 +43,16 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 	@Override
 	public boolean isAltDown() {
 		return AppD.isAltDown(event);
+	}
+
+	@Override
+	public char getCharCode() {
+		return event.getKeyChar();
+	}
+
+	@Override
+	public void preventDefault() {
+		event.consume();
 	}
 
 }

@@ -4,6 +4,8 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASTableCellController;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
@@ -112,10 +114,50 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void keyReleased(KeyEvent e) {
+		char ch = e.getCharCode();
+		CASTableW table = view.getConsoleTable();
+		int editingRow = table.getEditingRow();
+		if (editingRow < 0) {
+			App.debug("No row is being edited.");
+			return;
+		}
+		CASTableCellEditorW editor = table.getEditor();
+		String text = editor.getInput();
+		// if closing paranthesis is typed and there is no opening parenthesis for it
+		// add one in the beginning
+		switch (ch){
+		case ' ':
+		case '|':
+				// insert output of previous row (not in parentheses)
+				if (editingRow > 0 && text.length() == 0) {
+					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);
+					editor.setInput(selCellValue.getOutputRHS(StringTemplate.defaultTemplate) + " ");
+					e.preventDefault();
+				}
+				break;
+				
+			case ')':
+				// insert output of previous row in parentheses		
+				if (editingRow > 0 && text.length() == 0) {
+					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
+					String prevOutput = selCellValue.getOutputRHS(StringTemplate.defaultTemplate);
+					editor.setInput("(" +  prevOutput + ")");
+					e.preventDefault();
+				}
+				break;		
+				
+			case '=':
+				// insert input of previous row
+				if (editingRow > 0 && text.length() == 0) {
+					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
+					editor.setInput(selCellValue.getInput(StringTemplate.defaultTemplate));
+					e.preventDefault();
+				}
+				break;
+		}
 	    if(e.isEnterKey()){
 	    	this.handleEnterKey(e, app);
 	    }
-	    
     }
 
 }

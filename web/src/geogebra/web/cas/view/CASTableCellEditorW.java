@@ -4,7 +4,7 @@ import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
-public class CASTableCellEditorW implements CASTableCellEditor{
+public class CASTableCellEditorW implements CASTableCellEditor {
 
 	private AutoCompleteTextFieldW textField;
 	private CASTableW table;
@@ -57,8 +57,11 @@ public class CASTableCellEditorW implements CASTableCellEditor{
 
 	public void setLabels() {
 	    textField.setDictionary(true);
-	    
     }
+	
+	public void setInput(String input) {
+		this.textField.setText(input);
+	}
 
 	public void clearInputText() {
 	    // TODO Auto-generated method stub
