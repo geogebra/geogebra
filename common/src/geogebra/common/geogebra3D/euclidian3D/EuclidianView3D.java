@@ -878,7 +878,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				v = v.projectPlane(CoordMatrix4x4.IDENTITY)[1];
 				setZZero(ZZeroOld + v.getZ());
 			}
-
+			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
 			updateMatrix();
 			setViewChangedByTranslate();
 			setWaitForUpdate();
@@ -941,6 +941,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setXZero(x);
 			setYZero(y);
 			setZZero(z);
+			getSettings().updateOrigin(x,y,z);
 			updateTranslationMatrix();
 			CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
 			CoordMatrix matrix = ((mRS.inverse()).mul(translationMatrix)
@@ -1764,6 +1765,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setXZero(animatedScaleStartX * (1 - t) + animatedScaleEndX * t);
 			setYZero(animatedScaleStartY * (1 - t) + animatedScaleEndY * t);
 			setZZero(animatedScaleStartZ * (1 - t) + animatedScaleEndZ * t);
+			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
 
 			updateMatrix();
 			setViewChangedByZoom();

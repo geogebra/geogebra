@@ -8,7 +8,6 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -903,7 +902,6 @@ public class EuclidianSettings extends AbstractSettings {
 			addAxisXML(i, sb);
 		}
 		sb.append("</euclidianView3D>\n");
-		App.debug(sb.toString());
 	}
 	
 	public void addAxisXML(int i, StringBuilder sbxml){
@@ -973,5 +971,11 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setYscale(double scale) {
 		this.yscale = scale;
 		
+	}
+
+	public void updateOrigin(double xZero2, double yZero2, double zZero2) {
+		this.xZero = xZero2;
+		this.yZero = yZero2;
+		this.zZero = zZero2;
 	}
 }
