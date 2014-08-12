@@ -34,8 +34,7 @@ public class CASInputPanel extends JPanel {
 
 		// use autocomplete text field from input bar
 		// but ignore Escape, Up, Down keys
-		inputArea = new AutoCompleteTextFieldD(1, app, false,
-				app.getCommandDictionaryCAS());
+		inputArea = new AutoCompleteTextFieldD(1, app, false, true);
 		inputArea.setCASInput(true);
 		inputArea.setAutoComplete(true);
 		inputArea.setShowSymbolTableIcon(true);
@@ -98,7 +97,7 @@ public class CASInputPanel extends JPanel {
 	 * Updates autocomplete dictionary
 	 */
 	public void setLabels() {
-		inputArea.setDictionary(app.getCommandDictionaryCAS());
+		inputArea.setDictionary(true);
 	}
 
 }

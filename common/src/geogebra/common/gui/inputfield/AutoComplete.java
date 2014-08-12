@@ -16,7 +16,7 @@ public interface AutoComplete {
    *             The dictionary implemetation should be very fast at lookups to
    *             avoid delays as the user types.
    */
-  public void setDictionary(AutoCompleteDictionary dict);
+  public void setDictionary(boolean forCAS);
 
   /**
    * Gets the dictionary currently used for lookups.

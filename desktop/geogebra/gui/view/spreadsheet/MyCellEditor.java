@@ -154,7 +154,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	}
 
 	public void setLabels() {
-		textField.setDictionary(app.getCommandDictionary());
+		textField.setDictionary(true);
 	}
 
 	/**
@@ -318,8 +318,8 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	// =======================================================
 
 	/**
-	 * keep track of when <tab> was first pressed
-	 * so we can return to that column when <enter> pressed
+	 * keep track of when <tab> was first pressed so we can return to that
+	 * column when <enter> pressed
 	 */
 	public static int tabReturnCol = -1;
 
@@ -407,15 +407,19 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 						stopCellEditing(colOffset, 1);
 						editing = false;
 					} else {
-						
-						String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(column, row + 1);
-						GeoElement cellBelow = kernel.getConstruction().lookupLabel(cellBelowStr);
 
-						boolean moveDown = cellBelow == null || !cellBelow.isFixed();
+						String cellBelowStr = GeoElementSpreadsheet
+								.getSpreadsheetCellName(column, row + 1);
+						GeoElement cellBelow = kernel.getConstruction()
+								.lookupLabel(cellBelowStr);
 
-						// don't move down to cell below after <Enter> if it's fixed
+						boolean moveDown = cellBelow == null
+								|| !cellBelow.isFixed();
+
+						// don't move down to cell below after <Enter> if it's
+						// fixed
 						stopCellEditing(0, moveDown ? 1 : 0);
-						
+
 					}
 				} else {
 					textField.setCaretPosition(bracketsIndex + 1);

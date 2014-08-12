@@ -111,6 +111,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 */
 	private boolean tabEnabled = false;
 	private int columns = 0;
+	private boolean forCAS;
 	
 	/**
 	 * Pattern to find an argument description as found in the syntax
@@ -130,14 +131,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * 
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
-		this(columns, (AppWeb) app, true, null);
-	}
-
-	public AutoCompleteTextFieldW(int columns, AppWeb app,
-	        boolean handleEscapeKey, KeyEventsHandler keyHandler) {
-		this(columns, app, handleEscapeKey, app.getCommandDictionary(),
-		        keyHandler);
-		// setDictionary(app.getAllCommandsDictionary());
+		this(columns, (AppWeb) app, true, null, false);
 	}
 
 	public AutoCompleteTextFieldW(int columns, App app, Drawable drawTextField) {
@@ -146,8 +140,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public AutoCompleteTextFieldW(int columns, AppWeb app,
-	        boolean handleEscapeKey, AutoCompleteDictionary dict,
-	        KeyEventsHandler keyHandler) {
+	        boolean handleEscapeKey,
+	        KeyEventsHandler keyHandler, boolean forCAS) {
+		this.forCAS = forCAS;
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
 		textField = new ScrollableSuggestBox(completionsPopup = new CompletionsPopup()){
@@ -348,8 +343,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	public void setAutoComplete(boolean val) {
 		autoComplete = val && loc.isAutoCompletePossible();
 
-		if (autoComplete)
-			app.initTranslatedCommands();
+		/*if (autoComplete)
+			app.initTranslatedCommands();*/
 
 	}
 
@@ -379,13 +374,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			return null;
 		}
 		cmdPrefix = curWord.toString();
-		if (dict != null) {
-			if (korean) {
-				completions = dict.getCompletionsKorean(cmdPrefix);
-			} else {
-				completions = dict.getCompletions(cmdPrefix);
-			}
+		
+		if (korean) {
+			completions = getDictionary().getCompletionsKorean(cmdPrefix);
+		} else {
+			completions = getDictionary().getCompletions(cmdPrefix);
 		}
+		
 		List<String> commandCompletions = getSyntaxes(completions);
 
 		// Start with the built-in function completions
@@ -527,11 +522,16 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		textField.getValueBox().setCursorPos(caretPos);
 	}
 
-	public void setDictionary(AutoCompleteDictionary dict) {
-		this.dict = dict;
+	public void setDictionary(boolean forCAS) {
+		this.forCAS = forCAS;
+		this.dict = null;
 	}
 
 	public AutoCompleteDictionary getDictionary() {
+		if (this.dict == null) {
+			this.dict = this.forCAS ? app.getCommandDictionaryCAS() : app
+					.getCommandDictionary();
+		}
 		return dict;
 	}
 
@@ -981,7 +981,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 					}
 					String word = getWordAtPos(getText(), pos);
 					String lowerCurWord = word.toLowerCase();
-					String closest = dict.lookup(lowerCurWord);
+					String closest = getDictionary().lookup(lowerCurWord);
 
 					if (closest != null)// &&
 					                    // lowerCurWord.equals(closest.toLowerCase()))

@@ -56,7 +56,7 @@ public class CASTableCellEditorW implements CASTableCellEditor{
 	}
 
 	public void setLabels() {
-	    textField.setDictionary(app.getCommandDictionaryCAS());
+	    textField.setDictionary(true);
 	    
     }
 

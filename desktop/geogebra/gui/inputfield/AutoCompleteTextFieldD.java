@@ -72,6 +72,8 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 
 	private boolean popupSymbolDisabled = false;
 
+	private boolean forCAS;
+
 	/**
 	 * Pattern to find an argument description as found in the syntax
 	 * information of a command.
@@ -100,11 +102,11 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	 *            Application
 	 * @param handleEscapeKey
 	 *            how to handle escape key
-	 * @param dict
+	 * @param forCAS
 	 *            dictionary
 	 */
 	public AutoCompleteTextFieldD(int columns, AppD app,
-			boolean handleEscapeKey, AutoCompleteDictionary dict) {
+			boolean handleEscapeKey, boolean forCAS) {
 		super(app);
 		// allow dynamic width with columns = -1
 		if (columns > 0)
@@ -124,12 +126,12 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 		CommandCompletionListCellRenderer cellRenderer = new CommandCompletionListCellRenderer();
 		completionsPopup = new CompletionsPopup(this, cellRenderer, 6);
 		// addKeyListener(this); now in MathTextField
-		setDictionary(dict);
+		setDictionary(forCAS);
 		enableLabelColoring(isCASInput);
 	}
 
 	public AutoCompleteTextFieldD(int columns, AppD app, boolean handleEscapeKey) {
-		this(columns, app, handleEscapeKey, app.getCommandDictionary());
+		this(columns, app, handleEscapeKey, true);
 		// setDictionary(app.getAllCommandsDictionary());
 	}
 
@@ -193,11 +195,12 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	/**
 	 * Set the dictionary that autocomplete lookup should be performed by.
 	 * 
-	 * @param dict
-	 *            The dictionary that will be used for the autocomplete lookups.
+	 * @param forCAS
+	 *            whether this is for CAS
 	 */
-	public void setDictionary(AutoCompleteDictionary dict) {
-		this.dict = dict;
+	public void setDictionary(boolean forCAS) {
+		this.dict = null;
+		this.forCAS = forCAS;
 	}
 
 	/**
@@ -207,7 +210,11 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	 *         lookups.
 	 */
 	public AutoCompleteDictionary getDictionary() {
-		return dict;
+		if (this.dict == null) {
+			this.dict = this.forCAS ? app.getCommandDictionaryCAS() : app
+					.getCommandDictionary();
+		}
+		return this.dict;
 	}
 
 	/**
@@ -398,7 +405,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 					}
 					String word = getWordAtPos(getText(), pos);
 					String lowerCurWord = word.toLowerCase();
-					String closest = dict.lookup(lowerCurWord);
+					String closest = getDictionary().lookup(lowerCurWord);
 
 					if (closest != null) {// &&
 						// lowerCurWord.equals(closest.toLowerCase()))
@@ -756,9 +763,9 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 		cmdPrefix = curWord.toString();
 
 		if (korean)
-			completions = dict.getCompletionsKorean(cmdPrefix);
+			completions = getDictionary().getCompletionsKorean(cmdPrefix);
 		else
-			completions = dict.getCompletions(cmdPrefix);
+			completions = getDictionary().getCompletions(cmdPrefix);
 
 		List<String> commandCompletions = getSyntaxes(completions);
 

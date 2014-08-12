@@ -74,7 +74,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		this.view = view;
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
 		textField = new AutoCompleteTextFieldW(0,
-		        (AppW) kernel.getApplication(), false, keyListener);
+		        (AppW) kernel.getApplication(), false, keyListener, false);
 		textField.setAutoComplete(enableAutoComplete);
 		// textField.getElement().getStyle().setWidth(100, Style.Unit.PCT);
 		textField.setStyleName("SpreadsheetEditorCell");
@@ -162,7 +162,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	public void setLabels() {
-		textField.setDictionary(app.getCommandDictionary());
+		textField.setDictionary(false);
 	}
 
 	/**

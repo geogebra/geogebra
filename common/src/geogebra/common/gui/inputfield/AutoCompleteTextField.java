@@ -56,7 +56,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 
 	void setCaretPosition(int caretPos);
 	
-	void setDictionary(AutoCompleteDictionary dict);
+	void setDictionary(boolean forCAS);
 	
 	AutoCompleteDictionary getDictionary();
 
