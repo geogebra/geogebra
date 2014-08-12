@@ -30,7 +30,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 
 	private static final int MENU_ICONS_WIDTH = 200;
 	private static final int UNDO_ICONS_WIDTH = 90;
-	static private MyIconResourceBundle myIconResourceBundle = GWT
+	static protected MyIconResourceBundle myIconResourceBundle = GWT
 	        .create(MyIconResourceBundle.class);
 
 	static public MyIconResourceBundle getMyIconResourceBundle() {
