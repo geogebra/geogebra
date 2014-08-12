@@ -46,8 +46,6 @@ public class CoordMatrix {
 	protected boolean transpose = false; // transposing the matrix is logical
 											// operation
 
-	/** says if the matrix is singular or not */
-	private boolean isSingular = false;
 
 	// for rotations
 	/** rotation around x-axis */
@@ -115,7 +113,6 @@ public class CoordMatrix {
 	 *            number of columns
 	 */
 	private void initialise(int rows, int columns) {
-		setIsSingular(false);
 
 		this.rows = rows;
 		this.columns = columns;
@@ -475,7 +472,7 @@ public class CoordMatrix {
 	 */
 	public GeoList getGeoList(GeoList outputList, Construction cons) {
 
-		if (isSingular) {
+		if (isSingular()) {
 			outputList.setDefined(false);
 			return outputList;
 		}
@@ -908,6 +905,9 @@ public class CoordMatrix {
 			return false;
 		return getRows() == getColumns();
 	}
+	
+	
+	private CoordMatrix inverse;
 
 	/**
 	 * returns inverse matrix (2x2 or larger). You must check with isSquare()
@@ -917,26 +917,51 @@ public class CoordMatrix {
 	 * */
 	public CoordMatrix inverse() {
 
-		CoordMatrix ret = new CoordMatrix(getRows(), getColumns());
+		if (inverse == null){
+			inverse = new CoordMatrix(getRows(), getColumns());
+		}
 
+		/*
 		double d = this.det();
 
 		if (Kernel.isEqual(d, 0.0, Kernel.STANDARD_PRECISION)) {
-			ret.setIsSingular(true);
-			return ret;
+			inverse.setIsSingular(true);
+			return inverse;
 		}
 
 		double signe_i = 1.0;
 		for (int i = 1; i <= getRows(); i++) {
 			double signe = signe_i;
 			for (int j = 1; j <= getColumns(); j++) {
-				ret.set(i, j, (subMatrix(j, i).det()) * signe / d);
+				inverse.set(i, j, (subMatrix(j, i).det()) * signe / d);
 				signe = -signe;
 			}
 			signe_i = -signe_i;
 		}
+		*/
 
-		return ret;
+		if (pivotInverseMatrix == null){
+			pivotInverseMatrix = new PivotInverseMatrix();
+			pivotInverseMatrix.matrixRes = new double[columns*columns];
+			for (int c = 0; c < columns ; c++){
+				pivotInverseMatrix.matrixRes[c*rows + c] = 1;
+			}
+			pivotInverseMatrix.inverse = inverse.val;
+			pivotInverseMatrix.columns = columns;
+		}else{
+			for (int c = 0; c < columns ; c++){
+				for (int r = 0 ; r < rows ; r++){
+					pivotInverseMatrix.matrixRes[c*rows + r] = 0;
+				}
+				pivotInverseMatrix.matrixRes[c*rows + c] = 1;
+			}
+		}
+		
+		updatePivotMatrix();
+		pivot(pivotMatrix, pivotInverseMatrix);
+
+
+		return inverse;
 
 	}
 
@@ -972,7 +997,8 @@ public class CoordMatrix {
 			matrix[i] = new double[size];
 			columns[i].copy(matrix[i]);
 		}
-		
+
+		PivotSolRes pivotSolRes = new PivotSolRes();
 		pivotSolRes.res = new double[size];
 		res.copy(pivotSolRes.res);
 		
@@ -984,7 +1010,36 @@ public class CoordMatrix {
 	
 	
 	private interface PivotInterface {
+		/**
+		 * divide first value for last pivot step
+		 * @param index index for last pivot step
+		 * @param factor factor to divide
+		 */
+		public void divideFirst(int index, double factor);
 		
+		/**
+		 * divide res value at step
+		 * @param step step index
+		 * @param value value to divide
+		 */
+		public void divideRes(int step, double value);
+		
+		/**
+		 * sub value at step to value at l, multiplied by coef
+		 * @param l line where sub is done
+		 * @param step line to sub
+		 * @param coef multiply factor
+		 */
+		public void subRes(int l, int step, double coef);
+
+		/**
+		 * calc sol at this index
+		 * @param index index
+		 * @param step step
+		 * @param matrix pivot matrix
+		 * @param stack column to compute
+		 */
+		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack);
 	}
 	
 	static private class PivotSolRes implements PivotInterface {
@@ -1002,11 +1057,91 @@ public class CoordMatrix {
 		public PivotSolRes(){
 			
 		}
+		
+		public void divideFirst(int index, double factor){
+			sol[index] = res[0] / factor;
+		}
+		
+		public void divideRes(int step, double value){
+			res[step] /= value;
+		}
+		
+		public void subRes(int l, int step, double coef){
+			res[l] -= coef * res[step];
+		}
+
+		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack){
+			double s = res[step]; // value at (step, index) is 1
+			for (int i : stack){
+				s -= matrix[i][step] * sol[i]; // sub for non-zero matrix coeffs
+			}
+			sol[index] = s;	
+		}
+		
 	}
 	
-	static private PivotSolRes pivotSolRes = new PivotSolRes();
+	static private class PivotInverseMatrix implements PivotInterface {
+		
+		public int columns;
+		
+		public double[] matrixRes;
+		
+		public double[] inverse;
+
+		public PivotInverseMatrix() {
+
+		}
+
+		public void divideFirst(int index, double factor){
+			for (int i = 0 ; i < columns ; i++){
+				inverse[index + i*columns] = matrixRes[i*columns] / factor;
+				//System.out.println(inverse[index + i*columns] +" , "+ matrixRes[i*columns]);
+			}
+		}
+		
+		public void divideRes(int step, double value){
+			for (int i = 0 ; i < columns ; i++){
+				matrixRes[step + i*columns] /= value;
+			}
+		}
+		
+		public void subRes(int l, int step, double coef){
+			for (int i = 0 ; i < columns ; i++){
+				matrixRes[l + i*columns] -= coef * matrixRes[step + i*columns];
+			}
+		}
+
+		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack){
+			for (int j = 0 ; j < columns ; j++){
+				double s = matrixRes[step + j*columns]; // value at (step, index) is 1
+
+				for (int i : stack){
+					s -= matrix[i][step] * inverse[i + j*columns]; // sub for non-zero matrix coeffs
+				}
+				inverse[index + j*columns] = s;	
+			}
+		}
+
+	}
+	
+	private PivotSolRes pivotSolRes;
+	
+	private PivotInverseMatrix pivotInverseMatrix;
 	
 	
+	private double[][] pivotMatrix;
+	
+	private void updatePivotMatrix(){
+		if (pivotMatrix == null){
+			pivotMatrix = new double[columns][];
+		}		
+		for (int c = 0 ; c < columns ; c++){
+			pivotMatrix[c] = new double[rows];
+			for (int r = 0 ; r < rows ; r++){
+				pivotMatrix[c][r] = get(r+1, c+1);
+			}
+		}
+	}
 
 	/**
 	 * makes Gauss pivot about this matrix 
@@ -1015,14 +1150,12 @@ public class CoordMatrix {
 	 * @param res result
 	 */
 	public void pivot(Coords sol, Coords res){
-		double[][] matrix = new double[columns][];
-		for (int c = 0 ; c < columns ; c++){
-			matrix[c] = new double[rows];
-			for (int r = 0 ; r < rows ; r++){
-				matrix[c][r] = get(r+1, c+1);
-			}
-		}
 		
+		updatePivotMatrix();
+		
+		if (pivotSolRes == null){
+			pivotSolRes = new PivotSolRes();
+		}
 		pivotSolRes.res = new double[res.rows];
 		for (int r = 0 ; r < rows ; r++){
 			pivotSolRes.res[r] = res.val[r];
@@ -1030,7 +1163,7 @@ public class CoordMatrix {
 		
 		pivotSolRes.sol = sol.val;
 		
-		pivot(matrix, pivotSolRes);
+		pivot(pivotMatrix, pivotSolRes);
 	}
 	
 	/**
@@ -1039,7 +1172,7 @@ public class CoordMatrix {
 	 * @param matrix array of columns
 	 * @param psr pivot solution-result
 	 */
-	static final public void pivot(double[][] matrix, PivotSolRes psr){
+	static final public void pivot(double[][] matrix, PivotInterface psr){
 		int size = matrix.length;
 		ArrayList<Integer> stack = new ArrayList<Integer>();
 		for (int i = size - 1 ; i >= 0 ; i--){
@@ -1051,13 +1184,13 @@ public class CoordMatrix {
 	 * one step Gauss pivot 
 	 *
 	 */
-	static final private void pivot(double[][] matrix, PivotSolRes psr, 
+	static final private void pivot(double[][] matrix, PivotInterface psr, 
 			int step, ArrayList<Integer> stack){
 		
 		// last step
 		if (step == 0){
 			int index = stack.get(0);
-			psr.sol[index] = psr.res[0] / matrix[index][0];
+			psr.divideFirst(index, matrix[index][0]);
 		
 		}else{
 			// look for the biggest value at step line
@@ -1079,7 +1212,7 @@ public class CoordMatrix {
 			for (int i : stack){
 				matrix[i][step] /= value;
 			}
-			psr.res[step] /= value;
+			psr.divideRes(step, value);
 			
 			// sub step line in each line above
 			for (int l = 0 ; l < step ; l++){
@@ -1087,36 +1220,16 @@ public class CoordMatrix {
 				for (int i : stack){
 					matrix[i][l] -= coef * matrix[i][step];
 				}
-				psr.res[l] -= coef * psr.res[step];
+				psr.subRes(l, step, coef);
 			}
 			
-			/*
-			String str = "===== PIVOT step "+step+", stack index "+stackIndex+", column index "+index+"\n";
-			for (int l = 0 ; l < matrix.length ; l++){
-				for (int c = 0 ; c < matrix.length ; c++){
-					str+=matrix[c][l]+",";
-				}
-				str+="\n";
-			}
-			str+="== RES ==\n";
-			for (int c = 0 ; c < res.length ; c++){
-				str+=res[c]+",";
-			}
-			str+="\n";
-			System.out.println(str);
-			*/
 			
 			// remove current index and apply pivot at next step
 			stack.remove(stackIndex);
 			pivot(matrix, psr, step - 1, stack);
 			
 			// calc sol at this index
-			//System.out.println("step "+step+" : "+stack);
-			double s = psr.res[step]; // value at (step, index) is 1
-			for (int i : stack){
-				s -= matrix[i][step] * psr.sol[i]; // sub for non-zero matrix coeffs
-			}
-			psr.sol[index] = s;	
+			psr.calcSol(index, step, matrix, stack);
 			
 			// re-add current index for pivot caller
 			stack.add(index);
@@ -1136,7 +1249,7 @@ public class CoordMatrix {
 	 * @return true if the matrix is singular
 	 */
 	public boolean isSingular() {
-		return isSingular;
+		return Double.isNaN(val[0]);
 	}
 
 	/**
@@ -1145,7 +1258,7 @@ public class CoordMatrix {
 	 * @param isSingular
 	 */
 	public void setIsSingular(boolean isSingular) {
-		this.isSingular = isSingular;
+		val[0] = Double.NaN;
 	}
 
 	// /////////////////////////////////////////////////
@@ -1433,6 +1546,28 @@ public class CoordMatrix {
 		
 		System.out.println("==== MATRIX ====\n"+matrix.toString());
 		
+		System.out.println("==== INVERSE ====\n"+matrix.inverse().toString());
+		
+		//matrix.inverse = new CoordMatrix(4, 4);
+		matrix.pivotInverseMatrix = new PivotInverseMatrix();
+		matrix.pivotInverseMatrix.matrixRes = new double[4*4];
+		for (int c = 0; c < 4 ; c++){
+			matrix.pivotInverseMatrix.matrixRes[c*4 + c] = 1;
+		}
+		matrix.pivotInverseMatrix.inverse = matrix.inverse.val;
+		matrix.pivotInverseMatrix.columns = matrix.getColumns();
+		double[][] matrixD = new double[matrix.columns][];
+		for (int c = 0 ; c < matrix.columns ; c++){
+			matrixD[c] = new double[matrix.rows];
+			for (int r = 0 ; r < matrix.rows ; r++){
+				matrixD[c][r] = matrix.get(r+1, c+1);
+			}
+		}
+		pivot(matrixD, matrix.pivotInverseMatrix);
+		
+		System.out.println("==== PIVOT INVERSE ====\n"+matrix.inverse.toString());
+		
+		/*
 		matrix.pivot(sol, res);
 		
 		System.out.println("==== SOL ====\n"+sol.toString());
@@ -1459,7 +1594,7 @@ public class CoordMatrix {
 		long delay2 = System.currentTimeMillis() - time;
 		System.out.println("==== matrix.pivot : "+delay2);
 		System.out.println("=========== ratio : "+(delay1/delay2));
-		
+		*/
 	}
 
 }
