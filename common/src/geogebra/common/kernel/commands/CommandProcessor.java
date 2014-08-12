@@ -103,9 +103,7 @@ public abstract class CommandProcessor {
 
 			// resolve i-th argument and get GeoElements
 			// use only first resolved argument object for result
-			Log.debug(arg[i]);
 			result[i] = resArg(arg[i])[0];
-			Log.debug(result[i]);
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);

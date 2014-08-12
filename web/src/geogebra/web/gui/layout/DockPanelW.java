@@ -259,7 +259,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
 		this.isAlone = false;
-		App.debug("PANEL"+id);
 	}
 
 	/**
