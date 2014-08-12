@@ -95,6 +95,6 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	
 	@Override
 	public ImageIcon getIcon() { 
-			return app.getImageIcon("view-graphics24.png");
+			return app.getImageIcon("menu_view_graphics.png");
 	}
 }

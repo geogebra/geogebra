@@ -64,7 +64,7 @@ public class AlgebraDockPanel extends DockPanel {
 	
 	@Override
 	public ImageIcon getIcon() { 
-			return app.getImageIcon("view-algebra24.png");
+			return app.getImageIcon("menu_view_algebra.png");
 	}
 	
 }

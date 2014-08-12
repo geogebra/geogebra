@@ -254,15 +254,15 @@ public class PropertiesStyleBarD extends
 		case DEFAULTS:
 			return app.getImageIcon("properties_defaults_3.png");
 		case SPREADSHEET:
-			return app.getImageIcon("view-spreadsheet24.png");
+			return app.getImageIcon("menu_view_spreadsheet.png");
 		case EUCLIDIAN:
-			return app.getImageIcon("view-graphics24.png");
+			return app.getImageIcon("menu_view_graphics.png");
 		case EUCLIDIAN2:
-			return app.getImageIcon("view-graphics224.png");
+			return app.getImageIcon("menu_view_graphics2.png");
 		case EUCLIDIAN3D:
 			return app.getImageIcon("menu_view_graphics3D.png");
 		case CAS:
-			return app.getImageIcon("view-cas24.png");
+			return app.getImageIcon("menu_view_cas.png");
 		case ADVANCED:
 			return app.getImageIcon("options-advanced24.png");
 		case OBJECTS:

@@ -50,7 +50,7 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getImageIcon("view-graphics224.png");
+		return app.getImageIcon("menu_view_graphics2.png");
 	}
 
 }

@@ -436,22 +436,22 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/view_btn.png")
 	ImageResource view_btn();
 	
-	@Source("geogebra/web/gui/images/view-algebra24.png")
+	@Source("geogebra/web/gui/images/menu_view_algebra.png")
 	ImageResource view_algebra24();
 	
-	@Source("geogebra/web/gui/images/view-cas24.png")
+	@Source("geogebra/web/gui/images/menu_view_cas.png")
 	ImageResource view_cas24();
 	
 	/*@Source("geogebra/web/gui/images/view_close.png")
 	ImageResource view_close();*/
 	
-	@Source("geogebra/web/gui/images/view-constructionprotocol24.png")
+	@Source("geogebra/web/gui/images/menu_view_construction_protocol.png")
 	ImageResource view_constructionprotocol24();
 	
-	@Source("geogebra/web/gui/images/view-graphics224.png")
+	@Source("geogebra/web/gui/images/menu_view_graphics2.png")
 	ImageResource view_graphics224();
 	
-	@Source("geogebra/web/gui/images/view-graphics24.png")
+	@Source("geogebra/web/gui/images/menu_view_graphics.png")
 	ImageResource view_graphics24();
 	
 	@Source("geogebra/web/gui/images/view-maximize.png")
@@ -463,7 +463,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/view-refresh.png")
 	ImageResource view_refresh();
 	
-	@Source("geogebra/web/gui/images/view-spreadsheet24.png")
+	@Source("geogebra/web/gui/images/menu_view_spreadsheet.png")
 	ImageResource view_spreadsheet24();
 	
 	@Source("geogebra/web/gui/images/view-unmaximize.png")
