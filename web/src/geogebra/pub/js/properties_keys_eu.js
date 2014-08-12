@@ -507,7 +507,7 @@ __GGB__keysVar.eu.command = {
     "Line.Syntax": "[ <Puntua>, <Puntua> ]\n[ <Puntua>, <Lerro Paraleloa> ]\n[ <Puntua>, <Norabide-bektorea> ]",
     "LineBisector": "Erdibitzailea",
     "LineBisector.Syntax": "[ <Zuzenkia> ]\n[ <Puntua>, <Puntua> ]",
-    "LineBisector.Syntax3D": "[ <Segment> ]\n[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
+    "LineBisector.Syntax3D": "[ <Zuzenkia> ]\n[ <Puntua>, <Puntua> ]\n[ <Puntua>, <Puntua>, <Norabidea> ]",
     "Locus": "LekuGeometrikoa",
     "Locus.Syntax": "[ <Leku Geometrikoaren Lerroa Sortzen Duen Puntua>, <Puntua> ]\n[ <Leku Geometrikoa Sortzen Duen Puntua>, <Irristailua> ]\n[ <Norabide-eremua>, <Puntua> ]\n[ <f(x, y)>, <Puntua> ]",
     "LocusEquation": "LekuGeometrikoarenEkuazioa",
