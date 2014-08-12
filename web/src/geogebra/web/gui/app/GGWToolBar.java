@@ -664,9 +664,8 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		this.redoButton.setEnabled(app.getKernel().redoPossible());
 	}
 
-	private boolean canShowButtons(int count) {
-	    return app.getWidth() > toolbars.get(0).getGroupCount() * 45 + 
-	    		count * 45 + 15; 
+	private int canShowButtons() {
+	    return ( (int)app.getWidth() - toolbars.get(0).getGroupCount() * 45 - 15) /45;
     }
 
 	@Override
@@ -675,19 +674,21 @@ public class GGWToolBar extends Composite implements RequiresResize{
 			//toolbar not initialized, just run away
 			return;
 		}
-		if((app.showMenuBar() && !canShowButtons(4))|| !canShowButtons(2) ){
+		App.printStacktrace("");
+		int canShowButtons = canShowButtons();
+		if((app.showMenuBar() && canShowButtons < 4)|| canShowButtons < 2 ){
 			this.redoButton.setVisible(false);
 		}else{
 			this.redoButton.setVisible(true);
 		}
 		if(this.openSearchButton != null){
-			if(app.showMenuBar() && !canShowButtons(3)){
+			if(app.showMenuBar() && canShowButtons < 3){
 				this.openSearchButton.setVisible(false);
 			}else{
 				this.openSearchButton.setVisible(true);
 			}
 		}
-		if((app.showMenuBar() && !canShowButtons(2)) || !canShowButtons(1)){
+		if((app.showMenuBar() && canShowButtons < 2) || canShowButtons <1){
 			this.undoButton.setVisible(false);
 		}else{
 			this.undoButton.setVisible(true);
