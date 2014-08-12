@@ -23,6 +23,7 @@ public class ParserFunctions {
 	private final TreeSet<String> RESERVED_FUNCTION_NAMES = new TreeSet<String>();
 	private final TreeSet<String> syntaxes = new TreeSet<String>();
 	private static final int MAX_ARGS = 4;
+	private boolean localeLoaded = false;
 
 	/**
 	 * Initializes the string => operation map and reserved names set
@@ -285,7 +286,11 @@ public class ParserFunctions {
 	 *            application
 	 */
 	public void updateLocale(App app) {
-		reset();
+		//reset is expensive, do not do that if we only have intl. function names so far
+		if(this.localeLoaded){
+			reset();
+		}
+		this.localeLoaded = true;
 		put(1, app.getFunction("sin"), Operation.SIN);
 		put(1, app.getFunction("cos"), Operation.COS);
 		put(1, app.getFunction("tan"), Operation.TAN);
