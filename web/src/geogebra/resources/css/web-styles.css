@@ -3517,38 +3517,62 @@ PROVIDERS
 }
 
 .browsegui .materialListElement, .PhoneGUI .materialListElement {
-	width: 450px;
-	height: 132px;
+	width: 210px;
+	height: 220px;
 	margin-right: 15px;
+	margin-bottom: 15px;
 	float: left;
-	position: relative;
-	color: #999999;
-}
-
-.browsegui .fileImage, .PhoneGUI .fileImage {
-	width: 152px;
-	height: 112px;
-	overflow: hidden;
-	margin-right: 10px;
-	float: left;
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-color: #FFFFFF;
+	font-size: 10pt;
 	border-radius: 5px;
 	border: 1px solid #CCCCCC;
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
-		rgba(0, 0, 0, 0.05);
+	 rgba(0, 0, 0, 0.05);
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.browsegui .fileImage, .PhoneGUI .fileImage {
+	width: 200px;
+	height: 150px;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-radius: 5px;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+ 		rgba(0, 0, 0, 0.05);
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.browsegui .materialListElement.showDetails .button, .PhoneGUI .materialListElement.showDetails .button {
+	display: flex;
+}
+
+.browsegui .materialListElement.showDetails, .PhoneGUI .materialListElement.showDetails {
+	border-bottom: none;
+}
+
+
+.browsegui .materialListElement .showLessButton, .PhoneGUI .materialListElement .showLessButton {
+	float: right;
+	bottom: 20px;
+	position: relative;
+}
+
+.browsegui .materialListElement .showMoreButton, .PhoneGUI .materialListElement .showMoreButton {
+	position: absolute;
+	top: 9px;
+	right: -11px;
 }
 
 .browsegui .materialListElement.selected, .browsegui .materialListElement:hover,
 .PhoneGUI .materialListElement.selected, .PhoneGUI .materialListElement:hover {
 	color: #666666;
+	border-color: #6666FF;
 }
 
 .browsegui .materialListElement.selected .fileImage, .browsegui .materialListElement:hover .fileImage, 
 .PhoneGUI .materialListElement.selected .fileImage, .PhoneGUI .materialListElement:hover .fileImage {
-	border-color: #6666FF;
+	/*border-color: #6666FF;*/
 }
 
 .browsegui .fileImage.scaleImage, .PhoneGUI .fileImage.scaleImage {
@@ -3560,6 +3584,7 @@ PROVIDERS
 .browsegui .fileDescription, .PhoneGUI .fileDescription {
 	float: left;
 	margin-top: 5px;
+	font-size: 10pt;
 }
 
 .browsegui .fileDescription td, .PhoneGUI .fileDesctiption td {
@@ -3569,6 +3594,13 @@ PROVIDERS
 
 .browsegui .fileTitle, .PhoneGUI .fileTitle {
 	font-weight: bold;
+	padding-right: 10px;
+}
+
+.browsegui .firstLine, .PhoneGUI .firstLine {
+	position: relative;
+	height: 38px;
+	overflow: hidden;
 }
 
 .tubeFilePanel {
@@ -3587,14 +3619,6 @@ PROVIDERS
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	text-align: center;
-}
-
-.fileLinks .arrowPanel {
-	position: absolute;
-	top: 7px;
-	width: 20px;
-	height: 33px;
-	left: -18px;
 }
 
 .browsegui .fileLinks .button, .PhoneGUI .fileLinks .button {
@@ -3616,6 +3640,30 @@ PROVIDERS
 	white-space: nowrap;
 }
 
+
+/* ############## */
+
+.browsegui .infoPanel, .PhoneGUI .infoPanel {
+	padding: 10px 10px 2px 10px;
+}
+
+.browsegui .infoPanel.detailed, .PhoneGUI .infoPanel.detailed {
+	width: 190px;
+	left: -1px;
+	border-radius: 0px 0px 5px 5px;
+	border-left: 1px solid #CCCCCC;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	border-color: #6666FF;
+	background: rgba(255, 255, 255, 0.93);
+	position: relative;
+}
+
+
+.browsegui .infoPanel.detailed>div, .PhoneGUI .infoPanel.detailed>div {
+	padding-bottom: 4px;
+}
 
 /*#####################################################################################
 ###        LANGUAGE GUI
@@ -3720,7 +3768,6 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	background-image:url(https://tube.geogebra.org/images/book-icon-small.png);
 	width:22px;
 	height:22px;
-	position:absolute;
 	opacity:0.8;
 	left:115px;
 	top:85px;
@@ -3935,23 +3982,10 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
    ###          PHONE & TABLET          ###
    ######################################## */
 
-.centeredContent {
-	width: 50%;
+.infoPanel .confirmDelete .button {
+	margin-left: 1px;
 }
 
-.centeredContent .confirmDelete {
-	width: 100%	
-}
-
-.centeredContent .confirmDelete .button {
-	border: 1px solid #C2C2FF;
-	border-radius: 11px;
-	color: #C2C2FF;
-	font-weight: bold;
-	text-align: center;
-	margin: 5px;
-	padding: 5px;
-}
 
 /* ########################################
    ###       END OF PHONE & TABLET      ###

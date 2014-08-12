@@ -1,9 +1,7 @@
 package geogebra.html5.gui.browser;
 
-import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
-import geogebra.common.util.Unicode;
 import geogebra.html5.Browser;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
@@ -20,12 +18,10 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * GUI Element showing a Material as search Result
@@ -35,151 +31,170 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private SimplePanel image;
-	private VerticalPanel infos;
-	protected VerticalPanel links;
-	private final VerticalPanel centeredContent;
+	private FlowPanel infoPanel;
+
 	protected HorizontalPanel confirmDeletePanel;
 	private StandardButton confirm;
 	private StandardButton cancel;
-	private StandardButton deleteButton;
-	private Label title, date, sharedBy;
+	private final StandardButton showMore;
+	private final StandardButton showLess;
+
+	private Label title, sharedBy;
+	private TextBox renameTextBox;
 	private final Material material;
 	protected final AppWeb app;
 	protected boolean isSelected = false;
 	protected boolean isLocalFile;
 
-	//TODO: Translate Insert Worksheet and Edit
-	private final StandardButton viewButton;
-	private final StandardButton editButton;
+	private StandardButton viewButton;
+	private StandardButton editButton;
+	private StandardButton deleteButton;
 
 	/**
 	 * 
 	 * @param m {@link Material}
 	 * @param app {@link AppWeb}
 	 */
-    public MaterialListElement(final Material m, final AppWeb app) {
-		viewButton = new StandardButton(
-				BrowseResources.INSTANCE.document_viewer(), "");
-		editButton = new StandardButton(
-				BrowseResources.INSTANCE.document_edit(), "");
+	public MaterialListElement(final Material m, final AppWeb app) {
 		this.app = app;
 		this.material = m;
 		this.isLocalFile = m.getId() <= 0 ? true : false;
 		this.setStyleName("materialListElement");
 
-		this.centeredContent = new VerticalPanel();
-		this.centeredContent.setStyleName("centeredContent");
-		
-		initButtons();
+		this.showMore = new StandardButton(BrowseResources.INSTANCE.dots_options());
+		this.showLess = new StandardButton(BrowseResources.INSTANCE.arrow_submenu_up());
+
 		initMaterialInfos();
-		
-		this.add(this.centeredContent);
-		this.add(this.links);
+
+		addPreviewPicture();
+		addInfoPanel();
+
+		showDetails(false);
 
 		this.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
 				event.preventDefault();
-				materialSelected();
+				markSelected();
 			}
 		}, ClickEvent.getType());
+
 		setLabels();
 	}
 
-    private void materialSelected() {
-		if (this.isSelected) {
-			if (this.isLocalFile) {
-				onEdit();
-			} else {
-				onOpen();
+	private void addInfoPanel() {
+		this.infoPanel = new FlowPanel();
+		this.infoPanel.setStyleName("infoPanel");
+
+		addTextInfo();
+		addOptions();
+
+		this.add(this.infoPanel);
+	}
+
+	private void addTextInfo() {
+		final FlowPanel firstLine = new FlowPanel();
+		firstLine.setStyleName("firstLine");
+		firstLine.add(this.title);
+
+		this.showMore.addStyleName("showMoreButton");
+		this.showMore.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				showMore();
 			}
-		} else {
-			markSelected();
+		});
+		firstLine.add(this.showMore);
+		this.infoPanel.add(firstLine);
+
+		if(!this.isLocalFile) {
+			this.infoPanel.add(this.sharedBy);
 		}
 	}
 
-    private void initMaterialInfos() {
+
+	private void addOptions() {
+		addEditButton();
+		if (this.isLocalFile) {
+			addDeleteButton();
+		} else {
+			addViewButton();
+		}
+		this.infoPanel.add(this.showLess);
+		this.showLess.addStyleName("showLessButton");
+		this.showLess.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				//TODO event.stopPropagation
+				//				if(CancelEventTimer.cancelMouseEvent()) {
+				//					return;
+				//				}
+				showLess();
+			}
+		});
+	}
+
+	private void addPreviewPicture() {
+
 		this.image = new SimplePanel();
 		this.image.addStyleName("fileImage");
-		this.infos = new VerticalPanel();
-		this.infos.setStyleName("fileDescription");
+		this.image.addDomHandler(new ClickHandler() {
 
-		this.title = new Label(this.material.getTitle());
-		this.title.setStyleName("fileTitle");
-		this.infos.add(this.title);
-
-		this.add(this.image);
+			@Override
+			public void onClick(final ClickEvent event) {
+				markSelected();
+				openDefault();
+			}
+		}, ClickEvent.getType());
 
 		String thumb = this.material.getThumbnail();
 		if (thumb != null && thumb.length() > 0) {
 			if (!this.isLocalFile) {
 				thumb = Browser.normalizeURL(thumb);
 			}
-			this.image.getElement().getStyle().setBackgroundImage("url(" + thumb + ")");
+			this.image.getElement().getStyle()
+			.setBackgroundImage("url(" + thumb + ")");
 		} else {
 			this.image
-			        .getElement()
-			        .getStyle()
-			        .setBackgroundImage(
-			                "url("
-			                        + AppResources.INSTANCE.geogebra64()
-			                                .getSafeUri().asString() + ")");
+			.getElement()
+			.getStyle()
+			.setBackgroundImage(
+					"url("
+							+ AppResources.INSTANCE.geogebra64()
+							.getSafeUri().asString() + ")");
 		}
+		this.add(this.image);
+
 		if(this.material.getType() == Material.MaterialType.book){
 			final Label deco = new Label();
 			deco.setStyleName("bookDecoration");
 			this.image.add(deco);
 		}
-		// no shared Panel for local files
+	}
+
+	void openDefault() {
+		if (this.isLocalFile) {
+			onEdit();
+		} else {
+			onOpen();
+		}
+	}
+
+	private void initMaterialInfos() {
+		this.title = new Label(this.material.getTitle());
+		this.title.setStyleName("fileTitle");
+
 		if (!this.isLocalFile) {
 			this.sharedBy = new Label(this.material.getAuthor());
 			this.sharedBy.setStyleName("sharedPanel");
-			this.infos.add(this.sharedBy);
-		}
-		
-		final String format = this.app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
-		        + Unicode.LeftToRightMark
-		        + "\\F"
-		        + Unicode.LeftToRightMark
-		        + " \\j"
-		        : "\\j \\F \\Y";
-
-		this.date = new Label(CmdGetTime.buildLocalizedDate(format,
-		        this.material.getDate(), this.app.getLocalization()));
-		this.infos.add(this.date);
-		this.centeredContent.add(this.infos);
-	}
-
-	/**
-	 * Initializes the panel of the buttons 'edit' and 'open'
-	 */
-    protected void initButtons() {
-		this.links = new VerticalPanel();
-		this.links.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		this.links.setStyleName("fileLinks");
-		this.links.setVisible(false);
-		
-		addArrowPanel();
-
-		initEditButton();
-		if (this.isLocalFile) {
-			initDeleteButton();
-		} else {
-			initViewButton();
 		}
 	}
 
-	protected void addArrowPanel() {
-	    final FlowPanel arrowPanel = new FlowPanel();
-		final Image arrow = new Image(BrowseResources.INSTANCE.arrow_submenu());
-		arrowPanel.add(arrow);
-		arrowPanel.setStyleName("arrowPanel");
-		this.links.add(arrowPanel);
-    }
-	
-    protected void initDeleteButton() {
+	protected void addDeleteButton() {
 		this.deleteButton = new StandardButton(BrowseResources.INSTANCE.document_delete());
-		this.links.add(this.deleteButton);
+		this.infoPanel.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
 		this.deleteButton.addFastClickHandler(new FastClickHandler() {
 
@@ -191,10 +206,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		initConfirmDeletePanel();
 	}
 
-	void onDelete() {
+	void onDelete() {		
 		this.confirmDeletePanel.setVisible(true);
-		this.links.setVisible(false);
-		this.infos.setVisible(false);
+		this.deleteButton.setVisible(false);
 	}
 
 	private void initConfirmDeletePanel() {
@@ -220,7 +234,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.confirmDeletePanel.add(this.cancel);
 		this.confirmDeletePanel.setStyleName("confirmDelete");
 		this.confirmDeletePanel.setVisible(false);
-		this.centeredContent.add(this.confirmDeletePanel);
+		this.infoPanel.add(this.confirmDeletePanel);
 	}
 
 	void onConfirmDelete() {
@@ -228,17 +242,13 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	void onCancel() {
-		this.infos.setVisible(true);
-		markUnSelected();
+		this.confirmDeletePanel.setVisible(false);
+		this.deleteButton.setVisible(true);
 	}
 
-	
-	
-	/**
-	 * adds a {@link FastClickHandler}
-	 */
-	protected void initEditButton() {
-		this.links.add(this.editButton);
+	private void addEditButton() {
+		this.editButton = new StandardButton(BrowseResources.INSTANCE.document_edit(), "");
+		this.infoPanel.add(this.editButton);
 		this.editButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick() {
@@ -250,28 +260,27 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	/**
 	 * 
 	 */
-	private void onEdit() {
-		/* TODO */
+	void onEdit() {
 		markUnSelected();
 		if(!this.isLocalFile){
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
 
 					@Override
-		            public void onLoaded(final List<Material> response) {
-						//FIXME don't use browseGUI here!
+					public void onLoaded(final List<Material> response) {
+						((GuiManagerW) app.getGuiManager()).getBrowseGUI().clearMaterials();
 						((GuiManagerW) app.getGuiManager()).getBrowseGUI().onSearchResults(response);
-		            }
-		       });
+					}
+				});
 				return;
 			}
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
 
 				@Override
-	            public void onLoaded(final List<Material> parseResponse) {
+				public void onLoaded(final List<Material> parseResponse) {
 					app.getGgbApi().setBase64(parseResponse.get(0).getBase64());
-	            }
-	       });
+				}
+			});
 		}else{
 			((AppW) this.app).getFileManager().openMaterial(this.material, this.app);
 		}
@@ -280,14 +289,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void closeBrowseView() {
-	    ((GuiManagerW) app.getGuiManager()).getBrowseGUI().close();
-    }
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().close();
+	}
 
-	/**
-	 * adds a {@link FastClickHandler}
-	 */
-	protected void initViewButton() {
-		this.links.add(this.viewButton);
+	private void addViewButton() {
+		this.viewButton = new StandardButton(BrowseResources.INSTANCE.document_viewer(), "");
+		this.infoPanel.add(this.viewButton);
 		this.viewButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -301,11 +308,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * marks the material as selected
 	 */
 	protected void markSelected() {
-		//FIXME don't use browseGUI here!
 		this.isSelected = true;
 		((GuiManagerW) app.getGuiManager()).getBrowseGUI().unselectMaterials();
 		this.addStyleName("selected");
-		this.links.setVisible(true);
 		((GuiManagerW) app.getGuiManager()).getBrowseGUI().rememberSelected(this);
 	}
 
@@ -315,20 +320,18 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	public void markUnSelected() {
 		this.isSelected = false;
 		this.removeStyleName("selected");
-		this.links.setVisible(false);
-		if(this.isLocalFile) {
-			this.confirmDeletePanel.setVisible(false);
-		}
+		showLess();
 	}
 
 	/**
 	 * 
 	 */
 	public void setLabels() {
-		this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
 		this.editButton.setText(app.getLocalization().getPlain("Open"));
 		if (this.isLocalFile) {
 			this.deleteButton.setText(app.getLocalization().getCommand("Delete"));
+		} else {
+			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
 		}
 	}
 
@@ -339,24 +342,47 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	public Material getMaterial() {
 		return this.material;
 	}
-	
-	@Override
-	public void onResize() {
-		//FIXME do we need this?
-//		if (((GuiManagerW) app.getGuiManager()).getBrowseGUI().getOffsetWidth() < 780) {
-//			this.image.addStyleName("scaleImage");
-//		}
-//		else {
-//			this.image.removeStyleName("scaleImage");
-//		}
+
+	private void showDetails(final boolean show) {
+		if (this.isLocalFile) {
+			this.deleteButton.setVisible(show);
+		} else {
+			this.viewButton.setVisible(show);
+		}
+		if (show) {
+			this.showLess.setVisible(true);
+			this.showMore.setVisible(false);
+		} else {
+			this.showLess.setVisible(false);
+			this.showMore.setVisible(true);
+		}
+		this.editButton.setVisible(show);		
 	}
-	
-/*** LAF dependent methods **/
-	
+
+	void showMore() {
+		markSelected();
+		this.addStyleName("showDetails");
+		this.infoPanel.addStyleName("detailed");
+
+		showDetails(true);
+	}
+
+	void showLess() {
+		this.removeStyleName("showDetails");
+		this.infoPanel.removeStyleName("detailed");
+		if(this.isLocalFile) {
+			this.confirmDeletePanel.setVisible(false);
+		}
+
+		showDetails(false);
+	}
+
+	/*** LAF dependent methods **/
+
 	public String getInsertWorksheetTitle(final Material m) {
-	    return "View";
-    }
-	
+		return "View";
+	}
+
 	/**
 	 * Opens GeoGebraTube material in a new window (overwritten for tablet app, smart widget)
 	 */
@@ -366,10 +392,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		if (!this.isLocalFile) {
 			openTubeWindow(material.getURL());
 		}
-//		--> var wnd = window.open("about:blank", "", "_blank");
-//			wnd.document.write(html);
+		//		--> var wnd = window.open("about:blank", "", "_blank");
+		//			wnd.document.write(html);
 	}
-	
+
 	/**
 	 * Opens GeoGebraTube material in a new window
 	 * @param id material id
@@ -377,4 +403,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private native void openTubeWindow(String url)/*-{
 		$wnd.open(url);
 	}-*/;
+
+	@Override
+	public void onResize() {
+		// TODO Auto-generated method stub
+
+	}
 }

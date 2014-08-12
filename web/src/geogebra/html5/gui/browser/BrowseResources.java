@@ -44,4 +44,13 @@ public interface BrowseResources extends ClientBundle {
 	
 	@Source("icons/png/web/profile-options-arrow.png")
 	ImageResource arrow_options();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_dots.png")
+	ImageResource dots_options();
+
+	@Source("icons/png/web/menu_icons/menu-edit.png")
+	ImageResource document_rename();
+
+	@Source("icons/png/web/arrow-submenu-up.png")
+	ImageResource arrow_submenu_up();
 }

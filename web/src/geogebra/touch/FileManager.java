@@ -37,680 +37,605 @@ public class FileManager implements FileManagerInterface {
 	boolean hasFile = false;
 	String data;
 	PhoneGap phonegap;
-	
+	Flags createIfNotExist = new Flags(true, false);
+	Flags dontCreateIfNotExist = new Flags(false, false);
+
 	String filename;
 	int count;
-	
+
 
 	public FileManager() {
 		this.phonegap = PhoneGapManager.getPhoneGap();
 	}
 
+	private void getGgbDir(final Callback<DirectoryEntry, FileError> callback) {
+		this.phonegap.getFile().requestFileSystem(FileSystem.LocalFileSystem_PERSISTENT, 0, new FileCallback<FileSystem, FileError>() {
+
+			@Override
+			public void onSuccess(final FileSystem entry) {
+				final DirectoryEntry directoryEntry = entry.getRoot();
+
+				directoryEntry.getDirectory(GGB_DIR, createIfNotExist, new FileCallback<DirectoryEntry, FileError>() {
+
+					@Override
+					public void onSuccess(final DirectoryEntry ggbDir) {
+						callback.onSuccess(ggbDir);
+					}
+
+					@Override
+					public void onFailure(final FileError error) {
+						callback.onFailure(error);
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(final FileError error) {
+				App.debug("Could not get ggbDir");
+			}
+		});
+	}
+
+	private void getMetaDir(final Callback<DirectoryEntry, FileError> callback) {
+		getGgbDir(new Callback<DirectoryEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final DirectoryEntry ggbDir) {
+				ggbDir.getDirectory(META_DIR, createIfNotExist, new FileCallback<DirectoryEntry, FileError>() {
+
+					@Override
+					public void onSuccess(final DirectoryEntry metaDir) {
+						callback.onSuccess(metaDir);
+					}
+
+					@Override
+					public void onFailure(final FileError error) {
+						callback.onFailure(error);
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(final FileError reason) {
+				App.debug("Could not get metaDir");
+			}
+		});
+	}
+
+	/**
+	 * Gets access to the ggb-File
+	 * 
+	 * @param fileName name of file
+	 * @param flags (true, false) to create file, if it doesn't exist. 
+	 * (false, false) don't create file if it doesn't exist
+	 * @param callback Callback
+	 */
+	void getGgbFile(final String fileName, final Flags flags, final Callback<FileEntry, FileError> callback) {
+		getGgbDir(new Callback<DirectoryEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final DirectoryEntry ggbDir) {
+				ggbDir.getFile(fileName, flags,
+						new FileCallback<FileEntry, FileError>() {
+
+					@Override
+					public void onSuccess(final FileEntry entry) {
+						callback.onSuccess(entry);
+					}
+
+					@Override
+					public void onFailure(final FileError error) {
+						callback.onFailure(error);
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(final FileError reason) {
+				App.debug("Could not get File");
+			}
+		});
+	}
+
+	/**
+	 * Gets access to the metaFile
+	 * 
+	 * @param fileName name of file
+	 * @param flags (true, false) to create file, if it doesn't exist. 
+	 * (false, false) don't create file if it doesn't exist
+	 * @param callback Callback
+	 */
+	void getMetaFile(final String fileName, final Flags flags, final Callback<FileEntry, FileError> callback) {
+		getMetaDir(new Callback<DirectoryEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final DirectoryEntry metaDir) {
+				metaDir.getFile(fileName, flags, new FileCallback<FileEntry, FileError>() {
+
+					@Override
+					public void onSuccess(final FileEntry metaFile) {
+						callback.onSuccess(metaFile);
+					}
+
+					@Override
+					public void onFailure(final FileError error) {
+						callback.onFailure(error);
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(final FileError reason) {
+				App.debug("Could not get metaFile");
+			}
+		});
+	}
+
+	/**
+	 * Deletes the ggbFile and metaFile from the device. Updates the
+	 * BrowseView.
+	 */
 	public void delete(final Material mat) {
 		final String consTitle = mat.getURL();
-		this.phonegap.getFile().requestFileSystem(
-				FileSystem.LocalFileSystem_PERSISTENT, 0,
-				new FileCallback<FileSystem, FileError>() {
+
+		getGgbFile(consTitle + FILE_EXT, dontCreateIfNotExist,
+				new Callback<FileEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final FileEntry ggbFile) {
+				ggbFile.remove(new FileCallback<Boolean, FileError>() {
 
 					@Override
-					public void onSuccess(final FileSystem entry) {
-						final DirectoryEntry directoryEntry = entry.getRoot();
-
-						/**
-						 * Get directory GeoGebra, create it, if it doesn't
-						 * exist (Flags(true, false)).
-						 */
-						directoryEntry.getDirectory(GGB_DIR, new Flags(true,
-								false),
-								new FileCallback<DirectoryEntry, FileError>() {
-
-									@Override
-									public void onSuccess(
-											final DirectoryEntry ggbDir) {
-										ggbDir.getFile(
-												consTitle + FILE_EXT,
-												new Flags(false, false),
-												new FileCallback<FileEntry, FileError>() {
-
-													@Override
-													public void onSuccess(
-															final FileEntry ggbFile) {
-														ggbFile.remove(new FileCallback<Boolean, FileError>() {
-
-															@Override
-															public void onSuccess(
-																	final Boolean entryDeleted) {
-																removeFile(mat);
-																
-																/**
-																 * remove
-																 * metadata only
-																 * if the
-																 * ggb-file was
-																 * removed
-																 * successfully
-																 */
-																ggbDir.getDirectory(
-																		META_DIR,
-																		new Flags(
-																				true,
-																				false),
-																		new FileCallback<DirectoryEntry, FileError>() {
-
-																			@Override
-																			public void onSuccess(
-																					final DirectoryEntry metaDir) {
-																				deleteMetaData(
-																						metaDir,
-																						consTitle);
-																			}
-
-																			@Override
-																			public void onFailure(
-																					final FileError error) {
-
-																			}
-																		});
-															}
-															
-															@Override
-															public void onFailure(
-																	final FileError error) {
-															}
-														});
-													}
-
-													@Override
-													public void onFailure(
-															final FileError error) {
-													}
-												});
-									}
-
-									@Override
-									public void onFailure(final FileError error) {
-									}
-								});
+					public void onSuccess(final Boolean entryDeleted) {
+						removeFile(mat);
+						deleteMetaData(consTitle);
 					}
 
 					@Override
 					public void onFailure(final FileError error) {
+						App.debug("Could not remove file");
 					}
 				});
+			}
 
+			@Override
+			public void onFailure(final FileError reason) {
+				App.debug("Could not get file");
+			}
+
+		});
 	}
 
-	void deleteMetaData(final DirectoryEntry metaEntry, final String title) {
-		metaEntry.getFile(META_PREFIX + title, new Flags(false, false),
-				new FileCallback<FileEntry, FileError>() {
+	/**
+	 * deletes the metaFile with given filename.
+	 * @param title String
+	 */
+	void deleteMetaData(final String title) {
+		getMetaFile(META_PREFIX + title, dontCreateIfNotExist, new Callback<FileEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final FileEntry metaFile) {
+				metaFile.remove(new FileCallback<Boolean, FileError>() {
 
 					@Override
-					public void onSuccess(final FileEntry fileEntry) {
-						fileEntry
-								.remove(new FileCallback<Boolean, FileError>() {
-
-									@Override
-									public void onSuccess(
-											final Boolean entryDeleted) {
-									}
-
-									@Override
-									public void onFailure(final FileError error) {
-									}
-								});
+					public void onSuccess(final Boolean entryDeleted) {
+						//
 					}
 
 					@Override
 					public void onFailure(final FileError error) {
+						App.debug("Could not delete metafile");
 					}
 				});
+			}
+
+			@Override
+			public void onFailure(final FileError reason) {
+				App.debug("Could not get metafile");
+			}
+		});
 	}
 
-	
+
+	/**
+	 * loads every file of the device into the BrowseView.
+	 */
 	public void getAllFiles() {
 		this.getFiles(MaterialFilter.getUniversalFilter());
 	}
 
+	/**
+	 * 
+	 * @param loc {@link Localization}
+	 * @param callback Callback
+	 */
 	void getDefaultConstructionTitle(final Localization loc,
 			final Callback<String, String> callback) {
-		
+
 		this.count = 1;
 		this.filename = loc.getPlain("UntitledA", this.count + "");
 
-		this.phonegap.getFile().requestFileSystem(
-				FileSystem.LocalFileSystem_PERSISTENT, 0,
-				new FileCallback<FileSystem, FileError>() {
+		getGgbDir(new Callback<DirectoryEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final DirectoryEntry ggbDir) {
+				final DirectoryReader directoryReader = ggbDir.createReader();
+				directoryReader.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
 
 					@Override
-					public void onSuccess(final FileSystem entry) {
-						final DirectoryEntry directoryEntry = entry.getRoot();
-
-						/**
-						 * Get directory GeoGebra, create it, if it doesn't
-						 * exist (Flags(true, false)).
-						 */
-						directoryEntry.getDirectory(GGB_DIR, new Flags(true,
-								false),
-								new FileCallback<DirectoryEntry, FileError>() {
-
-									@Override
-									public void onSuccess(
-											final DirectoryEntry ggbDir) {
-										final DirectoryReader directoryReader = ggbDir.createReader();
-										directoryReader.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
-
-													@Override
-													public void onSuccess(
-															final LightArray<EntryBase> entries) {
-														for (int i = 0; i < entries
-																.length(); i++) {
-															if (entries.get(i)
-																	.isFile()) {
-																final FileEntry fileEntry = entries
-																		.get(i)
-																		.getAsFileEntry();
-																// get filename
-																// without
-																// '.ggb'
-																final String name = fileEntry
-																		.getName()
-																		.substring(
-																				0,
-																				fileEntry
-																						.getName()
-																						.indexOf(
-																								"."));
-																if (name.equals(FileManager.this.filename)) {
-																	FileManager.this.count++;
-																	FileManager.this.filename = loc
-																			.getPlain(
-																					"UntitledA",
-																					FileManager.this.count
-																							+ "");
-																}
-															}
-														}
-														callback.onSuccess(FileManager.this.filename);
-													}
-
-													@Override
-													public void onFailure(
-															final FileError error) {
-
-													}
-												});
-									}
-
-									@Override
-									public void onFailure(final FileError error) {
-										// TODO "Directory GeoGebra not found"
-									}
-								});
-
+					public void onSuccess(
+							final LightArray<EntryBase> entries) {
+						for (int i = 0; i < entries.length(); i++) {
+							if (entries.get(i).isFile()) {
+								final FileEntry fileEntry = entries
+										.get(i).getAsFileEntry();
+								// get filename without '.ggb'
+								final String name = fileEntry.getName().substring(
+										0,
+										fileEntry.getName().indexOf("."));
+								if (name.equals(FileManager.this.filename)) {
+									FileManager.this.count++;
+									FileManager.this.filename = loc.getPlain(
+											"UntitledA",
+											FileManager.this.count + "");
+								}
+							}
+						}
+						callback.onSuccess(FileManager.this.filename);
 					}
 
 					@Override
 					public void onFailure(final FileError error) {
-						// TODO
+						App.debug("Could not read files");
 					}
 				});
+			}
+
+			@Override
+			public void onFailure(final FileError reason) {
+				App.debug("Could not get ggbDir");
+			}
+		});
 	}
 
 	/**
-	 * 
+	 * loads every file of the device depending on the {@link MaterialFilter filter} into the BrowseView.
 	 * @param filter
-	 * @param callback
 	 */
 	private void getFiles(final MaterialFilter filter) {
-		this.phonegap.getFile().requestFileSystem(
-				FileSystem.LocalFileSystem_PERSISTENT, 0,
-				new FileCallback<FileSystem, FileError>() {
+
+		getGgbDir(new Callback<DirectoryEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final DirectoryEntry ggbDir) {
+				final DirectoryReader directoryReader = ggbDir.createReader();
+				directoryReader
+				.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
 
 					@Override
-					public void onSuccess(final FileSystem entry) {
-						final DirectoryEntry directoryEntry = entry.getRoot();
-						/**
-						 * Get directory GeoGebra, create it, if it doesn't
-						 * exist (Flags(true, false)).
-						 */
-						directoryEntry.getDirectory(GGB_DIR, new Flags(true,
-								false),
-								new FileCallback<DirectoryEntry, FileError>() {
+					public void onSuccess(final LightArray<EntryBase> entries) {
+						for (int i = 0; i < entries.length(); i++) {
+							final EntryBase entryBase = entries.get(i);
+							if (entryBase.isFile()) {
+								final FileEntry fileEntry = entryBase.getAsFileEntry();
+								// get name without ending (.ggb)
+								final String name = fileEntry.getName().substring(
+										0,
+										fileEntry.getName().indexOf("."));
+								getMetaFile(META_PREFIX + name, dontCreateIfNotExist, new Callback<FileEntry, FileError> () {
 
 									@Override
-									public void onSuccess(
-											final DirectoryEntry ggbDir) {
-										final DirectoryReader directoryReader = ggbDir
+									public void onSuccess(final FileEntry metaFile) {
+										final FileReader reader = PhoneGapManager
+												.getPhoneGap()
+												.getFile()
 												.createReader();
-										directoryReader
-												.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
 
-													@Override
-													public void onSuccess(
-															final LightArray<EntryBase> entries) {
-														for (int i = 0; i < entries
-																.length(); i++) {
-															final EntryBase entryBase = entries
-																	.get(i);
-															if (entryBase
-																	.isFile()) {
-																final FileEntry fileEntry = entryBase
-																		.getAsFileEntry();
-																// get name
-																// without
-																// ending (.ggb)
-																final String name = fileEntry
-																		.getName()
-																		.substring(
-																				0,
-																				fileEntry
-																						.getName()
-																						.indexOf(
-																								"."));
-																ggbDir.getDirectory(
-																		META_DIR,
-																		new Flags(
-																				true,
-																				false),
-																		new FileCallback<DirectoryEntry, FileError>() {
+										reader.setOnloadCallback(new ReaderCallback<FileReader>() {
 
-																			@Override
-																			public void onSuccess(
-																					final DirectoryEntry metaDir) {
-																				metaDir.getFile(
-																						META_PREFIX
-																								+ name,
-																						new Flags(
-																								false,
-																								false),
-																						new FileCallback<FileEntry, FileError>() {
-
-																							@Override
-																							public void onSuccess(
-																									final FileEntry metaFile) {
-																								final FileReader reader = PhoneGapManager
-																										.getPhoneGap()
-																										.getFile()
-																										.createReader();
-																								// callback
-																								// -
-																								// only
-																								// if
-																								// there
-																								// was
-																								// no
-																								// error
-																								reader.setOnloadCallback(new ReaderCallback<FileReader>() {
-
-																									@Override
-																									public void onCallback(
-																											final FileReader result) {
-																										Material mat = JSONparserGGT
-																												.parseMaterial(result
-																														.getResult());
-																										if (mat == null) {
-																											mat = new Material(
-																													0,
-																													MaterialType.ggb);
-																											mat.setTitle(name);
-																										}
-																										if (filter
-																												.check(mat)) {
-																											mat.setURL(name);
-																											addFile(mat);
-																										}
-
-																									}
-
-																								});
-																								reader.readAsText(metaFile);
-																							}
-
-																							@Override
-																							public void onFailure(
-																									final FileError error) {
-																							}
-																						});
-																			}
-
-																			@Override
-																			public void onFailure(
-																					final FileError error) {
-																			}
-																		});
-															}
-														}
-													}
-
-													@Override
-													public void onFailure(
-															final FileError error) {
-													}
-												});
+											@Override
+											public void onCallback(final FileReader result) {
+												Material mat = JSONparserGGT.parseMaterial(result.getResult());
+												if (mat == null) {
+													mat = new Material(0, MaterialType.ggb);
+													mat.setTitle(name);
+												}
+												if (filter.check(mat)) {
+													mat.setURL(name);
+													addFile(mat);
+												}
+											}
+										});
+										reader.readAsText(metaFile);
 									}
 
 									@Override
-									public void onFailure(final FileError error) {
+									public void onFailure(final FileError reason) {
+										// TODO Auto-generated method stub
+
 									}
 								});
+							}
+						}
 					}
 
 					@Override
 					public void onFailure(final FileError error) {
+						//
 					}
 				});
+			}
+
+			@Override
+			public void onFailure(final FileError reason) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	public void openMaterial(final Material material, final AppWeb app) {
-		//TODO check Title
 		app.getKernel().getConstruction().setTitle(material.getTitle());
 		getFileData(material.getURL(), app);
 	}
 
-//	/**
-//	 * Checks if the file with given filename is already saved on the device.
-//	 * 
-//	 * @param filename
-//	 *            String
-//	 */
-//	public void hasFile(final String filename, final Callback<Boolean, Boolean> callback) {
-//		this.hasFile = false;
-//		this.phonegap.getFile().requestFileSystem(
-//				FileSystem.LocalFileSystem_PERSISTENT, 0,
-//				new FileCallback<FileSystem, FileError>() {
-//
-//					@Override
-//					public void onSuccess(final FileSystem entry) {
-//						final DirectoryEntry directoryEntry = entry.getRoot();
-//
-//						/**
-//						 * Get directory GeoGebra, create it, if it doesn't
-//						 * exist (Flags(true, false)).
-//						 */
-//						directoryEntry.getDirectory(GGB_DIR, new Flags(true,
-//								false),
-//								new FileCallback<DirectoryEntry, FileError>() {
-//
-//									@Override
-//									public void onSuccess(
-//											final DirectoryEntry ggbDir) {
-//										final DirectoryReader directoryReader = ggbDir
-//												.createReader();
-//										directoryReader
-//												.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
-//
-//													@Override
-//													public void onSuccess(final LightArray<EntryBase> entries) {
-//														for (int i = 0; i < entries.length(); i++) {
-//															if (entries.get(i).isFile()) {
-//																final FileEntry fileEntry = entries.get(i).getAsFileEntry();
-//																final String name = fileEntry.getName().substring(0, fileEntry.getName().indexOf("."));
-//																if (name.equals(filename)) {
-//																	FileManager.this.hasFile = true;
-//																	break;
-//																}
-//															}
-//														}
-//														callback.onSuccess(FileManager.this.hasFile);
-//													}
-//
-//													@Override
-//													public void onFailure(final FileError error) {
-//
-//													}
-//												});
-//									}
-//
-//									@Override
-//									public void onFailure(final FileError error) {
-//										// TODO "Directory GeoGebra not found"
-//									}
-//								});
-//
-//					}
-//
-//					@Override
-//					public void onFailure(final FileError error) {
-//						// TODO
-//					}
-//				});
-//	}
+	//	/**
+	//	 * Checks if the file with given filename is already saved on the device.
+	//	 * 
+	//	 * @param filename
+	//	 *            String
+	//	 */
+	//	public void hasFile(final String filename, final Callback<Boolean, Boolean> callback) {
+	//		this.hasFile = false;
+	//		this.phonegap.getFile().requestFileSystem(
+	//				FileSystem.LocalFileSystem_PERSISTENT, 0,
+	//				new FileCallback<FileSystem, FileError>() {
+	//
+	//					@Override
+	//					public void onSuccess(final FileSystem entry) {
+	//						final DirectoryEntry directoryEntry = entry.getRoot();
+	//
+	//						/**
+	//						 * Get directory GeoGebra, create it, if it doesn't
+	//						 * exist (Flags(true, false)).
+	//						 */
+	//						directoryEntry.getDirectory(GGB_DIR, new Flags(true,
+	//								false),
+	//								new FileCallback<DirectoryEntry, FileError>() {
+	//
+	//									@Override
+	//									public void onSuccess(
+	//											final DirectoryEntry ggbDir) {
+	//										final DirectoryReader directoryReader = ggbDir
+	//												.createReader();
+	//										directoryReader
+	//												.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
+	//
+	//													@Override
+	//													public void onSuccess(final LightArray<EntryBase> entries) {
+	//														for (int i = 0; i < entries.length(); i++) {
+	//															if (entries.get(i).isFile()) {
+	//																final FileEntry fileEntry = entries.get(i).getAsFileEntry();
+	//																final String name = fileEntry.getName().substring(0, fileEntry.getName().indexOf("."));
+	//																if (name.equals(filename)) {
+	//																	FileManager.this.hasFile = true;
+	//																	break;
+	//																}
+	//															}
+	//														}
+	//														callback.onSuccess(FileManager.this.hasFile);
+	//													}
+	//
+	//													@Override
+	//													public void onFailure(final FileError error) {
+	//
+	//													}
+	//												});
+	//									}
+	//
+	//									@Override
+	//									public void onFailure(final FileError error) {
+	//										// TODO "Directory GeoGebra not found"
+	//									}
+	//								});
+	//
+	//					}
+	//
+	//					@Override
+	//					public void onFailure(final FileError error) {
+	//						// TODO
+	//					}
+	//				});
+	//	}
+
+	//	/**
+	//	 * not in use yet
+	//	 */
+	//	public void renameFile(final String oldName, final String newName) {
+	//		
+	//		getGgbDir(new Callback<DirectoryEntry, FileError>() {
+	//
+	//			@Override
+	//            public void onSuccess(final DirectoryEntry ggbDir) {
+	//	            ggbDir.getFile(oldName + FILE_EXT, dontCreateIfNotExist, new FileCallback<FileEntry, FileError>() {
+	//					
+	//					@Override
+	//					public void onSuccess(FileEntry entry) {
+	//						renameMetaData(ggbDir, META_PREFIX + oldName, META_PREFIX + newName);
+	//					}
+	//
+	//					@Override
+	//					public void onFailure(FileError error) {
+	//						// TODO Auto-generated method stub
+	//					}
+	//				});
+	//            }
+	//			
+	//			@Override
+	//            public void onFailure(FileError reason) {
+	//	            // TODO Auto-generated method stub
+	//	            
+	//            }
+	//		});
+	//	}
+	//	
+	//	/**
+	//	 * not in use yet
+	//	 */
+	//	void renameMetaData(DirectoryEntry ggbDir, final String metaFileNameOld, final String metaFileNameNew) {
+	//		getMetaDir(new Callback<DirectoryEntry, FileError>() {
+	//
+	//			@Override
+	//			public void onSuccess(final DirectoryEntry metaDir) {
+	//				metaDir.getFile(metaFileNameOld, createIfNotExist, new FileCallback<FileEntry, FileError>() {
+	//
+	//					@Override
+	//					public void onSuccess(FileEntry metaFile) {
+	//						metaFile.moveTo(metaDir, metaFileNameNew, new FileCallback<FileEntry, FileError>() {
+	//
+	//							@Override
+	//							public void onSuccess(FileEntry entry) {
+	//								abc("Meta renamed");
+	//							}
+	//
+	//							@Override
+	//							public void onFailure(FileError error) {
+	//								// TODO Auto-generated method stub
+	//
+	//							}
+	//						});
+	//					}
+	//
+	//					@Override
+	//					public void onFailure(FileError error) {
+	//						// TODO Auto-generated method stub
+	//
+	//					}
+	//				});
+	//
+	//			}
+	//
+	//			@Override
+	//			public void onFailure(FileError reason) {
+	//				// TODO Auto-generated method stub
+	//
+	//			}
+	//		});
+	//	}
+
 
 	/**
-	 * Save the active file (with metaData) on the device in directory
+	 * Saves the active file (with metaData) on the device into directory
 	 * "GeoGebra".
 	 * 
-	 * @param app
+	 * @param app App
 	 */
 	public void saveFile(final App app) {
-		//TODO how to handle 
 		final String consTitle = ((AppW) app).getKernel().getConstruction().getTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(final String s) {
-				FileManager.this.phonegap.getFile().requestFileSystem(
-						FileSystem.LocalFileSystem_PERSISTENT, 0,
-						new FileCallback<FileSystem, FileError>() {
+
+				getGgbFile(consTitle + FILE_EXT, createIfNotExist, new Callback<FileEntry, FileError>() {
+
+					@Override
+					public void onSuccess(final FileEntry ggbFile) {
+						ggbFile.createWriter(new FileCallback<FileWriter, FileError>() {
 
 							@Override
-							public void onSuccess(final FileSystem entry) {
-								final DirectoryEntry directoryEntry = entry.getRoot();
-
-								/**
-								 * Get directory GeoGebra, create it, if it
-								 * doesn't exist (Flags(true, false)).
-								 */
-								directoryEntry.getDirectory(GGB_DIR,
-												new Flags(true, false),
-												new FileCallback<DirectoryEntry, FileError>() {
-
-													@Override
-													public void onSuccess(
-															final DirectoryEntry ggbDir) {
-														// use flags true,
-														// false, to overwrite
-														// existing files
-														ggbDir.getFile(
-																consTitle+ FILE_EXT,
-																new Flags(true,
-																		false),
-																new FileCallback<FileEntry, FileError>() {
-
-																	@Override
-																	public void onSuccess(
-																			final FileEntry ggbFile) {
-																		ggbFile.createWriter(new FileCallback<FileWriter, FileError>() {
-
-																			@Override
-																			public void onSuccess(
-																					final FileWriter writer) {
-																				writer.write(s);
-																			}
-
-																			@Override
-																			public void onFailure(
-																					final FileError error) {
-																				app.showError("WriteFileFailed");
-																			}
-																		});
-																	}
-
-																	@Override
-																	public void onFailure(
-																			final FileError error) {
-																		app.showError("WriteFileFailed");
-																	}
-																});
-														createMetaData(ggbDir,
-																consTitle, app);
-													}
-
-													@Override
-													public void onFailure(
-															final FileError error) {
-														// TODO
-														// "Directory GeoGebra not found"
-													}
-												});
-
+							public void onSuccess(final FileWriter writer) {
+								writer.write(s);
+								createMetaData(consTitle, app);
 							}
 
 							@Override
 							public void onFailure(final FileError error) {
-								// TODO
+								app.showError("WriteFileFailed");
 							}
 						});
+					}
+
+					@Override
+					public void onFailure(final FileError reason) {
+						// TODO Auto-generated method stub
+
+					}
+
+				});
 			}
 		};
-
-		((geogebra.html5.main.GgbAPIW) app.getGgbApi()).getBase64(true,
-				base64saver);
+		((geogebra.html5.main.GgbAPIW) app.getGgbApi()).getBase64(true, base64saver);
 		app.setSaved();
 		//TODO implement approveFileName
-//		((TouchApp) app.approveFileName();
+		//		((TouchApp) app.approveFileName();
 	}
 
 	/**
 	 * 
 	 * @param title of file
+	 * @param app App
 	 */
 	private void getFileData(final String title, final App app) {
-		this.phonegap.getFile().requestFileSystem(
-				FileSystem.LocalFileSystem_PERSISTENT, 0,
-				new FileCallback<FileSystem, FileError>() {
+
+		getGgbFile(title + FILE_EXT, dontCreateIfNotExist, new Callback<FileEntry, FileError>() {
+			@Override
+			public void onSuccess(final FileEntry ggbFile) {
+				final FileReader reader = phonegap.getFile().createReader();
+				reader.setOnloadCallback(new ReaderCallback<FileReader>() {
 
 					@Override
-					public void onSuccess(final FileSystem entry) {
-						final DirectoryEntry directoryEntry = entry.getRoot();
-
-						/**
-						 * Get directory GeoGebra, create it, if it doesn't
-						 * exist (Flags(true, false)).
-						 */
-						directoryEntry.getDirectory(GGB_DIR, new Flags(true,
-								false),
-								new FileCallback<DirectoryEntry, FileError>() {
-
-									@Override
-									public void onSuccess(
-											final DirectoryEntry ggbDir) {
-										ggbDir.getFile(
-												title + FILE_EXT,
-												new Flags(false, false),
-												new FileCallback<FileEntry, FileError>() {
-
-													@Override
-													public void onSuccess(
-															final FileEntry ggbFile) {
-														final FileReader reader = phonegap.getFile()
-																.createReader();
-
-														// callback - only if
-														// there was no error
-														reader.setOnloadCallback(new ReaderCallback<FileReader>() {
-
-															@Override
-															public void onCallback(
-																	final FileReader result) {
-																app.getGgbApi()
-																		.setBase64(
-																				result.getResult());
-															}
-														});
-														reader.readAsText(ggbFile);
-													}
-
-													@Override
-													public void onFailure(
-															final FileError error) {
-														// TODO Auto-generated
-														// method stub
-
-													}
-												});
-									}
-
-									@Override
-									public void onFailure(final FileError error) {
-										// TODO "Directory GeoGebra not found"
-									}
-								});
-
-					}
-
-					@Override
-					public void onFailure(final FileError error) {
-						// TODO
+					public void onCallback(final FileReader result) {
+						app.getGgbApi().setBase64(result.getResult());
 					}
 				});
+				reader.readAsText(ggbFile);
+			}
+
+			@Override 
+			public void onFailure(final FileError reason) {
+				//
+			}
+		});
 	}
 
 	/**
 	 * create metaData including meta and thumbnail.
 	 * 
-	 * @param ggbDir
-	 * @param title
-	 * @param app
+	 * @param title String
+	 * @param app App
 	 */
-	void createMetaData(final DirectoryEntry ggbDir, final String title,
-			final App app) {
-		ggbDir.getDirectory(META_DIR, new Flags(true, false),
-				new FileCallback<DirectoryEntry, FileError>() {
+	void createMetaData(final String title, final App app) {
+
+		getMetaFile(META_PREFIX + title, createIfNotExist, new Callback<FileEntry, FileError>(){
+
+			@Override
+			public void onSuccess(final FileEntry metaFile) {
+				metaFile.createWriter(new FileCallback<FileWriter, FileError>() {
 
 					@Override
-					public void onSuccess(final DirectoryEntry metaDir) {
-						metaDir.getFile(META_PREFIX + title, new Flags(true,
-								false),
-								new FileCallback<FileEntry, FileError>() {
-
-									@Override
-									public void onSuccess(final FileEntry entry) {
-										entry.createWriter(new FileCallback<FileWriter, FileError>() {
-
-											@Override
-											public void onSuccess(
-													final FileWriter writer) {
-												// extract metadata
-												final Material mat = new Material(
-														0, MaterialType.ggb);
-												mat.setTimestamp(System
-														.currentTimeMillis() / 1000);
-												mat.setTitle(title);
-												mat.setDescription(app
-														.getKernel()
-														.getConstruction()
-														.getWorksheetText(0));
-												mat.setThumbnail(((EuclidianViewWeb) app
-														.getEuclidianView1())
-														.getCanvasBase64WithTypeString());
-												writer.write(mat.toJson()
-														.toString());
-											}
-
-											@Override
-											public void onFailure(
-													final FileError error) {
-												// TODO Auto-generated method
-												// stub
-
-											}
-										});
-									}
-
-									@Override
-									public void onFailure(final FileError error) {
-										// TODO Auto-generated method stub
-
-									}
-								});
+					public void onSuccess(final FileWriter writer) {
+						// extract metadata
+						final Material mat = new Material(0, MaterialType.ggb);
+						mat.setTimestamp(System.currentTimeMillis() / 1000);
+						mat.setTitle(title);
+						mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
+						mat.setThumbnail(((EuclidianViewWeb) app.getEuclidianView1()).getCanvasBase64WithTypeString());
+						writer.write(mat.toJson().toString());
 					}
 
 					@Override
 					public void onFailure(final FileError error) {
-						// TODO Auto-generated method stub
-
+						// TODO Auto-generated method
 					}
 				});
+			} 
+
+			@Override
+			public void onFailure(final FileError reason) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	public void search(final String query) {
@@ -721,17 +646,17 @@ public class FileManager implements FileManagerInterface {
 	 * different behavior for phone and tablet
 	 */
 	@Override
-    public void removeFile(Material mat) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void removeFile(final Material mat) {
+		// TODO Auto-generated method stub
+
+	}
 
 	/**
 	 * different behavior for phone and tablet
 	 */
 	@Override
-    public void addFile(Material mat) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void addFile(final Material mat) {
+		// TODO Auto-generated method stub
+
+	}
 }
