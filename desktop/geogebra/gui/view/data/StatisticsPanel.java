@@ -1,6 +1,8 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.StatisticsModel;
+import geogebra.common.gui.view.data.StatisticsModel.IStatisticsModelListener;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -11,7 +13,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -33,28 +34,12 @@ import javax.swing.border.EmptyBorder;
  * 
  */
 public class StatisticsPanel extends JPanel implements StatPanelInterface,
-		ActionListener {
+		ActionListener, IStatisticsModelListener {
 	private static final long serialVersionUID = 1L;
-	// inference mode constants
-	public static final int SUMMARY_STATISTICS = 0;
-	// one var
-	public static final int INFER_ZTEST = 1;
-	public static final int INFER_ZINT = 2;
-	public static final int INFER_TTEST = 3;
-	public static final int INFER_TINT = 4;
-	// two var
-	public static final int INFER_TTEST_2MEANS = 20;
-	public static final int INFER_TTEST_PAIRED = 21;
-	public static final int INFER_TINT_2MEANS = 22;
-	public static final int INFER_TINT_PAIRED = 23;
-	// multi var
-	public static final int INFER_ANOVA = 40;
 
+	private StatisticsModel model;
 	// inference mode selection
 	private JComboBox cbInferenceMode;
-	private HashMap<Integer, String> labelMap;
-	private HashMap<String, Integer> labelMapReverse;
-	private int selectedMode = SUMMARY_STATISTICS;
 
 	// panels
 	private BasicStatTable statTable;
@@ -82,6 +67,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		this.app = app;
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();
+		model = new StatisticsModel(app, daModel, this);
 		// create the sub-panels
 		createSelectionPanel();
 		createStatTable();
@@ -123,24 +109,24 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			return;
 
 		inferencePanel.removeAll();
-		switch (selectedMode) {
+		switch (model.getSelectedMode()) {
 
-		case INFER_ZTEST:
-		case INFER_TTEST:
-		case INFER_ZINT:
-		case INFER_TINT:
+		case StatisticsModel.INFER_ZTEST:
+		case StatisticsModel.INFER_TTEST:
+		case StatisticsModel.INFER_ZINT:
+		case StatisticsModel.INFER_TINT:
 			inferencePanel.add(getOneVarInferencePanel(), BorderLayout.NORTH);
 			break;
 
-		case INFER_TTEST_2MEANS:
-		case INFER_TTEST_PAIRED:
-		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_TTEST_2MEANS:
+		case StatisticsModel.INFER_TTEST_PAIRED:
+		case StatisticsModel.INFER_TINT_2MEANS:
+		case StatisticsModel.INFER_TINT_PAIRED:
 			inferencePanel.add(getTwoVarInferencePanel(), BorderLayout.NORTH);
 			// inferencePanel.add(statTable, BorderLayout.CENTER);
 			break;
 
-		case INFER_ANOVA:
+		case StatisticsModel.INFER_ANOVA:
 
 			GridBagConstraints tab = new GridBagConstraints();
 			tab.gridx = 0;
@@ -168,7 +154,6 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	}
 
 	private void createSelectionPanel() {
-		createLabelMap();
 		createInferenceTypeComboBox();
 
 		selectionPanel = new JPanel(new BorderLayout());
@@ -215,69 +200,11 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			cbInferenceMode.removeAllItems();
 		}
 
-		switch (daModel.getMode()) {
+		model.fillInferenceModes();
 
-		case DataAnalysisModel.MODE_ONEVAR:
-			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-			cbInferenceMode.addItem(labelMap.get(INFER_ZTEST));
-			cbInferenceMode.addItem(labelMap.get(INFER_TTEST));
-			cbInferenceMode.addItem(MyRenderer.SEPARATOR);
-			cbInferenceMode.addItem(labelMap.get(INFER_ZINT));
-			cbInferenceMode.addItem(labelMap.get(INFER_TINT));
-			break;
-
-		case DataAnalysisModel.MODE_REGRESSION:
-			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-			break;
-
-		case DataAnalysisModel.MODE_MULTIVAR:
-			cbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-			cbInferenceMode.addItem(labelMap.get(INFER_ANOVA));
-			cbInferenceMode.addItem(labelMap.get(INFER_TTEST_2MEANS));
-			cbInferenceMode.addItem(labelMap.get(INFER_TTEST_PAIRED));
-			cbInferenceMode.addItem(MyRenderer.SEPARATOR);
-			cbInferenceMode.addItem(labelMap.get(INFER_TINT_2MEANS));
-			cbInferenceMode.addItem(labelMap.get(INFER_TINT_PAIRED));
-			break;
-		}
-
-		cbInferenceMode.setSelectedItem(labelMap.get(selectedMode));
 		cbInferenceMode.addActionListener(this);
 		cbInferenceMode.setMaximumRowCount(cbInferenceMode.getItemCount());
 		cbInferenceMode.addActionListener(this);
-
-	}
-
-	/**
-	 * Creates two hash maps for JComboBox selections, 1) plotMap: Key = integer
-	 * mode, Value = JComboBox menu string 2) plotMapReverse: Key = JComboBox
-	 * menu string, Value = integer mode
-	 */
-	private void createLabelMap() {
-		if (labelMap == null)
-			labelMap = new HashMap<Integer, String>();
-
-		labelMap.clear();
-		labelMap.put(INFER_TTEST, app.getMenu("TMeanTest"));
-		labelMap.put(INFER_TINT, app.getMenu("TMeanInterval"));
-		labelMap.put(INFER_ZTEST, app.getMenu("ZMeanTest"));
-		labelMap.put(INFER_ZINT, app.getMenu("ZMeanInterval"));
-
-		labelMap.put(INFER_ANOVA, app.getMenu("ANOVA"));
-		labelMap.put(SUMMARY_STATISTICS, app.getMenu("Statistics"));
-
-		labelMap.put(INFER_TTEST_2MEANS, app.getMenu("TTestDifferenceOfMeans"));
-		labelMap.put(INFER_TTEST_PAIRED, app.getMenu("TTestPairedDifferences"));
-		labelMap.put(INFER_TINT_2MEANS,
-				app.getMenu("TEstimateDifferenceOfMeans"));
-		labelMap.put(INFER_TINT_PAIRED,
-				app.getMenu("TEstimatePairedDifferences"));
-
-		// REVERSE LABEL MAP
-		labelMapReverse = new HashMap<String, Integer>();
-		for (Integer key : labelMap.keySet()) {
-			labelMapReverse.put(labelMap.get(key), key);
-		}
 
 	}
 
@@ -296,31 +223,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		}
 
 		statTable.updatePanel();
-
-		switch (selectedMode) {
-
-		case INFER_ZTEST:
-		case INFER_TTEST:
-		case INFER_ZINT:
-		case INFER_TINT:
-			getOneVarInferencePanel().setSelectedPlot(selectedMode);
-			getOneVarInferencePanel().updatePanel();
-			break;
-
-		case INFER_TTEST_2MEANS:
-		case INFER_TTEST_PAIRED:
-		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:
-			getTwoVarInferencePanel().setSelectedInference(selectedMode);
-			getTwoVarInferencePanel().updatePanel();
-			break;
-
-		case INFER_ANOVA:
-			getAnovaTable().updatePanel();
-			getMinMVStatPanel().updatePanel();
-			break;
-		}
-
+		model.update();
 		revalidate();
 		repaint();
 		this.setMinimumSize(this.getPreferredSize());
@@ -334,12 +237,8 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		if (source == cbInferenceMode
 				&& cbInferenceMode.getSelectedItem() != null) {
 
-			if (cbInferenceMode.getSelectedItem().equals(MyRenderer.SEPARATOR)) {
-				cbInferenceMode.setSelectedItem(labelMap.get(selectedMode));
-			} else {
-				selectedMode = labelMapReverse.get(cbInferenceMode
-						.getSelectedItem());
-			}
+			model.selectInferenceMode(cbInferenceMode.getSelectedItem()
+					.toString());
 			setInferencePanel();
 			updatePanel();
 		}
@@ -378,6 +277,34 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			setText(str);
 			return this;
 		}
+	}
+
+	public void addInferenceMode(String item) {
+		cbInferenceMode.addItem(item);
+	}
+
+	public void selectInferenceMode(String item) {
+		cbInferenceMode.setSelectedItem(item);
+	}
+
+	public String getSeparator() {
+		return MyRenderer.SEPARATOR;
+	}
+
+	public void updateOneVarInference(int mode) {
+		getOneVarInferencePanel().setSelectedPlot(mode);
+		getOneVarInferencePanel().updatePanel();
+	}
+
+	public void updateTwoVarInference(int mode) {
+		getTwoVarInferencePanel().setSelectedInference(mode);
+		getTwoVarInferencePanel().updatePanel();
+	}
+
+	public void updateAnovaTable() {
+		getAnovaTable().updatePanel();
+		getMinMVStatPanel().updatePanel();
+
 	}
 
 }

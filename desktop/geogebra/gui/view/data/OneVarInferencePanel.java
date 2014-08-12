@@ -1,5 +1,6 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.StatisticsModel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -44,16 +45,18 @@ import org.apache.commons.math.stat.inference.TTestImpl;
  * @author G. Sturr
  * 
  */
-public class OneVarInferencePanel extends JPanel implements ActionListener,  FocusListener, StatPanelInterface {
+public class OneVarInferencePanel extends JPanel implements ActionListener,
+		FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb fields
 	private AppD app;
 	private Kernel kernel;
 	private DataAnalysisViewD statDialog;
 	private StatTable resultTable;
-	
+
 	// GUI
-	private JLabel lblHypParameter, lblTailType, lblNull, lblConfLevel,lblSigma, lblResultHeader;
+	private JLabel lblHypParameter, lblTailType, lblNull, lblConfLevel,
+			lblSigma, lblResultHeader;
 	private JButton btnCalculate;
 	private MyTextField fldNullHyp, fldConfLevel, fldSigma;
 	private JRadioButton btnLeft, btnRight, btnTwo;
@@ -61,7 +64,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	private JPanel testPanel, intPanel, mainPanel, resultPanel;
 	private Box sigmaPanel;
 	private int fieldWidth = 6;
-	
+
 	// test type (tail)
 	private static final String tail_left = "<";
 	private static final String tail_right = ">";
@@ -81,22 +84,21 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	private boolean isIniting;
 	private boolean isTest = true;
 	private boolean isZProcedure;
-	
-	private int selectedPlot = StatisticsPanel.INFER_TINT;
+
+	private int selectedPlot = StatisticsModel.INFER_TINT;
 	private LocalizationD loc;
 
-	
 	/***************************************
 	 * Construct a OneVarInference panel
 	 */
-	public OneVarInferencePanel(AppD app, DataAnalysisViewD statDialog){
+	public OneVarInferencePanel(AppD app, DataAnalysisViewD statDialog) {
 
 		isIniting = true;
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.statDialog = statDialog;
-		
+
 		this.setLayout(new BorderLayout());
 		this.createGUIElements();
 		this.updateGUI();
@@ -104,15 +106,12 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 		isIniting = false;
 	}
-	
 
+	// ============================================================
+	// Create GUI
+	// ============================================================
 
-	//============================================================
-	//           Create GUI 
-	//============================================================
-
-	private void createGUIElements(){
-
+	private void createGUIElements() {
 
 		btnLeft = new JRadioButton(tail_left);
 		btnRight = new JRadioButton(tail_right);
@@ -128,7 +127,6 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 		cbAltHyp = new JComboBox();
 		cbAltHyp.addActionListener(this);
-
 
 		lblNull = new JLabel();
 		lblHypParameter = new JLabel();
@@ -155,23 +153,22 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		btnCalculate = new JButton();
 		lblResultHeader = new JLabel();
 
-
 		sigmaPanel = hBox(lblSigma, fldSigma);
 
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx=0;
-		c.weightx=1;
-		c.insets = new Insets(4,0,0,0);
-		c.anchor=GridBagConstraints.WEST;
+		c.gridx = 0;
+		c.weightx = 1;
+		c.insets = new Insets(4, 0, 0, 0);
+		c.anchor = GridBagConstraints.WEST;
 
 		GridBagConstraints tab = new GridBagConstraints();
-		tab.gridx=0;
+		tab.gridx = 0;
 		tab.gridy = c.gridy;
-		tab.weightx=1;
-		tab.insets = new Insets(4,20,0,0);
-		tab.anchor=GridBagConstraints.WEST;
+		tab.weightx = 1;
+		tab.insets = new Insets(4, 20, 0, 0);
+		tab.anchor = GridBagConstraints.WEST;
 
-		// test panel	
+		// test panel
 		testPanel = new JPanel(new GridBagLayout());
 		c.gridy = GridBagConstraints.RELATIVE;
 		testPanel.add(lblNull, c);
@@ -179,14 +176,13 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		testPanel.add(lblTailType, c);
 		testPanel.add(cbAltHyp, tab);
 
-
-		// CI panel	
+		// CI panel
 		intPanel = new JPanel(new GridBagLayout());
 		c.gridy = GridBagConstraints.RELATIVE;
 		intPanel.add(lblConfLevel, c);
-		intPanel.add(fldConfLevel, tab);	
+		intPanel.add(fldConfLevel, tab);
 
-		// result panel	
+		// result panel
 		resultTable = new StatTable(app);
 		setResultTable();
 
@@ -194,68 +190,62 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		c.gridy = GridBagConstraints.RELATIVE;
 		resultPanel.add(lblResultHeader, BorderLayout.NORTH);
 		resultPanel.add(resultTable, BorderLayout.CENTER);
-		c.weightx =0;
+		c.weightx = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		//resultPanel.add(resultTable, c);
-
-
+		// resultPanel.add(resultTable, c);
 
 		// main panel
 		mainPanel = new JPanel(new GridBagLayout());
 		this.add(mainPanel, BorderLayout.NORTH);
-		//	this.add(resultPanel, BorderLayout.CENTER);
+		// this.add(resultPanel, BorderLayout.CENTER);
 	}
 
-
-	private void updateMainPanel(){
+	private void updateMainPanel() {
 
 		mainPanel.removeAll();
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx=0;
-		c.weightx=1;
-		c.insets = new Insets(4,0,0,0);
-		c.anchor=GridBagConstraints.WEST;
+		c.gridx = 0;
+		c.weightx = 1;
+		c.insets = new Insets(4, 0, 0, 0);
+		c.anchor = GridBagConstraints.WEST;
 
 		GridBagConstraints tab = new GridBagConstraints();
-		tab.gridx=0;
+		tab.gridx = 0;
 		tab.gridy = c.gridy;
-		tab.weightx=1;
-		tab.insets = new Insets(4,20,0,0);
-		tab.anchor=GridBagConstraints.WEST;
+		tab.weightx = 1;
+		tab.insets = new Insets(4, 20, 0, 0);
+		tab.anchor = GridBagConstraints.WEST;
 
 		c.gridy = GridBagConstraints.RELATIVE;
-		if(isZProcedure)
-			mainPanel.add(sigmaPanel,tab);
+		if (isZProcedure)
+			mainPanel.add(sigmaPanel, tab);
 
-		if(isTest)
-			mainPanel.add(testPanel,c);
+		if (isTest)
+			mainPanel.add(testPanel, c);
 		else
-			mainPanel.add(intPanel,c);
+			mainPanel.add(intPanel, c);
 
-		c.weightx=0;
+		c.weightx = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		mainPanel.add(resultPanel,c);
-
+		mainPanel.add(resultPanel, c);
 
 	}
 
-
-
-	private void  setResultTable(){
+	private void setResultTable() {
 
 		ArrayList<String> nameList = new ArrayList<String>();
 
-		switch (selectedPlot){
-		case StatisticsPanel.INFER_ZTEST:
+		switch (selectedPlot) {
+		case StatisticsModel.INFER_ZTEST:
 			nameList.add(loc.getMenu("PValue"));
-			nameList.add(loc.getMenu("ZStatistic")); 
+			nameList.add(loc.getMenu("ZStatistic"));
 			nameList.add(loc.getMenu(""));
 			nameList.add(loc.getMenu("Length.short"));
 			nameList.add(loc.getMenu("Mean"));
 
 			break;
 
-		case StatisticsPanel.INFER_TTEST:
+		case StatisticsModel.INFER_TTEST:
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("TStatistic"));
 			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
@@ -265,7 +255,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 			nameList.add(loc.getMenu("Mean"));
 			break;
 
-		case StatisticsPanel.INFER_ZINT:
+		case StatisticsModel.INFER_ZINT:
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));
@@ -275,7 +265,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 			nameList.add(loc.getMenu("Mean"));
 			break;
 
-		case StatisticsPanel.INFER_TINT:
+		case StatisticsModel.INFER_TINT:
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));
@@ -294,36 +284,36 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	}
 
-
-	private void updateResultTable(){
+	private void updateResultTable() {
 
 		DefaultTableModel model = resultTable.getModel();
 
 		evaluate();
-		String cInt = statDialog.format(mean) + " \u00B1 "  + statDialog.format(me);
-		
-		switch (selectedPlot){
-		case StatisticsPanel.INFER_ZTEST:
-			model.setValueAt(statDialog.format(P),0,0);
+		String cInt = statDialog.format(mean) + " \u00B1 "
+				+ statDialog.format(me);
+
+		switch (selectedPlot) {
+		case StatisticsModel.INFER_ZTEST:
+			model.setValueAt(statDialog.format(P), 0, 0);
 			model.setValueAt(statDialog.format(testStat), 1, 0);
 			model.setValueAt("", 2, 0);
 			model.setValueAt(statDialog.format(N), 3, 0);
 			model.setValueAt(statDialog.format(mean), 4, 0);
 			break;
 
-		case StatisticsPanel.INFER_TTEST:
-			model.setValueAt(statDialog.format(P),0,0);
+		case StatisticsModel.INFER_TTEST:
+			model.setValueAt(statDialog.format(P), 0, 0);
 			model.setValueAt(statDialog.format(testStat), 1, 0);
 			model.setValueAt(statDialog.format(df), 2, 0);
 			model.setValueAt(statDialog.format(se), 3, 0);
 			model.setValueAt("", 4, 0);
 			model.setValueAt(statDialog.format(N), 5, 0);
-			model.setValueAt(statDialog.format(mean), 6, 0);	
+			model.setValueAt(statDialog.format(mean), 6, 0);
 			break;
 
-		case StatisticsPanel.INFER_ZINT:
-			model.setValueAt(cInt,0,0);
-			model.setValueAt(statDialog.format(lower),1,0);
+		case StatisticsModel.INFER_ZINT:
+			model.setValueAt(cInt, 0, 0);
+			model.setValueAt(statDialog.format(lower), 1, 0);
 			model.setValueAt(statDialog.format(upper), 2, 0);
 			model.setValueAt(statDialog.format(me), 3, 0);
 			model.setValueAt("", 4, 0);
@@ -331,9 +321,9 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 			model.setValueAt(statDialog.format(mean), 6, 0);
 			break;
 
-		case StatisticsPanel.INFER_TINT:
-			model.setValueAt(cInt,0,0);
-			model.setValueAt(statDialog.format(lower),1,0);
+		case StatisticsModel.INFER_TINT:
+			model.setValueAt(cInt, 0, 0);
+			model.setValueAt(statDialog.format(lower), 1, 0);
 			model.setValueAt(statDialog.format(upper), 2, 0);
 			model.setValueAt(statDialog.format(me), 3, 0);
 			model.setValueAt(statDialog.format(df), 4, 0);
@@ -346,21 +336,18 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	}
 
-
-
-
-	//============================================================
-	//           Updates and Event Handlers
-	//============================================================
+	// ============================================================
+	// Updates and Event Handlers
+	// ============================================================
 
 	public void updateFonts(Font font) {
-		// not needed 
+		// not needed
 		// ... font updates handled by recursive call in StatDialog
 	}
 
 	public void setLabels() {
 
-		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = " );
+		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = ");
 		lblNull.setText(loc.getMenu("NullHypothesis") + ": ");
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis") + ": ");
 		lblConfLevel.setText(loc.getMenu("ConfidenceLevel") + ": ");
@@ -370,46 +357,46 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		repaint();
 	}
 
-
 	/** Helper method for updateGUI() */
-	private void updateNumberField(JTextField fld,  double n){
+	private void updateNumberField(JTextField fld, double n) {
 
 		fld.removeActionListener(this);
 		fld.setText(statDialog.format(n));
-		//fld.setCaretPosition(0);
+		// fld.setCaretPosition(0);
 		fld.addActionListener(this);
 
 	}
 
-	private void updateGUI(){
+	private void updateGUI() {
 
-		isTest = (selectedPlot == StatisticsPanel.INFER_ZTEST
-				|| selectedPlot == StatisticsPanel.INFER_TTEST);
+		isTest = (selectedPlot == StatisticsModel.INFER_ZTEST || selectedPlot == StatisticsModel.INFER_TTEST);
 
-		isZProcedure = selectedPlot == StatisticsPanel.INFER_ZTEST
-		|| selectedPlot == StatisticsPanel.INFER_ZINT;
+		isZProcedure = selectedPlot == StatisticsModel.INFER_ZTEST
+				|| selectedPlot == StatisticsModel.INFER_ZINT;
 
 		updateNumberField(fldNullHyp, hypMean);
 		updateNumberField(fldConfLevel, confLevel);
 		updateNumberField(fldSigma, sigma);
 		updateCBAlternativeHyp();
 		setResultTable();
-		updateResultTable();	
+		updateResultTable();
 		updateMainPanel();
 	}
 
-
-	private void updateCBAlternativeHyp(){
+	private void updateCBAlternativeHyp() {
 
 		cbAltHyp.removeActionListener(this);
 		cbAltHyp.removeAllItems();
-		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_right + " " + statDialog.format(hypMean));
-		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_left + " " + statDialog.format(hypMean));
-		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two + " " + statDialog.format(hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
+				+ tail_right + " " + statDialog.format(hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
+				+ tail_left + " " + statDialog.format(hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two
+				+ " " + statDialog.format(hypMean));
 
-		if(tail == tail_right)
+		if (tail == tail_right)
 			cbAltHyp.setSelectedIndex(0);
-		else if(tail == tail_left)
+		else if (tail == tail_left)
 			cbAltHyp.setSelectedIndex(1);
 		else
 			cbAltHyp.setSelectedIndex(2);
@@ -418,21 +405,20 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	}
 
-
-
 	public void actionPerformed(ActionEvent e) {
-		if(isIniting) return;
-		Object source = e.getSource();	
+		if (isIniting)
+			return;
+		Object source = e.getSource();
 
 		if (source instanceof JTextField) {
-			doTextFieldActionPerformed((JTextField)source);
+			doTextFieldActionPerformed((JTextField) source);
 		}
 
-		else if(source == cbAltHyp){
+		else if (source == cbAltHyp) {
 
-			if(cbAltHyp.getSelectedIndex() == 0)
+			if (cbAltHyp.getSelectedIndex() == 0)
 				tail = tail_right;
-			else if(cbAltHyp.getSelectedIndex() == 1)
+			else if (cbAltHyp.getSelectedIndex() == 1)
 				tail = tail_left;
 			else
 				tail = tail_two;
@@ -444,23 +430,24 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
-		if(isIniting) return;
+		if (isIniting)
+			return;
 
 		Double value = Double.parseDouble(source.getText().trim());
 
-		if(source == fldConfLevel){
+		if (source == fldConfLevel) {
 			confLevel = value;
 			evaluate();
 			updateGUI();
 		}
 
-		else if(source == fldNullHyp){
+		else if (source == fldNullHyp) {
 			hypMean = value;
 			evaluate();
 			updateGUI();
 		}
 
-		else if(source == fldSigma){
+		else if (source == fldSigma) {
 			sigma = value;
 			evaluate();
 			updateGUI();
@@ -468,35 +455,29 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	}
 
-
-	public void focusGained(FocusEvent e) {}
-
-	public void focusLost(FocusEvent e) {
-		doTextFieldActionPerformed((JTextField)(e.getSource()));
+	public void focusGained(FocusEvent e) {
 	}
 
+	public void focusLost(FocusEvent e) {
+		doTextFieldActionPerformed((JTextField) (e.getSource()));
+	}
 
-	public void setSelectedPlot(int selectedPlot){
+	public void setSelectedPlot(int selectedPlot) {
 		this.selectedPlot = selectedPlot;
 		updateGUI();
 	}
 
-	public void updatePanel(){
-		//evaluate();
+	public void updatePanel() {
+		// evaluate();
 		updateGUI();
-		//updateResultTable();
+		// updateResultTable();
 	}
 
+	// ============================================================
+	// Computation
+	// ============================================================
 
-
-
-
-	//============================================================
-	//          Computation
-	//============================================================
-
-
-	private void evaluate(){
+	private void evaluate() {
 
 		GeoList dataList = statDialog.getController().getDataSelected();
 		double[] sample = statDialog.getController().getValueArray(dataList);
@@ -505,40 +486,41 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		N = sample.length;
 
 		try {
-			switch (selectedPlot){
+			switch (selectedPlot) {
 
-			case StatisticsPanel.INFER_ZTEST:
-			case StatisticsPanel.INFER_ZINT:
-				normalDist = new NormalDistributionImpl(0,1);
-				se = sigma/Math.sqrt(N);
-				testStat = (mean - hypMean)/se;
+			case StatisticsModel.INFER_ZTEST:
+			case StatisticsModel.INFER_ZINT:
+				normalDist = new NormalDistributionImpl(0, 1);
+				se = sigma / Math.sqrt(N);
+				testStat = (mean - hypMean) / se;
 				P = 2.0 * normalDist.cumulativeProbability(-Math.abs(testStat));
 				P = adjustedPValue(P, testStat, tail);
 
-				double zCritical = normalDist.inverseCumulativeProbability((confLevel + 1d)/2);
-				me  =  zCritical * se;
+				double zCritical = normalDist
+						.inverseCumulativeProbability((confLevel + 1d) / 2);
+				me = zCritical * se;
 				upper = mean + me;
 				lower = mean - me;
 				break;
 
-			case StatisticsPanel.INFER_TTEST:
-			case StatisticsPanel.INFER_TINT:
-				if(tTestImpl == null)
+			case StatisticsModel.INFER_TTEST:
+			case StatisticsModel.INFER_TINT:
+				if (tTestImpl == null)
 					tTestImpl = new TTestImpl();
-				se = Math.sqrt(StatUtils.variance(sample)/N);
-				df = N-1;
+				se = Math.sqrt(StatUtils.variance(sample) / N);
+				df = N - 1;
 				testStat = tTestImpl.t(hypMean, sample);
 				P = tTestImpl.tTest(hypMean, sample);
 				P = adjustedPValue(P, testStat, tail);
 
 				tDist = new TDistributionImpl(N - 1);
-				double tCritical = tDist.inverseCumulativeProbability((confLevel + 1d)/2);
-				me  =  tCritical * se;
+				double tCritical = tDist
+						.inverseCumulativeProbability((confLevel + 1d) / 2);
+				me = tCritical * se;
 				upper = mean + me;
 				lower = mean - me;
 				break;
 			}
-
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -548,23 +530,21 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	}
 
-
-	private double adjustedPValue(double p, double testStatistic, String tail){
+	private double adjustedPValue(double p, double testStatistic, String tail) {
 
 		// two sided test
-		if(tail.equals(tail_two)) 
+		if (tail.equals(tail_two))
 			return p;
 
 		// one sided test
-		else if((tail.equals(tail_right) && testStatistic > 0)
+		else if ((tail.equals(tail_right) && testStatistic > 0)
 				|| (tail.equals(tail_left) && testStatistic < 0))
-			return p/2;
+			return p / 2;
 		else
-			return 1 - p/2;
+			return 1 - p / 2;
 	}
 
-
-	protected double evaluateExpression(String expr){
+	protected double evaluateExpression(String expr) {
 
 		NumberValue nv;
 
@@ -573,63 +553,60 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Double.NaN;
-		}	
+		}
 		return nv.getDouble();
 	}
 
+	// ============================================================
+	// GUI Utilities
+	// ============================================================
 
-
-	//============================================================
-	//           GUI  Utilities
-	//============================================================
-
-
-	private static JPanel flowPanel(Component... comp){
+	private static JPanel flowPanel(Component... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		for(int i = 0; i<comp.length; i++){
+		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);
 		}
-		//	p.setBackground(Color.white);
+		// p.setBackground(Color.white);
 		return p;
 	}
 
-	private static Box hBox(Component... comp){
+	private static Box hBox(Component... comp) {
 		Box b = Box.createHorizontalBox();
-		for(int i = 0; i<comp.length; i++){
+		for (int i = 0; i < comp.length; i++) {
 			b.add(comp[i]);
 		}
 		return b;
 	}
 
-	private static Box vBox(Component... comp){
+	private static Box vBox(Component... comp) {
 		Box p = Box.createVerticalBox();
-		for(int i = 0; i<comp.length; i++){
+		for (int i = 0; i < comp.length; i++) {
 			p.add(Box.createVerticalGlue());
 			p.add(comp[i]);
 		}
 		return p;
 	}
 
-
-	private JPanel blPanel(Component center){
-		return blPanel( center, null, null, null, null);
+	private JPanel blPanel(Component center) {
+		return blPanel(center, null, null, null, null);
 	}
-	private JPanel blPanel(Component center, Component north, Component south, Component west, Component east){
+
+	private JPanel blPanel(Component center, Component north, Component south,
+			Component west, Component east) {
 		JPanel p = new JPanel(new BorderLayout());
-		if(center != null)
+		if (center != null)
 			p.add(center, BorderLayout.CENTER);
-		if(north != null)
+		if (north != null)
 			p.add(north, BorderLayout.NORTH);
-		if(south != null)
+		if (south != null)
 			p.add(south, BorderLayout.SOUTH);
-		if(west != null)
+		if (west != null)
 			p.add(west, loc.borderWest());
-		if(east != null)
+		if (east != null)
 			p.add(east, loc.borderEast());
 
-		//	p.setBackground(Color.white);
+		// p.setBackground(Color.white);
 		return p;
 	}
-
 
 }

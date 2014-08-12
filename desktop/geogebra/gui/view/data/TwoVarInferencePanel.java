@@ -1,5 +1,6 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.StatisticsModel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
@@ -53,7 +54,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private JCheckBox ckEqualVariances;
 	private MyTextField fldConfLevel;
 
-	private int selectedInference = StatisticsPanel.INFER_TINT_2MEANS;
+	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
 
 	// test type (tail)
 	private static final String tail_left = "<";
@@ -228,7 +229,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	}
 
 	private boolean isPairedData() {
-		return (selectedInference == StatisticsPanel.INFER_TINT_PAIRED || selectedInference == StatisticsPanel.INFER_TTEST_PAIRED);
+		return (selectedInference == StatisticsModel.INFER_TINT_PAIRED || selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
 	}
 
 	// ============================================================
@@ -237,15 +238,15 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	private void updateGUI() {
 
-		isTest = (selectedInference == StatisticsPanel.INFER_TTEST_2MEANS || selectedInference == StatisticsPanel.INFER_TTEST_PAIRED);
+		isTest = (selectedInference == StatisticsModel.INFER_TTEST_2MEANS || selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
 
 		if (isTest)
 			lblHypParameter.setText(getNullHypName() + " = 0");
 
 		ckEqualVariances.removeActionListener(this);
 		// ckEqualVariances.setVisible(
-		// selectedPlot == StatisticsPanel.INFER_TINT_2MEANS
-		// || selectedPlot == StatisticsPanel.INFER_TTEST_2MEANS);
+		// selectedPlot == StatisticsModel.INFER_TINT_2MEANS
+		// || selectedPlot == StatisticsModel.INFER_TTEST_2MEANS);
 		ckEqualVariances.setSelected(pooled);
 		ckEqualVariances.addActionListener(this);
 
@@ -329,9 +330,9 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	private String getNullHypName() {
 
-		if (selectedInference == StatisticsPanel.INFER_TTEST_2MEANS)
+		if (selectedInference == StatisticsModel.INFER_TTEST_2MEANS)
 			return app.getMenu("DifferenceOfMeans.short");
-		else if (selectedInference == StatisticsPanel.INFER_TTEST_PAIRED)
+		else if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
 			return app.getMenu("MeanDifference");
 		else
 			return "";
@@ -431,10 +432,10 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		ArrayList<String> list = new ArrayList<String>();
 
 		switch (selectedInference) {
-		case StatisticsPanel.INFER_TTEST_2MEANS:
-		case StatisticsPanel.INFER_TTEST_PAIRED:
+		case StatisticsModel.INFER_TTEST_2MEANS:
+		case StatisticsModel.INFER_TTEST_PAIRED:
 
-			if (selectedInference == StatisticsPanel.INFER_TTEST_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
 				list.add(app.getMenu("MeanDifference"));
 			else
 				list.add(app.getPlain("fncInspector.Difference"));
@@ -445,10 +446,10 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 			list.add(app.getMenu("DegreesOfFreedom.short"));
 			break;
 
-		case StatisticsPanel.INFER_TINT_2MEANS:
-		case StatisticsPanel.INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_TINT_2MEANS:
+		case StatisticsModel.INFER_TINT_PAIRED:
 
-			if (selectedInference == StatisticsPanel.INFER_TINT_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED)
 				list.add(app.getMenu("MeanDifference"));
 			else
 				list.add(app.getPlain("fncInspector.Difference"));
@@ -479,10 +480,10 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		}
 
 		switch (selectedInference) {
-		case StatisticsPanel.INFER_TTEST_2MEANS:
-		case StatisticsPanel.INFER_TTEST_PAIRED:
+		case StatisticsModel.INFER_TTEST_2MEANS:
+		case StatisticsModel.INFER_TTEST_PAIRED:
 
-			if (selectedInference == StatisticsPanel.INFER_TTEST_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
 				model.setValueAt(daView.format(meanDifference), 0, 0);
 			else
 				model.setValueAt(daView.format(diffMeans), 0, 0);
@@ -493,14 +494,14 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 			model.setValueAt(daView.format(df), 0, 4);
 			break;
 
-		case StatisticsPanel.INFER_TINT_2MEANS:
-		case StatisticsPanel.INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_TINT_2MEANS:
+		case StatisticsModel.INFER_TINT_PAIRED:
 
 			// String cInt = statDialog.format(mean) + " \u00B1 " +
 			// statDialog.format(me);
 			// model.setValueAt(cInt,0,0);
 
-			if (selectedInference == StatisticsPanel.INFER_TINT_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED)
 				model.setValueAt(daView.format(meanDifference), 0, 0);
 			else
 				model.setValueAt(daView.format(diffMeans), 0, 0);
@@ -557,8 +558,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		try {
 
 			switch (selectedInference) {
-			case StatisticsPanel.INFER_TTEST_2MEANS:
-			case StatisticsPanel.INFER_TINT_2MEANS:
+			case StatisticsModel.INFER_TTEST_2MEANS:
+			case StatisticsModel.INFER_TINT_2MEANS:
 
 				// get statistics
 				mean1 = StatUtils.mean(sample1);
@@ -597,8 +598,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 				break;
 
-			case StatisticsPanel.INFER_TTEST_PAIRED:
-			case StatisticsPanel.INFER_TINT_PAIRED:
+			case StatisticsModel.INFER_TTEST_PAIRED:
+			case StatisticsModel.INFER_TINT_PAIRED:
 
 				// get statistics
 				n1 = sample1.length;
