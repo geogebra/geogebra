@@ -2373,6 +2373,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 
 .cas_header {
 	width: 1px;
+	height: 2.5em;
 }
 
 .cas_header table td {
