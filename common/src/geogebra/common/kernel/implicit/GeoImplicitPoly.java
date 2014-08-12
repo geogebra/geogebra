@@ -315,10 +315,14 @@ Dilateable, Transformable, EuclidianViewCE {
 		setCoeff(((GeoImplicitPoly)geo).getCoeff(),false);
 		List<Integer> list=geo.getViewSet();
 		boolean needsNewLocus=false;
-		for (int i=0;i<list.size();i++){
-			if (!isVisibleInView(list.get(i))){
-				needsNewLocus=true;
-				break;
+		if(list == null){
+			needsNewLocus = !isVisibleInView(App.VIEW_EUCLIDIAN);
+		}else{
+			for (int i=0;i<list.size();i++){
+				if (!isVisibleInView(list.get(i))){
+					needsNewLocus=true;
+					break;
+				}
 			}
 		}
 		if (needsNewLocus){

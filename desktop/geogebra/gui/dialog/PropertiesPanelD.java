@@ -1916,6 +1916,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
 
+			if (geo.getViewSet() == null) {
+				app.getEuclidianView1().drawListAsComboBox(geo, value);
+				return;
+			}
 			Iterator<Integer> it = geo.getViewSet().iterator();
 
 			// #3929

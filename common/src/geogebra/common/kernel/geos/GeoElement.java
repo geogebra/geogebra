@@ -329,7 +329,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	final public static int COLORSPACE_HSL = 2;
 	private int colorSpace = COLORSPACE_RGB;
 
-	private final List<Integer> viewFlags;
+	private List<Integer> viewFlags = null;
 	/**
 	 * @return used color space (GeoElement.COLORSPACE_*)
 	 */
@@ -487,18 +487,19 @@ public abstract class GeoElement extends ConstructionElement implements
 			layer = kernel.getApplication().getMaxLayerUsed();
 		}
 
-		viewFlags = new ArrayList<Integer>();
+		
 		EuclidianViewInterfaceSlim ev;
-		if ((kernel.getApplication() != null) && ((ev = kernel.getApplication().getActiveEuclidianView()) != null)) {
+		if ((kernel.getApplication() != null) && ((ev = kernel.getApplication().getActiveEuclidianView()) != null)
+				&& (kernel.getApplication().getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN)) {
+			viewFlags = new ArrayList<Integer>();
 			viewFlags.add(ev.getViewID());
+
 			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
 			// euclidian view
 			if (!(ev.isDefault2D())) {
 				viewFlags.add(App.VIEW_EUCLIDIAN);
 			}
-		} else {
-			viewFlags.add(App.VIEW_EUCLIDIAN);
-		}
+		} 
 	}
 
 	/* ****************************************************** */
@@ -6482,6 +6483,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param setVisible true make this geo visible in given view
 	 */
 	public void setVisibility(final int viewId, final boolean setVisible) {
+		if(this.viewFlags == null){
+			this.viewFlags = new ArrayList<Integer>();
+		}
 		if (setVisible) {
 			if (!viewFlags.contains(viewId)) {
 				viewFlags.add(viewId);
@@ -6496,6 +6500,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return whether this geo is visible in given view
 	 */
 	public boolean isVisibleInView(final int viewId) {
+		if(viewFlags == null){
+			return viewId == App.VIEW_EUCLIDIAN;
+		}
 		return viewFlags.contains(viewId);
 	}
 
@@ -6523,7 +6530,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param flags list of view ids
 	 */
 	public void setViewFlags(List<Integer> flags){
-		viewFlags.clear();
+		if(flags == null){
+			viewFlags = null;
+			return;
+		}
+		if(this.viewFlags == null){
+			this.viewFlags = new ArrayList<Integer>();
+		}else{
+			viewFlags.clear();
+		}
 		viewFlags.addAll(flags);
 		// Collections.copy(list, viewFlags);
 	}

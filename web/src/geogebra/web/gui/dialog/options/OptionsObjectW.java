@@ -889,6 +889,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
+			if (geo.getViewSet() == null) {
+				app.getEuclidianView1().drawListAsComboBox(geo, value);
+				return;
+			}
+			
 			Iterator<Integer> it = geo.getViewSet().iterator();
 
 			// #3929
