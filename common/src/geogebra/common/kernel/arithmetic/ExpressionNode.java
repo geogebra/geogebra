@@ -24,6 +24,7 @@ import geogebra.common.export.MathmlTemplate;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Traversing.Replacer;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -306,7 +307,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				|| ev.isConstant() 
 				|| ev instanceof FunctionNVar
 				|| ev instanceof Equation
-				|| ev instanceof MyVecNode) {
+				|| ev instanceof MyVecNode
+				|| ev instanceof MyVec3DNode) {
 			ret = ev.deepCopy(kernel);
 		} else {
 			ret = ev;
