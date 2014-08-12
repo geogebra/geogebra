@@ -791,6 +791,10 @@ public class Ggb2giac {
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
 
 		p("LineBisector.2", "equation(perpen_bisector(%0,%1))");
+		p("AngularBisector.2", "[[B:=inter(%0,%1)],[cbx:=B[0][0]],[Ax1:=cbx-10],[eqa:=equation(%0)],[eqb:=equation(%1)],"
+				+ "[Ay1:=right(subst(eqa,x=Ax1))],[Ax2:=cbx+10],[Ay2:=right(subst(eqa, x=Ax2))],"
+				+ "[Cy:=right(subst(eqb, x=Ax1))],[C:=point(Ax1,Cy)],"
+				+ "[equation(bisector(B,point(Ax1,Ay1),C)),equation(bisector(B,point(Ax2,Ay2),C))]][10]");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
 		// can it be plotted in GeoGebra? Do we want it to be plotted?
