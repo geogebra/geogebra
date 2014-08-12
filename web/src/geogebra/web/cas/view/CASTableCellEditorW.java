@@ -20,7 +20,8 @@ public class CASTableCellEditorW implements CASTableCellEditor {
 		textField.showPopupSymbolButton(true);
 		textField.addKeyHandler(ml);
 		//FIXME experimental fix for CAS in other languages, broken in r27612
-		app.fillCasCommandDict();
+		// This will update the CAS commands also
+		app.updateCommandDictionary();
 	}
 	public int getInputSelectionEnd() {
 	    // TODO Auto-generated method stub
