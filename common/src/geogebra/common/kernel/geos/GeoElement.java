@@ -4936,6 +4936,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param sb string builder
 	 */
 	public void getScriptTags(final StringBuilder sb) {
+		if(scripts == null){
+			return;
+		}
 		Script clickScript = scripts[EventType.CLICK.ordinal()];
 		Script updateScript = scripts[EventType.UPDATE.ordinal()];
 		if (clickScript != null) {
@@ -6341,7 +6344,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Scripting
 	 */
 
-	private Script[] scripts = new Script[EventType.values().length];
+	private Script[] scripts = null;
 
 	
 	/**
@@ -6369,6 +6372,10 @@ public abstract class GeoElement extends ConstructionElement implements
 				|| evt == EventType.CLICK && !canHaveClickScript()) {
 			return;
 		}
+		if(this.scripts == null){
+			this.scripts = new Script[EventType.values().length];
+		}
+		
 		// Make sure we're listening to events for this script
 		kernel.getApplication().startGeoScriptRunner();
 		Script oldScript = scripts[evt.ordinal()];
@@ -6392,6 +6399,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return script
 	 */
 	public Script getScript(EventType type) {
+		if(scripts == null){
+			return null;
+		}
 		return scripts[type.ordinal()];
 	}
 	
@@ -7085,7 +7095,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param oldGeo old GeoElement
 	 */
 	public void setScripting(GeoElement oldGeo) {
-		
+		if(oldGeo.scripts == null){
+			this.scripts = null;
+			return;
+		}
+		if(this.scripts == null){
+			this.scripts = new Script[EventType.values().length];
+		}
 		for (int i = 0 ; i < oldGeo.scripts.length ; i++) {
 			if (oldGeo.scripts[i] != null) {
 				scripts[i] = oldGeo.scripts[i].copy();
