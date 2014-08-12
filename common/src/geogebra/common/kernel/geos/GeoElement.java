@@ -4022,15 +4022,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		return set;
 	}
 
-	/*
+	/**
 	 * implementation of abstract methods from ConstructionElement
+	 * Almost never called, do not cache
 	 */
 	@Override
 	final public GeoElement[] getGeoElements() {
-		return myGeoElements;
-	}
-
-	private final GeoElement[] myGeoElements = new GeoElement[] { this };
+		return new GeoElement[] { this };
+	} 
 
 	@Override
 	final public boolean isAlgoElement() {
