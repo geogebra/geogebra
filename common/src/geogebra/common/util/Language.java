@@ -40,6 +40,7 @@ public enum Language {
 	Bosnian(null, true, "bs","bs", "Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438", Country.BosniaandHerzegovina),
 	Bulgarian(null, false, "bg","bg", "Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A", Country.Bulgaria),
 	Catalan(null, true, "ca","ca", "Catalan / Catal\u00E0", "catalonia"), // fudge to get right flag
+	Valencian(null, true,  "caXV","ca_XV", "Catalan (Valencia)", "valencia"), // fudge to get right flag
 	Chinese_Simplified("\u984F", true, "zhCN","zh_CN", "Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Country.China, Country.Singapore),
 	Chinese_Traditional("\u984F", true, "zhTW","zh_TW", "Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587", Country.TaiwanProvinceofChina),
 	Croatian(null, true, "hr","hr", "Croatian / Hrvatska", Country.Croatia, Country.BosniaandHerzegovina),
@@ -142,7 +143,6 @@ public enum Language {
 	Turkish(null, true, "tr","tr", "Turkish / T\u00FCrk\u00E7e", Country.Turkey, Country.Cyprus),
 	Ukrainian(null, true, "uk","uk", "Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430", Country.Ukraine),
 	Uyghur(null, true, "ug", "ug", "Uyghur", Country.China),
-	Valencian(null, true,  "caXV","ca_XV", "Valencian", "valencia"), // fudge to get right flag
 	Vietnamese(null, true, "vi","vi", "Vietnamese / Ti\u1EBFng Vi\u1EC7t", Country.VietNam),
 	Welsh(null, true,  "cy","cy", "Welsh / Cymraeg", "wales"), // fudge to get right flag
 	Yiddish("\u05d9\u05b4", true, "ji","ji", "Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9", Country.Israel);
