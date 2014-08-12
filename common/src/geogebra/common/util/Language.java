@@ -40,7 +40,7 @@ public enum Language {
 	Bosnian(null, true, "bs","bs", "Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438", Country.BosniaandHerzegovina),
 	Bulgarian(null, false, "bg","bg", "Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A", Country.Bulgaria),
 	Catalan(null, true, "ca","ca", "Catalan / Catal\u00E0", "catalonia"), // fudge to get right flag
-	Valencian(null, true,  "caXV","ca_XV", "Catalan (Valencia)", "valencia"), // fudge to get right flag
+	Valencian(null, true,  "caXV","ca_XV", "Catalan (Valencia) / Catal\u00E0 (Valenci\u00E0)", "valencia"), // fudge to get right flag
 	Chinese_Simplified("\u984F", true, "zhCN","zh_CN", "Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Country.China, Country.Singapore),
 	Chinese_Traditional("\u984F", true, "zhTW","zh_TW", "Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587", Country.TaiwanProvinceofChina),
 	Croatian(null, true, "hr","hr", "Croatian / Hrvatska", Country.Croatia, Country.BosniaandHerzegovina),
