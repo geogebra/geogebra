@@ -6663,7 +6663,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return inverseFill;
 	}
 
-	private Coords mainDirection = Coords.VZ;
+	//private Coords mainDirection = Coords.VZ;
 
 	/**
 	 * 
@@ -6672,16 +6672,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *         line, ...
 	 */
 	public Coords getMainDirection() {
-		return mainDirection;
-	}
-
-	/**
-	 * set the main direction
-	 * 
-	 * @param direction direction
-	 */
-	public void setMainDirection(final Coords direction) {
-		mainDirection = direction;
+		return Coords.VZ;
 	}
 
 	/**
