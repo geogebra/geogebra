@@ -171,12 +171,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * Images for Stylingbar
 	 */
-	private static Image triangleRight = new Image(
-	        GuiResources.INSTANCE.dockbar_triangle_right());
-	private static Image triangleLeft = new Image(
-	        GuiResources.INSTANCE.dockbar_triangle_left());
-	private static Image dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
-	private static Image closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
+	private Image triangleRight, triangleLeft, dragIcon, closeIcon;
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -405,8 +400,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 		dragPanel.setStyleName("dragPanel");
 		dragPanel.addDomHandler(this, MouseDownEvent.getType());
 		dragPanel.setVisible(false);
+		if(dragIcon == null){
+			dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
+		}
 		dragPanel.add(dragIcon);
 		
+		if(closeIcon == null){
+			closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
+		}
 		closeButton = new PushButton(closeIcon);
 		closeButton.addClickHandler(new ClickHandler() {
 
@@ -441,8 +442,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	private void addToggleButton() {
-		toggleStyleBarButton = new PushButton(showStyleBar ?  triangleRight
-		        : (viewImage == null ? triangleLeft : viewImage));
+		toggleStyleBarButton = new PushButton(getToggleImage(showStyleBar));
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 
 		if(!showStyleBar && viewImage != null){
@@ -846,9 +846,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.showStyleBar = showStyleBar;
 		if (this.toggleStyleBarButton != null) {
 			this.toggleStyleBarButton.getElement().removeAllChildren();
-			this.toggleStyleBarButton.getElement().appendChild(
-			        showStyleBar ? this.triangleRight.getElement()
-			                : (viewImage == null ? this.triangleLeft.getElement() : viewImage.getElement()));
+			this.toggleStyleBarButton.getElement().appendChild(getToggleImage(showStyleBar).getElement());
 			if(!showStyleBar && viewImage != null){
 				toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
 			} else {
@@ -1293,5 +1291,25 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public void setPanelVisible(boolean visible){
 		this.titleBarPanel.setVisible(visible);;
+	}
+	
+	private Image getToggleImage(boolean showing){
+		if(showing){
+			if(triangleRight == null){
+				triangleRight = new Image(
+				        GuiResources.INSTANCE.dockbar_triangle_right());
+			}
+			return triangleRight;
+		}
+		if(viewImage != null){
+			return viewImage;
+		}
+		if(triangleLeft == null){
+			triangleLeft = new Image(
+			        GuiResources.INSTANCE.dockbar_triangle_left());
+		}
+        return triangleLeft;
+		
+		
 	}
 }
