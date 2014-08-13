@@ -8,7 +8,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
-import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
@@ -77,21 +77,22 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void createButtons() {
-
-		btnBold = new MyToggleButton2(AppResources.INSTANCE.format_text_bold(),
-		        this, iconHeight);
-
-		btnItalic = new MyToggleButton2(
-		        AppResources.INSTANCE.format_text_italic(), this, iconHeight);
+		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight);
+		btnBold.addClickHandler(this);
+		btnBold.addStyleName("btnBold");
+		
+		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight);
+		btnItalic.addClickHandler(this);
+		btnItalic.addStyleName("btnItalic");
 
 		btnLeftAlign = new MyToggleButton2(
-		        AppResources.INSTANCE.format_justify_left(), this, iconHeight);
+				StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_left(), this, iconHeight);
 
 		btnCenterAlign = new MyToggleButton2(
-		        AppResources.INSTANCE.format_justify_center(), this, iconHeight);
+				StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_center(), this, iconHeight);
 
 		btnRightAlign = new MyToggleButton2(
-		        AppResources.INSTANCE.format_justify_right(), this, iconHeight);
+				StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(), this, iconHeight);
 
 		final GDimensionW bgColorIconSize = new GDimensionW(18, iconHeight);
 

@@ -100,4 +100,14 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_algebraview_auxiliary_objects.png")
 	ImageResource auxiliary();
 	
+	// SPREADSHEET
+	@Source("icons/png/web/stylingbar/stylingbar_spreadsheet_align_center.png")
+	ImageResource stylingbar_spreadsheet_align_center();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_spreadsheet_align_left.png")
+	ImageResource stylingbar_spreadsheet_align_left();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_spreadsheet_align_right.png")
+	ImageResource stylingbar_spreadsheet_align_right();
+	
 }
