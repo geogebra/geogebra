@@ -10,6 +10,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
+import geogebra.web.cas.view.CASStylebarW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
@@ -718,9 +719,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 			setStyleBar();
 			styleBar.setVisible(showStyleBar
 			        && !app.getGuiManager().isDraggingViews());
-			if (styleBar instanceof SpreadsheetStyleBarW) {
+			if (styleBar instanceof SpreadsheetStyleBarW || styleBar instanceof CASStylebarW) {
 				dockPanel.clear();
-				dockPanel.addNorth(titleBarPanel, 50);
+				dockPanel.addNorth(titleBarPanel, 44);
+				titleBarPanel.addStyleName("TitleBarPanel-open");
 				if (component != null)
 					dockPanel.add(component);
 				else
@@ -729,9 +731,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 				// this doesn't work
 				// dockPanel.setWidgetSize(titleBarPanel, 50);
 			}
-		} else if (styleBar instanceof SpreadsheetStyleBarW) {
+		} else if (styleBar instanceof SpreadsheetStyleBarW || styleBar instanceof CASStylebarW) {
 			dockPanel.clear();
 			dockPanel.addNorth(titleBarPanel, 0);
+			titleBarPanel.removeStyleName("TitleBarPanel-open");
 			if (component != null)
 				dockPanel.add(component);
 			else
