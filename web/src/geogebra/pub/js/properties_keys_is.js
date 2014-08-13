@@ -423,7 +423,7 @@ __GGB__keysVar.is.command = {
     "IntersectConic.Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "Skur\xf0Ferlar",
     "IntersectPath.Syntax": "[ <L\xedna>, <Marghyrningur> ]\n[ <L\xedna>, <Keilusni\xf0> ]",
-    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
+    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
     "Intersection": "SameiginlegSt\xf6k",
     "Intersection.Syntax": "[ <Listi>, <Listi> ]",
     "InverseBinomial": "AndhverfTv\xedli\xf0udreifing",

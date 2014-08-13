@@ -423,7 +423,7 @@ __GGB__keysVar.fi.command = {
     "IntersectConic.Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "YhteisetPisteet",
     "IntersectPath.Syntax": "[ <Suora>, <Monikulmio> ]\n[ <Suora>, <Kartio> ]",
-    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
+    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
     "Intersection": "YhteisetAlkiot",
     "Intersection.Syntax": "[ <Lista>, <Lista> ]",
     "InverseBinomial": "K\xe4\xe4nteisBinomijakauma",

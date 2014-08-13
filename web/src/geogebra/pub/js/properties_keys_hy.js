@@ -423,7 +423,7 @@ __GGB__keysVar.hy.command = {
     "IntersectConic.Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "\u0540\u0565\u057f\u0561\u0563\u056e\u0565\u0580\u056b\u0540\u0561\u057f\u0578\u0582\u0574\u0568",
     "IntersectPath.Syntax": "[ <\u0548\u0582\u0572\u056b\u0572>, <\u0532\u0561\u0566\u0574\u0561\u0576\u056f\u0575\u0578\u0582\u0576> ]\n[ <\u0548\u0582\u0572\u056b\u0572>, <\u053f\u0578\u0576\u0561\u056f\u0561\u0576 \u0570\u0561\u057f\u0578\u0582\u0575\u0569> ]",
-    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
+    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
     "Intersection": "\u0532\u0561\u0566\u0574\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580\u056b\u0540\u0561\u057f\u0578\u0582\u0574\u0568",
     "Intersection.Syntax": "[ <\u0551\u0578\u0582\u0581\u0561\u056f>, <\u0551\u0578\u0582\u0581\u0561\u056f> ]",
     "InverseBinomial": "\u0535\u0580\u056f\u0561\u0576\u0564\u0561\u0574\u0561\u0575\u056b\u0576\u0547\u0580\u057b\u0578\u0582\u0574",

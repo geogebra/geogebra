@@ -423,7 +423,7 @@ __GGB__keysVar.pl.command = {
     "IntersectConic.Syntax": "[ <Plane>, <Quadric> ]\n[ <Quadric>, <Quadric> ]",
     "IntersectPath": "\u015acie\u017ckiPrzeci\u0119cia",
     "IntersectPath.Syntax": "[ <Prosta>, <Wielok\u0105t> ]\n[ <Prosta>, <Sto\u017ckowa> ]",
-    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
+    "IntersectPath.Syntax3D": "[ <Line>, <Polygon> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]",
     "Intersection": "Cz\u0119\u015b\u0107Wsp\xf3lna",
     "Intersection.Syntax": "[ <Lista>, <Lista> ]",
     "InverseBinomial": "OdwrotnyDwumianowy",
