@@ -523,7 +523,7 @@ public class Ggb2giac {
 				"normal(stddev(%0))");
 		
 		// removed, Shuffle[{1,2}] kills Giac
-		//p("Shuffle.1", "randperm(%0)");
+		p("Shuffle.1", "randperm(%0)");
 		
 		// regroup for r*r^n
 		// tlin() removed, see #3956
