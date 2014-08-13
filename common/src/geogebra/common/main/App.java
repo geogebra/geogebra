@@ -498,7 +498,6 @@ public abstract class App implements UpdateSelection{
 		if (!getLocalization().isCommandChanged()) {
 			return;
 		}
-		App.printStacktrace("");
 		// translation table for all command names in command.properties
 		if (translateCommandTable == null) {
 			translateCommandTable = new HashMap<String, String>();
