@@ -488,7 +488,7 @@ namespace giac {
 	    res.push_back(is_one(successtest)?g:successtest);
 	  continue;
 	}
-	if (!is_zero(derive(g,x,contextptr)),contextptr){
+	if (!is_zero(derive(g,x,contextptr),contextptr)){
 	  if (fails){
 	    gen tmp=symb_not(symbolic(at_ou,gen(failtest,_SEQ__VECT)));
 	    tmp=is_one(successtest)?tmp:symb_and(tmp,successtest);
