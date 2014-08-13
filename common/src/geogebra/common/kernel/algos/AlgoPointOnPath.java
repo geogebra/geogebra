@@ -68,7 +68,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
     		double y,
     		double z) {
 
-    	this(cons, path, x, y, z);
+    	this(cons, path, x, y, z, true);
 
     	P.setLabel(label);
     }
@@ -123,12 +123,12 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
     
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y) {
 		
-		this(cons, path, x, y, 0);
+		this(cons, path, x, y, 0, true);
 		 
 	}
 
-	public AlgoPointOnPath(Construction cons, Path path, double x, double y, double z) {
-        super(cons);
+	public AlgoPointOnPath(Construction cons, Path path, double x, double y, double z, boolean addIncidence) {
+        super(cons, addIncidence);
         this.path = path;
         
         // create point on path and compute current location
@@ -136,7 +136,9 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         
 
         setInputOutput(); // for AlgoElement
-        addIncidence();
+        if(addIncidence){
+        	addIncidence();
+        }
 	}
 	
 	

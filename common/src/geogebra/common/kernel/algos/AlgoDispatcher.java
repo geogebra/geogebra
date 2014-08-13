@@ -112,13 +112,14 @@ public class AlgoDispatcher {
 	/** Point on path with cartesian coordinates (x,y) */
 	final public GeoPoint Point(String label, Path path, double x, double y,
 			boolean addToConstruction, boolean complex, boolean coords2D) {
-		boolean oldMacroMode = false;
-		if (!addToConstruction) {
-			oldMacroMode = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
 
+		AlgoPointOnPath algo;
+		if (!addToConstruction) {
+			algo = new AlgoPointOnPath(cons, path, x, y, 0, false);
+		}else{
+			algo = new AlgoPointOnPath(cons, label, path, x, y, 0);
 		}
-		AlgoPointOnPath algo = new AlgoPointOnPath(cons, label, path, x, y);
+		
 		GeoPoint p = (GeoPoint) algo.getP();
 		if (complex) {
 			p.setMode(Kernel.COORD_COMPLEX);
@@ -126,9 +127,6 @@ public class AlgoDispatcher {
 		}else if (!coords2D){
 			p.setCartesian3D();
 			p.update();
-		}
-		if (!addToConstruction) {
-			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 		return p;
 	}

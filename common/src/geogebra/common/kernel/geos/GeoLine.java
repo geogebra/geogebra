@@ -1445,8 +1445,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param p point tobe added
 	 */
 	public final void addPointOnLine(GeoPointND p) {
-		if (pointsOnLine == null)
+		if (pointsOnLine == null){
 			pointsOnLine = new ArrayList<GeoPoint>();
+		}
 
 		if (!pointsOnLine.contains(p))
 			pointsOnLine.add((GeoPoint) p);
