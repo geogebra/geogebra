@@ -127,8 +127,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
      */
 	private void addIncidence() {
 		for (int i = 0; i < P.length; ++i) {
-			P[i].addIncidence(g);
-			P[i].addIncidence(c);
+			P[i].addIncidence(g, false);
+			P[i].addIncidence(c, false);
 		}
 	}
 
@@ -330,29 +330,21 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// if existingIntersection is still not found, find a point from line g
 		// on conic c
 		if (existingIntersection == null) {
+			if(handleSpecialCasePoint(g.getStartPoint())){
+				existingIntersection = g.getStartPoint();
+			}else if(handleSpecialCasePoint(g.getEndPoint())){
+				existingIntersection = g.getEndPoint();
+			}
+		}
+		if (existingIntersection == null) {
 			ArrayList<GeoPoint> pointsOnLine = g.getPointsOnLine();
 
 			if (pointsOnLine != null) {
 				// get a point from pointsOnLine to see if it is on c.
 				for (int i = 0; i < pointsOnLine.size(); ++i) {
-					GeoPoint p = pointsOnLine.get(i);
-					if (p.isLabelSet()) { // an existing intersection should be
-											// a labeled one
-						if (p.getIncidenceList() != null
-								&& p.getIncidenceList().contains(c)) {
-
-							// TODO: this is just a TEMPORARY FIX for #94.
-							//if (g.isOnPath(p, Kernel.EPSILON)
-								//	&& c.isOnPath(p, Kernel.EPSILON))
-							//	existingIntersection = p;
-
-							existingIntersection = p;
-							break;
-						} /* else if (p.addIncidenceWithProbabilisticChecking(c)) { //no probabilistic checking anymore. See #1044
-							existingIntersection = p;
-							AbstractApplication.debug(p);
-							break;
-						} */
+					if(handleSpecialCasePoint(pointsOnLine.get(i))){
+						existingIntersection = pointsOnLine.get(i);
+						break;
 					}
 				}
 			}
@@ -418,6 +410,30 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		}
 
 		return true;
+	}
+
+	private boolean handleSpecialCasePoint(GeoPoint p) {
+		if(p == null){
+			return false;
+		}
+		if (p.isLabelSet()) { // an existing intersection should be
+								// a labeled one
+			if (p.getIncidenceList() != null
+					&& p.getIncidenceList().contains(c)) {
+
+				// TODO: this is just a TEMPORARY FIX for #94.
+				//if (g.isOnPath(p, Kernel.EPSILON)
+					//	&& c.isOnPath(p, Kernel.EPSILON))
+				//	existingIntersection = p;
+
+				return true;
+			} /* else if (p.addIncidenceWithProbabilisticChecking(c)) { //no probabilistic checking anymore. See #1044
+				existingIntersection = p;
+				AbstractApplication.debug(p);
+				break;
+			} */
+		}
+		return false;
 	}
 
 	/**

@@ -74,7 +74,7 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
      * for special cases of e.g. AlgoIntersectLineConic
      */
     private void addIncidence() {
-    	P.addIncidence(g);
+    	P.addIncidence(g, true);
 	}
 
     

@@ -196,7 +196,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 			tangents.adjustOutputSize(n+1);
 			tangents.getElement(n).setCoords(ip[i].getY() - this.R.getInhomY(), this.R.getInhomX() - ip[i].getX(), 
 				ip[i].getX() * this.R.getInhomY() - this.R.getInhomX() * ip[i].getY());
-			ip[i].addIncidence(tangents.getElement(n));
+			ip[i].addIncidence(tangents.getElement(n), false);
 			n++;
 		}
 		

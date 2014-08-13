@@ -78,8 +78,8 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
      * for special cases of e.g. AlgoIntersectLineConic
      */
     private void addIncidence() {
-        P.addIncidence(g);
-        Q.addIncidence(g);
+        P.addIncidence(g, true);
+        Q.addIncidence(g, true);
 	}
 
     @Override

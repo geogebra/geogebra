@@ -486,7 +486,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		if (startPoint == null) {
 			startPoint = new GeoPoint(cons);
-			startPoint.addIncidence(this);
+			startPoint.addIncidence(this, true);
 		}
 
 		// this way the behaviour of pathChanged and pointChanged remain
@@ -517,7 +517,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		
 		startPoint = P;
 		if (P != null)
-			P.addIncidence(this);
+			P.addIncidence(this, true);
 	}
 
 	/**
@@ -529,7 +529,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		
 		endPoint = Q;
 		if (Q != null)
-			Q.addIncidence(this);
+			Q.addIncidence(this, true);
 	}
 
 	/**
@@ -1438,17 +1438,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	public final ArrayList<GeoPoint> getPointsOnLine() {
 		return pointsOnLine;
-	}
-
-	/**
-	 * Sets a list of points that this line passes through. This method should
-	 * only be used by AlgoMacro.
-	 * 
-	 * @param points
-	 *            list of points that this line passes through
-	 */
-	public final void setPointsOnLine(ArrayList<GeoPoint> points) {
-		pointsOnLine = points;
 	}
 
 	/**

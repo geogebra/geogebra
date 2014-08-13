@@ -77,8 +77,8 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
      * for special cases of e.g. AlgoIntersectLineConic
      */
     private void addIncidence() {
-    	rootPoint.addIncidence(f);
-    	rootPoint.addIncidence(line);
+    	rootPoint.addIncidence(f, false);
+    	rootPoint.addIncidence(line, false);
 	}
     
     @Override

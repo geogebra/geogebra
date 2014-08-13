@@ -168,8 +168,8 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
      */
     private void addIncidence() {
         for (int i=0; i < 4; i++) {
-        	P[i].addIncidence(A);
-    		P[i].addIncidence(B);
+        	P[i].addIncidence(A,false);
+    		P[i].addIncidence(B,false);
         }
 	}
 

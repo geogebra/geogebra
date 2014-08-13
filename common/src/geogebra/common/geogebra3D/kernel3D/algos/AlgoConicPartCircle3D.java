@@ -102,7 +102,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	}
 
 	private void setIncidence() {
-		startPoint.addIncidence(conicPart);
+		startPoint.addIncidence(conicPart, false);
 		// endPoint.addIncidence(conicPart);
 
 	}

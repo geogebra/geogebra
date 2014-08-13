@@ -91,8 +91,8 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     }   
     
     private void setIncidence() {
-    	P.addIncidence(s);
-    	Q.addIncidence(s);
+    	P.addIncidence(s, true);
+    	Q.addIncidence(s, true);
 	}
     
     @Override

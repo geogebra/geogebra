@@ -53,7 +53,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	}
 
 	private void setIncidence() {
-		((GeoPoint) getP()).addIncidence(getCircle());
+		((GeoPoint) getP()).addIncidence(getCircle(),false);
 	}
 
 	@Override

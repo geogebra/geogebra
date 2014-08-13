@@ -75,8 +75,8 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
      * for special cases of e.g. AlgoIntersectLineConic
      */
     private void addIncidence() {
-		S.addIncidence(g);
-		S.addIncidence(h);
+		S.addIncidence(g, false);
+		S.addIncidence(h, false);
 	}
 
     @Override

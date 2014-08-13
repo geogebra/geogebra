@@ -287,7 +287,7 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public double distanceToPath(PathOrPoint path);
 
 	
-	public void addIncidence(GeoElement path);
+	public void addIncidence(GeoElement path, boolean isStartPoint);
 
 	public void setPath(Path path);
 

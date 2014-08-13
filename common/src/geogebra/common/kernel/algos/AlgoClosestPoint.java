@@ -83,7 +83,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
      * for special cases of e.g. AlgoIntersectLineConic
      */
     protected void addIncidence() {
-    	((GeoPoint) P).addIncidence((GeoElement) path);
+    	((GeoPoint) P).addIncidence((GeoElement) path, false);
 		
 	}
     

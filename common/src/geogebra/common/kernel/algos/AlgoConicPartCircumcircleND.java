@@ -83,9 +83,9 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
     abstract protected AlgoCircleThreePoints getAlgo();
     
 	private void setIncidence() {
-		A.addIncidence(conicPart);
-		B.addIncidence(conicPart);
-		C.addIncidence(conicPart);
+		A.addIncidence(conicPart, false);
+		B.addIncidence(conicPart, false);
+		C.addIncidence(conicPart, false);
 	}
 
 	@Override

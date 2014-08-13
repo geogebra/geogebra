@@ -79,7 +79,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
      * for special cases of e.g. AlgoIntersectLineConic
      */
     private void addIncidence() {
-    	P.addIncidence((GeoElement) path);
+    	P.addIncidence((GeoElement) path, false);
 		
 	}
 

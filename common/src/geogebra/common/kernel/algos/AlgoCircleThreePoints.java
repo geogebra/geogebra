@@ -91,11 +91,11 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 
 	private void setIncidence() {
 		if (A instanceof GeoPoint)
-			((GeoPoint) A).addIncidence( circle);
+			((GeoPoint) A).addIncidence( circle, false);
 		if (B instanceof GeoPoint)
-			((GeoPoint) B).addIncidence( circle);
+			((GeoPoint) B).addIncidence( circle, false);
 		if (C instanceof GeoPoint)
-			((GeoPoint) C).addIncidence( circle);
+			((GeoPoint) C).addIncidence( circle, false);
 
 	}
 

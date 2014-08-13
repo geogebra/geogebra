@@ -99,7 +99,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
      */
     private void addIncidence() {
     	//for (int i=0; i<4; i++)
-    		P.addIncidence(g[0]);
+    		P.addIncidence(g[0], false);
 	}
 
     

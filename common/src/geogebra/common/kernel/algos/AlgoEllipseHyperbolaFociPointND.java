@@ -104,7 +104,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
      */
 	private void addIncidence() {
 		if (C != null)
-			C.addIncidence( conic);
+			C.addIncidence( conic, false);
 
 	}
 

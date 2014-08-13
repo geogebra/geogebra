@@ -92,8 +92,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 	private void addIncidence() {
 		// point's incidence with parent algo's two intersectable objects
 		if (algo instanceof AlgoIntersectConics) {
-			point.addIncidence(((AlgoIntersectConics) algo).getA());
-			point.addIncidence(((AlgoIntersectConics) algo).getB());
+			point.addIncidence(((AlgoIntersectConics) algo).getA(), false);
+			point.addIncidence(((AlgoIntersectConics) algo).getB(), false);
 
 			// these two lines are already done in point.addIncidence()
 			// ((GeoConic)
@@ -102,8 +102,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 			// ((AlgoIntersectConics)algo).getB()).addPointOnConic(point);
 
 		} else if (algo instanceof AlgoIntersectLineConic) {
-			point.addIncidence(((AlgoIntersectLineConic) algo).getLine());
-			point.addIncidence(((AlgoIntersectLineConic) algo).getConic());
+			point.addIncidence(((AlgoIntersectLineConic) algo).getLine(), false);
+			point.addIncidence(((AlgoIntersectLineConic) algo).getConic(), false);
 
 			// this is already done in point.addIncidence()
 			// ((AlgoIntersectLineConic)algo).getConic().addPointOnConic(point);
@@ -226,7 +226,7 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 						point.getIncidenceList().remove(parentOutput[i]);
 				}
 			}
-			point.addIncidence(parentOutput[idx]);
+			point.addIncidence(parentOutput[idx], false);
 		} else {
 			point.setUndefined();
 			ArrayList<GeoElement> al = point.getIncidenceList();

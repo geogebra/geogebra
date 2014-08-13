@@ -145,7 +145,7 @@ public class AlgoConicFivePoints extends AlgoElement {
      */
 	private void addIncidence() {
 		for (int i=0; i< P.length; ++i) {
-			P[i].addIncidence(conic);
+			P[i].addIncidence(conic, false);
 		}	
 	}
 

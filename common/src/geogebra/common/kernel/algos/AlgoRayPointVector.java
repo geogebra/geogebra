@@ -58,7 +58,7 @@ public class AlgoRayPointVector extends AlgoElement {
     } 
     
     private void setIncidence() {
-    	P.addIncidence(ray);
+    	P.addIncidence(ray, true);
 	}
     
     @Override

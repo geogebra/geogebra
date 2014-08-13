@@ -63,8 +63,8 @@ public class AlgoJoinPointsRay extends AlgoElement {
      * for special cases of e.g. AlgoIntersectLineConic
      */
     private void addIncidence() {
-    	P.addIncidence(ray);
-    	Q.addIncidence(ray);
+    	P.addIncidence(ray, true);
+    	Q.addIncidence(ray, true);
 	}
     
     @Override

@@ -2024,7 +2024,7 @@ SymbolicParametersBotanaAlgo {
 	 * 
 	 * @param geo incident object
 	 */
-	public void addIncidence(GeoElement geo) {
+	public void addIncidence(GeoElement geo, boolean isStartPoint) {
 		if (incidenceList == null)
 			createIncidenceList();
 		if (!incidenceList.contains(geo))
@@ -2034,7 +2034,7 @@ SymbolicParametersBotanaAlgo {
 		// incidence list
 		if (geo.isGeoConic())
 			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
-		else if (geo.isGeoLine())
+		else if (geo.isGeoLine() && !isStartPoint)
 			((GeoLineND) geo).addPointOnLine(this);
 		// TODO: if geo instanceof GeoPoint...
 	}
@@ -2139,7 +2139,7 @@ SymbolicParametersBotanaAlgo {
 
 			// if all of the cases are good, add incidence
 			if (incident)
-				addIncidence(geo);
+				addIncidence(geo, false);
 			else
 				addNonIncidence(geo);
 		}

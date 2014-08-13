@@ -62,7 +62,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
      * for special cases of e.g. AlgoIntersectLineConic
      */
     private void addIncidence() {
-    	P.addIncidence(g);
+    	P.addIncidence(g, true);
 	}
     
     @Override
