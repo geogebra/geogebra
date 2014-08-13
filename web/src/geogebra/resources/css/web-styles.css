@@ -1638,6 +1638,11 @@ Paddings for menuitems.
 	cursor: pointer;
 }
 
+.MyCanvasButton-borderless {
+	border: none;
+    padding: 4px; /* more padding for the missing border*/
+}
+
 .MyToggleButton.selected,.MyCanvasButton.selected {
 	border-color: #6666FF;
 }
