@@ -30,7 +30,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
     private int numberOfUsers = 0;
     
     // used in setIntersectionPoint to remember all indices that have been set
-    private boolean [] didSetIntersectionPoint;
+    private boolean [] didSetIntersectionPointArray;
 
     /**
      * @param c construction
@@ -107,30 +107,30 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
     	}
 
     	// init didSetIntersectionPoint array
-    	if (didSetIntersectionPoint == null) {
-    		didSetIntersectionPoint = new boolean[points.length];
+    	if (didSetIntersectionPointArray == null) {
+    		didSetIntersectionPointArray = new boolean[points.length];
     	} 
-    	else if (didSetIntersectionPoint.length < points.length) {
+    	else if (didSetIntersectionPointArray.length < points.length) {
     		boolean [] temp = new boolean[points.length];
     		for (int i=0; i < points.length; i++) {
-    			if (i < didSetIntersectionPoint.length)
-    				temp[i] = didSetIntersectionPoint[i];
+    			if (i < didSetIntersectionPointArray.length)
+    				temp[i] = didSetIntersectionPointArray[i];
     			else
     				temp[i] = false;
     		}
-    		didSetIntersectionPoint = temp;
+    		didSetIntersectionPointArray = temp;
     	}
     	
     	// set coords of intersection point to those of p
     	setCoords(points[index],p);  
     	if (defpoints != null) setCoords(defpoints[index],p);
     	// we only remember setting the point if we used a defined point
-		didSetIntersectionPoint[index] = true;
+		didSetIntersectionPointArray[index] = true;
 
 		// all other intersection points should be set undefined
 		// unless they have been set before
 		for (int i=0; i < points.length; i++) {
-			if (!didSetIntersectionPoint[i]) {				
+			if (!didSetIntersectionPointArray[i]) {				
 				points[i].setUndefined();
 				if (defpoints != null) defpoints[i].setUndefined();
 			}
@@ -156,7 +156,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
      * @return true if setIntersectionPoint was called for index-th point.
      */
     protected boolean didSetIntersectionPoint(int index) {
-    	return didSetIntersectionPoint != null && didSetIntersectionPoint[index];
+    	return didSetIntersectionPointArray != null && didSetIntersectionPointArray[index];
     }
 
     @Override
