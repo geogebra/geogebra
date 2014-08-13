@@ -2314,7 +2314,7 @@ namespace giac {
 	return true;
       }
       if (_SYMBptr->sommet==at_integrate || (_SYMBptr->sommet==at_int && xcas_mode(contextptr)!=3)){
-	evaled=_gaussquad(_SYMBptr->feuille,contextptr);
+	evaled=_gaussquad(_SYMBptr->feuille,contextptr); // FIXME: take care of precision (romberg if >14 digits?)
 	return true;
       }
       if (_SYMBptr->sommet==at_rootof){

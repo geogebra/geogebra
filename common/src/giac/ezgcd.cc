@@ -415,6 +415,8 @@ namespace giac {
 	  is_zero(pcurx1x2cont.lexsorted_degree())
 	  ){
 	truncate_xk_xn(pcurx1x2,2);
+	if (lgcd(pcurx1x2).coord.size()>1)
+	  return false;
 	if (!factor(pcurx1x2,pcurx1x2cont,fx1x2,true,false,false,1,extra_div) || extra_div!=1)
 	  return false;
 	// fx1x2 contains factorization of pcur(x1,x2,0,...0)

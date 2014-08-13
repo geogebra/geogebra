@@ -5738,7 +5738,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
       int i=0;
       if (lexer_close_parenthesis(contextptr)){
 	for (;i<l;++i){
-	  if (i && s[i]=='/' && s[i-1]=='/'){
+	  if (!instring && i && s[i]=='/' && s[i-1]=='/'){
 	    // skip comment until end of line
 	    for (;i<l;++i){
 	      if (s[i]==13)
@@ -5746,7 +5746,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	    }
 	    continue;
 	  }
-	  if (i && s[i]=='*' && s[i-1]=='/'){
+	  if (!instring && i && s[i]=='*' && s[i-1]=='/'){
 	    // skip comment 
 	    for (;i<l;++i){
 	      if (s[i]=='/' && s[i-1]=='*')
@@ -5754,7 +5754,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	    }
 	    continue;
 	  }
-	  if (s[i]==92){
+	  if (!instring && s[i]==92){
 	    i += 2;
 	    if (i>=l)
 	      break;
@@ -5936,6 +5936,8 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	}
       }
       // ofstream of("log"); of << s << endl << ss << endl; of.close();
+      if (debug_infolevel>2)
+	CERR << "lexer " << ss << endl;
       lexer_string = ss+" \n ÿ";
       giac_yylex_init(&scanner);
       giac_yyset_extra(contextptr,scanner);

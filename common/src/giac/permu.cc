@@ -212,7 +212,7 @@ namespace giac {
     int m;
     m=n;
     for (int k=0;k<n;k++) {
-      int h=int(std::floor(m*(std_rand()/(RAND_MAX+1.0))));
+      int h=int(std::floor(m*(std_rand()/(rand_max2+1.0))));
       p[k]=temp[h]; m=m-1;
       //mise a jour de temp :il faut supprimer temp[h]
       for (int j=h;j<m;j++) {

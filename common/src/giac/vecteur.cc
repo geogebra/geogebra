@@ -10526,8 +10526,11 @@ namespace giac {
   }
   gen _egv(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
-    if (!is_squarematrix(a))
+    if (!is_squarematrix(a)){
+      if (a.type==_VECT)
+	return gendimerr(contextptr);
       return symb_egv(a);
+    }
     return megv(*a._VECTptr,contextptr);
   }
   static const char _egv_s []="egv";
@@ -11664,15 +11667,15 @@ namespace giac {
     if (complete>0){
       // complete u to a unitary matrix by adding columns
       matrice tu;
-      tu=*_trn(u,contextptr)._VECTptr;
       unsigned n=u.size();
       // take random vectors from canonical basis
       while (1){
+	tu=*_trn(u,contextptr)._VECTptr;
 	vector<int> v(n);
 	for (unsigned i=0;i<n;++i)
 	  v[i]=i;
 	for (int i=0;i<complete;++i){
-	  int j=int(double(std::rand()*v.size())/RAND_MAX);
+	  int j=int((double(std::rand())*v.size())/RAND_MAX);
 	  vecteur tmp(n);
 	  tmp[v[j]]=1;
 	  tu.push_back(tmp);

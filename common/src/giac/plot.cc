@@ -5142,7 +5142,10 @@ namespace giac {
       if (e.type==_VECT && e._VECTptr->size()!=3){
 	if ((e._VECTptr->size()!=2) || (f._VECTptr->size()!=2))
 	  return gensizeerr(gettext("angle"));
-	if (e._VECTptr->front().type==_VECT){	
+	if (e._VECTptr->front().type==_VECT 
+	    // check added 12/8/2014 for angle(droite(y=x),droite(y=1-x),"") 
+	    || (e.subtype==_LINE__VECT || e.subtype==_HALFLINE__VECT)
+	    ){	
 	  vecteur w=inter(v.front(),v[1],0); // context does not apply for lines
 	  if (w.empty())
 	    return gensizeerr(gettext("Lines must intersect"));

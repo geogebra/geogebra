@@ -1444,7 +1444,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       int i=0;
       if (lexer_close_parenthesis(contextptr)){
 	for (;i<l;++i){
-	  if (i && s[i]=='/' && s[i-1]=='/'){
+	  if (!instring && i && s[i]=='/' && s[i-1]=='/'){
 	    // skip comment until end of line
 	    for (;i<l;++i){
 	      if (s[i]==13)
@@ -1452,7 +1452,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	    }
 	    continue;
 	  }
-	  if (i && s[i]=='*' && s[i-1]=='/'){
+	  if (!instring && i && s[i]=='*' && s[i-1]=='/'){
 	    // skip comment 
 	    for (;i<l;++i){
 	      if (s[i]=='/' && s[i-1]=='*')
@@ -1460,7 +1460,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	    }
 	    continue;
 	  }
-	  if (s[i]==92){
+	  if (!instring && s[i]==92){
 	    i += 2;
 	    if (i>=l)
 	      break;
@@ -1642,6 +1642,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	}
       }
       // ofstream of("log"); of << s << endl << ss << endl; of.close();
+      if (debug_infolevel>2)
+	CERR << "lexer " << ss << endl;
       lexer_string = ss+" \n ÿ";
       yylex_init(&scanner);
       yyset_extra(contextptr, scanner);
