@@ -3179,19 +3179,13 @@ public class Kernel {
 			viewBounds[i] = Double.NEGATIVE_INFINITY;
 		}
 		viewBounds[0] = viewBounds[2] = Double.POSITIVE_INFINITY;
+		if (viewSet == null) {
+			addViews(App.VIEW_EUCLIDIAN, viewBounds);
+			return viewBounds;
+		}
 		// we can't use foreach here because of GWT
 		for (int i = 0; i < viewSet.size(); i++) {
-			Integer id = viewSet.get(i);
-			View view = getApplication().getView(id);
-			if ((view != null) && (view instanceof EuclidianViewInterfaceSlim)) {
-				EuclidianViewInterfaceSlim ev = (EuclidianViewInterfaceSlim) view;
-				viewBounds[0] = Math.min(viewBounds[0], ev.getXmin());
-				viewBounds[1] = Math.max(viewBounds[1], ev.getXmax());
-				viewBounds[2] = Math.min(viewBounds[2], ev.getYmin());
-				viewBounds[3] = Math.max(viewBounds[3], ev.getYmax());
-				viewBounds[4] = Math.max(viewBounds[4], ev.getXscale());
-				viewBounds[5] = Math.max(viewBounds[5], ev.getYscale());
-			}
+			addViews(viewSet.get(i), viewBounds);
 		}
 		// if (viewBounds[0]==Double.POSITIVE_INFINITY){
 		// //standard values if no view
@@ -3200,6 +3194,20 @@ public class Kernel {
 		// viewBounds[5]=viewBounds[6]=1;
 		// }
 		return viewBounds;
+	}
+
+	private void addViews(Integer id, double[] viewBounds) {
+		View view = getApplication().getView(id);
+		if ((view != null) && (view instanceof EuclidianViewInterfaceSlim)) {
+			EuclidianViewInterfaceSlim ev = (EuclidianViewInterfaceSlim) view;
+			viewBounds[0] = Math.min(viewBounds[0], ev.getXmin());
+			viewBounds[1] = Math.max(viewBounds[1], ev.getXmax());
+			viewBounds[2] = Math.min(viewBounds[2], ev.getYmin());
+			viewBounds[3] = Math.max(viewBounds[3], ev.getYmax());
+			viewBounds[4] = Math.max(viewBounds[4], ev.getXscale());
+			viewBounds[5] = Math.max(viewBounds[5], ev.getYscale());
+		}
+		
 	}
 
 	final public GeoAxis getXAxis() {
