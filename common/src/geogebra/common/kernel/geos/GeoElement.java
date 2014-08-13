@@ -6547,10 +6547,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return set of views in which this is visible
 	 */
 	public List<Integer> getViewSet() {
-		if(viewFlags == null){
-			return null;
-		}
 		final List<Integer> list = new ArrayList<Integer>();
+		if (viewFlags == null){
+			return list;
+		}
 		list.addAll(viewFlags);
 		// Collections.copy(list, viewFlags);
 		return list;
