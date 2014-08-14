@@ -408,61 +408,57 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
-		laTexButtonTitleMap.put("Accents", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.accents, 2, -1,
-				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
-		btInsertLaTeX.addPopupMenuItem(menu);
-
-		menu = new JMenu();
-		laTexButtonTitleMap.put("AccentsExt", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.accentsExtended, 2, -1,
-				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
-		btInsertLaTeX.addPopupMenuItem(menu);
-
-		menu = new JMenu();
 		laTexButtonTitleMap.put("Brackets", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.brackets, 2, -1,
 				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu();
-		laTexButtonTitleMap.put("Matrices", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.matrices, 1, -1,
-				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
-		btInsertLaTeX.addPopupMenuItem(menu);
-
-		menu = new JMenu();
-		laTexButtonTitleMap.put("FrakturLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathfrak(), 4, -1,
-				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
-		btInsertLaTeX.addPopupMenuItem(menu);
-
-		menu = new JMenu();
-		laTexButtonTitleMap.put("CalligraphicLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathcal(), 2, -1,
-				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
-		btInsertLaTeX.addPopupMenuItem(menu);
-
-		menu = new JMenu();
-		laTexButtonTitleMap.put("BlackboardLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathbb(), 2, -1,
-				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
-		btInsertLaTeX.addPopupMenuItem(menu);
-
-		menu = new JMenu();
-		laTexButtonTitleMap.put("CursiveLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathscr(), 2, -1,
-				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
-		btInsertLaTeX.addPopupMenuItem(menu);
-
+		/*
+		 * following not supported in MathQuillGGB / HTML5
+		 * 
+		 * menu = new JMenu(); laTexButtonTitleMap.put("Accents", menu);
+		 * menu.add(new LatexTable(app, this, btInsertLaTeX,
+		 * TableSymbolsLaTeX.accents, 2, -1,
+		 * geogebra.common.gui.util.SelectionTable.MODE_LATEX));
+		 * btInsertLaTeX.addPopupMenuItem(menu);
+		 * 
+		 * menu = new JMenu(); laTexButtonTitleMap.put("AccentsExt", menu);
+		 * menu.add(new LatexTable(app, this, btInsertLaTeX,
+		 * TableSymbolsLaTeX.accentsExtended, 2, -1,
+		 * geogebra.common.gui.util.SelectionTable.MODE_LATEX));
+		 * btInsertLaTeX.addPopupMenuItem(menu);
+		 * 
+		 * menu = new JMenu(); laTexButtonTitleMap.put("Matrices", menu);
+		 * menu.add(new LatexTable(app, this, btInsertLaTeX,
+		 * TableSymbolsLaTeX.matrices, 1, -1,
+		 * geogebra.common.gui.util.SelectionTable.MODE_LATEX));
+		 * btInsertLaTeX.addPopupMenuItem(menu);
+		 * 
+		 * menu = new JMenu(); laTexButtonTitleMap.put("FrakturLetters", menu);
+		 * menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
+		 * .mathfrak(), 4, -1,
+		 * geogebra.common.gui.util.SelectionTable.MODE_LATEX));
+		 * btInsertLaTeX.addPopupMenuItem(menu);
+		 * 
+		 * menu = new JMenu(); laTexButtonTitleMap.put("CalligraphicLetters",
+		 * menu); menu.add(new LatexTable(app, this, btInsertLaTeX,
+		 * TableSymbolsLaTeX .mathcal(), 2, -1,
+		 * geogebra.common.gui.util.SelectionTable.MODE_LATEX));
+		 * btInsertLaTeX.addPopupMenuItem(menu);
+		 * 
+		 * menu = new JMenu(); laTexButtonTitleMap.put("BlackboardLetters",
+		 * menu); menu.add(new LatexTable(app, this, btInsertLaTeX,
+		 * TableSymbolsLaTeX .mathbb(), 2, -1,
+		 * geogebra.common.gui.util.SelectionTable.MODE_LATEX));
+		 * btInsertLaTeX.addPopupMenuItem(menu);
+		 * 
+		 * menu = new JMenu(); laTexButtonTitleMap.put("CursiveLetters", menu);
+		 * menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
+		 * .mathscr(), 2, -1,
+		 * geogebra.common.gui.util.SelectionTable.MODE_LATEX));
+		 * btInsertLaTeX.addPopupMenuItem(menu);
+		 */
 		JMenuItem menuItem = new JMenuItem();
 		laTexButtonTitleMap.put("Space", menuItem);
 		menuItem.addActionListener(new ActionListener() {
