@@ -366,7 +366,7 @@ Traceable{
 	protected void setMidpoint(double coord1, double coord2){
 		
 		midpoint.set(1,coord1);
-		midpoint.set(2,coord1);
+		midpoint.set(2,coord2);
 		
 	}
 	
