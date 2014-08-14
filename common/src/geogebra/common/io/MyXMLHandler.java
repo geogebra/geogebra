@@ -5026,7 +5026,9 @@ public class MyXMLHandler implements DocHandler {
 				// therefore we
 				// make exception for Sequence and CurveCartesian
 				if (cmd.getName().equals("Sequence")
-						|| cmd.getName().equals("CurveCartesian"))
+						|| cmd.getName().equals("CurveCartesian")
+						|| cmd.getName().equals("Surface")
+						)
 					geo1 = null;
 				else
 					geo1 = kernel.lookupLabel(arg);

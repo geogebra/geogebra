@@ -292,25 +292,47 @@ public abstract class CommandProcessor {
 			if (localVarName[i] == null) {
 				throw argErr(app, c.getName(), c.getArgument(varPos[i]));
 			}
+			// imaginary unit as local variable name
+			else if (localVarName[i].equals(Unicode.IMAGINARY)) {
+				// replace all imaginary unit objects in command arguments by a
+				// variable "i"object
+				localVarName[i] = "i";
+				Variable localVar = new Variable(kernelA, localVarName[i]);
+				c.traverse(Replacer.getReplacer(kernelA.getImaginaryUnit(), localVar));
+			}
+			// Euler constant as local variable name
+			else if (localVarName[i].equals(Unicode.EULER_STRING)) {
+				// replace all imaginary unit objects in command arguments by a
+				// variable "i"object
+				localVarName[i] = "e";
+				Variable localVar = new Variable(kernelA, localVarName[i]);
+				c.traverse(Replacer.getReplacer(MySpecialDouble.getEulerConstant(kernelA), localVar));
+			}
+
 		}
 
+		
 		// add local variable name to construction
 		Construction cmdCons = c.getKernel().getConstruction();
 		GeoNumeric[] num = new GeoNumeric[varPos.length];
 		for (int i = 0; i < varPos.length; i++) {
 			num[i] = new GeoNumeric(cmdCons);
 			cmdCons.addLocalVariable(localVarName[i], num[i]);
+			replaceZvarIfNeeded(localVarName[i], c);
 		}
 
+
 		// initialize first value of local numeric variable from initPos
-		boolean oldval = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-		NumberValue[] initValue = new NumberValue[varPos.length];
-		for (int i = 0; i < varPos.length; i++)
-			initValue[i] = (NumberValue) resArg(c.getArgument(initPos[i]))[0];
-		cons.setSuppressLabelCreation(oldval);
-		for (int i = 0; i < varPos.length; i++)
-			num[i].setValue(initValue[i].getDouble());
+		for (int i = 0; i < varPos.length; i++){
+			if (initPos[i] != varPos[i]) {
+				boolean oldval = cons.isSuppressLabelsActive();
+				cons.setSuppressLabelCreation(true);
+				NumberValue initValue = (NumberValue) resArg(c.getArgument(initPos[i]))[0];
+				cons.setSuppressLabelCreation(oldval);
+				num[i].setValue(initValue.getDouble());
+			}
+		}
+
 
 		// set local variable as our varPos argument
 		for (int i = 0; i < varPos.length; i++)
@@ -323,7 +345,11 @@ public abstract class CommandProcessor {
 		// remove local variable name from kernel again
 		for (int i = 0; i < varPos.length; i++)
 			cmdCons.removeLocalVariable(localVarName[i]);
+		
 		return arg;
+		
+		
+		
 	}
 
 	private StringBuilder sb;
