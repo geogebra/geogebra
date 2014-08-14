@@ -59,7 +59,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
         return true;
     }
     
-    public void resolveVariables(boolean forEquation) {
+    public void resolveVariables() {
     	//do nothing
     }
 

@@ -88,7 +88,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 		// resolve arguments to get GeoElements
 
 		// resolve variables in argument expression
-		c.getArgument(pos).resolveVariables(false);
+		c.getArgument(pos).resolveVariables();
 
 		// resolve i-th argument and get GeoElements
 		// use only first resolved argument object for result

@@ -159,7 +159,7 @@ public abstract class TextPreviewer {
 		// resolve variables and evaluate the expression
 		if (!(hasParseError)) {
 			try {
-				exp.resolveVariables(false);
+				exp.resolveVariables();
 				isIndependent = exp.isConstant();
 				eval = exp.evaluate(tpl);
 			}

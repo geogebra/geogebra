@@ -65,9 +65,9 @@ public class CmdFunction extends CommandProcessor {
 					boolean oldFlag = kernelA.getConstruction()
 							.isSuppressLabelsActive();
 					kernelA.getConstruction().setSuppressLabelCreation(true);
-					c.getArgument(0).resolveVariables(false);
-					c.getArgument(1).resolveVariables(false);
-					c.getArgument(2).resolveVariables(false);
+					c.getArgument(0).resolveVariables();
+					c.getArgument(1).resolveVariables();
+					c.getArgument(2).resolveVariables();
 					GeoFunction condFun = (GeoFunction) kernelA
 							.getAlgebraProcessor().processFunction(
 									new Function(c.getArgument(0), fv))[0];
@@ -80,7 +80,7 @@ public class CmdFunction extends CommandProcessor {
 					if (!(high instanceof NumberValue))
 						throw argErr(app, c.getName(), high);
 					c.getArgument(1).replaceVariables(varName, fv);
-					c.getArgument(0).resolveVariables(false);
+					c.getArgument(0).resolveVariables();
 
 					kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
 					return new GeoElement[] { Function(c.getLabel(),

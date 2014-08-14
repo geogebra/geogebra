@@ -139,7 +139,7 @@ public class CmdIf extends CommandProcessor {
 	}
 
 	private GeoFunction resolveFunction(Command c, int i, FunctionVariable fv) {
-		c.getArgument(i).resolveVariables(false);
+		c.getArgument(i).resolveVariables();
 		return (GeoFunction) kernelA.getAlgebraProcessor().processFunction(
 				new Function(c.getArgument(i), fv))[0];
 	}

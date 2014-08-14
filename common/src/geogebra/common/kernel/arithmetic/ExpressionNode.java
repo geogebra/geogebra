@@ -474,8 +474,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * look for Variable objects in the tree and replace them by their resolved
 	 * GeoElement
 	 */
-	public final void resolveVariables(boolean forEquation) {
-		doResolveVariables(forEquation);
+	public final void resolveVariables() {
+		doResolveVariables();
 		simplifyAndEvalCommands();
 		simplifyLeafs();
 
@@ -528,20 +528,20 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 	}
 
-	private void doResolveVariables(boolean forEquation) {
+	private void doResolveVariables() {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue(forEquation);
+			left = ((Variable) left).resolveAsExpressionValue();
 		} else {
-			left.resolveVariables(forEquation);
+			left.resolveVariables();
 		}
 
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue(forEquation);
+				right = ((Variable) right).resolveAsExpressionValue();
 			} else {
-				right.resolveVariables(forEquation);
+				right.resolveVariables();
 			}
 		}
 	}

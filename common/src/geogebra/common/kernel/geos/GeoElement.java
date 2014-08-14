@@ -685,7 +685,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return copy();
 	}
 
-	public void resolveVariables(boolean forEquation) {
+	public void resolveVariables() {
 		//do nothing
 	}
 

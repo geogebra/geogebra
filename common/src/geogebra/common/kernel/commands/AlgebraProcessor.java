@@ -503,7 +503,7 @@ public class AlgebraProcessor {
 					FunctionVariable fv = new FunctionVariable(kernel,varName);
 					ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
 							fv)).wrap();
-					exp.resolveVariables(false);
+					exp.resolveVariables();
 					GeoElement[] ret = processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate), fv, null);
 					if(ret!=null){
 						return ret;
@@ -598,7 +598,7 @@ public class AlgebraProcessor {
 									//TODO: need we to catch the Exception here,
 									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
 									if ("0".equals(dialogResult[0])){
-										insertStarIfNeeded(undefinedVariables, ve2, fvX2);
+										//insertStarIfNeeded(undefinedVariables, ve2, fvX2);
 										replaceUndefinedVariables(ve2);
 										try {
 											geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve2);
@@ -622,12 +622,7 @@ public class AlgebraProcessor {
 				//App.debug("list of variables: "+sb.toString());
 
 				// ==========================
-				// step5: replace mx -> m*x
-				// ==========================
-				insertStarIfNeeded(undefinedVariables, ve, fvX);
-				
-				// ==========================
-				// step6: replace undefined variables
+				// step5: replace undefined variables
 				// ==========================
 				replaceUndefinedVariables(ve);
 			}
@@ -799,7 +794,7 @@ public class AlgebraProcessor {
 		try {
 			ValidExpression ve = parser.parseExpression(str);
 			ExpressionNode en = (ExpressionNode) ve;
-			en.resolveVariables(false);
+			en.resolveVariables();
 			NumberValue nv = (NumberValue) en.evaluate(StringTemplate.defaultTemplate);
 			return nv.getDouble();
 		} catch (Exception e) {
@@ -1303,7 +1298,7 @@ public class AlgebraProcessor {
 						// get the new object with same label as our result
 						String newLabel = newGeo.isLabelSet() ? newGeo
 								.getLabelSimple() : replaceable.getLabelSimple();
-								ret[0] = kernel.lookupLabel(newLabel, false);
+								ret[0] = kernel.lookupLabel(newLabel);
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
@@ -2063,7 +2058,7 @@ public class AlgebraProcessor {
 
 
 		// ELSE: resolve variables and evaluate expressionnode
-		n.resolveVariables(false);
+		n.resolveVariables();
 		String label = n.getLabel();
 		if(n.containsFunctionVariable()){
 			Set<String> fvSet = new TreeSet<String>();

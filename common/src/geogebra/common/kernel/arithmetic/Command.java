@@ -337,7 +337,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 	}
 
-	public void resolveVariables(boolean forEquation) {
+	public void resolveVariables() {
 		// standard case:
 		// nothing to do here: argument variables are resolved
 		// while command processing (see evaluate())
@@ -345,7 +345,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		// CAS parsing case: we need to resolve arguments also
 		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
 			for (int i = 0; i < args.size(); i++) {
-				args.get(i).resolveVariables(forEquation || args.get(i).getLeft()instanceof Equation);
+				args.get(i).resolveVariables();
 			}
 
 			// avoid evaluation of command

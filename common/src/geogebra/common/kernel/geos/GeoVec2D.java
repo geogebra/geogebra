@@ -120,7 +120,7 @@ final public class GeoVec2D extends ValidExpression implements
 		return new GeoVec2D(this);
 	}
 
-	public void resolveVariables(boolean forEquation) {
+	public void resolveVariables() {
 		// do nothing
 	}
 

@@ -280,7 +280,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 				String text = (String) delegate.getCellEditorValue();
 				// get GeoElement of current cell
 				value = kernel.lookupLabel(GeoElementSpreadsheet
-						.getSpreadsheetCellName(column, row), false);
+						.getSpreadsheetCellName(column, row));
 
 				if (text.equals("")) {
 					if (value != null) {

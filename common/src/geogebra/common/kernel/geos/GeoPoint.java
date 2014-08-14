@@ -562,7 +562,7 @@ SymbolicParametersBotanaAlgo {
 
 			GeoElement geo = kernel.lookupLabel(
 					ev.isGeoElement() ? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate) : ev
-							.toString(StringTemplate.defaultTemplate), false);
+							.toString(StringTemplate.defaultTemplate));
 			if (geo != null && geo.isGeoNumeric()) {
 				return (GeoNumeric) geo;
 			}

@@ -121,7 +121,7 @@ public interface ExpressionValue {
      * Resolve variables
      * @param forEquation true to resolve xx as polynomial rather than product of function variables
      */
-    public void resolveVariables(boolean forEquation);
+    public void resolveVariables();
 
 	/**
 	 * @return kernel

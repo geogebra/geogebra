@@ -19,7 +19,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
@@ -99,7 +98,7 @@ public abstract class CommandProcessor {
 
 		for (int i = 0; i < arg.length; ++i) {
 			// resolve variables in argument expression
-			arg[i].resolveVariables(arg[i].getLeft() instanceof Equation);
+			arg[i].resolveVariables();
 
 			// resolve i-th argument and get GeoElements
 			// use only first resolved argument object for result

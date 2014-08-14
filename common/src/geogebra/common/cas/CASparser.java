@@ -123,7 +123,7 @@ public class CASparser implements CASParserInterface{
 		}
 		// resolve variables of valid expression
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
-		ev.resolveVariables(false);
+		ev.resolveVariables();
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
 		
 		Set<String> nonFunctions = new TreeSet<String>(); 

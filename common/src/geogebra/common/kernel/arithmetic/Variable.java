@@ -114,10 +114,10 @@ public class Variable extends ValidExpression {
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 * wrapping spreadsheet reference 
 	 */
-	final public ExpressionValue resolveAsExpressionValue(boolean forEquation) {
+	final public ExpressionValue resolveAsExpressionValue() {
 		GeoElement geo = resolve(false);
 		if(geo==null){
-			ExpressionValue ret = replacement(kernel, name, forEquation);
+			ExpressionValue ret = replacement(kernel, name);
 			return ret instanceof Variable ? resolve(true) : ret;
 		}
 		
@@ -143,7 +143,7 @@ public class Variable extends ValidExpression {
 		return geo;
 	}
 
-	public static ExpressionValue replacement(Kernel kernel,String name, boolean forEquation) {
+	public static ExpressionValue replacement(Kernel kernel,String name) {
 		//holds powers of x,y,z: eg {"xxx","y","zzzzz"}
 		int[] exponents = new int[]{0,0,0};
 		int i;
@@ -166,9 +166,6 @@ public class Variable extends ValidExpression {
 			return new Variable(kernel,name.substring(0,i+1));
 		if(geo2==null)
 			geo2 = new MyDouble(kernel,1.0);
-		//AbstractApplication.printStacktrace(name+":"+forEquation);
-		/*if(forEquation)
-			return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));*/
 		return new ExpressionNode(kernel,geo2,Operation.MULTIPLY,new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
 				multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]))).
 				multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]))));
@@ -180,7 +177,7 @@ public class Variable extends ValidExpression {
 		return ret;
 	}
 
-	public void resolveVariables(boolean forEquation) {
+	public void resolveVariables() {
 		// this has to be handled in ExpressionNode
 	}
 

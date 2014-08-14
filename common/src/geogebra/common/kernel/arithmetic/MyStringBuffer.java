@@ -64,8 +64,8 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return temp.toString();
 	}
 
-	public void resolveVariables(boolean forEquation) {
-		//MyStringBuffer naver has variables
+	public void resolveVariables() {
+		//MyStringBuffer never has variables
 	}
 
 	public boolean isConstant() {

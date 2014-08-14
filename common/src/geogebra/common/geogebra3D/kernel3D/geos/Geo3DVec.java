@@ -90,7 +90,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 		return new Geo3DVec(this);
 	}   
 	
-    public void resolveVariables(boolean forEquation) {     
+    public void resolveVariables() {     
     }
             
     /** Creates new GeoVec2D as vector between Points P and Q */

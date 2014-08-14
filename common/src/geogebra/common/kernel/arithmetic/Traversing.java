@@ -341,7 +341,7 @@ public interface Traversing {
 				String name = v.getName(StringTemplate.defaultTemplate);
 				ExpressionValue replace = ev.getKernel().lookupLabel(name, true);
 				if(replace == null){
-					replace = Variable.replacement(ev.getKernel(), name, false);
+					replace = Variable.replacement(ev.getKernel(), name);
 				}
 				if(replace instanceof Variable){
 					name = ((Variable)replace).getName(StringTemplate.defaultTemplate);
@@ -389,7 +389,7 @@ public interface Traversing {
 				ExpressionValue ret;
 				ret = ev.getKernel().lookupLabel(name);
 				if(ret == null){
-					ret = Variable.replacement(ev.getKernel(), name, false);
+					ret = Variable.replacement(ev.getKernel(), name);
 				}
 
 				if (ret instanceof Variable && !ev.getKernel().getConstruction().isRegistredFunctionVariable(name)) {

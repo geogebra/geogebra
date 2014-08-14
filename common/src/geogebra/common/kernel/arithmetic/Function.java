@@ -750,7 +750,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	private ExpressionNode evaluateToExpressionNode(String str) {
 		try {
 			ExpressionNode en = kernel.getParser().parseExpression(str);
-			en.resolveVariables(false);
+			en.resolveVariables();
 			return en;
 		} catch (Exception e) {
 			e.printStackTrace();

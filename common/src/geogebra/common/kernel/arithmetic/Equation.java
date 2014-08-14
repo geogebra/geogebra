@@ -231,11 +231,11 @@ public class Equation extends ValidExpression {
         } 
         else {
         	// standard case for lhs
-        	lhs.resolveVariables(true);
+        	lhs.resolveVariables();
         }
 
         // resolve variables in rhs
-        rhs.resolveVariables(true);
+        rhs.resolveVariables();
 
         // simplify the both sides to single polynomials
         this.isPolynomial = true;
@@ -411,9 +411,9 @@ public class Equation extends ValidExpression {
 		return false;
 	}
 
-	public void resolveVariables(boolean forEquation) {    
-        lhs.resolveVariables(forEquation);
-        rhs.resolveVariables(forEquation);		
+	public void resolveVariables() {    
+        lhs.resolveVariables();
+        rhs.resolveVariables();		
 	}
 
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {

@@ -70,10 +70,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		return ret;
 	}
 
-	public void resolveVariables(boolean forEquation) {
-		x.resolveVariables(forEquation);
-		y.resolveVariables(forEquation);
-		z.resolveVariables(forEquation);
+	public void resolveVariables() {
+		x.resolveVariables();
+		y.resolveVariables();
+		z.resolveVariables();
 	}
 
 	/**

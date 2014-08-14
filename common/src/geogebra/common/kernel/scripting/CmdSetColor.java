@@ -5,7 +5,6 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdScripting;
@@ -46,12 +45,12 @@ public class CmdSetColor extends CmdScripting {
 			arg = new GeoElement[args.length];
 	
 			// resolve first argument
-			args[0].resolveVariables(args[0].getLeft() instanceof Equation);
+			args[0].resolveVariables();
 			arg[0] = resArg(args[0])[0];
 	
 			try {
 				// resolve second argument
-				args[1].resolveVariables(args[1].getLeft() instanceof Equation);
+				args[1].resolveVariables();
 				arg[1] = resArg(args[1])[0];
 			} catch (Error e) {
 				// if there's a problem with the second argument, just wrap in quotes in case it's a color

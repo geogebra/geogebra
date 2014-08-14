@@ -293,7 +293,7 @@ public class MyCellEditorW implements BaseCellEditor {
 												  // delegate.getCellEditorValue();
 				// get GeoElement of current cell
 				value = kernel.lookupLabel(GeoElementSpreadsheet
-				        .getSpreadsheetCellName(column, row), false);
+				        .getSpreadsheetCellName(column, row));
 
 				if (text.equals("")) {
 					if (value != null) {

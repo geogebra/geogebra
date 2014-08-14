@@ -673,10 +673,10 @@ public class MyList extends ValidExpression implements ListValue,
 		return listElements.size();
 	}
 
-	public void resolveVariables(boolean forEquation) {
+	public void resolveVariables() {
 		for (int i = 0; i < listElements.size(); i++) {
 			ExpressionValue en = listElements.get(i);
-			en.resolveVariables(forEquation);
+			en.resolveVariables();
 		}
 	}
 
