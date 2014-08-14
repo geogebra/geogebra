@@ -695,7 +695,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		closePanel(true);
 	}
 
-	/** loads the styleBar and puts it into the stylBarPanel */
+	/** loads the styleBar and puts it into the styleBarPanel */
 	private void setStyleBar() {
 		if (styleBar == null) {
 			buildGUIIfNecessary(false);
@@ -717,32 +717,28 @@ public abstract class DockPanelW extends ResizeComposite implements
 		styleBarPanel.setVisible(isStyleBarVisible());
 		if (isStyleBarVisible()) {
 			setStyleBar();
-			styleBar.setVisible(showStyleBar
-			        && !app.getGuiManager().isDraggingViews());
-			if (styleBar instanceof SpreadsheetStyleBarW || styleBar instanceof CASStylebarW) {
-				dockPanel.clear();
-				dockPanel.addNorth(titleBarPanel, 44);
-				titleBarPanel.addStyleName("TitleBarPanel-open");
-				if (component != null)
-					dockPanel.add(component);
-				else
-					dockPanel.add(componentPanel);
-				dockPanel.onResize();
-				// this doesn't work
-				// dockPanel.setWidgetSize(titleBarPanel, 50);
-			}
-		} else if (styleBar instanceof SpreadsheetStyleBarW || styleBar instanceof CASStylebarW) {
-			dockPanel.clear();
-			dockPanel.addNorth(titleBarPanel, 0);
-			titleBarPanel.removeStyleName("TitleBarPanel-open");
-			if (component != null)
-				dockPanel.add(component);
-			else
-				dockPanel.add(componentPanel);
-			dockPanel.onResize();
-			// this doesn't work
-			// dockPanel.setWidgetSize(titleBarPanel, 0);
+			styleBar.setVisible(showStyleBar && !app.getGuiManager().isDraggingViews());
 		}
+		if (styleBar instanceof SpreadsheetStyleBarW || styleBar instanceof CASStylebarW) {
+			setStyleBarLongVisibility(isStyleBarVisible());
+		}
+	}
+	
+	/**
+	 * Sets style bar visibility to true and false.
+	 * When visible, style bar occupies a space of a full row (instead of floating).
+	 * E.g. in CASView and SpreadsheetView
+	 * @param value true to show style bar
+	 */
+	private void setStyleBarLongVisibility(boolean value) {
+		dockPanel.clear();
+		dockPanel.addNorth(titleBarPanel, value ? 44 : 0);
+		titleBarPanel.setStyleName("TitleBarPanel-open", value);
+		if (component != null)
+			dockPanel.add(component);
+		else
+			dockPanel.add(componentPanel);
+		dockPanel.onResize();
 	}
 
 	/**
