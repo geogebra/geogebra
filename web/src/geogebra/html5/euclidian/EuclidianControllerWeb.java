@@ -60,8 +60,6 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 */
 	protected final static int MIN_MOVE = 5;
 
-	private static final int INCREASED_THRESHOLD_FACTOR = 3;
-
 	/**
 	 * the mode of the actual multitouch-event
 	 */
@@ -102,7 +100,7 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 */
 	protected boolean moveAxesAllowed = true;
 
-	private int oldMode = -1;
+	private int previousMode = -1;
 
 	private double originalRadius;
 
@@ -414,6 +412,11 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 * 
 	 */
 	protected void setModeToFreehand() {
+		if (selectedPoints.size() != 0) {
+			// make sure to switch only for the first point
+			return;
+		}
+
 		// defined at the beginning, because it is modified for some modes
 		GeoPoint point = (GeoPoint) this.view.getHits().getFirstHit(
 		        Test.GEOPOINT);
@@ -447,7 +450,7 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		((EuclidianPenFreehand) pen).setInitialPoint(point);
 
 		// only executed if one of the specified modes is set
-		this.oldMode = this.mode;
+		this.previousMode = this.mode;
 		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
 		moveMode = MOVE_NONE;
 	}
@@ -459,11 +462,11 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 * (e.g. because the selected tool is not supported)
 	 */
 	protected void resetModeAfterFreehand() {
-		if (oldMode != -1) {
-			this.mode = oldMode;
+		if (previousMode != -1) {
+			this.mode = previousMode;
 			moveMode = MOVE_NONE;
 			view.setPreview(switchPreviewableForInitNewMode(this.mode));
-			this.oldMode = -1;
+			this.previousMode = -1;
 			this.pen = null;
 			this.view.repaint();
 		}
