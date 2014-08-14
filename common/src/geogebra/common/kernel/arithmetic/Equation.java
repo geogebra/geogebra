@@ -561,6 +561,11 @@ public class Equation extends ValidExpression {
 			return containsVar(node.getRight(), var);
 		}
 		
+		if (v instanceof FunctionVariable){
+			String vVar = ((FunctionVariable) v).getSetVarString();
+			return vVar.length() == 1 && vVar.charAt(0) == var;
+		}
+		
 		if (v instanceof Polynomial){
 			return !((Polynomial) v).isFreeOf(var);
 		}
