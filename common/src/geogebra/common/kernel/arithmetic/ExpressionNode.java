@@ -1334,7 +1334,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 								.toValueString(tpl);
 					}
 				}
-				ret = operation.buildString(left, right, leftStr, rightStr, !symbolic, tpl);
+				ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
+						
 			}
 		} finally {
 			// do nothing
@@ -1436,7 +1437,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				rightStr = right.toString(tpl);
 			}
 		}
-		return operation.buildString(left, right, leftStr, rightStr, false, tpl);
+		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, false, tpl);
 	}
 
 	/** like toString() but with current values of variables */
@@ -1456,7 +1457,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toValueString(tpl);
 		}
 
-		return operation.buildString(left, right, leftStr, rightStr, true, tpl);
+		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl);
 	}
 
 	final public String toOutputValueString(StringTemplate tpl) {
@@ -1474,7 +1475,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toOutputValueString(tpl);
 		}
 
-		return operation.buildString(left, right, leftStr, rightStr, true, tpl);
+		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl);
 	}
 
 	/**
@@ -1514,7 +1515,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 
 		// build latex string
-		ret = operation.buildString(left, right, leftStr, rightStr, !symbolic, tpl);
+		ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
 
 		return checkMathml(ret, tpl);
 	}
@@ -1540,9 +1541,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @param valueForm whether to show value or symbols
 	 * @param tpl string template
 	 * @return string representation of a node.
-	 * @deprecated Use {@link Operation#buildString(ExpressionValue, ExpressionValue, String, String, boolean, StringTemplate)} instead
 	 */
-	@Deprecated
 	final public static String operationToString(ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr,
 			boolean valueForm, StringTemplate tpl) {
 		ExpressionValue leftEval;
@@ -1551,6 +1550,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		StringType stringType = tpl.getStringType();
 		Localization loc = left.getKernel().getLocalization();
 		switch (operation) {
+		case NO_OPERATION: return leftStr;
 		case NOT: return tpl.notString(left,leftStr);
 
 		case OR: return tpl.orString(left, right, leftStr, rightStr);
@@ -1809,7 +1809,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// sb.append(rightStr);
 			}
 			break;
-			
+		case PLUS:
+			tpl.plusString(left, right, leftStr, rightStr, valueForm);
 		case MINUS:
 			return tpl.minusString(left, right, leftStr, rightStr, valueForm);
 
@@ -3092,8 +3093,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 			}
 
-			if (right instanceof NumberValue) {
-				int order = (int) Math.round(((NumberValue) right).getDouble());
+			if (right.unwrap() instanceof NumberValue) {
+				int order = (int) Math.round(right.evaluateDouble());
 				for (; order > 0; order--) {
 					sb.append('\'');
 				}

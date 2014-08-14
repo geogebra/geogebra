@@ -366,7 +366,7 @@ public class CommandDispatcherGiac {
 			case diff:
 				
 				if (args.getLength() == 3 && !"1".equals(args.getItem(2).toString(StringTemplate.giacTemplate))) {
-					return new ExpressionNode(kernel, Double.NaN);
+					return new ExpressionNode(kernel,new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),Operation.DIFF,args.getItem(2));
 				}
 				
 				ret = new ExpressionNode(kernel,args.getItem(0),Operation.DIFF,args.getItem(1));

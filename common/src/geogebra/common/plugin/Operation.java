@@ -3,7 +3,6 @@ package geogebra.common.plugin;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.BooleanValue;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -31,12 +30,6 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return null;
-		}
-
-		@Override
-		public String buildString(ExpressionValue left, ExpressionValue right,
-				String leftStr, String rightStr, boolean b, StringTemplate tpl) {
-			return leftStr;
 		}
 	},
 	NOT_EQUAL {
@@ -296,11 +289,6 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return ev.handlePlus(lt, rt, tpl, holdsLaTeX);
 
-		}
-		@Override
-		public String buildString(ExpressionValue left, ExpressionValue right,
-				String leftStr, String rightStr, boolean valueForm, StringTemplate tpl){
-			return tpl.plusString(left, right, leftStr, rightStr, valueForm);
 		}
 		
 	},
@@ -1510,11 +1498,6 @@ public enum Operation {
 		}
 		
 		return Operation.NO_OPERATION;
-	}
-
-	public String buildString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm, StringTemplate tpl){
-		return ExpressionNode.operationToString(left, right, this, leftStr, rightStr, valueForm, tpl);
 	}
 	
 	public static boolean integralIsNonContinuous(Operation op) { 

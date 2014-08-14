@@ -525,32 +525,50 @@ public interface Traversing {
 				return ev;
 			}
 			Kernel kernel = ev.getKernel();
-			
-			String expStr = en.getLeft().toString(StringTemplate.defaultTemplate);
+			ExpressionValue expr = en.getLeft();
+			ExpressionValue var = en.getRight();
+			ExpressionValue deg;
+			if(expr instanceof MyNumberPair){
+				
+				var = ((MyNumberPair)expr).y;
+				expr = ((MyNumberPair)expr).x;
+				deg = en.getRight();
+			}else{
+				deg = new MyDouble(kernel,1);
+			}
+			String expStr = expr.toString(StringTemplate.defaultTemplate);
 			int nameEnd = expStr.indexOf('(');
 			if(expStr.indexOf('[')>0){
 				nameEnd = nameEnd > 0 ? Math.min(nameEnd, expStr.indexOf('[')) : expStr.indexOf('[');
 			}
 			String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
 					: expStr;
-			
+
 			ExpressionValue diffArg = new MyDouble(kernel,Double.NaN);
-			ExpressionNode mult = new MyDouble(kernel,1).wrap();
-			if(en.getLeft().unwrap() instanceof Command){
-				diffArg = ((Command)en.getLeft().unwrap()).getArgument(0);
-				
-				CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
-				Command derivCommand = new Command(kernel,"Derivative",false);
-				derivCommand.addArgument(diffArg.wrap());
-				derivCommand.addArgument(en.getRight().wrap());
-				derivCommand.addArgument(new MyDouble(kernel,1).wrap());
-				mult = cas.evaluateToExpression(derivCommand, null).wrap();
+			ExpressionValue mult = new MyDouble(kernel,1);
+			if(expr.unwrap() instanceof Command){
+				diffArg = ((Command)expr.unwrap()).getArgument(0);
+				if(diffArg.unwrap() instanceof FunctionVariable &&
+						diffArg.toString(StringTemplate.defaultTemplate).equals(var.toString(StringTemplate.defaultTemplate)) ){
+					//keep mult
+				}else if(Kernel.isEqual(deg.evaluateDouble(),1)){
+					CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+					Command derivCommand = new Command(kernel,"Derivative",false);
+					derivCommand.addArgument(diffArg.wrap());
+					derivCommand.addArgument(var.wrap());
+					derivCommand.addArgument(deg.wrap());
+					mult = cas.evaluateToExpression(derivCommand, null);
+				}else{
+					App.printStacktrace(ValidExpression.debugString(diffArg));
+					App.printStacktrace(ValidExpression.debugString(var));
+					mult = new MyDouble(kernel, Double.NaN);
+				}
 			}
 			
 			// derivative of f gives f'
 			ExpressionNode derivative = new ExpressionNode(kernel,
 					new Variable(kernel, funLabel), // function label "f"
-					Operation.DERIVATIVE, new MyDouble(kernel, 1));
+					Operation.DERIVATIVE, deg);
 			// function of given variable gives f'(t)
 			return new ExpressionNode(kernel, derivative,
 					Operation.FUNCTION, diffArg).multiplyR(mult); // Variable
