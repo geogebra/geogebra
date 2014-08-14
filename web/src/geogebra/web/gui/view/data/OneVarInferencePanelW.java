@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.data;
 
+import geogebra.common.gui.view.data.StatisticsModel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -76,7 +77,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	private boolean isTest = true;
 	private boolean isZProcedure;
 	
-	private int selectedPlot = StatisticsPanelW.INFER_TINT;
+	private int selectedPlot = StatisticsModel.INFER_TINT;
 	private LocalizationW loc;
 
 	
@@ -90,6 +91,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		this.loc = (LocalizationW)app.getLocalization();
 		this.kernel = app.getKernel();
 		this.statDialog = statDialog;
+		this.statDialog.getController().loadDataLists(true);
 		
 		this.createGUIElements();
 		
@@ -187,16 +189,16 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 //		intPanel.add(fldConfLevel, tab);	
 //
 //		// result panel	
-//		resultTable = new StatTableW(app);
-//		setResultTable();
-//
-//		resultPanel = new JPanel(new BorderLayout());
+		resultTable = new StatTableW(app);
+		setResultTable();
+
+		resultPanel = new FlowPanel();
 //		c.gridy = GridBagConstraints.RELATIVE;
 //		resultPanel.add(lblResultHeader, BorderLayout.NORTH);
 //		resultPanel.add(resultTable, BorderLayout.CENTER);
 //		c.weightx =0;
 //		c.fill = GridBagConstraints.HORIZONTAL;
-//		//resultPanel.add(resultTable, c);
+		resultPanel.add(resultTable);
 //
 //
 //
@@ -204,7 +206,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		mainPanel = new FlowPanel();
 		mainPanel.add(new Label("sooooooooooooo..."));
 		add(mainPanel);
-		//	this.add(resultPanel, BorderLayout.CENTER);
+		add(resultPanel);
 	}
 
 
@@ -235,7 +237,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 //
 //		c.weightx=0;
 //		c.fill = GridBagConstraints.HORIZONTAL;
-//		mainPanel.add(resultPanel,c);
+		mainPanel.add(resultPanel);
 
 
 	}
@@ -247,7 +249,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		ArrayList<String> nameList = new ArrayList<String>();
 
 		switch (selectedPlot){
-		case StatisticsPanelW.INFER_ZTEST:
+		case StatisticsModel.INFER_ZTEST:
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("ZStatistic")); 
 			nameList.add(loc.getMenu(""));
@@ -256,7 +258,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 			break;
 
-		case StatisticsPanelW.INFER_TTEST:
+		case StatisticsModel.INFER_TTEST:
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("TStatistic"));
 			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
@@ -266,7 +268,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			nameList.add(loc.getMenu("Mean"));
 			break;
 
-		case StatisticsPanelW.INFER_ZINT:
+		case StatisticsModel.INFER_ZINT:
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));
@@ -276,7 +278,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			nameList.add(loc.getMenu("Mean"));
 			break;
 
-		case StatisticsPanelW.INFER_TINT:
+		case StatisticsModel.INFER_TINT:
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));
@@ -303,7 +305,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		String cInt = statDialog.format(mean) + " \u00B1 "  + statDialog.format(me);
 		
 		switch (selectedPlot){
-		case StatisticsPanelW.INFER_ZTEST:
+		case StatisticsModel.INFER_ZTEST:
 			resultTable.setValueAt(statDialog.format(P),0,0);
 			resultTable.setValueAt(statDialog.format(testStat), 1, 0);
 			resultTable.setValueAt("", 2, 0);
@@ -311,7 +313,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			resultTable.setValueAt(statDialog.format(mean), 4, 0);
 			break;
 
-		case StatisticsPanelW.INFER_TTEST:
+		case StatisticsModel.INFER_TTEST:
 			resultTable.setValueAt(statDialog.format(P),0,0);
 			resultTable.setValueAt(statDialog.format(testStat), 1, 0);
 			resultTable.setValueAt(statDialog.format(df), 2, 0);
@@ -321,7 +323,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			resultTable.setValueAt(statDialog.format(mean), 6, 0);	
 			break;
 
-		case StatisticsPanelW.INFER_ZINT:
+		case StatisticsModel.INFER_ZINT:
 			resultTable.setValueAt(cInt,0,0);
 			resultTable.setValueAt(statDialog.format(lower),1,0);
 			resultTable.setValueAt(statDialog.format(upper), 2, 0);
@@ -331,7 +333,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			resultTable.setValueAt(statDialog.format(mean), 6, 0);
 			break;
 
-		case StatisticsPanelW.INFER_TINT:
+		case StatisticsModel.INFER_TINT:
 			resultTable.setValueAt(cInt,0,0);
 			resultTable.setValueAt(statDialog.format(lower),1,0);
 			resultTable.setValueAt(statDialog.format(upper), 2, 0);
@@ -374,11 +376,11 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 	private void updateGUI(){
 
-		isTest = (selectedPlot == StatisticsPanelW.INFER_ZTEST
-				|| selectedPlot == StatisticsPanelW.INFER_TTEST);
+		isTest = (selectedPlot == StatisticsModel.INFER_ZTEST
+				|| selectedPlot == StatisticsModel.INFER_TTEST);
 
-		isZProcedure = selectedPlot == StatisticsPanelW.INFER_ZTEST
-		|| selectedPlot == StatisticsPanelW.INFER_ZINT;
+		isZProcedure = selectedPlot == StatisticsModel.INFER_ZTEST
+		|| selectedPlot == StatisticsModel.INFER_ZINT;
 
 		updateNumberField(fldNullHyp, hypMean);
 		updateNumberField(fldConfLevel, confLevel);
@@ -489,8 +491,8 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		try {
 			switch (selectedPlot){
 
-			case StatisticsPanelW.INFER_ZTEST:
-			case StatisticsPanelW.INFER_ZINT:
+			case StatisticsModel.INFER_ZTEST:
+			case StatisticsModel.INFER_ZINT:
 				normalDist = new NormalDistributionImpl(0,1);
 				se = sigma/Math.sqrt(N);
 				testStat = (mean - hypMean)/se;
@@ -503,8 +505,8 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 				lower = mean - me;
 				break;
 
-			case StatisticsPanelW.INFER_TTEST:
-			case StatisticsPanelW.INFER_TINT:
+			case StatisticsModel.INFER_TTEST:
+			case StatisticsModel.INFER_TINT:
 				if(tTestImpl == null)
 					tTestImpl = new TTestImpl();
 				se = Math.sqrt(StatUtils.variance(sample)/N);

@@ -19,7 +19,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -78,11 +77,14 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 		daCtrl = new DataAnalysisControllerW(app, this);
 		model = new DataAnalysisModel(app, mode, this, daCtrl);
-
+	
+		DataSource dataSource = new DataSource(app);
+		dataSource.setDataListFromSelection(mode);
+		
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);
 
-		setView(null, mode, true);
+		setView(dataSource, mode, true);
 		model.setIniting(false);
 
 	}
@@ -110,14 +112,15 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	public Widget getDummy() {
 		//FlowPanel p = new FlowPanel();
-		Label l1 = new Label("Laaaaaaaaaaaaaaabel1");
-		Label l2 = new Label("Labeeeeeeeeeeeeeeel2");
-		SplitLayoutPanel sp = new SplitLayoutPanel(5);
-		sp.insertWest(l1, 100, null);
-		sp.insertWest(l2, 100, l1);
-		sp.setStyleName("dataSplitLayout");
-		add(sp);
-		return this;
+//		Label l1 = new Label("Laaaaaaaaaaaaaaabel1");
+//		Label l2 = new Label("Labeeeeeeeeeeeeeeel2");
+//		SplitLayoutPanel sp = new SplitLayoutPanel(5);
+//		sp.insertWest(statisticsPanel, 300, null);
+//		sp.insertWest(l2, 100, statisticsPanel);
+//		sp.setStyleName("dataSplitLayout");
+//		add(sp);
+		buildStatisticsPanel();
+		return statisticsPanel;
 		
 	}
 	private void createGUI() {
@@ -385,7 +388,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 			if (model.showStatPanel()) {
 				if (true){//statDataPanel..getRightComponent() == null) {
-					App.debug("Adding statisticsPanel");
 					statDataPanel.addWest(statisticsPanel, 100.0);
 				}
 			} else {

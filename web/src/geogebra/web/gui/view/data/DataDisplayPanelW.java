@@ -11,6 +11,7 @@ import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CardPanel;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.main.LocalizationW;
@@ -22,6 +23,8 @@ import geogebra.web.main.AppW;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -39,6 +42,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		FocusListener,*/ StatPanelInterfaceW, IDataDisplayListener {
 	private static final long serialVersionUID = 1L;
+
 
 	// ggb fields
 	private AppW app;
@@ -264,6 +268,13 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		if (lbDisplayType == null) {
 			lbDisplayType = new ListBox();
+			lbDisplayType.addChangeHandler(new ChangeHandler() {
+				
+				public void onChange(ChangeEvent event) {
+					actionPerformed(lbDisplayType);
+				}
+			});
+		
 //			lbDisplayType.setRenderer(new MyRenderer(app));
 
 		} else {
@@ -423,7 +434,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	// Event Handlers
 	// ============================================================
 //
-//	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(Object source) {
 //
 //		Object source = e.getSource();
 //
@@ -458,23 +469,27 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //					btnExport.getHeight());
 //		}
 //
-//		else if (source == lbDisplayType) {
-//			if (lbDisplayType.getSelectedItem().equals(MyRenderer.SEPARATOR)) {
-//				lbDisplayType.setSelectedItem(getModel().getSelectedPlot());
-//			} else {
+//		else 
+		if (source == lbDisplayType) {
+			if (lbDisplayType.getSelectedIndex() == -1) {
+				lbDisplayType.setSelectedIndex(ListBoxApi.getIndexOf(getModel().getSelectedPlot().key,
+						lbDisplayType));
+			} else {
+				lbDisplayType.setSelectedIndex(ListBoxApi.getIndexOf(getModel().getSelectedPlot().key,
+						lbDisplayType));
 //				getModel().setSelectedPlot(
 //						(PlotType) lbDisplayType.getSelectedItem());
-//				getModel().updatePlot(true);
-//			}
+				getModel().updatePlot(true);
+			}
+
+			if (optionsPanel.isVisible()) {
+				optionsPanel.setPanel(getModel().getSelectedPlot());
+
+			}
+
+		}
 //
-//			if (optionsPanel.isVisible()) {
-//				optionsPanel.setPanel(getModel().getSelectedPlot());
-//
-//			}
-//
-//		}
-//
-//	}
+	}
 
 	private void doTextFieldActionPerformed(Object source) {
 //

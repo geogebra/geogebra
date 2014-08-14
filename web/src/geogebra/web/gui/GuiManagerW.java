@@ -13,6 +13,7 @@ import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.javax.swing.GTextComponent;
@@ -982,13 +983,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public View getDataAnalysisView() {
 		if (dataAnalysisView == null) {
-			dataAnalysisView = new DataAnalysisViewW((AppW) app, 0);
+			dataAnalysisView = new DataAnalysisViewW((AppW) app,
+					DataAnalysisModel.MODE_ONEVAR);
 		}
 		return dataAnalysisView;
 	}
 
 	public void attachDataAnalysisView() {
-		App.debug("unimplemented");
 	}
 
 	public void detachDataAnalysisView() {
@@ -996,8 +997,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public boolean hasDataAnalysisView() {
-		App.debug("unimplemented");
-		return false;
+		if (dataAnalysisView == null)
+			return false;
+		if (!dataAnalysisView.isShowing())
+			return false;
+		return true;
+	
 	}
 
 	public void detachAssignmentView() {

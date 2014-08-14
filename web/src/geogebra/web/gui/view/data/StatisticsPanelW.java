@@ -1,12 +1,13 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.StatisticsModel;
+import geogebra.common.gui.view.data.StatisticsModel.IStatisticsModelListener;
 import geogebra.web.main.AppW;
 
-import java.util.HashMap;
-
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 /**
@@ -18,35 +19,22 @@ import com.google.gwt.user.client.ui.ListBox;
  * @author G. Sturr
  * 
  */
-public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
+public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
+		 IStatisticsModelListener {
 	private static final long serialVersionUID = 1L;
-	// inference mode constants
-	public static final int SUMMARY_STATISTICS = 0;
-	// one var
-	public static final int INFER_ZTEST = 1;
-	public static final int INFER_ZINT = 2;
-	public static final int INFER_TTEST = 3;
-	public static final int INFER_TINT = 4;
-	// two var
-	public static final int INFER_TTEST_2MEANS = 20;
-	public static final int INFER_TTEST_PAIRED = 21;
-	public static final int INFER_TINT_2MEANS = 22;
-	public static final int INFER_TINT_PAIRED = 23;
-	// multi var
-	public static final int INFER_ANOVA = 40;
 
+	private static final String SEPARATOR = "-------------------";
+
+	private StatisticsModel model;
 	// inference mode selection
 	private ListBox lbInferenceMode;
-	private HashMap<Integer, String> labelMap;
-	private HashMap<String, Integer> labelMapReverse;
-	private int selectedMode = SUMMARY_STATISTICS;
 
 	// panels
 	private BasicStatTableW statTable;
 	private OneVarInferencePanelW oneVarInferencePanel;
-//	private LinearRegressionPanel regressionPanel;
-//	private TwoVarInferencePanel twoVarInferencePanel;
-//	private ANOVATable anovaTable;
+//	private LinearRegressionPanelW regressionPanel;
+//	private TwoVarInferencePanelW twoVarInferencePanel;
+//	private ANOVATableW anovaTable;
 	private MultiVarStatPanelW minMVStatPanel;
 	private FlowPanel selectionPanel;
 	private FlowPanel inferencePanel;
@@ -67,17 +55,17 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		this.app = app;
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();
+		model = new StatisticsModel(app, daModel, this);
 		// create the sub-panels
 		createSelectionPanel();
-		daModel.setMode(DataAnalysisModel.MODE_ONEVAR);
-		
 		createStatTable();
 		if (statTable != null) {
 			inferencePanel = new FlowPanel();
 			inferencePanel.add(statTable);
+
 			add(selectionPanel);
 			add(inferencePanel);
-			add(new Label("Statistics panel"));
+
 			setLabels();
 		}
 	}
@@ -86,7 +74,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 	 * Creates a table to display summary statistics for the current data set(s)
 	 */
 	private void createStatTable() {
-//		 create a statTable according to dialog type
+		// create a statTable according to dialog type
 		if (daModel.getMode() == DataAnalysisModel.MODE_ONEVAR) {
 			statTable = new BasicStatTableW(app, statDialog);
 		} else if (daModel.getMode() == DataAnalysisModel.MODE_REGRESSION) {
@@ -105,25 +93,25 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		if (inferencePanel == null)
 			return;
 
-		inferencePanel.clear();
-		switch (selectedMode) {
+		inferencePanel.clear();;
+		switch (model.getSelectedMode()) {
 
-		case INFER_ZTEST:
-		case INFER_TTEST:
-		case INFER_ZINT:
-		case INFER_TINT:
+		case StatisticsModel.INFER_ZTEST:
+		case StatisticsModel.INFER_TTEST:
+		case StatisticsModel.INFER_ZINT:
+		case StatisticsModel.INFER_TINT:
 			inferencePanel.add(getOneVarInferencePanel());
 			break;
 
-		case INFER_TTEST_2MEANS:
-		case INFER_TTEST_PAIRED:
-		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:
-			//inferencePanel.add(getTwoVarInferencePanel());
-			inferencePanel.add(statTable);
+		case StatisticsModel.INFER_TTEST_2MEANS:
+		case StatisticsModel.INFER_TTEST_PAIRED:
+		case StatisticsModel.INFER_TINT_2MEANS:
+		case StatisticsModel.INFER_TINT_PAIRED:
+		//	inferencePanel.add(getTwoVarInferencePanel());
+			// inferencePanel.add(statTable, BorderLayout.CENTER);
 			break;
 
-		case INFER_ANOVA:
+		case StatisticsModel.INFER_ANOVA:
 
 //			GridBagConstraints tab = new GridBagConstraints();
 //			tab.gridx = 0;
@@ -137,7 +125,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 //			p.add(getAnovaTable(), tab);
 //			p.add(getMinMVStatPanel(), tab);
 //			inferencePanel.add(p, BorderLayout.CENTER);
-//
+
 			break;
 
 		default:
@@ -148,28 +136,27 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 	}
 
 	private void createSelectionPanel() {
-		createLabelMap();
 		createInferenceTypeComboBox();
 
 		selectionPanel = new FlowPanel();
 		selectionPanel.add(lbInferenceMode);
 	}
 
-//	private ANOVATable getAnovaTable() {
+//	private ANOVATableW getAnovaTable() {
 //		if (anovaTable == null)
-//			anovaTable = new ANOVATable(app, statDialog);
+//			anovaTable = new ANOVATableW(app, statDialog);
 //		return anovaTable;
 //	}
-//
+
 	private OneVarInferencePanelW getOneVarInferencePanel() {
 		if (oneVarInferencePanel == null)
 			oneVarInferencePanel = new OneVarInferencePanelW(app, statDialog);
 		return oneVarInferencePanel;
 	}
 
-//	private TwoVarInferencePanel getTwoVarInferencePanel() {
+//	private TwoVarInferencePanelW getTwoVarInferencePanel() {
 //		if (twoVarInferencePanel == null)
-//			twoVarInferencePanel = new TwoVarInferencePanel(app, statDialog);
+//			twoVarInferencePanel = new TwoVarInferencePanelW(app, statDialog);
 //		return twoVarInferencePanel;
 //	}
 
@@ -187,80 +174,23 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		if (lbInferenceMode == null) {
 			lbInferenceMode = new ListBox();
-
+			lbInferenceMode.addChangeHandler(new ChangeHandler() {
+				
+				public void onChange(ChangeEvent event) {
+					actionPerformed(lbInferenceMode);
+				}
+			});
 		} else {
 			lbInferenceMode.clear();
 		}
+		
 
-		switch (daModel.getMode()) {
 
-		case DataAnalysisModel.MODE_ONEVAR:
-			lbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-			lbInferenceMode.addItem(labelMap.get(INFER_ZTEST));
-			lbInferenceMode.addItem(labelMap.get(INFER_TTEST));
-			lbInferenceMode.addItem("------------");
-			lbInferenceMode.addItem(labelMap.get(INFER_ZINT));
-			lbInferenceMode.addItem(labelMap.get(INFER_TINT));
-			break;
-
-		case DataAnalysisModel.MODE_REGRESSION:
-			lbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-			break;
-
-		case DataAnalysisModel.MODE_MULTIVAR:
-			lbInferenceMode.addItem(labelMap.get(SUMMARY_STATISTICS));
-			lbInferenceMode.addItem(labelMap.get(INFER_ANOVA));
-			lbInferenceMode.addItem(labelMap.get(INFER_TTEST_2MEANS));
-			lbInferenceMode.addItem(labelMap.get(INFER_TTEST_PAIRED));
-			lbInferenceMode.addItem("-----------------");
-			lbInferenceMode.addItem(labelMap.get(INFER_TINT_2MEANS));
-			lbInferenceMode.addItem(labelMap.get(INFER_TINT_PAIRED));
-			break;
-		}
-
-//		lbInferenceMode.setSelectedItem(labelMap.get(selectedMode));
-//		lbInferenceMode.addActionListener(this);
-//		lbInferenceMode.setMaximumRowCount(lbInferenceMode.getItemCount());
-//		lbInferenceMode.addActionListener(this);
+		model.fillInferenceModes();
 
 	}
-
-	/**
-	 * Creates two hash maps for JComboBox selections, 1) plotMap: Key = integer
-	 * mode, Value = JComboBox menu string 2) plotMapReverse: Key = JComboBox
-	 * menu string, Value = integer mode
-	 */
-	private void createLabelMap() {
-		if (labelMap == null)
-			labelMap = new HashMap<Integer, String>();
-
-		labelMap.clear();
-		labelMap.put(INFER_TTEST, app.getMenu("TMeanTest"));
-		labelMap.put(INFER_TINT, app.getMenu("TMeanInterval"));
-		labelMap.put(INFER_ZTEST, app.getMenu("ZMeanTest"));
-		labelMap.put(INFER_ZINT, app.getMenu("ZMeanInterval"));
-
-		labelMap.put(INFER_ANOVA, app.getMenu("ANOVA"));
-		labelMap.put(SUMMARY_STATISTICS, app.getMenu("Statistics"));
-
-		labelMap.put(INFER_TTEST_2MEANS, app.getMenu("TTestDifferenceOfMeans"));
-		labelMap.put(INFER_TTEST_PAIRED, app.getMenu("TTestPairedDifferences"));
-		labelMap.put(INFER_TINT_2MEANS,
-				app.getMenu("TEstimateDifferenceOfMeans"));
-		labelMap.put(INFER_TINT_PAIRED,
-				app.getMenu("TEstimatePairedDifferences"));
-
-		// REVERSE LABEL MAP
-		labelMapReverse = new HashMap<String, Integer>();
-		for (Integer key : labelMap.keySet()) {
-			labelMapReverse.put(labelMap.get(key), key);
-		}
-
-	}
-
 	public void setLabels() {
 		statTable.setLabels();
-		
 	}
 
 	public void updatePanel() {
@@ -270,32 +200,60 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW {
 		}
 
 		statTable.updatePanel();
-
-		switch (selectedMode) {
-
-		case INFER_ZTEST:
-		case INFER_TTEST:
-		case INFER_ZINT:
-		case INFER_TINT:
-			getOneVarInferencePanel().setSelectedPlot(selectedMode);
-			getOneVarInferencePanel().updatePanel();
-			break;
-
-		case INFER_TTEST_2MEANS:
-		case INFER_TTEST_PAIRED:
-		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:
-//			getTwoVarInferencePanel().setSelectedInference(selectedMode);
-//			getTwoVarInferencePanel().updatePanel();
-			break;
-
-		case INFER_ANOVA:
-//			getAnovaTable().updatePanel();
-//			getMinMVStatPanel().updatePanel();
-			break;
-		}
-
-		// statDialog.updateStatDataPanelVisibility();
+		model.update();
+//		this.setMinimumSize(this.getPreferredSize());
+		statDialog.updateStatDataPanelVisibility();
 
 	}
+
+	public void actionPerformed(Object source) {
+		int idx = lbInferenceMode.getSelectedIndex();
+		if (source == lbInferenceMode
+				&& idx != -1) {
+
+			model.selectInferenceMode(lbInferenceMode.getValue(idx));
+			setInferencePanel();
+			updatePanel();
+		}
+
+	}
+
+	public void addInferenceMode(String item) {
+		lbInferenceMode.addItem(item);
+	}
+
+	public void selectInferenceMode(String item) {
+		for (int idx=0; idx < lbInferenceMode.getItemCount(); idx++) {
+			String s = lbInferenceMode.getItemText(idx);
+			if (s.equals(item)) {
+				lbInferenceMode.setSelectedIndex(idx);
+				return;
+			}
+		
+		}
+		
+		lbInferenceMode.setSelectedIndex(0);
+		
+	}
+
+	public String getSeparator() {
+		return SEPARATOR;
+	}
+
+	public void updateOneVarInference(int mode) {
+		getOneVarInferencePanel().setSelectedPlot(mode);
+		getOneVarInferencePanel().updatePanel();
+	}
+
+	public void updateTwoVarInference(int mode) {
+//		getTwoVarInferencePanel().setSelectedInference(mode);
+//		getTwoVarInferencePanel().updatePanel();
+	}
+
+	public void updateAnovaTable() {
+//		getAnovaTable().updatePanel();
+//		getMinMVStatPanel().updatePanel();
+
+	}
+
 }

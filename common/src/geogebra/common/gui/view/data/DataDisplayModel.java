@@ -658,6 +658,7 @@ public class DataDisplayModel {
 		return selectedPlot;
 	}
 
+	
 	public void setSelectedPlot(PlotType selectedPlot) {
 		this.selectedPlot = selectedPlot;
 	}

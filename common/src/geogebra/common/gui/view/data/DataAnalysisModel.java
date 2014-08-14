@@ -220,6 +220,9 @@ public class DataAnalysisModel {
 		return ctrl.getDataSource();
 	}
 
+	public void setDataSource(DataSource dataSource) {
+		ctrl.setDataSource(dataSource);
+	}
 	public GroupType groupType() {
 		return ctrl.getDataSource().getGroupType();
 	}
@@ -452,5 +455,7 @@ public class DataAnalysisModel {
 	public void setMode(int mode) {
 		this.mode = mode;
 	}
+
+	
 
 }

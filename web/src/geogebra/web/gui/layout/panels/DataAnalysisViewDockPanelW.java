@@ -1,5 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
@@ -18,7 +19,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	/**
 	 * default width of this panel
 	 */
-	public static final int DEFAULT_WIDTH = 480;
+	public static final int DEFAULT_WIDTH = 880;
 	private App app;
 
 	/**
@@ -28,7 +29,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	public DataAnalysisViewDockPanelW(App app) {
 		super(App.VIEW_DATA_ANALYSIS, // view id
 				"DataAnalysis", // view title phrase
-				null, // toolbar string
+				getDefaultToolbar(), // toolbar string
 				true, // style bar?
 				-1, // menu order
 				'-' // menu shortcut
@@ -43,17 +44,9 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		App.debug("[DATA ANALYSIS] loadComponent");
 		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
-		if (da == null) {
-			App.debug("[DATA ANALYSIS] VIEW IS NULL");
-			
-		} else {
-			App.debug("[DATA ANALYSIS] VIEW IS NOT NULL");
-			
-		}
-		return da.getDataAnalysisViewComponent();
-		
+//		return da.getDummy();
+		return da.getDataAnalysisViewComponent();		
 	}
 
 	@Override
@@ -71,4 +64,17 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 		return false;
 	}
 
+	private static String getDefaultToolbar() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(EuclidianConstants.MODE_MOVE);
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
+			
+		return sb.toString();
+	}
 }
