@@ -29,6 +29,7 @@ import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +125,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
 	        .compile("[,\\[] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]])");
 
+	boolean showOnScreenKeyBoard = false;
+
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
 	 * given Application for autocomplete look up. A default model is created
@@ -159,6 +162,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 				sb.append(oldText.substring(pos));
 				super.setText(sb.toString());
 				//AutoCompleteTextFieldW.this.moveToNextArgument(false);
+			}
+
+			@Override
+			public void setFocus(boolean focused) {
+			    super.setFocus(focused && !showOnScreenKeyBoard);
 			}
 		};
 		if (columns > 0) {
@@ -264,7 +272,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 				// AG I dont understand thisAutoCompleteTextField tf =
 				// ((AutoCompleteTextField)event.getSource());
 				// AG tf.setFocus(true);
-				textField.setFocus(true);
+//				textField.setFocus(true);
+				requestFocus();
 			}
 		});
 	}
@@ -467,7 +476,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void setFocus(boolean b) {
-		textField.setFocus(b);
+		textField.setFocus(b && !showOnScreenKeyBoard);
 	}
 
 	public void setEditable(boolean b) {
@@ -1119,6 +1128,24 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
 
+		setText(start, end, text);
+	}
+
+	public void onBackSpace(){
+		int start = getSelectionStart();
+		int end = getSelectionEnd();
+		
+		if(end - start < 1){
+			end = getCaretPosition();
+			start = end - 1;
+		}
+
+		if(start >= 0){
+			setText(start, end, "");
+		}
+	}
+
+	private void setText(int start, int end, String text){
 		// clear selection if there is one
 		if (start != end) {
 			String oldText = getText();
@@ -1280,6 +1307,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void requestFocus() {
+		if(showOnScreenKeyBoard){
+			OnScreenKeyBoard k = new OnScreenKeyBoard(this);
+			k.show();
+		}
+		// if the onScreenKeyBoard is shown setFocus will blur textField
 		textField.setFocus(true);
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
@@ -1402,4 +1434,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			removeStyleName("SymbolCanBeShown");
 		}
     }
+
+	public boolean isShowOnScreenKeyBoard() {
+		return showOnScreenKeyBoard;
+	}
+
+	public void setShowOnScreenKeyBoard(boolean showOnScreenKeyBoard) {
+		this.showOnScreenKeyBoard = showOnScreenKeyBoard;
+	}
 }

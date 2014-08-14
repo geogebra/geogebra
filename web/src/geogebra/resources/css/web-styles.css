@@ -1863,6 +1863,89 @@ Paddings for menuitems.
 	color: #6666FF;
 }
 
+.KeyBoardButton{
+	padding: 10px;
+	height: 32px;
+	border: 1px solid black;
+	text-align: center;
+	vertical-align: middle;
+	color: rgb(0,0,0);
+	margin:	5px;
+}
+
+.KeyBoardButton_Number{
+	padding: 10px;
+	height: 32px;
+	border: 1px solid black;
+	text-align: center;
+	vertical-align: middle;
+	background: black;
+	color: rgb(255,255,255);
+	margin:	5px;
+}
+
+.KeyBoardButton_label{
+	padding: 10px;
+	height: 150px;
+	border: 1px solid black;
+	text-align: center;
+	color: rgb(0,0,0);
+	margin: 5px;
+}
+
+.KeyBoardButton_simple{
+	height: 44px;
+}
+
+.KeyPanel{
+	box-flex: 1;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-flex: 1;
+	-moz-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+ 	display: -webkit-flex;     /* NEW - Chrome */
+  	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+	box-orient: horizontal;
+	box-orient: horizontal;
+	flex-direction: row;
+}
+
+.KeyPanelColum{
+	box-flex: 1;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-flex: 1;
+	-moz-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+}
+
+.KeyBoardContent{
+	width: 100%;
+
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+ 	display: -webkit-flex;     /* NEW - Chrome */
+  	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+	box-orient: horizontal;
+	box-orient: horizontal;
+	flex-direction: row;
+}
+
+.KeyBoard{
+	bottom: 0px;
+	width: 100%;
+}
+
 /*.InputPanel input.TextField {
     display:block;
 }*/

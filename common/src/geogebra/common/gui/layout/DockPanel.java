@@ -22,4 +22,10 @@ public interface DockPanel extends Component{
 	 */
 	public void closePanel();
 
+	/**
+	 * change the visibility of the DockPanel
+	 * 
+	 * @param visible visibility
+	 */
+	public void setVisible(boolean visible);
 }
