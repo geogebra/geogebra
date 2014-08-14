@@ -39,6 +39,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		casView = view;
 		selectedRows = new ArrayList<GeoElement>();
 		initGUI();
+		addStyleName("CASStyleBar");
 	}
 	
 	private void initGUI(){

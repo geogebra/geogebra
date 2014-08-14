@@ -1648,6 +1648,7 @@ Paddings for menuitems.
 }
 
 .MyCanvasButton-rightaligned {
+	float:right;
 }
 
 .MyToggleButton.selected,.MyCanvasButton.selected {
@@ -1739,6 +1740,18 @@ Paddings for menuitems.
 	-webkit-box-sizing:content-box;
 	padding:1px 1px;
 	box-shadow: 2px 2px 3px gray;
+}
+
+/**
+ * The view buttons for these stylebars should take all the remaining place
+ * so that they will be right aligned
+ */
+.SpreadsheetStyleBar td:last-child {
+	width : 100%;
+}
+
+.CASStyleBar td:last-child {
+	width : 100%;
 }
 
 /**
