@@ -751,14 +751,16 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * various improvements and hack for Giac's output
 	 * 
-	 * @param s output from Giac
+	 * @param s
+	 *            output from Giac
 	 * @return result that GeoGebra can parse
 	 */
 	protected String postProcess(String s) {
 
 		if (s.indexOf("GIAC_ERROR:") > -1) {
-			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error: Bad Argument Value
-			App.debug("error from Giac: "+s);
+			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error:
+			// Bad Argument Value
+			App.debug("error from Giac: " + s);
 
 			return "?";
 		}
@@ -766,50 +768,63 @@ public abstract class CASgiac implements CASGenericInterface {
 		String ret = s.trim();
 		// output from ifactor can be wrapped to stop simplification
 		// eg js giac output:-('3*5')
-		
+
 		int primeOpen = ret.indexOf('\'');
-		while(primeOpen >= 0){
-			int primeClose = ret.indexOf('\'',primeOpen+1);
-			if(primeClose < 0){
+		while (primeOpen >= 0) {
+			int primeClose = ret.indexOf('\'', primeOpen + 1);
+			if (primeClose < 0) {
 				break;
 			}
-			int check = StringUtil.checkBracketsBackward(ret.substring(primeOpen, primeClose));
-			
-			if(check < 0){
-				StringBuilder sb = new StringBuilder(ret);
-				sb = sb.replace(primeOpen, primeOpen+1, "");
-				sb = sb.replace(primeClose-1, primeClose, "");
-				ret = sb.toString();
-				primeOpen = ret.indexOf('\'',primeClose);
-			}else{
-				primeOpen = primeClose;
+			// ((a')') -- delete brackets
+			if (primeClose == primeOpen + 2 && ret.charAt(primeOpen + 1) == ')') {
+				int bracketOpen = ret.lastIndexOf('(', primeOpen);
+
+				if (bracketOpen >= 0) {
+					StringBuilder sb = new StringBuilder(ret);
+					sb = sb.replace(primeOpen + 1, primeOpen + 2, "");
+					sb = sb.replace(bracketOpen, bracketOpen + 1, "");
+					ret = sb.toString();
+				}
+				//primeOpen = primeClose;
+			} else {
+				int check = StringUtil.checkBracketsBackward(ret.substring(
+						primeOpen, primeClose));
+				//-('3*5') will have check  = -1
+				if (check < 0) {
+					StringBuilder sb = new StringBuilder(ret);
+					sb = sb.replace(primeOpen, primeOpen + 1, "");
+					sb = sb.replace(primeClose - 1, primeClose, "");
+					ret = sb.toString();
+					App.debug(ret);
+					primeOpen = ret.indexOf('\'', primeClose);
+				} else {
+					primeOpen = primeClose;
+				}
 			}
 		}
-		
-
 
 		if (ret.indexOf("integrate(") > -1) {
 			// eg Integral[sqrt(sin(x))]
 			return "?";
 		}
 
-
 		if (ret.indexOf("c_") > -1) {
-			App.debug("replacing arbitrary constants in "+ret);
+			App.debug("replacing arbitrary constants in " + ret);
 			ret = ret.replaceAll("c_([0-9]*)", "arbconst($1)");
 		}
 
 		if (ret.indexOf("n_") > -1) {
-			App.debug("replacing arbitrary integers in "+ret);
+			App.debug("replacing arbitrary integers in " + ret);
 			ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
 		}
 
 		// convert Giac's scientific notation from e.g. 3.24e-4 to
 		// 3.2E-4
 		// not needed, Giac now outputs E
-		//ret = parserTools.convertScientificFloatNotation(ret);
+		// ret = parserTools.convertScientificFloatNotation(ret);
 
-		ret = casParser.insertSpecialChars(ret); // undo special character handling
+		ret = casParser.insertSpecialChars(ret); // undo special character
+													// handling
 
 		// don't do check for long strings eg 7^99999
 		if (ret.length() < 200) {
@@ -817,7 +832,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			// convert x>3 && x<7 into 3<x<7
 			ret = checkInequalityInterval(ret);
 		}
-
 
 		return ret;
 	}
