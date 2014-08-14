@@ -623,13 +623,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		intersectionType = ret;
 		return ret;
 	}
-
+	//not initializing this is important for performance
+	private static double [] xyz = new double[3];
 	// do the actual computations
-	public final static int intersectLineConic(GeoLine g, GeoConicND c,
+	public final static synchronized int intersectLineConic(GeoLine g, GeoConicND c,
 			GeoPoint[] sol, double eps) {
 		double[] A = c.matrix;
 		
-		double [] xyz = g.getnormalizedCoefficients();
+		g.getnormalizedCoefficients(xyz);
 		double x = xyz[0];
 		double y = xyz[1];
 		double z = xyz[2];

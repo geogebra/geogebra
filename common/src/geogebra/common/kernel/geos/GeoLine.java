@@ -1564,9 +1564,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * 
 	 * @return normalized coefficients x,y,z
 	 */
-	public double[] getnormalizedCoefficients() {
+	public double[] getnormalizedCoefficients(double[] ret) {
 		
-		double ret[] = {x, y, z};
+		ret[0] = x;
+		ret[1] = y;
+		ret[2] = z;
 		
 		if (Kernel.isZero(x) && Kernel.isZero(y) && Kernel.isZero(z)) {
 			return ret;
