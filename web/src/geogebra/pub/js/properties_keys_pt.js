@@ -2255,6 +2255,8 @@ __GGB__keysVar.pt.plain = {
     "Definition": "Defini\xe7\xe3o",
     "Delete": "Apagar",
     "DeleteARows": "Apagar %0 linhas",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Apagar Linha %0",
     "DeleteRowsAtoB": "Apagar Linhas de %0 a %1",
     "Dependency": "Depend\xeancia",

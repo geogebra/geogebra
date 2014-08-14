@@ -2255,6 +2255,8 @@ __GGB__keysVar.vi.plain = {
     "Definition": "\u0110\u1ecbnh ngh\u0129a",
     "Delete": "X\xf3a",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "X\xf3a d\xf2ng %0",
     "DeleteRowsAtoB": "X\xf3a d\xf2ng t\u1eeb %0 \u0111\u1ebfn %1",
     "Dependency": "S\u1ef1 ph\u1ee5 thu\u1ed9c",

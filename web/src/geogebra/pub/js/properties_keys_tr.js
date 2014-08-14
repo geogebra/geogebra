@@ -2255,6 +2255,8 @@ __GGB__keysVar.tr.plain = {
     "Definition": "Tan\u0131m",
     "Delete": "Sil",
     "DeleteARows": "%0 sat\u0131r sil",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Sat\u0131r %0 Sil",
     "DeleteRowsAtoB": "Sat\u0131r %0 dan %1'e Sil",
     "Dependency": "Ba\u011f\u0131ml\u0131l\u0131k",

@@ -2255,6 +2255,8 @@ __GGB__keysVar.es_ES.plain = {
     "Definition": "Definici\xf3n",
     "Delete": "Borra",
     "DeleteARows": "Elimina %0 filas",
+    "DeleteColumnA": "Elimina columna %0",
+    "DeleteColumnsAtoB": "Elimina columnas de %0 a %1",
     "DeleteRowA": "Elimina fila %0",
     "DeleteRowsAtoB": "Elimina filas %0 a %1",
     "Dependency": "Dependencia",

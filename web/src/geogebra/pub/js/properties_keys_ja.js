@@ -2255,6 +2255,8 @@ __GGB__keysVar.ja.plain = {
     "Definition": "\u5b9a\u7fa9",
     "Delete": "\u524a\u9664",
     "DeleteARows": "%0 \u884c\u3092\u524a\u9664",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u884c %0 \u3092\u6d88\u53bb",
     "DeleteRowsAtoB": "\u884c %0 \u304b\u3089 %1 \u3092\u6d88\u53bb",
     "Dependency": "\u4f9d\u5b58",

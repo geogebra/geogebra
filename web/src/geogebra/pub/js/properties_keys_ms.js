@@ -2255,6 +2255,8 @@ __GGB__keysVar.ms.plain = {
     "Definition": "Definisi",
     "Delete": "Hapus",
     "DeleteARows": "Hapus %0 baris",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Hapus Baris %0",
     "DeleteRowsAtoB": "Hapus Baris %0 ke %1",
     "Dependency": "Sandaran",

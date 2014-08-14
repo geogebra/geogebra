@@ -2255,6 +2255,8 @@ __GGB__keysVar.gl.plain = {
     "Definition": "Definici\xf3n",
     "Delete": "Borrar",
     "DeleteARows": "Elimina %0 filas",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Elimina Fila %0",
     "DeleteRowsAtoB": "Elimina Filas %0 ata %1",
     "Dependency": "Dependencia",

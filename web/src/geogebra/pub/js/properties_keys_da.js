@@ -2255,6 +2255,8 @@ __GGB__keysVar.da.plain = {
     "Definition": "Definition",
     "Delete": "Slet",
     "DeleteARows": "Slet %0 r\xe6kker",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Slet r\xe6kke %0",
     "DeleteRowsAtoB": "Slet fra r\xe6kke %0 til %1",
     "Dependency": "Afh\xe6ngighed",

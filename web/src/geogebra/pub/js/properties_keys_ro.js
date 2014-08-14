@@ -2255,6 +2255,8 @@ __GGB__keysVar.ro.plain = {
     "Definition": "Defini\u0163ie",
     "Delete": "\u015eterge",
     "DeleteARows": "Stergeti %0 randuri",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u0218tergere r\xe2nd %0",
     "DeleteRowsAtoB": "\u0218tergere r\xe2nduri de la %0 la %1",
     "Dependency": "Dependen\u021b\u0103",

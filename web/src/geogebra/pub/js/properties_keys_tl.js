@@ -2255,6 +2255,8 @@ __GGB__keysVar.tl.plain = {
     "Definition": "Kahulugan",
     "Delete": "Burahin",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Burahin ang hanay %0",
     "DeleteRowsAtoB": "Burahin ang mga hanay mula %0 hanggang %1",
     "Dependency": "Dependensi",

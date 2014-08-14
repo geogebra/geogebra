@@ -2255,6 +2255,8 @@ __GGB__keysVar.sq.plain = {
     "Definition": "Perkufizim",
     "Delete": "Fshij",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Fshij Rreshtin %0",
     "DeleteRowsAtoB": "Fshij Rreshtat nga %0 ne %1",
     "Dependency": "Varesi",

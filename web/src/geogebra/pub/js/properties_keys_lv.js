@@ -2255,6 +2255,8 @@ __GGB__keysVar.lv.plain = {
     "Definition": "Defin\u012bcija",
     "Delete": "Dz\u0113st",
     "DeleteARows": "Dz\u0113st %0 rindas",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Dz\u0113st rindu %0",
     "DeleteRowsAtoB": "Dz\u0113st rindas %0 uz %1",
     "Dependency": "Atkar\u012bba",

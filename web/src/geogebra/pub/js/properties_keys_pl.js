@@ -2255,6 +2255,8 @@ __GGB__keysVar.pl.plain = {
     "Definition": "Definicja",
     "Delete": "Usu\u0144",
     "DeleteARows": "Usu\u0144 %0 wiersze/wierszy",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Usu\u0144 wiersz %0",
     "DeleteRowsAtoB": "Usu\u0144 wiersze od %0 do %1",
     "Dependency": "Zale\u017cno\u015b\u0107",

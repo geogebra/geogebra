@@ -2255,6 +2255,8 @@ __GGB__keysVar.zh_TW.plain = {
     "Definition": "\u5b9a\u7fa9",
     "Delete": "\u522a\u9664",
     "DeleteARows": "\u522a\u9664 %0 \u5217",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u522a\u9664\u7b2c %0 \u5217",
     "DeleteRowsAtoB": "\u522a\u9664\u7b2c %0 - %1 \u5217",
     "Dependency": "\u76f8\u4f9d\u6027",

@@ -2255,6 +2255,8 @@ __GGB__keysVar.ca.plain = {
     "Definition": "Definici\xf3",
     "Delete": "Esborra",
     "DeleteARows": "Elimina %0 files",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Elimina la fila %0",
     "DeleteRowsAtoB": "Elimina les files des de %0 fins a %1",
     "Dependency": "Depend\xe8ncia",

@@ -2255,6 +2255,8 @@ __GGB__keysVar.nl.plain = {
     "Definition": "Definitie",
     "Delete": "Verwijderen",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Wis rij %0",
     "DeleteRowsAtoB": "Verwijder rijen van %0 tot %1",
     "Dependency": "Afhankelijkheid",

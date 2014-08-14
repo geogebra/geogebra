@@ -2255,6 +2255,8 @@ __GGB__keysVar.sv.plain = {
     "Definition": "Definition",
     "Delete": "Radera",
     "DeleteARows": "Radera %0 rader",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Radera rad %0",
     "DeleteRowsAtoB": "Radera raderna %0 till %1",
     "Dependency": "Beroende",

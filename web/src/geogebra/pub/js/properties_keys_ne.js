@@ -2255,6 +2255,8 @@ __GGB__keysVar.ne.plain = {
     "Definition": "\u092a\u0930\u093f\u092d\u093e\u0937\u093e",
     "Delete": "\u092e\u0947\u091f\u094d\u0928\u0941",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u0930\u094b %0 \u0939\u091f\u093e\u0909\u0928\u0941\u0939\u094b\u0938",
     "DeleteRowsAtoB": "%0 to %1 \u0930\u094b \u0939\u091f\u093e\u0909\u0928\u0941\u0939\u094b\u0938",
     "Dependency": "\u0906\u0938\u094d\u0930\u0940\u0924",

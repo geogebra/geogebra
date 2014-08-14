@@ -2255,6 +2255,8 @@ __GGB__keysVar.ar_MA.plain = {
     "Definition": "\u062a\u0639\u0631\u064a\u0641",
     "Delete": "\u0645\u0633\u062d",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u062d\u0630\u0641 \u0627\u0644\u0633\u0637\u0631 %0",
     "DeleteRowsAtoB": "\u062d\u0630\u0641 \u0627\u0644\u0623\u0633\u0637\u0631 \u0645\u0646  %0 \u0627\u0644\u0649 %1",
     "Dependency": "\u0627\u0644\u062a\u0628\u0639\u064a\u0629",

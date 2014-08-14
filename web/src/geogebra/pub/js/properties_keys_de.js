@@ -2255,6 +2255,8 @@ __GGB__keysVar.de.plain = {
     "Definition": "Definition",
     "Delete": "L\xf6sche",
     "DeleteARows": "L\xf6sche %0 Zeilen",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "L\xf6sche Zeile %0",
     "DeleteRowsAtoB": "L\xf6sche Zeilen %0 bis %1",
     "Dependency": "Abh\xe4ngigkeit",

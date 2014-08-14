@@ -2255,6 +2255,8 @@ __GGB__keysVar.lt.plain = {
     "Definition": "Apibr\u0117\u017eimas",
     "Delete": "Trinti",
     "DeleteARows": "I\u0161trinti %0 eilutes",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "I\u0161trinti eilut\u0119 %0",
     "DeleteRowsAtoB": "I\u0161trinti eilutes %0 ir %1",
     "Dependency": "Priklausomyb\u0117",

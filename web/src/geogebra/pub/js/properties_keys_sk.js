@@ -2255,6 +2255,8 @@ __GGB__keysVar.sk.plain = {
     "Definition": "Defin\xedcia",
     "Delete": "Vymaza\u0165",
     "DeleteARows": "Odstr\xe1nenie %0 riadkov",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Vymaza\u0165 riadok %0",
     "DeleteRowsAtoB": "Vymaza\u0165 riadky %0 a\u017e %1",
     "Dependency": "Z\xe1vislos\u0165",

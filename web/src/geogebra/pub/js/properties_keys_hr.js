@@ -2255,6 +2255,8 @@ __GGB__keysVar.hr.plain = {
     "Definition": "Definicija",
     "Delete": "Izbri\u0161i",
     "DeleteARows": "Izbri\u0161i %0 redaka",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Izbri\u0161i red %0",
     "DeleteRowsAtoB": "Izbri\u0161i redove %0 do %1",
     "Dependency": "Zavisnost",

@@ -2255,6 +2255,8 @@ __GGB__keysVar.it.plain = {
     "Definition": "Definizione",
     "Delete": "Elimina",
     "DeleteARows": "Elimina %0 righe",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Elimina riga %0",
     "DeleteRowsAtoB": "Elimina righe da %0 a %1",
     "Dependency": "Dipendenza",

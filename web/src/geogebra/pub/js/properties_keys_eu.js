@@ -2255,6 +2255,8 @@ __GGB__keysVar.eu.plain = {
     "Definition": "Definizioa",
     "Delete": "Ezabatu",
     "DeleteARows": "Ezabatu %0 lerroak",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Ezabatu %0 errenkada",
     "DeleteRowsAtoB": "Ezabatu %0-(e)tik %1-(e)ra bitarteko errenkadak",
     "Dependency": "Dependentzia",

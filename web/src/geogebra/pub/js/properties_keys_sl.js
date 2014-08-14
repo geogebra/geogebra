@@ -2255,6 +2255,8 @@ __GGB__keysVar.sl.plain = {
     "Definition": "Definicija",
     "Delete": "Bri\u0161i",
     "DeleteARows": "Brisanje %0 vrstic",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Bri\u0161i vrstico %0",
     "DeleteRowsAtoB": "Bri\u0161i vrstice od %0 do %1",
     "Dependency": "Odvisnost",

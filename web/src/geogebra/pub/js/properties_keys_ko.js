@@ -2255,6 +2255,8 @@ __GGB__keysVar.ko.plain = {
     "Definition": "\uc815\uc758",
     "Delete": "\uc0ad\uc81c",
     "DeleteARows": "%0 \ud589 \uc0ad\uc81c",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "%0 \ud589 \uc0ad\uc81c",
     "DeleteRowsAtoB": "%0 \ud589\ubd80\ud130 %1 \ud589\uae4c\uc9c0 \uc0ad\uc81c",
     "Dependency": "\uc758\uc874\uc131",

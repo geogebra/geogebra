@@ -2255,6 +2255,8 @@ __GGB__keysVar.el.plain = {
     "Definition": "\u039f\u03c1\u03b9\u03c3\u03bc\u03cc\u03c2",
     "Delete": "\u0394\u03b9\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae",
     "DeleteARows": "\u0394\u03b9\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae %0 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ce\u03bd",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u0394\u03b9\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae %0 \u0393\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2",
     "DeleteRowsAtoB": "\u0394\u03b9\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae \u0393\u03c1\u03b1\u03bc\u03bc\u03ce\u03bd \u03b1\u03c0\u03cc %0 \u03ad\u03c9\u03c2 %1",
     "Dependency": "\u0395\u03be\u03ac\u03c1\u03c4\u03b7\u03c3\u03b7",

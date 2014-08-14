@@ -2255,6 +2255,8 @@ __GGB__keysVar.no_NB.plain = {
     "Definition": "Definisjon",
     "Delete": "Slett",
     "DeleteARows": "Slett %0 rader",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Slett rad %0",
     "DeleteRowsAtoB": "Slett radene %0 til %1",
     "Dependency": "Avhengighet",

@@ -2255,6 +2255,8 @@ __GGB__keysVar.si.plain = {
     "Definition": "\u0d85\u0dbb\u0dca\u0dae \u0daf\u0dd0\u0d9a\u0dca\u0dc0\u0dd3\u0db8",
     "Delete": "\u0db8\u0d9a\u0dcf \u0daf\u0db8\u0db1\u0dc0\u0dcf",
     "DeleteARows": "%0 \u0d9a\u0dca \u0db4\u0dda\u0dc5\u0dd2 \u0db8\u0d9a\u0db1\u0dca\u0db1",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u0db4\u0dda\u0dbd\u0dd2\u0dba %0 \u0d9a\u0dca \u0db8\u0d9a\u0db1\u0dca\u0db1",
     "DeleteRowsAtoB": "%0 \u0dc3\u0dd2\u0da7 %1 \u0daf\u0d9a\u0dca\u0dc0\u0dcf \u0db4\u0dda\u0dc5\u0dd2 \u0db8\u0d9a\u0db1\u0dca\u0db1",
     "Dependency": "\u0db4\u0dbb\u0dcf\u0dba\u0dad\u0dca\u0dad\u0dad\u0dcf\u0dc0",

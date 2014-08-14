@@ -2255,6 +2255,8 @@ __GGB__keysVar.cy.plain = {
     "Definition": "Diffiniad",
     "Delete": "Dileu",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Dileu Res %0",
     "DeleteRowsAtoB": "Dileu Resi %0 i %1",
     "Dependency": "Dependency",

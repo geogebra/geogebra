@@ -2255,6 +2255,8 @@ __GGB__keysVar.fi.plain = {
     "Definition": "M\xe4\xe4ritelm\xe4",
     "Delete": "Pyyhi",
     "DeleteARows": "Poista %0 rivit",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Poista rivi %0",
     "DeleteRowsAtoB": "Poista rivit %0 - %1",
     "Dependency": "Riippuvuus",

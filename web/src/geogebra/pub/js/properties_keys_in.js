@@ -2255,6 +2255,8 @@ __GGB__keysVar.in.plain = {
     "Definition": "Definisi",
     "Delete": "Hapus",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Hapus Baris %0",
     "DeleteRowsAtoB": "Hapus baris %0 hingga %1",
     "Dependency": "Ketergantungan",

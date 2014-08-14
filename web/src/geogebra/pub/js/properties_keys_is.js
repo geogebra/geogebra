@@ -2255,6 +2255,8 @@ __GGB__keysVar.is.plain = {
     "Definition": "Skilgreining",
     "Delete": "Ey\xf0a",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Ey\xf0a r\xf6\xf0 %0",
     "DeleteRowsAtoB": "Ey\xf0a r\xf6\xf0um %0 til %1",
     "Dependency": "Tengsl",

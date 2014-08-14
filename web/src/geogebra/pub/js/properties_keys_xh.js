@@ -2255,6 +2255,8 @@ __GGB__keysVar.xh.plain = {
     "Definition": "Ingcaciso",
     "Delete": "Tshabalalisa",
     "DeleteARows": "Tshabalalisa iirowu eziyi %0",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Tshabalalisa uRowu %0",
     "DeleteRowsAtoB": "Cima iRowu %0 ukuya ku %1",
     "Dependency": "uXhomekeko",

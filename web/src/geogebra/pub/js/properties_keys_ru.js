@@ -2255,6 +2255,8 @@ __GGB__keysVar.ru.plain = {
     "Definition": "\u041e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435",
     "Delete": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c",
     "DeleteARows": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c %0 \u0441\u0442\u0440\u043e\u043a",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0441\u0442\u0440\u043e\u043a\u0443 %0",
     "DeleteRowsAtoB": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0441\u0442\u0440\u043e\u043a\u0438 \u0441 %0 \u043f\u043e %1",
     "Dependency": "\u0417\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u044c",

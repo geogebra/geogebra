@@ -2255,6 +2255,8 @@ __GGB__keysVar.eo.plain = {
     "Definition": "Difino",
     "Delete": "Forvi\u015di",
     "DeleteARows": "Vi\u015di %0 vicojn",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Forvi\u015di vicon %0",
     "DeleteRowsAtoB": "Forvi\u015di vicojn %0 \u011dis %1",
     "Dependency": "Dependa\u0135o",

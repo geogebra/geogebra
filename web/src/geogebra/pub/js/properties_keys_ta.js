@@ -2255,6 +2255,8 @@ __GGB__keysVar.ta.plain = {
     "Definition": "\u0bb5\u0bb0\u0bc8\u0baf\u0bb1\u0bc8",
     "Delete": "\u0ba8\u0bc0\u0b95\u0bcd\u0b95\u0bc1\u0b95",
     "DeleteARows": "Delete %0 rows",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Delete Row %0",
     "DeleteRowsAtoB": "Delete Rows %0 to %1",
     "Dependency": "Dependency",

@@ -2255,6 +2255,8 @@ __GGB__keysVar.et.plain = {
     "Definition": "Definitsioon",
     "Delete": "Kustuta",
     "DeleteARows": "Kustuta %0 rida",
+    "DeleteColumnA": "Delete Column %0",
+    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
     "DeleteRowA": "Kustuta rida %0",
     "DeleteRowsAtoB": "Kustuta read %0 kuni %1",
     "Dependency": "S\xf5ltuvus",
