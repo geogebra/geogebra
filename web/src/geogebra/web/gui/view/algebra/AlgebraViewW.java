@@ -382,7 +382,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
     protected void onLoad() {
 		// this may be important if the view is added/removed from the DOM
 		super.onLoad();
-		repaint();
+		repaintView();
 	}
 
 	@Override

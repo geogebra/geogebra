@@ -88,12 +88,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(
 	        500);
 
-	public final void repaint() {
 
-    	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
-    		waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
-    	}
-	}
 	
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	
@@ -127,7 +122,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	
 
 	public final void repaintView() {
-		repaint();
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+    		waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
+    	}
 	}
 	
 	/**
@@ -152,47 +149,12 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			/*
-			 * occasional exception when animating Exception in thread
-			 * "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 1 >=
-			 * 1 at java.util.Vector.elementAt(Vector.java:432) at
-			 * javax.swing.tree
-			 * .DefaultMutableTreeNode.getChildAt(DefaultMutableTreeNode
-			 * .java:230) at
-			 * javax.swing.tree.VariableHeightLayoutCache.treeNodesChanged
-			 * (VariableHeightLayoutCache.java:412) at
-			 * javax.swing.plaf.basic.BasicTreeUI$Handler
-			 * .treeNodesChanged(BasicTreeUI.java:3669) at
-			 * javax.swing.tree.DefaultTreeModel
-			 * .fireTreeNodesChanged(DefaultTreeModel.java:466) at
-			 * javax.swing.tree
-			 * .DefaultTreeModel.nodesChanged(DefaultTreeModel.java:328) at
-			 * javax
-			 * .swing.tree.DefaultTreeModel.nodeChanged(DefaultTreeModel.java
-			 * :261) at
-			 * geogebra.gui.view.algebra.AlgebraView.update(AlgebraView.
-			 * java:726) at
-			 * geogebra.kernel.Kernel.notifyUpdate(Kernel.java:2082) at
-			 * geogebra.kernel.GeoElement.update(GeoElement.java:3269) at
-			 * geogebra.kernel.GeoPoint.update(GeoPoint.java:1169) at
-			 * geogebra.kernel.GeoElement.updateCascade(GeoElement.java:3313) at
-			 * geogebra.kernel.GeoElement.updateCascade(GeoElement.java:3369) at
-			 * geogebra
-			 * .kernel.AnimationManager.actionPerformed(AnimationManager.
-			 * java:179)
-			 */
-			try {
-				// it may be enough that clicking selects an item,
-				// we want to avoid every item selected on changing algebra
-				// descriptions
-				// node.setSelected(true);
-				// ensureSelectedItemVisible();
+			
+			
 							
 				((RadioButtonTreeItem) node.getWidget()).updateOnNextRepaint();
-				repaint();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+				repaintView();
+			
 			/*
 			 * Cancel editing if the updated geo element has been edited, but
 			 * not otherwise because editing geos while animation is running
@@ -1017,7 +979,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	public void reset() {
 		cancelEditing();
-		repaint();
+		repaintView();
 		ensureSelectedItemVisible();
 	}
 
