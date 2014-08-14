@@ -56,6 +56,7 @@ public class CmdIntersectPath extends CommandProcessor {
 				return ret;
 			}
 
+			/*
 			// Line - Conic
 			else if (
 					(ok[0] = (arg[0] .isGeoLine()))
@@ -64,6 +65,8 @@ public class CmdIntersectPath extends CommandProcessor {
 						c.getLabels(),
 						(GeoLine) arg[0],
 						(GeoConic) arg[1]);
+			 
+			
 			else if (
 					(ok[0] = (arg[0] .isGeoConic()))
 					&& (ok[1] = (arg[1] .isGeoLine())))
@@ -71,6 +74,7 @@ public class CmdIntersectPath extends CommandProcessor {
 						c.getLabels(),
 						(GeoLine) arg[1],
 						(GeoConic) arg[0]);
+			*/
 			
 			// Polygon - Polygon
 			
