@@ -24,6 +24,7 @@ import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
+import geogebra.common.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -764,8 +765,27 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String ret = s.trim();
 		// output from ifactor can be wrapped to stop simplification
-		// eg js giac output:-('3*5')	
-		ret = ret.replaceAll("'", "");
+		// eg js giac output:-('3*5')
+		
+		int primeOpen = ret.indexOf('\'');
+		while(primeOpen >= 0){
+			int primeClose = ret.indexOf('\'',primeOpen+1);
+			if(primeClose < 0){
+				break;
+			}
+			int check = StringUtil.checkBracketsBackward(ret.substring(primeOpen, primeClose));
+			
+			if(check < 0){
+				StringBuilder sb = new StringBuilder(ret);
+				sb = sb.replace(primeOpen, primeOpen+1, "");
+				sb = sb.replace(primeClose-1, primeClose, "");
+				ret = sb.toString();
+				primeOpen = ret.indexOf('\'',primeClose);
+			}else{
+				primeOpen = primeClose;
+			}
+		}
+		
 
 
 		if (ret.indexOf("integrate(") > -1) {

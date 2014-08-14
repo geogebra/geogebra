@@ -1275,7 +1275,7 @@ ExpressionValue multterm():
           		if(GiacParsing)          		{
           		  ret = new Command(kernel, ret.toString(StringTemplate.defaultTemplate), true, true);
           		  ((Command)ret).addArgument(f.wrap());
-          		  App.printStacktrace("");          		}else          		{	          		  
+          		}else          		{	          		  
 	          		if(ret instanceof Variable)
 	          		{
 						leftImg = ret.toString(StringTemplate.defaultTemplate);

@@ -418,6 +418,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		if (!allowEvaluationForTypeCheck) {
 			return false;
 		}
+		if(app.getInternalCommand(name) == null && kernel.getMacro(name) == null){
+			return false;
+		}
 		try {
 			return evaluate(StringTemplate.defaultTemplate).evaluatesToText();
 		} catch (MyError ex) {
