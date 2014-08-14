@@ -1810,7 +1810,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			break;
 		case PLUS:
-			tpl.plusString(left, right, leftStr, rightStr, valueForm);
+			return tpl.plusString(left, right, leftStr, rightStr, valueForm);
 		case MINUS:
 			return tpl.minusString(left, right, leftStr, rightStr, valueForm);
 
