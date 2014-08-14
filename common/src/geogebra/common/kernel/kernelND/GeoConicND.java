@@ -3197,8 +3197,17 @@ FromMeta
 		b.setY(coords[1]);
 		
 		//GeoQuadridND compatibility
-		double[] coords2D = {coords[0],coords[1]};
-		super.setMidpoint(coords2D);
+		super.setMidpoint(coords[0],coords[1]);
+
+	}
+	
+	@Override
+	protected void setMidpoint(double x, double y){
+		b.setX(x);
+		b.setY(y);
+		
+		//GeoQuadridND compatibility
+		super.setMidpoint(x,y);
 
 	}
 	

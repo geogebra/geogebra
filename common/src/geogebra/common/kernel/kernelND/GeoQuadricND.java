@@ -363,8 +363,14 @@ Traceable{
 	/**
 	 * @param coords coords of midpoint
 	 */
-	protected void setMidpoint(double[] coords){
+	protected void setMidpoint(double coord1, double coord2){
 		
+		midpoint.set(1,coord1);
+		midpoint.set(2,coord1);
+		
+	}
+	
+	protected void setMidpoint(double[] coords){
 		midpoint.set(coords);
 		
 	}

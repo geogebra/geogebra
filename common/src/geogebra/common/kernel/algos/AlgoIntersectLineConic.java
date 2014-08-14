@@ -80,7 +80,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	// intersection points at the end of compute()
 	private boolean isLimitedPathSituation;
 	protected boolean possibleSpecialCase = false;
-	protected boolean handlingSpecialCase = false;
 	protected int specialCasePointOnCircleIndex = 0; // index of point on line
 														// and conic
 
@@ -279,9 +278,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	 * @return true if this special case was handled.
 	 */
 	private boolean handleSpecialCase() {
-		// see the use in this.compute()
-		handlingSpecialCase = true;
-
 		// Numerical check does not work, because when a point incidentally stands on g and c, it may not be considered
 		// as special case
 		/*
@@ -354,8 +350,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// is an existing intersection!
 		// efficient algorithm for this might only rely on automatic proving
 
-		// when there is no more ProbabilisticChecking
-		handlingSpecialCase = false;
 
 		// if existingIntersection is still not found, report no special case
 		// handled
@@ -371,7 +365,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// was loaded, then we need to make sure that we don't lose this
 		// information
 		int firstIndex = specialCasePointOnCircleIndex;
-		int secondIndex = (firstIndex + 1) % 2;
+		int secondIndex = 1 - firstIndex;
 
 		if (firstIntersection && didSetIntersectionPoint(firstIndex)) {
 			if (!P[firstIndex].isEqual((GeoElement) existingIntersection)) {

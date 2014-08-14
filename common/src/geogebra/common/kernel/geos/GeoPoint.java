@@ -1703,23 +1703,29 @@ SymbolicParametersBotanaAlgo {
 	
 
 	public Coords getInhomCoords() {
-		return new Coords(new double[] { inhomX, inhomY });
+		if(inhomCoords2D == null){
+			inhomCoords2D = new Coords(new double[] { inhomX, inhomY});
+		}else{
+			this.inhomCoords2D.set(1, inhomX);
+			this.inhomCoords2D.set(2, inhomY);
+		}
+		return inhomCoords2D;
 	}
 	private Coords coords2D;
-	private Coords inhomCoords;
+	private Coords inhomCoords3D, inhomCoords2D;
 
 	public Coords getInhomCoordsInD(int dimension) {
 		switch (dimension) {
 		case 2:
 			return getInhomCoords();
 		case 3:
-			if(inhomCoords == null){
-				inhomCoords = new Coords(new double[] { inhomX, inhomY, 0, 1});
+			if(inhomCoords3D == null){
+				inhomCoords3D = new Coords(new double[] { inhomX, inhomY, 0, 1});
 			}else{
-				this.inhomCoords.set(1, inhomX);
-				this.inhomCoords.set(2, inhomY);
+				this.inhomCoords3D.set(1, inhomX);
+				this.inhomCoords3D.set(2, inhomY);
 			}
-			return inhomCoords;
+			return inhomCoords3D;
 		default:
 			return null;
 		}
