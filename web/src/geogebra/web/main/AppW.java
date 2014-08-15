@@ -1786,10 +1786,6 @@ public abstract class AppW extends AppWeb {
 	public void set1rstMode(){
 		if (getToolbar() == null) return;
 		if (((GGWToolBar)getToolbar()).getToolBar() == null) return;
-
-		int firstMode = ((GGWToolBar)getToolbar()).
-				getToolBar().
-				getFirstMode();
 		
 		setMode(((GGWToolBar)getToolbar()).
 				getToolBar().
