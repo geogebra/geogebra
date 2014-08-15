@@ -199,6 +199,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		if (dataPanel == null) {
 			buildDataPanel();
 		}
+		// TODO: Implement!
 //		dataPanel.loadDataTable(dataArray);
 	}
 
@@ -213,20 +214,19 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	private void updateLayout() {
 		App.debug("[DATAVIEW] updateLayout");
 		clear();
-
-		// ===========================================
-		// statData panel
-
+//
+//		// ===========================================
+//		// statData panel
+//
 		if (!model.isMultiVar()) {
-			statDataPanel = new SplitLayoutPanel(5);
-			statDataPanel.insertWest(statisticsPanel, 105, null);
+			statDataPanel = new SplitLayoutPanel(0);
+			statDataPanel.insertEast(statisticsPanel, 205, null);
 			statDataPanel.setStyleName("dataSplitLayout");
 		}
 		if (model.isMultiVar()) {
-			statDataPanel = new SplitLayoutPanel(5);
-			statDataPanel.insertWest(statisticsPanel, 105, null);
+			statDataPanel = new SplitLayoutPanel(0);
+			statDataPanel.insertEast(statisticsPanel, 205, null);
 			statDataPanel.setStyleName("dataSplitLayout");
-	//		statDataPanel.setDividerSize(0);
 		}
 
 		// ===========================================
@@ -241,9 +241,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 		// create a splitPane to hold the two plotComboPanels
 		comboPanelSplit = new SplitLayoutPanel();
-		comboPanelSplit.insertNorth(dataDisplayPanel1, 100, null);
-		comboPanelSplit.insertNorth(dataDisplayPanel2, 100, dataDisplayPanel1);
-		comboPanelSplit.setStyleName("dataSplitLayout");
+		comboPanelSplit.insertNorth(dataDisplayPanel1, 400, null);
+		comboPanelSplit.add(dataDisplayPanel2);
+//		comboPanelSplit.insertNorth(dataDisplayPanel2, 400, null);
+		comboPanelSplit.setStyleName("comboSplitLayout");
 
 
 		//comboPanelSplit.setDividerLocation(0.5);
@@ -258,12 +259,12 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		// ============================================
 		displayPanel = new SplitLayoutPanel();
 		if (!model.isMultiVar()) {
-			displayPanel.insertWest(statDataPanel, 100, null);
-			displayPanel.insertWest(plotComboPanel, 100, statDataPanel);
+			displayPanel.insertEast(statDataPanel, 100, null);
+			displayPanel.insertWest(plotComboPanel, 500, statDataPanel);
 
 		} else {
 
-			displayPanel.insertWest(plotComboPanel, 100, null);
+			displayPanel.insertEast(plotComboPanel, 500, null);
 			displayPanel.insertWest(statDataPanel, 100, plotComboPanel);
 		}
 	
@@ -273,7 +274,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		// main panel
 		// ============================================
 		mainPanel = new FlowPanel();
-		// mainPanel.add(getStyleBar(), BorderLayout.NORTH);
+		//mainPanel.add(getStyleBar(), BorderLayout.NORTH);
 		mainPanel.add(displayPanel);
 
 		if (model.isRegressionMode()) {
@@ -346,7 +347,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	 * @return reference to self
 	 */
 	public Widget getDataAnalysisViewComponent() {
-		return this;
+		//return this;
+		return comboPanelSplit;
 	}
 
 	public DataAnalysisControllerW getController() {
@@ -472,9 +474,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	public void updateGUI() {
 
-//		if (stylebar != null) {
-//			stylebar.updateGUI();
-//		}
+		if (stylebar != null) {
+			stylebar.updateGUI();
+		}
 //		revalidate();
 //		repaint();
 	}
@@ -510,9 +512,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			regressionPanel.setLabels();
 		}
 
-//		if (stylebar != null) {
-//			stylebar.setLabels();
-//		}
+		if (stylebar != null) {
+			stylebar.setLabels();
+		}
 //
 //		// call setLabels() for all child panels
 //		setLabelsRecursive(this);
