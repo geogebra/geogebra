@@ -247,9 +247,10 @@ public class DataDisplayModel {
 						if (histogram != null) {
 							histogram.remove();
 						}
+						if (dataListSelected != null) {
 						histogram = statGeo.createHistogram(dataListSelected,
 								settings, false);
-						plotGeoList.add(histogram);
+						plotGeoList.add(histogram);}
 	
 						if (frequencyPolygon != null) {
 							frequencyPolygon.remove();
