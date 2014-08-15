@@ -3,7 +3,6 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -1785,7 +1784,6 @@ public abstract class AppW extends AppWeb {
 	}
 	
 	public void set1rstMode(){
-		setMode(EuclidianConstants.MODE_RAY);
 		if (getToolbar() == null) return;
 		if (((GGWToolBar)getToolbar()).getToolBar() == null) return;
 
