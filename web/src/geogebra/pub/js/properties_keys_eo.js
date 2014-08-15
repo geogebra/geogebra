@@ -1272,6 +1272,7 @@ __GGB__keysVar.eo.menu = {
     "CopyAsLaTeX": "Kopii kiel LaTeX",
     "CopyAsLibreOfficeFormula": "Kopii kiel LibreOffice formulo",
     "CopyImage": "Kopii bildon",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopii al po\u015do",
     "CopyToGraphics": "Kopii al grafika\u0135o",
     "CopyToInputBar": "Kopii al eniga breto",

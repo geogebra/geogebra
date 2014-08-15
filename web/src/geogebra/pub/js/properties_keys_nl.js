@@ -1272,6 +1272,7 @@ __GGB__keysVar.nl.menu = {
     "CopyAsLaTeX": "Kopieer als LaTeX",
     "CopyAsLibreOfficeFormula": "Kopieer als OpenOffice Formule",
     "CopyImage": "Kopie\xeber Afbeelding",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopieer naar klembord",
     "CopyToGraphics": "Kopieer naar tekenvenster",
     "CopyToInputBar": "Kopi\xeber naar invoervak",

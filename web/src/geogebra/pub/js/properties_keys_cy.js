@@ -1272,6 +1272,7 @@ __GGB__keysVar.cy.menu = {
     "CopyAsLaTeX": "Copio fel LaTeX",
     "CopyAsLibreOfficeFormula": "Copio fel Fformiwla LibreOffice",
     "CopyImage": "Copio darlun",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Cop\xefo i'r Clipfwrdd",
     "CopyToGraphics": "Cop\xefo i'r Wedd Graffeg",
     "CopyToInputBar": "Cop\xefo i'r bar mewnbwn",

@@ -1272,6 +1272,7 @@ __GGB__keysVar.zh_TW.menu = {
     "CopyAsLaTeX": "\u8907\u88fd\u70ba LaTex",
     "CopyAsLibreOfficeFormula": "\u8907\u88fd\u70ba LibreOffice \u65b9\u7a0b\u5f0f",
     "CopyImage": "\u8907\u88fd\u70ba\u5716\u7247",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "\u8907\u88fd\u5230\u526a\u8cbc\u7c3f",
     "CopyToGraphics": "\u8907\u88fd\u5230\u7e6a\u5716\u5340",
     "CopyToInputBar": "\u8907\u88fd\u5230\u6307\u4ee4\u5217",

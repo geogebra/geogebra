@@ -1272,6 +1272,7 @@ __GGB__keysVar.lt.menu = {
     "CopyAsLaTeX": "Kopijuoti kaip LaTeX",
     "CopyAsLibreOfficeFormula": "Kopijuoti kaip LibreOffice formul\u0119",
     "CopyImage": "Kopijuoti paveiksl\u0117l\u012f",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopijuoti \u012f i\u0161karpin\u0119",
     "CopyToGraphics": "Kopijuoti grafi\u0161kai",
     "CopyToInputBar": "Kopijuoti \u012f \u012fvesties lauk\u0105",

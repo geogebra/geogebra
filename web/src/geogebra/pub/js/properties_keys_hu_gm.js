@@ -1272,6 +1272,7 @@ __GGB__keysVar.hu_gm.menu = {
     "CopyAsLaTeX": "M\xe1sol\xe1s LaTeX-be",
     "CopyAsLibreOfficeFormula": "M\xe1sol\xe1s LibreOffice k\xe9pletk\xe9nt",
     "CopyImage": "K\xe9p m\xe1sol\xe1sa",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "M\xe1sol\xe1s v\xe1g\xf3lapra",
     "CopyToGraphics": "M\xe1sol\xe1s rajzlapra",
     "CopyToInputBar": "M\xe1sol\xe1s a parancssorba",

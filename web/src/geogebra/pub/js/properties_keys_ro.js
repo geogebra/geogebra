@@ -1272,6 +1272,7 @@ __GGB__keysVar.ro.menu = {
     "CopyAsLaTeX": "Copiere ca text LaTeX",
     "CopyAsLibreOfficeFormula": "Copiere ca formul\u0103 LibreOffice",
     "CopyImage": "Copiere ca imagine",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Copiere \xeen clipboard",
     "CopyToGraphics": "Copiere \xeen blocul de desen",
     "CopyToInputBar": "Copiere \xeen bara de intr\u0103ri",

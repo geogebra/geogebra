@@ -1272,6 +1272,7 @@ __GGB__keysVar.eu.menu = {
     "CopyAsLaTeX": "Kopiatu LaTeX gisa",
     "CopyAsLibreOfficeFormula": "Kopiatu LibreOffice formula gisa",
     "CopyImage": "Kopiatu irudia",
+    "CopyImageAsSVG": "Kopiatu Irudia SVG gisa",
     "CopyToClipboard": "Kopiatu Arbelera",
     "CopyToGraphics": "Kopiatu Grafikoetara",
     "CopyToInputBar": "Kopiatu Sarrera-Eremura",
@@ -2069,8 +2070,8 @@ __GGB__keysVar.eu.menu = {
  ***********************************************/
 
 __GGB__keysVar.eu.plain = {
-    "ADecimalPlace": "%0 posizioko hamartarra",
-    "ADecimalPlaces": "%0 hamartar",
+    "ADecimalPlace": "%0 Posizioko Hamartarra",
+    "ADecimalPlaces": "%0 Hamartar",
     "ADerivativeOfB": "%1 funtzioaren %0 deribatua",
     "ADilatedByFactorBfromC": "%0 zabaldua %1 faktorearekin %2 puntutik",
     "ADoesNotIntersectWithB": "%0 eta %1 ez dira ebakitzaileak",
@@ -2255,8 +2256,8 @@ __GGB__keysVar.eu.plain = {
     "Definition": "Definizioa",
     "Delete": "Ezabatu",
     "DeleteARows": "Ezabatu %0 lerroak",
-    "DeleteColumnA": "Delete Column %0",
-    "DeleteColumnsAtoB": "Delete Columns %0 to %1",
+    "DeleteColumnA": "Ezabatu %0 Zutabea",
+    "DeleteColumnsAtoB": "Ezabatu %0-tik %1-ra arteko Zutabeak",
     "DeleteRowA": "Ezabatu %0 errenkada",
     "DeleteRowsAtoB": "Ezabatu %0-(e)tik %1-(e)ra bitarteko errenkadak",
     "Dependency": "Dependentzia",

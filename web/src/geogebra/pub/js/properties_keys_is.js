@@ -1272,6 +1272,7 @@ __GGB__keysVar.is.menu = {
     "CopyAsLaTeX": "Afrita sem LaTeX",
     "CopyAsLibreOfficeFormula": "Afrita sem LibreOffice form\xfalu",
     "CopyImage": "Afrita mynd",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Afrita \xe1 klemmuspjald",
     "CopyToGraphics": "Afrita \xed myndaglugga",
     "CopyToInputBar": "Afrita \xed inntaksreit",

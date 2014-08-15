@@ -1272,6 +1272,7 @@ __GGB__keysVar.vi.menu = {
     "CopyAsLaTeX": "Sao ch\xe9p sang LaTeX",
     "CopyAsLibreOfficeFormula": "Sao ch\xe9p d\u1ea1ng c\xf4ng th\u1ee9c",
     "CopyImage": "Sao ch\xe9p \u1ea3nh",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Sao ch\xe9p \u0111\u1ebfn h\u1ed3 s\u01a1 l\u01b0u tr\u1eef",
     "CopyToGraphics": "Sao ch\xe9p \u0111\u1ebfn c\u1eeda s\u1ed5 h\xecnh h\u1ecdc",
     "CopyToInputBar": "Sao ch\xe9p \u0111\u1ebfn khung nh\u1eadp l\u1ec7nh",

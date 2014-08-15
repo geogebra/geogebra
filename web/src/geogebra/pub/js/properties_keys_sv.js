@@ -1272,6 +1272,7 @@ __GGB__keysVar.sv.menu = {
     "CopyAsLaTeX": "Kopiera till LaTeX",
     "CopyAsLibreOfficeFormula": "Kopiera som formel i LibreOffice",
     "CopyImage": "Kopiera som bild i ny flik",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopiera till Urklipp",
     "CopyToGraphics": "Kopiera till Ritomr\xe5det",
     "CopyToInputBar": "Kopiera till inmatningsf\xe4ltet",

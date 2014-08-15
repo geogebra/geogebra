@@ -1272,6 +1272,7 @@ __GGB__keysVar.in.menu = {
     "CopyAsLaTeX": "Copy sebagai LaTeX",
     "CopyAsLibreOfficeFormula": "Copy sebagai Formula LibreOffice",
     "CopyImage": "Copy Gambar",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Copy ke Clipboard",
     "CopyToGraphics": "Copy ke Tampilan Grafik",
     "CopyToInputBar": "Salin ke Bilah Masukan",

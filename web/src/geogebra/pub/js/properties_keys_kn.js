@@ -1272,6 +1272,7 @@ __GGB__keysVar.kn.menu = {
     "CopyAsLaTeX": "\u0cb2\u0cc7\u0c9f\u0cc6\u0c95\u0ccd\u0cb8\u0ccd \u0cb9\u0cbe\u0c97\u0cc6 \u0caa\u0ccd\u0cb0\u0ca4\u0cbf\u0cae\u0cbe\u0ca1\u0cc1",
     "CopyAsLibreOfficeFormula": "\u0cb3\u0cbf\u0cac\u0ccd\u0cb0\u0cc6\u0c93\u0cab\u0ccd\u0cab\u0cbfc\u0c8e \u0cb8\u0cc2\u0ca4\u0ccd\u0cb0\u0cb5\u0cbe\u0c97\u0cbf \u0caa\u0ccd\u0cb0\u0ca4\u0cbf\u0cae\u0cbe\u0ca1\u0cc1",
     "CopyImage": "\u0c9a\u0cbf\u0ca4\u0ccd\u0cb0\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca8\u0c95\u0cb2\u0cbf\u0cb8\u0cc1",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Copy to Clipboard",
     "CopyToGraphics": "Copy to Graphics View",
     "CopyToInputBar": "Copy to Input Bar",

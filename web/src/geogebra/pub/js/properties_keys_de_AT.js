@@ -1272,6 +1272,7 @@ __GGB__keysVar.de_AT.menu = {
     "CopyAsLaTeX": "Als LaTeX kopieren",
     "CopyAsLibreOfficeFormula": "Als LibreOffice Formel kopieren",
     "CopyImage": "Grafikansicht kopieren",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "In die Zwischenablage kopieren",
     "CopyToGraphics": "In die Zeichenfl\xe4che kopieren",
     "CopyToInputBar": "In Eingabezeile kopieren",

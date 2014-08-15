@@ -1272,6 +1272,7 @@ __GGB__keysVar.et.menu = {
     "CopyAsLaTeX": "Kopeeri LaTeX-ina",
     "CopyAsLibreOfficeFormula": "Kopeeri LibreOffice valemina",
     "CopyImage": "Kopeeri pildina",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopeeri l\xf5ikepuhvrisse",
     "CopyToGraphics": "Kopeeri graafikavaatesse",
     "CopyToInputBar": "Kopeeri sisendribale",

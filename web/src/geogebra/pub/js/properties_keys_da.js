@@ -1272,6 +1272,7 @@ __GGB__keysVar.da.menu = {
     "CopyAsLaTeX": "Kopier til LaTex",
     "CopyAsLibreOfficeFormula": "Kopier som LibreOffice Formel",
     "CopyImage": "Kopier billede",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopier til klippebordet",
     "CopyToGraphics": "Kopier til tegneblok",
     "CopyToInputBar": "Kopier til inputbj\xe6lken",

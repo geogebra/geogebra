@@ -1272,6 +1272,7 @@ __GGB__keysVar.tr.menu = {
     "CopyAsLaTeX": "LaTeX olarak \xe7o\u011falt",
     "CopyAsLibreOfficeFormula": "LibreOffice Form\xfcl\xfc olarak \xe7o\u011falt",
     "CopyImage": "Resmi \xc7o\u011falt",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Panoya Kopyala",
     "CopyToGraphics": "Grafi\u011fe Kopyala",
     "CopyToInputBar": "Giri\u015f \xc7ubu\u011funa Kopyala",

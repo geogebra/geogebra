@@ -1272,6 +1272,7 @@ __GGB__keysVar.sr.menu = {
     "CopyAsLaTeX": "Kopiraj kao LaTeX",
     "CopyAsLibreOfficeFormula": "Kopiraj kao LibreOffice Formulu",
     "CopyImage": "Kopiraj sliku",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopiraj u bafer",
     "CopyToGraphics": "Kopiraj u grafik",
     "CopyToInputBar": "Kopiraj u polje za unos",

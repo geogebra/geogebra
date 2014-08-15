@@ -1272,6 +1272,7 @@ __GGB__keysVar.sk.menu = {
     "CopyAsLaTeX": "Kop\xedrova\u0165 do LaTeXu",
     "CopyAsLibreOfficeFormula": "Kop\xedrova\u0165 ako LibreOffice rovnicu",
     "CopyImage": "Kop\xedrova\u0165 obr\xe1zok",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kop\xedrova\u0165 do schr\xe1nky",
     "CopyToGraphics": "Kop\xedrova\u0165 do grafick\xe9ho okna",
     "CopyToInputBar": "Kop\xedrova\u0165 do pr\xedkazov\xe9ho riadku",

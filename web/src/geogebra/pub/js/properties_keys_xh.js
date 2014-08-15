@@ -1272,6 +1272,7 @@ __GGB__keysVar.xh.menu = {
     "CopyAsLaTeX": "iCopy njenge LaTeX",
     "CopyAsLibreOfficeFormula": "Kopa njenge fomyula yeLibreOffice",
     "CopyImage": "Kopa iImage",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopela kwiClipboard",
     "CopyToGraphics": "Kopela kumbono wegrafu",
     "CopyToInputBar": "Kopela kwiInput Bar",

@@ -1272,6 +1272,7 @@ __GGB__keysVar.ca.menu = {
     "CopyAsLaTeX": "Copia a LaTeX",
     "CopyAsLibreOfficeFormula": "Copia com una f\xf3rmula d'OpenOffice",
     "CopyImage": "Copia la imatge",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Copia al porta-retalls",
     "CopyToGraphics": "Copia a la zona gr\xe0fica",
     "CopyToInputBar": "Copia a la L\xednia d'Entrada",

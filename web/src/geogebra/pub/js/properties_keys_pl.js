@@ -1272,6 +1272,7 @@ __GGB__keysVar.pl.menu = {
     "CopyAsLaTeX": "Kopiuj jako LaTeX",
     "CopyAsLibreOfficeFormula": "Kopiuj jako wz\xf3r LibreOffice",
     "CopyImage": "Kopiuj Obraz",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "Kopiuj do Schowka",
     "CopyToGraphics": "Kopiuj do Widoku Grafiki",
     "CopyToInputBar": "Kopiuj do Pola wprowadzania",

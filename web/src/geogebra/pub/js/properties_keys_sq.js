@@ -1272,6 +1272,7 @@ __GGB__keysVar.sq.menu = {
     "CopyAsLaTeX": "Kopjo si LaTeX",
     "CopyAsLibreOfficeFormula": "Kopjo si Formule LibreOffice",
     "CopyImage": "kopjo Imazh",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "kopjo ne Clipboard",
     "CopyToGraphics": "Kopjo ne Pamjen Grafikore",
     "CopyToInputBar": "Kopjo ne Vendin e Hyrjeve",

@@ -1272,6 +1272,7 @@ __GGB__keysVar.iw.menu = {
     "CopyAsLaTeX": "\u05d4\u05e2\u05ea\u05e7 \u05db\u05be\u200fLaTeX\u200f",
     "CopyAsLibreOfficeFormula": "\u05d4\u05e2\u05ea\u05e7\u05d4 \u05db\u05e0\u05d5\u05e1\u05d7\u05ea \u200fLibreOffice\u200f",
     "CopyImage": "\u05d4\u05e2\u05ea\u05e7 \u05ea\u05de\u05d5\u05e0\u05d4",
+    "CopyImageAsSVG": "Copy Image as SVG",
     "CopyToClipboard": "\u05d4\u05e2\u05ea\u05e7 \u05dc\u05dc\u05d5\u05d7 \u05d2\u05d6\u05d9\u05e8\u05d9\u05dd",
     "CopyToGraphics": "\u05d4\u05e2\u05ea\u05e7 \u05dc\u05ea\u05e6\u05d5\u05d2\u05d4 \u05d2\u05e8\u05e4\u05d9\u05ea",
     "CopyToInputBar": "\u05d4\u05e2\u05ea\u05e7 \u05dc\u05e1\u05e8\u05d2\u05dc \u05e7\u05dc\u05d8",
