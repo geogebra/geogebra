@@ -81,6 +81,7 @@ import geogebra.factories.FormatFactoryD;
 import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.dialog.AxesStyleListRenderer;
 import geogebra.gui.dialog.DashListRenderer;
@@ -5014,8 +5015,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void set1rstMode() {
-		// TODO Auto-generated method stub
-		App.debug("set1rstmode");
+		setMode(((GuiManagerD) this.getGuiManager()).getToolbarPanel()
+				.getFirstToolbar().getFirstMode());
 	}
 
 	public void insertFile(File file) {
