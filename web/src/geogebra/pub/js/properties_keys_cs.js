@@ -834,7 +834,7 @@ __GGB__keysVar.cs.command = {
     "SetViewDirection": "NastavitSmerPohledu",
     "SetViewDirection.Syntax": "[ <Sm\u011br> ]",
     "SetVisibleInView": "NastavitViditelnostVOkne",
-    "SetVisibleInView.Syntax": "[ <Objekt>, <N\xe1hled \u010d\xedsla 1|2>, <Boolean> ]",
+    "SetVisibleInView.Syntax": "[ <Objekt>, <\u010c\xedslo n\xe1hledu 1|2>, <Logick\xe1 hodnota> ]",
     "Shear": "Zkoseni",
     "Shear.Syntax": "[ <Objekt>, <P\u0159\xedmka>, <Koeficient> ]",
     "ShortestDistance": "NejkratsiVzdalenost",
