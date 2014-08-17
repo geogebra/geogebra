@@ -171,6 +171,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	
 	private void updateVertices(GeoPolygon polygon, int pointLength){
+		
 		if (vertices.length < pointLength){
 			vertices = new Coords[pointLength];
 			for(int i = 0; i < pointLength ; i++){
@@ -181,6 +182,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		for(int i = 0; i < pointLength ; i++){
 			vertices[i].setValues(polygon.getPoint3D(i), 3);
 		}
+		
 	}
 	
 	@Override

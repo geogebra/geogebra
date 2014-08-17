@@ -132,7 +132,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 	}
     
     
-	
+    private Coords[] vertices = new Coords[0];
+
 	
 	@Override
 	protected boolean updateForItSelf(){
@@ -146,10 +147,10 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		// surface
 		int index = renderer.startPolygons();
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygonsLinked()){
-			drawPolygon(renderer, p, pt);
+			drawPolygon(renderer, p);
 		}
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygons()){
-			drawPolygon(renderer, p, pt);
+			drawPolygon(renderer, p);
 		}
 		renderer.endPolygons();
 		
@@ -204,7 +205,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 	
 	private PolygonTriangulation pt = new PolygonTriangulation();
 	
-	private static void drawPolygon(Renderer renderer, GeoPolygon polygon, PolygonTriangulation pt){
+	private void drawPolygon(Renderer renderer, GeoPolygon polygon){
 		
 		// draw only polygons that have no label
 		if (!polygon.isEuclidianVisible() || polygon.isLabelSet()){
@@ -217,9 +218,15 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 			return;
 		}
 		
-		Coords[] vertices = new Coords[pointLength];
-		for(int i=0;i<pointLength;i++){
-			vertices[i] = polygon.getPoint3D(i);
+		if (vertices.length < pointLength){
+			vertices = new Coords[pointLength];
+			for(int i = 0; i < pointLength ; i++){
+				vertices[i] = new Coords(3);
+			}
+		}
+		
+		for(int i = 0; i < pointLength ; i++){
+			vertices[i].setValues(polygon.getPoint3D(i), 3);
 		}
 		
 		pt.setPolygon(polygon);

@@ -2018,6 +2018,8 @@ public class PolygonTriangulation {
 		return fansList;
 
 	}
+	
+	private Coords[] completeVertices = new Coords[0];
 
 	/**
 	 * 
@@ -2031,19 +2033,23 @@ public class PolygonTriangulation {
 			return vertices;
 		}
 
-		Coords[] ret = new Coords[maxPointIndex];
-		for (int i = 0 ; i < length; i++){
-			ret[i] = vertices[i];
+		if (completeVertices.length < maxPointIndex){
+			completeVertices = new Coords[maxPointIndex];
 		}
+		
+		for (int i = 0 ; i < length; i++){
+			completeVertices[i] = vertices[i];
+		}
+		
 		for (int i = length ; i < maxPointIndex; i++){
 			GPoint2D.Double point = pointsArray[i];
 			if (point!=null){
-				ret[i] = cs.getPoint(point.x, point.y);
+				completeVertices[i] = cs.getPoint(point.x, point.y);
 			}
 		}
 
 
-		return ret;
+		return completeVertices;
 	}
 
 
