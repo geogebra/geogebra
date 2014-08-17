@@ -48,7 +48,8 @@ public class GuiManager3D extends GuiManagerD {
 	 */
 	public GuiManager3D(AppD app) {
 		super(app);
-		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false); // popups over the 3D canvas
+		javax.swing.ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false); // tooltips over the 3D canvas
 
 		dialogManagerFactory = new DialogManager3D.Factory();
 	}
