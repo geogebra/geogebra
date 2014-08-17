@@ -50,6 +50,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		super(a_view3D, polygon);
 		
+		pt.setPolygon(polygon);
 		
 		setPickingType(PickingType.SURFACE);
 
@@ -165,7 +166,22 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
     }
     
     
+    private Coords[] vertices = new Coords[0];
+	private PolygonTriangulation pt = new PolygonTriangulation();
+
 	
+	private void updateVertices(GeoPolygon polygon, int pointLength){
+		if (vertices.length < pointLength){
+			vertices = new Coords[pointLength];
+			for(int i = 0; i < pointLength ; i++){
+				vertices[i] = new Coords(3);
+			}
+		}
+		
+		for(int i = 0; i < pointLength ; i++){
+			vertices[i].setValues(polygon.getPoint3D(i), 3);
+		}
+	}
 	
 	@Override
 	protected boolean updateForItSelf(){
@@ -188,16 +204,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		Renderer renderer = getView3D().getRenderer();
 		
-		Coords[] vertices = new Coords[pointLength];
-		for(int i=0;i<pointLength;i++){
-			vertices[i] = polygon.getPoint3D(i);
-		}
+		updateVertices(polygon, pointLength);
 
 
 
 		// outline
-		if(!polygon.wasInitLabelsCalled()){ // no labels for segments
-			updateOutline(renderer, vertices);
+		if(!isPreview && !polygon.wasInitLabelsCalled()){ // no labels for segments
+			updateOutline(renderer, vertices, pointLength);
 		}
 
 
@@ -206,7 +219,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		// surface
 		int index = renderer.startPolygons();
 
-		drawPolygon(renderer, polygon, vertices);
+		drawPolygon(renderer, polygon, pt, vertices, pointLength);
 		 
 
 		
@@ -223,13 +236,16 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 * 
 	 * @param renderer GL renderer
 	 * @param polygon polygon
+	 * @param pt polygon triangulation
 	 * @param vertices vertices of the polygon
+	 * @param verticesLength vertices length (may <> vertices.length due to cache)
 	 */
-	static final public void drawPolygon(Renderer renderer, GeoPolygon polygon, Coords[] vertices){
+	static final public void drawPolygon(Renderer renderer, GeoPolygon polygon, PolygonTriangulation pt, Coords[] vertices, int verticesLength){
 		
 		Coords n = polygon.getMainDirection();
 		
-		PolygonTriangulation pt = new PolygonTriangulation(polygon);
+		pt.clear();
+		
 		try{
 			// simplify the polygon and check if there are at least 3 points left
 			if (pt.updatePoints() > 2){
@@ -238,7 +254,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				Convexity convexity = pt.checkIsConvex();
 				if(convexity != Convexity.NOT){
 					boolean reverse = polygon.getReverseNormalForDrawing() ^ (convexity == Convexity.CLOCKWISE);
-					renderer.getGeometryManager().drawPolygonConvex(n, vertices, reverse);
+					renderer.getGeometryManager().drawPolygonConvex(n, vertices, verticesLength, reverse);
 				}else{
 					// set intersections (if needed) and divide the polygon into non self-intersecting polygons
 					pt.setIntersections();
@@ -247,7 +263,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					pt.triangulate();
 
 					// compute 3D coords for intersections
-					Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, polygon.getCoordSys());
+					Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, polygon.getCoordSys(), verticesLength);
 
 					// draw the triangle fans
 					for (TriangleFan triFan : pt.getTriangleFans()){
@@ -263,17 +279,17 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 	
 	
-	private void updateOutline(Renderer renderer, Coords[] vertices){
+	private void updateOutline(Renderer renderer, Coords[] vertices, int length){
 
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
 		brush.start();
 		brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
-		for(int i=0;i<vertices.length-1;i++){
+		for(int i=0;i<length-1;i++){
 			brush.setAffineTexture(0.5f,  0.25f);
 			brush.segment(vertices[i],vertices[i+1]);
 		}
 		brush.setAffineTexture(0.5f,  0.25f);
-		brush.segment(vertices[vertices.length-1],vertices[0]);
+		brush.segment(vertices[length-1],vertices[0]);
 		setGeometryIndex(brush.end());
 
 	}
@@ -290,14 +306,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				int pointLength = polygon.getPointsLength();
 				Renderer renderer = getView3D().getRenderer();
 
-				Coords[] vertices = new Coords[pointLength];
-				for(int i=0;i<pointLength;i++){
-					vertices[i] = polygon.getPoint3D(i);
-				}
-
+				updateVertices(polygon, pointLength);
 
 				// outline
-				updateOutline(renderer, vertices);
+				updateOutline(renderer, vertices, pointLength);
 				
 				recordTrace();
 			}
@@ -318,6 +330,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@SuppressWarnings("unchecked")
 	private ArrayList<ArrayList> segmentsPoints;
 	
+	private boolean isPreview = false;;
+	
 
 	/**
 	 * Constructor for previewable
@@ -334,12 +348,16 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		setGeoElement(new GeoPolygon3D(kernel.getConstruction(),null));
 		getGeoElement().setIsPickable(false);
 		
+		pt.setPolygon((GeoPolygon) getGeoElement());
+		
 		this.selectedPoints = selectedPoints;
 		
 		segments = new ArrayList<DrawSegment3D>();
 		segmentsPoints = new ArrayList<ArrayList>();
 		
 		setPickingType(PickingType.SURFACE);
+		
+		isPreview = true;
 
 		updatePreview();
 		
@@ -424,6 +442,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			getView3D().addToDrawable3DLists(s);
 		}
 		
+
 		// update segments
 		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext();)
 			s.next().updatePreview();

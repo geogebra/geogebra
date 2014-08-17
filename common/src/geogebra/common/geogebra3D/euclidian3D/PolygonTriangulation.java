@@ -611,13 +611,30 @@ public class PolygonTriangulation {
 
 	/**
 	 * Constructor
-	 * @param p polygon
 	 */
-	public PolygonTriangulation(GeoPolygon p){
-		this.polygon = p;
+	public PolygonTriangulation(){
 
 		polygonPointsList = new ArrayList<PolygonPoints>();
 		fansList = new ArrayList<TriangleFan>();
+	}
+	
+	/**
+	 * set the polygon
+	 * @param p polygon
+	 */
+	public void setPolygon(GeoPolygon p){
+		this.polygon = p;
+	}
+	
+	/**
+	 * clear lists
+	 */
+	public void clear(){
+		polygonPointsList.clear();
+		fansList.clear();
+		maxPointIndex = 0;
+		firstPoint = null;
+		pointsArray = null;
 	}
 
 	/**
@@ -2004,18 +2021,19 @@ public class PolygonTriangulation {
 	 * 
 	 * @param vertices original points vertices
 	 * @param cs coord sys to compute 3D points for intersections
+	 * @param length vertices length
 	 * @return complete 3D vertex array (with intersections)
 	 */
-	public Coords[] getCompleteVertices(Coords[] vertices, CoordSys cs){
-		if (pointsArray.length == vertices.length){
+	public Coords[] getCompleteVertices(Coords[] vertices, CoordSys cs, int length){
+		if (maxPointIndex == length){
 			return vertices;
 		}
 
-		Coords[] ret = new Coords[pointsArray.length];
-		for (int i = 0 ; i < vertices.length; i++){
+		Coords[] ret = new Coords[maxPointIndex];
+		for (int i = 0 ; i < length; i++){
 			ret[i] = vertices[i];
 		}
-		for (int i = vertices.length ; i < pointsArray.length; i++){
+		for (int i = length ; i < maxPointIndex; i++){
 			GPoint2D.Double point = pointsArray[i];
 			if (point!=null){
 				ret[i] = cs.getPoint(point.x, point.y);

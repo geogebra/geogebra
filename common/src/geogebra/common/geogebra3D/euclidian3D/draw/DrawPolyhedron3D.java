@@ -4,6 +4,7 @@
 
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -145,10 +146,10 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		// surface
 		int index = renderer.startPolygons();
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygonsLinked()){
-			drawPolygon(renderer, p);
+			drawPolygon(renderer, p, pt);
 		}
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygons()){
-			drawPolygon(renderer, p);
+			drawPolygon(renderer, p, pt);
 		}
 		renderer.endPolygons();
 		
@@ -201,7 +202,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		
 	}
 	
-	private static void drawPolygon(Renderer renderer, GeoPolygon polygon){
+	private PolygonTriangulation pt = new PolygonTriangulation();
+	
+	private static void drawPolygon(Renderer renderer, GeoPolygon polygon, PolygonTriangulation pt){
 		
 		// draw only polygons that have no label
 		if (!polygon.isEuclidianVisible() || polygon.isLabelSet()){
@@ -219,7 +222,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 			vertices[i] = polygon.getPoint3D(i);
 		}
 		
-		DrawPolygon3D.drawPolygon(renderer, polygon, vertices);
+		pt.setPolygon(polygon);
+		DrawPolygon3D.drawPolygon(renderer, polygon, pt, vertices, polygon.getPointsLength());
 		
 	}
 	

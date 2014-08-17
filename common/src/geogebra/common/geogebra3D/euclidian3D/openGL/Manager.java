@@ -172,9 +172,11 @@ abstract public class Manager {
 	 * draw a convex polygon
 	 * @param n normal
 	 * @param v vertices
+	 * @param length vertices length (maybe different from v.length due to cache)
 	 * @param reverse vertex order has to be reversed
 	 */
-	final public void drawPolygonConvex(Coords n, Coords[] v, boolean reverse){
+	final public void drawPolygonConvex(Coords n, Coords[] v, int length, boolean reverse){
+		
 		startGeometry(Type.TRIANGLE_FAN);
 		
 	   	//set texture
@@ -186,11 +188,11 @@ abstract public class Manager {
 		triangleFanApex(v[0]);
 
 		if (reverse){
-			for (int i = v.length - 1 ; i > 0 ; i--){
+			for (int i = length - 1 ; i > 0 ; i--){
 				triangleFanVertex(v[i]);
 			}
 		}else{
-			for (int i = 1 ; i < v.length ; i++){
+			for (int i = 1 ; i < length ; i++){
 				triangleFanVertex(v[i]);
 			}
 		}
