@@ -616,6 +616,7 @@ public class PolygonTriangulation {
 
 		polygonPointsList = new ArrayList<PolygonPoints>();
 		fansList = new ArrayList<TriangleFan>();
+		pointsArray = new GPoint2D.Double[0];
 	}
 	
 	/**
@@ -634,7 +635,6 @@ public class PolygonTriangulation {
 		fansList.clear();
 		maxPointIndex = 0;
 		firstPoint = null;
-		pointsArray = null;
 	}
 
 	/**
@@ -1159,7 +1159,9 @@ public class PolygonTriangulation {
 	private void setNonSelfIntersecting(TreeSet<Point> pointSet) throws TriangulationException{
 
 		// prepare points as an array
-		pointsArray = new GPoint2D.Double[maxPointIndex];
+		if (pointsArray.length < maxPointIndex){
+			pointsArray = new GPoint2D.Double[maxPointIndex];
+		}
 
 		// now all intersections are computed, and points are correctly chained by oriented segments
 		// we can divide the polygon turning e.g. counter clock-wise 
