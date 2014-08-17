@@ -407,7 +407,7 @@ __GGB__keysVar.cs.command = {
     "InfiniteCone": "NekonecnyKuzel",
     "InfiniteCone.Syntax": "[ <Bod>, <Vektor>, <\xdahel> ]\n[ <Bod>, <Bod>, <\xdahel> ]\n[ <Bod>, <P\u0159\xedmka>, <\xdahel> ]",
     "InfiniteCylinder": "NekonecnyValec",
-    "InfiniteCylinder.Syntax": "[ <P\u0159\xedmka>, <Polom\u011br> ]\n[ <Bod>, <Vektor>, <Polom\u011br> ]\n[ <Point>, <Point>, <Radius> ]",
+    "InfiniteCylinder.Syntax": "[ <P\u0159\xedmka>, <Polom\u011br> ]\n[ <Bod>, <Vektor>, <Polom\u011br> ]\n[ <Bod>, <Bod>, <Polom\u011br> ]",
     "Insert": "Vlozit",
     "Insert.Syntax": "[ <Seznam>, <Seznam>, <Pozice> ]\n[ <Objekt>, <Seznam>, <Pozice> ]",
     "Integral": "Integral",

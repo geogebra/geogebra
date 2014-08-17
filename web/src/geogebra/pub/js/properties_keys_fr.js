@@ -680,7 +680,7 @@ __GGB__keysVar.fr.command = {
     "RSquare": "R2",
     "RSquare.Syntax": "[ <Liste Points>, <Fonction> ]",
     "Radius": "Rayon",
-    "Radius.Syntax": "[ <Conique> ]",
+    "Radius.Syntax": "[ <Cercle> ]",
     "Random": "Al\xe9aEntreBornes",
     "Random.Syntax": "[ <Entier Minimum>, <Entier Maximum> ]\n[ <Entier Minimum>, <Entier Maximum>, <Bool\xe9en> ]",
     "Random.SyntaxCAS": "[ <Entier minimum>, <Entier maximum> ]",
