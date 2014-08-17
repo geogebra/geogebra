@@ -583,10 +583,8 @@ public class CurvePlotter {
 			double m = (t1 + t2) / 2;
 			c.evaluateCurve(m, middle);
 			countEvaluations++;
-			double distLeft = Math.max(Math.abs(left[0] - middle[0]),
-					Math.abs(left[1] - middle[1]));
-			double distRight = Math.max(Math.abs(right[0] - middle[0]),
-					Math.abs(right[1] - middle[1]));
+			double distLeft = c.distanceMax(left, middle);
+			double distRight = c.distanceMax(right, middle);
 
 			// take the interval with the larger distance to do the bisection
 			if (distLeft > distRight) {

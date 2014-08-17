@@ -111,5 +111,9 @@ public class CurveEvaluableFor3D implements CurveEvaluable{
 	public GeoElement toGeoElement() {
 		return parent.toGeoElement();
 	}
+	
+	public double distanceMax(double[] p1, double[] p2){
+		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
+	}
 
 }

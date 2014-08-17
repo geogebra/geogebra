@@ -2542,5 +2542,9 @@ public class GeoFunction extends GeoElement implements VarString,
 		return RealRootUtil.getDefinedInterval(
 				getRealRootFunctionY(), a, b);
 	}
+	
+	public double distanceMax(double[] p1, double[] p2){
+		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
+	}
 
 }

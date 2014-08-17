@@ -34,6 +34,14 @@ public interface CurveEvaluable {
 	public double[] newDoubleArray();
 	
 	/**
+	 * 
+	 * @param p1 first point
+	 * @param p2 second point
+	 * @return max abs distance between points coords
+	 */
+	public double distanceMax(double[] p1, double[] p2);
+	
+	/**
 	 * Evaluates the curve for given parameter value
 	 * @param t parameter value
 	 * @param out array to store the result
