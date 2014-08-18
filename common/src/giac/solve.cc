@@ -5182,7 +5182,9 @@ namespace giac {
       order=-order;
       rur=true;
     }
-#ifndef GIAC_REDUCEMODULO
+#ifdef GIAC_REDUCEMODULO
+    //if (res.size()<=2*res.front().dim) reduce(res,env);
+#else
     reduce(res,env);
 #endif
     sort_vectpoly(res.begin(),res.end());

@@ -1426,7 +1426,11 @@ namespace giac {
   void inplace_mult(const gen & g,vector< T_unsigned<gen,tdeg_t> > & v){
     std::vector< T_unsigned<gen,tdeg_t> >::iterator it1=v.begin(),it1end=v.end();
     for (;it1!=it1end;++it1){
+#if 0
+      it1->g=g*(it1->g);
+#else
       type_operator_times(g,it1->g,it1->g);
+#endif
     }
   }
   
@@ -1862,7 +1866,7 @@ namespace giac {
     std::vector< T_unsigned<gen,tdeg_t> >::const_iterator pt,ptend;
     unsigned i,rempos=0;
     bool small0=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
-    TMP1.coord.clear();
+    TMP1.order=p.order; TMP1.dim=p.dim; TMP2.order=p.order; TMP2.dim=p.dim; TMP1.coord.clear();
     for (unsigned count=0;;++count){
       ptend=rem.coord.end();
       // this branch search first in all leading coeff of G for a monomial 
@@ -3138,6 +3142,7 @@ namespace giac {
     vector<unsigned> C;
     C.reserve(G.size()+1);
     const tdeg_t & h0=h.coord.front().u;
+    // FIXME: should use oldG instead of G here
     for (unsigned i=0;i<G.size();++i){
       if (tdeg_t_all_greater(h0,res[G[i]].coord.front().u,order))
 	return;
@@ -8840,7 +8845,10 @@ namespace giac {
     return 1;
   }
 
-  static void zgbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectzpolymod & res,unsigned pos){
+  // oldG is the Gbasis before the first line of f4buchbergerv is added
+  // otherwise we might miss some new pairs to be added
+  // f:=(1387482169552326*s*t1*t2^2-25694114250969*s*t1*t2+240071563017*s*t1+579168836143704*t1*t2^2-10725348817476*t1*t2+100212766488*t1):;fb:=(-7035747399*s*t1^2*t2^2+118865637*s*t1^2*t2-793881*s*t1^2+118865637*s*t1*t2^2-1167858*s*t1*t2+1944*s*t1-1089126*s*t2^2+1944*s*t2+18*s-2936742966*t1^2*t2^2+49601160*t1^2*t2-328050*t1^2+49601160*t1*t2^2-485514*t1*t2+972*t1-446148*t2^2+972*t2+36):;rmp:=s^2+10*s+4:;gbasis([f,fb,rmp],[s,t1,t2],revlex);
+  static void zgbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectzpolymod & res,unsigned pos,vector<unsigned> & oldG){
     if (debug_infolevel>2)
       CERR << clock() << " zmod begin gbasis update " << G.size() << endl;
     if (debug_infolevel>3)
@@ -8850,8 +8858,8 @@ namespace giac {
     vector<unsigned> C;
     C.reserve(G.size()+1);
     const tdeg_t & h0=h.ldeg;
-    for (unsigned i=0;i<G.size();++i){
-      if (tdeg_t_all_greater(h0,res[G[i]].ldeg,order))
+    for (unsigned i=0;i<oldG.size();++i){
+      if (tdeg_t_all_greater(h0,res[oldG[i]].ldeg,order))
 	return;
     }
     tdeg_t tmp1,tmp2;
@@ -9158,6 +9166,7 @@ namespace giac {
       }
       if (debug_infolevel>1)
 	CERR << clock() << " reduce f4buchberger end on " << added << " from " << f4buchbergerv.size() << " pairs, gbasis update begin" << endl;
+      vector<unsigned> oldG(G);
       for (unsigned i=0;i<f4buchbergerv.size();++i){
 	if (!f4buchbergerv[i].coord.empty()){
 	  zincrease(res);
@@ -9167,7 +9176,7 @@ namespace giac {
 	  swap(res[ressize].coord,f4buchbergerv[i].coord);
 	  ++ressize;
 	  if (learning || f4buchberger_info_position-1>=f4buchberger_info.size())
-	    zgbasis_updatemod(G,B,res,ressize-1);
+	    zgbasis_updatemod(G,B,res,ressize-1,oldG);
 	}
 	else {
 	  // if (!learning && pairs_reducing_to_zero)  CERR << " error learning "<< endl;
@@ -9887,6 +9896,13 @@ namespace giac {
 #endif
 	if (!ok)
 	  continue;
+	// remove 0 from gbmod
+	for (i=0;i<gbmod.size();){
+	  if (gbmod[i].coord.empty())
+	    gbmod.erase(gbmod.begin()+i);
+	  else
+	    ++i;
+	}
 	// compare gb to existing computed basis
 #if 1
 	if (rur){
