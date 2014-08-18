@@ -10,6 +10,7 @@ import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -24,8 +25,8 @@ public class AppWapplet3D extends AppWapplet{
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
 
-	public AppWapplet3D(ArticleElement ae, GeoGebraFrame gf) {
-	    super(ae, gf, 3);
+	public AppWapplet3D(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
+	    super(ae, gf, 3, laf);
     }
 
 	@Override

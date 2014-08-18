@@ -1,5 +1,6 @@
 package geogebra.phone;
 
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.phone.gui.PhoneGUI;
 import geogebra.touch.PhoneGapManager;
@@ -21,7 +22,7 @@ public class Phone implements EntryPoint {
 	static GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
-		appFrame = new GeoGebraAppFrame();
+		appFrame = new GeoGebraAppFrame(new GLookAndFeel());
 		appFrame.init();
 		appFrame.app.setFileManager(new FileManagerP());
 		PhoneGapManager.initializePhoneGap();

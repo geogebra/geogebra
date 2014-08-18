@@ -7,6 +7,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.gui.MyHeaderPanel;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.View;
@@ -51,14 +52,14 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public GGWToolBar ggwToolBar;
 	private final GGWCommandLine ggwCommandLine;
 	private final GGWMenuBar ggwMenuBar;
-
 	MyDockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
 	public AppW app;
 
 	private Callback<String, String> callback;
 
-	public GeoGebraAppFrame() {
+	public GeoGebraAppFrame(GLookAndFeel laf) {
+		this.laf = laf;
 		frameLayout = newGGWFrameLayoutPanel();		
 		initWidget(frameLayout);
 		
@@ -93,8 +94,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	 * For touch
 	 * @param callback
 	 */
-	public GeoGebraAppFrame(final Callback<String, String> callback) {
-		this();
+	public GeoGebraAppFrame(final Callback<String, String> callback, GLookAndFeel laf) {
+		this(laf);
 	    this.callback = callback;
     }
 
@@ -182,6 +183,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	private int cw;
 	private int ch;
 
+	private final GLookAndFeel laf;
+
 
 	public void init() {
 		setVisible(true);
@@ -195,7 +198,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		cw = Window.getClientWidth(); 
 		ch = Window.getClientHeight() ;
 		
-		app = createApplication(article,this); 
+		app = createApplication(article,this, this.laf); 
 		if (this.callback != null) {
 			this.callback.onSuccess("");
 		}
@@ -261,8 +264,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 
 	protected AppW createApplication(final ArticleElement article,
-            final GeoGebraAppFrame geoGebraAppFrame) {
-		return new AppWapplication(article, geoGebraAppFrame, 2);
+            final GeoGebraAppFrame geoGebraAppFrame, GLookAndFeel laf) {
+		return new AppWapplication(article, geoGebraAppFrame, 2, laf);
     }
 
 

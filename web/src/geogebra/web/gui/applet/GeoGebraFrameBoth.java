@@ -1,5 +1,6 @@
 package geogebra.web.gui.applet;
 
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
@@ -17,13 +18,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
 
-	public GeoGebraFrameBoth(AppletFactory factory) {
-		super();
+	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf) {
+		super(laf);
 		this.factory = factory;
 	}
 
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
-		AppW app = factory.getApplet(ae, gf);
+	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
+		AppW app = factory.getApplet(ae, gf, laf);
 		WebStatic.lastApp = app;
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
@@ -41,10 +42,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	 * @param geoGebraMobileTags
 	 *          list of &lt;article&gt; elements of the web page
 	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags, AppletFactory factory) {
+	public static void main(ArrayList<ArticleElement> geoGebraMobileTags, AppletFactory factory, GLookAndFeel laf) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrame inst = new GeoGebraFrameBoth(factory);
+			final GeoGebraFrame inst = new GeoGebraFrameBoth(factory, laf);
 			inst.ae = articleElement;
 			GeoGebraLogger.startLogger(inst.ae);
 			inst.createSplash(articleElement);	
@@ -59,8 +60,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	/**
 	 * @param el html element to render into
 	 */
-	public static void renderArticleElement(Element el, AppletFactory factory) {
-		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(factory));
+	public static void renderArticleElement(Element el, AppletFactory factory, GLookAndFeel laf) {
+		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(factory, laf));
 	}
 	
 	public Object getGlassPane(){

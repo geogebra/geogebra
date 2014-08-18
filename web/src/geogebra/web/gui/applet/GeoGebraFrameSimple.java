@@ -1,5 +1,6 @@
 package geogebra.web.gui.applet;
 
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
@@ -14,10 +15,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class GeoGebraFrameSimple extends GeoGebraFrame {
 
 	public GeoGebraFrameSimple() {
-		super();
+		super(new GLookAndFeel());
 	}
 
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
+	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
 		AppW app = new AppWsimple(ae, gf);
 		WebStatic.lastApp = app;
 		return app;

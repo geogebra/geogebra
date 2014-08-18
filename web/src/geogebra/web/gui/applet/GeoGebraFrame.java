@@ -2,6 +2,7 @@ package geogebra.web.gui.applet;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
@@ -54,8 +55,9 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	public SplashDialog splash;
 
 	/** Creates new GeoGebraFrame */
-	public GeoGebraFrame() {
+	public GeoGebraFrame(GLookAndFeel laf) {
 		super();
+		this.laf = laf;
 		instances.add(this);
 		activeInstance = this;
 	    addStyleName("GeoGebraFrame");
@@ -212,6 +214,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	
 	protected int computedWidth = 0;
 	protected int computedHeight = 0;
+	private final GLookAndFeel laf;
 	
 	public void setComputedWidth(int width) {
 		this.computedWidth = width;
@@ -293,7 +296,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 				//if (ae.getDataParamGuiOff())
 				//	inst.app = inst.createApplicationSimple(articleElement, inst);
 				//else
-				inst.app = inst.createApplication(articleElement, inst);
+				inst.app = inst.createApplication(articleElement, inst, this.laf);
 
 				inst.app.setCustomToolBar();
 				//useDataParamBorder(articleElement, inst);
@@ -344,7 +347,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 *          menus / ...)
 	 * @return the newly created instance of Application
 	 */
-	protected abstract AppW createApplication(ArticleElement ae, GeoGebraFrame gf);
+	protected abstract AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf);
 
 	/**
 	 * @return list of instances of GeogebraFrame

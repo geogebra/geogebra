@@ -7,6 +7,9 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
+import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.gui.laf.OfficeLookAndFeel;
+import geogebra.html5.gui.laf.SmartLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
@@ -67,7 +70,7 @@ public class Web implements EntryPoint {
 		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
 				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
 			//loading touch, ignore.
-			return;			
+			return;
 		}
 		Browser.checkFloat64();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
@@ -151,7 +154,7 @@ public class Web implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		new GeoGebraAppFrame();
+		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()));
 	}
 	
 
@@ -169,9 +172,9 @@ public class Web implements EntryPoint {
     }-*/;
 	
 	public static void renderArticleElement(Element el){
-		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory());
+		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(), getLAF(getGeoGebraMobileTags()));
 	}
-	
+
 	/*
 	 * This method should never be called. Only copyed to external javascript files,
 	 * if we like to use GeoGebraWeb as an library, and call its methods depending on
@@ -214,8 +217,26 @@ public class Web implements EntryPoint {
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory());
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(), getLAF(geoGebraMobileTags));
 	   
     }
+
+	public static GLookAndFeel getLAF(
+            ArrayList<ArticleElement> geoGebraMobileTags) {
+		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		for (int i = 0; i < nodes.getLength(); i++) {
+			if("smart".equals(nodes.getItem(i).getAttribute("data-param-app"))){
+				return new SmartLookAndFeel();
+			}
+			
+			if("office".equals(nodes.getItem(i).getAttribute("data-param-app"))){
+				return new OfficeLookAndFeel();
+			}
+		}
+		return  new GLookAndFeel();
+		
+    }
+
+	
 
 }

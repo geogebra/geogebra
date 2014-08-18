@@ -3,6 +3,7 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianSimplePanelW;
@@ -34,7 +35,7 @@ public class AppWsimple extends AppW {
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
 	public AppWsimple(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
-		super(ae, 2);
+		super(ae, 2, new GLookAndFeel());
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
 		setAppletHeight(frame.getComputedHeight());

@@ -192,7 +192,7 @@ public class Tablet implements EntryPoint {
 	            appFrame.app.setFileManager(new FileManagerT());
             }
 			
-		});
+		},new TabletLookAndFeel());
 	}
 	
 
@@ -210,7 +210,7 @@ public class Tablet implements EntryPoint {
     }-*/;
 	
 	public static void renderArticleElement(Element el){
-		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory());
+		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(), new TabletLookAndFeel());
 	}
 	
 	/*
@@ -254,7 +254,7 @@ public class Tablet implements EntryPoint {
 	
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory());	   
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(), new TabletLookAndFeel());	   
     }
 
 }

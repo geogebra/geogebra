@@ -6,6 +6,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.gui.MyHeaderPanel;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
@@ -39,8 +40,8 @@ public class AppWapplication extends AppW {
 	 * @param undoActive
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
-	        boolean undoActive, int dimension) {
-		super(article, dimension);
+	        boolean undoActive, int dimension, GLookAndFeel laf) {
+		super(article, dimension, laf);
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
 			appFrame.getElement().addClassName("zoomed");
@@ -102,8 +103,8 @@ public class AppWapplication extends AppW {
 	 * @param article
 	 * @param geoGebraAppFrame
 	 */
-	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension) {
-		this(article, geoGebraAppFrame, true, dimension);
+	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf) {
+		this(article, geoGebraAppFrame, true, dimension, laf);
 	}
 
 	public GeoGebraAppFrame getAppFrame() {

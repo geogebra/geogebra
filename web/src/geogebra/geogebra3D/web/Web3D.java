@@ -8,6 +8,7 @@ import geogebra.geogebra3D.web.gui.app.GeoGebraAppFrame3D;
 import geogebra.geogebra3D.web.main.AppWapplet3D;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
@@ -154,7 +155,7 @@ public class Web3D extends Web {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		new GeoGebraAppFrame3D();
+		new GeoGebraAppFrame3D(Web.getLAF(getGeoGebraMobileTags()));
 	}
 	
 
@@ -174,10 +175,10 @@ public class Web3D extends Web {
 	public static void renderArticleElement(Element el){
 		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(){
 			@Override
-			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr){
-				return new AppWapplet3D(ae, fr);
+			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr, GLookAndFeel laf){
+				return new AppWapplet3D(ae, fr, laf);
 			}
-		});
+		}, Web.getLAF(getGeoGebraMobileTags()));
 	}
 	/*
 	 * This method should never be called. Only copyed to external javascript files,
@@ -223,10 +224,10 @@ public class Web3D extends Web {
 	 	
 		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(){
 			@Override
-			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr){
-				return new AppWapplet3D(ae, fr);
+			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr, GLookAndFeel laf){
+				return new AppWapplet3D(ae, fr, laf);
 			}
-		});
+		}, Web.getLAF(geoGebraMobileTags));
 	   
     }
 

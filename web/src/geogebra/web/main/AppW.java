@@ -27,8 +27,6 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.History;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.laf.GLookAndFeel;
-import geogebra.html5.gui.laf.OfficeLookAndFeel;
-import geogebra.html5.gui.laf.SmartLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
@@ -132,16 +130,10 @@ public abstract class AppW extends AppWeb {
 	 * Constructors will be called from subclasses
 	 * AppWapplication, AppWapplet, and AppWsimple
 	 */
-	protected AppW(ArticleElement ae, int dimension) {
+	protected AppW(ArticleElement ae, int dimension, GLookAndFeel laf) {
 		super(dimension);	
 		this.articleElement = ae;
-		if("smart".equals(ae.getDataParamLAF())){
-			this.laf = new SmartLookAndFeel();
-		}else if("office".equals(ae.getDataParamLAF())){
-			this.laf = new OfficeLookAndFeel();
-		}else{
-			this.laf = new GLookAndFeel();
-		}
+		this.laf = laf;
 
 		showAlgebraInput = false;
 	}

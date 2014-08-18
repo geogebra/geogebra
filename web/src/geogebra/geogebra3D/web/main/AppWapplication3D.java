@@ -10,6 +10,7 @@ import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -36,8 +37,8 @@ public class AppWapplication3D extends AppWapplication {
 	 * @param article
 	 * @param geoGebraAppFrame
 	 */
-	public AppWapplication3D(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame)  {
-	    super(article, geoGebraAppFrame, 3);
+	public AppWapplication3D(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, GLookAndFeel laf)  {
+	    super(article, geoGebraAppFrame, 3, laf);
 	    //Window.alert("AppWapplication3D : I will be threeD :-)");
     }
 	
