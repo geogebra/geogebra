@@ -1,6 +1,8 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush.Ticks;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -338,7 +340,11 @@ public class DrawAxis3D extends DrawLine3D {
 	
 	
 	
-	
+	@Override
+	protected boolean hitLabel(Hitting hitting, Hits3D hits){
+		return false; // no label to hit
+	}
+
 
 	
 	
