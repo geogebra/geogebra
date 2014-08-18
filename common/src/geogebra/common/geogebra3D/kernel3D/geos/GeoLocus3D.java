@@ -71,7 +71,7 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 	
 	public void pointChanged(GeoPointND P) {
 		
-		Coords coords = P.getInhomCoordsInD(3);
+		Coords coords = P.getInhomCoordsInD3();
 		setChangingPoint(P);
 		 
 		// this updates closestPointParameter and closestPointIndex
@@ -113,7 +113,7 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 	@Override
 	protected void setChangingPoint(GeoPointND P){
 		changingPoint = P;
-		changingCoords = P.getInhomCoordsInD(3);
+		changingCoords = P.getInhomCoordsInD3();
 	}
 	
 	@Override

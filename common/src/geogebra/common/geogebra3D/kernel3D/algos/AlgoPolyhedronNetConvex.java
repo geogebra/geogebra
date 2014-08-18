@@ -377,11 +377,11 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 			//rotation angle
 			GeoPoint3D facePoint = outputPointsNet.getElement(polygonInfo.get(iFace).pointIndex.get(2));
-			Coords cCoord = facePoint.getInhomCoordsInD(3);
+			Coords cCoord = facePoint.getInhomCoordsInD3();
 			Coords projCoord = cCoord.projectPlane(face.getCoordSys().getMatrixOrthonormal())[0];
 			double dist =  projCoord.distance(cCoord);
-			Coords o = (outputPointsNet.getElement(polygonInfo.get(iFace).pointIndex.get(1))).getInhomCoordsInD(3);
-			Coords o1 = segmentList.get(polygonInfo.get(iFace).linkSegNumber).getStartPoint().getInhomCoordsInD(3);
+			Coords o = (outputPointsNet.getElement(polygonInfo.get(iFace).pointIndex.get(1))).getInhomCoordsInD3();
+			Coords o1 = segmentList.get(polygonInfo.get(iFace).linkSegNumber).getStartPoint().getInhomCoordsInD3();
 			Coords vs = segmentList.get(polygonInfo.get(iFace).linkSegNumber).getDirectionInD3();
 			
 			int sgn=1;

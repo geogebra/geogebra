@@ -187,10 +187,10 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		CoordSys cs = conic.getCoordSys();
 		
 		if (!cs.isDefined()){
-			Coords centerCoords = center.getInhomCoordsInD(3);
-			Coords startCoords =  startPoint.getInhomCoordsInD(3);
+			Coords centerCoords = center.getInhomCoordsInD3();
+			Coords startCoords =  startPoint.getInhomCoordsInD3();
 			Coords v1 = startCoords.sub(centerCoords);
-			Coords v2 = endPoint.getInhomCoordsInD(3).sub(centerCoords);
+			Coords v2 = endPoint.getInhomCoordsInD3().sub(centerCoords);
 			if (Kernel.isGreater(0, v1.dotproduct(v2))){
 				semiCircle(centerCoords, v1);
 				return;
@@ -204,11 +204,11 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		}
 		
 		// the temp points P and Q should lie on the conic
-		Coords p2d = startPoint.getInhomCoordsInD(3).projectPlane(cs.getMatrixOrthonormal())[1];
+		Coords p2d = startPoint.getInhomCoordsInD3().projectPlane(cs.getMatrixOrthonormal())[1];
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramP);
 
-		p2d = endPoint.getInhomCoordsInD(3).projectPlane(cs.getMatrixOrthonormal())[1];
+		p2d = endPoint.getInhomCoordsInD3().projectPlane(cs.getMatrixOrthonormal())[1];
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramQ);
 

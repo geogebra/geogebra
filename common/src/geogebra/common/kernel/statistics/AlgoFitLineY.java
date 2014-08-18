@@ -98,7 +98,7 @@ public class AlgoFitLineY extends AlgoElement {
 				double x;
 				double y;
 				if (geo.isGeoElement3D()){
-					Coords coords = ((GeoPointND) geo).getInhomCoordsInD(3);
+					Coords coords = ((GeoPointND) geo).getInhomCoordsInD3();
 					if (!Kernel.isZero(coords.getZ())){
 						g.setUndefined();
 						return;

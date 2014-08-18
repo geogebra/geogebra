@@ -122,7 +122,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
 						// euclidianView.toScreenCoordY(startPoint.inhomY));
 						// t.setAbsoluteScreenLocActive(true);
-						Coords coords = startPoint.getInhomCoordsInD(3);
+						Coords coords = startPoint.getInhomCoordsInD3();
 						t.setRealWorldLoc(coords.getX(), coords.getY());
 						t.setAbsoluteScreenLocActive(false);
 					}

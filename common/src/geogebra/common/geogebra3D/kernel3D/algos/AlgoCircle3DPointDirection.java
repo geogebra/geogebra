@@ -102,7 +102,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 
     	coordsys.resetCoordSys();
 		
-    	coordsys.addPoint(point.getInhomCoordsInD(3));
+    	coordsys.addPoint(point.getInhomCoordsInD3());
     	Coords[] v = ((GeoDirectionND) forAxis).getDirectionInD3().completeOrthonormal();
 		coordsys.addVector(v[0]);
 		coordsys.addVector(v[1]);

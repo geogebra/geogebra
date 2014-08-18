@@ -64,7 +64,7 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 
     @Override
 	protected Coords getPoint(){
-    	return point.getInhomCoordsInD(3);
+    	return point.getInhomCoordsInD3();
     }
     
     /**

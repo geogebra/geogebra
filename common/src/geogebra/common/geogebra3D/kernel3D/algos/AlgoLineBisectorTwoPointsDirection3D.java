@@ -74,8 +74,8 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 			return;
 		}
 		
-		Coords ca = a.getInhomCoordsInD(3);
-		Coords cb = b.getInhomCoordsInD(3);
+		Coords ca = a.getInhomCoordsInD3();
+		Coords cb = b.getInhomCoordsInD3();
 		Coords d1 = cb.sub(ca);
 		
 		Coords d = d1.crossProduct(direction.getDirectionInD3());

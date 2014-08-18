@@ -169,7 +169,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	@Override
 	public double distance(GeoPointND P) {
-		return getInhomCoordsInD(3).distance(P.getInhomCoordsInD(3));
+		return getInhomCoordsInD3().distance(P.getInhomCoordsInD3());
 	}
 
 
@@ -236,7 +236,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 
 	public void setCoordsFromPoint(GeoPointND point){
-		setCoords(point.getInhomCoordsInD(3));
+		setCoords(point.getInhomCoordsInD3());
 	}
 
 	@Override
@@ -758,12 +758,12 @@ Traceable, MirrorableAtPlane, Dilateable{
 		StringBuilder sbToString = getSbBuildValueString();
 
 		//boolean isVisibleInView2D = false;
-		Coords p = getInhomCoordsInD(3);
+		Coords p = getInhomCoordsInD3();
 
 		/*
 		if (getViewForValueString() instanceof EuclidianViewD) {
 			Coords p2D = ((EuclidianView) getViewForValueString())
-					.getCoordsForView(getInhomCoordsInD(3));
+					.getCoordsForView(getInhomCoordsInD3());
 			if (Kernel.isZero(p2D.getZ())) {
 				isVisibleInView2D = true;
 				p = p2D;
@@ -808,7 +808,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		// both finite
 		if (isFinite() && P.isFinite()) {
 			Coords c1 = getInhomCoords();
-			Coords c2 = P.getInhomCoordsInD(3);
+			Coords c2 = P.getInhomCoordsInD3();
 			return Kernel.isEqual(c1.getX(), c2.getX())
 					&& Kernel.isEqual(c1.getY(), c2.getY())
 					&& Kernel.isEqual(c1.getZ(), c2.getZ());
@@ -1013,7 +1013,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	@Override
 	public Coords getLabelPosition() {
 		// Application.debug(inhom.toString());
-		return getInhomCoordsInD(3);
+		return getInhomCoordsInD3();
 	}
 
 	// ///////////////////////////////////////
@@ -1273,7 +1273,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
 
-		Coords o1 = S.getInhomCoordsInD(3);
+		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
 
 
@@ -1299,7 +1299,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 			return;
 		}
 
-		Coords point = getInhomCoordsInD(3);
+		Coords point = getInhomCoordsInD3();
 		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
 
 		Coords v1 = point.sub(o);
@@ -1463,7 +1463,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 
-		Coords point = getInhomCoordsInD(3);
+		Coords point = getInhomCoordsInD3();
 		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
 
 		//mirror at projected point
@@ -1474,7 +1474,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	public void mirror(GeoPlane3D plane) {
 
-		Coords p = getInhomCoordsInD(3).projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
+		Coords p = getInhomCoordsInD3().projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
 		mirror(p);
 
 	}

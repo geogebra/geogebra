@@ -97,7 +97,7 @@ public class AlgoMirror3D extends AlgoMirror {
 	
     @Override
 	protected Coords getMirrorCoords(){
-    	return mirrorPoint.getInhomCoordsInD(3);
+    	return mirrorPoint.getInhomCoordsInD3();
     }
 
 }

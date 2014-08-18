@@ -72,7 +72,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 
 	@Override
 	public Coords getCoordsForView(GeoPointND point) {
-		return view.getCoordsForView(point.getInhomCoordsInD(3));
+		return view.getCoordsForView(point.getInhomCoordsInD3());
 	}
 	
 

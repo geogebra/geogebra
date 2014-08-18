@@ -1123,7 +1123,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		double px, py, pz;
 
 		if (PI.isGeoElement3D()){
-			Coords coords = PI.getInhomCoordsInD(3);
+			Coords coords = PI.getInhomCoordsInD3();
 			if (!Kernel.isZero(coords.getZ())){
 				return false;
 			}

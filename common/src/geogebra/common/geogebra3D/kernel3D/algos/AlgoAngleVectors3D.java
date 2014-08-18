@@ -82,7 +82,7 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND{
     	if (centerIsNotDrawable(start)){ 
     		o = Coords.UNDEFINED; 
     	}else{
-    		o = start.getInhomCoordsInD(3);
+    		o = start.getInhomCoordsInD3();
     	}
 
     }

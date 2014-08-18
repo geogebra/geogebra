@@ -249,7 +249,7 @@ Traceable{
 	 */
 	public void setSphereND(GeoPointND M, double r) {
 		defined = ((GeoElement) M).isDefined() && !M.isInfinite(); // check midpoint
-		setSphereND(M.getInhomCoordsInD(3), r);
+		setSphereND(M.getInhomCoordsInD3(), r);
 	}
 	
 	/**

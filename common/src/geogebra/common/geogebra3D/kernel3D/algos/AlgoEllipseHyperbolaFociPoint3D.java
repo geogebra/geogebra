@@ -84,9 +84,9 @@ public class AlgoEllipseHyperbolaFociPoint3D extends AlgoEllipseHyperbolaFociPoi
     	CoordSys cs = conic.getCoordSys();
     	cs.resetCoordSys();
     	
-    	Coords Ac = A.getInhomCoordsInD(3);
-    	Coords Bc = B.getInhomCoordsInD(3);
-    	Coords Cc = C.getInhomCoordsInD(3);
+    	Coords Ac = A.getInhomCoordsInD3();
+    	Coords Bc = B.getInhomCoordsInD3();
+    	Coords Cc = C.getInhomCoordsInD3();
     	
        	
        	if (!setCoordSys(cs, Ac, Bc, Cc)){

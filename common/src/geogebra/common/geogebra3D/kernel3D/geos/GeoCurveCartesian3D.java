@@ -255,7 +255,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	public void rotate(NumberValue r, GeoPointND S) {
 
-		transform(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD(3)));
+		transform(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3()));
 		
 	}
 
@@ -267,7 +267,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 		
-		transform(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD(3)));
+		transform(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD3()));
 	}
 	
 	private void transform(CoordMatrix4x4 m) {
@@ -370,7 +370,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		// get closest parameter position on curve
 		PathParameter pp = PI.getPathParameter();
 		double t = getClosestParameter(PI, pp.t);
-		Coords coords = PI.getInhomCoordsInD(3);
+		Coords coords = PI.getInhomCoordsInD3();
 		boolean onPath = Math.abs(fun[0].evaluate(t) - coords.getX()) <= eps
 				&& Math.abs(fun[1].evaluate(t) - coords.getY()) <= eps
 				&& Math.abs(fun[2].evaluate(t) - coords.getZ()) <= eps;
@@ -541,14 +541,14 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 				if (p3D.getWillingCoords() != null){
 					distCoords = p3D.getWillingCoords();
 				}else{
-					distCoords = p3D.getInhomCoordsInD(3);
+					distCoords = p3D.getInhomCoordsInD3();
 				}
 				
 				distDirection = p3D.getWillingDirection(); //maybe null
 				
 				
 			}else{
-				distCoords = p.getInhomCoordsInD(3);
+				distCoords = p.getInhomCoordsInD3();
 				distDirection = null;
 			}
 		}

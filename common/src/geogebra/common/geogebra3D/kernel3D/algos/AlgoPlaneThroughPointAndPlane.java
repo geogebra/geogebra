@@ -62,7 +62,7 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
     	if (!cs.toGeoElement().isDefined())
     		return;
 		
-    	Coords o = getPoint().getInhomCoordsInD(3);
+    	Coords o = getPoint().getInhomCoordsInD3();
     	coordsys.addPoint(o);
 
     	CoordSys inputCS = cs.getCoordSys();

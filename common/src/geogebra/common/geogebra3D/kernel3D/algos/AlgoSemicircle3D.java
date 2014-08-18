@@ -137,7 +137,7 @@ public class AlgoSemicircle3D extends AlgoElement {
     		return;
     	}
     	
-		Coords p2d = B.getInhomCoordsInD(3).projectPlane(conic.getCoordSys().getMatrixOrthonormal())[1];
+		Coords p2d = B.getInhomCoordsInD3().projectPlane(conic.getCoordSys().getMatrixOrthonormal())[1];
 		p2d.setZ(1);
 		conic.pointChanged(p2d, param);
 

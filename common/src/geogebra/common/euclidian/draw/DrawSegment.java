@@ -421,7 +421,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		if (isVisible) {
 
 			// start point
-			coordsA = view.getCoordsForView(points.get(0).getInhomCoordsInD(3))
+			coordsA = view.getCoordsForView(points.get(0).getInhomCoordsInD3())
 					.get();
 			// coordsA = points.get(0).getInhomCoordsInD(2).get();
 			view.toScreenCoords(coordsA);

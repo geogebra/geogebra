@@ -323,7 +323,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	@Override
 	public void setSphereND(GeoPointND M, GeoPointND P) {
 		// TODO do this in GeoQuadricND, implement degenerate cases
-		setSphereNDMatrix(M.getInhomCoordsInD(3), M.distance(P));
+		setSphereNDMatrix(M.getInhomCoordsInD3(), M.distance(P));
 	}
 
 	// //////////////////////////////
@@ -349,7 +349,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			defined = false;// TODO if s=0 then draws a line
 		else {
 			r = s / c;
-			setCone(origin.getInhomCoordsInD(3), direction.getCoordsInD(3), r);
+			setCone(origin.getInhomCoordsInD3(), direction.getCoordsInD(3), r);
 		}
 
 	}
@@ -408,7 +408,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		}
 
 		if (defined) {
-			setCylinder(origin.getInhomCoordsInD(3), direction, r);
+			setCylinder(origin.getInhomCoordsInD3(), direction, r);
 		}
 
 	}
@@ -967,7 +967,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	public void rotate(NumberValue r, GeoPointND S) {
 			
-		rotate(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD(3)));		
+		rotate(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3()));		
 	}
 
 	public void rotate(NumberValue r) {
@@ -996,7 +996,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 		
-		rotate(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD(3)));	
+		rotate(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD3()));	
 	}
 
 	public void rotate(NumberValue r, GeoLineND line) {

@@ -142,7 +142,7 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 			return false;
 		}			
 			
-		drawCoords[0] = vertex.getInhomCoordsInD(3);
+		drawCoords[0] = vertex.getInhomCoordsInD3();
 		drawCoords[1] = v.getCoordsInD(3);
 		drawCoords[2] = w.getCoordsInD(3);
 		

@@ -113,8 +113,8 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 		CoordSys cs = conic.getCoordSys();
 		cs.resetCoordSys();
 
-		Coords Ac = A.getInhomCoordsInD(3);
-		Coords Bc = B.getInhomCoordsInD(3);
+		Coords Ac = A.getInhomCoordsInD3();
+		Coords Bc = B.getInhomCoordsInD3();
 
 		Coords d1 = Bc.sub(Ac);
 

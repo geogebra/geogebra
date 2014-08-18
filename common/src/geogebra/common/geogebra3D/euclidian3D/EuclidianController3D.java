@@ -221,7 +221,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setMovedGeoPoint(GeoElement geo) {
 
 		movedGeoPoint = (GeoPointND) geo;
-		Coords coords = movedGeoPoint.getInhomCoordsInD(3);
+		Coords coords = movedGeoPoint.getInhomCoordsInD3();
 
 		// sets the min/max values
 		double size = movedGeoPoint.getPointSize()

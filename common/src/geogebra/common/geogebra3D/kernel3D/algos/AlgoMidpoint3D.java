@@ -87,7 +87,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
     @Override
 	protected void computeMidCoords(){
         
-    	getPoint().setCoords(getP().getInhomCoordsInD(3).add(getQ().getInhomCoordsInD(3)).mul(0.5));
+    	getPoint().setCoords(getP().getInhomCoordsInD3().add(getQ().getInhomCoordsInD3()).mul(0.5));
     }
 
 	// TODO Consider locusequability

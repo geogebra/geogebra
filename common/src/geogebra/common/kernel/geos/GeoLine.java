@@ -1383,14 +1383,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	public Coords getStartInhomCoords() {
 		if (startPoint != null && startPoint.isFinite()) {
-			return startPoint.getInhomCoordsInD(3);
+			return startPoint.getInhomCoordsInD3();
 		}
 		return getStartCoordsInD(3);
 	}
 
 	public Coords getEndInhomCoords() {
 		if (getEndPoint() != null) {
-			return getEndPoint().getInhomCoordsInD(3);
+			return getEndPoint().getInhomCoordsInD3();
 		}
 		return getPointInD(3, 1).getInhomCoordsInSameDimension();
 	}

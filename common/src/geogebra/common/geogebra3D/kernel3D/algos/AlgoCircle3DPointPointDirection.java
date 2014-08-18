@@ -61,7 +61,7 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
 	protected final double getRadius() {
     	
     	GeoPointND pointThrough = (GeoPointND) getSecondInput();
-    	Coords radius = pointThrough.getInhomCoordsInD(3).sub(getCenter().getInhomCoordsInD(3));
+    	Coords radius = pointThrough.getInhomCoordsInD3().sub(getCenter().getInhomCoordsInD3());
     	
     	
     	//check if direction is compatible (orthogonal) to center-second point

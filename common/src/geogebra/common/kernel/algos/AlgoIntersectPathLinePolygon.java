@@ -279,7 +279,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			GeoPointND geoPoint = p.getPointsND()[i];
 			//check if the point is defined (e.g. for regular polygons)
 			if (geoPoint.isDefined()){
-				Coords point = geoPoint.getInhomCoordsInD(3);
+				Coords point = geoPoint.getInhomCoordsInD3();
 
 				Coords[] project = point.projectLine(o1, d1);
 

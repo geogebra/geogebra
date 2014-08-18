@@ -878,7 +878,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		}
 		
 		double t = getClosestParameter(p, 0);
-		Coords coords = p.getInhomCoordsInD(3);
+		Coords coords = p.getInhomCoordsInD3();
 		return MyMath.length(getFun(0).evaluate(t) - coords.getX(),
 				getFun(1).evaluate(t) - coords.getY(), coords.getZ());
 	}

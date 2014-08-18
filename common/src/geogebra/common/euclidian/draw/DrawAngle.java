@@ -140,7 +140,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @return coords of the point in view 
 	 */
 	final public Coords getCoordsInView(GeoPointND p){
-		return getCoordsInView(p.getInhomCoordsInD(3));
+		return getCoordsInView(p.getInhomCoordsInD3());
 	}
 	
 	/**
@@ -678,7 +678,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		for (int i = 0; i < prevPoints.size(); i++) {
 			Coords p = view.getCoordsForView(prevPoints.get(i)
-					.getInhomCoordsInD(3));
+					.getInhomCoordsInD3());
 			previewTempPoints[i].setCoords(p, true);
 		}
 		previewTempPoints[0].updateCascade();

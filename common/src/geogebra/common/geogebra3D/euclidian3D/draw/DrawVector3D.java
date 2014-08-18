@@ -84,7 +84,7 @@ public class DrawVector3D extends DrawJoinPoints {
 	@Override
 	protected void setPreviewableCoords(GeoPointND firstPoint, GeoPointND secondPoint){
 		((GeoVector3D) getGeoElement()).setCoords(
-				secondPoint.getInhomCoordsInD(3).sub(firstPoint.getInhomCoordsInD(3)).get());
+				secondPoint.getInhomCoordsInD3().sub(firstPoint.getInhomCoordsInD3()).get());
 		try {
 			((GeoVector3D) getGeoElement()).setStartPoint(firstPoint);
 		} catch (CircularDefinitionException e) {
@@ -104,7 +104,7 @@ public class DrawVector3D extends DrawJoinPoints {
 			p1 = new Coords(4);
 			p1.setW(1);
 		}else
-			p1 = geo.getStartPoint().getInhomCoordsInD(3);
+			p1 = geo.getStartPoint().getInhomCoordsInD3();
 		Coords p2 = p1.add(geo.getCoordsInD(3));
 		
 		return new Coords[] {p1, p2};

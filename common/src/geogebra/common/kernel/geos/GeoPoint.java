@@ -929,7 +929,7 @@ SymbolicParametersBotanaAlgo {
 	@Override
 	public double distance(GeoPointND P) {
 		// TODO dimension ?
-		return getInhomCoordsInD(3).distance(P.getInhomCoordsInD(3));
+		return getInhomCoordsInD3().distance(P.getInhomCoordsInD3());
 	}
 
 	// euclidian distance between this GeoPoint and P
@@ -1783,9 +1783,9 @@ SymbolicParametersBotanaAlgo {
 	@Override
 	public Coords getLabelPosition() {
 		/*
-		 * Coords v = new Coords(4); v.set(getInhomCoordsInD(3)); v.setW(1);
+		 * Coords v = new Coords(4); v.set(getInhomCoordsInD3()); v.setW(1);
 		 */
-		return getInhomCoordsInD(3);
+		return getInhomCoordsInD3();
 	}
 
 	public void pointChanged(GeoPointND p) {

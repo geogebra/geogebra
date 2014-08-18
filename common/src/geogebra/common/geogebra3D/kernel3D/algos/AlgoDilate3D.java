@@ -61,7 +61,7 @@ public class AlgoDilate3D extends AlgoDilate {
 	
     @Override
 	protected Coords getPointCoords(){
-    	return S.getInhomCoordsInD(3);
+    	return S.getInhomCoordsInD3();
     }
 
 }

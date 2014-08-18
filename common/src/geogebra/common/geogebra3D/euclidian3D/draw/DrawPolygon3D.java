@@ -566,7 +566,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			}
 			hittingPointForOutline.setCoords(project[0]);
 			poly.pointChanged(hittingPointForOutline);
-			Coords p3d = hittingPointForOutline.getInhomCoordsInD(3);
+			Coords p3d = hittingPointForOutline.getInhomCoordsInD3();
 
 			if (hitting.isInsideClipping(p3d)){
 				project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line

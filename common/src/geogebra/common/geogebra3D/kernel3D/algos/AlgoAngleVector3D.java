@@ -51,7 +51,7 @@ public class AlgoAngleVector3D extends AlgoAngleElement3D{
 		if (centerIsNotDrawable(start)){ 
     		o = Coords.UNDEFINED; 
     	}else{
-    		o = start.getInhomCoordsInD(3);
+    		o = start.getInhomCoordsInD3();
     	}
 	}
 	

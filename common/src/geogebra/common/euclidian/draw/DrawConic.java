@@ -1610,7 +1610,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 			if (prevPoints.size() > 0) {
 				Coords p = view.getCoordsForView(prevPoints.get(0)
-						.getInhomCoordsInD(3));
+						.getInhomCoordsInD3());
 				// Application.debug("p["+i+"]=\n"+p);
 				previewTempPoints[0].setCoords(p.projectInfDim(), true);
 
@@ -1625,7 +1625,7 @@ public class DrawConic extends Drawable implements Previewable {
 			if (isVisible) {
 				for (int i = 0; i < prevPoints.size(); i++) {
 					Coords p = view.getCoordsForView(prevPoints.get(i)
-							.getInhomCoordsInD(3));
+							.getInhomCoordsInD3());
 					//App.debug("p["+i+"]=\n"+p);
 					previewTempPoints[i].setCoords(p.projectInfDim(), false);
 				}

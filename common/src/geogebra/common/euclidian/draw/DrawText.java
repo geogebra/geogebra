@@ -108,7 +108,7 @@ public final class DrawText extends Drawable {
 				}
 
 				// looks if it's on view
-				Coords p = view.getCoordsForView(loc.getInhomCoordsInD(3));
+				Coords p = view.getCoordsForView(loc.getInhomCoordsInD3());
 				if (!Kernel.isZero(p.getZ())) {
 					isVisible = false;
 					return;

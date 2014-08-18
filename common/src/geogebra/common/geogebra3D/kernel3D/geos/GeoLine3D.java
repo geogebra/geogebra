@@ -368,7 +368,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation) {
 		
-		Coords o1 = S.getInhomCoordsInD(3);
+		Coords o1 = S.getInhomCoordsInD3();
 		
 		Coords vn = orientation.getDirectionInD3();
 

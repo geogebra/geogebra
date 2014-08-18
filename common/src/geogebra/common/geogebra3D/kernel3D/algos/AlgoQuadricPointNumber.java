@@ -62,7 +62,7 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 		
 		//compute the quadric
 		getQuadric().setDefined();
-		getComputer().setQuadric(getQuadric(), origin.getInhomCoordsInD(3), d, r);
+		getComputer().setQuadric(getQuadric(), origin.getInhomCoordsInD3(), d, r);
 		
 	}
 	

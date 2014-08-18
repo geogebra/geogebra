@@ -94,7 +94,7 @@ public class DrawVector extends Drawable implements Previewable {
 		// start point in real world coords
 		P = v.getStartPoint();
 		if (P != null && !P.isInfinite()) {
-			coords = view.getCoordsForView(P.getInhomCoordsInD(3));// P.getCoordsInD(3);
+			coords = view.getCoordsForView(P.getInhomCoordsInD3());// P.getCoordsInD(3);
 			if (!Kernel.isZero(coords.getZ())) {
 				isVisible = false;
 				return;
@@ -296,7 +296,7 @@ public class DrawVector extends Drawable implements Previewable {
 			// start point
 			// GeoPoint P = (GeoPoint) points.get(0);
 			// P.getInhomCoords(coordsA);
-			coordsA = view.getCoordsForView(points.get(0).getInhomCoordsInD(3))
+			coordsA = view.getCoordsForView(points.get(0).getInhomCoordsInD3())
 					.get();
 			coordsB[0] = coordsA[0];
 			coordsB[1] = coordsA[1];
@@ -338,7 +338,7 @@ public class DrawVector extends Drawable implements Previewable {
 			// set start and end point in real world coords
 			// GeoPoint P = (GeoPoint) points.get(0);
 			// P.getInhomCoords(coordsA);
-			coordsA = view.getCoordsForView(points.get(0).getInhomCoordsInD(3))
+			coordsA = view.getCoordsForView(points.get(0).getInhomCoordsInD3())
 					.get();
 			coordsB[0] = xRW;
 			coordsB[1] = yRW;

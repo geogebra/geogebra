@@ -146,7 +146,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		GeoPolygon side0 = p.getFirstSideFace();
 		for (int i = 0 ; i < sz - 2 ; i++) {
 			wpoint3 = outputPointsTop.getElement(i);
-			cCoord = wpoint3.getInhomCoordsInD(3);
+			cCoord = wpoint3.getInhomCoordsInD3();
 			pp1 = cCoord.projectPlane(side0.getCoordSys().getMatrixOrthonormal())[0];
 			double dist =  pp1.distance(cCoord);
 			rotate(wpoint3, cCoord, pp1, o, vs, f, side0.getDirectionInD3(), dist, true);		
@@ -157,12 +157,12 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 			o = points[i/2];
 			vs = bottomSegsDirections[i/2];
 			wpoint1 = outputPointsSide.getElement(i);
-			cCoord = wpoint1.getInhomCoordsInD(3);
+			cCoord = wpoint1.getInhomCoordsInD3();
 			pp1 = cCoord.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
 			rotate(wpoint1, cCoord, pp1, o, vs, f, faceDirection, dd1, false);
 			// rotate wpoint2	
 			wpoint2 = outputPointsSide.getElement(i+1);
-			cCoord = wpoint2.getInhomCoordsInD(3);
+			cCoord = wpoint2.getInhomCoordsInD3();
 			pp1 = cCoord.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
 			rotate(wpoint2, cCoord, pp1, o, vs, f, faceDirection, dd1, false);
 

@@ -220,9 +220,9 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 		polyhedron.setDefined();
 		
-		Coords o = getA().getInhomCoordsInD(3);
+		Coords o = getA().getInhomCoordsInD3();
 		
-		Coords v1l = getB().getInhomCoordsInD(3).sub(o);
+		Coords v1l = getB().getInhomCoordsInD3().sub(o);
 		
 		//check if A!=B
 		if (v1l.equalsForKernel(0, Kernel.STANDARD_PRECISION)){

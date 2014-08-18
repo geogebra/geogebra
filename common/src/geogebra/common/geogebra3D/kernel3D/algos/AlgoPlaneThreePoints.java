@@ -63,9 +63,9 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 		//recompute the coord sys
 		coordsys.resetCoordSys();
 		
-		Coords cA = A.getInhomCoordsInD(3);
-		Coords cB = B.getInhomCoordsInD(3);
-		Coords cC = C.getInhomCoordsInD(3);
+		Coords cA = A.getInhomCoordsInD3();
+		Coords cB = B.getInhomCoordsInD3();
+		Coords cC = C.getInhomCoordsInD3();
 		coordsys.addPoint(cA);
 		coordsys.addPoint(cB);
 		coordsys.addPoint(cC);

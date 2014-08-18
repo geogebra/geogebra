@@ -111,7 +111,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		
 
 		for (int i = 0; i<p.getNumPoints()-1; i++)
-			brush.segment(p.getPointND(i).getInhomCoordsInD(3), p.getPointND(i+1).getInhomCoordsInD(3));
+			brush.segment(p.getPointND(i).getInhomCoordsInD3(), p.getPointND(i+1).getInhomCoordsInD3());
 		
 		setGeometryIndex(brush.end());
 		

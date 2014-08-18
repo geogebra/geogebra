@@ -49,7 +49,7 @@ public class CmdSetViewDirection extends CmdScripting {
 				GeoPointND p = (GeoPointND) arg[0];
 
 				if (p.isDefined()){
-					Coords v = p.getInhomCoordsInD(3);
+					Coords v = p.getInhomCoordsInD3();
 					v.setW(0);
 					EuclidianView3DInterface view3D = app.getEuclidianView3D();
 					view3D.setClosestRotAnimation(v);				

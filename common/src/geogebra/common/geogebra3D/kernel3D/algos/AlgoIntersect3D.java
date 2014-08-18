@@ -88,12 +88,12 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 	protected abstract GeoPoint3D[] getLastDefinedIntersectionPoints();
     
     int getClosestPointIndex(GeoPointND refPoint) {
-    	Coords refInhom = refPoint.getInhomCoordsInD(3);
+    	Coords refInhom = refPoint.getInhomCoordsInD3();
     	GeoPoint3D[] P = getIntersectionPoints();
         double x, y, z, lengthSqr, mindist = Double.POSITIVE_INFINITY;
         int minIndex = 0;
         for (int i = 0; i < P.length; i++) {
-        	Coords PInhom = P[i].getInhomCoordsInD(3);
+        	Coords PInhom = P[i].getInhomCoordsInD3();
         	
             x = (PInhom.getX() - refInhom.getX());
             y = (PInhom.getY() - refInhom.getY());

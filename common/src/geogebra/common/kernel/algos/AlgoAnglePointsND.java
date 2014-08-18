@@ -245,10 +245,10 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 	
 	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords){
-		Coords center = getB().getInhomCoordsInD(3);
+		Coords center = getB().getInhomCoordsInD3();
 		drawCoords[0] = center;
-		drawCoords[1] = getA().getInhomCoordsInD(3).sub(center);
-		drawCoords[2] = getC().getInhomCoordsInD(3).sub(center);
+		drawCoords[1] = getA().getInhomCoordsInD3().sub(center);
+		drawCoords[2] = getC().getInhomCoordsInD3().sub(center);
 		
 		return true;
 	}

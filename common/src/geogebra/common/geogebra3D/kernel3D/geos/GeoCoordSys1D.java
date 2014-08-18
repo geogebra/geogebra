@@ -129,12 +129,12 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 			if (O.isInfinite())
 				setUndefined(); //TODO infinite line
 			else
-				setCoord(O.getInhomCoordsInD(3),I.getCoordsInD(3));
+				setCoord(O.getInhomCoordsInD3(),I.getCoordsInD(3));
 		else
 			if (O.isInfinite())
-				setCoord(I.getInhomCoordsInD(3),O.getCoordsInD(3));
+				setCoord(I.getInhomCoordsInD3(),O.getCoordsInD(3));
 			else
-				setCoord(O.getInhomCoordsInD(3),I.getInhomCoordsInD(3).sub(O.getInhomCoordsInD(3)));
+				setCoord(O.getInhomCoordsInD3(),I.getInhomCoordsInD3().sub(O.getInhomCoordsInD3()));
 		
 	}
 	
@@ -310,11 +310,11 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		if(!done){
 			//project current point coordinates
 			//Application.debug("project current point coordinates");
-			Coords preDirection = P.getInhomCoordsInD(3).sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
+			Coords preDirection = P.getInhomCoordsInD3().sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
 			if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
 				preDirection = coordsys.getVy();
 		
-			Coords[] project = P.getInhomCoordsInD(3).projectOnLineWithDirection(
+			Coords[] project = P.getInhomCoordsInD3().projectOnLineWithDirection(
 					coordsys.getOrigin(),
 					coordsys.getVx(),
 					preDirection.crossProduct(coordsys.getVx()));
@@ -783,7 +783,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 
 	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation) {
 		
-		Coords o1 = S.getInhomCoordsInD(3);
+		Coords o1 = S.getInhomCoordsInD3();
 		
 		Coords vn = orientation.getDirectionInD3();
 

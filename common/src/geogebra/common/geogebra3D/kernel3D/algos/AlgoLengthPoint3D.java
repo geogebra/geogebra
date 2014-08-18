@@ -75,7 +75,7 @@ public class AlgoLengthPoint3D extends AlgoElement {
     // calc length of vector v   
     @Override
 	public final void compute() {
-    	Coords coords = p.getInhomCoordsInD(3);
+    	Coords coords = p.getInhomCoordsInD3();
         num.setValue(MyMath.length(coords.getX(), coords.getY(), coords.getZ()));
     }
 

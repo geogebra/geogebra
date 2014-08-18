@@ -354,10 +354,10 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 	 */
 	public void setSinglePoint(GeoPointND m){
 
-		//coordSys.setSimpleCoordSysWithOrigin(m.getInhomCoordsInD(3));
+		//coordSys.setSimpleCoordSysWithOrigin(m.getInhomCoordsInD3());
 
 		// set midpoint as projection of m on the current coord sys
-		setMidpoint(coordSys.getNormalProjection(m.getInhomCoordsInD(3))[1].get());
+		setMidpoint(coordSys.getNormalProjection(m.getInhomCoordsInD3())[1].get());
 
 		setSinglePointMatrix();
 
@@ -539,12 +539,12 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 	
 	@Override
 	final public void rotate(NumberValue phiVal, GeoPointND Q) {
-		coordSys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD(3));
+		coordSys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD3());
 	}
 
 	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
 		
-		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
+		rotate(phiVal, Q.getInhomCoordsInD3(), orientation.getDirectionInD3());
 		
 	}
 

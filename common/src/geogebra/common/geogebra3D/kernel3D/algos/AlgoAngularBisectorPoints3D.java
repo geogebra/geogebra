@@ -146,16 +146,16 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
         if (infiniteB) {
             // if B is at infinity then use it for direction
         	// and midpoint(A,B) for start point       	
-        	Coords o = A.getInhomCoordsInD(3).add(C.getInhomCoordsInD(3)).mul(0.5);
+        	Coords o = A.getInhomCoordsInD3().add(C.getInhomCoordsInD3()).mul(0.5);
             Coords d = B.getCoordsInD(3);
             bisector.setCoord(o, d);
         }
         // standard case: B is not at infinity            
         else {
-        	Coords o = B.getInhomCoordsInD(3);
-        	Coords v1 = A.getInhomCoordsInD(3).sub(o);
+        	Coords o = B.getInhomCoordsInD3();
+        	Coords v1 = A.getInhomCoordsInD3().sub(o);
         	v1.normalize();
-        	Coords v2 = C.getInhomCoordsInD(3).sub(o);
+        	Coords v2 = C.getInhomCoordsInD3().sub(o);
         	v2.normalize();
         	Coords d = v1.add(v2);
         	setCoordFromFiniteB(o, d, v1);

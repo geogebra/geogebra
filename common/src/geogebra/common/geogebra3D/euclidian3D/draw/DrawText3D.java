@@ -124,7 +124,7 @@ public class DrawText3D extends Drawable3DCurves {
 	    	return null;
 	    }
 	    
-	    return loc.getInhomCoordsInD(3);
+	    return loc.getInhomCoordsInD3();
 
     }
 	

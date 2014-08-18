@@ -92,7 +92,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public void updateStartPointPosition() {
 
 		if (startPoint != null)
-			matrix.set(startPoint.getInhomCoordsInD(3), 2);
+			matrix.set(startPoint.getInhomCoordsInD3(), 2);
 		else {
 			for (int i = 1; i < 4; i++)
 				matrix.set(i, 2, 0.0);
@@ -628,7 +628,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
 		
-		Coords o1 = S.getInhomCoordsInD(3);
+		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
 		
 		

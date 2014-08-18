@@ -122,7 +122,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			return view.getCoordsForView(poly.getPoint3D(i));
 		}
 		
-		return view.getCoordsForView(points.get(i).getInhomCoordsInD(3));
+		return view.getCoordsForView(points.get(i).getInhomCoordsInD3());
 	}
 
 	// return false if a point doesn't lie on the plane

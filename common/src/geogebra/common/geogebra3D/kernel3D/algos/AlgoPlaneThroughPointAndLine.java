@@ -60,7 +60,7 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 		//recompute the coord sys
     	coordsys.resetCoordSys();
 	
-		Coords cA = getPoint().getInhomCoordsInD(3);
+		Coords cA = getPoint().getInhomCoordsInD3();
 		Coords cB = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		Coords cC = line.getPointInD(3, 1).getInhomCoordsInSameDimension();
 

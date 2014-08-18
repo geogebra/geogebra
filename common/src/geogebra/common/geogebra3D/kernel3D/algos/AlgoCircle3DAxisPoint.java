@@ -69,7 +69,7 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
     @Override
 	public final void compute() {
     	
-    	Coords p = point.getInhomCoordsInD(3);
+    	Coords p = point.getInhomCoordsInD3();
     	Coords o = axis.getPointInD(3, 0).getInhomCoordsInSameDimension();
     	Coords d = axis.getDirectionInD3();
     	

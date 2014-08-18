@@ -73,7 +73,7 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 		if (direction.isZero())
 			line.setUndefined();
 		else
-			line.setCoord(point.getInhomCoordsInD(3), direction);
+			line.setCoord(point.getInhomCoordsInD3(), direction);
 		
 	}
 

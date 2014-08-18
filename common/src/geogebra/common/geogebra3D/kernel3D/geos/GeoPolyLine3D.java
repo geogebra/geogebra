@@ -303,10 +303,10 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		direction1 = direction2 = direction3 = null;
 
 		for (; index1 < getNumPoints() - 1; index1++) {
-			if (!points[index1].getInhomCoordsInD(3).equalsForKernel(
-					points[0].getInhomCoordsInD(3), Kernel.STANDARD_PRECISION)) {
-				direction1 = points[index1].getInhomCoordsInD(3).sub(
-						points[0].getInhomCoordsInD(3));
+			if (!points[index1].getInhomCoordsInD3().equalsForKernel(
+					points[0].getInhomCoordsInD3(), Kernel.STANDARD_PRECISION)) {
+				direction1 = points[index1].getInhomCoordsInD3().sub(
+						points[0].getInhomCoordsInD3());
 				break;
 			}
 		}
@@ -317,8 +317,8 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		}
 
 		for (index2 = index1 + 1; index2 < getNumPoints(); index2++) {
-			direction2 = points[index2].getInhomCoordsInD(3).sub(
-					points[index1].getInhomCoordsInD(3));
+			direction2 = points[index2].getInhomCoordsInD3().sub(
+					points[index1].getInhomCoordsInD3());
 			normal = direction1.crossProduct(direction2);
 			if (!normal.equalsForKernel(new Coords(0, 0, 0), Kernel.STANDARD_PRECISION)) {
 				break;
@@ -334,8 +334,8 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		}
 
 		if (index2 + 1 < getNumPoints()) {
-			direction3 = points[index2 + 1].getInhomCoordsInD(3).sub(
-					points[index2].getInhomCoordsInD(3));
+			direction3 = points[index2 + 1].getInhomCoordsInD3().sub(
+					points[index2].getInhomCoordsInD3());
 			if (!direction3.crossProduct(normal).equalsForKernel(
 					new Coords(0, 0, 0), Kernel.STANDARD_PRECISION)) {
 				isPlanar = false;

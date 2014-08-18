@@ -91,7 +91,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
     		return true;
     	}
 
-    	coords2D = c.getCoordSys().getNormalProjection(P.getInhomCoordsInD(3))[1];
+    	coords2D = c.getCoordSys().getNormalProjection(P.getInhomCoordsInD3())[1];
 		if (!Kernel.isZero(coords2D.getZ())){
 			return true;
 		}
@@ -157,7 +157,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
      * @param algoIntersect algo used
      */
     public static final void initForNearToRelationship(GeoPointND[] tangentPoints, GeoLineND tangent, AlgoIntersectND algoIntersect) {
-    	Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD(3);
+    	Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD3();
 
     	if (!((GeoLine3D) tangent).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
     		algoIntersect.initForNearToRelationship();

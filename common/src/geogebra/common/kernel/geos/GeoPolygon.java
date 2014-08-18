@@ -1525,9 +1525,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @return the i-th point
 	 */
 	public Coords getPoint3D(int i) {
-		return getPoint(i).getInhomCoordsInD(3);
+		return getPoint(i).getInhomCoordsInD3();
 		/*
-		 * Coords v = new Coords(4); v.set(getPoint(i).getInhomCoordsInD(3));
+		 * Coords v = new Coords(4); v.set(getPoint(i).getInhomCoordsInD3());
 		 * v.setW(1); return v;
 		 */
 	}

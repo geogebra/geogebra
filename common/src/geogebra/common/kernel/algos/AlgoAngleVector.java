@@ -69,7 +69,7 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 			if (centerIsNotDrawable(vertex)){
 				return false;
 			}
-			drawCoords[0] = vertex.getInhomCoordsInD(3);
+			drawCoords[0] = vertex.getInhomCoordsInD3();
 			drawCoords[2] = ((GeoVector)vec).getCoordsInD(3);
 		}else{
 			drawCoords[0] = Coords.O;

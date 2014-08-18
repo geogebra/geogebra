@@ -593,7 +593,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
             point = pa.getA();
             vertex.getInhomCoords(m);
             // first vec
-            Coords coords = point.getInhomCoordsInD(3);
+            Coords coords = point.getInhomCoordsInD3();
             firstVec[0] = coords.getX() - m[0];
             firstVec[1] = coords.getY() - m[1];
         } 

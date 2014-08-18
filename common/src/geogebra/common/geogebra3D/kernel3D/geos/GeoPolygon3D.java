@@ -336,7 +336,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 				return false;
 			}
 			
-			Coords p = points[i].getInhomCoordsInD(3);
+			Coords p = points[i].getInhomCoordsInD3();
 			
 			// check if the vertex lies on the coord sys
 			if (!Kernel.isZero(vn.dotproduct(p.sub(o)))) {
@@ -379,7 +379,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 				return false;
 			}
 
-			coordSys.addPoint(points[i].getInhomCoordsInD(3));
+			coordSys.addPoint(points[i].getInhomCoordsInD3());
 		}
 
 		if(coordSys.getMadeCoordSys()!=2){
@@ -729,7 +729,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
-		getCoordSys().rotate(r.getDouble(), S.getInhomCoordsInD(3));
+		getCoordSys().rotate(r.getDouble(), S.getInhomCoordsInD3());
 		
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++){
@@ -745,7 +745,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
 
-		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
+		rotate(phiVal, Q.getInhomCoordsInD3(), orientation.getDirectionInD3());
 		
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++){

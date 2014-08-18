@@ -75,7 +75,7 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
     	
-    	Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD(3);
+    	Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD3();
     	
     	if (!((GeoLine3D) tangents[0]).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
         	algoIntersect.initForNearToRelationship();
@@ -118,6 +118,6 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 
     @Override
     protected void updateTangent(int index){       
-    	((GeoLine3D) tangents[index]).setCoord(tangentPoints[i].getInhomCoordsInD(3), direction3D);
+    	((GeoLine3D) tangents[index]).setCoord(tangentPoints[i].getInhomCoordsInD3(), direction3D);
     }
 }

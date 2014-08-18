@@ -104,14 +104,14 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	
 	@Override
 	protected boolean isFarAway(GeoPointND point, int i){
-		Coords coords = point.getInhomCoordsInD(3);
+		Coords coords = point.getInhomCoordsInD3();
 		return isFarAway(coords.getX(), coords.getY(), coords.getZ(), i);
 	}
 
 	@Override
 	protected boolean distanceOK(GeoPointND point, GRectangle2D rectangle){
 		
-		Coords coords = point.getInhomCoordsInD(3);
+		Coords coords = point.getInhomCoordsInD3();
 		
 		// if last point Q' was far away and Q is far away
 		// then the distance is probably OK (return true),
@@ -145,7 +145,7 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	@Override
 	protected boolean distanceSmall(GeoPointND point, boolean orInsteadOfAnd) {
 		
-		Coords coords = point.getInhomCoordsInD(3);
+		Coords coords = point.getInhomCoordsInD3();
 
 		boolean[] distSmall = new boolean[3];
 		for (int i = 0 ; i < distSmall.length ; i++){
@@ -174,7 +174,7 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
 	@Override
 	protected void insertPoint(GeoPointND point, boolean lineTo){
-		Coords coords = point.getInhomCoordsInD(3);
+		Coords coords = point.getInhomCoordsInD3();
 		insertPoint(coords.getX(), coords.getY(), coords.getZ(), lineTo);
 	}
 	
@@ -207,7 +207,7 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	
 	@Override
 	protected boolean differentFromLast(GeoPointND point){
-		Coords coords = point.getInhomCoordsInD(3);
+		Coords coords = point.getInhomCoordsInD3();
 		return coords.getX() != lastX
 				|| coords.getY() != lastY
 				|| coords.getZ() != lastZ;
@@ -225,7 +225,7 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
 	@Override
 	protected void setQCopyCache(MyPoint3D copy, GeoPointND point){
-		Coords coords = point.getInhomCoordsInD(3);
+		Coords coords = point.getInhomCoordsInD3();
 		copy.setX(coords.getX());
 		copy.setY(coords.getY());
 		copy.setZ(coords.getZ());

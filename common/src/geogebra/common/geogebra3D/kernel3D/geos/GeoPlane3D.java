@@ -129,7 +129,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	public boolean isInRegion(GeoPointND P) {
-		Coords planeCoords = getNormalProjection(P.getInhomCoordsInD(3))[1];
+		Coords planeCoords = getNormalProjection(P.getInhomCoordsInD3())[1];
 		// Application.debug(P.getLabel()+":\n"+planeCoords);
 		return Kernel.isEqual(planeCoords.get(3), 0, Kernel.STANDARD_PRECISION);
 	}
@@ -602,7 +602,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	final public void rotate(NumberValue phiVal, GeoPointND Q) {
-		coordsys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD(3));
+		coordsys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD3());
 		coordsys.makeEquationVector();
 	}
 	
@@ -613,7 +613,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
 		
-		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
+		rotate(phiVal, Q.getInhomCoordsInD3(), orientation.getDirectionInD3());
 		
 	}
 

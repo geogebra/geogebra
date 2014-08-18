@@ -292,7 +292,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		//Application.printStacktrace("");
 		
 		if (height==null)
-			uptranslation = getTopPoint().getInhomCoordsInD(3).sub(getBottomPoints()[0].getInhomCoordsInD(3));
+			uptranslation = getTopPoint().getInhomCoordsInD3().sub(getBottomPoints()[0].getInhomCoordsInD3());
 		else
 			uptranslation=bottom.getMainDirection().normalized().mul(height.getDouble());		
 
@@ -302,7 +302,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		//translation from bottom to top
 		if (bottomPoints != null){
 			for (int i=0;i<outputPoints.size() && i+getShift()<bottomPoints.length;i++)
-				outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD(3).add(uptranslation),true);
+				outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD3().add(uptranslation),true);
 		}
 
 		

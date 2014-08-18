@@ -438,7 +438,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			Vertices vertices = new Vertices();
 			
 			for (GeoPointND point : points){
-				vertices.add(point.getInhomCoordsInD(3));
+				vertices.add(point.getInhomCoordsInD3());
 			}
 			
 			vertices.setDirection();
@@ -461,8 +461,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				p2 = points[(i+1)%(points.length)];
 				
 				segmentCoords.add(new Segment(
-						new CoordsWithParent((double) i, p1.getInhomCoordsInD(3), p1), 
-						new CoordsWithParent((double) i+1, p2.getInhomCoordsInD(3), p2)));
+						new CoordsWithParent((double) i, p1.getInhomCoordsInD3(), p1), 
+						new CoordsWithParent((double) i+1, p2.getInhomCoordsInD3(), p2)));
 				
 				newCoordsList.put(p, segmentCoords);
 				//App.debug("\npoly (included):"+p+"\nsegmentCoords.size():"+segmentCoords.size());

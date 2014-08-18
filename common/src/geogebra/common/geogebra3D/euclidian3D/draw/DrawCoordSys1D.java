@@ -58,7 +58,7 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 	
 	@Override
 	protected void setPreviewableCoords(GeoPointND firstPoint, GeoPointND secondPoint){
-		((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(firstPoint.getInhomCoordsInD(3), secondPoint.getInhomCoordsInD(3));
+		((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(firstPoint.getInhomCoordsInD3(), secondPoint.getInhomCoordsInD3());
 	}
 
 	

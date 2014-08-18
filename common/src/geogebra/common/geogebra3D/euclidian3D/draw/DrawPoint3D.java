@@ -85,7 +85,7 @@ implements Previewable, Functional2Var{
 		
 	
 		GeoPointND point = (GeoPointND) getGeoElement(); 
-		center.setValues(point.getInhomCoordsInD(3), 3);
+		center.setValues(point.getInhomCoordsInD3(), 3);
 		center.setW(point.getPointSize()); // put point size in fourth unused coord
 		setGeometryIndex(
 				getView3D().getRenderer().getGeometryManager().
@@ -190,7 +190,7 @@ implements Previewable, Functional2Var{
 				Math.sin(u)*Math.cos(v)*r,
 				Math.sin(v)*r});
 		
-		return (Coords) n.add(point.getInhomCoordsInD(3));
+		return (Coords) n.add(point.getInhomCoordsInD3());
 	}
 
 
@@ -261,7 +261,7 @@ implements Previewable, Functional2Var{
 	public boolean hit(Hitting hitting){
 		
 		GeoPointND point = (GeoPointND) getGeoElement();
-		Coords p = point.getInhomCoordsInD(3);		
+		Coords p = point.getInhomCoordsInD3();		
 		return DrawPoint3D.hit(hitting, p, this, point.getPointSize());
 		
 	}

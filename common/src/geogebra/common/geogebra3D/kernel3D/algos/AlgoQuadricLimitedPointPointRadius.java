@@ -90,8 +90,8 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 			return;
 		}
 		
-		Coords o = origin.getInhomCoordsInD(3);
-		Coords o2 = secondPoint.getInhomCoordsInD(3);
+		Coords o = origin.getInhomCoordsInD3();
+		Coords o2 = secondPoint.getInhomCoordsInD3();
 		Coords d = o2.sub(o);
 		
 		if (d.equalsForKernel(0, Kernel.STANDARD_PRECISION)){

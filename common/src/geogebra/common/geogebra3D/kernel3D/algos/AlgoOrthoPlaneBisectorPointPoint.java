@@ -55,12 +55,12 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 
     @Override
 	protected Coords getNormal(){
-    	return point2.getInhomCoordsInD(3).sub(point1.getInhomCoordsInD(3));
+    	return point2.getInhomCoordsInD3().sub(point1.getInhomCoordsInD3());
     }
 
     @Override
 	protected Coords getPoint(){
-    	return point1.getInhomCoordsInD(3).add(point2.getInhomCoordsInD(3)).mul(0.5);
+    	return point1.getInhomCoordsInD3().add(point2.getInhomCoordsInD3()).mul(0.5);
     }
 
 	// TODO Consider locusequability

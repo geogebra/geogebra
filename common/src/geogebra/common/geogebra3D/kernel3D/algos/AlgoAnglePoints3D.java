@@ -60,9 +60,9 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND{
 	
     @Override
 	public void compute() {
-    	center = getB().getInhomCoordsInD(3);
-    	v1 = getA().getInhomCoordsInD(3).sub(center);
-    	v2 = getC().getInhomCoordsInD(3).sub(center);
+    	center = getB().getInhomCoordsInD3();
+    	v1 = getA().getInhomCoordsInD3().sub(center);
+    	v2 = getC().getInhomCoordsInD3().sub(center);
     	
     	v1.calcNorm();
     	double l1 = v1.getNorm();

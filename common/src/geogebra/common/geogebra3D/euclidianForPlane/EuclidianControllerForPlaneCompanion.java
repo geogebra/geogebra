@@ -104,7 +104,7 @@ public class EuclidianControllerForPlaneCompanion extends EuclidianControllerFor
 	
 	@Override
 	protected void processModeLock(GeoPointND point){
-		Coords coords = ec.view.getCoordsForView(point.getInhomCoordsInD(3));
+		Coords coords = ec.view.getCoordsForView(point.getInhomCoordsInD3());
 		ec.xRW = coords.getX();
 		ec.yRW = coords.getY();
 	}
@@ -113,7 +113,7 @@ public class EuclidianControllerForPlaneCompanion extends EuclidianControllerFor
 	protected void processModeLock(Path path){
 		GeoPointND p = createNewPoint(true, path, false);
 		((GeoElement) p).update();
-		Coords coords = ec.view.getCoordsForView(p.getInhomCoordsInD(3));
+		Coords coords = ec.view.getCoordsForView(p.getInhomCoordsInD3());
 		ec.xRW = coords.getX();
 		ec.yRW = coords.getY();
 	}

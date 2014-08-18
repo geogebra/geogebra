@@ -374,7 +374,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		if(height!=null){
 			h = height.getDouble();
 		}else{
-			h = getTopPoint().getInhomCoordsInD(3).distPlaneOriented(getBottomPoints()[0].getInhomCoordsInD(3),getBottom().getDirectionInD3());
+			h = getTopPoint().getInhomCoordsInD3().distPlaneOriented(getBottomPoints()[0].getInhomCoordsInD3(),getBottom().getDirectionInD3());
 		}
 		updateVolume(Math.abs(h));
 		polyhedron.setOrientedHeight(h);
@@ -509,7 +509,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			
 		
 		for (int i=0; i<points.length; i++)
-			ret = ret.add(points[i].getInhomCoordsInD(3));
+			ret = ret.add(points[i].getInhomCoordsInD3());
 		
 		return ret.mul((double) 1/points.length);
 	}
@@ -521,7 +521,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	public Coords getTopMiddlePoint(){
 		Coords ret = new Coords(4);
 		for (int i=0; i<outputPoints.size(); i++)
-			ret = ret.add(outputPoints.getElement(i).getInhomCoordsInD(3));
+			ret = ret.add(outputPoints.getElement(i).getInhomCoordsInD3());
 		
 		return ret.mul((double) 1/outputPoints.size());
 	}

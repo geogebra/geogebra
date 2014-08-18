@@ -106,8 +106,8 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
 		
 		boolean ret = super.checkUnDefined(n);
 
-		coordsA = A.getInhomCoordsInD(3);
-		coordsB = B.getInhomCoordsInD(3);
+		coordsA = A.getInhomCoordsInD3();
+		coordsB = B.getInhomCoordsInD3();
 		vAB = coordsB.sub(coordsA);
 		vDirection = direction.getDirectionInD3();
 		

@@ -130,7 +130,7 @@ public final class DrawPoint extends Drawable {
 			coords1[1] = p.getY();
 		} else {
 			// looks if it's on view
-			Coords p = view.getCoordsForView(P.getInhomCoordsInD(3));
+			Coords p = view.getCoordsForView(P.getInhomCoordsInD3());
 			if (!Kernel.isZero(p.getZ())) {
 				isVisible = false;
 			} else {

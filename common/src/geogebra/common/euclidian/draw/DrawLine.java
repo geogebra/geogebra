@@ -478,7 +478,7 @@ public class DrawLine extends Drawable implements Previewable {
 				
 				// line through first point and mouse position	
 				//coords = startPoint.getCoordsInD(2).crossProduct(new Coords(xRW, yRW, 1));
-				coords = view.getCoordsForView(startPoint.getInhomCoordsInD(3)).projectInfDim().crossProduct(new Coords(xRW, yRW, 1));
+				coords = view.getCoordsForView(startPoint.getInhomCoordsInD3()).projectInfDim().crossProduct(new Coords(xRW, yRW, 1));
 				((GeoLine) g).setCoords(coords.getX(), coords.getY(), coords.getZ());
 				//GeoVec3D.cross(startPoint, xRW, yRW, 1.0, g);
     

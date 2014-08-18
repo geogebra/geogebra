@@ -147,7 +147,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 			cons.removeFromConstructionList(algoCircle);
 			// place the new point on the circle
-			Coords coords = A.getInhomCoordsInD(3);
+			Coords coords = A.getInhomCoordsInD3();
 			if (orientation instanceof GeoCoordSys2D){
 				CoordSys cs = ((GeoCoordSys2D) orientation).getCoordSys();
 				Coords project = cs.getNormalProjection(coords)[1];
@@ -176,7 +176,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 		cons.removeFromConstructionList(algoSphere);
 		// place the new point on the circle
-		Coords coords = A.getInhomCoordsInD(3);
+		Coords coords = A.getInhomCoordsInD3();
 		coords.setX(coords.getX() + n.getDouble());
 		AlgoPoint3DInRegion algoPoint = new AlgoPoint3DInRegion(cons, pointLabel,
 				algoSphere.getSphere(), 
