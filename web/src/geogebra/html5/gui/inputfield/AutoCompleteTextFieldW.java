@@ -480,8 +480,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void setEditable(boolean b) {
-		App.debug("setEditable() implementation needed"); // TODO Auto-generated
-
+		textField.setEnabled(b);
 	}
 
 	public void setLabel(GLabel label) {

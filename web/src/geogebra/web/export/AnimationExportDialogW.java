@@ -4,9 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gawt.BufferedImage;
-import geogebra.html5.js.JavaScriptInjector;
 import geogebra.web.gui.util.AnimatedGifEncoderW;
 import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -17,12 +15,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -34,19 +34,64 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 
+	/** 
+	 * Application 
+	 */
 	private AppW app;
-	private VerticalPanel panel;
-	private HorizontalPanel sliderPanel;
-	private FlowPanel optionsPanel;
-	private FlowPanel bottomPanel;
-	private ListBox comboBox;
 	
+	/**
+	 * Vertical panel containing sub-panels.
+	 */
+	private VerticalPanel panel;
+	
+	/**
+	 * Panel containing the combo box for selecting the slider.
+	 */
+	private HorizontalPanel sliderPanel;
+	
+	/**
+	 * Panel containing options elements.
+	 */
+	private HorizontalPanel optionsPanel;
+	
+	/**
+	 * Panel containing the OK and Cancel button
+	 */
+	private FlowPanel bottomPanel;
+	
+	/**
+	 * Combo box for selecting the slider.
+	 */
+	private ListBox sliderComboBox;
+	
+	/**
+	 * Button exports the GIF.
+	 */
 	private Button saveBtn;
+	
+	/**
+	 * Cancels exporting and closes the window.
+	 */
 	private Button cancelBtn;
-	private InputPanelW frames;
+	
+	/**
+	 * The time in milliseconds between the frames.
+	 */
+	private InputPanelW timeBetweenFramesInput;
+	
+	/**
+	 * Checkbox to set the GIF to infinite loop
+	 */
 	private CheckBox isLoop;
 	
+	/**
+	 * The list of sliders.
+	 */
 	private List<GeoElement> geoNumerics;
+	
+	/**
+	 * The index of the selected slider.
+	 */
 	private int selectedGeo;
 
 	/**
@@ -65,12 +110,15 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 		addStyleName("GeoGebraPopup");
 		add(panel = new VerticalPanel());
 		panel.add(sliderPanel = new HorizontalPanel()); 
+		sliderPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		sliderPanel.add(new Label(app.getPlain("Slider") + ":"));
-		sliderPanel.add(comboBox = new ListBox());
+		sliderPanel.add(sliderComboBox = new ListBox());
 
-		panel.add(optionsPanel = new FlowPanel());
+		panel.add(optionsPanel = new HorizontalPanel());
+		optionsPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		optionsPanel.add(new Label(app.getPlain("TimeBetweenFrames") + ":"));
-		optionsPanel.add(frames = new InputPanelW("500", app, 5, false));
+		optionsPanel.add(timeBetweenFramesInput = new InputPanelW("500", app, 5, false));
+		optionsPanel.add(new Label("ms"));
 		optionsPanel.add(isLoop = new CheckBox(app.getPlain("AnimationLoop")));
 		
 		panel.add(bottomPanel = new FlowPanel());
@@ -85,8 +133,12 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 
 		getCaption().setText(app.getPlain("AnimatedGIFExport"));
 		setGlassEnabled(true);
+		isLoop.getElement().getStyle().setMarginLeft(15, Unit.PX);
 	}
 	
+	/**
+	 * This method should be called before reusing this dialog.
+	 */
 	public void refreshGUI() {
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 		        .getGeoSetNameDescriptionOrder();
@@ -98,16 +150,18 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 			GeoElement geo = it.next();
 			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isIntervalMinActive()
 			        && ((GeoNumeric) geo).isIntervalMaxActive()) {
-				comboBox.addItem(geo.toString(StringTemplate.defaultTemplate));
+				sliderComboBox.addItem(geo.toString(StringTemplate.defaultTemplate));
 				geoNumerics.add(geo);
 			}
 		}
 		selectedGeo = 0;
-		if (geoNumerics.size() == 0) {
-			isLoop.setEnabled(false);
-			frames.setEnabled(false);
-			saveBtn.setEnabled(false);
-		}
+		boolean enabled = geoNumerics.size() != 0;
+		timeBetweenFramesInput.getTextComponent().setText("500");
+		
+		isLoop.setEnabled(enabled);
+		timeBetweenFramesInput.setEnabled(enabled);
+		saveBtn.setEnabled(enabled);
+		timeBetweenFramesInput.setEnabled(enabled);
 	}
 
 	public void onClick(ClickEvent event) {
@@ -115,34 +169,30 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 	    	hide();
 	    } else { // save button clicked
 	    	export();
+	    	hide();
 	    }
     }
 	
 	private void export() {
+		// implementation taken and modified from :AnimationExportDialog.export()
+		// TODO: factor out the export method to a common class
 		int timeBetweenFrames = 500;
 
-		// try to parse textfield value (and check that it is > 0)
+		// try to parse text field value (and check that it is > 0)
 		try {
-			timeBetweenFrames = Integer.parseInt(frames.getText());
+			timeBetweenFrames = Integer.parseInt(timeBetweenFramesInput.getText());
 
 			// negative values or zero are bad too
 			if (timeBetweenFrames <= 0) {
 				throw new NumberFormatException();
 			}
 		} catch (NumberFormatException e) {
-			app.showError("InvalidInput", frames.getText());
+			app.showError("InvalidInput", timeBetweenFramesInput.getText());
 			return;
 		}
 
 		app.getKernel().getAnimatonManager().stopAnimation();
-		JavaScriptInjector.inject(GuiResources.INSTANCE.gifJs());
 		
-		//File file = null;
-				/*((GuiManagerD) app.getGuiManager()).showSaveDialog(
-				"gif", // change to Application.FILE_EXT_GIF
-				null, app.getPlain("gif") + " " + app.getMenu("Files"), true,
-				false);*/
-
 		GeoNumeric num = (GeoNumeric) geoNumerics.get(selectedGeo);
 
 		int type = num.getAnimationType();
@@ -184,20 +234,16 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 			val = min;
 		}
 		
-		
-
-		final AnimatedGifEncoderW gifEncoder = new AnimatedGifEncoderW(timeBetweenFrames, isLoop.getValue(), "");
+		final AnimatedGifEncoderW gifEncoder = new AnimatedGifEncoderW(timeBetweenFrames, isLoop.getValue());
 		
 		FrameCollectorW collector = new FrameCollectorW() {
 
 			public void addFrame(BufferedImage img) {
-				gifEncoder.addFrame(img);
-
+				gifEncoder.addFrame(img.getImageElement());
 			}
 
 			public void finish() {
 				gifEncoder.finish();
-
 			}
 		};
 		// hide dialog
@@ -206,9 +252,7 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 		app.setWaitCursor();
 
 		try {
-			
 			app.exportAnimatedGIF(collector, num, n, val, min, max, step);
-
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
 			ex.printStackTrace();

@@ -1780,11 +1780,11 @@ public abstract class AppW extends AppWeb {
 
 	public void exportAnimatedGIF(FrameCollectorW gifEncoder, GeoNumeric num,
 			int n, double val, double min, double max, double step) {
+		Log.debug("exporting animation");
 		for (int i = 0; i < n; i++) {
 
 			// avoid values like 14.399999999999968
 			val = Kernel.checkDecimalFraction(val);
-
 			num.setValue(val);
 			num.updateRepaint();
 
@@ -1795,7 +1795,6 @@ public abstract class AppW extends AppWeb {
 			} else {
 				gifEncoder.addFrame(img);
 			}
-
 			val += step;
 
 			if (val > max + 0.00000001 || val < min - 0.00000001) {

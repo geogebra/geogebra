@@ -45,6 +45,7 @@ public class ResourcesInjector {
 		}
 		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.gifJs());
 	}
 
 }

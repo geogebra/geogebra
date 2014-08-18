@@ -458,4 +458,14 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	public long getLastRepaintTime() {
 		return lastRepaint;
 	}
+
+	@Override
+	public int getAbsoluteLeft() {
+	    return g2p.getAbsoluteLeft();
+	}
+
+	@Override
+	public int getAbsoluteTop() {
+	    return g2p.getAbsoluteTop();
+	}
 }
