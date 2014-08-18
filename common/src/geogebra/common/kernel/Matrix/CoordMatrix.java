@@ -665,13 +665,14 @@ public class CoordMatrix {
 	 */
 	public boolean isDefined() {
 
-		boolean result = true;
 
-		for (int i = 0; (i < columns * rows) && (result); i++) {
-			result = result && (!Double.isNaN(val[i]));
+		for (int i = 0; i < columns * rows ; i++) {
+			if (Double.isNaN(val[i])){
+				return false;
+			}
 		}
 
-		return result;
+		return true;
 	}
 	
 	

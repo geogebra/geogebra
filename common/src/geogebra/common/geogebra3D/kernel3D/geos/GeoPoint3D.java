@@ -99,7 +99,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	private double z2D = 0;
 
 	// temp
-	public Coords inhom = new Coords(3);
+	public Coords inhom = Coords.createInhomCoorsInD3();
 
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
@@ -262,7 +262,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 			isInfinite = true;
 			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2)) || Double
 					.isNaN(v.get(3)));
-			inhom.set(Double.NaN);
+			inhom.setX(Double.NaN);
 		}
 		// finite point
 		else {
@@ -291,7 +291,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 					inhom.set(3, v.get(3) / v.get(4));
 				}
 			} else {
-				inhom.set(Double.NaN);
+				inhom.setX(Double.NaN);
 			}
 		}
 
@@ -310,19 +310,14 @@ Traceable, MirrorableAtPlane, Dilateable{
 	 * Returns (x/w, y/w, z/w) GgbVector.
 	 */
 	final public Coords getInhomCoords() {
-		return inhom.copyVector();
+		return inhom;
 	}
 
 	public Coords getInhomCoordsInD(int dimension) {
 		Coords v;
 		switch (dimension) {
 		case 3:
-			v = new Coords(4);
-			v.setX(inhom.getX());
-			v.setY(inhom.getY());
-			v.setZ(inhom.getZ());
-			v.setW(1);
-			return v;
+			return getInhomCoordsInD3();
 		case 2:
 			v = new Coords(2);
 			v.setX(inhom.getX());
@@ -331,6 +326,10 @@ Traceable, MirrorableAtPlane, Dilateable{
 		default:
 			return null;
 		}
+	}
+	
+	public Coords getInhomCoordsInD3(){
+		return inhom;
 	}
 	
 	final public double getInhomX() {
@@ -1393,7 +1392,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		//Region region = getRegion();
 		//setRegion(null);
-		Coords coordsOld = getInhomCoords();
+		Coords coordsOld = getInhomCoords().copyVector();
 		path.pointChanged(this);
 		double d;
 		if(getWillingDirection() == null) {

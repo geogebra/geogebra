@@ -183,6 +183,11 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public Coords getInhomCoordsInD(int dimension);
 	
 	/**
+	 * @return the coords of the point in 3D
+	 */
+	public Coords getInhomCoordsInD3();
+	
+	/**
 	 * @param dimension dimension
 	 * @return the coords of the point in the given dimension (extended or projected)
 	 */

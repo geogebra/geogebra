@@ -1719,16 +1719,20 @@ SymbolicParametersBotanaAlgo {
 		case 2:
 			return getInhomCoords();
 		case 3:
-			if(inhomCoords3D == null){
-				inhomCoords3D = new Coords(new double[] { inhomX, inhomY, 0, 1});
-			}else{
-				this.inhomCoords3D.set(1, inhomX);
-				this.inhomCoords3D.set(2, inhomY);
-			}
-			return inhomCoords3D;
+			return getInhomCoordsInD3();
 		default:
 			return null;
 		}
+	}
+	
+	public Coords getInhomCoordsInD3(){
+		if(inhomCoords3D == null){
+			inhomCoords3D = new Coords(new double[] { inhomX, inhomY, 0, 1});
+		}else{
+			this.inhomCoords3D.set(1, inhomX);
+			this.inhomCoords3D.set(2, inhomY);
+		}
+		return inhomCoords3D;
 	}
 
 	public Coords getCoordsInD2(CoordSys coordSys) { // TODO use coord sys ?

@@ -508,7 +508,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 		GeoPoint3D P = (GeoPoint3D) PI;
 
-		Coords coordsOld = P.getInhomCoords();
+		Coords coordsOld = P.getInhomCoords().copyVector();
 
 		// prevent from region bad coords calculations
 		Region region = P.getRegion();
