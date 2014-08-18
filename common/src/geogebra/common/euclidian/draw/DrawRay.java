@@ -256,7 +256,7 @@ public class DrawRay extends Drawable implements Previewable {
 		if (isVisible) {
 			// start point
 			// Coords coords = ((GeoPointND)
-			// points.get(0)).getInhomCoordsInD(2);
+			// points.get(0)).getInhomCoordsInD2();
 			Coords coords = view.getCoordsForView(points.get(0)
 					.getInhomCoordsInD3());
 			a = coords.get();

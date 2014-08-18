@@ -319,13 +319,23 @@ Traceable, MirrorableAtPlane, Dilateable{
 		case 3:
 			return getInhomCoordsInD3();
 		case 2:
-			v = new Coords(2);
-			v.setX(inhom.getX());
-			v.setY(inhom.getY());
-			return v;
+			return getInhomCoordsInD2();
 		default:
 			return null;
 		}
+	}
+	
+	private Coords inhom2D;
+	
+	public Coords getInhomCoordsInD2(){
+		
+		if (inhom2D == null){
+			inhom2D = new Coords(2);
+		}
+		inhom2D.setX(inhom.getX());
+		inhom2D.setY(inhom.getY());
+		
+		return inhom2D;
 	}
 	
 	public Coords getInhomCoordsInD3(){

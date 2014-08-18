@@ -498,7 +498,7 @@ public class DrawLine extends Drawable implements Previewable {
 			    break;
 			case PERPENDICULAR_BISECTOR:
 			    // calc the perpendicular bisector
-				coords = startPoint.getInhomCoordsInD(2);
+				coords = startPoint.getInhomCoordsInD2();
 				double startx = coords.getX();
 				double starty = coords.getY();
 			    GeoVec3D.cross((xRW + startx)/2, (yRW + starty)/2, 1.0, -yRW + starty, xRW - startx,  0.0, ((GeoLine) g));
@@ -565,7 +565,7 @@ public class DrawLine extends Drawable implements Previewable {
            
 
 		            // set bisector
-		            coords = previewPoint2.getInhomCoordsInD(2);
+		            coords = previewPoint2.getInhomCoordsInD2();
 		            ((GeoLine) g).x = -wy;
 		            ((GeoLine) g).y =  wx;
 		            ((GeoLine) g).z = - (coords.getX() * ((GeoLine) g).x + coords.getY() * ((GeoLine) g).y);

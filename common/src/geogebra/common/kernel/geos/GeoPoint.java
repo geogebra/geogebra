@@ -1734,6 +1734,10 @@ SymbolicParametersBotanaAlgo {
 		}
 		return inhomCoords3D;
 	}
+	
+	public Coords getInhomCoordsInD2(){
+		return getInhomCoords();
+	}
 
 	public Coords getCoordsInD2(CoordSys coordSys) { // TODO use coord sys ?
 		return new Coords(new double[] { x, y, z });

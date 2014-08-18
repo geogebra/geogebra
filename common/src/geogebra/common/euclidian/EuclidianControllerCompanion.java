@@ -419,7 +419,7 @@ public class EuclidianControllerCompanion {
 	}
 	
 	protected void processModeLock(GeoPointND point) {
-		Coords coords = point.getInhomCoordsInD(2);
+		Coords coords = point.getInhomCoordsInD2();
 		ec.xRW = coords.getX();
 		ec.yRW = coords.getY();
 	}

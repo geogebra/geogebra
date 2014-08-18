@@ -922,9 +922,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		double coef = 0, coefY = 0;
 		double cumulative = 0, cumulativeY = 0;
 		ExpressionNode enx = new ExpressionNode(this.kernel, new MyDouble(this.kernel,
-				points[0].getInhomCoordsInD(2).getX()));
+				points[0].getInhomCoordsInD2().getX()));
 		ExpressionNode eny = new ExpressionNode(this.kernel, new MyDouble(this.kernel,
-				points[0].getInhomCoordsInD(2).getY()));
+				points[0].getInhomCoordsInD2().getY()));
 		FunctionVariable fv = new FunctionVariable(this.kernel, "t");
 		double sum = 0;
 		double sumY = 0;
@@ -935,8 +935,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			ExpressionNode greater = new ExpressionNode(this.kernel,
 					new ExpressionNode(this.kernel, fv, Operation.MINUS,
 							new MyDouble(this.kernel, nonzeroSegments)), Operation.ABS, null);
-			Coords c1 = points[pointIndex].getInhomCoordsInD(2);
-			Coords c2 = points[i-1].getInhomCoordsInD(2);
+			Coords c1 = points[pointIndex].getInhomCoordsInD2();
+			Coords c2 = points[i-1].getInhomCoordsInD2();
 			if(c1.isEqual(c2))
 				continue;
 			coef = 0.5 * c1.getX() - 0.5

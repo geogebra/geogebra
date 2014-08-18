@@ -83,9 +83,9 @@ public class AlgoMinimumSpanningTree extends AlgoHull {
 			if (connectedVertex != null) {
 				GeoPointND point1 = vertices[i].getPoint();
 				GeoPointND point2 = connectedVertex.getPoint();
-				coords = point1.getInhomCoordsInD(2);
+				coords = point1.getInhomCoordsInD2();
 				al.add(new MyPoint(coords.get(1) , coords.get(2), false));
-				coords = point2.getInhomCoordsInD(2);
+				coords = point2.getInhomCoordsInD2();
 				al.add(new MyPoint(coords.get(1) , coords.get(2), true));
 			}
 

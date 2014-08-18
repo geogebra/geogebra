@@ -263,10 +263,10 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 */
 	protected void addStartEndPoints(){
 		if (g instanceof GeoSegment){
-			newCoords.put(0.0,g.getStartPoint().getInhomCoordsInD(2));
-			newCoords.put(1.0,g.getEndPoint().getInhomCoordsInD(2));
+			newCoords.put(0.0,g.getStartPoint().getInhomCoordsInD2());
+			newCoords.put(1.0,g.getEndPoint().getInhomCoordsInD2());
 		}else if (g instanceof GeoRay)
-			newCoords.put(0d,g.getStartPoint().getInhomCoordsInD(2));
+			newCoords.put(0d,g.getStartPoint().getInhomCoordsInD2());
 	}
 	
 	

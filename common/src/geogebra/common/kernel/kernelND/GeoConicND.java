@@ -285,7 +285,7 @@ FromMeta
 	@Override
 	public void setSphereND(GeoPointND M, double r) {
 		defined = ((GeoElement) M).isDefined() && !M.isInfinite(); // check midpoint
-		setSphereND(M.getInhomCoordsInD(2), r);
+		setSphereND(M.getInhomCoordsInD2(), r);
 	}
 	
 	
@@ -1867,7 +1867,7 @@ FromMeta
 	 */
 	protected void setCircleMatrix(GeoPoint M, double r) {
 		
-		setSphereNDMatrix(M.getInhomCoordsInD(2), r);
+		setSphereNDMatrix(M.getInhomCoordsInD2(), r);
 	}
 
 	/**

@@ -125,7 +125,7 @@ public final class DrawPoint extends Drawable {
 
 		
 		if (isPreview) {
-			Coords p = P.getInhomCoordsInD(2);
+			Coords p = P.getInhomCoordsInD2();
 			coords1[0] = p.getX();
 			coords1[1] = p.getY();
 		} else {
