@@ -16,6 +16,7 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -695,4 +696,11 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		}
 	    
     }
+	
+	/**
+	 * @return the Element object of the open menu button
+	 */
+	public Element getOpenMenuButtonElement() {
+		return openMenuButton.getElement();
+	}
 }

@@ -4,15 +4,19 @@ import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 
-public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
+public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize, NativePreviewHandler {
 
 
 	private int MENUBAR_WIDTH = 0;
@@ -26,6 +30,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	
 	private DockGlassPaneW glassPane;
 	
+	/**
+	 * This is set by the registerPreviewNativeEventHandler.
+	 */
+	private AppW app;
+	
 	public GGWFrameLayoutPanel() {
 		super();
 
@@ -35,7 +44,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		
 		add(glassPane);
 		add(dockPanel);
-		
 	}
 
 	public void setLayout(AppW app) {
@@ -150,5 +158,28 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		}
 		return !menuClosed;
 	}
+	
+	/**
+	 * Registers a preview native event handler, to handle clicks
+	 * outside of the menu bar.
+	 * @param app application
+	 */
+	public void registerPreviewNativeEventHandler(AppW app) {
+		this.app = app;
+		Event.addNativePreviewHandler(this);
+	}
+
+	public void onPreviewNativeEvent(NativePreviewEvent event) {
+		int type = event.getTypeInt();
+	    if (type == Event.ONMOUSEUP ||
+	    		type == Event.ONTOUCHEND) {
+	    	if (!Dom.eventTargetsElement(event.getNativeEvent(), ggwMenuBar.getElement()) 
+	    			&& !menuClosed 
+	    			&& !glassPane.isDragInProgress()
+	    			&& !Dom.eventTargetsElement(event.getNativeEvent(), ggwToolBar.getOpenMenuButtonElement())) {
+	    		app.toggleMenu();
+	    	}
+	    }
+    }
 
 }

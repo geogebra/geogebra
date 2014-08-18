@@ -1,6 +1,8 @@
 package geogebra.web.html5;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.EventTarget;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
 
@@ -21,5 +23,19 @@ public class Dom extends DOM {
 	public static native Element querySelector(String className) /*-{
 	    return $doc.querySelector("."+className);
     }-*/;
+	
+	/**
+	 * 
+	 * @param event a native event
+	 * @param element the element to be tested
+	 * @return true iff event targets the element or its children
+	 */
+	public static boolean eventTargetsElement(NativeEvent event, Element element) {
+		EventTarget target = event.getEventTarget();
+		if (Element.is(target)) {
+			return element.isOrHasChild(Element.as(target));
+		}
+		return false;
+	}
 
 }

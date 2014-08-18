@@ -334,11 +334,17 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 * Handles the touchstart and mousedown events on main tools.
 	 * @param event
 	 */
-	public void onStart(DomEvent event){	
+	public void onStart(DomEvent event){
 		event.preventDefault();
+		// stop the propagation so that :ToolBarW.OutsideClickHandler
+		// does not processes the event
+		event.stopPropagation();
 		this.setFocus(true);
 		if (isMenuShown()) {
 			wasMenuShownOnMouseDown = true;
+			if (event.getSource() != tbutton) {
+				hideMenu();
+			}
 		} else {
 			wasMenuShownOnMouseDown = false;
 			showMenu();

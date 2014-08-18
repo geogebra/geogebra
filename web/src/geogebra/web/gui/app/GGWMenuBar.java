@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GGWMenuBar extends Composite implements RequiresResize{
 	
-	HorizontalPanel ggbmenubarwrapper;
+	private HorizontalPanel ggbmenubarwrapper;
 	private MainMenu menubar;
 	private boolean menubar2Showing = false;
 	private FocusPanel clickBox;

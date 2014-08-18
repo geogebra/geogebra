@@ -9,16 +9,17 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Vector;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -52,7 +53,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	public ToolBarW(GGWToolBar tb) {
 		this.tb = tb;
 		this.addStyleName("GGWToolbar");
-		this.addOutsideClickHandler(this, Document.get().getDocumentElement());
+		this.addOutsideMouseDownHandler();
 		this.addDomHandler(this, ClickEvent.getType());
 	}
 
@@ -81,17 +82,26 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	public void init(AppW app1) {
 		this.app = app1;
 	}
+	
+	private void addOutsideMouseDownHandler() {
+		final ToolBarW that = this;
+		Event.addNativePreviewHandler(new NativePreviewHandler() {
+			
+			public void onPreviewNativeEvent(NativePreviewEvent event) {
+				int type = event.getTypeInt();
+				// if it is a mouse down/touch start event
+				if (type == Event.ONMOUSEDOWN ||
+						type == Event.ONTOUCHSTART) {
+					// if it is outside of the toolbar
+					if (!Dom.eventTargetsElement(event.getNativeEvent(), that.getElement())) {
+						that.closeAllSubmenuAtLeave();
+					}				
+				}
+			}
+		});
+	}
 
-	private native void addOutsideClickHandler(ToolBarW toolbar, Element element)/*-{
-		element
-				.addEventListener(
-						"click",
-						function(e) {
-							toolbar.@geogebra.web.gui.toolbar.ToolBarW::closeAllSubmenuAtLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
-						});
-	}-*/;
-
-	private void closeAllSubmenuAtLeave(JavaScriptObject e) {
+	private void closeAllSubmenuAtLeave() {
 		app.closePopups();
 		closeAllSubmenu();
 	}

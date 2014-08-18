@@ -221,6 +221,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 		// layout things - moved to AppWapplication, appropriate places
 		// frameLayout.setLayout(app);
+		frameLayout.registerPreviewNativeEventHandler(app);
 
 		// Graphics view
 		frameLayout.getGGWGraphicsView().attachApp(app);
