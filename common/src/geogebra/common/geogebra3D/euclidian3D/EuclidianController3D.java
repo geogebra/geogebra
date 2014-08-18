@@ -478,7 +478,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					ret = point3D;
 					pointCreated = point3D;
 				} else {
-					Coords coords = point.getCoordsInD(2);
+					Coords coords = point.getCoordsInD2();
 					pointCreated = createNewPoint2D(null, false, path, coords.getX(),
 							coords.getY(), false, false);
 					return pointCreated;
@@ -507,7 +507,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					ret = point3D;
 					pointCreated = point3D;
 				} else {
-					Coords coords = point.getCoordsInD(2);
+					Coords coords = point.getCoordsInD2();
 					pointCreated = createNewPoint2D(null, false, region, coords.getX(),
 							coords.getY(), false, false);
 					return pointCreated;
@@ -580,7 +580,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		GeoPoint3D point3D = view3D.getCursor3D();
 
 		// set coords
-		point3D.setCoords(sourcePoint.getCoordsInD(3), false);
+		point3D.setCoords(sourcePoint.getCoordsInD3(), false);
 
 		// set/remove path/region
 		point3D.setPath(sourcePoint.getPath());
@@ -596,14 +596,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		point3D.setMoveMode(sourcePoint.getMoveMode());
 
-		// Application.debug("sourcePoint:\n"+sourcePoint.getCoordsInD(3)+"\ncursor:\n"+view3D.getCursor3D().getCoordsInD(3));
+		// Application.debug("sourcePoint:\n"+sourcePoint.getCoordsInD3()+"\ncursor:\n"+view3D.getCursor3D().getCoordsInD3());
 	}
 
 	/** put intersectionPoint coordinates in point */
 	@Override
 	protected void createNewPointIntersection(GeoPointND intersectionPoint) {
 		GeoPoint3D point3D = view3D.getCursor3D();
-		point3D.setCoords(intersectionPoint.getCoordsInD(3).getInhomCoords(),
+		point3D.setCoords(intersectionPoint.getCoordsInD3().getInhomCoords(),
 				false);
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_DEPENDENT);
 		view3D.setIntersectionPoint(intersectionPoint);

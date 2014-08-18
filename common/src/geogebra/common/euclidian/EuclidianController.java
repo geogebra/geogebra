@@ -6923,7 +6923,7 @@ public abstract class EuclidianController {
 				}
 				// if |mouse - startpoint| < 1/2 * |vec| then move
 				// startpoint
-				Coords vCoords = view.getCoordsForView(movedGeoVector.getCoordsInD(3));
+				Coords vCoords = view.getCoordsForView(movedGeoVector.getCoordsInD3());
 				if ((2d * MyMath.length(xRW - sx, yRW - sy)) < MyMath.length(
 						vCoords.getX(), vCoords.getY())) { // take
 					// startPoint

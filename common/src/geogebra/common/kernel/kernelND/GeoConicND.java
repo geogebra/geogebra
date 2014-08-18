@@ -621,14 +621,14 @@ FromMeta
 		Coords coords = P.getCoordsInD2(getCoordSys());
 		PathParameter pp = P.getPathParameter();
 		
-		//Application.debug(P.getCoordsInD(3)+"\n2D:\n"+coords+"\npp="+pp.getT());
+		//Application.debug(P.getCoordsInD3()+"\n2D:\n"+coords+"\npp="+pp.getT());
 		
 		pathChanged(coords, pp);
 
 		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 		P.updateCoordsFrom2D(false,getCoordSys());
 		
-		//Application.debug("after:\n"+P.getCoordsInD(3)+"\n2D:\n"+coords);
+		//Application.debug("after:\n"+P.getCoordsInD3()+"\n2D:\n"+coords);
 		
 	}
 	private boolean compatibleType(int t){
@@ -861,7 +861,7 @@ FromMeta
 	public final boolean isOnFullConic(GeoPointND P, double eps) {
 		if (!P.isDefined()) return false;
 		
-		return isOnFullConic(P.getCoordsInD(2), eps);
+		return isOnFullConic(P.getCoordsInD2(), eps);
 	}
 	
 	

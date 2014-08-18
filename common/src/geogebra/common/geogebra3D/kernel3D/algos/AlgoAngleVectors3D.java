@@ -58,8 +58,8 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND{
 	public void compute() {
     	
     	// vectors directions
-    	v1 = getv().getCoordsInD(3);
-    	v2 = getw().getCoordsInD(3);
+    	v1 = getv().getCoordsInD3();
+    	v2 = getw().getCoordsInD3();
     	
    	
     	// calc angle    	

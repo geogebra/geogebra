@@ -210,14 +210,14 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
     	//initiate tOld and coordsOld
     	if (g.getMinParameter()>=maxKey){
     		tFirst = g.getMinParameter();
-    		//coordsFirst = ((GeoLine) g).startPoint.getCoordsInD(2);
+    		//coordsFirst = ((GeoLine) g).startPoint.getCoordsInD2();
     		tLast = g.getMaxParameter();
-    		//coordsLast = ((GeoLine) g).endPoint.getCoordsInD(2);
+    		//coordsLast = ((GeoLine) g).endPoint.getCoordsInD2();
     	} else {
     		tFirst = g.getMaxParameter();
-    		//coordsFirst = ((GeoLine) g).endPoint.getCoordsInD(2);
+    		//coordsFirst = ((GeoLine) g).endPoint.getCoordsInD2();
     		tLast = g.getMinParameter();
-    		//coordsLast = ((GeoLine) g).startPoint.getCoordsInD(2);
+    		//coordsLast = ((GeoLine) g).startPoint.getCoordsInD2();
     	}
     	coordsFirst = ((GeoLine)g).getPointInD(spaceDim, tFirst).getInhomCoordsInSameDimension();
     	coordsLast = ((GeoLine)g).getPointInD(spaceDim, tLast).getInhomCoordsInSameDimension();

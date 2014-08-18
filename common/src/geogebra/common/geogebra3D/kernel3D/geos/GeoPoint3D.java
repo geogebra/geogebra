@@ -407,10 +407,18 @@ Traceable, MirrorableAtPlane, Dilateable{
 			 * v.setX(coords.getX()); v.setY(coords.getY());
 			 * v.setZ(coords.getW()); return v;
 			 */
-			return getCoordsInD2(CoordSys.Identity3D);
+			return getCoordsInD2();
 		default:
 			return null;
 		}
+	}
+	
+	public Coords getCoordsInD2(){
+		return getCoordsInD2(CoordSys.Identity3D);
+	}
+	
+	public Coords getCoordsInD3(){
+		return getCoords();
 	}
 
 	/**
@@ -824,7 +832,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 					&& Kernel.isEqual(c1.getZ(), c2.getZ());
 		} else if (isInfinite() && P.isInfinite()) {
 			Coords c1 = getCoords();
-			Coords c2 = P.getCoordsInD(3);
+			Coords c2 = P.getCoordsInD3();
 			return c1.crossProduct(c2).equalsForKernel(0,
 					Kernel.STANDARD_PRECISION);
 		} else

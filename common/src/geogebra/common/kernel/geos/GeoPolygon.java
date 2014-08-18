@@ -1164,7 +1164,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	public void pointChanged(GeoPointND PI) {
 
-		Coords coords = PI.getCoordsInD(2);
+		Coords coords = PI.getCoordsInD2();
 		double qx = coords.getX() / coords.getZ();
 		double qy = coords.getY() / coords.getZ();
 
@@ -1177,7 +1177,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			PI.setCoords2D(qx, qy, 1);
 			segments[i].pointChanged(PI);
 
-			coords = PI.getCoordsInD(2);
+			coords = PI.getCoordsInD2();
 			double x = coords.getX() / coords.getZ() - qx;
 			double y = coords.getY() / coords.getZ() - qy;
 			double dist = x * x + y * y;
@@ -1214,7 +1214,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 */
 	public boolean isInRegion(GeoPointND PI, boolean update) {
 
-		Coords coords = PI.getCoordsInD(2);
+		Coords coords = PI.getCoordsInD2();
 		return isInRegion(coords.getX() / coords.getZ(),
 				coords.getY() / coords.getZ());
 

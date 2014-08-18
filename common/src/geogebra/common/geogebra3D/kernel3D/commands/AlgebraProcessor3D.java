@@ -235,7 +235,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 				 if (P.isGeoElement3D() || v.isGeoElement3D()) {
 			if (isConstant) {
 				line = new GeoLine3D(cons);
-				((GeoLine3D) line).setCoord(P.getCoordsInD(3),v.getCoordsInD(3));
+				((GeoLine3D) line).setCoord(P.getCoordsInD3(),v.getCoordsInD3());
 				line.setLabel(par.getLabel());
 			}else{
 				line = kernel.getManager3D().Line3D(par.getLabel(), P, v);

@@ -184,7 +184,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
     
     @Override
 	protected void setCoords(GeoPointND destination, GeoPointND source){
-    	destination.setCoords(source.getCoordsInD(3),false);
+    	destination.setCoords(source.getCoordsInD3(),false);
     }
     
 

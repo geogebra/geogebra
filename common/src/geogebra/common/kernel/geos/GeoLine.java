@@ -967,7 +967,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private void doPointChanged(GeoPointND P) {
 
-		Coords coords = P.getCoordsInD(2);
+		Coords coords = P.getCoordsInD2();
 		PathParameter pp = P.getPathParameter();
 
 		doPointChanged(coords, pp);
@@ -1031,7 +1031,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return;
 		}
 
-		Coords coords = P.getCoordsInD(2);
+		Coords coords = P.getCoordsInD2();
 		PathParameter pp = P.getPathParameter();
 
 		pathChanged(coords, pp);

@@ -164,7 +164,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			super.movePoint(repaint, ((EuclidianController3D) ec).mouseEvent);
 
 			((EuclidianController3D) ec).view3D.getCursor3D()
-					.setCoords(ec.movedGeoPoint.getCoordsInD(3), false);
+					.setCoords(ec.movedGeoPoint.getCoordsInD3(), false);
 
 		}
 	}

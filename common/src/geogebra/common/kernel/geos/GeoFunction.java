@@ -848,7 +848,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	public void pointChanged(GeoPointND P) {
 
-		Coords coords = P.getCoordsInD(2);
+		Coords coords = P.getCoordsInD2();
 		pointChanged(coords);
 		
 		// set path parameter for compatibility with
@@ -1930,7 +1930,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 	public void pointChangedForRegion(GeoPointND PI) {
-		Coords P = PI.getCoordsInD(2);
+		Coords P = PI.getCoordsInD2();
 
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;

@@ -937,7 +937,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 		GeoPointND[] points = geo.getPoints();
 		for (int i = 0; i < points.length; i++) {
-			Coords coords = points[i].getCoordsInD(2);
+			Coords coords = points[i].getCoordsInD2();
 			double x = coords.getX(), y = coords.getY(), z = coords.getZ();
 			x = x / z;
 			y = y / z;

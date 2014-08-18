@@ -858,7 +858,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
         
         startTransparentFill(codeFilledObject);
         for (int i = 0; i < points.length; i++){
-        	Coords coords = points[i].getCoordsInD(2);
+        	Coords coords = points[i].getCoordsInD2();
             double x = coords.getX(),
                    y = coords.getY(),
                    z = coords.getZ();

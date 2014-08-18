@@ -38,7 +38,7 @@ public class AlgoAnglePoint3D extends AlgoAngleElement3D{
 	
 	protected final Coords getVectorCoords(){
 		
-		Coords v = ((GeoPoint3D) vec).getCoordsInD(3).copyVector();
+		Coords v = ((GeoPoint3D) vec).getCoordsInD3().copyVector();
 		v.setW(0);
 		return v;
 	}

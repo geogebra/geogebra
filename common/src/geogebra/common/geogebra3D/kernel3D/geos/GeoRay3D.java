@@ -184,7 +184,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
 		if (allowOutlyingIntersections)
-			return isOnFullLine(p.getCoordsInD(3), eps);
+			return isOnFullLine(p.getCoordsInD3(), eps);
 		else
 			return isOnPath(p, eps);
 	}

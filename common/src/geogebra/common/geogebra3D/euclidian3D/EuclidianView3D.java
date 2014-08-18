@@ -2230,7 +2230,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 					v = getCursor3D().getMoveNormalDirection();
 
-					matrix = new CoordMatrix4x4(getCursor3D().getCoordsInD(3),
+					matrix = new CoordMatrix4x4(getCursor3D().getCoordsInD3(),
 							v, CoordMatrix4x4.VZ);
 				} else
 					matrix = CoordMatrix4x4.Identity();

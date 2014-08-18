@@ -30,7 +30,7 @@ public class AlgoPointVector3D extends AlgoPointVectorND {
     
     @Override
 	public final void compute() {
-        Q.setCoords(P.getInhomCoordsInD3().add(v.getCoordsInD(3)), false);
+        Q.setCoords(P.getInhomCoordsInD3().add(v.getCoordsInD3()), false);
     }   
     
 

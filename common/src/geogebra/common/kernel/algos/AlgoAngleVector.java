@@ -70,10 +70,10 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 				return false;
 			}
 			drawCoords[0] = vertex.getInhomCoordsInD3();
-			drawCoords[2] = ((GeoVector)vec).getCoordsInD(3);
+			drawCoords[2] = ((GeoVector)vec).getCoordsInD3();
 		}else{
 			drawCoords[0] = Coords.O;
-			drawCoords[2] = ((GeoPoint)vec).getCoordsInD(3);
+			drawCoords[2] = ((GeoPoint)vec).getCoordsInD3();
 			drawCoords[2].setW(0);
 		}		
 			

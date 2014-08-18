@@ -147,7 +147,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 		} else {
 			GeoPointND sp = ((GeoVector)line).getStartPoint();
 			if (sp != null){
-				Coords qCoords = ((GeoVector)line).getStartPoint().getCoordsInD(2);
+				Coords qCoords = ((GeoVector)line).getStartPoint().getCoordsInD2();
 				qx = - qCoords.getX();
 				qy = - qCoords.getY();
 			}        	

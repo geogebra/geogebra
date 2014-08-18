@@ -138,7 +138,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			return false;
 
 		Coords c1 = getCoords();
-		Coords c2 = v.getCoordsInD(3);
+		Coords c2 = v.getCoordsInD3();
 
 		return Kernel.isEqual(c1.getX(), c2.getX())
 				&& Kernel.isEqual(c1.getY(), c2.getY())
@@ -161,7 +161,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public void set(GeoElement geo) {
 		if (geo.isGeoVector()) {
 			GeoVectorND vec = (GeoVectorND) geo;
-			setCoords(vec.getCoordsInD(3).get());
+			setCoords(vec.getCoordsInD3().get());
 			
 
 			// don't set start point for macro output
@@ -472,18 +472,17 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		double[] ret = { v.getX(), v.getY(), v.getZ() };
 		return ret;
 	}
-
-	public Coords getCoordsInD(int dimension) {
-		Coords ret = new Coords(dimension + 1);
-		switch (dimension) {
-		case 3:
-			ret.setW(getW());
-		case 2:
-			ret.setX(getX());
-			ret.setY(getY());
-			ret.setZ(getZ());
-		}
+	
+	public Coords getCoordsInD2(){
+		Coords ret = new Coords(3);
+		ret.setValues(v, 3);
 		return ret;
+	}
+	public Coords getCoordsInD3(){
+		Coords ret = new Coords(4);
+		ret.setValues(v, 4);
+		return ret;
+		
 	}
 
 
@@ -503,7 +502,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 
 	public Coords getDirectionInD3() {
-		return getCoordsInD(3);
+		return getCoordsInD3();
 	}
 
 	@Override
@@ -643,7 +642,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			return;
 		}
 		
-		//Coords v = getCoordsInD(3);		
+		//Coords v = getCoordsInD3();		
 		
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);

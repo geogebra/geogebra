@@ -21,10 +21,16 @@ public interface GeoVectorND extends GeoDirectionND, Locateable {
 	public void setCoords(double[] c);
 	
 	/**
-	 * @param dimension dimension of desired coordinates
-	 * @return the coords of the vector in the given dimension (extended or projected)
+	 * @return the coords of the vector in 2D
 	 */
-	public Coords getCoordsInD(int dimension);
+	public Coords getCoordsInD2();
+	
+	/**
+	 * @return the coords of the vector in 3D
+	 */
+	public Coords getCoordsInD3();
+	
+	
 
 	/**
 	 * UPdates start point

@@ -46,7 +46,7 @@ public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 
     @Override
 	protected Coords getNormal(){
-    	return ((GeoVectorND) getSecondInput()).getCoordsInD(3);
+    	return ((GeoVectorND) getSecondInput()).getCoordsInD3();
     }
 
 	// TODO Consider locusequability

@@ -129,10 +129,10 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 			if (O.isInfinite())
 				setUndefined(); //TODO infinite line
 			else
-				setCoord(O.getInhomCoordsInD3(),I.getCoordsInD(3));
+				setCoord(O.getInhomCoordsInD3(),I.getCoordsInD3());
 		else
 			if (O.isInfinite())
-				setCoord(I.getInhomCoordsInD3(),O.getCoordsInD(3));
+				setCoord(I.getInhomCoordsInD3(),O.getCoordsInD3());
 			else
 				setCoord(O.getInhomCoordsInD3(),I.getInhomCoordsInD3().sub(O.getInhomCoordsInD3()));
 		
@@ -343,7 +343,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		if (PI.getPath()==this)
 			return true;
 			
-		return isOnPath(PI.getCoordsInD(3), eps);
+		return isOnPath(PI.getCoordsInD3(), eps);
 	}
 	
 	

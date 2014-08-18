@@ -823,14 +823,21 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}     
 
 
-	public Coords getCoordsInD(int dimension){
-		Coords ret = new Coords(dimension+1);
-
+	
+	public Coords getCoordsInD2(){
+		Coords ret = new Coords(3);
 		ret.setX(getX());
 		ret.setY(getY());
 		ret.setZ(getZ());
-
 		return ret;
+	}
+	public Coords getCoordsInD3(){
+		Coords ret = new Coords(4);
+		ret.setX(getX());
+		ret.setY(getY());
+		ret.setZ(getZ());
+		return ret;
+		
 	}
 
 
@@ -847,7 +854,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 
 	public Coords getDirectionInD3(){
-		return getCoordsInD(3);
+		return getCoordsInD3();
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,

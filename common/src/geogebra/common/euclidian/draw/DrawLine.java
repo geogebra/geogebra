@@ -477,7 +477,7 @@ public class DrawLine extends Drawable implements Previewable {
 					view.getEuclidianController().setLineEndPoint(null);
 				
 				// line through first point and mouse position	
-				//coords = startPoint.getCoordsInD(2).crossProduct(new Coords(xRW, yRW, 1));
+				//coords = startPoint.getCoordsInD2().crossProduct(new Coords(xRW, yRW, 1));
 				coords = view.getCoordsForView(startPoint.getInhomCoordsInD3()).projectInfDim().crossProduct(new Coords(xRW, yRW, 1));
 				((GeoLine) g).setCoords(coords.getX(), coords.getY(), coords.getZ());
 				//GeoVec3D.cross(startPoint, xRW, yRW, 1.0, g);
@@ -511,9 +511,9 @@ public class DrawLine extends Drawable implements Previewable {
 		        //GeoVec3D.cross(previewPoint2, startPoint, g1);
 		        //GeoVec3D.cross(previewPoint2, xRW, yRW, 1.0, h);       
 		        
-		        coords = previewPoint2.getCoordsInD(2).crossProduct(startPoint.getCoordsInD(2));
+		        coords = previewPoint2.getCoordsInD2().crossProduct(startPoint.getCoordsInD2());
 		        g1.setCoords(coords.getX(), coords.getY(), coords.getZ());
-		        coords = previewPoint2.getCoordsInD(2).crossProduct(new Coords(xRW, yRW, 1));
+		        coords = previewPoint2.getCoordsInD2().crossProduct(new Coords(xRW, yRW, 1));
 				h.setCoords(coords.getX(), coords.getY(), coords.getZ());
 		        
 		        

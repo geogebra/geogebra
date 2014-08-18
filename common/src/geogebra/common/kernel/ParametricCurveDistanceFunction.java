@@ -64,7 +64,7 @@ public class ParametricCurveDistanceFunction implements RealRootFunction, Distan
 	 */
 	@Override
 	public void setDistantPoint(GeoPointND P) {
-		Coords coords = P.getCoordsInD(2);
+		Coords coords = P.getCoordsInD2();
 		px = coords.getX() / coords.getZ();
 		py = coords.getY() / coords.getZ();
 		

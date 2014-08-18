@@ -1740,23 +1740,31 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	public Coords getCoordsInD2(CoordSys coordSys) { // TODO use coord sys ?
-		return new Coords(new double[] { x, y, z });
+		if(coords2D == null){
+			coords2D = new Coords(new double[] { x, y, z });
+		}else{
+			coords2D.set(1, x);
+			coords2D.set(2, y);
+			coords2D.set(3, z);
+		}
+		return coords2D;
+	}
+	
+	public Coords getCoordsInD2(){
+		return getCoordsInD2(null);
+	}
+	
+	public Coords getCoordsInD3(){
+		return new Coords(x, y, 0, z);
 	}
 	
 	public Coords getCoordsInD(int dimension) {
 		switch (dimension) {
 		case 2:
-			if(coords2D == null){
-				coords2D = new Coords(new double[] { x, y, z });
-			}else{
-				coords2D.set(1, x);
-				coords2D.set(2, y);
-				coords2D.set(3, z);
-			}
-			return coords2D;
+			return getCoordsInD2();
 		case 3:
 			// Application.debug(getLabel()+": "+x+","+y+","+z);
-			return new Coords(x, y, 0, z);
+			return getCoordsInD3();
 		default:
 			return null;
 		}

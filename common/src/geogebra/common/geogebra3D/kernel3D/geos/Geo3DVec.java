@@ -669,7 +669,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 			if (rt instanceof GeoPointND) { // 3D point		
 				GeoPointND point = (GeoPointND) rt;
 				// use homogeneous coordinates
-				Coords coords = point.getCoordsInD(3);
+				Coords coords = point.getCoordsInD3();
 				xx = coords.getX();
 				yy = coords.getY();
 				zz = coords.getZ();

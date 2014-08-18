@@ -423,7 +423,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		isVisible = conicPart != null && prevPoints.size() == neededPrevPoints;
 		if (isVisible) {
 			for (int i = 0; i < prevPoints.size(); i++) {
-				Coords c = view.getCoordsForView(prevPoints.get(i).getCoordsInD(3));
+				Coords c = view.getCoordsForView(prevPoints.get(i).getCoordsInD3());
 				//App.debug("\n"+c);
 				if (!Kernel.isZero(c.getZ())){
 					previewTempPoints[i].setUndefined();

@@ -81,7 +81,7 @@ public abstract class GeoVec extends GeoElement3D {
 	}
 
 	public void setCoords(GeoPointND p) {
-		setCoords(p.getCoordsInD(3));
+		setCoords(p.getCoordsInD3());
 	}
 
 	final public Coords getCoords() {

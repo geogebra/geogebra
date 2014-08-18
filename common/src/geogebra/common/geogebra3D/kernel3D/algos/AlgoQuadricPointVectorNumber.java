@@ -27,7 +27,7 @@ public abstract class AlgoQuadricPointVectorNumber extends AlgoQuadricPointNumbe
 	
 	@Override
 	protected Coords getDirection(){
-		return ((GeoVectorND) getSecondInput()).getCoordsInD(3);
+		return ((GeoVectorND) getSecondInput()).getCoordsInD3();
 	}
 	
     @Override

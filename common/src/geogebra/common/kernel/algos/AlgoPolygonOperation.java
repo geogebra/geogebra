@@ -191,19 +191,19 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		Coords xy;
 
 		for (int i = 0 ; i < pts0.length ; i++) {
-			xy = pts0[i].getCoordsInD(2);
+			xy = pts0[i].getCoordsInD2();
 			coordinates0[i] = new Coordinate(xy.get(1),xy.get(2));
 		}
 
-		xy = pts0[0].getCoordsInD(2);
+		xy = pts0[0].getCoordsInD2();
 		coordinates0[pts0.length] = new Coordinate(xy.get(1),xy.get(2));
 
 		for (int i = 0 ; i < pts1.length ; i++) {
-			xy = pts1[i].getCoordsInD(2);
+			xy = pts1[i].getCoordsInD2();
 			coordinates1[i] = new Coordinate(xy.get(1),xy.get(2));
 		}
 
-		xy = pts1[0].getCoordsInD(2);
+		xy = pts1[0].getCoordsInD2();
 		coordinates1[pts1.length] = new Coordinate(xy.get(1),xy.get(2));
 
 		CoordinateArraySequence cas0 = new CoordinateArraySequence(coordinates0);

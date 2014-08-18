@@ -349,7 +349,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			defined = false;// TODO if s=0 then draws a line
 		else {
 			r = s / c;
-			setCone(origin.getInhomCoordsInD3(), direction.getCoordsInD(3), r);
+			setCone(origin.getInhomCoordsInD3(), direction.getCoordsInD3(), r);
 		}
 
 	}
@@ -832,7 +832,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	public boolean isInRegion(GeoPointND P) {
 
-		return isInRegion(P.getCoordsInD(3));
+		return isInRegion(P.getCoordsInD3());
 	}
 	
 	/**
@@ -885,7 +885,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 		Coords willingCoords = p.getWillingCoords();
 		if (willingCoords == null)
-			willingCoords = P.getCoordsInD(3);
+			willingCoords = P.getCoordsInD3();
 		else
 			p.setWillingCoords(null);
 

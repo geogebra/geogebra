@@ -105,7 +105,7 @@ public class DrawVector3D extends DrawJoinPoints {
 			p1.setW(1);
 		}else
 			p1 = geo.getStartPoint().getInhomCoordsInD3();
-		Coords p2 = p1.add(geo.getCoordsInD(3));
+		Coords p2 = p1.add(geo.getCoordsInD3());
 		
 		return new Coords[] {p1, p2};
 	}

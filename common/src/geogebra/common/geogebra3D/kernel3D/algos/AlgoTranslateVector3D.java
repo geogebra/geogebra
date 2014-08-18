@@ -32,7 +32,7 @@ public class AlgoTranslateVector3D extends AlgoTranslateVector{
     
     @Override
 	public void compute() {
-        ((GeoVector3D) w).setCoords(v.getCoordsInD(3));        
+        ((GeoVector3D) w).setCoords(v.getCoordsInD3());        
     }      
 
 }

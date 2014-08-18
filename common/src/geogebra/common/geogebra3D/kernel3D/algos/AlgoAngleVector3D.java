@@ -39,7 +39,7 @@ public class AlgoAngleVector3D extends AlgoAngleElement3D{
 	}
 	
 	protected final Coords getVectorCoords(){
-		return ((GeoVector3D) vec).getCoordsInD(3).copyVector();
+		return ((GeoVector3D) vec).getCoordsInD3().copyVector();
 	}
 	
 	protected final Coords getOrigin(){

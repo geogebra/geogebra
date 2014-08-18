@@ -81,7 +81,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
     
     @Override
 	protected void copyCoords(GeoPointND point){
-    	getPoint().setCoords(point.getCoordsInD(3));
+    	getPoint().setCoords(point.getCoordsInD3());
     }
     
     @Override

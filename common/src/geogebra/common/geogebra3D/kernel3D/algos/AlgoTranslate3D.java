@@ -19,7 +19,7 @@ public class AlgoTranslate3D extends AlgoTranslate {
     @Override
 	protected Coords getVectorCoords(){
     	GeoVectorND vec = (GeoVectorND) v;
-    	return vec.getCoordsInD(3);
+    	return vec.getCoordsInD3();
     }
     
     @Override

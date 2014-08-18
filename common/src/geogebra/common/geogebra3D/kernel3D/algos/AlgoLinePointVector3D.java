@@ -43,7 +43,7 @@ public class AlgoLinePointVector3D extends AlgoLinePoint {
 
 	@Override
 	protected Coords getDirection() {
-		return ((GeoVectorND) getInputParallel()).getCoordsInD(3);
+		return ((GeoVectorND) getInputParallel()).getCoordsInD3();
 	}
 
 

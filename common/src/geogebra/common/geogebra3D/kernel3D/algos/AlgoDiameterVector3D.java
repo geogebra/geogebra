@@ -65,7 +65,7 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 	public final void compute() {
     	
 		// check direction is parallel to coord sys
-		direction = c.getCoordSys().getNormalProjection(v.getCoordsInD(3))[1];
+		direction = c.getCoordSys().getNormalProjection(v.getCoordsInD3())[1];
 		if (!Kernel.isZero(direction.getZ())){
 			diameter.setUndefined();
 			return;

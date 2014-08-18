@@ -174,8 +174,8 @@ public class TextDispatcher {
 		}else if(object instanceof GeoPolygon){
 			GeoPointND[] pts = ((GeoPolygon)object).getPointsND();
 			for(GeoPointND pt: pts){
-				rwx += pt.getCoordsInD(2).getX();
-				rwy += pt.getCoordsInD(2).getY();
+				rwx += pt.getCoordsInD2().getX();
+				rwy += pt.getCoordsInD2().getY();
 			}
 			rwx = rwx / pts.length;
 			rwy = rwy / pts.length;
