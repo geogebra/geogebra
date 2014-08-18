@@ -36,7 +36,7 @@ public class CoordMatrix {
 	 * | 2  4 |
 	 * </code>
 	 */
-	protected double[] val;
+	public double[] val;
 
 	/** number of rows of the matrix */
 	protected int rows;

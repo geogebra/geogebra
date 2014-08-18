@@ -34,6 +34,7 @@ import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -150,7 +151,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			if (lowest == -1){ //no lowest element for now
 				lowest = 0; //first element is the lowest
 			}else{
-				if (Coords.COMPARATOR.compare(e, get(lowest)) < 0){
+				if (COORDS_COMPARATOR.compare(e, get(lowest)) < 0){
 					lowest = size();
 				}
 			}
@@ -172,7 +173,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				n2 = 0;
 			}
 			
-			if (Coords.COMPARATOR.compare(get(n1), get(n2)) < 0){
+			if (COORDS_COMPARATOR.compare(get(n1), get(n2)) < 0){
 				direction = -1;
 			}else{
 				direction = 1;
@@ -206,9 +207,9 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				return 1;
 			
 			//compare lowest coords
-			if (Coords.COMPARATOR.compare(get(lowest),o.get(o.lowest))<0)
+			if (COORDS_COMPARATOR.compare(get(lowest),o.get(o.lowest))<0)
 				return -1;
-			if (Coords.COMPARATOR.compare(get(lowest),o.get(o.lowest))>0)
+			if (COORDS_COMPARATOR.compare(get(lowest),o.get(o.lowest))>0)
 				return 1;
 			
 			//compare neighbors 
@@ -216,9 +217,9 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			while (visited<size()){
 				Coords thisCoords = next();
 				Coords oCoords = o.next();
-				if (Coords.COMPARATOR.compare(thisCoords,oCoords)<0)
+				if (COORDS_COMPARATOR.compare(thisCoords,oCoords)<0)
 					return -1;
-				if (Coords.COMPARATOR.compare(thisCoords,oCoords)>0)
+				if (COORDS_COMPARATOR.compare(thisCoords,oCoords)>0)
 					return 1;
 				visited++;
 			}
@@ -394,7 +395,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		
 		//for polyhedron vertices
 		if (polyhedronVertices == null)
-			polyhedronVertices =  new TreeSet<Coords>(Coords.COMPARATOR);
+			polyhedronVertices =  new TreeSet<Coords>(COORDS_COMPARATOR);
 		else
 			polyhedronVertices.clear();
 
@@ -1028,4 +1029,30 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		return loc.getPlain("IntersectionOfAandB",
 				getFirstInput().getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
+	
+	/**
+	 * comparator using Kernel precision (compare x, then y, then z, then ...)
+	 */
+	public static final Comparator<Coords> COORDS_COMPARATOR =  new Comparator<Coords>() {
+
+			public int compare(Coords o1, Coords o) {
+				//1) check vectors lengths
+				if (o1.val.length < o.val.length)
+					return -1;
+				if (o1.val.length > o.val.length)
+					return 1;
+				
+				//2) check if one value is lower
+				for (int i = 0 ; i < o1.val.length ; i++){
+					if (Kernel.isGreater(o.val[i], o1.val[i]))
+						return -1;
+					if (Kernel.isGreater(o1.val[i], o.val[i]))
+						return 1;			
+				}
+				
+				//3) vectors are equal
+				return 0;
+			}
+			
+		};
 }
