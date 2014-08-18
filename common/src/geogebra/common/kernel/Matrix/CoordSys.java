@@ -693,7 +693,7 @@ public class CoordSys {
 
 	}
 	
-
+	private CoordMatrix tempMatrix3x3;
 
 	/**
 	 * rotate by phi around center, parallel to xOy plane
@@ -703,24 +703,27 @@ public class CoordSys {
 	public void rotate(double phi, Coords center){
 		
 		//create rotation matrix
-		CoordMatrix m = CoordMatrix.Rotation3x3(phi);
+		if (tempMatrix3x3 == null){
+			tempMatrix3x3 = new CoordMatrix(3,3);
+		}
+		CoordMatrix.Rotation3x3(phi, tempMatrix3x3);
 
 		Coords o = matrixOrthonormal.getOrigin();
 		
 		//set multiplication matrix
-		matrixOrthonormal = m.mul3x3(matrixOrthonormal);
+		matrixOrthonormal = tempMatrix3x3.mul3x3(matrixOrthonormal);
 		//set origin matrix
-		matrixOrthonormal.setOrigin(m.mul(o.sub(center)).add(center));
+		matrixOrthonormal.setOrigin(tempMatrix3x3.mul(o.sub(center)).add(center));
 		matrixOrthonormal.set(4,4, 1);
 
 
 		// set original origin and vectors
 		setOrigin(o);
-		setVx(m.mul(getVx()));	
+		setVx(tempMatrix3x3.mul(getVx()));	
 
 		if (dimension==2){
-			setVy(m.mul(getVy()));
-			setVz(m.mul(getVz()));
+			setVy(tempMatrix3x3.mul(getVy()));
+			setVz(tempMatrix3x3.mul(getVz()));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
