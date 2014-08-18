@@ -609,7 +609,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	public void updateLabels() {
-		App.debug("why is it here");
+		//TODO implement or delete
 	}
 
 	/**
@@ -672,14 +672,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Update the toolbar GUI.
 	 */
 	public void buildToolbarGui() {
-		App.debug("TODO why is it here....");
+		//TODO implement or delete
 	}
 
 	/**
 	 * Update fonts.
 	 */
 	public void updateFonts() {
-		App.debug("Why is it here....");
+		//TODO implement or delete
 	}
 
 	/**
