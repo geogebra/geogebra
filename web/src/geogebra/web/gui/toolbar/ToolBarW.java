@@ -102,7 +102,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	}
 
 	private void closeAllSubmenuAtLeave() {
-		app.closePopups();
 		closeAllSubmenu();
 	}
 
