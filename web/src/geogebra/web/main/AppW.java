@@ -1807,4 +1807,8 @@ public abstract class AppW extends AppWeb {
 		gifEncoder.finish();
 	}
 	
+	@Override
+	public int getGUIFontSize() {
+		return 14;
+	}
 }

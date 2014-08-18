@@ -81,7 +81,6 @@ import java.util.Iterator;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
@@ -298,8 +297,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		dialog.setVisible(true);
 	}
 
+	/**
+	 * It sometimes happens that a file changes the font size of GUI.
+	 * The GUI is not ready for this in Web.
+	 */
 	public void updateFonts() {
-		
+		/*
 		((AppW) app).getFrameElement().getStyle().setFontSize(app.getFontSize(), Unit.PX);
 		
 		// if (((AppW) app).getObjectPool().getGgwMenubar() != null){
@@ -316,7 +319,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if(hasSpreadsheetView()){
 			getSpreadsheetView().updateFonts();
 		}
-			
+		*/	
 	}
 	
 	
