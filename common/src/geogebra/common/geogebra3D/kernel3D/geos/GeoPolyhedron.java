@@ -1817,7 +1817,7 @@ GeoPolyhedronInterface
 			if (dist < minDist) {
 				minDist = dist;
 				// remember closest point
-				res = P.getInhomCoords();
+				res = P.getInhomCoords().copyVector();
 				param = i + pp.getT();
 				// Application.debug(i);
 			}
@@ -1845,7 +1845,7 @@ GeoPolyhedronInterface
 			if (dist < minDist) {
 				minDist = dist;
 				// remember closest point
-				res = P.getInhomCoords();
+				res = P.getInhomCoords().copyVector();
 				param = i + pp.getT();
 				// Application.debug(i);
 			}

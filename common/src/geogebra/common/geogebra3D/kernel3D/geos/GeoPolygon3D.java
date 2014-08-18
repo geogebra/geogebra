@@ -548,7 +548,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 			if (dist < minDist) {
 				minDist = dist;
 				// remember closest point
-				res = P.getInhomCoords();
+				res = P.getInhomCoords().copyVector();
 				param = i + pp.getT();
 				// Application.debug(i);
 			}
