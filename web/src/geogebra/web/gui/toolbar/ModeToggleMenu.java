@@ -1,7 +1,6 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.main.App;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ListItem;
@@ -32,7 +31,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -41,10 +39,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	private static final long serialVersionUID = 1L;
 
-	FlowPanel tbutton;
-	FlowPanel submenu;
-	FlowPanel submenuArrow;
-	UnorderedList itemList;
+	private FlowPanel tbutton;
+	private ToolbarSubemuW submenu;
 
 	private AppW app;
 
@@ -89,19 +85,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		//Adding submenus if needed.
 		if (menu.size()>1){
 			
-			submenu = new FlowPanel();
-			this.add(submenu);
-			submenu.setStyleName("toolbar_submenu");
-			
-			submenuArrow = new FlowPanel();
-			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_up());
-			submenuArrow.add(arrow);
-			submenuArrow.setStyleName("submenuArrow");
-			submenu.add(submenuArrow);
-			
-			itemList = new UnorderedList();
-			itemList.setStyleName("submenuContent");
-			//addNativeTouchHandlers(this, toolbar.getElement());
+			submenu = new ToolbarSubemuW(app);
+			add(submenu);
 		
 			for (int k = 0; k < menu.size(); k++) {
 				final int addMode = menu.get(k).intValue();
@@ -111,23 +96,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				} else { // standard case: add mode
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
-						ListItem subLi = new ListItem();
-						Image modeImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(addMode));
-						//modeImage.getElement().setId("img_"+addMode);
-						Label lb = new Label(app.getToolName(addMode));
-						subLi.add(modeImage);
-						subLi.add(lb);
-						//subLi.getElement().setId(addMode+"");
-						subLi.getElement().setAttribute("mode", addMode+"");
+						ListItem subLi = submenu.addItem(addMode);
 						addDomHandlers(subLi);
 						subLi.addDomHandler(this, MouseOverEvent.getType());
 						subLi.addDomHandler(this, MouseOutEvent.getType());
 						subLi.addDomHandler(this, KeyUpEvent.getType());
-						itemList.add(subLi);
 					}
 				}
 			}
-			this.submenu.add(itemList);
 		
 			hideMenu();
 		}
@@ -138,7 +114,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public UnorderedList getItemList(){
-		return itemList;
+		if (submenu != null) {
+			return submenu.getItemList();
+		}
+		return null;
 	}
 	
 	public void addDomHandlers(Widget w){
@@ -158,7 +137,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			this.buildGui();
 		}
 		if (submenu != null) {
-			submenu.addStyleName("visible");
+			submenu.setVisible(true);
+			app.registerPopup(submenu);
 		}
 	}
 
@@ -167,7 +147,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 */
 	public void hideMenu() {
 		if (submenu != null) {
-			submenu.removeStyleName("visible");
+			app.unregisterPopup(submenu);
+			submenu.setVisible(false);
 		}
 	}
 	
@@ -176,10 +157,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 */
 	public void setMenuVisibility(boolean visible) {
 		if (submenu != null) {
+			submenu.setVisible(visible);
 			if (visible) {
-				submenu.addStyleName("visible");
+				app.registerPopup(submenu);
 			} else {
-				submenu.removeStyleName("visible");
+				app.unregisterPopup(submenu);
 			}
 		}
 	}
@@ -373,7 +355,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 */
 	public boolean isMenuShown() {
 		if (submenu != null) {
-			return submenu.getElement().hasClassName("visible");
+			return submenu.isVisible();
 		}
 		return false;
 	}
@@ -444,11 +426,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		case KeyCodes.KEY_DOWN:
 			if (event.getSource() == tbutton){
 				if(isMenuShown()){
-					this.itemList.getWidget(0).getElement().focus();
+					this.getItemList().getWidget(0).getElement().focus();
 				} else {
 					hideToolTip();
 					showMenu();
-					this.itemList.getWidget(0).getElement().focus();
+					this.getItemList().getWidget(0).getElement().focus();
 				}
 			} else {
 				Element nextSiblingElement = event.getRelativeElement().getNextSiblingElement();
@@ -480,5 +462,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			hideMenu();
 			mtm2.showMenu();
 		}
+	}
+	
+	public FlowPanel getToolbarButtonPanel() {
+		return tbutton;
 	}
 }

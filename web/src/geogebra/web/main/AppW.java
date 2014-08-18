@@ -1677,6 +1677,10 @@ public abstract class AppW extends AppWeb {
 		}
 		popups.clear();
 	}
+	
+	public void unregisterPopup(Widget widget) {
+		popups.remove(widget);
+	}
 
 	public String getClientType() {
 		return getLAF().getType();
