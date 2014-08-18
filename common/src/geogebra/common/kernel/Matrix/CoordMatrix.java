@@ -353,7 +353,7 @@ public class CoordMatrix {
 	 * @param angle angle of rotation
 	 * @return matrix
 	 */
-	public static final CoordMatrix Rotation3x3(Coords u, double angle) {
+	public static final void Rotation3x3(Coords u, double angle, CoordMatrix m) {
 		
 		double ux = u.getX();
 		double uy = u.getY();
@@ -362,7 +362,7 @@ public class CoordMatrix {
 		double c = Math.cos(angle);
 		double s = Math.sin(angle);
 		
-		double[] vals = new double[9];
+		double[] vals = m.val;
 		vals[0] = ux*ux*(1-c) + c;
 		vals[1] = ux*uy*(1-c) + uz*s;
 		vals[2] = ux*uz*(1-c) - uy*s;
@@ -374,8 +374,6 @@ public class CoordMatrix {
 		vals[6] = ux*uz*(1-c) + uy*s;
 		vals[7] = uy*uz*(1-c) - ux*s;
 		vals[8] = uz*uz*(1-c) + c;
-		
-		return new CoordMatrix(3, 3, vals);
 
 	}
 

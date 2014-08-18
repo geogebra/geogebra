@@ -737,24 +737,27 @@ public class CoordSys {
 	public void rotate(double phi, Coords center, Coords direction){
 		
 		//create rotation matrix
-		CoordMatrix m = CoordMatrix.Rotation3x3(direction, phi);
+		if (tempMatrix3x3 == null){
+			tempMatrix3x3 = new CoordMatrix(3,3);
+		}
+		CoordMatrix.Rotation3x3(direction, phi, tempMatrix3x3);
 				
 		Coords o = matrixOrthonormal.getOrigin();
 		
 		//set multiplication matrix
-		matrixOrthonormal = m.mul3x3(matrixOrthonormal);
+		matrixOrthonormal = tempMatrix3x3.mul3x3(matrixOrthonormal);
 		//set origin matrix
-		Coords newOrigin = m.mul(o.sub(center)).add(center);
+		Coords newOrigin = tempMatrix3x3.mul(o.sub(center)).add(center);
 		matrixOrthonormal.setOrigin(newOrigin);
 		matrixOrthonormal.set(4,4, 1);
 		
 		// set original origin and vectors
 		setOrigin(newOrigin);
-		setVx(m.mul(getVx()));	
+		setVx(tempMatrix3x3.mul(getVx()));	
 
 		if (dimension==2){
-			setVy(m.mul(getVy()));
-			setVz(m.mul(getVz()));
+			setVy(tempMatrix3x3.mul(getVy()));
+			setVz(tempMatrix3x3.mul(getVz()));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
