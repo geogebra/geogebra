@@ -9,7 +9,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.gui.util.CardPanel;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.main.GlobalKeyDispatcherW;
@@ -26,12 +25,15 @@ import java.util.List;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * Class to dynamically display plots and statistics in coordination with the
@@ -45,6 +47,15 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	private static final long serialVersionUID = 1L;
 
 
+	private static final int NUM_CLASSES_IDX = 0;
+	private static final int MANUAL_CLASSES_IDX = 1;
+	private static final int STEM_IDX = 2;
+	private static final int EMPTY_IDX = 3;
+
+	private static final int METAPLOT_IDX = 0;
+	private static final int IMAGE_IDX = 1;
+	private static final int _IDX = 2;
+
 	// ggb fields
 	private AppW app;
 	private final LocalizationW loc;
@@ -52,7 +63,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	private DataDisplayModel model;
 	// data view mode
 	// display panels
-	private FlowPanel displayCardPanel;
+	private DeckPanel displayDeckPanel;
 	private FlowPanel metaPlotPanel, plotPanelNorth, plotPanelSouth;
 	private PlotPanelEuclidianViewW plotPanel;
 
@@ -60,7 +71,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	// control panel
 	private FlowPanel controlPanel;
-	private FlowPanel controlCards;
+	private DeckPanel controlDecks;
 	private boolean hasControlPanel = true;
 	private ListBox lbDisplayType;
 	private List<PlotType> plotTypes;
@@ -83,9 +94,9 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	// stemplot adjustment panel
 	private FlowPanel stemAdjustPanel;
 	private Label lblAdjust;
-	private Button minus;
-	private Button none;
-	private Button plus;
+	private ToggleButton minus;
+	private ToggleButton none;
+	private ToggleButton plus;
 
 	private FlowPanel imagePanel;
 
@@ -168,17 +179,17 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			FlowPanel emptyControl = new FlowPanel();
 			emptyControl.add(new Label("  "));
 
-			// put sub-control panels into a card layout
-			controlCards = new CardPanel();
-			controlCards.add(numClassesPanel);
-//			controlCards.add(manualClassesPanel);
-			controlCards.add(stemAdjustPanel);
-			controlCards.add(emptyControl);
+			// put sub-control panels into a deck panel
+			controlDecks = new DeckPanel();
+			controlDecks.add(numClassesPanel);
+			controlDecks.add(manualClassesPanel);
+			controlDecks.add(stemAdjustPanel);
+			controlDecks.add(emptyControl);
 
 			// control panel
 			controlPanel = new FlowPanel();
 			controlPanel.add(lbDisplayType);
-			controlPanel.add(controlCards);
+			controlPanel.add(controlDecks);
 			controlPanel.add(LayoutUtil.panelRow(btnOptions, btnExport));
 		}
 
@@ -195,7 +206,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		
 		fldTitleX = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldTitleY = (new InputPanelW(null, app, -1, false)).getTextComponent();
-//		fldTitleY = new MyTextField(app, 20);
+//		fldTitleY = new MyTextField (app, 20);
 		fldTitleX.setEditable(false);
 		fldTitleY.setEditable(false);
 //		fldTitleX.setBackground(Color.white);
@@ -206,13 +217,13 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		createImagePanel();
 
-		// put display panels into a card layout
+		// put display panels into a deck panel
 
-		displayCardPanel = new FlowPanel();
+		displayDeckPanel = new DeckPanel();
 		//displayCardPanel.setBackground(bgColor);
 
-		displayCardPanel.add(metaPlotPanel);
-		displayCardPanel.add(new ScrollPanel(imagePanel));
+		displayDeckPanel.add(metaPlotPanel);
+		displayDeckPanel.add(new ScrollPanel(imagePanel));
 
 		// create options panel
 		optionsPanel = new OptionsPanelW(app, daModel, getModel().getSettings());
@@ -234,7 +245,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		if (hasControlPanel) {
 			mainPanel.add(controlPanel);
 		}
-		mainPanel.add(displayCardPanel);
+		mainPanel.add(displayDeckPanel);
 		mainPanel.add(optionsPanel);
 
 		add(mainPanel);
@@ -263,7 +274,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	/**
-	 * Creates the JComboBox that selects display type
+	 * Creates the ListBox that selects display type
 	 */
 	private void createDisplayTypeComboBox() {
 
@@ -276,11 +287,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 				}
 			});
 			plotTypes = new ArrayList<PlotType>();
-			
-//			lbDisplayType.setRenderer(new MyRenderer(app));
 
 		} else {
-//			lbDisplayType.removeActionListener(this);
 			lbDisplayType.clear();
 		}
 
@@ -319,36 +327,31 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	 */
 	private void createNumClassesPanel() {
 
-//		int numClasses = getModel().getSettings().getNumClasses();
-//		fldNumClasses = new JTextField("" + numClasses);
-//		fldNumClasses.setEditable(false);
-//		fldNumClasses.setOpaque(true);
-//		fldNumClasses.setColumns(2);
-//		fldNumClasses.setHorizontalAlignment(SwingConstants.CENTER);
-//		fldNumClasses.setBackground(null);
-//		fldNumClasses.setBorder(BorderFactory.createEmptyBorder());
-//		fldNumClasses.setVisible(false);
-//
-//		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20,
-//				numClasses);
-//		Dimension d = sliderNumClasses.getPreferredSize();
-//		d.width = 80;
-//		sliderNumClasses.setPreferredSize(d);
-//		sliderNumClasses.setMinimumSize(new Dimension(50, d.height));
-//
-//		sliderNumClasses.setMajorTickSpacing(1);
-//		sliderNumClasses.setSnapToTicks(true);
-//		sliderNumClasses.addChangeListener(new ChangeListener() {
-//			public void stateChanged(ChangeEvent evt) {
-//				JSlider slider = (JSlider) evt.getSource();
-//				getModel().getSettings().setNumClasses(slider.getValue());
-//				fldNumClasses.setText(("" + getModel().getSettings()
-//						.getNumClasses()));
-//				getModel().updatePlot(true);
-//			}
-//		});
-//
-//		sliderNumClasses.addMouseListener(new MouseAdapter() {
+		int numClasses = getModel().getSettings().getNumClasses();
+		fldNumClasses = (new InputPanelW(null, app, -1, false)).getTextComponent();
+		fldNumClasses.setEditable(false);
+		fldNumClasses.setOpaque(true);
+		fldNumClasses.setColumns(2);
+		fldNumClasses.setVisible(false);
+
+		sliderNumClasses = new Slider( 3, 20);
+		sliderNumClasses.setValue(numClasses);
+
+		sliderNumClasses.setMajorTickSpacing(1);
+
+		sliderNumClasses.addChangeHandler(new ChangeHandler() {
+			
+			public void onChange(ChangeEvent event) {
+				getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
+				fldNumClasses.setText(("" + getModel().getSettings()
+						.getNumClasses()));
+				getModel().updatePlot(true);
+						
+			}
+		});
+		
+//		
+//		.addMouseListener(new MouseAdapter() {
 //			@Override
 //			public void mouseEntered(MouseEvent arg0) {
 //				fldNumClasses.setVisible(true);
@@ -363,9 +366,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //		});
 //
 		numClassesPanel = new FlowPanel();//new FlowLayout(FlowLayout.LEFT, 0, 0));
-//		numClassesPanel.add(sliderNumClasses);
-//		// numClassesPanel.add(lblNumClasses);
-//		numClassesPanel.add(fldNumClasses);
+		numClassesPanel.add(sliderNumClasses);
+		numClassesPanel.add(fldNumClasses);
 
 	}
 
@@ -375,13 +377,30 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	private void createStemPlotAdjustmentPanel() {
 
 		lblAdjust = new Label();
-		minus = new Button("-1");
-		none = new Button("0");
-		plus = new Button("+1");
-//		minus.addActionListener(this);
-//		none.addActionListener(this);
-//		plus.addActionListener(this);
-////		none.setSelected(true);
+		minus = new ToggleButton("-1");
+		none = new ToggleButton("0");
+		plus = new ToggleButton("+1");
+		minus.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				actionPerformed(this);
+			}
+		});
+		
+		none.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				actionPerformed(this);
+			}
+		});
+		
+		minus.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				actionPerformed(this);
+			}
+		});
+
+		none.setValue(true);
+		
 		stemAdjustPanel = new FlowPanel();
 		stemAdjustPanel.add(minus);
 		stemAdjustPanel.add(none);
@@ -418,8 +437,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	// ==============================================
 
 	public void showControlPanel() {
-//		((CardLayout) controlCards.getLayout())
-//				.show(controlCards, "blankPanel");
+		controlDecks.showWidget(EMPTY_IDX);
 	}
 
 	public void setOptionsButtonVisible() {
@@ -428,8 +446,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	public void showInvalidDataDisplay() {
 //		imageContainer.setIcon(null);
-//		((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-//				"imagePanel");
+		displayDeckPanel.showWidget(IMAGE_IDX);
+		
 	}
 
 	// ============================================================
@@ -437,28 +455,26 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	// ============================================================
 //
 	public void actionPerformed(Object source) {
+		if (source instanceof AutoCompleteTextFieldW)
+		{
+			doTextFieldActionPerformed(source);
+		}
 		
-//
-//		Object source = e.getSource();
-//
-//		if (source instanceof JTextField)
-//			doTextFieldActionPerformed(source);
-//
-//		else if (source == minus || source == plus || source == none) {
-//			minus.setSelected(source == minus);
-//			none.setSelected(source == none);
-//			plus.setSelected(source == plus);
-//			if (source == minus) {
-//				getModel().getSettings().setStemAdjust(-1);
-//			}
-//			if (source == none) {
-//				getModel().getSettings().setStemAdjust(0);
-//			}
-//			if (source == plus) {
-//				getModel().getSettings().setStemAdjust(1);
-//			}
-//			getModel().updatePlot(true);
-//		}
+		else if (source == minus || source == plus || source == none) {
+			minus.setValue(source == minus);
+			none.setValue(source == none);
+			plus.setValue(source == plus);
+			if (source == minus) {
+				getModel().getSettings().setStemAdjust(-1);
+			}
+			if (source == none) {
+				getModel().getSettings().setStemAdjust(0);
+			}
+			if (source == plus) {
+				getModel().getSettings().setStemAdjust(1);
+			}
+			getModel().updatePlot(true);
+		}
 //
 //		else if (source == btnOptions) {
 //			optionsPanel.setPanel(getModel().getSelectedPlot());
@@ -472,7 +488,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //					btnExport.getHeight());
 //		}
 //
-//		else 
+		else 
 		if (source == lbDisplayType) {
 			int idx = lbDisplayType.getSelectedIndex();
 			if (idx != -1) {
@@ -487,7 +503,6 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			}
 
 		}
-//
 	}
 
 	private void doTextFieldActionPerformed(Object source) {
@@ -575,7 +590,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void setSelectedType(PlotType type) {
-		lbDisplayType.setSelectedIndex(0);//((int)lbDisplayType));
+		lbDisplayType.setSelectedIndex(plotTypes.indexOf(type));
 	}
 
 	public void setTableFromGeoFrequencyTable(
@@ -590,28 +605,27 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void showManualClassesPanel() {
-//		showCardPanel(controlCards, "manualClassesPanel");
+		controlDecks.showWidget(MANUAL_CLASSES_IDX);
 	}
 
 	public void showNumClassesPanel() {
-//		showCardPanel(controlCards, "numClassesPanel");
+		controlDecks.showWidget(NUM_CLASSES_IDX);
 	}
 
 	public void showPlotPanel() {
-//		showCardPanel(displayCardPanel, "plotPanel");
+		displayDeckPanel.showWidget(METAPLOT_IDX);
 	}
 
 	public void updateStemPlot(String latex) {
 //		imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
 //				app.getPlainFont(), true, Color.BLACK, null));
-//		btnOptions.setVisible(false);
-//		if (hasControlPanel) {
-//			showCardPanel(controlCards, "stemAdjustPanel");
-//		}
-//
-//		((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-//				"imagePanel");
-//
+		btnOptions.setVisible(false);
+		if (hasControlPanel) {
+			controlDecks.showWidget(STEM_IDX);
+		}
+
+		displayDeckPanel.showWidget(IMAGE_IDX);
+
 	}
 
 	public void updateXYTitles(boolean isPointList, boolean isLeftToRight) {
