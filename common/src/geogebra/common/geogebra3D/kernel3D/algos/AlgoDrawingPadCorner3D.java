@@ -41,14 +41,23 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner{
 		return new GeoPoint3D(cons);
 
 	}
+	
+	/**
+	 * 
+	 * @param nv number value
+	 * @return true if nv has a value for 3D view (at this very moment)
+	 */
+	static final public boolean is3D(NumberValue nv){
+		return Kernel.isEqual(nv.getDouble() , -1);
+	}
 
 	@Override
 	public final void compute() {
 		
 
 		App app = cons.getApplication();
-
-		if (evNum != null && Kernel.isEqual(evNum.getDouble() , 3)){
+		
+		if (evNum != null && is3D(evNum)){
 			if (!app.hasEuclidianView3D() || !corner.isGeoElement3D()) {
 				corner.setUndefined();
 				return;
