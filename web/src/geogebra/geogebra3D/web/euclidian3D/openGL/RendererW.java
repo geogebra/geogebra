@@ -30,6 +30,7 @@ import geogebra.html5.util.ImageWrapper;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -1032,10 +1033,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     	if (!image.getPropertyBoolean("complete")) {	
     		ImageWrapper.nativeon(image,
     				"load",
-    				new AlphaTextureCreator(label, image, this)
+    				new AlphaTextureCreator(label, image, (BufferedImage) bimg, this)
     				);
     	}else{
-    		createAlphaTexture(label, image);
+    		createAlphaTexture(label, image, (BufferedImage) bimg);
     	}
 		
 		
@@ -1045,18 +1046,20 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     	
     	private DrawLabel3D label;
     	private ImageElement image;
+    	private BufferedImage bimg;
     	private RendererW renderer;
     	
-    	public AlphaTextureCreator(DrawLabel3D label, ImageElement image, RendererW renderer){
+    	public AlphaTextureCreator(DrawLabel3D label, ImageElement image, BufferedImage bimg, RendererW renderer){
     		this.label = label;
     		this.image = image;
+    		this.bimg = bimg;
     		this.renderer = renderer;
     	}
 
 		public void onLoad() {
 			
 			// image ready : create the texture
-			renderer.createAlphaTexture(label, image);
+			renderer.createAlphaTexture(label, image, bimg);
 			
 			// repaint the view
 			renderer.getView().repaintView();
@@ -1076,8 +1079,36 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	 * @param label label
 	 * @param image image
 	 */ 
-    protected void createAlphaTexture(DrawLabel3D label, ImageElement image){
-		
+    protected void createAlphaTexture(DrawLabel3D label, ImageElement image, BufferedImage bimg){
+
+    	if (label.isPickable()){
+    		// values for picking (ignore transparent bytes)
+    		ImageData data = bimg.getImageData();
+    		int xmin = label.getWidth(), xmax = 0, ymin = label.getHeight(), ymax = 0;
+    		for (int y = 0; y < label.getHeight(); y++){
+    			for (int x = 0; x < label.getWidth(); x++){
+    				int alpha = data.getAlphaAt(x, y);
+    				if (alpha != 0){
+    					if (x < xmin){
+    						xmin = x;
+    					}
+    					if (x > xmax){
+    						xmax = x;
+    					}
+    					if (y < ymin){
+    						ymin = y;
+    					}
+    					if (y > ymax){
+    						ymax = y;
+    					}
+    				}
+    			}
+    		}
+    		label.setPickingDimension(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
+    	}
+
+
+		// create texture
 		WebGLTexture texture;
 		
 		int textureIndex = label.getTextureIndex();

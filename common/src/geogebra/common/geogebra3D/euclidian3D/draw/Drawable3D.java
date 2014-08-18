@@ -1518,6 +1518,14 @@ public abstract class Drawable3D extends DrawableND {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return if the label is pickable
+	 */
+	public boolean hasPickableLable() {
+		return true;
+	}
+
 	
 }
 

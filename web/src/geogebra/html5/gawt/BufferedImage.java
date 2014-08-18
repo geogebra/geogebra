@@ -151,4 +151,8 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 	    ImageData imageData = ctx.getImageData(x, y, width, height);
 	    return new BufferedImage(imageData);
     }
+	
+	public ImageData getImageData(){
+		return getCanvas().getContext2d().getImageData(0, 0, getWidth(), getHeight());
+	}
 }

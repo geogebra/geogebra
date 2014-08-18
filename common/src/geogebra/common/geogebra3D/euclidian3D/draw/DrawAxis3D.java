@@ -346,6 +346,10 @@ public class DrawAxis3D extends DrawLine3D {
 	}
 
 
-	
+
+	@Override
+	public boolean hasPickableLable() {
+		return false;
+	}
 	
 }

@@ -309,14 +309,10 @@ public class DrawLabel3D {
 	
 	private int drawX, drawY, drawZ;
 	
-	public int getDrawX(){
-		return drawX;
-	}
-	
-	public int getDrawY(){
-		return drawY;
-	}
-	
+	/**
+	 * 
+	 * @return z position (in screen coords) where the label is drawn
+	 */
 	public int getDrawZ(){
 		return drawZ;
 	}
@@ -345,21 +341,6 @@ public class DrawLabel3D {
 
 	}
 	
-	public int getPickingX(){
-		return pickingX;
-	}
-	
-	public int getPickingY(){
-		return pickingY;
-	}
-	
-	public int getPickingW(){
-		return pickingW;
-	}
-	
-	public int getPickingH(){
-		return pickingH;
-	}
 	
 	/**
 	 * 
@@ -508,5 +489,9 @@ public class DrawLabel3D {
 	}
 	
     private int pickingX, pickingY, pickingW, pickingH;
+    
+    public boolean isPickable(){
+    	return drawable.hasPickableLable();
+    }
 
 }
