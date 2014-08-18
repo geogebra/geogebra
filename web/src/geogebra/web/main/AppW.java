@@ -1231,12 +1231,6 @@ public abstract class AppW extends AppWeb {
 		return fontManager;
 	}
 
-	@Override
-	public GFont getFontCanDisplay(String testString, boolean serif, int style,
-	        int size) {
-		return fontManager.getFontCanDisplay(testString, serif, style, size);
-	}
-
 	// ============================================
 	// CURSORS
 	// ============================================
