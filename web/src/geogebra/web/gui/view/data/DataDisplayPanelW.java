@@ -11,7 +11,6 @@ import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CardPanel;
 import geogebra.html5.gui.util.LayoutUtil;
-import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.main.LocalizationW;
@@ -20,7 +19,9 @@ import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -62,7 +63,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	private FlowPanel controlCards;
 	private boolean hasControlPanel = true;
 	private ListBox lbDisplayType;
-
+	private List<PlotType> plotTypes;
 	// options button and sidebar panel
 	private OptionsPanelW optionsPanel;
 	private MyToggleButton2 btnOptions;
@@ -274,7 +275,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 					actionPerformed(lbDisplayType);
 				}
 			});
-		
+			plotTypes = new ArrayList<PlotType>();
+			
 //			lbDisplayType.setRenderer(new MyRenderer(app));
 
 		} else {
@@ -435,6 +437,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	// ============================================================
 //
 	public void actionPerformed(Object source) {
+		
 //
 //		Object source = e.getSource();
 //
@@ -471,17 +474,13 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //
 //		else 
 		if (source == lbDisplayType) {
-			if (lbDisplayType.getSelectedIndex() == -1) {
-				lbDisplayType.setSelectedIndex(ListBoxApi.getIndexOf(getModel().getSelectedPlot().key,
-						lbDisplayType));
-			} else {
-				lbDisplayType.setSelectedIndex(ListBoxApi.getIndexOf(getModel().getSelectedPlot().key,
-						lbDisplayType));
-//				getModel().setSelectedPlot(
-//						(PlotType) lbDisplayType.getSelectedItem());
+			int idx = lbDisplayType.getSelectedIndex();
+			if (idx != -1) {
+				PlotType t = plotTypes.get(idx);
+				getModel().setSelectedPlot(t); 
 				getModel().updatePlot(true);
 			}
-
+			
 			if (optionsPanel.isVisible()) {
 				optionsPanel.setPanel(getModel().getSelectedPlot());
 
@@ -556,7 +555,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //	};
 
 	public void addDisplayTypeItem(PlotType type) {
-		lbDisplayType.addItem(type.toString());
+		lbDisplayType.addItem(type.key);
+		plotTypes.add(type);
 	}
 
 	public void updateScatterPlot() {
