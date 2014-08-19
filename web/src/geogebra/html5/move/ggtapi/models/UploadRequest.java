@@ -50,8 +50,8 @@ public class UploadRequest implements Request {
 			//language
 			task.put("language", new JSONString(app.getLocalization().getLanguage()));
 				
-			//description
-			task.put("description", new JSONString("This is just an example"));
+//			//description
+//			task.put("description", new JSONString("This is just an example"));
 				
 			//settings
 			JSONObject settings = new JSONObject();
@@ -66,14 +66,15 @@ public class UploadRequest implements Request {
 				age.put("-max", new JSONString("19"));
 			task.put("age", age);
 			
-			//tags
-			JSONObject tags = new JSONObject();
-				//tag
-				JSONObject tag = new JSONObject();
-					//name
-					tag.put("-name", new JSONString("example"));
-				tags.put("tag", tag);
-			task.put("tags", tags);
+//			//tags
+//			JSONObject tags = new JSONObject();
+//				//tag
+//				JSONObject tag = new JSONObject();
+//					//name
+//					tag.put("-name", new JSONString("example"));
+//				tags.put("tag", tag);
+//			task.put("tags", tags);
+			
 			//file
 			JSONObject file = new JSONObject();
 					file.put("-base64", new JSONString(app.getGgbApi().getBase64(true)));
