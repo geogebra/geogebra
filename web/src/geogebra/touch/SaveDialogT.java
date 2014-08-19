@@ -1,14 +1,14 @@
 package geogebra.touch;
 
 import geogebra.common.main.App;
-import geogebra.web.gui.util.GeoGebraFileChooserW;
+import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.main.AppW;
 
 import com.googlecode.gwtphonegap.client.connection.Connection;
 
-public class GeoGebraFileChooserT extends GeoGebraFileChooserW {
+public class SaveDialogT extends SaveDialogW {
 
-	public GeoGebraFileChooserT(App app) {
+	public SaveDialogT(App app) {
 	    super(app);
     }
 

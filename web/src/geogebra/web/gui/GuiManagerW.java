@@ -58,7 +58,7 @@ import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.toolbar.ToolBarW;
-import geogebra.web.gui.util.GeoGebraFileChooserW;
+import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.view.algebra.AlgebraContextMenuW;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
@@ -824,7 +824,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// String fileName = Window.prompt("File name", "Bunny");
 		// do saving here if getBase64 will be good
 		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
-			GeoGebraFileChooserW fileChooser = ((DialogManagerW) app.getDialogManager()).getFileChooser();
+			SaveDialogW fileChooser = ((DialogManagerW) app.getDialogManager()).getFileChooser();
 			fileChooser.center();
 		} else {
 			((DialogManagerW) app.getDialogManager()).getFileChooser().openFilePicker();

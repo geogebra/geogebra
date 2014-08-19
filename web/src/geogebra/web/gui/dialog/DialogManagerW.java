@@ -29,7 +29,7 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.util.GeoGebraFileChooserW;
+import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
 import geogebra.web.javax.swing.GOptionPaneW;
@@ -269,15 +269,15 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	}
 	
-	GeoGebraFileChooserW fileChooser = null;	
+	SaveDialogW fileChooser = null;	
 
-	public void setFileChooser(GeoGebraFileChooserW fileChooser) {
+	public void setFileChooser(SaveDialogW fileChooser) {
 		this.fileChooser = fileChooser;
 	}
 	
-	public GeoGebraFileChooserW getFileChooser() {
+	public SaveDialogW getFileChooser() {
 		if (fileChooser == null) {
-			fileChooser = new GeoGebraFileChooserW(app);
+			fileChooser = new SaveDialogW(app);
 		}
 		return fileChooser;
 	}

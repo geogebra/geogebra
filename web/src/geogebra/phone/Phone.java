@@ -3,7 +3,7 @@ package geogebra.phone;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.phone.gui.PhoneGUI;
-import geogebra.touch.GeoGebraFileChooserT;
+import geogebra.touch.SaveDialogT;
 import geogebra.touch.PhoneGapManager;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -27,7 +27,7 @@ public class Phone implements EntryPoint {
 		appFrame = new GeoGebraAppFrame(new GLookAndFeel());
 		appFrame.init();
 		appFrame.app.setFileManager(new FileManagerP());
-		((DialogManagerW) appFrame.app.getDialogManager()).setFileChooser(new GeoGebraFileChooserT(appFrame.app));
+		((DialogManagerW) appFrame.app.getDialogManager()).setFileChooser(new SaveDialogT(appFrame.app));
 		PhoneGapManager.initializePhoneGap();
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()
 		        .addBackButtonPressedHandler(new BackButtonPressedHandler() {

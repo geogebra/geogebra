@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
+public class SaveDialogW extends DialogBox implements EventRenderable {
 
 	protected App app;
 	VerticalPanel p;
@@ -50,7 +50,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	 * 
 	 * Creates a new GeoGebraFileChooser Window
 	 */
-	public GeoGebraFileChooserW(final App app) {
+	public SaveDialogW(final App app) {
 		super();
 		this.app = app;
 		this.addStyleName("GeoGebraFileChooser");
@@ -177,11 +177,15 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 
 	@Override
 	public void show(){
-		this.getCaption().setText(app.getMenu("Save"));
-		this.save.setEnabled(false);
-		this.title.setFocus(true);
-		setTitle();
 		super.show();
+
+		System.out.println("show");
+		setTitle();
+		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
+			this.save.setEnabled(false);
+		}
+		this.materialPrivate.setValue(true);
+		this.title.setFocus(true);
 	}
 
 	public void saveSuccess(String fName, String desc) {
