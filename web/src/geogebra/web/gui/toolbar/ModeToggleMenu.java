@@ -250,28 +250,23 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			ModeToggleMenu mtm = modeToggleMenus.get(i);
 			if (mtm != this) {
-				mtm.tbutton.getElement().getStyle().setBorderWidth(1, Unit.PX);
-				mtm.tbutton.getElement().setAttribute("isSelected","false");
+				mtm.getToolbarButtonPanel().getElement().getStyle().setBorderWidth(1, Unit.PX);
+				mtm.getToolbarButtonPanel().getElement().setAttribute("isSelected","false");
 			}
 		}
 		//Set border width explicitly to make sure browser actually does that 
 		// (otherwise the thicker border applies on next browser event)
-		tbutton.getElement().setAttribute("isSelected","true");
-		tbutton.getElement().getStyle().setBorderWidth(2, Unit.PX);
+		getToolbarButtonPanel().getElement().setAttribute("isSelected","true");
+		getToolbarButtonPanel().getElement().getStyle().setBorderWidth(2, Unit.PX);
 	}
 	
 	public void addSeparator(){
 		//TODO
 	}
 
-	@Override
-    public void onTouchEnd(TouchEndEvent event) {
-		onEnd(event);
-		CancelEventTimer.touchEventOccured();
-    }
-	
 	public void onEnd(DomEvent<?> event) {
 		tbutton.getElement().focus();
+		event.stopPropagation();
 		if (event.getSource() == tbutton) { // if click ended on the button
 			// if enter was pressed
 			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
@@ -293,8 +288,15 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	    if (event.getSource() == tbutton){
 	    	onStart(event);
 	    	CancelEventTimer.touchEventOccured();
+	    } else { // clicked on a submenu list item
+	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
 	    }
-	    
+    }
+
+	@Override
+    public void onTouchEnd(TouchEndEvent event) {
+		onEnd(event);
+		CancelEventTimer.touchEventOccured();
     }
 
 	@Override
@@ -309,7 +311,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     public void onMouseDown(MouseDownEvent event) {
 	    if (event.getSource() == tbutton && !CancelEventTimer.cancelMouseEvent()){
 	    	onStart(event);
-	    }    
+	    } else { // clicked on a submenu list item
+	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
+	    }
     }
 	
 	/**
@@ -318,16 +322,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 */
 	public void onStart(DomEvent event){
 		event.preventDefault();
-		// stop the propagation so that :ToolBarW.OutsideClickHandler
-		// does not processes the event
 		event.stopPropagation();
 		this.setFocus(true);
 		if (isMenuShown()) {
 			wasMenuShownOnMouseDown = true;
-			if (event.getSource() != tbutton) {
-				hideMenu();
-			}
 		} else {
+			toolbar.closeAllSubmenu();
 			wasMenuShownOnMouseDown = false;
 			showMenu();
 		}
@@ -464,6 +464,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 	}
 	
+	/**
+	 * @return the panel containing the toolbar button
+	 */
 	public FlowPanel getToolbarButtonPanel() {
 		return tbutton;
 	}

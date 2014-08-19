@@ -25,8 +25,11 @@ import java.util.Date;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -203,18 +206,40 @@ public class GeoGebraAppFrame extends ResizeComposite {
 			this.callback.onSuccess("");
 		}
 		app.getLAF().setCloseMessage(app.getLocalization());
-		this.addDomHandler(new ClickHandler(){
-
-			@Override
-            public void onClick(final ClickEvent event) {
-	            app.closePopups();
-	            
-            }},ClickEvent.getType());
-//		((AppW)app).initializeLanguage();
+		
+		this.addDomHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent event) {
+				closePopupsAndMaybeMenu(event.getNativeEvent());			
+			}
+		}, MouseDownEvent.getType());
+		
+		this.addDomHandler(new TouchStartHandler() {
+			public void onTouchStart(TouchStartEvent event) {
+				closePopupsAndMaybeMenu(event.getNativeEvent());
+			}
+		}, TouchStartEvent.getType());
+		//		((AppW)app).initializeLanguage();
 
 		//Debugging purposes
 		AppW.displayLocaleCookie();
     }
+	
+	/**
+	 * This method will close the popups. Also if the event doesn't target the menu
+	 * or the menu toggle button and there is no drag in progress, the menu will also
+	 * close. Use this only in event handlers.
+	 * @see GeoGebraAppFrame#init()
+	 * @param event native event
+	 */
+	public void closePopupsAndMaybeMenu(NativeEvent event) {
+		app.closePopups();
+		if (isMenuOpen() &&
+				!Dom.eventTargetsElement(event, getGGWMenuBar().getElement()) &&
+				!Dom.eventTargetsElement(event, getGGWToolbar().getOpenMenuButtonElement()) &&
+				!frameLayout.getGlassPane().isDragInProgress()) {
+			toggleMenu();
+		}
+	}
 
 	/**
 	 * This method should only run once, at the startup of the application
@@ -224,7 +249,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 		// layout things - moved to AppWapplication, appropriate places
 		// frameLayout.setLayout(app);
-		frameLayout.registerPreviewNativeEventHandler(app);
+		//frameLayout.registerPreviewNativeEventHandler(app);
 
 		// Graphics view
 		frameLayout.getGGWGraphicsView().attachApp(app);
@@ -310,6 +335,13 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public GGWToolBar getGGWToolbar() {
 	    return ggwToolBar;
     }
+	
+	/**
+	 * @return GGWMenuBar the MenuBar container
+	 */
+	public GGWMenuBar getGGWMenuBar() {
+		return ggwMenuBar;
+	}
 
 	public void setFrameLayout(){
 		frameLayout.setLayout(app);
@@ -357,6 +389,10 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public boolean toggleMenu() {
 	    return frameLayout.toggleMenu();
     }
+	
+	public boolean isMenuOpen() {
+		return frameLayout.isMenuOpen();
+	}
 
 	public GGWMenuBar getMenuBar() {
 	    return frameLayout.getMenuBar();
