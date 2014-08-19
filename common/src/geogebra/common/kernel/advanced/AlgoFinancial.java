@@ -257,6 +257,8 @@ public class AlgoFinancial extends AlgoElement {
 	/**
 	 * Uses Newton's method to find rate.
 	 * 
+	 * TODO Guard against values of guess that are nearly zero.
+	 * 
 	 * @return
 	 */
 	private boolean computeRate() {
@@ -291,7 +293,7 @@ public class AlgoFinancial extends AlgoElement {
 	}
 
 	/**
-	 * Computes the fundamental formula for a specified rate.
+	 * Computes the fundamental formula as a function of rate.
 	 * 
 	 * @param x
 	 *            the given rate
@@ -303,7 +305,8 @@ public class AlgoFinancial extends AlgoElement {
 	}
 
 	/**
-	 * Computes the derivative of the fundamental formula for a specified rate.
+	 * Computes the derivative of the fundamental formula when expressed as a
+	 * function of rate.
 	 * 
 	 * @param x
 	 *            the given rate
@@ -316,11 +319,12 @@ public class AlgoFinancial extends AlgoElement {
 		double c = pmtType;
 		double d = fv;
 
-		// Using the above constants the fundamental formula becomes:
+		// Using the above constants the fundamental formula is:
 		// f = a(1 + x)^n + b(1 + cx)((1 + x)^n - 1) / x + d;
-		// The derivative of f is computed below.
+		// The derivative of f was found by a CAS and is computed below.
 
-		// TODO Optimize this, protect against division by small numbers
+		// TODO Optimize this result (?) Protect against division by small
+		// numbers.
 
 		double p = Math.pow(1 + x, n);
 		double num = a * n * x * x * p + b
@@ -328,6 +332,11 @@ public class AlgoFinancial extends AlgoElement {
 		return num / (x * x * (x + 1));
 	}
 
+	// TODO. Alternate iterative method to compute rate. For reference only,
+	// should be removed later. Note that the code guards against a rate guess
+	// that is nearly zero.
+	//
+	// Code adapted from http://www.cflib.org/udf/excelRate
 	private boolean computeRate2() {
 
 		double financialPrecision = 1.0e-08;
