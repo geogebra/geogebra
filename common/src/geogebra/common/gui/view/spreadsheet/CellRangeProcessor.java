@@ -26,8 +26,6 @@ import geogebra.common.plugin.Operation;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import com.google.gwt.regexp.shared.MatchResult;
-
 /**
  * 
  * Utility class with methods for processing cell ranges (e.g inserting rows,
@@ -1029,36 +1027,39 @@ public class CellRangeProcessor {
 	// Insert Rows/Columns
 	// ===================================================
 
-	// TODO: these methods are taken from the old code and need work
-	// They behave badly when cells have references to cells on the other
-	// side of a newly inserted row or column
+	
+	/**
+	 * @param column1
+	 *            minimum selected column
+	 * @param column2
+	 *            maximum selected column
+	 * @param insertLeft
+	 *            true = insert left of column1, false = insert right of column2
+	 */
+	public void insertColumn(int column1, int column2, boolean insertLeft) {
 
-	public void InsertLeft(int column1, int column2) {
-
-		int columns = tableModel.getColumnCount();
-		if (columns == column1 + 1) {
-			// last column: need to insert one more
-			tableModel.setColumnCount(tableModel.getColumnCount() + 1);
-			getView().columnHeaderRevalidate();
-			columns++;
+		if (insertLeft) {
+		shiftColumnsRight(column1);
+		} else {
+			shiftColumnsRight(column2 + 1);
 		}
-		int rows = tableModel.getRowCount();
-		boolean succ = table.getCopyPasteCut().delete(columns - 1, 0,
-				columns - 1, rows - 1);
-		for (int x = columns - 2; x >= column1; --x) {
-			for (int y = 0; y < rows; ++y) {
-				GeoElement geo = RelativeCopy.getValue(app, x, y);
+	}
+
+	
+	private void shiftColumnsRight(int startColumn){
+		
+		boolean succ = false;
+		int maxColumn = tableModel.getHighestUsedColumn();
+		int maxRow = tableModel.getHighestUsedRow();
+		
+		for (int column = maxColumn; column >= startColumn; --column) {
+			for (int row = 0; row <= maxRow; ++row) {
+				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null)
 					continue;
 
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-						.exec(geo.getLabelSimple());
-				int column = GeoElementSpreadsheet
-						.getSpreadsheetColumn(matcher);
-				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
-				column += 1;
 				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column, row);
+						column + 1, row);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1067,70 +1068,40 @@ public class CellRangeProcessor {
 		if (succ) {
 			app.storeUndoInfo();
 		}
+		
 	}
+	
+	
+	/**
+	 * @param row1
+	 *            minimum selected row
+	 * @param row2
+	 *            maximum selected row
+	 * @param insertAbove
+	 *            true = insert above row1, false = insert below row2
+	 */
+	public void insertRow(int row1, int row2, boolean insertAbove) {
 
-	public void InsertRight(int column1, int column2) {
-
-		int columns = tableModel.getColumnCount();
-		int rows = tableModel.getRowCount();
-		boolean succ = false;
-		if (columns == column1 + 1) {
-			// last column: insert another on right
-			tableModel.setColumnCount(table.getColumnCount() + 1);
-			getView().columnHeaderRevalidate();
-			// can't be undone
+		if (insertAbove) {
+			shiftRowsDown(row1);
 		} else {
-			succ = table.getCopyPasteCut().delete(columns - 1, 0, columns - 1,
-					rows - 1);
-			for (int x = columns - 2; x >= column2 + 1; --x) {
-				for (int y = 0; y < rows; ++y) {
-					GeoElement geo = RelativeCopy.getValue(app, x, y);
-					if (geo == null)
-						continue;
-
-					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-							.exec(geo.getLabelSimple());
-					int column = GeoElementSpreadsheet
-							.getSpreadsheetColumn(matcher);
-					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
-					column += 1;
-					String newLabel = GeoElementSpreadsheet
-							.getSpreadsheetCellName(column, row);
-					geo.setLabel(newLabel);
-					succ = true;
-				}
-			}
+			shiftRowsDown(row2 + 1);
 		}
-
-		if (succ)
-			app.storeUndoInfo();
 	}
-
-	public void InsertAbove(int row1, int row2) {
-		int columns = tableModel.getColumnCount();
-		int rows = tableModel.getRowCount();
-		if (rows == row2 + 1) {
-			// last row: need to insert one more
-			tableModel.setRowCount(tableModel.getRowCount() + 1);
-			getView().rowHeaderRevalidate();
-			rows++;
-		}
-		boolean succ = table.getCopyPasteCut().delete(0, rows - 1, columns - 1,
-				rows - 1);
-		for (int y = rows - 2; y >= row1; --y) {
-			for (int x = 0; x < columns; ++x) {
-				GeoElement geo = RelativeCopy.getValue(app, x, y);
+	
+	private void shiftRowsDown(int startRow) {
+		
+		int maxColumn = tableModel.getHighestUsedColumn();
+		int maxRow = tableModel.getHighestUsedRow();
+		boolean succ = false;
+		
+		for (int row = maxRow; row >= startRow; --row) {
+			for (int column = 0; column < maxColumn; ++column) {
+				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null)
 					continue;
-
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-						.exec(geo.getLabelSimple());
-				int column = GeoElementSpreadsheet
-						.getSpreadsheetColumn(matcher);
-				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
-				row += 1;
 				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column, row);
+						column, row+1);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1140,41 +1111,7 @@ public class CellRangeProcessor {
 			app.storeUndoInfo();
 	}
 
-	public void InsertBelow(int row1, int row2) {
-		int columns = tableModel.getColumnCount();
-		int rows = tableModel.getRowCount();
-		boolean succ = false;
-		if (rows == row2 + 1) {
-			// last row: need to insert one more
-			tableModel.setRowCount(tableModel.getRowCount() + 1);
-			getView().rowHeaderRevalidate();
-			// can't be undone
-		} else {
-			succ = table.getCopyPasteCut().delete(0, rows - 1, columns - 1,
-					rows - 1);
-			for (int y = rows - 2; y >= row2 + 1; --y) {
-				for (int x = 0; x < columns; ++x) {
-					GeoElement geo = RelativeCopy.getValue(app, x, y);
-					if (geo == null)
-						continue;
-					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-							.exec(geo.getLabelSimple());
-					int column = GeoElementSpreadsheet
-							.getSpreadsheetColumn(matcher);
-					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
-					row += 1;
-					String newLabel = GeoElementSpreadsheet
-							.getSpreadsheetCellName(column, row);
-					geo.setLabel(newLabel);
-					succ = true;
-				}
-			}
-		}
-
-		if (succ)
-			app.storeUndoInfo();
-	}
-
+	
 	/**
 	 * Creates an operation table.
 	 */
