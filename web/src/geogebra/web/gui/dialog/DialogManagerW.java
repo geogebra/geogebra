@@ -29,8 +29,8 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.util.GoogleFileDescriptors;
+import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
@@ -434,6 +434,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		if (textInputDialog != null)
 			((TextInputDialogW) textInputDialog).setLabels();
 
+		if (fileChooser != null) {
+			fileChooser.setLabels();
+		}
 		//if (fileChooser != null)
 		//	updateJavaUILanguage();
 		

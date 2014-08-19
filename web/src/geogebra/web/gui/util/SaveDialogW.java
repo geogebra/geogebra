@@ -1,5 +1,6 @@
 package geogebra.web.gui.util;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
@@ -105,7 +106,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		radioButtonPanel.setStyleName("radioButtonPanel");
 		
 		//TODO translate
-	    this.materialPrivate = new RadioButton("Material", "Privat");
+	    this.materialPrivate = new RadioButton("Material", "Private");
 	    this.materialShared = new RadioButton("Material", "Shared");
 	    this.materialPublic = new RadioButton("Material", "Public");
 	    
@@ -223,4 +224,15 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	    	}
 	    }
     }-*/;
+	
+	public void setLabels() {
+		this.getCaption().setText(app.getMenu("Save"));
+		this.titleLabel.setText(app.getPlain("Title") + ": ");
+		this.cancel.setText(app.getMenu("Cancel"));
+		this.save.setText(app.getMenu("Save"));
+		//TODO translation needed
+//		this.materialPrivate.setText();
+//		this.materialShared.setText();
+//		this.materialPublic.setText();
+	}
 }
