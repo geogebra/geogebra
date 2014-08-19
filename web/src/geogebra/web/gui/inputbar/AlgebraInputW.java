@@ -152,6 +152,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	public void onResize() {
+		if(app == null){
+			return;
+		}
 		if (!app.isApplet()) {
 			setInputFieldWidth((int)app.getWidth());
 		}
@@ -165,6 +168,10 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	 * updates labels according to current locale
 	 */
 	public void setLabels() {
+		if(app == null){
+			return;
+		}
+
 		if (inputLabel != null)
 			inputLabel.setText(app.getPlain("InputLabel") + ":");
 
@@ -338,7 +345,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	private void setHelpPopup(){
-		if (helpPopup == null) {
+		if (helpPopup == null && app != null) {
 			helpPopup = new PopupPanel();
 			helpPopup.addStyleName("helpPopup");
 			helpPopup.setAutoHideEnabled(false);
