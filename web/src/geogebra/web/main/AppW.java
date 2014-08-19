@@ -35,7 +35,6 @@ import geogebra.html5.main.FileManagerInterface;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
-import geogebra.html5.main.ViewManager;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -1424,11 +1423,6 @@ public abstract class AppW extends AppWeb {
 		return this.objectPool;
 	}
 
-	@Override
-    public ViewManager getViewManager() {
-	    return getGuiManager();
-    }
-	
 	public static native void debug(JavaScriptObject j) /*-{
 		$wnd.console.log(j);
 	}-*/;
