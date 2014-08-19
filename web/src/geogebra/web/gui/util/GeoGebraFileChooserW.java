@@ -12,8 +12,9 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -80,25 +81,25 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 		this.titleLabel = new Label(app.getPlain("Title") + ": ");
 		titlePanel.add(this.titleLabel);
 		titlePanel.add(title = new TextBox());
-		
-		title.addKeyDownHandler(new KeyDownHandler() {
-
+		title.addKeyUpHandler(new KeyUpHandler() {
+			
 			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				//TODO only titles with more than 3 letters are allowed
-				// check if pressed key was "delete"
-				if (title.getText().length()+1 < MIN_TITLE_LENGTH) {
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER && save.isEnabled()) {
+					onSave();
+				}
+				else if (title.getText().length() < MIN_TITLE_LENGTH) {
 					save.setEnabled(false);
 				} else {
 					save.setEnabled(true);
 				}
 			}
 		});
-		
+
 		titlePanel.addStyleName("titlePanel");
 		p.add(titlePanel);
 	}
-	
+
 	private void addRadioButtons() {
 		FlowPanel radioButtonPanel = new FlowPanel();
 		radioButtonPanel.setStyleName("radioButtonPanel");
