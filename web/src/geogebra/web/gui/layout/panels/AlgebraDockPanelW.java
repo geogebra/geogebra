@@ -42,7 +42,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 			// as loadComponent should only load when needed
 			setAlgebraView((AlgebraViewW)app.getAlgebraView());
 			inputPanel.init(app);
-			inputPanel.getTextField().getTextBox().getElement().setAttribute("placeholder",app.getLocalization().getPlain("InputLabel"));
 			aview.setInputPanel(inputPanel);
 		}
 		return algebrap;

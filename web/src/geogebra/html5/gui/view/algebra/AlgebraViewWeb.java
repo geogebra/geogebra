@@ -36,6 +36,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	protected AlgebraInputW inputPanel;
+	protected Label contentLabel;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -581,9 +582,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	private void addDummyNode() {
 		this.dummy = new TreeItem();
 
-		Label content = new Label(loc.getMenu("Objects"));
-		content.setStyleName("elemHeadingDummy");
-		this.dummy.setWidget(content);
+		contentLabel = new Label(loc.getMenu("Objects"));
+		contentLabel.setStyleName("elemHeadingDummy");
+		this.dummy.setWidget(contentLabel);
 
 	    this.addItem(dummy);
     }
@@ -990,7 +991,12 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * application if the language setting is changed.
 	 */
 	public void setLabels() {
-
+		if (contentLabel != null) {
+			contentLabel.setText(loc.getMenu("Objects"));
+		}
+		if (inputPanel != null) {
+			inputPanel.setLabels();
+		}
 		setTreeLabels();
 
 		/*

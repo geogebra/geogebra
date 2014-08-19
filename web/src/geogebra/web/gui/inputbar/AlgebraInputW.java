@@ -177,6 +177,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		}
 
 		inputField.setDictionary(false);
+		inputField.getTextField().getElement().setAttribute("placeholder",app.getPlain("InputLabel"));
 	}
 	
 	/**
