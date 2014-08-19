@@ -239,9 +239,9 @@ public abstract class AppWeb extends App implements SetLabels{
 				$wnd.ggbOnInit();
 		}-*/;
 
-		public static native void ggbOnInit(String arg) /*-{
+		public static native void ggbOnInit(String arg, JavaScriptObject self) /*-{
 			if (typeof $wnd.ggbOnInit === 'function')
-				$wnd.ggbOnInit(arg);
+				$wnd.ggbOnInit(arg, self);
 		}-*/;
 		
 		@Override
