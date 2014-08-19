@@ -19,9 +19,9 @@ xvfb-run --auto-servernum -w 3 ./run-junit-tests || RETVAL=1 # Problem running t
 ./junit2sqlite # Copying XML data into an SQL database
 
 # giac JS test with PhantomJS (temporarily disabled):
-cd scripts/autotest
-./giacjs-test.sh
-cd ../..
+# cd scripts/autotest
+# ./giacjs-test.sh
+# cd ../..
 
 ./warnings > .warnings
 
