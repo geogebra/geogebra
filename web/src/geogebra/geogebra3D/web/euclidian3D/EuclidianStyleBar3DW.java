@@ -5,7 +5,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
 import geogebra.html5.awt.GDimensionW;
@@ -453,8 +452,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	
 	@Override
 	protected void updateGUI(){
-		
-		App.debug("============ updateGUI");
 		
 		super.updateGUI();
 		
