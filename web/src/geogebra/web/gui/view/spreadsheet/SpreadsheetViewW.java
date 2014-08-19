@@ -391,6 +391,7 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		app.getSettings().restoreDefaultSpreadsheetSettings();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
+		tableModel.clearView();
 		
 	}
 

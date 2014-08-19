@@ -256,6 +256,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		}
 		highestUsedColumn = -1;
 		highestUsedRow = -1;
+		cellRangeManager.removeAll();
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
