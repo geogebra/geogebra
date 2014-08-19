@@ -1096,7 +1096,7 @@ public class CellRangeProcessor {
 		boolean succ = false;
 		
 		for (int row = maxRow; row >= startRow; --row) {
-			for (int column = 0; column < maxColumn; ++column) {
+			for (int column = 0; column <= maxColumn; ++column) {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null)
 					continue;
