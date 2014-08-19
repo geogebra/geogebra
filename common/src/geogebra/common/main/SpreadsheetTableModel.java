@@ -177,10 +177,11 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		GPoint location = geo.getOldSpreadsheetCoords();
 		if (location != null) {
 			doRemove(geo, location.y, location.x);
-			cellRangeManager.updateCellRangeAlgos(geo, location, false);
+			cellRangeManager.updateCellRangeAlgos(geo, location, true);
 		}
 		addWithoutTrace(geo);
 	}
+	
 
 	private void doRemove(GeoElement geo, int row, int col) {
 		setValueAt(null, row, col);
