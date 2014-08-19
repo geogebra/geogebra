@@ -79,6 +79,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.Command;
@@ -820,23 +821,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public boolean save() {
-		app.setWaitCursor();
 		// String fileName = Window.prompt("File name", "Bunny");
 		// do saving here if getBase64 will be good
-		GeoGebraFileChooserW fileChooser = ((DialogManagerW) app
-		        .getDialogManager()).getFileChooser();
-		if (((AppW) app).getFileName() != null) {
-			fileChooser.setFileName(((AppW) app).getFileName());
+		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
+			GeoGebraFileChooserW fileChooser = ((DialogManagerW) app.getDialogManager()).getFileChooser();
+			fileChooser.center();
 		} else {
-			fileChooser.setFileName("");
+			((DialogManagerW) app.getDialogManager()).getFileChooser().openFilePicker();
 		}
-
-		if (((AppW) app).getFileDescription() != null) {
-			fileChooser.setDescription(((AppW) app).getFileDescription());
-		} else {
-			fileChooser.setDescription("");
-		}
-		fileChooser.center();
+		
+		
 		return true;
 	}
 

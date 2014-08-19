@@ -271,6 +271,10 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	
 	GeoGebraFileChooserW fileChooser = null;	
 
+	public void setFileChooser(GeoGebraFileChooserW fileChooser) {
+		this.fileChooser = fileChooser;
+	}
+	
 	public GeoGebraFileChooserW getFileChooser() {
 		if (fileChooser == null) {
 			fileChooser = new GeoGebraFileChooserW(app);
@@ -369,7 +373,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	    	signInDialog.close();
 	    	signInDialog = null;
 	    }
-	
     }
 	
 	private WindowReference openFromGGT = null;

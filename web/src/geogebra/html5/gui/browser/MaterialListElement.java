@@ -391,6 +391,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		markUnSelected();
 		if (!this.isLocalFile) {
 			openTubeWindow(material.getURL());
+//			openTubeWindow("http://tube-beta.geogebra.org/student/m123899?caller=tablet");
 		}
 		//		--> var wnd = window.open("about:blank", "", "_blank");
 		//			wnd.document.write(html);

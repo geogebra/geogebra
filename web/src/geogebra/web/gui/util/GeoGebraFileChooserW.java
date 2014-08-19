@@ -2,55 +2,47 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
-import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.GgbAPIW;
+import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.AppW;
-import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
-import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
-	
-	App app;
+
+	protected App app;
 	VerticalPanel p;
-	TextBox fileName;
-	TextArea description;
-	Button saveToGoogleDrive;
-	//Button saveToSkyDrive;
-	Button cancel;
-	Anchor download;
-	Button uploadToGGT;
-	private int type;
-	private ClickHandler saveToGoogleDriveH;
-	//private ClickHandler saveToSkyDriveH;
-	private ClickHandler loginToGoogleH;
-	//private ClickHandler loginToSkyDriveH;
-	private HandlerRegistration saveToGoogleDriveR = null;
-	private HandlerRegistration saveToSkyDriveR = null;
-	private HandlerRegistration loginToGoogleR = null;
-	private HandlerRegistration loginToSkyDriveR = null;
-	private JavaScriptObject downloadCallback;
+	protected TextBox title;
+	StandardButton cancel;
+	StandardButton save;
+	
+	RadioButton materialPrivate;
+	RadioButton materialShared;
+	RadioButton materialPublic;
+	
+	Anchor downloadButton;
+	
+	private Label titleLabel;
+	private final int MIN_TITLE_LENGTH = 4;
 
 	/**
 	 * @param app AppW
@@ -58,291 +50,174 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	 * Creates a new GeoGebraFileChooser Window
 	 */
 	public GeoGebraFileChooserW(final App app) {
-	    super();
-	    this.app = app;
-	    add(p = new VerticalPanel());
-	    
-	    HorizontalPanel fileNamePanel = new HorizontalPanel();
-	    fileNamePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-	    fileNamePanel.add(new Label(app.getPlain("Filename") + ": "));
-	    fileNamePanel.add(fileName = new TextBox());
-	    fileNamePanel.addStyleName("fileNamePanel");
-	    p.add(fileNamePanel);
-	    
-	    HorizontalPanel descriptionPanel = new HorizontalPanel();
-	    descriptionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-	    descriptionPanel.add(new Label(app.getPlain("Description") + ": "));
-	    descriptionPanel.add(description = new TextArea());
-	    descriptionPanel.addStyleName("descriptionPanel");
-	    p.add(descriptionPanel);
+		super();
+		this.app = app;
+		this.addStyleName("GeoGebraFileChooser");
+		this.add(p = new VerticalPanel());
+		this.setGlassEnabled(true);
+		
+		this.downloadButton = new Anchor();
+		this.downloadButton.setStyleName("downloadButton");
+		this.downloadButton.getElement().setAttribute("download", "geogebra.ggb");
+		
+		addTitelPanel();
+		addRadioButtons();
+		addButtonPanel();
+		
+		this.addCloseHandler(new CloseHandler<PopupPanel>() {
 
-	    download = new Anchor();
-		download.setText(app.getMenu("DownloadAsGgbFile"));	
-		download.setStyleName("gwt-Button");
-		download.addStyleName("linkDownload");
-		download.getElement().setAttribute(
-				"style", "text-decoration: none; color: black");
-	    
-		
-		
-	    HorizontalPanel buttonPanel = new HorizontalPanel();
-	    buttonPanel.addStyleName("buttonPanel");
-	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
-	    buttonPanel.add(saveToGoogleDrive = new Button(app.getMenu("SaveToGoogleDrive")));
-	    //buttonPanel.add(saveToSkyDrive = new Button(app.getMenu("SaveToSkyDrive")));
-	    buttonPanel.add(download);
-	    buttonPanel.add(uploadToGGT = new Button(app.getMenu("UploadGeoGebraTube")));
-	    p.add(buttonPanel);
-	    addStyleName("GeoGebraFileChooser");
-	    
-	    cancel.addClickHandler(new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				app.setDefaultCursor();
-				hide();
-			}
-		});
-	    
-	    saveToGoogleDriveH = new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				if (fileName.getText() != "") {
-					saveToGoogleDrive.setEnabled(false);
-					cancel.setEnabled(false);
-					fileName.setEnabled(false);
-					description.setEnabled(false);
-					download.setEnabled(false);
-					uploadToGGT.setEnabled(false);
-					String saveName = fileName.getText();
-					//wont save if . exist in filename 
-					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
-					JavaScriptObject callback = ((AppW) app).getGoogleDriveOperation().getPutFileCallback(saveName, description.getText());
-					((geogebra.html5.main.GgbAPIW)app.getGgbApi()).getBase64(true, callback);
-					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
-				}
-			}
-				
-		};
-		
-		saveToGoogleDrive.addClickHandler(saveToGoogleDriveH);
-		
-		/*saveToSkyDriveH = new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				if (fileName.getText() != "") {
-					saveToSkyDrive.setEnabled(false);
-					cancel.setEnabled(false);
-					fileName.setEnabled(false);
-					description.setEnabled(false);
-					download.setEnabled(false);
-					uploadToGGT.setEnabled(false);
-					String saveName = fileName.getText();
-					//wont save if . exist in filename 
-					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
-					JavaScriptObject callback = ((AppW) app).getObjectPool().getMySkyDriveApis().getPutFileCallback(saveName, description.getText());
-					((geogebra.html5.main.GgbAPI)app.getGgbApi()).getBase64(callback);
-					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
-				}
-			}
-				
-		};*/
-		
-		/*loginToSkyDriveH = new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				((AppW) app).getObjectPool().getMySkyDriveApis().setCaller("save");
-				((AppW) app).getObjectPool().getMySkyDriveApis().loginToSkyDrive();
-				
-				
-			}
-		};*/
-	    
-	    //loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
-	    
-	    download.addClickHandler(new ClickHandler() {			
-			public void onClick(ClickEvent event) {
-				if ("tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
-					String consTitle = fileName.getText();
-					if(consTitle.endsWith(".ggb")){
-						consTitle = consTitle.substring(0, consTitle.indexOf(".ggb"));
-					}
-					app.getKernel().getConstruction().setTitle(consTitle);
-					((AppW) app).getFileManager().saveFile(app);
-				}
-				else {
-					if(GeoGebraFileChooserW.this.downloadCallback != null){
-						call(GeoGebraFileChooserW.this.downloadCallback);
-					}
-				}
-				hide();
-			}
-
-			private native void call(JavaScriptObject callback)/*-{
-	            callback();
-            }-*/;
-		});
-	    
-	    uploadToGGT.addClickHandler(new ClickHandler() {			
-			public void onClick(ClickEvent event) {
-				app.uploadToGeoGebraTube();
-				hide();
-			}
-		});
-		
-	    
-	    addCloseHandler(new CloseHandler<PopupPanel>() {
-			
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
-				saveToGoogleDrive.setEnabled(((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle());
-				//saveToSkyDrive.setEnabled(true);
 				cancel.setEnabled(true);
-				fileName.setEnabled(true);
-				description.setEnabled(true);
-				download.setEnabled(true);
-				uploadToGGT.setEnabled(true);
+				title.setEnabled(true);
 			}
 		});
-	    
-	    //ggb file creating, and if ready, enabling of download-button.
-	    setFilename("geogebra.ggb");
-	    fileName.addChangeHandler(new ChangeHandler(){
+	}
 
-			public void onChange(ChangeEvent event) {
-				String newName = fileName.getText();
-				if(!newName.endsWith(".ggb")){
-					newName += ".ggb";
-					fileName.setText(newName);
+	private void addTitelPanel() {
+		HorizontalPanel titlePanel = new HorizontalPanel();
+		titlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		this.titleLabel = new Label(app.getPlain("Title") + ": ");
+		titlePanel.add(this.titleLabel);
+		titlePanel.add(title = new TextBox());
+		
+		title.addKeyDownHandler(new KeyDownHandler() {
+
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				//TODO only titles with more than 3 letters are allowed
+				// check if pressed key was "delete"
+				if (title.getText().length()+1 < MIN_TITLE_LENGTH) {
+					save.setEnabled(false);
+				} else {
+					save.setEnabled(true);
 				}
-				setFilename(newName);
-            }
-	    	
-	    });
-	    
-	    ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
-			
-			public void render(boolean b) {
-				renderNetworkOperation(b);
 			}
 		});
-	    
-	    ((AppW) app).getGoogleDriveOperation().getView().add(this);
-	    enableGoogleDrive(((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle());
-	    
-    }
-	
-	@Override
-    public void show(){
-		this.getCaption().setText(app.getMenu("SaveAs"));
-		refreshOnlineState();
-		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
-		JavaScriptObject o = getDownloadGGBCallback(this.download.getElement());
-		((GgbAPIW) app.getGgbApi()).getGGB(true, o);
-	    super.show();
+		
+		titlePanel.addStyleName("titlePanel");
+		p.add(titlePanel);
 	}
 	
-	private void refreshOnlineState() {
-	    if (!((AppW) app).getNetworkOperation().getOnline()) {
-	    	renderNetworkOperation(false);
-	    }
+	private void addRadioButtons() {
+		FlowPanel radioButtonPanel = new FlowPanel();
+		radioButtonPanel.setStyleName("radioButtonPanel");
+		
+		//TODO translate
+	    this.materialPrivate = new RadioButton("Material", "Privat");
+	    this.materialShared = new RadioButton("Material", "Shared");
+	    this.materialPublic = new RadioButton("Material", "Public");
+	    
+	    radioButtonPanel.add(this.materialPrivate);
+	    radioButtonPanel.add(this.materialShared);
+	    radioButtonPanel.add(this.materialPublic);
+	    
+	    this.materialPrivate.setValue(true);
+	    
+	    p.add(radioButtonPanel);
     }
-	
-	private void setDownloadCallback(JavaScriptObject callback){
-		this.downloadCallback = callback;
+
+	private void addButtonPanel() {
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("buttonPanel");
+		buttonPanel.add(cancel = new StandardButton(app.getMenu("Cancel")));
+		buttonPanel.add(save = new StandardButton(app.getMenu("Save")));
+		save.setEnabled(false);
+		
+		save.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				onSave();
+			}
+		});
+
+		cancel.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				app.setDefaultCursor();
+				hide();
+			}
+		});
+		
+		p.add(buttonPanel);
 	}
 	
-	private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
-		var _this = this;
-	return function(ggbZip){
-		//downloadButton = document.getElementById('downloadButton')		
-		if($wnd.navigator.msSaveBlob){
-			var callback = function(){
-				$wnd.navigator.msSaveBlob(ggbZip,downloadButton.getAttribute("download"));return false;};
-				
-			_this.@geogebra.web.gui.util.GeoGebraFileChooserW::setDownloadCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(
-			callback);
-		}else{
-			var URL = $wnd.URL || $wnd.webkitURL;
-			var ggburl = URL.createObjectURL(ggbZip);
-			downloadButton.setAttribute("href", ggburl);
+	private boolean isLoggedIn() {
+		return this.app.getLoginOperation().isLoggedIn();
+	}
+
+	/**
+	 * 
+	 */
+	protected void onSave() {
+		if (!isLoggedIn()) {
+			((DialogManagerW) app.getDialogManager()).showLogInDialog();
+		} else {
+			upload();
 		}
-		//downloadButton.disabled = false;
-		}
-	}-*/;
+	}
 
 
 	/**
-	 * @param online app online - offline state
-	 * renders the state of the buttons concering online - offline
+	 * Handles the upload of the file and closes the dialog
 	 */
-	void renderNetworkOperation(boolean online) {
-	    saveToGoogleDrive.setEnabled(online);
-	    //saveToSkyDrive.setEnabled(online);
-	    uploadToGGT.setEnabled(online);
-	    if (!online) {
-	    	saveToGoogleDrive.setTitle(app.getMenu("YouAreOffline"));
-	    	//saveToSkyDrive.setTitle("YouAreOffline");
-	    	uploadToGGT.setTitle("YouAreOffline");
+	void upload() {
+	    if (this.materialPrivate.getValue()) {
+	    	((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText());
 	    } else {
-	    	saveToGoogleDrive.setTitle(app.getMenu(""));
-	    	//saveToSkyDrive.setTitle("");
-	    	uploadToGGT.setTitle("");
+	    	((AppW) app).uploadToGeoGebraTube();
 	    }
+	    hide();
     }
+	
+	
 
-
-	public void setFilename(String newVal){
-		if (newVal.equals("")) newVal = "geogebra.ggb";
-        download.getElement().setAttribute("download", newVal);
+	@Override
+	public void show(){
+		this.getCaption().setText(app.getMenu("Save"));
+		this.save.setEnabled(false);
+		this.title.setFocus(true);
+		setTitle();
+		super.show();
 	}
 
 	public void saveSuccess(String fName, String desc) {
-	    ((AppW) app).refreshCurrentFileDescriptors(fName,desc);
-    }
-	
-	public void setFileName(String fName) {
-		fileName.setText(fName);
-	}
-	
-	public void setDescription(String ds) {
-		description.setText(ds);
+		((AppW) app).refreshCurrentFileDescriptors(fName,desc);
 	}
 
-
-
-	private void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
-		if (loggedIn) {
-			if (loginToSkyDriveR != null) {
-				loginToSkyDriveR.removeHandler();
-				loginToSkyDriveR = null;
-			}
-			//saveToSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(), app.getMenu("SaveToSkyDrive")));
-			//saveToSkyDriveR = saveToSkyDrive.addClickHandler(saveToSkyDriveH);
+	private void setTitle() {
+		String consTitle = app.getKernel().getConstruction().getTitle();
+		if (consTitle != null) {
+			this.title.setText(consTitle);
 		} else {
-			if (saveToSkyDriveR != null) {
-				saveToSkyDriveR.removeHandler();
-				loginToSkyDriveR = null;
-			}
-			//saveToSkyDrive.setHTML(app.getMenu("SaveToSkyDrive"));
-			//loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
+			this.title.setText("");
 		}
+	}
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void openFilePicker() {
+		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement());
+		((GgbAPIW) this.app.getGgbApi()).getGGB(true, callback);
     }
 
-
-	
-    public void renderEvent(BaseEvent event) {
-	    if (event instanceof GoogleLoginEvent && ((GoogleLoginEvent) event).isSuccessFull()) {
-	    	enableGoogleDrive(true);
-	    } else if (event instanceof GoogleLogOutEvent) {
-	    	enableGoogleDrive(false);
+	private native JavaScriptObject getDownloadCallback(Element downloadButton) /*-{
+		var _this = this;
+	    return function(ggbZip) {
+	    	var URL = $wnd.URL || $wnd.webkitURL;
+	    	var ggburl = URL.createObjectURL(ggbZip);
+	    	downloadButton.setAttribute("href", ggburl);
+	    	if ($wnd.navigator.msSaveBlob) {
+	    		$wnd.navigator.msSaveBlob(ggbZip, "geogebra.ggb");
+	    	} else {
+	    		downloadButton.click();
+	    	}
 	    }
-	    
-    }
-    
-    private void enableGoogleDrive(boolean enabled) {
-    	saveToGoogleDrive.setEnabled(enabled);
-    }
-	
-	
-
+    }-*/;
 }

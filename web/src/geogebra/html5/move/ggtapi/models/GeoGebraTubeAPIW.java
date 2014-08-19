@@ -6,6 +6,7 @@ import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.common.util.HttpRequest;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -104,7 +105,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
                 public void onResponseReceived(Request request,
                         Response response) {
 	                cb.onLoaded(JSONparserGGT.parseResponse(response.getText()));
-	                
                 }
 
 				@Override
@@ -116,6 +116,28 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		}
 		catch (RequestException e)
 		{
+			// TODO Handle the error!
+			e.printStackTrace();
+		}
+	}
+	
+	protected void performUploadRequest(String requestString) {
+		try {
+			this.requestBuilder.sendRequest(requestString, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					// TODO Auto-generated method stub
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+		catch (RequestException e) {
 			// TODO Handle the error!
 			e.printStackTrace();
 		}
@@ -224,7 +246,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		
 		return true;
 	}
-	
+
 	/**
 	 * Builds the request to check if the login token of a user is valid.
 	 * This request will send detailed user information as response.
@@ -257,6 +279,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
     public boolean isAvailable() {
 	    return true;
     }
+	
+	public void uploadMaterial(AppW app, String filename) {
+		performUploadRequest(UploadRequest.getRequestElement(app, filename).toJSONString());//new UploadRequest(app).toJSONString());
+	}
 
 	public void getUsersMaterials(int userId, MaterialCallback rc) {
 		performRequest(MaterialRequest.forUser(userId, client).toJSONString(), rc);

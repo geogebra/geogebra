@@ -35,6 +35,7 @@ public class FileMenuW extends GMenuBar {
 	    // TODO Auto-generated method stub
 	    
     }
+	
 	private native boolean nativeShare()/*-{
 		if($wnd.android){
 			$wnd.android.share("a","b");
@@ -43,6 +44,7 @@ public class FileMenuW extends GMenuBar {
 			return false;
 		}
 	}-*/;
+	
 	private void initActions() {
 
 		// this is enabled always
@@ -69,7 +71,7 @@ public class FileMenuW extends GMenuBar {
 		
 		
 		if(app.getLAF().undoRedoSupported()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Save"), true),true,new Command() {
 		
 				public void execute() {
 					app.getGuiManager().save();

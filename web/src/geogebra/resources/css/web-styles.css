@@ -109,7 +109,7 @@ hr {
 	margin-bottom: 10px;
 }
 
-.gwt-Button, .confirmDelete .button {
+.gwt-Button, .confirmDelete .button, .buttonPanel .button {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6666FF;
@@ -124,12 +124,16 @@ hr {
 	margin-left: 5px;
 }
 
-.gwt-Button:active, .confirmDelete .button:active {
+ .buttonPanel .button {
+ 	float: right;
+ }
+
+.gwt-Button:active, .confirmDelete .button:active, .buttonPanel .button:active  {
 	border: 1px inset #6666FF;
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
-.gwt-Button:hover, .confirmDelete .button:hover {
+.gwt-Button:hover, .confirmDelete .button:hover, .buttonPanel .button:hover  {
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
@@ -2358,17 +2362,17 @@ body.application[dir=rtl] .toolbar_mainItem {
 
 /*========= End Dialogs ===========*/
 /*========= FileChooser ===========*/
-.GeoGebraFileChooser .fileNamePanel {
+.GeoGebraFileChooser .titlePanel {
 	width: 100%;
 	padding: 5px;
 }
 
-.GeoGebraFileChooser .fileNamePanel input {
+.GeoGebraFileChooser .titlePanel input {
 	float: right;
 	min-width: 450px;
 }
 
-.GeoGebraFileChooser .fileNamePanel .gwt-Label {
+.GeoGebraFileChooser .titlePanel .gwt-Label {
 	padding-right: 10px;
 }
 
@@ -2384,6 +2388,16 @@ body.application[dir=rtl] .toolbar_mainItem {
 
 .GeoGebraFileChooser .descriptionPanel .gwt-Label {
 	padding-right: 10px;
+}
+
+.GeoGebraFileChooser .radioButtonPanel {
+	text-align: center;
+	padding-bottom: 10px;
+	padding-top: 3px;	
+}
+
+.GeoGebraFileChooser .radioButtonPanel .gwt-RadioButton {
+	padding: 10px;
 }
 
 .GeoGebraFileChooser .buttonPanel {
@@ -2455,6 +2469,15 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 
 .ggbfilelink.selected,.ggbfilelink:hover {
 	background-color: #E3E8F3;
+}
+
+.GeoGebraFileChooser {
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+}
+.GeoGebraFileChooser .buttonPanel .save, .GeoGebraFileChooser .buttonPanel .cancel {
+	width: 60px;
+	text-align: center;
+	margin: auto;
 }
 
 /*========= End FileChooser ===========*/
@@ -4107,11 +4130,6 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 
 .dataSplitLayout {
 	width: 100%;	
-	height: 100%;
-}
-
-.comboSplitLayout {
-	width: 500px;	
 	height: 100%;
 }
 
