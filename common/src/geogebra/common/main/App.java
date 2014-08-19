@@ -205,7 +205,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * Toolbar position 
 	 */
-	protected int toolbarPosition;
+	protected int toolbarPosition = 1;
 	
 	/**
 	 * Whether input help toggle button should be visible

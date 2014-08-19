@@ -530,8 +530,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		// at the moment
 		initializeSingularWSD();
 
-		toolbarPosition = SwingConstants.NORTH;
-
 		boolean fileLoaded = handleFileArg(args);
 
 		// initialize GUI
@@ -2725,7 +2723,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (showToolBar) {
-			AppD2.initToolbar(this, toolbarPosition, showToolBarHelp,
+			App.printStacktrace(toolbarPosition);
+			AppD2.initToolbar(this, getToolbarPosition(), showToolBarHelp,
 					northPanel, eastPanel, southPanel, westPanel);
 		}
 
