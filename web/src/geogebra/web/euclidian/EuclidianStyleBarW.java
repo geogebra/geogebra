@@ -174,12 +174,13 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	private PopupMenuButton btnLabelStyle;
 
-	private PopupMenuButton btnPointCapture;
+	protected PopupMenuButton btnPointCapture;
 
 	private MyToggleButton2[] btnDeleteSizes=new MyToggleButton2[3];
 
 	private MyToggleButton2 btnCopyVisualStyle, btnPen, 
-	btnShowAxes, btnStandardView;
+	btnShowAxes;
+	protected MyToggleButton2 btnStandardView;
 
 	MyToggleButton2 btnBold;
 
@@ -330,6 +331,11 @@ public class EuclidianStyleBarW extends StyleBarW
 	    setToolTips();
     }
 	
+	protected void setAxesAndGridToolTips(Localization loc){
+		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
+		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+	}
+	
 	/**
 	 * set tool tips
 	 */
@@ -337,8 +343,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	    Localization loc = app.getLocalization();
 
-		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
-		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+	    setAxesAndGridToolTips(loc);
 		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
 		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
@@ -607,32 +612,41 @@ public class EuclidianStyleBarW extends StyleBarW
 	 * add axes, grid, ... buttons
 	 */
 	protected void addGraphicsDecorationsButtons() {
-		add(btnShowAxes);
-		add(btnShowGrid);
-		addBtnShowPlane();
+		addAxesAndGridButtons();
 		add(btnStandardView);
 	}
 	
 	/**
-	 * in 3D, add show plane button
+	 * add axes and grid buttons
 	 */
-	protected void addBtnShowPlane(){
-		//nothing to do in 2D
+	protected void addAxesAndGridButtons(){
+		add(btnShowAxes);
+		add(btnShowGrid);		
 	}
+
+
 
 	protected void addBtnPointCapture() {
 		add(btnPointCapture);
 	}
 
+	protected MyToggleButton2 getAxesOrGridToggleButton(){
+		return btnShowAxes;
+	}
+	
+	protected PopupMenuButton getAxesOrGridPopupMenuButton(){
+		return btnShowGrid;
+	}
+	
 	protected MyToggleButton2[] newToggleBtnList() {
 		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen, 
-				btnShowAxes, btnStandardView, btnBold, btnItalic, btnDelete, btnLabel,
+				getAxesOrGridToggleButton(), btnStandardView, btnBold, btnItalic, btnDelete, btnLabel,
 				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
 				btnTableTextLinesH, btnDeleteSizes[0],btnDeleteSizes[1],btnDeleteSizes[2] };
 	}
 	
 	protected PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { btnShowGrid, btnColor, btnBgColor, btnTextColor,
+		return new PopupMenuButton[] { getAxesOrGridPopupMenuButton(), btnColor, btnBgColor, btnTextColor,
 		        btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
 		        btnTableTextBracket, btnLabelStyle, btnPointCapture
 		         };
@@ -641,6 +655,29 @@ public class EuclidianStyleBarW extends StyleBarW
 	// =====================================================
 	// Create Buttons
 	// =====================================================
+	
+	protected void createAxesAndGridButtons(){
+		// ========================================
+		// show axes button
+		btnShowAxes = new MyToggleButtonForEV(StyleBarResources.INSTANCE.axes(), iconHeight);
+		// btnShowAxes.setPreferredSize(new Dimension(16,16));
+		btnShowAxes.setSelected(ev.getShowXaxis());
+		btnShowAxes.addValueChangeHandler(this);
+
+		// ========================================
+		// show grid button
+		ImageOrText[] grids = new ImageOrText[4];
+		for (int i = 0; i < 4; i++)
+			grids[i] = GeoGebraIcon.createGridStyleIcon(
+					EuclidianStyleBarStatic.pointStyleArray[i]);
+		btnShowGrid = new GridPopup(app, grids, -1, 4,
+				geogebra.common.gui.util.SelectionTable.MODE_ICON,
+				ev);
+		// btnShowGrid.setPreferredSize(new Dimension(16,16));
+		btnShowGrid.addPopupHandler(this);
+
+
+	}
 
 	protected void createButtons() {
 		// TODO: fill in
@@ -709,27 +746,14 @@ public class EuclidianStyleBarW extends StyleBarW
 		
 		
 		
-		// ========================================
-		// show axes button
-		btnShowAxes = new MyToggleButtonForEV(StyleBarResources.INSTANCE.axes(), iconHeight);
-		// btnShowAxes.setPreferredSize(new Dimension(16,16));
-		btnShowAxes.setSelected(ev.getShowXaxis());
-		btnShowAxes.addValueChangeHandler(this);
-
-		// ========================================
-		// show grid button
-		ImageOrText[] grids = new ImageOrText[4];
-		for (int i = 0; i < 4; i++)
-			grids[i] = GeoGebraIcon.createGridStyleIcon(
-					EuclidianStyleBarStatic.pointStyleArray[i]);
-		btnShowGrid = new GridPopup(app, grids, -1, 4,
-				geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				ev);
-		// btnShowGrid.setPreferredSize(new Dimension(16,16));
-		btnShowGrid.addPopupHandler(this);
-
+		
+		
+		createAxesAndGridButtons();
+		
+		
 		btnStandardView = new MyToggleButtonForEV(StyleBarResources.INSTANCE.standard_view(), iconHeight);
 		btnStandardView.addValueChangeHandler(this);
+
 
 		// ========================================
 		// line style button
@@ -1259,6 +1283,14 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnLabel.setSelected(mode == EuclidianConstants.MODE_SHOW_HIDE_LABEL);
 		btnLabel.addValueChangeHandler(this);
 
+		updateAxesAndGridGUI();
+
+		btnStandardView.removeValueChangeHandler();
+		btnStandardView.setSelected(false);
+		btnStandardView.addValueChangeHandler(this);
+	}
+
+	protected void updateAxesAndGridGUI(){
 		btnShowAxes.removeValueChangeHandler();
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
@@ -1267,12 +1299,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnShowGrid.setSelectedIndex(gridIndex(ev));
 //		btnShowGrid.addActionListener(this);
 
-		btnStandardView.removeValueChangeHandler();
-		btnStandardView.setSelected(false);
-		btnStandardView.addValueChangeHandler(this);
 	}
-
-	
 
 
 	public void onValueChange(ValueChangeEvent event) {
@@ -1318,6 +1345,21 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
 		return geosOK;
 	}
+	
+	
+	protected boolean processSourceForAxesAndGrid(Object source){
+		if (source == btnShowGrid) {
+			if (btnShowGrid.getSelectedValue() != null) {
+				setGridType(ev, btnShowGrid.getSelectedIndex());
+
+			}
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 	/**
 	 * process the action performed
 	 * 
@@ -1379,11 +1421,8 @@ public class EuclidianStyleBarW extends StyleBarW
 				}
 
 			}
-		}else if (source == btnShowGrid) {
-			if (btnShowGrid.getSelectedValue() != null) {
-				setGridType(ev, btnShowGrid.getSelectedIndex());
-
-			}
+		}else if (processSourceForAxesAndGrid(source)) {
+			// done in method
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
 				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
@@ -1482,7 +1521,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		return btnPointCapture.getSelectedIndex();
 	}
 
-	private void setActionCommand(Widget widget, String actionCommand){
+	protected void setActionCommand(Widget widget, String actionCommand){
 		widget.getElement().setAttribute("actionCommand", actionCommand);
 	}
 

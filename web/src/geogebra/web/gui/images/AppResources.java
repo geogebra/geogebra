@@ -451,6 +451,9 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/menu_view_graphics2.png")
 	ImageResource view_graphics224();
 	
+	@Source("geogebra/web/gui/images/menu_view_graphics3D.png")
+	ImageResource view_graphics3D24();
+	
 	@Source("geogebra/web/gui/images/menu_view_graphics.png")
 	ImageResource view_graphics24();
 	

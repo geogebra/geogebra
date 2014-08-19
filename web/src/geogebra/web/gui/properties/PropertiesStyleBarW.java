@@ -180,6 +180,8 @@ public class PropertiesStyleBarW extends
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics24(), btn);
 		case EUCLIDIAN2:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics224(), btn);
+		case EUCLIDIAN3D:
+			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics3D24(), btn);
 		case CAS:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_cas24(), btn);
 		case ADVANCED:

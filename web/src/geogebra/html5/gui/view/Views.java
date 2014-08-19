@@ -13,7 +13,7 @@ public class Views {
 		AppResources.INSTANCE.view_cas24(),
 		AppResources.INSTANCE.view_graphics24(),
 		AppResources.INSTANCE.view_graphics224(),
-		AppResources.INSTANCE.view_graphics224(),//TODO !!!
+		AppResources.INSTANCE.view_graphics3D24(),
 		AppResources.INSTANCE.view_constructionprotocol24(),
 	};
 	public static String[] keys = new String[]{
@@ -22,7 +22,7 @@ public class Views {
 		"CAS",
 		"DrawingPad",
 		"DrawingPad2",
-		"GraphicsView3D",//TODO !!!
+		"GraphicsView3D",
 		"ConstructionProtocol",
 	};
 }

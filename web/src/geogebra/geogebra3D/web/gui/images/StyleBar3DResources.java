@@ -9,43 +9,56 @@ public interface StyleBar3DResources extends ClientBundle {
 	
 	//EUCLIDIAN 3D STYLEBAR:
 	
-	@Source("old_images/plane.gif")
+	@Source("stylingbar_graphics3D_plane.gif")
 	ImageResource plane();
 	
+	@Source("stylingbar_graphics3D_axes_plane.gif")
+	ImageResource axes_plane();
 	
-	@Source("old_images/stylebar_rotateview.gif")
-	ImageResource rotateView();
+	
+	@Source("stylingbar_graphics3D_rotateview_play.gif")
+	ImageResource rotateViewPlay();
+
+	@Source("stylingbar_graphics3D_rotateview_pause.gif")
+	ImageResource rotateViewPause();
 
 	
 	
-	@Source("old_images/stylebar_clipping.gif")
-	ImageResource clipping();
-		
-	@Source("old_images/standard_view_rotate.gif")
+	@Source("stylingbar_graphics3D_clipping_big.gif")
+	ImageResource clippingBig();
+
+	@Source("stylingbar_graphics3D_clipping_medium.gif")
+	ImageResource clippingMedium();
+
+	@Source("stylingbar_graphics3D_clipping_small.gif")
+	ImageResource clippingSmall();
+
+	
+	@Source("stylingbar_graphics3D_standardview_rotate.gif")
 	ImageResource standardViewRotate();
 	
 
-	@Source("old_images/view_xy.gif")
+	@Source("stylingbar_graphics3D_view_xy.gif")
 	ImageResource viewXY();
 	
-	@Source("old_images/view_xz.gif")
+	@Source("stylingbar_graphics3D_view_xz.gif")
 	ImageResource viewXZ();
 	
-	@Source("old_images/view_yz.gif")
+	@Source("stylingbar_graphics3D_view_yz.gif")
 	ImageResource viewYZ();
 	
 	
 	
-	@Source("old_images/stylebar_vieworthographic.gif")
+	@Source("stylingbar_graphics3D_view_orthographic.gif")
 	ImageResource viewOrthographic();
 	
-	@Source("old_images/stylebar_viewperspective.gif")
+	@Source("stylingbar_graphics3D_view_perspective.gif")
 	ImageResource viewPerspective();
 	
-	@Source("old_images/stylebar_viewglasses.gif")
+	@Source("stylingbar_graphics3D_view_glases.gif")
 	ImageResource viewGlasses();
 	
-	@Source("old_images/stylebar_viewoblique.gif")
+	@Source("stylingbar_graphics3D_view_oblique.gif")
 	ImageResource viewOblique();
 	
 
