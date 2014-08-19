@@ -117,7 +117,7 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner{
 	
 	@Override
 	public Commands getClassName() {
-		if (corner.isGeoElement3D() && (kernel.isSaving() || kernel.isGettingUndo())){
+		if (corner.isGeoElement3D() && (kernel.isSaving() || kernel.isGettingUndo() || getConstruction().isGettingXMLForReplace())){
 			return Commands.CornerThreeD; // save in XML (and undo XML) this specific token to distinguish from 2D corner command
 		}
 		

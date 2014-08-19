@@ -1609,11 +1609,13 @@ public class Construction {
 					// do nothing
 				}
 			}
-
+			
+			isGettingXMLForReplace = true;
 			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML() : oldGeoAlgo
 					.getXML();
 			newXML = (newGeoAlgo == null) ? newGeo.getXML() : newGeoAlgo
 					.getXML();
+			isGettingXMLForReplace = false;
 
 			// Application.debug("oldGeo: " + oldGeo + ", visible: " +
 			// oldGeo.isEuclidianVisible() + ", algo: " + oldGeoAlgo);
