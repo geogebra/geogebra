@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
 import geogebra.html5.awt.GDimensionW;
@@ -32,7 +33,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	
 	private ClippingPopup btnClipping;
 
-	private MyToggleButton2 btnShowGrid3D, btnShowPlane; 
+	private MyToggleButton2 btnShowGrid3D; 
 	
 	private AxesAndPlanePopup btnShowAxesAndPlane;
 
@@ -79,12 +80,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		super.createButtons();
 		
-		// ========================================
-		// show grid button
-		btnShowPlane = new MyToggleButtonForEV(StyleBar3DResources.INSTANCE.plane(),
-				iconHeight);
-		btnShowPlane.addValueChangeHandler(this);
-
 		
 		//========================================
 		// rotate view button
@@ -433,12 +428,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		super.setToolTips();
 		
 	    Localization loc = app.getLocalization();
-	    btnShowPlane.setToolTipText(loc.getPlainTooltip("stylebar.xOyPlane"));
 		btnRotateView.setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-//		btnViewDefault.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefaultRotate"));
-//		btnViewXY.setToolTipText(loc.getPlainTooltip("stylebar.ViewXY"));
-//		btnViewXZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewXZ"));
-//		btnViewYZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewYZ"));
 		btnViewDirection.setToolTipArray(
 				new String[] {
 						loc.getPlainTooltip("stylebar.ViewXY"),
@@ -464,30 +454,9 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void updateGUI(){
 		
+		App.debug("============ updateGUI");
+		
 		super.updateGUI();
-		
-		btnShowPlane.removeValueChangeHandler();
-		btnShowPlane.setSelected(getView().getShowPlane());
-		btnShowPlane.addValueChangeHandler(this);
-
-		
-		
-//		btnViewDefault.removeValueChangeHandler();
-//		btnViewDefault.setSelected(false);
-//		btnViewDefault.addValueChangeHandler(this);
-//
-//
-//		btnViewXY.removeValueChangeHandler();
-//		btnViewXY.setSelected(false);
-//		btnViewXY.addValueChangeHandler(this);
-//
-//		btnViewXZ.removeValueChangeHandler();
-//		btnViewXZ.setSelected(false);
-//		btnViewXZ.addValueChangeHandler(this);
-//
-//		btnViewYZ.removeValueChangeHandler();
-//		btnViewYZ.setSelected(false);
-//		btnViewYZ.addValueChangeHandler(this);
 		
 		btnClipping.updateGUI();
 		
@@ -511,21 +480,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		return ret;
 	}
 	
-	@Override
-	protected MyToggleButton2[] newToggleBtnList(){
-		MyToggleButton2[] superList = super.newToggleBtnList();
-		MyToggleButton2[] ret = new MyToggleButton2[superList.length+5];
-		for (int i=0; i<superList.length; i++)
-			ret[i]=superList[i];
-		
-		int index = superList.length;
-		ret[index]=btnShowPlane;index++;
-//		ret[index]=btnViewDefault;index++;
-//		ret[index]=btnViewXY;index++;
-//		ret[index]=btnViewXZ;index++;
-//		ret[index]=btnViewYZ;
-		return ret;
-	}
+
 	
 	
 	protected void setActionCommands(){
@@ -545,7 +500,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnShowGrid3D.addValueChangeHandler(this);
 
 		btnShowAxesAndPlane.removeActionListener(this);
-		//btnShowAxesAndPlane.setSelectedIndex(gridIndex(ev));
+		btnShowAxesAndPlane.setIndexFromEV();
 
 	}
 	

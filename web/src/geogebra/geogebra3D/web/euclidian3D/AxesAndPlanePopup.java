@@ -44,6 +44,10 @@ public class AxesAndPlanePopup extends PopupMenuButton {
 		return ret;
 	}
 	
+	public void setIndexFromEV(){
+		setSelectedIndex(getIndexFromEV());
+	}
+	
 	/**
 	 * set euclidian view from index
 	 */
