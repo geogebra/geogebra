@@ -18,7 +18,6 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.ImageResource;
 
 /**
@@ -89,13 +88,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		//========================================
 		// clipping button
 		ImageOrText[] clippingIcons = new ImageOrText[3];
-		for (int i = 0 ; i < 3; i++){
+		for (int i = 0 ; i < 4; i++){
 			clippingIcons[i] = new ImageOrText();
 		}
-		clippingIcons[0].url = StyleBar3DResources.INSTANCE.clippingSmall().getSafeUri().asString();
-		clippingIcons[1].url = StyleBar3DResources.INSTANCE.clippingMedium().getSafeUri().asString();
-		clippingIcons[2].url = StyleBar3DResources.INSTANCE.clippingBig().getSafeUri().asString();
-		btnClipping = new ClippingPopup(app, clippingIcons, 1, 3, geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
+		clippingIcons[0].url = StyleBarResources.INSTANCE.stylingbar_empty().getSafeUri().asString();
+		clippingIcons[1].url = StyleBar3DResources.INSTANCE.clippingSmall().getSafeUri().asString();
+		clippingIcons[2].url = StyleBar3DResources.INSTANCE.clippingMedium().getSafeUri().asString();
+		clippingIcons[3].url = StyleBar3DResources.INSTANCE.clippingBig().getSafeUri().asString();
+		btnClipping = new ClippingPopup(app, clippingIcons, 1, 4, geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
 //		btnClipping = new PopupMenuButtonForView3D(){
 //			@Override
 //		    protected void fireActionPerformed() {
@@ -250,13 +250,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 				setIcon(pauseIcon);
 			}
 		}
-		@Override
-		public boolean prepareToShowPopup(ClickEvent event){
-			if(event.getY() < 15){
-				return false;
-			}
-			return true;
-		}
 	}
 	
 	
@@ -310,7 +303,15 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 			*/
 		
 		if (source.equals(btnClipping)) {
-			getView().setClippingReduction(btnClipping.getSelectedIndex());
+			int index = btnClipping.getSelectedIndex();
+			if (index == 0){
+				getView().setUseClippingCube(false);
+				getView().setShowClippingCube(false);
+			}else{
+				getView().setUseClippingCube(true);
+				getView().setShowClippingCube(true);
+				getView().setClippingReduction(index - 1);
+			}
 			getView().repaintView();
 			
 		}else if (source.equals(btnViewDirection)) {

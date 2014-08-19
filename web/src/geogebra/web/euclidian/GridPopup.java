@@ -8,8 +8,6 @@ import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 public class GridPopup extends PopupMenuButton {
 
 	private EuclidianView ev;
@@ -35,16 +33,6 @@ public class GridPopup extends PopupMenuButton {
     public void update(Object[] geos){
 		this.setVisible(geos.length == 0  && !EuclidianView.isPenMode(app.getMode())
 				&& app.getMode() != EuclidianConstants.MODE_DELETE);
-	}
-
-	@Override
-    public boolean prepareToShowPopup(ClickEvent event){
-		if(event.getY() < 15){
-			this.setSelectedIndex(this.getSelectedIndex() == 0 ? 1 : 0);
-			EuclidianStyleBarW.setGridType(this.ev, getSelectedIndex());
-			return false;
-		}
-		return true;
 	}
 
 	@Override
