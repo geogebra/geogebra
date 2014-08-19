@@ -76,12 +76,12 @@ public class LayoutW extends Layout implements SettingListener {
 					app.setShowToolBarNoUpdate(
 							/*perspective.getShowToolBar() &&
 							app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||*/
-							app.getArticleElement().getDataParamShowToolBar());
+							app.getArticleElement().getDataParamShowToolBar(false));
 
 					app.setShowAlgebraInput(
 							/*perspective.getShowInputPanel() &&
 							app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue() ||*/
-							app.getArticleElement().getDataParamShowAlgebraInput(), false);
+							app.getArticleElement().getDataParamShowAlgebraInput(false), false);
 
 				}
 

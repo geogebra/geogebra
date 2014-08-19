@@ -113,37 +113,20 @@ public final class ArticleElement extends Element {
 	/**
 	 * @return the data-param-showMenuBar (default: false)
 	 */
-	public boolean getDataParamShowMenuBar() {
-		return ("true".equals(this.getAttribute("data-param-showMenuBar")));
+	public boolean getDataParamShowMenuBar(boolean def) {
+		return getBoolParam("data-param-showMenuBar", def);
 	}
 
-	/**
-	 * @return the data-param-showMenuBar (default: true)
-	 */
-	public boolean getDataParamShowMenuBarDefaultTrue() {
-		return (!"false".equals(this.getAttribute("data-param-showMenuBar")));
-	}
-	
 	/**
 	 * @return the data-param-showToolBar (default: false)
 	 */
-	public boolean getDataParamShowToolBar() {
-		if(getDataParamShowMenuBar()){
+	public boolean getDataParamShowToolBar(boolean def) {
+		if(getDataParamShowMenuBar(false)){
 			return true;
 		}
-		return ("true".equals(this.getAttribute("data-param-showToolBar")));
+		return getBoolParam("data-param-showToolBar", def);
 	}
 
-	/**
-	 * @return the data-param-showToolBar (default: true)
-	 */
-	public boolean getDataParamShowToolBarDefaultTrue() {
-		if(getDataParamShowMenuBar()){
-			return true;
-		}
-		return (!"false".equals(this.getAttribute("data-param-showToolBar")));
-	}
-	
 	/**
 	 * 
 	 * @return the data-param-customToolBar (default: null)
@@ -152,19 +135,18 @@ public final class ArticleElement extends Element {
 		return this.getAttribute("data-param-customToolBar");
 	}
 	
-	/**
-	 * @return the data-param-showAlgebraInput (default: false)
-	 */
-	public boolean getDataParamShowAlgebraInput() {
-		return ("true".equals(this.getAttribute("data-param-showAlgebraInput")));
-	}
+	
 
 	/**
 	 * @return the data-param-showAlgebraInput (default: true)
 	 */
-	public boolean getDataParamShowAlgebraInputDefaultTrue() {
-		return (!"false".equals(this.getAttribute("data-param-showAlgebraInput")));
+	public boolean getDataParamShowAlgebraInput(boolean def) {
+		return getBoolParam("data-param-showAlgebraInput",def);
 	}
+
+	private boolean getBoolParam(String attr, boolean def) {
+	    return (def && !"false".equals(this.getAttribute(attr))) || "true".equals(this.getAttribute(attr));
+    }
 
 	/**
 	 * @return the data-param-showResetIcon (default: false)

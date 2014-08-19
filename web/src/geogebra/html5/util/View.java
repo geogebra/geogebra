@@ -91,16 +91,16 @@ public class View {
 		return ((ArticleElement) container).getDataParamEnableRightClick();
 	}
 	
-	public boolean getDataParamShowMenuBar() {
-		return ((ArticleElement) container).getDataParamShowMenuBar();
+	public boolean getDataParamShowMenuBar(boolean def) {
+		return ((ArticleElement) container).getDataParamShowMenuBar(def);
     }
 
-	public boolean getDataParamShowAlgebraInput() {
-		return ((ArticleElement) container).getDataParamShowAlgebraInput();
+	public boolean getDataParamShowAlgebraInput(boolean def) {
+		return ((ArticleElement) container).getDataParamShowAlgebraInput(def);
     }
 
-	public boolean getDataParamShowToolBar() {
-		return ((ArticleElement) container).getDataParamShowToolBar();
+	public boolean getDataParamShowToolBar(boolean def) {
+		return ((ArticleElement) container).getDataParamShowToolBar(def);
     }
 
 	public boolean getDataParamShowToolBarHelp() {

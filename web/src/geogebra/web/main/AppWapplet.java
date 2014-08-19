@@ -68,9 +68,9 @@ public class AppWapplet extends AppW {
 		setAppletWidth(frame.getComputedWidth());
 
 		this.useFullGui = !isApplet() ||
-				ae.getDataParamShowAlgebraInput() ||
-				ae.getDataParamShowToolBar() ||
-				ae.getDataParamShowMenuBar() ||
+				ae.getDataParamShowAlgebraInput(false) ||
+				ae.getDataParamShowToolBar(false) ||
+				ae.getDataParamShowMenuBar(false) ||
 				ae.getDataParamEnableRightClick();
 
 
@@ -80,7 +80,7 @@ public class AppWapplet extends AppW {
 		initCommonObjects();
 		initing = true;
 
-		this.euclidianViewPanel = new EuclidianDockPanelW(this, getArticleElement().getDataParamShowMenuBar());
+		this.euclidianViewPanel = new EuclidianDockPanelW(this, getArticleElement().getDataParamShowMenuBar(false));
 		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
@@ -188,16 +188,14 @@ public class AppWapplet extends AppW {
 		// showMenuBar should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (showMenuBar && articleElement.getDataParamShowMenuBarDefaultTrue() ||
-			articleElement.getDataParamShowMenuBar()) {
+		if (articleElement.getDataParamShowMenuBar(showMenuBar)) {
 			attachMenubar();
 		}
 
 		// showToolBar should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (showToolBar && articleElement.getDataParamShowToolBarDefaultTrue() ||
-			articleElement.getDataParamShowToolBar()) {
+		if (articleElement.getDataParamShowToolBar(showToolBar)) {
 			attachToolbar();
 		}
 
@@ -206,8 +204,7 @@ public class AppWapplet extends AppW {
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (showAlgebraInput && articleElement.getDataParamShowAlgebraInputDefaultTrue() ||
-			articleElement.getDataParamShowAlgebraInput()) {
+		if (articleElement.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
 		
@@ -263,7 +260,7 @@ public class AppWapplet extends AppW {
 	public void attachSplitLayoutPanel() {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 		if (oldSplitLayoutPanel != null) {
-			if(getArticleElement().getDataParamShowMenuBar()){
+			if(getArticleElement().getDataParamShowMenuBar(false)){
 				this.splitPanelWrapper =  new HorizontalPanel();
 				splitPanelWrapper.add(oldSplitLayoutPanel);
 				splitPanelWrapper.add(getMenuBar());
@@ -356,7 +353,7 @@ public class AppWapplet extends AppW {
 		String customToolbar = articleElement.getDataParamCustomToolBar();
 		if ((customToolbar != null) &&
 			(customToolbar.length() > 0) &&
-			(articleElement.getDataParamShowToolBar()) &&
+			(articleElement.getDataParamShowToolBar(false)) &&
 			(getGuiManager() != null)) {
 			getGuiManager().setGeneralToolBarDefinition(customToolbar);
 		}

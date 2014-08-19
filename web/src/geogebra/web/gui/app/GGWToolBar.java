@@ -160,7 +160,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		if(app.getLAF().undoRedoSupported()){
 			addUndoPanel();
 		}
-		if(app.getArticleElement().getDataParamShowMenuBar() || 
+		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
 		this.menuBarShowing = true;
 		openMenuButton = new StandardButton(GuiResources.INSTANCE.button_open_menu());

@@ -471,7 +471,7 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		if (App.isFullAppGui() || app.getArticleElement().getDataParamShowMenuBar()){
+		if (App.isFullAppGui() || app.getArticleElement().getDataParamShowMenuBar(false)){
 			((DockGlassPaneW)app.getGlassPane()).attach(this);
 			((DockGlassPaneW)app.getGlassPane()).startDrag(new DnDState(panel));
 		}

@@ -1694,7 +1694,7 @@ public abstract class AppW extends AppWeb {
 		if(this.articleElement == null){
 			return false;
 		}
-	    return this.articleElement.getDataParamShowToolBar() || this.articleElement.getDataParamApp();
+	    return this.articleElement.getDataParamShowToolBar(false) || this.articleElement.getDataParamApp();
     }
 
 	public int getWidthForSplitPanel(int fallback) {

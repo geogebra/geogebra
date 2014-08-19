@@ -484,7 +484,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (hasStyleBar()) {
 
 			if (app.getSettings().getLayout().showTitleBar()
-			/* && !(isAlone && !isMaximized()) */&& (!app.isApplet() || app.getArticleElement().getDataParamShowMenuBar())
+			/* && !(isAlone && !isMaximized()) */&& (!app.isApplet() || app.getArticleElement().getDataParamShowMenuBar(false))
 			        && (!isOpenInFrame())) {
 				
 				dockPanel.addNorth(titleBarPanel, 0);
