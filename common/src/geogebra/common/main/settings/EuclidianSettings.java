@@ -675,6 +675,14 @@ public class EuclidianSettings extends AbstractSettings {
 
 	}
 
+	public boolean setShowAxes(boolean flag) {
+		boolean changed = this.setShowAxis(0, flag);
+		changed = this.setShowAxis(1, flag) || changed;
+		return this.setShowAxis(2, flag) || changed;
+		//settingChanged() is called from those above
+
+	}
+
 	public boolean showGrid(boolean show) {
 		if (show == showGrid) {
 			return false;
