@@ -418,7 +418,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 		for (int i : collapsedNodes) {
 			TreeItem node = getItem(i);
-			node.setState(false);
+			if(node != null){
+				node.setState(false);
+			}
 		}
 
 	}
