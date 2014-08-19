@@ -675,7 +675,6 @@ public class GGWToolBar extends Composite implements RequiresResize{
 			//toolbar not initialized, just run away
 			return;
 		}
-		App.printStacktrace("");
 		int canShowButtons = canShowButtons();
 		if((app.showMenuBar() && canShowButtons < 4)|| canShowButtons < 2 ){
 			this.redoButton.setVisible(false);
