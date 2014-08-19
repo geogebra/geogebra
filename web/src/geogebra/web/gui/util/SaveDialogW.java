@@ -178,8 +178,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	@Override
 	public void show(){
 		super.show();
-
-		System.out.println("show");
 		setTitle();
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.save.setEnabled(false);
