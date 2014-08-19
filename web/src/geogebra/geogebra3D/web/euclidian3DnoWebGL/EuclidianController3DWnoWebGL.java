@@ -75,7 +75,8 @@ public class EuclidianController3DWnoWebGL extends EuclidianController3DW{
 	
 	@Override
 	public void calculateEnvironment() {
-		if(view!=null){
+		if(view instanceof EuclidianView3DWnoWebGL){
+			((EuclidianView3DWnoWebGL)view).onResize();
 			view.repaint();
 		}
     }
