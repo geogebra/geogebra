@@ -1,9 +1,8 @@
 package geogebra.web.util;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.AjaxCallback;
 import geogebra.common.util.debug.Log;
-import geogebra.web.html5.AjaxError;
-import geogebra.web.html5.AjaxSucces;
 import geogebra.web.html5.XHR2;
 
 import com.google.gwt.http.client.Request;
@@ -65,29 +64,14 @@ public class HttpRequestW extends geogebra.common.util.HttpRequest {
     }
 
 	@Override
-    public void sendRequestPost(String url, String post) {
-		//RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
+    public void sendRequestPost(String url, String post, AjaxCallback callback) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 		XHR2 request =  (XHR2) XMLHttpRequest.create();
 		request.openSync("POST", url);
 		//needed for SMART, hopefully no problem for others
 		request.setRequestHeader("Content-type", "text/plain");
 		//request.setTimeOut(timeout * 1000);
-		request.onLoad(new AjaxSucces() {
-			
-			public void onSuccess(String rsp) {
-				responseText = rsp;
-				success = true;
-				processed = true;
-			}
-		}, 
-			new AjaxError() {
-				
-				public void onError(String ErrorMSG) {
-					responseText = ErrorMSG;
-					success = false;
-					processed = true;
-				}
-			});
+		request.onLoad(callback);
 		request.send(post);
     }
 }

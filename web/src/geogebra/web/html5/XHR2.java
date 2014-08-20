@@ -1,5 +1,7 @@
 package geogebra.web.html5;
 
+import geogebra.common.move.ggtapi.models.AjaxCallback;
+
 import com.google.gwt.xhr.client.XMLHttpRequest;
 
 /**
@@ -43,15 +45,15 @@ public class XHR2 extends XMLHttpRequest {
 	 * @param succesHandler The success handler code
 	 * @param errorHandler The error handler code
 	 */
-	public final native void onLoad(AjaxSucces succesHandler, AjaxError errorHandler) /*-{
+	public final native void onLoad(AjaxCallback callback) /*-{
 		var xhr = this;
 		xhr.onload = function(e) {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) { 
-					succesHandler.@geogebra.web.html5.AjaxSucces::onSuccess(Ljava/lang/String;)(xhr.responseText);
+					callback.@geogebra.common.move.ggtapi.models.AjaxCallback::onSuccess(Ljava/lang/String;)(xhr.responseText);
 				} else {
 					if (errorHandler !== null) {
-						errorHandler.@geogebra.web.html5.AjaxError::onError(Ljava/lang/String;)(xhr.statusText);
+						callback.@geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.statusText);
 					} else {
 						@geogebra.common.main.App::debug(Ljava/lang/String;)(xhr.statusText);
 					}

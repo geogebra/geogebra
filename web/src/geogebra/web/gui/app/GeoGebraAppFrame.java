@@ -202,6 +202,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		ch = Window.getClientHeight() ;
 		
 		app = createApplication(article,this, this.laf); 
+		App.debug("Callbacks ...");
 		if (this.callback != null) {
 			this.callback.onSuccess("");
 		}
@@ -223,6 +224,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 		//Debugging purposes
 		AppW.displayLocaleCookie();
+		App.debug("Done");
     }
 	
 	/**

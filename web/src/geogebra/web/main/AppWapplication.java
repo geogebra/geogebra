@@ -74,11 +74,13 @@ public class AppWapplication extends AppW {
 		initSignInEventFlow();
 		
 		afterCoreObjectsInited();
+		App.debug("after core");
 		resetFonts();
 		// initing = true;
 		removeDefaultContextMenu();
 		
 		String token = Location.getParameter("token");
+		App.debug("checked token");
 	    if(token != null && !"".equals(token)){
 	    	App.debug("LTOKEN set via URL");
 	    	this.getLoginOperation().performTokenLogin(token, false);
@@ -105,6 +107,7 @@ public class AppWapplication extends AppW {
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf) {
 		this(article, geoGebraAppFrame, true, dimension, laf);
+		App.debug("Application created");
 	}
 
 	public GeoGebraAppFrame getAppFrame() {

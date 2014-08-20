@@ -1,5 +1,6 @@
 package geogebra.common.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.util.HttpRequest;
 
 /**
@@ -41,11 +42,10 @@ public abstract class GeoGebraTubeAPI {
 	 *          JSON request String for the GeoGebraTubeAPI
 	 * @return The HttpRequest object that contains the response and error information 
 	 */
-	protected HttpRequest performRequest(String requestString, boolean login)
+	protected void performRequest(String requestString, boolean login, AjaxCallback callback)
 	{
 		HttpRequest request = createHttpRequest();
-		request.sendRequestPost(login ? login_url : url, requestString);
-		return request;
+		request.sendRequestPost(login ? login_url : url, requestString, callback);
 	}
 	
 	/**
@@ -63,14 +63,8 @@ public abstract class GeoGebraTubeAPI {
 	 * @param user The user that should be authorized.
 	 * @return One of the following return codes: LOGIN_TOKEN_VALID, LOGIN_TOKEN_INVALID, LOGIN_REQUEST_FAILED
 	 */
-	abstract public int authorizeUser(GeoGebraTubeUser user);
+	abstract public void authorizeUser(GeoGebraTubeUser user, LogInOperation op, boolean automatic);
 	
-	/**
-	 * Checks if the GeoGebraTube API is available by sending a test request
-	 * 
-	 * @return boolean if available
-	 */
-	abstract public boolean isAvailable();
 	
 	
 }

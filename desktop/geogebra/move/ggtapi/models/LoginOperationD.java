@@ -3,10 +3,8 @@ package geogebra.move.ggtapi.models;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
-import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
-import geogebra.move.ggtapi.events.TubeAvailabilityCheckEvent;
 import geogebra.move.ggtapi.views.BaseSwingEventView;
 import geogebra.util.URLEncoder;
 
@@ -67,14 +65,15 @@ public class LoginOperationD extends LogInOperation {
 		@Override
 		public Void doInBackground() {
 			doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
-			tubeAvailable = getGeoGebraTubeAPI().isAvailable();
+			tubeAvailable = getGeoGebraTubeAPI().isAvailable(
+					LoginOperationD.this);
 			tubeCheckDone = true;
 			return null;
 		}
 	}
 
 	@Override
-	public GeoGebraTubeAPI getGeoGebraTubeAPI() {
+	public GeoGebraTubeAPID getGeoGebraTubeAPI() {
 		return GeoGebraTubeAPID.getInstance();
 	}
 
@@ -113,9 +112,9 @@ public class LoginOperationD extends LogInOperation {
 			@Override
 			protected Object doInBackground() throws Exception {
 				App.debug("Sending test call to check if the GeoGebraTube API is available...");
-				GeoGebraTubeAPI api = getGeoGebraTubeAPI();
+				GeoGebraTubeAPID api = getGeoGebraTubeAPI();
 
-				tubeAvailable = api.isAvailable();
+				tubeAvailable = api.isAvailable(LoginOperationD.this);
 				tubeCheckDone = true;
 
 				// Send API request to check if the token is valid
@@ -126,7 +125,6 @@ public class LoginOperationD extends LogInOperation {
 					App.debug("The GoeGebraTube API is not available");
 				}
 				// Trigger event to signal that the API is available
-				onEvent(new TubeAvailabilityCheckEvent(tubeAvailable));
 
 				return null;
 			}

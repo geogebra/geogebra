@@ -58,7 +58,7 @@ public class SingularWebService {
 		if (encodedParameters.length() + url1.length() + command.length() + 6 <= GET_REQUEST_MAX_SIZE)
 			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters + caching);
 		else
-			httpr.sendRequestPost(url1,"c=" + command + "&p=" + encodedParameters + caching);
+			httpr.sendRequestPost(url1,"c=" + command + "&p=" + encodedParameters + caching, null);
 		// In fact we will not use Varnish after changing SingularWS to version >= 3 (2014-01-03).
 		String response = httpr.getResponse(); // will not work in web, TODO: callback!
 		if (response == null)

@@ -1,5 +1,8 @@
 package geogebra.util;
-	
+
+import geogebra.common.move.ggtapi.models.AjaxCallback;
+import geogebra.common.util.debug.Log;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -7,8 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * Implements HTTP requests and responses for desktop.
+ * @author Zoltan Kovacs <zoltan@geogebra.org> Implements HTTP requests and
+ *         responses for desktop.
  */
 public class HttpRequestD extends geogebra.common.util.HttpRequest {
 	private String answer;
@@ -24,14 +27,15 @@ public class HttpRequestD extends geogebra.common.util.HttpRequest {
 			BufferedReader in;
 			in = new BufferedReader(new InputStreamReader(huc.getInputStream()));
 			String s = "";
-			answer = in.readLine(); // the last line will never get a "\n" on its end
+			answer = in.readLine(); // the last line will never get a "\n" on
+									// its end
 			while ((s = in.readLine()) != null) {
-				if (!("".equals(answer))) // if the answer starts with "\n"s, we ignore them
+				if (!("".equals(answer))) // if the answer starts with "\n"s, we
+											// ignore them
 					answer += "\n";
 				answer += s;
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			success = false;
 			processed = true;
 			System.err.println(ex);
@@ -42,43 +46,53 @@ public class HttpRequestD extends geogebra.common.util.HttpRequest {
 	}
 
 	@Override
-	public void sendRequestPost(String url, String post) {
+	public void sendRequestPost(String url, String post, AjaxCallback callback) {
 		try {
 			URL u = new URL(url);
 			// Borrowed from http://www.exampledepot.com/egs/java.net/post.html:
 			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
-			// Borrowed from http://bytes.com/topic/java/answers/720825-how-build-http-post-request-java:
+			// Borrowed from
+			// http://bytes.com/topic/java/answers/720825-how-build-http-post-request-java:
 			// uc.setRequestMethod("POST");
-			// uc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			// uc.setRequestProperty("Content-Type",
+			// "application/x-www-form-urlencoded");
 			// uc.setUseCaches(false);
 			// uc.setDoInput(true);
 			huc.setDoOutput(true);
-			OutputStreamWriter osw = new OutputStreamWriter(huc.getOutputStream());
-		    osw.write(post);
-		    osw.flush();
-			BufferedReader in = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+			OutputStreamWriter osw = new OutputStreamWriter(
+					huc.getOutputStream());
+			osw.write(post);
+			osw.flush();
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					huc.getInputStream()));
 			String s = "";
-			answer = in.readLine(); // the last line will never get a "\n" on its end
+			answer = in.readLine(); // the last line will never get a "\n" on
+									// its end
 			while ((s = in.readLine()) != null) {
-				if (!("".equals(answer))) // if the answer starts with "\n"s, we ignore them
+				if (!("".equals(answer))) // if the answer starts with "\n"s, we
+											// ignore them
 					answer += "\n";
 				answer += s;
 			}
-		    osw.close();
+			osw.close();
 
-		    // Convert the answer string to UTF-8
+			// Convert the answer string to UTF-8
 			responseText = new String(answer.getBytes(), "UTF-8");
 			success = true;
 			processed = true;
-		}
-		catch (Exception ex) {
+			if (callback != null) {
+				callback.onSuccess(responseText);
+			}
+		} catch (Exception ex) {
 			success = false;
 			processed = true;
-			System.err.println(ex);
+			if (callback != null) {
+				callback.onError("Connection error");
+			}
+			Log.error(ex.getMessage());
 		}
 	}
 
-	
 	@Override
 	public String sendRequestGetResponseSync(String url) {
 		sendRequest(url);

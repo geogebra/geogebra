@@ -1,7 +1,10 @@
 package geogebra.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.AjaxCallback;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import geogebra.common.util.HttpRequest;
+import geogebra.common.move.ggtapi.operations.LogInOperation;
+import geogebra.move.ggtapi.events.TubeAvailabilityCheckEvent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,33 +40,52 @@ public class GeoGebraTubeAPID extends
 	}
 
 	@Override
-	public int authorizeUser(GeoGebraTubeUser user) {
-		HttpRequest request = performRequest(
-				buildTokenLoginRequest(user.getLoginToken()).toString(), true);
-		try {
-			this.availabilityCheckDone = true;
-			if (request.isSuccessful()) {
-				this.available = true;
-				JSONTokener tokener = new JSONTokener(request.getResponse());
-				JSONObject response = new JSONObject(tokener);
+	public void authorizeUser(final GeoGebraTubeUser user,
+			final LogInOperation op, final boolean automatic) {
+		performRequest(buildTokenLoginRequest(user.getLoginToken()).toString(),
+				true, new AjaxCallback() {
 
-				// Check if an error occurred
-				if (response.has("error")) {
-					return LOGIN_TOKEN_INVALID;
-				}
+					@SuppressWarnings("synthetic-access")
+					@Override
+					public void onSuccess(String responseStr) {
+						try {
+							GeoGebraTubeAPID.this.availabilityCheckDone = true;
 
-				// Parse the userdata from the response
-				if (!parseUserDataFromResponse(user, response)) {
-					return LOGIN_TOKEN_INVALID;
-				}
+							GeoGebraTubeAPID.this.available = true;
+							JSONTokener tokener = new JSONTokener(responseStr);
+							JSONObject response = new JSONObject(tokener);
 
-				return LOGIN_TOKEN_VALID;
-			}
-			this.available = false;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return LOGIN_REQUEST_FAILED;
+							// Check if an error occurred
+							if (response.has("error")) {
+								op.onEvent(new LoginEvent(user, false,
+										automatic));
+								return;
+							}
+
+							// Parse the userdata from the response
+							if (!parseUserDataFromResponse(user, response)) {
+								op.onEvent(new LoginEvent(user, false,
+										automatic));
+								return;
+							}
+
+							op.onEvent(new LoginEvent(user, true, automatic));
+
+							GeoGebraTubeAPID.this.available = false;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+						GeoGebraTubeAPID.this.availabilityCheckDone = true;
+						GeoGebraTubeAPID.this.available = true;
+						op.onEvent(new LoginEvent(user, false, automatic));
+					}
+				});
+
 	}
 
 	public boolean parseUserDataFromResponse(GeoGebraTubeUser user,
@@ -131,12 +153,12 @@ public class GeoGebraTubeAPID extends
 		return requestJSON;
 	}
 
-	@Override
-	public boolean isAvailable() {
+	public boolean isAvailable(LogInOperation op) {
 		if (this.availabilityCheckDone) {
+			op.onEvent(new TubeAvailabilityCheckEvent(this.available));
 			return this.available;
 		}
-		return checkIfAvailable();
+		return checkIfAvailable(op);
 	}
 
 	/**
@@ -147,18 +169,33 @@ public class GeoGebraTubeAPID extends
 	 * 
 	 * @return boolean if the request was successful.
 	 */
-	public boolean checkIfAvailable() {
+	public boolean checkIfAvailable(final LogInOperation op) {
 		this.available = false;
 		try {
-			HttpRequest request = performRequest(
+			performRequest(
 					"{\"request\": {\"-api\": \"1.0.0\",\"task\": {\"-type\": \"info\"}}}",
-					false);
-			this.available = request.isSuccessful();
+					false, new AjaxCallback() {
+
+						@Override
+						public void onSuccess(String response) {
+							GeoGebraTubeAPID.this.availabilityCheckDone = true;
+							GeoGebraTubeAPID.this.available = true;
+							op.onEvent(new TubeAvailabilityCheckEvent(true));
+						}
+
+						@Override
+						public void onError(String error) {
+							GeoGebraTubeAPID.this.availabilityCheckDone = true;
+							GeoGebraTubeAPID.this.available = false;
+							op.onEvent(new TubeAvailabilityCheckEvent(true));
+
+						}
+					});
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		this.availabilityCheckDone = true;
 		return this.available;
 	}
 }

@@ -1,5 +1,7 @@
 package geogebra.common.util;
 
+import geogebra.common.move.ggtapi.models.AjaxCallback;
+
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * 
@@ -49,7 +51,7 @@ public abstract class HttpRequest {
 	 * @param url full URL to be opened
 	 * @param post POST parameters (already encoded)
 	 */
-	public abstract void sendRequestPost(String url, String post);
+	public abstract void sendRequestPost(String url, String post, AjaxCallback callback);
 	
 	/**
 	 * @param timeout_secs HTTP request timeout in seconds

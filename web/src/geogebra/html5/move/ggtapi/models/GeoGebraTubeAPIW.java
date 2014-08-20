@@ -1,10 +1,12 @@
 package geogebra.html5.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.AjaxCallback;
 import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
-import geogebra.common.util.HttpRequest;
+import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.main.AppW;
 
@@ -148,34 +150,32 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
     }
 	
 	@Override
-	public int authorizeUser(GeoGebraTubeUser user) {
-		String req = buildTokenLoginRequest(user.getLoginToken(), user.getCookie()).toString();
-		HttpRequest request = performRequest(req, true);
-		if (request.isSuccessful()) {
-			//JSONTokener tokener = new JSONTokener(request.getResponse());
-			//JSONObject response = new JSONObject(tokener);
-			
-			//JSONParser parser = new JSONParser();
-			
-			JSONValue tokener = JSONParser.parseStrict(request.getResponse());
-			
-			JSONObject obj;
-			if ((obj=tokener.isObject()) != null) {
-				if (obj.get("error") != null) {
-					return LOGIN_TOKEN_INVALID;
-				}
-				
-				// Parse the userdata from the response
-				if (!parseUserDataFromResponse(user, obj)) {
-					return LOGIN_TOKEN_INVALID;
-				}
+	public void authorizeUser(final GeoGebraTubeUser user, final LogInOperation op, final boolean automatic) {
+		String reqStr = buildTokenLoginRequest(user.getLoginToken(), user.getCookie()).toString();
+		performRequest(reqStr, true, new AjaxCallback(){
 
-				return LOGIN_TOKEN_VALID;
-			}
-			
-			
-		} 
-		return LOGIN_REQUEST_FAILED;
+			@Override
+            public void onSuccess(String result) {
+				try{
+					JSONValue tokener = JSONParser.parseStrict(result);
+					
+					JSONObject obj = tokener.isObject();
+					
+					if(!!parseUserDataFromResponse(user, obj)){
+						op.onEvent(new LoginEvent(user, true, automatic));
+					}else{
+						op.onEvent(new LoginEvent(user, false, automatic));
+					}
+				}catch(Throwable t){
+					op.onEvent(new LoginEvent(user, false, automatic));
+				}
+            }
+
+			@Override
+            public void onError(String error) {
+				op.onEvent(new LoginEvent(user, false, automatic));
+	            
+            }});
 	}
 	
 	/**
@@ -274,10 +274,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		return requestJSON;
 	}
 
-	@Override
-    public boolean isAvailable() {
-	    return true;
-    }
 	
 	public void uploadMaterial(AppW app, String filename, MaterialCallback cb) {
 		performUploadRequest(UploadRequest.getRequestElement(app, filename).toJSONString(), cb);//new UploadRequest(app).toJSONString());
