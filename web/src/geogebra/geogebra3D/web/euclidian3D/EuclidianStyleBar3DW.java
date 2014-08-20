@@ -400,18 +400,11 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void addBtnRotateView(){
 		
-		addSeparator();
 		
 		add(btnRotateView);
-		//add(textRotateX);
-//		add(btnViewDefault);
-//		add(btnViewXY);
-//		add(btnViewXZ);
-//		add(btnViewYZ);
 		
 		add(btnViewDirection);
 		
-		addSeparator();
 		add(btnClipping);
 		add(btnViewProjection);
 	}

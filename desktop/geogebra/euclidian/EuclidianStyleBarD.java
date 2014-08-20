@@ -412,9 +412,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 
-		// add color and style buttons
-		if (btnColor.isVisible() || btnTextColor.isVisible())
-			addSeparator();
 
 		add(btnColor);
 		add(btnBgColor);

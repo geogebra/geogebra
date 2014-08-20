@@ -71,7 +71,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@Override
 	protected void addBtnRotateView(){
 		
-		addSeparator();
 		
 		add(btnRotateView);
 		//add(textRotateX);
@@ -80,7 +79,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		add(btnViewXZ);
 		add(btnViewYZ);
 		
-		addSeparator();
 		add(btnClipping);
 		add(btnViewProjection);
 	}
