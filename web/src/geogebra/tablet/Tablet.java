@@ -27,7 +27,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.googlecode.gwtphonegap.client.PhoneGap;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 /**
@@ -39,7 +38,6 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
  */
 public class Tablet implements EntryPoint {
 
-	static PhoneGap phoneGap;
 	//zum testen von private zu public
 	public static GeoGebraAppFrame appFrame;
 	
@@ -79,8 +77,14 @@ public class Tablet implements EntryPoint {
 			return;			
 		}
 		Browser.checkFloat64();
-		PhoneGapManager.initializePhoneGap();
-		phoneGap = PhoneGapManager.getPhoneGap();
+		PhoneGapManager.initializePhoneGap(new BackButtonPressedHandler() {
+
+			@Override
+			public void onBackButtonPressed(
+					final BackButtonPressedEvent event) {
+				goBack();
+			}
+		});
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());
@@ -109,17 +113,8 @@ public class Tablet implements EntryPoint {
 		PNaCl.exportPNaCltoConsole();
 		
 //		phoneGap.initializePhoneGap();
-		phoneGap.getEvent()
-				.getBackButton()
-				.addBackButtonPressedHandler(
-						new BackButtonPressedHandler() {
-
-							@Override
-							public void onBackButtonPressed(
-									final BackButtonPressedEvent event) {
-								goBack();
-							}
-						});
+		
+						
 	}
 	public static void goBack() {
 		if(appFrame!= null && appFrame.app != null){

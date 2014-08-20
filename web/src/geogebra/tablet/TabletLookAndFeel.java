@@ -2,9 +2,12 @@ package geogebra.tablet;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.gui.browser.MaterialListElement;
 import geogebra.html5.gui.browser.SignInButton;
 import geogebra.html5.gui.browser.TabletSignInButton;
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.main.AppWeb;
 
 
 public class TabletLookAndFeel extends GLookAndFeel {
@@ -27,6 +30,10 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	@Override
     public SignInButton getSignInButton(App app) {
 	    return new TabletSignInButton(app);
+    }
+	
+	public MaterialListElement getMaterialElement(Material m, AppWeb app) {
+	    return new TabletMaterialElement(m, app);
     }
 
 }

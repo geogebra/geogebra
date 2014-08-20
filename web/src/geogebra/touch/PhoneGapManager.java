@@ -2,6 +2,9 @@ package geogebra.touch;
 
 import com.google.gwt.core.client.GWT;
 import com.googlecode.gwtphonegap.client.PhoneGap;
+import com.googlecode.gwtphonegap.client.PhoneGapAvailableEvent;
+import com.googlecode.gwtphonegap.client.PhoneGapAvailableHandler;
+import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 
 public class PhoneGapManager {
 	
@@ -11,7 +14,16 @@ public class PhoneGapManager {
 		return phoneGap;
 	}
 
-	public static void initializePhoneGap() {
+	public static void initializePhoneGap(final BackButtonPressedHandler handler) {
+		if(handler != null){
+		phoneGap.addHandler(new PhoneGapAvailableHandler(){
+
+			@Override
+            public void onPhoneGapAvailable(PhoneGapAvailableEvent event) {
+	            phoneGap.getEvent().getBackButton().addBackButtonPressedHandler(handler);
+	            
+            }});
+		}
 	    phoneGap.initializePhoneGap();
     }
 }
