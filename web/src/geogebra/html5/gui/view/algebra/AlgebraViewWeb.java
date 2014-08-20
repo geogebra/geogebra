@@ -1026,27 +1026,48 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	public void setInputPanel(AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
-		if(this.inputPanel != null && !app.showAlgebraInput()){
-			super.addItem(inputPanel.getTextField());
-		}
+		showAlgebraInput();
 	}
 
-	public void setShowAlgebraInput(boolean show){
-		removeItem(inputPanelTreeItem);
-		if(this.inputPanel != null && show){
-			inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+	public void setShowAlgebraInput(boolean show) {
+		if (show) {
+			showAlgebraInput();
+		} else {
+			hideAlgebraInput();
 		}
+	}
+	
+	private void hideAlgebraInput() {
+		if (!isAlgebraInputVisible()) {
+			return;
+		}
+		super.removeItem(inputPanelTreeItem);
+		inputPanelTreeItem = null;
+	}
+	
+	private void showAlgebraInput() {
+		if (isAlgebraInputVisible()) {
+			return;
+		}
+		if (inputPanel == null) {
+			return;
+		}
+		inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+	}
+	
+	private boolean isAlgebraInputVisible() {
+		return inputPanelTreeItem != null;
 	}
 
 	@Override
 	public void addItem(TreeItem item) {
 		// make sure the item is inserted before the inputPanel
-		if(this.inputPanel != null){
+		if(isAlgebraInputVisible()){
 			removeItem(inputPanelTreeItem);
 	    }
 		super.addItem(item);
-		if(this.inputPanel != null && !app.showAlgebraInput()){
-			inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+		if (isAlgebraInputVisible()) {
+			super.addItem(inputPanelTreeItem);
 		}
 	}
 }
