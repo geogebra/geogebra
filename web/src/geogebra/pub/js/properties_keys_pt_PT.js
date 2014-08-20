@@ -300,7 +300,7 @@ __GGB__keysVar.pt_PT.command = {
     "Factors": "Fatores",
     "Factors.Syntax": "[ <Polin\xf3mio> ]\n[ <N\xfamero> ]",
     "FillCells": "PreencherC\xe9lulas",
-    "FillCells.Syntax": "[ <Bloco de C\xe9lulas>, <Objeto> ]\n[ <Bloco de C\xe9lulas ou C\xe9lula>, <Lista> ]\n[ <Bloco de C\xe9lulas ou C\xe9lula>, <Matriz> ]",
+    "FillCells.Syntax": "[ <Bloco de C\xe9lulas>, <Objeto> ]\n[ <C\xe9lula>, <Lista> ]\n[ <C\xe9lula>, <Matriz> ]",
     "FillColumn": "PreencherColuna",
     "FillColumn.Syntax": "[ <Coluna>, <Lista> ]",
     "FillRow": "PreencherLinha",
