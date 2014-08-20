@@ -80,11 +80,12 @@ TRANSLATORS
   * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena (Spain)
   * Bosnian: Maja Hrbat, Jelena Arnaut, Mirko Capara,
       Vesna Miletic (Bosnia and Herzegovina)
-  * Bulgarian: Hristo Stoyanov Hristov, Magdalena Petkova (Bulgaria)
+  * Bulgarian: Nadezhda Aplakova, Nadezhda Konstantinova, Galina Lyutskanova,
+      Hristo Stoyanov, Dessislava Dimkova, Hristov, Magdalena Petkova (Bulgaria)
   * Catalan: Jaume Bartroli, Pep Bujosa, Josep Lluis Canadilla,
       Carlos Gimenez, Antoni Goma, Jorge Sanchez,
       Roser Sebastian, David Obrador Sala (Spain)
-  * Chinese (Simplified): Chen Xing, Tom King, Ran Tao, Oldnew (China)
+  * Chinese (Simplified): Lee Ying, Chen Xing, Tom King, Ran Tao, Oldnew (China)
   * Chinese (Traditional): Fu-Kwun Hwang, Chen-Hui Lin, Pegasus Roe,
       Joe Chen (Taiwan)
   * Croatian: Sime Suljic, Ela Rac-Marinic-Kragic, Josip Klicinovic,
@@ -112,7 +113,8 @@ TRANSLATORS
   * German: Markus Hohenwarter, Judith Hohenwarter, Andreas Lindner,
       Sandra Reichenberger, Christina Biermair, Andrea Duringer,
       Barbara Kimeswenger, Corinna Kroehn, Kurt Soeser,
-      Johanna Zoechbauer, Alexander Hartl (Austria),
+      Johanna Zoechbauer, Alexander Hartl, Johanna Zoechbauer, 
+      Sarah Starlinger, Sabrina Wallner, Magdalena Freudenhalter (Austria),
       Yves Kreis (Luxembourg), Birgit Lachner (Germany)
   * Greek: Nicholas Mousoulides, Constantinos Christou (Cyprus),
       Spiros Mavrogiannis, Manolis Koutlis,
@@ -122,7 +124,7 @@ TRANSLATORS
   * Hungarian: Zsuzsanna Papp-Varga, Andras Hrasko, Peter Csiba,
       Zoltan Major, Maria Sz. Fekete, Ildiko Kezer, Viktoria Kmecs,
       Szabolcs Sulik, Lajos Szilassi, Zoltan Kovacs, Agnes Tamcsu,
-      Tamas Kalcza (Hungary)
+      Tamas Kalcza, Judit Elias (Hungary)
   * Icelandic: Freyja Hreinsdottir (Iceland)
   * Indonesian: Aam Sudrajat (Indonesia)
   * Irish: Maurice O'Reilly (Ireland)
@@ -155,6 +157,7 @@ TRANSLATORS
       Bugaevsky Vladimir (Russia)
   * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia), Jelena Arnaut,
       Mirko Capara, Vesna Miletic (Bosnia and Herzegovina)
+  * Sinhala: Dakshila Kamalsooriya, Dinithi Weerasekara, Kalumi Probodya
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
   * Slovenian: Stanislav Senveter (Slovenia)
   * Spanish: Liliana Saidon (Argentina)
