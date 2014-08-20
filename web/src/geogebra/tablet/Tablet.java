@@ -10,8 +10,8 @@ import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
-import geogebra.touch.SaveDialogT;
 import geogebra.touch.PhoneGapManager;
+import geogebra.touch.SaveDialogT;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
@@ -191,6 +191,7 @@ public class Tablet implements EntryPoint {
 
 			@Override
             public void onSuccess(String result) {
+				appFrame.addStyleName("Tablet");
 	            appFrame.app.setFileManager(new FileManagerT());
 	            ((DialogManagerW) appFrame.app.getDialogManager()).setFileChooser(new SaveDialogT(appFrame.app));
             }

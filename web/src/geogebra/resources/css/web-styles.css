@@ -1491,6 +1491,21 @@ body[dir=rtl] .signIn {
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
 
+/* for Tablets */
+
+.Tablet .menubarSMART {
+	font-size: 115%;
+	line-height: 153%;
+}
+
+.Tablet .menubarSMART .gwt-StackPanel .gwt-StackPanelItem img {
+	margin-top: 5px;
+}
+
+.Tablet .menubarSMART .GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage {
+	top: 8px;
+}
+
 /*#####################################################################################
 ###       CONTEXT MENU
 #####################################################################################*/
