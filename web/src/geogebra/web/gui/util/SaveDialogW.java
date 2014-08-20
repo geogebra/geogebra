@@ -2,13 +2,17 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
+import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.AppW;
+
+import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -167,7 +171,17 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 */
 	void upload() {
 	    if (this.materialPrivate.getValue()) {
-	    	((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText());
+	    	((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText(), new MaterialCallback() {
+				
+				@Override
+				public void onLoaded(List<Material> parseResponse) {
+					if (parseResponse.size() == 1) {
+						app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
+						//TODO show user: successfully uploaded
+					}
+					
+				}
+			});
 	    } else {
 	    	((AppW) app).uploadToGeoGebraTube();
 	    }

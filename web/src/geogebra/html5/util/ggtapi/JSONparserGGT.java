@@ -85,7 +85,9 @@ public class JSONparserGGT {
 
 		material.setTitle(getString(obj, "title"));
 		material.setDescription(getString(obj, "description"));
-		material.setTimestamp(Long.parseLong(getString(obj, "timestamp")));
+		if (getString(obj, "timestamp") != "") {
+			material.setTimestamp(Long.parseLong(getString(obj, "timestamp")));
+		}
 		material.setAuthor(getString(obj, "author"));
 		material.setAuthorURL(getString(obj, "author_url"));
 		material.setURL(getString(obj, "url"));

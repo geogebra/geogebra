@@ -121,19 +121,18 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		}
 	}
 	
-	protected void performUploadRequest(String requestString) {
+	protected void performUploadRequest(String requestString, final MaterialCallback cb) {
 		try {
 			this.requestBuilder.sendRequest(requestString, new RequestCallback() {
 				
 				@Override
 				public void onResponseReceived(Request request, Response response) {
-					//TODO save id here
+					cb.onLoaded(JSONparserGGT.parseResponse(response.getText()));
 				}
 				
 				@Override
 				public void onError(Request request, Throwable exception) {
-					// TODO Auto-generated method stub
-					
+					cb.onError(exception);
 				}
 			});
 		}
@@ -280,8 +279,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	    return true;
     }
 	
-	public void uploadMaterial(AppW app, String filename) {
-		performUploadRequest(UploadRequest.getRequestElement(app, filename).toJSONString());//new UploadRequest(app).toJSONString());
+	public void uploadMaterial(AppW app, String filename, MaterialCallback cb) {
+		performUploadRequest(UploadRequest.getRequestElement(app, filename).toJSONString(), cb);//new UploadRequest(app).toJSONString());
 	}
 
 	public void getUsersMaterials(int userId, MaterialCallback rc) {
