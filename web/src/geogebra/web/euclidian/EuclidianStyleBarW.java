@@ -969,7 +969,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 			final GDimensionW colorIconSize = new GDimensionW(20, iconHeight);
 			btnColor = new ColorPopupMenuButton(app, colorIconSize,
-					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
+					ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 				@Override
 				public void update(Object[] geos) {
