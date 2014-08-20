@@ -2723,7 +2723,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (showToolBar) {
-			App.printStacktrace(toolbarPosition);
 			AppD2.initToolbar(this, getToolbarPosition(), showToolBarHelp,
 					northPanel, eastPanel, southPanel, westPanel);
 		}
