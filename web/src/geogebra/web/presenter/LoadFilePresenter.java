@@ -144,6 +144,7 @@ public class LoadFilePresenter{
 		((AppW)app).updateToolBar();
 		if(!fileOpened){
 			GeoGebraProfiler.getInstance().profileEnd();
+			app.getScriptManager().ggbOnInit();
 		}
 	}
 	
