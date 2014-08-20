@@ -289,18 +289,19 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void showAxesCmd() {
 		// get ev with focus
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
-	
+
 		boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
 		App app = getApp();
-		if (app.getEuclidianView1() == ev)
+		if (app.getEuclidianView1() == ev){
 			app.getSettings().getEuclidian(1)
-					.setShowAxes(!bothAxesShown, !bothAxesShown);
-		else if (!app.hasEuclidianView2EitherShowingOrNot(1))
-			ev.setShowAxes(!bothAxesShown, true);
-		else if (app.getEuclidianView2(1) == ev)
-			app.getSettings().getEuclidian(2)
-					.setShowAxes(!bothAxesShown, !bothAxesShown);
-		else
+			.setShowAxes(!bothAxesShown, !bothAxesShown);
+
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == ev) {
+			app.getSettings().getEuclidian(2).setShowAxes(!bothAxesShown, !bothAxesShown);
+		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+			app.getSettings().getEuclidian(3).setShowAxes(!bothAxesShown);
+
+		}else
 			ev.setShowAxes(!bothAxesShown, true);
 	
 		ev.repaint();
@@ -312,17 +313,18 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// get ev with focus
 		EuclidianView ev = getActiveEuclidianView();
 		App app = getApp();
-		if (app.getEuclidianView1() == ev)
+		if (app.getEuclidianView1() == ev){
 			app.getSettings().getEuclidian(1)
-					.showGrid(!ev.getShowGrid());
-		else if (!app.hasEuclidianView2EitherShowingOrNot(1))
+			.showGrid(!ev.getShowGrid());
+
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == ev) {
+			app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
+		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+			app.getSettings().getEuclidian(3).showGrid(!ev.getShowGrid());
+
+		}else
 			ev.showGrid(!ev.getShowGrid());
-		else if (app.getEuclidianView2(1) == ev)
-			app.getSettings().getEuclidian(2)
-					.showGrid(!ev.getShowGrid());
-		else
-			ev.showGrid(!ev.getShowGrid());
-	
+
 		ev.repaint();
 		app.storeUndoInfo();
 		app.updateMenubar();

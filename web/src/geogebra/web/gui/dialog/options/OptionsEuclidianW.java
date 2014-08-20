@@ -432,13 +432,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		protected FlowPanel miscPanel;
 		
 		protected void applyBackgroundColor(GColor color){
-			int viewIdx = -1;
+			int viewIdx = 0;
 			if (view == app.getEuclidianView1()) {
 				viewIdx = 1; 
-			} else if (!app.hasEuclidianView2EitherShowingOrNot(1)) {
-				viewIdx = 0;
-			} else if (view == app.getEuclidianView2(1)) {
+			} else if (app.hasEuclidianView2EitherShowingOrNot(1) && view == app.getEuclidianView2(1)) {
 				viewIdx = 2;
+			} else if (app.hasEuclidianView3D() && view == app.getEuclidianView3D()) {
+				viewIdx = 3;
 			}	
 			model.applyBackgroundColor(viewIdx, color);
 		}
