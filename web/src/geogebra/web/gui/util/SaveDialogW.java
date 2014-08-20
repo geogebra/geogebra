@@ -6,6 +6,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
@@ -171,6 +172,10 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 */
 	void upload() {
 	    if (this.materialPrivate.getValue()) {
+	    	// if title has changed, create new file
+	    	if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
+	    		((AppWeb) app).resetUniqueId();
+	    	}
 	    	((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText(), new MaterialCallback() {
 				
 				@Override
