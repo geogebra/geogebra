@@ -215,6 +215,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		
 		this.addDomHandler(new TouchStartHandler() {
 			public void onTouchStart(TouchStartEvent event) {
+				event.stopPropagation();
 				closePopupsAndMaybeMenu(event.getNativeEvent());
 			}
 		}, TouchStartEvent.getType());
@@ -225,9 +226,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
     }
 	
 	/**
-	 * This method will close the popups. Also if the event doesn't target the menu
-	 * or the menu toggle button and there is no drag in progress, the menu will also
-	 * close. Use this only in event handlers.
+	 * This method will also close the menu if the event doesn't target the menu
+	 * or the menu toggle button and there is no drag in progress.
 	 * @see GeoGebraAppFrame#init()
 	 * @param event native event
 	 */
