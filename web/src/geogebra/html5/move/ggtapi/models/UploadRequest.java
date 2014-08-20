@@ -13,13 +13,17 @@ public class UploadRequest implements Request {
 	private final String TASK = "upload";
 	private final String TYPE = "applet";
 	private AppW app;
-	private String filename = "GeoGebra";
+	private String consTitle = "GeoGebra";
 	private String uniqueID;
 	
 	
-	UploadRequest(AppW app, String filename) {
+	/**
+	 * @param app AppW
+	 * @param consTitle title of construction
+	 */
+	UploadRequest(AppW app, String consTitle) {
 		this.app = app;
-		this.filename = filename;
+		this.consTitle = consTitle;
 		this.uniqueID = this.app.getUniqueId();
 	}
 	
@@ -52,7 +56,7 @@ public class UploadRequest implements Request {
 			task.put("type", new JSONString(this.TYPE));
 			
 			//title
-			task.put("title", new JSONString(this.filename));
+			task.put("title", new JSONString(this.consTitle));
 					
 			//language
 			task.put("language", new JSONString(app.getLocalization().getLanguage()));

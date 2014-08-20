@@ -2785,6 +2785,10 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	padding: 10px 10px 10px 23px;
 }
 
+.Tablet .elemHeadingName, .Tablet .gwt-InlineHTML {
+	font-size: 115%;
+}
+
 .elemHeadingDummy {
 	padding: 10px 10px 10px 0px;
 	cursor: default;

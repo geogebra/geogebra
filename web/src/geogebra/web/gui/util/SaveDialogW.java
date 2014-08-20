@@ -176,6 +176,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 				@Override
 				public void onLoaded(List<Material> parseResponse) {
 					if (parseResponse.size() == 1) {
+						app.getKernel().getConstruction().setTitle(title.getText());
 						app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
 						//TODO show user: successfully uploaded
 					}
