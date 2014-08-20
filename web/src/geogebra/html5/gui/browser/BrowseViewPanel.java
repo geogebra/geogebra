@@ -113,6 +113,10 @@ public class BrowseViewPanel extends FlowPanel implements ResizeListener {
 	}
 	
 	public void displaySearchResults(final String query) {
+		if (query.equals("")) {
+			loadFeatured();
+			return;
+		}
 		this.lastQuery = query;
 		clearMaterials();
 		//search local
