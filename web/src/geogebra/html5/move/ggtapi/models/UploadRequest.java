@@ -14,11 +14,13 @@ public class UploadRequest implements Request {
 	private final String TYPE = "applet";
 	private AppW app;
 	private String filename = "GeoGebra";
+//	private String uniqueID;
 	
 	
 	UploadRequest(AppW app, String filename) {
 		this.app = app;
 		this.filename = filename;
+//		this.uniqueID = this.app.getUniqueId();
 	}
 	
 	
@@ -40,7 +42,12 @@ public class UploadRequest implements Request {
 			//task
 			JSONObject task = new JSONObject();
 			task.put("-type", new JSONString(this.TASK));
-				
+//			
+//			if (this.uniqueID != null) {
+//				//ID
+//				task.put("id", new JSONString(this.uniqueID));
+//			}
+//			
 			//type
 			task.put("type", new JSONString(this.TYPE));
 			
@@ -55,8 +62,8 @@ public class UploadRequest implements Request {
 				
 			//settings
 			JSONObject settings = new JSONObject();
-				settings.put("-toolbar", new JSONString("true"));
-				settings.put("-menubar", new JSONString("true"));
+				settings.put("-toolbar", new JSONString("false"));
+				settings.put("-menubar", new JSONString("false"));
 				settings.put("-inputbar", new JSONString("false"));
 			task.put("settings", settings);
 		

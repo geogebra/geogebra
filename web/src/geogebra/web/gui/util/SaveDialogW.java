@@ -1,6 +1,5 @@
 package geogebra.web.gui.util;
 
-import geogebra.common.gui.SetLabels;
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
@@ -99,6 +98,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 
 		titlePanel.addStyleName("titlePanel");
 		p.add(titlePanel);
+		this.getCaption().setText(app.getMenu("Save"));
 	}
 
 	private void addRadioButtons() {
@@ -106,9 +106,9 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		radioButtonPanel.setStyleName("radioButtonPanel");
 		
 		//TODO translate
-	    this.materialPrivate = new RadioButton("Material", "Private");
-	    this.materialShared = new RadioButton("Material", "Shared");
-	    this.materialPublic = new RadioButton("Material", "Public");
+	    this.materialPrivate = new RadioButton("Material", app.getMenu("Private"));
+	    this.materialShared = new RadioButton("Material", app.getMenu("Shared"));
+	    this.materialPublic = new RadioButton("Material", app.getMenu("Public"));
 	    
 	    radioButtonPanel.add(this.materialPrivate);
 	    radioButtonPanel.add(this.materialShared);
@@ -230,9 +230,8 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		this.titleLabel.setText(app.getPlain("Title") + ": ");
 		this.cancel.setText(app.getMenu("Cancel"));
 		this.save.setText(app.getMenu("Save"));
-		//TODO translation needed
-//		this.materialPrivate.setText();
-//		this.materialShared.setText();
-//		this.materialPublic.setText();
+		this.materialPrivate.setText(app.getMenu("Private"));
+		this.materialShared.setText(app.getMenu("Shared"));
+		this.materialPublic.setText(app.getMenu("Public"));
 	}
 }
