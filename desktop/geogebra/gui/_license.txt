@@ -124,7 +124,7 @@ TRANSLATORS
   * Hungarian: Zsuzsanna Papp-Varga, Andras Hrasko, Peter Csiba,
       Zoltan Major, Maria Sz. Fekete, Ildiko Kezer, Viktoria Kmecs,
       Szabolcs Sulik, Lajos Szilassi, Zoltan Kovacs, Agnes Tamcsu,
-      Tamas Kalcza, Judit Elias (Hungary)
+      Tamas Kalcza, Judit Elias, Gabriela Ferenczy (Hungary)
   * Icelandic: Freyja Hreinsdottir (Iceland)
   * Indonesian: Aam Sudrajat (Indonesia)
   * Irish: Maurice O'Reilly (Ireland)
