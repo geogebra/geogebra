@@ -114,8 +114,8 @@ TRANSLATORS
   * German: Markus Hohenwarter, Judith Hohenwarter, Andreas Lindner,
       Sandra Reichenberger, Christina Biermair, Andrea Duringer,
       Barbara Kimeswenger, Corinna Kroehn, Kurt Soeser,
-      Johanna Zoechbauer, Alexander Hartl, Johanna Zoechbauer, 
-      Sarah Starlinger, Sabrina Wallner, Magdalena Freudenhalter (Austria),
+      Johanna Zoechbauer, Alexander Hartl, Sarah Starlinger,
+      Sabrina Wallner, Magdalena Freudenhalter (Austria),
       Yves Kreis (Luxembourg), Birgit Lachner (Germany)
   * Greek: Nicholas Mousoulides, Constantinos Christou (Cyprus),
       Spiros Mavrogiannis, Manolis Koutlis,
