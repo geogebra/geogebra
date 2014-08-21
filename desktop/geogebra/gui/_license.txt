@@ -121,7 +121,8 @@ TRANSLATORS
       Spiros Mavrogiannis, Manolis Koutlis,
       Fergadiotis Athanasios, Alkeos Souyoul (Greece)
   * Hebrew: Guy Hed (Israel)
-  * Hindi: Sanjay Gulati, Parth Bhattacharya, Vikrant Dubey (India)
+  * Hindi: Sanjay Gulati, Parth Bhattacharya, Vikrant Dubey,
+      Girish Belkar (India)
   * Hungarian: Zsuzsanna Papp-Varga, Andras Hrasko, Peter Csiba,
       Zoltan Major, Maria Sz. Fekete, Ildiko Kezer, Viktoria Kmecs,
       Szabolcs Sulik, Lajos Szilassi, Zoltan Kovacs, Agnes Tamcsu,
