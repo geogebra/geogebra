@@ -145,7 +145,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			// geo point has been moved
 			ec.movedGeoPointDragged = true;
 
-		} else {
+		} else { // 2D point
 			Coords o = ((EuclidianController3D) ec).view3D.getPickPoint(ec.mouseLoc);
 			((EuclidianController3D) ec).view3D.toSceneCoords3D(o);
 			// TODO do this once
@@ -159,6 +159,32 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 																				// instead
 																				// of
 																				// identity
+			
+			// capturing points
+			switch (ec.view.getPointCapturingMode()) {
+			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+				//TODO
+			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+				if (!ec.view.isGridOrAxesShown()) {
+					break;
+				}
+			case EuclidianStyleConstants.POINT_CAPTURING_ON:
+			case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+				double x0 = coords.getX();
+				double y0 = coords.getY();
+				double gx = ec.view.getGridDistances(0);
+				double gy = ec.view.getGridDistances(1);
+				double x = Kernel.roundToScale(x0, gx);
+				double y = Kernel.roundToScale(y0, gy);
+				//App.debug("\n"+x+"\n"+y+"\np=\n"+project);
+				if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+						|| (Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
+								&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID)){
+					coords.setX(x);
+					coords.setY(y);
+				}
+			}
+
 			ec.xRW = coords.getX();
 			ec.yRW = coords.getY();
 			super.movePoint(repaint, ((EuclidianController3D) ec).mouseEvent);
