@@ -367,6 +367,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
+		// cancel repaint to avoid closing newly opened tooltips
+		repaintTimer.cancel();
 		// hide dialogs if they are open
 		int x = event.getClientX() + Window.getScrollLeft();
 		int y = event.getClientY() + Window.getScrollTop(); // why scrollLeft & scrollTop; see ticket #4049
