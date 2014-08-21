@@ -77,7 +77,8 @@ TRANSLATORS
   * Arabic: Brahim Boulakbech, Haboubi Abdessalem,  Boulifa Mehdi (Tunisia),
       Maha Ahmed (Egypt), Kamal Dkhissi (Morocco), Rana Issa (Spain)
   * Armenian: Gagik Aghekyan (Armenia)
-  * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena (Spain)
+  * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena,
+      Asier Ruiz Guinea (Spain)
   * Bosnian: Maja Hrbat, Jelena Arnaut, Mirko Capara,
       Vesna Miletic (Bosnia and Herzegovina)
   * Bulgarian: Nadezhda Aplakova, Nadezhda Konstantinova, Galina Lyutskanova,
@@ -131,7 +132,7 @@ TRANSLATORS
   * Italian: Simona Riva, Alessandra Tomasi (Italy)
   * Japanese: Akihito Wachi, Kazuhiro Hasegawa (Japan)
   * Kazakh: Talgat Bainazarov (Kazakhstan)
-  * Korean: Kyeong-Sik Choi (Korea)
+  * Korean: Kyeongsik Choi (Korea)
   * Lithuanian: Rokas Tamosiunas, Antanas Apynis (Lithuania)
   * Macedonian: Linda Fahlberg-Stojanovska, Jasmina Markoska,
       Zoran Trifunov, Alexandar Momirovski (FYR Macedonia)
@@ -160,7 +161,7 @@ TRANSLATORS
   * Sinhala: Dakshila Kamalsooriya, Dinithi Weerasekara, Kalumi Probodya
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
   * Slovenian: Stanislav Senveter (Slovenia)
-  * Spanish: Liliana Saidon (Argentina)
+  * Spanish: Liliana Saidon (Argentina), Rafael Losada Liste (Spain)
   * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
   * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah,
       Vasuraj Dhamodharan
