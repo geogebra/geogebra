@@ -197,85 +197,62 @@ public class OptionsPanelW extends FlowPanel implements
 		histogramPanel = new FlowPanel();
 		histogramPanel.add(new Label("histogram coming soon"));
 		// create components
-//		ckCumulative = new JCheckBox();
-//		ckCumulative.addActionListener(this);
-//
-//		lblFreqType = new JLabel();
-//		rbFreq = new JRadioButton();
-//		rbFreq.addActionListener(this);
-//
-//		rbNormalized = new JRadioButton();
-//		rbNormalized.addActionListener(this);
-//
-//		rbRelative = new JRadioButton();
-//		rbRelative.addActionListener(this);
-//
-//		ButtonGroup g = new ButtonGroup();
-//		g.add(rbFreq);
-//		g.add(rbNormalized);
-//		g.add(rbRelative);
-//
-//		lblOverlay = new JLabel();
-//		ckOverlayNormal = new JCheckBox();
-//		ckOverlayNormal.addActionListener(this);
-//
-//		ckOverlayPolygon = new JCheckBox();
-//		ckOverlayPolygon.addActionListener(this);
-//
-//		ckShowFrequencyTable = new JCheckBox();
-//		ckShowFrequencyTable.addActionListener(this);
-//
-//		ckShowHistogram = new JCheckBox();
-//		ckShowHistogram.addActionListener(this);
-//
-//		ckManual = new JCheckBox();
-//		ckManual.addActionListener(this);
-//
-//		lblClassRule = new JLabel();
-//		rbLeftRule = new JRadioButton();
-//		rbLeftRule.addActionListener(this);
-//		rbRightRule = new JRadioButton();
-//		rbRightRule.addActionListener(this);
-//
-//		ButtonGroup g2 = new ButtonGroup();
-//		g2.add(rbLeftRule);
-//		g2.add(rbRightRule);
-//
+		ckCumulative = new CheckBox();
+
+		lblFreqType = new Label();
+		rbFreq = new RadioButton("group1");
+
+		rbNormalized = new RadioButton("group1");
+
+		rbRelative = new RadioButton("group1");
+		lblOverlay = new Label();
+		ckOverlayNormal = new CheckBox();
+		
+		ckOverlayPolygon = new CheckBox();
+		
+		ckShowFrequencyTable = new CheckBox();
+		
+		ckShowHistogram = new CheckBox();
+		
+		ckManual = new CheckBox();
+		
+		lblClassRule = new Label();
+		rbLeftRule = new RadioButton("rule");
+		rbRightRule = new RadioButton("rule");
+
 //		GridBagConstraints c = new GridBagConstraints();
 //		c.gridx = 0;
 //		c.weightx = 1;
 //		c.anchor = GridBagConstraints.LINE_START;
-//
-//		// tab = tab-like constraint
+
+		// tab = tab-like constraint
 //		GridBagConstraints tab = (GridBagConstraints) c.clone();
 //		tab.insets = new Insets(0, 20, 0, 0);
-//
-//		// create frequency type panel
-//		freqPanel = new JPanel(new GridBagLayout());
-//		freqPanel.add(ckCumulative, c);
-//		freqPanel.add(rbFreq, tab);
-//		freqPanel.add(rbRelative, tab);
-//		freqPanel.add(rbNormalized, tab);
-//
-//		// create show panel
-//		showPanel = new JPanel(new GridBagLayout());
-//		showPanel.add(ckShowHistogram, c);
-//		showPanel.add(ckShowFrequencyTable, c);
-//		showPanel.add(ckOverlayPolygon, c);
-//		showPanel.add(ckOverlayNormal, c);
-//
-//		// create classes panel
-//		classesPanel = new JPanel(new GridBagLayout());
-//		classesPanel.setBorder(BorderFactory.createTitledBorder(app
-//				.getMenu("FrequencyType")));
-//		classesPanel.add(ckManual, c);
-//		c.insets.top += 8; // vertical gap
-//		classesPanel.add(lblClassRule, c);
-//		c.insets.top -= 8; // undo vertical gap
-//		classesPanel.add(rbLeftRule, tab);
-//		classesPanel.add(rbRightRule, tab);
-//		layoutHistogramPanel();
-//
+
+		// create frequency type panel
+		freqPanel = new FlowPanel();
+		freqPanel.add(ckCumulative);
+		freqPanel.add(rbFreq);
+		freqPanel.add(rbRelative);
+		freqPanel.add(rbNormalized);
+
+		// create show panel
+		showPanel = new FlowPanel();
+		showPanel.add(ckShowHistogram);
+		showPanel.add(ckShowFrequencyTable);
+		showPanel.add(ckOverlayPolygon);
+		showPanel.add(ckOverlayNormal);
+
+		// create classes panel
+		classesPanel = new FlowPanel();
+		//classesPanel.setBorder(BorderFactory.createTitledBorder(app
+		//		.getMenu("FrequencyType")));
+		classesPanel.add(ckManual);
+		classesPanel.add(lblClassRule);
+		classesPanel.add(rbLeftRule);
+		classesPanel.add(rbRightRule);
+		layoutHistogramPanel();
+
 	}
 
 	private void layoutHistogramPanel() {
@@ -285,13 +262,17 @@ public class OptionsPanelW extends FlowPanel implements
 //		vBox.add(freqPanel);
 //		vBox.add(showPanel);
 //
-//		if (histogramPanel == null) {
-//			histogramPanel = new JPanel(new BorderLayout());
-//		}
+		if (histogramPanel == null) {
+			histogramPanel = new FlowPanel();
+		}
 //		histogramPanel.removeAll();
 //		histogramPanel.add(vBox, BorderLayout.NORTH);
 //		histogramPanel.setBorder(BorderFactory.createEmptyBorder());
-
+		FlowPanel p = new FlowPanel();
+		p.add(classesPanel);
+		p.add(freqPanel);
+		p.add(showPanel);
+		histogramPanel.add(p);
 	}
 
 	private void layoutBarChartPanel() {
@@ -313,9 +294,9 @@ public class OptionsPanelW extends FlowPanel implements
 	private void createBarChartPanel() {
 
 		// create components
-//		ckAutoBarWidth = new JCheckBox();
+//		ckAutoBarWidth = new CheckBox();
 //		ckAutoBarWidth.addActionListener(this);
-//		lblBarWidth = new JLabel();
+//		lblBarWidth = new Label();
 //		fldBarWidth = new MyTextField(app, fieldWidth);
 //		fldBarWidth.setEditable(true);
 //		fldBarWidth.addActionListener(this);
@@ -336,7 +317,7 @@ public class OptionsPanelW extends FlowPanel implements
 	private void createBoxPlotPanel() {
 
 		// create components
-//		ckShowOutliers = new JCheckBox();
+//		ckShowOutliers = new CheckBox();
 //		ckShowOutliers.addActionListener(this);
 //
 //		// layout
@@ -351,7 +332,7 @@ public class OptionsPanelW extends FlowPanel implements
 	private void createScatterplotPanel() {
 
 		// create components
-//		ckShowLines = new JCheckBox();
+//		ckShowLines = new CheckBox();
 //		ckShowLines.addActionListener(this);
 //
 //		// layout
@@ -365,39 +346,39 @@ public class OptionsPanelW extends FlowPanel implements
 	private void createGraphPanel() {
 
 		// create components
-//		ckAutoWindow = new JCheckBox();
+//		ckAutoWindow = new CheckBox();
 //		ckAutoWindow.addActionListener(this);
 //
-//		ckShowGrid = new JCheckBox();
+//		ckShowGrid = new CheckBox();
 //		ckShowGrid.addActionListener(this);
 //
-//		lblXMin = new JLabel();
+//		lblXMin = new Label();
 //		fldXMin = new MyTextField(app, fieldWidth);
 //		fldXMin.setEditable(true);
 //		fldXMin.addActionListener(this);
 //		fldXMin.addFocusListener(this);
 //
-//		lblXMax = new JLabel();
+//		lblXMax = new Label();
 //		fldXMax = new MyTextField(app, fieldWidth);
 //		fldXMax.addActionListener(this);
 //		fldXMax.addFocusListener(this);
 //
-//		lblYMin = new JLabel();
+//		lblYMin = new Label();
 //		fldYMin = new MyTextField(app, fieldWidth);
 //		fldYMin.addActionListener(this);
 //		fldYMin.addFocusListener(this);
 //
-//		lblYMax = new JLabel();
+//		lblYMax = new Label();
 //		fldYMax = new MyTextField(app, fieldWidth);
 //		fldYMax.addActionListener(this);
 //		fldYMax.addFocusListener(this);
 //
-//		lblXInterval = new JLabel();
+//		lblXInterval = new Label();
 //		fldXInterval = new MyTextField(app, fieldWidth);
 //		fldXInterval.addActionListener(this);
 //		fldXInterval.addFocusListener(this);
 //
-//		lblYInterval = new JLabel();
+//		lblYInterval = new Label();
 //		fldYInterval = new MyTextField(app, fieldWidth);
 //		fldYInterval.addActionListener(this);
 //		fldYInterval.addFocusListener(this);
@@ -484,23 +465,23 @@ public class OptionsPanelW extends FlowPanel implements
 //				.getPlain("Dimensions")));
 //
 //		// histogram options
-//		ckManual.setText(app.getMenu("SetClasssesManually"));
-//		lblFreqType.setText(app.getMenu("FrequencyType") + ":");
+		ckManual.setText(app.getMenu("SetClasssesManually"));
+		lblFreqType.setText(app.getMenu("FrequencyType") + ":");
 //
-//		rbFreq.setText(app.getMenu("Count"));
-//		rbNormalized.setText(app.getMenu("Normalized"));
-//		rbRelative.setText(app.getMenu("Relative"));
-//
-//		ckCumulative.setText(app.getMenu("Cumulative"));
-//		lblOverlay.setText(app.getMenu("Overlay"));
-//		ckOverlayNormal.setText(app.getMenu("NormalCurve"));
-//		ckOverlayPolygon.setText(app.getMenu("FrequencyPolygon"));
-//		ckShowFrequencyTable.setText(app.getMenu("FrequencyTable"));
-//		ckShowHistogram.setText(app.getMenu("Histogram"));
-//
-//		lblClassRule.setText(app.getMenu("ClassRule") + ":");
-//		rbRightRule.setText(app.getMenu("RightClassRule"));
-//		rbLeftRule.setText(app.getMenu("LeftClassRule"));
+		rbFreq.setText(app.getMenu("Count"));
+		rbNormalized.setText(app.getMenu("Normalized"));
+		rbRelative.setText(app.getMenu("Relative"));
+
+		ckCumulative.setText(app.getMenu("Cumulative"));
+		lblOverlay.setText(app.getMenu("Overlay"));
+		ckOverlayNormal.setText(app.getMenu("NormalCurve"));
+		ckOverlayPolygon.setText(app.getMenu("FrequencyPolygon"));
+		ckShowFrequencyTable.setText(app.getMenu("FrequencyTable"));
+		ckShowHistogram.setText(app.getMenu("Histogram"));
+
+		lblClassRule.setText(app.getMenu("ClassRule") + ":");
+		rbRightRule.setText(app.getMenu("RightClassRule"));
+		rbLeftRule.setText(app.getMenu("LeftClassRule"));
 //
 //		// bar chart
 //		lblBarWidth.setText(app.getMenu("Width"));
