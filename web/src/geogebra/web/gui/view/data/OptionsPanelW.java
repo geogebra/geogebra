@@ -4,6 +4,7 @@ import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import geogebra.common.gui.view.data.StatPanelSettings;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.CheckBox;
@@ -34,7 +35,7 @@ public class OptionsPanelW extends FlowPanel implements
 			rbRightRule;
 	private Label lblFreqType, lblOverlay, lblClassRule;
 	private FlowPanel freqPanel, showPanel, dimPanel;
-
+	private Label lbClassTitle, lbFreqTitle, lbShowTitle, lbDimTitle;
 	// graph panel GUI
 	private CheckBox ckAutoWindow, ckShowGrid;
 	private Label lblXMin, lblXMax, lblYMin, lblYMax, lblXInterval,
@@ -123,7 +124,9 @@ public class OptionsPanelW extends FlowPanel implements
 
 //		// add plot-specific tab
 		String tabTitle = plotType.getTranslatedKey(app);
-		tabPanel.add(mainPanel, tabTitle);
+		ScrollPanel spHistogram = new ScrollPanel();
+		spHistogram.add(mainPanel);
+		tabPanel.add(spHistogram, tabTitle);
 		//		tabPanel.insertTab(tabTitle, null, new JScrollPane(mainPanel), null,
 //				0);
 //		classesPanel.setVisible(false);
@@ -139,9 +142,9 @@ public class OptionsPanelW extends FlowPanel implements
 //		ckOverlayPolygon.setVisible(false);
 //
 //		// add graph tab
-		ScrollPanel sp = new ScrollPanel();
-		sp.add(graphPanel);
-		tabPanel.add(sp, app.getMenu("Graph"));
+		ScrollPanel spGraph = new ScrollPanel();
+		spGraph.add(graphPanel);
+		tabPanel.add(spGraph, app.getMenu("Graph"));
 		tabPanel.selectTab(0);
 		//		graphPanel.setVisible(true);
 //		showYAxisSettings = true;
@@ -195,11 +198,23 @@ public class OptionsPanelW extends FlowPanel implements
 
 	private void createHistogramPanel() {
 		histogramPanel = new FlowPanel();
-		histogramPanel.add(new Label("histogram coming soon"));
 		// create components
 		ckCumulative = new CheckBox();
 
 		lblFreqType = new Label();
+		
+		lbClassTitle = new Label();
+		lbClassTitle.setStyleName("panelTitle");
+		
+		lbFreqTitle = new Label();
+		lbFreqTitle.setStyleName("panelTitle");
+	
+		lbShowTitle = new Label();
+		lbShowTitle.setStyleName("panelTitle");
+	
+		lbDimTitle = new Label();
+		lbDimTitle.setStyleName("panelTitle");
+		
 		rbFreq = new RadioButton("group1");
 
 		rbNormalized = new RadioButton("group1");
@@ -231,26 +246,28 @@ public class OptionsPanelW extends FlowPanel implements
 
 		// create frequency type panel
 		freqPanel = new FlowPanel();
+		freqPanel.add(lbFreqTitle);
 		freqPanel.add(ckCumulative);
-		freqPanel.add(rbFreq);
-		freqPanel.add(rbRelative);
-		freqPanel.add(rbNormalized);
+		freqPanel.add(LayoutUtil.panelRowIndent(rbFreq));
+		freqPanel.add(LayoutUtil.panelRowIndent(rbRelative));
+		freqPanel.add(LayoutUtil.panelRowIndent(rbNormalized));
 
 		// create show panel
 		showPanel = new FlowPanel();
-		showPanel.add(ckShowHistogram);
-		showPanel.add(ckShowFrequencyTable);
-		showPanel.add(ckOverlayPolygon);
-		showPanel.add(ckOverlayNormal);
+		showPanel.add(lbShowTitle);
+		showPanel.add(LayoutUtil.panelRowIndent(ckShowHistogram));
+		showPanel.add(LayoutUtil.panelRowIndent(ckShowFrequencyTable));
+		showPanel.add(LayoutUtil.panelRowIndent(ckOverlayPolygon));
+		showPanel.add(LayoutUtil.panelRowIndent(ckOverlayNormal));
 
 		// create classes panel
 		classesPanel = new FlowPanel();
-		//classesPanel.setBorder(BorderFactory.createTitledBorder(app
-		//		.getMenu("FrequencyType")));
-		classesPanel.add(ckManual);
+		classesPanel.setStyleName("daOptionsGroup");
+		classesPanel.add(lbClassTitle);
+		classesPanel.add(LayoutUtil.panelRowIndent(ckManual));
 		classesPanel.add(lblClassRule);
-		classesPanel.add(rbLeftRule);
-		classesPanel.add(rbRightRule);
+		classesPanel.add(LayoutUtil.panelRowIndent(rbLeftRule));
+		classesPanel.add(LayoutUtil.panelRowIndent(rbRightRule));
 		layoutHistogramPanel();
 
 	}
@@ -455,14 +472,10 @@ public class OptionsPanelW extends FlowPanel implements
 	public void setLabels() {
 //
 //		// titled borders
-//		classesPanel.setBorder(BorderFactory.createTitledBorder(app
-//				.getMenu("Classes")));
-//		showPanel.setBorder(BorderFactory.createTitledBorder(app
-//				.getMenu("Show")));
-//		freqPanel.setBorder(BorderFactory.createTitledBorder(app
-//				.getMenu("FrequencyType")));
-//		dimPanel.setBorder(BorderFactory.createTitledBorder(app
-//				.getPlain("Dimensions")));
+		lbClassTitle.setText(app.getMenu("Classes"));
+		lbShowTitle.setText(app.getMenu("Show"));
+		lbFreqTitle.setText(app.getMenu("FrequencyType"));
+		lbDimTitle.setText(app.getPlain("Dimensions"));
 //
 //		// histogram options
 		ckManual.setText(app.getMenu("SetClasssesManually"));
