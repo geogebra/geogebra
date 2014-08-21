@@ -1,12 +1,16 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataDisplayModel;
 import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
+import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.gui.view.data.StatPanelSettings;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -68,6 +72,8 @@ public class OptionsPanelW extends FlowPanel implements
 
 	private DataAnalysisModel daModel;
 
+	private DataDisplayModel dyModel;
+
 	private final static int fieldWidth = 8;
 
 	/************************************************************
@@ -82,11 +88,12 @@ public class OptionsPanelW extends FlowPanel implements
 	 *            settings
 	 */
 	public OptionsPanelW(AppW app, DataAnalysisModel model,
-			StatPanelSettings settings) {
+			DataDisplayModel dyModel) {
 
 		this.app = app;
 		this.daModel = model;
-		this.settings = settings;
+		this.dyModel = dyModel;
+		this.settings = dyModel.getSettings();
 
 		// create option panels
 		createHistogramPanel();
@@ -125,46 +132,46 @@ public class OptionsPanelW extends FlowPanel implements
 //		// add plot-specific tab
 		String tabTitle = plotType.getTranslatedKey(app);
 		ScrollPanel spHistogram = new ScrollPanel();
+		mainPanel.setStyleName("daScrollPanel");
 		spHistogram.add(mainPanel);
 		tabPanel.add(spHistogram, tabTitle);
-		//		tabPanel.insertTab(tabTitle, null, new JScrollPane(mainPanel), null,
-//				0);
-//		classesPanel.setVisible(false);
-//		histogramPanel.setVisible(false);
+		classesPanel.setVisible(false);
+		histogramPanel.setVisible(false);
 //		scatterplotPanel.setVisible(false);
 //		barChartPanel.setVisible(false);
 //		boxPlotPanel.setVisible(false);
-//
-//		rbNormalized.setVisible(false);
-//		ckOverlayNormal.setVisible(false);
-//		ckShowHistogram.setVisible(false);
-//		ckCumulative.setVisible(false);
-//		ckOverlayPolygon.setVisible(false);
-//
-//		// add graph tab
+
+		rbNormalized.setVisible(false);
+		ckOverlayNormal.setVisible(false);
+		ckShowHistogram.setVisible(false);
+		ckCumulative.setVisible(false);
+		ckOverlayPolygon.setVisible(false);
+
+		// add graph tab
 		ScrollPanel spGraph = new ScrollPanel();
+		spGraph.setStyleName("daScrollPanel");
 		spGraph.add(graphPanel);
 		tabPanel.add(spGraph, app.getMenu("Graph"));
 		tabPanel.selectTab(0);
-		//		graphPanel.setVisible(true);
-//		showYAxisSettings = true;
+		graphPanel.setVisible(true);
+		showYAxisSettings = true;
 //
 //		// set visibility for plot-specific panels
-//		switch (plotType) {
-//
-//		case HISTOGRAM:
-//			classesPanel.setVisible(true);
-//			histogramPanel.setVisible(true);
-//			rbNormalized.setVisible(true);
-//			ckOverlayNormal.setVisible(true);
-//			ckShowHistogram.setVisible(true);
-//			ckCumulative.setVisible(true);
-//			ckOverlayPolygon.setVisible(true);
-//
-//			layoutHistogramPanel();
-//
-//			break;
-//
+		switch (plotType) {
+
+		case HISTOGRAM:
+			classesPanel.setVisible(true);
+			histogramPanel.setVisible(true);
+			rbNormalized.setVisible(true);
+			ckOverlayNormal.setVisible(true);
+			ckShowHistogram.setVisible(true);
+			ckCumulative.setVisible(true);
+			ckOverlayPolygon.setVisible(true);
+
+			layoutHistogramPanel();
+
+			break;
+
 //		case BOXPLOT:
 //		case MULTIBOXPLOT:
 //			boxPlotPanel.setVisible(true);
@@ -190,8 +197,8 @@ public class OptionsPanelW extends FlowPanel implements
 //			this.setVisible(false);
 //			break;
 //
-//		}
-//
+		}
+
 		setLabels();
 		updateGUI();
 	}
@@ -200,7 +207,7 @@ public class OptionsPanelW extends FlowPanel implements
 		histogramPanel = new FlowPanel();
 		// create components
 		ckCumulative = new CheckBox();
-
+		
 		lblFreqType = new Label();
 		
 		lbClassTitle = new Label();
@@ -235,15 +242,6 @@ public class OptionsPanelW extends FlowPanel implements
 		rbLeftRule = new RadioButton("rule");
 		rbRightRule = new RadioButton("rule");
 
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.gridx = 0;
-//		c.weightx = 1;
-//		c.anchor = GridBagConstraints.LINE_START;
-
-		// tab = tab-like constraint
-//		GridBagConstraints tab = (GridBagConstraints) c.clone();
-//		tab.insets = new Insets(0, 20, 0, 0);
-
 		// create frequency type panel
 		freqPanel = new FlowPanel();
 		freqPanel.add(lbFreqTitle);
@@ -270,21 +268,33 @@ public class OptionsPanelW extends FlowPanel implements
 		classesPanel.add(LayoutUtil.panelRowIndent(rbRightRule));
 		layoutHistogramPanel();
 
+		ckCumulative.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				actionPerformed(ckCumulative);
+			}
+		});
+		
+		ckShowHistogram.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				actionPerformed(ckShowHistogram);
+			}
+		});
+
+		ckOverlayPolygon.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				actionPerformed(ckOverlayPolygon);
+			}
+		});
 	}
 
 	private void layoutHistogramPanel() {
-
-//		Box vBox = Box.createVerticalBox();
-//		vBox.add(classesPanel);
-//		vBox.add(freqPanel);
-//		vBox.add(showPanel);
-//
 		if (histogramPanel == null) {
 			histogramPanel = new FlowPanel();
 		}
-//		histogramPanel.removeAll();
-//		histogramPanel.add(vBox, BorderLayout.NORTH);
-//		histogramPanel.setBorder(BorderFactory.createEmptyBorder());
+
 		FlowPanel p = new FlowPanel();
 		p.add(classesPanel);
 		p.add(freqPanel);
@@ -526,30 +536,30 @@ public class OptionsPanelW extends FlowPanel implements
 //		isUpdating = true;
 //
 //		// histogram/barchart
-//		ckManual.setSelected(settings.isUseManualClasses());
-//		rbFreq.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
-//		rbRelative
-//				.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
-//		rbNormalized
-//				.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
-//		rbLeftRule.setSelected(settings.isLeftRule());
-//		ckCumulative.setSelected(settings.isCumulative());
-//		ckOverlayNormal.setSelected(settings.isHasOverlayNormal());
-//		ckOverlayPolygon.setSelected(settings.isHasOverlayPolygon());
-//		ckShowGrid.setSelected(settings.showGrid);
-//		ckAutoWindow.setSelected(settings.isAutomaticWindow());
-//		ckShowFrequencyTable.setSelected(settings.isShowFrequencyTable());
-//		ckShowHistogram.setSelected(settings.isShowHistogram());
+		ckManual.setValue(settings.isUseManualClasses());
+		rbFreq.setValue(settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
+		rbRelative
+				.setValue(settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
+		rbNormalized
+				.setValue(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		rbLeftRule.setValue(settings.isLeftRule());
+		ckCumulative.setValue(settings.isCumulative());
+		ckOverlayNormal.setValue(settings.isHasOverlayNormal());
+		ckOverlayPolygon.setValue(settings.isHasOverlayPolygon());
+//		ckShowGrid.setValue(settings.showGrid);
+//		ckAutoWindow.setValue(settings.isAutomaticWindow());
+//		ckShowFrequencyTable.setValue(settings.isShowFrequencyTable());
+		ckShowHistogram.setValue(settings.isShowHistogram());
 //
-//		if (settings.dataSource != null) {
-//			ckManual.setVisible(settings.getDataSource().getGroupType() != GroupType.CLASS);
-//			freqPanel
-//					.setVisible(settings.getDataSource().getGroupType() == GroupType.RAWDATA);
-//		}
-//		// normal overlay
-//		ckOverlayNormal
-//				.setEnabled(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
-//
+		if (settings.dataSource != null) {
+			ckManual.setVisible(settings.getDataSource().getGroupType() != GroupType.CLASS);
+			freqPanel
+					.setVisible(settings.getDataSource().getGroupType() == GroupType.RAWDATA);
+		}
+		// normal overlay
+		ckOverlayNormal
+				.setEnabled(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+
 //		// bar chart width
 //		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
 //		fldBarWidth.setText("" + settings.getBarWidth());
@@ -594,6 +604,79 @@ public class OptionsPanelW extends FlowPanel implements
 //		repaint();
 	}
 
+
+	public void actionPerformed(Object source) {
+
+		if (isUpdating)
+			return;
+
+		if (source instanceof AutoCompleteTextFieldW) {
+			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
+		}
+
+		else if (source == ckManual) {
+			settings.setUseManualClasses(ckManual.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == ckCumulative) {
+			settings.setCumulative(ckCumulative.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == rbFreq) {
+			settings.setFrequencyType(StatPanelSettings.TYPE_COUNT);
+			firePropertyChange("settings", true, false);
+		} else if (source == rbRelative) {
+			settings.setFrequencyType(StatPanelSettings.TYPE_RELATIVE);
+			firePropertyChange("settings", true, false);
+		} else if (source == rbNormalized) {
+			settings.setFrequencyType(StatPanelSettings.TYPE_NORMALIZED);
+			firePropertyChange("settings", true, false);
+		} else if (source == ckOverlayNormal) {
+			settings.setHasOverlayNormal(ckOverlayNormal.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == ckOverlayPolygon) {
+			settings.setHasOverlayPolygon(ckOverlayPolygon.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == ckShowGrid) {
+			settings.showGrid = ckShowGrid.getValue();
+			firePropertyChange("settings", true, false);
+		} else if (source == ckAutoWindow) {
+			settings.setAutomaticWindow(ckAutoWindow.getValue());
+			settings.xAxesIntervalAuto = ckAutoWindow.getValue();
+			settings.yAxesIntervalAuto = ckAutoWindow.getValue();
+			firePropertyChange("settings", true, false);
+		} else if (source == ckShowFrequencyTable) {
+			settings.setShowFrequencyTable(ckShowFrequencyTable.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == ckShowHistogram) {
+			settings.setShowHistogram(ckShowHistogram.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == rbLeftRule || source == rbRightRule) {
+			settings.setLeftRule(rbLeftRule.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == ckShowLines) {
+			settings.setShowScatterplotLine(ckShowLines.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == ckShowOutliers) {
+			settings.setShowOutliers(ckShowOutliers.getValue());
+			firePropertyChange("settings", true, false);
+		} else if (source == ckAutoBarWidth) {
+			settings.setAutomaticBarWidth(ckAutoBarWidth.getValue());
+			firePropertyChange("settings", true, false);
+		} else {
+			firePropertyChange("settings", true, false);
+		}
+
+		updateGUI();
+	}
+
+
+	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	private void firePropertyChange(String string, boolean b, boolean c) {
+	    dyModel.updatePlot(true);
+    }
 
 	public void updatePanel() {
 		// TODO Auto-generated method stub

@@ -233,7 +233,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		displayDeckPanel.add(new ScrollPanel(imagePanel));
 
 		// create options panel
-		optionsPanel = new OptionsPanelW(app, daModel, getModel().getSettings());
+		optionsPanel = new OptionsPanelW(app, daModel, getModel());
 //		optionsPanel.addPropertyChangeListener("settings",
 //				new PropertyChangeListener() {
 //					public void propertyChange(PropertyChangeEvent evt) {
