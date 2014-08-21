@@ -6,6 +6,7 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GuiManagerInterface;
+import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
@@ -94,4 +95,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void refreshDraggingViews();
 
 	public void setGeneralToolBarDefinition(String toolbarDefinition);
+
+	public MyHeaderPanel getBrowseGUI();
 }
