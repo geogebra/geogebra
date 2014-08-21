@@ -1418,7 +1418,6 @@ public abstract class Drawable3D extends DrawableND {
 			this.a = a;
 		}
 		
-		@Override
 		public TraceSettings clone(){
 			Coords c1 = this.c.copyVector();
 			return new TraceSettings(c1, a);
