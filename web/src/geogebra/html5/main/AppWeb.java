@@ -804,6 +804,9 @@ public abstract class AppWeb extends App implements SetLabels{
 							$wnd.addEventListener(t, function() {
 								ep.@geogebra.common.move.events.BaseEventPool::trigger()();
 							});
+							$doc.addEventListener(t, function() {
+								ep.@geogebra.common.move.events.BaseEventPool::trigger()();
+							});
 				}-*/;
 				
 				public void attach(String type, BaseEventPool eventPool) {
