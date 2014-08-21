@@ -136,7 +136,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
 			Operation operation, StringTemplate tpl) {
 		if (lt instanceof ListValue) {
-			if ((operation == Operation.MULTIPLY)) {
+			if ((operation == Operation.MULTIPLY) && rt instanceof VectorNDValue) {
 				MyList myList = ((ListValue) lt).getMyList();
 				if(myList.isMatrix()){
 					ExpressionValue ret = multiply(myList, (VectorNDValue) rt);
