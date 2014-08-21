@@ -161,29 +161,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 																				// identity
 			
 			// capturing points
-			switch (ec.view.getPointCapturingMode()) {
-			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-				//TODO
-			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-				if (!ec.view.isGridOrAxesShown()) {
-					break;
-				}
-			case EuclidianStyleConstants.POINT_CAPTURING_ON:
-			case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-				double x0 = coords.getX();
-				double y0 = coords.getY();
-				double gx = ec.view.getGridDistances(0);
-				double gy = ec.view.getGridDistances(1);
-				double x = Kernel.roundToScale(x0, gx);
-				double y = Kernel.roundToScale(y0, gy);
-				//App.debug("\n"+x+"\n"+y+"\np=\n"+project);
-				if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-						|| (Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
-								&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID)){
-					coords.setX(x);
-					coords.setY(y);
-				}
-			}
+			checkPointCapturing(coords);
 
 			ec.xRW = coords.getX();
 			ec.yRW = coords.getY();
@@ -193,6 +171,42 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 					.setCoords(ec.movedGeoPoint.getCoordsInD3(), false);
 
 		}
+	}
+
+	/**
+	 * capture coords regarding capture mode
+	 * @param coords (x,y) coords
+	 * @return true if coords have been changed
+	 */
+	public boolean checkPointCapturing(Coords coords){
+		// capturing points
+		switch (ec.view.getPointCapturingMode()) {
+		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+			//TODO
+		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+			if (!ec.view.isGridOrAxesShown()) {
+				return false;
+			}
+		case EuclidianStyleConstants.POINT_CAPTURING_ON:
+		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+			double x0 = coords.getX();
+			double y0 = coords.getY();
+			double gx = ec.view.getGridDistances(0);
+			double gy = ec.view.getGridDistances(1);
+			double x = Kernel.roundToScale(x0, gx);
+			double y = Kernel.roundToScale(y0, gy);
+			//App.debug("\n"+x+"\n"+y+"\np=\n"+project);
+			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+					|| (Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
+							&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID)){
+				coords.setX(x);
+				coords.setY(y);
+				return true;
+			}
+			return false;
+		}
+		
+		return false;
 	}
 	
 	
@@ -258,16 +272,18 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 	}
 	
 	
+	private Coords captureCoords = Coords.createInhomCoorsInD3();
+	
+	
 	/**
 	 * create a new region point or update the preview point
 	 */
 	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
 			boolean complex) {
+		
 
-		GeoPoint3D point3D;
-
-		point3D = ((EuclidianController3D) ec).view3D.getCursor3D();
+		GeoPoint3D point3D = ((EuclidianController3D) ec).view3D.getCursor3D();
 		point3D.setPath(null);
 		point3D.setRegion(region);
 
@@ -287,6 +303,13 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 				((EuclidianController3D) ec).view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
 				return null;
 			}
+			
+			// try to capture coords
+			captureCoords.setValues(coords, 2);
+			if (checkPointCapturing(captureCoords)){
+				point3D.setCoords(captureCoords, false);
+			}
+			
 		}
 
 		((EuclidianController3D) ec).view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);

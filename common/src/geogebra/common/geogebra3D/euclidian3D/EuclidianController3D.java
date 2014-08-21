@@ -66,7 +66,6 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.AsyncOperation;
 
@@ -328,30 +327,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		checkXYMinMax(project);
 
 		// capturing points
-		switch (view.getPointCapturingMode()) {
-		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-			//TODO
-		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-			if (!view.isGridOrAxesShown()) {
-				break;
-			}
-		case EuclidianStyleConstants.POINT_CAPTURING_ON:
-		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-			double x0 = project.getX();
-			double y0 = project.getY();
-			double gx = view.getGridDistances(0);
-			double gy = view.getGridDistances(1);
-			double x = Kernel.roundToScale(x0, gx);
-			double y = Kernel.roundToScale(y0, gy);
-			//App.debug("\n"+x+"\n"+y+"\np=\n"+project);
-			if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-					|| (Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
-							&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID)){
-				project.setX(x);
-				project.setY(y);
-			}
-		}
-
+		((EuclidianController3DCompanion) companion).checkPointCapturing(project);
+		
 		// set point coords
 		point.setCoords(project);
 	}
