@@ -67,7 +67,8 @@ public abstract class App3DCompanion extends AppCompanion {
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
 		super.getEuclidianViewXML(sb, asPreference);
 
-		if (app.hasEuclidianView3D()){
+		if (app.isEuclidianView3Dinited()){
+			//TODO it would be cleaner to use EuclidianSettings here instead
 			app.getEuclidianView3D().getXML(sb, asPreference);
 		}
 

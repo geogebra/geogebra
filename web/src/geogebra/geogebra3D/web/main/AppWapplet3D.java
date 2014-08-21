@@ -112,6 +112,11 @@ public class AppWapplet3D extends AppWapplet{
 		}
 	}
 	
+	@Override
+    public boolean isEuclidianView3Dinited() {
+		return euclidianView3D != null;
+	}
+	
 	
 	
 	

@@ -67,6 +67,11 @@ public class AppWapplication3D extends AppWapplication {
 	}
 	
 	@Override
+    public boolean isEuclidianView3Dinited() {
+		return euclidianView3D != null;
+	}
+	
+	@Override
 	public void initEuclidianViews() {
 
 		super.initEuclidianViews();
