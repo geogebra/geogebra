@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
-	protected static OnScreenKeyBoard keyBoard;
+	protected static OnScreenKeyBoard instance;
 	private FlowPanel content = new FlowPanel();
 	private AutoCompleteTextFieldW textField;
 
@@ -28,27 +28,27 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String E = "\u212F"; // TODO use (not displayed
 	                                          // correctly)
 	private static final String I = "\u03AF";
+	
+	private KeyboardMode mode = KeyboardMode.NUMBER;
 
 	/**
 	 * positioning (via setPopupPosition) needs to be enabled in order to
 	 * prevent automatic positioning in the constructor
 	 */
 	public boolean enablePositioning = false;
-
-	public OnScreenKeyBoard(AutoCompleteTextFieldW autoCompleteTextField) {
-		super(true);
-		this.textField = autoCompleteTextField;
-		addStyleName("KeyBoard");
-		createKeyBoard();
+	
+	public static OnScreenKeyBoard getInstance(AutoCompleteTextFieldW textField) {
+		if (instance == null) {
+			instance = new OnScreenKeyBoard();
+		}
+		instance.setTextField(textField);
+		return instance;
 	}
 
-	@Override
-	public void show() {
-		if (keyBoard != null) {
-			keyBoard.hide();
-		}
-		keyBoard = this;
-		super.show();
+	protected OnScreenKeyBoard() {
+		super(true);
+		addStyleName("KeyBoard");
+		createKeyBoard();
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		numbers.setSpecialButton(ENTER, true, 9, this);
 		content.add(numbers);
 
-		KeyBoardMenu menu = new KeyBoardMenu();
+		KeyBoardMenu menu = new KeyBoardMenu(this);
 		FlowPanel p = new FlowPanel();
 		p.add(menu);
 		content.addStyleName("KeyBoardContent");
@@ -110,6 +110,45 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			}
 			textField.setFocus(false);
 		}
+	}
+	
+	/**
+	 * The text field to be used
+	 * @param textField the text field connected to the keyboard
+	 */
+	public void setTextField(AutoCompleteTextFieldW textField) {
+		this.textField = textField; 
+	}
+	
+	@Override
+	public void hide() {
+		resetKeyboardState();
+	    super.hide();
+	}
+	
+	/**
+	 * @param mode the keyboard mode
+	 */
+	public void setKeyboardMode(KeyboardMode mode) {
+		this.mode = mode;
+	}
+	
+	/**
+	 * @return the keyboard mode
+	 */
+	public KeyboardMode getKeyboardMode() {
+		return mode;
+	}
+	
+	/**
+	 * @return true iff the systems virtual keyboard should be used
+	 */
+	public boolean useSystemVirtualKeyboard() {
+		return mode == KeyboardMode.TEXT;
+	}
+	
+	private void resetKeyboardState() {
+		setKeyboardMode(KeyboardMode.NUMBER);
 	}
 
 }

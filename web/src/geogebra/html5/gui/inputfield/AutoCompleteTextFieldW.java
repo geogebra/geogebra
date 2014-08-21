@@ -126,6 +126,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	        .compile("[,\\[] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]])");
 
 	boolean showOnScreenKeyBoard = false;
+	private OnScreenKeyBoard keyboard;
 
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
@@ -1306,9 +1307,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void requestFocus() {
-		if(showOnScreenKeyBoard){
-			OnScreenKeyBoard k = new OnScreenKeyBoard(this);
-			k.show();
+		if(showOnScreenKeyBoard) {
+			keyboard = OnScreenKeyBoard.getInstance(this);
+			keyboard.show();
 		}
 		// if the onScreenKeyBoard is shown setFocus will blur textField
 		textField.setFocus(true);
@@ -1440,5 +1441,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setShowOnScreenKeyBoard(boolean showOnScreenKeyBoard) {
 		this.showOnScreenKeyBoard = showOnScreenKeyBoard;
+	}
+	
+	public boolean showOnscreenKeyboard() {
+		return false;
 	}
 }
