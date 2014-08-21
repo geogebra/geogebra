@@ -163,6 +163,12 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //		btnOptions.setMargin(new Insets(0, 0, 0, 0));
 //		btnOptions.addActionListener(this);
 
+		btnOptions.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				actionPerformed(btnOptions);
+			}
+		});
 		// create export button
 		btnExport = new MyToggleButton2(new Image(AppResources.INSTANCE.export().getSafeUri().asString()));
 		// btnExport.setPreferredSize(new
@@ -186,11 +192,12 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			controlDecks.add(stemAdjustPanel);
 			controlDecks.add(emptyControl);
 
+			FlowPanel buttonPanel = new FlowPanel();
+			buttonPanel.setStyleName("daOptionButtons");
+			buttonPanel.add(LayoutUtil.panelRow(btnOptions, btnExport));
 			// control panel
 			controlPanel = new FlowPanel();
-			controlPanel.add(lbDisplayType);
-			controlPanel.add(controlDecks);
-			controlPanel.add(LayoutUtil.panelRow(btnOptions, btnExport));
+			controlPanel.add(LayoutUtil.panelRow(lbDisplayType, controlDecks, buttonPanel));
 		}
 
 		createExportToEvAction();
@@ -245,8 +252,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		if (hasControlPanel) {
 			mainPanel.add(controlPanel);
 		}
-		mainPanel.add(displayDeckPanel);
-		mainPanel.add(optionsPanel);
+		mainPanel.add(LayoutUtil.panelRow(displayDeckPanel, optionsPanel));
 
 		add(mainPanel);
 
