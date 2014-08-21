@@ -24,7 +24,6 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -36,7 +35,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	protected AlgebraInputW inputPanel;
-	protected Label contentLabel;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -529,7 +527,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			// set the root
 			clear();
-			addDummyNode();
 			// addItem(rootType);
 			break;
 		case LAYER:
@@ -546,7 +543,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			// set the root
 			clear();
-			addDummyNode();
 			// addItem(rootLayer);
 			break;
 		}
@@ -566,28 +562,16 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		case TYPE:
 			removeItems();
 			typeNodesMap.clear();
-			addDummyNode();
 			break;
 		case LAYER:
 			removeItems();
 			layerNodesMap.clear();
-			addDummyNode();
 			break;
 		case ORDER:
 			rootOrder.removeItems();
 			removeItems();
 		}
 	}
-
-	private void addDummyNode() {
-		this.dummy = new TreeItem();
-
-		contentLabel = new Label(loc.getMenu("Objects"));
-		contentLabel.setStyleName("elemHeadingDummy");
-		this.dummy.setWidget(contentLabel);
-
-	    this.addItem(dummy);
-    }
 
 	/**
 	 * set labels on the tree
@@ -728,9 +712,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			if (parent != null && parent.getChildCount() == 0) {
 				typeNodesMap.remove(typeString);
 				parent.remove();
-				if(typeNodesMap.isEmpty()){
-					addDummyNode();
-				}
 			}
 			break;
 		case LAYER:
@@ -748,9 +729,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		// this has been the last node
 		if ((parent != null) && parent.getChildCount() == 0) {
 			layerNodesMap.remove(i);
-			if(layerNodesMap.isEmpty()){
-				addDummyNode();
-			}
 			parent.remove();
 		}
 
@@ -991,9 +969,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * application if the language setting is changed.
 	 */
 	public void setLabels() {
-		if (contentLabel != null) {
-			contentLabel.setText(loc.getMenu("Objects"));
-		}
 		if (inputPanel != null) {
 			inputPanel.setLabels();
 		}
