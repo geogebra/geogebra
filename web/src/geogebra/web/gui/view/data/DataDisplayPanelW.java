@@ -202,7 +202,6 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		createExportToEvAction();
 		plotPanel = new PlotPanelEuclidianViewW(app.getKernel(), exportToEVAction);
-
 		plotPanelNorth = new FlowPanel();
 		plotPanelSouth = new FlowPanel();
 		GColor bgColor = plotPanel.getBackgroundCommon();
@@ -220,6 +219,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 //		fldTitleY.setBackground(Color.white);
 
 		metaPlotPanel = new FlowPanel();
+		metaPlotPanel.setStyleName("daDotPanel");
 		metaPlotPanel.add(plotPanel.getComponent());
 
 		createImagePanel();
@@ -408,9 +408,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		none.setValue(true);
 		
 		stemAdjustPanel = new FlowPanel();
-		stemAdjustPanel.add(minus);
-		stemAdjustPanel.add(none);
-		stemAdjustPanel.add(plus);
+		stemAdjustPanel.add(LayoutUtil.panelRow(minus, none, plus));
 
 	}
 
@@ -481,11 +479,11 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			}
 			getModel().updatePlot(true);
 		}
-//
-//		else if (source == btnOptions) {
-//			optionsPanel.setPanel(getModel().getSelectedPlot());
-//			optionsPanel.setVisible(btnOptions.isSelected());
-//		}
+
+		else if (source == btnOptions) {
+			optionsPanel.setPanel(getModel().getSelectedPlot());
+			optionsPanel.setVisible(btnOptions.isSelected());
+		}
 //
 //		else if (source == btnExport) {
 //			JPopupMenu menu = plotPanel.getContextMenu();

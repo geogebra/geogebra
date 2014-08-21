@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 
 /**
@@ -100,7 +101,7 @@ public class OptionsPanelW extends FlowPanel implements
 //		mainPanel.add(boxPlotPanel);
 
 		tabPanel = new TabPanel();
-
+		add(tabPanel);
 //		this.setLayout(new BorderLayout());
 //		this.add(tabPanel, BorderLayout.CENTER);
 //		this.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
@@ -109,6 +110,7 @@ public class OptionsPanelW extends FlowPanel implements
 		// update
 		setLabels();
 		updateGUI();
+
 		// this.setPreferredSize(tabbedPane.getPreferredSize());
 
 
@@ -120,8 +122,9 @@ public class OptionsPanelW extends FlowPanel implements
 		this.setVisible(true);
 
 //		// add plot-specific tab
-//		String tabTitle = plotType.getTranslatedKey(app);
-//		tabPanel.insertTab(tabTitle, null, new JScrollPane(mainPanel), null,
+		String tabTitle = plotType.getTranslatedKey(app);
+		tabPanel.add(mainPanel, tabTitle);
+		//		tabPanel.insertTab(tabTitle, null, new JScrollPane(mainPanel), null,
 //				0);
 //		classesPanel.setVisible(false);
 //		histogramPanel.setVisible(false);
@@ -136,8 +139,11 @@ public class OptionsPanelW extends FlowPanel implements
 //		ckOverlayPolygon.setVisible(false);
 //
 //		// add graph tab
-//		tabPanel.addTab(app.getMenu("Graph"), new JScrollPane(graphPanel));
-//		graphPanel.setVisible(true);
+		ScrollPanel sp = new ScrollPanel();
+		sp.add(graphPanel);
+		tabPanel.add(sp, app.getMenu("Graph"));
+		tabPanel.selectTab(0);
+		//		graphPanel.setVisible(true);
 //		showYAxisSettings = true;
 //
 //		// set visibility for plot-specific panels
@@ -459,10 +465,9 @@ public class OptionsPanelW extends FlowPanel implements
 //		vBox.add(graphOptionsPanel);
 //		vBox.add(dimPanel);
 //
-//		graphPanel = new JPanel(new BorderLayout());
-//		graphPanel.add(vBox, BorderLayout.NORTH);
-//		graphPanel.setBorder(BorderFactory.createEmptyBorder());
-//
+		graphPanel = new FlowPanel();
+		graphPanel.add(new Label("GraphPanel is comming soon"));
+
 	}
 
 

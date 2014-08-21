@@ -4163,6 +4163,13 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	margin-right: 150px;
 	float:  right;
 	width: 100px;	
+}
+
+.daPlotPanel {
+	width: 100%;
+	height: 100%;
+	min-width: 480px;
+	min-height: 300px;
 } 
 /* ########################################
    ###    END OF DATA ANALYSIS VIEW     ###
