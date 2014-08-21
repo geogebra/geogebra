@@ -16,6 +16,7 @@ public abstract class DrawableND {
 	private boolean createdByDrawListVisible = false;
 	/** drawList that has created this */
 	private DrawableND drawList;
+	private boolean needsUpdate = false;
 	
 
 	
@@ -112,6 +113,16 @@ public abstract class DrawableND {
 	public double getyLabel() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public abstract void resetHatch();
+
+	public void setNeedsUpdate(boolean b) {
+		this.needsUpdate = b;
+	}
+	
+	public boolean needsUpdate() {
+		return this.needsUpdate;
 	}
 	
 }

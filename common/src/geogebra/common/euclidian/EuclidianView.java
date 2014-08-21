@@ -1481,17 +1481,24 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	public void update(GeoElement geo) {
-		//Keep update of input boxes synchronous #4416
-		if(this.getEuclidianViewNo() == 1 && (!geo.isGeoText() || !((GeoText)geo).isNeedsUpdatedBoundingBox())
-				&& !geo.isGeoTextField()){
-			geo.setNeedsEVUpdate(true);
-			return;
-		}
+		DrawableND d = DrawableMap.get(geo);
 		
-		Object d = DrawableMap.get(geo);
 		if (d != null) {
-			((Drawable) d).resetHatch();
-			((Drawable) d).update();
+			//Keep update of input boxes synchronous #4416
+			if((!geo.isGeoText() || !((GeoText)geo).isNeedsUpdatedBoundingBox())
+					&& !geo.isGeoTextField()){
+				d.setNeedsUpdate(true);
+				return;
+			}
+			d.resetHatch();
+			d.update();
+		}else if(drawableNeeded(geo)){
+			add(geo);			
+			d = DrawableMap.get(geo);
+			if(d!=null){
+				d.setNeedsUpdate(true);
+				repaint();
+			}
 		}
 	}
 
@@ -1502,7 +1509,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 		// G.Sturr 2010-6-30
 		// filter out any geo not marked for this view
-		if (!isVisibleInThisView(geo)) {
+		if (!drawableNeeded(geo) ) {
 			return;
 			// END G.Sturr
 		}
@@ -1520,6 +1527,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			repaint();
 		}
 
+	}
+
+	private boolean drawableNeeded(GeoElement geo) {
+		return isVisibleInThisView(geo) && geo.isLabelSet() && (geo.isEuclidianVisible() 
+				|| (geo.isGeoText() && ((GeoText)geo).isNeedsUpdatedBoundingBox()));
 	}
 
 	/**

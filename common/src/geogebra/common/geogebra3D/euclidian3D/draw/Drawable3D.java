@@ -894,6 +894,7 @@ public abstract class Drawable3D extends DrawableND {
 	
 	/** Comparator for Drawable3Ds */
 	static final public class drawableComparator implements Comparator<Drawable3D>{
+		@Override
 		public int compare(Drawable3D d1, Drawable3D d2) {
 						
 			return d1.comparePickingTo(d2,false);
@@ -904,6 +905,7 @@ public abstract class Drawable3D extends DrawableND {
 	
 	/** Comparator for sets of Drawable3Ds */
 	static final public class setComparator implements Comparator<TreeSet<Drawable3D>>{
+		@Override
 		public int compare(TreeSet<Drawable3D> set1, TreeSet<Drawable3D> set2) {
 
 			/*
@@ -1416,6 +1418,7 @@ public abstract class Drawable3D extends DrawableND {
 			this.a = a;
 		}
 		
+		@Override
 		public TraceSettings clone(){
 			Coords c1 = this.c.copyVector();
 			return new TraceSettings(c1, a);
@@ -1437,6 +1440,7 @@ public abstract class Drawable3D extends DrawableND {
 			return (int) (256*value);
 		}
 
+		@Override
 		public int compareTo(TraceSettings settings) {
 			
 			// compare colors (r,g,b)
@@ -1526,7 +1530,10 @@ public abstract class Drawable3D extends DrawableND {
 		return true;
 	}
 
-	
+	@Override
+	public void resetHatch(){
+		//no hatching for 3D, maybe can be used for textures
+	}
 }
 
 

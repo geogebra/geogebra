@@ -7257,7 +7257,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	private boolean canBeRemovedAsInput = true;
 
 
-	private boolean needsEVupdate;
 	
 	/**
 	 * set this can (not) be removed when input of algo
@@ -7273,15 +7272,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean canBeRemovedAsInput(){
 		return canBeRemovedAsInput;
-	}
-
-	public void setNeedsEVUpdate(boolean b) {
-		this.needsEVupdate = b;
-		
-	}
-	
-	public boolean needsEVupdate(){
-		return this.needsEVupdate;
 	}
 
 	@Override

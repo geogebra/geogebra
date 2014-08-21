@@ -180,8 +180,8 @@ public class DrawableList {
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size
 			if (cur.d.getGeoElement().isDefined()){
-				if(cur.d.geo.needsEVupdate() && cur.d.view.getEuclidianViewNo() == 1){
-					cur.d.geo.setNeedsEVUpdate(false);
+				if(cur.d.needsUpdate()){
+					cur.d.setNeedsUpdate(false);
 					cur.d.update();
 				}
 				cur.d.draw(g2);
