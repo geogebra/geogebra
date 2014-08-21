@@ -35,6 +35,7 @@ import geogebra.html5.main.FileManagerInterface;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
+import geogebra.html5.main.StringHandler;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -1278,17 +1279,15 @@ public abstract class AppW extends AppWeb {
 	@Override
 	public void uploadToGeoGebraTube() {
 		showURLinBrowserWaiterFixedDelay();
-		GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
-		getGgbApi().getBase64(true,
-		        getUploadToGeoGebraTubeCallback(ggbtube));
-	}
+		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+		getGgbApi().getBase64(true, new StringHandler(){
 
-	public native JavaScriptObject getUploadToGeoGebraTubeCallback(
-	        GeoGebraTubeExportWeb ggbtube) /*-{
-		return function(base64string) {
-			ggbtube.@geogebra.web.main.GeoGebraTubeExportWeb::uploadWorksheetSimple(Ljava/lang/String;)(base64string);
-		}
-	}-*/;
+			@Override
+            public void handle(String s) {
+	            ggbtube.uploadWorksheetSimple(s);
+	            
+            }});
+	}
 
 	// ========================================
 	// MISC

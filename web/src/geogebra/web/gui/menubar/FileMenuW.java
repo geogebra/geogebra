@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.main.StringHandler;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -36,13 +37,18 @@ public class FileMenuW extends GMenuBar {
 	    
     }
 	
-	private native boolean nativeShare()/*-{
+	native void nativeShare(String base64, String title)/*-{
 		if($wnd.android){
-			$wnd.android.share("a","b");
-			return true;
-		}else{
-			return false;
+			$wnd.android.share(base64,title);
+
 		}
+	}-*/;
+	
+	private native boolean nativeShareSupported()/*-{
+		if($wnd.android && $wnd.android.share){
+			return true;
+		}
+		return false;
 	}-*/;
 	
 	private void initActions() {
@@ -82,9 +88,19 @@ public class FileMenuW extends GMenuBar {
 		// this is enabled always
 	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
 	    	public void execute() {
-	    		if(!nativeShare()){
+	    		if(!nativeShareSupported()){
 	    		app.uploadToGeoGebraTube();
+	    		}else{
+	    			app.getGgbApi().getBase64(true, new StringHandler(){
+
+						@Override
+                        public void handle(String s) {
+							String title = app.getKernel().getConstruction().getTitle();
+	                        nativeShare(s, "".equals(title) ? "construction" : title);
+                        }});
+	    		
 	    		}
+	    			
 	    	}
 	    });
 	    

@@ -4,6 +4,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * @param mat {@link Material}
 	 */
 	public void addMaterial(final Material mat) {
-		final MaterialListElement preview = new MaterialListElement(mat, this.app);
+		final MaterialListElement preview = ((AppW)app).getLAF().getMaterialElement(mat, this.app);
 		this.materials.add(preview);
 		this.add(preview);
 	}

@@ -12,7 +12,11 @@ public class TabletMaterialElement extends MaterialListElement {
 	
 	@Override
     public void onOpen() {
-		loadNative(getMaterial().getId(), app.getLoginOperation().getModel().getLoginToken());
+		markUnSelected();
+		if (!this.isLocalFile) {
+			loadNative(getMaterial().getId(), app.getLoginOperation().getModel().getLoginToken());
+		}
+		
 	}
 	
 	private native void loadNative(int id, String token) /*-{
