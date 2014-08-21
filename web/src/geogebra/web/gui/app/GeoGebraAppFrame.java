@@ -239,7 +239,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 				!Dom.eventTargetsElement(event, getGGWMenuBar().getElement()) &&
 				!Dom.eventTargetsElement(event, getGGWToolbar().getOpenMenuButtonElement()) &&
 				!frameLayout.getGlassPane().isDragInProgress()) {
-			toggleMenu();
+			app.toggleMenu();
 		}
 	}
 

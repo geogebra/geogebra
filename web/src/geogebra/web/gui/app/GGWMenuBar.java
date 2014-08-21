@@ -4,7 +4,6 @@ import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -13,8 +12,6 @@ public class GGWMenuBar extends Composite implements RequiresResize{
 	
 	private HorizontalPanel ggbmenubarwrapper;
 	private MainMenu menubar;
-	private boolean menubar2Showing = false;
-	private FocusPanel clickBox;
 
 	// added shift-click to toggle new menubar for testing
 	// TODO: remove temporary code
@@ -50,5 +47,4 @@ public class GGWMenuBar extends Composite implements RequiresResize{
 			menubar.onResize();
 		}
     }
-	
 }
