@@ -205,8 +205,15 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		// We cannot decide a statement properly if any of the inputs is a segment:
-		if (g != null && h != null && !g.isGeoSegment() && !h.isGeoSegment()) {
+		/* In fact we cannot decide a statement properly if any of the inputs is a segment,
+		 * at least not algebraically (without using cylindrical algebraic decomposition or such).
+		 * But since we are doing constructive geometry, it's better to assume that
+		 * segment intersection is not a real problem. TODO: Consider adding an NDG somehow
+		 * in this case (but maybe not really important and useful).
+		 * 
+		 * See also AlgoIntersectLineConic.
+		 */
+		if (g != null && h != null /* && !g.isGeoSegment() && !h.isGeoSegment() */) {
 			if (botanaVars==null){
 				botanaVars = new Variable[2];
 				botanaVars[0]=new Variable();
@@ -217,7 +224,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
 			fv = h.getBotanaVars(h);
 			botanaPolynomials[1] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
-					
+			
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();

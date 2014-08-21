@@ -769,8 +769,18 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 				return ret;
 		}
 		
-		// We cannot decide a statement properly if the "line" is a segment or the conic is not a circle:
-		if (g != null && c != null && !g.isGeoSegment() && c.isCircle()) {
+		// We cannot decide a statement yet if the conic is not a circle.
+		
+		/* In fact we cannot decide a statement properly if the "line" is a segment,
+		 * at least not algebraically (without using cylindrical algebraic decomposition or such).
+		 * But since we are doing constructive geometry, it's better to assume that
+		 * segment/circle intersection is not a real problem. TODO: Consider adding an NDG somehow
+		 * in this case (but maybe not really important and useful).
+		 * 
+		 * See also AlgoIntersectLines.
+		 */
+		
+		if (g != null && c != null && /* !g.isGeoSegment() && */ c.isCircle()) {
 			Variable[] botanaVarsThis = new Variable[2];
 			if (botanaVars == null) {
 				botanaVars = new HashMap<GeoElement, Variable[]>();
