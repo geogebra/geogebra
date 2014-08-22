@@ -2,6 +2,7 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.FastClickHandler;
@@ -49,6 +50,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	
 	private Label titleLabel;
 	private final int MIN_TITLE_LENGTH = 4;
+	private boolean uploadWaiting;
 
 	/**
 	 * @param app AppW
@@ -78,6 +80,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 				title.setEnabled(true);
 			}
 		});
+		app.getLoginOperation().getView().add(this);
 	}
 
 	private void addTitelPanel() {
@@ -160,6 +163,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 */
 	protected void onSave() {
 		if (!isLoggedIn()) {
+			this.uploadWaiting = true;
 			((DialogManagerW) app.getDialogManager()).showLogInDialog();
 		} else {
 			upload();
@@ -222,7 +226,10 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 
 	@Override
 	public void renderEvent(BaseEvent event) {
-		// TODO Auto-generated method stub
+		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
+			this.uploadWaiting = false;
+			upload();
+		}
 
 	}
 
