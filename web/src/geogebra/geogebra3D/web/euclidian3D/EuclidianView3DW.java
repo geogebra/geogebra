@@ -93,12 +93,10 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		attachView();
 	
 		((EuclidianController3DW)euclidiancontroller).setView(this);
-		
 
-		if(this.getViewID() != App.VIEW_TEXT_PREVIEW){
-			registerKeyHandlers(canvas);
-			registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianController3DW) euclidiancontroller);
-		}
+		registerKeyHandlers(canvas);
+		registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianController3DW) euclidiancontroller);
+		
 		
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
