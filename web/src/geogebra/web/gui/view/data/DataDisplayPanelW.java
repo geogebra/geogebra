@@ -1,6 +1,8 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.data.DataDisplayModel;
 import geogebra.common.gui.view.data.DataDisplayModel.IDataDisplayListener;
@@ -8,6 +10,7 @@ import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import geogebra.common.main.App;
+import geogebra.common.util.Validation;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.Slider;
@@ -23,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -429,10 +434,40 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		fldWidth.setText("" + (int) getModel().getSettings().getClassWidth());
 
 		manualClassesPanel = new FlowPanel();
-		manualClassesPanel.add(lblStart);
-		manualClassesPanel.add(fldStart);
-		manualClassesPanel.add(lblWidth);
-		manualClassesPanel.add(fldWidth);
+		manualClassesPanel.add(LayoutUtil.panelRow(lblStart, fldStart,
+				lblWidth, fldWidth));
+		fldStart.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				actionPerformed(fldStart);
+			}
+		});
+		
+		fldStart.addKeyHandler(new KeyHandler() {
+			
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					actionPerformed(fldStart);
+				}
+			}
+		});
+		
+		fldWidth.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				actionPerformed(fldWidth);
+			}
+		});
+
+		fldWidth.addKeyHandler(new KeyHandler() {
+			
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					actionPerformed(fldWidth);
+				}
+			}
+		});
+		
 	}
 
 	
@@ -510,16 +545,16 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	private void doTextFieldActionPerformed(Object source) {
-//
-//		if (source == fldStart) {
-//			getModel().getSettings().setClassStart(
-//					Validation.validateDouble(fldStart, getModel()
-//							.getSettings().getClassStart()));
-//		} else if (source == fldWidth) {
-//			getModel().getSettings().setClassWidth(
-//					Validation.validateDouble(fldWidth, getModel()
-//							.getSettings().getClassWidth()));
-//		}
+
+		if (source == fldStart) {
+			getModel().getSettings().setClassStart(
+					Validation.validateDouble(fldStart, getModel()
+							.getSettings().getClassStart()));
+		} else if (source == fldWidth) {
+			getModel().getSettings().setClassWidth(
+					Validation.validateDouble(fldWidth, getModel()
+							.getSettings().getClassWidth()));
+		}
 		getModel().updatePlot(true);
 	}
 

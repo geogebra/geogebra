@@ -7,12 +7,12 @@ import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import geogebra.common.main.App;
+import geogebra.common.util.Validation;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
-import geogebra.util.Validation;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

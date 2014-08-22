@@ -7,6 +7,7 @@ import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.ColorProvider;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.TextObject;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -43,7 +44,8 @@ import javax.swing.text.DefaultCaret;
  * 
  */
 public class MyTextField extends JTextField implements ActionListener,
-		FocusListener, VirtualKeyboardListener, CaretListener, SetLabels {
+		FocusListener, VirtualKeyboardListener, CaretListener, SetLabels,
+		TextObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -69,13 +71,13 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	private boolean enableColoring = true;
 	private boolean isColoringLabels;
-	
+
 	// matched brackets color = cyan (better contrast than "Light sea green")
 	private static GColor COLOR_MATCHED = GeoGebraColorConstants.BALANCED_BRACKET_COLOR;
-	
+
 	// unmatched brackets color = red
 	private static GColor COLOR_UNMATCHED = GeoGebraColorConstants.UNBALANCED_BRACKET_COLOR;
-	
+
 	// class for distinguishing graphically existing object
 	private ColorProvider ip;
 
@@ -123,7 +125,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		borderBtn = new BorderButtonD(this);
 		borderBtn.setBorderButton(0, icon, this);
 		setDefaultBorder();
-		
+
 		app.setComponentOrientation(this);
 	}
 
@@ -144,11 +146,11 @@ public class MyTextField extends JTextField implements ActionListener,
 	public void enableColoring(boolean enableColoring) {
 		this.enableColoring = enableColoring;
 	}
-	
+
 	/**
 	 * enables coloring of labels
 	 * 
-	 * @param isCasInput 
+	 * @param isCasInput
 	 */
 	public void enableLabelColoring(boolean isCasInput) {
 		if (ip == null) {
@@ -157,9 +159,10 @@ public class MyTextField extends JTextField implements ActionListener,
 		}
 		ip.setIsCasInput(isCasInput);
 	}
-	
+
 	/**
-	 * @param val true if labels should be coloured
+	 * @param val
+	 *            true if labels should be coloured
 	 */
 	public void setColoringLabels(boolean val) {
 		this.isColoringLabels = val;
@@ -205,10 +208,11 @@ public class MyTextField extends JTextField implements ActionListener,
 	// ====================================================
 
 	boolean selectAllOnFocus = false;
-	
+
 	/**
-	 * Sets a flag to force all text to be selected on focus
-	 * (helpful for tabbed data entry)
+	 * Sets a flag to force all text to be selected on focus (helpful for tabbed
+	 * data entry)
+	 * 
 	 * @param selectAllOnFocus
 	 */
 	public void setSelectAllOnFocus(boolean selectAllOnFocus) {
@@ -216,19 +220,19 @@ public class MyTextField extends JTextField implements ActionListener,
 	}
 
 	public void focusGained(FocusEvent e) {
-			
-		if(selectAllOnFocus){
+
+		if (selectAllOnFocus) {
 			thisField.setText(thisField.getText());
 			thisField.selectAll();
 		}
-				
+
 		if (showSymbolTableIcon && hasFocus())
 			borderBtn.setIconVisible(0, true);
 		thisField.repaint();
 
 		if (app.getGuiManager() != null)
-			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(
-					this, false);
+			((GuiManagerD) app.getGuiManager())
+					.setCurrentTextfield(this, false);
 	}
 
 	public void focusLost(FocusEvent e) {
@@ -306,10 +310,10 @@ public class MyTextField extends JTextField implements ActionListener,
 		this.showSymbolTableIcon = showSymbolTableIcon;
 	}
 
-	public void setOpenSymbolTableUpwards(boolean openUpwards){
+	public void setOpenSymbolTableUpwards(boolean openUpwards) {
 		getTablePopup().setOpenUpwards(openUpwards);
 	}
-	
+
 	private SymbolTablePopupD getTablePopup() {
 		if (tablePopup == null)
 			tablePopup = new SymbolTablePopupD(app, this);
@@ -353,7 +357,7 @@ public class MyTextField extends JTextField implements ActionListener,
 
 		g2 = (Graphics2D) gr;
 		super.paintComponent(g2);
-		
+
 		if (!enableColoring || !this.hasFocus()) {
 			return;
 		}
@@ -397,8 +401,10 @@ public class MyTextField extends JTextField implements ActionListener,
 
 		// get the bracket positions
 		String text2 = StringUtil.ignoreIndices(text);
-		int[] brkPos = geogebra.common.gui.inputfield.MyTextField.getBracketPositions(text2, caret);
-		int wrong = geogebra.common.util.StringUtil.checkBracketsBackward(text2);
+		int[] brkPos = geogebra.common.gui.inputfield.MyTextField
+				.getBracketPositions(text2, caret);
+		int wrong = geogebra.common.util.StringUtil
+				.checkBracketsBackward(text2);
 		int bracket1pos = brkPos[0];
 		int bracket2pos = brkPos[1];
 
@@ -408,7 +414,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		// NOTE: using setClip was disabled because it causes the field to bleed
 		// outside of bounds in some layouts
 		// g2.setClip(insets.left, insets.top, width, height);
-	
+
 		// hide previously drawn text with a white rectangle
 		g2.setColor(Color.WHITE);
 		g2.fillRect(insets.left, insets.top, width, height);
@@ -417,7 +423,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		if (ip != null && isColoringLabels) {
 			ip.setText(text);
 		}
-		
+
 		// redraw the text using color
 		boolean textMode = false;
 		for (int i = 0; i < text.length(); i++) {
@@ -436,7 +442,7 @@ public class MyTextField extends JTextField implements ActionListener,
 					fg = COLOR_UNMATCHED; // unmatched bracket
 				}
 			}
-			
+
 			if (fg == null) {
 				if (textMode || text.charAt(i) == '\"') {
 					fg = GeoGebraColorConstants.INPUT_TEXT_COLOR;
@@ -480,7 +486,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		return layout.getAdvance();
 	}
 
-	private void drawText(String str, boolean selected/*, Color bg*/) {
+	private void drawText(String str, boolean selected/* , Color bg */) {
 		if ("".equals(str))
 			return;
 		TextLayout layout = new TextLayout(str, font, frc);
@@ -495,13 +501,10 @@ public class MyTextField extends JTextField implements ActionListener,
 		}
 		// there is no background coloring now
 		/*
-		if (bg != null) {
-			Color col = g2.getColor();
-			g2.setColor(bg);
-			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
-					- fontHeight + 4, (int) advance, fontHeight);
-			g2.setColor(col);
-		}*/
+		 * if (bg != null) { Color col = g2.getColor(); g2.setColor(bg);
+		 * g2.fillRect((int) pos - scrollOffset + insets.left, textBottom -
+		 * fontHeight + 4, (int) advance, fontHeight); g2.setColor(col); }
+		 */
 
 		// g2.setClip(0, 0, width, height);
 
@@ -516,14 +519,19 @@ public class MyTextField extends JTextField implements ActionListener,
 	@Override
 	public void paste() {
 		super.paste();
-		
+
 		String text = getText();
-		
+
 		// make sure <TAB> can't get pasted into Input Bar
 		if (text.indexOf('\t') > -1) {
 			int pos2 = getCaretPosition();
 			setText(text.replace('\t', ' '));
 			setCaretPosition(pos2);
 		}
+	}
+
+	public void wrapSetText(String s) {
+		// TODO Auto-generated method stub
+
 	}
 }

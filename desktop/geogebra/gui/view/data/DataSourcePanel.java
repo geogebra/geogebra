@@ -7,12 +7,12 @@ import geogebra.common.gui.view.data.DataVariable;
 import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.Validation;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
-import geogebra.util.Validation;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
