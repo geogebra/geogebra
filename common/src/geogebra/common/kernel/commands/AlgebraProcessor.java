@@ -723,45 +723,7 @@ public class AlgebraProcessor {
 		return geoElements;
 	}
 	
-	/*
-	 * replace mx -> m*x
-	 */
-	public void insertStarIfNeeded(TreeSet<String> undefinedVariables, ValidExpression ve, FunctionVariable fvX){
-		Iterator<String> it = undefinedVariables.iterator();
-		while (it.hasNext()) {
-			App.debug("undefinedVariables - next");
-			
-			String label = it.next();
-
-			if (label.endsWith("x")) {
-
-				String labelNoX = label.substring(0, label.length() - 1);
-
-				// eg mx -> m*x
-
-				GeoElement geo = kernel.lookupLabel(labelNoX);
-				if (geo == null) {
-					geo = new GeoNumeric(cons, labelNoX, 1);
-					GeoNumeric.setSliderFromDefault((GeoNumeric)geo, false);
-					cons.moveInConstructionList(geo, 0); 
-				}
-				
-				ExpressionValue toReplace;
-				if (ve instanceof Equation) {
-					// eg y=mx
-					toReplace = new FunctionVariable(kernel,"x");
-				} else {
-					// eg f(x)=mx
-					toReplace = new ExpressionNode(kernel, geo, Operation.MULTIPLY, fvX);
-				}
-				
-				VariableReplacer varep = VariableReplacer.getReplacer(label, toReplace);						
-				ve.traverse(varep);
-
-			}
-
-		}
-	}
+	
 	
 	public void replaceUndefinedVariables(ValidExpression ve){
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables();

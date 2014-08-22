@@ -1387,6 +1387,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth());
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
+		num.setDrawable(false,false);
 		num.update();
 		return num;
 	}

@@ -1530,7 +1530,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	private boolean drawableNeeded(GeoElement geo) {
-		return isVisibleInThisView(geo) && geo.isLabelSet() && (geo.isEuclidianVisible() 
+		return isVisibleInThisView(geo) && (geo.isEuclidianVisible() 
 				|| (geo.isGeoText() && ((GeoText)geo).isNeedsUpdatedBoundingBox()));
 	}
 
