@@ -857,8 +857,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 			@Override
 			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(!EuclidianView.isPenMode(mode)); 
+				this.setVisible(geos.length == 0  && !EuclidianView.isPenMode(mode)
+						&& mode != EuclidianConstants.MODE_DELETE);	  
 			}
 
 			@Override
