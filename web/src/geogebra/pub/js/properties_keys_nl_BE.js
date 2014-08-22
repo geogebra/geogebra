@@ -111,7 +111,7 @@ __GGB__keysVar.nl_BE.command = {
     "BinomialDist.Syntax": "[ <Aantal Experimenten>, <Kans op Succes> ]\n[ <Aantal Experimenten>, <Kans op Succes>, <Logisch Cumulatief> ]\n[ <Aantal Experimenten>, <Kans op Succes>, <Waarde Variabele>, <Logisch Cumulatief> ]",
     "BinomialDist.SyntaxCAS": "[ <Aantal Bernouilli experimenten>, <Kans op succes>, <Toevalsveranderlijke>, <Cumulatieve Distributie> ]",
     "Bottom": "Grondvlak",
-    "Bottom.Syntax": "[ <Quadric> ]",
+    "Bottom.Syntax": "[ <Kwadriek> ]",
     "BoxPlot": "Boxplot",
     "BoxPlot.Syntax": "[ <Verticale positie>, <Hoogte>, <Lijst met ruwe data> ]\n[ <Verticale positie>, <Hoogte>, <Lijst met ruwe data>, <Uitschieters> ]\n[ <Verticale positie>, <Hoogte>, <Lijst met waarnemingsgetallen>, <Lijst met frequenties>, <Uitschieters> ]\n[ <Verticale positie>, <Hoogte>, <Minimumwaarde>, <Q1>, <Mediaan>, <Q3>, <Maximumwaarde> ]",
     "Button": "Actieknop",

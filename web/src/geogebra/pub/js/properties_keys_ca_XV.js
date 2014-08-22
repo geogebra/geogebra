@@ -2165,7 +2165,7 @@ __GGB__keysVar.ca_XV.plain = {
     "BoxSize.medium": "Mitjana",
     "BoxSize.small": "Petita",
     "Breakpoint": "Punt d'interrupci\xf3",
-    "ButNotGenerallyTrue": "(per\xf2 no es pot dir que sigui veritat com a regla general)",
+    "ButNotGenerallyTrue": "(per\xf2 no \xe9s veritat com a regla general)",
     "Button": "Bot\xf3",
     "ButtonSize": "Mida del bot\xf3",
     "CAS": "CAS",
