@@ -76,6 +76,12 @@ public class OptionsPanelW extends FlowPanel implements
 
 	private final static int fieldWidth = 8;
 
+	private class PropertyChangeHandler implements ClickHandler {
+		public void onClick(ClickEvent event) {
+	       actionPerformed(event.getSource());
+        }
+		
+	}
 	/************************************************************
 	 * Constructs an OptionPanel
 	 * 
@@ -268,26 +274,17 @@ public class OptionsPanelW extends FlowPanel implements
 		classesPanel.add(LayoutUtil.panelRowIndent(rbRightRule));
 		layoutHistogramPanel();
 
-		ckCumulative.addClickHandler(new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				actionPerformed(ckCumulative);
-			}
-		});
-		
-		ckShowHistogram.addClickHandler(new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				actionPerformed(ckShowHistogram);
-			}
-		});
+		PropertyChangeHandler handler = new PropertyChangeHandler();
+		ckManual.addClickHandler(handler);
+		ckCumulative.addClickHandler(handler);
+		ckShowHistogram.addClickHandler(handler);
+		ckOverlayPolygon.addClickHandler(handler);
+		rbFreq.addClickHandler(handler);
+		rbRelative.addClickHandler(handler);
+		rbNormalized.addClickHandler(handler);
+		rbLeftRule.addClickHandler(handler);
+		rbRightRule.addClickHandler(handler);
 
-		ckOverlayPolygon.addClickHandler(new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				actionPerformed(ckOverlayPolygon);
-			}
-		});
 	}
 
 	private void layoutHistogramPanel() {
