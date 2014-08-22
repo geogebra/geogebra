@@ -186,7 +186,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		}
 		this.rightPanel.clear();
 		this.userName.setText(user.getUserName());
-		this.profileImage.setUrl("http://www.geogebratube.org/files/users/user-"+user.getUserId()+".png");
+		this.profileImage.setUrl("http://tube.geogebra.org/files/users/user-"+user.getUserId()+".png");
 		this.rightPanel.add(this.profilePanel);
 		
 	}

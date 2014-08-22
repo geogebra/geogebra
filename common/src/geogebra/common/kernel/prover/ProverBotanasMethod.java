@@ -388,7 +388,7 @@ public class ProverBotanasMethod {
 					if (App.singularWS != null && App.singularWS.isAvailable()) {
 						// TODO: Limit MAX_PERMUTATIONS to (#freevars-#substitutes)! to prevent unneeded computations:
 						MAX_PERMUTATIONS = 8; // intuitively set, see Polynomial.java for more on info (Pappus6 will work with 7, too)
-						// Pappus6 is at http://www.geogebratube.org/student/m57255
+						// Pappus6 is at http://www.tube.geogebra.org/student/m57255
 					}
 					while (!found && permutation < MAX_PERMUTATIONS) {
 

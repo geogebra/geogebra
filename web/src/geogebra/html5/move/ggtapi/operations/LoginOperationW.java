@@ -74,7 +74,7 @@ public class LoginOperationW extends LogInOperation {
 	//AG: JUST FOR TESTING!
 	/*@Override
     public String getLoginURL(String languageCode) {
-		return "http://test.geogebratube.org:8080/user/login" 
+		return "http://tube-test.geogebra.org:8080/user/login" 
 				+ "/caller/"+getURLLoginCaller()
 				+"/expiration/"+getURLTokenExpirationMinutes()
 				+"/clientinfo/"+getURLClientInfo()

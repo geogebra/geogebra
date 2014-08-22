@@ -35,9 +35,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 		COMMAND, TOOL, GENERIC
 	}
 
-	private static final String ggbTube = "geogebratube.org/";
+	private static final String ggbTubeOld = "geogebratube.org/";
+	private static final String ggbTube = "tube.geogebra.org/";
+	private static final String ggbTubeBeta = "tube-beta.geogebra.org/";
 	private static final String ggbTubeShort = "ggbtu.be/";
-	private static final String ggbTubeTest = "test.geogebratube.org";	
+	private static final String ggbTubeTest = "tube-test.geogebratube.org";	
 	private static final String material = "/material/show/id/";
 	public static final int DESKTOP = 0;
 	public static final int WEB = 1;
@@ -100,29 +102,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return loadURL(urlString, true);
 	}
 
-	/**
-	 * possible GeoGebraTube syntaxes
-	 * http://www.geogebratube.org/material/show/id/111
-	 * http://www.geogebratube.org/student/m111
-	 * http://www.geogebratube.org/student/cXX/m111/options
-	 * www.geogebratube.org/material/show/id/111
-	 * www.geogebratube.org/student/m111
-	 * www.geogebratube.org/student/cXX/m111/options
-	 * http://geogebratube.org/material/show/id/111
-	 * http://geogebratube.org/student/m111
-	 * http://geogebratube.org/student/cXX/m111/options http://ggbtu.be/m111
-	 * http://ggbtu.be/cXX/m111/options http://www.ggbtu.be/m111
-	 * http://www.ggbtu.be/cXX/options
-	 * 
-	 * in an iframe, src=
-	 * http://www.geogebratube.org/material/iframe/id/111
-	 * http://www.geogebratube.org/material/iframe/id/111/param1/val1/param2/val2/...
-	 * http://ggbtu.be/e111
-	 * http://ggbtu.be/e111?param1=&param2=..
-	 * 
-	 * 
-	 * also can have ?mobile=true ?mobile=false on end
-	 */
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
 		String processedUrlString = urlString.trim();
 	
@@ -144,7 +123,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// http://www.geogebratube.org/files/material-105.ggb	
 			} else if (processedUrlString.indexOf(ggbTube) > -1
 					|| processedUrlString.indexOf(ggbTubeShort) > -1
-					|| processedUrlString.indexOf(ggbTubeTest) > -1) {
+					|| processedUrlString.indexOf(ggbTubeTest) > -1
+					|| processedUrlString.indexOf(ggbTubeBeta) > -1
+					|| processedUrlString.indexOf(ggbTubeOld) > -1){
 	
 				// remove eg http:// if it's there
 				if (processedUrlString.indexOf("://") > -1) {
@@ -193,9 +174,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 				id = processedUrlString.substring(start, end);
 				
 				if (urlString.indexOf(ggbTubeTest) > -1) {
-					processedUrlString = "http://test.geogebratube.org:8080/files/material-";
+					processedUrlString = "http://tube-test.geogebra.org:8080/files/material-";
 				} else {
-					processedUrlString = "http://www.geogebratube.org/files/material-";
+					processedUrlString = "http://tube.geogebra.org/files/material-";
 				}
 				
 				// Add the login token to assure that private files of the loggen in user can be accessed

@@ -94,9 +94,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	        }});
 	        $wnd.gapi.load('picker', {'callback': function(){$wnd.console.log("picker loaded");}});
 	        
-		    $wnd.gapi.client.load('drive', 'v2', function() {
-		     _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
-	        });
+	        if($wnd.gapi.client){
+			    $wnd.gapi.client.load('drive', 'v2', function() {
+			     _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
+		        });
+	        }
 		}
 	}-*/;
 	

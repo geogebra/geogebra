@@ -212,7 +212,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 			    <userinfo>
 			      <user_id>4711</user_id>
 			      <username>johndoe</username>
-			      <ggt_profile_url>http://www.geogebratube.org/user/profile/id/4711
+			      <ggt_profile_url>http://tube.geogebra.org/user/profile/id/4711
 			        </ggt_profile_url>
 			      <group>user</group>
 			      <date_created>2012-09-18</date_created>

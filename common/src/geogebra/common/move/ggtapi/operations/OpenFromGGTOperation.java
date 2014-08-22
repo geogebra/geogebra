@@ -13,7 +13,7 @@ import geogebra.common.move.views.EventRenderable;
  */
 public class OpenFromGGTOperation extends BaseOperation<EventRenderable>{
 
-	private static String GGT_URL = "http://www.geogebratube.org/widgetprovider/index/widgettype/";
+	private static String GGT_URL = "http://tube.geogebra.org/widgetprovider/index/widgettype/";
 	/**
 	 * @author gabor
 	 * App type concerning from where this class called
