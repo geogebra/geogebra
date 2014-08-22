@@ -41,7 +41,7 @@ public class SignInButton extends Button implements EventRenderable{
             }});
 	}
 
-	protected void login() {
+	public void login() {
 		app.getDialogManager().showLogInDialog();
 	    
     }

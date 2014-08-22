@@ -8,7 +8,8 @@ public class TabletSignInButton extends SignInButton{
 	    super(app, 0);
     }
 
-	public void login(){
+	@Override
+    public void login(){
 		loginNative();
 	}
 	

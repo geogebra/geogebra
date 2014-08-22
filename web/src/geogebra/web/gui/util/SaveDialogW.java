@@ -11,7 +11,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
-import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.List;
@@ -164,7 +163,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	protected void onSave() {
 		if (!isLoggedIn()) {
 			this.uploadWaiting = true;
-			((DialogManagerW) app.getDialogManager()).showLogInDialog();
+			((AppW)app).getLAF().getSignInButton(app).login();
 		} else {
 			upload();
 		}
