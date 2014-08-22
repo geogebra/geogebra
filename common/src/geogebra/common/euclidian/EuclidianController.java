@@ -8332,7 +8332,7 @@ public abstract class EuclidianController {
 		if(this.lastMouseRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System.currentTimeMillis()
 			&& MyMath.length(event.getX() - lastMouseUpLoc.x,event.getY()- lastMouseUpLoc.y) <= 3){
 			this.doubleClickStarted = true;
-			return;
+//			return;
 		}
 		
 		lastMousePressedTime = System.currentTimeMillis();
@@ -8696,7 +8696,7 @@ public abstract class EuclidianController {
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
 	
-		if(this.doubleClickStarted){
+		if(this.doubleClickStarted && !draggingOccured){
 			this.doubleClickStarted = false;
 			wrapMouseclicked(control, 2, type);
 		}
