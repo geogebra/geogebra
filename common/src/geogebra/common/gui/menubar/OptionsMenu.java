@@ -3,7 +3,6 @@ package geogebra.common.gui.menubar;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * This class is not a superclass of OptionsMenu, only  common method stack
@@ -13,7 +12,6 @@ public class OptionsMenu {
 	private RadioButtonMenuBar menuAlgebraStyle;
 	private RadioButtonMenuBar menuDecimalPlaces;
 	private RadioButtonMenuBar menuLabeling;
-	private RadioButtonMenuBar menuPointCapturing;
 	private App app;
 	private Kernel kernel;
 	
@@ -206,38 +204,10 @@ public class OptionsMenu {
 		menuLabeling.setSelected(pos);
 	}
 	
-	// ie just {3,1,2,0}
-	final private static int [] capturingMenuOrder = { EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, EuclidianStyleConstants.POINT_CAPTURING_ON, EuclidianStyleConstants.POINT_CAPTURING_ON_GRID, EuclidianStyleConstants.POINT_CAPTURING_OFF };
 
-	public void addPointCapturingMenu(MenuInterface menu){		
-		menuPointCapturing = newSubmenu();
-		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
-				app.getMenu("FixedToGrid"), app.getMenu("off") };
-		String[] strPointCapturingAC = { capturingMenuOrder[0]+" PointCapturing",
-				capturingMenuOrder[1]+" PointCapturing", capturingMenuOrder[2]+" PointCapturing", capturingMenuOrder[3]+" PointCapturing" };
-		menuPointCapturing.addRadioButtonMenuItems((MyActionListener)menu,
-				strPointCapturing, strPointCapturingAC, 0, false);
-		app.addMenuItem(menu, "magnet2.gif", app.getMenu("PointCapturing"), true, menuPointCapturing);
-		
-		updateMenuPointCapturing();
-	}
+
 	
 	
-	/**
-	 * Update the point capturing menu.
-	 */
-	public void updateMenuPointCapturing() {	
-		if (menuPointCapturing == null)
-			return;
-
-		int pos = app.getActiveEuclidianView().getPointCapturingMode();
-		if (pos < menuPointCapturing.getItemCount()) { 
-			menuPointCapturing.setSelected(capturingMenuOrder[pos]); 
-		} else { 
-			App.error("PointCapturing out of range"); 
-		} 
-
-	}
 
 	public void addFontSizeMenu(MenuInterface menu){
 		RadioButtonMenuBar submenu = newSubmenu();
@@ -264,7 +234,6 @@ public class OptionsMenu {
 
 	public void update() {
 		updateMenuDecimalPlaces();
-		updateMenuPointCapturing();
 		updateMenuViewDescription();
 	}
 }

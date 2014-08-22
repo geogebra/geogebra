@@ -57,8 +57,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 		// G.Sturr 2009-10-18
 		// Algebra description: show value or definition of objects
 		app.getOptionsMenu().addAlgebraDescriptionMenu(this);
-		// point capturing
-		app.getOptionsMenu().addPointCapturingMenu(this);
 		app.getOptionsMenu().addDecimalPlacesMenu(this);
 		addSeparator();
 		// Labeling
