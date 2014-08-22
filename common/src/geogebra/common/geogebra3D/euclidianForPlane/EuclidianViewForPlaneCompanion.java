@@ -152,10 +152,27 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 		if(transform==null) //transform has not already been set
 			transform = CoordMatrix4x4.IDENTITY;
 		
-		//planeMatrix = plane.getCoordSys().getMatrixOrthonormal();	
+//		// use continuity
+//		Coords vx1 = Coords.UNDEFINED;
+//		if (transformedMatrix!=null){
+//			vx1 = transformedMatrix.getVx();
+//		}
 		planeMatrix = plane.getCoordSys().getDrawingMatrix();	
 
 		transformedMatrix = planeMatrix.mul(transform);//transform.mul(planeMatrix);	
+		
+//		Coords vx2 = transformedMatrix.getVx();
+//		App.debug("\nvx1=\n"+vx1+"\nvx2=\n"+vx2);
+//		double dxx = vx1.dotproduct(vx2);
+//		if (dxx < 0){
+//			transformRotate += 180;
+//			if (transformRotate > 180){
+//				transformRotate -= 360;
+//			}
+//			setTransform();
+//			transformedMatrix = planeMatrix.mul(transform);
+//		}
+
 		inverseTransformedMatrix = transformedMatrix.inverse();
 		
 	}
