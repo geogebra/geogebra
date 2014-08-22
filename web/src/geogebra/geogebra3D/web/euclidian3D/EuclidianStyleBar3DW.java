@@ -477,6 +477,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected void setActionCommands(){
 		setActionCommand(btnShowGrid3D, "showGrid");
 		setActionCommand(btnStandardView, "standardView");
+		setActionCommand(btnPointCapture, "pointCapture");
 	}
 	
 	protected void setAxesAndGridToolTips(Localization loc){

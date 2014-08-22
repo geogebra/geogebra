@@ -34,7 +34,11 @@ public interface EuclidianStyleBar {
 	 */
 	void updateStyleBar();
 
-
+	/**
+	 * Update capture button
+	 * @param mode euclidian view mode
+	 */
+	public void updateButtonPointCapture(int mode);
 
 	/**
 	 * update the style bar if the geo is part of the active geo list
@@ -42,5 +46,8 @@ public interface EuclidianStyleBar {
 	 */
 	public void updateVisualStyle(GeoElement geo);
 
-
+	/**
+	 * @return index of selected point capturing mode
+	 */
+	int getPointCaptureSelectedIndex();
 }

@@ -105,7 +105,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	protected PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize,
 			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
-			btnDeleteSize;
+			btnPointCapture, btnDeleteSize;
 
 	private MyToggleButton btnPen;
 
@@ -397,6 +397,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnShowAxes.setActionCommand("showAxes");
 		btnShowGrid.setActionCommand("showGrid");
 		btnStandardView.setActionCommand("standardView");
+		btnPointCapture.setActionCommand("pointCapture");
 	}
 
 	/**
@@ -411,6 +412,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
+		addBtnPointCapture();
 
 
 		add(btnColor);
@@ -470,13 +472,17 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
 				btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
-				btnTableTextBracket, btnLabelStyle, btnDeleteSize };
+				btnTableTextBracket, btnLabelStyle, btnPointCapture, btnDeleteSize };
 	}
 
 	protected MyToggleButton[] newToggleBtnList() {
 		return new MyToggleButton[] { btnPen, btnShowGrid, btnShowAxes, btnStandardView,
 				btnBold, btnItalic, btnDelete, btnTableTextLinesV,
 				btnTableTextLinesH, btnFixPosition };
+	}
+
+	protected void addBtnPointCapture() { 
+		add(btnPointCapture); 
 	}
 
 	protected void addBtnRotateView() {
@@ -836,6 +842,38 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnLabelStyle.addActionListener(this);
 		btnLabelStyle.setKeepVisible(false);
 
+		// ========================================
+		// point capture button
+
+		String[] strPointCapturing = { app.getMenu("Labeling.automatic"),
+				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
+				app.getMenu("off") };
+
+		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
+				new Dimension(0, iconHeight),
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				// always show this button unless in pen mode
+				this.setVisible(!EuclidianView.isPenMode(mode)); 
+			}
+
+			@Override
+			public ImageIcon getButtonIcon() {
+				return (ImageIcon) this.getIcon();
+			}
+		};
+
+		ImageIcon ptCaptureIcon = app.getImageIcon("magnet2.gif");
+		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(), 
+				iconHeight)); 
+		btnPointCapture.setIcon(ptCaptureIcon); 
+		btnPointCapture.setStandardButton(true); // popup on the whole button 
+		btnPointCapture.addActionListener(this); 
+		btnPointCapture.setKeepVisible(false); 
 
 		// ========================================
 		// fixed position button
@@ -1377,6 +1415,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		if (isIniting)
 			return;
 		
+		btnPointCapture.removeActionListener(this);
+		updateButtonPointCapture(ev.getPointCapturingMode());
+		btnPointCapture.addActionListener(this);
+
 		btnPen.removeActionListener(this);
 		btnPen.setSelected(EuclidianView.isPenMode(mode));
 		btnPen.addActionListener(this);
@@ -1510,6 +1552,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		}
 	}
 
+	public void updateButtonPointCapture(int mode) {
+		if (mode == 3 || mode == 0)
+			mode = 3 - mode; // swap 0 and 3
+		btnPointCapture.setSelectedIndex(mode);
+	}
 
 	// ==============================================
 	// Apply Styles
@@ -1527,6 +1574,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
 		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
+		btnPointCapture.setToolTipText(loc.getPlainTooltip("stylebar.Capture"));
 
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
 
@@ -1556,4 +1604,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnDeleteSize.setToolTipText(loc.getPlainTooltip("Size"));
 	}
 
+	public int getPointCaptureSelectedIndex() {
+		return btnPointCapture.getSelectedIndex();
+	}
 }
