@@ -1703,13 +1703,13 @@ ExpressionValue numVecVariable():
         lookforEulerImaginary = false;
     }
     else if (ExternalCASParsing)
-    {  // MPReduce uses e and i for Euler and imaginary constants
+    {  // Giac does not need it either, may need changing for other CASes
         lookforEulerImaginary = false;
     }
     else
     {   // GeoGebraCAS or GeoGebra parsing
       // only treat e or i specially when they are undefined in GeoGebra
-      lookforEulerImaginary = kernel.lookupLabel(c.image) == null;
+      lookforEulerImaginary = true;
     }
       
         // return defined variables immediately
@@ -1717,12 +1717,12 @@ ExpressionValue numVecVariable():
     {
       // TREAT e and i specially
       // e for Euler constant
-      if (c.image.equals("e"))
+      if (c.image.equals("e") && kernel.lookupLabel(c.image) == null)
       {     
         return MySpecialDouble.getEulerConstant(kernel);
       }
       // i for imaginary unit
-      else if (c.image.equals("i"))
+      else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null)
       {
           return kernel.getImaginaryUnit();
       }
