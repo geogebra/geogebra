@@ -164,6 +164,10 @@ public class TextPreviewPanelW extends TextPreviewer {
 			return App.VIEW_TEXT_PREVIEW;
 		}
 
+		@Override
+		public boolean isPlotPanel() {
+			return true;
+		}
 	}
 
 	/****************************************************************************

@@ -108,7 +108,10 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	    return EVPanel.getAbsolutePanel();
     }
 	
-	
+	@Override
+	public boolean isPlotPanel() {
+		return true;
+	}
 
 
 }

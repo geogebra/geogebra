@@ -572,4 +572,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		return (30 * getApplication().getSmallFont().getSize()) / 12.0;
 	}
 
+	@Override
+	public boolean isPlotPanel() {
+		return true;
+	}
 }

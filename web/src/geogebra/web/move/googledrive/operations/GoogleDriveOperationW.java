@@ -88,14 +88,16 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	
 	private native void loadGoogleDrive() /*-{
 		var _this = this;
-		$wnd.gapi.load('auth', {'callback': function() {
-	     
-        }});
-        $wnd.gapi.load('picker', {'callback': function(){$wnd.console.log("picker loaded");}});
-        
-	    $wnd.gapi.client.load('drive', 'v2', function() {
-	     _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
-        });
+		if($wnd.gapi){
+			$wnd.gapi.load('auth', {'callback': function() {
+		     
+	        }});
+	        $wnd.gapi.load('picker', {'callback': function(){$wnd.console.log("picker loaded");}});
+	        
+		    $wnd.gapi.client.load('drive', 'v2', function() {
+		     _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
+	        });
+		}
 	}-*/;
 	
 	private void googleDriveLoaded() {

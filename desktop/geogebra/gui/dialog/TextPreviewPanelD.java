@@ -115,9 +115,12 @@ public class TextPreviewPanelD extends TextPreviewer {
 
 	@Override
 	protected void removeEVMouseListeners() {
-		ev.removeMouseListener((EuclidianControllerListeners) ev.getEuclidianController());
-		ev.removeMouseMotionListener((EuclidianControllerListeners) ev.getEuclidianController());
-		ev.removeMouseWheelListener((EuclidianControllerListeners) ev.getEuclidianController());
+		ev.removeMouseListener((EuclidianControllerListeners) ev
+				.getEuclidianController());
+		ev.removeMouseMotionListener((EuclidianControllerListeners) ev
+				.getEuclidianController());
+		ev.removeMouseWheelListener((EuclidianControllerListeners) ev
+				.getEuclidianController());
 	}
 
 	@Override
@@ -156,6 +159,11 @@ public class TextPreviewPanelD extends TextPreviewer {
 		@Override
 		public int getViewID() {
 			return App.VIEW_TEXT_PREVIEW;
+		}
+
+		@Override
+		public boolean isPlotPanel() {
+			return true;
 		}
 	}
 

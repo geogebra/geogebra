@@ -138,6 +138,8 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         setInputOutput(); // for AlgoElement
         if(addIncidence){
         	addIncidence();
+        }else{
+        	P.setEuclidianVisible(false);
         }
 	}
 	
