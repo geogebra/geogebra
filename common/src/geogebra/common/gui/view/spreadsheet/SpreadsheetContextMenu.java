@@ -39,6 +39,23 @@ public class SpreadsheetContextMenu {
 	/** maximum selected column */
 	private int column2 = -1;
 
+	@SuppressWarnings("javadoc")
+	public enum MenuCommand {
+		ShowObject, ShowLabel,
+
+		RecordToSpreadsheet,
+
+		Copy, Paste, Cut, Delete,
+
+		InsertLeft, InsertRight, InsertAbove, InsertBelow,
+
+		List, ListOfPoints, Matrix, Table, PolyLine, OperationTable,
+
+		ImportDataFile,
+
+		SpreadsheetOptions, Properties;
+	}
+
 	/**
 	 * Constructor
 	 * 
@@ -92,13 +109,13 @@ public class SpreadsheetContextMenu {
 				addSeparator();
 
 				if (doObjectMenu) {
-					String cmdString = "ShowObject";
+					String cmdString = MenuCommand.ShowObject.toString();
 					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
 							geo.isSetEuclidianVisible());
 				}
 
 				if (doLabelMenu) {
-					String cmdString = "ShowLabel";
+					String cmdString = MenuCommand.ShowLabel.toString();
 					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
 							geo.isLabelVisible());
 				}
@@ -118,7 +135,8 @@ public class SpreadsheetContextMenu {
 							.isSpreadsheetTraceable();
 
 				if (showRecordToSpreadsheet) {
-					String cmdString = "RecordToSpreadsheet";
+					String cmdString = MenuCommand.RecordToSpreadsheet
+							.toString();
 					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
 							geo.getSpreadsheetTrace());
 				}
@@ -133,22 +151,22 @@ public class SpreadsheetContextMenu {
 		addSeparator();
 
 		// Copy
-		String cmdString = "Copy";
+		String cmdString = MenuCommand.Copy.toString();
 		boolean enabled = !isEmptySelection();
 		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
 
 		// Paste
-		cmdString = "Paste";
+		cmdString = MenuCommand.Paste.toString();
 		enabled = true;
 		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
 
 		// Cut
-		cmdString = "Cut";
+		cmdString = MenuCommand.Cut.toString();
 		enabled = !isEmptySelection();
 		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
 
 		// Delete
-		cmdString = "Delete";
+		cmdString = MenuCommand.Delete.toString();
 		enabled = !allFixed();
 		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
 
@@ -165,22 +183,22 @@ public class SpreadsheetContextMenu {
 
 			if (selectionType == MyTableInterface.COLUMN_SELECT) {
 
-				cmdString = "InsertLeft";
+				cmdString = MenuCommand.InsertLeft.toString();
 				addSubMenuItem(subMenu, cmdString, app.getPlain(cmdString),
 						true);
 
-				cmdString = "InsertRight";
+				cmdString = MenuCommand.InsertRight.toString();
 				addSubMenuItem(subMenu, cmdString, app.getPlain(cmdString),
 						true);
 			}
 
 			if (selectionType == MyTableInterface.ROW_SELECT) {
 
-				cmdString = "InsertAbove";
+				cmdString = MenuCommand.InsertAbove.toString();
 				addSubMenuItem(subMenu, cmdString, app.getPlain(cmdString),
 						true);
 
-				cmdString = "InsertBelow";
+				cmdString = MenuCommand.InsertBelow.toString();
 				addSubMenuItem(subMenu, cmdString, app.getPlain(cmdString),
 						true);
 			}
@@ -196,27 +214,27 @@ public class SpreadsheetContextMenu {
 
 			subMenu = addSubMenu(app.getMenu("Create"), null);
 
-			cmdString = "List";
+			cmdString = MenuCommand.List.toString();
 			enabled = true;
 			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
 
-			cmdString = "ListOfPoints";
+			cmdString = MenuCommand.ListOfPoints.toString();
 			enabled = cp.isCreatePointListPossible(selectedCellRanges);
 			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
 
-			cmdString = "Matrix";
+			cmdString = MenuCommand.Matrix.toString();
 			enabled = cp.isCreateMatrixPossible(selectedCellRanges);
 			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
 
-			cmdString = "Table";
+			cmdString = MenuCommand.Table.toString();
 			enabled = cp.isCreateMatrixPossible(selectedCellRanges);
 			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
 
-			cmdString = "PolyLine";
+			cmdString = MenuCommand.PolyLine.toString();
 			enabled = cp.isCreatePointListPossible(selectedCellRanges);
 			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
 
-			cmdString = "OperationTable";
+			cmdString = MenuCommand.OperationTable.toString();
 			enabled = cp.isCreateOperationTablePossible(selectedCellRanges);
 			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
 
@@ -239,7 +257,7 @@ public class SpreadsheetContextMenu {
 		if (isEmptySelection()) {
 			addSeparator();
 
-			cmdString = "SpreadsheetOptions";
+			cmdString = MenuCommand.SpreadsheetOptions.toString();
 			addMenuItem(cmdString, app.getMenu(cmdString) + " ...", true);
 		}
 
@@ -251,7 +269,7 @@ public class SpreadsheetContextMenu {
 				&& app.letShowPropertiesDialog()) {
 			addSeparator();
 
-			cmdString = "Properties";
+			cmdString = MenuCommand.Properties.toString();
 			addMenuItem(cmdString, app.getPlain(cmdString) + " ...", true);
 		}
 
@@ -307,99 +325,96 @@ public class SpreadsheetContextMenu {
 	public void doCommand(String cmdString) {
 		boolean succ = false;
 
-		/*
-		if (cmdString) {
+		switch (MenuCommand.valueOf(cmdString)) {
 
-		case "ShowObject":
+		case ShowObject:
 			cmdShowObject();
 			break;
 
-		case "ShowLabel":
+		case ShowLabel:
 			cmdShowLabel();
 			break;
 
-		case "RecordToSpreadsheet":
+		case RecordToSpreadsheet:
 			cmdRecordToSpreadsheet();
 			break;
 
-		case "Copy":
+		case Copy:
 			table.getCopyPasteCut().copy(column1, row1, column2, row2, false);
 			break;
 
-		case "Paste":
+		case Paste:
 			succ = table.getCopyPasteCut().paste(column1, row1, column2, row2);
 			if (succ)
 				app.storeUndoInfo();
 			table.getView().rowHeaderRevalidate();
 			break;
 
-		case "Cut":
+		case Cut:
 			succ = table.getCopyPasteCut().cut(column1, row1, column2, row2);
 			if (succ)
 				app.storeUndoInfo();
 			break;
 
-		case "Delete":
+		case Delete:
 			succ = table.getCopyPasteCut().delete(column1, row1, column2, row2);
 			if (succ)
 				app.storeUndoInfo();
 			break;
 
-		case "InsertLeft":
+		case InsertLeft:
 			cp.insertColumn(column1, column2, true);
 			break;
 
-		case "InsertRight":
+		case InsertRight:
 			cp.insertColumn(column1, column2, false);
 			break;
 
-		case "InsertAbove":
+		case InsertAbove:
 			cp.insertRow(row1, row2, true);
 			break;
 
-		case "InsertBelow":
+		case InsertBelow:
 			cp.insertRow(row1, row2, false);
 			break;
 
-		case "List":
+		case List:
 			cp.createList(selectedCellRanges, true, false);
 			break;
 
-		case "ListOfPoints":
+		case ListOfPoints:
 			cmdListOfPoints();
 			break;
 
-		case "Matrix":
+		case Matrix:
 			cp.createMatrix(column1, column2, row1, row2, false);
 			break;
 
-		case "Table":
+		case Table:
 			cp.createTableText(column1, column2, row1, row2, false, false);
 			break;
 
-		case "PolyLine":
+		case PolyLine:
 			cmdPolyLine();
 			break;
 
-		case "OperationTable":
+		case OperationTable:
 			cp.createOperationTable(selectedCellRanges.get(0), null);
 			break;
 
-		case "ImportDataFile":
+		case ImportDataFile:
 			cmdImportDataFile();
 			break;
 
-		case "SpreadsheetOptions":
+		case SpreadsheetOptions:
 			cmdSpreadsheetOptions();
 			break;
 
-		case "Properties":
+		case Properties:
 			cmdProperties();
 			break;
 
 		}
-		*/
-		
 
 	}
 

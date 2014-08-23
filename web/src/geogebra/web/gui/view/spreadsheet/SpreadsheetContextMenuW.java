@@ -135,35 +135,38 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		ImageResource im = null;
 
-		if (cmdString.equals("ShowObject"))
+		switch (MenuCommand.valueOf(cmdString)) {
+
+		case ShowObject:
 			im = AppResources.INSTANCE.mode_showhideobject_16();
-
-		else if (cmdString.equals("ShowLabel"))
+			break;
+		case ShowLabel:
 			im = AppResources.INSTANCE.mode_showhidelabel_16();
-
-		else if (cmdString.equals("Copy"))
+			break;
+		case Copy:
 			im = AppResources.INSTANCE.edit_copy();
-
-		else if (cmdString.equals("Cut"))
+			break;
+		case Cut:
 			im = AppResources.INSTANCE.edit_cut();
-
-		else if (cmdString.equals("Paste"))
+			break;
+		case Paste:
 			im = AppResources.INSTANCE.edit_paste();
-
-		else if (cmdString.equals("Delete"))
+			break;
+		case Delete:
 			im = AppResources.INSTANCE.delete_small();
-
-		else if (cmdString.equals("RecordToSpreadsheet"))
+			break;
+		case RecordToSpreadsheet:
 			im = AppResources.INSTANCE.spreadsheettrace();
-
-		else if (cmdString.equals("Properties"))
+			break;
+		case Properties:
 			im = AppResources.INSTANCE.view_properties16();
-
-		else if (cmdString.equals("SpreadsheetOptions"))
+			break;
+		case SpreadsheetOptions:
 			im = AppResources.INSTANCE.view_properties16();
-
-		else
+			break;
+		default:
 			im = AppResources.INSTANCE.empty();
+		}
 
 		return im.getSafeUri().asString();
 	}

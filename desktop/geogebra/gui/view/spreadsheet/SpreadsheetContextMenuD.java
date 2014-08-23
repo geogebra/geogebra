@@ -167,32 +167,35 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 
 		String iconString = null;
 
-		if (cmdString.equals("Copy"))
+		switch (MenuCommand.valueOf(cmdString)) {
+		case Copy:
 			iconString = "edit-copy.png";
-
-		else if (cmdString.equals("Cut"))
+			break;
+		case Cut:
 			iconString = "edit-cut.png";
-
-		else if (cmdString.equals("Paste"))
+			break;
+		case Paste:
 			iconString = "edit-paste.png";
-
-		else if (cmdString.equals("Delete"))
+			break;
+		case Delete:
 			iconString = "delete_small.gif";
-
-		else if (cmdString.equals("ShowObject"))
+			break;
+		case ShowObject:
 			iconString = "mode_showhideobject_16.gif";
-
-		else if (cmdString.equals("ShowLabel"))
+			break;
+		case ShowLabel:
 			iconString = "mode_showhidelabel_16.gif";
-
-		else if (cmdString.equals("RecordToSpreadsheet"))
+			break;
+		case RecordToSpreadsheet:
 			iconString = "spreadsheettrace.gif";
-
-		else if (cmdString.equals("Properties"))
+			break;
+		case Properties:
 			iconString = "view-properties16.png";
-
-		else if (cmdString.equals("SpreadsheetOptions"))
+			break;
+		case SpreadsheetOptions:
 			iconString = "view-properties16.png";
+			break;
+		}
 
 		// convert string to icon
 		if (iconString != null) {
