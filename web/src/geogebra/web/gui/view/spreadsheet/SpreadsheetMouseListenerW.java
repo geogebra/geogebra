@@ -14,6 +14,7 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.openjdk.awt.geom.Rectangle2D;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -504,9 +505,12 @@ public class SpreadsheetMouseListenerW implements
 				}
 	
 				// create and show context menu
-				SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
-						table, e.isShiftKeyDown());
-				popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
+				SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
+				        .getGuiManager()).getSpreadsheetContextMenu(table);
+				GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
+				popup.show(view.getFocusPanel(), e.getX(), e.getY());
+				
+				
 			}
 	
 			if (eConsumed)

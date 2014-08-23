@@ -1,586 +1,171 @@
 package geogebra.web.gui.view.spreadsheet;
 
-import geogebra.common.awt.GColor;
-import geogebra.common.gui.view.spreadsheet.CellRange;
-import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.OptionType;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
 
-import java.util.ArrayList;
-
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
- * Context menu for spreadsheet cells, rows and columns
+ * Subclass of SpreadsheetContextMenu, implements the spreadsheet context menu
+ * for web.
  * 
  * @author G. Sturr
  * 
  */
-public class SpreadsheetContextMenuW extends GPopupMenuW {
-	private static final long serialVersionUID = -7749575525048631798L;
+public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
-	/** menu background color */
-	final static GColor bgColor = GColor.white;
+	private GPopupMenuW popup;
 
-	/** menu foreground color */
-	final static GColor fgColor = GColor.black;
-
-	/** spreadsheet table */
-	protected MyTableW table = null;
-
-	/** minimum selected row */
-	protected int row1 = -1;
-
-	/** maximum selected row */
-	protected int row2 = -1;
-
-	/** minimum selected column */
-	protected int column1 = -1;
-
-	/** maximum selected column */
-	protected int column2 = -1;
-
-	/** list of selected cell ranges */
-	protected ArrayList<CellRange> selectedCellRanges;
-	private int selectionType;
-
-	/** application */
-	protected AppW app;
-
-	/** menu spreadsheet View */
-	protected SpreadsheetViewW view;
-
-	private ArrayList<GeoElement> geos;
-
-	/** spreadsheet cell range processor */
-	protected CellRangeProcessor cp;
-
-	// for testing
-	private boolean isShiftDown = false;
-
-	/************************************************
+	/**
 	 * Constructor
 	 * 
 	 * @param table
-	 * @param isShiftDown
 	 */
-	public SpreadsheetContextMenuW(MyTableW table, boolean isShiftDown) {
-		super((AppW)table.getApplication());
+	public SpreadsheetContextMenuW(MyTable table) {
+		super(table);
+	}
 
-		this.table = table;
-		app = (AppW) table.kernel.getApplication();
-		cp = table.getCellRangeProcessor();
-		view = (SpreadsheetViewW)table.getView();
+	@Override
+	public Object getMenuContainer() {
+		return popup;
+	}
 
-		column1 = table.selectedCellRanges.get(0).getMinColumn();
-		column2 = table.selectedCellRanges.get(0).getMaxColumn();
-		row1 = table.selectedCellRanges.get(0).getMinRow();
-		row2 = table.selectedCellRanges.get(0).getMaxRow();
-		selectionType = table.getSelectionType();
-		selectedCellRanges = table.selectedCellRanges;
-		geos = app.getSelectionManager().getSelectedGeos();
-
-		getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
-
-		// other way
-		// getPopupMenu().getElement().getStyle().setBackgroundColor(bgColor.toString());
-		// z-index should be greater than 7 (blue dot) and 6 (selection frame)
-		// getPopupPanel().getElement().getStyle().setZIndex(9);
-
-		this.isShiftDown = isShiftDown;
-
-		if (isShiftDown) {
-			// InspectorView id = new InspectorView(app);
-			// id.setVisible(true);
-		}
-
+	@Override
+	public void createGUI() {
+		popup = new GPopupMenuW((AppW) app);
+		popup.getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
 		initMenu();
 	}
 
-	protected void initMenu() {
-
-		MenuItem item = null;//new MenuItem();
-		GCheckBoxMenuItem cbItem = null;//new GCheckBoxMenuItem();
-		//JMenu subMenu = null;//new JMenu();// Menubar
-
-		setTitle(getTitleString());
-
-		// ===============================================
-		// Show Object, Show Label
-		// ===============================================
-
-		if (!isEmptySelection()) {
-			addSeparator();
-			final GeoElement geo = geos.get(0);
-			if (geo.isEuclidianShowable()
-					&& geo.getShowObjectCondition() == null
-					&& (!geo.isGeoBoolean() || geo.isIndependent())) {
-
-				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), new Command() {
-
-					public void execute() {
-						for (int i = geos.size() - 1; i >= 0; i--) {
-							GeoElement geo1 = geos.get(i);
-							geo1.setEuclidianVisible(!geo1
-									.isSetEuclidianVisible());
-							geo1.updateRepaint();
-
-						}
-						app.storeUndoInfo();
-					}
-				});
-        		cbItem.setSelected(geo.isSetEuclidianVisible());
-        		addItem(cbItem);
-			}
-
-			// Show Label
-
-			if (geo.isLabelShowable()) {
-
-        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString(), app.getPlain("ShowLabel")), new Command() {
-					
-					public void execute() {
-						for (int i = geos.size() - 1; i >= 0; i--) {
-							GeoElement geo1 = geos.get(i);
-							geo1.setLabelVisible(!geo1.isLabelVisible());
-							geo1.updateRepaint();
-						}
-						app.storeUndoInfo();				
-					}
-				});
-        		cbItem.setSelected(geo.isLabelVisible());
-        		addItem(cbItem);
-			}
-
-			// Trace to spreadsheet
-
-			if (geo.isSpreadsheetTraceable()
-					&& selectionType != MyTable.ROW_SELECT) {
-
-				/*
-				boolean showRecordToSpreadsheet = true;
-				// check if other geos are recordable
-				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++)
-					showRecordToSpreadsheet &= geos.get(i)
-							.isSpreadsheetTraceable();
-
-				if (showRecordToSpreadsheet) {
-
-	        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), new Command() {
-
-						public void execute() {
-
-							GeoElement geoRecordToSpreadSheet;
-							if (geos.size() == 1)
-								geoRecordToSpreadSheet = geo;
-							else {
-								geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher().List(
-										null, geos, false);
-								geoRecordToSpreadSheet.setAuxiliaryObject(true);
-							}
-
-							((GuiManagerW)app.getGuiManager())
-									.getSpreadsheetView()
-									.showTraceDialog(geoRecordToSpreadSheet,
-											null);
-						}
-					});
-	        		cbItem.setSelected(geo.getSpreadsheetTrace());
-	        		addItem(cbItem);
-				}
-				*/
-			}
-
-		}
-
-		// ===============================================
-		// Cut-Copy-Paste-Delete
-		// ===============================================
-
-		addSeparator();
-
-		item = addAction(new Command() {
-
-			public void execute() {
-				table.copyPasteCut.copy(column1, row1, column2, row2, false);
-			}
-		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit_copy().getSafeUri().asString(), app.getMenu("Copy")), app.getMenu("Copy"));
-		item.setEnabled(!isEmptySelection());
-
-
-		item = addAction(new Command() {
-
-			public void execute() {
-				boolean succ = table.copyPasteCut.paste(column1, row1, column2,
-						row2);
-				if (succ)
-					app.storeUndoInfo();
-				table.getView().rowHeaderRevalidate();
-			}
-		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit_paste().getSafeUri().asString(), app.getMenu("Paste")), app.getMenu("Paste"));
-
-
-		item = addAction(new Command() {
-
-			public void execute() {
-				boolean succ = table.copyPasteCut.cut(column1, row1, column2,
-						row2);
-				if (succ)
-					app.storeUndoInfo();
-			}
-		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit_cut().getSafeUri().asString(), app.getMenu("Cut")), app.getMenu("Cut"));
-		item.setEnabled(!isEmptySelection());
-
-
-		item = addAction(new Command() {
-
-			public void execute() {
-				boolean succ = table.copyPasteCut.delete(column1, row1,
-						column2, row2);
-				if (succ)
-					app.storeUndoInfo();
-			}
-		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
-		item.setEnabled(!allFixed());
-
-		/* should port this later - moved to "create" submenus temporarily
-		
-		addSeparator();
-
-		*/
-
-		// ===============================================
-		// Insert (new row or new column)
-		// ===============================================
-		if (selectionType == MyTable.COLUMN_SELECT
-				|| selectionType == MyTable.ROW_SELECT) {
-
-			/* should port submenus later
-
-			subMenu = new JMenu(app.getPlain("Insert") + " ...");
-			subMenu.setIcon(app.getEmptyIcon());
-			addItem(subMenu);
-
-			if (selectionType == MyTable.COLUMN_SELECT) {
-				item = new JMenuItem(app.getMenu("InsertLeft"));
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						cp.InsertLeft(column1, column2);
-					}
-				});
-				addSubItem(subMenu, item);
-
-				item = new JMenuItem(app.getMenu("InsertRight"));
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						cp.InsertRight(column1, column2);
-					}
-				});
-				addSubItem(subMenu, item);
-
-			}
-
-			if (selectionType == MyTable.ROW_SELECT) {
-				item = new JMenuItem(app.getMenu("InsertAbove"));
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						cp.InsertAbove(row1, row2);
-					}
-				});
-				addSubItem(subMenu, item);
-
-				item = new JMenuItem(app.getMenu("InsertBelow"));
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						cp.InsertBelow(row1, row2);
-					}
-				});
-				addSubItem(subMenu, item);
-			}
-
-			*/
-		}
-
-		// ===============================================
-		// Create (Lists, Matrix, etc.)
-		// ===============================================
-
-		if (!isEmptySelection()) {
-
-			addSeparator();
-
-	        MenuBar cMenu = new MenuBar(true);
-	        MenuItem cMenuItem = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Create")), true, cMenu);
-	        cMenuItem.addStyleName("mi_with_image");
-	        addItem(cMenuItem);
-
-	        item = new MenuItem(app.getMenu("List"), new Command() {
-
-	        	public void execute() {
-					cp.createList(selectedCellRanges, true, false);
-	        	}
-	        });
-	        cMenu.addItem(item);
-
-	        item = new MenuItem(app.getMenu("ListOfPoints"), new Command() {
-
-	        	public void execute() {
-					GeoElement newGeo = cp.createPointGeoList(
-							selectedCellRanges, false, true, true, true, true);
-					app.getKernel()
-							.getConstruction()
-							.addToConstructionList(newGeo.getParentAlgorithm(),
-									true);
-					newGeo.setLabel(null);
-	        	}
-	        });
-	        cMenu.addItem(item);
-			item.setEnabled((cp.isCreatePointListPossible(selectedCellRanges)));
-
-
-	        item = new MenuItem(app.getMenu("Matrix"), new Command() {
-
-	        	public void execute() {
-					cp.createMatrix(column1, column2, row1, row2, false);
-	        	}
-	        });
-	        cMenu.addItem(item);
-			item.setEnabled(cp.isCreateMatrixPossible(selectedCellRanges));
-
-
-	        item = new MenuItem(app.getMenu("Table"), new Command() {
-
-	        	public void execute() {
-					cp.createTableText(column1, column2, row1, row2, false,
-							false);
-	        	}
-	        });
-	        cMenu.addItem(item);
-			item.setEnabled(cp.isCreateMatrixPossible(selectedCellRanges));
-
-
-	        item = new MenuItem(app.getMenu("PolyLine"), new Command() {
-
-	        	public void execute() {
-					GeoElement newGeo = cp.createPolyLine(selectedCellRanges,
-							false, true);
-					app.getKernel()
-							.getConstruction()
-							.addToConstructionList(newGeo.getParentAlgorithm(),
-									true);
-					newGeo.setLabel(null);
-	        	}
-	        });
-	        cMenu.addItem(item);
-			item.setEnabled((cp.isCreatePointListPossible(selectedCellRanges)));
-
-
-	        item = new MenuItem(app.getMenu("OperationTable"), new Command() {
-
-	        	public void execute() {
-					cp.createOperationTable(selectedCellRanges.get(0), null);
-	        	}
-	        });
-	        cMenu.addItem(item);
-			item.setEnabled(cp
-					.isCreateOperationTablePossible(selectedCellRanges));
-		}
-
-		// ===============================================
-		// Import Data
-		// ===============================================
-
-		if (isEmptySelection() /*&& AppW.hasFullPermissions()*/) {
-
-			/* should port this later
-			
-			item = new JMenuItem(app.getMenu("ImportDataFile") + " ...");
-			item.setIcon(app.getImageIcon("document-open.png"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					File dataFile = app.getGuiManager().getDataFile();
-					if (dataFile != null)
-						table.getView().loadSpreadsheetFromURL(dataFile);
-				}
-			});
-			addItem(item);
-
-			*/
-		}
-
-		// ===============================================
-		// Show Browser / Spreadsheet Options
-		// ===============================================
-
-		if (isEmptySelection()) {
-
-			/* should port submenus later
-
-
-			addSeparator();
-
-			subMenu = new JMenu(app.getPlain("Show"));
-			subMenu.setIcon(app.getEmptyIcon());
-			// addItem(subMenu);
-
-			cbItem = new JCheckBoxMenuItem(app.getMenu("FileBrowser"));
-			// cbItem.setIcon(app.getEmptyIcon());
-			cbItem.setSelected(view.getShowBrowserPanel());
-			cbItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					view.setShowFileBrowser(!view.getShowBrowserPanel());
-				}
-			});
-			addSubItem(subMenu, cbItem);
-
-			item = new JMenuItem(app.getMenu("SpreadsheetOptions") + "...",
-					app.getImageIcon("view-properties16.png"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-			    	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-			    	app.getGuiManager().setFocusedPanel(App.VIEW_SPREADSHEET, true);
-				}
-			});
-			addItem(item);
-
-			*/
-		}
-
-		// ===============================================
-		// Object properties
-		// ===============================================
-
-		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
-			addSeparator();
-
-			item = addAction(
-					new Command() {
-
-						public void execute() {
-							app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, geos);
-							// app.getDialogManager().showPropertiesDialog();
-						}
-					},
-					MainMenu.getMenuBarHtml(
-							AppResources.INSTANCE.view_properties16().getSafeUri().asString(),
-							app.getMenu(app.getPlain("Properties")) + "..."),
-					app.getMenu(app.getPlain("Properties")) + "...");
-		}
-
-		/* should port this later
-
-		app.setComponentOrientation(this);
-
-		*/
+	@Override
+	public void setTitle(String str) {
+
+		MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(
+		        AppResources.INSTANCE.empty().getSafeUri().asString(), str),
+		        true, new Command() {
+			        public void execute() {
+				        popup.setVisible(false);
+			        }
+		        });
+		title.addStyleName("menuTitle");
+		popup.addItem(title);
 	}
 
-	private String getTitleString() {
+	@Override
+	public void addMenuItem(final String cmdString, String text, boolean enabled) {
 
-		// title = cell range if empty or multiple cell selection
-		String title = GeoElementSpreadsheet.getSpreadsheetCellName(column1,
-				row1);
-		if (column1 != column2 || row1 != row2) {
-			title += ":"
-					+ GeoElementSpreadsheet.getSpreadsheetCellName(column2,
-							row2);
-		}
-		// title = geo description if single geo in cell
-		else if (geos != null && geos.size() == 1) {
-			GeoElement geo0 = geos.get(0);
-			title = geo0.getLongDescriptionHTML(false, true);
-			if (title.length() > 80)
-				title = geo0.getNameDescriptionHTML(false, true);
-		}
+		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 
-		return title;
-	}
-
-	// setTitle (copied from gui.ContextMenuGeoElement)
-	private void setTitle(String str) {
-
-	    MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), str),
-	    		true, new Command() {
-					
-					public void execute() {
-						setVisible(false);
-					}
-				});
-	    title.addStyleName("menuTitle");
-	    addItem(title);
-
-	    /* instead of this, implementation is copied from geogebra.web.gui.ContextMenuGeoElementW
-
-		JLabel title = new JLabel(str);
-		title.setFont(app.getBoldFont());
-		title.setBackground(bgColor);
-		title.setForeground(fgColor);
-
-		title.setIcon(app.getEmptyIcon());
-		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));
-		add(title);
-
-		title.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-			}
-		});
-
-		*/
-	}
-
-	protected MenuItem addAction(Command action, String html, String text) {
 		MenuItem mi;
-	    if (html != null) {
-	    	mi = new MenuItem(html, true, action);
-	    	mi.addStyleName("mi_with_image"); //TEMP
-	    } else {
-	    	mi = new MenuItem(text, action);
-	    	mi.addStyleName("mi_no_image"); //TEMP
-	    }
-	    
-	    addItem(mi);
-	    return mi; //TODO: need we this?
-		//return wrappedPopup.add(action, html, text);
-    }
-
-	/* should port one of these later
-
-	private void addItem(Component mi) {
-		mi.setBackground(bgColor);
-		add(mi);
-	}
-
-	private static void addSubItem(JMenu menu, Component mi) {
-		mi.setBackground(bgColor);
-		menu.add(mi);
-	}
-
-	*/
-
-	private boolean allFixed() {
-		boolean allFixed = true;
-		if (geos != null && geos.size() > 0) {
-			for (int i = 0; (i < geos.size() && allFixed); i++) {
-				GeoElement geo = geos.get(i);
-				if (!geo.isFixed())
-					allFixed = false;
-			}
+		if (html != null) {
+			mi = new MenuItem(html, true, getCommand(cmdString));
+			mi.addStyleName("mi_with_image"); // TEMP
+		} else {
+			mi = new MenuItem(text, getCommand(cmdString));
+			mi.addStyleName("mi_no_image"); // TEMP
 		}
-		return allFixed;
+
+		mi.setEnabled(enabled);
+
+		popup.addItem(mi);
 	}
 
-	private boolean isEmptySelection() {
-		return (app.getSelectionManager().getSelectedGeos().isEmpty());
+	@Override
+	public void addCheckBoxMenuItem(final String cmdString, String text,
+	        boolean isSelected) {
+
+		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+
+		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html,
+		        getCommand(cmdString));
+		cbItem.setSelected(isSelected);
+		popup.addItem(cbItem);
+	}
+
+	@Override
+	public Object addSubMenu(String text, String cmdString) {
+
+		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		MenuBar subMenu = new MenuBar(true);
+		MenuItem menuItem = new MenuItem(html, true, subMenu);
+
+		popup.addItem(menuItem);
+		return menuItem;
+	}
+
+	@Override
+	public void addSubMenuItem(Object menu, final String cmdString,
+	        String text, boolean enabled) {
+
+		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		MenuItem mi = new MenuItem(html, true, getCommand(cmdString));
+		mi.addStyleName("mi_with_image");
+		mi.setEnabled(enabled);
+
+		((MenuItem) menu).getSubMenu().addItem(mi);
+	}
+
+	@Override
+	public void addSeparator() {
+		popup.addSeparator();
+	}
+
+	private Command getCommand(final String cmdString) {
+		Command cmd = new Command() {
+			public void execute() {
+				doCommand(cmdString);
+			}
+		};
+		return cmd;
+	}
+
+	private static String getIconUrl(String cmdString) {
+
+		if (cmdString == null) {
+			return AppResources.INSTANCE.empty().getSafeUri().asString();
+		}
+
+		ImageResource im = null;
+
+		if (cmdString.equals("ShowObject"))
+			im = AppResources.INSTANCE.mode_showhideobject_16();
+
+		else if (cmdString.equals("ShowLabel"))
+			im = AppResources.INSTANCE.mode_showhidelabel_16();
+
+		else if (cmdString.equals("Copy"))
+			im = AppResources.INSTANCE.edit_copy();
+
+		else if (cmdString.equals("Cut"))
+			im = AppResources.INSTANCE.edit_cut();
+
+		else if (cmdString.equals("Paste"))
+			im = AppResources.INSTANCE.edit_paste();
+
+		else if (cmdString.equals("Delete"))
+			im = AppResources.INSTANCE.delete_small();
+
+		else if (cmdString.equals("RecordToSpreadsheet"))
+			im = AppResources.INSTANCE.spreadsheettrace();
+
+		else if (cmdString.equals("Properties"))
+			im = AppResources.INSTANCE.view_properties16();
+
+		else if (cmdString.equals("SpreadsheetOptions"))
+			im = AppResources.INSTANCE.view_properties16();
+
+		else
+			im = AppResources.INSTANCE.empty();
+
+		return im.getSafeUri().asString();
 	}
 
 }

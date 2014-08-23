@@ -6,6 +6,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -192,10 +193,13 @@ public class SpreadsheetColumnControllerW implements
 				table.setColumnSelectionInterval(p.getX(), p.getX());
 			}
 
-			// show contextMenu
-			SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
-					table, e.isShiftKeyDown());
-			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
+			// show contextMenu			
+			SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
+			        .getGuiManager()).getSpreadsheetContextMenu(table);
+			GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
+			popup.show(view.getFocusPanel(), e.getX(), e.getY());
+			
+			
 
 		} else if (isResizing) {
 

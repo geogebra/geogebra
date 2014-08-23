@@ -7,6 +7,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -410,10 +411,10 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenuW popupMenu = ((GuiManagerW) app
-			        .getGuiManager()).getSpreadsheetContextMenu(table,
-			        e.isShiftKeyDown());
-			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
+			SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
+			        .getGuiManager()).getSpreadsheetContextMenu(table);
+			GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
+			popup.show(view.getFocusPanel(), e.getX(), e.getY());
 		}
 
 		// left click

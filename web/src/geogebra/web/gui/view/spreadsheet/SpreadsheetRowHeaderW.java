@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -390,10 +391,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenuW popupMenu = ((GuiManagerW) app
-			        .getGuiManager()).getSpreadsheetContextMenu(table,
-			        e.isShiftKeyDown());
-			popupMenu.show(view.getFocusPanel(), e.getX(), e.getY());
+			SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
+			        .getGuiManager()).getSpreadsheetContextMenu(table);
+			GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
+			popup.show(view.getFocusPanel(), e.getX(), e.getY());
+			
+			
 		}
 
 		// If row resize has happened, resize all other selected rows

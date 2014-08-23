@@ -196,10 +196,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		getPopupMenu(geos, p).show(p);
 	}
 
-	public SpreadsheetContextMenuW getSpreadsheetContextMenu(MyTableW mt, boolean shift) {
+	public SpreadsheetContextMenuW getSpreadsheetContextMenu(MyTableW mt) {
 		removePopup();
-		currentPopup = new SpreadsheetContextMenuW(mt, shift);
-		return (SpreadsheetContextMenuW)currentPopup;
+		SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(mt);
+		currentPopup = (AttachedToDOM) contextMenu.getMenuContainer();
+		return contextMenu;
 	}
 
 	public AlgebraContextMenuW getAlgebraContextMenu(){
