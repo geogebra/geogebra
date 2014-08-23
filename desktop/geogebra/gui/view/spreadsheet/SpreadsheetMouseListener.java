@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 
@@ -70,8 +71,9 @@ public class SpreadsheetMouseListener implements MouseListener,
 
 				// otherwise, doubleClick edits cell
 
-				if (!table.isEditing() && !(table.getOneClickEditMap().containsKey(point) && view
-						.allowSpecialEditor())) {
+				if (!table.isEditing()
+						&& !(table.getOneClickEditMap().containsKey(point) && view
+								.allowSpecialEditor())) {
 					table.setAllowEditing(true);
 					table.editCellAt(table.getSelectedRow(),
 							table.getSelectedColumn());
@@ -114,7 +116,8 @@ public class SpreadsheetMouseListener implements MouseListener,
 			// let euclidianView know about the click
 			AbstractEvent event = geogebra.euclidian.event.MouseEventD
 					.wrapEvent(e);
-			app.getActiveEuclidianView().clickedGeo(geo, app.isControlDown(event));
+			app.getActiveEuclidianView().clickedGeo(geo,
+					app.isControlDown(event));
 			event.release();
 		}
 
@@ -419,9 +422,10 @@ public class SpreadsheetMouseListener implements MouseListener,
 			}
 
 			// create and show context menu
-			SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-					table, e.isShiftDown());
-			popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
+					table);
+			JPopupMenu popup = (JPopupMenu) contextMenu.getMenuContainer();
+			popup.show(e.getComponent(), e.getX(), e.getY());
 		}
 
 	}

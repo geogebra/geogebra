@@ -369,6 +369,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		app.getSettings().restoreDefaultSpreadsheetSettings();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
+		tableModel.clearView();
 
 	}
 

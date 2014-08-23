@@ -81,7 +81,7 @@ public class CellRangeProcessor {
 	 * @return true if the shapes of the given cell ranges support creating a
 	 *         point list, does not test the cell contents
 	 */
-	public static boolean isCreatePointListPossible(
+	public boolean isCreatePointListPossible(
 			ArrayList<CellRange> rangeList) {
 
 		// two adjacent rows or columns?

@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -191,9 +192,10 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-					table, e.isShiftDown());
-			popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
+					table);
+			JPopupMenu popup = (JPopupMenu) contextMenu.getMenuContainer();
+			popup.show(e.getComponent(), e.getX(), e.getY());
 
 		} else if (isResizing) {
 
@@ -444,16 +446,15 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 			btnTrace = new JButton();
 			btnTrace.setBorderPainted(false);
 			btnTrace.setContentAreaFilled(false);
-			btnTrace.setPreferredSize(new Dimension(18,18));
+			btnTrace.setPreferredSize(new Dimension(18, 18));
 
 			setOpaque(true);
 			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
-			
-			setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(0, 0, 1, 1,
-							MyTableD.HEADER_GRID_COLOR), BorderFactory
-							.createEmptyBorder(0, 5, 0, 0)));
-			
+
+			setBorder(BorderFactory.createCompoundBorder(BorderFactory
+					.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR),
+					BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+
 			layout = (BorderLayout) this.getLayout();
 		}
 
@@ -476,29 +477,34 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 				}
 			}
 
-
-			
 			// add/remove trace button
-			if (app.hasTraceManager()){
-				SpreadsheetTraceSettings t = app.getTraceManager().getTraceSettings(colIndex);
-				if (t == null){ // no geo traced in this column
+			if (app.hasTraceManager()) {
+				SpreadsheetTraceSettings t = app.getTraceManager()
+						.getTraceSettings(colIndex);
+				if (t == null) { // no geo traced in this column
 					if (layout.getLayoutComponent(loc.borderWest()) != null) {
 						this.remove(layout.getLayoutComponent(loc.borderWest()));
 					}
-				}else{
+				} else {
 					this.add(btnTrace, loc.borderWest());
 					// set icon
-					if (t.pause){ 
+					if (t.pause) {
 						btnTrace.setIcon(pauseIcon);
-						setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet")); // button switches back to record
-					}else{
+						setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet")); // button
+																					// switches
+																					// back
+																					// to
+																					// record
+					} else {
 						btnTrace.setIcon(recordIcon);
-						setToolTipText(loc.getMenuTooltip("Pause")); // button pauses the trace
+						setToolTipText(loc.getMenuTooltip("Pause")); // button
+																		// pauses
+																		// the
+																		// trace
 					}
 				}
 
 			}
-
 
 			return this;
 		}

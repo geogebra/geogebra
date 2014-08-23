@@ -21,6 +21,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
@@ -177,7 +178,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 				// near row bottom
 				if (p.y < r.y + 3) {
 					resizeRow = cellRow - 1;
-				} 
+				}
 				// near row top
 				if (p.y > r.y + r.height - 3) {
 					resizeRow = cellRow;
@@ -293,9 +294,10 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-					table, e.isShiftDown());
-			popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
+					table);
+			JPopupMenu popup = (JPopupMenu) contextMenu.getMenuContainer();
+			popup.show(e.getComponent(), e.getX(), e.getY());
 
 		}
 
