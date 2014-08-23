@@ -307,7 +307,8 @@ public class SpreadsheetContextMenu {
 	public void doCommand(String cmdString) {
 		boolean succ = false;
 
-		switch (cmdString) {
+		/*
+		if (cmdString) {
 
 		case "ShowObject":
 			cmdShowObject();
@@ -397,6 +398,8 @@ public class SpreadsheetContextMenu {
 			break;
 
 		}
+		*/
+		
 
 	}
 
