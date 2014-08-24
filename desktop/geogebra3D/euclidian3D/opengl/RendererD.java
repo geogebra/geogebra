@@ -45,7 +45,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	public RendererD(EuclidianView3D view, boolean useCanvas) {
 		super(view);
 		
-		if (jogl == null){
 		jogl = new RendererJogl();
 		
 		//canvas = view;
@@ -64,7 +63,7 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 
 	    App.debug("start animator");
         animator.start();
-		}
+		
 
 	}
 	
@@ -279,6 +278,8 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     	
         setView(x,y,w,h);
         view3D.reset();
+        
+        resumeAnimator();
         
 
     }
