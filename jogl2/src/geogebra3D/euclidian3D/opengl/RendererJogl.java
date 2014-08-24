@@ -23,27 +23,25 @@ import com.jogamp.opengl.util.GLBuffers;
 
 public class RendererJogl {
 	
-	protected GL2 gl2; 
+	private GLAutoDrawable gLDrawable;
 	
 	public GL getGL(){
 		
-		return gl2; 
+		return gLDrawable.getGL(); 
 	}
 	
 	public GL2 getGL2(){
 		
-		return gl2; 
+		return gLDrawable.getGL().getGL2(); 
 	}
 	
 	
 	
 	public void setGL(GLAutoDrawable gLDrawable){		
-		gl2 = gLDrawable.getGL().getGL2();
+		this.gLDrawable = gLDrawable;
 	}
 	
 	
-	
-	private javax.media.opengl.GL2ES2 gl2es2; 
 	
 	
 	/**
@@ -52,14 +50,11 @@ public class RendererJogl {
 	 */
 	public javax.media.opengl.GL2ES2 getGL2ES2(){
 		
-		return gl2es2; 
+		return gLDrawable.getGL().getGL2ES2(); 
 	}
 	
 	
 	
-	public void setGL2ES2(GLAutoDrawable gLDrawable){		
-		gl2es2 = gLDrawable.getGL().getGL2ES2();
-	}
 	
 	
 

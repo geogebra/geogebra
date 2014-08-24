@@ -57,13 +57,6 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	}
 
 	
-	@Override
-	public void setGL(GLAutoDrawable gLDrawable){		
-		jogl.setGL2ES2(gLDrawable);
-	}
-	
-	
-	
 	
 	
 	
