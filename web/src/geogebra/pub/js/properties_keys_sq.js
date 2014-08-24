@@ -1742,6 +1742,7 @@ __GGB__keysVar.sq.menu = {
     "Relation": "Relacion",
     "Relation.Help": "Zgjidh dy objekte",
     "Relative": "Relative",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Largo nderprerje drejtezash",
     "RemoveTrace": "Largo objekt nga lista e gjurmes",
     "Rename": "Riemerto",

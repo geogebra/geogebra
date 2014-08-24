@@ -1742,6 +1742,7 @@ __GGB__keysVar.cs.menu = {
     "Relation": "Vztah mezi objekty",
     "Relation.Help": "Dva objekty",
     "Relative": "Relativn\xed",
+    "RelativeFrequency": "Relativn\xed \u010detnost",
     "RemoveLineBreaks": "Odstran\u011bn\xed \u0159\xe1dk\u016f",
     "RemoveTrace": "Odstranit objekt ze stopy seznamu",
     "Rename": "P\u0159ejmenovat",

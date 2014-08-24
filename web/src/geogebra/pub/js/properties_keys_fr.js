@@ -1742,6 +1742,7 @@ __GGB__keysVar.fr.menu = {
     "Relation": "Relation entre deux objets",
     "Relation.Help": "Deux objets[cr\xe9\xe9s]",
     "Relative": "Relative",
+    "RelativeFrequency": "Fr\xe9quences",
     "RemoveLineBreaks": "Supprimer les lignes d'arr\xeat",
     "RemoveTrace": "Retirer l'objet de la liste de suivi",
     "Rename": "Renommer",

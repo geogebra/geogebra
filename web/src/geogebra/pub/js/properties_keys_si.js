@@ -1742,6 +1742,7 @@ __GGB__keysVar.si.menu = {
     "Relation": "\u0dc3\u0db8\u0dd2\u0db6\u0db1\u0dca\u0db0\u0dba",
     "Relation.Help": "\u0dc0\u0dc3\u0dca\u0dad\u0dd6\u0db1\u0dca2\u0d9a\u0dca \u0dad\u0ddd\u0dbb\u0db1\u0dca\u0db1",
     "Relative": "Relative",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "\u0db1\u0dd0\u0dc0\u0dad \u0db1\u0db8\u0dd2 \u0d9a\u0dbb\u0db1\u0dca\u0db1",

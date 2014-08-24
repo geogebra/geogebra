@@ -1742,6 +1742,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Relation": "Relaci\xf3 entre dos objectes",
     "Relation.Help": "Seleccioneu dos objectes",
     "Relative": "Relatives",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Elimina els salts de l\xednia",
     "RemoveTrace": "Elimina l'objecte de la llista seleccionada",
     "Rename": "Reanomena",

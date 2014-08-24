@@ -1742,6 +1742,7 @@ __GGB__keysVar.xh.menu = {
     "Relation": "uKuzalana",
     "Relation.Help": "Khetha izinto ezimbini",
     "Relative": "yokuXhomekeka",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Susa iiLine Breaks",
     "RemoveTrace": "Susa izinto kwitrace list",
     "Rename": "ThiyaNgokutsha",

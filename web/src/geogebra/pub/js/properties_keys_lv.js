@@ -1742,6 +1742,7 @@ __GGB__keysVar.lv.menu = {
     "Relation": "Sakar\u012bba",
     "Relation.Help": "Izv\u0113lies divus objektus",
     "Relative": "Attiec\u012bbas",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "No\u0146emt rindstarpas",
     "RemoveTrace": "Aizv\u0101kt objektu no tras\u0113\u0161anas saraksta",
     "Rename": "Main\u012bt nosaukumu",

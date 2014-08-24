@@ -1742,6 +1742,7 @@ __GGB__keysVar.pl.menu = {
     "Relation": "Relacja",
     "Relation.Help": "Wybierz dwa obiekty",
     "Relative": "Wzgl\u0119dny",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Usu\u0144 podzia\u0142y wiersza",
     "RemoveTrace": "Usu\u0144 obiekt z listy \u015bledzenia",
     "Rename": "Zmie\u0144 nazw\u0119",

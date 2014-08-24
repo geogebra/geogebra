@@ -1742,6 +1742,7 @@ __GGB__keysVar.eu.menu = {
     "Relation": "Erlazioa",
     "Relation.Help": "Bi objektu",
     "Relative": "Erlatiboa",
+    "RelativeFrequency": "Maiztasun Erlatiboa",
     "RemoveLineBreaks": "Kendu Lerroen Ebakidurak",
     "RemoveTrace": "Kendu objektua arrasto-zerrendatik",
     "Rename": "Aldatu Izena",

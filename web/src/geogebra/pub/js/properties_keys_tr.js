@@ -1742,6 +1742,7 @@ __GGB__keysVar.tr.menu = {
     "Relation": "\u0130li\u015fki",
     "Relation.Help": "2 nokta",
     "Relative": "G\xf6receli",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Sat\u0131r kesmelerini kald\u0131r",
     "RemoveTrace": "Nesneyi izleme listesinden kald\u0131r",
     "Rename": "Ad de\u011fi\u015ftir",

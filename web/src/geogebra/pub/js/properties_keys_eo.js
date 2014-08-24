@@ -1742,6 +1742,7 @@ __GGB__keysVar.eo.menu = {
     "Relation": "Rilato inter du objektoj",
     "Relation.Help": "Elektu du objektojn",
     "Relative": "Relative",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "Rename",

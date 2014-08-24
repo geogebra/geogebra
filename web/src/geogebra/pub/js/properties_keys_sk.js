@@ -1742,6 +1742,7 @@ __GGB__keysVar.sk.menu = {
     "Relation": "Vz\u0165ah",
     "Relation.Help": "Vyzna\u010d dva objekty!",
     "Relative": "Relat\xedvne",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Odst\xe1nenie zalomenia \u010diar",
     "RemoveTrace": "Odstr\xe1ni\u0165 objekt zo zoznamu st\xf4p",
     "Rename": "Premenova\u0165",

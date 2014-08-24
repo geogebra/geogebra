@@ -1742,6 +1742,7 @@ __GGB__keysVar.de.menu = {
     "Relation": "Beziehung",
     "Relation.Help": "W\xe4hle zwei Objekte",
     "Relative": "Relativ",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Zeilenumbr\xfcche entfernen",
     "RemoveTrace": "Entfernt Objekt von Spurliste",
     "Rename": "Umbenennen",

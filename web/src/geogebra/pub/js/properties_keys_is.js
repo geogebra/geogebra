@@ -1742,6 +1742,7 @@ __GGB__keysVar.is.menu = {
     "Relation": "Tengsl tveggja hluta",
     "Relation.Help": "Velji\xf0 tvo hluti",
     "Relative": "Afst\xe6\xf0ur",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Fjarl\xe6gja l\xednuskipti",
     "RemoveTrace": "Fjarl\xe6gja hlut af sporlista",
     "Rename": "Endurnefna",

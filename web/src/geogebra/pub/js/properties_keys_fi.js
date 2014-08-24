@@ -1742,6 +1742,7 @@ __GGB__keysVar.fi.menu = {
     "Relation": "Kahden objektin v\xe4linen suhde",
     "Relation.Help": "Valitse kaksi objektia",
     "Relative": "Suhteellinen",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Poista rivinvaihdot",
     "RemoveTrace": "Poista objekti seuranta listasta",
     "Rename": "Nime\xe4 uudestaan",

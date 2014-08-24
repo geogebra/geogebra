@@ -1742,6 +1742,7 @@ __GGB__keysVar.ms.menu = {
     "Relation": "Hubungan",
     "Relation.Help": "Pilih dua objek",
     "Relative": "Relatif",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Singkir Pemisah-pemisah Garis",
     "RemoveTrace": "Singkir objek daripada senarai surih",
     "Rename": "Namakan Semula",

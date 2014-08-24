@@ -104,7 +104,7 @@ __GGB__keysVar.ca.command = {
     "Barycenter.Syntax": "[ <Llista de punts>, <Llista de pesos> ]",
     "Bernoulli": "Bernoulli",
     "Bernoulli.Syntax": "[ <Probabilitat>, <Acumulada true/false> ]",
-    "Binomial": "CoeficientBinomial",
+    "Binomial": "NombreCombinatori",
     "Binomial.Syntax": "[ <Nombre>, <Nombre> ]",
     "Binomial.SyntaxCAS": "[ <Nombre>, <Nombre> ]",
     "BinomialDist": "Binomial",
@@ -1055,7 +1055,7 @@ __GGB__keysVar.ca.command = {
     "ZoomIn.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]\n[ <x m\xednima>, <y m\xednima>, <x m\xe0xima>, <y m\xe0xima> ]",
     "ZoomOut": "Allunya",
     "ZoomOut.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]",
-    "nPr": "Vnr",
+    "nPr": "Variacions",
     "nPr.Syntax": "[ <Nombre>, <Nombre> ]",
 }
 
@@ -1742,6 +1742,7 @@ __GGB__keysVar.ca.menu = {
     "Relation": "Relaci\xf3 entre dos objectes",
     "Relation.Help": "Seleccioneu dos objectes",
     "Relative": "Relatives",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Elimina salts de l\xednia",
     "RemoveTrace": "Elimina objecte de la llistas seleccionada",
     "Rename": "Canvia de nom",

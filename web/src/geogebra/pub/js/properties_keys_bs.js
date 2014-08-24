@@ -1742,6 +1742,7 @@ __GGB__keysVar.bs.menu = {
     "Relation": "Relacija",
     "Relation.Help": "Ozna\u010dite dvije figure",
     "Relative": "Relativno",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Ukloni prelome redaka",
     "RemoveTrace": "Ukloni figuru iz trag liste",
     "Rename": "Preimenovanje",

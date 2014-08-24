@@ -1742,6 +1742,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Relation": "Kapcsolat k\xe9t alakzat k\xf6z\xf6tt",
     "Relation.Help": "K\xe9t alakzat",
     "Relative": "Relat\xedv",
+    "RelativeFrequency": "Relat\xedv gyakoris\xe1g",
     "RemoveLineBreaks": "Sort\xf6r\xe9s elt\xe1vol\xedt\xe1sa",
     "RemoveTrace": "T\xf6rli az alakzatot a nyomvonalb\xf3l",
     "Rename": "\xc1tnevez\xe9s",

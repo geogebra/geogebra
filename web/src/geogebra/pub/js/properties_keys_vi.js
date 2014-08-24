@@ -1742,6 +1742,7 @@ __GGB__keysVar.vi.menu = {
     "Relation": "Quan h\u1ec7 gi\u1eefa 2 \u0111\u1ed1i t\u01b0\u1ee3ng",
     "Relation.Help": "Ch\u1ecdn 2 \u0111\u1ed1i t\u01b0\u1ee3ng",
     "Relative": "T\u01b0\u01a1ng \u0111\u1ed1i",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "B\u1ecf \u0111\u01b0\u1eddng th\u1eb3ng \u0111\u1ee9t \u0111o\u1ea1n",
     "RemoveTrace": "B\u1ecf \u0111\u1ed1i t\u01b0\u1ee3ng kh\u1ecfi danh s\xe1ch t\u1ea1o v\u1ebft",
     "Rename": "\u0110\u1eb7t l\u1ea1i t\xean",

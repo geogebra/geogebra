@@ -1742,6 +1742,7 @@ __GGB__keysVar.ko.menu = {
     "Relation": "\uad00\uacc4",
     "Relation.Help": "\ub450 \ub300\uc0c1\uc744 \uc120\ud0dd\ud558\uc138\uc694",
     "Relative": "\uc0c1\ub300",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "\uc904\ubc14\uafc8 \uc0ad\uc81c",
     "RemoveTrace": "\uc790\ucde8 \ub9ac\uc2a4\ud2b8\uc5d0\uc11c \ub300\uc0c1\uc744 \uc81c\uac70",
     "Rename": "\uc774\ub984 \ubc14\uafb8\uae30",

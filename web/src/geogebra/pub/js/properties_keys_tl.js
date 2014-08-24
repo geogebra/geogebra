@@ -1742,6 +1742,7 @@ __GGB__keysVar.tl.menu = {
     "Relation": "Relation between Two Objects",
     "Relation.Help": "Pumili ng dalawang objects",
     "Relative": "Relative",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "Rename",

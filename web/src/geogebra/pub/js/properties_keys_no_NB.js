@@ -1742,6 +1742,7 @@ __GGB__keysVar.no_NB.menu = {
     "Relation": "Forhold mellom to objekt",
     "Relation.Help": "To objekt",
     "Relative": "Relativ",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Fjern linjeskift",
     "RemoveTrace": "Fjern objekt fra sporingsliste",
     "Rename": "Gi nytt navn",

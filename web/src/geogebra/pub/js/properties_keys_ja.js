@@ -1742,6 +1742,7 @@ __GGB__keysVar.ja.menu = {
     "Relation": "\uff12\u3064\u306e\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306e\u95a2\u4fc2",
     "Relation.Help": "\uff12\u3064\u306e\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3092\u9078\u629e",
     "Relative": "\u76f8\u5bfe",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "\u6539\u884c\u3092\u9664\u53bb",
     "RemoveTrace": "\u6b8b\u50cf\u306e\u30ea\u30b9\u30c8\u304b\u3089\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3092\u9664\u53bb",
     "Rename": "\u540d\u524d\u306e\u5909\u66f4",

@@ -1742,6 +1742,7 @@ __GGB__keysVar.it.menu = {
     "Relation": "Relazione",
     "Relation.Help": "Selezionare due oggetti",
     "Relative": "Relativo",
+    "RelativeFrequency": "Frequenza relativa",
     "RemoveLineBreaks": "Rimuovi interruzioni di riga",
     "RemoveTrace": "Rimuovi l'oggetto dall'elenco delle registrazioni",
     "Rename": "Rinomina",

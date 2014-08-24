@@ -1742,6 +1742,7 @@ __GGB__keysVar.gl.menu = {
     "Relation": "Relaci\xf3n entre dous obxectos",
     "Relation.Help": "Escoller dous obxectos",
     "Relative": "Relativo",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Suprime saltos de par\xe1grafo",
     "RemoveTrace": "Elimina obxecto da lista de rastrexo",
     "Rename": "Renomear",

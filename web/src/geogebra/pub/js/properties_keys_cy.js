@@ -1742,6 +1742,7 @@ __GGB__keysVar.cy.menu = {
     "Relation": "Perthynas rhwng dau wrthrych",
     "Relation.Help": "Dewis ddau wrthrych",
     "Relative": "Cymharol",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Diddymu Toriadau Llinell",
     "RemoveTrace": "Tynnu gwrthrych o'r rhestr olrhain",
     "Rename": "Ailenwi",

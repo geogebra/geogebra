@@ -1742,6 +1742,7 @@ __GGB__keysVar.ro.menu = {
     "Relation": "Rela\u0163ie",
     "Relation.Help": "Selecta\u0163i dou\u0103 obiecte",
     "Relative": "Relativ",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Elimin\u0103 rupturi \xeentre linii",
     "RemoveTrace": "Eliminare obiect din list\u0103 urme",
     "Rename": "Redenumire",

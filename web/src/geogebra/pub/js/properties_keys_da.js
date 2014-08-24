@@ -1742,6 +1742,7 @@ __GGB__keysVar.da.menu = {
     "Relation": "Relation",
     "Relation.Help": "Klik p\xe5 to objekter",
     "Relative": "Relativ",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Fjern afbrydelser i linje",
     "RemoveTrace": "Fjern objekt fra liste med spor",
     "Rename": "Omd\xf8b",

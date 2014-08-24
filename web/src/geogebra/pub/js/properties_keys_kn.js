@@ -1742,6 +1742,7 @@ __GGB__keysVar.kn.menu = {
     "Relation": "Relation",
     "Relation.Help": "\u0c8e\u0cb0\u0ca1\u0cc1 \u0cb5\u0cb8\u0ccd\u0ca4\u0cc1\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6 \u0cae\u0cbe\u0ca1\u0cc1",
     "Relative": "\u0cb8\u0cbe\u0caa\u0cc7\u0c95\u0ccd\u0cb7",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "\u0cae\u0cb0\u0cc1\u0cb9\u0cc6\u0cb8\u0cb0\u0cbf\u0cb8\u0cc1",

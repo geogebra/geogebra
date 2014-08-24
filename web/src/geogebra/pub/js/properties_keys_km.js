@@ -1742,6 +1742,7 @@ __GGB__keysVar.km.menu = {
     "Relation": "Relation",
     "Relation.Help": "Select two objects",
     "Relative": "Relative",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "Rename",

@@ -1742,6 +1742,7 @@ __GGB__keysVar.pt.menu = {
     "Relation": "Rela\xe7\xe3o",
     "Relation.Help": "Selecione dois objetos",
     "Relative": "Relativa",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Remover Quebras de Linha",
     "RemoveTrace": "Remover objeto da lista de objetos rastreados",
     "Rename": "Renomear",

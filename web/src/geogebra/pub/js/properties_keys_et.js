@@ -1742,6 +1742,7 @@ __GGB__keysVar.et.menu = {
     "Relation": "Suhe",
     "Relation.Help": "Valige kaks objekti",
     "Relative": "Suhteline",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Eemalda rea v\xf5i joone katkestused",
     "RemoveTrace": "Eemalda objekt j\xe4lje loendist",
     "Rename": "T\xe4hista \xfcmber",

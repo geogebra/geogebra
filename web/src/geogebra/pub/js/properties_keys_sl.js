@@ -1742,6 +1742,7 @@ __GGB__keysVar.sl.menu = {
     "Relation": "Relacija",
     "Relation.Help": "Dva objekta",
     "Relative": "Relativno",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Odstrani prelome vrstic",
     "RemoveTrace": "Odstrani objekt iz seznama sledi",
     "Rename": "Preimenuj",

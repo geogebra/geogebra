@@ -1742,6 +1742,7 @@ __GGB__keysVar.sv.menu = {
     "Relation": "Relation",
     "Relation.Help": "Tv\xe5 objekt",
     "Relative": "Relativ",
+    "RelativeFrequency": "Relative Frequency",
     "RemoveLineBreaks": "Radera radslut",
     "RemoveTrace": "Tag bort objektet fr\xe5n sp\xe5rningslistan",
     "Rename": "Nytt namn",
