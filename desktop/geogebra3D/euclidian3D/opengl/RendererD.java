@@ -278,9 +278,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     	
         setView(x,y,w,h);
         view3D.reset();
-        
-        resumeAnimator();
-        
 
     }
 
