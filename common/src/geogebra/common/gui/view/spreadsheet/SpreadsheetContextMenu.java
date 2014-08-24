@@ -89,60 +89,9 @@ public class SpreadsheetContextMenu {
 	protected void initMenu() {
 
 		Object subMenu = null;
+		String cmdString = null;
 
 		setTitle(getTitleString());
-
-		// ===============================================
-		// Show Object or Label
-		// ===============================================
-
-		if (!isEmptySelection()) {
-			final GeoElement geo = geos.get(0);
-
-			boolean doObjectMenu = geo.isEuclidianShowable()
-					&& geo.getShowObjectCondition() == null
-					&& (!geo.isGeoBoolean() || geo.isIndependent());
-
-			boolean doLabelMenu = geo.isLabelShowable();
-
-			if (doObjectMenu || doLabelMenu) {
-				addSeparator();
-
-				if (doObjectMenu) {
-					String cmdString = MenuCommand.ShowObject.toString();
-					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
-							geo.isSetEuclidianVisible());
-				}
-
-				if (doLabelMenu) {
-					String cmdString = MenuCommand.ShowLabel.toString();
-					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
-							geo.isLabelVisible());
-				}
-			}
-
-			// ===============================================
-			// Tracing
-			// ===============================================
-
-			if (geo.isSpreadsheetTraceable()
-					&& selectionType != MyTableInterface.ROW_SELECT) {
-
-				boolean showRecordToSpreadsheet = true;
-				// check if other geos are recordable
-				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++)
-					showRecordToSpreadsheet &= geos.get(i)
-							.isSpreadsheetTraceable();
-
-				if (showRecordToSpreadsheet) {
-					String cmdString = MenuCommand.RecordToSpreadsheet
-							.toString();
-					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
-							geo.getSpreadsheetTrace());
-				}
-			}
-
-		}
 
 		// ===============================================
 		// Cut-Copy-Paste-Delete
@@ -151,7 +100,7 @@ public class SpreadsheetContextMenu {
 		addSeparator();
 
 		// Copy
-		String cmdString = MenuCommand.Copy.toString();
+		cmdString = MenuCommand.Copy.toString();
 		boolean enabled = !isEmptySelection();
 		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
 
@@ -237,6 +186,57 @@ public class SpreadsheetContextMenu {
 			cmdString = MenuCommand.OperationTable.toString();
 			enabled = cp.isCreateOperationTablePossible(selectedCellRanges);
 			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
+
+		}
+
+		// ===============================================
+		// Show Object or Label
+		// ===============================================
+
+		if (!isEmptySelection()) {
+			final GeoElement geo = geos.get(0);
+
+			boolean doObjectMenu = geo.isEuclidianShowable()
+					&& geo.getShowObjectCondition() == null
+					&& (!geo.isGeoBoolean() || geo.isIndependent());
+
+			boolean doLabelMenu = geo.isLabelShowable();
+
+			if (doObjectMenu || doLabelMenu) {
+				addSeparator();
+
+				if (doObjectMenu) {
+					cmdString = MenuCommand.ShowObject.toString();
+					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
+							geo.isSetEuclidianVisible());
+				}
+
+				if (doLabelMenu) {
+					cmdString = MenuCommand.ShowLabel.toString();
+					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
+							geo.isLabelVisible());
+				}
+			}
+
+			// ===============================================
+			// Tracing
+			// ===============================================
+
+			if (geo.isSpreadsheetTraceable()
+					&& selectionType != MyTableInterface.ROW_SELECT) {
+
+				boolean showRecordToSpreadsheet = true;
+				// check if other geos are recordable
+				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++)
+					showRecordToSpreadsheet &= geos.get(i)
+							.isSpreadsheetTraceable();
+
+				if (showRecordToSpreadsheet) {
+					cmdString = MenuCommand.RecordToSpreadsheet.toString();
+					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
+							geo.getSpreadsheetTrace());
+				}
+			}
 
 		}
 
