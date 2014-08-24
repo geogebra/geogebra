@@ -178,6 +178,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 			iconString = "edit-paste.png";
 			break;
 		case Delete:
+		case DeleteObjects:
 			iconString = "delete_small.gif";
 			break;
 		case ShowObject:

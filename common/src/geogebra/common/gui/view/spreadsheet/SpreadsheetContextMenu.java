@@ -45,9 +45,11 @@ public class SpreadsheetContextMenu {
 
 		RecordToSpreadsheet,
 
-		Copy, Paste, Cut, Delete,
+		Copy, Paste, Cut, Delete, DeleteObjects,
 
 		InsertLeft, InsertRight, InsertAbove, InsertBelow,
+
+		DeleteRow, DeleteRows, DeleteColumn, DeleteColumns,
 
 		List, ListOfPoints, Matrix, Table, PolyLine, OperationTable,
 
@@ -102,25 +104,30 @@ public class SpreadsheetContextMenu {
 		// Copy
 		cmdString = MenuCommand.Copy.toString();
 		boolean enabled = !isEmptySelection();
-		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
+		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
 
 		// Paste
 		cmdString = MenuCommand.Paste.toString();
 		enabled = true;
-		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
+		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
 
 		// Cut
 		cmdString = MenuCommand.Cut.toString();
 		enabled = !isEmptySelection();
-		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
+		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
 
 		// Delete
-		cmdString = MenuCommand.Delete.toString();
+		// TODO use "DeleteObjects" as text ?
+		if (geos != null && geos.size() > 1) {
+			cmdString = MenuCommand.DeleteObjects.toString();
+		} else {
+			cmdString = MenuCommand.Delete.toString();
+		}
 		enabled = !allFixed();
-		addMenuItem(cmdString, app.getPlain(cmdString), enabled);
+		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
 
 		// ===============================================
-		// Insert (new row or column)
+		// Insert/Delete Rows or Columns
 		// ===============================================
 
 		if (selectionType == MyTableInterface.COLUMN_SELECT
@@ -151,6 +158,19 @@ public class SpreadsheetContextMenu {
 				addSubMenuItem(subMenu, cmdString, app.getPlain(cmdString),
 						true);
 			}
+
+			if (selectionType == MyTableInterface.COLUMN_SELECT) {
+				cmdString = MenuCommand.DeleteColumn.toString();
+				enabled = true;
+				addMenuItem(cmdString, getDeleteColumnString(), enabled);
+			}
+
+			if (selectionType == MyTableInterface.ROW_SELECT) {
+				cmdString = MenuCommand.DeleteRow.toString();
+				enabled = true;
+				addMenuItem(cmdString, getDeleteRowString(), enabled);
+			}
+
 		}
 
 		// ===============================================
@@ -233,7 +253,7 @@ public class SpreadsheetContextMenu {
 
 				if (showRecordToSpreadsheet) {
 					cmdString = MenuCommand.RecordToSpreadsheet.toString();
-					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
+					addCheckBoxMenuItem(cmdString, app.getMenu(cmdString),
 							geo.getSpreadsheetTrace());
 				}
 			}
@@ -312,6 +332,34 @@ public class SpreadsheetContextMenu {
 		return (app.getSelectionManager().getSelectedGeos().isEmpty());
 	}
 
+	private String getDeleteRowString() {
+
+		String strRows;
+
+		if (row1 == row2) {
+			strRows = app.getLocalization().getPlain("DeleteRowA",
+					Integer.toString(row1 + 1));
+		} else {
+			strRows = app.getLocalization().getPlain("DeleteARows",
+					Integer.toString(row2 - row1 + 1));
+		}
+		return strRows;
+	}
+
+	private String getDeleteColumnString() {
+
+		String strColumns;
+
+		if (column1 == column2) {
+			strColumns = app.getLocalization().getPlain("DeleteColumnA",
+					GeoElementSpreadsheet.getSpreadsheetColumnName(column1));
+		} else {
+			strColumns = app.getLocalization().getPlain("DeleteAColumns",
+					Integer.toString(column2 - column1 + 1));
+		}
+		return strColumns;
+	}
+
 	// ===============================================
 	// Command Processor
 	// ===============================================
@@ -357,6 +405,7 @@ public class SpreadsheetContextMenu {
 			break;
 
 		case Delete:
+		case DeleteObjects:
 			succ = table.getCopyPasteCut().delete(column1, row1, column2, row2);
 			if (succ)
 				app.storeUndoInfo();
@@ -376,6 +425,14 @@ public class SpreadsheetContextMenu {
 
 		case InsertBelow:
 			cp.insertRow(row1, row2, false);
+			break;
+
+		case DeleteColumn:
+			cp.deleteColumns(column1, column2);
+			break;
+
+		case DeleteRow:
+			cp.deleteRows(row1, row2);
 			break;
 
 		case List:

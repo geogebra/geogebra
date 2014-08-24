@@ -81,8 +81,7 @@ public class CellRangeProcessor {
 	 * @return true if the shapes of the given cell ranges support creating a
 	 *         point list, does not test the cell contents
 	 */
-	public boolean isCreatePointListPossible(
-			ArrayList<CellRange> rangeList) {
+	public boolean isCreatePointListPossible(ArrayList<CellRange> rangeList) {
 
 		// two adjacent rows or columns?
 		if (rangeList.size() == 1 && rangeList.get(0).is2D())
@@ -259,23 +258,22 @@ public class CellRangeProcessor {
 	/**
 	 * Returns the number of GeoElements of a given GeoClass type contained in
 	 * the given list of cell ranges.
-	 * @param rangeList 
+	 * 
+	 * @param rangeList
 	 * 
 	 * @param geoClass
 	 *            the GeoClass type to count. If null, then all GeoElements are
 	 *            counted
 	 * @return
 	 */
-	public int getGeoCount(ArrayList<CellRange> rangeList,
-			GeoClass geoClass) {
+	public int getGeoCount(ArrayList<CellRange> rangeList, GeoClass geoClass) {
 		int count = 0;
 		for (CellRange cr : rangeList) {
 			count += cr.getGeoCount(geoClass);
 		}
 		return count;
 	}
-	
-	
+
 	public boolean is1DRangeList(ArrayList<CellRange> rangeList) {
 
 		if (rangeList == null || rangeList.size() > 1) {
@@ -1027,7 +1025,6 @@ public class CellRangeProcessor {
 	// Insert Rows/Columns
 	// ===================================================
 
-	
 	/**
 	 * @param column1
 	 *            minimum selected column
@@ -1039,19 +1036,32 @@ public class CellRangeProcessor {
 	public void insertColumn(int column1, int column2, boolean insertLeft) {
 
 		if (insertLeft) {
-		shiftColumnsRight(column1);
+			shiftColumnsRight(column1);
 		} else {
 			shiftColumnsRight(column2 + 1);
 		}
 	}
 
-	
-	private void shiftColumnsRight(int startColumn){
-		
+	/**
+	 * @param column1
+	 *            minimum selected column
+	 * @param column2
+	 *            maximum selected column
+	 */
+	public void deleteColumns(int column1, int column2) {
+
+		table.getCopyPasteCut().delete(column1, 0, column2,
+				tableModel.getHighestUsedRow());
+		shiftColumnsLeft(column2 + 1, column2 - column1 + 1);
+
+	}
+
+	private void shiftColumnsRight(int startColumn) {
+
 		boolean succ = false;
 		int maxColumn = tableModel.getHighestUsedColumn();
 		int maxRow = tableModel.getHighestUsedRow();
-		
+
 		for (int column = maxColumn; column >= startColumn; --column) {
 			for (int row = 0; row <= maxRow; ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
@@ -1068,10 +1078,34 @@ public class CellRangeProcessor {
 		if (succ) {
 			app.storeUndoInfo();
 		}
-		
+
 	}
-	
-	
+
+	private void shiftColumnsLeft(int startColumn, int shiftAmount) {
+
+		boolean succ = false;
+		int maxColumn = tableModel.getHighestUsedColumn();
+		int maxRow = tableModel.getHighestUsedRow();
+
+		for (int column = startColumn; column <= maxColumn; ++column) {
+			for (int row = 0; row <= maxRow; ++row) {
+				GeoElement geo = RelativeCopy.getValue(app, column, row);
+				if (geo == null)
+					continue;
+
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
+						column - shiftAmount, row);
+				geo.setLabel(newLabel);
+				succ = true;
+			}
+		}
+
+		if (succ) {
+			app.storeUndoInfo();
+		}
+
+	}
+
 	/**
 	 * @param row1
 	 *            minimum selected row
@@ -1088,20 +1122,34 @@ public class CellRangeProcessor {
 			shiftRowsDown(row2 + 1);
 		}
 	}
-	
+
+	/**
+	 * @param row1
+	 *            minimum selected row
+	 * @param row2
+	 *            maximum selected row
+	 */
+	public void deleteRows(int row1, int row2) {
+
+		table.getCopyPasteCut().delete(0, row1,
+				tableModel.getHighestUsedColumn(), row2);
+		shiftRowsUp(row2 + 1, row2 - row1 + 1);
+
+	}
+
 	private void shiftRowsDown(int startRow) {
-		
+
 		int maxColumn = tableModel.getHighestUsedColumn();
 		int maxRow = tableModel.getHighestUsedRow();
 		boolean succ = false;
-		
+
 		for (int row = maxRow; row >= startRow; --row) {
 			for (int column = 0; column <= maxColumn; ++column) {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null)
 					continue;
 				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column, row+1);
+						column, row + 1);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1111,7 +1159,30 @@ public class CellRangeProcessor {
 			app.storeUndoInfo();
 	}
 
-	
+	private void shiftRowsUp(int startRow, int shiftAmount) {
+
+		boolean succ = false;
+		int maxColumn = tableModel.getHighestUsedColumn();
+		int maxRow = tableModel.getHighestUsedRow();
+
+		for (int row = startRow; row <= maxRow; ++row) {
+			for (int column = 0; column <= maxColumn; ++column) {
+				GeoElement geo = RelativeCopy.getValue(app, column, row);
+				if (geo == null)
+					continue;
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
+						column, row - shiftAmount);
+				geo.setLabel(newLabel);
+				succ = true;
+			}
+		}
+
+		if (succ) {
+			app.storeUndoInfo();
+		}
+
+	}
+
 	/**
 	 * Creates an operation table.
 	 */
@@ -1228,9 +1299,9 @@ public class CellRangeProcessor {
 	}
 
 	public String getCellRangeString(ArrayList<CellRange> list) {
-//		if (list == null) {
-//			return "";
-//		}
+		// if (list == null) {
+		// return "";
+		// }
 		StringBuilder sb = new StringBuilder();
 		for (CellRange cr : list) {
 			// cr.debug();

@@ -153,6 +153,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			im = AppResources.INSTANCE.edit_paste();
 			break;
 		case Delete:
+		case DeleteObjects:
 			im = AppResources.INSTANCE.delete_small();
 			break;
 		case RecordToSpreadsheet:
