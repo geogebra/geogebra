@@ -418,8 +418,10 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoImplicitPoly()))
 					&& (ok[1] = (arg[1] .isGeoFunctionable())
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))
+					// this line uses CAS so check last
 					&& (ok[1] = ((GeoFunctionable) arg[1]).getGeoFunction().isPolynomialFunction(false)))
-					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
+					) {
 				
 				GeoPoint ret = IntersectImplicitpolyPolynomialSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[0],
@@ -433,9 +435,11 @@ public class CmdIntersect extends CommandProcessor {
 				return new GeoElement[]{ret};
 			}
 			else if ((ok[0] =arg[0] .isGeoFunctionable())
-					&& (ok[0]=((GeoFunctionable) arg[0]).getGeoFunction().isPolynomialFunction(false))
 					&& (ok[1] = (arg[1] .isGeoImplicitPoly()))
-					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))
+					// this line uses CAS so check last
+					&& (ok[0]=((GeoFunctionable) arg[0]).getGeoFunction().isPolynomialFunction(false))
+					) {
 				
 				GeoPoint ret = IntersectImplicitpolyPolynomialSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[1],
