@@ -62,6 +62,8 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
             }
 			
 		});
+		
+		popupPanel.setAutoHideEnabled(true);
 	}
 	
 	/*
