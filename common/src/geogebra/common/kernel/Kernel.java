@@ -3962,6 +3962,12 @@ public class Kernel {
 
 		// kernel settings
 		sb.append("<kernel>\n");
+		
+		// is 3D?
+		if (app.is3D()){
+			sb.append("\t<3D val=\"true\"/>\n");
+		}
+
 
 		// continuity: true or false, since V3.0
 		sb.append("\t<continuous val=\"");
