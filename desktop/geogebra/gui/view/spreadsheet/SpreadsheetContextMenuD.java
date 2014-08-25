@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -42,6 +43,27 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	 */
 	public SpreadsheetContextMenuD(MyTable table) {
 		super(table);
+	}
+
+	/**
+	 * @return true if data file can be read locally
+	 */
+	@Override
+	public boolean enableDataImport() {
+		return isEmptySelection() && AppD.hasFullPermissions();
+	}
+
+	/**
+	 * Import data file
+	 */
+	@Override
+	public void cmdImportDataFile() {
+
+		File dataFile = ((AppD) app).getGuiManager().getDataFile();
+		if (dataFile != null) {
+			((SpreadsheetView) table.getView())
+					.loadSpreadsheetFromURL(dataFile);
+		}
 	}
 
 	// ======================================
