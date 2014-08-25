@@ -27,7 +27,7 @@ public class RendererJogl {
 	
 	public GL getGL(){
 		
-		return gLDrawable.getGL(); 
+		return getGL2(); 
 	}
 	
 	public GL2 getGL2(){
