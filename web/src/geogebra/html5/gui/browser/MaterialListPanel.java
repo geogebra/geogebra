@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	
+	private final int PADDING = 40;
 	protected AppWeb app;
 	/**
 	 * last selected {@link MaterialListElement material}
@@ -39,7 +40,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	
 	public MaterialListPanel(final AppWeb app) {
 		this.app = app;
-		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT - this.PADDING);
 		this.setStyleName("materialListPanel");
 		this.addDomHandler(new ClickHandler() {
 			
@@ -221,7 +222,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT - this.PADDING);
 		for (final MaterialListElement elem : this.materials) {
 			elem.onResize();
 		}

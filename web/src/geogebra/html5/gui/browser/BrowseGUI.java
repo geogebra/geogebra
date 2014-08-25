@@ -14,6 +14,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.main.AppW;
@@ -51,9 +52,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	
 	protected final AppWeb app;
 	private MaterialListElement lastSelected;
-
-	public final static int HEADING_HEIGHT = 61;
-
 	
 	protected EventRenderable loginCallback = new EventRenderable(){
 		private boolean active = true;
@@ -136,8 +134,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	}
 
 	void updateViewSizes() {
-		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - HEADING_HEIGHT);
-		this.providerPanel.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
+		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.providerPanel.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT + "px");
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}
@@ -154,7 +152,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	 */
 	void initProviders() {
 		this.providerPanel = new FlowPanel();
-		this.providerPanel.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
+		this.providerPanel.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT + "px");
 		providerPanel.clear();
 		locationTube = new StandardButton(
 		        BrowseResources.INSTANCE.location_tube());
@@ -205,7 +203,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	
 	private void addContent() {
 		this.container = new HorizontalPanel();
-		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - HEADING_HEIGHT);
+		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.container.setStyleName("content");
 		
 		this.container.add(this.materialListPanel);
