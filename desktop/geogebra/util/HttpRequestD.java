@@ -9,6 +9,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.swing.SwingWorker;
+
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Implements HTTP requests and
  *         responses for desktop.
@@ -46,7 +48,28 @@ public class HttpRequestD extends geogebra.common.util.HttpRequest {
 	}
 
 	@Override
-	public void sendRequestPost(String url, String post, AjaxCallback callback) {
+	public void sendRequestPost(final String url, final String post,
+			final AjaxCallback callback) {
+		if (callback == null) {
+			sendRequestPostSync(url, post, callback);
+		}
+
+		else {
+			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					sendRequestPostSync(url, post, callback);
+					return null;
+				}
+			};
+			worker.execute();
+		}
+
+	}
+
+	private void sendRequestPostSync(String url, String post,
+			AjaxCallback callback) {
 		try {
 			URL u = new URL(url);
 			// Borrowed from http://www.exampledepot.com/egs/java.net/post.html:

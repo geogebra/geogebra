@@ -30,7 +30,7 @@ public class XHR2 extends XMLHttpRequest {
 	 * Opens a sync AJAX call to the server
 	 */
 	public final native void openSync(String httpMethod, String url) /*-{
-		this.open(httpMethod, url);		
+		this.open(httpMethod, url, true);		
 	}-*/;
 	
 	/**

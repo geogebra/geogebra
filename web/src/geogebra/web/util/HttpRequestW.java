@@ -67,7 +67,11 @@ public class HttpRequestW extends geogebra.common.util.HttpRequest {
     public void sendRequestPost(String url, String post, AjaxCallback callback) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 		XHR2 request =  (XHR2) XMLHttpRequest.create();
-		request.openSync("POST", url);
+		if(callback == null){
+			request.openSync("POST", url);
+		}else{
+			request.open("POST", url);
+		}
 		//needed for SMART, hopefully no problem for others
 		request.setRequestHeader("Content-type", "text/plain");
 		//request.setTimeOut(timeout * 1000);

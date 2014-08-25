@@ -1,7 +1,6 @@
 package geogebra.move.ggtapi.models;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -19,7 +18,6 @@ import javax.swing.SwingWorker;
 public class LoginOperationD extends LogInOperation {
 
 	boolean tubeAvailable = false;
-	boolean tubeCheckDone = false;
 
 	/**
 	 * Initializes the LoginOperation for Desktop by creating the corresponding
@@ -33,22 +31,10 @@ public class LoginOperationD extends LogInOperation {
 	}
 
 	@Override
-	public void performTokenLogin() {
-		String token = getModel().getLoginToken();
-		if (token != null) {
-			performTokenLogin(token, true);
-		} else {
-			// Check if the GeoGebraTube API is available
-			checkIfAPIIsAvailable();
-		}
-	}
-
-	@Override
 	public void performTokenLogin(String token, boolean automatic) {
 
 		// Perform the API call in a background process
-		LoginTokenApprover approver = new LoginTokenApprover(token, automatic);
-		approver.execute();
+		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
 	}
 
 	private class LoginTokenApprover extends SwingWorker<Void, BaseEvent> {
@@ -65,9 +51,6 @@ public class LoginOperationD extends LogInOperation {
 		@Override
 		public Void doInBackground() {
 			doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
-			tubeAvailable = getGeoGebraTubeAPI().isAvailable(
-					LoginOperationD.this);
-			tubeCheckDone = true;
 			return null;
 		}
 	}
@@ -93,43 +76,14 @@ public class LoginOperationD extends LogInOperation {
 	 * @return boolean if the tube API is available
 	 */
 	public boolean isTubeAvailable() {
-		return tubeAvailable;
+		return getGeoGebraTubeAPI().isAvailable(this);
 	}
 
 	/**
 	 * @return boolean if the check for the availability of tube is finished
 	 */
 	public boolean isTubeCheckDone() {
-		return tubeCheckDone;
+		return getGeoGebraTubeAPI().isCheckDone();
 	}
 
-	/**
-	 * Sends a test request to the tube API to check if it is available
-	 */
-	public void checkIfAPIIsAvailable() {
-		SwingWorker<Object, Object> worker = new SwingWorker<Object, Object>() {
-
-			@Override
-			protected Object doInBackground() throws Exception {
-				App.debug("Sending test call to check if the GeoGebraTube API is available...");
-				GeoGebraTubeAPID api = getGeoGebraTubeAPI();
-
-				tubeAvailable = api.isAvailable(LoginOperationD.this);
-				tubeCheckDone = true;
-
-				// Send API request to check if the token is valid
-				if (tubeAvailable) {
-					App.debug("The test request to GeoGebraTube was successful");
-
-				} else {
-					App.debug("The GoeGebraTube API is not available");
-				}
-				// Trigger event to signal that the API is available
-
-				return null;
-			}
-
-		};
-		worker.execute();
-	}
 }

@@ -4,6 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
@@ -18,7 +19,6 @@ import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.main.LocalizationD;
-import geogebra.move.ggtapi.events.TubeAvailabilityCheckEvent;
 import geogebra.move.ggtapi.models.LoginOperationD;
 import geogebra.plugin.UDPLoggerD;
 

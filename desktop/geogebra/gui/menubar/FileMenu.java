@@ -2,13 +2,13 @@ package geogebra.gui.menubar;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.export.pstricks.GeoGebraToAsymptoteD;
 import geogebra.export.pstricks.GeoGebraToPgfD;
 import geogebra.export.pstricks.GeoGebraToPstricksD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
-import geogebra.move.ggtapi.events.TubeAvailabilityCheckEvent;
 import geogebra.move.ggtapi.models.LoginOperationD;
 
 import java.awt.event.ActionEvent;
@@ -81,6 +81,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			setMenuShortCutAccelerator(mi, 'O'); // open
 
 			LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
+
 			if (!app.isApplet()
 					&& (signIn.isTubeAvailable() || !signIn.isTubeCheckDone())) {
 				loadURLMenuItem = add(loadURLAction);
@@ -88,9 +89,10 @@ class FileMenu extends BaseMenu implements EventRenderable {
 				// If GeoGebraTube is not available we disable the item and
 				// listen to the event that tube becomes available
 				if (!signIn.isTubeAvailable()) {
-					signIn.getView().add(this);
 					loadURLAction.setEnabled(false);
+					signIn.getView().add(this);
 				}
+
 			}
 
 			// recent SubMenu

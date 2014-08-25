@@ -1,6 +1,7 @@
 package geogebra.common.move.ggtapi.operations;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
@@ -8,6 +9,7 @@ import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.operations.BaseOperation;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 
 /**
@@ -16,7 +18,7 @@ import geogebra.common.move.views.EventRenderable;
  * Operational class for login functionality
  *
  */
-public abstract class LogInOperation extends BaseOperation<EventRenderable> {
+public abstract class LogInOperation extends BaseOperation<EventRenderable> implements BooleanRenderable{
 
 	@Override
 	public AuthenticationModel getModel() {
@@ -41,14 +43,16 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * Reads the stored login token from the storage and sends a request to the API to authorize the token.
 	 * On successful login, the user information will be stored in the user object of the authorization model
 	 */
-	public void performTokenLogin() {
+	public final void performTokenLogin() {
 		String token = getModel().getLoginToken();
 		if (token != null) {
-			App.debug("LTOKEN found in model");
 			performTokenLogin(token, true);
+		}else{
+			getGeoGebraTubeAPI().isAvailable(this);
 		}
 	}
 	
+
 	/**
 	 * Sends a request to the API to authorize the specified token
 	 * On successful login, the user information will be stored in the user object of the authorization model
@@ -133,4 +137,12 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * The returned string must be a valid URL encoded String. (use URLEncoder.encode). 
 	 */
 	protected abstract String getURLClientInfo();
+	
+	public void render(boolean b){
+		if(b){
+			this.getGeoGebraTubeAPI().isAvailable(this);
+		}else{
+			this.onEvent(new TubeAvailabilityCheckEvent(false));
+		}
+	}
 }

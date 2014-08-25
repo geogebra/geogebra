@@ -1,12 +1,9 @@
 package geogebra.html5.move.ggtapi.models;
 
-import geogebra.common.move.ggtapi.events.LoginEvent;
-import geogebra.common.move.ggtapi.models.AjaxCallback;
 import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
-import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.main.AppW;
 
@@ -148,44 +145,18 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
     protected geogebra.common.util.HttpRequest createHttpRequest() {
 		return new geogebra.web.util.HttpRequestW();
     }
-	
-	@Override
-	public void authorizeUser(final GeoGebraTubeUser user, final LogInOperation op, final boolean automatic) {
-		String reqStr = buildTokenLoginRequest(user.getLoginToken(), user.getCookie()).toString();
-		performRequest(reqStr, true, new AjaxCallback(){
 
-			@Override
-            public void onSuccess(String result) {
-				try{
-					JSONValue tokener = JSONParser.parseStrict(result);
-					
-					JSONObject obj = tokener.isObject();
-					
-					if(!!parseUserDataFromResponse(user, obj)){
-						op.onEvent(new LoginEvent(user, true, automatic));
-					}else{
-						op.onEvent(new LoginEvent(user, false, automatic));
-					}
-				}catch(Throwable t){
-					op.onEvent(new LoginEvent(user, false, automatic));
-				}
-            }
-
-			@Override
-            public void onError(String error) {
-				op.onEvent(new LoginEvent(user, false, automatic));
-	            
-            }});
-	}
-	
 	/**
 	 * Copies the user data from the API response to this user.
 	 * 
 	 * @param response The JSONObject that holds the response from a token login API request 
 	 * @return true if the data could be parsed successfully, false otherwise
 	 */
-	public boolean parseUserDataFromResponse(GeoGebraTubeUser user, JSONObject response) {
+	public boolean parseUserDataFromResponse(GeoGebraTubeUser user, String result) {
 		try {
+			JSONValue tokener = JSONParser.parseStrict(result);
+			
+			JSONObject response = tokener.isObject();
 			JSONObject userinfo = (JSONObject)response.get("responses");
 			
 			userinfo = ((JSONArray)userinfo.get("response")).get(0).isObject();
@@ -253,7 +224,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 * @param user The user that should be logged in
 	 * @return The JSONObject that contains the request.
 	 */
-	private JSONObject buildTokenLoginRequest(String token, String cookie) {
+	@Override
+    protected String buildTokenLoginRequest(String token, String cookie) {
 		JSONObject requestJSON = new JSONObject();
 		JSONObject apiJSON = new JSONObject();
 		JSONObject loginJSON = new JSONObject();
@@ -271,7 +243,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 		catch(JSONException e){
 			e.printStackTrace();
 		}
-		return requestJSON;
+		return requestJSON.toString();
 	}
 
 	

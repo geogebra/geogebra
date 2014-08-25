@@ -1,4 +1,4 @@
-package geogebra.move.ggtapi.events;
+package geogebra.common.move.ggtapi;
 
 import geogebra.common.move.events.BaseEvent;
 

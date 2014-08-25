@@ -1,5 +1,7 @@
 package geogebra.common.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.util.HttpRequest;
 
@@ -34,6 +36,8 @@ public abstract class GeoGebraTubeAPI {
 	static public final int LOGIN_TOKEN_INVALID = 1;
 	static public final int LOGIN_REQUEST_FAILED = -2;
 	
+	protected boolean available = true;
+	protected boolean availabilityCheckDone = false;
 	
 	/**
 	 * Private method performing the request given by requestString
@@ -42,7 +46,7 @@ public abstract class GeoGebraTubeAPI {
 	 *          JSON request String for the GeoGebraTubeAPI
 	 * @return The HttpRequest object that contains the response and error information 
 	 */
-	protected void performRequest(String requestString, boolean login, AjaxCallback callback)
+	protected final void performRequest(String requestString, boolean login, AjaxCallback callback)
 	{
 		HttpRequest request = createHttpRequest();
 		request.sendRequestPost(login ? login_url : url, requestString, callback);
@@ -55,6 +59,8 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	protected abstract HttpRequest createHttpRequest();
 
+	protected abstract boolean parseUserDataFromResponse(
+			GeoGebraTubeUser user, String response);
 	
 	/**
 	 * Sends a request to the GeoGebraTube API to check if the login token which is defined in the specified 
@@ -63,8 +69,92 @@ public abstract class GeoGebraTubeAPI {
 	 * @param user The user that should be authorized.
 	 * @return One of the following return codes: LOGIN_TOKEN_VALID, LOGIN_TOKEN_INVALID, LOGIN_REQUEST_FAILED
 	 */
-	abstract public void authorizeUser(GeoGebraTubeUser user, LogInOperation op, boolean automatic);
-	
-	
-	
+	public final void authorizeUser(final GeoGebraTubeUser user,
+			final LogInOperation op, final boolean automatic) {
+		performRequest(buildTokenLoginRequest(user.getLoginToken(), user.getCookie()),
+				true, new AjaxCallback() {
+					@Override
+					public void onSuccess(String responseStr) {
+						try {
+							GeoGebraTubeAPI.this.availabilityCheckDone = true;
+
+							GeoGebraTubeAPI.this.available = true;
+							
+
+							// Parse the userdata from the response
+							if (!parseUserDataFromResponse(user, responseStr)) {
+								op.onEvent(new LoginEvent(user, false,
+										automatic));
+								return;
+							}
+
+							op.onEvent(new LoginEvent(user, true, automatic));
+
+							// GeoGebraTubeAPID.this.available = false;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					
+
+					@Override
+					public void onError(String error) {
+						GeoGebraTubeAPI.this.availabilityCheckDone = true;
+						GeoGebraTubeAPI.this.available = false;
+						op.onEvent(new LoginEvent(user, false, automatic));
+					}
+				});
+
+	}
+
+	protected abstract String buildTokenLoginRequest(String loginToken, String cookie);
+
+	public boolean isAvailable(LogInOperation op) {
+		if (this.availabilityCheckDone) {
+			op.onEvent(new TubeAvailabilityCheckEvent(this.available));
+		}
+		checkIfAvailable(op);
+		return this.available;
+	}
+
+	/**
+	 * Sends a test request to GeoGebraTube to check if it is available The
+	 * result is stored in a boolean variable. Subsequent calls to isAvailable()
+	 * will return the value of the stored variable and don't send the request
+	 * again.
+	 * 
+	 * @return boolean if the request was successful.
+	 */
+	private boolean checkIfAvailable(final LogInOperation op) {
+		this.available = false;
+		this.availabilityCheckDone = false;
+		try {
+			performRequest(
+					"{\"request\": {\"-api\": \"1.0.0\",\"task\": {\"-type\": \"info\"}}}",
+					false, new AjaxCallback() {
+
+						@Override
+						public void onSuccess(String response) {
+							GeoGebraTubeAPI.this.availabilityCheckDone = true;
+							GeoGebraTubeAPI.this.available = true;
+							op.onEvent(new TubeAvailabilityCheckEvent(true));
+						}
+
+						@Override
+						public void onError(String error) {
+							GeoGebraTubeAPI.this.availabilityCheckDone = true;
+							GeoGebraTubeAPI.this.available = false;
+							op.onEvent(new TubeAvailabilityCheckEvent(true));
+
+						}
+					});
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return this.available;
+	}
 }
