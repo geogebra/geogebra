@@ -50,44 +50,28 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 		return ((App3D)app).getEuclidianView3D();
 	}
 	
-	@Override
-	public boolean updateResizeWeight(){
-
-		resumeRenderer();
-		
-		return true;
-	}
 	
 	@Override
 	public boolean isEuclidianDockPanel3D() {
 		return true;
 	}
 	
-	@Override
-	public void updatePanel() {
-		
-		super.updatePanel();
-		
-		resumeRenderer();
-		
-	}
 	
-	/**
-	 * ensure that 3D animator is running
-	 */
-	private void resumeRenderer(){
-		/*
-		if (visible){ 
-			((App3D)app).getEuclidianView3D().getRenderer().resumeAnimator();
-		}
-		*/
-
-	}
 	
 	
 	@Override
 	public ImageIcon getIcon() { 
 			return app.getImageIcon("menu_view_graphics3D.png");
+	}
+	
+	/**
+	 * force openGL to refresh
+	 */
+	public void refresh(){
+
+		// just put the panel in a frame and put it again in main window to force openGL to restart
+		windowPanel();
+		unwindowPanel();
 	}
 	
 

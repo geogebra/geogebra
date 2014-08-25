@@ -49,6 +49,7 @@ import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
 import geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import geogebra3D.gui.GuiManager3D;
+import geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
 import geogebra3D.input3D.Input3DFactory;
 import geogebra3D.util.ImageManager3D;
 
@@ -175,6 +176,11 @@ public class App3D extends AppD {
 	public boolean hasEuclidianView3D() {
 		return euclidianView3D != null;
 	}
+	
+	@Override
+	public boolean isEuclidianView3Dinited() {
+		return hasEuclidianView3D();
+	}
 
 	@Override
 	public boolean saveGeoGebraFile(File file) {
@@ -192,6 +198,8 @@ public class App3D extends AppD {
 	public void refreshViews() {
 		if (isEuclidianView3Dinited()){
 			getEuclidianView3D().reset();
+			((EuclidianDockPanel3DD) getGuiManager().getLayout().getDockManager().getPanel(VIEW_EUCLIDIAN3D)).refresh();
+
 		}
 		super.refreshViews();
 	}
