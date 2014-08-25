@@ -867,7 +867,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			}
 		};
 
-		ImageIcon ptCaptureIcon = app.getImageIcon("magnet2.gif");
+		ImageIcon ptCaptureIcon = app.getImageIcon("stylingbar_graphicsview_point_capturing.gif");
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(), 
 				iconHeight)); 
 		btnPointCapture.setIcon(ptCaptureIcon); 
