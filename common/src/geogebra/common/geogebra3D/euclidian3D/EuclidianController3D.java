@@ -36,6 +36,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -1413,7 +1414,44 @@ public abstract class EuclidianController3D extends EuclidianController {
 			else {
 				// switch the direction of move (xy or z) in case of left-click
 				// if (!movedGeoPointDragged){
-				if (!draggingOccured && !rightClick) {
+				if (!draggingOccured && !rightClick && movedGeoPoint.isIndependent()) {
+					if (!movedGeoPoint.isGeoElement3D()){
+						// 2D point will be replaced by 3D point
+						GeoPoint replaceable = (GeoPoint) movedGeoPoint;
+						
+						// create new 3D point
+						Construction cons = kernel.getConstruction();
+						boolean oldMacroMode = cons.isSuppressLabelsActive();
+						cons.setSuppressLabelCreation(true);
+						GeoPoint3D newGeo = (GeoPoint3D) kernel.getManager3D().Point3D(
+								null, 
+								replaceable.getInhomX(), replaceable.getInhomY(), 0, 
+								false);
+						cons.setSuppressLabelCreation(oldMacroMode);
+						
+						try {
+							cons.replace(replaceable, newGeo);
+						} catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+							// update geo selected
+							String newLabel = newGeo.isLabelSet() ? newGeo.getLabelSimple() : replaceable.getLabelSimple();
+							GeoElement geo = kernel.lookupLabel(newLabel);
+							setMovedGeoPoint(geo);
+							
+							// update hits
+							Hits3D hits = view3D.getHits3D();
+							hits.init();
+							hits.add(geo);
+							
+							// update selection
+							app.getSelectionManager().clearSelectedGeos(false, false);
+							app.getSelectionManager().addSelectedGeo(geo, true, true);
+
+
+						}
+						
+					}
 					movedGeoPoint.switchMoveMode();
 					((EuclidianView3D) view).getCursor3D().setMoveMode(
 							movedGeoPoint.getMoveMode());
