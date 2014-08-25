@@ -1,5 +1,7 @@
 package geogebra.web.gui.view.data;
 
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.data.DataDisplayModel;
 import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
@@ -9,6 +11,8 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -24,8 +28,8 @@ import com.google.gwt.user.client.ui.TabPanel;
  * @author G. Sturr
  * 
  */
-public class OptionsPanelW extends FlowPanel implements
-/*		ActionListener, FocusListener,*/ StatPanelInterfaceW {
+public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandler,
+	StatPanelInterfaceW {
 	private static final long serialVersionUID = 1L;
 
 	private AppW app;
@@ -81,6 +85,18 @@ public class OptionsPanelW extends FlowPanel implements
 	       actionPerformed(event.getSource());
         }
 		
+	}
+	
+	private class PropertyKeyHandler implements KeyHandler {
+		private Object source;
+		public PropertyKeyHandler(Object source) {
+			this.source = source;
+		}
+		public void keyReleased(KeyEvent e) {
+	        if (e.isEnterKey()) {
+	        	actionPerformed(source);
+	        }
+        }
 	}
 	/************************************************************
 	 * Constructs an OptionPanel
@@ -370,109 +386,63 @@ public class OptionsPanelW extends FlowPanel implements
 	private void createGraphPanel() {
 
 		// create components
-//		ckAutoWindow = new CheckBox();
-//		ckAutoWindow.addActionListener(this);
-//
-//		ckShowGrid = new CheckBox();
-//		ckShowGrid.addActionListener(this);
-//
-//		lblXMin = new Label();
-//		fldXMin = new MyTextField(app, fieldWidth);
-//		fldXMin.setEditable(true);
-//		fldXMin.addActionListener(this);
-//		fldXMin.addFocusListener(this);
-//
-//		lblXMax = new Label();
-//		fldXMax = new MyTextField(app, fieldWidth);
-//		fldXMax.addActionListener(this);
-//		fldXMax.addFocusListener(this);
-//
-//		lblYMin = new Label();
-//		fldYMin = new MyTextField(app, fieldWidth);
-//		fldYMin.addActionListener(this);
-//		fldYMin.addFocusListener(this);
-//
-//		lblYMax = new Label();
-//		fldYMax = new MyTextField(app, fieldWidth);
-//		fldYMax.addActionListener(this);
-//		fldYMax.addFocusListener(this);
-//
-//		lblXInterval = new Label();
-//		fldXInterval = new MyTextField(app, fieldWidth);
-//		fldXInterval.addActionListener(this);
-//		fldXInterval.addFocusListener(this);
-//
-//		lblYInterval = new Label();
-//		fldYInterval = new MyTextField(app, fieldWidth);
-//		fldYInterval.addActionListener(this);
-//		fldYInterval.addFocusListener(this);
-//
-//		// create graph options panel
-//		JPanel graphOptionsPanel = new JPanel(new GridBagLayout());
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.gridx = 0;
-//		c.weightx = 1;
-//		c.anchor = GridBagConstraints.LINE_START;
-//		graphOptionsPanel.add(ckShowGrid, c);
-//		c.insets = new Insets(0, 0, 4, 0);
-//		graphOptionsPanel.add(ckAutoWindow, c);
-//
-//		// create window dimensions panel
-//		dimPanel = new JPanel(new GridBagLayout());
-//		GridBagConstraints c1 = new GridBagConstraints();
-//		c1.gridx = 0;
-//		c1.gridy = 0;
-//		c1.weightx = 0;
-//		c1.insets = new Insets(2, 10, 0, 0);
-//		c1.anchor = GridBagConstraints.EAST;
-//
-//		GridBagConstraints c2 = new GridBagConstraints();
-//		c2.gridx = 1;
-//		c2.gridy = 0;
-//		c2.weightx = 1;
-//		c2.insets = c1.insets;
-//		c2.anchor = GridBagConstraints.WEST;
-//
-//		// x dimensions
-//		dimPanel.add(lblXMin, c1);
-//		dimPanel.add(fldXMin, c2);
-//
-//		c1.gridy++;
-//		c2.gridy++;
-//		dimPanel.add(lblXMax, c1);
-//		dimPanel.add(fldXMax, c2);
-//
-//		c1.gridy++;
-//		c2.gridy++;
-//		dimPanel.add(lblXInterval, c1);
-//		dimPanel.add(fldXInterval, c2);
-//
-//		// y dimensions
-//		c1.insets.top += 8; // add vertical gap
-//		c1.gridy++;
-//		c2.gridy++;
-//		dimPanel.add(lblYMin, c1);
-//		dimPanel.add(fldYMin, c2);
-//		c1.insets.top -= 8; // remove vertical gap
-//
-//		c1.gridy++;
-//		c2.gridy++;
-//		dimPanel.add(lblYMax, c1);
-//		dimPanel.add(fldYMax, c2);
-//
-//		c1.gridy++;
-//		c2.gridy++;
-//		dimPanel.add(lblYInterval, c1);
-//		dimPanel.add(fldYInterval, c2);
-//
-//		// put the sub-panels together
-//		Box vBox = Box.createVerticalBox();
-//		vBox.add(graphOptionsPanel);
-//		vBox.add(dimPanel);
-//
-		graphPanel = new FlowPanel();
-		graphPanel.add(new Label("GraphPanel is comming soon"));
+		ckAutoWindow = new CheckBox();
+		ckAutoWindow.addClickHandler(this);
 
+		ckShowGrid = new CheckBox();
+		ckShowGrid.addClickHandler(this);
+
+		lblXMin = new Label();
+		fldXMin = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldXMin.setEditable(true);
+		fldXMin.addKeyHandler(new PropertyKeyHandler(fldXMin));
+		fldXMin.addBlurHandler(this);
+
+		lblXMax = new Label();
+		fldXMax = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldXMax.addKeyHandler(new PropertyKeyHandler(fldXMax));
+		fldXMax.addBlurHandler(this);
+
+		lblYMin = new Label();
+		fldYMin = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldYMin.addKeyHandler(new PropertyKeyHandler(fldYMin));
+		fldYMin.addBlurHandler(this);
+
+		lblYMax = new Label();
+		fldYMax = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldYMax.addKeyHandler(new PropertyKeyHandler(fldYMax));
+		fldYMax.addBlurHandler(this);
+
+		lblXInterval = new Label();
+		fldXInterval = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldXInterval.addKeyHandler(new PropertyKeyHandler(fldXInterval));
+		fldXInterval.addBlurHandler(this);
+
+		lblYInterval = new Label();
+		fldYInterval = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldYInterval.addKeyHandler(new PropertyKeyHandler(fldYInterval));
+		fldYInterval.addBlurHandler(this);
+
+		// create graph options panel
+		FlowPanel graphOptionsPanel = new FlowPanel();
+		graphOptionsPanel.add(ckShowGrid);
+		graphOptionsPanel.add(ckAutoWindow);
+
+		// create window dimensions panel
+		dimPanel = new FlowPanel();
+		dimPanel.add(LayoutUtil.panelRow(lblXMin, fldXMin));
+		dimPanel.add(LayoutUtil.panelRow(lblXMax, fldXMax));
+		dimPanel.add(LayoutUtil.panelRow(lblXInterval, fldXInterval));
+
+		// y dimensions
+		dimPanel.add(LayoutUtil.panelRow(lblYMin, fldYMin));
+		dimPanel.add(LayoutUtil.panelRow(lblYMax, fldYMax));
+		dimPanel.add(LayoutUtil.panelRow(lblYInterval, fldYInterval));
+
+		// put the sub-panels together
+		graphPanel = new FlowPanel();
+		graphPanel.add(graphOptionsPanel);
+		graphPanel.add(dimPanel);
 	}
 
 
@@ -508,15 +478,15 @@ public class OptionsPanelW extends FlowPanel implements
 //		ckAutoBarWidth.setText(app.getMenu("AutoDimension"));
 //
 //		// graph options
-//		ckAutoWindow.setText(app.getMenu("AutoDimension"));
-//		ckShowGrid.setText(app.getPlain("ShowGrid"));
-//		lblXMin.setText(app.getPlain("xmin") + ":");
-//		lblXMax.setText(app.getPlain("xmax") + ":");
-//		lblYMin.setText(app.getPlain("ymin") + ":");
-//		lblYMax.setText(app.getPlain("ymax") + ":");
-//
-//		lblXInterval.setText(app.getPlain("xstep") + ":");
-//		lblYInterval.setText(app.getPlain("ystep") + ":");
+		ckAutoWindow.setText(app.getMenu("AutoDimension"));
+		ckShowGrid.setText(app.getPlain("ShowGrid"));
+		lblXMin.setText(app.getPlain("xmin") + ":");
+		lblXMax.setText(app.getPlain("xmax") + ":");
+		lblYMin.setText(app.getPlain("ymin") + ":");
+		lblYMax.setText(app.getPlain("ymax") + ":");
+
+		lblXInterval.setText(app.getPlain("xstep") + ":");
+		lblYInterval.setText(app.getPlain("ystep") + ":");
 //
 //		// scatterplot options
 //		ckShowLines.setText(app.getMenu("LineGraph"));
@@ -680,5 +650,14 @@ public class OptionsPanelW extends FlowPanel implements
 
 	}
 
+	public void onBlur(BlurEvent event) {
+	       actionPerformed(event.getSource());
+	    
+    }
+
+	public void onClick(ClickEvent event) {
+	       actionPerformed(event.getSource());
+
+    }
 
 }
