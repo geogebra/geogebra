@@ -770,7 +770,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 	 * 
 	 * @return true if the layout contains less than two panels
 	 */
-	private boolean containsLessThanTwoPanels() {
+	public boolean containsLessThanTwoPanels() {
 		return (rootPane == null) || (rootPane.getLeftComponent() == null)
 				|| (rootPane.getRightComponent() == null);
 	}

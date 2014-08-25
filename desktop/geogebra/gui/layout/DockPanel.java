@@ -956,7 +956,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * Display this panel in an external window.
 	 */
-	protected void windowPanel() {
+	public void windowPanel() {
 
 		// try to hide the panel
 		if (dockManager.hide(this, false)) {
@@ -986,7 +986,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * Display this panel in the main window.
 	 */
-	protected void unwindowPanel() {
+	public void unwindowPanel() {
 		// hide the frame
 		dockManager.hide(this, false);
 

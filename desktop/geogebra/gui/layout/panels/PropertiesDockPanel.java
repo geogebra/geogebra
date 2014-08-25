@@ -71,14 +71,14 @@ public class PropertiesDockPanel extends DockPanel implements
 	}
 
 	@Override
-	protected void windowPanel() {
+	public void windowPanel() {
 		super.windowPanel();
 		getPropertiesView();
 		view.windowPanel();
 	}
 
 	@Override
-	protected void unwindowPanel() {
+	public void unwindowPanel() {
 		super.unwindowPanel();
 		getPropertiesView();
 		view.unwindowPanel();

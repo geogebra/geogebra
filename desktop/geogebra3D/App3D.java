@@ -35,6 +35,7 @@ import geogebra.euclidian.event.MouseEventD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
+import geogebra.gui.layout.DockManager;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
 import geogebra.main.LocalizationD;
@@ -198,7 +199,8 @@ public class App3D extends AppD {
 	public void refreshViews() {
 		if (isEuclidianView3Dinited()){
 			getEuclidianView3D().reset();
-			((EuclidianDockPanel3DD) getGuiManager().getLayout().getDockManager().getPanel(VIEW_EUCLIDIAN3D)).refresh();
+			DockManager dockManager = (DockManager) getGuiManager().getLayout().getDockManager();
+			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D)).refresh(dockManager);
 
 		}
 		super.refreshViews();

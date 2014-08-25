@@ -3,6 +3,8 @@ package geogebra3D.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
+import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
@@ -66,12 +68,44 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	
 	/**
 	 * force openGL to refresh
+	 * @param manager dock manager
 	 */
-	public void refresh(){
+	public void refresh(DockManager manager){
 
-		// just put the panel in a frame and put it again in main window to force openGL to restart
-		windowPanel();
-		unwindowPanel();
+		if (isOpenInFrame()){
+			// just put the panel in a main window and put it again in a frame to force openGL to restart
+			unwindowPanel();
+			windowPanel();
+		}else{
+			// if 3D view is alone, we put algebra view in main window to avoid gray panel
+			boolean isAlone = manager.containsLessThanTwoPanels();	
+			DockPanel algebraPanel = null;
+			if (isAlone){
+				algebraPanel = manager.getPanel(App.VIEW_ALGEBRA);
+				if (algebraPanel.isVisible()){
+					// algebra view is visible and in a frame, so we put it in the main window
+					algebraPanel.unwindowPanel();
+				}else{
+					// makes algebraPanel = null as a flag
+					algebraPanel = null;
+					manager.show(App.VIEW_ALGEBRA);
+				}
+			}
+			// just put the panel in a frame and put it again in main window to force openGL to restart
+			windowPanel();
+			unwindowPanel();
+
+			// we put algebra view in old state again
+			if (isAlone){
+				if (algebraPanel == null){
+					// algebra panel was not visible before
+					manager.hide(App.VIEW_ALGEBRA, false);
+				}else{
+					// algebra panel was visible in a frame before
+					algebraPanel.windowPanel();
+				}
+			}
+		}
 	}
 	
 
