@@ -168,12 +168,12 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 			int cu = it.currentSegment(coords);
 			switch (cu) {
 			case PathIterator.SEG_MOVETO:
-				context.moveTo(coords[0], coords[1]);
+				context.moveTo((int)Math.floor(coords[0])+0.5, (int)Math.floor(coords[1])+0.5);
 				if (enableDashEmulation) setLastCoords(coords[0], coords[1]);
 				break;
 			case PathIterator.SEG_LINETO:
 				if (dash_array == null || !enableDashEmulation) {
-					context.lineTo(coords[0], coords[1]);
+					context.lineTo((int)Math.floor(coords[0])+0.5, (int)Math.floor(coords[1])+0.5);
 				} else {
 					if (nativeDashUsed) {
 						context.lineTo(coords[0], coords[1]);
@@ -524,7 +524,8 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		if(color == null){
 			return;
 		}
-		String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
+		//String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
+		String colorStr = "rgb("+color.getRed()+","+color.getGreen()+","+color.getBlue()+")";
 		context.setStrokeStyle(colorStr);
 		context.setFillStyle(colorStr);
 		
