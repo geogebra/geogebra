@@ -367,7 +367,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 			return myIconResourceBundle.mode_createlist_32().getSafeUri().asString();
 
 		case EuclidianConstants.MODE_CREATE_LIST:
-			return myIconResourceBundle.mode_createlistgraphicsview_32().getSafeUri().asString();
+			return myIconResourceBundle.mode_createlist_32().getSafeUri().asString();
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
 			return myIconResourceBundle.mode_createlistofpoints_32().getSafeUri().asString();
