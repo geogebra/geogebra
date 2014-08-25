@@ -1,6 +1,7 @@
 package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 
 public interface SpreadsheetViewInterface extends View {
@@ -13,4 +14,7 @@ public interface SpreadsheetViewInterface extends View {
 	public void updateCellFormat(String s);
 	public App getApplication();
 	public int getMode();
+
+
+	public void showTraceDialog(GeoElement geo, CellRange traceCell);
 }

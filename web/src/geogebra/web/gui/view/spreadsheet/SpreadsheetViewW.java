@@ -2,6 +2,7 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.Kernel;
@@ -523,14 +524,17 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	// Tracing
 	// =====================================================
 
-	/*public void showTraceDialog(GeoElement geo, CellRange traceCell) {
-		if (traceDialog == null) {
-			traceDialog = new TraceDialog(app, geo, traceCell);
-		} else {
-			traceDialog.setTraceDialogSelection(geo, traceCell);
-		}
-		traceDialog.setVisible(true);
-	}*/
+	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+		
+		// not implemented yet
+		
+		//if (traceDialog == null) {
+		//	traceDialog = new TraceDialog(app, geo, traceCell);
+		//} else {
+		//	traceDialog.setTraceDialogSelection(geo, traceCell);
+		//}
+		//traceDialog.setVisible(true);
+	}
 
 	/*public boolean isTraceDialogVisible() {
 		return (traceDialog != null && traceDialog.isVisible());

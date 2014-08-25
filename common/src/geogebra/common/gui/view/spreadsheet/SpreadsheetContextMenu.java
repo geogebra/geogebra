@@ -265,11 +265,10 @@ public class SpreadsheetContextMenu {
 		// Import Data
 		// ===============================================
 
-		// if (isEmptySelection() && AppD.hasFullPermissions()) {
-
-		// cmdString = "ImportDataFile";
-		// addMenuItem(cmdString, app.getMenu(cmdString) + " ...", true);
-		// }
+		if (enableDataImport()) {
+			cmdString = MenuCommand.ImportDataFile.toString();
+			addMenuItem(cmdString, app.getMenu(cmdString) + " ...", true);
+		}
 
 		// ===============================================
 		// Spreadsheet Options
@@ -317,6 +316,14 @@ public class SpreadsheetContextMenu {
 		return title;
 	}
 
+	/**
+	 * @return true if data file can be read locally
+	 */
+	public boolean enableDataImport() {
+		// to be overridden in Desktop
+		return false;
+	}
+
 	private boolean allFixed() {
 		boolean allFixed = true;
 		if (geos != null && geos.size() > 0) {
@@ -329,7 +336,10 @@ public class SpreadsheetContextMenu {
 		return allFixed;
 	}
 
-	private boolean isEmptySelection() {
+	/**
+	 * @return true if no GeoElements selected
+	 */
+	public boolean isEmptySelection() {
 		return (app.getSelectionManager().getSelectedGeos().isEmpty());
 	}
 
@@ -520,9 +530,7 @@ public class SpreadsheetContextMenu {
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 		}
 
-		// TODO
-		// ((GuiManager) app.getGuiManager()).getSpreadsheetView()
-		// .showTraceDialog(geoRecordToSpreadSheet, null);
+		table.getView().showTraceDialog(geoRecordToSpreadSheet, null);
 	}
 
 	/**
@@ -550,12 +558,7 @@ public class SpreadsheetContextMenu {
 	 * Import data file
 	 */
 	public void cmdImportDataFile() {
-		// TODO
-		// File dataFile = app.getGuiManager().getDataFile();
-		// if (dataFile != null) {
-		// TODO
-		// table.getView().loadSpreadsheetFromURL(dataFile);
-		// }
+		// to be overridden
 	}
 
 	/**
@@ -570,11 +573,9 @@ public class SpreadsheetContextMenu {
 	 * Open Object Properties dialog
 	 */
 	public void cmdProperties() {
-		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
-				null);
+		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
 	}
 
-	
 	// ==================================================
 	//
 	// GUI methods to be implemented in subclasses.
