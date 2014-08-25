@@ -771,7 +771,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (flag) {
 			if (!showView(viewId)){
 				layout.getDockManager().show(viewId);
-				app.refreshViews();
 			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {
@@ -780,7 +779,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} else {
 			if (showView(viewId)){
 				layout.getDockManager().hide(viewId, isPermanent);
-				app.refreshViews();
 			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {

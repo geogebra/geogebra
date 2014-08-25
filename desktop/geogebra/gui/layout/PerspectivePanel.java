@@ -211,7 +211,6 @@ public class PerspectivePanel extends JPopupMenu {
 					app.storeUndoInfo();
 				}
 
-				app.refreshViews();
 			}
 		};
 
