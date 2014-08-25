@@ -15,9 +15,11 @@ public interface GeoGebraConstants {
 	/** complete version string */
 	public static final String VERSION_STRING = "4.9.311.0"; 
 	
+	/** true for beta versions/release candidates*/
+	public static final boolean IS_PRE_RELEASE = false;//VERSION_STRING.startsWith(XML_FILE_FORMAT);
+
 	// proper noun, should NOT be translated / transliterated
 	public static final String APPLICATION_NAME = "GeoGebra"; 
-
 	
 	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
 	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow = false
@@ -30,15 +32,14 @@ public interface GeoGebraConstants {
 	/** File format version */
 	public static final String XML_FILE_FORMAT = "5.0";
 
-	/** true for beta versions/release candidates*/
-	public static final boolean IS_PRE_RELEASE = VERSION_STRING.startsWith(XML_FILE_FORMAT);
-
 	// This is used for checking if a minor update exists (on each run):
 	public static final String VERSION_URL_MINOR = "http://www.geogebra.org/download/version50.txt";
 	// This is used for checking whether a major update exists (monthly):
 	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
-	public static final String INSTALLERS_URL = IS_PRE_RELEASE ? "http://download.geogebra.org/installers/5.0"
-			: "http://www.geogebra.org/installers";
+
+	public static final String INSTALLERS_URL = "http://www.geogebra.org/installers";
+	//public static final String INSTALLERS_URL = IS_PRE_RELEASE ? "http://download.geogebra.org/installers/5.0"
+	//		: "http://www.geogebra.org/installers";
 
 	/** Splash filename -- used for online */
 	public static final String SPLASH_STRING = "splash5RC.png";
