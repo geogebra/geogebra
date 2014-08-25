@@ -351,8 +351,8 @@ public class SpreadsheetContextMenu {
 			strRows = app.getLocalization().getPlain("DeleteRowA",
 					Integer.toString(row1 + 1));
 		} else {
-			strRows = app.getLocalization().getPlain("DeleteARows",
-					Integer.toString(row2 - row1 + 1));
+			strRows = app.getLocalization().getPlain("DeleteRowsAtoB",
+					Integer.toString(row1 + 1), Integer.toString(row2 + 1));
 		}
 		return strRows;
 	}
@@ -365,8 +365,9 @@ public class SpreadsheetContextMenu {
 			strColumns = app.getLocalization().getPlain("DeleteColumnA",
 					GeoElementSpreadsheet.getSpreadsheetColumnName(column1));
 		} else {
-			strColumns = app.getLocalization().getPlain("DeleteAColumns",
-					Integer.toString(column2 - column1 + 1));
+			strColumns = app.getLocalization().getPlain("DeleteColumnsAtoB",
+					GeoElementSpreadsheet.getSpreadsheetColumnName(column1),
+					GeoElementSpreadsheet.getSpreadsheetColumnName(column2));
 		}
 		return strColumns;
 	}
