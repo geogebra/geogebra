@@ -177,6 +177,7 @@ TRANSLATORS
   * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
       Gwyn Jones, Sera Roberts, Geraint Rowlands (Wales)
   * Yiddish: Eliezer Niborski (France, Israel)
+  * Xhosa: Vuyani Matsha (South Africa)
 
 
 
