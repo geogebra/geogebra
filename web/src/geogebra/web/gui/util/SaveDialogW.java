@@ -29,7 +29,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -40,10 +39,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	protected TextBox title;
 	StandardButton cancel;
 	StandardButton save;
-	
-	RadioButton materialPrivate;
-	RadioButton materialShared;
-	RadioButton materialPublic;
 	
 	Anchor downloadButton;
 	
@@ -68,7 +63,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		this.downloadButton.getElement().setAttribute("download", "geogebra.ggb");
 		
 		addTitelPanel();
-		addRadioButtons();
 		addButtonPanel();
 		
 		this.addCloseHandler(new CloseHandler<PopupPanel>() {
@@ -107,24 +101,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		p.add(titlePanel);
 		this.getCaption().setText(app.getMenu("Save"));
 	}
-
-	private void addRadioButtons() {
-		FlowPanel radioButtonPanel = new FlowPanel();
-		radioButtonPanel.setStyleName("radioButtonPanel");
-		
-		//TODO translate
-	    this.materialPrivate = new RadioButton("Material", app.getMenu("Private"));
-	    this.materialShared = new RadioButton("Material", app.getMenu("Shared"));
-	    this.materialPublic = new RadioButton("Material", app.getMenu("Public"));
-	    
-	    radioButtonPanel.add(this.materialPrivate);
-	    radioButtonPanel.add(this.materialShared);
-	    radioButtonPanel.add(this.materialPublic);
-	    
-	    this.materialPrivate.setValue(true);
-	    
-	    p.add(radioButtonPanel);
-    }
 
 	private void addButtonPanel() {
 		FlowPanel buttonPanel = new FlowPanel();
@@ -174,29 +150,24 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 * Handles the upload of the file and closes the dialog
 	 */
 	void upload() {
-	    if (this.materialPrivate.getValue()) {
-	    	// if title has changed, create new file
-	    	if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-	    		((AppWeb) app).resetUniqueId();
-	    	}
-	    	((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText(), new MaterialCallback() {
-				
-				@Override
-				public void onLoaded(List<Material> parseResponse) {
-					if (parseResponse.size() == 1) {
-						app.getKernel().getConstruction().setTitle(title.getText());
-						app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
-						//TODO show user: successfully uploaded
-					}
-					
+		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
+			((AppWeb) app).resetUniqueId();
+		}
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText(), new MaterialCallback() {
+
+			@Override
+			public void onLoaded(List<Material> parseResponse) {
+				if (parseResponse.size() == 1) {
+					app.getKernel().getConstruction().setTitle(title.getText());
+					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
+					//TODO show user: successfully uploaded
 				}
-			});
-	    } else {
-	    	((AppW) app).uploadToGeoGebraTube();
-	    }
-	    hide();
-    }
-	
+
+			}
+		});
+		hide();
+	}
+
 	
 
 	@Override
@@ -206,7 +177,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.save.setEnabled(false);
 		}
-		this.materialPrivate.setValue(true);
 		this.title.setFocus(true);
 	}
 
@@ -256,8 +226,5 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		this.titleLabel.setText(app.getPlain("Title") + ": ");
 		this.cancel.setText(app.getMenu("Cancel"));
 		this.save.setText(app.getMenu("Save"));
-		this.materialPrivate.setText(app.getMenu("Private"));
-		this.materialShared.setText(app.getMenu("Shared"));
-		this.materialPublic.setText(app.getMenu("Public"));
 	}
 }
