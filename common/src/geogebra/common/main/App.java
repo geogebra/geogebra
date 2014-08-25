@@ -3360,7 +3360,7 @@ public abstract class App implements UpdateSelection{
 	 * This should not be used, just overriden in AppW
 	 */
 	public void scheduleUpdateConstruction() {
-		kernel.getConstruction().updateConstruction();
+		kernel.getConstruction().updateConstructionLaTeX();
 		kernel.notifyRepaint();
 	}
 

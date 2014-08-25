@@ -2926,6 +2926,15 @@ public class Construction {
 			updateConstructionRunning = false;
 		}
 	}
+
+	public void updateConstructionLaTeX() {
+		boolean oldFlag = this.kernel.getApplication().isBlockUpdateScripts();
+		this.kernel.getApplication().setBlockUpdateScripts(true);
+		//TODO we do not need the whole construction update here
+		this.updateConstruction();
+		this.kernel.getApplication().setBlockUpdateScripts(oldFlag);
+		
+	}
 	
 
 }
