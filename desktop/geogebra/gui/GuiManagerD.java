@@ -769,15 +769,19 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
 		if (flag) {
-			if (!showView(viewId))
+			if (!showView(viewId)){
 				layout.getDockManager().show(viewId);
+				app.refreshViews();
+			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {
 				getSpreadsheetView().requestFocus();
 			}
 		} else {
-			if (showView(viewId))
+			if (showView(viewId)){
 				layout.getDockManager().hide(viewId, isPermanent);
+				app.refreshViews();
+			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {
 				(app).getActiveEuclidianView().requestFocus();

@@ -71,6 +71,10 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	 * @param manager dock manager
 	 */
 	public void refresh(DockManager manager){
+		
+		if (!isVisible()){
+			return;
+		}
 
 		if (isOpenInFrame()){
 			// just put the panel in a main window and put it again in a frame to force openGL to restart
