@@ -3682,8 +3682,8 @@ PROVIDERS
 }
 
 .materialListElement .fileImage {
-	width: 175px;
-	height: 175px;
+	width: 171px;
+	height: 171px;
 	padding: 5px;
 	overflow: hidden;
 	border-radius: 5px;
@@ -3704,7 +3704,7 @@ PROVIDERS
 
 .materialListElement .infoPanel {
 	padding: 5px 0px 10px 2px;
-	width: 185px;
+	width: 181px;
 }
 
 .materialListElement .infoPanel .sharedPanel { 
