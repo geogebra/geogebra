@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class MaterialListElement extends FlowPanel implements ResizeListener {
 	
-	private enum State {
+	public enum State {
 		Default, Selected, Disabled;
 	}
 	
@@ -47,7 +47,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private final Material material;
 	protected final AppWeb app;
 	
-	State state = State.Default;
+	protected State state = State.Default;
 
 	//TODO change from isLocal to isYourOwn
 	protected boolean isLocalFile;
