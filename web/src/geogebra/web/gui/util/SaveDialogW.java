@@ -7,6 +7,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -16,6 +17,8 @@ import geogebra.web.main.AppW;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -160,9 +163,14 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 				if (parseResponse.size() == 1) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
-					//TODO show user: successfully uploaded
+					//TODO translate & position
+					ToolTipManagerW.sharedInstance().showToolTip(title.getText() + " saved successfully");
 				}
-
+			}
+			
+			@Override
+			public void onError(Throwable exception) {
+				ToolTipManagerW.sharedInstance().showToolTip(app.getLocalization().getError("SaveFileFailed"));
 			}
 		});
 		hide();
@@ -177,7 +185,11 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.save.setEnabled(false);
 		}
-		this.title.setFocus(true);
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+	        public void execute () {
+	        	title.setFocus(true);
+	        }
+	   });
 	}
 
 	public void saveSuccess(String fName, String desc) {
@@ -227,4 +239,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		this.cancel.setText(app.getMenu("Cancel"));
 		this.save.setText(app.getMenu("Save"));
 	}
+	
+	
 }
