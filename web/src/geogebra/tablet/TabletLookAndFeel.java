@@ -11,6 +11,8 @@ import geogebra.html5.main.AppWeb;
 
 
 public class TabletLookAndFeel extends GLookAndFeel {
+	
+	public static final int PROVIDER_PANEL_WIDTH = 0;
 
 	@Override
     public void setCloseMessage(Localization loc) {
