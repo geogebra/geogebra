@@ -3,6 +3,7 @@ package geogebra.common.gui.view.spreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 
 import java.util.ArrayList;
 
@@ -561,16 +562,19 @@ public class SpreadsheetContextMenu {
 	 * Open spreadsheet options dialog
 	 */
 	public void cmdSpreadsheetOptions() {
-		// to be overridden (for now)
+		app.getDialogManager().showPropertiesDialog(OptionType.SPREADSHEET,
+				null);
 	}
 
 	/**
 	 * Open Object Properties dialog
 	 */
 	public void cmdProperties() {
-		app.getDialogManager().showPropertiesDialog();
+		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
+				null);
 	}
 
+	
 	// ==================================================
 	//
 	// GUI methods to be implemented in subclasses.

@@ -2,7 +2,6 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
-import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -43,13 +42,6 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	 */
 	public SpreadsheetContextMenuD(MyTable table) {
 		super(table);
-	}
-
-	@Override
-	public void cmdSpreadsheetOptions() {
-		((AppD) app).getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-		((AppD) app).getGuiManager()
-				.setFocusedPanel(App.VIEW_SPREADSHEET, true);
 	}
 
 	// ======================================
