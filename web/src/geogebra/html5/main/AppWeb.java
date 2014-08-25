@@ -315,7 +315,7 @@ public abstract class AppWeb extends App implements SetLabels{
 					((LocalizationW)getLocalization()).setLanguage(lang);
 
 					// make sure digits are updated in all numbers
-					getKernel().updateConstruction();
+					getKernel().updateConstructionLanguage();
 
 					// update display & Input Bar Dictionary etc
 					setLabels();
