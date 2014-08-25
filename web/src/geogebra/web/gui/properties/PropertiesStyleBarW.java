@@ -25,7 +25,7 @@ public class PropertiesStyleBarW extends
 
 	private static OptionType OptionTypesImpl[] = {
 		// Implemented types of the web
-		OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2, OptionType.EUCLIDIAN3D
+		OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2, OptionType.EUCLIDIAN3D, OptionType.SPREADSHEET
 	};
 	
 	private PropertiesViewW propertiesView;

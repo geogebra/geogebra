@@ -1277,15 +1277,14 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		// row height and column widths
 		setRowHeightsFromSettings();
 		setColumnWidthsFromSettings();
-		
+
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler().processXMLString(
-			settings().cellFormat());
+		        settings().cellFormat());
 
 		// preferredSize
-		setPreferredSize(
-			settings().preferredSize().getWidth(),
-			settings().preferredSize().getHeight());
+		setPreferredSize(settings().preferredSize().getWidth(), settings()
+		        .preferredSize().getHeight());
 
 		// initial position
 		// TODO not working yet ...
@@ -1295,12 +1294,7 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		// settings.selectedCell().y);
 
 		allowSettingUpate = true;
-
-		if (table != null) {
-			table.setRepaintAll();
-			table.setRenderFirstTime();
-			table.repaint();
-		}
+		onResize();
 	}
 
 	public void setPreferredSize(int width, int height) {
@@ -1500,11 +1494,23 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		
 	}
 
-
 	public void onResize() {
-	  // table.setSize(getFocusPanel().getOffsetWidth(), getFocusPanel().getOffsetHeight());
-    }
 
+		int width = getFocusPanel().getParent().getOffsetWidth();
+		int height = getFocusPanel().getParent().getOffsetHeight();
+		// App.debug("spreadsheet wrapper size: " + width + " , " + height);
+
+		getFocusPanel().setWidth(width + "px");
+		getFocusPanel().setHeight(height + "px");
+
+		if (table != null) {
+			table.setSize(width, height);
+			table.setRepaintAll();
+			table.setRenderFirstTime();
+			table.repaint();
+		}
+
+	}
 
 	public int getHorizontalScrollPosition() {
 	    return table.getHorizontalScrollPosition();

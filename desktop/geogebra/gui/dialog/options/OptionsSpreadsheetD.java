@@ -80,58 +80,57 @@ public class OptionsSpreadsheetD extends
 
 	private JPanel buildLayoutOptionsPanel() {
 
-		JPanel layoutOptions = new JPanel();
-		layoutOptions.setLayout(new BoxLayout(layoutOptions, BoxLayout.Y_AXIS));
+		JPanel optionsPanel = new JPanel();
+		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
 
-		layoutOptions.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		optionsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		cbShowFormulaBar = new JCheckBox();
 		cbShowFormulaBar.addActionListener(this);
-		layoutOptions.add(cbShowFormulaBar);
 
 		cbShowGrid = new JCheckBox();
 		cbShowGrid.addActionListener(this);
-		layoutOptions.add(cbShowGrid);
 
 		cbShowColumnHeader = new JCheckBox();
 		cbShowColumnHeader.addActionListener(this);
-		layoutOptions.add(cbShowColumnHeader);
 
 		cbShowRowHeader = new JCheckBox();
 		cbShowRowHeader.addActionListener(this);
-		layoutOptions.add(cbShowRowHeader);
 
 		cbShowHScrollbar = new JCheckBox();
 		cbShowHScrollbar.addActionListener(this);
-		layoutOptions.add(cbShowHScrollbar);
 
 		cbShowVScrollbar = new JCheckBox();
 		cbShowVScrollbar.addActionListener(this);
-		layoutOptions.add(cbShowVScrollbar);
-
-		// spacer
-		layoutOptions.add(Box.createVerticalStrut(16));
 
 		cbAllowSpecialEditor = new JCheckBox();
 		cbAllowSpecialEditor.addActionListener(this);
-		layoutOptions.add(cbAllowSpecialEditor);
 
 		cbAllowToolTips = new JCheckBox();
 		cbAllowToolTips.addActionListener(this);
-		layoutOptions.add(cbAllowToolTips);
 
 		cbPrependCommands = new JCheckBox();
 		cbPrependCommands.addActionListener(this);
-		layoutOptions.add(cbPrependCommands);
 
 		cbEnableAutoComplete = new JCheckBox();
 		cbEnableAutoComplete.addActionListener(this);
-		layoutOptions.add(cbEnableAutoComplete);
+
+		optionsPanel.add(cbShowFormulaBar);
+		optionsPanel.add(cbShowGrid);
+		optionsPanel.add(cbShowColumnHeader);
+		optionsPanel.add(cbShowRowHeader);
+		optionsPanel.add(cbShowVScrollbar);
+		optionsPanel.add(cbShowHScrollbar);
 
 		// spacer
-		layoutOptions.add(Box.createVerticalStrut(16));
+		optionsPanel.add(Box.createVerticalStrut(16));
 
-		return layoutOptions;
+		optionsPanel.add(cbAllowSpecialEditor);
+		optionsPanel.add(cbAllowToolTips);
+		optionsPanel.add(cbPrependCommands);
+		optionsPanel.add(cbEnableAutoComplete);
+
+		return optionsPanel;
 	}
 
 	/**
@@ -163,49 +162,23 @@ public class OptionsSpreadsheetD extends
 
 	public void updateGUI() {
 
-		// ======================================
-		// layout tab GUI
+		updateCheckBox(cbShowFormulaBar, settings().showFormulaBar());
+		updateCheckBox(cbShowGrid, settings().showGrid());
+		updateCheckBox(cbShowRowHeader, settings().showRowHeader());
+		updateCheckBox(cbShowColumnHeader, settings().showColumnHeader());
+		updateCheckBox(cbShowHScrollbar, settings().showHScrollBar());
+		updateCheckBox(cbShowVScrollbar, settings().showVScrollBar());
+		updateCheckBox(cbAllowSpecialEditor, settings().allowSpecialEditor());
+		updateCheckBox(cbAllowToolTips, settings().allowToolTips());
+		updateCheckBox(cbPrependCommands, settings().equalsRequired());
+		updateCheckBox(cbEnableAutoComplete, settings().isEnableAutoComplete());
 
-		cbShowFormulaBar.removeActionListener(this);
-		cbShowFormulaBar.setSelected(settings().showFormulaBar());
-		cbShowFormulaBar.addActionListener(this);
+	}
 
-		cbShowGrid.removeActionListener(this);
-		cbShowGrid.setSelected(settings().showGrid());
-		cbShowGrid.addActionListener(this);
-
-		cbShowRowHeader.removeActionListener(this);
-		cbShowRowHeader.setSelected(settings().showRowHeader());
-		cbShowRowHeader.addActionListener(this);
-
-		cbShowColumnHeader.removeActionListener(this);
-		cbShowColumnHeader.setSelected(settings().showColumnHeader());
-		cbShowColumnHeader.addActionListener(this);
-
-		cbShowHScrollbar.removeActionListener(this);
-		cbShowHScrollbar.setSelected(settings().showHScrollBar());
-		cbShowHScrollbar.addActionListener(this);
-
-		cbShowVScrollbar.removeActionListener(this);
-		cbShowVScrollbar.setSelected(settings().showVScrollBar());
-		cbShowVScrollbar.addActionListener(this);
-
-		cbAllowSpecialEditor.removeActionListener(this);
-		cbAllowSpecialEditor.setSelected(settings().allowSpecialEditor());
-		cbAllowSpecialEditor.addActionListener(this);
-
-		cbAllowToolTips.removeActionListener(this);
-		cbAllowToolTips.setSelected(settings().allowToolTips());
-		cbAllowToolTips.addActionListener(this);
-
-		cbPrependCommands.removeActionListener(this);
-		cbPrependCommands.setSelected(settings().equalsRequired());
-		cbPrependCommands.addActionListener(this);
-
-		cbEnableAutoComplete.removeActionListener(this);
-		cbEnableAutoComplete.setSelected(settings().isEnableAutoComplete());
-		cbEnableAutoComplete.addActionListener(this);
-
+	private void updateCheckBox(JCheckBox cb, boolean value) {
+		cb.removeActionListener(this);
+		cb.setSelected(value);
+		cb.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
