@@ -1,7 +1,6 @@
 package geogebra.common.move.ggtapi.operations;
 
 import geogebra.common.main.App;
-import geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
@@ -9,7 +8,6 @@ import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.operations.BaseOperation;
-import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 
 /**
@@ -18,7 +16,7 @@ import geogebra.common.move.views.EventRenderable;
  * Operational class for login functionality
  *
  */
-public abstract class LogInOperation extends BaseOperation<EventRenderable> implements BooleanRenderable{
+public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 	@Override
 	public AuthenticationModel getModel() {
@@ -137,12 +135,4 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> impl
 	 * The returned string must be a valid URL encoded String. (use URLEncoder.encode). 
 	 */
 	protected abstract String getURLClientInfo();
-	
-	public void render(boolean b){
-		if(b){
-			this.getGeoGebraTubeAPI().isAvailable(this);
-		}else{
-			this.onEvent(new TubeAvailabilityCheckEvent(false));
-		}
-	}
 }

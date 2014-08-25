@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends GMenuBar {
+public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 	/** Application */
 	AppW app;
@@ -107,15 +107,10 @@ public class FileMenuW extends GMenuBar {
 	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true),
 		        true, new ExportMenuW(app));
 	    
-	    app.getNetworkOperation().getView().add(new BooleanRenderable() {
-			
-			public void render(boolean b) {
-				renderNetworkOperation(b);
-			}
-		});
+	    app.getNetworkOperation().getView().add(this);
 	    
 	    if (!app.getNetworkOperation().getOnline()) {
-	    	renderNetworkOperation(false);    	
+	    	render(false);    	
 	    }
 	    
 		
@@ -126,7 +121,7 @@ public class FileMenuW extends GMenuBar {
 	 * @param online wether the application is online
 	 * renders a the online - offline state of the FileMenu
 	 */
-	void renderNetworkOperation(boolean online) {
+	public void render(boolean online) {
 	    uploadToGGT.setEnabled(online);
 	    if (!online) {
 	    	uploadToGGT.setTitle(app.getMenu("YouAreOffline"));
