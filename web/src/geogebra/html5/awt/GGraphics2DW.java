@@ -524,8 +524,8 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		if(color == null){
 			return;
 		}
-		//String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
-		String colorStr = "rgb("+color.getRed()+","+color.getGreen()+","+color.getBlue()+")";
+		String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
+		//String colorStr = "rgb("+color.getRed()+","+color.getGreen()+","+color.getBlue()+")";
 		context.setStrokeStyle(colorStr);
 		context.setFillStyle(colorStr);
 		
