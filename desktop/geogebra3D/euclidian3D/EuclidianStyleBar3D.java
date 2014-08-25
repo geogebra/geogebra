@@ -37,10 +37,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	
 	private PopupMenuButton btnRotateView, btnClipping;
 	
-	private MyToggleButton btnShowPlane, btnViewDefault, btnViewXY, btnViewXZ, btnViewYZ;
+	private MyToggleButton btnShowPlane;
 	
 
-	private PopupMenuButton btnViewProjection;
+	private PopupMenuButton btnViewProjection, btnViewDirection;
 
 
 	/**
@@ -73,11 +73,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		
 		add(btnRotateView);
-		//add(textRotateX);
-		add(btnViewDefault);
-		add(btnViewXY);
-		add(btnViewXZ);
-		add(btnViewYZ);
+		add(btnViewDirection);
 		
 		add(btnClipping);
 		add(btnViewProjection);
@@ -112,14 +108,22 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			}else{
 				getView().toggleShowAndUseClippingCube();
 			}
-		}else if (source.equals(btnViewDefault)) {
-			getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,EuclidianView3D.ANGLE_ROT_XOY,false);
-		}else if (source.equals(btnViewXY)) {
-			getView().setRotAnimation(-90,90,true);
-		}else if (source.equals(btnViewXZ)) {
-			getView().setRotAnimation(-90,0,true);
-		}else if (source.equals(btnViewYZ)) {
-			getView().setRotAnimation(0,0,true);
+		}else if (source.equals(btnViewDirection)) {			
+			int si = btnViewDirection.getSelectedIndex();
+			switch(si){
+			case 0:
+				getView().setRotAnimation(-90,90,true);
+				break;
+			case 1:
+				getView().setRotAnimation(-90,0,true);
+				break;
+			case 2:
+				getView().setRotAnimation(0,0,true);
+				break;
+			case 3:
+				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,EuclidianView3D.ANGLE_ROT_XOY,false);
+				break;
+			}
 		}else if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();
 			switch(si){
@@ -176,7 +180,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		//========================================
 		// rotate view button
 		btnRotateView = new PopupMenuButtonForView3D();	
-		btnRotateView.setIcon(app.getImageIcon("stylebar_rotateview.gif"));
+		btnRotateView.setIcon(app.getImageIcon("stylingbar_graphics3D_rotateview_play.gif"));
 		btnRotateView.getMySlider().setMinimum(-10);
 		btnRotateView.getMySlider().setMaximum(10);
 		btnRotateView.getMySlider().setMajorTickSpacing(10);
@@ -192,7 +196,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		//========================================
 		// clipping button
 		btnClipping = new PopupMenuButtonForView3D();	
-		btnClipping.setIcon(app.getImageIcon("stylebar_clipping.gif"));
+		btnClipping.setIcon(app.getImageIcon("stylingbar_graphics3D_clipping_medium.gif"));
 		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
 		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
 		btnClipping.getMySlider().setMajorTickSpacing(1);
@@ -207,43 +211,22 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		
 		//========================================
-		/* rotate x text field
-		textRotateX = new JTextField(3);
-		textRotateX.addActionListener(this);
-		*/
-		
-		//========================================
-		// view perspective button	
-		btnViewDefault = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("standard_view_rotate.gif"), iconHeight);
-		
-		btnViewDefault.addActionListener(this);
-		
-		
-		//========================================
-		// view xy button	
-		btnViewXY = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_xy.gif"), iconHeight);
-		
-		btnViewXY.addActionListener(this);
-		
-		//========================================
-		// view xz button	
-		btnViewXZ = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_xz.gif"), iconHeight);
-		
-		btnViewXZ.addActionListener(this);		
-		
-		//========================================
-		// view yz button	
-		btnViewYZ = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_yz.gif"), iconHeight);
-		
-		btnViewYZ.addActionListener(this);	
+		// view yz direction	
+		ImageIcon[] directionIcons = new ImageIcon[4];
+		directionIcons[0]=app.getImageIcon("stylingbar_graphics3D_view_xy.gif");
+		directionIcons[1]=app.getImageIcon("stylingbar_graphics3D_view_xz.gif");
+		directionIcons[2]=app.getImageIcon("stylingbar_graphics3D_view_yz.gif");		
+		directionIcons[3]=app.getImageIcon("stylingbar_graphics3D_standardview_rotate.gif");
+		btnViewDirection = new ProjectionPopup(app, directionIcons);
+		btnViewDirection.addActionListener(this);
 		
 		//========================================
 		// projection view button
 		ImageIcon[] projectionIcons = new ImageIcon[4];
-		projectionIcons[0]=app.getImageIcon("stylebar_vieworthographic.gif");
-		projectionIcons[1]=app.getImageIcon("stylebar_viewperspective.gif");
-		projectionIcons[2]=app.getImageIcon("stylebar_viewglasses.gif");		
-		projectionIcons[3]=app.getImageIcon("stylebar_viewoblique.gif");
+		projectionIcons[0]=app.getImageIcon("stylingbar_graphics3D_view_orthographic.gif");
+		projectionIcons[1]=app.getImageIcon("stylingbar_graphics3D_view_perspective.gif");
+		projectionIcons[2]=app.getImageIcon("stylingbar_graphics3D_view_glasses.gif");		
+		projectionIcons[3]=app.getImageIcon("stylingbar_graphics3D_view_oblique.gif");
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addActionListener(this);
 		
@@ -277,10 +260,14 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		super.setLabels();
 		btnShowPlane.setToolTipText(loc.getPlainTooltip("stylebar.xOyPlane"));
 		btnRotateView.setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		btnViewDefault.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefaultRotate"));
-		btnViewXY.setToolTipText(loc.getPlainTooltip("stylebar.ViewXY"));
-		btnViewXZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewXZ"));
-		btnViewYZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewYZ"));
+		btnViewDirection.setToolTipText(loc.getPlainTooltip("stylebar.ViewDirection"));
+		btnViewDirection.setToolTipArray(
+				new String[] {
+						loc.getPlainTooltip("stylebar.ViewXY"),
+						loc.getPlainTooltip("stylebar.ViewXZ"),
+						loc.getPlainTooltip("stylebar.ViewYZ"),
+						loc.getPlainTooltip("stylebar.ViewDefaultRotate")
+				});
 		btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
 		btnViewProjection.setToolTipText(loc.getPlainTooltip("stylebar.ViewProjection"));
 		btnViewProjection.setToolTipArray(
@@ -311,22 +298,11 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnRotateView.setSelected(false);
 		btnRotateView.addActionListener(this);
 		
-		btnViewDefault.removeActionListener(this);
-		btnViewDefault.setSelected(false);
-		btnViewDefault.addActionListener(this);
-
-
-		btnViewXY.removeActionListener(this);
-		btnViewXY.setSelected(false);
-		btnViewXY.addActionListener(this);
-
-		btnViewXZ.removeActionListener(this);
-		btnViewXZ.setSelected(false);
-		btnViewXZ.addActionListener(this);
-
-		btnViewYZ.removeActionListener(this);
-		btnViewYZ.setSelected(false);
-		btnViewYZ.addActionListener(this);
+		/*
+		btnViewDirection.removeActionListener(this);
+		btnViewDirection.setSelectedIndex(0);
+		btnViewDirection.addActionListener(this);
+		*/
 		
 		btnClipping.removeActionListener(this);
 		btnClipping.setSelected(getView().showClippingCube());
@@ -343,12 +319,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@Override
 	protected PopupMenuButton[] newPopupBtnList(){
 		PopupMenuButton[] superList = super.newPopupBtnList();
-		PopupMenuButton[] ret = new PopupMenuButton[superList.length+3];
+		PopupMenuButton[] ret = new PopupMenuButton[superList.length+4];
 		for (int i=0; i<superList.length; i++)
 			ret[i]=superList[i];
 		
 		int index = superList.length;
 		ret[index]=btnRotateView;index++;
+		ret[index]=btnViewDirection;index++;
 		ret[index]=btnClipping;index++;
 		ret[index]=btnViewProjection;
 		return ret;
@@ -357,16 +334,12 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@Override
 	protected MyToggleButton[] newToggleBtnList(){
 		MyToggleButton[] superList = super.newToggleBtnList();
-		MyToggleButton[] ret = new MyToggleButton[superList.length+5];
+		MyToggleButton[] ret = new MyToggleButton[superList.length+1];
 		for (int i=0; i<superList.length; i++)
 			ret[i]=superList[i];
 		
 		int index = superList.length;
 		ret[index]=btnShowPlane;index++;
-		ret[index]=btnViewDefault;index++;
-		ret[index]=btnViewXY;index++;
-		ret[index]=btnViewXZ;index++;
-		ret[index]=btnViewYZ;
 		return ret;
 	}
 	
