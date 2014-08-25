@@ -19,7 +19,7 @@ public class EmbeddedMaterialElement extends MaterialListElement {
     }
 	
 	@Override
-    public void onOpen() {
+    public void onView() {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(getMaterial().getId(), new MaterialCallback(){
 
 			@Override

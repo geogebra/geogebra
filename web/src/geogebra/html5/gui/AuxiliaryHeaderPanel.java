@@ -1,10 +1,15 @@
 package geogebra.html5.gui;
 
 import geogebra.common.main.Localization;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.browser.BrowseResources;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Common superclass for worksheet and browse GUIs
@@ -14,44 +19,54 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class AuxiliaryHeaderPanel extends FlowPanel {
 
-	protected final StandardButton backButton;
+	protected StandardButton backButton;
 	private FlowPanel backPanel;
-	/*protected HorizontalPanel searchPanel;*/
 	protected FlowPanel rightPanel;
 	private final Label headerText;
-
+	private final MyHeaderPanel gui;
 	protected final Localization loc;
 
 	protected AuxiliaryHeaderPanel(final Localization loc, final MyHeaderPanel gui) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
-		this.backButton = new StandardButton(BrowseResources.INSTANCE.back());
-		this.backButton.addStyleName("backButton");
-
-		this.backPanel = new FlowPanel();
-		this.backPanel.setStyleName("headerFirst");
-		this.backPanel.add(this.backButton);
+		this.gui = gui;
+		
+		addBackPanel();
 
 		this.rightPanel = new FlowPanel();
 		this.rightPanel.setStyleName("headerSecond");
 
-		//this.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-
-		this.add(this.backPanel);
-
-		//this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.headerText = new Label("");
 		this.headerText.addStyleName("locationTitle");
 		this.add(this.headerText);
-		this.backButton.addFastClickHandler(new FastClickHandler() {
+		
+	}
 
+	private void addBackPanel() {
+		this.backPanel = new FlowPanel();
+		this.backPanel.setStyleName("headerFirst");
+		this.backPanel.addDomHandler(new ClickHandler() {
+			
 			@Override
-			public void onClick() {
+			public void onClick(ClickEvent event) {
 				gui.close();
 			}
-		});
-		//this.add(this.rightPanel);
-	}
+		}, ClickEvent.getType());
+		
+		//TODO - use new icon; this is just a placeholder
+		this.backButton = new StandardButton(BrowseResources.INSTANCE.back());
+		this.backButton.addStyleName("backButton");
+		this.backPanel.add(this.backButton);
+		
+		SimplePanel ggbLogoPanel = new SimplePanel();
+		ggbLogoPanel.setStyleName("ggbLogoPanel");
+		//TODO - use new icon; this is just a placeholder
+		ImageResource image = GuiResources.INSTANCE.header_back();
+		ggbLogoPanel.getElement().setInnerHTML("<div class=\"image\"> <img src=\""
+					+ image.getSafeUri().asString() + "\" /></div>");
+		this.backPanel.add(ggbLogoPanel);
+		this.add(this.backPanel);
+    }
 
 	public void setLabels() {
 		//this.backButton.setLabel(this.loc.getMenu("Back"));

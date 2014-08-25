@@ -18,14 +18,17 @@ public interface BrowseResources extends ClientBundle {
 	@Source("icons/png/web/arrow_go_previous_purple.png")
 	ImageResource back();
 	
-	@Source("icons/png/web/document_viewer.png")
-	ImageResource document_viewer();
+	@Source("icons/png/web/document_view.png")
+	ImageResource document_view();
 	
 	@Source("icons/png/web/document_edit.png")
 	ImageResource document_edit();
 	
-	@Source("icons/png/web/menu_icons/menu-edit-delete.png")
+	@Source("icons/png/web/document_delete.png")
 	ImageResource document_delete();
+	
+	@Source("icons/png/web/document_delete_active.png")
+	ImageResource document_delete_active();
 	
 	@Source("icons/png/web/open-from-location_geogebratube.png")
 	ImageResource location_tube();
@@ -38,19 +41,11 @@ public interface BrowseResources extends ClientBundle {
 	
 	@Source("icons/png/web/open-from-location_local-storage.png")
 	ImageResource location_local();
-	
-	@Source("icons/png/web/arrow-submenu-left.png")
-	ImageResource arrow_submenu();
-	
+
 	@Source("icons/png/web/profile-options-arrow.png")
 	ImageResource arrow_options();
-	
-	@Source("icons/png/web/stylingbar/stylingbar_dots.png")
-	ImageResource dots_options();
 
 	@Source("icons/png/web/menu_icons/menu-edit.png")
 	ImageResource document_rename();
 
-	@Source("icons/png/web/arrow-submenu-up.png")
-	ImageResource arrow_submenu_up();
 }

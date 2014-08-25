@@ -3505,6 +3505,13 @@ iframe.objectPropertiesTextEditor {
 
 .headerFirst {
 	padding-top: 12px;
+	display: flex;
+	cursor: pointer;
+}
+
+.headerFirst .ggbLogoPanel .image {
+	padding-top: 4px;
+	padding-right: 15px;
 }
 
 .locationTitle {
@@ -3570,7 +3577,7 @@ iframe.objectPropertiesTextEditor {
 
 .backButton {
 	cursor: pointer;
-	padding: 10px;
+	padding: 10px 4px 10px 10px;
 }
 
 .backButton img {
@@ -3657,23 +3664,28 @@ PROVIDERS
 	cursor: pointer;
 }
 
+/* ++++++  MaterialListPanel   ++++++++ */
 
-.browsegui .materialListPanel {
-	padding-left: 15px;
+.materialListPanel {
+	padding: 20px;
 	overflow-y: scroll;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
-.browsegui .materialListPanel {
-	padding-top: 15px;	
-}
-
-.browsegui .materialListElement, .PhoneGUI .materialListElement {
-	width: 210px;
-	height: 220px;
+.materialListElement {
+	width: 183px;
+	height: 250px;
 	margin-right: 15px;
 	margin-bottom: 15px;
-	float: left;
-	font-size: 10pt;
+}
+
+.materialListElement .fileImage {
+	width: 175px;
+	height: 175px;
+	padding: 5px;
+	overflow: hidden;
 	border-radius: 5px;
 	border: 1px solid #CCCCCC;
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
@@ -3681,140 +3693,136 @@ PROVIDERS
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
-.browsegui .fileImage, .PhoneGUI .fileImage {
-	width: 200px;
-	height: 150px;
-	overflow: hidden;
+
+.materialListElement .fileImage .background {
+	width: 175px;
+	height: 175px;
 	background-repeat: no-repeat;
 	background-position: center center;
-	border-radius: 5px;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
- 		rgba(0, 0, 0, 0.05);
-	margin-left: 5px;
-	margin-top: 5px;
+	background-size: cover;
 }
 
-.browsegui .materialListElement.showDetails .button, .PhoneGUI .materialListElement.showDetails .button {
-	display: flex;
+.materialListElement .infoPanel {
+	padding: 5px 0px 10px 2px;
+	width: 185px;
 }
 
-.browsegui .materialListElement.showDetails, .PhoneGUI .materialListElement.showDetails {
-	border-bottom: none;
+.materialListElement .infoPanel .sharedPanel { 
+	font-size: 80%;
+	padding-top: 2px;
 }
 
-
-.browsegui .materialListElement .showLessButton, .PhoneGUI .materialListElement .showLessButton {
-	float: right;
-	bottom: 20px;
-	position: relative;
+/** default style of material **/
+.materialListElement.default {
+	cursor: pointer;
 }
 
-.browsegui .materialListElement .showMoreButton, .PhoneGUI .materialListElement .showMoreButton {
-	position: absolute;
-	top: 9px;
-	right: -11px;
-}
-
-.browsegui .materialListElement.selected, .browsegui .materialListElement:hover,
-.PhoneGUI .materialListElement.selected, .PhoneGUI .materialListElement:hover {
-	color: #666666;
+.materialListElement.default:hover .fileImage {
 	border-color: #6666FF;
 }
 
-.browsegui .materialListElement.selected .fileImage, .browsegui .materialListElement:hover .fileImage, 
-.PhoneGUI .materialListElement.selected .fileImage, .PhoneGUI .materialListElement:hover .fileImage {
-	/*border-color: #6666FF;*/
-}
-
-.browsegui .fileImage.scaleImage, .PhoneGUI .fileImage.scaleImage {
-	background-size: 100%;
-	width: 91px;
-	height: 49px;
-}
-
-.browsegui .fileDescription, .PhoneGUI .fileDescription {
-	float: left;
-	margin-top: 5px;
-	font-size: 10pt;
-}
-
-.browsegui .fileDescription td, .PhoneGUI .fileDesctiption td {
-	padding-bottom: 10px;
-	text-align: left;
-}
-
-.browsegui .fileTitle, .PhoneGUI .fileTitle {
-	font-weight: bold;
-	padding-right: 10px;
-}
-
-.browsegui .firstLine, .PhoneGUI .firstLine {
-	position: relative;
-	height: 38px;
+.materialListElement.default .infoPanel .fileTitle {
+	max-height: 40px;
 	overflow: hidden;
 }
 
-.tubeFilePanel {
-	width: 100%;
-}
-
-.browsegui .fileLinks, .PhoneGUI .fileLinks {
-	position: absolute;
-	top: 3px;
-	right: 0px;
-	-webkit-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	-moz-border-radius: 10px;
+/** Material is selected **/
+.materialListElement.selected {
 	border-radius: 10px;
-	padding: 5px;
+	border: 1px solid #CCCCCC;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	cursor: default;
+	padding: 15px;
+	margin-top: -16px;
+	margin-left: -16px;
+	margin-right: -1px;
+	margin-bottom: -87px;
+	z-index: 1;
 	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-	text-align: center;
+	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+	height: initial;
 }
 
-.browsegui .fileLinks .button, .PhoneGUI .fileLinks .button {
-	border: none;
-	background: none;
-	padding: 5px;
-	cursor: pointer;
-	text-align: right;
-}
-
-.fileLinks .button .image {
-	float: right;
-	margin-left: 10px;
-}
-
-.fileLinks .button .gwt-Label {
-	padding-right: 40px;
-	padding-top: 5px;
-	white-space: nowrap;
-}
-
-
-/* ############## */
-
-.browsegui .infoPanel, .PhoneGUI .infoPanel {
-	padding: 10px 10px 2px 10px;
-}
-
-.browsegui .infoPanel.detailed, .PhoneGUI .infoPanel.detailed {
-	width: 190px;
-	left: -1px;
-	border-radius: 0px 0px 5px 5px;
-	border-left: 1px solid #CCCCCC;
-	border-right: 1px solid #CCCCCC;
-	border-bottom: 1px solid #CCCCCC;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+.materialListElement.selected .fileImage {
 	border-color: #6666FF;
-	background: rgba(255, 255, 255, 0.93);
-	position: relative;
+	cursor: pointer;
+}
+
+.materialListElement.selected .button {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	cursor: pointer;
+	line-height: 20px;
+}
+
+.materialListElement.selected .infoPanel.detailed {
+	padding-bottom: 0px;
+	height: 144px;
+	display: flex;
+	flex-flow: column
+}
+
+.materialListElement.selected .infoPanel.detailed .viewButton .image {
+	padding-top: 1px;
+}
+
+.materialListElement.selected .infoPanel.detailed .gwt-Label {
+	padding-left: 5px;
+	font-size: 90%;
+}
+
+.materialListElement.selected .infoPanel.detailed .sharedPanel {
+	flex-grow: 1;
+}
+
+.materialListElement.selected .infoPanel.detailed .deleteActive {
+	flex-grow: 1;
+	display: flex;
+	padding-bottom: 5px;
+	color: #6666ff;
+}
+
+.materialListElement.selected .infoPanel.detailed .confirmDelete {
+	display: flex;
+	justify-content: space-between;
+}
+.materialListElement.selected .infoPanel.detailed .confirmDelete .cancelButton {
+	padding-bottom: 5px;
+	color: #666666;
+	border-color: #666666;
+}
+
+.materialListElement.selected .infoPanel.detailed .confirmDelete .deleteButton {
+	
 }
 
 
-.browsegui .infoPanel.detailed>div, .PhoneGUI .infoPanel.detailed>div {
-	padding-bottom: 4px;
+.materialListElement.selected .infoPanel.detailed .deleteActive .image {
+	align-self: flex-end;
 }
+
+.materialListElement.selected .infoPanel.detailed .deleteActive .gwt-Label {
+	align-self: flex-end;
+	padding-bottom: 3px;
+}
+
+
+/** Material is unselected **/
+.materialListElement.unselected {
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+}
+
+.materialListElement.unselected:hover {
+	cursor: default;
+}
+
+.matrialListElement.unselected:hover .fileImage {
+	border-color: #666666;
+	cursor: default;
+}
+
 
 /*#####################################################################################
 ###        LANGUAGE GUI
@@ -3823,20 +3831,20 @@ PROVIDERS
 	overflow: auto !important;
 }
 
-.languageGUI .browseViewPanel {
+.languageGUI .contentPanel {
 	padding: 15px 20px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
 
-.languageGUI .browseViewPanel .gwt-Label {
+.languageGUI .contentPanel .gwt-Label {
 	float: left;
 	width: 350px;
 	line-height: 30px;
 	cursor: pointer;
 }
 
-.languageGUI .browseViewPanel .gwt-Label:hover {
+.languageGUI .contentPanel .gwt-Label:hover {
 	color: #6666FF;
 }
 
@@ -4111,8 +4119,8 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
    ######################################## */
 
 .PhoneGUI .searchDiv {
-	margin-top: 10px;
-	margin-left: 15px;
+	margin-left: 0px;
+	margin-top: 0px;
 }
 
 .PhoneGUI .materialListElement .fileLinks {
@@ -4127,6 +4135,7 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 
 .PhoneGUI .materialListPanel {
 	padding-left: 15px;
+	overflow-y: visible;
 }
 
 /* ########################################

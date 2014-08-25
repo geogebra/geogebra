@@ -1198,6 +1198,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 
 		((DialogManagerW) app.getDialogManager()).setLabels();
+		getBrowseGUI().setLabels();
 	}
 
 	public void setShowToolBarHelp(boolean showToolBarHelp) {

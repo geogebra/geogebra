@@ -20,9 +20,8 @@ public class MaterialListElementP extends MaterialListElement {
 	@Override
 	protected void markSelected() {
 		this.isSelected = true;
-
-		Phone.getGUI().getBrowseViewPanel().unselectMaterials();
-		Phone.getGUI().getBrowseViewPanel().rememberSelected(this);
+		Phone.getGUI().getMaterialListPanel().disableMaterials();
+		Phone.getGUI().getMaterialListPanel().rememberSelected(this);
 
 		this.addStyleName("selected");
 	}

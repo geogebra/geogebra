@@ -33,6 +33,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/algebra-view-tree-closed.png")
 	ImageResource algebra_tree_closed();
 	
+	@Source("icons/png/geogebra-logo.png")
+	ImageResource header_back();
+	
 	// PHONE GUI
 	@Source("icons/png/menu_view_algebra.png")
 	ImageResource algebraView();

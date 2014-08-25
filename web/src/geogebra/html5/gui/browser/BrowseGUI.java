@@ -41,7 +41,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
   
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
-	protected BrowseViewPanel content;
+	protected MaterialListPanel materialListPanel;
 	private HorizontalPanel container;
 	
 	private FlowPanel providerPanel;
@@ -136,7 +136,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	}
 
 	void updateViewSizes() {
-		this.container.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
+		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - HEADING_HEIGHT);
 		this.providerPanel.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
@@ -199,16 +199,16 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	}
 
 	protected void initContent() {
-		this.content = new BrowseViewPanel(app);
-		this.addResizeListener(this.content);
+		this.materialListPanel = new MaterialListPanel(app);
+		this.addResizeListener(this.materialListPanel);
 	}
 	
 	private void addContent() {
 		this.container = new HorizontalPanel();
-		this.container.setHeight(Window.getClientHeight() - HEADING_HEIGHT + "px");
-		this.container.setStyleName("tubeFilePanel");
+		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - HEADING_HEIGHT);
+		this.container.setStyleName("content");
 		
-		this.container.add(this.content);
+		this.container.add(this.materialListPanel);
 		
 		initProviders();
 		this.providerPanel.setStyleName("providers");
@@ -227,19 +227,19 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 
 	public void loadFeatured() {
 		this.header.clearSearchPanel();
-		this.content.loadFeatured();
+		this.materialListPanel.loadFeatured();
 	}
 	
 	public void onSearchResults(final List<Material> response) {
-		this.content.onSearchResults(response);
+		this.materialListPanel.onSearchResults(response);
 	}
 	
 	public void addMaterial(final Material mat) {
-		this.content.addMaterial(mat);
+		this.materialListPanel.addMaterial(mat);
 	}
 	
 	public void removeFromLocalList(final Material mat) {
-		this.content.removeMaterial(mat);
+		this.materialListPanel.removeMaterial(mat);
 	}
 	
 	public void addResizeListener(final ResizeListener rl) {
@@ -248,20 +248,24 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 
 	public void setLabels() {
 		this.header.setLabels();
-		this.content.setLabels();
+		this.materialListPanel.setLabels();
 	}
 
 
 	public MaterialListElement getChosenMaterial() {
-		return this.content.getChosenMaterial();
+		return this.materialListPanel.getChosenMaterial();
 	}
 
-	public void unselectMaterials() {
-		this.content.unselectMaterials();
+	public void disableMaterials() {
+	    this.materialListPanel.disableMaterials();
+    }
+	
+	public void setMaterialsDefaultStyle() {
+		this.materialListPanel.setDefaultStyle();
 	}
 
 	public void rememberSelected(final MaterialListElement materialElement) {
-		this.content.rememberSelected(materialElement);
+		this.materialListPanel.rememberSelected(materialElement);
 	}
 
 	public void setFrame(final GeoGebraAppFrame frame) {
@@ -294,7 +298,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 
 	@Override
     public void clearMaterials() {
-	    this.content.clearMaterials();
+	    this.materialListPanel.clearMaterials();
     }
 
 	@Override
@@ -331,7 +335,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
     }
 
 	public void displaySearchResults(String query) {
-	    this.content.displaySearchResults(query);
+	    this.materialListPanel.displaySearchResults(query);
     }
 }
 

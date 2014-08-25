@@ -18,7 +18,6 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -30,20 +29,27 @@ import com.google.gwt.user.client.ui.TextBox;
  * 
  */
 public class MaterialListElement extends FlowPanel implements ResizeListener {
-	private SimplePanel image;
+	
+	private enum State {
+		Default, Selected, Disabled;
+	}
+	
+	private final int MAX_TITLE_HEIGHT = 40;
+	private SimplePanel previewPicturePanel;
 	private FlowPanel infoPanel;
 
-	protected HorizontalPanel confirmDeletePanel;
+	protected FlowPanel confirmDeletePanel;
 	private StandardButton confirm;
 	private StandardButton cancel;
-	private final StandardButton showMore;
-	private final StandardButton showLess;
 
 	private Label title, sharedBy;
 	private TextBox renameTextBox;
 	private final Material material;
 	protected final AppWeb app;
-	protected boolean isSelected = false;
+	
+	State state = State.Default;
+
+	//TODO change from isLocal to isYourOwn
 	protected boolean isLocalFile;
 
 	private StandardButton viewButton;
@@ -60,9 +66,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.material = m;
 		this.isLocalFile = m.getId() <= 0 ? true : false;
 		this.setStyleName("materialListElement");
-
-		this.showMore = new StandardButton(BrowseResources.INSTANCE.dots_options());
-		this.showLess = new StandardButton(BrowseResources.INSTANCE.arrow_submenu_up());
+		this.addStyleName("default");
 
 		initMaterialInfos();
 
@@ -75,10 +79,17 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			@Override
 			public void onClick(final ClickEvent event) {
 				event.preventDefault();
-				markSelected();
+				if (state == State.Disabled) {
+					return;
+				} else if (state == State.Default) {
+					markSelected();
+					event.stopPropagation();
+				} else {
+					event.stopPropagation();
+				}
 			}
 		}, ClickEvent.getType());
-
+		
 		setLabels();
 	}
 
@@ -93,21 +104,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	private void addTextInfo() {
-		final FlowPanel firstLine = new FlowPanel();
-		firstLine.setStyleName("firstLine");
-		firstLine.add(this.title);
-
-		this.showMore.addStyleName("showMoreButton");
-		this.showMore.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick() {
-				showMore();
-			}
-		});
-		firstLine.add(this.showMore);
-		this.infoPanel.add(firstLine);
-
+		this.infoPanel.add(this.title);
 		if(!this.isLocalFile) {
 			this.infoPanel.add(this.sharedBy);
 		}
@@ -115,49 +112,45 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 
 	private void addOptions() {
-		addEditButton();
 		if (this.isLocalFile) {
+			addEditButton();
 			addDeleteButton();
 		} else {
 			addViewButton();
+			addEditButton();
 		}
-		this.infoPanel.add(this.showLess);
-		this.showLess.addStyleName("showLessButton");
-		this.showLess.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick() {
-				//TODO event.stopPropagation
-				//				if(CancelEventTimer.cancelMouseEvent()) {
-				//					return;
-				//				}
-				showLess();
-			}
-		});
 	}
 
 	private void addPreviewPicture() {
-
-		this.image = new SimplePanel();
-		this.image.addStyleName("fileImage");
-		this.image.addDomHandler(new ClickHandler() {
+		this.previewPicturePanel = new SimplePanel();
+		this.previewPicturePanel.addStyleName("fileImage");
+		this.previewPicturePanel.addDomHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(final ClickEvent event) {
-				markSelected();
-				openDefault();
+				if (state == State.Selected) {
+					openDefault();
+				} else if (state == State.Disabled) {
+					return;
+				} else {
+					markSelected();
+					event.stopPropagation();
+				}
 			}
 		}, ClickEvent.getType());
 
+		SimplePanel background = new SimplePanel();
+		background.setStyleName("background");
+		
 		String thumb = this.material.getThumbnail();
 		if (thumb != null && thumb.length() > 0) {
 			if (!this.isLocalFile) {
 				thumb = Browser.normalizeURL(thumb);
 			}
-			this.image.getElement().getStyle()
+			background.getElement().getStyle()
 			.setBackgroundImage("url(" + thumb + ")");
 		} else {
-			this.image
+			background
 			.getElement()
 			.getStyle()
 			.setBackgroundImage(
@@ -165,27 +158,32 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 							+ AppResources.INSTANCE.geogebra64()
 							.getSafeUri().asString() + ")");
 		}
-		this.add(this.image);
+		
+		this.previewPicturePanel.add(background);
+		this.add(this.previewPicturePanel);
 
 		if(this.material.getType() == Material.MaterialType.book){
 			final Label deco = new Label();
 			deco.setStyleName("bookDecoration");
-			this.image.add(deco);
+			background.add(deco);
 		}
 	}
 
+	/**
+	 * 
+	 */
 	void openDefault() {
 		if (this.isLocalFile) {
 			onEdit();
 		} else {
-			onOpen();
+			onView();
 		}
 	}
 
 	private void initMaterialInfos() {
 		this.title = new Label(this.material.getTitle());
 		this.title.setStyleName("fileTitle");
-
+				
 		if (!this.isLocalFile) {
 			this.sharedBy = new Label(this.material.getAuthor());
 			this.sharedBy.setStyleName("sharedPanel");
@@ -195,7 +193,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	protected void addDeleteButton() {
 		this.deleteButton = new StandardButton(BrowseResources.INSTANCE.document_delete());
 		this.infoPanel.add(this.deleteButton);
-		this.deleteButton.addStyleName("delete");
 		this.deleteButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -206,13 +203,18 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		initConfirmDeletePanel();
 	}
 
-	void onDelete() {		
+	void onDelete() {
+		this.deleteButton.addStyleName("deleteActive");
+		this.viewButton.setVisible(false);
+		this.editButton.setVisible(false);
 		this.confirmDeletePanel.setVisible(true);
-		this.deleteButton.setVisible(false);
+		this.sharedBy.setVisible(false);
+		this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete_active());
 	}
 
 	private void initConfirmDeletePanel() {
 		this.confirm = new StandardButton(this.app.getLocalization().getPlain("Delete"));
+		this.confirm.addStyleName("deleteButton");
 		this.confirm.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -221,6 +223,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			}
 		});
 		this.cancel = new StandardButton(this.app.getLocalization().getPlain("Cancel"));
+		this.cancel.addStyleName("cancelButton");
 		this.cancel.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -229,9 +232,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			}
 		});
 
-		this.confirmDeletePanel = new HorizontalPanel();
-		this.confirmDeletePanel.add(this.confirm);
+		this.confirmDeletePanel = new FlowPanel();
 		this.confirmDeletePanel.add(this.cancel);
+		this.confirmDeletePanel.add(this.confirm);
 		this.confirmDeletePanel.setStyleName("confirmDelete");
 		this.confirmDeletePanel.setVisible(false);
 		this.infoPanel.add(this.confirmDeletePanel);
@@ -242,8 +245,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	void onCancel() {
-		this.confirmDeletePanel.setVisible(false);
-		this.deleteButton.setVisible(true);
+		showDetails(true);
 	}
 
 	private void addEditButton() {
@@ -261,7 +263,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * 
 	 */
 	void onEdit() {
-		markUnSelected();
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().setMaterialsDefaultStyle();
 		if(!this.isLocalFile){
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
@@ -293,43 +295,61 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	private void addViewButton() {
-		this.viewButton = new StandardButton(BrowseResources.INSTANCE.document_viewer(), "");
+		this.viewButton = new StandardButton(BrowseResources.INSTANCE.document_view(), "");
+		this.viewButton.addStyleName("viewButton");
 		this.infoPanel.add(this.viewButton);
 		this.viewButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
 			public void onClick() {
-				onOpen();
+				onView();
 			}
 		});
 	}
 
 	/**
-	 * marks the material as selected
+	 * marks the material as selected and disables the other materials
 	 */
 	protected void markSelected() {
-		this.isSelected = true;
-		((GuiManagerW) app.getGuiManager()).getBrowseGUI().unselectMaterials();
-		this.addStyleName("selected");
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().disableMaterials();
 		((GuiManagerW) app.getGuiManager()).getBrowseGUI().rememberSelected(this);
+		this.state = State.Selected;
+		this.removeStyleName("unselected");
+		this.removeStyleName("default");
+		this.addStyleName("selected");
+		showDetails(true);
 	}
 
 	/**
-	 * removes the selection 
+	 * sets the default style 
 	 */
-	public void markUnSelected() {
-		this.isSelected = false;
+	public void setDefaultStyle() {
+		this.state = State.Default;
 		this.removeStyleName("selected");
-		showLess();
+		this.removeStyleName("unselected");
+		this.addStyleName("default");
+		showDetails(false);
 	}
+	
+	/**
+	 * Disables the material.
+	 */
+	public void disableMaterial() {
+		this.state = State.Disabled;
+	    this.addStyleName("unselected");
+	    this.removeStyleName("selected");
+	    this.removeStyleName("default");
+    }
 
 	/**
 	 * 
 	 */
 	public void setLabels() {
-		this.editButton.setText(app.getLocalization().getPlain("Open"));
+		this.editButton.setText(app.getLocalization().getMenu("Edit"));
 		if (this.isLocalFile) {
 			this.deleteButton.setText(app.getLocalization().getCommand("Delete"));
+			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
 		} else {
 			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
 		}
@@ -346,37 +366,22 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private void showDetails(final boolean show) {
 		if (this.isLocalFile) {
 			this.deleteButton.setVisible(show);
+			this.deleteButton.removeStyleName("deleteActive");
+			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
+			this.confirmDeletePanel.setVisible(false);
 		} else {
+			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);
 		}
+		this.editButton.setVisible(show);
+		
 		if (show) {
-			this.showLess.setVisible(true);
-			this.showMore.setVisible(false);
+			this.infoPanel.addStyleName("detailed");
 		} else {
-			this.showLess.setVisible(false);
-			this.showMore.setVisible(true);
+			this.infoPanel.removeStyleName("detailed");
 		}
-		this.editButton.setVisible(show);		
 	}
-
-	void showMore() {
-		markSelected();
-		this.addStyleName("showDetails");
-		this.infoPanel.addStyleName("detailed");
-
-		showDetails(true);
-	}
-
-	void showLess() {
-		this.removeStyleName("showDetails");
-		this.infoPanel.removeStyleName("detailed");
-		if(this.isLocalFile) {
-			this.confirmDeletePanel.setVisible(false);
-		}
-
-		showDetails(false);
-	}
-
+	
 	/*** LAF dependent methods **/
 
 	public String getInsertWorksheetTitle(final Material m) {
@@ -386,9 +391,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	/**
 	 * Opens GeoGebraTube material in a new window (overwritten for tablet app, smart widget)
 	 */
-	protected void onOpen() {
+	protected void onView() {
 		//TODO tubeWindow for local files
-		markUnSelected();
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().setMaterialsDefaultStyle();
 		if (!this.isLocalFile) {
 			openTubeWindow(material.getURL());
 //			openTubeWindow("http://tube-beta.geogebra.org/student/m123899?caller=tablet");

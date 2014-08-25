@@ -1,13 +1,12 @@
 package geogebra.phone.gui;
 
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.browser.BrowseViewPanel;
 import geogebra.phone.gui.header.PhoneHeader;
 import geogebra.phone.gui.views.AlgebraViewPanel;
 import geogebra.phone.gui.views.EuclidianViewPanel;
 import geogebra.phone.gui.views.ViewsContainer;
 import geogebra.phone.gui.views.ViewsContainer.View;
-import geogebra.phone.gui.views.browseView.BrowseViewPanelP;
+import geogebra.phone.gui.views.browseView.MaterialListPanelP;
 import geogebra.web.main.AppWapplication;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class PhoneGUI extends VerticalPanel {
 	
 	private ViewsContainer views;
 	private PhoneHeader header;
-	private BrowseViewPanelP browseViewPanel;
+	private MaterialListPanelP materialListPanel;
 	private EuclidianViewPanel euclidianViewPanel;
 	private AlgebraViewPanel algebraViewPanel;
 	private AppWapplication app;
@@ -101,8 +100,8 @@ public class PhoneGUI extends VerticalPanel {
 		this.algebraViewPanel.setStyleName("algebraViewPanel");
 //		
 		// *** browseView ***
-		this.browseViewPanel = new BrowseViewPanelP(app);
-		this.browseViewPanel.setPixelSize(width, height);
+		this.materialListPanel = new MaterialListPanelP(app);
+		this.materialListPanel.setPixelSize(width, height);
 //		
 //		// *** optionsView ***
 ////		this.euclidianOptions = new EuclidianOptions();
@@ -111,17 +110,17 @@ public class PhoneGUI extends VerticalPanel {
 //		
 		this.views.addView(this.algebraViewPanel);		
 		this.views.addView(this.euclidianViewPanel);
-		this.views.addView(this.browseViewPanel);
+		this.views.addView(this.materialListPanel);
 ////		this.views.addView(this.euclidianOptions);
 //		
 		this.add(this.views);	
 		
 		this.addResizeListener(this.views);
 		this.addResizeListener(this.algebraViewPanel);
-		this.addResizeListener(this.browseViewPanel);
+		this.addResizeListener(this.materialListPanel);
 		this.addResizeListener(this.euclidianViewPanel);
 		
-		this.browseViewPanel.loadFeatured();
+		this.materialListPanel.loadFeatured();
 	}
 	
 	/**
@@ -164,8 +163,8 @@ public class PhoneGUI extends VerticalPanel {
 		this.header.changeTitle(newTitle);
 	}
 	
-	public BrowseViewPanel getBrowseViewPanel() {
-		return this.browseViewPanel;
+	public MaterialListPanelP getMaterialListPanel() {
+		return this.materialListPanel;
 	}
 	
 	private void addResizeListener(ResizeListener rl) {
