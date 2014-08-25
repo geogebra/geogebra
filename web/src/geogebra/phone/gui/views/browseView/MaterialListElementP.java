@@ -19,7 +19,7 @@ public class MaterialListElementP extends MaterialListElement {
 
 	@Override
 	protected void markSelected() {
-		this.isSelected = true;
+		this.state = State.Selected;
 		Phone.getGUI().getMaterialListPanel().disableMaterials();
 		Phone.getGUI().getMaterialListPanel().rememberSelected(this);
 
