@@ -1536,6 +1536,10 @@ Paddings for menuitems.
 /*#####################################################################################
 ###       STYLEBAR
 #####################################################################################*/
+.closeButtonPanel {
+	margin: 3px;
+}
+
 .ButtonPopupMenu div:focus {
 	border: 1px solid transparent;
 }
@@ -2001,10 +2005,6 @@ Paddings for menuitems.
 .ToolTip {
 	display: block;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-	/*background: whitesmoke;
-	border: 1px solid lightgray;
-	box-shadow: 2px 2px 8px -1px #ccc;
-	padding: 2px 4px;*/
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -2017,6 +2017,28 @@ Paddings for menuitems.
 
 .toolTipHTML {
 	font-size: 80%;
+}
+
+.infoTooltip {
+	display: block;
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 3px;
+	background-color: rgba(51, 51, 51, 0.8);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+	z-index: 1000;
+	position: fixed;
+	bottom: 50px;
+	margin: 0px auto;
+}
+.infoTooltip .infoText {
+	padding: 0px 50px;
+}
+.infoTooltip .manualLink {
+	padding: 10px 20px;
 }
 
 /*#####################################################################################
@@ -2512,14 +2534,27 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 }
 
 .CAS_inputPanel {
-	padding: 2px;
+	padding: 5px;
 	overflow: hidden;
 	height: 100%;
+}
+
+.CAS-table > tbody > tr > td {
+	border-bottom: 1px solid #DCDCDC;
+}
+
+.CAS-table .AutoCompleteTextFieldW {
+	margin: 4px;
 }
 
 .cas_header {
 	width: 1px;
 	height: 2.5em;
+	background-color: #F8F8F8;
+}
+.cas_header.selected {
+	background-color: #CCCCFF;
+	color: #333333;
 }
 
 .cas_header table td {
@@ -2528,7 +2563,8 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	padding-right: 5px;
 }
 
-.CAS_substitute_editTextCell input[type="text"],.cas_sub_editTextCell select
+.CAS_substitute_editTextCell input[type="text"],
+.cas_sub_editTextCell select
 	{
 	width: 100%;
 	box-sizing: border-box;

@@ -8,7 +8,6 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -43,7 +42,7 @@ public class CASTableCellW extends VerticalPanel {
 		add(inputPanel);
 
 		Label outputLabel = new Label();
-		outputLabel.getElement().getStyle().setPadding(2, Style.Unit.PX);
+		//outputLabel.getElement().getStyle().setPadding(2, Style.Unit.PX);
 		if (casCell!=null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				SpanElement outputSpan = DOM.createSpan().cast();

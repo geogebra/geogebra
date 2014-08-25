@@ -1,17 +1,14 @@
 package geogebra.web.cas.view;
 
-import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASTable;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
-import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.main.AppW;
 
 import java.util.TreeSet;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -34,10 +31,12 @@ public class CASTableW extends Grid implements CASTable {
 		super(0, 2);
 		this.app = app;
 		this.ml = ml;
-		setBorderWidth(1);
+		
+		this.addStyleName("CAS-table");
+		/*setBorderWidth(1);
 		getElement().getStyle().setBorderColor(
 		        MyTableW.TABLE_GRID_COLOR.toString());
-		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);*/
 		insertRow(0, null, false);
 		view = casViewW;
 	}
@@ -73,10 +72,13 @@ public class CASTableW extends Grid implements CASTable {
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell, (AppW)getApplication());
 		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
 		getCellFormatter().addStyleName(n, COL_CAS_HEADER, "cas_header");
-		getCellFormatter()
+		
+		// Steffi: Styles moved to stylesheet
+		/*getCellFormatter()
 		        .getElement(n, COL_CAS_HEADER)
 		        .getStyle()
-		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());*/
+		
 		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 		
 		if (n < getRowCount()-1){
@@ -161,14 +163,27 @@ public class CASTableW extends Grid implements CASTable {
 		Widget cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1,casCell, (AppW) getApplication());
 		setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
-		getCellFormatter()
+		
+		// Steffi: styles moved to stylesheet
+		/*getCellFormatter()
 		        .getElement(rowNumber, COL_CAS_HEADER)
 		        .getStyle()
-		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());*/
+		//setRowSelected(rowNumber, false);
+		
 		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 		if(casCell.isUseAsText()){
 			((CASTableCellW)cellWidget).setFont();
 			((CASTableCellW)cellWidget).setColor();
+		}
+	}
+	
+	private void setRowSelected(int rowNumber, boolean selected) {
+		if(selected) {
+			getCellFormatter().getElement(rowNumber, COL_CAS_HEADER).addClassName("selected");
+		}
+		else {
+			getCellFormatter().getElement(rowNumber, COL_CAS_HEADER).removeClassName("selected");
 		}
 	}
 
@@ -221,11 +236,13 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	private void markRowSelected(int rowNumber, boolean b) {
-		GColor color = b?GColor.GRAY:MyTableW.BACKGROUND_COLOR_HEADER;
+		/*GColor color = b?GColor.GRAY:MyTableW.BACKGROUND_COLOR_HEADER;
 		getCellFormatter()
         .getElement(rowNumber, COL_CAS_HEADER)
         .getStyle()
-        .setBackgroundColor(color.toString());
+        .setBackgroundColor(color.toString());*/
+		
+		setRowSelected(rowNumber, b);
     }
 
 	public CASViewW getCASView() {
