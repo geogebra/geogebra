@@ -3673,6 +3673,19 @@ public class Kernel {
 		}
 	}
 	
+	public void updateConstructionLanguage() {
+
+		// views are notified about update at the end of this method
+		cons.updateConstructionLanguage();
+
+		if (getUpdateAgain()) {
+			setUpdateAgain(false);
+			app.scheduleUpdateConstruction();
+		} else {
+			notifyRepaint();
+		}
+	}
+	
 	/**
 	 * update construction n times
 	 * @param n 

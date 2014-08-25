@@ -2898,6 +2898,34 @@ public class Construction {
 		}
 		casAlgos.clear();
 	}
+
+	public void updateConstructionLanguage() {
+		// collect notifyUpdate calls using xAxis as dummy geo
+		updateConstructionRunning = true;
+		boolean oldFlag = this.kernel.getApplication().isBlockUpdateScripts();
+		this.kernel.getApplication().setBlockUpdateScripts(true);
+		try {
+			// G.Sturr 2010-5-28: turned this off so that random numbers can be
+			// traced
+			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
+			// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
+
+			// update all independent GeoElements
+			int size = ceList.size();
+			for (int i = 0; i < size; ++i) {
+				ConstructionElement ce = ceList.get(i);
+				if (ce.isGeoElement()) {
+					if(((GeoElement)ce).isGeoText() && ((GeoElement)ce).getParentAlgorithm() != null){
+						((GeoElement)ce).getParentAlgorithm().update();
+					}
+					ce.update();
+				}
+			}
+		} finally {
+			this.kernel.getApplication().setBlockUpdateScripts(oldFlag);
+			updateConstructionRunning = false;
+		}
+	}
 	
 
 }
