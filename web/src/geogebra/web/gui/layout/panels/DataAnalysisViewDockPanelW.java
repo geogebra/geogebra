@@ -71,6 +71,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_MOVE);
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			App.debug("PRE RELEASE!_YIKES");
 			sb.append(" || ");
 			sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 			sb.append(" || ");

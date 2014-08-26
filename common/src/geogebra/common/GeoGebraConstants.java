@@ -16,8 +16,7 @@ public interface GeoGebraConstants {
 	public static final String VERSION_STRING = "4.9.312.0"; 
 	
 	/** true for beta versions/release candidates*/
-	public static final boolean IS_PRE_RELEASE = false;//VERSION_STRING.startsWith(XML_FILE_FORMAT);
-
+	
 	// proper noun, should NOT be translated / transliterated
 	public static final String APPLICATION_NAME = "GeoGebra"; 
 	
@@ -31,6 +30,8 @@ public interface GeoGebraConstants {
 	public static final String PREFERENCES_ROOT = "/geogebra50";
 	/** File format version */
 	public static final String XML_FILE_FORMAT = "5.0";
+
+	public static final boolean IS_PRE_RELEASE = VERSION_STRING.startsWith(XML_FILE_FORMAT);
 
 	// This is used for checking if a minor update exists (on each run):
 	public static final String VERSION_URL_MINOR = "http://www.geogebra.org/download/version50.txt";
