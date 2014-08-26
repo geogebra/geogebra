@@ -36,6 +36,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 	
 	private final int MAX_TITLE_HEIGHT = 40;
+	private FlowPanel materialElementContent;
 	private SimplePanel previewPicturePanel;
 	private FlowPanel infoPanel;
 
@@ -78,6 +79,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		};
 		initMaterialInfos();
 
+		materialElementContent = new FlowPanel();
+		this.materialElementContent.addStyleName("materialElementContent");
+		this.add(materialElementContent);
+		
 		addPreviewPicture();
 		addInfoPanel();
 
@@ -108,7 +113,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		addTextInfo();
 		addOptions();
 
-		this.add(this.infoPanel);
+		this.materialElementContent.add(this.infoPanel);
 	}
 
 	private void addTextInfo() {
@@ -168,7 +173,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		}
 		
 		this.previewPicturePanel.add(background);
-		this.add(this.previewPicturePanel);
+		this.materialElementContent.add(this.previewPicturePanel);
 
 		if(this.material.getType() == Material.MaterialType.book){
 			final Label deco = new Label();

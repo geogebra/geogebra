@@ -313,14 +313,14 @@ hr {
 	
 }
 
-/*.gwt-MenuBar {
+.gwt-MenuBar {
 	cursor: default;
-}*/
+}
 
-/*.gwt-MenuBar .gwt-MenuItem {
+.gwt-MenuBar .gwt-MenuItem {
 	cursor: default;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}*/
+}
 
 .gwt-MenuBar .gwt-MenuItem-selected {
 	background: #CCCCFF;
@@ -3717,47 +3717,45 @@ PROVIDERS
 .materialListPanel {
 	padding: 20px;
 	overflow-y: scroll;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
 }
 
 .materialListElement {
-	width: 183px;
+	width: 182px;
 	height: 250px;
 	margin-right: 15px;
 	margin-bottom: 15px;
+	float: left;
+	position: relative;
+}
+
+.materialElementContent {
+	position: relative;
 }
 
 .materialListElement .fileImage {
-	width: 171px;
-	height: 171px;
+	width: 170px;
+	height: 170px;
 	padding: 5px;
 	overflow: hidden;
 	border-radius: 5px;
 	border: 1px solid #CCCCCC;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
-	 rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
 
 .materialListElement .fileImage .background {
-	width: 171px;
-	height: 171px;
+	width: 170px;
+	height: 170px;
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
 }
 
-.materialListElement .infoPanel {
-	padding: 5px 0px 10px 2px;
-	width: 181px;
-}
-
 .materialListElement .infoPanel .sharedPanel { 
 	font-size: 80%;
 	padding-top: 2px;
+	padding-bottom: 5px;
 }
 
 /** default style of material **/
@@ -3769,71 +3767,64 @@ PROVIDERS
 	border-color: #6666FF;
 }
 
-.materialListElement.default .infoPanel .fileTitle {
+.materialListElement .infoPanel .fileTitle {
 	max-height: 40px;
 	overflow: hidden;
+	padding-top: 5px;
 }
 
 /** Material is selected **/
-.materialListElement.selected {
+.materialListElement.selected .materialElementContent {
 	border-radius: 10px;
 	border: 1px solid #CCCCCC;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	cursor: default;
 	padding: 15px;
-	margin-top: -16px;
-	margin-left: -16px;
-	margin-right: -1px;
-	margin-bottom: -87px;
-	z-index: 1;
+	z-index: 100;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
-	height: 336px;
+	
+	position: absolute;
+	top: -16px;
+	left: -16px;
+}
+
+.materialListElement.selected .infoPanel .fileTitle {
+	max-height: 70px;
 }
 
 .materialListElement.selected .fileImage {
-	border-color: #6666FF;
+	border-color: #6161FF;
 	cursor: pointer;
 }
 
 .materialListElement.selected .button {
-	display: -moz-box;
-	display: -webkit-box;
-	display: box;
 	cursor: pointer;
-	line-height: 20px;
 }
 
-.materialListElement.selected .infoPanel.detailed {
-	padding-bottom: 0px;
-	height: 144px;
-	display: flex;
-	flex-flow: column
+.materialListElement .button:hover,
+.materialListElement .button:active {
+	color: #6161FF;
 }
 
-.materialListElement.selected .infoPanel.detailed .viewButton .image {
-	padding-top: 1px;
+.materialListElement .button .image {
+	vertical-align: middle;
+	display: inline-block;
+	margin-right: 5px;
 }
 
-.materialListElement.selected .infoPanel.detailed .gwt-Label {
-	padding-left: 5px;
+.materialListElement .infoPanel.detailed .gwt-Label {
 	font-size: 90%;
-}
-
-.materialListElement.selected .infoPanel.detailed .sharedPanel {
-	flex-grow: 1;
+	display: inline-block;
 }
 
 .materialListElement.selected .infoPanel.detailed .deleteActive {
-	flex-grow: 1;
-	display: flex;
 	padding-bottom: 5px;
-	color: #6666ff;
+	color: #6161FF;
 }
 
 .materialListElement.selected .infoPanel.detailed .confirmDelete {
-	display: flex;
-	justify-content: space-between;
+	
 }
 .materialListElement.selected .infoPanel.detailed .confirmDelete .cancelButton {
 	padding-bottom: 5px;
@@ -3847,11 +3838,9 @@ PROVIDERS
 
 
 .materialListElement.selected .infoPanel.detailed .deleteActive .image {
-	align-self: flex-end;
 }
 
 .materialListElement.selected .infoPanel.detailed .deleteActive .gwt-Label {
-	align-self: flex-end;
 	padding-bottom: 3px;
 }
 
@@ -3866,7 +3855,7 @@ PROVIDERS
 	cursor: default;
 }
 
-.matrialListElement.unselected:hover .fileImage {
+.materialListElement.unselected:hover .fileImage {
 	border-color: #666666;
 	cursor: default;
 }
@@ -3981,7 +3970,7 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 }
 
 /* make sure dummy canvas does not force a scrollbar */
-.dummyParent{
+.dummyParent {
 		position:absolute;
 		left:1px;
 		top:1px;
