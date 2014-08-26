@@ -7,8 +7,10 @@ import geogebra.common.gui.view.data.DataDisplayModel;
 import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.gui.view.data.StatPanelSettings;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -393,23 +395,47 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		ckShowGrid.addClickHandler(this);
 
 		lblXMin = new Label();
-		fldXMin = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldXMin = InputPanelW.newTextComponent(app);
 		fldXMin.setEditable(true);
-		fldXMin.addKeyHandler(new PropertyKeyHandler(fldXMin));
-		fldXMin.addBlurHandler(this);
+		fldXMin.addKeyHandler(new KeyHandler() {
+			
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					actionPerformed(fldXMin);
+				}
+			}
+		});
+		fldXMin.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				actionPerformed(fldXMin);
+			}
+		});
 
 		lblXMax = new Label();
-		fldXMax = new AutoCompleteTextFieldW(fieldWidth, app);
-		fldXMax.addKeyHandler(new PropertyKeyHandler(fldXMax));
-		fldXMax.addBlurHandler(this);
+		fldXMax = InputPanelW.newTextComponent(app);
+		fldXMax.addKeyHandler(new KeyHandler() {
+			
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					actionPerformed(fldXMax);
+				}
+			}
+		});
+		fldXMax.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				actionPerformed(fldXMax);
+			}
+		});
 
 		lblYMin = new Label();
-		fldYMin = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldYMin = InputPanelW.newTextComponent(app);
 		fldYMin.addKeyHandler(new PropertyKeyHandler(fldYMin));
 		fldYMin.addBlurHandler(this);
 
 		lblYMax = new Label();
-		fldYMax = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldYMax = InputPanelW.newTextComponent(app);
 		fldYMax.addKeyHandler(new PropertyKeyHandler(fldYMax));
 		fldYMax.addBlurHandler(this);
 
@@ -533,42 +559,35 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 //		fldBarWidth.setEnabled(!ckAutoBarWidth.isSelected());
 //
 //		// window dimension
-//		lblYMin.setVisible(showYAxisSettings);
-//		fldYMin.setVisible(showYAxisSettings);
-//		lblYMax.setVisible(showYAxisSettings);
-//		fldYMax.setVisible(showYAxisSettings);
-//		lblYInterval.setVisible(showYAxisSettings);
-//		fldYInterval.setVisible(showYAxisSettings);
-//
-//		dimPanel.setEnabled(!ckAutoWindow.isSelected());
-//		fldXMin.setEnabled(!ckAutoWindow.isSelected());
-//		fldXMax.setEnabled(!ckAutoWindow.isSelected());
-//		fldXInterval.setEnabled(!ckAutoWindow.isSelected());
-//		fldYMin.setEnabled(!ckAutoWindow.isSelected());
-//		fldYMax.setEnabled(!ckAutoWindow.isSelected());
-//		fldYInterval.setEnabled(!ckAutoWindow.isSelected());
-//
-//		lblXMin.setEnabled(!ckAutoWindow.isSelected());
-//		lblXMax.setEnabled(!ckAutoWindow.isSelected());
-//		lblXInterval.setEnabled(!ckAutoWindow.isSelected());
-//		lblYMin.setEnabled(!ckAutoWindow.isSelected());
-//		lblYMax.setEnabled(!ckAutoWindow.isSelected());
-//		lblYInterval.setEnabled(!ckAutoWindow.isSelected());
-//
-//		// update automatic dimensions
-//		fldXMin.setText("" + daModel.format(settings.xMin));
-//		fldXMax.setText("" + daModel.format(settings.xMax));
-//		fldXInterval.setText("" + daModel.format(settings.xAxesInterval));
-//
-//		fldYMin.setText("" + daModel.format(settings.yMin));
-//		fldYMax.setText("" + daModel.format(settings.yMax));
-//		fldYInterval.setText("" + daModel.format(settings.yAxesInterval));
-//
-//		// show outliers
-//		ckShowOutliers.setSelected(settings.isShowOutliers());
-//
-//		isUpdating = false;
-//		repaint();
+		lblYMin.setVisible(showYAxisSettings);
+		fldYMin.setVisible(showYAxisSettings);
+		lblYMax.setVisible(showYAxisSettings);
+		fldYMax.setVisible(showYAxisSettings);
+		lblYInterval.setVisible(showYAxisSettings);
+		fldYInterval.setVisible(showYAxisSettings);
+
+//		dimPanel.setEnabled(!ckAutoWindow.getValue());
+		fldXMin.setEditable(!ckAutoWindow.getValue());
+		fldXMax.setEditable(!ckAutoWindow.getValue());
+		fldXInterval.setEditable(!ckAutoWindow.getValue());
+		fldYMin.setEditable(!ckAutoWindow.getValue());
+		fldYMax.setEditable(!ckAutoWindow.getValue());
+		fldYInterval.setEditable(!ckAutoWindow.getValue());
+
+
+		// update automatic dimensions
+		fldXMin.setText("" + daModel.format(settings.xMin));
+		fldXMax.setText("" + daModel.format(settings.xMax));
+		fldXInterval.setText("" + daModel.format(settings.xAxesInterval));
+
+		fldYMin.setText("" + daModel.format(settings.yMin));
+		fldYMax.setText("" + daModel.format(settings.yMax));
+		fldYInterval.setText("" + daModel.format(settings.yAxesInterval));
+
+		// show outliers
+		//ckShowOutliers.setValue(settings.isShowOutliers());
+
+		isUpdating = false;
 	}
 
 
@@ -637,8 +656,45 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
-	    // TODO Auto-generated method stub
-	    
+		if (isUpdating)
+			return;
+		try {
+			String inputText = source.getText().trim();
+			NumberValue nv;
+			nv = app.getKernel().getAlgebraProcessor()
+					.evaluateToNumeric(inputText, false);
+			double value = nv.getDouble();
+
+			// TODO better validation
+
+			if (source == fldXMin) {
+				settings.xMin = value;
+				firePropertyChange("settings", true, false);
+			} else if (source == fldXMax) {
+				settings.xMax = value;
+				firePropertyChange("settings", true, false);
+			} else if (source == fldYMax) {
+				settings.yMax = value;
+				firePropertyChange("settings", true, false);
+			} else if (source == fldYMin) {
+				settings.yMin = value;
+				firePropertyChange("settings", true, false);
+			} else if (source == fldXInterval && value >= 0) {
+				settings.xAxesInterval = value;
+				firePropertyChange("settings", true, false);
+			} else if (source == fldYInterval && value >= 0) {
+				settings.yAxesInterval = value;
+				firePropertyChange("settings", true, false);
+			} else if (source == fldBarWidth && value >= 0) {
+				settings.setBarWidth(value);
+				firePropertyChange("settings", true, false);
+			}
+			updateGUI();
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+
     }
 
 	private void firePropertyChange(String string, boolean b, boolean c) {
@@ -646,6 +702,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
     }
 
 	public void updatePanel() {
+		
 		// TODO Auto-generated method stub
 
 	}

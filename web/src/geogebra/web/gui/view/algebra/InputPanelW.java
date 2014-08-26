@@ -162,4 +162,8 @@ public class InputPanelW extends FlowPanel {
 	public void setEnabled(boolean b) {
 		textComponent.setEditable(b);
 	}
+	
+	public static AutoCompleteTextFieldW newTextComponent(AppW app) {
+		return new InputPanelW(null, app, -1, false).getTextComponent();
+	}
 }
