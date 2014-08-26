@@ -1452,7 +1452,7 @@ body[dir=rtl] .signIn {
 .GeoGebraMenuBar.subMenuLeftSide {
 	right: 220px;
 	white-space: nowrap;
-	top: -10px;
+	top: -5px;
 	position: absolute;
 	z-index: 600;
 	-webkit-border-radius: 10px;
@@ -1470,7 +1470,7 @@ body[dir=rtl] .signIn {
 
 .GeoGebraMenuBar.subMenuLeftSide .arrowSubmenu {
 	position: absolute;
-	top: 5px;
+	top: 3px;
 	right: -15px;
 }
 /*.gwt-PopupPanel .popupContent .subMenuLeftSide .arrowSubmenu {
