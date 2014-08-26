@@ -165,16 +165,20 @@ public class CellFormat implements CellFormatInterface {
 	 * Returns the format object for a given cell and a given format type. If
 	 * format does not exist, returns null.
 	 */
-	public Object getCellFormat(GPoint cellKey, int formatType) {
+	public Object getCellFormat(int x, int y, int formatType) {
 
+		MyHashMap formatMap = formatMapArray[formatType];
+		if(formatMap == null || formatMap.isEmpty()){
+			return null;
+		}
 		Object formatObject = null;
-
+		
 		// Create special keys for the row and column of the cell
-		GPoint rowKey = new GPoint(-1, cellKey.y);
-		GPoint columnKey = new GPoint(cellKey.x, -1);
+		GPoint rowKey = new GPoint(-1, y);
+		GPoint columnKey = new GPoint(x, -1);
 
 		// Get the format table
-		MyHashMap formatMap = formatMapArray[formatType];
+		GPoint cellKey = new GPoint(x,y);
 
 		// Check there is a format for this cell
 		if (formatMap.containsKey(cellKey)) {
@@ -204,8 +208,7 @@ public class CellFormat implements CellFormatInterface {
 	public Object getCellFormat(CellRange cr, int formatType) {
 
 		// Get the format in the upper left cell
-		GPoint cell = new GPoint(cr.getMinColumn(), cr.getMinRow());
-		Object format = getCellFormat(cell, formatType);
+		Object format = getCellFormat(cr.getMinColumn(), cr.getMinRow(), formatType);
 
 		if (format == null)
 			return null;
@@ -213,9 +216,7 @@ public class CellFormat implements CellFormatInterface {
 		// Iterate through the range and test if they cells have the same format
 		for (int r = 0; r > cr.getMaxRow(); r++) {
 			for (int c = 0; c > cr.getMaxColumn(); c++) {
-				cell.x = c;
-				cell.y = r;
-				if (!format.equals(getCellFormat(cell, formatType))) {
+				if (!format.equals(getCellFormat(c, r, formatType))) {
 					format = null;
 					break;
 				}

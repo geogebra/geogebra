@@ -1,7 +1,6 @@
 package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -100,13 +99,11 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 	public void updateCellFormat(GeoElement geo, int row, int column) {
 
-		GPoint cellPoint = new GPoint(column, row);
-		
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
-		cellPoint.setLocation(column, row);
+		//cellPoint.setLocation(column, row);
 
 		// Font style
-		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint,
+		fontStyle = (Integer) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_FONTSTYLE);
 		if (fontStyle == null) {
 			s.setFontStyle(Style.FontStyle.NORMAL);
@@ -138,7 +135,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		// Alignment
-		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
+		alignment = (Integer) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
 			s.setProperty("textAlign",
@@ -159,10 +156,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	public void updateCellBackground(GeoElement geo, int row,
 	        int column) {
 
-		GPoint cellPoint = new GPoint();
-		cellPoint.setLocation(column, row);
-		
-		GColor bgColor = (GColor) formatHandler.getCellFormat(cellPoint,
+		GColor bgColor = (GColor) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_BGCOLOR);
 		
 		if (geo != null) {

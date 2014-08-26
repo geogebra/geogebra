@@ -37,7 +37,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	// ggb fields
 	private AppD app;
 	private Kernel kernel;
-	//private SpreadsheetView view;
+	// private SpreadsheetView view;
 	private MyTableInterface myTable;
 
 	// LaTeX
@@ -88,7 +88,6 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		app = (AppD) myTable.getApplication();
 		kernel = app.getKernel();
 		formatHandler = (CellFormat) myTable.getCellFormatHandler();
-		
 
 		// Add horizontal padding
 		setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
@@ -124,7 +123,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		bgColor = geogebra.awt.GColorD
 				.getAwtColor((geogebra.awt.GColorD) formatHandler
-						.getCellFormat(cellPoint, CellFormat.FORMAT_BGCOLOR));
+						.getCellFormat(column, row, CellFormat.FORMAT_BGCOLOR));
 		if (bgColor == null) {
 			isCustomBGColor = false;
 			bgColor = table.getBackground();
@@ -215,8 +214,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		// Set font
 		// ===============================================
-		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint,
-				CellFormat.FORMAT_FONTSTYLE);
+		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint.x,
+				cellPoint.y, CellFormat.FORMAT_FONTSTYLE);
 		if (fontStyle == null)
 			fontStyle = Font.PLAIN;
 
@@ -241,19 +240,19 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				bgColor = MyTableD.SELECTED_BACKGROUND_COLOR;
 			}
 		}
-		
+
 		// for testing
-		//if(geo.isEmptySpreadsheetCell()){
-			//bgColor = MyTableD.SELECTED_BACKGROUND_COLOR_HEADER;
-		//}
-		
+		// if(geo.isEmptySpreadsheetCell()){
+		// bgColor = MyTableD.SELECTED_BACKGROUND_COLOR_HEADER;
+		// }
+
 		setBackground(bgColor);
 		setForeground(geogebra.awt.GColorD.getAwtColor(geo.getLabelColor()));
 
 		// Set horizontal alignment
 		// ===============================================
-		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
-				CellFormat.FORMAT_ALIGN);
+		alignment = (Integer) formatHandler.getCellFormat(cellPoint.x,
+				cellPoint.y, CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
 			setHorizontalAlignment(alignment);
 		} else if (geo.isGeoText()) {
