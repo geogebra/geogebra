@@ -735,7 +735,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			// hasNextArgument = argMatcher.find();
 			hasNextArgument = syntaxArgPattern.test(text);
 			argMatcher = syntaxArgPattern.exec(text);
-			index = argMatcher.getIndex();
+			if(hasNextArgument){
+				index = argMatcher.getIndex();
+			}
 		}
 		// if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
 		if (hasNextArgument && argMatcher.getGroup(1) != null &&(find || index == caretPos)) {
