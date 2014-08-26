@@ -3786,7 +3786,7 @@ PROVIDERS
 	z-index: 1;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
-	height: initial;
+	height: 336px;
 }
 
 .materialListElement.selected .fileImage {
