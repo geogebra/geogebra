@@ -269,6 +269,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	// /////////////////////////////////
 	// GEOELEMENT3D
+	
+	private CoordMatrix parametricMatrix;
 
 	/**
 	 * return the (v1, v2, o) parametric matrix of this plane, ie each point of
@@ -278,11 +280,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	 */
 	public CoordMatrix getParametricMatrix() {
 		CoordMatrix4x4 m4 = getCoordSys().getMatrixOrthonormal();
-		CoordMatrix ret = new CoordMatrix(4, 3);
-		ret.setVx(m4.getVx());
-		ret.setVy(m4.getVy());
-		ret.setOrigin(m4.getOrigin());
-		return ret;
+		if (parametricMatrix == null){
+			parametricMatrix = new CoordMatrix(4, 3);
+		}
+		parametricMatrix.setVx(m4.getVx());
+		parametricMatrix.setVy(m4.getVy());
+		parametricMatrix.setOrigin(m4.getOrigin());
+		return parametricMatrix;
 	}
 
 	@Override
@@ -533,14 +537,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	public void update() {
 		super.update();
 		if (euclidianViewForPlane != null) {
-			euclidianViewForPlane.updateMatrix();
-			updateViewForPlane();
+			euclidianViewForPlane.updateForPlane();
 		}
 	}
 
-	private void updateViewForPlane() {
-		euclidianViewForPlane.updateAllDrawables(true);
-	}
 
 
 	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanion view){

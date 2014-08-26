@@ -151,6 +151,8 @@ Traceable{
 	// MATRIX REPRESENTATION
 	/////////////////////////////////
 	
+	private CoordMatrix symetricMatrix;
+	
 	/**
 	 * @param vals flat matrix
 	 * @return the matrix representation of the quadric in its dimension
@@ -158,22 +160,24 @@ Traceable{
 	 */
 	protected CoordMatrix getSymetricMatrix(double[] vals){
 		
-		CoordMatrix ret = new CoordMatrix(4, 4);
+		if (symetricMatrix == null){
+			symetricMatrix = new CoordMatrix(4, 4);
+		}
 		
-		ret.set(1, 1, vals[0]);
-		ret.set(2, 2, vals[1]);
-		ret.set(3, 3, vals[2]);
-		ret.set(4, 4, vals[3]);
+		symetricMatrix.set(1, 1, vals[0]);
+		symetricMatrix.set(2, 2, vals[1]);
+		symetricMatrix.set(3, 3, vals[2]);
+		symetricMatrix.set(4, 4, vals[3]);
 		
-		ret.set(1, 2, vals[4]); ret.set(2, 1, vals[4]);
-		ret.set(1, 3, vals[5]); ret.set(3, 1, vals[5]);
-		ret.set(2, 3, vals[6]); ret.set(3, 2, vals[6]);
+		symetricMatrix.set(1, 2, vals[4]); symetricMatrix.set(2, 1, vals[4]);
+		symetricMatrix.set(1, 3, vals[5]); symetricMatrix.set(3, 1, vals[5]);
+		symetricMatrix.set(2, 3, vals[6]); symetricMatrix.set(3, 2, vals[6]);
 		
-		ret.set(1, 4, vals[7]); ret.set(4, 1, vals[7]);
-		ret.set(2, 4, vals[8]); ret.set(4, 2, vals[8]);
-		ret.set(3, 4, vals[9]); ret.set(4, 3, vals[9]);
+		symetricMatrix.set(1, 4, vals[7]); symetricMatrix.set(4, 1, vals[7]);
+		symetricMatrix.set(2, 4, vals[8]); symetricMatrix.set(4, 2, vals[8]);
+		symetricMatrix.set(3, 4, vals[9]); symetricMatrix.set(4, 3, vals[9]);
 		
-		return ret;
+		return symetricMatrix;
 	}
 	
 	/**

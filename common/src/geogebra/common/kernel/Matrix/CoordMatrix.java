@@ -618,6 +618,22 @@ public class CoordMatrix {
 		return result;
 
 	}
+	
+	/**
+	 * copy the matrix into result
+	 * @param result matrix
+	 */
+	public void copy(CoordMatrix result) {
+
+		for (int i = 1; i <= result.getRows(); i++) {
+			for (int j = 1; j <= result.getColumns(); j++) {
+				result.set(i, j, get(i, j));
+			}
+		}
+
+
+	}
+
 
 	/**
 	 * returns a transposed copy of the matrix
@@ -633,6 +649,19 @@ public class CoordMatrix {
 		return result;
 
 	}
+
+	/**
+	 * copy this transposed into result
+	 * @param result matrix
+	 */
+	public void transposeCopy(CoordMatrix result) {
+
+		this.transpose();
+		this.copy(result);
+		this.transpose();
+
+	}
+
 
 	/** prints the matrix to the screen */
 	public void SystemPrint() {
@@ -830,7 +859,7 @@ public class CoordMatrix {
 	 * @param result
 	 *            resulting matrix
 	 */
-	protected void mul(CoordMatrix m, CoordMatrix result) {
+	public void mul(CoordMatrix m, CoordMatrix result) {
 
 		for (int i = 1; i <= result.getRows(); i++) {
 			for (int j = 1; j <= result.getColumns(); j++) {

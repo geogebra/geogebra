@@ -1003,6 +1003,8 @@ FromMeta
 	// MATRIX AND EQUATION
 	////////////////////////////////////
 	
+	private double[] tmpCoefficients;
+	
 	/**
 	 * sets the matrix values from the symmetric matrix m
 	 * @param m matrix
@@ -1010,15 +1012,18 @@ FromMeta
 	@Override
 	final public void setMatrix(CoordMatrix m) {
 		
-		double[] coefficients = new double[6];			
-		coefficients[0] = m.get(1,1);
-		coefficients[1] = m.get(2,2);
-		coefficients[2] = m.get(3,3);
-		coefficients[3] = (m.get(1,2) + m.get(2,1)) / 2.0;
-		coefficients[4] = (m.get(1,3) + m.get(3,1)) / 2.0;
-		coefficients[5] = (m.get(2,3) + m.get(3,2)) / 2.0;    
+		if (tmpCoefficients == null){
+			tmpCoefficients  = new double[6];	
+		}
+		
+		tmpCoefficients[0] = m.get(1,1);
+		tmpCoefficients[1] = m.get(2,2);
+		tmpCoefficients[2] = m.get(3,3);
+		tmpCoefficients[3] = (m.get(1,2) + m.get(2,1)) / 2.0;
+		tmpCoefficients[4] = (m.get(1,3) + m.get(3,1)) / 2.0;
+		tmpCoefficients[5] = (m.get(2,3) + m.get(3,2)) / 2.0;    
 
-		setMatrix(coefficients);
+		setMatrix(tmpCoefficients);
 	}
 	
 	////////////////////////////////////
