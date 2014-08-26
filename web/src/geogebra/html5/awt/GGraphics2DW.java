@@ -156,6 +156,22 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 	private double[] coords = new double[6];
 
+	public void drawStraightLine(double x1, double y1, double x2, double y2) {
+		int width = (int) context.getLineWidth();
+		context.beginPath();
+		if (dash_array == null || nativeDashUsed){
+			if(width % 2 == 1){
+				context.moveTo(Math.floor(x1)+0.5, Math.floor(y1)+0.5);
+				context.lineTo(Math.floor(x2)+0.5, Math.floor(y2)+0.5);
+			} else {
+				context.moveTo(Math.round(x1), Math.round(y1));
+				context.lineTo(Math.round(x2), Math.round(y2));
+			}			
+		}else{
+			drawStraightDashedLine(x1, y1, x2, y2, jsarrn, context, width % 2 == 1);
+		}
+		context.stroke();
+	}
 	protected void doDrawShape(Shape shape, boolean enableDashEmulation) {
 		context.beginPath();
 		PathIterator it = shape.getPathIterator(null);
@@ -168,12 +184,12 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 			int cu = it.currentSegment(coords);
 			switch (cu) {
 			case PathIterator.SEG_MOVETO:
-				context.moveTo((int)Math.floor(coords[0])+0.5, (int)Math.floor(coords[1])+0.5);
+				context.moveTo(coords[0], coords[1]);
 				if (enableDashEmulation) setLastCoords(coords[0], coords[1]);
 				break;
 			case PathIterator.SEG_LINETO:
 				if (dash_array == null || !enableDashEmulation) {
-					context.lineTo((int)Math.floor(coords[0])+0.5, (int)Math.floor(coords[1])+0.5);
+					context.lineTo(coords[0], coords[1]);
 				} else {
 					if (nativeDashUsed) {
 						context.lineTo(coords[0], coords[1]);
@@ -525,7 +541,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 			return;
 		}
 		String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
-		//String colorStr = "rgb("+color.getRed()+","+color.getGreen()+","+color.getBlue()+")";
 		context.setStrokeStyle(colorStr);
 		context.setFillStyle(colorStr);
 		
@@ -784,6 +799,61 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		
 	}
 	
+	private native void drawStraightDashedLine(double fromX, double fromY, double toX, double toY, JsArrayNumber pattern,Context2d ctx, boolean odd) /*-{
+	// Our growth rate for our line can be one of the following:
+	// (+,+), (+,-), (-,+), (-,-)
+	// Because of this, our algorithm needs to understand if the x-coord and
+	// y-coord should be getting smaller or larger and properly cap the values
+	// based on (x,y).
+	
+	// make sure we don't get an infinite loop drawing eg
+	//y = -7.85046229341888E-17x
+	var EPSILON = 0.00000001;
+	
+	var lt = function (a, b) { return a <= b + EPSILON; };
+	var gt = function (a, b) { return a >= b - EPSILON; };
+	var capmin = function (a, b) { return $wnd.Math.min(a, b); };
+	var capmax = function (a, b) { return $wnd.Math.max(a, b); };
+	
+	var checkX = { thereYet: gt, cap: capmin };
+	var checkY = { thereYet: gt, cap: capmin };
+	
+	if (fromY - toY > 0) {
+		checkY.thereYet = lt;
+		checkY.cap = capmax;
+	}
+	if (fromX - toX > 0) {
+		checkX.thereYet = lt;
+		checkX.cap = capmax;
+	}
+	
+	//ctx.moveTo(fromX, fromY);
+	var offsetX = fromX;
+	var offsetY = fromY;
+	var idx = 0, dash = true;
+	var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
+	var cos = $wnd.Math.cos(ang);
+	var sin = $wnd.Math.sin(ang);
+
+	while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
+		
+		var len = pattern[idx];
+	
+		offsetX = checkX.cap(toX, offsetX + (cos * len));
+		offsetY = checkY.cap(toY, offsetY + (sin * len));
+
+		if (dash) ctx.lineTo(odd ? $wnd.Math.floor(offsetX)+0.5 : $wnd.Math.round(offsetX), 
+							odd ? $wnd.Math.floor(offsetY)+0.5:Math.round(offsetY));
+		else ctx.moveTo(odd ? $wnd.Math.floor(offsetX)+0.5 : $wnd.Math.round(offsetX), 
+							odd ? $wnd.Math.floor(offsetY)+0.5:Math.round(offsetY));
+	
+		idx = (idx + 1) % pattern.length;
+		dash = !dash;
+	}
+	
+	
+}-*/;
+	
 	private native void drawDashedLine(double fromX, double fromY, double toX, double toY, JsArrayNumber pattern,Context2d ctx) /*-{
 		// Our growth rate for our line can be one of the following:
 		// (+,+), (+,-), (-,+), (-,-)
@@ -816,12 +886,16 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 		var offsetX = fromX;
 		var offsetY = fromY;
 		var idx = 0, dash = true;
+		var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
+		var cos = $wnd.Math.cos(ang);
+		var sin = $wnd.Math.sin(ang);
+		
 		while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
-			var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
+			
 			var len = pattern[idx];
 		
-			offsetX = checkX.cap(toX, offsetX + ($wnd.Math.cos(ang) * len));
-			offsetY = checkY.cap(toY, offsetY + ($wnd.Math.sin(ang) * len));
+			offsetX = checkX.cap(toX, offsetX + (cos * len));
+			offsetY = checkY.cap(toY, offsetY + (sin * len));
 		
 			if (dash) ctx.lineTo(offsetX, offsetY);
 			else ctx.moveTo(offsetX, offsetY);

@@ -158,7 +158,7 @@ public class DrawSlider extends Drawable {
 			// horizontal line
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(objStroke);
-			g2.draw(line);
+			g2.drawStraightLine(line.getP1().getX(),line.getP1().getY(),line.getP2().getX(),line.getP2().getY());
 			if(geo.doHighlighting()){
 				g2.fill(circleHighlight);
 				g2.setStroke(borderStroke);

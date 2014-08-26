@@ -14,12 +14,14 @@ import geogebra.common.awt.GGraphicsConfiguration;
 import geogebra.common.awt.GImage;
 import geogebra.common.awt.GImageObserver;
 import geogebra.common.awt.GKey;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 
@@ -390,6 +392,14 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 	public void updateCanvasColor() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private GLine2D line = AwtFactory.prototype.newLine2D();
+
+	@Override
+	public void drawStraightLine(double x1, double y1, double x2, double y2) {
+		line.setLine(x1, y1, x2, y2);
+		this.draw(line);
 	}
 
 }

@@ -3009,8 +3009,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 					} else { 
 
 						// not hitting axis label, just draw it 
-						tempLine.setLine(pix, 0, pix, getHeight()); 
-						g2.draw(tempLine); 
+						g2.drawStraightLine(pix, 0, pix, getHeight()); 
+						
 					} 
 
 				}
@@ -3036,8 +3036,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 					} else { 
 
 						// not hitting axis label, just draw it 
-						tempLine.setLine(0, pix, getWidth(), pix); 
-						g2.draw(tempLine); 
+						g2.drawStraightLine(0, pix, getWidth(), pix); 
 					} 
 				}
 
@@ -3274,9 +3273,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 			// y-Axis itself
 			g2.setStroke(axesStroke);
-			tempLine.setLine(xCrossPix, arrowAdjusty + (drawTopArrow ? 1 : -1),
+			g2.drawStraightLine(xCrossPix, arrowAdjusty + (drawTopArrow ? 1 : -1),
 					xCrossPix, yAxisEnd + (drawBottomArrow ? -2 : 0));
-			g2.draw(tempLine);
+			
 
 			if (drawTopArrow) {
 				
@@ -3377,8 +3376,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 				// big tick
 				if (drawMajorTicks[0]) {
 					g2.setStroke(tickStroke);
-					tempLine.setLine(pix, yZeroTick, pix, yBig);
-					g2.draw(tempLine);
+					g2.drawStraightLine(pix, yZeroTick, pix, yBig);
 				}
 				pix += axesStep;
 				rw += axesNumberingDistances[0];
@@ -3388,9 +3386,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 			// x-Axis itself
 			g2.setStroke(axesStroke);
-			tempLine.setLine(xAxisStart + (drawLeftArrow ? 2 : 0), yCrossPix, getWidth() - arrowAdjustx
+			g2.drawStraightLine(xAxisStart + (drawLeftArrow ? 2 : 0), yCrossPix, getWidth() - arrowAdjustx
 					- 1, yCrossPix);
-			g2.draw(tempLine);
 
 			if (drawRightArrow) {
 				
@@ -3492,31 +3489,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 					// big tick
 					if (drawMajorTicks[0]) {
 						g2.setStroke(tickStroke);
-						tempLine.setLine(pix, yZeroTick, pix, yBig);
-						g2.draw(tempLine);
+						g2.drawStraightLine(pix, yZeroTick, pix, yBig);
 					}
 				} else if (drawMajorTicks[0] && !drawRightArrow) {
 					// draw last tick if there is no arrow
-					tempLine.setLine(pix, yZeroTick, pix, yBig);
-					g2.draw(tempLine);
+					g2.drawStraightLine(pix, yZeroTick, pix, yBig);
 				}
 
 				// small tick
 				smallTickPix = (pix - tickStep) + smallTickOffset;
 				if (drawMinorTicks[0]) {
 					g2.setStroke(tickStroke);
-					tempLine.setLine(smallTickPix, ySmall1, smallTickPix,
+					g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix,
 							ySmall2);
-					g2.draw(tempLine);
 				}
 				labelno++;
 			}
 			// last small tick
 			smallTickPix = (pix - tickStep) + smallTickOffset;
 			if (drawMinorTicks[0]) {
-				g2.setStroke(tickStroke);
-				tempLine.setLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
-				g2.draw(tempLine);
+				g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
 			}
 
 		}
@@ -3569,8 +3561,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 				// big tick
 				if (drawMajorTicks[1]) {
 					g2.setStroke(tickStroke);
-					tempLine.setLine(xBig, pix, xZeroTick, pix);
-					g2.draw(tempLine);
+					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 				}
 				pix -= axesStep;
 				rw += axesNumberingDistances[1];
@@ -3645,23 +3636,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 					}
 					if (drawMajorTicks[1]) {
 						g2.setStroke(tickStroke);
-						tempLine.setLine(xBig, pix, xZeroTick, pix);
-						g2.draw(tempLine);
+						g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 					}
 				} else if (drawMajorTicks[1] && !drawTopArrow) {
 					// draw last tick if there is no arrow
 					g2.setStroke(tickStroke);
-					tempLine.setLine(xBig, pix, xZeroTick, pix);
-					g2.draw(tempLine);
+					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 				}
 
 				// small tick
 				smallTickPix = (pix + tickStep) - smallTickOffset;
 				if (drawMinorTicks[1]) {
 					g2.setStroke(tickStroke);
-					tempLine.setLine(xSmall1, smallTickPix, xSmall2,
+					g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
 							smallTickPix);
-					g2.draw(tempLine);
 				}
 
 			}// end for
@@ -3734,14 +3722,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 		if (xCrossPix > x1 && xCrossPix < x2) { 
 			// split in 2 
-			tempLine.setLine(x1, y1, xCrossPix - yLabelMaxWidth - 10, y2); 
-			g2.draw(tempLine); 
-			tempLine.setLine(xCrossPix, y1, x2, y2); 
-			g2.draw(tempLine); 
+			g2.drawStraightLine(x1, y1, xCrossPix - yLabelMaxWidth - 10, y2); 
+			g2.drawStraightLine(xCrossPix, y1, x2, y2); 
 
 		} else { 
-			tempLine.setLine(x1, y1, x2, y2); 
-			g2.draw(tempLine); 
+			g2.drawStraightLine(x1, y1, x2, y2);
 		} 
 	} 
 
@@ -3749,14 +3734,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 		if (yCrossPix > y1 && yCrossPix < y2) { 
 			// split in 2 
-			tempLine.setLine(x1, y1, x2, yCrossPix); 
-			g2.draw(tempLine); 
-			tempLine.setLine(x1, yCrossPix + xLabelHeights + 5, x2, y2); 
-			g2.draw(tempLine); 
+			g2.drawStraightLine(x1, y1, x2, yCrossPix); 
+			
+			g2.drawStraightLine(x1, yCrossPix + xLabelHeights + 5, x2, y2); 
+			
 
 		} else { 
-			tempLine.setLine(x1, y1, x2, y2); 
-			g2.draw(tempLine); 
+			g2.drawStraightLine(x1, y1, x2, y2); 
 		} 
 
 	} 

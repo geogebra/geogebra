@@ -475,4 +475,7 @@ public interface GGraphics2D {
 	public abstract  void resetInterpolationHint(Object oldInterpolationHint);
 
 	public abstract void updateCanvasColor();
+
+	public abstract void drawStraightLine(double xCrossPix, double d,
+			double xCrossPix2, double i);
 }

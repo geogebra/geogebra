@@ -10,6 +10,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GFontRenderContext;
 import geogebra.common.awt.GImage;
 import geogebra.common.awt.GKey;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
@@ -282,6 +283,14 @@ public class TextGraphics implements geogebra.common.awt.GGraphics2D{
 	public void resetInterpolationHint(Object oldInterpolationHint) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	private GLine2D line = AwtFactory.prototype.newLine2D();
+	@Override
+	public void drawStraightLine(double x1, double y1, double x2,
+			double y2) {
+		line.setLine(x1, y1, x2, y2);
+		this.draw(line);
 	}
 
 }
