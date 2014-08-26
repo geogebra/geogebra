@@ -22,6 +22,10 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -30,7 +34,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
+public class MyCellRendererW implements MouseDownHandler, MouseUpHandler, TouchStartHandler, TouchEndHandler {
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
@@ -84,17 +88,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		this.formatHandler = formatHandler;
 		this.view = view;
 		this.table = table.getGrid();
-		
 
-
-		// Rendering for booleans, buttons and lists
-		// ?//checkBox = new JCheckBox();
-		// ?//button = new JButton();
-		// ?//comboBox = new JComboBox();
-		// ?//comboBox.setRenderer(new MyListCellRenderer());
-
-		// ?//cbModel = new DefaultComboBoxModel();
-		// ?//comboBox.setModel(cbModel);
 	}
 
 	public void updateCellFormat(GeoElement geo, int row, int column) {
@@ -260,6 +254,16 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	public void onMouseUp(MouseUpEvent e) {
 		e.stopPropagation();
 	}
+	
+	public void onTouchEnd(TouchEndEvent event) {
+		event.stopPropagation();
+		event.preventDefault();
+    }
+
+	public void onTouchStart(TouchStartEvent event) {
+		event.stopPropagation();
+		event.preventDefault();
+    }
 
 	private boolean useSpecialEditor(int row, int column) {
 		if (!view.allowSpecialEditor() || (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE)) {

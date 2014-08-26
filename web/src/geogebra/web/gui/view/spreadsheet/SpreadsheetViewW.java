@@ -1413,7 +1413,7 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	protected void onLoad() {
 		// this may be important if the view is added/removed from the DOM
 //TODO: is this needed with stand alone spreadsheetView?
-	//	super.onLoad();
+		//super.onLoad();
 		repaint();
 	}
 

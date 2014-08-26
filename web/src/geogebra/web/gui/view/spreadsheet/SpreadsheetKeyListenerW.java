@@ -73,14 +73,13 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					// if shift pressed, select cells too
 					while (row > 0 && model.getValueAt(row - 1, column) != null)
 						row--;
-					table.changeSelection(row, column, false,
+					table.changeSelection(row, column, 
 					        e.isShiftKeyDown());
 				} else {
 					// move up to next defined cell
 					while (row > 0 && model.getValueAt(row - 1, column) == null)
 						row--;
-					table.changeSelection(Math.max(0, row - 1), column, false,
-					        false);
+					table.changeSelection(Math.max(0, row - 1), column, false);
 
 				}
 				// e.consume();
@@ -89,8 +88,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				row = table.getLeadSelectionRow();
 				column = table.getLeadSelectionColumn();
 				if (row > 0) {
-					table.changeSelection(row - 1, column, false,
-					        e.isShiftKeyDown());
+					table.changeSelection(row - 1, column, e.isShiftKeyDown());
 				}
 			}
 			// copy description into input bar when a cell is entered
@@ -116,15 +114,13 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					while (column > 0
 					        && model.getValueAt(row, column - 1) != null)
 						column--;
-					table.changeSelection(row, column, false,
-					        e.isShiftKeyDown());
+					table.changeSelection(row, column, e.isShiftKeyDown());
 				} else {
 					// move left to next defined cell
 					while (column > 0
 					        && model.getValueAt(row, column - 1) == null)
 						column--;
-					table.changeSelection(row, Math.max(0, column - 1), false,
-					        false);
+					table.changeSelection(row, Math.max(0, column - 1), false);
 				}
 
 				// e.consume();
@@ -133,8 +129,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				row = table.getLeadSelectionRow();
 				column = table.getLeadSelectionColumn();
 				if (column > 0) {
-					table.changeSelection(row, column - 1, false,
-					        e.isShiftKeyDown());
+					table.changeSelection(row, column - 1, e.isShiftKeyDown());
 				}
 			}
 			// // copy description into input bar when a cell is entered
@@ -156,8 +151,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 				// getView().getRowHeader().revalidate(); //G.STURR 2010-1-9
 
-				table.changeSelection(row + 1, column, false,
-				        e.isShiftKeyDown());
+				table.changeSelection(row + 1, column, e.isShiftKeyDown());
 
 			} else if (e.isControlKeyDown()) {
 				// AppD.isControlDown(e)) {
@@ -169,8 +163,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					while (row < table.getRowCount() - 1
 					        && model.getValueAt(row + 1, column) != null)
 						row++;
-					table.changeSelection(row, column, false,
-					        e.isShiftKeyDown());
+					table.changeSelection(row, column, e.isShiftKeyDown());
 				} else {
 					// move down to next selected cell
 					while (row < table.getRowCount() - 1
@@ -178,7 +171,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						row++;
 					table.changeSelection(
 					        Math.min(table.getRowCount() - 1, row + 1), column,
-					        false, e.isShiftKeyDown());
+					        e.isShiftKeyDown());
 
 				}
 
@@ -189,8 +182,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				column = table.getLeadSelectionColumn();
 				if (row < table.getRowCount() - 1) {
 
-					table.changeSelection(row + 1, column, false,
-					        e.isShiftKeyDown());
+					table.changeSelection(row + 1, column, e.isShiftKeyDown());
 				}
 			}
 
@@ -214,10 +206,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// AppD.isControlDown(e)) {
 
 				// move to top left of spreadsheet
-				table.changeSelection(0, 0, false, e.isShiftKeyDown());
+				table.changeSelection(0, 0, e.isShiftKeyDown());
 			} else {
 				// move to left of current row
-				table.changeSelection(row, 0, false, e.isShiftKeyDown());
+				table.changeSelection(row, 0, e.isShiftKeyDown());
 			}
 
 			// e.consume();
@@ -239,7 +231,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						if (c > column)
 							column = c;
 					}
-			table.changeSelection(row, column, false, e.isShiftKeyDown());
+			table.changeSelection(row, column, e.isShiftKeyDown());
 
 			// e.consume();
 			break;
@@ -263,7 +255,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 				// these two lines are a workaround for Java 6
 				// (Java bug?)
-				table.changeSelection(row, column + 1, false, false);
+				table.changeSelection(row, column + 1, false);
 			} else if (e.isControlKeyDown()) {
 				// AppD.isControlDown(e)) {
 
@@ -273,8 +265,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					while (column < table.getColumnCount() - 1
 					        && model.getValueAt(row, column + 1) != null)
 						column++;
-					table.changeSelection(row, column, false,
-					        e.isShiftKeyDown());
+					table.changeSelection(row, column, e.isShiftKeyDown());
 				} else {
 					// move right to next defined cell
 					while (column < table.getColumnCount() - 1
@@ -282,7 +273,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						column++;
 					table.changeSelection(row,
 					        Math.min(table.getColumnCount() - 1, column + 1),
-					        false, false);
+					        false);
 				}
 				// e.consume();
 			} else {
@@ -291,8 +282,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				row = table.getLeadSelectionRow();
 				column = table.getLeadSelectionColumn();
 				if (column < table.getColumnCount() - 1) {
-					table.changeSelection(row, column + 1, false,
-					        e.isShiftKeyDown());
+					table.changeSelection(row, column + 1, e.isShiftKeyDown());
 				}
 			}
 
@@ -404,8 +394,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 		case KeyCodes.KEY_ENTER:// KeyEvent.VK_ENTER:
 			if (MyCellEditorW.tabReturnCol > -1) {
-				table.changeSelection(row, MyCellEditorW.tabReturnCol, false,
-				        false);
+				table.changeSelection(row, MyCellEditorW.tabReturnCol, false);
 				MyCellEditorW.tabReturnCol = -1;
 			}
 
@@ -418,10 +407,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			        + view.getFocusPanel().getOffsetHeight();
 			GPoint gip = table.getIndexFromPixel(pixelx, pixely);
 			if (gip != null) {
-				table.changeSelection(gip.getY(), column, false, false);
+				table.changeSelection(gip.getY(), column, false);
 			} else {
-				table.changeSelection(model.getRowCount() - 1, column, false,
-				        false);
+				table.changeSelection(model.getRowCount() - 1, column, false);
 			}
 			break;
 
@@ -432,10 +420,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			int pixy = view.getFocusPanel().getAbsoluteTop();
 			GPoint gi = table.getIndexFromPixel(pixx, pixy);
 			if (gi != null) {
-				table.changeSelection(gi.getY(), column, false, false);
+				table.changeSelection(gi.getY(), column, false);
 				// stop cell being erased before moving
 			} else {
-				table.changeSelection(0, column, false, false);
+				table.changeSelection(0, column, false);
 			}
 			break;
 
@@ -451,15 +439,15 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					// if (table.getSelectedColumn() == 0)
 					// this cannot happen
 
-					table.changeSelection(row, column - 1, false, false);
+					table.changeSelection(row, column - 1, false);
 
 				} else {
 					if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1) {
 						if (table.getSelectedRow() + 1 < table.getRowCount() - 1) {
-							table.changeSelection(row + 1, 0, false, false);
+							table.changeSelection(row + 1, 0, false);
 						}
 					} else {
-						table.changeSelection(row, column + 1, false, false);
+						table.changeSelection(row, column + 1, false);
 					}
 				}
 			}
@@ -483,8 +471,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 							if (c > column)
 								column = c;
 						}
-				table.changeSelection(0, 0, false, false);
-				table.changeSelection(row, column, false, true);
+				table.changeSelection(0, 0, false);
+				table.changeSelection(row, column, true);
 
 				// e.consume();
 

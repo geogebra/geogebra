@@ -1785,6 +1785,7 @@ Paddings for menuitems.
 	table-layout: fixed;
 	width: 0px;
 	cursor: default;
+	-ms-touch-action:none;
 }
 
 .geogebraweb-table-spreadsheet td {
@@ -1793,6 +1794,7 @@ Paddings for menuitems.
 	overflow: hidden;
 	padding: 2px 4px;
 	white-space: nowrap;
+	-ms-touch-action:none;
 }
 
 .geogebraweb-table-spreadsheet.off td {

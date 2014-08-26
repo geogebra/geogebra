@@ -47,6 +47,9 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
@@ -123,10 +126,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected int maxSelectionRow = -1;
 	protected int minSelectionColumn = -1;
 	protected int maxSelectionColumn = -1;
-	protected int minSelectionRowOld = -1;
-	protected int maxSelectionRowOld = -1;
-	protected int minSelectionColumnOld = -1;
-	protected int maxSelectionColumnOld = -1;
 
 	// for emulating the JTable's changeSelection method, in TableModel
 	// coordinates
@@ -156,12 +155,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected int dragingToRowOld = -1;
 	protected int dragingToColumnOld = -1;
 	protected boolean isOverDot = false;
-	protected boolean isDragging2 = false;
+	protected boolean isDragging = false;
 
-	protected int minColumn2 = -1;
-	protected int maxColumn2 = -1;
-	protected int minRow2 = -1;
-	protected int maxRow2 = -1;
+	protected int minColumn = -1;
+	protected int maxColumn = -1;
+	protected int minRow = -1;
+	protected int maxRow = -1;
 
 	protected boolean showRowHeader = true;
 	protected boolean showColumnHeader = true;
@@ -295,48 +294,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		cellResizeHeightSet = new HashSet<GPoint>();
 		cellResizeWidthSet = new HashSet<GPoint>();
 
-		// grabCursor = createCursor(app.getImageIcon("cursor_grab.gif")
-		// .getImage(), true);
-		// grabbingCursor = createCursor(app.getImageIcon("cursor_grabbing.gif")
-		// .getImage(), true);
-
-		// set row height
-		// setRowHeight(minimumRowHeight);
-
-		/*
-		 * // prepare column headers SpreadsheetColumnController
-		 * columnController = new SpreadsheetColumnController( app, this);
-		 * headerRenderer = columnController.new ColumnHeaderRenderer();
-		 * getTableHeader().setFocusable(true);
-		 * getTableHeader().addMouseListener(columnController);
-		 * getTableHeader().addMouseMotionListener(columnController);
-		 * getTableHeader().addKeyListener(columnController);
-		 * getTableHeader().setReorderingAllowed(false);
-		 * setAutoCreateColumnsFromModel(false);
-		 * 
-		 * // set columns and column headers
-		 * setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		 * 
-		 * headerRenderer.setPreferredSize(new Dimension(preferredColumnWidth,
-		 * SpreadsheetSettings.TABLE_CELL_HEIGHT));
-		 */
-
 		for (int i = 0; i < getColumnCount(); ++i) {
 			// TODO//getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
 			ssGrid.getColumnFormatter().getElement(i).getStyle()
 			        .setWidth(preferredColumnWidth, Style.Unit.PX);
 		}
-
-		// set visual appearance
-		// setBorderWidth(1);
-		// ssGrid.getElement().getStyle()
-		// .setBorderColor(TABLE_GRID_COLOR.toString());
-		// ssGrid.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		// ssGrid.getElement().getStyle().setBorderWidth(1, Style.Unit.PX);
-		// ssGrid.getElement().getStyle().setTextAlign(TextAlign.RIGHT);
-		// ssGrid.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
-		// TODO//setSelectionBackground(SELECTED_BACKGROUND_COLOR);
-		// TODO//setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
 		defaultTableCellRenderer = new MyCellRendererW(app, view, this,
@@ -421,9 +383,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		gridPanel.addDomHandler(ml, MouseDownEvent.getType());
 		gridPanel.addDomHandler(ml, MouseUpEvent.getType());
 		gridPanel.addDomHandler(ml, MouseMoveEvent.getType());
-		gridPanel.addDomHandler(ml, ClickEvent.getType());
 		gridPanel.addDomHandler(ml, DoubleClickEvent.getType());
-
+		gridPanel.addDomHandler(ml, TouchStartEvent.getType());
+		gridPanel.addDomHandler(ml, TouchMoveEvent.getType());
+		gridPanel.addDomHandler(ml, TouchEndEvent.getType());
+		
 		upperLeftCorner.addDomHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				selectAll();
@@ -449,6 +413,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		selectionFrame.getElement().getStyle().setBorderWidth(2, Style.Unit.PX);
 		selectionFrame.getElement().getStyle()
 		        .setBorderColor(SELECTED_RECTANGLE_COLOR.toString());
+		selectionFrame.getElement().getStyle().setProperty("-ms-touch-action", "none");
 		selectionFrame.setVisible(false);
 
 		dragFrame = new SimplePanel();
@@ -893,42 +858,33 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// ===============================================================
 	// Selection
 	// ===============================================================
-
 	/**
-	 * JTable does not support non-contiguous cell selection. It treats
-	 * ctrl-down cell selection as if it was shift-extend. To prevent this
-	 * behavior the JTable changeSelection method is overridden here.
+	 * @param point y coordinate is row, x coordinate is column
 	 */
-	public void changeSelection(int rowIndex, int columnIndex, boolean toggle,
-	        boolean extend) {
-		// this should be in table model coordinates
+	public void changeSelection(GPoint point, boolean extend) {
+		changeSelection(point.getY(), point.getX(), extend);
+	}
 
-		// if(Application.getControlDown())
-		// super.changeSelection(rowIndex, columnIndex, false, false);
-		// else
-
+	public void changeSelection(int rowIndex, int columnIndex, boolean extend) {
 		// force column selection
 		if (view.isColumnSelect()) {
 			setColumnSelectionInterval(columnIndex, columnIndex);
 		}
 
-		if (toggle) {
-			// not used anyway
+		if (extend) {
+			leadSelectionColumn = columnIndex;
+			leadSelectionRow = rowIndex;
+			if (anchorSelectionColumn == -1)
+				anchorSelectionColumn = leadSelectionColumn;
+			if (anchorSelectionRow == -1)
+				anchorSelectionRow = leadSelectionRow;
 		} else {
-			if (extend) {
-				leadSelectionColumn = columnIndex;
-				leadSelectionRow = rowIndex;
-				if (anchorSelectionColumn == -1)
-					anchorSelectionColumn = leadSelectionColumn;
-				if (anchorSelectionRow == -1)
-					anchorSelectionRow = leadSelectionRow;
-			} else {
-				anchorSelectionColumn = columnIndex;
-				anchorSelectionRow = rowIndex;
-				leadSelectionColumn = columnIndex;
-				leadSelectionRow = rowIndex;
-			}
+			anchorSelectionColumn = columnIndex;
+			anchorSelectionRow = rowIndex;
+			leadSelectionColumn = columnIndex;
+			leadSelectionRow = rowIndex;
 		}
+
 		// let selectionChanged know about a change in single cell selection
 		selectionChanged();
 
@@ -947,10 +903,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		setAutoscrolls(false);
 
 		// select the upper left corner cell
-		changeSelection(0, 0, false, false);
+		changeSelection(0, 0, false);
 
 		// extend the selection to the current lower right corner cell
-		changeSelection(getRowCount() - 1, getColumnCount() - 1, false, true);
+		changeSelection(getRowCount() - 1, getColumnCount() - 1,  true);
 
 		setSelectAll(true);
 		setAutoscrolls(true);
@@ -1121,7 +1077,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// for (CellRange cr: selectedCellRanges)cr.debug();
 	}
 
-	private void printSelectionParameters() {
+	public void printSelectionParameters() {
 		App.debug("----------------------------------");
 		App.debug("minSelectionColumn = " + minSelectionColumn);
 		App.debug("maxSelectionColumn = " + maxSelectionColumn);
@@ -1256,10 +1212,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					// cell block selection
 				} else {
 					setSelectionType(MyTable.CELL_SELECT);
-					changeSelection(cr.getMinRow(), cr.getMinColumn(), false,
-					        false);
-					changeSelection(cr.getMaxRow(), cr.getMaxColumn(), false,
-					        true);
+					changeSelection(cr.getMinRow(), cr.getMinColumn(), false);
+					changeSelection(cr.getMaxRow(), cr.getMaxColumn(), true);
 				}
 
 				selectionChanged();
@@ -1615,115 +1569,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	        GBasicStrokeW.CAP_BUTT, GBasicStrokeW.JOIN_MITER, 10.0f, dash1,
 	        0.0f);
 
-	// ===============================================================
-	// Paint
-	// ===============================================================
-
 	/**
-	 * Overrides the paint() to draw special spreadsheet table graphics, e.g.
-	 * selection rectangle and custom borders
+	 * @param point x column, y row
+	 * @return true on success
 	 */
-	/*
-	 * @Override public void paint(Graphics graphics) { super.paint(graphics);
-	 * 
-	 * Graphics2D g2 = (Graphics2D) graphics;
-	 * 
-	 * // draw custom borders SpreadsheetBorders.drawFormatBorders(g2, this);
-	 * 
-	 * // draw special target cell frame if (targetcellFrame != null) {
-	 * g2.setColor(geogebra.awt.GColorD
-	 * .getAwtColor(GeoGebraColorConstants.DARKBLUE)); g2.setStroke(dashed);
-	 * g2.draw(targetcellFrame); }
-	 * 
-	 * // if the spreadsheet doesn't have focus // then don't draw the selection
-	 * graphics ... exit now if (!view.hasViewFocus()) { if (!isSelectNone)
-	 * setSelectNone(true); return; }
-	 * 
-	 * //draw special dragging frame for cell editor if (isDragging2) { GPoint
-	 * point1 = getPixel(minColumn2, minRow2, true); GPoint point2 =
-	 * getPixel(maxColumn2, maxRow2, false); int x1 = point1.getX(); int y1 =
-	 * point1.getY(); int x2 = point2.getX(); int y2 = point2.getY();
-	 * graphics.setColor(Color.GRAY); // Application.debug(x1 + "," + y1 + "," +
-	 * x2 + "," + y2); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); }
-	 * 
-	 * // draw dragging frame if (dragingToRow != -1 && dragingToColumn != -1) {
-	 */
-	/*
-	 * Application.debug("minSelectionRow = " + minSelectionRow);
-	 * Application.debug("minSelectionColumn = " + minSelectionColumn);
-	 * Application.debug("maxSelectionRow = " + maxSelectionRow);
-	 * Application.debug("maxSelectionColumn = " + maxSelectionColumn);
-	 * Application.debug("dragingToRow = " + dragingToRow);
-	 * Application.debug("dragingToColumn = " + dragingToColumn); /*
-	 */
-	/*
-	 * // -|1|- // 2|-|3 // -|4|- graphics.setColor(Color.gray); if
-	 * (dragingToColumn < minSelectionColumn) { // 2 GPoint point1 =
-	 * getPixel(dragingToColumn, minSelectionRow, true); GPoint point2 =
-	 * getPixel(minSelectionColumn - 1, maxSelectionRow, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1); }
-	 * else if (dragingToRow > maxSelectionRow) { // 4 GPoint point1 =
-	 * getPixel(minSelectionColumn, maxSelectionRow + 1, true); GPoint point2 =
-	 * getPixel(maxSelectionColumn, dragingToRow, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); }
-	 * else if (dragingToRow < minSelectionRow) { // 1 GPoint point1 =
-	 * getPixel(minSelectionColumn, dragingToRow, true); GPoint point2 =
-	 * getPixel(maxSelectionColumn, minSelectionRow - 1, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1); graphics.fillRect(x2
-	 * - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2 - y1); } else if
-	 * (dragingToColumn > maxSelectionColumn) { // 3 GPoint point1 =
-	 * getPixel(maxSelectionColumn + 1, minSelectionRow, true); GPoint point2 =
-	 * getPixel(dragingToColumn, maxSelectionRow, false); int x1 =
-	 * point1.getX(); int y1 = point1.getY(); int x2 = point2.getX(); int y2 =
-	 * point2.getY(); graphics.fillRect(x2 - LINE_THICKNESS1, y1,
-	 * LINE_THICKNESS1, y2 - y1); graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2
-	 * - x1, LINE_THICKNESS1); graphics.fillRect(x1, y1, x2 - x1,
-	 * LINE_THICKNESS1); } } // draw dragging dot GPoint pixel1 =
-	 * getMaxSelectionPixel(); if (doShowDragHandle && pixel1 != null &&
-	 * !editor.isEditing()) { // Highlight the dragging dot if mouseover if
-	 * (isOverDot) { graphics.setColor(Color.gray); } else //
-	 * {graphics.setColor(Color.BLUE);} {
-	 * graphics.setColor(selectionRectangleColor); } int x = pixel1.getX() -
-	 * (DOT_SIZE + 1) / 2; int y = pixel1.getY() - (DOT_SIZE + 1) / 2;
-	 * graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE); }
-	 * 
-	 * if (minSelectionRow != -1 && maxSelectionRow != -1 && minSelectionColumn
-	 * != -1 && maxSelectionColumn != -1) { GPoint min =
-	 * this.getMinSelectionPixel(); GPoint max = this.getMaxSelectionPixel();
-	 * int x1 = min.getX(); int y1 = min.getY(); int x2 = max.getX(); int y2 =
-	 * max.getY();
-	 * 
-	 * // graphics.setColor(Color.BLUE);
-	 * graphics.setColor(selectionRectangleColor);
-	 * 
-	 * // draw frame around current selection // G.Sturr 2009-9-23 adjusted
-	 * parameters to work with getPixel fix if (!editor.isEditing()) {
-	 * graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
-	 * graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1); graphics.fillRect(x2
-	 * - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 - y1 - DOT_SIZE / 2 - 1);
-	 * graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1 - DOT_SIZE / 2 - 1,
-	 * LINE_THICKNESS2); } // draw small frame around current editing cell else
-	 * { x1 -= LINE_THICKNESS2 - 1; x2 += LINE_THICKNESS2 - 1; y1 -=
-	 * LINE_THICKNESS2 - 1; y2 += LINE_THICKNESS2 - 1; graphics.fillRect(x1, y1,
-	 * x2 - x1, LINE_THICKNESS2); graphics.fillRect(x1, y1, LINE_THICKNESS2, y2
-	 * - y1); graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2 -
-	 * y1); graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1,
-	 * LINE_THICKNESS2); } }
-	 * 
-	 * // After rendering the LaTeX image for a geo, update the row height
-	 * //with the preferred size set by the renderer. resizeMarkedCells(); }
-	 */
+	public boolean editCellAt(GPoint point) {
+		return editCellAt(point.getY(), point.getX());
+	}
 
 	/**
 	 * Starts in-cell editing for cells with short editing strings. For strings
@@ -1806,50 +1658,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;// TODO: implementation needed
 	}
 
-	// This handles ctrl-select dragging of cell blocks
-	// because JTable does not do this correctly.
-	// TODO: JTable is still making selections that are not overridden,
-	// so sometimes you can still get unwanted extended selection.
-	//
-	/*
-	 * protected void handleControlDragSelect(MouseEvent e) {
-	 * 
-	 * java.awt.Point p = e.getPoint(); int row = this.rowAtPoint(p); int column
-	 * = this.columnAtPoint(p); ListSelectionModel cm =
-	 * getColumnModel().getSelectionModel(); ListSelectionModel rm =
-	 * getSelectionModel();
-	 */
-	/*
-	 * //handle startup case of empty selection if ((column == -1) && (row ==
-	 * -1)){ cm.setSelectionInterval(0, 0); rm.setSelectionInterval(0, 0); }
-	 */
-	/*
-	 * if ((column == -1) || (row == -1)) { return; }
-	 * 
-	 * // adjust the selection if mouse has left the old selected cell if (row
-	 * != this.getSelectedRow() || column != this.getSelectedColumn()) { //
-	 * boolean selected = true; int colAnchor = cm.getAnchorSelectionIndex();
-	 * int rowAnchor = rm.getAnchorSelectionIndex();
-	 * 
-	 * if (rowAnchor == -1 || rowAnchor >= getRowCount()) { rowAnchor = 0; //
-	 * selected = false; }
-	 * 
-	 * if (colAnchor == -1 || colAnchor >= getColumnCount()) { colAnchor = 0; //
-	 * selected = false; }
-	 * 
-	 * // selected = selected && isCellSelected(rowAnchor, colAnchor);
-	 * 
-	 * cm.setSelectionInterval(colAnchor, column);
-	 * rm.setSelectionInterval(rowAnchor, row);
-	 * 
-	 * selectionChanged();
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
-
-	// @Override
 	public int convertColumnIndexToModel(int viewColumnIndex) {
 		return viewColumnIndex;
 	}
@@ -2453,7 +2261,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			// select the new geo
 			app.setMoveMode();
 			GPoint coords = targetCell.getSpreadsheetCoords();
-			changeSelection(coords.y, coords.x, false, false);
+			changeSelection(coords.y, coords.x, false);
 			repaint();
 		}
 	}
@@ -2629,13 +2437,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void renderCells() {
-
 		Object gva;
 
 		int colCount = getColumnCount();
 		int rowCount = getRowCount();
-		// App.debug("renderCells, row x col: " + rowCount + " x " + colCount +
-		// "render first: " + renderCellsFirstTime);
 		for (int i = colCount - 1; i >= 0; i--) {
 			for (int j = rowCount - 1; j >= 0; j--) {
 
@@ -2689,7 +2494,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	private void renderSelection() {
-
 		// TODO implement other features from the old paint method
 
 		// draw dragging frame
@@ -2727,13 +2531,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			updateDragFrame(false, point1, point2);
 		}
-
-		// selection rectangle
-
-		// App.debug("selected rows: " + minSelectionRow + " x " +
-		// maxSelectionRow);
-		// App.debug("selected cols: " + minSelectionColumn + " x " +
-		// maxSelectionColumn);
 
 		GPoint min = this.getMinSelectionPixel();
 		GPoint max = this.getMaxSelectionPixel();
@@ -2836,40 +2633,25 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return tableModel.getColumnCount();
 	}
 
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return tableModel.getRowCount();
 	}
 
 	public int getOffsetWidth() {
-		// TODO Auto-generated method stub
 		return tableWrapper.getOffsetWidth();
 	}
 
 	public int getOffsetHeight() {
-		// TODO Auto-generated method stub
 		return tableWrapper.getOffsetHeight();
 	}
 
 	public void setSize(int width, int height) {
-
-		// App.debug("setSize parameters: " + width + " , " + height);
-
 		tableWrapper.setPixelSize(width, height);
-
-		// App.debug("sview size: " + tableWrapper.getOffsetWidth() + " , "
-		// + tableWrapper.getOffsetHeight());
-
-		// App.debug("rowHeaderWidth: " + rowHeader.getOffsetWidth()
-		// + " colHeaderHeight: " + columnHeader.getOffsetHeight());
-
 		scroller.setPixelSize(width - rowHeader.getOffsetWidth(), height
 		        - columnHeader.getOffsetHeight());
-
 	}
 
 	public void updateSelectionFrame(boolean visible, boolean showDragHandle,
@@ -2878,10 +2660,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (selectionFrame == null || corner1 == null || corner2 == null) {
 			return;
 		}
-		// App.debug("selectionFrame visible: " + visible + " c1.x: " +
-		// corner1.x
-		// + "  c1.y: " + corner1.y + "  c2.x: " + corner2.x + "  c2.y: " +
-		// corner2.y );
 
 		int borderWidth = 2;
 
@@ -2902,16 +2680,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			selectionFrame.setWidth(w + "px");
 			selectionFrame.setHeight(h + "px");
 
-			// App.debug("x1: " + x1 + " y1 " + y1);
-			// App.debug("ssLeft: " + ssLeft + " ssTop " + ssTop);
-			// App.debug("h: " + h + " w: " + w);
-
-			gridPanel
-			        .setWidgetPosition(selectionFrame, x1 - ssLeft, y1 - ssTop);
-
-			// selectionFrame.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-			// selectionFrame.getElement().getStyle().setTop(y1, Unit.PX);
-			// selectionFrame.getElement().getStyle().setLeft(x1, Unit.PX);
+			gridPanel.setWidgetPosition(selectionFrame, x1 - ssLeft, y1 - ssTop);
 
 			blueDot.setVisible(showDragHandle);
 			if (showDragHandle) {
@@ -2950,13 +2719,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void positionEditorPanel(boolean visible, int row, int column) {
-
 		if (editorPanel == null)
 			return;
-		// App.debug("edit pos row = " + row + "  col = " + column);
 		editorPanel.setVisible(visible);
 		if (visible) {
-
 			GPoint p = getPixel(column, row, true);
 
 			int ssTop = gridPanel.getAbsoluteTop();
@@ -2974,7 +2740,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			        - heightOffset;
 			editorPanel.getElement().getStyle().setWidth(w, Unit.PX);
 			editorPanel.getElement().getStyle().setHeight(h, Unit.PX);
-			// editorPanel.setWidth("20px");
 		}
 
 	}
@@ -3000,18 +2765,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void updateFonts() {
-
 		setRowHeight(0);
 		resetRowHeights();
 		renderSelection();
-
-		// upperLeftCorner.getElement().getStyle().setHeight(upperCornerHeight,
-		// Unit.PX);
-		// upperRightCorner.getElement().getStyle().setHeight(upperCornerHeight,
-		// Unit.PX);
-		// rowHeaderContainer.getElement().getStyle().setTop(upperCornerHeight +
-		// 3, Unit.PX);
-
 	}
 
 	public void setShowVScrollBar(boolean showVScrollBar) {
@@ -3021,7 +2777,4 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		scroller.setShowHScrollBar(showHScrollBar);
 	}
-
-	
-
 }

@@ -33,7 +33,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	protected GeoElement value;
 	protected MyTableW table;
-	AutoCompleteTextFieldW textField;
+	AutoCompleteTextFieldW autoCompleteTextField;
 
 	protected int column = -1;
 	protected int row = -1;
@@ -60,7 +60,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		this.enableAutoComplete = enableAutoComplete;
-		textField.setAutoComplete(enableAutoComplete);
+		autoCompleteTextField.setAutoComplete(enableAutoComplete);
 	}
 
 	public MyCellEditorW(Kernel kernel, SpreadsheetViewW view,
@@ -73,37 +73,16 @@ public class MyCellEditorW implements BaseCellEditor {
 		app = (AppW) kernel.getApplication();
 		this.view = view;
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
-		textField = new AutoCompleteTextFieldW(0,
+		autoCompleteTextField = new AutoCompleteTextFieldW(0,
 		        (AppW) kernel.getApplication(), false, keyListener, false);
-		textField.setAutoComplete(enableAutoComplete);
-		// textField.getElement().getStyle().setWidth(100, Style.Unit.PCT);
-		textField.setStyleName("SpreadsheetEditorCell");
-		editorPanel.add(textField);
-
-		// ?//textField.addFocusListener(this);
-
-		/*
-		 * DocumentListener documentListener = new DocumentListener() { public
-		 * void changedUpdate(DocumentEvent documentEvent) { // do nothing }
-		 * 
-		 * public void insertUpdate(DocumentEvent documentEvent) {
-		 * updateFormulaBar(documentEvent); }
-		 * 
-		 * public void removeUpdate(DocumentEvent documentEvent) {
-		 * updateFormulaBar(documentEvent); }
-		 * 
-		 * private void updateFormulaBar(DocumentEvent documentEvent) { if
-		 * (table.view.getShowFormulaBar() && (textField.hasFocus() ||
-		 * table.isDragging2)) table.view.getFormulaBar().setEditorText(
-		 * textField.getText()); } };
-		 * textField.getDocument().addDocumentListener(documentListener);
-		 */
-
+		autoCompleteTextField.setAutoComplete(enableAutoComplete);
+		autoCompleteTextField.setStyleName("SpreadsheetEditorCell");
+		editorPanel.add(autoCompleteTextField);
 	}
 
 	public void setText(String text) {
-		if (!textField.hasFocus() && !table.isDragging2)
-			textField.setText(text);
+		if (!autoCompleteTextField.hasFocus() && !table.isDragging)
+			autoCompleteTextField.setText(text);
 
 	}
 
@@ -131,38 +110,37 @@ public class MyCellEditorW implements BaseCellEditor {
 				}
 			}
 		}
-		/*
-		 * ? delegate.setValue(text);
-		 * 
-		 * Widget component = getComponent();
-		 * component.setFont(app.getFontCanDisplayAwt(text));
-		 */
 
-		textField.setText(text);
-		textField.setFont(app.getFontCanDisplay(text));
-		textField.requestFocus();
+		autoCompleteTextField.setText(text);
+		autoCompleteTextField.setFont(app.getFontCanDisplay(text));
+		autoCompleteTextField.requestFocus();
 
 		editing = true;
 
-		return textField;// ? return component;
+		return autoCompleteTextField;
 	}
 
 	/**
 	 * set flag to require text start with "=" to activate autocomplete
 	 */
 	public void setEqualsRequired(boolean equalsRequired) {
-		textField.setEqualsRequired(equalsRequired);
+		autoCompleteTextField.setEqualsRequired(equalsRequired);
 	}
 
 	/**
 	 * returns flag that requires text start with "=" to activate autocomplete
 	 */
 	public boolean isEqualsRequired() {
-		return textField.isEqualsRequired();
+		return autoCompleteTextField.isEqualsRequired();
 	}
 
 	public void setLabels() {
-		textField.setDictionary(false);
+		autoCompleteTextField.setDictionary(false);
+	}
+	
+	public boolean textStartsWithEquals() {
+		String text = getEditingValue();
+		return text.startsWith("=");
 	}
 
 	/**
@@ -170,7 +148,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	 * @return true if the completion popup is open
 	 */
 	public boolean completionsPopupOpen() {
-		return textField.getCompletions() != null;
+		return autoCompleteTextField.getCompletions() != null;
 	}
 
 	// =======================================================
@@ -192,7 +170,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	public int getCaretPosition() {
-		return textField.getCaretPosition();
+		return autoCompleteTextField.getCaretPosition();
 	}
 
 	/** Insert a geo label into current editor string. */
@@ -201,19 +179,17 @@ public class MyCellEditorW implements BaseCellEditor {
 			return;
 		// String text = (String) delegate.getCellEditorValue();
 		// delegate.setValue(text + label);
-		textField.insertString(" " + label + " ");
+		autoCompleteTextField.insertString(" " + label + " ");
 	}
 
 	public void setLabel(String text) {
 		if (!editing)
 			return;
-		// ?// delegate.setValue(text);
-		textField.setText(text);
+		autoCompleteTextField.setText(text);
 	}
 
 	public String getEditingValue() {
-		return textField.getText();
-		// ?// (String) delegate.getCellEditorValue();
+		return autoCompleteTextField.getText();
 	}
 
 	public Object getCellEditorValue() {
@@ -231,14 +207,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		if (table != null) { // ?
 			table.finishEditing();
 		}
-
-		// ?//super.cancelCellEditing();
-
-		// give the table the focus in case the formula bar is the editor
-		// ?//if (table.getView().getFormulaBar().editorHasFocus()) {
-		// Application.debug("give focus to table");
-		// ?// table.requestFocus();
-		// ?//}
 	}
 
 	public boolean stopCellEditing() {
@@ -255,11 +223,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		editing = false;
 		boolean success = true;// TODO super.stopCellEditing();
 
-		// give the table the focus in case the formula bar is the editor
-		// ?//if (table.getView().getFormulaBar().editorHasFocus()) {
-		// Application.debug("give focus to table");
-		// ?// table.requestFocus();
-		// ?//}
 		return success;
 	}
 
@@ -289,7 +252,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		try {
 
 			if (allowProcessGeo) {
-				String text = textField.getText();// ?// (String)
+				String text = autoCompleteTextField.getText();// ?// (String)
 												  // delegate.getCellEditorValue();
 				// get GeoElement of current cell
 				value = kernel.lookupLabel(GeoElementSpreadsheet
@@ -331,12 +294,12 @@ public class MyCellEditorW implements BaseCellEditor {
 	// =======================================================
 
 	public void sendKeyPressEvent(KeyPressEvent e) {
-		textField.getTextField().setFocus(true);
+		autoCompleteTextField.getTextField().setFocus(true);
 		keyListener.onKeyPress(e);
 	}
 
 	public void sendKeyDownEvent(KeyDownEvent e) {
-		textField.getTextField().setFocus(true);
+		autoCompleteTextField.getTextField().setFocus(true);
 		keyListener.onKeyDown(e);
 	}
 
@@ -400,7 +363,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 		public void checkCursorKeys(KeyDownEvent e) {
 
-			String text = textField.getText();// ?// (String)
+			String text = autoCompleteTextField.getText();// ?// (String)
 											  // delegate.getCellEditorValue();
 
 			int keyCode = e.getNativeKeyCode();
@@ -455,7 +418,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 					}
 				} else {
-					textField.setCaretPosition(bracketsIndex + 1);
+					autoCompleteTextField.setCaretPosition(bracketsIndex + 1);
 					// ?//e.consume();
 				}
 
@@ -515,21 +478,8 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	}
 
-	/*
-	 * public void focusGained(FocusEvent arg0) { editing = true; }
-	 * 
-	 * public void focusLost(FocusEvent arg0) {
-	 * 
-	 * // VirtualKeyboard gets the focus very briefly when opened // so ignore
-	 * this! if (arg0.getOppositeComponent() instanceof VirtualKeyboard) return;
-	 * 
-	 * // only needed if eg columns resized if (editing == true) { if
-	 * (!errorOnStopEditing) { // this stops editing but does not process geos
-	 * ... needed for // formula bar sync stopCellEditing(); } else if
-	 * (!app.isErrorDialogShowing()) { cancelCellEditing(); } } }
-	 */
-
 	public Widget getTextfield() {
-		return textField;
+		return autoCompleteTextField;
 	}
+
 }

@@ -518,7 +518,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 				// extend the column selection
 				int row = table.getLeadSelectionRow();
 				table.setSelectionType(MyTableW.ROW_SELECT);
-				table.changeSelection(row - 1, -1, false, true);
+				table.changeSelection(row - 1, -1, true);
 			} else {
 				// select topmost cell in first column left of the selection
 				if (table.minSelectionRow > 0) {
@@ -535,7 +535,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 				// extend the row selection
 				int row = table.getLeadSelectionRow();
 				table.setSelectionType(MyTableW.ROW_SELECT);
-				table.changeSelection(row + 1, -1, false, true);
+				table.changeSelection(row + 1, -1, true);
 			} else {
 				// select topmost cell in first column left of the selection
 				if (table.minSelectionRow >= 0)
