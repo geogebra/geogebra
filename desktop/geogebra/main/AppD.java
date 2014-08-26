@@ -5141,4 +5141,11 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 	}
+	
+	/**
+	 * resume 3D openGL renderer
+	 */
+	public void resume3DRenderer(){
+		// used in 3D
+	}
 }

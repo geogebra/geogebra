@@ -205,6 +205,15 @@ public class App3D extends AppD {
 		}
 		super.refreshViews();
 	}
+	
+	@Override
+	public void resume3DRenderer(){
+		if (isEuclidianView3Dinited()){
+			DockManager dockManager = (DockManager) getGuiManager().getLayout().getDockManager();
+			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D)).resumeRenderer();
+
+		}
+	}
 
 	public void toggleAxis3D() {
 		// toggle axis

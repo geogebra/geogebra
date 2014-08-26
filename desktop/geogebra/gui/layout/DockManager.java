@@ -714,6 +714,9 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 		for (ShowDockPanelListener l : showDockPanelListener) {
 			l.showDockPanel(panel);
 		}
+		
+		// make sure that 3D renderer works correctly
+		app.resume3DRenderer();
 	}
 
 	/**
@@ -865,6 +868,9 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 
 			app.updateToolBar();
 		}
+		
+		// make sure that 3D renderer works correctly
+		app.resume3DRenderer();
 
 		return true;
 	}
