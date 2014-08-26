@@ -375,6 +375,11 @@ public class Manager3D implements Manager3DInterface {
 		AlgoOrthoVectorPlane algo = new AlgoOrthoVectorPlane(cons, label, plane);
 		return algo.getVector();
 	}
+	
+	public GeoVectorND OrthogonalVector3D(String label, GeoLineND line, GeoDirectionND direction){
+		AlgoOrthoVectorLineDirection algo = new AlgoOrthoVectorLineDirection(cons, label, line, direction);
+		return algo.getVector();
+	}
 
 	public GeoVectorND UnitOrthogonalVector3D(String label, GeoCoordSys2D plane) {
 		AlgoUnitOrthoVectorPlane algo = new AlgoUnitOrthoVectorPlane(cons,
@@ -706,6 +711,11 @@ public class Manager3D implements Manager3DInterface {
 		kernel.notifyUpdate(circle);
 		return circle;
 
+	}
+	
+	
+	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius){
+		return Circle3D(label, A, radius, kernel.getXOYPlane());
 	}
 
 	public GeoConicND Circle3D(String label, GeoPointND A, GeoPointND B,

@@ -61,6 +61,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -4326,23 +4327,25 @@ public class Kernel {
 		return new ExpressionNode(this, geo);
 	}
 
-	final public GeoElement[] VectorPolygon(String[] labels, GeoPoint[] points) {
+	final public GeoElement[] VectorPolygon(String[] labels, GeoPointND[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
+		/*
 		cons.setSuppressLabelCreation(true);
-		getAlgoDispatcher().Circle(null, points[0],
+		getAlgoDispatcher().Circle(null, (GeoPoint) points[0],
 				new MyDouble(cons.getKernel(), points[0].distance(points[1])));
 		cons.setSuppressLabelCreation(oldMacroMode);
+		*/
 
 		StringBuilder sb = new StringBuilder();
 
-		double xA = points[0].inhomX;
-		double yA = points[0].inhomY;
+		double xA = points[0].getInhomX();
+		double yA = points[0].getInhomY();
 
 		for (int i = 1; i < points.length; i++) {
 
-			double xC = points[i].inhomX;
-			double yC = points[i].inhomY;
+			double xC = points[i].getInhomX();
+			double yC = points[i].getInhomY();
 
 			GeoNumeric nx = new GeoNumeric(cons, null, xC - xA);
 			GeoNumeric ny = new GeoNumeric(cons, null, yC - yA);
@@ -4366,7 +4369,7 @@ public class Kernel {
 					sb.toString(), true, true);
 
 			try {
-				cons.replace(points[i], pp);
+				cons.replace((GeoElement) points[i], pp);
 				points[i] = pp;
 				// points[i].setEuclidianVisible(false);
 				points[i].update();
@@ -4402,7 +4405,7 @@ public class Kernel {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		// create p1 = point on circle (so it can be dragged to rotate the whole shape)
-		GeoConic circle = getAlgoDispatcher().Circle(null, (GeoPoint) p[0], poly.getSegments()[0]);
+		GeoConicND circle = getAlgoDispatcher().Circle(null, p[0], poly.getSegments()[0]);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		p[1] = getAlgoDispatcher().Point(null, circle, poly.getPoint(1).inhomX, poly.getPoint(1).inhomY,
@@ -4469,18 +4472,23 @@ public class Kernel {
 		return ret;
 	}
 	
-	final public GeoElement[] RigidPolygon(String[] labels, GeoPoint[] points) {
+	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle, GeoPointND point1){
+		 return getAlgoDispatcher().Point(null, circle, point1.getInhomX(), point1.getInhomY(),
+					true, false, true);
+	}
+	
+	final public GeoElement[] RigidPolygon(String[] labels, GeoPointND[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
 		cons.setSuppressLabelCreation(true);
-		GeoConic circle = getAlgoDispatcher().Circle(null, points[0],
+		GeoConicND circle = getAlgoDispatcher().Circle(null, points[0],
 				new MyDouble(this, points[0].distance(points[1])));
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-		GeoPoint p = getAlgoDispatcher().Point(null, circle, points[1].inhomX, points[1].inhomY,
-				true, false, true);
+		GeoPointND p = RigidPolygonPointOnCircle(circle, points[1]);
+		
 		try {
-			(cons).replace(points[1], p);
+			(cons).replace((GeoElement) points[1], (GeoElement) p);
 			points[1] = p;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4489,10 +4497,10 @@ public class Kernel {
 
 		StringBuilder sb = new StringBuilder();
 
-		double xA = points[0].inhomX;
-		double yA = points[0].inhomY;
-		double xB = points[1].inhomX;
-		double yB = points[1].inhomY;
+		double xA = points[0].getInhomX();
+		double yA = points[0].getInhomY();
+		double xB = points[1].getInhomX();
+		double yB = points[1].getInhomY();
 
 		GeoVec2D a = new GeoVec2D(cons.getKernel(), xB - xA, yB - yA); // vector AB
 		GeoVec2D b = new GeoVec2D(cons.getKernel(), yA - yB, xB - xA); // perpendicular to
@@ -4507,10 +4515,11 @@ public class Kernel {
 		a.makeUnitVector();
 		b.makeUnitVector();
 		StringTemplate tpl = StringTemplate.maxPrecision;
+		boolean is3D = points[0].isGeoElement3D() || points[1].isGeoElement3D();
 		for (int i = 2; i < points.length; i++) {
 
-			double xC = points[i].inhomX;
-			double yC = points[i].inhomY;
+			double xC = points[i].getInhomX();
+			double yC = points[i].getInhomY();
 
 			GeoVec2D d = new GeoVec2D(cons.getKernel(), xC - xA, yC - yA); // vector AC
 
@@ -4533,15 +4542,15 @@ public class Kernel {
 			sb.append(points[0].getLabel(tpl));
 			sb.append(',');
 			sb.append(points[1].getLabel(tpl));
-			sb.append("]]");
+			RigidPolygonAddEndOfCommand(sb, is3D);
 
 			// Application.debug(sb.toString());
 
-			GeoPoint pp = (GeoPoint) getAlgebraProcessor().evaluateToPoint(
+			GeoPointND pp = (GeoPointND) getAlgebraProcessor().evaluateToPoint(
 					sb.toString(), true, true);
 
 			try {
-				(cons).replace(points[i], pp);
+				(cons).replace((GeoElement) points[i], (GeoElement) pp);
 				points[i] = pp;
 				points[i].setEuclidianVisible(false);
 				points[i].update();
@@ -4557,6 +4566,11 @@ public class Kernel {
 
 		return getAlgoDispatcher().Polygon(labels, points);
 
+	}
+	
+	
+	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D){
+		sb.append("]]");
 	}
 
 

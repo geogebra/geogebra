@@ -190,6 +190,27 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return ret;
 	}
 		
+	@Override
+	final public GeoElement[] Polygon(String[] labels, GeoPointND[] P) {
+		
+		for (int i = 0; i < P.length; i++) {
+			if (P[i].isGeoElement3D()) {
+				return getManager3D().Polygon3D(labels, P);
+			} 
+		}
 
+		return super.Polygon(labels, P);
+	}
+	
+	
+	@Override
+	final public GeoConicND Circle(String label, GeoPointND M, NumberValue r) {
+		if (M.isGeoElement3D()){
+			return getManager3D().Circle3D(label, M, r);
+		}
+		
+		return super.Circle(label, M, r);
+
+	}
 
 }

@@ -551,8 +551,8 @@ public class AlgoDispatcher {
 	/**
 	 * circle with midpoint M and radius r
 	 */
-	final public GeoConic Circle(String label, GeoPoint M, NumberValue r) {
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, M,
+	public GeoConicND Circle(String label, GeoPointND M, NumberValue r) {
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, (GeoPoint) M,
 				r);
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
@@ -810,7 +810,7 @@ public class AlgoDispatcher {
 	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
 	 * segments
 	 */
-	final public GeoElement[] Polygon(String[] labels, GeoPointND[] P) {
+	public GeoElement[] Polygon(String[] labels, GeoPointND[] P) {
 		AlgoPolygon algo = new AlgoPolygon(cons, labels, P);
 		return algo.getOutput();
 	}

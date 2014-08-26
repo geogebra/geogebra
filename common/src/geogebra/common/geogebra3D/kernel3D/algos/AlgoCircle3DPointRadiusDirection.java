@@ -41,7 +41,7 @@ public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection
      * @param radius
      */
     public AlgoCircle3DPointRadiusDirection(Construction cons, String label, GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
-        super(cons, label, point, (GeoElement) radius, forAxis);
+        super(cons, label, point, radius.toGeoElement(), forAxis);
         
 
     }
@@ -55,7 +55,7 @@ public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection
      * @param radius
      */
     public AlgoCircle3DPointRadiusDirection(Construction cons, GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
-        super(cons, point, (GeoElement) radius, (GeoElement) forAxis);
+        super(cons, point, radius.toGeoElement(), (GeoElement) forAxis);
 
     }
     

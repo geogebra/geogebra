@@ -2004,41 +2004,22 @@ public abstract class EuclidianController {
 		
 		if (polygonMode == POLYGON_RIGID) {
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.RigidPolygon(null, getSelectedPoints());
+			GeoElement[] ret0 = kernel.RigidPolygon(null, getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
 			}
 			return ret;
 		} else if (polygonMode == POLYGON_VECTOR) {
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.VectorPolygon(null, getSelectedPoints());
+			GeoElement[] ret0 = kernel.VectorPolygon(null, getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
 			}
 			return ret;
 		} else {
-			// check if there is a 3D point
-			GeoPointND[] pointsND = getSelectedPointsND();
-			GeoPoint[] points = new GeoPoint[pointsND.length];
-			boolean point3D = false;
-			for (int i = 0; (i < pointsND.length) && !point3D; i++) {
-				if (((GeoElement) pointsND[i]).isGeoElement3D()) {
-					point3D = true;
-				} else {
-					points[i] = (GeoPoint) pointsND[i];
-				}
-			}
-			if (point3D) {
-				GeoElement[] ret = { null };
-				GeoElement[] ret0 = kernel.getManager3D().Polygon3D(null,
-						pointsND);
-				if (ret0 != null) {
-					ret[0] = ret0[0];
-				}
-				return ret;
-			}
+
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.Polygon(null, points);
+			GeoElement[] ret0 = kernel.Polygon(null, getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
 			}

@@ -157,6 +157,9 @@ public interface Manager3DInterface {
 	/** Vector3D orthogonal to plane */
 	public GeoVectorND OrthogonalVector3D(String label, GeoCoordSys2D plane);
 
+	/** Vector3D orthogonal to line with direction */
+	public GeoVectorND OrthogonalVector3D(String label, GeoLineND line, GeoDirectionND direction);
+
 	/** Vector3D unit orthogonal to plane */
 	public GeoVectorND UnitOrthogonalVector3D(String label, GeoCoordSys2D plane);
 
@@ -369,6 +372,11 @@ public interface Manager3DInterface {
 	 */
 	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius,
 			GeoDirectionND axis);
+
+	/**
+	 * circle with point, radius, axis orthogonal to xOy plane
+	 */
+	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius);
 
 	public GeoConicND Circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoDirectionND axis);

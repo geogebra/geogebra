@@ -5,6 +5,8 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdOrthogonalVector;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.main.MyError;
 
 /**
@@ -31,11 +33,24 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 			if (ok[0] = (arg[0] instanceof GeoCoordSys2D)) {
 				GeoElement[] ret =
 				{
-						(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalVector3D(
+						(GeoElement) kernelA.getManager3D().OrthogonalVector3D(
 								c.getLabel(),
 								(GeoCoordSys2D) arg[0])};
 				return ret;
 			} 
+			break;
+			
+	    case 2:
+	    	arg = resArgs(c);
+	    	if (ok[0] = (arg[0] instanceof GeoLineND) && (ok[1] = (arg[1] instanceof GeoDirectionND))) {
+				GeoElement[] ret =
+				{
+						(GeoElement) kernelA.getManager3D().OrthogonalVector3D(
+								c.getLabel(),
+								(GeoLineND) arg[0], (GeoDirectionND) arg[1])};
+				return ret;
+			}
+	    	break;
 	    	
 	    }
 	    

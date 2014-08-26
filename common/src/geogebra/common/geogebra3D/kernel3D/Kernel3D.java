@@ -614,4 +614,23 @@ public class Kernel3D extends Kernel {
 	}
 
 
+	@Override
+	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle, GeoPointND point1){
+		if (circle.isGeoElement3D()){
+			return getManager3D().Point3D(null, circle, point1.getInhomX(), point1.getInhomY(), point1.getInhomZ(), false, true);
+		}
+		return super.RigidPolygonPointOnCircle(circle, point1);
+	}
+
+	@Override
+	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D){
+		if (is3D){
+			sb.append("],xOyPlane]");
+		}else{
+			super.RigidPolygonAddEndOfCommand(sb, is3D);
+		}
+		
+		
+	}
+
 }
