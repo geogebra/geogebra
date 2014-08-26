@@ -796,6 +796,10 @@ public class RelativeCopy {
 	}
 	*/
 	
+	public static GeoElement getValue(App app, GPoint point) {
+		return getValue(app, point.getX(), point.getY());
+	}
+	
 	
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
