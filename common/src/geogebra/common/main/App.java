@@ -3085,6 +3085,7 @@ public abstract class App implements UpdateSelection{
 		// Collecting information for showing them in the popup window:
 		Iterator<Report> it = relInfosAll.iterator();
 		int rels = relInfosAll.size();
+
 		String[] relInfos = new String[rels];
 		RelationCommand[] relAlgos = new RelationCommand[rels];
 		Boolean[] relBools = new Boolean[rels];
@@ -3170,7 +3171,7 @@ public abstract class App implements UpdateSelection{
 					}
 			};
 			
-			if (relBools[i] && relAlgos[i] != null) {
+			if (relBools[i]!=null && relBools[i] && relAlgos[i] != null) {
 				rr[i].callback = rm;
 			}
 		}
