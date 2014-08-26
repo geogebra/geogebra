@@ -7,13 +7,13 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoFrequencyTable;
-//import geogebra.common.kernel.geos.GeoList;
-//import geogebra.common.kernel.geos.GeoNumeric;
-//import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
 import java.util.ArrayList;
+//import geogebra.common.kernel.geos.GeoList;
+//import geogebra.common.kernel.geos.GeoNumeric;
+//import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 
 /**
  * Class to dynamically display plots and statistics in coordination with the
@@ -471,7 +471,7 @@ public class DataDisplayModel {
 				}
 	
 				if (histogram != null) {
-					histogram.setEuclidianVisible(settings.isShowHistogram());
+					histogram.setEuclidianVisible(settings.isShowHistogram() && selectedPlot == PlotType.HISTOGRAM);
 					histogram.updateRepaint();
 				}
 	
