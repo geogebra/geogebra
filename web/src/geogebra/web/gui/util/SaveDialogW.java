@@ -12,6 +12,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.List;
@@ -166,6 +167,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 					//TODO translate & position
 					ToolTipManagerW.sharedInstance().showToolTip(title.getText() + " saved successfully");
 					app.setSaved();
+					((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
 				}
 			}
 			
