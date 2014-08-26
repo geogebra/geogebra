@@ -1913,7 +1913,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public ImageIcon getToolIcon(Color border) {
 		return imageManager.getImageIcon(
-				"/gui/toolbar/images/mode_tool_32.png", border);
+				"/gui/toolbar/images/mode_tool.png", border);
 	}
 
 	public ImageIcon getEmptyIcon() {
@@ -1983,7 +1983,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				BufferedImage img = getExternalImage(iconName);
 				if (img == null) {
 					// default icon
-					icon = getToolBarImage("mode_tool_32.png", border);
+					icon = getToolBarImage("mode_tool.png", border);
 				} else {
 					// use image as icon
 					icon = new ImageIcon(ImageManager.addBorder(img, border));
@@ -1997,7 +1997,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			String modeText = getKernel().getModeText(mode);
 			// bugfix for Turkish locale added Locale.US
 			String iconName = "mode_" + StringUtil.toLowerCase(modeText)
-					+ "_32.gif";
+					+ ".png";
 			icon = getToolBarImage(iconName, border);
 			if (icon == null) {
 				App.debug("icon missing for mode " + modeText + " (" + mode
