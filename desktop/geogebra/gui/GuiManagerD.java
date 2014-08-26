@@ -769,7 +769,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
 		if (flag) {
-			if (!showView(viewId)){
+			if (!showView(viewId)) {
 				layout.getDockManager().show(viewId);
 			}
 
@@ -777,7 +777,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				getSpreadsheetView().requestFocus();
 			}
 		} else {
-			if (showView(viewId)){
+			if (showView(viewId)) {
 				layout.getDockManager().hide(viewId, isPermanent);
 			}
 
@@ -2530,7 +2530,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				app.getMenu(page + ".Help"), app.getMenu("ToolHelp") + " - "
 						+ app.getMenu(page), JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, ((AppD) app).getToolBarImage(
-						"mode_" + page + "_32.gif", Color.BLACK), // do not
+						"mode_" + page + ".png", Color.BLACK), // do not
 				// use a
 				// custom
 				// Icon
