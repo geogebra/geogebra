@@ -184,6 +184,9 @@ public class PlotterBrush implements PathPlotter {
 		}else{
 			start = end;
 			end = new PlotterBrushSection(start, point, thickness,false);
+//			start.set(end);
+//			end.setCenterAndThickness(point, thickness);
+//			end.update(start, false);
 		}
 		
 		join();
@@ -509,6 +512,9 @@ public class PlotterBrush implements PathPlotter {
     	
 	}
 
+	private Coords m = new Coords(3), vn1 = new Coords(3);
+	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3), tmpCoords3 = new Coords(3), tmpCoords4 = new Coords(3);
+
 	
 	/** draws an ellipse
 	 * @param center
@@ -535,7 +541,6 @@ public class PlotterBrush implements PathPlotter {
 		
 		int longitude = manager.getLongitudeDefault();
 		
-		Coords m,mold,vn1;
 		Coords vn2 = v2.crossProduct(v1);
 		
     	float dt = (float) 1/longitude;
@@ -545,32 +550,52 @@ public class PlotterBrush implements PathPlotter {
 		v = (float) Math.sin (start); 
      	
 		//m = v1.mul(a*u).add(v2.mul(b*v));
-		m = new Coords(4);
-		Coords m1 = new Coords(4);
-		v2.mul(b*v, m);
-		v1.mul(a*u, m1);
-		m1.add(m,m);
+		v1.mul(a*u, m);
+		v2.mul(b*v, tmpCoords);
+		m.add(tmpCoords,m);
 		
-		mold = new Coords(4);
+
+
 		
-		vn1 = (m.sub(f1).normalized()).add((m.sub(f2).normalized())).normalized(); //bissector
-		down(center.add(m),vn1,vn2);  	
+		m.sub(f1, tmpCoords3);
+		tmpCoords3.normalize();
+		m.sub(f2, tmpCoords4);
+		tmpCoords4.normalize();
+		tmpCoords3.add(tmpCoords4, vn1);
+		vn1.normalize();
+		
+
+		
+		center.add(m, tmpCoords);
+		down(tmpCoords.copyVector(),vn1.copyVector(),vn2);  	
+		
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 
     		u = (float) Math.cos (start + i * da ); 
     		v = (float) Math.sin (start + i * da ); 
     		
-    		mold.set(m);
+    		tmpCoords2.set(m);
     		//m = v1.mul(a*u).add(v2.mul(b*v));
-    		v2.mul(b*v, m);
-    		v1.mul(a*u, m1);
-    		m1.add(m, m);
+    		v1.mul(a*u, m);
+    		v2.mul(b*v, tmpCoords);
+    		m.add(tmpCoords,m);
     		//addCurvePos((float) m.sub(mold).norm());
-    		m.sub(mold, mold);
-    		addCurvePos((float) mold.norm());
+    		m.sub(tmpCoords2, tmpCoords2);
+    		addCurvePos((float) tmpCoords2.norm());
     		
-    		vn1 = (m.sub(f1).normalized()).add((m.sub(f2).normalized())).normalized(); //bissector
-    		moveTo(center.add(m),vn1,vn2);
+
+    		
+    		m.sub(f1, tmpCoords3);
+    		tmpCoords3.normalize();
+    		m.sub(f2, tmpCoords4);
+    		tmpCoords4.normalize();
+    		tmpCoords3.add(tmpCoords4, vn1);
+    		vn1.normalize();
+    		
+
+    		center.add(m, tmpCoords);
+    		moveTo(tmpCoords.copyVector(),vn1.copyVector(),vn2);  	
+    		
     	} 
     	
 	}

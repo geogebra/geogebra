@@ -751,6 +751,9 @@ public class PlotterSurface {
 
 	}
 	
+	private Coords m = new Coords(4);
+	private Coords tmpCoords = new Coords(4), tmpCoords2 = new Coords(4);
+	
 	/**
 	 * @param center
 	 * @param v1
@@ -762,11 +765,11 @@ public class PlotterSurface {
 	 * @param fromEllipseCenter says if the surface is drawn from center of the ellipse
 	 */
 	public void ellipsePart(Coords center, Coords v1, Coords v2, double a, double b, double start, double extent, boolean fromEllipseCenter){
+		
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 		
 		int longitude = manager.getLongitudeDefault();
 		
-		Coords m;
     	float u, v;
 		
     	float dt = (float) 1/longitude;
@@ -777,7 +780,9 @@ public class PlotterSurface {
     	
     	u = (float) Math.cos (start); 
 		v = (float) Math.sin (start);
-		m = v1.mul(a*u).add(v2.mul(b*v));
+		v1.mul(a*u, m);
+		v2.mul(b*v, tmpCoords);
+		m.add(tmpCoords, m);
     	
 
 		//center of the triangle fan
@@ -786,7 +791,15 @@ public class PlotterSurface {
 		}else{ // mid point of the ellipse start and end
 			u = (float) Math.cos (start+extent); 
 			v = (float) Math.sin (start+extent);
-			manager.triangleFanApex(center.add((m.add(v1.mul(a*u).add(v2.mul(b*v)))).mul(0.5)));  
+			
+			v1.mul(a*u, tmpCoords2);
+			v2.mul(b*v, tmpCoords);
+			tmpCoords2.add(tmpCoords, tmpCoords2);
+			
+			tmpCoords2.add(m, tmpCoords2);
+			tmpCoords2.mul(0.5, tmpCoords2);
+			center.add(tmpCoords2, tmpCoords2);
+			manager.triangleFanApex(tmpCoords2);  
 		} 
     	
     	
@@ -797,8 +810,11 @@ public class PlotterSurface {
     		u = (float) Math.cos (start + i * da ); 
     		v = (float) Math.sin (start + i * da ); 
     		
-     		m = v1.mul(a*u).add(v2.mul(b*v));
-    		manager.triangleFanVertex(center.add(m));
+    		v1.mul(a*u, m);
+    		v2.mul(b*v, tmpCoords);
+    		m.add(tmpCoords, m);
+    		center.add(m, m);
+    		manager.triangleFanVertex(m);
     	} 
     	
     			

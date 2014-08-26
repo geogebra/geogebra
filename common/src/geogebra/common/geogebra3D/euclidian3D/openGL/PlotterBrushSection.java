@@ -215,4 +215,35 @@ public class PlotterBrushSection {
 		
 	}	
 	
+	
+//	/**
+//	 * set this equal to pbs
+//	 * @param pbs 
+//	 */
+//	public void set(PlotterBrushSection pbs){
+//		center.set(pbs.center);
+//
+//		clockU.set(pbs.clockU);
+//		clockV.set(pbs.clockV);
+//
+//		direction.set(pbs.direction);
+//
+//		length = pbs.length;
+//
+//		if (pbs.normal != null){
+//			if (normal != null){
+//				normal.set(pbs.normal);
+//			}else{
+//				normal = pbs.normal.copyVector();
+//			}
+//		}else{
+//			normal = null;
+//		}
+//
+//		normalDevD = pbs.normalDevD;
+//		normalDevN = pbs.normalDevN;
+//
+//		thickness = pbs.thickness;
+//	}
+	
 }
