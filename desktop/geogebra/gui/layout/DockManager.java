@@ -297,13 +297,15 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 				// for(DockPanel panel : dockPanels) {
 				boolean focusDone = false;
 				for (int i = 0; i < dpData.length && !focusDone; ++i) {
-					DockPanel panel = getPanel(dpData[i]);
-					if (panel != null && panel.isVisible()
-							&& !panel.isInFrame()) {
-						setFocusedPanel(panel);
-						// don't like algebra view as focused view
-						if (panel.getViewId() != App.VIEW_ALGEBRA) {
-							focusDone = true;
+					if (dpData[i].getPlane() == null){ // we can't focus on view for plane otherwise we will recreate it
+						DockPanel panel = getPanel(dpData[i]);
+						if (panel != null && panel.isVisible()
+								&& !panel.isInFrame()) {
+							setFocusedPanel(panel);
+							// don't like algebra view as focused view
+							if (panel.getViewId() != App.VIEW_ALGEBRA) {
+								focusDone = true;
+							}
 						}
 					}
 				}
@@ -1322,7 +1324,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 	public DockPanel getPanel(DockPanelData dpData) {
 		if (dpData.getPlane() == null) // standard case
 			return getPanel(dpData.getViewId());
-
+		
 		// euclidian view for plane case
 		DockPanel panel = (DockPanel) app.getCompanion()
 				.createEuclidianDockPanelForPlane(dpData.getViewId(),
@@ -1337,6 +1339,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 		return panel;
 
 	}
+	
 
 	/**
 	 * Returns a specific DockPanel.
