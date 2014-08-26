@@ -1,5 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
@@ -34,14 +35,14 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				true,								// style bar?
 				3, 									// menu order
 				'S'									// menu shortcut
-			);
-		
+				);
+
 
 		app = (AppW)appl;
 	}
 
 	@Override
-    protected Widget loadComponent() {
+	protected Widget loadComponent() {
 		setViewImage(GuiResources.INSTANCE.styleBar_spreadsheetView());
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
@@ -53,7 +54,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	}
 
 	@Override
-    protected Widget loadStyleBar() {
+	protected Widget loadStyleBar() {
 		if (sstylebar == null) {
 			sstylebar = sview.getSpreadsheetStyleBar();
 		}
@@ -61,7 +62,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	}
 
 	@Override
-    public void onResize() {
+	public void onResize() {
 		super.onResize();
 
 		if (app != null) {
@@ -78,10 +79,10 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				wrapview.setPixelSize(width, height);
 
 				sview.onResize();
-			
+
 			}
-			
-			
+
+
 		}
 	}
 
@@ -90,27 +91,29 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	}
 
 	@Override
-    public void showView(boolean show) {
+	public void showView(boolean show) {
 		App.debug("unimplemented method");
 	}
 
 	public App getApp() {
-	    return app;
-    }
+		return app;
+	}
 
 	private static String getDefaultToolbar() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);
-				
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
-		sb.append(" , ");
+		if (GeoGebraConstants.IS_PRE_RELEASE) {				
+			sb.append(" || ");
+			sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
+			sb.append(" , ");
+		}
+
 		sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
-				
+
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST);
 		sb.append(" , ");
@@ -121,7 +124,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE);
-				
+
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_SUM);
 		sb.append(" , ");
@@ -132,7 +135,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_MAX);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_MIN);
-		
+
 
 		return sb.toString();
 	}
@@ -160,9 +163,9 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 		return super.hasStyleBar() && settings.showRowHeader() && settings.showColumnHeader();
 	}
-	
+
 	@Override
-    public ImageResource getIcon() {
+	public ImageResource getIcon() {
 		return AppResources.INSTANCE.view_spreadsheet24();
 	}
 }
