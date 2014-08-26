@@ -4,6 +4,7 @@ import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.main.StringHandler;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -19,6 +20,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	AppW app;
 	private MenuItem uploadToGGT;
 	Runnable onFileOpen;
+	Runnable newConstruction;
 	
 	/**
 	 * @param app application
@@ -27,6 +29,13 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    super(true);
 	    this.app = app;
 	    this.onFileOpen = onFileOpen;
+	    this.newConstruction = new Runnable() {
+			
+			@Override
+			public void run() {
+				runNew();
+			}
+		};
 	    addStyleName("GeoGebraMenuBar");
 	    initActions();
 		update();
@@ -51,15 +60,20 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return false;
 	}-*/;
 	
+	private void runNew() {
+		app.setWaitCursor();
+		app.fileNew();
+		app.setDefaultCursor();
+	}
+	
 	private void initActions() {
 
 		// this is enabled always
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
 
 			public void execute() {
-				app.setWaitCursor();
-				app.fileNew();
-				app.setDefaultCursor();
+				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setCallback(newConstruction);
+				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 			}
 		});
 

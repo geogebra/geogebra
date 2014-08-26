@@ -2397,6 +2397,16 @@ body.application[dir=rtl] .toolbar_mainItem {
 	height: 200px;
 }
 
+/* ----------- SAVE UNSAVED CHANGES DIALOG -------------*/
+
+.saveUnsavedDialog {
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+}
+
+.saveUnsavedDialog .infoText {
+	padding: 5px 5px 15px 5px;
+}
+
 /*========= End Dialogs ===========*/
 /*========= FileChooser ===========*/
 .GeoGebraFileChooser .titlePanel {
@@ -3731,8 +3741,8 @@ PROVIDERS
 
 
 .materialListElement .fileImage .background {
-	width: 175px;
-	height: 175px;
+	width: 171px;
+	height: 171px;
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;

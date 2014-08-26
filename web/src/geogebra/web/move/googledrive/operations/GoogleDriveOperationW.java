@@ -443,12 +443,12 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	}-*/;
 	
 	private void showUploadError() {
-		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
 		((DialogManagerW) app.getDialogManager()).showAlertDialog(app.getLocalization().getMenu("UserNotAuthenticatedToWriteThisFile"));
 	}
 	private void updateAfterGoogleDriveSave(String id, String fileName, String description) {
-		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
-		((DialogManagerW) app.getDialogManager()).getFileChooser().saveSuccess(fileName, description);
+		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog().saveSuccess(fileName, description);
 		app.setCurrentFileId(id);
 	}
 

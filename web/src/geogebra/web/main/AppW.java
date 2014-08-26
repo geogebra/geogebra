@@ -402,7 +402,7 @@ public abstract class AppW extends AppWeb {
 	public void storeUndoInfo() {
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
-			// isSaved = false;
+			isSaved = false;
 		}
 	}
 

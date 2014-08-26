@@ -546,6 +546,7 @@ public class FileManager implements FileManagerInterface {
 							public void onSuccess(final FileWriter writer) {
 								writer.write(s);
 								createMetaData(consTitle, app);
+								app.setSaved();
 							}
 
 							@Override

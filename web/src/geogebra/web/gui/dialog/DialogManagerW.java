@@ -47,6 +47,7 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	private FunctionInspectorW functionInspector;
+	private SaveUnsavedChanges saveUnsavedDialog;
 
 	public DialogManagerW(App app) {
 		super(app);		
@@ -183,6 +184,13 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		id.setVisible(true);
 	}
 
+	public SaveUnsavedChanges getSaveUnsavedDialog() {
+		if (this.saveUnsavedDialog == null) {
+			this.saveUnsavedDialog = new SaveUnsavedChanges(app);
+		}
+		
+		return this.saveUnsavedDialog;
+	}
 
 	@Override
 	public void showPropertiesDialog() {
@@ -269,17 +277,17 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	}
 	
-	SaveDialogW fileChooser = null;	
+	SaveDialogW saveDialog = null;	
 
-	public void setFileChooser(SaveDialogW fileChooser) {
-		this.fileChooser = fileChooser;
+	public void setSaveDialog(SaveDialogW fileChooser) {
+		this.saveDialog = fileChooser;
 	}
 	
-	public SaveDialogW getFileChooser() {
-		if (fileChooser == null) {
-			fileChooser = new SaveDialogW(app);
+	public SaveDialogW getSaveDialog() {
+		if (saveDialog == null) {
+			saveDialog = new SaveDialogW(app);
 		}
-		return fileChooser;
+		return saveDialog;
 	}
 
 	private GoogleFileDescriptors googleFileDescriptors = null;
@@ -434,9 +442,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		if (textInputDialog != null)
 			((TextInputDialogW) textInputDialog).setLabels();
 
-		if (fileChooser != null) {
-			fileChooser.setLabels();
+		if (saveDialog != null) {
+			saveDialog.setLabels();
 		}
+		
+		getSaveUnsavedDialog().setLabels();
 		//if (fileChooser != null)
 		//	updateJavaUILanguage();
 		

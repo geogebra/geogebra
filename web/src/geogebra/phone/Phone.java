@@ -27,7 +27,7 @@ public class Phone implements EntryPoint {
 		appFrame = new GeoGebraAppFrame(new GLookAndFeel());
 		appFrame.init();
 		appFrame.app.setFileManager(new FileManagerP());
-		((DialogManagerW) appFrame.app.getDialogManager()).setFileChooser(new SaveDialogT(appFrame.app));
+		((DialogManagerW) appFrame.app.getDialogManager()).setSaveDialog(new SaveDialogT(appFrame.app));
 		PhoneGapManager.initializePhoneGap(null);
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()
 		        .addBackButtonPressedHandler(new BackButtonPressedHandler() {

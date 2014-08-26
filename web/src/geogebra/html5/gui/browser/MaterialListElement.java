@@ -10,6 +10,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -48,6 +49,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	protected final AppWeb app;
 	
 	protected State state = State.Default;
+	Runnable editMaterial;
 
 	//TODO change from isLocal to isYourOwn
 	protected boolean isLocalFile;
@@ -67,7 +69,13 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.isLocalFile = m.getId() <= 0 ? true : false;
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
-
+		this.editMaterial = new Runnable() {
+			
+			@Override
+			public void run() {
+				onEdit();
+			}
+		};
 		initMaterialInfos();
 
 		addPreviewPicture();
@@ -252,9 +260,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.editButton = new StandardButton(BrowseResources.INSTANCE.document_edit(), "");
 		this.infoPanel.add(this.editButton);
 		this.editButton.addFastClickHandler(new FastClickHandler() {
+
 			@Override
 			public void onClick() {
-				onEdit();
+				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setCallback(editMaterial);
+				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 			}
 		});
 	}
@@ -286,7 +296,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		}else{
 			((AppW) this.app).getFileManager().openMaterial(this.material, this.app);
 		}
-		app.setUnsaved();
 		closeBrowseView();
 	}
 

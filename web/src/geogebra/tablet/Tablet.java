@@ -188,7 +188,7 @@ public class Tablet implements EntryPoint {
             public void onSuccess(String result) {
 				appFrame.addStyleName("Tablet");
 	            appFrame.app.setFileManager(new FileManagerT());
-	            ((DialogManagerW) appFrame.app.getDialogManager()).setFileChooser(new SaveDialogT(appFrame.app));
+	            ((DialogManagerW) appFrame.app.getDialogManager()).setSaveDialog(new SaveDialogT(appFrame.app));
             }
 			
 		},new TabletLookAndFeel());

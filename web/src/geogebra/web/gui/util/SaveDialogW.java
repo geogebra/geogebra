@@ -165,6 +165,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
 					//TODO translate & position
 					ToolTipManagerW.sharedInstance().showToolTip(title.getText() + " saved successfully");
+					app.setSaved();
 				}
 			}
 			

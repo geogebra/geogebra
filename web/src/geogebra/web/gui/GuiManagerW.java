@@ -825,10 +825,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// String fileName = Window.prompt("File name", "Bunny");
 		// do saving here if getBase64 will be good
 		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
-			SaveDialogW fileChooser = ((DialogManagerW) app.getDialogManager()).getFileChooser();
-			fileChooser.center();
+			SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+			saveDialog.center();
 		} else {
-			((DialogManagerW) app.getDialogManager()).getFileChooser().openFilePicker();
+			((DialogManagerW) app.getDialogManager()).getSaveDialog().openFilePicker();
 		}
 		
 		
