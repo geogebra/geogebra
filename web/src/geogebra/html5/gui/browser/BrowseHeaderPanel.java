@@ -10,14 +10,15 @@ import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.AuxiliaryHeaderPanel;
+import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.browser.SearchPanel.SearchListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -60,7 +61,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.op = op;
 		this.app = app;
 		this.login = app.getLoginOperation();		
-
 		//TODO: Make sign in
 		this.signInPanel = new FlowPanel();
 		
@@ -162,14 +162,16 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			optionsPanelContent.setStyleName("profileOptionsContent");
 			optionsPanel.add(optionsPanelContent);
 			
-			Button logoutButton = new Button(app.getPlain("SignOut"));
+			StandardButton logoutButton = new StandardButton(app.getPlain("SignOut"));
 			logoutButton.addStyleName("logoutButton");
+			logoutButton.addStyleName("gwt-Button");
 			optionsPanelContent.add(logoutButton);
 			
-			logoutButton.addClickHandler(new ClickHandler(){
+			logoutButton.addFastClickHandler(new FastClickHandler(){
 
 				@Override
-                public void onClick(ClickEvent event) {
+                public void onClick() {
+					App.debug("logout");
 	                app.getLoginOperation().performLogOut();
 	                
                 }});
