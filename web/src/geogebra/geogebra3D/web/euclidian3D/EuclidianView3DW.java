@@ -17,6 +17,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
+import geogebra.html5.Browser;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
@@ -417,8 +418,12 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 
 	@Override
     public boolean requestFocusInWindow() {
-	    // TODO Auto-generated method stub
-	    return false;
+		if(Browser.isIE()){
+			g2p.getCanvas().setTabIndex(10000);
+		}
+		g2p.getCanvas().getCanvasElement().focus();	
+		focusGained();
+		return true;
     }
 
 
