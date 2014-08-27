@@ -1680,10 +1680,10 @@ Paddings for menuitems.
 }*/
 
 .VerticalSeparator {
-	margin: 0px 5px;
+	margin: 0px 2px 0px 5px;
 	width: 1px;
-	height: 100%;
-	color: #DCDCDC;
+	height: 32px;
+	background-color: #DCDCDC;
 }
 
 .MyToggleButton,
