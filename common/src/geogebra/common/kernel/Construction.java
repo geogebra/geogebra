@@ -102,11 +102,21 @@ public class Construction {
 			/** maps arbcomplex indices to related numbers */
 	public Map<Integer,GeoNumeric> complexNumbersM = new TreeMap<Integer,GeoNumeric>();
 	
+	/** used to keep track if file is 3D or just 2D
+	 * 
+	 *  cleared in Construction.newConstructionDefaults()
+	 *  (after default geos are loaded)
+	 *  
+	 *  */
+	public TreeSet<GeoClass> usedGeos = new TreeSet<GeoClass>();
+
+	
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
 	protected void newConstructionDefaults() {
 		consDefaults = new ConstructionDefaults(this);
+		usedGeos.clear();
 	}
 	
 	// list of Macro commands used in this construction

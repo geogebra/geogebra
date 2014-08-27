@@ -459,6 +459,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
+	
+
 
 
 	/********************************************************/
@@ -471,6 +473,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public GeoElement(final Construction c) {
 		super(c);
+		
+		c.usedGeos.add(this.getGeoClassType());
 
 		graphicsadapter = kernel.getApplication().newGeoElementGraphicsAdapter();
 		// this.geoID = geoCounter++;
