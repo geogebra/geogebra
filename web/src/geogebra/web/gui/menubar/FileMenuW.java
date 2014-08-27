@@ -118,8 +118,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	}
 	    });
 	    
-	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true),
-		        true, new ExportMenuW(app));
+	    /*addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true),
+		        true, new ExportMenuW(app));*/
 	    
 	    app.getNetworkOperation().getView().add(this);
 	    
