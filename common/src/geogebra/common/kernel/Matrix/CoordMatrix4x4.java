@@ -1,5 +1,7 @@
 package geogebra.common.kernel.Matrix;
 
+import geogebra.common.util.MyMath;
+
 
 /**
  * 4x4 matrix for 3D transformations, planes descriptions, lines, etc.
@@ -270,41 +272,21 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 
 	/**
-	 * complete a 4 x n matrix to a 4 x 4 matrix, orthogonal method
+	 * complete the matrix to a 4 x 4 matrix, orthogonal method.
+	 * @param V first vector
 	 * 
-	 * @param a_matrix
-	 *            source 4 x n matrix
+	 * @param Vn1 first normal vector (maybe changed)
+	 * @param Vn2 second normal vector (maybe changed)
+	 * @param ret matrix to complete
 	 */
-	public CoordMatrix4x4(CoordMatrix a_matrix) {
+	public static void completeOrtho(Coords V, Coords Vn1, Coords Vn2, CoordMatrix4x4 ret) {
 
-		this();
-		Coords l_O;
+		CoordMatrix4x4.getOrthoVectors(V, Vn1, Vn2);
 
-		switch (a_matrix.getColumns()) {
-		case 4:
-			set(a_matrix);
-			break;
-		case 2:
-			Coords V = a_matrix.getColumn(1);
-			l_O = a_matrix.getColumn(2);
+		ret.setVx(V);
+		ret.setVy(Vn1);
+		ret.setVz(Vn2);
 
-			Coords[] n = CoordMatrix4x4.getOrthoVectors(V);
-
-			set(new Coords[] { V, n[0], n[1], l_O });
-			break;
-		case 3:
-			Coords V1 = a_matrix.getColumn(1);
-			Coords V2 = a_matrix.getColumn(2);
-			l_O = a_matrix.getColumn(3);
-
-			Coords Vn = V1.crossProduct(V2);
-			Vn.normalize();
-
-			set(new Coords[] { V1, V2, Vn, l_O });
-			break;
-		default:
-			break;
-		}
 	}
 
 	/**
@@ -315,45 +297,57 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * @param direction
 	 * @param type
 	 *            says which place takes the direction given (VX, VY or VZ)
+	 * @param Vn1 first normal vector (maybe changed)
+	 * @param Vn2 second normal vector (maybe changed)
 	 */
-	public CoordMatrix4x4(Coords origin, Coords direction, int type) {
+	public static void createOrthoToDirection(Coords origin, Coords direction, int type, Coords Vn1, Coords Vn2, CoordMatrix4x4 ret) {
 
-		this();
-		Coords[] n = CoordMatrix4x4.getOrthoVectors(direction);
+		getOrthoVectors(direction, Vn1, Vn2);
 
+		ret.setOrigin(origin);
+		
 		switch (type) {
 		case VX:
-			set(new Coords[] { direction, n[0], n[1], origin });
+			ret.setVx(direction);
+			ret.setVy(Vn1);
+			ret.setVz(Vn2);
 			break;
 		case VY:
-			set(new Coords[] { n[1], direction, n[0], origin });
+			ret.setVx(Vn2);
+			ret.setVy(direction);
+			ret.setVz(Vn1);
 			break;
 		case VZ:
-			set(new Coords[] { n[0], n[1], direction, origin });
+			ret.setVx(Vn1);
+			ret.setVy(Vn2);
+			ret.setVz(direction);
 			break;
 		}
 	}
+	
 
-	private static final Coords[] getOrthoVectors(Coords V) {
-		Coords[] ret = new Coords[2];
+	private static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2) {
 
-		Coords Vn1 = new Coords(4);
-
-		if (V.get(1) != 0) {
-			Vn1.set(1, -V.get(2));
-			Vn1.set(2, V.get(1));
-			Vn1.normalize();
+		double y = V.getX();
+		if (y != 0) {
+			double x = -V.getY();
+			double l = MyMath.length(x, y);
+			Vn1.setX(x/l);
+			Vn1.setY(y/l);
+			Vn1.setZ(0);
+			Vn1.setW(0);
 		} else {
-			Vn1.set(1, 1.0);
+			Vn1.setX(1);
+			Vn1.setY(0);
+			Vn1.setZ(0);
+			Vn1.setW(0);
 		}
 
-		Coords Vn2 = V.crossProduct(Vn1);
+		Vn2.setCrossProduct(V, Vn1);
+		Vn2.setW(0);
 		Vn2.normalize();
 
-		ret[0] = Vn1;
-		ret[1] = Vn2;
 
-		return ret;
 	}
 	
 

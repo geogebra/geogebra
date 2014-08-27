@@ -24,6 +24,8 @@ public class CoordSys {
 
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
 	private int spaceDimension = 3;
+	
+	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 
 	/**
 	 * create a coord sys
@@ -34,6 +36,7 @@ public class CoordSys {
 	public CoordSys(int dimension) {
 		matrix = new CoordMatrix(4, 4);
 		matrixOrthonormal = new CoordMatrix4x4();
+		drawingMatrix = new CoordMatrix4x4();
 		this.dimension = dimension;
 
 		origin = new Coords(spaceDimension + 1);
@@ -532,7 +535,7 @@ public class CoordSys {
 			if (projectOrigin) // recompute origin for ortho and drawing matrix
 				matrixOrthonormal.setOrigin(o);
 
-			drawingMatrix = new CoordMatrix4x4(o, vz, CoordMatrix4x4.VZ);
+			CoordMatrix4x4.createOrthoToDirection(o, vz, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
 
 			// Application.debug("matrix ortho=\n"+getMatrixOrthonormal());
 
@@ -643,7 +646,7 @@ public class CoordSys {
 					double l = vy.getNorm();
 					ret = new double[] {0, 0, 
 										   l};
-					matrixOrthonormal = new CoordMatrix4x4(o, vy.mul(1/l), CoordMatrix4x4.VY);
+					CoordMatrix4x4.createOrthoToDirection(o, vy.mul(1/l), CoordMatrix4x4.VY, tmpCoords1, tmpCoords2, matrixOrthonormal);
 				}				
 			}else{ // vx != 0
 				vx.calcNorm();
@@ -652,7 +655,7 @@ public class CoordSys {
 				double a = vy.dotproduct(vx); // vy maybe not 0
 				ret = new double[] {l, a, 
 									   0};
-				matrixOrthonormal = new CoordMatrix4x4(o, vx, CoordMatrix4x4.VX);
+				CoordMatrix4x4.createOrthoToDirection(o, vx, CoordMatrix4x4.VX, tmpCoords1, tmpCoords2, matrixOrthonormal);
 
 			}
 		}else{ // none are 0
@@ -689,7 +692,7 @@ public class CoordSys {
 	private void setDrawingMatrixFromMatrixOrthonormal(){
 
 		Coords o = Coords.O.projectPlane(matrixOrthonormal)[0];
-		drawingMatrix = new CoordMatrix4x4(o, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ);
+		CoordMatrix4x4.createOrthoToDirection(o, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
 
 	}
 	
