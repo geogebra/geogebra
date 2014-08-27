@@ -1871,6 +1871,14 @@ Paddings for menuitems.
 	height: 100%;
 }
 
+.geogebraweb-selectionframe-spreadsheet {
+	z-index: 6;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #0000FF;
+	-ms-touch-action: none; /* prevent scrolling on IE tablets */
+}
+
 .SpreadsheetEditorCell {
 	
 }

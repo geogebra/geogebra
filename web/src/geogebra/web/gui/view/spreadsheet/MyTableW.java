@@ -407,13 +407,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		editorPanel.setVisible(false);
 
 		selectionFrame = new SimplePanel();
-		selectionFrame.getElement().getStyle().setZIndex(6);
-		selectionFrame.getElement().getStyle()
-		        .setBorderStyle(Style.BorderStyle.SOLID);
-		selectionFrame.getElement().getStyle().setBorderWidth(2, Style.Unit.PX);
-		selectionFrame.getElement().getStyle()
-		        .setBorderColor(SELECTED_RECTANGLE_COLOR.toString());
-		selectionFrame.getElement().getStyle().setProperty("-ms-touch-action", "none");
+		selectionFrame.addStyleName("geogebraweb-selectionframe-spreadsheet");
 		selectionFrame.setVisible(false);
 
 		dragFrame = new SimplePanel();
