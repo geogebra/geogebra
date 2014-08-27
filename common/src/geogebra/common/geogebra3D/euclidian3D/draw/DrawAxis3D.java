@@ -158,7 +158,7 @@ public class DrawAxis3D extends DrawLine3D {
 		
     	// update end of axis label    	
     	String text = getView3D().getAxisLabel(axisIndex);
-    	if (text == null){
+    	if (text == null || text.length() == 0){
     		label.setIsVisible(false);
     	}else{
     		label.setAnchor(true);
