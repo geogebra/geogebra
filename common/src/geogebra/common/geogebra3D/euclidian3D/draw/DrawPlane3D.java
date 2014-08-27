@@ -10,7 +10,6 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 
@@ -386,11 +385,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}		
 	
 	
-	
-	//TODO remove that
-	public CoordMatrix4x4 getMatrix(){
-		return CoordMatrix4x4.Identity();
-	}
+
 	
 	
 	@Override

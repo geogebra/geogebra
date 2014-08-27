@@ -354,6 +354,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return inhom.getZ();
 	}
 
+	private CoordMatrix4x4 tmpMatrix4x4;
+	private Coords tmpCoordsLength3;
+	
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
 		Coords coords;
@@ -365,27 +368,35 @@ Traceable, MirrorableAtPlane, Dilateable{
 			// use real coords
 			coords = getCoords();
 
-		CoordMatrix4x4 matrix; // matrix for projection
+		// matrix for projection
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
 
 		if (coordSys == null) { // project on plane xOy
-			matrix = CoordMatrix4x4.Identity();
+			CoordMatrix4x4.Identity(tmpMatrix4x4);
 		} else {
-			matrix = coordSys.getMatrixOrthonormal();
+			tmpMatrix4x4.set(coordSys.getMatrixOrthonormal());
 		}
 
 		if (getWillingDirection() == null) // use normal direction for
 			// projection
-			project = coords.projectPlane(matrix);
+			project = coords.projectPlane(tmpMatrix4x4);
 		else
 			// use willing direction for projection
-			project = coords.projectPlaneThruVIfPossible(matrix,
+			project = coords.projectPlaneThruVIfPossible(tmpMatrix4x4,
 					getWillingDirection());
 
-		Coords v = new Coords(3);
-		v.setX(project[1].getX());
-		v.setY(project[1].getY());
-		v.setZ(project[1].getW());
-		return v;
+		
+		if (tmpCoordsLength3 == null){
+			tmpCoordsLength3 = new Coords(3);
+		}
+		
+		tmpCoordsLength3.setX(project[1].getX());
+		tmpCoordsLength3.setY(project[1].getY());
+		tmpCoordsLength3.setZ(project[1].getW());
+		
+		return tmpCoordsLength3;
 
 	}
 

@@ -2126,7 +2126,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void updateMatrixForCursor3D() {
 		double t;
 
-		CoordMatrix4x4 matrix;
 		CoordMatrix4x4 m2;
 		Coords v;
 		CoordMatrix m;
@@ -2141,10 +2140,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				if (v.dotproduct(getViewDirection()) > 0)
 					v = v.mul(-1);
 
-				matrix = new CoordMatrix4x4(getCursor3D().getDrawingMatrix()
+				tmpMatrix4x4 = new CoordMatrix4x4(getCursor3D().getDrawingMatrix()
 						.getOrigin(), v, CoordMatrix4x4.VZ);
-				matrix.mulAllButOrigin(t);
-				getCursor3D().setDrawingMatrix(matrix);
+				tmpMatrix4x4.mulAllButOrigin(t);
+				getCursor3D().setDrawingMatrix(tmpMatrix4x4);
 
 				break;
 			case PREVIEW_POINT_PATH:
@@ -2155,10 +2154,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				if (v.dotproduct(getViewDirection()) > 0)
 					v = v.mul(-1);
 
-				matrix = new CoordMatrix4x4(getCursor3D().getDrawingMatrix()
+				tmpMatrix4x4 = new CoordMatrix4x4(getCursor3D().getDrawingMatrix()
 						.getOrigin(), v, CoordMatrix4x4.VZ);
-				matrix.mulAllButOrigin(t);
-				getCursor3D().setDrawingMatrix(matrix);
+				tmpMatrix4x4.mulAllButOrigin(t);
+				getCursor3D().setDrawingMatrix(tmpMatrix4x4);
 
 				break;
 
@@ -2180,10 +2179,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 				v = getCursor3D().getMoveNormalDirection();
 
-				matrix = new CoordMatrix4x4(getCursor3D().getDrawingMatrix()
+				tmpMatrix4x4 = new CoordMatrix4x4(getCursor3D().getDrawingMatrix()
 						.getOrigin(), v, CoordMatrix4x4.VZ);
-				matrix.mulAllButOrigin(t);
-				getCursor3D().setDrawingMatrix(matrix);
+				tmpMatrix4x4.mulAllButOrigin(t);
+				getCursor3D().setDrawingMatrix(tmpMatrix4x4);
 
 				break;
 			case PREVIEW_POINT_PATH:
@@ -2194,14 +2193,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				m = new CoordMatrix(4, 2);
 				m.set(v, 1);
 				m.set(4, 2, 1);
-				matrix = new CoordMatrix4x4(m);
+				tmpMatrix4x4 = new CoordMatrix4x4(m);
 
 				getCursor3D().getDrawingMatrix().setVx(
-						matrix.getVx().normalized().mul(t));
+						tmpMatrix4x4.getVx().normalized().mul(t));
 				t *= (10 + ((GeoElement) getCursor3D().getPath())
 						.getLineThickness());
-				getCursor3D().getDrawingMatrix().setVy(matrix.getVy().mul(t));
-				getCursor3D().getDrawingMatrix().setVz(matrix.getVz().mul(t));
+				getCursor3D().getDrawingMatrix().setVy(tmpMatrix4x4.getVy().mul(t));
+				getCursor3D().getDrawingMatrix().setVz(tmpMatrix4x4.getVz().mul(t));
 
 				break;
 			case PREVIEW_POINT_DEPENDENT:
@@ -2223,25 +2222,26 @@ public abstract class EuclidianView3D extends EuclidianView implements
 					m.set(4, 2, 1);
 					m2 = new CoordMatrix4x4(m);
 
-					matrix = new CoordMatrix4x4();
-					matrix.setVx(m2.getVy());
-					matrix.setVy(m2.getVz());
-					matrix.setVz(m2.getVx());
-					matrix.setOrigin(m2.getOrigin());
+					tmpMatrix4x4 = new CoordMatrix4x4();
+					tmpMatrix4x4.setVx(m2.getVy());
+					tmpMatrix4x4.setVy(m2.getVz());
+					tmpMatrix4x4.setVz(m2.getVx());
+					tmpMatrix4x4.setOrigin(m2.getOrigin());
 
 				} else if (getCursor3D().hasRegion()) {
 
 					v = getCursor3D().getMoveNormalDirection();
 
-					matrix = new CoordMatrix4x4(getCursor3D().getCoordsInD3(),
+					tmpMatrix4x4 = new CoordMatrix4x4(getCursor3D().getCoordsInD3(),
 							v, CoordMatrix4x4.VZ);
-				} else
-					matrix = CoordMatrix4x4.Identity();
+				} else{
+					CoordMatrix4x4.Identity(tmpMatrix4x4);
+				}
 
 				getCursor3D().getDrawingMatrix().setVx(
-						matrix.getVx().normalized().mul(t));
-				getCursor3D().getDrawingMatrix().setVy(matrix.getVy().mul(t));
-				getCursor3D().getDrawingMatrix().setVz(matrix.getVz().mul(t));
+						tmpMatrix4x4.getVx().normalized().mul(t));
+				getCursor3D().getDrawingMatrix().setVy(tmpMatrix4x4.getVy().mul(t));
+				getCursor3D().getDrawingMatrix().setVz(tmpMatrix4x4.getVz().mul(t));
 				break;
 			}
 
@@ -2355,6 +2355,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
+	private CoordMatrix4x4 tmpMatrix4x4 = new CoordMatrix4x4();
+	
 	/**
 	 * draw mouse cursor for location v
 	 * 
@@ -2364,10 +2366,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            location
 	 */
 	protected void drawMouseCursor(Renderer renderer1, Coords v) {
+		
 
-		CoordMatrix4x4 matrix = CoordMatrix4x4.Identity();
-		matrix.setOrigin(v);
-		renderer1.setMatrix(matrix);
+		CoordMatrix4x4.Identity(tmpMatrix4x4); 
+		
+
+		tmpMatrix4x4.setOrigin(v);
+		renderer1.setMatrix(tmpMatrix4x4);
 		renderer1.drawMouseCursor();
 
 	}

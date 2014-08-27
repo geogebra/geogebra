@@ -585,37 +585,69 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		
-		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
-		m.set(1,1, a00);
-		m.set(1,2, a01);
-		m.set(2,1, a10);
-		m.set(2,2, a11);
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = CoordMatrix4x4.Identity();
+		}else{
+			tmpMatrix4x4.set(1,3, 0);
+			tmpMatrix4x4.set(1,4, 0);
 			
-		setCoord(m.mul(getCoordSys().getOrigin()), m.mul(getCoordSys().getVx()));
-	}
+			tmpMatrix4x4.set(2,3, 0);			
+			tmpMatrix4x4.set(2,4, 0);
+			
+			tmpMatrix4x4.set(3,1, 0);
+			tmpMatrix4x4.set(3,2, 0);		
+			tmpMatrix4x4.set(3,3, 0);
+			tmpMatrix4x4.set(3,4, 0);
 
+			tmpMatrix4x4.set(4,1, 0);
+			tmpMatrix4x4.set(4,2, 0);		
+			tmpMatrix4x4.set(4,3, 0);
+			tmpMatrix4x4.set(4,4, 1);
+		}
+		
+		tmpMatrix4x4.set(1,1, a00);
+		tmpMatrix4x4.set(1,2, a01);
+		tmpMatrix4x4.set(2,1, a10);
+		tmpMatrix4x4.set(2,2, a11);
+			
+		setCoord(tmpMatrix4x4.mul(getCoordSys().getOrigin()), tmpMatrix4x4.mul(getCoordSys().getVx()));
+	}
+	
+	private CoordMatrix4x4 tmpMatrix4x4;
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
-		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
 		
-		m.set(1,1, a00);
-		m.set(1,2, a01);		
-		m.set(1,3, a02);
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = CoordMatrix4x4.Identity();
+		}else{
+			tmpMatrix4x4.set(1,4, 0);
+			tmpMatrix4x4.set(2,4, 0);
+			tmpMatrix4x4.set(3,4, 0);
+
+			tmpMatrix4x4.set(4,1, 0);
+			tmpMatrix4x4.set(4,2, 0);		
+			tmpMatrix4x4.set(4,3, 0);
+			tmpMatrix4x4.set(4,4, 1);
+		}
+		
+		tmpMatrix4x4.set(1,1, a00);
+		tmpMatrix4x4.set(1,2, a01);		
+		tmpMatrix4x4.set(1,3, a02);
 		
 		
-		m.set(2,1, a10);
-		m.set(2,2, a11);
-		m.set(2,3, a12);
+		tmpMatrix4x4.set(2,1, a10);
+		tmpMatrix4x4.set(2,2, a11);
+		tmpMatrix4x4.set(2,3, a12);
 		
 		
-		m.set(3,1, a20);
-		m.set(3,2, a21);		
-		m.set(3,3, a22);
+		tmpMatrix4x4.set(3,1, a20);
+		tmpMatrix4x4.set(3,2, a21);		
+		tmpMatrix4x4.set(3,3, a22);
 		
 		
-		setCoord(m.mul(getCoordSys().getOrigin()), m.mul(getCoordSys().getVx()));
+		setCoord(tmpMatrix4x4.mul(getCoordSys().getOrigin()), tmpMatrix4x4.mul(getCoordSys().getVx()));
 		
 	}
 

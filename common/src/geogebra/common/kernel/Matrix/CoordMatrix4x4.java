@@ -78,6 +78,19 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	}
 	
 	/**
+	 * set 4x4 identity matrix
+	 * @param ret matrix set
+	 */
+	static final public void Identity(CoordMatrix4x4 ret) {
+		for (int i = 0 ; i < 16 ; i++){
+			ret.val[i] = 0;
+		}
+		for (int i = 1; i <= 4; i++) {
+			ret.set(i, i, 1.0);
+		}
+	}
+	
+	/**
 	 * create a 4x4 dilate matrix.
 	 * @param f dilate factor
 	 * 

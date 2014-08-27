@@ -247,8 +247,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void updateMovedGeoPointStartValues(Coords coords) {
 		if (!movedGeoPoint.hasPath() && !movedGeoPoint.hasRegion()) {
 
-			CoordMatrix4x4 plane = CoordMatrix4x4.Identity();
-			setCurrentPlane(plane);
+			CoordMatrix4x4.Identity(getCurrentPlane());
 			// update the moving plane altitude
 			getCurrentPlane().set(coords, 4);
 
@@ -264,6 +263,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return the current plane
 	 */
 	protected CoordMatrix4x4 getCurrentPlane() {
+		if (currentPlane == null){
+			currentPlane = CoordMatrix4x4.Identity();
+		}
 		return currentPlane;
 	}
 

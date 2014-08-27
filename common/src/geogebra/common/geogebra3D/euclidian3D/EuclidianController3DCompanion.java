@@ -152,7 +152,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
 			// view3D.toSceneCoords3D(view3D.getViewDirection());
 			Coords coords = o.projectPlaneThruVIfPossible(
-					CoordMatrix4x4.Identity(), ((EuclidianController3D) ec).view3D.getViewDirection())[1]; // TODO
+					CoordMatrix4x4.IDENTITY, ((EuclidianController3D) ec).view3D.getViewDirection())[1]; // TODO
 																				// use
 																				// current
 																				// region
@@ -234,7 +234,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			return point3D;
 		}
 
-		((EuclidianController3D) ec).setCurrentPlane(CoordMatrix4x4.Identity());
+		CoordMatrix4x4.Identity(((EuclidianController3D) ec).getCurrentPlane());
 		((EuclidianController3D) ec).movePointOnCurrentPlane(point3D, false);
 
 		return point3D;

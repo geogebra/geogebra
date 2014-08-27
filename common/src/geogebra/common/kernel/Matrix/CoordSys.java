@@ -636,7 +636,7 @@ public class CoordSys {
 				if (vy.isZero()){ // all to 0
 					ret = new double[] {0, 0, 
 										   0};
-					matrixOrthonormal = CoordMatrix4x4.Identity();
+					CoordMatrix4x4.Identity(matrixOrthonormal);
 					matrixOrthonormal.setOrigin(o);
 				}else{ // vy != 0
 					vy.calcNorm();
