@@ -28,6 +28,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.main.MyParseError;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.HashSet;
 
@@ -47,6 +48,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	 * @param kernel kernel */
 	public MyVec3DNode(Kernel kernel) {
 		this.kernel = kernel;
+		kernel.getConstruction().usedGeos.add(GeoClass.POINT3D);
 	}
 
 	/**

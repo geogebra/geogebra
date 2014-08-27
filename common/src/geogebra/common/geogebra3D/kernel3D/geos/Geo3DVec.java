@@ -22,10 +22,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorNDValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -51,9 +49,8 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     public double x = Double.NaN;
     public double y = Double.NaN;    
     public double z = Double.NaN;    
-    
-    private int mode; // POLAR or CARTESIAN   
-    
+    private int mode;
+
     private Kernel kernel;
     
     /** Creates new GeoVec2D */
@@ -61,7 +58,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     	this.kernel = kernel;
     }
     
-    /** Creates new GeoVec2D with coordinates (x,y)*/
+    /** Creates new GeoVec3D with coordinates (x,y)*/
     public Geo3DVec(Kernel kernel, double x, double y, double z) {
     	this(kernel);
         this.x = x;
@@ -69,7 +66,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         this.z = z;
     }
     
-    /** Creates new GeoVec2D with coordinates (a[0],a[1])*/
+    /** Creates new GeoVec3D with coordinates (a[0],a[1])*/
     public Geo3DVec(Kernel kernel, double [] a) {
     	this(kernel);
         x = a[0];
@@ -93,7 +90,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     public void resolveVariables() {     
     }
             
-    /** Creates new GeoVec2D as vector between Points P and Q */
+    /** Creates new GeoVec3D as vector between Points P and Q */
     public Geo3DVec(Kernel kernel, GeoPoint3D p, GeoPoint3D q) {   
     	this(kernel);    
         x = q.getX() - p.getX();
@@ -164,28 +161,9 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         y = y / len;
     }
     
-    /** Returns a new vector with the same direction 
-     * and orientation, but length 1.
-     */
-    final public GeoVec2D getUnitVector() {
-        double len = this.length();
-        return new GeoVec2D(kernel,  x / len, y / len );
-    }
+   
     
-    /** Returns the coordinates of a vector with the same direction 
-     * and orientation, but length 1.
-     */
-    final public double[] getUnitCoords() {
-        double len = this.length();
-        double [] res = { x / len, y / len };
-        return res;
-    }
-
-     /** Calculates the inner product of this vector and vector v.
-     */
-    final public double inner(GeoVec2D v) {
-        return x * v.getX() + y * v.getY();
-    }
+   
     
     /** Yields true if the coordinates of this vector are equal to
      * those of vector v. 
@@ -206,59 +184,10 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     /** calculates the determinant of u and v.
      * det(u,v) = u1*v2 - u2*v1
      */
-    final public static double det(GeoVec2D u, GeoVec2D v) {
-        return u.getX() * v.getY() - u.getY() * v.getX();
-        /*
-        // symmetric operation
-        // det(u,v) = -det(v,u)
-        if (u.objectID < v.objectID) {
-            return u.x * v.y - u.y * v.x;
-        } else {
-            return -(v.x * u.y - v.y * u.x);
-        }*/
-    }
-    
-    /**
-     * translate this vector by vector v
-     */
-    final public void translate(GeoVec2D v) {
-        x += v.getX();
-        y += v.getY();
-    }
-    
-    /**
-     * rotate this vector by angle phi
-     */
-    final public void rotate(double phi) {
-        double cos = Math.cos(phi);
-        double sin = Math.sin(phi);
-        
-        double x0 = x * cos - y * sin;
-        y = x * sin + y * cos;
-        x = x0;        
-    }  
-    
-    /**
-     * mirror this point at point Q
-     */
-    final public void mirror(Coords Q) {           
-        x = 2.0 * Q.getX() - x;
-        y = 2.0 * Q.getY() - y;
-    }
-    
-    /**
-     * mirror transform with angle phi
-     *  [ cos(phi)       sin(phi)   ]
-     *  [ sin(phi)      -cos(phi)   ]  
-     */
-    final public void mirror(double phi) {
-        double cos = Math.cos(phi);
-        double sin = Math.sin(phi);
-                
-        double x0 = x * cos + y * sin;
-        y = x * sin - y * cos;
-        x = x0;        
-    }
+  
+  
+     
+   
     
      /** returns this + a */
     ///final public GeoVec2D add(GeoVec2D a) {
@@ -298,90 +227,13 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         c.y = tempY;
     }
     
-    /** (xc,yc) = (xa + b , yx)  ie complex + real for complex nos
-     * or (xc,yc) = (xa + b , yx + b) for Points/Vectors
-     * */
-    final public static void add(GeoVec2D a, NumberValue b, GeoVec2D c) {    
-    	
-    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
-	        c.setX(a.getX() + b.getDouble());
-	        c.setY(a.getY());
-          	c.setMode(Kernel.COORD_COMPLEX);
-          	} else {
-            c.setX(a.getX() + b.getDouble());
-            c.setY(a.getY() + b.getDouble());   		
-    	}
-    }
     
-    /** vector + 2D list (to give another vector) 
-     * */
-    final public static void add(GeoVec2D a, ListValue b, GeoVec2D c) {        	    	    	
-    	MyList list = b.getMyList();    	
-    	if (list.size() != 2) {
-    		c.setX(Double.NaN);
-    		c.setY(Double.NaN);
-    		return;
-    	}
-    	
-    	double enX = list.getListElement(0).evaluateDouble();
-    	double enY = list.getListElement(1).evaluateDouble();
-    	
-    	c.setX(a.getX() + enX);
-    	c.setY(a.getY() + enY);
-    }
     
-    /* vector - 2D list (to give another vector) 
-     * */
-    final public static void sub(GeoVec2D a, ListValue b, GeoVec2D c, boolean reverse) {    
-    	
-    	MyList list = b.getMyList();    	
-    	if (list.size() != 2) {
-    		c.setX(Double.NaN);
-    		c.setY(Double.NaN);
-    		return;
-    	}
-    	
-    	double enX = list.getListElement(0).evaluateDouble();
-    	double enY = list.getListElement(1).evaluateDouble();
-    	
-
-    	
-    	if (reverse) {
-	    	c.setX(a.getX() - enX);
-	    	c.setY(a.getY() - enY);
-    	} else {
-	    	c.setX(enX - a.getX());
-	    	c.setY(enY - a.getY());
-    	}
-    }
+   
+   
     
-    /** (xc,yc) = (b - xa, -yx)  ie real - complex 
-     * or (xc,yc) = (b - xa, b - yx)  for Vectors/Points
-     * */
-    final public static void sub(NumberValue b, GeoVec2D a, GeoVec2D c) {                                       
-    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
-            c.setX(b.getDouble() - a.getX());
-            c.setY(-a.getY());
-          	c.setMode(Kernel.COORD_COMPLEX);
-    	} else {
-            c.setX(b.getDouble() - a.getX());
-            c.setY(b.getDouble() - a.getY());
-    	}
-    }
     
-    /** (xc,yc) = (xa - b , yx)  ie complex - real 
-     * or (xc,yc) = (xa - b , yx - b)   for Vectors/Points
-     * */
-    final public static void sub(GeoVec2D a, NumberValue b, GeoVec2D c) {                                       
-    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
-            c.setX(a.getX() - b.getDouble());
-            c.setY(a.getY());
-          	c.setMode(Kernel.COORD_COMPLEX);
-    	} else {
-            c.setX(a.getX() - b.getDouble());
-            c.setY(a.getY() - b.getDouble());
-    	}
-    }
+   
     
      /** returns this - a */
     //final public GeoVec2D sub(GeoVec2D a) {
@@ -456,9 +308,6 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         c.z = a.z / b;
     }        
     
-    final public boolean isDefined() {		
-		return !(Double.isNaN(x) || Double.isNaN( y));
-	}
     
     @Override
 	final public String toString(StringTemplate tpl) {          
@@ -486,16 +335,8 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     final public boolean isLeaf() {
         return true;
     }             
-        
-    final public int getMode() {
-        return  mode;
-    }        
 
     final public HashSet<GeoElement> getVariables() { return null; }
-    
-    final public void setMode(int mode) {
-        this.mode = mode;
-    }
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
@@ -505,25 +346,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		return toString(tpl);
 	}    
-    
-    
-    // abstract methods of GeoElement
-    /*
-    final public GeoElement copy() {
-        return new GeoVec2D(this);
-    }
-    
-    final public void set(GeoElement geo) {
-        GeoVec2D v = (GeoVec2D) geo;
-        this.x = v.x;
-        this.y = v.y;
-    }
-    
-    final public boolean isDefined() {
-        return true;
-    }
-     */
-     
+
 	 final public boolean isNumberValue() {
 		 return false;
 	 }
@@ -532,68 +355,6 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 		 return ev == this;
 	 }
 	 
-	 /** multiplies 2D vector by a 2x2 matrix
-	  * 
-	  * @param list 2x2 matrix
-	  */
-	 public void multiplyMatrix(MyList list)
-	 {
-			if (list.getMatrixCols() != 2 || list.getMatrixRows() != 2) return;
-		 
-			double a,b,c,d,x1,y1;
-			
-			a = MyList.getCell(list,0,0).evaluateDouble();
-			b = MyList.getCell(list,1,0).evaluateDouble();
-			c = MyList.getCell(list,0,1).evaluateDouble();
-			d = MyList.getCell(list,1,1).evaluateDouble();
-	 
-			x1 = a*x + b*y;
-			y1 = c*x + d*y;
-			x=x1;
-			y=y1;
-			return;
-	 }
-	 
-	 /** multiplies 2D vector by a 3x3 affine matrix
-	  *  a b c
-	  *  d e f
-	  *  g h i
-	  * @param list 3x3 matrix
-	  * @param rt GeoVec3D (as ExpressionValue) to get homogeneous coords from
-	  */
-	 public void multiplyMatrixAffine(MyList list, ExpressionValue rt)
-	 {
-			if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3) return;
-		 
-			double a,b,c,d,e,f,g,h,i,xx = x, yy = y, zz = z;
-			
-			if (rt instanceof GeoVector3D) {
-				GeoVector3D p = (GeoVector3D)rt;
-				xx = p.getX();
-				yy = p.getY();
-				zz = p.getZ();
-			} 
-			
-			a = MyList.getCell(list,0,0).evaluateDouble();
-			b = MyList.getCell(list,1,0).evaluateDouble();
-			c = MyList.getCell(list,2,0).evaluateDouble();
-			d = MyList.getCell(list,0,1).evaluateDouble();
-			e = MyList.getCell(list,1,1).evaluateDouble();
-			f = MyList.getCell(list,2,1).evaluateDouble();
-			g = MyList.getCell(list,0,2).evaluateDouble();
-			h = MyList.getCell(list,1,2).evaluateDouble();
-			i = MyList.getCell(list,2,2).evaluateDouble();
-	 
-			x = a * xx + b * yy + c * zz;
-			y = d * xx + e * yy + f * zz;
-			z = g * xx + h * yy + i * zz;
-			return;
-	 }
-		public void setZero() {
-			x=0;
-			y=0;
-			z=0;
-		}
 
 		@Override
 		public boolean evaluatesTo3DVector() {
@@ -794,6 +555,11 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 					d * xx + e * yy + f * zz);
 
 			return;
+		}
+
+		@Override
+		public int getMode() {
+			return this.mode;
 		}
 
 }
