@@ -46,7 +46,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
     }
 
 	protected void addSeparator(){
-		VerticalSeparator s = new VerticalSeparator(10,25);
+		VerticalSeparator s = new VerticalSeparator();
 		add(s);
 	}
 
