@@ -1,9 +1,10 @@
 package geogebra.common.euclidian;
 
+import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPoint;
-import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -238,7 +239,7 @@ public class EuclidianPen {
 		penSize = 3;
 		eraserSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
-		penColor = GColor.black;
+		penColor = GColor.BLACK;
 		setAbsoluteScreenPosition(true);
 	}
 
@@ -320,12 +321,6 @@ public class EuclidianPen {
 
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 		GGraphics2D g2D = view.getGraphicsForPen();
-		GShape circle;
-		g2D.setColor(penColor);
-		circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - penSize/2-1,
-				e.getY() - penSize/2-1, penSize+2, penSize+2);
-		g2D.fill(circle);
-		g2D.draw(circle);
 
 		if (minX > e.getX())
 			minX = e.getX();
@@ -336,6 +331,7 @@ public class EuclidianPen {
 			penPoints.add(newPoint);
 		else {
 			GPoint lastPoint = penPoints.get(penPoints.size() - 1);
+			drawPenPreviewLine(g2D, newPoint, lastPoint);
 			if (lastPoint.distance(newPoint) > 3)
 				penPoints.add(newPoint);
 		}
@@ -378,6 +374,15 @@ public class EuclidianPen {
 				startPoint = point;
 			}
 		}
+	}
+	
+	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1, GPoint point2) {
+		GLine2D line = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+		g2D.setStroke(geogebra.common.factories.AwtFactory.prototype.newBasicStroke(12, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
+		g2D.setColor(GColor.GRAY);
+		g2D.fill(line);
+		g2D.draw(line);
 	}
 
 	/**
