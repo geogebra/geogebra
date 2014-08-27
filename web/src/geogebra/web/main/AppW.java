@@ -1807,4 +1807,8 @@ public abstract class AppW extends AppWeb {
 	public int getGUIFontSize() {
 		return 14;
 	}
+	
+	public void openSearch(){
+		showBrowser(((GuiManagerInterfaceW) getGuiManager()).getBrowseGUI());
+	}
 }

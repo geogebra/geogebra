@@ -13,8 +13,6 @@ import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.View;
-import geogebra.web.gui.GuiManagerInterfaceW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -684,10 +682,6 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 */
 	public void recalculateEnvironments() {
 		((AppWeb) app).recalculateEnvironments();
-	}
-	
-	public void openBrowser(){
-		((AppW)app).showBrowser(((GuiManagerInterfaceW) app.getGuiManager()).getBrowseGUI());
 	}
 
 }

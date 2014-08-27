@@ -6,9 +6,7 @@ import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
-import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.gui.laf.GLookAndFeel;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
 import geogebra.web.main.AppW;
@@ -188,16 +186,14 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {
-				BrowseGUI bg = ((GuiManagerW)app.getGuiManager()).getBrowseGUI();
-				app.showBrowser(bg);
+				app.openSearch();
             }
 		});
 		
 		openSearchButton.addDomHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event) {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-	            	BrowseGUI bg = ((GuiManagerW)app.getGuiManager()).getBrowseGUI();
-					app.showBrowser(bg);
+	            	app.openSearch();
 	            }
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
 	            	GGWToolBar.this.selectMenuButton(1);
