@@ -215,7 +215,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		}
 
 		setLabels();
-		
+
 		app.setComponentOrientation(this);
 	}
 
@@ -553,18 +553,18 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 		public void startBatchUpdate() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void endBatchUpdate() {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
-		public void suggestRepaint(){
+
+		public void suggestRepaint() {
 			// only used in web for now
 		}
-		
+
 		public void setLabels() {
 			root.setUserObject(loc.getPlain("Objects"));
 
@@ -848,7 +848,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			repaint();
 		}
 
-		public void setMode(int mode,ModeSetter m) {
+		public void setMode(int mode, ModeSetter m) {
 			// don't react..
 		}
 

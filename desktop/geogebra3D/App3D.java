@@ -106,12 +106,8 @@ public class App3D extends AppD {
 		if (input3D != null) {
 			euclidianController3D = new EuclidianControllerInput3D(kernel,
 					input3D);
-			euclidianView3D = new EuclidianViewInput3D(euclidianController3D,
-					getSettings().getEuclidian(3));
 		} else {
 			euclidianController3D = new EuclidianController3DD(kernel);
-			euclidianView3D = new EuclidianView3DD(euclidianController3D,
-					getSettings().getEuclidian(3));
 		}
 
 	}
@@ -142,8 +138,9 @@ public class App3D extends AppD {
 	public void setMode(int mode) {
 		super.setMode(mode);
 
-		// if (euclidianView3D != null)
-		euclidianView3D.setMode(mode);
+		if (isEuclidianView3Dinited()) {
+			euclidianView3D.setMode(mode);
+		}
 	}
 
 	@Override
@@ -154,7 +151,9 @@ public class App3D extends AppD {
 		sb.append(super.getCompleteUserInterfaceXML(asPreference));
 
 		// save euclidianView3D settings
-		euclidianView3D.getXML(sb, asPreference);
+		if (isEuclidianView3Dinited()) {
+			euclidianView3D.getXML(sb, asPreference);
+		}
 
 		// save euclidian views for plane settings
 		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb,
@@ -170,17 +169,27 @@ public class App3D extends AppD {
 	 */
 	@Override
 	public EuclidianView3D getEuclidianView3D() {
+		if (this.euclidianView3D == null) {
+			App.printStacktrace("");
+			if (euclidianController3D.hasInput()) {
+				euclidianView3D = new EuclidianViewInput3D(
+						euclidianController3D, getSettings().getEuclidian(3));
+			} else {
+				euclidianView3D = new EuclidianView3DD(euclidianController3D,
+						getSettings().getEuclidian(3));
+			}
+		}
 		return euclidianView3D;
 	}
 
 	@Override
 	public boolean hasEuclidianView3D() {
-		return euclidianView3D != null;
+		return this.euclidianController3D != null;
 	}
-	
+
 	@Override
 	public boolean isEuclidianView3Dinited() {
-		return hasEuclidianView3D();
+		return this.euclidianView3D != null;
 	}
 
 	@Override
@@ -197,20 +206,24 @@ public class App3D extends AppD {
 
 	@Override
 	public void refreshViews() {
-		if (isEuclidianView3Dinited()){
+		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().reset();
-			DockManager dockManager = (DockManager) getGuiManager().getLayout().getDockManager();
-			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D)).refresh(dockManager);
+			DockManager dockManager = (DockManager) getGuiManager().getLayout()
+					.getDockManager();
+			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D))
+					.refresh(dockManager);
 
 		}
 		super.refreshViews();
 	}
-	
+
 	@Override
-	public void resume3DRenderer(){
-		if (isEuclidianView3Dinited()){
-			DockManager dockManager = (DockManager) getGuiManager().getLayout().getDockManager();
-			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D)).resumeRenderer();
+	public void resume3DRenderer() {
+		if (isEuclidianView3Dinited()) {
+			DockManager dockManager = (DockManager) getGuiManager().getLayout()
+					.getDockManager();
+			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D))
+					.resumeRenderer();
 
 		}
 	}
@@ -295,7 +308,9 @@ public class App3D extends AppD {
 	@Override
 	public void updateStyleBars() {
 		super.updateStyleBars();
-		getEuclidianView3D().getStyleBar().updateStyleBar();
+		if (showView(App.VIEW_EUCLIDIAN3D)) {
+			getEuclidianView3D().getStyleBar().updateStyleBar();
+		}
 	}
 
 	// ///////////////////////////////
@@ -409,7 +424,5 @@ public class App3D extends AppD {
 	protected AppCompanion newAppCompanion() {
 		return new App3DCompanionD(this);
 	}
-	
-	
 
 }

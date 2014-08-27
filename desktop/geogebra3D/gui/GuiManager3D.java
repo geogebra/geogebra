@@ -48,8 +48,13 @@ public class GuiManager3D extends GuiManagerD {
 	 */
 	public GuiManager3D(AppD app) {
 		super(app);
-		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false); // popups over the 3D canvas
-		javax.swing.ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false); // tooltips over the 3D canvas
+		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false); // popups
+																			// over
+																			// the
+																			// 3D
+																			// canvas
+		javax.swing.ToolTipManager.sharedInstance().setLightWeightPopupEnabled(
+				false); // tooltips over the 3D canvas
 
 		dialogManagerFactory = new DialogManager3D.Factory();
 	}
@@ -72,7 +77,6 @@ public class GuiManager3D extends GuiManagerD {
 	// ////////////////////////////
 	// ACTIONS
 	// ////////////////////////////
-	
 
 	@Override
 	protected boolean initActions() {
@@ -258,15 +262,16 @@ public class GuiManager3D extends GuiManagerD {
 		return new PropertiesView3DD(appD);
 	}
 
-
 	@Override
 	public void setLabels() {
 
 		super.setLabels();
 
-		EuclidianView3DInterface view = app.getEuclidianView3D();
-		if (view != null && ((EuclidianView) view).hasStyleBar())
-			((EuclidianView) view).getStyleBar().setLabels();
+		if (app.isEuclidianView3Dinited()) {
+			EuclidianView3DInterface view = app.getEuclidianView3D();
+			if (view != null && ((EuclidianView) view).hasStyleBar())
+				((EuclidianView) view).getStyleBar().setLabels();
 
+		}
 	}
 }

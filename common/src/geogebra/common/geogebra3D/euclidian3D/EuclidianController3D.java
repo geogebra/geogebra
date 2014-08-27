@@ -3584,4 +3584,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		
 		return null;
 	}
+
+	public boolean hasInput() {
+		return false;
+	}
 }
