@@ -15,7 +15,7 @@ public interface BrowseResources extends ClientBundle {
 	@Source("icons/png/web/button_cancel.png")
 	ImageResource dialog_cancel();
 
-	@Source("icons/png/web/arrow_go_previous_purple.png")
+	@Source("icons/png/web/arrow_go_previous_grey.png")
 	ImageResource back();
 	
 	@Source("icons/png/web/document_view.png")

@@ -109,11 +109,12 @@ hr {
 	margin-bottom: 10px;
 }
 
-.gwt-Button, .confirmDelete .button, .buttonPanel .button {
+.gwt-Button,
+.buttonPanel .button {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
-	border: 1px solid #6666FF;
-	color: #6666FF;
+	border: 1px solid #6161FF;
+	color: #6161FF;
 	background: none;
 	font-size: 110%;
 	padding: 4px 15px;
@@ -124,11 +125,35 @@ hr {
 	margin-left: 5px;
 }
 
+.gwt-Button.minor {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	border: 1px solid #999999;
+	color: #666666;
+	background: none;
+	font-size: 110%;
+	padding: 4px 15px;
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
+		rgba(204, 204, 204, 0.5);
+	cursor: pointer;
+	cursor: hand;
+}
+
+.gwt-Button.minor:hover {
+	color: #666666 !important;
+	background-color: rgba(204, 204, 204, 0.2);
+}
+
+.gwt-Button.minor:active {
+	border: 1px inset #999999;
+	background-color: rgba(204, 204, 204, 0.2);
+}
+
  .buttonPanel .button {
  	float: right;
  }
 
-.gwt-Button:active, .confirmDelete .button:active, .buttonPanel .button:active  {
+.gwt-Button:active, .buttonPanel .button:active  {
 	border: 1px inset #6666FF;
 	background-color: rgba(204, 204, 255, 0.2);
 }
@@ -3549,17 +3574,18 @@ iframe.objectPropertiesTextEditor {
 	position: relative;
 	z-index: 100;
 	display: flex;
+	width: 100%;
 }
 
 .headerFirst {
 	padding-top: 12px;
-	display: flex;
 	cursor: pointer;
+	float: left;
 }
 
-.headerFirst .ggbLogoPanel .image {
-	padding-top: 4px;
-	padding-right: 15px;
+.headerFirst .ggbLogoPanel,
+.headerFirst .backButton {
+	float: left;
 }
 
 .locationTitle {
@@ -3572,6 +3598,7 @@ iframe.objectPropertiesTextEditor {
 .headerSecond {
 	margin-right: 10px;
 	margin-top: 11px;
+	float: right;
 }
 
 .signInButton {
@@ -3625,12 +3652,16 @@ iframe.objectPropertiesTextEditor {
 
 .backButton {
 	cursor: pointer;
-	padding: 10px 4px 10px 10px;
+	padding: 8px 10px 10px 10px;
 }
 
 .backButton img {
 	height: 20px;
 	width: 11px;
+}
+
+.ggbLogoPanel {
+	margin-right: 15px;
 }
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++
@@ -3671,7 +3702,6 @@ PROVIDERS
 
 .searchDiv {
 	flex-grow: 1;
-	display: flex;
 	border: #DCDCDC solid 1px;
 	background: #FFFFFF;
 	border-radius: 5px;
@@ -3681,6 +3711,7 @@ PROVIDERS
 	margin-left: 5px;
 	margin-right: 10px;
 	position: relative;
+	float: left;
 }
 
 .searchDiv .searchTextBox {
@@ -3754,7 +3785,6 @@ PROVIDERS
 
 .materialListElement .infoPanel .sharedPanel { 
 	font-size: 80%;
-	padding-top: 2px;
 	padding-bottom: 5px;
 }
 
@@ -3791,6 +3821,7 @@ PROVIDERS
 
 .materialListElement.selected .infoPanel .fileTitle {
 	max-height: 70px;
+	margin-bottom: 5px;
 }
 
 .materialListElement.selected .fileImage {
@@ -3819,29 +3850,19 @@ PROVIDERS
 }
 
 .materialListElement.selected .infoPanel.detailed .deleteActive {
-	padding-bottom: 5px;
 	color: #6161FF;
 }
 
 .materialListElement.selected .infoPanel.detailed .confirmDelete {
-	
-}
-.materialListElement.selected .infoPanel.detailed .confirmDelete .cancelButton {
-	padding-bottom: 5px;
-	color: #666666;
-	border-color: #666666;
+	margin-top: 5px;
 }
 
-.materialListElement.selected .infoPanel.detailed .confirmDelete .deleteButton {
-	
+.materialListElement .cancelButton {
+	display: inline-block;
 }
-
-
-.materialListElement.selected .infoPanel.detailed .deleteActive .image {
-}
-
-.materialListElement.selected .infoPanel.detailed .deleteActive .gwt-Label {
-	padding-bottom: 3px;
+.materialListElement .deleteButton {
+	display: inline-block;
+	float: right;
 }
 
 

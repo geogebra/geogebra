@@ -227,6 +227,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	private void initConfirmDeletePanel() {
 		this.confirm = new StandardButton(this.app.getLocalization().getPlain("Delete"));
+		this.confirm.addStyleName("gwt-Button");
 		this.confirm.addStyleName("deleteButton");
 		this.confirm.addFastClickHandler(new FastClickHandler() {
 
@@ -237,6 +238,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		});
 		this.cancel = new StandardButton(this.app.getLocalization().getPlain("Cancel"));
 		this.cancel.addStyleName("cancelButton");
+		this.cancel.addStyleName("gwt-Button");
+		this.cancel.addStyleName("minor");
 		this.cancel.addFastClickHandler(new FastClickHandler() {
 
 			@Override
