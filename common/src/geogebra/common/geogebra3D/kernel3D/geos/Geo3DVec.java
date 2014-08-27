@@ -49,7 +49,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     public double x = Double.NaN;
     public double y = Double.NaN;    
     public double z = Double.NaN;    
-    private int mode;
+    private int mode = Kernel.COORD_CARTESIAN_3D;
 
     private Kernel kernel;
     
@@ -65,15 +65,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         this.y = y;
         this.z = z;
     }
-    
-    /** Creates new GeoVec3D with coordinates (a[0],a[1])*/
-    public Geo3DVec(Kernel kernel, double [] a) {
-    	this(kernel);
-        x = a[0];
-        y = a[1];
-        z = a[2];
-    }
-    
+
     /** Copy constructor */
     public Geo3DVec(Geo3DVec v) {
     	this(v.kernel);
@@ -83,16 +75,17 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         mode = v.mode;
     }
     
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel1) {
 		return new Geo3DVec(this);
 	}   
 	
-    public void resolveVariables() {     
+    public void resolveVariables() {
+    	//no variables ?
     }
             
     /** Creates new GeoVec3D as vector between Points P and Q */
     public Geo3DVec(Kernel kernel, GeoPoint3D p, GeoPoint3D q) {   
-    	this(kernel);    
+    	this(kernel);
         x = q.getX() - p.getX();
         y = q.getY() - p.getY();
         z = q.getZ() - p.getZ();
@@ -168,8 +161,8 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     /** Yields true if the coordinates of this vector are equal to
      * those of vector v. 
      */
-    final public boolean equals(GeoVec2D v) {                   
-        return Kernel.isEqual(x, v.getX()) && Kernel.isEqual(y, v.getY());                   
+    final public boolean equals(GeoVec2D v) {
+        return Kernel.isEqual(x, v.getX()) && Kernel.isEqual(y, v.getY());
     }
     
     /** Yields true if this vector and v are linear dependent 
@@ -261,18 +254,13 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         c.x = a.getX() - b.x;
         c.y = a.getY() - b.y;
         c.z = -b.z;
-    }    
-        
-    final public void mult(double b) {
-        x = b*x;
-        y = b*y;
     }
-    
+
     /** c = a * b */
     final public static void mult(Geo3DVec a, double b, Geo3DVec c) {
         c.x = a.x * b;
-        c.y = a.y * b;        
-        c.z = a.z * b;        
+        c.y = a.y * b;
+        c.z = a.z * b;
     }    
    
 
