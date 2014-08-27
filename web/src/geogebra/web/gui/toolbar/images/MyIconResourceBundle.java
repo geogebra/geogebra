@@ -193,7 +193,7 @@ public interface MyIconResourceBundle extends ClientBundle{
 	@Source("mode_point.png")
     ImageResource mode_point_32();
 
-	@Source("mode_pointinregion.png")
+	@Source("mode_pointonobject.png")
 	ImageResource mode_pointonobject_32();
 
 	@Source("mode_polardiameter.png")
