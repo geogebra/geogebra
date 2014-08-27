@@ -993,15 +993,26 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		setMatrix((tmInv.transposeCopy()).mul(getSymetricMatrix()).mul(tmInv));
 		
 	}
+	
+	private CoordMatrix4x4 tmpMatrix4x4;
+
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 		
-		rotate(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD3()));	
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
+		rotate(tmpMatrix4x4);	
 	}
 
 	public void rotate(NumberValue r, GeoLineND line) {
 
-		rotate(CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords()));	
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
+		rotate(tmpMatrix4x4);	
 		
 	}
 

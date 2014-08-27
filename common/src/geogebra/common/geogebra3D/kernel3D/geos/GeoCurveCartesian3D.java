@@ -267,7 +267,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 		
-		transform(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD3()));
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
+		transform(tmpMatrix4x4);
 	}
 	
 	private void transform(CoordMatrix4x4 m) {
@@ -293,10 +297,17 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 
 	}
+	
+	private CoordMatrix4x4 tmpMatrix4x4;
 
 	public void rotate(NumberValue r, GeoLineND line) {
 
-		transform(CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords()));
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		
+		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
+		transform(tmpMatrix4x4);
 		
 	}
 

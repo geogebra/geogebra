@@ -154,7 +154,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * @param center center of rotation
 	 * @return matrix
 	 */
-	public static final CoordMatrix4x4 Rotation4x4(Coords u, double angle, Coords center) {
+	public static final void Rotation4x4(Coords u, double angle, Coords center, CoordMatrix4x4 m) {
 		
 		double ux = u.getX();
 		double uy = u.getY();
@@ -163,7 +163,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		double c = Math.cos(angle);
 		double s = Math.sin(angle);
 		
-		double[] vals = new double[16];
+		double[] vals = m.val;
 		vals[0] = ux*ux*(1-c) + c;
 		vals[1] = ux*uy*(1-c) + uz*s;
 		vals[2] = ux*uz*(1-c) - uy*s;
@@ -179,12 +179,10 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		vals[10] = uz*uz*(1-c) + c;
 		//vals[11] = 0;
 
-		CoordMatrix4x4 m = new CoordMatrix4x4(vals);
 		
 		//use (Id-M)center for translation
 		m.setOrigin(center.sub(m.mul(center)));
 		
-		return m;
 
 	}
 	
