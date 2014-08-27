@@ -134,6 +134,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		
 		if (this.menuClosed) {
 			//open menu
+			ggwMenuBar.setVisible(true);
 			this.MENUBAR_WIDTH = GLookAndFeel.MENUBAR_WIDTH_MAX;
 			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
 			this.dockPanel.forceLayout();
@@ -141,6 +142,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			this.menuClosed = false;
 		} else {
 			//close menu
+			ggwMenuBar.setVisible(false);
 			this.MENUBAR_WIDTH = 0;
 			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
 			this.dockPanel.forceLayout();

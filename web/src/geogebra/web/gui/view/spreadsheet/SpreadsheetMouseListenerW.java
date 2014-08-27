@@ -428,6 +428,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	public void onTouchMove(TouchMoveEvent event) {
 		if (numberOfTouches == 1) {
+			event.stopPropagation();
 			cancelRightClickTimer();
 			handlePointerMove(event);
 			scheduleRightClickTimer();
