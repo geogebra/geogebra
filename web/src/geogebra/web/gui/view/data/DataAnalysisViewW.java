@@ -243,14 +243,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		comboPanelSplit = new SplitLayoutPanel();
 		comboPanelSplit.insertNorth(dataDisplayPanel1, 400, null);
 		comboPanelSplit.add(dataDisplayPanel2);
-//		comboPanelSplit.insertNorth(dataDisplayPanel2, 400, null);
 		comboPanelSplit.setStyleName("comboSplitLayout");
-
-
-		//comboPanelSplit.setDividerLocation(0.5);
 		
 		// grab the default divider size
-//		defaultDividerSize = comboPanelSplit.getDividerSize();
 
 		FlowPanel plotComboPanel = new FlowPanel();
 		plotComboPanel.add(comboPanelSplit);
@@ -260,6 +255,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		displayPanel = new SplitLayoutPanel();
 		if (!model.isMultiVar()) {
 			displayPanel.insertEast(statDataPanel, 100, null);
+//			displayPanel.insertWest(plotComboPanel, 500, statDataPanel);
 			displayPanel.insertWest(plotComboPanel, 500, statDataPanel);
 
 		} else {
@@ -347,8 +343,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	 * @return reference to self
 	 */
 	public Widget getDataAnalysisViewComponent() {
-		//return this;
-		return comboPanelSplit;
+		return this;
+	//	return statisticsPanel;
 	}
 
 	public DataAnalysisControllerW getController() {
@@ -729,20 +725,17 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	public void showComboPanel2(boolean show) {
+		comboPanelSplit.clear();
 		if (show) {
-//			if (comboPanelSplit == null) {
-//				// Application.debug("splitpane null");
-//			}
-//			comboPanelSplit.setBottomComponent(dataDisplayPanel2);
-//			comboPanelSplit.setDividerLocation(200);
-//			comboPanelSplit.setDividerSize(4);
-//		} else {
-//			comboPanelSplit.setBottomComponent(null);
-//			comboPanelSplit.setLastDividerLocation(comboPanelSplit
-//					.getDividerLocation());
-//			comboPanelSplit.setDividerLocation(0);
-//			comboPanelSplit.setDividerSize(0);
-		}
+			comboPanelSplit.addNorth(dataDisplayPanel1, 500);
+			comboPanelSplit.add(dataDisplayPanel2);
+			dataDisplayPanel1.sync();
+			dataDisplayPanel2.sync();
+		
+		} else {
+			comboPanelSplit.add(dataDisplayPanel1);
+			dataDisplayPanel1.sync();
+	}
 
 	}
 

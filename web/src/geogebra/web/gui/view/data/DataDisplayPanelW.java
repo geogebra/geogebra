@@ -158,15 +158,6 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		// create options button
 		btnOptions = new MyToggleButton2(new Image(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString()));
-		// optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
-//		btnOptions.setIcon();
-//		btnOptions.setSelectedIcon(app
-//				.getImageIcon("inputhelp_right_18x18.png"));
-
-		// optionsButton.setPreferredSize(new
-		// Dimension(optionsButton.getIcon().getIconWidth(),18));
-//		btnOptions.setMargin(new Insets(0, 0, 0, 0));
-//		btnOptions.addActionListener(this);
 
 		btnOptions.addClickHandler(new ClickHandler() {
 			
@@ -174,10 +165,9 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 				actionPerformed(btnOptions);
 			}
 		});
+
 		// create export button
 		btnExport = new MyToggleButton2(new Image(AppResources.INSTANCE.export().getSafeUri().asString()));
-		// btnExport.setPreferredSize(new
-		// Dimension(btnExport.getIcon().getIconWidth(),18));
 
 		// create control panel
 		if (hasControlPanel) {
@@ -200,6 +190,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			FlowPanel buttonPanel = new FlowPanel();
 			buttonPanel.setStyleName("daOptionButtons");
 			buttonPanel.add(LayoutUtil.panelRow(btnOptions, btnExport));
+		
 			// control panel
 			controlPanel = new FlowPanel();
 			controlPanel.add(LayoutUtil.panelRow(lbDisplayType, controlDecks, buttonPanel));
@@ -210,18 +201,15 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		plotPanelNorth = new FlowPanel();
 		plotPanelSouth = new FlowPanel();
 		GColor bgColor = plotPanel.getBackgroundCommon();
-//		plotPanelNorth.setBackground(bgColor);
-//		plotPanelSouth.setBackground(bgColor);
+
 		lblTitleX = new Label();
 		lblTitleY = new Label();
 		
 		fldTitleX = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldTitleY = (new InputPanelW(null, app, -1, false)).getTextComponent();
-//		fldTitleY = new MyTextField (app, 20);
+
 		fldTitleX.setEditable(false);
 		fldTitleY.setEditable(false);
-//		fldTitleX.setBackground(Color.white);
-//		fldTitleY.setBackground(Color.white);
 
 		metaPlotPanel = new FlowPanel();
 		metaPlotPanel.setStyleName("daDotPanel");
@@ -232,19 +220,12 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		// put display panels into a deck panel
 
 		displayDeckPanel = new DeckPanel();
-		//displayCardPanel.setBackground(bgColor);
-
+		
 		displayDeckPanel.add(metaPlotPanel);
 		displayDeckPanel.add(new ScrollPanel(imagePanel));
 
 		// create options panel
 		optionsPanel = new OptionsPanelW(app, daModel, getModel());
-//		optionsPanel.addPropertyChangeListener("settings",
-//				new PropertyChangeListener() {
-//					public void propertyChange(PropertyChangeEvent evt) {
-//						getModel().updatePlot(true);
-//					}
-//				});
 		optionsPanel.setVisible(false);
 
 		frequencyTable = new FrequencyTablePanelW(app);
@@ -316,8 +297,9 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		metaPlotPanel.clear();
 		plotPanelSouth.clear();
 		plotPanelNorth.clear();
+		
 		metaPlotPanel.add(plotPanel.getComponent());
-
+		plotPanel.synCanvasSize();
 		getModel().updatePlotPanelLayout();
 	}
 
@@ -327,7 +309,6 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	private void createImagePanel() {
 
 		imagePanel = new FlowPanel();
-	//	imagePanel.setBackground(Color.WHITE);
 		imageContainer = new Label();
 		imagePanel.add(imageContainer);
 
@@ -361,22 +342,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			}
 		});
 		
-//		
-//		.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseEntered(MouseEvent arg0) {
-//				fldNumClasses.setVisible(true);
-//				fldNumClasses.revalidate();
-//			}
-//
-//			@Override
-//			public void mouseExited(MouseEvent arg0) {
-//				fldNumClasses.setVisible(false);
-//				fldNumClasses.revalidate();
-//			}
-//		});
-//
-		numClassesPanel = new FlowPanel();//new FlowLayout(FlowLayout.LEFT, 0, 0));
+		numClassesPanel = new FlowPanel();
 		numClassesPanel.add(sliderNumClasses);
 		numClassesPanel.add(fldNumClasses);
 
@@ -741,4 +707,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	}
 
+	public void sync() {
+		plotPanel.synCanvasSize();
+		plotPanel.repaint();
+	}
 }

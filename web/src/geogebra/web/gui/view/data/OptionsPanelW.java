@@ -168,7 +168,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		spGraph.setStyleName("daScrollPanel");
 		spGraph.add(graphPanel);
 		tabPanel.add(spGraph, app.getMenu("Graph"));
-//		tabPanel.selectTab(0);
 		graphPanel.setVisible(true);
 		showYAxisSettings = true;
 

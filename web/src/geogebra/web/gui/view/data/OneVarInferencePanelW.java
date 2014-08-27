@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.LocalizationW;
@@ -159,84 +160,50 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		sigmaPanel = new FlowPanel();
 		sigmaPanel.add(LayoutUtil.panelRow(lblSigma, fldSigma));
-//
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.gridx=0;
-//		c.weightx=1;
-//		c.insets = new Insets(4,0,0,0);
-//		c.anchor=GridBagConstraints.WEST;
-//
-//		GridBagConstraints tab = new GridBagConstraints();
-//		tab.gridx=0;
-//		tab.gridy = c.gridy;
-//		tab.weightx=1;
-//		tab.insets = new Insets(4,20,0,0);
-//		tab.anchor=GridBagConstraints.WEST;
-//
 //		// test panel	
-//		testPanel = new JPanel(new GridBagLayout());
-//		c.gridy = GridBagConstraints.RELATIVE;
-//		testPanel.add(lblNull, c);
-//		testPanel.add(flowPanel(lblHypParameter, fldNullHyp), tab);
-//		testPanel.add(lblTailType, c);
-//		testPanel.add(lbAltHyp, tab);
-//
-//
+		testPanel = new FlowPanel();
+		testPanel.add(lblNull);
+		testPanel.add(LayoutUtil.panelRow(lblHypParameter, fldNullHyp));
+		testPanel.add(lblTailType);
+		testPanel.add(lbAltHyp);
 //		// CI panel	
-//		intPanel = new JPanel(new GridBagLayout());
-//		c.gridy = GridBagConstraints.RELATIVE;
-//		intPanel.add(lblConfLevel, c);
-//		intPanel.add(fldConfLevel, tab);	
+		intPanel = new FlowPanel();
+		intPanel.add(lblConfLevel);
+		intPanel.add(fldConfLevel);	
 //
 //		// result panel	
 		resultTable = new StatTableW(app);
 		setResultTable();
 
 		resultPanel = new FlowPanel();
-//		c.gridy = GridBagConstraints.RELATIVE;
-//		resultPanel.add(lblResultHeader, BorderLayout.NORTH);
-//		resultPanel.add(resultTable, BorderLayout.CENTER);
-//		c.weightx =0;
-//		c.fill = GridBagConstraints.HORIZONTAL;
+		resultPanel.add(lblResultHeader);
 		resultPanel.add(resultTable);
 //
 //
 //
 		// main panel
 		mainPanel = new FlowPanel();
-		mainPanel.add(new Label("sooooooooooooo..."));
+		add(new Label("wwwwwwwwwwwwww"));
 		add(mainPanel);
 		add(resultPanel);
 	}
 
 
 	private void updateMainPanel(){
-//
-//		mainPanel.removeAll();
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.gridx=0;
-//		c.weightx=1;
-//		c.insets = new Insets(4,0,0,0);
-//		c.anchor=GridBagConstraints.WEST;
-//
-//		GridBagConstraints tab = new GridBagConstraints();
-//		tab.gridx=0;
-//		tab.gridy = c.gridy;
-//		tab.weightx=1;
-//		tab.insets = new Insets(4,20,0,0);
-//		tab.anchor=GridBagConstraints.WEST;
-//
-//		c.gridy = GridBagConstraints.RELATIVE;
-//		if(isZProcedure)
-//			mainPanel.add(sigmaPanel,tab);
-//
-//		if(isTest)
-//			mainPanel.add(testPanel,c);
-//		else
-//			mainPanel.add(intPanel,c);
-//
-//		c.weightx=0;
-//		c.fill = GridBagConstraints.HORIZONTAL;
+		App.debug("updateMainPanel()");
+		mainPanel.clear();
+
+		if(isZProcedure) {
+			mainPanel.add(sigmaPanel);
+		}
+
+		if(isTest) {
+			mainPanel.add(testPanel);
+		}
+		else {
+			mainPanel.add(intPanel);
+		}
+
 		mainPanel.add(resultPanel);
 
 
@@ -293,7 +260,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		String[] rowNames = new String[nameList.size()];
 		nameList.toArray(rowNames);
-		resultTable.setStatTable(rowNames.length, rowNames, 1, null);
+		resultTable.setStatTable(rowNames.length, rowNames, 0, null);
 
 	}
 
@@ -466,9 +433,9 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	}
 
 	public void updatePanel(){
-		//evaluate();
+		evaluate();
 		updateGUI();
-		//updateResultTable();
+		updateResultTable();
 	}
 
 

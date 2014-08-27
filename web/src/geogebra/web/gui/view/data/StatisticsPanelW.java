@@ -108,7 +108,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		case StatisticsModel.INFER_TINT_2MEANS:
 		case StatisticsModel.INFER_TINT_PAIRED:
 		//	inferencePanel.add(getTwoVarInferencePanel());
-			// inferencePanel.add(statTable, BorderLayout.CENTER);
+		//	inferencePanel.add(statTable);
 			break;
 
 		case StatisticsModel.INFER_ANOVA:
