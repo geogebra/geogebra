@@ -1575,20 +1575,28 @@ Paddings for menuitems.
 	border-radius:none;
     display:block;
     padding:1px;
-	
 }
 
-.SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
+.SelectionTable .gwt-Label:hover,
+.SelectionTable .gwt-Label:focus,
+.SelectionTable canvas:hover,
+.SelectionTable canvas:focus  {
 	background: #CCCCFF;
 }
 
-.SelectionTable canvas {
+.SelectionTable .gwt-Label.selected {
+	color: #6161FF;
+}*/
+
+/*.SelectionTable canvas {
 	border:1px solid transparent;
 }
 
 .SelectionTable canvas.selected {
 	border: 1px solid black;
 }*/
+
+
 .TitleBarPanel {
 	z-index: 1;
 	left: auto !important;
@@ -1640,7 +1648,7 @@ Paddings for menuitems.
 
 .Separator{
 	height: 1px;
-	background-color: grey;
+	background-color: #DCDCDC;
 }
 
 .CloseButton {
@@ -1670,12 +1678,16 @@ Paddings for menuitems.
 	margin:0;
 	padding: 0;
 }*/
+
 .VerticalSeparator {
-	margin: auto 0;
-	color: gray;
+	margin: 0px 5px;
+	width: 1px;
+	height: 100%;
+	color: #DCDCDC;
 }
 
-.MyToggleButton,.MyCanvasButton {
+.MyToggleButton,
+.MyCanvasButton {
 	text-align: center;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -1727,9 +1739,9 @@ Paddings for menuitems.
 .SelectionTable .gwt-Label {
 	background-repeat: no-repeat;
 	background-position: center center;
-	width: 24px;
-	height: 24px;
-	text-align: center;
+	/*width: 24px;*/
+	/*height: 24px;*/
+	/*text-align: center;*/
 /* 	-webkit-border-radius: 5px; */
 /* 	-khtml-border-radius: 5px; */
 /* 	-moz-border-radius: 5px; */
@@ -1738,19 +1750,31 @@ Paddings for menuitems.
 	padding: 3px;
 }
 
+.gwt-Label.stylebarButton {
+	height: 24px;
+	width: 24px;
+}
+
 .gwt-Label.border {
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	border: #DCDCDC solid 1px;
+	height: 24px;
+	width: 24px;
 }
 
 .gwt-Label.textIconButton{
-	background-position:0 0;
+	background-position: center left;
 	padding-left:28px;
 	border: none;
 	text-align: left;
+}
+
+.gwt-Label.textIconButton:hover,
+.gwt-Label.textIconButton:active {
+	background-color: none;
 }
 
 .SelectionTable .gwt-Label.borderButton {
@@ -1759,6 +1783,8 @@ Paddings for menuitems.
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	height: 24px;
+	width: 24px;
 }
 
 .SelectionTable a {
@@ -1769,9 +1795,18 @@ Paddings for menuitems.
 	padding: 1px;
 }
 
-.SelectionTable a:hover,.SelectionTable a:focus,.SelectionTable canvas:hover,.SelectionTable canvas:focus
+.SelectionTable a:hover,
+.SelectionTable a:focus,
+.SelectionTable .gwt-Label:hover,
+.SelectionTable .gwt-Label:focus,
+.SelectionTable canvas:hover,
+.SelectionTable canvas:focus
 	{
-	background: #CCCCFF;
+	background-color: #CCCCFF;
+}
+
+.SelectionTable .gwt-Label.selected {
+	color: #6161FF;
 }
 
 .ApplicationPanel {

@@ -41,6 +41,8 @@ public class ImageOrText {
 			button.getElement().getStyle().setBackgroundImage("url("+this.url+")");
 			if(this.text != null){
 				button.addStyleName("textIconButton");
+			} else {
+				button.addStyleName("stylebarButton");
 			}
 		}
 		if(this.text != null){
