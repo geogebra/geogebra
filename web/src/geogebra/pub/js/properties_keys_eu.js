@@ -422,7 +422,7 @@ __GGB__keysVar.eu.command = {
     "IntersectConic": "EbakiKonika",
     "IntersectConic.Syntax": "[ <Planoa>, <Koadrika> ]\n[ <Koadrika>, <Koadrika> ]",
     "IntersectPath": "BideenEbakidura",
-    "IntersectPath.Syntax": "[ <Lerroa>, <Poligonoa> ]",
+    "IntersectPath.Syntax": "[ <Lerroa>, <Poligonoa> ]\n[ <Poligonoa>, <Poligonoa> ]",
     "IntersectPath.Syntax3D": "[ <Lerroa>, <Poligonoa> ]\n[ <Planoa>, <Poligonoa> ]\n[ <Planoa>, <Koadrika> ]",
     "Intersection": "Ebakidura",
     "Intersection.Syntax": "[ <Zerrenda>, <Zerrenda> ]",

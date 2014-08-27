@@ -422,7 +422,7 @@ __GGB__keysVar.es.command = {
     "IntersectConic": "IntersecaC\xf3nica",
     "IntersectConic.Syntax": "[ <Plano>, <Cu\xe1drica> ]\n[ <Cu\xe1drica>, <Cu\xe1drica> ]",
     "IntersectPath": "IntersecaRecorridos",
-    "IntersectPath.Syntax": "[ <Recta (semirrecta o segmento)>, <Pol\xedgono> ]",
+    "IntersectPath.Syntax": "[ <Recta (semirrecta o segmento)>, <Pol\xedgono> ]\n[ <Pol\xedgono>, <Pol\xedgono> ]",
     "IntersectPath.Syntax3D": "[ <Recta>, <Pol\xedgono> ]\n[ <Plano>, <Pol\xedgono> ]\n[ <Plano>, <Cu\xe1drica> ]",
     "Intersection": "Intersecci\xf3n",
     "Intersection.Syntax": "[ <Lista>, <Lista> ]",
