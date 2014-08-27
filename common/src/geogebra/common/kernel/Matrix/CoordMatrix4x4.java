@@ -587,27 +587,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		return rot.mul(this);
 	}
 
-	/**
-	 * return this rotated arround (Oz) by angle 90°
-	 * 
-	 * @return rotated matrix
-	 */
-	public CoordMatrix4x4 rotate90() {
 
-		CoordMatrix4x4 rot = new CoordMatrix4x4();
-
-		// rotation
-		rot.set(2, 1, 1);
-		rot.set(1, 2, -1);
-
-		// identity
-		rot.set(3, 3, 1);
-		rot.set(4, 4, 1);
-
-		//Log.debug(rot);
-
-		return rot.mul(this);
-	}
 
 	/**
 	 * mul 3x3 submatrix by v
