@@ -110,7 +110,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	/**
 	 * Flag to determine if Tab key should behave like usual or disabled.
 	 */
-	private boolean tabEnabled = false;
+	private boolean tabEnabled = true;
 	private int columns = 0;
 	private boolean forCAS;
 	
@@ -123,7 +123,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	// Simplified to this as there are too many non-alphabetic character in
 	// parameter descriptions:
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
-	        .compile("[,\\[] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]])");
+	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
 	boolean showOnScreenKeyBoard = false;
 	private OnScreenKeyBoard keyboard;
@@ -1267,8 +1267,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		// Special case if the completion is a built-in function
 		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
-			setCaretPosition(curWordStart + bracketIndex + 1);
-			return true;
+			bracketIndex++;
+			/*setCaretPosition(curWordStart + bracketIndex + 1);
+			return true;*/
 		}
 		setCaretPosition(curWordStart + bracketIndex);
 		moveToNextArgument(false);
