@@ -325,6 +325,9 @@ public class App3D extends AppD {
 
 	@Override
 	protected void handleShiftEvent(boolean isShiftDown) {
+		if (!this.isEuclidianView3Dinited()) {
+			return;
+		}
 		if (isShiftDown) {
 			oldCursorMode = getEuclidianView3D().getCursor();
 			getEuclidianView3D().setMoveCursor();
