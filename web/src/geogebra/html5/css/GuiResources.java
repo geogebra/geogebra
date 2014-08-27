@@ -33,7 +33,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/algebra-view-tree-closed.png")
 	ImageResource algebra_tree_closed();
 	
-	@Source("icons/png/web/ggb_logo_back.png")
+	@Source("icons/png/geogebra-logo.png")
 	ImageResource header_back();
 	
 	// PHONE GUI
@@ -212,10 +212,7 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/menu_icons/menu-perspectives.png")
 	ImageResource menu_icon_perspectives();
-	
-	@Source("icons/png/web/menu_icons/menu-perspectives-algebra.png")
-	ImageResource menu_icon_perspectives_algebra();
-	
+
 	@Source("icons/png/web/menu_icons/menu-view.png")
 	ImageResource menu_icon_view();
 	
@@ -233,19 +230,7 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/menu_icons/menu-options-language.png")
 	ImageResource menu_icon_options_language();
-	
-	@Source("icons/png/web/menu_icons/menu-perspectives-basic-geometry.png")
-	ImageResource menu_icon_perspectives_basic_geometry();
-	
-	@Source("icons/png/web/menu_icons/menu-perspectives-geometry.png")
-	ImageResource menu_icon_perspectives_geometry();
-	
-	@Source("icons/png/web/menu_icons/menu-perspectives-spreadsheet.png")
-	ImageResource menu_icon_perspectives_spreadsheet();
-	
-	@Source("icons/png/web/menu_icons/menu-perspectives-cas.png")
-	ImageResource menu_icon_perspectives_cas();
-	
+
 	@Source("icons/png/web/menu_icons/menu-help.png")
 	ImageResource menu_icon_help();
 	
