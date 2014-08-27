@@ -6,31 +6,47 @@ package geogebra.common.plugin;
  *
  */
 public enum GeoClass {
-	ANGLE("Angle"), AXIS("Axis"), BOOLEAN("Boolean"), BUTTON("Button"), TEXTFIELD("TextField"), CONIC("Conic"), CONICPART("ConicPart"), FUNCTION("Function"), INTERVAL("Interval"), FUNCTIONCONDITIONAL("FunctionConditional"), IMAGE("Image"), LINE("Line"), LIST("List"), LOCUS("Locus"), NUMERIC("Numeric"), POINT("Point"), POLYGON("Polygon"), RAY("Ray"), SEGMENT("Segment"), TEXT("Text"), VECTOR("Vector"), CURVE_CARTESIAN("CurveCartesian"), CURVE_POLAR("CurvePolar"), IMPLICIT_POLY("ImplicitPoly"), FUNCTION_NVAR("FunctionNVar"), POLYLINE("PolyLine"), PENSTROKE("PenStroke"), SPLINE("CurveCartesian"),
-	TURTLE("Turtle"),
-	CAS_CELL("CasCell"),
+	ANGLE("Angle", false), AXIS("Axis", false), BOOLEAN("Boolean", false), BUTTON("Button", false), TEXTFIELD("TextField", false),
+	CONIC("Conic", false), CONICPART("ConicPart", false), FUNCTION("Function", false), INTERVAL("Interval", false),
+	FUNCTIONCONDITIONAL("FunctionConditional", false), IMAGE("Image", false), LINE("Line", false), LIST("List", false),
+	LOCUS("Locus", false), NUMERIC("Numeric", false), POINT("Point", false), POLYGON("Polygon", false), RAY("Ray", false), SEGMENT("Segment", false),
+	TEXT("Text", false), VECTOR("Vector", false), CURVE_CARTESIAN("CurveCartesian", false), CURVE_POLAR("CurvePolar", false),
+	IMPLICIT_POLY("ImplicitPoly", false), FUNCTION_NVAR("FunctionNVar", false),
+	POLYLINE("PolyLine", false), PENSTROKE("PenStroke", false), SPLINE("CurveCartesian", false),
+	TURTLE("Turtle", false),
+	CAS_CELL("CasCell", false),
 
-	ANGLE3D("Angle", "Angle3D"), POINT3D("Point", "Point3D"), VECTOR3D("Vector", "Vector3D"), SEGMENT3D("Segment", "Segment3D"), LINE3D("Line", "Line3D"), RAY3D("Ray", "Ray3D"), CONIC3D("Conic", "Conic3D"), CONICSECTION("ConicPart", "Conic3DPart"), AXIS3D("Axis", "Axis3D"), CURVE_CARTESIAN3D("CurveCartesian", "CurveCartesian3D"), POLYGON3D("Polygon", "Polygon3D"), PLANE3D("Plane", "Plane3D"), QUADRIC("Quadric"), QUADRIC_PART("Quadric", "QuadricPart"), QUADRIC_LIMITED("Quadric", "QuadricLimited"), POLYLINE3D("PolyLine", "PolyLine3D"), POLYHEDRON("Polyhedron"), NET("Net"),
+	ANGLE3D("Angle", "Angle3D", true), POINT3D("Point", "Point3D", true), VECTOR3D("Vector", "Vector3D", true),
+	SEGMENT3D("Segment", "Segment3D", true), LINE3D("Line", "Line3D", true), RAY3D("Ray", "Ray3D", true),
+	CONIC3D("Conic", "Conic3D", true), CONICSECTION("ConicPart", "Conic3DPart", true), AXIS3D("Axis", "Axis3D", true),
+	CURVE_CARTESIAN3D("CurveCartesian", "CurveCartesian3D", true), POLYGON3D("Polygon", "Polygon3D", true),
+	PLANE3D("Plane", "Plane3D", true), QUADRIC("Quadric", true), QUADRIC_PART("Quadric", "QuadricPart", true),
+	QUADRIC_LIMITED("Quadric", "QuadricLimited", true), POLYLINE3D("PolyLine", "PolyLine3D", true), POLYHEDRON("Polyhedron", true),
+	NET("Net", true),
 
-	SURFACECARTESIAN3D("Surface", "SurfaceCartesian3D"),
+	SURFACECARTESIAN3D("Surface", "SurfaceCartesian3D", true),
 	
-	CLIPPINGCUBE3D("ClippingCube3D"),
+	CLIPPINGCUBE3D("ClippingCube3D", true),
 
-	SPACE("Space"),
+	SPACE("Space", true),
 
-	DEFAULT("Default");
+	DEFAULT("Default", false);
 	
 	/**
 	 * name MUST be in ggbtrans/properties
 	 */
 	public String name, xmlName;
+	public boolean is3D;
 
-	GeoClass(String name) {
+	GeoClass(String name, boolean is3D) {
 		this.name = name;
 		this.xmlName = name;
+		this.is3D = is3D;
 	}
-	GeoClass(String name, String xmlName) {
+	GeoClass(String name, String xmlName, boolean is3D) {
 		this.name = name;
 		this.xmlName = xmlName;
+		this.is3D = is3D;
+
 	}
 }

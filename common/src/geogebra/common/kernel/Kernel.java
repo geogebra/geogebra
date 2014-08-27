@@ -3955,6 +3955,27 @@ public class Kernel {
 	public Localization getLocalization(){
 		return getApplication().getLocalization();
 	}
+	
+	private boolean kernelHas3DObjects() {
+		Iterator<GeoClass> it = cons.usedGeos.iterator();
+
+		boolean kernelHas3DObjects = false;
+
+		while (it.hasNext()) {
+			GeoClass geoType = it.next();
+			
+			App.debug(geoType.xmlName);
+			
+			if (geoType.is3D) {
+				kernelHas3DObjects = true;
+				break;
+			}
+		}
+		
+		App.error("kernel has 3D objects: " + kernelHas3DObjects);
+
+		return kernelHas3DObjects;
+	}
 
 	/**
 	 * Returns the kernel settings in XML format.
@@ -3964,8 +3985,10 @@ public class Kernel {
 		// kernel settings
 		sb.append("<kernel>\n");
 		
+		
+		
 		// is 3D?
-		if (app.is3D()){
+		if (kernelHas3DObjects()){
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 
