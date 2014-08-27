@@ -400,7 +400,7 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public GeoPlane3D getDefaultPlane() {
-		return app.getEuclidianView3D().getxOyPlane();
+		return getXOYPlane();
 	}
 
 	// ///////////////////////////////
