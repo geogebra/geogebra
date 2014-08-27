@@ -410,53 +410,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	// /////////////////////////////////////////////////
 	// GEOMETRIES
 
-	/**
-	 * returns the point at position a_x, a_y, a_z
-	 * 
-	 * @param a_x
-	 *            x coord
-	 * @param a_y
-	 *            y coord
-	 * @param a_z
-	 *            z coord
-	 * @return the point
-	 */
-	public Coords getPoint(double a_x, double a_y, double a_z) {
-		Coords v = new Coords(new double[] { a_x, a_y, a_z, 1 });
-		return this.mul(v);
-	}
-
-	/**
-	 * return a matrix that describe a quad with corners (a_x1,a_y1) and
-	 * (a_x2,a_y2)
-	 * 
-	 * @param a_x1
-	 *            x coord of the first corner
-	 * @param a_y1
-	 *            y coord of the first corner
-	 * @param a_x2
-	 *            x coord of the third corner
-	 * @param a_y2
-	 *            y coord of the third corner
-	 * @return matrix describing the quad
-	 */
-	public CoordMatrix4x4 quad(double a_x1, double a_y1, double a_x2,
-			double a_y2) {
-
-		CoordMatrix4x4 ret = new CoordMatrix4x4();
-
-		Coords o = getPoint(a_x1, a_y1, 0);
-		Coords px = getPoint(a_x2, a_y1, 0);
-		Coords py = getPoint(a_x1, a_y2, 0);
-
-		ret.setOrigin(o);
-		ret.setVx(px.sub(o));
-		ret.setVy(py.sub(o));
-		ret.setVz(getVz());
-
-		return ret;
-	}
-
+	
 	/**
 	 * return a matrix that describe a segment along x-axis from x=x1 to x=x2
 	 * 
