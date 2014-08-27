@@ -3964,9 +3964,8 @@ public class Kernel {
 		while (it.hasNext()) {
 			GeoClass geoType = it.next();
 			
-			App.debug(geoType.xmlName);
-			
 			if (geoType.is3D) {
+				App.debug("found 3D geo: "+geoType.xmlName);
 				kernelHas3DObjects = true;
 				break;
 			}
