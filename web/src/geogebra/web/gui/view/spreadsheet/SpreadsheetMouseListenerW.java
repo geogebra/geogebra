@@ -642,14 +642,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
 
 			// set tooltip with geo's description
-			// if (geo != null & view.getAllowToolTips()) {
-			// app.getLocalization().setTooltipFlag();
-			// TODO//table.setToolTipText(geo.getLongDescriptionHTML(true,
-			// true));
-			// app.getLocalization().clearTooltipFlag();
-			// } else {
-			// TODO//table.setToolTipText(null);
-			// }
+			if (geo != null & view.getAllowToolTips()) {
+				app.getLocalization().setTooltipFlag();
+				table.setToolTipText(geo.getLongDescriptionHTML(true, true));
+				app.getLocalization().clearTooltipFlag();
+			} else {
+				table.setToolTipText(null);
+			}
 
 			updateTableIsOverDot(event);
 

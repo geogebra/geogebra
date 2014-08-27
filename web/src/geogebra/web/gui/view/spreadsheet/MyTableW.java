@@ -25,6 +25,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.plugin.GeoClass;
 import geogebra.html5.awt.GBasicStrokeW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.main.AppW;
@@ -387,7 +388,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		gridPanel.addDomHandler(ml, TouchStartEvent.getType());
 		gridPanel.addDomHandler(ml, TouchMoveEvent.getType());
 		gridPanel.addDomHandler(ml, TouchEndEvent.getType());
-		
+
 		upperLeftCorner.addDomHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				selectAll();
@@ -741,8 +742,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public int getColumnWidth(int column) {
 		// columnFormatter returns 0 (in Chrome at least)
 		// so cellFormatter used instead
-		return ssGrid.getCellFormatter().getElement(0,column)
-                .getOffsetWidth();
+		return ssGrid.getCellFormatter().getElement(0, column).getOffsetWidth();
 	}
 
 	public int getLeadSelectionRow() {
@@ -853,7 +853,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// Selection
 	// ===============================================================
 	/**
-	 * @param point y coordinate is row, x coordinate is column
+	 * @param point
+	 *            y coordinate is row, x coordinate is column
 	 */
 	public void changeSelection(GPoint point, boolean extend) {
 		changeSelection(point.getY(), point.getX(), extend);
@@ -900,7 +901,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		changeSelection(0, 0, false);
 
 		// extend the selection to the current lower right corner cell
-		changeSelection(getRowCount() - 1, getColumnCount() - 1,  true);
+		changeSelection(getRowCount() - 1, getColumnCount() - 1, true);
 
 		setSelectAll(true);
 		setAutoscrolls(true);
@@ -1564,7 +1565,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	        0.0f);
 
 	/**
-	 * @param point x column, y row
+	 * @param point
+	 *            x column, y row
 	 * @return true on success
 	 */
 	public boolean editCellAt(GPoint point) {
@@ -1765,7 +1767,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
-	
 	public void setColumnWidth(final int width) {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -1792,8 +1793,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		});
 	}
-	
-	
+
 	// Keep row heights of table and row header in sync
 	public void setRowHeight(final int row, final int rowHeight) {
 
@@ -2674,7 +2674,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			selectionFrame.setWidth(w + "px");
 			selectionFrame.setHeight(h + "px");
 
-			gridPanel.setWidgetPosition(selectionFrame, x1 - ssLeft, y1 - ssTop);
+			gridPanel
+			        .setWidgetPosition(selectionFrame, x1 - ssLeft, y1 - ssTop);
 
 			blueDot.setVisible(showDragHandle);
 			if (showDragHandle) {
@@ -2770,5 +2771,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		scroller.setShowHScrollBar(showHScrollBar);
+	}
+
+	/**
+	 * 
+	 * @param toolTipText
+	 *            the string to display in a tool tip; if the text is null, the
+	 *            tool tip is turned off
+	 */
+	public void setToolTipText(String toolTipText) {
+
+		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
 	}
 }

@@ -1281,14 +1281,15 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		// row height and column widths
 		setRowHeightsFromSettings();
 		setColumnWidthsFromSettings();
-
+		
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler().processXMLString(
-		        settings().cellFormat());
+			settings().cellFormat());
 
 		// preferredSize
-		setPreferredSize(settings().preferredSize().getWidth(), settings()
-		        .preferredSize().getHeight());
+		setPreferredSize(
+			settings().preferredSize().getWidth(),
+			settings().preferredSize().getHeight());
 
 		// initial position
 		// TODO not working yet ...
@@ -1413,7 +1414,7 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	protected void onLoad() {
 		// this may be important if the view is added/removed from the DOM
 //TODO: is this needed with stand alone spreadsheetView?
-		//super.onLoad();
+	//	super.onLoad();
 		repaint();
 	}
 
@@ -1503,15 +1504,15 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		int width = getFocusPanel().getParent().getOffsetWidth();
 		int height = getFocusPanel().getParent().getOffsetHeight();
 		// App.debug("spreadsheet wrapper size: " + width + " , " + height);
-
+		
 		getFocusPanel().setWidth(width + "px");
 		getFocusPanel().setHeight(height + "px");
 
-		if (table != null) {
-			table.setSize(width, height);
-			table.setRepaintAll();
-			table.setRenderFirstTime();
-			table.repaint();
+		if(table != null){
+		table.setSize(width, height);
+		table.setRepaintAll();
+		table.setRenderFirstTime();
+		table.repaint();
 		}
 
 	}
