@@ -116,7 +116,6 @@ public class Construction {
 	 */
 	protected void newConstructionDefaults() {
 		consDefaults = new ConstructionDefaults(this);
-		usedGeos.clear();
 	}
 	
 	// list of Macro commands used in this construction
@@ -2460,6 +2459,7 @@ public class Construction {
 		// add axes labels both in English and current language
 		geoTable.put("xAxis", xAxis);
 		geoTable.put("yAxis", yAxis);
+		usedGeos.clear();
 		if (xAxisLocalName != null) {
 			geoTable.put(xAxisLocalName, xAxis);
 			geoTable.put(yAxisLocalName, yAxis);
