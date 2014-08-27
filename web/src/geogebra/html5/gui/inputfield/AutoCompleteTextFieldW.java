@@ -926,6 +926,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 					historyPopup.showPopup();
 				}
 			}
+			e.stopPropagation(); 
 			break;
 
 		case GWTKeycodes.KEY_DOWN:
@@ -940,6 +941,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 					setText(getNextInput());
 				}
 			}
+			e.stopPropagation(); // prevent GlobalKeyDispatcherW to move the euclidian view
 			break;
 
 		case GWTKeycodes.KEY_F9:
@@ -949,12 +951,14 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			break;
 		case GWTKeycodes.KEY_LEFT:
 			textField.hideSuggestions();
+			e.stopPropagation();
 			break;
 		case GWTKeycodes.KEY_RIGHT:
 			if (moveToNextArgument(false)) {
 				e.stopPropagation();
 				textField.hideSuggestions();
 			}
+			e.stopPropagation();
 			break;
 
 		case GWTKeycodes.KEY_TAB:
