@@ -17,6 +17,7 @@
  */
 package geogebra.gui.app;
 
+import geogebra.AppId;
 import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
@@ -267,6 +268,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		// create first window and show it
 		createNewWindow(args, wnd);
+
+		// fixing #3772
+		if (AppD.WINDOWS) {
+			AppId.setCurrentProcessExplicitAppUserModelID(AppId.class.getName());
+			AppD.debug("AppID = "
+					+ AppId.getCurrentProcessExplicitAppUserModelID());
+		}
 	}
 
 	/**

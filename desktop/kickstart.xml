@@ -36,11 +36,11 @@ download libs for other architectures than the current one.
 	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds">
 	</target>
 
-	<target name="geogebra4-developer-commandline" depends="_classpath-open, geogebra4-developer, ecj, _classpath-close"
+	<target name="geogebra4-developer-commandline" depends="_classpath-open, geogebra4-developer, ecj, jna, _classpath-close"
 	    description="For command line developers (mostly Unix): to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer-commandline" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, ecj, _classpath-close, jfx-compile"
+	<target name="geogebra5-developer-commandline" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, ecj, jna, _classpath-close, jfx-compile"
 	    description="For command line developers (mostly Unix): to create GeoGebra 5 builds">
 	</target>
 	
@@ -61,13 +61,14 @@ download libs for other architectures than the current one.
 	<target name="mac_extensions" depends="mac_extensions-geogebra"/>
 	<target name="javacc" depends="javacc-geogebra"/>
 	<target name="ecj" depends="ecj-geogebra"/>
+	<target name="jna" depends="jna-geogebra"/>
 
 	<!-- download external libraries -->
 	<target name="_lib" depends="_lib-runtime, _lib-build-geogebra5, _lib-pack, ecj"
 	    description="Internal target, please do not use manually. Downloads all packages for the current OS and architecture">
 	</target>
 
-	<target name="_lib-build-geogebra4" depends="javacc, jsobject, mac_extensions, jlatexmath, ogp"
+	<target name="_lib-build-geogebra4" depends="javacc, jsobject, mac_extensions, jlatexmath, ogp, jna"
 	    description="Internal target, please do not use manually. Downloads all packages needed for a full build for the current OS and architecture (for GeoGebra 4)">
 	</target>
 
@@ -144,6 +145,11 @@ download libs for other architectures than the current one.
 		    usetimestamp="true"/>
 	</target>
 
+	<target name="jna-geogebra">
+		<get src="http://dev.geogebra.org/download/lib/jna-4.1.0.jar" dest="lib/jna-4.1.0.jar"
+			usetimestamp="true"/>
+	</target>
+	
 	<target name="giac-geogebra" depends="giac-windows, giac-mac, giac-linux"/>
 
 	<target name="giac-windows" if="winnt">
