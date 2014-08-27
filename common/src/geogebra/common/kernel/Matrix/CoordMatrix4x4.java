@@ -109,32 +109,31 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	/**
 	 * 4x4 rotation matrix around oz
 	 * @param angle angle of rotation
-	 * @return matrix
+	 * @param m ret matrix
+	 * 
 	 */	
-	public static final CoordMatrix4x4 Rotation4x4(double angle) {
+	public static final void Rotation4x4(double angle, CoordMatrix4x4 m) {
 		
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
-		CoordMatrix4x4 m = new CoordMatrix4x4();
+
 		m.set(1,1, cos); m.set(1,2, -sin);
 		m.set(2,1, sin); m.set(2,2,  cos);
 		m.set(3,3, 1);
 		m.set(4,4, 1);
 		
-		return m;
 	}
 	
 	/**
 	 * 4x4 rotation matrix axis parallel to oz through center
 	 * @param angle angle of rotation
 	 * @param center center of rotation
-	 * @return matrix
+	 * @param m ret matrix
 	 */	
-	public static final CoordMatrix4x4 Rotation4x4(double angle, Coords center) {
+	public static final void Rotation4x4(double angle, Coords center, CoordMatrix4x4 m) {
 		
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
-		CoordMatrix4x4 m = new CoordMatrix4x4();
 		
 		// 3x3 sub-matrix "M"
 		m.set(1,1, cos); m.set(1,2, -sin);
@@ -144,7 +143,6 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		//use (Id-M)center for translation
 		m.setOrigin(center.sub(m.mul(center)));
 		
-		return m;
 	}
 	
 	/**

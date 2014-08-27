@@ -966,13 +966,23 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	
 
 	public void rotate(NumberValue r, GeoPointND S) {
-			
-		rotate(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3()));		
+		
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		
+		CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
+		rotate(tmpMatrix4x4);		
 	}
 
 	public void rotate(NumberValue r) {
 		
-		rotate(CoordMatrix4x4.Rotation4x4(r.getDouble()));
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		
+		CoordMatrix4x4.Rotation4x4(r.getDouble(), tmpMatrix4x4);
+		rotate(tmpMatrix4x4);
 	}
 
 	private void rotate(CoordMatrix4x4 tm) {

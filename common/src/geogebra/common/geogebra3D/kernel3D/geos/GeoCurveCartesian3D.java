@@ -255,13 +255,21 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	public void rotate(NumberValue r, GeoPointND S) {
 
-		transform(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3()));
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
+		transform(tmpMatrix4x4);
 		
 	}
 
 	public void rotate(NumberValue r) {
 
-		transform(CoordMatrix4x4.Rotation4x4(r.getDouble()));
+		if (tmpMatrix4x4 == null){
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		CoordMatrix4x4.Rotation4x4(r.getDouble(), tmpMatrix4x4);
+		transform(tmpMatrix4x4);
 		
 	}
 
