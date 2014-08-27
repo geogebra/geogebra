@@ -119,7 +119,7 @@ public final class CoordMatrixUtil {
 	 *            3D vector in cartesian coords
 	 * @return the spherical coords of v
 	 */
-	static final public Coords sphericalCoords(Coords v) {
+	static final public void sphericalCoords(Coords v, Coords ret) {
 
 		double x = v.get(1);
 		double y = v.get(2);
@@ -149,7 +149,10 @@ public final class CoordMatrixUtil {
 				b *= -1;
 		}
 
-		return new Coords(new double[] { norm, a, b });
+		ret.setX(norm);
+		ret.setY(a);
+		ret.setZ(b);
+		
 	}
 
 	/**

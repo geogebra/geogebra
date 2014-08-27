@@ -1665,14 +1665,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		aOld = a;
 	}
 
+	
+	private Coords tmpCoordsLength3 = new Coords(3);
+	
 	/**
 	 * start a rotation animation to be in the vector direction
 	 * 
 	 * @param vn
 	 */
 	public void setRotAnimation(Coords vn) {
-		Coords spheric = CoordMatrixUtil.sphericalCoords(vn);
-		setRotAnimation(spheric.get(2) * 180 / Math.PI, spheric.get(3) * 180
+		CoordMatrixUtil.sphericalCoords(vn, tmpCoordsLength3);
+		setRotAnimation(tmpCoordsLength3.get(2) * 180 / Math.PI, tmpCoordsLength3.get(3) * 180
 				/ Math.PI, true);
 	}
 
