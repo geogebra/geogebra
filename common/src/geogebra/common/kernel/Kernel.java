@@ -3966,7 +3966,7 @@ public class Kernel {
 		
 		// is 3D?
 		if (app.is3D()){
-			sb.append("\t<3D val=\"true\"/>\n");
+			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 
 
