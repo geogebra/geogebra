@@ -1,7 +1,6 @@
 package geogebra.common.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -28,10 +27,6 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 	 */
 	public double getZmax();
 	
-	/**
-	 * @return the xOy plane
-	 */
-	public GeoPlane3D getxOyPlane();
 
 	/**
 	 * sets the use of the clipping cube

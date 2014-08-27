@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.euclidian3D;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -46,7 +47,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 
 				((EuclidianController3D) ec).setMouseInformation(movedGeoPoint3D);
 				movedGeoPoint3D.doRegion();
-				if (movedGeoPoint3D.getRegion() == ((EuclidianController3D) ec).view3D.getxOyPlane()) {
+				if (movedGeoPoint3D.getRegion() == ec.getKernel().getXOYPlane()) {
 					Coords coords = movedGeoPoint3D.getCoords();
 					((EuclidianController3D) ec).checkXYMinMax(coords);
 					movedGeoPoint3D.setWillingCoords(coords);
@@ -294,12 +295,13 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 
 		// App.debug(point3D);
 
-		if (region == ((EuclidianController3D) ec).view3D.getxOyPlane()) {
+		if (region == ec.getKernel().getXOYPlane()) {
 			Coords coords = point3D.getInhomCoords();
-			if (coords.getX() < ((EuclidianController3D) ec).view3D.getxOyPlane().getXmin()
-					|| coords.getX() > ((EuclidianController3D) ec).view3D.getxOyPlane().getXmax()
-					|| coords.getY() < ((EuclidianController3D) ec).view3D.getxOyPlane().getYmin()
-					|| coords.getY() > ((EuclidianController3D) ec).view3D.getxOyPlane().getYmax()) {
+			GeoPlane3D plane = (GeoPlane3D) region;
+			if (coords.getX() < plane.getXmin()
+					|| coords.getX() > plane.getXmax()
+					|| coords.getY() < plane.getYmin()
+					|| coords.getY() > plane.getYmax()) {
 				((EuclidianController3D) ec).view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
 				return null;
 			}
@@ -339,7 +341,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 	 * @return new free point (eventually on xOy plane with 2D mouse)
 	 */
 	protected GeoPoint3D createNewFreePoint(boolean complex) {
-		return (GeoPoint3D) createNewPoint(true, ((EuclidianController3D) ec).view3D.getxOyPlane(), complex);
+		return (GeoPoint3D) createNewPoint(true, ec.getKernel().getXOYPlane(), complex);
 	}
 
 	

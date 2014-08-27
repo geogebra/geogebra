@@ -253,7 +253,7 @@ public class App3D extends AppD {
 	 * @param cb
 	 */
 	public void setShowPlaneSelected(JCheckBoxMenuItem cb) {
-		GeoPlane3D p = getEuclidianView3D().getxOyPlane();
+		GeoPlane3D p = (GeoPlane3D) getKernel().getXOYPlane();
 		cb.setSelected(p.isPlateVisible());
 	}
 
@@ -263,7 +263,7 @@ public class App3D extends AppD {
 	 * @param cb
 	 */
 	public void setShowGridSelected3D(JCheckBoxMenuItem cb) {
-		GeoPlane3D p = getEuclidianView3D().getxOyPlane();
+		GeoPlane3D p = (GeoPlane3D) getKernel().getXOYPlane();
 		cb.setSelected(p.isGridVisible());
 	}
 

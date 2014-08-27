@@ -1,5 +1,6 @@
 package geogebra.geogebra3D.web.gui;
 
+import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
 import geogebra.web.gui.ContextMenuGraphicsWindowW;
@@ -64,12 +65,12 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW{
         
 		htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString, ((GuiManager3DW) app.getGuiManager()).getShowGrid3DAction());
-		cbShowGrid.setSelected(((EuclidianView3DW) app.getEuclidianView3D()).getxOyPlane().isGridVisible());
+		cbShowGrid.setSelected(((Kernel3D) app.getKernel()).getXOYPlane().isGridVisible());
         getWrappedPopup().addItem(cbShowGrid);
 
 		htmlString = MainMenu.getMenuBarHtml(StyleBar3DResources.INSTANCE.plane().getSafeUri().asString(), app.getMenu("Plane"));
 		GCheckBoxMenuItem cbShowPlane = new GCheckBoxMenuItem(htmlString, ((GuiManager3DW) app.getGuiManager()).getShowPlane3DAction());
-		cbShowPlane.setSelected(((EuclidianView3DW) app.getEuclidianView3D()).getxOyPlane().isPlateVisible());
+		cbShowPlane.setSelected(((Kernel3D) app.getKernel()).getXOYPlane().isPlateVisible());
         getWrappedPopup().addItem(cbShowPlane);
 		
 	}
