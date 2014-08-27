@@ -128,24 +128,16 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 		mainPanel = new FlowPanel();
 		mainPanel.add(histogramPanel);
-//		mainPanel.add(scatterplotPanel);
-//		mainPanel.add(barChartPanel);
-//		mainPanel.add(boxPlotPanel);
+		mainPanel.add(scatterplotPanel);
+		mainPanel.add(barChartPanel);
+		mainPanel.add(boxPlotPanel);
 
 		tabPanel = new TabPanel();
 		add(tabPanel);
-//		this.setLayout(new BorderLayout());
-//		this.add(tabPanel, BorderLayout.CENTER);
-//		this.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
-//				SystemColor.controlShadow));
 
 		// update
 		setLabels();
 		updateGUI();
-
-		// this.setPreferredSize(tabbedPane.getPreferredSize());
-
-
 	}
 
 	public void setPanel(PlotType plotType) {
@@ -153,7 +145,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		tabPanel.clear();
 		this.setVisible(true);
 
-//		// add plot-specific tab
+		// add plot-specific tab
 		String tabTitle = plotType.getTranslatedKey(app);
 		ScrollPanel spHistogram = new ScrollPanel();
 		mainPanel.setStyleName("daScrollPanel");
@@ -161,9 +153,9 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		tabPanel.add(spHistogram, tabTitle);
 		classesPanel.setVisible(false);
 		histogramPanel.setVisible(false);
-//		scatterplotPanel.setVisible(false);
-//		barChartPanel.setVisible(false);
-//		boxPlotPanel.setVisible(false);
+		scatterplotPanel.setVisible(false);
+		barChartPanel.setVisible(false);
+		boxPlotPanel.setVisible(false);
 
 		rbNormalized.setVisible(false);
 		ckOverlayNormal.setVisible(false);
@@ -176,11 +168,11 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		spGraph.setStyleName("daScrollPanel");
 		spGraph.add(graphPanel);
 		tabPanel.add(spGraph, app.getMenu("Graph"));
-		tabPanel.selectTab(0);
+//		tabPanel.selectTab(0);
 		graphPanel.setVisible(true);
 		showYAxisSettings = true;
-//
-//		// set visibility for plot-specific panels
+
+		// set visibility for plot-specific panels
 		switch (plotType) {
 
 		case HISTOGRAM:
@@ -196,33 +188,34 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 			break;
 
-//		case BOXPLOT:
-//		case MULTIBOXPLOT:
-//			boxPlotPanel.setVisible(true);
-//			break;
-//
-//		case BARCHART:
-//			barChartPanel.setVisible(true);
-//			layoutBarChartPanel();
-//			break;
-//
-//		case SCATTERPLOT:
-//			scatterplotPanel.setVisible(true);
-//			break;
-//
-//		// graph tab only
-//		case DOTPLOT:
-//		case NORMALQUANTILE:
-//		case RESIDUAL:
-//			tabPanel.removeTabAt(0);
-//			break;
-//
-//		case STEMPLOT:
-//			this.setVisible(false);
-//			break;
-//
+		case BOXPLOT:
+		case MULTIBOXPLOT:
+			boxPlotPanel.setVisible(true);
+			break;
+
+		case BARCHART:
+			barChartPanel.setVisible(true);
+			layoutBarChartPanel();
+			break;
+
+		case SCATTERPLOT:
+			scatterplotPanel.setVisible(true);
+			break;
+
+		// graph tab only
+		case DOTPLOT:
+		case NORMALQUANTILE:
+		case RESIDUAL:
+			tabPanel.remove(0);
+			break;
+
+		case STEMPLOT:
+			this.setVisible(false);
+			break;
+
 		}
 
+		tabPanel.selectTab(0);
 		setLabels();
 		updateGUI();
 	}
@@ -318,71 +311,57 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	}
 
 	private void layoutBarChartPanel() {
-
-//		Box vBox = Box.createVerticalBox();
-//		vBox.add(barChartWidthPanel);
-//		// vBox.add(freqPanel);
-//		vBox.add(showPanel);
-//
-//		if (barChartPanel == null) {
-//			barChartPanel = new JPanel(new BorderLayout());
-//		}
-//		barChartPanel.removeAll();
-//		barChartPanel.add(vBox, BorderLayout.NORTH);
-//		barChartPanel.setBorder(BorderFactory.createEmptyBorder());
-
+		if (barChartPanel == null) {
+			barChartPanel = new FlowPanel();
+		}
+		barChartPanel.clear();
+		barChartPanel.add(barChartWidthPanel);
+		// barChartPanel.add(freqPanel);
+		barChartPanel.add(showPanel);
 	}
 
 	private void createBarChartPanel() {
 
 		// create components
-//		ckAutoBarWidth = new CheckBox();
-//		ckAutoBarWidth.addActionListener(this);
-//		lblBarWidth = new Label();
-//		fldBarWidth = new MyTextField(app, fieldWidth);
-//		fldBarWidth.setEditable(true);
-//		fldBarWidth.addActionListener(this);
-//		fldBarWidth.addFocusListener(this);
-//
-//		// barChartWidthPanel
-//		barChartWidthPanel = new JPanel();
-//		barChartWidthPanel.setLayout(new BoxLayout(barChartWidthPanel,
-//				BoxLayout.Y_AXIS));
-//		barChartWidthPanel.add(LayoutUtil.flowPanel(ckAutoBarWidth));
-//		barChartWidthPanel.add(LayoutUtil.flowPanel(tab, lblBarWidth,
-//				fldBarWidth));
-//
-//		layoutBarChartPanel();
+		ckAutoBarWidth = new CheckBox();
+		ckAutoBarWidth.addClickHandler(this);
+		lblBarWidth = new Label();
+		fldBarWidth = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldBarWidth.setEditable(true);
+		fldBarWidth.addKeyHandler(new PropertyKeyHandler(fldBarWidth));
+		fldBarWidth.addBlurHandler(this);
+
+		// barChartWidthPanel
+		barChartWidthPanel = new FlowPanel();
+		barChartWidthPanel.add(ckAutoBarWidth);
+		barChartWidthPanel.add(LayoutUtil.panelRow(lblBarWidth,
+				fldBarWidth));
+
+		layoutBarChartPanel();
 
 	}
 
 	private void createBoxPlotPanel() {
 
 		// create components
-//		ckShowOutliers = new CheckBox();
-//		ckShowOutliers.addActionListener(this);
-//
-//		// layout
-//		Box p = Box.createVerticalBox();
-//		p.add(LayoutUtil.flowPanel(ckShowOutliers));
-//
-//		boxPlotPanel = new JPanel(new BorderLayout());
-//		boxPlotPanel.add(p, BorderLayout.NORTH);
+		ckShowOutliers = new CheckBox();
+		ckShowOutliers.addClickHandler(this);
+
+		// layout
+		
+		boxPlotPanel = new FlowPanel();
+		boxPlotPanel.add(ckShowOutliers);
 
 	}
 
 	private void createScatterplotPanel() {
 
 		// create components
-//		ckShowLines = new CheckBox();
-//		ckShowLines.addActionListener(this);
-//
-//		// layout
-//		Box p = Box.createVerticalBox();
-//		p.add(insetPanel(tab, ckShowLines));
-//
-//		scatterplotPanel = new JPanel(new BorderLayout());
-//		scatterplotPanel.add(p, BorderLayout.NORTH);
+		ckShowLines = new CheckBox();
+		ckShowLines.addClickHandler(this);
+
+		scatterplotPanel = new FlowPanel();
+		scatterplotPanel.add(ckShowLines);
 	}
 
 	private void createGraphPanel() {
@@ -473,17 +452,17 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 
 	public void setLabels() {
-//
-//		// titled borders
+
+		// titled borders
 		lbClassTitle.setText(app.getMenu("Classes"));
 		lbShowTitle.setText(app.getMenu("Show"));
 		lbFreqTitle.setText(app.getMenu("FrequencyType"));
 		lbDimTitle.setText(app.getPlain("Dimensions"));
-//
-//		// histogram options
+
+		// histogram options
 		ckManual.setText(app.getMenu("SetClasssesManually"));
 		lblFreqType.setText(app.getMenu("FrequencyType") + ":");
-//
+
 		rbFreq.setText(app.getMenu("Count"));
 		rbNormalized.setText(app.getMenu("Normalized"));
 		rbRelative.setText(app.getMenu("Relative"));
@@ -498,12 +477,12 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		lblClassRule.setText(app.getMenu("ClassRule") + ":");
 		rbRightRule.setText(app.getMenu("RightClassRule"));
 		rbLeftRule.setText(app.getMenu("LeftClassRule"));
-//
-//		// bar chart
-//		lblBarWidth.setText(app.getMenu("Width"));
-//		ckAutoBarWidth.setText(app.getMenu("AutoDimension"));
-//
-//		// graph options
+
+		// bar chart
+		lblBarWidth.setText(app.getMenu("Width"));
+		ckAutoBarWidth.setText(app.getMenu("AutoDimension"));
+
+		// graph options
 		ckAutoWindow.setText(app.getMenu("AutoDimension"));
 		ckShowGrid.setText(app.getPlain("ShowGrid"));
 		lblXMin.setText(app.getPlain("xmin") + ":");
@@ -513,22 +492,20 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 		lblXInterval.setText(app.getPlain("xstep") + ":");
 		lblYInterval.setText(app.getPlain("ystep") + ":");
-//
-//		// scatterplot options
-//		ckShowLines.setText(app.getMenu("LineGraph"));
-//
-//		// boxplot options
-//		ckShowOutliers.setText(app.getPlain("ShowOutliers"));
-//
-//		repaint();
+
+		// scatterplot options
+		ckShowLines.setText(app.getMenu("LineGraph"));
+
+		// boxplot options
+		ckShowOutliers.setText(app.getPlain("ShowOutliers"));
+
 	}
 
 	private void updateGUI() {
-//
-//		// set updating flag so we don't have to add/remove action listeners
-//		isUpdating = true;
-//
-//		// histogram/barchart
+		// set updating flag so we don't have to add/remove action listeners
+		isUpdating = true;
+
+		// histogram/barchart
 		ckManual.setValue(settings.isUseManualClasses());
 		rbFreq.setValue(settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
 		rbRelative
@@ -539,11 +516,11 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		ckCumulative.setValue(settings.isCumulative());
 		ckOverlayNormal.setValue(settings.isHasOverlayNormal());
 		ckOverlayPolygon.setValue(settings.isHasOverlayPolygon());
-//		ckShowGrid.setValue(settings.showGrid);
-//		ckAutoWindow.setValue(settings.isAutomaticWindow());
-//		ckShowFrequencyTable.setValue(settings.isShowFrequencyTable());
+		ckShowGrid.setValue(settings.showGrid);
+		ckAutoWindow.setValue(settings.isAutomaticWindow());
+		ckShowFrequencyTable.setValue(settings.isShowFrequencyTable());
 		ckShowHistogram.setValue(settings.isShowHistogram());
-//
+
 		if (settings.dataSource != null) {
 			ckManual.setVisible(settings.getDataSource().getGroupType() != GroupType.CLASS);
 			freqPanel
@@ -553,12 +530,12 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		ckOverlayNormal
 				.setEnabled(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
 
-//		// bar chart width
-//		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
-//		fldBarWidth.setText("" + settings.getBarWidth());
-//		fldBarWidth.setEnabled(!ckAutoBarWidth.isSelected());
-//
-//		// window dimension
+		// bar chart width
+		ckAutoBarWidth.setValue(settings.isAutomaticBarWidth());
+		fldBarWidth.setText("" + settings.getBarWidth());
+		fldBarWidth.setEditable(!ckAutoBarWidth.getValue());
+
+		// window dimension
 		lblYMin.setVisible(showYAxisSettings);
 		fldYMin.setVisible(showYAxisSettings);
 		lblYMax.setVisible(showYAxisSettings);
@@ -566,7 +543,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		lblYInterval.setVisible(showYAxisSettings);
 		fldYInterval.setVisible(showYAxisSettings);
 
-//		dimPanel.setEnabled(!ckAutoWindow.getValue());
 		fldXMin.setEditable(!ckAutoWindow.getValue());
 		fldXMax.setEditable(!ckAutoWindow.getValue());
 		fldXInterval.setEditable(!ckAutoWindow.getValue());
@@ -585,7 +561,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		fldYInterval.setText("" + daModel.format(settings.yAxesInterval));
 
 		// show outliers
-		//ckShowOutliers.setValue(settings.isShowOutliers());
+		ckShowOutliers.setValue(settings.isShowOutliers());
 
 		isUpdating = false;
 	}
