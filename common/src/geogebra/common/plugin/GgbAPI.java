@@ -1222,6 +1222,10 @@ public abstract class GgbAPI implements JavaScriptAPI{
     }
     
     public void setPerspective(String code){
+    	if(code.startsWith("search:")){
+    		app.openSearch();
+    		return;
+    	}
     	Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(), ToolBar.getAllToolsNoMacros(true, app.isHTML5Applet()));
 		try{
 			app.persistWidthAndHeight();

@@ -3716,4 +3716,9 @@ public abstract class App implements UpdateSelection{
 	
 	public void showPopUps() {
 	}
+
+	public void openSearch() {
+		// TODO Auto-generated method stub
+		
+	}
 }
