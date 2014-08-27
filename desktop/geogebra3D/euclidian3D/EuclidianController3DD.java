@@ -33,8 +33,8 @@ import javax.swing.ToolTipManager;
  * 
  * Created on 16. October 2001, 15:41
  */
-public class EuclidianController3DD extends
-		EuclidianController3D implements EuclidianControllerListeners {
+public class EuclidianController3DD extends EuclidianController3D implements
+		EuclidianControllerListeners {
 
 	// protected GeoVec2D b;
 
@@ -52,8 +52,7 @@ public class EuclidianController3DD extends
 		setKernel(kernel);
 
 		// for tooltip manager
-		defaultInitialDelay = ToolTipManager.sharedInstance()
-				.getInitialDelay();
+		defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
 
 		tempNum = new MyDouble(kernel);
 	}
@@ -70,7 +69,7 @@ public class EuclidianController3DD extends
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		//let mousePressed and mouseReleased take care of this 
+		// let mousePressed and mouseReleased take care of this
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -127,43 +126,11 @@ public class EuclidianController3DD extends
 		ttm.setInitialDelay(defaultInitialDelay);
 	}
 
-	/* ****************************************************** */
-
-	/*
-	 * final protected void transformCoords(boolean usePointCapturing) { // calc
-	 * real world coords calcRWcoords();
-	 * 
-	 * if (usePointCapturing) { double pointCapturingPercentage = 1; switch
-	 * (view.getPointCapturingMode()) { case
-	 * EuclidianConstants.POINT_CAPTURING_AUTOMATIC: if
-	 * (!view.isGridOrAxesShown())break;
-	 * 
-	 * case EuclidianView.POINT_CAPTURING_ON: pointCapturingPercentage = 0.125;
-	 * 
-	 * case EuclidianView.POINT_CAPTURING_ON_GRID: // X = (x, y) ... next grid
-	 * point double x = Kernel.roundToScale(xRW, view.gridDistances[0]); double
-	 * y = Kernel.roundToScale(yRW, view.gridDistances[1]); // if |X - XRW| <
-	 * gridInterval * pointCapturingPercentage then take the grid point double a
-	 * = Math.abs(x - xRW); double b = Math.abs(y - yRW); if (a <
-	 * view.gridDistances[0] * pointCapturingPercentage && b <
-	 * view.gridDistances[1] * pointCapturingPercentage) { xRW = x; yRW = y;
-	 * mouseLoc.x = view.toScreenCoordX(xRW); mouseLoc.y =
-	 * view.toScreenCoordY(yRW); }
-	 * 
-	 * default: // point capturing off } } }
-	 */
-
-	// fetch the two selected points
-	/*
-	 * protected void join(){ GeoPoint[] points = getSelectedPoints(); GeoLine
-	 * line = kernel.Line(null, points[0], points[1]); }
-	 */
-
-
-
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
-		view.updateSize();
+		if (view != null) {
+			view.updateSize();
+		}
 	}
 
 	public void componentShown(ComponentEvent e) {
@@ -182,19 +149,17 @@ public class EuclidianController3DD extends
 	 * Zooms in or out using mouse wheel
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		wrapMouseWheelMoved(e.getX(), e.getY(),e.getWheelRotation(),
+		wrapMouseWheelMoved(e.getX(), e.getY(), e.getWheelRotation(),
 				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
 	}
-	
 
-	public void addListenersTo(Component evjpanel){
+	public void addListenersTo(Component evjpanel) {
 		evjpanel.addMouseMotionListener(this);
 		evjpanel.addMouseListener(this);
 		evjpanel.addMouseWheelListener(this);
 		evjpanel.addComponentListener(this);
 	}
-	
-	
+
 	@Override
 	public boolean refreshHighlighting(Hits hits, boolean control) {
 
@@ -204,11 +169,10 @@ public class EuclidianController3DD extends
 		return super.refreshHighlighting(hits, control);
 	}
 
-	
 	@Override
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
-		//TODO
-	
+		// TODO
+
 	}
 
 }
