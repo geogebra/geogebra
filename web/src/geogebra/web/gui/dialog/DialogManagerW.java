@@ -184,7 +184,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		id.setVisible(true);
 	}
 
-	public SaveUnsavedChanges getSaveUnsavedDialog() {
+	public final SaveUnsavedChanges getSaveUnsavedDialog() {
 		if (this.saveUnsavedDialog == null) {
 			this.saveUnsavedDialog = new SaveUnsavedChanges(app);
 		}
@@ -446,7 +446,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 			saveDialog.setLabels();
 		}
 		
-		getSaveUnsavedDialog().setLabels();
+		if(this.saveUnsavedDialog != null){
+			this.saveUnsavedDialog.setLabels();
+		}
 		//if (fileChooser != null)
 		//	updateJavaUILanguage();
 		
