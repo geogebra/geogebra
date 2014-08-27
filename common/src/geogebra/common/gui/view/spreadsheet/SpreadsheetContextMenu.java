@@ -152,11 +152,11 @@ public class SpreadsheetContextMenu {
 			if (selectionType == MyTableInterface.ROW_SELECT) {
 
 				cmdString = MenuCommand.InsertAbove.toString();
-				addSubMenuItem(subMenu, cmdString, app.getPlain(cmdString),
+				addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString),
 						true);
 
 				cmdString = MenuCommand.InsertBelow.toString();
-				addSubMenuItem(subMenu, cmdString, app.getPlain(cmdString),
+				addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString),
 						true);
 			}
 
