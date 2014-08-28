@@ -1141,9 +1141,9 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	/**
 	 * sets requirement that commands entered into cells must start with "="
 	 */
-	/*public void setEqualsRequired(boolean isEqualsRequired) {
+	public void setEqualsRequired(boolean isEqualsRequired) {
 		table.setEqualsRequired(isEqualsRequired);
-	}*/
+	}
 
 	/**
 	 * gets requirement that commands entered into cells must start with "="
