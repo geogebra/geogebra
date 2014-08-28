@@ -3812,4 +3812,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public int getDimension(){
 		return 3;
 	}
+	
+	
+	@Override
+	public final boolean isGridOrAxesShown() {
+		
+		for (int i = 0 ; i < 3 ; i++){
+			if (getShowAxis(i)){
+				return true;
+			}
+		}
+		
+		return getShowGrid();
+	}
 }

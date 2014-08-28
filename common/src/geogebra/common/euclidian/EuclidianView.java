@@ -2481,7 +2481,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		return showGrid;
 	}
 
-	public final boolean isGridOrAxesShown() {
+	public boolean isGridOrAxesShown() {
 		return showAxes[0] || showAxes[1] || showGrid;
 	}
 
