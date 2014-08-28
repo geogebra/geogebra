@@ -135,8 +135,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		Element elm = grid.getCellFormatter().getElement(rowIndex, 0);
 
 		elm.addClassName("SVheader");
-		elm.getStyle().setBackgroundColor(
-		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		/*elm.getStyle().setBackgroundColor(
+		        MyTableW.BACKGROUND_COLOR_HEADER.toString());*/
 	}
 
 	/**
@@ -196,31 +196,49 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	 */
 	public void renderSelection() {
 
-		String defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER.toString();
+		/*String defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER.toString();
 		String selectedBackground = MyTableW.SELECTED_BACKGROUND_COLOR_HEADER
-		        .toString();
+		        .toString();*/
 
 		for (int rowIndex = 0; rowIndex < grid.getRowCount(); rowIndex++) {
-			Style s = grid.getCellFormatter().getElement(rowIndex, 0)
-			        .getStyle();
+			/*Style s = grid.getCellFormatter().getElement(rowIndex, 0)
+			        .getStyle();*/
 
 			if (table.getSelectionType() == MyTable.COLUMN_SELECT) {
-				setBgColorIfNeeded(s, defaultBackground);
+				//setBgColorIfNeeded(s, defaultBackground);
+				updateCellSelection(false, rowIndex);
 			} else {
 				if (table.selectedRowSet.contains(rowIndex)
 				        || (rowIndex >= table.minSelectionRow && rowIndex <= table.maxSelectionRow)) {
-					setBgColorIfNeeded(s, selectedBackground);
+					//setBgColorIfNeeded(s, selectedBackground);
+					updateCellSelection(true, rowIndex);
 				} else {
-					setBgColorIfNeeded(s, defaultBackground);
+					//setBgColorIfNeeded(s, defaultBackground);
+					updateCellSelection(false, rowIndex);
 				}
 			}
 		}
 	}
+	
+	/**
+	 * Added "selected" class to the table headers of the selected cell
+	 * needed for css styling
+	 * @param selected
+	 * @param index
+	 */
+	private void updateCellSelection(boolean selected, int index) {
+		if(selected) {
+			grid.getCellFormatter().addStyleName(index, 0, "selected");
+		} else {
+			grid.getCellFormatter().removeStyleName(index, 0, "selected");
+		}
+	}
 
-	private static void setBgColorIfNeeded(Style s, String bgColor) {
+	/* Steffi: not needed anymore -> NOW: updateCellSelection
+	 * private static void setBgColorIfNeeded(Style s, String bgColor) {
 		if (!s.getBackgroundColor().equals(bgColor))
 			s.setBackgroundColor(bgColor);
-	}
+	}*/
 
 	/**
 	 * Update the rowHeader list when row selection changes in the table

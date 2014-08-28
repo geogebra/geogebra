@@ -2,8 +2,7 @@ package geogebra.geogebra3D.web.gui.view.properties;
 
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
-import geogebra.geogebra3D.html5.css.Gui3DResources;
-import geogebra.geogebra3D.web.gui.images.App3DResources;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.properties.PropertiesStyleBarW;
 import geogebra.web.gui.properties.PropertiesViewW;
@@ -32,7 +31,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	@Override
     protected void setIcon(OptionType type, PopupMenuButton btn) {
 		if (type == OptionType.EUCLIDIAN3D){
-			AppResourcesConverter.setIcon(App3DResources.INSTANCE.view_graphics3D(), btn);
+			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics3D24(), btn);
 		}else{
 			super.setIcon(type, btn);
 		}
@@ -41,7 +40,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	@Override
     protected String getTypeIcon(OptionType type) {
 		if (type == OptionType.EUCLIDIAN3D){
-			return Gui3DResources.INSTANCE.properties_graphics3d().getSafeUri().asString();
+			return AppResources.INSTANCE.view_graphics3D24().getSafeUri().asString();
 		}
 		return super.getTypeIcon(type);
 	}

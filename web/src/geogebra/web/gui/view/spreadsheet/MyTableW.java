@@ -466,9 +466,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		upperLeftCorner.setCellPadding(0);
 		upperLeftCorner.setCellSpacing(0);
 		Style s = upperLeftCorner.getElement().getStyle();
+		
+		upperLeftCorner.addStyleName("upperCorner");
+		
 		s.setWidth(leftCornerWidth, Unit.PX);
-		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
-		s.setColor(BACKGROUND_COLOR_HEADER.toString());
+		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
+		//s.setColor(BACKGROUND_COLOR_HEADER.toString());
 		s.setPosition(Style.Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setLeft(0, Unit.PX);
@@ -478,12 +481,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		upperRightCorner.setText(0, 0, "xxx");
 		upperRightCorner.getElement().addClassName(
 		        "geogebraweb-table-spreadsheet");
+		upperRightCorner.addStyleName("upperCorner");
 		upperRightCorner.getCellFormatter().getElement(0, 0)
 		        .addClassName("SVheader");
 		s = upperRightCorner.getElement().getStyle();
 		s.setWidth(rightCornerWidth, Unit.PX);
-		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
-		s.setColor(BACKGROUND_COLOR_HEADER.toString());
+		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
+		//s.setColor(BACKGROUND_COLOR_HEADER.toString());
 		s.setPosition(Style.Position.ABSOLUTE);
 		s.setTop(0, Unit.PX);
 		s.setRight(0, Unit.PX);
@@ -496,7 +500,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		s = lowerLeftCorner.getElement().getStyle();
 		s.setWidth(leftCornerWidth - 1, Unit.PX);
 		s.setHeight(lowerLeftCornerHeight - 2, Unit.PX);
-		s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
+		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
 
 		s.setPosition(Style.Position.ABSOLUTE);
 		s.setLeft(0, Unit.PX);

@@ -68,18 +68,20 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 		wrappedPanel.addStyleName("PropertiesViewW");
 		//		getStyleBar();
 
-		mainPanel = new FlowPanel();
+		//mainPanel = new FlowPanel();
 		
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
 		//wrappedPanel.addStyleName("propertiesView");
-		mainPanel.add(contentsPanel);
+		//mainPanel.add(contentsPanel);
+		wrappedPanel.add(contentsPanel);
+		wrappedPanel.add(getStyleBar().getWrappedPanel());
 		
 //		if(!((AppW) app).getLAF().isSmart()){
-		mainPanel.add(getStyleBar().getWrappedPanel());
+		//mainPanel.add(getStyleBar().getWrappedPanel());
 		//	}
 			
-		wrappedPanel.add(mainPanel);
+		//wrappedPanel.add(mainPanel);
 
 		setOptionPanel(optionType, 0);
 		//createButtonPanel();

@@ -201,11 +201,11 @@ public class PropertiesStyleBarW extends
 		case SPREADSHEET:
 			return AppResources.INSTANCE.view_spreadsheet24().getSafeUri().asString();
 		case EUCLIDIAN:
-			//return AppResources.INSTANCE.view_graphics24().getSafeUri().asString();
-			return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
+			return AppResources.INSTANCE.view_graphics24().getSafeUri().asString();
+			//return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			//return AppResources.INSTANCE.view_graphics224().getSafeUri().asString();
-			return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
+			return AppResources.INSTANCE.view_graphics224().getSafeUri().asString();
+			//return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
 		case CAS:
 			return AppResources.INSTANCE.view_cas24().getSafeUri().asString();
 		case ADVANCED:

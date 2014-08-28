@@ -11,47 +11,40 @@
  *      property: rule applies to all versions of IE
  *    }
  */
- 
 * {
 	box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 }
- 
+
 img {
-	vertical-align:baseline;
- }
+	vertical-align: baseline;
+}
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
  * name below, and attach it to the DOM.  Use a timer to detect when the
  * element's height and width are set to 5px.
  */
- 
- button {
+button {
 	border: none;
 	background: none;
 	padding: 0px;
 	margin: 0px;
 }
- 
+
 /*hack for toolbar submenu, that is isn't hidden by 
  dockpanel standard div styling (overflow:hidden) */
 .ggbdockpanelhack>div {
 	overflow: visible !important;
 }
 
-body.application,
-article {
+body.application,article {
 	color: #666666;
 	font-size: 16px;
 }
 
-input[type="text"],
-.gwt-TextBox,
-select,
-textarea,
-.gwt-TextArea,
-iframe.objectPropertiesTextEditor {
+input[type="text"],.gwt-TextBox,select,textarea,.gwt-TextArea,iframe.objectPropertiesTextEditor
+	{
 	border: #DCDCDC solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
@@ -77,13 +70,11 @@ input[type="checkbox"] {
 	color: #666666;
 }
 
-input[type="range"] {
-	/*margin: 0px;*/
+input[type="range"] { /*margin: 0px;*/
 	padding: 5px 0px;
 }
 
-.gwt-TextBox-readonly,
-.gwt-TextArea-readonly {
+.gwt-TextBox-readonly,.gwt-TextArea-readonly {
 	color: #CCC;
 }
 
@@ -109,8 +100,7 @@ hr {
 	margin-bottom: 10px;
 }
 
-.gwt-Button,
-.buttonPanel .button {
+.gwt-Button,.buttonPanel .button {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6161FF;
@@ -149,16 +139,17 @@ hr {
 	background-color: rgba(204, 204, 204, 0.2);
 }
 
- .buttonPanel .button {
- 	float: right;
- }
+.buttonPanel .button {
+	float: right;
+}
 
-.gwt-Button:active, .buttonPanel .button:active  {
+.gwt-Button:active,.buttonPanel .button:active {
 	border: 1px inset #6666FF;
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
-.gwt-Button:hover, .confirmDelete .button:hover, .buttonPanel .button:hover  {
+.gwt-Button:hover,.confirmDelete .button:hover,.buttonPanel .button:hover
+	{
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
@@ -170,17 +161,16 @@ hr {
 /*.gwt-Button[disabled]:hover {
   	border: 1px outset #EDEDED;
 }*/
-
 .textButton {
 	color: #6666FF;
 	cursor: pointer;
 }
+
 .textButton:hover {
 	text-decoration: underline;
 }
 
-.gwt-CheckBox-disabled,
-.checkBoxPanel-disabled {
+.gwt-CheckBox-disabled,.checkBoxPanel-disabled {
 	color: #CCCCCC;
 }
 
@@ -258,7 +248,6 @@ hr {
 	height: 5px;
 	overflow: hidden;
 }*/
-
 .gwt-DisclosurePanel {
 	margin-top: 5px;
 }
@@ -360,7 +349,8 @@ hr {
 	
 }
 
-.gwt-MenuBar .gwt-MenuItem-disabled,.gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
+.gwt-MenuBar .gwt-MenuItem-disabled,.gwt-MenuBar-horizontal .gwt-MenuItem-disabled
+	{
 	color: #DCDCDC;
 }
 
@@ -400,7 +390,6 @@ body[dir=ltr] .gwt-MenuBar-vertical {
 body[dir=rtl] .gwt-MenuBar-vertical {
 	margin-right: 0px;
 }*/
-
 .gwt-MenuBar-vertical table {
 	border-collapse: collapse;
 }
@@ -411,6 +400,7 @@ body[dir=rtl] .gwt-MenuBar-vertical {
 
 body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
 	/*padding: 2px 1px 2px 40px;*/
+	
 }
 
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator {
@@ -431,6 +421,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
 
 body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	/*padding-left: 4px;*/
+	
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -641,7 +632,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity = 30);
+	filter: alpha(opacity =       30);
 	z-index: 100;
 }
 
@@ -914,42 +905,33 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	color: #6666FF;
 }
 
-
-.gwt-ToggleButton-up,
-.gwt-ToggleButton-up-hovering,
-.gwt-ToggleButton-up-disabled,
-.gwt-ToggleButton-down,
-.gwt-ToggleButton-down-hovering,
-.gwt-ToggleButton-down-disabled {
-	/*margin: 0;
+.gwt-ToggleButton-up,.gwt-ToggleButton-up-hovering,.gwt-ToggleButton-up-disabled,.gwt-ToggleButton-down,.gwt-ToggleButton-down-hovering,.gwt-ToggleButton-down-disabled
+	{ /*margin: 0;
 	text-decoration: none;*/
+	
 }
 
-.MyToggleButton.gwt-ToggleButton-down,
-.MyToggleButton.gwt-ToggleButton-down-hovering {
-  	/*color: #6666FF;*/
-  	border-color: #6666FF;
+.MyToggleButton.gwt-ToggleButton-down,.MyToggleButton.gwt-ToggleButton-down-hovering
+	{ /*color: #6666FF;*/
+	border-color: #6666FF;
 	cursor: pointer;
 	cursor: hand;
 }
 
-.MyToggleButton.gwt-ToggleButton-up-hovering,
-.MyCanvasButton:hover {
+.MyToggleButton.gwt-ToggleButton-up-hovering,.MyCanvasButton:hover {
 	/*color: #6666FF;*/
 	border-color: #CCCCFF;
 	cursor: pointer;
 	cursor: hand;
 }
 
-.button-up-disabled,
-.MyToggleButton.gwt-ToggleButton-up-disabled,
-.MyToggleButton.gwt-ToggleButton-down-disabled {
+.button-up-disabled,.MyToggleButton.gwt-ToggleButton-up-disabled,.MyToggleButton.gwt-ToggleButton-down-disabled
+	{
 	cursor: default;
 	opacity: .5;
 	zoom: 1;
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity =       50);
 }
-
 
 .gwt-Tree .gwt-TreeItem {
 	padding: 1px 0px;
@@ -1120,19 +1102,16 @@ td.datePickerMonth {
 	background-color: #F8F8F8;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,
-.gwt-TabBar {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,.gwt-TabBar {
 	border-bottom: 1px solid #DCDCDC;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
-.gwt-TabBar .gwt-TabBarItem {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,.gwt-TabBar .gwt-TabBarItem {
 	position: relative;
 	bottom: -1px;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
-.gwt-TabBar .gwt-TabBarItem {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,.gwt-TabBar .gwt-TabBarItem {
 	margin-right: 4px;
 	padding: 4px 8px;
 	height: 30px;
@@ -1156,8 +1135,8 @@ td.datePickerMonth {
 	height: 15px;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
-.gwt-TabBar .gwt-TabBarItem-selected	{
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,.gwt-TabBar .gwt-TabBarItem-selected
+	{
 	cursor: default;
 	background: white;
 	color: #6666FF;
@@ -1169,15 +1148,24 @@ td.datePickerMonth {
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
-.gwt-TabPanelBottom {
+.gwt-TabPanelBottom,
+.objectPropertiesPanel {
 	overflow: auto;
 	padding: 8px;
 	background-color: #FFFFFF;
 	border: 1px solid #DCDCDC;
 	border-top: none;
 }
+.objectPropertiesPanel {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	height: 100%;
+	border-bottom: none;
+}
 
-.gwt-TabBar .gwt-TabBarFirst,.gwt-TabBar .gwt-TabBarRest {
+.gwt-TabBar .gwt-TabBarFirst,
+.gwt-TabBar .gwt-TabBarRest {
 	width: 0px;
 }
 
@@ -1309,7 +1297,7 @@ td.datePickerMonth {
 /*************************************************************/
 /*           GeoGebraWeb styles from here                    */
 /*============ App common styles ============*/
-.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup, .ToolTip, .PhoneGUI
+.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup,.ToolTip,.PhoneGUI
 	{
 	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype",
 		Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad,
@@ -1501,7 +1489,6 @@ body[dir=rtl] .signIn {
 /*.gwt-PopupPanel .popupContent .subMenuLeftSide .arrowSubmenu {
 	display: none;
 }*/
-
 .GeoGebraMenuBar.subMenuLeftSide>table {
 	margin: 0px;
 }
@@ -1517,7 +1504,6 @@ body[dir=rtl] .signIn {
 }
 
 /* for Tablets */
-
 .Tablet .menubarSMART {
 	font-size: 115%;
 	line-height: 153%;
@@ -1527,7 +1513,8 @@ body[dir=rtl] .signIn {
 	margin-top: 5px;
 }
 
-.Tablet .menubarSMART .GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage {
+.Tablet .menubarSMART .GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage
+	{
 	top: 8px;
 }
 
@@ -1553,8 +1540,7 @@ Paddings for menuitems.
 	margin-top: 2px;
 }
 
-.gPopupMenu_item img,
-.gwt-MenuItem img {
+.gPopupMenu_item img,.gwt-MenuItem img {
 	vertical-align: top;
 	width: 20px !important;
 	height: 20px !important;
@@ -1589,7 +1575,6 @@ Paddings for menuitems.
 .SelectionTable .gwt-Label.selected {
 	color: #6161FF;
 }*/
-
 /*.SelectionTable canvas {
 	border:1px solid transparent;
 }
@@ -1597,8 +1582,6 @@ Paddings for menuitems.
 .SelectionTable canvas.selected {
 	border: 1px solid black;
 }*/
-
-
 .TitleBarPanel {
 	z-index: 1;
 	left: auto !important;
@@ -1648,7 +1631,7 @@ Paddings for menuitems.
 	
 }
 
-.Separator{
+.Separator {
 	height: 1px;
 	background-color: #DCDCDC;
 }
@@ -1660,8 +1643,7 @@ Paddings for menuitems.
 	height: 15px;
 }
 
-.DockGlassPane,
-.TitleBarPanel {
+.DockGlassPane,.TitleBarPanel {
 	cursor: pointer;
 	cursor: hand;
 	-moz-user-focus: ignore;
@@ -1680,7 +1662,6 @@ Paddings for menuitems.
 	margin:0;
 	padding: 0;
 }*/
-
 .VerticalSeparator {
 	margin: 0px 2px 0px 5px;
 	width: 1px;
@@ -1688,8 +1669,7 @@ Paddings for menuitems.
 	background-color: #DCDCDC;
 }
 
-.MyToggleButton,
-.MyCanvasButton {
+.MyToggleButton,.MyCanvasButton {
 	text-align: center;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -1706,11 +1686,11 @@ Paddings for menuitems.
 
 .MyCanvasButton-borderless {
 	border: none;
-    padding: 4px; /* more padding for the missing border*/
+	padding: 4px; /* more padding for the missing border*/
 }
 
 .MyCanvasButton-rightaligned {
-	float:right;
+	float: right;
 }
 
 .MyToggleButton.selected,.MyCanvasButton.selected {
@@ -1723,16 +1703,18 @@ Paddings for menuitems.
 	width: 24px;
 	height: 24px;
 }
-.MyCanvasButton.btnTextColor .buttonContent,
-.btnBold .html-face,
-.btnItalic .html-face {
+
+.MyCanvasButton.btnTextColor .buttonContent,.btnBold .html-face,.btnItalic .html-face
+	{
 	line-height: 22px;
 	font-size: 22px;
 }
+
 .btnBold .html-face {
 	font-weight: bold;
 	color: #999999;
 }
+
 .btnItalic .html-face {
 	font-style: italic;
 	color: #999999;
@@ -1741,14 +1723,10 @@ Paddings for menuitems.
 .SelectionTable .gwt-Label {
 	background-repeat: no-repeat;
 	background-position: center center;
-	/*width: 24px;*/
-	/*height: 24px;*/
-	/*text-align: center;*/
-/* 	-webkit-border-radius: 5px; */
-/* 	-khtml-border-radius: 5px; */
-/* 	-moz-border-radius: 5px; */
-/* 	border-radius: 5px; */
-/* 	border: #DCDCDC solid 1px; */
+	/*width: 24px;*/ /*height: 24px;*/ /*text-align: center;*/
+	/* 	-webkit-border-radius: 5px; */ /* 	-khtml-border-radius: 5px; */
+	/* 	-moz-border-radius: 5px; */ /* 	border-radius: 5px; */
+	/* 	border: #DCDCDC solid 1px; */
 	padding: 3px;
 	cursor: pointer;
 }
@@ -1757,9 +1735,9 @@ Paddings for menuitems.
 	height: 24px;
 	width: 24px;
 }
-.SelectionTable .gwt-Label.border:hover,
-.SelectionTable .gwt-Label.border:active,
-.SelectionTable .gwt-Label.border.selected /*,
+
+.SelectionTable .gwt-Label.border:hover,.SelectionTable .gwt-Label.border:active,.SelectionTable .gwt-Label.border.selected
+	/*,
 .SelectionTable .gwt-Label.borderButton:hover,
 .SelectionTable .gwt-Label.borderButton:active,
 .SelectionTable .gwt-Label.borderButton.selected*/ {
@@ -1779,13 +1757,12 @@ Paddings for menuitems.
 
 .gwt-Label.textIconButton {
 	background-position: center left;
-	padding-left:28px;
+	padding-left: 28px;
 	border: none;
 	text-align: left;
 }
 
-.gwt-Label.textIconButton:hover,
-.gwt-Label.textIconButton:active {
+.gwt-Label.textIconButton:hover,.gwt-Label.textIconButton:active {
 	background-color: none;
 }
 
@@ -1807,13 +1784,7 @@ Paddings for menuitems.
 	padding: 1px;
 }
 
-.SelectionTable a:hover,
-.SelectionTable a:focus,
-.SelectionTable .gwt-Label:hover,
-.SelectionTable .gwt-Label:focus,
-.SelectionTable .stylebarButton.selected,
-.SelectionTable canvas:hover,
-.SelectionTable canvas:focus
+.SelectionTable a:hover,.SelectionTable a:focus,.SelectionTable .gwt-Label:hover,.SelectionTable .gwt-Label:focus,.SelectionTable .stylebarButton.selected,.SelectionTable canvas:hover,.SelectionTable canvas:focus
 	{
 	background-color: #CCCCFF;
 }
@@ -1830,11 +1801,11 @@ Paddings for menuitems.
 	
 }
 
-.SpreadsheetEditorCell input{
-	border-radius:0px;
-	box-sizing:content-box;
-	-webkit-box-sizing:content-box;
-	padding:1px 1px;
+.SpreadsheetEditorCell input {
+	border-radius: 0px;
+	box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	padding: 1px 1px;
 	box-shadow: 2px 2px 3px gray;
 }
 
@@ -1843,11 +1814,11 @@ Paddings for menuitems.
  * so that they will be right aligned
  */
 .SpreadsheetStyleBar td:last-child {
-	width : 100%;
+	width: 100%;
 }
 
 .CASStyleBar td:last-child {
-	width : 100%;
+	width: 100%;
 }
 
 /**
@@ -1858,16 +1829,16 @@ Paddings for menuitems.
 	table-layout: fixed;
 	width: 0px;
 	cursor: default;
-	-ms-touch-action:none;
+	-ms-touch-action: none;
 }
 
 .geogebraweb-table-spreadsheet td {
-	border-right: 1px solid gray;
-	border-bottom: 1px solid gray;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
 	overflow: hidden;
 	padding: 2px 4px;
 	white-space: nowrap;
-	-ms-touch-action:none;
+	-ms-touch-action: none;
 }
 
 .geogebraweb-table-spreadsheet.off td {
@@ -1875,15 +1846,26 @@ Paddings for menuitems.
 	border-bottom: 0px;
 }
 
+.geogebraweb-table-spreadsheet.upperCorner {
+	background-color: #F8F8F8;
+	color: #F8F8F8 !important;
+}
+
 .geogebraweb-table-spreadsheet td.SVheader {
 	padding-left: 0px;
 	padding-right: 0px;
 	text-align: center;
+	background-color: #F8F8F8;
 }
 
+.geogebraweb-table-spreadsheet td.SVheader.selected {
+	background-color: #CCCCFF;
+	color: #333333;
+	border-color: #999999;
+}
 
 .geogebraweb-table-spreadsheet-lowerLeftCorner {
-	border-right: 1px solid gray;
+	border-right: 1px solid #CCCCCC;
 	padding: 0px 0px;
 }
 
@@ -1922,7 +1904,7 @@ Paddings for menuitems.
 .geogebraweb-selectionframe-spreadsheet {
 	z-index: 6;
 	border-style: solid;
-	border-width: 2px;
+	/*border-width: 2px;*/
 	border-color: #0000FF;
 	-ms-touch-action: none; /* prevent scrolling on IE tablets */
 }
@@ -1969,6 +1951,7 @@ Paddings for menuitems.
 .inputHelp-toggleButton {
 	padding: 0px 10px;
 }
+
 .inputHelp-toggleButton img {
 	cursor: pointer;
 }
@@ -1982,41 +1965,41 @@ Paddings for menuitems.
 	color: #6666FF;
 }
 
-.KeyBoardButton{
+.KeyBoardButton {
 	padding: 10px;
 	height: 32px;
 	border: 1px solid black;
 	text-align: center;
 	vertical-align: middle;
-	color: rgb(0,0,0);
-	margin:	5px;
+	color: rgb(0, 0, 0);
+	margin: 5px;
 }
 
-.KeyBoardButton_Number{
+.KeyBoardButton_Number {
 	padding: 10px;
 	height: 32px;
 	border: 1px solid black;
 	text-align: center;
 	vertical-align: middle;
 	background: black;
-	color: rgb(255,255,255);
-	margin:	5px;
+	color: rgb(255, 255, 255);
+	margin: 5px;
 }
 
-.KeyBoardButton_label{
+.KeyBoardButton_label {
 	padding: 10px;
 	height: 150px;
 	border: 1px solid black;
 	text-align: center;
-	color: rgb(0,0,0);
+	color: rgb(0, 0, 0);
 	margin: 5px;
 }
 
-.KeyBoardButton_simple{
+.KeyBoardButton_simple {
 	height: 44px;
 }
 
-.KeyPanel{
+.KeyPanel {
 	box-flex: 1;
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
@@ -2024,19 +2007,17 @@ Paddings for menuitems.
 	-moz-flex: 1;
 	-ms-flex: 1;
 	flex: 1;
-
-	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-	display: -moz-box;         /* OLD - Firefox 19- */
-	display: -ms-flexbox;      /* TWEENER - IE 10 */
- 	display: -webkit-flex;     /* NEW - Chrome */
-  	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
-
+	display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box; /* OLD - Firefox 19- */
+	display: -ms-flexbox; /* TWEENER - IE 10 */
+	display: -webkit-flex; /* NEW - Chrome */
+	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	box-orient: horizontal;
 	box-orient: horizontal;
 	flex-direction: row;
 }
 
-.KeyPanelColum{
+.KeyPanelColum {
 	box-flex: 1;
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
@@ -2046,21 +2027,19 @@ Paddings for menuitems.
 	flex: 1;
 }
 
-.KeyBoardContent{
+.KeyBoardContent {
 	width: 100%;
-
-	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-	display: -moz-box;         /* OLD - Firefox 19- */
-	display: -ms-flexbox;      /* TWEENER - IE 10 */
- 	display: -webkit-flex;     /* NEW - Chrome */
-  	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
-
+	display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box; /* OLD - Firefox 19- */
+	display: -ms-flexbox; /* TWEENER - IE 10 */
+	display: -webkit-flex; /* NEW - Chrome */
+	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	box-orient: horizontal;
 	box-orient: horizontal;
 	flex-direction: row;
 }
 
-.KeyBoard{
+.KeyBoard {
 	bottom: 0px;
 	width: 100%;
 }
@@ -2117,9 +2096,11 @@ Paddings for menuitems.
 	bottom: 50px;
 	margin: 0px auto;
 }
+
 .infoTooltip .infoText {
 	padding: 0px 50px;
 }
+
 .infoTooltip .manualLink {
 	padding: 10px 20px;
 }
@@ -2178,7 +2159,6 @@ body[dir=rtl] .undoPanel {
 	right: 5px;
 	padding: 1px;
 }*/
-
 .toolbarPanel {
 	background-color: #F8F8F8;
 	border-bottom: 1px solid #DCDCDC;
@@ -2289,12 +2269,12 @@ body.application[dir=rtl] .toolbar_mainItem {
 	cursor: pointer;
 }
 
-.toolbar_submenu .submenuContent li:hover,
-.toolbar_submenu .submenuContent li:focus {
+.toolbar_submenu .submenuContent li:hover,.toolbar_submenu .submenuContent li:focus
+	{
 	color: #6666FF;
 }
 
-.toolbar_button:focus{
+.toolbar_button:focus {
 	border: 1px solid #6666FF;
 }
 
@@ -2352,9 +2332,11 @@ body.application[dir=rtl] .toolbar_mainItem {
 	height: 30px;
 	padding: 2px;
 }
+
 .button.redoButton {
 	margin-left: 0px;
 }
+
 .smartButtonPanel .selectedButton {
 	padding: 0px;
 }
@@ -2405,8 +2387,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 	width: 100%;
 }
 
-.dialogContent input[type="text"],
-.dialogContent select {
+.dialogContent input[type="text"],.dialogContent select {
 	margin-top: 5px;
 	margin-bottom: 10px;
 	width: 98%;
@@ -2481,7 +2462,6 @@ body.application[dir=rtl] .toolbar_mainItem {
 }
 
 /* ----------- SAVE UNSAVED CHANGES DIALOG -------------*/
-
 .saveUnsavedDialog {
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
@@ -2523,7 +2503,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 .GeoGebraFileChooser .radioButtonPanel {
 	text-align: center;
 	padding-bottom: 10px;
-	padding-top: 3px;	
+	padding-top: 3px;
 }
 
 .GeoGebraFileChooser .radioButtonPanel .gwt-RadioButton {
@@ -2604,7 +2584,9 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 .GeoGebraFileChooser {
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
-.GeoGebraFileChooser .buttonPanel .save, .GeoGebraFileChooser .buttonPanel .cancel {
+
+.GeoGebraFileChooser .buttonPanel .save,.GeoGebraFileChooser .buttonPanel .cancel
+	{
 	width: 60px;
 	text-align: center;
 	margin: auto;
@@ -2622,8 +2604,8 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 .CAS_commentLabel {
 	color: gray;
 	float: left;
-	padding-left:5px;
-	padding-right:10px;
+	padding-left: 5px;
+	padding-right: 10px;
 }
 
 .CAS_inputPanel {
@@ -2632,7 +2614,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	height: 100%;
 }
 
-.CAS-table > tbody > tr > td {
+.CAS-table>tbody>tr>td {
 	border-bottom: 1px solid #DCDCDC;
 }
 
@@ -2645,6 +2627,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	height: 2.5em;
 	background-color: #F8F8F8;
 }
+
 .cas_header.selected {
 	background-color: #CCCCFF;
 	color: #333333;
@@ -2656,8 +2639,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	padding-right: 5px;
 }
 
-.CAS_substitute_editTextCell input[type="text"],
-.cas_sub_editTextCell select
+.CAS_substitute_editTextCell input[type="text"],.cas_sub_editTextCell select
 	{
 	width: 100%;
 	box-sizing: border-box;
@@ -2920,7 +2902,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	padding: 10px 10px 10px 23px;
 }
 
-.Tablet .elemHeadingName, .Tablet .gwt-InlineHTML {
+.Tablet .elemHeadingName,.Tablet .gwt-InlineHTML {
 	font-size: 115%;
 }
 
@@ -3052,7 +3034,8 @@ label {
 
 /*=========== Checkbox menuitem =============*/
 /* Stefi do you magic here :-) */
-.gwt-MenuBar-horizontal .GChecBoxMenuItem,.gwt-MenuBar-vertical .GChecBoxMenuItem {
+.gwt-MenuBar-horizontal .GChecBoxMenuItem,.gwt-MenuBar-vertical .GChecBoxMenuItem
+	{
 	margin: 0;
 	padding: 0;
 	vertical-align: top;
@@ -3075,7 +3058,6 @@ label {
 /*#################################################################
 	PROPERTIES
 ###################################################################*/
-
 .PropertiesViewW {
 	background-color: #F8F8F8;
 	border-radius: 0px;
@@ -3085,6 +3067,7 @@ label {
 
 .contentsPanel {
 	overflow: hidden;
+	height: 100%;
 }
 
 .propertiesStyleBar {
@@ -3098,66 +3081,87 @@ label {
 	margin: 0px;
 	padding: 0px;
 }
+
 .menuProperties table {
 	cellpadding: 0px;
 	cellspacing: 0px;
 	border-collapse: collapse;
 }
+
 .menuProperties .gwt-MenuItem {
 	padding: 5px;
 	cursor: pointer;
 }
+
 .menuProperties .gwt-MenuItem:hover {
 	background: #F0F0F0;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+		rgba(0, 0, 0, 0.05);
 }
+
 .propertiesStyleBar .selected,
-.propertiesStyleBar .gwt-MenuItem.selected:hover {
-	background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8));
+.propertiesStyleBar .gwt-MenuItem.selected:hover
+	{
+	background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8) );
 	background-image: -moz-linear-gradient(left, #DCDCDC, #F8F8F8);
 	background-image: -ms-linear-gradient(left, #DCDCDC, #F8F8F8);
 	background-image: -o-linear-gradient(left, #DCDCDC, #F8F8F8);
 	background-image: linear-gradient(left, #DCDCDC, #F8F8F8);
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#DCDCDC', endColorstr='#F8F8F8' );
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,
+		startColorstr='#DCDCDC', endColorstr='#F8F8F8' );
 	zoom: 1;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+		rgba(0, 0, 0, 0.05);
 }
+
 .menuProperties .gwt-MenuItem img {
 	width: 24px !important;
 	height: 24px !important;
 }
 
 /* EUCLIDIAN PROPERTIES */
-
-.axisPanel > * > *:first-child {
+.axisPanel>*>*:first-child {
 	min-width: 110px;
 }
-.axisPanel > .checkBoxPanel > *:first-child {
+
+.axisPanel>.checkBoxPanel>*:first-child {
 	min-width: 0px;
 }
 
 /* OBJECT PROPERTIES */
-
 .propertiesTab {
 	overflow: auto;
 	padding-right: 8px;
 }
-.propertiesTab > *,
-.axisPanel > .checkBoxPanel {
+
+.propertiesTab>*,
+.axisPanel>.checkBoxPanel {
 	margin-bottom: 10px;
 	display: block;
 }
-.propertiesTab .panelRow + .checkBoxPanel {
+
+.objectPropertiesPanel > .checkBoxPanel {
+	white-space: nowrap;
+	margin-bottom: 10px;
+}
+
+.objectPropertiesPanel > .checkBoxPanel:last-child {
+	margin-bottom: 0px;
+}
+
+.propertiesTab .panelRow+.checkBoxPanel {
 	margin-top: 10px;
 }
+
 .propertiesTab .panelTitle:first-child {
 	margin-top: 0px;
 }
+
 .propertiesTab .scriptTabPanel {
 	display: table;
 }
-.propertiesTab .MyCanvasButton,
-.propertiesTab .gwt-Button {
+
+.propertiesTab .MyCanvasButton,.propertiesTab .gwt-Button {
 	margin-left: 0px;
 }
 
@@ -3168,53 +3172,29 @@ label {
 	border-bottom: 1px solid #CCCCFF;
 }
 
-.checkBoxPanel,
-.panelRow,
-.panelRowIndent,
-.panelIndent,
-.listBoxPanel,
-.optionsInput,
-.optionsPanel,
-.optionsPanel .optionsPanelIndent,
-.propertiesTab .sliderIntervalPanel,
-.propertiesTab .sliderWidthPanel {
+.checkBoxPanel,.panelRow,.panelRowIndent,.panelIndent,.listBoxPanel,.optionsInput,.optionsPanel,.optionsPanel .optionsPanelIndent,.propertiesTab .sliderIntervalPanel,.propertiesTab .sliderWidthPanel
+	{
 	display: block;
 }
 
-.panelIndent,
-.panelRowIndent,
-.optionsPanelIndent {
+.panelIndent,.panelRowIndent,.optionsPanelIndent {
 	padding-left: 25px;
 }
-.optionsInput,
-.optionsPanel,
-.propertiesTab .sliderIntervalPanel,
-.propertiesTab .sliderWidthPanel,
-.textPropertiesTab > * {
+
+.optionsInput,.optionsPanel,.propertiesTab .sliderIntervalPanel,.propertiesTab .sliderWidthPanel,.textPropertiesTab>*
+	{
 	margin-bottom: 10px;
 }
 
-.checkBoxPanel > *,
-.panelRow > *,
-.listBoxPanel > *,
-.panelRowIndent > *,
-.propertiesTab .gwt-CheckBox > *,
-.panelRowCell > *,
-.panelRowCell > *,
-.optionsPanel > *,
-.optionsPanelIndent > *,
-.optionsPanelCell > *,
-.propertiesTab .sliderIntervalPanel > *,
-.propertiesTab .sliderWidthPanel > *,
-.textOptionsToolBar > *,
-.BackgroundColorPanel > * {
+.checkBoxPanel>*,.panelRow>*,.listBoxPanel>*,.panelRowIndent>*,.propertiesTab .gwt-CheckBox>*,.panelRowCell>*,.panelRowCell>*,.optionsPanel>*,.optionsPanelIndent>*,.optionsPanelCell>*,.propertiesTab .sliderIntervalPanel>*,.propertiesTab .sliderWidthPanel>*,.textOptionsToolBar>*,.BackgroundColorPanel>*
+	{
 	display: inline-block;
 	vertical-align: middle;
 	margin: 3px 10px 3px 0px;
 }
-.optionsInput > *,
-.propertiesTab .sliderIntervalPanel > div > *,
-.CustomColorPreview > * {
+
+.optionsInput>*,.propertiesTab .sliderIntervalPanel>div>*,.CustomColorPreview>*
+	{
 	display: block;
 	margin: 3px 0px 3px 0px;
 }
@@ -3224,18 +3204,15 @@ label {
 	margin-right: 20px;
 }
 
-.checkBoxPanel .gwt-Label,
-.panelRow .gwt-Label,
-.listBoxPanel .gwt-Label,
-.panelRowIndent .gwt-Label,
-.optionsPanel .gwt-Label,
-.optionsPanelIndent .gwt-Label {
+.checkBoxPanel .gwt-Label,.panelRow .gwt-Label,.listBoxPanel .gwt-Label,.panelRowIndent .gwt-Label,.optionsPanel .gwt-Label,.optionsPanelIndent .gwt-Label
+	{
 	margin-right: 10px;
 }
 
 .optionsPanelCell {
 	display: block;
 }
+
 .optionsPanelCell .gwt-Label {
 	min-width: 100px;
 }
@@ -3258,18 +3235,17 @@ label {
 	height: 100px;
 }
 
-.colorChooserPreview,
-.optionsSlider {
+.colorChooserPreview,.optionsSlider {
 	display: table-row;
 }
-.colorChooserPreview > *,
-.optionsSlider > * {
+
+.colorChooserPreview>*,.optionsSlider>* {
 	display: table-cell;
 	vertical-align: middle;
-	margin-right: 20px;	
+	margin-right: 20px;
 }
-.CustomColorPreview canvas,
-.colorChooserPreview canvas {
+
+.CustomColorPreview canvas,.colorChooserPreview canvas {
 	padding: 3px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -3277,6 +3253,7 @@ label {
 	border-radius: 5px;
 	border: 1px solid #DCDCDC;
 }
+
 .gwt-PopupPanel .panelTitle {
 	padding: 5px 10px 10px 10px;
 }
@@ -3284,9 +3261,11 @@ label {
 .textOptionsToolBar .gwt-ToggleButton {
 	display: inline-block;
 }
+
 iframe.objectPropertiesTextEditor {
 	margin-bottom: 10px;
 }
+
 .propertiesTab .gwt-TabLayoutPanel {
 	background: #FFFFFF;
 }
@@ -3297,7 +3276,7 @@ iframe.objectPropertiesTextEditor {
 	margin-bottom: 5px;
 }
 
-.colorComponent > * {
+.colorComponent>* {
 	display: inline-block;
 }
 
@@ -3306,8 +3285,7 @@ iframe.objectPropertiesTextEditor {
 	display: table-row;
 }
 
-.colorSlider > * {
-	/*display: inline-block;*/
+.colorSlider>* { /*display: inline-block;*/
 	display: table-cell;
 	vertical-align: middle;
 }
@@ -3319,7 +3297,6 @@ iframe.objectPropertiesTextEditor {
 /*.CustomColorPreview {
 	align: center;
 }*/
-
 .CustomColorButton {
 	position: absolute;
 	left: 233px;
@@ -3331,6 +3308,7 @@ iframe.objectPropertiesTextEditor {
 	border: 2px solid #000000;
 	cursor: pointer;
 }
+
 .CustomColorButton:hover {
 	background-color: rgba(204, 204, 255, 0.2);
 }
@@ -3346,30 +3324,34 @@ iframe.objectPropertiesTextEditor {
 	height: 300px;
 	width: 100%;
 }
+
 .scriptTabPanel {
 	width: 100%;
 }
 
 /*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
 .advanced-TextButtonPanel {
 	position: relative;
 	margin: 3px 0px;
 }
-.advanced-TextButtonPanel input[disabled=""],
-.advanced-TextButtonPanel .choice-button-up-disabled {
+
+.advanced-TextButtonPanel input[disabled=""],.advanced-TextButtonPanel .choice-button-up-disabled
+	{
 	opacity: 0.4;
 	cursor: default;
 }
+
 .advanced-TextButtonPanel input.selected-value {
 	padding-right: 1.3em;
 }
+
 .advanced-TextButtonPanel .choice-button {
 	position: absolute;
 	right: 0.3em;
 	top: 0.3em;
 	cursor: pointer;
 }
+
 .advanced-ListPopupPanel {
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -3383,10 +3365,12 @@ iframe.objectPropertiesTextEditor {
 	background-color: white;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
+
 .advanced-ListPopupPanel .item {
 	cursor: pointer;
 	padding: 0px 5px;
 }
+
 .advanced-ListPopupPanel .item:hover {
 	background: #CCCCFF;
 }
@@ -3437,7 +3421,8 @@ iframe.objectPropertiesTextEditor {
 	font-weight: bold;
 }
 
-.ProbCalcPanel .ProbabilityTableW tr:hover,.ProbCalcPanel .ProbabilityTableW tr.selected {
+.ProbCalcPanel .ProbabilityTableW tr:hover,.ProbCalcPanel .ProbabilityTableW tr.selected
+	{
 	background: #CCCCFF;
 }
 
@@ -3451,8 +3436,8 @@ iframe.objectPropertiesTextEditor {
 	padding: 5px;
 	float: left;
 }
-.btnExport,
-.btnNormalOverlay {
+
+.btnExport,.btnNormalOverlay {
 	float: right;
 }
 
@@ -3460,29 +3445,29 @@ iframe.objectPropertiesTextEditor {
 	float: left;
 	overflow: auto;
 }
-.controlPanel > div {
+
+.controlPanel>div {
 	padding: 5px 0px;
 	margin-right: 30px;
 	float: left;
 	white-space: nowrap;
 }
 
-.controlPanel > div.clear {
+.controlPanel>div.clear {
 	padding: 0px;
 	margin: 0px;
 }
 
-.cbPanel .gwt-ToggleButton,
-.cbPanel .gwt-ListBox {
+.cbPanel .gwt-ToggleButton,.cbPanel .gwt-ListBox {
 	display: inline-block;
 	margin-right: 10px;
 }
+
 .cbPanel .gwt-ToggleButton {
 	float: left;
 }
 
-.parameterPanel > *,
-.resultPanel > * {
+.parameterPanel>*,.resultPanel>* {
 	display: inline-block;
 	margin: 0 5px;
 	padding: 0px;
@@ -3494,13 +3479,11 @@ iframe.objectPropertiesTextEditor {
 	margin: 0px;
 	padding: 0px;
 }*/
-
-.intervalPanel > * {
+.intervalPanel>* {
 	display: inline-block;
 }
 
 /* --------- STATISTICS CALCULATOR --------------- */
-
 .StatisticsCalculatorW .panelControl {
 	margin: 5px 0 5px 0px;
 }
@@ -3517,8 +3500,8 @@ iframe.objectPropertiesTextEditor {
 	width: 100%;
 }
 
-.StatisticsCalculatorW .gwt-RadioButton label,
-.StatisticsCalculatorW .gwt-CheckBox label {
+.StatisticsCalculatorW .gwt-RadioButton label,.StatisticsCalculatorW .gwt-CheckBox label
+	{
 	margin: 0 20px 0 5px;
 }
 
@@ -3532,17 +3515,14 @@ iframe.objectPropertiesTextEditor {
 	text-align: right;
 }
 
-.StatisticsCalculatorW .gwt-Label,
-.StatisticsCalculatorW .AutoCompleteTextFieldW,
-.StatisticsCalculatorW .gwt-ListBox,
-.StatisticsCalculatorW .gwt-CheckBox,
-.StatisticsCalculatorW .gwt-RadioButton {
+.StatisticsCalculatorW .gwt-Label,.StatisticsCalculatorW .AutoCompleteTextFieldW,.StatisticsCalculatorW .gwt-ListBox,.StatisticsCalculatorW .gwt-CheckBox,.StatisticsCalculatorW .gwt-RadioButton
+	{
 	display: inline-block;
 	margin: 3px 5px;
 }
 
-.StatisticsCalculatorW .panelSample1,
-.StatisticsCalculatorW .panelSample2 {
+.StatisticsCalculatorW .panelSample1,.StatisticsCalculatorW .panelSample2
+	{
 	text-align: center;
 	max-width: 50%;
 	margin-right: 20px;
@@ -3551,8 +3531,8 @@ iframe.objectPropertiesTextEditor {
 	white-space: nowrap;
 }
 
-.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,
-.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
+.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child
+	{
 	display: block;
 }
 
@@ -3581,7 +3561,7 @@ iframe.objectPropertiesTextEditor {
 	border: 1px solid #DCDCDC;
 }
 
-.StatisticsCalculatorW .chirow .ChiSquarePanelW > * {
+.StatisticsCalculatorW .chirow .ChiSquarePanelW>* {
 	display: block;
 	text-align: center;
 }
@@ -3645,8 +3625,7 @@ iframe.objectPropertiesTextEditor {
 	float: left;
 }
 
-.headerFirst .ggbLogoPanel,
-.headerFirst .backButton {
+.headerFirst .ggbLogoPanel,.headerFirst .backButton {
 	float: left;
 }
 
@@ -3761,7 +3740,6 @@ PROVIDERS
 }
 
 /* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
 .searchDiv {
 	flex-grow: 1;
 	margin: 15px 10px;
@@ -3795,7 +3773,6 @@ PROVIDERS
 }
 
 /* ++++++  MaterialListPanel   ++++++++ */
-
 .materialListPanel {
 	padding: 20px;
 	overflow-y: scroll;
@@ -3822,10 +3799,10 @@ PROVIDERS
 	overflow: hidden;
 	border-radius: 5px;
 	border: 1px solid #CCCCCC;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+		rgba(0, 0, 0, 0.05);
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-
 
 .materialListElement .fileImage .background {
 	width: 170px;
@@ -3835,7 +3812,7 @@ PROVIDERS
 	background-size: cover;
 }
 
-.materialListElement .infoPanel .sharedPanel { 
+.materialListElement .infoPanel .sharedPanel {
 	font-size: 80%;
 	padding-bottom: 5px;
 }
@@ -3865,7 +3842,6 @@ PROVIDERS
 	z-index: 100;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
-	
 	position: absolute;
 	top: -16px;
 	left: -16px;
@@ -3885,13 +3861,13 @@ PROVIDERS
 	cursor: pointer;
 }
 
-.PhoneGUI .materialListElement.selected .infoPanel .button,
-.Tablet .materialListElement.selected .infoPanel .button {
+.PhoneGUI .materialListElement.selected .infoPanel .button,.Tablet .materialListElement.selected .infoPanel .button
+	{
 	padding: 5px 0px;
 }
 
-.materialListElement .infoPanel .button:hover,
-.materialListElement .infoPanel .button:active {
+.materialListElement .infoPanel .button:hover,.materialListElement .infoPanel .button:active
+	{
 	color: #6161FF;
 }
 
@@ -3917,16 +3893,16 @@ PROVIDERS
 .materialListElement .cancelButton {
 	display: inline-block;
 }
+
 .materialListElement .deleteButton {
 	display: inline-block;
 	float: right;
 }
 
-
 /** Material is unselected **/
 .materialListElement.unselected {
 	opacity: 0.2;
-	filter: alpha(opacity=20);
+	filter: alpha(opacity =     20);
 }
 
 .materialListElement.unselected:hover {
@@ -3937,7 +3913,6 @@ PROVIDERS
 	border-color: #666666;
 	cursor: default;
 }
-
 
 /*#####################################################################################
 ###        LANGUAGE GUI
@@ -3999,6 +3974,7 @@ body.application.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
 	-moz-transform-origin: 0% 0%;
 	transform-origin: 0% 0%;
 }
+
 body.application.zoomedBody .gwt-PopupPanel.helpPopup {
 	-webkit-transform-origin: 100% 100%;
 	-moz-transform-origin: 100% 100%;
@@ -4006,6 +3982,7 @@ body.application.zoomedBody .gwt-PopupPanel.helpPopup {
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 }
+
 body.application.zoomedBody .gwt-PopupPanel.PropertiesViewW {
 	-webkit-transform: scale(1, 1);
 	-moz-transform: scale(1, 1);
@@ -4027,7 +4004,7 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	transform-origin: 0% 100%;
 }
 
-.AppFrameParent{
+.AppFrameParent {
 	border: 1px #DCDCDC solid;
 }
 
@@ -4038,29 +4015,29 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	-webkit-border-radius: 5px;
 }
 
-.bookDecoration{
-	background-image:url(https://tube.geogebra.org/images/book-icon-small.png);
-	width:22px;
-	height:22px;
-	opacity:0.8;
-	left:115px;
-	top:85px;
+.bookDecoration {
+	background-image:
+		url(https://tube.geogebra.org/images/book-icon-small.png);
+	width: 22px;
+	height: 22px;
+	opacity: 0.8;
+	left: 115px;
+	top: 85px;
 }
 
 /* make sure dummy canvas does not force a scrollbar */
 .dummyParent {
-		position:absolute;
-		left:1px;
-		top:1px;
-	}
-	
+	position: absolute;
+	left: 1px;
+	top: 1px;
+}
+
 /*#####################################################################################
 ###       FUNCTION INSPECTOR
 #####################################################################################*/
-
 .inspectorTable {
-  width: 200px;
-  border-collapse: collapse; 
+	width: 200px;
+	border-collapse: collapse;
 }
 
 .inspectorTable tr {
@@ -4068,12 +4045,12 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	color: black;
 }
 
-.inspectorTable tr.selected{
+.inspectorTable tr.selected {
 	background-color: maroon;
 	color: yellow;
 }
 
-.inspectorTable tr.selected:hover{
+.inspectorTable tr.selected:hover {
 	background-color: blue;
 	color: yellow;
 }
@@ -4084,48 +4061,41 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 }
 
 .inspectorTable td {
-  border: 1px solid;
-  padding: 5px;
-  min-width: 50px;	
-  height: 18px;	
-	
+	border: 1px solid;
+	padding: 5px;
+	min-width: 50px;
+	height: 18px;
 }
 
-.inspectorTableHeader, 
-.inspectorTableHeader:hover {
+.inspectorTableHeader,.inspectorTableHeader:hover {
 	background-color: #cecece;
 	color: gray;
 	font-weight: bold;
 }
 
 .inspectorTableData {
-  min-width: 50px;	
+	min-width: 50px;
 }
 
 .inspectorTableEditor {
-  width: 50px;	
+	width: 50px;
 }
 
-
 .functionInspectorToolButtons {
-	float: right; 
+	float: right;
 }
 
 /* Spreadseet tools */
-
 .createObjectsPreview {
-  min-width: 200px;
-  vertical-align: top;	
-  height: 110px;	
-	
+	min-width: 200px;
+	vertical-align: top;
+	height: 110px;
 }
 
 .createObjectsScrollArea {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
-
-
 
 /* ##########################################
    ##########################################
@@ -4134,17 +4104,15 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
    #### 								 ####
    ##########################################
    ########################################## */
-
-
 /* ########################################
    ###              HEADER              ###
    ######################################## */
-
 .PhoneGUI .PhoneHeader {
 	background-color: #F8F8F8;
 }
 
-body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tbody > tr:nth-child(1) > td {
+body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tbody>tr:nth-child
+	  (1) >td {
 	height: 43px;
 }
 
@@ -4160,7 +4128,7 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 
 .PhoneGUI .tabLeft {
 	float: left;
-/* 	TODO padding */
+	/* 	TODO padding */
 }
 
 .PhoneGUI .activeTab {
@@ -4205,11 +4173,9 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 	list-style-type: none;
 }
 
-
 /* ########################################
    ###          ALGEBRA VIEW            ###
    ######################################## */
-   
 .PhoneGUI .algebraViewPanel {
 	background-color: #FFFFFF;
 	font-size: 16px;
@@ -4226,13 +4192,9 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 /* ########################################
    ###         GRAPHICS VIEW            ###
    ######################################## */
-   
-   
-   
 /* ########################################
    ###           BROWSE VIEW            ###
    ######################################## */
-
 .PhoneGUI .searchDiv {
 	margin-left: 0px;
 	margin-top: 0px;
@@ -4256,53 +4218,44 @@ body > div:nth-child(4) > div:nth-child(2) > div > div:nth-child(2) > table > tb
 /* ########################################
    ###          PHONE & TABLET          ###
    ######################################## */
-
 .infoPanel .confirmDelete .button {
 	margin-left: 1px;
 }
 
-
 /* ########################################
    ###       END OF PHONE & TABLET      ###
    ######################################## */
-
-
 /* ########################################
    ###        DATA ANALYSIS VIEW        ###
    ######################################## */
-
 .dataSplitLayout {
-	width: 100%;	
+	width: 100%;
 	height: 100%;
 }
 
 .dataAnalysisPanel {
-	width: 100%;	
+	width: 100%;
 	height: 100%;
 }
 
-.daOptionButtons {
-	/* This prevents to overlap the style bar 
+.daOptionButtons { /* This prevents to overlap the style bar 
 	   as temporary solution */
 	margin-right: 150px;
-	float:  right;
-	width: 100px;	
+	float: right;
+	width: 100px;
 }
 
 .daPlotPanel {
 	width: 100%;
 	height: 100%;
-/*	min-width: 480px;
+	/*	min-width: 480px;
 	min-height: 300px;
 */
 }
 
 .daScrollPanel {
 	height: 300px;
-	
-} 
+}
 /* ########################################
    ###    END OF DATA ANALYSIS VIEW     ###
    ######################################## */
-
-

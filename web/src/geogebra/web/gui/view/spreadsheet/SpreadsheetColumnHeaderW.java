@@ -105,8 +105,8 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 
 		Element elm = grid.getCellFormatter().getElement(0, colIndex);
 		elm.addClassName("SVheader");
-		elm.getStyle().setBackgroundColor(
-		        MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		/*elm.getStyle().setBackgroundColor(
+		        MyTableW.BACKGROUND_COLOR_HEADER.toString());*/
 	}
 
 	private void prepareGUI() {
@@ -184,24 +184,41 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 
 	public void renderSelection() {
 
-		String defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER.toString();
+		/*String defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER.toString();
 		String selectedBackground = MyTableW.SELECTED_BACKGROUND_COLOR_HEADER
-		        .toString();
+		        .toString();*/
 
 		for (int colIndex = 0; colIndex < grid.getColumnCount(); colIndex++) {
-			Style s = grid.getCellFormatter().getElement(0, colIndex)
-			        .getStyle();
+			/*Style s = grid.getCellFormatter().getElement(0, colIndex)
+			        .getStyle();*/
 
 			if (table.getSelectionType() == MyTable.ROW_SELECT) {
-				setBgColorIfNeeded(s, defaultBackground);
+				//setBgColorIfNeeded(s, defaultBackground);
+				updateCellSelection(false, colIndex);
 			} else {
 				if (table.selectedColumnSet.contains(colIndex)
 				        || (colIndex >= table.minSelectionColumn && colIndex <= table.maxSelectionColumn)) {
-					setBgColorIfNeeded(s, selectedBackground);
+					//setBgColorIfNeeded(s, selectedBackground);
+					updateCellSelection(true, colIndex);
 				} else {
-					setBgColorIfNeeded(s, defaultBackground);
+					//setBgColorIfNeeded(s, defaultBackground);
+					updateCellSelection(false, colIndex);
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Added "selected" class to the table headers of the selected cell
+	 * needed for css styling
+	 * @param selected
+	 * @param index
+	 */
+	private void updateCellSelection(boolean selected, int index) {
+		if(selected) {
+			grid.getCellFormatter().addStyleName(0, index, "selected");
+		} else {
+			grid.getCellFormatter().removeStyleName(0, index, "selected");
 		}
 	}
 
@@ -221,10 +238,11 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		        .setWidth(width, Style.Unit.PX);
 	}
 
-	private static void setBgColorIfNeeded(Style s, String bgColor) {
+	/* Steffi: not needed anymore -> NOW: updateCellSelection
+	 * private static void setBgColorIfNeeded(Style s, String bgColor) {
 		if (!s.getBackgroundColor().equals(bgColor))
 			s.setBackgroundColor(bgColor);
-	}
+	}*/
 
 	/**
 	 * @param p

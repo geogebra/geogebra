@@ -52,6 +52,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		cbEnableAutoComplete = newCheckBox();
 
 		optionsPanel = new FlowPanel();
+		optionsPanel.addStyleName("objectPropertiesPanel");
 
 	//	optionsPanel.add(cbShowFormulaBar);
 		optionsPanel.add(cbShowGrid);
