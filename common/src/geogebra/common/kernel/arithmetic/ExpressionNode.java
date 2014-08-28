@@ -1595,11 +1595,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				
 				if (tpl.getStringType().equals(StringType.GIAC)) {
-					sb.append("when(simplify(");
+					sb.append("when(ggb\\_is\\_zero(simplify(");
 					tpl.append(sb, leftStr, left, operation);
 					sb.append("-(");
 					tpl.append(sb, rightStr, right, operation);
-					sb.append("))==0,true,false)");
+					sb.append("))),true,false)");
 				} else {
 
 					tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.equalSign());
