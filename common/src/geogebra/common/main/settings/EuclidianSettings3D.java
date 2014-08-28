@@ -13,10 +13,11 @@ public class EuclidianSettings3D extends EuclidianSettings{
 	
 	private double zscale;	
 
-	private double zZero;
+	private double zZero = EuclidianView3D.ZZERO_SCENE_STANDARD;
 
 
-	private double a, b;
+	private double a = EuclidianView3D.ANGLE_ROT_OZ;
+	private double b = EuclidianView3D.ANGLE_ROT_XOY;// angles (in degrees)
 
 	public EuclidianSettings3D(EuclidianSettings euclidianSettings1) {
 		super(euclidianSettings1);
@@ -108,7 +109,7 @@ public class EuclidianSettings3D extends EuclidianSettings{
 		return clippingReduction;
 	}
 
-	private boolean showPlate;
+	private boolean showPlate = true;
 	
 	public void setShowPlate(boolean flag) {
 		if (showPlate != flag){
