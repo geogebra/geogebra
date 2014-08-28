@@ -376,6 +376,19 @@ public class App3D extends AppD {
 
 		((App3DCompanion) companion).removeAllEuclidianViewForPlane();
 	}
+	
+	
+	@Override
+	public boolean loadFile(File file, boolean isMacroFile) {
+		
+		if(!checkFileExistsAndShowFileNotFound(file)){
+			return false;
+		}
+		
+		((App3DCompanion) companion).removeAllEuclidianViewForPlane();
+		
+		return loadExistingFile(file, isMacroFile);
+	}
 
 	@Override
 	public void createNewWindow() {

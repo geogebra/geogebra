@@ -3285,6 +3285,17 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * Load file
 	 */
 	public boolean loadFile(File file, boolean isMacroFile) {
+		
+		if(!checkFileExistsAndShowFileNotFound(file)){
+			return false;
+		}
+		
+		return loadExistingFile(file, isMacroFile);
+		
+	}
+
+
+	protected final boolean checkFileExistsAndShowFileNotFound(File file){
 		// show file not found message
 		if (!file.exists()) {
 			/*
@@ -3298,9 +3309,15 @@ public class AppD extends App implements KeyEventDispatcher {
 					getLocalization().getError("FileNotFound") + ":\n"
 							+ file.getAbsolutePath(), getLocalization()
 							.getError("Error"), JOptionPane.DEFAULT_OPTION,
-					JOptionPane.WARNING_MESSAGE);
+							JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
+
+		return true;
+	}
+	
+	
+	public boolean loadExistingFile(File file, boolean isMacroFile) {
 
 		kernel.notifyOpeningFile(file.getName());
 
