@@ -23,7 +23,6 @@ import geogebra.common.kernel.algos.AlgoDependentFunction;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoFunctionInterval;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoRoots;
@@ -31,6 +30,7 @@ import geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -861,14 +861,18 @@ public class FunctionInspectorModel {
 				Operation.XCOORD, null);
 		ExpressionNode high = new ExpressionNode(kernel, highPoint,
 				Operation.XCOORD, null);
+		
+		FunctionVariable x = new FunctionVariable(kernel);
+		ExpressionNode fx = x.wrap();
+		ExpressionNode expr = fx.apply(Operation.LESS_EQUAL,high).
+				apply(Operation.AND,fx.apply(Operation.GREATER_EQUAL, low)).apply(Operation.IF,
+				f.wrap().apply(Operation.FUNCTION,x));
 		AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low, false);
 		cons.removeFromConstructionList(xLow);
 		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
 		cons.removeFromConstructionList(xHigh);
 
-		AlgoFunctionInterval interval = new AlgoFunctionInterval(cons, f,
-				(NumberValue) xLow.getGeoElements()[0],
-				(NumberValue) xHigh.getGeoElements()[0]);
+		AlgoDependentFunction interval = new AlgoDependentFunction(cons, new Function(expr,x));
 		cons.removeFromConstructionList(interval);
 
 		functionInterval = interval.getGeoElements()[0];
@@ -942,12 +946,14 @@ public class FunctionInspectorModel {
 		// add the display geos to the active EV and hide the tooltips
 		for (GeoElement geo : intervalTabGeoList) {
 			activeEV.add(geo);
+			geo.addView(App.VIEW_FUNCTION_INSPECTOR);
 			geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
 			geo.update();
 
 		}
 		for (GeoElement geo : pointTabGeoList) {
 			activeEV.add(geo);
+			geo.addView(App.VIEW_FUNCTION_INSPECTOR);
 			geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
 			geo.update();
 		}

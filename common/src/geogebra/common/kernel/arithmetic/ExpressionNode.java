@@ -5057,8 +5057,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		this.brackets = brackets;
 	}
 
-	public ExpressionValue apply(Operation operation2) {
+	public ExpressionNode apply(Operation operation2) {
 		return new ExpressionNode(kernel,this,operation2,null);
+	}
+	
+	public ExpressionNode apply(Operation operation2, ExpressionValue arg) {
+		return new ExpressionNode(kernel,this,operation2,arg);
 	}
 	
 }
