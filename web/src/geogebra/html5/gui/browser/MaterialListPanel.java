@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	
-	private final int PADDING = 40;
+	protected final int PADDING = 40;
 	protected AppWeb app;
 	/**
 	 * last selected {@link MaterialListElement material}
@@ -45,7 +45,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		this.addDomHandler(new ClickHandler() {
 			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				if (lastSelected != null) {
 					setDefaultStyle();
 				}
@@ -55,7 +55,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		this.addDomHandler(new ScrollHandler() {
 			
 			@Override
-			public void onScroll(ScrollEvent event) {
+			public void onScroll(final ScrollEvent event) {
 				if (lastSelected != null) {
 					setDefaultStyle();
 				}
@@ -65,7 +65,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		this.addDomHandler(new TouchMoveHandler() {
 			
 			@Override
-			public void onTouchMove(TouchMoveEvent event) {
+			public void onTouchMove(final TouchMoveEvent event) {
 				if (lastSelected != null) {
 					setDefaultStyle();
 				}
@@ -78,7 +78,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * default style (not selected, not disabled)
 	 */
 	void setDefaultStyle() {
-		for (MaterialListElement mat : this.materials) {
+		this.lastSelected = null;
+		for (final MaterialListElement mat : this.materials) {
 			mat.setDefaultStyle();
 		}
 	}
@@ -89,33 +90,38 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 */
 	public void loadFeatured() {
 		clearMaterials();
-		//local files
-		if (((AppW) app).getFileManager() != null) {
-			((AppW) app).getFileManager().getAllFiles();
-		}
+		loadggt();
+	}
 
-		final MaterialCallback rc = new MaterialCallback() {
-			@Override
-			public void onError(final Throwable exception) {
-				// FIXME implement Error Handling!
-				exception.printStackTrace();
-				App.debug("API error"+exception.getMessage());
-			}
-
-			@Override
-			public void onLoaded(final List<Material> response) {
-				App.debug("API success: " + response.size());
-				onSearchResults(response);
-			}
-		};
+	protected void loadggt() {
 		final GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
 		
-		//load userMaterials first
 		if(app.getLoginOperation().isLoggedIn()){
-			api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
+			api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), new MaterialCallback() {
+
+				@Override
+				public void onLoaded(final List<Material> response) {
+					onSearchResults(response);
+					api.getFeaturedMaterials(new MaterialCallback() {
+
+						@Override
+						public void onLoaded(final List<Material> parseResponse) {
+							onSearchResults(parseResponse);
+						}
+					});
+				}
+			});
+		} else {
+			api.getFeaturedMaterials(new MaterialCallback() {
+				
+				@Override
+				public void onLoaded(final List<Material> response) {
+					onSearchResults(response);
+				}
+			});
 		}
-		api.getFeaturedMaterials(rc);
-	}
+    }
+	
 	/**
 	 * adds the new materials (matList)
 	 * @param matList List<Material>
@@ -156,7 +162,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * sets all materials to disabled
 	 */
 	public void disableMaterials() {
-	    for (MaterialListElement mat : this.materials) {
+	    for (final MaterialListElement mat : this.materials) {
 	    	mat.disableMaterial();
 	    }
     }
@@ -176,12 +182,14 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			return;
 		}
 
-		//search local
-		if (((AppW) this.app).getFileManager() != null) {
-			((AppW) this.app).getFileManager().search(query);
-		}
-		
-		//search GeoGebraTube
+		searchGgt(query);
+	}
+
+	/**
+	 * search GeoGebraTube
+	 * @param query
+	 */
+	protected void searchGgt(final String query) {
 		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
 				query, new MaterialCallback() {
 					@Override
@@ -196,7 +204,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 						onSearchResults(response);
 					}
 				});
-	}
+    }
 
 	/**
 	 * removes the given material from the list of {@link MaterialListElement materials} and the preview-panel

@@ -24,7 +24,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		private String consTitle;
 		private final Localization loc;
 		private Runnable callback = null;
-		private App app;
+		private final App app;
 
 		public SaveUnsavedChanges(final App app) {
 			super();
@@ -35,7 +35,6 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			
 			this.dialogPanel = new VerticalPanel();
 			
-
 			this.addText();
 			this.addButtons();
 
@@ -51,9 +50,9 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			this.initDontSaveButton();
 
 			this.buttonContainer = new HorizontalPanel();
-			this.buttonContainer.add(this.cancelButton);
-			this.buttonContainer.add(this.dontSaveButton);
 			this.buttonContainer.add(this.saveButton);
+			this.buttonContainer.add(this.dontSaveButton);
+			this.buttonContainer.add(this.cancelButton);
 
 			this.dialogPanel.add(this.buttonContainer);
 		}
@@ -145,7 +144,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		}
 		
 		@Override
-        public void renderEvent(BaseEvent event) {
+        public void renderEvent(final BaseEvent event) {
 	        // TODO Auto-generated method stub
 	        
         }

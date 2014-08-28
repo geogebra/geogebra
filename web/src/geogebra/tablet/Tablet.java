@@ -11,24 +11,22 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
 import geogebra.touch.PhoneGapManager;
-import geogebra.touch.SaveDialogT;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
-import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.html5.Dom;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
+
 /**
  * @author apa
  *
@@ -41,15 +39,15 @@ public class Tablet implements EntryPoint {
 	//zum testen von private zu public
 	public static GeoGebraAppFrame appFrame;
 	
-	public void t(String s,AlgebraProcessor ap) throws Exception{
+	public void t(final String s,final AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true, false);
 	}
 	
 	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
-		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
+		final NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		final ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
 		for (int i = 0; i < nodes.getLength(); i++) {
-			Date creationDate = new Date();
+			final Date creationDate = new Date();
 			nodes.getItem(i).setId(GeoGebraConstants.GGM_CLASS_NAME+i+creationDate.getTime());
 			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
 		}
@@ -57,7 +55,7 @@ public class Tablet implements EntryPoint {
 	}
 	
 	private static boolean checkAppNeeded() {
-		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		final NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
 			if("true".equals(nodes.getItem(i).getAttribute("data-param-app"))){
 				return true;
@@ -176,22 +174,7 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		appFrame = new GeoGebraAppFrame(new Callback<String, String>() {
-
-			@Override
-            public void onFailure(String reason) {
-	            // TODO Auto-generated method stub
-	            
-            }
-
-			@Override
-            public void onSuccess(String result) {
-				appFrame.addStyleName("Tablet");
-	            appFrame.app.setFileManager(new FileManagerT());
-	            ((DialogManagerW) appFrame.app.getDialogManager()).setSaveDialog(new SaveDialogT(appFrame.app));
-            }
-			
-		},new TabletLookAndFeel());
+		appFrame = new TabletGeoGebraAppFrame(new TabletLookAndFeel());
 	}
 	
 
@@ -208,7 +191,7 @@ public class Tablet implements EntryPoint {
 	    return (typeof $wnd.GGW_ext !== "undefined");
     }-*/;
 	
-	public static void renderArticleElement(Element el){
+	public static void renderArticleElement(final Element el){
 		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(), new TabletLookAndFeel());
 	}
 	
@@ -252,7 +235,7 @@ public class Tablet implements EntryPoint {
 	}-*/;
 	
 	
-	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
+	static void startGeoGebra(final ArrayList<ArticleElement> geoGebraMobileTags) {
 		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(), new TabletLookAndFeel());	   
     }
 

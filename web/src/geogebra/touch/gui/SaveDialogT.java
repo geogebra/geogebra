@@ -1,6 +1,8 @@
-package geogebra.touch;
+package geogebra.touch.gui;
 
 import geogebra.common.main.App;
+import geogebra.touch.PhoneGapManager;
+import geogebra.touch.main.AppT;
 import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.main.AppW;
 
@@ -8,7 +10,7 @@ import com.googlecode.gwtphonegap.client.connection.Connection;
 
 public class SaveDialogT extends SaveDialogW {
 
-	public SaveDialogT(App app) {
+	public SaveDialogT(final App app) {
 	    super(app);
     }
 
@@ -27,7 +29,7 @@ public class SaveDialogT extends SaveDialogW {
 	 */
 	private void saveOnDevice() {
 	    ((AppW) app).getKernel().getConstruction().setTitle(this.title.getText());
-	    ((AppW) this.app).getFileManager().saveFile(app);
+	    ((AppT) this.app).getFileManager().saveFile(app);
 	    this.hide();
     }
 

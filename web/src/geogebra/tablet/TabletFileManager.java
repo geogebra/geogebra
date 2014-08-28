@@ -4,9 +4,9 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.touch.FileManager;
 import geogebra.web.gui.GuiManagerW;
 
-public class FileManagerT extends FileManager {
+public class TabletFileManager extends FileManager {
 	
-	public FileManagerT() {
+	public TabletFileManager() {
 		super();
 	}
 	

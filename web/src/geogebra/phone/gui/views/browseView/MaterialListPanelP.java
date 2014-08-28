@@ -7,13 +7,14 @@ import geogebra.html5.gui.browser.SearchPanel;
 import geogebra.html5.gui.browser.SearchPanel.SearchListener;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
+import geogebra.touch.gui.browser.MaterialListPanelT;
 
 import com.google.gwt.user.client.Window;
 
-public class MaterialListPanelP extends MaterialListPanel {
+public class MaterialListPanelP extends MaterialListPanelT {
 	private SearchPanel searchPanel;
 	
-	public MaterialListPanelP(AppWeb app) {
+	public MaterialListPanelP(final AppWeb app) {
 	    super(app);
 		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.PHONE_HEADER_HEIGHT);
 		addSearchPanel();
@@ -29,13 +30,14 @@ public class MaterialListPanelP extends MaterialListPanel {
 		});
 		this.add(this.searchPanel);
 	}
-
+	
 	@Override
 	public void addMaterial(final Material mat) {
 		final MaterialListElement preview = new MaterialListElementP(mat, this.app);
 		this.materials.add(preview);
 		this.add(preview);
 	}
+
 	
 	@Override
 	public void onResize() {

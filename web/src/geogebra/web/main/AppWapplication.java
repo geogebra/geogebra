@@ -147,7 +147,7 @@ public class AppWapplication extends AppW {
 	protected void afterCoreObjectsInited() {
 		initGuiManager();
 		appFrame.onceAfterCoreObjectsInited();
-		appFrame.finishAsyncLoading(articleElement, appFrame, this);
+		appFrame.finishAsyncLoading(articleElement, this);
 	}
 
 	@Override

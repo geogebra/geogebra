@@ -7,7 +7,6 @@ import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.main.FileManagerInterface;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.main.AppW;
@@ -28,7 +27,7 @@ import com.googlecode.gwtphonegap.client.file.ReaderCallback;
 import com.googlecode.gwtphonegap.collection.shared.LightArray;
 
 
-public class FileManager implements FileManagerInterface {
+public class FileManager {//implements FileManagerInterface {
 	private static final String META_PREFIX = "meta_";
 	private static final String GGB_DIR = "GeoGebra";
 	private static final String META_DIR = "meta";
@@ -646,7 +645,6 @@ public class FileManager implements FileManagerInterface {
 	/**
 	 * different behavior for phone and tablet
 	 */
-	@Override
 	public void removeFile(final Material mat) {
 		// TODO Auto-generated method stub
 
@@ -655,7 +653,6 @@ public class FileManager implements FileManagerInterface {
 	/**
 	 * different behavior for phone and tablet
 	 */
-	@Override
 	public void addFile(final Material mat) {
 		// TODO Auto-generated method stub
 

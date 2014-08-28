@@ -48,6 +48,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	private FunctionInspectorW functionInspector;
 	private SaveUnsavedChanges saveUnsavedDialog;
+	protected SaveDialogW saveDialog = null;
 
 	public DialogManagerW(App app) {
 		super(app);		
@@ -275,12 +276,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 				handler, geoPoint1, app.getKernel());
 		id.setVisible(true);
 
-	}
-	
-	SaveDialogW saveDialog = null;	
-
-	public void setSaveDialog(SaveDialogW fileChooser) {
-		this.saveDialog = fileChooser;
 	}
 	
 	public SaveDialogW getSaveDialog() {

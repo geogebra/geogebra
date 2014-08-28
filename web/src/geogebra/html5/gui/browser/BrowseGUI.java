@@ -40,10 +40,10 @@ import com.google.gwt.user.client.ui.Image;
  */
 public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler, EventRenderable, OpenFileListener {
   
-	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
+	protected final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
 	protected MaterialListPanel materialListPanel;
-	private HorizontalPanel container;
+	protected HorizontalPanel container;
 	
 	private FlowPanel providerPanel;
 	private StandardButton locationTube;
@@ -100,9 +100,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		}-*/;
 	}
 	
-	
-
-	
 	/**
 	 * 
 	 * @param app
@@ -117,7 +114,11 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		}
 		this.app.getLoginOperation().getView().add(this);
 		
-		initContent();
+		this.container = new HorizontalPanel();
+		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.container.setStyleName("content");
+		
+		initMaterialListPanel();
 		
 		addHeader();
 		addContent();
@@ -133,13 +134,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		loadFeatured();
 	}
 
-	void updateViewSizes() {
-		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
-		this.providerPanel.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT + "px");
-		for (final ResizeListener res : this.resizeListeners) {
-			res.onResize();
-		}
-	}
+	protected void initMaterialListPanel() {
+		this.materialListPanel = new MaterialListPanel(app);
+		this.addResizeListener(this.materialListPanel);
+    }
 
 	private void addHeader() {
 		this.header = new BrowseHeaderPanel(app, this, app.getNetworkOperation());
@@ -195,17 +193,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		// Set Tube as the active on
 		locationTube.addStyleName("selected");
 	}
-
-	protected void initContent() {
+	
+	protected void addContent() {		
 		this.materialListPanel = new MaterialListPanel(app);
 		this.addResizeListener(this.materialListPanel);
-	}
-	
-	private void addContent() {
-		this.container = new HorizontalPanel();
-		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
-		this.container.setStyleName("content");
-		
 		this.container.add(this.materialListPanel);
 		
 		initProviders();
@@ -300,13 +291,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
     }
 
 	@Override
-    public void renderEvent(final BaseEvent event) {
-	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
-	    	loadFeatured();
-	    }
-    }
-
-	@Override
     public void onOpenFile() {
 		//FIXME check, why we have to call bg.close() in MaterialListElement.onEdit()
 	    this.close();
@@ -331,9 +315,24 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	    	loadFeatured();
 	    }
     }
+	
+	@Override
+    public void renderEvent(final BaseEvent event) {
+	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
+	    	loadFeatured();
+	    }
+    }
 
-	public void displaySearchResults(String query) {
+	public void displaySearchResults(final String query) {
 	    this.materialListPanel.displaySearchResults(query);
     }
+	
+	protected void updateViewSizes() {
+		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.providerPanel.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT + "px");
+		for (final ResizeListener res : this.resizeListeners) {
+			res.onResize();
+		}
+	}
 }
 

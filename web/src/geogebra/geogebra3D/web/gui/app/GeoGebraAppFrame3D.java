@@ -24,9 +24,8 @@ public class GeoGebraAppFrame3D extends GeoGebraAppFrame {
 	}
 	
 	@Override
-    protected AppW createApplication(ArticleElement article,
-            GeoGebraAppFrame geoGebraAppFrame, GLookAndFeel laf) {
-		return new AppWapplication3D(article, geoGebraAppFrame, laf);
+    protected AppW createApplication(ArticleElement article, GLookAndFeel laf) {
+		return new AppWapplication3D(article, this, laf);
     }
 	
 	@Override

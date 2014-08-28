@@ -24,14 +24,12 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.History;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.main.FileManagerInterface;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
@@ -118,14 +116,7 @@ public abstract class AppW extends AppWeb {
 	boolean menuKeysLoaded = false;
 	protected ObjectPool objectPool;
 	private GoogleDriveOperationW googleDriveOperation;
-	
-	/**
-	 * Touch only
-	 */
-	private History history;
-	private FileManagerInterface fm;
-	
-	
+
 	/**
 	 * Constructors will be called from subclasses
 	 * AppWapplication, AppWapplet, and AppWsimple
@@ -1731,22 +1722,6 @@ public abstract class AppW extends AppWeb {
 	public boolean supportsView(int viewID) {
 	    return viewID != App.VIEW_EUCLIDIAN3D;
     }
-
-	public History getHistory() {
-	    if(this.history == null){
-	    	this.history = new History();
-	    }
-	    return this.history;
-    }
-	
-	public FileManagerInterface getFileManager() {
-		return this.fm;
-	}
-
-	public void setFileManager(FileManagerInterface fileManager) {
-		this.fm = fileManager;
-    }
-
 	private ToolBarW updateToolBar = null;
 
 	/**

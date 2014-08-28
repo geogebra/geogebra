@@ -23,7 +23,6 @@ import geogebra.web.presenter.LoadFilePresenter;
 import java.util.Date;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -58,8 +57,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	MyDockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
 	public AppW app;
-
-	private Callback<String, String> callback;
+	private int cw;
+	private int ch;
+	private final GLookAndFeel laf;
 
 	public GeoGebraAppFrame(GLookAndFeel laf) {
 		this.laf = laf;
@@ -93,14 +93,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public GGWCommandLine getAlgebraInput(){
 		return ggwCommandLine;
 	}
-	/**
-	 * For touch
-	 * @param callback
-	 */
-	public GeoGebraAppFrame(final Callback<String, String> callback, GLookAndFeel laf) {
-		this(laf);
-	    this.callback = callback;
-    }
 
 	/**
 	 * 
@@ -182,12 +174,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 			   init();
 	    }
 	}	
-	
-	private int cw;
-	private int ch;
-
-	private final GLookAndFeel laf;
-
 
 	public void init() {
 		setVisible(true);
@@ -201,11 +187,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		cw = Window.getClientWidth(); 
 		ch = Window.getClientHeight() ;
 		
-		app = createApplication(article,this, this.laf); 
+		app = createApplication(article, this.laf); 
 		App.debug("Callbacks ...");
-		if (this.callback != null) {
-			this.callback.onSuccess("");
-		}
 		app.getLAF().setCloseMessage(app.getLocalization());
 		
 		this.addDomHandler(new MouseDownHandler() {
@@ -290,14 +273,12 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 
-	protected AppW createApplication(final ArticleElement article,
-            final GeoGebraAppFrame geoGebraAppFrame, GLookAndFeel laf) {
-		return new AppWapplication(article, geoGebraAppFrame, 2, laf);
+	protected AppW createApplication(final ArticleElement article, GLookAndFeel laf) {
+		return new AppWapplication(article, this, 2, laf);
     }
 
 
-	public void finishAsyncLoading(final ArticleElement articleElement,
-            final GeoGebraAppFrame ins, final AppW app) {
+	public void finishAsyncLoading(final ArticleElement articleElement, final AppW app) {
 	    handleLoadFile(articleElement,app);	    
     }
 	
