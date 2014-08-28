@@ -170,7 +170,6 @@ public class App3D extends AppD {
 	@Override
 	public EuclidianView3D getEuclidianView3D() {
 		if (this.euclidianView3D == null) {
-			App.printStacktrace("");
 			if (euclidianController3D.hasInput()) {
 				euclidianView3D = new EuclidianViewInput3D(
 						euclidianController3D, getSettings().getEuclidian(3));
