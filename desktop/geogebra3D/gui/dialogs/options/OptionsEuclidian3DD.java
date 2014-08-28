@@ -280,13 +280,13 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			buttons = new JButton[4];
 
 			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new JButton(
-					app.getImageIcon("stylebar_vieworthographic.gif"));
+					app.getImageIcon("stylingbar_graphics3D_view_orthographic.gif"));
 			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new JButton(
-					app.getImageIcon("stylebar_viewperspective.gif"));
+					app.getImageIcon("stylingbar_graphics3D_view_perspective.gif"));
 			buttons[EuclidianView3D.PROJECTION_GLASSES] = new JButton(
-					app.getImageIcon("stylebar_viewglasses.gif"));
+					app.getImageIcon("stylingbar_graphics3D_view_glasses.gif"));
 			buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new JButton(
-					app.getImageIcon("stylebar_viewoblique.gif"));
+					app.getImageIcon("stylingbar_graphics3D_view_oblique.gif"));
 
 			for (int i = 0; i < 4; i++)
 				buttons[i].addActionListener(options);
