@@ -5,7 +5,10 @@ import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.applet.GeoGebraFrame;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -37,15 +40,19 @@ public class SplashDialog extends SimplePanel {
 		isPreviewExists = checkIfPreviewExists();
 		
 		if (!isPreviewExists) {
-			String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
-			if (showLogo){
-				html += GuiResources.INSTANCE.ggbSplashHtml().getText();
+			FlowPanel panel = new FlowPanel();
+			Style style = panel.getElement().getStyle();
+			style.setPosition(Position.ABSOLUTE);
+			style.setZIndex(1000000);
+			style.setBackgroundColor("white");
+			if (showLogo) {
+				HTML logo = new HTML(GuiResources.INSTANCE.ggbSplashHtml().getText());
+				panel.add(logo);
 			}
-			html += GuiResources.INSTANCE.ggbSpinnerHtml().getText();
-			html += "</div>";
-		    HTML splash = new HTML(html);
-		    addNativeLoadHandler(splash.getElement());
-		    add(splash);
+			HTML spinner = new HTML(GuiResources.INSTANCE.ggbSpinnerHtml().getText());
+			panel.add(spinner);
+		    addNativeLoadHandler(panel.getElement());
+		    add(panel);
 		}else{
 			this.triggerImageLoaded();
 		}

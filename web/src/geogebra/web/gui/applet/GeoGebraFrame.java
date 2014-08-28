@@ -111,7 +111,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 			setComputedHeight(height);
 			setHeight((height - BORDER_HEIGHT) + "px"); // 2: border
 			//Styleshet not loaded yet, add CSS directly
-			splash.getElement().getStyle().setPosition(Position.ABSOLUTE);
+			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
 	        	.setTop((height / 2) - (splashHeight / 2), Unit.PX);
 			if (!ae.isRTL()) {
