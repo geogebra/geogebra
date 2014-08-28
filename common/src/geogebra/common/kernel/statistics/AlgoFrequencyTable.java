@@ -367,9 +367,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		sb.append("\\begin{array}{c|c}");
 
 		sb.append(strHeader[0]);
-		sb.append("&");
+		sb.append("&\\text{");
 		sb.append(strHeader[1]);
-		sb.append(" \\\\\\hline ");
+		sb.append("} \\\\\\hline ");
 		if (useClassList) {
 			for (int i = 0; i < strFrequency.length - 1; i++) {
 				sb.append(strValue[i]);
@@ -396,9 +396,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		sb.append("\\ggbtable{\\ggbtrlb{\\ggbtd{");
 
 		sb.append(strHeader[0]);
-		sb.append("}\\ggbtdll{");
+		sb.append("}\\ggbtdll{\\text{");
 		sb.append(strHeader[1]);
-		sb.append("}}\\ggbtr{\\ggbtd{ ");
+		sb.append("}}}\\ggbtr{\\ggbtd{ ");
 		if (useClassList) {
 			for (int i = 0; i < strFrequency.length - 1; i++) {
 				sb.append(strValue[i]);
