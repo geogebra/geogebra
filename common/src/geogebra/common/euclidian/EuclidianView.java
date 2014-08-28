@@ -210,17 +210,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	// FONTS
 	private GFont fontPoint;
 
-	private GFont fontLine;
-
-	private GFont fontVector;
-
-	private GFont fontConic;
 
 	private GFont fontCoords;
-
-	private GFont fontAxes;
-
-	private GFont fontAngle;
 
 	/** number format for print scale */
 	protected NumberFormatAdapter printScaleNF;
@@ -1848,10 +1839,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @return plain font
 	 */
 	public geogebra.common.awt.GFont getFontPoint() {
+		if (fontPoint == null) {
+			return app.getPlainFontCommon();
+		}
 		return fontPoint;
 	}
 
 	private void setFontPoint(GFont fontPoint) {
+		
 		this.fontPoint = fontPoint;
 	}
 
@@ -1859,39 +1854,30 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @return font for lines
 	 */
 	public geogebra.common.awt.GFont getFontLine() {
-		return fontLine;
-	}
-
-	private void setFontLine(GFont fontLine) {
-		this.fontLine = fontLine;
+		return getFontPoint();
 	}
 
 	/**
 	 * @return font for vectors
 	 */
 	public GFont getFontVector() {
-		return fontVector;
-	}
-
-	private void setFontVector(GFont fontVector) {
-		this.fontVector = fontVector;
+		return getFontPoint();
 	}
 
 	/**
 	 * @return font for conics
 	 */
 	public GFont getFontConic() {
-		return fontConic;
-	}
-
-	private void setFontConic(GFont fontConic) {
-		this.fontConic = fontConic;
+		return getFontPoint();
 	}
 
 	/**
 	 * @return font for coords
 	 */
 	public GFont getFontCoords() {
+		if (fontCoords == null) {
+			return app.getPlainFontCommon();
+		}
 		return fontCoords;
 	}
 
@@ -1903,22 +1889,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @return font for axes
 	 */
 	public GFont getFontAxes() {
-		return fontAxes;
-	}
-
-	private void setFontAxes(GFont fontAxes) {
-		this.fontAxes = fontAxes;
+		return getFontCoords();
 	}
 
 	/**
 	 * @return font for angles
 	 */
 	public geogebra.common.awt.GFont getFontAngle() {
-		return fontAngle;
-	}
-
-	private void setFontAngle(GFont fontAngle) {
-		this.fontAngle = fontAngle;
+		return getFontPoint();
 	}
 
 	public ArrayList<GeoPointND> getStickyPointList() {
@@ -2635,13 +2613,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 		setFontPoint(getApplication().getPlainFontCommon().deriveFont(
 				GFont.PLAIN, getFontSize()));
-		setFontAngle(getFontPoint());
-		setFontLine(getFontPoint());
-		setFontVector(getFontPoint());
-		setFontConic(getFontPoint());
+
 		setFontCoords(getApplication().getPlainFontCommon().deriveFont(
 				GFont.PLAIN, getFontSize() - 2));
-		setFontAxes(getFontCoords());
 
 		updateDrawableFontSize();
 		updateBackground();
