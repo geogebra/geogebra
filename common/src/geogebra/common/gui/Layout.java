@@ -188,7 +188,7 @@ public abstract class Layout {
 			else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == ev) 
 				changed |= app.getSettings().getEuclidian(2).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
 			else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) 
-				changed |= app.getSettings().getEuclidian(3).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
+				changed |= app.getSettings().getEuclidian(3).setShowAxes(perspective.getShowAxes());
 
 			else
 				changed |= ev.setShowAxes(perspective.getShowAxes(), false);

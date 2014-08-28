@@ -97,7 +97,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 */
 	public boolean applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
-		boolean changed = setEVsettingsFromPerspective(app, perspective);
+
 
 		app.getGuiManager().setToolBarDefinition(
 				perspective.getToolbarDefinition());
@@ -115,6 +115,9 @@ public class LayoutD extends Layout implements SettingListener {
 		// change the dock panel layout
 		dockManager.applyPerspective(perspective.getSplitPaneData(),
 				perspective.getDockPanelData());
+		
+		// apply ev settings after focus on view
+		boolean changed = setEVsettingsFromPerspective(app, perspective);
 
 		if (!app.isIniting()) {
 			app.updateToolBar();
