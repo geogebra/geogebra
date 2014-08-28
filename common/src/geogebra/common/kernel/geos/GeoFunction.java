@@ -2219,7 +2219,18 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	private boolean collectCases(ExpressionNode condRoot,ArrayList<ExpressionNode> cases,
 			ArrayList<Bounds> conditions, Bounds parentCond) {
-		
+		if(condRoot.getOperation()==Operation.IF_LIST){
+			MyList conds = (MyList) condRoot.getLeft().unwrap();
+			for(int i = 0; i < conds.size();i++){
+				conditions.add(parentCond.addRestriction(conds.getListElement(i).wrap()));
+			}
+			
+			MyList fns = (MyList) condRoot.getRight().unwrap();
+			for(int i = 0; i < fns.size();i++){
+				cases.add(fns.getListElement(i).wrap());
+			}
+			return fns.size() > conds.size();
+		}
 		boolean complete = condRoot.getOperation()==Operation.IF_ELSE;
 		ExpressionNode condFun = complete?((MyNumberPair)condRoot.getLeft()).getX().wrap():condRoot.getLeft().wrap();
 		ExpressionNode ifFun = complete?((MyNumberPair)condRoot.getLeft()).getY().wrap():condRoot.getRight().wrap();

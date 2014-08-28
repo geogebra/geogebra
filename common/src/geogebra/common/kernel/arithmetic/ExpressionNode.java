@@ -5017,7 +5017,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return whether the top-level operation is IF / IF_ELSE
 	 */
 	public boolean isConditional(){
-		return operation == Operation.IF || operation == Operation.IF_ELSE;
+		return operation == Operation.IF || operation == Operation.IF_ELSE || operation == Operation.IF_LIST;
 	}
 
 	/**
