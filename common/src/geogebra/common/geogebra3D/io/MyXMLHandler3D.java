@@ -1,7 +1,6 @@
 package geogebra.common.geogebra3D.io;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
@@ -62,7 +61,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 		
 		boolean ok = true;
-		EuclidianView3DInterface ev = app.getEuclidianView3D();
+		//EuclidianView3DInterface ev = app.getEuclidianView3D();
 
 		switch (eName.charAt(0)) {
 		
@@ -112,19 +111,19 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			
 		case 'p':
 			if (eName.equals("plate")) {
-				ok = handlePlate(ev, attrs);
+				ok = handlePlate((EuclidianSettings3D) evSet, attrs);
 				break;
 			} else if (eName.equals("plane")) {
-				ok = handlePlane(ev, attrs);
+				ok = handlePlane((EuclidianSettings3D) evSet, attrs);
 				break;
 			} else if (eName.equals("projection")) {
-				ok = handleProjection(ev, attrs);
+				ok = handleProjection((EuclidianSettings3D) evSet, attrs);
 				break;
 			}
 			
 		case 'y':
 			if (eName.equals("yAxisVertical")) {
-				ok = handleYAxisIsUp(ev, attrs);
+				ok = handleYAxisIsUp((EuclidianSettings3D) evSet, attrs);
 				break;
 			}
 			
@@ -224,14 +223,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 
 	/** handles plane attributes for EuclidianView3D
-	 * @param ev
+	 * @param evs
 	 * @param attrs
 	 * @return true if all is done ok
 	 * @deprecated
 	 */
-	protected boolean handlePlane(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
+	protected boolean handlePlane(EuclidianSettings3D evs, LinkedHashMap<String, String> attrs) {
 		
-		return handlePlate(ev, attrs);
+		return handlePlate(evs, attrs);
 	}
 	
 	/** handles plane attributes (show plate) for EuclidianView3D
@@ -239,14 +238,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @param attrs
 	 * @return true if all is done ok
 	 */
-	protected boolean handlePlate(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
+	protected boolean handlePlate(EuclidianSettings3D evs, LinkedHashMap<String, String> attrs) {
 		try {
 			String strShowPlate = attrs.get("show");
 
 			// show the plane
 			if (strShowPlate != null) {
 				boolean showPlate = parseBoolean(strShowPlate);
-				ev.setShowPlate(showPlate);
+				evs.setShowPlate(showPlate);
 			}
 			return true;
 		} catch (Exception e) {
@@ -261,14 +260,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @param attrs
 	 * @return true if all is done ok
 	 */
-	protected boolean handleYAxisIsUp(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
+	protected boolean handleYAxisIsUp(EuclidianSettings3D evs, LinkedHashMap<String, String> attrs) {
 		try {
 			String strYAxisVertical = attrs.get("val");
 
 			// show the plane
 			if (strYAxisVertical != null) {
 				boolean yAxisVertical = parseBoolean(strYAxisVertical);
-				ev.setYAxisVertical(yAxisVertical);
+				evs.setYAxisVertical(yAxisVertical);
 			}
 			return true;
 		} catch (Exception e) {
@@ -334,12 +333,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @param attrs
 	 * @return true if all is done ok
 	 */
-	protected boolean handleProjection(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
+	protected boolean handleProjection(EuclidianSettings3D evs, LinkedHashMap<String, String> attrs) {
 		try {
 			String strType = attrs.get("type");
 			if (strType != null) {
 				int type = Integer.parseInt(strType);
-				ev.setProjection(type);
+				evs.setProjection(type);
 			}			
 			return true;
 		} catch (Exception e) {

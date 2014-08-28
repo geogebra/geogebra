@@ -30,19 +30,29 @@ public class EuclidianSettings3D extends EuclidianSettings{
 	public double getZscale(){
 		return zscale;
 	}
-	
+
 	public void setRotXYinDegrees(double a2, double b2) {
-		this.a = a2;
-		this.b = b2;
-		
+		if (this.a != a2 || this.b != b2){
+			this.a = a2;
+			this.b = b2;
+			settingChanged();
+		}
+
 	}
 	
+
 	
+	public void updateRotXY(EuclidianView3D view){
+		view.setRotXYinDegrees(a, b);
+	}
 
 	public void updateOrigin(double xZero2, double yZero2, double zZero2) {
-		this.xZero = xZero2;
-		this.yZero = yZero2;
-		this.zZero = zZero2;
+		if (this.xZero != xZero2 || this.yZero != yZero2 || this.zZero != zZero2){
+			this.xZero = xZero2;
+			this.yZero = yZero2;
+			this.zZero = zZero2;
+			settingChanged();
+		}
 	}
 	
 	public void updateOrigin(EuclidianView3D view) {
@@ -56,27 +66,29 @@ public class EuclidianSettings3D extends EuclidianSettings{
 		return zZero;
 	}
 	
-	public void updateRotXY(EuclidianView3D view){
-		view.setRotXYinDegrees(a, b);
-	}
-	
 	
 	private boolean useClippingCube;
-	
+
 	public void setUseClippingCube(boolean flag) {
 
-		useClippingCube = flag;
+		if (useClippingCube != flag){
+			useClippingCube = flag;
+			settingChanged();
+		}
 	}
-	
+
 	public boolean useClippingCube() {
 		return useClippingCube;
 	}
 	
 
 	private boolean showClippingCube = true;
-	
+
 	public void setShowClippingCube(boolean flag) {
-		showClippingCube = flag;
+		if (showClippingCube != flag){
+			showClippingCube = flag;
+			settingChanged();
+		}
 	}
 	
 	public boolean showClippingCube() {
@@ -84,13 +96,63 @@ public class EuclidianSettings3D extends EuclidianSettings{
 	}
 	
 	private int clippingReduction;
-	
+
 	public void setClippingReduction(int value) {
-		clippingReduction = value;
+		if (clippingReduction != value){
+			clippingReduction = value;
+			settingChanged();
+		}
 	}
 	
 	public int getClippingReduction(){
 		return clippingReduction;
 	}
 
+	private boolean showPlate;
+	
+	public void setShowPlate(boolean flag) {
+		if (showPlate != flag){
+			showPlate = flag;
+			settingChanged();
+		}
+	}
+	
+	public boolean getShowPlate() {
+		return showPlate;
+	}
+	
+	private int projection;
+
+	public void setProjection(int projection) {
+		if (this.projection != projection){
+			this.projection = projection;
+			settingChanged();
+		}
+	}
+	
+	public int getProjection(){
+		return projection;
+	}
+	
+	
+	private boolean yAxisVertical = false;
+
+	/**
+	 * 
+	 * @return true if y axis is vertical (and not z axis)
+	 */
+	public boolean getYAxisVertical() {
+		return yAxisVertical;
+	}
+
+	public void setYAxisVertical(boolean flag) {
+
+		if (yAxisVertical != flag){
+			yAxisVertical = flag;
+			settingChanged();
+		}
+
+	}
+
+	
 }

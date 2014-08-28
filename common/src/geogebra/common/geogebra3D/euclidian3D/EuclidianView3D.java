@@ -277,6 +277,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		settings.setXscale(50);
 		settings.setYscale(50);
+		((EuclidianSettings3D) settings).setZscale(50);
 
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
@@ -687,14 +688,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return true if y axis is vertical (and not z axis)
 	 */
 	public boolean getYAxisVertical() {
-		return yAxisVertical;
+		return getSettings().getYAxisVertical();
 	}
 
 	public void setYAxisVertical(boolean flag) {
-		yAxisVertical = flag;
-		updateMatrix();
-		setViewChanged();
-		setWaitForUpdate();
+		getSettings().setYAxisVertical(flag);
 
 	}
 
@@ -853,7 +851,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			this.b = EuclidianController3D.ANGLE_MAX;
 		else if (this.b < -EuclidianController3D.ANGLE_MAX)
 			this.b = -EuclidianController3D.ANGLE_MAX;
-		this.getSettings().setRotXYinDegrees(a,b);
+//		this.getSettings().setRotXYinDegrees(a,b);
 
 	}
 	
@@ -885,7 +883,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				v = v.projectPlane(CoordMatrix4x4.IDENTITY)[1];
 				setZZero(ZZeroOld + v.getZ());
 			}
-			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
+//			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
 			updateMatrix();
 			setViewChangedByTranslate();
 			setWaitForUpdate();
@@ -1057,6 +1055,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void setScale(double val) {
 		getSettings().setXscale(val);
 		getSettings().setYscale(val);
+		getSettings().setZscale(val);
 		setViewChangedByZoom();
 	}
 
@@ -1773,7 +1772,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setXZero(animatedScaleStartX * (1 - t) + animatedScaleEndX * t);
 			setYZero(animatedScaleStartY * (1 - t) + animatedScaleEndY * t);
 			setZZero(animatedScaleStartZ * (1 - t) + animatedScaleEndZ * t);
-			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
+//			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
 
 			updateMatrix();
 			setViewChangedByZoom();
@@ -3842,6 +3841,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		
 		updateUseClippingCube();
 		setClippingReduction(evs.getClippingReduction());
+		
+		setShowPlate(evs.getShowPlate());
+		
+		setProjection(evs.getProjection());
 		
 		updateMatrix();
 		setViewChanged();
