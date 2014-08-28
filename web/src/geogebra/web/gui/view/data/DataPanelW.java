@@ -51,7 +51,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		buildDataTable();
 //		populateDataTable(statController.getDataArray());
 		createGUI();
-		add(new Label("o lenne az!"));
+		add(new Label("DataPanel comming soon"));
 	}
 
 	private void buildDataTable() {
