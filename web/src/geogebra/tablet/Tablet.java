@@ -175,6 +175,7 @@ public class Tablet implements EntryPoint {
 	 */
 	protected void createGeoGebraAppFrame(){
 		appFrame = new TabletGeoGebraAppFrame(new TabletLookAndFeel());
+		appFrame.addStyleName("Tablet");
 	}
 	
 
