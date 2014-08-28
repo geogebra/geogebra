@@ -294,12 +294,10 @@ public class EuclidianSettings extends AbstractSettings {
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
 
-	private double xZero;
+	protected double xZero;
 
-	private double yZero;
+	protected double yZero;
 	
-	private double zZero;
-
 	private double xscale;
 
 	private double yscale;
@@ -322,9 +320,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 
-	private double b;
 
-	private double a;
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
@@ -602,12 +598,6 @@ public class EuclidianSettings extends AbstractSettings {
 		return yZero;
 	}
 	
-	/**
-	 * Returns y coordinate of axes origin.
-	 */
-	public double getZZero() {
-		return zZero;
-	}
 
 	/**
 	 * Returns xscale of this view. The scale is the number of pixels in screen
@@ -804,113 +794,6 @@ public class EuclidianSettings extends AbstractSettings {
 		this.deleteToolSize = size;
 	}
 
-	public void getXML(StringBuilder sb, boolean asPreference) {
-
-		// Application.debug("getXML: "+a+","+b);
-
-		// if (true) return "";
-
-		sb.append("<euclidianView3D>\n");
-		
-		// coord system
-		sb.append("\t<coordSystem");
-
-		sb.append(" xZero=\"");
-		sb.append(getXZero());
-		sb.append("\"");
-		sb.append(" yZero=\"");
-		sb.append(getYZero());
-		sb.append("\"");
-		sb.append(" zZero=\"");
-		sb.append(getZZero());
-		sb.append("\"");
-
-		sb.append(" scale=\"");
-		sb.append(getXscale());
-		sb.append("\"");
-
-		sb.append(" xAngle=\"");
-		sb.append(b);
-		sb.append("\"");
-		sb.append(" zAngle=\"");
-		sb.append(a);
-		sb.append("\"");
-
-		sb.append("/>\n");
-		
-
-		// ev settings
-		sb.append("\t<evSettings axes=\"");
-		sb.append(getShowAxis(0) || getShowAxis(1) || getShowAxis(2));
-		
-		sb.append("\" grid=\"");
-		sb.append(getShowGrid());
-		sb.append("\" gridIsBold=\""); //
-		sb.append(gridIsBold); // Michael Borcherds 2008-04-11
-		sb.append("\" pointCapturing=\"");
-
-		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML 
-		sb.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT : getPointCapturingMode()); 
-
-//		sb.append("\" rightAngleStyle=\"");
-//		sb.append(getApplication().rightAngleStyle);
-//		if (asPreference) {
-//			sb.append("\" allowShowMouseCoords=\"");
-//			sb.append(getAllowShowMouseCoords());
-//
-//			sb.append("\" allowToolTips=\"");
-//			sb.append(getAllowToolTips());
-//			
-//			sb.append("\" deleteToolSize=\"");
-//			sb.append(getEuclidianController().getDeleteToolSize());
-//		}
-
-//		sb.append("\" checkboxSize=\"");
-//		sb.append(app.getCheckboxSize()); // Michael Borcherds
-													// 2008-05-12
-
-		sb.append("\" gridType=\"");
-		sb.append(getGridType()); // cartesian/isometric/polar
-
-//		if (lockedAxesRatio != null) {
-//			sb.append("\" lockedAxesRatio=\"");
-//			sb.append(lockedAxesRatio);
-//		}
-
-		sb.append("\"/>\n");
-		// end ev settings
-
-				
-				
-
-		// axis settings
-		for (int i = 0; i < 3; i++) {
-//			sb.append("\t<axis id=\"");
-//			sb.append(i);
-//			sb.append("\" show=\"");
-//			sb.append(axis[i].isEuclidianVisible());
-//			sb.append("\" label=\"");
-//			sb.append(axis[i].getAxisLabel());
-//			sb.append("\" unitLabel=\"");
-//			sb.append(axis[i].getUnitLabel());
-//			sb.append("\" tickStyle=\"");
-//			sb.append(axis[i].getTickStyle());
-//			sb.append("\" showNumbers=\"");
-//			sb.append(axis[i].getShowNumbers());
-//
-//			// the tick distance should only be saved if
-//			// it isn't calculated automatically
-//			/*
-//			 * if (!automaticAxesNumberingDistances[i]) {
-//			 * sb.append("\" tickDistance=\"");
-//			 * sb.append(axesNumberingDistances[i]); }
-//			 */
-//
-//			sb.append("\"/>\n");
-			addAxisXML(i, sb);
-		}
-		sb.append("</euclidianView3D>\n");
-	}
 	
 	public void addAxisXML(int i, StringBuilder sbxml){
 		sbxml.append("\t<axis id=\"");
@@ -966,11 +849,7 @@ public class EuclidianSettings extends AbstractSettings {
 		return axesLabels[i];
 	}
 
-	public void updateRotation(double a2, double b2) {
-		this.a = a2;
-		this.b = b2;
-		
-	}
+
 
 	public void setXscale(double scale) {
 		this.xscale = scale;
@@ -981,9 +860,4 @@ public class EuclidianSettings extends AbstractSettings {
 		
 	}
 
-	public void updateOrigin(double xZero2, double yZero2, double zZero2) {
-		this.xZero = xZero2;
-		this.yZero = yZero2;
-		this.zZero = zZero2;
-	}
 }

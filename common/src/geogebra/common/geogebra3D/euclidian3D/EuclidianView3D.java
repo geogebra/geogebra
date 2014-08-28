@@ -87,7 +87,9 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.main.settings.EuclidianSettings3D;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.debug.Log;
@@ -851,8 +853,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			this.b = EuclidianController3D.ANGLE_MAX;
 		else if (this.b < -EuclidianController3D.ANGLE_MAX)
 			this.b = -EuclidianController3D.ANGLE_MAX;
-		this.getSettings().updateRotation(a,b);
+		this.getSettings().setRotXYinDegrees(a,b);
 
+	}
+	
+	@Override
+	public EuclidianSettings3D getSettings(){
+		return (EuclidianSettings3D) super.getSettings();
 	}
 
 	/** Sets coord system from mouse move */
@@ -1026,7 +1033,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	/** @return the z-scale */
 	public double getZscale() {
-		return getSettings().getXscale();
+		return getSettings().getZscale();
 	}
 	
 
@@ -1478,26 +1485,24 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return true;
 	}
 
-	private boolean useClippingCube = true;
-	private boolean showClippingCube = true;
 
 	/**
 	 * 
 	 * @return true if use of clipping cube
 	 */
 	public boolean useClippingCube() {
-		return useClippingCube;
+		return getSettings().useClippingCube();
 	}
 
 	public void setUseClippingCube(boolean flag) {
 
-		useClippingCube = flag;
+		getSettings().setUseClippingCube(flag);
 		updateUseClippingCube();
 
 	}
 
 	private void updateUseClippingCube() {
-		renderer.setEnableClipPlanes(useClippingCube);
+		renderer.setEnableClipPlanes(useClippingCube());
 		setViewChanged();
 		setWaitForUpdate();
 	}
@@ -1507,7 +1512,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return true if clipping cube is shown
 	 */
 	public boolean showClippingCube() {
-		return showClippingCube;
+		return getSettings().showClippingCube();
 	}
 
 	/**
@@ -1517,7 +1522,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            flag
 	 */
 	public void setShowClippingCube(boolean flag) {
-		showClippingCube = flag;
+		getSettings().setShowClippingCube(flag);
 		setWaitForUpdate();
 	}
 
@@ -1525,7 +1530,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * toggle show/hide clipping
 	 */
 	public void toggleShowAndUseClippingCube() {
-		boolean flag = showClippingCube || useClippingCube;
+		boolean flag = showClippingCube() || useClippingCube();
 		setShowClippingCube(!flag);
 		setUseClippingCube(!flag);
 	}
@@ -3824,5 +3829,22 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 		
 		return getShowGrid();
+	}
+	
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		super.settingsChanged(settings);
+		
+		EuclidianSettings3D evs = (EuclidianSettings3D) settings;
+		
+		evs.updateOrigin(this);
+		evs.updateRotXY(this);
+		
+		updateUseClippingCube();
+		setClippingReduction(evs.getClippingReduction());
+		
+		updateMatrix();
+		setViewChanged();
+		setWaitForUpdate();	
 	}
 }

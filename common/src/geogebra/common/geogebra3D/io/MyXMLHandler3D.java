@@ -1,7 +1,6 @@
 package geogebra.common.geogebra3D.io;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
@@ -15,6 +14,7 @@ import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.main.settings.EuclidianSettings3D;
 import geogebra.common.util.StringUtil;
 
 import java.util.LinkedHashMap;
@@ -78,17 +78,17 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			
 		case 'b':
 			if (eName.equals("bgColor")) {
-				ok = handleBgColor(ev, attrs);
+				ok = handleBgColor(evSet, attrs);
 				break;
 			}
 			
 
 		case 'c':
 			if (eName.equals("coordSystem")) {
-				ok = handleCoordSystem3D(ev, attrs);
+				ok = handleCoordSystem3D((EuclidianSettings3D) evSet, attrs);
 				break;
 			}else if (eName.equals("clipping")) {
-				ok = handleClipping(ev, attrs);
+				ok = handleClipping((EuclidianSettings3D) evSet, attrs);
 				break;
 			}
 			
@@ -175,7 +175,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 	
-	private static boolean handleCoordSystem3D(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleCoordSystem3D(EuclidianSettings3D evs, LinkedHashMap<String, String> attrs) {
 		try {
 			double xZero = Double.parseDouble(attrs.get("xZero"));
 			double yZero = Double.parseDouble(attrs.get("yZero"));
@@ -188,14 +188,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			double zAngle = Double.parseDouble(attrs.get("zAngle"));
 			
 
-			ev.setScale(scale);
-			//ev.setXZero(xZero);ev.setYZero(yZero);ev.setZZero(zZero);
-			ev.setRotXYinDegrees(zAngle, xAngle);
-			ev.setZeroFromXML(xZero,yZero,zZero);
+			evs.setXscale(scale);
+			evs.setYscale(scale);
+			evs.setZscale(scale);
+			evs.setRotXYinDegrees(zAngle, xAngle);
+			evs.updateOrigin(xZero,yZero,zZero);
 			
-			ev.updateMatrix();
-			ev.setViewChanged();
-			ev.setWaitForUpdate();	
 			
 			return true;
 		} catch (Exception e) {
@@ -303,26 +301,26 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	}
 	
 	/** 
-	 * @param ev
+	 * @param evs
 	 * @param attrs
 	 * @return true if all is done ok
 	 */
-	protected boolean handleClipping(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
+	protected boolean handleClipping(EuclidianSettings3D evs, LinkedHashMap<String, String> attrs) {
 		try {
 			String strUseClipping = attrs.get("use");
 			if (strUseClipping != null) {
 				boolean useClipping = parseBoolean(strUseClipping);
-				ev.setUseClippingCube(useClipping);
+				evs.setUseClippingCube(useClipping);
 			}
 			String strShowClipping = attrs.get("show");
 			if (strShowClipping != null) {
 				boolean showClipping = parseBoolean(strShowClipping);
-				ev.setShowClippingCube(showClipping);
+				evs.setShowClippingCube(showClipping);
 			}			
 			String strSizeClipping = attrs.get("size");
 			if (strSizeClipping != null) {
 				int sizeClipping = Integer.parseInt(strSizeClipping);
-				ev.setClippingReduction(sizeClipping);
+				evs.setClippingReduction(sizeClipping);
 			}			
 			return true;
 		} catch (Exception e) {
@@ -372,16 +370,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		return p;
 	}
 	
-	private static boolean handleBgColor(EuclidianViewInterfaceCommon ev, LinkedHashMap<String, String> attrs) {
-		
-		App.debug("TODO: remove this");
-		
-		geogebra.common.awt.GColor col = handleColorAttrs(attrs);
-		if (col == null)
-			return false;
-		ev.setBackground(col);
-		return true;
-	}
 	
 	private static GColor handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {

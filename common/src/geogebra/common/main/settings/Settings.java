@@ -47,17 +47,29 @@ public class Settings {
 
 		resetSettings();
 	}
+	
+	private EuclidianSettings createEuclidanSettings(int i){
+		
+		EuclidianSettings base = null;
+		if (i != 0){
+			base = euclidianSettings[0];
+		}
+		
+		if (i == 2){ // 3D view
+			return new EuclidianSettings3D(base);
+		}
+		
+		return new EuclidianSettings(base);
+	}
 
 	public void resetSettings() {
 		for (int i = 0; i < euclidianSettings.length; ++i) {
 			if (euclidianSettings[i] == null) {
-				euclidianSettings[i] = new EuclidianSettings(i == 0 ? null
-						: euclidianSettings[0]);
+				euclidianSettings[i] = createEuclidanSettings(i);
 			} else {
 				LinkedList<SettingListener> ls = euclidianSettings[i]
 						.getListeners();
-				euclidianSettings[i] = new EuclidianSettings(i == 0 ? null
-						: euclidianSettings[0]);
+				euclidianSettings[i] = createEuclidanSettings(i);
 				Iterator<SettingListener> lsi = ls.iterator();
 				while (lsi.hasNext()) {
 					SettingListener a = lsi.next();

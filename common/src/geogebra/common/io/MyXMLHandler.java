@@ -1410,7 +1410,7 @@ public class MyXMLHandler implements DocHandler {
 	// }
 	// }
 
-	private static boolean handleBgColor(EuclidianSettings evSet,
+	protected static boolean handleBgColor(EuclidianSettings evSet,
 			LinkedHashMap<String, String> attrs) {
 		geogebra.common.awt.GColor col = handleColorAttrs(attrs);
 		if (col == null)
