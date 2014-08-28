@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.RequiresResize;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
-
 	private int MENUBAR_WIDTH = 0;
 	private boolean menuClosed = true;
 

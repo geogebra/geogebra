@@ -969,7 +969,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 			final GDimensionW colorIconSize = new GDimensionW(20, iconHeight);
 			btnColor = new ColorPopupMenuButton(app, colorIconSize,
-					ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 				@Override
 				public void update(Object[] geos) {
@@ -1020,7 +1020,8 @@ public class EuclidianStyleBarW extends StyleBarW
 										.getPlain("stylebar.ColorTransparency"));
 							else
 								setTitle(app.getPlain("stylebar.Color"));
-
+							setSliderVisible(hasFillable);
+							
 							setSliderValue(Math.round(alpha * 100));
 
 							updateColorTable();
