@@ -75,10 +75,11 @@ public class AlgoCellRangeManager {
 		}
 
 	}
-	
-	
-	public void removeAll(){
-		cellRangeAlgos.clear();
+
+	public void removeAll() {
+		if (cellRangeAlgos != null) {
+			cellRangeAlgos.clear();
+		}
 	}
 
 }
