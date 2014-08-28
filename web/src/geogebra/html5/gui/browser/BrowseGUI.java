@@ -19,7 +19,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.operations.GoogleDriveFileHandler;
-import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,17 +51,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	
 	protected final AppWeb app;
 	private MaterialListElement lastSelected;
-	
-	protected EventRenderable loginCallback = new EventRenderable(){
-		private boolean active = true;
-		public void renderEvent(final BaseEvent e){
-			final GoogleDriveOperationW op = ((AppW) BrowseGUI.this.app).getGoogleDriveOperation();
-			if (active && op.isLoggedIntoGoogle()) {
-				op.initFileNameItems(BrowseGUI.this);
-				active = false;
-			}
-		}
-	};
+
 	
 	public class MyButton extends FlowPanel {
 		public MyButton(final BrowseGUI bg) {
@@ -202,24 +191,16 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		initProviders();
 		this.providerPanel.setStyleName("providers");
 		this.container.add(providerPanel);
-		app.getLoginOperation().getView().add(new EventRenderable() {
-
-			@Override
-			public void renderEvent(final BaseEvent event) {
-				initProviders();
-
-			}
-		});
 		
 		this.setContentWidget(this.container);
 	}
 
-	public void loadFeatured() {
+	public void loadFeatured() {		
 		this.header.clearSearchPanel();
 		this.materialListPanel.loadFeatured();
 	}
 	
-	public void onSearchResults(final List<Material> response) {
+	public void onSearchResults(final List<Material> response) {		
 		this.materialListPanel.onSearchResults(response);
 	}
 	
@@ -319,6 +300,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	@Override
     public void renderEvent(final BaseEvent event) {
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
+	    	initProviders();
 	    	loadFeatured();
 	    }
     }
