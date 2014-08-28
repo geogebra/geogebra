@@ -35,7 +35,7 @@ public class MaterialListPanelP extends MaterialListPanelT {
 	public void addMaterial(final Material mat) {
 		final MaterialListElement preview = new MaterialListElementP(mat, this.app);
 		this.materials.add(preview);
-		this.add(preview);
+		this.insert(preview, 0);
 	}
 
 	

@@ -27,6 +27,6 @@ public class TabletMaterialListPanel extends MaterialListPanelT {
 	public void addMaterial(final Material mat) {
 		final MaterialListElement preview = new TabletMaterialElement(mat, this.app);
 		this.materials.add(preview);
-		this.add(preview);
+		this.insert(preview, 0);
 	}
 }

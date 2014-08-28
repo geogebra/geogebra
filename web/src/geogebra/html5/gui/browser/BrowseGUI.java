@@ -301,7 +301,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
     public void renderEvent(final BaseEvent event) {
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
 	    	initProviders();
-	    	loadFeatured();
+	    	this.materialListPanel.setLoggedIn(event instanceof LoginEvent && ((LoginEvent)event).isSuccessful());
 	    }
     }
 

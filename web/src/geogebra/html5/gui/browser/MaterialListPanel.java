@@ -37,6 +37,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * list of all shown {@link MaterialListElement materials}
 	 */
 	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
+	private MaterialCallback rc;
 	
 	public MaterialListPanel(final AppWeb app) {
 		this.app = app;
@@ -71,6 +72,13 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 				}
 			}
 		}, TouchMoveEvent.getType());
+		rc = new MaterialCallback() {
+
+			@Override
+			public void onLoaded(final List<Material> parseResponse) {
+				onSearchResults(parseResponse);
+			}
+		};
 	}
 
 	/**
@@ -95,40 +103,25 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 
 	protected void loadggt() {
 		final GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
-		
-		if(app.getLoginOperation().isLoggedIn()){
-			api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), new MaterialCallback() {
-
-				@Override
-				public void onLoaded(final List<Material> response) {
-					onSearchResults(response);
-					api.getFeaturedMaterials(new MaterialCallback() {
-
-						@Override
-						public void onLoaded(final List<Material> parseResponse) {
-							onSearchResults(parseResponse);
-						}
-					});
+		api.getFeaturedMaterials(new MaterialCallback() {
+			
+			@Override
+			public void onLoaded(final List<Material> response) {
+				onSearchResults(response);
+				if(app.getLoginOperation().isLoggedIn()){
+					api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
 				}
-			});
-		} else {
-			api.getFeaturedMaterials(new MaterialCallback() {
-				
-				@Override
-				public void onLoaded(final List<Material> response) {
-					onSearchResults(response);
-				}
-			});
-		}
-    }
-	
+			}
+		});
+	}
+
 	/**
 	 * adds the new materials (matList)
 	 * @param matList List<Material>
 	 */
-	public void onSearchResults(final List<Material> matList) {
-		for (final Material mat : matList) {
-			addMaterial(mat);
+	public final void onSearchResults(final List<Material> matList) {
+		for (int i = matList.size()-1;i>=0;i--) {
+			addMaterial(matList.get(i));
 		}
 	}
 
@@ -140,7 +133,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	public void addMaterial(final Material mat) {
 		final MaterialListElement preview = ((AppW)app).getLAF().getMaterialElement(mat, this.app);
 		this.materials.add(preview);
-		this.add(preview);
+		this.insert(preview,0);
 	}
 
 	/**
@@ -235,4 +228,13 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			elem.onResize();
 		}
 	}
+
+	public void setLoggedIn(boolean b) {
+	    if(b){
+	    	((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
+	    }else{
+	    	this.loadFeatured();
+	    }
+	    
+    }
 }
