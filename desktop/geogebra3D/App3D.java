@@ -194,7 +194,9 @@ public class App3D extends AppD {
 	@Override
 	public boolean saveGeoGebraFile(File file) {
 		// TODO generate it before
-		((RendererD) getEuclidianView3D().getRenderer()).needExportImage();
+		if (euclidianView3D != null) {
+			((RendererD) getEuclidianView3D().getRenderer()).needExportImage();
+		}
 
 		return super.saveGeoGebraFile(file);
 	}
@@ -386,6 +388,11 @@ public class App3D extends AppD {
 
 		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
 				maxY / getEuclidianView1().getSelectedHeight());
+
+		if (this.euclidianView3D == null) {
+			return ((EuclidianViewInterfaceDesktop) getActiveEuclidianView())
+					.getExportImage(scale);
+		}
 
 		EuclidianView3D ev3D = getEuclidianView3D();
 
