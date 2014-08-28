@@ -1553,9 +1553,11 @@ Paddings for menuitems.
 	margin-top: 2px;
 }
 
-.gPopupMenu_item .gwt-HTML img {
-	margin-top: 1px;
+.gPopupMenu_item img,
+.gwt-MenuItem img {
 	vertical-align: top;
+	width: 20px !important;
+	height: 20px !important;
 }
 
 /*#####################################################################################
@@ -1748,11 +1750,21 @@ Paddings for menuitems.
 /* 	border-radius: 5px; */
 /* 	border: #DCDCDC solid 1px; */
 	padding: 3px;
+	cursor: pointer;
 }
 
 .gwt-Label.stylebarButton {
 	height: 24px;
 	width: 24px;
+}
+.SelectionTable .gwt-Label.border:hover,
+.SelectionTable .gwt-Label.border:active,
+.SelectionTable .gwt-Label.border.selected /*,
+.SelectionTable .gwt-Label.borderButton:hover,
+.SelectionTable .gwt-Label.borderButton:active,
+.SelectionTable .gwt-Label.borderButton.selected*/ {
+	background-color: transparent !important;
+	border: 1px solid #6161FF;
 }
 
 .gwt-Label.border {
@@ -1765,7 +1777,7 @@ Paddings for menuitems.
 	width: 24px;
 }
 
-.gwt-Label.textIconButton{
+.gwt-Label.textIconButton {
 	background-position: center left;
 	padding-left:28px;
 	border: none;
@@ -1799,6 +1811,7 @@ Paddings for menuitems.
 .SelectionTable a:focus,
 .SelectionTable .gwt-Label:hover,
 .SelectionTable .gwt-Label:focus,
+.SelectionTable .stylebarButton.selected,
 .SelectionTable canvas:hover,
 .SelectionTable canvas:focus
 	{
@@ -3631,6 +3644,10 @@ iframe.objectPropertiesTextEditor {
 	float: left;
 }
 
+.ggbLogoPanel {
+	margin-right: 5px;
+}
+
 .locationTitle {
 	font-size: 150%;
 	color: #6666FF;
@@ -3639,8 +3656,8 @@ iframe.objectPropertiesTextEditor {
 }
 
 .headerSecond {
-	margin-right: 10px;
-	margin-top: 11px;
+	padding-top: 10px;
+	padding-right: 15px;
 	float: right;
 }
 
@@ -3703,10 +3720,6 @@ iframe.objectPropertiesTextEditor {
 	width: 11px;
 }
 
-.ggbLogoPanel {
-	margin-right: 15px;
-}
-
 /*+++++++++++++++++++++++++++++++++++++++++++++++
 PROVIDERS
 +++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -3745,28 +3758,14 @@ PROVIDERS
 
 .searchDiv {
 	flex-grow: 1;
-	border: #DCDCDC solid 1px;
-	background: #FFFFFF;
-	border-radius: 5px;
-	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
-	margin-top: 16px;
-	margin-bottom: 14px;
-	margin-left: 5px;
-	margin-right: 10px;
+	margin: 15px 10px;
 	position: relative;
 	float: left;
 }
 
-.searchDiv .searchTextBox {
-	color: #999999;
-	font-size: 90%;
-	border: none;
-	box-shadow: none;
-}
-
 .searchDiv .searchButton {
 	position: absolute;
-	top: 5px;
+	top: 6px;
 	left: 6px;
 	z-index: 10;
 	cursor: pointer;
@@ -3774,15 +3773,18 @@ PROVIDERS
 
 .searchDiv input.gwt-TextBox {
 	padding-left: 35px;
+	padding-right: 35px;
 	z-index: 5;
 	flex-grow: 1;
+	color: #999999;
+	width: 100%;
 }
 
 .searchDiv .cancelButton {
 	z-index: 10;
 	position: absolute;
-	top: 6px;
-	right: 6px;
+	top: 8px;
+	right: 8px;
 	cursor: pointer;
 }
 
@@ -3791,6 +3793,7 @@ PROVIDERS
 .materialListPanel {
 	padding: 20px;
 	overflow-y: scroll;
+	padding-bottom: 70px;
 }
 
 .materialListElement {
@@ -3872,12 +3875,17 @@ PROVIDERS
 	cursor: pointer;
 }
 
-.materialListElement.selected .button {
+.materialListElement.selected .infoPanel .button {
 	cursor: pointer;
 }
 
-.materialListElement .button:hover,
-.materialListElement .button:active {
+.PhoneGUI .materialListElement.selected .infoPanel .button,
+.Tablet .materialListElement.selected .infoPanel .button {
+	padding: 5px 0px;
+}
+
+.materialListElement .infoPanel .button:hover,
+.materialListElement .infoPanel .button:active {
 	color: #6161FF;
 }
 

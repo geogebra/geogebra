@@ -33,7 +33,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/algebra-view-tree-closed.png")
 	ImageResource algebra_tree_closed();
 	
-	@Source("icons/png/geogebra-logo.png")
+	@Source("icons/png/web/ggb_logo_back.png")
 	ImageResource header_back();
 	
 	// PHONE GUI

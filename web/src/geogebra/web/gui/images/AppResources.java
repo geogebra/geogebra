@@ -13,13 +13,15 @@ public interface AppResources extends ClientBundleWithLookup {
 //	ImageResource icon();
 //	
 	
-	@Source("geogebra/web/gui/images/view-properties16.png")
+	//@Source("geogebra/web/gui/images/view-properties16.png")
+	@Source("icons/png/web/menu_icons/menu-options.png")
 	ImageResource view_properties16();
 	
 	@Source("geogebra/web/gui/images/options-layout24.png")
 	ImageResource options_layout24();
 	
-	@Source("geogebra/web/gui/images/pin.png")
+	//@Source("geogebra/web/gui/images/pin.png")
+	@Source("icons/png/web/menu_icons/menu-pin.png")
 	ImageResource pin();
 	
 	@Source("geogebra/web/gui/images/geogebra32.png")
@@ -115,7 +117,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/cursor_zoomout.gif")
 	ImageResource cursor_zoomout();
 	
-	@Source("geogebra/web/gui/images/delete_small.gif")
+	//@Source("geogebra/web/gui/images/delete_small.gif")
+	@Source("icons/png/web/menu_icons/menu-edit-delete.png")
 	ImageResource delete_small();
 	
 	/*@Source("geogebra/web/gui/images/document-new.png")
@@ -139,13 +142,16 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/edit-clear.png")
 	ImageResource edit_clear();
 	
-	@Source("geogebra/web/gui/images/edit-copy.png")
+	//@Source("geogebra/web/gui/images/edit-copy.png")
+	@Source("icons/png/web/menu_icons/menu-edit-copy.png")
 	ImageResource edit_copy();
 	
-	@Source("geogebra/web/gui/images/edit-cut.png")
+	//@Source("geogebra/web/gui/images/edit-cut.png")
+	@Source("icons/png/web/menu_icons/menu-edit-cut.png")
 	ImageResource edit_cut();
 	
-	@Source("geogebra/web/gui/images/edit-paste.png")
+	//@Source("geogebra/web/gui/images/edit-paste.png")
+	@Source("icons/png/web/menu_icons/menu-edit-paste.png")
 	ImageResource edit_paste();
 	
 	/*@Source("geogebra/web/gui/images/edit-redo.png")
@@ -154,7 +160,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/edit-undo.png")
 	ImageResource edit_undo();*/
 	
-	@Source("geogebra/web/gui/images/edit.png")
+	//@Source("geogebra/web/gui/images/edit.png")
+	@Source("icons/png/web/menu_icons/menu-edit.png")
 	ImageResource edit();
 	
 	@Source("geogebra/web/gui/images/empty.gif")
@@ -295,16 +302,19 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/mode_angle_16.gif")
 	ImageResource mode_angle_16();
 	
-	@Source("geogebra/web/gui/images/mode_copyvisualstyle_16.png")
+	//@Source("geogebra/web/gui/images/mode_copyvisualstyle_16.png")
+	@Source("icons/png/web/menu_icons/menu-edit-copy-visual-style.png")
 	ImageResource mode_copyvisualstyle_16();
 	
 	@Source("geogebra/web/gui/images/mode_point_16.gif")
 	ImageResource mode_point_16();
 	
-	@Source("geogebra/web/gui/images/mode_showhidelabel_16.gif")
+	//@Source("geogebra/web/gui/images/mode_showhidelabel_16.gif")
+	@Source("icons/png/web/menu_icons/menu-options-labeling.png")
 	ImageResource mode_showhidelabel_16();
 	
-	@Source("geogebra/web/gui/images/mode_showhideobject_16.gif")
+	//@Source("geogebra/web/gui/images/mode_showhideobject_16.gif")
+	@Source("icons/png/web/menu_icons/mode_showhideobject.png")
 	ImageResource mode_showhideobject_16();
 	
 	@Source("geogebra/web/gui/images/nav_fastforward.png")
@@ -364,7 +374,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/perspective.gif")
 	ImageResource perspective();
 	
-	@Source("geogebra/web/gui/images/rename.png")
+	//@Source("geogebra/web/gui/images/rename.png")
+	@Source("icons/png/web/menu_icons/menu-edit-rename.png")
 	ImageResource rename();
 	
 	@Source("geogebra/web/gui/images/right_angle.gif")
@@ -388,7 +399,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/spreadsheettrace_hover.gif")
 	ImageResource spreadsheettrace_hover();
 	
-	@Source("geogebra/web/gui/images/spreadsheettrace.gif")
+	//@Source("geogebra/web/gui/images/spreadsheettrace.gif")
+	@Source("icons/png/web/menu_icons/menu-record-to-spreadsheet.png")
 	ImageResource spreadsheettrace();
 	
 	@Source("geogebra/web/gui/images/table.gif")
@@ -409,7 +421,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/tool.png")
 	ImageResource tool();
 	
-	@Source("geogebra/web/gui/images/trace_on.gif")
+	//@Source("geogebra/web/gui/images/trace_on.gif")
+	@Source("icons/png/web/menu_icons/menu-trace-on.png")
 	ImageResource trace_on();
 	
 	@Source("geogebra/web/gui/images/tree-close.png")
@@ -487,7 +500,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/xy_table.png")
 	ImageResource xy_table();
 	
-	@Source("geogebra/web/gui/images/zoom16.gif")
+	//@Source("geogebra/web/gui/images/zoom16.gif")
+	@Source("icons/png/web/menu_icons/menu-file-open.png")
 	ImageResource zoom16();
 	
 	/*@Source("geogebra/web/gui/images/drive_icon_16.png")
