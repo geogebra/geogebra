@@ -1852,13 +1852,17 @@ namespace giac {
 	      vecteur res;
 	      if (n0)
 		res.push_back(0);
+	      gen g2g1=g2/g1;
 	      if (n%2){
-		res.push_back(pow(-g2/g1,inv(n,contextptr),contextptr));
+		if (is_positive(g2g1,contextptr))
+		  res.push_back(-pow(g2g1,inv(n,contextptr),contextptr));
+		else
+		  res.push_back(pow(-g2g1,inv(n,contextptr),contextptr));
 		return res;
 	      }
-	      if (is_positive(g2/g1,contextptr))
+	      if (is_positive(g2g1,contextptr))
 		return res;
-	      gen g=pow(-g2/g1,inv(n,contextptr),contextptr);
+	      gen g=pow(-g2g1,inv(n,contextptr),contextptr);
 	      res.push_back(-g); res.push_back(g);
 	      return res;
 	    }
@@ -5473,7 +5477,7 @@ namespace giac {
 	int s=ls.size()/3;
 	vecteur substin,substout,equations,listvars;
 	vector<int> poscheck;
-	for (unsigned i=0;i<s;++i){
+	for (unsigned i=0;int(i)<s;++i){
 	  gen lsvar=ls[3*i+2];
 	  gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);
 	  if (equalposcomp(substin,lsvar))
@@ -5627,7 +5631,7 @@ namespace giac {
 	      // accuracy
 	      int nbits=0;
 	      gen deuxn=1,lr=r-l;
-	      gen Eps=pow(gen(10),int(floor(std::log10(eps))),contextptr);
+	      gen Eps=pow(gen(10),int(std::floor(std::log10(eps))),contextptr);
 	      for (;is_greater(1,deuxn*lr,contextptr);){
 		++nbits;
 		deuxn=plus_two*deuxn;
