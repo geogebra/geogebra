@@ -15,16 +15,18 @@ public class UploadRequest implements Request {
 	private AppW app;
 	private String consTitle = "GeoGebra";
 	private String uniqueID;
+	private String base64;
 	
 	
 	/**
 	 * @param app AppW
 	 * @param consTitle title of construction
 	 */
-	UploadRequest(AppW app, String consTitle) {
+	UploadRequest(AppW app, String consTitle, String base64) {
 		this.app = app;
 		this.consTitle = consTitle;
 		this.uniqueID = this.app.getUniqueId();
+		this.base64 = base64;
 	}
 	
 	
@@ -88,7 +90,7 @@ public class UploadRequest implements Request {
 			
 			//file
 			JSONObject file = new JSONObject();
-					file.put("-base64", new JSONString(app.getGgbApi().getBase64(true)));
+					file.put("-base64", new JSONString(this.base64));
 			task.put("file", file);
 			
 			api.put("task", task);
@@ -102,8 +104,8 @@ public class UploadRequest implements Request {
 	 * @param filename title of construction
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(AppW app, String filename) {
-		return new UploadRequest(app, filename);
+	public static UploadRequest getRequestElement(AppW app, String filename, String base64) {
+		return new UploadRequest(app, filename, base64);
 	}
 
 }
