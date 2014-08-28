@@ -55,6 +55,13 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 		
 		//TODO - use new icon; this is just a placeholder
 		this.backButton = new StandardButton(BrowseResources.INSTANCE.back());
+		this.backButton.addFastClickHandler(new FastClickHandler() {
+			
+			@Override
+			public void onClick() {
+				gui.close();
+			}
+		});
 		this.backButton.addStyleName("backButton");
 		this.backPanel.add(this.backButton);
 		
