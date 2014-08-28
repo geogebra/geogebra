@@ -39,6 +39,7 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoAngle;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -1522,7 +1523,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 	private boolean drawableNeeded(GeoElement geo) {
 		return isVisibleInThisView(geo) && (geo.isLabelSet() || this.isPlotPanel()) && (geo.isEuclidianVisible() 
-				|| (geo.isGeoText() && ((GeoText)geo).isNeedsUpdatedBoundingBox()));
+				|| (geo.isGeoText() && ((GeoText)geo).isNeedsUpdatedBoundingBox())
+				|| (geo.isGeoAngle() && geo.getParentAlgorithm() instanceof AlgoAngle));
 	}
 
 	public boolean isPlotPanel() {
