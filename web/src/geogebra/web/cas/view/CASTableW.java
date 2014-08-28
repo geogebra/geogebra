@@ -32,11 +32,7 @@ public class CASTableW extends Grid implements CASTable {
 		this.app = app;
 		this.ml = ml;
 		
-		this.addStyleName("CAS-table");
-		/*setBorderWidth(1);
-		getElement().getStyle().setBorderColor(
-		        MyTableW.TABLE_GRID_COLOR.toString());
-		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);*/
+		addStyleName("CAS-table");
 		insertRow(0, null, false);
 		view = casViewW;
 	}
@@ -73,13 +69,7 @@ public class CASTableW extends Grid implements CASTable {
 		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
 		getCellFormatter().addStyleName(n, COL_CAS_HEADER, "cas_header");
 		
-		// Steffi: Styles moved to stylesheet
-		/*getCellFormatter()
-		        .getElement(n, COL_CAS_HEADER)
-		        .getStyle()
-		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());*/
-		
-		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
+		setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 		
 		if (n < getRowCount()-1){
 			//Let increase the labels below the n. row.
@@ -122,8 +112,9 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	public void startEditingRow(int n) {
-		app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_CAS).setPanelVisible(n!=0); 
-
+		if (n == 0) {
+			setFirstRowFront(true);
+		}
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
 
 		if (w == editing)
@@ -162,15 +153,8 @@ public class CASTableW extends Grid implements CASTable {
 		
 		Widget cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1,casCell, (AppW) getApplication());
+		
 		setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
-		
-		// Steffi: styles moved to stylesheet
-		/*getCellFormatter()
-		        .getElement(rowNumber, COL_CAS_HEADER)
-		        .getStyle()
-		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());*/
-		//setRowSelected(rowNumber, false);
-		
 		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 		if(casCell.isUseAsText()){
 			((CASTableCellW)cellWidget).setFont();
@@ -236,12 +220,6 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	private void markRowSelected(int rowNumber, boolean b) {
-		/*GColor color = b?GColor.GRAY:MyTableW.BACKGROUND_COLOR_HEADER;
-		getCellFormatter()
-        .getElement(rowNumber, COL_CAS_HEADER)
-        .getStyle()
-        .setBackgroundColor(color.toString());*/
-		
 		setRowSelected(rowNumber, b);
     }
 
@@ -262,5 +240,14 @@ public class CASTableW extends Grid implements CASTable {
 	    }
 	    return -1;
     }
+	
+	public void setFirstRowFront(boolean value) {
+		CellFormatter cellFormatter = getCellFormatter();
+		if (value) {
+			cellFormatter.addStyleName(0, COL_CAS_CELLS_WEB, "CAS_table_first_row_selected");
+		} else {
+			cellFormatter.removeStyleName(0, COL_CAS_CELLS_WEB, "CAS_table_first_row_selected");
+		}
+	}
 
 }

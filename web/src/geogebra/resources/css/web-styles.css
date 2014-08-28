@@ -2665,6 +2665,12 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	-webkit-box-sizing: border-box;
 }
 
+.CAS_table_first_row_selected {
+	background-color:white;
+	position:relative;
+	z-index:20
+}
+
 /*#####################################################################################
 ###       SIGN IN DIALOG
 #####################################################################################*/
