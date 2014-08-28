@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.TableAlgo;
@@ -289,8 +290,23 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				
 				strHeader = new String[2];
 				strHeader[0] = loc.getMenu("Value");
-				strHeader[1] = useDens ? loc.getMenu("Frequency") : loc
-						.getMenu("Count");
+				if (useDens){
+					if (scale != null){
+						double scaleValue = scale.getDouble();
+						if (Kernel.isEqual(scaleValue, 1.0)){
+							strHeader[1] = loc.getMenu("FrequencyTable.Count");
+						}else if (Kernel.isEqual(scaleValue * dataList.size(), 1)){
+							strHeader[1] = loc.getMenu("FrequencyTable.RelativeFrequency");
+						}else{
+							strHeader[1] = loc.getMenu("FrequencyTable.Frequency");
+						}
+					}else{
+						strHeader[1] = loc.getMenu("FrequencyTable.Frequency");
+					}					
+				}else{
+					strHeader[1] = loc.getMenu("FrequencyTable.Count");
+				}
+				
 
 				strValue = new String[length];
 				strFrequency = new String[length];
