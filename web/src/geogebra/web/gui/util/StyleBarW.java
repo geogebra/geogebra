@@ -57,13 +57,21 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		ImageOrText[] data = new ImageOrText[Views.ids.length + 1];
 		final int[] viewIDs = new int[Views.ids.length+1];
 
-		data[0] = new ImageOrText(app.getMenu("Close"));
-		data[0].url = GuiResources.INSTANCE.dockbar_close().getSafeUri().asString();
+		int k = 0;
+		FlowPanel separator = null;
+		final int numberOfOpenViews = getNumberOfOpenViews();
+		if (numberOfOpenViews > 1) {
+			// show close button if there are more than 1 views open
+			data[0] = new ImageOrText(app.getMenu("Close"));
+			data[0].url = GuiResources.INSTANCE.dockbar_close().getSafeUri().asString();
 
-		// placeholder for the separator (needs to be != null)
-		data[1] = new ImageOrText("");
+			// placeholder for the separator (needs to be != null)
+			data[1] = new ImageOrText("");
+			k = 2;
+			separator = new FlowPanel();
+		    separator.addStyleName("Separator");
+		}
 
-		int k = 2;
 		for(int i = 0; i < Views.ids.length; i++){
 			if(app.supportsView(Views.ids[i]) && !app.getGuiManager().showView(Views.ids[i])){
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
@@ -88,11 +96,11 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		ImageOrText views = new ImageOrText();
 		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
 		viewButton.setFixedIcon(views);
-		
-		FlowPanel separator = new FlowPanel();
-	    separator.addStyleName("Separator");
-	    viewButton.getMyTable().setWidget(1, 0, separator);
-
+	
+		if (separator != null) {
+			viewButton.getMyTable().setWidget(1, 0, separator);
+		}
+			
 	    viewButton.addClickHandler(new ClickHandler() {
 	    	@Override
 			public void onClick(ClickEvent event) {
@@ -116,9 +124,16 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 				int i = viewButton.getSelectedIndex();
 
 				// the first item is the close button
-				if(i==0){
+				int closeButtonIndex = 0;
+				int separatorIndex = 1;
+				if (numberOfOpenViews <= 1) {
+					// close button and separator don't exist
+					closeButtonIndex = -1; 
+					separatorIndex = -1;
+				}
+				if (i == closeButtonIndex){
 					app.getGuiManager().setShowView(false, viewID);
-				} else if(i != 1) { // ignore separator
+				} else if (i != separatorIndex) { // ignore separator
 					app.getGuiManager().setShowView(true, viewIDs[i]);
 				}
 
@@ -126,6 +141,16 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	            app.fireViewsChangedEvent();
             }});
 		add(viewButton);
+	}
+	
+	private int getNumberOfOpenViews() {
+		int numberOfOpenViews = 0;
+		for(int i = 0; i < Views.ids.length; i++){
+			if(app.supportsView(Views.ids[i]) && app.getGuiManager().showView(Views.ids[i])){
+				numberOfOpenViews++;
+			}
+		}
+		return numberOfOpenViews;
 	}
 
 	@Override
