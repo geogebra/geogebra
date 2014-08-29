@@ -704,6 +704,10 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 	}
 
+	public void removeFrequencyTable() {
+		metaPlotPanel.remove(plotPanelSouth);
+	}
+
 	public void setSelectedType(PlotType type) {
 		cbDisplayType.setSelectedItem(type);
 	}

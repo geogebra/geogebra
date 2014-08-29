@@ -289,6 +289,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		ckCumulative.addClickHandler(handler);
 		ckShowHistogram.addClickHandler(handler);
 		ckOverlayPolygon.addClickHandler(handler);
+		ckShowFrequencyTable.addClickHandler(handler);
 		rbFreq.addClickHandler(handler);
 		rbRelative.addClickHandler(handler);
 		rbNormalized.addClickHandler(handler);

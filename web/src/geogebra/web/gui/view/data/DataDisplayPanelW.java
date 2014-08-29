@@ -600,10 +600,15 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	public void setTableFromGeoFrequencyTable(
 			AlgoFrequencyTable parentAlgorithm, boolean b) {
+		App.debug("SHOW FREQUENCY TABLE: " + b);
 		frequencyTable.setTableFromGeoFrequencyTable(parentAlgorithm, b);
 
 	}
 
+	public void removeFrequencyTable() {
+		plotPanelSouth.remove(frequencyTable);
+    }
+	
 	public void updatePlotPanelSettings() {
 		plotPanel.commonFields.updateSettings(plotPanel, getModel()
 				.getSettings());
@@ -711,4 +716,6 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		plotPanel.synCanvasSize();
 		plotPanel.repaint();
 	}
+
+
 }

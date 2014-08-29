@@ -56,6 +56,8 @@ public class DataDisplayModel {
 
 		void geoToPlotPanel(GeoElement listGeo);
 
+		void removeFrequencyTable();
+
 //		void updatePlot(boolean b);
 
 	};
@@ -285,6 +287,8 @@ public class DataDisplayModel {
 						listener.setTableFromGeoFrequencyTable(
 								(AlgoFrequencyTable) freqTableGeo
 										.getParentAlgorithm(), true);
+					} else {
+						listener.removeFrequencyTable();
 					}
 	
 					// update settings
