@@ -167,6 +167,8 @@ public class ToolTipManagerW {
 	public void showBottomInfoToolTip(String text, String helpURL) {
 		bottomInfoTipHTML.setHTML(text);
 		bottomInfoTipPanel.setVisible(true);
+		
+		// Helps to align the InfoTooltip in the center of the screen:
 		bottomInfoTipPanel.getElement().getStyle().setMarginLeft(-(bottomInfoTipPanel.getOffsetWidth()/2), Unit.PX);
 	}
 	

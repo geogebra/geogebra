@@ -75,8 +75,9 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		for(int i = 0; i < Views.ids.length; i++){
 			if(app.supportsView(Views.ids[i]) && !app.getGuiManager().showView(Views.ids[i])){
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
-				data[k].url = GuiResources.INSTANCE.dockbar_open().getSafeUri().asString();
-				viewIDs[k] = Views.ids[i];
+				//data[k].url = GuiResources.INSTANCE.dockbar_open().getSafeUri().asString();
+				data[k].url = Views.menuIcons[i].getSafeUri().asString();
+				viewIDs[k] = Views.ids[i];				
 				k++;
 			}
 		}
