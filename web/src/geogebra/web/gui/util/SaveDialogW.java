@@ -17,6 +17,7 @@ import geogebra.web.main.AppW;
 
 import java.util.List;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -49,6 +50,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	private Label titleLabel;
 	private final int MIN_TITLE_LENGTH = 4;
 	private boolean uploadWaiting;
+	protected Callback<String, Throwable> cb;
 
 	/**
 	 * @param app AppW
@@ -111,7 +113,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		buttonPanel.addStyleName("buttonPanel");
 		buttonPanel.add(cancel = new StandardButton(app.getMenu("Cancel")));
 		buttonPanel.add(save = new StandardButton(app.getMenu("Save")));
-		save.setEnabled(false);
 		
 		save.addFastClickHandler(new FastClickHandler() {
 
@@ -149,11 +150,14 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		}
 	}
 
-
 	/**
 	 * Handles the upload of the file and closes the dialog
 	 */
 	void upload() {
+		ToolTipManagerW.sharedInstance().setEnableDelay(false);
+		//TODO - wait for translation:
+		ToolTipManagerW.sharedInstance().showToolTip(app.getMenu("Save") + "...");
+		ToolTipManagerW.sharedInstance().setEnabled(false);
 		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 			((AppWeb) app).resetUniqueId();
 		}
@@ -164,22 +168,26 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 				if (parseResponse.size() == 1) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
-					//TODO translate & position
-					ToolTipManagerW.sharedInstance().showToolTip(title.getText() + " saved successfully");
+
+					//TODO block the other ToolTips
+
 					app.setSaved();
 					((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
+					if (cb != null) {
+						cb.onSuccess("Success");
+						resetCallback();
+					}
 				}
 			}
 			
 			@Override
 			public void onError(Throwable exception) {
-				ToolTipManagerW.sharedInstance().showToolTip(app.getLocalization().getError("SaveFileFailed"));
+				cb.onFailure(exception);
+				resetCallback();
 			}
 		});
 		hide();
 	}
-
-	
 
 	@Override
 	public void show(){
@@ -191,6 +199,8 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 	        public void execute () {
 	        	title.setFocus(true);
+//	        	NativeEvent event = Document.get().createFocusEvent();
+//	    		title.onBrowserEvent(Event.as(event));
 	        }
 	   });
 	}
@@ -242,6 +252,13 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		this.cancel.setText(app.getMenu("Cancel"));
 		this.save.setText(app.getMenu("Save"));
 	}
+
+	public void setCallback(Callback<String, Throwable> callback) {
+	    this.cb = callback;
+    }
 	
+	protected void resetCallback() {
+		this.cb = null;
+	}
 	
 }

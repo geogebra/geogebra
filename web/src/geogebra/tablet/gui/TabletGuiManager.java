@@ -22,5 +22,16 @@ public class TabletGuiManager extends GuiManagerW {
 		}
 		return this.browseGUI;
 	}
+//	
+//	@Override
+//	public void save(Callback<String, Throwable> cb) {
+//		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
+//			SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+//			saveDialog.center();
+//			saveDialog.setCallback(cb);
+//		} else {
+//			((DialogManagerW) app.getDialogManager()).getSaveDialog().openFilePicker();
+//		}
+//	}
 	
 }

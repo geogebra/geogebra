@@ -22,14 +22,15 @@ public class SaveDialogT extends SaveDialogW {
 			super.onSave();
 		}
 	}
-	
+
 	/**
 	 * saves the file on the device and
 	 * closes the dialog.
 	 */
 	private void saveOnDevice() {
 	    ((AppW) app).getKernel().getConstruction().setTitle(this.title.getText());
-	    ((AppT) this.app).getFileManager().saveFile(app);
+	    ((AppT) this.app).getFileManager().saveFile(app, this.cb);
+	    resetCallback();
 	    this.hide();
     }
 

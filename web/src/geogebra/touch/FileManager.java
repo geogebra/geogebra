@@ -6,9 +6,11 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Callback;
@@ -38,10 +40,8 @@ public class FileManager {//implements FileManagerInterface {
 	PhoneGap phonegap;
 	Flags createIfNotExist = new Flags(true, false);
 	Flags dontCreateIfNotExist = new Flags(false, false);
-
 	String filename;
 	int count;
-
 
 	public FileManager() {
 		this.phonegap = PhoneGapManager.getPhoneGap();
@@ -528,8 +528,13 @@ public class FileManager {//implements FileManagerInterface {
 	 * "GeoGebra".
 	 * 
 	 * @param app App
+	 * @param cb 
 	 */
-	public void saveFile(final App app) {
+	public void saveFile(final App app, final Callback<String, Throwable> cb) {
+		ToolTipManagerW.sharedInstance().setEnableDelay(false);
+		ToolTipManagerW.sharedInstance().showToolTip(app.getMenu("Save") + "...");
+		ToolTipManagerW.sharedInstance().setEnabled(false);
+		
 		final String consTitle = ((AppW) app).getKernel().getConstruction().getTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override
@@ -544,30 +549,31 @@ public class FileManager {//implements FileManagerInterface {
 							@Override
 							public void onSuccess(final FileWriter writer) {
 								writer.write(s);
-								createMetaData(consTitle, app);
+								createMetaData(consTitle, app, cb);
 								app.setSaved();
+								((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
+								if (cb != null) {
+									cb.onSuccess("Success");
+								}
+								
 							}
 
 							@Override
 							public void onFailure(final FileError error) {
-								app.showError("WriteFileFailed");
+								cb.onFailure((Throwable) error);
 							}
 						});
 					}
 
 					@Override
-					public void onFailure(final FileError reason) {
-						// TODO Auto-generated method stub
-
+					public void onFailure(final FileError error) {
+						cb.onFailure((Throwable) error);
 					}
 
 				});
 			}
 		};
 		((geogebra.html5.main.GgbAPIW) app.getGgbApi()).getBase64(true, base64saver);
-		app.setSaved();
-		//TODO implement approveFileName
-		//		((TouchApp) app.approveFileName();
 	}
 
 	/**
@@ -603,8 +609,9 @@ public class FileManager {//implements FileManagerInterface {
 	 * 
 	 * @param title String
 	 * @param app App
+	 * @param cb 
 	 */
-	void createMetaData(final String title, final App app) {
+	void createMetaData(final String title, final App app, final Callback<String, Throwable> cb) {
 
 		getMetaFile(META_PREFIX + title, createIfNotExist, new Callback<FileEntry, FileError>(){
 
@@ -625,15 +632,14 @@ public class FileManager {//implements FileManagerInterface {
 
 					@Override
 					public void onFailure(final FileError error) {
-						// TODO Auto-generated method
+						cb.onFailure((Throwable) error);
 					}
 				});
 			} 
 
 			@Override
-			public void onFailure(final FileError reason) {
-				// TODO Auto-generated method stub
-
+			public void onFailure(final FileError error) {
+				cb.onFailure((Throwable) error);
 			}
 		});
 	}

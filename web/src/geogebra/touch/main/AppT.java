@@ -1,9 +1,11 @@
 package geogebra.touch.main;
 
+import geogebra.common.main.DialogManager;
 import geogebra.html5.gui.History;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.touch.FileManager;
+import geogebra.touch.gui.DialogManagerT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.main.AppWapplication;
 
@@ -25,8 +27,6 @@ public class AppT extends AppWapplication {
 		super(article, geoGebraAppFrame, dimension, laf);
 	}
 	
-	
-
 	public History getHistory() {
 	    if(this.history == null){
 	    	this.history = new History();
@@ -40,5 +40,13 @@ public class AppT extends AppWapplication {
 	 */
 	public FileManager getFileManager() {
 		return null;
+	}
+
+	@Override
+	public DialogManager getDialogManager() {
+		if (this.dialogManager == null) {
+			this.dialogManager = new DialogManagerT(this);
+		}
+		return this.dialogManager;
 	}
 }

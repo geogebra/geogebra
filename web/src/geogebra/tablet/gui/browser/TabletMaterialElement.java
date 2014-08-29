@@ -16,10 +16,9 @@ public class TabletMaterialElement extends MaterialListElementT {
 	public TabletMaterialElement(final Material m, final AppWeb app) {
 		super(m,app);
 	}
-	
+
 	@Override
 	protected void onEdit() {
-		
 		((TabletGuiManager) app.getGuiManager()).getBrowseGUI().setMaterialsDefaultStyle();		
 		if (!isLocalFile()) {
 			if(material.getType() == MaterialType.book){

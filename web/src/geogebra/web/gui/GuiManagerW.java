@@ -79,6 +79,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
@@ -830,9 +831,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		} else {
 			((DialogManagerW) app.getDialogManager()).getSaveDialog().openFilePicker();
 		}
-		
-		
 		return true;
+	}
+	
+	public void save(Callback<String, Throwable> cb) {
+		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
+			SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+			saveDialog.center();
+			saveDialog.setCallback(cb);
+		} else {
+			((DialogManagerW) app.getDialogManager()).getSaveDialog().openFilePicker();
+		}
 	}
 
 	public void showPropertiesViewSliderTab() {

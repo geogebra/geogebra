@@ -4,7 +4,10 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.web.gui.GuiManagerW;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -23,7 +26,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		private Label infoText;
 		private String consTitle;
 		private final Localization loc;
-		private Runnable callback = null;
+		Runnable callback = null;
 		private final App app;
 
 		public SaveUnsavedChanges(final App app) {
@@ -105,13 +108,30 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		}
 
 		protected void onSave() {
-			app.getGuiManager().save();
-			this.hide();
-			if (this.callback != null) {
-				this.callback.run();
-			} else {
-				App.debug("no callback");
-			}
+			((GuiManagerW) app.getGuiManager()).save(new Callback<String, Throwable>() {
+
+				@Override
+                public void onSuccess(String reason) {
+					
+					ToolTipManagerW.sharedInstance().setEnabled(true);
+					ToolTipManagerW.sharedInstance().setEnableDelay(true);
+					//TODO - wait for translation: getMenu("SavedSuccessfully")
+					ToolTipManagerW.sharedInstance().showToolTip("Saved successfully");
+					if (callback != null) {
+						callback.run();
+					} else {
+						App.debug("no callback");
+					}
+                }
+
+				@Override
+                public void onFailure(Throwable reason) {
+					ToolTipManagerW.sharedInstance().setEnabled(true);
+					ToolTipManagerW.sharedInstance().setEnableDelay(true);
+					ToolTipManagerW.sharedInstance().showToolTip(app.getLocalization().getError("SaveFileFailed"));
+                }
+			});
+			hide();
 		}
 
 		public void setCallback(final Runnable callback) {
@@ -119,7 +139,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		}
 
 		public void setLabels() {
-			this.getCaption().setText(this.loc.getMenu("CloseFile"));
+			this.getCaption().setText(this.loc.getMenu("Save"));
 			this.infoText.setText(this.loc
 					.getMenu("DoYouWantToSaveYourChanges"));
 			this.cancelButton.setText(this.loc.getMenu("Cancel"));

@@ -119,6 +119,8 @@ public class MaterialListElementT extends MaterialListElement {
 	@Override
 	protected void openDefault() {
 		if (isLocalFile()) {
+//			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setCallback(editMaterial);
+//			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 			onEdit();
 		} else {
 			onView();
