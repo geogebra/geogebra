@@ -142,16 +142,10 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	@Override 
 	public boolean isStyleBarVisible() {
-
-		if (!app.isApplet()) {
-			return super.isStyleBarVisible();
+		if (app.isApplet()) {
+			return false;
 		}
-
-		SpreadsheetSettings settings = app.getSettings().getSpreadsheet(); 
-
-		// currently no GUI / XML for hiding the style-bar
-		// hide in applets if the row/column headers are missing
-		return super.isStyleBarVisible() && settings.showRowHeader() && settings.showColumnHeader();
+		return super.isStyleBarVisible();
 	}
 
 	@Override
