@@ -58,8 +58,8 @@ a.button .buttonContent {
 	vertical-align: middle;
 	padding: 15px;
 	text-align: center;
-	height: 100px;
-	width: 120px;
+	height: 130px;
+	width: 150px;
 }
 a.button.perspective img {
 	margin: 0px auto;
@@ -100,6 +100,12 @@ a.button:focus {
 	float: right;
   	margin: 15px 0px;
 }
+#ggbHeader #ggbLoginContainer img {
+	max-width: 50px;
+	max-height: 50px;
+	margin: -10px 5px -10px 0px;
+	vertical-align: middle;
+}
 #ggbPage {
   background-color: #ffffff;
 }
@@ -114,7 +120,7 @@ a.button:focus {
 .createOwnPanel {
 	margin: 0px auto;
 	margin-top: 70px;
-	max-width: 550px;
+	max-width: 600px;
 	width: 100%;
 	text-align: center;
 }
