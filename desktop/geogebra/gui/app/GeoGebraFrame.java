@@ -269,11 +269,16 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// create first window and show it
 		createNewWindow(args, wnd);
 
-		// fixing #3772
-		if (AppD.WINDOWS) {
-			AppId.setCurrentProcessExplicitAppUserModelID(AppId.class.getName());
-			AppD.debug("AppID = "
-					+ AppId.getCurrentProcessExplicitAppUserModelID());
+		// #3772
+		if (AppD.WINDOWS_VISTA_OR_LATER) {
+			try {
+				AppId.setCurrentProcessExplicitAppUserModelID(AppId.class
+						.getName());
+				App.debug("AppID = "
+						+ AppId.getCurrentProcessExplicitAppUserModelID());
+			} catch (Throwable t) {
+				App.error("problem setting AppId: " + t.getMessage());
+			}
 		}
 	}
 

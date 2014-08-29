@@ -1,5 +1,7 @@
 package geogebra;
 
+import geogebra.common.main.App;
+
 import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
@@ -39,9 +41,8 @@ public class AppId {
 			final String appID) {
 		if (SetCurrentProcessExplicitAppUserModelID(new WString(appID))
 				.longValue() != 0)
-			throw new RuntimeException(
-					"unable to set current process explicit AppUserModelID to: "
-							+ appID);
+			App.error("unable to set current process explicit AppUserModelID to: "
+					+ appID);
 	}
 
 	private static native NativeLong GetCurrentProcessExplicitAppUserModelID(
