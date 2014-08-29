@@ -2365,7 +2365,7 @@ namespace giac {
   static define_unary_function_eval (__tan2cossin2,&giac::_tan2cossin2,_tan2cossin2_s);
   define_unary_function_ptr5( at_tan2cossin2 ,alias_at_tan2cossin2,&__tan2cossin2,0,true);
 
-  gen tcollect(const gen & args,GIAC_CONTEXT){
+  gen tcollect(const gen & args,bool output_cos,GIAC_CONTEXT){
     gen errcode=checkanglemode(contextptr);
     if (is_undef(errcode)) return errcode;
     vecteur v;
@@ -2401,11 +2401,20 @@ namespace giac {
 	  sincoeff=v[i-1];
 	}
 	gen newcoeff=normal(sqrt(pow(coscoeff,2)+pow(sincoeff,2),contextptr),contextptr);
-	gen angle=normal(arg(coscoeff+cst_i*sincoeff,contextptr),contextptr);
-	res=res+newcoeff*symbolic(at_cos,argu-angle);
+	if (output_cos){
+	  gen angle=normal(arg(coscoeff+cst_i*sincoeff,contextptr),contextptr);
+	  res=res+newcoeff*symbolic(at_cos,argu-angle);
+	}
+	else {
+	  gen angle=normal(arg(sincoeff+cst_i*coscoeff,contextptr),contextptr);
+	  res=res+newcoeff*symbolic(at_sin,argu+angle);
+	}
       }
     }
     return res;
+  }
+  gen tcollect(const gen & args,GIAC_CONTEXT){
+    return tcollect(args,true,contextptr);
   }
   gen _tcollect(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -2419,6 +2428,22 @@ namespace giac {
   static const char _tcollect_s []="tcollect";
   static define_unary_function_eval (__tcollect,&giac::_tcollect,_tcollect_s);
   define_unary_function_ptr5( at_tcollect ,alias_at_tcollect,&__tcollect,0,true);
+
+  gen tcollectsin(const gen & args,GIAC_CONTEXT){
+    return tcollect(args,false,contextptr);
+  }
+  gen _tcollectsin(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen var,res;
+    if (is_algebraic_program(args,var,res))
+      return symbolic(at_program,makesequence(var,0,_tcollectsin(res,contextptr)));
+    if (is_equal(args))
+      return apply_to_equal(args,_tcollectsin,contextptr);
+    return apply(args,contextptr,tcollectsin);
+  }
+  static const char _tcollectsin_s []="tcollectsin";
+  static define_unary_function_eval (__tcollectsin,&giac::_tcollectsin,_tcollectsin_s);
+  define_unary_function_ptr5( at_tcollectsin ,alias_at_tcollectsin,&__tcollectsin,0,true);
 
   static const char _rassembler_trigo_s []="rassembler_trigo";
   static define_unary_function_eval (__rassembler_trigo,&giac::_tcollect,_rassembler_trigo_s);
