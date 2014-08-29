@@ -3,6 +3,7 @@ package geogebra.html5.gui.tooltip;
 import geogebra.common.util.AsyncOperation;
 
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -166,6 +167,7 @@ public class ToolTipManagerW {
 	public void showBottomInfoToolTip(String text, String helpURL) {
 		bottomInfoTipHTML.setHTML(text);
 		bottomInfoTipPanel.setVisible(true);
+		bottomInfoTipPanel.getElement().getStyle().setMarginLeft(-(bottomInfoTipPanel.getOffsetWidth()/2), Unit.PX);
 	}
 	
 	private void hideBottomInfoToolTip() {
