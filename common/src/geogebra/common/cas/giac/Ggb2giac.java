@@ -650,8 +650,9 @@ public class Ggb2giac {
 		
 		p("TrigCombine.1",
 				"tcollect(%0)");
+		// eg TrigCombine[sin(x)+cos(x),sin(x)]
 		p("TrigCombine.2",
-				"tcollect(%0)");
+				"when(%1[0]=='sin',tcollectsin(%0),tcollect(%0))");
 		p("Union.2", "%0 union %1");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("Variance.1",
