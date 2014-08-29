@@ -45,8 +45,6 @@ public class EuclidianDockPanel3DW extends DockPanelW {
 	protected Widget loadComponent() {
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.setDockPanel(this);
-		//TODO needed when perspective given by applet param, may be avoided in other cases 
-		this.deferredOnResize();
 		return view.getComponent();
 	}
 

@@ -27,7 +27,6 @@ public class AppWapplication extends AppW {
 
 	private GeoGebraAppFrame appFrame = null;
 	protected GuiManagerInterfaceW guiManager = null;
-	private geogebra.web.gui.app.SplashDialog splashDialog = null;
 
 	//Event flow operations
 	
@@ -54,7 +53,6 @@ public class AppWapplication extends AppW {
 		}
 		appFrame.app = this;
 		this.objectPool = new ObjectPool();
-		createAppSplash();
 		App.useFullAppGui = true;
 		this.useFullGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
@@ -139,9 +137,7 @@ public class AppWapplication extends AppW {
 		return new GuiManagerW(AppWapplication.this);
 	}
 
-	private void createAppSplash() {
-		splashDialog = new geogebra.web.gui.app.SplashDialog();
-	}
+	
 
 	@Override
 	protected void afterCoreObjectsInited() {
@@ -152,10 +148,9 @@ public class AppWapplication extends AppW {
 
 	@Override
     public void appSplashCanNowHide() {
-		if (splashDialog != null) {
-			splashDialog.canNowHide();
+		
 			attachViews();
-		}
+		
 
 		// Well, it may cause freeze if we attach this too early
 
@@ -186,7 +181,6 @@ public class AppWapplication extends AppW {
 		
 		initUndoInfoSilent();
 
-		splashDialog.canNowHide();
 
 		stopCollectingRepaints();
 		// Well, it may cause freeze if we attach this too early
