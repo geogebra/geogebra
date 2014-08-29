@@ -102,6 +102,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.infoPanel.setStyleName("infoPanel");
 
 		addTextInfo();
+		addSeperator();
 		addOptions();
 
 		this.materialElementContent.add(this.infoPanel);
@@ -115,6 +116,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	protected void addOptions() {
 		addViewButton();
 		addEditButton();
+	}
+	
+	private void addSeperator() {
+		FlowPanel separator = new FlowPanel();
+		separator.setStyleName("Separator");
+		this.infoPanel.add(separator);
 	}
 
 	private void addPreviewPicture() {

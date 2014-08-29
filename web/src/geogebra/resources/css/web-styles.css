@@ -1441,6 +1441,15 @@ body[dir=rtl] .signIn {
 	width: 100%;
 }
 
+.menubarSMART .gwt-MenuBar .gwt-MenuItem-selected {
+	background: none;
+}
+.menubarSMART .gwt-MenuBar .gwt-MenuItem:hover,
+.menubarSMART .gwt-MenuBar .gwt-MenuItem:active {
+	background: #CCCCFF;
+}
+
+
 .GeoGebraMenuBar>table {
 	margin-top: 5px;
 	margin-bottom: 8px;
@@ -3776,7 +3785,9 @@ PROVIDERS
 .materialListPanel {
 	padding: 20px;
 	overflow-y: scroll;
-	padding-bottom: 70px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 .materialListElement {
@@ -3849,7 +3860,6 @@ PROVIDERS
 
 .materialListElement.selected .infoPanel .fileTitle {
 	max-height: 70px;
-	margin-bottom: 5px;
 }
 
 .materialListElement.selected .fileImage {
@@ -3861,14 +3871,22 @@ PROVIDERS
 	cursor: pointer;
 }
 
-.PhoneGUI .materialListElement.selected .infoPanel .button,.Tablet .materialListElement.selected .infoPanel .button
-	{
+.PhoneGUI .materialListElement.selected .infoPanel .button,
+.Tablet .materialListElement.selected .infoPanel .button {
 	padding: 5px 0px;
 }
 
-.materialListElement .infoPanel .button:hover,.materialListElement .infoPanel .button:active
-	{
-	color: #6161FF;
+.materialListElement.default .infoPanel .Separator {
+	display: none;
+}
+.materialListElement.selected .infoPanel .Separator {
+	margin-bottom: 5px;
+	display: block;
+}
+
+.materialListElement .infoPanel .button:hover,
+.materialListElement .infoPanel .button:active {
+	background-color: #CCCCFF;
 }
 
 .materialListElement .button .image {
@@ -3878,8 +3896,8 @@ PROVIDERS
 }
 
 .materialListElement .infoPanel.detailed .gwt-Label {
-	font-size: 90%;
 	display: inline-block;
+	padding-top: 2px;
 }
 
 .materialListElement.selected .infoPanel.detailed .deleteActive {
