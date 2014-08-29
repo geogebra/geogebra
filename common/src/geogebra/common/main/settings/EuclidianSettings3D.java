@@ -68,7 +68,7 @@ public class EuclidianSettings3D extends EuclidianSettings{
 	}
 	
 	
-	private boolean useClippingCube;
+	private boolean useClippingCube = true;
 
 	public void setUseClippingCube(boolean flag) {
 
