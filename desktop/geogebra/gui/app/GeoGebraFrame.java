@@ -230,6 +230,19 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	public static synchronized void init(CommandLineArguments args,
 			GeoGebraFrame wnd) {
+
+		// #3772
+		if (AppD.WINDOWS_VISTA_OR_LATER) {
+			try {
+				AppId.setCurrentProcessExplicitAppUserModelID(AppId.class
+						.getName());
+				App.debug("AppID = "
+						+ AppId.getCurrentProcessExplicitAppUserModelID());
+			} catch (Throwable t) {
+				App.error("problem setting AppId: " + t.getMessage());
+			}
+		}
+
 		// check java version
 		double javaVersion = Util.getJavaVersion();
 		if (javaVersion < 1.5) {
@@ -269,17 +282,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// create first window and show it
 		createNewWindow(args, wnd);
 
-		// #3772
-		if (AppD.WINDOWS_VISTA_OR_LATER) {
-			try {
-				AppId.setCurrentProcessExplicitAppUserModelID(AppId.class
-						.getName());
-				App.debug("AppID = "
-						+ AppId.getCurrentProcessExplicitAppUserModelID());
-			} catch (Throwable t) {
-				App.error("problem setting AppId: " + t.getMessage());
-			}
-		}
 	}
 
 	/**
