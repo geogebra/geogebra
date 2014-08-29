@@ -231,15 +231,16 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	public static synchronized void init(CommandLineArguments args,
 			GeoGebraFrame wnd) {
 
-		// #3772
+		// Fixing #3772. TODO: This could be moved to somewhat later (to have
+		// proper logging), but *before* any GUI operations.
 		if (AppD.WINDOWS_VISTA_OR_LATER) {
 			try {
 				AppId.setCurrentProcessExplicitAppUserModelID(AppId.class
 						.getName());
-				App.debug("AppID = "
+				System.out.println("AppID = "
 						+ AppId.getCurrentProcessExplicitAppUserModelID());
 			} catch (Throwable t) {
-				App.error("problem setting AppId: " + t.getMessage());
+				System.err.println("problem setting AppId: " + t.getMessage());
 			}
 		}
 
