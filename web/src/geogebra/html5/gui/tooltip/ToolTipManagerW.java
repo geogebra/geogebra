@@ -50,7 +50,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolTipManagerW {
 
 	private SimplePanel tipPanel;
-	private HTML tipHTML = new HTML();
+	private HTML tipHTML;
+	
+	private SimplePanel bottomInfoTipPanel;
+	private HTML bottomInfoTipHTML;
 
 	private String oldText = "";
 
@@ -123,21 +126,50 @@ public class ToolTipManagerW {
 	}
 
 	private void initTooltipManagerW() {
-
 		if (tipPanel != null || !enabled) {
 			return;
 		}
 
-		tipHTML.setStyleName("toolTipHTML");
-
-		tipPanel = new SimplePanel();
-		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
-		tipPanel.add(tipHTML);
-		RootPanel.get().add(tipPanel);
-		tipPanel.setStyleName("ToolTip");
-
+		createTipElements();
+		createBottomInfoTipElements();
 		registerMouseListeners();
 
+	}
+	
+	private void createTipElements() {
+		tipHTML = new HTML();
+		tipHTML.setStyleName("toolTipHTML");
+		
+		tipPanel = new SimplePanel();
+		tipPanel.setStyleName("ToolTip");
+		tipPanel.add(tipHTML);
+		
+		tipPanel.setVisible(false);
+		RootPanel.get().add(tipPanel);
+	}
+	
+	private void createBottomInfoTipElements() {
+		bottomInfoTipHTML = new HTML();
+		bottomInfoTipHTML.setStyleName("infoText");
+		
+		bottomInfoTipPanel = new SimplePanel();
+		bottomInfoTipPanel.setStyleName("infoTooltip");
+		bottomInfoTipPanel.add(bottomInfoTipHTML);
+		
+		bottomInfoTipPanel.setVisible(false);
+		RootPanel.get().add(bottomInfoTipPanel);
+	}
+	
+	// =====================================
+	// BottomInfoToolTip 
+	// =====================================
+	public void showBottomInfoToolTip(String text, String helpURL) {
+		bottomInfoTipHTML.setHTML(text);
+		bottomInfoTipPanel.setVisible(true);
+	}
+	
+	private void hideBottomInfoToolTip() {
+		bottomInfoTipPanel.setVisible(false);
 	}
 
 	// =====================================
@@ -209,6 +241,7 @@ public class ToolTipManagerW {
 				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
 					showImmediately = false;
 					hideToolTip();
+					hideBottomInfoToolTip();
 				}
 
 				mouseX = e.getClientX();

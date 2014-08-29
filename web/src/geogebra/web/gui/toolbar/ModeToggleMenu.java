@@ -75,38 +75,32 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		tbutton.addDomHandler(this, KeyUpEvent.getType());
 		tbutton.addDomHandler(this, MouseOverEvent.getType());
 		this.add(tbutton);
-		addNativeToolTipHandler(tbutton.getElement(), this);
 		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
     }
 
 	private void buildGui(){
-		
-		
-		//Adding submenus if needed.
-		if (menu.size()>1){
-			
-			submenu = new ToolbarSubemuW(app);
-			add(submenu);
-		
-			for (int k = 0; k < menu.size(); k++) {
-				final int addMode = menu.get(k).intValue();
-				if (addMode < 0) {	//TODO
-	//				// separator within menu:
-	//				tm.addSeparator();
-				} else { // standard case: add mode
-					// check mode
-					if (!"".equals(app.getToolName(addMode))) {
-						ListItem subLi = submenu.addItem(addMode);
-						addDomHandlers(subLi);
-						subLi.addDomHandler(this, MouseOverEvent.getType());
-						subLi.addDomHandler(this, MouseOutEvent.getType());
-						subLi.addDomHandler(this, KeyUpEvent.getType());
-					}
+		submenu = new ToolbarSubemuW(app);
+		add(submenu);
+
+		for (int k = 0; k < menu.size(); k++) {
+			final int addMode = menu.get(k).intValue();
+			if (addMode < 0) { // TODO
+				// // separator within menu:
+				// tm.addSeparator();
+			} else { // standard case: add mode
+				// check mode
+				if (!"".equals(app.getToolName(addMode))) {
+					ListItem subLi = submenu.addItem(addMode);
+					addDomHandlers(subLi);
+					subLi.addDomHandler(this, MouseOverEvent.getType());
+					subLi.addDomHandler(this, MouseOutEvent.getType());
+					subLi.addDomHandler(this, KeyUpEvent.getType());
 				}
 			}
-		
-			hideMenu();
 		}
+
+		hideMenu();
+
 	}
 	
 	public void setButtonTabIndex(int index){
@@ -172,7 +166,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
 		if (menu.size() == 1 ){
 			if (menu.get(0) == mode){
-				
+				showToolTipBottom();
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -202,6 +196,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
+				showToolTipBottom();
 				return true;
 			}
 		}
@@ -336,19 +331,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public void setToolTipText(String string) {
 		toolTipText = string;
     }
-	
-	public void showToolTip(){
-		
-		if (toolbar.hasPopupOpen()) return;
-		
-		ToolTipManagerW.sharedInstance().setEnableDelay(false);
-		ToolTipManagerW.sharedInstance().showToolTip(this.getElement(), toolTipText);
-		ToolTipManagerW.sharedInstance().setEnableDelay(true);
+
+	public void showToolTipBottom(){
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, "");
 	}
-	
+	/*
 	public void hideToolTip(){
 		ToolTipManagerW.sharedInstance().hideToolTip();
-	}
+	}*/
 	
 	/**
 	 * @return true if the menu is open
@@ -359,15 +349,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 		return false;
 	}
-	
-	private native void addNativeToolTipHandler(Element element, ModeToggleMenu mtm) /*-{
-		element.addEventListener("mouseout",function() {
-			mtm.@geogebra.web.gui.toolbar.ModeToggleMenu::hideToolTip()();
-		});
-		element.addEventListener("mouseover",function() {
-			mtm.@geogebra.web.gui.toolbar.ModeToggleMenu::showToolTip()();
-		});
-	}-*/;
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
@@ -405,7 +386,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	
 		switch (keyCode){
 		case KeyCodes.KEY_ENTER:
-			if (event.getSource() == tbutton) hideToolTip();
 			onEnd(event);
 			break;
 		case KeyCodes.KEY_RIGHT:
@@ -428,7 +408,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				if(isMenuShown()){
 					this.getItemList().getWidget(0).getElement().focus();
 				} else {
-					hideToolTip();
 					showMenu();
 					this.getItemList().getWidget(0).getElement().focus();
 				}
