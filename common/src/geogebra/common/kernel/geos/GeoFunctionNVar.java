@@ -55,7 +55,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	private static final int SEARCH_SAMPLES = 70;
 	private FunctionNVar fun;
 	//private List<Inequality> ineqs;	
-	private boolean isInequality;
+	private Boolean isInequality;
 	private boolean isDefined = true;
 	
 	/** intervals for plotting, may be null (then interval is R) */
@@ -114,7 +114,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 	@Override
 	public String getTypeString() {
-		return isInequality ? "Inequality":"MultivariableFunction";
+		return (isInequality != null && isInequality) ? "Inequality":"MultivariableFunction";
 	}
 	
     @Override
@@ -291,6 +291,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 	@Override
 	protected boolean showInEuclidianView() {
+		if (fun != null && isInequality == null && isBooleanFunction())
+			getIneqs();
 		return isDefined() && (!isBooleanFunction() || isInequality);
 	}
 	
@@ -685,7 +687,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		 * @return true if this function consists of valid inequalities
 		 */
 		public boolean isInequality() {
-			return isInequality;
+			return (isInequality != null && isInequality);
 		}
 
 		
@@ -855,7 +857,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		
 		@Override
 		public int getMinimumLineThickness() {
-			return isInequality ? 0 : 1;
+			return (isInequality != null && isInequality) ? 0 : 1;
 		}
 
 		public FunctionVariable[] getFunctionVariables() {
