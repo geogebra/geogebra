@@ -851,7 +851,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			this.b = EuclidianController3D.ANGLE_MAX;
 		else if (this.b < -EuclidianController3D.ANGLE_MAX)
 			this.b = -EuclidianController3D.ANGLE_MAX;
-//		this.getSettings().setRotXYinDegrees(a,b);
+		this.getSettings().setRotXYinDegreesFromView(a, b);
 
 	}
 	
@@ -883,7 +883,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				v = v.projectPlane(CoordMatrix4x4.IDENTITY)[1];
 				setZZero(ZZeroOld + v.getZ());
 			}
-//			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
+			getSettings().updateOriginFromView(getXZero(),getYZero(),getZZero());
 			updateMatrix();
 			setViewChangedByTranslate();
 			setWaitForUpdate();
@@ -946,7 +946,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setXZero(x);
 			setYZero(y);
 			setZZero(z);
-			getSettings().updateOrigin(x,y,z);
+			getSettings().updateOriginFromView(x,y,z);
 			updateTranslationMatrix();
 			CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
 			CoordMatrix matrix = ((mRS.inverse()).mul(translationMatrix)
@@ -1772,7 +1772,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setXZero(animatedScaleStartX * (1 - t) + animatedScaleEndX * t);
 			setYZero(animatedScaleStartY * (1 - t) + animatedScaleEndY * t);
 			setZZero(animatedScaleStartZ * (1 - t) + animatedScaleEndZ * t);
-//			getSettings().updateOrigin(getXZero(),getYZero(),getZZero());
+			getSettings().updateOriginFromView(getXZero(),getYZero(),getZZero());
 
 			updateMatrix();
 			setViewChangedByZoom();

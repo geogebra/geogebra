@@ -40,7 +40,17 @@ public class EuclidianSettings3D extends EuclidianSettings{
 		}
 
 	}
-	
+
+	/**
+	 * we won't call settingChanged() here since it's called from view
+	 * @param a2
+	 * @param b2
+	 */
+	public void setRotXYinDegreesFromView(double a2, double b2) {
+		this.a = a2;
+		this.b = b2;
+
+	}
 
 	
 	public void updateRotXY(EuclidianView3D view){
@@ -56,6 +66,18 @@ public class EuclidianSettings3D extends EuclidianSettings{
 		}
 	}
 	
+	/**
+	 * we won't call settingChanged() here since it's called from view
+	 * @param xZero2 
+	 * @param yZero2 
+	 * @param zZero2 
+	 */
+	public void updateOriginFromView(double xZero2, double yZero2, double zZero2) {
+			this.xZero = xZero2;
+			this.yZero = yZero2;
+			this.zZero = zZero2;
+	}
+
 	public void updateOrigin(EuclidianView3D view) {
 		view.setXZero(getXZero());
 		view.setYZero(getYZero());
@@ -96,7 +118,7 @@ public class EuclidianSettings3D extends EuclidianSettings{
 		return showClippingCube;
 	}
 	
-	private int clippingReduction;
+	private int clippingReduction = 1;
 
 	public void setClippingReduction(int value) {
 		if (clippingReduction != value){

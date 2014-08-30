@@ -160,7 +160,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		setXZero(t1.getX() - startPos.getX() + v.getX());
 		setYZero(t1.getY() - startPos.getY() + v.getY());
 		setZZero(t1.getZ() - startPos.getZ() + v.getZ());
-//		getSettings().updateOrigin(getXZero(), getYZero(), getZZero());
+		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
 		// update the view
 		updateTranslationMatrix();
 		updateUndoTranslationMatrix();

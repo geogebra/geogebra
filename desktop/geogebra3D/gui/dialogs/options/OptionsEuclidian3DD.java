@@ -460,13 +460,13 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			((EuclidianView3D) view).setShowClippingCube(cbShowClipping
 					.isSelected());
 		} else if (source == radioClippingSmall) {
-			((EuclidianView3D) view)
+			((EuclidianView3D) view).getSettings()
 					.setClippingReduction(GeoClippingCube3D.REDUCTION_SMALL);
 		} else if (source == radioClippingMedium) {
-			((EuclidianView3D) view)
+			((EuclidianView3D) view).getSettings()
 					.setClippingReduction(GeoClippingCube3D.REDUCTION_MEDIUM);
 		} else if (source == radioClippingLarge) {
-			((EuclidianView3D) view)
+			((EuclidianView3D) view).getSettings()
 					.setClippingReduction(GeoClippingCube3D.REDUCTION_LARGE);
 		} else if (source == tfPersp) {
 			try {

@@ -310,7 +310,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 			}else{
 				getView().setUseClippingCube(true);
 				getView().setShowClippingCube(true);
-				getView().setClippingReduction(index - 1);
+				getView().getSettings().setClippingReduction(index - 1);
 			}
 			getView().repaintView();
 			

@@ -156,7 +156,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
                 public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_SMALL);
+					((EuclidianView3D) view).getSettings().setClippingReduction(GeoClippingCube3D.REDUCTION_SMALL);
 					view.repaintView();
 				}});
 
@@ -164,7 +164,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
                 public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_MEDIUM);
+					((EuclidianView3D) view).getSettings().setClippingReduction(GeoClippingCube3D.REDUCTION_MEDIUM);
 					view.repaintView();
 				}});
 
@@ -172,7 +172,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
                 public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_LARGE);
+					((EuclidianView3D) view).getSettings().setClippingReduction(GeoClippingCube3D.REDUCTION_LARGE);
 					view.repaintView();
 				}});
 

@@ -104,7 +104,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			}
 		}else if (source.equals(btnClipping)) {
 			if (btnClipping.getMySlider().isShowing()){
-				getView().setClippingReduction(btnClipping.getSliderValue());
+				getView().getSettings().setClippingReduction(btnClipping.getSliderValue());
 			}else{
 				getView().toggleShowAndUseClippingCube();
 			}
