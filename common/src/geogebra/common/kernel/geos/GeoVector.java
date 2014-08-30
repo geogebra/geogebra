@@ -668,7 +668,10 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		if (symbolic && vector.getParentAlgorithm() instanceof DependentAlgo) {
 			AlgoElement algo = vector.getParentAlgorithm();
 			String symbolicStr = algo.toString(tpl);
-			inputs = symbolicStr.substring(1, symbolicStr.length() - 1).split(
+			// remove \left( and \right)
+			int firstIndex = symbolicStr.indexOf("\\left(");
+			int lastIndex = symbolicStr.lastIndexOf("\\right)");
+			inputs = symbolicStr.substring(firstIndex + 6, lastIndex).split(
 					",");
 		} else {
 			inputs = new String[3];
@@ -710,6 +713,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		}
 
 		sb.append("\\end{tabular} \\right)");
+		
 	}
 
 
