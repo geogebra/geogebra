@@ -356,7 +356,12 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 	}
 
 	public void fillWithValueStrokePure(GShape shape) {
-		// TODO Auto-generated method stub
+		Object oldHint = impl
+				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
+		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+				RenderingHints.VALUE_STROKE_PURE);
+		impl.fill(geogebra.awt.GGenericShapeD.getAwtShape(shape));
+		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 
 	}
 
