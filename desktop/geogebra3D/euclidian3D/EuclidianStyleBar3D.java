@@ -282,7 +282,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 	
 	@Override
-	protected void updateGUI(){
+	public void updateGUI(){
 		
 		if (isIniting)
 			return;

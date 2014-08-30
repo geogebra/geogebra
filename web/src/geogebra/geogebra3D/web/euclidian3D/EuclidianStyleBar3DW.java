@@ -445,7 +445,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	
 	
 	@Override
-	protected void updateGUI(){
+	public void updateGUI(){
 		
 		super.updateGUI();
 		

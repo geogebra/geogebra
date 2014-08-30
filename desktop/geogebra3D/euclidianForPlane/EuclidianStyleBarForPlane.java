@@ -118,7 +118,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	}
 	
 	@Override
-	protected void updateGUI(){
+	public void updateGUI(){
 		super.updateGUI();
 		
 		btnCenterAndOrientation.removeActionListener(this);

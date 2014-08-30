@@ -1410,7 +1410,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// Event Handlers
 	// =====================================================
 
-	protected void updateGUI() {
+	public void updateGUI() {
 
 		if (isIniting)
 			return;

@@ -1245,7 +1245,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	// Event Handlers
 	// =====================================================
 
-	protected void updateGUI() {
+	public void updateGUI() {
 
 		if (isIniting)
 			return;
