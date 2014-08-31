@@ -16,7 +16,6 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	
 	private boolean isHelperAlgo;
 	
-
 	
 	/**
 	 * @param c construction
@@ -26,7 +25,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		super(c,inputQuadric,null,new AlgoQuadricComputerSide());
 
 		this.isHelperAlgo=isHelperAlgo;
-		
+				
 		setInputOutput(new GeoElement[] {inputQuadric}, new GeoElement[] {getQuadric()});
 		
 		compute();
@@ -39,7 +38,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	}
 	
 	
-	private GeoQuadric3DLimited getInputQuadric(){
+	public GeoQuadric3DLimited getInputQuadric(){
 		return (GeoQuadric3DLimited) getSecondInput();
 	}
 	

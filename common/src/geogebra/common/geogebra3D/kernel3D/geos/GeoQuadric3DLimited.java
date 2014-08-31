@@ -37,7 +37,7 @@ import geogebra.common.plugin.GeoClass;
 public class GeoQuadric3DLimited extends GeoQuadricND 
 implements GeoNumberValue, HasVolume, HasHeight, 
 RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
-GeoQuadric3DLimitedInterface{
+GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;

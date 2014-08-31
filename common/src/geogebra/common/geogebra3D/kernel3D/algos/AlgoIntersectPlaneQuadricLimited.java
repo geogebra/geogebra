@@ -23,6 +23,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathNormalizer;
@@ -141,21 +142,39 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     // COMPUTE
     
     
-    
+    /**
+     * 
+     * @return bottom of the quadric as a conic
+     */
+	protected GeoConicND getBottom(){
+		return ((GeoQuadric3DLimited) quadric).getBottom();
+	}
+	
+	 /**
+     * 
+     * @return top of the quadric as a conic
+     */
+	protected GeoConicND getTop(){
+		return ((GeoQuadric3DLimited) quadric).getTop();
+	}
+	
+	 /**
+     * 
+     * @return side of the quadric as a surface
+     */
+	protected GeoQuadric3DPart getSide(){
+		return ((GeoQuadric3DLimited) quadric).getSide();
+	}
+	
     
     @Override
 	public void compute(){
     	
     	super.compute();
-
-
-    	
-    	GeoQuadric3DLimited ql = (GeoQuadric3DLimited) quadric;
-
     	 
     	// set part points
-    	double[] bottomParameters = setPartPoints(algoBottom, ql.getBottom(), bottomP);
-    	double[] topParameters = setPartPoints(algoTop, ql.getTop(), topP);
+    	double[] bottomParameters = setPartPoints(algoBottom, getBottom(), bottomP);
+    	double[] topParameters = setPartPoints(algoTop, getTop(), topP);
     	
     	/*
       	App.debug(bottomParameters[0]+","+
@@ -203,7 +222,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	    			P = conic.getPoint(P.getX(), P.getY());
     	    			//check if "midpoint" is on quadric side
     	    			//App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
-    	    			if(ql.getSide().isInRegion(P)){
+    	    			if(getSide().isInRegion(P)){
     	    				//set "midpoint"
     	    				topParameters[0] = midParameter;
     	    			}else{
@@ -278,18 +297,25 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	
     	
     }
+    
+    protected double getBottomParameter(){
+    	return ((GeoQuadric3DLimited) quadric).getBottomParameter();
+    }
+
+    protected double getTopParameter(){
+    	return ((GeoQuadric3DLimited) quadric).getTopParameter();
+    }
 
     
     private boolean planeOutsideAxis(){
     	
-    	GeoQuadric3DLimited ql = (GeoQuadric3DLimited) quadric;
     	
 		//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
-		double parameter = -(ql.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), ql.getEigenvec3D(2))[1]).getZ();
+		double parameter = -(quadric.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), quadric.getEigenvec3D(2))[1]).getZ();
 
 		//check if parameter is between quadric min and max
-		double min = ql.getBottomParameter();
-		double max = ql.getTopParameter();
+		double min = getBottomParameter();
+		double max = getTopParameter();
 		if (min > max){
 			double m = min;
 			min = max;

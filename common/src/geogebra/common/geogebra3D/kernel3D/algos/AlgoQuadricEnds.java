@@ -14,13 +14,14 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimitedOrPart;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 
 
 /**
@@ -31,7 +32,7 @@ import geogebra.common.kernel.geos.GeoElement;
 public class AlgoQuadricEnds extends AlgoElement3D {
 
  
-    private GeoQuadric3DLimited quadric; // input
+    private GeoQuadricND quadric; // input
     private GeoConic3D[] sections; // output       
     private CoordSys coordsys1, coordsys2;
 
@@ -41,7 +42,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
      * @param cons construction
      * @param quadric quadric
      */
-    public AlgoQuadricEnds(Construction cons, String[] labels, GeoQuadric3DLimited quadric) {
+    public AlgoQuadricEnds(Construction cons, String[] labels, GeoQuadricND quadric) {
 
     	this(cons,quadric);
     	
@@ -60,7 +61,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
      * @param cons construction
      * @param quadric quadric
      */
-    public AlgoQuadricEnds(Construction cons, GeoQuadric3DLimited quadric) {
+    public AlgoQuadricEnds(Construction cons, GeoQuadricND quadric) {
         super(cons);
         
         this.quadric = quadric;
@@ -76,7 +77,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		sections[1].setCoordSys(coordsys2);
 		sections[1].setIsEndOfQuadric(true);
 		
-		setInputOutput(new GeoElement[] {quadric},  sections);
+		setInputOutput(new GeoElement[] {(GeoElement) quadric},  sections);
 
 		compute();
 
@@ -111,8 +112,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     	
     	CoordMatrix qm = quadric.getSymetricMatrix();
     	CoordMatrix pm = new CoordMatrix(4,3);
-    	Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getBottomParameter()));//point.getInhomCoordsInD3();
-    	Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getTopParameter()));//pointThrough.getInhomCoordsInD3();
+    	Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(((GeoQuadric3DLimitedOrPart) quadric).getBottomParameter()));//point.getInhomCoordsInD3();
+    	Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(((GeoQuadric3DLimitedOrPart) quadric).getTopParameter()));//pointThrough.getInhomCoordsInD3();
     	pm.setOrigin(o1);
     	Coords[] v = o2.sub(o1).completeOrthonormal();  	
     	pm.setVx(v[0]);

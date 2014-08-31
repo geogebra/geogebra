@@ -19,7 +19,7 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, FromMeta, GeoQuadric3DPartInterface {
+public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, FromMeta, GeoQuadric3DPartInterface, GeoQuadric3DLimitedOrPart {
 
 	/** min value for limites */
 	private double min;
@@ -70,11 +70,11 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	private double bottom, top;
 	
 	
-	public double getBottom(){
+	public double getBottomParameter(){
 		return bottom;
 	}
 	
-	public double getTop(){
+	public double getTopParameter(){
 		return top;
 	}
 

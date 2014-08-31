@@ -173,7 +173,7 @@ implements Previewable {
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start();
 			if (quadric instanceof GeoQuadric3DPart){ // simple cone
-				double height = ((GeoQuadric3DPart) quadric).getBottom() - ((GeoQuadric3DPart) quadric).getTop();
+				double height = ((GeoQuadric3DPart) quadric).getBottomParameter() - ((GeoQuadric3DPart) quadric).getTopParameter();
 				surface.cone(quadric.getMidpoint3D(), 
 						quadric.getEigenvec3D(0), quadric.getEigenvec3D(1), quadric.getEigenvec3D(2), 
 						quadric.getHalfAxis(0),  

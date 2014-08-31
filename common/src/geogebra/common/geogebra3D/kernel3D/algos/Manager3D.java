@@ -918,6 +918,11 @@ public class Manager3D implements Manager3DInterface {
 	public GeoConic3D Intersect(String label, GeoPlaneND plane,
 			GeoQuadricND quadric) {
 
+		if (quadric instanceof GeoQuadric3DPart){
+			AlgoIntersectPlaneQuadricPart algo = new AlgoIntersectPlaneQuadricPart(cons, label, (GeoPlane3D) plane, quadric);
+			return algo.getConic();
+		}
+		
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadric(cons,
 				label, (GeoPlane3D) plane, quadric);
 
@@ -926,6 +931,7 @@ public class Manager3D implements Manager3DInterface {
 	
 	public GeoConicND IntersectQuadricLimited(String label, GeoPlaneND plane,
 			GeoQuadricND quadric){
+		
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadricLimited(cons,
 				label, (GeoPlane3D) plane, quadric);
 
