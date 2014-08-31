@@ -1067,6 +1067,11 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	// Spreadsheet Settings
 	// ================================================
 
+	public void setEnableAutoComplete(boolean enableAutoComplete) {
+		table.setEnableAutoComplete(enableAutoComplete);
+	}
+
+	
 	public void setShowRowHeader(boolean showRowHeader) {
 		table.setShowRowHeader(showRowHeader);
 	}
@@ -1260,8 +1265,10 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		//?//setShowFormulaBar(settings().showFormulaBar());
 		setColumnSelect(settings().isColumnSelect());
 		setAllowSpecialEditor(settings().allowSpecialEditor());
-		//?//setEqualsRequired(settings().equalsRequired());
+		setEqualsRequired(settings().equalsRequired());
+		setEnableAutoComplete(settings().isEnableAutoComplete());
 
+		
 		// browser panel
 		/*? if (AppD.hasFullPermissions()) {
 			settings().removeListener(this);

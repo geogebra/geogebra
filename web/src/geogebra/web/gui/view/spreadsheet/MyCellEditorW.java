@@ -370,6 +370,10 @@ public class MyCellEditorW implements BaseCellEditor {
 			// Application.debug(e+"");
 			switch (keyCode) {
 			case KeyCodes.KEY_UP:
+			
+				if(isSuggesting()){
+					return;
+				}
 				if (isFormulaBarListener)
 					return;
 
@@ -393,6 +397,11 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			case KeyCodes.KEY_ENTER:
+				
+				if(isSuggesting()){
+					return;
+				}
+				
 				// if incomplete command entered, want to move the cursor to
 				// between []
 				int bracketsIndex = text.indexOf("[]");
@@ -426,6 +435,11 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			case KeyCodes.KEY_DOWN:
+				
+				if(isSuggesting()){
+					return;
+				}
+				
 				if (isFormulaBarListener) {
 					// ?//e.consume();
 					return;
@@ -480,6 +494,10 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	public Widget getTextfield() {
 		return autoCompleteTextField;
+	}
+	
+	boolean isSuggesting(){
+		return autoCompleteTextField.isSuggesting();
 	}
 
 }

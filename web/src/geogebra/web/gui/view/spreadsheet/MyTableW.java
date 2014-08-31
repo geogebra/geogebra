@@ -2777,6 +2777,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		scroller.setShowHScrollBar(showHScrollBar);
 	}
 
+
+	public void setEnableAutoComplete(boolean enableAutoComplete) {
+		editor.setEnableAutoComplete(enableAutoComplete);
+	}
+
+	
 	/**
 	 * 
 	 * @param toolTipText
