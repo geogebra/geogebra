@@ -89,7 +89,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
 		
 		if (source.equals(btnShowPlane)) {
-			getView().togglePlane();
+			getView().getSettings().togglePlane();
 		}else if (source.equals(btnRotateView)) {
 			if (btnRotateView.getMySlider().isShowing()){//if slider is showing, start rotation
 				getView().setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);

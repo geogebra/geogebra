@@ -236,7 +236,7 @@ public class App3D extends AppD {
 
 	public void togglePlane() {
 		// toggle xOy plane
-		getEuclidianView3D().togglePlane();
+		getEuclidianView3D().getSettings().togglePlane();
 	}
 
 	public void toggleGrid3D() {

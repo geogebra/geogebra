@@ -106,7 +106,7 @@ public class GuiManager3DW extends GuiManagerW {
 
 			public void execute() {
 				// toggle axes
-				((EuclidianView3DW) getApp().getEuclidianView3D()).togglePlane();
+				((EuclidianView3DW) getApp().getEuclidianView3D()).getSettings().togglePlane();
 				// getApp().getEuclidianView().repaint();
 				getApp().storeUndoInfo();
 				getApp().updateMenubar();

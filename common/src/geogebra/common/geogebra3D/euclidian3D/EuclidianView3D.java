@@ -2753,16 +2753,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	/**
-	 * toggle the visibility of xOy plane
-	 */
-	public void togglePlane() {
-
-		boolean flag = xOyPlane.isPlateVisible();
-		xOyPlane.setPlateVisible(!flag);
-
-	}
-
-	/**
 	 * 
 	 * @return true if show xOy plane
 	 */

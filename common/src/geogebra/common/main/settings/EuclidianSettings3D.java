@@ -144,6 +144,16 @@ public class EuclidianSettings3D extends EuclidianSettings{
 		return showPlate;
 	}
 	
+	/**
+	 * toggle visibility of the plane
+	 */
+	public void togglePlane() {
+
+		showPlate = !showPlate;
+		settingChanged();
+
+	}
+	
 	private int projection;
 
 	public void setProjection(int projection) {
