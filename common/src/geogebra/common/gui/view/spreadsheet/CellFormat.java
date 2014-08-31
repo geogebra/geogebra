@@ -4,11 +4,13 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.view.spreadsheet.CellRangeProcessor.Direction;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
 /**
  * Helper class that handles cell formats for the spreadsheet table cell
@@ -26,14 +28,13 @@ import java.util.HashSet;
  */
 public class CellFormat implements CellFormatInterface {
 
-	int highestIndexRow = 0;
-	int highestIndexColumn = 0;
-
 	MyTableInterface table;
 	App app;
 
-	String cellFormatString;
-	
+	private int highestIndexRow = 0;
+	private int highestIndexColumn = 0;
+	private String cellFormatString;
+
 	// Array of format tables
 	private MyHashMap[] formatMapArray;
 
@@ -47,14 +48,14 @@ public class CellFormat implements CellFormatInterface {
 	private int formatCount = 5;
 
 	// Alignment constants
-	public static final int ALIGN_LEFT = 2;//SwingConstants.LEFT;
-	public static final int ALIGN_CENTER = 0;//SwingConstants.CENTER;
-	public static final int ALIGN_RIGHT = 4;//SwingConstants.RIGHT;
+	public static final int ALIGN_LEFT = 2;// SwingConstants.LEFT;
+	public static final int ALIGN_CENTER = 0;// SwingConstants.CENTER;
+	public static final int ALIGN_RIGHT = 4;// SwingConstants.RIGHT;
 
 	// Font syle constants
-	public static final int STYLE_PLAIN = GFont.PLAIN;//Font.PLAIN;
-	public static final int STYLE_BOLD = GFont.BOLD;//Font.BOLD;
-	public static final int STYLE_ITALIC = GFont.ITALIC;//Font.ITALIC;
+	public static final int STYLE_PLAIN = GFont.PLAIN;// Font.PLAIN;
+	public static final int STYLE_BOLD = GFont.BOLD;// Font.BOLD;
+	public static final int STYLE_ITALIC = GFont.ITALIC;// Font.ITALIC;
 	public static final int STYLE_BOLD_ITALIC = GFont.BOLD + GFont.ITALIC;
 
 	// Border style constants used by stylebar.
@@ -103,12 +104,46 @@ public class CellFormat implements CellFormatInterface {
 
 		this.table = table;
 		app = table.getApplication();
+
 		// Create instances of the format hash maps
 		formatMapArray = new MyHashMap[formatCount];
 		for (int i = 0; i < formatCount; i++) {
 			formatMapArray[i] = new MyHashMap();
 		}
 	}
+
+	// ========================================================
+	// MyHashMap
+	// ========================================================
+
+	/**
+	 * Class that extends HashMap so that null values cannot be mapped and a
+	 * call to put(key, null) will remove a key if it exists already.
+	 * 
+	 * TODO: It would be better practice to use an immutable key, e.g. a string
+	 * to record the cell location.
+	 */
+	private static class MyHashMap extends HashMap<GPoint, Object> {
+
+		private static final long serialVersionUID = 1L;
+
+		public MyHashMap() {
+			// Auto-generated constructor stub
+		}
+
+		@Override
+		public Object put(GPoint key, Object value) {
+			if (value == null) {
+				super.remove(key);
+				return null;
+			}
+			return super.put(key, value);
+		}
+	}
+
+	// ========================================================
+	// Clear and Shift Formats
+	// ========================================================
 
 	/**
 	 * Clears all format objects from the maps
@@ -120,31 +155,250 @@ public class CellFormat implements CellFormatInterface {
 			formatMapArray[i].clear();
 	}
 
-	public int getHighestIndexRow() {
-		return highestIndexRow;
-	}
-
-	public int getHighestIndexColumn() {
-		return highestIndexColumn;
-	}
-
 	/**
-	 * Class that extends HashMap so that null values cannot be mapped and a
-	 * call to put(key, null) will remove a key if it exists already.
+	 * Shifts the formats a set of rows or columns over a given number indices.
+	 * The set of rows or columns to be shifted is a block that begins at a
+	 * specified start index and includes all larger indices.
 	 * 
+	 * @param startIndex
+	 *            Index of the first row or column to shift.
+	 * @param shiftAmount
+	 *            Number of indices to increment each row or column
+	 * @param direction
+	 *            Direction to shift rows or columns (Up or Down = shift rows,
+	 *            Left or Right = columns)
 	 */
-	private static class MyHashMap extends HashMap {
+	public void shiftFormats(int startIndex, int shiftAmount,
+			CellRangeProcessor.Direction direction) {
 
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public Object put(Object key, Object value) {
-			if (value == null) {
-				super.remove(key);
-				return null;
-			} 
-			return super.put(key, value);
+		if (startIndex - shiftAmount < 0) {
+			return;
 		}
+
+		// shift rows for each format type map
+		for (int i = 0; i < formatMapArray.length; i++) {
+			if (direction == Direction.Up) {
+				shiftRowsUp(formatMapArray[i], startIndex, shiftAmount);
+			}
+			if (direction == Direction.Down) {
+				shiftRowsDown(formatMapArray[i], startIndex, shiftAmount);
+			}
+			if (direction == Direction.Left) {
+				shiftColumnsLeft(formatMapArray[i], startIndex, shiftAmount);
+			} else if (direction == Direction.Right) {
+				shiftColumnsRight(formatMapArray[i], startIndex, shiftAmount);
+			}
+		}
+
+		if (direction == Direction.Left) {
+			highestIndexColumn = highestIndexColumn - shiftAmount;
+		} else if (direction == Direction.Right) {
+			highestIndexColumn = highestIndexColumn + shiftAmount;
+		} else if ((direction == Direction.Up)) {
+			highestIndexRow = highestIndexRow - shiftAmount;
+		} else if (direction == Direction.Down) {
+			highestIndexRow = highestIndexRow + shiftAmount;
+		}
+
+	}
+
+	private void shiftRowsUp(MyHashMap formatMap, int rowStart, int shiftAmount) {
+
+		if (formatMap == null || formatMap.isEmpty()) {
+			return;
+		}
+
+		GPoint key = null;
+		GPoint shiftKey = null;
+
+		// clear first row to be shifted into
+		clearRows(formatMap, rowStart - shiftAmount, rowStart - shiftAmount);
+
+		// shift row formats
+		for (int r = rowStart; r <= highestIndexRow; r++) {
+			key = new GPoint(-1, r);
+			if (formatMap.containsKey(key)) {
+				shiftKey = new GPoint(-1, r - shiftAmount);
+				formatMap.put(shiftKey, formatMap.remove(key));
+			}
+		}
+
+		// shift cell formats
+		for (int r = rowStart; r <= highestIndexRow; r++) {
+			for (int c = 0; c <= highestIndexColumn; c++) {
+				key = new GPoint(c, r);
+				if (formatMap.containsKey(key)) {
+					shiftKey = new GPoint(c, r - shiftAmount);
+					formatMap.put(shiftKey, formatMap.remove(key));
+				}
+			}
+		}
+	}
+
+	private void shiftRowsDown(MyHashMap formatMap, int rowStart,
+			int shiftAmount) {
+
+		if (formatMap == null || formatMap.isEmpty()) {
+			return;
+		}
+
+		GPoint key = null;
+		GPoint shiftKey = null;
+
+		// shift row formats
+		for (int r = highestIndexRow; r >= rowStart; r--) {
+			key = new GPoint(-1, r);
+			if (formatMap.containsKey(key)) {
+				shiftKey = new GPoint(-1, r + shiftAmount);
+				formatMap.put(shiftKey, formatMap.remove(key));
+			}
+		}
+
+		// shift cell formats
+		for (int r = highestIndexRow; r >= rowStart; r--) {
+			for (int c = 0; c <= highestIndexColumn; c++) {
+				key = new GPoint(c, r);
+				if (formatMap.containsKey(key)) {
+					shiftKey = new GPoint(c, r + shiftAmount);
+					formatMap.put(shiftKey, formatMap.remove(key));
+				}
+			}
+		}
+	}
+
+	private void clearRows(MyHashMap formatMap, int rowStart, int rowEnd) {
+
+		if (formatMap == null || formatMap.isEmpty()) {
+			return;
+		}
+
+		GPoint key = null;
+
+		// clear all row formats
+		for (int r = rowStart; r <= rowEnd; r++) {
+			key = new GPoint(-1, r);
+			if (formatMap.containsKey(key)) {
+				formatMap.remove(key);
+			}
+		}
+
+		// clear all cell formats
+		for (int r = rowStart; r <= rowEnd; r++) {
+			for (int c = 0; c <= highestIndexColumn; c++) {
+				key = new GPoint(c, r);
+				if (formatMap.containsKey(key)) {
+					formatMap.remove(key);
+				}
+			}
+		}
+	}
+
+	private void shiftColumnsLeft(MyHashMap formatMap, int columnStart,
+			int shiftAmount) {
+
+		if (formatMap == null || formatMap.isEmpty()) {
+			return;
+		}
+
+		GPoint key = null;
+		GPoint shiftKey = null;
+
+		// clear first column to be shifted into
+		clearColumns(formatMap, columnStart - shiftAmount, columnStart
+				- shiftAmount);
+
+		// shift column formats
+		for (int c = columnStart; c <= highestIndexColumn; c++) {
+			key = new GPoint(c, -1);
+			if (formatMap.containsKey(key)) {
+				shiftKey = new GPoint(c - shiftAmount, -1);
+				formatMap.put(shiftKey, formatMap.remove(key));
+			}
+		}
+
+		// shift cell formats
+		for (int c = columnStart; c <= highestIndexColumn; c++) {
+			for (int r = 0; r <= highestIndexRow; r++) {
+				key = new GPoint(c, r);
+				if (formatMap.containsKey(key)) {
+					shiftKey = new GPoint(c - shiftAmount, r);
+					formatMap.put(shiftKey, formatMap.remove(key));
+				}
+			}
+		}
+	}
+
+	private void shiftColumnsRight(MyHashMap formatMap, int columnStart,
+			int shiftAmount) {
+
+		if (formatMap == null || formatMap.isEmpty()) {
+			return;
+		}
+
+		GPoint key = null;
+		GPoint shiftKey = null;
+
+		// shift column formats
+		for (int c = highestIndexColumn; c >= columnStart; c--) {
+			key = new GPoint(c, -1);
+			if (formatMap.containsKey(key)) {
+				shiftKey = new GPoint(c + shiftAmount, -1);
+				formatMap.put(shiftKey, formatMap.remove(key));
+			}
+		}
+
+		// shift cell formats
+		for (int c = highestIndexColumn; c >= columnStart; c--) {
+			for (int r = 0; r <= highestIndexRow; r++) {
+				key = new GPoint(c, r);
+				if (formatMap.containsKey(key)) {
+					shiftKey = new GPoint(c + shiftAmount, r);
+					formatMap.put(shiftKey, formatMap.remove(key));
+				}
+			}
+		}
+
+	}
+
+	private void clearColumns(MyHashMap formatMap, int columnStart,
+			int columnEnd) {
+
+		if (formatMap == null || formatMap.isEmpty()) {
+			return;
+		}
+
+		GPoint key = null;
+
+		// clear all column formats
+		for (int c = columnStart; c <= columnEnd; c++) {
+			key = new GPoint(c, -1);
+			if (formatMap.containsKey(key)) {
+				formatMap.remove(key);
+			}
+		}
+
+		// clear all cell formats
+		for (int c = columnStart; c <= columnEnd; c++) {
+			for (int r = 0; r <= highestIndexRow; r++) {
+				key = new GPoint(c, r);
+				if (formatMap.containsKey(key)) {
+					formatMap.remove(key);
+				}
+			}
+		}
+	}
+
+	// for debugging
+	private static void printMap(MyHashMap formatMap) {
+
+		App.debug(" =========  map contents ==========");
+		for (Entry<GPoint, Object> entry : formatMap.entrySet()) {
+			GPoint key = entry.getKey();
+			Object value = entry.getValue();
+			App.debug(" key: " + key.x + " , " + key.y + "  value: "
+					+ value.toString());
+		}
+
 	}
 
 	// ========================================================
@@ -168,17 +422,15 @@ public class CellFormat implements CellFormatInterface {
 	public Object getCellFormat(int x, int y, int formatType) {
 
 		MyHashMap formatMap = formatMapArray[formatType];
-		if(formatMap == null || formatMap.isEmpty()){
+		if (formatMap == null || formatMap.isEmpty()) {
 			return null;
 		}
 		Object formatObject = null;
-		
-		// Create special keys for the row and column of the cell
+
+		// Create special keys for the cell, row and column
 		GPoint rowKey = new GPoint(-1, y);
 		GPoint columnKey = new GPoint(x, -1);
-
-		// Get the format table
-		GPoint cellKey = new GPoint(x,y);
+		GPoint cellKey = new GPoint(x, y);
 
 		// Check there is a format for this cell
 		if (formatMap.containsKey(cellKey)) {
@@ -204,11 +456,16 @@ public class CellFormat implements CellFormatInterface {
 	 * Returns the format object shared by all cells in the given cell range for
 	 * the given format type. If a format object does not exist, or not all
 	 * cells share the same format object, null is returned.
+	 * 
+	 * @param cr
+	 * @param formatType
+	 * @return
 	 */
 	public Object getCellFormat(CellRange cr, int formatType) {
 
 		// Get the format in the upper left cell
-		Object format = getCellFormat(cr.getMinColumn(), cr.getMinRow(), formatType);
+		Object format = getCellFormat(cr.getMinColumn(), cr.getMinRow(),
+				formatType);
 
 		if (format == null)
 			return null;
@@ -277,9 +534,8 @@ public class CellFormat implements CellFormatInterface {
 
 					// format the row
 					formatTable.put(new GPoint(-1, r), value);
-
 					// handle cells in the row with prior formatting
-					for (int col = 0; col < table.getColumnCount(); col++) {
+					for (int col = 0; col < highestIndexColumn; col++) {
 						testCell.setLocation(col, r);
 						testColumn.setLocation(col, -1);
 						formatTable.remove(testCell);
@@ -302,7 +558,7 @@ public class CellFormat implements CellFormatInterface {
 					formatTable.put(new GPoint(c, -1), value);
 
 					// handle cells in the column with prior formatting
-					for (int row = 0; row < table.getRowCount(); row++) {
+					for (int row = 0; row < highestIndexRow; row++) {
 
 						testCell.setLocation(c, row);
 						testRow.setLocation(-1, row);
@@ -413,8 +669,9 @@ public class CellFormat implements CellFormatInterface {
 								cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
 				if (cr.getMinRow() < cr.getMaxRow()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new CellRange(app, -1, cr.getMinRow() + 1,
-							-1, cr.getMaxRow()), FORMAT_BORDER, b);
+					setFormat(
+							new CellRange(app, -1, cr.getMinRow() + 1, -1,
+									cr.getMaxRow()), FORMAT_BORDER, b);
 				}
 				break;
 
@@ -464,8 +721,9 @@ public class CellFormat implements CellFormatInterface {
 						BORDER_TOP);
 				if (cr.getMinColumn() < cr.getMaxColumn()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new CellRange(app, cr.getMinColumn() + 1,
-							-1, cr.getMaxColumn(), -1), FORMAT_BORDER, b);
+					setFormat(
+							new CellRange(app, cr.getMinColumn() + 1, -1,
+									cr.getMaxColumn(), -1), FORMAT_BORDER, b);
 				}
 				break;
 
@@ -549,22 +807,19 @@ public class CellFormat implements CellFormatInterface {
 			if (c1 == c2) {
 				cell.x = c1;
 				cell.y = r1;
-				byte b = BORDER_LEFT + BORDER_RIGHT
-						+ BORDER_TOP;
+				byte b = BORDER_LEFT + BORDER_RIGHT + BORDER_TOP;
 				setFormat(cell, FORMAT_BORDER, b);
 
 				cell.x = c1;
 				cell.y = r2;
-				b = BORDER_LEFT + BORDER_RIGHT
-						+ BORDER_BOTTOM;
+				b = BORDER_LEFT + BORDER_RIGHT + BORDER_BOTTOM;
 				setFormat(cell, FORMAT_BORDER, b);
 			}
 			// case 2: row corners
 			else if (r1 == r2) {
 				cell.x = c1;
 				cell.y = r1;
-				byte b = BORDER_LEFT + BORDER_TOP
-						+ BORDER_BOTTOM;
+				byte b = BORDER_LEFT + BORDER_TOP + BORDER_BOTTOM;
 				setFormat(cell, FORMAT_BORDER, b);
 
 				cell.x = c2;
@@ -681,9 +936,9 @@ public class CellFormat implements CellFormatInterface {
 	}
 
 	/**
-	 * Returns StringBuilder containing all current formats encoded as strings
 	 * 
-	 * @return
+	 * @return StringBuilder object containing all current formats encoded as
+	 *         strings
 	 */
 	public StringBuilder encodeFormats() {
 
@@ -752,6 +1007,7 @@ public class CellFormat implements CellFormatInterface {
 	 * Decodes XML string and puts format values into the format maps.
 	 * 
 	 * @param xml
+	 *            String to be decoded
 	 */
 	public void processXMLString(String xml) {
 		clearAll();
@@ -776,10 +1032,10 @@ public class CellFormat implements CellFormatInterface {
 	 * @param formatStr
 	 */
 	private void processCellFormatString(String formatStr) {
-		if(formatStr.equals("null")){
+		if (formatStr.equals("null")) {
 			return;
 		}
-		//System.out.println("cellFormat:  " + formatStr);
+		// System.out.println("cellFormat:  " + formatStr);
 		String[] f = formatStr.split(formatDelimiter);
 		GPoint cell = new GPoint(Integer.parseInt(f[0]), Integer.parseInt(f[1]));
 		int formatType;
@@ -787,11 +1043,11 @@ public class CellFormat implements CellFormatInterface {
 		for (int i = 2; i < f.length; i = i + 2) {
 			formatType = formatTokenMap.get(f[i]);
 			if (formatType == FORMAT_BGCOLOR) {
-				
+
 				// #4299 changed to Long
 				// this Integer is of the form 0xAARRGGBB,
 				// so remove the alpha channel to make it positive
-				int fv = (int)(Long.parseLong(f[i + 1]) & 0x00ffffff); 
+				int fv = (int) (Long.parseLong(f[i + 1]) & 0x00ffffff);
 
 				formatValue = AwtFactory.prototype.newColor(fv);
 			} else if (formatType == FORMAT_BORDER) {

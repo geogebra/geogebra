@@ -14,4 +14,7 @@ public interface CellFormatInterface {
 
 	void processXMLString(String cellFormat);
 
+	void shiftFormats(int startIndex, int shiftAmount,
+			CellRangeProcessor.Direction direction);
+
 }

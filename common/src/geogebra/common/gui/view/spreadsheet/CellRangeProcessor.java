@@ -1025,6 +1025,11 @@ public class CellRangeProcessor {
 	// Insert Rows/Columns
 	// ===================================================
 
+	@SuppressWarnings("javadoc")
+	public enum Direction {
+		Left, Right, Up, Down
+	}
+
 	/**
 	 * @param column1
 	 *            minimum selected column
@@ -1037,9 +1042,14 @@ public class CellRangeProcessor {
 
 		if (insertLeft) {
 			shiftColumnsRight(column1);
+			table.getCellFormatHandler().shiftFormats(column1, 1,
+					Direction.Right);
 		} else {
 			shiftColumnsRight(column2 + 1);
+			table.getCellFormatHandler().shiftFormats(column2 + 1, 1,
+					Direction.Right);
 		}
+		table.repaint();
 	}
 
 	/**
@@ -1053,7 +1063,9 @@ public class CellRangeProcessor {
 		table.getCopyPasteCut().delete(column1, 0, column2,
 				tableModel.getHighestUsedRow());
 		shiftColumnsLeft(column2 + 1, column2 - column1 + 1);
-
+		table.getCellFormatHandler().shiftFormats(column2 + 1,
+				column2 - column1 + 1, Direction.Left);
+		table.repaint();
 	}
 
 	private void shiftColumnsRight(int startColumn) {
@@ -1118,9 +1130,13 @@ public class CellRangeProcessor {
 
 		if (insertAbove) {
 			shiftRowsDown(row1);
+			table.getCellFormatHandler().shiftFormats(row1, 1, Direction.Down);
 		} else {
 			shiftRowsDown(row2 + 1);
+			table.getCellFormatHandler().shiftFormats(row2 + 1, 1,
+					Direction.Down);
 		}
+		table.repaint();
 	}
 
 	/**
@@ -1134,7 +1150,9 @@ public class CellRangeProcessor {
 		table.getCopyPasteCut().delete(0, row1,
 				tableModel.getHighestUsedColumn(), row2);
 		shiftRowsUp(row2 + 1, row2 - row1 + 1);
-
+		table.getCellFormatHandler().shiftFormats(row2 + 1, row2 - row1 + 1,
+				Direction.Up);
+		table.repaint();
 	}
 
 	private void shiftRowsDown(int startRow) {
