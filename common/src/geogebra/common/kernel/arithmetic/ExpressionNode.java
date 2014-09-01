@@ -5083,5 +5083,26 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public ExpressionNode apply(Operation operation2, ExpressionValue arg) {
 		return new ExpressionNode(kernel,this,operation2,arg);
 	}
+
+	/**
+	 * @return whether this contains FVar that is not part of equation or list
+	 */
+	public boolean containsFreeFunctionVariable() {
+		return checkForFreeVars(left) || (right!=null && checkForFreeVars(right))
+				|| (operation == Operation.FUNCTION_NVAR && right instanceof MyList && ((ValidExpression) right).containsFunctionVariable());
+	}
+
+	private boolean checkForFreeVars(ExpressionValue ev) {
+		if(ev instanceof FunctionVariable){
+			return true;
+		}
+		if(ev instanceof ExpressionNode){
+			return ((ExpressionNode)ev).containsFreeFunctionVariable();
+		}
+		if(ev instanceof MyVecNode){
+			return checkForFreeVars(((MyVecNode)ev).getX()) || checkForFreeVars(((MyVecNode)ev).getY());
+		}
+		return false;
+	}
 	
 }

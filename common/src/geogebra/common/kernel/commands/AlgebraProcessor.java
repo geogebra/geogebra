@@ -2022,7 +2022,7 @@ public class AlgebraProcessor {
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables();
 		String label = n.getLabel();
-		if(n.containsFunctionVariable()){
+		if(n.containsFreeFunctionVariable()){
 			Set<String> fvSet = new TreeSet<String>();
 			FVarCollector fvc = FVarCollector.getCollector(fvSet);
 			n.traverse(fvc);
