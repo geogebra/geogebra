@@ -45,7 +45,7 @@ void main (void)
 			
 		}else if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;
 			vec4 textureVal = texture2D(Texture0, coordTexture);
-			if (textureVal.a < 0.01){
+			if (textureVal.a < 0.25){
 		  		discard; // don't write
 		  	}else{
 				gl_FragColor.rgb = varying_Color.rgb;
