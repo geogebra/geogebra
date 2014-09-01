@@ -120,7 +120,7 @@ public class EditMenuW extends GMenuBar {
 		if (!app.isApplet()){
 			
 				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString(), 
-						app.getSelectionManager().getSelectedGeos().size() > 0 ? app.getPlain("Properties") : app.getMenu("Options")
+						!app.getKernel().isEmpty() ? app.getPlain("Properties") : app.getMenu("Options")
 					+ " ...", true),
 			        true, new Command() {
 				        public void execute() {
