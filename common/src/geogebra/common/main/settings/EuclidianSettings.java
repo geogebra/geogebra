@@ -853,11 +853,17 @@ public class EuclidianSettings extends AbstractSettings {
 
 
 	public void setXscale(double scale) {
-		this.xscale = scale;
+		if (this.xscale != scale){
+			this.xscale = scale;
+			settingChanged();
+		}
 	}
 
 	public void setYscale(double scale) {
-		this.yscale = scale;
+		if (this.yscale != scale){
+			this.yscale = scale;
+			settingChanged();
+		}
 		
 	}
 

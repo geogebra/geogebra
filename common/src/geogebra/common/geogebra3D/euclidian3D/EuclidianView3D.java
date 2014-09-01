@@ -275,9 +275,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		
 		evNo = 3;
 
-		settings.setXscale(50);
-		settings.setYscale(50);
-		((EuclidianSettings3D) settings).setZscale(50);
 
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);

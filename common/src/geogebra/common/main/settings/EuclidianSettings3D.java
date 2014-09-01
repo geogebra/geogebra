@@ -20,14 +20,20 @@ public class EuclidianSettings3D extends EuclidianSettings{
 	private double b = EuclidianView3D.ANGLE_ROT_XOY;// angles (in degrees)
 
 	public EuclidianSettings3D(EuclidianSettings euclidianSettings1) {
-		super(euclidianSettings1);
+		super(euclidianSettings1);		
+
+		setXscale(50);
+		setYscale(50);
+		setZscale(50);
 		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 	}
 	
 	public void setZscale(double scale) {
-		this.zscale = scale;
-		
+		if (this.zscale != scale){
+			this.zscale = scale;
+			settingChanged();
+		}
 	}
 	
 	public double getZscale(){
