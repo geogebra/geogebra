@@ -612,7 +612,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
         }
 
 		public void enabeLock(boolean value) {
-	        tbLockRatio.setValue(value);
+	        tbLockRatio.setEnabled(value);
         }
 
 		final protected void updateMinMax() {

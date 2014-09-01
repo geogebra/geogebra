@@ -1113,7 +1113,7 @@ public class OptionsEuclidianD extends
 	}
 
 	public void enableLock(boolean value) {
-		cbLockRatio.setSelected(value);
+		cbLockRatio.setEnabled(value);
 	}
 
 	public void selectGridStyle(int style) {
