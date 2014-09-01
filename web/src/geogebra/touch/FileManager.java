@@ -5,6 +5,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppWeb;
@@ -70,7 +71,7 @@ public class FileManager {//implements FileManagerInterface {
 
 			@Override
 			public void onFailure(final FileError error) {
-				App.debug("Could not get ggbDir");
+				callback.onFailure(error);
 			}
 		});
 	}
@@ -95,8 +96,8 @@ public class FileManager {//implements FileManagerInterface {
 			}
 
 			@Override
-			public void onFailure(final FileError reason) {
-				App.debug("Could not get metaDir");
+			public void onFailure(final FileError error) {
+				callback.onFailure(error);
 			}
 		});
 	}
@@ -130,8 +131,8 @@ public class FileManager {//implements FileManagerInterface {
 			}
 
 			@Override
-			public void onFailure(final FileError reason) {
-				App.debug("Could not get File");
+			public void onFailure(final FileError error) {
+				callback.onFailure(error);
 			}
 		});
 	}
@@ -164,8 +165,8 @@ public class FileManager {//implements FileManagerInterface {
 			}
 
 			@Override
-			public void onFailure(final FileError reason) {
-				App.debug("Could not get metaFile");
+			public void onFailure(final FileError error) {
+				callback.onFailure(error);
 			}
 		});
 	}
@@ -531,10 +532,7 @@ public class FileManager {//implements FileManagerInterface {
 	 * @param cb 
 	 */
 	public void saveFile(final App app, final Callback<String, Throwable> cb) {
-		ToolTipManagerW.sharedInstance().setEnableDelay(false);
-		ToolTipManagerW.sharedInstance().showToolTip(app.getMenu("Save") + "...");
-		ToolTipManagerW.sharedInstance().setEnabled(false);
-		
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
 		final String consTitle = ((AppW) app).getKernel().getConstruction().getTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override

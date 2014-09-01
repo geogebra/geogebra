@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.GuiManagerW;
 
@@ -112,11 +113,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 
 				@Override
                 public void onSuccess(String reason) {
-					
-					ToolTipManagerW.sharedInstance().setEnabled(true);
-					ToolTipManagerW.sharedInstance().setEnableDelay(true);
-					//TODO - wait for translation: getMenu("SavedSuccessfully")
-					ToolTipManagerW.sharedInstance().showToolTip("Saved successfully");
+					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", "");
 					if (callback != null) {
 						callback.run();
 					} else {
@@ -126,9 +123,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 
 				@Override
                 public void onFailure(Throwable reason) {
-					ToolTipManagerW.sharedInstance().setEnabled(true);
-					ToolTipManagerW.sharedInstance().setEnableDelay(true);
-					ToolTipManagerW.sharedInstance().showToolTip(app.getLocalization().getError("SaveFileFailed"));
+					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("SaveFileFailed") + "</html>", "");
                 }
 			});
 			hide();

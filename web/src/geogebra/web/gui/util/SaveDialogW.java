@@ -5,6 +5,7 @@ import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
@@ -154,10 +155,9 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 * Handles the upload of the file and closes the dialog
 	 */
 	void upload() {
-		ToolTipManagerW.sharedInstance().setEnableDelay(false);
 		//TODO - wait for translation:
-		ToolTipManagerW.sharedInstance().showToolTip(app.getMenu("Save") + "...");
-		ToolTipManagerW.sharedInstance().setEnabled(false);
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
+
 		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 			((AppWeb) app).resetUniqueId();
 		}
@@ -168,9 +168,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 				if (parseResponse.size() == 1) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
-
-					//TODO block the other ToolTips
-
 					app.setSaved();
 					((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
 					if (cb != null) {
