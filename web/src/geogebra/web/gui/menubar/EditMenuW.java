@@ -118,8 +118,9 @@ public class EditMenuW extends GMenuBar {
 
 		// object properties menu
 		if (!app.isApplet()){
-			if (!app.getKernel().isEmpty()){
-				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString(), app.getPlain("Properties")
+			
+				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString(), 
+						app.getSelectionManager().getSelectedGeos().size() > 0 ? app.getPlain("Properties") : app.getMenu("Options")
 					+ " ...", true),
 			        true, new Command() {
 				        public void execute() {
@@ -128,7 +129,7 @@ public class EditMenuW extends GMenuBar {
 			        });
 				
 				addSeparator();
-			}
+			
 		}
 		
 		// select all menu
