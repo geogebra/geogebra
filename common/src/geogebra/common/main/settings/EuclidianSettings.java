@@ -61,8 +61,9 @@ public class EuclidianSettings extends AbstractSettings {
 	private final EuclidianSettings euclidianSettings1;
 
 	public EuclidianSettings(EuclidianSettings euclidianSettings1) {
-		
 		this.euclidianSettings1 = euclidianSettings1;
+		xZero = EuclidianView.XZERO_STANDARD;
+		yZero = EuclidianView.YZERO_STANDARD;
 		preferredSize = AwtFactory.prototype.newDimension(0,0);
 		resetNoFire();
 	}
@@ -294,9 +295,9 @@ public class EuclidianSettings extends AbstractSettings {
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
 
-	protected double xZero = EuclidianView.XZERO_STANDARD;
+	protected double xZero;
 
-	protected double yZero = EuclidianView.YZERO_STANDARD;
+	protected double yZero;
 	
 	private double xscale = EuclidianView.SCALE_STANDARD;
 

@@ -151,7 +151,7 @@ public class AppWapplet extends AppW {
 			this.getEuclidianView1().createImage();
 			((DockPanelW)getEuclidianViewpanel()).setVisible(true);
 			((DockPanelW)getEuclidianViewpanel()).setEmbeddedSize(getSettings().getEuclidian(1).getPreferredSize().getWidth());
-			((DockPanelW)getEuclidianViewpanel()).updatePanel();
+			((DockPanelW)getEuclidianViewpanel()).updatePanel(false);
 			getEuclidianViewpanel().setPixelSize(
 					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
 					getSettings().getEuclidian(1).getPreferredSize().getHeight());

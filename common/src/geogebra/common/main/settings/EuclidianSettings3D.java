@@ -21,6 +21,8 @@ public class EuclidianSettings3D extends EuclidianSettings{
 
 	public EuclidianSettings3D(EuclidianSettings euclidianSettings1) {
 		super(euclidianSettings1);
+		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
+		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 	}
 	
 	public void setZscale(double scale) {

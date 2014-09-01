@@ -628,7 +628,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.isAlone = isAlone;
 
 		if (isVisible()) {
-			updatePanel();
+			updatePanel(true);
 		}
 	}
 
@@ -656,7 +656,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * Update the panel.
 	 */
-	public void updatePanel() {
+	public final void updatePanel(boolean deferred) {
 
 		if (!isVisible())
 			return;
@@ -664,7 +664,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (component == null) {
 			component = loadComponent();
 		}
-		setLayout(false);
+		setLayout(deferred);
 			//ignore
 	}
 
@@ -1156,7 +1156,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		else
 			dockManager.maximize(this);
 
-		updatePanel();
+		updatePanel(true);
 	}
 
 	public String toString(String prefix) {

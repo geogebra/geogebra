@@ -279,7 +279,7 @@ public class DockManagerW extends DockManager {
 
 				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 
-				panel.updatePanel();
+				panel.updatePanel(true);
 
 				// this might have to belong to panel.updatePanel
 				// maybe not needed if updatePanel is right
@@ -861,7 +861,7 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		panel.updatePanel();
+		panel.updatePanel(false);
 
 		// here we need to resize both panel and opposite
 		panel.getParentSplitPane().deferredOnResize();
@@ -1441,7 +1441,7 @@ public class DockManagerW extends DockManager {
 	 */
 	public void updatePanels() {
 		for(DockPanelW panel : dockPanels) {
-			panel.updatePanel();
+			panel.updatePanel(false);
 		}
 	}
 	
