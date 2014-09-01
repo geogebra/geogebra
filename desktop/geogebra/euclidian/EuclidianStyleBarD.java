@@ -119,9 +119,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected MyToggleButton btnShowAxes;
 	protected MyToggleButton btnDeleteSize[];
 
-	private MyToggleButton btnBold;
+	MyToggleButton btnBold;
 
-	private MyToggleButton btnItalic;
+	MyToggleButton btnItalic;
 
 	private MyToggleButton btnDelete;
 
@@ -210,6 +210,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		defaultGeoMap = EuclidianStyleBarStatic.createDefaultMap();
 	}
 
+	/**
+	 * @return euclidian mode
+	 */
 	public int getMode() {
 		return mode;
 	}
@@ -502,13 +505,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// mode button
 
-		ImageIcon[] modeArray = new ImageIcon[] {
-				app.getImageIcon("cursor_arrow.png"),
-				app.getImageIcon("applications-graphics.png"),
-				app.getImageIcon("delete_small.gif"),
-				app.getImageIcon("mode_point_16.gif"),
-				app.getImageIcon("mode_copyvisualstyle_16.png") };
-
 		// ========================================
 		// pen button
 		btnPen = new MyToggleButton(
@@ -562,6 +558,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		for (int i = 0; i < 3; i++) {
 			btnDeleteSize[i] = new MyToggleButton(
 					app.getImageIcon(deleteIcons[i]), iconHeight) {
+
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void update(Object[] geos) {
 					this.setVisible(mode == EuclidianConstants.MODE_DELETE);
@@ -1277,7 +1276,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// ================================================
 
 	protected void createTableTextButtons() {
-		Dimension iconDimension = new Dimension(16, iconHeight);
 
 		// ==============================
 		// justification popup
@@ -1480,7 +1478,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	 * process the action performed
 	 * 
 	 * @param source
+	 *            toggle / popup button
 	 * @param targetGeos
+	 *            geos
 	 */
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
 
@@ -1587,10 +1587,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		}
 	}
 
-	public void updateButtonPointCapture(int mode) {
-		if (mode == 3 || mode == 0)
-			mode = 3 - mode; // swap 0 and 3
-		btnPointCapture.setSelectedIndex(mode);
+	public void updateButtonPointCapture(int mode1) {
+		if (mode1 == 3 || mode1 == 0)
+			mode1 = 3 - mode1; // swap 0 and 3
+		btnPointCapture.setSelectedIndex(mode1);
 	}
 
 	// ==============================================
