@@ -103,6 +103,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		resizeWeight = d;
 	}
 
+	@Override
+	public boolean hasSplittersFrozen() {
+		return frozen || (app.isApplet() && !app.isRightClickEnabled());
+	}
+
 	public double computeDividerLocationRecursive() {
 
 		double sizeLeft = 0;

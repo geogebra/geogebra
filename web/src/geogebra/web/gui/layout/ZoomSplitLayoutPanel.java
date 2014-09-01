@@ -127,6 +127,10 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     public void onBrowserEvent(Event event) {
       switch (event.getTypeInt()) {
         case Event.ONMOUSEDOWN:
+          if (splitPanel.hasSplittersFrozen()) {
+        	event.preventDefault();
+          	break;
+          }
           mouseDown = true;
 
           /*
@@ -147,6 +151,10 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
           break;
 
         case Event.ONMOUSEUP:
+          if (splitPanel.hasSplittersFrozen()) {
+          	event.preventDefault();
+            break;
+          }
           mouseDown = false;
 
           glassElem.removeFromParent();
@@ -179,6 +187,10 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
           break;
 
         case Event.ONMOUSEMOVE:
+          if (splitPanel.hasSplittersFrozen()) {
+          	event.preventDefault();
+            break;
+          }
           if (mouseDown) {
             int size;
             if (reverse) {
@@ -316,6 +328,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
   private final int splitterSize;
   private double zoom;
+  protected boolean frozen;
 
   /**
    * Construct a new {@link SplitLayoutPanel} with the default splitter size of
@@ -360,6 +373,19 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
    */
   public int getSplitterSize() {
     return splitterSize;
+  }
+
+  /**
+   * This method will have to be overridden if we want an applet-wide effect
+   * Static might not be perfect if there are more applets on one page.
+   * @return whether the splitters are frozen
+   */
+  public boolean hasSplittersFrozen() {
+	return frozen;
+  }
+
+  public void setSplittersFrozen(boolean frozeSplitters) {
+	this.frozen = frozeSplitters;
   }
 
   @Override
