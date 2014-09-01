@@ -294,13 +294,13 @@ public class EuclidianSettings extends AbstractSettings {
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
 
-	protected double xZero;
+	protected double xZero = EuclidianView.XZERO_STANDARD;
 
-	protected double yZero;
+	protected double yZero = EuclidianView.YZERO_STANDARD;
 	
-	private double xscale;
+	private double xscale = EuclidianView.SCALE_STANDARD;
 
-	private double yscale;
+	private double yscale = EuclidianView.SCALE_STANDARD;
 
 	private GDimension preferredSize;
 
