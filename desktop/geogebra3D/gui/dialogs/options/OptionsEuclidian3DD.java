@@ -530,21 +530,21 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			}
 		} else if (source == projectionButtons
 				.getButton(EuclidianView3D.PROJECTION_ORTHOGRAPHIC)) {
-			((EuclidianView3D) view).setProjectionOrthographic();
+			((EuclidianView3D) view).getSettings().setProjection(EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
 			projectionButtons
 					.setSelected(EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
 		} else if (source == projectionButtons
 				.getButton(EuclidianView3D.PROJECTION_PERSPECTIVE)) {
-			((EuclidianView3D) view).setProjectionPerspective();
+			((EuclidianView3D) view).getSettings().setProjection(EuclidianView3D.PROJECTION_PERSPECTIVE);
 			projectionButtons
 					.setSelected(EuclidianView3D.PROJECTION_PERSPECTIVE);
 		} else if (source == projectionButtons
 				.getButton(EuclidianView3D.PROJECTION_GLASSES)) {
-			((EuclidianView3D) view).setProjectionGlasses();
+			((EuclidianView3D) view).getSettings().setProjection(EuclidianView3D.PROJECTION_GLASSES);
 			projectionButtons.setSelected(EuclidianView3D.PROJECTION_GLASSES);
 		} else if (source == projectionButtons
 				.getButton(EuclidianView3D.PROJECTION_OBLIQUE)) {
-			((EuclidianView3D) view).setProjectionOblique();
+			((EuclidianView3D) view).getSettings().setProjection(EuclidianView3D.PROJECTION_OBLIQUE);
 			projectionButtons.setSelected(EuclidianView3D.PROJECTION_OBLIQUE);
 		} else if (source == cbGlassesGray) {
 			((EuclidianView3D) view).setGlassesGrayScaled(cbGlassesGray

@@ -277,7 +277,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
                 public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setProjection(index);	 
+					((EuclidianView3D) view).getSettings().setProjection(index);	 
 					view.repaintView();
                 }
 				

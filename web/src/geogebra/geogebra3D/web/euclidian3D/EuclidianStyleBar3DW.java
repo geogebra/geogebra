@@ -334,16 +334,16 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 			int si = btnViewProjection.getSelectedIndex();
 			switch(si){
 			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-				getView().setProjectionOrthographic();
+				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
 				break;
 			case EuclidianView3D.PROJECTION_PERSPECTIVE:
-				getView().setProjectionPerspective();
+				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_PERSPECTIVE);
 				break;
 			case EuclidianView3D.PROJECTION_GLASSES:
-				getView().setProjectionGlasses();
+				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_GLASSES);
 				break;
 			case EuclidianView3D.PROJECTION_OBLIQUE:
-				getView().setProjectionOblique();
+				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_OBLIQUE);
 				break;
 			}
 			getView().repaintView();
