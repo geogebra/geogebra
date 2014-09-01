@@ -123,7 +123,7 @@ public class EuclidianPen {
 	private float absTangent = 0;
 
 	private final static int PEN_SIZE_FACTOR=2;
-	private static final double CONIC_AXIS_ERROR_RATIO = 5;
+	private static final double CONIC_AXIS_ERROR_RATIO = 10;
 
 	private boolean startNewStroke=false;
 
@@ -760,6 +760,11 @@ public class EuclidianPen {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			penPoints.clear();
+			return;
+		}
+		if(shape instanceof GeoConic){
+			penPoints.clear();
 			return;
 		}
 
@@ -1179,7 +1184,6 @@ public class EuclidianPen {
 		int datasize = 10;
 
 		if (this.penPoints.size() < datasize) {
-			penPoints.clear();
 			return null;
 		}
 
@@ -1283,7 +1287,6 @@ public class EuclidianPen {
 			conic = null;
 		}
 
-		penPoints.clear();
 		return conic;
 	}
 
