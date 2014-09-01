@@ -175,14 +175,16 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		ConstructionKeyListener keyListener = new ConstructionKeyListener();
 		table.addKeyListener(keyListener);
 
+		((ConstructionProtocolNavigationD) app.getGuiManager()
+				.getConstructionProtocolNavigation()).register(this);
 		// navigation bar
-		protNavBar = (ConstructionProtocolNavigationD) app.getGuiManager()
-				.getConstructionProtocolNavigation();
+		protNavBar = new ConstructionProtocolNavigationD(app);
 		protNavBar.register(this);
-		// protNavBar.setPlayButtonVisible(false);
-		// protNavBar.setConsProtButtonVisible(false);
-		// add(protNavBar, BorderLayout.SOUTH);
-		// Util.addKeyListenerToAll(protNavBar, keyListener);
+		protNavBar.setPlayButtonVisible(false);
+		protNavBar.setConsProtButtonVisible(false);
+		this.cpPanel.add(protNavBar.getImpl(), BorderLayout.SOUTH);
+		geogebra.util.Util.addKeyListenerToAll(protNavBar.getImpl(),
+				keyListener);
 
 		initGUI();
 		initActions();
