@@ -947,9 +947,13 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// =====================================================
 		// Delete Size Button
-		
+		ImageResource[] delBtns = new ImageResource[]{
+				AppResources.INSTANCE.eraser_small(),
+				AppResources.INSTANCE.eraser_medium(),
+				AppResources.INSTANCE.eraser_big()
+		};
 		for(int i=0; i<3; i++){
-			btnDeleteSizes[i]= new MyToggleButton2(AppResources.INSTANCE.delete_small()){
+			btnDeleteSizes[i]= new MyToggleButton2(delBtns[i]){
 	
 				@Override
 	            public void update(Object[] geos) {
@@ -1484,8 +1488,8 @@ public class EuclidianStyleBarW extends StyleBarW
 	private void setDelSize(int s){
 		ev.getSettings().setDeleteToolSize(EuclidianSettings.DELETE_SIZES[s]);
 		for(int i =0; i<3;i++){
-			btnDeleteSizes[0].setDown(i == s);
-			btnDeleteSizes[0].setEnabled(i != s);
+			btnDeleteSizes[i].setDown(i == s);
+			btnDeleteSizes[i].setEnabled(i != s);
 		}
 	}
 	// ==============================================
