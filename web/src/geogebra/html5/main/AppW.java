@@ -38,7 +38,6 @@ import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.SpreadsheetTableModelW;
-import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
@@ -73,6 +72,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+//import geogebra.web.gui.app.GGWToolBar;
 
 
 public abstract class AppW extends AppWeb {
@@ -1720,14 +1720,7 @@ public abstract class AppW extends AppWeb {
 		}
 	}
 	
-	public void set1rstMode(){
-		if (getToolbar() == null) return;
-		if (((GGWToolBar)getToolbar()).getToolBar() == null) return;
-		
-		setMode(((GGWToolBar)getToolbar()).
-				getToolBar().
-				getFirstMode());
-	}
+	public abstract void set1rstMode();
 	
 	@Override
 	public int getGUIFontSize() {

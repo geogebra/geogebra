@@ -530,4 +530,9 @@ public class AppWapplet extends AppW {
 	            
             }});
 	}
+
+	@Override
+    public void set1rstMode() {
+	    GGWToolBar.set1rstMode(this);
+    }
 }

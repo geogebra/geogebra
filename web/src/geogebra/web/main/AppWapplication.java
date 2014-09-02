@@ -338,4 +338,9 @@ public class AppWapplication extends AppW {
 	            
             }});
 	}
+
+	@Override
+    public void set1rstMode() {
+		GGWToolBar.set1rstMode(this);
+    }
 }

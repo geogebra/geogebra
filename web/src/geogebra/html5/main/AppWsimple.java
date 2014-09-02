@@ -168,4 +168,9 @@ public class AppWsimple extends AppW {
 	    //no upload
 	    
     }
+
+	@Override
+    public void set1rstMode() {
+	    setMoveMode();
+    }
 }

@@ -776,4 +776,14 @@ public class GGWToolBar extends Composite implements RequiresResize{
 	public Element getOpenMenuButtonElement() {
 		return openMenuButton.getElement();
 	}
+
+	public static void set1rstMode(AppW app) {
+		if (app.getToolbar() == null) return;
+		if (((GGWToolBar)app.getToolbar()).getToolBar() == null) return;
+		
+		app.setMode(((GGWToolBar)app.getToolbar()).
+				getToolBar().
+				getFirstMode());
+	    
+    }
 }
