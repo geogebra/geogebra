@@ -115,6 +115,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		if(consProtNav != null){
 			consProtNav.update();
 			consProtNav.setVisible(app.showConsProtNavigation());
+			euclidianpanel.onResize();
 		}
 	}
 	
@@ -139,6 +140,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 
 				int h = dockPanel.getComponentInteriorHeight();
 				int w = dockPanel.getComponentInteriorWidth();
+				if(app.showConsProtNavigation()){
+					h -= dockPanel.navHeight();
+				}
 
 				// TODO handle this better?
 				// exit if new size cannot be determined
@@ -177,6 +181,13 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 			euclidianpanel.oldHeight = 0;
 		}
 	}
+
+	public int navHeight() {
+	    if(this.consProtNav != null && this.consProtNav.getImpl().getOffsetHeight() != 0){
+	    	return this.consProtNav.getImpl().getOffsetHeight();
+	    }
+	    return 30;
+    }
 
 	@Override
 	protected Widget loadStyleBar() {
