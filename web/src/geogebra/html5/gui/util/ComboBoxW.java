@@ -1,11 +1,10 @@
 package geogebra.html5.gui.util;
 
 import geogebra.html5.css.GuiResources;
-
-import org.gwt.advanced.client.datamodel.ListDataModel;
-import org.gwt.advanced.client.datamodel.ListModelEvent;
-import org.gwt.advanced.client.ui.widget.ComboBox;
-import org.gwt.advanced.client.ui.widget.combo.DropDownPosition;
+import geogebra.html5.gui.advanced.client.datamodel.ListDataModel;
+import geogebra.html5.gui.advanced.client.datamodel.ListModelEvent;
+import geogebra.html5.gui.advanced.client.ui.widget.ComboBox;
+import geogebra.html5.gui.advanced.client.ui.widget.combo.DropDownPosition;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;

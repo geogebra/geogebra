@@ -1,9 +1,8 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.html5.gui.advanced.client.datamodel.ListDataModel;
 import geogebra.html5.gui.util.ComboBoxW;
-
-import org.gwt.advanced.client.datamodel.ListDataModel;
 
 public abstract class NumberListBox extends ComboBoxW {
 	private static final String PI_STRING = "\u03c0";

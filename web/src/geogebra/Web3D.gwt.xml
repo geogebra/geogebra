@@ -7,7 +7,7 @@
    <!-- Other module inherits        -->
    
   <!-- Advanced GWT for editable combo box -->
-  <inherits name='org.gwt.advanced.Grid'/>
+  
    
   <!-- GeoGebraTube upload -->
   <inherits name="com.google.gwt.http.HTTP"/>  
