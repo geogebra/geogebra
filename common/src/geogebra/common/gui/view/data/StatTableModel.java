@@ -143,7 +143,7 @@ public class StatTableModel {
 
 	}
 
-	protected ArrayList<Stat> getStatList() {
+	public ArrayList<Stat> getStatList() {
 		ArrayList<Stat> list = new ArrayList<Stat>();
 
 		if (listener.isViewValid()) {
