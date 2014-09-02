@@ -763,10 +763,6 @@ public class EuclidianPen {
 			penPoints.clear();
 			return;
 		}
-		if(shape instanceof GeoConic){
-			penPoints.clear();
-			return;
-		}
 
 		// now check if it can be a function (increasing or decreasing x)
 
@@ -799,6 +795,9 @@ public class EuclidianPen {
 		// now definitely a function
 
 		if (shape != null) {
+			for(GeoElement geo : shape.getParentAlgorithm().getInput()){
+				geo.remove();
+			}
 			shape.remove();
 		}
 
