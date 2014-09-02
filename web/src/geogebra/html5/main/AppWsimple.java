@@ -3,10 +3,10 @@ package geogebra.html5.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.euclidian.EuclidianSimplePanelW;
+import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.euclidian.EuclidianSimplePanelW;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;

@@ -1,21 +1,21 @@
 package geogebra.web.main;
 
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
@@ -205,7 +205,7 @@ public class AppWapplication extends AppW {
 			getGuiManager().getEuclidianView2DockPanel(1).deferredOnResize();
 		}
 		if (getGuiManager().hasSpreadsheetView()) {
-			DockPanelW sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+			DockPanel sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
 			if (sp != null) {
 				sp.deferredOnResize();
 			}

@@ -15,7 +15,7 @@ package geogebra.geogebra3D.web.euclidianFor3D;
 import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import geogebra.common.kernel.Kernel;
-import geogebra.web.euclidian.EuclidianControllerW;
+import geogebra.html5.euclidian.EuclidianControllerW;
 
 /**
  * euclidian controller for 2D view with 3D geos

@@ -17,8 +17,7 @@ import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
-import geogebra.web.euclidian.EuclidianPenFreehand;
-import geogebra.web.euclidian.EuclidianPenFreehand.ShapeType;
+import geogebra.html5.euclidian.EuclidianPenFreehand.ShapeType;
 
 import java.util.ArrayList;
 

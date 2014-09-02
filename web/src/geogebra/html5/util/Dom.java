@@ -1,4 +1,4 @@
-package geogebra.web.html5;
+package geogebra.html5.util;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;

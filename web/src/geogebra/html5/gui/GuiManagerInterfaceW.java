@@ -1,19 +1,19 @@
-package geogebra.web.gui;
+package geogebra.html5.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.Layout;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GuiManagerInterface;
-import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
+import geogebra.web.gui.ContextMenuGeoElementW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
-import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.view.algebra.AlgebraContextMenuW;
@@ -23,6 +23,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Widget;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
@@ -58,7 +59,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public String getCustomToolbarDefinition();
 
-	public LayoutW getLayout();
+	public Layout getLayout();
 
 	public GGWToolBar getToolbarPanel();
 
@@ -97,4 +98,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void setGeneralToolBarDefinition(String toolbarDefinition);
 
 	public MyHeaderPanel getBrowseGUI();
+
+	public Widget getRootComponent();
 }

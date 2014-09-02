@@ -24,6 +24,9 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.euclidian.EuclidianControllerW;
+import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
@@ -33,10 +36,7 @@ import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
 import geogebra.web.WebStatic;
-import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
-import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
@@ -989,7 +989,7 @@ public abstract class AppW extends AppWeb {
 	private native void addNativeLoadHandler(ImageElement img,
 	        EuclidianView view) /*-{
 		img.addEventListener("load", function() {
-			view.@geogebra.web.euclidian.EuclidianViewW::updateBackground()();
+			view.@geogebra.html5.euclidian.EuclidianViewW::updateBackground()();
 		});
 	}-*/;
 
@@ -1051,7 +1051,7 @@ public abstract class AppW extends AppWeb {
 		if (app.getGuiManager() == null)
 			return null;
 
-		return app.getGuiManager().getLayout().getRootComponent();
+		return app.getGuiManager().getRootComponent();
 	}
 
 	@Override
@@ -1062,7 +1062,7 @@ public abstract class AppW extends AppWeb {
 			return null;
 		if (getGuiManager().getLayout() == null)
 			return null;
-		return getGuiManager().getLayout().getRootComponent();
+		return getGuiManager().getRootComponent();
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package geogebra.web.util;
+package geogebra.html5.util;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>

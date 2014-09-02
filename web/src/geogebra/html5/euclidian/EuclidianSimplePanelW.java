@@ -1,8 +1,9 @@
-package geogebra.web.euclidian;
+package geogebra.html5.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
+import geogebra.web.euclidian.EuclidianPanelWAbstract;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;

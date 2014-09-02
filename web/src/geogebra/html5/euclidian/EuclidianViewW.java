@@ -1,4 +1,4 @@
-package geogebra.web.euclidian;
+package geogebra.html5.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
@@ -13,15 +13,17 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.html5.euclidian.EuclidianViewWeb;
-import geogebra.html5.euclidian.IsEuclidianController;
-import geogebra.html5.euclidian.MsZoomer;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
+import geogebra.web.euclidian.EuclidianPanelWAbstract;
+import geogebra.web.euclidian.EuclidianStyleBarW;
+import geogebra.web.euclidian.MyBasicStrokeW;
+import geogebra.web.euclidian.MyEuclidianViewPanel;
+import geogebra.web.euclidian.SmartTouchHandler;
 
 import java.util.List;
 

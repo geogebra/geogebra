@@ -25,17 +25,19 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
+import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.util.Dom;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
-import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.euclidian.EuclidianViewWInterface;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -71,7 +73,6 @@ import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
-import geogebra.web.html5.Dom;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppWapplet;
 
@@ -1544,5 +1545,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	@Override
     public void updateCheckBoxesForShowConstructinProtocolNavigation() {
 		((AppW) app).getEuclidianViewpanel().updateNavigationBar();
+    }
+
+	@Override
+    public Widget getRootComponent() {
+	    return getLayout().getRootComponent();
     }
 }

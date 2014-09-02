@@ -3,7 +3,7 @@ package geogebra.html5.main;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
-import geogebra.web.gui.GuiManagerW;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 
 import java.util.ArrayList;
 
@@ -171,12 +171,12 @@ public class GlobalKeyDispatcherW extends
 	@Override
     protected boolean handleEnter() {
 		if (((AppW) app).isUsingFullGui()
-				&& ((GuiManagerW) app.getGuiManager()).noMenusOpen()) {
+				&& ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
 			if (app.showAlgebraInput()){
 //					&& !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
 //							.hasFocus()) {
 
-				((GuiManagerW) app.getGuiManager()).getAlgebraInput()
+				((GuiManagerInterfaceW) app.getGuiManager()).getAlgebraInput()
 						.requestFocus();
 
 				return true;

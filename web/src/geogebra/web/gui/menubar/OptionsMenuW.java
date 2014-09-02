@@ -7,8 +7,8 @@ import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.LanguageGUI;
 import geogebra.html5.main.AppW;
+import geogebra.html5.util.Dom;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.html5.Dom;
 import geogebra.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;

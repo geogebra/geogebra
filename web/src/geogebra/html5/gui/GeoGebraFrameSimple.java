@@ -1,4 +1,4 @@
-package geogebra.web.gui.applet;
+package geogebra.html5.gui;
 
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;

@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.GgbAPIW;
 import geogebra.web.WebStatic;
-import geogebra.web.html5.Dom;
 
 import java.util.HashMap;
 

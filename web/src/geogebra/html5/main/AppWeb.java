@@ -40,6 +40,7 @@ import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.kernel.AnimationManagerW;
@@ -51,7 +52,6 @@ import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.View;
-import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.util.ViewsChangedListener;
 
 import java.util.ArrayList;

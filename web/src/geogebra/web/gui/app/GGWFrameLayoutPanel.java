@@ -63,9 +63,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 		dockPanel.addEast(getMenuBar(), MENUBAR_WIDTH);
 
-		if (app.getGuiManager().getLayout().getRootComponent() != null) {
-			dockPanel.add(app.getGuiManager().getLayout().getRootComponent());
-			app.getGuiManager().getLayout().getRootComponent().setStyleName("ApplicationPanel");
+		if (app.getGuiManager().getRootComponent() != null) {
+			dockPanel.add(app.getGuiManager().getRootComponent());
+			app.getGuiManager().getRootComponent().setStyleName("ApplicationPanel");
 		}
 
 		onResize();

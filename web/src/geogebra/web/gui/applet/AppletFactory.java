@@ -1,5 +1,6 @@
 package geogebra.web.gui.applet;
 
+import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;

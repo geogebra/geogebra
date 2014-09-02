@@ -5,7 +5,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.html5.Dom;
+import geogebra.html5.util.Dom;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,12 +81,12 @@ public class WebSimple implements EntryPoint {
 
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrameSimple.main(geoGebraMobileTags);
+		geogebra.html5.gui.GeoGebraFrameSimple.main(geoGebraMobileTags);
 	    
     }
 	
 	private native void exportGGBElementRenderer() /*-{
- 		$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+ 		$wnd.renderGGBElement = $entry(@geogebra.html5.gui.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
 	}-*/;
 
 }

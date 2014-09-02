@@ -9,13 +9,13 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
-import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.data.PlotPanelEuclidianViewW;
 

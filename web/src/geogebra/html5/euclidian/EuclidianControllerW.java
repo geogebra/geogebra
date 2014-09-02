@@ -1,4 +1,4 @@
-package geogebra.web.euclidian;
+package geogebra.html5.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -11,18 +11,15 @@ import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
-import geogebra.html5.euclidian.EnvironmentStyleW;
-import geogebra.html5.euclidian.EuclidianControllerWeb;
-import geogebra.html5.euclidian.EuclidianViewWeb;
-import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.euclidian.event.ZeroOffset;
-import geogebra.web.gui.GuiManagerW;
 
 import java.util.LinkedList;
 
@@ -239,7 +236,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		CancelEventTimer.touchEventOccured();
 	}
 	
-	void twoTouchMove(Touch touch, Touch touch2) {
+	public void twoTouchMove(Touch touch, Touch touch2) {
 		AbstractEvent first = PointerEvent.wrapEvent(touch,this);
 		AbstractEvent second = PointerEvent.wrapEvent(touch2,this);
 		this.twoTouchMove(first.getX(), first.getY(), second.getX(), second.getY());
@@ -311,7 +308,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		moveCounter = 0;
 	}
 	
-	void preventTouchIfNeeded(TouchStartEvent event) {
+	public void preventTouchIfNeeded(TouchStartEvent event) {
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}
@@ -319,7 +316,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 
-	void twoTouchStart(Touch touch, Touch touch2) {
+	public void twoTouchStart(Touch touch, Touch touch2) {
 		calculateEnvironment();
 		AbstractEvent first = PointerEvent.wrapEvent(touch,this);
 		AbstractEvent second = PointerEvent.wrapEvent(touch2,this);
@@ -458,7 +455,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		//hide dialogs if they are open
 		if (app.getGuiManager() != null)
-			((GuiManagerW)app.getGuiManager()).removePopup();
+			((GuiManagerInterfaceW)app.getGuiManager()).removePopup();
 
 		wrapMouseReleased(e);
 		e.release();
@@ -483,9 +480,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			event.preventDefault();
 		}
 		AbstractEvent e = PointerEvent.wrapEvent(event,this);
-		if (app.getGuiManager() != null)
-			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
-
+		if (app.getGuiManager() != null){
+			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+		}
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}

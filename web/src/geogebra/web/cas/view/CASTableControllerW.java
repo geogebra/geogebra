@@ -7,8 +7,8 @@ import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
 
 import com.google.gwt.dom.client.NativeEvent;

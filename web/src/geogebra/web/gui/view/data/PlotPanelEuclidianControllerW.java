@@ -1,7 +1,7 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.web.euclidian.EuclidianControllerW;
+import geogebra.html5.euclidian.EuclidianControllerW;
 
 /**
  * @author gabor

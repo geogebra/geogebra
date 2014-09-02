@@ -8,7 +8,7 @@ import geogebra.common.move.views.BaseEventView;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
-import geogebra.web.util.URLEncoder;
+import geogebra.html5.util.URLEncoder;
 
 
 /**

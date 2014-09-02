@@ -5,7 +5,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.html5.euclidian.EuclidianViewW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;

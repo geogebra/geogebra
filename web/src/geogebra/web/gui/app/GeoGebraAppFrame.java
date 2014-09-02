@@ -10,13 +10,13 @@ import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.Dom;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.View;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.app.docklayout.MyDockLayoutPanel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
-import geogebra.web.html5.Dom;
 import geogebra.web.main.AppWapplication;
 import geogebra.web.presenter.LoadFilePresenter;
 

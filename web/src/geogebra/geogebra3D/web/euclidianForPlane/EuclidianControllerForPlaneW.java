@@ -15,7 +15,7 @@ package geogebra.geogebra3D.web.euclidianForPlane;
 import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianControllerForPlaneCompanion;
 import geogebra.common.kernel.Kernel;
-import geogebra.web.euclidian.EuclidianControllerW;
+import geogebra.html5.euclidian.EuclidianControllerW;
 
 /**
  * controller for view for plane

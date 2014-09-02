@@ -1,6 +1,7 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -9,18 +10,19 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.gui.GeoGebraFrame;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.layout.DockPanelW;
+import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
 
@@ -289,7 +291,7 @@ public class AppWapplet extends AppW {
 			buildSingleApplicationPanel();
 		} else {
 			// a small thing to fix a rare bug
-			getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
+			((LayoutW)getGuiManager().getLayout()).getDockManager().kickstartRoot(frame);
 			Perspective p = null;
 			if(perspective != null){
 				p = PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true, true));
@@ -322,7 +324,7 @@ public class AppWapplet extends AppW {
 			// to be more like AppWapplication's method with the same name,
 			// but preferring to change what is needed only to avoid new unknown bugs
 			if (getGuiManager().hasSpreadsheetView()) {
-				DockPanelW sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+				DockPanel sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
 				if (sp != null) {
 					sp.deferredOnResize();
 				}

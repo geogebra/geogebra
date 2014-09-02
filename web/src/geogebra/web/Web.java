@@ -13,10 +13,10 @@ import geogebra.html5.gui.laf.SmartLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
+import geogebra.html5.util.Dom;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
-import geogebra.web.html5.Dom;
 
 import java.util.ArrayList;
 import java.util.Date;

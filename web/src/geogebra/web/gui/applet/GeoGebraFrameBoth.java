@@ -1,5 +1,6 @@
 package geogebra.web.gui.applet;
 
+import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
@@ -48,7 +49,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 			final GeoGebraFrame inst = new GeoGebraFrameBoth(factory, laf);
 			inst.ae = articleElement;
 			GeoGebraLogger.startLogger(inst.ae);
-			inst.createSplash(articleElement);	
+			inst.createSplash(articleElement);
 			if(WebStatic.panelForApplets == null){
 				RootPanel.get(articleElement.getId()).add(inst);
 			}else{

@@ -13,9 +13,9 @@ import geogebra.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
 import geogebra.geogebra3D.web.kernel3D.Kernel3DW;
 import geogebra.html5.Browser;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
-import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 
 /**

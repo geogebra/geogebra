@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.util.MyMath;
+import geogebra.html5.euclidian.EuclidianControllerW;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;

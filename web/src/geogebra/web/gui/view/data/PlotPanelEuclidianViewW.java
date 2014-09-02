@@ -5,8 +5,8 @@ import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.kernel.Kernel;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.web.euclidian.EuclidianControllerW;
-import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.html5.euclidian.EuclidianControllerW;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 

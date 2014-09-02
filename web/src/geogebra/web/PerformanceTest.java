@@ -25,12 +25,12 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.GeoGebraFrameSimple;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.Dom;
 import geogebra.html5.util.debug.GeoGebraLogger;
-import geogebra.web.gui.applet.GeoGebraFrameSimple;
-import geogebra.web.html5.Dom;
 import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;
@@ -195,12 +195,12 @@ public class PerformanceTest implements EntryPoint {
 
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrameSimple.main(geoGebraMobileTags);
+		geogebra.html5.gui.GeoGebraFrameSimple.main(geoGebraMobileTags);
 	    
     }
 	
 	private native void exportGGBElementRenderer() /*-{
- 		$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+ 		$wnd.renderGGBElement = $entry(@geogebra.html5.gui.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
 	}-*/;
 
 }

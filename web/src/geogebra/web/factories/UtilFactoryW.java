@@ -19,7 +19,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
     public URLEncoder newURLEncoder() {
-	    return new geogebra.web.util.URLEncoder();
+	    return new geogebra.html5.util.URLEncoder();
     }
 
 	@Override
