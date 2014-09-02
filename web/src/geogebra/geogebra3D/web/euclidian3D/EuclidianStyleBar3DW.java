@@ -87,7 +87,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		
 		//========================================
 		// clipping button
-		ImageOrText[] clippingIcons = new ImageOrText[3];
+		ImageOrText[] clippingIcons = new ImageOrText[4];
 		for (int i = 0 ; i < 4; i++){
 			clippingIcons[i] = new ImageOrText();
 		}
@@ -459,7 +459,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected PopupMenuButton[] newPopupBtnList(){
 		PopupMenuButton[] superList = super.newPopupBtnList();
-		PopupMenuButton[] ret = new PopupMenuButton[superList.length+3];
+		PopupMenuButton[] ret = new PopupMenuButton[superList.length+4];
 		for (int i=0; i<superList.length; i++)
 			ret[i]=superList[i];
 		
