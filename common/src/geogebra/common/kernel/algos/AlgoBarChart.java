@@ -918,7 +918,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 			if (list1.size() > 1) {
 				double x1, x2;
 				if (list1.get(1).isGeoNumeric()) {
-					 x1 = list1.get(1).evaluateDouble();
+					 x1 = list1.get(0).evaluateDouble();
 					 x2 = list1.get(1).evaluateDouble();
 				} else {
 					// use integers 1,2,3 ... for non-numeric data 
