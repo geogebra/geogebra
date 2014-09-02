@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;

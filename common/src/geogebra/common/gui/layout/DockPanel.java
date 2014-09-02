@@ -28,4 +28,6 @@ public interface DockPanel extends Component{
 	 * @param visible visibility
 	 */
 	public void setVisible(boolean visible);
+
+	void deferredOnResize();
 }

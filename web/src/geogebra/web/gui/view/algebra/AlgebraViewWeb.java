@@ -1,4 +1,4 @@
-package geogebra.html5.gui.view.algebra;
+package geogebra.web.gui.view.algebra;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -13,6 +13,9 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.gui.view.algebra.GroupHeader;
+import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.html5.gui.view.algebra.TreeImages;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.web.gui.inputbar.AlgebraInputW;

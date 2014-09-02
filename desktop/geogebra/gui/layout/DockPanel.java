@@ -343,12 +343,14 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	}
 
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
-	protected void setApp(AppD app){
+	protected void setApp(AppD app) {
 		this.app = app;
 		this.loc = app.getLocalization();
 	}
+
 	/**
 	 * @return The icon of the menu item, if this method was not overwritten it
 	 *         will return the empty icon or null for Win Vista / 7 to prevent
@@ -390,7 +392,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *         meantime).
 	 */
 	protected void focusGained() {
-		//by default do nothing
+		// by default do nothing
 	}
 
 	/**
@@ -402,7 +404,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *         meantime).
 	 */
 	protected void focusLost() {
-		//by default do nothing
+		// by default do nothing
 	}
 
 	/**
@@ -438,7 +440,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * Bind this view to a dock manager. Also initializes the whole GUI as just
 	 * at this point the application is available.
 	 * 
-	 * @param dockManager1 dock manager
+	 * @param dockManager1
+	 *            dock manager
 	 */
 	public void register(DockManager dockManager1) {
 		this.dockManager = dockManager1;
@@ -726,7 +729,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * value of the 'alone' state will cause the GUI to update automatically if
 	 * this panel is visible.
 	 * 
-	 * @param isAlone whether is only panel in the main frame
+	 * @param isAlone
+	 *            whether is only panel in the main frame
 	 */
 	public void setAlone(boolean isAlone) {
 		if (this.isAlone == isAlone) {
@@ -756,7 +760,9 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 	/**
 	 * Sets the the isHidden flag (no other action)
-	 * @param isHidden true for hidden dock panel
+	 * 
+	 * @param isHidden
+	 *            true for hidden dock panel
 	 */
 	public void setHidden(boolean isHidden) {
 		this.isHidden = isHidden;
@@ -947,7 +953,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * Close this panel.
 	 * 
-	 * @param isPermanent true for permanent closing (also detach the view)
+	 * @param isPermanent
+	 *            true for permanent closing (also detach the view)
 	 */
 	protected void closePanel(boolean isPermanent) {
 		dockManager.closePanel(this, isPermanent);
@@ -1209,7 +1216,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * @return If the style bar should be visible.
 	 */
 	protected boolean isStyleBarVisible() {
-		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2 || id == App.VIEW_ALGEBRA) {
+		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2
+				|| id == App.VIEW_ALGEBRA) {
 			if (!app.getSettings().getLayout().isAllowingStyleBar()) {
 				return false;
 			}
@@ -1441,11 +1449,11 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	public boolean hasToolbar() {
 		return defaultToolbarString != null;
 	}
-	
+
 	/**
 	 * @return If this panel can customize its toolbar.
 	 */
-	public boolean canCustomizeToolbar(){
+	public boolean canCustomizeToolbar() {
 		return hasToolbar();
 	}
 
@@ -1453,7 +1461,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * @return The definition string associated with this toolbar.
 	 */
 	public String getToolbarString() {
-		if(toolbarString == null){
+		if (toolbarString == null) {
 			Log.warn("Toolbar not initialized");
 			return defaultToolbarString;
 		}
@@ -1470,8 +1478,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	public void setToolbarString(String toolbarString) {
 		if (toolbarString == null && hasToolbar()) {
 			this.toolbarString = defaultToolbarString;
-		}
-		else{
+		} else {
 			this.toolbarString = toolbarString;
 		}
 	}
@@ -1601,13 +1608,17 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	public void updateDividerLocation(int size, int orientation1) {
 		// no divider here
 	}
-	
-	public void setDockPanelsVisible(boolean visible){
+
+	public void setDockPanelsVisible(boolean visible) {
 		setVisible(visible);
 	}
 
 	public boolean isEuclidianDockPanel3D() {
 		return false;
+	}
+
+	public void deferredOnResize() {
+		// used in Web only
 	}
 
 }

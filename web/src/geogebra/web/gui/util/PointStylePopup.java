@@ -1,4 +1,4 @@
-package geogebra.html5.gui.util;
+package geogebra.web.gui.util;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -10,9 +10,6 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.util.GeoGebraIcon;
-import geogebra.web.gui.util.ImageOrText;
-import geogebra.web.gui.util.PopupMenuButton;
 
 import java.util.HashMap;
 

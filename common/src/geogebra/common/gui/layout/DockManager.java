@@ -12,4 +12,9 @@ public abstract class DockManager implements SetLabels{
 	public abstract void unRegisterPanel(DockPanel dockPanel);
 
 	public abstract DockPanel getPanel(int ViewId);
+
+	public void resizePanels() {
+		// TODO Auto-generated method stub
+		
+	}
 }

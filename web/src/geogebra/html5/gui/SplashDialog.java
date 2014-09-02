@@ -1,8 +1,7 @@
-package geogebra.web.gui;
+package geogebra.html5.gui;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.GeoGebraFrame;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -71,7 +70,7 @@ public class SplashDialog extends SimplePanel {
 		var img = el.querySelector(".spinner"),
 			t = this;
 		img.addEventListener("load",function() {
-			t.@geogebra.web.gui.SplashDialog::triggerImageLoaded()();
+			t.@geogebra.html5.gui.SplashDialog::triggerImageLoaded()();
 		});
 	}-*/;
 	
@@ -80,7 +79,7 @@ public class SplashDialog extends SimplePanel {
 	}
 
 	private native boolean checkIfPreviewExists() /*-{
-		var thisArticle = $doc.getElementById(this.@geogebra.web.gui.SplashDialog::articleId);
+		var thisArticle = $doc.getElementById(this.@geogebra.html5.gui.SplashDialog::articleId);
 		if (thisArticle) {
 			return (thisArticle.querySelector(".ggb_preview") !== null);
 		}
@@ -94,7 +93,7 @@ public class SplashDialog extends SimplePanel {
     }
 
 	private native void removePreviewImg() /*-{
-	    var thisArticle = $doc.getElementById(this.@geogebra.web.gui.SplashDialog::articleId),
+	    var thisArticle = $doc.getElementById(this.@geogebra.html5.gui.SplashDialog::articleId),
 			img = thisArticle.querySelector(".ggb_preview");
 		if (img) {
 			img.parentNode.removeChild(img);

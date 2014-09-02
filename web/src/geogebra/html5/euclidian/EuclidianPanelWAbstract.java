@@ -1,4 +1,4 @@
-package geogebra.web.euclidian;
+package geogebra.html5.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
 

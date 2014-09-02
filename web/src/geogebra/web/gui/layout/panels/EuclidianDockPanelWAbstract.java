@@ -1,6 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
-import geogebra.web.euclidian.EuclidianPanelWAbstract;
+import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.gui.layout.DockPanelW;
 
 /**

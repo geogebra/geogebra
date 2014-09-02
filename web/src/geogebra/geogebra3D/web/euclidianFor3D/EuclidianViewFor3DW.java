@@ -4,8 +4,8 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.web.euclidian.EuclidianPanelWAbstract;
 
 /**
  * Simple extension of EuclidianView to implement handling of 3D objects

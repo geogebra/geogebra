@@ -3,9 +3,9 @@ package geogebra.html5.util;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
+import geogebra.html5.WebStatic;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.GgbAPIW;
-import geogebra.web.WebStatic;
 
 import java.util.HashMap;
 

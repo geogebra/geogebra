@@ -7,10 +7,8 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.LoadFilePresenter;
 import geogebra.html5.util.View;
-import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.SplashDialog;
-import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -527,7 +525,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 */
 	public void showToolBar(boolean show) {
 		if (app.getGuiManager() != null) {
-			((GuiManagerW) app.getGuiManager()).showToolBar(show);
+			app.getGuiManager().showToolBar(show);
 		}
 	}
 	
@@ -538,7 +536,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 */
 	public void showMenuBar(boolean show) {
 		if (app.getGuiManager() != null) {
-			((GuiManagerW) app.getGuiManager()).showMenuBar(show);
+			app.getGuiManager().showMenuBar(show);
 		}
 	}
 	
@@ -549,7 +547,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 */
 	public void showAlgebraInput(boolean show) {
 		if (app.getGuiManager() != null) {
-			((GuiManagerW) app.getGuiManager()).showAlgebraInput(show);
+			app.getGuiManager().showAlgebraInput(show);
 		}
 	}
 	

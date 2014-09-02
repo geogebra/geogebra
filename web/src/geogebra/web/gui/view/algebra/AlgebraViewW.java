@@ -19,7 +19,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.gui.view.algebra.GroupHeader;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.html5.main.AppW;

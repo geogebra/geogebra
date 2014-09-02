@@ -100,4 +100,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public MyHeaderPanel getBrowseGUI();
 
 	public Widget getRootComponent();
+
+	public void showToolBar(boolean show);
+
+	public void showMenuBar(boolean show);
+
+	public void showAlgebraInput(boolean show);
 }

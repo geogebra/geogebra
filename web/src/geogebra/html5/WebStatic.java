@@ -1,4 +1,4 @@
-package geogebra.web;
+package geogebra.html5;
 
 import geogebra.html5.main.AppW;
 
