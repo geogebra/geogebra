@@ -660,7 +660,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void enableMultisample() {
-	    // TODO Auto-generated method stub
+	    //glContext.enable(WebGLRenderingContext.SAMPLE_COVERAGE);
 	    
     }
 
@@ -826,11 +826,24 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	@Override
 	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
-       	       		
-			ambiantDiffuse = new float[][] {
-					{ambiant0, diffuse0},
-					{ambiant1, diffuse1}
-			};
+       	      
+		
+		float coeff = 1.414f;
+		
+		float a0 = ambiant0 * coeff;
+		float d0 = 1 - a0;
+		float a1 = ambiant1 * coeff;
+		float d1 = 1 - a1;
+		
+		ambiantDiffuse = new float[][] {
+				{a0, d0},
+				{a1, d1}
+		};
+		
+//		ambiantDiffuse = new float[][] {
+//				{ambiant0, diffuse0},
+//				{ambiant1, diffuse1}
+//		};
         
 	}
 
