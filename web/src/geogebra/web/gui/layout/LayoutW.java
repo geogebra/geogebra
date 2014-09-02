@@ -28,7 +28,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 */
 	public LayoutW() {
 		initializeDefaultPerspectives(true, true, 0.2);
-		
+
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}
 
@@ -37,16 +37,23 @@ public class LayoutW extends Layout implements SettingListener {
 	 * 
 	 * @param app
 	 */
-	public void initialize(App app) {
+	public void initialize(AppW appw) {
 		if(isInitialized)
 			return;
 		
 		isInitialized = true;
 		
-		this.app = (AppW) app;
-		this.settings = app.getSettings().getLayout();
+		this.app = appw;
+		this.settings = appw.getSettings().getLayout();
 		this.settings.addListener(this);
 		this.dockManager = new DockManagerW(this);
+
+		// change inputPosition to default inputPosition
+		for(Perspective p : defaultPerspectives){
+			if(p != null){
+				p.setInputPosition(appw.getInputPosition());
+			}
+		}
     }
 
 		
@@ -85,8 +92,9 @@ public class LayoutW extends Layout implements SettingListener {
 
 				}
 
-				app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
-				
+//				app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
+				app.setInputPositon(perspective.getInputPosition(), false);
+
 				// change the dock panel layout
 				dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
 

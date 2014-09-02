@@ -341,9 +341,8 @@ public final class ArticleElement extends Element {
 	
 	private float getEnvScaleX() {		
 		return envScale("x");
-	};
-	
-	
+	}
+
 	private float getEnvScaleY() {
 		return envScale("y");
 	}

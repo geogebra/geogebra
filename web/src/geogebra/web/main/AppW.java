@@ -126,7 +126,7 @@ public abstract class AppW extends AppWeb {
 		this.articleElement = ae;
 		this.laf = laf;
 
-		showAlgebraInput = false;
+		showInputTop = InputPositon.algebraView;
 	}
 
 	// ========================================================

@@ -185,9 +185,26 @@ public abstract class App implements UpdateSelection{
 	private int capturingThresholdTouch = 3 * DEFAULT_THRESHOLD;
 
 	/**
-	 * Whether inputbar should be shown on top
+	 * possible positions for the inputBar (respective inputBox)
 	 */
-	protected boolean showInputTop = false;
+	public enum InputPositon {
+		/**
+		 * inputBox in the AV
+		 */
+		algebraView, 
+		/**
+		 * inputBar at the top
+		 */
+		top, 
+		/**
+		 * inputBar at the bottom
+		 */
+		bottom}
+	
+	/**
+	 * where to show the inputBar (respective inputBox)
+	 */
+	protected InputPositon showInputTop = InputPositon.top;
 
 	/**
 	 * Whether input bar should be visible
@@ -2726,10 +2743,45 @@ public abstract class App implements UpdateSelection{
 	}
 
 	/**
-	 * @return whether input bar should be on top
+	 * @deprecated use getInputPosition instead
+	 * 
+	 * @return whether input bar should be on top; returns false if shown in AlgebraView
 	 */
 	public boolean showInputTop() {
+		return showInputTop == InputPositon.top;
+	}
+
+	/**
+	 * @return where to show the inputBar (respective inputBox)
+	 */
+	public InputPositon getInputPosition() {
 		return showInputTop;
+	}
+
+	/**
+	 * @deprecated use setInputPositon instead
+	 * 
+	 * Changes input position between bottom and top
+	 * 
+	 * if the actual position is AlgebraView, the position will be 
+	 * changed to bottom or top (according to the flag)
+	 * 
+	 * @param flag
+	 *            whether input should be on top
+	 * @param update
+	 *            whether layout update is needed afterwards
+	 */
+	public void setShowInputTop(boolean flag, boolean update) {
+		if (flag && showInputTop == InputPositon.top || 
+				!flag && showInputTop == InputPositon.bottom) {
+			return;
+		}
+
+		showInputTop = flag ? InputPositon.top : InputPositon.bottom;
+
+		if (update && !isIniting()) {
+			updateApplicationLayout();
+		}
 	}
 
 	/**
@@ -2740,7 +2792,7 @@ public abstract class App implements UpdateSelection{
 	 * @param update
 	 *            whether layout update is needed afterwards
 	 */
-	public void setShowInputTop(boolean flag, boolean update) {
+	public void setInputPositon(InputPositon flag, boolean update) {
 		if (flag == showInputTop) {
 			return;
 		}

@@ -2719,7 +2719,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// handle input bar
 		if (showAlgebraInput) {
-			AppD2.initInputBar(this, showInputTop, northPanel, southPanel);
+			AppD2.initInputBar(this, super.showInputTop(), northPanel, southPanel);
 		}
 
 		if (showToolBar) {

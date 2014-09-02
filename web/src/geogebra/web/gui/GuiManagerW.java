@@ -603,7 +603,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void initialize() {
 		initAlgebraController(); // ? needed for keyboard input in EuclidianView
 								 // in Desktop
-		layout.initialize(app);
+		layout.initialize((AppW) app);
 		initLayoutPanels();		
 	}
 

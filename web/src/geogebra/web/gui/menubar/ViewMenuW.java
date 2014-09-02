@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.view.Views;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -81,7 +82,9 @@ public class ViewMenuW extends GMenuBar {
 			        public void execute() {
 			        	App.debug("AI:"+app.showAlgebraInput());
 			        	app.persistWidthAndHeight();
-				        app.setShowAlgebraInput(!app.showAlgebraInput(), true);
+				        // app.setShowAlgebraInput(!app.showAlgebraInput(), true);
+			        	app.setInputPositon(app.getInputPosition() == InputPositon.algebraView ? 
+			        			InputPositon.bottom : InputPositon.algebraView, true);
 				        app.updateCenterPanel(true);
 				        app.updateViewSizes();
 			        }
@@ -101,7 +104,7 @@ public class ViewMenuW extends GMenuBar {
 				items[k].setSelected(app.getGuiManager().showView(Views.ids[k]));
 			}
 		}
-		inputBarItem.setSelected(app.showAlgebraInput());
+		inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
 	}
 
 }

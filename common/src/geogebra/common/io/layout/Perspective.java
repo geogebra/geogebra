@@ -1,5 +1,6 @@
 package geogebra.common.io.layout;
 
+import geogebra.common.main.App.InputPositon;
 import geogebra.common.util.StringUtil;
 
 import javax.swing.SwingConstants;
@@ -70,22 +71,72 @@ public class Perspective {
 	 * If the input panel should be displayed on top or at the bottom of the
 	 * screen.
 	 */
-	private boolean showInputPanelOnTop;
+	private InputPositon showInputPanelOnTop;
 
 	// needs to be initialized so that files from ggb32 show the toolbar #2993
 	private int toolBarPosition = SwingConstants.NORTH;
 
 	private boolean showToolBarHelp;
-	
+
 	private boolean showDockBar;
-	
+
 	private boolean isDockBarEast;
 
 	private String iconString = null;
 
-	
 	/**
-	 * Create a perspective with default layout. 
+	 * Create a perspective with default layout.
+	 * 
+	 * @param id
+	 *            id
+	 * @param splitPaneInfo
+	 *            split settings
+	 * @param dockPanelInfo
+	 *            dock panel settings
+	 * @param toolbarDefinition
+	 *            toolbar string
+	 * @param showToolBar
+	 *            true to show toolbar
+	 * @param showGrid
+	 *            true to show grid
+	 * @param showAxes
+	 *            true to show axes
+	 * @param showInputPanel
+	 *            true to show input bar
+	 * @param showInputPanelCommands
+	 *            true to show input help
+	 * @param inputPosition
+	 *            position of the InputField/InputBox
+	 */
+	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
+			DockPanelData[] dockPanelInfo, String toolbarDefinition,
+			boolean showToolBar, boolean showGrid, boolean showAxes,
+			boolean showInputPanel, boolean showInputPanelCommands,
+			InputPositon inputPosition) {
+		this.id = id;
+		this.splitPaneData = splitPaneInfo;
+		this.setDockPanelData(dockPanelInfo);
+		this.setToolbarDefinition(toolbarDefinition);
+		this.setShowToolBar(showToolBar);
+		this.showAxes = showAxes;
+		this.setShowGrid(showGrid);
+		this.showInputPanel = showInputPanel;
+		this.showInputPanelCommands = showInputPanelCommands;
+		this.showInputPanelOnTop = inputPosition;
+
+		// default layout options
+		this.setShowToolBar(true);
+		this.setShowToolBarHelp(false);
+		this.setToolBarPosition(SwingConstants.NORTH);
+		this.setDockBarEast(true);
+		this.setShowDockBar(true);
+	}
+
+	/**
+	 * Create a perspective with default layout.
+	 * 
+	 * @deprecated use variable of type InputPositon for showInputPanelOnTop
+	 *             (respective inputPosition) instead
 	 * 
 	 * @param id
 	 *            id
@@ -113,6 +164,49 @@ public class Perspective {
 			boolean showToolBar, boolean showGrid, boolean showAxes,
 			boolean showInputPanel, boolean showInputPanelCommands,
 			boolean showInputPanelOnTop) {
+		this(id, splitPaneInfo, dockPanelInfo, toolbarDefinition, showToolBar,
+				showGrid, showAxes, showInputPanel, showInputPanelCommands,
+				showInputPanelOnTop ? InputPositon.top : InputPositon.bottom);
+	}
+
+	/**
+	 * Create a perspective with all available fields.
+	 * 
+	 * @param id
+	 *            id
+	 * @param splitPaneInfo
+	 *            split settings
+	 * @param dockPanelInfo
+	 *            dock panel settings
+	 * @param toolbarDefinition
+	 *            toolbar string
+	 * @param showToolBar
+	 *            true to show toolbar
+	 * @param showGrid
+	 *            true to show grid
+	 * @param showAxes
+	 *            true to show axes
+	 * @param showInputPanel
+	 *            true to show input bar
+	 * @param showInputPanelCommands
+	 *            true to show input help
+	 * @param inputPosition
+	 *            position of the InputField/InputBox
+	 * @param toolBarPosition
+	 *            see {@link #setToolBarPosition(int)}
+	 * @param showToolBarHelp
+	 *            whether toolbar help should be visible
+	 * @param showDockBar
+	 *            whether dock bar should be visible
+	 * @param isDockBarEast
+	 *            whether dock bar should be on the eastern side
+	 */
+	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
+			DockPanelData[] dockPanelInfo, String toolbarDefinition,
+			boolean showToolBar, boolean showGrid, boolean showAxes,
+			boolean showInputPanel, boolean showInputPanelCommands,
+			InputPositon inputPosition, int toolBarPosition,
+			boolean showToolBarHelp, boolean showDockBar, boolean isDockBarEast) {
 		this.id = id;
 		this.splitPaneData = splitPaneInfo;
 		this.setDockPanelData(dockPanelInfo);
@@ -122,20 +216,19 @@ public class Perspective {
 		this.setShowGrid(showGrid);
 		this.showInputPanel = showInputPanel;
 		this.showInputPanelCommands = showInputPanelCommands;
-		this.showInputPanelOnTop = showInputPanelOnTop;
-		
-		// default layout options
-		this.setShowToolBar(true);
-		this.setShowToolBarHelp(false);
-		this.setToolBarPosition(SwingConstants.NORTH);
-		this.setDockBarEast(true);
-		this.setShowDockBar(true);
-				
+		this.showInputPanelOnTop = inputPosition;
+		this.toolBarPosition = toolBarPosition;
+		this.showToolBarHelp = showToolBarHelp;
+		this.showDockBar = showDockBar;
+		this.isDockBarEast = isDockBarEast;
 	}
-	
-	
+
 	/**
 	 * Create a perspective with all available fields.
+	 * 
+	 * @deprecated use variable of type InputPositon for showInputPanelOnTop
+	 *             (respective inputPosition) instead
+	 * 
 	 * 
 	 * @param id
 	 *            id
@@ -158,13 +251,13 @@ public class Perspective {
 	 * @param showInputPanelOnTop
 	 *            true to show input bar on top
 	 * @param toolBarPosition
-	 *  see {@link #setToolBarPosition(int)}
+	 *            see {@link #setToolBarPosition(int)}
 	 * @param showToolBarHelp
-	 * whether toolbar help should be visible
+	 *            whether toolbar help should be visible
 	 * @param showDockBar
-	 * 	whether dock bar should be visible
-	 * @param isDockBarEast 
-	 * whether dock bar should be on the eastern side
+	 *            whether dock bar should be visible
+	 * @param isDockBarEast
+	 *            whether dock bar should be on the eastern side
 	 */
 	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
 			DockPanelData[] dockPanelInfo, String toolbarDefinition,
@@ -172,20 +265,10 @@ public class Perspective {
 			boolean showInputPanel, boolean showInputPanelCommands,
 			boolean showInputPanelOnTop, int toolBarPosition,
 			boolean showToolBarHelp, boolean showDockBar, boolean isDockBarEast) {
-		this.id = id;
-		this.splitPaneData = splitPaneInfo;
-		this.setDockPanelData(dockPanelInfo);
-		this.setToolbarDefinition(toolbarDefinition);
-		this.setShowToolBar(showToolBar);
-		this.showAxes = showAxes;
-		this.setShowGrid(showGrid);
-		this.showInputPanel = showInputPanel;
-		this.showInputPanelCommands = showInputPanelCommands;
-		this.showInputPanelOnTop = showInputPanelOnTop;
-		this.toolBarPosition = toolBarPosition;
-		this.showToolBarHelp = showToolBarHelp;
-		this.showDockBar = showDockBar;
-		this.isDockBarEast = isDockBarEast;
+		this(id, splitPaneInfo, dockPanelInfo, toolbarDefinition, showToolBar,
+				showGrid, showAxes, showInputPanel, showInputPanelCommands,
+				showInputPanelOnTop ? InputPositon.top : InputPositon.bottom,
+				toolBarPosition, showToolBarHelp, showDockBar, isDockBarEast);
 	}
 
 	/**
@@ -326,18 +409,39 @@ public class Perspective {
 	}
 
 	/**
+	 * @deprecated use setInputPosition instead
+	 * 
 	 * @param showInputPanelOnTop
 	 *            true to show input bar on top
 	 */
 	public void setShowInputPanelOnTop(boolean showInputPanelOnTop) {
-		this.showInputPanelOnTop = showInputPanelOnTop;
+		this.showInputPanelOnTop = showInputPanelOnTop ? InputPositon.top
+				: InputPositon.bottom;
+	}
+
+	/**
+	 * @param inputPosition
+	 *            new position of inputPanel (respective inputBox)
+	 */
+	public void setInputPosition(InputPositon inputPosition) {
+		this.showInputPanelOnTop = inputPosition;
+	}
+
+	/**
+	 * @deprecated use getInputPosition instead
+	 * 
+	 * @return If the input panel should be displayed at the top of the screen
+	 *         instead of the bottom; false if displayed in the AlgebraView
+	 */
+	public boolean getShowInputPanelOnTop() {
+		return showInputPanelOnTop == InputPositon.top;
 	}
 
 	/**
 	 * @return If the input panel should be displayed at the top of the screen
 	 *         instead of the bottom.
 	 */
-	public boolean getShowInputPanelOnTop() {
+	public InputPositon getInputPosition() {
 		return showInputPanelOnTop;
 	}
 
@@ -350,21 +454,22 @@ public class Perspective {
 
 	/**
 	 * @param toolBarPosition
-	 *  1 = NORTH, 3=EAST, 5=SOUTH, 7=WEST
+	 *            1 = NORTH, 3=EAST, 5=SOUTH, 7=WEST
 	 */
 	public void setToolBarPosition(int toolBarPosition) {
 		this.toolBarPosition = toolBarPosition;
 	}
 
 	/**
-	 * @return whether tool help should be shown 
+	 * @return whether tool help should be shown
 	 */
 	public boolean getShowToolBarHelp() {
 		return showToolBarHelp;
 	}
 
 	/**
-	 * @param showToolBarHelp whether toolbar help is shown
+	 * @param showToolBarHelp
+	 *            whether toolbar help is shown
 	 */
 	public void setShowToolBarHelp(boolean showToolBarHelp) {
 		this.showToolBarHelp = showToolBarHelp;
@@ -378,12 +483,13 @@ public class Perspective {
 	}
 
 	/**
-	 * @param showDockBar whether dockbar is shown
+	 * @param showDockBar
+	 *            whether dockbar is shown
 	 */
 	public void setShowDockBar(boolean showDockBar) {
 		this.showDockBar = showDockBar;
 	}
-	
+
 	/**
 	 * @return true for dockbar on eastern side
 	 */
@@ -392,7 +498,8 @@ public class Perspective {
 	}
 
 	/**
-	 * @param isDockBarEast true to place the dockbar east, false for west
+	 * @param isDockBarEast
+	 *            true to place the dockbar east, false for west
 	 */
 	public void setDockBarEast(boolean isDockBarEast) {
 		this.isDockBarEast = isDockBarEast;
@@ -423,7 +530,7 @@ public class Perspective {
 		sb.append("\t<views>\n");
 		for (int i = 0; i < getDockPanelData().length; ++i) {
 			DockPanelData data = getDockPanelData()[i];
-			if (data.storeXml()){
+			if (data.storeXml()) {
 				sb.append("\t\t");
 				sb.append(data.getXml());
 			}
@@ -497,7 +604,8 @@ public class Perspective {
 	}
 
 	/**
-	 * @param iconString name of the icon file used for the side bar
+	 * @param iconString
+	 *            name of the icon file used for the side bar
 	 */
 	public void setIconString(String iconString) {
 		this.iconString = iconString;

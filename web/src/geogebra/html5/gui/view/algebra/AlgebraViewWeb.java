@@ -1,6 +1,5 @@
 package geogebra.html5.gui.view.algebra;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
@@ -9,6 +8,7 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.App.InputPositon;
 import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
@@ -817,6 +817,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	public void clearView() {
 		nodeTable.clear();
 		clearTree();
+		showAlgebraInput();
 	}
 
 	/**
@@ -1021,13 +1022,16 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	}
 	
 	private void showAlgebraInput() {
+		if (inputPanel == null || !app.showAlgebraInput()) {
+			hideAlgebraInput();
+			return;
+		}
 		if (isAlgebraInputVisible()) {
-			return;
+			super.removeItem(inputPanelTreeItem);
 		}
-		if (inputPanel == null) {
-			return;
+		if(this.app.getInputPosition() == InputPositon.algebraView){
+			inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 		}
-		inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 	}
 	
 	private boolean isAlgebraInputVisible() {
