@@ -244,17 +244,13 @@ public class EuclidianViewCompanion {
 		view.showAxesNumbers = evs.getShowAxisNumbers();
 
 		// might be Double.NaN, handled in setAxesNumberingDistance()
-		if (!evs.getAutomaticAxesNumberingDistance(0)
-				&& Double.isNaN(evs.getAxisNumberingDistanceX())) {
-			view.setAutomaticAxesNumberingDistance(false, 0);
-		} else {
-			view.setAxesNumberingDistance(evs.getAxisNumberingDistanceX(), 0);
-		}
-		if (!evs.getAutomaticAxesNumberingDistance(1)
-				&& Double.isNaN(evs.getAxisNumberingDistanceY())) {
-			view.setAutomaticAxesNumberingDistance(false, 1);
-		} else {
-			view.setAxesNumberingDistance(evs.getAxisNumberingDistanceY(), 1);
+		for (int i = 0; i < viewDim ; i++){
+			if (!evs.getAutomaticAxesNumberingDistance(i)
+					&& Double.isNaN(evs.getAxisNumberingDistance(i))) {
+				view.setAutomaticAxesNumberingDistance(false, i);
+			} else {
+				view.setAxesNumberingDistance(evs.getAxisNumberingDistance(i), i);
+			}
 		}
 
 		for (int i = 0; i < viewDim ; i++){

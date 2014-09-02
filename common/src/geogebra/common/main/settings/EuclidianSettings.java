@@ -420,6 +420,11 @@ public class EuclidianSettings extends AbstractSettings {
 	public double getAxisNumberingDistanceY() {
 		return axisNumberingDistances[1];
 	}
+	
+	public double getAxisNumberingDistance(int i) {
+		return axisNumberingDistances[i];
+	}
+
 
 	/**
 	 * 
@@ -446,16 +451,26 @@ public class EuclidianSettings extends AbstractSettings {
 
 		settingChanged();
 	}
+	
+	public void setAxisNumberingDistance(int i, double dist) {
+
+		axisNumberingDistances[i] = dist;
+
+		setAutomaticAxesNumberingDistance(false, i, false);
+
+		settingChanged();
+	}
 
 	public void setAutomaticAxesNumberingDistance(boolean flag, int axis,
 			boolean callsc) {
+		
 		if (automaticAxesNumberingDistances[axis] != flag) {
 			automaticAxesNumberingDistances[axis] = flag;
 
 			if (flag) {
 				axisNumberingDistances[0] = Double.NaN;
 				axisNumberingDistances[1] = Double.NaN;
-				axisNumberingDistances[3] = Double.NaN;
+				axisNumberingDistances[2] = Double.NaN;
 				if (callsc) {
 					settingChanged();
 				}
@@ -641,11 +656,9 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setAxesNumberingDistance(double tickDist, int axis) {
-		if (axis == 0) {
-			setAxisNumberingDistanceX(tickDist);
-		} else {
-			setAxisNumberingDistanceY(tickDist);
-		}
+
+		setAxisNumberingDistance(axis, tickDist);
+
 		settingChanged();
 	}
 
