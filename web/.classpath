@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="lib/gwtgl-0.9.1-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/gwtgl-0.9.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/gwtgl-0.9.1.jar"/>
-	<classpathentry kind="lib" path="lib/advanced-gwt-2.0.9.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-1.9.0-beta.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-android2-1.9.0-beta.jar"/>

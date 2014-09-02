@@ -1185,8 +1185,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			bar.removeMenus();
 			bar.init((AppW) app);
 		}
-
-		getConstructionProtocolNavigation().setLabels();
+		if(this.constProtocolNavigation != null){
+			getConstructionProtocolNavigation().setLabels();
+		}
 
 		// set the labelling of the panels
 		// titles on the top of their style bars
@@ -1387,8 +1388,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
     
     @Override
     public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
-
 		if (constProtocolNavigation == null) {
+			App.printStacktrace("");
 			constProtocolNavigation = new ConstructionProtocolNavigationW(this.getApp());
 		}
 
@@ -1539,4 +1540,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public int getEuclidianViewCount() {
 		return euclidianView2 == null ? 0 : euclidianView2.size();
 	}
+
+	@Override
+    public void updateCheckBoxesForShowConstructinProtocolNavigation() {
+		((AppW) app).getEuclidianViewpanel().updateNavigationBar();
+    }
 }

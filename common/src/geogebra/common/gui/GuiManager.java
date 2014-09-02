@@ -420,9 +420,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return constProtocolNavigation;
 	}
 	
-	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
-		App.debug("GuiManager.updateCheckBoxesForShowConstructionProtocolNavigation - implementation needed");		
-	}
+	public abstract void updateCheckBoxesForShowConstructinProtocolNavigation();
 	
 	public void applyCPsettings(ConstructionProtocolSettings cps){
 		if(constProtocolNavigation == null){

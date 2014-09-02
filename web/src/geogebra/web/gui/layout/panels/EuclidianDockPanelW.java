@@ -71,8 +71,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		// but then the addNavigationBar method will be called explicitly.
 		// By the way, this method is only called from AppWapplet,
 		// so this will be actually null here.
-		if (app.getGuiManager() != null)
+		if (app.getGuiManager() != null && app.showConsProtNavigation()){
 			addNavigationBar();
+		}
 	}
 
 	
@@ -108,9 +109,13 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 			app.setShowConstructionProtocolNavigation(app
 			        .showConsProtNavigation());
 		}
-
-		consProtNav.update();
-		consProtNav.setVisible(app.showConsProtNavigation());
+		if(app.showConsProtNavigation() && consProtNav == null){
+			this.addNavigationBar();
+		}
+		if(consProtNav != null){
+			consProtNav.update();
+			consProtNav.setVisible(app.showConsProtNavigation());
+		}
 	}
 	
 	class EuclidianPanel extends FlowPanel implements RequiresResize {

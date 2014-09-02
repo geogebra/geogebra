@@ -3575,6 +3575,7 @@ public abstract class App implements UpdateSelection{
 	public void toggleShowConstructionProtocolNavigation() {
 	
 		setShowConstructionProtocolNavigation(!showConsProtNavigation());
+
 		setUnsaved();
 //		updateCenterPanel(true);
 	
