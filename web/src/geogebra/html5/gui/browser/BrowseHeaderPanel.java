@@ -14,8 +14,8 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.browser.SearchPanel.SearchListener;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

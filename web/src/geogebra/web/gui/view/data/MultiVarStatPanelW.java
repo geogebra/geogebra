@@ -2,7 +2,7 @@ package geogebra.web.gui.view.data;
 
 import geogebra.common.gui.view.data.MultiVarStatTableModel;
 import geogebra.common.gui.view.data.MultiVarStatTableModel.MultiVarStatTableListener;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 /**
  * Extension of BasicStatTable that displays summary statistics for multiple

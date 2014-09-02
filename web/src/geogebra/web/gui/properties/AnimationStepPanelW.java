@@ -4,8 +4,8 @@ import geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.html5.event.FocusListenerW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.AngleTextFieldW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

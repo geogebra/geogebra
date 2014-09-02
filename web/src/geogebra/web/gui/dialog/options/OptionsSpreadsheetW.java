@@ -3,7 +3,7 @@ package geogebra.web.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.View;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -1086,7 +1086,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			if (reader.readyState === reader.DONE) {
 				var fileStr = reader.result;
 				var fileName = fileToHandle.name;
-				appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr, null);
+				appl.@geogebra.html5.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr, null);
 				if (callback != null){
 					callback();
 				}

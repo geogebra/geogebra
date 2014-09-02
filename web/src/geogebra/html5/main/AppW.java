@@ -1,4 +1,4 @@
-package geogebra.web.main;
+package geogebra.html5.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GDimension;
@@ -29,12 +29,6 @@ import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
-import geogebra.html5.main.AppWeb;
-import geogebra.html5.main.FileManager;
-import geogebra.html5.main.FontManagerW;
-import geogebra.html5.main.HasAppletProperties;
-import geogebra.html5.main.LocalizationW;
-import geogebra.html5.main.StringHandler;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -59,6 +53,8 @@ import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.kernel.KernelW;
+import geogebra.web.main.FileManagerW;
+import geogebra.web.main.GeoGebraTubeExportWeb;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import java.util.ArrayList;
@@ -217,7 +213,7 @@ public abstract class AppW extends AppWeb {
 	 * @param undoActive
 	 * @param this_app
 	 */
-	void initCoreObjects(final boolean undoActive, final App this_app) {
+	protected void initCoreObjects(final boolean undoActive, final App this_app) {
 
 		kernel = newKernel(this_app);
 
@@ -731,7 +727,7 @@ public abstract class AppW extends AppWeb {
 
 	protected native void setCurrentFileId() /*-{
 		if ($wnd.GGW_appengine) {
-			this.@geogebra.web.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+			this.@geogebra.html5.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
 		}
 	}-*/;
 
@@ -792,8 +788,8 @@ public abstract class AppW extends AppWeb {
 
 									//at first this tries to open the fileToHandle as image,
 									//if fileToHandle not an image, this will try to open as ggb or ggt.
-									if (!appl.@geogebra.web.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
-										appl.@geogebra.web.main.AppW::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
+									if (!appl.@geogebra.html5.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
+										appl.@geogebra.html5.main.AppW::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
 									}
 
 									//console.log(fileToHandle.name);
@@ -803,7 +799,7 @@ public abstract class AppW extends AppWeb {
 									//if (gdat && gdat != " ") {
 									//	var coordx = e.offsetX ? e.offsetX : e.layerX;
 									//	var coordy = e.offsetY ? e.offsetY : e.layerY;
-									//	appl.@geogebra.web.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
+									//	appl.@geogebra.html5.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
 									//}
 								}
 							}, false);
@@ -939,10 +935,10 @@ public abstract class AppW extends AppWeb {
 		
 		function eventOnElement(e){
 			
-			x1 = @geogebra.web.main.AppW::getAbsoluteLeft(Lcom/google/gwt/dom/client/Element;)(element);
-			x2 = @geogebra.web.main.AppW::getAbsoluteRight(Lcom/google/gwt/dom/client/Element;)(element);
-			y1 = @geogebra.web.main.AppW::getAbsoluteTop(Lcom/google/gwt/dom/client/Element;)(element);
-			y2 = @geogebra.web.main.AppW::getAbsoluteBottom(Lcom/google/gwt/dom/client/Element;)(element);
+			x1 = @geogebra.html5.main.AppW::getAbsoluteLeft(Lcom/google/gwt/dom/client/Element;)(element);
+			x2 = @geogebra.html5.main.AppW::getAbsoluteRight(Lcom/google/gwt/dom/client/Element;)(element);
+			y1 = @geogebra.html5.main.AppW::getAbsoluteTop(Lcom/google/gwt/dom/client/Element;)(element);
+			y2 = @geogebra.html5.main.AppW::getAbsoluteBottom(Lcom/google/gwt/dom/client/Element;)(element);
 		
 			if((e.pageX < x1) || (e.pageX > x2) ||
 				(e.pageY < y1) || (e.pageY > y2)){
@@ -1333,14 +1329,14 @@ public abstract class AppW extends AppWeb {
 	public String showURLinBrowserPageUrl = null;
 
 	public native void showURLinBrowserWaiterFixedDelay() /*-{
-		this.@geogebra.web.main.AppW::showURLinBrowserPageUrl = null;
+		this.@geogebra.html5.main.AppW::showURLinBrowserPageUrl = null;
 
 		var that = this;
 		var timer = {};
 		function intervalTask() {
-			if (that.@geogebra.web.main.AppW::showURLinBrowserPageUrl != null) {
+			if (that.@geogebra.html5.main.AppW::showURLinBrowserPageUrl != null) {
 				$wnd.open(
-						that.@geogebra.web.main.AppW::showURLinBrowserPageUrl,
+						that.@geogebra.html5.main.AppW::showURLinBrowserPageUrl,
 						"_blank");
 				if (timer.tout) {
 					$wnd.clearInterval(timer.tout);

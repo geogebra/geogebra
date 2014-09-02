@@ -7,9 +7,9 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 

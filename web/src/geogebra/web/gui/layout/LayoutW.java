@@ -7,7 +7,7 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Arrays;

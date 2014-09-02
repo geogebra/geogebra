@@ -5,9 +5,9 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.gui.util.SelectionTable;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.main.AppW;
 
 public class ClippingPopup extends PopupMenuButton {
 

@@ -5,9 +5,9 @@ import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.main.AppW;
 import geogebra.html5.move.ggtapi.operations.BASEURL;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;

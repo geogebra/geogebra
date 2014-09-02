@@ -3,11 +3,11 @@ package geogebra.geogebra3D.web.gui.view.properties;
 import geogebra.common.main.OptionType;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.gui.dialog.options.OptionsEuclidian3DW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.options.OptionPanelW;
 import geogebra.web.gui.dialog.options.OptionsEuclidianW;
 import geogebra.web.gui.properties.PropertiesStyleBarW;
 import geogebra.web.gui.properties.PropertiesViewW;
-import geogebra.web.main.AppW;
 
 /**
  * Just adding 3D view for properties

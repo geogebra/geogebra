@@ -6,7 +6,7 @@ import geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.util.ColorChooserW;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

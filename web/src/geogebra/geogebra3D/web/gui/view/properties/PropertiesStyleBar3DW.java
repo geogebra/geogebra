@@ -2,12 +2,12 @@ package geogebra.geogebra3D.web.gui.view.properties;
 
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.properties.PropertiesStyleBarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.main.AppW;
 
 
 /**

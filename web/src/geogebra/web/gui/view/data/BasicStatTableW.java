@@ -8,7 +8,7 @@ import geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 

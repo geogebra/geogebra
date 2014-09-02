@@ -3,8 +3,8 @@ package geogebra.html5.gui.laf;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.html5.gui.browser.SignInButton;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.menubar.MainMenu;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;

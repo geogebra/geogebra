@@ -11,11 +11,11 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Rectangle2D;
 import geogebra.html5.util.EventUtil;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.javax.swing.GPopupMenuW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.DomEvent;

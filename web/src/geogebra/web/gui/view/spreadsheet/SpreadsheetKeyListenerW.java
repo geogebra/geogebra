@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.plugin.GeoClass;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.KeyCodes;

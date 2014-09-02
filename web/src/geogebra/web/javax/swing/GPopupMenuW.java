@@ -2,9 +2,9 @@ package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GPoint;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.html5.AttachedToDOM;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;

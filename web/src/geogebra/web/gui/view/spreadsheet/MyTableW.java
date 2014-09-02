@@ -26,9 +26,9 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.html5.awt.GBasicStrokeW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.HashMap;

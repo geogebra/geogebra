@@ -15,9 +15,9 @@ import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
 import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.operations.GoogleDriveFileHandler;
 
 import java.util.ArrayList;

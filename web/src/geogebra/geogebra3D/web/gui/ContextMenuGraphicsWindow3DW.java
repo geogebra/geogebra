@@ -3,11 +3,11 @@ package geogebra.geogebra3D.web.gui;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.ContextMenuGraphicsWindowW;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;

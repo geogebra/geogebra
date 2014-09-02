@@ -3,7 +3,7 @@ package geogebra.web.gui.view.algebra;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.TextEditPanel;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;

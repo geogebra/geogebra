@@ -1,10 +1,10 @@
 package geogebra.tablet;
 
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.tablet.main.TabletApp;
 import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.main.AppW;
 
 public class TabletGeoGebraAppFrame extends GeoGebraAppFrame {
 

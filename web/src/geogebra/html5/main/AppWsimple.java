@@ -1,10 +1,9 @@
-package geogebra.web.main;
+package geogebra.html5.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.gui.laf.GLookAndFeel;
-import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianSimplePanelW;
 import geogebra.web.gui.applet.GeoGebraFrame;

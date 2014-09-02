@@ -5,8 +5,8 @@ import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Vector;

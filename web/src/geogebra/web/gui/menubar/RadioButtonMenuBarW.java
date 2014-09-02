@@ -2,7 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 

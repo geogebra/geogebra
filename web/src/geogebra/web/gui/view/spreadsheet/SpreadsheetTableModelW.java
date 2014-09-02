@@ -2,7 +2,7 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package geogebra.web.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;

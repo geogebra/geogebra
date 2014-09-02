@@ -14,12 +14,12 @@ import geogebra.common.util.Validation;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.Slider;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.HashMap;

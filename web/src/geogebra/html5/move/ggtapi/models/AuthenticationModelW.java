@@ -4,8 +4,8 @@ package geogebra.html5.move.ggtapi.models;
 import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventType;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Cookies;

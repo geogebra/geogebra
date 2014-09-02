@@ -1,9 +1,9 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.properties.PropertiesViewW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
 

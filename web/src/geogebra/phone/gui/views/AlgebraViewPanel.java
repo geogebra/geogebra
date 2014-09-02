@@ -1,8 +1,8 @@
 package geogebra.phone.gui.views;
 
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;

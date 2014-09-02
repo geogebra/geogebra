@@ -7,10 +7,10 @@ import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CardPanel;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.dialog.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;

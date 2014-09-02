@@ -3,10 +3,10 @@ package geogebra.web.gui.view.functioninspector;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.gui.view.functioninspector.GridModel.IGridListener;
-import geogebra.web.main.AppW;
 
 import java.util.List;
 

@@ -20,6 +20,7 @@ import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.LineStylePopup;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
@@ -29,7 +30,6 @@ import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

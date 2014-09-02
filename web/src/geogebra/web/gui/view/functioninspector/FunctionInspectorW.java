@@ -13,6 +13,7 @@ import geogebra.common.main.Localization;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.ImageOrText;
@@ -21,7 +22,6 @@ import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Arrays;

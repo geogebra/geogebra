@@ -2,11 +2,11 @@ package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;

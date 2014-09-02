@@ -9,10 +9,10 @@ import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.main.AppW;
 
 import java.util.HashMap;
 

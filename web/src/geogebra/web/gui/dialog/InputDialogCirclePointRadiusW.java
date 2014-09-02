@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 public class InputDialogCirclePointRadiusW extends InputDialogRadiusW{
 	private GeoPoint geoPoint1;

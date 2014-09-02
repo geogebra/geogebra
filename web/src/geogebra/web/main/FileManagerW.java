@@ -4,6 +4,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.gui.browser.BrowseGUI;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManager;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;

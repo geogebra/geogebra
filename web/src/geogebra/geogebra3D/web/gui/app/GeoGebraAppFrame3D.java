@@ -2,9 +2,9 @@ package geogebra.geogebra3D.web.gui.app;
 
 import geogebra.geogebra3D.web.main.AppWapplication3D;
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.main.AppW;
 
 /**
  * Frame for 3D stuff

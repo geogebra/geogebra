@@ -1,8 +1,8 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.html5.main.AppW;
 import geogebra.web.export.AnimationExportDialogW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DialogBox;

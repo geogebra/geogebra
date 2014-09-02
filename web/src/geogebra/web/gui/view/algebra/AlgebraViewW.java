@@ -22,9 +22,9 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.gui.view.algebra.GroupHeader;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 

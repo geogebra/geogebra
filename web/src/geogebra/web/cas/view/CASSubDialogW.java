@@ -4,7 +4,7 @@ import geogebra.common.cas.view.CASSubDialog;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.Localization;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.List;
 import java.util.Vector;

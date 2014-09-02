@@ -1,8 +1,8 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;

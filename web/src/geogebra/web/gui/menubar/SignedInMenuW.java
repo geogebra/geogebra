@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.move.ggtapi.operations.LogInOperation;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window;

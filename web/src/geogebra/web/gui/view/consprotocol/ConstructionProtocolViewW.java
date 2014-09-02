@@ -5,9 +5,9 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import geogebra.web.gui.util.StyleBarW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;

@@ -11,7 +11,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.html5.gui.inputfield.TextEditPanel;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 

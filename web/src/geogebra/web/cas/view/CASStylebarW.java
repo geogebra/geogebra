@@ -7,12 +7,12 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.StyleBarW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 

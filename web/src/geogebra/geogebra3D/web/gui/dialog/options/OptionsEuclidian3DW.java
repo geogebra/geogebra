@@ -11,8 +11,8 @@ import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.options.OptionsEuclidianW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -1,7 +1,7 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.awt.GPoint;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;

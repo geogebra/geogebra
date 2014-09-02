@@ -4,7 +4,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 

@@ -7,8 +7,8 @@ import geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSp
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

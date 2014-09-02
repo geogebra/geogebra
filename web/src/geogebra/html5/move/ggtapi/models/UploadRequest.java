@@ -3,7 +3,7 @@ package geogebra.html5.move.ggtapi.models;
 import geogebra.common.move.ggtapi.models.Request;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 
 public class UploadRequest implements Request {

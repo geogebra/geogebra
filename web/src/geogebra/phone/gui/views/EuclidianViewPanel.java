@@ -2,8 +2,8 @@ package geogebra.phone.gui.views;
 
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.MouseDownEvent;

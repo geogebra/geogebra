@@ -26,11 +26,11 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.js.JavaScriptInjector;
+import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.applet.GeoGebraFrameSimple;
 import geogebra.web.html5.Dom;
-import geogebra.web.main.AppWsimple;
 import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;

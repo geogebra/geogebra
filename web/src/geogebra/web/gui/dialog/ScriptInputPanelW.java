@@ -15,8 +15,8 @@ import geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.ScriptType;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.ScriptArea;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

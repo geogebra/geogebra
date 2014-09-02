@@ -2,13 +2,13 @@ package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GPopupMenuW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;

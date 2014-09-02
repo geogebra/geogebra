@@ -3,7 +3,7 @@ package geogebra.web.gui.menubar;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.laf.GLookAndFeel;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;

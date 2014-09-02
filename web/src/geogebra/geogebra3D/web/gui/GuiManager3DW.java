@@ -4,11 +4,11 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.geogebra3D.web.gui.view.properties.PropertiesView3DW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.ContextMenuGeoElementW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.properties.PropertiesViewW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 

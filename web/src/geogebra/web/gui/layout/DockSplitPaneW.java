@@ -2,7 +2,7 @@ package geogebra.web.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockSplitPaneData;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 

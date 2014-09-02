@@ -3,8 +3,8 @@ package geogebra.web.cas.view;
 import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.main.App;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.SelectionHandler;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;

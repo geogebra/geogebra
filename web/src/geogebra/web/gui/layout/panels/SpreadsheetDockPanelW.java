@@ -5,11 +5,11 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.AbsolutePanel;

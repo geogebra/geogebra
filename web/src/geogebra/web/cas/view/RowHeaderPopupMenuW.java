@@ -2,9 +2,9 @@ package geogebra.web.cas.view;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.html5.main.AppW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GPopupMenuW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuItem;

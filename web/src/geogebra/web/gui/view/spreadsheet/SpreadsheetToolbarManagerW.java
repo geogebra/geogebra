@@ -3,7 +3,7 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 /**
  * Utility class to handle toolbar menu mode changes

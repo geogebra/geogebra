@@ -7,10 +7,10 @@ import geogebra.common.main.GeoGebraPreferences;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
 import geogebra.web.WebStatic;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;

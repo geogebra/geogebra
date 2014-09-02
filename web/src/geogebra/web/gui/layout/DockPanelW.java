@@ -9,12 +9,12 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.cas.view.CASStylebarW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;

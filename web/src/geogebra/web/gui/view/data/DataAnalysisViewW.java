@@ -14,7 +14,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.awt.GColorW;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 

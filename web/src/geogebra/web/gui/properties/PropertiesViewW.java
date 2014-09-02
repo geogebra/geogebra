@@ -4,6 +4,7 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.options.OptionPanelW;
 import geogebra.web.gui.dialog.options.OptionsAdvancedW;
 import geogebra.web.gui.dialog.options.OptionsCASW;
@@ -12,7 +13,6 @@ import geogebra.web.gui.dialog.options.OptionsEuclidianW;
 import geogebra.web.gui.dialog.options.OptionsLayoutW;
 import geogebra.web.gui.dialog.options.OptionsObjectW;
 import geogebra.web.gui.dialog.options.OptionsSpreadsheetW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 

@@ -5,9 +5,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.ScriptArea;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.main.AppW;
 
 import java.util.Iterator;
 import java.util.TreeSet;

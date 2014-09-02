@@ -1,7 +1,7 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.gui.view.data.DataAnalysisController;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 /**
  * Class to control data management for the DataAnalysisView.

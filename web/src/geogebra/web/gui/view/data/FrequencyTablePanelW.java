@@ -2,7 +2,7 @@ package geogebra.web.gui.view.data;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.statistics.AlgoFrequencyTable;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

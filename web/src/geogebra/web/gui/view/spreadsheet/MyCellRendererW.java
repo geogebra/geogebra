@@ -9,8 +9,8 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;

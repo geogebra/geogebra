@@ -4,7 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;

@@ -5,8 +5,8 @@ import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.LowerCaseDictionary;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.main.AppW;
 
 import java.util.Comparator;
 import java.util.Iterator;

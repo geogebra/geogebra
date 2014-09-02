@@ -1,7 +1,7 @@
 package geogebra.web.gui.dialog.options;
 
 import geogebra.common.gui.dialog.options.OptionsDefaults;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
 

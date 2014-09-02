@@ -4,8 +4,8 @@ import geogebra.common.awt.GColor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 

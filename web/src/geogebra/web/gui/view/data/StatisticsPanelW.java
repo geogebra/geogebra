@@ -3,7 +3,7 @@ package geogebra.web.gui.view.data;
 import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.data.StatisticsModel;
 import geogebra.common.gui.view.data.StatisticsModel.IStatisticsModelListener;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

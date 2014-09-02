@@ -28,6 +28,7 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.browser.BrowseGUI;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
@@ -72,7 +73,6 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.html5.Dom;
 import geogebra.web.javax.swing.GOptionPaneW;
-import geogebra.web.main.AppW;
 import geogebra.web.main.AppWapplet;
 
 import java.util.ArrayList;

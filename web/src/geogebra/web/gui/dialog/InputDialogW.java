@@ -6,8 +6,8 @@ import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.OptionType;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

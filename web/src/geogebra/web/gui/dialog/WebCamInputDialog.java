@@ -1,6 +1,6 @@
 package geogebra.web.gui.dialog;
 
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;

@@ -8,7 +8,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GFontW;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 

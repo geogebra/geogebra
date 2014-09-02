@@ -1,12 +1,12 @@
 package geogebra.web.gui.applet;
 
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.main.AppW;
+import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
 import geogebra.web.gui.layout.DockGlassPaneW;
-import geogebra.web.main.AppW;
-import geogebra.web.main.AppWsimple;
 
 import java.util.ArrayList;
 

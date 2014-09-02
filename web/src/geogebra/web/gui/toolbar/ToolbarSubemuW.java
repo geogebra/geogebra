@@ -3,8 +3,8 @@ package geogebra.web.gui.toolbar;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;

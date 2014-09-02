@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
 import geogebra.html5.event.KeyEventsHandler;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;

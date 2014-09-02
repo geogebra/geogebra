@@ -19,10 +19,10 @@ import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.main.AppW;
 
 import java.util.LinkedList;
 

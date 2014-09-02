@@ -1,8 +1,8 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.StyleBarW;
-import geogebra.web.main.AppW;
 
 public class ConstructionProtocolStyleBarW extends StyleBarW {
 

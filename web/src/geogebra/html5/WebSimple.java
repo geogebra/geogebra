@@ -1,10 +1,9 @@
-package geogebra.web;
+package geogebra.html5;
 
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
-import geogebra.html5.Browser;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.html5.Dom;
 

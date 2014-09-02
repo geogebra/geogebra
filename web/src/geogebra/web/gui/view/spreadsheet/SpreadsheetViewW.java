@@ -13,8 +13,8 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.TimerSystemW;
-import geogebra.web.main.AppW;
 
 import java.util.HashMap;
 

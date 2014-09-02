@@ -10,8 +10,8 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Unicode;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 

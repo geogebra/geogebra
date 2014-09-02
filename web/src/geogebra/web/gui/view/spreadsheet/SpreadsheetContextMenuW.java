@@ -2,11 +2,11 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GPopupMenuW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;

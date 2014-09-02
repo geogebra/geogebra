@@ -10,9 +10,9 @@ import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.ComboBoxW;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

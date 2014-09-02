@@ -5,10 +5,10 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.AnimatedGifEncoderW;
 import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Iterator;

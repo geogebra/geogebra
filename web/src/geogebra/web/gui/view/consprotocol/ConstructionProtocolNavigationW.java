@@ -4,8 +4,8 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.html5.javax.swing.GPanelW;
 import geogebra.html5.javax.swing.GSpinnerW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;

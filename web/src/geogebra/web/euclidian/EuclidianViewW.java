@@ -19,9 +19,9 @@ import geogebra.html5.euclidian.MsZoomer;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.javax.swing.GBoxW;
+import geogebra.html5.main.AppW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
-import geogebra.web.main.AppW;
 
 import java.util.List;
 

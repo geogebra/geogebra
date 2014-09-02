@@ -1,7 +1,7 @@
 package geogebra.web.gui.app;
 
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.menubar.MainMenu;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;

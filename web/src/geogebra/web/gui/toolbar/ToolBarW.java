@@ -8,8 +8,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.UnorderedList;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Vector;

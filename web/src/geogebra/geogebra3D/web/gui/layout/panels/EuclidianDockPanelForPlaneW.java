@@ -7,8 +7,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;

@@ -4,7 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASTable;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
-import geogebra.web.main.AppW;
+import geogebra.html5.main.AppW;
 
 import java.util.TreeSet;
 
