@@ -141,6 +141,8 @@ public class AppWapplet3D extends AppWapplet{
 	@Override
     public void setCurrentFile(HashMap<String, String> file) {
 		super.setCurrentFile(file);
-		((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
+		if(this.isEuclidianView3Dinited()){
+			((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
+		}
 	}
 }

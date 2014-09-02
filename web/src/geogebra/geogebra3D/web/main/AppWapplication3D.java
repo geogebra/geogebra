@@ -158,7 +158,9 @@ public class AppWapplication3D extends AppWapplication {
 	@Override
     public void setCurrentFile(HashMap<String, String> file) {
 		super.setCurrentFile(file);
-		((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
+		if(this.isEuclidianView3Dinited()){
+			((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
+		}
 	}
 
 }
