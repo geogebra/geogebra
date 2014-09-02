@@ -43,7 +43,12 @@ body.application,article {
 	font-size: 16px;
 }
 
-input[type="text"],.gwt-TextBox,select,textarea,.gwt-TextArea,iframe.objectPropertiesTextEditor
+input[type="text"],
+.gwt-TextBox,
+select,
+textarea,
+.gwt-TextArea,
+iframe.objectPropertiesTextEditor
 	{
 	border: #DCDCDC solid 1px;
 	background: #FFFFFF;
@@ -58,6 +63,15 @@ input[type="text"],.gwt-TextBox,select,textarea,.gwt-TextArea,iframe.objectPrope
 	font-size: 100%;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
+}
+
+input[type="text"]:focus,
+.gwt-TextBox:focus,
+select:focus,
+textarea:focus,
+.gwt-TextArea:focus,
+iframe.objectPropertiesTextEditor:focus {
+	border-color: #6161FF;
 }
 
 input[type="checkbox"] {
@@ -100,7 +114,8 @@ hr {
 	margin-bottom: 10px;
 }
 
-.gwt-Button,.buttonPanel .button {
+.gwt-Button,
+.buttonPanel .button {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6161FF;
@@ -143,12 +158,15 @@ hr {
 	float: right;
 }
 
-.gwt-Button:active,.buttonPanel .button:active {
+.gwt-Button:active,
+.buttonPanel .button:active {
 	border: 1px inset #6666FF;
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
-.gwt-Button:hover,.confirmDelete .button:hover,.buttonPanel .button:hover
+.gwt-Button:hover,
+.confirmDelete .button:hover,
+.buttonPanel .button:hover
 	{
 	background-color: rgba(204, 204, 255, 0.2);
 }
@@ -158,11 +176,14 @@ hr {
 	color: #EDEDED;
 	border-color: #EDEDED;
 }
-/*.gwt-Button[disabled]:hover {
-  	border: 1px outset #EDEDED;
-}*/
+.gwt-Button[disabled]:hover {
+  	cursor: default;
+	color: #EDEDED;
+	border-color: #EDEDED;
+}
+
 .textButton {
-	color: #6666FF;
+	color: #6161FF;
 	cursor: pointer;
 }
 
@@ -170,7 +191,8 @@ hr {
 	text-decoration: underline;
 }
 
-.gwt-CheckBox-disabled,.checkBoxPanel-disabled {
+.gwt-CheckBox-disabled,
+.checkBoxPanel-disabled {
 	color: #CCCCCC;
 }
 
@@ -1560,6 +1582,10 @@ Paddings for menuitems.
 #####################################################################################*/
 .closeButtonPanel {
 	margin: 3px;
+}
+
+.ButtonPopupMenu {
+	outline: 0 none;
 }
 
 .ButtonPopupMenu div:focus {

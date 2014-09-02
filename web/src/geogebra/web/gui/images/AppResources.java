@@ -599,12 +599,17 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/dataview-showplot2.png")
 	ImageResource dataview_showplot2();
 
-	@Source("icons/png30x30/stylingbar_delete_small.png")
+	/*
+	//@Source("icons/png30x30/stylingbar_delete_small.png")
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_small.png")
 	ImageResource eraser_small();
 
-	@Source("icons/png30x30/stylingbar_delete_medium.png")
+	//@Source("icons/png30x30/stylingbar_delete_medium.png")
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_medium.png")
 	ImageResource eraser_medium();
 	
-	@Source("icons/png30x30/stylingbar_delete_big.png")
+	//@Source("icons/png30x30/stylingbar_delete_big.png")
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_large.png")
 	ImageResource eraser_big();
+	*/
 }

@@ -357,11 +357,11 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_properties_object.png")
 	ImageResource properties_object();
 	
-	@Source("icons/png/web/stylingbar/stylingbar_properties_graphics_view.png")
+	/*@Source("icons/png/web/stylingbar/stylingbar_properties_graphics_view.png")
 	ImageResource properties_graphics();
 	
 	@Source("icons/png/web/stylingbar/stylingbar_properties_graphics_view2.png")
-	ImageResource properties_graphics2();
+	ImageResource properties_graphics2();*/
 	
 	//DECORATIONS
 	//ANGLE

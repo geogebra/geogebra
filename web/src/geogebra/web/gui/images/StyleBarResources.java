@@ -34,11 +34,11 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_small.png")
 	ImageResource stylingbar_delete_small();
 	
-	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_middle.png")
-	ImageResource stylingbar_delete_middle();
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_medium.png")
+	ImageResource stylingbar_delete_medium();
 	
-	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_big.png")
-	ImageResource stylingbar_delete_big();
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_large.png")
+	ImageResource stylingbar_delete_large();
 	
 	//LINES
 	

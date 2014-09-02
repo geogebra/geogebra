@@ -948,9 +948,9 @@ public class EuclidianStyleBarW extends StyleBarW
 		// =====================================================
 		// Delete Size Button
 		ImageResource[] delBtns = new ImageResource[]{
-				AppResources.INSTANCE.eraser_small(),
-				AppResources.INSTANCE.eraser_medium(),
-				AppResources.INSTANCE.eraser_big()
+				StyleBarResources.INSTANCE.stylingbar_delete_small(),
+				StyleBarResources.INSTANCE.stylingbar_delete_medium(),
+				StyleBarResources.INSTANCE.stylingbar_delete_large()
 		};
 		for(int i=0; i<3; i++){
 			btnDeleteSizes[i]= new MyToggleButton2(delBtns[i]){
