@@ -71,7 +71,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 *
 	 * In the splashDialog onLoad handler will the application loading continue
 	 */	
-	protected void createSplash(ArticleElement ae) {
+	public void createSplash(ArticleElement ae) {
 		
 		int splashWidth = 427;
 		int splashHeight = 120;
@@ -208,7 +208,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	    return width;
     }
 
-	protected ArticleElement ae;
+	public ArticleElement ae;
 	
 	protected int computedWidth = 0;
 	protected int computedHeight = 0;
