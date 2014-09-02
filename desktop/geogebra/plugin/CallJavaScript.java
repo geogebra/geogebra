@@ -33,9 +33,13 @@ public class CallJavaScript {
 		GeoGebraGlobal.initStandardObjects((AppD) app, scope, null, false);
 
 		// Evaluate the global string
-		Object result = cx.evaluateString(scope, ((AppD) app).getKernel()
-				.getLibraryJavaScript(), app.getPlain("ErrorAtLine"), 1, null);
+		try {
+			Object result = cx.evaluateString(scope, ((AppD) app).getKernel()
+					.getLibraryJavaScript(), app.getPlain("ErrorAtLine"), 1,
+					null);
+		} catch (Throwable t) {
 
+		}
 		cx.exit();
 		return scope;
 
