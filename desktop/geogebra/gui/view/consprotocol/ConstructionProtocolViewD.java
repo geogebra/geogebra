@@ -227,7 +227,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	@Override
 	public void updateNavigationBars() {
 		// update the navigation bar of the protocol window
-		protNavBar.update();
+		if (protNavBar != null) {
+			protNavBar.update();
+		}
 
 		// update all registered navigation bars
 		int size = navigationBars.size();
