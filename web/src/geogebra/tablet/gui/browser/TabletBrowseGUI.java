@@ -1,9 +1,9 @@
 package geogebra.tablet.gui.browser;
 
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.browser.BrowseGUI;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.gui.browser.BrowseGUI;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.user.client.Window;
 

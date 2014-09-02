@@ -13,9 +13,9 @@ import geogebra.geogebra3D.web.gui.GuiManager3DW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GeoGebraFrame;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppWapplet;
 

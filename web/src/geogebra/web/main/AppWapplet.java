@@ -12,7 +12,6 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
@@ -21,6 +20,7 @@ import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
@@ -47,6 +47,7 @@ public class AppWapplet extends AppW {
 	private int spHeight;
 	private boolean menuVisible = false;
 	private boolean menuInited = false;
+	protected ObjectPool objectPool;
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 

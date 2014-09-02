@@ -1,5 +1,6 @@
 package geogebra.html5.euclidian;
 
+import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
@@ -20,8 +21,6 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
 import geogebra.web.euclidian.EuclidianStyleBarW;
-import geogebra.web.euclidian.MyBasicStrokeW;
-import geogebra.web.euclidian.MyEuclidianViewPanel;
 import geogebra.web.euclidian.SmartTouchHandler;
 
 import java.util.List;
@@ -216,20 +215,20 @@ public class EuclidianViewW extends EuclidianViewWeb implements EuclidianViewWIn
 	}
 	
 	// STROKES
-	protected static MyBasicStrokeW standardStroke = new MyBasicStrokeW(1.0f);
+	protected static geogebra.html5.awt.GBasicStrokeW standardStroke = new geogebra.html5.awt.GBasicStrokeW(1.0f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
-	protected static MyBasicStrokeW selStroke = new MyBasicStrokeW(
-			1.0f + EuclidianStyleConstants.SELECTION_ADD);
+	protected static geogebra.html5.awt.GBasicStrokeW selStroke = new geogebra.html5.awt.GBasicStrokeW(
+			1.0f + EuclidianStyleConstants.SELECTION_ADD, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 	protected boolean unitAxesRatio;
 
 	private Object preferredSize;
 
-	static public MyBasicStrokeW getDefaultStroke() {
+	static public geogebra.html5.awt.GBasicStrokeW getDefaultStroke() {
 		return standardStroke;
 	}
 
-	static public MyBasicStrokeW getDefaultSelectionStroke() {
+	static public geogebra.html5.awt.GBasicStrokeW getDefaultSelectionStroke() {
 		return selStroke;
 	}
 	

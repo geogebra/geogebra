@@ -3,11 +3,11 @@ package geogebra.web.main;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
-import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManager;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.web.gui.browser.BrowseGUI;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.storage.client.Storage;

@@ -1,12 +1,12 @@
 package geogebra.phone.gui.views.browseView;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.html5.gui.browser.MaterialListElement;
-import geogebra.html5.gui.browser.MaterialListPanel;
-import geogebra.html5.gui.browser.SearchPanel;
-import geogebra.html5.gui.browser.SearchPanel.SearchListener;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.gui.browser.MaterialListElement;
+import geogebra.web.gui.browser.MaterialListPanel;
+import geogebra.web.gui.browser.SearchPanel;
+import geogebra.web.gui.browser.SearchPanel.SearchListener;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.user.client.Window;
 

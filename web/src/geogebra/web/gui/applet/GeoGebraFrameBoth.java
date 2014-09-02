@@ -2,11 +2,11 @@ package geogebra.web.gui.applet;
 
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 
 import java.util.ArrayList;

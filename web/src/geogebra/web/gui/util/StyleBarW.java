@@ -2,9 +2,10 @@ package geogebra.web.gui.util;
 
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.view.Views;
+import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.view.Views;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -11,9 +11,10 @@ import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
-import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.browser.SignInButton;
+import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
+import geogebra.web.move.ggtapi.models.MaterialCallback;
 
 import java.util.List;
 
@@ -134,7 +135,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		} else {
 			if (!isLoggedIn()) {
 				this.uploadWaiting = true;
-				((AppW)app).getLAF().getSignInButton(app).login();
+				((SignInButton)((AppW)app).getLAF().getSignInButton(app)).login();
 			} else {
 				upload();
 			}

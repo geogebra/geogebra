@@ -28,10 +28,10 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.main.AppW;
-import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.util.SaveDialogW;
+import geogebra.web.gui.util.WindowReference;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
@@ -297,9 +297,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		} else {
 			googleFileDescriptors.setFileName(driveBase64FileName);
 			googleFileDescriptors.setDescription(driveBase64description);
-			
+			if(((AppW) app).getGuiManager() == null){
+				return;
+			}
 			//Steffi: In SMART the getSignIn()-Method returns NULL
-			MenuItem lg = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getSignIn();
+			MenuItem lg = ((GuiManagerW) app.getGuiManager()).getObjectPool().getGgwMenubar().getMenubar().getSignIn();
 			final int top = lg.getElement().getOffsetTop();
 			final int left = lg.getElement().getOffsetLeft();
 			googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {

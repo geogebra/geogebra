@@ -7,16 +7,17 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.gui.GuiManagerInterfaceW;
-import geogebra.html5.gui.MyHeaderPanel;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
-import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.helper.ObjectPool;
+import geogebra.web.move.ggtapi.models.AuthenticationModelW;
+import geogebra.web.move.ggtapi.operations.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
@@ -28,7 +29,7 @@ public class AppWapplication extends AppW {
 
 	private GeoGebraAppFrame appFrame = null;
 	protected GuiManagerInterfaceW guiManager = null;
-
+	protected ObjectPool objectPool;
 	//Event flow operations
 	
 
@@ -70,7 +71,7 @@ public class AppWapplication extends AppW {
 
 		initCoreObjects(undoActive, this);
 		// user authentication handling
-		initSignInEventFlow();
+		initSignInEventFlow(new LoginOperationW(this));
 		
 		afterCoreObjectsInited();
 		App.debug("after core");

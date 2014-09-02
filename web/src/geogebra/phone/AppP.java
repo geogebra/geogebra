@@ -1,10 +1,10 @@
 package geogebra.phone;
 
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.FileManager;
 import geogebra.html5.util.ArticleElement;
 import geogebra.touch.main.AppT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 public class AppP extends AppT {
 

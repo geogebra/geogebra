@@ -1,8 +1,8 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App.InputPositon;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;

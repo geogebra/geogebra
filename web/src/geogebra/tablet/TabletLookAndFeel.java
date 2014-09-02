@@ -2,9 +2,9 @@ package geogebra.tablet;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
-import geogebra.html5.gui.browser.SignInButton;
-import geogebra.html5.gui.browser.TabletSignInButton;
-import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.web.gui.browser.SignInButton;
+import geogebra.web.gui.browser.TabletSignInButton;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 
 public class TabletLookAndFeel extends GLookAndFeel {

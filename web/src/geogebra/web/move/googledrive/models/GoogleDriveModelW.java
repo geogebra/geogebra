@@ -1,6 +1,6 @@
 package geogebra.web.move.googledrive.models;
 
-import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
+import geogebra.web.move.ggtapi.models.AuthenticationModelW;
 
 /**
  * @author gabor

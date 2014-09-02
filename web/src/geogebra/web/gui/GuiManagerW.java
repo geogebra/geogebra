@@ -30,7 +30,6 @@ import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.GuiManagerInterfaceW;
-import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.Dom;
@@ -40,6 +39,7 @@ import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
@@ -72,6 +72,7 @@ import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
+import geogebra.web.helper.ObjectPool;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppWapplet;
@@ -111,11 +112,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	
 	private String strCustomToolbarDefinition;
 	private boolean draggingViews;
+
+	private ObjectPool objectPool;
 	
 	
 	public GuiManagerW(AppW app) {
 		this.app = app;
 		this.kernel = app.getKernel();
+		this.objectPool = new ObjectPool();
 		// AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
@@ -136,28 +140,31 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void updateMenubarSelection() {
-		GGWMenuBar mb = ((AppW) app).getObjectPool().getGgwMenubar();
+		GGWMenuBar mb = getObjectPool().getGgwMenubar();
 		if (mb != null && mb.getMenubar()!=null) {
 			mb.getMenubar().updateSelection();
 		}
-
 	}
 
 	@Override
 	public void updateMenubar() {
-		GGWMenuBar ggwMenuBar = ((AppW) app).getObjectPool().getGgwMenubar();
+		GGWMenuBar ggwMenuBar = getObjectPool().getGgwMenubar();
 		if (ggwMenuBar != null) {
-			MainMenu menuBar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
+			MainMenu menuBar = getObjectPool().getGgwMenubar().getMenubar();
 			if (menuBar != null) {
 				menuBar.updateMenubar();
 			}
 		}
 		
 	}
+	
+	public ObjectPool getObjectPool() {
+		return this.objectPool;
+	}
 
 	@Override
 	public void updateActions() {
-		GGWMenuBar ggwMenuBar = ((AppW) app).getObjectPool().getGgwMenubar();
+		GGWMenuBar ggwMenuBar = getObjectPool().getGgwMenubar();
 		if (ggwMenuBar != null && ggwMenuBar.getMenubar() != null) {
 			ggwMenuBar.getMenubar().updateSelection();
 		}
@@ -1181,7 +1188,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if (toolbarPanel != null && toolbarPanel.getToolBar() != null) {
 			toolbarPanel.getToolBar().buildGui();
 		}
-		GGWMenuBar bar = ((AppW) app).getObjectPool().getGgwMenubar();
+		GGWMenuBar bar = getObjectPool().getGgwMenubar();
 		if (bar != null && bar.getMenubar() != null) {
 			bar.removeMenus();
 			bar.init((AppW) app);
@@ -1407,8 +1414,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	 * @param show whether to show the menubar or not
 	 */
 	public void showMenuBar(boolean show) {
-	   if (((AppW) app).getObjectPool().getGgwMenubar() != null) {
-		   ((AppW) app).getObjectPool().getGgwMenubar().setVisible(show);
+	   if (getObjectPool().getGgwMenubar() != null) {
+		   getObjectPool().getGgwMenubar().setVisible(show);
 	   } else {
 		   ((AppWapplet) app).attachMenubar();
 	   }

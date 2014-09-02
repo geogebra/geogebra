@@ -9,7 +9,6 @@ import geogebra.geogebra3D.web.main.AppWapplet3D;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.gui.GeoGebraFrame;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
@@ -17,6 +16,7 @@ import geogebra.html5.util.Dom;
 import geogebra.web.Web;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.main.AppWapplet;
 import geogebra.web.util.debug.GeoGebraProfilerW;
 

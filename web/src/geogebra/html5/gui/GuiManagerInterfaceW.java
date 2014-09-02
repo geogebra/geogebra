@@ -11,6 +11,7 @@ import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.gui.ContextMenuGeoElementW;
+import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;

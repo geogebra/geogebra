@@ -2,7 +2,7 @@ package geogebra.html5.euclidian;
 
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.html5.event.HasOffsets;
-import geogebra.web.euclidian.event.ZeroOffset;
+import geogebra.html5.event.ZeroOffset;
 
 import com.google.gwt.user.client.Element;
 

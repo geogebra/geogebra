@@ -6,8 +6,6 @@ package geogebra.web.gui.app;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
-import geogebra.html5.gui.MyHeaderPanel;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.Dom;
@@ -15,7 +13,10 @@ import geogebra.html5.util.JSON;
 import geogebra.html5.util.LoadFilePresenter;
 import geogebra.html5.util.View;
 import geogebra.html5.util.debug.GeoGebraLogger;
+import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.docklayout.MyDockLayoutPanel;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppWapplication;
@@ -246,7 +247,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 		// Menu bar
 		//Do not call init here, wait for toggle
-		app.getObjectPool().setGgwMenubar(ggwMenuBar);
+		((GuiManagerW)app.getGuiManager()).getObjectPool().setGgwMenubar(ggwMenuBar);
 
 		// Toolbar -- the tools are actually added in LoadFilePresenter
 		if (!ggwToolBar.isInited()) {

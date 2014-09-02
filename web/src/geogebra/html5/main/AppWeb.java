@@ -29,6 +29,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.events.NativeEventAttacher;
 import geogebra.common.move.ggtapi.models.ClientInfo;
+import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.operations.Network;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.OfflineView;
@@ -41,18 +42,17 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.kernel.AnimationManagerW;
 import geogebra.html5.kernel.UndoManagerW;
 import geogebra.html5.kernel.commands.CommandDispatcherW;
-import geogebra.html5.move.ggtapi.operations.LoginOperationW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.View;
-import geogebra.web.gui.util.ViewsChangedListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1147,10 +1147,10 @@ public abstract class AppWeb extends App implements SetLabels{
 	/** 
 	 * Initializes the user authentication 
 	 */
-	public void initSignInEventFlow() {
+	public void initSignInEventFlow(LogInOperation op) {
 		
 		// Initialize the signIn operation
-		loginOperation = new LoginOperationW(this);
+		loginOperation = op;
 		if (getNetworkOperation().getOnline()) {
 			initGoogleDriveEventFlow();
 			loginOperation.performTokenLogin();

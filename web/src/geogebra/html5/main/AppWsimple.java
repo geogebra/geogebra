@@ -5,9 +5,8 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianSimplePanelW;
 import geogebra.html5.gui.GeoGebraFrame;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.helper.ObjectPool;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -36,7 +35,6 @@ public class AppWsimple extends AppW {
 	public AppWsimple(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
 		super(ae, 2, new GLookAndFeel());
 		this.frame = gf;
-		this.objectPool = new ObjectPool();
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 

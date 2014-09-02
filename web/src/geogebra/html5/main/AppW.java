@@ -29,18 +29,19 @@ import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
-import geogebra.html5.gui.MyHeaderPanel;
-import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
+import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.menubar.MainMenu;
@@ -48,7 +49,6 @@ import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
-import geogebra.web.helper.ObjectPool;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.GPopupMenuW;
@@ -105,7 +105,7 @@ public abstract class AppW extends AppWeb {
 
 	private boolean[] showAxes = { true, true };
 	private boolean showGrid = false;
-	private final GLookAndFeel laf;
+	private final GLookAndFeelI laf;
 
 	/**
 	 * Preferred application frame size. Used in case frame size needs updating.
@@ -113,14 +113,14 @@ public abstract class AppW extends AppWeb {
 	private GDimension preferredSize = new GDimensionW(0,0);
 
 	boolean menuKeysLoaded = false;
-	protected ObjectPool objectPool;
+	
 	private GoogleDriveOperationW googleDriveOperation;
 
 	/**
 	 * Constructors will be called from subclasses
 	 * AppWapplication, AppWapplet, and AppWsimple
 	 */
-	protected AppW(ArticleElement ae, int dimension, GLookAndFeel laf) {
+	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(dimension);	
 		this.articleElement = ae;
 		this.laf = laf;
@@ -1418,9 +1418,6 @@ public abstract class AppW extends AppWeb {
 		// TODO implement it ?
 	}
 	
-	public ObjectPool getObjectPool() {
-		return this.objectPool;
-	}
 
 	public static native void debug(JavaScriptObject j) /*-{
 		$wnd.console.log(j);
@@ -1613,7 +1610,7 @@ public abstract class AppW extends AppWeb {
 		return this.articleElement.getDataParamScreenshotGenerator();
 	}
 
-	public GLookAndFeel getLAF() {
+	public GLookAndFeelI getLAF() {
 	    return laf;
     }
 

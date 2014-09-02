@@ -2,13 +2,13 @@ package geogebra.html5.gui;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.LoadFilePresenter;
 import geogebra.html5.util.View;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import java.util.ArrayList;
 import java.util.Date;

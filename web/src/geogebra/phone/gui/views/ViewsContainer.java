@@ -2,7 +2,7 @@ package geogebra.phone.gui.views;
 
 import static com.google.gwt.query.client.GQuery.$;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.query.client.css.CSS;
 import com.google.gwt.query.client.css.Length;

@@ -24,7 +24,7 @@ public class GGWMenuBar extends Composite implements RequiresResize{
 	}
 	
 	public void init(AppW app) {
-		menubar = app.getLAF().getMenuBar(app);
+		menubar = (MainMenu) app.getLAF().getMenuBar(app);
 		ggbmenubarwrapper.add((Widget) menubar);
 	}
 	

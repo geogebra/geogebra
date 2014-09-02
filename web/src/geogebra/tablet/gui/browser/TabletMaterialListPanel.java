@@ -1,10 +1,10 @@
 package geogebra.tablet.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.html5.gui.browser.MaterialListElement;
-import geogebra.html5.gui.browser.MaterialListPanel;
-import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.gui.browser.MaterialListElement;
+import geogebra.web.gui.browser.MaterialListPanel;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.user.client.Window;
 

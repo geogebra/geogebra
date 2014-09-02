@@ -1,9 +1,9 @@
 package geogebra.tablet.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.html5.gui.browser.MaterialListElement;
 import geogebra.html5.main.AppWeb;
 import geogebra.tablet.gui.TabletGuiManager;
+import geogebra.web.gui.browser.MaterialListElement;
 
 public class TabletMaterialElement extends MaterialListElement {
 	

@@ -8,7 +8,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.event.PointerEvent;
-import geogebra.web.euclidian.event.ZeroOffset;
+import geogebra.html5.event.ZeroOffset;
 import geogebra.web.gui.GuiManagerW;
 
 import java.util.Iterator;
