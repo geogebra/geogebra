@@ -115,6 +115,9 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	private ScheduledCommand exportToEVAction;
 
+
+	private ScrollPanel spFrequencyTable;
+
 	/*****************************************
 	 * Constructs a ComboStatPanel
 	 * 
@@ -229,7 +232,11 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		optionsPanel.setVisible(false);
 
 		frequencyTable = new FrequencyTablePanelW(app);
-
+		
+		spFrequencyTable = new ScrollPanel();
+		spFrequencyTable.add(frequencyTable);
+		spFrequencyTable.setStyleName("spFrequencyTable");
+		
 		// =======================================
 		// put all the panels together
 
@@ -590,7 +597,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void updateFrequencyTable() {
-		plotPanelSouth.add(frequencyTable);
+		plotPanelSouth.add(spFrequencyTable);
 		metaPlotPanel.add(plotPanelSouth);
 	}
 
@@ -606,7 +613,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void removeFrequencyTable() {
-		plotPanelSouth.remove(frequencyTable);
+		plotPanelSouth.remove(spFrequencyTable);
     }
 	
 	public void updatePlotPanelSettings() {

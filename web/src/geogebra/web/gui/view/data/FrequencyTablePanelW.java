@@ -24,7 +24,7 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 		this.kernel = app.getKernel();
 
 		statTable = new StatTableW(app);
-	
+		statTable.setStyleName("frequencyTable");
 		add(statTable);
 
 	}
