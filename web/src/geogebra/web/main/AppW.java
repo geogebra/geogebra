@@ -73,10 +73,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -1796,4 +1799,28 @@ public abstract class AppW extends AppWeb {
 	public void openSearch(){
 		showBrowser(((GuiManagerInterfaceW) getGuiManager()).getBrowseGUI());
 	}
+
+	public native void doShowStartScreen() /*-{
+	    var ss = $doc.getElementById("ggbPage");
+	    if(ss){
+	    	ss.style.display = "";
+	    }
+    }-*/;
+	
+	public void showStartScreen() {
+		Element startScreen = DOM.getElementById("ggbPage");
+		if(startScreen != null){
+			Element fr = this.getFrameElement();
+			if(fr.getParentElement() != null){
+				fr = fr.getParentElement();
+			}
+			if(fr.getParentElement() != null){
+				fr = fr.getParentElement();
+			}
+			fr.setId("appletContainer");
+			fr.getStyle().setVisibility(Visibility.HIDDEN);
+			
+			startScreen.getStyle().setDisplay(Display.BLOCK);
+		}
+	};
 }

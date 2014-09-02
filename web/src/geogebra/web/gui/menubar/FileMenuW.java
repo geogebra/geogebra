@@ -29,7 +29,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	/**
 	 * @param app application
 	 */
-	public FileMenuW(AppW app, Runnable onFileOpen) {
+	public FileMenuW(final AppW app, Runnable onFileOpen) {
 	    super(true);
 	    this.app = app;
 	    this.onFileOpen = onFileOpen;
@@ -40,7 +40,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			
 			@Override
 			public void run() {
-				runNew();
+				app.setWaitCursor();
+				app.fileNew();
+				app.setDefaultCursor();
+				app.showStartScreen();
 			}
 		};
 	    addStyleName("GeoGebraMenuBar");
@@ -66,13 +69,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 		return false;
 	}-*/;
-	
-	private void runNew() {
-		app.setWaitCursor();
-		app.fileNew();
-		app.setDefaultCursor();
-	}
-	
+
 	private void initActions() {
 
 		// this is enabled always

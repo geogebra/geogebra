@@ -25,11 +25,19 @@ if (!window.console.log) window.console.log = function () { };
                 }
             };
             function perspective(id){
-            	document.getElementById("ggw").className="geogebraweb";
-            	document.getElementById("ggw").setAttribute("data-param-perspective",id);
-            	var page = document.getElementById("ggbPage");
-            	page.parentNode.removeChild(page);
-            	web3d();
+            	if(document.getElementById("ggw")){
+	            	document.getElementById("ggw").className="geogebraweb";
+	            	document.getElementById("ggw").setAttribute("data-param-perspective",id);
+	            	var page = document.getElementById("ggbPage");
+	            	page.style.display = "none";
+	            	web3d();
+            	}else{
+            		var page = document.getElementById("ggbPage");
+                	page.style.display = "none";
+                	var container = document.getElementById("appletContainer");
+                	container.style.visibility = "visible";
+                	ggbApplet.setPerspective(id+"");
+            	}
             }
 </script>
 <script type="text/javascript">
@@ -72,7 +80,7 @@ document.isChromeWebapp = function isChromeWebapp() {
 	    GGW_appengine.CLIENT_ID = "";
 	    GGW_appengine.USER_EMAIL = "";
   	</script>
-    <script type="text/javascript" language="javascript" src="web3d/web3d.nocache.js"></script>
+    <script type="text/javascript" src="web3d/web3d.nocache.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
     body {
@@ -84,7 +92,7 @@ document.isChromeWebapp = function isChromeWebapp() {
     </style>
 </head>
 <body dir="ltr" tabindex="-1">
-	<div id="ggbPage">
+	<div id="ggbPage" style="z-index:10000">
 
     <div id="ggbHeader">
         <div id="ggbHeaderContent" class="clearfix">
