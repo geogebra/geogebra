@@ -15,6 +15,7 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.TimerSystemW;
+import geogebra.html5.util.SpreadsheetTableModelW;
 
 import java.util.HashMap;
 

@@ -1572,5 +1572,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
     public String getMenuBarHtml(String iconString, String name, boolean b) {
 		return MainMenu.getMenuBarHtml(iconString, name, true);
     }
+
+	@Override
+    public void recalculateEnvironments() {
+		for (int i = 0; i < getEuclidianViewCount(); i++) {
+	    	((EuclidianView) getEuclidianView2(i)).getEuclidianController().calculateEnvironment();
+		}
+		if(hasProbabilityCalculator()){
+			((ProbabilityCalculatorViewW)getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();
+		}
+    }
 	
 }

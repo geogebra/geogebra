@@ -11,7 +11,6 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
@@ -38,19 +37,16 @@ import geogebra.html5.kernel.KernelW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
+import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.toolbar.ToolBarW;
-import geogebra.web.gui.util.FrameCollectorW;
-import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
-import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.FileManagerW;
-import geogebra.web.main.GeoGebraTubeExportWeb;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import java.util.ArrayList;
@@ -1273,18 +1269,7 @@ public abstract class AppW extends AppWeb {
 		App.debug("unimplemented");
 	}
 
-	@Override
-	public void uploadToGeoGebraTube() {
-		showURLinBrowserWaiterFixedDelay();
-		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
-		getGgbApi().getBase64(true, new StringHandler(){
-
-			@Override
-            public void handle(String s) {
-	            ggbtube.uploadWorksheetSimple(s);
-	            
-            }});
-	}
+	
 
 	// ========================================
 	// MISC
@@ -1610,15 +1595,13 @@ public abstract class AppW extends AppWeb {
 	public void recalculateEnvironments() {
 	    
 	    if (getGuiManager() != null) {
-			for (int i = 0; i < getGuiManager().getEuclidianViewCount(); i++) {
-	    	((EuclidianView) getGuiManager().getEuclidianView2(i)).getEuclidianController().calculateEnvironment();
-			}
-	    } else if (getEuclidianView1() != null) {
+	    	getGuiManager().recalculateEnvironments();
+			
+	    }
+	    if (getEuclidianView1() != null) {
 	    	getEuclidianView1().getEuclidianController().calculateEnvironment();
 	    }
-	    if (getGuiManager() != null && getGuiManager().hasProbabilityCalculator()) {
-	    	((ProbabilityCalculatorViewW)getGuiManager().getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();
-	    }
+	    
     }
 
 	
@@ -1744,34 +1727,6 @@ public abstract class AppW extends AppWeb {
 		setMode(((GGWToolBar)getToolbar()).
 				getToolBar().
 				getFirstMode());
-	}
-
-	public void exportAnimatedGIF(FrameCollectorW gifEncoder, GeoNumeric num,
-			int n, double val, double min, double max, double step) {
-		Log.debug("exporting animation");
-		for (int i = 0; i < n; i++) {
-
-			// avoid values like 14.399999999999968
-			val = Kernel.checkDecimalFraction(val);
-			num.setValue(val);
-			num.updateRepaint();
-
-			geogebra.html5.gawt.BufferedImage img = ((EuclidianViewW) getActiveEuclidianView())
-					.getExportImage(1);
-			if (img == null) {
-				Log.error("image null");
-			} else {
-				gifEncoder.addFrame(img);
-			}
-			val += step;
-
-			if (val > max + 0.00000001 || val < min - 0.00000001) {
-				val -= 2 * step;
-				step *= -1;
-			}
-
-		}
-		gifEncoder.finish();
 	}
 	
 	@Override

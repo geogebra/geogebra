@@ -8,6 +8,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.LanguageGUI;
@@ -324,4 +325,17 @@ public class AppWapplication extends AppW {
 		LanguageGUI bg = new LanguageGUI(this);
 		showBrowser(bg);
     }
+	
+	@Override
+	public void uploadToGeoGebraTube() {
+		showURLinBrowserWaiterFixedDelay();
+		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+		getGgbApi().getBase64(true, new StringHandler(){
+
+			@Override
+            public void handle(String s) {
+	            ggbtube.uploadWorksheetSimple(s);
+	            
+            }});
+	}
 }

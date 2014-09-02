@@ -1975,4 +1975,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return false;
 	}
 
+	@Override
+	public void updateTableCellValue(Object value, int i, int j) {
+		// only used in Web
+	}
+
 }

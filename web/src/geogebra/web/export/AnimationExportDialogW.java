@@ -4,6 +4,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.util.debug.Log;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.AnimatedGifEncoderW;
@@ -104,6 +106,34 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 		geoNumerics = new ArrayList<GeoElement>();
 		initGUI();
 		refreshGUI();
+	}
+	
+	public void exportAnimatedGIF(FrameCollectorW gifEncoder, GeoNumeric num,
+			int n, double val, double min, double max, double step) {
+		Log.debug("exporting animation");
+		for (int i = 0; i < n; i++) {
+
+			// avoid values like 14.399999999999968
+			val = Kernel.checkDecimalFraction(val);
+			num.setValue(val);
+			num.updateRepaint();
+
+			geogebra.html5.gawt.BufferedImage img = ((EuclidianViewW) app.getActiveEuclidianView())
+					.getExportImage(1);
+			if (img == null) {
+				Log.error("image null");
+			} else {
+				gifEncoder.addFrame(img);
+			}
+			val += step;
+
+			if (val > max + 0.00000001 || val < min - 0.00000001) {
+				val -= 2 * step;
+				step *= -1;
+			}
+
+		}
+		gifEncoder.finish();
 	}
 
 	private void initGUI() {
@@ -252,7 +282,7 @@ public class AnimationExportDialogW extends DialogBox implements ClickHandler {
 		app.setWaitCursor();
 
 		try {
-			app.exportAnimatedGIF(collector, num, n, val, min, max, step);
+			this.exportAnimatedGIF(collector, num, n, val, min, max, step);
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
 			ex.printStackTrace();

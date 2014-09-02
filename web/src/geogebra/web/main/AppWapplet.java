@@ -14,6 +14,7 @@ import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.HasAppletProperties;
+import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWCommandLine;
@@ -516,4 +517,17 @@ public class AppWapplet extends AppW {
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	@Override
+	public void uploadToGeoGebraTube() {
+		showURLinBrowserWaiterFixedDelay();
+		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+		getGgbApi().getBase64(true, new StringHandler(){
+
+			@Override
+            public void handle(String s) {
+	            ggbtube.uploadWorksheetSimple(s);
+	            
+            }});
+	}
 }

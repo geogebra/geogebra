@@ -6,6 +6,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
 import geogebra.html5.main.AppW;
+import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.javax.swing.GPopupMenuW;
 

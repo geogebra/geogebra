@@ -23,6 +23,9 @@ public interface MyTable extends MyTableInterface {
 	public ArrayList<CellRange> getSelectedCellRanges();
 
 
+	public void updateTableCellValue(Object value, int i, int j);
+
+
 		
 	
 	

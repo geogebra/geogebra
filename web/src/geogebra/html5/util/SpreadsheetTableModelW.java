@@ -1,10 +1,12 @@
-package geogebra.web.gui.view.spreadsheet;
+package geogebra.html5.util;
 
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
+//import geogebra.web.gui.view.spreadsheet.MyTableW;
 
 public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
@@ -13,7 +15,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		public void valueChange();
 	}
 
-	private MyTableW table;
+	private MyTable table;
 	
 	ChangeListener listener = null;
 
@@ -56,7 +58,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		return defaultTableModel;
 	}
 	
-	public void attachMyTable(MyTableW table){
+	public void attachMyTable(MyTable table){
 		this.table = table;
 		Object value;
 		if (table != null)

@@ -29,6 +29,7 @@ import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
+import geogebra.html5.util.SpreadsheetTableModelW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
