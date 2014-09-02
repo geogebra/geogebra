@@ -63,7 +63,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class RadioButtonTreeItem extends HorizontalPanel
 	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, 
-	MouseOverHandler, MouseOutHandler, GeoContainer {
+	MouseOverHandler, MouseOutHandler, GeoContainer, geogebra.html5.gui.view.algebra.RadioButtonTreeItem {
 
 	private GeoElement geo;
 	private Kernel kernel;
