@@ -2,12 +2,16 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.main.StringHandler;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
@@ -20,6 +24,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	private MenuItem uploadToGGT;
 	Runnable onFileOpen;
 	Runnable newConstruction;
+	Anchor downloadButton;
 	
 	/**
 	 * @param app application
@@ -28,6 +33,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    super(true);
 	    this.app = app;
 	    this.onFileOpen = onFileOpen;
+	    this.downloadButton = new Anchor();
+		this.downloadButton.setStyleName("downloadButton");
+		this.downloadButton.getElement().setAttribute("download", "geogebra.ggb");
 	    this.newConstruction = new Runnable() {
 			
 			@Override
@@ -117,6 +125,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	}
 	    });
 	    
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true), true, new Command() {
+			
+			@Override
+			public void execute() {
+				openFilePicker();
+			}
+		});
+	    
 	    /*addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true),
 		        true, new ExportMenuW(app));*/
 	    
@@ -125,10 +141,26 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    if (!app.getNetworkOperation().getOnline()) {
 	    	render(false);    	
 	    }
-	    
-		
-
 	}
+	
+	void openFilePicker() {
+		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement());
+		((GgbAPIW) this.app.getGgbApi()).getGGB(true, callback);
+    }
+	
+	private native JavaScriptObject getDownloadCallback(Element downloadButton) /*-{
+		var _this = this;
+		return function(ggbZip) {
+			var URL = $wnd.URL || $wnd.webkitURL;
+			var ggburl = URL.createObjectURL(ggbZip);
+			downloadButton.setAttribute("href", ggburl);
+			if ($wnd.navigator.msSaveBlob) {
+				$wnd.navigator.msSaveBlob(ggbZip, "geogebra.ggb");
+			} else {
+				downloadButton.click();
+			}
+		}
+	}-*/;
 
 	/**
 	 * @param online wether the application is online

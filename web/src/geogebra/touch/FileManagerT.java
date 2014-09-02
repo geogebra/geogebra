@@ -5,14 +5,12 @@ import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
-import geogebra.common.util.StringUtil;
 import geogebra.html5.euclidian.EuclidianViewWeb;
-import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.FileManager;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.touch.main.AppT;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Callback;
 import com.googlecode.gwtphonegap.client.PhoneGap;
@@ -30,12 +28,13 @@ import com.googlecode.gwtphonegap.client.file.ReaderCallback;
 import com.googlecode.gwtphonegap.collection.shared.LightArray;
 
 
-public class FileManager {//implements FileManagerInterface {
+public class FileManagerT implements FileManager {
 	private static final String META_PREFIX = "meta_";
 	private static final String GGB_DIR = "GeoGebra";
 	private static final String META_DIR = "meta";
 	private static final String FILE_EXT = ".ggb";
-
+	
+	protected AppT app;
 	boolean hasFile = false;
 	String data;
 	PhoneGap phonegap;
@@ -44,7 +43,8 @@ public class FileManager {//implements FileManagerInterface {
 	String filename;
 	int count;
 
-	public FileManager() {
+	public FileManagerT(AppT app) {
+		this.app = app;
 		this.phonegap = PhoneGapManager.getPhoneGap();
 	}
 
@@ -273,15 +273,15 @@ public class FileManager {//implements FileManagerInterface {
 								final String name = fileEntry.getName().substring(
 										0,
 										fileEntry.getName().indexOf("."));
-								if (name.equals(FileManager.this.filename)) {
-									FileManager.this.count++;
-									FileManager.this.filename = loc.getPlain(
+								if (name.equals(FileManagerT.this.filename)) {
+									FileManagerT.this.count++;
+									FileManagerT.this.filename = loc.getPlain(
 											"UntitledA",
-											FileManager.this.count + "");
+											FileManagerT.this.count + "");
 								}
 							}
 						}
-						callback.onSuccess(FileManager.this.filename);
+						callback.onSuccess(FileManagerT.this.filename);
 					}
 
 					@Override
@@ -374,9 +374,9 @@ public class FileManager {//implements FileManagerInterface {
 		});
 	}
 
-	public void openMaterial(final Material material, final AppWeb app) {
+	public void openMaterial(final Material material) {
 		app.getKernel().getConstruction().setTitle(material.getTitle());
-		getFileData(material.getURL(), app);
+		getFileData(material.getURL());
 	}
 
 	//	/**
@@ -528,12 +528,11 @@ public class FileManager {//implements FileManagerInterface {
 	 * Saves the active file (with metaData) on the device into directory
 	 * "GeoGebra".
 	 * 
-	 * @param app App
 	 * @param cb 
 	 */
-	public void saveFile(final App app, final Callback<String, Throwable> cb) {
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
-		final String consTitle = ((AppW) app).getKernel().getConstruction().getTitle();
+	public void saveFile(final Callback<String, Throwable> cb) {
+//		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
+		final String consTitle = app.getKernel().getConstruction().getTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(final String s) {
@@ -547,7 +546,7 @@ public class FileManager {//implements FileManagerInterface {
 							@Override
 							public void onSuccess(final FileWriter writer) {
 								writer.write(s);
-								createMetaData(consTitle, app, cb);
+								createMetaData(consTitle, cb);
 								app.setSaved();
 								((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
 								if (cb != null) {
@@ -577,9 +576,8 @@ public class FileManager {//implements FileManagerInterface {
 	/**
 	 * 
 	 * @param title of file
-	 * @param app App
 	 */
-	private void getFileData(final String title, final App app) {
+	private void getFileData(final String title) {
 
 		getGgbFile(title + FILE_EXT, dontCreateIfNotExist, new Callback<FileEntry, FileError>() {
 			@Override
@@ -606,10 +604,9 @@ public class FileManager {//implements FileManagerInterface {
 	 * create metaData including meta and thumbnail.
 	 * 
 	 * @param title String
-	 * @param app App
 	 * @param cb 
 	 */
-	void createMetaData(final String title, final App app, final Callback<String, Throwable> cb) {
+	void createMetaData(final String title, final Callback<String, Throwable> cb) {
 
 		getMetaFile(META_PREFIX + title, createIfNotExist, new Callback<FileEntry, FileError>(){
 

@@ -10,7 +10,6 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.GuiManagerW;
@@ -19,16 +18,13 @@ import geogebra.web.main.AppW;
 import java.util.List;
 
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -45,9 +41,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	protected TextBox title;
 	StandardButton cancel;
 	StandardButton save;
-	
-	Anchor downloadButton;
-	
+		
 	private Label titleLabel;
 	private final int MIN_TITLE_LENGTH = 4;
 	private boolean uploadWaiting;
@@ -64,11 +58,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		this.addStyleName("GeoGebraFileChooser");
 		this.add(p = new VerticalPanel());
 		this.setGlassEnabled(true);
-		
-		this.downloadButton = new Anchor();
-		this.downloadButton.setStyleName("downloadButton");
-		this.downloadButton.getElement().setAttribute("download", "geogebra.ggb");
-		
+
 		addTitelPanel();
 		addButtonPanel();
 		
@@ -135,27 +125,66 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		p.add(buttonPanel);
 	}
 	
-	private boolean isLoggedIn() {
-		return this.app.getLoginOperation().isLoggedIn();
-	}
-
 	/**
 	 * 
 	 */
 	protected void onSave() {
-		if (!isLoggedIn()) {
-			this.uploadWaiting = true;
-			((AppW)app).getLAF().getSignInButton(app).login();
+		if (isOffline()) {
+			saveLocal();
 		} else {
-			upload();
+			if (!isLoggedIn()) {
+				this.uploadWaiting = true;
+				((AppW)app).getLAF().getSignInButton(app).login();
+			} else {
+				upload();
+			}
 		}
 	}
+	
+	protected boolean isOffline() {
+		return !((AppW) app).getNetworkOperation().getOnline();
+	}
+
+	private boolean isLoggedIn() {
+		return this.app.getLoginOperation().isLoggedIn();
+	}
+	
+	private void saveLocal() {
+	    ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
+	    if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
+	    	((AppWeb) app).resetUniqueId();
+	    }
+	    app.getKernel().getConstruction().setTitle(this.title.getText());
+	    ((AppW) app).getFileManager().saveFile(new Callback<String, Throwable>() {
+
+	    	@Override
+	        public void onFailure(Throwable reason) {
+	    		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", "");
+	    		if (cb != null) {
+					cb.onFailure(reason);
+					resetCallback();
+				}
+	    	}
+
+	    	@Override
+	        public void onSuccess(String result) {
+	    		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", "");
+	    		app.setSaved();
+	    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
+	    		if (cb != null) {
+					cb.onSuccess("Success");
+					resetCallback();
+				}
+	        }
+	    });
+		hide();
+    }
 
 	/**
 	 * Handles the upload of the file and closes the dialog
 	 */
 	void upload() {
-		//TODO - wait for translation:
+		//TODO - wait for translation
 		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
 
 		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
@@ -166,6 +195,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			@Override
 			public void onLoaded(List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
+					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", "");
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
 					app.setSaved();
@@ -179,6 +209,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			
 			@Override
 			public void onError(Throwable exception) {
+				ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", "");
 				cb.onFailure(exception);
 				resetCallback();
 			}
@@ -196,8 +227,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 	        public void execute () {
 	        	title.setFocus(true);
-//	        	NativeEvent event = Document.get().createFocusEvent();
-//	    		title.onBrowserEvent(Event.as(event));
 	        }
 	   });
 	}
@@ -223,25 +252,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		}
 
 	}
-
-	public void openFilePicker() {
-		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement());
-		((GgbAPIW) this.app.getGgbApi()).getGGB(true, callback);
-    }
-
-	private native JavaScriptObject getDownloadCallback(Element downloadButton) /*-{
-		var _this = this;
-	    return function(ggbZip) {
-	    	var URL = $wnd.URL || $wnd.webkitURL;
-	    	var ggburl = URL.createObjectURL(ggbZip);
-	    	downloadButton.setAttribute("href", ggburl);
-	    	if ($wnd.navigator.msSaveBlob) {
-	    		$wnd.navigator.msSaveBlob(ggbZip, "geogebra.ggb");
-	    	} else {
-	    		downloadButton.click();
-	    	}
-	    }
-    }-*/;
 	
 	public void setLabels() {
 		this.getCaption().setText(app.getMenu("Save"));

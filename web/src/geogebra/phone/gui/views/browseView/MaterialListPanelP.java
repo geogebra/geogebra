@@ -7,11 +7,10 @@ import geogebra.html5.gui.browser.SearchPanel;
 import geogebra.html5.gui.browser.SearchPanel.SearchListener;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.gui.browser.MaterialListPanelT;
 
 import com.google.gwt.user.client.Window;
 
-public class MaterialListPanelP extends MaterialListPanelT {
+public class MaterialListPanelP extends MaterialListPanel {
 	private SearchPanel searchPanel;
 	
 	public MaterialListPanelP(final AppWeb app) {
@@ -32,8 +31,8 @@ public class MaterialListPanelP extends MaterialListPanelT {
 	}
 	
 	@Override
-	public void addMaterial(final Material mat) {
-		final MaterialListElement preview = new MaterialListElementP(mat, this.app);
+	public void addMaterial(final Material mat, final boolean isLocal) {
+		final MaterialListElement preview = new MaterialListElementP(mat, this.app, isLocal);
 		this.materials.add(preview);
 		this.insert(preview, 0);
 	}

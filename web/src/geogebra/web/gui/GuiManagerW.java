@@ -80,7 +80,6 @@ import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.Command;
@@ -822,26 +821,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return algebraInput;
 	}
 
+	@Override
 	public boolean save() {
-		// String fileName = Window.prompt("File name", "Bunny");
-		// do saving here if getBase64 will be good
-		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
-			SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
-			saveDialog.center();
-		} else {
-			((DialogManagerW) app.getDialogManager()).getSaveDialog().openFilePicker();
-		}
+		SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+		saveDialog.center();
 		return true;
 	}
 	
 	public void save(Callback<String, Throwable> cb) {
-		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
-			SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
-			saveDialog.center();
-			saveDialog.setCallback(cb);
-		} else {
-			((DialogManagerW) app.getDialogManager()).getSaveDialog().openFilePicker();
-		}
+		SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+		saveDialog.center();
+		saveDialog.setCallback(cb);
 	}
 
 	public void showPropertiesViewSliderTab() {
@@ -1532,6 +1522,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public BrowseGUI getBrowseGUI() {
 		if (this.browseGUI == null) {
 			this.browseGUI = new BrowseGUI((AppWeb)this.app);
+			this.browseGUI.loadFeatured();
 		}
 		return this.browseGUI;
 	}

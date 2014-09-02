@@ -2,13 +2,13 @@ package geogebra.tablet.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.browser.MaterialListElement;
+import geogebra.html5.gui.browser.MaterialListPanel;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.gui.browser.MaterialListPanelT;
 
 import com.google.gwt.user.client.Window;
 
-public class TabletMaterialListPanel extends MaterialListPanelT {
+public class TabletMaterialListPanel extends MaterialListPanel {
 
 	public TabletMaterialListPanel(final AppWeb app) {
 	    super(app);
@@ -24,8 +24,8 @@ public class TabletMaterialListPanel extends MaterialListPanelT {
 	}
 	
 	@Override
-	public void addMaterial(final Material mat) {
-		final MaterialListElement preview = new TabletMaterialElement(mat, this.app);
+	public void addMaterial(final Material mat, final boolean isLocal) {
+		final MaterialListElement preview = new TabletMaterialElement(mat, this.app, isLocal);
 		this.materials.add(preview);
 		this.insert(preview, 0);
 	}

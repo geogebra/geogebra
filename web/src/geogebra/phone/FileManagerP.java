@@ -1,17 +1,17 @@
 package geogebra.phone;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.touch.FileManager;
+import geogebra.touch.FileManagerT;
 
-public class FileManagerP extends FileManager {
+public class FileManagerP extends FileManagerT {
 	
-	public FileManagerP() {
-		super();
+	public FileManagerP(AppP app) {
+		super(app);
 	}
 	
 	@Override
 	public void addFile(Material mat) {
-		Phone.getGUI().getMaterialListPanel().addMaterial(mat);
+		Phone.getGUI().getMaterialListPanel().addMaterial(mat, true);
 	}
 	
 	@Override

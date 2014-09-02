@@ -120,7 +120,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		});
 		
 		app.registerOpenFileListener(this);
-		loadFeatured();
 	}
 
 	protected void initMaterialListPanel() {
@@ -195,7 +194,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		this.setContentWidget(this.container);
 	}
 
-	public void loadFeatured() {		
+	public void loadFeatured() {	
 		this.header.clearSearchPanel();
 		this.materialListPanel.loadFeatured();
 	}
@@ -204,8 +203,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		this.materialListPanel.onSearchResults(response);
 	}
 	
+	/**
+	 * adds a local material
+	 * @param mat {@link Material}
+	 */
 	public void addMaterial(final Material mat) {
-		this.materialListPanel.addMaterial(mat);
+		this.materialListPanel.addMaterial(mat, true);
 	}
 	
 	public void removeFromLocalList(final Material mat) {

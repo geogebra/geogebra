@@ -3,8 +3,8 @@ package geogebra.touch.main;
 import geogebra.common.main.DialogManager;
 import geogebra.html5.gui.History;
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.main.FileManager;
 import geogebra.html5.util.ArticleElement;
-import geogebra.touch.FileManager;
 import geogebra.touch.gui.DialogManagerT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.main.AppWapplication;
@@ -16,7 +16,6 @@ import geogebra.web.main.AppWapplication;
 public class AppT extends AppWapplication {
 
 	private History history;
-	protected FileManager fm;
 	
 	public AppT(final ArticleElement article, final GeoGebraAppFrame geoGebraAppFrame,
             final boolean undoActive, final int dimension, final GLookAndFeel laf) {
@@ -38,7 +37,8 @@ public class AppT extends AppWapplication {
 	 * different behavior for phone and tablet
 	 * @return FileManagerInterface
 	 */
-	public FileManager getFileManager() {
+	@Override
+    public FileManager getFileManager() {
 		return null;
 	}
 

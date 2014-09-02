@@ -4,8 +4,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.common.util.StringUtil;
-import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.GuiManagerW;
 
 import com.google.gwt.core.client.Callback;
@@ -29,6 +27,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		private final Localization loc;
 		Runnable callback = null;
 		private final App app;
+		private Callback<String, Throwable> saveCallback;
 
 		public SaveUnsavedChanges(final App app) {
 			super();
@@ -38,6 +37,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			this.addStyleName("saveUnsavedDialog");
 			
 			this.dialogPanel = new VerticalPanel();
+			this.saveCallback = createCB();
 			
 			this.addText();
 			this.addButtons();
@@ -47,6 +47,21 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			setLabels();
 			app.getLoginOperation().getView().add(this);
 		}
+
+		private Callback<String, Throwable> createCB() {
+	        return new Callback<String, Throwable>() {
+
+				@Override
+                public void onSuccess(String reason) {
+					runCallback();
+                }
+
+				@Override
+                public void onFailure(Throwable reason) {
+					//error already handled in SaveDialogW
+                }
+			};
+        }
 
 		private void addButtons() {
 			this.initCancelButton();
@@ -89,12 +104,7 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		void onDontSave() {
 			this.app.setSaved();
 			this.hide();
-
-			if (this.callback != null) {
-				this.callback.run();
-			} else {
-				App.debug("no callback");
-			}
+			runCallback();
 		}
 
 		private void initSaveButton() {
@@ -108,31 +118,18 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			}, ClickEvent.getType());
 		}
 
+		/**
+		 * saves the file before running the callback (edit or new)
+		 */
 		protected void onSave() {
-			((GuiManagerW) app.getGuiManager()).save(new Callback<String, Throwable>() {
-
-				@Override
-                public void onSuccess(String reason) {
-					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", "");
-					if (callback != null) {
-						callback.run();
-					} else {
-						App.debug("no callback");
-					}
-                }
-
-				@Override
-                public void onFailure(Throwable reason) {
-					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("SaveFileFailed") + "</html>", "");
-                }
-			});
+			((GuiManagerW) app.getGuiManager()).save(this.saveCallback);
 			hide();
 		}
 
 		public void setCallback(final Runnable callback) {
 			this.callback = callback;
 		}
-
+		
 		public void setLabels() {
 			this.getCaption().setText(this.loc.getMenu("Save"));
 			this.infoText.setText(this.loc
@@ -142,16 +139,29 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
 		}
 
+		/**
+		 * shows the {@link SaveUnsavedChanges saveUnsavedChanges-Dialog} 
+		 * if there are unsaved changes before edit another file or create a new one
+		 */
 		public void showIfNeeded() {
 				if (!app.isSaved()) {
 					show();
 				} else {
-					if (this.callback != null) {
-						this.callback.run();
-					}
+					runCallback();
 				}
 		}
 
+		/**
+		 * run callback - edit or new after (don't) saving
+		 */
+		void runCallback() {
+			if (callback != null) {
+				callback.run();
+			} else {
+				App.debug("no callback");
+			}
+		}
+		
 		@Override
 		public void show() {
 			super.show();

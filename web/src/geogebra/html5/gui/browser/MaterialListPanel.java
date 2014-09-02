@@ -95,11 +95,16 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * clears the panel and adds the local/own files and the
 	 * featured materials from ggt to the panel
 	 */
-	public void loadFeatured() {
+    public void loadFeatured() {
 		clearMaterials();
+		loadLocal();
 		loadggt();
 	}
 
+	private void loadLocal() {
+		((AppW) app).getFileManager().getAllFiles();
+	}
+	
 	protected void loadggt() {
 		final GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
 		api.getFeaturedMaterials(new MaterialCallback() {
@@ -115,12 +120,12 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	}
 
 	/**
-	 * adds the new materials (matList)
+	 * adds the new materials (matList) - GeoGebraTube only
 	 * @param matList List<Material>
 	 */
 	public final void onSearchResults(final List<Material> matList) {
 		for (int i = matList.size()-1;i>=0;i--) {
-			addMaterial(matList.get(i));
+			addMaterial(matList.get(i), false);
 		}
 	}
 
@@ -128,9 +133,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * adds the given material to the list of {@link MaterialListElement materials} and the preview-panel
 	 * 
 	 * @param mat {@link Material}
+	 * @param isLocal boolean
 	 */
-	public void addMaterial(final Material mat) {
-		final MaterialListElement preview = ((AppW)app).getLAF().getMaterialElement(mat, this.app);
+	public void addMaterial(final Material mat, final boolean isLocal) {
+//		final MaterialListElement preview = ((AppW)app).getLAF().getMaterialElement(mat, this.app);
+		final MaterialListElement preview = new MaterialListElement(mat, app, isLocal);
 		this.materials.add(preview);
 		this.insert(preview,0);
 	}
@@ -168,15 +175,18 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	
 	public void displaySearchResults(final String query) {
 		clearMaterials();
-		
 		if (query.equals("")) {
 			loadFeatured();
 			return;
 		}
-
+		searchLocal(query);
 		searchGgt(query);
 	}
 
+	private void searchLocal(final String query) {
+		((AppW) this.app).getFileManager().search(query);
+	}
+	
 	/**
 	 * search GeoGebraTube
 	 * @param query
@@ -207,6 +217,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			if (matElem.getMaterial().equals(mat)) {
 				this.materials.remove(matElem);
 				this.remove(matElem);
+				return;
 			}
 		}
 	}

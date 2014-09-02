@@ -62,7 +62,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
     }
 	
 	public MaterialListElement getMaterialElement(Material m, AppWeb app) {
-	    return new EmbeddedMaterialElement(m, app);
+	    return new EmbeddedMaterialElement(m, app, false);
     }
 	
 	

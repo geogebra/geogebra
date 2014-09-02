@@ -10,8 +10,8 @@ import java.util.List;
 
 public class EmbeddedMaterialElement extends MaterialListElement {
 	
-	public EmbeddedMaterialElement(final Material m, final AppWeb app) {
-		super(m,app);
+	public EmbeddedMaterialElement(final Material m, final AppWeb app, final boolean isLocal) {
+		super(m, app, isLocal);
 	}
 	@Override
     public String getInsertWorksheetTitle(Material m) {

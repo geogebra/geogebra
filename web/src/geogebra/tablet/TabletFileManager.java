@@ -1,22 +1,23 @@
 package geogebra.tablet;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.touch.FileManager;
-import geogebra.web.gui.GuiManagerW;
+import geogebra.tablet.gui.browser.TabletBrowseGUI;
+import geogebra.tablet.main.TabletApp;
+import geogebra.touch.FileManagerT;
 
-public class TabletFileManager extends FileManager {
+public class TabletFileManager extends FileManagerT {
 	
-	public TabletFileManager() {
-		super();
+	public TabletFileManager(TabletApp tabletApp) {
+		super(tabletApp);
 	}
 	
 	@Override()
 	public void addFile(final Material mat) {
-		((GuiManagerW) Tablet.appFrame.app.getGuiManager()).getBrowseGUI().addMaterial(mat);
+		((TabletBrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(mat);
 	}
 	
 	@Override()
 	public void removeFile(final Material mat) {
-		((GuiManagerW) Tablet.appFrame.app.getGuiManager()).getBrowseGUI().removeFromLocalList(mat);
+		((TabletBrowseGUI) app.getGuiManager().getBrowseGUI()).removeFromLocalList(mat);
 	}
 }

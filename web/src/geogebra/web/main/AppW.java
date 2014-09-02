@@ -30,6 +30,7 @@ import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.FileManager;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
@@ -95,9 +96,8 @@ public abstract class AppW extends AppWeb {
 	private SoundManagerW soundManager;
 	protected DialogManager dialogManager = null;
 	private ToolTipManagerW toolTipManager;
+	protected FileManager fm;
 	
-	
-
 	protected final ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
 
@@ -354,6 +354,16 @@ public abstract class AppW extends AppWeb {
 		}
 	}
 
+	/**
+	 * Overwritten for touch
+	 * @return {@link FileManager}
+	 */
+	public FileManager getFileManager() {
+		if (this.fm == null) {
+			this.fm = new FileManagerW(this);
+		}
+		return this.fm;
+	}
 	
 	//public ToolTipManagerW getToolTipManager(){
 	//	if(toolTipManager == null){

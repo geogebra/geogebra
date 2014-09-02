@@ -2,20 +2,20 @@ package geogebra.phone.gui.views.browseView;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.html5.gui.browser.MaterialListElement;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.phone.AppP;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
-import geogebra.touch.gui.browser.MaterialListElementT;
 
 import java.util.List;
 
-public class MaterialListElementP extends MaterialListElementT {
+public class MaterialListElementP extends MaterialListElement {
 
-	public MaterialListElementP(final Material m, final AppWeb app) {
-		super(m, app);
+	public MaterialListElementP(final Material m, final AppWeb app, final boolean isLocal) {
+		super(m, app, isLocal);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class MaterialListElementP extends MaterialListElementT {
 	@Override
 	protected void onEdit() {
 		Phone.getGUI().getMaterialListPanel().disableMaterials();		
-		if (!isLocalFile()) {
+		if (!isLocal) {
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
 
@@ -55,7 +55,7 @@ public class MaterialListElementP extends MaterialListElementT {
 				}
 			});
 		} else {
-			((AppP) this.app).getFileManager().openMaterial(this.material, this.app);
+			((AppP) this.app).getFileManager().openMaterial(this.material);
 		}
 		closeBrowseView();
 	}
