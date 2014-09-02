@@ -203,7 +203,7 @@ public class AppWapplication extends AppW {
 	public void updateViewSizes() {
 		getEuclidianViewpanel().deferredOnResize();
 		if (hasEuclidianView2(1)) {
-			getGuiManager().getEuclidianView2DockPanel(1).deferredOnResize();
+			((GuiManagerW)getGuiManager()).getEuclidianView2DockPanel(1).deferredOnResize();
 		}
 		if (getGuiManager().hasSpreadsheetView()) {
 			DockPanel sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
@@ -313,4 +313,9 @@ public class AppWapplication extends AppW {
 			this.getGuiManager().refreshDraggingViews();
 		}
 	}
+
+	@Override
+    public void openSearch() {
+		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI());
+    }
 }

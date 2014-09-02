@@ -4,6 +4,7 @@ import geogebra.common.main.App.InputPositon;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -90,7 +91,7 @@ public class MainMenu extends FlowPanel implements RequiresResize, MainMenuI {
 				}
 				if(keyCode == KeyCodes.KEY_ESCAPE){
 					app.toggleMenu();
-					app.getGuiManager().getToolbarPanel().selectMenuButton(-1);
+					((GuiManagerW)app.getGuiManager()).getToolbarPanel().selectMenuButton(-1);
 				}
 	            
             }}, KeyDownEvent.getType());

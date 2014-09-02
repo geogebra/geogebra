@@ -1,6 +1,7 @@
 package geogebra.web.gui.inputbar;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -10,6 +11,7 @@ import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -31,6 +33,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -39,7 +42,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  *
  */
 public class AlgebraInputW extends FlowPanel 
-implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize {
+implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize, AlgebraInput {
 	
 	protected AppW app;
 	protected Label inputLabel;
@@ -180,7 +183,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		}
 
 		if (helpPopup != null) {
-			app.getGuiManager().getInputHelpPanel().setLabels();
+			((SetLabels)app.getGuiManager().getInputHelpPanel()).setLabels();
 		}
 
 		inputField.setDictionary(false);
@@ -349,7 +352,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 			helpPopup = new PopupPanel();
 			helpPopup.addStyleName("helpPopup");
 			helpPopup.setAutoHideEnabled(false);
-			helpPopup.add(app.getGuiManager().getInputHelpPanel());
+			helpPopup.add((Widget) app.getGuiManager().getInputHelpPanel());
 			helpPopup.addStyleName("GeoGebraPopup");
 			//helpPopup.setAnimationEnabled(true);
 		}
@@ -358,7 +361,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
-			InputBarHelpPanelW helpPanel = app.getGuiManager()
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app.getGuiManager()
 			        .getInputHelpPanel();
 			helpPanel.updateGUI();
 			setHelpPopup();

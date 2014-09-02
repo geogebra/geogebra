@@ -63,4 +63,6 @@ public interface AlgebraView extends View, SetLabels{
 	public void setLastSelectedGeo(GeoElement geo);
 
 	public boolean isRenderLaTeX();
+
+	public boolean isAttached();
 }

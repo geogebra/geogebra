@@ -1,6 +1,7 @@
 package geogebra.web.gui.inputbar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
@@ -37,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author G. Sturr
  * 
  */
-public class InputBarHelpPanelW extends VerticalPanel {
+public class InputBarHelpPanelW extends VerticalPanel implements SetLabels {
 
 	private AppW app;
 	private Tree indexTree;

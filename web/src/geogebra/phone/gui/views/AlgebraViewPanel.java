@@ -16,7 +16,7 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 
 	public AlgebraViewPanel(AppW app) {
 		this.app = app;
-		this.algebraView = this.app.getGuiManager().getAlgebraView();
+		this.algebraView = (AlgebraViewW) this.app.getGuiManager().getAlgebraView();
 		this.content = new ScrollPanel(this.algebraView);
 		this.content.setStyleName("algebraView");
 		this.add(this.content);

@@ -16,6 +16,7 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -505,4 +506,9 @@ public class AppWapplet extends AppW {
 	public Object getGlassPane(){
 		return frame.getGlassPane();
 	}
+
+	@Override
+    public void openSearch() {
+		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI());
+    }
 }

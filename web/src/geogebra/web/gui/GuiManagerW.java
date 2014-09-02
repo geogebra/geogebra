@@ -30,6 +30,7 @@ import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
+import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
@@ -823,8 +824,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	}
 
-	public void addAlgebraInput(AlgebraInputW ai) {
-		this.algebraInput = ai;
+	public void addAlgebraInput(AlgebraInput ai) {
+		this.algebraInput = (AlgebraInputW) ai;
 	}
 
 	public AlgebraInputW getAlgebraInput() {

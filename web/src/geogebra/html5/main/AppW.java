@@ -28,6 +28,7 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
@@ -40,7 +41,6 @@ import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.menubar.LanguageCommand;
@@ -748,7 +748,7 @@ public abstract class AppW extends AppWeb {
 	@Override
     protected void clearInputBar(){
 		if (isUsingFullGui() && showAlgebraInput() && getGuiManager() != null) {
-			AlgebraInputW ai = (getGuiManager().getAlgebraInput());
+			AlgebraInput ai = (getGuiManager().getAlgebraInput());
 			ai.setText("");
 		}
 	}
@@ -1789,9 +1789,7 @@ public abstract class AppW extends AppWeb {
 		return 14;
 	}
 	
-	public void openSearch(){
-		showBrowser(((GuiManagerInterfaceW) getGuiManager()).getBrowseGUI());
-	}
+	public abstract void openSearch();
 
 	public native void doShowStartScreen() /*-{
 	    var ss = $doc.getElementById("ggbPage");

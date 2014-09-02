@@ -302,8 +302,6 @@ public interface GuiManagerInterface {
 
 	public Object createFrame();
 
-	public Object getInputHelpPanel();
-
 	public int getInputHelpPanelMinimumWidth();
 	/**
 	 * 

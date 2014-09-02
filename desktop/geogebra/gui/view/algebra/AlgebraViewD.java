@@ -1167,9 +1167,14 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		// TODO Auto-generated method stub
 
 	}
-	
-	public void suggestRepaint(){
+
+	public void suggestRepaint() {
 		// only used in web for now
+	}
+
+	@Override
+	public boolean isAttached() {
+		return attached;
 	}
 
 } // AlgebraView

@@ -10,6 +10,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.gui.BrowseGuiI;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
@@ -38,7 +39,7 @@ import com.google.gwt.user.client.ui.Image;
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler, EventRenderable, OpenFileListener {
+public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler, EventRenderable, OpenFileListener, BrowseGuiI {
   
 	protected final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;

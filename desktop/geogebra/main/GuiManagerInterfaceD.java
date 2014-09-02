@@ -40,4 +40,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	public void openFromGGT();
 
 	void login();
+
+	Component getInputHelpPanel();
 }

@@ -151,4 +151,9 @@ public class AppWsimple extends AppW {
     public String getArticleId() {
 		return articleElement.getId();
 	}
+
+	@Override
+    public void openSearch() {
+	    //no browser
+    }
 }
