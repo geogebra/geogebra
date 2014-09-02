@@ -3,6 +3,7 @@ package geogebra.html5.move.ggtapi.models;
 import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -120,27 +121,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 			e.printStackTrace();
 		}
 	}
-	
-	protected void performUploadRequest(String requestString, final MaterialCallback cb) {
-		try {
-			this.requestBuilder.sendRequest(requestString, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					cb.onLoaded(JSONparserGGT.parseResponse(response.getText()));
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					cb.onError(exception);
-				}
-			});
-		}
-		catch (RequestException e) {
-			// TODO Handle the error!
-			e.printStackTrace();
-		}
-	}
 
 	@Override
     protected geogebra.common.util.HttpRequest createHttpRequest() {
@@ -253,8 +233,12 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 
 			@Override
             public void handle(String s) {
-				performUploadRequest(UploadRequest.getRequestElement(app, filename, s).toJSONString(), cb);
+				performRequest(UploadRequest.getRequestElement(app, filename, s).toJSONString(), cb);
             }});
+	}
+	
+	public void deleteMaterial(AppW app, Material material, final MaterialCallback cb) {
+		performRequest(DeleteRequest.getRequestElement(app, material).toJSONString(), cb);
 	}
 
 	public void getUsersMaterials(int userId, MaterialCallback rc) {

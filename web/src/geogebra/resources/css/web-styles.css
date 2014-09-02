@@ -3862,7 +3862,7 @@ PROVIDERS
 }
 
 .materialListElement.default:hover .fileImage {
-	border-color: #6666FF;
+	border-color: #6161FF;
 }
 
 .materialListElement .infoPanel .fileTitle {
@@ -3937,12 +3937,11 @@ PROVIDERS
 }
 
 .materialListElement .cancelButton {
-	display: inline-block;
+	float: right;
 }
 
 .materialListElement .deleteButton {
-	display: inline-block;
-	float: right;
+	float: left;
 }
 
 /** Material is unselected **/
@@ -3956,7 +3955,7 @@ PROVIDERS
 }
 
 .materialListElement.unselected:hover .fileImage {
-	border-color: #666666;
+	border-color: #CCCCCC;
 	cursor: default;
 }
 

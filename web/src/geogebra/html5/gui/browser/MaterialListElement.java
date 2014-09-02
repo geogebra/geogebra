@@ -2,10 +2,12 @@ package geogebra.html5.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.Browser;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
@@ -40,6 +42,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private SimplePanel previewPicturePanel;
 	protected FlowPanel infoPanel;
 	protected boolean isLocal;
+	protected boolean isOwnMaterial;
 
 	protected Label title;
 	protected Label sharedBy;
@@ -71,6 +74,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;
 		this.isLocal = isLocal;
+		this.isOwnMaterial = m.getAuthor().equals(app.getLoginOperation().getUserName());
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		this.editMaterial = new Runnable() {
@@ -81,7 +85,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			}
 		};
 		initMaterialInfos();
-
+		
 		materialElementContent = new FlowPanel();
 		this.materialElementContent.addStyleName("materialElementContent");
 		this.add(materialElementContent);
@@ -128,12 +132,16 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void addOptions() {
-		if (isLocal) {
+		if (isOwnMaterial && !isLocal) {
+			addEditButton();
+			addViewButton();
+			addDeleteButton();
+		} else if (isLocal) {
 			addEditButton();
 			addDeleteButton();
 		} else {
-			addViewButton();
 			addEditButton();
+			addViewButton();
 		}
 	}
 	
@@ -211,6 +219,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	
 	void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
+		if (!isLocal) {
+			this.viewButton.setVisible(false);
+		}
 		this.editButton.setVisible(false);
 		this.confirmDeletePanel.setVisible(true);
 		this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete_active());
@@ -248,9 +259,31 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	void onConfirmDelete() {
-		this.app.getFileManager().delete(this.material);
+		if (this.isLocal) {
+			this.app.getFileManager().delete(this.material);
+		} else {
+			remove();
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).deleteMaterial(this.app, this.material, new MaterialCallback() {
+
+				@Override
+				public void onLoaded(List<Material> parseResponse) {
+					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("deleted") + "</html>", "");
+				}
+				
+				@Override
+				public void onError(Throwable exception) {
+					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("oops") + "</html>", "");
+				}
+			});
+		}
+		
 	}
 
+	protected void remove() {
+		((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
+        ((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeFromLocalList(MaterialListElement.this.material);
+    }
+	
 	void onCancel() {
 		showDetails(true);
 	}
@@ -378,7 +411,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 */
 	public void setLabels() {
 		this.editButton.setText(app.getLocalization().getMenu("Edit"));
-		if (isLocal) {
+		if (isOwnMaterial && !isLocal) {
+			this.deleteButton.setText(app.getLocalization().getCommand("Delete"));
+			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
+			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+		} else if (isLocal) {
 			this.deleteButton.setText(app.getLocalization().getCommand("Delete"));
 			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
@@ -396,7 +434,14 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void showDetails(final boolean show) {
-		if (isLocal) {
+		if (isOwnMaterial && !isLocal) {
+			this.sharedBy.setVisible(true);
+			this.viewButton.setVisible(show);
+			this.deleteButton.setVisible(show);
+			this.deleteButton.removeStyleName("deleteActive");
+			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
+			this.confirmDeletePanel.setVisible(false);
+		} else if (isLocal) {
 			this.deleteButton.setVisible(show);
 			this.deleteButton.removeStyleName("deleteActive");
 			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());

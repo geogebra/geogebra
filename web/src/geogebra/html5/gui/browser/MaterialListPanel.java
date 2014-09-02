@@ -84,7 +84,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * sets all {@link MaterialListElement materials} to the
 	 * default style (not selected, not disabled)
 	 */
-	void setDefaultStyle() {
+	public void setDefaultStyle() {
 		this.lastSelected = null;
 		for (final MaterialListElement mat : this.materials) {
 			mat.setDefaultStyle();

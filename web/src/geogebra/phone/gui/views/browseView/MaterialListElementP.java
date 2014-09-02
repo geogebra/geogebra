@@ -2,7 +2,9 @@ package geogebra.phone.gui.views.browseView;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.browser.MaterialListElement;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
@@ -59,5 +61,13 @@ public class MaterialListElementP extends MaterialListElement {
 		}
 		closeBrowseView();
 	}
+	
+	@Override
+	protected void remove() {
+		Phone.getGUI().getMaterialListPanel().removeMaterial(this.material);
+		Phone.getGUI().getMaterialListPanel().setDefaultStyle();
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("deleted") + "</html>", "");
+	}
+	
 
 }

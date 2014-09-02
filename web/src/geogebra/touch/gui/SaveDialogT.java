@@ -20,5 +20,4 @@ public class SaveDialogT extends SaveDialogW {
 		//TODO compare with ((AppW) app).getNetworkOperation().getOnline()
 	    return PhoneGapManager.getPhoneGap().getConnection().getType().equals(Connection.NONE);
     }
-
 }
