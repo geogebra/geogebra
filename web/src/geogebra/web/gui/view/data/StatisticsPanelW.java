@@ -113,7 +113,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		case StatisticsModel.INFER_ANOVA:
 
-//			GridBagConstraints tab = new GridBagConstraints();
+//			GridBagCons
+//			 tab = new GridBagConstraints();
 //			tab.gridx = 0;
 //			tab.gridy = GridBagConstraints.RELATIVE;
 //			tab.weightx = 1;

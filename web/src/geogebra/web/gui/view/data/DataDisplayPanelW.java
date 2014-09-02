@@ -61,6 +61,12 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	private static final int IMAGE_IDX = 1;
 	private static final int _IDX = 2;
 
+
+	private static final int PLOTPANEL_WIDTH = 960;
+
+
+	private static final int PLOTPANEL_HEIGHT = 600;
+
 	// ggb fields
 	private AppW app;
 	private final LocalizationW loc;
@@ -201,6 +207,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		createExportToEvAction();
 		plotPanel = new PlotPanelEuclidianViewW(app.getKernel(), exportToEVAction);
+//		plotPanel.setPreferredSize(PLOTPANEL_WIDTH, PLOTPANEL_HEIGHT);
+//		plotPanel.updateSize();
 		plotPanelNorth = new FlowPanel();
 		plotPanelSouth = new FlowPanel();
 		GColor bgColor = plotPanel.getBackgroundCommon();
@@ -454,6 +462,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	public void setOptionsButtonVisible() {
 		btnOptions.setVisible(true);
+		plotPanel.updateSize();
 	}
 
 	public void showInvalidDataDisplay() {
@@ -614,6 +623,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	public void removeFrequencyTable() {
 		plotPanelSouth.remove(spFrequencyTable);
+		plotPanel.updateSize();
     }
 	
 	public void updatePlotPanelSettings() {
@@ -720,6 +730,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void sync() {
+		plotPanel.updateSize();
 		plotPanel.synCanvasSize();
 		plotPanel.repaint();
 	}

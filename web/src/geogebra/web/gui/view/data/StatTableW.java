@@ -181,6 +181,10 @@ public class StatTableW extends FlowPanel {
 	}
 	
 	public void setLabels(String[] rowNames, String[] columnNames) {
+		setLabels(rowNames, columnNames, true);
+	}
+	
+	public void setLabels(String[] rowNames, String[] columnNames, boolean hasHeader) {
 
 		// set column names
 		if (columnNames != null && rowNames != null) {
@@ -191,9 +195,10 @@ public class StatTableW extends FlowPanel {
 				myTable.setWidget(0, i + 1, new Label(columnNames[i]));
 		}
 
+		int startRow = hasHeader ? 1: 0;
 		if (rowNames != null) {
 			for (int i = 0; i < rowNames.length; i++) {
-				myTable.setWidget(i + 1, 0, new Label(rowNames[i]));
+				myTable.setWidget(startRow + i , 0, new Label(rowNames[i]));
 			}
 		}
 	}

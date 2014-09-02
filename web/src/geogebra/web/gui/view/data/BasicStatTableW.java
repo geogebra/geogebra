@@ -1,6 +1,7 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.gui.view.data.StatTableModel;
 import geogebra.common.gui.view.data.StatTableModel.Stat;
@@ -8,7 +9,10 @@ import geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.html5.main.AppW;
+
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -40,15 +44,16 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		this.app = app;
 		model = new StatTableModel(app, this);
 		this.daView = statDialog;
+		
 		initStatTable();
-	
+		setStyleName("daStatistics");
 	}
 
 	protected void initStatTable() {
 
 		statTable = new StatTableW(app);
 		statTable.setStatTable(model.getRowCount(), model.getRowNames(),
-				model.getColumnCount(), model.getColumnNames());
+				getColumnCount(), model.getColumnNames());
 		clear();
 		add(statTable);
 	}
@@ -66,7 +71,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	public int getColumnCount() {
-		return model.getColumnCount();
+		return 2;
 	}
 
 	// =======================================================
@@ -77,7 +82,36 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	 * 
 	 */
 	public void updatePanel() {
-		model.updatePanel();
+		// App.printStacktrace("update stat panel");
+		GeoList dataList = getDataSelected();
+
+		GeoElement geoRegression = getRegressionModel();
+		// when the regression mode is NONE geoRegression is a dummy linear
+		// model, so reset it to null
+		if (getRegressionMode().equals(Regression.NONE)) {
+			geoRegression = null;
+		}
+
+		double value;
+
+		ArrayList<Stat> list = model.getStatList();
+
+		for (int row = 0; row < list.size(); row++) {
+			for (int column = 1; column < getColumnCount(); column++) {
+				Stat stat = list.get(row);
+				if (isValidData() && stat != Stat.NULL) {
+					AlgoElement algo = getAlgo(stat, dataList, geoRegression);
+					if (algo != null) {
+						model.getConstruction().removeFromConstructionList(algo);
+						value = ((GeoNumeric) algo.getGeoElements()[0])
+								.getDouble();
+						setValueAt(value, row,	1);
+					}
+				}
+			}
+		}
+
+
 	}
 
 	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
@@ -102,7 +136,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	public void setLabels() {
-		statTable.setLabels(model.getRowNames(), model.getColumnNames());
+		statTable.setLabels(model.getRowNames(), model.getColumnNames(), false);
 	}
 
 	public GeoList getDataSelected() {
