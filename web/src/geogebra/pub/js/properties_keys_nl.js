@@ -1298,6 +1298,7 @@ __GGB__keysVar.nl.menu = {
     "CreatePolyLine.Help": "Selecteer de cellen en klik op de knop",
     "CreateTable": "Maak een tabel",
     "CreateTable.Help": "Selecteer de cellen de klik op de knop",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Cumulatief",

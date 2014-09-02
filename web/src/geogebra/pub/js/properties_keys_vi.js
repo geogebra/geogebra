@@ -1298,6 +1298,7 @@ __GGB__keysVar.vi.menu = {
     "CreatePolyLine.Help": "Ch\u1ecdn c\xe1c \xf4 ch\u1ee9a c\xe1c \u0111i\u1ec3m r\u1ed3i nh\u1ea5p chu\u1ed9t v\xe0o n\xfat c\xf4ng c\u1ee5",
     "CreateTable": "T\u1ea1o b\u1ea3ng",
     "CreateTable.Help": "Ch\u1ecdn c\xe1c \xf4 r\u1ed3i nh\u1ea5p chu\u1ed9t v\xe0o n\xfat c\xf4ng c\u1ee5",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "T\xedch l\u0169y",

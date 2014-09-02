@@ -1298,6 +1298,7 @@ __GGB__keysVar.sq.menu = {
     "CreatePolyLine.Help": "Selekto qelizat per pikat, pastaj kliko butonin e mjetit",
     "CreateTable": "Krijo Tabele",
     "CreateTable.Help": "Selekto qelizat per pikat, pastaj kliko butonin e mjetit",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Kumulative",

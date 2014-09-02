@@ -1298,6 +1298,7 @@ __GGB__keysVar.xh.menu = {
     "CreatePolyLine.Help": "Khethela amachaphaza iicells uze uklikhe iqhosha letool",
     "CreateTable": "Yenza itable",
     "CreateTable.Help": "Khetha iicells uze wandule ukuklikha iqhosha letool",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "iCumulative",

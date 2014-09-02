@@ -1298,6 +1298,7 @@ __GGB__keysVar.eo.menu = {
     "CreatePolyLine.Help": "Select cells for points then click the tool button",
     "CreateTable": "Krei tabelon",
     "CreateTable.Help": "Elektu \u0109elojn kaj alklaku la ilon",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kubo",
     "Cube.Help": "Elektu ebenon (malnepre) kaj du punktojn",
     "Cumulative": "Kumula",

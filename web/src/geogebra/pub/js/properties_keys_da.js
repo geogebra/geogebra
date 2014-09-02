@@ -1298,6 +1298,7 @@ __GGB__keysVar.da.menu = {
     "CreatePolyLine.Help": "V\xe6lg celler der indeholder punkterne og klik p\xe5 v\xe6rkt\xf8jet",
     "CreateTable": "Lav tabel",
     "CreateTable.Help": "V\xe6lg celler og klik p\xe5 v\xe6rkt\xf8jet",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kube",
     "Cube.Help": "Klik p\xe5 et plan (valgfrit) og s\xe5 p\xe5 2 punkter",
     "Cumulative": "Akkumuleret",

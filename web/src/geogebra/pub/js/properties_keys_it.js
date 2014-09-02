@@ -1298,6 +1298,7 @@ __GGB__keysVar.it.menu = {
     "CreatePolyLine.Help": "Selezionare le celle contenenti i punti, quindi fare clic sul pulsante dello strumento",
     "CreateTable": "Crea tabella",
     "CreateTable.Help": "Selezionare le celle, quindi fare clic sul pulsante dello strumento",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cubo",
     "Cube.Help": "Fare clic su un piano (facoltativo), quindi su due punti",
     "Cumulative": "Cumulata",

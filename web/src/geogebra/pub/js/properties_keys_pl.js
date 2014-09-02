@@ -1298,6 +1298,7 @@ __GGB__keysVar.pl.menu = {
     "CreatePolyLine.Help": "Wybierz kom\xf3rki dla punkt\xf3w, potem kliknij przycisk",
     "CreateTable": "Utw\xf3rz tabel\u0119",
     "CreateTable.Help": "Wybierz kom\xf3rki, potem kliknij przycisk",
+    "CreateYourOwn": "Create your own",
     "Cube": "Sze\u015bcian",
     "Cube.Help": "Kliknij p\u0142aszczyzn\u0119 (opcjonalnie), a nast\u0119pnie 2 punkty",
     "Cumulative": "Skumulowany",

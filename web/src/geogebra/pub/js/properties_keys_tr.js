@@ -1298,6 +1298,7 @@ __GGB__keysVar.tr.menu = {
     "CreatePolyLine.Help": "Noktalar i\xe7in h\xfccreler se\xe7in ve sonra ara\xe7 d\xfc\u011fmesine t\u0131klay\u0131n",
     "CreateTable": "Tablo Olu\u015ftur",
     "CreateTable.Help": "H\xfccreleri se\xe7in ve sonra ara\xe7 d\xfc\u011fmesine t\u0131klay\u0131n",
+    "CreateYourOwn": "Create your own",
     "Cube": "K\xfcp",
     "Cube.Help": "Bir d\xfczleme (opsiyonel) ve ard\u0131ndan 2 noktaya t\u0131klay\u0131n\u0131z.",
     "Cumulative": "Y\u0131\u011f\u0131lma",

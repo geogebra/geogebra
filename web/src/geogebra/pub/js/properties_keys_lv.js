@@ -1298,6 +1298,7 @@ __GGB__keysVar.lv.menu = {
     "CreatePolyLine.Help": "Izv\u0113leties \u0161\u016bnas punktiem, tad spiediet r\u012bku pogu",
     "CreateTable": "Izveidot tabulu",
     "CreateTable.Help": "Izv\u0113leties \u0161\u016bnas, tad spiediet r\u012bku pogu",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kubs",
     "Cube.Help": "Uzspiediet uz plaknes (ieteicams) un tad 2 punktiem",
     "Cumulative": "Kop\u012bgs",

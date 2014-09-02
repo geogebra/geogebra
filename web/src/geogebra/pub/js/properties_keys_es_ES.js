@@ -1298,6 +1298,7 @@ __GGB__keysVar.es_ES.menu = {
     "CreatePolyLine.Help": "Elige las celdas con los puntos; luego, esta herramienta",
     "CreateTable": "Crear Tabla",
     "CreateTable.Help": "Elige las celdas; luego, esta herramienta",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cubo",
     "Cube.Help": "Haz clic sobre un plano (opcional); luego, dos puntos",
     "Cumulative": "Acumulada",

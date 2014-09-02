@@ -1298,6 +1298,7 @@ __GGB__keysVar.bs.menu = {
     "CreatePolyLine.Help": "Ozna\u010dite \u0107elije za ta\u010dke i kliknite na alat",
     "CreateTable": "Kreiraj tabelu",
     "CreateTable.Help": "Ozna\u010dite \u0107elije i kliknite na alat",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kocka",
     "Cube.Help": "Kliknite na ravan (neobavezno), zatim na dvije ta\u010dke",
     "Cumulative": "Kumulativno",

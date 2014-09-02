@@ -1298,6 +1298,7 @@ __GGB__keysVar.ko.menu = {
     "CreatePolyLine.Help": "\uc810\uc744 \ub9cc\ub4e4\uae30 \uc704\ud574 \uc140\uc744 \uc120\ud0dd \ud6c4, \ub3c4\uad6c \ubc84\ud2bc\uc744 \ud074\ub9ad\ud558\uc138\uc694.",
     "CreateTable": "\ud45c \ub9cc\ub4e4\uae30",
     "CreateTable.Help": "\uc140\uc744 \uc120\ud0dd \ud6c4, \ub3c4\uad6c \ubc84\ud2bc\uc744 \ud074\ub9ad\ud558\uc138\uc694.",
+    "CreateYourOwn": "Create your own",
     "Cube": "\uc8156\uba74\uccb4",
     "Cube.Help": "\ud55c \ud3c9\uba74\uc744 \uc120\ud0dd\ud55c \ud6c4 \ub450 \uc810\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     "Cumulative": "\ub204\uc801",

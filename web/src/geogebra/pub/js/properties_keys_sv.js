@@ -1298,6 +1298,7 @@ __GGB__keysVar.sv.menu = {
     "CreatePolyLine.Help": "V\xe4lj celler som representerar punkterna, klicka sedan p\xe5 verktygsknappen",
     "CreateTable": "Skapa tabell",
     "CreateTable.Help": "V\xe4lj celler och klicka d\xe4refter p\xe5 verktygsknappen",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kub",
     "Cube.Help": "Klicka p\xe5 (ett plan och sedan) tv\xe5 punkter",
     "Cumulative": "Kumulativ",

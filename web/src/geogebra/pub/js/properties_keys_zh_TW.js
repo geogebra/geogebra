@@ -1298,6 +1298,7 @@ __GGB__keysVar.zh_TW.menu = {
     "CreatePolyLine.Help": "\u5148\u9078\u64c7\u6578\u500b\u542b\u6709\u9ede\u5750\u6a19\u7684\u5132\u5b58\u683c\uff0c\u518d\u6309\u5de5\u5177\u6309\u9215\u3002",
     "CreateTable": "\u65b0\u589e\u8868\u683c",
     "CreateTable.Help": "\u5148\u9078\u64c7\u6578\u500b\u5132\u5b58\u683c\uff0c\u518d\u6309\u5de5\u5177\u6309\u9215\u3002",
+    "CreateYourOwn": "Create your own",
     "Cube": "\u6b63\u7acb\u65b9\u9ad4",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "\u7d2f\u7a4d",

@@ -1298,6 +1298,7 @@ __GGB__keysVar.is.menu = {
     "CreatePolyLine.Help": "Velji\xf0 reiti fyrir punkta og smelli\xf0 \xfev\xed n\xe6st \xe1 verkf\xe6ri\xf0",
     "CreateTable": "B\xfaa til t\xf6flu",
     "CreateTable.Help": "Velji\xf0 reiti og smelli\xf0 \xfev\xed n\xe6st \xe1 verkf\xe6ri\xf0",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Dreififall",

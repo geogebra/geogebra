@@ -1298,6 +1298,7 @@ __GGB__keysVar.hu.menu = {
     "CreatePolyLine.Help": "Pontokat meghat\xe1roz\xf3 cell\xe1k kijel\xf6l\xe9se, majd kattint\xe1s az eszk\xf6z\xf6n",
     "CreateTable": "T\xe1bl\xe1zat l\xe9trehoz\xe1sa",
     "CreateTable.Help": "Cell\xe1k kijel\xf6l\xe9se, majd kattint\xe1s az eszk\xf6z\xf6n",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kocka",
     "Cube.Help": "Kattint\xe1s egy s\xedkon (opcion\xe1lis) \xe9s azut\xe1n 2 ponton",
     "Cumulative": "Halmozott",

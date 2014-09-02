@@ -1298,6 +1298,7 @@ __GGB__keysVar.ty.menu = {
     "CreatePolyLine.Help": "Select cells for points then click the tool button",
     "CreateTable": "Create Table",
     "CreateTable.Help": "Select cells then click the tool button",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Cumulative",

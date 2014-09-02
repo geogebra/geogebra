@@ -1298,6 +1298,7 @@ __GGB__keysVar.cs.menu = {
     "CreatePolyLine.Help": "Ozna\u010dit bu\u0148ky pro body a vybrat n\xe1stroj",
     "CreateTable": "Vytvo\u0159it tabulku",
     "CreateTable.Help": "Ozna\u010dit bu\u0148ky a vybrat n\xe1stroj",
+    "CreateYourOwn": "Create your own",
     "Cube": "Krychle",
     "Cube.Help": "Vyberte rovinu (voliteln\u011b) a potom 2 body",
     "Cumulative": "Rostouc\xed",

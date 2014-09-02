@@ -1298,6 +1298,7 @@ __GGB__keysVar.ja.menu = {
     "CreatePolyLine.Help": "\u70b9\u306e\u30bb\u30eb\u3092\u9078\u629e\u3057\u3066\u30c4\u30fc\u30eb\u30dc\u30bf\u30f3\u3092\u30af\u30ea\u30c3\u30af",
     "CreateTable": "\u8868\u306e\u4f5c\u6210",
     "CreateTable.Help": "\u30bb\u30eb\u3092\u9078\u629e\u3057\u3066\u30c4\u30fc\u30eb\u30dc\u30bf\u30f3\u3092\u30af\u30ea\u30c3\u30af",
+    "CreateYourOwn": "Create your own",
     "Cube": "\u7acb\u65b9\u4f53",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "\u7d2f\u7a4d",

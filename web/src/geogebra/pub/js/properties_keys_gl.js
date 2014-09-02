@@ -1298,6 +1298,7 @@ __GGB__keysVar.gl.menu = {
     "CreatePolyLine.Help": "Selecci\xf3n de celas; logo, clic no bot\xf3n da ferramenta.",
     "CreateTable": "Crea t\xe1boa",
     "CreateTable.Help": "Selecci\xf3n de celas; logo, clic no bot\xf3n da ferramenta.",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cubo",
     "Cube.Help": "Fai clic sobre un plano (opcional); logo, dous puntos",
     "Cumulative": "Acumulado",

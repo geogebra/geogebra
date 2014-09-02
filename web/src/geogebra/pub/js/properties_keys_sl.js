@@ -1298,6 +1298,7 @@ __GGB__keysVar.sl.menu = {
     "CreatePolyLine.Help": "Izberi celice za to\u010dke in potem klikni na gumb z orodjem",
     "CreateTable": "Izdelaj tabelo",
     "CreateTable.Help": "Izberi celice in nato klikni na gumb z orodjem",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kocka",
     "Cube.Help": "Klikni na ravnino (neobvezno) in potem izberi dve to\u010dki",
     "Cumulative": "Kumulativno",

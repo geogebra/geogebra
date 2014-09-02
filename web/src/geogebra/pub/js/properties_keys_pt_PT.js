@@ -1298,6 +1298,7 @@ __GGB__keysVar.pt_PT.menu = {
     "CreatePolyLine.Help": "Selecione as c\xe9lulas para pontos e em seguida, clique no bot\xe3o da ferramenta",
     "CreateTable": "Criar Tabela",
     "CreateTable.Help": "Selecione c\xe9lulas depois clique no bot\xe3o da ferramenta",
+    "CreateYourOwn": "Crie o seu pr\xf3prio",
     "Cube": "Cubo",
     "Cube.Help": "Clique no plano (opcional) e em seguida em dois pontos",
     "Cumulative": "Cumulativo",

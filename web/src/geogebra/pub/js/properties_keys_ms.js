@@ -1298,6 +1298,7 @@ __GGB__keysVar.ms.menu = {
     "CreatePolyLine.Help": "Pilih sel-sel untuk titik-titik kemudian klik butang alatan",
     "CreateTable": "Cipta Jadual",
     "CreateTable.Help": "Pilih sel-sel kemudian klik butang alatan",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Kumulatif",

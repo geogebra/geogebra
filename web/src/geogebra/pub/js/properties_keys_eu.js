@@ -1298,6 +1298,7 @@ __GGB__keysVar.eu.menu = {
     "CreatePolyLine.Help": "Hautatu gelaxkak. Ondoren, egin klik tresnaren botoian",
     "CreateTable": "Sortu Taula",
     "CreateTable.Help": "Hautatu gelaxkak. Ondoren, egin klik tresnaren botoian",
+    "CreateYourOwn": "Sortu zurea",
     "Cube": "Kuboa",
     "Cube.Help": "Plano batean klikatu (aukerakoa) eta ondoren, bi puntu",
     "Cumulative": "Metatua",

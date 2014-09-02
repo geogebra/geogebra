@@ -1298,6 +1298,7 @@ __GGB__keysVar.lt.menu = {
     "CreatePolyLine.Help": "Pasirinkite laukelius ta\u0161kams, tuomet \u012franki\u0173 mygtuk\u0105",
     "CreateTable": "Sukurti lentel\u0119",
     "CreateTable.Help": "Pasirinkite laukelius, tuomet \u012franki\u0173 mygtuk\u0105",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kubas",
     "Cube.Help": "Paspauskite plok\u0161tum\u0105 (neb\u016btinai) ir tuomet du ta\u0161kus",
     "Cumulative": "Komuliatyvas",

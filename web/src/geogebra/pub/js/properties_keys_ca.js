@@ -1298,6 +1298,7 @@ __GGB__keysVar.ca.menu = {
     "CreatePolyLine.Help": "Seleccioneu les cel\xb7les amb els punts i cliqueu l\u2019eina",
     "CreateTable": "Crea una taula",
     "CreateTable.Help": "Seleccioneu les cel\xb7les i cliqueu l\u2019eina",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cub",
     "Cube.Help": "Cliqueu en un pla i en dos punts del pla (o b\xe9 directament en dos punts del pla xy)",
     "Cumulative": "Acumulatiu",

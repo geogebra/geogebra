@@ -1298,6 +1298,7 @@ __GGB__keysVar.ar.menu = {
     "CreatePolyLine.Help": "\u062d\u062f\u062f \u0627\u0644\u062e\u0627\u0646\u0627\u062a \u062b\u0645 \u0623\u0646\u0642\u0631 \u0639\u0644\u0649 \u0627\u0644\u0622\u062f\u0627\u062a",
     "CreateTable": "\u0625\u0646\u0634\u0627\u0621 \u062c\u062f\u0648\u0644",
     "CreateTable.Help": "\u062d\u062f\u062f \u0627\u0644\u062e\u0627\u0646\u0627\u062a \u062b\u0645 \u0623\u0646\u0642\u0631 \u0639\u0644\u0649 \u0627\u0644\u0622\u062f\u0627\u062a",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "\u062a\u0631\u0627\u0643\u0645\u064a",

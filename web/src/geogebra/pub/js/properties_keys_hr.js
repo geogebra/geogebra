@@ -1298,6 +1298,7 @@ __GGB__keysVar.hr.menu = {
     "CreatePolyLine.Help": "Odaberite \u0107elije za to\u010dke pa kliknite na gumb alata",
     "CreateTable": "Izradi tablicu",
     "CreateTable.Help": "Odaberite \u0107elije pa kliknite na gumb alata",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kocka",
     "Cube.Help": "Kliknite na ravninu (opcionalno), a zatim na dvije to\u010dke",
     "Cumulative": "Kumulativno",

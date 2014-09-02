@@ -1298,6 +1298,7 @@ __GGB__keysVar.ro.menu = {
     "CreatePolyLine.Help": "Selecta\u021bi celule pentru puncte apoi click pe instrument",
     "CreateTable": "Creaz\u0103 tabel",
     "CreateTable.Help": "Selecta\u021bi celule apoi click pe instrument",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Cumulativ",

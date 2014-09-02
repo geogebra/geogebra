@@ -1298,6 +1298,7 @@ __GGB__keysVar.et.menu = {
     "CreatePolyLine.Help": "Valige lahtrid punktide jaoks, seej\xe4rel kl\xf5psake t\xf6\xf6riistale",
     "CreateTable": "Moodusta tabel",
     "CreateTable.Help": "Valige lahtrid ja seej\xe4rel kl\xf5psake t\xf6\xf6riistale",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Kumulatiivne",

@@ -1298,6 +1298,7 @@ __GGB__keysVar.cy.menu = {
     "CreatePolyLine.Help": "Dewis celloedd ar gyfer pwyntiau ac yna clicio'r botwm offer",
     "CreateTable": "Creu Tabl",
     "CreateTable.Help": "Dewis celloedd a chlicio'r botwm offer",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Cronnus",

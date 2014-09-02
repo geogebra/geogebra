@@ -1298,6 +1298,7 @@ __GGB__keysVar.sk.menu = {
     "CreatePolyLine.Help": "Vyber bunky pre body a potom klikni na tla\u010didlo n\xe1stroja",
     "CreateTable": "Vytvori\u0165 tabu\u013eku",
     "CreateTable.Help": "Vyber bunky a potom klikni na tla\u010didlo n\xe1stroja",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kocka",
     "Cube.Help": "Kliknite na rovinu (opcionalne) a potom na 2 body",
     "Cumulative": "Kumulat\xedvne",

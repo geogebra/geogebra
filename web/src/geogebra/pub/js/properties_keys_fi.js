@@ -1298,6 +1298,7 @@ __GGB__keysVar.fi.menu = {
     "CreatePolyLine.Help": "Valitse solualue pisteit\xe4 varten ja paina Ty\xf6kalu painiketta",
     "CreateTable": "Luo taulukko",
     "CreateTable.Help": "Valitse solualue ja paina Ty\xf6kalu painiketta",
+    "CreateYourOwn": "Create your own",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Kumulatiivinen",

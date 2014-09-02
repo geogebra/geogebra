@@ -1298,6 +1298,7 @@ __GGB__keysVar.no_NN.menu = {
     "CreatePolyLine.Help": "Vel celler for punkt og klikk deretter p\xe5 verkt\xf8yikonet",
     "CreateTable": "Lag tabell",
     "CreateTable.Help": "Vel celler og klikk deretter p\xe5 verkt\xf8yikonet",
+    "CreateYourOwn": "Create your own",
     "Cube": "Kube",
     "Cube.Help": "Klikk p\xe5 planet og deretter p\xe5 to punkt",
     "Cumulative": "Kumulativ",
