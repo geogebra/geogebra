@@ -4,6 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -37,6 +38,7 @@ import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.browser.BrowseGUI;
@@ -1557,5 +1559,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	@Override
     public Widget getRootComponent() {
 	    return getLayout().getRootComponent();
+    }
+
+	@Override
+    public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev) {
+	    return new EuclidianStyleBarW(ev);
     }
 }

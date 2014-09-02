@@ -2,6 +2,7 @@ package geogebra.web.gui.applet;
 
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
+import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
@@ -24,7 +25,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 		this.factory = factory;
 	}
 
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
+	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeelI laf) {
 		AppW app = factory.getApplet(ae, gf, laf);
 		WebStatic.lastApp = app;
 		this.glass = new DockGlassPaneW();

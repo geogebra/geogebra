@@ -6,7 +6,6 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianSimplePanelW;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -33,7 +32,7 @@ public class AppWsimple extends AppW {
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
 	public AppWsimple(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
-		super(ae, 2, new GLookAndFeel());
+		super(ae, 2, null);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());

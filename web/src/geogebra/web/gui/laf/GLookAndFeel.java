@@ -2,6 +2,7 @@ package geogebra.web.gui.laf;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.browser.SignInButton;
@@ -9,6 +10,7 @@ import geogebra.web.gui.menubar.MainMenu;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GLookAndFeel implements GLookAndFeelI{
 
@@ -75,6 +77,11 @@ public class GLookAndFeel implements GLookAndFeelI{
 
 	public SignInButton getSignInButton(App app) {
 	    return new SignInButton(app, 0);
+    }
+
+	@Override
+    public boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller) {
+	    return false;
     }
 
 }

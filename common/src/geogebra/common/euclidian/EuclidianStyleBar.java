@@ -52,4 +52,6 @@ public interface EuclidianStyleBar {
 	int getPointCaptureSelectedIndex();
 
 	public void updateGUI();
+
+	void hidePopups();
 }

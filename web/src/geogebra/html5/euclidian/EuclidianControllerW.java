@@ -19,7 +19,6 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
-import geogebra.web.euclidian.EuclidianStyleBarW;
 
 import java.util.LinkedList;
 
@@ -490,9 +489,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		wrapMousePressed(e);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty()) {
-			if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-				EuclidianStyleBarW.CURRENT_POP_UP.hide();
-			}
+			this.view.getStyleBar().hidePopups();
 		}
 		e.release();
 
@@ -564,7 +561,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public int touchEventX(int clientX) {
-		if(((AppW)app).getLAF().isSmart()){
+		if(((AppW)app).getLAF()!= null && ((AppW)app).getLAF().isSmart()){
 			return mouseEventX(clientX - style.getxOffset());
 		}
 		//IE touch events are mouse events
@@ -572,7 +569,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public int touchEventY(int clientY) {
-		if(((AppW)app).getLAF().isSmart()){
+		if(((AppW)app).getLAF()!=null && ((AppW)app).getLAF().isSmart()){
 			return mouseEventY(clientY - style.getyOffset());
 		}
 		//IE touch events are mouse events

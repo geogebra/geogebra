@@ -1547,4 +1547,15 @@ public class EuclidianStyleBarW extends StyleBarW
 	    }
 	    return 1;
     }
+
+
+	
+
+
+	@Override
+    public void hidePopups() {
+		if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
+			EuclidianStyleBarW.CURRENT_POP_UP.hide();
+		}
+    }
 }

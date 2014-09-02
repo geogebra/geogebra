@@ -1,6 +1,8 @@
 package geogebra.html5.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianStyleBar;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -107,4 +109,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void showMenuBar(boolean show);
 
 	public void showAlgebraInput(boolean show);
+
+	public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev);
 }

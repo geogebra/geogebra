@@ -1645,4 +1645,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	public int getPointCaptureSelectedIndex() {
 		return btnPointCapture.getSelectedIndex();
 	}
+
+	@Override
+	public void hidePopups() {
+		// not needed in Desktop
+	}
 }

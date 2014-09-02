@@ -20,8 +20,6 @@ import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
-import geogebra.web.euclidian.EuclidianStyleBarW;
-import geogebra.web.euclidian.SmartTouchHandler;
 
 import java.util.List;
 
@@ -195,12 +193,9 @@ public class EuclidianViewW extends EuclidianViewWeb implements EuclidianViewWIn
 			return;
 		}
 		
-		if(app.getLAF().isSmart()){
-			SmartTouchHandler sh = new SmartTouchHandler(euclidiancontroller);
-			evPanel.addDomHandler(sh, TouchStartEvent.getType());
-			evPanel.addDomHandler(sh, TouchEndEvent.getType());
-			evPanel.addDomHandler(sh, TouchMoveEvent.getType());
-			evPanel.addDomHandler(sh, TouchCancelEvent.getType());
+		if(((AppW)app).getLAF() != null){
+			if(((AppW)app).getLAF().registerHandlers(evPanel, euclidiancontroller))
+			
 			return;
 		}
 		
@@ -352,7 +347,10 @@ public class EuclidianViewW extends EuclidianViewWeb implements EuclidianViewWIn
 	
 	@Override
 	protected EuclidianStyleBar newEuclidianStyleBar(){
-		return new EuclidianStyleBarW(this);
+		if(app.getGuiManager() == null){
+			return null;
+		}
+		return app.getGuiManager().newEuclidianStylebar(this);
 	}
 	
 	@Override

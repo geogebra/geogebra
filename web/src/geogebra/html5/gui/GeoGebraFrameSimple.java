@@ -1,11 +1,11 @@
 package geogebra.html5.gui;
 
 import geogebra.html5.WebStatic;
+import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
-import geogebra.web.gui.laf.GLookAndFeel;
 
 import java.util.ArrayList;
 
@@ -15,10 +15,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class GeoGebraFrameSimple extends GeoGebraFrame {
 
 	public GeoGebraFrameSimple() {
-		super(new GLookAndFeel());
+		super(null);
 	}
 
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
+	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeelI laf) {
 		AppW app = new AppWsimple(ae, gf);
 		WebStatic.lastApp = app;
 		return app;
