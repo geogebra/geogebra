@@ -347,6 +347,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    }
 	    frameLayout.add(bg);
 	    bg.setVisible(true);
+
 	    bg.setFrame(this);
 	    frameLayout.forceLayout();
 	    

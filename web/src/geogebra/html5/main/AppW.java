@@ -34,25 +34,21 @@ import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
+import geogebra.html5.kernel.KernelW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
-import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.menubar.LanguageCommand;
-import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
-import geogebra.web.javax.swing.GPopupMenuW;
-import geogebra.web.kernel.KernelW;
 import geogebra.web.main.FileManagerW;
 import geogebra.web.main.GeoGebraTubeExportWeb;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
@@ -81,6 +77,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+
 
 public abstract class AppW extends AppWeb {
 
@@ -1359,11 +1356,6 @@ public abstract class AppW extends AppWeb {
 		App.debug("unimplemented");
 	}
 
-	public void addMenuItem(GPopupMenuW wrappedPopup, String filename,
-	        String name, boolean asHtml, MenuInterface subMenu) {
-		addMenuItem(wrappedPopup.getPopupMenu(), filename, name, asHtml,
-		        subMenu);
-	}
 
 	@Override
 	public void addMenuItem(MenuInterface parentMenu, String filename,
@@ -1380,7 +1372,7 @@ public abstract class AppW extends AppWeb {
 
 		if (subMenu instanceof MenuBar) ((MenuBar)subMenu).addStyleName("GeoGebraMenuBar");
 		
-		parentMenu.addItem(MainMenu.getMenuBarHtml(iconString, name, true),
+		parentMenu.addItem(getGuiManager().getMenuBarHtml(iconString, name, true),
 		        true, (MenuBar) subMenu);
 	}
 
@@ -1636,9 +1628,7 @@ public abstract class AppW extends AppWeb {
 	 * @return null if no 3D
 	 */
 
-	public void showBrowser(MyHeaderPanel bg) {
-	    //overwritten in AppWApplication
-    }
+	
 
 	public void updateViewSizes() {
 	    // TODO Auto-generated method stub
@@ -1710,9 +1700,9 @@ public abstract class AppW extends AppWeb {
 		// toolbar, menubar, and input bar;
 		// heuristics come from GeoGebraAppFrame
 		if (showAlgebraInput())
-			windowHeight -= GLookAndFeel.COMMAND_LINE_HEIGHT;
+			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
 		if (showToolBar())
-			windowHeight -= GLookAndFeel.TOOLBAR_HEIGHT;
+			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
 		// menubar height is always 0
 		if (windowHeight <= 0)
 			windowHeight = fallback;
@@ -1813,5 +1803,7 @@ public abstract class AppW extends AppWeb {
 			
 			startScreen.getStyle().setDisplay(Display.BLOCK);
 		}
-	};
+	}
+
+	public abstract void showLanguageUI();
 }

@@ -10,6 +10,7 @@ import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.LanguageGUI;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -294,7 +295,6 @@ public class AppWapplication extends AppW {
 		return  appFrame.getElement();
 	}
     
-	@Override
     public void showBrowser(MyHeaderPanel bg) {
 	    appFrame.showBrowser(bg);
     }
@@ -317,5 +317,11 @@ public class AppWapplication extends AppW {
 	@Override
     public void openSearch() {
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI());
+    }
+
+	@Override
+    public void showLanguageUI() {
+		LanguageGUI bg = new LanguageGUI(this);
+		showBrowser(bg);
     }
 }

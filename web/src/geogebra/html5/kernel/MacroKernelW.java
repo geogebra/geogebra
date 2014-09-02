@@ -1,4 +1,4 @@
-package geogebra.web.kernel;
+package geogebra.html5.kernel;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MacroKernel;

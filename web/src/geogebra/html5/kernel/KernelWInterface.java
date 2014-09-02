@@ -1,4 +1,4 @@
-package geogebra.web.kernel;
+package geogebra.html5.kernel;
 
 /**
  * @author gabor

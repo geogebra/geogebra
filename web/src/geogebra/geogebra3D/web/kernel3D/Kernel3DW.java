@@ -2,7 +2,7 @@ package geogebra.geogebra3D.web.kernel3D;
 
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.main.App;
-import geogebra.web.kernel.KernelW;
+import geogebra.html5.kernel.KernelW;
 
 /**
  * for 3D

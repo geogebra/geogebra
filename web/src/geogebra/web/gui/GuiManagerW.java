@@ -160,6 +160,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 		
 	}
+
 	
 	public ObjectPool getObjectPool() {
 		return this.objectPool;
@@ -1566,4 +1567,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
     public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev) {
 	    return new EuclidianStyleBarW(ev);
     }
+
+	@Override
+    public String getMenuBarHtml(String iconString, String name, boolean b) {
+		return MainMenu.getMenuBarHtml(iconString, name, true);
+    }
+	
 }

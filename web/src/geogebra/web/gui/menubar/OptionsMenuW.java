@@ -7,7 +7,6 @@ import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.Dom;
-import geogebra.web.gui.LanguageGUI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.GeoGebraPreferencesW;
 
@@ -120,8 +119,8 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 						@Override
 	                    public void execute() {
-							LanguageGUI bg = new LanguageGUI(app);
-							app.showBrowser(bg);
+							
+							app.showLanguageUI();
 		                    
 	                    }});
 			return;

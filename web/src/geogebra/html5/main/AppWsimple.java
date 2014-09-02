@@ -156,4 +156,10 @@ public class AppWsimple extends AppW {
     public void openSearch() {
 	    //no browser
     }
+
+	@Override
+    public void showLanguageUI() {
+	    //no language UI
+	    
+    }
 }

@@ -9,7 +9,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface GLookAndFeelI {
-
+	public static final int COMMAND_LINE_HEIGHT = 43;
+	public static final int TOOLBAR_HEIGHT = 53;
 	boolean isSmart();
 
 	String getType();
