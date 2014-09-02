@@ -160,11 +160,25 @@ public class ToolTipManagerW {
 		bottomInfoTipPanel.setVisible(false);
 		RootPanel.get().add(bottomInfoTipPanel);
 	}
-	
+
+	private boolean blockToolTip = true;
+
+	public boolean isToolTipBlocked() {
+	    return blockToolTip;
+    }
+
+	public void setBlockToolTip(boolean blockToolTip) {
+	    this.blockToolTip = blockToolTip;
+    }
+
 	// =====================================
 	// BottomInfoToolTip 
 	// =====================================
 	public void showBottomInfoToolTip(String text, String helpURL) {
+		if(blockToolTip){
+			return;
+		}
+
 		bottomInfoTipHTML.setHTML(text);
 		bottomInfoTipPanel.setVisible(true);
 		

@@ -274,7 +274,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		} else { // click ended on menu item
 			hideMenu();
 		}
+
+		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
+		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+
 		tbutton.getElement().focus();
 	}
 
