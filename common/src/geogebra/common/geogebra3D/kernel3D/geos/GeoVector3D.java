@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.CoordStyle;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -679,7 +680,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		
 	}
 	
-	public void mirror(GeoPlane3D plane) {
+	public void mirror(GeoCoordSys2D plane) {
 
 		Coords vn = plane.getDirectionInD3().normalized();
 		setCoords(v.add(vn.mul(-2*v.dotproduct(vn))));

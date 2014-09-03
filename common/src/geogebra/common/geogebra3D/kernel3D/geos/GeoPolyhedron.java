@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1599,7 +1600,7 @@ GeoPolyhedronInterface
 		}	
 	}
 
-	public void mirror(GeoPlane3D plane) {
+	public void mirror(GeoCoordSys2D plane) {
 		for (GeoSegment3D seg: segments.values()){
 			if (seg.isDefined()){
 				seg.mirror(plane);

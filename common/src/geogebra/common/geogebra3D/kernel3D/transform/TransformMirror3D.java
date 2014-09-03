@@ -1,11 +1,11 @@
 package geogebra.common.geogebra3D.kernel3D.transform;
 
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoMirror3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -46,8 +46,8 @@ public class TransformMirror3D extends TransformMirror{
 	 * @param plane mirror plane
 	 * 
 	 */
-	public TransformMirror3D(Construction cons, GeoPlane3D plane) {
-		super(cons, plane);
+	public TransformMirror3D(Construction cons, GeoCoordSys2D plane) {
+		super(cons, (GeoElement) plane);
 
 	}
 	
@@ -58,8 +58,8 @@ public class TransformMirror3D extends TransformMirror{
 			algo = new AlgoMirror3D(cons, geo, (GeoPointND) mirror);
 		else if(mirror.isGeoLine())
 			algo = new AlgoMirror3D(cons, geo, (GeoLineND) mirror);
-		else if(mirror.isGeoPlane())
-			algo = new AlgoMirror3D(cons, geo, (GeoPlane3D) mirror);
+		else if(mirror instanceof GeoCoordSys2D)
+			algo = new AlgoMirror3D(cons, geo, (GeoCoordSys2D) mirror);
 		return algo;
 	}
 

@@ -51,6 +51,7 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1501,7 +1502,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	}
 
 
-	public void mirror(GeoPlane3D plane) {
+	public void mirror(GeoCoordSys2D plane) {
 
 		Coords p = getInhomCoordsInD3().projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
 		mirror(p);

@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -864,7 +865,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 	}
 	
-	public void mirror(GeoPlane3D plane) {
+	public void mirror(GeoCoordSys2D plane) {
 		
 		Coords point = getCoordSys().getOrigin();
 		//point projected on the plane

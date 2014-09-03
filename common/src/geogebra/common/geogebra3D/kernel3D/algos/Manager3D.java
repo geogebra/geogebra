@@ -1581,8 +1581,8 @@ public class Manager3D implements Manager3DInterface {
 	}
 	
 	final public GeoElement[] Mirror3D(String label, GeoElement geo,
-			GeoPlaneND plane) {
-		Transform t = new TransformMirror3D(cons, (GeoPlane3D) plane);
+			GeoCoordSys2D plane) {
+		Transform t = new TransformMirror3D(cons, plane);
 		return t.transform(geo, label);
 	}
 

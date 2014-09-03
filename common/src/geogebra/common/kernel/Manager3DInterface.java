@@ -796,7 +796,7 @@ public interface Manager3DInterface {
 			GeoLineND line);
 	
 	 public GeoElement[] Mirror3D(String label, GeoElement geo,
-				GeoPlaneND plane);
+				GeoCoordSys2D plane);
 	
 	public GeoElement[] Dilate3D(String label, GeoElement geoDil,
 			NumberValue r, GeoPointND S);

@@ -1218,14 +1218,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
 		if (!hitPoint) {
-			addselectedCS2D(hits, 1, false);
+			addSelectedCS2D(hits, 1, false);
 		}
 
 		if (selPoints() == 1) {
-			if (selCoordSys2D() == 1) {
+			if (selCS2D() == 1) {
 				// fetch selected point and vector
 				GeoPointND[] points = getSelectedPointsND();
-				GeoCoordSys2D[] cs = getselectedCS2D();// TODO
+				GeoCoordSys2D[] cs = getSelectedCS2D();// TODO
 				// create new plane
 				return new GeoElement[] {
 						(GeoElement) getKernel().getManager3D().Plane3D(null, points[0], cs[0])
@@ -3014,43 +3014,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// SELECTED GEOS
 	// ////////////////////////////////////
 
-	/**
-	 * add selected 2D coord sys
-	 * 
-	 * @param hits
-	 * @param max
-	 * @param addMoreThanOneAllowed
-	 * @return if one has been added
-	 */
-	final protected int addselectedCS2D(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedCS2D, Test.GEOCOORDSYS2D);
-	}
 
 
-	/**
-	 * @return number of selected 2D coord sys
-	 */
-	protected final int selCoordSys2D() {
-		return selectedCS2D.size();
-	}
 
-	/**
-	 * @return selected 2D coord sys
-	 */
-	@SuppressWarnings("unchecked")
-	final protected GeoCoordSys2D[] getselectedCS2D() {
-		GeoCoordSys2D[] cs = new GeoCoordSys2D[selectedCS2D.size()];
-		int i = 0;
-		Iterator<GeoCoordSys2D> it = selectedCS2D.iterator();
-		while (it.hasNext()) {
-			cs[i] = it.next();
-			i++;
-		}
-		clearSelection(selectedCS2D);
-		return cs;
-	}
 
 	// ///////////////////////////////////////////////////
 	//
@@ -3354,17 +3320,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
 
 		if (!hitPoint) {
-			if (selCoordSys2D() == 0)
+			if (selCS2D() == 0)
 				addSelectedLine(hits, 1, false);
 			if (selLines() == 0)
-				addselectedCS2D(hits, 1, false);
+				addSelectedCS2D(hits, 1, false);
 		}
 
 		if (selPoints() == 1) {
-			if (selCoordSys2D() == 1) {
+			if (selCS2D() == 1) {
 				// fetch selected point and plane
 				GeoPointND[] points = getSelectedPointsND();
-				GeoCoordSys2D[] cs = getselectedCS2D();
+				GeoCoordSys2D[] cs = getSelectedCS2D();
 				// create new line
 				return new GeoElement[] { (GeoElement) getKernel()
 						.getManager3D()
@@ -3455,34 +3421,29 @@ public abstract class EuclidianController3D extends EuclidianController {
 			count = addSelectedGeo(mirAbles, 1, false);
 		}
 
-		// polygon
-		if (count == 0) {
-			count = addSelectedPolygon(hits, 1, false);
-		}
 
 		// plane = mirror
 		if (count == 0) {
-			addSelectedPlane(hits, 1, false);
+			addSelectedCS2D(hits, 1, false);
 		}
 
 		// we got the mirror plane
-		if (selPlanes() == 1) {
-			if (selPolygons() == 1) {
-				GeoPolygon[] polys = getSelectedPolygons();
-				GeoPlane3D[] planes = getSelectedPlanes();
-				checkZooming();
-
-				return kernel.getManager3D()
-						.Mirror3D(null, polys[0], planes[0]);
-			} else if (selGeos() > 0) {
+		if (selCS2D() == 1) {
+			if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
-				GeoPlane3D plane = getSelectedPlanes()[0];
+				GeoCoordSys2D plane = getSelectedCS2D()[0];
+				GeoCoordSys2D mirror = plane;
+				
+				if (((GeoElement) plane).isGeoConic()){ // no override for mirror at circle					
+					plane = kernel.getManager3D().Plane3D(mirror);
+				}
+				
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				checkZooming();
 
 				for (int i = 0; i < geos.length; i++) {
-					if (geos[i] != plane) {
+					if (geos[i] != mirror) {
 						if (geos[i] instanceof Transformable) {
 							ret.addAll(Arrays.asList(kernel.getManager3D()
 									.Mirror3D(null, geos[i], plane)));

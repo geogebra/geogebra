@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -631,7 +632,7 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 	
 
 
-	public void mirror(GeoPlane3D plane) {
+	public void mirror(GeoCoordSys2D plane) {
 
 		getCoordSys().mirror(plane.getCoordSys());
 	}

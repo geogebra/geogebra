@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -640,7 +641,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 	
 	
-	public void mirror(GeoPlane3D plane) {
+	public void mirror(GeoCoordSys2D plane) {
 
 		coordsys.mirror(plane.getCoordSys());
 		coordsys.makeEquationVector();

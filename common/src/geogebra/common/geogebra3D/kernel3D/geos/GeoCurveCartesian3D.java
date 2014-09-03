@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -625,7 +626,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 	
 	
-	public void mirror(GeoPlane3D plane) {
+	public void mirror(GeoCoordSys2D plane) {
 
 		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
 		transform(CoordMatrix4x4.PlaneSymetry(m.getVz(), m.getOrigin()));

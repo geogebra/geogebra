@@ -1,7 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
@@ -9,6 +8,7 @@ import geogebra.common.kernel.algos.AlgoMirror;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -19,7 +19,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoMirror3D extends AlgoMirror {
 	
-	private GeoPlane3D mirrorPlane;
+	private GeoCoordSys2D mirrorPlane;
 
 	/**
 	 * mirror at point
@@ -45,12 +45,12 @@ public class AlgoMirror3D extends AlgoMirror {
 	 * mirror at line
 	 * @param cons construction
 	 * @param in input
-	 * @param line mirror line
+	 * @param plane mirror plane
 	 */
-	public AlgoMirror3D(Construction cons, GeoElement in, GeoPlane3D plane) {
+	public AlgoMirror3D(Construction cons, GeoElement in, GeoCoordSys2D plane) {
     	super(cons);     
         mirrorPlane = plane;
-    	endOfConstruction(cons, in, plane);
+    	endOfConstruction(cons, in, (GeoElement) plane);
 	}
 	
 	
