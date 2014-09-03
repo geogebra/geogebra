@@ -2,31 +2,25 @@
 <module rename-to='html5'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <!-- Priority matters! Latter definitions override former (even in former xml-s -->
-  <inherits name='com.google.gwt.user.User'/>
+
   <inherits name="com.google.gwt.resources.Resources" />
    <!-- Other module inherits        -->
     <!-- GeoGebraTube upload -->
   <inherits name="com.google.gwt.http.HTTP"/>  
-  <inherits name='com.google.gwt.xml.XML' /> 
+
   <inherits name='geogebra.Common'/>
   <!-- CAS -->
-  
- <inherits name="com.google.gwt.i18n.I18N"/>
  
  <!-- inherits name="org.vectomatic.libgwtsvg" />  -->
  
  <!-- query param's name is locale, cookie paramname is also locale. 
  The application searches for the user agent locale if queryparam i.e. URL parameter and the cookie parameter are not set -->
- <set-configuration-property name='locale.cookie' value='locale' />
  <!--<set-configuration-property name='locale.useragent' value='Y' />-->
  <!--<set-configuration-property name='locale.searchorder' value='queryparam,cookie,useragent' /> -->
  
  <!-- Currently we want to use only the cookies for the language settings --> 
- <set-configuration-property name='locale.searchorder' value='cookie' />
  
- <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
- <inherits name="com.google.gwt.i18n.CldrLocales"/>
-  
+ 
    
 
 
@@ -57,7 +51,6 @@
        
        For more information, please read
        http://dev.geogebra.org/trac/wiki/GWTCompilation -->
-  <extend-property name="locale" values="ar"/>
 
     <inherits name="com.google.gwt.json.JSON" />
   

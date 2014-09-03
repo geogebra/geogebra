@@ -54,8 +54,6 @@
        
        For more information, please read
        http://dev.geogebra.org/trac/wiki/GWTCompilation -->
-  <extend-property name="locale" values="ar"/>
-  
     <inherits name="com.google.gwt.json.JSON" />
   
   <!-- Images, js-es will be copied from here.
