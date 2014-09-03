@@ -10,7 +10,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -153,7 +153,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	private void saveLocal() {
 	    ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
 	    if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-	    	((AppWeb) app).resetUniqueId();
+	    	((AppW) app).resetUniqueId();
 	    }
 	    app.getKernel().getConstruction().setTitle(this.title.getText());
 	    ((AppW) app).getFileManager().saveFile(new Callback<String, Throwable>() {
@@ -189,7 +189,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
 
 		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-			((AppWeb) app).resetUniqueId();
+			((AppW) app).resetUniqueId();
 		}
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText(), new MaterialCallback() {
 

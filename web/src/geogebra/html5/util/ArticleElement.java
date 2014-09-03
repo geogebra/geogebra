@@ -2,7 +2,7 @@ package geogebra.html5.util;
 
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -52,7 +52,7 @@ public final class ArticleElement extends Element {
 	public String getDataParamId() {
 		String ret = this.getAttribute("data-param-id");
 		if ((ret == "") || !ret.matches("[A-Za-z0-9_]+"))
-			return AppWeb.DEFAULT_APPLET_ID;
+			return AppW.DEFAULT_APPLET_ID;
 		return ret;
 	}
 	

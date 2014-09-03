@@ -4,7 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.html5.WebStatic;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.GgbAPIW;
 
 import java.util.HashMap;
@@ -18,9 +18,9 @@ public class View {
 	private HashMap<String, String> archiveContent;
 	
 	private Element container;
-	private AppWeb app;
+	private AppW app;
 	
-	public View(Element container, AppWeb app) {
+	public View(Element container, AppW app) {
 		this.app = app;
 		this.container = container;
     }
@@ -166,7 +166,7 @@ public class View {
 	    maybeLoadFile();
     }
 
-	public AppWeb getApplication() {
+	public AppW getApplication() {
 	    return app;
     }
 

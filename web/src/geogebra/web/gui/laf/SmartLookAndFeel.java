@@ -4,7 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.euclidian.EuclidianControllerW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.SmartTouchHandler;
 import geogebra.web.gui.browser.EmbeddedMaterialElement;
 import geogebra.web.gui.browser.MaterialListElement;
@@ -68,7 +68,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	    return new SmartSignInButton(app);
     }
 	
-	public MaterialListElement getMaterialElement(Material m, AppWeb app) {
+	public MaterialListElement getMaterialElement(Material m, AppW app) {
 	    return new EmbeddedMaterialElement(m, app, false);
     }
 	

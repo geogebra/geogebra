@@ -4,7 +4,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.App;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.debug.Log;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 
 /**
  * @author micro_000
@@ -13,12 +13,12 @@ import geogebra.html5.main.AppWeb;
 public class SoundManagerW implements SoundManager {
 
 
-	private AppWeb app;
+	private AppW app;
 
 	/**
 	 * @param app App
 	 */
-	public SoundManagerW(AppWeb app){
+	public SoundManagerW(AppW app){
 		this.app = app;
 	}
 

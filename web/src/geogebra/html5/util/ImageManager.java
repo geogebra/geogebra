@@ -7,7 +7,7 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.io.MyXMLioW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -48,7 +48,7 @@ public class ImageManager extends AbstractImageManager {
 
 	private String construction;
 	private MyXMLioW myXMLio;
-	private AppWeb app = null;
+	private AppW app = null;
 
 	public void addExternalImage(String fileName, String src) {
 	   if (fileName != null && src != null) {
@@ -122,7 +122,7 @@ public class ImageManager extends AbstractImageManager {
 	}
 
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
-		this.app = (AppWeb) geoi.getKernel().getApplication();
+		this.app = (AppW) geoi.getKernel().getApplication();
 		ImageElement img = getExternalImage(imageFileName);
 		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
 		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi);
@@ -131,7 +131,7 @@ public class ImageManager extends AbstractImageManager {
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
-	public void triggerImageLoading(String construction, MyXMLioW myXMLio, AppWeb app) {
+	public void triggerImageLoading(String construction, MyXMLioW myXMLio, AppW app) {
 		this.construction = construction;
 		this.myXMLio = myXMLio;	
 		this.app = app;

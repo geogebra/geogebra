@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 
@@ -67,7 +67,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	private GeoElement geo;
 	private Kernel kernel;
-	private AppWeb app;
+	private AppW app;
 	private SelectionManager selection; 
 	private AlgebraView av;
 	private boolean LaTeX = false;
@@ -118,7 +118,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		super();
 		geo = ge;
 		kernel = geo.getKernel();
-		app = (AppWeb)kernel.getApplication();
+		app = (AppW)kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
 		mouseDownHandler = mdh;

@@ -1,7 +1,7 @@
 package geogebra.tablet.gui;
 
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.tablet.gui.browser.TabletBrowseGUI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseGUI;
@@ -18,7 +18,7 @@ public class TabletGuiManager extends GuiManagerW {
 	@Override
 	public BrowseGUI getBrowseGUI() {
 		if (this.browseGUI == null) {
-			this.browseGUI = new TabletBrowseGUI((AppWeb)this.app);
+			this.browseGUI = new TabletBrowseGUI((AppW)this.app);
 		}
 		return this.browseGUI;
 	}

@@ -9,7 +9,7 @@ import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
@@ -67,9 +67,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	/**
 	 * 
 	 * @param m {@link Material}
-	 * @param app {@link AppWeb}
+	 * @param app {@link AppW}
 	 */
-	public MaterialListElement(final Material m, final AppWeb app, boolean isLocal) {
+	public MaterialListElement(final Material m, final AppW app, boolean isLocal) {
 		this.app = (AppW) app;
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;

@@ -18,7 +18,7 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.gawt.BufferedImage;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.main.TimerSystemW;
 
@@ -165,7 +165,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
 		if(app.getGuiManager()!=null){
-			((AppWeb)app).getGuiManager().clearAbsolutePanels();
+			((AppW)app).getGuiManager().clearAbsolutePanels();
 		}
     }
 	
@@ -351,7 +351,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
     	int oldHeight = g2p.getCoordinateSpaceHeight();
 		g2p.setCoordinateSpaceSize(width, height);
 		try {
-			((AppWeb)app).syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
+			((AppW)app).syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
 
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);

@@ -28,12 +28,12 @@ public class TimerSystemW {
 	public static int spreadsheetMillis = 334; // = 3 FPS
 	*/
 
-	AppWeb app;
+	AppW app;
 
 	private Timer repaintTimer;
 
 
-	public TimerSystemW(AppWeb app) {
+	public TimerSystemW(AppW app) {
 		this.app = app;
 		
 		repaintTimer = new Timer() {

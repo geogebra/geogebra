@@ -1,7 +1,7 @@
 package geogebra.phone.gui.views.browseView;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.browser.MaterialListElement;
 import geogebra.web.gui.browser.MaterialListPanel;
 import geogebra.web.gui.browser.SearchPanel;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.Window;
 public class MaterialListPanelP extends MaterialListPanel {
 	private SearchPanel searchPanel;
 	
-	public MaterialListPanelP(final AppWeb app) {
+	public MaterialListPanelP(final AppW app) {
 	    super(app);
 		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.PHONE_HEADER_HEIGHT);
 		addSearchPanel();

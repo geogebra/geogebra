@@ -6,7 +6,7 @@ import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	private NetworkOperation op;
 	protected final Localization loc;
 
-	public SearchPanel(AppWeb app) {
+	public SearchPanel(AppW app) {
 		this.setStyleName("searchDiv");
 		this.listeners = new ArrayList<SearchListener>();
 		this.loc = app.getLocalization();

@@ -11,12 +11,12 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class ScriptManagerW extends ScriptManager {
 
-	private String ggbApplet = AppWeb.DEFAULT_APPLET_ID;
+	private String ggbApplet = AppW.DEFAULT_APPLET_ID;
 	private JavaScriptObject api;
 	/**
 	 * @param app application
 	 */
-	public ScriptManagerW(AppWeb app) {
+	public ScriptManagerW(AppW app) {
 		super(app);
 
 	    // this should contain alphanumeric characters only,
@@ -32,11 +32,11 @@ public class ScriptManagerW extends ScriptManager {
 		try{
 			if (app.useBrowserForJavaScript()) {
 			
-				String param = ((AppWeb)app).getDataParamId();
+				String param = ((AppW)app).getDataParamId();
 				if (param == null || "".equals(param)) {
-					AppWeb.ggbOnInit();
+					AppW.ggbOnInit();
 				} else {
-					AppWeb.ggbOnInit(param, api);
+					AppW.ggbOnInit(param, api);
 				}
 				
 			
@@ -51,9 +51,9 @@ public class ScriptManagerW extends ScriptManager {
 			App.debug(t.getMessage());
 		}
 		//set this to run always
-		String articleid = ((AppWeb) app).getArticleId();
+		String articleid = ((AppW) app).getArticleId();
 		if (articleid != null) {
-			AppWeb.appletOnLoad(articleid);
+			AppW.appletOnLoad(articleid);
 		}
 	}
 	

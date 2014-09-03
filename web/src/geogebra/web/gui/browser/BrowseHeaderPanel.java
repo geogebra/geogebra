@@ -12,7 +12,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.AuxiliaryHeaderPanel;
 import geogebra.web.gui.browser.SearchPanel.SearchListener;
@@ -81,7 +81,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	}
 	
 	private void addSearchPanel() { 
-		this.searchPanel = new SearchPanel((AppWeb)app); 
+		this.searchPanel = new SearchPanel((AppW)app); 
 		this.searchPanel.addSearchListener(new SearchListener() { 
 			@Override 
 			public void onSearch(final String query) { 

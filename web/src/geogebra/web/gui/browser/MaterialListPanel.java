@@ -4,7 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	
-	protected AppWeb app;
+	protected AppW app;
 	/**
 	 * last selected {@link MaterialListElement material}
 	 */
@@ -38,7 +38,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
 	private MaterialCallback rc;
 	
-	public MaterialListPanel(final AppWeb app) {
+	public MaterialListPanel(final AppW app) {
 		this.app = app;
 		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.setStyleName("materialListPanel");

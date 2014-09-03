@@ -28,7 +28,7 @@ import geogebra.html5.event.KeyListenerW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.html5.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
         ValueChangeHandler<String>, SelectionHandler<Suggestion>,
         VirtualKeyboardListener {
 
-	private AppWeb app;
+	private AppW app;
 	private Localization loc;
 	private StringBuilder curWord;
 	private int curWordStart;
@@ -135,7 +135,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * 
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
-		this(columns, (AppWeb) app, true, null, false);
+		this(columns, (AppW) app, true, null, false);
 	}
 
 	public AutoCompleteTextFieldW(int columns, App app, Drawable drawTextField) {
@@ -143,7 +143,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		this.drawTextField = (DrawTextField) drawTextField;
 	}
 
-	public AutoCompleteTextFieldW(int columns, AppWeb app,
+	public AutoCompleteTextFieldW(int columns, AppW app,
 	        boolean handleEscapeKey,
 	        KeyEventsHandler keyHandler, boolean forCAS) {
 		this.forCAS = forCAS;

@@ -13,7 +13,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.util.debug.GeoGebraProfiler;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 
@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 public abstract class AlgebraViewWeb extends Tree implements LayerView,
         SetLabels, AlgebraView, OpenHandler<TreeItem> {
 
-	protected final AppWeb app; // parent appame
+	protected final AppW app; // parent appame
 	protected final Localization loc;
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
@@ -76,7 +76,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	
 	private GeoElement lastSelectedGeo = null;
 
-	public AlgebraViewWeb(AppWeb app) {
+	public AlgebraViewWeb(AppW app) {
 		super(new TreeImages());
 		this.app = app;
 		this.loc = app.getLocalization();

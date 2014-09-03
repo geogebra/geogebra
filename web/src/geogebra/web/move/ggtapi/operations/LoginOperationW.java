@@ -5,7 +5,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BaseEventView;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.html5.util.URLEncoder;
 import geogebra.web.move.ggtapi.models.AuthenticationModelW;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -19,7 +19,7 @@ import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
  */
 public class LoginOperationW extends LogInOperation {
 	
-	private AppWeb app;
+	private AppW app;
 
 
 
@@ -28,7 +28,7 @@ public class LoginOperationW extends LogInOperation {
 	 * Initializes the SignInOperation for Web by creating the corresponding model and view classes
 	 * @param appWeb application
 	 */
-	public LoginOperationW(AppWeb appWeb) {
+	public LoginOperationW(AppW appWeb) {
 		super();
 		this.app = appWeb;
 		setView(new BaseEventView());

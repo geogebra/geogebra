@@ -34,7 +34,7 @@ import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.html5.util.Dom;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
@@ -1070,7 +1070,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		switch (type) {
 		case COMMAND:
-			pageName = ((AppWeb) app).getEnglishCommand(pageName);
+			pageName = ((AppW) app).getEnglishCommand(pageName);
 			// String pageNameOffline = pageName.replace(":",
 			// "%3A").replace(" ",
 			// "_");
@@ -1541,7 +1541,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	 */
 	public BrowseGUI getBrowseGUI() {
 		if (this.browseGUI == null) {
-			this.browseGUI = new BrowseGUI((AppWeb)this.app);
+			this.browseGUI = new BrowseGUI((AppW)this.app);
 			this.browseGUI.loadFeatured();
 		}
 		return this.browseGUI;

@@ -4,7 +4,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.phone.AppP;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class MaterialListElementP extends MaterialListElement {
 
-	public MaterialListElementP(final Material m, final AppWeb app, final boolean isLocal) {
+	public MaterialListElementP(final Material m, final AppW app, final boolean isLocal) {
 		super(m, app, isLocal);
 	}
 

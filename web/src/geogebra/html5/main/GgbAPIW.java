@@ -42,17 +42,17 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     }
 
     public Context2d getContext2D() {
-	    return ((AppWeb)app).getCanvas().getContext2d();
+	    return ((AppW)app).getCanvas().getContext2d();
     }
 
 	
     public void setBase64(String base64) {
-    	View view = new View(RootPanel.getBodyElement(), (AppWeb) app);
+    	View view = new View(RootPanel.getBodyElement(), (AppW) app);
     	view.processBase64String(base64);	    
     }
     
     public void ensureEditing() {
-    	((AppWeb) app).ensureEditing();	    
+    	((AppW) app).ensureEditing();	    
     }
 
 	
@@ -579,18 +579,18 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	}
 	
 	public void openMaterial(String material){
-		((AppWeb)app).openMaterial(material);
+		((AppW)app).openMaterial(material);
 	}
 	
 	public void startEditing(){
-		new View(RootPanel.getBodyElement(),(AppWeb)app).openFromLastApp();
+		new View(RootPanel.getBodyElement(),(AppW)app).openFromLastApp();
 	}
 	
 	/**
 	 * @param width setst the applet widht
 	 */
 	public void setWidth(int width) {
-		((AppWeb) app).getAppletFrame().setWidth(width);
+		((AppW) app).getAppletFrame().setWidth(width);
 	}
 	
 	/**
@@ -598,7 +598,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * sets the applet height
 	 */
 	public void setHeight(int height) {
-		((AppWeb) app).getAppletFrame().setHeight(height);
+		((AppW) app).getAppletFrame().setHeight(height);
 	}
 	
 	/**
@@ -608,7 +608,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * Sets the size of the applet
 	 */ 
 	public void setSize(int width, int height) {
-		((AppWeb) app).getAppletFrame().setSize(width, height);
+		((AppW) app).getAppletFrame().setSize(width, height);
 	}
 	
 	/**
@@ -616,7 +616,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * wheter geogebra-web applet rightclick enabled or not
 	 */
 	public void enableRightClick(boolean enable) {
-		((AppWeb) app).getAppletFrame().enableRightClick(enable);
+		((AppW) app).getAppletFrame().enableRightClick(enable);
     }
 	
 	/**
@@ -625,7 +625,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * wheter labels draggable in geogebra-web applets or not
 	 */
 	public void enableLabelDrags(boolean enable) {
-		((AppWeb) app).getAppletFrame().enableLabelDrags(enable);
+		((AppW) app).getAppletFrame().enableLabelDrags(enable);
     }
 	
 	/**
@@ -634,7 +634,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * wheter shift - drag - zoom enabled in geogebra-web applets or not
 	 */
 	public void enableShiftDragZoom(boolean enable) {
-		((AppWeb) app).getAppletFrame().enableShiftDragZoom(enable);
+		((AppW) app).getAppletFrame().enableShiftDragZoom(enable);
     }
 	
 	/**
@@ -643,7 +643,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * wheter show the toolbar in geogebra-web applets or not
 	 */
 	public void showToolBar(boolean show) {
-		((AppWeb) app).getAppletFrame().showToolBar(show);
+		((AppW) app).getAppletFrame().showToolBar(show);
     }
 	
 	/**
@@ -652,7 +652,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * wheter show the menubar in geogebra-web applets or not
 	 */
 	public void showMenuBar(boolean show) {
-		((AppWeb) app).getAppletFrame().showMenuBar(show);
+		((AppW) app).getAppletFrame().showMenuBar(show);
     }
 	
 	/**
@@ -661,7 +661,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * wheter show the algebrainput in geogebra-web applets or not
 	 */
 	public void showAlgebraInput(boolean show) {
-		((AppWeb) app).getAppletFrame().showAlgebraInput(show);
+		((AppW) app).getAppletFrame().showAlgebraInput(show);
     }
 	
 	/**
@@ -670,18 +670,18 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	 * wheter show the reseticon in geogebra-web applets or not
 	 */
 	public void showResetIcon(boolean show) {
-		((AppWeb) app).getAppletFrame().showResetIcon(show);
+		((AppW) app).getAppletFrame().showResetIcon(show);
     }
 	
 	public void insertImage(String s){
-		((AppWeb) app).urlDropHappened(s, 0, 0);
+		((AppW) app).urlDropHappened(s, 0, 0);
 	}
 	
 	/**
 	 * recalculates euclidianviews environments
 	 */
 	public void recalculateEnvironments() {
-		((AppWeb) app).recalculateEnvironments();
+		((AppW) app).recalculateEnvironments();
 	}
 
 }

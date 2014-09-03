@@ -15,7 +15,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
@@ -51,7 +51,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	private StandardButton locationDrive;
 	private StandardButton locationSkyDrive;
 	
-	protected final AppWeb app;
+	protected final AppW app;
 	private MaterialListElement lastSelected;
 
 	
@@ -95,7 +95,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	 * 
 	 * @param app
 	 */
-	public BrowseGUI(final AppWeb app) {
+	public BrowseGUI(final AppW app) {
 		this.setStyleName("browsegui");
 		
 		this.app = app;

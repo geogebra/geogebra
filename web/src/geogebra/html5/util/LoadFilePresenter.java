@@ -9,7 +9,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.WebStatic;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -41,7 +41,7 @@ public class LoadFilePresenter{
 		String fileId;
 		String filename;
 		view.adjustScale();
-		final AppWeb app = view.getApplication();
+		final AppW app = view.getApplication();
 		boolean fileOpened = true;
 		if(WebStatic.urlToOpen != null ){
 			getView().showLoadAnimation();
@@ -198,7 +198,7 @@ public class LoadFilePresenter{
 		getView().processFileName(url); 
 	} 
 	
-	public AppWeb getApplication() {
+	public AppW getApplication() {
 		return getView().getApplication();
 	}
 	

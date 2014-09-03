@@ -1,7 +1,7 @@
 package geogebra.html5.gui.inputfield;
 
 import geogebra.common.gui.util.TableSymbols;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,10 +13,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 
 	SymbolTableW symbolTable = null;
-	private AppWeb app;
+	private AppW app;
 	private AutoCompleteTextFieldW textField;
 
-	public SymbolTablePopupW(AppWeb app,
+	public SymbolTablePopupW(AppW app,
 	        AutoCompleteTextFieldW autoCompleteTextField, Widget invoker) {
 		super(true);
 		this.app = app;

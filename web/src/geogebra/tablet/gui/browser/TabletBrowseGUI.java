@@ -1,7 +1,7 @@
 package geogebra.tablet.gui.browser;
 
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.laf.GLookAndFeel;
 
@@ -9,7 +9,7 @@ import com.google.gwt.user.client.Window;
 
 public class TabletBrowseGUI extends BrowseGUI {
 
-	public TabletBrowseGUI(final AppWeb app) {
+	public TabletBrowseGUI(final AppW app) {
 	    super(app);
     }
 	

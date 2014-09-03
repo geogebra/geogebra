@@ -1,13 +1,13 @@
 package geogebra.tablet.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.AppW;
 import geogebra.tablet.gui.TabletGuiManager;
 import geogebra.web.gui.browser.MaterialListElement;
 
 public class TabletMaterialElement extends MaterialListElement {
 	
-	public TabletMaterialElement(final Material m, final AppWeb app, final boolean isLocal) {
+	public TabletMaterialElement(final Material m, final AppW app, final boolean isLocal) {
 		super(m, app, isLocal);
 	}
 	
