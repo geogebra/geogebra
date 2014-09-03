@@ -8,12 +8,12 @@ import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.AuxiliaryHeaderPanel;
 import geogebra.web.gui.browser.SearchPanel.SearchListener;
 

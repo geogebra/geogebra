@@ -8,9 +8,9 @@ import geogebra.common.gui.dialog.options.model.AxisModel;
 import geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.gui.util.ComboBoxW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.util.ComboBoxW;
 import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.view.algebra.InputPanelW;
 

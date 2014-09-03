@@ -24,7 +24,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
-import geogebra.html5.css.GuiResources;
+import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.gui.GeoGebraFrameSimple;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppWsimple;
@@ -74,7 +74,7 @@ public class PerformanceTest implements EntryPoint {
 		gfs.setComputedWidth(800);
 		gfs.setComputedHeight(600);
 		RootPanel.get(ae.getId()).add(gfs);
-		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.propertiesKeysJS());
 		AppWsimple app = new AppWsimple(ae, gfs, false);
 		gfs.setApplication(app);
 		gfs.setWidth(800);

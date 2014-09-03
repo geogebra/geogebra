@@ -1,9 +1,9 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App.InputPositon;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.laf.GLookAndFeel;
 

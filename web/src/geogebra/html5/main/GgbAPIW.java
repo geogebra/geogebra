@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
-import geogebra.html5.css.GuiResources;
+import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.js.JavaScriptInjector;
@@ -185,7 +185,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	JavaScriptObject jso = prepareToEntrySet(archiveContent);
     	if (Browser.webWorkerSupported) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
     	}
 		getNativeBase64ZipJs(jso, nativeCallback(storeString), "false", true);
 		return storeString.getResult();

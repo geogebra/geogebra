@@ -1,9 +1,9 @@
 package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GPoint;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.html5.AttachedToDOM;
 
 import com.google.gwt.canvas.client.Canvas;

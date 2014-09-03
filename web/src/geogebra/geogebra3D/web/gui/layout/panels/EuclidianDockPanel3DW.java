@@ -3,8 +3,8 @@ package geogebra.geogebra3D.web.gui.layout.panels;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.layout.DockPanelW;
 
 import com.google.gwt.user.client.ui.Widget;

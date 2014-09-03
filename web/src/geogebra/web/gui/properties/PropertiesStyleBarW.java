@@ -2,7 +2,7 @@ package geogebra.web.gui.properties;
 
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
-import geogebra.html5.css.GuiResources;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.menubar.MainMenu;

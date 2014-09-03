@@ -9,10 +9,10 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Unicode;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;

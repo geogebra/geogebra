@@ -1,10 +1,10 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.move.views.BooleanRenderable;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.main.StringHandler;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 

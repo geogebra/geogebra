@@ -9,8 +9,8 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.BasicIcons;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.StyleBarResources;
 
 import com.google.gwt.canvas.client.Canvas;

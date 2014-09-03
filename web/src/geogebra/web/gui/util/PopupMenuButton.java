@@ -3,9 +3,9 @@ package geogebra.web.gui.util;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResourcesConverter;
 

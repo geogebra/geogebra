@@ -2,7 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
-import geogebra.html5.css.GuiResources;
+import geogebra.web.css.GuiResources;
 
 import com.google.gwt.storage.client.Storage;
 

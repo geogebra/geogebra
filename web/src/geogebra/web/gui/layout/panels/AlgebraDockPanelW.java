@@ -1,7 +1,7 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
-import geogebra.html5.css.GuiResources;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.layout.DockPanelW;

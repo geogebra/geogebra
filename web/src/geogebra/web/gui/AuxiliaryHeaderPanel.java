@@ -1,9 +1,9 @@
 package geogebra.web.gui;
 
 import geogebra.common.main.Localization;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.browser.BrowseResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

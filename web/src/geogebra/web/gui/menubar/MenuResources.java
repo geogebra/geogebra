@@ -1,6 +1,6 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.html5.css.GuiResources;
+import geogebra.web.css.GuiResources;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ImageResource.ImageOptions;

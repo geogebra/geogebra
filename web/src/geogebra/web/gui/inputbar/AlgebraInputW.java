@@ -10,11 +10,11 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.dom.client.Style.Unit;

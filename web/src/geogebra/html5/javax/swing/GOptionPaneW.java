@@ -4,7 +4,7 @@ import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.AsyncOperation;
-import geogebra.html5.css.GuiResources;
+import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -225,19 +225,19 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		switch (messageType) {
 
 		case GOptionPane.ERROR_MESSAGE:
-			icon = new Image(GuiResources.INSTANCE.dialog_error()
+			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_error()
 			        .getSafeUri());
 			break;
 		case GOptionPane.INFORMATION_MESSAGE:
-			icon = new Image(GuiResources.INSTANCE.dialog_info()
+			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_info()
 			        .getSafeUri());
 			break;
 		case GOptionPane.WARNING_MESSAGE:
-			icon = new Image(GuiResources.INSTANCE.dialog_warning()
+			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_warning()
 			        .getSafeUri());
 			break;
 		case GOptionPane.QUESTION_MESSAGE:
-			icon = new Image(GuiResources.INSTANCE.dialog_question()
+			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_question()
 			        .getSafeUri());
 			break;
 		case GOptionPane.PLAIN_MESSAGE:

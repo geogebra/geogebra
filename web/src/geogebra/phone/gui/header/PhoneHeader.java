@@ -1,12 +1,12 @@
 package geogebra.phone.gui.header;
 
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.main.AppWapplication;

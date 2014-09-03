@@ -3,7 +3,7 @@ package geogebra.web.gui.properties;
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
 import geogebra.common.main.Localization;
-import geogebra.html5.gui.util.ComboBoxW;
+import geogebra.web.gui.util.ComboBoxW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

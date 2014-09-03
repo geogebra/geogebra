@@ -23,7 +23,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.WebStatic;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.css.GuiResources;
+import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
@@ -1070,7 +1070,7 @@ public abstract class AppW extends AppWeb {
 	@Override
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		if (toolbar) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.propertiesKeysJS());
 		}
 		super.setShowToolBar(toolbar, help);
 	}
@@ -1088,7 +1088,7 @@ public abstract class AppW extends AppWeb {
 
 	public ImageElement getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
-		ImageElement imgE = getImageManager().getInternalImage(GuiResources.INSTANCE
+		ImageElement imgE = getImageManager().getInternalImage(GuiResourcesSimple.INSTANCE
 		        .viewRefresh());
 		attachNativeLoadHandler(imgE);
 		return imgE;
@@ -1096,12 +1096,12 @@ public abstract class AppW extends AppWeb {
 
 	public ImageElement getPlayImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return getImageManager().getInternalImage(GuiResources.INSTANCE.navPlay());
+		return getImageManager().getInternalImage(GuiResourcesSimple.INSTANCE.navPlay());
 	}
 
 	public ImageElement getPauseImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return getImageManager().getInternalImage(GuiResources.INSTANCE.navPause());
+		return getImageManager().getInternalImage(GuiResourcesSimple.INSTANCE.navPause());
 	}
 
 	// ============================================
