@@ -1049,7 +1049,7 @@ public class CellRangeProcessor {
 			table.getCellFormatHandler().shiftFormats(column2 + 1, 1,
 					Direction.Right);
 		}
-		table.repaint();
+		table.repaintAll();
 	}
 
 	/**
@@ -1065,7 +1065,7 @@ public class CellRangeProcessor {
 		shiftColumnsLeft(column2 + 1, column2 - column1 + 1);
 		table.getCellFormatHandler().shiftFormats(column2 + 1,
 				column2 - column1 + 1, Direction.Left);
-		table.repaint();
+		table.repaintAll();
 	}
 
 	private void shiftColumnsRight(int startColumn) {
@@ -1136,7 +1136,7 @@ public class CellRangeProcessor {
 			table.getCellFormatHandler().shiftFormats(row2 + 1, 1,
 					Direction.Down);
 		}
-		table.repaint();
+		table.repaintAll();
 	}
 
 	/**
@@ -1152,7 +1152,7 @@ public class CellRangeProcessor {
 		shiftRowsUp(row2 + 1, row2 - row1 + 1);
 		table.getCellFormatHandler().shiftFormats(row2 + 1, row2 - row1 + 1,
 				Direction.Up);
-		table.repaint();
+		table.repaintAll();
 	}
 
 	private void shiftRowsDown(int startRow) {

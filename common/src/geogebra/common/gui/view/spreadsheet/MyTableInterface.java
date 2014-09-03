@@ -18,6 +18,8 @@ public interface MyTableInterface {
 	public void updateCellFormat(String s);
 	
 	public void repaint();
+	
+	public void repaintAll();
 
 	public void updateEditor(String text);
 

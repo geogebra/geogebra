@@ -1980,4 +1980,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// only used in Web
 	}
 
+	public void repaintAll() {
+		repaint();
+		// method for web, do nothing else here
+	}
+
 }

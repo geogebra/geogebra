@@ -373,11 +373,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		ssGrid.getElement().addClassName("geogebraweb-table-spreadsheet");
 
 		registerListeners();
-
-		// TODO: these calls hang the spreadsheet dock panel
-		// update, why?
-		setRepaintAll();
-		repaint();
+		repaintAll();
 	}
 
 	private void registerListeners() {
@@ -805,8 +801,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			// App.debug("ssGrid dim: " + ssGrid.getRowCount() + " x " +
 			// ssGrid.getColumnCount());
-			setRepaintAll();
-			repaint();
+		
+			repaintAll();
 		}
 
 		public void valueChange() {
@@ -2383,7 +2379,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 
 	/**
-	 * Set to call renderCells in repaint()
+	 * Force repaint calls to update everything. (Useful for debugging.)
 	 */
 	public void setRepaintAll() {
 		repaintAll = true;
@@ -2398,16 +2394,27 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		renderCellsFirstTime = true;
 	}
 
+	
+	/**
+	 * Updates all cell formats and the current selection.
+	 */
+	public void repaintAll() {
+		repaintAll = true;
+		repaint();
+	}
+
+	/**
+	 * Updates only the current selection. For efficiency the cell formats are
+	 * not updated.
+	 */
 	public void repaint() {
 
 		if (repaintAll) {
-			// renderCells();
 			updateAllCellFormats();
 			repaintAll = false;
 		}
 
 		renderSelection();
-		// TODO: implementation needed
 	}
 
 	public void updateCellFormat(int row, int column) {

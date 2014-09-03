@@ -1518,9 +1518,8 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 
 		if(table != null){
 		table.setSize(width, height);
-		table.setRepaintAll();
 		table.setRenderFirstTime();
-		table.repaint();
+		table.repaintAll();
 		}
 
 	}
