@@ -60,7 +60,6 @@ import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
@@ -260,8 +259,8 @@ public static final String LOCALE_PARAMETER = "locale";
 	}
 	
 	@Override
-	public EuclidianViewWeb getEuclidianView1() {
-		return (EuclidianViewWeb) euclidianView;
+	public EuclidianViewW getEuclidianView1() {
+		return (EuclidianViewW) euclidianView;
 	}
 	private TimerSystemW timers;
 	public TimerSystemW getTimerSystem() {
@@ -482,7 +481,7 @@ public static final String LOCALE_PARAMETER = "locale";
 
 		private void prepareReloadGgbFile() {
 	        ((DrawEquationWeb) getDrawEquation())
-	        .deleteLaTeXes((EuclidianViewWeb) getActiveEuclidianView());
+	        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
 			getImageManager().reset();
         }
 		
@@ -694,7 +693,7 @@ public static final String LOCALE_PARAMETER = "locale";
 			setMoveMode();
 
 			((DrawEquationWeb) getDrawEquation())
-			        .deleteLaTeXes((EuclidianViewWeb) getActiveEuclidianView());
+			        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
 			return true;
 
 			// }
@@ -994,11 +993,11 @@ public static final String LOCALE_PARAMETER = "locale";
 	 * @param viewId 
 	 * @return the plotpanel euclidianview
 	 */
-	public EuclidianViewWeb getPlotPanelEuclidianView(int viewId) {
+	public EuclidianViewW getPlotPanelEuclidianView(int viewId) {
 		if (getGuiManager() == null) {
 			return null;
 		}
-		return (EuclidianViewWeb) getGuiManager().getPlotPanelView(viewId);
+		return (EuclidianViewW) getGuiManager().getPlotPanelView(viewId);
 	}
 
 	public boolean isPlotPanelEuclidianView(int viewID) {

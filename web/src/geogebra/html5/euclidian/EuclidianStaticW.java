@@ -67,9 +67,9 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 								public void execute() {
 									repaintDeferred = false;
 									repaintsFromHereInProgress++;
-									((EuclidianViewWeb)app.getEuclidianView1()).doRepaint();
+									((EuclidianViewW)app.getEuclidianView1()).doRepaint();
 									if (app.hasEuclidianView2(1))
-										((EuclidianViewWeb)app.getEuclidianView2(1)).doRepaint();
+										((EuclidianViewW)app.getEuclidianView2(1)).doRepaint();
 									repaintsFromHereInProgress--;
 								}
 							});

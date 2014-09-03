@@ -216,14 +216,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		event.stopPropagation();
 		event.preventDefault();
 		if (targets.length() == 1) {
-			if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
+			if(time < this.lastMoveEvent + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS){
 				AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
 				boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
 				this.waitingTouchMove = e;
 				this.waitingMouseMove = null;
 				GeoGebraProfiler.moveEventsIgnored++;
 				if(wasWaiting){
-					this.repaintTimer.schedule(EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH);
+					this.repaintTimer.schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
 				}
 				return;
 			}
@@ -259,8 +259,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    this.waitingMouseMove = null;
 	    int dragTime = (int) (System.currentTimeMillis()-time);
 	    GeoGebraProfiler.dragTime += dragTime;
-	    if(dragTime > EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH){
-	    	EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
+	    if(dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH){
+	    	EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 	    }
 	    
 	    moveCounter++;
@@ -274,7 +274,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 
 		this.moveIfWaiting();
-		EuclidianViewWeb.resetDelay();
+		EuclidianViewW.resetDelay();
 		event.stopPropagation();
 		if(!comboBoxHit()){
 			event.preventDefault();
@@ -398,13 +398,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		long time = System.currentTimeMillis();
 		
 		
-		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
+		if(time < this.lastMoveEvent + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS){
 			boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
 			this.waitingMouseMove = e;
 			this.waitingTouchMove = null;
 			GeoGebraProfiler.moveEventsIgnored++;
 			if(wasWaiting){
-				this.repaintTimer.schedule(EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH);
+				this.repaintTimer.schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
 			}
 			return;
 		}
@@ -424,8 +424,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		 this.waitingTouchMove = null;
 		 int dragTime = (int) (System.currentTimeMillis()-time);
 		GeoGebraProfiler.dragTime += dragTime;
-		if(dragTime > EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH){
-			EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
+		if(dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH){
+			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
 
 		moveCounter++;
@@ -448,7 +448,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		AbstractEvent e = PointerEvent.wrapEvent(event,this);
 		this.moveIfWaiting();
-		EuclidianViewWeb.resetDelay();
+		EuclidianViewW.resetDelay();
 		DRAGMODE_MUST_BE_SELECTED = false;
 		
 

@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResourcesSimple;
-import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.ImageManager;
@@ -102,7 +102,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	
     public String getPNGBase64(double exportScale, boolean transparent,
             double DPI) {
-	    return ((EuclidianViewWeb) app
+	    return ((EuclidianViewW) app
 				.getEuclidianView1())
 				.getExportImageDataUrl(exportScale, transparent).substring("data:image/png;base64,".length());
     }
@@ -216,7 +216,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 		// write construction thumbnails
     	if (includeThumbnail)
     		addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-    			((EuclidianViewWeb)app.getEuclidianView1()).getCanvasBase64WithTypeString(),archiveContent);
+    			((EuclidianViewW)app.getEuclidianView1()).getCanvasBase64WithTypeString(),archiveContent);
 
 
     	if (!macroXml.equals("")) {

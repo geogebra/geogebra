@@ -28,12 +28,10 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.euclidian.EuclidianViewWInterface;
-import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.javax.swing.GOptionPaneW;
-import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.Dom;
 import geogebra.web.cas.view.CASTableW;
@@ -1512,8 +1510,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		layout.getDockManager().enableDragging(oldDraggingViews);
 	}
 
-	public EuclidianViewWeb getPlotPanelEuclidanView() {
-	    return (EuclidianViewWeb) probCalculator.plotPanel;
+	public EuclidianViewW getPlotPanelEuclidanView() {
+	    return (EuclidianViewW) probCalculator.plotPanel;
     }
 	
 	public boolean isConsProtNavigationPlayButtonVisible() {

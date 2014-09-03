@@ -5,7 +5,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
-import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.FileManager;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -621,7 +621,7 @@ public class FileManagerT implements FileManager {
 						mat.setTimestamp(System.currentTimeMillis() / 1000);
 						mat.setTitle(title);
 						mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
-						mat.setThumbnail(((EuclidianViewWeb) app.getEuclidianView1()).getCanvasBase64WithTypeString());
+						mat.setThumbnail(((EuclidianViewW) app.getEuclidianView1()).getCanvasBase64WithTypeString());
 						writer.write(mat.toJson().toString());
 					}
 

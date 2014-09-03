@@ -2,7 +2,7 @@ package geogebra.html5.main;
 
 import geogebra.common.main.App;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.EuclidianViewW;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -149,7 +149,7 @@ public class DrawElementManager {
 	 * 
 	 * @param ev
 	 */
-	public void clearLaTeXes(EuclidianViewWeb ev) {
+	public void clearLaTeXes(EuclidianViewW ev) {
 		clearLaTeXes(ev.g2p);
 		clearLaTeXes(dummyG2);
 	}
@@ -200,7 +200,7 @@ public class DrawElementManager {
 	 * 
 	 * @param ev
 	 */
-	public void deleteLaTeXes(EuclidianViewWeb ev) {
+	public void deleteLaTeXes(EuclidianViewW ev) {
 		deleteLaTeXes(ev.g2p);
 		deleteLaTeXes(dummyG2);
 	}

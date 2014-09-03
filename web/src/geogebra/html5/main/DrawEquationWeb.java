@@ -14,7 +14,7 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -148,7 +148,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 * @param ev
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
-	public void clearLaTeXes(EuclidianViewWeb ev) {
+	public void clearLaTeXes(EuclidianViewW ev) {
 		
 		elementManager.clearLaTeXes(ev);
 		
@@ -191,7 +191,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 * @param ev
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
-	public void deleteLaTeXes(EuclidianViewWeb ev) {
+	public void deleteLaTeXes(EuclidianViewW ev) {
 		
 		elementManager.deleteLaTeXes(ev);
 		
