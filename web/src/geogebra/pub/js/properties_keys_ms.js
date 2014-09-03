@@ -1669,6 +1669,7 @@ __GGB__keysVar.ms.menu = {
     "Perspective.CASAndGraphics": "CAS & Grafik",
     "Perspective.Geometry": "Geometri",
     "Perspective.Primary": "Utama",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Jadual & Grafik",
     "Perspective.Whiteboard": "Papan Putih",

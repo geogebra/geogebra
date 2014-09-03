@@ -1669,6 +1669,7 @@ __GGB__keysVar.et.menu = {
     "Perspective.CASAndGraphics": "CAS ja graafika",
     "Perspective.Geometry": "Geomeetria",
     "Perspective.Primary": "Esmaj\xe4rguline",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Tabel ja graafika",
     "Perspective.Whiteboard": "Tahvel",

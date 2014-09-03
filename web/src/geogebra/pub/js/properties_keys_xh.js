@@ -1669,6 +1669,7 @@ __GGB__keysVar.xh.menu = {
     "Perspective.CASAndGraphics": "CAS & imiZobo",
     "Perspective.Geometry": "iJometri",
     "Perspective.Primary": "Okuqala",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "iSpreadsheet & nemiZobo",
     "Perspective.Whiteboard": "iWhiteboard",

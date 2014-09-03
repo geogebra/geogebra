@@ -1669,6 +1669,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Perspective.CASAndGraphics": "CAS & Tekenvenster",
     "Perspective.Geometry": "Meetkundevenster",
     "Perspective.Primary": "Basis",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Rekenblad",
     "Perspective.TableAndGraphics": "Rekenblad en tekenvenster",
     "Perspective.Whiteboard": "Interactief bord",

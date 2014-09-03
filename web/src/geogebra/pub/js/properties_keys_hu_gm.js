@@ -1298,7 +1298,7 @@ __GGB__keysVar.hu_gm.menu = {
     "CreatePolyLine.Help": "Pontokat meghat\xe1roz\xf3 cell\xe1k kijel\xf6l\xe9se, majd kattint\xe1s az eszk\xf6z\xf6n",
     "CreateTable": "T\xe1bl\xe1zat l\xe9trehoz\xe1sa",
     "CreateTable.Help": "Cell\xe1k kijel\xf6l\xe9se, majd kattint\xe1s az eszk\xf6z\xf6n",
-    "CreateYourOwn": "Create your own",
+    "CreateYourOwn": "Saj\xe1t l\xe9trehoz\xe1sa",
     "Cube": "Kocka",
     "Cube.Help": "Kattint\xe1s egy s\xedkon (opcion\xe1lis) \xe9s azut\xe1n 2 ponton",
     "Cumulative": "Halmozott",
@@ -1669,6 +1669,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Perspective.CASAndGraphics": "CAS \xe9s grafika",
     "Perspective.Geometry": "Geometria",
     "Perspective.Primary": "\xc1ltal\xe1nos",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "T\xe1bl\xe1zatkezel\u0151",
     "Perspective.TableAndGraphics": "T\xe1bl\xe1zat \xe9s grafika",
     "Perspective.Whiteboard": "Feh\xe9r t\xe1bla",
@@ -2079,8 +2080,8 @@ __GGB__keysVar.hu_gm.menu = {
  ***********************************************/
 
 __GGB__keysVar.hu_gm.plain = {
-    "ADecimalPlace": "Tizedes jegyek sz\xe1ma %0",
-    "ADecimalPlaces": "Tizedes jegyek sz\xe1ma %0",
+    "ADecimalPlace": "Tizedesjegyek sz\xe1ma %0",
+    "ADecimalPlaces": "Tizedesjegyek sz\xe1ma %0",
     "ADerivativeOfB": "%1 %0 deriv\xe1ltja",
     "ADilatedByFactorBfromC": "%0 %1 m\xe9rt\xe9k\u0171 %2 k\xf6z\xe9ppont\xfa nagy\xedt\xe1sa",
     "ADoesNotIntersectWithB": "%0 nem metszi %1-t",

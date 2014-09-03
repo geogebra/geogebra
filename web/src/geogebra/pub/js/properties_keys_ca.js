@@ -1669,6 +1669,7 @@ __GGB__keysVar.ca.menu = {
     "Perspective.CASAndGraphics": "CAS i gr\xe0fics",
     "Perspective.Geometry": "Geometria",
     "Perspective.Primary": "Prim\xe0ria",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Full de c\xe0lcul i gr\xe0fics",
     "Perspective.TableAndGraphics": "Full de c\xe0lcul i Gr\xe0fics",
     "Perspective.Whiteboard": "Pissara",

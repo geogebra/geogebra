@@ -1669,6 +1669,7 @@ __GGB__keysVar.ja.menu = {
     "Perspective.CASAndGraphics": "CAS\u3068\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9",
     "Perspective.Geometry": "\u5e7e\u4f55",
     "Perspective.Primary": "\u521d\u7b49",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "\u8868 & \u30b0\u30e9\u30d5\u30a3\u30af\u30b9",
     "Perspective.Whiteboard": "\u30db\u30ef\u30a4\u30c8\u30dc\u30fc\u30c9",

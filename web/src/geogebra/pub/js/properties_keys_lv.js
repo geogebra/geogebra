@@ -1669,6 +1669,7 @@ __GGB__keysVar.lv.menu = {
     "Perspective.CASAndGraphics": "CAS & Grafiks",
     "Perspective.Geometry": "\u0122eometrija",
     "Perspective.Primary": "Galvenais",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Izkl\u0101jlapa & Grafiks",
     "Perspective.Whiteboard": "Balt\u0101 t\u0101fele",

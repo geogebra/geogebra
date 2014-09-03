@@ -1669,6 +1669,7 @@ __GGB__keysVar.fa.menu = {
     "Perspective.CASAndGraphics": "\u06af\u0631\u0627\u0641\u06cc\u06a9\u06cc \u0648 \u0633\u06cc\u0633\u062a\u0645 \u062c\u0628\u0631\u06cc",
     "Perspective.Geometry": "\u0647\u0646\u062f\u0633\u0647",
     "Perspective.Primary": "\u0627\u0628\u062a\u062f\u0627\u06cc\u06cc",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "\u0635\u0641\u062d\u0647 \u06af\u0633\u062a\u0631\u062f\u0647",
     "Perspective.TableAndGraphics": "\u062c\u062f\u0648\u0644 \u0648 \u06af\u0631\u0627\u0641\u06cc\u06a9",
     "Perspective.Whiteboard": "\u062a\u062e\u062a\u0647 \u0633\u0641\u06cc\u062f",

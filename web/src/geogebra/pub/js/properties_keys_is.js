@@ -1669,6 +1669,7 @@ __GGB__keysVar.is.menu = {
     "Perspective.CASAndGraphics": "CAS og myndagluggi",
     "Perspective.Geometry": "R\xfamfr\xe6\xf0i",
     "Perspective.Primary": "Einf\xf6ld",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Tafla og mynd",
     "Perspective.Whiteboard": "Whiteboard",

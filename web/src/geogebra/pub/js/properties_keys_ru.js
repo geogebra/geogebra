@@ -1669,6 +1669,7 @@ __GGB__keysVar.ru.menu = {
     "Perspective.CASAndGraphics": "CAS \u0438 \u0433\u0440\u0430\u0444\u0438\u043a\u0438",
     "Perspective.Geometry": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u044f",
     "Perspective.Primary": "\u041f\u0435\u0440\u0432\u0438\u0447\u043d\u044b\u0439",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "\u0422\u0430\u0431\u043b\u0438\u0446\u044b \u0438 \u0433\u0440\u0430\u0444\u0438\u043a\u0438",
     "Perspective.Whiteboard": "\u0411\u0435\u043b\u0430\u044f \u0434\u043e\u0441\u043a\u0430",

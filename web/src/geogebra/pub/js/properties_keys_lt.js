@@ -1669,6 +1669,7 @@ __GGB__keysVar.lt.menu = {
     "Perspective.CASAndGraphics": "CAS & Grafika",
     "Perspective.Geometry": "Geometrija",
     "Perspective.Primary": "Pagrindinis",
+    "Perspective.ProbabilityCalculator": "Probability Calculator",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Lentel\u0117s ir grafika",
     "Perspective.Whiteboard": "Balta lenta",
