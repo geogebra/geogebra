@@ -17,9 +17,11 @@ import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.laf.GLookAndFeel;
+import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.move.ggtapi.models.AuthenticationModelW;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
+import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
@@ -62,7 +64,7 @@ public class AppWapplication extends AppW {
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
-		setCurrentFileId();
+		
 
 		initCommonObjects();
 		
@@ -285,7 +287,7 @@ public class AppWapplication extends AppW {
 		if (dialogManager == null) {
 			dialogManager = new DialogManagerW(this); 
 			if (getGoogleDriveOperation() != null){
-				getGoogleDriveOperation().getView().add((DialogManagerW)dialogManager);
+				((GoogleDriveOperationW)getGoogleDriveOperation()).getView().add((DialogManagerW)dialogManager);
 			}
 		}
 		return dialogManager;
@@ -342,5 +344,23 @@ public class AppWapplication extends AppW {
 	@Override
     public void set1rstMode() {
 		GGWToolBar.set1rstMode(this);
+    }
+
+	@Override
+    protected void initGoogleDriveEventFlow() {
+		
+		googleDriveOperation = new GoogleDriveOperationW(this);
+		
+		if (getNetworkOperation().getOnline()) {
+			googleDriveOperation.initGoogleDriveApi();
+		}
+		
+	}
+
+	@Override
+    protected void updateTreeUI() {
+			((ZoomSplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
+			//updateComponentTreeUI();
+		
     }
 }

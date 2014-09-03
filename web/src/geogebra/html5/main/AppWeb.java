@@ -48,6 +48,7 @@ import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.kernel.AnimationManagerW;
 import geogebra.html5.kernel.UndoManagerW;
 import geogebra.html5.kernel.commands.CommandDispatcherW;
+import geogebra.html5.move.googledrive.GoogleDriveOperation;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
@@ -83,6 +84,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;// FIXME: generate new UUID: +
 	                               // UUID.randomUUID();
+	protected GoogleDriveOperation googleDriveOperation;
 
 	protected AppWeb(int dimension){
 		super();
@@ -686,8 +688,15 @@ public abstract class AppWeb extends App implements SetLabels{
 
 			resetUniqueId();
 
-			resetStorageInfo();
+			getGoogleDriveOperation().resetStorageInfo();
 
+		}
+		
+		/**
+		 * @return GoogleDriveOperation
+		 */
+		public GoogleDriveOperation getGoogleDriveOperation() {
+			return googleDriveOperation;
 		}
 		
 		/**
@@ -724,10 +733,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	        
         }
 
-		protected void resetStorageInfo() {
-	        // TODO Auto-generated method stub
-	        
-        }
+		
 		public void addFileLoadListener(FileLoadListener f){
 			this.fileLoadListeners.add(f);
 		}

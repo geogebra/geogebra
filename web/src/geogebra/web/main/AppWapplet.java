@@ -24,8 +24,10 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.LayoutW;
+import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
+import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -534,5 +536,24 @@ public class AppWapplet extends AppW {
 	@Override
     public void set1rstMode() {
 	    GGWToolBar.set1rstMode(this);
+    }
+	
+	@Override
+    protected void initGoogleDriveEventFlow() {
+		
+		googleDriveOperation = new GoogleDriveOperationW(this);
+		
+		if (getNetworkOperation().getOnline()) {
+			googleDriveOperation.initGoogleDriveApi();
+		}
+		
+	}
+
+	@Override
+    protected void updateTreeUI() {
+		
+			((ZoomSplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
+			//updateComponentTreeUI();
+		
     }
 }

@@ -8,6 +8,7 @@ import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.views.BaseEventView;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.main.AppW;
+import geogebra.html5.move.googledrive.GoogleDriveOperation;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.URL;
@@ -26,7 +27,7 @@ import com.google.gwt.dom.client.Document;
  *
  *	Operational class for Google Drive Api
  */
-public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implements EventRenderable {
+public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implements EventRenderable, GoogleDriveOperation {
 	
 	private static final String GoogleApiJavaScriptSrc = "https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive";
 	private boolean isDriveLoaded;
@@ -35,6 +36,9 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	private JavaScriptObject googleDriveURL;
 	private String authToken;
 	private boolean needsPicker;
+	
+	private String driveBase64description = null;
+	private String driveBase64FileName = null;
 
 	
 	/**
@@ -44,12 +48,21 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	public GoogleDriveOperationW (AppW app) {
 		
 		this.app = app;
+		setCurrentFileId();
 		setView(new BaseEventView());
 		setModel(new GoogleDriveModelW());
 		
 		app.getLoginOperation().getView().add(this);
 		getView().add(this);
 		
+	}
+	
+	public String getFileName() {
+		return driveBase64FileName;
+	}
+
+	public String getFileDescription() {
+		return driveBase64description;
 	}
 	
 	@Override
@@ -343,8 +356,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 
 	private void postprocessFileLoading(String description,
             String title, String id) {
-	    app.refreshCurrentFileDescriptors(title, description);
-		app.setCurrentFileId(id);
+	    refreshCurrentFileDescriptors(title, description);
+		setCurrentFileId(id);
 		app.setUnsaved();
     }
 	
@@ -353,6 +366,18 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		postprocessFileLoading(description, title, id);
 	}
 
+	public void refreshCurrentFileDescriptors(String fName, String desc) {
+		if (desc.equals("null") || desc.equals("undefined")) {
+			driveBase64description = "";
+		} else {
+			driveBase64description = desc;
+		}
+		driveBase64FileName = fName;
+		((DialogManagerW) app.getDialogManager())
+		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
+		                driveBase64description);
+
+	}
 	
 	/**
 	 * logs out from Google Drive (this means, removes the possibilities to interact with Google Drive)
@@ -381,8 +406,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		JavaScriptObject metaData = JavaScriptObject.createObject();
 		JSON.put(metaData,	"title", fileName);
 		JSON.put(metaData, "description", description);
-		if (!fileName.equals(app.getFileName())) {
-			app.setCurrentFileId(null);
+		if (!fileName.equals(getFileName())) {
+			setCurrentFileId(null);
 		}
 		if ((getFolderId() != null) && !"".equals(getFolderId())) {
 			JavaScriptObject folderId = JavaScriptObject.createObject();
@@ -399,7 +424,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		JSON.put(thumbnail, "mimeType" , "image/png" );
 		JSON.putObject(metaData, "thumbnail" , thumbnail);
 		AppW.debug(metaData);
-		handleFileUploadToGoogleDrive(app.getCurrentFileId(), metaData, fileContent);		
+		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent);		
     }
 	
 	private native void handleFileUploadToGoogleDrive(String id, JavaScriptObject metaData, String base64) /*-{
@@ -449,7 +474,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	private void updateAfterGoogleDriveSave(String id, String fileName, String description) {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().saveSuccess(fileName, description);
-		app.setCurrentFileId(id);
+		setCurrentFileId(id);
 	}
 
 	private void checkIfOpenedFromGoogleDrive() {
@@ -491,8 +516,30 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    
     }
 	
+	public void resetStorageInfo(){
+		driveBase64FileName = null;
+		driveBase64description = null;
+		currentFileId = null;
+		((DialogManagerW) app.getDialogManager())
+		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
+		                driveBase64description);
+	}
 	
+private String currentFileId = null;
 
 	
+	public String getCurrentFileId() {
+		return currentFileId;
+	}
+
+	public void setCurrentFileId(String currentFileId) {
+		this.currentFileId = currentFileId;
+	}
+
+	protected native void setCurrentFileId() /*-{
+	if ($wnd.GGW_appengine) {
+		this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+	}
+}-*/;
 
 }

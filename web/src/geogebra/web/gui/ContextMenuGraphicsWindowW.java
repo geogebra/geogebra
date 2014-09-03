@@ -231,15 +231,16 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 		String htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString, ((AppW)app).getGuiManager().getShowAxesAction());
 		
-	    ((AppW)app).setShowAxesSelected(cbShowAxes);
+	    cbShowAxes.setSelected(app.getActiveEuclidianView().getShowXaxis()
+		        && (app.getActiveEuclidianView().getShowYaxis()));
+	    
 	    wrappedPopup.addItem(cbShowAxes);
 	    
 	    
 //	    MenuItem cbShowGrid = addAction(((AppW)app).getGuiManager().getShowGridAction(), MainMenu.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid")), app.getMenu("Grid"));
 		htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString, ((AppW)app).getGuiManager().getShowGridAction());
-
-	    ((AppW)app).setShowGridSelected(cbShowGrid);
+		cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());
 	    wrappedPopup.addItem(cbShowGrid);
 
 	}

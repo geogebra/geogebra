@@ -29,6 +29,7 @@ import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
@@ -38,15 +39,9 @@ import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.SpreadsheetTableModelW;
-import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
-import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.toolbar.ToolBarW;
-import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.FileManagerW;
-import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +59,6 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -72,11 +66,18 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-//import geogebra.web.gui.app.GGWToolBar;
+
+
+
 
 
 public abstract class AppW extends AppWeb {
 
+	/**
+	 * LOCALE_PARAMETER: this is the name of the locale parameter for both URL Query Parameter and Cookie Parameter
+	 */
+	public static final String LOCALE_PARAMETER = "locale";
+	
 	public final static String syntaxStr = "_Syntax";
 	public static String geoIPCountryName;
 	public static String geoIPLanguage;
@@ -107,8 +108,7 @@ public abstract class AppW extends AppWeb {
 
 	boolean menuKeysLoaded = false;
 	
-	private GoogleDriveOperationW googleDriveOperation;
-
+	
 	/**
 	 * Constructors will be called from subclasses
 	 * AppWapplication, AppWapplet, and AppWsimple
@@ -149,23 +149,9 @@ public abstract class AppW extends AppWeb {
 	/**
 	 * initializes the google drive event flow
 	 */
-	@Override
-    protected void initGoogleDriveEventFlow() {
-		
-		googleDriveOperation = new GoogleDriveOperationW(this);
-		
-		if (getNetworkOperation().getOnline()) {
-			googleDriveOperation.initGoogleDriveApi();
-		}
-		
-	}
+	
 
-	/**
-	 * @return GoogleDriveOperation
-	 */
-	public GoogleDriveOperationW getGoogleDriveOperation() {
-		return googleDriveOperation;
-	}
+	
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {
@@ -575,7 +561,7 @@ public abstract class AppW extends AppWeb {
 				// .buildString());
 
 				UrlBuilder newUrl = Window.Location.createUrlBuilder();
-				newUrl.setParameter(LanguageCommand.LOCALE_PARAMETER,
+				newUrl.setParameter(AppW.LOCALE_PARAMETER,
 				        closestlangcodetoGeoIP);
 				Window.Location.assign(newUrl.buildString());
 
@@ -683,60 +669,21 @@ public abstract class AppW extends AppWeb {
 
 	
 
-	private String driveBase64description = null;
-	private String driveBase64FileName = null;
-	
-	private String currentFileId = null;
 
 	
-	public String getCurrentFileId() {
-		return currentFileId;
-	}
+	
 
-	public void setCurrentFileId(String currentFileId) {
-		this.currentFileId = currentFileId;
-	}
+	
 
-	public void refreshCurrentFileDescriptors(String fName, String desc) {
-		if (desc.equals("null") || desc.equals("undefined")) {
-			driveBase64description = "";
-		} else {
-			driveBase64description = desc;
-		}
-		driveBase64FileName = fName;
-		((DialogManagerW) getDialogManager())
-		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
-		                driveBase64description);
+	
 
-	}
-
-	public String getFileName() {
-		return driveBase64FileName;
-	}
-
-	public String getFileDescription() {
-		return driveBase64description;
-	}
-
-	protected native void setCurrentFileId() /*-{
-		if ($wnd.GGW_appengine) {
-			this.@geogebra.html5.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
-		}
-	}-*/;
+	
 
 	
 
 	
 	
-	@Override
-    protected void resetStorageInfo(){
-		driveBase64FileName = null;
-		driveBase64description = null;
-		currentFileId = null;
-		((DialogManagerW) getDialogManager())
-		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
-		                driveBase64description);
-	}
+	
 	
 	@Override
     protected void clearInputBar(){
@@ -1132,20 +1079,6 @@ public abstract class AppW extends AppWeb {
 		super.setShowToolBar(toolbar, help);
 	}
 
-	public void setShowAxesSelected(GCheckBoxMenuItem mi) {
-		// GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
-		// .getActiveEuclidianView().getShowXaxis()
-		// && (getGuiManager().getActiveEuclidianView().getShowYaxis()));
-		mi.setSelected(getActiveEuclidianView().getShowXaxis()
-		        && (getActiveEuclidianView().getShowYaxis()));
-	}
-
-	public void setShowGridSelected(GCheckBoxMenuItem mi) {
-		// GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
-		// .getActiveEuclidianView().getShowGrid());
-		mi.setSelected(getActiveEuclidianView().getShowGrid());
-	}
-
 	// ============================================
 	// IMAGES
 	// ============================================
@@ -1230,8 +1163,8 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public void setWaitCursor() {
-		if (getDialogManager() instanceof DialogManagerW) {
-			((DialogManagerW) getDialogManager()).showLoadingAnimation();
+		if (getDialogManager() instanceof LoadingApplication) {
+			((LoadingApplication) getDialogManager()).showLoadingAnimation();
 		}
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 		RootPanel.get().addStyleName("cursor_wait");
@@ -1239,8 +1172,8 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public void setDefaultCursor() {
-		if (getDialogManager() instanceof DialogManagerW) {
-			((DialogManagerW) getDialogManager()).hideLoadingAnimation();
+		if (getDialogManager() instanceof LoadingApplication) {
+			((LoadingApplication) getDialogManager()).hideLoadingAnimation();
 		}
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 	}
@@ -1350,14 +1283,11 @@ public abstract class AppW extends AppWeb {
 
 	public void addMenuItem(MenuBar parentMenu, String filename, String name,
 	        boolean asHtml, MenuInterface subMenu) {
-		String funcName = filename.substring(0, filename.lastIndexOf('.'));
-		ImageResource imgRes = (ImageResource) (AppResources.INSTANCE
-		        .getResource(funcName));
-		String iconString = imgRes.getSafeUri().asString();
+		
 
 		if (subMenu instanceof MenuBar) ((MenuBar)subMenu).addStyleName("GeoGebraMenuBar");
 		
-		parentMenu.addItem(getGuiManager().getMenuBarHtml(iconString, name, true),
+		parentMenu.addItem(getGuiManager().getMenuBarHtml(filename, name, true),
 		        true, (MenuBar) subMenu);
 	}
 
@@ -1481,9 +1411,8 @@ public abstract class AppW extends AppWeb {
 		euclidianView.updateSize();
 
 		// update layout
-		if (updateComponentTreeUI) {
-			((ZoomSplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
-			//updateComponentTreeUI();
+		if(updateComponentTreeUI){
+			updateTreeUI();
 		}
 
 		// reset mode and focus
@@ -1494,6 +1423,8 @@ public abstract class AppW extends AppWeb {
 		}
 	}
 	
+	protected abstract void updateTreeUI();
+
 	protected void requestFocusInWindow(){
 		if(WebStatic.panelForApplets == null && !articleElement.preventFocus()){
 			euclidianView.requestFocusInWindow();

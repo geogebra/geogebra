@@ -27,6 +27,7 @@ import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.GoogleFileDescriptors;
@@ -44,7 +45,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
-public class DialogManagerW extends DialogManager implements EventRenderable {
+public class DialogManagerW extends DialogManager implements EventRenderable, LoadingApplication {
 
 	private FunctionInspectorW functionInspector;
 	private SaveUnsavedChanges saveUnsavedDialog;

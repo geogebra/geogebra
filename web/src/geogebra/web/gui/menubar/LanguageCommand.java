@@ -19,10 +19,7 @@ import com.google.gwt.user.client.Cookies;
 public class LanguageCommand implements Command {
 
 	
-	/**
-	 * LOCALE_PARAMETER: this is the name of the locale parameter for both URL Query Parameter and Cookie Parameter
-	 */
-	public static final String LOCALE_PARAMETER = "locale";
+	
 	
 	private String localeCode;
 	private AppW app;
@@ -66,9 +63,9 @@ public class LanguageCommand implements Command {
 		setCookies("GGWlang", localeCode);
 		boolean newDirRTL = Localization.rightToLeftReadingOrder(localeCode);
 		if (newDirRTL){
-			setCookies(LOCALE_PARAMETER, "ar");
+			setCookies(AppW.LOCALE_PARAMETER, "ar");
 		} else {
-			setCookies(LOCALE_PARAMETER, "en");
+			setCookies(AppW.LOCALE_PARAMETER, "en");
 		}
 		
 		app.setUnsaved();

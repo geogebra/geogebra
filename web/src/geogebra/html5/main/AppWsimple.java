@@ -173,4 +173,10 @@ public class AppWsimple extends AppW {
     public void set1rstMode() {
 	    setMoveMode();
     }
+
+	@Override
+    protected void updateTreeUI() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

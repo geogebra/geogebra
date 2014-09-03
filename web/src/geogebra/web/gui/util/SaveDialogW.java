@@ -233,7 +233,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 
 	public void saveSuccess(String fName, String desc) {
-		((AppW) app).refreshCurrentFileDescriptors(fName,desc);
+		((AppW) app).getGoogleDriveOperation().refreshCurrentFileDescriptors(fName,desc);
 	}
 
 	private void setTitle() {
