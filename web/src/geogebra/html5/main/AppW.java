@@ -33,15 +33,13 @@ import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.kernel.KernelW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.SpreadsheetTableModelW;
-import geogebra.web.gui.toolbar.ToolBarW;
-import geogebra.web.javax.swing.GOptionPaneW;
-import geogebra.web.main.FileManagerW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +64,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+//import geogebra.web.main.FileManagerW;
 
 
 
@@ -333,14 +332,11 @@ public abstract class AppW extends AppWeb {
 	}
 
 	/**
-	 * Overwritten for touch
+	 * Overwritten for applets, full app and for touch
 	 * @return {@link FileManager}
 	 */
 	public FileManager getFileManager() {
-		if (this.fm == null) {
-			this.fm = new FileManagerW(this);
-		}
-		return this.fm;
+		return null;
 	}
 	
 	//public ToolTipManagerW getToolTipManager(){
@@ -1632,24 +1628,7 @@ public abstract class AppW extends AppWeb {
 	public boolean supportsView(int viewID) {
 	    return viewID != App.VIEW_EUCLIDIAN3D;
     }
-	private ToolBarW updateToolBar = null;
 
-	/**
-	 * 
-	 * @param toolBar will be updated every time setMode(int) is called
-	 */
-	public void setToolBarForUpdate(ToolBarW toolBar){
-		this.updateToolBar = toolBar;
-	}
-
-	@Override
-    public void setMode(int mode) {
-		super.setMode(mode);
-
-		if(updateToolBar != null){
-			updateToolBar.buildGui();
-		}
-	}
 	
 	public abstract void set1rstMode();
 	

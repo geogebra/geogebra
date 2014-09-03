@@ -28,13 +28,13 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.LoadingApplication;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.util.WindowReference;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
-import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import java.util.ArrayList;

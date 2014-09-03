@@ -11,11 +11,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.InputDialogW;
 import geogebra.web.gui.dialog.TextInputDialogW;
 import geogebra.web.gui.infobar.InfoBarW;
-import geogebra.web.javax.swing.GOptionPaneW;
 
 public class FactoryW extends Factory{
 

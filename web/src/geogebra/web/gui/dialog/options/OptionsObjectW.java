@@ -87,6 +87,7 @@ import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.util.ComboBoxW;
 import geogebra.html5.gui.util.SliderPanel;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.dialog.FileInputDialog;
@@ -111,7 +112,6 @@ import geogebra.web.gui.util.PointStylePopup;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.javax.swing.GOptionPaneW;
 
 import java.util.ArrayList;
 import java.util.Arrays;

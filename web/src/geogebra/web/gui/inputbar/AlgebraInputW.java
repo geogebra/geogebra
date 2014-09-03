@@ -13,9 +13,9 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.javax.swing.GOptionPaneW;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;

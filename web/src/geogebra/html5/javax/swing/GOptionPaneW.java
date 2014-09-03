@@ -1,4 +1,4 @@
-package geogebra.web.javax.swing;
+package geogebra.html5.javax.swing;
 
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;

@@ -7,6 +7,7 @@ import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.main.AppWapplication;
 
@@ -51,7 +52,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 		final ToolBarP toolBar = new ToolBarP(ggwToolbar);
 		toolBar.init(app);
 		toolBar.buildGui();
-		app.setToolBarForUpdate(toolBar);
+		((GuiManagerW)app.getGuiManager()).setToolBarForUpdate(toolBar);
 
 		content.add(toolBar);
 		panel.add(content);

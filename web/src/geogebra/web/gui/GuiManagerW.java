@@ -32,6 +32,7 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.Dom;
@@ -78,7 +79,6 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.html5.AttachedToDOM;
-import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppWapplet;
 
 import java.util.ArrayList;
@@ -1463,6 +1463,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 
 		int ret = toolbarPanel.setMode(mode);
+		if(this.updateToolBar != null){
+			this.updateToolBar.buildGui();
+		}
 //		layout.getDockManager().setToolbarMode(mode);
 		return ret;
 //		return mode;
@@ -1589,4 +1592,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
     }
 	
+	private ToolBarW updateToolBar = null;
+	
+	/**
+	 * 
+	 * @param toolBar will be updated every time setMode(int) is called
+	 */
+	public void setToolBarForUpdate(ToolBarW toolBar){
+		this.updateToolBar = toolBar;
+	}
 }

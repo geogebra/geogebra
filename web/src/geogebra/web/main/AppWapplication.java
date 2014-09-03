@@ -8,6 +8,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.FileManager;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
@@ -355,6 +356,14 @@ public class AppWapplication extends AppW {
 			googleDriveOperation.initGoogleDriveApi();
 		}
 		
+	}
+	
+	@Override
+    public FileManager getFileManager() {
+		if (this.fm == null) {
+			this.fm = new FileManagerW(this);
+		}
+		return this.fm;
 	}
 
 	@Override
