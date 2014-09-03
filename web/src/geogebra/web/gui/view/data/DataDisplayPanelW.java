@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import geogebra.common.main.App;
 import geogebra.common.util.Validation;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.Slider;
@@ -124,6 +125,9 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	private ScrollPanel spFrequencyTable;
 
+
+	private FlowPanel mainPanel;
+
 	/*****************************************
 	 * Constructs a ComboStatPanel
 	 * 
@@ -151,6 +155,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	 *            the data analysis mode
 	 */
 	public void setPanel(PlotType plotIndex, int mode) {
+		
 		getModel().updatePlot(plotIndex, mode);
 		setLabels();
 		getModel().updatePlot(true);
@@ -248,15 +253,15 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		// =======================================
 		// put all the panels together
 
-		FlowPanel mainPanel = new FlowPanel();
-
+		mainPanel = new FlowPanel();
+		mainPanel.setStyleName("dataDisplayMain");
 		if (hasControlPanel) {
 			mainPanel.add(controlPanel);
 		}
 		mainPanel.add(LayoutUtil.panelRow(displayDeckPanel, optionsPanel));
 
 		add(mainPanel);
-
+		resize();
 	}
 
 	/**
@@ -314,7 +319,6 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		plotPanelNorth.clear();
 		
 		metaPlotPanel.add(plotPanel.getComponent());
-		plotPanel.synCanvasSize();
 		getModel().updatePlotPanelLayout();
 	}
 
@@ -500,6 +504,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		else if (source == btnOptions) {
 			optionsPanel.setPanel(getModel().getSelectedPlot());
 			optionsPanel.setVisible(btnOptions.isSelected());
+			resize();
 		}
 //
 //		else if (source == btnExport) {
@@ -520,7 +525,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			
 			if (optionsPanel.isVisible()) {
 				optionsPanel.setPanel(getModel().getSelectedPlot());
-
+				resize();
 			}
 
 		}
@@ -735,5 +740,27 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		plotPanel.repaint();
 	}
 
+	public void resize() {
+		int w = getOffsetWidth();
+		int h = getOffsetHeight();
+//		App.debug("[AAAAAAA] w, h: (" + w + ", " + h +  ")");
+		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() 
+				: w;
+		int height = frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
+				: h;
+		// for debug;
+		h -= 30;
+//	
+		App.debug("[AAAAAAA] width, height: (" + width + ", " + height +  ")");
+		if (width > 0) { 
+			plotPanel.setPreferredSize(new GDimensionW(width, height));
+			plotPanel.updateSize();
+////			getModel().updatePlot(false);
+			plotPanel.repaintView();
+			plotPanel.getEuclidianController().calculateEnvironment();
+		}
+//		
+		getModel().updatePlot(false);
+	}
 
 }

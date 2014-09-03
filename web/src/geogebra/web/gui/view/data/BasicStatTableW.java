@@ -67,7 +67,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	public int getRowCount() {
-		return model.getRowCount();
+		return model.getRowCount() - 1;
 	}
 
 	public int getColumnCount() {

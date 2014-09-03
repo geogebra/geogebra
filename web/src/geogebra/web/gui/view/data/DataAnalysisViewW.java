@@ -78,7 +78,14 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);
 
-		comboPanelSplit = new SplitLayoutPanel();
+		comboPanelSplit = new SplitLayoutPanel() {
+			@Override
+            public void onResize() {
+				dataDisplayPanel1.resize();
+				dataDisplayPanel2.resize();
+				
+			}
+		};
 		comboPanelSplit.setStyleName("comboSplitLayout");
 		comboPanelSplit.add(dataDisplayPanel1);
 		add(comboPanelSplit);
