@@ -2,9 +2,12 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.InputDialog;
+import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
@@ -18,6 +21,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
@@ -471,4 +475,16 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	public FunctionInspectorW getFunctionInspector() {
 		return functionInspector;
 	}
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint){
+		return new TextInputDialogW(app, app.getPlain("Text"), text, startPoint, 30,
+	        6, app.getMode() == EuclidianConstants.MODE_TEXT);
+	}
+
+	@Override
+    public InputDialog newInputDialog(App app, String message, String title,
+            String initString, boolean autoComplete, InputHandler handler,
+            GeoElement geo) {
+		return new InputDialogW((AppW)app, message, title,
+	    		initString, autoComplete, handler, geo);
+    }
 }

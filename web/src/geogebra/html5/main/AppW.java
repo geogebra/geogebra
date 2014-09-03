@@ -133,7 +133,7 @@ public abstract class AppW extends AppWeb {
 		initFactories();
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.html5.factories.UtilFactoryW();
 		geogebra.common.factories.Factory
-		        .setPrototype(new geogebra.web.factories.FactoryW());
+		        .setPrototype(new geogebra.html5.factories.FactoryW());
 		// App.initializeSingularWS();
 
 		// neded to not overwrite anything already exists

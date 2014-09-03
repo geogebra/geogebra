@@ -1,8 +1,11 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.InputDialog;
+import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
@@ -90,7 +93,8 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 			functionInspector.updateFonts();
 
 		if (textInputDialog != null)
-			((TextInputDialog) textInputDialog).updateFonts();
+			((geogebra.gui.dialog.TextInputDialog) textInputDialog)
+					.updateFonts();
 
 		if (fileChooser != null) {
 			fileChooser.setFont(((AppD) app).getPlainFont());
@@ -111,7 +115,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 			functionInspector.setLabels();
 
 		if (textInputDialog != null)
-			((TextInputDialog) textInputDialog).setLabels();
+			((geogebra.gui.dialog.TextInputDialog) textInputDialog).setLabels();
 
 		if (fileChooser != null)
 			updateJavaUILanguage();
@@ -657,6 +661,21 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		// TODO: move openToolHelp() into DialogManager
 		((GuiManagerD) app.getGuiManager()).openToolHelp();
 
+	}
+
+	@Override
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
+		return new geogebra.gui.dialog.TextInputDialog(app,
+				app.getPlain("Text"), text, startPoint, 30, 6,
+				app.getMode() == EuclidianConstants.MODE_TEXT);
+	}
+
+	@Override
+	public InputDialog newInputDialog(App app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler,
+			GeoElement geo) {
+		return new InputDialogD((AppD) app, message, title, initString,
+				autoComplete, handler, geo);
 	}
 
 }

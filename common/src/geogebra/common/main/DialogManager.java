@@ -13,10 +13,8 @@ package geogebra.common.main;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.factories.Factory;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
@@ -87,12 +85,16 @@ public abstract class DialogManager {
 
 		InputHandler handler = new RedefineInputHandler(app, geo, str);
 	
-		InputDialog inputDialog = Factory.getPrototype().newInputDialog(app,
+		newInputDialog(app,
 				geo.getNameDescription(), app.getPlain("Redefine"), str, true,
 				handler, geo);
 
 
 	}
+	
+	public abstract InputDialog newInputDialog(App app, String message, String title,
+	        String initString, boolean autoComplete, InputHandler handler,
+	        GeoElement geo);
 
 	public abstract void showNumberInputDialogSegmentFixed(String menu,
 			GeoPointND geoPoint2);
@@ -409,18 +411,13 @@ public abstract class DialogManager {
 		} else {
 			textInputDialog.reInitEditor(text, startPoint);
 		}
-	
+
 		textInputDialog.setVisible(true);
 		app.setDefaultCursor();
 	
 	}
 
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
-		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
-		TextInputDialog id = app.getFactory().newTextInputDialog(app,
-				app.getPlain("Text"), text, startPoint, 30, 6, isTextMode);
-		return id;
-	}
+	public abstract TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint);
 
 	//public abstract void showOpenFromGGTDialog();
 

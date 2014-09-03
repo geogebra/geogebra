@@ -1,4 +1,4 @@
-package geogebra.web.javax.swing;
+package geogebra.html5.javax.swing;
 
 import geogebra.common.gui.util.RelationMore;
 import geogebra.common.javax.swing.RelationPane;

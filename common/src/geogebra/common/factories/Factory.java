@@ -1,26 +1,12 @@
 package geogebra.common.factories;
 
-import geogebra.common.gui.InputHandler;
-import geogebra.common.gui.dialog.InputDialog;
-import geogebra.common.gui.dialog.TextInputDialog;
-import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.javax.swing.RelationPane;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 
 public abstract class Factory {
 	private static Factory prototype;
 	
 	public abstract RelationPane newRelationPane();
-	public abstract TextInputDialog newTextInputDialog(App app, String title, GeoText editGeo,
-            GeoPointND startPoint, int cols, int rows, boolean isTextMode);
-	public abstract InfoBar newInfoBar(App app);
-	public abstract InputDialog newInputDialog(App app, String message, String title,
-	        String initString, boolean autoComplete, InputHandler handler,
-	        GeoElement geo);
-	
+
 	/**
 	 * @return might return null. Use App.getFactory()
 	 */

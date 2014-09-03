@@ -1,19 +1,25 @@
 package geogebra.main;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.InputDialog;
+import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.AsyncOperation;
+import geogebra.gui.dialog.InputDialogD;
 
 import java.util.ArrayList;
 
@@ -177,5 +183,20 @@ public class DialogManagerMinimal extends DialogManager {
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2);
 
+	}
+
+	@Override
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
+		return new geogebra.gui.dialog.TextInputDialog(app,
+				app.getPlain("Text"), text, startPoint, 30, 6,
+				app.getMode() == EuclidianConstants.MODE_TEXT);
+	}
+
+	@Override
+	public InputDialog newInputDialog(App app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler,
+			GeoElement geo) {
+		return new InputDialogD((AppD) app, message, title, initString,
+				autoComplete, handler, geo);
 	}
 }
