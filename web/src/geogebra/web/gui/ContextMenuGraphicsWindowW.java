@@ -62,7 +62,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         wrappedPopup.addItem(zoomMenuItem);
         addZoomItems(zoomMenu);
         
-        RadioButtonMenuBar yaxisMenu = app.getFactory().newRadioButtonMenuBar(app, false);
+        RadioButtonMenuBar yaxisMenu = new geogebra.web.gui.menubar.RadioButtonMenuBarW(app, false);
         addAxesRatioItems(yaxisMenu);
         
         MenuItem mi = new MenuItem(app.getPlain("xAxis") + " : " + app.getPlain("yAxis"), true, (MenuBar)yaxisMenu);

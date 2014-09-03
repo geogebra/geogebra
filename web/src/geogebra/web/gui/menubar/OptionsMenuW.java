@@ -1,7 +1,10 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.gui.menubar.MenuFactory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
+import geogebra.common.gui.menubar.OptionsMenu;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
@@ -42,12 +45,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	
 	private void initItems(){
 		//"Algebra Descriptions" menu
-		app.getOptionsMenu().addAlgebraDescriptionMenu(this);
-		app.getOptionsMenu().addDecimalPlacesMenu(this);	
+		getOptionsMenu().addAlgebraDescriptionMenu(this);
+		getOptionsMenu().addDecimalPlacesMenu(this);	
 		addSeparator();
-		app.getOptionsMenu().addLabelingMenu(this);
+		getOptionsMenu().addLabelingMenu(this);
 		addSeparator();
-		app.getOptionsMenu().addFontSizeMenu(this);
+		getOptionsMenu().addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
 		if (!app.isApplet()){
@@ -179,8 +182,16 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 	
 	public void actionPerformed(String cmd){
-		app.getOptionsMenu().processActionPerformed(cmd);
+		getOptionsMenu().processActionPerformed(cmd);
 	}
 
+	private OptionsMenu getOptionsMenu() {
+		return app.getOptionsMenu(new MenuFactory() {
 
+			@Override
+			public RadioButtonMenuBar newSubmenu() {
+				return new RadioButtonMenuBarW(app, true);
+			}
+		});
+	}
 }

@@ -14,8 +14,9 @@ public class OptionsMenu {
 	private RadioButtonMenuBar menuLabeling;
 	private App app;
 	private Kernel kernel;
+	private MenuFactory menuFactory;
 	
-	public OptionsMenu(App app) {
+	public OptionsMenu(App app, MenuFactory menuFactory) {
 		this.app = app;
 		kernel = app.getKernel();
 	}
@@ -93,8 +94,8 @@ public class OptionsMenu {
 		}			
     }
 	
-	private RadioButtonMenuBar newSubmenu(){
-		return app.getFactory().newRadioButtonMenuBar(app, true);
+	public RadioButtonMenuBar newSubmenu(){
+		return this.menuFactory.newSubmenu();
 	}
 
 	/**

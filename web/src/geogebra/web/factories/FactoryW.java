@@ -4,14 +4,11 @@ import geogebra.common.factories.Factory;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
-import geogebra.common.gui.menubar.RadioButtonMenuBar;
-import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.javax.swing.RelationPane;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.InputDialogW;
 import geogebra.web.gui.dialog.TextInputDialogW;
@@ -19,15 +16,6 @@ import geogebra.web.gui.infobar.InfoBarW;
 
 public class FactoryW extends Factory{
 
-	@Override
-    public RadioButtonMenuBar newRadioButtonMenuBar(App app, boolean arrow) {
-	    return new geogebra.web.gui.menubar.RadioButtonMenuBarW((AppW)app, arrow);
-    }
-
-	@Override
-    public GOptionPane newGOptionPane() {
-		return GOptionPaneW.INSTANCE;
-    }
 
 	@Override
 	public TextInputDialog newTextInputDialog(App app, String title,

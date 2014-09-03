@@ -5,8 +5,6 @@ import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.infobar.InfoBar;
-import geogebra.common.gui.menubar.RadioButtonMenuBar;
-import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.javax.swing.RelationPane;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -16,16 +14,6 @@ import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 
 public class FactoryD extends Factory {
-
-	@Override
-	public RadioButtonMenuBar newRadioButtonMenuBar(App app, boolean arrow) {
-		return new geogebra.gui.menubar.RadioButtonMenuBarD(app);
-	}
-
-	@Override
-	public GOptionPane newGOptionPane() {
-		return new geogebra.javax.swing.GOptionPaneD();
-	}
 
 	@Override
 	public RelationPane newRelationPane() {

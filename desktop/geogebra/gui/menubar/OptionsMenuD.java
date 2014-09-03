@@ -1,7 +1,10 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.gui.menubar.MenuFactory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
+import geogebra.common.gui.menubar.OptionsMenu;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
@@ -56,17 +59,17 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 		// G.Sturr 2009-10-18
 		// Algebra description: show value or definition of objects
-		app.getOptionsMenu().addAlgebraDescriptionMenu(this);
-		app.getOptionsMenu().addDecimalPlacesMenu(this);
+		getOptionsMenu().addAlgebraDescriptionMenu(this);
+		getOptionsMenu().addDecimalPlacesMenu(this);
 		addSeparator();
 		// Labeling
-		app.getOptionsMenu().addLabelingMenu(this);
+		getOptionsMenu().addLabelingMenu(this);
 
 		// add(drawingPadPropAction);
 
 		addSeparator();
 
-		app.getOptionsMenu().addFontSizeMenu(this);
+		getOptionsMenu().addFontSizeMenu(this);
 
 		/*
 		 * // FontName menuFontName = new JMenu(getMenu("PointCapturing"));
@@ -328,7 +331,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 	@Override
 	public void update() {
-		app.getOptionsMenu().update();
+		getOptionsMenu().update();
 	}
 
 	/**
@@ -396,7 +399,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 	 */
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
-		app.getOptionsMenu().processActionPerformed(cmd);
+		getOptionsMenu().processActionPerformed(cmd);
 	}
 
 	@Override
@@ -405,7 +408,17 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 	}
 
 	public void actionPerformed(String command) {
-		app.getOptionsMenu().processActionPerformed(command);
+		getOptionsMenu().processActionPerformed(command);
+	}
+
+	private OptionsMenu getOptionsMenu() {
+		return app.getOptionsMenu(new MenuFactory() {
+
+			@Override
+			public RadioButtonMenuBar newSubmenu() {
+				return new RadioButtonMenuBarD(app);
+			}
+		});
 	}
 
 }

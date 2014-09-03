@@ -593,7 +593,7 @@ public abstract class GlobalKeyDispatcher {
 					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
 					kernel.updateConstruction();
 					if (app.hasOptionsMenu()) {
-						app.getOptionsMenu().updateMenuViewDescription();
+						app.getOptionsMenu(null).updateMenuViewDescription();
 					}
 					app.setUnsaved();
 					consumed = true;

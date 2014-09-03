@@ -19,6 +19,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
+import geogebra.common.gui.menubar.MenuFactory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.util.RelationMore;
@@ -3386,10 +3387,10 @@ public abstract class App implements UpdateSelection{
 		getEventDispatcher().dispatchEvent(evt);
 	}
 	
-	public OptionsMenu getOptionsMenu() {
+	public OptionsMenu getOptionsMenu(MenuFactory mf) {
 		
 		if (optionsMenu == null) {
-			optionsMenu = new OptionsMenu(this);
+			optionsMenu = new OptionsMenu(this, mf);
 		}
 		return optionsMenu;
 	}
