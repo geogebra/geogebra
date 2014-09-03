@@ -124,7 +124,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 
 	@Override
     protected geogebra.common.util.HttpRequest createHttpRequest() {
-		return new geogebra.web.util.HttpRequestW();
+		return new geogebra.html5.util.HttpRequestW();
     }
 
 	/**

@@ -1,7 +1,7 @@
-package geogebra.web.util;
+package geogebra.html5.util;
 
 import geogebra.common.main.App;
-import geogebra.web.kernel.prover.ProverReciosMethod;
+import geogebra.html5.kernel.ProverReciosMethod;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>

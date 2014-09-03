@@ -1,4 +1,4 @@
-package geogebra.web.kernel.prover;
+package geogebra.html5.kernel;
 
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;

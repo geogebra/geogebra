@@ -1,4 +1,4 @@
-package geogebra.web.factories;
+package geogebra.html5.factories;
 
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.util.HttpRequest;
@@ -14,7 +14,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
     public HttpRequest newHttpRequest() {
-		return new geogebra.web.util.HttpRequestW();
+		return new geogebra.html5.util.HttpRequestW();
 	}
 
 	@Override
@@ -29,6 +29,6 @@ public class UtilFactoryW extends UtilFactory {
 	
 	@Override
     public Prover newProver() {
-		return new geogebra.web.util.Prover();
+		return new geogebra.html5.util.Prover();
     }
 }

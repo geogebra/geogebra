@@ -1,4 +1,4 @@
-package geogebra.web.html5;
+package geogebra.html5.util;
 
 import geogebra.common.move.ggtapi.models.AjaxCallback;
 
@@ -14,14 +14,6 @@ public class XHR2 extends XMLHttpRequest {
 		
 	}
 	
-	/**
-	 * @param formData Formdata to send
-	 * 
-	 * Sends a formData object via AJAX
-	 */
-	public final native void send(FormData formData) /*-{
-		this.send(formData);
-	}-*/;
 	
 	/**
 	 * @param httpMethod GET/POST/PUT/ETC
@@ -52,23 +44,12 @@ public class XHR2 extends XMLHttpRequest {
 				if (xhr.status === 200) { 
 					callback.@geogebra.common.move.ggtapi.models.AjaxCallback::onSuccess(Ljava/lang/String;)(xhr.responseText);
 				} else {
-					if (errorHandler !== null) {
-						callback.@geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.statusText);
-					} else {
-						@geogebra.common.main.App::debug(Ljava/lang/String;)(xhr.statusText);
-					}
+					callback.@geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.statusText);
 				}
 			}
 		};
-	}-*/;
-	
-	/**
-	 * @param errorHandler for AJAX calls
-	 */
-	public final native void onError(AjaxError errorHandler) /*-{
-		var xhr = this;
 		xhr.onerror = function(e) {
-			errorHandler.@geogebra.web.html5.AjaxError::onError(Ljava/lang/String;)(xhr.statusText);
+			callback.@geogebra.common.move.ggtapi.models.AjaxCallback::onError(Ljava/lang/String;)(xhr.statusText);
 		}
 	}-*/;
 	

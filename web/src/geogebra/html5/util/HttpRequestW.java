@@ -1,9 +1,8 @@
-package geogebra.web.util;
+package geogebra.html5.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.AjaxCallback;
 import geogebra.common.util.debug.Log;
-import geogebra.web.html5.XHR2;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
