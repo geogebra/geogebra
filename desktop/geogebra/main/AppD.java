@@ -568,7 +568,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					tmpPerspectives,
 					PerspectiveDecoder.decode(this.perspectiveParam,
 							getKernel().getParser(),
-							ToolBar.getAllToolsNoMacros(true, false)));
+							ToolBar.getAllToolsNoMacros(false)));
 		}
 
 		if (needsSpreadsheetTableModel) {
@@ -1912,8 +1912,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public ImageIcon getToolIcon(Color border) {
-		return imageManager.getImageIcon(
-				"/gui/toolbar/images/mode_tool.png", border);
+		return imageManager.getImageIcon("/gui/toolbar/images/mode_tool.png",
+				border);
 	}
 
 	public ImageIcon getEmptyIcon() {
@@ -2719,7 +2719,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// handle input bar
 		if (showAlgebraInput) {
-			AppD2.initInputBar(this, super.showInputTop(), northPanel, southPanel);
+			AppD2.initInputBar(this, super.showInputTop(), northPanel,
+					southPanel);
 		}
 
 		if (showToolBar) {
@@ -3285,17 +3286,16 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * Load file
 	 */
 	public boolean loadFile(File file, boolean isMacroFile) {
-		
-		if(!checkFileExistsAndShowFileNotFound(file)){
+
+		if (!checkFileExistsAndShowFileNotFound(file)) {
 			return false;
 		}
-		
+
 		return loadExistingFile(file, isMacroFile);
-		
+
 	}
 
-
-	protected final boolean checkFileExistsAndShowFileNotFound(File file){
+	protected final boolean checkFileExistsAndShowFileNotFound(File file) {
 		// show file not found message
 		if (!file.exists()) {
 			/*
@@ -3309,14 +3309,13 @@ public class AppD extends App implements KeyEventDispatcher {
 					getLocalization().getError("FileNotFound") + ":\n"
 							+ file.getAbsolutePath(), getLocalization()
 							.getError("Error"), JOptionPane.DEFAULT_OPTION,
-							JOptionPane.WARNING_MESSAGE);
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
 		return true;
 	}
-	
-	
+
 	public boolean loadExistingFile(File file, boolean isMacroFile) {
 
 		kernel.notifyOpeningFile(file.getName());
@@ -5158,11 +5157,11 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 	}
-	
+
 	/**
 	 * resume 3D openGL renderer
 	 */
-	public void resume3DRenderer(){
+	public void resume3DRenderer() {
 		// used in 3D
 	}
 }

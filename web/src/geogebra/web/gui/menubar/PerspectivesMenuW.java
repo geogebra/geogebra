@@ -41,7 +41,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			final int index = i;
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), 
-				app.getMenu("Perspective."+ defaultPerspectives[i].getId()), true),true,new Command() {
+				app.getMenu(defaultPerspectives[i].getId()), true),true,new Command() {
 			
 			public void execute() {
 				app.persistWidthAndHeight();

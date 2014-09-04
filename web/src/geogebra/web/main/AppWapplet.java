@@ -299,7 +299,7 @@ public class AppWapplet extends AppW {
 			((LayoutW)getGuiManager().getLayout()).getDockManager().kickstartRoot(frame);
 			Perspective p = null;
 			if(perspective != null){
-				p = PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true, true));
+				p = PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true));
 			}
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(), p);
 		}

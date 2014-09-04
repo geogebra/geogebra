@@ -182,7 +182,7 @@ public class AppWapplication extends AppW {
     public void afterLoadFileAppOrNot() {
 		String perspective = getArticleElement().getDataParamPerspective();
 		getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), 
-				ToolBar.getAllToolsNoMacros(true, true)));
+				ToolBar.getAllToolsNoMacros(true)));
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		

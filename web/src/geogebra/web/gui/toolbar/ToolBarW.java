@@ -245,8 +245,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	public static String getAllTools(AppW app) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(true,
-		        true));
+		sb.append(geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(true));
 
 		// macros
 		Kernel kernel = app.getKernel();

@@ -98,8 +98,7 @@ public class PerspectivePanel extends JPopupMenu {
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-			tmpItem.setText(app.getMenu("Perspective."
-					+ defaultPerspectives[i].getId()));
+			tmpItem.setText(app.getMenu(defaultPerspectives[i].getId()));
 			tmpItem.setActionCommand("d" + i);
 
 			Icon ic;

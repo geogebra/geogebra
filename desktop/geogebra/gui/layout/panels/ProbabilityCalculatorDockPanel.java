@@ -28,17 +28,20 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 
 		this.app = app;
 		this.setOpenInFrame(true);
-		
+
 	}
 
 	@Override
 	protected JComponent loadComponent() {
-		return ((ProbabilityCalculatorViewD) app.getGuiManager().getProbabilityCalculator()).getWrapperPanel();
+		App.printStacktrace("aa");
+		return ((ProbabilityCalculatorViewD) app.getGuiManager()
+				.getProbabilityCalculator()).getWrapperPanel();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((GuiManagerD) app.getGuiManager()).getProbabilityCalculator().getStyleBar().getWrappedToolbar();
+		return ((GuiManagerD) app.getGuiManager()).getProbabilityCalculator()
+				.getStyleBar().getWrappedToolbar();
 	}
 
 }

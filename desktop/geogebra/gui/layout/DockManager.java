@@ -149,6 +149,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 				DockPanel panel = getPanel(dpData[i]);
 
 				if (panel == null) {
+					App.printStacktrace("");
 					// TODO insert error panel
 				} else {
 					panel.setToolbarString(dpData[i].getToolbarString());
@@ -166,6 +167,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 					}
 
 					panel.setVisible(dpData[i].isVisible());
+					App.printStacktrace(panel.getClass());
 				}
 			}
 		}
@@ -297,7 +299,10 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 				// for(DockPanel panel : dockPanels) {
 				boolean focusDone = false;
 				for (int i = 0; i < dpData.length && !focusDone; ++i) {
-					if (dpData[i].getPlane() == null){ // we can't focus on view for plane otherwise we will recreate it
+					if (dpData[i].getPlane() == null) { // we can't focus on
+														// view for plane
+														// otherwise we will
+														// recreate it
 						DockPanel panel = getPanel(dpData[i]);
 						if (panel != null && panel.isVisible()
 								&& !panel.isInFrame()) {
@@ -716,7 +721,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 		for (ShowDockPanelListener l : showDockPanelListener) {
 			l.showDockPanel(panel);
 		}
-		
+
 		// make sure that 3D renderer works correctly
 		app.resume3DRenderer();
 	}
@@ -870,7 +875,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 
 			app.updateToolBar();
 		}
-		
+
 		// make sure that 3D renderer works correctly
 		app.resume3DRenderer();
 
@@ -1324,7 +1329,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 	public DockPanel getPanel(DockPanelData dpData) {
 		if (dpData.getPlane() == null) // standard case
 			return getPanel(dpData.getViewId());
-		
+
 		// euclidian view for plane case
 		DockPanel panel = (DockPanel) app.getCompanion()
 				.createEuclidianDockPanelForPlane(dpData.getViewId(),
@@ -1339,7 +1344,6 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 		return panel;
 
 	}
-	
 
 	/**
 	 * Returns a specific DockPanel.

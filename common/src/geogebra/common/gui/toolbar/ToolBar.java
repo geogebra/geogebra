@@ -24,7 +24,7 @@ public class ToolBar {
 	 * are some tools, which don't appear.)
 	 * @return The default definition of the general tool bar without macros.
 	 */
-	public static String getAllToolsNoMacros(boolean showAllMenu, boolean html5) {
+	public static String getAllToolsNoMacros(boolean html5) {
 		StringBuilder sb = new StringBuilder();
 		
 		// move
@@ -172,25 +172,23 @@ public class ToolBar {
 		
 		sb.append(EuclidianConstants.MODE_RELATION);
 		
-		if(showAllMenu){
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+		
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
 			
-		}
+		
 			
 		// objects with actions
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_SLIDER);
-		if(showAllMenu) {
+		
 			if (!html5){
 				sb.append(" ");
 				sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 				}
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
-		}
+		
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
 		
