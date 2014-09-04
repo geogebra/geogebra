@@ -26,7 +26,7 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner{
 	 */
 	public AlgoDrawingPadCorner3D(Construction cons, String label,
 			NumberValue number, NumberValue evNum) {
-		super(cons, label, number, evNum);
+		super(cons, label, number, evNum, 9);
 	}
 
 	

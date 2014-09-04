@@ -162,6 +162,7 @@ public class Construction {
 
 	// list of algorithms that need to be updated when EuclidianView changes
 	private ArrayList<EuclidianViewCE> euclidianViewCE;
+	private ArrayList<EuclidianViewCE> corner5Algos;
 
 	/** Table for (label, GeoElement) pairs, contains local variables */
 	protected HashMap<String, GeoElement> localVariableTable;
@@ -910,6 +911,9 @@ public class Construction {
 	 */
 	public final void unregisterEuclidianViewCE(EuclidianViewCE elem) {
 		euclidianViewCE.remove(elem);
+		if(this.corner5Algos != null){
+			this.corner5Algos.remove(elem);
+		}
 	}
 
 	/**
@@ -919,22 +923,26 @@ public class Construction {
 	 * 
 	 * @return true iff there were any elements to update
 	 */
-	public boolean notifyEuclidianViewCE() {
+	public boolean notifyEuclidianViewCE(boolean onlyCorner5) {
 		boolean didUpdate = false;
-		int size = euclidianViewCE.size();
+		ArrayList<EuclidianViewCE> toUpdate = onlyCorner5 ? this.corner5Algos : this.euclidianViewCE;
+		if(toUpdate == null){
+			return false;
+		}
+		int size = toUpdate.size();
 		AlgorithmSet updateSet = null;
 		for (int i = 0; i < size; i++) {
 			didUpdate = true;
-			boolean needsUpdateCascade = euclidianViewCE.get(i)
+			boolean needsUpdateCascade = toUpdate.get(i)
 					.euclidianViewUpdate();
 			if (needsUpdateCascade) {
 				if (updateSet == null)
 					updateSet = new AlgorithmSet();
-				if (euclidianViewCE.get(i) instanceof GeoElement) {
-					GeoElement geo = (GeoElement) euclidianViewCE.get(i);
+				if (toUpdate.get(i) instanceof GeoElement) {
+					GeoElement geo = (GeoElement) toUpdate.get(i);
 					updateSet.addAll(geo.getAlgoUpdateSet());
-				} else if (euclidianViewCE.get(i) instanceof AlgoElement) {
-					AlgoElement algo = (AlgoElement) euclidianViewCE.get(i);
+				} else if (toUpdate.get(i) instanceof AlgoElement) {
+					AlgoElement algo = (AlgoElement) toUpdate.get(i);
 					GeoElement[] geos = algo.getOutput();
 					for (GeoElement geo : geos) {
 						updateSet.addAll(geo.getAlgoUpdateSet());
@@ -2613,6 +2621,7 @@ public class Construction {
 
 		geoSetsTypeMap.clear();
 		euclidianViewCE.clear();
+		this.corner5Algos = null;
 		this.casDummies.clear();
 		initGeoTables();
 
@@ -2944,6 +2953,13 @@ public class Construction {
 		this.updateConstruction();
 		this.kernel.getApplication().setBlockUpdateScripts(oldFlag);
 		
+	}
+
+	public void registerCorner5(EuclidianViewCE algo) {
+		if(this.corner5Algos == null){
+			this.corner5Algos = new ArrayList<EuclidianViewCE>();
+		}
+		this.corner5Algos.add(algo);
 	}
 	
 

@@ -16,6 +16,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
@@ -30,8 +31,8 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	protected NumberValue number;
 	protected NumberValue evNum;
 
-	public AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
-			NumberValue evNum) {
+	protected AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
+			NumberValue evNum, double absCorner) {
 		super(cons);
 		this.number = number;
 		this.evNum = evNum; // can be null
@@ -43,6 +44,15 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		corner.setLabel(label);
 
 		cons.registerEuclidianViewCE(this);
+		if(Kernel.isEqual(number.getDouble(),absCorner)){
+			cons.registerCorner5(this);
+		}
+
+	}
+	
+	public AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
+			NumberValue evNum) {
+		this(cons, label, number, evNum, 5);
 
 	}
 	

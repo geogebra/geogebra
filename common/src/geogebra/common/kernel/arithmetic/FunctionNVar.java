@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MaxSizeHashMap;
@@ -496,7 +497,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 					return resultFun;
 				}
 			}
-
+			App.debug(casString);
 			// evaluate expression by CAS
 			String result = symbolic ? kernel.evaluateGeoGebraCAS(casString,arbconst) : // symbolic
 					kernel.evaluateCachedGeoGebraCAS(casString,arbconst); // value string

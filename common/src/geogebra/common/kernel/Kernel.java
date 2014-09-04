@@ -1110,6 +1110,7 @@ public class Kernel {
 				}
 				// convert scientific notation 1.0E-20 to 1*10^(-20)
 				String scientificStr = Double.toString(x);
+				
 				return tpl.convertScientificNotation(scientificStr);
 			}
 
@@ -2485,7 +2486,7 @@ public class Kernel {
 		if (macroManager != null)
 			macroManager.notifyEuclidianViewCE();
 
-		cons.notifyEuclidianViewCE();
+		cons.notifyEuclidianViewCE(false);
 	}
 
 	/** 

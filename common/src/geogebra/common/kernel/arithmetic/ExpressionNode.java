@@ -1319,6 +1319,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					leftStr = ((ExpressionNode) left).getCASstring(tpl,
 							symbolic);
 				} else {
+					App.debug(left.toString(tpl));
 					leftStr = symbolic ? left.toString(tpl) : left
 							.toValueString(tpl);
 				}
@@ -3272,6 +3273,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(")");
 			} else {
 				if (tpl.isPrintLocalizedCommandNames()) {
+					App.printStacktrace(tpl.toString());
 					sb.append(loc.getCommand("If"));
 				}else{
 					sb.append("If");

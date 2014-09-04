@@ -136,7 +136,7 @@ public class MacroManager {
 		// save selected macros
 		for (int i=0; i < macroList.size(); i++) {			
 			Macro macro = macroList.get(i);			
-			macro.getMacroConstruction().notifyEuclidianViewCE();			
+			macro.getMacroConstruction().notifyEuclidianViewCE(false);			
 		}		
 	}
 	
