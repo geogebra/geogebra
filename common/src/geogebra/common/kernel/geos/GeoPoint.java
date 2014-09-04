@@ -1580,7 +1580,7 @@ SymbolicParametersBotanaAlgo {
 		if (path != null) {
 			GeoElement geo = path.toGeoElement();
 			if (geo.isGeoConic()) {
-				((GeoConic) geo).removePointOnConic(this);// GeoConicND
+				((GeoConicND) geo).removePointOnConic(this);// GeoConicND
 			}
 		}
 
