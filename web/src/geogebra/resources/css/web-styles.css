@@ -154,8 +154,10 @@ hr {
 	background-color: rgba(204, 204, 204, 0.2);
 }
 
-.buttonPanel .button {
-	float: right;
+.gwt-Button.minor[disabled="disabled"]:hover,
+.gwt-Button.minor[disabled="disabled"]:active {
+	border: 1px solid #999999;
+	background-color: none;
 }
 
 .gwt-Button:active,
@@ -171,15 +173,23 @@ hr {
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
-.gwt-Button[disabled] {
+.gwt-Button[disabled="disabled"],
+.buttonPanel .button[disabled="disabled"] {
 	cursor: default;
-	color: #EDEDED;
-	border-color: #EDEDED;
+	opacity: .5;
+	zoom: 1;
+	filter: alpha(opacity = 50);
 }
-.gwt-Button[disabled]:hover {
-  	cursor: default;
-	color: #EDEDED;
-	border-color: #EDEDED;
+.gwt-Button[disabled="disabled"]:hover,
+.buttonPanel .button[disabled="disabled"]:hover,
+.gwt-Button[disabled="disabled"]:active,
+.buttonPanel .button[disabled="disabled"]:active {
+  	background-color: none;
+  	border: 1px solid #6161FF;
+}
+
+.buttonPanel .button {
+	float: right;
 }
 
 .textButton {
