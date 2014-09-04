@@ -1669,7 +1669,7 @@ __GGB__keysVar.eu.menu = {
     "Perspective.CASAndGraphics": "CAS eta Grafikoak",
     "Perspective.Geometry": "Geometria",
     "Perspective.Primary": "Oinarrizkoa",
-    "Perspective.ProbabilityCalculator": "Probabilitate-kalkulagailua",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Kalkulu-orria",
     "Perspective.TableAndGraphics": "Taula eta Grafikoak",
     "Perspective.Whiteboard": "Arbel Birtuala",

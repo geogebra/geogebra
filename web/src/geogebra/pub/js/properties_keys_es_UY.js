@@ -1669,7 +1669,7 @@ __GGB__keysVar.es_UY.menu = {
     "Perspective.CASAndGraphics": "CAS y gr\xe1ficos",
     "Perspective.Geometry": "Geometr\xeda",
     "Perspective.Primary": "Primaria",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Hoja de C\xe1lculo",
     "Perspective.TableAndGraphics": "Hoja de c\xe1lculo y gr\xe1ficos",
     "Perspective.Whiteboard": "Pizarra",

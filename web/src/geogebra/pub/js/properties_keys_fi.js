@@ -1669,7 +1669,7 @@ __GGB__keysVar.fi.menu = {
     "Perspective.CASAndGraphics": "CAS & Piirtoalue",
     "Perspective.Geometry": "Geometria",
     "Perspective.Primary": "Alkeisgeometria",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Taulukko ja grafiikka",
     "Perspective.Whiteboard": "Valkotaulu",

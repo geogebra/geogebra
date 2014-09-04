@@ -1669,7 +1669,7 @@ __GGB__keysVar.ko.menu = {
     "Perspective.CASAndGraphics": "CAS\uc640 \uadf8\ub798\ud504",
     "Perspective.Geometry": "\uae30\ud558",
     "Perspective.Primary": "\ucd08\ub4f1\uc218\ud559",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "\uc2a4\ud504\ub808\ub4dc\uc2dc\ud2b8",
     "Perspective.TableAndGraphics": "\ud45c\uc640 \uadf8\ub798\ud504",
     "Perspective.Whiteboard": "\uc804\uc790\uce60\ud310",

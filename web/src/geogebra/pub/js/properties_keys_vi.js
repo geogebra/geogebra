@@ -1669,7 +1669,7 @@ __GGB__keysVar.vi.menu = {
     "Perspective.CASAndGraphics": "CAS & \u0111\u1ed3 th\u1ecb",
     "Perspective.Geometry": "H\xecnh h\u1ecdc",
     "Perspective.Primary": "C\u01a1 s\u1edf",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "B\u1ea3ng t\xednh & \u0111\u1ed3 th\u1ecb",
     "Perspective.Whiteboard": "B\u1ea3ng tr\u1eafng",

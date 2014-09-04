@@ -1669,7 +1669,7 @@ __GGB__keysVar.sl.menu = {
     "Perspective.CASAndGraphics": "Simbolno ra\u010dunanje in grafi\u010dni prikaz",
     "Perspective.Geometry": "Risalna povr\u0161ina",
     "Perspective.Primary": "Osnovni prikaz",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Preglednica",
     "Perspective.TableAndGraphics": "Tabele in risalna povr\u0161ina",
     "Perspective.Whiteboard": "Tabla",

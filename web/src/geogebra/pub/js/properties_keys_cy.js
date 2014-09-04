@@ -1669,7 +1669,7 @@ __GGB__keysVar.cy.menu = {
     "Perspective.CASAndGraphics": "CAS & Graffeg",
     "Perspective.Geometry": "Geometreg",
     "Perspective.Primary": "Cynradd",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Tablau a graffeg",
     "Perspective.Whiteboard": "Bwrdd gwyn",

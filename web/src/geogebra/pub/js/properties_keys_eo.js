@@ -1669,7 +1669,7 @@ __GGB__keysVar.eo.menu = {
     "Perspective.CASAndGraphics": "CAS & Graphics",
     "Perspective.Geometry": "Geometrio",
     "Perspective.Primary": "Primary",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Kalkultabelo & Grafika\u0135o",
     "Perspective.Whiteboard": "Whiteboard",

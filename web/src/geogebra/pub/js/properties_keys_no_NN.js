@@ -1669,7 +1669,7 @@ __GGB__keysVar.no_NN.menu = {
     "Perspective.CASAndGraphics": "CAS og grafikk",
     "Perspective.Geometry": "Geometri",
     "Perspective.Primary": "Basis",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Rekneark",
     "Perspective.TableAndGraphics": "Tabell og grafikk",
     "Perspective.Whiteboard": "Tavle",

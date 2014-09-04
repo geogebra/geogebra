@@ -1669,7 +1669,7 @@ __GGB__keysVar.sq.menu = {
     "Perspective.CASAndGraphics": "CAS & Grafike",
     "Perspective.Geometry": "Gjeometri",
     "Perspective.Primary": "Primare",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Spreadsheet",
     "Perspective.TableAndGraphics": "Tabela dhe Grafike",
     "Perspective.Whiteboard": "Derrase e bardhe",

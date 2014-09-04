@@ -1669,7 +1669,7 @@ __GGB__keysVar.pl.menu = {
     "Perspective.CASAndGraphics": "CAS i Grafika",
     "Perspective.Geometry": "Geometria",
     "Perspective.Primary": "Podstawowy",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Arkusz",
     "Perspective.TableAndGraphics": "Tabela i Grafika",
     "Perspective.Whiteboard": "Tablica",

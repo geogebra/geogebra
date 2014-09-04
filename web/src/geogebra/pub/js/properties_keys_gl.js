@@ -1669,7 +1669,7 @@ __GGB__keysVar.gl.menu = {
     "Perspective.CASAndGraphics": "CAS e gr\xe1ficos",
     "Perspective.Geometry": "Xeometr\xeda",
     "Perspective.Primary": "Primario",
-    "Perspective.ProbabilityCalculator": "Probability Calculator",
+    "Perspective.Probability": "Probability",
     "Perspective.Spreadsheet": "Folla de C\xe1lculo",
     "Perspective.TableAndGraphics": "T\xe1boa e gr\xe1ficos",
     "Perspective.Whiteboard": "Lousa virtual",
