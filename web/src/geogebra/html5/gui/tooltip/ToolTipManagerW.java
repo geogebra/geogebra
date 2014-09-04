@@ -1,13 +1,19 @@
 package geogebra.html5.gui.tooltip;
 
 import geogebra.common.util.AsyncOperation;
+import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.ImageOrText;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -17,6 +23,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -53,8 +61,10 @@ public class ToolTipManagerW {
 	private SimplePanel tipPanel;
 	private HTML tipHTML;
 	
-	private SimplePanel bottomInfoTipPanel;
+	private HorizontalPanel bottomInfoTipPanel;
 	private HTML bottomInfoTipHTML;
+	private ImageOrText questionMark;
+	private Label helpLabel;
 
 	private String oldText = "";
 
@@ -152,8 +162,11 @@ public class ToolTipManagerW {
 	private void createBottomInfoTipElements() {
 		bottomInfoTipHTML = new HTML();
 		bottomInfoTipHTML.setStyleName("infoText");
-		
-		bottomInfoTipPanel = new SimplePanel();
+
+		questionMark = new ImageOrText();
+		questionMark.url = AppResources.INSTANCE.questionMark().getSafeUri().asString();
+
+		bottomInfoTipPanel = new HorizontalPanel();
 		bottomInfoTipPanel.setStyleName("infoTooltip");
 		bottomInfoTipPanel.add(bottomInfoTipHTML);
 		
@@ -174,19 +187,49 @@ public class ToolTipManagerW {
 	// =====================================
 	// BottomInfoToolTip 
 	// =====================================
-	public void showBottomInfoToolTip(String text, String helpURL) {
+	public void showBottomInfoToolTip(String text, final String helpURL) {
 		if(blockToolTip){
 			return;
 		}
 
 		bottomInfoTipHTML.setHTML(text);
+
+		if(helpLabel != null){
+			bottomInfoTipPanel.remove(helpLabel);
+		}
+
+		if(helpURL != null && helpURL.length() > 0){
+			helpLabel = new Label();
+			questionMark.applyToLabel(helpLabel);
+			helpLabel.addDomHandler(new MouseDownHandler() {
+				public void onMouseDown(MouseDownEvent event) {
+					openWindow(helpURL);
+				}
+			}, MouseDownEvent.getType());
+			helpLabel.addDomHandler(new TouchStartHandler() {				
+				public void onTouchStart(TouchStartEvent event) {
+					openWindow(helpURL);
+				}
+			}, TouchStartEvent.getType());
+			helpLabel.addStyleName("manualLink");
+			bottomInfoTipPanel.add(helpLabel);
+		}
+
 		bottomInfoTipPanel.setVisible(true);
 		
 		// Helps to align the InfoTooltip in the center of the screen:
 		bottomInfoTipPanel.getElement().getStyle().setMarginLeft(-(bottomInfoTipPanel.getOffsetWidth()/2), Unit.PX);
 	}
 	
-	private void hideBottomInfoToolTip() {
+	/**
+	 * Opens Link in a new window
+	 * @param url that should be opened
+	 */
+	native void openWindow(String url)/*-{
+		$wnd.open(url);
+	}-*/;
+
+	void hideBottomInfoToolTip() {
 		bottomInfoTipPanel.setVisible(false);
 	}
 
@@ -256,7 +299,7 @@ public class ToolTipManagerW {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 				NativeEvent e = event.getNativeEvent();
 
-				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
+				if (event.getTypeInt() == Event.ONMOUSEDOWN || event.getTypeInt() == Event.ONTOUCHSTART) {
 					showImmediately = false;
 					hideToolTip();
 					hideBottomInfoToolTip();

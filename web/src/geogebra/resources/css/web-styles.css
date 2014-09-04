@@ -2150,6 +2150,8 @@ Paddings for menuitems.
 .infoTooltip .manualLink {
 	border-left: 1px solid #FFFFFF;
 	padding: 10px 20px;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 /*#####################################################################################

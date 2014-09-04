@@ -1,5 +1,6 @@
 package geogebra.web.gui.toolbar;
 
+import geogebra.common.gui.GuiManager.Help;
 import geogebra.common.main.App;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
@@ -166,7 +167,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
 		if (menu.size() == 1 ){
 			if (menu.get(0) == mode){
-				showToolTipBottom();
+				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getMenu(app.getKernel().getModeText(mode))));
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -196,7 +197,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
-				showToolTipBottom();
+				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getMenu(app.getKernel().getModeText(mode))));
 				return true;
 			}
 		}
@@ -339,6 +340,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public void showToolTipBottom(){
 		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, "");
 	}
+
+	public void showToolTipBottom(String helpURL){
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, helpURL);
+	}
+
 	/*
 	public void hideToolTip(){
 		ToolTipManagerW.sharedInstance().hideToolTip();

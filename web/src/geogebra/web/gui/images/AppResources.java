@@ -612,4 +612,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_large.png")
 	ImageResource eraser_big();
 	*/
+
+	@Source("icons/png/web/question-mark.png")
+	ImageResource questionMark();
 }

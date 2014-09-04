@@ -3,6 +3,7 @@ package geogebra.html5.gui;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.GuiManager.Help;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -90,4 +91,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 
 	public void recalculateEnvironments();
+
+	public String getHelpURL(Help type, String pageName);
 }

@@ -1050,7 +1050,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 	}
 
-	private String getHelpURL(Help type, String pageName) {
+	@Override
+	public String getHelpURL(Help type, String pageName) {
 		// try to get help for given language
 		// eg http://www.geogebra.org/help/en_GB/cmd/FitLogistic
 
