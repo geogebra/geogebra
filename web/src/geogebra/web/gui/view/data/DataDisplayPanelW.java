@@ -62,6 +62,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	private static final int PLOTPANEL_MIN_WIDTH = 400;
 	private static final int PLOTPANEL_MIN_HEIGHT = 150;
+	private static final int OPTIONSPANEL_WIDTH = 200;
 
 	// ggb fields
 	private AppW app;
@@ -557,7 +558,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	// **********************************************
 	// Export
-	// **********************************************
+	// **********************************************s
 
 	/**
 	 * Action to export all GeoElements that are currently displayed in this
@@ -730,7 +731,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	public void resize() {
 		int w = getOffsetWidth();
 		int h = getOffsetHeight();
-		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() 
+		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
 				: w;
 		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
 				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
@@ -744,6 +745,9 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		}
 
 		plotPanel.setPreferredSize(new GDimensionW(width, height));
+		if (optionsPanel.isVisible()) {
+			optionsPanel.setPixelSize(OPTIONSPANEL_WIDTH, height);
+		}
 		plotPanel.updateSize();
 		plotPanel.repaintView();
 		plotPanel.getEuclidianController().calculateEnvironment();

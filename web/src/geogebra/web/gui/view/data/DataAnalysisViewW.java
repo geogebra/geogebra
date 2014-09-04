@@ -96,7 +96,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	 * END constructor
 	 */
 
-	private void resizeDataDisplayPanels() {
+	public void resizeDataDisplayPanels() {
 		App.debug("resizeDataDisplayPanels()");
 		dataDisplayPanel1.resize();
 		dataDisplayPanel2.resize();		
@@ -229,7 +229,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		if (stat && data) {
 			addWest(statisticsPanel, 300);
 			add(dataPanel);
-			addEast(comboPanelSplit, 400);
+			addEast(comboPanelSplit, 300);
 		} else
 		
 		if (stat && !data) {
@@ -243,7 +243,10 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		} else {
 			add(comboPanelSplit);
 		}
+		resizeDataDisplayPanels();
+		
 	} 
+
 		
 //			Label label = new Label("Kozeeep");
 //			if (model.showStatPanel()) {
@@ -622,7 +625,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	}
 
 	public void repaintView() {
-		// do nothing
+
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
@@ -785,11 +788,9 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	public void showComboPanel2(boolean show) {
 		comboPanelSplit.clear();
 		if (show) {
-			comboPanelSplit.addNorth(dataDisplayPanel1, 500);
+			comboPanelSplit.addNorth(dataDisplayPanel1, 300);
 			comboPanelSplit.add(dataDisplayPanel2);
-//			dataDisplayPanel1.sync();
-//			dataDisplayPanel2.sync();
-		
+			
 		} else {
 			comboPanelSplit.add(dataDisplayPanel1);
 //			dataDisplayPanel1.sync();

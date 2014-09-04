@@ -1,6 +1,7 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
@@ -116,6 +117,9 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnShowPlot2.setSelected(model.showDataDisplayPanel2());
 		btnSwapXY.setVisible(model.isRegressionMode());
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
+		App.debug("resizing after pressing plot");
+		daView.resizeDataDisplayPanels();
+		
 	}
 
 	private FlowPanel createDataSourcePanel() {

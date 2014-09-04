@@ -20,7 +20,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	/**
 	 * default width of this panel
 	 */
-	public static final int DEFAULT_WIDTH = 880;
+	public static final int DEFAULT_WIDTH = 480;
 	private App app;
 
 	/**
