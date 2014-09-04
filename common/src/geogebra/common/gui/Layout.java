@@ -131,7 +131,7 @@ public abstract class Layout {
 	
 		//Note: toolbar definition is always for EV1, for 3D we use definition from the 3D dock panel classes
 	
-		defaultPerspectives[5] = new Perspective("ProbabilityCalculator", spData, dpData, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[5] = new Perspective("Perspective.Probability", spData, dpData, defToolbar, true, false, true, true, true, false);
 		defaultPerspectives[5].setIconString("menu_view_probability.png");
 
 		
