@@ -1815,7 +1815,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return true if label can be shown
 	 */
-	final public boolean isLabelShowable() {
+	public boolean isLabelShowable() {
 		return isDrawable()
 				&& !(this instanceof TextValue || isGeoImage() || isGeoButton() || isGeoLocus() || (isGeoBoolean() && !isIndependent()));
 	}

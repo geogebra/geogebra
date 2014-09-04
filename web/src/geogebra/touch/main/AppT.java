@@ -20,10 +20,14 @@ public class AppT extends AppWapplication {
 	public AppT(final ArticleElement article, final GeoGebraAppFrame geoGebraAppFrame,
             final boolean undoActive, final int dimension, final GLookAndFeel laf) {
 	    super(article, geoGebraAppFrame, undoActive, dimension, laf);
+
+	    this.setLabelDragsEnabled(false);
     }
 	
 	public AppT(final ArticleElement article, final GeoGebraAppFrame geoGebraAppFrame, final int dimension, final GLookAndFeel laf) {
 		super(article, geoGebraAppFrame, dimension, laf);
+
+		this.setLabelDragsEnabled(false);
 	}
 	
 	public History getHistory() {

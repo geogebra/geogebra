@@ -19,6 +19,7 @@ public class OptionsMenu {
 	public OptionsMenu(App app, MenuFactory menuFactory) {
 		this.app = app;
 		kernel = app.getKernel();
+		this.menuFactory = menuFactory;
 	}
 
 

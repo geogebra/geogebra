@@ -55,4 +55,8 @@ public class GeoPenStroke extends GeoPolyLine {
 		return false; 
 	}
 
+	@Override
+	public boolean isLabelShowable() {
+		return false;
+	}
 }

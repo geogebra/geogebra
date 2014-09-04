@@ -3630,7 +3630,7 @@ public abstract class EuclidianController {
 													// (ie inside) not path
 													// (edge)
 				Path paths[] = getSelectedPaths();
-				GeoPointND[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPointsND();
 	
 				// Application.debug("path: "+paths[0]+"\npoint: "+points[0]);
 	
