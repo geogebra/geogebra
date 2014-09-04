@@ -783,4 +783,9 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		this.model = model;
 	}
 
+	public void resize() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

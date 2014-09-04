@@ -81,9 +81,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		comboPanelSplit = new SplitLayoutPanel() {
 			@Override
             public void onResize() {
-				dataDisplayPanel1.resize();
-				dataDisplayPanel2.resize();
-				
+				resizeDataDisplayPanels();
 			}
 		};
 		comboPanelSplit.setStyleName("comboSplitLayout");
@@ -98,6 +96,12 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	 * END constructor
 	 */
 
+	private void resizeDataDisplayPanels() {
+		App.debug("resizeDataDisplayPanels()");
+		dataDisplayPanel1.resize();
+		dataDisplayPanel2.resize();		
+	}
+	
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
@@ -790,6 +794,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 			comboPanelSplit.add(dataDisplayPanel1);
 //			dataDisplayPanel1.sync();
 	}
+		resizeDataDisplayPanels();
 
 	}
 

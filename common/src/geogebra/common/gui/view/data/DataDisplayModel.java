@@ -58,6 +58,8 @@ public class DataDisplayModel {
 
 		void removeFrequencyTable();
 
+		void resize();
+
 //		void updatePlot(boolean b);
 
 	};
@@ -343,6 +345,7 @@ public class DataDisplayModel {
 									(GeoNumeric) barChart, selectedPlot);
 							plotGeoList.add(freqTableGeo);
 						}
+						listener.resize();
 					}
 	
 					// update the frequency table

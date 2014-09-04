@@ -50,9 +50,6 @@ import com.google.gwt.user.client.ui.ToggleButton;
  */
 public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		FocusListener,*/ StatPanelInterfaceW, IDataDisplayListener {
-	private static final long serialVersionUID = 1L;
-
-
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;
 	private static final int STEM_IDX = 2;
@@ -60,13 +57,11 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	private static final int METAPLOT_IDX = 0;
 	private static final int IMAGE_IDX = 1;
-	private static final int _IDX = 2;
 
+	private static final int PLOTPANEL_MARGIN = 10;
 
-	private static final int PLOTPANEL_WIDTH = 960;
-
-
-	private static final int PLOTPANEL_HEIGHT = 600;
+	private static final int PLOTPANEL_MIN_WIDTH = 400;
+	private static final int PLOTPANEL_MIN_HEIGHT = 150;
 
 	// ggb fields
 	private AppW app;
@@ -155,7 +150,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	 *            the data analysis mode
 	 */
 	public void setPanel(PlotType plotIndex, int mode) {
-		
+
 		getModel().updatePlot(plotIndex, mode);
 		setLabels();
 		getModel().updatePlot(true);
@@ -174,7 +169,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		btnOptions = new MyToggleButton2(new Image(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString()));
 
 		btnOptions.addClickHandler(new ClickHandler() {
-			
+
 			public void onClick(ClickEvent event) {
 				actionPerformed(btnOptions);
 			}
@@ -204,7 +199,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			FlowPanel buttonPanel = new FlowPanel();
 			buttonPanel.setStyleName("daOptionButtons");
 			buttonPanel.add(LayoutUtil.panelRow(btnOptions, btnExport));
-		
+
 			// control panel
 			controlPanel = new FlowPanel();
 			controlPanel.add(LayoutUtil.panelRow(lbDisplayType, controlDecks, buttonPanel));
@@ -212,15 +207,15 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		createExportToEvAction();
 		plotPanel = new PlotPanelEuclidianViewW(app.getKernel(), exportToEVAction);
-//		plotPanel.setPreferredSize(PLOTPANEL_WIDTH, PLOTPANEL_HEIGHT);
-//		plotPanel.updateSize();
+		//		plotPanel.setPreferredSize(PLOTPANEL_WIDTH, PLOTPANEL_HEIGHT);
+		//		plotPanel.updateSize();
 		plotPanelNorth = new FlowPanel();
 		plotPanelSouth = new FlowPanel();
 		GColor bgColor = plotPanel.getBackgroundCommon();
 
 		lblTitleX = new Label();
 		lblTitleY = new Label();
-		
+
 		fldTitleX = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldTitleY = (new InputPanelW(null, app, -1, false)).getTextComponent();
 
@@ -236,7 +231,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		// put display panels into a deck panel
 
 		displayDeckPanel = new DeckPanel();
-		
+
 		displayDeckPanel.add(metaPlotPanel);
 		displayDeckPanel.add(new ScrollPanel(imagePanel));
 
@@ -245,11 +240,11 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		optionsPanel.setVisible(false);
 
 		frequencyTable = new FrequencyTablePanelW(app);
-		
+
 		spFrequencyTable = new ScrollPanel();
 		spFrequencyTable.add(frequencyTable);
 		spFrequencyTable.setStyleName("spFrequencyTable");
-		
+
 		// =======================================
 		// put all the panels together
 
@@ -270,8 +265,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	public void setLabels() {
 
 		createDisplayTypeComboBox();
-//		sliderNumClasses.setToolTipText(loc.getMenu("Classes"));
-//		fldNumClasses.setToolTipText(loc.getMenu("Classes"));
+		//		sliderNumClasses.setToolTipText(loc.getMenu("Classes"));
+		//		fldNumClasses.setToolTipText(loc.getMenu("Classes"));
 		lblStart.setText(loc.getMenu("Start") + " ");
 		lblWidth.setText(loc.getMenu("Width") + " ");
 		if (daModel.isRegressionMode()) {
@@ -293,7 +288,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		if (lbDisplayType == null) {
 			lbDisplayType = new ListBox();
 			lbDisplayType.addChangeHandler(new ChangeHandler() {
-				
+
 				public void onChange(ChangeEvent event) {
 					actionPerformed(lbDisplayType);
 				}
@@ -317,7 +312,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		metaPlotPanel.clear();
 		plotPanelSouth.clear();
 		plotPanelNorth.clear();
-		
+
 		metaPlotPanel.add(plotPanel.getComponent());
 		getModel().updatePlotPanelLayout();
 	}
@@ -351,16 +346,16 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		sliderNumClasses.setMajorTickSpacing(1);
 
 		sliderNumClasses.addChangeHandler(new ChangeHandler() {
-			
+
 			public void onChange(ChangeEvent event) {
 				getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
 				fldNumClasses.setText(("" + getModel().getSettings()
 						.getNumClasses()));
 				getModel().updatePlot(true);
-						
+
 			}
 		});
-		
+
 		numClassesPanel = new FlowPanel();
 		numClassesPanel.add(sliderNumClasses);
 		numClassesPanel.add(fldNumClasses);
@@ -377,18 +372,18 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		none = new ToggleButton("0");
 		plus = new ToggleButton("+1");
 		minus.addClickHandler(new ClickHandler() {
-			
+
 			public void onClick(ClickEvent event) {
 				actionPerformed(this);
 			}
 		});
-		
+
 		none.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				actionPerformed(this);
 			}
 		});
-		
+
 		minus.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				actionPerformed(this);
@@ -396,7 +391,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		});
 
 		none.setValue(true);
-		
+
 		stemAdjustPanel = new FlowPanel();
 		stemAdjustPanel.add(LayoutUtil.panelRow(minus, none, plus));
 
@@ -412,7 +407,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		fldStart = new AutoCompleteTextFieldW(4, app);
 		fldStart.setText("" + (int) getModel().getSettings().getClassStart());
-	
+
 		fldWidth = new AutoCompleteTextFieldW(4, app);
 		fldStart.setColumns(4);
 		fldWidth.setColumns(4);
@@ -422,40 +417,40 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		manualClassesPanel.add(LayoutUtil.panelRow(lblStart, fldStart,
 				lblWidth, fldWidth));
 		fldStart.addBlurHandler(new BlurHandler() {
-			
+
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldStart);
 			}
 		});
-		
+
 		fldStart.addKeyHandler(new KeyHandler() {
-			
+
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					actionPerformed(fldStart);
 				}
 			}
 		});
-		
+
 		fldWidth.addBlurHandler(new BlurHandler() {
-			
+
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldWidth);
 			}
 		});
 
 		fldWidth.addKeyHandler(new KeyHandler() {
-			
+
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					actionPerformed(fldWidth);
 				}
 			}
 		});
-		
+
 	}
 
-	
+
 	// ==============================================
 	// DISPLAY UPDATE
 	// ==============================================
@@ -470,21 +465,21 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void showInvalidDataDisplay() {
-//		imageContainer.setIcon(null);
+		//		imageContainer.setIcon(null);
 		displayDeckPanel.showWidget(IMAGE_IDX);
-		
+
 	}
 
 	// ============================================================
 	// Event Handlers
 	// ============================================================
-//
+	//
 	public void actionPerformed(Object source) {
 		if (source instanceof AutoCompleteTextFieldW)
 		{
 			doTextFieldActionPerformed(source);
 		}
-		
+
 		else if (source == minus || source == plus || source == none) {
 			minus.setValue(source == minus);
 			none.setValue(source == none);
@@ -506,29 +501,29 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 			optionsPanel.setVisible(btnOptions.isSelected());
 			resize();
 		}
-//
-//		else if (source == btnExport) {
-//			JPopupMenu menu = plotPanel.getContextMenu();
-//			menu.show(btnExport,
-//					-menu.getPreferredSize().width + btnExport.getWidth(),
-//					btnExport.getHeight());
-//		}
-//
+		//
+		//		else if (source == btnExport) {
+		//			JPopupMenu menu = plotPanel.getContextMenu();
+		//			menu.show(btnExport,
+		//					-menu.getPreferredSize().width + btnExport.getWidth(),
+		//					btnExport.getHeight());
+		//		}
+		//
 		else 
-		if (source == lbDisplayType) {
-			int idx = lbDisplayType.getSelectedIndex();
-			if (idx != -1) {
-				PlotType t = plotTypes.get(idx);
-				getModel().setSelectedPlot(t); 
-				getModel().updatePlot(true);
-			}
-			
-			if (optionsPanel.isVisible()) {
-				optionsPanel.setPanel(getModel().getSelectedPlot());
-				resize();
-			}
+			if (source == lbDisplayType) {
+				int idx = lbDisplayType.getSelectedIndex();
+				if (idx != -1) {
+					PlotType t = plotTypes.get(idx);
+					getModel().setSelectedPlot(t); 
+					getModel().updatePlot(true);
+				}
 
-		}
+				if (optionsPanel.isVisible()) {
+					optionsPanel.setPanel(getModel().getSelectedPlot());
+					resize();
+				}
+
+			}
 	}
 
 	private void doTextFieldActionPerformed(Object source) {
@@ -573,27 +568,27 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	 * plotPanel context menu and the EuclidianView transfer handler when the
 	 * plot panel is dragged into an EV.
 	 */
-//	AbstractAction exportToEVAction = new AbstractAction() {
-//		private static final long serialVersionUID = 1L;
-//
-//		public void actionPerformed(ActionEvent event) {
-//			Integer euclidianViewID = (Integer) this
-//					.getValue("euclidianViewID");
-//
-//			// if null ID then use EV1 unless shift is down, then use EV2
-//			if (euclidianViewID == null) {
-//				euclidianViewID = AppW.getShiftDown() ? app
-//						.getEuclidianView2(1).getViewID() : app
-//						.getEuclidianView1().getViewID();
-//			}
-//
-//			// do the export
-//			getModel().exportGeosToEV(euclidianViewID);
-//
-//			// null out the ID property
-//			this.putValue("euclidianViewID", null);
-//		}
-//	};
+	//	AbstractAction exportToEVAction = new AbstractAction() {
+	//		private static final long serialVersionUID = 1L;
+	//
+	//		public void actionPerformed(ActionEvent event) {
+	//			Integer euclidianViewID = (Integer) this
+	//					.getValue("euclidianViewID");
+	//
+	//			// if null ID then use EV1 unless shift is down, then use EV2
+	//			if (euclidianViewID == null) {
+	//				euclidianViewID = AppW.getShiftDown() ? app
+	//						.getEuclidianView2(1).getViewID() : app
+	//						.getEuclidianView1().getViewID();
+	//			}
+	//
+	//			// do the export
+	//			getModel().exportGeosToEV(euclidianViewID);
+	//
+	//			// null out the ID property
+	//			this.putValue("euclidianViewID", null);
+	//		}
+	//	};
 
 	public void addDisplayTypeItem(PlotType type) {
 		lbDisplayType.addItem(type.key);
@@ -601,7 +596,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void updateScatterPlot() {
-	plotPanelSouth.add(lblTitleX);
+		plotPanelSouth.add(lblTitleX);
 		plotPanelSouth.add(fldTitleX);
 		plotPanelNorth.add(lblTitleY);
 		plotPanelNorth.add(fldTitleY);
@@ -621,16 +616,14 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	public void setTableFromGeoFrequencyTable(
 			AlgoFrequencyTable parentAlgorithm, boolean b) {
-		App.debug("SHOW FREQUENCY TABLE: " + b);
 		frequencyTable.setTableFromGeoFrequencyTable(parentAlgorithm, b);
-
 	}
 
 	public void removeFrequencyTable() {
 		plotPanelSouth.remove(spFrequencyTable);
 		plotPanel.updateSize();
-    }
-	
+	}
+
 	public void updatePlotPanelSettings() {
 		plotPanel.commonFields.updateSettings(plotPanel, getModel()
 				.getSettings());
@@ -649,8 +642,8 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 	}
 
 	public void updateStemPlot(String latex) {
-//		imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
-//				app.getPlainFont(), true, Color.BLACK, null));
+		//		imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
+		//				app.getPlainFont(), true, Color.BLACK, null));
 		btnOptions.setVisible(false);
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);
@@ -702,22 +695,22 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		 * plot panel is dragged into an EV.
 		 */
 		exportToEVAction = new ScheduledCommand() {
-			
+
 			private HashMap<String, Object> value = new HashMap<String, Object>();
-			
+
 			public Object getValue(String key) {
 				return value.get(key);
 			}
-			
+
 			public void putValue(String key, Object value) {
 				this.value.put(key, value);
 			}
-			
+
 			public void execute() {
 				Integer euclidianViewID = (Integer) this
 						.getValue("euclidianViewID");
 
-			
+
 				// if null ID then use EV1 unless shift is down, then use EV2
 				if (euclidianViewID == null) {
 					euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app.getEuclidianView2(1)
@@ -734,32 +727,26 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	}
 
-	public void sync() {
-		plotPanel.updateSize();
-		plotPanel.synCanvasSize();
-		plotPanel.repaint();
-	}
-
 	public void resize() {
 		int w = getOffsetWidth();
 		int h = getOffsetHeight();
-//		App.debug("[AAAAAAA] w, h: (" + w + ", " + h +  ")");
 		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() 
 				: w;
-		int height = frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
-				: h;
-		// for debug;
-		h -= 30;
-//	
-		App.debug("[AAAAAAA] width, height: (" + width + ", " + height +  ")");
-		if (width > 0) { 
-			plotPanel.setPreferredSize(new GDimensionW(width, height));
-			plotPanel.updateSize();
-////			getModel().updatePlot(false);
-			plotPanel.repaintView();
-			plotPanel.getEuclidianController().calculateEnvironment();
+		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
+				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
+
+		if (width < PLOTPANEL_MIN_WIDTH) {
+			width =  PLOTPANEL_MIN_WIDTH;
 		}
-//		
+
+		if (height < PLOTPANEL_MIN_HEIGHT) {
+			height =  PLOTPANEL_MIN_HEIGHT;
+		}
+
+		plotPanel.setPreferredSize(new GDimensionW(width, height));
+		plotPanel.updateSize();
+		plotPanel.repaintView();
+		plotPanel.getEuclidianController().calculateEnvironment();
 		getModel().updatePlot(false);
 	}
 

@@ -46,7 +46,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	@Override
 	protected Widget loadComponent() {
 		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
-//		return da.getDummy();
+//		da.setPixelSize(DEFAULT_WIDTH, getOffsetHeight());
 		return da.getDataAnalysisViewComponent();		
 	}
 
@@ -71,7 +71,6 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_MOVE);
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			App.debug("PRE RELEASE!_YIKES");
 			sb.append(" || ");
 			sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 			sb.append(" || ");
