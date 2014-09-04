@@ -152,7 +152,7 @@ public class MaterialRequest implements Request
 		this.taskJSON.put("filters", this.filtersJSON);
 		this.taskJSON.put("order", this.orderJSON);
 		this.taskJSON.put("limit", this.limitJSON);
-		if(this.model != null && model.getLoginToken()!=null){
+		if(this.model != null && model.isLoggedIn()){
 			JSONObject login = new JSONObject();
 			login.put("-token", model.getLoginToken());
 			this.apiJSON.put("login", login);
