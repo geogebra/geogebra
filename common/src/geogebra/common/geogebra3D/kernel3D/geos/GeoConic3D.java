@@ -127,11 +127,9 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 		return coordSys.getVector(super.getEigenvec(i));
 	}
 
+	
+	
 	@Override
-	public Coords getMidpoint() {
-		return getMidpoint3D();
-	}
-
 	public Coords getMidpointND() {
 		return getMidpoint3D();
 	}

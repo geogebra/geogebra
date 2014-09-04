@@ -3735,6 +3735,12 @@ FromMeta
 		metas.remove(limitedQuadric);
 	}
 
-
+	/**
+	 * 
+	 * @return midpoint in correct dimension
+	 */
+	public Coords getMidpointND() {
+		return getMidpoint2D();
+	}
 	
 }
