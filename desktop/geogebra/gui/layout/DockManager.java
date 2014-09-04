@@ -167,7 +167,6 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 					}
 
 					panel.setVisible(dpData[i].isVisible());
-					App.printStacktrace(panel.getClass());
 				}
 			}
 		}
