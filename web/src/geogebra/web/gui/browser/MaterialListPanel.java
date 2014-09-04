@@ -4,7 +4,6 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -37,6 +36,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 */
 	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
 	private MaterialCallback rc;
+	private boolean personalMaterialsLoaded = false;
 	
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
@@ -102,7 +102,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	}
 
 	private void loadLocal() {
-		((AppW) app).getFileManager().getAllFiles();
+		app.getFileManager().getAllFiles();
 	}
 	
 	protected void loadggt() {
@@ -113,7 +113,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			public void onLoaded(final List<Material> response) {
 				onSearchResults(response);
 				if(app.getLoginOperation().isLoggedIn()){
-					api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
+					MaterialListPanel.this.setLoggedIn(true);
 				}
 			}
 		});
@@ -146,6 +146,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * clears the list of existing {@link MaterialListElement materials} and the {@link MaterialListPanel preview-panel}
 	 */
 	public void clearMaterials() {
+		this.personalMaterialsLoaded = false;
 		this.materials.clear();
 		this.clear();
 	}
@@ -184,7 +185,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	}
 
 	private void searchLocal(final String query) {
-		((AppW) this.app).getFileManager().search(query);
+		this.app.getFileManager().search(query);
 	}
 	
 	/**
@@ -241,7 +242,10 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 
 	public void setLoggedIn(boolean b) {
 	    if(b){
-	    	((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
+	    	if(!this.personalMaterialsLoaded){
+	    		this.personalMaterialsLoaded = true;
+	    		((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
+	    	}
 	    }else{
 	    	this.loadFeatured();
 	    }
