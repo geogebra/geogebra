@@ -48,7 +48,7 @@ public abstract class Layout {
 	
 		defToolbar = ToolBar.getAllToolsNoMacros(html5);
 	
-		defaultPerspectives[0] = new Perspective("Properties.Algebra", spData, dpData, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[0] = new Perspective("Perspective.AlgebraAndGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
 		defaultPerspectives[0].setIconString("menu_view_algebra.png");
 		
 		// basic geometry - just the euclidian view
