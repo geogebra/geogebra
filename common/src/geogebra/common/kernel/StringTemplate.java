@@ -170,6 +170,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 		maxPrecision.allowMoreDigits = true;
 		maxPrecision.forceSF = true;
+		maxPrecision.localizeCmds = false;
 	}
 	/**
 	 * Default template, just allow bigger precision for Numeric command
