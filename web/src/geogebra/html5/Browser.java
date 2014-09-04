@@ -100,8 +100,10 @@ public class Browser {
     }
 
 	public static String normalizeURL(String thumb) {
+		if(thumb.startsWith("data:")){
+			return thumb;
+		}
 		String url;
-		
 		if(thumb.startsWith("http://") || thumb.startsWith("file://")){
 			url = thumb.substring("http://".length());
 		}
