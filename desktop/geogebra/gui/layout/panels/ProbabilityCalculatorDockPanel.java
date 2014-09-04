@@ -4,7 +4,9 @@ import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.probcalculator.ProbabilityCalculatorViewD;
+import geogebra.main.AppD;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -12,17 +14,17 @@ import javax.swing.JComponent;
  */
 public class ProbabilityCalculatorDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
-	private App app;
+	private AppD app;
 
 	/**
 	 * @param app
 	 */
-	public ProbabilityCalculatorDockPanel(App app) {
+	public ProbabilityCalculatorDockPanel(AppD app) {
 		super(App.VIEW_PROBABILITY_CALCULATOR, // view id
 				"ProbabilityCalculator", // view title phrase
 				null, // toolbar string
 				true, // style bar?
-				-1, // menu order
+				8, // menu order
 				'P' // menu shortcut
 		);
 
@@ -33,7 +35,6 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		App.printStacktrace("aa");
 		return ((ProbabilityCalculatorViewD) app.getGuiManager()
 				.getProbabilityCalculator()).getWrapperPanel();
 	}
@@ -42,6 +43,11 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 	protected JComponent loadStyleBar() {
 		return ((GuiManagerD) app.getGuiManager()).getProbabilityCalculator()
 				.getStyleBar().getWrappedToolbar();
+	}
+
+	@Override
+	public ImageIcon getIcon() {
+		return app.getImageIcon("menu_view_probability.png");
 	}
 
 }

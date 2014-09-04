@@ -1,6 +1,5 @@
 package geogebra.common.io.layout;
 
-import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.common.util.StringUtil;
 
@@ -286,7 +285,6 @@ public class Perspective {
 	 * @return The ID of the perspective.
 	 */
 	public String getId() {
-		App.printStacktrace(id);
 		return id;
 	}
 

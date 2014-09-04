@@ -268,7 +268,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		layout.registerPanel(new ConstructionProtocolDockPanel((AppD) app));
 
 		// register ProbabilityCalculator view
-		layout.registerPanel(new ProbabilityCalculatorDockPanel(app));
+		layout.registerPanel(new ProbabilityCalculatorDockPanel((AppD) app));
 
 		// register Properties view
 		propertiesDockPanel = new PropertiesDockPanel((AppD) app);
