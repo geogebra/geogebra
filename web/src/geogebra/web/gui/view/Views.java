@@ -1,8 +1,8 @@
 package geogebra.web.gui.view;
 
 import geogebra.common.main.App;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.resources.client.ImageResource;
 

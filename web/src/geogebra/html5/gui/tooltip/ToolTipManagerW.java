@@ -1,8 +1,8 @@
 package geogebra.html5.gui.tooltip;
 
 import geogebra.common.util.AsyncOperation;
-import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.util.ImageOrText;
+import geogebra.html5.gui.util.AppResources;
+import geogebra.html5.gui.util.ImageOrText;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;

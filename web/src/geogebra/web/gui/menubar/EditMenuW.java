@@ -3,9 +3,9 @@ package geogebra.web.gui.menubar;
 import geogebra.common.main.OptionType;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.util.CopyPaste;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
 

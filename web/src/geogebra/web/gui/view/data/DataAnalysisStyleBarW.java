@@ -3,8 +3,8 @@ package geogebra.web.gui.view.data;
 import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.StyleBarW;
 

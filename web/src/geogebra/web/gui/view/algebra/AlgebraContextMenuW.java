@@ -2,8 +2,8 @@ package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.html5.AttachedToDOM;

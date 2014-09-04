@@ -2,7 +2,8 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.web.gui.images.AppResources;
+import geogebra.html5.gui.util.AppResources;
+import geogebra.html5.gui.util.ImageOrText;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;

@@ -10,6 +10,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.gui.util.BasicIcons;
+import geogebra.html5.gui.util.ImageOrText;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.StyleBarResources;
 

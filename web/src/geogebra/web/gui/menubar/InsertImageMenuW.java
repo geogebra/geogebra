@@ -1,10 +1,10 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.WebCamInputDialog;
-import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;

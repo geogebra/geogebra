@@ -1,4 +1,4 @@
-package geogebra.web.gui.util;
+package geogebra.html5.gui.util;
 
 import geogebra.common.awt.GColor;
 

@@ -3,6 +3,7 @@ package geogebra.web.gui.util;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.util.SelectionTable;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.gui.util.ImageOrText;
 import geogebra.html5.main.AppW;
 
 import java.util.HashMap;

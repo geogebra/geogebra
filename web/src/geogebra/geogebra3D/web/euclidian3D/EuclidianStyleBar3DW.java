@@ -8,11 +8,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.Localization;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.gui.util.ImageOrText;
 import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.images.StyleBarResources;
-import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 

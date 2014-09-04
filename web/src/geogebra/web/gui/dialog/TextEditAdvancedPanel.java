@@ -8,8 +8,8 @@ import geogebra.common.main.Localization;
 import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.SymbolTableW;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;
 import java.util.Iterator;

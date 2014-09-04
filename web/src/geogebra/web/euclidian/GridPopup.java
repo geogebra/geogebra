@@ -4,8 +4,8 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.util.SelectionTable;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.gui.util.ImageOrText;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
 
 public class GridPopup extends PopupMenuButton {

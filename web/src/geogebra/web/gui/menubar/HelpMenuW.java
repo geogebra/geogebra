@@ -2,8 +2,8 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;

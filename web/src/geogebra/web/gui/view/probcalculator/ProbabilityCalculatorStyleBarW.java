@@ -3,7 +3,7 @@ package geogebra.web.gui.view.probcalculator;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import geogebra.common.main.App;
-import geogebra.web.gui.images.AppResources;
+import geogebra.html5.gui.util.AppResources;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.GCheckBoxMenuItem;
 import geogebra.web.gui.menubar.GRadioButtonMenuItem;
