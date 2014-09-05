@@ -3732,7 +3732,9 @@ FromMeta
 	 * @param limitedQuadric limited quadric
 	 */
 	public void removeMeta(GeoElement limitedQuadric){
-		metas.remove(limitedQuadric);
+		if (metas != null){
+			metas.remove(limitedQuadric);
+		}
 	}
 
 	/**

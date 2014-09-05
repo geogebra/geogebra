@@ -132,10 +132,11 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
 
-		m.set(1,1, cos); m.set(1,2, -sin);
-		m.set(2,1, sin); m.set(2,2,  cos);
-		m.set(3,3, 1);
-		m.set(4,4, 1);
+		m.set(1,1, cos); m.set(1,2, -sin); m.set(1,3, 0);
+		m.set(2,1, sin); m.set(2,2,  cos); m.set(2,3, 0);
+		m.set(3,1, 0); m.set(3,2, 0); m.set(3,3, 1);
+		
+		m.set(4,1, 0); m.set(4,2, 0); m.set(4,3, 0); m.set(4,4, 1);
 		
 	}
 	
@@ -151,11 +152,17 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		double sin = Math.sin(angle);
 		
 		// 3x3 sub-matrix "M"
-		m.set(1,1, cos); m.set(1,2, -sin);
-		m.set(2,1, sin); m.set(2,2,  cos);
-		m.set(3,3, 1);
+		m.set(1,1, cos); m.set(1,2, -sin); m.set(1,3, 0);
+		m.set(2,1, sin); m.set(2,2,  cos); m.set(2,3, 0);
+		m.set(3,1, 0); m.set(3,2, 0); m.set(3,3, 1);
+
 		
 		//use (Id-M)center for translation
+		m.set(4,1, 0);
+		m.set(4,2, 0);
+		m.set(4,3, 0);
+		m.set(4,4, 0);
+
 		m.setOrigin(center.sub(m.mul(center)));
 		
 	}
@@ -194,6 +201,10 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 		
 		//use (Id-M)center for translation
+		vals[12] = 0;
+		vals[13] = 0;
+		vals[14] = 0;
+		vals[15] = 0;
 		m.setOrigin(center.sub(m.mul(center)));
 		
 

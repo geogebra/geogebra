@@ -2075,8 +2075,10 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * remove polyhedron as meta for this
 	 * @param polyhedron polyhedron
 	 */
-	public void removeMeta(GeoElement polyhedron){
-		metas.remove(polyhedron);
+	public void removeMeta(GeoElement polyhedron){		
+		if (metas != null){
+			metas.remove(polyhedron);
+		}
 	}
 
 
