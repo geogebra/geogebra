@@ -42,7 +42,7 @@ public interface GeoGebraConstants {
 	//		: "http://www.geogebra.org/installers";
 
 	/** Splash filename -- used for online */
-	public static final String SPLASH_STRING = "splash5RC.png";
+	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
 	public static final String SHORT_VERSION_STRING = "5.0";
