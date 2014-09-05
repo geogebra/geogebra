@@ -149,7 +149,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 				DockPanel panel = getPanel(dpData[i]);
 
 				if (panel == null) {
-					App.printStacktrace("");
+					App.error("null panel");
 					// TODO insert error panel
 				} else {
 					panel.setToolbarString(dpData[i].getToolbarString());
