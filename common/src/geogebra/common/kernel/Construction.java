@@ -1415,12 +1415,14 @@ public class Construction {
 				((GeoNumeric) oldGeo).setValue(((GeoNumeric) newGeo)
 						.getDouble());
 				oldGeo.updateRepaint();
+				newGeo.remove();
 				return;
 
 			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoPoint) {
 
 				((GeoPoint) oldGeo).set(newGeo);
 				oldGeo.updateRepaint();
+				newGeo.remove();
 				return;
 
 			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoVector) {
@@ -1433,6 +1435,7 @@ public class Construction {
 
 				((GeoBoolean) oldGeo).set(newGeo);
 				oldGeo.updateRepaint();
+				newGeo.remove();
 				return;
 
 			} else if (oldGeo.isIndependent() && oldGeo.isGeoPoint()
@@ -1440,6 +1443,7 @@ public class Construction {
 
 				oldGeo.set(newGeo);
 				oldGeo.updateRepaint();
+				newGeo.remove();
 				return;
 
 			} else {
