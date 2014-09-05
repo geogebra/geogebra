@@ -860,17 +860,17 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("Derivative(");
+		sb.append("Derivative[");
 		if (!keepFractions)
-			sb.append("Numeric(");
+			sb.append("Numeric[");
 		sb.append("%");
 		if (!keepFractions)
-			sb.append(")");
+			sb.append("]");
 		sb.append(",");
 		sb.append(varStr);
 		sb.append(",");
 		sb.append(n);
-		sb.append(")");
+		sb.append("]");
 		//for derivative we don't need arbconst
 		return (Function) evalCasCommand(sb.toString(), true,null);
 	}

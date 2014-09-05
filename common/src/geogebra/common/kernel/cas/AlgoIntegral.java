@@ -118,10 +118,10 @@ public class AlgoIntegral extends AlgoCasBase {
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
 		
 		sbAE.setLength(0);
-		sbAE.append("Integral(%");
+		sbAE.append("Integral[%");
 		sbAE.append(",");
 		sbAE.append(varStr);
-		sbAE.append(")");
+		sbAE.append("]");
 
 		// find symbolic derivative of f
 		g.setUsingCasCommand(sbAE.toString(), f, true, this.allowConstant ? arbconst : null);

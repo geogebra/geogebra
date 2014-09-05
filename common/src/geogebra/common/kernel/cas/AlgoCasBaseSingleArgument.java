@@ -40,7 +40,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 		// factor value form of f
-		g.setUsingCasCommand(this.getClassName().name()+"(%)", f, false,arbconst);		
+		g.setUsingCasCommand(this.getClassName().name()+"[%]", f, false,arbconst);		
 	}
 
 	// TODO Consider locusequability

@@ -43,12 +43,12 @@ public class AlgoTrigCombine extends AlgoCasBase {
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("TrigCombine(%");
+		sb.append("TrigCombine[%");
 		if(target!=null){
 			sb.append(',');
 			sb.append(target.toValueString(tpl));
 		}
-		sb.append(')');
+		sb.append(']');
 		g.setUsingCasCommand(sb.toString(), f, true,arbconst);
 	}
 }

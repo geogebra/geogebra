@@ -46,12 +46,12 @@ public class AlgoTrigExpand extends AlgoCasBase {
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("TrigExpand(%");
+		sb.append("TrigExpand[%");
 		if(target!=null){
 			sb.append(',');
 			sb.append(target.toValueString(tpl));
 		}
-		sb.append(')');
+		sb.append(']');
 		g.setUsingCasCommand(sb.toString(), f, true,arbconst);
 	}
 }

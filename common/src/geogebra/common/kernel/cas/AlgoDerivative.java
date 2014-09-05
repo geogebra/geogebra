@@ -158,12 +158,12 @@ public class AlgoDerivative extends AlgoCasBase {
 
 
 		sbAE.setLength(0);
-		sbAE.append("Derivative(%");
+		sbAE.append("Derivative[%");
 		sbAE.append(",");
 		sbAE.append(varStr);
 		sbAE.append(",");
 		sbAE.append(order == null ? 1 : (int) Math.round(order.getDouble()));
-		sbAE.append(")");
+		sbAE.append("]");
 
 		// find symbolic derivative of f
 		g.setUsingCasCommand(sbAE.toString(), f, true,arbconst);	

@@ -45,10 +45,10 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		String varStr = f.getVarString(tpl);
 
 		sbAE.setLength(0);
-		sbAE.append("PartialFractions(%");
+		sbAE.append("PartialFractions[%");
 		sbAE.append(",");
 		sbAE.append(varStr);
-		sbAE.append(")");
+		sbAE.append("]");
 
 		g.setUsingCasCommand(sbAE.toString(), f, false,arbconst);
 	}
