@@ -954,7 +954,7 @@ public class Coords extends CoordMatrix {
 	 * @param result gets this - v
 	 */
 	public void sub(Coords v, Coords result) {
-		for (int i = 0; i < result.rows; i++){
+		for (int i = 0; i < result.rows && i < rows; i++){
 			result.val[i] = val[i] - v.val[i];
 		}
 	}
@@ -1185,7 +1185,7 @@ public class Coords extends CoordMatrix {
 	 * @param res gets this * val0
 	 */
 	public void mul(double val0, Coords res){
-		for (int i = 0 ; i < res.rows ; i++){
+		for (int i = 0 ; i < res.rows && i < rows ; i++){
 			res.val[i] = val[i] * val0;
 		}
 	}
