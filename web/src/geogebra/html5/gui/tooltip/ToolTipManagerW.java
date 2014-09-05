@@ -220,7 +220,27 @@ public class ToolTipManagerW {
 		// Helps to align the InfoTooltip in the center of the screen:
 		bottomInfoTipPanel.getElement().getStyle().setMarginLeft(-(bottomInfoTipPanel.getOffsetWidth()/2), Unit.PX);
 	}
-	
+
+	/**
+	 * displays the given message 
+	 * 
+	 * @param closeAutomatic whether the message should be closed automatically after dismissDelay milliseconds
+	 */
+	public void showBottomMessage(String text, boolean closeAutomatic){
+		blockToolTip = false;
+		showBottomInfoToolTip(text, "");
+		blockToolTip = true;
+		if(closeAutomatic){
+			timer = new Timer(){
+				@Override
+                public void run() {
+	                hideBottomInfoToolTip();
+                }				
+			};
+			timer.schedule(dismissDelay);
+		}	
+	}
+
 	/**
 	 * Opens Link in a new window
 	 * @param url that should be opened
@@ -230,6 +250,7 @@ public class ToolTipManagerW {
 	}-*/;
 
 	void hideBottomInfoToolTip() {
+		cancelTimer();
 		bottomInfoTipPanel.setVisible(false);
 	}
 

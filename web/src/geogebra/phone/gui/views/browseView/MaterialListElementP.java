@@ -66,7 +66,7 @@ public class MaterialListElementP extends MaterialListElement {
 	protected void remove() {
 		Phone.getGUI().getMaterialListPanel().removeMaterial(this.material);
 		Phone.getGUI().getMaterialListPanel().setDefaultStyle();
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("deleted") + "</html>", "");
+		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("deleted") + "</html>", true);
 	}
 	
 

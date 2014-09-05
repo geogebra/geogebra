@@ -10,7 +10,6 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -151,7 +150,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 	
 	private void saveLocal() {
-	    ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
+	    ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", true);
 	    if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 	    	((AppW) app).resetUniqueId();
 	    }
@@ -160,7 +159,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 
 	    	@Override
 	        public void onFailure(Throwable reason) {
-	    		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", "");
+	    		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", true);
 	    		if (cb != null) {
 					cb.onFailure(reason);
 					resetCallback();
@@ -169,7 +168,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 
 	    	@Override
 	        public void onSuccess(String result) {
-	    		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", "");
+	    		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", true);
 	    		app.setSaved();
 	    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
 	    		if (cb != null) {
@@ -186,7 +185,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 */
 	void upload() {
 		//TODO - wait for translation
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", "");
+		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", true);
 
 		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 			((AppW) app).resetUniqueId();
@@ -196,7 +195,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			@Override
 			public void onLoaded(List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
-					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", "");
+					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", true);
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
 					app.setSaved();
@@ -210,7 +209,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			
 			@Override
 			public void onError(Throwable exception) {
-				ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", "");
+				ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", true);
 				cb.onFailure(exception);
 				resetCallback();
 			}

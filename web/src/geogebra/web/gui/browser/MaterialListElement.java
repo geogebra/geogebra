@@ -10,7 +10,6 @@ import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -267,12 +266,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 				@Override
 				public void onLoaded(List<Material> parseResponse) {
-					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("deleted") + "</html>", "");
+					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("deleted") + "</html>", true);
 				}
 				
 				@Override
 				public void onError(Throwable exception) {
-					ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<html>" + StringUtil.toHTMLString("oops") + "</html>", "");
+					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("oops") + "</html>", true);
 				}
 			});
 		}
