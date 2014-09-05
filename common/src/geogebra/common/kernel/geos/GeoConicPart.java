@@ -853,12 +853,12 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	
 	@Override
 	public Coords getOrigin3D(int i) {
-		return new Coords(lines[i].startPoint.inhomX, lines[i].startPoint.inhomY, 0, 1);
+		return lines[i].getStartInhomCoords();
 	}
 
 
 	public Coords getSegmentEnd3D() {
-		return new Coords(lines[0].endPoint.inhomX, lines[0].endPoint.inhomY, 0, 1);
+		return lines[0].getEndInhomCoords();
 	}
 
 }
