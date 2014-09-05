@@ -198,10 +198,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case IntersectConic:
 				return new CmdIntersectConic(kernel);				
 						
-				
-			case Intersection:
-				return new CmdIntersect3D(kernel);
-	
 			case Sphere:
 				return new CmdSphere3D(kernel);
 
