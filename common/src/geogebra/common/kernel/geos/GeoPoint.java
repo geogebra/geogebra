@@ -37,6 +37,7 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
@@ -1692,9 +1693,13 @@ SymbolicParametersBotanaAlgo {
 		return y2D;
 	}
 
-	// only used for 3D stuff
+	// may be used when 2D point is put on 3D path
 	public void updateCoordsFrom2D(boolean doPathOrRegion, CoordSys coordsys) {
-		//3D only
+		if (coordsys != null){
+			updateCoords2D();
+			setCoords(coordsys.getPoint(getX2D(), getY2D()), doPathOrRegion);
+		}
+		
 	}
 	
 	public void updateCoordsFrom2D(boolean doPathOrRegion) {
@@ -1739,13 +1744,29 @@ SymbolicParametersBotanaAlgo {
 		return getInhomCoords();
 	}
 
+
+	private CoordMatrix4x4 tmpMatrix4x4;
+	
 	public Coords getCoordsInD2(CoordSys coordSys) { // TODO use coord sys ?
+		
 		if(coords2D == null){
 			coords2D = new Coords(new double[] { x, y, z });
 		}else{
-			coords2D.set(1, x);
-			coords2D.set(2, y);
-			coords2D.set(3, z);
+			if (coordSys == null){
+				coords2D.set(1, x);
+				coords2D.set(2, y);
+				coords2D.set(3, z);
+			}else{ // this should happen only when we try to put a 2D point on a 3D path (e.g. GeoConic3D)
+				// matrix for projection
+				if (tmpMatrix4x4 == null){
+					tmpMatrix4x4 = new CoordMatrix4x4();
+				}
+				tmpMatrix4x4.set(coordSys.getMatrixOrthonormal());
+				Coords[] project = getCoordsInD3().projectPlane(tmpMatrix4x4);
+				coords2D.setX(project[1].getX());
+				coords2D.setY(project[1].getY());
+				coords2D.setZ(project[1].getW());
+			}
 		}
 		return coords2D;
 	}
