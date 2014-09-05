@@ -24,7 +24,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -455,7 +454,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	}
 	
 	public void translate(Coords v) {
-		App.debug("translating points");
 		for (int i = 0; i < points.length; i++) {
 			getPoint(i).translate(v);
 		}
