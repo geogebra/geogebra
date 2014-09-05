@@ -17,7 +17,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.debug.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -503,8 +502,8 @@ public class Polynomial implements Serializable
 	static Polynomial fromNode(ExpressionNode lhs, Equation eqn) {
 		ExpressionNode leftEN  = lhs.getCopy(lhs.getKernel());
 		Polynomial poly = leftEN.makePolynomialTree(eqn);
-		Log.debug("Coefficients:");
-		Log.debug(poly);
+		//Log.debug("Coefficients:");
+		//Log.debug(poly);
 		return poly;
 	}
 
