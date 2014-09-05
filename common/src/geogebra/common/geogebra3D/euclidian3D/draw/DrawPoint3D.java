@@ -302,7 +302,7 @@ implements Previewable, Functional2Var{
 	
 	@Override
 	protected TraceIndex newTraceIndex(){
-		return new TraceIndex(getGeometryIndex(), getSurfaceIndex(), center);
+		return new TraceIndex(getGeometryIndex(), getSurfaceIndex(), center.copyVector());
 	}
 	
 	@Override
