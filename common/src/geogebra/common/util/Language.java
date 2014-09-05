@@ -120,7 +120,7 @@ public enum Language {
 	Portuguese_Portugal(null, true, "ptPT","pt_PT", "Portuguese (Portugal) / Portugu\u00EAs (Portugal)", Country.Portugal, Country.Mozambique, Country.Angola, Country.CapeVerde, Country.GuineaBissau, Country.SaoTomePrincipe, Country.Macau, Country.EastTimor),
 	Romanian(null, true, "ro","ro", "Romanian /  Rom\u00E2n\u0103", Country.Romania, Country.MoldovaRepublicof),
 	Russian("\u0439", true, "ru","ru", "Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A", Country.RussianFederation, Country.Kazakhstan, Country.Belarus, Country.Kyrgyzstan, Country.Tajikistan),
-	Sinhala("\u0d9a", false, "si","si", "Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD", Country.SriLanka),
+	//Sinhala("\u0d9a", false, "si","si", "Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD", Country.SriLanka),
 	Serbian(null, true, "sr","sr", "Serbian / \u0441\u0440\u043F\u0441\u043A\u0438", Country.Serbia, Country.BosniaandHerzegovina),
 	Slovak(null, true, "sk","sk", "Slovak / Slovensk\u00FD jazyk", Country.Slovakia),
 	Slovenian(null, true, "sl","sl", "Slovenian / Sloven\u0161\u010Dina", Country.Slovenia),
