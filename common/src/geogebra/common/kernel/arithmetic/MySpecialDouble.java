@@ -54,7 +54,7 @@ public class MySpecialDouble extends MyDouble {
 			}
 		}
 		//Reduce can't handle .5*8
-		originalString = decimal ? (str.startsWith(".")?"0" + str:str) : (str.substring(0,index));
+		originalString = decimal || index < 0 ? (str.startsWith(".")?"0" + str:str) : (str.substring(0,index));
 		
 		
 		strToString = originalString;
