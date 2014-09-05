@@ -3972,8 +3972,10 @@ public class Kernel {
 			}
 		}
 		
-		App.error("kernel has 3D objects: " + kernelHas3DObjects);
-
+		if (kernelHas3DObjects) {
+			App.error("kernel has 3D objects");
+		}
+		
 		return kernelHas3DObjects;
 	}
 
