@@ -39,6 +39,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private final int MAX_TITLE_HEIGHT = 40;
 	private FlowPanel materialElementContent;
 	private SimplePanel previewPicturePanel;
+	private SimplePanel background;
 	protected FlowPanel infoPanel;
 	protected boolean isLocal;
 	protected boolean isOwnMaterial;
@@ -46,7 +47,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	protected Label title;
 	protected Label sharedBy;
 	private TextBox renameTextBox;
-	protected final Material material;
+	protected Material material;
 	protected final AppW app;
 	protected final GuiManagerW guiManager;
 	
@@ -76,6 +77,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.isOwnMaterial = m.getAuthor().equals(app.getLoginOperation().getUserName());
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
+		this.material.setSyncStamp(System.currentTimeMillis() / 1000);
 		this.editMaterial = new Runnable() {
 			
 			@Override
@@ -168,21 +170,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			}
 		}, ClickEvent.getType());
 
-		final SimplePanel background = new SimplePanel();
+		background = new SimplePanel();
 		background.setStyleName("background");
 		
-		final String thumb = this.material.getThumbnail();
-		if (thumb != null && thumb.length() > 0) {
-			setPicture(background, thumb);
-		} else {
-			background
-			.getElement()
-			.getStyle()
-			.setBackgroundImage(
-					"url("
-							+ AppResources.INSTANCE.geogebra64()
-							.getSafeUri().asString() + ")");
-		}
+		setPictureAsBackground();
 		
 		this.previewPicturePanel.add(background);
 		this.materialElementContent.add(this.previewPicturePanel);
@@ -194,11 +185,22 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		}
 	}
 
-	protected void setPicture(final SimplePanel background, String thumb) {
-		 if (!isLocal) {
-			 background.getElement().getStyle().setBackgroundImage("url(" + Browser.normalizeURL(thumb) + ")");
+	private void setPictureAsBackground() {
+	    final String thumb = this.material.getThumbnail();
+		if (thumb != null && thumb.length() > 0) {
+			if (!isLocal) {
+				background.getElement().getStyle().setBackgroundImage("url(" + Browser.normalizeURL(thumb) + ")");
+			} else {
+				background.getElement().getStyle().setBackgroundImage("url(" + thumb + ")");
+			}
 		} else {
-			background.getElement().getStyle().setBackgroundImage("url(" + thumb + ")");
+			background
+			.getElement()
+			.getStyle()
+			.setBackgroundImage(
+					"url("
+							+ AppResources.INSTANCE.geogebra64()
+							.getSafeUri().asString() + ")");
 		}
     }
 
@@ -258,20 +260,24 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	void onConfirmDelete() {
+		this.setVisible(false);
+		setAllMaterialsDefault();
 		if (this.isLocal) {
 			this.app.getFileManager().delete(this.material);
 		} else {
-			remove();
+			
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).deleteMaterial(this.app, this.material, new MaterialCallback() {
 
 				@Override
 				public void onLoaded(List<Material> parseResponse) {
-					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("deleted") + "</html>", true);
+					remove();
 				}
 				
 				@Override
 				public void onError(Throwable exception) {
-					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("oops") + "</html>", true);
+					setVisible(true);
+					//TODO translation needed
+					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("Delete failed") + "</html>", true);
 				}
 			});
 		}
@@ -279,9 +285,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void remove() {
-		((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
-        ((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeFromLocalList(MaterialListElement.this.material);
+        ((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(MaterialListElement.this.material);
     }
+	
+	protected void setAllMaterialsDefault() {
+		((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
+	}
 	
 	void onCancel() {
 		showDetails(true);
@@ -292,7 +301,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * 
 	 */
 	protected void openDefault() {
-		if (isLocal) {
+		if (isOwnMaterial) {
 			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setCallback(editMaterial);
 			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 		} else {
@@ -327,7 +336,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * 
 	 */
 	protected void onEdit() {
-		this.guiManager.getBrowseGUI().setMaterialsDefaultStyle();
+		
 		if (!isLocal) {
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
@@ -340,6 +349,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				});
 				return;
 			}
+			//TODO Translate "Loading ..."
+			ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString("Loading ..."), false);
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
 
 				@Override
@@ -348,10 +359,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				}
 			});
 		} else {
+			//TODO closeBroseView & setDefaultStyle
 			this.app.getFileManager().openMaterial(this.material);
 		}
-		closeBrowseView();
-		
 	}
 
 	protected void closeBrowseView() {
@@ -485,4 +495,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void setMaterial(Material mat) {
+		this.material = mat;
+		initMaterialInfos();
+		this.background.clear();
+		setPictureAsBackground();
+    }
 }

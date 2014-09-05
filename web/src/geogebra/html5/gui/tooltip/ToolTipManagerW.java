@@ -249,7 +249,7 @@ public class ToolTipManagerW {
 		$wnd.open(url);
 	}-*/;
 
-	void hideBottomInfoToolTip() {
+	public void hideBottomInfoToolTip() {
 		cancelTimer();
 		bottomInfoTipPanel.setVisible(false);
 	}

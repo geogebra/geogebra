@@ -18,6 +18,6 @@ public class TabletFileManager extends FileManagerT {
 	
 	@Override()
 	public void removeFile(final Material mat) {
-		((TabletBrowseGUI) app.getGuiManager().getBrowseGUI()).removeFromLocalList(mat);
+		((TabletBrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(mat);
 	}
 }

@@ -7,20 +7,19 @@ import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.BrowseGuiI;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
-import geogebra.html5.main.AppW;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
+import geogebra.web.main.FileManagerW;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
-import geogebra.web.move.googledrive.operations.GoogleDriveFileHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ import com.google.gwt.user.client.ui.Image;
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, GoogleDriveFileHandler, EventRenderable, OpenFileListener, BrowseGuiI {
+public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, EventRenderable, OpenFileListener, BrowseGuiI {
   
 	protected final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
@@ -50,9 +49,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 	private StandardButton locationTube;
 	private StandardButton locationDrive;
 	private StandardButton locationSkyDrive;
-	
 	protected final AppW app;
-	private MaterialListElement lastSelected;
 
 	
 	public class MyButton extends FlowPanel {
@@ -213,7 +210,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		this.materialListPanel.addMaterial(mat, true);
 	}
 	
-	public void removeFromLocalList(final Material mat) {
+	public void removeMaterial(final Material mat) {
 		this.materialListPanel.removeMaterial(mat);
 	}
 	
@@ -252,56 +249,51 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 		app.openFileAsGgb(fileToHandle, callback);		
 	}
 
-	@Override
-    public void show(final String title, final String author, final String date,
-            final String url, final String description, final String googleID, final String thumbnail) {
-		final Material m = new Material(-1, MaterialType.ggb);
-		m.setTitle(title);
-		m.setURL(url);
-		m.setAuthor(author);
-		m.setDescription(description);
-		m.setGoogleID(googleID);
-		m.setTimestamp(Long.parseLong(date)/1000);
-		m.setThumbnail(thumbnail);
-    }
-
-	@Override
-    public void done() {
-//	    this.updateGUI();
-	    
-    }
-
-	@Override
     public void clearMaterials() {
 	    this.materialListPanel.clearMaterials();
     }
 
 	@Override
     public void onOpenFile() {
-		//FIXME check, why we have to call bg.close() in MaterialListElement.onEdit()
+		Material material = getLastSelected().getMaterial();
+		app.getKernel().getConstruction().setTitle(material.getTitle());
+		app.setSyncStamp(material.getSyncStamp());
+		if (getLastSelected().isOwnMaterial) {
+			app.setUniqueId(material.getId()+"");
+		} else {
+			app.resetUniqueId();
+		}
+	    setMaterialsDefaultStyle();
 	    this.close();
-	    this.app.registerOpenFileListener(null);
+	    ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
     }
+	
+	private MaterialListElement getLastSelected() {
+		return this.materialListPanel.lastSelected;
+	}
 
 	@Override
     public void render(final boolean b) {
-		//FIXME check what we really need
-//		if (!b) {
-//            this.tubeList.clear();
-//            updateGUI();
-//    } else if (this.lastQuery != null) {
-//            this.displaySearchResults(this.lastQuery);
-//    } else {
-//            this.loadFeatured();
-//    }
-	    if(!b) {
+	    if (!b) {
 	    	this.clearMaterials();
 	    }
 	    else {
+//	    	uploadLocals();
 	    	loadFeatured();
 	    }
     }
 	
+	/**
+	 * IN PROGESS
+	 * different behavior for web and touch
+	 */
+	private void uploadLocals() {
+		if (this.app.getLoginOperation().isLoggedIn()) {
+			AppW appW = (AppW) this.app;
+			((FileManagerW) appW.getFileManager()).uploadUsersMaterials();
+		}
+    }
+
 	@Override
     public void renderEvent(final BaseEvent event) {
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
@@ -321,5 +313,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Googl
 			res.onResize();
 		}
 	}
+
+	public void refreshMaterial(Material material, boolean isLocal) {
+	    this.materialListPanel.refreshMaterial(material, isLocal);
+    }
 }
 

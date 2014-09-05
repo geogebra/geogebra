@@ -22,6 +22,7 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 
+
 /**
  * API Interface for GeoGebraTube requests and responses
  * 
@@ -228,6 +229,12 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	}
 
 	
+	/**
+	 * Uploads the actual opened application to ggt
+	 * @param app AppW
+	 * @param filename String
+	 * @param cb MaterialCallback
+	 */
 	public void uploadMaterial(final AppW app, final String filename, final MaterialCallback cb) {
 		app.getGgbApi().getBase64(true, new StringHandler(){
 
@@ -235,6 +242,16 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
             public void handle(String s) {
 				performRequest(UploadRequest.getRequestElement(app, filename, s).toJSONString(), cb);
             }});
+	}
+	
+	/**
+	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
+	 * @param app AppW
+	 * @param mat Material
+	 * @param cb MaterialCallback
+	 */
+	public void uploadLocalMaterial(final AppW app, final Material mat, final MaterialCallback cb) {
+		performRequest(UploadRequest.getRequestElement(app, mat).toJSONString(), cb);
 	}
 	
 	public void deleteMaterial(AppW app, Material material, final MaterialCallback cb) {

@@ -544,7 +544,7 @@ public class AppWapplet extends AppW {
 		
 		googleDriveOperation = new GoogleDriveOperationW(this);
 		
-		if (getNetworkOperation().getOnline()) {
+		if (getNetworkOperation().isOnline()) {
 			googleDriveOperation.initGoogleDriveApi();
 		}
 		

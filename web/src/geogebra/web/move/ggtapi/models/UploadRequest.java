@@ -1,5 +1,6 @@
 package geogebra.web.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Request;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
@@ -28,6 +29,18 @@ public class UploadRequest implements Request {
 		this.uniqueID = this.app.getUniqueId();
 		this.base64 = base64;
 	}
+	
+	/**
+	 * 
+	 * @param app AppW
+	 * @param mat Material
+	 */
+	public UploadRequest(AppW app, Material mat) {
+	    this.app = app;
+	    this.consTitle = mat.getTitle();
+	    this.uniqueID = Integer.toString(mat.getId());
+	    this.base64 = mat.getBase64();
+    }
 	
 	
 	@Override
@@ -63,9 +76,6 @@ public class UploadRequest implements Request {
 			//language
 			task.put("language", new JSONString(app.getLocalization().getLanguage()));
 				
-//			//description
-//			task.put("description", new JSONString("This is just an example"));
-				
 			//settings
 			JSONObject settings = new JSONObject();
 				settings.put("-toolbar", new JSONString("false"));
@@ -78,15 +88,6 @@ public class UploadRequest implements Request {
 				age.put("-min", new JSONString("0"));
 				age.put("-max", new JSONString("19"));
 			task.put("age", age);
-			
-//			//tags
-//			JSONObject tags = new JSONObject();
-//				//tag
-//				JSONObject tag = new JSONObject();
-//					//name
-//					tag.put("-name", new JSONString("example"));
-//				tags.put("tag", tag);
-//			task.put("tags", tags);
 			
 			//file
 			JSONObject file = new JSONObject();
@@ -102,10 +103,20 @@ public class UploadRequest implements Request {
 	/**
 	 * @param app AppW
 	 * @param filename title of construction
+	 * @param base64 String
 	 * @return the upload XML as JSON String
 	 */
 	public static UploadRequest getRequestElement(AppW app, String filename, String base64) {
 		return new UploadRequest(app, filename, base64);
 	}
 
+
+	/**
+	 * @param app {@link AppW}
+	 * @param mat {@link Material}
+	 * @return the upload XML as JSON String
+	 */
+	public static UploadRequest getRequestElement(AppW app, Material mat) {
+	    return new UploadRequest(app, mat);
+    }
 }

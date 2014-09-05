@@ -131,6 +131,7 @@ public abstract class AppW extends App implements SetLabels{
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;// FIXME: generate new UUID: +
 	                               // UUID.randomUUID();
+	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
 	
 public static final String LOCALE_PARAMETER = "locale";
@@ -489,7 +490,6 @@ public static final String LOCALE_PARAMETER = "locale";
 		
 		private void loadFile(HashMap<String, String> archiveContent)
 		        throws Exception {
-
 			beforeLoadFile();
 
 			HashMap<String, String> archive = (HashMap<String, String>) archiveContent
@@ -760,6 +760,15 @@ public static final String LOCALE_PARAMETER = "locale";
 			getGoogleDriveOperation().resetStorageInfo();
 
 		}
+		
+		public void setSyncStamp(long syncStamp) {
+		    this.syncStamp = syncStamp;
+	    }
+		
+		public long getSyncStamp() {
+			return this.syncStamp;
+		}
+		
 		
 		/**
 		 * @return GoogleDriveOperation
@@ -1201,7 +1210,7 @@ public static final String LOCALE_PARAMETER = "locale";
 		
 		// Initialize the signIn operation
 		loginOperation = op;
-		if (getNetworkOperation().getOnline()) {
+		if (getNetworkOperation().isOnline()) {
 			initGoogleDriveEventFlow();
 			loginOperation.performTokenLogin();
 		}		

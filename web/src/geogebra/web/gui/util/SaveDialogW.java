@@ -142,7 +142,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 	
 	protected boolean isOffline() {
-		return !((AppW) app).getNetworkOperation().getOnline();
+		return !((AppW) app).getNetworkOperation().isOnline();
 	}
 
 	private boolean isLoggedIn() {
@@ -150,7 +150,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 	
 	private void saveLocal() {
-	    ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", true);
+	    ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Saving")) + "</html>", false);
 	    if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 	    	((AppW) app).resetUniqueId();
 	    }
@@ -168,8 +168,9 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 
 	    	@Override
 	        public void onSuccess(String result) {
-	    		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", true);
+	    		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("SavedSuccessfully")) + "</html>", true);
 	    		app.setSaved();
+	    		//TODO don't call loadFeatured() only update saved file!!!
 	    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
 	    		if (cb != null) {
 					cb.onSuccess("Success");
@@ -181,25 +182,59 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
     }
 
 	/**
-	 * Handles the upload of the file and closes the dialog
+	 * Handles the upload of the file and closes the dialog.
+	 * If there are sync-problems with a file, a new one is generated on ggt.
 	 */
 	void upload() {
-		//TODO - wait for translation
-		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Save")) + "</html>", true);
+		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Saving")) + "</html>", false);
 
 		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 			((AppW) app).resetUniqueId();
+			doUpload();
+		} else if (app.getUniqueId() == null) {
+			doUpload();
 		}
+		else {
+			handleSync();
+		}
+		hide();
+	}
+
+	private void handleSync() {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(Integer.parseInt(app.getUniqueId()), new MaterialCallback(){
+
+			@Override
+			public void onLoaded(final List<Material> parseResponse) {
+				if (parseResponse.get(0).getModified() > ((AppW) app).getSyncStamp()) {
+					((AppW) app).resetUniqueId();
+					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("Note that there are several versions of: " + parseResponse.get(0).getTitle()) + "</html>", true);
+				}
+				doUpload();
+			}
+			
+			public void onError(Throwable exception) {
+			    System.out.println("onError");
+		    }
+		});
+	}
+	
+	/**
+	 * does the upload of the actual opened file to GeoGebraTube
+	 */
+	void doUpload() {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText(), new MaterialCallback() {
 
 			@Override
 			public void onLoaded(List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
-					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("saved successfully") + "</html>", true);
+					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("SavedSuccessfully")) + "</html>", true);
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
-					app.setSaved();
-					((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
+					app.setSaved();		
+					//last synchronization is equal to last modified 
+					((AppW) app).setSyncStamp(parseResponse.get(0).getModified());
+					//TODO only refresh the saved file
+					((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(parseResponse.get(0), false);
 					if (cb != null) {
 						cb.onSuccess("Success");
 						resetCallback();
@@ -214,9 +249,8 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 				resetCallback();
 			}
 		});
-		hide();
 	}
-
+	
 	@Override
 	public void show(){
 		super.show();

@@ -548,6 +548,7 @@ public class FileManagerT implements FileManager {
 								writer.write(s);
 								createMetaData(consTitle, cb);
 								app.setSaved();
+								//TODO don't call loadFeatured() only update saved file!!!
 								((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
 								if (cb != null) {
 									cb.onSuccess("Success");

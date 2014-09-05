@@ -1,7 +1,6 @@
 package geogebra.tablet.gui;
 
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.AppW;
 import geogebra.tablet.gui.browser.TabletBrowseGUI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseGUI;

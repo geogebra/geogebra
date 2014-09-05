@@ -77,6 +77,8 @@ public class Material implements Comparable<Material>
 	private boolean showMenu, showToolbar, showInputbar, showResetIcon, shiftDragZoom;
 	private String base64;
 	private String googleID;
+	private long syncStamp;
+	private long modified;
 
 	public Material(int id, MaterialType type)
 	{
@@ -98,6 +100,7 @@ public class Material implements Comparable<Material>
 		this.width = 800;
 		this.height = 600;
 		this.thumbnail = "";
+		this.syncStamp = -1;
 		showMenu = false;
 		showToolbar= false;
 		showInputbar= false;
@@ -262,7 +265,15 @@ public class Material implements Comparable<Material>
 	{
 		this.likes = likes;
 	}
+	
+	public void setSyncStamp(long stamp) {
+		this.syncStamp = stamp;
+	}
 
+	public long getSyncStamp() {
+		return this.syncStamp;
+	}
+	
 	public int compareTo(Material another)
 	{
 		if (another == null)
@@ -309,6 +320,7 @@ public class Material implements Comparable<Material>
 		putString(ret,"width", width+"");
 		putString(ret,"instructions_pre", this.instructionsPre);
 		putString(ret,"instructions_post", this.instructionsPost);
+		putString(ret,"syncstamp", syncStamp+"");
 		putBoolean(ret,"toolbar", this.showToolbar);
 		putBoolean(ret,"menubar", this.showMenu);
 		putBoolean(ret,"inputbar", this.showInputbar);
@@ -402,5 +414,13 @@ public class Material implements Comparable<Material>
 
 	public void setGoogleID(String googleID) {
 		this.googleID = googleID;
+	}
+
+	public void setModified(long parseLong) {
+		this.modified = parseLong;
+	}
+	
+	public long getModified() {
+		return this.modified;
 	}
 }

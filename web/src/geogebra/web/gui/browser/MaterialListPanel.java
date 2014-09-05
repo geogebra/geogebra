@@ -222,7 +222,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			}
 		}
 	}
-	
+		
 	/**
 	 * 
 	 */
@@ -250,5 +250,21 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	    	this.loadFeatured();
 	    }
 	    
+    }
+
+	public void refreshMaterial(Material material, boolean isLocal) {
+		
+		material.setSyncStamp(material.getModified());
+		material.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
+		
+		for(final MaterialListElement matElem : this.materials) {
+			if (matElem.getMaterial().getId() == material.getId()) {
+				matElem.setMaterial(material);
+				return;
+			}
+		}
+		
+		//if material wasn't found, create new MaterialListElement
+		addMaterial(material, isLocal);
     }
 }

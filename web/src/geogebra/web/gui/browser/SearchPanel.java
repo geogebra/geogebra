@@ -160,7 +160,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 //    }
 
 	public void setLabels() {
-		render(this.op.getOnline());
+		render(this.op.isOnline());
 	}
 
 	public boolean addSearchListener(SearchListener searchListener) {

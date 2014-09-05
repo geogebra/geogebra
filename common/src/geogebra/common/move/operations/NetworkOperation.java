@@ -30,7 +30,7 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	/**
 	 * @return if app state is online
 	 */
-	public boolean getOnline() {
+	public boolean isOnline() {
 		return online;
 	}
 

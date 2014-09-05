@@ -1,4 +1,5 @@
 package geogebra.web.gui.browser;
+
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -11,7 +12,6 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
-import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.AuxiliaryHeaderPanel;
@@ -81,7 +81,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	}
 	
 	private void addSearchPanel() { 
-		this.searchPanel = new SearchPanel((AppW)app); 
+		this.searchPanel = new SearchPanel((AppW) app); 
 		this.searchPanel.addSearchListener(new SearchListener() { 
 			@Override 
 			public void onSearch(final String query) { 
@@ -103,7 +103,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			   onLogout();
 		   }
 		   
-		   if (!op.getOnline()) {
+		   if (!op.isOnline()) {
 			   render(false);
 		   }
 	    
@@ -115,7 +115,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	private void onLogout() {
 		if(this.signInButton == null){
-			this.signInButton = ((AppW)app).getLAF().getSignInButton(app);
+			this.signInButton = ((AppW) app).getLAF().getSignInButton(app);
 			
 			this.signInPanel.add(this.signInButton);
 		}
@@ -137,7 +137,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			
 			this.profileImage = new Image();
 			this.profileImage.setStyleName("profileImage");
-			this.profileImage.setPixelSize(40, 40);
+			this.profileImage.setHeight("40px");
 			this.profilePanel.add(this.profileImage);
 			
 			
@@ -199,9 +199,9 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	@Override
 	public void render(boolean b) {
-		this.signInButton.setEnabled(b);
-		
-
+		if (this.signInButton != null) {
+			this.signInButton.setEnabled(b);
+		}
 	}
 
 	@Override

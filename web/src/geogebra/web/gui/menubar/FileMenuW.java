@@ -28,6 +28,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 	/**
 	 * @param app application
+	 * @param onFileOpen 
 	 */
 	public FileMenuW(final AppW app, Runnable onFileOpen) {
 	    super(true);
@@ -63,7 +64,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 	}-*/;
 	
-	private native boolean nativeShareSupported()/*-{
+	native boolean nativeShareSupported()/*-{
 		if($wnd.android && $wnd.android.share){
 			return true;
 		}
@@ -98,7 +99,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Save"), true),true,new Command() {
 		
 				public void execute() {
-					app.getGuiManager().save();
+					if (!app.getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
+						openFilePicker();
+					} else {
+						app.getGuiManager().save();
+					}
 				}
 			});			
 		}
@@ -135,14 +140,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    
 	    app.getNetworkOperation().getView().add(this);
 	    
-	    if (!app.getNetworkOperation().getOnline()) {
+	    if (!app.getNetworkOperation().isOnline()) {
 	    	render(false);    	
 	    }
 	}
 	
 	void openFilePicker() {
 		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement());
-		((GgbAPIW) this.app.getGgbApi()).getGGB(true, callback);
+		this.app.getGgbApi().getGGB(true, callback);
     }
 	
 	private native JavaScriptObject getDownloadCallback(Element downloadButton) /*-{
