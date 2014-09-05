@@ -28,7 +28,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.util.debug.Log;
 
 /**
  *
@@ -52,16 +51,16 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint, D
        	super(cons, false); // don't add to construction list yet
         equation = equ;  
         equation.initEquation();
-        Log.debug("Start algo");
-        Log.debug(equation.getLHS());
-        Log.debug(equation.getRHS());
+        //Log.debug("Start algo");
+        //Log.debug(equation.getLHS());
+        //Log.debug(equation.getRHS());
         Polynomial lhs = equ.getNormalForm();
         
         ev[0] = lhs.getCoefficient("x");        
    		ev[1] = lhs.getCoefficient("y");        
    		ev[2] = lhs.getConstantCoefficient();
-   		Log.debug(lhs);
-   		Log.debug(ev[0]);
+   		//Log.debug(lhs);
+   		//Log.debug(ev[0]);
    		
    		// check coefficients
         for (int i=0; i<3; i++) {
