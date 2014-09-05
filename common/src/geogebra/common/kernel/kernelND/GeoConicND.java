@@ -956,7 +956,7 @@ FromMeta
 		P.setY(px * eigenvec0.getY() + py * eigenvec1.getY()); 
 	
 		// translate by b
-		Coords mid = getMidpoint();
+		Coords mid = getMidpointND();
 		P.setX(P.getX() + P.getZ() * mid.getX());
 		P.setY(P.getY() + P.getZ() * mid.getY());
 	}
@@ -967,7 +967,7 @@ FromMeta
 	 */
 	private void coordsRWtoEV(Coords P) {
 
-		Coords mid = getMidpoint();
+		Coords mid = getMidpointND();
 
 		// translate by -b
 		P.setX(P.getX() - P.getZ() * mid.getX());
