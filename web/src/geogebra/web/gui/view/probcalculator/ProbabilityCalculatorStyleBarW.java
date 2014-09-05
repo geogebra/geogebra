@@ -85,7 +85,9 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnLineGraphHandler.removeHandler();
 		btnStepGraphHandler.removeHandler();
 		btnBarGraphHandler.removeHandler();
-		btnNormalOverlayHandler.removeHandler();
+		if(btnNormalOverlayHandler != null){
+			btnNormalOverlayHandler.removeHandler();
+		}
 
 		btnLineGraph
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_LINE);
