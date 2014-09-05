@@ -891,7 +891,7 @@ __GGB__keysVar.da.command = {
     "StartLogging.Syntax": "[ \"<Sensor>\", <Variabel>, \"<Sensor>\", <Variabel>, ... ]",
     "StemPlot": "StilkGraf",
     "StemPlot.Syntax": "[ <liste> ]\n[ <liste>, <justering -1|0|1> ]",
-    "StepGraph": "trappediagram",
+    "StepGraph": "TrappeGraf",
     "StepGraph.Syntax": "[ <Liste med punkter> ]\n[ <Liste med punkter>, <Forbind? True/False> ]\n[ <Liste med x-v\xe6rdier>, <Liste med y-v\xe6rdier> ]\n[ <Liste med punkter>, <Forbind? True/False>, <Punkt stil> ]\n[ <Liste med x-v\xe6rdier>, <Liste med y-v\xe6rdier>, <Forbind? True/False> ]\n[ <Liste med x-v\xe6rdier>, <Liste med y-v\xe6rdier>, <Forbind? True/False>, <Punkt stil> ]",
     "StickGraph": "pindediagram",
     "StickGraph.Syntax": "[ <Liste med punkter> ]\n[ <Liste med punkter>, <Vandret? True/False> ]\n[ <Liste med x-v\xe6rdier>, <Liste med y-v\xe6rdier> ]\n[ <Liste med x-v\xe6rdier>, <Liste med y-v\xe6rdier>, <Vandret? True/False> ]",
