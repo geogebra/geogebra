@@ -850,7 +850,7 @@ public class CoordSys {
 	public void mirror(Coords point, Coords direction){
 		
 		//origin projected on the line
-		Coords o1 = matrixOrthonormal.getOrigin().projectLine(point, direction)[0]; 
+		matrixOrthonormal.getOrigin().projectLine(point, direction, tmpCoords1, null); 
 		
 		//get projection values
 		double x = 2*matrixOrthonormal.getVx().dotproduct(direction);
@@ -863,7 +863,7 @@ public class CoordSys {
 		matrixOrthonormal.addToVy(direction.mul(y));
 		matrixOrthonormal.addToVz(direction.mul(z));
 		//translate origin matrix
-		matrixOrthonormal.addToOrigin(o1.mul(2));
+		matrixOrthonormal.addToOrigin(tmpCoords1.mul(2));
 		
 		
 		// set original origin and vectors

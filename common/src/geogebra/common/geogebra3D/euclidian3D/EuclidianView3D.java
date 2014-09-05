@@ -2988,9 +2988,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 	
+	private double[] parameters = new double[2];
 	
-	static private void intervalUnionOutside(double[] minmax, Coords o, Coords v, Coords p1, Coords p2){
-		intervalUnion(minmax, p1.projectLine(o, v)[1].getX(), p2.projectLine(o, v)[1].getX());
+	private void intervalUnionOutside(double[] minmax, Coords o, Coords v, Coords p1, Coords p2){
+		p1.projectLine(o, v, tmpCoords1, parameters);
+		double t1 = parameters[0];
+		p2.projectLine(o, v, tmpCoords1, parameters);
+		double t2 = parameters[0];
+		intervalUnion(minmax, t1, t2);
 	}
 	
 	/**

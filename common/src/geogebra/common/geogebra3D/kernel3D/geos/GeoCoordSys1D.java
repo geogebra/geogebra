@@ -777,6 +777,8 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 	}
 	
+	private Coords tmpCoords;
+	
 	final private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
 
 		if (vn.isZero()){
@@ -787,9 +789,12 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 		
 		Coords point = getCoordSys().getOrigin();
-		Coords s = point.projectLine(o1, vn)[0]; //point projected on the axis
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
+		point.projectLine(o1, vn, tmpCoords, null); //point projected on the axis
 		
-		Coords v1 = point.sub(s); //axis->point of the line
+		Coords v1 = point.sub(tmpCoords); //axis->point of the line
 
 		
 		Coords v = getCoordSys().getVx(); //direction of the line
@@ -801,7 +806,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 		// new line origin
 		Coords v2 = vn2.crossProduct4(v1);
-		Coords oRot = s.add(v1.mul(cos)).add(v2.mul(sin));
+		Coords oRot = tmpCoords.add(v1.mul(cos)).add(v2.mul(sin));
 		
 		// new line direction
 		v2 = vn2.crossProduct4(v);
@@ -853,9 +858,12 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		Coords vn = line.getDirectionInD3();
 
 		Coords point = getCoordSys().getOrigin();
-		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
+		point.projectLine(o1, vn, tmpCoords, null); //point projected on the line
 		point = point.mul(-1);
-		point.addInside(o.mul(2));
+		point.addInside(tmpCoords.mul(2));
 		
 		
 		vn.normalize();

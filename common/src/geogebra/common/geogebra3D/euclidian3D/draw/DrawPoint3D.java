@@ -262,7 +262,7 @@ implements Previewable, Functional2Var{
 		
 		GeoPointND point = (GeoPointND) getGeoElement();
 		Coords p = point.getInhomCoordsInD3();		
-		return DrawPoint3D.hit(hitting, p, this, point.getPointSize());
+		return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project, parameters);
 		
 	}
 	
@@ -274,17 +274,17 @@ implements Previewable, Functional2Var{
 	 * @param pointSize point size
 	 * @return true if the hitting hits the point
 	 */
-	static public boolean hit(Hitting hitting, Coords p, Drawable3D drawable, int pointSize){
-		Coords[] project = p.projectLine(hitting.origin, hitting.direction);
+	static public boolean hit(Hitting hitting, Coords p, Drawable3D drawable, int pointSize, Coords project, double[] parameters){
+		p.projectLine(hitting.origin, hitting.direction, project, parameters);
 		
-		if (!hitting.isInsideClipping(project[0])){
+		if (!hitting.isInsideClipping(project)){
 			return false;
 		}
 		
-		double d = p.distance(project[0]);
+		double d = p.distance(project);
 		double scale = drawable.getView3D().getScale();
 		if (d * scale <= DrawPoint.getSelectionThreshold(hitting.getThreshold())){
-			double z = -project[1].getX();
+			double z = -parameters[0];
 			double dz = pointSize/scale;
 			drawable.setZPick(z+dz, z-dz);
 			return true;
@@ -292,6 +292,12 @@ implements Previewable, Functional2Var{
 		
 		return false;
 	}
+	
+
+
+	private Coords project = Coords.createInhomCoorsInD3();
+	
+	private double[] parameters = new double[2];
 	
 	
 	@Override

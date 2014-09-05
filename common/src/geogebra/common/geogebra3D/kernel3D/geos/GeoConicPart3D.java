@@ -723,7 +723,8 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 		return parameters.isInRegion(x0, y0);
 	}
 
-
+	private Coords tmpCoords = new Coords(3);
+	private double[] tmpParameters = new double[2];
 
 	@Override
 	protected void moveBackToRegion(GeoPointND pi, RegionParameters rp) {
@@ -753,34 +754,33 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 		nearestPoint.check(secondPoint);
 
 		// check project points on segments edges
-		Coords[] segPoint;
 		if (getConicPartType() == CONIC_PART_SECTOR) {
-			segPoint = coords.projectLine(midPoint, firstPoint.sub(midPoint));
-			if (segPoint[1].getX() > 0 && segPoint[1].getX() < 1) // check if
+			coords.projectLine(midPoint, firstPoint.sub(midPoint), tmpCoords, tmpParameters);
+			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
 																	// the
 																	// projected
 																	// point is
 																	// on the
 																	// segment
-				nearestPoint.check(segPoint[0]);
-			segPoint = coords.projectLine(midPoint, secondPoint.sub(midPoint));
-			if (segPoint[1].getX() > 0 && segPoint[1].getX() < 1) // check if
+				nearestPoint.check(tmpCoords);
+			coords.projectLine(midPoint, secondPoint.sub(midPoint), tmpCoords, tmpParameters);
+			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
 																	// the
 																	// projected
 																	// point is
 																	// on the
 																	// segment
-				nearestPoint.check(segPoint[0]);
+				nearestPoint.check(tmpCoords);
 		} else {
-			segPoint = coords.projectLine(firstPoint,
-					secondPoint.sub(firstPoint));
-			if (segPoint[1].getX() > 0 && segPoint[1].getX() < 1) // check if
+			coords.projectLine(firstPoint,
+					secondPoint.sub(firstPoint), tmpCoords, tmpParameters);
+			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
 																	// the
 																	// projected
 																	// point is
 																	// on the
 																	// segment
-				nearestPoint.check(segPoint[0]);
+				nearestPoint.check(tmpCoords);
 		}
 
 		// may calc the nearest point of the global conic

@@ -533,17 +533,17 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		GeoPolygon poly = (GeoPolygon) getGeoElement();
 		
 		// project hitting origin on polygon plane
-		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(poly.getCoordSys().getMatrixOrthonormal(), hitting.direction);
+		Coords[] projects = hitting.origin.projectPlaneThruVIfPossible(poly.getCoordSys().getMatrixOrthonormal(), hitting.direction);
 
-		if(!hitting.isInsideClipping(project[0])){
+		if(!hitting.isInsideClipping(projects[0])){
 			return false;
 		}
 		
 		boolean ret = false;
 		
 		// check if hitting projection hits the polygon
-		if (poly.isInRegion(project[1].getX(),project[1].getY())){
-			double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+		if (poly.isInRegion(projects[1].getX(),projects[1].getY())){
+			double parameterOnHitting = projects[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
 			setZPick(parameterOnHitting, parameterOnHitting);
 			setPickingType(PickingType.SURFACE);
 			ret = true;
@@ -564,16 +564,16 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			if (hittingPointForOutline == null){
 				hittingPointForOutline = new GeoPoint3D(poly.getConstruction());
 			}
-			hittingPointForOutline.setCoords(project[0]);
+			hittingPointForOutline.setCoords(projects[0]);
 			poly.pointChanged(hittingPointForOutline);
 			Coords p3d = hittingPointForOutline.getInhomCoordsInD3();
 
 			if (hitting.isInsideClipping(p3d)){
-				project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
-				double d = p3d.distance(project[0]);
+				p3d.projectLine(hitting.origin, hitting.direction, project, parameters); // check distance to hitting line
+				double d = p3d.distance(project);
 				double scale = getView3D().getScale();
 				if (d * scale <= poly.getLineThickness() + hitting.getThreshold()){
-					double z = -project[1].getX();
+					double z = -parameters[0];
 					double dz = poly.getLineThickness()/scale;
 					setZPick(z+dz, z-dz);
 					setPickingType(PickingType.POINT_OR_CURVE);
@@ -586,6 +586,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 	}
 	
+
+	private Coords project = Coords.createInhomCoorsInD3();
+	
+	private double[] parameters = new double[2];
 
 
 	

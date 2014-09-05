@@ -269,6 +269,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			newCoords.put(0d,g.getStartPoint().getInhomCoordsInD2());
 	}
 	
+	private Coords project = Coords.createInhomCoorsInD3();
+	
+	private double[] parameters = new double[2];
 	
 	/**
 	 * add polygon points that are on the line
@@ -281,17 +284,17 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			if (geoPoint.isDefined()){
 				Coords point = geoPoint.getInhomCoordsInD3();
 
-				Coords[] project = point.projectLine(o1, d1);
+				point.projectLine(o1, d1, project, parameters);
 
 				//App.debug("\npoint=\n"+point+"\nproject=\n"+project[0]);
 
 				//check if projection is intersection point
-				if (project[0].equalsForKernel(point, Kernel.STANDARD_PRECISION)){
+				if (project.equalsForKernel(point, Kernel.STANDARD_PRECISION)){
 
-					double t1 = project[1].get(1); 
+					double t1 = parameters[0]; 
 
 					if (checkParameter(t1))
-						addCoords(t1, project[0], geoPoint);
+						addCoords(t1, project, geoPoint);
 				}
 			}
 		}

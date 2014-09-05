@@ -505,11 +505,11 @@ implements Previewable {
 			return false;
 		}
 		
-		Coords[] project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
+		p3d.projectLine(hitting.origin, hitting.direction, project, parameters); // check distance to hitting line
 		
-		double d = p3d.distance(project[0]);
+		double d = p3d.distance(project);
 		if (d * getView3D().getScale() <= hitting.getThreshold()){
-			double z = -project[1].getX();
+			double z = -parameters[0];
 			setZPick(z, z);
 			return true;
 		}
@@ -517,5 +517,9 @@ implements Previewable {
 		return false;
 		
 	}
+	
+	private Coords project = Coords.createInhomCoorsInD3();
+	
+	private double[] parameters = new double[2];
 
 }

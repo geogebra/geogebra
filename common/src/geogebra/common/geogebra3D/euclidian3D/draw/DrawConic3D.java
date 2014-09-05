@@ -844,7 +844,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			return false;
 			
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			if (DrawPoint3D.hit(hitting, conic.getMidpoint3D(), this, conic.getLineThickness())){
+			if (DrawPoint3D.hit(hitting, conic.getMidpoint3D(), this, conic.getLineThickness(), project, parameters)){
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
@@ -857,31 +857,31 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			boolean	ret = false;
 
 			// project hitting origin on polygon plane
-			Coords[] project = hitting.origin.projectPlaneThruVIfPossible(conic.getCoordSys().getMatrixOrthonormal(), hitting.direction);
+			Coords[] projects = hitting.origin.projectPlaneThruVIfPossible(conic.getCoordSys().getMatrixOrthonormal(), hitting.direction);
 
 			// try conic surface
 			if (getGeoElement().getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
-					&& hitting.isInsideClipping(project[0])
-					&& conic.isInRegion(project[1].getX(),project[1].getY()) ){
-				double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+					&& hitting.isInsideClipping(projects[0])
+					&& conic.isInRegion(projects[1].getX(),projects[1].getY()) ){
+				double parameterOnHitting = projects[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
 				setZPick(parameterOnHitting, parameterOnHitting);
 				setPickingType(PickingType.SURFACE);
 				ret = true;
 			}
 
 			// try outline
-			Coords p2d = project[1];
+			Coords p2d = projects[1];
 			p2d.setZ(1.0);
 			conic.pointChanged(p2d, hittingPathParameter);
 			Coords p3d = conic.getCoordSys().getPoint(p2d.getX(),p2d.getY()); // get nearest point on conic
 			//App.debug("\n"+p2d+"\n3d:\n"+p3d);
 
 			if (hitting.isInsideClipping(p3d)){
-				project = p3d.projectLine(hitting.origin, hitting.direction); // check distance to hitting line
-				double d = p3d.distance(project[0]);
+				p3d.projectLine(hitting.origin, hitting.direction, project, parameters); // check distance to hitting line
+				double d = p3d.distance(project);
 				double scale = getView3D().getScale();
 				if (d * scale <= conic.getLineThickness() + hitting.getThreshold()){
-					double z = -project[1].getX();
+					double z = -parameters[0];
 					double dz = conic.getLineThickness()/scale;
 					setZPick(z+dz, z-dz);
 					setPickingType(PickingType.POINT_OR_CURVE);
@@ -892,6 +892,11 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			return ret;
 		}
 	}
+	
+
+	private Coords project = Coords.createInhomCoorsInD3();
+	
+	private double[] parameters = new double[2];
 	
 
 	@Override

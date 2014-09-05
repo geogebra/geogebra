@@ -1051,6 +1051,9 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// symetric matrix
 		setMatrixFromEigen();
 	}
+	
+
+	private Coords tmpCoords;
 
 	public void mirror(GeoLineND line) {
 		
@@ -1059,9 +1062,12 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		
 		// midpoint
 		Coords mp = getMidpoint3D();
-		Coords o1 = mp.projectLine(point, direction)[0]; 
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
+		mp.projectLine(point, direction, tmpCoords, null); 
 		mp.mulInside(-1);
-		mp.addInside(o1.mul(2));
+		mp.addInside(tmpCoords.mul(2));
 		setMidpoint(mp.get());
 
 		

@@ -838,7 +838,8 @@ public class Coords extends CoordMatrix {
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
 		if (Kernel.isZero(v3.dotproduct(v))) {
-			Coords firstProjection = oldCoords.projectLine(this, v)[0];
+			Coords firstProjection = Coords.createInhomCoorsInD3();
+			oldCoords.projectLine(this, v, firstProjection, null);
 			return firstProjection.projectPlane(m);
 		}
 
@@ -849,7 +850,6 @@ public class Coords extends CoordMatrix {
 		return projectPlane(m1);
 	}
 	
-	static private Coords tmpCoords = new Coords(4);
 
 	/**
 	 * calculates projection of this on the 3D-line represented by the matrix {V
@@ -859,18 +859,24 @@ public class Coords extends CoordMatrix {
 	 *            origin of the line
 	 * @param V
 	 *            direction of the line
-	 * @return {point projected, {parameter on the line, normalized parameter} }
+	 * @param H point projected 
+	 * @param parameters {parameter on the line, normalized parameter}
 	 */
-	public Coords[] projectLine(Coords O, Coords V) {
-
-		this.sub(O, tmpCoords); // OM
+	public void projectLine(Coords O, Coords V, Coords H, double[] parameters) {
+		
+		this.sub(O, H); // OM
 		Coords N = V.normalized();
-		double parameter = tmpCoords.dotproduct(N); // OM.N
-		N.mul(parameter, tmpCoords); // OH
-		Coords H = O.add(tmpCoords); 
-
-		return new Coords[] { H,
-				new Coords(new double[] { parameter / V.norm(), parameter }) };
+		double parameter = H.dotproduct(N); // OM.N
+		N.mul(parameter, H); // OH
+		O.add(H, H); 
+		
+		if (parameters == null){
+			return;
+		}
+		
+		parameters[0] = parameter / V.norm();
+		parameters[1] = parameter;
+		
 	}
 
 	/**
@@ -954,7 +960,7 @@ public class Coords extends CoordMatrix {
 	 * @param result gets this - v
 	 */
 	public void sub(Coords v, Coords result) {
-		for (int i = 0; i < result.rows && i < rows; i++){
+		for (int i = 0; i < result.rows; i++){
 			result.val[i] = val[i] - v.val[i];
 		}
 	}

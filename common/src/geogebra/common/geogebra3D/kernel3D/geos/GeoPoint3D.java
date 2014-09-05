@@ -1316,6 +1316,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 		rotate(phiValue.getDouble(), o1, vn);
 	}
 
+	private Coords tmpCoords;
+	
 	/**
 	 * rotate around line (point + vector) with angle phi
 	 * @param phi angle
@@ -1330,15 +1332,18 @@ Traceable, MirrorableAtPlane, Dilateable{
 		}
 
 		Coords point = getInhomCoordsInD3();
-		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
+		point.projectLine(o1, vn, tmpCoords, null); //point projected on the line
 
-		Coords v1 = point.sub(o);
+		Coords v1 = point.sub(tmpCoords);
 
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 		Coords vn2 = vn.normalized();
 		Coords v2 = vn2.crossProduct4(v1);
-		setCoords(o.add(v1.mul(cos)).add(v2.mul(sin)));
+		setCoords(tmpCoords.add(v1.mul(cos)).add(v2.mul(sin)));
 
 
 	}
@@ -1494,10 +1499,13 @@ Traceable, MirrorableAtPlane, Dilateable{
 		Coords vn = line.getDirectionInD3();
 
 		Coords point = getInhomCoordsInD3();
-		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
+		point.projectLine(o1, vn, tmpCoords, null); //point projected on the line
 
 		//mirror at projected point
-		mirror(o);
+		mirror(tmpCoords);
 
 	}
 
