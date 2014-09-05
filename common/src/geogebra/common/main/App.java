@@ -108,7 +108,7 @@ public abstract class App implements UpdateSelection{
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
 	/** Url for main page of manual */
-	public static final String WIKI_MANUAL = "Main Page";
+	public static final String WIKI_MANUAL = "Manual";
 	/** Url for wiki article about CAS */
 	public static final String WIKI_CAS_VIEW = "CAS_View";
 	/** Url for wiki tutorials */

@@ -18,41 +18,37 @@ import javax.swing.KeyStroke;
 class HelpMenu extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
-	private AbstractAction
-		helpAction,
-		tutorialAction,
-		geogebratubeAction,
-		infoAction,
-		reportBugAction
-	;
+	private AbstractAction helpAction, tutorialAction, forumAction, infoAction,
+			reportBugAction;
+
 	/**
 	 * Creates new help menu
+	 * 
 	 * @param app
 	 */
 	public HelpMenu(AppD app) {
 		super(app, app.getMenu("Help"));
-		
-		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+
+		// items are added to the menu when it's opened, see BaseMenu:
+		// addMenuListener(this);
 	}
-	
+
 	/**
 	 * Initialize the menu items.
 	 */
 	@Override
-	protected void initItems()
-	{
+	protected void initItems() {
 
 		removeAll();
 
-		// doesn't work in unsigned applets 
-		if (AppD.hasFullPermissions()) {		
+		// doesn't work in unsigned applets
+		if (AppD.hasFullPermissions()) {
+			add(tutorialAction);
 			JMenuItem mi = add(helpAction);
-			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1,
-					0);
+			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
 			mi.setAccelerator(ks);
 
-			add(tutorialAction);
-			add(geogebratubeAction);
+			add(forumAction);
 
 			addSeparator();
 
@@ -67,47 +63,49 @@ class HelpMenu extends BaseMenu {
 		app.setComponentOrientation(this);
 
 	}
-	
+
 	/**
 	 * Initialize the actions.
 	 */
 	@Override
-	protected void initActions()
-	{
+	protected void initActions() {
 		if (helpAction == null) {
-			helpAction = new HelpAction(app, app
-					.getImageIcon("help.png"),app.getMenu("Help"),App.WIKI_MANUAL);
-						
-			
-			tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),App.WIKI_TUTORIAL);
-	
-			reportBugAction = new AbstractAction(app.getMenu("ReportBug"), app.getEmptyIcon()) {
+			helpAction = new HelpAction(app, app.getImageIcon("help.png"),
+					app.getMenu("Manual"), App.WIKI_MANUAL);
+
+			tutorialAction = new HelpAction(app, null,
+					app.getMenu("Tutorials"), App.WIKI_TUTORIAL);
+
+			reportBugAction = new AbstractAction(app.getMenu("ReportBug"),
+					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
-	
+
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
 					app.getGuiManager().showURLinBrowser(
 							GeoGebraConstants.GEOGEBRA_REPORT_BUG_DESKTOP);
 				}
 			};
-	
-			geogebratubeAction = new AbstractAction("GeoGebraTube", app.getImageIcon("GeoGebraTube.png")) {
+
+			forumAction = new AbstractAction(app.getMenu("GeoGebraForum"),
+					app.getImageIcon("forum.gif")) {
 				private static final long serialVersionUID = 1L;
-	
+
 				public void actionPerformed(ActionEvent e) {
 					app.getGuiManager().showURLinBrowser(
-							GeoGebraConstants.GEOGEBRATUBE_WEBSITE);
+							GeoGebraConstants.FORUM_URL);
 				}
 			};
-			
-			infoAction = new AbstractAction(app.getMenu("AboutLicense"), app.getImageIcon("info.gif")) {
+
+			infoAction = new AbstractAction(app.getMenu("AboutLicense"),
+					app.getImageIcon("info.gif")) {
 				private static final long serialVersionUID = 1L;
-	
+
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraMenuBar.showAboutDialog(app);
 				}
 			};
-		
+
 		}
 	}
 
@@ -115,7 +113,5 @@ class HelpMenu extends BaseMenu {
 	public void update() {
 		//
 	}
-
-
 
 }

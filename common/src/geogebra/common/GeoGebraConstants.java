@@ -137,6 +137,7 @@ public interface GeoGebraConstants {
 	public static final String GEOIP_URL = "http://www.geogebra.org/geoip/geoip_json.php";
 	public static final String GGT_FORGOT_PWD_URL = "http://www.geogebra.org/forum/ucp.php?mode=sendpassword";
 	public static final String GGT_REGISTER_URL = "http://www.geogebra.org/forum/ucp.php?mode=register";
+	public static final String FORUM_URL = "http://www.geogebra.org/forum/";
 	public static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	public static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	public static final String WEB_CUSTOM_HTML_ELEMENT_NAME = "geogebra-web";

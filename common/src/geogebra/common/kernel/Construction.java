@@ -2954,7 +2954,11 @@ public class Construction {
 		this.kernel.getApplication().setBlockUpdateScripts(oldFlag);
 		
 	}
-
+	
+	/**
+	 * 
+	 * @param algo
+	 */
 	public void registerCorner5(EuclidianViewCE algo) {
 		if(this.corner5Algos == null){
 			this.corner5Algos = new ArrayList<EuclidianViewCE>();
