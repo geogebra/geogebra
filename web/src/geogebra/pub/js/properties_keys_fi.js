@@ -1556,6 +1556,7 @@ __GGB__keysVar.fi.menu = {
     "LowerLimit": "Alaraja",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "N\xe4kym\xe4n hallinta",
+    "Manual": "Manual",
     "MarginOfError": "Virhemarginaali",
     "MarginOfError.short": "VM",
     "MathematicalFunctions": "Matemaattiset funktiot",

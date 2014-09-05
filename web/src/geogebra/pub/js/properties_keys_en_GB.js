@@ -1556,6 +1556,7 @@ __GGB__keysVar.en_GB.menu = {
     "LowerLimit": "Lower Limit",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Manage Perspectives",
+    "Manual": "Manual",
     "MarginOfError": "Margin of Error",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Mathematical Functions",

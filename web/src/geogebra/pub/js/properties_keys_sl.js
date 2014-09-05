@@ -1556,6 +1556,7 @@ __GGB__keysVar.sl.menu = {
     "LowerLimit": "Spodnja meja",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Urejanje izgleda",
+    "Manual": "Manual",
     "MarginOfError": "Meja napake",
     "MarginOfError.short": "Mn",
     "MathematicalFunctions": "Matemati\u010dne funkcije",

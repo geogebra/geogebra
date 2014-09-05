@@ -1556,6 +1556,7 @@ __GGB__keysVar.no_NN.menu = {
     "LowerLimit": "Nedre grense",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Vel oppsett",
+    "Manual": "Manual",
     "MarginOfError": "Feilmargin",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Matematiske funksjonar",

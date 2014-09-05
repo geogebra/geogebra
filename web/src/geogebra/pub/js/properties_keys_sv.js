@@ -1556,6 +1556,7 @@ __GGB__keysVar.sv.menu = {
     "LowerLimit": "Undre gr\xe4ns",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "V\xe4lj Perspektiv",
+    "Manual": "Manual",
     "MarginOfError": "Felmarginal",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Matematiska funktioner",

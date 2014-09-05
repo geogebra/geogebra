@@ -1556,6 +1556,7 @@ __GGB__keysVar.de_AT.menu = {
     "LowerLimit": "Limes inferior",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Perspektiven verwalten",
+    "Manual": "Handbuch",
     "MarginOfError": "Fehlerabweichung",
     "MarginOfError.short": "Fehlerabweichung",
     "MathematicalFunctions": "Mathematische Funktionen",
@@ -1663,13 +1664,13 @@ __GGB__keysVar.de_AT.menu = {
     "Pencil": "Bleistift",
     "Pencil.Help": "Zeichne in die Grafik-Ansicht. Verwende die Gestaltungsleiste, um die Farbe zu \xe4ndern.",
     "Perspective.3DGraphics": "3D Grafik",
-    "Perspective.AlgebraAndGraphics": "Algebra & Grafik",
+    "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Elementare Geometrie",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Grafik",
     "Perspective.Geometry": "Geometrie",
     "Perspective.Primary": "Volksschule",
-    "Perspective.Probability": "Probability",
+    "Perspective.Probability": "Wahrscheinlichkeit",
     "Perspective.Spreadsheet": "Tabelle",
     "Perspective.TableAndGraphics": "Tabelle & Grafik",
     "Perspective.Whiteboard": "Whiteboard",
@@ -2071,7 +2072,7 @@ __GGB__keysVar.de_AT.menu = {
     "insert_worksheet": "Arbeitsblatt einf\xfcgen",
     "off": "Aus",
     "on": "An",
-    "search_geogebra_materials": "GeoGebra Materialien durchsuchen",
+    "search_geogebra_materials": "GeoGebra Materialien suchen",
 }
 
 

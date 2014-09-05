@@ -1556,6 +1556,7 @@ __GGB__keysVar.vi.menu = {
     "LowerLimit": "Gi\u1edbi h\u1ea1n d\u01b0\u1edbi",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Qu\u1ea3n l\xfd ph\u1ed1i c\u1ea3nh",
+    "Manual": "Manual",
     "MarginOfError": "Sai s\u1ed1",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "C\xe1c h\xe0m to\xe1n h\u1ecdc",

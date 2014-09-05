@@ -1556,6 +1556,7 @@ __GGB__keysVar.hu_gm.menu = {
     "LowerLimit": "Als\xf3 korl\xe1t",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Egy\xe9ni munkaasztal",
+    "Manual": "Haszn\xe1lati \xfatmutat\xf3",
     "MarginOfError": "Hibakorl\xe1t",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Matematikai f\xfcggv\xe9nyek",

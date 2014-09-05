@@ -1556,6 +1556,7 @@ __GGB__keysVar.et.menu = {
     "LowerLimit": "Vasakpoolne piirv\xe4\xe4rtus",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Halda perspektiive",
+    "Manual": "Manuaal",
     "MarginOfError": "Vea \xfclemm\xe4\xe4r",
     "MarginOfError.short": "V\xdc",
     "MathematicalFunctions": "Matemaatilised funktsioonid",

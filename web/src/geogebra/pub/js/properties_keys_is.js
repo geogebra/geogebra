@@ -1556,6 +1556,7 @@ __GGB__keysVar.is.menu = {
     "LowerLimit": "Ne\xf0ra mark",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Stj\xf3rna s\xfdn",
+    "Manual": "Handb\xf3k",
     "MarginOfError": "Villum\xf6rk",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "St\xe6r\xf0fr\xe6\xf0ileg f\xf6ll",

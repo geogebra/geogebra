@@ -1556,6 +1556,7 @@ __GGB__keysVar.tr.menu = {
     "LowerLimit": "Alt Limit",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Perspektifleri D\xfczenle",
+    "Manual": "Manual",
     "MarginOfError": "Hata Pay\u0131",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Matematiksel Fonksiyonlar",

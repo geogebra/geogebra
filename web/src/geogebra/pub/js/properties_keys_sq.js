@@ -1556,6 +1556,7 @@ __GGB__keysVar.sq.menu = {
     "LowerLimit": "Limit i Poshtem",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Menazhoj Perspektivat",
+    "Manual": "Manual",
     "MarginOfError": "Kufij Gabimi",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Funksione Matematikore",

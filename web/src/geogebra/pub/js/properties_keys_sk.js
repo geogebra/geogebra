@@ -1556,6 +1556,7 @@ __GGB__keysVar.sk.menu = {
     "LowerLimit": "Doln\xe1 hranica",
     "LowerQuartile.short": "Prv\xfd kvartil",
     "ManagePerspectives": "Zorganizova\u0165 perspekt\xedvy",
+    "Manual": "Manual",
     "MarginOfError": "Tolerancia ch\xfdb",
     "MarginOfError.short": "TCh",
     "MathematicalFunctions": "Matematick\xe9 funkcie",

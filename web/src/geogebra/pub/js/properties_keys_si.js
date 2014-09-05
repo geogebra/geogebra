@@ -1556,6 +1556,7 @@ __GGB__keysVar.si.menu = {
     "LowerLimit": "Lower Limit",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "\u0daf\u0dd8\u0dc2\u0dca\u0da7\u0dd2 \u0d9a\u0ddd\u0dab \u0dc4\u0dc3\u0dd4\u0dbb\u0dd0\u0dc0\u0db1\u0dca\u0db1",
+    "Manual": "Manual",
     "MarginOfError": "Margin of Error",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Mathematical Functions",

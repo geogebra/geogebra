@@ -1556,6 +1556,7 @@ __GGB__keysVar.hi.menu = {
     "LowerLimit": "\u0928\u093f\u091a\u0932\u0940 \u0938\u0940\u092e\u093e",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "\u092a\u0930\u093f\u092a\u094d\u0930\u0947\u0915\u094d\u0937\u094d\u092f \u092a\u094d\u0930\u092c\u0902\u0927\u0928",
+    "Manual": "Manual",
     "MarginOfError": "\u0917\u0932\u0924\u0940 \u0915\u0940 \u0938\u0940\u092e\u093e",
     "MarginOfError.short": "\u090f\u092e\u0908",
     "MathematicalFunctions": "\u0917\u0923\u093f\u0924\u0940\u092f \u092b\u0932\u0928",

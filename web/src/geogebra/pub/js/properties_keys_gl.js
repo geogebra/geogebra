@@ -1556,6 +1556,7 @@ __GGB__keysVar.gl.menu = {
     "LowerLimit": "L\xedmite Inferior",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Xestionar perspectivas",
+    "Manual": "Manual",
     "MarginOfError": "Marxe de erro",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Funci\xf3ns matem\xe1ticas",

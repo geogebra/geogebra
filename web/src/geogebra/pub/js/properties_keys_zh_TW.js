@@ -1556,6 +1556,7 @@ __GGB__keysVar.zh_TW.menu = {
     "LowerLimit": "\u4e0b\u9650",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "\u7ba1\u7406\u8996\u7a97\u683c\u5c40",
+    "Manual": "Manual",
     "MarginOfError": "\u8aa4\u5dee\u754c\u9650",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "\u6578\u5b78\u51fd\u6578",

@@ -1556,6 +1556,7 @@ __GGB__keysVar.lv.menu = {
     "LowerLimit": "Zem\u0101k\u0101 robe\u017ea",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Sak\u0101rtot sec\u012bbu",
+    "Manual": "Manual",
     "MarginOfError": "K\u013c\u016bdaina r\u012bc\u012bba",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Matem\u0101tiska funkcija",

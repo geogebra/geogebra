@@ -1556,6 +1556,7 @@ __GGB__keysVar.xh.menu = {
     "LowerLimit": "Isithintelo saseZantsi",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Lawula Umbono",
+    "Manual": "Manual",
     "MarginOfError": "Amathuba eMpazamo",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "IiFankshini zeziBalo",

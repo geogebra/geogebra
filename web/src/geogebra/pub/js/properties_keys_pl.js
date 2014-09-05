@@ -1556,6 +1556,7 @@ __GGB__keysVar.pl.menu = {
     "LowerLimit": "Granica Dolna",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Mened\u017cer Widok\xf3w",
+    "Manual": "Podr\u0119cznik",
     "MarginOfError": "Margines b\u0142\u0119du",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Funkcje Matematyczne",

@@ -1556,6 +1556,7 @@ __GGB__keysVar.ro.menu = {
     "LowerLimit": "Limit\u0103 inferioar\u0103",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Gestionare perspective",
+    "Manual": "Manual",
     "MarginOfError": "Margine de eroare",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Func\u0163ii matematice",

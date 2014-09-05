@@ -1556,6 +1556,7 @@ __GGB__keysVar.ca.menu = {
     "LowerLimit": "L\xedmit inferior",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Gesti\xf3 d'Escenaris",
+    "Manual": "Manual",
     "MarginOfError": "Marge d\u2019error",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Funcions matem\xe0tiques",

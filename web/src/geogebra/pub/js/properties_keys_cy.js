@@ -1556,6 +1556,7 @@ __GGB__keysVar.cy.menu = {
     "LowerLimit": "Terfyn \xees",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Rheoli Gwedd",
+    "Manual": "Manual",
     "MarginOfError": "Cyfwng Cyfeiliornad",
     "MarginOfError.short": "CC",
     "MathematicalFunctions": "Ffwythiannau Mathemategol",

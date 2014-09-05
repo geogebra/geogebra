@@ -1556,6 +1556,7 @@ __GGB__keysVar.ko.menu = {
     "LowerLimit": "\uc544\ub798\ucabd \ud55c\uacc4",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "\ub3c4\uad6c\uc0c1\uc790\uad6c\uc131 \uad00\ub9ac",
+    "Manual": "\ub9e4\ub274\uc5bc",
     "MarginOfError": "\uc624\ucc28\uc758 \ud55c\uacc4",
     "MarginOfError.short": "\uc624\ucc28\uc758 \ud55c\uacc4",
     "MathematicalFunctions": "\uc218\ud559 \ud568\uc218",

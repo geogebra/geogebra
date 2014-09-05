@@ -1556,6 +1556,7 @@ __GGB__keysVar.lt.menu = {
     "LowerLimit": "Apatin\u0117 riba",
     "LowerQuartile.short": "Q1",
     "ManagePerspectives": "Nustatyti perspektyv\u0105",
+    "Manual": "Vartotojo vadovas",
     "MarginOfError": "Klaid\u0173 para\u0161t\u0117",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Matematin\u0117s funkcijos",
