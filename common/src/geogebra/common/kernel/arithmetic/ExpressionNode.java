@@ -3273,7 +3273,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(")");
 			} else {
 				if (tpl.isPrintLocalizedCommandNames()) {
-					App.printStacktrace(tpl.toString());
 					sb.append(loc.getCommand("If"));
 				}else{
 					sb.append("If");
