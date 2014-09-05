@@ -1216,4 +1216,25 @@ public class StringUtil {
 		}
 		return ret;
 	}
+
+	public static String cannonicNumber(String str) {
+		boolean zerosNeedRemoving = true;
+		int index = str.indexOf(".");
+		if(index >=0){
+			for(int k = index +1; k < str.length(); k++){
+				if(str.charAt(k)!='0'){
+					zerosNeedRemoving = false;
+					break;
+				}
+			}
+		}else{
+			zerosNeedRemoving = false;
+		}
+		if(zerosNeedRemoving){
+			return index == 0 ? "0" : str.substring(0,index);
+		}
+		//Reduce can't handle .5*8
+		return index == 0 ? "0" + str : str;
+		
+	}
 }

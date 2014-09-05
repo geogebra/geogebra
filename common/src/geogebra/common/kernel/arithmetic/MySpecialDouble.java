@@ -45,16 +45,9 @@ public class MySpecialDouble extends MyDouble {
 	 */
 	public MySpecialDouble(Kernel kernel, double val, String str) {
 		super(kernel, val);
-		boolean decimal = false;
-		int index = str.indexOf(".");
-		for(int k = index +1; k < str.length(); k++){
-			if(str.charAt(k)!='0'){
-				decimal = true;
-				break;
-			}
-		}
+		
 		//Reduce can't handle .5*8
-		originalString = decimal || index < 0 ? (str.startsWith(".")?"0" + str:str) : (str.substring(0,index));
+		originalString = StringUtil.cannonicNumber(str);
 		
 		
 		strToString = originalString;

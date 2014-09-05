@@ -3,11 +3,14 @@ import geogebra.CommandLineArguments;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.util.StringUtil;
 import geogebra.main.AppD;
 
 import java.util.Locale;
 
 import javax.swing.JFrame;
+
+import org.junit.Assert;
 
 import org.junit.Test;
 public class SerializationTest {
@@ -33,6 +36,14 @@ public class SerializationTest {
 			sbm.append(nm.toValueString(StringTemplate.defaultTemplate));
 		}
 		System.out.println(System.currentTimeMillis() - l);
+	}
+	
+	@Test
+	public void testCannonicNumber(){
+		Assert.assertEquals("0", StringUtil.cannonicNumber("0.0"));
+		Assert.assertEquals("0", StringUtil.cannonicNumber(".0"));
+		Assert.assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
+		Assert.assertEquals("1", StringUtil.cannonicNumber("1.00"));
 	}
 
 }
