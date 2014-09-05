@@ -1429,6 +1429,7 @@ public class Construction {
 
 				((GeoVector) oldGeo).set(newGeo);
 				oldGeo.updateRepaint();
+				newGeo.remove();
 				return;
 
 			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoBoolean) {
