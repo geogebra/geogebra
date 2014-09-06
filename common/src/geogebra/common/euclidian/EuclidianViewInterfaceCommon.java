@@ -391,9 +391,10 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	/**
 	 * @param dx mouse x movement
 	 * @param dy mouse y movement
+	 * @param dy mouse z movement (for 3D)
 	 * @param mode current mode
 	 */
-	public void setCoordSystemFromMouseMove(int dx, int dy, int mode);
+	public void setCoordSystemFromMouseMove(int dx, int dy, int dz, int mode);
 	/**
 	 * @param border array of show-axis-on-border flags
 	 */

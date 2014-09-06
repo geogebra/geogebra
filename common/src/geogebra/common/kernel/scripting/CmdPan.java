@@ -39,7 +39,25 @@ public class CmdPan extends CmdScripting {
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				ev.rememberOrigins();
 				ev.setCoordSystemFromMouseMove((int) x.getDouble(), -(int) y
-						.getDouble(), EuclidianController.MOVE_VIEW);
+						.getDouble(), 0, EuclidianController.MOVE_VIEW);
+
+				
+				return;
+			} else if (!ok)
+				throw argErr(app, c.getName(), arg[0]);
+			else
+				throw argErr(app, c.getName(), arg[1]);
+		case 3:
+			arg = resArgs(c);
+			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric() && arg[2].isGeoNumeric()) {
+
+				GeoNumeric x = (GeoNumeric) arg[0];
+				GeoNumeric y = (GeoNumeric) arg[1];
+				GeoNumeric z = (GeoNumeric) arg[2];
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+				ev.rememberOrigins();
+				ev.setCoordSystemFromMouseMove((int) x.getDouble(), -(int) y
+						.getDouble(), (int) z.getDouble(), EuclidianController.MOVE_VIEW);
 
 				
 				return;

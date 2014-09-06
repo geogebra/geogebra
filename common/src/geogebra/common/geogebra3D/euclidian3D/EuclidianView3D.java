@@ -859,7 +859,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	/** Sets coord system from mouse move */
 	@Override
-	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+	final public void setCoordSystemFromMouseMove(int dx, int dy, int dz, int mode) {
 		switch (mode) {
 		case EuclidianController.MOVE_ROTATE_VIEW:
 			setRotXYinDegrees(aOld - dx, bOld + dy);
@@ -868,7 +868,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setWaitForUpdate();
 			break;
 		case EuclidianController.MOVE_VIEW:
-			Coords v = new Coords(dx, -dy, 0, 0);
+			Coords v = new Coords(dx, -dy, dz, 0);
 			toSceneCoords3D(v);
 
 			if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
@@ -876,6 +876,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 						getViewDirection())[0];
 				setXZero(XZeroOld + v.getX());
 				setYZero(YZeroOld + v.getY());
+				setZZero(ZZeroOld + v.getZ());
 			} else {
 				v = v.projectPlane(CoordMatrix4x4.IDENTITY)[1];
 				setZZero(ZZeroOld + v.getZ());
