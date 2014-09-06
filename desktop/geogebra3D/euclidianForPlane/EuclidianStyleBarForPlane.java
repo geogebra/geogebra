@@ -26,7 +26,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	
 	
 	
-	private MyToggleButton btnCenterAndOrientation, btnFitScale;
+	private MyToggleButton btnCenterAndOrientation;
 
 
 	/**
@@ -48,7 +48,6 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	protected void addBtnRotateView(){
 
 		add(btnCenterAndOrientation);
-		add(btnFitScale);
 
 	}
 	
@@ -63,9 +62,9 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
 		
 		if (source.equals(btnCenterAndOrientation)) {
-			((EuclidianViewForPlaneCompanion) ((EuclidianView) ev).getCompanion()).updateCenterAndOrientationRegardingView();
-		}else if (source.equals(btnFitScale)) {
-			((EuclidianViewForPlaneCompanion) ((EuclidianView) ev).getCompanion()).updateScaleRegardingView();
+			EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion) ((EuclidianView) ev).getCompanion();
+			companion.updateCenterAndOrientationRegardingView();
+			companion.updateScaleRegardingView();
 		}else
 			super.processSource(source, targetGeos);
 	}
@@ -90,21 +89,6 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 		};
 		btnCenterAndOrientation.addActionListener(this);
 
-		// ========================================
-		// button
-		btnFitScale = new MyToggleButton(app.getImageIcon("stylebar_fit_scale.gif"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
-			}
-		};
-		btnFitScale.addActionListener(this);
-
 		
 	}	
 	
@@ -112,8 +96,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	@Override
 	public void setLabels(){
 		super.setLabels();
-		btnCenterAndOrientation.setToolTipText(loc.getPlainTooltip("stylebar.Orientation"));
-		btnFitScale.setToolTipText(loc.getPlainTooltip("stylebar.FitScale"));
+		btnCenterAndOrientation.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
 		
 	}
 	
@@ -124,10 +107,6 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 		btnCenterAndOrientation.removeActionListener(this);
 		btnCenterAndOrientation.setSelected(false);
 		btnCenterAndOrientation.addActionListener(this);
-		
-		btnFitScale.removeActionListener(this);
-		btnFitScale.setSelected(false);
-		btnFitScale.addActionListener(this);
 		
 		
 
