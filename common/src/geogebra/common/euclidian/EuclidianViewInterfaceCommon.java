@@ -389,12 +389,20 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void setCoordSystem(double xZero, double yZero, double xscale, double yscale);
 	/**
-	 * @param dx mouse x movement
-	 * @param dy mouse y movement
-	 * @param dy mouse z movement (for 3D)
+	 * @param dx x movement (in pixels)
+	 * @param dy y movement (in pixels)
+	 * @param dz z movement (for 3D)  (in pixels)
 	 * @param mode current mode
 	 */
-	public void setCoordSystemFromMouseMove(int dx, int dy, int dz, int mode);
+	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode);
+	
+	/**
+	 * translate coord system after page up/down key pressed
+	 * @param height z movement in pixels
+	 */
+	public void pageUpDownTranslateCoordSystem(int height);
+	
+	
 	/**
 	 * @param border array of show-axis-on-border flags
 	 */

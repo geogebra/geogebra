@@ -869,22 +869,20 @@ public abstract class GlobalKeyDispatcher {
 
 				case PAGEUP:
 					ev.rememberOrigins();
-					ev.setCoordSystemFromMouseMove(0, (int) (height * base), 0,
-							EuclidianController.MOVE_VIEW);
+					ev.pageUpDownTranslateCoordSystem((int) (height * base));
 					return true;
 				case PAGEDOWN:
 					ev.rememberOrigins();
-					ev.setCoordSystemFromMouseMove(0, -(int) (height * base), 0,
-							EuclidianController.MOVE_VIEW);
+					ev.pageUpDownTranslateCoordSystem(-(int) (height * base));
 					return true;
 				case INSERT:
 					ev.rememberOrigins();
-					ev.setCoordSystemFromMouseMove((int) (height * base), 0, 0,
+					ev.translateCoordSystemInPixels((int) (height * base), 0, 0,
 							EuclidianController.MOVE_VIEW);
 					return true;
 				case HOME:
 					ev.rememberOrigins();
-					ev.setCoordSystemFromMouseMove(-(int) (height * base), 0, 0,
+					ev.translateCoordSystemInPixels(-(int) (height * base), 0, 0,
 							EuclidianController.MOVE_VIEW);
 					return true;
 				case DOWN:
@@ -900,7 +898,7 @@ public abstract class GlobalKeyDispatcher {
 
 						} else {
 							ev.rememberOrigins();
-							ev.setCoordSystemFromMouseMove(0,
+							ev.translateCoordSystemInPixels(0,
 									(int) (height / 100.0 * base), 0,
 									EuclidianController.MOVE_VIEW);
 						}
@@ -922,7 +920,7 @@ public abstract class GlobalKeyDispatcher {
 
 						} else {
 							ev.rememberOrigins();
-							ev.setCoordSystemFromMouseMove(0,
+							ev.translateCoordSystemInPixels(0,
 									-(int) (height / 100.0 * base), 0,
 									EuclidianController.MOVE_VIEW);
 						}
@@ -942,7 +940,7 @@ public abstract class GlobalKeyDispatcher {
 							}
 						} else {
 							ev.rememberOrigins();
-							ev.setCoordSystemFromMouseMove(
+							ev.translateCoordSystemInPixels(
 									-(int) (width / 100.0 * base), 0, 0,
 									EuclidianController.MOVE_VIEW);
 						}
@@ -963,7 +961,7 @@ public abstract class GlobalKeyDispatcher {
 							}
 						} else {
 							ev.rememberOrigins();
-							ev.setCoordSystemFromMouseMove(
+							ev.translateCoordSystemInPixels(
 									(int) (width / 100.0 * base), 0, 0,
 									EuclidianController.MOVE_VIEW);
 						}

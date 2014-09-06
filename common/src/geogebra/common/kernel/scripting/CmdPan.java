@@ -38,7 +38,7 @@ public class CmdPan extends CmdScripting {
 				GeoNumeric y = (GeoNumeric) arg[1];
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				ev.rememberOrigins();
-				ev.setCoordSystemFromMouseMove((int) x.getDouble(), -(int) y
+				ev.translateCoordSystemInPixels((int) x.getDouble(), -(int) y
 						.getDouble(), 0, EuclidianController.MOVE_VIEW);
 
 				
@@ -56,7 +56,7 @@ public class CmdPan extends CmdScripting {
 				GeoNumeric z = (GeoNumeric) arg[2];
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				ev.rememberOrigins();
-				ev.setCoordSystemFromMouseMove((int) x.getDouble(), -(int) y
+				ev.translateCoordSystemInPixels((int) x.getDouble(), -(int) y
 						.getDouble(), (int) z.getDouble(), EuclidianController.MOVE_VIEW);
 
 				

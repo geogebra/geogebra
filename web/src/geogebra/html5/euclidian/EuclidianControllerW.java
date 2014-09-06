@@ -776,7 +776,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 			if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > MIN_MOVE) {
 				view.rememberOrigins();
-				view.setCoordSystemFromMouseMove(centerX - oldCenterX, centerY
+				view.translateCoordSystemInPixels(centerX - oldCenterX, centerY
 				        - oldCenterY, 0, EuclidianConstants.MODE_TRANSLATEVIEW);
 
 				oldCenterX = centerX;
