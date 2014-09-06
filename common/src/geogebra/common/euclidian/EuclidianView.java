@@ -918,6 +918,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
+	/** Sets coord system from mouse move */
+	public void setCoordSystemFromMouseMove(int dx, int dy, int mode){
+		setCoordSystemFromMouseMove(dx, dy, 0, mode);
+	}
+
 	/**
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.

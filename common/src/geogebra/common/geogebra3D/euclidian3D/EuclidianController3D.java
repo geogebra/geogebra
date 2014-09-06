@@ -1672,7 +1672,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		xOld = x;
 		// Application.debug("vRot="+vRot);
 		view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, mouseLoc.y
-				- startLoc.y, 0, MOVE_ROTATE_VIEW);
+				- startLoc.y, MOVE_ROTATE_VIEW);
 		viewRotationOccured = true;
 		view.repaintView();
 		return true;

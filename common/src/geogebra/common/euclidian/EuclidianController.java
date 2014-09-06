@@ -7434,7 +7434,7 @@ public abstract class EuclidianController {
 				 * view.getYscale());
 				 */
 				view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
-						mouseLoc.y - startLoc.y, 0, MOVE_VIEW);
+						mouseLoc.y - startLoc.y, MOVE_VIEW);
 			}
 			break;
 	
