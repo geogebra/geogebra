@@ -887,7 +887,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
 				v = v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-						getViewDirection())[1];
+						getViewDirection())[0];
 				setXZero(XZeroOld + v.getX());
 				setYZero(YZeroOld + v.getY());
 			} else {
