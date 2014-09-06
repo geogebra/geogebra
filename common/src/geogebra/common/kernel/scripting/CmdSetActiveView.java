@@ -1,6 +1,7 @@
 package geogebra.common.kernel.scripting;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -45,24 +46,43 @@ public class CmdSetActiveView extends CmdScripting {
 				case 2:
 					app.setActiveView(App.VIEW_EUCLIDIAN2);
 					 break;
-				case 3:
-					app.setActiveView(App.VIEW_EUCLIDIAN3D);
-					 break;
 				case -1:
-					app.setActiveView(App.VIEW_SPREADSHEET);
-					 break;
-				case -2:
-					app.setActiveView(App.VIEW_ALGEBRA);
-					 break;
-				case -3:
-					app.setActiveView(App.VIEW_CAS);
+					app.setActiveView(App.VIEW_EUCLIDIAN3D);
 					 break;
 				// default: // might be needed when support for more than 2 Euclidian Views added 
 				}
 				
 				return;
 
-			} 
+			}else if(arg[0].isGeoText()) {
+				String code  = arg[0].toValueString(StringTemplate.defaultTemplate);
+				if (code.length() == 1){
+					char letter = code.charAt(0);
+					switch(letter){
+					case 'G':
+						app.setActiveView(App.VIEW_EUCLIDIAN);
+						 break;
+					case 'D':
+						app.setActiveView(App.VIEW_EUCLIDIAN2);
+						 break;
+					case 'T':
+						app.setActiveView(App.VIEW_EUCLIDIAN3D);
+						 break;
+					case 'S':
+						app.setActiveView(App.VIEW_SPREADSHEET);
+						 break;
+					case 'A':
+						app.setActiveView(App.VIEW_ALGEBRA);
+						 break;
+					case 'C':
+						app.setActiveView(App.VIEW_CAS);
+						 break;
+
+					}
+				}
+				
+				return;
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 
