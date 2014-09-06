@@ -599,6 +599,7 @@ __GGB__keysVar.is.command = {
     "PMCC.Syntax": "[ <Listi af punktum> ]\n[ <Listi af x-hnitum>, <Listi af y-hnitum> ]",
     "Pan": "Skotra",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Fleygbogi",
     "Parabola.Syntax": "[ <Punktur>, <L\xedna> ]",
     "Parameter": "Stiki",

@@ -599,6 +599,7 @@ __GGB__keysVar.sk.command = {
     "PMCC.Syntax": "[ <Zoznam bodov> ]\n[ <Zoznam x-ov\xfdch s\xfaradn\xedc>, <Zoznam yx-ov\xfdch s\xfaradn\xedc> ]",
     "Pan": "Posun\xfa\u0165Obrazovku",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Bod>, <Priamka> ]",
     "Parameter": "Parameter",

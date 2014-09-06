@@ -599,6 +599,7 @@ __GGB__keysVar.zh_TW.command = {
     "PMCC.Syntax": "[ <\u9ede\u96c6> ]\n[ <x \u5ea7\u6a19\u96c6\u5408>, <y \u5ea7\u6a19\u96c6\u5408> ]",
     "Pan": "Pan",
     "Pan.Syntax": "[ <x \u50cf\u7d20>, <y \u50cf\u7d20> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <\u7126\u9ede>, <\u6e96\u7dda> ]",
     "Parameter": "Parameter",

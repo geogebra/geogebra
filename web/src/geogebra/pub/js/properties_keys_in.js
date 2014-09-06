@@ -599,6 +599,7 @@ __GGB__keysVar.in.command = {
     "PMCC.Syntax": "[ <Daftar Titik> ]\n[ <Daftar Koordinar-x>, <Daftar Koordinat-y> ]",
     "Pan": "Geser",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Titik>, <Garis> ]",
     "Parameter": "Parameter",

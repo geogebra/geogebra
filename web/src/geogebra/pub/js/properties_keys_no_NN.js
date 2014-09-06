@@ -599,6 +599,7 @@ __GGB__keysVar.no_NN.command = {
     "PMCC.Syntax": "[ <Liste med punkt> ]\n[ <Liste med x-koordinatar>, <Liste med y-koordinatar> ]",
     "Pan": "JusterVenstreOpp",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabel",
     "Parabola.Syntax": "[ <Punkt>, <Linje> ]",
     "Parameter": "Parameter",

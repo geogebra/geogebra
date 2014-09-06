@@ -599,6 +599,7 @@ __GGB__keysVar.zh_CN.command = {
     "PMCC.Syntax": "[ <\u70b9\u96c6> ]\n[ <x\u5750\u6807\u96c6\u5408>, <y\u5750\u6807\u96c6\u5408> ]",
     "Pan": "\u5e73\u79fb\u89c6\u56fe",
     "Pan.Syntax": "[ <\u6a2a\u5411\u79fb\u52a8\u7684\u50cf\u7d20\u91cf, \u5411\u5de6\u4e3a\u6b63|\u5411\u53f3\u4e3a\u8d1f>, <\u7eb5\u5411\u79fb\u52a8\u7684\u50cf\u7d20\u91cf, \u5411\u4e0b\u4e3a\u6b63|\u5411\u4e0a\u4e3a\u8d1f> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "\u629b\u7269\u7ebf",
     "Parabola.Syntax": "[ <\u70b9>, <\u76f4\u7ebf> ]",
     "Parameter": "\u53c2\u6570p",

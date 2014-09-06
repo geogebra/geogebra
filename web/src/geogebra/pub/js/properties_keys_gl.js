@@ -599,6 +599,7 @@ __GGB__keysVar.gl.command = {
     "PMCC.Syntax": "[ <Lista de puntos> ]\n[ <Lista de valores x>, <Lista de valores y> ]",
     "Pan": "DesprazaVista",
     "Pan.Syntax": "[ <desp x>, < desp y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Par\xe1bola",
     "Parabola.Syntax": "[ <Foco>, <Directriz> ]",
     "Parameter": "Par\xe1metro",

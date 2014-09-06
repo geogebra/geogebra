@@ -599,6 +599,7 @@ __GGB__keysVar.pl.command = {
     "PMCC.Syntax": "[ <ListaPunkt\xf3w> ]\n[ <ListaWsp\xf3\u0142rz\u0119dnychX>, <LIstaWsp\xf3\u0142rz\u0119dnychY> ]",
     "Pan": "Przesu\u0144WidokGrafiki",
     "Pan.Syntax": "[ <Piksle x>, <Piksle y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Punkt>, <Prosta> ]",
     "Parameter": "Parametr",

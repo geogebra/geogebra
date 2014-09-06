@@ -599,6 +599,7 @@ __GGB__keysVar.eo.command = {
     "PMCC.Syntax": "[ <Listo de Punktoj> ]\n[ <Listo de Abscisoj>, <Listo de Ordinatoj> ]",
     "Pan": "Pan",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabolo",
     "Parabola.Syntax": "[ <Punkto>, <Rekto> ]",
     "Parameter": "Parametro",

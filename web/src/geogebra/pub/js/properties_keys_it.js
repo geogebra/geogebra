@@ -599,6 +599,7 @@ __GGB__keysVar.it.command = {
     "PMCC.Syntax": "[ <Lista di punti> ]\n[ <Lista ascisse>, <Lista ordinate> ]",
     "Pan": "SpostaVista",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Punto>, <Retta> ]",
     "Parameter": "Parametro",

@@ -599,6 +599,7 @@ __GGB__keysVar.cs.command = {
     "PMCC.Syntax": "[ <Seznam bod\u016f> ]\n[ <Seznam x-v\xfdch sou\u0159adnic>, <Seznam y-v\xfdch sou\u0159adnic> ]",
     "Pan": "PosunoutNahled",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Bod>, <P\u0159\xedmka> ]",
     "Parameter": "Parametr",

@@ -599,6 +599,7 @@ __GGB__keysVar.lv.command = {
     "PMCC.Syntax": "[ <Punktu saraksts> ]\n[ <x-koordin\u0101tu saraksts>, <y-koordin\u0101tu saraksts> ]",
     "Pan": "P\u0101rvieto",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Punkts>, <Taisne> ]",
     "Parameter": "Parametrs",

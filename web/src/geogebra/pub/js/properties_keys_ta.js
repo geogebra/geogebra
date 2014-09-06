@@ -599,6 +599,7 @@ __GGB__keysVar.ta.command = {
     "PMCC.Syntax": "[ <List of Points> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Pan": "Pan",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "\u0baa\u0bb0\u0bb5\u0bb3\u0bc8\u0bb5\u0bc1",
     "Parabola.Syntax": "[ <Point>, <Line> ]",
     "Parameter": "\u0baa\u0bb0\u0bae\u0bbe\u0ba9\u0bae\u0bcd",

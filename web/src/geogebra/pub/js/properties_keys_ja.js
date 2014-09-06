@@ -599,6 +599,7 @@ __GGB__keysVar.ja.command = {
     "PMCC.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]\n[ <x\u5ea7\u6a19\u306e\u30ea\u30b9\u30c8>, <y\u5ea7\u6a19\u306e\u30ea\u30b9\u30c8> ]",
     "Pan": "Pan",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <\u70b9>, <\u76f4\u7dda> ]",
     "Parameter": "Parameter",

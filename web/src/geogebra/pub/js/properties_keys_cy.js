@@ -599,6 +599,7 @@ __GGB__keysVar.cy.command = {
     "PMCC.Syntax": "[ <Rhestr y cyfesurynnau-x>, <Rhestr y cyfesurynnau-y> ]\n[ <Rhestr y pwyntiau> ]",
     "Pan": "Pan",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Pwynt>, <Llinell> ]",
     "Parameter": "Paramedr",

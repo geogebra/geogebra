@@ -599,6 +599,7 @@ __GGB__keysVar.vi.command = {
     "PMCC.Syntax": "[ <Danh s\xe1ch \u0111i\u1ec3m> ]\n[ <Danh s\xe1ch to\u1ea1 \u0111\u1ed9 x>, <Danh s\xe1ch to\u1ea1 \u0111\u1ed9 y> ]",
     "Pan": "ChuyenHienThi",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabon",
     "Parabola.Syntax": "[ <\u0110i\u1ec3m>, <\u0110\u01b0\u1eddng th\u1eb3ng> ]",
     "Parameter": "ThamSoTieu",

@@ -599,6 +599,7 @@ __GGB__keysVar.hi.command = {
     "PMCC.Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0942\u0913\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940> ]\n[ <x-\u0928\u093f\u0930\u0936\u093e\u0902\u0915\u094b \u0915\u0940 \u0938\u0942\u091a\u0940>, <y-\u0928\u093f\u0930\u0936\u093e\u0902\u0915\u094b \u0915\u0940 \u0938\u0942\u091a\u0940> ]",
     "Pan": "\u092a\u093e\u0928",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "\u092a\u0930\u0935\u0932\u092f",
     "Parabola.Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0942>, <\u0930\u0947\u0916\u093e> ]",
     "Parameter": "\u092a\u094d\u0930\u093e\u091a\u0932",

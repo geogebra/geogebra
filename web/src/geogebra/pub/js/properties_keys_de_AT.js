@@ -599,6 +599,7 @@ __GGB__keysVar.de_AT.command = {
     "PMCC.Syntax": "[ <Liste von Punkten> ]\n[ <Liste von x-Werten>, <Liste von y-Werten> ]",
     "Pan": "Bewege",
     "Pan.Syntax": "[ <Anzahl x-Pixel>, <Anzahl y-Pixel> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabel",
     "Parabola.Syntax": "[ <Brennpunkt>, <Leitlinie> ]",
     "Parameter": "Parameter",

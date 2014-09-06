@@ -599,6 +599,7 @@ __GGB__keysVar.ko.command = {
     "PMCC.Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <x-\uc88c\ud45c\uc758 \ub9ac\uc2a4\ud2b8>, <y-\uc88c\ud45c\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "Pan": "\ud654\uba74\uc774\ub3d9",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "\ud3ec\ubb3c\uc120",
     "Parabola.Syntax": "[ <\uc810>, <\uc9c1\uc120> ]",
     "Parameter": "\ucd08\uc810\uc900\uc120\uac70\ub9ac",

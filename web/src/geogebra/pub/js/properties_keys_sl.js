@@ -599,6 +599,7 @@ __GGB__keysVar.sl.command = {
     "PMCC.Syntax": "[ <seznam to\u010dk> ]\n[ <seznam x koordinat>, <seznam y koordinat> ]",
     "Pan": "PremaknjenPogled",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <gori\u0161\u010de>, <vodnica> ]",
     "Parameter": "Parameter",

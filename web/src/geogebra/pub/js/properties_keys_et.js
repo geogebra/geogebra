@@ -599,6 +599,7 @@ __GGB__keysVar.et.command = {
     "PMCC.Syntax": "[ <Punktide loend> ]\n[ <x-koordinaatide loend>, <y-koordinaatide loend> ]",
     "Pan": "LiigutaTeljestikku",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabool",
     "Parabola.Syntax": "[ <Punkt>, <Sirge> ]",
     "Parameter": "Parameeter",

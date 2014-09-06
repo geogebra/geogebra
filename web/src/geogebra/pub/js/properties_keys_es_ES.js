@@ -599,6 +599,7 @@ __GGB__keysVar.es_ES.command = {
     "PMCC.Syntax": "[ <Lista de puntos> ]\n[ <Lista de x>, <Lista de y> ]",
     "Pan": "DesplazaP\xedxeles",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Par\xe1bola",
     "Parabola.Syntax": "[ <Punto (foco)>, <Recta (directriz)> ]",
     "Parameter": "Par\xe1metro",

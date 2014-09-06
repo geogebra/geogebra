@@ -599,6 +599,7 @@ __GGB__keysVar.sv.command = {
     "PMCC.Syntax": "[ <Lista med punkter> ]\n[ <Lista med x-koordinater>, <Lista med y-koordinater> ]",
     "Pan": "Panorera",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabel",
     "Parabola.Syntax": "[ <Punkt>, <Linje> ]",
     "Parameter": "Parameter",

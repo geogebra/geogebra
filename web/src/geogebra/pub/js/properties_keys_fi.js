@@ -599,6 +599,7 @@ __GGB__keysVar.fi.command = {
     "PMCC.Syntax": "[ <Pistelista> ]\n[ <X-koodinaattien lista>, Y-koordinaattien lista> ]",
     "Pan": "Panoroi",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Paraabeli",
     "Parabola.Syntax": "[ <Piste>, <Suora> ]",
     "Parameter": "Parametri",

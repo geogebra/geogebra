@@ -599,6 +599,7 @@ __GGB__keysVar.ca.command = {
     "PMCC.Syntax": "[ <Llista de Punts> ]\n[ <Llista de Coordenades x>, <Llista de Coordenades y> ]",
     "Pan": "Despla\xe7aFinestra",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Par\xe0bola",
     "Parabola.Syntax": "[ <Focus>, <Directriu> ]",
     "Parameter": "Par\xe0metre",

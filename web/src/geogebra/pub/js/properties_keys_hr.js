@@ -599,6 +599,7 @@ __GGB__keysVar.hr.command = {
     "PMCC.Syntax": "[ <lista to\u010daka> ]\n[ <lista x koordinata>, <lista y koordinata> ]",
     "Pan": "PomakPogleda",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <to\u010dka>, <pravac> ]",
     "Parameter": "Parametar",

@@ -599,6 +599,7 @@ __GGB__keysVar.ms.command = {
     "PMCC.Syntax": "[ <Senarai Titik> ]\n[ <Senarai Koordinat-x>, <Senarai Koordinat-y> ]",
     "Pan": "Sorot",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Titik>, <Garis> ]",
     "Parameter": "Parameter",

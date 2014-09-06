@@ -599,6 +599,7 @@ __GGB__keysVar.tr.command = {
     "PMCC.Syntax": "[ <Nokta Listesi> ]\n[ <x Koordinat Listesi>, <y Koordinat Listesi> ]",
     "Pan": "Y\xfcz",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabol",
     "Parabola.Syntax": "[ <Nokta>, <Do\u011fru> ]",
     "Parameter": "Parametre",

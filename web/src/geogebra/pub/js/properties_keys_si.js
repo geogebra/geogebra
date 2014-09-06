@@ -599,6 +599,7 @@ __GGB__keysVar.si.command = {
     "PMCC.Syntax": "[ <List of Points> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]",
     "Pan": "Pan",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "\u0db4\u0dbb\u0dcf\u0dc0\u0dbd\u0dba",
     "Parabola.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0> ]",
     "Parameter": "\u0db4\u0dbb\u0dcf\u0db8\u0dd2\u0dad\u0dd2\u0dba",

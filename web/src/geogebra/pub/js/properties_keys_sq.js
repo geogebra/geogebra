@@ -599,6 +599,7 @@ __GGB__keysVar.sq.command = {
     "PMCC.Syntax": "[ <Lista e Pikave> ]\n[ <Lista e x-Koordinatave>, <Lista e y-Koordinatave> ]",
     "Pan": "Tigan",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabola",
     "Parabola.Syntax": "[ <Pike>, <Drejtez> ]",
     "Parameter": "Parameter",

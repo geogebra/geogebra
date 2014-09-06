@@ -599,6 +599,7 @@ __GGB__keysVar.ro.command = {
     "PMCC.Syntax": "[ <List\u0103 puncte> ]\n[ <List\u0103 coordonate-x>, <List\u0103 coordonate-y> ]",
     "Pan": "Mut\u0103",
     "Pan.Syntax": "[ <x>, <y> ]",
+    "Pan.Syntax3D": "[ <x>, <y>, <z> ]",
     "Parabola": "Parabol\u0103",
     "Parabola.Syntax": "[ <Punct>, <Dreapt\u0103> ]",
     "Parameter": "Parametru",
