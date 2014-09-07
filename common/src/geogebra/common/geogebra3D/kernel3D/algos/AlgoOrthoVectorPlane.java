@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -42,7 +43,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 	
 	//input
 	/** plane */
-	private GeoCoordSys2D plane;
+	protected GeoCoordSys2D plane;
 	
 	//output
 	/** ortho vector */
@@ -102,16 +103,24 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
     		return;
     	}
     	
-    	vector.setCoords(getCoords());
+    	updateCoords();
+    	
+    	vector.setCoords(vCoords);
     	
     }
+    
+    protected Coords vCoords = new Coords(4);
     
     /**
      * 
      * @return coords of the vector
      */
-    protected Coords getCoords(){
-    	return plane.getCoordSys().getVz();
+    protected void updateCoords(){
+    	if (plane instanceof GeoPlane3D){
+    		vCoords.setValues(plane.getCoordSys().getEquationVector(), 3); // get (a, b, c) from ax+by+cz+d=0
+    	}else{
+    		vCoords = plane.getCoordSys().getVz();
+    	}
     }
     
     

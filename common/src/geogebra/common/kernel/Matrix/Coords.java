@@ -532,6 +532,20 @@ public class Coords extends CoordMatrix {
 		}
 		return ret;
 	}
+	
+	/**
+	 * put this normalized in ret (WARNING : recalc the norm)
+	 * @param ret 
+	 * 
+	 */
+	public void normalized(Coords ret) {
+		calcNorm();
+		double normInv = 1 / getNorm();
+		for (int i = 0; i < ret.rows; i++) {
+			double v = val[i] * normInv;
+			ret.val[i] = v;
+		}
+	}
 
 	/**
 	 * WARNING : recalc the norm set this to norm=1

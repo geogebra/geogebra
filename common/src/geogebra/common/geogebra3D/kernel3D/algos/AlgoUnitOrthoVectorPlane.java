@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 
@@ -47,8 +46,8 @@ public class AlgoUnitOrthoVectorPlane extends AlgoOrthoVectorPlane {
     // COMPUTE
     
     @Override
-	protected Coords getCoords(){
-    	return super.getCoords().normalized();
+	protected void updateCoords(){
+    	plane.getCoordSys().getVz().normalized(vCoords);
     }
     
 	@Override
