@@ -8,7 +8,7 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePlanes;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngle;
-import geogebra.common.kernel.algos.AlgoAnglePoints;
+import geogebra.common.kernel.algos.AlgoAnglePointsND;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -171,7 +171,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 
 			//size < points distances / 2
-			if (algo instanceof AlgoAnglePoints){
+			if (algo instanceof AlgoAnglePointsND){
 				double l=Math.min(l1, l2)/2;
 				if (size>l)
 					size=l;
