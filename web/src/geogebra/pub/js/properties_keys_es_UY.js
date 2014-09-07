@@ -790,7 +790,7 @@ __GGB__keysVar.es_UY.command = {
     "Sequence": "Secuencia",
     "Sequence.Syntax": "[ <Valor final> ]\n[ <Expresi\xf3n>, <Variable>, <Valor inicial>, <Valor final> ]\n[ <Expresi\xf3n>, <Variable>, <Valor inicial>, <Valor final>, <Incremento> ]",
     "SetActiveView": "VistaActiva",
-    "SetActiveView.Syntax": "[ <N\xfamero (1 \xf3 2)> ]",
+    "SetActiveView.Syntax": "[ <Vista> ]",
     "SetAxesRatio": "Raz\xf3nEjes",
     "SetAxesRatio.Syntax": "[ <N\xfamero>, <N\xfamero> ]",
     "SetAxesRatio.Syntax3D": "[ <N\xfamero>, <N\xfamero> ]\n[ <N\xfamero>, <N\xfamero>, <N\xfamero> ]",

@@ -790,7 +790,7 @@ __GGB__keysVar.mr.command = {
     "Sequence": "\u0915\u094d\u0930\u092e",
     "Sequence.Syntax": "[ <\u0905\u0902\u0924\u093f\u092e \u0915\u093f\u0902\u092e\u0924> ]\n[ <\u092a\u0926\u093e\u0935\u0932\u0940>, <\u091a\u0932>, <\u0906\u0930\u0902\u092d\u0940 \u0915\u093f\u0902\u092e\u0924>, <\u0905\u0902\u0924\u093f\u092e \u0915\u093f\u0902\u092e\u0924> ]\n[ <\u092a\u0926\u093e\u0935\u0932\u0940>, <\u091a\u0932>, <\u0906\u0930\u0902\u092d\u0940 \u0915\u093f\u0902\u092e\u0924>, <\u0905\u0902\u0924\u093f\u092e \u0915\u093f\u0902\u092e\u0924>, <\u0935\u093e\u0922> ]",
     "SetActiveView": "SetActiveView",
-    "SetActiveView.Syntax": "[ <View Number 1|2> ]",
+    "SetActiveView.Syntax": "[ <View> ]",
     "SetAxesRatio": "SetAxesRatio",
     "SetAxesRatio.Syntax": "[ <Number>, <Number> ]",
     "SetAxesRatio.Syntax3D": "[ <Number>, <Number> ]\n[ <Number>, <Number>, <Number> ]",

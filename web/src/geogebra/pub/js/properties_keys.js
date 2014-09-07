@@ -790,7 +790,7 @@ __GGB__keysVar.none.command = {
     "Sequence": "Sequence",
     "Sequence.Syntax": "[ <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value>, <Increment> ]",
     "SetActiveView": "SetActiveView",
-    "SetActiveView.Syntax": "[ <View Number 1|2> ]",
+    "SetActiveView.Syntax": "[ <View> ]",
     "SetAxesRatio": "SetAxesRatio",
     "SetAxesRatio.Syntax": "[ <Number>, <Number> ]",
     "SetAxesRatio.Syntax3D": "[ <Number>, <Number> ]\n[ <Number>, <Number>, <Number> ]",

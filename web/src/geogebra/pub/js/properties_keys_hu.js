@@ -790,7 +790,7 @@ __GGB__keysVar.hu.command = {
     "Sequence": "Sorozat",
     "Sequence.Syntax": "[ <Z\xe1r\xf3\xe9r\xe9tk> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3>, <Kezd\u0151\xe9rt\xe9k>, <Z\xe1r\xf3\xe9rt\xe9k> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3>, <Kezd\u0151\xe9rt\xe9k>, <Z\xe1r\xf3\xe9rt\xe9k>, <L\xe9p\xe9sk\xf6z> ]",
     "SetActiveView": "Akt\xedvRajzlap",
-    "SetActiveView.Syntax": "[ <Rajzlap 1I2> ]",
+    "SetActiveView.Syntax": "[ <Rajzlap> ]",
     "SetAxesRatio": "TengelyekAr\xe1nya",
     "SetAxesRatio.Syntax": "[ <Sz\xe1m>, <Sz\xe1m> ]",
     "SetAxesRatio.Syntax3D": "[ <Sz\xe1m>, <Sz\xe1m> ]\n[ <Sz\xe1m>, <Sz\xe1m>, <Sz\xe1m> ]",
