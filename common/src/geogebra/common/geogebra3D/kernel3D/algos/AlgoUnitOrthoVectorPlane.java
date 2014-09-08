@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -47,7 +48,13 @@ public class AlgoUnitOrthoVectorPlane extends AlgoOrthoVectorPlane {
     
     @Override
 	protected void updateCoords(){
-    	plane.getCoordSys().getVz().normalized(vCoords);
+    	if (plane instanceof GeoPlane3D){
+    		vCoords.setValues(plane.getCoordSys().getEquationVector(), 3); // get (a, b, c) from ax+by+cz+d=0
+    		vCoords.normalize();
+    	}else{
+    		plane.getCoordSys().getVz().normalized(vCoords);
+    	}
+    	
     }
     
 	@Override
