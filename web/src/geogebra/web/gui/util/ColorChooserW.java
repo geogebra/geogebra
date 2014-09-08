@@ -7,10 +7,10 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.gui.util.Slider;
 import geogebra.web.gui.dialog.CustomColorDialog;
 import geogebra.web.gui.dialog.CustomColorDialog.ICustomColor;
+import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;
 import java.util.Arrays;

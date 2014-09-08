@@ -2,10 +2,10 @@ package geogebra.web.gui.view.consprotocol;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
-import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.javax.swing.GPanelW;
 import geogebra.html5.javax.swing.GSpinnerW;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;

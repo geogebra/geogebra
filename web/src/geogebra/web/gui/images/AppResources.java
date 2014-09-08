@@ -1,4 +1,4 @@
-package geogebra.html5.gui.util;
+package geogebra.web.gui.images;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundleWithLookup;
@@ -613,6 +613,5 @@ public interface AppResources extends ClientBundleWithLookup {
 	ImageResource eraser_big();
 	*/
 
-	@Source("icons/png/web/question-mark.png")
-	ImageResource questionMark();
+	
 }

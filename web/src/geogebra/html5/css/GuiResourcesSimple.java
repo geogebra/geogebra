@@ -72,6 +72,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 		@Source("icons/png/web/dialog-warning.png")
 		ImageResource dialog_warning();
 	
-	
+	@Source("icons/png/web/question-mark.png")
+	ImageResource questionMark();
 }
 

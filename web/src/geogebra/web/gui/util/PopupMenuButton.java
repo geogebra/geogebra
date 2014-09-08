@@ -3,7 +3,6 @@ package geogebra.web.gui.util;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.gui.util.ImageOrText;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;

@@ -1,7 +1,6 @@
 package geogebra.web.gui.util;
 
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.html5.gui.util.ImageOrText;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;

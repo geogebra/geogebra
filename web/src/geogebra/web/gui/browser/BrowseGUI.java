@@ -163,7 +163,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 
 				@Override
 				public void onClick() {
-					 ((AppW) BrowseGUI.this.app).getGoogleDriveOperation().requestPicker();
+					if(BrowseGUI.this.app.getGoogleDriveOperation()!=null){
+					 BrowseGUI.this.app.getGoogleDriveOperation().requestPicker();
+					}
 				}
 			});
 		} else if (user != null) {

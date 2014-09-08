@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SaveDialogW extends DialogBox implements EventRenderable {
 
-	protected App app;
+	protected AppW app;
 	VerticalPanel p;
 	protected TextBox title;
 	StandardButton cancel;
@@ -54,7 +54,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 */
 	public SaveDialogW(final App app) {
 		super();
-		this.app = app;
+		this.app = (AppW) app;
 		this.addStyleName("GeoGebraFileChooser");
 		this.add(p = new VerticalPanel());
 		this.setGlassEnabled(true);
@@ -134,7 +134,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		} else {
 			if (!isLoggedIn()) {
 				this.uploadWaiting = true;
-				((SignInButton)((AppW)app).getLAF().getSignInButton(app)).login();
+				((SignInButton)app.getLAF().getSignInButton(app)).login();
 			} else {
 				upload();
 			}
@@ -142,7 +142,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 	
 	protected boolean isOffline() {
-		return !((AppW) app).getNetworkOperation().isOnline();
+		return !app.getNetworkOperation().isOnline();
 	}
 
 	private boolean isLoggedIn() {
@@ -152,10 +152,10 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	private void saveLocal() {
 	    ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Saving")) + "</html>", false);
 	    if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-	    	((AppW) app).resetUniqueId();
+	    	app.resetUniqueId();
 	    }
 	    app.getKernel().getConstruction().setTitle(this.title.getText());
-	    ((AppW) app).getFileManager().saveFile(new SaveCallback() {
+	    app.getFileManager().saveFile(new SaveCallback() {
 
 	    	@Override
 	        public void onError(String errorMessage) {
@@ -188,7 +188,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("Saving")) + "</html>", false);
 
 		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-			((AppW) app).resetUniqueId();
+			app.resetUniqueId();
 			doUpload();
 		} else if (app.getUniqueId() == null) {
 			doUpload();
@@ -205,14 +205,14 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			@Override
 			public void onLoaded(final List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
-					if (parseResponse.get(0).getModified() > ((AppW) app).getSyncStamp()) {
-						((AppW) app).resetUniqueId();
+					if (parseResponse.get(0).getModified() > app.getSyncStamp()) {
+						app.resetUniqueId();
 						ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("Note that there are several versions of: " + parseResponse.get(0).getTitle()) + "</html>", true);
 					}
 					doUpload();
 				} else {
 					// if the file was deleted meanwhile (parseResponse.size() == 0)
-					((AppW) app).resetUniqueId();
+					app.resetUniqueId();
 					doUpload();
 				}
 			}
@@ -228,7 +228,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 * does the upload of the actual opened file to GeoGebraTube
 	 */
 	void doUpload() {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial((AppW) app, this.title.getText(), new MaterialCallback() {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial(app, this.title.getText(), new MaterialCallback() {
 
 			@Override
 			public void onLoaded(List<Material> parseResponse) {
@@ -238,7 +238,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
 					app.setSaved();		
 					//last synchronization is equal to last modified 
-					((AppW) app).setSyncStamp(parseResponse.get(0).getModified());
+					app.setSyncStamp(parseResponse.get(0).getModified());
 					((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(parseResponse.get(0), false);
 					if (cb != null) {
 						cb.onSaved();
@@ -274,7 +274,9 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 
 	public void saveSuccess(String fName, String desc) {
-		((AppW) app).getGoogleDriveOperation().refreshCurrentFileDescriptors(fName,desc);
+		if(app.getGoogleDriveOperation()!=null){
+			app.getGoogleDriveOperation().refreshCurrentFileDescriptors(fName,desc);
+		}
 	}
 
 	private void setTitle() {

@@ -18,10 +18,10 @@ import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;
 

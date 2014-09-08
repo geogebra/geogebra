@@ -1,8 +1,8 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
-import geogebra.html5.gui.util.AppResources;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;

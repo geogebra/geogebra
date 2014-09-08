@@ -757,7 +757,9 @@ public static final String LOCALE_PARAMETER = "locale";
 
 			resetUniqueId();
 
-			getGoogleDriveOperation().resetStorageInfo();
+			if(getGoogleDriveOperation()!=null){
+				getGoogleDriveOperation().resetStorageInfo();
+			}
 
 		}
 		

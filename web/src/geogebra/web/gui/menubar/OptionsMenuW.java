@@ -7,10 +7,10 @@ import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.Dom;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;

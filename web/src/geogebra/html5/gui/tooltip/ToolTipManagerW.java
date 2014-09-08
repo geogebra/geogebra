@@ -1,8 +1,7 @@
 package geogebra.html5.gui.tooltip;
 
 import geogebra.common.util.AsyncOperation;
-import geogebra.html5.gui.util.AppResources;
-import geogebra.html5.gui.util.ImageOrText;
+import geogebra.html5.css.GuiResourcesSimple;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
@@ -63,7 +62,7 @@ public class ToolTipManagerW {
 	
 	private HorizontalPanel bottomInfoTipPanel;
 	private HTML bottomInfoTipHTML;
-	private ImageOrText questionMark;
+	private String questionMark;
 	private Label helpLabel;
 
 	private String oldText = "";
@@ -163,8 +162,8 @@ public class ToolTipManagerW {
 		bottomInfoTipHTML = new HTML();
 		bottomInfoTipHTML.setStyleName("infoText");
 
-		questionMark = new ImageOrText();
-		questionMark.url = AppResources.INSTANCE.questionMark().getSafeUri().asString();
+		
+		questionMark = GuiResourcesSimple.INSTANCE.questionMark().getSafeUri().asString();
 
 		bottomInfoTipPanel = new HorizontalPanel();
 		bottomInfoTipPanel.setStyleName("infoTooltip");
@@ -200,7 +199,8 @@ public class ToolTipManagerW {
 
 		if(helpURL != null && helpURL.length() > 0){
 			helpLabel = new Label();
-			questionMark.applyToLabel(helpLabel);
+			
+			helpLabel.getElement().getStyle().setBackgroundImage("url("+this.questionMark+")");
 			helpLabel.addDomHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					openWindow(helpURL);

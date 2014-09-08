@@ -1,7 +1,7 @@
 package geogebra.web.gui.images;
 
-import geogebra.html5.gui.util.ImageOrText;
 import geogebra.web.gui.util.HasSetIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.SelectionTable;
 
 import com.google.gwt.canvas.client.Canvas;
