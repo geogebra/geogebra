@@ -3679,7 +3679,14 @@ namespace giac {
       gen res=evalf(arg(a,contextptr),1,contextptr);
       angle_radian(0,contextptr);
       return 180*res/cst_pi;
-    }      
+    }   
+    if (a.is_symb_of_sommet(at_pow)){
+      gen af=a._SYMBptr->feuille;
+      if (af.type==_VECT && af._VECTptr->size()==2){
+	gen res=arg(af._VECTptr->front(),contextptr)*af._VECTptr->back();
+	return _smod(makesequence(res,cst_two_pi),contextptr);
+      }
+    }
     if (is_equal(a))
       return apply_to_equal(a,arg,contextptr);
     switch (a.type ) {
@@ -8084,7 +8091,7 @@ namespace giac {
       vecteur lid(lidnt(*this));
       if (lid.size()==1 && !is_algebraic_program(*this,var1,res1)){
 	// suspect something like P:=x^3+1 then P(2)
-	*logptr(contextptr) << "Warning, evaluating univariate expression(value) like if expression was a function. You should write subst(" << *this << "," << lid.front() << "," << i << ")" << endl;
+	*logptr(contextptr) << "Warning, evaluating univariate expression(value) like if expression was a function.\nYou should write subst(" << *this << "," << lid.front() << "," << i << ")" << endl;
 	return subst(*this,lid.front(),i,false,contextptr);
       }
       vecteur res(*f._VECTptr);
@@ -8628,6 +8635,8 @@ namespace giac {
       return res;
     }
     // recurse
+    if (x._SYMBptr->sommet==at_pow)
+      return makevecteur(plus_one,x._SYMBptr->sommet(collect(x._SYMBptr->feuille,contextptr),contextptr));
     return makevecteur(plus_one,new_ref_symbolic(symbolic(x._SYMBptr->sommet,collect(x._SYMBptr->feuille,contextptr))));
   }
 

@@ -140,7 +140,7 @@ namespace giac {
     return res;
   }
 
-  static gen in_select_root(const vecteur & a,GIAC_CONTEXT){
+  static gen in_select_root(const vecteur & a,bool reel,GIAC_CONTEXT){
     if (a.empty() || is_undef(a))
       return undef;
     gen current(a.front());
@@ -160,12 +160,14 @@ namespace giac {
 	}
       }
     }
+    if (reel && is_strictly_positive(-im(current,contextptr),contextptr))
+      current=conj(current,contextptr);
     return current;
   }
 
   gen select_root(const vecteur & v,GIAC_CONTEXT){
     vecteur a=proot(v);
-    return in_select_root(a,contextptr);
+    return in_select_root(a,is_real(v,contextptr),contextptr);
   }
 
   gen alg_evalf(const gen & a,const gen &b,GIAC_CONTEXT){
@@ -357,7 +359,7 @@ namespace giac {
 	vecteur rac=real_proot(v1,1e-12,contextptr);
 	if (rac.empty()){
 	  vecteur rac1=proot(v1,1e-12);
-	  gen theta1=in_select_root(rac1,contextptr);
+	  gen theta1=in_select_root(rac1,is_real(v1,contextptr),contextptr);
 	  // replace _EXT in vb by r1 and evaluate numerically
 	  vecteur v2=replace_ext(vb,va,theta1,contextptr);
 	  if (!v2.empty() && is_undef(v2))
@@ -366,7 +368,7 @@ namespace giac {
 	  if (is_fully_numeric(v2)){
 	    vecteur rac2=proot(v2,1e-12);
 	    if (!rac2.empty() && !is_undef(rac2)){
-	      gen theta2=in_select_root(rac2,contextptr);
+	      gen theta2=in_select_root(rac2,is_real(v2,contextptr),contextptr);
 	      int racs=rac1.size();
 	      for (int i=0;i<racs;++i){
 		gen r1=rac1[i],K;
@@ -674,7 +676,7 @@ namespace giac {
       if (is_undef(racines)) return gensizeerr(contextptr);
       // racines= list of approx roots if b__VECT is numeric
       // empty if not numeric
-      racine_max=in_select_root(racines,contextptr);
+      racine_max=in_select_root(racines,is_real(b__VECT,contextptr),contextptr);
     }
     if (!trouve && !is_undef(racine_max)){ // select root for b
       // now eval each factor over racine_max and choose the one with

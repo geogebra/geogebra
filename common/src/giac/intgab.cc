@@ -829,6 +829,73 @@ namespace giac {
       return false;
     if (equalposcomp(lidnt(a),x) || equalposcomp(lidnt(b),x))
       return false;
+    gen g0_(g0),g0mult(1);
+    if (!is_inf(a) && !is_inf(b) && g0_.is_symb_of_sommet(at_pow)){
+      g0_=g0._SYMBptr->feuille;
+      if (g0_.type==_VECT && g0_._VECTptr->size()==2){
+	gen expo=g0_._VECTptr->back();
+	gen base=g0_._VECTptr->front();
+	vecteur lv=rlvarx(base,x);
+	if (lv.size()==1){
+	  int na=0,nb=0;
+	  for (;;){
+	    gen tmp=_quorem(makesequence(base,x-a,x),contextptr);
+	    if (tmp.type==_VECT && tmp._VECTptr->size()==2 && tmp._VECTptr->back()==0){
+	      ++na;
+	      base=tmp._VECTptr->front();
+	      continue;
+	    }
+	    tmp=_quorem(makesequence(base,b-x,x),contextptr);
+	    if (tmp.type!=_VECT || tmp._VECTptr->size()!=2 || tmp._VECTptr->back()!=0)
+	      break;
+	    ++nb;
+	    base=tmp._VECTptr->front();
+	  }
+	  if (derive(base,x,contextptr)==0){
+	    g0mult=base;
+	    g0_=symbolic(at_pow,makesequence(x-a,na*expo))*symbolic(at_pow,makesequence(b-x,nb*expo));
+	  }
+	}
+      }
+    }
+    if (!is_inf(a) && !is_inf(b) && g0_.is_symb_of_sommet(at_prod) && g0_._SYMBptr->feuille.type==_VECT && g0_._SYMBptr->feuille._VECTptr->size()==2){ // Beta?
+      // rewrite ^ of powers
+      vecteur v=*g0_._SYMBptr->feuille._VECTptr,v1;  
+      for (unsigned i=0;i<v.size();++i){
+	gen tmp=v[i];
+	if (!is_zero(derive(tmp,x,contextptr))){
+	  v1.push_back(tmp);
+	}
+      }
+      if (v1.size()==2 && v1.front().is_symb_of_sommet(at_pow)&& v1.back().is_symb_of_sommet(at_pow)){
+	gen va=v1.front()._SYMBptr->feuille,vb=v1.back()._SYMBptr->feuille;
+	if (va.type==_VECT && va._VECTptr->size()==2 && vb.type==_VECT && vb._VECTptr->size()==2){
+	  gen va1=va._VECTptr->front(),va1x,va1c,va2=va._VECTptr->back(),vb1=vb._VECTptr->front(),vb2=vb._VECTptr->back(),vb1x,vb1c;
+	  if (va1.is_symb_of_sommet(at_pow) && va1._SYMBptr->feuille.type==_VECT && va1._SYMBptr->feuille._VECTptr->size()==2){
+	    va2=va1._SYMBptr->feuille._VECTptr->back()*va2;
+	    va1=va1._SYMBptr->feuille._VECTptr->front();
+	  }
+	  if (vb1.is_symb_of_sommet(at_pow) && vb1._SYMBptr->feuille.type==_VECT && vb1._SYMBptr->feuille._VECTptr->size()==2){
+	    vb2=vb1._SYMBptr->feuille._VECTptr->back()*vb2;
+	    vb1=vb1._SYMBptr->feuille._VECTptr->front();
+	  }
+	  if (is_linear_wrt(va1,x,va1x,va1c,contextptr) && is_linear_wrt(vb1,x,vb1x,vb1c,contextptr)){
+	    if (is_zero(recursive_normal(va1c/va1x+a,contextptr),contextptr) &&
+		is_zero(recursive_normal(vb1c/vb1x+b,contextptr),contextptr)){
+	      // int( (va1x*(x-a))^va2*(vb1x*(x-b))^vb2,a,b)
+	      res=g0mult*pow(va1x,va2,contextptr)*pow(-vb1x,vb2,contextptr)*pow(b-a,va2+vb2+1,contextptr)*Beta(va2+1,vb2+1,contextptr);
+	      return true;
+	    }
+	    if (is_zero(recursive_normal(va1c/va1x-b,contextptr),contextptr) &&
+		is_zero(recursive_normal(vb1c/vb1x-a,contextptr),contextptr)){
+	      // int( (va1x*(x-b))^va2*(vb1x*(x-a))^vb2,a,b)
+	      res=g0mult*pow(-va1x,va2,contextptr)*pow(vb1x,vb2,contextptr)*pow(b-a,va2+vb2+1,contextptr)*Beta(va2,vb2,contextptr);
+	      return true;
+	    }
+	  }
+	}
+      }
+    }
     // detect Dirac
     vecteur v=lop(g0,at_Dirac);
     if (!v.empty()){

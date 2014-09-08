@@ -392,8 +392,13 @@ namespace giac {
     }
     if (is_squarematrix(e))
       return analytic_apply(at_ln,*e._VECTptr,contextptr);
-    if (e.type==_VECT)
+    if (e.type==_VECT){
+#ifdef NSPIRE
+      if (e.subtype==_SEQ__VECT && e._VECTptr->size()==2)
+	return _logb(e,contextptr);
+#endif
       return apply(e,giac::ln,contextptr);
+    }
     if (is_zero(e,contextptr))
       return calc_mode(contextptr)==1?unsigned_inf:minus_inf;
     if (is_one(e))
@@ -475,8 +480,13 @@ namespace giac {
     }
     if (is_squarematrix(e))
       return analytic_apply(at_log10,*e._VECTptr,contextptr);
-    if (e.type==_VECT)
+    if (e.type==_VECT){
+#ifdef NSPIRE
+      if (e.subtype==_SEQ__VECT && e._VECTptr->size()==2)
+	return _logb(e,contextptr);
+#endif
       return apply(e,giac::log10,contextptr);
+    }
     gen a,b;
     if (abs_calc_mode(contextptr)==38 && has_evalf(e,a,1,contextptr))
       return log10(a,contextptr);
@@ -4457,6 +4467,21 @@ namespace giac {
       if (value.type!=_VECT)
 	return gensizeerr(contextptr);
       value=gen(*value._VECTptr,value.subtype); // clone
+#ifdef GIAC_DEFAULT_ARGS
+      gen v1=(*value._VECTptr)[1];
+      vecteur v1v(1,v1);
+      if (v1.type==_VECT && v1.subtype==_SEQ__VECT)
+	v1v=*v1._VECTptr;
+      vecteur bv(1,b);
+      if (b.type==_VECT && b.subtype==_SEQ__VECT)
+	bv=*b._VECTptr;
+      if (bv.size()<v1v.size())
+	bv=mergevecteur(bv,vecteur(v1v.begin()+bv.size(),v1v.end()));
+      if (v1.type!=_VECT && bv.size()==1)
+	b=bv.front();
+      else
+	b=gen(v1v,v1.subtype);
+#endif
       (*value._VECTptr)[1]=b;
       // vecteur v=(*value._VECTptr);
       // v[1]=b;

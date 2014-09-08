@@ -722,6 +722,34 @@ namespace giac {
     return s;
   }
 
+  // utility for default argument handling
+  static void default_args(gen & a,gen & b,GIAC_CONTEXT){
+#ifndef GIAC_DEFAULT_ARGS
+    return;
+#endif
+    if (a.type==_VECT && b.type==_VECT && a._VECTptr->size()==b._VECTptr->size()){
+      vecteur va=*a._VECTptr;
+      vecteur vb=*b._VECTptr;
+      for (unsigned i=0;i<a._VECTptr->size();++i)
+	default_args(va[i],vb[i],contextptr);
+      a=gen(va,a.subtype);
+      b=gen(vb,b.subtype);
+      return;
+    }
+    if (a.is_symb_of_sommet(at_sto)){
+      b=a._SYMBptr->feuille[0];
+      a=a._SYMBptr->feuille[1];
+      return;
+    }
+    if (a.is_symb_of_sommet(at_equal)){
+      b=a._SYMBptr->feuille[1];
+      a=a._SYMBptr->feuille[0];
+      return;
+    }
+    b=string2gen(gettext("Unitialized parameter ")+a.print(contextptr),false);
+    b.subtype=-1;
+  }
+
   static void replace_keywords(const gen & a,const gen & b,gen & newa,gen & newb,GIAC_CONTEXT){
     // Check that variables in a are really variables, otherwise print
     // the var and make new variables
@@ -775,7 +803,9 @@ namespace giac {
   }
 
   // a=arguments, b=values, c=program bloc, d=program name
-  symbolic symb_program_sto(const gen & a,const gen & b,const gen & c,const gen & d,bool embedd,GIAC_CONTEXT){
+  symbolic symb_program_sto(const gen & a_,const gen & b_,const gen & c,const gen & d,bool embedd,GIAC_CONTEXT){
+    gen a(a_),b(b_);
+    default_args(a,b,contextptr);
     bool warn=false;
 #ifndef GIAC_HAS_STO_38
     if (logptr(contextptr))
@@ -824,7 +854,9 @@ namespace giac {
     }
     return g;
   }
-  symbolic symb_program(const gen & a,const gen & b,const gen & c,GIAC_CONTEXT){
+  symbolic symb_program(const gen & a_,const gen & b_,const gen & c,GIAC_CONTEXT){
+    gen a(a_),b(b_);
+    default_args(a,b,contextptr);
     gen newa,newc;
     replace_keywords(a,c,newa,newc,contextptr);
     symbolic g=symbolic(at_program,gen(makevecteur(newa,b,newc),_SEQ__VECT));

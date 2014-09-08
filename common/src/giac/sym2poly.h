@@ -136,6 +136,7 @@ namespace giac {
   // symbolic to tensor
   fraction sym2r(const gen & e, const vecteur & l,GIAC_CONTEXT);
   // return true if num and den are totally converted to internal format
+  bool sym2r (const gen &e,const gen & iext,const vecteur &l,const vecteur & lv, const vecteur & lvnum,const vecteur & lvden, int l_size, gen & num,gen & den,GIAC_CONTEXT);
   bool sym2r (const gen &e,const vecteur &l,const vecteur & lv, const vecteur & lvnum,const vecteur & lvden, int l_size, gen & num,gen & den,GIAC_CONTEXT);
   bool sym2r (const gen &e,const vecteur &l, int l_size, gen & num,gen & den,GIAC_CONTEXT);
       // conversion to internal form

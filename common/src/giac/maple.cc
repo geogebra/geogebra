@@ -799,7 +799,7 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_VECT)
       return apply(g,_evalc,contextptr);
-    gen tmp(_exp2pow(_lin(g,contextptr),contextptr));
+    gen tmp(_exp2pow(_lin(recursive_normal(g,contextptr),contextptr),contextptr));
     vecteur l(lop(tmp,at_arg));
     if (!l.empty()){
       vecteur lp=*apply(l,gen_feuille)._VECTptr;

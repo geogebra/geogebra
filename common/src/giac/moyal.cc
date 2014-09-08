@@ -240,6 +240,15 @@ namespace giac {
     return undef; //error
   }
 
+  static void beta_mult(gen &res,gen & a,GIAC_CONTEXT){
+    for (;;){
+      gen a1=a-1;
+      if (!is_positive(a1,contextptr))
+	return;
+      res=a1*res;
+      a=a1;
+    }
+  }
   gen Beta(const gen & a,const gen& b,GIAC_CONTEXT){
     if (a.type==_DOUBLE_ || b.type==_DOUBLE_ ||
 	a.type==_FLOAT_ || b.type==_FLOAT_ ||
@@ -247,6 +256,15 @@ namespace giac {
       gen A=evalf_double(a,1,contextptr);
       gen B=evalf_double(b,1,contextptr);
       return exp(lngamma(A,contextptr)+lngamma(B,contextptr)-lngamma(A+B,contextptr),contextptr);
+    }
+    gen n;
+    if (a.type==_FRAC && b.type==_FRAC && is_positive(a,contextptr) && is_positive(b,contextptr) && is_integer( (n=a+b) )){
+      gen res=1,a_(a),b_(b);
+      beta_mult(res,a_,contextptr);
+      beta_mult(res,b_,contextptr);
+      if (a_+b_==1){
+	return ratnormal(res*cst_pi/sin(cst_pi*a_,contextptr)/Gamma(n,contextptr));
+      }
     }
     return Gamma(a,contextptr)*Gamma(b,contextptr)/Gamma(a+b,contextptr);
   }

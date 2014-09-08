@@ -454,7 +454,8 @@ namespace giac {
 
   static vecteur solve_inequation(const gen & e0,const identificateur & x,int direction,GIAC_CONTEXT);
 
-  static vecteur solve_piecewise(const gen & args,const gen & value,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
+  static vecteur solve_piecewise(const gen & args_,const gen & value,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
+    gen args=_exp2pow(args_,contextptr);
     if (args.type!=_VECT)
       return vecteur(1,gensizeerr(contextptr));
     vecteur & piece_args=*args._VECTptr;

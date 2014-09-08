@@ -1,6 +1,8 @@
  /* -*- mode: C++; compile-command: "flex input_lexer.ll && make input_lexer.o " -*- */
 /* Note: for the nspire port, after flex, move from #ifdef HAVE_CONFIG_H 
-   to #include "first.h" before #include<stdio.h> */
+   to #include "first.h" before #include<stdio.h> 
+   and map "log" to log10 instead of ln
+*/
 /** @file input_lexer.ll
  *
  *  Lexical analyzer definition for reading expressions.
