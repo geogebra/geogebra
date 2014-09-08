@@ -2295,10 +2295,16 @@ public static final String LOCALE_PARAMETER = "locale";
 				}
 				fr.setId("appletContainer");
 				fr.getStyle().setVisibility(Visibility.HIDDEN);
-				
+				showInLang(getLocalization().getLanguage());
 				startScreen.getStyle().setDisplay(Display.BLOCK);
 			}
 		}
+
+		private native void showInLang(String language) /*-{
+			if($wnd.showInLang){
+	        	$wnd.showInLang(language);
+			}
+        }-*/;
 
 		public abstract void showLanguageUI();
 		
