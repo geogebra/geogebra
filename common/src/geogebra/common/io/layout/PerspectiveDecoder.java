@@ -44,7 +44,7 @@ public class PerspectiveDecoder {
 	 * @return decoded perspective
 	 */
 	public static Perspective decode(String code, Parser parser, String defToolbar){
-		if(code.length() == 0){
+		if(code.length() == 0 || code.startsWith("search:")){
 			return null;
 		}
 		for(int i=1; i <= Layout.defaultPerspectives.length; i++){

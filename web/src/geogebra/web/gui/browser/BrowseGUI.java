@@ -257,13 +257,18 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 
 	@Override
     public void onOpenFile() {
-		Material material = getLastSelected().getMaterial();
-		app.getKernel().getConstruction().setTitle(material.getTitle());
-		app.setSyncStamp(material.getSyncStamp());
-		if (getLastSelected().isOwnMaterial) {
-			app.setUniqueId(material.getId()+"");
-		} else {
-			app.resetUniqueId();
+		//For local / GoogleDrive files getLastSelected may be null
+		if(getLastSelected()!=null){
+			Material material = getLastSelected().getMaterial();
+			app.getKernel().getConstruction().setTitle(material.getTitle());
+			app.setSyncStamp(material.getSyncStamp());
+			if (getLastSelected().isOwnMaterial) {
+				app.setUniqueId(material.getId()+"");
+			} else {
+				app.resetUniqueId();
+			}
+		}else{
+			app.resetUniqueId(); //TODO
 		}
 	    setMaterialsDefaultStyle();
 	    this.close();
