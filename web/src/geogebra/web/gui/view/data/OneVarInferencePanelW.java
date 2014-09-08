@@ -1,5 +1,7 @@
 package geogebra.web.gui.view.data;
 
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.StatisticsModel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -81,6 +83,30 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	private int selectedPlot = StatisticsModel.INFER_TINT;
 	private LocalizationW loc;
 
+	private class ParamKeyHandler implements KeyHandler {
+		private Object source;
+		public ParamKeyHandler(Object source) {
+			this.source = source;
+		}
+		public void keyReleased(KeyEvent e) {
+	        if (e.isEnterKey()) {
+	        	actionPerformed(source);
+	        }
+        }
+	}
+	
+	private class ParamBlurHandler implements BlurHandler {
+		private Object source;
+		public ParamBlurHandler(Object source) {
+			this.source = source;
+		}
+		public void onBlur(BlurEvent event) {
+			   actionPerformed(source);
+		            
+        }
+		
+	}
+	
 	
 	/***************************************
 	 * Construct a OneVarInference panel
@@ -127,7 +153,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		lbAltHyp.addChangeHandler(new ChangeHandler() {
 			
 			public void onChange(ChangeEvent event) {
-				
+				actionPerformed(lbAltHyp);
 			}
 		});
 
@@ -141,26 +167,20 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		fldNullHyp = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.setText("" + 0);
-	//	fldNullHyp.addClickHandler(this);
-		fldNullHyp.addBlurHandler(new BlurHandler() {
-			
-			public void onBlur(BlurEvent event) {
-				doTextFieldActionPerformed(fldNullHyp);
-			}
-		});
-
+		fldNullHyp.addKeyHandler(new ParamKeyHandler(fldNullHyp));
+		fldNullHyp.addBlurHandler(new ParamBlurHandler(fldNullHyp));
 		lblConfLevel = new Label();
 		lblConfLevel.setStyleName("panelTitle");
 		fldConfLevel = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldConfLevel.setColumns(fieldWidth);
-	//	fldConfLevel.addClickHandler(this);
-		fldConfLevel.addBlurHandler(this);
+		fldConfLevel.addKeyHandler(new ParamKeyHandler(fldConfLevel));
+		fldConfLevel.addBlurHandler(new ParamBlurHandler(fldConfLevel));
 
 		lblSigma = new Label();
 		fldSigma = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldSigma.setColumns(fieldWidth);
-	//	fldSigma.addActionListener(this);
-		fldSigma.addBlurHandler(this);
+		fldSigma.addKeyHandler(new ParamKeyHandler(fldSigma));
+		fldSigma.addBlurHandler(new ParamBlurHandler(fldSigma));
 
 		btnCalculate = new Button();
 		lblResultHeader = new Label();
