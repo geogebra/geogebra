@@ -426,6 +426,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		if (geo.isVisibleInView3D()) {
 			setWaitForUpdate();
 			geosToBeAdded.add(geo);
+			repaintView();
 		}
 	}
 
