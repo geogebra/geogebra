@@ -133,16 +133,24 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 
 		lblNull = new Label();
+		lblNull.setStyleName("panelTitle");
 		lblHypParameter = new Label();
 		lblTailType = new Label();
-
+		lblTailType.setStyleName("panelTitle");
+		
 		fldNullHyp = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.setText("" + 0);
 	//	fldNullHyp.addClickHandler(this);
-		fldNullHyp.addBlurHandler(this);
+		fldNullHyp.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				doTextFieldActionPerformed(fldNullHyp);
+			}
+		});
 
 		lblConfLevel = new Label();
+		lblConfLevel.setStyleName("panelTitle");
 		fldConfLevel = (new InputPanelW(null, app, -1, false)).getTextComponent();
 		fldConfLevel.setColumns(fieldWidth);
 	//	fldConfLevel.addClickHandler(this);
@@ -156,16 +164,16 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		btnCalculate = new Button();
 		lblResultHeader = new Label();
-
+		lblResultHeader.setStyleName("panelTitle");
 
 		sigmaPanel = new FlowPanel();
-		sigmaPanel.add(LayoutUtil.panelRow(lblSigma, fldSigma));
+		sigmaPanel.add(LayoutUtil.panelRowIndent(lblSigma, fldSigma));
 //		// test panel	
 		testPanel = new FlowPanel();
 		testPanel.add(lblNull);
-		testPanel.add(LayoutUtil.panelRow(lblHypParameter, fldNullHyp));
+		testPanel.add(LayoutUtil.panelRowIndent(lblHypParameter, fldNullHyp));
 		testPanel.add(lblTailType);
-		testPanel.add(lbAltHyp);
+		testPanel.add(LayoutUtil.panelRowIndent(lbAltHyp));
 //		// CI panel	
 		intPanel = new FlowPanel();
 		intPanel.add(lblConfLevel);
@@ -173,8 +181,10 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 //
 //		// result panel	
 		resultTable = new StatTableW(app);
+		resultTable.setStyleName("daStatistics");
 		setResultTable();
 
+		
 		resultPanel = new FlowPanel();
 		resultPanel.add(lblResultHeader);
 		resultPanel.add(resultTable);
@@ -183,7 +193,6 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 //
 		// main panel
 		mainPanel = new FlowPanel();
-		add(new Label("wwwwwwwwwwwwww"));
 		add(mainPanel);
 		add(resultPanel);
 	}
@@ -260,7 +269,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		String[] rowNames = new String[nameList.size()];
 		nameList.toArray(rowNames);
-		resultTable.setStatTable(rowNames.length, rowNames, 0, null);
+		resultTable.setStatTable(rowNames.length, rowNames, 2, null);
 
 	}
 
@@ -273,43 +282,43 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		
 		switch (selectedPlot){
 		case StatisticsModel.INFER_ZTEST:
-			resultTable.setValueAt(statDialog.format(P),0,0);
-			resultTable.setValueAt(statDialog.format(testStat), 1, 0);
-			resultTable.setValueAt("", 2, 0);
-			resultTable.setValueAt(statDialog.format(N), 3, 0);
-			resultTable.setValueAt(statDialog.format(mean), 4, 0);
+			resultTable.setValueAt(statDialog.format(P),0,1);
+			resultTable.setValueAt(statDialog.format(testStat), 1, 1);
+			resultTable.setValueAt("", 2, 1);
+			resultTable.setValueAt(statDialog.format(N), 3, 1);
+			resultTable.setValueAt(statDialog.format(mean), 4, 1);
 			break;
 
 		case StatisticsModel.INFER_TTEST:
-			resultTable.setValueAt(statDialog.format(P),0,0);
-			resultTable.setValueAt(statDialog.format(testStat), 1, 0);
-			resultTable.setValueAt(statDialog.format(df), 2, 0);
-			resultTable.setValueAt(statDialog.format(se), 3, 0);
-			resultTable.setValueAt("", 4, 0);
-			resultTable.setValueAt(statDialog.format(N), 5, 0);
-			resultTable.setValueAt(statDialog.format(mean), 6, 0);	
+			resultTable.setValueAt(statDialog.format(P),0,1);
+			resultTable.setValueAt(statDialog.format(testStat), 1, 1);
+			resultTable.setValueAt(statDialog.format(df), 2, 1);
+			resultTable.setValueAt(statDialog.format(se), 3, 1);
+			resultTable.setValueAt("", 4, 1);
+			resultTable.setValueAt(statDialog.format(N), 5, 1);
+			resultTable.setValueAt(statDialog.format(mean), 6, 1);	
 			break;
 
 		case StatisticsModel.INFER_ZINT:
-			resultTable.setValueAt(cInt,0,0);
-			resultTable.setValueAt(statDialog.format(lower),1,0);
-			resultTable.setValueAt(statDialog.format(upper), 2, 0);
-			resultTable.setValueAt(statDialog.format(me), 3, 0);
-			resultTable.setValueAt("", 4, 0);
-			resultTable.setValueAt(statDialog.format(N), 5, 0);
-			resultTable.setValueAt(statDialog.format(mean), 6, 0);
+			resultTable.setValueAt(cInt,0,1);
+			resultTable.setValueAt(statDialog.format(lower),1,1);
+			resultTable.setValueAt(statDialog.format(upper), 2, 1);
+			resultTable.setValueAt(statDialog.format(me), 3, 1);
+			resultTable.setValueAt("", 4, 1);
+			resultTable.setValueAt(statDialog.format(N), 5, 1);
+			resultTable.setValueAt(statDialog.format(mean), 6, 1);
 			break;
 
 		case StatisticsModel.INFER_TINT:
-			resultTable.setValueAt(cInt,0,0);
-			resultTable.setValueAt(statDialog.format(lower),1,0);
-			resultTable.setValueAt(statDialog.format(upper), 2, 0);
-			resultTable.setValueAt(statDialog.format(me), 3, 0);
-			resultTable.setValueAt(statDialog.format(df), 4, 0);
-			resultTable.setValueAt(statDialog.format(se), 5, 0);
-			resultTable.setValueAt("", 6, 0);
-			resultTable.setValueAt(statDialog.format(N), 7, 0);
-			resultTable.setValueAt(statDialog.format(mean), 8, 0);
+			resultTable.setValueAt(cInt,0,1);
+			resultTable.setValueAt(statDialog.format(lower),1,1);
+			resultTable.setValueAt(statDialog.format(upper), 2, 1);
+			resultTable.setValueAt(statDialog.format(me), 3, 1);
+			resultTable.setValueAt(statDialog.format(df), 4, 1);
+			resultTable.setValueAt(statDialog.format(se), 5, 1);
+			resultTable.setValueAt("", 6, 1);
+			resultTable.setValueAt(statDialog.format(N), 7, 1);
+			resultTable.setValueAt(statDialog.format(mean), 8, 1);
 			break;
 		}
 
@@ -360,7 +369,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 
 	private void updateCBAlternativeHyp(){
-
+		lbAltHyp.clear();
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_right + " " + statDialog.format(hypMean));
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_left + " " + statDialog.format(hypMean));
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two + " " + statDialog.format(hypMean));

@@ -98,8 +98,8 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 
 	public void resizeDataDisplayPanels() {
 		App.debug("resizeDataDisplayPanels()");
-		dataDisplayPanel1.resize();
-		dataDisplayPanel2.resize();		
+		dataDisplayPanel1.resizeDefault();
+		dataDisplayPanel2.resizeDefault();		
 	}
 	
 	protected void setView(DataSource dataSource, int mode,
@@ -243,8 +243,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		} else {
 			add(comboPanelSplit);
 		}
-		resizeDataDisplayPanels();
-		
+			
 	} 
 
 		
@@ -629,7 +628,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
-		// do nothing
+		// do nothingupdateGUI
 	}
 
 	public void reset() {
@@ -790,13 +789,20 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		if (show) {
 			comboPanelSplit.addNorth(dataDisplayPanel1, 300);
 			comboPanelSplit.add(dataDisplayPanel2);
+			dataDisplayPanel1.getModel().updatePlot(true);
+			dataDisplayPanel2.getModel().updatePlot(true);
 			
 		} else {
+			int w = getOffsetWidth();
+			int h = getOffsetHeight();
+			App.debug("AAAAAAAA: (" + w + ", " + h + ")");
+			dataDisplayPanel1.resize(w, h);
 			comboPanelSplit.add(dataDisplayPanel1);
-//			dataDisplayPanel1.sync();
+			dataDisplayPanel1.getModel().updatePlot(true);		
+	
 	}
-		resizeDataDisplayPanels();
-
+	
+		updateGUI();
 	}
 
 	public String format(double value) {

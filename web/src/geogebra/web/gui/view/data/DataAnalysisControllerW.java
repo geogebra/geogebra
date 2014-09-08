@@ -37,6 +37,7 @@ public class DataAnalysisControllerW extends DataAnalysisController {
 		if (view.getDataPanel() != null && view.getModel().showDataPanel()) {
 			view.getDataPanel().updatePanel();
 		}
+		
 	}
 
 	@Override

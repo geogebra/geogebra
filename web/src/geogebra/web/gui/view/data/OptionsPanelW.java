@@ -8,6 +8,7 @@ import geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import geogebra.common.gui.view.data.DataVariable.GroupType;
 import geogebra.common.gui.view.data.StatPanelSettings;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
@@ -80,6 +81,10 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 	private DataDisplayModel dyModel;
 
+	private ScrollPanel spHistogram;
+
+	private ScrollPanel spGraph;
+
 	private final static int fieldWidth = 8;
 
 	private class PropertyChangeHandler implements ClickHandler {
@@ -147,7 +152,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 		// add plot-specific tab
 		String tabTitle = plotType.getTranslatedKey(app);
-		ScrollPanel spHistogram = new ScrollPanel();
+		spHistogram = new ScrollPanel();
 		mainPanel.setStyleName("daScrollPanel");
 		spHistogram.add(mainPanel);
 		tabPanel.add(spHistogram, tabTitle);
@@ -164,7 +169,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		ckOverlayPolygon.setVisible(false);
 
 		// add graph tab
-		ScrollPanel spGraph = new ScrollPanel();
+		spGraph = new ScrollPanel();
 		spGraph.setStyleName("daScrollPanel");
 		spGraph.add(graphPanel);
 		tabPanel.add(spGraph, app.getMenu("Graph"));
@@ -691,6 +696,12 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	public void onClick(ClickEvent event) {
 	       actionPerformed(event.getSource());
 
+    }
+
+	public void resize(int height) {
+	    App.debug("[DAOPTIONPANEL] RequiresResize");
+	    spHistogram.setHeight(height + "px");
+	    spGraph.setHeight(height + "px");
     }
 
 }

@@ -48,8 +48,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * @author G.Sturr
  * 
  */
-public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
-		FocusListener,*/ StatPanelInterfaceW, IDataDisplayListener {
+public class DataDisplayPanelW extends FlowPanel implements 
+		StatPanelInterfaceW, IDataDisplayListener {
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;
 	private static final int STEM_IDX = 2;
@@ -500,7 +500,7 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 		else if (source == btnOptions) {
 			optionsPanel.setPanel(getModel().getSelectedPlot());
 			optionsPanel.setVisible(btnOptions.isSelected());
-			resize();
+			
 		}
 		//
 		//		else if (source == btnExport) {
@@ -728,16 +728,21 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 	}
 
-	public void resize() {
-		int w = getOffsetWidth();
-		int h = getOffsetHeight();
+	public void resize(int offsetWidth, int offsetHeight) {
+		int w = offsetWidth;
+		int h = offsetHeight;
 		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
 				: w;
 		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
 				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
 
+		App.debug("AAAAAAAAAAA width  : " + width + " w " + w);
+		App.debug("AAAAAAAAAAA height  : " + height + " h " + h);
+		App.debug("AAAAAAAAAAA optionsPanel : " + optionsPanel.isVisible());
+		
 		if (width < PLOTPANEL_MIN_WIDTH) {
 			width =  PLOTPANEL_MIN_WIDTH;
+			App.debug("AAAAAAAAAAAAA min width");
 		}
 
 		if (height < PLOTPANEL_MIN_HEIGHT) {
@@ -746,12 +751,21 @@ public class DataDisplayPanelW extends FlowPanel implements /*ActionListener,
 
 		plotPanel.setPreferredSize(new GDimensionW(width, height));
 		if (optionsPanel.isVisible()) {
-			optionsPanel.setPixelSize(OPTIONSPANEL_WIDTH, height);
+			optionsPanel.resize(height);
 		}
 		plotPanel.updateSize();
 		plotPanel.repaintView();
 		plotPanel.getEuclidianController().calculateEnvironment();
 		getModel().updatePlot(false);
+		
 	}
+
+	public void resize() {
+		// do nothing
+    }
+
+	public void resizeDefault() {
+	    resize(getOffsetWidth(), getOffsetHeight());
+    }
 
 }
