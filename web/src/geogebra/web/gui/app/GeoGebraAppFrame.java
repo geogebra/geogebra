@@ -5,11 +5,9 @@ package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
-import geogebra.html5.Browser;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.Dom;
-import geogebra.html5.util.JSON;
 import geogebra.html5.util.LoadFilePresenter;
 import geogebra.html5.util.View;
 import geogebra.html5.util.debug.GeoGebraLogger;
@@ -24,17 +22,11 @@ import geogebra.web.main.AppWapplication;
 import java.util.Date;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -133,48 +125,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
     protected void onLoad() {
 //		init();
 		setVisible(false);
-		geoIPCall();				
+		init();				
 	}
-	
-	
-	private void geoIPCall() {
-		
-		final RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(Browser.normalizeURL(GeoGebraConstants.GEOIP_URL)));
-		
-		try {
-			final Request request = builder.sendRequest(null, new RequestCallback() {
-				public void onError(final Request request, final Throwable exception) {
-					AppW.geoIPCountryName = "";
-					AppW.geoIPLanguage = "";
-					init();
-				}
-				
-				public void onResponseReceived(final Request request, final Response response) {
-					AppW.geoIPCountryName = "";
-					AppW.geoIPLanguage = "";
-					if (200 == response.getStatusCode()) {
-						final JavaScriptObject geoIpInfos = JSON.parse(response.getText());
-						AppW.geoIPCountryName = JSON.get(geoIpInfos, "geoIp");
-						final String languages = JSON.get(geoIpInfos,"acceptLanguage");
-						if(languages!=null){
-							if(languages.contains(",")){
-								AppW.geoIPLanguage = languages.substring(0, languages.indexOf(","));	
-							}else{
-								AppW.geoIPLanguage = languages;
-							}
-						}
-					}						
-					init();
-					
-				}
-			});
-		} catch (final Exception e) {
-		       App.error(e.getLocalizedMessage());
-		       AppW.geoIPCountryName = "";
-		       AppW.geoIPLanguage = "";
-			   init();
-	    }
-	}	
 
 	public void init() {
 		setVisible(true);

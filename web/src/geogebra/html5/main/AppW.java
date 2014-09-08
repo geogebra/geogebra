@@ -137,8 +137,7 @@ public abstract class AppW extends App implements SetLabels{
 public static final String LOCALE_PARAMETER = "locale";
 	
 	public final static String syntaxStr = "_Syntax";
-	public static String geoIPCountryName;
-	public static String geoIPLanguage;
+	
 	
 	private HashMap<String, String> englishCommands = null;
 
@@ -1756,32 +1755,22 @@ public static final String LOCALE_PARAMETER = "locale";
 		public void setDefaultLanguage() {
 			// App.debug("Browser Language: " + AppW.geoIPLanguage);
 
-			String[] localeNames = LocaleInfo.getAvailableLocaleNames();
-			for (int i = 0; i < localeNames.length; i++) {
-				App.debug("Locale Name: " + localeNames[i]);
-			}
 
-			String lCookieName = LocaleInfo.getLocaleCookieName();
-			String lCookieValue = null;
-			if (lCookieName != null) {
-				lCookieValue = Cookies.getCookie(lCookieName);
+			String lCookieValue = Cookies.getCookie("GeoGebraLanguageUI");
+			if (lCookieValue == null) {
+				lCookieValue = navigatorLanguage();
 			}
-			String currentLanguage = LocaleInfo.getCurrentLocale().getLocaleName();
 			String closestlangcodetoGeoIP = Language
-			        .getClosestGWTSupportedLanguage(AppW.geoIPLanguage);
+			        .getClosestGWTSupportedLanguage(lCookieValue);
 
-			App.debug("Cookie Value: " + lCookieValue + ", currentLanguage: "
-			        + currentLanguage + ", Language from GeoIP: "
-			        + AppW.geoIPLanguage + ", closest Language from GeoIP: "
+			App.debug("Cookie Value: " + lCookieValue + ", closest Language from GeoIP: "
 			        + closestlangcodetoGeoIP);
 
 			
 
 				App.debug("Language is enabeled!!!");
 
-				if (lCookieValue == null
-				        && currentLanguage != closestlangcodetoGeoIP
-				        && !LocalizationW.DEFAULT_LANGUAGE.equals(currentLanguage)) {
+				if (closestlangcodetoGeoIP != null && !closestlangcodetoGeoIP.equals(getLocalization().getLanguage())) {
 
 					App.debug("Changing Language depending on GeoIP!");
 
@@ -1794,15 +1783,22 @@ public static final String LOCALE_PARAMETER = "locale";
 					newUrl.setParameter(AppW.LOCALE_PARAMETER,
 					        closestlangcodetoGeoIP);
 					Window.Location.assign(newUrl.buildString());
-
-					Cookies.removeCookie(lCookieName);
-					Cookies.setCookie(lCookieName, closestlangcodetoGeoIP);
+					
+					if(!closestlangcodetoGeoIP.equals(lCookieValue)){
+						Cookies.removeCookie("GeoGebraLangUI");
+						Cookies.setCookie("GeoGebraLangUI", closestlangcodetoGeoIP);
+					}
 
 				}
 
 			
 
 		}
+
+		private String navigatorLanguage() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
 
 		@Override
 		public String getLocaleStr() {
@@ -1884,11 +1880,8 @@ public static final String LOCALE_PARAMETER = "locale";
 		}
 
 		public String getCountryFromGeoIP() {
-			// warn("unimplemented");
-
-			App.debug("GeoIPCountry: " + AppW.geoIPCountryName);
-			App.debug("GeoIPLanguage: " + AppW.geoIPLanguage);
-			return AppW.geoIPCountryName;
+			//currently only needed in Desktop
+			return null;
 		}
 
 
