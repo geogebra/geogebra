@@ -38,7 +38,7 @@ public enum Language {
 	Arabic_Tunisia(null, true, "arTN", "ar_TN", Unicode.LeftToRightMark+"Arabic (Tunisia)"+Unicode.LeftToRightMark+" / "+Unicode.RightToLeftMark+"\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u062A\u0648\u0646\u0633)"+Unicode.RightToLeftMark, Country.Tunisia),
 	Basque(null, true,  "eu","eu", "Basque / Euskara", "basque"), // fudge to get right flag
 	Bosnian(null, true, "bs","bs", "Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438", Country.BosniaandHerzegovina),
-	Bulgarian(null, false, "bg","bg", "Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A", Country.Bulgaria),
+	Bulgarian(null, true, "bg","bg", "Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A", Country.Bulgaria),
 	Catalan(null, true, "ca","ca", "Catalan / Catal\u00E0", "catalonia"), // fudge to get right flag
 	Valencian(null, true,  "caXV","ca_XV", "Catalan (Valencia) / Catal\u00E0 (Valenci\u00E0)", "valencia"), // fudge to get right flag
 	Chinese_Simplified("\u984F", true, "zhCN","zh_CN", "Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Country.China, Country.Singapore),
