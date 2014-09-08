@@ -131,11 +131,11 @@ public abstract class Layout {
 	
 		//Note: toolbar definition is always for EV1, for 3D we use definition from the 3D dock panel classes
 	
-		defaultPerspectives[5] = new Perspective("Perspective.Probability", spData, dpData, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[5] = new Perspective("Perspective.Probability", spData, dpData, "0", false, false, true, false, true, false);
 		defaultPerspectives[5].setIconString("menu_view_probability.png");
 
 		
-//		// Python Scripting & Graphocs ** Doesn't work **
+//		// Python Scripting & Graphics ** Doesn't work **
 //		dpData = new DockPanelData[6];
 //		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
 //		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3", 200);
