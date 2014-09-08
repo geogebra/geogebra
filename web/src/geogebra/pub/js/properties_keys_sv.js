@@ -650,8 +650,6 @@ __GGB__keysVar.sv.command = {
     "Polygon": "Polygon",
     "Polygon.Syntax": "[ <Lista med punkter> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Antal h\xf6rn> ]",
     "Polygon.Syntax3D": "[ <Lista med punkter> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Antal h\xf6rn> ]\n[ <Punkt>, <Punkt>, <Antal h\xf6rn>, <Riktning> ]",
-    "Polyhedron": "Polyeder",
-    "Polyhedron.Syntax": "[ <Punkt>, <Punkt>, ... ]",
     "Polynomial": "Polynom",
     "Polynomial.Syntax": "[ <Funktion> ]\n[ <Lista med punkter> ]",
     "Polynomial.SyntaxCAS": "[ <Funktion> ]\n[ <Funktion>, <Variabel> ]",

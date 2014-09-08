@@ -650,8 +650,6 @@ __GGB__keysVar.zh_TW.command = {
     "Polygon": "Polygon",
     "Polygon.Syntax": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Polyhedron",
-    "Polyhedron.Syntax": "[ <Point>, <Point>, ... ]",
     "Polynomial": "Polynomial",
     "Polynomial.Syntax": "[ <Function> ]\n[ <List of Points> ]",
     "Polynomial.SyntaxCAS": "[ <\u591a\u9805\u5f0f> ]\n[ <\u591a\u9805\u5f0f>, <\u8b8a\u6578> ]",

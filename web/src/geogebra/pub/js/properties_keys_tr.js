@@ -650,8 +650,6 @@ __GGB__keysVar.tr.command = {
     "Polygon": "\xc7okgen",
     "Polygon.Syntax": "[ <Nokta Listesi> ]\n[ <Nokta>, ..., <Nokta> ]\n[ <Nokta>, <Nokta>, <K\xf6\u015fe Say\u0131s\u0131> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "\xc7okY\xfczl\xfc",
-    "Polyhedron.Syntax": "[ <Nokta>, <Nokta>, ... ]",
     "Polynomial": "Polinom",
     "Polynomial.Syntax": "[ <\u0130\u015flev> ]\n[ <Nokta Listesi> ]",
     "Polynomial.SyntaxCAS": "[ <\u0130\u015flev> ]\n[ <\u0130\u015flev>, <De\u011fi\u015fken> ]",

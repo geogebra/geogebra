@@ -650,8 +650,6 @@ __GGB__keysVar.is.command = {
     "Polygon": "Marghyrningur",
     "Polygon.Syntax": "[ <Listi af punktum> ]\n[ <Punktur>, ..., <Punktur> ]\n[ <Punktur>, <Punktur>, <Fj\xf6ldi hornpunkta> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Margfl\xf6tungur",
-    "Polyhedron.Syntax": "[ <Point>, <Point>, ... ]",
     "Polynomial": "Margli\xf0a",
     "Polynomial.Syntax": "[ <Fall> ]\n[ <Listi af Punktum> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

@@ -650,8 +650,6 @@ __GGB__keysVar.eo.command = {
     "Polygon": "Plurlatero",
     "Polygon.Syntax": "[ <Listo de Punktoj> ]\n[ <Punkto>, ..., <Punkto> ]\n[ <Punkto>, <Punkto>, <Nombro de Verticoj> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Pluredro",
-    "Polyhedron.Syntax": "[ <Punkto>, <Punkto>, ... ]",
     "Polynomial": "Polinomo",
     "Polynomial.Syntax": "[ <Funkcio> ]\n[ <Listo de Punktoj> ]",
     "Polynomial.SyntaxCAS": "[ <Funkcio> ]\n[ <Funkcio>, <Variablo> ]",

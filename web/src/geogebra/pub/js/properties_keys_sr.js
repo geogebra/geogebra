@@ -650,8 +650,6 @@ __GGB__keysVar.sr.command = {
     "Polygon": "Mnogougao",
     "Polygon.Syntax": "[ <ta\u010dka>, ..., <ta\u010dka> ]\n[ <ta\u010dka>, <ta\u010dka>, <broj temena> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Poliedar",
-    "Polyhedron.Syntax": "[ <ta\u010dka>, <ta\u010dka>, ... ]",
     "Polynomial": "Polinom",
     "Polynomial.Syntax": "[ <funkcija> ]\n[ <lista ta\u010daka> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

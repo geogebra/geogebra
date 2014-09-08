@@ -650,8 +650,6 @@ __GGB__keysVar.fr.command = {
     "Polygon": "Polygone",
     "Polygon.Syntax": "[ <Liste Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Nombre Sommets> ]",
     "Polygon.Syntax3D": "[ <Liste Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Nombre Sommets> ]\n[ <Point>, <Point>, <Nombre Sommets>, <Direction> ]",
-    "Polyhedron": "Poly\xe8dre",
-    "Polyhedron.Syntax": "[ <Point>, <Point>, ... ]",
     "Polynomial": "Polyn\xf4me",
     "Polynomial.Syntax": "[ <Fonction> ]\n[ <Liste Points> ]",
     "Polynomial.SyntaxCAS": "[ <Fonction> ]\n[ <Fonction>, <Variable> ]",

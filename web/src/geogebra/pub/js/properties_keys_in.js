@@ -650,8 +650,6 @@ __GGB__keysVar.in.command = {
     "Polygon": "Poligon",
     "Polygon.Syntax": "[ <Titik>, ..., <Titik> ]\n[ <Titik>, <Titik>, <Banyaknya Titik Sudut> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Polihedron",
-    "Polyhedron.Syntax": "[ <Titik>, <Titik>, ... ]",
     "Polynomial": "Polinom",
     "Polynomial.Syntax": "[ <Fungsi> ]\n[ <Daftar Titik> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

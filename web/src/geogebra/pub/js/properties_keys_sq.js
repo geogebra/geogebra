@@ -650,8 +650,6 @@ __GGB__keysVar.sq.command = {
     "Polygon": "Poligon",
     "Polygon.Syntax": "[ <Pike>, ..., <Pike> ]\n[ <Pike>, <Pike>, <Numri i Kulmeve> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Polihedron",
-    "Polyhedron.Syntax": "[ <Pike>, <Pike>, ... ]",
     "Polynomial": "Polinomial",
     "Polynomial.Syntax": "[ <Funksion> ]\n[ <Lista e Pikave> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

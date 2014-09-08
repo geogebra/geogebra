@@ -650,8 +650,6 @@ __GGB__keysVar.ca_XV.command = {
     "Polygon": "Pol\xedgon",
     "Polygon.Syntax": "[ <Llista de punts> ]\n[ <Punt>, ..., <Punt> ]\n[ <Punt>, <Punt>, <Nombre de v\xe8rtexs> ]",
     "Polygon.Syntax3D": "[ <Llista de punts> ]\n[ <Punt>, ..., <Punt> ]\n[ <Punt>, <Punt>, <Nombre de v\xe8rtexs> ]\n[ <Punt>, <Punt>, <Nombre de v\xe8rtexs>, <Direcci\xf3> ]",
-    "Polyhedron": "Poliedre",
-    "Polyhedron.Syntax": "[ <Punt>, <Punt>, ... ]",
     "Polynomial": "Polinomi",
     "Polynomial.Syntax": "[ <Funci\xf3> ]\n[ <Llista de punts> ]",
     "Polynomial.SyntaxCAS": "[ <Funci\xf3> ]\n[ <Funci\xf3>, <Variable> ]",

@@ -650,8 +650,6 @@ __GGB__keysVar.lv.command = {
     "Polygon": "Daudzst\u016bris",
     "Polygon.Syntax": "[ <Punktu Saraksts> ]\n[ <Punkts>, ..., <Punkts> ]\n[ <Punkts>, <Punkts>, <Virsot\u0146u skaits> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Daudzskaldnis",
-    "Polyhedron.Syntax": "[ <Punkts>, <Punkts>, ... ]",
     "Polynomial": "Polinoms",
     "Polynomial.Syntax": "[ <Funkcija> ]\n[ <Punktu saraksts> ]",
     "Polynomial.SyntaxCAS": "[ <Funkcija> ]\n[ <Funkcija>, <Main\u012bgais> ]",

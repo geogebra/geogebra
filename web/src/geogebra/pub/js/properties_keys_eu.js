@@ -650,8 +650,6 @@ __GGB__keysVar.eu.command = {
     "Polygon": "Poligonoa",
     "Polygon.Syntax": "[ <Puntuen Zerrenda> ]\n[ <Puntua>, ..., <Puntua> ]\n[ <Puntua>, <Puntua>, <Zenbat Erpin> ]",
     "Polygon.Syntax3D": "[ <Puntuen Zerrenda> ]\n[ <Puntua>, ..., <Puntua> ]\n[ <Puntua>, <Puntua>, <Zenbat Erpin> ]\n[ <Puntua>, <Puntua>, <Zenbat Erpin>, <Norabidea> ]",
-    "Polyhedron": "Poliedroa",
-    "Polyhedron.Syntax": "[ <Puntua>, <Puntua>, ... ]",
     "Polynomial": "Polinomioa",
     "Polynomial.Syntax": "[ <Funtzioa> ]\n[ <Puntuen Zerrenda> ]",
     "Polynomial.SyntaxCAS": "[ <Funtzioa> ]\n[ <Funtzioa>, <Aldagaia> ]",

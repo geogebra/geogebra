@@ -650,8 +650,6 @@ __GGB__keysVar.nl.command = {
     "Polygon": "Veelhoek",
     "Polygon.Syntax": "[ <Punt>, ..., <Punt> ]\n[ <Punt>, <Punt>, <Getal> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Veelvlak",
-    "Polyhedron.Syntax": "[ <Punt>, <Punt>, ... ]",
     "Polynomial": "Veeltermfunctie",
     "Polynomial.Syntax": "[ <Functie> ]\n[ <Lijst met punten> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

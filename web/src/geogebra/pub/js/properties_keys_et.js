@@ -650,8 +650,6 @@ __GGB__keysVar.et.command = {
     "Polygon": "Hulknurk",
     "Polygon.Syntax": "[ <Punktide loend> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Tippude arv> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Hulktahukas",
-    "Polyhedron.Syntax": "[ <Punkt>, <Punkt>, ... ]",
     "Polynomial": "Pol\xfcnoom",
     "Polynomial.Syntax": "[ <Funktsioon> ]\n[ <Punktide loend> ]",
     "Polynomial.SyntaxCAS": "[ <Funktsioon> ]\n[ <Funktsioon>, <Muutuja> ]",

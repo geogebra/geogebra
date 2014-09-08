@@ -650,8 +650,6 @@ __GGB__keysVar.pl.command = {
     "Polygon": "Wielok\u0105t",
     "Polygon.Syntax": "[ <Lista Punkt\xf3w> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Liczba wierzcho\u0142k\xf3w> ]",
     "Polygon.Syntax3D": "[ <Lista Punkt\xf3w> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Liczba wierzcho\u0142k\xf3w> ]\n[ <Punkt>, <Punkt>, <Liczba wierzcho\u0142k\xf3w>, <Kierunek> ]",
-    "Polyhedron": "Wielo\u015bcian",
-    "Polyhedron.Syntax": "[ <Punkt>, <Punkt>, ... ]",
     "Polynomial": "Wielomian",
     "Polynomial.Syntax": "[ <Funkcja> ]\n[ <Lista Punkt\xf3w> ]",
     "Polynomial.SyntaxCAS": "[ <Funkcja> ]\n[ <Funkcja>, <Zmienna> ]",

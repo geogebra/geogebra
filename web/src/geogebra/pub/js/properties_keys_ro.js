@@ -650,8 +650,6 @@ __GGB__keysVar.ro.command = {
     "Polygon": "Poligon",
     "Polygon.Syntax": "[ <Punct>, ..., <Punct> ]\n[ <Punct>, <Punct>, <Num\u0103rul V\xe2rfuri> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Poliedru",
-    "Polyhedron.Syntax": "[ <Punct>, <Punct>, ... ]",
     "Polynomial": "Polinom",
     "Polynomial.Syntax": "[ <Func\u0163ie> ]\n[ <List\u0103 de puncte> ]",
     "Polynomial.SyntaxCAS": "[ <Func\u0163ie> ]\n[ <Func\u0163ie>, <Variabil\u0103> ]",

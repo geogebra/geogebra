@@ -650,8 +650,6 @@ __GGB__keysVar.hi.command = {
     "Polygon": "\u092c\u0939\u0941\u092d\u0941\u091c",
     "Polygon.Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0942\u0913\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940> ]\n[ <\u092c\u093f\u0928\u094d\u0926\u0942>, ..., <\u092c\u093f\u0928\u094d\u0926\u0942> ]\n[ <\u092c\u093f\u0928\u094d\u0926\u0942>, <\u092c\u093f\u0928\u094d\u0926\u0942>, <\u0936\u0940\u0937\u094b\u0902 \u0915\u0940 \u0938\u0902\u0916\u094d\u092f\u093e> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Polyhedron",
-    "Polyhedron.Syntax": "[ <Point>, <Point>, ... ]",
     "Polynomial": "\u092c\u0939\u0941\u092a\u0926",
     "Polynomial.Syntax": "[ <\u095e\u0932\u0928> ]\n[ <\u092c\u093f\u0928\u094d\u0926\u0942\u0913\u0902 \u0915\u0940 \u0938\u0942\u091a\u0940> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

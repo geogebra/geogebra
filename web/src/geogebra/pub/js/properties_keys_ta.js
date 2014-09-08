@@ -650,8 +650,6 @@ __GGB__keysVar.ta.command = {
     "Polygon": "\u0baa\u0bb2\u0bcd\u0b95\u0bcb\u0ba3\u0bbf",
     "Polygon.Syntax": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Polyhedron",
-    "Polyhedron.Syntax": "[ <Point>, <Point>, ... ]",
     "Polynomial": "\u0baa\u0bb2\u0bcd\u0bb2\u0bc1\u0bb1\u0bc1\u0baa\u0bcd\u0baa\u0bbf",
     "Polynomial.Syntax": "[ <Function> ]\n[ <List of Points> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

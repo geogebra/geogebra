@@ -650,8 +650,6 @@ __GGB__keysVar.ja.command = {
     "Polygon": "Polygon",
     "Polygon.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]\n[ <\u70b9>, ..., <\u70b9> ]\n[ <\u70b9>, <\u70b9>, <\u9802\u70b9\u306e\u6570> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Polyhedron",
-    "Polyhedron.Syntax": "[ <\u70b9>, <\u70b9>, ... ]",
     "Polynomial": "Polynomial",
     "Polynomial.Syntax": "[ <\u95a2\u6570> ]\n[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
     "Polynomial.SyntaxCAS": "[ <\u95a2\u6570> ]\n[ <\u95a2\u6570>, <\u5909\u6570> ]",

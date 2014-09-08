@@ -650,8 +650,6 @@ __GGB__keysVar.sk.command = {
     "Polygon": "Mnohouholn\xedk",
     "Polygon.Syntax": "[ <Zoznam bodov> ]\n[ <Bod>, ..., <Bod> ]\n[ <Point>, <Point>, <Po\u010det vrcholov> ]",
     "Polygon.Syntax3D": "[ <Zoznam bodov> ]\n[ <Bod>, ..., <Bod> ]\n[ <Bod>, <Bod>, <Po\u010det vrcholov> ]\n[ <Bod>, <Bod>, <Po\u010det vrcholov>, <Smer> ]",
-    "Polyhedron": "Poly\xe9der",
-    "Polyhedron.Syntax": "[ <Bod>, <Bod>, ... ]",
     "Polynomial": "Polynomick\xe1",
     "Polynomial.Syntax": "[ <Funkcia> ]\n[ <Zoznam bodov> ]",
     "Polynomial.SyntaxCAS": "[ <Funkcia> ]\n[ <Funkcia>, <Premenn\xe1> ]",

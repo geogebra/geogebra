@@ -650,8 +650,6 @@ __GGB__keysVar.no_NN.command = {
     "Polygon": "Mangekant",
     "Polygon.Syntax": "[ <Liste med punkt> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Tal p\xe5 hj\xf8rne> ]",
     "Polygon.Syntax3D": "[ <Liste med punkt> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Tal p\xe5 hj\xf8rne> ]\n[ <Punkt>, <Punkt>, <Tal p\xe5 hj\xf8rne>, <Retning> ]",
-    "Polyhedron": "Polyeder",
-    "Polyhedron.Syntax": "[ <Punkt>, <Punkt>, ... ]",
     "Polynomial": "Polynom",
     "Polynomial.Syntax": "[ <Funksjon> ]\n[ <Liste med punkt> ]",
     "Polynomial.SyntaxCAS": "[ <Funksjon> ]\n[ <Funksjon>, <Variabel> ]",

@@ -650,8 +650,6 @@ __GGB__keysVar.fi.command = {
     "Polygon": "Monikulmio",
     "Polygon.Syntax": "[ <Pistelista> ]\n[ <Piste>, ..., <Piste> ]\n[ <Piste>, <Piste>, <K\xe4rkien lukum\xe4\xe4r\xe4> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Monitahokas",
-    "Polyhedron.Syntax": "[ <Piste>, <Piste>, ... ]",
     "Polynomial": "Polynomi",
     "Polynomial.Syntax": "[ <Funktio> ]\n[ <Pistelista> ]",
     "Polynomial.SyntaxCAS": "[ <Funktio> ]\n[ <Funktio>, <Muuttuja> ]",

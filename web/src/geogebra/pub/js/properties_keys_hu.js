@@ -650,8 +650,6 @@ __GGB__keysVar.hu.command = {
     "Polygon": "Soksz\xf6g",
     "Polygon.Syntax": "[ <Pontok list\xe1ja> ]\n[ <Pont>, ..., <Pont> ]\n[ <Pont>, <Pont>, <Cs\xfacsok sz\xe1ma> ]",
     "Polygon.Syntax3D": "[ <Pontok list\xe1ja> ]\n[ <Pont>, ..., <Pont> ]\n[ <Pont>, <Pont>, <Cs\xfacsok sz\xe1ma> ]\n[ <Pont>, <Pont>, <Cs\xfacsok sz\xe1ma>, <Ir\xe1ny> ]",
-    "Polyhedron": "Poli\xe9der",
-    "Polyhedron.Syntax": "[ <Pont>, <Pont>, ... ]",
     "Polynomial": "Polinom",
     "Polynomial.Syntax": "[ <F\xfcggv\xe9ny> ]\n[ <Pontok list\xe1ja> ]",
     "Polynomial.SyntaxCAS": "[ <F\xfcggv\xe9ny> ]\n[ <F\xfcggv\xe9ny>, <V\xe1ltoz\xf3> ]",

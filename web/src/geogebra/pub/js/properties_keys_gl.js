@@ -650,8 +650,6 @@ __GGB__keysVar.gl.command = {
     "Polygon": "Pol\xedgono",
     "Polygon.Syntax": "[ <Punto>, ..., <Punto> ]\n[ <Punto, <Punto>, <N\xfamero de v\xe9rtices> ]\n[ <Lista de puntos> ]",
     "Polygon.Syntax3D": "[ <Lista de Puntos> ]\n[ <Punto>, ..., <Punto> ]\n[ <Punto>, <Punto>, <N\xfamero de V\xe9rtices> ]\n[ <Punto>, <Punto>, <N\xfamero de V\xe9rtices>, <Direcci\xf3n> ]",
-    "Polyhedron": "Poliedro",
-    "Polyhedron.Syntax": "[ <Punto>, <Punto>, ... ]",
     "Polynomial": "Polinomio",
     "Polynomial.Syntax": "[ <Funci\xf3n> ]\n[ <Lista de puntos> ]",
     "Polynomial.SyntaxCAS": "[ <Funci\xf3n> ]\n[ <Funci\xf3n>, <Variable> ]",

@@ -650,8 +650,6 @@ __GGB__keysVar.vi.command = {
     "Polygon": "DaGiac",
     "Polygon.Syntax": "[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]\n[ <\u0110i\u1ec3m>, ..., <\u0110i\u1ec3m> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <S\u1ed1 \u0111\u1ec9nh> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "DaDien",
-    "Polyhedron.Syntax": "[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, ... ]",
     "Polynomial": "DaThuc",
     "Polynomial.Syntax": "[ <H\xe0m s\u1ed1> ]\n[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]",
     "Polynomial.SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",

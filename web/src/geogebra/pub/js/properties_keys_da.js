@@ -650,8 +650,6 @@ __GGB__keysVar.da.command = {
     "Polygon": "Polygon",
     "Polygon.Syntax": "[ <Liste med Punkter> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Antal Toppunkter> ]",
     "Polygon.Syntax3D": "[ <List med Punkter> ]\n[ <Punkt>, ..., <Punkt> ]\n[ <Punkt>, <Punkt>, <Antal Toppunkter> ]\n[ <Punkt>, <Punkt>, <Antal Toppunkter>, <Retning> ]",
-    "Polyhedron": "Polyeder",
-    "Polyhedron.Syntax": "[ <Punkt>, <Punkt>, ... ]",
     "Polynomial": "Polynomium",
     "Polynomial.Syntax": "[ <Funktion> ]\n[ <Liste med Punkter> ]",
     "Polynomial.SyntaxCAS": "[ <Funktion> ]\n[ <Funktion>, <Variabel> ]",

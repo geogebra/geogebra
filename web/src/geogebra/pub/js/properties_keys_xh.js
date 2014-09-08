@@ -650,8 +650,6 @@ __GGB__keysVar.xh.command = {
     "Polygon": "uMacalaManinzi",
     "Polygon.Syntax": "[ <List of Points> ]\n[ <Ichaphaza>, ..., <Ichaphaza> ]\n[ <Ichaphaza>, <Ichaphaza>, <Inani lmaChaphazaEndibano> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "iPolyhedron",
-    "Polyhedron.Syntax": "[ <Ichaphaza>, <Ichaphaza>, ... ]",
     "Polynomial": "iPholinomiyali",
     "Polynomial.Syntax": "[ <iFunction> ]\n[ <uLuhlu lwamaChaphaza> ]",
     "Polynomial.SyntaxCAS": "[ <iFunction> ]\n[ <iFunction>, <IsimelaNani> ]",

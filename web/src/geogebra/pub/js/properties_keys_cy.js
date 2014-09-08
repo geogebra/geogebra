@@ -650,8 +650,6 @@ __GGB__keysVar.cy.command = {
     "Polygon": "Polygon",
     "Polygon.Syntax": "[ <Pwynt>, ..., <Pwynt> ]\n[ <Pwynt>, <Pwynt>, <Nifer y fertigau> ]",
     "Polygon.Syntax3D": "[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]\n[ <Point>, <Point>, <Number of Vertices>, <Direction> ]",
-    "Polyhedron": "Polyhedron",
-    "Polyhedron.Syntax": "[ <Point>, <Point>, ... ]",
     "Polynomial": "Polynomial",
     "Polynomial.Syntax": "[ <Ffwythiant> ]\n[ <Rhestr y pwyntiau> ]",
     "Polynomial.SyntaxCAS": "[ <Ffwythiant> ]\n[ <Ffwythiant>, <Newidyn> ]",
