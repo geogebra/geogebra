@@ -263,13 +263,10 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 			close();
 		}
 
-//		if (optionButtons == null) {
-//			App.debug("optionButtons is null");
-//
-//			close();
-//			return;
-//		}
-//		
+		if (optionButtons == null) {
+			return;
+		}
+		
 		for (int i = 0; i < optionButtons.length; i++) {
 			if (source == optionButtons[i]) {
 				returnOption = i;
