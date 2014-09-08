@@ -2,6 +2,8 @@ package geogebra.phone.gui.views.browseView;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.common.util.StringUtil;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.phone.AppP;
 import geogebra.phone.Phone;
@@ -55,6 +57,7 @@ public class MaterialListElementP extends MaterialListElement {
 				}
 			});
 		} else {
+			ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString("Loading ..."), false);
 			((AppP) this.app).getFileManager().openMaterial(this.material);
 		}
 		closeBrowseView();

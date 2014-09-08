@@ -23,7 +23,7 @@ public class TabletGuiManager extends GuiManagerW {
 	}
 //	
 //	@Override
-//	public void save(Callback<String, Throwable> cb) {
+//	public void save(SaveCallback cb) {
 //		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
 //			SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
 //			saveDialog.center();

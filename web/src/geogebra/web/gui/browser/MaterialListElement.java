@@ -302,7 +302,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 */
 	protected void openDefault() {
 		if (isOwnMaterial) {
-			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setCallback(editMaterial);
+			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(editMaterial);
 			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 		} else {
 			onView();
@@ -326,7 +326,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 			@Override
 			public void onClick() {
-				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setCallback(editMaterial);
+				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(editMaterial);
 				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 			}
 		});
@@ -336,7 +336,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * 
 	 */
 	protected void onEdit() {
-		
 		if (!isLocal) {
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
@@ -359,7 +358,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				}
 			});
 		} else {
-			//TODO closeBroseView & setDefaultStyle
+			ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString("Loading ..."), false);
 			this.app.getFileManager().openMaterial(this.material);
 		}
 	}

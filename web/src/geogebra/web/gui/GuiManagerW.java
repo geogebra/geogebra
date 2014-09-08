@@ -35,6 +35,7 @@ import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.Dom;
+import geogebra.html5.util.SaveCallback;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
@@ -83,7 +84,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.resources.client.ImageResource;
@@ -840,7 +840,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return true;
 	}
 	
-	public void save(Callback<String, Throwable> cb) {
+	public void save(SaveCallback cb) {
 		SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
 		saveDialog.center();
 		saveDialog.setCallback(cb);

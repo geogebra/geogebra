@@ -10,6 +10,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
+import geogebra.html5.util.SaveCallback;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -17,7 +18,6 @@ import geogebra.web.move.ggtapi.models.MaterialCallback;
 
 import java.util.List;
 
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -45,7 +45,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	private Label titleLabel;
 	private final int MIN_TITLE_LENGTH = 4;
 	private boolean uploadWaiting;
-	protected Callback<String, Throwable> cb;
+	protected SaveCallback cb;
 
 	/**
 	 * @param app AppW
@@ -155,25 +155,24 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	    	((AppW) app).resetUniqueId();
 	    }
 	    app.getKernel().getConstruction().setTitle(this.title.getText());
-	    ((AppW) app).getFileManager().saveFile(new Callback<String, Throwable>() {
+	    ((AppW) app).getFileManager().saveFile(new SaveCallback() {
 
 	    	@Override
-	        public void onFailure(Throwable reason) {
+	        public void onError(String errorMessage) {
 	    		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", true);
 	    		if (cb != null) {
-					cb.onFailure(reason);
 					resetCallback();
 				}
 	    	}
 
 	    	@Override
-	        public void onSuccess(String result) {
+	        public void onSaved() {
 	    		ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getMenu("SavedSuccessfully")) + "</html>", true);
 	    		app.setSaved();
 	    		//TODO don't call loadFeatured() only update saved file!!!
 	    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
 	    		if (cb != null) {
-					cb.onSuccess("Success");
+					cb.onSaved();
 					resetCallback();
 				}
 	        }
@@ -242,19 +241,19 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 					((AppW) app).setSyncStamp(parseResponse.get(0).getModified());
 					((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(parseResponse.get(0), false);
 					if (cb != null) {
-						cb.onSuccess("Success");
+						cb.onSaved();
 						resetCallback();
 					}
 				}
 				else {
-					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", true);
+					cb.onError(app.getLocalization().getError("SaveFileFailed"));
+					resetCallback();
 				}
 			}
 			
 			@Override
 			public void onError(Throwable exception) {
-				ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString(app.getLocalization().getError("SaveFileFailed")) + "</html>", true);
-				cb.onFailure(exception);
+				cb.onError(app.getLocalization().getError("SaveFileFailed"));
 				resetCallback();
 			}
 		});
@@ -303,7 +302,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		this.save.setText(app.getMenu("Save"));
 	}
 
-	public void setCallback(Callback<String, Throwable> callback) {
+	public void setCallback(SaveCallback callback) {
 	    this.cb = callback;
     }
 	

@@ -3,7 +3,6 @@ package geogebra.web.gui.menubar;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.util.AppResources;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.GgbAPIW;
 import geogebra.html5.main.StringHandler;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -77,7 +76,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
 
 			public void execute() {
-				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setCallback(newConstruction);
+				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(newConstruction);
 				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 			}
 		});

@@ -4,9 +4,9 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.util.SaveCallback;
 import geogebra.web.gui.GuiManagerW;
 
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -25,9 +25,9 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		private Label infoText;
 		private String consTitle;
 		private final Localization loc;
-		Runnable callback = null;
+		Runnable afterSaveCallback = null;
 		private final App app;
-		private Callback<String, Throwable> saveCallback;
+		private SaveCallback saveCallback;
 
 		public SaveUnsavedChanges(final App app) {
 			super();
@@ -48,18 +48,13 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			app.getLoginOperation().getView().add(this);
 		}
 
-		private Callback<String, Throwable> createCB() {
-	        return new Callback<String, Throwable>() {
-
+		private SaveCallback createCB() {
+	        return new SaveCallback() {
+				
 				@Override
-                public void onSuccess(String reason) {
+				public void onSaved() {
 					runCallback();
-                }
-
-				@Override
-                public void onFailure(Throwable reason) {
-					//error already handled in SaveDialogW
-                }
+				}
 			};
         }
 
@@ -126,8 +121,8 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			hide();
 		}
 
-		public void setCallback(final Runnable callback) {
-			this.callback = callback;
+		public void setAfterSavedCallback(final Runnable callback) {
+			this.afterSaveCallback = callback;
 		}
 		
 		public void setLabels() {
@@ -155,8 +150,8 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		 * run callback - edit or new after (don't) saving
 		 */
 		void runCallback() {
-			if (callback != null) {
-				callback.run();
+			if (afterSaveCallback != null) {
+				afterSaveCallback.run();
 			} else {
 				App.debug("no callback");
 			}
