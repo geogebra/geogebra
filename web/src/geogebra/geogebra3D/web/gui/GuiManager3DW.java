@@ -33,7 +33,7 @@ public class GuiManager3DW extends GuiManagerW {
     protected boolean initLayoutPanels() {
 
 		if (super.initLayoutPanels()){
-			this.euclidian3Dpanel = new EuclidianDockPanel3DW((AppW) app);
+			this.euclidian3Dpanel = new EuclidianDockPanel3DW(app);
 			layout.registerPanel(this.euclidian3Dpanel);
 			return true;
 		}

@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
+import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract {
+public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract implements EuclidianPanelWAbstract{
 
 	/**
 	 * default width of this panel

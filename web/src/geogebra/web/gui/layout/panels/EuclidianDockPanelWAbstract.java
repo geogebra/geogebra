@@ -1,6 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
-import geogebra.html5.euclidian.EuclidianPanelWAbstract;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.web.gui.layout.DockPanelW;
 
 /**
@@ -10,7 +10,7 @@ import geogebra.web.gui.layout.DockPanelW;
  * @remark {@link #getEuclidianView()} has to be overridden if {@link #getComponent()}
  * 			does not return the euclidian view directly
  */
-public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements geogebra.common.euclidian.GetViewId, EuclidianPanelWAbstract {
+public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements geogebra.common.euclidian.GetViewId {
 	/** */
 	private static final long serialVersionUID = 1L;
 	
@@ -46,4 +46,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 	public boolean updateResizeWeight(){
 		return true;
 	}
+	
+	/**
+	 * @return view in this dock panel
+	 */
+	abstract public EuclidianView getEuclidianView();
 }

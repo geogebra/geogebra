@@ -284,10 +284,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			return;
 		}
 
-		if (evID == 1)
+		switch(evID){
+		case App.VIEW_EUCLIDIAN:
 			setFocusedPanel((DockPanel)((AppW) app).getEuclidianViewpanel(), updatePropertiesView);
-		else if (evID == 2)
+			break;
+		case App.VIEW_EUCLIDIAN2:
 			setFocusedPanel(getEuclidianView2DockPanel(1), updatePropertiesView);
+			break;
+		case App.VIEW_EUCLIDIAN3D:
+			setFocusedPanel(getEuclidian3DPanel(), updatePropertiesView);
+			break;
+		}
+		
 	}
 
 	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
@@ -1244,6 +1252,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			euclidianView2DockPanel = new Euclidian2DockPanelW(app.isFullAppGui(), idx);
 		}
 		return euclidianView2DockPanel;
+	}
+	
+	public DockPanelW getEuclidian3DPanel(){
+		return null;
 	}
 
 	protected EuclidianViewW newEuclidianView(boolean[] showAxis,

@@ -3,6 +3,7 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
+import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 
@@ -21,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author arpad
  */
 
-public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
+public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements EuclidianPanelWAbstract{
 
 	EuclidianStyleBar espanel;
 	EuclidianPanel euclidianpanel;
