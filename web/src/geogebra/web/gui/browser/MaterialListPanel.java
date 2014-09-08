@@ -131,13 +131,12 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 
 	/**
 	 * adds the given material to the list of {@link MaterialListElement materials} and the preview-panel
-	 * 
+	 * The actual creation happens in LAF as it needs to be different for phone / tablet / web / widgets
 	 * @param mat {@link Material}
 	 * @param isLocal boolean
 	 */
-	public void addMaterial(final Material mat, final boolean isLocal) {
-//		final MaterialListElement preview = ((AppW)app).getLAF().getMaterialElement(mat, this.app);
-		final MaterialListElement preview = new MaterialListElement(mat, app, isLocal);
+	public final void addMaterial(final Material mat, final boolean isLocal) {
+		final MaterialListElement preview = app.getLAF().getMaterialElement(mat, this.app, isLocal);
 		this.materials.add(preview);
 		this.insert(preview,0);
 	}

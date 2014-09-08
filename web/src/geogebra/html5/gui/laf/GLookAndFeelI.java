@@ -2,8 +2,10 @@ package geogebra.html5.gui.laf;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.browser.MaterialListElement;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,5 +30,7 @@ public interface GLookAndFeelI {
 	Object getLoginListener();
 
 	boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller);
+
+	MaterialListElement getMaterialElement(Material mat, AppW app, boolean isLocal);
 
 }

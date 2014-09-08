@@ -2,9 +2,11 @@ package geogebra.web.gui.laf;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.browser.MaterialListElement;
 import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.gui.menubar.MainMenu;
 
@@ -71,9 +73,9 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return false;
     }
 
-//	public MaterialListElement getMaterialElement(Material m, AppWeb app) {
-//	    return new MaterialListElement(m, app);
-//    }
+	public MaterialListElement getMaterialElement(Material m, AppW app, boolean isLocal) {
+	    return new MaterialListElement(m, app, isLocal);
+    }
 
 	public SignInButton getSignInButton(App app) {
 	    return new SignInButton(app, 0);

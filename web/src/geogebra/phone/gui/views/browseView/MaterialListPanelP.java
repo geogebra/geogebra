@@ -1,6 +1,5 @@
 package geogebra.phone.gui.views.browseView;
 
-import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.browser.MaterialListElement;
 import geogebra.web.gui.browser.MaterialListPanel;
@@ -30,12 +29,7 @@ public class MaterialListPanelP extends MaterialListPanel {
 		this.add(this.searchPanel);
 	}
 	
-	@Override
-	public void addMaterial(final Material mat, final boolean isLocal) {
-		final MaterialListElement preview = new MaterialListElementP(mat, this.app, isLocal);
-		this.materials.add(preview);
-		this.insert(preview, 0);
-	}
+	
 
 	
 	@Override
