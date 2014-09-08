@@ -939,7 +939,7 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 939: { cat:"Evaluate", cmd:"Evaluate[((-1)*(-1))^(1/2)]", result:"1" },
 940: { cat:"Evaluate", cmd:"Evaluate[(-1)^(1/2)*(-1)^(1/2)]", result:"-1" },
 941: { cat:"Simplify", cmd:"Simplify[(abs(x)*y)^(1/2)-abs(x)^(1/2)*y^(1/2)]", result:"0" },
-942: { cat:"Substitute", cmd:"Substitute[{π / x = cos(x - 2y), 2 y - π = sin(x)}, NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}, {x = 3, y = 1.5}]]", result:"{1.0 = 1.0, 1.42108547152*10^(-14) = 2.499146043152*10^(-14)}", notes:"should give something like {0.3569127590283 = 0.3569127590283, 0.5831878979034 = 0.5831878979035}" },
+942: { cat:"Substitute", cmd:"Substitute[{π / x = cos(x - 2y), 2 y - π = sin(x)}, NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}, {x = 3, y = 1.5}]]", result:"{1 = 1, 1.42108547152*10^(-14) = 2.499146043152*10^(-14)}", notes:"should give something like {0.3569127590283 = 0.3569127590283, 0.5831878979034 = 0.5831878979035}" },
 943: { cat:"Solve", cmd:"Solve[log(3, x - 1) = 0.5log(3, x)]", result:"{x = (sqrt(5) + 3) / 2}", notes:"extra solution is invalid" },
 944: { cat:"Evaluate", cmd:"Evaluate[(1/x)^(1/2)-1/x^(1/2)]", result:"(sqrt(x) abs(x) - x sqrt(x)) / x²" },
 945: { cat:"Simplify", cmd:"Simplify[(1/x)^(1/2)-1/x^(1/2)]", result:"(-x sqrt(x) + sqrt(x) abs(x)) / x²" },
@@ -1465,6 +1465,7 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 1465: { cat:"Solve", cmd:"Solve[ln(5x+3) >= ln(2x-3)]", result:"{x = -2, x > 3 / 2}", notes:" #4421" },
 1466: { cat:"Evaluate", cmd:"Evaluate[x^2+x+2/3]", result:"x² + x + 2 / 3", notes:"#4455" },
 1467: { cat:"Trig", cmd:"Simplify[TrigExpand[2sin(x-pi/4)+2sin(x+pi/4)]]", result:"2sqrt(2) sin(x)" },
+1468: { cat:"Factor", cmd:"Factor[2^(2^7)+1]", result:"(59649589127497217 * 5704689200685129054721)" },
 
 
 
