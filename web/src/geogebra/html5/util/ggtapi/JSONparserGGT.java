@@ -77,7 +77,6 @@ public class JSONparserGGT {
 		Material.MaterialType type = MaterialType.ggb;
 		if(getString(obj, "type").length() > 0){
 			type = MaterialType.valueOf(getString(obj, "type"));
-			App.debug("TYPE "+type);
 		}
 		int ID = Integer.parseInt(obj.get("id").isString().stringValue());
 
