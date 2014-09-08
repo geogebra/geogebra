@@ -136,7 +136,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * @param isLocal boolean
 	 */
 	public final void addMaterial(final Material mat, final boolean isLocal) {
-		final MaterialListElement preview = app.getLAF().getMaterialElement(mat, this.app, isLocal);
+		final MaterialListElement preview = ((GLookAndFeel)app.getLAF()).getMaterialElement(mat, this.app, isLocal);
 		this.materials.add(preview);
 		this.insert(preview,0);
 	}
