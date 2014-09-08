@@ -225,11 +225,11 @@ public class Web implements EntryPoint {
             ArrayList<ArticleElement> geoGebraMobileTags) {
 		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			if("smart".equals(nodes.getItem(i).getAttribute("data-param-app"))){
+			if("smart".equals(nodes.getItem(i).getAttribute("data-param-laf"))){
 				return new SmartLookAndFeel();
 			}
 			
-			if("office".equals(nodes.getItem(i).getAttribute("data-param-app"))){
+			if("office".equals(nodes.getItem(i).getAttribute("data-param-laf"))){
 				return new OfficeLookAndFeel();
 			}
 		}
