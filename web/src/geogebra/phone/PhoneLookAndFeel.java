@@ -9,7 +9,8 @@ import geogebra.web.gui.laf.GLookAndFeel;
 
 public class PhoneLookAndFeel extends GLookAndFeel {
 	
-	public MaterialListElement getMaterialElement(Material mat, AppW app, boolean isLocal) {
+	@Override
+    public MaterialListElement getMaterialElement(Material mat, AppW app, boolean isLocal) {
 		return new MaterialListElementP(mat, app, isLocal);
 	}
 }

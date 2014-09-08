@@ -68,8 +68,9 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	    return new SmartSignInButton(app);
     }
 	
-	public MaterialListElement getMaterialElement(Material m, AppW app) {
-	    return new EmbeddedMaterialElement(m, app, false);
+	@Override
+    public MaterialListElement getMaterialElement(Material m, AppW app, boolean isLocal) {
+	    return new EmbeddedMaterialElement(m, app, isLocal);
     }
 	
 	@Override
