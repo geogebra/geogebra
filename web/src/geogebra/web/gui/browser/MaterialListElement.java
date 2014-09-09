@@ -77,7 +77,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.isOwnMaterial = m.getAuthor().equals(app.getLoginOperation().getUserName());
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
-		this.material.setSyncStamp(System.currentTimeMillis() / 1000);
+		if (!isLocal) {
+			this.material.setSyncStamp(System.currentTimeMillis() / 1000);
+		}
 		this.editMaterial = new Runnable() {
 			
 			@Override
@@ -354,7 +356,16 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 				@Override
 				public void onLoaded(final List<Material> parseResponse) {
-					app.getGgbApi().setBase64(parseResponse.get(0).getBase64());
+					if (parseResponse.size() == 1) {
+						app.getGgbApi().setBase64(parseResponse.get(0).getBase64());
+					} else {
+						ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString(app.getLocalization().getError("LoadFileFailed")), true);
+					}
+				}
+				
+				@Override
+				public void onError(Throwable error) {
+					ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString(app.getLocalization().getError("LoadFileFailed")), true);
 				}
 			});
 		} else {

@@ -9,23 +9,15 @@ import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.SaveCallback;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
-import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
-import geogebra.web.move.ggtapi.models.MaterialCallback;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.storage.client.Storage;
 
-public class FileManagerW implements FileManager {
+public class FileManagerW extends FileManager {
 	private static final String FILE_PREFIX = "file#";
-	ArrayList<Material> materialsToDelete = new ArrayList<Material>();
-	Material mat;
-	protected AppW app;
 	Storage stockStore = Storage.getLocalStorageIfSupported();
 	
 	public FileManagerW(AppW app) {
-		this.app = app;
+		super(app);
 	}
 
 	@Override
@@ -34,12 +26,7 @@ public class FileManagerW implements FileManager {
 		removeFile(mat);
 		((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
     }
-
-	@Override
-    public void getAllFiles() {
-		getFiles(MaterialFilter.getUniversalFilter());
-    }
-
+	
 	@Override
     public void openMaterial(Material material) {
 		try {
@@ -68,6 +55,7 @@ public class FileManagerW implements FileManager {
 				
 				if (app.getUniqueId() != null) {
 					mat.setId(Integer.parseInt(app.getUniqueId()));
+					mat.setSyncStamp(app.getSyncStamp());
 				}
 				
 				mat.setBase64(s);
@@ -76,6 +64,7 @@ public class FileManagerW implements FileManager {
 				mat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
 				mat.setAuthor(app.getLoginOperation().getUserName());
 
+				//TODO use another key
 				stockStore.setItem(FILE_PREFIX + fileName, mat.toJson().toString());
 
 				cb.onSaved();
@@ -86,21 +75,17 @@ public class FileManagerW implements FileManager {
     }
 
 	@Override
-    public void search(String query) {
-		getFiles(MaterialFilter.getSearchFilter(query));
+    public void removeFile(Material material) {
+		((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(material);
     }
 
 	@Override
-    public void removeFile(Material mat) {
-		((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(mat);
-    }
-
-	@Override
-    public void addFile(Material mat) {
-		((BrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(mat);
+    public void addFile(Material material) {
+		((BrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(material);
     }
 	
-	private void getFiles(final MaterialFilter filter) {
+	@Override
+    protected void getFiles(final MaterialFilter filter) {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
@@ -108,14 +93,12 @@ public class FileManagerW implements FileManager {
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
-				final String keyStem = key.substring(FILE_PREFIX.length());
 				Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
 				if (mat == null) {
 					mat = new Material(0, MaterialType.ggb);
-					mat.setTitle(keyStem);
+					mat.setTitle(key.substring(FILE_PREFIX.length()));
 				}
 				if (filter.check(mat)) {
-					mat.setURL(keyStem);
 					addFile(mat);
 				}
 			}
@@ -123,41 +106,24 @@ public class FileManagerW implements FileManager {
 	}
 	
 	
-	/**
-	 * IN PROGRESS
-	 */
+	@Override
 	public void uploadUsersMaterials() {		
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
 		
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
-			System.out.println("in da for");
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
-				mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
+				Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
 				if (mat.getAuthor().equals(this.app.getLoginOperation().getUserName())) {
-					System.out.println("in da if nach check mat");
-					((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadLocalMaterial(app, mat, new MaterialCallback() {
-
-						@Override
-						public void onLoaded(List<Material> parseResponse) {
-							System.out.println("uploadLocalMaterial on success");
-					        materialsToDelete.add(mat);
-						}
-
-						@Override
-						public void onError(Throwable exception) {
-							System.out.println("uploadLocalMaterial onError");
-							//TODO
-						}
-					});
+					if (mat.getId() == 0) {
+						upload(mat);
+					} else {
+						sync(mat);
+					}
 				}
-			}
-			for (Material material : materialsToDelete) {
-				delete(material);
 			}
 		}	
 	}
-
 }

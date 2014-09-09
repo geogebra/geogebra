@@ -18,7 +18,6 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
-import geogebra.web.main.FileManagerW;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 
 import java.util.ArrayList;
@@ -155,7 +154,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 		// TODO: Only visible if user is logged in with google Account
 		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
 		        .getLoggedInUser();
-		if (user != null && user.hasGoogleDrive() && !((AppW)app).getLAF().isSmart()) {
+		if (user != null && user.hasGoogleDrive() && !app.getLAF().isSmart()) {
 			locationDrive = new StandardButton(
 			        BrowseResources.INSTANCE.location_drive());
 			providerPanel.add(locationDrive);
@@ -285,19 +284,18 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	    	this.clearMaterials();
 	    }
 	    else {
-//	    	uploadLocals();
+	    	uploadLocals();
 	    	loadFeatured();
 	    }
     }
-	
+
 	/**
 	 * IN PROGESS
 	 * different behavior for web and touch
 	 */
 	private void uploadLocals() {
 		if (this.app.getLoginOperation().isLoggedIn()) {
-			AppW appW = (AppW) this.app;
-			((FileManagerW) appW.getFileManager()).uploadUsersMaterials();
+			this.app.getFileManager().uploadUsersMaterials();
 		}
     }
 

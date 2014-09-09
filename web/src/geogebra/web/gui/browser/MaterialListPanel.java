@@ -253,7 +253,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 
 	public void refreshMaterial(Material material, boolean isLocal) {
 		
-		material.setSyncStamp(material.getModified());
+		if (!isLocal) {
+			material.setSyncStamp(material.getModified());
+		}
 		material.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
 		
 		for(final MaterialListElement matElem : this.materials) {

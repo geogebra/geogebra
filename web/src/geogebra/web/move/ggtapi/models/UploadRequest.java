@@ -38,7 +38,9 @@ public class UploadRequest implements Request {
 	public UploadRequest(AppW app, Material mat) {
 	    this.app = app;
 	    this.consTitle = mat.getTitle();
-	    this.uniqueID = Integer.toString(mat.getId());
+	    if (mat.getId() != 0) {
+		    this.uniqueID = Integer.toString(mat.getId());
+	    }
 	    this.base64 = mat.getBase64();
     }
 	

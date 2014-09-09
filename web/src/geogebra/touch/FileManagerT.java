@@ -29,13 +29,12 @@ import com.googlecode.gwtphonegap.client.file.ReaderCallback;
 import com.googlecode.gwtphonegap.collection.shared.LightArray;
 
 
-public class FileManagerT implements FileManager {
+public class FileManagerT extends FileManager {
 	private static final String META_PREFIX = "meta_";
 	private static final String GGB_DIR = "GeoGebra";
 	private static final String META_DIR = "meta";
 	private static final String FILE_EXT = ".ggb";
 	
-	protected AppT app;
 	boolean hasFile = false;
 	String data;
 	PhoneGap phonegap;
@@ -45,7 +44,7 @@ public class FileManagerT implements FileManager {
 	int count;
 
 	public FileManagerT(AppT app) {
-		this.app = app;
+		super(app);
 		this.phonegap = PhoneGapManager.getPhoneGap();
 	}
 
@@ -176,7 +175,8 @@ public class FileManagerT implements FileManager {
 	 * Deletes the ggbFile and metaFile from the device. Updates the
 	 * BrowseView.
 	 */
-	public void delete(final Material mat) {
+	@Override
+    public void delete(final Material mat) {
 		final String consTitle = mat.getURL();
 
 		getGgbFile(consTitle + FILE_EXT, dontCreateIfNotExist,
@@ -237,14 +237,6 @@ public class FileManagerT implements FileManager {
 		});
 	}
 
-
-	/**
-	 * loads every file of the device into the BrowseView.
-	 */
-	public void getAllFiles() {
-		this.getFiles(MaterialFilter.getUniversalFilter());
-	}
-
 	/**
 	 * 
 	 * @param loc {@link Localization}
@@ -301,9 +293,10 @@ public class FileManagerT implements FileManager {
 
 	/**
 	 * loads every file of the device depending on the {@link MaterialFilter filter} into the BrowseView.
-	 * @param filter
+	 * @param filter {@link MaterialFilter}
 	 */
-	private void getFiles(final MaterialFilter filter) {
+	@Override
+    protected void getFiles(final MaterialFilter filter) {
 
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
@@ -375,7 +368,8 @@ public class FileManagerT implements FileManager {
 		});
 	}
 
-	public void openMaterial(final Material material) {
+	@Override
+    public void openMaterial(final Material material) {
 		app.getKernel().getConstruction().setTitle(material.getTitle());
 		getFileData(material.getURL());
 	}
@@ -531,7 +525,8 @@ public class FileManagerT implements FileManager {
 	 * 
 	 * @param cb 
 	 */
-	public void saveFile(final SaveCallback cb) {
+	@Override
+    public void saveFile(final SaveCallback cb) {
 		final String consTitle = app.getKernel().getConstruction().getTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override
@@ -639,15 +634,12 @@ public class FileManagerT implements FileManager {
 			}
 		});
 	}
-
-	public void search(final String query) {
-		this.getFiles(MaterialFilter.getSearchFilter(query));
-	}
-
+	
 	/**
 	 * different behavior for phone and tablet
 	 */
-	public void removeFile(final Material mat) {
+	@Override
+    public void removeFile(final Material mat) {
 		// TODO Auto-generated method stub
 
 	}
@@ -655,8 +647,31 @@ public class FileManagerT implements FileManager {
 	/**
 	 * different behavior for phone and tablet
 	 */
-	public void addFile(final Material mat) {
+	@Override
+    public void addFile(final Material mat) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public void uploadUsersMaterials() {		
+//		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
+//			return;
+//		}
+//		
+//		for (int i = 0; i < this.stockStore.getLength(); i++) {
+//			final String key = this.stockStore.key(i);
+//			if (key.startsWith(FILE_PREFIX)) {
+//				Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
+//				if (mat.getAuthor().equals(this.app.getLoginOperation().getUserName())) {
+//					if (mat.getId() == 0) {
+//						upload(mat);
+//						
+//					} else {
+//						sync(mat);
+//					}
+//				}
+//			}
+//		}	
 	}
 }
