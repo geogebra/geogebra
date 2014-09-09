@@ -6,6 +6,8 @@ import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.AppW;
 
+import java.util.Date;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -14,7 +16,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class LanguageGUI extends MyHeaderPanel {
-	public static final String LOCALE_PARAMETER = "locale";
 
 	private final AppW app;
 	private LanguageHeaderPanel header;
@@ -61,11 +62,8 @@ public class LanguageGUI extends MyHeaderPanel {
 					public void onClick(ClickEvent event) {
 						boolean newDirRTL = Localization
 						        .rightToLeftReadingOrder(current.localeGWT);
-						if (newDirRTL) {
-							setCookies(LOCALE_PARAMETER, "ar");
-						} else {
-							setCookies(LOCALE_PARAMETER, "en");
-						}
+						Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
+						Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp, "geogebra.org", null, false);
 
 						app.setUnsaved();
 
@@ -76,8 +74,7 @@ public class LanguageGUI extends MyHeaderPanel {
 						// Otherwise only the language will change, and the
 						// setting related with language.
 						if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
-							JavaScriptObject callback = saveBase64ToLocalStorage();
-							app.getGgbApi().getBase64(false, callback);
+							//TODO change direction
 						} else {
 							app.setLanguage(current.localeGWT);
 						}
