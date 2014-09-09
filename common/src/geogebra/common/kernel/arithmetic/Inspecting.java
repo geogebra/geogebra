@@ -66,7 +66,7 @@ public interface Inspecting {
 	 */
 	public class UnplottableChecker implements Inspecting {
 		
-		private static int type;
+		private static int type, dim;
 		
 		public boolean check(ExpressionValue v) {
 			switch (type) {
@@ -82,7 +82,8 @@ public interface Inspecting {
 					if (!gdv.toString(StringTemplate.defaultTemplate).equals(
 							"x")
 							&& !gdv.toString(StringTemplate.defaultTemplate)
-									.equals("y")) {
+									.equals("y") && (dim < 3 || !gdv.toString(StringTemplate.defaultTemplate)
+									.equals("z"))) {
 						return true;
 					}
 				}
@@ -167,8 +168,9 @@ public interface Inspecting {
 		/**
 		 * @return UnplottableChecker singleton instance 
 		 */
-		public static UnplottableChecker getChecker() {
+		public static UnplottableChecker getChecker(int dimension) {
 			type = 0;
+			dim = dimension;
 			return checker;
 		}
 	}

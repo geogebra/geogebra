@@ -680,12 +680,13 @@ public class CASInputHandler {
 				&& cell.getTwinGeo().isEuclidianShowable();
 		ValidExpression ve = cell.getOutputValidExpression();
 		boolean isPlottable = true;
+		int dim = cell.getKernel().getApplication().is3D() ? 3 : 2;
 		if (ve != null) {
 			if (ve.unwrap() instanceof MyList) {
 				MyList ml = (MyList) ve.unwrap();
 				int i = 0;
 				while (i < ml.size() && isPlottable) {
-					isPlottable &= !(ml.getItem(i).unwrap() instanceof MySpecialDouble) && !ml.getItem(i++).unwrap().inspect(Inspecting.UnplottableChecker.getChecker());
+					isPlottable &= !(ml.getItem(i).unwrap() instanceof MySpecialDouble) && !ml.getItem(i++).unwrap().inspect(Inspecting.UnplottableChecker.getChecker(dim));
 				}
 			} else if (ve.unwrap() instanceof Command) {
 				isPlottable &= ((Command)ve.unwrap()).getName().equals("If");
@@ -695,7 +696,7 @@ public class CASInputHandler {
 		}
 		if (ve != null && !ve.getAssignmentType().equals(AssignmentType.DELAYED)) {
 			if (cell.showOutput() && !cell.isError() &&
-					(isPlottable || !ve.unwrap().inspect(Inspecting.UnplottableChecker.getChecker()))) {
+					(isPlottable || !ve.unwrap().inspect(Inspecting.UnplottableChecker.getChecker(dim)))) {
 				renderer.setMarbleValue(marbleShown);
 				renderer.setMarbleVisible(true);
 			} else {
