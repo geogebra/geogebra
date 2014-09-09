@@ -36,9 +36,6 @@
 
 package com.kitfox.svg;
 
-import com.kitfox.svg.Marker.MarkerLayout;
-import com.kitfox.svg.Marker.MarkerPos;
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -52,6 +49,10 @@ import java.awt.geom.Rectangle2D;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.kitfox.svg.Marker.MarkerLayout;
+import com.kitfox.svg.Marker.MarkerPos;
+import com.kitfox.svg.xml.StyleAttribute;
 
 
 

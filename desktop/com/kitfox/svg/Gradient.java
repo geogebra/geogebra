@@ -35,7 +35,6 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.net.URI;
@@ -43,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * @author Mark McKay

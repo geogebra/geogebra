@@ -35,7 +35,6 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.font.FontRenderContext;
@@ -47,6 +46,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.kitfox.svg.xml.StyleAttribute;
 
 //import org.apache.batik.ext.awt.geom.ExtendedGeneralPath;
 /**

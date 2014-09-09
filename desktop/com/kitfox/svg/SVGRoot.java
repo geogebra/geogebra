@@ -36,9 +36,6 @@
 
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.NumberWithUnits;
-import com.kitfox.svg.xml.StyleAttribute;
-import com.kitfox.svg.xml.StyleSheet;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -47,6 +44,10 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+
+import com.kitfox.svg.xml.NumberWithUnits;
+import com.kitfox.svg.xml.StyleAttribute;
+import com.kitfox.svg.xml.StyleSheet;
 
 /**
  * The root element of an SVG tree.

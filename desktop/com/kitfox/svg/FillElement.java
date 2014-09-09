@@ -35,8 +35,9 @@
  */
 package com.kitfox.svg;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Paint;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 /**
  * @author Mark McKay

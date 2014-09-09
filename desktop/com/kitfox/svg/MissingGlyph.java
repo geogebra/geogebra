@@ -35,15 +35,16 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.pathcmd.BuildHistory;
-import com.kitfox.svg.pathcmd.PathCommand;
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
+
+import com.kitfox.svg.pathcmd.BuildHistory;
+import com.kitfox.svg.pathcmd.PathCommand;
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * Implements an embedded font.

@@ -35,10 +35,11 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.Iterator;
+
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * @author Mark McKay

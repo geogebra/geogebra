@@ -35,8 +35,6 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.app.data.Handler;
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
@@ -49,6 +47,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.app.data.Handler;
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * Implements an image.

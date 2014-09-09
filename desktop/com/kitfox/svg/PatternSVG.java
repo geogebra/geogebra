@@ -35,8 +35,6 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.pattern.PatternPaint;
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
@@ -49,6 +47,9 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.pattern.PatternPaint;
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * @author Mark McKay

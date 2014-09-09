@@ -36,8 +36,9 @@
 
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.StyleAttribute;
 import java.net.URI;
+
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * @author Mark McKay

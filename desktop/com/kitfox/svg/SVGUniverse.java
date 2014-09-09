@@ -35,7 +35,6 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.app.beans.SVGIcon;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
@@ -60,13 +59,17 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
+
 import javax.imageio.ImageIO;
+
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import com.kitfox.svg.app.beans.SVGIcon;
 
 /**
  * Many SVG files can be loaded at one time. These files will quite likely need

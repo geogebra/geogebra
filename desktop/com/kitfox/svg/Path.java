@@ -35,11 +35,12 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+
+import com.kitfox.svg.xml.StyleAttribute;
 
 //import org.apache.batik.ext.awt.geom.ExtendedGeneralPath;
 /**

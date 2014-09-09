@@ -35,11 +35,12 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.StyleAttribute;
 import java.awt.geom.Point2D;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * @author Mark McKay

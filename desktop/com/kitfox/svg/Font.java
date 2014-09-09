@@ -35,8 +35,9 @@
  */
 package com.kitfox.svg;
 
-import com.kitfox.svg.xml.StyleAttribute;
 import java.util.HashMap;
+
+import com.kitfox.svg.xml.StyleAttribute;
 
 /**
  * Implements an embedded font.
