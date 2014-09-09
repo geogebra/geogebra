@@ -5,7 +5,6 @@ import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
-import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.FileManager;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.SaveCallback;
@@ -177,7 +176,7 @@ public class FileManagerT extends FileManager {
 	 */
 	@Override
     public void delete(final Material mat) {
-		final String consTitle = mat.getURL();
+		final String consTitle = mat.getTitle();
 
 		getGgbFile(consTitle + FILE_EXT, dontCreateIfNotExist,
 				new Callback<FileEntry, FileError>() {
@@ -541,7 +540,7 @@ public class FileManagerT extends FileManager {
 							@Override
 							public void onSuccess(final FileWriter writer) {
 								writer.write(s);
-								createMetaData(consTitle, cb);
+								createMetaData(consTitle, cb, s);
 								app.setSaved();
 								//TODO don't call loadFeatured() only update saved file!!!
 								((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
@@ -602,7 +601,7 @@ public class FileManagerT extends FileManager {
 	 * @param title String
 	 * @param cb 
 	 */
-	void createMetaData(final String title, final SaveCallback cb) {
+	void createMetaData(final String title, final SaveCallback cb, final String base64) {
 
 		getMetaFile(META_PREFIX + title, createIfNotExist, new Callback<FileEntry, FileError>(){
 
@@ -614,10 +613,18 @@ public class FileManagerT extends FileManager {
 					public void onSuccess(final FileWriter writer) {
 						// extract metadata
 						final Material mat = new Material(0, MaterialType.ggb);
-						mat.setTimestamp(System.currentTimeMillis() / 1000);
-						mat.setTitle(title);
+						mat.setModified(System.currentTimeMillis() / 1000);
+						
+						if (app.getUniqueId() != null) {
+							mat.setId(Integer.parseInt(app.getUniqueId()));
+							mat.setSyncStamp(app.getSyncStamp());
+						}
+						
+						mat.setBase64(base64);
+						mat.setTitle(app.getKernel().getConstruction().getTitle());
 						mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
-						mat.setThumbnail(((EuclidianViewW) app.getEuclidianView1()).getCanvasBase64WithTypeString());
+						mat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
+						mat.setAuthor(app.getLoginOperation().getUserName());
 						writer.write(mat.toJson().toString());
 					}
 
@@ -655,23 +662,72 @@ public class FileManagerT extends FileManager {
 	
 	@Override
 	public void uploadUsersMaterials() {		
-//		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
-//			return;
-//		}
-//		
-//		for (int i = 0; i < this.stockStore.getLength(); i++) {
-//			final String key = this.stockStore.key(i);
-//			if (key.startsWith(FILE_PREFIX)) {
-//				Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
-//				if (mat.getAuthor().equals(this.app.getLoginOperation().getUserName())) {
-//					if (mat.getId() == 0) {
-//						upload(mat);
-//						
-//					} else {
-//						sync(mat);
-//					}
-//				}
-//			}
-//		}	
+		getGgbDir(new Callback<DirectoryEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final DirectoryEntry ggbDir) {
+				final DirectoryReader directoryReader = ggbDir.createReader();
+				directoryReader
+				.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
+
+					@Override
+					public void onSuccess(final LightArray<EntryBase> entries) {
+						for (int i = 0; i < entries.length(); i++) {
+							final EntryBase entryBase = entries.get(i);
+							if (entryBase.isFile()) {
+								final FileEntry fileEntry = entryBase.getAsFileEntry();
+								// get name without ending (.ggb)
+								final String name = fileEntry.getName().substring(
+										0,
+										fileEntry.getName().indexOf("."));
+								getMetaFile(META_PREFIX + name, dontCreateIfNotExist, new Callback<FileEntry, FileError> () {
+
+									@Override
+									public void onSuccess(final FileEntry metaFile) {
+										final FileReader reader = PhoneGapManager
+												.getPhoneGap()
+												.getFile()
+												.createReader();
+
+										reader.setOnloadCallback(new ReaderCallback<FileReader>() {
+
+											@Override
+											public void onCallback(final FileReader result) {
+												Material mat = JSONparserGGT.parseMaterial(result.getResult());
+												if (mat.getAuthor().equals(app.getLoginOperation().getUserName())) {
+													if (mat.getId() == 0) {
+														upload(mat);
+													} else {
+														sync(mat);
+													}
+												}
+											}
+										});
+										reader.readAsText(metaFile);
+									}
+
+									@Override
+									public void onFailure(final FileError reason) {
+										// TODO Auto-generated method stub
+
+									}
+								});
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(final FileError error) {
+						//
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(final FileError reason) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 }
