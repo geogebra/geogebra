@@ -178,9 +178,16 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		if (lastCreated.getParentAlgorithm() != null) {
 			for (GeoPointND geo : lastCreated.getParentAlgorithm()
 			        .getFreeInputPoints()) {
-				geo.remove();
+				if(this.deleteInitialPoint || this.initialPoint == null || !this.initialPoint.equals(geo)){
+					geo.remove();
+				}
 			}
 		}
+
+		if(this.deleteInitialPoint && this.initialPoint != null){
+			this.initialPoint.remove();
+		}
+
 		lastCreated.remove();
 		lastCreated = null;
 	}

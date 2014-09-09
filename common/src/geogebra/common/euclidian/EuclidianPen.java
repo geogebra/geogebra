@@ -133,6 +133,10 @@ public class EuclidianPen {
 	 * start point of the gesture
 	 */
 	protected GeoPoint initialPoint = null;
+	/**
+	 * delete initialPoint if no shape is found
+	 */
+	protected boolean deleteInitialPoint = false;
 
 	/**
 	 * @return pen size
@@ -179,9 +183,11 @@ public class EuclidianPen {
 	 * use one point as first point of the created shape
 	 * 
 	 * @param point start point
+	 * @param deletePoint delete the point if no shape is found
 	 */
-	public void setInitialPoint(GeoPoint point){
+	public void setInitialPoint(GeoPoint point, boolean deletePoint){
 		this.initialPoint = point;
+		this.deleteInitialPoint = deletePoint;
 	}
 
 	private int eraserSize;
@@ -611,6 +617,9 @@ public class EuclidianPen {
 			}
 		}
 
+		if(this.deleteInitialPoint && this.initialPoint != null){
+			this.initialPoint.remove();
+		}
 		this.initialPoint = null;
 		return makeAConic(); // might return null
 	}

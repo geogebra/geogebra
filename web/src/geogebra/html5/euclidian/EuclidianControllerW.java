@@ -1044,7 +1044,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return;
 		}
 
-		((EuclidianPenFreehand) pen).setInitialPoint(point);
+		((EuclidianPenFreehand) pen).setInitialPoint(point, point != null && point.equals(pointCreated));
 
 		// only executed if one of the specified modes is set
 		this.previousMode = this.mode;
