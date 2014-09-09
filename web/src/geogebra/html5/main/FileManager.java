@@ -1,6 +1,7 @@
 package geogebra.html5.main;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
@@ -26,7 +27,24 @@ public abstract class FileManager {
 	public abstract void uploadUsersMaterials();
 	protected abstract void getFiles(MaterialFilter materialFilter);
 	
-	
+	protected Material createMaterial(String base64) {
+		final Material mat = new Material(0, MaterialType.ggb);
+		
+		//TODO check if we need to set timestamp / modified
+		mat.setModified(System.currentTimeMillis() / 1000);
+		
+		if (app.getUniqueId() != null) {
+			mat.setId(Integer.parseInt(app.getUniqueId()));
+			mat.setSyncStamp(app.getSyncStamp());
+		}
+		
+		mat.setBase64(base64);
+		mat.setTitle(app.getKernel().getConstruction().getTitle());
+		mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
+		mat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
+		mat.setAuthor(app.getLoginOperation().getUserName());
+		return mat;
+	}
 
     public void search(String query) {
 		getFiles(MaterialFilter.getSearchFilter(query));

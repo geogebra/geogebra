@@ -611,21 +611,7 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onSuccess(final FileWriter writer) {
-						// extract metadata
-						final Material mat = new Material(0, MaterialType.ggb);
-						mat.setModified(System.currentTimeMillis() / 1000);
-						
-						if (app.getUniqueId() != null) {
-							mat.setId(Integer.parseInt(app.getUniqueId()));
-							mat.setSyncStamp(app.getSyncStamp());
-						}
-						
-						mat.setBase64(base64);
-						mat.setTitle(app.getKernel().getConstruction().getTitle());
-						mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
-						mat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
-						mat.setAuthor(app.getLoginOperation().getUserName());
-						writer.write(mat.toJson().toString());
+						writer.write(createMaterial(base64).toJson().toString());
 					}
 
 					@Override

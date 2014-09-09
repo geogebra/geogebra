@@ -47,26 +47,8 @@ public class FileManagerW extends FileManager {
 			@Override
 			public void handle(final String s) {
 				final String fileName = app.getKernel().getConstruction().getTitle();
-				
-				final Material mat = new Material(0, MaterialType.ggb);
-				
-				//TODO check if we need to set timestamp / modified
-				mat.setModified(System.currentTimeMillis() / 1000);
-				
-				if (app.getUniqueId() != null) {
-					mat.setId(Integer.parseInt(app.getUniqueId()));
-					mat.setSyncStamp(app.getSyncStamp());
-				}
-				
-				mat.setBase64(s);
-				mat.setTitle(app.getKernel().getConstruction().getTitle());
-				mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
-				mat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
-				mat.setAuthor(app.getLoginOperation().getUserName());
-
 				//TODO use another key
-				stockStore.setItem(FILE_PREFIX + fileName, mat.toJson().toString());
-
+				stockStore.setItem(FILE_PREFIX + fileName, createMaterial(s).toJson().toString());
 				cb.onSaved();
 			}
 		};
