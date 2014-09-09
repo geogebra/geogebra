@@ -1319,7 +1319,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					leftStr = ((ExpressionNode) left).getCASstring(tpl,
 							symbolic);
 				} else {
-					App.debug(left.toString(tpl));
 					leftStr = symbolic ? left.toString(tpl) : left
 							.toValueString(tpl);
 				}
