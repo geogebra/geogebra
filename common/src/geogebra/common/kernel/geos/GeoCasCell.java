@@ -1525,6 +1525,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		FunctionVariable fvY = new FunctionVariable(kernel,"y");
 		variableReplacer = Traversing.VariableReplacer.getReplacer("y", fvY);
 		ve.traverse(variableReplacer);
+		if(kernel.getApplication().is3D()){
+			FunctionVariable fvZ = new FunctionVariable(kernel,"z");
+			variableReplacer = Traversing.VariableReplacer.getReplacer("z", fvZ);
+			ve.traverse(variableReplacer);
+		}
 		
 		App.debug("reeval");
 		boolean oldValue = kernel.isSilentMode();
@@ -2170,6 +2175,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 	private static boolean dependsOnDummy(final GeoElement geo) {
 		if (geo instanceof GeoDummyVariable) {
+			App.debug("DUMMY"+geo);
 			return true;
 		}
 		if (geo.isGeoList()) {
