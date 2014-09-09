@@ -912,7 +912,8 @@ ExpressionNode functionExpressionnode():
         String funLabel = funName.image.substring(0,funName.image.length()-1);   
 
       // command without variables: return expressionnode
-        if (rhs.getLeft() instanceof Command && !rhs.containsFunctionVariable()) {
+      // only check for function variables outside of command, eg Derivative[f(x)]+x #4533
+        if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable()) {
         rhs.setLabel(funLabel);
         return rhs;
       }
