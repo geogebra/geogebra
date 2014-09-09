@@ -294,8 +294,11 @@ public class DataDisplayModel {
 					}
 	
 					// update settings
-					statGeo.getHistogramSettings(dataListSelected, histogram,
-							settings);
+					if (dataListSelected != null) {
+						statGeo.getHistogramSettings(dataListSelected, histogram, settings);
+
+					}
+							
 					listener.updatePlotPanelSettings();
 				
 					if (hasControlPanel

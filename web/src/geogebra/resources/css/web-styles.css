@@ -4340,12 +4340,23 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	border-collapse: collapse;
 }
 
+.daData table {
+	width: 100%;
+	min-width: 100px;
+	border: 1px solid;
+	border-collapse: collapse;
+}
+
+.daData table td,
+.daData table th,
+.daData table tr,
 .daStatistics table td,
 .daStatistics table th,
 .daStatistics table tr {
 	border: 1px dotted;
 }
 
+.daData table tr td:first-child,
 .daStatistics table tr td:first-child {
 	width: 40px;
 	background-color: #acacac;

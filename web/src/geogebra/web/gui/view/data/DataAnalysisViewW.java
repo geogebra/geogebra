@@ -72,8 +72,11 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		daCtrl = new DataAnalysisControllerW(app, this);
 		model = new DataAnalysisModel(app, mode, this, daCtrl);
 	
+		
 		DataSource dataSource = new DataSource(app);
 		dataSource.setDataListFromSelection(mode);
+		
+		daCtrl.loadDataLists(true);
 		
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);
@@ -786,11 +789,13 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 
 	public void showComboPanel2(boolean show) {
 		comboPanelSplit.clear();
+		
 		if (show) {
 			comboPanelSplit.addNorth(dataDisplayPanel1, 300);
 			comboPanelSplit.add(dataDisplayPanel2);
 			dataDisplayPanel1.getModel().updatePlot(true);
 			dataDisplayPanel2.getModel().updatePlot(true);
+			forceLayout();
 			
 		} else {
 			int w = getOffsetWidth();
@@ -798,6 +803,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 			App.debug("AAAAAAAA: (" + w + ", " + h + ")");
 			dataDisplayPanel1.resize(w, h);
 			comboPanelSplit.add(dataDisplayPanel1);
+			forceLayout();
 			dataDisplayPanel1.getModel().updatePlot(true);		
 	
 	}

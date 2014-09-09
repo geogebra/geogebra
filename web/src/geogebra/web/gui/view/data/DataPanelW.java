@@ -1,6 +1,8 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.gui.view.data.DataAnalysisModel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
@@ -9,9 +11,12 @@ import geogebra.html5.main.LocalizationW;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 {
@@ -21,12 +26,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 	private DataAnalysisViewW daView;
 	private DataAnalysisControllerW statController;
 
-//	private JTable dataTable;
-	private Button btnEnableAll;
-//	private MyRowHeader rowHeader;
-//	private MyColumnHeaderRenderer columnHeader;
-//	private JScrollPane scrollPane;
-
+	private CheckBox cbEnableAll;
 	private Boolean[] selectionList;
 
 	private Label lblHeader;
@@ -38,7 +38,21 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 	private static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
 	private static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
 //	private static final GColor TABLE_HEADER_COLOR = GeoGebraColorConstants.TABLE_HEADER_COLOR;
+	private StatTableW dataTable;
+
+	private ScrollPanel scrollPane;
 	
+	private class DataClickHandler implements ClickHandler {
+		private int index;
+		public DataClickHandler(int index) {
+			this.index = index;
+		}
+		
+		public void onClick(ClickEvent event) {
+	        onDataClick(index);
+        }
+		
+	}
 	/*************************************************
 	 * Construct a DataPanel
 	 */
@@ -49,111 +63,27 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		this.statController = statDialog.getController();
 
 		buildDataTable();
-//		populateDataTable(statController.getDataArray());
+		populateDataTable(statController.getDataArray());
 		createGUI();
-		add(new Label("DataPanel comming soon"));
+		enableAll();
+		setStyleName("daData");
 	}
 
 	private void buildDataTable() {
-//		dataTable = new JTable() {
-//			private static final long serialVersionUID = 1L;
-//
-//			// disable cell edits (for now)
-//			@Override
-//			public boolean isCellEditable(int rowIndex, int vColIndex) {
-//				return false;
-//			}
-//
-//			@Override
-//			protected void configureEnclosingScrollPane() {
-//				super.configureEnclosingScrollPane();
-//				Container p = getParent();
-//				if (p instanceof JViewport) {
-//					((JViewport) p).setBackground(getBackground());
-//				}
-//			}
-//		};
+		dataTable = new StatTableW(app);
+		
 	}
 
 	private void createGUI() {
-		// set table and column renderers
-//		dataTable.setDefaultRenderer(Object.class, new MyCellRenderer());
-//		columnHeader = new MyColumnHeaderRenderer();
-//		columnHeader.setPreferredSize(new Dimension(preferredColumnWidth,
-//				SpreadsheetSettings.TABLE_CELL_HEIGHT));
-//		for (int i = 0; i < dataTable.getColumnCount(); ++i) {
-//			dataTable.getColumnModel().getColumn(i)
-//					.setHeaderRenderer(columnHeader);
-//			dataTable.getColumnModel().getColumn(i)
-//					.setPreferredWidth(preferredColumnWidth);
-//		}
-//
-//		// disable row selection (for now)
-//		dataTable.setColumnSelectionAllowed(false);
-//		dataTable.setRowSelectionAllowed(false);
-//
-//		// dataTable.setAutoResizeMode(JTable.);
-//		dataTable.setPreferredScrollableViewportSize(dataTable
-//				.getPreferredSize());
-//		dataTable.setMinimumSize(new Dimension(100, 50));
-//		// dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-//		dataTable.setAutoCreateColumnsFromModel(false);
-//		dataTable.setGridColor(TABLE_GRID_COLOR);
-//
-//		// create a scrollPane for the table
-//		scrollPane = new JScrollPane(dataTable);
-//		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-//
-//		// create row header
-//		rowHeader = new MyRowHeader(this, dataTable);
-//		scrollPane.setRowHeaderView(rowHeader);
-//
-//		// create enableAll button and put it in the upper left corner
-//		CheckBoxIcon cbIcon = new CheckBoxIcon(13);
-//		ImageIcon iconUnChecked = cbIcon.createCheckBoxImageIcon(false, false);
-//		ImageIcon iconChecked = cbIcon.createCheckBoxImageIcon(true, false);
-//
-//		btnEnableAll = new JButton();
-//		btnEnableAll.setIcon(iconUnChecked);
-//		btnEnableAll.setDisabledIcon(iconChecked);
-//		btnEnableAll.setEnabled(false);
-//		btnEnableAll.setBorderPainted(false);
-//		btnEnableAll
-//				.setBackground(geogebra.awt.GColorD
-//						.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
-//		btnEnableAll.setContentAreaFilled(false);
-//		btnEnableAll.setHorizontalAlignment(SwingConstants.LEFT);
-//		btnEnableAll.addActionListener(this);
-//
-//		Corner upperLeftCorner = new Corner();
-//		upperLeftCorner.setLayout(new BorderLayout());
-//		upperLeftCorner.add(btnEnableAll, loc.borderWest());
-//
-//		upperLeftCorner.setBorder(BorderFactory.createCompoundBorder(
-//				BorderFactory.createMatteBorder(0, 0, 1, 1, TABLE_GRID_COLOR),
-//				BorderFactory.createEmptyBorder(0, 5, 0, 2)));
-//
-//		// set the other corners
-//		scrollPane.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER,
-//				upperLeftCorner);
-//		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER,
-//				new Corner());
-//		scrollPane.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER,
-//				new Corner());
-//
-//		lblHeader = new JLabel();
-//		lblHeader.setHorizontalAlignment(SwingConstants.LEFT);
-//		lblHeader.setBorder(BorderFactory.createCompoundBorder(
-//				BorderFactory.createEtchedBorder(),
-//				BorderFactory.createEmptyBorder(2, 5, 2, 2)));
-//
-//		// finally, load up our JPanel
-//		this.setLayout(new BorderLayout());
-//		this.add(lblHeader, BorderLayout.NORTH);
-//		this.add(scrollPane, BorderLayout.CENTER);
-//		this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-//		this.setMinimumSize(dataTable.getPreferredSize());
-//
+		scrollPane = new ScrollPanel();
+		scrollPane.add(dataTable);
+
+		
+		lblHeader = new Label();
+
+		add(lblHeader);
+		add(scrollPane);
+		setLabels();
 	}
 
 	public void removeGeos() {
@@ -183,40 +113,54 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		return selectionList;
 	}
 
-//	private void populateDataTable(ArrayList<GeoElement> dataArray) {
-//
-//		if (dataArray == null || dataArray.size() < 1) {
-//			return;
-//		}
-//
-//		TableModel dataModel = null;
-//		GeoPoint geo = null;
-//		String[] titles = daView.getDataTitles();
-//
-//		switch (daView.getModel().getMode()) {
-//
-//		case DataAnalysisModel.MODE_ONEVAR:
-//
-//			dataModel = new DefaultTableModel(dataArray.size(), 1);
-//			for (int row = 0; row < dataArray.size(); ++row) {
-//				dataModel.setValueAt(
-//						dataArray.get(row).toDefinedValueString(
-//								StringTemplate.defaultTemplate), row, 0);
-//			}
-//
-//			dataTable.setModel(dataModel);
-//			dataTable.getColumnModel().getColumn(0).setHeaderValue(titles[0]);
-//
-//			updateSelectionList(dataArray);
-//
-//			break;
-//
+	private void populateDataTable(ArrayList<GeoElement> dataArray) {
+
+		if (dataArray == null || dataArray.size() < 1) {
+			return;
+		}
+
+		//GeoPoint geo = null;
+		String[] titles = daView.getDataTitles();
+		String[] rowNames = new String[dataArray.size()];
+		dataTable.setStatTable(dataArray.size(), rowNames, 2, null);
+		
+	
+		switch (daView.getModel().getMode()) {
+
+		case DataAnalysisModel.MODE_ONEVAR:
+
+			for (int row = 0; row < dataArray.size(); ++row) {
+				CheckBox cb = new CheckBox(""+row);
+				cb.addClickHandler(new DataClickHandler(row));
+				cb.setValue(true);
+				dataTable.getTable().setWidget(row, 0, cb); 
+
+				dataTable.setValueAt(
+						dataArray.get(row).toDefinedValueString(
+								StringTemplate.defaultTemplate), row, 1);
+			}
+
+			cbEnableAll = new CheckBox("");
+			cbEnableAll.addClickHandler(new ClickHandler() {
+				
+				public void onClick(ClickEvent event) {
+					enableAll();
+				}
+			});
+			
+			dataTable.getTable().setWidget(0, 0, cbEnableAll);
+			dataTable.setValueAt(titles[0], 0, 1);
+
+			updateSelectionList(dataArray);
+
+			break;
+
 //		case DataAnalysisModel.MODE_REGRESSION:
 //
 //			// a data source may be a list of points with a single title
 //			// so we must create a title for the y column
 //			String titleX = titles[0];
-//			String titleY = titles.length == 1 ? titleX : titles[1];
+//				String titleY = titles.length == 1 ? titleX : titles[1];
 //
 //			dataModel = new DefaultTableModel(dataArray.size(), 2);
 //			for (int row = 0; row < dataArray.size(); ++row) {
@@ -250,8 +194,8 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 //
 //			break;
 //		}
-//
-//	}
+
+	}
 //
 //	/**
 //	 * Loads the data table. Called on data set changes.
@@ -292,71 +236,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 //		}
 //
 //	}
-//
-//	private void notifySelectionChange(int index, boolean isSelected) {
-//		// statDialog.handleDataPanelSelectionChange(selectionList);
-//	}
-//
-//	private class Corner extends JPanel {
-//		private static final long serialVersionUID = 1L;
-//
-//		@Override
-//		protected void paintComponent(Graphics g) {
-//			g.setColor(TABLE_HEADER_COLOR);
-//			g.fillRect(0, 0, getWidth(), getHeight());
-//		}
-//	}
-//
-//	@Override
-//	public void setFont(Font font) {
-//		super.setFont(font);
-//
-//		if (dataTable != null && dataTable.getRowCount() > 0
-//				&& dataTable.getColumnCount() > 0) {
-//
-//			// set the font for each component
-//			dataTable.setFont(font);
-//			if (dataTable.getTableHeader() != null)
-//				dataTable.getTableHeader().setFont(font);
-//			rowHeader.setFont(font);
-//
-//			setRowHeight();
-//
-//			// set the column width
-//			int size = font.getSize();
-//			if (size < 12)
-//				size = 12; // minimum size
-//			double multiplier = (size) / 12.0;
-//			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier);
-//
-//			// columnHeader.setPreferredSize(new Dimension(preferredColumnWidth,
-//			// (int)(MyTable.TABLE_CELL_HEIGHT * multiplier)));
-//			// this.validate();
-//			// dataTable.repaint();
-//		}
-//
-//		if (dataTable != null) {
-//			dataTable.setPreferredScrollableViewportSize(dataTable
-//					.getPreferredSize());
-//		}
-//	}
-//
-//	private void setRowHeight() {
-//		// get row height needed to draw an "X" character
-//		int h = dataTable
-//				.getCellRenderer(0, 0)
-//				.getTableCellRendererComponent(dataTable, "X", false, false, 0,
-//						0).getPreferredSize().height;
-//
-//		// use this height to set the table and row header heights
-//		dataTable.setRowHeight(h);
-//		rowHeader.setFixedCellHeight(h);
-//	}
-//
-//	public MyRowHeader getRowHeader() {
-//		return rowHeader;
-//	}
-//
+
 //	public void actionPerformed(ActionEvent e) {
 //		if (e.getSource() == btnEnableAll) {
 //			rowHeader.enableAll();
@@ -364,4 +244,35 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 //
 //		}
 //	}
+
+	
+}
+	
+	public void onDataClick(int index) { 
+		selectionList[index] = !selectionList[index];
+		statController.updateSelectedDataList(index,
+				selectionList[index]);
+		cbEnableAll.setValue(!isAllEnabled());
+	}
+
+	public void enableAll() {
+
+		for (int i = 0; i < selectionList.length; ++i) {
+			if (selectionList[i] == false) {
+				statController.updateSelectedDataList(i, true);
+				selectionList[i] = true;
+		
+			}
+		}
+	}
+
+	public boolean isAllEnabled() {
+		for (int i = 0; i < selectionList.length; ++i) {
+			if (selectionList[i] == false)
+				return false;
+		}
+		return true;
+	}
+
+
 }
