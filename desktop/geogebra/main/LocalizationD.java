@@ -170,6 +170,11 @@ public class LocalizationD extends Localization {
 	}
 
 	@Override
+	public String getLocaleStr() {
+		return getLocale().toString();
+	}
+
+	@Override
 	final public String getSymbolTooltip(int key) {
 		if (rbsymbol == null) {
 			initSymbolResourceBundle();

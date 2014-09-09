@@ -16,7 +16,7 @@ public class SmartSignInButton extends SignInButton{
 					+ "/caller/web/"
 					+"/expiration/600/"
 					+"/clientinfo/smart"
-					+"/?lang="+app.getLocaleStr()
+					+"/?lang="+app.getLocalization().getLocaleStr()
 					+"&url="+URL.encode(Location.getHref());
 		
 		gotoURL(url);

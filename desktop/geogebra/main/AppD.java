@@ -4632,11 +4632,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public String getLocaleStr() {
-		return getLocale().toString();
-	}
-
-	@Override
 	public void showURLinBrowser(String strURL) {
 		getGuiManager().showURLinBrowser(strURL);
 

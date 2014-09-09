@@ -106,8 +106,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Visibility;
-import com.google.gwt.http.client.UrlBuilder;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -1753,43 +1751,13 @@ public static final String LOCALE_PARAMETER = "locale";
 			 * 
 			 */
 		public void setDefaultLanguage() {
-			// App.debug("Browser Language: " + AppW.geoIPLanguage);
 
 
-			String lCookieValue = Cookies.getCookie("GeoGebraLanguageUI");
+			String lCookieValue = Cookies.getCookie("GeoGebraLangUI");
 			if (lCookieValue == null) {
 				lCookieValue = navigatorLanguage();
 			}
-			String closestlangcodetoGeoIP = Language
-			        .getClosestGWTSupportedLanguage(lCookieValue);
-
-			App.debug("Cookie Value: " + lCookieValue + ", closest Language from GeoIP: "
-			        + closestlangcodetoGeoIP);
-
-			
-
-				App.debug("Language is enabeled!!!");
-
-				if (closestlangcodetoGeoIP != null && !closestlangcodetoGeoIP.equals(getLocalization().getLanguage())) {
-
-					App.debug("Changing Language depending on GeoIP!");
-
-					// Window.Location.assign( // or replace()
-					// Window.Location.createUrlBuilder()
-					// .setParameter(LocaleInfo.getLocaleQueryParam(), "ar")
-					// .buildString());
-
-					UrlBuilder newUrl = Window.Location.createUrlBuilder();
-					newUrl.setParameter(AppW.LOCALE_PARAMETER,
-					        closestlangcodetoGeoIP);
-					Window.Location.assign(newUrl.buildString());
-					
-					if(!closestlangcodetoGeoIP.equals(lCookieValue)){
-						Cookies.removeCookie("GeoGebraLangUI");
-						Cookies.setCookie("GeoGebraLangUI", closestlangcodetoGeoIP);
-					}
-
-				}
+			setLanguage(lCookieValue);
 
 			
 
@@ -1800,19 +1768,9 @@ public static final String LOCALE_PARAMETER = "locale";
 	        return null;
         }
 
-		@Override
-		public String getLocaleStr() {
-			String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-			Log.trace("Current Locale: " + localeName);
-
-			if (localeName.toLowerCase().equals(LocalizationW.DEFAULT_LOCALE)) {
-				return LocalizationW.DEFAULT_LANGUAGE;
-			}
-			return localeName.substring(0, 2);
-		}
-
+		
 	    public String getLanguageFromCookie() {
-			return Cookies.getCookie("GGWlang");
+			return Cookies.getCookie("GeoGebraLangUI");
 		}
 
 		
@@ -1831,25 +1789,9 @@ public static final String LOCALE_PARAMETER = "locale";
 			updateCommandDictionary();
 		}
 
-		/**
-		 * This method is used for debugging purposes:
-		 */
-		public static void displaySupportedLocales() {
-			String[] localeNames = LocaleInfo.getAvailableLocaleNames();
-			for (int i = 0; i < localeNames.length; i++) {
-				App.debug("GWT Module Supported Locale no." + i + ", Locale Name: "
-				        + localeNames[i]);
-			}
-		}
+		
 
-		/**
-		 * This method is used for debugging purposes:
-		 */
-		public static void displayLocaleCookie() {
-			App.debug("Locale Cookie Name: " + LocaleInfo.getLocaleCookieName()
-			        + ", Cookie Value: "
-			        + Cookies.getCookie(LocaleInfo.getLocaleCookieName()));
-		}
+		
 
 		@Override
 		public boolean letRedefine() {

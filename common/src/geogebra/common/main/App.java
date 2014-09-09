@@ -2667,7 +2667,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return string representation of current locale, eg no_NO_NY
 	 */
-	public abstract String getLocaleStr();
+	
 
 	/**
 	 * Opens browser with given URL

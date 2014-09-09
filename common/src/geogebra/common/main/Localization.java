@@ -1027,5 +1027,7 @@ public abstract class Localization {
 			return getPlain("Function." + key);
 		}
 
+		public abstract String getLocaleStr();
+
 	
 }

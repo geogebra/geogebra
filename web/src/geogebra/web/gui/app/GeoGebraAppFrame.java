@@ -159,7 +159,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		//		((AppW)app).initializeLanguage();
 
 		//Debugging purposes
-		AppW.displayLocaleCookie();
 		App.debug("Done");
     }
 	

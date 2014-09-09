@@ -48,8 +48,6 @@ public final class LocalizationW extends Localization {
 																		// Norwegian
 																		// language
 																		// BCP47
-	public final static String A_DOT = ".";
-	public final static String AN_UNDERSCORE = "_";
 	
 	//
 	/*
@@ -115,10 +113,6 @@ public final class LocalizationW extends Localization {
 			return key;
 		}
 
-		if (language == null) {
-			// keys not loaded yet
-			return key;
-		}
 
 		String ret = getPropertyNative(language, key, "plain");
 		
@@ -288,7 +282,7 @@ public final class LocalizationW extends Localization {
 	 */
 	@Override
 	public String getLanguage() {		
-		return language;
+		return language == null ? null : language.substring(0,2);
 	}
 	
 	@Override
@@ -357,6 +351,13 @@ public final class LocalizationW extends Localization {
     public String getMenuTooltip(String string) {
 		// secondary languages not supported in HTML5
 	    return getMenu(string);
+    }
+
+
+
+	@Override
+    public String getLocaleStr() {
+	    return language;
     }
 
 }

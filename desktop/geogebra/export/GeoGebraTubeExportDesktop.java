@@ -31,7 +31,8 @@ import javax.swing.JProgressBar;
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraTubeExport {
+public class GeoGebraTubeExportDesktop extends
+		geogebra.common.export.GeoGebraTubeExport {
 
 	public GeoGebraTubeExportDesktop(App app) {
 		super(app);
@@ -52,7 +53,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 	 */
 	private JLabel statusLabel;
 
-	/** 
+	/**
 	 * Abort button.
 	 */
 	private JButton abortButton;
@@ -88,7 +89,10 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
-	 * @param macrosIn null to upload current construction, otherwise upload just tools
+	 * 
+	 * @param macrosIn
+	 *            null to upload current construction, otherwise upload just
+	 *            tools
 	 */
 	@Override
 	public void uploadWorksheet(ArrayList<Macro> macrosIn) {
@@ -107,14 +111,16 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 			url = new URL(uploadURL);
 
-			urlConn = (HttpURLConnection)url.openConnection();
+			urlConn = (HttpURLConnection) url.openConnection();
 			urlConn.setDoInput(true);
 			urlConn.setDoOutput(true);
 			urlConn.setUseCaches(false);
 
 			// content type
-			urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			urlConn.setRequestProperty("Accept-Language", app.getLocaleStr());
+			urlConn.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded");
+			urlConn.setRequestProperty("Accept-Language", app.getLocalization()
+					.getLocaleStr());
 
 			// send output
 			try {
@@ -123,9 +129,10 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 				StringBuffer postData = getPostData();
 
 				int requestLength = postData.length();
-				/*urlConn.disconnect();
-			urlConn.setChunkedStreamingMode(1000);
-			urlConn.connect();*/
+				/*
+				 * urlConn.disconnect(); urlConn.setChunkedStreamingMode(1000);
+				 * urlConn.connect();
+				 */
 
 				setIndeterminate(false);
 				setMinimum(0);
@@ -135,19 +142,20 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 				int start = 0;
 				int end = 0;
 
-				// chunking is senseless at the moment as input buffering is activated
-				while(end != requestLength) {
+				// chunking is senseless at the moment as input buffering is
+				// activated
+				while (end != requestLength) {
 					start = end;
 					end += 5000;
 
-					if(end > requestLength) {
+					if (end > requestLength) {
 						end = requestLength;
 					}
 
 					printout.writeBytes(postData.substring(start, end));
 					printout.flush();
 
-					// track progress 
+					// track progress
 					setValue(end);
 				}
 
@@ -155,22 +163,24 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 				postData = null;
 
-				int responseCode; String responseMessage;
+				int responseCode;
+				String responseMessage;
 
 				try {
 					responseCode = urlConn.getResponseCode();
 					responseMessage = urlConn.getResponseMessage();
 				} catch (IOException e) {
-					// if we can't even get the response code something failed anyway
+					// if we can't even get the response code something failed
+					// anyway
 					responseCode = -1;
 					responseMessage = e.getMessage();
 				}
 
 				// URL ok
-				if(responseCode == HttpURLConnection.HTTP_OK) {
-					// get response and read it into a string buffer 
-					input = new BufferedReader(new InputStreamReader(urlConn
-							.getInputStream()));
+				if (responseCode == HttpURLConnection.HTTP_OK) {
+					// get response and read it into a string buffer
+					input = new BufferedReader(new InputStreamReader(
+							urlConn.getInputStream()));
 
 					StringBuffer output = new StringBuffer();
 
@@ -181,37 +191,45 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 					input.close();
 
-					final UploadResults results = new UploadResults(output.toString());
+					final UploadResults results = new UploadResults(
+							output.toString());
 
-					if(results.HasError()) {
+					if (results.HasError()) {
 						statusLabelSetText(app.getPlain("UploadError"));
 						setEnabled(false);
 
-						App.debug("Upload failed. Response: " + output.toString());
+						App.debug("Upload failed. Response: "
+								+ output.toString());
 					} else {
-						String createMaterialURL = uploadURL + "/" + results.getUID();
-						
+						String createMaterialURL = uploadURL + "/"
+								+ results.getUID();
+
 						// Add the login token to the URL if a user is logged in
 						if (app.getLoginOperation().getModel().isLoggedIn()) {
-							
-							String token = app.getLoginOperation().getModel().getLoggedInUser().getLoginToken();
+
+							String token = app.getLoginOperation().getModel()
+									.getLoggedInUser().getLoginToken();
 							if (token != null) {
 								createMaterialURL += "/lt/" + token;
 							}
 						}
-						
-						// Add the language parameter to show the page in the user language
-						createMaterialURL += "/?lang=" + ((AppD) app).getLocale().getLanguage();
-						
+
+						// Add the language parameter to show the page in the
+						// user language
+						createMaterialURL += "/?lang="
+								+ ((AppD) app).getLocale().getLanguage();
+
 						app.showURLinBrowser(createMaterialURL);
 						hideDialog();
 					}
 
 					pack();
 				} else {
-					App.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
+					App.debug("Upload failed. Response: #" + responseCode
+							+ " - " + responseMessage);
 
-					BufferedReader errors = new BufferedReader(new InputStreamReader(urlConn.getErrorStream()));
+					BufferedReader errors = new BufferedReader(
+							new InputStreamReader(urlConn.getErrorStream()));
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;
@@ -222,19 +240,22 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 					App.debug(errorBuffer.toString());
 
-					statusLabelSetText(loc.getPlain("UploadError", Integer.toString(responseCode)));
+					statusLabelSetText(loc.getPlain("UploadError",
+							Integer.toString(responseCode)));
 					setEnabled(false);
 					pack();
 				}
 			} catch (IOException e) {
-				statusLabelSetText(loc.getPlain("UploadError", Integer.toString(500)));
+				statusLabelSetText(loc.getPlain("UploadError",
+						Integer.toString(500)));
 				setEnabled(false);
 				pack();
 
 				App.debug(e.getMessage());
 			}
 		} catch (IOException e) {
-			statusLabelSetText(loc.getPlain("UploadError", Integer.toString(400)));
+			statusLabelSetText(loc.getPlain("UploadError",
+					Integer.toString(400)));
 			setEnabled(false);
 			pack();
 
@@ -243,7 +264,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 	}
 
 	/**
-	 * Shows a small dialog with a progress bar. 
+	 * Shows a small dialog with a progress bar.
 	 */
 	@Override
 	protected void showDialog() {
@@ -311,7 +332,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 	@Override
 	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		((AppD)app).getXMLio().writeMacroStream(baos, macros);
+		((AppD) app).getXMLio().writeMacroStream(baos, macros);
 		return geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 	}
 
