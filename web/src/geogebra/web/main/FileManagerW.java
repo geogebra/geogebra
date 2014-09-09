@@ -43,7 +43,7 @@ public class FileManagerW implements FileManager {
 	@Override
     public void openMaterial(Material material) {
 		try {
-			final String base64 = this.stockStore.getItem(FILE_PREFIX + material.getURL());
+			final String base64 = material.getBase64();
 			if (base64 == null) {
 				return;
 			}
@@ -64,7 +64,7 @@ public class FileManagerW implements FileManager {
 				final Material mat = new Material(0, MaterialType.ggb);
 				
 				//TODO check if we need to set timestamp / modified
-				mat.setTimestamp(System.currentTimeMillis() / 1000);
+				mat.setModified(System.currentTimeMillis() / 1000);
 				
 				if (app.getUniqueId() != null) {
 					mat.setId(Integer.parseInt(app.getUniqueId()));
