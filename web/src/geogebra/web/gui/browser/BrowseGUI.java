@@ -289,10 +289,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	    }
     }
 
-	/**
-	 * IN PROGESS
-	 * different behavior for web and touch
-	 */
 	private void uploadLocals() {
 		if (this.app.getLoginOperation().isLoggedIn()) {
 			this.app.getFileManager().uploadUsersMaterials();
