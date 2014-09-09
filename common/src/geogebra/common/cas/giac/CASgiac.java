@@ -44,12 +44,12 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * 
 	 * caseval needed here for giac.js
 	 */
-	protected final static String initString = "caseval(\"init geogebra\")"; 
+	public final static String initString = "caseval(\"init geogebra\")"; 
 	
 	/**
 	 * string to put Giac off GeoGebra mode
 	 */
-	protected final static String closeString = "caseval(\"close geogebra\")" ;
+	public final static String closeString = "caseval(\"close geogebra\")" ;
 
 	/**
 	 * define extra functions needed in Giac
@@ -389,14 +389,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			String constructRestrictions,
 			String vars, String varsToEliminate) {
 		
-		// We will use non-geogebra mode statements from Giac:
-		try {
-			evaluateRaw(closeString);
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		StringBuilder script = new StringBuilder();
 		
 		String eliminateCommand = "eliminate([" + constructRestrictions + "],[" + varsToEliminate + "])";
@@ -422,13 +414,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	
 	public String createEliminateFactorizedScript(
 			String polys, String elimVars) {
-		// We will use non-geogebra mode statements from Giac:
-		try {
-			evaluateRaw(closeString);
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		/* Some examples to understand the code below:
 		 * 
 		 * [[aa:=eliminate([-1*v1,-1*v11*v10+v12*v9+v11*v8+-1*v9*v8+-1*v12*v7+v10*v7,v13*v8+-1*v14*v7,-1*v13+v13*v10+v9+-1*v14*v9,
@@ -566,7 +551,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String idealVar = "ii";
 		
-		String ret = "[[" +  closeString + "],[" + idealVar + ":=gbasis(";
+		String ret = "[[" + idealVar + ":=gbasis(";
 
 		if (substitutions != null) {
 			ret += "subst(";
@@ -584,7 +569,7 @@ public abstract class CASgiac implements CASGenericInterface {
         // ret += ",[" + vars + "],revlex)],(degree(" + 
         //		idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][2]"; 
 		ret += ",[" + vars + "],revlex)],(" + 
-        		idealVar + "[0]!=1)&&(" + idealVar + "[0]!=-1)][2]";     
+        		idealVar + "[0]!=1)&&(" + idealVar + "[0]!=-1)][1]";     
         
 		return ret;
 	}

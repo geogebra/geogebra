@@ -4,6 +4,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
@@ -232,7 +233,21 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				this.getVars(), this.getVarsToEliminate());
 		
 		Log.info("[LocusEqu] input to cas: "+script);
+		// We will use non-geogebra mode statements from Giac:
+		try {
+			cas.evaluateRaw(CASgiac.closeString);
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		result = cas.evaluate(script);
+		// Switching back to normal mode:
+		try {
+			cas.evaluateRaw(CASgiac.initString);
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Log.info("[LocusEqu] output from cas: "+result);
 		return cas.getCurrentCAS().getBivarPolyCoefficients(result, cas);
 	}

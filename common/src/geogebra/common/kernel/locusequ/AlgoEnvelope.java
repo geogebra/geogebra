@@ -1,6 +1,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -300,8 +301,23 @@ public class AlgoEnvelope extends AlgoElement {
 				String det = cas.getCurrentCAS().evaluateRaw(script.toString());
 				Log.info("[Envelope] output from giac (compute det of Jacobi matrix): " + det);
 				String script2 = cas.getCurrentCAS().createLocusEquationScript(polys + "," + det, vars + ",x,y", vars);
+
 				Log.info("[Envelope] input to giac: " + script2);
+				// We will use non-geogebra mode statements from Giac:
+				try {
+					cas.evaluateRaw(CASgiac.closeString);
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				String result = cas.getCurrentCAS().evaluateRaw(script2);
+				// Switching back to normal mode:
+				try {
+					cas.evaluateRaw(CASgiac.initString);
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// Trimming [ and ]
 				result = result.substring(1,result.length()-1); 
 				return result;

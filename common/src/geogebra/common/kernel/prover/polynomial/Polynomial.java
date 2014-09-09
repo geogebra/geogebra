@@ -1,6 +1,7 @@
 package geogebra.common.kernel.prover.polynomial;
 
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -940,7 +941,22 @@ public class Polynomial implements Comparable<Polynomial> {
 			return null; // cannot decide
 		}
 		Log.info("[groebnerSolvable] input to cas: "+solvableProgram);
+		// We will use non-geogebra mode statements from Giac:
+		try {
+			cas.evaluateRaw(CASgiac.closeString);
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		solvableResult = cas.evaluate(solvableProgram);
+		// Switching back to normal mode:
+		try {
+			cas.evaluateRaw(CASgiac.initString);
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Log.info("[groebnerSolvable] output from cas: "+solvableResult);	
 		if ("0".equals(solvableResult) || "false".equals(solvableResult))
 			return false; // no solution
@@ -1110,13 +1126,29 @@ public class Polynomial implements Comparable<Polynomial> {
 			// Consider uncomment this if Giac cannot find a readable NDG:
 			// elimVars = dependentVariables.toString().replaceAll(" ", "");
 			// elimVars = elimVars.substring(1, elimVars.length()-1);
+
 			elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
 			if (elimProgram == null) {
 				Log.info("Not implemented (yet)");
 				return null; // cannot decide
 			}
 			Log.info("[eliminateFactorized] input to cas: "+elimProgram);
+			// We will use non-geogebra mode statements from Giac:
+			try {
+				cas.evaluateRaw(CASgiac.closeString);
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
+			// Switching back to normal mode:
+			try {
+				cas.evaluateRaw(CASgiac.initString);
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			Log.info("[eliminateFactorized] output from cas: "+elimResult);	
 		}
 
