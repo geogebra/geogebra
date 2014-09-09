@@ -3595,6 +3595,9 @@ public abstract class EuclidianController {
 
 			needsAttach = false;
 			detachFrom = null;
+			if (selGeos() > 0) {
+				clearSelections();
+			}
 			return true;
 		}
 
