@@ -230,7 +230,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 * This is needed for macros.	 
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
-		startPoint = (GeoPoint) p;
+		startPoint = p;
 	}
 
 	public void removeStartPoint(GeoPointND p) {    
@@ -437,8 +437,6 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		return buildValueString(tpl).toString();
 	}
 
-	@SuppressWarnings("cast")
-	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
@@ -463,7 +461,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y),tpl));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(y, x), tpl, false));
+			sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sbBuildValueString.append(")");
 			break;
 
@@ -719,8 +717,6 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	private StringBuilder sb;
 
-	@SuppressWarnings("cast")
-	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (sb == null) sb = new StringBuilder();
@@ -735,7 +731,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sb.append("(");		
 			sb.append(kernel.format(MyMath.length(x, y),tpl));
 			sb.append("; ");
-			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x), tpl, false));
+			sb.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sb.append(")");
 			break;
 

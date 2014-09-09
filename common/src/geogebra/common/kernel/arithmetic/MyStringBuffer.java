@@ -53,13 +53,11 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		sb.insert(pos, str);
 	}
 
-	@SuppressWarnings("cast")
-	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder temp = new StringBuilder();
 		temp.append("\"");
-		temp.append((CharSequence)sb);
+		temp.append(sb);
 		temp.append("\"");
 		return temp.toString();
 	}
@@ -98,12 +96,10 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return sb.toString();
 	}
 
-	@SuppressWarnings("cast")
-	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	final public String toOutputValueString(StringTemplate tpl) {
 		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
 		sb2.append('"');
-		sb2.append((CharSequence)sb);
+		sb2.append(sb);
 		sb2.append('"');
 		return sb2.toString();
 	}

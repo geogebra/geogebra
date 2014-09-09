@@ -354,7 +354,7 @@ public class AlgoStemPlot extends AlgoElement {
 
 		//==========================================
 		// create LaTeX for the key
-		StringBuffer key = new StringBuffer();
+		StringBuilder key = new StringBuilder();
 		key.setLength(0);
 		key.append("\\fbox{\\text{");
 
@@ -380,7 +380,7 @@ public class AlgoStemPlot extends AlgoElement {
 		sb.append(body);
 		if(outlierIndex[1] < data.length)
 			sb.append(high);
-		sb.append((CharSequence)key);
+		sb.append(key);
 		sb.append("\\end{tabular}");
 		sb.append('}');
 

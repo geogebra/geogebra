@@ -905,8 +905,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param sb string builder
 	 * @param tpl string template
 	 */
-	@SuppressWarnings("cast")
-	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	final public void toStringLHS(StringBuilder sb,StringTemplate tpl) {
 		double[] g = new double[3];
 
@@ -917,7 +915,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			sb.append(kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true, false, tpl));
 			return;
 		}
-		sb.append((CharSequence)sbToStringLHS);
+		sb.append(sbToStringLHS);
 	}
 
 	private static StringBuilder sbToStringLHS = new StringBuilder("\u221E");

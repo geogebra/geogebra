@@ -107,11 +107,9 @@ public class Term implements Comparable<Object>, Serializable {
 	/**
 	 * @param vars new variables as string
 	 */
-	@SuppressWarnings("cast")
-	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	void setVariables(StringBuilder vars) {
 		variables.setLength(0);
-		variables.append((CharSequence)vars);
+		variables.append(vars);
 	}
 
 	/**
@@ -203,11 +201,9 @@ public class Term implements Comparable<Object>, Serializable {
 	 * multiply this term with another term
 	 * @param t multiplier
 	 */
-	@SuppressWarnings("cast")
-	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	void multiply(Term t) {
 		setCoefficient(multiply(coefficient, t.coefficient));
-		variables.append((CharSequence)t.variables);
+		variables.append(t.variables);
 		sort(variables);
 	}
 	
