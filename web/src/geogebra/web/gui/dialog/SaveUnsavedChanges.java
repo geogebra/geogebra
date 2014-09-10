@@ -4,7 +4,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.html5.util.SaveCallback;
 import geogebra.web.gui.GuiManagerW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,9 +24,8 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		private Label infoText;
 		private String consTitle;
 		private final Localization loc;
-		Runnable afterSaveCallback = null;
+		Runnable runAfterSave = null;
 		private final App app;
-		private SaveCallback saveCallback;
 
 		public SaveUnsavedChanges(final App app) {
 			super();
@@ -35,10 +33,8 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			this.loc = app.getLocalization();
 			this.setGlassEnabled(true);
 			this.addStyleName("saveUnsavedDialog");
-			
 			this.dialogPanel = new VerticalPanel();
-			this.saveCallback = createCB();
-			
+
 			this.addText();
 			this.addButtons();
 
@@ -47,16 +43,6 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 			setLabels();
 			app.getLoginOperation().getView().add(this);
 		}
-
-		private SaveCallback createCB() {
-	        return new SaveCallback() {
-				
-				@Override
-				public void onSaved() {
-					runCallback();
-				}
-			};
-        }
 
 		private void addButtons() {
 			this.initCancelButton();
@@ -117,21 +103,8 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		 * saves the file before running the callback (edit or new)
 		 */
 		protected void onSave() {
-			((GuiManagerW) app.getGuiManager()).save(this.saveCallback);
+			((GuiManagerW) app.getGuiManager()).save(this.runAfterSave);
 			hide();
-		}
-
-		public void setAfterSavedCallback(final Runnable callback) {
-			this.afterSaveCallback = callback;
-		}
-		
-		public void setLabels() {
-			this.getCaption().setText(this.loc.getMenu("Save"));
-			this.infoText.setText(this.loc
-					.getMenu("DoYouWantToSaveYourChanges"));
-			this.cancelButton.setText(this.loc.getMenu("Cancel"));
-			this.saveButton.setText(this.loc.getMenu("Save"));
-			this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
 		}
 
 		/**
@@ -147,14 +120,23 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 		}
 
 		/**
-		 * run callback - edit or new after (don't) saving
+		 * run callback
 		 */
 		void runCallback() {
-			if (afterSaveCallback != null) {
-				afterSaveCallback.run();
+			if (runAfterSave != null) {
+				runAfterSave.run();
+				runAfterSave = null;
 			} else {
 				App.debug("no callback");
 			}
+		}
+		
+		/**
+		 * set the callback to run after file was saved successfully (e.g. new / edit)
+		 * @param callback Runnable
+		 */
+		public void setAfterSavedCallback(final Runnable callback) {
+			this.runAfterSave = callback;
 		}
 		
 		@Override
@@ -168,5 +150,14 @@ public class SaveUnsavedChanges extends DialogBox implements EventRenderable {
 	        // TODO Auto-generated method stub
 	        
         }
+
+		public void setLabels() {
+			this.getCaption().setText(this.loc.getMenu("Save"));
+			this.infoText.setText(this.loc
+					.getMenu("DoYouWantToSaveYourChanges"));
+			this.cancelButton.setText(this.loc.getMenu("Cancel"));
+			this.saveButton.setText(this.loc.getMenu("Save"));
+			this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
+		}
 }
 

@@ -10,7 +10,6 @@ import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.SaveCallback;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.main.AppT;
-import geogebra.web.gui.GuiManagerW;
 
 import com.google.gwt.core.client.Callback;
 import com.googlecode.gwtphonegap.client.PhoneGap;
@@ -522,7 +521,7 @@ public class FileManagerT extends FileManager {
 	 * Saves the active file (with metaData) on the device into directory
 	 * "GeoGebra".
 	 * 
-	 * @param cb 
+	 * @param cb {@link SaveCallback}
 	 */
 	@Override
     public void saveFile(final SaveCallback cb) {
@@ -541,31 +540,25 @@ public class FileManagerT extends FileManager {
 							public void onSuccess(final FileWriter writer) {
 								writer.write(s);
 								createMetaData(consTitle, cb, s);
-								app.setSaved();
-								//TODO don't call loadFeatured() only update saved file!!!
-								((GuiManagerW) app.getGuiManager()).getBrowseGUI().loadFeatured();
-								if (cb != null) {
-									cb.onSaved();
-								}
-								
+								cb.onSaved();
 							}
 
 							@Override
 							public void onFailure(final FileError error) {
-								cb.onError(app.getLocalization().getError("SaveFileFailed"));
+								cb.onError();
 							}
 						});
 					}
 
 					@Override
 					public void onFailure(final FileError error) {
-						cb.onError(app.getLocalization().getError("SaveFileFailed"));
+						cb.onError();
 					}
 
 				});
 			}
 		};
-		((geogebra.html5.main.GgbAPIW) app.getGgbApi()).getBase64(true, base64saver);
+		app.getGgbApi().getBase64(true, base64saver);
 	}
 
 	/**
@@ -596,10 +589,11 @@ public class FileManagerT extends FileManager {
 	}
 
 	/**
-	 * create metaData including meta and thumbnail.
+	 * create metaData.
 	 * 
 	 * @param title String
-	 * @param cb 
+	 * @param cb {@link SaveCallback}
+	 * @param base64 String
 	 */
 	void createMetaData(final String title, final SaveCallback cb, final String base64) {
 
@@ -616,14 +610,14 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onFailure(final FileError error) {
-						cb.onError(app.getLocalization().getError("SaveFileFailed"));
+						cb.onError();
 					}
 				});
 			} 
 
 			@Override
 			public void onFailure(final FileError error) {
-				cb.onError(app.getLocalization().getError("SaveFileFailed"));
+				cb.onError();
 			}
 		});
 	}

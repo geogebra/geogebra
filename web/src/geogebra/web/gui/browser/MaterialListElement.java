@@ -2,7 +2,6 @@ package geogebra.web.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
-import geogebra.common.util.StringUtil;
 import geogebra.html5.Browser;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
@@ -279,7 +278,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				public void onError(Throwable exception) {
 					setVisible(true);
 					//TODO translation needed
-					ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("Delete failed") + "</html>", true);
+					ToolTipManagerW.sharedInstance().showBottomMessage("Delete failed", true);
 				}
 			});
 		}
@@ -351,7 +350,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				return;
 			}
 			//TODO Translate "Loading ..."
-			ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString("Loading ..."), false);
+			ToolTipManagerW.sharedInstance().showBottomMessage("Loading ...", false);
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
 
 				@Override
@@ -359,17 +358,17 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 					if (parseResponse.size() == 1) {
 						app.getGgbApi().setBase64(parseResponse.get(0).getBase64());
 					} else {
-						ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString(app.getLocalization().getError("LoadFileFailed")), true);
+						ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("LoadFileFailed"), true);
 					}
 				}
 				
 				@Override
 				public void onError(Throwable error) {
-					ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString(app.getLocalization().getError("LoadFileFailed")), true);
+					ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("LoadFileFailed"), true);
 				}
 			});
 		} else {
-			ToolTipManagerW.sharedInstance().showBottomMessage(StringUtil.toHTMLString("Loading ..."), false);
+			ToolTipManagerW.sharedInstance().showBottomMessage("Loading ...", false);
 			this.app.getFileManager().openMaterial(this.material);
 		}
 	}

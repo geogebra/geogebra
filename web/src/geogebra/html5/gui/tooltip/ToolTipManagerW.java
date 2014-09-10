@@ -1,6 +1,7 @@
 package geogebra.html5.gui.tooltip;
 
 import geogebra.common.util.AsyncOperation;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.css.GuiResourcesSimple;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -223,12 +224,12 @@ public class ToolTipManagerW {
 
 	/**
 	 * displays the given message 
-	 * 
+	 * @param text String
 	 * @param closeAutomatic whether the message should be closed automatically after dismissDelay milliseconds
 	 */
 	public void showBottomMessage(String text, boolean closeAutomatic){
 		blockToolTip = false;
-		showBottomInfoToolTip(text, "");
+		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text) + "</html>", "");
 		blockToolTip = true;
 		if(closeAutomatic){
 			timer = new Timer(){

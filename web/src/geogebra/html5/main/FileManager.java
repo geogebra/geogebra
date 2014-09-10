@@ -3,7 +3,6 @@ package geogebra.html5.main;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
-import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.util.SaveCallback;
 import geogebra.web.gui.GuiManagerW;
@@ -62,7 +61,7 @@ public abstract class FileManager {
 			        public void onLoaded(final List<Material> parseResponse) {
 				        if ((parseResponse.size() == 1 && parseResponse.get(0).getModified() > mat.getSyncStamp())
 				                || parseResponse.size() == 0) {
-				        	ToolTipManagerW.sharedInstance().showBottomMessage("<html>" + StringUtil.toHTMLString("Note that there are several versions of: " + parseResponse.get(0).getTitle()) + "</html>", true);
+				        	ToolTipManagerW.sharedInstance().showBottomMessage("Note that there are several versions of: " + parseResponse.get(0).getTitle(), true);
 					        mat.setId(0);
 				        }
 				        upload(mat);

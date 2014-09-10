@@ -34,7 +34,6 @@ import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.Dom;
-import geogebra.html5.util.SaveCallback;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
@@ -848,7 +847,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return true;
 	}
 	
-	public void save(SaveCallback cb) {
+	/**
+	 * saves the file before running the callback
+	 * @param cb Runnable
+	 */
+	public void save(Runnable cb) {
 		SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
 		saveDialog.center();
 		saveDialog.setCallback(cb);
