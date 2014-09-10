@@ -330,7 +330,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		checkXYMinMax(project);
 
 		// capturing points
-		((EuclidianController3DCompanion) companion).checkPointCapturing(project);
+		((EuclidianController3DCompanion) companion).checkPointCapturingXY(project);
 		
 		// set point coords
 		point.setCoords(project);
