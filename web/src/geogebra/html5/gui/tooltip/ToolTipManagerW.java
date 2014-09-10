@@ -3,6 +3,7 @@ package geogebra.html5.gui.tooltip;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.css.GuiResourcesSimple;
+import geogebra.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
@@ -60,7 +61,7 @@ public class ToolTipManagerW {
 
 	private SimplePanel tipPanel;
 	private HTML tipHTML;
-	
+
 	private HorizontalPanel bottomInfoTipPanel;
 	private HTML bottomInfoTipHTML;
 	private String questionMark;
@@ -146,30 +147,30 @@ public class ToolTipManagerW {
 		registerMouseListeners();
 
 	}
-	
+
 	private void createTipElements() {
 		tipHTML = new HTML();
 		tipHTML.setStyleName("toolTipHTML");
-		
+
 		tipPanel = new SimplePanel();
 		tipPanel.setStyleName("ToolTip");
 		tipPanel.add(tipHTML);
-		
+
 		tipPanel.setVisible(false);
 		RootPanel.get().add(tipPanel);
 	}
-	
+
 	private void createBottomInfoTipElements() {
 		bottomInfoTipHTML = new HTML();
 		bottomInfoTipHTML.setStyleName("infoText");
 
-		
-		questionMark = GuiResourcesSimple.INSTANCE.questionMark().getSafeUri().asString();
+		questionMark = GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
+		        .asString();
 
 		bottomInfoTipPanel = new HorizontalPanel();
 		bottomInfoTipPanel.setStyleName("infoTooltip");
 		bottomInfoTipPanel.add(bottomInfoTipHTML);
-		
+
 		bottomInfoTipPanel.setVisible(false);
 		RootPanel.get().add(bottomInfoTipPanel);
 	}
@@ -177,37 +178,38 @@ public class ToolTipManagerW {
 	private boolean blockToolTip = true;
 
 	public boolean isToolTipBlocked() {
-	    return blockToolTip;
-    }
+		return blockToolTip;
+	}
 
 	public void setBlockToolTip(boolean blockToolTip) {
-	    this.blockToolTip = blockToolTip;
-    }
+		this.blockToolTip = blockToolTip;
+	}
 
 	// =====================================
-	// BottomInfoToolTip 
+	// BottomInfoToolTip
 	// =====================================
 	public void showBottomInfoToolTip(String text, final String helpURL) {
-		if(blockToolTip){
+		if (blockToolTip) {
 			return;
 		}
 
 		bottomInfoTipHTML.setHTML(text);
 
-		if(helpLabel != null){
+		if (helpLabel != null) {
 			bottomInfoTipPanel.remove(helpLabel);
 		}
 
-		if(helpURL != null && helpURL.length() > 0){
+		if (helpURL != null && helpURL.length() > 0) {
 			helpLabel = new Label();
-			
-			helpLabel.getElement().getStyle().setBackgroundImage("url("+this.questionMark+")");
+
+			helpLabel.getElement().getStyle()
+			        .setBackgroundImage("url(" + this.questionMark + ")");
 			helpLabel.addDomHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					openWindow(helpURL);
 				}
 			}, MouseDownEvent.getType());
-			helpLabel.addDomHandler(new TouchStartHandler() {				
+			helpLabel.addDomHandler(new TouchStartHandler() {
 				public void onTouchStart(TouchStartEvent event) {
 					openWindow(helpURL);
 				}
@@ -217,38 +219,49 @@ public class ToolTipManagerW {
 		}
 
 		bottomInfoTipPanel.setVisible(true);
-		
+
 		// Helps to align the InfoTooltip in the center of the screen:
-		bottomInfoTipPanel.getElement().getStyle().setMarginLeft(-(bottomInfoTipPanel.getOffsetWidth()/2), Unit.PX);
+		bottomInfoTipPanel
+		        .getElement()
+		        .getStyle()
+		        .setMarginLeft(-(bottomInfoTipPanel.getOffsetWidth() / 2),
+		                Unit.PX);
 	}
 
 	/**
-	 * displays the given message 
-	 * @param text String
-	 * @param closeAutomatic whether the message should be closed automatically after dismissDelay milliseconds
+	 * displays the given message
+	 * 
+	 * @param text
+	 *            String
+	 * @param closeAutomatic
+	 *            whether the message should be closed automatically after
+	 *            dismissDelay milliseconds
 	 */
-	public void showBottomMessage(String text, boolean closeAutomatic){
+	public void showBottomMessage(String text, boolean closeAutomatic) {
 		blockToolTip = false;
-		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text) + "</html>", "");
+		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
+		        + "</html>", "");
 		blockToolTip = true;
-		if(closeAutomatic){
-			timer = new Timer(){
+		if (closeAutomatic) {
+			timer = new Timer() {
 				@Override
-                public void run() {
-	                hideBottomInfoToolTip();
-                }				
+				public void run() {
+					hideBottomInfoToolTip();
+				}
 			};
 			timer.schedule(dismissDelay);
-		}	
+		}
 	}
 
 	/**
 	 * Opens Link in a new window
-	 * @param url that should be opened
+	 * 
+	 * @param url
+	 *            that should be opened
 	 */
 	native void openWindow(String url)/*-{
-		$wnd.open(url);
-	}-*/;
+	                                  $wnd.open(url);
+	                                  }-*/;
 
 	public void hideBottomInfoToolTip() {
 		cancelTimer();
@@ -321,7 +334,13 @@ public class ToolTipManagerW {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 				NativeEvent e = event.getNativeEvent();
 
-				if (event.getTypeInt() == Event.ONMOUSEDOWN || event.getTypeInt() == Event.ONTOUCHSTART) {
+				if (event.getTypeInt() == Event.ONTOUCHSTART) {
+					CancelEventTimer.touchEventOccured();
+				}
+
+				if ((event.getTypeInt() == Event.ONMOUSEDOWN && !CancelEventTimer
+				        .cancelMouseEvent())
+				        || event.getTypeInt() == Event.ONTOUCHSTART) {
 					showImmediately = false;
 					hideToolTip();
 					hideBottomInfoToolTip();

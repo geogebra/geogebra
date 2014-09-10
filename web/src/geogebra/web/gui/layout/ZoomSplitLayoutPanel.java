@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -78,7 +77,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     protected int getEventPosition(Event event) {
-      return (int) (event.getClientX() * getZoom());
+    	return event.getTypeInt() == Event.ONTOUCHSTART
+		        || event.getTypeInt() == Event.ONTOUCHMOVE
+		        || event.getTypeInt() == Event.ONTOUCHEND ? (int) (event
+		        .getTouches().get(0).getClientX() * getZoom())
+		        : (int) (event.getClientX() * getZoom());
     }
 
     @Override
@@ -116,7 +119,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
       setElement(Document.get().createDivElement());
       sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE
-          | Event.ONDBLCLICK);
+          | Event.ONDBLCLICK | Event.ONTOUCHSTART | Event.ONTOUCHMOVE 
+          | Event.ONTOUCHEND);
     }
 
     public double getZoom(){
@@ -127,6 +131,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     public void onBrowserEvent(Event event) {
       switch (event.getTypeInt()) {
         case Event.ONMOUSEDOWN:
+        case Event.ONTOUCHSTART:
           if (splitPanel.hasSplittersFrozen()) {
         	event.preventDefault();
           	break;
@@ -151,6 +156,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
           break;
 
         case Event.ONMOUSEUP:
+        case Event.ONTOUCHEND:
           if (splitPanel.hasSplittersFrozen()) {
           	event.preventDefault();
             break;
@@ -187,6 +193,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
           break;
 
         case Event.ONMOUSEMOVE:
+        case Event.ONTOUCHMOVE:
           if (splitPanel.hasSplittersFrozen()) {
           	event.preventDefault();
             break;
@@ -303,7 +310,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     protected int getEventPosition(Event event) {
-      return (int) (event.getClientY() * getZoom());
+    	return event.getTypeInt() == Event.ONTOUCHSTART
+		        || event.getTypeInt() == Event.ONTOUCHMOVE
+		        || event.getTypeInt() == Event.ONTOUCHEND ? (int) (event
+		        .getTouches().get(0).getClientY() * getZoom())
+		        : (int) (event.getClientY() * getZoom());
     }
 
     @Override
