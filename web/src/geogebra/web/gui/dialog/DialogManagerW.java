@@ -14,6 +14,7 @@ import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -200,7 +201,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public void showPropertiesDialog() {
-		App.debug("SHOWWWWWWWWWWWW");
 	}
 
 	@Override
@@ -359,8 +359,15 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
-		app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
-		app.setMoveMode();
+		if (mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS 
+				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
+				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
+		
+			app.getGuiManager().getDataAnalysisView().setMode(mode, ModeSetter.TOOLBAR);
+			app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
+			
+			app.setMoveMode();
+		}
 	}
 
 	

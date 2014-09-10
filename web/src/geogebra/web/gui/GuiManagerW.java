@@ -1010,6 +1010,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void attachDataAnalysisView() {
+		getDataAnalysisView();
+		dataAnalysisView.attachView();
 	}
 
 	public void detachDataAnalysisView() {

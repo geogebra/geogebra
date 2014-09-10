@@ -224,6 +224,9 @@ public class DataDisplayModel {
 	
 			GeoList dataListSelected = daModel.getController().getDataSelected();
 	
+			if (dataListSelected == null) {
+				return;
+			}
 			if (hasControlPanel) {
 				listener.showControlPanel();
 			}
