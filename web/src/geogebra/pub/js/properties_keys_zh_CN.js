@@ -1136,7 +1136,7 @@ __GGB__keysVar.zh_CN.error = {
 __GGB__keysVar.zh_CN.menu = {
     "ANOVA": "\u65b9\u5dee\u5206\u6790",
     "About": "\u5173\u4e8e",
-    "AboutLicense": "\u5173\u4e8e GeoGebra",
+    "AboutLicense": "\u5173\u4e8e / \u7248\u6743",
     "Accents": "\u91cd\u97f3\u6807\u8bb0",
     "AccentsExt": "\u4e0a\u4e0b\u5e95\u7ebf",
     "ActionObjectTools": "\u52a8\u4f5c\u5bf9\u8c61",
