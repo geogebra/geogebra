@@ -22,6 +22,7 @@ import geogebra.web.main.AppWapplication;
 import java.util.Date;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -125,7 +126,11 @@ public class GeoGebraAppFrame extends ResizeComposite {
     protected void onLoad() {
 //		init();
 		setVisible(false);
-		init();				
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				init();
+			}
+		});		
 	}
 
 	public void init() {
