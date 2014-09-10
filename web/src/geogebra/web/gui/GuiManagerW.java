@@ -1222,7 +1222,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 
 		((DialogManagerW) app.getDialogManager()).setLabels();
-		if(this.browseGUI != null){
+		if(browseGUIwasLoaded()){
 			getBrowseGUI().setLabels();
 		}
 	}
@@ -1554,11 +1554,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	 * @return {@link BrowseGUI}
 	 */
 	public BrowseGUI getBrowseGUI() {
-		if (this.browseGUI == null) {
+		if (!browseGUIwasLoaded()) {
 			this.browseGUI = new BrowseGUI((AppW)this.app);
 			this.browseGUI.loadFeatured();
 		}
 		return this.browseGUI;
+	}
+	
+	/**
+	 * @return true if {@link BrowseGUI} is not null
+	 */
+	public boolean browseGUIwasLoaded() {
+		return this.browseGUI != null;
 	}
 
 	@Override

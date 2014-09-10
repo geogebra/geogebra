@@ -222,7 +222,9 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
 					//last synchronization is equal to last modified 
 					app.setSyncStamp(parseResponse.get(0).getModified());
-					((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(parseResponse.get(0), false);
+					if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
+						((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(parseResponse.get(0), false);
+					}
 					if (runAfterSave != null) {
 						runAfterSave.run();
 					}
