@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class LanguageGUI extends MyHeaderPanel {
 
-	private final AppW app;
+	final AppW app;
 	private LanguageHeaderPanel header;
 
 	public LanguageGUI(AppW app) {
@@ -64,7 +64,11 @@ public class LanguageGUI extends MyHeaderPanel {
 						        .rightToLeftReadingOrder(current.localeGWT);
 						Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
 						Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp, "geogebra.org", null, false);
-
+						if(app.getLoginOperation().isLoggedIn()){
+							app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(current.localeGWT,
+									app.getLoginOperation().getModel().getLoginToken());
+						}
+						
 						app.setUnsaved();
 
 						// On changing language from LTR/RTL the page will

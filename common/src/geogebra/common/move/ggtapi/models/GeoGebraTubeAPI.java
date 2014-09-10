@@ -4,6 +4,7 @@ import geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.util.HttpRequest;
+import geogebra.common.util.debug.Log;
 
 /**
  * @author gabor
@@ -156,5 +157,26 @@ public abstract class GeoGebraTubeAPI {
 		}
 
 		return this.available;
+	}
+
+	public void setUserLanguage(String lang, String token) {
+		performRequest(
+				"{\"request\": {"
+                        +"\"api\":\"1.0.0\","
+                        +"\"login\": {\"token\":\""+token+"\", \"getuserinfo\":\"false\"},"
+                        +"\"task\": {\"type\":\"setuserlang\", \"lang\":\""+lang+"\"}}}",
+				true, new AjaxCallback() {
+
+					@Override
+					public void onSuccess(String response) {
+						Log.debug(response);
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.error(error);
+
+					}
+				});
 	}
 }

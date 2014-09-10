@@ -56,6 +56,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private SearchPanel searchPanel;
 	private BrowseGUI bg;
 
+	private StandardButton logoutButton;
+
 	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI, NetworkOperation op) {
 		super(app.getLocalization(), browseGUI);
 		this.bg = browseGUI;
@@ -163,7 +165,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			optionsPanelContent.setStyleName("profileOptionsContent");
 			optionsPanel.add(optionsPanelContent);
 			
-			StandardButton logoutButton = new StandardButton(app.getPlain("SignOut"));
+			logoutButton = new StandardButton(app.getPlain("SignOut"));
 			logoutButton.addStyleName("logoutButton");
 			logoutButton.addStyleName("gwt-Button");
 			optionsPanelContent.add(logoutButton);
@@ -209,6 +211,12 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		super.setLabels();
 		if(this.signInButton != null){
 			this.signInButton.setText(loc.getMenu("SignIn"));
+		}
+		if(this.logoutButton != null){
+			this.logoutButton.setText(app.getPlain("SignOut"));
+		}
+		if(this.searchPanel != null){
+			this.searchPanel.setLabels();
 		}
 	}
 
