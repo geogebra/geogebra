@@ -4365,6 +4365,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .daData table {
 	width: 100%;
 	min-width: 100px;
+	max-width: 100px;
 	border: 1px solid;
 	border-collapse: collapse;
 }

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 {
@@ -129,15 +130,15 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 
 		case DataAnalysisModel.MODE_ONEVAR:
 
-			for (int row = 0; row < dataArray.size(); ++row) {
-				CheckBox cb = new CheckBox(""+row);
+			for (int row = 0; row < dataArray.size(); row++) {
+				CheckBox cb = new CheckBox("" + (row+1));
 				cb.addClickHandler(new DataClickHandler(row));
 				cb.setValue(true);
-				dataTable.getTable().setWidget(row, 0, cb); 
+				dataTable.getTable().setWidget(row + 1, 0, cb); 
 
 				dataTable.setValueAt(
 						dataArray.get(row).toDefinedValueString(
-								StringTemplate.defaultTemplate), row, 1);
+								StringTemplate.defaultTemplate), row + 1, 1);
 			}
 
 			cbEnableAll = new CheckBox("");
@@ -252,7 +253,8 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		selectionList[index] = !selectionList[index];
 		statController.updateSelectedDataList(index,
 				selectionList[index]);
-		cbEnableAll.setValue(!isAllEnabled());
+		cbEnableAll.setValue(isAllEnabled());
+		cbEnableAll.setEnabled(true);
 	}
 
 	public void enableAll() {
@@ -261,9 +263,16 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 			if (selectionList[i] == false) {
 				statController.updateSelectedDataList(i, true);
 				selectionList[i] = true;
+				Widget w = dataTable.getTable().getWidget(i + 1, 0);
+				if (w instanceof CheckBox) {
+					((CheckBox)w).setValue(true);
+				}
 		
 			}
+			
 		}
+		cbEnableAll.setValue(true);
+		cbEnableAll.setEnabled(false);
 	}
 
 	public boolean isAllEnabled() {
