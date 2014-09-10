@@ -84,12 +84,12 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
-import java.util.Set;
 import java.util.SortedSet;
 
 /**
@@ -430,7 +430,7 @@ public abstract class App implements UpdateSelection{
 
 		// the keySet contains all commands of the dictionary; see
 		// LowerCaseDictionary.addEntry(String s) for more
-		Set<String> commandDictContent = commandDict.keySet();
+		Collection<String> commandDictContent = commandDict.values();
 
 		// write them to the commandDictCAS
 		for (String cmd : commandDictContent) {
@@ -807,15 +807,15 @@ public abstract class App implements UpdateSelection{
 		initTranslatedCommands();
 		String s;
 		String cmdLower = StringUtil.toLowerCase(cmd);
-		for (Commands c:Commands.values()) {
+		Commands[] values = Commands.values();
+		for (Commands c : values) {
 			s = Commands.englishToInternal(c).name();
 			
-				// make sure that when si[] is typed in script, it's changed to
-				// Si[] etc
-				if (StringUtil.toLowerCase(getLocalization().getCommand(s)).equals(cmdLower)) {
-					return s;
-				}
-			
+			// make sure that when si[] is typed in script, it's changed to
+			// Si[] etc
+			if (StringUtil.toLowerCase(getLocalization().getCommand(s)).equals(cmdLower)) {
+				return s;
+			}
 		}
 		return null;
 	}
