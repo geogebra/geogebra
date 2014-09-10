@@ -1557,7 +1557,9 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 	protected int[] generateFirstXLastXCommon() {
 		int firstXLastX [] = new int[2];
-		
+		if(discreteValueList == null){
+			this.createDiscreteLists();
+		}
 		firstXLastX[0] = (int) ((GeoNumeric) discreteValueList.get(0)).getDouble();
 		firstXLastX[1] = (int) ((GeoNumeric) discreteValueList.get(discreteValueList
 				.size() - 1)).getDouble();
