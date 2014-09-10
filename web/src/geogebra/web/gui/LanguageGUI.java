@@ -63,7 +63,7 @@ public class LanguageGUI extends MyHeaderPanel {
 						boolean newDirRTL = Localization
 						        .rightToLeftReadingOrder(current.localeGWT);
 						Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
-						Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp, "geogebra.org", null, false);
+						Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp, "geogebra.org", "/", false);
 						if(app.getLoginOperation().isLoggedIn()){
 							app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(current.localeGWT,
 									app.getLoginOperation().getModel().getLoginToken());
@@ -109,15 +109,7 @@ public class LanguageGUI extends MyHeaderPanel {
 		}
 	}-*/;
 
-	public static void setCookies(String cookieParameter, String localeCode) {
-		if (Cookies.getCookie(cookieParameter) == null
-		        || "".equals(Cookies.getCookie(cookieParameter))) {
-			Cookies.setCookie(cookieParameter, localeCode);
-		} else if (!Cookies.getCookie(cookieParameter).equals(localeCode)) {
-			Cookies.removeCookie(cookieParameter);
-			Cookies.setCookie(cookieParameter, localeCode);
-		}
-	}
+	
 
 	private void addHeader() {
 		this.header = new LanguageHeaderPanel(app.getLocalization(), this);
