@@ -56,6 +56,7 @@ import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.WebStatic;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
@@ -1361,6 +1362,9 @@ public static final String LOCALE_PARAMETER = "locale";
 	}-*/;
 	
 	public GDimension getPreferredSize() {
+		if(preferredSize == null){
+			return new GDimensionW(800,600);
+		}
 		return preferredSize;
 	}
 
