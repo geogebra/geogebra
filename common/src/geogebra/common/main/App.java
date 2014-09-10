@@ -3772,8 +3772,24 @@ public abstract class App implements UpdateSelection{
 	}
 
 	public void openSearch() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
+	}
+	
+	private static boolean CASViewEnabled = true;
+	/**
+	 * Tells if the CAS View is enabled. 
+	 * It can be disabled by using command line option "--showCAS=disable".
+	 * @return whether the CAS view is enabled
+	 */
+	public static boolean isCASViewEnabled() {
+		return CASViewEnabled;
+	}
+
+	/**
+	 * Disables CAS View.
+	 */
+	public static void disableCASView() {
+		CASViewEnabled = false;
 	}
 
 	public void ensureTimerRunning() {

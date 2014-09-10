@@ -26,7 +26,11 @@ public abstract class Layout {
 	 * 	 
 	 */
 	protected static void initializeDefaultPerspectives(boolean showAllTools, boolean html5, double AVpercent) {
-		defaultPerspectives = new Perspective[6];
+		int n = 6;
+		if (! App.isCASViewEnabled())
+			n--;
+		
+		defaultPerspectives = new Perspective[n];
 		
 		DockPanelData[] dpData;
 		DockSplitPaneData[] spData;
@@ -47,9 +51,11 @@ public abstract class Layout {
 		spData[0] = new DockSplitPaneData("", AVpercent, GSplitPane.HORIZONTAL_SPLIT);
 	
 		defToolbar = ToolBar.getAllToolsNoMacros(html5);
+		
+		int i = 0; // current perspective
 	
-		defaultPerspectives[0] = new Perspective("Perspective.AlgebraAndGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
-		defaultPerspectives[0].setIconString("menu_view_algebra.png");
+		defaultPerspectives[i] = new Perspective("Perspective.AlgebraAndGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[i].setIconString("menu_view_algebra.png");
 		
 		// basic geometry - just the euclidian view
 		dpData = new DockPanelData[6];
@@ -65,9 +71,9 @@ public abstract class Layout {
 		defaultPerspectives[1].setIconString("perspectives_basic_geometry.png");*/
 		
 		// geometry - like basic geometry but with less toolbar entries
-		defaultPerspectives[1] = new Perspective("Perspective.Geometry", spData, dpData, defToolbar, true, false, false, false, true, false);
-		defaultPerspectives[1].setIconString("perspectives_geometry.png");
-		defaultPerspectives[1].setUnitAxesRatio(true);
+		defaultPerspectives[++i] = new Perspective("Perspective.Geometry", spData, dpData, defToolbar, true, false, false, false, true, false);
+		defaultPerspectives[i].setIconString("perspectives_geometry.png");
+		defaultPerspectives[i].setUnitAxesRatio(true);
 		
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
@@ -81,22 +87,22 @@ public abstract class Layout {
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 500);
 
-		defaultPerspectives[2] = new Perspective("Perspective.Spreadsheet", spData, dpData, defToolbar, true, false, true, false, true, false);
-		defaultPerspectives[2].setIconString("menu_view_spreadsheet.png");
+		defaultPerspectives[++i] = new Perspective("Perspective.Spreadsheet", spData, dpData, defToolbar, true, false, true, false, true, false);
+		defaultPerspectives[i].setIconString("menu_view_spreadsheet.png");
 		
-		// CAS & Graphics - cas and euclidian view
-		dpData = new DockPanelData[6];
-		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3,3", 200);
-		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3,1", 300);
-		dpData[3] = new DockPanelData(App.VIEW_CAS, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
-		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 500);
+		if (App.isCASViewEnabled()) {
+			// CAS & Graphics - cas and euclidian view
+			dpData = new DockPanelData[6];
+			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
+			dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3,3", 200);
+			dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3,1", 300);
+			dpData[3] = new DockPanelData(App.VIEW_CAS, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 300);
+			dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
+			dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 500);
 
-		defaultPerspectives[3] = new Perspective("Perspective.CAS", spData, dpData, defToolbar, true, false, true, false, true, false);
-		defaultPerspectives[3].setIconString("menu_view_cas.png");
-		
-		
+			defaultPerspectives[++i] = new Perspective("Perspective.CAS", spData, dpData, defToolbar, true, false, true, false, true, false);
+			defaultPerspectives[i].setIconString("menu_view_cas.png");
+		}
 		
 		// algebra & 3D graphics
 		dpData = new DockPanelData[6];
@@ -113,8 +119,8 @@ public abstract class Layout {
 	
 		//Note: toolbar definition is always for EV1, for 3D we use definition from the 3D dock panel classes
 	
-		defaultPerspectives[4] = new Perspective("Perspective.3DGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
-		defaultPerspectives[4].setIconString("perspectives_algebra_3Dgraphics.png");
+		defaultPerspectives[++i] = new Perspective("Perspective.3DGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[i].setIconString("perspectives_algebra_3Dgraphics.png");
 		
 		dpData = new DockPanelData[7];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 500);
@@ -131,8 +137,8 @@ public abstract class Layout {
 	
 		//Note: toolbar definition is always for EV1, for 3D we use definition from the 3D dock panel classes
 	
-		defaultPerspectives[5] = new Perspective("Perspective.Probability", spData, dpData, "0", false, false, true, false, true, false);
-		defaultPerspectives[5].setIconString("menu_view_probability.png");
+		defaultPerspectives[++i] = new Perspective("Perspective.Probability", spData, dpData, "0", false, false, true, false, true, false);
+		defaultPerspectives[i].setIconString("menu_view_probability.png");
 
 		
 //		// Python Scripting & Graphics ** Doesn't work **
@@ -144,7 +150,7 @@ public abstract class Layout {
 //		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
 //		dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 600), "3,1", 500);
 //
-//		defaultPerspectives[5] = new Perspective("PythonAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
+//		defaultPerspectives[++i] = new Perspective("PythonAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 
 	}
 

@@ -355,6 +355,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private AuthenticationModelD authenticationModel;
 
+	
 	// ==============================================================
 	// MISC FLAGS
 	// ==============================================================
@@ -1137,6 +1138,13 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 
+		if (args.containsArg("showCAS")) {
+			String showCASs = args.getStringValue("showCAS");
+			if (showCASs.equalsIgnoreCase("disable")) {
+				disableCASView();
+			}
+		}
+		
 		String language = args.getStringValue("language");
 		if (language.length() > 0) {
 			setLocale(getLocale(language));
