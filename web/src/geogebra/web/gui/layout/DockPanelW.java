@@ -381,7 +381,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		componentPanel.setStyleName("ComponentPanel");
 
 		styleBarPanel = new FlowPanel();
-		styleBarPanel.setStyleName("StyleBarPanel");
+		styleBarPanel.setStyleName("StyleBarPanel_");
 
 		titleBarPanel = new FlowPanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
@@ -393,9 +393,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		ToolTipManagerW.sharedInstance().registerWidget(titleBarPanel,
 		        toolTipHandler, false, true);
-		if (!this.isStyleBarEmpty()) {
-			addToggleButton();
-		}
 		dragPanel = new FlowPanel();
 		dragPanel.setStyleName("dragPanel");
 		dragPanel.addDomHandler(this, MouseDownEvent.getType());
@@ -425,9 +422,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 		
 		titleBarPanelContent.add(styleBarPanel);
 		titleBarPanelContent.add(dragPanel);
+
+		if (!this.isStyleBarEmpty()) {
+			addToggleButton();
+		}
+
 		titleBarPanelContent.setVisible(!isStyleBarEmpty());
-		
-		
+
 		if (this.isStyleBarEmpty()) {
 			titleBarPanel.add(closeButtonPanel);
 		}
@@ -442,7 +443,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	private void addToggleButton() {
-		toggleStyleBarButton = new PushButton(getToggleImage(showStyleBar));
+		// always show the view-icon; otherwise use showStylebar as parameter
+		toggleStyleBarButton = new PushButton(getToggleImage(false));
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 
 		if(!showStyleBar && viewImage != null){
@@ -842,15 +844,15 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
-		if (this.toggleStyleBarButton != null) {
-			this.toggleStyleBarButton.getElement().removeAllChildren();
-			this.toggleStyleBarButton.getElement().appendChild(getToggleImage(showStyleBar).getElement());
-			if(!showStyleBar && viewImage != null){
-				toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
-			} else {
-				toggleStyleBarButton.removeStyleName("toggleStyleBarViewIcon");
-			}
-		}
+//		if (this.toggleStyleBarButton != null) {
+//			this.toggleStyleBarButton.getElement().removeAllChildren();
+//			this.toggleStyleBarButton.getElement().appendChild(getToggleImage(showStyleBar).getElement());
+//			if(!showStyleBar && viewImage != null){
+//				toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
+//			} else {
+//				toggleStyleBarButton.removeStyleName("toggleStyleBarViewIcon");
+//			}
+//		}
 	}
 
 	/**
@@ -1194,7 +1196,15 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// hide close button when in dragmode
 		closeButtonPanel.setVisible(!drag);
 		//TODO view menu?
-		
+
+		if(drag){
+			titleBarPanelContent.removeStyleName("TitleBarPanelContent");
+			titleBarPanelContent.addStyleName("DragPanel");
+		} else {
+			titleBarPanelContent.removeStyleName("DragPanel");
+			titleBarPanelContent.addStyleName("TitleBarPanelContent");
+		}
+
 		if (this.toggleStyleBarButton != null) {
 			this.toggleStyleBarButton.setVisible(!drag);
 		}
