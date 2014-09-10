@@ -39,6 +39,25 @@ if (!window.console.log) window.console.log = function () { };
                 	ggbApplet.setPerspective(id+"");
             	}
             }
+            function e(id){
+        		return document.getElementById(id);
+        	}
+            function showInEnglish(){
+    			if(!window.__GGB__keysVar){
+
+    				e("algebraAndGraphics").innerHTML="Algebra and Graphics";
+    				e("geometry").innerHTML="Geometry";
+    				e("cas").innerHTML="CAS";
+    				e("spreadsheet").innerHTML="Spreadsheet";
+    				e("perspective3d").innerHTML="3D Graphics";
+    				e("probCalc").innerHTML="Probability";
+    				e("search").innerHTML="Search GeoGebra materials";
+    				if(e("signIn")){
+    					e("signIn").innerHTML="Sign in";
+    				}
+    			}
+    			e("ggbPage").style.display="";
+    		}
 </script>
 <script type="text/javascript">
 // test to see if the app is running as a chrome webapp
@@ -91,7 +110,7 @@ document.isChromeWebapp = function isChromeWebapp() {
     
     </style>
 </head>
-<body dir="ltr" tabindex="-1">
+<body dir="ltr" tabindex="-1" onload="showInEnglish()">
 	<div id="ggbPage" style="z-index:10000">
 
     <div id="ggbHeader">
@@ -108,7 +127,7 @@ document.isChromeWebapp = function isChromeWebapp() {
     
     <div class="ggbPageContent">
     	<div class="searchBtnPanel">
-        	<a class="button big" href="#" onclick="perspective('search:');"><img src="img/search.png" alt="Search Materials" />Search Materials</a>
+        	<a class="button big" href="#" onclick="perspective('search:');"><img src="img/search.png" alt="Search Materials" /><span id="search"/></a>
         </div>
         
         <div class="createOwnPanel">
@@ -117,42 +136,42 @@ document.isChromeWebapp = function isChromeWebapp() {
             <a class="button perspective" href="#" onclick="perspective(1);">
             	<div class="buttonContent">
                     <img src="img/menu_view_algebra.png" alt="Algebra & Graphics" />
-                    Algebra &amp; Graphics
+                    <span id="algebraAndGraphics"/>
                 </div>
             </a>
-            
+                       
             <a class="button perspective" href="#" onclick="perspective(2);">
-                <div class="buttonContent">
-                    <img src="img/perspectives_basic_geometry.png" alt="Basic Geometry" />
-                    Basic Geometry
+            	<div class="buttonContent">
+            		<img src="img/perspectives_geometry.png" alt="Geometry" />
+                	<span id="geometry"/>
                 </div>
             </a>
             
             <a class="button perspective" href="#" onclick="perspective(3);">
             	<div class="buttonContent">
-            		<img src="img/perspectives_geometry.png" alt="Geometry" />
-                	Geometry
+            		<img src="img/menu_view_spreadsheet.png" alt="Spreadsheet" />
+                	<span id="spreadsheet"/>
                 </div>
             </a>
             
             <a class="button perspective" href="#" onclick="perspective(4);">
             	<div class="buttonContent">
-            		<img src="img/menu_view_spreadsheet.png" alt="Spreadsheet" />
-                	Spreadsheet
+            		<img src="img/menu_view_cas.png" alt="CAS" />
+                	<span id="cas"/>
                 </div>
             </a>
             
             <a class="button perspective" href="#" onclick="perspective(5);">
             	<div class="buttonContent">
-            		<img src="img/menu_view_cas.png" alt="CAS" />
-                	CAS
+            		<img src="img/menu_view_graphics3D.png" alt="3D Graphics" />
+                	<span id="perspective3d"/>
                 </div>
             </a>
-            
-            <a class="button perspective" href="#" onclick="perspective(6);">
-            	<div class="buttonContent">
-            		<img src="img/menu_view_graphics3D.png" alt="3D Graphics" />
-                	3D Graphics
+			
+			 <a class="button perspective" href="#" onclick="perspective(6);">
+                <div class="buttonContent">
+                    <img src="img/menu_view_probability.png" alt="Probability Calculator" />
+                    <span id="probCalc"/>
                 </div>
             </a>
         </div>
