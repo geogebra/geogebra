@@ -17,7 +17,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.util.GgbMat;
 
 /**
  * Reverse a list. Adapted from AlgoSort
@@ -62,18 +61,31 @@ public class AlgoTranspose extends AlgoElement {
 
     @Override
 	public final void compute() {
-    	   		
-    	GgbMat matrix = new GgbMat(inputList);
-   		
-   		if (matrix.isUndefined()) {
-  			outputList.setUndefined();
-	   		return;   		
-	   	}
-   		
-   		matrix.transposeImmediate();
-   		// Transpose[{{1,2},{3,4}}]
-   		
-   		matrix.getGeoList(outputList, cons);    
+    	
+    	if(!inputList.isDefined() || (inputList.size() > 0 && !inputList.get(0).isGeoList())){
+    		outputList.setUndefined();
+    		return;
+    	}
+    	outputList.clear();
+    	if(inputList.size() == 0){
+    		return;
+    	}
+    	int cols = ((GeoList)inputList.get(0)).size();
+    	for(int i = 1; i < inputList.size();i++){
+    		
+    		if(!inputList.get(i).isGeoList() || ((GeoList) inputList.get(i)).size() != cols){
+    			outputList.setUndefined();
+        		return;
+    		}
+    	}
+    	for(int i = 0; i<cols; i++){
+    		GeoList column = new GeoList(cons);
+    		for(int j=0;j<inputList.size();j++){
+    			column.add(((GeoList) inputList.get(j)).get(i).copy());
+    		}
+    		outputList.add(column);
+    	}
+    	  
     }        
 
 	// TODO Consider locusequability
