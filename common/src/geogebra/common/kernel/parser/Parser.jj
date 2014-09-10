@@ -1958,7 +1958,6 @@ ExpressionNode numberFunction():
           return en;
         }
         }
-		App.debug(c.image);
       boolean forceCommand = c.image.charAt(c.image.length()-1)=='[';
       GeoElement geo = null;    
           GeoElement cell = null;
