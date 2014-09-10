@@ -48,8 +48,9 @@ public class FileManagerW extends FileManager {
 			public void handle(final String s) {
 				final String fileName = app.getKernel().getConstruction().getTitle();
 				//TODO use another key
-				stockStore.setItem(FILE_PREFIX + fileName, createMaterial(s).toJson().toString());
-				cb.onSaved();
+				Material mat = createMaterial(s);
+				stockStore.setItem(FILE_PREFIX + fileName, mat.toJson().toString());
+				cb.onSaved(mat);
 			}
 		};
 
@@ -62,7 +63,7 @@ public class FileManagerW extends FileManager {
     }
 
 	@Override
-    public void addFile(Material material) {
+    public void addMaterial(Material material) {
 		((BrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(material);
     }
 	
@@ -81,7 +82,7 @@ public class FileManagerW extends FileManager {
 					mat.setTitle(key.substring(FILE_PREFIX.length()));
 				}
 				if (filter.check(mat)) {
-					addFile(mat);
+					addMaterial(mat);
 				}
 			}
 		}

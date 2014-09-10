@@ -36,7 +36,6 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 */
 	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
 	private MaterialCallback rc;
-	private boolean personalMaterialsLoaded = false;
 	
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
@@ -72,7 +71,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			}
 		}, TouchMoveEvent.getType());
 		rc = new MaterialCallback() {
-
+			
 			@Override
 			public void onLoaded(final List<Material> parseResponse) {
 				onSearchResults(parseResponse);
@@ -92,20 +91,32 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	}
 	
 	/**
-	 * clears the panel and adds the local/own files and the
-	 * featured materials from ggt to the panel
+	 * loads users materials from ggt
 	 */
-    public void loadFeatured() {
-		clearMaterials();
-		loadLocal();
-		loadggt();
-	}
-
-	private void loadLocal() {
-		app.getFileManager().getAllFiles();
+	public void loadUsersMaterials() {
+		loadggt(this.rc);
 	}
 	
-	protected void loadggt() {
+	public void loadUsersMaterials(MaterialCallback cb) {
+		((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), cb);
+	}
+
+	/**
+	 * adds the local saved materials of current loggedIn user
+	 */
+    private void loadLocal() {
+		app.getFileManager().getUsersMaterials();
+	}
+	
+	/**
+	 * loads featured materials and (if user is logged in) users materials
+	 */
+    public void loadggt() {
+    	loadggt(this.rc);
+	}
+    
+    public void loadggt(final MaterialCallback cb) {
+    	clearMaterials();
 		final GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
 		api.getFeaturedMaterials(new MaterialCallback() {
 			
@@ -113,11 +124,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			public void onLoaded(final List<Material> response) {
 				onSearchResults(response);
 				if(app.getLoginOperation().isLoggedIn()){
-					MaterialListPanel.this.setLoggedIn(true);
+					loadUsersMaterials(cb);
 				}
 			}
 		});
-	}
+    }
 
 	/**
 	 * adds the new materials (matList) - GeoGebraTube only
@@ -128,14 +139,28 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			addMaterial(matList.get(i), false);
 		}
 	}
-
+	
+	
 	/**
 	 * adds the given material to the list of {@link MaterialListElement materials} and the preview-panel
+	 * @param mat {@link Material}
+	 * @param isLocal boolean
+	 */
+	public void addMaterial(final Material mat, final boolean isLocal) {
+		MaterialListElement matElem = getMaterialListElement(mat);
+		if (matElem != null) {
+			matElem.setMaterial(mat);
+		} else {
+			addNewMaterial(mat, isLocal);
+		}
+	}
+
+	/**
 	 * The actual creation happens in LAF as it needs to be different for phone / tablet / web / widgets
 	 * @param mat {@link Material}
 	 * @param isLocal boolean
 	 */
-	public final void addMaterial(final Material mat, final boolean isLocal) {
+	private final void addNewMaterial(final Material mat, final boolean isLocal) {
 		final MaterialListElement preview = ((GLookAndFeel)app.getLAF()).getMaterialElement(mat, this.app, isLocal);
 		this.materials.add(preview);
 		this.insert(preview,0);
@@ -145,7 +170,6 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * clears the list of existing {@link MaterialListElement materials} and the {@link MaterialListPanel preview-panel}
 	 */
 	public void clearMaterials() {
-		this.personalMaterialsLoaded = false;
 		this.materials.clear();
 		this.clear();
 	}
@@ -167,7 +191,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
     }
 
 	/**
-	 * @param materialElement 
+	 * @param materialElement {@link MaterialListElement}
 	 */
 	public void rememberSelected(final MaterialListElement materialElement) {
 		this.lastSelected = materialElement;
@@ -176,7 +200,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	public void displaySearchResults(final String query) {
 		clearMaterials();
 		if (query.equals("")) {
-			loadFeatured();
+			loadggt();
 			return;
 		}
 		searchLocal(query);
@@ -239,33 +263,35 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		}
 	}
 
-	public void setLoggedIn(boolean b) {
-	    if(b){
-	    	if(!this.personalMaterialsLoaded){
-	    		this.personalMaterialsLoaded = true;
-	    		((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
-	    	}
-	    }else{
-	    	this.loadFeatured();
-	    }
-	    
-    }
-
 	public void refreshMaterial(Material material, boolean isLocal) {
-		
 		if (!isLocal) {
 			material.setSyncStamp(material.getModified());
 		}
 		material.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
-		
+		addMaterial(material, isLocal);
+    }
+	
+	private MaterialListElement getMaterialListElement(Material material) {
 		for(final MaterialListElement matElem : this.materials) {
 			if (matElem.getMaterial().getId() == material.getId()) {
-				matElem.setMaterial(material);
-				return;
+				return matElem;
 			}
 		}
-		
-		//if material wasn't found, create new MaterialListElement
-		addMaterial(material, isLocal);
+		return null;
+	}
+
+	/**
+	 * remove users materials from {@link MaterialListPanel}
+	 */
+	public void removeUsersMaterials() {
+		List<Material> delete = new ArrayList<Material>();
+	    for (MaterialListElement elem : this.materials) {
+	    	if (elem.isOwnMaterial) {
+	    		delete.add(elem.getMaterial());
+	    	}
+	    }
+	    for (Material deleteElem : delete) {
+	    	removeMaterial(deleteElem);
+	    }
     }
 }

@@ -12,7 +12,7 @@ public class TabletFileManager extends FileManagerT {
 	}
 	
 	@Override()
-	public void addFile(final Material mat) {
+	public void addMaterial(final Material mat) {
 		((TabletBrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(mat);
 	}
 	

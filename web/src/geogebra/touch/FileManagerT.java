@@ -334,7 +334,7 @@ public class FileManagerT extends FileManager {
 												}
 												if (filter.check(mat)) {
 													mat.setURL(name);
-													addFile(mat);
+													addMaterial(mat);
 												}
 											}
 										});
@@ -540,7 +540,6 @@ public class FileManagerT extends FileManager {
 							public void onSuccess(final FileWriter writer) {
 								writer.write(s);
 								createMetaData(consTitle, cb, s);
-								cb.onSaved();
 							}
 
 							@Override
@@ -605,7 +604,9 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onSuccess(final FileWriter writer) {
-						writer.write(createMaterial(base64).toJson().toString());
+						Material mat = createMaterial(base64);
+						writer.write(mat.toJson().toString());
+						cb.onSaved(mat);
 					}
 
 					@Override
@@ -635,7 +636,7 @@ public class FileManagerT extends FileManager {
 	 * different behavior for phone and tablet
 	 */
 	@Override
-    public void addFile(final Material mat) {
+    public void addMaterial(final Material mat) {
 		// TODO Auto-generated method stub
 
 	}

@@ -6,6 +6,7 @@ import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.util.SaveCallback;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 
@@ -22,7 +23,7 @@ public abstract class FileManager {
 	public abstract void openMaterial(final Material material);
 	public abstract void saveFile(final SaveCallback cb);
 	public abstract void removeFile(final Material mat);
-	public abstract void addFile(final Material mat);
+	public abstract void addMaterial(final Material mat);
 	public abstract void uploadUsersMaterials();
 	protected abstract void getFiles(MaterialFilter materialFilter);
 	
@@ -45,14 +46,20 @@ public abstract class FileManager {
 		return mat;
 	}
 
-    public void search(String query) {
+    /**
+     * @param query String
+     */
+	public void search(String query) {
 		getFiles(MaterialFilter.getSearchFilter(query));
     }
 	
-    public void getAllFiles() {
-		getFiles(MaterialFilter.getUniversalFilter());
+    /**
+     * adds the files from the current user to the {@link BrowseGUI}
+     */
+    public void getUsersMaterials() {
+    	getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
     }
-	
+    
 	public void sync(final Material mat) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(mat.getId(), new MaterialCallback() {

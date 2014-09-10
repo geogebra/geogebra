@@ -18,6 +18,7 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
+import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 
 import java.util.ArrayList;
@@ -144,7 +145,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 			
 			@Override
 			public void onClick() {
-				loadFeatured();
+				loadGGT();
 			}
 		});
 		providerPanel.add(locationTube);
@@ -194,9 +195,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 		this.setContentWidget(this.container);
 	}
 
-	public void loadFeatured() {	
+	public void loadGGT() {	
 		this.header.clearSearchPanel();
-		this.materialListPanel.loadFeatured();
+		this.materialListPanel.loadggt();
 	}
 	
 	public void onSearchResults(final List<Material> response) {		
@@ -250,7 +251,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 		app.openFileAsGgb(fileToHandle, callback);		
 	}
 
-    public void clearMaterials() {
+    /**
+     * deletes all files from the {@link MaterialListPanel}
+     */
+	public void clearMaterials() {
 	    this.materialListPanel.clearMaterials();
     }
 
@@ -278,31 +282,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 		return this.materialListPanel.lastSelected;
 	}
 
-	@Override
-    public void render(final boolean b) {
-	    if (!b) {
-	    	this.clearMaterials();
-	    }
-	    else {
-	    	uploadLocals();
-	    	loadFeatured();
-	    }
-    }
-
-	private void uploadLocals() {
-		if (this.app.getLoginOperation().isLoggedIn()) {
-			this.app.getFileManager().uploadUsersMaterials();
-		}
-    }
-
-	@Override
-    public void renderEvent(final BaseEvent event) {
-	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
-	    	initProviders();
-	    	this.materialListPanel.setLoggedIn(event instanceof LoginEvent && ((LoginEvent)event).isSuccessful());
-	    }
-    }
-
 	public void displaySearchResults(final String query) {
 	    this.materialListPanel.displaySearchResults(query);
     }
@@ -318,5 +297,41 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	public void refreshMaterial(Material material, boolean isLocal) {
 	    this.materialListPanel.refreshMaterial(material, isLocal);
     }
+	
+
+	@Override
+    public void renderEvent(final BaseEvent event) {
+	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
+	    	initProviders();
+	    	if (event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()) {
+	    		this.materialListPanel.loadUsersMaterials();
+	    	} else if (event instanceof LogOutEvent) {
+	    		this.materialListPanel.removeUsersMaterials();
+	    	}
+	    }
+    }
+	
+	@Override
+    public void render(final boolean online) {
+	    if (online) {
+	    	this.materialListPanel.loadggt(new MaterialCallback() {
+				
+				@Override
+				public void onLoaded(List<Material> parseResponse) {
+					uploadLocals();
+				}
+			});
+	    } else {
+		    this.clearMaterials();
+		    this.app.getFileManager().getUsersMaterials();
+	    }
+    }
+	
+	void uploadLocals() {
+		if (this.app.getLoginOperation().isLoggedIn()) {
+			this.app.getFileManager().uploadUsersMaterials();
+		}
+    }
+
 }
 

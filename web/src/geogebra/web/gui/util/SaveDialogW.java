@@ -10,7 +10,6 @@ import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.SaveCallback;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -217,14 +216,11 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			@Override
 			public void onLoaded(List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
-					saveCallback.onSaved();
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
 					//last synchronization is equal to last modified 
 					app.setSyncStamp(parseResponse.get(0).getModified());
-					if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
-						((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(parseResponse.get(0), false);
-					}
+					saveCallback.onSaved(parseResponse.get(0));
 					if (runAfterSave != null) {
 						runAfterSave.run();
 					}

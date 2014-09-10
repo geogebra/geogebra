@@ -18,7 +18,7 @@ public class TabletGuiManager extends GuiManagerW {
 	public BrowseGUI getBrowseGUI() {
 		if (this.browseGUI == null) {
 			this.browseGUI = new TabletBrowseGUI((AppW)this.app);
-			this.browseGUI.loadFeatured();
+			this.browseGUI.loadGGT();
 		}
 		return this.browseGUI;
 	}

@@ -1556,7 +1556,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public BrowseGUI getBrowseGUI() {
 		if (!browseGUIwasLoaded()) {
 			this.browseGUI = new BrowseGUI((AppW)this.app);
-			this.browseGUI.loadFeatured();
+			this.browseGUI.loadGGT();
 		}
 		return this.browseGUI;
 	}

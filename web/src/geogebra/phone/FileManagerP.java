@@ -10,7 +10,7 @@ public class FileManagerP extends FileManagerT {
 	}
 	
 	@Override
-	public void addFile(Material mat) {
+	public void addMaterial(Material mat) {
 		Phone.getGUI().getMaterialListPanel().addMaterial(mat, true);
 	}
 	

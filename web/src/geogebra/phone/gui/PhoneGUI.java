@@ -120,7 +120,7 @@ public class PhoneGUI extends VerticalPanel {
 		this.addResizeListener(this.materialListPanel);
 		this.addResizeListener(this.euclidianViewPanel);
 		
-		this.materialListPanel.loadFeatured();
+		this.materialListPanel.loadggt();
 	}
 	
 	/**
