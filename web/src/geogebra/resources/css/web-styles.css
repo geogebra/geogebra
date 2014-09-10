@@ -2172,6 +2172,7 @@ Paddings for menuitems.
 	padding: 10px 20px;
 	background-repeat: no-repeat;
 	background-position: center center;
+	padding-top: 100%
 }
 
 /*#####################################################################################
