@@ -1,4 +1,4 @@
-package geogebra.html5.util;
+package geogebra.web.util;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;

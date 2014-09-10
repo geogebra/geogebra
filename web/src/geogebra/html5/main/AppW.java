@@ -84,6 +84,7 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
+import geogebra.web.main.FileManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,7 +145,7 @@ public static final String LOCALE_PARAMETER = "locale";
 	private SoundManagerW soundManager;
 	protected DialogManager dialogManager = null;
 	private ToolTipManagerW toolTipManager;
-	protected FileManager fm;
+	protected FileManagerI fm;
 	
 	protected final ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
@@ -2362,7 +2363,7 @@ public static final String LOCALE_PARAMETER = "locale";
 		 * Overwritten for applets, full app and for touch
 		 * @return {@link FileManager}
 		 */
-		public FileManager getFileManager() {
+		public FileManagerI getFileManager() {
 			return null;
 		}
 		

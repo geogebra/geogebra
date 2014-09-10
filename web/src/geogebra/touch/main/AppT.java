@@ -4,7 +4,7 @@ import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.DialogManager;
 import geogebra.html5.gui.History;
-import geogebra.html5.main.FileManager;
+import geogebra.html5.main.FileManagerI;
 import geogebra.html5.util.ArticleElement;
 import geogebra.touch.gui.DialogManagerT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -62,7 +62,7 @@ public class AppT extends AppWapplication {
 	 * @return FileManagerInterface
 	 */
 	@Override
-	public FileManager getFileManager() {
+	public FileManagerI getFileManager() {
 		return null;
 	}
 

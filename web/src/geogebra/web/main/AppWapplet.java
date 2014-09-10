@@ -13,7 +13,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.FileManager;
+import geogebra.html5.main.FileManagerI;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
@@ -559,7 +559,7 @@ public class AppWapplet extends AppW {
     }
 	
 	@Override
-    public FileManager getFileManager() {
+    public FileManagerI getFileManager() {
 		if (this.fm == null) {
 			this.fm = new FileManagerW(this);
 		}

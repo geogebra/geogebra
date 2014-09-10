@@ -1,18 +1,20 @@
-package geogebra.html5.main;
+package geogebra.web.main;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.html5.util.SaveCallback;
+import geogebra.html5.main.AppW;
+import geogebra.html5.main.FileManagerI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
+import geogebra.web.util.SaveCallback;
 
 import java.util.List;
 
-public abstract class FileManager {
+public abstract class FileManager implements FileManagerI{
 	protected AppW app;
 
 	public FileManager(AppW app) {

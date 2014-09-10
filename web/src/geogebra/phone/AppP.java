@@ -1,6 +1,6 @@
 package geogebra.phone;
 
-import geogebra.html5.main.FileManager;
+import geogebra.html5.main.FileManagerI;
 import geogebra.html5.util.ArticleElement;
 import geogebra.touch.main.AppT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -19,7 +19,7 @@ public class AppP extends AppT {
 	
 	
 	@Override
-    public FileManager getFileManager() {
+    public FileManagerI getFileManager() {
 		if (this.fm == null) {
 			this.fm = new FileManagerP(this);
 		}

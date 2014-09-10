@@ -9,10 +9,11 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.html5.util.SaveCallback;
 import geogebra.web.gui.browser.SignInButton;
+import geogebra.web.main.FileManager;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
+import geogebra.web.util.SaveCallback;
 
 import java.util.List;
 
@@ -159,7 +160,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	    	app.resetUniqueId();
 	    }
 	    app.getKernel().getConstruction().setTitle(this.title.getText());
-	    app.getFileManager().saveFile(this.saveCallback);
+	    ((FileManager)app.getFileManager()).saveFile(this.saveCallback);
 		hide();
     }
 

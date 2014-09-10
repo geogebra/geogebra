@@ -1,6 +1,6 @@
 package geogebra.tablet.main;
 
-import geogebra.html5.main.FileManager;
+import geogebra.html5.main.FileManagerI;
 import geogebra.html5.util.ArticleElement;
 import geogebra.tablet.TabletFileManager;
 import geogebra.tablet.gui.TabletGuiManager;
@@ -30,7 +30,7 @@ public class TabletApp extends AppT {
 	
 	
 	@Override
-    public FileManager getFileManager() {
+    public FileManagerI getFileManager() {
 		if (this.fm == null) {
 			this.fm = new TabletFileManager(this);
 		}

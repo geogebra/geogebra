@@ -5,11 +5,11 @@ import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
-import geogebra.html5.main.FileManager;
 import geogebra.html5.main.StringHandler;
-import geogebra.html5.util.SaveCallback;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.main.AppT;
+import geogebra.web.main.FileManager;
+import geogebra.web.util.SaveCallback;
 
 import com.google.gwt.core.client.Callback;
 import com.googlecode.gwtphonegap.client.PhoneGap;
