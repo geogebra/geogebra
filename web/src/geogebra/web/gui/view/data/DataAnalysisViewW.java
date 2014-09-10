@@ -766,8 +766,8 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 
 	}
 
-	public void suggestRepaint() {
-		// only used in web for now
+	public boolean suggestRepaint() {
+		return false;
 	}
 
 	public DataAnalysisModel getModel() {

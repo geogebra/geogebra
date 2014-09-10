@@ -3775,4 +3775,9 @@ public abstract class App implements UpdateSelection{
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void ensureTimerRunning() {
+		//only for Web
+		
+	}
 }

@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.algebra;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
@@ -102,9 +103,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	/**
 	 * timer system suggests a repaint
 	 */
-	public void suggestRepaint(){
+	public boolean suggestRepaint(){
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
-			return;
+			return false;
 		}
 
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
@@ -112,15 +113,17 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				doRepaint();	
 				waitForRepaint = TimerSystemW.SLEEPING_FLAG;	
 			}
-			return;
+			return true;
 		}
 		
 		waitForRepaint--;
+		return true;
 	}
 	
 	
 
 	public final void repaintView() {
+		app.ensureTimerRunning();
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
     		waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
     	}

@@ -1168,8 +1168,9 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 
 	}
 
-	public void suggestRepaint() {
-		// only used in web for now
+	public boolean suggestRepaint() {
+		return false;
+		// only for web
 	}
 
 	@Override

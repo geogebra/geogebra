@@ -942,7 +942,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		updateGUI();
 	}
 	
-	public void suggestRepaint(){
-		// not used for this view
+	public boolean suggestRepaint(){
+		return false;
 	}
 }

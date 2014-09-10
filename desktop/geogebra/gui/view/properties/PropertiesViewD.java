@@ -1040,8 +1040,9 @@ public class PropertiesViewD extends
 		setOptionPanel(type);
 	}
 
-	public void suggestRepaint() {
-		// only used in web for now
+	public boolean suggestRepaint() {
+		return false;
+		// only for web
 	}
 
 }

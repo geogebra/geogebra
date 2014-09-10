@@ -208,7 +208,8 @@ public class EventDispatcher implements ClientView {
 		dispatchEvent(EventType.PASTE_ELMS_COMPLETE, null);		
 	}
 	
-	public void suggestRepaint(){
+	public boolean suggestRepaint(){
+		return false;
 		// not used for this view
 	}
 

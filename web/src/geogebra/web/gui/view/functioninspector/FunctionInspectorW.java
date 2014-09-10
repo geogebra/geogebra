@@ -685,8 +685,8 @@ public class FunctionInspectorW extends FunctionInspector {
 		return mainPanel;
 	}
 
-	public void suggestRepaint() {
-		// not used for this view
+	public boolean suggestRepaint() {
+		return false;
 	}
 
 }

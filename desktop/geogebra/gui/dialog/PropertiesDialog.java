@@ -561,8 +561,9 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 		}
 
-		public void suggestRepaint() {
-			// only used in web for now
+		public boolean suggestRepaint() {
+			return false;
+			// only for web
 		}
 
 		public void setLabels() {

@@ -19,24 +19,22 @@ import javax.swing.JScrollPane;
 
 /**
  * @author Christoph Reinisch
- *
+ * 
  */
 public class AssignmentView extends JPanel implements View, Gridable {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private Kernel kernel;
-	
+
 	public JScrollPane scrollPane;
 
 	public AssignmentView(final AppD app) {
 		super(new BorderLayout());
-		
+
 		this.app = app;
 		kernel = app.getKernel();
-		//data = new ConstructionTableData();
-		
-		
-		
+		// data = new ConstructionTableData();
+
 	}
 
 	public void attachView() {
@@ -45,57 +43,57 @@ public class AssignmentView extends JPanel implements View, Gridable {
 
 	public void detachView() {
 		kernel.detach(this);
-//		clearView();
+		// clearView();
 	}
 
 	public void add(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void remove(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void rename(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void update(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void repaintView() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void reset() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void clearView() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public int getViewID() {
@@ -134,17 +132,17 @@ public class AssignmentView extends JPanel implements View, Gridable {
 
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	public void suggestRepaint(){
-		// only used in web for now
+
+	public boolean suggestRepaint() {
+		return false;
+		// only for web
 	}
-		
-	
+
 }

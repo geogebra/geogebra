@@ -167,7 +167,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		listener = cl;
 	}
 	
-	public void suggestRepaint(){
-		// not used for this view
+	public boolean suggestRepaint(){
+		//repaint not needed
+		return false;
 	}
 }

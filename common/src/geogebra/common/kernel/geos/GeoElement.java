@@ -975,7 +975,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
 
 		// adjust color triple to alternate color spaces, default to RGB
-		switch (colorSpace) {
+		switch (this.colorSpace) {
 
 		case GeoElement.COLORSPACE_HSB:
 

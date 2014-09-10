@@ -399,8 +399,8 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
     	}
     }
     
-	public void suggestRepaint(){
-		// not used for this view
+	public boolean suggestRepaint(){
+		return false;
 	}
 
 }

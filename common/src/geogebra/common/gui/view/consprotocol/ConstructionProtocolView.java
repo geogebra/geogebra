@@ -364,7 +364,8 @@ public class ConstructionProtocolView {
 			
 		}
 		
-		public void suggestRepaint(){
+		public boolean suggestRepaint(){
+			return false;
 			// not used for this view
 		}
 		

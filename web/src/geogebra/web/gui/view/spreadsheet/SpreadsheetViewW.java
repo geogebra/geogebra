@@ -1440,6 +1440,7 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	public final void repaint() {
 
     	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+    		getApplication().ensureTimerRunning();
     		waitForRepaint = TimerSystemW.SPREADSHEET_LOOPS;
     	}
 	}
@@ -1451,9 +1452,9 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	/**
 	 * timer system suggests a repaint
 	 */
-	public void suggestRepaint(){
+	public boolean suggestRepaint(){
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
-			return;
+			return false;
 		}
 
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
@@ -1461,10 +1462,11 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 				doRepaint();	
 				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 			}
-			return;
+			return true;
 		}
 		
 		waitForRepaint--;
+		return true;
 	}
 
 

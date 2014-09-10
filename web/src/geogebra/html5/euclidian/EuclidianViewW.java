@@ -398,6 +398,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
     	}
 
     	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+    		getApplication().ensureTimerRunning();
     		waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
     	}
     }
@@ -414,11 +415,11 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	/**
 	 * timer system suggests a repaint
 	 */
-	public void suggestRepaint(){
+	public boolean suggestRepaint(){
 				
 				
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
-			return;
+			return false;
 		}
 
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
@@ -426,10 +427,11 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 				doRepaint();
 				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 			}
-			return;
+			return true;
 		}
 		
 		waitForRepaint--;
+		return true;
 	}
 	
 

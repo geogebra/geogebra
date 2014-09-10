@@ -3253,12 +3253,14 @@ public class Kernel {
 	}
 	
 	
-	public final void notifySuggestRepaint() {
+	public final boolean notifySuggestRepaint() {
+		boolean needed = false;
 		if (notifyViewsActive) {
 			for (View view : views) {
-				view.suggestRepaint();
+				needed = view.suggestRepaint() || needed;
 			}
 		}
+		return needed;
 	}
 
 	final public void notifyReset() {
@@ -3524,6 +3526,7 @@ public class Kernel {
 					view.remove(geo);
 				}
 			}
+			
 		}
 
 		notifyRenameListenerAlgos();
@@ -3569,7 +3572,7 @@ public class Kernel {
 					view.update(geo);
 				}
 			}
-		}	
+		}
 
 //		App.printStacktrace("notifyUpdate " + geo);
 	}

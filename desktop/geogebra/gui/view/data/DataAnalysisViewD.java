@@ -707,8 +707,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	}
 
-	public void suggestRepaint() {
-		// only used in web for now
+	public boolean suggestRepaint() {
+		return false;
+		// only for web
 	}
 
 	public DataAnalysisModel getModel() {

@@ -2715,4 +2715,9 @@ public static final String LOCALE_PARAMETER = "locale";
 			stopCollectingRepaints();
 		}
 		
+		public void ensureTimerRunning() {
+			this.getTimerSystem().ensureRunning();
+			
+		}
+		
 }

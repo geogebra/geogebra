@@ -32,7 +32,7 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 		super(app, rows, columns);
 		defaultTableModel = new DefaultTableModel(rows, columns);
 		attachView();
-		isIniting=false;
+		isIniting = false;
 	}
 
 	/**
@@ -86,17 +86,17 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 	}
 
 	public void repaint() {
-	    App.debug("unimplemented");
+		App.debug("unimplemented");
 	}
 
 	public boolean isShowing() {
-	    App.debug("unimplemented");
+		App.debug("unimplemented");
 		return false;
 	}
-	
-	
-	public void suggestRepaint(){
-		// only used in web for now
+
+	public boolean suggestRepaint() {
+		return false;
+		// only for web
 	}
 
 }

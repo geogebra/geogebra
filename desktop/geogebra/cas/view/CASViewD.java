@@ -38,42 +38,44 @@ import javax.swing.event.ListSelectionListener;
  */
 public class CASViewD extends CASView implements Gridable {
 
-	
 	private JComponent component;
-	
+
 	private CASTableD consoleTable;
-	
+
 	private CASSubDialogD subDialog;
 	private ListSelectionModel listSelModel;
 
 	final private AppD app;
 	final private RowHeaderD rowHeader;
-	
+
 	/** stylebar */
 	CASStyleBar styleBar;
-	
+
 	/**
 	 * Component representing this view
+	 * 
 	 * @author Zbynek Konecny
 	 */
-	class CASComponent extends JComponent{
+	class CASComponent extends JComponent {
 		private static final long serialVersionUID = 1L;
 	}
 
 	/**
 	 * Creates new CAS view
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
-	public CASViewD(final AppD app) { 
+	public CASViewD(final AppD app) {
 		component = new CASComponent();
 		kernel = app.getKernel();
 		this.app = app;
-		listSelModel = new DefaultListSelectionModel();	
-		getCAS();	
+		listSelModel = new DefaultListSelectionModel();
+		getCAS();
 
 		// init commands subtable for cas-commands in inputbar-help
 		kernel.getAlgebraProcessor().enableCAS();
-		
+
 		// CAS input/output cells
 		createCASTable();
 		// row header
@@ -98,10 +100,11 @@ public class CASViewD extends CASView implements Gridable {
 		// put the scrollpanel in
 		component.setLayout(new BorderLayout());
 		component.add(scrollPane, BorderLayout.CENTER);
-		
+
 		component.setBackground(Color.white);
 
-		getConsoleTable().getSelectionModel().addListSelectionListener(selectionListener());
+		getConsoleTable().getSelectionModel().addListSelectionListener(
+				selectionListener());
 
 		// listen to clicks below last row in consoleTable: create new row
 		scrollPane.addMouseListener(scrollPaneListener());
@@ -109,16 +112,17 @@ public class CASViewD extends CASView implements Gridable {
 		casInputHandler = new CASInputHandler(this);
 
 		// addFocusListener(this);
-		
-		
-		//Create new DragGestureListener and enable Drag
-		CASDragGestureListener dragGestListener = new CASDragGestureListener(kernel , consoleTable);
+
+		// Create new DragGestureListener and enable Drag
+		CASDragGestureListener dragGestListener = new CASDragGestureListener(
+				kernel, consoleTable);
 		dragGestListener.enableDnD();
-		
-		//Create new CASDropTargetListener and enable Drop
-		CASDropTargetListener dropTargetListener = new CASDropTargetListener(app, this,  consoleTable);
+
+		// Create new CASDropTargetListener and enable Drop
+		CASDropTargetListener dropTargetListener = new CASDropTargetListener(
+				app, this, consoleTable);
 		dropTargetListener.enableDnD();
-		
+
 		updateFonts();
 
 		Thread initCAS = new Thread() {
@@ -129,12 +133,12 @@ public class CASViewD extends CASView implements Gridable {
 				if (gm != null && gm.hasInputHelpPanel()) {
 					gm.reInitHelpPanel();
 				}
-				
+
 			}
 		};
 		initCAS.start();
 	}
-	
+
 	private ListSelectionListener selectionListener() {
 		return new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -147,8 +151,8 @@ public class CASViewD extends CASView implements Gridable {
 					// update list of selected objects in the stylebar
 					ArrayList<GeoElement> targetCells = new ArrayList<GeoElement>();
 					for (int i = 0; i < getConsoleTable().getRowCount(); i++)
-						targetCells.add(getConsoleTable()
-								.getGeoCasCell(selRows[0]));
+						targetCells.add(getConsoleTable().getGeoCasCell(
+								selRows[0]));
 					if (styleBar != null) {
 						styleBar.setSelectedRows(targetCells);
 					}
@@ -173,13 +177,15 @@ public class CASViewD extends CASView implements Gridable {
 						// undoNeeded = true;
 					} else {
 						getConsoleTable().stopEditing();
-						GeoCasCell cellValue = getConsoleTable()
-								.getGeoCasCell(rows - 1);
-						if (!cellValue.isInputEmpty() && cellValue.isOutputEmpty()) {
+						GeoCasCell cellValue = getConsoleTable().getGeoCasCell(
+								rows - 1);
+						if (!cellValue.isInputEmpty()
+								&& cellValue.isOutputEmpty()) {
 							getConsoleTable().startEditingRow(rows - 1);
 							processInput("Evaluate");
 							ensureOneEmptyRow();
-							getConsoleTable().startEditingRow(getRowCount() - 1);
+							getConsoleTable()
+									.startEditingRow(getRowCount() - 1);
 						} else {
 							insertRow(null, true);
 							// undoNeeded = true;
@@ -196,13 +202,14 @@ public class CASViewD extends CASView implements Gridable {
 	}
 
 	@Override
-	public void showSubstituteDialog(final String prefix, final String evalText,
-			final String postfix, final int selRow) {
+	public void showSubstituteDialog(final String prefix,
+			final String evalText, final String postfix, final int selRow) {
 		if (subDialog != null && subDialog.isShowing())
 			return;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix, evalText, postfix, selRow);
+				CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix,
+						evalText, postfix, selRow);
 				d.setAlwaysOnTop(true);
 				d.setVisible(true);
 				setSubstituteDialog(d);
@@ -212,20 +219,21 @@ public class CASViewD extends CASView implements Gridable {
 
 	/**
 	 * Make sure this view knows whether substitute dialog is open
-	 * @param d substitute dialog; null to "close"
+	 * 
+	 * @param d
+	 *            substitute dialog; null to "close"
 	 */
 	public void setSubstituteDialog(CASSubDialogD d) {
 		subDialog = d;
 	}
 
-
-
 	/**
 	 * Updates GUI fonts
 	 */
 	public void updateFonts() {
-		
-		if (component.getFont() != null && app.getGUIFontSize() == component.getFont().getSize())
+
+		if (component.getFont() != null
+				&& app.getGUIFontSize() == component.getFont().getSize())
 			return;
 
 		component.setFont(app.getPlainFont());
@@ -238,8 +246,10 @@ public class CASViewD extends CASView implements Gridable {
 		consoleTable = new CASTableD(this);
 
 		CASTableCellController inputListener = new CASTableCellController(this);
-		getConsoleTable().getEditor().getInputArea().addKeyListener(inputListener);
-		getConsoleTable().getEditor().getInputArea().addMouseListener(inputListener);
+		getConsoleTable().getEditor().getInputArea()
+				.addKeyListener(inputListener);
+		getConsoleTable().getEditor().getInputArea()
+				.addMouseListener(inputListener);
 	}
 
 	@Override
@@ -247,9 +257,9 @@ public class CASViewD extends CASView implements Gridable {
 		return consoleTable;
 	}
 
-
 	/**
 	 * Component representation of this view
+	 * 
 	 * @return reference to self
 	 */
 	public JComponent getCASViewComponent() {
@@ -270,7 +280,6 @@ public class CASViewD extends CASView implements Gridable {
 	public AppD getApp() {
 		return app;
 	}
-	
 
 	public void repaintView() {
 		component.repaint();
@@ -292,14 +301,15 @@ public class CASViewD extends CASView implements Gridable {
 		}
 		return heights;
 	}
-	
 
 	public Component[][] getPrintComponents() {
 		return new Component[][] { { rowHeader, consoleTable } };
 	}
 
 	/**
-	 * Returns stylebar for this view; if not initialized so far, creates new one
+	 * Returns stylebar for this view; if not initialized so far, creates new
+	 * one
+	 * 
 	 * @return style bar
 	 */
 	public CASStyleBar getCASStyleBar() {
@@ -317,7 +327,7 @@ public class CASViewD extends CASView implements Gridable {
 	}
 
 	public boolean hasFocus() {
-	    App.debug("unimplemented");
+		App.debug("unimplemented");
 		return false;
 	}
 
@@ -328,15 +338,16 @@ public class CASViewD extends CASView implements Gridable {
 		App.debug("unimplemented");
 		return false;
 	}
-	
+
 	/**
 	 * @return this casView
 	 */
 	public CASViewD getCASViewD() {
 		return this;
 	}
-	
-	public void suggestRepaint(){
-		// only used in web for now
+
+	public boolean suggestRepaint() {
+		return false;
+		// only used in web
 	}
 }

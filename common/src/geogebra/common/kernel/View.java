@@ -56,7 +56,7 @@ public interface View {
 	/**
 	 * Suggest repaint now
 	 */
-	public void suggestRepaint();
+	public boolean suggestRepaint();
 	
 	/**
 	 * Resets the view

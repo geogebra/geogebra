@@ -968,7 +968,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		return wrapperPanel;
 	}
 
-	public void suggestRepaint() {
-		// only used in web for now
+	public boolean suggestRepaint() {
+		return false;
+		// only for web
 	}
 }

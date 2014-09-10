@@ -32,14 +32,23 @@ public class TimerSystemW {
 
 	private Timer repaintTimer;
 
+	private int idle;
+
 
 	public TimerSystemW(AppW app) {
 		this.app = app;
+		this.idle = 0;
 		
 		repaintTimer = new Timer() {
 			@Override
             public void run() {
-				suggestRepaint();
+				if(!suggestRepaint()){
+					idle++;
+				}
+				if(idle > 30){
+					idle = 0;
+					this.cancel();
+				}
 			}
 		};
 		
@@ -50,9 +59,16 @@ public class TimerSystemW {
 	/**
 	 * suggests views to repaint
 	 */
-	void suggestRepaint(){
-		app.getKernel().notifySuggestRepaint();	
+	boolean suggestRepaint(){
+		return app.getKernel().notifySuggestRepaint();	
 	}
+
+
+	public void ensureRunning() {
+	    if(!this.repaintTimer.isRunning()){
+	    	repaintTimer.scheduleRepeating(MAIN_LOOP_DELAY);
+	    }
+    }
 	
 //	static public long loopsNeeded(long delay){
 //		return delay/MAIN_LOOP_DELAY;

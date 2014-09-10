@@ -849,7 +849,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 		super.changedNumberFormat();
 	}
 
-	public void suggestRepaint() {
-		// only used in web for now
+	public boolean suggestRepaint() {
+		return false;
+		// only for web
 	}
 }
