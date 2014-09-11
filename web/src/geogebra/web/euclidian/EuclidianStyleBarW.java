@@ -1337,7 +1337,6 @@ public class EuclidianStyleBarW extends StyleBarW
 	    	needUndo = false;
 	    }
 
-	    updateGUI();
     }
 
 	static boolean checkGeoText(Object[] geos) {

@@ -1491,7 +1491,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			needUndo = false;
 		}
 
-		updateGUI();
 	}
 
 	/**

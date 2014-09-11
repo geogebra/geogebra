@@ -3840,7 +3840,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		super.settingsChanged(settings);
+		
+		companion.settingsChanged(settings);
 		
 		EuclidianSettings3D evs = (EuclidianSettings3D) settings;
 		
@@ -3857,5 +3858,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		updateMatrix();
 		setViewChanged();
 		setWaitForUpdate();	
+		
+		if (styleBar != null){
+			styleBar.updateGUI();
+		}
 	}
 }

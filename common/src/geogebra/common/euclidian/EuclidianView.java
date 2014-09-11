@@ -3837,7 +3837,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 *            settings
 	 */
 	public void settingsChanged(AbstractSettings settings) {
+		
 		companion.settingsChanged(settings);
+		
+		if (styleBar != null){
+			styleBar.updateGUI();
+		}
+		
 	}
 	
 	public EuclidianSettings getSettings(){
