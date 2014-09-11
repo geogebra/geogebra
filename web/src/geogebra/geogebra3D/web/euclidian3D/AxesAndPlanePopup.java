@@ -51,9 +51,8 @@ public class AxesAndPlanePopup extends PopupMenuButton {
 	 */
 	public void setEVFromIndex(){
 		int index = getSelectedIndex();
-		ev.setShowAxes(index % 2 == 1, false);
-		ev.setShowPlane(index >= 2);
-		ev.repaintView();
+		ev.getSettings().setShowAxes(index % 2 == 1);
+		ev.getSettings().setShowPlate(index >= 2);
 	}
 	
 	@Override
