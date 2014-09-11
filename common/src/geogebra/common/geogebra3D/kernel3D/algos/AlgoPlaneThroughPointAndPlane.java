@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -72,10 +73,13 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
  
 		
 		coordsys.makeOrthoMatrix(true,false);
-		
+
 		// notice that coordsys.getEquationVector() W value is ignored
-		coordsys.setEquationVector(o, inputCS.getEquationVector());
-		
+		if (cs instanceof GeoPlane3D){
+			coordsys.setEquationVector(o, inputCS.getEquationVector());
+		}else{
+			coordsys.setEquationVector(o, inputCS.getVz());
+		}
 
         
     }
