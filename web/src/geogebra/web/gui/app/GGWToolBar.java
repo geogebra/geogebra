@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
 
 public class GGWToolBar extends Composite implements RequiresResize{
 
@@ -214,11 +213,10 @@ public class GGWToolBar extends Composite implements RequiresResize{
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
-//		toolBarPanel.clear();
 		toolBPanel.clear();
-		for(Widget toolbar : toolbars) {
+		for(ToolBarW toolbar : toolbars) {
 			if(toolbar != null) {
-				((ToolBarW)toolbar).buildGui();
+				toolbar.buildGui();
 				//TODO
 				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
 				toolBPanel.add(toolbar);

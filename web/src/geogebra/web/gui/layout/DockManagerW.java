@@ -111,7 +111,8 @@ public class DockManagerW extends DockManager {
 	 * remove panel for the dock panels list
 	 * @param dockPanel panel
 	 */
-	public void unRegisterPanel(DockPanel dockPanel) {
+	@Override
+    public void unRegisterPanel(DockPanel dockPanel) {
 		dockPanels.remove(dockPanel);
 	}
 	
@@ -272,9 +273,9 @@ public class DockManagerW extends DockManager {
 					currentParent = rootPane;
 				}
 				else if(directions[directions.length - 1].equals("0") || directions[directions.length - 1].equals("3")) {
-					currentParent.setLeftComponentCheckEmpty((Widget) panel);
+					currentParent.setLeftComponentCheckEmpty(panel);
 				} else {
-					currentParent.setRightComponentCheckEmpty((Widget) panel);
+					currentParent.setRightComponentCheckEmpty(panel);
 				}
 
 				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
@@ -632,7 +633,8 @@ public class DockManagerW extends DockManager {
 		final double dividerLoc = dividerLocation;
 		final DockSplitPaneW sp = splitPane;
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			public void execute() {
+			@Override
+            public void execute() {
 				sp.setDividerLocation(dividerLoc);
 				rootPane.deferredOnResize();
 			}
@@ -739,9 +741,9 @@ public class DockManagerW extends DockManager {
 				if(!(component instanceof DockSplitPaneW)) {
 					secondLastPos = locations[i];
 					break;
-				} else {
-					currentPane = (DockSplitPaneW)component;
-				}
+				} 
+				// else
+				currentPane = (DockSplitPaneW)component;
 			}
 	
 			int size = panel.getEmbeddedSize();
@@ -819,11 +821,11 @@ public class DockManagerW extends DockManager {
 			}
 			
 			if(lastPos == 0 || lastPos == 3) {
-				newSplitPane.setLeftComponent((Widget) panel);
+				newSplitPane.setLeftComponent(panel);
 				newSplitPane.setRightComponent(opposite);
 			} else {
 				newSplitPane.setLeftComponent(opposite);
-				newSplitPane.setRightComponent((Widget) panel);
+				newSplitPane.setRightComponent(panel);
 			}
 			
 			if(!app.isIniting())
@@ -1013,7 +1015,7 @@ public class DockManagerW extends DockManager {
 				if(opposite instanceof DockSplitPaneW) {
 					rootPane = (DockSplitPaneW) opposite;
 				} else {
-					parent.replaceComponent((Widget) panel, null);
+					parent.replaceComponent(panel, null);
 				}
 				app.updateCenterPanel(true);
 			} else {
@@ -1074,17 +1076,18 @@ public class DockManagerW extends DockManager {
 	 * set active toolbar to default
 	 */
 	private void setActiveToolBarDefault(){
-		// let it be Graphics view 1 until settled
-		if (app.getEuclidianView1().isShowing())
+		// show CAS-toolbar in CAS-perspective (same for Spreadsheet)
+		// in the other perspectives use Euclidian-toolbar (if available)
+		if (app.getGuiManager().hasCasView() && getPanel(App.VIEW_CAS) != null && getPanel(App.VIEW_CAS).isVisible())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
+		else if (app.getGuiManager().hasSpreadsheetView() && getPanel(App.VIEW_SPREADSHEET) != null && getPanel(App.VIEW_SPREADSHEET).isVisible())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_SPREADSHEET);
+		else if (app.getEuclidianView1().isShowing())
 			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		else if (app.hasEuclidianView2(1) && app.getEuclidianView2(1).isShowing())
 			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN2);
 		else if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D))
 			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
-		else if (app.getGuiManager().hasCasView() && app.getGuiManager().getCasView().isShowing())
-			app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
-		//else if (app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().isShowing())
-		//	app.getGuiManager().setActiveToolbarId(App.VIEW_SPREADSHEET);
 		// what else can it be??
 		else if (app.getGuiManager().hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing())
 			app.getGuiManager().setActiveToolbarId(App.VIEW_ALGEBRA);
@@ -1216,15 +1219,17 @@ public class DockManagerW extends DockManager {
 	 * @return true if focus was changed, false if the requested dock panel does 
 	 * 			not exist or is invisible at the moment  
 	 */
-	public boolean setFocusedPanel(int viewId) {
+	@Override
+    public boolean setFocusedPanel(int viewId) {
 		DockPanelW dockPanel = getPanel(viewId);
 		
 		if(dockPanel != null && dockPanel.isVisible()) {
 			setFocusedPanel(dockPanel);
 			return true;
-		} else {
-			return false;
 		}
+
+		// else
+		return false;
 	}
 	
 	/**
@@ -1250,7 +1255,8 @@ public class DockManagerW extends DockManager {
 	/**
 	 * @return The dock euclidian panel which had focus the last.
 	 */
-	public EuclidianDockPanelWAbstract getFocusedEuclidianPanel() {
+	@Override
+    public EuclidianDockPanelWAbstract getFocusedEuclidianPanel() {
 		return focusedEuclidianDockPanel;
 	}	
 	
@@ -1319,11 +1325,10 @@ public class DockManagerW extends DockManager {
 					}
 					
 					// change panel
-					else {
-						setFocusedPanel(panel);
-						changedFocus = true;
-						break;
-					}
+					// else
+					setFocusedPanel(panel);
+					changedFocus = true;
+					break;
 				}
 			}
 		}
@@ -1379,31 +1384,35 @@ public class DockManagerW extends DockManager {
 	private Iterator<DockPanelW> getForwardBackwardIterator(boolean forward) {
 		if(forward) {	
 			return dockPanels.iterator();
-		} else {
-			final ListIterator<DockPanelW> original = dockPanels.listIterator(dockPanels.size());
-			
-			// we create our own iterator which iterates through our list in
-			// reversed order
-			return new Iterator<DockPanelW>() {
-				public void remove() {
-					original.remove();
-				}
-				
-				public DockPanelW next() {
-					return original.previous();
-				}
-				
-				public boolean hasNext() {
-					return original.hasPrevious();
-				}
-			};
 		}
+
+		final ListIterator<DockPanelW> original = dockPanels.listIterator(dockPanels.size());
+
+		// we create our own iterator which iterates through our list in
+		// reversed order
+		return new Iterator<DockPanelW>() {
+			@Override
+            public void remove() {
+				original.remove();
+			}
+
+			@Override
+            public DockPanelW next() {
+				return original.previous();
+			}
+
+			@Override
+            public boolean hasNext() {
+				return original.hasPrevious();
+			}
+		};
 	}
-	
+
 	/**
 	 * Update the labels of all DockPanels.
 	 */
-	public void setLabels() {
+	@Override
+    public void setLabels() {
 		for(DockPanelW panel : dockPanels) {
 			panel.updateLabels();
 		}
@@ -1427,9 +1436,9 @@ public class DockManagerW extends DockManager {
 	 * document.
 	 */
 	public void updateTitles() {
-		for(DockPanel panel : dockPanels) {
+//		for(DockPanel panel : dockPanels) {
 			//panel.updateTitle();
-		}
+//		}
 	}
 	
 	/**
@@ -1451,9 +1460,9 @@ public class DockManagerW extends DockManager {
 	 * @param mode
 	 */
 	public void setToolbarMode(int mode) {
-		for(DockPanelW panel : dockPanels) {
+//		for(DockPanelW panel : dockPanels) {
 		//	panel.setToolbarMode(mode);
-		}
+//		}
 	}
 	
 	/**
@@ -1539,7 +1548,8 @@ public class DockManagerW extends DockManager {
 	 * @param viewId
 	 * @return The panel associated to the viewId
 	 */
-	public DockPanelW getPanel(int viewId)
+	@Override
+    public DockPanelW getPanel(int viewId)
 	{
 		DockPanelW panel = null;
 		for(DockPanelW dockPanel : dockPanels) {
@@ -1560,7 +1570,7 @@ public class DockManagerW extends DockManager {
 	 * @return All dock panels
 	 */
 	public DockPanelW[] getPanels() {
-		return (DockPanelW[])dockPanels.toArray(new DockPanelW[0]);
+		return dockPanels.toArray(new DockPanelW[0]);
 	}
 	
 	/**
@@ -1707,7 +1717,8 @@ public class DockManagerW extends DockManager {
 		}
     }
 
-	public void resizePanels() {
+	@Override
+    public void resizePanels() {
 		for (int i = 0; i < getPanels().length; i++) {
 			getPanels()[i].onResize();
 		}

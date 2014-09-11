@@ -9639,7 +9639,7 @@ public abstract class EuclidianController {
 	 * factor by which hit-threshold is increased while dragging for 
 	 * attachDetach (while the point is attached to a Path or Region)
 	 */
-	private static final int INCREASED_THRESHOLD_FACTOR = 3;
+	private static final int INCREASED_THRESHOLD_FACTOR = 2;
 	protected Object detachFrom;
 	private boolean needsAttach = false;
 
