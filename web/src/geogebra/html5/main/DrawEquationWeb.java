@@ -607,7 +607,6 @@ public class DrawEquationWeb extends DrawEquation {
 			//$doc.addEventListener('readystatechange', function() {
 			//	if ($doc.readyState === 'complete' ||
 			//		$doc.readyState === 'loaded') {
-			//		$wnd.console.log('Doesnt run in Chrome');
 			//		$wnd.$ggbQuery(elsecond).mathquillggb('latex', htmlt);
 			//	}
 			//}, false);

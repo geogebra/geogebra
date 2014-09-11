@@ -7,6 +7,7 @@ import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.views.BaseEventView;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppW;
 import geogebra.html5.move.googledrive.GoogleDriveOperation;
 import geogebra.html5.util.DynamicScriptElement;
@@ -105,7 +106,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 			$wnd.gapi.load('auth', {'callback': function() {
 		     
 	        }});
-	        $wnd.gapi.load('picker', {'callback': function(){$wnd.console.log("picker loaded");}});
+	        $wnd.gapi.load('picker', {'callback': function(){@geogebra.common.main.App::debug(Ljava/lang/String;)("picker loaded");}});
 	        
 	        if($wnd.gapi.client){
 			    $wnd.gapi.client.load('drive', 'v2', function() {
@@ -267,7 +268,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		}
 		retrieveAllFiles(function(resp) {
 			resp.forEach(function(value, index, array) {
-				//$wnd.console.log(value.mimeType + " : " + value.title + " : " + value.fileExtension);
 				if (value.mimeType === "application/vnd.geogebra.file" ||
 							value.fileExtension === "ggb" ||
 								(value.title.lastIndexOf(".ggb") > -1)) {
@@ -423,7 +423,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 				.replace("+", "-").replace("/", "_"));
 		JSON.put(thumbnail, "mimeType" , "image/png" );
 		JSON.putObject(metaData, "thumbnail" , thumbnail);
-		AppW.debug(metaData);
+		Log.debug(metaData);
 		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent);		
     }
 	
@@ -482,7 +482,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		App.debug(state);
 		if (state != null && !"".equals(state)) {
 			googleDriveURL = JSON.parse(state);
-			AppW.debug(googleDriveURL);
+			Log.debug(googleDriveURL);
 			if(!this.loggedIn){
 				login(true);
 			}

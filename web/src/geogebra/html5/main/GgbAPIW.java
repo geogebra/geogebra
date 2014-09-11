@@ -124,17 +124,6 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 		((GeoImage)ge).clearFillImage();
     }
 
-    
-    
-    private native JavaScriptObject getDefaultBase64Callback() /*-{
-	return function(b){
-		if($wnd.console){
-			$wnd.console.log(b);
-		}
-		
-		}
-	}-*/;
-    
     public void getGGB(boolean includeThumbnail, JavaScriptObject callback) {
     	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	
@@ -397,9 +386,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 		
 			function init(callback, onerror) {
 				that.size = text.length;
-				$wnd.console.log("init");
 				callback();
-				$wnd.console.log("inited");
 			}
 		
 			function readUint8Array(index, length, callback, onerror) {

@@ -183,7 +183,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// check if app is running in IE5 or greater
 		// clipboardData object is available from IE5 and onwards
 		var userAgent = window.navigator.userAgent;
-		$wnd.console.log(userAgent);
 		if ((userAgent.indexOf('MSIE ') > -1) || (userAgent.indexOf('Trident/') > -1)) {
 			return true;
 		}
@@ -215,7 +214,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 	private static native void copyToSystemClipboardChromeWebapp(String value) /*-{
 		var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
 		copyFrom.value = value;
-		$wnd.console.log(value);
 		copyFrom.select();
 		$doc.execCommand('copy');
 	}-*/;

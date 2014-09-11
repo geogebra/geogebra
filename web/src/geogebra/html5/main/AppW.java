@@ -1337,7 +1337,6 @@ public static final String LOCALE_PARAMETER = "locale";
 										appl.@geogebra.html5.main.AppW::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
 									}
 
-									//console.log(fileToHandle.name);
 								} else {
 									// This would raise security exceptions later - see ticket #2301
 									//var gdat = dt.getData("URL");
@@ -2055,11 +2054,6 @@ public static final String LOCALE_PARAMETER = "locale";
 		public void createNewWindow() {
 			// TODO implement it ?
 		}
-		
-
-		public static native void debug(JavaScriptObject j) /*-{
-			$wnd.console.log(j);
-		}-*/;
 
 		public boolean menubarRestricted() {
 			return true;

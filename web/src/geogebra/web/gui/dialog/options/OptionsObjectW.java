@@ -2426,7 +2426,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				el.setAttribute("accept", "image/*");
 				el.onchange = function(event) {
 					var files = this.files;
-					console.log(files);
 					if (files.length) {
 						var fileTypes = /^image.*$/;
 						for (var i = 0, j = files.length; i < j; ++i) {
@@ -2449,20 +2448,17 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}
 			public native boolean openFileAsImage(JavaScriptObject fileToHandle,
 					JavaScriptObject callback) /*-{
-				console.log("openFileAsImage begin");
 
 				var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
 				if (!fileToHandle.name.toLowerCase().match(imageRegEx))
 					return false;
 
-				console.log("openFileAsImage");
 				var appl = this;
 				var reader = new FileReader();
 				reader.onloadend = function(ev) {
 					if (reader.readyState === reader.DONE) {
 						var fileData = reader.result;
 						var fileName = fileToHandle.name;
-						$wnd.console.log(fileData, fileName);
 						appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel.MyImageFileInputDialog::applyImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
 						if (callback != null){
 							callback();

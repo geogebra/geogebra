@@ -7,6 +7,7 @@ import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.js.JavaScriptInjector;
 
@@ -91,7 +92,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 			return "?";
 		}
 		if (!giacSetToGeoGebraMode) {
-			nativeEvaluateRaw(initString, true);
+			nativeEvaluateRaw(initString, Log.logger != null);
 			giacSetToGeoGebraMode = true;
 		}
 		
