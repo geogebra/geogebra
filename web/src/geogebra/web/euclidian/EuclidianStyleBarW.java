@@ -1558,4 +1558,8 @@ public class EuclidianStyleBarW extends StyleBarW
 			EuclidianStyleBarW.CURRENT_POP_UP.hide();
 		}
     }
+	
+	public void resetFirstPaint(){
+		// TODO ?
+	}
 }

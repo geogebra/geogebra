@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.gui.layout.DockPanel;
 
@@ -80,5 +81,12 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements ge
 	public boolean updateResizeWeight(){
 		return true;
 	}
+	
 
+	@Override
+	protected void setStyleBar() {
+		super.setStyleBar();
+		((EuclidianStyleBar) styleBar).resetFirstPaint();
+	}
+	
 }

@@ -54,4 +54,9 @@ public interface EuclidianStyleBar {
 	public void updateGUI();
 
 	void hidePopups();
+	
+	/**
+	 * reset "first paint", so that on first paint the GUI will be updated
+	 */
+	public void resetFirstPaint();
 }

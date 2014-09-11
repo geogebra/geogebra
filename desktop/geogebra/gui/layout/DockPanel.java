@@ -112,7 +112,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * Style bar component.
 	 */
-	private JComponent styleBar;
+	protected JComponent styleBar;
 
 	/**
 	 * Panel to contain a toggle button within the stylebar panel.
@@ -1014,7 +1014,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	}
 
 	/** loads the styleBar and puts it into the stylBarPanel */
-	private void setStyleBar() {
+	protected void setStyleBar() {
 		if (styleBar == null) {
 			styleBar = loadStyleBar();
 			styleBarPanel.add(styleBar, BorderLayout.CENTER);

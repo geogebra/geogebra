@@ -35,6 +35,7 @@ import geogebra.main.LocalizationD;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -201,6 +202,25 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
+		
+	}
+	
+	private boolean firstPaint = true;
+	
+
+	public void resetFirstPaint(){
+		firstPaint = true;
+	}
+	
+	@Override
+	public void paint(Graphics g){
+		
+		if (firstPaint){
+			firstPaint = false;
+			updateGUI();		
+		}
+		
+		super.paint(g);
 	}
 
 	/**
