@@ -1292,8 +1292,6 @@ public abstract class EuclidianController {
 	
 			}
 	
-			// Application.debug("maxLayer"+maxLayer);
-			// Application.debug("layerCount"+layerCount);
 	
 			// only one object in top layer, return it.
 			if (layerCount == 1) {
@@ -1355,10 +1353,7 @@ public abstract class EuclidianController {
 					}
 				}
 			}
-			// Application.debug("pointOnPathCount"+pointOnPathCount);
-			// Application.debug("freePointCount"+freePointCount);
-			// Application.debug("pointCount"+pointCount);
-	
+
 			// return point-on-path with highest index
 			if (pointOnPathCount > 0) {
 				return retPath;
@@ -1775,7 +1770,6 @@ public abstract class EuclidianController {
 	
 		// points needed
 		addSelectedPoint(hits, 2, false);
-		// Application.debug("addSelectedPoint : "+hits+"\nselectedPoints = "+selectedPoints);
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			return join();
@@ -1894,7 +1888,6 @@ public abstract class EuclidianController {
 		
 		if (polygonMode == POLYGON_VECTOR) {
 			addSelectedPolygon(hits, 1, false);
-			//AbstractApplication.debug(selGeos()+"");
 			if (selPolygons() == 1) {
 				GeoPolygon[] poly = getSelectedPolygons();
 				
@@ -1925,7 +1918,6 @@ public abstract class EuclidianController {
 			}
 		} else 	if (polygonMode == POLYGON_RIGID) {
 			addSelectedPolygon(hits, 1, false);
-			//AbstractApplication.debug(selGeos()+"");
 			if (selPolygons() == 1) {
 				GeoPolygon[] poly = getSelectedPolygons();
 								
@@ -2029,7 +2021,6 @@ public abstract class EuclidianController {
 
 	protected GeoElement[] intersect(Hits intersectHits) {
 			
-		// Application.debug(selectedLines);
 		Hits hits = intersectHits;
 		// obscure bug: intersection of x=0 and (x-1)^2+(y-1)^=1 can intersect
 		// x=0 and y axis sometimes
@@ -3634,9 +3625,7 @@ public abstract class EuclidianController {
 													// (edge)
 				Path paths[] = getSelectedPaths();
 				GeoPointND[] points = getSelectedPointsND();
-	
-				// Application.debug("path: "+paths[0]+"\npoint: "+points[0]);
-	
+
 				if (((GeoElement) paths[0]).isChildOf((GeoElement) points[0])) {
 					return false;
 				}
@@ -4032,9 +4021,7 @@ public abstract class EuclidianController {
 				int oddOrEvenRow = (int) Math.round((2.0 * Math.abs(yRW
 						- Kernel.roundToScale(yRW, isoGrid)))
 						/ isoGrid);
-	
-				// Application.debug(oddOrEvenRow);
-	
+
 				if (oddOrEvenRow == 0) {
 					// X = (x, y) ... next grid point
 					double x = Kernel
@@ -4676,9 +4663,7 @@ public abstract class EuclidianController {
 						&& !hits.isEmpty()) {
 					hits.keepOnlyHitsForNewPointMode();
 				}
-			
-				// Application.debug(hits);
-			
+
 				Path path = null;
 				Region region = null;
 				boolean createPoint = true;
@@ -4712,9 +4697,7 @@ public abstract class EuclidianController {
 						}
 					}
 				}
-			
-				// Application.debug(hits+"\ncreatePoint="+createPoint+"\ninRegionPossible="+inRegionPossible+"\nchooseGeo="+chooseGeo);
-			
+
 				// check for paths and regions
 				if (createPoint) {
 			
@@ -4857,10 +4840,7 @@ public abstract class EuclidianController {
 						}
 					}
 				}
-			
-				//App.debug(region+"\n"+hits);
-				// Application.debug("createPoint 3 = "+createPoint);
-			
+
 				if (createPoint) {
 					transformCoords(); // use point capturing if on
 					// branches reordered to prefer path, and then region
@@ -5000,10 +4980,7 @@ public abstract class EuclidianController {
 			// look ahead if we need a number or an angle next
 			readNumberOrAngleIfNeeded(callback3);
 		}
-	
-		// Application.debug("index: " + index + ", needed type: " +
-		// macroInput[index]);
-		
+
 		macroProcess(callback2);
 
 	}
@@ -6316,7 +6293,6 @@ public abstract class EuclidianController {
 		}
 		if (moveMode(mode)) { // label hit in move mode: block all other hits
 			if (geo != null) {
-				// Application.debug("hop");
 				noHighlighting = true;
 				tempArrayList.clear();
 				tempArrayList.add(geo);
@@ -6351,8 +6327,6 @@ public abstract class EuclidianController {
 		// for testing: save the full hits for later use
 		Hits tempFullHits = hits.clone();
 		
-		// Application.debug("tempFullHits="+tempFullHits);
-	
 		// set tool tip text
 		// the tooltips are only shown if algebra view is visible
 		// if (app.isUsingLayout() && app.getGuiManager().showAlgebraView()) {
@@ -6421,14 +6395,6 @@ public abstract class EuclidianController {
 			transformCoords();
 			repaintNeeded = true;
 		}
-	
-		// Application.debug(tempFullHits.getTopHits(2,10));
-		// manage highlighting & "snap to object"
-		// Application.debug("noHighlighting = "+noHighlighting);
-		// Application.debug("hits = "+hits.toString());
-		// repaintNeeded = noHighlighting ? refreshHighlighting(null) :
-		// refreshHighlighting(hits)
-		// || repaintNeeded;
 
 		startCollectingMinorRepaints();
 		boolean control = app.isControlDown(event);
@@ -7552,7 +7518,6 @@ public abstract class EuclidianController {
 	
 		// move label?
 		GeoElement geo = view.getLabelHit(mouseLoc);
-		// Application.debug("label("+(System.currentTimeMillis()-t0)+")");
 		if (geo != null) {
 			moveMode = MOVE_LABEL;
 			movedLabelGeoElement = geo;
@@ -7855,8 +7820,6 @@ public abstract class EuclidianController {
 				int mlocx = mouseLoc.x;
 				int mlocy = mouseLoc.y;
 	
-				// Application.debug("BIG drag dist: " + Math.sqrt(distsq) +
-				// ", steps: " + steps );
 				for (int i = 1; i <= steps; i++) {
 					mouseLoc.x = (int) Math.round(lastMouseLoc.x + (i * dx));
 					mouseLoc.y = (int) Math.round(lastMouseLoc.y + (i * dy));
@@ -8084,14 +8047,6 @@ public abstract class EuclidianController {
 		view.setHits(mouseLoc,type);
 		hits = view.getHits();
 		hits.removePolygons();
-		// Application.debug("MODE_TRANSLATEVIEW - "+hits.toString());
-	
-		/*
-		 * if (!hits.isEmpty() && hits.size() == 1) { Object hit0 = hits.get(0);
-		 * if (hit0 == kernel.getXAxis()) moveMode = MOVE_X_AXIS; else if (hit0
-		 * == kernel.getYAxis()) moveMode = MOVE_Y_AXIS; else moveMode =
-		 * MOVE_VIEW; } else { moveMode = MOVE_VIEW; }
-		 */
 	
 		moveMode = MOVE_VIEW;
 		if (!hits.isEmpty() && moveAxesPossible()) {
@@ -8590,7 +8545,6 @@ public abstract class EuclidianController {
 					}
 				}
 				sb.append("} ");
-				// Application.debug(sb+"");
 				textComponent.replaceSelection(sb.toString());
 			}
 			break;
@@ -8871,12 +8825,10 @@ public abstract class EuclidianController {
 		view.setHits(mouseLoc,type);
 		hits = view.getHits();
 		switchModeForRemovePolygons(hits);
-		// Application.debug(mode + "\n" + hits.toString());
-	
+		
 		// Michael Borcherds 2007-12-08 BEGIN moved up a few lines (bugfix:
 		// Tools eg Line Segment weren't working with grid on)
 		// grid capturing on: newly created point should be taken
-		// Application.debug("POINT_CREATED="+POINT_CREATED+"\nhits=\n"+hits+"\ngetMovedGeoPoint()="+getMovedGeoPoint());
 		if (pointCreated != null) {
 			hits = addPointCreatedForMouseReleased(hits);
 		}
@@ -8959,7 +8911,6 @@ public abstract class EuclidianController {
 	public void endOfWrapMouseReleased(Hits hits, boolean control, boolean alt, PointerEventType type){
 		
 		if (!hits.isEmpty()) {
-			// Application.debug("hits ="+hits);
 			view.setDefaultCursor();
 		} else {
 			view.setHitCursor();
@@ -9564,10 +9515,9 @@ public abstract class EuclidianController {
 	 */
 	public void checkZooming(boolean forPreviewable) {
 
-		/*
+		/* TODO what about this method?
 		if (forPreviewable) {
 			return;
-			// Application.debug("check zooming");
 		}
 
 		if (wheelZoomingOccurred) {
@@ -9661,7 +9611,6 @@ public abstract class EuclidianController {
 			newDistance = MyMath.length(x1 - x2, y1 - y2);
 
 			if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
-				// App.debug("Zooming ... "+oldDistance+":"+newDistance);
 				onPinch(centerX, centerY, newDistance
 						/ this.oldDistance);
 				this.oldDistance = newDistance;
