@@ -74,7 +74,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    // because we want to take advantage of the entire client area.
 	    Window.enableScrolling(false);
 	    Window.setMargin("0px");
-	    addStyleName("GeoGebraAppFrame");
+	    addStyleName("GeoGebraFrame");
 
 	    // Add the outer panel to the RootLayoutPanel, so that it will be
 	    // displayed.

@@ -25,7 +25,7 @@ img {
  * name below, and attach it to the DOM.  Use a timer to detect when the
  * element's height and width are set to 5px.
  */
-button {
+.GeoGebraFrame button {
 	border: none;
 	background: none;
 	padding: 0px;
@@ -43,7 +43,7 @@ body.application,article {
 	font-size: 16px;
 }
 
-input[type="text"],
+.GeoGebraFrame input[type="text"],
 .gwt-TextBox,
 select,
 textarea,
@@ -65,7 +65,7 @@ iframe.objectPropertiesTextEditor
 	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
 
-input[type="text"]:focus,
+.GeoGebraFrame input[type="text"]:focus,
 .gwt-TextBox:focus,
 select:focus,
 textarea:focus,
@@ -74,7 +74,7 @@ iframe.objectPropertiesTextEditor:focus {
 	border-color: #6161FF;
 }
 
-input[type="checkbox"] {
+.GeoGebraFrame input[type="checkbox"] {
 	-webkit-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -84,7 +84,7 @@ input[type="checkbox"] {
 	color: #666666;
 }
 
-input[type="range"] { /*margin: 0px;*/
+.GeoGebraFrame input[type="range"] { /*margin: 0px;*/
 	padding: 5px 0px;
 }
 
@@ -92,7 +92,7 @@ input[type="range"] { /*margin: 0px;*/
 	color: #CCC;
 }
 
-hr {
+.GeoGebraFrame hr {
 	height: 0px;
 	border: none;
 	border-bottom: 1px solid #DCDCDC;
@@ -1329,7 +1329,7 @@ td.datePickerMonth {
 /*************************************************************/
 /*           GeoGebraWeb styles from here                    */
 /*============ App common styles ============*/
-.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup,.ToolTip,.PhoneGUI
+.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup,.ToolTip,.PhoneGUI
 	{
 	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype",
 		Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad,
@@ -1343,12 +1343,12 @@ td.datePickerMonth {
 	user-select: none;
 }
 
-.GeoGebraAppFrame *:focus,.GeoGebraFrame *:focus,.GeoGebraPopup *:focus,.DialogBox *:focus
+.GeoGebraFrame *:focus,.GeoGebraPopup *:focus,.DialogBox *:focus
 	{
 	outline: none; /* Fixing Chrome's default outline on focus */
 }
 
-.GeoGebraAppFrame select,.GeoGebraFrame select,.GeoGebraPopup select,.DialogBox select
+.GeoGebraFrame select,.GeoGebraPopup select,.DialogBox select
 	{ /*border: 1px solid gray;*/
 	/* Undo fixed styling of Safari dropdowns  */ /*font-size: smaller;*/
 	/*color: #666666;*/
