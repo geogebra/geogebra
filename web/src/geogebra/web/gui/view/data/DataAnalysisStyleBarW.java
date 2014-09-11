@@ -37,13 +37,14 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	 * @param statDialog
 	 */
 	public DataAnalysisStyleBarW(AppW app, DataAnalysisViewW statDialog) {
-
+		super(app, AppW.VIEW_DATA_ANALYSIS);
 		this.daView = statDialog;
 		this.app = app;
 	//	this.setFloatable(false);
 		createGUI();
 		updateGUI();
 		setLabels();
+		getViewButton();
 	}
 
 	private void createGUI() {
