@@ -80,7 +80,6 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 		if (style != null && style.getEnvironmentStyle()!=null) {
 			left = (int) (left * (1 / style.getEnvironmentStyle().getScaleX()));
 			top = (int) (top * (1 / style.getEnvironmentStyle().getScaleY()));
-			App.debug(""+style.getEnvironmentStyle().getScaleX());
 		}else{
 			App.debug("ec null");
 		}
