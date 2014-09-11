@@ -20,8 +20,6 @@ public class EditMenuW extends GMenuBar {
 	final AppW app;
 	final SelectionManager selection;
 
-	InsertImageMenuW iim;
-
 	/**
 	 * Constructs the "Edit" menu
 	 * @param app Application instance
@@ -32,7 +30,6 @@ public class EditMenuW extends GMenuBar {
 		this.app = app;
 		this.selection = app.getSelectionManager();
 		addStyleName("GeoGebraMenuBar");
-		iim = new InsertImageMenuW(app);
 		initActions();
 	}
 
@@ -107,12 +104,6 @@ public class EditMenuW extends GMenuBar {
 			        }
 		        });
 		}
-		// separator
-		addSeparator();
-
-	
-		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("InsertImageFrom"), true),
-		        true, iim);
 		
 		addSeparator();
 

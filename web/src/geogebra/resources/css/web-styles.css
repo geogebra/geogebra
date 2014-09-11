@@ -355,6 +355,10 @@ iframe.objectPropertiesTextEditor:focus {
 	
 }
 
+.gwt-Label-highlighted {
+	color: #6161FF;
+}
+
 .gwt-ListBox {
 	
 }
@@ -1731,7 +1735,6 @@ Paddings for menuitems.
 .VerticalSeparator {
 	margin: 0px 2px 0px 5px;
 	width: 1px;
-	height: 32px;
 	background-color: #DCDCDC;
 }
 

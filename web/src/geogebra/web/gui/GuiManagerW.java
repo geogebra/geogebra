@@ -43,8 +43,8 @@ import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
+import geogebra.web.gui.dialog.image.ImageInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
@@ -309,12 +309,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void loadImage(GeoPoint loc, Object object, boolean altDown) {
-		// TODO Auto-generated method stub
-		//App.debug("unimplemented method");
-
-		app.setWaitCursor();
-
-		ImageFileInputDialog dialog = new ImageFileInputDialog((AppW) app, loc);
+		ImageInputDialog dialog = new ImageInputDialog((AppW) app, loc);
 		dialog.setVisible(true);
 	}
 
