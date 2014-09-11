@@ -126,6 +126,10 @@ public abstract class FastButton extends CustomButton {
 
 	@Override
 	public void onBrowserEvent(Event event) {
+		if(!this.isEnabled()){
+			event.stopPropagation();
+			return;
+		}
 		switch (DOM.eventGetType(event)) {
 		case Event.ONTOUCHSTART: {
 			onTouchStart(event);
