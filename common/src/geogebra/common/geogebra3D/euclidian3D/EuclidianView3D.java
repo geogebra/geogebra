@@ -1408,6 +1408,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public boolean setShowAxes(boolean flag, boolean update) {
+		
 		boolean changedX = setShowAxis(AXIS_X, flag, false);
 		boolean changedY = setShowAxis(AXIS_Y, flag, false);
 		return setShowAxis(AXIS_Z, flag, true) || changedX || changedY;
@@ -2746,11 +2747,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * toggle the visibility of axes
 	 */
 	public void toggleAxis() {
-
-		boolean flag = axesAreAllVisible();
-
-		for (int i = 0; i < 3; i++)
-			axis[i].setEuclidianVisible(!flag);
+		
+		getSettings().setShowAxes(!axesAreAllVisible());
 
 	}
 
@@ -2780,9 +2778,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * toggle the visibility of xOy grid
 	 */
 	public void toggleGrid() {
-
-		boolean flag = xOyPlane.isGridVisible();
-		setShowGrid(!flag);
+		
+		getSettings().showGrid(!getShowGrid());
 
 	}
 
