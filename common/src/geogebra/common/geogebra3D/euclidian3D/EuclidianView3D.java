@@ -679,8 +679,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return undoRotationMatrix;
 	}
 
-	private boolean yAxisVertical = false;
-
 	/**
 	 * 
 	 * @return true if y axis is vertical (and not z axis)
@@ -698,7 +696,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		CoordMatrix m1, m2;
 
-		if (yAxisVertical) { // y axis taken for up-down direction
+		if (getYAxisVertical()) { // y axis taken for up-down direction
 			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)
 					* EuclidianController3D.ANGLE_TO_DEGREES);
 			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Y_AXIS,
@@ -3854,6 +3852,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		setShowPlate(evs.getShowPlate());
 		
 		setProjection(evs.getProjection());
+		
+		App.debug("ici -- "+getYAxisVertical());
 		
 		updateMatrix();
 		setViewChanged();
