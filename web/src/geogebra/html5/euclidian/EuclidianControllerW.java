@@ -583,7 +583,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 		wrapMousePressed(e);
 		//hide PopUp if no hits was found.
-		if (view.getHits().isEmpty()) {
+		if (view.getHits().isEmpty() && this.view.hasStyleBar()) {
 			this.view.getStyleBar().hidePopups();
 		}
 		e.release();
