@@ -1010,7 +1010,7 @@ __GGB__keysVar.pl.command = {
     "UnitVector.Syntax": "[ <Obiekt> ]",
     "UnitVector.SyntaxCAS": "[ <Wektor> ]",
     "UpdateConstruction": "UaktualnijKonstrukcj\u0119",
-    "UpdateConstruction.Syntax": "[ ]\n[ <Number of times> ]",
+    "UpdateConstruction.Syntax": "[ ]\n[ <Ilo\u015b\u0107 powt\xf3rze\u0144> ]",
     "UpperSum": "SumaG\xf3rna",
     "UpperSum.Syntax": "[ <Funkcja>, <Warto\u015b\u0107 Pocz\u0105tkowa x>, <Warto\u015b\u0107 Ko\u0144cowa x>, <Liczba Prostok\u0105t\xf3w> ]",
     "Variance": "Wariancja",
