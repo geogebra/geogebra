@@ -3419,5 +3419,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§,arrows§",",BeginArrow",",EndArrow");
 		code.append(lineBuilder.toString() + ";\n");
 	}
+	
+	protected String format(double d) {		
+		return super.format(d).replace("E", "e");
+	}
+
 		
 }

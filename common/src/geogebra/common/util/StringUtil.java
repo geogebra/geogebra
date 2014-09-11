@@ -1237,4 +1237,48 @@ public class StringUtil {
 		return index == 0 ? "0" + str : str;
 		
 	}
+	
+//	App.debug(StringUtil.cannonicNumber2("4.3E20"));
+//	App.debug(StringUtil.cannonicNumber2("1.203"));
+//	App.debug(StringUtil.cannonicNumber2("1.23000000"));
+//	App.debug(StringUtil.cannonicNumber2("1000"));
+//	App.debug(StringUtil.cannonicNumber2("1.20000000E20"));
+//	App.debug(StringUtil.cannonicNumber2("-4.3E20"));
+//	App.debug(StringUtil.cannonicNumber2("-1.203"));
+//	App.debug(StringUtil.cannonicNumber2("-1.23000000"));
+//	App.debug(StringUtil.cannonicNumber2("-1000"));
+//	App.debug(StringUtil.cannonicNumber2("-1.20000000E20"));
+//	App.debug(StringUtil.cannonicNumber2(".23000000000"));
+
+	/*
+	 * convert 1.200000000 into 1.2
+	 * convert .23 into 0.23
+	 * convert 1.23000E20 into 1.23E20
+	 */
+	public static String cannonicNumber2(String str) {
+		
+		String num = str;
+		String exponent = "";
+		
+		if (str.indexOf('E') > 0) {
+			String[] split = num.split("E");
+			exponent = "E" + split[1];
+			num = split[0];
+		}
+		
+		// .23 to 0.23
+		if (num.startsWith(".")) {
+			num = "0" + num;
+		}
+		
+		// remove trailing zeros if there's a decimal point
+		if (num.indexOf(".") > 0) {
+			while (num.endsWith("0")) {
+				num = num.substring(0, num.length() - 1);
+			}
+		}
+		
+		return num + exponent;
+		
+	}
 }

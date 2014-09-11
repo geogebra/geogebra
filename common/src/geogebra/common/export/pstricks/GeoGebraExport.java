@@ -79,12 +79,14 @@ public abstract class GeoGebraExport {
 	protected int format = 0;
 	protected boolean isBeamer = false;
 	protected int barNumber;
+	private StringTemplate tpl;
 	
 	public GeoGebraExport(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
 		this.euclidianView = (EuclidianView) app.getActiveEuclidianView();
+		this.tpl = StringTemplate.printFigures(StringType.PSTRICKS, 12, false);
 		initBounds();
 	}
 
@@ -93,7 +95,11 @@ public abstract class GeoGebraExport {
 	}
 
 	protected String format(double d) {
-		return kernel.format(d, getStringTemplate());
+		String ret = kernel.format(Kernel.checkDecimalFraction(d), tpl);
+		
+		ret = StringUtil.cannonicNumber2(ret);
+
+		return ret;
 	}
 
 	// Functions added to access and modify xmin, xmax, ymin and ymax
@@ -1326,7 +1332,7 @@ public abstract class GeoGebraExport {
 	}
 
 	protected StringTemplate getStringTemplate() {
-		return StringTemplate.get(StringType.PSTRICKS);
+		return tpl;
 	}
 
 	protected StringBuilder drawNoLatexFunction(GeoFunction geo,
