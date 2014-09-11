@@ -43,6 +43,7 @@ import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
@@ -572,7 +573,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		int polyLength = poly.getPoints().length;
 
-		setPointsLength(polyLength);
+		setPointsLength(polyLength, null);
 
 		// set values
 		for (int i = 0; i < getPoints().length; i++) {
@@ -594,7 +595,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @param geos input points
 	 */
 	public void setPointsAndSegments(GeoPointND[] geos){
-		setPointsLength(geos.length);
+		setPointsLength(geos.length, geos);
 
 		// set values
 		for (int i = 0; i < getPoints().length; i++) {
@@ -610,7 +611,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @param polyLength length
 	 */
 	public void setPointsAndSegmentsLength(int polyLength){
-		setPointsLength(polyLength);
+		setPointsLength(polyLength, null);
 		updateSegments();
 	}
 
@@ -619,16 +620,20 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * set points length to arbitrary value (create new points)
 	 * @param polyLength length
 	 */
-	protected void setPointsLength(int polyLength){
+	protected void setPointsLength(int polyLength, GeoPointND[] template){
 		
 		if (pointsArray == null){
 			pointsArray = new ArrayList<GeoPoint>();
 		}
 
-
+		App.printStacktrace("Extend"+pointsArray.size()+" to "+polyLength);
 		// augment array size if array < polyLength
 		for (int i = pointsArray.size() ; i < polyLength ; i++){
-			pointsArray.add(new GeoPoint(cons));
+			if(template !=null && template.length > i && template[i] instanceof GeoPoint){
+				pointsArray.add((GeoPoint)template[i]);
+			}else{
+				pointsArray.add(new GeoPoint(cons));
+			}
 		}
 
 		// set last points undefined if array > polyLength

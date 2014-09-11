@@ -303,7 +303,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	
 	@Override
 	public void setPointsAndSegmentsLength(int polyLength){
-		setPointsLength(polyLength);
+		setPointsLength(polyLength, null);
 		setPoints3DLength();
 		updateSegments();
 	}
