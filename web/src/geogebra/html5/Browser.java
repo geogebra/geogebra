@@ -143,7 +143,7 @@ public class Browser {
 	 */
 	public static boolean runningLocal(){
 		App.debug(GWT.getModuleBaseURL());
-		return !GWT.getModuleBaseURL().contains("geogebra.org");
+		return !GWT.getModuleBaseURL().contains("geogebra.org") && Location.getProtocol().startsWith("http");
 	}
 
 	public native static String navigatorLanguage() /*-{

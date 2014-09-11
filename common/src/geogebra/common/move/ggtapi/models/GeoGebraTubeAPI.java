@@ -137,7 +137,7 @@ public abstract class GeoGebraTubeAPI {
 		this.availabilityCheckDone = false;
 		try {
 			performRequest(
-					"{\"request\": {\"-api\": \"1.0.0\","+clientInfo+"\"task\": {\"-type\": \"info\"},\"}}",
+					"{\"request\": {\"-api\": \"1.0.0\","+clientInfo+"\"task\": {\"-type\": \"info\"}}}",
 					false, new AjaxCallback() {
 
 						@Override
