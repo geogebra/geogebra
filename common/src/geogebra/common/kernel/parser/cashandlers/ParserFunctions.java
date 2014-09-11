@@ -258,6 +258,7 @@ public class ParserFunctions {
 		put(0, "random", Operation.RANDOM);
 		put(1, "x", Operation.XCOORD, null);
 		put(1, "y", Operation.YCOORD, null);
+		put(1, "z", Operation.ZCOORD, null);
 
 		put(2, "nroot", Operation.NROOT);
 		put(2, "NRoot", Operation.NROOT);
