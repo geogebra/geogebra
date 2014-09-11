@@ -2006,11 +2006,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		}
 	}
 
-	// Michael Borcherds 2008-02-29
 	public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
-		// Application.debug(drawLayers[oldlayer].size());
 		drawLayers[oldlayer].remove((Drawable) DrawableMap.get(geo));
-		// Application.debug(drawLayers[oldlayer].size());
 		drawLayers[newlayer].add((Drawable) DrawableMap.get(geo));
 	}
 
@@ -2105,7 +2102,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 
 	public void setGridDistances(double[] dist) {
 		if (dist == null) {
-			App.debug("NULL");
 			return;
 		}
 		gridDistances = dist;
@@ -3763,7 +3759,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 *            graphics whose hints should be set
 	 */
 	public void setDefRenderingHints(GGraphics2D g2) {
-		// AbstractApplication.debug("setDefRenderingHints: implementation needed");
+		//for Desktop only
 	}
 
 	/**
@@ -4403,7 +4399,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	public void drawPoints(GeoImage ge, double[] x, double[] y) {
 		ArrayList<GPoint> ptList = new ArrayList<GPoint>();
 
-		// AbstractApplication.debug("x0" + x[0]);
 		for (int i = 0; i < x.length; i++) {
 			int xi = toScreenCoordX(x[i]);
 			int yi = toScreenCoordY(y[i]);
@@ -4428,8 +4423,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 						/ ((dx1 * dy2) - (dx2 * dy1));
 				double ratio2 = ((-(x[i] - cx[0]) * dy1) + (dx1 * (y[i] - cy[0])))
 						/ ((dx1 * dy2) - (dx2 * dy1));
-				// AbstractApplication.debug(cx[2] + "," + cy[2] + "," + h +
-				// ","+ w);
+
 				xi = (int) Math.round(w * ratio1);
 				yi = (int) Math.round(h * (1 - ratio2));
 
@@ -4515,8 +4509,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			y0RW = Double.MAX_VALUE;
 			y1RW = -Double.MAX_VALUE;
 
-			// Application.debug("just functions");
-
 		} else {
 
 			// get bounds of points, circles etc
@@ -4543,8 +4535,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			} else {
 				xGap = (x1RW - x0RW) * factor;
 			}
-
-			// Application.debug("checking functions from "+x0RW+" to "+x1RW);
 
 			y0RWfunctions = Double.MAX_VALUE;
 			y1RWfunctions = -Double.MAX_VALUE;
@@ -4584,7 +4574,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		if (!Kernel.isZero(y1RWfunctions - y0RWfunctions) && ok) {
 			y0RW = Math.min(y0RW, y0RWfunctions);
 			y1RW = Math.max(y1RW, y1RWfunctions);
-			// Application.debug("min height "+y0RW+" max height "+y1RW);
 		}
 
 		// don't want objects at edge
