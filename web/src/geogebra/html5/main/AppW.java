@@ -55,6 +55,7 @@ import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.WebStatic;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResourcesSimple;
@@ -1759,7 +1760,7 @@ public static final String LOCALE_PARAMETER = "locale";
 
 			String lCookieValue = Cookies.getCookie("GeoGebraLangUI");
 			if (lCookieValue == null) {
-				lCookieValue = navigatorLanguage();
+				lCookieValue = Browser.navigatorLanguage();
 			}
 			setLanguage(lCookieValue);
 
@@ -1767,10 +1768,7 @@ public static final String LOCALE_PARAMETER = "locale";
 
 		}
 
-		private String navigatorLanguage() {
-	        // TODO Auto-generated method stub
-	        return null;
-        }
+		
 
 		
 	    public String getLanguageFromCookie() {

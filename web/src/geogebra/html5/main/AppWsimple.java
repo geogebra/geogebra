@@ -3,6 +3,7 @@ package geogebra.html5.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EuclidianSimplePanelW;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.util.ArticleElement;
@@ -58,6 +59,9 @@ public class AppWsimple extends AppW {
 		afterCoreObjectsInited();
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
+		if(Browser.runningLocal()){
+			new GeoGebraTubeAPIWSimple().isAvailable(null);
+		}
 	}
 
 	public GeoGebraFrame getGeoGebraFrame() {

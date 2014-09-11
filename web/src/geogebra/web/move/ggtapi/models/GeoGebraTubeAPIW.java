@@ -1,11 +1,11 @@
 package geogebra.web.move.ggtapi.models;
 
 import geogebra.common.move.ggtapi.models.ClientInfo;
-import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
@@ -29,7 +29,7 @@ import com.google.gwt.json.client.JSONValue;
  * @author Matthias Meisinger
  * 
  */
-public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
+public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 {
 	private RequestBuilder requestBuilder;
 	private ClientInfo client;

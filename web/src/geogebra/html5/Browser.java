@@ -1,5 +1,7 @@
 package geogebra.html5;
 
+import geogebra.common.main.App;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window.Location;
 
@@ -136,5 +138,15 @@ public class Browser {
 	public static native boolean supportsWebGLTriangleFan()/*-{
 		return $wnd.WebGLRenderingContext && (!! $wnd.WebGLRenderingContext.TRIANGLE_FAN);
 	}-*/;
+	/**
+	 * @return whether we are running this from our own website
+	 */
+	public static boolean runningLocal(){
+		App.debug(GWT.getModuleBaseURL());
+		return !GWT.getModuleBaseURL().contains("geogebra.org");
+	}
 
+	public native static String navigatorLanguage() /*-{
+	    return $wnd.navigator.language;
+    }-*/;
 }

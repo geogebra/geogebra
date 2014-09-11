@@ -10,10 +10,12 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
+import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
@@ -28,6 +30,7 @@ import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
+import geogebra.web.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -99,6 +102,13 @@ public class AppWapplet extends AppW {
 		afterCoreObjectsInited();
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
+		if(this.showMenuBar()){
+			this.initSignInEventFlow(new LoginOperationW(this));
+		}else{
+			if(Browser.runningLocal()){
+				new GeoGebraTubeAPIWSimple().isAvailable(null);
+			}
+		}
 	}
 	
 	public GGWMenuBar getMenuBar() {

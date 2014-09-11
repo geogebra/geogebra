@@ -113,11 +113,15 @@ public abstract class GeoGebraTubeAPI {
 	protected abstract String buildTokenLoginRequest(String loginToken, String cookie);
 
 	public boolean isAvailable(LogInOperation op) {
-		if (this.availabilityCheckDone) {
+		if (this.availabilityCheckDone && op != null) {
 			op.onEvent(new TubeAvailabilityCheckEvent(this.available));
 		}
-		checkIfAvailable(op);
+		checkIfAvailable(op, getClientInfo());
 		return this.available;
+	}
+
+	protected String getClientInfo() {
+		return "";
 	}
 
 	/**
@@ -128,26 +132,30 @@ public abstract class GeoGebraTubeAPI {
 	 * 
 	 * @return boolean if the request was successful.
 	 */
-	private boolean checkIfAvailable(final LogInOperation op) {
+	private boolean checkIfAvailable(final LogInOperation op, String clientInfo) {
 		this.available = false;
 		this.availabilityCheckDone = false;
 		try {
 			performRequest(
-					"{\"request\": {\"-api\": \"1.0.0\",\"task\": {\"-type\": \"info\"}}}",
+					"{\"request\": {\"-api\": \"1.0.0\","+clientInfo+"\"task\": {\"-type\": \"info\"},\"}}",
 					false, new AjaxCallback() {
 
 						@Override
 						public void onSuccess(String response) {
 							GeoGebraTubeAPI.this.availabilityCheckDone = true;
 							GeoGebraTubeAPI.this.available = true;
-							op.onEvent(new TubeAvailabilityCheckEvent(true));
+							if(op!=null){
+								op.onEvent(new TubeAvailabilityCheckEvent(true));
+							}
 						}
 
 						@Override
 						public void onError(String error) {
 							GeoGebraTubeAPI.this.availabilityCheckDone = true;
 							GeoGebraTubeAPI.this.available = false;
-							op.onEvent(new TubeAvailabilityCheckEvent(true));
+							if(op!=null){
+								op.onEvent(new TubeAvailabilityCheckEvent(true));
+							}
 
 						}
 					});
