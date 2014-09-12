@@ -12,6 +12,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Graphical representation of CAS cells in Web 
@@ -24,6 +25,7 @@ public class CASTableCellW extends VerticalPanel {
 	private FlowPanel outputPanel;
 	private String textBeforeEdit;
 	private AutoCompleteTextFieldW textField;
+	private String outputText;
 	/**
 	 * Creates new graphical representation of CAS cell
 	 * @param casCell cas cell value
@@ -42,6 +44,7 @@ public class CASTableCellW extends VerticalPanel {
 		add(inputPanel);
 
 		Label outputLabel = new Label();
+		outputText = "";
 		//outputLabel.getElement().getStyle().setPadding(2, Style.Unit.PX);
 		if (casCell!=null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
@@ -61,6 +64,7 @@ public class CASTableCellW extends VerticalPanel {
 				outputLabel.setText(casCell
 				        .getOutput(StringTemplate.defaultTemplate));
 			}
+			outputText = casCell.getOutput(StringTemplate.defaultTemplate);
 		}
 		outputPanel = new FlowPanel();
 		if (casCell!=null) {
@@ -143,5 +147,24 @@ public class CASTableCellW extends VerticalPanel {
 		GColor newColor = casCell.getFontColor();
 		inputPanel.getElement().getStyle().setColor(GColor.getColorString(newColor));	
     }
+	
+	public Widget getOutputWidget() {
+		return outputPanel;
+	}
+	
+	public String getInputString() {
+		return inputPanel.getText();
+	}
+	
+	public String getOutputString() {
+		return outputText;
+	}
+	
+	public void insertInput(String input) {
+		if (textField == null) {
+			return;
+		}
+		textField.insertString(input);
+	}
 
 }

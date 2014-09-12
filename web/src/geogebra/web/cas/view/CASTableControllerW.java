@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -46,6 +47,12 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 			gm.setActiveToolbarId(App.VIEW_CAS);		
 		}
 		
+		if (event.getSource() != view.getComponent()) { // output clicked
+			if (copyOutputToEditingCell(event)) {
+				event.stopPropagation();
+				return;
+			}
+		}
 		CASTableW table = view.getConsoleTable();
 		table.setFirstRowFront(false);
 		Cell c = table.getCellForEvent(event);
@@ -57,6 +64,17 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 		}
 	    
     }
+	
+	private boolean copyOutputToEditingCell(MouseEvent<?> event) {
+		CASTableW table = view.getConsoleTable();
+		CASTableCellW editingCell = table.getEditingCell();
+		CASTableCellW clickedCell = table.getCellForEvent(event);
+		if (editingCell != null && clickedCell != null) {
+			editingCell.insertInput(clickedCell.getOutputString());
+			return true;
+		}
+		return false;
+	}
 
 	public void onMouseMove(MouseMoveEvent event) {
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
@@ -72,8 +90,8 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onMouseUp(MouseUpEvent event) {
-		GPoint p = view.getConsoleTable().getPointForEvent(event);
 		CASTableW table = view.getConsoleTable();
+		GPoint p = table.getPointForEvent(event);
 		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER || startSelectRow < 0) {
 			return;
 		}

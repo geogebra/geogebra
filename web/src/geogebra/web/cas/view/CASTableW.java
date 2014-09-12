@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Grid;
@@ -64,8 +65,11 @@ public class CASTableW extends Grid implements CASTable {
 			resize(n + 1, 2);
 		else
 			this.insertRow(n);
-		Widget cellWidget = new CASTableCellW(casCell);
+		CASTableCellW cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell, (AppW)getApplication());
+		
+		cellWidget.getOutputWidget().addDomHandler(ml, ClickEvent.getType());
+		
 		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
 		getCellFormatter().addStyleName(n, COL_CAS_HEADER, "cas_header");
 		
@@ -151,14 +155,16 @@ public class CASTableW extends Grid implements CASTable {
 		}
 		if (casCell.isUseAsText()) setInput();
 		
-		Widget cellWidget = new CASTableCellW(casCell);
+		CASTableCellW cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1,casCell, (AppW) getApplication());
+		
+		cellWidget.getOutputWidget().addDomHandler(ml, ClickEvent.getType());
 		
 		setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
 		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 		if(casCell.isUseAsText()){
-			((CASTableCellW)cellWidget).setFont();
-			((CASTableCellW)cellWidget).setColor();
+			cellWidget.setFont();
+			cellWidget.setColor();
 		}
 	}
 	
@@ -241,6 +247,10 @@ public class CASTableW extends Grid implements CASTable {
 	    return -1;
     }
 	
+	public CASTableCellW getEditingCell() {
+		return editing;
+	}
+	
 	public void setFirstRowFront(boolean value) {
 		CellFormatter cellFormatter = getCellFormatter();
 		if (value) {
@@ -249,5 +259,20 @@ public class CASTableW extends Grid implements CASTable {
 			cellFormatter.removeStyleName(0, COL_CAS_CELLS_WEB, "CAS_table_first_row_selected");
 		}
 	}
+
+	public CASTableCellW getCellForEvent(MouseEvent<?> event) {
+	    Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
+	    if (td == null) {
+	      return null;
+	    }
+
+	    int row = TableRowElement.as(td.getParentElement()).getSectionRowIndex();
+	    int column = TableCellElement.as(td).getCellIndex();
+	    Widget widget  = getWidget(row, column);
+	    if (!(widget instanceof CASTableCellW)) {
+	    	return null;
+	    }
+	    return (CASTableCellW) widget;
+	  }
 
 }
