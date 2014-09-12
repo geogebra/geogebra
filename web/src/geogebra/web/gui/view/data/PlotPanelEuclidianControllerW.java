@@ -1,7 +1,11 @@
 package geogebra.web.gui.view.data;
 
+import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.euclidian.EuclidianControllerW;
+
+import java.util.ArrayList;
 
 /**
  * @author gabor
@@ -29,4 +33,9 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 		return;
 	}
 
+	@Override
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, Hits hits){
+		
+	}
+		
 }
