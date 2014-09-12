@@ -65,7 +65,8 @@ public class MySpecialDouble extends MyDouble {
 		if (keepOriginalString) {
 			BigDecimal bd = new BigDecimal(strToString);
 			// avoid E notation for small values
-			if (val >= 10E-3 && val < 10E7) {
+			double absVal = Math.abs(val);
+			if (absVal >= 10E-3 && absVal < 10E7) {
 				// from GeoGebraCAS we get a String using 15 significant figures
 				// like 3.14160000000000
 				// let's remove trailing zeros
