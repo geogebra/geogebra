@@ -13,7 +13,7 @@ public class CASTableCellEditorW implements CASTableCellEditor {
 	public CASTableCellEditorW(CASTableW table,AppW app, CASTableControllerW ml){
 		this.app=app;
 		this.table=table;
-		textField = new AutoCompleteTextFieldW(0, app);
+		textField = new AutoCompleteTextFieldW(0, app, true, null, true);
 		textField.setCASInput(true);
 		textField.setAutoComplete(true);
 		textField.requestToShowSymbolButton();

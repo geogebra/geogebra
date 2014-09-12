@@ -1098,7 +1098,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	private boolean isSuggestionJustHappened = false;
 	private boolean isSuggestionClickJustHappened = false;
 	private GeoTextField geoUsedForInputBox;
-	private boolean casInput;
 
 	/**
 	 * @return that suggestion is just happened (click or enter, so we don't
@@ -1346,7 +1345,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void setCASInput(boolean b) {
-		this.casInput = b;
+		this.isCASInput = b;
 	}
 
 	public void addKeyHandler(KeyHandler handler) {
