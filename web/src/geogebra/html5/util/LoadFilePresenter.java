@@ -145,6 +145,7 @@ public class LoadFilePresenter{
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
+		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
 		((AppW)app).updateToolBar();
 		if(!fileOpened){
 			GeoGebraProfiler.getInstance().profileEnd();

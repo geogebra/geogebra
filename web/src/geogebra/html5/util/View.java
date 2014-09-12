@@ -131,6 +131,10 @@ public class View {
 		return ((ArticleElement) container).getDataParamPerspective();
     }
 	
+	public boolean getDataParamAllowStyleBar() {
+		return ((ArticleElement) container).getDataParamAllowStyleBar();
+	}
+	
 	private void maybeLoadFile() {
 		if (app == null || archiveContent == null) {
 			return;

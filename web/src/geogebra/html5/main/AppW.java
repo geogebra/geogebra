@@ -916,6 +916,16 @@ public static final String LOCALE_PARAMETER = "locale";
 		public boolean isAllowedSymbolTables(){
 			return allowSymbolTables;
 		}
+		
+		private boolean allowStyleBar = true;
+		
+		public void setAllowStyleBar(boolean flag) {
+			allowStyleBar = flag;
+		}
+		
+		public boolean isStyleBarAllowed() {
+			return allowStyleBar;
+		}
 
 	@Override
 	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
