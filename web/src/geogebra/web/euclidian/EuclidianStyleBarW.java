@@ -1558,7 +1558,23 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
     }
 	
+	private boolean firstPaint = true;
+	
 	public void resetFirstPaint(){
-		// TODO ?
+		firstPaint = true;
 	}
+	
+
+	
+	@Override
+    public void onAttach(){
+		
+		if (firstPaint){
+			firstPaint = false;
+			updateGUI();		
+		}
+		
+		super.onAttach();
+	}
+	
 }
