@@ -392,17 +392,18 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						App.VIEW_ALGEBRA);
 			}
 
-			else if (args.containsArg("showSpreadsheet")) {
+			if (args.containsArg("showSpreadsheet")) {
 				boolean showSpreadsheet = args.getBooleanValue(
 						"showSpreadsheet", true);
 				app.getGuiManager().setShowView(showSpreadsheet,
 						App.VIEW_SPREADSHEET);
 			}
 
-			else if (args.containsArg("showCAS") && app.isCASViewEnabled()) {
+			if (args.containsArg("showCAS") && App.isCASViewEnabled()) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
 				app.getGuiManager().setShowView(showCAS, App.VIEW_CAS);
 			}
+
 		}
 
 		app.updateMenubar();

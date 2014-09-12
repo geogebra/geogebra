@@ -737,7 +737,8 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
 							+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
 							+ (GeoGebraConstants.CAS_VIEW_ENABLED ? "  --showCAS=BOOLEAN\tshow/hide CAS window\n"
-									: "")
+									: "") // here "disable" is also accepted
+							+ "  --show3D=BOOLEAN\tshow/hide 3D window\n" // here "disable" is also accepted 
 							+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
 							+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
 							+ "  --fontSize=NUMBER\tset default font size\n"
@@ -1142,6 +1143,13 @@ public class AppD extends App implements KeyEventDispatcher {
 			String showCASs = args.getStringValue("showCAS");
 			if (showCASs.equalsIgnoreCase("disable")) {
 				disableCASView();
+			}
+		}
+
+		if (args.containsArg("show3D")) {
+			String show3Ds = args.getStringValue("show3D");
+			if (show3Ds.equalsIgnoreCase("disable")) {
+				disable3DView();
 			}
 		}
 		

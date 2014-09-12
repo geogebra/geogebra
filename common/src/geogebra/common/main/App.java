@@ -3776,6 +3776,7 @@ public abstract class App implements UpdateSelection{
 	}
 	
 	private static boolean CASViewEnabled = true;
+
 	/**
 	 * Tells if the CAS View is enabled. 
 	 * It can be disabled by using command line option "--showCAS=disable".
@@ -3792,6 +3793,24 @@ public abstract class App implements UpdateSelection{
 		CASViewEnabled = false;
 	}
 
+	private static boolean _3DViewEnabled = true;
+	
+	/**
+	 * Tells if the 3D View is enabled. 
+	 * It can be disabled by using command line option "--show3D=disable".
+	 * @return whether the 3D view is enabled
+	 */
+	public static boolean is3DViewEnabled() {
+		return _3DViewEnabled;
+	}
+
+	/**
+	 * Disables 3D View.
+	 */
+	public static void disable3DView() {
+		_3DViewEnabled = false;
+	}
+	
 	public void ensureTimerRunning() {
 		//only for Web
 		
