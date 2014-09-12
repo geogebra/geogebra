@@ -8,6 +8,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1411,7 +1412,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		arbconst.reset();
 		outputVE.traverse(repl);
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
-		
+		if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
+			newTwinGeo.setDrawAlgorithm((DrawInformationAlgo) ((GeoElement)outputVE.unwrap()).getDrawAlgorithm());
+		}
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
 			if(twinGeo instanceof GeoImplicitPoly){
