@@ -45,7 +45,9 @@ public class ResourcesInjector {
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.gifJs());
+		// GIF exporting library
+		// It also needs gif.worker.js
+		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.gifJs());
 	}
 
 }
