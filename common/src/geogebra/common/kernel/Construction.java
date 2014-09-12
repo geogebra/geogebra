@@ -1466,6 +1466,10 @@ public class Construction {
 			return;
 		}
 		App app = kernel.getApplication();
+		
+		// store views for plane
+		app.getCompanion().storeViewCreators();
+		
 		SelectionManager selection = kernel.getApplication().getSelectionManager();
 		boolean moveMode = app.getMode() == EuclidianConstants.MODE_MOVE
 				&& selection.getSelectedGeos().size() > 0;
@@ -1491,6 +1495,9 @@ public class Construction {
 			app.getActiveEuclidianView().getEuclidianController()
 					.handleMovedElement(selGeo, false, PointerEventType.MOUSE);
 		}
+		
+		// recall views for plane
+		app.getCompanion().recallViewCreators();
 	}
 	
 	private boolean isGettingXMLForReplace;
