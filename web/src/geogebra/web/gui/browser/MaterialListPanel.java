@@ -35,9 +35,15 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 * list of all shown {@link MaterialListElement materials}
 	 */
 	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
+	private MaterialCallback allMaterialsCB;
+	private MaterialCallback userMaterialsCB;
+	private MaterialCallback ggtMaterialsCB;
 	
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
+		this.allMaterialsCB = getAllMaterialsCB();
+		this.userMaterialsCB = getUserMaterialsCB();
+		this.ggtMaterialsCB = getGgtMaterialsCB();
 		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.setStyleName("materialListPanel");
 		this.addDomHandler(new ClickHandler() {
@@ -71,6 +77,48 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		}, TouchMoveEvent.getType());
 	}
 
+	private MaterialCallback getGgtMaterialsCB() {
+	    return new MaterialCallback() {
+			@Override
+			public void onError(final Throwable exception) {
+				// FIXME implement Error Handling!
+				exception.printStackTrace();
+				App.debug(exception.getMessage());
+			}
+
+			@Override
+			public void onLoaded(final List<Material> response) {
+				addGGTMaterials(response);
+			}
+		};
+    }
+
+	private MaterialCallback getUserMaterialsCB() {
+	    return new MaterialCallback() {
+			
+			@Override
+			public void onLoaded(final List<Material> parseResponse) {
+				addUsersMaterials(parseResponse);
+				if (app.getLoginOperation().isLoggedIn()) {
+					app.getFileManager().uploadUsersMaterials();
+				}
+			}
+		};
+    }
+
+	private MaterialCallback getAllMaterialsCB() {
+	    return new MaterialCallback() {
+			
+			@Override
+			public void onLoaded(final List<Material> response) {
+				addGGTMaterials(response);
+				if(app.getLoginOperation().isLoggedIn()){
+					loadUsersMaterials();
+				}
+			}
+		};
+    }
+
 	/**
 	 * sets all {@link MaterialListElement materials} to the
 	 * default style (not selected, not disabled)
@@ -89,65 +137,18 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
     public void loadAllMaterials() {
     	clearMaterials();
     	loadLocal();
-		final GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
-		api.getFeaturedMaterials(new MaterialCallback() {
-			
-			@Override
-			public void onLoaded(final List<Material> response) {
-				addGGTMaterials(response);
-				if(app.getLoginOperation().isLoggedIn()){
-					loadUsersMaterials();
-				}
-			}
-		});
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getFeaturedMaterials(this.allMaterialsCB);
 	}
-    
-    public void loadAllMaterials(final MaterialCallback cb) {
-    	clearMaterials();
-    	loadLocal();
-		final GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
-		api.getFeaturedMaterials(new MaterialCallback() {
-			
-			@Override
-			public void onLoaded(final List<Material> response) {
-				addGGTMaterials(response);
-				if(app.getLoginOperation().isLoggedIn()){
-					loadUsersMaterials(cb);
-				}
-			}
-		});
-    }
     
 	/**
 	 * loads users materials from ggt
 	 */
 	public void loadUsersMaterials() {
-		((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), new MaterialCallback() {
-			
-			@Override
-			public void onLoaded(final List<Material> parseResponse) {
-				addUsersMaterials(parseResponse);
-			}
-		});
-	}
-	
-	/**
-	 * first load and add users materials to the {@link MaterialListPanel preview-panel} than call cb
-	 * @param cb MaterialCallback
-	 */
-	public void loadUsersMaterials(final MaterialCallback cb) {
-		((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), new MaterialCallback() {
-			
-			@Override
-			public void onLoaded(final List<Material> parseResponse) {
-				addUsersMaterials(parseResponse);
-				cb.onLoaded(parseResponse);
-			}
-		});
+		((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), this.userMaterialsCB);
 	}
 
 	/**
-	 * adds the local saved materials of current loggedIn user
+	 * adds the local saved materials (localStorage) of current loggedIn user
 	 */
     private void loadLocal() {
 		app.getFileManager().getUsersMaterials();
@@ -164,7 +165,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	}
 	
 	/**
-	 * 
+	 * Adds the given {@link Material materials}.
 	 * @param matList List<Material>
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
@@ -175,7 +176,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	
 	
 	/**
-	 * adds the given material to the list of {@link MaterialListElement materials} and the preview-panel
+	 * adds the given material to the list of {@link MaterialListElement materials} and the preview-panel.
+	 * if the {@link Material material} already exists, the {@link MaterialListElement preview} is updated otherwise a new one is created.
 	 * @param mat {@link Material}
 	 * @param insertAtEnd boolean
 	 * @param isLocal boolean
@@ -235,6 +237,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		this.lastSelected = materialElement;
 	}
 	
+	/**
+	 * clears the {@link MaterialListPanel} and adds the found materials to it.
+	 * if query == "" all materials (featured and users) are loaded.
+	 * @param query String
+	 */
 	public void displaySearchResults(final String query) {
 		clearMaterials();
 		if (query.equals("")) {
@@ -245,6 +252,10 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		searchGgt(query);
 	}
 
+	/**
+	 * search for materials in localStorage (offline saved files)
+	 * @param query String
+	 */
 	private void searchLocal(final String query) {
 		this.app.getFileManager().search(query);
 	}
@@ -255,23 +266,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	 */
 	protected void searchGgt(final String query) {
 		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
-				query, new MaterialCallback() {
-					@Override
-					public void onError(final Throwable exception) {
-						// FIXME implement Error Handling!
-						exception.printStackTrace();
-						App.debug(exception.getMessage());
-					}
-
-					@Override
-					public void onLoaded(final List<Material> response) {
-						addGGTMaterials(response);
-					}
-				});
+				query, this.ggtMaterialsCB);
     }
 
 	/**
-	 * removes the given material from the list of {@link MaterialListElement materials} and the preview-panel
+	 * removes the given material from the list of {@link MaterialListElement materials} and the {@link MaterialListPanel preview-panel}
 	 * @param mat {@link Material}
 	 */
 	public void removeMaterial(final Material mat) {
@@ -303,6 +302,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 		}
 	}
 
+	/**
+	 * refreshes the preview of the {@link MaterialListElement material}
+	 * @param material {@link Material}
+	 * @param isLocal boolean
+	 */
 	public void refreshMaterial(final Material material, final boolean isLocal) {
 		if (!isLocal) {
 			material.setSyncStamp(material.getModified());

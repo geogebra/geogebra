@@ -18,7 +18,6 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
-import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 
 import java.util.ArrayList;
@@ -304,13 +303,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
 	    	initProviders();
 	    	if (event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()) {
-	    		this.materialListPanel.loadUsersMaterials(new MaterialCallback() {
-					
-					@Override
-					public void onLoaded(final List<Material> parseResponse) {
-						uploadLocals();
-					}
-				});
+	    		this.materialListPanel.loadUsersMaterials();
 	    	} else if (event instanceof LogOutEvent) {
 	    		this.materialListPanel.removeUsersMaterials();
 	    	}
@@ -320,24 +313,11 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	@Override
     public void render(final boolean online) {
 	    if (online) {
-	    	this.materialListPanel.loadAllMaterials(new MaterialCallback() {
-				
-				@Override
-				public void onLoaded(final List<Material> parseResponse) {
-					uploadLocals();
-				}
-			});
+	    	this.materialListPanel.loadAllMaterials();
 	    } else {
 		    this.clearMaterials();
 		    this.app.getFileManager().getUsersMaterials();
 	    }
     }
-	
-	void uploadLocals() {
-		if (this.app.getLoginOperation().isLoggedIn()) {
-			this.app.getFileManager().uploadUsersMaterials();
-		}
-    }
-
 }
 
