@@ -963,11 +963,21 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 
 .button-up-disabled,.MyToggleButton.gwt-ToggleButton-up-disabled,.MyToggleButton.gwt-ToggleButton-down-disabled
 	{
-	cursor: default;
+	cursor: default !important;
 	opacity: .5;
 	zoom: 1;
 	filter: alpha(opacity =       50);
+	background: none !important;
 }
+
+.button-up-disabled:focus ,.MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus
+	{
+	outline: none;
+}
+.button-up-disabled:active ,.MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
+	border: 1px solid #6161FF;
+}
+
 
 .gwt-Tree .gwt-TreeItem {
 	padding: 1px 0px;
