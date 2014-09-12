@@ -43,7 +43,7 @@ public class MaterialListElementP extends MaterialListElement {
 					@Override
 					public void onLoaded(final List<Material> response) {
 						Phone.getGUI().getMaterialListPanel().clearMaterials();
-						Phone.getGUI().getMaterialListPanel().onSearchResults(response);
+						Phone.getGUI().getMaterialListPanel().addGGTMaterials(response);
 					}
 				});
 				return;

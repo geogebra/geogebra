@@ -32,13 +32,13 @@ public class PhoneGUI extends VerticalPanel {
 	private MaterialListPanelP materialListPanel;
 	private EuclidianViewPanel euclidianViewPanel;
 	private AlgebraViewPanel algebraViewPanel;
-	private AppWapplication app;
+	private final AppWapplication app;
 
 	
 //	private EuclidianOptions euclidianOptions;
 	// TODO add additional option-views
 
-	public PhoneGUI(AppWapplication app) {
+	public PhoneGUI(final AppWapplication app) {
 		this.app = app;
 		this.setStyleName("PhoneGUI");
 		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
@@ -120,14 +120,14 @@ public class PhoneGUI extends VerticalPanel {
 		this.addResizeListener(this.materialListPanel);
 		this.addResizeListener(this.euclidianViewPanel);
 		
-		this.materialListPanel.loadggt();
+		this.materialListPanel.loadAllMaterials();
 	}
 	
 	/**
 	 * scrolls to the given {@link View view} and updates the header
 	 * @param view
 	 */
-	public void scrollTo(View view) {
+	public void scrollTo(final View view) {
 		this.views.scrollTo(view);
 		changeTitle();
 		this.header.setTabActive(view);
@@ -167,7 +167,7 @@ public class PhoneGUI extends VerticalPanel {
 		return this.materialListPanel;
 	}
 	
-	private void addResizeListener(ResizeListener rl) {
+	private void addResizeListener(final ResizeListener rl) {
 		this.resizeListeners.add(rl);
 	}
 	

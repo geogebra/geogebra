@@ -11,24 +11,25 @@ import geogebra.web.gui.GuiManagerW;
  */
 public class SaveCallback {
 	
-	private AppW app;
+	private final AppW app;
 	
 	/**
 	 * @param app {@link AppW}
 	 */
-	public SaveCallback(AppW app) {
+	public SaveCallback(final AppW app) {
 	    this.app = app;
     }
 
 	/**
 	 * shows info to user and sets app saved
-	 * @param mat 
+	 * @param mat Material
+	 * @param isLocal boolean
 	 */
-	public void onSaved(Material mat) {
+	public void onSaved(final Material mat, final boolean isLocal) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("SavedSuccessfully"), true);
 		app.setSaved();
 		if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
-			((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(mat, false);
+			((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(mat, isLocal);
 		}
 	}
 

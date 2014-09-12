@@ -5,17 +5,17 @@ import geogebra.touch.FileManagerT;
 
 public class FileManagerP extends FileManagerT {
 	
-	public FileManagerP(AppP app) {
+	public FileManagerP(final AppP app) {
 		super(app);
 	}
 	
 	@Override
-	public void addMaterial(Material mat) {
-		Phone.getGUI().getMaterialListPanel().addMaterial(mat, true);
+	public void addMaterial(final Material mat) {
+		Phone.getGUI().getMaterialListPanel().addMaterial(mat, false, true);
 	}
 	
 	@Override
-	public void removeFile(Material mat) {
+	public void removeFile(final Material mat) {
 		Phone.getGUI().getMaterialListPanel().removeMaterial(mat);
 	}
 }

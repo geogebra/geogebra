@@ -275,6 +275,11 @@ public class SelectionTable extends Grid implements ClickHandler {
 
 	public void onClick(ClickEvent event) {
 	   Cell clicked = getCellForEvent(event);
+	   
+	   if(clicked == null){
+		   return;
+	   }
+	   
 	   selectedColumn = clicked.getCellIndex();
 	   selectedRow = clicked.getRowIndex();
 	   clearSelectedCells();

@@ -145,7 +145,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 			
 			@Override
 			public void onClick() {
-				loadGGT();
+				loadAllMaterials();
 			}
 		});
 		providerPanel.add(locationTube);
@@ -195,13 +195,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 		this.setContentWidget(this.container);
 	}
 
-	public void loadGGT() {	
+	public void loadAllMaterials() {	
 		this.header.clearSearchPanel();
-		this.materialListPanel.loadggt();
+		this.materialListPanel.loadAllMaterials();
 	}
 	
 	public void onSearchResults(final List<Material> response) {		
-		this.materialListPanel.onSearchResults(response);
+		this.materialListPanel.addGGTMaterials(response);
 	}
 	
 	/**
@@ -209,7 +209,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	 * @param mat {@link Material}
 	 */
 	public void addMaterial(final Material mat) {
-		this.materialListPanel.addMaterial(mat, true);
+		this.materialListPanel.addMaterial(mat, false, true);
 	}
 	
 	public void removeMaterial(final Material mat) {
@@ -261,8 +261,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	@Override
     public void onOpenFile() {
 		//For local / GoogleDrive files getLastSelected may be null
-		if(getLastSelected()!=null){
-			Material material = getLastSelected().getMaterial();
+		if(getLastSelected() != null){
+			final Material material = getLastSelected().getMaterial();
 			app.getKernel().getConstruction().setTitle(material.getTitle());
 			app.setSyncStamp(material.getSyncStamp());
 			if (getLastSelected().isOwnMaterial) {
@@ -294,7 +294,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 		}
 	}
 
-	public void refreshMaterial(Material material, boolean isLocal) {
+	public void refreshMaterial(final Material material, final boolean isLocal) {
 	    this.materialListPanel.refreshMaterial(material, isLocal);
     }
 	
@@ -304,7 +304,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
 	    	initProviders();
 	    	if (event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()) {
-	    		this.materialListPanel.loadUsersMaterials();
+	    		this.materialListPanel.loadUsersMaterials(new MaterialCallback() {
+					
+					@Override
+					public void onLoaded(final List<Material> parseResponse) {
+						uploadLocals();
+					}
+				});
 	    	} else if (event instanceof LogOutEvent) {
 	    		this.materialListPanel.removeUsersMaterials();
 	    	}
@@ -314,10 +320,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	@Override
     public void render(final boolean online) {
 	    if (online) {
-	    	this.materialListPanel.loadggt(new MaterialCallback() {
+	    	this.materialListPanel.loadAllMaterials(new MaterialCallback() {
 				
 				@Override
-				public void onLoaded(List<Material> parseResponse) {
+				public void onLoaded(final List<Material> parseResponse) {
 					uploadLocals();
 				}
 			});

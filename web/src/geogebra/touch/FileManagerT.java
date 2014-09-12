@@ -41,7 +41,7 @@ public class FileManagerT extends FileManager {
 	String filename;
 	int count;
 
-	public FileManagerT(AppT app) {
+	public FileManagerT(final AppT app) {
 		super(app);
 		this.phonegap = PhoneGapManager.getPhoneGap();
 	}
@@ -604,9 +604,9 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onSuccess(final FileWriter writer) {
-						Material mat = createMaterial(base64);
+						final Material mat = createMaterial(base64);
 						writer.write(mat.toJson().toString());
-						cb.onSaved(mat);
+						cb.onSaved(mat, true);
 					}
 
 					@Override
@@ -674,7 +674,7 @@ public class FileManagerT extends FileManager {
 
 											@Override
 											public void onCallback(final FileReader result) {
-												Material mat = JSONparserGGT.parseMaterial(result.getResult());
+												final Material mat = JSONparserGGT.parseMaterial(result.getResult());
 												if (mat.getAuthor().equals(app.getLoginOperation().getUserName())) {
 													if (mat.getId() == 0) {
 														upload(mat);

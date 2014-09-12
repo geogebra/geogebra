@@ -15,19 +15,19 @@ public class FileManagerW extends FileManager {
 	private static final String FILE_PREFIX = "file#";
 	Storage stockStore = Storage.getLocalStorageIfSupported();
 	
-	public FileManagerW(AppW app) {
+	public FileManagerW(final AppW app) {
 		super(app);
 	}
 
 	@Override
-    public void delete(Material mat) {
+    public void delete(final Material mat) {
 		this.stockStore.removeItem(FILE_PREFIX + mat.getTitle());
 		removeFile(mat);
 		((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
     }
 	
 	@Override
-    public void openMaterial(Material material) {
+    public void openMaterial(final Material material) {
 		try {
 			final String base64 = material.getBase64();
 			if (base64 == null) {
@@ -47,9 +47,9 @@ public class FileManagerW extends FileManager {
 			public void handle(final String s) {
 				final String fileName = app.getKernel().getConstruction().getTitle();
 				//TODO use another key
-				Material mat = createMaterial(s);
+				final Material mat = createMaterial(s);
 				stockStore.setItem(FILE_PREFIX + fileName, mat.toJson().toString());
-				cb.onSaved(mat);
+				cb.onSaved(mat, true);
 			}
 		};
 
@@ -57,12 +57,12 @@ public class FileManagerW extends FileManager {
     }
 
 	@Override
-    public void removeFile(Material material) {
+    public void removeFile(final Material material) {
 		((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(material);
     }
 
 	@Override
-    public void addMaterial(Material material) {
+    public void addMaterial(final Material material) {
 		((BrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(material);
     }
 	
@@ -97,7 +97,7 @@ public class FileManagerW extends FileManager {
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
-				Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
+				final Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
 				if (mat.getAuthor().equals(this.app.getLoginOperation().getUserName())) {
 					if (mat.getId() == 0) {
 						upload(mat);

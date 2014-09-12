@@ -17,7 +17,7 @@ import java.util.List;
 public abstract class FileManager implements FileManagerI{
 	protected AppW app;
 
-	public FileManager(AppW app) {
+	public FileManager(final AppW app) {
 	    this.app = app;
     }
 	
@@ -29,7 +29,7 @@ public abstract class FileManager implements FileManagerI{
 	public abstract void uploadUsersMaterials();
 	protected abstract void getFiles(MaterialFilter materialFilter);
 	
-	protected Material createMaterial(String base64) {
+	protected Material createMaterial(final String base64) {
 		final Material mat = new Material(0, MaterialType.ggb);
 		
 		//TODO check if we need to set timestamp / modified
@@ -51,7 +51,7 @@ public abstract class FileManager implements FileManagerI{
     /**
      * @param query String
      */
-	public void search(String query) {
+	public void search(final String query) {
 		getFiles(MaterialFilter.getSearchFilter(query));
     }
 	
@@ -68,16 +68,17 @@ public abstract class FileManager implements FileManagerI{
 
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse) {
-				        if ((parseResponse.size() == 1 && parseResponse.get(0).getModified() > mat.getSyncStamp())
-				                || parseResponse.size() == 0) {
+				        if (parseResponse.size() == 1 && parseResponse.get(0).getModified() > mat.getSyncStamp()) {
 				        	ToolTipManagerW.sharedInstance().showBottomMessage("Note that there are several versions of: " + parseResponse.get(0).getTitle(), true);
 					        mat.setId(0);
+				        } else if (parseResponse.size() == 0) {
+				        	 mat.setId(0);
 				        }
 				        upload(mat);
 			        }
 
 			        @Override
-			        public void onError(Throwable exception) {
+			        public void onError(final Throwable exception) {
 				        //TODO
 			        }
 		        });
@@ -91,15 +92,17 @@ public abstract class FileManager implements FileManagerI{
 	    ((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadLocalMaterial(app, mat, new MaterialCallback() {
 
 	    	@Override
-	    	public void onLoaded(List<Material> parseResponse) {
+	    	public void onLoaded(final List<Material> parseResponse) {
 	    		if (parseResponse.size() == 1) {
-		    		delete(mat);
-		    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(parseResponse.get(0), false);
+	    			delete(mat);
+	    			final Material newMat = parseResponse.get(0);
+	    			newMat.setThumbnail(mat.getThumbnail());		    		
+		    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(newMat, false);
 	    		}
 	    	}
 
 	    	@Override
-	    	public void onError(Throwable exception) {
+	    	public void onError(final Throwable exception) {
 	    		//TODO
 	    	}
 	    });

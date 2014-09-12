@@ -66,7 +66,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		
 		this.addCloseHandler(new CloseHandler<PopupPanel>() {
 
-			public void onClose(CloseEvent<PopupPanel> event) {
+			public void onClose(final CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
 				cancel.setEnabled(true);
 				title.setEnabled(true);
@@ -76,7 +76,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 
 	private void addTitelPanel() {
-		HorizontalPanel titlePanel = new HorizontalPanel();
+		final HorizontalPanel titlePanel = new HorizontalPanel();
 		titlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.titleLabel = new Label(app.getPlain("Title") + ": ");
 		titlePanel.add(this.titleLabel);
@@ -84,7 +84,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		title.addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override
-			public void onKeyUp(KeyUpEvent event) {
+			public void onKeyUp(final KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER && save.isEnabled()) {
 					onSave();
 				}
@@ -102,7 +102,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 
 	private void addButtonPanel() {
-		FlowPanel buttonPanel = new FlowPanel();
+		final FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("buttonPanel");
 		buttonPanel.add(cancel = new StandardButton(app.getMenu("Cancel")));
 		buttonPanel.add(save = new StandardButton(app.getMenu("Save")));
@@ -160,7 +160,17 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	    	app.resetUniqueId();
 	    }
 	    app.getKernel().getConstruction().setTitle(this.title.getText());
-	    ((FileManager)app.getFileManager()).saveFile(this.saveCallback);
+	    ((FileManager)app.getFileManager()).saveFile(new SaveCallback(app) {
+	    	@Override
+	    	public void onSaved(final Material mat, final boolean isLocal) {
+	    		super.onSaved(mat, isLocal);
+	    		if (runAfterSave != null) {
+	    			runAfterSave.run();
+	    			resetCallback();
+	    		}
+	    	}
+	    });
+	    
 		hide();
     }
 
@@ -202,7 +212,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			}
 			
 			@Override
-            public void onError(Throwable exception) {
+            public void onError(final Throwable exception) {
 			    ToolTipManagerW.sharedInstance().showBottomMessage("Error", true);
 		    }
 		});
@@ -215,13 +225,15 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial(app, this.title.getText(), new MaterialCallback() {
 
 			@Override
-			public void onLoaded(List<Material> parseResponse) {
+			public void onLoaded(final List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
+					final Material newMat = parseResponse.get(0); 
 					app.getKernel().getConstruction().setTitle(title.getText());
-					app.setUniqueId(Integer.toString(parseResponse.get(0).getId()));
+					app.setUniqueId(Integer.toString(newMat.getId()));
 					//last synchronization is equal to last modified 
-					app.setSyncStamp(parseResponse.get(0).getModified());
-					saveCallback.onSaved(parseResponse.get(0));
+					app.setSyncStamp(newMat.getModified());
+					newMat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
+					saveCallback.onSaved(newMat, false);
 					if (runAfterSave != null) {
 						runAfterSave.run();
 					}
@@ -233,7 +245,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 			}
 			
 			@Override
-			public void onError(Throwable exception) {
+			public void onError(final Throwable exception) {
 				saveCallback.onError();
 				resetCallback();
 			}
@@ -254,14 +266,14 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	   });
 	}
 
-	public void saveSuccess(String fName, String desc) {
+	public void saveSuccess(final String fName, final String desc) {
 		if(app.getGoogleDriveOperation()!=null){
 			app.getGoogleDriveOperation().refreshCurrentFileDescriptors(fName,desc);
 		}
 	}
 
 	private void setTitle() {
-		String consTitle = app.getKernel().getConstruction().getTitle();
+		final String consTitle = app.getKernel().getConstruction().getTitle();
 		if (consTitle != null) {
 			this.title.setText(consTitle);
 		} else {
@@ -270,7 +282,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	}
 
 	@Override
-	public void renderEvent(BaseEvent event) {
+	public void renderEvent(final BaseEvent event) {
 		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
 			this.uploadWaiting = false;
 			upload();
@@ -289,7 +301,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 	 * set callback to run after file was saved (e.g. new / edit)
 	 * @param callback Runnable
 	 */
-	public void setCallback(Runnable callback) {
+	public void setCallback(final Runnable callback) {
 	    this.runAfterSave = callback;
     }
 	
