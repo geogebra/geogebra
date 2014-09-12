@@ -592,7 +592,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	//	};
 
 	public void addDisplayTypeItem(PlotType type) {
-		lbDisplayType.addItem(type.key);
+		lbDisplayType.addItem(app.getMenu(type.key));
 		plotTypes.add(type);
 	}
 
