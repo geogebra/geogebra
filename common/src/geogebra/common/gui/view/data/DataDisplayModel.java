@@ -223,7 +223,9 @@ public class DataDisplayModel {
 		public void updatePlot(boolean doCreate) {
 	
 			GeoList dataListSelected = daModel.getController().getDataSelected();
-	
+			if(dataListSelected == null){
+				return;
+			}
 			if (dataListSelected == null) {
 				return;
 			}
@@ -286,7 +288,7 @@ public class DataDisplayModel {
 							plotGeoList.add(freqTableGeo);
 						}
 					}
-	
+					
 					// update the frequency table
 					if (settings.isShowFrequencyTable()) {
 						listener.setTableFromGeoFrequencyTable(

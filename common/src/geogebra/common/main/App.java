@@ -1172,7 +1172,7 @@ public abstract class App implements UpdateSelection{
 	 */
 	public static void printStacktrace(Object message) {
 		try {
-			throw new Exception(message.toString());
+			throw new Exception(message == null ? "null" : message.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
