@@ -285,8 +285,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setLabel(label);
 		sum.setDrawable(true);
+		sum.setLabel(label);
+		
 	}
 
 	public AlgoFunctionAreaSums(NumberValue a, NumberValue b, NumberValue n,
