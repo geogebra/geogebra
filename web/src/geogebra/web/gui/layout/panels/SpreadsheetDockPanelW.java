@@ -102,9 +102,11 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	private static String getDefaultToolbar() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);
+		
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+
 		if (GeoGebraConstants.IS_PRE_RELEASE) {				
-			sb.append(" || ");
-			sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 			sb.append(" , ");
 			sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
 			sb.append(" , ");
