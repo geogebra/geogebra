@@ -1,9 +1,9 @@
 package geogebra.html5.main;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
+import geogebra.common.awt.MyImage;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
@@ -62,7 +62,6 @@ import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
@@ -86,7 +85,7 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
-import geogebra.web.euclidian.EuclidianStyleBarW;
+import geogebra.web.main.FileManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -627,9 +626,10 @@ public static final String LOCALE_PARAMETER = "locale";
 			IMAGE_EXTENSIONS.add("jpg");
 			IMAGE_EXTENSIONS.add("jpeg");
 			IMAGE_EXTENSIONS.add("png");
+			IMAGE_EXTENSIONS.add("svg");
 		}
 
-		private void maybeProcessImage(String filename, String binaryContent) {
+		private void maybeProcessImage(String filename, String content) {
 			String fn = filename.toLowerCase();
 			if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
 				return; // Ignore thumbnail
@@ -644,10 +644,16 @@ public static final String LOCALE_PARAMETER = "locale";
 			if (!IMAGE_EXTENSIONS.contains(ext)) {
 				return; // Ignore non image files
 			}
-
-			// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
 			
-			addExternalImage(filename, binaryContent);
+			// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
+
+			if ("svg".equals(ext)) {
+				addExternalImage(filename, "data:image/svg+xml;charset=utf-8," + content);
+			} else {
+				addExternalImage(filename, content);				
+			}
+
+			
 		}
 		
 		public void addExternalImage(String filename, String src) {
@@ -701,11 +707,11 @@ public static final String LOCALE_PARAMETER = "locale";
 		}
 		
 		@Override
-		public final GBufferedImage getExternalImageAdapter(String fileName) {
+		public final MyImage getExternalImageAdapter(String fileName) {
 			ImageElement im = getImageManager().getExternalImage(fileName);
 			if (im == null)
 				return null;
-			return new BufferedImage(im);
+			return new MyImageW(im);
 		}
 		
 		@Override
@@ -2152,12 +2158,13 @@ public static final String LOCALE_PARAMETER = "locale";
 	    }
 
 		public void closePopups(){
+			/* breaks webSimple
 			EuclidianStyleBarW.setJustClosedPopup(false);
 			//App.debug("closing popups:"+popups.size());
 			for(Widget widget:popups){
 				EuclidianStyleBarW.setJustClosedPopup(true);
 				widget.setVisible(false);
-			}
+			} */
 			popups.clear();
 		}
 		
