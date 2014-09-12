@@ -107,7 +107,9 @@ public class StatGeo {
 
 	private void getDataBounds(GeoList dataList, boolean isPointList,
 			boolean isMatrix) {
-
+		if(dataList == null){
+			return;
+		}
 		// construction elements created by this method should always be
 		// removed from the construction
 		boolean currentRemoveFromConstructionStatus = removeFromConstruction;
