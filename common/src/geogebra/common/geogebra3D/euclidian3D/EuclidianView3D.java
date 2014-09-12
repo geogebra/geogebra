@@ -3853,8 +3853,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		
 		setProjection(evs.getProjection());
 		
-		App.debug("ici -- "+getYAxisVertical());
-		
 		updateMatrix();
 		setViewChanged();
 		setWaitForUpdate();	
