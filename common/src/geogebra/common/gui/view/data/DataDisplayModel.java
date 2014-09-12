@@ -226,9 +226,7 @@ public class DataDisplayModel {
 			if(dataListSelected == null){
 				return;
 			}
-			if (dataListSelected == null) {
-				return;
-			}
+
 			if (hasControlPanel) {
 				listener.showControlPanel();
 			}

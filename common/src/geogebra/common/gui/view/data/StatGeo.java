@@ -303,7 +303,7 @@ public class StatGeo {
 			geo.setLineThickness(DataAnalysisModel.thicknessBarChart);
 			removeFromConstructionList(algoHistogram);
 		}
-
+		algoHistogram.getGeoElements()[0].setEuclidianVisible(false);
 		algoHistogram.setProtectedInput(true);
 		return geo;
 	}
