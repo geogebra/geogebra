@@ -86,7 +86,7 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
-import geogebra.web.main.FileManager;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -2142,8 +2142,10 @@ public static final String LOCALE_PARAMETER = "locale";
 	    }
 
 		public void closePopups(){
+			EuclidianStyleBarW.setJustClosedPopup(false);
 			//App.debug("closing popups:"+popups.size());
 			for(Widget widget:popups){
+				EuclidianStyleBarW.setJustClosedPopup(true);
 				widget.setVisible(false);
 			}
 			popups.clear();

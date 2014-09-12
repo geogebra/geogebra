@@ -25,7 +25,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	protected ImageOrText[] data;
 	protected AppW app;
 	private PopupMenuButton thisButton;
-	private ButtonPopupMenu myPopup;
+	ButtonPopupMenu myPopup;
 	
 	private PopupMenuHandler popupHandler;
 	
@@ -140,6 +140,14 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 			    // by firing the event we can react as if it was closed
 			    CloseEvent.fire(this, this, false);
 			}
+
+			@Override
+			public void hide() {
+			    super.hide();
+			    if(EuclidianStyleBarW.CURRENT_POP_UP.equals(this)){
+			    	EuclidianStyleBarW.CURRENT_POP_UP = null;
+			    }
+			}
 		};
 		//myPopup.setFocusable(false);
 		//myPopup.setBackground(Color.WHITE);
@@ -173,16 +181,20 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 					if(hasTable) {
 						myTable.updateFonts();
 					}
-					if (EuclidianStyleBarW.CURRENT_POP_UP != myPopup) {
+					if (EuclidianStyleBarW.CURRENT_POP_UP != myPopup 
+							|| !EuclidianStyleBarW.wasPopupJustClosed()) {
 						if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
 							EuclidianStyleBarW.CURRENT_POP_UP.hide();
 						}
 						EuclidianStyleBarW.CURRENT_POP_UP = myPopup;
-						
+
+						app2.registerPopup(myPopup);
+						myPopup.showRelativeTo(getWidget());
+						myPopup.getFocusPanel().getElement().focus();
+					} else {
+						myPopup.setVisible(false);
+						EuclidianStyleBarW.CURRENT_POP_UP = null;
 					}
-					app2.registerPopup(myPopup);
-					myPopup.showRelativeTo(getWidget());
-					myPopup.getFocusPanel().getElement().focus();
 				//}
 
 			}
