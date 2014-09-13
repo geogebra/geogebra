@@ -677,13 +677,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		EuclidianViewD ev = getEuclidianView();
 
-		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
 		String tempDir = DownloadManager.getTempDir();
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.svg");
 		} else {
-			// Michael Borcherds 2008-03-02 END
 			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_SVG, null,
 					app.getPlain("svg") + " " + app.getMenu("Files"), true,
 					false);
@@ -699,7 +697,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					exportScale);
 
 			if (exportToClipboard) {
-				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
+				// note this *doesn't* copy as text
+				// so ctrl-V in notepad won't show anything
+				sendToClipboard(file);
 			}
 
 			return true;
