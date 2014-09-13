@@ -116,7 +116,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	/**
 	 * threshold for moving in case of a multitouch-event (pixel)
 	 */
-	protected final static int MIN_MOVE = 5;
+	public final static int MIN_MOVE = 5;
 
 	/**
 	 * the mode of the actual multitouch-event

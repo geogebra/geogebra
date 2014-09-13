@@ -1,5 +1,6 @@
 package geogebra.geogebra3D.web.euclidian3D;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
@@ -9,10 +10,12 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
+import geogebra.common.util.MyMath;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EnvironmentStyleW;
+import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.event.HasOffsets;
@@ -602,6 +605,48 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
     public void update() {
 		// no picking with shaders
 	}
+	
+	
+	/**
+	 * coordinates of the center of the multitouch-event
+	 */
+	protected int oldCenterX, oldCenterY;
+	
+	@Override
+	public void twoTouchStart(double x1, double y1, double x2, double y2) {
+
+		oldCenterX = (int) (x1 + x2) / 2;
+		oldCenterY = (int) (y1 + y2) / 2;
+		
+		super.twoTouchStart(x1, y1, x2, y2);
+		
+	}
+	
+	@Override
+	public void twoTouchMove(double x1d, double y1d, double x2d, double y2d) {
+		int x1 = (int) x1d;
+		int x2 = (int) x2d;
+		int y1 = (int) y1d;
+		int y2 = (int) y2d;
+
+		// pinch
+		super.twoTouchMove(x1, y1, x2, y2);
+
+		int centerX = (x1 + x2) / 2;
+		int centerY = (y1 + y2) / 2;
+
+		if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > EuclidianControllerW.MIN_MOVE) {
+			view.rememberOrigins();
+			view.setCoordSystemFromMouseMove(centerX - oldCenterX, 
+					centerY - oldCenterY, EuclidianController.MOVE_ROTATE_VIEW);
+			viewRotationOccured = true;
+			view.repaintView();
+
+			oldCenterX = centerX;
+			oldCenterY = centerY;
+		}
+	}
+
 
 }
 

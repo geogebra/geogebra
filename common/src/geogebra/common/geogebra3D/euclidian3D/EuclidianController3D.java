@@ -106,7 +106,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private boolean freePointJustCreated = false;
 
 	/** says if a rotation of the view occurred (with right-button) */
-	private boolean viewRotationOccured = false;
+	protected boolean viewRotationOccured = false;
 
 	/**
 	 * scale factor for changing angle of view : 2Pi <-> 360 pixels (so 1 pixel
