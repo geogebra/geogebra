@@ -375,7 +375,9 @@ class FileMenu extends BaseMenu implements EventRenderable {
 								app.getGuiManager().showGraphicExport();
 
 							} catch (Exception e1) {
-								App.debug("GraphicExportDialog not available");
+								App.debug("GraphicExportDialog not available for 3D view yet");
+								// for 3D View
+								app.copyGraphicsViewToClipboard();
 							}
 							app.setDefaultCursor();
 						}
