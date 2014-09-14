@@ -172,6 +172,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 		}
 	}
+	
+	private Coords[] ev;
 
 	private void updateEllipse() {
 		draw_type = DRAW_TYPE_ELLIPSE;
@@ -197,7 +199,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 		
 		
-		Coords[] ev = new Coords[2];
+		if (ev == null){
+			ev = new Coords[2];
+		}
 		for (int j = 0; j < 2; j++) {
 			if (isPreview){ // coords have been calculated in view
 				ev[j] = ((GeoConicND) conicPart).getEigenvec3D(j);

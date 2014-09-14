@@ -144,7 +144,9 @@ public class DrawConicSection extends DrawConic {
 			updateEllipseEdge();
 			return;
 		}
-		Coords[] ev = new Coords[2];
+		if (ev == null){
+			ev = new Coords[2];
+		}
 		for (int j = 0; j < 2; j++) {
 			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
 			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
@@ -232,10 +234,14 @@ public class DrawConicSection extends DrawConic {
 	}
 	
 	
+	private Coords[] endPoints;
+	
 	@Override
 	protected void updateLines() {
 		
-		Coords[] endPoints = new Coords[4];
+		if (endPoints == null){
+			endPoints = new Coords[4];
+		}
 
 		Coords m = conic.getOrigin3D(0);
 		Coords d = conic.getDirection3D(0);

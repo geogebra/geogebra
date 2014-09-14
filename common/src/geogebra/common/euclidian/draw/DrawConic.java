@@ -767,6 +767,8 @@ public class DrawConic extends Drawable implements Previewable {
 		yLabel = (int) (my - yradius * 0.85) + 20;
 	}
 
+	protected Coords[] ev;
+	
 	/**
 	 * Update in case this draws an ellipse
 	 */
@@ -791,7 +793,10 @@ public class DrawConic extends Drawable implements Previewable {
 				return;
 			}
 		}
-		Coords[] ev = new Coords[2];
+		
+		if (ev == null){
+			ev = new Coords[2];
+		}
 		if (isPreview){ // calculations were in view coords
 			for (int j = 0; j < 2; j++) {
 				ev[j] = conic.getEigenvec(j);
@@ -860,7 +865,9 @@ public class DrawConic extends Drawable implements Previewable {
 				return;
 			}
 		}
-		Coords[] ev = new Coords[2];
+		if (ev == null){
+			ev = new Coords[2];
+		}
 		if (isPreview){ // calculations were in view coords
 			for (int j = 0; j < 2; j++) {
 				ev[j] = conic.getEigenvec(j);
@@ -1071,7 +1078,9 @@ public class DrawConic extends Drawable implements Previewable {
 				return;
 			}
 		}
-		Coords[] ev = new Coords[2];
+		if (ev == null){
+			ev = new Coords[2];
+		}
 		if (isPreview){ // calculations were in view coords
 			for (int j = 0; j < 2; j++) {
 				ev[j] = conic.getEigenvec(j);
