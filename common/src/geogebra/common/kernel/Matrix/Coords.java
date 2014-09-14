@@ -768,7 +768,8 @@ public class Coords extends CoordMatrix {
 		CoordMatrix.solve(inPlaneCoords, this, vx, vy, vz, o);
 
 		// globalCoords=this-inPlaneCoords_z*plane_vz
-		this.add(vz.mul(-inPlaneCoords[2]), globalCoords);
+		vz.mul(-inPlaneCoords[2], globalCoords);
+		this.add(globalCoords, globalCoords);
 
 	}
 
@@ -1179,6 +1180,18 @@ public class Coords extends CoordMatrix {
 		}
 	}
 	
+	/**
+	 * put this + v into result
+	 * @param v vector
+	 * @param result result
+	 */
+	public void add(double[] v, double[] result) {
+
+		for (int i = 0 ; i < rows ; i++){
+			result[i] = val[i] + v[i];
+		}
+	}
+	
 	public Coords addSmaller(Coords v) {
 		return (Coords) super.addSmaller(v);
 	}
@@ -1210,6 +1223,16 @@ public class Coords extends CoordMatrix {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param val0 factor
+	 * @param res gets this * val0
+	 */
+	public void mul(double val0, double[] res){
+		for (int i = 0 ; i < res.length && i < rows ; i++){
+			res[i] = val[i] * val0;
+		}
+	}
 	/**
 	 * 
 	 * @param v vector

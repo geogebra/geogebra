@@ -28,7 +28,7 @@ public final class CoordMatrixUtil {
 		
 		double[] project1 = new double[4], project2 = new double[4], lineCoords = new double[2];
 
-		nearestPointsFromTwoLines(o1, v1, o2, v2, project1, project2, lineCoords);
+		nearestPointsFromTwoLines(o1, v1, o2, v2, project1, project2, lineCoords, new double[4]);
 		
 		return new Coords[] {new Coords(project1), new Coords(project2), new Coords(lineCoords)};
 	}
@@ -49,11 +49,13 @@ public final class CoordMatrixUtil {
 	 * @param project1 point on line 1
 	 * @param project2 point on line 2
 	 * @param lineCoords parameters of each point on each line
+	 * @param tmp tmp values (length 4)
 	 *            
 	 */
 	static final public void nearestPointsFromTwoLines(Coords o1,
 			Coords v1, Coords o2, Coords v2,
-			double[] project1, double[] project2, double[] lineCoords
+			double[] project1, double[] project2, double[] lineCoords,
+			double[] tmp
 			) {
 		
 
@@ -70,17 +72,14 @@ public final class CoordMatrixUtil {
 
 		// plane containing o1, v1, vn, with v2 direction
 		// projection of o2 on this plane
-		double[] project2b = new double[4];
-		o2.projectPlaneNoCheck(v1, vn, v2, o1, project2, project2b);
+		o2.projectPlaneNoCheck(v1, vn, v2, o1, project2, tmp);
+		lineCoords[1] = -tmp[2]; // points in lines coords
 
 		// plane containing o2, v2, vn, with v1 direction
-		// projection of o2 on this plane
-		double[] project1b = new double[4];
-		o1.projectPlaneNoCheck(v2, vn, v1, o2, project1, project1b);
-
-		// points in lines coords
-		lineCoords[0] = -project1b[2];
-		lineCoords[1] = -project2b[2];
+		// projection of o1 on this plane
+		o1.projectPlaneNoCheck(v2, vn, v1, o2, project1, tmp);
+		lineCoords[0] = -tmp[2]; // points in lines coords
+		
 		
 	}
 
@@ -155,39 +154,7 @@ public final class CoordMatrixUtil {
 		
 	}
 
-	/**
-	 * return the cartesian coords of v
-	 * 
-	 * @param v
-	 *            3D vector in spherical coords
-	 * @return the cartesian coords of v
-	 */
-	static final public Coords cartesianCoords(Coords v) {
 
-		return cartesianCoords(v.get(1), v.get(2), v.get(3));
-	}
-
-	/**
-	 * return the cartesian coords of (r,theta,phi)
-	 * 
-	 * @param r
-	 *            spherical radius
-	 * @param theta
-	 *            (Oz) angle
-	 * @param phi
-	 *            (xOy) angle
-	 * @return the cartesian coords of (r,theta,phi)
-	 */
-	static final public Coords cartesianCoords(double r, double theta,
-			double phi) {
-
-		double z = r * Math.sin(phi);
-		double n2 = r * Math.cos(phi);
-		double x = n2 * Math.cos(theta);
-		double y = n2 * Math.sin(theta);
-
-		return new Coords(new double[] { x, y, z, 0 });
-	}
 
 	/**
 	 * 
