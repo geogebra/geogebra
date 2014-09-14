@@ -1531,10 +1531,6 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 */
 	public Coords getPoint3D(int i) {
 		return getPoint(i).getInhomCoordsInD3();
-		/*
-		 * Coords v = new Coords(4); v.set(getPoint(i).getInhomCoordsInD3());
-		 * v.setW(1); return v;
-		 */
 	}
 
 	/**
@@ -1750,6 +1746,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	public boolean hasDrawable3D() {
 		return true;
 	}
+	
+	private Coords labelPosition;
 
 	@Override
 	public Coords getLabelPosition() {
@@ -1762,8 +1760,15 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			y += coords.getY();
 			z += coords.getZ();
 		}
-		return new Coords(x / getPointsLength(), y / getPointsLength(), z
-				/ getPointsLength(), 1);
+		
+		if (labelPosition == null){
+			labelPosition =  new Coords(x / getPointsLength(), y / getPointsLength(), z / getPointsLength(), 1);
+		}else{
+			labelPosition.setX(x / getPointsLength());
+			labelPosition.setY(y / getPointsLength());
+			labelPosition.setZ(z / getPointsLength());
+		}
+		return labelPosition;
 	}
 
 	// //////////////////////////////////////
