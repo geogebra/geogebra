@@ -130,6 +130,12 @@ public class AlgoDispatcher {
 		}
 		return p;
 	}
+	
+	public GeoPointND Point(String label, Path path, double x, double y, double z,
+			boolean addToConstruction, boolean complex, boolean coords2D) {
+
+		return Point(label, path, x, y, addToConstruction, complex, coords2D);
+	}
 
 	/** Point anywhere on path with */
 	final public GeoPoint Point(String label, Path path, NumberValue param) {
@@ -771,26 +777,7 @@ public class AlgoDispatcher {
 	
 	public GeoPointND PointIn(String label, Region region, double x,
 			double y, double z, boolean addToConstruction, boolean complex, boolean coords2D) {
-		boolean oldMacroMode = false;
-		if (!addToConstruction) {
-			oldMacroMode = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-
-		}
-		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
-				y);
-		// Application.debug("PointIn - \n x="+x+"\n y="+y);
-		GeoPoint p = algo.getP();
-		if (complex) {
-			p.setMode(Kernel.COORD_COMPLEX);
-		}else if (!coords2D){
-			p.setCartesian3D();
-			p.update();
-		}
-		if (!addToConstruction) {
-			cons.setSuppressLabelCreation(oldMacroMode);
-		}
-		return p;
+		return PointIn(label, region, x, y, addToConstruction, complex, coords2D);
 	}
 	
 
@@ -1466,26 +1453,24 @@ public class AlgoDispatcher {
 
 	}
 	
-	public boolean attach(GeoPointND p, Path path, EuclidianViewInterfaceCommon view, GPoint loc) {
-		
-		GeoPoint point = (GeoPoint) p;
-	
+	public boolean attach(GeoPointND point, Path path, EuclidianViewInterfaceCommon view, GPoint loc) {
+			
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
 			
-			GeoPoint newPoint;
+			GeoPointND newPoint;
 			if(loc == null){
-				newPoint = Point(null, path, 0, 0,
-						false, false, p.getMode()!=Kernel.COORD_CARTESIAN_3D);
+				newPoint = Point(null, path, 0, 0, 0,
+						false, false, point.getMode()!=Kernel.COORD_CARTESIAN_3D);
 			}
 			else{
-				newPoint = Point(null, path, view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y),
-					false, false, p.getMode()!=Kernel.COORD_CARTESIAN_3D);
+				newPoint = Point(null, path, view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y), 0,
+					false, false, point.getMode()!=Kernel.COORD_CARTESIAN_3D);
 			}
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			cons.replace(point, newPoint);
+			cons.replace((GeoElement) point, (GeoElement) newPoint);
 			//clearSelections();
 			return true;
 		} catch (Exception e1) {
