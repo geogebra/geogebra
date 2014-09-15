@@ -320,6 +320,7 @@ Libraries used by GeoGebra:
   * OpenGeoProver, http://code.google.com/p/open-geo-prover/ (GPL3)
   * org-concord-sensor, http://code.google.com/p/org-concord-sensor/
     (LGPL)
+  * SVG Salamander, ​http://svgsalamander.java.net/ (LGPL / BSD)
   * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
   * zip.js, http://gildas-lormeau.github.com/zip.js/ (BSD)
   
