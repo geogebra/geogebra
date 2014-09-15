@@ -19,11 +19,6 @@ public class SwingFactoryW extends SwingFactory {
 	}
 
 	@Override
-	public GLabel newJLabel(String string) {
-		return new geogebra.html5.javax.swing.GLabelW(string);
-	}
-
-	@Override
 	public GLabel newJLabel(String string, boolean bool) {
 		return new geogebra.html5.javax.swing.GLabelW(string, bool);
 	}

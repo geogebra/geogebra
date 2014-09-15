@@ -74,7 +74,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		if (geoList.drawAsComboBox()) {
 
 			if (label == null) {
-				label = view.getApplication().getSwingFactory().newJLabel("Label");
+				label = view.getApplication().getSwingFactory().newJLabel("Label", true);
 				label.setVisible(true);
 			}
 
