@@ -3035,6 +3035,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			switch (mode) {
 			// cross arrows for moving point
 			case EuclidianConstants.MODE_MOVE:
+			case EuclidianConstants.MODE_ATTACH_DETACH:
 			case EuclidianConstants.MODE_POINT:
 			case EuclidianConstants.MODE_POINT_ON_OBJECT:
 				return true;// !mousePressed; //don't display cursor if dragging

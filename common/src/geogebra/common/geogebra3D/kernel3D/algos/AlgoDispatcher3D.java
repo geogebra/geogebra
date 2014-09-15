@@ -235,5 +235,15 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		
 		return super.Point(label, path, coords, addToConstruction, complex, coords2D);
 	}
+	
+	@Override
+	protected GeoPointND copyFreePoint(GeoPointND point){
+		if (point.isGeoElement3D()){
+			return (GeoPointND) getManager3D().Point3D(null, point.getInhomX(), point.getInhomY(), point.getInhomZ(), 
+					point.getMode() == Kernel.COORD_CARTESIAN);
+		}
+		
+		return super.copyFreePoint(point);
+	}
 
 }

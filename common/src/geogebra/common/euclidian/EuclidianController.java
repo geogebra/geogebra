@@ -3608,7 +3608,7 @@ public abstract class EuclidianController {
 	
 			if (p.isPointOnPath() || p.isPointInRegion()) {
 	
-				getSelectedPoints();
+				getSelectedPointsND();
 				getSelectedRegions();
 				getSelectedPaths();
 				

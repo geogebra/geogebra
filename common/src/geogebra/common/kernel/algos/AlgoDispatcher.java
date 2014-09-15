@@ -1494,17 +1494,12 @@ public class AlgoDispatcher {
 		}
 	}
 	
-	public boolean detach(GeoPointND point, EuclidianViewInterfaceCommon view) {
+	public boolean detach(GeoPointND p, EuclidianViewInterfaceCommon view) {
 		
-		GeoPoint p = (GeoPoint) point;
-		
-		//getSelectedPoints();
-		//getSelectedRegions();
-		//getSelectedPaths();
 
-		// move point (20,20) pixels when detached
-		double x = view.toScreenCoordX(p.inhomX) + 20;
-		double y = view.toScreenCoordY(p.inhomY) + 20;
+//		// move point (20,20) pixels when detached
+//		double x = view.toScreenCoordX(p.inhomX) + 20;
+//		double y = view.toScreenCoordY(p.inhomY) + 20;
 
 		try {
 			boolean oldLabelCreationFlag = cons
@@ -1512,18 +1507,28 @@ public class AlgoDispatcher {
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
 			
-			GeoPoint newPoint = new GeoPoint(
-					cons, null,
-					view.toRealWorldCoordX(x),
-					view.toRealWorldCoordY(y), 1.0);
+//			GeoPointND newPoint = new GeoPoint(
+//					cons, null,
+//					view.toRealWorldCoordX(x),
+//					view.toRealWorldCoordY(y), 1.0);
+			
+			GeoPointND newPoint = copyFreePoint(p);
+			
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			cons.replace(p, newPoint);
+			cons.replace((GeoElement) p, (GeoElement) newPoint);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			return false;
 		}
 		//clearSelections();
 		return true;
+	}
+	
+	protected GeoPointND copyFreePoint(GeoPointND point){
+		return new GeoPoint(
+				cons, null,
+				point.getInhomX(),
+				point.getInhomY(), 1.0);
 	}
 
 	/**
