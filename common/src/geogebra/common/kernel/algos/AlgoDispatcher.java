@@ -1496,21 +1496,10 @@ public class AlgoDispatcher {
 	
 	public boolean detach(GeoPointND p, EuclidianViewInterfaceCommon view) {
 		
-
-//		// move point (20,20) pixels when detached
-//		double x = view.toScreenCoordX(p.inhomX) + 20;
-//		double y = view.toScreenCoordY(p.inhomY) + 20;
-
 		try {
 			boolean oldLabelCreationFlag = cons
 					.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			//checkZooming(); 
-			
-//			GeoPointND newPoint = new GeoPoint(
-//					cons, null,
-//					view.toRealWorldCoordX(x),
-//					view.toRealWorldCoordY(y), 1.0);
 			
 			GeoPointND newPoint = copyFreePoint(p, view);
 			
