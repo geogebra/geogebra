@@ -726,7 +726,7 @@ public static final String LOCALE_PARAMETER = "locale";
 
 		@Override
 		public final GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-			return new geogebra.html5.kernel.GeoElementGraphicsAdapter(this);
+			return new geogebra.html5.kernel.GeoElementGraphicsAdapterW(this);
 		}
 		
 		@Override

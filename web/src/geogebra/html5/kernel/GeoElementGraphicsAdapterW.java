@@ -5,12 +5,12 @@ import geogebra.common.awt.MyImage;
 import geogebra.common.main.App;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 
-public class GeoElementGraphicsAdapter extends
+public class GeoElementGraphicsAdapterW extends
         geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
 
 	private App app;
 
-	public GeoElementGraphicsAdapter(App appl) {
+	public GeoElementGraphicsAdapterW(App appl) {
 		app = (App) appl;
 	}
 	
