@@ -3654,7 +3654,7 @@ public abstract class EuclidianController {
 				
 			} else if (selRegions() == 1) {
 				Region regions[] = getSelectedRegions();
-				GeoPointND[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPointsND();
 	
 				if (!((GeoElement) regions[0]).isChildOf((GeoElement) points[0])) {
 					

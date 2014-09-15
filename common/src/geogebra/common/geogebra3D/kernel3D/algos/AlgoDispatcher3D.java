@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
@@ -211,6 +212,17 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		
 		return super.Circle(label, M, r);
 
+	}
+	
+	@Override
+	public GeoPointND PointIn(String label, Region region, double x,
+			double y, double z, boolean addToConstruction, boolean complex, boolean coords2D) {
+		
+		if (region.isGeoElement3D()){
+			return getManager3D().Point3DIn(label, region, new Coords(x,y,z,1), addToConstruction, coords2D);
+		}
+		
+		return super.PointIn(label, region, x, y, z, addToConstruction, complex, coords2D);
 	}
 
 }

@@ -769,6 +769,30 @@ public class AlgoDispatcher {
 		return p;
 	}
 	
+	public GeoPointND PointIn(String label, Region region, double x,
+			double y, double z, boolean addToConstruction, boolean complex, boolean coords2D) {
+		boolean oldMacroMode = false;
+		if (!addToConstruction) {
+			oldMacroMode = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+
+		}
+		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
+				y);
+		// Application.debug("PointIn - \n x="+x+"\n y="+y);
+		GeoPoint p = algo.getP();
+		if (complex) {
+			p.setMode(Kernel.COORD_COMPLEX);
+		}else if (!coords2D){
+			p.setCartesian3D();
+			p.update();
+		}
+		if (!addToConstruction) {
+			cons.setSuppressLabelCreation(oldMacroMode);
+		}
+		return p;
+	}
+	
 
 
 
@@ -1470,26 +1494,24 @@ public class AlgoDispatcher {
 		}
 	}
 
-	public boolean attach(GeoPointND p, Region region, EuclidianViewInterfaceCommon view, GPoint loc) {
-	
-		GeoPoint point = (GeoPoint) p;
-		
+	public boolean attach(GeoPointND point, Region region, EuclidianViewInterfaceCommon view, GPoint loc) {
+			
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
 			
-			GeoPoint newPoint;
+			GeoPointND newPoint;
 			if(loc == null){
-				newPoint = PointIn(null, region, 0, 0,
+				newPoint = PointIn(null, region, 0, 0, 0,
 						false, false, true);
 			}else{
 				newPoint = PointIn(null, region,
-					view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y),
+					view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y), 0,
 					false, false, true);
 			}
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			cons.replace(point, newPoint);
+			cons.replace((GeoElement) point, (GeoElement) newPoint);
 			//clearSelections();
 			return true;
 		} catch (Exception e1) {
