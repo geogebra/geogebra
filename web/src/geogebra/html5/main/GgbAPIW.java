@@ -540,11 +540,15 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 					String svgAsXML = svg.getAttribute("src");
 					
 					
-					// remove eg data:image/svg+xml;charset=utf-8,
-					int index = svgAsXML.indexOf('<');
-					svgAsXML = svgAsXML.substring(index);
+					// remove eg data:image/svg+xml;base64,
+					int index = svgAsXML.indexOf(',');
+					svgAsXML = svgAsXML.substring(index + 1);
 
 					App.debug("svgAsXML = " + svgAsXML);
+					
+					svgAsXML = ((AppW) app).decodeBase64String(svgAsXML);
+					
+					App.debug("svgAsXML (decoded) = " + svgAsXML);
 					
 					archive.put(fileName, svgAsXML);	
 					url = null;

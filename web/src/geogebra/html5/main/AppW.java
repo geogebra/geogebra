@@ -650,12 +650,27 @@ public static final String LOCALE_PARAMETER = "locale";
 			App.debug("ext2 = " + ext);
 
 			if ("svg".equals(ext)) { 
-				addExternalImage(filename, "data:image/svg+xml;charset=utf-8," + content); 
+				// IE11/12 seems to require SVG to be base64 encoded
+				addExternalImage(filename, "data:image/svg+xml;base64," + encodeBase64String(content)); 
 			} else { 
 				addExternalImage(filename, content);                             
 			} 		
 		}
 
+		/*
+		 * String -> String only
+		 */
+		public native String encodeBase64String(String s) /*-{
+			return $wnd.btoa(s);
+		}-*/;
+	
+		/*
+		 * String -> String only
+		 */
+		public native String decodeBase64String(String s) /*-{
+			return $wnd.atob(s);
+		}-*/;
+	
 		public void addExternalImage(String filename, String src) {
 			getImageManager().addExternalImage(filename, src);
 		}
