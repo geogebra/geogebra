@@ -103,6 +103,7 @@ public class AlgoRotateText extends AlgoElement {
 
     	text.setTextString(sb.toString());
     	text.setLaTeX(true,false);
+    	text.setSerifFont(args.isSerifFont());
     }
     
     /**
