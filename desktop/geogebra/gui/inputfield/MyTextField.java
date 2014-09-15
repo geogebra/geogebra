@@ -126,7 +126,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		borderBtn.setBorderButton(0, icon, this);
 		setDefaultBorder();
 
-		app.setComponentOrientation(this);
+		setComponentOrienation();
 	}
 
 	/**
@@ -340,6 +340,11 @@ public class MyTextField extends JTextField implements ActionListener,
 	public void setLabels() {
 		if (tablePopup != null)
 			tablePopup.setLabels();
+		setComponentOrienation();
+	}
+
+	public void setComponentOrienation() {
+		app.setComponentOrientation(this);
 	}
 
 	// fields for custom painting

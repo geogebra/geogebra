@@ -98,6 +98,7 @@ public class CASInputPanel extends JPanel {
 	 */
 	public void setLabels() {
 		inputArea.setDictionary(true);
+		inputArea.setLabels();
 	}
 
 }

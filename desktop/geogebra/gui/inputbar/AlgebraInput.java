@@ -189,6 +189,7 @@ public class AlgebraInput extends JPanel implements ActionListener,
 			btnHelpToggle.setToolTipText(app.getMenu("InputHelp"));
 
 		inputField.setDictionary(false);
+		inputField.setLabels();
 	}
 
 	public void updateFonts() {
