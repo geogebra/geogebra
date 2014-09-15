@@ -1459,6 +1459,13 @@ public class AlgoDispatcher {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
+
+			boolean setDefaultColor = false;
+			if (((GeoElement) point).getColorFunction() == null){
+				setDefaultColor = ((GeoElement) point).getObjectColor().equals(
+						cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE).getObjectColor());
+			}
+		
 			
 			GeoPointND newPoint = Point(null, path, locRW, false, false,
 					point.getMode()!=Kernel.COORD_CARTESIAN_3D);
@@ -1466,6 +1473,11 @@ public class AlgoDispatcher {
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) point, (GeoElement) newPoint);
 			//clearSelections();
+			
+			if (setDefaultColor){
+				newPoint.setObjColor(cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_ON_PATH).getObjectColor());
+			}
+			
 			return true;
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -1479,6 +1491,12 @@ public class AlgoDispatcher {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
+			
+			boolean setDefaultColor = false;
+			if (((GeoElement) point).getColorFunction() == null){
+				setDefaultColor = ((GeoElement) point).getObjectColor().equals(
+						cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE).getObjectColor());
+			}
 
 			GeoPointND newPoint = PointIn(null, region,
 					locRW, false, false,
@@ -1486,6 +1504,11 @@ public class AlgoDispatcher {
 			
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) point, (GeoElement) newPoint);
+			
+			if (setDefaultColor){
+				newPoint.setObjColor(cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_IN_REGION).getObjectColor());
+			}
+			
 			//clearSelections();
 			return true;
 		} catch (Exception e1) {
@@ -1500,11 +1523,28 @@ public class AlgoDispatcher {
 			boolean oldLabelCreationFlag = cons
 					.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			
+
+			boolean setDefaultColor = false;
+			if (((GeoElement) p).getColorFunction() == null){
+				if (p.hasPath()){
+					setDefaultColor = ((GeoElement) p).getObjectColor().equals(
+							cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_ON_PATH).getObjectColor());
+				}else if (p.hasRegion()){
+					setDefaultColor = ((GeoElement) p).getObjectColor().equals(
+							cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_IN_REGION).getObjectColor());
+
+				}
+			}
+
 			GeoPointND newPoint = copyFreePoint(p, view);
 			
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) p, (GeoElement) newPoint);
+
+			if (setDefaultColor){
+				newPoint.setObjColor(cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE).getObjectColor());
+			}
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			return false;
