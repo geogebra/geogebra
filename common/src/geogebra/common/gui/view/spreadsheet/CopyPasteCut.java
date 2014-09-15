@@ -8,6 +8,7 @@ import geogebra.common.main.SpreadsheetTableModel;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.TreeSet;
 
 public abstract class CopyPasteCut {
 
@@ -502,14 +503,20 @@ public abstract class CopyPasteCut {
 	public static boolean delete(App app, int column1,
 			int row1, int column2, int row2, int selectionType) {
 		boolean succ = false;
+		TreeSet<GeoElement> toRemove = new TreeSet<GeoElement>();
 		for (int column = column1; column <= column2; ++column) {
 			for (int row = row1; row <= row2; ++row) {
 				GeoElement value0 = RelativeCopy.getValue(app, column, row);
 				if (value0 != null && !value0.isFixed()) {
-					value0.removeOrSetUndefinedIfHasFixedDescendent();
-					succ = true;
+					toRemove.add(value0);
 				}
 			}
+		}
+		int size = toRemove.size();
+		for(int i =0; i < size; i++){
+			toRemove.last().removeOrSetUndefinedIfHasFixedDescendent();
+			succ = true;
+			toRemove.remove(toRemove.last());
 		}
 
 		// Let the trace manager know about the delete
