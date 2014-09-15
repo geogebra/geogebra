@@ -17,9 +17,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
@@ -55,8 +55,12 @@ public class MyImageD implements MyImage {
 		svg = new StringBuilder(svgStr.length());
 		svg.append(svgStr);
 
-		InputStream stream = new ByteArrayInputStream(
-				svgStr.getBytes(StandardCharsets.UTF_8));
+		InputStream stream = null;
+		try {
+			stream = new ByteArrayInputStream(svgStr.getBytes("UTF_8"));
+		} catch (UnsupportedEncodingException e1) {
+			//
+		}
 
 		SVGUniverse universe = SVGCache.getSVGUniverse();
 		URI uri;
