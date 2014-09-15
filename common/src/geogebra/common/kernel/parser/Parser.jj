@@ -439,7 +439,7 @@ ValidExpression buildValidExpression() :
         lhs = expressionnode() <EQUAL> rhs = expressionnode()
         {             
             // maybe it's an assignment, i.e. there is no x, y, or z on the right side
-      if (!rhs.containsFunctionVariable())
+      if (!rhs.containsFreeFunctionVariable())
       {
           // assignment, e.g. z = 23
           if (lhs.isSingleVariable()) {                                                   
