@@ -160,6 +160,7 @@ public class ImageManager extends AbstractImageManager {
     }
 
 	public void replace(String fileName, String newName) {
+		App.debug("renaming fileName to newName");
 		if(fileName.equals(newName)){
 			return;
 		}

@@ -200,7 +200,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	String constructionXml = getApplication().getXML();
     	String macroXml = getApplication().getMacroXMLorEmpty();
     	String geogebra_javascript = getKernel().getLibraryJavaScript();
-    	writeConstructionImages(getConstruction(),"",archiveContent);
+    	writeConstructionImages(getConstruction(), "", archiveContent);
 
 		// write construction thumbnails
     	if (includeThumbnail)
@@ -503,9 +503,9 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != null) {
-					geo.getGraphicsAdapter().convertToSaveableFormat();
-					String newName = geo.getGraphicsAdapter().getImageFileName();
-					((ImageManager)app.getImageManager()).replace(fileName, newName);
+				geo.getGraphicsAdapter().convertToSaveableFormat();
+				String newName = geo.getGraphicsAdapter().getImageFileName();
+				((ImageManager)app.getImageManager()).replace(fileName, newName);
 			}
 		}
 	}
@@ -531,22 +531,27 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 				
 				App.debug("filename = " + fileName);
 				App.debug("ext = " + ext);
-				if (url == null && (img != null && img.getImage() != null)) {
+				if ("svg".equals(ext)) {
 					
-					if ("svg".equals(ext)) {
-						
-						ImageElement svg = img.getImage();
-						
-						// TODO
-						//String svgAsXML = "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
-						String svgAsXML = svg.getAttribute("src");
-						
-						App.debug("svgAsXML = " + svgAsXML);
-						
-						archive.put(fileName, svgAsXML);						
-						return;
-						
-					}
+					ImageElement svg = img.getImage();
+					
+					// TODO
+					//String svgAsXML = "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
+					String svgAsXML = svg.getAttribute("src");
+					
+					
+					// remove eg data:image/svg+xml;charset=utf-8,
+					int index = svgAsXML.indexOf('<');
+					svgAsXML = svgAsXML.substring(index);
+
+					App.debug("svgAsXML = " + svgAsXML);
+					
+					archive.put(fileName, svgAsXML);	
+					url = null;
+					
+					
+				} else if (url == null && (img != null && img.getImage() != null)) {
+					
 					Canvas cv = Canvas.createIfSupported();
 					cv.setCoordinateSpaceWidth(img.getWidth());
 					cv.setCoordinateSpaceHeight(img.getHeight());
@@ -560,10 +565,11 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 					
 				}
 				if (url != null) {
-					if (ext.equals("png"))
+					if ("png".equals(ext)) {
 						addImageToZip(filePath + fileName, url, archive);
-					else
+					} else if (!"svg".equals(ext)){
 						addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", url, archive);
+					}
 				}
 			}
 		}

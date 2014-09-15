@@ -54,20 +54,19 @@ public class GeoElementGraphicsAdapter extends
 
 	@Override
     public void convertToSaveableFormat() {
-		String oldFileName = this.imageFileName;
 		if("".equals(imageFileName)){
 			return;
 		}
 		int dotIndex = imageFileName.lastIndexOf('.');
-		String ext = imageFileName.substring(dotIndex+1).toLowerCase();
-	    if("png".equals(ext)){
+		String ext = imageFileName.substring(dotIndex + 1).toLowerCase();
+	    if("png".equals(ext) || "svg".equals(ext)){
 	    	return;
 	    }
 	    int index = imageFileName.lastIndexOf('/');
-	    int extDotLength = dotIndex < 0 ? 0 : ext.length()+1;
-	    String fn = imageFileName.substring(index+1, imageFileName.length() - extDotLength)+".png";
+	    int extDotLength = dotIndex < 0 ? 0 : ext.length() + 1;
+	    String fn = imageFileName.substring(index + 1, imageFileName.length() - extDotLength) + ".png";
 	    MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-	    imageFileName = md5e.encrypt(fn)+"/"+fn;
+	    imageFileName = md5e.encrypt(fn) + "/" + fn;
     }
 
 }
