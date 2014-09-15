@@ -104,6 +104,8 @@ public interface GuiManagerInterface {
 	
 	public View getDataAnalysisView();
 	
+	public View getDataAnalysisView(int mode);
+
 	public View getPlotPanelView(int id);
 	
 	public View getPropertiesView();
@@ -345,4 +347,5 @@ public interface GuiManagerInterface {
 	public void invokeLater(Runnable runnable);
 	
 	int getEuclidianViewCount();
+
 }

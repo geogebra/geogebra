@@ -353,7 +353,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	/**
-	 * Creates a control panel for adjusting the number of histogram classes
+	 * commonFields Creates a control panel for adjusting the number of
+	 * histogram classes
 	 */
 	private void createNumClassesPanel() {
 
@@ -785,7 +786,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	public void resize() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -662,7 +662,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		layout.registerPanel(new PropertiesDockPanelW((AppW) app));
 
 		// register data analysis view
-		layout.registerPanel(new DataAnalysisViewDockPanelW(app));
+		layout.registerPanel(new DataAnalysisViewDockPanelW((AppW)app));
 		
 		if (!app.isApplet()) {
 			// register python view
@@ -1003,6 +1003,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 		return dataAnalysisView;
 	}
+
+	public View getDataAnalysisView(int mode) {
+		if (dataAnalysisView != null &&
+				dataAnalysisView.getModel().getMode() != mode) {
+			dataAnalysisView = null;
+			dataAnalysisView = new DataAnalysisViewW((AppW) app,
+					mode);
+		}
+		return dataAnalysisView;
+		
+	}
+
 
 	public void attachDataAnalysisView() {
 		getDataAnalysisView();

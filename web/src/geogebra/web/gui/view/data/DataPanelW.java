@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.main.AppW;
@@ -114,6 +115,69 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		return selectionList;
 	}
 
+	private void populateOneVarDataTable(ArrayList<GeoElement> dataArray) {
+		String[] titles = daView.getDataTitles();
+		String[] rowNames = new String[dataArray.size()];
+		dataTable.setStatTable(dataArray.size(), rowNames, 2, null);
+		for (int row = 0; row < dataArray.size(); row++) {
+			CheckBox cb = new CheckBox("" + (row+1));
+			cb.addClickHandler(new DataClickHandler(row));
+			cb.setValue(true);
+			dataTable.getTable().setWidget(row + 1, 0, cb); 
+
+			dataTable.setValueAt(
+					dataArray.get(row).toDefinedValueString(
+							StringTemplate.defaultTemplate), row + 1, 1);
+		}
+
+		cbEnableAll = new CheckBox("");
+		cbEnableAll.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				enableAll();
+			}
+		});
+		
+		dataTable.getTable().setWidget(0, 0, cbEnableAll);
+		dataTable.setValueAt(titles[0], 0, 1);
+
+		updateSelectionList(dataArray);
+
+	}
+	
+	private void populateRegressionDataTable(ArrayList<GeoElement> dataArray) {
+		// a data source may be a list of points with a single title
+		// so we must create a title for the y column
+		String[] titles = daView.getDataTitles();
+		String[] rowNames = new String[dataArray.size()];
+		String titleX = titles[0];
+		String titleY = titles.length == 1 ? titleX : titles[1];
+
+		dataTable.setStatTable(dataArray.size(), rowNames, 3, null);
+
+		for (int row = 0; row < dataArray.size(); ++row) {
+			dataTable.setValueAt(
+					((GeoPoint) (dataArray.get(row))).getInhomX()+"", row, 1);
+			dataTable.setValueAt(
+					((GeoPoint) (dataArray.get(row))).getInhomY()+"", row, 2);
+		}
+
+
+		// handle x,y titles
+		if (daView.getDataSource().isPointData()) {
+
+			dataTable.setValueAt(loc.getMenu("Column.X"), 0, 1);
+			dataTable.setValueAt(loc.getMenu("Column.Y"), 0, 1);
+		} else {
+			dataTable.setValueAt(loc.getMenu("Column.X") + ": " + titleX, 0, 1);
+			dataTable.setValueAt(loc.getMenu("Column.Y") + ": " + titleY, 0, 1);
+		}
+
+		updateSelectionList(dataArray);
+
+	}
+
+	
 	private void populateDataTable(ArrayList<GeoElement> dataArray) {
 
 		if (dataArray == null || dataArray.size() < 1) {
@@ -121,80 +185,18 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		}
 
 		//GeoPoint geo = null;
-		String[] titles = daView.getDataTitles();
-		String[] rowNames = new String[dataArray.size()];
-		dataTable.setStatTable(dataArray.size(), rowNames, 2, null);
-		
+			
 	
 		switch (daView.getModel().getMode()) {
 
 		case DataAnalysisModel.MODE_ONEVAR:
-
-			for (int row = 0; row < dataArray.size(); row++) {
-				CheckBox cb = new CheckBox("" + (row+1));
-				cb.addClickHandler(new DataClickHandler(row));
-				cb.setValue(true);
-				dataTable.getTable().setWidget(row + 1, 0, cb); 
-
-				dataTable.setValueAt(
-						dataArray.get(row).toDefinedValueString(
-								StringTemplate.defaultTemplate), row + 1, 1);
-			}
-
-			cbEnableAll = new CheckBox("");
-			cbEnableAll.addClickHandler(new ClickHandler() {
-				
-				public void onClick(ClickEvent event) {
-					enableAll();
-				}
-			});
-			
-			dataTable.getTable().setWidget(0, 0, cbEnableAll);
-			dataTable.setValueAt(titles[0], 0, 1);
-
-			updateSelectionList(dataArray);
-
+			populateOneVarDataTable(dataArray);
 			break;
 
-//		case DataAnalysisModel.MODE_REGRESSION:
-//
-//			// a data source may be a list of points with a single title
-//			// so we must create a title for the y column
-//			String titleX = titles[0];
-//				String titleY = titles.length == 1 ? titleX : titles[1];
-//
-//			dataModel = new DefaultTableModel(dataArray.size(), 2);
-//			for (int row = 0; row < dataArray.size(); ++row) {
-//				dataModel.setValueAt(
-//						((GeoPoint) (dataArray.get(row))).getInhomX(), row, 0);
-//				dataModel.setValueAt(
-//						((GeoPoint) (dataArray.get(row))).getInhomY(), row, 1);
-//			}
-//
-//			dataTable.setModel(dataModel);
-//
-//			// handle x,y titles
-//			if (daView.getDataSource().isPointData()) {
-//
-//				dataTable.getColumnModel().getColumn(0)
-//						.setHeaderValue(loc.getMenu("Column.X"));
-//				dataTable.getColumnModel().getColumn(1)
-//						.setHeaderValue(loc.getMenu("Column.Y"));
-//			} else {
-//				dataTable
-//						.getColumnModel()
-//						.getColumn(0)
-//						.setHeaderValue(loc.getMenu("Column.X") + ": " + titleX);
-//				dataTable
-//						.getColumnModel()
-//						.getColumn(1)
-//						.setHeaderValue(loc.getMenu("Column.Y") + ": " + titleY);
-//			}
-//
-//			updateSelectionList(dataArray);
-//
-//			break;
-//		}
+		case DataAnalysisModel.MODE_REGRESSION:
+			populateRegressionDataTable(dataArray);
+			break;
+		}
 
 	}
 //
@@ -247,7 +249,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 //	}
 
 	
-}
+//}
 	
 	public void onDataClick(int index) { 
 		selectionList[index] = !selectionList[index];

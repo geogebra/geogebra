@@ -208,6 +208,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		createExportToEvAction();
 		plotPanel = new PlotPanelEuclidianViewW(app.getKernel(), exportToEVAction);
+	
 		//		plotPanel.setPreferredSize(PLOTPANEL_WIDTH, PLOTPANEL_HEIGHT);
 		//		plotPanel.updateSize();
 		plotPanelNorth = new FlowPanel();
@@ -500,6 +501,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		else if (source == btnOptions) {
 			optionsPanel.setPanel(getModel().getSelectedPlot());
 			optionsPanel.setVisible(btnOptions.isSelected());
+			resize();
 			
 		}
 		//
@@ -617,12 +619,16 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	public void setTableFromGeoFrequencyTable(
 			AlgoFrequencyTable parentAlgorithm, boolean b) {
+		App.debug("setTableFromGeoFrequencyTable");
 		frequencyTable.setTableFromGeoFrequencyTable(parentAlgorithm, b);
+		resize(false);
 	}
 
 	public void removeFrequencyTable() {
+		App.debug("removeFrequencyTable");
 		plotPanelSouth.remove(spFrequencyTable);
 		plotPanel.updateSize();
+		resize(false);
 	}
 
 	public void updatePlotPanelSettings() {
@@ -728,7 +734,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	}
 
-	public void resize(int offsetWidth, int offsetHeight) {
+	public void resize(int offsetWidth, int offsetHeight, boolean update) {
 		int w = offsetWidth;
 		int h = offsetHeight;
 		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
@@ -756,16 +762,19 @@ public class DataDisplayPanelW extends FlowPanel implements
 		plotPanel.updateSize();
 		plotPanel.repaintView();
 		plotPanel.getEuclidianController().calculateEnvironment();
-		getModel().updatePlot(false);
+		if (update) {
+			getModel().updatePlot(false);
+		}
 		
 	}
 
-	public void resize() {
-		// do nothing
+
+	public void resize(boolean update) {
+	    resize(getOffsetWidth(), getOffsetHeight(), update);
     }
 
-	public void resizeDefault() {
-	    resize(getOffsetWidth(), getOffsetHeight());
+	public void resize() {
+	    resize(true);
     }
 
 }

@@ -3,6 +3,7 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.data.DataAnalysisViewW;
@@ -17,37 +18,36 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DataAnalysisViewDockPanelW extends DockPanelW {
 	
-	/**
-	 * default width of this panel
-	 */
-	public static final int DEFAULT_WIDTH = 480;
-	private App app;
+//	/**
+//	 * default width of this panel
+//	 */
+//	public static final int DEFAULT_WIDTH = 480;
+	private AppW app;
 
 	/**
 	 * @param app App
 	 * Creates panel
+	
+	 *
 	 */
-	public DataAnalysisViewDockPanelW(App app) {
+	
+	public DataAnalysisViewDockPanelW(AppW app) {
 		super(App.VIEW_DATA_ANALYSIS, // view id
 				"DataAnalysis", // view title phrase
-				getDefaultToolbar(), // toolbar string
+				null,//getDefaultToolbar(), // toolbar string
 				true, // style bar?
 				-1, // menu order
 				'-' // menu shortcut
 		);
-
 		this.app = app;
-		this.setOpenInFrame(true);
-		this.setEmbeddedSize(DEFAULT_WIDTH);
-		
-	    this.app = app;
-    }
+		setShowStyleBar(true);
+		this.setEmbeddedSize(900);
+	}
 
 	@Override
 	protected Widget loadComponent() {
 		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
-//		da.setPixelSize(DEFAULT_WIDTH, getOffsetHeight());
-		return da.getDataAnalysisViewComponent();		
+		return da.getDataAnalysisViewComponent();
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	@Override
 	protected Widget loadStyleBar() {
 		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
-		return da.getStyleBar();
+		return  da.getStyleBar();
 	}
 	
 	@Override
@@ -70,10 +70,9 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 		
 		sb.append(EuclidianConstants.MODE_MOVE);
 
-		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
-
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			sb.append(" || ");
+			sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 			sb.append(" || ");
 			sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
 			sb.append(" || ");
@@ -83,4 +82,4 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	}
 		return sb.toString();
  }
-}
+} 

@@ -92,6 +92,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		add(comboPanelSplit);
 		setView(dataSource, mode, true);
 		model.setIniting(false);
+		onResize();
 
 	}
 
@@ -101,8 +102,8 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 
 	public void resizeDataDisplayPanels() {
 		App.debug("resizeDataDisplayPanels()");
-		dataDisplayPanel1.resizeDefault();
-		dataDisplayPanel2.resizeDefault();		
+		dataDisplayPanel1.resize();
+		dataDisplayPanel2.resize();		
 	}
 	
 	protected void setView(DataSource dataSource, int mode,
@@ -537,7 +538,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 			stylebar.updateGUI();
 		}
 //		revalidate();
-//		repaint();
+		repaintView();
 	}
 
 //	public void updateFonts() {
@@ -791,21 +792,16 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		comboPanelSplit.clear();
 		
 		if (show) {
-			comboPanelSplit.addNorth(dataDisplayPanel1, 300);
-			comboPanelSplit.add(dataDisplayPanel2);
 			dataDisplayPanel1.getModel().updatePlot(true);
 			dataDisplayPanel2.getModel().updatePlot(true);
+			comboPanelSplit.addNorth(dataDisplayPanel1, 300);
+			comboPanelSplit.add(dataDisplayPanel2);
 			forceLayout();
 			
 		} else {
-			int w = getOffsetWidth();
-			int h = getOffsetHeight();
-			App.debug("AAAAAAAA: (" + w + ", " + h + ")");
-			dataDisplayPanel1.resize(w, h);
-			comboPanelSplit.add(dataDisplayPanel1);
-			forceLayout();
 			dataDisplayPanel1.getModel().updatePlot(true);		
-	
+			comboPanelSplit.add(dataDisplayPanel1);
+			
 	}
 	
 		updateGUI();

@@ -4,14 +4,19 @@ import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
  * Panel to select and display the DataAnalysisView regression model.
@@ -19,7 +24,7 @@ import com.google.gwt.user.client.ui.ListBox;
  * @author G. Sturr
  */
 public class RegressionPanelW extends FlowPanel implements //ActionListener,
-		StatPanelInterfaceW {
+		ChangeHandler, StatPanelInterfaceW {
 	private static final long serialVersionUID = 1L;
 
 	private AppW app;
@@ -55,8 +60,7 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 		this.loc = (LocalizationW) app.getLocalization();
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();
-//		this.setLayout(new BorderLayout());
-//		this.add(createRegressionPanel(), BorderLayout.CENTER);
+		add(createRegressionPanel());
 		setLabels();
 		updateRegressionPanel();
 		updateGUI();
@@ -65,54 +69,60 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 
 	private FlowPanel regressionPanel;
 
+	private Label regressionTitle;
+
 	private FlowPanel createRegressionPanel() {
 
 		// components
-//		String[] orders = { "2", "3", "4", "5", "6", "7", "8", "9" };
-//		lbPolyOrder = new JComboBox(orders);
-//		lbPolyOrder.setSelectedIndex(0);
-//		lbPolyOrder.addActionListener(this);
-//		lbPolyOrder.setFocusable(false);
-//
-//		regressionLabels = new String[Regression.values().length];
-//		setRegressionLabels();
-//		lbRegression = new JComboBox(regressionLabels);
-//		lbRegression.addActionListener(this);
-//		lbRegression.setFocusable(false);
-//
-//		lblRegEquation = new JLabel();
-//		lblEqn = new JLabel();
-//
-//		// regression combo panel
-//		JPanel cbPanel = new JPanel();
-//		cbPanel.setLayout(new BoxLayout(cbPanel, BoxLayout.Y_AXIS));
-//		cbPanel.add(LayoutUtil.flowPanel(lbRegression));
-//		cbPanel.add(LayoutUtil.flowPanel(lbPolyOrder));
-//
-//		// regression label panel
-//		JPanel eqnPanel = new JPanel(new BorderLayout());
-//		eqnPanel.add(lblRegEquation, BorderLayout.CENTER);
-//		JScrollPane scroller = new JScrollPane(eqnPanel);
-//		scroller.setBorder(BorderFactory.createEmptyBorder());
-//
-//		// prediction panel
-//		createPredictionPanel();
-//
-//		// model panel: equation + prediction
-//		JPanel modelPanel = new JPanel();
-//		modelPanel.setLayout(new BoxLayout(modelPanel, BoxLayout.Y_AXIS));
-//		modelPanel.add(scroller);
-//		modelPanel.add(predictionPanel);
-//
-//		// put it all together
-//		regressionPanel = new JPanel(new BorderLayout(30, 0));
-//		regressionPanel.add(modelPanel, BorderLayout.CENTER);
-//		regressionPanel.add(cbPanel, loc.borderWest());
-//		regressionPanel.setBorder(BorderFactory.createTitledBorder(loc
-//				.getMenu("RegressionModel")));
-//
+		String[] orders = { "2", "3", "4", "5", "6", "7", "8", "9" };
+		lbPolyOrder = new ListBox();
+		for (String item: orders) {
+			lbPolyOrder.addItem(item);
+		}
+		
+		lbPolyOrder.setSelectedIndex(0);
+		lbPolyOrder.addChangeHandler(this);
+
+		regressionLabels = new String[Regression.values().length];
+		setRegressionLabels();
+		lbRegression = new ListBox();
+		for (String item: regressionLabels) {
+			lbRegression.addItem(item);
+		}
+		
+		lbRegression.addChangeHandler(this);
+
+		lblRegEquation = new Label();
+		lblEqn = new Label();
+
+		// regression combo panel
+		FlowPanel cbPanel = new FlowPanel();
+		cbPanel.add(lbRegression);
+		cbPanel.add(lbPolyOrder);
+
+		// regression label panel
+		FlowPanel eqnPanel = new FlowPanel();
+		eqnPanel.add(lblRegEquation);
+		ScrollPanel scroller = new ScrollPanel();
+		scroller.add(eqnPanel);
+
+		// prediction panel
+		createPredictionPanel();
+
+		// model panel: equation + prediction
+		FlowPanel modelPanel = new FlowPanel();
+		modelPanel.add(scroller);
+		modelPanel.add(predictionPanel);
+
+		regressionTitle = new Label(loc.getMenu("RegressionModel"));
+		// put it all together
+		regressionPanel = new FlowPanel();
+		regressionPanel.add(regressionTitle);
+		regressionPanel.add(modelPanel);
+		regressionPanel.add(cbPanel);
+
 		FlowPanel mainPanel = new FlowPanel();
-//		mainPanel.add(regressionPanel, BorderLayout.CENTER);
+		mainPanel.add(regressionPanel);
 //
 		return mainPanel;
 	}
@@ -121,26 +131,26 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 	 * Creates a panel to evaluate the regression model for a given x value
 	 */
 	private void createPredictionPanel() {
-//
-//		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//		lblEvaluate = new JLabel();
-//		fldInputX = new MyTextField(app);
-//		fldInputX.addActionListener(this);
-//
-//		fldInputX.setColumns(6);
-//		lblOutputY = new JLabel();
-//		fldOutputY = new JLabel();
-//
-//		p.add(lblEvaluate);
-//		p.add(new JLabel("x = "));
-//		p.add(fldInputX);
-//		p.add(new JLabel("y = "));
-//		p.add(lblOutputY);
-//		p.add(fldOutputY);
-//
-//		predictionPanel = new JPanel(new BorderLayout());
-//		predictionPanel.add(p, loc.borderWest());
-//
+
+		FlowPanel p = new FlowPanel();
+		lblEvaluate = new Label();
+		fldInputX = new AutoCompleteTextFieldW(6, app);
+		
+		//fldInputX.addActionListener(this);
+
+		lblOutputY = new Label();
+		fldOutputY = new Label();
+
+		p.add(lblEvaluate);
+		p.add(new Label("x = "));
+		p.add(fldInputX);
+		p.add(new Label("y = "));
+		p.add(lblOutputY);
+		p.add(fldOutputY);
+
+		predictionPanel = new FlowPanel();
+		predictionPanel.add(p);
+
 	}
 
 	/**
@@ -148,14 +158,14 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 	 */
 	public void updateRegressionPanel() {
 
-//		if (statDialog.getController().isValidData()) {
-//			setRegressionEquationLabel();
-//			doTextFieldActionPerformed(fldInputX);
-//		} else {
-//			setRegressionEquationLabelEmpty();
-//		}
-//		updateGUI();
-//
+		if (statDialog.getController().isValidData()) {
+			setRegressionEquationLabel();
+			doTextFieldActionPerformed(fldInputX);
+		} else {
+			setRegressionEquationLabelEmpty();
+		}
+		updateGUI();
+
 	}
 
 	/**
@@ -186,18 +196,15 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 		// listener to
 		// be operational since it will call unnecessary Construction updates
 		int j = lbRegression.getSelectedIndex();
-//		ActionListener al = lbRegression.getActionListeners()[0];
-//		lbRegression.removeActionListener(al);
-//		lbRegression.removeAllItems();
+		lbRegression.clear();
 
 		for (int i = 0; i < regressionLabels.length; i++) {
 			lbRegression.addItem(regressionLabels[i]);
 		}
 
 		lbRegression.setSelectedIndex(j);
-//		lbRegression.addActionListener(al);
-//		((TitledBorder) regressionPanel.getBorder()).setTitle(app
-//				.getMenu("RegressionModel"));
+		regressionTitle.setText(app
+				.getMenu("RegressionModel"));
 		lblEqn.setText(app.getMenu("Equation") + ":");
 
 		lblEvaluate.setText(app.getMenu("Evaluate") + ": ");
@@ -267,9 +274,6 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 	 * Set the regression equation label to an empty string
 	 */
 	private void setRegressionEquationLabelEmpty() {
-//		lblRegEquation.setIcon(null);
-//		lblRegEquation.revalidate();
-//
 		updateGUI();
 	}
 
@@ -279,65 +283,65 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 				Regression.POLY));
 		predictionPanel.setVisible(!(daModel.getRegressionMode()
 				.equals(Regression.NONE)));
-//		repaint();
 
 	}
 
-//	public void actionPerformed(ActionEvent e) {
-//
-//		Object source = e.getSource();
-//
-//		if (source instanceof JTextField) {
-//			doTextFieldActionPerformed((JTextField) source);
-//		}
-//
-//		else if (source == lbRegression) {
-//			lbRegression.removeActionListener(this);
-//			daModel.setRegressionMode(lbRegression.getSelectedIndex());
-//			lbRegression.addActionListener(this);
-//		}
-//
-//		else if (source == lbPolyOrder) {
-//			daModel.setRegressionOrder(lbPolyOrder.getSelectedIndex() + 2);
-//			statDialog.getController().setRegressionGeo();
-//			setRegressionEquationLabel();
-//
-//			// force update
-//			daModel.setRegressionMode(Regression.POLY.ordinal());
-//		}
-//
-//	}
-//
-//	private void doTextFieldActionPerformed(JTextField source) {
-//		if (isIniting)
-//			return;
-//
-//		if (source == fldInputX) {
-//			try {
-//				String inputText = source.getText().trim();
-//				if (inputText == null || inputText.length() == 0)
-//					return;
-//
-//				NumberValue nv;
-//				nv = app.getKernel().getAlgebraProcessor()
-//						.evaluateToNumeric(inputText, true);
-//				double value = nv.getDouble();
-//				double output = ((GeoFunctionable) statDialog
-//						.getRegressionModel()).getGeoFunction().evaluate(value);
-//
-//				fldOutputY.setText(statDialog.format(output));
-//
-//			} catch (NumberFormatException e) {
-//				e.printStackTrace();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	public void actionPerformed(Object source) {
+
+		if (source instanceof AutoCompleteTextFieldW) {
+			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
+		}
+
+		else if (source == lbRegression) {
+			daModel.setRegressionMode(lbRegression.getSelectedIndex());
+		}
+
+		else if (source == lbPolyOrder) {
+			daModel.setRegressionOrder(lbPolyOrder.getSelectedIndex() + 2);
+			statDialog.getController().setRegressionGeo();
+			setRegressionEquationLabel();
+
+			// force update
+			daModel.setRegressionMode(Regression.POLY.ordinal());
+		}
+
+	}
+
+	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
+		if (isIniting)
+			return;
+
+		if (source == fldInputX) {
+			try {
+				String inputText = source.getText().trim();
+				if (inputText == null || inputText.length() == 0)
+					return;
+
+				NumberValue nv;
+				nv = app.getKernel().getAlgebraProcessor()
+						.evaluateToNumeric(inputText, true);
+				double value = nv.getDouble();
+				double output = ((GeoFunctionable) statDialog
+						.getRegressionModel()).getGeoFunction().evaluate(value);
+
+				fldOutputY.setText(statDialog.format(output));
+
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void updatePanel() {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void onChange(ChangeEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }
