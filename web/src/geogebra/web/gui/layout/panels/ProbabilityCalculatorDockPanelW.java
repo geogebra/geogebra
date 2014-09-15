@@ -1,9 +1,11 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -58,6 +60,11 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	@Override
 	public boolean isStyleBarEmpty(){
 		return true;
+	}
+	
+	@Override
+    public ImageResource getIcon() {
+		return AppResources.INSTANCE.view_probability24();
 	}
 
 }

@@ -232,6 +232,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu_view_construction_protocol.png")
 	ImageResource menu_icon_construction_protocol();
 	
+	@Source("icons/png/web/menu_icons/menu_view_probability.png")
+	ImageResource menu_icon_probability();
+	
 	
 	//SUBMENUS
 	@Source("icons/png/web/arrow-submenu-right.png")
