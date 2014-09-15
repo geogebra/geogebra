@@ -35,7 +35,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    this.onFileOpen = onFileOpen;
 	    this.downloadButton = new Anchor();
 		this.downloadButton.setStyleName("downloadButton");
-		this.downloadButton.getElement().setAttribute("download", "geogebra.ggb");
 	    this.newConstruction = new Runnable() {
 			
 			@Override
@@ -145,18 +144,21 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	}
 	
 	void openFilePicker() {
-		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement());
+		String title = app.getKernel().getConstruction().getTitle() == null ?"geogebra.ggb":
+			(app.getKernel().getConstruction().getTitle() + ".ggb");
+		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement(), title);
 		this.app.getGgbApi().getGGB(true, callback);
     }
 	
-	private native JavaScriptObject getDownloadCallback(Element downloadButton) /*-{
+	private native JavaScriptObject getDownloadCallback(Element downloadButton, String title) /*-{
 		var _this = this;
 		return function(ggbZip) {
 			var URL = $wnd.URL || $wnd.webkitURL;
 			var ggburl = URL.createObjectURL(ggbZip);
 			downloadButton.setAttribute("href", ggburl);
+			downloadButton.setAttribute("download", title);
 			if ($wnd.navigator.msSaveBlob) {
-				$wnd.navigator.msSaveBlob(ggbZip, "geogebra.ggb");
+				$wnd.navigator.msSaveBlob(ggbZip, title);
 			} else {
 				downloadButton.click();
 			}
