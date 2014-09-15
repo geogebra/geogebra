@@ -41,6 +41,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -2912,6 +2913,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			break;
 
+		case MULTIPLY_OR_FUNCTION:
+			Log.debug("Operation not resolved");
+			//FALL THROUGH
 		case FUNCTION:
 
 			if (stringType == StringType.GIAC
