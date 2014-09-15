@@ -1499,7 +1499,7 @@ FromMeta
 							double coeff0, coeff1;
 							// we have to check the first eigenvector: it could be (1,0) or (0,1)
 							// if it is (0,1) we have to swap the coefficients of x^2 and y^2
-							if (eigenvec[0].getY() == 0.0) {
+							if (Kernel.isZero(eigenvec[0].getY())) {
 								coeff0 = halfAxes[0];
 								coeff1 = halfAxes[1];
 							} else {
