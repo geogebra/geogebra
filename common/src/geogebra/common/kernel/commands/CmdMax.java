@@ -1,7 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoFunctionMax;
+import geogebra.common.kernel.algos.AlgoFunctionMinMax;
 import geogebra.common.kernel.algos.AlgoIntervalMax;
 import geogebra.common.kernel.algos.AlgoListMax;
 import geogebra.common.kernel.algos.AlgoMax;
@@ -84,10 +84,10 @@ public class CmdMax extends CommandProcessor {
 			    (ok[2]=arg[2] instanceof GeoNumberValue)  )
 			{
 				
-				AlgoFunctionMax algo = new AlgoFunctionMax(cons, c.getLabel(),
+				AlgoFunctionMinMax algo = new AlgoFunctionMinMax(cons, c.getLabel(),
 						(GeoFunction) arg[0],
 						(GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
+						(GeoNumberValue) arg[2], false);
 
 				GeoElement[] ret= { algo.getPoint() };
 				return ret;

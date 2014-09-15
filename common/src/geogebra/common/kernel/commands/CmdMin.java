@@ -1,7 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoFunctionMin;
+import geogebra.common.kernel.algos.AlgoFunctionMinMax;
 import geogebra.common.kernel.algos.AlgoIntervalMin;
 import geogebra.common.kernel.algos.AlgoListMin;
 import geogebra.common.kernel.algos.AlgoMin;
@@ -84,10 +84,10 @@ public class CmdMin extends CommandProcessor {
 			    (ok[2]=arg[2] instanceof GeoNumberValue)  )
 			{
 				
-				AlgoFunctionMin algo = new AlgoFunctionMin(cons, c.getLabel(),
+				AlgoFunctionMinMax algo = new AlgoFunctionMinMax(cons, c.getLabel(),
 						(GeoFunction) arg[0],
 						(GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
+						(GeoNumberValue) arg[2], true);
 
 				GeoElement[] ret= { algo.getPoint() };
 				return ret;

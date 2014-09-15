@@ -42,7 +42,7 @@ import geogebra.common.kernel.roots.RealRootFunction;
  * @version 2011-02.20
  */
 
-public class AlgoFunctionMin extends AlgoElement {
+public class AlgoFunctionMinMax extends AlgoElement {
 
 	private GeoFunctionable function; 	//input
 	private GeoFunction		f;
@@ -51,11 +51,17 @@ public class AlgoFunctionMin extends AlgoElement {
 	private NumberValue		right;		//input
 	private GeoElement		georight;
     private GeoPoint 		E; 			// output
-	private ExtremumFinder	extrFinder	=	null;		
-    private static double	xres;	//static x for test interface
+	private ExtremumFinder	extrFinder	=	null;
+	private boolean isMin;		
 
-    /** Constructor for Extremum[f,l,r] */
-    public AlgoFunctionMin(Construction cons, String label, GeoFunctionable function,NumberValue left,NumberValue right) {
+    /** Constructor for Extremum[f,l,r] 
+     * @param cons construction
+     * @param label label
+     * @param function function to maximize
+     * @param left left boundary
+     * @param right right boundary
+     * @param isMin true for min, false for max*/
+    public AlgoFunctionMinMax(Construction cons, String label, GeoFunctionable function,NumberValue left,NumberValue right, boolean isMin) {
     	super(cons);
     	this.function=function;
     	this.f=function.getGeoFunction();
@@ -63,6 +69,7 @@ public class AlgoFunctionMin extends AlgoElement {
 		this.geoleft = left.toGeoElement();
     	this.right=right;
     	this.georight=right.toGeoElement();
+    	this.isMin = isMin;
     	
     	E=new GeoPoint(cons);					//Put an extremum point in the user interface from the very start
     	E.setCoords(0.0,0.0,1.0);
@@ -77,7 +84,7 @@ public class AlgoFunctionMin extends AlgoElement {
 
     @Override
 	public Commands getClassName() {
-        return Commands.Min;
+        return this.isMin ? Commands.Min : Commands.Max;
     }
 
     @Override
@@ -93,6 +100,9 @@ public class AlgoFunctionMin extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
     
+    /**
+     * @return resulting point
+     */
     public GeoPoint getPoint() {
         return E;
     }//getNumericalExtremum()
@@ -116,7 +126,7 @@ public class AlgoFunctionMin extends AlgoElement {
     	extrFinder = new ExtremumFinder();
 		RealRootFunction fun = f.getRealRootFunctionY();    
 
-		min = extrFinder.findMinimum(l,r,fun,5.0E-8);
+		min = isMin ? extrFinder.findMinimum(l,r,fun,5.0E-8) : extrFinder.findMaximum(l,r,fun,5.0E-8);
         
         E.setCoords(min,f.evaluate(min),1.0);
         E.updateRepaint();        
@@ -126,28 +136,7 @@ public class AlgoFunctionMin extends AlgoElement {
  
     
 
-// * //--- SNIP (after debugging and testing) -------------------------   
-    /// --- Test interface --- ///
-    //  Running testcases from external testscript Test_Extremum.bsh from plugin scriptrunner.
-    
-    /** Test constructor */
-    public AlgoFunctionMin(Construction cons){
-    	super(cons);
-    	this.cons=cons;
-    	E=new GeoPoint(cons);					//Put an extremum point in the user interface from the very start
-    	E.setCoords(0.0,0.0,1.0);    	
-    }//test constructor
-    
-    public final static double getX(){
-    	return xres;
-    }//getX()
-    
-    
-    
-// */ //--- SNIP end ---------------------------------------    
 
-	// TODO Consider locusequability
-    
-}//class AlgoEFuntionMin
+}
 
 
