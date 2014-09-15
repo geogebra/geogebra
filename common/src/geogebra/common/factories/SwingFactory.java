@@ -16,6 +16,7 @@ public abstract class SwingFactory {
 	public abstract AutoCompleteTextField newAutoCompleteTextField(int length,
 			App application, Drawable drawTextField);
 
+	public abstract GLabel newJLabel(String string, boolean bool);
 	public abstract GLabel newJLabel(String string);
 	
 	public abstract AbstractJComboBox newJComboBox(App app, int ev);

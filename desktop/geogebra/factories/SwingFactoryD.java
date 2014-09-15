@@ -25,6 +25,12 @@ public class SwingFactoryD extends geogebra.common.factories.SwingFactory {
 	}
 
 	@Override
+	public GLabel newJLabel(String string, boolean bool) {
+		// this was just needed to workaround a problem in Web
+		return newJLabel(string);
+	}
+
+	@Override
 	public GBox createHorizontalBox(EuclidianController style) {
 		return new geogebra.javax.swing.BoxD(
 				javax.swing.Box.createHorizontalBox());

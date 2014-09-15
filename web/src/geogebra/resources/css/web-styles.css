@@ -3092,6 +3092,10 @@ label {
 	/*width: 100% !important;*/
 }
 
+.AutoCompleteTextFieldW.FromDrawTextField .TextField {
+	margin: 0px;
+}
+
 .AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
 	padding-right: 40px;
 }
@@ -3683,6 +3687,10 @@ iframe.objectPropertiesTextEditor {
 .ggw_glabel {
 	white-space: nowrap;
 	margin-right: 10px;
+}
+
+.ggw_glabel.ggw_glabel_nomargin {
+	margin-right: 0px;
 }
 
 /*###################################################################################################################

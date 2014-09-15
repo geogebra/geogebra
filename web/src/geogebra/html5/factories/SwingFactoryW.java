@@ -24,6 +24,11 @@ public class SwingFactoryW extends SwingFactory {
 	}
 
 	@Override
+	public GLabel newJLabel(String string, boolean bool) {
+		return new geogebra.html5.javax.swing.GLabelW(string, bool);
+	}
+
+	@Override
 	public GBox createHorizontalBox(EuclidianController style) {
 		return new geogebra.html5.javax.swing.GBoxW(style);
 	}

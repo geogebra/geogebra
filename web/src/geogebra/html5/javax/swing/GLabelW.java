@@ -22,6 +22,11 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 		impl.addStyleName("ggw_glabel");
     }
 
+	public GLabelW(String string, boolean bool) {
+		this(string);
+		impl.addStyleName("ggw_glabel_nomargin");
+	}
+
 	public static com.google.gwt.user.client.ui.Label getImpl(GLabelW label){
 		if (label==null) return null;
 		return label.impl;

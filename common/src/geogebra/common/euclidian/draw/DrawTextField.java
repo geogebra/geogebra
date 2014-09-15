@@ -77,7 +77,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		//this will be set in update(): textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
-		label = geo.getKernel().getApplication().getSwingFactory().newJLabel("Label");
+		label = geo.getKernel().getApplication().getSwingFactory().newJLabel("Label", false);
 		
 		//label.setLabelFor(textField); <- next row
 		//textField.setLabel(label);
