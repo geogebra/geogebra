@@ -3750,7 +3750,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @param g
 	 *            graphics
 	 */
-	protected abstract void drawActionObjects(GGraphics2D g);
+	public abstract void drawActionObjects(GGraphics2D g);
 
 	/**
 	 * @param g2

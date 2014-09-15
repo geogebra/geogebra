@@ -155,7 +155,8 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 
 	}
 	@Override
-	protected final void drawActionObjects(GGraphics2D g)
+    public
+	final void drawActionObjects(GGraphics2D g)
 	{
 		//not part of canvas, not needed
 	}

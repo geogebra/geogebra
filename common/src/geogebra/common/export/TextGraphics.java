@@ -13,6 +13,7 @@ import geogebra.common.awt.GKey;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GShape;
+import geogebra.common.awt.MyImage;
 import geogebra.common.factories.AwtFactory;
 
 import java.util.Map;
@@ -54,6 +55,16 @@ public class TextGraphics implements geogebra.common.awt.GGraphics2D{
 		
 	}
 
+	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
+		//intentionally left blank
+		
+	}
+
+
+	public void drawImage(MyImage img, int x, int y) {
+		//intentionally left blank
+		
+	}
 
 	public void drawString(String str, int x, int y) {
 		//intentionaly left blank
@@ -292,5 +303,7 @@ public class TextGraphics implements geogebra.common.awt.GGraphics2D{
 		line.setLine(x1, y1, x2, y2);
 		this.draw(line);
 	}
+
+
 
 }

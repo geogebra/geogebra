@@ -437,7 +437,7 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 
 
 	@Override
-    protected void drawActionObjects(GGraphics2D g) {
+    public void drawActionObjects(GGraphics2D g) {
 	    // TODO Auto-generated method stub
 	    
     }

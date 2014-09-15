@@ -1,7 +1,7 @@
 package geogebra.html5.kernel;
 
 
-import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.MyImage;
 import geogebra.common.main.App;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 
@@ -14,7 +14,7 @@ public class GeoElementGraphicsAdapter extends
 		app = (App) appl;
 	}
 	
-	public GBufferedImage getFillImage() {
+	public MyImage getFillImage() {
 		if (image != null) return image;
 		
 		if ("".equals(imageFileName)) { 

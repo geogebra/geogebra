@@ -1322,7 +1322,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						.getTransferData(DataFlavor.imageFlavor);
 				if (img != null) {
 					fileName = "transferImage.png";
-					nameList.add(((AppD) app).createImage(img, fileName));
+					nameList.add(((AppD) app).createImage(new MyImageD(img),
+							fileName));
 					imageFound = true;
 				}
 				// System.out.println(nameList.toString());
@@ -1345,7 +1346,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					fileName = f.getName();
 					img = ImageIO.read(f);
 					if (img != null) {
-						nameList.add(((AppD) app).createImage(img, fileName));
+						nameList.add(((AppD) app).createImage(
+								new MyImageD(img), fileName));
 						imageFound = true;
 					}
 				}
@@ -1363,7 +1365,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					fileName = f.getName();
 					img = ImageIO.read(uri.toURL());
 					if (img != null) {
-						nameList.add(((AppD) app).createImage(img, fileName));
+						nameList.add(((AppD) app).createImage(
+								new MyImageD(img), fileName));
 						imageFound = true;
 					}
 				}
@@ -1379,7 +1382,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					fileName = f.getName();
 					img = (BufferedImage) ic.getImage();
 					if (img != null) {
-						nameList.add(((AppD) app).createImage(img, fileName));
+						nameList.add(((AppD) app).createImage(
+								new MyImageD(img), fileName));
 						imageFound = true;
 					}
 				}
@@ -1428,7 +1432,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	public String getImageFromFile(File imageFile) {
 
-		BufferedImage img = null;
+		MyImageD img = new MyImageD();
 		String fileName = null;
 		try {
 			app.setWaitCursor();
@@ -1496,6 +1500,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						fileFilter.addExtension("png");
 						fileFilter.addExtension("gif");
 						fileFilter.addExtension("bmp");
+						fileFilter.addExtension("svg");
 						fileFilter.setDescription(app.getPlain("Image"));
 						fileChooser.resetChoosableFileFilters();
 						fileChooser.setFileFilter(fileFilter);
@@ -1528,7 +1533,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				fileName = imageFile.getCanonicalPath();
 
 				// load image
-				img = ImageIO.read(imageFile);
+				img.load(imageFile);
 			}
 
 			return ((AppD) app).createImage(img, fileName);
@@ -3047,6 +3052,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			for (int i = 0; i < fileName.length; i++) {
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[i]);
+				App.debug("filename = " + fileName[i]);
 				geoImage.setCorner(loc, 0);
 				geoImage.setLabel(null);
 

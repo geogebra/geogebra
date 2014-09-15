@@ -23,6 +23,7 @@ import geogebra.common.awt.GQuadCurve2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
+import geogebra.common.awt.MyImage;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.euclidian.event.ActionListenerI;
@@ -33,6 +34,7 @@ import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGradientPaintW;
 import geogebra.html5.awt.GTexturePaintW;
 import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.main.MyImageW;
 import geogebra.html5.openjdk.awt.geom.AffineTransform;
 import geogebra.html5.openjdk.awt.geom.Arc2D;
 import geogebra.html5.openjdk.awt.geom.Area;
@@ -235,11 +237,6 @@ public class AwtFactoryW extends AwtFactory {
     }
 	
 	@Override
-    public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-	    return new GTexturePaintW((BufferedImage)subimage);
-    }
-
-	@Override
     public FocusListener newFocusListener(Object listener) {
 	    return new geogebra.html5.event.FocusListenerW(listener);
     }
@@ -258,6 +255,22 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
     public GFont newFont(String name, int style, int size) {
 	    return new GFontW(name, style, size);
+    }
+
+	@Override
+    public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
+	    return new MyImageW(new BufferedImage(pixelWidth, pixelHeight, typeIntArgb).getImageElement());
+    }
+
+	@Override
+    public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
+	    return new GTexturePaintW((BufferedImage)subimage);
+    }
+
+	@Override
+    public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
+	    return new GTexturePaintW(new BufferedImage(((MyImageW) subimage).getImage()));
+
     }
 
 

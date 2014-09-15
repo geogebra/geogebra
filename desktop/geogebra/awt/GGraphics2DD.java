@@ -20,15 +20,20 @@ import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.awt.GShape;
+import geogebra.common.awt.MyImage;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra.gui.MyImageD;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.Map;
+
+import com.kitfox.svg.SVGException;
 
 /**
  * Desktop implementation of Graphics2D; wraps the java.awt.Graphics2D class
@@ -253,18 +258,59 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 	}
 
 	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x, int y) {
+
+		// drawSVG();
+
 		impl.drawImage(geogebra.awt.GBufferedImageD.getAwtBufferedImage(img),
 				(geogebra.awt.GBufferedImageOpD) op, x, y);
 	}
 
+	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
+
+		// drawSVG();
+
+		impl.drawImage((BufferedImage) ((MyImageD) img).getImage(),
+				(geogebra.awt.GBufferedImageOpD) op, x, y);
+	}
+
 	public void drawImage(GBufferedImage img, int x, int y) {
+		// drawSVG();
 		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y, null);
 	}
 
-	public void drawImage(geogebra.common.awt.GImage img, int x, int y) {
+	public void drawImage(MyImage img, int x, int y) {
+
+		MyImageD imgD = (MyImageD) img;
+
+		if (imgD.isSVG()) {
+			try {
+				imgD.getDiagram().render(impl);
+			} catch (SVGException e) {
+				e.printStackTrace();
+			}
+		} else {
+			impl.drawImage(imgD.getImage(), x, y, null);
+		}
+
+	}
+
+	public void drawImage(GImage img, int x, int y) {
+		// drawSVG();
 		impl.drawImage(GGenericImageD.getAwtImage(img), x, y, null);
 
 	}
+
+	/*
+	 * private void drawSVG() { try { File file = new
+	 * File("f:/awesome_tiger.svg"); URL url = file.toURI().toURL(); SVGUniverse
+	 * universe = SVGCache.getSVGUniverse(); URI uri = universe.loadSVG(url);
+	 * SVGDiagram diagram = universe.getDiagram(uri); diagram.render(impl);
+	 * 
+	 * } catch (Exception e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * }
+	 */
 
 	public void fillRect(int x, int y, int width, int height) {
 		impl.fillRect(x, y, width, height);

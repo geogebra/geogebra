@@ -11,11 +11,13 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.gui.MyImageD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -264,8 +266,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// Set icons for LaTeX and images
 		// ===============================================
 		if (geo.isGeoImage()) {
-			latexIcon.setImage(geogebra.awt.GBufferedImageD
-					.getAwtBufferedImage(((GeoImage) geo).getFillImage()));
+			Image im = ((MyImageD) ((GeoImage) geo).getFillImage()).getImage();
+			latexIcon.setImage(im);
 			setIcon(latexIcon);
 			setHorizontalAlignment(SwingConstants.CENTER);
 			setText("");

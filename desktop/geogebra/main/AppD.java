@@ -20,6 +20,7 @@ package geogebra.main;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.MyImage;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
@@ -82,6 +83,7 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.MyImageD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.dialog.AxesStyleListRenderer;
 import geogebra.gui.dialog.DashListRenderer;
@@ -151,7 +153,6 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -1937,46 +1938,45 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public Image getInternalImage(String filename) {
-		return imageManager.getInternalImage("/gui/images/" + filename);
+		return imageManager.getInternalImage("/gui/images/" + filename)
+				.getImage();
 	}
 
 	public Image getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage("/main/view-refresh.png");
+		return imageManager.getInternalImage("/main/view-refresh.png")
+				.getImage();
 	}
 
 	public Image getPlayImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage("/main/nav_play.png");
+		return imageManager.getInternalImage("/main/nav_play.png").getImage();
 	}
 
 	public Image getPauseImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage("/main/nav_pause.png");
+		return imageManager.getInternalImage("/main/nav_pause.png").getImage();
 	}
 
-	public BufferedImage getExternalImage(String filename) {
+	public MyImageD getExternalImage(String filename) {
 		return ImageManager.getExternalImage(filename);
 	}
 
 	@Override
-	public geogebra.common.awt.GBufferedImage getExternalImageAdapter(
-			String filename) {
-		BufferedImage im = ImageManager.getExternalImage(filename);
-		if (im == null)
-			return null;
-		return new geogebra.awt.GBufferedImageD(im);
+	public MyImage getExternalImageAdapter(String filename) {
+		MyImageD im = ImageManager.getExternalImage(filename);
+		return im;
 	}
 
 	@Override
 	public geogebra.common.awt.GImage getInternalImageAdapter(String filename) {
-		Image im = imageManager.getInternalImage(filename);
-		if (im == null)
+		MyImageD im = imageManager.getInternalImage(filename);
+		if (im == null || im.isSVG())
 			return null;
-		return new geogebra.awt.GGenericImageD(im);
+		return new geogebra.awt.GGenericImageD(im.getImage());
 	}
 
-	public void addExternalImage(String filename, BufferedImage image) {
+	public void addExternalImage(String filename, MyImageD image) {
 		imageManager.addExternalImage(filename, image);
 	}
 
@@ -1996,13 +1996,14 @@ public class AppD extends App implements KeyEventDispatcher {
 			try {
 				Macro macro = kernel.getMacro(macroID);
 				String iconName = macro.getIconFileName();
-				BufferedImage img = getExternalImage(iconName);
-				if (img == null) {
+				MyImageD img = getExternalImage(iconName);
+				if (img == null || img.isSVG()) {
 					// default icon
 					icon = getToolBarImage("mode_tool.png", border);
 				} else {
 					// use image as icon
-					icon = new ImageIcon(ImageManager.addBorder(img, border));
+					icon = new ImageIcon(ImageManager.addBorder(img.getImage(),
+							border));
 				}
 			} catch (Exception e) {
 				App.debug("macro does not exist: ID = " + macroID);
@@ -2028,32 +2029,13 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * 
 	 * @return fileName of image stored in imageManager
 	 */
-	public String createImage(BufferedImage image, String imageFileName) {
+	public String createImage(MyImageD image, String imageFileName) {
 		String fileName = imageFileName;
-		BufferedImage img = image;
+		MyImageD img = image;
 		try {
 			// Michael Borcherds 2007-12-10 START moved MD5 code from GeoImage
 			// to here
-			String zip_directory = "";
-			try {
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				if (img == null) {
-					App.debug("image==null");
-				}
-				ImageIO.write(img, "png", baos);
-				byte[] fileData = baos.toByteArray();
-
-				MessageDigest md;
-				md = MessageDigest.getInstance("MD5");
-				byte[] md5hash = new byte[32];
-				md.update(fileData, 0, fileData.length);
-				md5hash = md.digest();
-				zip_directory = StringUtil.convertToHex(md5hash);
-			} catch (Exception e) {
-				App.debug("MD5 Error");
-				zip_directory = "images";
-				// e.printStackTrace();
-			}
+			String zip_directory = img.getMD5();
 
 			String fn = fileName;
 			int index = fileName.lastIndexOf(File.separator);
@@ -2067,28 +2049,24 @@ public class AppD extends App implements KeyEventDispatcher {
 			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 			fileName = zip_directory + File.separator + fn;
 
-			// Michael Borcherds 2007-12-10 END
-
-			// write and reload image to make sure we can save it
-			// without problems
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			getXMLio().writeImageToStream(os, fileName, img);
-			os.flush();
-			ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-
-			// reload the image
-			img = ImageIO.read(is);
-			is.close();
-			os.close();
-
-			setDefaultCursor();
-			if (img == null) {
-				showError("LoadFileFailed");
-				return null;
-			}
-
+			/*
+			 * 
+			 * // write and reload image to make sure we can save it // without
+			 * problems ByteArrayOutputStream os = new ByteArrayOutputStream();
+			 * getXMLio().writeImageToStream(os, fileName, img); os.flush();
+			 * ByteArrayInputStream is = new
+			 * ByteArrayInputStream(os.toByteArray());
+			 * 
+			 * // reload the image img = ImageIO.read(is); is.close();
+			 * os.close();
+			 * 
+			 * 
+			 * 
+			 * setDefaultCursor(); if (img == null) {
+			 * showError("LoadFileFailed"); return null; }
+			 */
 			// make sure this filename is not taken yet
-			BufferedImage oldImg = ImageManager.getExternalImage(fileName);
+			MyImageD oldImg = ImageManager.getExternalImage(fileName);
 			if (oldImg != null) {
 				// image with this name exists already
 				if ((oldImg.getWidth() == img.getWidth())

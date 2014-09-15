@@ -1,10 +1,10 @@
 package geogebra.common.main;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GImage;
+import geogebra.common.awt.MyImage;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.euclidian.DrawEquation;
@@ -1392,7 +1392,7 @@ public abstract class App implements UpdateSelection{
 	 *            filename
 	 * @return image wrapped in GBufferedImage
 	 */
-	public abstract GBufferedImage getExternalImageAdapter(String filename);
+	public abstract MyImage getExternalImageAdapter(String filename);
 
 	
 

@@ -94,8 +94,13 @@ public interface GGraphics2D {
 	public abstract void drawImage(GBufferedImage img, GBufferedImageOp op,
 			int x, int y);
 	
+	public abstract void drawImage(MyImage img, GBufferedImageOp op,
+			int x, int y);
+	
 	
 	public abstract void drawImage(GBufferedImage img, int x, int y);
+
+	public abstract void drawImage(MyImage img, int x, int y);
 
 	
 

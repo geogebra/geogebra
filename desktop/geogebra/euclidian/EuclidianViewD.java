@@ -31,6 +31,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
+import geogebra.gui.MyImageD;
 import geogebra.main.AppD;
 
 import java.awt.AWTEvent;
@@ -635,8 +636,8 @@ public class EuclidianViewD extends EuclidianView implements
 			List<geogebra.common.awt.GPoint> penPoints2,
 			geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
 		PolyBezier pb = new PolyBezier(penPoints2);
-		BufferedImage penImage2 = GBufferedImageD.getAwtBufferedImage(gi
-				.getFillImage());
+		BufferedImage penImage2 = (BufferedImage) ((MyImageD) gi.getFillImage())
+				.getImage();
 		boolean giNeedsInit = false;
 		if (penImage2 == null) {
 			giNeedsInit = true;
@@ -669,7 +670,7 @@ public class EuclidianViewD extends EuclidianView implements
 		// ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
 
 		if (giNeedsInit) {
-			String fileName = ((AppD) app).createImage(penImage2,
+			String fileName = ((AppD) app).createImage(new MyImageD(penImage2),
 					"penimage.png");
 			// Application.debug(fileName);
 			GeoImage geoImage = null;

@@ -21,6 +21,7 @@ import geogebra.common.awt.GQuadCurve2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
+import geogebra.common.awt.MyImage;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.euclidian.event.ActionListenerI;
@@ -37,6 +38,8 @@ public abstract class AwtFactory {
 	public abstract GRectangle2D newRectangle2D();
 	public abstract GRectangle newRectangle(int x,int y,int w,int h);
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
+			int pixelHeight, int typeIntArgb);
+	public abstract MyImage newMyImage(int pixelWidth,
 			int pixelHeight, int typeIntArgb);
 	public abstract GDimension newDimension(int width,
 			int height);
@@ -73,5 +76,6 @@ public abstract class AwtFactory {
 	public abstract ActionListener newActionListener(ActionListenerI listener);
 	public abstract geogebra.common.awt.Component newComponent(Object component);
 	public abstract GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect);
+	public abstract GPaint newTexturePaint(MyImage subimage, GRectangle rect);
 	public abstract GFont newFont(String name, int style, int size);
 }

@@ -30,6 +30,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.MyImageD;
 import geogebra.main.AppD;
 import geogebra.main.GuiManagerInterfaceD;
 import geogebra.util.Util;
@@ -50,6 +51,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -61,7 +63,7 @@ import javax.imageio.ImageIO;
  * 
  * @author Markus Hohenwarter
  */
-public class MyXMLioD extends geogebra.common.io.MyXMLio{
+public class MyXMLioD extends geogebra.common.io.MyXMLio {
 
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
@@ -69,54 +71,54 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 	private DocHandler handler, ggbDocHandler;
 	private QDParser xmlParser;
 
-
 	public MyXMLioD(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
-		this.cons = cons;	
+		this.cons = cons;
 		app = kernel.getApplication();
 
 		xmlParser = new QDParser();
 		handler = getGGBHandler();
 	}
-	
+
 	private DocHandler getGGBHandler() {
 		if (ggbDocHandler == null)
-		    //ggb3D : to create also a MyXMLHandler3D
-			//ggbDocHandler = new MyXMLHandler(kernel, cons);		
+			// ggb3D : to create also a MyXMLHandler3D
+			// ggbDocHandler = new MyXMLHandler(kernel, cons);
 			ggbDocHandler = kernel.newMyXMLHandler(cons);
 		return ggbDocHandler;
 	}
-	
+
 	/**
 	 * Reads zipped file from input stream that includes the construction saved
 	 * in xml format and maybe image files.
 	 */
 	public final void readZipFromInputStream(InputStream is, boolean isGGTfile)
 			throws Exception {
-		
-		ZipInputStream zip = new ZipInputStream(is);
-		
-		readZip(zip, isGGTfile);
-		
-	}
-		/**
-		 * Reads zipped file from String that includes the construction saved
-		 * in xml format and maybe image files.
-		 */
-		public final void readZipFromString(byte [] zipFile)
-				throws Exception {
-			
-			ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(zipFile));
 
-			readZip(zip, false);
-		}
-		
-			/**
-			 * Reads zipped file from zip input stream that includes the construction saved
-			 * in xml format and maybe image files.
-			 */
-			private final void readZip(ZipInputStream zip, boolean isGGTfile)
-					throws Exception {
+		ZipInputStream zip = new ZipInputStream(is);
+
+		readZip(zip, isGGTfile);
+
+	}
+
+	/**
+	 * Reads zipped file from String that includes the construction saved in xml
+	 * format and maybe image files.
+	 */
+	public final void readZipFromString(byte[] zipFile) throws Exception {
+
+		ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(
+				zipFile));
+
+		readZip(zip, false);
+	}
+
+	/**
+	 * Reads zipped file from zip input stream that includes the construction
+	 * saved in xml format and maybe image files.
+	 */
+	private final void readZip(ZipInputStream zip, boolean isGGTfile)
+			throws Exception {
 
 		// we have to read everything (i.e. all images)
 		// before we process the XML file, that's why we
@@ -127,7 +129,7 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		boolean macroXMLfound = false;
 		boolean javaScriptFound = false;
 		boolean ggbHandler = false;
-		
+
 		// get all entries from the zip archive
 		while (true) {
 			ZipEntry entry = zip.getNextEntry();
@@ -150,20 +152,26 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 			} else if (name.equals(JAVASCRIPT_FILE)) {
 				// load JavaScript
 				kernel.setLibraryJavaScript(Util.loadIntoString(zip));
-				javaScriptFound= true;
-			}
-			else {
+				javaScriptFound = true;
+			} else if (name.toLowerCase(Locale.US).endsWith("svg")) {
+				String svg = Util.loadIntoString(zip);
+
+				MyImageD img = new MyImageD(svg, name);
+
+				((AppD) app).addExternalImage(name, img);
+
+			} else {
 				// try to load image
 				try {
 					BufferedImage img = ImageIO.read(zip);
-					if ("".equals(name)) { 
-						Log.warn("image in zip file with empty name"); 
-					} else { 
-						((AppD)app).addExternalImage(name, img); 
-					} 
+					if ("".equals(name)) {
+						Log.warn("image in zip file with empty name");
+					} else {
+						((AppD) app).addExternalImage(name, new MyImageD(img));
+					}
 				} catch (IOException e) {
 					Log.debug("readZipFromURL: image could not be loaded: "
-									+ name);
+							+ name);
 					e.printStackTrace();
 				}
 			}
@@ -193,7 +201,7 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
 			kernel.getConstruction().setFileLoading(false);
 		}
-		if(!javaScriptFound && !isGGTfile)
+		if (!javaScriptFound && !isGGTfile)
 			kernel.resetLibraryJavaScript();
 		if (!(macroXMLfound || xmlFound))
 			throw new Exception("No XML data found in file.");
@@ -206,25 +214,25 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 	 * @throws IOException
 	 * @return
 	 */
-	public final static BufferedImage getPreviewImage(File file) throws IOException
-	{
+	public final static BufferedImage getPreviewImage(File file)
+			throws IOException {
 		// just allow preview images for ggb files
-		if(!file.getName().endsWith(".ggb")) {
-			throw new IllegalArgumentException("Preview image source file has to be of the type .ggb");
+		if (!file.getName().endsWith(".ggb")) {
+			throw new IllegalArgumentException(
+					"Preview image source file has to be of the type .ggb");
 		}
-		
+
 		FileInputStream fis = new FileInputStream(file);
 		ZipInputStream zip = new ZipInputStream(fis);
 		BufferedImage result = null;
-		
+
 		// get all entries from the zip archive
 		while (true) {
 			ZipEntry entry = zip.getNextEntry();
 			if (entry == null)
 				break;
-			
-			if (entry.getName().equals(XML_FILE_THUMBNAIL))
-			{
+
+			if (entry.getName().equals(XML_FILE_THUMBNAIL)) {
 				result = ImageIO.read(zip);
 				break;
 			}
@@ -232,10 +240,10 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 			// get next entry
 			zip.closeEntry();
 		}
-		
+
 		zip.close();
 		fis.close();
-		
+
 		return result;
 	}
 
@@ -251,18 +259,19 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		InputStreamReader ir = new InputStreamReader(bs, "UTF8");
 
 		// process xml file
-		doParseXML(ir, clearConstruction, isGGTFile, true,true);
+		doParseXML(ir, clearConstruction, isGGTFile, true, true);
 
 		ir.close();
 		bs.close();
 	}
-	
+
 	private void doParseXML(Reader ir, boolean clearConstruction,
-			boolean isGGTFile, boolean mayZoom,boolean settingsBatch) throws Exception {
+			boolean isGGTFile, boolean mayZoom, boolean settingsBatch)
+			throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		boolean oldVal2 = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
-		
+
 		if (!isGGTFile && mayZoom) {
 			kernel.setNotifyViewsActive(false);
 		}
@@ -273,14 +282,13 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		}
 
 		try {
-			App.debug("MACRO"+kernel.isMacroKernel());
+			App.debug("MACRO" + kernel.isMacroKernel());
 			kernel.setLoadingMode(true);
-			if(settingsBatch && !isGGTFile){
+			if (settingsBatch && !isGGTFile) {
 				app.getSettings().beginBatch();
 				xmlParser.parse(handler, ir);
 				app.getSettings().endBatch();
-			}
-			else
+			} else
 				xmlParser.parse(handler, ir);
 			xmlParser.reset();
 			kernel.setLoadingMode(false);
@@ -292,33 +300,36 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTFile && mayZoom) {
-				kernel.updateConstruction();		
-				kernel.setNotifyViewsActive(oldVal);				
+				kernel.updateConstruction();
+				kernel.setNotifyViewsActive(oldVal);
 			}
-			
+
 			// #2153
 			if (!isGGTFile && cons.hasSpreadsheetTracingGeos()) {
-				// needs to be done after call to updateConstruction() to avoid spurious traces
+				// needs to be done after call to updateConstruction() to avoid
+				// spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
 			}
 		}
 
 		// handle construction step stored in XMLhandler
-		// do this only if the construction protocol navigation is showing	
-		if (!isGGTFile && oldVal &&
-				((AppD)app).showConsProtNavigation()) 
-		{
-				//((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
+		// do this only if the construction protocol navigation is showing
+		if (!isGGTFile && oldVal && ((AppD) app).showConsProtNavigation()) {
+			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 
-			if (((GuiManagerInterfaceD)app.getGuiManager()) != null)
-				// if there is a ConstructionProtocolView, then update its navigation bars
-				((GuiManagerD)app.getGuiManager()).getConstructionProtocolView().setConstructionStep(handler.getConsStep());
+			if (((GuiManagerInterfaceD) app.getGuiManager()) != null)
+				// if there is a ConstructionProtocolView, then update its
+				// navigation bars
+				((GuiManagerD) app.getGuiManager())
+						.getConstructionProtocolView().setConstructionStep(
+								handler.getConsStep());
 			else
-				// otherwise this is not needed 
-				app.getKernel().getConstruction().setStep(handler.getConsStep());
+				// otherwise this is not needed
+				app.getKernel().getConstruction()
+						.setStep(handler.getConsStep());
 
 		}
-		
+
 	}
 
 	/**
@@ -333,19 +344,20 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		if (entry != null && entry.getName().equals(XML_FILE)) {
 			// process xml file
 			kernel.getConstruction().setFileLoading(true);
-			doParseXML(new InputStreamReader(zip, "UTF8"), true, false, true,true);
+			doParseXML(new InputStreamReader(zip, "UTF8"), true, false, true,
+					true);
 			kernel.getConstruction().setFileLoading(false);
 			zip.close();
 		} else {
 			zip.close();
 			throw new Exception(XML_FILE + " not found");
 		}
-		
+
 	}
 
 	@Override
-	public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch)
-			throws Exception {
+	public void processXMLString(String str, boolean clearAll,
+			boolean isGGTfile, boolean settingsBatch) throws Exception {
 		StringReader rs = new StringReader(str);
 		doParseXML(rs, clearAll, isGGTfile, clearAll, settingsBatch);
 		rs.close();
@@ -371,37 +383,39 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 	 * Creates a zipped file containing the construction and all settings saved
 	 * in xml format plus all external images. GeoGebra File Format.
 	 */
-	public void writeGeoGebraFile(OutputStream os, boolean includeThumbail) throws IOException {
+	public void writeGeoGebraFile(OutputStream os, boolean includeThumbail)
+			throws IOException {
 		boolean isSaving = kernel.isSaving();
 		kernel.setSaving(true);
-		
+
 		try {
 			// zip stream
 			ZipOutputStream zip = new ZipOutputStream(os);
 			OutputStreamWriter osw = new OutputStreamWriter(zip, "UTF8");
-	
+
 			// write construction images
 			writeConstructionImages(kernel.getConstruction(), zip);
-	
+
 			// write construction thumbnails
 			if (includeThumbail)
-				writeThumbnail(kernel.getConstruction(), zip, XML_FILE_THUMBNAIL);
-	
+				writeThumbnail(kernel.getConstruction(), zip,
+						XML_FILE_THUMBNAIL);
+
 			// save macros
 			if (kernel.hasMacros()) {
 				// get all registered macros from kernel
 				ArrayList<Macro> macros = kernel.getAllMacros();
-	
+
 				// write all images used by macros
 				writeMacroImages(macros, zip);
-	
+
 				// write all macros to one special XML file in zip
 				zip.putNextEntry(new ZipEntry(XML_FILE_MACRO));
 				osw.write(getFullMacroXML(macros));
 				osw.flush();
 				zip.closeEntry();
 			}
-	
+
 			// write library JavaScript to one special file in zip
 			zip.putNextEntry(new ZipEntry(JAVASCRIPT_FILE));
 			osw.write(kernel.getLibraryJavaScript());
@@ -413,14 +427,12 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 			osw.write(getFullXML());
 			osw.flush();
 			zip.closeEntry();
-	
+
 			osw.close();
 			zip.close();
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw e;
-		}
-		finally {
+		} finally {
 			kernel.setSaving(isSaving);
 		}
 	}
@@ -429,7 +441,8 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 	 * Creates a zipped file containing the given macros in xml format plus all
 	 * their external images (e.g. icons).
 	 */
-	public void writeMacroFile(File file, ArrayList<Macro> macros) throws IOException {
+	public void writeMacroFile(File file, ArrayList<Macro> macros)
+			throws IOException {
 		if (macros == null)
 			return;
 
@@ -474,34 +487,57 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 	private void writeConstructionImages(Construction cons,
 			ZipOutputStream zip, String filePath) {
 		// save all GeoImage images
-		//TreeSet images = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
+		// TreeSet images =
+		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
 		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
 		if (geos == null)
 			return;
 
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
-			GeoElement geo =  it.next();
+			GeoElement geo = it.next();
 			// Michael Borcherds 2007-12-10 this line put back (not needed now
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
-			if (fileName != null) {
-				BufferedImage img = geogebra.awt.GBufferedImageD.getAwtBufferedImage(geo.getFillImage());
-				if (img != null)
-					writeImageToZip(zip, filePath + fileName, img);
+			MyImageD image = (MyImageD) geo.getFillImage();
+			if (fileName != null && image != null) {
+
+				if (image.isSVG()) {
+					// SVG
+					try {
+						zip.putNextEntry(new ZipEntry(filePath + fileName));
+						OutputStreamWriter osw = new OutputStreamWriter(zip,
+								"UTF8");
+						osw.write(image.getSVG());
+						osw.flush();
+						zip.closeEntry();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					// BITMAP
+					BufferedImage img = (BufferedImage) image.getImage();
+					if (img != null)
+						writeImageToZip(zip, filePath + fileName, img);
+
+				}
+
 			}
-			//Save images used in single bars
+			// Save images used in single bars
 			AlgoElement algo = geo.getParentAlgorithm();
 			if (algo instanceof AlgoBarChart) {
 				int num = ((AlgoBarChart) algo).getIntervals();
 				int k;
 				for (int i = 0; i < num; i++) {
-					k=i+1;
+					k = i + 1;
 					if (((AlgoBarChart) algo).getBarImage(k) != null) {
-						geo.setImageFileName(((AlgoBarChart) algo).getBarImage(k));
-						BufferedImage img = geogebra.awt.GBufferedImageD
-								.getAwtBufferedImage(geo.getFillImage());
-						writeImageToZip(zip, ((AlgoBarChart) algo).getBarImage(k), img);
+						geo.setImageFileName(((AlgoBarChart) algo)
+								.getBarImage(k));
+						BufferedImage img = (BufferedImage) ((MyImageD) geo
+								.getFillImage()).getImage();
+						writeImageToZip(zip,
+								((AlgoBarChart) algo).getBarImage(k), img);
 					}
 				}
 			}
@@ -516,21 +552,20 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 	private void writeThumbnail(Construction cons, ZipOutputStream zip,
 			String fileName) {
 
-		
-
 		// max 128 pixels either way
 		/*
-		double exportScale = Math.min(THUMBNAIL_PIXELS_X
-				/ ev.getSelectedWidth(), THUMBNAIL_PIXELS_X
-				/ ev.getSelectedHeight());
-		*/
-				 
+		 * double exportScale = Math.min(THUMBNAIL_PIXELS_X /
+		 * ev.getSelectedWidth(), THUMBNAIL_PIXELS_X / ev.getSelectedHeight());
+		 */
+
 		try {
-			//BufferedImage img = app.getExportImage(exportScale);
-			BufferedImage img = ((AppD)app).getExportImage(THUMBNAIL_PIXELS_X,THUMBNAIL_PIXELS_Y);
+			// BufferedImage img = app.getExportImage(exportScale);
+			BufferedImage img = ((AppD) app).getExportImage(THUMBNAIL_PIXELS_X,
+					THUMBNAIL_PIXELS_Y);
 			if (img != null)
 				writeImageToZip(zip, fileName, img);
-		} catch (Exception e) { } // catch error if size is zero
+		} catch (Exception e) {
+		} // catch error if size is zero
 
 	}
 
@@ -553,7 +588,8 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 
 			// save macro icon
 			String fileName = macro.getIconFileName();
-			BufferedImage img = ((AppD)app).getExternalImage(fileName);
+			BufferedImage img = (BufferedImage) ((AppD) app).getExternalImage(
+					fileName).getImage();
 			if (img != null)
 				writeImageToZip(zip, filePath + fileName, img);
 		}
@@ -584,18 +620,18 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 				ext = "JPG";
 			else
 				ext = "PNG";
-			
+
 			boolean useCache = true;
 			// circumvent security issues by disabling disk-based caching
-			if(app.isApplet()) {
+			if (app.isApplet()) {
 				useCache = ImageIO.getUseCache();
 				javax.imageio.ImageIO.setUseCache(false);
 			}
-			
+
 			ImageIO.write(img, ext, os);
-			
+
 			// restore caching to prevent side-effects
-			if(app.isApplet()) {
+			if (app.isApplet()) {
 				javax.imageio.ImageIO.setUseCache(useCache);
 			}
 		} catch (Exception e) {
@@ -613,15 +649,15 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 	/**
 	 * Compresses xml String and writes result to os.
 	 */
-	public static void writeZipped(OutputStream os, StringBuilder xmlString) throws IOException {
+	public static void writeZipped(OutputStream os, StringBuilder xmlString)
+			throws IOException {
 		ZipOutputStream z = new ZipOutputStream(os);
 		z.putNextEntry(new ZipEntry(XML_FILE));
 		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(z, "UTF8"));
-		for (int i=0; i < xmlString.length(); i++) {
+		for (int i = 0; i < xmlString.length(); i++) {
 			w.write(xmlString.charAt(i));
-		}		
+		}
 		w.close();
 		z.close();
 	}
 }
-

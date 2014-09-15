@@ -16,6 +16,7 @@ import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
+import geogebra.common.awt.MyImage;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -29,7 +30,7 @@ import geogebra.common.plugin.GeoClass;
  */
 public class GeoCanvasImage extends GeoImage {
 
-	private GBufferedImage bufferedImage = null;
+	private MyImage bufferedImage = null;
 	private GGraphics2D g;
 
 	/**
@@ -100,7 +101,7 @@ public class GeoCanvasImage extends GeoImage {
 	 * @return fill image
 	 */
 	@Override
-	public GBufferedImage getFillImage() {
+	public MyImage getFillImage() {
 		return bufferedImage;
 	}
 
@@ -128,7 +129,7 @@ public class GeoCanvasImage extends GeoImage {
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
 			GColor bgColor1, float backgroundTransparency, int xInt, int yInt) {
 
-		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt, yInt,
+		bufferedImage = AwtFactory.prototype.newMyImage(xInt, yInt,
 				GBufferedImage.TYPE_INT_ARGB);
 
 		g = bufferedImage.createGraphics();

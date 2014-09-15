@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
+import geogebra.common.awt.MyImage;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
@@ -6633,7 +6633,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return fill image
 	 */
-	public GBufferedImage getFillImage() {
+	public MyImage getFillImage() {
 
 		return graphicsadapter.getFillImage();
 	}

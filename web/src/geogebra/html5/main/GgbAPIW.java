@@ -9,7 +9,6 @@ import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.View;
@@ -25,6 +24,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
@@ -527,14 +527,26 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			if (fileName != null) {
 				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
-				BufferedImage img = (BufferedImage)geo.getFillImage();
+				MyImageW img = (MyImageW)geo.getFillImage();
 				
-				if (url == null && (img != null && img.getImageElement() != null)) {
+				if (url == null && (img != null && img.getImage() != null)) {
+					
+					if ("svg".equals(ext)) {
+						
+						ImageElement svg = img.getImage();
+						
+						// TODO
+						String svgAsXML = "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
+						
+						archive.put(fileName, svgAsXML);						
+						return;
+						
+					}
 					Canvas cv = Canvas.createIfSupported();
 					cv.setCoordinateSpaceWidth(img.getWidth());
 					cv.setCoordinateSpaceHeight(img.getHeight());
 					Context2d c2d = cv.getContext2d();
-					c2d.drawImage(img.getImageElement(),0,0);
+					c2d.drawImage(img.getImage(),0,0);
 					url = cv.toDataUrl("image/png");
 					// Opera and Safari cannot toDataUrl jpeg (much less the others)
 					//if (ext.equals("jpg") || ext.equals("jpeg"))
@@ -542,7 +554,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 					//else
 					
 				}
-				if(url!=null){
+				if (url != null) {
 					if (ext.equals("png"))
 						addImageToZip(filePath + fileName, url, archive);
 					else

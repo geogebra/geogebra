@@ -946,7 +946,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void clearFillImage() {
 		this.getGraphicsAdapter().setImageOnly(
 				geogebra.common.factories.AwtFactory.prototype
-						.newBufferedImage(pixelWidth, pixelHeight,
+						.newMyImage(pixelWidth, pixelHeight,
 								GBufferedImage.TYPE_INT_ARGB));
 		this.updateRepaint();
 

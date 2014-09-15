@@ -18,6 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.gui.MyImageD;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
@@ -29,7 +30,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -373,10 +373,9 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 				sb.append("</html>");
 				setText(sb.toString());
 
-				BufferedImage img = app.getExternalImage(macro
-						.getIconFileName());
+				MyImageD img = app.getExternalImage(macro.getIconFileName());
 				if (img != null) {
-					setIcon(new ImageIcon(img));
+					setIcon(new ImageIcon(img.getImage()));
 					Dimension dim = getPreferredSize();
 					dim.height = img.getHeight();
 					setPreferredSize(dim);

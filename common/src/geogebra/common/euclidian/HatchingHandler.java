@@ -9,6 +9,7 @@ import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.MyImage;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
@@ -186,12 +187,12 @@ public class HatchingHandler {
 	protected void setTexture(geogebra.common.awt.GGraphics2D g3,
 			GeoElement geo, float alpha) {
 		//Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
-		if (geo.getFillImage() == null) {
+		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {
 			g3.setPaint(geo.getFillColor());
 			return;
 		}
 
-		GBufferedImage image = geo.getFillImage();
+		MyImage image = geo.getFillImage();
 		GRectangle tr = AwtFactory.prototype.newRectangle(0, 0, image.getWidth(),
 				image.getHeight());
 

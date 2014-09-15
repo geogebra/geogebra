@@ -12,12 +12,14 @@ import geogebra.common.awt.GImage;
 import geogebra.common.awt.GKey;
 import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GShape;
+import geogebra.common.awt.MyImage;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.main.MyImageW;
 import geogebra.html5.openjdk.awt.geom.AffineTransform;
 import geogebra.html5.openjdk.awt.geom.PathIterator;
 import geogebra.html5.openjdk.awt.geom.Shape;
@@ -229,22 +231,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 	
 	//
-
-	public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
-			int y) {
-		BufferedImage bi = (BufferedImage)img;
-		if(bi==null)
-			return;
-		try{
-			if(bi.hasCanvas()){
-				context.drawImage(bi.getCanvas().getCanvasElement(), x, y);
-			}else{
-				context.drawImage(bi.getImageElement(), x, y);
-			}
-		} catch (Exception e){
-			App.error("error in context.drawImage method");
-		}
-	}
 
 	public void drawString(String str, int x, int y) {
 		context.fillText(str, x, y);
@@ -920,10 +906,6 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 
 
 
-	public void drawImage(GImage img, int x, int y) {
-		App.debug("drawImage: implementation needed");
-	}
-
 
 
 	public void drawImage(GBufferedImage img, int x, int y) {
@@ -1005,4 +987,38 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 	    this.setImageInterpolation(true);
 	    
     }
+
+	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
+		context.drawImage(((MyImageW) img).getImage(), x, y);
+	    
+    }
+	
+	public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
+			int y) {
+		BufferedImage bi = (BufferedImage)img;
+		if (bi == null)
+			return;
+		try {
+			if (bi.hasCanvas()){
+				context.drawImage(bi.getCanvas().getCanvasElement(), x, y);
+			} else {
+				context.drawImage(bi.getImageElement(), x, y);
+			}
+		} catch (Exception e){
+			App.error("error in context.drawImage method");
+		}
+	}
+
+
+	public void drawImage(MyImage img, int x, int y) {
+		context.drawImage(((MyImageW) img).getImage(), x, y);
+	    
+    }
+	
+	// TODO: remove?
+	public void drawImage(GImage img, int x, int y) {
+		App.debug("drawImage: implementation needed");
+	}
+
+
 }

@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
-import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.MyImage;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.AwtFactory;
@@ -37,7 +37,7 @@ public final class DrawImage extends Drawable {
 
 	private GeoImage geoImage;
 	private boolean isVisible;
-	private GBufferedImage image;
+	private MyImage image;
 
 	private boolean absoluteLocation;
 	private geogebra.common.awt.GAlphaComposite alphaComp;
@@ -50,7 +50,7 @@ public final class DrawImage extends Drawable {
 	private geogebra.common.awt.GGeneralPath highlighting;
 
 	/**
-	 * Creates new drawble image
+	 * Creates new drawable image
 	 * @param view view
 	 * @param geoImage image
 	 */
