@@ -1512,7 +1512,7 @@ public class AlgoDispatcher {
 //					view.toRealWorldCoordX(x),
 //					view.toRealWorldCoordY(y), 1.0);
 			
-			GeoPointND newPoint = copyFreePoint(p);
+			GeoPointND newPoint = copyFreePoint(p, view);
 			
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) p, (GeoElement) newPoint);
@@ -1524,11 +1524,20 @@ public class AlgoDispatcher {
 		return true;
 	}
 	
-	protected GeoPointND copyFreePoint(GeoPointND point){
+	protected static int DETACH_OFFSET = 20;
+	
+	protected GeoPointND copyFreePoint(GeoPointND point, EuclidianViewInterfaceCommon view){
+		
+		double xOffset = 0, yOffset = 0;
+		if (!view.isEuclidianView3D()){
+			xOffset = DETACH_OFFSET * view.getInvXscale();
+			yOffset = DETACH_OFFSET * view.getInvYscale();
+		}
+		
 		return new GeoPoint(
 				cons, null,
-				point.getInhomX(),
-				point.getInhomY(), 1.0);
+				point.getInhomX() + xOffset,
+				point.getInhomY() + yOffset, 1.0);
 	}
 
 	/**

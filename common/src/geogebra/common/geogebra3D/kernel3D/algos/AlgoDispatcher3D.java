@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.geogebra3D.kernel3D.commands.CommandProcessor3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -237,13 +238,19 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 	
 	@Override
-	protected GeoPointND copyFreePoint(GeoPointND point){
+	protected GeoPointND copyFreePoint(GeoPointND point, EuclidianViewInterfaceCommon view){
 		if (point.isGeoElement3D()){
-			return (GeoPointND) getManager3D().Point3D(null, point.getInhomX(), point.getInhomY(), point.getInhomZ(), 
+			double xOffset = 0, yOffset = 0;
+			if (!view.isEuclidianView3D()){
+				xOffset = DETACH_OFFSET * view.getInvXscale();
+				yOffset = DETACH_OFFSET * view.getInvYscale();
+			}
+			
+			return (GeoPointND) getManager3D().Point3D(null, point.getInhomX() + xOffset, point.getInhomY() + yOffset, point.getInhomZ(), 
 					point.getMode() == Kernel.COORD_CARTESIAN);
 		}
 		
-		return super.copyFreePoint(point);
+		return super.copyFreePoint(point, view);
 	}
 
 }
