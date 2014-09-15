@@ -51,8 +51,7 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 	@Override
     public void setFont(GFont font) {
 	    //App.debug("GLabelW.setFont() implementation needed"); // TODO Auto-generated
-	    impl.getElement().getStyle().setFontSize(font.getSize(), Unit.PT);
-	    
+	    impl.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
     }
 
 	@Override
