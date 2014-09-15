@@ -824,7 +824,8 @@ public class PropertiesViewD extends
 
 	private boolean stayInCurrentPanelWithObjects() {
 
-		return stayInCurrentPanel() || selectedOptionType == OptionType.OBJECTS;
+		return stayInCurrentPanel() || 
+				(selectedOptionType == OptionType.OBJECTS && app.getSelectionManager().getSelectedGeos().size() > 0);
 	}
 
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
