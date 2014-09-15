@@ -297,7 +297,7 @@ public class GeoTextEditor extends RichTextArea {
 		elem.getStyle().setBorderWidth(2, Unit.PX);
 		elem.getStyle().setBorderColor("lightgray");
 		elem.getStyle().setCursor(Cursor.POINTER);
-		elem.getStyle().setFontSize(font.getSize(), Unit.PT);
+		elem.getStyle().setFontSize(font.getSize(), Unit.PX);
 		elem.getStyle().setBackgroundColor("wheat");
 
 		return elem;

@@ -110,7 +110,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 							fontsizeElements.getItem(i).removeFromParent();
 						}
 						
-			        	((AppW) app).getFrameElement().getStyle().setFontSize(32, Unit.PT);
+			        	((AppW) app).getFrameElement().getStyle().setFontSize(32, Unit.PX);
 			        }
 		        });	
 	}
