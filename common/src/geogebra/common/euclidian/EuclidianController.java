@@ -3579,7 +3579,7 @@ public abstract class EuclidianController {
 						        .geoTableVarLookup(attachTo);
 						this.kernel.getAlgoDispatcher().attach(movedGeoPoint,
 						        path, view,
-						        new GPoint(mouseLoc.x, mouseLoc.y));
+						        getMouseLocRW());
 					}
 				}
 			}
@@ -3635,7 +3635,7 @@ public abstract class EuclidianController {
 								.getLastHitType() == HitType.ON_FILLING))) {
 					
 					checkZooming(); 
-					boolean ret = getAlgoDispatcher().attach(points[0], (Region) paths[0], view, mouseLoc);
+					boolean ret = getAlgoDispatcher().attach(points[0], (Region) paths[0], view, getMouseLocRW());
 					
 					if (ret) {
 						clearSelections();
@@ -3645,7 +3645,7 @@ public abstract class EuclidianController {
 				}
 	
 				checkZooming(); 
-				boolean ret =  getAlgoDispatcher().attach(points[0], paths[0], view, mouseLoc);
+				boolean ret =  getAlgoDispatcher().attach(points[0], paths[0], view, getMouseLocRW());
 	
 				if (ret) {
 					clearSelections();
@@ -3659,7 +3659,7 @@ public abstract class EuclidianController {
 				if (!((GeoElement) regions[0]).isChildOf((GeoElement) points[0])) {
 					
 					checkZooming(); 
-					boolean ret = getAlgoDispatcher().attach(points[0], regions[0], view, mouseLoc);
+					boolean ret = getAlgoDispatcher().attach(points[0], regions[0], view, getMouseLocRW());
 					
 					if (ret) {
 						clearSelections();
@@ -3671,6 +3671,25 @@ public abstract class EuclidianController {
 			}
 		}
 		return false;
+	}
+	
+	private Coords mouseLocRW;
+	
+	protected Coords getMouseLocRW(){
+		
+		if (mouseLocRW == null){
+			mouseLocRW = Coords.createInhomCoorsInD3();
+		}
+
+		if (mouseLoc == null){
+			mouseLocRW.setX(0);
+			mouseLocRW.setY(0);
+		}else{
+			mouseLocRW.setX(view.toRealWorldCoordX(mouseLoc.x));
+			mouseLocRW.setY(view.toRealWorldCoordY(mouseLoc.y));
+		}
+		
+		return mouseLocRW;
 	}
 
 

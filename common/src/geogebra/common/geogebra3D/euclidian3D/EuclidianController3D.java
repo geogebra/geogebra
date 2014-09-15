@@ -3549,4 +3549,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public boolean hasInput() {
 		return false;
 	}
+	
+	@Override
+	protected Coords getMouseLocRW(){
+		return view3D.getCursor3D().getInhomCoordsInD3();		
+	}
 }

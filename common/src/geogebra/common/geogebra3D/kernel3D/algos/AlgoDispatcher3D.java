@@ -215,25 +215,25 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 	
 	@Override
-	public GeoPointND PointIn(String label, Region region, double x,
-			double y, double z, boolean addToConstruction, boolean complex, boolean coords2D) {
+	public GeoPointND PointIn(String label, Region region, Coords coords,
+			boolean addToConstruction, boolean complex, boolean coords2D) {
 		
 		if (region.isGeoElement3D()){
-			return getManager3D().Point3DIn(label, region, new Coords(x,y,z,1), addToConstruction, coords2D);
+			return getManager3D().Point3DIn(label, region, coords, addToConstruction, coords2D);
 		}
 		
-		return super.PointIn(label, region, x, y, z, addToConstruction, complex, coords2D);
+		return super.PointIn(label, region, coords, addToConstruction, complex, coords2D);
 	}
 	
 	@Override
-	public GeoPointND Point(String label, Path path, double x, double y, double z,
-			boolean addToConstruction, boolean complex, boolean coords2D) {
+	public GeoPointND Point(String label, Path path, Coords coords, boolean addToConstruction, boolean complex,
+			boolean coords2D) {
 		
 		if (path.isGeoElement3D()){
-			return getManager3D().Point3D(label, path, x, y, z, addToConstruction, coords2D);
+			return getManager3D().Point3D(label, path, coords.getX(), coords.getY(), coords.getZ(), addToConstruction, coords2D);
 		}
 		
-		return super.Point(label, path, x, y, z, addToConstruction, complex, coords2D);
+		return super.Point(label, path, coords, addToConstruction, complex, coords2D);
 	}
 
 }

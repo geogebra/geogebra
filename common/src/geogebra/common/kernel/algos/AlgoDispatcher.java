@@ -1,6 +1,5 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -13,6 +12,7 @@ import geogebra.common.kernel.TransformDilate;
 import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.TransformTranslate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -131,10 +131,10 @@ public class AlgoDispatcher {
 		return p;
 	}
 	
-	public GeoPointND Point(String label, Path path, double x, double y, double z,
-			boolean addToConstruction, boolean complex, boolean coords2D) {
+	public GeoPointND Point(String label, Path path, Coords coords, boolean addToConstruction, boolean complex,
+			boolean coords2D) {
 
-		return Point(label, path, x, y, addToConstruction, complex, coords2D);
+		return Point(label, path, coords.getX(), coords.getY(), addToConstruction, complex, coords2D);
 	}
 
 	/** Point anywhere on path with */
@@ -775,9 +775,9 @@ public class AlgoDispatcher {
 		return p;
 	}
 	
-	public GeoPointND PointIn(String label, Region region, double x,
-			double y, double z, boolean addToConstruction, boolean complex, boolean coords2D) {
-		return PointIn(label, region, x, y, addToConstruction, complex, coords2D);
+	public GeoPointND PointIn(String label, Region region, Coords coords,
+			boolean addToConstruction, boolean complex, boolean coords2D) {
+		return PointIn(label, region, coords.getX(), coords.getY(), addToConstruction, complex, coords2D);
 	}
 	
 
@@ -1453,22 +1453,16 @@ public class AlgoDispatcher {
 
 	}
 	
-	public boolean attach(GeoPointND point, Path path, EuclidianViewInterfaceCommon view, GPoint loc) {
+	public boolean attach(GeoPointND point, Path path, EuclidianViewInterfaceCommon view, Coords locRW) {
 			
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
 			
-			GeoPointND newPoint;
-			if(loc == null){
-				newPoint = Point(null, path, 0, 0, 0,
-						false, false, point.getMode()!=Kernel.COORD_CARTESIAN_3D);
-			}
-			else{
-				newPoint = Point(null, path, view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y), 0,
-					false, false, point.getMode()!=Kernel.COORD_CARTESIAN_3D);
-			}
+			GeoPointND newPoint = Point(null, path, locRW, false, false,
+					point.getMode()!=Kernel.COORD_CARTESIAN_3D);
+			
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) point, (GeoElement) newPoint);
 			//clearSelections();
@@ -1479,22 +1473,17 @@ public class AlgoDispatcher {
 		}
 	}
 
-	public boolean attach(GeoPointND point, Region region, EuclidianViewInterfaceCommon view, GPoint loc) {
+	public boolean attach(GeoPointND point, Region region, EuclidianViewInterfaceCommon view, Coords locRW) {
 			
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
+
+			GeoPointND newPoint = PointIn(null, region,
+					locRW, false, false,
+					true);
 			
-			GeoPointND newPoint;
-			if(loc == null){
-				newPoint = PointIn(null, region, 0, 0, 0,
-						false, false, true);
-			}else{
-				newPoint = PointIn(null, region,
-					view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y), 0,
-					false, false, true);
-			}
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) point, (GeoElement) newPoint);
 			//clearSelections();
