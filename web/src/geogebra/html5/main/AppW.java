@@ -86,7 +86,6 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
-import geogebra.web.main.FileManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -2152,16 +2151,21 @@ public static final String LOCALE_PARAMETER = "locale";
 	    }
 
 		public void closePopups(){
-			/* breaks webSimple
-			EuclidianStyleBarW.setJustClosedPopup(false);
+			justClosedPopup = false;
 			//App.debug("closing popups:"+popups.size());
 			for(Widget widget:popups){
-				EuclidianStyleBarW.setJustClosedPopup(true);
+				justClosedPopup = true;
 				widget.setVisible(false);
-			}*/
+			}
 			popups.clear();
 		}
-		
+
+		private static boolean justClosedPopup = false;
+
+		public boolean wasPopupJustClosed() {
+		    return justClosedPopup;
+	    }
+
 		public void unregisterPopup(Widget widget) {
 			popups.remove(widget);
 		}

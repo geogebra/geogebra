@@ -182,7 +182,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 						myTable.updateFonts();
 					}
 					if (EuclidianStyleBarW.CURRENT_POP_UP != myPopup 
-							|| !EuclidianStyleBarW.wasPopupJustClosed()) {
+							|| !app2.wasPopupJustClosed()) {
 						if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
 							EuclidianStyleBarW.CURRENT_POP_UP.hide();
 						}

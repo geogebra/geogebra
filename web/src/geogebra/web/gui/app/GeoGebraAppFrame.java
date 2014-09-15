@@ -5,6 +5,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.Dom;
@@ -151,13 +152,16 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		
 		this.addDomHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {
-				closePopupsAndMaybeMenu(event.getNativeEvent());			
+				if(!CancelEventTimer.cancelMouseEvent()){
+					closePopupsAndMaybeMenu(event.getNativeEvent());
+				}
 			}
 		}, MouseDownEvent.getType());
 		
 		this.addDomHandler(new TouchStartHandler() {
 			public void onTouchStart(TouchStartEvent event) {
 				event.stopPropagation();
+				CancelEventTimer.touchEventOccured();
 				closePopupsAndMaybeMenu(event.getNativeEvent());
 			}
 		}, TouchStartEvent.getType());

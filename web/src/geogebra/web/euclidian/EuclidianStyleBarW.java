@@ -1577,13 +1577,4 @@ public class EuclidianStyleBarW extends StyleBarW
 		super.onAttach();
 	}
 
-	private static boolean justClosedPopup = false;
-
-	public static boolean wasPopupJustClosed() {
-	    return justClosedPopup;
-    }
-
-	public static void setJustClosedPopup(boolean b) {
-	    justClosedPopup = b;
-    }
 }
