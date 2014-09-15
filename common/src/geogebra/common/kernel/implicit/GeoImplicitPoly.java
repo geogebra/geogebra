@@ -1299,7 +1299,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		public boolean euclidianViewUpdate() {
 			if (isDefined()){
 				updatePath();
-				return false;
+				return true;
 			}
 			return false;
 		}
