@@ -596,7 +596,7 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 
 			// column widths
 			for (int col = 1; col < table.getColumnCount(); col++) {
-				int colWidth = table.getGrid().getColumnFormatter().getElement(col).getOffsetWidth();
+				int colWidth = table.getColumnWidth(col-1);
 				// if (colWidth != DEFAULT_COLUMN_WIDTH)
 				if (colWidth != table.preferredColumnWidth)
 					sb.append("\t<spreadsheetColumn id=\"" + (col-1)
