@@ -18,7 +18,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
-import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.main.MyImageW;
 import geogebra.html5.openjdk.awt.geom.AffineTransform;
 import geogebra.html5.openjdk.awt.geom.PathIterator;
@@ -269,7 +269,7 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 				//https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
 				//NS_ERROR_NOT_AVAILABLE: Component is not available
 				//https://bugzilla.mozilla.org/show_bug.cgi?id=574330
-				final BufferedImage bi = ((GTexturePaintW)paint).getImg();
+				final GBufferedImageW bi = ((GTexturePaintW)paint).getImg();
 				CanvasPattern ptr;
 				if (bi.hasCanvas()) {
 					currentPaint = new GTexturePaintW((GTexturePaintW)paint);
@@ -995,7 +995,7 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 	
 	public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
 			int y) {
-		BufferedImage bi = (BufferedImage)img;
+		GBufferedImageW bi = (GBufferedImageW)img;
 		if (bi == null)
 			return;
 		try {

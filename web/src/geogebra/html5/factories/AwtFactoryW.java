@@ -33,7 +33,7 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGradientPaintW;
 import geogebra.html5.awt.GTexturePaintW;
-import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.main.MyImageW;
 import geogebra.html5.openjdk.awt.geom.AffineTransform;
 import geogebra.html5.openjdk.awt.geom.Arc2D;
@@ -98,7 +98,7 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth,
 	        int pixelHeight, int typeIntArgb) {
-		return new BufferedImage(pixelWidth, pixelHeight, typeIntArgb);
+		return new GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb);
 	}
 
 	@Override
@@ -259,17 +259,17 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
-	    return new MyImageW(new BufferedImage(pixelWidth, pixelHeight, typeIntArgb).getImageElement());
+	    return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb).getImageElement());
     }
 
 	@Override
     public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-	    return new GTexturePaintW((BufferedImage)subimage);
+	    return new GTexturePaintW((GBufferedImageW)subimage);
     }
 
 	@Override
     public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
-	    return new GTexturePaintW(new BufferedImage(((MyImageW) subimage).getImage()));
+	    return new GTexturePaintW(new GBufferedImageW(((MyImageW) subimage).getImage()));
 
     }
 

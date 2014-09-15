@@ -10,17 +10,17 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.DOM;
-public class BufferedImage implements geogebra.common.awt.GBufferedImage{
+public class GBufferedImageW implements geogebra.common.awt.GBufferedImage{
 
 	ImageElement img = null; // necessary
 
 	Canvas canv = null; // not necessary, but if present, this is the main one
 
-	public BufferedImage(int width, int height, int imageType, boolean opaque) {
+	public GBufferedImageW(int width, int height, int imageType, boolean opaque) {
 		this(null, width, height, imageType, opaque);
 	}
 
-	public BufferedImage(Canvas canvas, int width, int height, int imageType, boolean opaque) {
+	public GBufferedImageW(Canvas canvas, int width, int height, int imageType, boolean opaque) {
 
 		if (canvas == null)
 			canv = Canvas.createIfSupported();
@@ -48,11 +48,11 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 		//img = getImageElement();
 	}
 
-	public BufferedImage(int width, int height, int imageType) {
+	public GBufferedImageW(int width, int height, int imageType) {
 		this(width, height, imageType, false);
     }
 
-	public BufferedImage(ImageElement imageElement) {
+	public GBufferedImageW(ImageElement imageElement) {
 		if (imageElement != null)// This should not called with null 
 			img = imageElement;
 		else
@@ -60,7 +60,7 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
     }
 
 	// this clones this bufferedimage!
-	public BufferedImage(Canvas cv) {
+	public GBufferedImageW(Canvas cv) {
 		if (cv != null) {// This should not called with null
 			canv = Canvas.createIfSupported();
 			canv.setCoordinateSpaceWidth(cv.getCoordinateSpaceWidth());
@@ -79,7 +79,7 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 		}
 	}
 
-	public BufferedImage(ImageData imageData) {
+	public GBufferedImageW(ImageData imageData) {
 		canv = Canvas.createIfSupported();
 		canv.setCoordinateSpaceWidth(imageData.getWidth());
 		canv.setCoordinateSpaceHeight(imageData.getHeight());
@@ -117,10 +117,10 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
 		return canv != null;
     }
 
-	public BufferedImage cloneDeep() {
+	public GBufferedImageW cloneDeep() {
 		if (canv != null)
-			return new BufferedImage(canv);
-		return new BufferedImage((ImageElement)img.cloneNode(true));
+			return new GBufferedImageW(canv);
+		return new GBufferedImageW((ImageElement)img.cloneNode(true));
 	}
 
 	public Canvas getCanvas() {
@@ -149,7 +149,7 @@ public class BufferedImage implements geogebra.common.awt.GBufferedImage{
     public GBufferedImage getSubimage(int x, int y, int width, int height) {
 		Context2d ctx = getCanvas().getContext2d(); 
 	    ImageData imageData = ctx.getImageData(x, y, width, height);
-	    return new BufferedImage(imageData);
+	    return new GBufferedImageW(imageData);
     }
 	
 	public ImageData getImageData(){

@@ -26,7 +26,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.main.AppW;
@@ -301,14 +301,14 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		return g4copy.getCanvas().toDataUrl();
 	}
 	
-	public BufferedImage getExportImage(double scale) {
+	public GBufferedImageW getExportImage(double scale) {
 		return getExportImage(scale, false);
 	}
 	
-	public BufferedImage getExportImage(double scale, boolean transparency) {
+	public GBufferedImageW getExportImage(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
-		BufferedImage img = new BufferedImage(width, height, 0, true);
+		GBufferedImageW img = new GBufferedImageW(width, height, 0, true);
 		exportPaint(new GGraphics2DW(img.getCanvas()), scale, transparency);
 		return img;
 	}
@@ -507,7 +507,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	}
 	
 	public void createImage() {
-		bgImage = new BufferedImage(getWidth(), getHeight(), 0, false);
+		bgImage = new GBufferedImageW(getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 	}
 
@@ -828,13 +828,13 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		final ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
 				: getPlayImage();
 		if (img.getPropertyBoolean("complete")) {
-			g2.drawImage(new BufferedImage(img), null, x, y);
+			g2.drawImage(new GBufferedImageW(img), null, x, y);
 		} else {
 			ImageWrapper.nativeon(img,
 				"load",
 				new ImageLoadCallback() {
 					public void onLoad() {
-						g2.drawImage(new BufferedImage(img), null, x, y);
+						g2.drawImage(new GBufferedImageW(img), null, x, y);
 					}
 				}
 			);

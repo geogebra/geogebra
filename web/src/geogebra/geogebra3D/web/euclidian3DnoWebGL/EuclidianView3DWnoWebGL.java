@@ -6,7 +6,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
-import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gawt.GBufferedImageW;
 
 import java.util.HashMap;
 
@@ -59,7 +59,7 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 		if(file!= null && file.get("geogebra_thumbnail.png") != null){
 			ImageElement img = Document.get().createImageElement();
 			img.setSrc(file.get("geogebra_thumbnail.png"));
-			thumb = new BufferedImage(img);
+			thumb = new GBufferedImageW(img);
 		}
 		
 		repaint();

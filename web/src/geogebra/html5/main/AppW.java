@@ -646,6 +646,8 @@ public static final String LOCALE_PARAMETER = "locale";
 			}
 
 			// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
+			App.debug("filename2 = " + filename);
+			App.debug("ext2 = " + ext);
 
 			if ("svg".equals(ext)) { 
 				addExternalImage(filename, "data:image/svg+xml;charset=utf-8," + content); 

@@ -529,6 +529,8 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
 				MyImageW img = (MyImageW)geo.getFillImage();
 				
+				App.debug("filename = " + fileName);
+				App.debug("ext = " + ext);
 				if (url == null && (img != null && img.getImage() != null)) {
 					
 					if ("svg".equals(ext)) {
@@ -536,7 +538,10 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 						ImageElement svg = img.getImage();
 						
 						// TODO
-						String svgAsXML = "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
+						//String svgAsXML = "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
+						String svgAsXML = svg.getAttribute("src");
+						
+						App.debug("svgAsXML = " + svgAsXML);
 						
 						archive.put(fileName, svgAsXML);						
 						return;

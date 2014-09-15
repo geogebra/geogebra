@@ -1,11 +1,11 @@
 package geogebra.html5.awt;
 
-import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gawt.GBufferedImageW;
 
 public class GTexturePaintW implements geogebra.common.awt.GPaint {
 	
 	//GRectangleW anchor = null;
-	BufferedImage bi;
+	GBufferedImageW bi;
 
 	public GTexturePaintW(GTexturePaintW tp) {
 		//this.anchor = new GRectangleW();
@@ -13,12 +13,12 @@ public class GTexturePaintW implements geogebra.common.awt.GPaint {
 		this.bi = tp.bi; //TODO do we need clone deep?
 	}
 
-	public GTexturePaintW(BufferedImage subImage) {
+	public GTexturePaintW(GBufferedImageW subImage) {
 		this.bi = subImage;
 	    //anchor = rect;
     }
 	
-	public BufferedImage getImg() {
+	public GBufferedImageW getImg() {
 		return bi;
 	}
 	

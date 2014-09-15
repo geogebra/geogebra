@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
-import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
 
@@ -1031,7 +1031,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		label.setDimensionPowerOfTwo(firstPowerOfTwoGreaterThan(label.getWidth()), firstPowerOfTwoGreaterThan(label.getHeight()));
 
 		// create and return a buffered image with power-of-two dimensions
-		return new BufferedImage(label.getWidthPowerOfTwo(), label.getHeightPowerOfTwo(), 0);
+		return new GBufferedImageW(label.getWidthPowerOfTwo(), label.getHeightPowerOfTwo(), 0);
 	}
 	
     @Override
@@ -1042,14 +1042,14 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
     	// check if image is ready
-    	ImageElement image = ((BufferedImage) bimg).getImageElement();    	
+    	ImageElement image = ((GBufferedImageW) bimg).getImageElement();    	
     	if (!image.getPropertyBoolean("complete")) {	
     		ImageWrapper.nativeon(image,
     				"load",
-    				new AlphaTextureCreator(label, image, (BufferedImage) bimg, this)
+    				new AlphaTextureCreator(label, image, (GBufferedImageW) bimg, this)
     				);
     	}else{
-    		createAlphaTexture(label, image, (BufferedImage) bimg);
+    		createAlphaTexture(label, image, (GBufferedImageW) bimg);
     	}
 		
 		
@@ -1059,10 +1059,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     	
     	private DrawLabel3D label;
     	private ImageElement image;
-    	private BufferedImage bimg;
+    	private GBufferedImageW bimg;
     	private RendererW renderer;
     	
-    	public AlphaTextureCreator(DrawLabel3D label, ImageElement image, BufferedImage bimg, RendererW renderer){
+    	public AlphaTextureCreator(DrawLabel3D label, ImageElement image, GBufferedImageW bimg, RendererW renderer){
     		this.label = label;
     		this.image = image;
     		this.bimg = bimg;
@@ -1092,7 +1092,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	 * @param label label
 	 * @param image image
 	 */ 
-    protected void createAlphaTexture(DrawLabel3D label, ImageElement image, BufferedImage bimg){
+    protected void createAlphaTexture(DrawLabel3D label, ImageElement image, GBufferedImageW bimg){
 
     	if (label.isPickable()){
     		// values for picking (ignore transparent bytes)

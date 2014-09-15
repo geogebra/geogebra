@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.StringUtil;
-import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.main.AppW;
 
@@ -52,6 +52,7 @@ public class ImageManager extends AbstractImageManager {
 
 	public void addExternalImage(String fileName, String src) {
 	   if (fileName != null && src != null) {
+		   App.debug("addExternalImage: " + fileName);
 		   String fn = StringUtil.removeLeadingSlash(fileName);
 		   ImageElement img = Document.get().createImageElement();
 		   externalImageSrcs.put(fn, src);
@@ -93,7 +94,7 @@ public class ImageManager extends AbstractImageManager {
 	}
 
 	public static GBufferedImage toBufferedImage(ImageElement im) {
-	    return new BufferedImage(im);
+	    return new GBufferedImageW(im);
     }
 
 	class ImageLoadCallback2 implements ImageLoadCallback {
