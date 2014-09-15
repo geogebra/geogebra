@@ -588,10 +588,11 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio {
 
 			// save macro icon
 			String fileName = macro.getIconFileName();
-			BufferedImage img = (BufferedImage) ((AppD) app).getExternalImage(
-					fileName).getImage();
-			if (img != null)
-				writeImageToZip(zip, filePath + fileName, img);
+			MyImageD img = ((AppD) app).getExternalImage(fileName);
+			if (img != null && img.getImage() != null) {
+				writeImageToZip(zip, filePath + fileName,
+						(BufferedImage) img.getImage());
+			}
 		}
 	}
 
