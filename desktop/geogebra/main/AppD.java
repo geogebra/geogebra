@@ -4840,6 +4840,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				setComponentOrientation(menu.getMenuComponent(i));
 			}
 		} else if (c instanceof JTextField) {
+			c.setComponentOrientation(getComponentOrientation());
 			((JTextField) c).setHorizontalAlignment(rtl ? SwingConstants.RIGHT
 					: SwingConstants.LEFT);
 		} else if (c instanceof JComboBox) {
