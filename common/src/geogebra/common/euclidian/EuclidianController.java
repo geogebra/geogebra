@@ -3613,9 +3613,15 @@ public abstract class EuclidianController {
 				getSelectedPaths();
 				
 				checkZooming(); 
-				if (getAlgoDispatcher().detach(p, view)) {
+				GeoPointND ret = getAlgoDispatcher().detach(p, view);
+				
+				if (ret != null) {
 					clearSelections();
+					view.updateCursor(ret);
+					return true;
 				}
+				
+				return false;
 			}
 		}
 				
@@ -3635,22 +3641,27 @@ public abstract class EuclidianController {
 								.getLastHitType() == HitType.ON_FILLING))) {
 					
 					checkZooming(); 
-					boolean ret = getAlgoDispatcher().attach(points[0], (Region) paths[0], view, getMouseLocRW());
+					GeoPointND ret = getAlgoDispatcher().attach(points[0], (Region) paths[0], view, getMouseLocRW());
 					
-					if (ret) {
+					if (ret != null) {
 						clearSelections();
+						view.updateCursor(ret);
+						return true;
 					}
 					
-					return ret;
+					return false;
 				}
 	
 				checkZooming(); 
-				boolean ret =  getAlgoDispatcher().attach(points[0], paths[0], view, getMouseLocRW());
+				GeoPointND ret =  getAlgoDispatcher().attach(points[0], paths[0], view, getMouseLocRW());
 	
-				if (ret) {
+				if (ret != null) {
 					clearSelections();
+					view.updateCursor(ret);
+					return true;
 				}
-				return ret;
+				
+				return false;
 				
 			} else if (selRegions() == 1) {
 				Region regions[] = getSelectedRegions();
@@ -3659,13 +3670,15 @@ public abstract class EuclidianController {
 				if (!((GeoElement) regions[0]).isChildOf((GeoElement) points[0])) {
 					
 					checkZooming(); 
-					boolean ret = getAlgoDispatcher().attach(points[0], regions[0], view, getMouseLocRW());
+					GeoPointND ret = getAlgoDispatcher().attach(points[0], regions[0], view, getMouseLocRW());
 					
-					if (ret) {
+					if (ret != null) {
 						clearSelections();
+						view.updateCursor(ret);
+						return true;
 					}
 					
-					return ret;
+					return false;
 				}
 	
 			}

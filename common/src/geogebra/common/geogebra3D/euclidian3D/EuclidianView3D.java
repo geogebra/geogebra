@@ -1906,6 +1906,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
+	public void updateCursor(GeoPointND point){
+		hits.init();
+		hits.add((GeoElement) point);
+		updateCursor3D();
+	}
+	
+	@Override
 	public void setSelectionRectangle(
 			geogebra.common.awt.GRectangle selectionRectangle) {
 		// TODO Auto-generated method stub

@@ -3867,6 +3867,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			}
 		}
 	}
+	
+	public void updateCursor(GeoPointND point){
+		// used in 3D
+	}
 
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the

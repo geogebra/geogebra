@@ -1453,7 +1453,7 @@ public class AlgoDispatcher {
 
 	}
 	
-	public boolean attach(GeoPointND point, Path path, EuclidianViewInterfaceCommon view, Coords locRW) {
+	public GeoPointND attach(GeoPointND point, Path path, EuclidianViewInterfaceCommon view, Coords locRW) {
 			
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
@@ -1478,14 +1478,14 @@ public class AlgoDispatcher {
 				newPoint.setObjColor(cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_ON_PATH).getObjectColor());
 			}
 			
-			return true;
+			return newPoint;
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 
-	public boolean attach(GeoPointND point, Region region, EuclidianViewInterfaceCommon view, Coords locRW) {
+	public GeoPointND attach(GeoPointND point, Region region, EuclidianViewInterfaceCommon view, Coords locRW) {
 			
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
@@ -1510,14 +1510,14 @@ public class AlgoDispatcher {
 			}
 			
 			//clearSelections();
-			return true;
+			return newPoint;
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 	
-	public boolean detach(GeoPointND p, EuclidianViewInterfaceCommon view) {
+	public GeoPointND detach(GeoPointND p, EuclidianViewInterfaceCommon view) {
 		
 		try {
 			boolean oldLabelCreationFlag = cons
@@ -1544,13 +1544,14 @@ public class AlgoDispatcher {
 			if (setDefaultColor){
 				newPoint.setObjColor(cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE).getObjectColor());
 			}
+			
+			return newPoint;
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			return false;
+			return null;
 		}
-		//clearSelections();
-		return true;
+		
 	}
 	
 	protected static int DETACH_OFFSET = 20;

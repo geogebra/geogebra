@@ -577,6 +577,12 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setHits(geogebra.common.awt.GRectangle rect);
 
 	/**
+	 * update the cursor as if mouse has moved over this point
+	 * @param point point
+	 */
+	public void updateCursor(GeoPointND point);
+	
+	/**
 	 * @param plainTooltip sets tooltip text
 	 */
 	public void setToolTipText(String plainTooltip);
