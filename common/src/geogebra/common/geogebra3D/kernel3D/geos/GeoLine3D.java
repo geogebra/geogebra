@@ -103,25 +103,25 @@ public class GeoLine3D extends GeoCoordSys1D {
 				// use original coordinates for displaying, not normalized form for Line[ A, u ]
 				
 				GeoPointND pt = (GeoPointND) geos[0];
-				Coords coords1 = pt.getInhomCoords();
+				Coords coords1 = pt.getInhomCoordsInD3();
 				GeoVectorND vec = (GeoVectorND) geos[1];
 				
-				double[] coords2 = vec.getInhomCoords();
+				Coords coords2 = vec.getCoordsInD3();
 				
 				sbToString.append("X = (");
-				sbToString.append(kernel.format(coords1.get(1), tpl));
+				sbToString.append(kernel.format(coords1.getX(), tpl));
 				sbToString.append(", ");
-				sbToString.append(kernel.format(coords1.get(2), tpl));
+				sbToString.append(kernel.format(coords1.getY(), tpl));
 				sbToString.append(", ");
-				sbToString.append(kernel.format(coords1.getLength() == 3 ? coords1.get(3) : 0, tpl));
+				sbToString.append(kernel.format(coords1.getZ(), tpl));
 				sbToString.append(") + ");
 				sbToString.append(parameter);
 				sbToString.append(" (");
-				sbToString.append(kernel.format(coords2[0], tpl));
+				sbToString.append(kernel.format(coords2.getX(), tpl));
 				sbToString.append(", ");
-				sbToString.append(kernel.format(coords2[1], tpl));
+				sbToString.append(kernel.format(coords2.getY(), tpl));
 				sbToString.append(", ");
-				sbToString.append(kernel.format(coords2.length == 3 ? coords2[2] : 0, tpl));
+				sbToString.append(kernel.format(coords2.getZ(), tpl));
 				sbToString.append(")");
 				
 				return sbToString;  
