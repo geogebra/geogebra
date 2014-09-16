@@ -202,24 +202,23 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
-		
-	}
-	
-	private boolean firstPaint = true;
-	
 
-	public void resetFirstPaint(){
+	}
+
+	private boolean firstPaint = true;
+
+	public void resetFirstPaint() {
 		firstPaint = true;
 	}
-	
+
 	@Override
-	public void paint(Graphics g){
-		
-		if (firstPaint){
+	public void paint(Graphics g) {
+
+		if (firstPaint) {
 			firstPaint = false;
-			updateGUI();		
+			updateGUI();
 		}
-		
+
 		super.paint(g);
 	}
 
@@ -1564,10 +1563,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			}
 		} else if (source == btnBold) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					btnBold.isSelected() ? GFont.BOLD : GFont.PLAIN);
+					GFont.ITALIC, btnBold.isSelected() ? GFont.BOLD
+							: GFont.PLAIN);
 		} else if (source == btnItalic) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					btnItalic.isSelected() ? GFont.ITALIC : GFont.PLAIN);
+					GFont.BOLD, btnItalic.isSelected() ? GFont.ITALIC
+							: GFont.PLAIN);
 		} else if (source == btnTextSize) {
 			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());

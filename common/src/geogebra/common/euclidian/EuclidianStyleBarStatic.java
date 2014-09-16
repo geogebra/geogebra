@@ -360,16 +360,18 @@ public class EuclidianStyleBarStatic {
 	 * @param fontStyle Value of fontStyle is 1 if btnBold pressed, 2 if btnItalic pressed, 0 otherwise
 	 * @return
 	 */
-	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int fontStyle) {
+	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int mask, int add) {
 		boolean needUndo = false;
 		
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo instanceof TextProperties
-					&& ((TextProperties) geo).getFontStyle() != fontStyle) {
-				((TextProperties) geo).setFontStyle(fontStyle);
+			if (geo instanceof TextProperties){
+				int newStyle = (((TextProperties) geo).getFontStyle() & mask) | add;
+					if (((TextProperties) geo).getFontStyle() != newStyle) {
+				((TextProperties) geo).setFontStyle(newStyle);
 				geo.updateVisualStyleRepaint();
 				needUndo = true;
+			}
 			}
 		}
 		return needUndo;

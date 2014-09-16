@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -1176,8 +1177,7 @@ public class EuclidianStyleBarW extends StyleBarW
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
-					btnBold.setValue(style == GFontW.BOLD
-							|| style == (GFontW.BOLD + geogebra.common.awt.GFont.ITALIC));
+					btnBold.setValue((style & geogebra.common.awt.GFont.BOLD) != 0);
 				}
 			}
 		};
@@ -1202,8 +1202,7 @@ public class EuclidianStyleBarW extends StyleBarW
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
-					btnItalic.setValue(style == geogebra.common.awt.GFont.ITALIC
-							|| style == (GFontW.BOLD + geogebra.common.awt.GFont.ITALIC));
+					btnItalic.setValue((style & geogebra.common.awt.GFont.ITALIC) != 0);
 				}
 			}
 
@@ -1434,9 +1433,9 @@ public class EuclidianStyleBarW extends StyleBarW
 				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos, pointStyleSelIndex, pointSize);
 			}
 		} else if (source == btnBold) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 1);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, GFont.ITALIC, btnBold.isDown() ? GFont.BOLD : GFont.PLAIN );
 		} else if (source == btnItalic) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 2);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, GFont.BOLD, btnItalic.isDown() ? GFont.ITALIC : GFont.PLAIN);
 		} else if (source == btnTextSize) {
 			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
 		} else if (source == btnHideShowLabel) {
