@@ -259,7 +259,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
-	    return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb).getImageElement());
+	    return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb).getImageElement(), false);
     }
 
 	@Override

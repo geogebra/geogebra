@@ -725,7 +725,7 @@ public static final String LOCALE_PARAMETER = "locale";
 			ImageElement im = getImageManager().getExternalImage(fileName);
 			if (im == null)
 				return null;
-			return new MyImageW(im);
+			return new MyImageW(im, fileName.toLowerCase().endsWith(".svg"));
 		}
 		
 		@Override
