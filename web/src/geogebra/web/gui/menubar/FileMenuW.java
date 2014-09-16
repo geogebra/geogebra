@@ -153,7 +153,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 	}
 	
 	void openFilePicker() {
-		String title = app.getKernel().getConstruction().getTitle() == null ?"geogebra.ggb":
+		String title = "".equals(app.getKernel().getConstruction().getTitle()) ?"geogebra.ggb":
 			(app.getKernel().getConstruction().getTitle() + ".ggb");
 		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement(), title);
 		this.app.getGgbApi().getGGB(true, callback);
