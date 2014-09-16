@@ -1503,6 +1503,11 @@ body[dir=rtl] .signIn {
 	padding: 3px 5px 3px 35px;
 	position: relative;
 	display: block;
+	cursor: pointer;
+}
+
+.GeoGebraMenuBar .gwt-RadioButton {
+	cursor: pointer;
 }
 
 .GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage {
@@ -2175,6 +2180,7 @@ Paddings for menuitems.
 
 .infoTooltip .infoText {
 	padding: 0px 50px;
+	cursor: default;
 }
 
 .infoTooltip .manualLink {
@@ -2273,6 +2279,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 	display: block;
 	float: left;
 	list-style-type: none;
+	cursor: pointer;
 }
 
 .toolbar_button {
