@@ -135,4 +135,9 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * The returned string must be a valid URL encoded String. (use URLEncoder.encode). 
 	 */
 	protected abstract String getURLClientInfo();
+
+	public void startOffline() {
+		getModel().startOffline(getGeoGebraTubeAPI());
+		
+	}
 }

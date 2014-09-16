@@ -30,7 +30,7 @@ public abstract class AuthenticationModel extends BaseModel {
 		if (event instanceof LoginEvent) {
 			LoginEvent loginEvent = (LoginEvent) event;
 			if (loginEvent.isSuccessful()) {
-				onLoginSuccess(loginEvent.getUser());
+				onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
 			} else {
 				onLoginError(loginEvent.getUser());
 			}
@@ -60,16 +60,18 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * @param response from GGT
 	 * Parses the response, and sets model dependent things (localStorage, etc).
 	 */
-	public void onLoginSuccess(GeoGebraTubeUser user) {
+	public void onLoginSuccess(GeoGebraTubeUser user, String json) {
 		
 		// Remember the logged in user
 		this.loggedInUser = user;
-		
+		storeLastUser(json);
 		// Store the token in the storage
 		if (user.getLoginToken() != this.getLoginToken()) {
 			storeLoginToken(user.getLoginToken());
 		}
 	}
+
+	protected abstract void storeLastUser(String s);
 
 	/**
 	 * @param response from GGT
@@ -117,4 +119,16 @@ public abstract class AuthenticationModel extends BaseModel {
 		}
 		return true;
 	}
+
+	public void startOffline(GeoGebraTubeAPI api) {
+		if(this.loadLastUser()!= null){
+			GeoGebraTubeUser offline = new GeoGebraTubeUser(null);
+			if(api.parseUserDataFromResponse(offline, this.loadLastUser())){
+				this.loggedInUser = offline;
+			}
+		}
+		
+	}
+
+	protected abstract String loadLastUser();
 }

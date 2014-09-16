@@ -14,6 +14,7 @@ import com.google.gwt.storage.client.Storage;
  */
 public class AuthenticationModelW extends AuthenticationModel {
 	
+	private static final String GGB_LAST_USER = "last_user";
 	protected Storage storage = null;
 	private String authToken = null;
 	private AppW app;
@@ -63,6 +64,7 @@ public class AuthenticationModelW extends AuthenticationModel {
 			return;
 		}
 		storage.removeItem(GGB_TOKEN_KEY_NAME);
+		storage.removeItem(GGB_LAST_USER);
 	}
 
 	private boolean inited = false;
@@ -75,5 +77,22 @@ public class AuthenticationModelW extends AuthenticationModel {
 		}
 		inited = true;
 	    app.getGgbApi().registerClientListener("loginListener");
+    }
+
+	@Override
+    protected void storeLastUser(String username) {
+	    if(storage == null){
+			return;
+		}
+		storage.setItem(GGB_LAST_USER, username);
+	    
+    }
+
+	@Override
+    protected String loadLastUser() {
+		if(storage == null){
+			return null;
+		}
+		return storage.getItem(GGB_LAST_USER);
     }
 }

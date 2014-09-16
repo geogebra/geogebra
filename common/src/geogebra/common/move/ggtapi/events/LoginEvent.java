@@ -12,6 +12,7 @@ public class LoginEvent extends BaseEvent {
 	private GeoGebraTubeUser user;
 	private boolean successful;
 	private boolean automatic;
+	private String userJSON;
 	
 	/**
 	 * Creates a new Login event,
@@ -19,11 +20,12 @@ public class LoginEvent extends BaseEvent {
 	 * @param successful If the Login was successful 
 	 * @param automatic true if the login was performed automatically (on startup) or manually by the user
 	 */
-	public LoginEvent(GeoGebraTubeUser user, boolean successful, boolean automatic) {
+	public LoginEvent(GeoGebraTubeUser user, boolean successful, boolean automatic, String userJSON) {
 		super("login"+successful+","+automatic);
 		this.user = user;
 		this.successful = successful;
 		this.automatic = automatic;
+		this.userJSON = userJSON;
 	}
 
 	/**
@@ -50,5 +52,9 @@ public class LoginEvent extends BaseEvent {
 	@Override
 	public void trigger() {
 		// No action
+	}
+
+	public String getJSON() {
+		return this.userJSON;
 	}
 }

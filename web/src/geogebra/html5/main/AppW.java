@@ -1270,7 +1270,9 @@ public static final String LOCALE_PARAMETER = "locale";
 		if (getNetworkOperation().isOnline()) {
 			initGoogleDriveEventFlow();
 			loginOperation.performTokenLogin();
-		}		
+		}else{
+			loginOperation.startOffline();
+		}
 	}
 
 	protected void initGoogleDriveEventFlow() {

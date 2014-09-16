@@ -85,11 +85,11 @@ public abstract class GeoGebraTubeAPI {
 							// Parse the userdata from the response
 							if (!parseUserDataFromResponse(user, responseStr)) {
 								op.onEvent(new LoginEvent(user, false,
-										automatic));
+										automatic, responseStr));
 								return;
 							}
 
-							op.onEvent(new LoginEvent(user, true, automatic));
+							op.onEvent(new LoginEvent(user, true, automatic, responseStr));
 
 							// GeoGebraTubeAPID.this.available = false;
 						} catch (Exception e) {
@@ -104,7 +104,7 @@ public abstract class GeoGebraTubeAPI {
 					public void onError(String error) {
 						GeoGebraTubeAPI.this.availabilityCheckDone = true;
 						GeoGebraTubeAPI.this.available = false;
-						op.onEvent(new LoginEvent(user, false, automatic));
+						op.onEvent(new LoginEvent(user, false, automatic, null));
 					}
 				});
 
