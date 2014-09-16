@@ -36,8 +36,9 @@ public class CmdPoint extends CommandProcessor {
 		case 1 :
 			arg = resArgs(c);
 			// need to check isGeoList first as {1,2} can be a Path but we want Point[{1,2}] to create a point
-			if ((arg[0].isGeoList() && 
-					((GeoList)arg[0]).getGeoElementForPropertiesDialog().isGeoNumeric())) {
+			if (arg[0].isGeoList() && 
+					((GeoList)arg[0]).getGeoElementForPropertiesDialog().isGeoNumeric()
+					&& ((GeoList)arg[0]).size() == 2) {
 
 				AlgoPointsFromList algo = new AlgoPointsFromList(cons, c.getLabels(), !cons.isSuppressLabelsActive(), (GeoList) arg[0]);
 
