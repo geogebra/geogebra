@@ -24,10 +24,25 @@ public abstract class FileManager implements FileManagerI{
 	public abstract void delete(final Material mat);
 	public abstract void openMaterial(final Material material);
 	public abstract void saveFile(final SaveCallback cb);
-	public abstract void removeFile(final Material mat);
-	public abstract void addMaterial(final Material mat);
 	public abstract void uploadUsersMaterials();
 	protected abstract void getFiles(MaterialFilter materialFilter);
+	
+	/**
+	 * Overwritten for phone
+	 * @param material {@link Material}
+	 */
+    public void removeFile(final Material material) {
+		((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(material);
+    }
+
+	/**
+	 * Overwritten for phone
+	 * @param material {@link Material}
+	 */
+    public void addMaterial(final Material material) {
+		((BrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(material);
+    }
+	
 	
 	protected Material createMaterial(final String base64) {
 		final Material mat = new Material(0, MaterialType.ggb);

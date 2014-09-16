@@ -8,6 +8,7 @@ import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.main.AppT;
+import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
 
@@ -32,7 +33,7 @@ public class FileManagerT extends FileManager {
 	private static final String GGB_DIR = "GeoGebra";
 	private static final String META_DIR = "meta";
 	private static final String FILE_EXT = ".ggb";
-	
+
 	boolean hasFile = false;
 	String data;
 	PhoneGap phonegap;
@@ -174,7 +175,7 @@ public class FileManagerT extends FileManager {
 	 * BrowseView.
 	 */
 	@Override
-    public void delete(final Material mat) {
+	public void delete(final Material mat) {
 		final String consTitle = mat.getTitle();
 
 		getGgbFile(consTitle + FILE_EXT, dontCreateIfNotExist,
@@ -187,6 +188,7 @@ public class FileManagerT extends FileManager {
 					@Override
 					public void onSuccess(final Boolean entryDeleted) {
 						removeFile(mat);
+						((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
 						deleteMetaData(consTitle);
 					}
 
@@ -218,7 +220,7 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onSuccess(final Boolean entryDeleted) {
-						//
+
 					}
 
 					@Override
@@ -294,7 +296,7 @@ public class FileManagerT extends FileManager {
 	 * @param filter {@link MaterialFilter}
 	 */
 	@Override
-    protected void getFiles(final MaterialFilter filter) {
+	protected void getFiles(final MaterialFilter filter) {
 
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
@@ -367,7 +369,7 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-    public void openMaterial(final Material material) {
+	public void openMaterial(final Material material) {
 		app.getKernel().getConstruction().setTitle(material.getTitle());
 		getFileData(material.getURL());
 	}
@@ -441,80 +443,122 @@ public class FileManagerT extends FileManager {
 	//				});
 	//	}
 
-	//	/**
-	//	 * not in use yet
-	//	 */
-	//	public void renameFile(final String oldName, final String newName) {
-	//		
-	//		getGgbDir(new Callback<DirectoryEntry, FileError>() {
-	//
-	//			@Override
-	//            public void onSuccess(final DirectoryEntry ggbDir) {
-	//	            ggbDir.getFile(oldName + FILE_EXT, dontCreateIfNotExist, new FileCallback<FileEntry, FileError>() {
-	//					
-	//					@Override
-	//					public void onSuccess(FileEntry entry) {
-	//						renameMetaData(ggbDir, META_PREFIX + oldName, META_PREFIX + newName);
-	//					}
-	//
-	//					@Override
-	//					public void onFailure(FileError error) {
-	//						// TODO Auto-generated method stub
-	//					}
-	//				});
-	//            }
-	//			
-	//			@Override
-	//            public void onFailure(FileError reason) {
-	//	            // TODO Auto-generated method stub
-	//	            
-	//            }
-	//		});
-	//	}
-	//	
-	//	/**
-	//	 * not in use yet
-	//	 */
-	//	void renameMetaData(DirectoryEntry ggbDir, final String metaFileNameOld, final String metaFileNameNew) {
-	//		getMetaDir(new Callback<DirectoryEntry, FileError>() {
-	//
-	//			@Override
-	//			public void onSuccess(final DirectoryEntry metaDir) {
-	//				metaDir.getFile(metaFileNameOld, createIfNotExist, new FileCallback<FileEntry, FileError>() {
-	//
-	//					@Override
-	//					public void onSuccess(FileEntry metaFile) {
-	//						metaFile.moveTo(metaDir, metaFileNameNew, new FileCallback<FileEntry, FileError>() {
-	//
-	//							@Override
-	//							public void onSuccess(FileEntry entry) {
-	//								abc("Meta renamed");
-	//							}
-	//
-	//							@Override
-	//							public void onFailure(FileError error) {
-	//								// TODO Auto-generated method stub
-	//
-	//							}
-	//						});
-	//					}
-	//
-	//					@Override
-	//					public void onFailure(FileError error) {
-	//						// TODO Auto-generated method stub
-	//
-	//					}
-	//				});
-	//
-	//			}
-	//
-	//			@Override
-	//			public void onFailure(FileError reason) {
-	//				// TODO Auto-generated method stub
-	//
-	//			}
-	//		});
-	//	}
+	@Override
+	public void rename(final String newTitle, final String oldTitle) {
+
+		getGgbDir(new Callback<DirectoryEntry, FileError>() {
+
+			@Override
+			public void onSuccess(final DirectoryEntry ggbDir) {
+				ggbDir.getFile(oldTitle + FILE_EXT, dontCreateIfNotExist, new FileCallback<FileEntry, FileError>() {
+
+					@Override
+					public void onSuccess(FileEntry ggbFile) {
+
+						ggbFile.moveTo(ggbDir, newTitle + FILE_EXT, new FileCallback<FileEntry, FileError>() {
+
+							@Override
+							public void onSuccess(FileEntry entry) {
+								renameMetaData(oldTitle, newTitle);
+							}
+
+							@Override
+							public void onFailure(FileError error) {
+								// TODO Auto-generated method stub
+							}
+						});
+					}
+
+					@Override
+					public void onFailure(FileError error) {
+						// TODO Auto-generated method stub
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(FileError reason) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
+
+	void renameMetaData(final String oldTitle, final String newTitle) {
+		readMetaData(oldTitle, dontCreateIfNotExist, new Callback<String, FileError>() {
+
+			@Override
+			public void onSuccess(final String metaData) {
+				//create new metaFile
+				getMetaFile(META_PREFIX + newTitle, createIfNotExist, new Callback<FileEntry, FileError>(){
+
+					@Override
+					public void onSuccess(final FileEntry metaFile) {
+						metaFile.createWriter(new FileCallback<FileWriter, FileError>() {
+
+							@Override
+							public void onSuccess(final FileWriter writer) {
+								
+								Material mat = JSONparserGGT.parseMaterial(metaData);
+								mat.setTitle(newTitle);
+								writer.write(mat.toJson().toString());
+								deleteMetaData(oldTitle);
+							}
+
+							@Override
+							public void onFailure(final FileError error) {
+								//TODO
+							}
+						});
+					} 
+
+					@Override
+					public void onFailure(final FileError error) {
+						//TODO
+					}
+				});
+			}
+
+
+			@Override
+			public void onFailure(FileError reason) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
+
+	/**
+	 * @param oldTitle String
+	 * @param flag Flags
+	 */
+	void readMetaData(String oldTitle, Flags flag, final Callback<String, FileError> cb) {
+		getMetaFile(META_PREFIX + oldTitle, dontCreateIfNotExist, new Callback<FileEntry, FileError>() {
+
+			@Override
+			public void onFailure(FileError reason) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onSuccess(FileEntry metaFile) {
+				final FileReader reader = PhoneGapManager
+						.getPhoneGap()
+						.getFile()
+						.createReader();
+
+				reader.setOnloadCallback(new ReaderCallback<FileReader>() {
+
+					@Override
+					public void onCallback(final FileReader result) {
+						cb.onSuccess(result.getResult());
+					}
+				});
+				reader.readAsText(metaFile);
+
+			}
+		});
+	}
 
 
 	/**
@@ -524,7 +568,7 @@ public class FileManagerT extends FileManager {
 	 * @param cb {@link SaveCallback}
 	 */
 	@Override
-    public void saveFile(final SaveCallback cb) {
+	public void saveFile(final SaveCallback cb) {
 		final String consTitle = app.getKernel().getConstruction().getTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override
@@ -622,25 +666,7 @@ public class FileManagerT extends FileManager {
 			}
 		});
 	}
-	
-	/**
-	 * different behavior for phone and tablet
-	 */
-	@Override
-    public void removeFile(final Material mat) {
-		// TODO Auto-generated method stub
 
-	}
-
-	/**
-	 * different behavior for phone and tablet
-	 */
-	@Override
-    public void addMaterial(final Material mat) {
-		// TODO Auto-generated method stub
-
-	}
-	
 	@Override
 	public void uploadUsersMaterials() {		
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
@@ -711,10 +737,4 @@ public class FileManagerT extends FileManager {
 			}
 		});
 	}
-
-	@Override
-    public void rename(String newTitle, String oldString) {
-	    // TODO Auto-generated method stub
-	    
-    }
 }
