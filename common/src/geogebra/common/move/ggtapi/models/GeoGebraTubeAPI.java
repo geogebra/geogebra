@@ -187,4 +187,24 @@ public abstract class GeoGebraTubeAPI {
 					}
 				});
 	}
+
+	public void logout(String token) {
+		performRequest(
+				"{\"request\": {"
+                        +"\"api\":\"1.0.0\","
+                        +"\"logout\": {\"token\":\""+token+"\", \"getuserinfo\":\"false\"}}}",
+				true, new AjaxCallback() {
+
+					@Override
+					public void onSuccess(String response) {
+						Log.debug(response);
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.error(error);
+
+					}
+				});
+	}
 }

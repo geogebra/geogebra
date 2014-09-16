@@ -4,6 +4,7 @@ package geogebra.geogebra3D.web;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.common.util.debug.SilentProfiler;
 import geogebra.geogebra3D.web.gui.app.GeoGebraAppFrame3D;
 import geogebra.geogebra3D.web.main.AppWapplet3D;
 import geogebra.html5.Browser;
@@ -19,7 +20,6 @@ import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.main.AppWapplet;
-import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,8 +76,8 @@ public class Web3D extends Web {
 		}
 		Browser.checkFloat64();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
-		GeoGebraProfiler.init(new GeoGebraProfilerW());
-		//GeoGebraProfiler.init(new SilentProfiler());
+		//GeoGebraProfiler.init(new GeoGebraProfilerW());
+		GeoGebraProfiler.init(new SilentProfiler());
 		
 		GeoGebraProfiler.getInstance().profile();
 
