@@ -31,6 +31,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.Map;
 
 import com.kitfox.svg.SVGException;
@@ -258,23 +259,16 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 	}
 
 	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x, int y) {
-
-		// drawSVG();
-
 		impl.drawImage(geogebra.awt.GBufferedImageD.getAwtBufferedImage(img),
 				(geogebra.awt.GBufferedImageOpD) op, x, y);
 	}
 
 	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
-
-		// drawSVG();
-
 		impl.drawImage((BufferedImage) ((MyImageD) img).getImage(),
 				(geogebra.awt.GBufferedImageOpD) op, x, y);
 	}
 
 	public void drawImage(GBufferedImage img, int x, int y) {
-		// drawSVG();
 		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y, null);
 	}
 
@@ -284,6 +278,7 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 
 		if (imgD.isSVG()) {
 			try {
+				// TODO: x, y
 				imgD.getDiagram().render(impl);
 			} catch (SVGException e) {
 				e.printStackTrace();
@@ -295,22 +290,9 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 	}
 
 	public void drawImage(GImage img, int x, int y) {
-		// drawSVG();
 		impl.drawImage(GGenericImageD.getAwtImage(img), x, y, null);
 
 	}
-
-	/*
-	 * private void drawSVG() { try { File file = new
-	 * File("f:/awesome_tiger.svg"); URL url = file.toURI().toURL(); SVGUniverse
-	 * universe = SVGCache.getSVGUniverse(); URI uri = universe.loadSVG(url);
-	 * SVGDiagram diagram = universe.getDiagram(uri); diagram.render(impl);
-	 * 
-	 * } catch (Exception e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
-	 * 
-	 * }
-	 */
 
 	public void fillRect(int x, int y, int width, int height) {
 		impl.fillRect(x, y, width, height);
@@ -451,6 +433,25 @@ public class GGraphics2DD implements geogebra.common.awt.GGraphics2D {
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
 		line.setLine(x1, y1, x2, y2);
 		this.draw(line);
+	}
+
+	public void dispose() {
+		impl.dispose();
+	}
+
+	public void drawImage(MyImageD img, int x, int y, int width, int height,
+			ImageObserver io) {
+		if (img.isSVG()) {
+			try {
+				// TODO: scaling
+				img.getDiagram().render(impl);
+			} catch (SVGException e) {
+				e.printStackTrace();
+			}
+		} else {
+			impl.drawImage(img.getImage(), x, y, width, height, io);
+		}
+
 	}
 
 }

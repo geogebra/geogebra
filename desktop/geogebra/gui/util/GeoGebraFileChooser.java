@@ -1,8 +1,12 @@
 package geogebra.gui.util;
 
+import geogebra.awt.GGraphics2DD;
+import geogebra.common.io.MyXMLio;
 import geogebra.common.main.App;
+import geogebra.gui.MyImageD;
 import geogebra.io.MyXMLioD;
 import geogebra.main.AppD;
+import geogebra.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -22,6 +26,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,25 +40,26 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 /**
- * An enhanced file chooser for GeoGebra which can be used
- * to load images or ggb files with a preview image.
+ * An enhanced file chooser for GeoGebra which can be used to load images or ggb
+ * files with a preview image.
  * 
  * @author Florian Sonner
  * @version 1.0
  */
-public class GeoGebraFileChooser extends JFileChooser implements ComponentListener {
+public class GeoGebraFileChooser extends JFileChooser implements
+		ComponentListener {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * The with at which the accessory is displayed.
 	 */
 	private static final int ACCESSORY_WIDTH = 600;
-	
+
 	/**
 	 * The file chooser is used to load images at the moment.
 	 */
 	public static final int MODE_IMAGES = 0;
-	
+
 	/**
 	 * The file chooser is used to load ggb files at the moment.
 	 */
@@ -63,120 +69,115 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 	 * The file chooser is used to save ggb files at the moment.
 	 */
 	public static final int MODE_GEOGEBRA_SAVE = 2;
-	
+
 	/**
 	 * The file chooser is used to load data files at the moment.
 	 */
 	public static final int MODE_DATA = 3;
 
-	
-	
 	/**
 	 * An instance of the GeoGebra application.
 	 */
-	private AppD app;
-	
+	AppD app;
+
 	/**
 	 * The current mode of the file chooser.
 	 */
 	private int currentMode = -1;
-	
+
 	/**
 	 * The accessory panel which displays the preview of the selected file.
 	 */
 	private PreviewPanel previewPanel;
-	
+
 	/**
-	 * Whether to show the accessory or not. The accessory is not displayed in case
-	 * the dialog is too small.
+	 * Whether to show the accessory or not. The accessory is not displayed in
+	 * case the dialog is too small.
 	 */
 	private boolean showAccessory = true;
 
 	/**
 	 * Construct a file chooser without a restricted file system view.
 	 * 
-	 * May throw IOException: Could not get shell folder ID list
-	 * 		(Java bug http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857)
+	 * May throw IOException: Could not get shell folder ID list (Java bug
+	 * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857)
 	 * 
-	 * If an exception is catched, the constructor with a restricted file system view
-	 * should be used.
+	 * If an exception is catched, the constructor with a restricted file system
+	 * view should be used.
 	 * 
 	 * @param currentDirectory
 	 */
-	public GeoGebraFileChooser(AppD app, File currentDirectory)
-	{
+	public GeoGebraFileChooser(AppD app, File currentDirectory) {
 		this(app, currentDirectory, false);
 	}
-	
+
 	/**
-	 * Construct a file chooser which may have a restricted file system view if the second
-	 * parameter is set to true.
+	 * Construct a file chooser which may have a restricted file system view if
+	 * the second parameter is set to true.
 	 * 
 	 * @param currentDirectory
 	 * @param restricted
 	 */
-	public GeoGebraFileChooser(AppD app,File currentDirectory, boolean restricted)
-	{
-		super(currentDirectory, (restricted ? new RestrictedFileSystemView() : null));
-		
+	public GeoGebraFileChooser(AppD app, File currentDirectory,
+			boolean restricted) {
+		super(currentDirectory, (restricted ? new RestrictedFileSystemView()
+				: null));
+
 		this.app = app;
-		
+
 		previewPanel = new PreviewPanel(this);
 		setAccessory(previewPanel);
-		addPropertyChangeListener(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY, previewPanel);
-		
+		addPropertyChangeListener(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY,
+				previewPanel);
+
 		addComponentListener(this);
-		
-		setMode(MODE_GEOGEBRA); // default mode is the mode to load geogebra files
-		
+
+		setMode(MODE_GEOGEBRA); // default mode is the mode to load geogebra
+								// files
+
 		Dimension d = this.getPreferredSize();
 		d.width = Math.max(ACCESSORY_WIDTH, d.width);
 		this.setPreferredSize(d);
 	}
-	
+
 	/**
-	 * Get the current mode of the file chooser. 
+	 * Get the current mode of the file chooser.
 	 * 
 	 * @return
 	 */
-	public int getMode()
-	{
+	public int getMode() {
 		return currentMode;
 	}
-	
+
 	/**
-	 * Set a new mode for the file chooser. Use the constants defined in this class
-	 * for the different modes.
+	 * Set a new mode for the file chooser. Use the constants defined in this
+	 * class for the different modes.
 	 * 
 	 * @param mode
 	 */
-	public void setMode(int mode)
-	{
+	public void setMode(int mode) {
 		// invalid mode?
-		if(mode != MODE_IMAGES 
-				&& mode != MODE_GEOGEBRA 
-				&& mode != MODE_GEOGEBRA_SAVE 
-				&& mode != MODE_DATA) 
-		{
+		if (mode != MODE_IMAGES && mode != MODE_GEOGEBRA
+				&& mode != MODE_GEOGEBRA_SAVE && mode != MODE_DATA) {
 			App.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
 			mode = MODE_GEOGEBRA;
 		}
-		
+
 		// do not perform any unnecessary actions
-		if(this.currentMode == mode)
+		if (this.currentMode == mode)
 			return;
-	
-		if(mode == MODE_GEOGEBRA) {			// load/save ggb, ggt etc. files
+
+		if (mode == MODE_GEOGEBRA) { // load/save ggb, ggt etc. files
 			setMultiSelectionEnabled(true);
-		} else {							// load images
+		} else { // load images
 			setMultiSelectionEnabled(false);
 		}
-		
+
 		// set the preview panel type: image, data or ?
 		previewPanel.setPreviewPanelType(mode);
-		
+
 		// TODO apply mode specific settings..
-		
+
 		this.currentMode = mode;
 	}
 
@@ -184,19 +185,22 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 	 * Check if we have to show / hide the accessory
 	 */
 	public void componentResized(ComponentEvent e) {
-		if(getSize().width < ACCESSORY_WIDTH && showAccessory) {
+		if (getSize().width < ACCESSORY_WIDTH && showAccessory) {
 			setAccessory(null);
-			removePropertyChangeListener(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY, previewPanel);
-			
+			removePropertyChangeListener(
+					JFileChooser.SELECTED_FILE_CHANGED_PROPERTY, previewPanel);
+
 			showAccessory = false;
 			validate();
-		} else if(getSize().width > ACCESSORY_WIDTH && !showAccessory) {
+		} else if (getSize().width > ACCESSORY_WIDTH && !showAccessory) {
 			setAccessory(previewPanel);
-			addPropertyChangeListener(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY, previewPanel);
-			
-			// fire an event that the selected file has changed to update the preview image
+			addPropertyChangeListener(
+					JFileChooser.SELECTED_FILE_CHANGED_PROPERTY, previewPanel);
+
+			// fire an event that the selected file has changed to update the
+			// preview image
 			previewPanel.propertyChange(null);
-			
+
 			showAccessory = true;
 			validate();
 		}
@@ -204,14 +208,13 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 
 	public void componentShown(ComponentEvent e) {
 	}
-	
+
 	public void componentHidden(ComponentEvent e) {
 	}
 
 	public void componentMoved(ComponentEvent e) {
 	}
 
-	
 	/**
 	 * Component to preview image files in a file chooser.
 	 * 
@@ -229,7 +232,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 
 	private class PreviewPanel extends JPanel implements PropertyChangeListener {
 		private static final long serialVersionUID = 1L;
-		
+
 		/**
 		 * The maximum file size of images in kb.
 		 */
@@ -240,24 +243,23 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 		/**
 		 * The image to draw in the preview area.
 		 */
-		private BufferedImage img = null;
-		
+		private MyImageD img = null;
+
 		/**
 		 * The panel on which the image is drawn.
 		 */
 		private ImagePanel imagePanel = null;
-		
-		
+
 		/**
 		 * Panel for data preview.
 		 */
 		private JTextArea dataPreviewPanel = null;
-		
+
 		/**
 		 * CardLayout panel to hold different preview panels
 		 */
 		private JPanel cards;
-		
+
 		/**
 		 * A label to describe the properties of the selected file.
 		 */
@@ -265,57 +267,60 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 
 		public PreviewPanel(GeoGebraFileChooser fileChooser) {
 			this.fileChooser = fileChooser;
-			
+
 			setLayout(new BorderLayout());
-			setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // border at the left & right
+			setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // border at
+																	// the left
+																	// & right
 
 			imagePanel = new ImagePanel();
-			
+
 			cards = new JPanel(new CardLayout());
 			cards.add("imagePanel", imagePanel);
 			cards.add("dataPanel", buildDataPanel());
 			add(BorderLayout.CENTER, cards);
-			
+
 			fileLabel = new Label();
 			add(BorderLayout.SOUTH, fileLabel);
 		}
 
 		public void setPreviewPanelType(int mode) {
 			CardLayout layout = (CardLayout) cards.getLayout();
-			if(mode == GeoGebraFileChooser.MODE_DATA){
+			if (mode == GeoGebraFileChooser.MODE_DATA) {
 				layout.show(cards, "dataPanel");
 				dataPreviewPanel.setText(app.getPlain("PreviewUnavailable"));
-			}else{
+			} else {
 				layout.show(cards, "imagePanel");
 				img = null;
 			}
 			fileLabel.setText(null);
 		}
 
-		public JScrollPane buildDataPanel(){		
+		public JScrollPane buildDataPanel() {
 			dataPreviewPanel = new JTextArea();
 			dataPreviewPanel.setEditable(false);
 			dataPreviewPanel.setWrapStyleWord(false);
 			dataPreviewPanel.setLineWrap(false);
 			dataPreviewPanel.setPreferredSize(imagePanel.getPreferredSize());
-			dataPreviewPanel.setMargin(new Insets(5,5,5,5));
+			dataPreviewPanel.setMargin(new Insets(5, 5, 5, 5));
 			dataPreviewPanel.setText(app.getPlain("PreviewUnavailable"));
 			JScrollPane scroller = new JScrollPane(dataPreviewPanel);
 			scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-			
+
 			return scroller;
 		}
-		
+
 		/**
 		 * A new file was selected -> update the panel if necessary.
 		 */
 		public void propertyChange(PropertyChangeEvent evt) {
 			try {
 				File file = fileChooser.getSelectedFile();
-				
-				if (file != null && file.exists()) // don't update on directory change
-					if(fileChooser.getMode() == GeoGebraFileChooser.MODE_DATA)
+
+				if (file != null && file.exists()) // don't update on directory
+													// change
+					if (fileChooser.getMode() == GeoGebraFileChooser.MODE_DATA)
 						updateDataPreview(file);
 					else
 						updateImage(file);
@@ -326,6 +331,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 
 		/**
 		 * Updates the data preview panel
+		 * 
 		 * @param file
 		 * @throws IOException
 		 */
@@ -343,13 +349,14 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 				int lineCount = 0;
 				// read at most 20 lines
 				while ((text = reader.readLine()) != null && lineCount < 20) {
-					contents.append(text).append(System.getProperty("line.separator"));
-					lineCount ++;
+					contents.append(text).append(
+							System.getProperty("line.separator"));
+					lineCount++;
 				}
 
 				StringBuilder fileInfo = new StringBuilder();
 
-				if(fileName.length() > 20) {
+				if (fileName.length() > 20) {
 					fileInfo.append(fileName.substring(0, 20));
 					fileInfo.append("..");
 				} else {
@@ -358,13 +365,13 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 
 				fileLabel.setText(fileInfo.toString());
 
-				if(contents.length() == 0)
+				if (contents.length() == 0)
 					contents.append(app.getPlain("PreviewUnavailable"));
-				
+
 				dataPreviewPanel.setText(contents.toString());
 				dataPreviewPanel.setCaretPosition(0);
 
-			} 
+			}
 
 			catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -381,7 +388,6 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 
 		}
 
-
 		/**
 		 * Update the preview image if it's possible to load one.
 		 * 
@@ -390,55 +396,68 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 		 */
 		private void updateImage(File file) throws IOException {
 			fileLabel.setText("");
-			
+
 			try {
-				BufferedImage tmpImage = null;
-				
+				MyImageD tmpImage = null;
+				String fileName = file.getName();
+
 				// Update preview for opening ggb files
 				if (fileChooser.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA) {
-					String fileName = file.getName();
-					
-					if(fileName.endsWith(".ggb")) {
-						tmpImage = MyXMLioD.getPreviewImage(file); // load preview from zip
-						
+
+					if (fileName.endsWith(".ggb")) {
+						tmpImage = new MyImageD(MyXMLioD.getPreviewImage(file)); // load
+																					// preview
+																					// from
+																					// zip
+
 						StringBuilder fileInfo = new StringBuilder();
-						
-						if(fileName.length() > 20) {
+
+						if (fileName.length() > 20) {
 							fileInfo.append(fileName.substring(0, 20));
 							fileInfo.append("..");
 						} else {
 							fileInfo.append(fileName);
 						}
-						
+
 						fileInfo.append(" : ");
 						fileInfo.append(file.length() / 1024);
 						fileInfo.append(" kB");
 						fileLabel.setText(fileInfo.toString());
-					}	
+					}
 				}
-				
-				
+
 				// Update preview for saving a ggb file
 				else if (fileChooser.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA_SAVE) {
-					tmpImage = app.getExportImage(
-							geogebra.common.io.MyXMLio.THUMBNAIL_PIXELS_X,geogebra.common.io.MyXMLio.THUMBNAIL_PIXELS_Y);	
-					//TODO: show file size info?
+					tmpImage = new MyImageD(app.getExportImage(
+							MyXMLio.THUMBNAIL_PIXELS_X,
+							MyXMLio.THUMBNAIL_PIXELS_Y));
+					// TODO: show file size info?
 					fileLabel.setText(null);
 				}
 
-				
-				
 				// Update preview for images
-				else{
+				else {
 					// fails for a few JPEGs so turn off preview for large files
 					if (file.length() < 1024 * maxImageSize) {
-						tmpImage = ImageIO.read(file); // returns null if file isn't an image
-						
+
+						if (fileName.endsWith(".svg")) {
+
+							String svg = Util
+									.loadIntoString(new FileInputStream(file));
+
+							tmpImage = new MyImageD(svg, fileName);
+						} else {
+
+							// returns null if the file isn't an image
+							BufferedImage bi = ImageIO.read(file);
+
+							if (bi != null) {
+								tmpImage = new MyImageD(bi);
+							}
+						}
 						StringBuilder imgInfo = new StringBuilder();
-						
-						String fileName = file.getName();
-						
-						if(fileName.length() > 20) {
+
+						if (fileName.length() > 20) {
 							imgInfo.append(fileName.substring(0, 20));
 							imgInfo.append("..");
 						} else {
@@ -452,74 +471,100 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 						fileLabel.setText(imgInfo.toString());
 					}
 				}
-				
+
 				// resize tmp image if necessary
-				if(tmpImage != null) {
+				if (tmpImage != null) {
+
 					int oldWidth = tmpImage.getWidth();
 					int oldHeight = tmpImage.getHeight();
-					
+
 					int newWidth;
 					int newHeight;
-					
-					if(oldWidth > ImagePanel.SIZE || oldHeight > ImagePanel.SIZE) {
-				        if (oldWidth > oldHeight) {
-				            newWidth = ImagePanel.SIZE;
-				            newHeight = (ImagePanel.SIZE * oldHeight) / oldWidth;
-				        } else {
-				            newWidth = (ImagePanel.SIZE * oldWidth) / oldHeight;
-				            newHeight = ImagePanel.SIZE;
-				        }
-				        
-				        img = null;
-				        
-					    // Create a new image for the scaled preview image 
-						img = new BufferedImage(newWidth, newHeight,
-								BufferedImage.TYPE_INT_RGB);
-						
-						Graphics2D graphics2D = img.createGraphics();
-						
-						graphics2D.drawImage(tmpImage, 0, 0, newWidth, newHeight, null);			          
-				        
-						graphics2D.dispose(); 
-						
+
+					if (oldWidth > ImagePanel.SIZE
+							|| oldHeight > ImagePanel.SIZE) {
+						if (oldWidth > oldHeight) {
+							newWidth = ImagePanel.SIZE;
+							newHeight = (ImagePanel.SIZE * oldHeight)
+									/ oldWidth;
+						} else {
+							newWidth = (ImagePanel.SIZE * oldWidth) / oldHeight;
+							newHeight = ImagePanel.SIZE;
+						}
+
+						if (tmpImage.isSVG()) {
+							// Create a new image for the scaled preview image
+
+							MyImageD bigImage = new MyImageD(new BufferedImage(
+									oldWidth, oldHeight,
+									BufferedImage.TYPE_INT_ARGB));
+
+							// draw SVG at full size
+							GGraphics2DD graphics2D = (GGraphics2DD) bigImage
+									.createGraphics();
+							graphics2D.drawImage(tmpImage, 0, 0);
+
+							// then scale down
+							img = new MyImageD(new BufferedImage(newWidth,
+									newHeight, BufferedImage.TYPE_INT_ARGB));
+							graphics2D = (GGraphics2DD) img.createGraphics();
+							graphics2D.drawImage(bigImage, 0, 0, newWidth,
+									newHeight, null);
+
+							graphics2D.dispose();
+
+						} else {
+							// Create a new image for the scaled preview image
+							img = new MyImageD(new BufferedImage(newWidth,
+									newHeight, BufferedImage.TYPE_INT_RGB));
+
+							GGraphics2DD graphics2D = (GGraphics2DD) img
+									.createGraphics();
+
+							graphics2D.drawImage(tmpImage, 0, 0, newWidth,
+									newHeight, null);
+
+							graphics2D.dispose();
+
+						}
+
 					} else {
 						newWidth = oldWidth;
 						newHeight = oldHeight;
-						
+
 						img = tmpImage;
 					}
-					
+
 					tmpImage = null;
 				} else {
 					img = null;
 				}
-				
+
 				repaint();
 			} catch (IllegalArgumentException iae) {
 				// This is thrown if you select .ico files
 				img = null;
 			} catch (Throwable t) {
+				t.printStackTrace();
 				App.debug(t.getClass() + "");
 				img = null;
 			}
 		}
-		
+
 		/**
 		 * The panel at which the real preview image is drawn.
 		 * 
 		 * @author Florian Sonner
 		 */
-		private class ImagePanel extends JPanel
-		{
+		private class ImagePanel extends JPanel {
 			private static final long serialVersionUID = 1L;
 
 			/**
 			 * The size of the image panel.
 			 */
 			public final static int SIZE = 200;
-			
-			public ImagePanel()
-			{
+
+			public ImagePanel() {
 				setPreferredSize(new Dimension(SIZE, SIZE));
 				setBorder(BorderFactory.createEtchedBorder());
 			}
@@ -530,51 +575,53 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 			@Override
 			public void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g;
-				
+
 				// fill background
 				g2.setColor(Color.white);
 				g2.fillRect(0, 0, getWidth(), getHeight());
-				
+
 				g2.setRenderingHint(RenderingHints.KEY_RENDERING,
 						RenderingHints.VALUE_RENDER_QUALITY);
-				
+
 				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-							RenderingHints.VALUE_ANTIALIAS_ON);
+						RenderingHints.VALUE_ANTIALIAS_ON);
 
 				// draw preview image if possible
 				if (img != null) {
 					// calculate the scaling factor
 					int width = img.getWidth();
 					int height = img.getHeight();
-					
+
 					// center image
 					int x = ((getWidth() - width) / 2);
 					int y = ((getHeight() - height) / 2);
 
 					// draw the image
-					g2.drawImage(img, x, y, width, height, null);
+					img.drawImage(g2, x, y, width, height);
+					// g2.drawImage(img, x, y, width, height, null);
 				}
-				
+
 				// draw "no preview" message
 				else {
 					String message = app.getPlain("PreviewUnavailable");
-					
+
 					FontMetrics fm = g2.getFontMetrics();
 					Rectangle2D bounds = fm.getStringBounds(message, g2);
-					
+
 					g2.setColor(Color.darkGray);
-					g2.drawString(message, (float)(getWidth() - bounds.getWidth()) / 2, (float)(getHeight() - bounds.getHeight()) / 2);
+					g2.drawString(message,
+							(float) (getWidth() - bounds.getWidth()) / 2,
+							(float) (getHeight() - bounds.getHeight()) / 2);
 				}
 			}
 		}
 	}
-	
+
 	/*
 	 * TODO: override to make File Chooser non-modal for VirtualKeyboard
-    protected JDialog createDialog(Component parent) throws HeadlessException {
-        JDialog dialog = super.createDialog(parent);
-        dialog.setModal(false);
-        return dialog;
-    }*/
+	 * protected JDialog createDialog(Component parent) throws HeadlessException
+	 * { JDialog dialog = super.createDialog(parent); dialog.setModal(false);
+	 * return dialog; }
+	 */
 
 }

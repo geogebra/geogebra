@@ -29,6 +29,7 @@ import javax.imageio.ImageIO;
 
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
+import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 
 public class MyImageD implements MyImage {
@@ -48,7 +49,7 @@ public class MyImageD implements MyImage {
 	/**
 	 * Load SVG from String
 	 * 
-	 * @param svg2
+	 * @param svgStr
 	 * @param name
 	 */
 	public MyImageD(String svgStr, String name) {
@@ -176,6 +177,21 @@ public class MyImageD implements MyImage {
 
 	public String getSVG() {
 		return svg.toString();
+	}
+
+	public void drawImage(Graphics2D g2, int x, int y, int width, int height) {
+		if (img != null) {
+			// bitmap
+			g2.drawImage(img, x, y, width, height, null);
+		} else {
+			// SVG
+			try {
+				diagram.render(g2);
+			} catch (SVGException e) {
+				App.error("drawing svg failed");
+			}
+		}
+
 	}
 
 }

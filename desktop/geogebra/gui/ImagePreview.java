@@ -1,6 +1,7 @@
 package geogebra.gui;
 
 import geogebra.common.main.App;
+import geogebra.util.Util;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,7 +12,9 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -55,7 +58,7 @@ public class ImagePreview extends JPanel implements PropertyChangeListener {
 
 	private JFileChooser jfc;
 
-	private BufferedImage img = null;
+	private MyImageD img = null;
 
 	private final static int SIZE = 200;
 
@@ -73,7 +76,9 @@ public class ImagePreview extends JPanel implements PropertyChangeListener {
 			try {
 				File file = jfc.getSelectedFile();
 				if (file != null) // don't update on directory change
+				{
 					updateImage(file);
+				}
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
@@ -82,19 +87,35 @@ public class ImagePreview extends JPanel implements PropertyChangeListener {
 
 	private void updateImage(File file) throws IOException {
 		try {
+			App.debug("XXX");
+			String name = file.getName().toLowerCase(Locale.US);
+			App.debug(name);
+
+			if (name.endsWith(".svg")) {
+				String svg = Util.loadIntoString(new FileInputStream(file));
+
+				img = new MyImageD(svg, name);
+
+			} else
 			// fails for a few JPEGs (Java bug? -> OutOfMemory)
 			// so turn off preview for large files
-			if (file.length() < 512 * 1024)
-				img = ImageIO.read(file); // returns null if file isn't an image
-			else
-				img = null;
+			if (file.length() < 512 * 1024) {
+
+				// returns null if file isn't an image
+				BufferedImage bi = ImageIO.read(file);
+
+				if (bi != null) {
+					img = new MyImageD(bi);
+				}
+			}
 			repaint();
 		} catch (IllegalArgumentException iae) {
 			// This is thrown if you select .ico files
 			// TODO Print error message, or do nothing?
 		} catch (Throwable t) {
-			App.debug(t.getClass() + "");
+			App.debug(t.getClass() + "xx");
 			img = null;
+			t.printStackTrace();
 		}
 	}
 
@@ -128,8 +149,9 @@ public class ImagePreview extends JPanel implements PropertyChangeListener {
 				y = (HALF_SIZE - (height / 2));
 			}
 
+			img.drawImage(g2, x, y, width, height);
 			// draw the image
-			g2.drawImage(img, x, y, width, height, null);
+			// g2.drawImage(img, x, y, width, height, null);
 		}
 	}
 
