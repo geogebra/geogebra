@@ -245,6 +245,16 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	}
 	
 	/**
+	 * to rename materials on ggt; TODO no use of base64
+	 * @param app
+	 * @param mat
+	 * @param cb
+	 */
+	public void uploadRenameMaterial(final AppW app, Material mat, final MaterialCallback cb) {
+		performRequest(UploadRequest.getRequestElement(app, mat.getTitle(), mat.getId()).toJSONString(), cb);
+	}
+	
+	/**
 	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
 	 * @param app AppW
 	 * @param mat Material

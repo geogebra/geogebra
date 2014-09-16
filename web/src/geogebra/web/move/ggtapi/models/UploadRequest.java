@@ -35,7 +35,7 @@ public class UploadRequest implements Request {
 	 * @param app AppW
 	 * @param mat Material
 	 */
-	public UploadRequest(AppW app, Material mat) {
+	UploadRequest(AppW app, Material mat) {
 	    this.app = app;
 	    this.consTitle = mat.getTitle();
 	    if (mat.getId() != 0) {
@@ -43,6 +43,18 @@ public class UploadRequest implements Request {
 	    }
 	    this.base64 = mat.getBase64();
     }
+	
+	/**
+	 * UploadRequest to rename files
+	 * @param app AppW
+	 * @param newTitle String
+	 * @param id int
+	 */
+	UploadRequest(AppW app, String newTitle, int id) {
+		this.consTitle = newTitle;
+		this.app = app;
+		this.uniqueID = Integer.toString(id);
+	}
 	
 	
 	@Override
@@ -92,9 +104,11 @@ public class UploadRequest implements Request {
 			task.put("age", age);
 			
 			//file
-			JSONObject file = new JSONObject();
-					file.put("-base64", new JSONString(this.base64));
-			task.put("file", file);
+			if (this.base64 != null) {
+				JSONObject file = new JSONObject();
+				file.put("-base64", new JSONString(this.base64));
+				task.put("file", file);
+			}
 			
 			api.put("task", task);
 		request.put("request", api);
@@ -112,7 +126,6 @@ public class UploadRequest implements Request {
 		return new UploadRequest(app, filename, base64);
 	}
 
-
 	/**
 	 * @param app {@link AppW}
 	 * @param mat {@link Material}
@@ -121,4 +134,15 @@ public class UploadRequest implements Request {
 	public static UploadRequest getRequestElement(AppW app, Material mat) {
 	    return new UploadRequest(app, mat);
     }
+	
+	/**
+	 * to rename files with given id
+	 * @param app AppW
+	 * @param newTitle String
+	 * @param id int
+	 * @return the upload XML as JSON String
+	 */
+	public static UploadRequest getRequestElement(AppW app, String newTitle, int id) {
+		return new UploadRequest(app, newTitle, id);
+	}
 }

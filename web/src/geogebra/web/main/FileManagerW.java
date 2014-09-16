@@ -108,4 +108,14 @@ public class FileManagerW extends FileManager {
 			}
 		}	
 	}
+
+	@Override
+    public void rename(String newTitle, String oldTitle) {
+		Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(FILE_PREFIX + oldTitle));
+		if (mat != null) {
+			mat.setTitle(newTitle);
+			this.stockStore.setItem(FILE_PREFIX + newTitle, mat.toJson().toString());
+			this.stockStore.removeItem(FILE_PREFIX + oldTitle);
+		}
+	}
 }

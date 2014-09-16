@@ -3921,7 +3921,8 @@ PROVIDERS
 .materialListElement .infoPanel .fileTitle {
 	max-height: 40px;
 	overflow: hidden;
-	padding-top: 5px;
+	padding-top: 7px;
+	word-wrap: break-word;
 }
 
 /** Material is selected **/
@@ -3943,6 +3944,13 @@ PROVIDERS
 	max-height: 70px;
 }
 
+.materialListElement.selected .infoPanel .renameBox {
+	margin-left: -5px;
+	width: 192px;
+	margin-right: -5px;
+	margin-top: 2px;
+}
+
 .materialListElement.selected .fileImage {
 	border-color: #6161FF;
 	cursor: pointer;
@@ -3961,6 +3969,10 @@ PROVIDERS
 .materialListElement.default .infoPanel .Separator {
 	display: none;
 }
+
+.materialListElement .infoPanel .Separator {
+	display: none;
+}
 .materialListElement.selected .infoPanel .Separator {
 	margin-bottom: 5px;
 	display: block;
@@ -3977,7 +3989,7 @@ PROVIDERS
 	margin-right: 5px;
 }
 
-.materialListElement .infoPanel.detailed .gwt-Label {
+.materialListElement .infoPanel.detailed .button .gwt-Label {
 	display: inline-block;
 	padding-top: 2px;
 }

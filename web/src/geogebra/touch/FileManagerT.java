@@ -711,4 +711,10 @@ public class FileManagerT extends FileManager {
 			}
 		});
 	}
+
+	@Override
+    public void rename(String newTitle, String oldString) {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

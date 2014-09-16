@@ -24,6 +24,9 @@ public interface BrowseResources extends ClientBundle {
 	@Source("icons/png/web/document_edit.png")
 	ImageResource document_edit();
 	
+	@Source("icons/png/web/menu_icons/menu-edit-rename.png")
+	ImageResource document_rename();
+	
 	@Source("icons/png/web/document_delete.png")
 	ImageResource document_delete();
 	
@@ -44,8 +47,4 @@ public interface BrowseResources extends ClientBundle {
 
 	@Source("icons/png/web/profile-options-arrow.png")
 	ImageResource arrow_options();
-
-	@Source("icons/png/web/menu_icons/menu-edit.png")
-	ImageResource document_rename();
-
 }

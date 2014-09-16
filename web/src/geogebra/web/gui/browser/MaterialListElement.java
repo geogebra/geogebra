@@ -16,8 +16,13 @@ import geogebra.web.move.ggtapi.models.MaterialCallback;
 
 import java.util.List;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -45,7 +50,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	protected Label title;
 	protected Label sharedBy;
-	private TextBox renameTextBox;
+	private TextBox renameTitleBox;
 	protected Material material;
 	protected final AppW app;
 	protected final GuiManagerW guiManager;
@@ -55,6 +60,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	protected StandardButton viewButton;
 	protected StandardButton editButton;
+	protected StandardButton renameButton;
 
 	private FlowPanel confirmDeletePanel;
 	private StandardButton confirm;
@@ -67,9 +73,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * 
 	 * @param m {@link Material}
 	 * @param app {@link AppW}
+	 * @param isLocal boolean
 	 */
 	public MaterialListElement(final Material m, final AppW app, boolean isLocal) {
-		this.app = (AppW) app;
+		this.app = app;
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;
 		this.isLocal = isLocal;
@@ -88,9 +95,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		};
 		initMaterialInfos();
 		
-		materialElementContent = new FlowPanel();
+		this.materialElementContent = new FlowPanel();
 		this.materialElementContent.addStyleName("materialElementContent");
-		this.add(materialElementContent);
+		this.add(this.materialElementContent);
 		
 		addPreviewPicture();
 		addInfoPanel();
@@ -114,6 +121,15 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		
 		setLabels();
 	}
+	
+	protected void initMaterialInfos() {
+		this.title = new Label(this.material.getTitle());
+		this.title.addStyleName("fileTitle");
+		if (!isLocal) {
+			this.sharedBy = new Label(this.material.getAuthor());
+			this.sharedBy.setStyleName("sharedPanel");
+		}
+	}
 
 	private void addInfoPanel() {
 		this.infoPanel = new FlowPanel();
@@ -128,23 +144,95 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	protected void addTextInfo() {
 		this.infoPanel.add(this.title);
+		if (isOwnMaterial) {
+			initRenameTextBox();
+		}
 		if(!isLocal) {
 			this.infoPanel.add(this.sharedBy);
 		}
 	}
-
+	
 	protected void addOptions() {
 		if (isOwnMaterial && !isLocal) {
 			addEditButton();
 			addViewButton();
+			addRenameButton();
 			addDeleteButton();
 		} else if (isLocal) {
 			addEditButton();
+			addRenameButton();
 			addDeleteButton();
 		} else {
 			addEditButton();
 			addViewButton();
 		}
+	}
+	
+	private void addRenameButton() {
+		this.renameButton = new StandardButton(BrowseResources.INSTANCE.document_rename(), "");
+		this.infoPanel.add(this.renameButton);
+		this.renameButton.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				onRename();
+			}
+		});
+	}
+
+	void onRename() {
+		this.title.setVisible(false);
+		this.renameTitleBox.setVisible(true);
+		this.renameTitleBox.setText(this.title.getText());
+		this.renameTitleBox.setSelectionRange(0, this.renameTitleBox.getText().length());
+	}
+	
+	void doRename() {
+		final String oldTitle = this.title.getText();
+		this.title.setText(this.renameTitleBox.getText());
+		this.renameTitleBox.setVisible(false);
+		this.title.setVisible(true);
+		this.material.setTitle(this.title.getText());
+		
+		if (isLocal) {
+			this.app.getFileManager().rename(this.title.getText(), oldTitle);
+		} else {			
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadRenameMaterial(this.app, this.material, new MaterialCallback() {
+				
+				@Override
+				public void onLoaded(List<Material> parseResponse) {
+					if (parseResponse.size() != 1) {
+						ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("RenameFailed"), true);
+						title.setText(oldTitle);
+						material.setTitle(oldTitle);
+					}
+				}
+			});
+		}
+	}
+	
+	private void initRenameTextBox() {
+		this.renameTitleBox = new TextBox();
+		this.renameTitleBox.addStyleName("renameBox");
+		this.infoPanel.add(this.renameTitleBox);
+		this.renameTitleBox.setVisible(false);
+		this.renameTitleBox.addBlurHandler(new BlurHandler() {
+			
+			@Override
+			public void onBlur(BlurEvent event) {
+				doRename();
+			}
+		});
+		
+		this.renameTitleBox.addKeyDownHandler(new KeyDownHandler() {
+			
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					renameTitleBox.setFocus(false);
+				}
+			}
+		});
 	}
 	
 	private void addSeperator() {
@@ -223,6 +311,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.deleteButton.addStyleName("deleteActive");
 		if (!isLocal) {
 			this.viewButton.setVisible(false);
+		}
+		if (isOwnMaterial) {
+			this.renameButton.setVisible(false);
 		}
 		this.editButton.setVisible(false);
 		this.confirmDeletePanel.setVisible(true);
@@ -307,16 +398,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 		} else {
 			onView();
-		}
-	}
-
-	protected void initMaterialInfos() {
-		this.title = new Label(this.material.getTitle());
-		this.title.setStyleName("fileTitle");
-				
-		if (!isLocal) {
-			this.sharedBy = new Label(this.material.getAuthor());
-			this.sharedBy.setStyleName("sharedPanel");
 		}
 	}
 
@@ -436,10 +517,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
 			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
 		} else if (isLocal) {
 			this.deleteButton.setText(app.getLocalization().getCommand("Delete"));
 			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
+			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
 		} else {
 			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
 		}
@@ -461,11 +544,13 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			this.deleteButton.removeStyleName("deleteActive");
 			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
 			this.confirmDeletePanel.setVisible(false);
+			this.renameButton.setVisible(show);
 		} else if (isLocal) {
 			this.deleteButton.setVisible(show);
 			this.deleteButton.removeStyleName("deleteActive");
 			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
 			this.confirmDeletePanel.setVisible(false);
+			this.renameButton.setVisible(show);
 		} else {
 			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);
@@ -509,7 +594,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	public void setMaterial(Material mat) {
 		this.material = mat;
-		initMaterialInfos();
+		this.title.setText(this.material.getTitle());
+		if (!isLocal) {
+			this.sharedBy.setText(this.material.getAuthor());
+		}
 		this.background.clear();
 		setPictureAsBackground();
     }
