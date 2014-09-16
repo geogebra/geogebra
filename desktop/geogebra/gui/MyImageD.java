@@ -57,9 +57,8 @@ public class MyImageD implements MyImage {
 
 		InputStream stream = null;
 		try {
-			stream = new ByteArrayInputStream(svgStr.getBytes("UTF_8"));
+			stream = new ByteArrayInputStream(svgStr.getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
-			//
 		}
 
 		SVGUniverse universe = SVGCache.getSVGUniverse();
