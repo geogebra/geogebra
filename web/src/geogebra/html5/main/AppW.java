@@ -413,7 +413,7 @@ public static final String LOCALE_PARAMETER = "locale";
 		
 	
 		private native boolean loadPropertiesFromStorage(String lang) /*-{
-			var storedTranslation = null;
+			var storedTranslation = {};
 	        if($wnd.localStorage && $wnd.localStorage.translation){
 				try { 
 					storedTranslation = JSON.parse(localStorage.translation);
@@ -423,8 +423,8 @@ public static final String LOCALE_PARAMETER = "locale";
 				}
 			}
 			if(storedTranslation[lang]){
-				window.__GGB__keysVar = {};
-				window.__GGB__keysVar[lang] = storedTranslation[lang];
+				$wnd["__GGB__keysVar"] = {};
+				$wnd["__GGB__keysVar"][lang] = storedTranslation[lang];
 				return true;
 			}
 	        return false;
