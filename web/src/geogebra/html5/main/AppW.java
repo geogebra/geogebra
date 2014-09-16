@@ -422,7 +422,7 @@ public static final String LOCALE_PARAMETER = "locale";
 					console.log(e.message);
 				}
 			}
-			if(storedTranslation[lang]){
+			if(storedTranslation && storedTranslation[lang]){
 				$wnd["__GGB__keysVar"] = {};
 				$wnd["__GGB__keysVar"][lang] = storedTranslation[lang];
 				return true;
