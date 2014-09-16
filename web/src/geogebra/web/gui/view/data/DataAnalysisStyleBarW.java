@@ -118,7 +118,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnSwapXY.setVisible(model.isRegressionMode());
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		
-	}
+	} 
 
 	private FlowPanel createDataSourcePanel() {
 
@@ -186,7 +186,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		else if (source == btnShowPlot2) {
 			model.setShowComboPanel2(btnShowPlot2.isSelected());
 			updateGUI();
-			daView.resizeDataDisplayPanels();
 		}
 
 		else if (source == btnSwapXY) {

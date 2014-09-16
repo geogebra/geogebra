@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
@@ -49,7 +50,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * 
  */
 public class DataDisplayPanelW extends FlowPanel implements 
-		StatPanelInterfaceW, IDataDisplayListener {
+		StatPanelInterfaceW, RequiresResize,
+		IDataDisplayListener {
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;
 	private static final int STEM_IDX = 2;
@@ -742,13 +744,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
 				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
 
-		App.debug("AAAAAAAAAAA width  : " + width + " w " + w);
-		App.debug("AAAAAAAAAAA height  : " + height + " h " + h);
-		App.debug("AAAAAAAAAAA optionsPanel : " + optionsPanel.isVisible());
-		
 		if (width < PLOTPANEL_MIN_WIDTH) {
 			width =  PLOTPANEL_MIN_WIDTH;
-			App.debug("AAAAAAAAAAAAA min width");
 		}
 
 		if (height < PLOTPANEL_MIN_HEIGHT) {
@@ -775,6 +772,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	public void resize() {
 	    resize(true);
+    }
+
+	public void onResize() {
+		App.debug("[AAAAAAAAAAAA] DataDisplayPanel resizing");
+		resize(true);  
     }
 
 }

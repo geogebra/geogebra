@@ -18,6 +18,7 @@ import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -58,6 +59,24 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 
 	private SplitLayoutPanel comboPanelSplit;
 
+	/**
+	 * For calling the onResize method in a deferred way
+	 */
+	Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			onResize();
+		}
+	};
+	
+
+	Scheduler.ScheduledCommand deferredDataPanelOnRes = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			dataDisplayPanel1.onResize();
+			dataDisplayPanel2.onResize();
+		}
+	};
+	
+
 
 	/*************************************************
 	 * Constructs the view.
@@ -81,12 +100,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);
 
-		comboPanelSplit = new SplitLayoutPanel() {
-			@Override
-            public void onResize() {
-				resizeDataDisplayPanels();
-			}
-		};
+		comboPanelSplit = new SplitLayoutPanel();
 		comboPanelSplit.setStyleName("comboSplitLayout");
 		comboPanelSplit.add(dataDisplayPanel1);
 		add(comboPanelSplit);
@@ -100,12 +114,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	 * END constructor
 	 */
 
-	public void resizeDataDisplayPanels() {
-		App.debug("resizeDataDisplayPanels()");
-		dataDisplayPanel1.resize();
-		dataDisplayPanel2.resize();		
-	}
-	
+		
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
@@ -247,7 +256,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		} else {
 			add(comboPanelSplit);
 		}
-			
+		deferredDataPanelOnResize();
 	} 
 
 		
@@ -537,8 +546,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		if (stylebar != null) {
 			stylebar.updateGUI();
 		}
-//		revalidate();
-		repaintView();
+		deferredOnResize();
 	}
 
 //	public void updateFonts() {
@@ -632,7 +640,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
-		// do nothingupdateGUI
+		// do nothing
 	}
 
 	public void reset() {
@@ -792,19 +800,20 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		comboPanelSplit.clear();
 		
 		if (show) {
-			dataDisplayPanel1.getModel().updatePlot(true);
-			dataDisplayPanel2.getModel().updatePlot(true);
-			comboPanelSplit.addNorth(dataDisplayPanel1, 300);
+			dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight()/2, true);
+			dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight()/2, true);
+			comboPanelSplit.addNorth(dataDisplayPanel1,  getOffsetHeight()/2);
 			comboPanelSplit.add(dataDisplayPanel2);
-			forceLayout();
 			
 		} else {
-			dataDisplayPanel1.getModel().updatePlot(true);		
-			comboPanelSplit.add(dataDisplayPanel1);
 			
-	}
-	
+			dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight(), true);
+			comboPanelSplit.add(dataDisplayPanel1);
+				
+		}
+		
 		updateGUI();
+		
 	}
 
 	public String format(double value) {
@@ -825,6 +834,22 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	    // TODO Auto-generated method stub
 	    return false;
     }
+	
+	@Override
+	public void onResize()  {
+		super.onResize();
+		App.debug("[AAAAAAAA] DataAnalysisViewW resize");
+	}
 
+	/**
+	 * For calling the onResize method in a deferred way
+	 */
+	public void deferredOnResize() {
+		Scheduler.get().scheduleDeferred(deferredOnRes);
+	}
+
+	public void deferredDataPanelOnResize() {
+		Scheduler.get().scheduleDeferred(deferredDataPanelOnRes);
+	}
 
 }
