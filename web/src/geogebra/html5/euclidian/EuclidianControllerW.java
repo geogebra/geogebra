@@ -711,13 +711,23 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		int y1 = (int) y1d;
 		int y2 = (int) y2d;
 
+		if((x1 == x2 && y1 == y2) || this.oldDistance == 0){
+			return;
+		}
+
 		switch (this.multitouchMode) {
 		case zoomY:
+			if(this.scale == 0){
+				return;
+			}
 			double newRatioY = this.scale * (y1 - y2) / this.oldDistance;
 			this.view.setCoordSystem(this.view.getXZero(),
 			        this.view.getYZero(), this.view.getXscale(), newRatioY);
 			break;
 		case zoomX:
+			if(this.scale == 0){
+				return;
+			}
 			double newRatioX = this.scale * (x1 - x2) / this.oldDistance;
 			this.view.setCoordSystem(this.view.getXZero(),
 			        this.view.getYZero(), newRatioX, this.view.getYscale());
