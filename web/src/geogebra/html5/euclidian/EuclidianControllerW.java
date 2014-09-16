@@ -310,7 +310,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
 		event.preventDefault();
-		if (targets.length() == 1) {
+		if (targets.length() == 1 && !ignoreEvent) {
 			if(time < this.lastMoveEvent + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS){
 				AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
 				boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
@@ -361,9 +361,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    moveCounter++;
     }
 
+	/**
+	 * ignore events after first touchEnd of a multi touch event
+	 */
+	private boolean ignoreEvent = false;
+	
 	public void onTouchEnd(TouchEndEvent event) {
-//		this.ignoreNextMouseEvent = true;
-
 		if(moveCounter  < 2){
 			resetModeAfterFreehand();
 		}
@@ -374,9 +377,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(!comboBoxHit()){
 			event.preventDefault();
 		}
-		if(event.getTouches().length()==0){
+		if(event.getTouches().length()==0 && !ignoreEvent){
 			//mouseLoc was already adjusted to the EVs coords, do not use offset again
 			this.wrapMouseReleased(new PointerEvent(mouseLoc.x, mouseLoc.y, PointerEventType.TOUCH, ZeroOffset.instance));
+		} else {
+			// multitouch-event 
+			// ignore next touchMove and touchEnd events with one touch
+			ignoreEvent = true;
 		}
 		CancelEventTimer.touchEventOccured();
 
@@ -384,7 +391,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
-//		this.ignoreNextMouseEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
 		if(targets.length() == 1){
@@ -400,6 +406,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		setModeToFreehand();
 		moveCounter = 0;
+		ignoreEvent = false;
 	}
 	
 	public void preventTouchIfNeeded(TouchStartEvent event) {
@@ -527,10 +534,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-//		if(this.ignoreNextMouseEvent){
-//			this.ignoreNextMouseEvent = false;
-//			return;
-//		}
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
@@ -562,10 +565,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onMouseDown(MouseDownEvent event) {
 		deltaSum = 0;
-//		if(this.ignoreNextMouseEvent){
-//			this.ignoreNextMouseEvent = false;
-//			return;
-//		}
+
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
@@ -590,6 +590,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		setModeToFreehand();
 		moveCounter = 0;
+		ignoreEvent = false;
 	}
 	
 	private boolean comboBoxHit() {
@@ -787,6 +788,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	@Override
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
+		this.scaleConic = null;
+
 		view.setHits(new GPoint((int) x1, (int) y1), PointerEventType.TOUCH);
 		// needs to be copied, because the reference is changed in the next step
 		Hits hits1 = new Hits();
@@ -814,9 +817,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		        && hits1.get(0) instanceof GeoConic
 		        // isClosedPath: true for circle and ellipse
 		        && ((GeoConic) hits1.get(0)).isClosedPath()
-		        && (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
-		                .size() >= 2 || (hits1.get(0).getParentAlgorithm().input[1]
-		                .isIndependent() && !(hits1.get(0).getParentAlgorithm().input[1].labelSet)))) {
+		        && ((((GeoConic) hits1.get(0)).getFreeInputPoints(this.view) != null && ((GeoConic) hits1
+		                .get(0)).getFreeInputPoints(this.view).size() >= 2)
+		                || (hits1.get(0).getParentAlgorithm() != null && hits1
+		                        .get(0).getParentAlgorithm().input[1]
+		                        .isIndependent()) || (hits1.get(0)
+		                .getParentAlgorithm() != null && !hits1.get(0)
+		                .getParentAlgorithm().input[1].labelSet))) {
 			this.scaleConic = (GeoConic) hits1.get(0);
 			// TODO: select scaleConic
 
@@ -845,12 +852,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				this.originalPointY[i] = points.get(i).getCoords().getY();
 			}
 		} else {
+			this.clearSelections();
 			this.multitouchMode = scaleMode.view;
 			super.twoTouchStart(x1, y1, x2, y2);
 		}
 	}
-
-	
 
 	/**
 	 * position of last mouseDown or touchStart
