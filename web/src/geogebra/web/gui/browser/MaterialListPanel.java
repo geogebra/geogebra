@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * 
  * 
  */
-public class MaterialListPanel extends FlowPanel implements ResizeListener {
+public class MaterialListPanel extends FlowPanel implements ResizeListener, ShowDetailsListener {
 	
 	protected AppW app;
 	/**
@@ -38,7 +38,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	private MaterialCallback allMaterialsCB;
 	private MaterialCallback userMaterialsCB;
 	private MaterialCallback ggtMaterialsCB;
-	
+	boolean ignoreScroll = false;
+
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
 		this.allMaterialsCB = getAllMaterialsCB();
@@ -60,9 +61,10 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 			
 			@Override
 			public void onScroll(final ScrollEvent event) {
-				if (lastSelected != null) {
+				if (lastSelected != null && !ignoreScroll) {
 					setDefaultStyle();
 				}
+				ignoreScroll = false;
 			}
 		}, ScrollEvent.getType());
 		
@@ -199,6 +201,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	private final void addNewMaterial(final Material mat, final boolean insertAtEnd, final boolean isLocal) {
 		final MaterialListElement preview = ((GLookAndFeel)app.getLAF()).getMaterialElement(mat, this.app, isLocal);
 		this.materials.add(preview);
+		preview.setShowDetailsListener(this);
+
 		if (insertAtEnd) {
 			this.add(preview);
 		} else {
@@ -337,5 +341,19 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener {
 	    for (final Material deleteElem : delete) {
 	    	removeMaterial(deleteElem);
 	    }
+    }
+
+	@Override
+	public void onShowDetails(FlowPanel content) {
+		int elementBottom = content.getAbsoluteTop() + content.getElement().getClientHeight();
+		int panelBottom = this.getAbsoluteTop() + this.getElement().getClientHeight();
+
+		if(panelBottom < elementBottom){
+			ignoreScroll = true;
+			this.getElement().setScrollTop(this.getElement().getScrollTop() + elementBottom - panelBottom);
+		} else if(content.getAbsoluteTop() < this.getAbsoluteTop()){
+			ignoreScroll = true;
+			this.getElement().setScrollTop(this.getElement().getScrollTop() + content.getAbsoluteTop() - this.getAbsoluteTop());
+		}
     }
 }

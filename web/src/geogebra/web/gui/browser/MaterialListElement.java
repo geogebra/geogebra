@@ -67,7 +67,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private StandardButton cancel;
 	private StandardButton deleteButton;
 
-	
+	private ShowDetailsListener showListener;
 
 	/**
 	 * 
@@ -559,6 +559,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		
 		if (show) {
 			this.infoPanel.addStyleName("detailed");
+			showListener.onShowDetails(materialElementContent);
 		} else {
 			this.infoPanel.removeStyleName("detailed");
 		}
@@ -601,4 +602,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.background.clear();
 		setPictureAsBackground();
     }
+
+	public void setShowDetailsListener(ShowDetailsListener listener){
+		this.showListener = listener;
+	}
 }
