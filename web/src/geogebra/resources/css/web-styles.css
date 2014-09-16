@@ -114,8 +114,7 @@ iframe.objectPropertiesTextEditor:focus {
 	margin-bottom: 10px;
 }
 
-.gwt-Button,
-.buttonPanel .button {
+.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6161FF;
@@ -3737,8 +3736,8 @@ iframe.objectPropertiesTextEditor {
 	float: right;
 }
 
-.signInButton {
-	margin-top: 4px;
+button.gwt-Button.signInButton {
+	margin-top: 6px;
 }
 
 .profilePanel {
