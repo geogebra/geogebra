@@ -275,7 +275,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 */
 	public static final double[] findRoots(GeoFunction f, double l, double r,
 			int samples) {
-
+		if(Kernel.isEqual(l, r)){
+			return Kernel.isZero(f.evaluate(l)) ? new double[]{l} : new double[0];
+		}
 		double[] y = new double[samples + 1]; //
 		ArrayList<Double> xlist = new ArrayList<Double>();
 		double x, xval;
