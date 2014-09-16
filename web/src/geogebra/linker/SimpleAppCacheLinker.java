@@ -134,7 +134,9 @@ public class SimpleAppCacheLinker extends AbstractLinker {
           	  || pathName.endsWith(".php")
           	  || pathName.endsWith("README")
           	  || pathName.endsWith("oauthWindow.html")
-          	  || pathName.endsWith("windowslive.html")) {
+          	  || pathName.endsWith("windowslive.html")
+          	  || pathName.endsWith("devmode.js")
+          	  || pathName.startsWith("js/properties_")) {
             // skip these resources
           } else {
             publicSourcesSb.append(pathName + "\n");
