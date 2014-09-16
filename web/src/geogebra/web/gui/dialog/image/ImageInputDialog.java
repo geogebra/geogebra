@@ -70,6 +70,7 @@ public class ImageInputDialog extends DialogBox implements ClickHandler {
 		
 		bottomPanel.setStyleName("DialogButtonPanel");
 		addStyleName("GeoGebraPopup");
+		addStyleName("image");
 		setGlassEnabled(true);
 	}
 	

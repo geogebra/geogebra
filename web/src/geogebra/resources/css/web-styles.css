@@ -2184,7 +2184,8 @@ Paddings for menuitems.
 	padding: 10px 20px;
 	background-repeat: no-repeat;
 	background-position: center center;
-	padding-top: 100%
+	padding-top: 100%;
+	cursor: pointer;
 }
 
 /*#####################################################################################
@@ -2541,6 +2542,14 @@ body.application[dir=rtl] .toolbar_mainItem {
 .buttonDialog .scriptArea {
 	width: 100%;
 	height: 200px;
+}
+
+/* ------------ IMAGE DIALOG -------------*/
+.GeoGebraPopup.image .dialogContent .gwt-Label {
+	cursor: pointer;
+}
+.GeoGebraPopup.image .dialogContent .gwt-Label.gwt-Label-highlighted {
+	cursor: default;
 }
 
 /* ----------- SAVE UNSAVED CHANGES DIALOG -------------*/
