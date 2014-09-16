@@ -85,7 +85,6 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
-import geogebra.web.main.FileManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -2396,7 +2395,7 @@ public static final String LOCALE_PARAMETER = "locale";
 
 		/**
 		 * Overwritten for applets, full app and for touch
-		 * @return {@link FileManager}
+		 * @return {@link FileManagerI}
 		 */
 		public FileManagerI getFileManager() {
 			return null;
