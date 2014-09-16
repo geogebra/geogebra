@@ -1397,6 +1397,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	protected GPoint getPixel(int column, int row, boolean min) {
+		return getPixel(column, row, min, true);
+	}
+	protected GPoint getPixel(int column, int row, boolean min, boolean scaleOffset) {
 
 		if (column < 0 || row < 0) {
 			return null;
@@ -1411,11 +1414,18 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		Element wt = ssGrid.getCellFormatter().getElement(row, column);
 		int offx = ssGrid.getAbsoluteLeft();
 		int offy = ssGrid.getAbsoluteTop();
-		int left = (int) ((wt.getAbsoluteLeft() - offx) / app
+		int left, top;
+		if(scaleOffset){
+		    left = (int) ((wt.getAbsoluteLeft() - offx) / app
 		        .getArticleElement().getScaleX()) + offx;
-		int top = (int) ((wt.getAbsoluteTop() - offy) / app.getArticleElement()
+			top = (int) ((wt.getAbsoluteTop() - offy) / app.getArticleElement()
 		        .getScaleY()) + offy;
-
+		}else{
+			left = (int) ((wt.getAbsoluteLeft()) / app
+			        .getArticleElement().getScaleX());
+			top = (int) ((wt.getAbsoluteTop() ) / app.getArticleElement()
+			        .getScaleY()) ;	
+		}
 		// App.debug("-----------------------" + min);
 
 		if (min) {
@@ -1499,7 +1509,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int indexX = -1;
 		int indexY = -1;
 		for (int i = columnFrom; i < getColumnCount(); ++i) {
-			GPoint point = getPixel(i, rowFrom, false);
+			GPoint point = getPixel(i, rowFrom, false, false);
 			if (x < point.getX()) {
 				indexX = i;
 				break;
@@ -1509,7 +1519,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			return null;
 		}
 		for (int i = rowFrom; i < getRowCount(); ++i) {
-			GPoint point = getPixel(columnFrom, i, false);
+			GPoint point = getPixel(columnFrom, i, false, false);
 			if (y < point.getY()) {
 				indexY = i;
 				break;
