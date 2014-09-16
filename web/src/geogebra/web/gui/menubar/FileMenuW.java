@@ -1,9 +1,13 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 
@@ -16,7 +20,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends GMenuBar implements BooleanRenderable {
+public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRenderable {
 	
 	/** Application */
 	AppW app;
@@ -24,6 +28,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	Runnable onFileOpen;
 	Runnable newConstruction;
 	Anchor downloadButton;
+	private boolean uploadWaiting;
 	
 	/**
 	 * @param app application
@@ -48,6 +53,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    addStyleName("GeoGebraMenuBar");
 	    initActions();
 		update();
+		app.getLoginOperation().getView().add(this);
 	}
 
 	private void update() {
@@ -99,6 +105,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				public void execute() {
 					if (!app.getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
 						openFilePicker();
+					} else if (!app.getLoginOperation().isLoggedIn()) {
+						uploadWaiting = true;
+						((SignInButton)app.getLAF().getSignInButton(app)).login();
 					} else {
 						app.getGuiManager().save();
 					}
@@ -177,6 +186,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			uploadToGGT.setTitle("");
 		}
     }
+	
+	@Override
+	public void renderEvent(final BaseEvent event) {
+		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
+			this.uploadWaiting = false;
+			app.getGuiManager().save();
+		}
+	}
 	
 
 }

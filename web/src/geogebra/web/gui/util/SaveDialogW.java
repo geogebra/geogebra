@@ -1,15 +1,11 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
-import geogebra.common.move.events.BaseEvent;
-import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.main.FileManager;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -33,7 +29,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SaveDialogW extends DialogBox implements EventRenderable {
+public class SaveDialogW extends DialogBox {
 
 	protected AppW app;
 	VerticalPanel p;
@@ -43,7 +39,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		
 	private Label titleLabel;
 	private final int MIN_TITLE_LENGTH = 4;
-	private boolean uploadWaiting;
 	Runnable runAfterSave;
 	SaveCallback saveCallback;
 	
@@ -72,7 +67,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 				title.setEnabled(true);
 			}
 		});
-		app.getLoginOperation().getView().add(this);
 	}
 
 	private void addTitelPanel() {
@@ -134,12 +128,7 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		if (isOffline()) {
 			saveLocal();
 		} else {
-			if (!isLoggedIn()) {
-				this.uploadWaiting = true;
-				((SignInButton)app.getLAF().getSignInButton(app)).login();
-			} else {
-				upload();
-			}
+			upload();
 		}
 	}
 	
@@ -279,15 +268,6 @@ public class SaveDialogW extends DialogBox implements EventRenderable {
 		} else {
 			this.title.setText("");
 		}
-	}
-
-	@Override
-	public void renderEvent(final BaseEvent event) {
-		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
-			this.uploadWaiting = false;
-			upload();
-		}
-
 	}
 	
 	public void setLabels() {
