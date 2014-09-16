@@ -160,14 +160,16 @@ iframe.objectPropertiesTextEditor:focus {
 }
 
 .gwt-Button:active,
-.buttonPanel .button:active {
+.buttonPanel .button:active, 
+.headerbar .headerSecond .signInButton:active {
 	border: 1px inset #6666FF;
 	background-color: rgba(204, 204, 255, 0.2);
 }
 
 .gwt-Button:hover,
 .confirmDelete .button:hover,
-.buttonPanel .button:hover
+.buttonPanel .button:hover,
+.headerbar .headerSecond .signInButton:hover
 	{
 	background-color: rgba(204, 204, 255, 0.2);
 }
@@ -303,10 +305,6 @@ iframe.objectPropertiesTextEditor:focus {
 	border-left: 3px solid #e7e7e7;
 	padding: 4px 0px 4px 8px;
 	margin-left: 6px;
-}
-
-.gwt-FileUpload {
-	
 }
 
 .gwt-Frame {
