@@ -375,13 +375,9 @@ public static final String LOCALE_PARAMETER = "locale";
 			}
 			final String lang = Language.getClosestGWTSupportedLanguage(browserLang);
 			App.debug("setting language to:" + lang + ", browser lang" + browserLang);
-
-			// load keys (into a JavaScript <script> tag)
-			DynamicScriptElement script = (DynamicScriptElement) Document.get()
-			        .createScriptElement();
-			script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
-			        + ".js");
-			script.addLoadHandler(new ScriptLoadCallback() {
+			
+			
+			ScriptLoadCallback callback = new ScriptLoadCallback() {
 
 				public void onLoad() {
 					// force reload
@@ -400,11 +396,40 @@ public static final String LOCALE_PARAMETER = "locale";
 				}
 
 				
-			});
-			Document.get().getBody().appendChild(script);
+			};
+			if(Browser.supportsSessionStorage() && loadPropertiesFromStorage(lang)){
+				App.debug("properties loaded from local storage");
+				callback.onLoad();
+			}else{
+				// load keys (into a JavaScript <script> tag)
+				DynamicScriptElement script = (DynamicScriptElement) Document.get()
+				        .createScriptElement();
+				script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
+				        + ".js");
+				script.addLoadHandler(callback);
+				Document.get().getBody().appendChild(script);
+			}
 		}
 		
 	
+		private native boolean loadPropertiesFromStorage(String lang) /*-{
+			var storedTranslation = null;
+	        if($wnd.localStorage && $wnd.localStorage.translation){
+				try { 
+					storedTranslation = JSON.parse(localStorage.translation);
+				}
+				catch(e){
+					console.log(e.message);
+				}
+			}
+			if(storedTranslation[lang]){
+				window.__GGB__keysVar = {};
+				window.__GGB__keysVar[lang] = storedTranslation[lang];
+				return true;
+			}
+	        return false;
+        }-*/;
+
 		public void setLanguage(String language, String country) {
 
 			if (language == null || "".equals(language)) {
