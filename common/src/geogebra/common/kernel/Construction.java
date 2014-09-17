@@ -1601,6 +1601,7 @@ public class Construction {
 
 		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();
 		AlgoElement newGeoAlgo = newGeo.getParentAlgorithm();
+		GeoElement[] newGeoInputs = null;
 
 		// change kernel settings temporarily
 
@@ -1642,8 +1643,13 @@ public class Construction {
 			isGettingXMLForReplace = true;
 			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML() : oldGeoAlgo
 					.getXML();
-			newXML = (newGeoAlgo == null) ? newGeo.getXML() : newGeoAlgo
-					.getXML();
+			if (newGeoAlgo == null){
+				newXML = newGeo.getXML();
+			}else{
+				newXML = newGeoAlgo.getXML();
+				// get new geo inputs to check if we have to put the newXML further in consXML
+				newGeoInputs = newGeoAlgo.getInput();
+			}
 			isGettingXMLForReplace = false;
 
 			// Application.debug("oldGeo: " + oldGeo + ", visible: " +
@@ -1672,9 +1678,35 @@ public class Construction {
 		// oldXML.length()));
 		// System.out.println(" new XML:\n" + newXML);
 		// System.out.println("END redefine.");
+		
+		
+		
+		// get inputs position in consXML: we want to put new geo after that
+		int inputEndPos = -1;
+		if (newGeoInputs != null && newGeoInputs.length > 0){			
+			int labelPos = 0;			
+			for (int i = 0 ; i < newGeoInputs.length ; i++){
+				String label = newGeoInputs[i].getLabelSimple();
+				if (label != null){
+					int labelPos0 = consXML.indexOf("label=\""+label+"\"");
+					if (labelPos0 > labelPos){
+						labelPos = labelPos0;
+						inputEndPos = consXML.indexOf("</element>", labelPos) + 11;
+					}
+				}			
+			}			
+		}
+				
 
 		// replace oldXML by newXML in consXML
-		consXML.replace(pos, pos + oldXML.length(), newXML);
+		if (pos > inputEndPos){
+			// old pos is ok
+			consXML.replace(pos, pos + oldXML.length(), newXML);
+		}else{
+			// we put new geo after its inputs
+			consXML.insert(inputEndPos, newXML);
+			consXML.replace(pos, pos + oldXML.length(), "");		
+		}
 
 		return consXML;
 	}
