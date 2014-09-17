@@ -2900,19 +2900,16 @@ public abstract class GeoElement extends ConstructionElement implements
 			return;
 		}
 
-		/*
-		 * if (!cons.isFreeLabel(newLabel)) { try { throw new
-		 * Exception("RENAME ERROR: old: " + label + ", new: " + newLabel +
-		 * ", type: " + this.getTypeString()); } catch (Exception e) {
-		 * e.printStackTrace(); } } else { Application.debug("RENAME: old: " +
-		 * label + ", new: " + newLabel + ", type: " + this.getTypeString()); }
-		 */
-
 		// UPDATE KERNEL
 		cons.removeLabel(this); // remove old table entry
 		oldLabel = label; // remember old label (for applet to javascript
 							// rename)
 		label = newLabel; // set new label
+		// rename corresponding cas cell, before the label
+		// is in construction set
+		if (correspondingCasCell != null) {
+			correspondingCasCell.setInputFromTwinGeo(false);
+		}
 		cons.putLabel(this); // add new table entry
 
 		algebraStringsNeedUpdate();
