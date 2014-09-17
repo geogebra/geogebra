@@ -142,6 +142,9 @@ public class CAStestJSON {
 	    try{
 	    assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
 	    }catch(Throwable t){
+	    	if(!(t instanceof AssertionError) ){
+	    		t.printStackTrace();
+	    	}
 	    	Assert.assertEquals(result, expectedResult + " input:"+input);
 	    }
 	  }
@@ -153,6 +156,7 @@ public class CAStestJSON {
 	
 	private static void testCat(String name){
 		kernel.clearConstruction(true);
+		Assert.assertNotNull(testcases.get(name)); 
 		for(String cmd:testcases.get(name).keySet()){
 			t(cmd, testcases.get(name).get(cmd));
 		}
@@ -902,7 +906,7 @@ public class CAStestJSON {
 
 	@Test
 	public void testtrig(){
-		testCat("trig");
+		testCat("Trig");
 	}
 
 	@Test
