@@ -246,7 +246,7 @@ public class Equation extends ValidExpression {
         // bring to normal form left - right = 0
         normalForm = new Polynomial(kernel, rightPoly);
         normalForm.multiply(-1.0d);
-        normalForm.add(leftPoly);             		   		   
+        normalForm.add(leftPoly, this);             		   		   
     }
     
     /**

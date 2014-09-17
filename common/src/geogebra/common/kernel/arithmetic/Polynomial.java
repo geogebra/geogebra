@@ -15,7 +15,6 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 
 import java.io.Serializable;
@@ -124,48 +123,48 @@ public class Polynomial implements Serializable
 	 * add another Polynomial
 	 * @param e addend
 	 */
-	void add(Polynomial e) {
+	void add(Polynomial e, Equation eq) {
 		for (int i = 0; i < e.length(); i++) {
 			append(e.getTerm(i));
 		}
-		simplify();
+		simplify(eq);
 	}
 
 	/**
 	 * subtract another Polynomial
 	 * @param e subtrahend
 	 */
-	private void sub(Polynomial e) {
+	private void sub(Polynomial e, Equation eq) {
 		Polynomial temp = new Polynomial(kernel, e);
 		temp.multiply(-1.0d);
-		add(temp); // append -e
+		add(temp, eq); // append -e
 	}
 
 	/**
 	 * add a Number
 	 * @param number constant addend
 	 */
-	private void add(ExpressionValue number) {
+	private void add(ExpressionValue number, Equation equ) {
 		append(new Term(number, ""));
-		simplify(); // add up parts with same variables
+		simplify(equ); // add up parts with same variables
 	}
 
 	/**
 	 * subtract a Number
 	 * @param number constant subtrahend
 	 */
-	private void sub(ExpressionValue number) {
+	private void sub(ExpressionValue number, Equation equ) {
 		Term subTerm = new Term(number, "");
 		subTerm.multiply(new MyDouble(kernel,-1.0d));
 		append(subTerm);
-		simplify(); // add up parts with same variables
+		simplify(equ); // add up parts with same variables
 	}
 
 	/**
 	 * multiply with another Polynomial store result in this Polynomial
 	 * @param e factor
 	 */
-	private void multiply(Polynomial e) {
+	private void multiply(Polynomial e, Equation equ) {
 		ArrayList<Term> temp = new ArrayList<Term>();
 		int i, j;
 		Term ti, newTerm;
@@ -181,7 +180,7 @@ public class Polynomial implements Serializable
 			}
 		}
 		terms = temp;
-		simplify();
+		simplify(equ);
 	}
 
 	/**
@@ -224,7 +223,7 @@ public class Polynomial implements Serializable
 	 * compute Polynomial^power store result in this Polynomial
 	 * @param p exponent
 	 */
-	private void power(int p) {
+	private void power(int p, Equation eq) {
 		if (p == 0) {
 			terms.clear(); // drop everything
 			append(new Term(new MyDouble(kernel, 1), ""));
@@ -233,7 +232,7 @@ public class Polynomial implements Serializable
 
 		Polynomial exp = new Polynomial(kernel, this);
 		for (int i = 0; i < p - 1; i++) {
-			multiply(exp);
+			multiply(exp, eq);
 		}
 	}
 
@@ -281,7 +280,7 @@ public class Polynomial implements Serializable
 	 * example: simplify() on { (4,"xxy"), (7,"xy"), (-84.0,"xx"), (3,"xy") })
 	 * changes the Polynomial to { (4,"xxy"), (10,"xy"), (-84.0,"xx") }
 	 */
-	void simplify() {
+	void simplify(Equation eq) {
 		// Application.debug("simplify " + this);
 		ArrayList<Term> list;
 		Object[] t;
@@ -307,10 +306,15 @@ public class Polynomial implements Serializable
 						t[j] = null;
 					}
 				}
-				if (!(ti.coefficient.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue))
-					throw new MyError(kernel.getApplication().getLocalization(), ti.coefficient
-							.evaluate(StringTemplate.defaultTemplate).toString(StringTemplate.defaultTemplate));
-
+				if (!(ti.coefficient.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue)){
+					if(eq != null){
+						eq.setIsPolynomial(false);
+					}
+					return;
+				
+					/*throw new MyError(kernel.getApplication().getLocalization(), ti.coefficient
+							.evaluate(StringTemplate.defaultTemplate).toString(StringTemplate.defaultTemplate));*/
+				}
 				// add simplified term to list
 				if (!ti.coefficient.isConstant()
 						|| ti.coefficient.evaluateDouble() != 0.0) {
@@ -454,7 +458,7 @@ public class Polynomial implements Serializable
 	 * @return Coefficient matrix of this polynomial (in x and y)
 	 */
 	public ExpressionValue[][] getCoeff() {
-		simplify();
+		simplify(null);
 		Iterator<Term> it = terms.iterator();
 		// TODO implement support for z as var
 		int degX = 0;
@@ -516,14 +520,14 @@ public class Polynomial implements Serializable
 	Polynomial apply(Operation operation, Polynomial rt, Equation equ) {
 		switch(operation){
 			case PLUS:
-				this.add(rt);
+				this.add(rt, equ);
 				break;
 			case MINUS:
-				this.sub(rt);
+				this.sub(rt, equ);
 				break;
 			case MULTIPLY_OR_FUNCTION:
 			case MULTIPLY:
-				this.multiply(rt);
+				this.multiply(rt, equ);
 				break;
 			case DIVIDE:
 			case POWER:
@@ -544,10 +548,10 @@ public class Polynomial implements Serializable
 	Polynomial apply(Operation operation, ExpressionValue rt, Equation equ) {
 		switch(operation){
 			case PLUS:
-				this.add(rt);
+				this.add(rt, equ);
 				break;
 			case MINUS:
-				this.sub(rt);
+				this.sub(rt, equ);
 				break;
 			case MULTIPLY_OR_FUNCTION:
 			case MULTIPLY:
@@ -563,7 +567,7 @@ public class Polynomial implements Serializable
 				}else if(!Kernel.isInteger(power)){
 						equ.setIsPolynomial(false);
 				}
-				this.power((int)rt.evaluateDouble());
+				this.power((int)rt.evaluateDouble(), equ);
 				break;
 			case DIVIDE:
 				this.divide(rt);

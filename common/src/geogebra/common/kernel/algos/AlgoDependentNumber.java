@@ -97,7 +97,7 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
     	try {
     		NumberValue nv = (NumberValue) root.evaluate(StringTemplate.defaultTemplate);
 	        number.setValue(nv.getDouble());
-	    } catch (Exception e) {
+	    } catch (Throwable e) {
 	    	number.setUndefined();
 		}
     }   
