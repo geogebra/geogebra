@@ -2,7 +2,6 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
-import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -14,8 +13,10 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 
-import java.util.ArrayList;
-
+/**
+ * GeoElement representing an implicit curve.
+ * 
+ */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 
 	private FunctionNVar expression;
@@ -24,27 +25,20 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	private int gridWidth;
 	private int gridHeight;
 
-	public GeoImplicitCurve(Construction c) {
+	private GeoImplicitCurve(Construction c) {
 		super(c);
 		locus = new GeoLocus(c);
 		locus.setDefined(true);
-		locus.setPoints(createDummyPoints());
 		c.registerEuclidianViewCE(this);
 	}
 
-	private ArrayList<MyPoint> createDummyPoints() {
-		ArrayList<MyPoint> list = new ArrayList<>();
-
-		for (int i = 0; i < 10; i++) {
-			if (i == 5) {
-				list.add(new MyPoint(i, i, false));
-			} else {
-				list.add(new MyPoint(i, i, true));
-			}
-		}
-		return list;
-	}
-
+	/**
+	 * Constructs an implicit curve object with given equation
+	 * containing variables as x and y.
+	 * @param c construction
+	 * @param label label
+	 * @param equation equation of the implicit curve
+	 */
 	public GeoImplicitCurve(Construction c, String label, Equation equation) {
 		this(c);
 		setLabel(label);
@@ -52,6 +46,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 		updatePath();
 	}
 
+	/**
+	 * Constructs and implicit curve with given function in x and y.
+	 * @param c construction
+	 * @param label label
+	 * @param function function defining the implicit curve
+	 */
 	public GeoImplicitCurve(Construction c, String label, FunctionNVar function) {
 		this(c);
 		setLabel(label);
@@ -126,20 +126,35 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 
 	private double[] evalArray = new double[2];
 
+	/**
+	 * @param x function variable x
+	 * @param y function variable y
+	 * @return the value of the function
+	 */
 	public double evaluateImplicitCurve(double x, double y) {
 		evalArray[0] = x;
 		evalArray[1] = y;
 		return evaluateImplicitCurve(evalArray);
 	}
 
+	/**
+	 * @param values function variables ({x, y})
+	 * @return the value of the function
+	 */
 	public double evaluateImplicitCurve(double[] values) {
 		return expression.evaluate(values);
 	}
 
+	/**
+	 * @return Locus representing this curve
+	 */
 	public GeoLocus getLocus() {
 		return locus;
 	}
 
+	/**
+	 * Updates the path of the curve.
+	 */
 	public void updatePath() {
 		double[] viewBounds = kernel.getViewBoundsForGeo(this);
 		if (viewBounds[0] == Double.POSITIVE_INFINITY) { // no active View
@@ -156,6 +171,14 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	private double[][] grid;
 	private boolean[][] evald;
 
+	/**
+	 * @param rectX top of the view
+	 * @param rectY left of the view
+	 * @param rectW width of the view
+	 * @param rectH height of the view
+	 * @param xScale x-scale of the view
+	 * @param yScale y-scale of the view
+	 */
 	public void updatePath(double rectX, double rectY, double rectW,
 			double rectH, double xScale, double yScale) {
 		App.debug(rectX + "x" + rectY + "," + rectW + "," + rectH);
@@ -199,7 +222,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 			if (evald[i][j]) {
 				continue;
 			}
-			
+
 		}
 	}
 
