@@ -1177,6 +1177,10 @@ public static final String LOCALE_PARAMETER = "locale";
 			geoImage.setCorner(gsp2, 1);
 		} else {
 			geoImage.setCorner(loc, 0);
+			GeoPoint point = new GeoPoint(cons);
+			geoImage.calculateCornerPoint(point, 2);
+			geoImage.setCorner(point, 1);
+			point.setLabel(null);
 		}
 
 		geoImage.setLabel(null);

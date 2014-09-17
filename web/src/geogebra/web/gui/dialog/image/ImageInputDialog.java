@@ -129,6 +129,9 @@ public class ImageInputDialog extends DialogBox implements ClickHandler {
 	    		data = webcamPanel.getImageDataURL();
 	    		name = "webcam";
 	    	}
+	    	if (!loc.isLabelSet()) {
+	    		loc.setLabel(null);
+	    	}
 	    	app.imageDropHappened(name, data, "", loc);
 	    	hide();
 	    } else if (source == cancelBtn) {
