@@ -38,6 +38,13 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	private double[] parameters = {0.0d, 1.0d};
 	private DIST distributionType = DIST.NORMAL;
 	private boolean isCumulative = false;
+	private boolean intervalSet = false;
+
+	private int probMode;
+
+	private double low;
+
+	private double high;
 	
 	public ProbabilityCalculatorSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
@@ -97,6 +104,38 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	public boolean isCumulative() {
 		return isCumulative;
 	}
+
+	public void setProbMode(int probMode) {
+		intervalSet = true;
+		this.probMode = probMode;
+		settingChanged();
+	}
 	
+	public void setLow(double low) {
+		intervalSet = true;
+		this.low = low;
+		settingChanged();
+	}
 	
+	public void setHigh(double high) {
+		intervalSet = true;
+		this.high = high;
+		settingChanged();
+	}
+	
+	public boolean isIntervalSet(){
+		return intervalSet;
+	}
+
+	public int getProbMode() {
+		return this.probMode;
+	}
+	
+	public double getLow(){
+		return this.low;
+	}
+	
+	public double getHigh(){
+		return this.high;
+	}
 }

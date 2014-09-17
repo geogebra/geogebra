@@ -486,8 +486,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			double value = nv.getDouble();
 
 			if (source == fldLow) {
-				if (isValidInterval(probMode, value, high)) {
-					low = value;
+				if (isValidInterval(probMode, value, getHigh())) {
+					setLow(value);
 					setXAxisPoints();
 				} else {
 					updateGUI();
@@ -496,8 +496,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			}
 
 			else if (source == fldHigh) {
-				if (isValidInterval(probMode, low, value)) {
-					high = value;
+				if (isValidInterval(probMode, getLow(), value)) {
+					setHigh(value);
 					setXAxisPoints();
 				} else {
 					updateGUI();
@@ -510,10 +510,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					updateGUI();
 				} else {
 					if (probMode == PROB_LEFT) {
-						high = inverseProbability(value);
+						setHigh(inverseProbability(value));
 					}
 					if (probMode == PROB_RIGHT) {
-						low = inverseProbability(1 - value);
+						setLow(inverseProbability(1 - value));
 					}
 					setXAxisPoints();
 				}
@@ -599,9 +599,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		}
 
 		// set low/high interval field values
-		fldLow.setText("" + format(low));
+		fldLow.setText("" + format(getLow()));
 		fldLow.setCaretPosition(0);
-		fldHigh.setText("" + format(high));
+		fldHigh.setText("" + format(getHigh()));
 		fldHigh.setCaretPosition(0);
 		fldResult.setText("" + format(probability));
 		fldResult.setCaretPosition(0);
@@ -657,10 +657,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			fldHigh.setVisible(true);
 			lblBetween.setText(loc.getMenu("XBetween"));
 
-			low = plotSettings.xMin + 0.4
-					* (plotSettings.xMax - plotSettings.xMin);
-			high = plotSettings.xMin + 0.6
-					* (plotSettings.xMax - plotSettings.xMin);
+			setLow(plotSettings.xMin + 0.4
+					* (plotSettings.xMax - plotSettings.xMin));
+			setHigh(plotSettings.xMin + 0.6
+					* (plotSettings.xMax - plotSettings.xMin));
 
 		}
 
@@ -672,13 +672,13 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			lblBetween.setText(loc.getMenu("XLessThanOrEqual"));
 
 			if (oldProbMode == PROB_RIGHT) {
-				high = low;
+				setHigh(getLow());
 			}
 
 			if (isDiscrete)
-				low = ((GeoNumeric) discreteValueList.get(0)).getDouble();
+				setLow(((GeoNumeric) discreteValueList.get(0)).getDouble());
 			else
-				low = plotSettings.xMin - 1; // move offscreen so the integral
+				setLow(plotSettings.xMin - 1); // move offscreen so the integral
 												// looks complete
 
 		}
@@ -691,14 +691,14 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			lblBetween.setText(loc.getMenu("LessThanOrEqualToX"));
 
 			if (oldProbMode == PROB_LEFT) {
-				low = high;
+				setLow(getHigh());
 			}
 
 			if (isDiscrete)
-				high = ((GeoNumeric) discreteValueList.get(discreteValueList
-						.size() - 1)).getDouble();
+				setHigh(((GeoNumeric) discreteValueList.get(discreteValueList
+						.size() - 1)).getDouble());
 			else
-				high = plotSettings.xMax + 1; // move offscreen so the integral
+				setHigh(plotSettings.xMax + 1); // move offscreen so the integral
 												// looks complete
 
 		}
@@ -720,8 +720,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		}
 
 		if (isDiscrete) {
-			high = Math.round(high);
-			low = Math.round(low);
+			setHigh(Math.round(getHigh()));
+			setLow(Math.round(getLow()));
 
 			// make sure arrow keys move points in 1s
 			lowPoint.setAnimationStep(1);
@@ -786,8 +786,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	public void setInterval(double low, double high) {
 		fldHigh.removeActionListener(this);
 		fldLow.removeActionListener(this);
-		this.low = low;
-		this.high = high;
+		this.setLow(low);
+		this.setHigh(high);
 		fldLow.setText("" + low);
 		fldHigh.setText("" + high);
 		setXAxisPoints();

@@ -79,8 +79,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	public void getProbabilityCalculatorXML(StringBuilder sb) {
-		// TODO Auto-generated method stub
-		
+		if (probCalculator != null)
+			probCalculator.getXML(sb);
 	}
 
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {

@@ -148,7 +148,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	protected int probMode = PROB_INTERVAL;
 
 	// interval values
-	protected double low = 0, high = 1;
+	private double low = 0;
+	private double high = 1;
 
 	// current probability result
 	protected double probability;
@@ -900,14 +901,14 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 		isSettingAxisPoints = true;
 
-		lowPoint.setCoords(low, 0.0, 1.0);
-		highPoint.setCoords(high, 0.0, 1.0);
+		lowPoint.setCoords(getLow(), 0.0, 1.0);
+		highPoint.setCoords(getHigh(), 0.0, 1.0);
 		plotPanel.repaint();
 		GeoElement.updateCascade(pointList, getTempSet(), false);
 		tempSet.clear();
 
 		if (probManager.isDiscrete(selectedDist))
-			table.setSelectionByRowValue((int) low, (int) high);
+			table.setSelectionByRowValue((int) getLow(), (int) getHigh());
 
 		isSettingAxisPoints = false;
 	}
@@ -1169,7 +1170,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr, false);
 			lowPointCopy.setVisualStyle(lowPoint);
 			lowPointCopy.setLabelVisible(false);
-			lowPointCopy.setCoords(low, 0, 1);
+			lowPointCopy.setCoords(getLow(), 0, 1);
 			lowPointCopy.setLabel(null);
 			newGeoList.add(lowPointCopy);
 
@@ -1177,7 +1178,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr, false);
 			highPointCopy.setVisualStyle(lowPoint);
 			highPointCopy.setLabelVisible(false);
-			highPointCopy.setCoords(high, 0, 1);
+			highPointCopy.setCoords(getHigh(), 0, 1);
 			highPointCopy.setLabel(null);
 			newGeoList.add(highPointCopy);
 			StringTemplate tpl = StringTemplate.maxPrecision;
@@ -1331,8 +1332,16 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculator(pcSettings.getDistributionType(),
 				pcSettings.getParameters(), pcSettings.isCumulative());
+		if(pcSettings.isIntervalSet()){
+			this.probMode = pcSettings.getProbMode();
+			this.setInterval(pcSettings.getLow(),pcSettings.getHigh());
+			
+			
+		}
 
 	}
+
+	protected abstract void setInterval(double low2, double high2);
 
 	public void add(GeoElement geo) {
 	}
@@ -1348,23 +1357,23 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	public void update(GeoElement geo) {
 		if (!isSettingAxisPoints && !isIniting) {
 			if (geo.equals(lowPoint)) {
-				if (isValidInterval(probMode, lowPoint.getInhomX(), high)) {
-					low = lowPoint.getInhomX();
+				if (isValidInterval(probMode, lowPoint.getInhomX(), getHigh())) {
+					setLow(lowPoint.getInhomX());
 					updateIntervalProbability();
 					updateGUI();
 					if (probManager.isDiscrete(selectedDist))
-						table.setSelectionByRowValue((int) low, (int) high);
+						table.setSelectionByRowValue((int) getLow(), (int) getHigh());
 				} else {
 					setXAxisPoints();
 				}
 			}
 			if (geo.equals(highPoint)) {
-				if (isValidInterval(probMode, low, highPoint.getInhomX())) {
-					high = highPoint.getInhomX();
+				if (isValidInterval(probMode, getLow(), highPoint.getInhomX())) {
+					setHigh(highPoint.getInhomX());
 					updateIntervalProbability();
 					updateGUI();
 					if (probManager.isDiscrete(selectedDist))
-						table.setSelectionByRowValue((int) low, (int) high);
+						table.setSelectionByRowValue((int) getLow(), (int) getHigh());
 				} else {
 					setXAxisPoints();
 				}
@@ -1384,7 +1393,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	 */
 	protected double intervalProbability() {
 
-		return probManager.intervalProbability(low, high, selectedDist,
+		return probManager.intervalProbability(getLow(), getHigh(), selectedDist,
 				parameters, probMode);
 	}
 
@@ -1613,8 +1622,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	}
 
 	public boolean isShowing() {
-		// TODO Auto-generated method stub
-		return false;
+		return app.showView(App.VIEW_PROBABILITY_CALCULATOR);
 	}
 	
 	public boolean doRemoveFromConstruction() {
@@ -1738,6 +1746,22 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		sb.append("\"");
 
 		sb.append("/>\n");
+		
+		sb.append("\t<interval");
+
+		sb.append(" mode=\"");
+		sb.append(this.probMode);
+		sb.append("\"");
+
+		sb.append(" low=\"");
+		sb.append(getLow());
+		sb.append("\"");
+		
+		sb.append(" high=\"");
+		sb.append(getHigh());
+		sb.append("\"");
+
+		sb.append("/>\n");
 		sb.append("</probabilityCalculator>\n");
 	}
 
@@ -1767,5 +1791,13 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				+ " = " + sigma;
 
 		return meanSigmaStr;
+	}
+
+	protected void setHigh(double high) {
+		this.high = high;
+	}
+
+	protected void setLow(double low) {
+		this.low = low;
 	}
 }

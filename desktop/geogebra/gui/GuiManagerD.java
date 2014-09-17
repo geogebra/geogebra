@@ -551,12 +551,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
-	@Override
-	public void getProbabilityCalculatorXML(StringBuilder sb) {
-		if (probCalculator != null)
-			probCalculator.getXML(sb);
-	}
-
 	// ==================================
 	// End XML
 

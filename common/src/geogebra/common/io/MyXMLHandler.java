@@ -996,6 +996,12 @@ public class MyXMLHandler implements DocHandler {
 					ok = handleProbabilityDistribution(attrs);
 				break;
 			}
+		case 'i':
+			if ("interval".equals(eName)) {
+				if (app.isUsingFullGui())
+					ok = handleProbabilityInterval(attrs);
+				break;
+			}
 		default:
 			System.err.println("unknown tag in <probabilityCalculator>: "
 					+ eName);
@@ -1024,6 +1030,23 @@ public class MyXMLHandler implements DocHandler {
 				parameters[i] = StringUtil.parseDouble(parmStringArray[i]);
 
 			app.getSettings().getProbCalcSettings().setParameters(parameters);
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	private boolean handleProbabilityInterval(
+			LinkedHashMap<String, String> attrs) {
+
+		try {
+			int probMode = Integer.parseInt(attrs.get("mode"));
+			app.getSettings().getProbCalcSettings()
+					.setProbMode(probMode);
+
+			app.getSettings().getProbCalcSettings().setLow(StringUtil.parseDouble(attrs.get("low")));
+			app.getSettings().getProbCalcSettings().setHigh(StringUtil.parseDouble(attrs.get("high")));
 
 			return true;
 		} catch (Exception e) {
