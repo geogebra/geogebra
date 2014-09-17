@@ -19,12 +19,15 @@ import geogebra.html5.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ProvidesResize;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DataAnalysisViewW extends SplitLayoutPanel implements View, 
-		SetLabels, IDataAnalysisListener {
+public class DataAnalysisViewW extends FlowPanel implements View, 
+		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,7 +60,7 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	private RegressionPanelW regressionPanel;
 	private DataDisplayPanelW dataDisplayPanel1, dataDisplayPanel2;
 
-	private SplitLayoutPanel comboPanelSplit;
+	private SplitLayoutPanel comboPanelSplit, mainSplit;
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -100,14 +103,19 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);
 
+
 		comboPanelSplit = new SplitLayoutPanel();
 		comboPanelSplit.setStyleName("comboSplitLayout");
 		comboPanelSplit.add(dataDisplayPanel1);
-		add(comboPanelSplit);
+		
+		mainSplit = new SplitLayoutPanel();
+		mainSplit.add(comboPanelSplit);
+		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
+		mainSplit.setStyleName("daMainSplit");
+			add(mainSplit);
 		setView(dataSource, mode, true);
 		model.setIniting(false);
-		onResize();
-
+		
 	}
 
 	/*************************************************
@@ -132,19 +140,6 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 		return stylebar;
 	}
 
-	public Widget getDummy() {
-		//FlowPanel p = new FlowPanel();
-//		Label l1 = new Label("Laaaaaaaaaaaaaaabel1");
-//		Label l2 = new Label("Labeeeeeeeeeeeeeeel2");
-//		SplitLayoutPanel sp = new SplitLayoutPanel(5);
-//		sp.insertWest(statisticsPanel, 300, null);
-//		sp.insertWest(l2, 100, statisticsPanel);
-//		sp.setStyleName("dataSplitLayout");
-//		add(sp);
-		buildStatisticsPanel();
-		return statisticsPanel;
-		
-	}
 	private void createGUI() {
 
 		buildStatisticsPanel();
@@ -235,111 +230,43 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 
 	private void updateLayout() {
 		clear();
+		mainSplit.clear();
 		boolean stat = model.showStatPanel();
 		boolean data = model.showDataPanel();
 		Label lbData= new Label("Data");
 		
 		if (stat && data) {
-			addWest(statisticsPanel, 300);
-			add(dataPanel);
-			addEast(comboPanelSplit, 300);
+			mainSplit.addWest(statisticsPanel, 300);
+			mainSplit.add(dataPanel);
+			mainSplit.addEast(comboPanelSplit, 300);
 		} else
 		
 		if (stat && !data) {
-			addWest(statisticsPanel, 300);
-			add(comboPanelSplit);
+			mainSplit.addWest(statisticsPanel, 300);
+			mainSplit.add(comboPanelSplit);
 		} else
 		
 		if (!stat && data) {
-			addWest(dataPanel, 300);
-			add(comboPanelSplit);
+			mainSplit.addWest(dataPanel, 300);
+			mainSplit.add(comboPanelSplit);
 		} else {
-			add(comboPanelSplit);
+			mainSplit.add(comboPanelSplit);
 		}
+		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
+		
+		add(mainSplit);
+		// ===========================================
+		// regression panel
+
+		if (model.isRegressionMode()) {
+			regressionPanel = new RegressionPanelW(app, this);
+			add(regressionPanel);
+		}
+		
 		deferredDataPanelOnResize();
 	} 
 
 		
-//			Label label = new Label("Kozeeep");
-//			if (model.showStatPanel()) {
-//				add(label);	
-//			} else {
-//				addWest(label, 300);
-//			}
-//				
-//			plotPanelOnly = false;
-//		}
-//
-//		
-////		comboPanelSplit = new SplitLayoutPanel();
-////		comboPanelSplit.setStyleName("comboSplitLayout");
-//		// grab the default divider size
-//
-//		FlowPanel plotComboPanel = new FlowPanel();
-//		plotComboPanel.add(comboPanelSplit);
-//		
-//		if (plotPanelOnly) {
-//			addWest(plotComboPanel, 600);
-//		} else {
-//			addEast(plotComboPanel, 600);
-//		}
-		//insertLineEnd(plotComboPanel, 700, null);
-//	}
-//	private void _updateLayout() {
-//		App.debug("[DATAVIEW] updateLayout");
-//		clear();
-////
-////		// ===========================================
-////		// statData panel
-////
-//		if (!model.isMultiVar()) {
-//			statDataPanel = new SplitLayoutPanel(SPLITTER_SIZE);
-//			statDataPanel.insertEast(statisticsPanel, 205, null);
-//			statDataPanel.setStyleName("dataSplitLayout");
-//		}
-//		if (model.isMultiVar()) {
-//			statDataPanel = new SplitLayoutPanel(0);
-//			statDataPanel.insertEast(statisticsPanel, 205, null);
-//			statDataPanel.setStyleName("dataSplitLayout");
-//		}
-//
-//		// ===========================================
-//		// regression panel
-//
-//		if (model.isRegressionMode()) {
-//			regressionPanel = new RegressionPanelW(app, this);
-//		}
-//
-//		// ===========================================
-//		// plotComboPanel panel
-//
-//		// create a splitPane to hold the two plotComboPanels
-//		comboPanelSplit = new SplitLayoutPanel();
-////		comboPanelSplit.insertNorth(dataDisplayPanel1, 400, null);
-////		comboPanelSplit.add(dataDisplayPanel2);
-//		comboPanelSplit.setStyleName("comboSplitLayout");
-//		
-//		// grab the default divider size
-//
-//		FlowPanel plotComboPanel = new FlowPanel();
-//		plotComboPanel.add(comboPanelSplit);
-//
-//		// display panel
-//		// ============================================
-//		displayPanel = new SplitLayoutPanel();
-//		if (!model.isMultiVar()) {
-//			displayPanel.insertLineStart(statDataPanel, 100, null);
-//			displayPanel.add(plotComboPanel);
-//
-//		} else {
-//
-//			displayPanel.insertLineStart(plotComboPanel, 500, null);
-//			displayPanel.add(statDataPanel);
-//		}
-//	
-//		displayPanel.setStyleName("dataSplitLayout");
-//
-//	
 //		// main panel
 //		// ============================================
 //		//mainPanel = new FlowPanel();
@@ -837,8 +764,11 @@ public class DataAnalysisViewW extends SplitLayoutPanel implements View,
 	
 	@Override
 	public void onResize()  {
-		super.onResize();
-		App.debug("[AAAAAAAA] DataAnalysisViewW resize");
+		for (Widget w: getChildren()) {
+			if (w instanceof RequiresResize) {
+				((RequiresResize)w).onResize();
+			}
+		}
 	}
 
 	/**
