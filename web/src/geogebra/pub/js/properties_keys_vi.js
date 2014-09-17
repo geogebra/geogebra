@@ -119,7 +119,7 @@ __GGB__keysVar.vi.command = {
     "CFactor": "PhanTichSoPhuc",
     "CFactor.SyntaxCAS": "[ <Bi\u1ec3u th\u1ee9c> ]\n[ <Bi\u1ec3u th\u1ee9c>, <Bi\u1ebfn s\u1ed1> ]",
     "CIFactor": "CIFactor",
-    "CIFactor.SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor.SyntaxCAS": "[ <Bi\u1ec3u th\u1ee9c> ]\n[ <Bi\u1ec3u th\u1ee9c>, <Bi\u1ebfn s\u1ed1> ]",
     "CSolutions": "SoNghiemPhuc",
     "CSolutions.SyntaxCAS": "[ <Ph\u01b0\u01a1ng tr\xecnh> ]\n[ <Ph\u01b0\u01a1ng tr\xecnh>, <Bi\u1ebfn s\u1ed1> ]\n[ <H\u1ec7 ph\u01b0\u01a1ng tr\xecnh>, <Danh s\xe1ch c\xe1c bi\u1ebfn s\u1ed1> ]",
     "CSolve": "GiaiNghiemPhuc",

@@ -788,7 +788,7 @@ __GGB__keysVar.de.command = {
     "Sequence": "Folge",
     "Sequence.Syntax": "[ <Endwert> ]\n[ <Ausdruck>, <Variable>, <Startwert>, <Endwert> ]\n[ <Ausdruck>, <Variable>, <Startwert>, <Endwert>, <Schrittweite> ]",
     "SetActiveView": "SetzeAktiveGrafikansicht",
-    "SetActiveView.Syntax": "[ <Grafikfenster 1|2> ]",
+    "SetActiveView.Syntax": "[ <Ansicht> ]",
     "SetAxesRatio": "SetzeAchsenverh\xe4ltnis",
     "SetAxesRatio.Syntax": "[ <Zahl>, <Zahl> ]",
     "SetAxesRatio.Syntax3D": "[ <Zahl>, <Zahl> ]\n[ <Zahl>, <Zahl>, <Zahl> ]",
