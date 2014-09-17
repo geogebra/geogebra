@@ -1699,7 +1699,7 @@ public class Construction {
 				
 
 		// replace oldXML by newXML in consXML
-		if (pos > inputEndPos){
+		if (pos >= inputEndPos){
 			// old pos is ok
 			consXML.replace(pos, pos + oldXML.length(), newXML);
 		}else{
