@@ -36,7 +36,7 @@ public class WindowReference implements EventRenderable {
 	 */
 	static WindowReference instance = null;
 
-	private static LoginOperationW lOW;
+	static LoginOperationW lOW;
 
 	/**
 	 * protected constructor as superclass of js object
@@ -80,6 +80,9 @@ public class WindowReference implements EventRenderable {
 			
 			public void execute(double timestamp) {
 				if (instance != null && instance.closed()) {
+					if(lOW != null){
+				    	lOW.onEvent(new StayLoggedOutEvent(null));
+				    }
 					cleanWindowReferences();
 				} else {
 					AnimationScheduler.get().requestAnimationFrame(this);
@@ -122,10 +125,7 @@ public class WindowReference implements EventRenderable {
 	void cleanWindowReferences() {
 	    requestAnimationFrame.cancel();
 	    WindowReference.instance = null;
-	    if(lOW != null){
-	    	lOW.onEvent(new StayLoggedOutEvent(null));
-	    	lOW = null;
-	    }
+	    lOW = null;
     }
 
 	private static JavaScriptObject createWindowReference(String name, String redirect, int width, int height) {
