@@ -160,8 +160,11 @@ public class DataAnalysisModel {
 		if (this.getMode() != mode || forceModeUpdate) {
 
 			this.setMode(mode);
-			getListener().onModeChange();
+			// first update the lists to make sure onModeChange 
+			// does not fail on one var -> two var mode change
 			ctrl.updateDataLists();
+			getListener().onModeChange();
+			
 		
 			// TODO: why do this here?
 			ctrl.updateDataAnalysisView();
