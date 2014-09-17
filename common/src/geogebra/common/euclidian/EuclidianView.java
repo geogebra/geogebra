@@ -3469,7 +3469,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 					}
 
 					// big tick
-					if (drawMajorTicks[0]) {
+					if (drawMajorTicks[0] && rw != axisCross[1]) {
 						g2.setStroke(tickStroke);
 						g2.drawStraightLine(pix, yZeroTick, pix, yBig);
 					}
@@ -3616,7 +3616,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 							axesLabelsPositionsY.add(new Integer((int)(pix + Kernel.MIN_PRECISION)));
 						}
 					}
-					if (drawMajorTicks[1]) {
+					if (drawMajorTicks[1] && rw != axisCross[0]) {
 						g2.setStroke(tickStroke);
 						g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 					}
