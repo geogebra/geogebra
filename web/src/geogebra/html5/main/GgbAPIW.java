@@ -243,10 +243,10 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 
 	public native void getGGBZipJs(JavaScriptObject arch, JavaScriptObject clb, String workerURLs) /*-{
 
-		if (workerUrls === "false") {
+		if (workerURLs === "false") {
 			$wnd.zip.useWebWorkers = false;
 		} else {
-			$wnd.zip.workerScriptsPath = workerUrls;
+			$wnd.zip.workerScriptsPath = workerURLs;
 		}
 
 		function encodeUTF8(string) {
