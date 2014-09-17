@@ -2,6 +2,7 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.events.StayLoggedOutEvent;
 import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.EventRenderable;
@@ -35,6 +36,8 @@ public class WindowReference implements EventRenderable {
 	 */
 	static WindowReference instance = null;
 
+	private static LoginOperationW lOW;
+
 	/**
 	 * protected constructor as superclass of js object
 	 */
@@ -63,7 +66,7 @@ public class WindowReference implements EventRenderable {
 			int height = 500;
 			int left = (Window.getClientWidth() / 2) - (width / 2);
 			int top = (Window.getClientHeight() / 2) - (height / 2);
-			LoginOperationW lOW = ((LoginOperationW) app.getLoginOperation());
+			lOW = ((LoginOperationW) app.getLoginOperation());
 					instance.wnd =createWindowReference("GeoGebraTube", lOW.getLoginURL(((AppW) app).getLocalization().getLanguage()), 900, 500);
 					lOW.getView().add(instance);
 					instance.initClosedCheck();
@@ -113,12 +116,16 @@ public class WindowReference implements EventRenderable {
 	    if (!this.closed()) {
 	    	this.close();
 	    	cleanWindowReferences();
-	    }	    
+	    }
     }
 
-	private void cleanWindowReferences() {
+	void cleanWindowReferences() {
 	    requestAnimationFrame.cancel();
 	    WindowReference.instance = null;
+	    if(lOW != null){
+	    	lOW.onEvent(new StayLoggedOutEvent(null));
+	    	lOW = null;
+	    }
     }
 
 	private static JavaScriptObject createWindowReference(String name, String redirect, int width, int height) {

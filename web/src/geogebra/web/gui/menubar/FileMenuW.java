@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.events.StayLoggedOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
@@ -28,7 +29,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 	Runnable onFileOpen;
 	Runnable newConstruction;
 	Anchor downloadButton;
-	private boolean uploadWaiting;
+	boolean uploadWaiting;
 	
 	/**
 	 * @param app application
@@ -192,6 +193,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
 			this.uploadWaiting = false;
 			app.getGuiManager().save();
+		} else if(this.uploadWaiting && event instanceof StayLoggedOutEvent){
+			this.uploadWaiting = false;
+			openFilePicker();
 		}
 	}
 	
