@@ -487,6 +487,9 @@ ValidExpression buildValidExpression() :
         LOOKAHEAD(2147483647)                               
       ve = cartesianvector_special()
   |
+  LOOKAHEAD(2147483647)
+  ve = cartesianvector3D_special()
+  |
       LOOKAHEAD(2147483647)    
         ve = polarvector_special()  
     )                     
@@ -2180,6 +2183,21 @@ ExpressionNode cartesianvector_special():
     (   l = <FUNCTION_LABEL>  x = expression() <VERTICAL_BAR> y = expression() ")" )
         {         
           ExpressionNode en =  new ExpressionNode(kernel, new MyVecNode(kernel, x, y)); 
+          en.setLabel(l.image.substring(0,l.image.length()-1));
+          return en;
+        }           
+}
+
+ExpressionNode cartesianvector3D_special():
+{     
+   Token l;
+    ExpressionValue x, y, z;                
+}
+{   
+    // cartesian coordinates
+    (   l = <FUNCTION_LABEL>  x = expression() <VERTICAL_BAR> y = expression() <VERTICAL_BAR> z = expression() ")" )
+        {         
+          ExpressionNode en =  new ExpressionNode(kernel, new MyVec3DNode(kernel, x, y, z)); 
           en.setLabel(l.image.substring(0,l.image.length()-1));
           return en;
         }           
