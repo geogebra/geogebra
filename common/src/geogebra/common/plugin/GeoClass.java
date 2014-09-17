@@ -11,7 +11,7 @@ public enum GeoClass {
 	FUNCTIONCONDITIONAL("FunctionConditional", false), IMAGE("Image", false), LINE("Line", false), LIST("List", false),
 	LOCUS("Locus", false), NUMERIC("Numeric", false), POINT("Point", false), POLYGON("Polygon", false), RAY("Ray", false), SEGMENT("Segment", false),
 	TEXT("Text", false), VECTOR("Vector", false), CURVE_CARTESIAN("CurveCartesian", false), CURVE_POLAR("CurvePolar", false),
-	IMPLICIT_POLY("ImplicitPoly", false), FUNCTION_NVAR("FunctionNVar", false),
+	IMPLICIT_POLY("ImplicitPoly", false), IMPLICIT_CURVE("ImplicitCurve", false), FUNCTION_NVAR("FunctionNVar", false),
 	POLYLINE("PolyLine", false), PENSTROKE("PenStroke", false), SPLINE("CurveCartesian", false),
 	TURTLE("Turtle", false),
 	CAS_CELL("CasCell", false),

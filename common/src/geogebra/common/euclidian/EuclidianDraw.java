@@ -61,6 +61,7 @@ import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.kernel.implicit.GeoImplicitCurve;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -247,7 +248,9 @@ public class EuclidianDraw {
 		case IMPLICIT_POLY:
 			d = new DrawImplicitPoly(ev, (GeoImplicitPoly) geo);
 			break;
-
+		case IMPLICIT_CURVE:
+			d = new DrawLocus(ev, ((GeoImplicitCurve) geo).getLocus());
+			break;
 		case FUNCTION:
 		case FUNCTIONCONDITIONAL:
 			if (((GeoFunction) geo).isBooleanFunction()) {
