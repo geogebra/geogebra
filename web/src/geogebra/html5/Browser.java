@@ -147,6 +147,6 @@ public class Browser {
 	}
 
 	public native static String navigatorLanguage() /*-{
-	    return $wnd.navigator.language;
+	    return $wnd.navigator.language || "en";
     }-*/;
 }
