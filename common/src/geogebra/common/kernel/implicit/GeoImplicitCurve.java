@@ -2,16 +2,20 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+
+import java.util.List;
 
 /**
  * GeoElement representing an implicit curve.
@@ -33,11 +37,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	}
 
 	/**
-	 * Constructs an implicit curve object with given equation
-	 * containing variables as x and y.
-	 * @param c construction
-	 * @param label label
-	 * @param equation equation of the implicit curve
+	 * Constructs an implicit curve object with given equation containing
+	 * variables as x and y.
+	 * 
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param equation
+	 *            equation of the implicit curve
 	 */
 	public GeoImplicitCurve(Construction c, String label, Equation equation) {
 		this(c);
@@ -48,9 +56,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 
 	/**
 	 * Constructs and implicit curve with given function in x and y.
-	 * @param c construction
-	 * @param label label
-	 * @param function function defining the implicit curve
+	 * 
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param function
+	 *            function defining the implicit curve
 	 */
 	public GeoImplicitCurve(Construction c, String label, FunctionNVar function) {
 		this(c);
@@ -65,9 +77,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 
 		ExpressionNode functionExpression = new ExpressionNode(kernel,
 				leftHandSide, Operation.MINUS, rightHandSide);
+		FunctionVariable x = new FunctionVariable(kernel, "x");
+		FunctionVariable y = new FunctionVariable(kernel, "y");
+		VariableReplacer repl = VariableReplacer.getReplacer();
+		VariableReplacer.addVars("x", x);
+		VariableReplacer.addVars("y", y);
+		functionExpression.traverse(repl);
+				
 		expression = new FunctionNVar(functionExpression,
-				new FunctionVariable[] { new FunctionVariable(kernel, "x"),
-						new FunctionVariable(kernel, "y") });
+				new FunctionVariable[] { x,
+						y });
 	}
 
 	private void fromFunction(FunctionNVar function) {
@@ -127,8 +146,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	private double[] evalArray = new double[2];
 
 	/**
-	 * @param x function variable x
-	 * @param y function variable y
+	 * @param x
+	 *            function variable x
+	 * @param y
+	 *            function variable y
 	 * @return the value of the function
 	 */
 	public double evaluateImplicitCurve(double x, double y) {
@@ -138,7 +159,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	}
 
 	/**
-	 * @param values function variables ({x, y})
+	 * @param values
+	 *            function variables ({x, y})
 	 * @return the value of the function
 	 */
 	public double evaluateImplicitCurve(double[] values) {
@@ -162,8 +184,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 																	// value...
 		}
 		// increase grid size for big screen, #1563
-		gridWidth = 30;
-		gridHeight = 30;
+		gridWidth = 60;
+		gridHeight = 60;
 		updatePath(viewBounds[0], viewBounds[3], viewBounds[1] - viewBounds[0],
 				viewBounds[3] - viewBounds[2], viewBounds[4], viewBounds[5]);
 	}
@@ -171,76 +193,226 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	private double[][] grid;
 	private boolean[][] evald;
 
+	private double rectX;
+	private double rectY;
+	private double rectW;
+	private double rectH;
+
 	/**
-	 * @param rectX top of the view
-	 * @param rectY left of the view
-	 * @param rectW width of the view
-	 * @param rectH height of the view
-	 * @param xScale x-scale of the view
-	 * @param yScale y-scale of the view
+	 * @param rectX
+	 *            top of the view
+	 * @param rectY
+	 *            left of the view
+	 * @param rectW
+	 *            width of the view
+	 * @param rectH
+	 *            height of the view
+	 * @param xScale
+	 *            x-scale of the view
+	 * @param yScale
+	 *            y-scale of the view
 	 */
 	public void updatePath(double rectX, double rectY, double rectW,
 			double rectH, double xScale, double yScale) {
+		this.rectX = rectX;
+		this.rectY = rectY;
+		this.rectW = rectW;
+		this.rectH = rectH;
 		App.debug(rectX + "x" + rectY + "," + rectW + "," + rectH);
 		App.debug(gridWidth + "x" + gridHeight);
 		App.debug("res" + xScale + " " + yScale);
 
 		grid = new double[gridHeight][gridWidth];
 		evald = new boolean[gridHeight - 1][gridWidth - 1];
-		for (int j = 0; j < gridWidth; j++) {
-			grid[0][j] = evaluateImplicitCurve(getRealWorldCoordinates(0, j,
-					rectX, rectY, rectH, rectW));
-			evald[0][j] = false;
-		}
 
-		for (int i = 1; i < gridHeight; i++) {
-			grid[i][0] = evaluateImplicitCurve(getRealWorldCoordinates(i, 0,
-					rectX, rectY, rectH, rectW));
-			evald[i][0] = false;
-		}
-
-		for (int i = 1; i < gridHeight; i++) {
-			for (int j = 1; j < gridWidth; j++) {
-				grid[i][j] = evaluateImplicitCurve(getRealWorldCoordinates(i,
-						j, rectX, rectY, rectH, rectW));
-				evald[i][j] = false;
+		for (int i = 0; i < gridHeight; i++) {
+			for (int j = 0; j < gridWidth; j++) {
+				grid[i][j] = evaluateImplicitCurve(getRealWorldCoordinates(i, j));
 			}
 		}
-
+		List<MyPoint> locusPoints = locus.getPoints();
+		locusPoints.clear();
+		// check the squares marching algorithm
 		int i = 0;
 		int j = -1;
 		while (true) {
-			if (j >= gridWidth - 1) {
+			if (j >= gridWidth - 2) {
 				j = 0;
 				i++;
 			} else {
 				j++;
 			}
-			if (i >= gridHeight - 1) {
+			if (i >= gridHeight - 2) {
 				break;
 			}
-			if (evald[i][j]) {
-				continue;
+			
+			MyPoint[] ps = getPointsForGrid(i, j);
+			if (ps != null) {
+				for (MyPoint p : ps) {
+					locusPoints.add(p);
+				}
 			}
-
 		}
 	}
 
-	private double getRealWorldX(int i, double rectX, double rectH) {
-		return rectX + i * (rectH / gridHeight);
+	private MyPoint[] getPointsForGrid(int i, int j) {
+		GridTypeEnum gridType = getGridType(i, j);
+		MyPoint P, Q;
+		double qx, qy, px, py;
+		double[] A = getRealWorldCoordinates(i, j);
+		double[] B = getRealWorldCoordinates(i, j + 1);
+		double[] C = getRealWorldCoordinates(i + 1, j + 1);
+		double[] D = getRealWorldCoordinates(i + 1, j);
+		switch (gridType) {
+		case T1000:
+			qx = A[0];
+			py = A[1];
+			qy = (A[1]+D[1])/2.0;
+					//((-(f(D)))/(f(A)-f(D)))*(A[1]-D[1]) + D[1];
+			px = (B[0]+A[0])/2.0;
+				//((-(f(B)))/(f(A)-f(B)))*(A[0]-B[0]) + B[0];
+			P = new MyPoint(px, py, false);
+			Q = new MyPoint(qx, qy, true);
+			return new MyPoint[] {P, Q};
+		case T0100:
+			qx = B[0];
+			py = B[1];
+			qy = (B[1]+D[1])/2.0;
+					//((-(f(B)))/(f(D)-f(B)))*(D[1]-B[1]) + B[1];
+			px = (B[0] + A[0]) / 2.0;
+					//((-(f(B)))/(f(A)-f(B)))*(A[0]-B[0]) + B[0];
+			P = new MyPoint(px, py, false);
+			Q = new MyPoint(qx, qy, true);
+			return new MyPoint[] {P, Q};
+		case T0010:
+			qx = B[0];
+			py = C[1];
+			qy = (D[1]+B[1])/2.0;
+					//((-(f(B)))/(f(D)-f(B)))*(D[1]-B[1]) + B[1];
+			px = (D[0]+C[0])/2.0;
+					//((-(f(C)))/(f(D)-f(C)))*(D[0]-C[0]) + C[0];
+			P = new MyPoint(px, py, false);
+			Q = new MyPoint(qx, qy, true);
+			return new MyPoint[] {P, Q};
+		case T0001:
+			qx = A[0];
+			py = C[1];
+			qy = (A[1] + D[1])/2.0;
+					//((-(f(D)))/(f(A)-f(D)))*(A[1]-D[1]) + D[1];
+			px = (D[0]+C[0])/2.0;
+					//((-(f(C)))/(f(D)-f(C)))*(D[0]-C[0]) + C[0];
+			P = new MyPoint(px, py, false);
+			Q = new MyPoint(qx, qy, true);
+			return new MyPoint[] {P, Q};
+		case T1001:
+			py = C[1];
+			px = (D[0]+C[0]) / 2.0;
+					//((-(f(C)))/(f(D)-f(C)))*(D[0]-C[0]) + C[0];
+			qy = A[1];
+			qx = (A[0]+B[0])/2.0;
+					//((-(f(B)))/(f(A)-f(B)))*(A[0]-B[0]) + B[0];
+			P = new MyPoint(px, py, false);
+			Q = new MyPoint(qx, qy, true);
+			return new MyPoint[] {P, Q};
+		case T1100:
+			qx = A[0];
+			qy = (A[1]+D[1])/2.0;
+					//((-(f(D)))/(f(A)-f(D)))*(A[1]-D[1]) + D[1];
+			px = B[0];
+			py = (D[1]+B[1])/2.0;
+					//((-(f(B)))/(f(D)-f(B)))*(D[1]-B[1]) + B[1];
+			P = new MyPoint(px, py, false);
+			Q = new MyPoint(qx, qy, true);
+			return new MyPoint[] {P, Q};
+		case T1010:
+			
+			P = new MyPoint(0, 0, false);
+			Q = new MyPoint(0, 0, true);
+			return new MyPoint[] {P, Q};
+		case T0101:
+
+			P = new MyPoint(0, 0, false);
+			Q = new MyPoint(0, 0, true);
+			return new MyPoint[] {P, Q};
+		}
+		return null;
+	}
+	
+	private double f(double[] vals) {
+		return evaluateImplicitCurve(vals);
 	}
 
-	private double getRealWorldY(int j, double rectY, double rectW) {
-		return rectY + j * (rectW / gridWidth);
+	private GridTypeEnum getGridType(int i, int j) {
+		double nw = grid[i][j];
+		double ne = grid[i][j + 1];
+		double sw = grid[i + 1][j];
+		double se = grid[i + 1][j + 1];
+
+		int snw = mySignFun(nw);
+		int sne = mySignFun(ne);
+		int ssw = mySignFun(sw);
+		int sse = mySignFun(se);
+
+		double sum = Math.abs(snw + sne + ssw + sse);
+		if (sum == 4) { // all corners have the same sign
+			return GridTypeEnum.T0000;
+		}
+		if (sum == 2) { // three corners have the same sign
+			if (snw != sne) {
+				if (snw != ssw) {
+					return GridTypeEnum.T1000;
+				}
+				return GridTypeEnum.T0100;
+			}
+			if (ssw != snw) {
+				return GridTypeEnum.T0001;
+			}
+			return GridTypeEnum.T0010;
+		}
+		// two corners have the same sign
+		if (snw == ssw) {
+			return GridTypeEnum.T1001;
+		}
+		if (snw == sne) {
+			return GridTypeEnum.T1100;
+		}
+		if (snw > 0) {
+			return GridTypeEnum.T1010;
+		}
+		return GridTypeEnum.T0101;
+	}
+
+	private int mySignFun(double val) {
+		if (val > 0) {
+			return 1;
+		}
+		return -1;
+	}
+
+	private int signAbsSum(double args[]) {
+		int s = 0;
+		for (int i = 0; i < args.length; i++) {
+			s += mySignFun(args[i]);
+		}
+		return Math.abs(s);
+	}
+
+	private double getRealWorldY(int i) {
+		double s = rectH / gridHeight;
+		return rectY - i * s;
+	}
+
+	private double getRealWorldX(int j) {
+		double s = rectW/gridWidth;
+		return rectX + j * s;
 	}
 
 	private double[] rwCoords = new double[2];
 
-	private double[] getRealWorldCoordinates(int i, int j, double rectX,
-			double rectY, double rectH, double rectW) {
-		rwCoords[0] = getRealWorldX(i, rectX, rectH);
-		rwCoords[1] = getRealWorldY(j, rectY, rectW);
-		return rwCoords;
+	private double[] getRealWorldCoordinates(int i, int j) {
+		double x = getRealWorldX(j);
+		double y = getRealWorldY(i);
+		return new double[]{x,y};
 	}
 
 	public boolean euclidianViewUpdate() {
@@ -249,6 +421,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 			return true;
 		}
 		return false;
+	}
+
+	private enum GridTypeEnum {
+		/** None NW */
+		T0000, T1000, T0100, T0010, T0001, T1001, T1100, T1010, T0101;
 	}
 
 }
