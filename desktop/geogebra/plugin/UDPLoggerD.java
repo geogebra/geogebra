@@ -139,7 +139,7 @@ public class UDPLoggerD implements UDPLogger {
 				while (socketCopy == dsocket) {
 					// Wait to receive a datagram
 					try {
-						// App.debug("waiting");
+						App.debug("waiting");
 						dsocket.receive(packet);
 					} catch (IOException e) {
 						dsocket.close();
