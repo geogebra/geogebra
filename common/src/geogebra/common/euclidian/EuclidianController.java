@@ -7473,7 +7473,6 @@ public abstract class EuclidianController {
 				}
 				
 				double yzero = view.getYZero();
-				App.debug(""+view.getYZero()+","+view.getHeight());
 				double yzeroRW = 0;
 				double newYZero = yzero;
 				if (yzero > view.getHeight()){
