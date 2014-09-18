@@ -102,7 +102,24 @@ public class UDPLoggerD implements UDPLogger {
 		// Create a buffer to read datagrams into. If a
 		// packet is larger than this buffer, the
 		// excess will simply be discarded!
-		final byte[] buffer = new byte[2048];
+		// final byte[] buffer = new byte[2048];
+
+		// EDAQx's internal frequency can be 1000 Hz, and this can send
+		// 200 * 33 bytes at once (i.e. in every 50ms), so we should increase
+		// the size of our buffer here, accordingly
+		final byte[] buffer = new byte[7000];// 6600
+
+		// that consumes 7 Kilobytes, which should not be a problem in
+		// the age of Megabytes and Gigabytes...
+
+		// TODO: maybe later we could optimize this to have a smaller buffer,
+		// if necessary, but keep in mind Speed versus Memory usage
+		// at 1000 Hz of sampling with EDAQx, which means 1000 * 3 * 2 bytes
+		// coming from the sensor in 1s, and this is converted to
+		// 1000 * 3 * 33, because we send doubles, and processed values...
+		// so this buffer can be needed 15 times every second, but not
+		// necessarily... that is close to 20 FPS
+		// (1000 * 3 * 33) / (200 * 33) = (200 * 5 * 3 * 33) / (200 * 33)
 
 		// Create a packet to receive data into the buffer
 		final DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -192,21 +209,35 @@ public class UDPLoggerD implements UDPLogger {
 									packet.getLength());
 							// App.debug(msg);
 
-							String[] split = msg.split(",");
+							// So we first separate many values by ";"
+							String[] oldPackets = msg.split(";");
 
-							switch (c4) {
-							case '0':
-								log(Types.EDAQ0, Double.parseDouble(split[1]));
-								break;
-							case '1':
-								log(Types.EDAQ1, Double.parseDouble(split[1]));
-								break;
-							case '2':
-								log(Types.EDAQ2, Double.parseDouble(split[1]));
-								break;
+							for (int opi = 0; opi < oldPackets.length; opi++) {
+								if (oldPackets[opi] != null
+										&& oldPackets[opi].length() > 0) {
 
-							default:
-								App.error("unknown EDAQ port " + msg);
+									// Then comes the original separation of
+									// Double
+									String[] split = oldPackets[opi].split(",");
+
+									switch (oldPackets[opi].charAt(4)) {
+									case '0':
+										log(Types.EDAQ0,
+												Double.parseDouble(split[1]));
+										break;
+									case '1':
+										log(Types.EDAQ1,
+												Double.parseDouble(split[1]));
+										break;
+									case '2':
+										log(Types.EDAQ2,
+												Double.parseDouble(split[1]));
+										break;
+
+									default:
+										App.error("unknown EDAQ port " + msg);
+									}
+								}
 							}
 
 						} else {
