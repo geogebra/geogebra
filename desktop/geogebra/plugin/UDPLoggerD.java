@@ -139,7 +139,7 @@ public class UDPLoggerD implements UDPLogger {
 				while (socketCopy == dsocket) {
 					// Wait to receive a datagram
 					try {
-						App.debug("waiting");
+						// App.debug("waiting");
 						dsocket.receive(packet);
 					} catch (IOException e) {
 						dsocket.close();
@@ -223,15 +223,18 @@ public class UDPLoggerD implements UDPLogger {
 									switch (oldPackets[opi].charAt(4)) {
 									case '0':
 										log(Types.EDAQ0,
-												Double.parseDouble(split[1]));
+												Double.parseDouble(split[1]),
+												false);
 										break;
 									case '1':
 										log(Types.EDAQ1,
-												Double.parseDouble(split[1]));
+												Double.parseDouble(split[1]),
+												false);
 										break;
 									case '2':
 										log(Types.EDAQ2,
-												Double.parseDouble(split[1]));
+												Double.parseDouble(split[1]),
+												false);
 										break;
 
 									default:
@@ -239,6 +242,9 @@ public class UDPLoggerD implements UDPLogger {
 									}
 								}
 							}
+
+							// flush repainting of logs!
+							kernel.notifyRepaint();
 
 						} else {
 
@@ -312,14 +318,27 @@ public class UDPLoggerD implements UDPLogger {
 			}
 
 			private void log(Types type, double val) {
+				log(type, val, true);
+			}
+
+			private void log(Types type, double val, boolean repaint) {
 				GeoNumeric geo = listeners.get(type);
 
 				if (geo != null) {
-					App.debug(type + ": " + val);
-					geo.setValue(val);
-					geo.updateRepaint();
-				}
 
+					// if (repaint)
+					App.debug(type + ": " + val);
+
+					// If we do not want to repaint, probably logging
+					// should be avoided as well...
+
+					geo.setValue(val);
+
+					if (repaint)
+						geo.updateRepaint();
+					else
+						geo.updateCascade();
+				}
 			}
 
 			private float getFloat(byte[] buffer1, int i) {
