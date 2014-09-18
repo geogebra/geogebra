@@ -1385,7 +1385,7 @@ __GGB__keysVar.da.menu = {
     "Expand.Help": "Omskriver til led",
     "ExpandAll": "Udvid alle",
     "Exponential": "Exponentiel",
-    "Export": "Eksport",
+    "Export": "Eksporter",
     "ExportAllWorksheets": "Eksporter alle \xe5bne ark",
     "Extrusion": "Extruder til Prisme eller Cylinder",
     "Extrusion.Help": "Tr\xe6k polygon/cirkel, eller v\xe6lg polygon/cirkel og angiv h\xf8jden for at lave en vinkelret prisme/cylinder",

@@ -2144,7 +2144,7 @@ __GGB__keysVar.it.plain = {
     "AnimatedGIFExport": "Esportazione GIF animata",
     "Animating": "Animazione Attiva",
     "Animation": "Animazione",
-    "AnimationLoop": "Ciclo infinito",
+    "AnimationLoop": "Ciclo infinito ?",
     "AnimationSpeed": "Velocit\xe0",
     "AnimationStep": "Incremento",
     "ApplicationName": "GeoGebra",
