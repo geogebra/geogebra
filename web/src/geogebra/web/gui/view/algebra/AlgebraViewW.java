@@ -17,6 +17,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.SelectionManager;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
@@ -388,22 +389,44 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		if (ob instanceof GeoElement) {
 			
 			MouseDownHandler mdh = new MouseDownHandler(){
-				public void onMouseDown(MouseDownEvent evt){
-				if (AlgebraViewW.this.isEditing())
-					return;
+				public void onMouseDown(MouseDownEvent evt) {
+					if (AlgebraViewW.this.isEditing())
+						return;
 
-				
-				if(evt.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT){
-					if(ob instanceof GeoElement) {
-						ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-						temp.add((GeoElement)ob);
-						GPoint point = new GPoint(evt.getClientX() + Window.getScrollLeft(), evt.getClientY() + Window.getScrollTop());
-						((GuiManagerW)app.getGuiManager()).showPopupMenu(temp, AlgebraViewW.this, point);
+					if (evt.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
+						if (ob instanceof GeoElement) {
+							GeoElement geo = (GeoElement) ob;
+							SelectionManager selection = app
+							        .getSelectionManager();
+							GPoint point = new GPoint(evt.getClientX()
+							        + Window.getScrollLeft(), evt.getClientY()
+							        + Window.getScrollTop());
+							if (selection.containsSelectedGeo(geo)) {// popup
+																	 // menu for
+																	 // current
+																	 // selection
+																	 // (including
+																	 // selected
+																	 // object)
+								((GuiManagerW) app.getGuiManager())
+								        .showPopupMenu(
+								                selection.getSelectedGeos(),
+								                AlgebraViewW.this, point);
+							} else {// select only this objet and popup menu
+								selection.clearSelectedGeos(false);
+								selection.addSelectedGeo(geo, true, true);
+								ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+								temp.add(geo);
+
+								((GuiManagerW) app.getGuiManager())
+								        .showPopupMenu(temp, AlgebraViewW.this,
+								                point);
+							}
+						}
 					}
-				}
-				
-				evt.preventDefault();
-				evt.stopPropagation();
+
+					evt.preventDefault();
+					evt.stopPropagation();
 				}
 			};
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
