@@ -438,13 +438,8 @@ public class CoordMatrix {
 	 * @return the column
 	 */
 	public Coords getColumn(int j) {
-
-		Coords ret = new Coords(getRows());
-		for (int i = 1; i <= getRows(); i++) {
-			ret.set(i, get(i, j));
-		}
-
-		return ret;
+		
+		return vectors[j-1];
 
 	}
 
@@ -488,8 +483,7 @@ public class CoordMatrix {
 	 *            number of the column
 	 */
 	public void set(Coords V, int j) {
-		int i;
-		for (i = 1; i <= V.getLength(); i++) {
+		for (int i = 1; i <= V.getLength(); i++) {
 			set(i, j, V.get(i));
 		}
 	}
