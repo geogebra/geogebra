@@ -234,7 +234,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		boolean stat = model.showStatPanel();
 		boolean data = model.showDataPanel();
 		Label lbData= new Label("Data");
-		
+ 
+		if (data && dataPanel == null) {
+			App.debug("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+			buildDataPanel();
+		}
 		if (stat && data) {
 			mainSplit.addWest(statisticsPanel, 300);
 			mainSplit.add(dataPanel);
@@ -717,7 +721,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void onModeChange() {
 		dataPanel = null;
 		buildStatisticsPanel();
-
 		setDataPlotPanels();
 		updateLayout();
 
