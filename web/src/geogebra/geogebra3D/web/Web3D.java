@@ -24,6 +24,7 @@ import geogebra.web.main.AppWapplet;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -162,24 +163,24 @@ public class Web3D extends Web {
 
 	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.geogebra3D.web.Web3D::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.geogebra3D.web.Web3D::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;));
     }-*/;
 	
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@geogebra.geogebra3D.web.Web3D::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	 	$wnd.renderGGBElement = $entry(@geogebra.geogebra3D.web.Web3D::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;));
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{
 	    return (typeof $wnd.GGW_ext !== "undefined");
     }-*/;
 	
-	public static void renderArticleElement(Element el){
+	public static void renderArticleElement(Element el, JavaScriptObject clb){
 		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(){
 			@Override
 			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr, GLookAndFeelI laf){
 				return new AppWapplet3D(ae, fr, (GLookAndFeel) laf);
 			}
-		}, Web.getLAF(getGeoGebraMobileTags()));
+		}, Web.getLAF(getGeoGebraMobileTags()), clb);
 	}
 	/*
 	 * This method should never be called. Only copyed to external javascript files,

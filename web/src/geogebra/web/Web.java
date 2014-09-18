@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -160,19 +161,19 @@ public class Web implements EntryPoint {
 
 	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
     }-*/;
 	
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	 	$wnd.renderGGBElement = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{
 	    return (typeof $wnd.GGW_ext !== "undefined");
     }-*/;
 	
-	public static void renderArticleElement(Element el){
-		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(), getLAF(getGeoGebraMobileTags()));
+	public static void renderArticleElement(Element el, JavaScriptObject clb){
+		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(), getLAF(getGeoGebraMobileTags()), clb);
 	}
 
 	/*

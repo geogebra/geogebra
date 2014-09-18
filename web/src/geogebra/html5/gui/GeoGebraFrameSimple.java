@@ -9,6 +9,7 @@ import geogebra.html5.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -48,7 +49,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	/**
 	 * @param el html element to render into
 	 */
-	public static void renderArticleElement(Element el) {
-		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameSimple());
+	public static void renderArticleElement(Element el, JavaScriptObject clb) {
+		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameSimple(), clb);
 	}
 }

@@ -13,6 +13,7 @@ import geogebra.html5.util.View;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -213,6 +214,11 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	protected int computedWidth = 0;
 	protected int computedHeight = 0;
 	private final GLookAndFeelI laf;
+	
+	/**
+	 * Callback from renderGGBElement to run, if everything is done
+	 */	
+	public JavaScriptObject onLoadCallback = null;
 	
 	public void setComputedWidth(int width) {
 		this.computedWidth = width;
@@ -566,13 +572,14 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 * @param frame GeoGebraFrame subclasses
 	 *
 	 */
-	public static void renderArticleElementWithFrame(final Element element, GeoGebraFrame frame) {
+	public static void renderArticleElementWithFrame(final Element element, GeoGebraFrame frame, JavaScriptObject onLoadCallback) {
 		final ArticleElement article = ArticleElement.as(element);
 		article.clear();
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		final GeoGebraFrame inst = frame;
 		inst.ae = article;
+		inst.onLoadCallback  = onLoadCallback;
 		inst.createSplash(article);
 		RootPanel.get(article.getId()).add(inst);
 	}
