@@ -216,12 +216,19 @@ public class AlgoMirror extends AlgoTransformation implements RestrictionAlgoFor
 
     @Override
 	public final void compute() {
+    	 	
+    	if (!mirror.isDefined()){
+    		outGeo.setUndefined();
+    		return;
+    	}
+    	
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
     	}
     	
     	setOutGeo();
+
     	
     	if(inGeo.isRegion() && mirror == mirrorConic){
 			GeoVec2D v = mirrorConic.getTranslationVector();   

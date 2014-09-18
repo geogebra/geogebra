@@ -1449,4 +1449,14 @@ public class Coords {
 		}
 	}
 	
+	/**
+	 * mul 3 first values by v
+	 * @param v value
+	 */
+	public void mulInside3(double v){
+		for (int i = 0 ; i < 3; i++){
+			val[i] *= v;			
+		}
+	}
+	
 }

@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -72,9 +71,6 @@ public abstract class GeoVec extends GeoElement3D {
 
 	}
 
-	public void setCoords(CoordMatrix v0) {
-		setCoords(v0.get());
-	}
 
 	public void setCoords(GeoVec vec) {
 		setCoords(vec.v);

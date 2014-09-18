@@ -30,21 +30,19 @@ import java.util.ArrayList;
 public class CoordMatrix {
 
 	/**
-	 * the 2x2 matrix represented by val = {1,2,3,4} is <br>
+	 * the 2x2 matrix represented by Coords[] = {{1,2},{3,4}} is <br>
 	 * <code>
 	 * | 1  3 |  <br>
 	 * | 2  4 |
 	 * </code>
 	 */
-	public double[] val;
-
+	//public double[] val;
+	protected Coords[] vectors;
+	
 	/** number of rows of the matrix */
 	protected int rows;
 	/** number of columns of the matrix */
 	protected int columns;
-	/** says if the matrix is transposed or not */
-	protected boolean transpose = false; // transposing the matrix is logical
-											// operation
 
 
 	// for rotations
@@ -73,7 +71,14 @@ public class CoordMatrix {
 	public CoordMatrix(int rows, int columns, double[] val) {
 		this.rows = rows;
 		this.columns = columns;
-		this.val = val;
+		
+		this.vectors = new Coords[columns];
+		for (int j = 0 ; j < columns ; j++){
+			vectors[j] = new Coords(rows);
+			for (int i = 0 ; i < rows ; i++){
+				vectors[j].set(i+1, val[j*rows + i]);
+			}
+		}
 	}
 
 	/**
@@ -102,11 +107,10 @@ public class CoordMatrix {
 
 		this.rows = rows;
 		this.columns = columns;
-		transpose = false;
 
-		val = new double[columns * rows];
-		for (int i = 0; i < columns * rows; i++) {
-			val[i] = 0.0;
+		vectors = new Coords[columns];
+		for (int i = 0; i < columns; i++) {
+			vectors[i] = new Coords(rows);
 		}
 
 	}
@@ -348,18 +352,18 @@ public class CoordMatrix {
 		double c = Math.cos(angle);
 		double s = Math.sin(angle);
 		
-		double[] vals = m.val;
-		vals[0] = ux*ux*(1-c) + c;
-		vals[1] = ux*uy*(1-c) + uz*s;
-		vals[2] = ux*uz*(1-c) - uy*s;
+		Coords[] vectors = m.vectors;
+		vectors[0].setX(ux*ux*(1-c) + c);
+		vectors[0].setY(ux*uy*(1-c) + uz*s);
+		vectors[0].setZ(ux*uz*(1-c) - uy*s);
 		
-		vals[3] = ux*uy*(1-c) - uz*s;
-		vals[4] = uy*uy*(1-c) + c;
-		vals[5] = uy*uz*(1-c) + ux*s;
+		vectors[1].setX(ux*uy*(1-c) - uz*s);
+		vectors[1].setY(uy*uy*(1-c) + c);
+		vectors[1].setZ(uy*uz*(1-c) + ux*s);
 		
-		vals[6] = ux*uz*(1-c) + uy*s;
-		vals[7] = uy*uz*(1-c) - ux*s;
-		vals[8] = uz*uz*(1-c) + c;
+		vectors[2].setX(ux*uz*(1-c) + uy*s);
+		vectors[2].setY(uy*uz*(1-c) - ux*s);
+		vectors[2].setZ(uz*uz*(1-c) + c);
 
 	}
 
@@ -367,13 +371,17 @@ public class CoordMatrix {
 	// setters and getters
 
 	/**
-	 * returns double[] describing the matrix for openGL
+	 * set double[] describing the matrix for openGL
+	 * @param val values set
 	 * 
-	 * @return the matrix as a double[]
 	 */
-	public double[] get() {
+	public void get(double[] val) {
 
-		return val;
+		for (int i = 0 ; i < rows ; i++){
+			for (int j = 0 ; j < columns ; j++){
+				val[i+j*rows] = get(i+1, j+1);
+			}		
+		}
 	}
 
 	/**
@@ -386,10 +394,7 @@ public class CoordMatrix {
 	 * @return value
 	 */
 	public double get(int i, int j) {
-		if (transpose) {
-			return val[(i - 1) * rows + (j - 1)];
-		}
-		return val[(j - 1) * rows + (i - 1)];
+		return vectors[j-1].get(i);
 	}
 
 	/**
@@ -512,13 +517,8 @@ public class CoordMatrix {
 	 * @param val0
 	 *            value
 	 */
-	public void set(int i, int j, double val0) {
-		if (transpose) {
-			val[(i - 1) * rows + (j - 1)] = val0;
-		} else {
-			// Application.debug("i="+i+",j="+j+",rows="+rows);
-			val[(j - 1) * rows + (i - 1)] = val0;
-		}
+	public void set(int i, int j, double val0) {		
+			vectors[j-1].set(i, val0);
 	}
 
 	/**
@@ -529,8 +529,8 @@ public class CoordMatrix {
 	 */
 	public void set(double val0) {
 
-		for (int i = 0; i < columns * rows; i++) {
-			val[i] = val0;
+		for (int i = 0; i < columns; i++) {			
+			vectors[i].set(val0);
 		}
 	}
 
@@ -555,11 +555,7 @@ public class CoordMatrix {
 	 * @return number of rows
 	 */
 	public int getRows() {
-
-		if (!transpose) {
-			return rows;
-		}
-		return columns;
+		return rows;
 	}
 
 	/**
@@ -568,24 +564,10 @@ public class CoordMatrix {
 	 * @return number of columns
 	 */
 	public int getColumns() {
-
-		if (!transpose) {
-			return columns;
-		}
-		return rows;
+		return columns;
 	}
 
-	/**
-	 * transpose the copy (logically)
-	 * 
-	 * @return true if the resulting matrix is transposed
-	 */
-	public boolean transpose() {
-
-		transpose = !transpose;
-		return transpose;
-	}
-
+	
 	/**
 	 * returns a copy of the matrix
 	 * 
@@ -628,9 +610,8 @@ public class CoordMatrix {
 	 */
 	public CoordMatrix transposeCopy() {
 
-		this.transpose();
-		CoordMatrix result = this.copy();
-		this.transpose();
+		CoordMatrix result = new CoordMatrix(columns, rows);
+		transposeCopy(result);
 
 		return result;
 
@@ -641,10 +622,12 @@ public class CoordMatrix {
 	 * @param result matrix
 	 */
 	public void transposeCopy(CoordMatrix result) {
-
-		this.transpose();
-		this.copy(result);
-		this.transpose();
+		
+		for (int i = 1; i <= result.getRows(); i++) {
+			for (int j = 1; j <= result.getColumns(); j++) {
+				result.set(i, j, get(j, i));
+			}
+		}
 
 	}
 
@@ -681,8 +664,8 @@ public class CoordMatrix {
 	public boolean isDefined() {
 
 
-		for (int i = 0; i < columns * rows ; i++) {
-			if (Double.isNaN(val[i])){
+		for (int i = 0; i < columns ; i++) {
+			if (!vectors[i].isDefined()){
 				return false;
 			}
 		}
@@ -694,13 +677,14 @@ public class CoordMatrix {
 	/** @return false if at least one value is infinite */
 	public boolean isFinite() {
 
-		boolean result = true;
 
-		for (int i = 0; (i < columns * rows) && (result); i++) {
-			result = result && (!Double.isInfinite(val[i]));
+		for (int i = 0; i < columns; i++) {
+			if (!vectors[i].isFinite()){
+				return false;
+			}
 		}
 
-		return result;
+		return true;
 	}
 
 	// /////////////////////////////////////////////////:
@@ -732,8 +716,8 @@ public class CoordMatrix {
 	 * @param v factor
 	 */
 	public void mulInside(double v){
-		for (int i = 0 ; i < val.length; i++){
-			val[i] *= v;
+		for (int i = 0 ; i < columns; i++){
+			vectors[i].mulInside(v);
 		}
 	}
 
@@ -956,7 +940,7 @@ public class CoordMatrix {
 			for (int c = 0; c < columns ; c++){
 				pivotInverseMatrix.matrixRes[c*rows + c] = 1;
 			}
-			pivotInverseMatrix.inverse = inverse.val;
+			pivotInverseMatrix.inverse = inverse.vectors;
 			pivotInverseMatrix.columns = columns;
 		}else{
 			for (int c = 0; c < columns ; c++){
@@ -1091,7 +1075,7 @@ public class CoordMatrix {
 		
 		public double[] matrixRes;
 		
-		public double[] inverse;
+		public Coords[] inverse;
 
 		public PivotInverseMatrix() {
 
@@ -1099,7 +1083,7 @@ public class CoordMatrix {
 
 		public void divideFirst(int index, double factor){
 			for (int i = 0 ; i < columns ; i++){
-				inverse[index + i*columns] = matrixRes[i*columns] / factor;
+				inverse[i].set(index+1, matrixRes[i*columns] / factor);
 				//System.out.println(inverse[index + i*columns] +" , "+ matrixRes[i*columns]);
 			}
 		}
@@ -1121,9 +1105,9 @@ public class CoordMatrix {
 				double s = matrixRes[step + j*columns]; // value at (step, index) is 1
 
 				for (int i : stack){
-					s -= matrix[i][step] * inverse[i + j*columns]; // sub for non-zero matrix coeffs
+					s -= matrix[i][step] * inverse[j].get(i+1); // sub for non-zero matrix coeffs
 				}
-				inverse[index + j*columns] = s;	
+				inverse[j].set(index+1, s);	
 			}
 		}
 
@@ -1254,7 +1238,7 @@ public class CoordMatrix {
 	 * @return true if the matrix is singular
 	 */
 	public boolean isSingular() {
-		return Double.isNaN(val[0]);
+		return Double.isNaN(vectors[0].get(1));
 	}
 
 	/**
@@ -1263,7 +1247,7 @@ public class CoordMatrix {
 	 * @param isSingular
 	 */
 	public void setIsSingular(boolean isSingular) {
-		val[0] = Double.NaN;
+		vectors[0].set(1, Double.NaN);
 	}
 
 	// /////////////////////////////////////////////////
@@ -1430,38 +1414,21 @@ public class CoordMatrix {
 	
 	/**
 	 * 
-	 * @return values in openGL format
+	 * set values in openGL format
 	 */
-	public float[] getForGL(){
-		float[] ret = new float[val.length];
-		
-		for (int i = 0 ; i < val.length ; i++){
-			ret[i] = (float) val[i];
-		}
-		
-		return ret;
-		
-	}
-	
-	/**
-	 * 
-	 * @return 3x3 submatrix values in openGL format
-	 */
-	public float[] get3x3ForGL(){
-		float[] ret = new float[9];
-		
+	public void getForGL(float[] val){
+
 		int index = 0;
-		for (int x = 0 ; x < 3 ; x++){
-			for (int y = 0 ; y < 3 ; y++){
-				ret[index] = (float) val[x * columns + y];
+		for (int x = 0 ; x < columns ; x++){
+			for (int y = 0 ; y < rows ; y++){
+				val[index] = (float) get(y+1, x+1);
 				index++;
 			}
 		
 		}
 		
-		return ret;
-		
 	}
+	
 	
 	// /////////////////////////////////////////////////:
 	// testing the package
@@ -1559,7 +1526,7 @@ public class CoordMatrix {
 		for (int c = 0; c < 4 ; c++){
 			matrix.pivotInverseMatrix.matrixRes[c*4 + c] = 1;
 		}
-		matrix.pivotInverseMatrix.inverse = matrix.inverse.val;
+		matrix.pivotInverseMatrix.inverse = matrix.inverse.vectors;
 		matrix.pivotInverseMatrix.columns = matrix.getColumns();
 		double[][] matrixD = new double[matrix.columns][];
 		for (int c = 0 ; c < matrix.columns ; c++){
@@ -1571,6 +1538,8 @@ public class CoordMatrix {
 		pivot(matrixD, matrix.pivotInverseMatrix);
 		
 		System.out.println("==== PIVOT INVERSE ====\n"+matrix.inverse.toString());
+		
+		System.out.println("==== MATRIX * INVERSE ====\n"+matrix.mul(matrix.inverse).toString());
 		
 		/*
 		matrix.pivot(sol, res);

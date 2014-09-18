@@ -866,9 +866,9 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		point.addInside(tmpCoords.mul(2));
 		
 		
-		vn.normalize();
+		double l = vn.getNorm();
 		Coords v = getCoordSys().getVx();
-		setCoord(point, vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
+		setCoord(point, vn.mul(2*v.dotproduct(vn)/(l*l)).add(v.mul(-1)));
 
 		
 	}

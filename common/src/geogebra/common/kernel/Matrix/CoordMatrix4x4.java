@@ -58,11 +58,27 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	public CoordMatrix4x4(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		this();
-		val = new double[]{
-				a00, a10, a20, 0,
-				a01, a11, a21, 0,
-				a02, a12, a22,  0,
-				0, 0, 0, 1};
+		
+		vectors[0].setX(a00);
+		vectors[0].setY(a10);
+		vectors[0].setZ(a20);
+		vectors[0].setW(0);
+		
+		vectors[1].setX(a01);
+		vectors[1].setY(a11);
+		vectors[1].setZ(a21);
+		vectors[1].setW(0);
+		
+		vectors[2].setX(a02);
+		vectors[2].setY(a12);
+		vectors[2].setZ(a22);
+		vectors[2].setW(0);
+		
+		vectors[3].setX(0);
+		vectors[3].setY(0);
+		vectors[3].setZ(0);
+		vectors[3].setW(1);
+		
 	}
 
 
@@ -84,12 +100,12 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * @param ret matrix set
 	 */
 	static final public void Identity(CoordMatrix4x4 ret) {
-		for (int i = 0 ; i < 16 ; i++){
-			ret.val[i] = 0;
+		
+		for (int i = 0; i < 4; i++) {
+			ret.vectors[i].set(0.0);
+			ret.vectors[i].set(i+1, 1.0);
 		}
-		for (int i = 1; i <= 4; i++) {
-			ret.set(i, i, 1.0);
-		}
+
 	}
 	
 	/**
@@ -183,28 +199,25 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		double c = Math.cos(angle);
 		double s = Math.sin(angle);
 		
-		double[] vals = m.val;
-		vals[0] = ux*ux*(1-c) + c;
-		vals[1] = ux*uy*(1-c) + uz*s;
-		vals[2] = ux*uz*(1-c) - uy*s;
+		Coords[] vec = m.vectors;
+		vec[0].setX(ux*ux*(1-c) + c);
+		vec[0].setY(ux*uy*(1-c) + uz*s);
+		vec[0].setZ(ux*uz*(1-c) - uy*s);
 		//vals[3] = 0;
 		
-		vals[4] = ux*uy*(1-c) - uz*s;
-		vals[5] = uy*uy*(1-c) + c;
-		vals[6] = uy*uz*(1-c) + ux*s;
+		vec[1].setX(ux*uy*(1-c) - uz*s);
+		vec[1].setY(uy*uy*(1-c) + c);
+		vec[1].setZ(uy*uz*(1-c) + ux*s);
 		//vals[7] = 0;		
 		
-		vals[8] = ux*uz*(1-c) + uy*s;
-		vals[9] = uy*uz*(1-c) - ux*s;
-		vals[10] = uz*uz*(1-c) + c;
+		vec[2].setX(ux*uz*(1-c) + uy*s);
+		vec[2].setY(uy*uz*(1-c) - ux*s);
+		vec[2].setZ(uz*uz*(1-c) + c);
 		//vals[11] = 0;
 
 		
 		//use (Id-M)center for translation
-		vals[12] = 0;
-		vals[13] = 0;
-		vals[14] = 0;
-		vals[15] = 0;
+		vec[3].set(0.0);
 		m.setOrigin(center.sub(m.mul(center)));
 		
 
@@ -393,8 +406,9 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * @param v value
 	 */
 	public void mulAllButOrigin(double v) {
-		for (int i = 0; i < 12; i++)
-			val[i] *= v;
+		for (int i = 0; i < 3; i++){
+			vectors[i].mulInside(v);
+		}
 
 	}
 	
@@ -565,9 +579,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 */
 	public void mulInside3x3(double v){
 		for (int i = 0 ; i < 3; i++){
-			for (int j = 0 ; j < 3; j++){
-				val[i + 4*j] *= v;
-			}
+			vectors[i].mulInside3(v);
 		}
 	}
 

@@ -752,7 +752,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 	@Override
 	protected void setMatrixView() {
-        jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, view3D.getToScreenMatrix().getForGL(), 0);
+		view3D.getToScreenMatrix().getForGL(tmpFloat16);
+        jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, tmpFloat16, 0);
 	}
 
 
@@ -844,11 +845,12 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 
 
-
+	private float[] tmpFloat16 = new float[16];
 
 	@Override
 	public void initMatrix() {
-		 jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, view3D.getToScreenMatrix().mul(getMatrix()).getForGL(), 0);		
+		view3D.getToScreenMatrix().mul(getMatrix()).getForGL(tmpFloat16);
+		jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, tmpFloat16, 0);		
 	}
 
 

@@ -64,7 +64,8 @@ public class RendererGL2 extends RendererD {
 	@Override
 	protected void setMatrixView() {
 		jogl.getGL2().glPushMatrix();
-		jogl.getGL2().glLoadMatrixd(view3D.getToScreenMatrix().get(), 0);
+		view3D.getToScreenMatrix().get(tmpDouble16);
+		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 
 	@Override
@@ -78,11 +79,14 @@ public class RendererGL2 extends RendererD {
 	public void setColor(float r, float g, float b, float a) {
 		jogl.getGL2().glColor4f(r,g,b,a);
 	}
+	
+	private double[] tmpDouble16 = new double[16];
 
 	@Override
 	public void initMatrix() {
 		jogl.getGL2().glPushMatrix();
-		jogl.getGL2().glMultMatrixd(m_drawingMatrix.get(), 0);
+		m_drawingMatrix.get(tmpDouble16);
+		jogl.getGL2().glMultMatrixd(tmpDouble16, 0);
 	}
 
 	@Override
@@ -183,7 +187,8 @@ public class RendererGL2 extends RendererD {
 	protected void pushSceneMatrix() {
 		// set the scene matrix
 		jogl.getGL2().glPushMatrix();
-		jogl.getGL2().glLoadMatrixd(view3D.getToScreenMatrix().get(), 0);
+		view3D.getToScreenMatrix().get(tmpDouble16);
+		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 	
 	/**

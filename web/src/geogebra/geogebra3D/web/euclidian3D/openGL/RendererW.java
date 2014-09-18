@@ -684,10 +684,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 	@Override
-    protected void setMatrixView() {
-		
-		 glContext.uniformMatrix4fv(modelviewLocation, false, view3D.getToScreenMatrix().getForGL());     
-    }
+	protected void setMatrixView() {
+		view3D.getToScreenMatrix().getForGL(tmpFloat16);
+		glContext.uniformMatrix4fv(modelviewLocation, false, tmpFloat16);     
+	}
 
 	@Override
     protected void unsetMatrixView() {
@@ -744,10 +744,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		glContext.polygonOffset(-l*0.05f, -l*10);
 	    
     }
+	
+	private float[] tmpFloat16 = new float[16];
 
 	@Override
 	public void initMatrix() {
-		glContext.uniformMatrix4fv(modelviewLocation, false, view3D.getToScreenMatrix().mul(getMatrix()).getForGL());		
+		view3D.getToScreenMatrix().mul(getMatrix()).getForGL(tmpFloat16);
+		glContext.uniformMatrix4fv(modelviewLocation, false, tmpFloat16);		
 	}
 
 
