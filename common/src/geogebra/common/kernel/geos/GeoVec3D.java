@@ -327,8 +327,8 @@ implements Traceable, CoordStyle {
     	// note: this could be done simply using cross(A, B, g)
     	// but we want to avoid large coefficients in the line
     	// and we want AB to be the direction vector of the line
-    	if (!(A.getRows()==3 && A.getColumns()==1 && 
-    			B.getRows()==3 && B.getColumns()==1)) {
+    	if (!(A.getLength()==3 && 
+    			B.getLength()==3)) {
     		g.setUndefined();
     		return;
     	}

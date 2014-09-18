@@ -843,8 +843,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	 */
 	public boolean isInRegion(Coords coords){
 		// calc tP.S.P
-		return Kernel.isZero(coords.transposeCopy()
-				.mul(getSymetricMatrix().mul(coords)).get(1, 1));
+		return Kernel.isZero(coords.dotproduct(getSymetricMatrix().mul(coords)));
 	}
 
 	public boolean isInRegion(double x0, double y0) {

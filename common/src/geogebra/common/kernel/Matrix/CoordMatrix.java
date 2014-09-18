@@ -58,21 +58,7 @@ public class CoordMatrix {
 	// /////////////////////////////////////////////////:
 	// Constructors
 
-	/**
-	 * creates a GgbMatrix or a GgbVector if a_columns==1
-	 * 
-	 * @param a_rows
-	 *            number of rows
-	 * @param a_columns
-	 *            number of columns
-	 * @return a_rows*a_columns matrix (or vector)
-	 */
-	static final public CoordMatrix GgbMatrixOrVector(int a_rows, int a_columns) {
-		if (a_columns == 1) {
-			return new Coords(a_rows);
-		}
-		return new CoordMatrix(a_rows, a_columns);
-	}
+	
 
 	/**
 	 * see class description
@@ -730,7 +716,7 @@ public class CoordMatrix {
 	 */
 	public CoordMatrix mul(double val0) {
 
-		CoordMatrix result = GgbMatrixOrVector(getRows(), getColumns());
+		CoordMatrix result = new CoordMatrix(getRows(), getColumns());
 
 		for (int i = 1; i <= result.getRows(); i++) {
 			for (int j = 1; j <= result.getColumns(); j++) {
@@ -761,7 +747,7 @@ public class CoordMatrix {
 	 */
 	public CoordMatrix add(CoordMatrix m) {
 
-		CoordMatrix result = GgbMatrixOrVector(getRows(), getColumns());
+		CoordMatrix result = new CoordMatrix(getRows(), getColumns());
 		// resulting matrix has the same dimension than this
 		// and is a GgbVector if this has 1 column
 
@@ -785,7 +771,7 @@ public class CoordMatrix {
 	 */
 	public CoordMatrix addSmaller(CoordMatrix m) {
 
-		CoordMatrix result = GgbMatrixOrVector(getRows(), getColumns());
+		CoordMatrix result = new CoordMatrix(getRows(), getColumns());
 		// resulting matrix has the same dimension than this
 		// and is a GgbVector if this has 1 column
 
@@ -812,7 +798,7 @@ public class CoordMatrix {
 
 		Coords result = new Coords(getRows());
 
-		for (int i = 1; i <= result.getRows(); i++) {
+		for (int i = 1; i <= result.getLength(); i++) {
 
 			double r = 0;
 			for (int n = 1; n <= getColumns(); n++)
@@ -1000,12 +986,7 @@ public class CoordMatrix {
 	 */
 	public Coords solve(Coords v) {
 		
-		/*
-		CoordMatrix mInv = this.inverse(); // TODO: use gauss pivot to optimize
-		return mInv.mul(v);
-		*/
-		
-		Coords sol = new Coords(v.rows);
+		Coords sol = new Coords(v.getLength());
 		pivot(sol, v);
 		return sol;
 		
@@ -1014,7 +995,7 @@ public class CoordMatrix {
 	
 	static final public void solve(double[] sol, Coords res, Coords... columns){
 		
-		int size = res.rows;
+		int size = res.getLength();
 		
 		double[][] matrix = new double[size][];
 		for (int i = 0 ; i < size ; i++){
@@ -1180,7 +1161,7 @@ public class CoordMatrix {
 		if (pivotSolRes == null){
 			pivotSolRes = new PivotSolRes();
 		}
-		pivotSolRes.res = new double[res.rows];
+		pivotSolRes.res = new double[res.getLength()];
 		for (int r = 0 ; r < rows ; r++){
 			pivotSolRes.res[r] = res.val[r];
 		}
@@ -1380,7 +1361,7 @@ public class CoordMatrix {
 	 * @param j column
 	 */
 	public void addToColumn(Coords v, int j){
-		for (int i = 1 ; i <= v.getRows() ; i++){
+		for (int i = 1 ; i <= v.getLength() ; i++){
 			set(i, j, get(i, j) + v.get(i));
 		}
 	}
@@ -1391,7 +1372,7 @@ public class CoordMatrix {
 	 * @param j column
 	 */
 	public void subToColumn(Coords v, int j){
-		for (int i = 1 ; i <= v.getRows() ; i++){
+		for (int i = 1 ; i <= v.getLength() ; i++){
 			set(i, j, get(i, j) - v.get(i));
 		}
 	}

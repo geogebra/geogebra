@@ -23,7 +23,7 @@ import geogebra.common.main.App;
  * @author ggb3D
  * 
  */
-public class Coords extends CoordMatrix {
+public class Coords {
 
 	private double norm, sqNorm;
 	private boolean calcNorm = true;
@@ -42,7 +42,9 @@ public class Coords extends CoordMatrix {
 	/** undefined vector */
 	public static final Coords UNDEFINED = new Coords(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
 	
+	public double[] val;
 	
+	private int rows;
 	
 	/**
 	 * 
@@ -67,7 +69,15 @@ public class Coords extends CoordMatrix {
 	 */
 	public Coords(int rows) {
 
-		super(rows, 1);
+		this.rows = rows;
+		//transpose = false;
+
+		val = new double[rows];
+		/*
+		for (int i = 0; i < rows; i++) {
+			val[i] = 0.0;
+		}
+		*/
 
 	}
 
@@ -79,7 +89,7 @@ public class Coords extends CoordMatrix {
 	 */
 	public Coords(double[] vals) {
 
-		super(vals.length, 1);
+		this(vals.length);
 
 		for (int i = 0; i < vals.length; i++)
 			val[i] = vals[i];
@@ -101,7 +111,7 @@ public class Coords extends CoordMatrix {
 	 * @param v
 	 */
 	public Coords(double u, double v) {
-		super(2, 1);
+		this(2);
 		val[0] = u;
 		val[1] = v;
 	}
@@ -114,7 +124,7 @@ public class Coords extends CoordMatrix {
 	 * @param z
 	 */
 	public Coords(double x, double y, double z) {
-		super(3, 1);
+		this(3);
 		val[0] = x;
 		val[1] = y;
 		val[2] = z;
@@ -137,7 +147,7 @@ public class Coords extends CoordMatrix {
 	 * @param w
 	 */
 	public Coords(double x, double y, double z, double w) {
-		super(4, 1);
+		this(4);
 		val[0] = x;
 		val[1] = y;
 		val[2] = z;
@@ -193,9 +203,11 @@ public class Coords extends CoordMatrix {
 	}
 	
 
-	@Override
 	public void set(double val0) {
-		super.set(val0);
+		for (int i = 0; i < rows; i++) {
+			val[i] = val0;
+		}
+		norm = Math.sqrt(rows)*Math.abs(val0);
 		calcNorm = calcSqNorm = true;
 	}
 
@@ -266,7 +278,7 @@ public class Coords extends CoordMatrix {
 	 * @return last coord
 	 */
 	public double getLast() {
-		return val[getRows() - 1];
+		return val[rows - 1];
 	}
 
 	/**
@@ -316,7 +328,7 @@ public class Coords extends CoordMatrix {
 	 */
 	public int getLength() {
 
-		return this.getRows();
+		return rows;
 
 	}
 
@@ -1165,7 +1177,13 @@ public class Coords extends CoordMatrix {
 
 	public Coords add(Coords v) {
 
-		return (Coords) super.add(v);
+		Coords result = new Coords(rows);
+
+		for (int i = 0; i < rows; i++) {
+			result.val[i] = val[i] + v.val[i];
+		}
+
+		return result;
 	}
 	
 	/**
@@ -1193,7 +1211,13 @@ public class Coords extends CoordMatrix {
 	}
 	
 	public Coords addSmaller(Coords v) {
-		return (Coords) super.addSmaller(v);
+		Coords result = new Coords(rows);
+
+		for (int i = 0; i < v.rows; i++) {
+			result.val[i] = val[i] + v.val[i];
+		}
+
+		return result;
 	}
 	
 	/**
@@ -1206,10 +1230,15 @@ public class Coords extends CoordMatrix {
 		}
 	}
 
-	@Override
 	public Coords mul(double val0) {
 
-		return (Coords) super.mul(val0);
+		Coords result = new Coords(rows);
+
+		for (int i = 0; i < rows; i++) {
+			result.val[i] = val[i] * val0;
+		}
+
+		return result;
 	}
 
 	/**
@@ -1263,7 +1292,7 @@ public class Coords extends CoordMatrix {
 	 */
 	public Coords getCoordsIn2DView() {
 
-		int dim = getRows() - 1;
+		int dim = rows - 1;
 		switch (dim) {
 		case 2:
 			return new Coords(getX(), getY(), getZ());
@@ -1314,6 +1343,23 @@ public class Coords extends CoordMatrix {
 		return isDefined();
 	}
 	
+	
+	/**
+	 * returns false if one value equals NaN
+	 * 
+	 * @return false if one value equals NaN
+	 */
+	public boolean isDefined() {
+
+
+		for (int i = 0; i < rows ; i++) {
+			if (Double.isNaN(val[i])){
+				return false;
+			}
+		}
+
+		return true;
+	}
 	
 	/**
 	 * 
@@ -1369,5 +1415,38 @@ public class Coords extends CoordMatrix {
 		
 	}
 
+	
+	/**
+	 * returns double[] describing the matrix for openGL
+	 * 
+	 * @return the matrix as a double[]
+	 */
+	public double[] get() {
+
+		return val;
+	}
+	
+	
+	/** @return false if at least one value is infinite */
+	public boolean isFinite() {
+
+		for (int i = 0; i < rows; i++) {
+			if (Double.isInfinite(val[i])){
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	/**
+	 * multiply all values by v
+	 * @param v factor
+	 */
+	public void mulInside(double v){
+		for (int i = 0 ; i < val.length; i++){
+			val[i] *= v;
+		}
+	}
 	
 }

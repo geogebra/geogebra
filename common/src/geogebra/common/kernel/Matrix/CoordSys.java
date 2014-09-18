@@ -327,7 +327,7 @@ public class CoordSys {
 	 * creates the equation vector
 	 */
 	public void makeEquationVector() {
-		equationVector.set(getVx().crossProduct(getVy()), 1);
+		equationVector.set(getVx().crossProduct(getVy()));
 		equationVector.set(4, 0);
 
 		double d = equationVector.dotproduct(getOrigin());
