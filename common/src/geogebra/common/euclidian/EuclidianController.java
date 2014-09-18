@@ -146,7 +146,7 @@ public abstract class EuclidianController {
 	protected double xTemp;
 
 	protected double yTemp;
-
+	
 	public double xRW;
 
 	public double yRW;
@@ -7444,16 +7444,25 @@ public abstract class EuclidianController {
 				if (temporaryMode) {
 					view.setResizeXAxisCursor();
 				}
+				
+				double xzero = view.getXZero();
+				double xzeroRW = 0;
+				double newXZero = xzero;
+				if (xzero < 0){
+					xzero = 0;
+					xzeroRW = view.getXmin();
+				}
 	
 				// take care when we get close to the origin
-				if (Math.abs(mouseLoc.x - view.getXZero()) < 2) {
-					mouseLoc.x = (int) Math
-							.round(mouseLoc.x > view.getXZero() ? view
-									.getXZero() + 2 : view.getXZero() - 2);
+				if (Math.abs(mouseLoc.x - xzero) < 2) {
+					mouseLoc.x = (int) Math.round(mouseLoc.x > xzero ? xzero + 2 : xzero - 2);
 				}
-				double xscale = (mouseLoc.x - view.getXZero()) / xTemp;
-				view.setCoordSystem(view.getXZero(), view.getYZero(), xscale,
-						view.getYscale());
+				double xscale = (mouseLoc.x - xzero) / (xTemp - xzeroRW);
+				
+				if (newXZero < 0){
+					newXZero = -xzeroRW * xscale;
+				}
+				view.setCoordSystem(newXZero, view.getYZero(), xscale, view.getYscale());
 			}
 			break;
 	
@@ -7462,15 +7471,26 @@ public abstract class EuclidianController {
 				if (temporaryMode) {
 					view.setResizeYAxisCursor();
 				}
-				// take care when we get close to the origin
-				if (Math.abs(mouseLoc.y - view.getYZero()) < 2) {
-					mouseLoc.y = (int) Math
-							.round(mouseLoc.y > view.getYZero() ? view
-									.getYZero() + 2 : view.getYZero() - 2);
+				
+				double yzero = view.getYZero();
+				App.debug(""+view.getYZero()+","+view.getHeight());
+				double yzeroRW = 0;
+				double newYZero = yzero;
+				if (yzero > view.getHeight()){
+					yzero = view.getHeight();
+					yzeroRW = view.getYmin();
 				}
-				double yscale = ( view.getYZero() - mouseLoc.y) / yTemp;
-				view.setCoordSystem(view.getXZero(), view.getYZero(),
-						view.getXscale(), yscale);
+				
+				// take care when we get close to the origin
+				if (Math.abs(mouseLoc.y - yzero) < 2) {
+					mouseLoc.y = (int) Math.round(mouseLoc.y > yzero ? view.getYZero() + 2 : yzero - 2);
+				}
+				double yscale = (yzero - mouseLoc.y) / (yTemp - yzeroRW);
+				
+				if (newYZero > view.getHeight()){
+					newYZero = view.getHeight() + yzeroRW * yscale;
+				}
+				view.setCoordSystem(view.getXZero(), newYZero, view.getXscale(), yscale);
 			}
 			break;
 	
