@@ -31,18 +31,28 @@ public class ScriptManagerW extends ScriptManager {
 			onLoadCallback();
 		}
 	}-*/;
+	
+	public static native void ggbOnInitStatic() /*-{
+		if (typeof $wnd.ggbOnInit === 'function')
+			$wnd.ggbOnInit();
+	}-*/;
 
-
+	public static native void ggbOnInit(String arg, JavaScriptObject self) /*-{
+		if (typeof $wnd.ggbOnInit === 'function')
+			$wnd.ggbOnInit(arg, self);
+	}-*/;
+	
 	@Override
-	public void ggbOnInit() {
+	public void ggbOnInit() {		
 		try{
+			//assignGgbApplet();
 			if (app.useBrowserForJavaScript()) {
 			
 				String param = ((AppW)app).getDataParamId();
 				if (param == null || "".equals(param)) {
-					AppW.ggbOnInit();
+					ggbOnInitStatic();
 				} else {
-					AppW.ggbOnInit(param, api);
+					ggbOnInit(param, api);
 				}
 				
 			

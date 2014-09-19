@@ -312,15 +312,7 @@ public static final String LOCALE_PARAMETER = "locale";
 			}
 		}-*/;
 
-		public static native void ggbOnInit() /*-{
-			if (typeof $wnd.ggbOnInit === 'function')
-				$wnd.ggbOnInit();
-		}-*/;
-
-		public static native void ggbOnInit(String arg, JavaScriptObject self) /*-{
-			if (typeof $wnd.ggbOnInit === 'function')
-				$wnd.ggbOnInit(arg, self);
-		}-*/;
+		
 		
 		@Override
 		public void callAppletJavaScript(String fun, Object[] args) {
@@ -2578,7 +2570,8 @@ public static final String LOCALE_PARAMETER = "locale";
 			// TODO: maybe use sandbox?
 
 			String ggbApplet = getDataParamId();
-			script = "ggbApplet = document." + ggbApplet + ";" + script;
+
+			script = "document.ggbApplet= document." + ggbApplet + "; ggbApplet = document." + ggbApplet + ";" + script;
 
 			// script = "ggbApplet = document.ggbApplet;"+script;
 
@@ -2586,7 +2579,6 @@ public static final String LOCALE_PARAMETER = "locale";
 			if (arg != null) {
 				script = "arg=\"" + arg + "\";" + script;
 			}
-
 			evalScriptNative(script);
 		}
 
