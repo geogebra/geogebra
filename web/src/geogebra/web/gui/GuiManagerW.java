@@ -1630,11 +1630,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		this.updateToolBar = toolBar;
 	}
 
-	public View getDataAnalysisView(int mode) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
 	@Override
 	public void updateStyleBarPositions(boolean menuOpen){
 		for(DockPanelW panel : this.layout.getDockManager().getPanels()){

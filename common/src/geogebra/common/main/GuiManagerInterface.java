@@ -104,8 +104,6 @@ public interface GuiManagerInterface {
 	
 	public View getDataAnalysisView();
 	
-	public View getDataAnalysisView(int mode);
-
 	public View getPlotPanelView(int id);
 	
 	public View getPropertiesView();

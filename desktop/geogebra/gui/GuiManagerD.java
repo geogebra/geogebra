@@ -3203,7 +3203,4 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return euclidianView2.size();
 	}
 
-	public View getDataAnalysisView(int mode) {
-		return getDataAnalysisView();
-	}
 }
