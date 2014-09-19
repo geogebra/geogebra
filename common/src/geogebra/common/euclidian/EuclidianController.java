@@ -7445,12 +7445,16 @@ public abstract class EuclidianController {
 					view.setResizeXAxisCursor();
 				}
 				
+				// check if zero is on the screen
 				double xzero = view.getXZero();
 				double xzeroRW = 0;
 				double newXZero = xzero;
 				if (xzero < 0){
 					xzero = 0;
 					xzeroRW = view.getXmin();
+				}else if (xzero > view.getWidth()){
+					xzero = view.getWidth();
+					xzeroRW = view.getXmax();
 				}
 	
 				// take care when we get close to the origin
@@ -7459,9 +7463,13 @@ public abstract class EuclidianController {
 				}
 				double xscale = (mouseLoc.x - xzero) / (xTemp - xzeroRW);
 				
+				// move zero if off screen
 				if (newXZero < 0){
 					newXZero = -xzeroRW * xscale;
+				}else if (newXZero > view.getWidth()){
+					newXZero = view.getWidth() - xzeroRW * xscale;
 				}
+				
 				view.setCoordSystem(newXZero, view.getYZero(), xscale, view.getYscale());
 			}
 			break;
@@ -7472,10 +7480,14 @@ public abstract class EuclidianController {
 					view.setResizeYAxisCursor();
 				}
 				
+				// check if zero is on the screen
 				double yzero = view.getYZero();
 				double yzeroRW = 0;
 				double newYZero = yzero;
-				if (yzero > view.getHeight()){
+				if (yzero < 0){
+					yzero = 0;
+					yzeroRW = view.getYmax();
+				}else if (yzero > view.getHeight()){
 					yzero = view.getHeight();
 					yzeroRW = view.getYmin();
 				}
@@ -7486,7 +7498,10 @@ public abstract class EuclidianController {
 				}
 				double yscale = (yzero - mouseLoc.y) / (yTemp - yzeroRW);
 				
-				if (newYZero > view.getHeight()){
+				// move zero if off screen
+				if (newYZero < 0){
+					newYZero = yzeroRW * yscale;
+				}else if (newYZero > view.getHeight()){
 					newYZero = view.getHeight() + yzeroRW * yscale;
 				}
 				view.setCoordSystem(view.getXZero(), newYZero, view.getXscale(), yscale);
