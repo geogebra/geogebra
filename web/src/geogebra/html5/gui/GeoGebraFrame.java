@@ -288,7 +288,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	
 	public void runAsyncAfterSplash() {
 		final GeoGebraFrame inst = this;
-		final ArticleElement articleElement = ae;
+		final ArticleElement articleElement = this.ae;
 
 		//GWT.runAsync(new RunAsyncCallback() {
 

@@ -53,12 +53,12 @@ if (!window.console.log) window.console.log = function () { };
 				
 			
 			rerender.addEventListener("click", function(e) {
-				renderGGBElement(document.querySelectorAll(".geogebraweb")[0]);
-				renderGGBElement(document.querySelectorAll(".geogebraweb")[1]);
+				renderGGBElement(document.querySelectorAll(".geogebraweb")[0], function() { console.log("renderedxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[0]");});
+				renderGGBElement(document.querySelectorAll(".geogebraweb")[1], function() { console.log("renderedxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[1]");});
 			});
 			
 			rerenderlater.addEventListener("click", function(e) {
-				renderGGBElement(document.querySelectorAll(".latergeogebraweb")[0]);
+				renderGGBElement(document.querySelectorAll(".latergeogebraweb")[0], function() { console.log("renderedlaterxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[0]");});
 				renderGGBElement(document.querySelectorAll(".latergeogebraweb")[1]);
 				});
 			})();

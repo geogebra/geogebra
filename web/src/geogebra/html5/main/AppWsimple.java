@@ -14,8 +14,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AppWsimple extends AppW {
 
-	private GeoGebraFrame frame = null;
-
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
@@ -62,10 +60,6 @@ public class AppWsimple extends AppW {
 		if(Browser.runningLocal()){
 			new GeoGebraTubeAPIWSimple().isAvailable(null);
 		}
-	}
-
-	public GeoGebraFrame getGeoGebraFrame() {
-		return frame;
 	}
 
 	@Override

@@ -25,6 +25,12 @@ public class ScriptManagerW extends ScriptManager {
 
 	    api = initAppletFunctions(app.getGgbApi());
     }
+	
+	public static native void runCallback(JavaScriptObject onLoadCallback) /*-{
+		if (typeof onLoadCallback === "function") {
+			onLoadCallback();
+		}
+	}-*/;
 
 
 	@Override
@@ -54,6 +60,9 @@ public class ScriptManagerW extends ScriptManager {
 		String articleid = ((AppW) app).getArticleId();
 		if (articleid != null) {
 			AppW.appletOnLoad(articleid);
+		}
+		if (((AppW) app).getGeoGebraFrame() != null && ((AppW) app).getGeoGebraFrame().onLoadCallback != null) {
+			runCallback(((AppW) app).getGeoGebraFrame().onLoadCallback);
 		}
 	}
 	

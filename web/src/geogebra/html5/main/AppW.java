@@ -63,6 +63,7 @@ import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.AlgebraInput;
+import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.gui.laf.GLookAndFeelI;
@@ -2188,6 +2189,7 @@ public static final String LOCALE_PARAMETER = "locale";
 	    }
 
 		private ArrayList<Widget> popups = new ArrayList<Widget>();
+		protected GeoGebraFrame frame = null;
 
 		public void registerPopup(Widget widget) {
 			popups.add(widget);
@@ -2783,6 +2785,10 @@ public static final String LOCALE_PARAMETER = "locale";
 		public void ensureTimerRunning() {
 			this.getTimerSystem().ensureRunning();
 			
+		}
+
+		public GeoGebraFrame getGeoGebraFrame() {
+			return frame;
 		}
 		
 }

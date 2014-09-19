@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AppWapplet extends AppW {
 
-	private GeoGebraFrame frame = null;
 	protected GuiManagerInterfaceW guiManager = null;
 
 	//Event flow operations - are these needed in AppWapplet?
@@ -118,10 +117,6 @@ public class AppWapplet extends AppW {
 		return ggwMenuBar;
 	}
 
-	public GeoGebraFrame getGeoGebraFrame() {
-		return frame;
-	}
-	
 	@Override
     public HasAppletProperties getAppletFrame() {
 		return frame;
