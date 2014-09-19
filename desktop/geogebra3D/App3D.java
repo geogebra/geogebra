@@ -44,7 +44,6 @@ import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
 import geogebra3D.euclidian3D.opengl.GLFactoryD;
 import geogebra3D.euclidian3D.opengl.RendererD;
-import geogebra3D.euclidian3D.opengl.RendererJogl;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
@@ -340,7 +339,7 @@ public class App3D extends AppD {
 
 	@Override
 	public String getVersionString() {
-		return super.getVersionString() + "-" + RendererJogl.JOGL_VERSION;
+		return super.getVersionString() + "-3D";
 	}
 
 	@Override
@@ -376,17 +375,16 @@ public class App3D extends AppD {
 
 		((App3DCompanion) companion).removeAllEuclidianViewForPlane();
 	}
-	
-	
+
 	@Override
 	public boolean loadFile(File file, boolean isMacroFile) {
-		
-		if(!checkFileExistsAndShowFileNotFound(file)){
+
+		if (!checkFileExistsAndShowFileNotFound(file)) {
 			return false;
 		}
-		
+
 		((App3DCompanion) companion).removeAllEuclidianViewForPlane();
-		
+
 		return loadExistingFile(file, isMacroFile);
 	}
 
