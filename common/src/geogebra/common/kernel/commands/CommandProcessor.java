@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import geogebra.common.kernel.arithmetic.Variable;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -103,6 +104,34 @@ public abstract class CommandProcessor {
 			// resolve i-th argument and get GeoElements
 			// use only first resolved argument object for result
 			result[i] = resArg(arg[i])[0];
+		}
+
+		cons.setSuppressLabelCreation(oldMacroMode);
+		return result;
+	}
+	
+	protected final GeoElement[] resArgs(Command c, boolean keepCAScells) throws MyError {
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		// resolve arguments to get GeoElements
+		ExpressionNode[] arg = c.getArguments();
+		GeoElement[] result = new GeoElement[arg.length];
+
+		for (int i = 0; i < arg.length; ++i) {
+			// resolve variables in argument expression
+			arg[i].resolveVariables();
+			if(keepCAScells && arg[i].unwrap() instanceof GeoCasCell){
+				result[i] = (GeoElement) arg[i].unwrap();
+			}else{
+				
+				
+
+				// resolve i-th argument and get GeoElements
+				// use only first resolved argument object for result
+				result[i] = resArg(arg[i])[0];
+			
+			}
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);

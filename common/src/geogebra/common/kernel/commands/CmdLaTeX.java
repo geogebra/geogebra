@@ -31,7 +31,7 @@ public class CmdLaTeX extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			arg = resArgs(c);	
+			arg = resArgs(c, true);	
 			AlgoLaTeX algo = new AlgoLaTeX(cons, c.getLabel(),
 					arg[0]);
 
@@ -40,7 +40,7 @@ public class CmdLaTeX extends CommandProcessor {
 
 		case 2:
 
-			arg = resArgs(c);	
+			arg = resArgs(c, true);	
 			if (arg[1].isGeoBoolean()) {
 				GeoElement[] ret2 = { LaTeX(c.getLabel(),
 						arg[0], (GeoBoolean)arg[1], null) };
@@ -50,7 +50,7 @@ public class CmdLaTeX extends CommandProcessor {
 
 		case 3:
 
-			arg = resArgs(c);	
+			arg = resArgs(c,true);	
 			if (arg[1].isGeoBoolean() && arg[2].isGeoBoolean()) {
 				GeoElement[] ret2 = { LaTeX(c.getLabel(),
 						arg[0], (GeoBoolean)arg[1], (GeoBoolean)arg[2]) };
