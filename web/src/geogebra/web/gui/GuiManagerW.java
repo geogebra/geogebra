@@ -1628,4 +1628,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void setToolBarForUpdate(final ToolBarW toolBar){
 		this.updateToolBar = toolBar;
 	}
+
+	public View getDataAnalysisView(int mode) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 }
