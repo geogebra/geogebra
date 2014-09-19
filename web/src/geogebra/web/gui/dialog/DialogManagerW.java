@@ -38,6 +38,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.util.WindowReference;
+import geogebra.web.gui.view.data.DataAnalysisViewW;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
@@ -361,12 +362,12 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		if (mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS 
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
-		
-			app.getGuiManager().getDataAnalysisView(mode);
+	
+			App.debug("[DAMODE] about to show mode " + mode);
+			DataAnalysisViewW da = (DataAnalysisViewW)app.getGuiManager().getDataAnalysisView();
+			da.changeMode(mode);
 			app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
-			
-			app.setMoveMode();
-		}
+			}
 	}
 
 	

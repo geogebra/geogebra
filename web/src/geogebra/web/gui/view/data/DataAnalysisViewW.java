@@ -78,6 +78,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			dataDisplayPanel2.onResize();
 		}
 	};
+
+	private DataSource dataSource;
 	
 
 
@@ -95,7 +97,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		model = new DataAnalysisModel(app, mode, this, daCtrl);
 	
 		
-		DataSource dataSource = new DataSource(app);
+		dataSource = new DataSource(app);
 		dataSource.setDataListFromSelection(mode);
 		
 		daCtrl.loadDataLists(true);
@@ -115,14 +117,19 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			add(mainSplit);
 		setView(dataSource, mode, true);
 		model.setIniting(false);
-		
 	}
 
+	
 	/*************************************************
 	 * END constructor
 	 */
 
+
+
+	public void changeMode(int mode) {
+		setView(dataSource, mode, true);
 		
+	}
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
@@ -236,13 +243,13 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		Label lbData= new Label("Data");
  
 		if (data && dataPanel == null) {
-			App.debug("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 			buildDataPanel();
 		}
 		if (stat && data) {
 			mainSplit.addWest(statisticsPanel, 300);
-			mainSplit.add(dataPanel);
 			mainSplit.addEast(comboPanelSplit, 300);
+			mainSplit.add(dataPanel);
+
 		} else
 		
 		if (stat && !data) {
@@ -267,7 +274,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			add(regressionPanel);
 		}
 		
-		deferredDataPanelOnResize();
+//		deferredDataPanelOnResize();
 	} 
 
 		
@@ -729,15 +736,18 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void showComboPanel2(boolean show) {
 		comboPanelSplit.clear();
 		
+		int w = mainSplit.getOffsetWidth();
+		int h = mainSplit.getOffsetHeight();
 		if (show) {
-			dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight()/2, true);
-			dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight()/2, true);
-			comboPanelSplit.addNorth(dataDisplayPanel1,  getOffsetHeight()/2);
+			
+			dataDisplayPanel1.resize(w, h/2, true);
+			dataDisplayPanel1.resize(w, h/2, true);
+			comboPanelSplit.addNorth(dataDisplayPanel1,  h/2);
 			comboPanelSplit.add(dataDisplayPanel2);
 			
 		} else {
 			
-			dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight(), true);
+			dataDisplayPanel1.resize(w, h, true);
 			comboPanelSplit.add(dataDisplayPanel1);
 				
 		}

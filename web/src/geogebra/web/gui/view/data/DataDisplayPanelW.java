@@ -601,13 +601,17 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	public void updateScatterPlot() {
-		plotPanelSouth.add(lblTitleX);
-		plotPanelSouth.add(fldTitleX);
-		plotPanelNorth.add(lblTitleY);
-		plotPanelNorth.add(fldTitleY);
-
+		metaPlotPanel.clear();
+		plotPanelNorth.clear();
+		plotPanelSouth.clear();
+		
+		plotPanelSouth.add(LayoutUtil.panelRow(lblTitleX, fldTitleX));
+		plotPanelNorth.add(LayoutUtil.panelRow(lblTitleY, fldTitleY));
+		
 		metaPlotPanel.add(plotPanelNorth);
+		metaPlotPanel.add(plotPanel.getComponent());
 		metaPlotPanel.add(plotPanelSouth);
+		
 	}
 
 	public void updateFrequencyTable() {
@@ -744,6 +748,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
 				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
 
+		if (daModel.isRegressionMode()) {
+			height -= 2*lblTitleX.getOffsetHeight();
+			height -= lblTitleY.getOffsetHeight();
+		}
+		
 		if (width < PLOTPANEL_MIN_WIDTH) {
 			width =  PLOTPANEL_MIN_WIDTH;
 		}

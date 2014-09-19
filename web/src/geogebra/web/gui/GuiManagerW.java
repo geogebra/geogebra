@@ -14,7 +14,6 @@ import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.javax.swing.GTextComponent;
@@ -446,6 +445,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 				layout.getDockManager().show(viewId);
 
 			if (viewId == App.VIEW_SPREADSHEET) {
+				getSpreadsheetView().requestFocus();
+			}
+			if (viewId == App.VIEW_DATA_ANALYSIS) {
 				getSpreadsheetView().requestFocus();
 			}
 		} else {
@@ -996,37 +998,32 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		};
 	}
 
+	public void clearDataAnalysisView() {
+		dataAnalysisView = null;
+	}
+	
 	public View getDataAnalysisView() {
 		if (dataAnalysisView == null) {
 			dataAnalysisView = new DataAnalysisViewW((AppW) app,
-					DataAnalysisModel.MODE_ONEVAR);
+					app.getMode());
 		}
 		return dataAnalysisView;
 	}
 
-	public View getDataAnalysisView(int mode) {
-		if (dataAnalysisView != null &&
-				dataAnalysisView.getModel().getMode() != mode) {
-			dataAnalysisView = null;
-			dataAnalysisView = new DataAnalysisViewW((AppW) app,
-					mode);
-		}
-		return dataAnalysisView;
-		
-	}
 
 
 	public void attachDataAnalysisView() {
+		App.debug("DAMODE attachDataAnalysisView");
 		getDataAnalysisView();
 		dataAnalysisView.attachView();
 	}
 
 	public void detachDataAnalysisView() {
-		App.debug("unimplemented");
+		
 	}
 
 	public boolean hasDataAnalysisView() {
-		if (dataAnalysisView == null)
+		if (dataAnalysisView == null )
 			return false;
 		if (!dataAnalysisView.isShowing())
 			return false;

@@ -65,6 +65,15 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		this.statController = statDialog.getController();
 
 		buildDataTable();
+	
+		cbEnableAll = new CheckBox("");
+		cbEnableAll.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				enableAll();
+			}
+		});
+		
 		populateDataTable(statController.getDataArray());
 		createGUI();
 		enableAll();
@@ -130,13 +139,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 							StringTemplate.defaultTemplate), row + 1, 1);
 		}
 
-		cbEnableAll = new CheckBox("");
-		cbEnableAll.addClickHandler(new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				enableAll();
-			}
-		});
 		
 		dataTable.getTable().setWidget(0, 0, cbEnableAll);
 		dataTable.setValueAt(titles[0], 0, 1);
@@ -156,21 +158,27 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		dataTable.setStatTable(dataArray.size(), rowNames, 3, null);
 
 		for (int row = 0; row < dataArray.size(); ++row) {
+			CheckBox cb = new CheckBox("" + (row+1));
+			cb.addClickHandler(new DataClickHandler(row));
+			cb.setValue(true);
+			dataTable.getTable().setWidget(row + 1, 0, cb); 
+
 			dataTable.setValueAt(
-					((GeoPoint) (dataArray.get(row))).getInhomX()+"", row, 1);
+					((GeoPoint) (dataArray.get(row))).getInhomX()+"", row+1, 1);
 			dataTable.setValueAt(
-					((GeoPoint) (dataArray.get(row))).getInhomY()+"", row, 2);
+					((GeoPoint) (dataArray.get(row))).getInhomY()+"", row+1, 2);
 		}
 
+		dataTable.getTable().setWidget(0, 0, cbEnableAll);
 
 		// handle x,y titles
 		if (daView.getDataSource().isPointData()) {
 
 			dataTable.setValueAt(loc.getMenu("Column.X"), 0, 1);
-			dataTable.setValueAt(loc.getMenu("Column.Y"), 0, 1);
+			dataTable.setValueAt(loc.getMenu("Column.Y"), 0, 2);
 		} else {
 			dataTable.setValueAt(loc.getMenu("Column.X") + ": " + titleX, 0, 1);
-			dataTable.setValueAt(loc.getMenu("Column.Y") + ": " + titleY, 0, 1);
+			dataTable.setValueAt(loc.getMenu("Column.Y") + ": " + titleY, 0, 2);
 		}
 
 		updateSelectionList(dataArray);
