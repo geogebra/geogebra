@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
@@ -23,7 +24,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  * 
  * @author G. Sturr
  */
-public class RegressionPanelW extends FlowPanel implements //ActionListener,
+public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListener,
 		ChangeHandler, StatPanelInterfaceW {
 	private static final long serialVersionUID = 1L;
 
@@ -60,6 +61,7 @@ public class RegressionPanelW extends FlowPanel implements //ActionListener,
 		this.loc = (LocalizationW) app.getLocalization();
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();
+		setStyleName("daRegressionPanel");
 		add(createRegressionPanel());
 		setLabels();
 		updateRegressionPanel();

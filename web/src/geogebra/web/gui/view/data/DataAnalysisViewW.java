@@ -237,6 +237,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	private void updateLayout() {
 		clear();
+		
+		
 		mainSplit.clear();
 		boolean stat = model.showStatPanel();
 		boolean data = model.showDataPanel();
@@ -268,13 +270,12 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		add(mainSplit);
 		// ===========================================
 		// regression panel
-
 		if (model.isRegressionMode()) {
 			regressionPanel = new RegressionPanelW(app, this);
 			add(regressionPanel);
 		}
 		
-//		deferredDataPanelOnResize();
+		deferredDataPanelOnResize();
 	} 
 
 		
