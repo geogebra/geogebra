@@ -4,13 +4,13 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.GuiManager.Help;
-import geogebra.common.gui.Layout;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GuiManagerInterface;
+import geogebra.web.gui.layout.LayoutW;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void showPopupMenu(ArrayList<GeoElement> geos, AlgebraView invoker,
 	        GPoint p);
-
 
 	public void setFocusedPanel(int evID, boolean updatePropertiesView);
 
@@ -41,7 +40,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public String getCustomToolbarDefinition();
 
-	public Layout getLayout();
+	public LayoutW getLayout();
 
 	public SetLabels getInputHelpPanel();
 
@@ -89,8 +88,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public String getMenuBarHtml(String iconString, String name, boolean b);
 
-
 	public void recalculateEnvironments();
 
 	public String getHelpURL(Help type, String pageName);
+
+	public void updateStyleBarPositions(boolean menuOpen);
 }

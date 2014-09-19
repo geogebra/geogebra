@@ -47,6 +47,7 @@ import geogebra.web.gui.dialog.image.ImageInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
@@ -1633,4 +1634,24 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    // TODO Auto-generated method stub
 	    return null;
     }
+
+	@Override
+	public void updateStyleBarPositions(boolean menuOpen){
+		for(DockPanelW panel : this.layout.getDockManager().getPanels()){
+			int right = Window.getClientWidth() - (panel.getAbsoluteLeft() + panel.getOffsetWidth()); 
+
+			if(menuOpen && panel.isVisible() && right <  GLookAndFeel.MENUBAR_WIDTH){
+				if(Window.getClientWidth() -panel.getAbsoluteLeft() > GLookAndFeel.MENUBAR_WIDTH){
+					// -2 necessary because of style-settings for the StyleBar and the Menu
+					panel.showStyleBarPanel(true);
+					panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH- right -2);
+				} else {
+					panel.showStyleBarPanel(false);
+				}
+			} else {
+				panel.showStyleBarPanel(true);
+				panel.setStyleBarRightOffset(0);
+			}
+		}
+	}
 }

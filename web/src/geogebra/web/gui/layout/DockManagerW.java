@@ -24,6 +24,7 @@ import java.util.ListIterator;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -35,7 +36,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
-	private AppW app;
+	AppW app;
 	private LayoutW layout;
 	
 	/**
@@ -626,6 +627,15 @@ public class DockManagerW extends DockManager {
 		// TODO What does the resize do which will update the component ?!
 		//app.repaintEuclidianViews(rootPane);
 		//rootPane.onResize();
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				//true, because this can only be executed, if menu is open
+				app.getGuiManager().updateStyleBarPositions(true);
+			}
+		};
+		timer.schedule(0);
 	}
 
 	private void setDividerLocation(DockSplitPaneW splitPane,

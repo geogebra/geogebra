@@ -18,6 +18,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -1317,7 +1318,18 @@ public abstract class DockPanelW extends ResizeComposite implements
 			        GuiResources.INSTANCE.dockbar_triangle_left());
 		}
         return triangleLeft;
-		
-		
+	}
+
+	public void setStyleBarRightOffset(int offset){
+		if(this.titleBarPanel != null){
+			this.titleBarPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
+			this.titleBarPanel.getElement().getStyle().setRight(offset, Unit.PX);
+		}
+	}
+
+	public void showStyleBarPanel(boolean show){
+		if(this.titleBarPanel != null){
+			this.titleBarPanel.setVisible(show);
+		}
 	}
 }

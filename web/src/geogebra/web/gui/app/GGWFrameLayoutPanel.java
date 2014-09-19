@@ -1,6 +1,8 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App.InputPositon;
+import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
@@ -8,15 +10,22 @@ import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
-	private int MENUBAR_WIDTH = 0;
+	private int menuBarWidth = 0;
+	int menuBarTop = 0;
 	private boolean menuClosed = true;
+
+	private FlowPanel menuPanel;
+	private GuiManagerInterfaceW guiManagerW;
 
 	GGWToolBar ggwToolBar;
 	GGWCommandLine ggwCommandLine;
@@ -25,7 +34,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	MyDockPanelLayout dockPanel;
 	
 	private DockGlassPaneW glassPane;
-	
+
 	public GGWFrameLayoutPanel() {
 		super();
 
@@ -37,20 +46,24 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		add(dockPanel);
 	}
 
-	public void setLayout(AppW app) {
+	public void setLayout(final AppW app) {
+		this.guiManagerW = app.getGuiManager();
+
 		glassPane.setArticleElement(app.getArticleElement());
 		dockPanel.clear();
-		
+
+		this.menuBarTop = 0;
+
 		// if(app.showToolBar()){
-		dockPanel.addNorth(getToolBar(), GLookAndFeel.TOOLBAR_HEIGHT);
+		dockPanel.addNorth(getToolBar(), GLookAndFeelI.TOOLBAR_HEIGHT);
 		// }
 		if(app.showAlgebraInput()){
 			switch (app.getInputPosition()) {
 			case top:
-				dockPanel.addNorth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
+			dockPanel.addNorth(getCommandLine(), GLookAndFeelI.COMMAND_LINE_HEIGHT);
 				break;
 			case bottom:
-				dockPanel.addSouth(getCommandLine(), GLookAndFeel.COMMAND_LINE_HEIGHT);
+				dockPanel.addSouth(getCommandLine(), GLookAndFeelI.COMMAND_LINE_HEIGHT);
 				break;
 			case algebraView:
 				// done at the end
@@ -61,8 +74,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		}
 		((AlgebraViewWeb) app.getAlgebraView()).setShowAlgebraInput(app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView);
 
-		dockPanel.addEast(getMenuBar(), MENUBAR_WIDTH);
-
 		if (app.getGuiManager().getRootComponent() != null) {
 			dockPanel.add(app.getGuiManager().getRootComponent());
 			app.getGuiManager().getRootComponent().setStyleName("ApplicationPanel");
@@ -72,7 +83,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		/*if(ggwMenuBar!=null){
 			ggwMenuBar.getMenubar().onResize(null);
 		}*/
-			
+
+		Timer timer = new Timer(){
+			@Override
+            public void run() {
+				if(app.getInputPosition() == InputPositon.top ){
+					menuBarTop = getCommandLine().getOffsetHeight();
+				}
+				ggwMenuBar.getElement().getStyle().setTop(menuBarTop, Unit.PX);
+            }			
+		};
+		timer.schedule(0);
 	}
 
 	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.
@@ -139,26 +160,32 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	
 	public boolean toggleMenu() {
 		
+		if(menuPanel == null){
+			menuPanel =  new FlowPanel();
+			menuPanel.addStyleName("menuPanel");
+			menuPanel.add(ggwMenuBar);
+		}
+
 		if (this.menuClosed) {
-			//open menu
-			ggwMenuBar.setVisible(true);
-			this.MENUBAR_WIDTH = GLookAndFeel.MENUBAR_WIDTH_MAX;
-			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
-			this.dockPanel.forceLayout();
+			add(menuPanel);
+			this.menuBarWidth = GLookAndFeel.MENUBAR_WIDTH;
+			ggwMenuBar.setWidth(this.menuBarWidth + "px");
+			ggwMenuBar.getElement().getStyle().setTop(menuBarTop, Unit.PX);
+			ggwMenuBar.getElement().getStyle().setPosition(Position.RELATIVE);
 			ggwMenuBar.focus();
 			this.menuClosed = false;
+			guiManagerW.updateStyleBarPositions(true);
 		} else {
 			//close menu
-			ggwMenuBar.setVisible(false);
-			this.MENUBAR_WIDTH = 0;
-			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
-			this.dockPanel.forceLayout();
+			remove(menuPanel);
+			this.menuBarWidth = 0;
 			this.menuClosed = true;
+			guiManagerW.updateStyleBarPositions(false);
 			return false;
 		}
 		return !menuClosed;
 	}
-	
+
 	/**
 	 * @return true iff the menu is open
 	 */

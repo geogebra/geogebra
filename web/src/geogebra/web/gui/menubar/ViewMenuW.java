@@ -8,6 +8,7 @@ import geogebra.web.gui.view.Views;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Timer;
 
 /**
  * The "View" menu for the applet.
@@ -72,6 +73,15 @@ public class ViewMenuW extends GMenuBar {
 				        	app.getGuiManager().setShowView(
 									!app.getGuiManager().showView(Views.ids[i]), Views.ids[i]);
 				        	items[i].setSelected(app.getGuiManager().showView(Views.ids[i]));
+
+							Timer timer = new Timer() {
+								@Override
+								public void run() {
+									//true, because this can only be executed, if menu is open
+									app.getGuiManager().updateStyleBarPositions(true);
+								}
+							};
+							timer.schedule(0);
 				        }}
 				      );
 			addItem(items[i].getMenuItem());
@@ -87,6 +97,15 @@ public class ViewMenuW extends GMenuBar {
 			        			InputPositon.bottom : InputPositon.algebraView, true);
 				        app.updateCenterPanel(true);
 				        app.updateViewSizes();
+
+						Timer timer = new Timer() {
+							@Override
+							public void run() {
+								//true, because this can only be executed, if menu is open
+								app.getGuiManager().updateStyleBarPositions(true);
+							}
+						};
+						timer.schedule(0);
 			        }
 		        });
 		addItem(inputBarItem.getMenuItem());

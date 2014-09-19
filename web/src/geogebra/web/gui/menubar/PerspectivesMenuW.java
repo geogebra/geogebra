@@ -6,6 +6,7 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Timer;
 
 /**
  * Web implementation of FileMenu
@@ -51,6 +52,15 @@ public class PerspectivesMenuW extends GMenuBar {
 				if(changed){
 					app.storeUndoInfo();
 				}
+
+				Timer timer = new Timer() {
+					@Override
+					public void run() {
+						//true, because this can only be executed, if menu is open
+						app.getGuiManager().updateStyleBarPositions(true);
+					}
+				};
+				timer.schedule(0);
 			}
 		});			
 		}

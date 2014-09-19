@@ -489,12 +489,12 @@ public class AppWapplet extends AppW {
 			}
 			this.splitPanelWrapper.add(this.getMenuBar());
 			this.oldSplitLayoutPanel.setPixelSize(
-					this.oldSplitLayoutPanel.getOffsetWidth() - GLookAndFeel.MENUBAR_WIDTH_MAX,
+					this.oldSplitLayoutPanel.getOffsetWidth() - GLookAndFeel.MENUBAR_WIDTH,
 			this.oldSplitLayoutPanel.getOffsetHeight());
-			this.getMenuBar().setPixelSize(GLookAndFeel.MENUBAR_WIDTH_MAX,this.oldSplitLayoutPanel.getOffsetHeight());
+			this.getMenuBar().setPixelSize(GLookAndFeel.MENUBAR_WIDTH,this.oldSplitLayoutPanel.getOffsetHeight());
 		}else{
 			this.oldSplitLayoutPanel.setPixelSize(
-					this.oldSplitLayoutPanel.getOffsetWidth() + GLookAndFeel.MENUBAR_WIDTH_MAX,
+					this.oldSplitLayoutPanel.getOffsetWidth() + GLookAndFeel.MENUBAR_WIDTH,
 			this.oldSplitLayoutPanel.getOffsetHeight());
 			
 			this.splitPanelWrapper.remove(this.getMenuBar());

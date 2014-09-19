@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class GLookAndFeel implements GLookAndFeelI{
 
 	
-	public static final int MENUBAR_WIDTH_MAX = 204;
+	public static final int MENUBAR_WIDTH = 204;
 	
 	public static final int BROWSE_HEADER_HEIGHT = 61;
 	public static final int PROVIDER_PANEL_WIDTH = 70;
