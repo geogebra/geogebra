@@ -46,7 +46,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		if (token != null) {
 			performTokenLogin(token, true);
 		}else{
-			getGeoGebraTubeAPI().isAvailable(this);
+			getGeoGebraTubeAPI().checkAvailable(this);
 		}
 	}
 	

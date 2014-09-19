@@ -76,7 +76,7 @@ public class LoginOperationD extends LogInOperation {
 	 * @return boolean if the tube API is available
 	 */
 	public boolean isTubeAvailable() {
-		return getGeoGebraTubeAPI().isAvailable(this);
+		return getGeoGebraTubeAPI().isAvailable();
 	}
 
 	/**

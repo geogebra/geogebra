@@ -112,11 +112,15 @@ public abstract class GeoGebraTubeAPI {
 
 	protected abstract String buildTokenLoginRequest(String loginToken, String cookie);
 
-	public boolean isAvailable(LogInOperation op) {
+	public boolean checkAvailable(LogInOperation op) {
 		if (this.availabilityCheckDone && op != null) {
 			op.onEvent(new TubeAvailabilityCheckEvent(this.available));
 		}
 		checkIfAvailable(op, getClientInfo());
+		return this.available;
+	}
+	
+	public boolean isAvailable() {
 		return this.available;
 	}
 
