@@ -133,7 +133,9 @@ public abstract class GeoGebraTubeAPI {
 	 * @return boolean if the request was successful.
 	 */
 	private boolean checkIfAvailable(final LogInOperation op, String clientInfo) {
-		this.available = false;
+		if(!this.availabilityCheckDone){
+			this.available = false;
+		}
 		this.availabilityCheckDone = false;
 		try {
 			performRequest(
