@@ -162,7 +162,8 @@ TRANSLATORS
   * Sinhala: Dakshila Kamalsooriya, Dinithi Weerasekara, Kalumi Probodya
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
   * Slovenian: Stanislav Senveter (Slovenia)
-  * Spanish: Liliana Saidon (Argentina), Rafael Losada Liste (Spain)
+  * Spanish: Liliana Saidon (Argentina), Rafael Losada Liste (Spain),
+    Fabian Vitabar (Uruguay)
   * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
   * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah,
       Vasuraj Dhamodharan
