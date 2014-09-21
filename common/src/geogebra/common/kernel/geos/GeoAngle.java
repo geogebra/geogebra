@@ -21,7 +21,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoAngle;
@@ -172,16 +171,16 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		//setEuclidianVisible(false);
 	}
 
-	/**
-	 * create a new GeoAngle and set its interval (e.g. between 0° and 180°) as default angle
-	 * @param cons construction
-	 * @return new GeoAngle
-	 */
-	static public final GeoAngle newAngleWithDefaultInterval(Construction cons) {
-		GeoAngle ret = new GeoAngle(cons);
-		//set the angle interval
-		ret.setAngleStyle(((GeoAngle) cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE)).getAngleStyle());
-		return ret;
+
+	
+	
+	@Override
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
+
+		if (geo.isGeoAngle()) {
+			setAngleStyle(((GeoAngle) geo).getAngleStyle());
+		}
 	}
 
 	/**

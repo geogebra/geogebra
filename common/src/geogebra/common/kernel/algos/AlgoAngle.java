@@ -40,7 +40,7 @@ public abstract class AlgoAngle extends AlgoElement{
 	 * @return new GeoAngle
 	 */
 	protected GeoAngle newGeoAngle(Construction cons) {
-		return GeoAngle.newAngleWithDefaultInterval(cons);
+		return new GeoAngle(cons);
 	}
 	
     @Override

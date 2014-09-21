@@ -46,4 +46,14 @@ final public class GeoAngle3D extends GeoAngle {
 		ret.setHasOrientation(true);
 		return ret;
 	}
+	
+	@Override
+	public void setAngleStyle(AngleStyle angleStyle) {
+
+		if (!hasOrientation() && (angleStyle == AngleStyle.ANTICLOCKWISE || angleStyle == AngleStyle.UNBOUNDED)){
+			super.setAngleStyle(AngleStyle.NOTREFLEX);			
+		}else{
+			super.setAngleStyle(angleStyle);	
+		}
+	}
 }
