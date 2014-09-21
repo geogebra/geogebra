@@ -788,7 +788,7 @@ __GGB__keysVar.ca.command = {
     "Sequence": "Seq\xfc\xe8ncia",
     "Sequence.Syntax": "[ <Valor final> ]\n[ <Expressi\xf3>, <Variable>, <des de>, <fins a> ]\n[ <Expressi\xf3>, <Variable>, <des de>, <fins a>, <increment> ]",
     "SetActiveView": "DefineixZonaGr\xe0fica",
-    "SetActiveView.Syntax": "[ <Nombre Vista 1|2> ]",
+    "SetActiveView.Syntax": "[ <Vista> ]",
     "SetAxesRatio": "DefineixRa\xf3Eixos",
     "SetAxesRatio.Syntax": "[ <Nombre>, <Nombre> ]",
     "SetAxesRatio.Syntax3D": "[ <Nombre>, <Nombre> ]\n[ <Nombre>, <Nombre>, <Nombre> ]",
