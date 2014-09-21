@@ -25,6 +25,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
@@ -477,8 +478,15 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
 			Macro macro = macros.get(i);
-			writeConstructionImages(macro.getMacroConstruction(), filePath, archive);
-
+//			writeConstructionImages(macro.getMacroConstruction(), filePath, archive);
+			String fileName = macro.getIconFileName();
+			if (fileName != null) {
+				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
+				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
+				MyImageW img = new MyImageW(ImageElement.as((new Image(url)).getElement()),"svg".equals(ext));
+				
+				addImageToArchive("", fileName, url, ext, img, archive);
+			}
 			/*
 			// save macro icon
 			String fileName = macro.getIconFileName();
@@ -528,59 +536,69 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			// Michael Borcherds 2007-12-10 this line put back (not needed now
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
-			if (fileName != null) {
+			if (fileName != "") {
 				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
 				MyImageW img = (MyImageW)geo.getFillImage();
 				
 				App.debug("filename = " + fileName);
 				App.debug("ext = " + ext);
-				if ("svg".equals(ext)) {
-					
-					ImageElement svg = img.getImage();
-					
-					// TODO
-					//String svgAsXML = "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
-					String svgAsXML = svg.getAttribute("src");
-					
-					
-					// remove eg data:image/svg+xml;base64,
-					int index = svgAsXML.indexOf(',');
-					svgAsXML = svgAsXML.substring(index + 1);
-
-					App.debug("svgAsXML = " + svgAsXML);
-					
-					svgAsXML = ((AppW) app).decodeBase64String(svgAsXML);
-					
-					App.debug("svgAsXML (decoded) = " + svgAsXML);
-					
-					archive.put(fileName, svgAsXML);	
-					url = null;
-					
-					
-				} else if (url == null && (img != null && img.getImage() != null)) {
-					
-					Canvas cv = Canvas.createIfSupported();
-					cv.setCoordinateSpaceWidth(img.getWidth());
-					cv.setCoordinateSpaceHeight(img.getHeight());
-					Context2d c2d = cv.getContext2d();
-					c2d.drawImage(img.getImage(),0,0);
-					url = cv.toDataUrl("image/png");
-					// Opera and Safari cannot toDataUrl jpeg (much less the others)
-					//if (ext.equals("jpg") || ext.equals("jpeg"))
-					//	addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
-					//else
-					
-				}
-				if (url != null) {
-					if ("png".equals(ext)) {
-						addImageToZip(filePath + fileName, url, archive);
-					} else if (!"svg".equals(ext)){
-						addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", url, archive);
-					}
-				}
+				addImageToArchive(filePath, fileName, url, ext, img, archive);
 			}
 		}
+    }
+
+	private void addImageToArchive(String filePath, String fileName, String url,
+            String ext, MyImageW img, Map<String, String> archive) {
+	    if ("svg".equals(ext)) {
+	    	addSvgToArchive(fileName, img, archive);
+	    	url = null;
+	    } else if (url == null && (img != null && img.getImage() != null)) {
+	    	url = convertImgToPng(img);
+	    }
+	    if (url != null) {
+	    	if ("png".equals(ext)) {
+	    		addImageToZip(filePath + fileName, url, archive);
+	    	} else if (!"svg".equals(ext)){
+	    		addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", url, archive);
+	    	}
+	    }
+    }
+
+	private String convertImgToPng(MyImageW img) {
+	    String url;
+	    Canvas cv = Canvas.createIfSupported();
+	    cv.setCoordinateSpaceWidth(img.getWidth());
+	    cv.setCoordinateSpaceHeight(img.getHeight());
+	    Context2d c2d = cv.getContext2d();
+	    c2d.drawImage(img.getImage(),0,0);
+	    url = cv.toDataUrl("image/png");
+	    // Opera and Safari cannot toDataUrl jpeg (much less the others)
+	    //if (ext.equals("jpg") || ext.equals("jpeg"))
+	    //	addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
+	    //else
+	    return url;
+    }
+
+	private void addSvgToArchive(String fileName, MyImageW img,
+            Map<String, String> archive) {
+	    ImageElement svg = img.getImage();
+	    
+	    // TODO
+	    //String svgAsXML = "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
+	    String svgAsXML = svg.getAttribute("src");
+	    
+	    // remove eg data:image/svg+xml;base64,
+	    int index = svgAsXML.indexOf(',');
+	    svgAsXML = svgAsXML.substring(index + 1);
+
+	    App.debug("svgAsXML = " + svgAsXML);
+	    
+	    svgAsXML = ((AppW) app).decodeBase64String(svgAsXML);
+	    
+	    App.debug("svgAsXML (decoded) = " + svgAsXML);
+	    
+	    archive.put(fileName, svgAsXML);	
     }
 
     private void addImageToZip(String filename, String base64img, Map<String,String> archive) {
