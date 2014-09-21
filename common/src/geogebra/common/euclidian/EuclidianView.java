@@ -3425,14 +3425,24 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 					+ kernel.formatPiE(axisCross[1],
 							axesNumberFormat[0],
 							StringTemplate.defaultTemplate);
-
-			for (; pix < getWidth(); rw += axesNumberingDistances[0], pix += axesStep) {
+			
+			axesNumberingDistances[0] = Kernel.checkDecimalFraction(axesNumberingDistances[0]);
+					
+			int count = 0;
+			double rwBase = Kernel.checkDecimalFraction(rw);
+			
+			//for (; pix < getWidth(); rw += axesNumberingDistances[0], pix += axesStep) {
+			for (; pix < getWidth(); count++, pix += axesStep) {
+				
+				// 285, 285.1, 285.2 -> rounding problems
+				rw = rwBase + Kernel.checkDecimalFraction(axesNumberingDistances[0] * count);
+				
 				if (pix >= xAxisStart && pix <= maxX) {
 					if (showAxesNumbers[0]) {
 						String strNum = kernel.formatPiE(rw,
 								axesNumberFormat[0],
 								StringTemplate.defaultTemplate);
-
+						
 						if ((labelno % unitsPerLabelX) == 0) {
 
 							StringBuilder sb = new StringBuilder(strNum);
@@ -3460,6 +3470,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 							} else {
 								x = (int) ((pix + xoffset) - (estimateTextWidth(sb.toString(),getFontAxes()) / 2));
 							}
+							
 
 							drawString(g2, sb.toString(), x, y);
 
@@ -4055,7 +4066,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		double pix = getyZero() - (rw * getYscale());
 		double axesStep = getYscale() * axesNumberingDistances[1]; // pixelstep
 
-		for (; pix <= yAxisHeight; rw -= axesNumberingDistances[1], pix += axesStep) {
+		axesNumberingDistances[1] = Kernel.checkDecimalFraction(axesNumberingDistances[1]);
+		
+		int count = 0;
+		double rwBase = Kernel.checkDecimalFraction(rw);
+			
+		//for (; pix <= yAxisHeight; rw -= axesNumberingDistances[1], pix += axesStep) {
+		for (; pix <= yAxisHeight; count++, pix += axesStep) {
+
+			// 285, 285.1, 285.2 -> rounding problems
+			rw = rwBase - Kernel.checkDecimalFraction(axesNumberingDistances[1] * count);
+			
 			if (pix <= maxY) {
 				if (showAxesNumbers[1]) {
 					String strNum = kernel.formatPiE(rw, axesNumberFormat[1],
