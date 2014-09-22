@@ -176,6 +176,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 		}
 	    if(e.isEnterKey()){
 	    	this.handleEnterKey(e, app);
+	    	e.preventDefault();
 	    }
     }
 
