@@ -119,14 +119,14 @@ public class UDPLoggerD implements UDPLogger {
 		// to its double! Now we can do it, a piece of data needs only
 		// 11 bytes, not 33 bytes... however, we should not change the 50ms...
 
-		// so trying 2000 bytes of original buffer instead of 400 in
+		// so trying 1000 bytes of original buffer instead of 400 in
 		// SerialReader.java,
-		// and this gives 1000 * 11 bytes at once! Plus the EDAQ string.
+		// and this gives 500 * 11 bytes at once! Plus the EDAQ string.
 		// this happens e.g. if the 50ms of waiting time is interrupted
 		// by many ms of computer processing time.
-		final byte[] buffer = new byte[11100];
+		final byte[] buffer = new byte[5510];
 
-		// of course, this will only be used when needed, and anyway, 22 KB
+		// of course, this will only be used when needed, and anyway, 6 KB
 		// is not much in the age of kilobytes and megabytes...
 
 		// Create a packet to receive data into the buffer
@@ -136,6 +136,24 @@ public class UDPLoggerD implements UDPLogger {
 
 		// if this changes, another thread has started -> terminate this one
 		final DatagramSocket socketCopy = dsocket;
+
+		// Maybe important!!! We should neglect all information from the sensors
+		// coming from the past! Because it may happen that the sensors were
+		// switched on much earlier than we switched on receiving their data,
+		// and in this case, so much lag can be introduced which cannot be
+		// conquered in a reasonable time. So, we should storno the socket
+		// somehow, discard all datagram packets already sent... but how?
+
+		// This doesn't work:
+		/*
+		 * try { dsocket.receive(packet); while (packet.getLength() > 0) { if
+		 * (socketCopy != dsocket) { dsocket.close(); break; } try {
+		 * dsocket.receive(packet); } catch (Exception ex) { dsocket.close();
+		 * break; } } } catch (Exception ex) { dsocket.close(); }
+		 * 
+		 * if (dsocket.isClosed()) { // do not even start the Thread return
+		 * false; }
+		 */
 
 		thread = new Thread() {
 
