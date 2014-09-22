@@ -28,6 +28,9 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	
 	@Override
     public String getClientInfo() {
+		if(!Browser.runningLocal()){
+			return "";
+		}
 	    return "\"client\":{\"-id\":"+new JSONString(Location.getHref()).toString()+", \"-type\":\"web\", \"-language\":"+new JSONString(Browser.navigatorLanguage()).toString()+"},";
     }
 
