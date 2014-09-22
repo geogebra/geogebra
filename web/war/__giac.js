@@ -1466,6 +1466,9 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 1466: { cat:"Evaluate", cmd:"Evaluate[x^2+x+2/3]", result:"x² + x + 2 / 3", notes:"#4455" },
 1467: { cat:"Trig", cmd:"Simplify[TrigExpand[2sin(x-pi/4)+2sin(x+pi/4)]]", result:"2sqrt(2) sin(x)" },
 1468: { cat:"Factor", cmd:"Factor[2^(2^7)+1]", result:"59649589127497217 (5704689200685129054721)" },
+1469: { cat:"Numeric", cmd:"Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]", result:"2.13" },
+1470: { cat:"Numeric", cmd:"Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2)),10]", result:"2.132426956" },
+1471: { cat:"Numeric", cmd:"Numeric[y = ℯ^(-11 x / 100)]", result:"y = ℯ^(((-0.11) * x))", notes:"#4537" },
 
 
 

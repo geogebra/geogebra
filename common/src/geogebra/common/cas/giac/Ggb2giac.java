@@ -443,7 +443,8 @@ public class Ggb2giac {
 						// is better when returning degrees from inverse trig
 						"evalf(ggbans)"+
 						","+
-						"evalf(normal(ggbans))"+
+						// #4537
+						"evalf(regroup(normal(ggbans)))"+
 				")][1]");
 
 		p("Numeric.2",
@@ -453,7 +454,8 @@ public class Ggb2giac {
 						// is better when returning degrees from inverse trig
 						"evalf(ggbans,%1)"+
 						","+
-						"evalf(normal(ggbans),%1)"+
+						// #4537
+						"evalf(regroup(normal(ggbans)),%1)"+
 				")][1]");
 
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
