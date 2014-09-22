@@ -1,5 +1,6 @@
 package geogebra.html5.main;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.util.HttpRequest;
@@ -31,7 +32,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		if(!Browser.runningLocal()){
 			return "";
 		}
-	    return "\"client\":{\"-id\":"+new JSONString(Location.getHref()).toString()+", \"-type\":\"web\", \"-language\":"+new JSONString(Browser.navigatorLanguage()).toString()+"},";
+	    return "\"client\":{\"-id\":"+new JSONString(Location.getHref()+":"+GeoGebraConstants.VERSION_STRING).toString()+", \"-type\":\"web\", \"-language\":"+new JSONString(Browser.navigatorLanguage()).toString()+"},";
     }
 
 }
