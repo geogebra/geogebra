@@ -4375,6 +4375,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	height: 100%;
 }
 
+
 .dataAnalysisPanel {
 	width: 100%;
 	height: 100%;
@@ -4384,6 +4385,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	width: 100px;
 }
 
+.daImagePanel,
 .daPlotPanel {
 	width: 100%;
 	height: 100%;

@@ -16,6 +16,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.images.AppResources;
@@ -332,6 +333,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		imagePanel = new FlowPanel();
 		imageContainer = new Label();
+		imagePanel.setStyleName("daImagePanel");
 		imagePanel.add(imageContainer);
 
 	}
@@ -509,6 +511,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 					.getEuclidianView2(1).getViewID() : app
 					.getEuclidianView1().getViewID();
 		}
+		App.debug("[EXPORT] to EV " + euclidianViewID);
 
 		// do the export
 		getModel().exportGeosToEV(euclidianViewID);
@@ -704,10 +707,14 @@ public class DataDisplayPanelW extends FlowPanel implements
 	public void showPlotPanel() {
 		displayDeckPanel.showWidget(METAPLOT_IDX);
 	}
+	
 
 	public void updateStemPlot(String latex) {
-		//		imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
-		//				app.getPlainFont(), true, Color.BLACK, null));
+		imageContainer.setText("");
+		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
+		DrawEquationWeb.drawEquationAlgebraView(imageContainer.getElement(), "\\mathrm {" + latexStr
+		        + "}");
+
 		btnOptions.setVisible(false);
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);
