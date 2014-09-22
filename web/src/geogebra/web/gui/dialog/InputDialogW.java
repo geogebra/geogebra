@@ -60,6 +60,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			}};
 			
 		wrappedPopup.addStyleName("DialogBox");
+		wrappedPopup.addStyleName("GeoGebraFrame");
 		wrappedPopup.setGlassEnabled(true);
 	}
 
