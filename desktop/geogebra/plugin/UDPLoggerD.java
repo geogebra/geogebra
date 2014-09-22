@@ -105,21 +105,29 @@ public class UDPLoggerD implements UDPLogger {
 		// final byte[] buffer = new byte[2048];
 
 		// EDAQx's internal frequency can be 1000 Hz, and this can send
-		// 200 * 33 bytes at once (i.e. in every 50ms), so we should increase
-		// the size of our buffer here, accordingly
-		final byte[] buffer = new byte[7000];// 6600
+		// 1000 * 3 * 11 bytes in one second
 
-		// that consumes 7 Kilobytes, which should not be a problem in
-		// the age of Megabytes and Gigabytes...
+		// however, it's actually sending the data with pauses of 50ms or more,
+		// with not more than 200 * 11 bytes at once, and this gives:
+		// a maximum of (1000/50) * (200 * 11) bytes in one second
+		// that is, 20 * 200 * 11, or 1000 * 4 * 11... however, the 50ms
+		// is more than that because of computation times, so the
+		// 1000 * 4 * 11 can be less, and in this case, maybe the software
+		// is not able to transmit the 1000 * 3 * 11 in this rate...
 
-		// TODO: maybe later we could optimize this to have a smaller buffer,
-		// if necessary, but keep in mind Speed versus Memory usage
-		// at 1000 Hz of sampling with EDAQx, which means 1000 * 3 * 2 bytes
-		// coming from the sensor in 1s, and this is converted to
-		// 1000 * 3 * 33, because we send doubles, and processed values...
-		// so this buffer can be needed 15 times every second, but not
-		// necessarily... that is close to 20 FPS
-		// (1000 * 3 * 33) / (200 * 33) = (200 * 5 * 3 * 33) / (200 * 33)
+		// Possible solution: increase the bytes it can send at once,
+		// to its double! Now we can do it, a piece of data needs only
+		// 11 bytes, not 33 bytes... however, we should not change the 50ms...
+
+		// so trying 2000 bytes of original buffer instead of 400 in
+		// SerialReader.java,
+		// and this gives 1000 * 11 bytes at once! Plus the EDAQ string.
+		// this happens e.g. if the 50ms of waiting time is interrupted
+		// by many ms of computer processing time.
+		final byte[] buffer = new byte[11100];
+
+		// of course, this will only be used when needed, and anyway, 22 KB
+		// is not much in the age of kilobytes and megabytes...
 
 		// Create a packet to receive data into the buffer
 		final DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
