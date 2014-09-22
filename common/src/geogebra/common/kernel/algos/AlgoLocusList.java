@@ -62,7 +62,7 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
-		locus.setFillable(false);
+		//locus.setFillable(false);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -81,7 +81,7 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
-		locus.setFillable(false);
+		//locus.setFillable(false);
 
 		updateScreenBorders();
 		setInputOutput(); // for AlgoElement

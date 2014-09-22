@@ -36,7 +36,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 	public static final int MAX_PATH_RUNS = 10;
 
 	private boolean defined;
-	private boolean fillable;
 
 	// coords of points on locus
 	protected ArrayList<T> myPointList;
@@ -54,7 +53,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 		setConstructionDefaults(); // init visual settings
 
 		myPointList = new ArrayList<T>(500);
-		setFillable(true);
 	}
 
 	@Override
@@ -383,23 +381,13 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 
 	@Override
 	public boolean isFillable() {
-		return fillable;
+		return true;
 	}
 
 	@Override
 	public boolean isInverseFillable() {
-		return fillable;
+		return true;
 	}
-
-	/**
-	 * @param fill whether this can be filled
-	 */
-	public void setFillable(boolean fill) {
-		fillable = fill;
-	}
-	
-	
-
 
 	final public PathMover createPathMover() {
 		return new PathMoverLocus<T>(this);
