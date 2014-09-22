@@ -212,9 +212,17 @@ public class UDPLoggerD implements UDPLogger {
 								// "{sensor1},{doublebits8};"
 								// ,,23456789
 
+								if (buffer[bp - 1] != ';') {
+									App.error("error in UDP transmission");
+								}
+
 								long gotit = 0;
 								for (int place = bp + 2, shift = 56; place < bp + 10; place++, shift -= 8) {
 									gotit |= ((buffer[place] & 0xFFL) << shift);
+								}
+
+								if (buffer[bp + 1] != ',') {
+									App.error("error in UDP transmission");
 								}
 
 								switch (buffer[bp]) {
