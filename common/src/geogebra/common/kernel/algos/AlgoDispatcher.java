@@ -16,6 +16,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -434,6 +435,8 @@ public class AlgoDispatcher {
 		} else {
 			angle = Angle(angleLabel, C, A, B);
 		}
+		// ensure we won't get angle e.g. in 0-180° due to default
+		angle.setAngleStyle(AngleStyle.ANTICLOCKWISE);
 
 		// return angle and new point
 		GeoElement[] ret = { angle, C };
