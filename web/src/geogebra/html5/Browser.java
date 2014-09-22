@@ -1,7 +1,5 @@
 package geogebra.html5;
 
-import geogebra.common.main.App;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window.Location;
 
@@ -142,8 +140,8 @@ public class Browser {
 	 * @return whether we are running this from our own website
 	 */
 	public static boolean runningLocal(){
-		App.debug(GWT.getModuleBaseURL());
-		return !GWT.getModuleBaseURL().contains("geogebra.org") && Location.getProtocol().startsWith("http");
+		return Location.getProtocol().startsWith("http") && !Location.getHost().contains("geogebra.org")
+				&& !Location.getHost().contains("geogebratube.org");
 	}
 
 	public native static String navigatorLanguage() /*-{
