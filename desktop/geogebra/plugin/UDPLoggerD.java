@@ -205,41 +205,37 @@ public class UDPLoggerD implements UDPLogger {
 								&& c3 == 'Q') {
 							// EDAQ 530
 
-							String msg = new String(buffer, 0,
-									packet.getLength());
-							// App.debug(msg);
+							// "EDAQ;{sensor1},{doublebits8};{sensor},{doublebits};{sensor},{doublebits}"...
+							// we could even spare the ; and , but still left
 
-							// So we first separate many values by ";"
-							String[] oldPackets = msg.split(";");
+							for (int bp = 5; bp < packet.getLength(); bp += 11) {
+								// "{sensor1},{doublebits8};"
+								// ,,23456789
 
-							for (int opi = 0; opi < oldPackets.length; opi++) {
-								if (oldPackets[opi] != null
-										&& oldPackets[opi].length() > 0) {
+								long gotit = 0;
+								for (int place = bp + 2, shift = 56; place < bp + 10; place++, shift -= 8) {
+									gotit |= ((buffer[place] & 0xFFL) << shift);
+								}
 
-									// Then comes the original separation of
-									// Double
-									String[] split = oldPackets[opi].split(",");
+								switch (buffer[bp]) {
+								case 0:
+									log(Types.EDAQ0,
+											Double.longBitsToDouble(gotit),
+											false);
+									break;
+								case 1:
+									log(Types.EDAQ1,
+											Double.longBitsToDouble(gotit),
+											false);
+									break;
+								case 2:
+									log(Types.EDAQ2,
+											Double.longBitsToDouble(gotit),
+											false);
+									break;
 
-									switch (oldPackets[opi].charAt(4)) {
-									case '0':
-										log(Types.EDAQ0,
-												Double.parseDouble(split[1]),
-												false);
-										break;
-									case '1':
-										log(Types.EDAQ1,
-												Double.parseDouble(split[1]),
-												false);
-										break;
-									case '2':
-										log(Types.EDAQ2,
-												Double.parseDouble(split[1]),
-												false);
-										break;
-
-									default:
-										App.error("unknown EDAQ port " + msg);
-									}
+								default:
+									App.error("unknown EDAQ port!");
 								}
 							}
 
