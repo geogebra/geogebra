@@ -1540,7 +1540,7 @@ __GGB__keysVar.pt_PT.menu = {
     "List": "Lista",
     "ListOfPoints": "Lista de pontos",
     "Load": "Abrir",
-    "Loading": "Loading \u2026",
+    "Loading": "A carregar\u2026",
     "Local": "Local",
     "Location": "Localiza\xe7\xe3o",
     "LockView": "Bloquear Vista",
