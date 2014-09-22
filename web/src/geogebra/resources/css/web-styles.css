@@ -4421,8 +4421,14 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
 .daMainSplit {
 	width: 100%;
+	height: 100%;
+}
+
+.daMainSplitRegression {
+	width: 100%;
 	height: 80%;
 }
+
 .daData {
 }
 
@@ -4430,6 +4436,14 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	width: 100%;
 	min-width: 100px;
 	max-width: 100px;
+	border: 1px solid;
+	border-collapse: collapse;
+}
+
+.daRegressionData table {
+	width: 100%;
+	min-width: 200px;
+	max-width: 200px;
 	border: 1px solid;
 	border-collapse: collapse;
 }
@@ -4451,6 +4465,12 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	font-weight: bold;
 }
 
+.daRegressionData table tr td:first-child {
+	width: 60px;
+	background-color: #acacac;
+	color: #545454;
+	font-weight: bold;
+}
 .comboSplitLayout .panelRow {
 	vertical-align: top;
 }

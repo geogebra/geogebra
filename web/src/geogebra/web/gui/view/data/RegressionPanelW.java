@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 /**
  * Panel to select and display the DataAnalysisView regression model.
  * 
- * @author G. Sturr
+ * @author G. Sturr, Laszlo Gal
  */
 public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListener,
 		ChangeHandler, StatPanelInterfaceW {

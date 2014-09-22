@@ -150,6 +150,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 	private void populateRegressionDataTable(ArrayList<GeoElement> dataArray) {
 		// a data source may be a list of points with a single title
 		// so we must create a title for the y column
+		setStyleName("daRegressionData");
 		String[] titles = daView.getDataTitles();
 		String[] rowNames = new String[dataArray.size()];
 		String titleX = titles[0];

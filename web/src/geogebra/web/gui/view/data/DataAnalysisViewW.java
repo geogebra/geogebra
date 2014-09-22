@@ -273,6 +273,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		if (model.isRegressionMode()) {
 			regressionPanel = new RegressionPanelW(app, this);
 			add(regressionPanel);
+			mainSplit.setHeight("80%");
 		}
 		
 		deferredDataPanelOnResize();
