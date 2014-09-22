@@ -188,6 +188,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 	
 	void doRename() {
+		if (this.renameTitleBox.getText().length() < 4) {
+			this.renameTitleBox.setVisible(false);
+			this.title.setVisible(true);
+			return;
+		}
 		final String oldTitle = this.title.getText();
 		this.title.setText(this.renameTitleBox.getText());
 		this.renameTitleBox.setVisible(false);
