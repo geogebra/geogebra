@@ -206,6 +206,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-help-about.png")
 	ImageResource menu_icon_help_about();
 	
+	@Source("icons/png/web/menu_icons/menu-options.png") // TODO: new icon
+	ImageResource menu_icon_tools();
+
 	
 	// OTHER MENUICONS
 	@Source("icons/png/web/menu_icons/menu_view_algebra.png")

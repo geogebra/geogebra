@@ -3782,6 +3782,31 @@ public abstract class App implements UpdateSelection{
 		// TODO Auto-generated method stub		
 	}
 	
+	/**
+	 * Adds a macro from XML
+	 * 
+	 * @param xml
+	 *            macro code (including &lt;macro> wrapper)
+	 * @return True if successful
+	 */
+	public boolean addMacroXML(String xml) {
+		boolean ok = true;
+		try {
+			getXMLio().processXMLString(
+					"<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
+							+ "\">" + xml + "</geogebra>", false, true);
+		} catch (MyError err) {
+			err.printStackTrace();
+			showError(err);
+			ok = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			ok = false;
+			showError("LoadFileFailed");
+		}
+		return ok;
+	}
+	
 	private static boolean CASViewEnabled = true;
 
 	/**

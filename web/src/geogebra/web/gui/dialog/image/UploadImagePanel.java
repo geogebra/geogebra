@@ -12,15 +12,21 @@ public class UploadImagePanel extends VerticalPanel {
 	private String fileData;
 	private String fileName;
 
+	String previewHeight;
+	String previewWidth;
+	
 	private FileUpload uploadImageBtn;
 	private Image previewImg;
-	private ImageInputDialog dialog;
+
+	private UploadImageDialog dialog;
 	
 	private AppW app;
 	
-	public UploadImagePanel(ImageInputDialog dialog, AppW app) {
+	public UploadImagePanel(UploadImageDialog uploadImageDialog, AppW app, String previewWidth, String previewHeight) {
 		this.app = app;
-		this.dialog = dialog;
+		this.dialog = uploadImageDialog;
+		this.previewWidth = previewWidth;
+		this.previewHeight = previewHeight;
 	    initGUI();
 	    initActions();
     }
@@ -68,8 +74,10 @@ public class UploadImagePanel extends VerticalPanel {
 		this.fileName = fileName;
 		if (previewImg == null) {
 			previewImg = new Image(fileData);
-			previewImg.setHeight("155px");
-			previewImg.setWidth("213px");
+			
+			previewImg.setHeight(previewHeight);
+			
+			previewImg.setWidth(previewWidth);
 			add(previewImg);
 		} else {
 			previewImg.setUrl(fileData);

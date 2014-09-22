@@ -2562,6 +2562,12 @@ body.application[dir=rtl] .toolbar_mainItem {
 	cursor: default;
 }
 
+/* ----------- TOOLCREATION DIALOG -------------*/
+.toolCreationDialog .dialogContent {
+	min-width: 400px;
+}
+
+
 /* ----------- SAVE UNSAVED CHANGES DIALOG -------------*/
 .saveUnsavedDialog {
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;

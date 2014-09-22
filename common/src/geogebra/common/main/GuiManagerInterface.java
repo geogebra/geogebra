@@ -346,4 +346,5 @@ public interface GuiManagerInterface {
 	
 	int getEuclidianViewCount();
 
+	public void addToToolbarDefinition(int mode);
 }
