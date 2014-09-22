@@ -16,6 +16,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.html5.util.SpreadsheetTableModelW;
+import geogebra.web.gui.layout.DockManagerW;
 
 import java.util.HashMap;
 
@@ -1354,7 +1355,7 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 	// test all components of SpreadsheetView for hasFocus
 	//@Override
 	public boolean hasFocus() {
-		return true; /*TODO
+		return ((DockManagerW)app.getGuiManager().getLayout().getDockManager()).getFocusedViewId() == App.VIEW_SPREADSHEET; /*TODO
 		if (table == null)
 			return false;
 		return table.hasFocus()
