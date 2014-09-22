@@ -401,6 +401,9 @@ public static final String LOCALE_PARAMETER = "locale";
 				        + ".js");
 				script.addLoadHandler(callback);
 				Document.get().getBody().appendChild(script);
+				if(Browser.supportsSessionStorage()){
+					savePropertiesToStorage(lang);
+				}
 			}
 		}
 		
@@ -422,6 +425,15 @@ public static final String LOCALE_PARAMETER = "locale";
 			}
 	        return false;
         }-*/;
+		
+		private native void savePropertiesToStorage(String lang) /*-{
+			var storedTranslation = {};
+	        if($wnd.localStorage && $wnd["__GGB__keysVar"] && $wnd["__GGB__keysVar"][lang]){
+	        	var obj = {};
+				obj[lang] = $wnd.__GGB__keysVar[lang];
+				$wnd.localStorage.translation = JSON.stringify(obj);
+	        }
+    	}-*/;
 
 		public void setLanguage(String language, String country) {
 
