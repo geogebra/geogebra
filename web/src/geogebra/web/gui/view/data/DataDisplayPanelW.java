@@ -33,11 +33,14 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -113,7 +116,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private Label lblTitleX, lblTitleY;
 	private AutoCompleteTextFieldW fldTitleX, fldTitleY;
 	private FrequencyTablePanelW frequencyTable;
-	private MyToggleButton2 btnExport;
+	private MenuBar btnExport;
 	private AutoCompleteTextFieldW fldNumClasses;
 
 	private DataAnalysisModel daModel;
@@ -179,7 +182,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		});
 
 		// create export button
-		btnExport = new MyToggleButton2(new Image(AppResources.INSTANCE.export().getSafeUri().asString()));
+		btnExport = new MenuBar();
 
 		// create control panel
 		if (hasControlPanel) {
@@ -260,6 +263,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		mainPanel.add(LayoutUtil.panelRow(displayDeckPanel, optionsPanel));
 
 		add(mainPanel);
+		createExportMenu();
 		resize();
 	}
 
@@ -454,10 +458,38 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	}
 
+	private void createExportMenu() {
+		MenuBar menu = new MenuBar();
+		MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
+		        new Command() {
 
+			        public void execute() {
+				        exportToEV();
+			        }
+		});
+		menu.addItem(miToGraphich);
+		
+		String image = "<img src=\""
+		        + AppResources.INSTANCE.export().getSafeUri().asString() + "\" >";
+		btnExport.addItem(image, true, menu);
+	
+	}
 	// ==============================================
 	// DISPLAY UPDATE
 	// ==============================================
+
+	protected void exportToEV() {
+		Integer euclidianViewID = null ;
+		// if null ID then use EV1 unless shift is down, then use EV2
+		if (euclidianViewID == null) {
+			euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app
+					.getEuclidianView2(1).getViewID() : app
+					.getEuclidianView1().getViewID();
+		}
+
+		// do the export
+		getModel().exportGeosToEV(euclidianViewID);
+    }
 
 	public void showControlPanel() {
 		controlDecks.showWidget(EMPTY_IDX);
@@ -506,14 +538,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 			resize();
 			
 		}
-		//
-		//		else if (source == btnExport) {
-		//			JPopupMenu menu = plotPanel.getContextMenu();
-		//			menu.show(btnExport,
-		//					-menu.getPreferredSize().width + btnExport.getWidth(),
-		//					btnExport.getHeight());
-		//		}
-		//
+
+		else if (source == btnExport) {
+		}
+
 		else 
 			if (source == lbDisplayType) {
 				int idx = lbDisplayType.getSelectedIndex();
@@ -784,7 +812,6 @@ public class DataDisplayPanelW extends FlowPanel implements
     }
 
 	public void onResize() {
-		App.debug("[AAAAAAAAAAAA] DataDisplayPanel resizing");
 		resize(true);  
     }
 

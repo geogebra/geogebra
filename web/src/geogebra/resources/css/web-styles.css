@@ -4373,10 +4373,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	height: 100%;
 }
 
-.daOptionButtons { /* This prevents to overlap the style bar 
-	   as temporary solution */
-	margin-right: 150px;
-	float: right;
+.daOptionButtons {
 	width: 100px;
 }
 
