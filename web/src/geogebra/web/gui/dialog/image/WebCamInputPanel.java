@@ -102,5 +102,4 @@ public class WebCamInputPanel extends VerticalPanel {
 		}
 		return shotcapture(video);
 	}
-	
 }

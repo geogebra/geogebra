@@ -74,9 +74,7 @@ public class UploadImagePanel extends VerticalPanel {
 		this.fileName = fileName;
 		if (previewImg == null) {
 			previewImg = new Image(fileData);
-			
 			previewImg.setHeight(previewHeight);
-			
 			previewImg.setWidth(previewWidth);
 			add(previewImg);
 		} else {
@@ -91,6 +89,12 @@ public class UploadImagePanel extends VerticalPanel {
 	
 	public String getFileName() {
 		return fileName;
+	}
+	
+	public void resetPreview() {
+		if (this.previewImg != null) {
+			this.remove(this.previewImg);
+		}
 	}
 
 }

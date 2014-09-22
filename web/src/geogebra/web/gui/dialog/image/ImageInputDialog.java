@@ -1,6 +1,6 @@
 package geogebra.web.gui.dialog.image;
 
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,14 +12,11 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	private static final String PREVIEW_HEIGHT = "155px";
 	private static final String PREVIEW_WIDTH = "213px";
 	
-	private WebCamInputPanel webcamPanel;
-	private GeoPoint loc;
-	
+	private WebCamInputPanel webcamPanel;	
 	private Label webcam;
 	
-	public ImageInputDialog(AppW app, GeoPoint loc) {
-		super(app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
-		this.loc = loc;
+	public ImageInputDialog(App app) {
+		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 	}
 	
 	protected void initGUI() {
@@ -81,5 +78,13 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	    } else if (source == webcam) {
 	    	webcamClicked();
 	    }
+	}
+	
+	@Override
+	public void hide() {
+		super.hide();
+		if (this.uploadImagePanel != null) {
+			this.uploadImagePanel.resetPreview();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package geogebra.web.gui.dialog.image;
 
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.VerticalSeparator;
 
@@ -12,8 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public abstract class UploadImageDialog extends DialogBox implements
-        ClickHandler {
+public abstract class UploadImageDialog extends DialogBox implements ClickHandler {
 
 	protected HorizontalPanel mainPanel;
 	protected VerticalPanel listPanel;
@@ -25,6 +25,7 @@ public abstract class UploadImageDialog extends DialogBox implements
 	protected Button insertBtn;
 	protected Button cancelBtn;
 	protected Label upload;
+	protected GeoPoint loc;
 	
 	String previewHeight;
 	String previewWidth;
@@ -35,9 +36,6 @@ public abstract class UploadImageDialog extends DialogBox implements
 		this.previewHeight = previewHeight;
 		initGUI();
 		initActions();
-		setLabels();
-		center();
-		uploadClicked();
 	}
 
 	protected void initGUI() {
@@ -48,7 +46,7 @@ public abstract class UploadImageDialog extends DialogBox implements
 		// listPanel.add(webcam = new Label(""));
 		listPanel.setSpacing(10);
 
-		mainPanel.add(new VerticalSeparator(200));
+		mainPanel.add(new VerticalSeparator(225));
 		mainPanel.setSpacing(5);
 		mainPanel.add(imagePanel = new VerticalPanel());
 
@@ -89,10 +87,25 @@ public abstract class UploadImageDialog extends DialogBox implements
 	
 	public void imageAvailable() {
 		insertBtn.setEnabled(true);
+		insertBtn.removeStyleName("button-up-disabled");
 	}
 
 	public void imageUnavailable() {
 		insertBtn.setEnabled(false);
+		insertBtn.addStyleName("button-up-disabled");
 	}
 
+	/**
+	 * @param loc {@link GeoPoint}
+	 */
+	public void setLocation(GeoPoint loc) {
+	    this.loc = loc;
+    }
+	
+	@Override
+	public void center() {
+		super.center();
+		setLabels();
+		uploadClicked();
+	}
 }

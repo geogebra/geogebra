@@ -1116,10 +1116,7 @@ public static final String LOCALE_PARAMETER = "locale";
 	 *            - the image data url
 	 * @param fileStr2
 	 *            - the image binary string
-	 * @param clientx
-	 *            - desired position on the canvas (x)
-	 * @param clienty
-	 *            - desired position on the canvas (y)
+	 * @param loc 
 	 */
 	public void imageDropHappened(String imgFileName, String fileStr,
 	        String fileStr2, GeoPoint loc) {

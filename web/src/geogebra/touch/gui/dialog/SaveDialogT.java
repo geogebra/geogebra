@@ -1,4 +1,4 @@
-package geogebra.touch.gui;
+package geogebra.touch.gui.dialog;
 
 import geogebra.common.main.App;
 import geogebra.touch.PhoneGapManager;

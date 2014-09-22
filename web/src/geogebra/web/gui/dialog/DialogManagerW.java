@@ -35,6 +35,8 @@ import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.dialog.image.ImageInputDialog;
+import geogebra.web.gui.dialog.image.UploadImageDialog;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.util.WindowReference;
@@ -55,6 +57,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	private FunctionInspectorW functionInspector;
 	private SaveUnsavedChanges saveUnsavedDialog;
 	protected SaveDialogW saveDialog = null;
+	protected UploadImageDialog imageDialog;
 
 	public DialogManagerW(App app) {
 		super(app);		
@@ -190,6 +193,17 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		id.setVisible(true);
 	}
+	
+	
+	/**
+	 * @param loc {@link GeoPoint}
+	 */
+	public void showImageInputDialog(GeoPoint loc) {
+		UploadImageDialog dialog = getImageInputDialog();
+		dialog.setLocation(loc);
+		dialog.center();
+		dialog.show();
+	}
 
 	public final SaveUnsavedChanges getSaveUnsavedDialog() {
 		if (this.saveUnsavedDialog == null) {
@@ -197,6 +211,13 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		}
 		
 		return this.saveUnsavedDialog;
+	}
+	
+	public UploadImageDialog getImageInputDialog() {
+		if (this.imageDialog == null) {
+			this.imageDialog = new ImageInputDialog(app);
+		}
+		return this.imageDialog;
 	}
 
 	@Override
@@ -435,7 +456,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 */
 	public void hideLoadingAnimation() {
 		 if (loadingAnimation != null) {
-		    	loadingAnimation.hide();;
+		    	loadingAnimation.hide();
 		    }
     }
 	
@@ -453,6 +474,10 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		if (saveDialog != null) {
 			saveDialog.setLabels();
+		}
+		
+		if (imageDialog != null) {
+			imageDialog.setLabels();
 		}
 		
 		if(this.saveUnsavedDialog != null){

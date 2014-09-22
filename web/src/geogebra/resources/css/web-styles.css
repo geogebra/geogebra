@@ -2562,6 +2562,13 @@ body.application[dir=rtl] .toolbar_mainItem {
 	cursor: default;
 }
 
+/* Touch */
+.GeoGebraPopup.image .inputPanel {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
 /* ----------- TOOLCREATION DIALOG -------------*/
 .toolCreationDialog .dialogContent {
 	min-width: 400px;

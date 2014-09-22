@@ -6,7 +6,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.html5.gui.History;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.util.ArticleElement;
-import geogebra.touch.gui.DialogManagerT;
+import geogebra.touch.gui.dialog.DialogManagerT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.main.AppWapplication;
