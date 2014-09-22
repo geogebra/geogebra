@@ -459,7 +459,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	private void createExportMenu() {
-		MenuBar menu = new MenuBar();
+		MenuBar menu = new MenuBar(true);
 		MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
 		        new Command() {
 
@@ -467,7 +467,19 @@ public class DataDisplayPanelW extends FlowPanel implements
 				        exportToEV();
 			        }
 		});
+		
 		menu.addItem(miToGraphich);
+
+		if(app.getLAF().copyToClipboardSupported()){
+			MenuItem miAsPicture = new MenuItem(app.getPlain("ExportAsPicture"),
+			        new Command() {
+
+				        public void execute() {
+				        	exportAsPicture();
+				        }
+			});
+			menu.addItem(miAsPicture);
+		}
 		
 		String image = "<img src=\""
 		        + AppResources.INSTANCE.export().getSafeUri().asString() + "\" >";
@@ -477,6 +489,17 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// ==============================================
 	// DISPLAY UPDATE
 	// ==============================================
+
+	protected void exportAsPicture() {
+		app.getSelectionManager().clearSelectedGeos(true,
+				false);
+		app.updateSelection(false);
+
+		app.setWaitCursor();
+		app.copyEVtoClipboard(plotPanel);
+		app.setDefaultCursor();
+	
+    }
 
 	protected void exportToEV() {
 		Integer euclidianViewID = null ;

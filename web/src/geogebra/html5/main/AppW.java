@@ -1979,6 +1979,12 @@ public static final String LOCALE_PARAMETER = "locale";
 			        "_blank", null);
 		}
 
+		public void copyEVtoClipboard(EuclidianViewW ev) {
+			Window.open(ev.getExportImageDataUrl(3, true),
+			        "_blank", null);
+		}
+
+
 		@Override
 		public void copyGraphicsViewToClipboard() {
 			App.debug("unimplemented");
