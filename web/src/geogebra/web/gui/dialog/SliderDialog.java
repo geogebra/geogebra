@@ -77,6 +77,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		//super(app.getFrame(), false);
 		this.app = app;
 		this.addStyleName("sliderDialog");
+		this.addStyleName("GeoGebraFrame");
 		//addWindowListener(this);
 		
 		// create temp geos that may be returned as result

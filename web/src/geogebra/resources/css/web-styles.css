@@ -114,7 +114,7 @@ iframe.objectPropertiesTextEditor:focus {
 	margin-bottom: 10px;
 }
 
-.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton {
+.GeoGebraFrame .gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6161FF;
@@ -129,7 +129,7 @@ iframe.objectPropertiesTextEditor:focus {
 	margin-left: 5px;
 }
 
-.gwt-Button.minor {
+.GeoGebraFrame .gwt-Button.minor {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #999999;

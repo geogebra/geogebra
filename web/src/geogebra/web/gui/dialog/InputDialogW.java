@@ -6,6 +6,7 @@ import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.OptionType;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 
@@ -146,7 +147,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		// add key handler for ENTER if inputPanel uses a text field
 		if (inputPanel.getTextComponent() != null) {
 			inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
+			inputPanel.getTextComponent().addFocusListener(new FocusListenerW(this));
 		}
+		
 		
 		// message panel 
 		messagePanel = new VerticalPanel();
