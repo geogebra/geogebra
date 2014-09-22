@@ -826,7 +826,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		case 3:
 			if (!locus.isVisibleInView3D()) 
 				return false; 
-			if (kernel.getApplication().hasEuclidianView3D()) 
+			if (kernel.getApplication().isEuclidianView3Dinited()) 
 				return kernel.getApplication().getEuclidianView3D().isShowing(); 
 		}
 		return false;
