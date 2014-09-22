@@ -636,8 +636,8 @@ public class EuclidianViewD extends EuclidianView implements
 			List<geogebra.common.awt.GPoint> penPoints2,
 			geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
 		PolyBezier pb = new PolyBezier(penPoints2);
-		BufferedImage penImage2 = (BufferedImage) ((MyImageD) gi.getFillImage())
-				.getImage();
+		BufferedImage penImage2 = gi.getFillImage() == null ? null
+				: (BufferedImage) ((MyImageD) gi.getFillImage()).getImage();
 		boolean giNeedsInit = false;
 		if (penImage2 == null) {
 			giNeedsInit = true;
