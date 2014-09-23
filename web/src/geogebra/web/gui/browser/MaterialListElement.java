@@ -47,7 +47,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	protected FlowPanel infoPanel;
 	protected boolean isLocal;
 	protected boolean isOwnMaterial;
-
 	protected Label title;
 	protected Label sharedBy;
 	private TextBox renameTitleBox;
@@ -101,9 +100,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		
 		addPreviewPicture();
 		addInfoPanel();
-
 		showDetails(false);
-
+		
 		this.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -121,7 +119,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		
 		setLabels();
 	}
-	
+
 	protected void initMaterialInfos() {
 		this.title = new Label(this.material.getTitle());
 		this.title.addStyleName("fileTitle");
