@@ -51,8 +51,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.op = app.getNetworkOperation();
 
 		this.query = new TextBox();
-		//TODO translate Search material
-		this.query.getElement().setAttribute("placeholder",loc.getMenu("search_geogebra_materials"));
+		this.query.getElement().setAttribute("placeholder", loc.getMenu("search_geogebra_materials"));
 		this.query.addStyleName("searchTextBox");
 		this.query.addKeyDownHandler(new KeyDownHandler() {
 

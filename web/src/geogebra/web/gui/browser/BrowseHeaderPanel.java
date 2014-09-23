@@ -64,14 +64,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.op = op;
 		this.app = app;
 		this.login = app.getLoginOperation();		
-		//TODO: Make sign in
 		this.signInPanel = new FlowPanel();
-		
-		//TODO: Insert in rightPanel if NOT SIGNED IN
-		//TODO: Translate Sign in
-	
-		
-		//TODO: Insert in rightPanel if SIGNED IN
 		
 		addSearchPanel();
 		
@@ -79,7 +72,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		
 		createSignIn();
 		setLabels();
-		
 	}
 	
 	private void addSearchPanel() { 

@@ -373,8 +373,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				@Override
 				public void onError(Throwable exception) {
 					setVisible(true);
-					//TODO translation needed
-					ToolTipManagerW.sharedInstance().showBottomMessage("Delete failed", true);
+					ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("DeleteFailed"), true);
 				}
 			});
 		}
@@ -435,8 +434,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				});
 				return;
 			}
-			//TODO Translate "Loading ..."
-			ToolTipManagerW.sharedInstance().showBottomMessage("Loading ...", false);
+			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
 
 				@Override
@@ -456,7 +454,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				}
 			});
 		} else {
-			ToolTipManagerW.sharedInstance().showBottomMessage("Loading ...", false);
+			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
 			this.app.getFileManager().openMaterial(this.material);
 		}
 	}

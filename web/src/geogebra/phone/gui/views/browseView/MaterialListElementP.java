@@ -56,7 +56,7 @@ public class MaterialListElementP extends MaterialListElement {
 				}
 			});
 		} else {
-			ToolTipManagerW.sharedInstance().showBottomMessage("Loading ...", false);
+			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
 			((AppP) this.app).getFileManager().openMaterial(this.material);
 		}
 		closeBrowseView();

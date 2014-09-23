@@ -190,6 +190,7 @@ public class SaveDialogW extends DialogBox {
 				if (parseResponse.size() == 1) {
 					if (parseResponse.get(0).getModified() > app.getSyncStamp()) {
 						app.resetUniqueId();
+						//TODO Translation needed - wrong implementation
 						ToolTipManagerW.sharedInstance().showBottomMessage("Note that there are several versions of: " + parseResponse.get(0).getTitle(), true);
 					}
 					doUpload();
@@ -202,6 +203,7 @@ public class SaveDialogW extends DialogBox {
 			
 			@Override
             public void onError(final Throwable exception) {
+				//TODO show correct message
 			    ToolTipManagerW.sharedInstance().showBottomMessage("Error", true);
 		    }
 		});

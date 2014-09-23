@@ -98,7 +98,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		//TODO Translation
+		//TODO Translation needed
 		camera.setText("Camera");
 	}
 	
