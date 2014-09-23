@@ -80,6 +80,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			HISTOGRAM_COLOR, BOXPLOT_COLOR, BARCHART_COLOR, DOTPLOT_COLOR,
 			NQPLOT_COLOR, REGRESSION_COLOR, OVERLAY_COLOR, Color.BLACK,
 			Color.WHITE };
+
 	// main GUI panels
 	private DataPanel dataPanel;
 	private StatisticsPanel statisticsPanel;

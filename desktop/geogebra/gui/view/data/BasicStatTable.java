@@ -29,7 +29,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 
 	protected DataAnalysisViewD daView;
 	protected StatTable statTable;
-	protected AppD app;
+	private AppD app;
 
 	/*************************************************
 	 * Construct the panel
@@ -39,40 +39,48 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 	 * @param mode
 	 */
 	public BasicStatTable(AppD app, DataAnalysisViewD statDialog) {
+		this(app, statDialog, true);
+	} // END constructor
 
+	public BasicStatTable(AppD app, DataAnalysisViewD statDialog,
+			boolean defaultModel) {
 		this.app = app;
-		model = new StatTableModel(app, this);
 		this.daView = statDialog;
-
 		this.setLayout(new BorderLayout());
+		if (defaultModel) {
+			setModel(new StatTableModel(app, this));
+		}
+	}
+
+	public void setModel(StatTableModel model) {
+		this.model = model;
 		initStatTable();
 		updateFonts(app.getPlainFont());
-
-	} // END constructor
+	}
 
 	protected void initStatTable() {
 
-		statTable = new StatTable(app);
-		statTable.setStatTable(model.getRowCount(), model.getRowNames(),
-				model.getColumnCount(), model.getColumnNames());
+		statTable = new StatTable(getApp());
+		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
+				getModel().getColumnCount(), getModel().getColumnNames());
 		this.removeAll();
 		this.add(statTable, BorderLayout.CENTER);
 	}
 
 	public String[] getRowNames() {
-		return model.getRowNames();
+		return getModel().getRowNames();
 	}
 
 	public String[] getColumnNames() {
-		return model.getColumnNames();
+		return getModel().getColumnNames();
 	}
 
 	public int getRowCount() {
-		return model.getRowCount();
+		return getModel().getRowCount();
 	}
 
 	public int getColumnCount() {
-		return model.getColumnCount();
+		return getModel().getColumnCount();
 	}
 
 	// =======================================================
@@ -83,28 +91,28 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 	 * 
 	 */
 	public void updatePanel() {
-		model.updatePanel();
+		getModel().updatePanel();
 	}
 
 	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
 			GeoElement geoRegression) {
-		return model.getAlgo(algoName, dataList, geoRegression);
+		return getModel().getAlgo(algoName, dataList, geoRegression);
 	}
 
 	protected AlgoElement getAlgoRawData(Stat stat, GeoList dataList,
 			GeoElement geoRegression) {
-		return model.getAlgoRawData(stat, dataList, geoRegression);
+		return getModel().getAlgoRawData(stat, dataList, geoRegression);
 
 	}
 
 	protected AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData,
 			GeoElement geoRegression) {
-		return model.getAlgoFrequency(stat, frequencyData, geoRegression);
+		return getModel().getAlgoFrequency(stat, frequencyData, geoRegression);
 	}
 
 	protected AlgoElement getAlgoClass(StatTableModel.Stat stat,
 			GeoList frequencyData, GeoElement geoRegression) {
-		return model.getAlgoClass(stat, frequencyData, geoRegression);
+		return getModel().getAlgoClass(stat, frequencyData, geoRegression);
 	}
 
 	public void updateFonts(Font font) {
@@ -112,7 +120,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 	}
 
 	public void setLabels() {
-		statTable.setLabels(model.getRowNames(), model.getColumnNames());
+		statTable.setLabels(getModel().getRowNames(), getModel().getColumnNames());
 	}
 
 	public GeoList getDataSelected() {
@@ -150,6 +158,18 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 
 	public boolean isNumericData() {
 		return daView.getDataSource().isNumericData();
+	}
+
+	public AppD getApp() {
+		return app;
+	}
+
+	public void setApp(AppD app) {
+		this.app = app;
+	}
+
+	public StatTableModel getModel() {
+		return model;
 	}
 
 }

@@ -45,9 +45,9 @@ public class MinimalMultiVarStatPanel extends BasicStatTable {
 	
 
 	private String[][] getCmdMap() {
-		String[][] map = { { app.getMenu("Length.short"), "Length" },
-				{ app.getMenu("Mean"), "Mean" },
-				{ app.getMenu("SampleStandardDeviation.short"), "SampleSD" } };
+		String[][] map = { { getApp().getMenu("Length.short"), "Length" },
+				{ getApp().getMenu("Mean"), "Mean" },
+				{ getApp().getMenu("SampleStandardDeviation.short"), "SampleSD" } };
 		return map;
 	}
 

@@ -3,6 +3,7 @@ package geogebra.gui.view.data;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.util.ArrayList;
@@ -27,18 +28,18 @@ public class ANOVATable extends BasicStatTable {
 
 	@Override
 	public String[] getRowNames() {
-		String[] names = { app.getMenu("BetweenGroups"),
-				app.getMenu("WithinGroups"), app.getMenu("Total"), };
+		String[] names = { getApp().getMenu("BetweenGroups"),
+				getApp().getMenu("WithinGroups"), getApp().getMenu("Total"), };
 		return names;
 	}
 
 	@Override
 	public String[] getColumnNames() {
 
-		String[] names = { app.getMenu("DegreesOfFreedom.short"),
-				app.getMenu("SumSquares.short"),
-				app.getMenu("MeanSquare.short"), app.getMenu("FStatistic"),
-				app.getMenu("PValue"), };
+		String[] names = { getApp().getMenu("DegreesOfFreedom.short"),
+				getApp().getMenu("SumSquares.short"),
+				getApp().getMenu("MeanSquare.short"),
+				getApp().getMenu("FStatistic"), getApp().getMenu("PValue"), };
 
 		return names;
 	}
@@ -56,9 +57,19 @@ public class ANOVATable extends BasicStatTable {
 	@Override
 	public void updatePanel() {
 
-		GeoList dataList = daView.getController()
-				.getDataSelected();
+		GeoList dataList = daView.getController().getDataSelected();
 		DefaultTableModel model = statTable.getModel();
+		if (model != null) {
+			App.debug("[ANNOVA] col: " + model.getColumnCount() + " row: "
+					+ model.getRowCount());
+			App.debug("[ANNOVA] get col: " + getColumnCount() + " get row: "
+					+ getRowCount());
+		} else {
+			App.debug("[ANNOVA] model is null!");
+		}
+		model.setColumnCount(getColumnCount());
+		model.setRowCount(getRowCount());
+		model.setColumnIdentifiers(getColumnNames());
 
 		try {
 			AnovaStats stats = anovaStats(getCategoryData(dataList));
@@ -140,7 +151,7 @@ public class ANOVATable extends BasicStatTable {
 		// check if we have enough categories
 		if (categoryData.size() < 2) {
 			throw MathRuntimeException.createIllegalArgumentException(
-					//LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
+					// LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
 					"two or more categories required, got {0}",
 					categoryData.size());
 		}
@@ -150,7 +161,7 @@ public class ANOVATable extends BasicStatTable {
 			if (array.length <= 1) {
 				throw MathRuntimeException
 						.createIllegalArgumentException(
-								//LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
+								// LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
 								"two or more values required in each category, one has {0}",
 								array.length);
 			}
