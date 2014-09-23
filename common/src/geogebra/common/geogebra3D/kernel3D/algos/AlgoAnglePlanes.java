@@ -122,7 +122,7 @@ public class AlgoAnglePlanes extends AlgoAngle  implements DrawInformationAlgo{
 
     
     
-	private Coords vn, o, v1, v2;
+	private Coords vn, o = new Coords(4), v1, v2;
 
     @Override
 	public final void compute() {
@@ -149,10 +149,10 @@ public class AlgoAnglePlanes extends AlgoAngle  implements DrawInformationAlgo{
 
 		// projection of first plane origin on second plane
 		// direction orthogonal to v and colinear to first plane
-		o = p.getCoordSys().getMatrixOrthonormal().getOrigin().projectPlaneThruV(
+		p.getCoordSys().getMatrixOrthonormal().getOrigin().projectPlaneThruV(
 				q.getCoordSys().getMatrixOrthonormal(),
-				v2
-				)[0];
+				v2,
+				o);
        	
     }
     

@@ -127,7 +127,7 @@ public class AlgoSemicircle3D extends AlgoElement {
     	return conicPart;
     }
     
-    
+    private Coords p2d = new Coords(4);
     
     
     @Override
@@ -137,7 +137,7 @@ public class AlgoSemicircle3D extends AlgoElement {
     		return;
     	}
     	
-		Coords p2d = B.getInhomCoordsInD3().projectPlane(conic.getCoordSys().getMatrixOrthonormal())[1];
+		B.getInhomCoordsInD3().projectPlaneInPlaneCoords(conic.getCoordSys().getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, param);
 

@@ -298,6 +298,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 	
 
+	private Coords o = Coords.createInhomCoorsInD3();
+	private Coords tmpCoords1 = Coords.createInhomCoorsInD3(), tmpCoords2 = Coords.createInhomCoorsInD3();
 
 	/**
 	 * sets the min/max regarding a clipping box
@@ -311,15 +313,18 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
 
 		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
-		Coords o = origin.projectPlane(m)[1];
+		origin.projectPlaneInPlaneCoords(m, o);
 		minmaxXFinal[0]=o.getX();
 		minmaxYFinal[0]=o.getY();
 		minmaxXFinal[1]=o.getX();
 		minmaxYFinal[1]=o.getY();
 		Coords[] v = new Coords[3];
-		v[0] = vx.projectPlane(m)[1].sub(o);
-		v[1] = vy.projectPlane(m)[1].sub(o);
-		v[2] = vz.projectPlane(m)[1].sub(o);
+		vx.projectPlaneInPlaneCoords(m, tmpCoords1);
+		v[0] = tmpCoords1.sub(o);
+		vy.projectPlaneInPlaneCoords(m, tmpCoords1);
+		v[1] = tmpCoords1.sub(o);
+		vz.projectPlaneInPlaneCoords(m, tmpCoords1);
+		v[2] = tmpCoords1.sub(o);
 		for (int i=0; i<3; i++){
 			double x = v[i].getX();
 			if (x<0)
@@ -334,6 +339,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			
 
 		}
+		
+		
 	}
 	
 	/*
@@ -433,14 +440,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		GeoPlane3D plane = (GeoPlane3D) getGeoElement();
 		
 		// project hitting origin on polygon plane
-		Coords[] project = hitting.origin.projectPlaneThruVIfPossible(plane.getCoordSys().getDrawingMatrix(), hitting.direction);
+		hitting.origin.projectPlaneThruVIfPossible(plane.getCoordSys().getDrawingMatrix(), hitting.direction, tmpCoords1, tmpCoords2);
 
-		if(!hitting.isInsideClipping(project[0])){
+		if(!hitting.isInsideClipping(tmpCoords1)){
 			return false;
 		}
 		
 		
-		double x = project[1].getX();
+		double x = tmpCoords2.getX();
 		if (x < plane.getXmin()){
 			return false;
 		}
@@ -448,7 +455,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return false;
 		}
 		
-		double y = project[1].getY();
+		double y = tmpCoords2.getY();
 		if (y < plane.getYmin()){
 			return false;
 		}
@@ -457,7 +464,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 		
 		
-		double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+		double parameterOnHitting = tmpCoords2.getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
 		setZPick(parameterOnHitting, parameterOnHitting);
 		
 		

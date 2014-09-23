@@ -25,7 +25,7 @@ public class CoordSys {
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
 	private int spaceDimension = 3;
 	
-	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
+	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4), tmpCoords3 = new Coords(4);
 
 	/**
 	 * create a coord sys
@@ -169,23 +169,31 @@ public class CoordSys {
 	// ///////////////////////////////////
 
 	public Coords[] getNormalProjection(Coords coords) {
-		return coords.projectPlane(this.getMatrixOrthonormal());
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		coords.projectPlane(this.getMatrixOrthonormal(), result[0], result[1]);
+		return result;
 	}
 
 	public Coords[] getNormalProjectionForDrawing(Coords coords) {
-		return coords.projectPlane(drawingMatrix);
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		coords.projectPlane(drawingMatrix, result[0], result[1]);
+		return result;
 	}
 
 	public Coords[] getProjection(Coords coords, Coords willingDirection) {
-		return coords.projectPlaneThruV(this.getMatrixOrthonormal(),
-				willingDirection);
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		coords.projectPlaneThruV(this.getMatrixOrthonormal(),
+				willingDirection, result[0], result[1]);
+		return result;
 	}
 	
 
 	public Coords[] getProjectionThruVIfPossible(Coords coords,
 			Coords willingDirection) {
-		return coords.projectPlaneThruVIfPossible(this.getMatrixOrthonormal(),
-				willingDirection);
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		coords.projectPlaneThruVIfPossible(this.getMatrixOrthonormal(),
+				willingDirection, result[0], result[1]);
+		return result;
 	}
 
 	// /////////////////////////////////////
@@ -489,14 +497,15 @@ public class CoordSys {
 				setVz(getVx().crossProduct(getVy()));
 			}
 
-			Coords o = getOrigin();
-			if (projectOrigin) // recompute origin for ortho matrix
-				o = (new Coords(0, 0, 0, 1))
-						.projectPlane(getMatrixOrthonormal())[0];
+			if (projectOrigin){ // recompute origin for ortho matrix
+				Coords.O.projectPlane(getMatrixOrthonormal(),tmpCoords1);
+			}else{
+				tmpCoords1.set(getOrigin());
+			}
 
 			// sets orthonormal matrix
 			matrixOrthonormal.set(new Coords[] { getVx().normalized(),
-					getVy().normalized(), getVz().normalized(), o });
+					getVy().normalized(), getVz().normalized(), tmpCoords1 });
 
 			return true;
 		}
@@ -530,12 +539,13 @@ public class CoordSys {
 			matrixOrthonormal.setVx(vx);
 			matrixOrthonormal.setVy(vy);
 			matrixOrthonormal.setVz(vz);
-			Coords o = (new Coords(0, 0, 0, 1))
-					.projectPlane(getMatrixOrthonormal())[0];
-			if (projectOrigin) // recompute origin for ortho and drawing matrix
-				matrixOrthonormal.setOrigin(o);
+			Coords.O.projectPlane(getMatrixOrthonormal(), tmpCoords3);
+			
+			if (projectOrigin){ // recompute origin for ortho and drawing matrix
+				matrixOrthonormal.setOrigin(tmpCoords3);
+			}
 
-			CoordMatrix4x4.createOrthoToDirection(o, vz, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
+			CoordMatrix4x4.createOrthoToDirection(tmpCoords3, vz, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
 
 			// Application.debug("matrix ortho=\n"+getMatrixOrthonormal());
 
@@ -691,8 +701,8 @@ public class CoordSys {
 
 	private void setDrawingMatrixFromMatrixOrthonormal(){
 
-		Coords o = Coords.O.projectPlane(matrixOrthonormal)[0];
-		CoordMatrix4x4.createOrthoToDirection(o, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
+		Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
+		CoordMatrix4x4.createOrthoToDirection(tmpCoords3, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
 
 	}
 	
@@ -891,7 +901,7 @@ public class CoordSys {
 		
 		//origin projected on the line
 		Coords o = matrixOrthonormal.getOrigin();
-		Coords o1 = o.projectPlane(cs.getMatrixOrthonormal())[0];
+		o.projectPlane(cs.getMatrixOrthonormal(), tmpCoords1);
 
 		//get projection values
 		double x = -2*matrixOrthonormal.getVx().dotproduct(vn);
@@ -902,7 +912,7 @@ public class CoordSys {
 		matrixOrthonormal.addToVy(vn.mul(y));
 		matrixOrthonormal.addToVz(vn.mul(z));
 		//translate origin matrix
-		matrixOrthonormal.setOrigin(o1.mul(2).sub(o));
+		matrixOrthonormal.setOrigin(tmpCoords1.mul(2).sub(o));
 		
 		// set original origin and vectors
 		setOrigin(matrixOrthonormal.getOrigin());

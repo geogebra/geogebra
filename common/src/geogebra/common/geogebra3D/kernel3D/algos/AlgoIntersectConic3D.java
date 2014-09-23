@@ -163,6 +163,9 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 		intersect(c,P);
 		
 	}
+
+
+	private Coords p2d = new Coords(3);
 	
 	/**
 	 * calc intersection points with the conic
@@ -178,13 +181,14 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 		//project line on conic coord sys
 		Coords dp = cs.getNormalProjection(d)[1];
 		if (!Kernel.isZero(dp.getZ())){	//line intersect conic coord sys
-			Coords[] p = o.projectPlaneThruV(cs.getMatrixOrthonormal(), d);
-			Coords p2d = new Coords(3);
-			p2d.setX(p[1].getX());p2d.setY(p[1].getY());p2d.setZ(p[1].getW());
+			Coords globalCoords = new Coords(4); 
+			Coords inPlaneCoords = new Coords(4);
+			o.projectPlaneThruV(cs.getMatrixOrthonormal(), d, globalCoords, inPlaneCoords);
+			p2d.setX(inPlaneCoords.getX());p2d.setY(inPlaneCoords.getY());p2d.setZ(inPlaneCoords.getW());
 			// check if intersect point is on conic
 			if (c.isOnFullConic(p2d, Kernel.MIN_PRECISION) 
-					&& getFirstGeoRespectLimitedPath(p[0]))
-				P[0].setCoords(p[0], false);
+					&& getFirstGeoRespectLimitedPath(globalCoords))
+				P[0].setCoords(globalCoords, false);
 			else
 				setPointsUndefined();
 		}else{//line parallel to conic coord sys

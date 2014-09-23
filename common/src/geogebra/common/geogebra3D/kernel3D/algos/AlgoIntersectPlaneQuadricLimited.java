@@ -305,13 +305,17 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     protected double getTopParameter(){
     	return ((GeoQuadric3DLimited) quadric).getTopParameter();
     }
+    
+    
+    private Coords tmpCoords = new Coords(4);
 
     
     private boolean planeOutsideAxis(){
     	
     	
 		//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
-		double parameter = -(quadric.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), quadric.getEigenvec3D(2))[1]).getZ();
+    	quadric.getMidpoint3D().projectPlaneThruVInPlaneCoords(plane.getCoordSys().getMatrixOrthonormal(), quadric.getEigenvec3D(2), tmpCoords);
+    	double parameter = -tmpCoords.getZ();
 
 		//check if parameter is between quadric min and max
 		double min = getBottomParameter();

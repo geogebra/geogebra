@@ -361,7 +361,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
 		Coords coords;
-		Coords[] project;
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
 
 		if (getWillingCoords() != null) // use willing coords
 			coords = getWillingCoords();
@@ -382,20 +384,20 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		if (getWillingDirection() == null) // use normal direction for
 			// projection
-			project = coords.projectPlane(tmpMatrix4x4);
+			coords.projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
 		else
 			// use willing direction for projection
-			project = coords.projectPlaneThruVIfPossible(tmpMatrix4x4,
-					getWillingDirection());
+			coords.projectPlaneThruVIfPossibleInPlaneCoords(tmpMatrix4x4,
+					getWillingDirection(), tmpCoords);
 
 		
 		if (tmpCoordsLength3 == null){
 			tmpCoordsLength3 = new Coords(3);
 		}
 		
-		tmpCoordsLength3.setX(project[1].getX());
-		tmpCoordsLength3.setY(project[1].getY());
-		tmpCoordsLength3.setZ(project[1].getW());
+		tmpCoordsLength3.setX(tmpCoords.getX());
+		tmpCoordsLength3.setY(tmpCoords.getY());
+		tmpCoordsLength3.setZ(tmpCoords.getW());
 		
 		return tmpCoordsLength3;
 
@@ -1512,8 +1514,12 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	public void mirror(GeoCoordSys2D plane) {
 
-		Coords p = getInhomCoordsInD3().projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
-		mirror(p);
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
+		
+		getInhomCoordsInD3().projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords);
+		mirror(tmpCoords);
 
 	}
 

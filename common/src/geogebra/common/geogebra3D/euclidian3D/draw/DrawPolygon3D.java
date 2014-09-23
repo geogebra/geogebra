@@ -532,18 +532,31 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		GeoPolygon poly = (GeoPolygon) getGeoElement();
 		
+		if (poly.getCoordSys() == null){
+			App.debug(""+poly);
+			return false;
+		}
+		
 		// project hitting origin on polygon plane
-		Coords[] projects = hitting.origin.projectPlaneThruVIfPossible(poly.getCoordSys().getMatrixOrthonormal(), hitting.direction);
+		if (globalCoords == null){
+			globalCoords = new Coords(4);
+			inPlaneCoords = new Coords(4);
+		}
+		hitting.origin.projectPlaneThruVIfPossible(
+				poly.getCoordSys().getMatrixOrthonormal(), 
+				hitting.direction, 
+				globalCoords, 
+				inPlaneCoords);
 
-		if(!hitting.isInsideClipping(projects[0])){
+		if(!hitting.isInsideClipping(globalCoords)){
 			return false;
 		}
 		
 		boolean ret = false;
 		
 		// check if hitting projection hits the polygon
-		if (poly.isInRegion(projects[1].getX(),projects[1].getY())){
-			double parameterOnHitting = projects[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+		if (poly.isInRegion(inPlaneCoords.getX(),inPlaneCoords.getY())){
+			double parameterOnHitting = inPlaneCoords.getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
 			setZPick(parameterOnHitting, parameterOnHitting);
 			setPickingType(PickingType.SURFACE);
 			ret = true;
@@ -564,11 +577,14 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			if (hittingPointForOutline == null){
 				hittingPointForOutline = new GeoPoint3D(poly.getConstruction());
 			}
-			hittingPointForOutline.setCoords(projects[0]);
+			hittingPointForOutline.setCoords(globalCoords);
 			poly.pointChanged(hittingPointForOutline);
 			Coords p3d = hittingPointForOutline.getInhomCoordsInD3();
 
 			if (hitting.isInsideClipping(p3d)){
+				if (project == null){
+					project = Coords.createInhomCoorsInD3();
+				}
 				p3d.projectLine(hitting.origin, hitting.direction, project, parameters); // check distance to hitting line
 				double d = p3d.distance(project);
 				double scale = getView3D().getScale();
@@ -587,7 +603,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 	
 
-	private Coords project = Coords.createInhomCoorsInD3();
+	private Coords project, globalCoords, inPlaneCoords;
 	
 	private double[] parameters = new double[2];
 

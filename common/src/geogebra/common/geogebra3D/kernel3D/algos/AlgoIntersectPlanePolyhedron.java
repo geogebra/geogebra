@@ -102,13 +102,14 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
     	Coords o = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		Coords d = seg.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
 
-		Coords[] project = 
-				o.projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), d);
+		Coords globalCoords = new Coords(4); 
+		Coords inPlaneCoords = new Coords(4);
+		o.projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), d, globalCoords, inPlaneCoords);
 
 		
 		//check if projection is intersection point
-		if (!Kernel.isZero(project[0].getW()) && seg.respectLimitedPath(-project[1].get(3)))
-			return project[0];
+		if (!Kernel.isZero(globalCoords.getW()) && seg.respectLimitedPath(-inPlaneCoords.get(3)))
+			return globalCoords;
 		
 		return null;
     }

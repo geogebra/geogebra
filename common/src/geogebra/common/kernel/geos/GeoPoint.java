@@ -1747,6 +1747,8 @@ SymbolicParametersBotanaAlgo {
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 	
+	private Coords tmpCoords;
+	
 	public Coords getCoordsInD2(CoordSys coordSys) { // TODO use coord sys ?
 		
 		if(coords2D == null){
@@ -1762,10 +1764,13 @@ SymbolicParametersBotanaAlgo {
 					tmpMatrix4x4 = new CoordMatrix4x4();
 				}
 				tmpMatrix4x4.set(coordSys.getMatrixOrthonormal());
-				Coords[] project = getCoordsInD3().projectPlane(tmpMatrix4x4);
-				coords2D.setX(project[1].getX());
-				coords2D.setY(project[1].getY());
-				coords2D.setZ(project[1].getW());
+				if (tmpCoords == null){
+					tmpCoords = new Coords(4);
+				}
+				getCoordsInD3().projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
+				coords2D.setX(tmpCoords.getX());
+				coords2D.setY(tmpCoords.getY());
+				coords2D.setZ(tmpCoords.getW());
 			}
 		}
 		return coords2D;

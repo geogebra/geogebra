@@ -4,6 +4,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -49,12 +50,14 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints{
     	return ret;
     }
     
+    private Coords tmpCoords = new Coords(4);
+    
 	@Override
 	public final void compute() {
 		
 		CoordSys cs = conic.getCoordSys();
 		
-		if (GeoPolygon3D.updateCoordSys(cs, inputP, P)){		
+		if (GeoPolygon3D.updateCoordSys(cs, inputP, P, tmpCoords)){		
 			super.compute();
 		}else{
 			conic.setUndefined();

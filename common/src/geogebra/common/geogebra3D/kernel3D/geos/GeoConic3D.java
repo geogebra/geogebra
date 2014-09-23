@@ -467,8 +467,13 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 	}
 
 	public Coords[] getProjection(Coords coords, Coords willingDirection) {
-		return coords.projectPlaneThruV(getCoordSys().getMatrixOrthonormal(),
-				willingDirection);
+		
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		
+		coords.projectPlaneThruV(getCoordSys().getMatrixOrthonormal(),
+				willingDirection, result[0], result[1]);
+		
+		return result;
 	}
 
 	// //////////////////////////////////

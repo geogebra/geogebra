@@ -321,20 +321,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.toSceneCoords3D(o);
 
 		// getting new position of the point
-		Coords[] projects = o.projectPlaneThruVIfPossible(getCurrentPlane(),
-				view3D.getViewDirection());
-		Coords project = projects[0];
+		o.projectPlaneThruVIfPossible(getCurrentPlane(),
+				view3D.getViewDirection(), tmpCoords);
 		
 
 		// min-max x and y values
-		checkXYMinMax(project);
+		checkXYMinMax(tmpCoords);
 
 		// capturing points
-		((EuclidianController3DCompanion) companion).checkPointCapturingXY(project);
+		((EuclidianController3DCompanion) companion).checkPointCapturingXY(tmpCoords);
 		
 		// set point coords
-		point.setCoords(project);
+		point.setCoords(tmpCoords);
 	}
+	
+	private Coords tmpCoords = new Coords(4);
 
 	protected void checkXYMinMax(Coords v) {
 		// min-max x value
@@ -379,13 +380,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// o =
 		// (o.sub(startPoint3D)).projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
 		// view3D.getViewDirection())[0];
-		o = o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-				view3D.getViewDirection())[0];
+		o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
+				view3D.getViewDirection(), tmpCoords);
 		// Application.debug(o);
 		// ((GeoPoint2)
 		// movedGeoText.getStartPoint()).setCoords(o.getX(),o.getY(), 1.0);
-		((GeoPoint) movedGeoText.getStartPoint()).setCoords(o.getX()
-				- startPoint3DxOy.getX(), o.getY() - startPoint3DxOy.getY(),
+		((GeoPoint) movedGeoText.getStartPoint()).setCoords(tmpCoords.getX()
+				- startPoint3DxOy.getX(), tmpCoords.getY() - startPoint3DxOy.getY(),
 				1.0);
 	}
 
@@ -667,13 +668,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// check if a and b are two 2D geos
 		if (!a.isGeoElement3D() && !b.isGeoElement3D()) {
 			// get pick point coords in xOy plane
-			Coords project = view3D
-					.getToSceneMatrix()
-					.mul(view3D.getPickPoint(mouseLoc))
-					.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-							view3D.getViewDirection())[0];
-			xRW = project.getX();
-			yRW = project.getY();
+			view3D
+			.getToSceneMatrix()
+			.mul(view3D.getPickPoint(mouseLoc))
+			.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
+					view3D.getViewDirection(), tmpCoords);
+			xRW = tmpCoords.getX();
+			yRW = tmpCoords.getY();
 
 			// apply 2D method
 			point = ((EuclidianControllerFor3DCompanion) companion).getSingleIntersectionPointFrom2D(a, b, false);
@@ -3236,8 +3237,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// App.debug("\n"+startPoint3D);
 
 		// project on xOy
-		startPoint3DxOy = startPoint3D.projectPlaneThruVIfPossible(
-				CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
+		startPoint3D.projectPlaneThruVIfPossible(
+				CoordMatrix4x4.IDENTITY, view3D.getViewDirection(), startPoint3DxOy);
 	}
 
 	@Override

@@ -186,14 +186,19 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	    * @param newCoords coords
 	    */
 	   protected void intersectionsCoordsGeneral(GeoPolygon p, TreeMap<Double, Coords> newCoords){
-			   
-			   Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g,p);
 
-			   //check if projection is intersection point
-			   if (singlePoint!=null)
-				   newCoords.put(0d, singlePoint);
+		   Coords globalCoords = new Coords(4); 
+		   Coords inPlaneCoords = new Coords(4);
+
+		   
+		   Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g,p, globalCoords, inPlaneCoords);
+
+		   //check if projection is intersection point
+		   if (singlePoint!=null)
+			   newCoords.put(0d, singlePoint);
 
 	   }
+	   
     
     /**
      * check the first parameter

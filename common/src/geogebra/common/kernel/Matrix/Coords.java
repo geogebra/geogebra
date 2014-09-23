@@ -699,55 +699,95 @@ public class Coords {
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
 	 * 
+	 * 
+	 * set two vectors {globalCoords,inPlaneCoords}: the point projected,
+	 *         and the original point in plane coords
+	 *         
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
 	 *            plane, and v3 the direction used for projection
-	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
-	 *         and the original point in plane coords
+	 * 
 	 */
-	public Coords[] projectPlane(CoordMatrix m) {
+	public void projectPlane(CoordMatrix m, Coords globalCoords, Coords inPlaneCoords) {
 		
 
+		Coords vx = m.getVx();
+		Coords vy = m.getVy();
+		Coords vz = m.getVz();
+		Coords o = m.getOrigin();
+		
+		
 		if (Kernel.isEqual(
-				(m.getVx().crossProduct(m.getVy())).dotproduct(m.getVz()), 0,
+				(vx.crossProduct(vy)).dotproduct(vz), 0,
 				Kernel.STANDARD_PRECISION)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
 			// Application.printStacktrace("infinity");
-			Coords inPlaneCoords, globalCoords;
-			inPlaneCoords = new Coords(new double[] { 0, 0, -1, 0 });
-			globalCoords = m.getVz().copyVector();
-			return new Coords[] { globalCoords, inPlaneCoords };
+			inPlaneCoords.setX(0);
+			inPlaneCoords.setY(0);
+			inPlaneCoords.setZ(-1);
+			inPlaneCoords.setW(0);
+			globalCoords.set(m.getVz());
+			return;
 		}
 		
 		// direction is not parallel to the plane
-		return projectPlaneNoCheck(m);
+		projectPlaneNoCheck(vx, vy, vz, o, globalCoords.val, inPlaneCoords.val);
 
+	}
+	
+	
+	public void projectPlaneInPlaneCoords(CoordMatrix m, Coords inPlaneCoords) {
+		
+
+		Coords vx = m.getVx();
+		Coords vy = m.getVy();
+		Coords vz = m.getVz();
+		Coords o = m.getOrigin();
+		
+		
+		if (Kernel.isEqual(
+				(vx.crossProduct(vy)).dotproduct(vz), 0,
+				Kernel.STANDARD_PRECISION)) {
+			// direction of projection is parallel to the plane : point is
+			// infinite
+			// Application.printStacktrace("infinity");
+			inPlaneCoords.setX(0);
+			inPlaneCoords.setY(0);
+			inPlaneCoords.setZ(-1);
+			inPlaneCoords.setW(0);
+			return;
+		}
+		
+		// direction is not parallel to the plane
+		projectPlaneNoCheckInPlaneCoords(vx, vy, vz, o, inPlaneCoords.val);
 
 	}
 
-	/**
-	 * returns this projected on the plane represented by the matrix (third
-	 * vector used for direction), no check if direction is parallel to the plane.
-	 * <p>
-	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
-	 * @param m
-	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
-	 *            plane, and v3 the direction used for projection
-	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
-	 *         and the original point in plane coords
-	 */
-	public Coords[] projectPlaneNoCheck(CoordMatrix m) {
-		Coords inPlaneCoords, globalCoords;
+	
+	public void projectPlane(CoordMatrix m, Coords globalCoords) {
+		
 
-		// m*inPlaneCoords=this
-		inPlaneCoords = m.solve(this);
+		Coords vx = m.getVx();
+		Coords vy = m.getVy();
+		Coords vz = m.getVz();
+		Coords o = m.getOrigin();
+		
+		
+		if (Kernel.isEqual(
+				(vx.crossProduct(vy)).dotproduct(vz), 0,
+				Kernel.STANDARD_PRECISION)) {
+			// direction of projection is parallel to the plane : point is
+			// infinite
+			// Application.printStacktrace("infinity");
+			globalCoords.set(m.getVz());
+			return;
+		}
+		
+		// direction is not parallel to the plane
+		// we can use globalCoords twice as it will be set at this end
+		projectPlaneNoCheck(vx, vy, vz, o, globalCoords.val, globalCoords.val);
 
-		// globalCoords=this-inPlaneCoords_z*plane_vz
-		globalCoords = this.add(m.getColumn(3).mul(-inPlaneCoords.get(3)));
-
-		return new Coords[] { globalCoords, inPlaneCoords };
 	}
 	
 	/**
@@ -776,12 +816,21 @@ public class Coords {
 	 */
 	public void projectPlaneNoCheck(Coords vx, Coords vy, Coords vz, Coords o, double[] globalCoords, double[] inPlaneCoords) {
 
-		// m*inPlaneCoords=this
-		CoordMatrix.solve(inPlaneCoords, this, vx, vy, vz, o);
+		// project in plane coords
+		projectPlaneNoCheckInPlaneCoords(vx, vy, vz, o, inPlaneCoords);
 
 		// globalCoords=this-inPlaneCoords_z*plane_vz
-		vz.mul(-inPlaneCoords[2], globalCoords);
+		double coeff = -inPlaneCoords[2]; // inPlaneCoords may use globalCoords for memory
+		vz.mul(coeff, globalCoords);
 		this.add(globalCoords, globalCoords);
+
+		//note : globalCoords must be set at the end (when dummy inPlaneCoords)
+	}
+	
+	public void projectPlaneNoCheckInPlaneCoords(Coords vx, Coords vy, Coords vz, Coords o, double[] inPlaneCoords) {
+
+		// m*inPlaneCoords=this
+		CoordMatrix.solve(inPlaneCoords, this, vx, vy, vz, o);
 
 	}
 
@@ -793,21 +842,41 @@ public class Coords {
 	 * Attempt this to be of dimension 4, the matrix to be of dimension 4*4, and
 	 * the vector to be of dimension 4.
 	 * 
+	 * 	 
+	 *  set two vectors {globalCoords,inPlaneCoords}: the point projected,
+	 *         and the original point in plane coords
+	 * 
 	 * @param m
 	 *            matrix {v1 v2 ?? o} where (o,v1,v2) is a coord sys fo the
 	 *            plane, and v3
 	 * @param v
 	 *            the direction used for projection
-	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
-	 *         and the original point in plane coords
 	 */
-	public Coords[] projectPlaneThruV(CoordMatrix m, Coords v) {
+	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords, Coords inPlaneCoords) {
 
 		CoordMatrix m1 = new CoordMatrix(4, 4);
 		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
 
-		return projectPlane(m1);
+		projectPlane(m1, globalCoords, inPlaneCoords);
 	}
+	
+	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords) {
+
+		CoordMatrix m1 = new CoordMatrix(4, 4);
+		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
+
+		projectPlane(m1, globalCoords);
+	}
+	
+	public void projectPlaneThruVInPlaneCoords(CoordMatrix m, Coords v, Coords inPlaneCoords) {
+
+		CoordMatrix m1 = new CoordMatrix(4, 4);
+		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
+
+		projectPlaneInPlaneCoords(m1, inPlaneCoords);
+	}
+
+
 
 	/**
 	 * returns this projected on the plane represented by the matrix, with
@@ -815,28 +884,65 @@ public class Coords {
 	 * <p>
 	 * If v is parallel to plane, then plane third vector is used instead
 	 * 
+	 * 
+	 * 	 set two vectors {globalCoords,inPlaneCoords}: the point projected,
+	 *         and the original point in plane coords
+	 *         
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
 	 *            plane, and v3
 	 * @param v
 	 *            the direction used for projection (v3 is used instead if v is
 	 *            parallel to the plane)
-	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
-	 *         and the original point in plane coords
 	 */
-	public Coords[] projectPlaneThruVIfPossible(CoordMatrix m, Coords v) {
+	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v, Coords globalCoords, Coords inPlaneCoords) {
 
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
 		if (Kernel.isEqual(v3.dotproduct(v), 0.0,
-				Kernel.STANDARD_PRECISION))
-			return projectPlane(m);
+				Kernel.STANDARD_PRECISION)){
+			projectPlane(m, globalCoords, inPlaneCoords);
+			return;
+		}
 
 		// if not, use v for direction
 		CoordMatrix m1 = new CoordMatrix(4, 4);
 		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
 
-		return projectPlane(m1);
+		projectPlane(m1, globalCoords, inPlaneCoords);
+	}
+	
+	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v, Coords globalCoords) {
+		// check if v is parallel to plane
+				Coords v3 = m.getColumn(3);
+				if (Kernel.isEqual(v3.dotproduct(v), 0.0,
+						Kernel.STANDARD_PRECISION)){
+					projectPlane(m, globalCoords);
+					return;
+				}
+
+				// if not, use v for direction
+				CoordMatrix m1 = new CoordMatrix(4, 4);
+				m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
+
+				projectPlane(m1, globalCoords);
+	}
+	
+	public void projectPlaneThruVIfPossibleInPlaneCoords(CoordMatrix m, Coords v, Coords inPlaneCoords) {
+
+		// check if v is parallel to plane
+		Coords v3 = m.getColumn(3);
+		if (Kernel.isEqual(v3.dotproduct(v), 0.0,
+				Kernel.STANDARD_PRECISION)){
+			projectPlaneInPlaneCoords(m, inPlaneCoords);
+			return;
+		}
+
+		// if not, use v for direction
+		CoordMatrix m1 = new CoordMatrix(4, 4);
+		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
+
+		projectPlaneInPlaneCoords(m1, inPlaneCoords);
 	}
 
 	/**
@@ -857,8 +963,8 @@ public class Coords {
 	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
 	 *         and the original point in plane coords
 	 */
-	public Coords[] projectPlaneThruVIfPossible(CoordMatrix m,
-			Coords oldCoords, Coords v) {
+	public void projectPlaneThruVIfPossible(CoordMatrix m,
+			Coords oldCoords, Coords v, Coords globalCoords, Coords inPlaneCoords) {
 
 		// Application.debug(this+"\nold=\n"+oldCoords);
 
@@ -867,14 +973,15 @@ public class Coords {
 		if (Kernel.isZero(v3.dotproduct(v))) {
 			Coords firstProjection = Coords.createInhomCoorsInD3();
 			oldCoords.projectLine(this, v, firstProjection, null);
-			return firstProjection.projectPlane(m);
+			firstProjection.projectPlane(m, globalCoords, inPlaneCoords);
+			return;
 		}
 
 		// if not, use v for direction
 		CoordMatrix m1 = new CoordMatrix(4, 4);
 		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
 
-		return projectPlane(m1);
+		projectPlane(m1, globalCoords, inPlaneCoords);
 	}
 	
 
@@ -918,17 +1025,18 @@ public class Coords {
 	 *            direction of projection
 	 * @return point projected
 	 */
-	public Coords projectNearLine(Coords O, Coords V, Coords V2) {
+	public void projectNearLine(Coords O, Coords V, Coords V2, Coords project) {
 
 		Coords V3 = V.crossProduct(V2);
 
 		if (Kernel.isEqual(V3.norm(), 0.0,
 				Kernel.STANDARD_PRECISION)) {
-			return this.copyVector();
+			project.set(this);
+			return;
 		}
 		CoordMatrix m = new CoordMatrix(4, 4);
 		m.set(new Coords[] { V, V3, V2, O });
-		return this.projectPlane(m)[0];
+		projectPlane(m, project);
 	}
 
 	/**
@@ -958,7 +1066,8 @@ public class Coords {
 		}
 		CoordMatrix m = new CoordMatrix(4, 4);
 		m.set(new Coords[] { V2, V3, V, this });
-		Coords[] result = O.projectPlane(m);
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		O.projectPlane(m, result[0], result[1]);
 		return new Coords[] {
 				result[0],
 				new Coords(new double[] { -result[1].get(3),

@@ -29,6 +29,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 		super(ec);
 	}
 	
+	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 	
 	@Override
 	protected void movePoint(boolean repaint, AbstractEvent event) {
@@ -89,15 +90,15 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 					// view3D.toSceneCoords3D(o);
 
 					// getting new position of the point
-					Coords project = movedGeoPoint3D.getCoords()
+					movedGeoPoint3D.getCoords()
 							.projectNearLine(o, ((EuclidianController3D) ec).view3D.getViewDirection(),
-									Coords.VZ);
+									Coords.VZ, tmpCoords1);
 
 					// max z value
-					if (project.getZ() > ((EuclidianController3D) ec).zMinMax[1])
-						project.setZ(((EuclidianController3D) ec).zMinMax[1]);
-					else if (project.getZ() < ((EuclidianController3D) ec).zMinMax[0])
-						project.setZ(((EuclidianController3D) ec).zMinMax[0]);
+					if (tmpCoords1.getZ() > ((EuclidianController3D) ec).zMinMax[1])
+						tmpCoords1.setZ(((EuclidianController3D) ec).zMinMax[1]);
+					else if (tmpCoords1.getZ() < ((EuclidianController3D) ec).zMinMax[0])
+						tmpCoords1.setZ(((EuclidianController3D) ec).zMinMax[0]);
 					
 					// capturing points
 					switch (ec.view.getPointCapturingMode()) {
@@ -109,17 +110,17 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 						}
 					case EuclidianStyleConstants.POINT_CAPTURING_ON:
 					case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-						double z0 = project.getZ();
+						double z0 = tmpCoords1.getZ();
 						double gz = ec.view.getGridDistances(0);
 						double z = Kernel.roundToScale(z0, gz);
 						if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 								|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
-							project.setZ(z);
+							tmpCoords1.setZ(z);
 						}
 					}
 
 					// set point coords
-					movedGeoPoint3D.setCoords(project);
+					movedGeoPoint3D.setCoords(tmpCoords1);
 
 					// update the moving plane altitude
 					((EuclidianController3D) ec).getCurrentPlane().set(movedGeoPoint3D.getCoords(), 4);
@@ -160,8 +161,10 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			// TODO do this once
 			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
 			// view3D.toSceneCoords3D(view3D.getViewDirection());
-			Coords coords = o.projectPlaneThruVIfPossible(
-					CoordMatrix4x4.IDENTITY, ((EuclidianController3D) ec).view3D.getViewDirection())[1]; // TODO
+			o.projectPlaneThruVIfPossible(
+					CoordMatrix4x4.IDENTITY, 
+					((EuclidianController3D) ec).view3D.getViewDirection(),
+					tmpCoords1, tmpCoords2); // TODO
 																				// use
 																				// current
 																				// region
@@ -170,10 +173,10 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 																				// identity
 			
 			// capturing points
-			checkPointCapturingXY(coords);
+			checkPointCapturingXY(tmpCoords2);
 
-			ec.xRW = coords.getX();
-			ec.yRW = coords.getY();
+			ec.xRW = tmpCoords2.getX();
+			ec.yRW = tmpCoords2.getY();
 			super.movePoint(repaint, ((EuclidianController3D) ec).mouseEvent);
 
 			((EuclidianController3D) ec).view3D.getCursor3D()

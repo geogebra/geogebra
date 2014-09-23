@@ -1094,9 +1094,12 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		
 		// midpoint
 		Coords mp = getMidpoint3D();
-		Coords o1 = mp.projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
+		if (tmpCoords == null){
+			tmpCoords = new Coords(4);
+		}
+		mp.projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords);
 		mp.mulInside(-1);
-		mp.addInside(o1.mul(2));
+		mp.addInside(tmpCoords.mul(2));
 		setMidpoint(mp.get());
 
 		

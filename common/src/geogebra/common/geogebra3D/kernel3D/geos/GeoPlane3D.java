@@ -125,8 +125,11 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
-		return willingCoords.projectPlaneThruVIfPossible(getCoordSys()
-				.getMatrixOrthonormal(), oldCoords, willingDirection);
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		willingCoords.projectPlaneThruVIfPossible(getCoordSys()
+				.getMatrixOrthonormal(), oldCoords, willingDirection, result[0], result[1]);
+		
+		return result;
 	}
 
 	public boolean isInRegion(GeoPointND P) {

@@ -108,7 +108,9 @@ public final class CoordMatrixUtil {
 
 		// project the origin of the line on the plane (along v direction)
 		Coords o = line.getColumn(2);
-		return o.projectPlaneThruV(plane, v);
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		o.projectPlaneThruV(plane, v, result[0], result[1]);
+		return result;
 	}
 
 	/**
@@ -166,8 +168,10 @@ public final class CoordMatrixUtil {
 	static final public Coords lineEquationVector(Coords origin,
 			Coords direction, CoordMatrix plane) {
 
-		Coords o = origin.projectPlane(plane)[1];
-		Coords d = direction.projectPlane(plane)[1];
+		Coords o = new Coords(4);
+		origin.projectPlaneInPlaneCoords(plane, o);
+		Coords d = new Coords(4);
+		direction.projectPlaneInPlaneCoords(plane, d);
 		return lineEquationVector(o, d);
 	}
 
@@ -207,24 +211,25 @@ public final class CoordMatrixUtil {
 		Coords v = vn1.crossProduct(vn2);
 		
 
+		Coords direction = new Coords(4);
+		Coords origin = new Coords(4);
+		
 		// compute origin
-		Coords origin;
 		if (v.isZero()){ //planes are parallel or equal
-			origin = plane1.getOrigin(); //planes are equal
-			Coords[] project = origin.projectPlane(plane2);
-			if (!Kernel.isZero(project[1].getZ())) //plane are not included: return (0,0,0,0) as origin
-				origin = new Coords(4);
+			origin.set(plane1.getOrigin()); //planes are equal
+			plane1.getOrigin().projectPlaneInPlaneCoords(plane2, direction);
+			if (!Kernel.isZero(direction.getZ())){ //plane are not included: return (0,0,0,0) as origin
+				origin.set(0);
+			}
 		}else{
 			// projection of first plane origin on second plane
 			// direction orthogonal to v and colinear to first plane
-			Coords[] project = plane1.getOrigin().projectPlaneThruV(plane2,
-					vn1.crossProduct(v));
-			origin =  project[0];
+			plane1.getOrigin().projectPlaneThruV(plane2, vn1.crossProduct(v), origin);
 		}
 
 		// return line
-		Coords direction = new Coords(4);
 		direction.set(v);
+		direction.setW(0); // v is Coords(3)
 
 		return new Coords[] {origin, direction };
 	}

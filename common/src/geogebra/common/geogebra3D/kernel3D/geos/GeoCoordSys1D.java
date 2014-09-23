@@ -877,9 +877,12 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 		Coords point = getCoordSys().getOrigin();
 		//point projected on the plane
-		Coords o = point.projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}
+		point.projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords);
 		point = point.mul(-1);
-		point.addInside(o.mul(2));
+		point.addInside(tmpCoords.mul(2));
 		
 		
 		Coords vn = plane.getDirectionInD3().normalized();

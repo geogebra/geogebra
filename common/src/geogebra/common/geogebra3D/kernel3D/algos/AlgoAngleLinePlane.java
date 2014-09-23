@@ -125,7 +125,7 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
 
     
     
-	private Coords vn, o, v1, v2;
+	private Coords vn, o = new Coords(4), v1, v2;
 
     @Override
 	public final void compute() {
@@ -138,7 +138,7 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
     	CoordMatrix4x4 pMat = p.getCoordSys().getMatrixOrthonormal();
     	
     	// project line origin on the plane
-    	o = o2.projectPlaneThruV(pMat, v2)[0];
+    	o2.projectPlaneThruV(pMat, v2, o);
     	if (!o.isDefined()){ // line parallel to plane
     		getAngle().setValue(0);
     		return;

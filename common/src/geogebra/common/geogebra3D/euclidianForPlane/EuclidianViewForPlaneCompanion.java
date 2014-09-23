@@ -93,6 +93,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 	}
 	
 	
+	private Coords tmpCoords = new Coords(4);
+	
 	/**
 	 * update center and orientation of the view regarding 3D view
 	 */
@@ -108,11 +110,11 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion{
 		Coords c = new Coords(-view3D.getXZero(),-view3D.getYZero(),-view3D.getZZero(),1);
 		
 		// project it in this view coord sys
-		Coords p = c.projectPlane(getMatrix())[1];
+		c.projectPlaneInPlaneCoords(getMatrix(),tmpCoords);
 		
 		// take this projection for center
-		int x = view.toScreenCoordX(p.getX());
-		int y = view.toScreenCoordY(p.getY());
+		int x = view.toScreenCoordX(tmpCoords.getX());
+		int y = view.toScreenCoordY(tmpCoords.getY());
 
 		view.setCoordSystem(view.getWidth()/2-x+view.getxZero(), view.getHeight()/2-y+view.getyZero(), view.getXscale(), view.getYscale());
 	

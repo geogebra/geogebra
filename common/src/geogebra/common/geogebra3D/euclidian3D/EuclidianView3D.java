@@ -889,13 +889,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			toSceneCoords3D(v);
 
 			if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-				v = v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-						getViewDirection())[0];
-				setXZero(XZeroOld + v.getX());
-				setYZero(YZeroOld + v.getY());
+				v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
+						getViewDirection(), tmpCoords1);
+				setXZero(XZeroOld + tmpCoords1.getX());
+				setYZero(YZeroOld + tmpCoords1.getY());
 			} else {
-				v = v.projectPlane(CoordMatrix4x4.IDENTITY)[1];
-				setZZero(ZZeroOld + v.getZ());
+				v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
+				setZZero(ZZeroOld + tmpCoords1.getZ());
 			}
 			getSettings().updateOriginFromView(getXZero(),getYZero(),getZZero());
 			updateMatrix();

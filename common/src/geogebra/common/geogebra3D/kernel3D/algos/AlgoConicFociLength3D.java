@@ -138,14 +138,16 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 
 		// project the points on the coord sys
 		CoordMatrix4x4 matrix = cs.getMatrixOrthonormal();
-		Coords[] project = Ac.projectPlane(matrix);
-		A2d.setCoords(project[1].getX(), project[1].getY(), project[1].getW());
-		project = Bc.projectPlane(matrix);
-		B2d.setCoords(project[1].getX(), project[1].getY(), project[1].getW());
+		Ac.projectPlaneInPlaneCoords(matrix, project);
+		A2d.setCoords(project.getX(), project.getY(), project.getW());
+		Bc.projectPlaneInPlaneCoords(matrix, project);
+		B2d.setCoords(project.getX(), project.getY(), project.getW());
 
 		super.compute();
 		
 	}
+	
+	private Coords project = new Coords(4);
 	
 	
 }

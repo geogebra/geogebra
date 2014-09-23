@@ -71,7 +71,7 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
     
     
 
-    
+
 
     @Override
 	public void compute(){
@@ -83,20 +83,21 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
     	
     	Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
     	Coords d = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
-    	Coords[] project = 
-    		o.projectPlaneThruV(cs2D.getCoordSys().getMatrixOrthonormal(), d);
+		Coords globalCoords = new Coords(4); 
+		Coords inPlaneCoords = new Coords(4);
+    	o.projectPlaneThruV(cs2D.getCoordSys().getMatrixOrthonormal(), d, globalCoords, inPlaneCoords);
     	
     	GeoPoint3D p = (GeoPoint3D) getIntersection();
     	
     	//check if the point is in the line (segment or half-line)
     	// and if the point is in the region (polygon, ...)
     	if (
-    			-project[1].get(3) > line.getMinParameter() -Kernel.MAX_PRECISION
-    			&& -project[1].get(3) < line.getMaxParameter() +Kernel.MAX_PRECISION
+    			-inPlaneCoords.get(3) > line.getMinParameter() -Kernel.MAX_PRECISION
+    			&& -inPlaneCoords.get(3) < line.getMaxParameter() +Kernel.MAX_PRECISION
     			&&
- 				cs2D.isInRegion(project[1].get(1),project[1].get(2))
+ 				cs2D.isInRegion(inPlaneCoords.get(1),inPlaneCoords.get(2))
  		){
-			p.setCoords(project[0]);
+			p.setCoords(globalCoords);
 		}else
 			p.setUndefined();
     	
@@ -139,21 +140,20 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
      * @param cs2D
      * @return
      */
-    public static Coords getIntersectLinePlane(GeoLineND line, GeoCoordSys2D cs2D) {
+    public static Coords getIntersectLinePlane(GeoLineND line, GeoCoordSys2D cs2D, Coords globalCoords, Coords inPlaneCoords) {
 
     	Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
     	Coords d = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
-    	Coords[] project = 
-    		o.projectPlaneThruV(cs2D.getCoordSys().getMatrixOrthonormal(), d);
+    	o.projectPlaneThruV(cs2D.getCoordSys().getMatrixOrthonormal(), d, globalCoords, inPlaneCoords);
     	
     	//check if the point is in the line (segment or half-line)
     	// and if the point is in the region (polygon, ...)
     	if (
-    			line.respectLimitedPath(-project[1].get(3))
+    			line.respectLimitedPath(-inPlaneCoords.get(3))
     			&&
- 				cs2D.isInRegion(project[1].get(1),project[1].get(2))
+ 				cs2D.isInRegion(inPlaneCoords.get(1),inPlaneCoords.get(2))
  		){
-			return project[0];
+			return globalCoords;
 		}
 		return null;
     }

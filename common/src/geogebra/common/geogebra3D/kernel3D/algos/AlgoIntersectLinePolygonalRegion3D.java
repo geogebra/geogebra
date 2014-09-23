@@ -73,7 +73,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 				}
 			});
 	    }
-    
+	   
+	   
     @Override
 	protected void intersectionsCoords(GeoLineND g, GeoPolygon p, TreeMap<Double, Coords> newCoords){
 
@@ -82,8 +83,9 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     		
     		//AlgoIntersectCS1D2D algo = new AlgoIntersectCS1D2D(cons, null, (GeoElement) g,  p);
     		//GeoPoint3D point = (GeoPoint3D) algo.getIntersection();
-    		
-    		Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g,p);
+    		Coords globalCoords = new Coords(4); 
+    		Coords inPlaneCoords = new Coords(4);
+    		Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g,p, globalCoords, inPlaneCoords);
     		
     		if (singlePoint!=null)
     			newCoords.put(0.0, singlePoint);

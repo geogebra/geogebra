@@ -314,7 +314,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	 * @return true if all points lie on coord sys
 	 */
 	public boolean checkPointsAreOnCoordSys() {
-		return checkPointsAreOnCoordSys(coordSys, points, points2D);
+		Coords tmpCoords = new Coords(4);
+		return checkPointsAreOnCoordSys(coordSys, points, points2D, tmpCoords);
 	}
 	
 	/**
@@ -322,7 +323,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	 * 
 	 * @return true if all points lie on coord sys
 	 */
-	static final public boolean checkPointsAreOnCoordSys(CoordSys coordSys, GeoPointND[] points, GeoPoint[] points2D) {
+	static final public boolean checkPointsAreOnCoordSys(CoordSys coordSys, GeoPointND[] points, GeoPoint[] points2D, Coords tmpCoords) {
 				
 		Coords o = coordSys.getOrigin();
 		Coords vn = coordSys.getVz();
@@ -346,19 +347,21 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 			}	
 
 			// project the point on the coord sys
-			Coords[] project = p.projectPlane(matrix);
+			p.projectPlaneInPlaneCoords(matrix, tmpCoords);
 			
 
 			// set the 2D points
-			points2D[i].setCoords(project[1].getX(), project[1].getY(), project[1].getW());
+			points2D[i].setCoords(tmpCoords.getX(), tmpCoords.getY(), tmpCoords.getW());
 		}
 
 		return true;
 	}
+	
 
 	public boolean updateCoordSys() {
 
-		return updateCoordSys(coordSys, points, points2D);
+		Coords tmpCoords = new Coords(4);		
+		return updateCoordSys(coordSys, points, points2D, tmpCoords);
 
 	}
 	
@@ -369,7 +372,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	 * @param points2D 2D coords of the points in coord sys (if possible)
 	 * @return true if it has worked
 	 */
-	static final public boolean updateCoordSys(CoordSys coordSys, GeoPointND[] points, GeoPoint[] points2D){
+	static final public boolean updateCoordSys(CoordSys coordSys, GeoPointND[] points, GeoPoint[] points2D, Coords tmpCoords){
 		coordSys.resetCoordSys();
 		for (int i = 0; (!coordSys.isMadeCoordSys()) && (i < points.length); i++) {
 			// Application.debug(points[i].getLabel()+"=\n"+points[i].getCoordsInD3());
@@ -388,7 +391,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 		}
 
 		if (coordSys.makeOrthoMatrix(false, false)) {
-			return checkPointsAreOnCoordSys(coordSys, points, points2D);
+			return checkPointsAreOnCoordSys(coordSys, points, points2D, tmpCoords);
 		} 
 
 		return true;

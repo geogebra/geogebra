@@ -84,6 +84,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);		
 	}
 
+	private Coords pp1 = new Coords(4);
 
 	@Override
 	public void compute(double f, GeoPolygon bottomPolygon, Coords[] points) {
@@ -94,7 +95,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		Coords[] topP = getPointsCoords(p.getTopFace());
 
 		Coords topCo = topP[0];
-		Coords pp1 = topCo.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
+		topCo.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal(), pp1);
 		double dd1 = p.getOrientedHeight();
 		if (dd1 < 0) { // top point below the bottom face : negative rotation
 			f *= -1;
@@ -147,7 +148,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		for (int i = 0 ; i < sz - 2 ; i++) {
 			wpoint3 = outputPointsTop.getElement(i);
 			cCoord = wpoint3.getInhomCoordsInD3();
-			pp1 = cCoord.projectPlane(side0.getCoordSys().getMatrixOrthonormal())[0];
+			cCoord.projectPlane(side0.getCoordSys().getMatrixOrthonormal(), pp1);
 			double dist =  pp1.distance(cCoord);
 			rotate(wpoint3, cCoord, pp1, o, vs, f, side0.getDirectionInD3(), dist, true);		
 		}
@@ -158,12 +159,12 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 			vs = bottomSegsDirections[i/2];
 			wpoint1 = outputPointsSide.getElement(i);
 			cCoord = wpoint1.getInhomCoordsInD3();
-			pp1 = cCoord.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
+			cCoord.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal(), pp1);
 			rotate(wpoint1, cCoord, pp1, o, vs, f, faceDirection, dd1, false);
 			// rotate wpoint2	
 			wpoint2 = outputPointsSide.getElement(i+1);
 			cCoord = wpoint2.getInhomCoordsInD3();
-			pp1 = cCoord.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
+			cCoord.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal(), pp1);
 			rotate(wpoint2, cCoord, pp1, o, vs, f, faceDirection, dd1, false);
 
 			if (i == 0) { // the rotation for the top face is made with the same angle
