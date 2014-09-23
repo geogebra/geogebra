@@ -53,18 +53,18 @@ public class DataAnalysisModel {
 	private int mode = -1;
 
 	// colors
-	public static final int TABLE_GRID_COLOR_IDX = 1;
-	public static final int TABLE_HEADER_COLOR_IDX = 2;
-	public static final int HISTOGRAM_COLOR_IDX = 3;
-	public static final int BOXPLOT_COLOR_IDX = 4;
-	public static final int BARCHART_COLOR_IDX = 5;
+	public static final int TABLE_GRID_COLOR_IDX = 0;
+	public static final int TABLE_HEADER_COLOR_IDX = 1;
+	public static final int HISTOGRAM_COLOR_IDX = 2;
+	public static final int BOXPLOT_COLOR_IDX = 3;
+	public static final int BARCHART_COLOR_IDX = 4;
 
-	public static final int DOTPLOT_COLOR_IDX = 6;
-	public static final int NQPLOT_COLOR_IDX = 7;
-	public static final int REGRESSION_COLOR_IDX = 8;
-	public static final int OVERLAY_COLOR_IDX = 9;
-	public static final int BLACK_COLOR_IDX = 10;
-	public static final int WHITE_COLOR_IDX = 11;
+	public static final int DOTPLOT_COLOR_IDX = 5;
+	public static final int NQPLOT_COLOR_IDX = 6;
+	public static final int REGRESSION_COLOR_IDX = 7;
+	public static final int OVERLAY_COLOR_IDX = 8;
+	public static final int BLACK_COLOR_IDX = 9;
+	public static final int WHITE_COLOR_IDX = 10;
 
 	// flags
 	private boolean showDataPanel = false;
@@ -458,7 +458,21 @@ public class DataAnalysisModel {
 	public void setMode(int mode) {
 		this.mode = mode;
 	}
-
-	
-
+	 
+	public String modeString() {
+		String str = "[DAMODE] ";
+		switch (mode) {
+		case MODE_ONEVAR:
+			str += "ONEVAR";
+			break;
+		case MODE_REGRESSION:
+			str += "TWOVAR - REGRESSION";
+			break;
+		case MODE_MULTIVAR:
+			str += "MULTIVAR";
+			break;
+				
+		}
+		return str;
+	}
 }
