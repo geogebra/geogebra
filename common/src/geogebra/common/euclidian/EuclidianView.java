@@ -1493,7 +1493,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			}
 			d.resetHatch();
 			d.update();
-		}else if(drawableNeeded(geo)){
+		}else if(drawableNeeded(geo) && geosWaiting.contains(geo)){
+			geosWaiting.remove(geo);
 			add(geo);			
 			d = DrawableMap.get(geo);
 			if(d!=null){
@@ -1502,7 +1503,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			}
 		}
 	}
-
+	private ArrayList<GeoElement> geosWaiting = new ArrayList<GeoElement>();
 	/**
 	 * adds a GeoElement to this view
 	 */
@@ -1511,6 +1512,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		// G.Sturr 2010-6-30
 		// filter out any geo not marked for this view
 		if (!drawableNeeded(geo) ) {
+			if(isVisibleInThisView(geo)){
+				this.geosWaiting.add(geo);
+			}
 			return;
 			// END G.Sturr
 		}
