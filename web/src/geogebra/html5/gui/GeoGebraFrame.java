@@ -583,6 +583,15 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		inst.createSplash(article);
 		RootPanel.get(article.getId()).add(inst);
 	}
+	
+	/**
+	 * callback when renderGGBElement is ready
+	 */
+	public static native void renderGGBElementReady() /*-{
+		if (typeof $wnd.renderGGBElementReady === "function") {
+			$wnd.renderGGBElementReady();
+		}			
+	}-*/;
 
 
 
