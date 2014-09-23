@@ -81,7 +81,7 @@ public class ToolNameIconPanel extends VerticalPanel {
 
 			@SuppressWarnings("unused")
             public void onClick(ClickEvent event) {
-				new UploadImageDialog(
+				(new UploadImageDialog(
 				        (AppW) app, ICON_WIDTH + "px", ICON_HEIGHT + "px") {
 
 					public void onClick(ClickEvent ev) {
@@ -94,7 +94,7 @@ public class ToolNameIconPanel extends VerticalPanel {
 							hide();
 						}
 					}
-				};
+				}).center();
 			}
 		});
 
