@@ -704,7 +704,7 @@ __GGB__keysVar.ca.command = {
     "Ray.Syntax": "[ <Punt origen>, <Punt de la semirecta> ]\n[ <Punt origen>, <Vector de direcci\xf3> ]",
     "RectangleSum": "SumaRectangles",
     "RectangleSum.Syntax": "[ <Funci\xf3>, <Valor x-inicial>, <Valor x-final>, <Nombre de rectangles>, <Posici\xf3 rectangle inicial> ]",
-    "ReducedRowEchelonForm": "MatriuEsglaonadaFiles",
+    "ReducedRowEchelonForm": "MatriuCan\xf2nicaPerFiles",
     "ReducedRowEchelonForm.Syntax": "[ <Matriu> ]",
     "Relation": "Relaci\xf3",
     "Relation.Syntax": "[ <Objecte>, <Objecte> ]",
