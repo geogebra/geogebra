@@ -3180,12 +3180,16 @@ public abstract class App implements UpdateSelection{
 					rel.info += "</b></html>";
 					table.updateRow(row, rel);
 					*/
-					// We don't show the second information unless ProveDetails is unsuccessful.
-					
-					// Third info start:
 					Localization loc = ra.getConstruction().getApplication().getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
 					rel.info = "<html>";
+					if (result != null && !result) {
+						rel.info += relInfo + "<br><b>" + getPlain("ButNotGenerallyTrue") + "</b>";
+					} else {
+					// We don't show the second information unless ProveDetails is unsuccessful.
+					
+					// Third info start:
+
 					String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
 					// Third information shown (result of ProveDetails command):
 					if (ndgResult.length == 1) {
@@ -3224,6 +3228,7 @@ public abstract class App implements UpdateSelection{
 							rel.info += loc.getPlain("GenerallyTrueAcondB", 
 									"<ul><li>" + relInfo + "</ul>", conds);
 							}
+					}
 					}
 					rel.info += "</html>";
 					rel.callback = null;
