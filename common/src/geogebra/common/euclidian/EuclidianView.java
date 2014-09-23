@@ -1549,7 +1549,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * removes a GeoElement from this view
 	 */
 	public void remove(GeoElement geo) {
-
+		this.geosWaiting.remove(geo);
 		Drawable d = (Drawable) DrawableMap.get(geo);
 		int layer = geo.getLayer();
 		if (d == null)
@@ -3962,6 +3962,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		stickyPointList.clear();
 		allDrawableList.clear();
 		bgImageList.clear();
+		this.geosWaiting.clear();
 
 		for (int i = 0; i <= getApplication().getMaxLayerUsed(); i++) {
 			drawLayers[i].clear(); // Michael Borcherds 2008-02-29
