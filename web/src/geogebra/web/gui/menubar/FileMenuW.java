@@ -170,8 +170,21 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 			if ($wnd.navigator.msSaveBlob) {
 				$wnd.navigator.msSaveBlob(ggbZip, title);
 			} else {
-				downloadButton.click();
-			}
+				window.location.href = ggbUrl;
+			} 
+//			if (downloadButton.click) {
+//				downloadButton.click();
+//			}
+//			else if (document.createEvent) {
+//				alert("if event");
+//				var evt = document.createEvent("MouseEvents");
+//				evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+//				var allowDefault = downloadButton.dispatchEvent(evt);
+//						// you can check allowDefault for false to see if
+//						// any handler called evt.preventDefault().
+//						// Firefox will *not* redirect to anchorObj.href
+//						// for you. However every other browser will.
+//			}
 		}
 	}-*/;
 
