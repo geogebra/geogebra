@@ -3186,49 +3186,49 @@ public abstract class App implements UpdateSelection{
 					if (result != null && !result) {
 						rel.info += relInfo + "<br><b>" + getPlain("ButNotGenerallyTrue") + "</b>";
 					} else {
-					// We don't show the second information unless ProveDetails is unsuccessful.
+						// We don't show the second information unless ProveDetails is unsuccessful.
 					
-					// Third info start:
+						// Third info start:
 
-					String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
-					// Third information shown (result of ProveDetails command):
-					if (ndgResult.length == 1) {
-						rel.info += relInfo + "<br><b>";
-						if ("".equals(ndgResult[0])) {
-							if (result != null && result) {
-								// Using Prove's result (since ProveDetails couldn't find any interesting):
-								rel.info += getPlain("GenerallyTrue");
-							} else {
-								rel.info += getPlain("PossiblyGenerallyTrue");
-							}
-						} else if ("1".equals(ndgResult[0])) {
-							rel.info += getPlain("AlwaysTrue");
-						} else { // "0"
-							rel.info += getPlain("ButNotGenerallyTrue");
-						}
-						rel.info += "</b>";
-					} else {
-						int ndgs = ndgResult.length;
-						if ((ndgs == 2) && ("...".equals(ndgResult[1]))) {
-							// UnderCertainConditionsA
-							rel.info += loc.getPlain("UnderCertainConditionsA", "<ul><li>" +
-								relInfo + "</ul>");
-
-						} else {
-							// GenerallyTrueAcondB
-							String conds = "<ul>"; 
-							for (int j = 1; j < ndgs; ++j) {
-								conds += "<li>";
-								conds += ndgResult[j];
-								if ( (j < ndgs - 1) ) {
-									conds += " " + and;
+						String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
+						// Third information shown (result of ProveDetails command):
+						if (ndgResult.length == 1) {
+							rel.info += relInfo + "<br><b>";
+							if ("".equals(ndgResult[0])) {
+								if (result != null && result) {
+									// Using Prove's result (since ProveDetails couldn't find any interesting):
+									rel.info += getPlain("GenerallyTrue");
+								} else {
+									rel.info += getPlain("PossiblyGenerallyTrue");
 								}
+							} else if ("1".equals(ndgResult[0])) {
+								rel.info += getPlain("AlwaysTrue");
+							} else { // "0"
+								rel.info += getPlain("ButNotGenerallyTrue");
 							}
-							conds += "</ul>";
-							rel.info += loc.getPlain("GenerallyTrueAcondB", 
-									"<ul><li>" + relInfo + "</ul>", conds);
-							}
-					}
+							rel.info += "</b>";
+						} else {
+							int ndgs = ndgResult.length;
+							if ((ndgs == 2) && ("...".equals(ndgResult[1]))) {
+							// 	UnderCertainConditionsA
+								rel.info += loc.getPlain("UnderCertainConditionsA", "<ul><li>" +
+										relInfo + "</ul>");
+
+							} else {
+								// GenerallyTrueAcondB
+								String conds = "<ul>"; 
+								for (int j = 1; j < ndgs; ++j) {
+									conds += "<li>";
+									conds += ndgResult[j];
+									if ( (j < ndgs - 1) ) {
+										conds += " " + and;
+									}
+								}
+								conds += "</ul>";
+								rel.info += loc.getPlain("GenerallyTrueAcondB", 
+										"<ul><li>" + relInfo + "</ul>", conds);
+								}
+						}
 					}
 					rel.info += "</html>";
 					rel.callback = null;
