@@ -74,7 +74,7 @@ public class AlgoRadius extends AlgoElement {
     @Override
 	public final void compute() {        
         if (c.type == GeoConicNDConstants.CONIC_CIRCLE) { // notice that constants CONIC_CIRCLE and QUADRIC_SPHERE are equal
-            num.setValue(c.halfAxes[0]);
+            num.setValue(c.getHalfAxis(0));
         } else {
             num.setUndefined();
         }

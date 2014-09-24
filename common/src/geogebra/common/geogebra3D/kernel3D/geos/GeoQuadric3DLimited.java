@@ -5,6 +5,7 @@ import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -66,19 +67,10 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	 */
 	public GeoQuadric3DLimited(Construction c){//, GeoPointND bottomPoint, GeoPointND topPoint) {
 
-		super(c, 3);
+		super(c);
 
-		//setPoints(bottomPoint, topPoint);
-
-		// TODO merge with GeoQuadricND
-		eigenvecND = new Coords[3];
-		for (int i = 0; i < 3; i++) {
-			eigenvecND[i] = new Coords(4);
-			eigenvecND[i].set(i + 1, 1);
-		}
-
-		// diagonal (diagonalized matrix)
-		diagonal = new double[4];
+		setConstructionDefaults(); 
+		
 
 	}
 
@@ -90,15 +82,17 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	*/
 
 
-	public void setParts(GeoQuadric3DPart side, GeoConicND bottom2,
-			GeoConic3D top) {
-		this.side = side;
+	public void setBottomTop(GeoConicND bottom2, GeoConic3D top) {
 		this.bottom = bottom2;
 		this.top = top;
 		
-		side.setFromMeta(this);
 		bottom.addMeta(this);
 		top.addMeta(this);
+	}
+	
+	public void setSide(GeoQuadric3DPart side) {
+		this.side = side;
+		side.setFromMeta(this);
 	}
 	
 	@Override
@@ -201,15 +195,30 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 
 	}
 
+	@Override
 	public double getBottomParameter() {
 		return bottomParameter;
 	}
 
+	@Override
 	public double getTopParameter() {
 		return topParameter;
 	}
 
-	// TODO merge in GeoQuadricND
+	
+	private Coords direction;
+	
+	public Coords getDirection(){
+		return direction;
+	}
+	
+	private Coords origin;
+	
+	public Coords getOrigin(){
+		return origin;
+	}
+	
+	
 	/**
 	 * @param origin
 	 * @param direction
@@ -226,32 +235,14 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		setLimits(bottomParameter, topParameter);
 		
 		// set center
-		setMidpoint(origin.get());
+		this.origin = origin;
 
 		// set direction
-		eigenvecND[2] = direction;
-
-		// set others eigen vecs
-		Coords[] ee = direction.completeOrthonormal();
-		eigenvecND[0] = ee[0];
-		eigenvecND[1] = ee[1];
-
-		// set halfAxes = radius
-		for (int i = 0; i < 2; i++)
-			halfAxes[i] = r;
+		this.direction = direction;
 		
-		halfAxes[2] = 1;
-
-
-		// set the diagonal values
-		diagonal[0] = 1;
-		diagonal[1] = 1;
-		diagonal[2] = 0;
-		diagonal[3] = -r * r;
-
-		// set matrix
-		setMatrixFromEigen();
-
+		// set bottom radius
+		this.radius = r;
+		
 		// set type
 		setType(QUADRIC_CYLINDER);
 
@@ -269,7 +260,13 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 			this.topParameter = topParameter;
 
 	}
+	
+	private double radius;
 
+	public double getRadius(){
+		return radius;
+	}
+	
 	public void setCone(Coords origin, Coords direction, double r, double bottomParameter,
 			double topParameter) {
 
@@ -277,30 +274,13 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		setLimits(bottomParameter, topParameter);
 		
 		// set center
-		setMidpoint(origin.get());
+		this.origin = origin;
 
 		// set direction
-		eigenvecND[2] = direction;
-
-		// set others eigen vecs
-		Coords[] ee = direction.completeOrthonormal();
-		eigenvecND[0] = ee[0];
-		eigenvecND[1] = ee[1];
-
-		// set halfAxes = radius
-		for (int i = 0; i < 2; i++)
-			halfAxes[i] = r;
+		this.direction = direction;
 		
-		halfAxes[2] = 1;
-
-		// set the diagonal values
-		diagonal[0] = 1;
-		diagonal[1] = 1;
-		diagonal[2] = -r * r;
-		diagonal[3] = 0;
-
-		// set matrix
-		setMatrixFromEigen();
+		// set bottom radius
+		this.radius = r;
 		
 		// set type
 		type = QUADRIC_CONE;
@@ -509,15 +489,14 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 			// copy everything
 			toStringMode = quadric.toStringMode;
 			type = quadric.type;
-			for (int i = 0; i < 10; i++)
-				matrix[i] = quadric.matrix[i]; // flat matrix A
+			
+			radius = quadric.getRadius();
+			
+			// set from side
+			origin = side.getMidpoint3D();
+			direction = side.getEigenvec3D(2);
+			
 
-			for (int i = 0; i < 3; i++) {
-				eigenvecND[i].set(quadric.eigenvecND[i]);
-				halfAxes[i] = quadric.halfAxes[i];
-			}
-
-			setMidpoint(quadric.getMidpoint().get());
 
 			defined = quadric.defined;
 
@@ -568,12 +547,14 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		
 	}
 
+	@Override
 	public double getVolume() {
 		if (defined)
 			return volume;
 		return Double.NaN;
 	}
 	
+	@Override
 	public boolean hasFiniteVolume(){
 		return true;
 	}
@@ -613,10 +594,12 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	// NumberValue
 	// ////////////////////////////////
 
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getDouble());
 	}
 
+	@Override
 	public double getDouble() {
 		return getVolume();
 	}
@@ -640,6 +623,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 
 
 
+	@Override
 	public double getOrientedHeight() {
 		return topParameter - bottomParameter;
 	}
@@ -659,34 +643,58 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 
 	
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 
 		bottom.rotate(r, S);
 		top.rotate(r, S);
 		side.rotate(r, S);
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
+
 
 	}
 
+	@Override
 	public void rotate(NumberValue r) {
 		
 		bottom.rotate(r);
 		top.rotate(r);
 		side.rotate(r);
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
+
 
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 		
 		((GeoConic3D) bottom).rotate(r, S, orientation);
 		top.rotate(r, S, orientation);
 		side.rotate(r, S, orientation);		
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
+
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
 
 		((GeoConic3D) bottom).rotate(r, line);
 		top.rotate(r, line);
-		side.rotate(r, line);		
+		side.rotate(r, line);	
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
+
 		
 	}
 	
@@ -695,10 +703,14 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		return true;
 	}
 
+	@Override
 	public void translate(Coords v) {
 		bottom.translate(v);
 		top.translate(v);
 		side.translate(v);
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
 	}
 	
 	
@@ -707,22 +719,38 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	// MIRROR
 	////////////////////////
 	
+	@Override
 	public void mirror(Coords Q) {
 		bottom.mirror(Q);
 		top.mirror(Q);
 		side.mirror(Q);
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
 	}
 
+	@Override
 	public void mirror(GeoLineND g) {
 		bottom.mirror(g);
 		top.mirror(g);
 		side.mirror(g);
+
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
 	}
 	
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		((MirrorableAtPlane) bottom).mirror(plane);
 		top.mirror(plane);
 		side.mirror(plane);
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
+
 	}
 	
 	
@@ -731,6 +759,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	////////////////////////
 
 
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 		bottom.dilate(rval, S);
 		top.dilate(rval, S);
@@ -738,6 +767,12 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		
 		double r = Math.abs(rval.getDouble());		
 		volume *= r*r*r;
+		radius *= r;
+		
+		// get infos from side
+		origin = side.getMidpoint3D();
+		direction = side.getEigenvec3D(2);
+
 
 	}
 	
@@ -749,9 +784,54 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	@Override
 	final protected void singlePoint() {
 		type = GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
-		
-		//TODO more ?
 
+	}
+
+	
+	
+	
+	@Override
+	public Coords getMidpoint2D(){
+		return side.getMidpoint2D();
+	}
+	
+
+	@Override
+	public Coords getMidpoint(){
+		return side.getMidpoint();
+	}
+	
+
+	@Override
+	public Coords getMidpoint3D(){
+		return side.getMidpoint3D();
+	}
+	
+	@Override
+	public CoordMatrix getSymetricMatrix(){
+		return side.getSymetricMatrix();
+	}
+
+	
+	@Override
+	public double getHalfAxis(int i){
+		return side.getHalfAxis(i);
+	}
+	
+	@Override
+	public int getDimension(){
+		return side.getDimension();
+	}
+	
+	@Override
+	public Coords getEigenvec3D(int i){
+		return side.getEigenvec3D(i);
+	}
+	
+	
+	@Override
+	public double[] getFlatMatrix(){
+		return side.getFlatMatrix();
 	}
 
 }

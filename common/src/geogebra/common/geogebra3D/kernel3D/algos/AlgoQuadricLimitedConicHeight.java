@@ -57,10 +57,11 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
  		AlgoQuadricSide algo = new AlgoQuadricSide(cons, quadric,true);            
 		cons.removeFromConstructionList(algo);
 		side = (GeoQuadric3DPart) algo.getQuadric();
+		quadric.setSide(side);
 		
 		createTop();
 
-		quadric.setParts(side,bottom,top);
+		quadric.setBottomTop(bottom,top);
 
 		//output = new GeoElement[] {quadric,bottom,top,side};
 		setOutput();

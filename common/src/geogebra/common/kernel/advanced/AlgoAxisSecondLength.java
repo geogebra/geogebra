@@ -77,7 +77,7 @@ public class AlgoAxisSecondLength extends AlgoElement {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			num.setValue(c.halfAxes[1]);
+			num.setValue(c.getHalfAxis(1));
 			break;
 
 		default:

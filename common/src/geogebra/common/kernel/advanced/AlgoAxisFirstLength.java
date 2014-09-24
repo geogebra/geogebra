@@ -73,7 +73,7 @@ public class AlgoAxisFirstLength extends AlgoElement {
             case GeoConicNDConstants.CONIC_CIRCLE:                               
             case GeoConicNDConstants.CONIC_HYPERBOLA:
             case GeoConicNDConstants.CONIC_ELLIPSE:
-                num.setValue(c.halfAxes[0]);
+                num.setValue(c.getHalfAxis(0));
                 break;
                             
             default:

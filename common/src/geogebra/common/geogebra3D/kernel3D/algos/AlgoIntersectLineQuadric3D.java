@@ -184,7 +184,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
         //      w = evaluate(p)
         
         // precalc S.v for u and b
-		double[] m = q.matrix;
+		double[] m = q.getFlatMatrix();
 		double v1 = g.getDirectionInD3().getX();
 		double v2 = g.getDirectionInD3().getY();
 		double v3 = g.getDirectionInD3().getZ();

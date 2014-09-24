@@ -107,14 +107,14 @@ public class AlgoAreaConic extends AlgoElement {
 		switch (type) {
 			case GeoConicNDConstants.CONIC_CIRCLE:
 				// r is length of one of the half axes
-				double r = conic.halfAxes[0];
+				double r = conic.getHalfAxis(0);
 				area.setValue(r * r * Math.PI);
 				break;
 				
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 				// lengths of the half axes
-				double a = conic.halfAxes[0];
-				double b = conic.halfAxes[1];
+				double a = conic.getHalfAxis(0);
+				double b = conic.getHalfAxis(1);
 				area.setValue(a * b * Math.PI);
 				break;
 					

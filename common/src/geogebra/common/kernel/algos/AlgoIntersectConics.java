@@ -772,9 +772,11 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         // => degnerate is single line
         // (e.g. for circles)
         
-        if ( absCrossProduct(A.matrix[0], A.matrix[1], B.matrix[0], B.matrix[1]) < eps &&
-        		absCrossProduct(A.matrix[0], A.matrix[3], B.matrix[0], B.matrix[3]) < eps &&
-        		absCrossProduct(A.matrix[1], A.matrix[3], B.matrix[1], B.matrix[3]) < eps) 
+        double[] Amatrix = A.getFlatMatrix();
+        double[] Bmatrix = B.getFlatMatrix();
+        if ( absCrossProduct(Amatrix[0], Amatrix[1], Bmatrix[0], Bmatrix[1]) < eps &&
+        		absCrossProduct(Amatrix[0], Amatrix[3], Bmatrix[0], Bmatrix[3]) < eps &&
+        		absCrossProduct(Amatrix[1], Amatrix[3], Bmatrix[1], Bmatrix[3]) < eps) 
         {
         	
         	/*
@@ -814,10 +816,10 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         double [] flatA = new double[6]; // flat matrix of conic A
         double [] flatB = new double[6]; // flat matrix of conic B       
         
-        // copy and normalize flat matrices             
+        // copy and normalize flat matrices   
         for (int i=0; i<6; i++) {
-        	flatA[i] = A.matrix[i];        	
-        	flatB[i] = B.matrix[i];        	
+        	flatA[i] = Amatrix[i];        	
+        	flatB[i] = Bmatrix[i];        	
         }        
         normalizeArray(flatA);
         normalizeArray(flatB);
@@ -942,20 +944,20 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
  	    /* Author ddrakulic */
  	    
  	    double [] param1 = new double[6];
- 	    param1[0] = A.matrix[0]; //x^2
- 	    param1[1] = 2*A.matrix[3]; //xy
- 	    param1[2] = A.matrix[1]; //y^2
- 	    param1[3] = 2*A.matrix[4]; //x
-	    param1[4] = 2*A.matrix[5]; //y
-	    param1[5] = A.matrix[2]; //constant
+ 	    param1[0] = Amatrix[0]; //x^2
+ 	    param1[1] = 2*Amatrix[3]; //xy
+ 	    param1[2] = Amatrix[1]; //y^2
+ 	    param1[3] = 2*Amatrix[4]; //x
+	    param1[4] = 2*Amatrix[5]; //y
+	    param1[5] = Amatrix[2]; //constant
 
  	    double [] param2 = new double[6];
- 	    param2[0] = B.matrix[0]; //x^2
- 	    param2[1] = 2*B.matrix[3]; //xy
- 	    param2[2] = B.matrix[1]; //y^2
- 	    param2[3] = 2*B.matrix[4]; //x
-	    param2[4] = 2*B.matrix[5]; //y
-	    param2[5] = B.matrix[2]; //constant
+ 	    param2[0] = Bmatrix[0]; //x^2
+ 	    param2[1] = 2*Bmatrix[3]; //xy
+ 	    param2[2] = Bmatrix[1]; //y^2
+ 	    param2[3] = 2*Bmatrix[4]; //x
+	    param2[4] = 2*Bmatrix[5]; //y
+	    param2[5] = Bmatrix[2]; //constant
 	    
 	    double [][] res = new double[4][2];
 	    
@@ -993,19 +995,22 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 		
 	    // set line passing through intersection points (e.g. of two circles)
 
+	    double[] c1matrix = c1.getFlatMatrix();
+        double[] c2matrix = c2.getFlatMatrix();
+        
 	    // find the proportionnal factor
 	    double m2 = Double.NaN;
 	    for (int i = 0; i < 6 && Double.isNaN(m2); i++){
-	    	double m1 = c1.matrix[i]; 
+	    	double m1 = c1matrix[i]; 
 	    	if (!Kernel.isZero(m1, eps)){
-	    		m2 = Math.abs(c2.matrix[i])/m1;	
+	    		m2 = Math.abs(c2matrix[i])/m1;	
 	    	}
 	    }
 	    
 	    tempLine.setCoords(        			
-				2*(c1.matrix[4]*m2 - c2.matrix[4]),
-				2*(c1.matrix[5]*m2 - c2.matrix[5]),
-				c1.matrix[2]*m2 - c2.matrix[2]);
+				2*(c1matrix[4]*m2 - c2matrix[4]),
+				2*(c1matrix[5]*m2 - c2matrix[5]),
+				c1matrix[2]*m2 - c2matrix[2]);
 		        	        	        	
 		// try first conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points,eps);        	

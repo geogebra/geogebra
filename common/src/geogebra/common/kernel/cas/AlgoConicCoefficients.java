@@ -39,13 +39,14 @@ public class AlgoConicCoefficients extends AlgoElement {
     	super(cons);
         this.c = c;        	
     	
-        g = new GeoList(cons);         
-        g.add(new GeoNumeric(cons, c.matrix[0]));
-        g.add(new GeoNumeric(cons, c.matrix[1]));
-        g.add(new GeoNumeric(cons, c.matrix[2]));
-        g.add(new GeoNumeric(cons, c.matrix[3] * 2));
-        g.add(new GeoNumeric(cons, c.matrix[4] * 2));
-        g.add(new GeoNumeric(cons, c.matrix[5] * 2));
+        g = new GeoList(cons);      
+        double[] matrix = c.getFlatMatrix(); 
+        g.add(new GeoNumeric(cons, matrix[0]));
+        g.add(new GeoNumeric(cons, matrix[1]));
+        g.add(new GeoNumeric(cons, matrix[2]));
+        g.add(new GeoNumeric(cons, matrix[3] * 2));
+        g.add(new GeoNumeric(cons, matrix[4] * 2));
+        g.add(new GeoNumeric(cons, matrix[5] * 2));
 
         setInputOutput(); // for AlgoElement        
         //compute();
@@ -82,13 +83,13 @@ public class AlgoConicCoefficients extends AlgoElement {
         	return;
         }    
                 
-        
-        ((GeoNumeric)g.get(0)).setValue(c.matrix[0]);
-        ((GeoNumeric)g.get(1)).setValue(c.matrix[1]);
-        ((GeoNumeric)g.get(2)).setValue(c.matrix[2]);
-        ((GeoNumeric)g.get(3)).setValue(c.matrix[3] * 2);
-        ((GeoNumeric)g.get(4)).setValue(c.matrix[4] * 2);
-        ((GeoNumeric)g.get(5)).setValue(c.matrix[5] * 2);
+        double[] matrix = c.getFlatMatrix();
+        ((GeoNumeric)g.get(0)).setValue(matrix[0]);
+        ((GeoNumeric)g.get(1)).setValue(matrix[1]);
+        ((GeoNumeric)g.get(2)).setValue(matrix[2]);
+        ((GeoNumeric)g.get(3)).setValue(matrix[3] * 2);
+        ((GeoNumeric)g.get(4)).setValue(matrix[4] * 2);
+        ((GeoNumeric)g.get(5)).setValue(matrix[5] * 2);
 
         
     }

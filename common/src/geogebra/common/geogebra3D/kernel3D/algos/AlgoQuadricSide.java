@@ -56,7 +56,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		//compute the quadric
 		getQuadric().setDefined();
 		getQuadric().setType(getInputQuadric().getType());
-		getComputer().setQuadric(getQuadric(), getInputQuadric().getMidpoint3D(), getInputQuadric().getEigenvec3D(2), getInputQuadric().getHalfAxis(0));
+		getComputer().setQuadric(getQuadric(), getInputQuadric().getOrigin(), getInputQuadric().getDirection(), getInputQuadric().getRadius());
 		((GeoQuadric3DPart) getQuadric()).setLimits(getInputQuadric().getBottomParameter(), getInputQuadric().getTopParameter());
 	
 		((GeoQuadric3DPart) getQuadric()).calcArea();

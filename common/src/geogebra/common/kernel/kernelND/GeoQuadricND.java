@@ -47,7 +47,15 @@ Traceable{
 	 * @see geogebra.common.kernel.geos.GeoConic
 	 * Also see GeoQuadric3D in Desktop
 	 */
-	public double[] matrix;
+	protected double[] matrix;
+	
+	/**
+	 * 
+	 * @return flat matrix
+	 */
+	public double[] getFlatMatrix(){
+		return matrix;
+	}
 	
 	
 	/**
@@ -100,6 +108,11 @@ Traceable{
 
 		this(c, dimension, false);
 	}
+	
+	
+	public GeoQuadricND(Construction c){
+		super(c);
+	}
 
 	/** default constructor
 	 * @param c construction
@@ -107,7 +120,7 @@ Traceable{
 	 * @param isIntersection  if this is an intersection curve
 	 */
 	public GeoQuadricND(Construction c, int dimension, boolean isIntersection) {
-		super(c);
+		this(c);
 		
 		this.isIntersection = isIntersection;
 		// moved from GeoElement's constructor
@@ -517,7 +530,7 @@ Traceable{
 				sbToValueString.append(" = ");
 		}
 
-		sbToValueString.append(kernel.format(halfAxes[0] * halfAxes[0],tpl));
+		sbToValueString.append(kernel.format(getHalfAxis(0) * getHalfAxis(0),tpl));
 		
 	}	
 	

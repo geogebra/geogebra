@@ -1708,7 +1708,7 @@ FromMeta
 	 * @return the radius of the circle
 	 */
 	final public double getCircleRadius(){
-		return halfAxes[0];
+		return getHalfAxis(0);
 	}
 	
 	/**

@@ -511,7 +511,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			matrix[i] = quadric.matrix[i]; // flat matrix A
 
 		for (int i = 0; i < 3; i++) {
-			eigenvecND[i].set(quadric.eigenvecND[i]);
+			eigenvecND[i].set(quadric.getEigenvec3D(i));
 			halfAxes[i] = quadric.halfAxes[i];
 		}
 
