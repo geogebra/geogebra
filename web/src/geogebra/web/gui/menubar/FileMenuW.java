@@ -170,7 +170,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 			if ($wnd.navigator.msSaveBlob) {
 				$wnd.navigator.msSaveBlob(ggbZip, title);
 			} else {
-				window.location.href = ggbUrl;
+				window.location.href = ggburl;
 			} 
 //			if (downloadButton.click) {
 //				downloadButton.click();
