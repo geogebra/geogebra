@@ -522,7 +522,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				append("])],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ").
 				append(" _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);").
 				append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ").
-				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],ff][6]")						
+				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\"){ff=\"0\"}],ff][7]")						
 
 				.toString();
 		
