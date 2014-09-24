@@ -201,7 +201,7 @@ public class StringUtil {
 				sb.append(((int)c)+"");
 				sb.append(';');
 
-				if (c != '\n') {
+				if (c != '\n' && c != 13) {
 					Log.warn("Control character being written to XML: "+((int)c));
 				}
 
