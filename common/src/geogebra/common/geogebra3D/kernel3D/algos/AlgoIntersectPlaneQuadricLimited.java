@@ -307,11 +307,14 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     }
     
     
-    private Coords tmpCoords = new Coords(4);
+    private Coords tmpCoords;
 
     
     private boolean planeOutsideAxis(){
     	
+    	if (tmpCoords == null){
+    		tmpCoords = new Coords(4);
+    	}
     	
 		//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
     	quadric.getMidpoint3D().projectPlaneThruVInPlaneCoords(plane.getCoordSys().getMatrixOrthonormal(), quadric.getEigenvec3D(2), tmpCoords);
