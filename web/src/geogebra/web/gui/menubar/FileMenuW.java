@@ -13,9 +13,7 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
@@ -28,7 +26,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 	private MenuItem uploadToGGT;
 	Runnable onFileOpen;
 	Runnable newConstruction;
-	Anchor downloadButton;
 	boolean uploadWaiting;
 	
 	/**
@@ -39,8 +36,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 	    super(true);
 	    this.app = app;
 	    this.onFileOpen = onFileOpen;
-	    this.downloadButton = new Anchor();
-		this.downloadButton.setStyleName("downloadButton");
 	    this.newConstruction = new Runnable() {
 			
 			@Override
@@ -154,37 +149,29 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 	}
 	
 	void openFilePicker() {
-		String title = "".equals(app.getKernel().getConstruction().getTitle()) ?"geogebra.ggb":
+		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb":
 			(app.getKernel().getConstruction().getTitle() + ".ggb");
-		JavaScriptObject callback = getDownloadCallback(this.downloadButton.getElement(), title);
+		JavaScriptObject callback = getDownloadCallback(title);
 		this.app.getGgbApi().getGGB(true, callback);
     }
 	
-	private native JavaScriptObject getDownloadCallback(Element downloadButton, String title) /*-{
+	private native JavaScriptObject getDownloadCallback(String title) /*-{
 		var _this = this;
 		return function(ggbZip) {
 			var URL = $wnd.URL || $wnd.webkitURL;
 			var ggburl = URL.createObjectURL(ggbZip);
-			downloadButton.setAttribute("href", ggburl);
-			downloadButton.setAttribute("download", title);
+
 			if ($wnd.navigator.msSaveBlob) {
 				$wnd.navigator.msSaveBlob(ggbZip, title);
 			} else {
-				window.location.href = ggburl;
+				var a = document.createElement("a");
+    			document.body.appendChild(a);
+		    	a.style = "display: none";
+		        a.href = ggburl;
+		        a.download = title;
+		        a.click();
+//		        window.URL.revokeObjectURL(url);
 			} 
-//			if (downloadButton.click) {
-//				downloadButton.click();
-//			}
-//			else if (document.createEvent) {
-//				alert("if event");
-//				var evt = document.createEvent("MouseEvents");
-//				evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-//				var allowDefault = downloadButton.dispatchEvent(evt);
-//						// you can check allowDefault for false to see if
-//						// any handler called evt.preventDefault().
-//						// Firefox will *not* redirect to anchorObj.href
-//						// for you. However every other browser will.
-//			}
 		}
 	}-*/;
 
