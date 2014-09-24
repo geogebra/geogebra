@@ -16,17 +16,18 @@ public class MultiVarStatTableModel extends StatTableModel {
 		
 	}
 	
-	private MultiVarStatTableListener mvListener;
+	protected MultiVarStatTableListener getMultiVarListener() {
+		return (MultiVarStatTableListener)getListener();
+	}
 	
 	public MultiVarStatTableModel(App app, MultiVarStatTableListener listener) {
 		super(app, listener);
-		mvListener = listener;
 	}
 	
 	
  	@Override
 	public String[] getRowNames() {
-		return mvListener.getDataTitles();
+		return getMultiVarListener().getDataTitles();
 	}
 
 	@Override
@@ -54,11 +55,11 @@ public class MultiVarStatTableModel extends StatTableModel {
 
 		ArrayList<Stat> list = new ArrayList<Stat>();
 
-		if (mvListener.isViewValid()) {
+		if (getMultiVarListener().isViewValid()) {
 			return list;
 		}
 
-		if (mvListener.isMinimalTable()) {
+		if (getMultiVarListener().isMinimalTable()) {
 			list.add(Stat.LENGTH);
 			list.add(Stat.MEAN);
 			list.add(Stat.SAMPLE_SD);
@@ -82,9 +83,9 @@ public class MultiVarStatTableModel extends StatTableModel {
 
 	@Override
 	public void updatePanel() {
-		GeoList dataList = mvListener.getDataSelected();
+		GeoList dataList = getMultiVarListener().getDataSelected();
 		
-		String[] titles = mvListener.getDataTitles();
+		String[] titles = getMultiVarListener().getDataTitles();
 
 		ArrayList<Stat> list = getStatList();
 		double value;
@@ -94,7 +95,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 
 				Stat stat = list.get(col);
 
-				if (mvListener.isValidData() && stat != Stat.NULL) {
+				if (getMultiVarListener().isValidData() && stat != Stat.NULL) {
 					AlgoElement algo = getAlgo(stat,
 							(GeoList) dataList.get(row), null);
 					if (algo != null) {
@@ -102,7 +103,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 								.removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
-						mvListener.setValueAt(value, row, col);
+						getMultiVarListener().setValueAt(value, row, col);
 					}
 				}
 			}

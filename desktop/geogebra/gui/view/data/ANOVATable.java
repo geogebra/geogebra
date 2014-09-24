@@ -1,9 +1,10 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.ANOVAStatTableModel;
+import geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.util.ArrayList;
@@ -18,40 +19,13 @@ import org.apache.commons.math.distribution.FDistributionImpl;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
-public class ANOVATable extends BasicStatTable {
+public class ANOVATable extends BasicStatTable implements StatTableListener {
 	private static final long serialVersionUID = 1L;
 
 	public ANOVATable(AppD app, DataAnalysisViewD statDialog) {
-		super(app, statDialog);
+		super(app, statDialog, false);
+		setModel(new ANOVAStatTableModel(app, this));
 		this.setMinimumSize(this.getPreferredSize());
-	}
-
-	@Override
-	public String[] getRowNames() {
-		String[] names = { getApp().getMenu("BetweenGroups"),
-				getApp().getMenu("WithinGroups"), getApp().getMenu("Total"), };
-		return names;
-	}
-
-	@Override
-	public String[] getColumnNames() {
-
-		String[] names = { getApp().getMenu("DegreesOfFreedom.short"),
-				getApp().getMenu("SumSquares.short"),
-				getApp().getMenu("MeanSquare.short"),
-				getApp().getMenu("FStatistic"), getApp().getMenu("PValue"), };
-
-		return names;
-	}
-
-	@Override
-	public int getRowCount() {
-		return getRowNames().length;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return getColumnNames().length;
 	}
 
 	@Override
@@ -59,17 +33,9 @@ public class ANOVATable extends BasicStatTable {
 
 		GeoList dataList = daView.getController().getDataSelected();
 		DefaultTableModel model = statTable.getModel();
-		if (model != null) {
-			App.debug("[ANNOVA] col: " + model.getColumnCount() + " row: "
-					+ model.getRowCount());
-			App.debug("[ANNOVA] get col: " + getColumnCount() + " get row: "
-					+ getRowCount());
-		} else {
-			App.debug("[ANNOVA] model is null!");
-		}
-		model.setColumnCount(getColumnCount());
-		model.setRowCount(getRowCount());
-		model.setColumnIdentifiers(getColumnNames());
+		model.setColumnCount(getModel().getColumnCount());
+		model.setRowCount(getModel().getRowCount());
+		model.setColumnIdentifiers(getModel().getColumnNames());
 
 		try {
 			AnovaStats stats = anovaStats(getCategoryData(dataList));

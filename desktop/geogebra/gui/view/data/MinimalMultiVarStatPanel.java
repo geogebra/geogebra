@@ -1,5 +1,7 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.MinimalMultiVarStatTableModel;
+import geogebra.common.gui.view.data.MultiVarStatTableModel.MultiVarStatTableListener;
 import geogebra.main.AppD;
 
 /**
@@ -9,27 +11,27 @@ import geogebra.main.AppD;
  * @author G. Sturr
  * 
  */
-public class MinimalMultiVarStatPanel extends BasicStatTable {
+public class MinimalMultiVarStatPanel extends BasicStatTable implements
+		MultiVarStatTableListener {
 	private static final long serialVersionUID = 1L;
 
 	public MinimalMultiVarStatPanel(AppD app, DataAnalysisViewD statDialog) {
-		super(app, statDialog);
+		super(app, statDialog, false);
+		setModel(new MinimalMultiVarStatTableModel(app, this));
 	}
 
-	@Override
-	public String[] getRowNames() {
+	public String[] getDataTitles() {
 		return daView.getDataTitles();
+	}
+
+	public boolean isMinimalTable() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public String[] getColumnNames() {
-
-		String[][] cmdMap = getCmdMap();
-		String[] names = new String[cmdMap.length];
-		for (int i = 0; i < cmdMap.length; i++) {
-			names[i] = cmdMap[i][0];
-		}
-		return names;
+		return getModel().getColumnNames();
 	}
 
 	@Override
@@ -40,15 +42,6 @@ public class MinimalMultiVarStatPanel extends BasicStatTable {
 	@Override
 	public int getColumnCount() {
 		return getColumnNames().length;
-	}
-
-	
-
-	private String[][] getCmdMap() {
-		String[][] map = { { getApp().getMenu("Length.short"), "Length" },
-				{ getApp().getMenu("Mean"), "Mean" },
-				{ getApp().getMenu("SampleStandardDeviation.short"), "SampleSD" } };
-		return map;
 	}
 
 }

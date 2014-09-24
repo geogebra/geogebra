@@ -62,7 +62,7 @@ public class StatTableModel {
 
 		boolean isNumericData();
 	}
-	protected App app;
+	private App app;
 	private Construction cons;
 	private StatTableListener listener;
 	//!TODO: to common!
@@ -77,7 +77,7 @@ public class StatTableModel {
 	 * @param listener
 	 */
 	public StatTableModel(App app, StatTableListener listener) {
-		this.listener = listener;
+		this.setListener(listener);
 		this.app = app;
 		cons = app.getKernel().getConstruction();
 	}
@@ -107,18 +107,19 @@ public class StatTableModel {
 	// =======================================================
 
 	/**
-	 * Evaluates all statistics for the selected data list. If data source is
+	 * Evaluates all s
+	 * tatistics for the selected data list. If data source is
 	 * not valid, the result cells are set blank.
 	 * 
 	 */
 	public void updatePanel() {
 		// App.printStacktrace("update stat panel");
-		GeoList dataList = listener.getDataSelected();
+		GeoList dataList = getListener().getDataSelected();
 
-		GeoElement geoRegression = listener.getRegressionModel();
+		GeoElement geoRegression = getListener().getRegressionModel();
 		// when the regression mode is NONE geoRegression is a dummy linear
 		// model, so reset it to null
-		if (listener.getRegressionMode().equals(Regression.NONE)) {
+		if (getListener().getRegressionMode().equals(Regression.NONE)) {
 			geoRegression = null;
 		}
 
@@ -129,13 +130,13 @@ public class StatTableModel {
 		for (int row = 0; row < list.size(); row++) {
 			for (int column = 0; column < 1; column++) {
 				Stat stat = list.get(row);
-				if (listener.isValidData() && stat != Stat.NULL) {
+				if (getListener().isValidData() && stat != Stat.NULL) {
 					AlgoElement algo = getAlgo(stat, dataList, geoRegression);
 					if (algo != null) {
 						getConstruction().removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
-						listener.setValueAt(value, row,	0);
+						getListener().setValueAt(value, row,	0);
 					}
 				}
 			}
@@ -146,18 +147,18 @@ public class StatTableModel {
 	public ArrayList<Stat> getStatList() {
 		ArrayList<Stat> list = new ArrayList<Stat>();
 
-		if (listener.isViewValid()) {
+		if (getListener().isViewValid()) {
 			return list;
 		}
 
-		switch (listener.getMode()) {
+		switch (getListener().getMode()) {
 		case DataAnalysisModel.MODE_ONEVAR:
 
-			if (!listener.isNumericData()) {
+			if (!getListener().isNumericData()) {
 				list.add(Stat.LENGTH);
 
-			} else if (listener.groupType() == GroupType.RAWDATA
-					|| listener.groupType() == GroupType.FREQUENCY) {
+			} else if (getListener().groupType() == GroupType.RAWDATA
+					|| getListener().groupType() == GroupType.FREQUENCY) {
 
 				list.add(Stat.LENGTH);
 				list.add(Stat.MEAN);
@@ -171,7 +172,7 @@ public class StatTableModel {
 				list.add(Stat.Q3);
 				list.add(Stat.MAX);
 
-			} else if (listener.groupType() == GroupType.CLASS) {
+			} else if (getListener().groupType() == GroupType.CLASS) {
 
 				list.add(Stat.LENGTH);
 				list.add(Stat.MEAN);
@@ -206,49 +207,49 @@ public class StatTableModel {
 	protected String getStatName(Stat stat) {
 		switch (stat) {
 		case LENGTH:
-			return app.getMenu("Length.short");
+			return getApp().getMenu("Length.short");
 		case MEAN:
-			return app.getMenu("Mean");
+			return getApp().getMenu("Mean");
 		case SD:
-			return app.getMenu("StandardDeviation.short");
+			return getApp().getMenu("StandardDeviation.short");
 		case SAMPLE_SD:
-			return app.getMenu("SampleStandardDeviation.short");
+			return getApp().getMenu("SampleStandardDeviation.short");
 		case SUM:
-			return app.getMenu("Sum");
+			return getApp().getMenu("Sum");
 		case SIGMAXX:
-			return app.getMenu("Sum2");
+			return getApp().getMenu("Sum2");
 		case MIN:
-			return app.getMenu("Minimum.short");
+			return getApp().getMenu("Minimum.short");
 		case Q1:
-			return app.getMenu("LowerQuartile.short");
+			return getApp().getMenu("LowerQuartile.short");
 		case MEDIAN:
-			return app.getMenu("Median");
+			return getApp().getMenu("Median");
 		case Q3:
-			return app.getMenu("UpperQuartile.short");
+			return getApp().getMenu("UpperQuartile.short");
 		case MAX:
-			return app.getMenu("Maximum.short");
+			return getApp().getMenu("Maximum.short");
 		case MEANX:
-			return app.getMenu("MeanX");
+			return getApp().getMenu("MeanX");
 		case MEANY:
-			return app.getMenu("MeanY");
+			return getApp().getMenu("MeanY");
 		case SX:
-			return app.getMenu("Sx");
+			return getApp().getMenu("Sx");
 		case SY:
-			return app.getMenu("Sy");
+			return getApp().getMenu("Sy");
 		case PMCC:
-			return app.getMenu("CorrelationCoefficient.short");
+			return getApp().getMenu("CorrelationCoefficient.short");
 		case SPEARMAN:
-			return app.getMenu("Spearman.short");
+			return getApp().getMenu("Spearman.short");
 		case SXX:
-			return app.getMenu("Sxx");
+			return getApp().getMenu("Sxx");
 		case SYY:
-			return app.getMenu("Syy");
+			return getApp().getMenu("Syy");
 		case SXY:
-			return app.getMenu("Sxy");
+			return getApp().getMenu("Sxy");
 		case RSQUARE:
-			return app.getMenu("RSquare.Short");
+			return getApp().getMenu("RSquare.Short");
 		case SSE:
-			return app.getMenu("SumSquaredErrors.short");
+			return getApp().getMenu("SumSquaredErrors.short");
 		default:
 			return null;
 		}
@@ -258,16 +259,16 @@ public class StatTableModel {
 	public AlgoElement getAlgo(Stat algoName, GeoList dataList,
 			GeoElement geoRegression) {
 
-		switch (listener.getMode()) {
+		switch (getListener().getMode()) {
 
 		case DataAnalysisModel.MODE_ONEVAR:
-			if (listener.groupType() == GroupType.RAWDATA) {
+			if (getListener().groupType() == GroupType.RAWDATA) {
 				return getAlgoRawData(algoName, dataList, geoRegression);
 
-			} else if (listener.groupType() == GroupType.FREQUENCY) {
+			} else if (getListener().groupType() == GroupType.FREQUENCY) {
 				return getAlgoFrequency(algoName, dataList, geoRegression);
 
-			} else if (listener.groupType() == GroupType.CLASS) {
+			} else if (getListener().groupType() == GroupType.CLASS) {
 				return getAlgoClass(algoName, dataList, geoRegression);
 			}
 
@@ -407,6 +408,26 @@ public class StatTableModel {
 
 	public Construction getConstruction() {
 		return cons;
+	}
+
+
+	public App getApp() {
+		return app;
+	}
+
+
+	public void setApp(App app) {
+		this.app = app;
+	}
+
+
+	public StatTableListener getListener() {
+		return listener;
+	}
+
+
+	public void setListener(StatTableListener listener) {
+		this.listener = listener;
 	}
 
 }
