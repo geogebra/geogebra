@@ -2463,6 +2463,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 		} else if (B.isGeoPlane() && A instanceof GeoQuadric3D) {
 			intersectable = createIntersectionCurvePlaneQuadric(B, A);
 
+			// plane-quadric limited
+		} else if (A.isGeoPlane() && B instanceof GeoQuadric3DLimited) {
+			intersectable = createIntersectionCurvePlaneQuadricLimited(A, B);
+		} else if (B.isGeoPlane() && A instanceof GeoQuadric3DLimited) {
+			intersectable = createIntersectionCurvePlaneQuadricLimited(B, A);
+
 			// quadric-quadric : intersection circles
 		} else if (A instanceof GeoQuadricND && B instanceof GeoQuadricND) {
 			// add intersection to tempArrayList
@@ -2567,6 +2573,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 		getKernel().setSilentMode(oldSilentMode);
 		processIntersectionCurve(A, quad, ret, d);
+		return true;
+	}
+	
+	private boolean createIntersectionCurvePlaneQuadricLimited(GeoElement A,
+			GeoElement B) {
+		// add intersection to tempArrayList
+		boolean oldSilentMode = getKernel().isSilentMode();
+		getKernel().setSilentMode(true);// tells the kernel not to record the algo
+		
+		GeoElement ret = kernel.getManager3D().IntersectQuadricLimited((GeoPlaneND) A,
+				(GeoQuadric3DLimited) B);
+		Drawable3D d = new DrawConicSection3D(view3D, (GeoConicSection) ret);
+
+		getKernel().setSilentMode(oldSilentMode);
+		processIntersectionCurve(A, B, ret, d);
 		return true;
 	}
 
