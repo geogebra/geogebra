@@ -1262,7 +1262,7 @@ __GGB__keysVar.eu.menu = {
     "Conic5.Help": "Hautatu konikaren bost puntu",
     "ConicMenu": "Konika",
     "ConicSectionTools": "Koniketarako Tresnak",
-    "Conify": "Piramide edo kono bezala estruitu.",
+    "Conify": "Piramide edo kono bezala estruitu",
     "Conify.Help": "Arrastatu poligonoa/zirkulua, edo aukeratu poligonoa/zirkulua eta sartu altuera piramidea/konoa sortzeko",
     "Continuity": "Jarraitutasuna",
     "Continuous": "Jarraitua",
