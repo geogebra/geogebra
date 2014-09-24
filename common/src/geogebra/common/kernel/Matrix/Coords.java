@@ -1568,4 +1568,16 @@ public class Coords {
 		}
 	}
 	
+	
+	@Override
+	public String toString() {
+		String s = "";
+
+		for (int i = 0; i < val.length; i++) {
+			s += ""+val[i]+"\n";
+		}
+
+		return s;
+	}
+	
 }
