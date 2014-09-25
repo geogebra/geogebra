@@ -1609,7 +1609,7 @@ __GGB__keysVar.es.menu = {
     "Net": "Desarrollo",
     "Net.Help": "Un poliedro",
     "New": "Nuevo",
-    "NewWindow": "Nueva ventana",
+    "NewWindow": "Nueva Ventana",
     "Next": "Siguiente",
     "None": "Ninguno",
     "NormalCurve": "Curva Normal",
