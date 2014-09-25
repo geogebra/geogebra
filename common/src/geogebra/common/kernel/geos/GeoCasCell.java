@@ -2485,7 +2485,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if(pointList){
 			evalCmdLocal.append(loc.getCommand("PointList"));
 		}else if("".equals(evalCmd)){
-			return Unicode.CAS_OUTPUT_PREFIX;
+			return getOutputPrefix();
 		}else if("Numeric".equals(evalCmd)){
 			return Unicode.CAS_OUTPUT_NUMERIC;
 		}else if("KeepInput".equals(evalCmd)){
@@ -2497,7 +2497,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (input.startsWith(evalCmdLocal.toString()) || 
 				(localizedInput!=null && localizedInput.startsWith(evalCmdLocal.toString()))) {
 			// don't show command if it is already at beginning of input
-			return Unicode.CAS_OUTPUT_PREFIX;
+			return getOutputPrefix();
 		}
 
 		// eval comment (e.g. "x=5, y=8")
@@ -2509,6 +2509,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		evalCmdLocal.append(":");
 		return evalCmdLocal.toString();
+	}
+	
+	private String getOutputPrefix() {
+		if (kernel.getLocalization().rightToLeftReadingOrder) {
+			return Unicode.CAS_OUTPUT_PREFIX_RTL;
+		}
+		return Unicode.CAS_OUTPUT_PREFIX;
 	}
 	/**
 	 * @return whether this cell depends on variables or was created using a command

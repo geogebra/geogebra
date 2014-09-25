@@ -2,6 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.cas.view.CASView;
+import geogebra.common.gui.SetOrientation;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -36,7 +37,7 @@ import javax.swing.event.ListSelectionListener;
  * 
  * @author Markus Hohenwarter, Quan Yuan
  */
-public class CASViewD extends CASView implements Gridable {
+public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	private JComponent component;
 
@@ -283,7 +284,6 @@ public class CASViewD extends CASView implements Gridable {
 
 	public void repaintView() {
 		component.repaint();
-		// ensureOneEmptyRow();
 	}
 
 	public AppD getApplication() {
@@ -349,5 +349,9 @@ public class CASViewD extends CASView implements Gridable {
 	public boolean suggestRepaint() {
 		return false;
 		// only used in web
+	}
+
+	public void setOrientation() {
+		getConsoleTable().setOrientation();
 	}
 }

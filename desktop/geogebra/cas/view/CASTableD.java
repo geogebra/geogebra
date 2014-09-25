@@ -49,7 +49,7 @@ import javax.swing.table.TableCellRenderer;
 public class CASTableD extends JTable implements CASTable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/** column of the table containing CAS cells */
 	public final static int COL_CAS_CELLS = 0;
 
@@ -205,7 +205,7 @@ public class CASTableD extends JTable implements CASTable {
 			DockManager dockManager = gui.getLayout().getDockManager();
 
 			DockPanel panel = dockManager.getFocusedPanel();
-			if (panel == null || panel.getViewId() != App.VIEW_CAS){
+			if (panel == null || panel.getViewId() != App.VIEW_CAS) {
 				dockManager.setFocusedPanel(App.VIEW_CAS);
 			}
 
@@ -220,16 +220,16 @@ public class CASTableD extends JTable implements CASTable {
 			}
 			setRightClick(AppD.isRightClickForceMetaDown(e));
 			GeoCasCell clickedCell = getTable().getGeoCasCell(getClickedRow());
-			
+
 			if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
 				if (!clickedCell.isEmpty() && !clickedCell.isError()) {
-					RowContentPopupMenu popupMenu = new RowContentPopupMenu(app,
-							clickedCell, getEditor(), getTable() , RowContentPopupMenu.Panel.OUTPUT);
+					RowContentPopupMenu popupMenu = new RowContentPopupMenu(
+							app, clickedCell, getEditor(), getTable(),
+							RowContentPopupMenu.Panel.OUTPUT);
 					popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
 
-			
 			e.consume();
 			if (isRightClick()) {
 				return;
@@ -244,7 +244,9 @@ public class CASTableD extends JTable implements CASTable {
 					getEditor().insertText("$" + (getClickedRow() + 1));
 				}
 				// output panel click
-				else if (isOutputPanelClicked(e.getPoint()) && clickedCell.showOutput() && !clickedCell.isOutputEmpty()) {
+				else if (isOutputPanelClicked(e.getPoint())
+						&& clickedCell.showOutput()
+						&& !clickedCell.isOutputEmpty()) {
 					if (!clickedCell.isError())
 						getEditor().insertText(
 								view.getRowOutputValue(getClickedRow()));
@@ -257,7 +259,7 @@ public class CASTableD extends JTable implements CASTable {
 
 				view.styleBar.updateStyleBar();
 				repaint();
-				
+
 				// set clickedRow selected
 			} else {
 
@@ -289,10 +291,9 @@ public class CASTableD extends JTable implements CASTable {
 					|| (isOutputRollOver && getGeoCasCell(row).showOutput()
 							&& getGeoCasCell(row).getLaTeXOutput() != null && getGeoCasCell(
 							row).getLaTeXOutput().length() > 0);
-			if(isOutputRollOver){
+			if (isOutputRollOver) {
 				setToolTipText(getGeoCasCell(row).getTooltipText(true, true));
-			}
-			else
+			} else
 				setToolTipText(null);
 		}
 
@@ -363,7 +364,6 @@ public class CASTableD extends JTable implements CASTable {
 		return outputClicked;
 	}
 
-
 	@Override
 	public boolean isEditing() {
 		return editor != null && editor.isEditing();
@@ -390,8 +390,6 @@ public class CASTableD extends JTable implements CASTable {
 		return editor;
 	}
 
-	
-
 	/**
 	 * Inserts a row at selectedRow and starts editing the new row.
 	 * 
@@ -417,7 +415,8 @@ public class CASTableD extends JTable implements CASTable {
 				// we insert below last cell
 				// if last cell is empty, add it to construction list
 				// so its row number will be updated
-				GeoCasCell last = (GeoCasCell) tableModel.getValueAt(selectedRow - 1, COL_CAS_CELLS);
+				GeoCasCell last = (GeoCasCell) tableModel.getValueAt(
+						selectedRow - 1, COL_CAS_CELLS);
 				if (last != null && last.isEmpty()) {
 					kernel.getConstruction().addToConstructionList(last, true);
 				}
@@ -544,14 +543,12 @@ public class CASTableD extends JTable implements CASTable {
 	 * @return CAS cell on given row
 	 */
 	public GeoCasCell getGeoCasCell(int row) {
-		if(row < 0 || row > tableModel.getRowCount()-1){
+		if (row < 0 || row > tableModel.getRowCount() - 1) {
 			return null;
 		}
 		Object cell = tableModel.getValueAt(row, COL_CAS_CELLS);
 		return cell instanceof GeoCasCell ? (GeoCasCell) cell : null;
 	}
-
-	
 
 	/**
 	 * Delete all rows
@@ -567,10 +564,10 @@ public class CASTableD extends JTable implements CASTable {
 	 *            row (staring from 0)
 	 */
 	public void deleteRow(int row) {
-		
+
 		if (row > -1 && row < tableModel.getRowCount())
 			tableModel.removeRow(row);
-		
+
 	}
 
 	/**
@@ -596,16 +593,16 @@ public class CASTableD extends JTable implements CASTable {
 		setRowSelectionInterval(editRow, editRow);
 		scrollRectToVisible(getCellRect(editRow, COL_CAS_CELLS, true));
 		editCellAt(editRow, COL_CAS_CELLS);
-		
+
 		// use invokeLater to prevent the scrollpane from stealing the focus
 		// when scrollbars are made visible
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				boolean success = editCellAt(editRow, COL_CAS_CELLS);
-				if(success)
+				if (success)
 					editor.setInputAreaFocused();
 			}
-		});		
+		});
 	}
 
 	@Override
@@ -619,7 +616,7 @@ public class CASTableD extends JTable implements CASTable {
 		}
 		if (renderer != null)
 			renderer.setFont(getFont());
-		
+
 		repaint();
 	}
 
@@ -677,6 +674,14 @@ public class CASTableD extends JTable implements CASTable {
 	 */
 	public void setLabels() {
 		editor.setLabels();
+	}
+
+	/**
+	 * Updates component orientation to match current locale
+	 */
+	public void setOrientation() {
+		editor.setOrientation();
+		renderer.setOrientation();
 	}
 
 	/**
@@ -763,8 +768,7 @@ public class CASTableD extends JTable implements CASTable {
 			if (isEditing()) {
 				CASTableCell panel = (CASTableCell) getCellRenderer(
 						getSelectedRow(), 0).getTableCellRendererComponent(
-						this, null, false, false, rollOverRow,
-						COL_CAS_CELLS);
+						this, null, false, false, rollOverRow, COL_CAS_CELLS);
 				int offset = panel.outputPanel.getY();
 				r.height = r.height - offset;
 				// g2.drawRect(r.x+1,r.y+1,r.width-4,r.height-4);
@@ -785,14 +789,12 @@ public class CASTableD extends JTable implements CASTable {
 			if (rollOverRow >= 0 && highlight) {
 
 				rollOverCell = (CASTableCell) getCellRenderer(rollOverRow,
-						COL_CAS_CELLS).getTableCellRendererComponent(
-						this, null, false, false, rollOverRow,
-						COL_CAS_CELLS);
+						COL_CAS_CELLS).getTableCellRendererComponent(this,
+						null, false, false, rollOverRow, COL_CAS_CELLS);
 
 				int offset = rollOverCell.outputPanel.getY();
 
-				Rectangle r = getCellRect(rollOverRow, COL_CAS_CELLS,
-						true);
+				Rectangle r = getCellRect(rollOverRow, COL_CAS_CELLS, true);
 
 				if (!isAltDown) {
 					r.y = r.y + offset;
@@ -815,7 +817,7 @@ public class CASTableD extends JTable implements CASTable {
 	}
 
 	public void resetRowNumbers(int from) {
-		//do nothing
+		// do nothing
 	}
 
 }

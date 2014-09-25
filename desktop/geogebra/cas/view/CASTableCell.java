@@ -15,6 +15,7 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+
 /**
  * CAS cell component
  */
@@ -32,22 +33,22 @@ public abstract class CASTableCell extends JPanel {
 	/** CAS view */
 	protected CASViewD view;
 
-	
 	/**
-	 * @param view CAS view
+	 * @param view
+	 *            CAS view
 	 */
 	public CASTableCell(CASViewD view) {
 		this.view = view;
 		this.app = view.getApp();
 
-		setLayout(new BorderLayout(5,5));
+		setLayout(new BorderLayout(5, 5));
 		setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 		setBackground(Color.white);
 
 		inputPanel = new CASInputPanel(app);
 		inputPanel.getInputArea().setColoringLabels(true);
 		dummyField = new MyTextField(app);
-		
+
 		// The inputPanel needs to have variable width so that it fits the
 		// JScrollPane
 		// viewport when in editing mode but also can grow to the size of its
@@ -73,13 +74,13 @@ public abstract class CASTableCell extends JPanel {
 		northPanel.add(dummyField, BorderLayout.CENTER);
 		northPanel.add(inputPanel, app.getLocalization().borderWest());
 		dummyField.setVisible(false);
-		
+
 		outputPanel = new CASOutputPanel(view.getApp());
 
 		add(northPanel, BorderLayout.NORTH);
 		add(outputPanel, BorderLayout.CENTER);
-		//add(showHideControl, app.borderEast());
-		
+		// add(showHideControl, app.borderEast());
+
 		return;
 	}
 
@@ -107,11 +108,13 @@ public abstract class CASTableCell extends JPanel {
 	public int getOutputPanelHeight() {
 		return outputPanel.getHeight();
 	}
-	
+
 	/**
 	 * Sets the width of the input panel. Use width = -1 to set width to the
 	 * full input string length.
-	 * @param width desired width
+	 * 
+	 * @param width
+	 *            desired width
 	 */
 	public void setInputPanelWidth(int width) {
 
@@ -126,50 +129,53 @@ public abstract class CASTableCell extends JPanel {
 
 	/**
 	 * Fill this component with input / output of given CAS cell
-	 * @param cellValue CAS cell
+	 * 
+	 * @param cellValue
+	 *            CAS cell
 	 */
 	public void setValue(GeoCasCell cellValue) {
 		// set input panel
 		String input = cellValue.getInput(StringTemplate.defaultTemplate);
 		inputPanel.setInput(input);
-		if(cellValue.isUseAsText()){
+		if (cellValue.isUseAsText()) {
 			inputPanel.setCommentColor(geogebra.awt.GColorD
 					.getAwtColor(cellValue.getObjectColor()));
-		}
-		else{
+		} else {
 			inputPanel.setCommentColor(geogebra.awt.GColorD
-				.getAwtColor(GeoGebraColorConstants.BLACK));
+					.getAwtColor(GeoGebraColorConstants.BLACK));
 		}
 		outputPanel.setForeground(cellValue.getAlgebraColor());
 		dummyField.setText(inputPanel.getInput());
 
-		
-		
 		// set output panel
 		boolean showOutput = cellValue.showOutput();
 		outputPanel.setVisible(showOutput);
-		
+
 		if (showOutput) {
 			// show eval command (e.g. "Substitute") in output cell
 			String evalCmdLocal = cellValue.getCommandAndComment();
 
-			outputPanel.setOutput(
-					cellValue.getOutput(StringTemplate.defaultTemplate),
-					cellValue.getLaTeXOutput(), evalCmdLocal,
-					cellValue.isError(),cellValue.getAlgebraColor(),cellValue.getKernel().getApplication());
+			outputPanel.setOutput(cellValue
+					.getOutput(StringTemplate.defaultTemplate), cellValue
+					.getLaTeXOutput(), evalCmdLocal, cellValue.isError(),
+					cellValue.getAlgebraColor(), cellValue.getKernel()
+							.getApplication());
 		}
 	}
 
 	/**
-	 * @param c color for input
+	 * @param c
+	 *            color for input
 	 */
 	public void setInputColor(Color c) {
 		inputPanel.setForeground(c);
 	}
 
 	/**
-	 * @param table CAS table
-	 * @param row row index
+	 * @param table
+	 *            CAS table
+	 * @param row
+	 *            row index
 	 */
 	void updateTableRowHeight(JTable table, int row) {
 		if (isVisible()) {
@@ -192,13 +198,15 @@ public abstract class CASTableCell extends JPanel {
 
 	/**
 	 * change directly the text in the Input field of the cell
-	 * @param input the input string
-	*/
-	public void setInput(String input)	{
-		if(input != null)
+	 * 
+	 * @param input
+	 *            the input string
+	 */
+	public void setInput(String input) {
+		if (input != null)
 			inputPanel.setInput(input);
 	}
-	
+
 	/**
 	 * 
 	 * @return true if the InputArea has been set focused successfully, false
@@ -234,4 +242,9 @@ public abstract class CASTableCell extends JPanel {
 	public void setLabels() {
 		inputPanel.setLabels();
 	}
+
+	public void setOrientation() {
+		outputPanel.setOrientation();
+	}
+
 }

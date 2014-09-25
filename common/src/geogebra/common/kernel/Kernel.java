@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.SetOrientation;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.AlgoDependentBoolean;
@@ -4928,6 +4929,16 @@ public class Kernel {
 			for (View view : views) {
 				if(view instanceof SetLabels){
 					((SetLabels)view).setLabels();
+				}
+			}
+		}
+	}
+	
+	public void setViewsOrientation() {
+		if (notifyViewsActive) {
+			for (View view : views) {
+				if (view instanceof SetOrientation) {
+					((SetOrientation) view).setOrientation();
 				}
 			}
 		}

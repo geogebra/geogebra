@@ -146,6 +146,7 @@ public class Unicode {
 	public static final char OPEN_DOUBLE_QUOTE = '\u201C';
 	public static final char CLOSE_DOUBLE_QUOTE = '\u201D';
 	
+	public static String CAS_OUTPUT_PREFIX_RTL = "\u2190";
 	public static String CAS_OUTPUT_PREFIX = "\u2192";
 	public static String CAS_OUTPUT_KEEPINPUT = "\u2713";
 	public static String CAS_OUTPUT_NUMERIC = "\u2248";

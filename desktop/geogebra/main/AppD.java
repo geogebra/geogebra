@@ -2317,7 +2317,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		setUnsaved();
 
 		setLabels(); // update display
-
+		setOrientation();
 	}
 
 	/*
@@ -2515,6 +2515,15 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		updateCommandDictionary();
+	}
+	
+	private void setOrientation() {
+		if (initing) {
+			return;
+		}
+		if (guiManager != null) {
+			kernel.setViewsOrientation();
+		}
 	}
 
 	protected void updateComponentTreeUI() {

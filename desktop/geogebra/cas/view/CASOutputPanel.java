@@ -10,15 +10,16 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 /**
  * Panel for CAS output, can contain LaTeX or normal output
  */
 public class CASOutputPanel extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
-	
-	//public static final int INDENT = 20; // pixel
-	
+
+	// public static final int INDENT = 20; // pixel
+
 	/**
 	 * The text color of the output
 	 */
@@ -27,24 +28,27 @@ public class CASOutputPanel extends JPanel {
 
 	private JLabel outputSign;
 	private JLabel outputArea;
-	private LaTeXPanel latexPanel; 
+	private LaTeXPanel latexPanel;
+	private AppD app;
 
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public CASOutputPanel(AppD app) {
-		setBackground(Color.white);		
-		setLayout(new BorderLayout(5,0));
-		
-		outputSign = new JLabel();	
+		this.app = app;
+		setBackground(Color.white);
+		setLayout(new BorderLayout(5, 0));
+
+		outputSign = new JLabel();
 		outputSign.setForeground(OUTPUT_PREFIX_COLOR);
-		
-		outputArea = new JLabel();	
+
+		outputArea = new JLabel();
 		latexPanel = new LaTeXPanel(app);
-		//will be overwritten later
+		// will be overwritten later
 		latexPanel.setForeground(Color.black);
 		latexPanel.setBackground(Color.white);
-		
+
 		add(outputSign, app.getLocalization().borderWest());
 		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		centerPanel.setBackground(Color.white);
@@ -52,51 +56,65 @@ public class CASOutputPanel extends JPanel {
 		centerPanel.add(latexPanel);
 		add(centerPanel, BorderLayout.CENTER);
 	}
-	
+
 	/**
-	 * @param c foreground color
+	 * @param c
+	 *            foreground color
 	 */
-	public void setForeground(geogebra.common.awt.GColor c){
-		outputArea.setForeground(geogebra.awt.GColorD.getAwtColor(c));	
+	public void setForeground(geogebra.common.awt.GColor c) {
+		outputArea.setForeground(geogebra.awt.GColorD.getAwtColor(c));
 		latexPanel.setForeground(geogebra.awt.GColorD.getAwtColor(c));
 	}
-	
+
 	/**
-	 * @param output plain output (used when latexOutput is null or isError)
-	 * @param latexOutput LaTeX  output (used when not null and !isError)
-	 * @param cmd top level command
-	 * @param isError whether outpput is error
-	 * @param c color
+	 * @param output
+	 *            plain output (used when latexOutput is null or isError)
+	 * @param latexOutput
+	 *            LaTeX output (used when not null and !isError)
+	 * @param cmd
+	 *            top level command
+	 * @param isError
+	 *            whether outpput is error
+	 * @param c
+	 *            color
 	 */
-	public void setOutput(String output, String latexOutput, String cmd, boolean isError,geogebra.common.awt.GColor c,
-			App app){
+	public void setOutput(String output, String latexOutput, String cmd,
+			boolean isError, geogebra.common.awt.GColor c, App app) {
 		boolean useLaTeXpanel = latexOutput != null && !isError;
 		outputArea.setVisible(!useLaTeXpanel);
-		latexPanel.setVisible(useLaTeXpanel);		
+		latexPanel.setVisible(useLaTeXpanel);
 		setForeground(c);
 		if (useLaTeXpanel) {
-			latexPanel.setLaTeX(latexOutput);				
+			latexPanel.setLaTeX(latexOutput);
 		} else {
 			outputArea.setText(output);
 			if (isError)
-				outputArea.setForeground(ERROR_COLOR);	
-		}	
-		
+				outputArea.setForeground(ERROR_COLOR);
+		}
+
 		outputSign.setText(cmd);
 	}
 
 	@Override
 	final public void setFont(Font ft) {
 		super.setFont(ft);
-		
-		if (ft == null) return;
-		
+
+		if (ft == null)
+			return;
+
 		if (latexPanel != null)
 			latexPanel.setFont(ft.deriveFont(ft.getSize() + 2f));
-		
+
 		if (outputArea != null)
 			outputArea.setFont(ft);
 		if (outputSign != null)
 			outputSign.setFont(ft);
 	}
+
+	public void setOrientation() {
+		remove(outputSign);
+		// removeAll();
+		add(outputSign, app.getLocalization().borderWest());
+	}
+
 }

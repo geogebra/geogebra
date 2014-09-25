@@ -18,7 +18,8 @@ public class CASTableCellRenderer extends CASTableCell implements
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param view CAS view
+	 * @param view
+	 *            CAS view
 	 */
 	CASTableCellRenderer(CASViewD view) {
 		super(view);
@@ -28,18 +29,21 @@ public class CASTableCellRenderer extends CASTableCell implements
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		Font casFont = view.getCASViewComponent().getFont();
 		if (value instanceof GeoCasCell) {
-			GeoCasCell cell = (GeoCasCell)value;
+			GeoCasCell cell = (GeoCasCell) value;
 			// set CASTableCell value
 			setValue(cell);
 
 			// update font and row height
 			if (cell.isUseAsText()) {
-				setFont(casFont
-						.deriveFont(cell.getFontStyle(),(float)(casFont.getSize()*(cell.getFontSizeMultiplier()))));
-																			
+				setFont(casFont.deriveFont(cell.getFontStyle(),
+						(float) (casFont.getSize() * (cell
+								.getFontSizeMultiplier()))));
+
 				setForeground(GColorD.getAwtColor(cell.getFontColor()));
-				dummyField.setForeground(GColorD.getAwtColor(cell.getFontColor()));
-				this.getInputArea().setForeground(GColorD.getAwtColor(cell.getFontColor()));
+				dummyField.setForeground(GColorD.getAwtColor(cell
+						.getFontColor()));
+				this.getInputArea().setForeground(
+						GColorD.getAwtColor(cell.getFontColor()));
 			} else
 				setFont(casFont);
 			updateTableRowHeight(table, row);
