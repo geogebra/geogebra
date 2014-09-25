@@ -1,11 +1,9 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -181,13 +179,7 @@ public class MainMenu extends FlowPanel implements RequiresResize, MainMenuI {
     }
 
 	public void onResize() {
-		int menuHeight = (int) (app.getHeight() - (app.showAlgebraInput() && app.getInputPosition() != InputPositon.algebraView ? GLookAndFeel.COMMAND_LINE_HEIGHT : 0) - GLookAndFeel.TOOLBAR_HEIGHT);
 
-		if (menuHeight < 0) {
-			this.setHeight("0px");
-		} else {
-			this.setHeight(menuHeight + "px");
-		}
     }
 	
 	public void focus(){

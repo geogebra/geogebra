@@ -342,5 +342,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public GGWMenuBar getMenuBar() {
 	    return frameLayout.getMenuBar();
     }
+
+	public void setMenuHeight(boolean showAlgebraInput) {
+	   this.frameLayout.setMenuHeight(showAlgebraInput);
+    }
 	
 }

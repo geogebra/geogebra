@@ -216,6 +216,7 @@ public class AppWapplication extends AppW {
 				sp.deferredOnResize();
 			}
 		}
+		appFrame.setMenuHeight(getInputPosition() == InputPositon.bottom);
     }
 
 	@Override

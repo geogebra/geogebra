@@ -162,8 +162,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 			var ggburl = URL.createObjectURL(ggbZip);
 
 			if ($wnd.navigator.msSaveBlob) {
+				//works for chrome and internet explorer
 				$wnd.navigator.msSaveBlob(ggbZip, title);
 			} else {
+				//works for firefox
 				var a = document.createElement("a");
     			document.body.appendChild(a);
 		    	a.style = "display: none";

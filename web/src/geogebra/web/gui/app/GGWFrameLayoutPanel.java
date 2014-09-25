@@ -10,9 +10,8 @@ import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -20,11 +19,9 @@ import com.google.gwt.user.client.ui.RequiresResize;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
-	private int menuBarWidth = 0;
-	int menuBarTop = 0;
 	private boolean menuClosed = true;
 
-	private FlowPanel menuPanel;
+	private FlowPanel menuContainer;
 	private GuiManagerInterfaceW guiManagerW;
 
 	GGWToolBar ggwToolBar;
@@ -34,6 +31,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	MyDockPanelLayout dockPanel;
 	
 	private DockGlassPaneW glassPane;
+
+	private boolean algebraBottom = false;
 
 	public GGWFrameLayoutPanel() {
 		super();
@@ -48,15 +47,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	public void setLayout(final AppW app) {
 		this.guiManagerW = app.getGuiManager();
-
 		glassPane.setArticleElement(app.getArticleElement());
 		dockPanel.clear();
-
-		this.menuBarTop = 0;
-
-		// if(app.showToolBar()){
 		dockPanel.addNorth(getToolBar(), GLookAndFeelI.TOOLBAR_HEIGHT);
-		// }
 		if(app.showAlgebraInput()){
 			switch (app.getInputPosition()) {
 			case top:
@@ -80,20 +73,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		}
 
 		onResize();
-		/*if(ggwMenuBar!=null){
-			ggwMenuBar.getMenubar().onResize(null);
-		}*/
-
-		Timer timer = new Timer(){
-			@Override
-            public void run() {
-				if(app.getInputPosition() == InputPositon.top ){
-					menuBarTop = getCommandLine().getOffsetHeight();
-				}
-				ggwMenuBar.getElement().getStyle().setTop(menuBarTop, Unit.PX);
-            }			
-		};
-		timer.schedule(0);
 	}
 
 	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.
@@ -160,31 +139,29 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	
 	public boolean toggleMenu() {
 		
-		if(menuPanel == null){
-			menuPanel =  new FlowPanel();
-			menuPanel.addStyleName("menuPanel");
-			menuPanel.add(ggwMenuBar);
+		if(menuContainer == null){
+			createMenuContainer();
 		}
 
 		if (this.menuClosed) {
-			add(menuPanel);
-			this.menuBarWidth = GLookAndFeel.MENUBAR_WIDTH;
-			ggwMenuBar.setWidth(this.menuBarWidth + "px");
-			ggwMenuBar.getElement().getStyle().setTop(menuBarTop, Unit.PX);
-			ggwMenuBar.getElement().getStyle().setPosition(Position.RELATIVE);
-			ggwMenuBar.focus();
+			this.menuContainer.setVisible(true);
 			this.menuClosed = false;
 			guiManagerW.updateStyleBarPositions(true);
 		} else {
-			//close menu
-			remove(menuPanel);
-			this.menuBarWidth = 0;
+			this.menuContainer.setVisible(false);
 			this.menuClosed = true;
 			guiManagerW.updateStyleBarPositions(false);
-			return false;
 		}
 		return !menuClosed;
 	}
+
+	private void createMenuContainer() {
+	    menuContainer = new FlowPanel();
+	    menuContainer.addStyleName("menuContainer");
+	    menuContainer.setWidth(GLookAndFeel.MENUBAR_WIDTH + "px");
+	    menuContainer.add(getMenuBar());
+	    add(menuContainer);
+    }
 
 	/**
 	 * @return true iff the menu is open
@@ -192,5 +169,30 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	public boolean isMenuOpen() {
 		return !menuClosed;
 	}
+	
+	@Override
+	public void onResize() {
+		super.onResize();
+		if (this.menuContainer != null && this.algebraBottom) {
+			int height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT;
+	    	this.menuContainer.setHeight(height + "px");
+		}
+	}
 
+	/**
+	 * updates height of the menu
+	 * @param showAlgebraInput boolean
+	 */
+	public void setMenuHeight(boolean showAlgebraInput) {
+		this.algebraBottom = showAlgebraInput;
+	    if (this.menuContainer != null) {
+	    	if (showAlgebraInput) {
+		    	int height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT;
+		    	this.menuContainer.setHeight(height + "px");
+	    	} else {
+	    		this.menuContainer.setHeight("auto");
+	    	}
+
+	    }
+    }
 }

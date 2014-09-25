@@ -1468,13 +1468,15 @@ body[dir=rtl] .signIn {
 	right: auto;
 	left: 50px;
 }*/
-.ggbmenubarwrapper {
-	width: 100%;
+
+.menuContainer {
+	left: auto !important;
+	top: 53px !important; /* should be equal to GLookAndFeelI.TOOLBAR_HEIGHT */
 }
 
-.menuPanel {
-	top: auto !important;
-	left: auto !important;
+.ggbmenubarwrapper {
+	width: 100%;
+	height: 100%;
 }
 
 .menubarSMART {
@@ -1483,6 +1485,7 @@ body[dir=rtl] .signIn {
 	overflow-y: auto;
 	background-color: #F8F8F8;
 	border-left: 1px solid #DCDCDC;
+	height: 100%;
 }
 
 .menubarSMART .menuPanel {

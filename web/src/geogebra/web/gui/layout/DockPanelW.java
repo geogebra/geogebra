@@ -1299,7 +1299,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * show/hide the whole Panel
 	 */
 	public void setPanelVisible(boolean visible){
-		this.titleBarPanel.setVisible(visible);;
+		this.titleBarPanel.setVisible(visible);
 	}
 	
 	private Image getToggleImage(boolean showing){
