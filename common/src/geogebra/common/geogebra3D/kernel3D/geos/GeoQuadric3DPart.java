@@ -43,7 +43,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	public void set(GeoElement geo) {
 		super.set(geo);
 		GeoQuadric3DPart quadric = (GeoQuadric3DPart) geo;
-		setLimits(quadric.min, quadric.max);
+		setLimits(quadric.bottom, quadric.top);
 		area = quadric.getArea();
 	}
 
