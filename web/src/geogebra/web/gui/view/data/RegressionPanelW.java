@@ -1,5 +1,7 @@
 package geogebra.web.gui.view.data;
 
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.DataAnalysisModel;
 import geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import geogebra.common.kernel.StringTemplate;
@@ -8,15 +10,18 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.main.LocalizationW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
@@ -24,8 +29,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  * 
  * @author G. Sturr, Laszlo Gal
  */
-public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListener,
-		ChangeHandler, StatPanelInterfaceW {
+public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	private static final long serialVersionUID = 1L;
 
 	private AppW app;
@@ -62,7 +66,7 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();
 		setStyleName("daRegressionPanel");
-		add(createRegressionPanel());
+		createRegressionPanel();
 		setLabels();
 		updateRegressionPanel();
 		updateGUI();
@@ -73,7 +77,7 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 
 	private Label regressionTitle;
 
-	private FlowPanel createRegressionPanel() {
+	private void createRegressionPanel() {
 
 		// components
 		String[] orders = { "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -83,7 +87,12 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 		}
 		
 		lbPolyOrder.setSelectedIndex(0);
-		lbPolyOrder.addChangeHandler(this);
+		lbPolyOrder.addChangeHandler(new ChangeHandler() {
+			
+			public void onChange(ChangeEvent event) {
+				actionPerformed(lbPolyOrder);
+			}
+		});
 
 		regressionLabels = new String[Regression.values().length];
 		setRegressionLabels();
@@ -92,15 +101,21 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 			lbRegression.addItem(item);
 		}
 		
-		lbRegression.addChangeHandler(this);
+		lbRegression.addChangeHandler(new ChangeHandler() {
+			
+			public void onChange(ChangeEvent event) {
+				actionPerformed(lbRegression);
+			}
+		});
 
 		lblRegEquation = new Label();
+		lblRegEquation.setStyleName("daRegEquation");
 		lblEqn = new Label();
 
 		// regression combo panel
-		FlowPanel cbPanel = new FlowPanel();
-		cbPanel.add(lbRegression);
-		cbPanel.add(lbPolyOrder);
+		FlowPanel lbPanel = new FlowPanel();
+		lbPanel.add(lbRegression);
+		lbPanel.add(lbPolyOrder);
 
 		// regression label panel
 		FlowPanel eqnPanel = new FlowPanel();
@@ -117,16 +132,14 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 		modelPanel.add(predictionPanel);
 
 		regressionTitle = new Label(loc.getMenu("RegressionModel"));
+		regressionTitle.setStyleName("panelTitle");
 		// put it all together
 		regressionPanel = new FlowPanel();
 		regressionPanel.add(regressionTitle);
-		regressionPanel.add(modelPanel);
-		regressionPanel.add(cbPanel);
+		regressionPanel.add(LayoutUtil.panelRow(lbPanel, modelPanel));
 
-		FlowPanel mainPanel = new FlowPanel();
-		mainPanel.add(regressionPanel);
-//
-		return mainPanel;
+		
+		add(regressionPanel);
 	}
 
 	/**
@@ -138,21 +151,29 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 		lblEvaluate = new Label();
 		fldInputX = new AutoCompleteTextFieldW(6, app);
 		
-		//fldInputX.addActionListener(this);
+		fldInputX.addKeyHandler(new KeyHandler() {
+			
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldInputX);
+				}
+			}
+		});
+		
+		fldInputX.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				doTextFieldActionPerformed(fldInputX);
+			}
+		});
 
 		lblOutputY = new Label();
 		fldOutputY = new Label();
 
-		p.add(lblEvaluate);
-		p.add(new Label("x = "));
-		p.add(fldInputX);
-		p.add(new Label("y = "));
-		p.add(lblOutputY);
-		p.add(fldOutputY);
-
 		predictionPanel = new FlowPanel();
-		predictionPanel.add(p);
-
+		
+		predictionPanel.add(LayoutUtil.panelRow(lblEvaluate, new Label("x = "), fldInputX, 
+				new Label("y = "), lblOutputY, fldOutputY));
 	}
 
 	/**
@@ -260,15 +281,12 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 			eqn = "\\text{" + app.getPlain("NotAvailable") + "}";
 
 		}
+		lblRegEquation.setText("");
+		String latexStr = DrawEquationWeb.inputLatexCosmetics(eqn);
+		DrawEquationWeb.drawEquationAlgebraView(lblRegEquation.getElement(), "\\mathrm {" + latexStr
+		        + "}");
 
-		// create an icon with the LaTeX string
-//		ImageIcon icon = GeoGebraIcon.createLatexIcon(app, eqn, this.getFont(),
-//				false, Color.RED, null);
-//
-//		// set the label icon with our equation string
-//		lblRegEquation.setIcon(icon);
-//		lblRegEquation.revalidate();
-
+		
 		updateGUI();
 	}
 
@@ -280,7 +298,6 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 	}
 
 	private void updateGUI() {
-
 		lbPolyOrder.setVisible(daModel.getRegressionMode().equals(
 				Regression.POLY));
 		predictionPanel.setVisible(!(daModel.getRegressionMode()
@@ -296,6 +313,7 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 
 		else if (source == lbRegression) {
 			daModel.setRegressionMode(lbRegression.getSelectedIndex());
+			updateRegressionPanel();
 		}
 
 		else if (source == lbPolyOrder) {
@@ -341,9 +359,5 @@ public class RegressionPanelW extends ResizeLayoutPanel implements //ActionListe
 
 	}
 
-	public void onChange(ChangeEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 }

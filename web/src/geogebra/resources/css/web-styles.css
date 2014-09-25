@@ -4496,7 +4496,11 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	width: 100%;
 	min-height: 50px;
 } 
- 
+
+.daRegEquation {
+	width: 100%;
+	color: red;
+} 
 /* ########################################
    ###    END OF DATA ANALYSIS VIEW     ###
    ######################################## */
