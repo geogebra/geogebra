@@ -1145,19 +1145,19 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			r = -r;
 		}
 		
-		// half axis
-		for (int i = 0; i<3; i++){
-			halfAxes[i] *= r;
-		}
 		
-		// diagonal
 		switch (getType()) {
 		case QUADRIC_SPHERE:
 		case QUADRIC_CYLINDER:
+			// diagonal
 			diagonal[3] *= r*r;
+			// half axis
+			for (int i = 0; i<3; i++){
+				halfAxes[i] *= r;
+			}
 			break;
 		case QUADRIC_CONE:
-			diagonal[2] *= r*r;
+			// same diagonals and half axes for cone
 			break;
 		}
 

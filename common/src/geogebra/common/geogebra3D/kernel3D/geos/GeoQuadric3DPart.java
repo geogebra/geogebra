@@ -337,6 +337,13 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		super.dilate(rval, S);
 		double r = rval.getDouble();
 		area *= r*r;
+		
+		double rAbs = Math.abs(r);
+		bottom *= rAbs;
+		top *= rAbs;
+		min *= rAbs;
+		max *= rAbs;
+		
 	}
 	
 	

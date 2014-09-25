@@ -767,7 +767,8 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		
 		double r = Math.abs(rval.getDouble());		
 		volume *= r*r*r;
-		radius *= r;
+		bottomParameter *= r;
+		topParameter *= r;
 		
 		// get infos from side
 		origin = side.getMidpoint3D();
