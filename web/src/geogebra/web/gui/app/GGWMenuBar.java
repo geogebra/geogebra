@@ -5,10 +5,9 @@ import geogebra.web.gui.menubar.MainMenu;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GGWMenuBar extends Composite implements RequiresResize{
+public class GGWMenuBar extends Composite {
 	
 	private HorizontalPanel ggbmenubarwrapper;
 	private MainMenu menubar;
@@ -41,10 +40,7 @@ public class GGWMenuBar extends Composite implements RequiresResize{
 	    
     }
 
-	@Override
-    public void onResize() {
-		if(menubar!=null){
-			menubar.onResize();
-		}
-    }
+	public void updateHeight(int height) {
+		menubar.updateHeight(height);
+	}
 }

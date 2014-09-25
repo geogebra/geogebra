@@ -160,6 +160,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	    menuContainer.addStyleName("menuContainer");
 	    menuContainer.setWidth(GLookAndFeel.MENUBAR_WIDTH + "px");
 	    menuContainer.add(getMenuBar());
+	    updateHeight();
 	    add(menuContainer);
     }
 
@@ -173,9 +174,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	@Override
 	public void onResize() {
 		super.onResize();
-		if (this.menuContainer != null && this.algebraBottom) {
-			int height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT;
-	    	this.menuContainer.setHeight(height + "px");
+		if (this.menuContainer != null) {
+			updateHeight();
 		}
 	}
 
@@ -185,14 +185,20 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	 */
 	public void setMenuHeight(boolean showAlgebraInput) {
 		this.algebraBottom = showAlgebraInput;
-	    if (this.menuContainer != null) {
-	    	if (showAlgebraInput) {
-		    	int height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT;
-		    	this.menuContainer.setHeight(height + "px");
-	    	} else {
-	    		this.menuContainer.setHeight("auto");
-	    	}
-
-	    }
+	    updateHeight();
     }
+	
+	private void updateHeight() {
+		int height = 0;
+		if (this.menuContainer != null) {
+	    	if (this.algebraBottom) {
+		    	height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT;
+		    	
+	    	} else {
+	    		height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT;
+	    	}
+	    }
+		this.menuContainer.setHeight(height + "px");
+		this.ggwMenuBar.updateHeight(height);
+	}
 }

@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.StackPanel;
 
 /**
@@ -22,7 +21,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 
-public class MainMenu extends FlowPanel implements RequiresResize, MainMenuI {
+public class MainMenu extends FlowPanel implements MainMenuI {
 	
 	/**
 	 * Appw app
@@ -113,9 +112,7 @@ public class MainMenu extends FlowPanel implements RequiresResize, MainMenuI {
 		this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 		
-	    this.add(menuPanel);
-	    
-	    onResize();
+	    this.add(menuPanel);	    
 	}
 	
 
@@ -178,10 +175,6 @@ public class MainMenu extends FlowPanel implements RequiresResize, MainMenuI {
 		return null;
     }
 
-	public void onResize() {
-
-    }
-	
 	public void focus(){
 		int index= Math.max(menuPanel.getSelectedIndex(),0);
 		if(this.menus[index]!=null){
@@ -218,5 +211,9 @@ public class MainMenu extends FlowPanel implements RequiresResize, MainMenuI {
 			m.removeStyleName("checked");
 		}
 	}
+	
+	public void updateHeight(int height) {
+		this.setHeight(height + "px");
+    }
 
 }
