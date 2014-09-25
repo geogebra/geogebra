@@ -13,4 +13,6 @@ public interface UDPLogger {
 
 	void registerGeoList(String text, GeoList list);
 
+	void registerGeoList(String text, GeoList list, double limit);
+
 }

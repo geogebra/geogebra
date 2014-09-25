@@ -51,6 +51,7 @@ public class UDPLoggerD implements UDPLogger {
 
 	HashMap<Types, GeoNumeric> listeners = new HashMap<Types, GeoNumeric>();
 	HashMap<Types, GeoList> listenersL = new HashMap<Types, GeoList>();
+	HashMap<Types, Integer> listLimits = new HashMap<Types, Integer>();
 
 	/**
 	 * port to receive UDP logging on
@@ -378,7 +379,13 @@ public class UDPLoggerD implements UDPLogger {
 						App.debug(type + ": " + val);
 
 						geo = new GeoNumeric(list.getConstruction(), val);
-						list.add(geo);
+
+						Integer ll = listLimits.get(type);
+						if (ll == null || ll == 0 || ll > list.size()) {
+							list.add(geo);
+						} else {
+							list.addQueue(geo);
+						}
 
 						if (repaint)
 							list.updateRepaint();
@@ -423,18 +430,28 @@ public class UDPLoggerD implements UDPLogger {
 		if (type != null) {
 			App.debug("logging " + type + " to " + geo.getLabelSimple());
 			listenersL.remove(type);
+			listLimits.put(type, 0);
 			listeners.put(type, geo);
 		}
 	}
 
 	public void registerGeoList(String s, GeoList list) {
+		registerGeoList(s, list, 0);
+	}
 
+	public void registerGeoList(String s, GeoList list, double limit) {
 		Types type = Types.lookup(s);
 
 		if (type != null) {
 			App.debug("logging " + type + " to " + list.getLabelSimple());
 			listeners.remove(type);
 			listenersL.put(type, list);
+
+			int lim = (int) Math.round(limit);
+			if (lim < 0) {
+				lim = 0;
+			}
+			listLimits.put(type, lim);
 		}
 	}
 }

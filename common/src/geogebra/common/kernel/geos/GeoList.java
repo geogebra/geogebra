@@ -628,6 +628,19 @@ AngleProperties {
 	}
 
 	/**
+	 * Removes the first geo from the beginning of this list,
+	 * and adds a new geo to its end (useful for indefinite appending)
+	 * 
+	 * @param geo element to be added
+	 */
+	public final void addQueue(final GeoElement geo) {
+		GeoElement first = get(0);
+		remove(first);
+		first.remove();
+		add(geo);
+	}
+
+	/**
 	 * Removes i-th element from this list. Note: this element is not removed
 	 * from the construction.
 	 * 
