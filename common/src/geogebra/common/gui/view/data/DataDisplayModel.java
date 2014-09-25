@@ -224,6 +224,7 @@ public class DataDisplayModel {
 	
 			GeoList dataListSelected = daModel.getController().getDataSelected();
 			if(dataListSelected == null){
+				App.debug("[DDMODEL] dataListSelected is null!");
 				return;
 			}
 
@@ -401,6 +402,7 @@ public class DataDisplayModel {
 	
 				case SCATTERPLOT:
 					if (doCreate) {
+						App.debug("[DDMODEL]  UPDATE SCATTERPLOT");
 						scatterPlot = statGeo.createScatterPlot(dataListSelected);
 						plotGeoList.add(scatterPlot);
 	

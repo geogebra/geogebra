@@ -289,7 +289,7 @@ public abstract class DataAnalysisController {
 	 */
 	public void updateDataAnalysisView() {
 
-//		updateDataLists();
+		updateDataLists();
 
 		if (isValidData) {
 			if (getModel().isRegressionMode()) {
