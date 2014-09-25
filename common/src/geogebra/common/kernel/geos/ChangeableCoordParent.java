@@ -1,7 +1,9 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
 
@@ -78,12 +80,13 @@ public class ChangeableCoordParent {
 	 * @param viewDirection view direction
 	 * @param updateGeos list of geos
 	 * @param tempMoveObjectList temporary list
+	 * @param view view where the move occurs (if not keyboard)
 	 * @return true on success
 	 */
 	final public boolean move(Coords rwTransVec,
 			Coords endPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList) {
+			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
 
 		GeoNumeric var = getNumber();
 
@@ -102,8 +105,27 @@ public class ChangeableCoordParent {
 		double ld = direction2.dotproduct(direction2);
 		if (Kernel.isZero(ld))
 			return false;
-		double val = direction2.dotproduct(rwTransVec);
-		var.setValue(getStartValue() + val / ld);
+		double val = getStartValue() + direction2.dotproduct(rwTransVec) / ld;
+		switch (view.getPointCapturingMode()) {
+		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+			//TODO
+			break;
+		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+			if (!view.isGridOrAxesShown()) {
+				break;
+			}
+		case EuclidianStyleConstants.POINT_CAPTURING_ON:
+		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+			double g = view.getGridDistances(0);
+			double valRound = Kernel.roundToScale(val, g);
+			if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+					|| (Math.abs(valRound-val) < g * EuclidianStyleConstants.POINT_CAPTURING_GRID)){
+				val = valRound;
+			}
+			break;
+		}
+		
+		var.setValue(val);
 		child.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
 				tempMoveObjectList);
 		return true;

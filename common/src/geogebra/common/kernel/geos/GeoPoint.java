@@ -21,6 +21,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -347,7 +348,7 @@ SymbolicParametersBotanaAlgo {
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
 			Coords targetPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList) {
+			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
 		Coords endPosition = targetPosition;
 		if (!hasChangeableCoordParentNumbers())
 			return false;

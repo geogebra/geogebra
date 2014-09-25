@@ -3187,7 +3187,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			event.release();
 			updateTranslationVector();
 			handledGeo.moveFromChangeableCoordParentNumbers(translationVec3D,
-					startPoint3D, view3D.getViewDirection(), null, null);
+					startPoint3D, view3D.getViewDirection(), null, null, view3D);
 			// view3D.updatePreviewable();
 			kernel.notifyRepaint();
 			return;
@@ -3286,7 +3286,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		updateTranslationVector();
 		GeoElement.moveObjects(translateableGeos, translationVec3D,
-				startPoint3D, view3D.getViewDirection());
+				startPoint3D, view3D.getViewDirection(), view3D);
 
 		kernel.notifyRepaint();
 	}

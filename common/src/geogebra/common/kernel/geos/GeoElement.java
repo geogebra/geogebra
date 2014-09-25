@@ -21,6 +21,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.MyImage;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
@@ -5833,7 +5834,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public static boolean moveObjects(ArrayList<GeoElement> geosToMove,
 			final Coords rwTransVec, final Coords endPosition,
-			final Coords viewDirection) {
+			final Coords viewDirection, EuclidianView view) {
 		//AbstractApplication.printStacktrace("XXX");
 		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<GeoElement>();
@@ -5872,7 +5873,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			final Coords position = (size == 1)
 					&& (geo.getParentAlgorithm() != null) ? endPosition : null;
 			moved = geo.moveObject(rwTransVec, position, viewDirection,
-					moveObjectsUpdateList) || moved;
+					moveObjectsUpdateList, view) || moved;
 			
 		}
 
@@ -5950,7 +5951,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	private boolean moveObject(final Coords rwTransVec,
 			final Coords endPosition, final Coords viewDirection,
-			final ArrayList<GeoElement> updateGeos) {
+			final ArrayList<GeoElement> updateGeos, EuclidianView view) {
 		boolean movedGeo = false;
 		GeoElement geo = this;
 		// moveable geo
@@ -6024,7 +6025,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// non-moveable geo
 		else {
 			movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
-					endPosition, viewDirection, updateGeos, tempMoveObjectList);
+					endPosition, viewDirection, updateGeos, tempMoveObjectList, view);
 		}
 
 		return movedGeo;
@@ -6039,12 +6040,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param viewDirection view direction
 	 * @param updateGeos geos to be updated
 	 * @param tempMoveObjectList1 temporary list
+	 * @param view TODO
 	 * @return false if not moveable this way
 	 */
 	public boolean moveFromChangeableCoordParentNumbers(
 			final Coords rwTransVec, final Coords endPosition,
 			final Coords viewDirection, final ArrayList<GeoElement> updateGeos,
-			final ArrayList<GeoElement> tempMoveObjectList1) {
+			final ArrayList<GeoElement> tempMoveObjectList1, EuclidianView view) {
 		return false;
 	}
 

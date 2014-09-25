@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
@@ -1829,13 +1830,13 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
 			Coords endPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList) {
+			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
 
 		if (changeableCoordParent == null) {
 			return false;
 		}
 
-		return changeableCoordParent.move(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList);
+		return changeableCoordParent.move(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList, view);
 
 
 	}

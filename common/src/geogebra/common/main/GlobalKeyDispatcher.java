@@ -129,7 +129,7 @@ public abstract class GlobalKeyDispatcher {
 		tempVec.setZ(zd);
 
 		// move objects
-		boolean moved = GeoElement.moveObjects(geos, tempVec, null, null);
+		boolean moved = GeoElement.moveObjects(geos, tempVec, null, null, null);
 
 		// nothing moved
 		if (!moved) {

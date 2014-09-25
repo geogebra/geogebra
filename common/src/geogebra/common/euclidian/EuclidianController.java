@@ -460,7 +460,7 @@ public abstract class EuclidianController {
 		translationVec.setY(yRW - getStartPointY());
 		setStartPointLocation(xRW, yRW);
 		GeoElement.moveObjects(pastePreviewSelected, translationVec,
-				new Coords(xRW, yRW, 0), null);
+				new Coords(xRW, yRW, 0), null, view);
 	}
 
 	public final void setPastePreviewSelected() {
@@ -6072,7 +6072,7 @@ public abstract class EuclidianController {
 		// Transformables
 		kernel.movingGeoSet();
 		GeoElement.moveObjects(translateableGeos, translationVec, new Coords(
-				xRW, yRW, 0), null);
+				xRW, yRW, 0), null, view);
 		kernel.movedGeoSet(translateableGeos);
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -6105,7 +6105,7 @@ public abstract class EuclidianController {
 	
 		// move all selected geos
 		GeoElement.moveObjects(companion.removeParentsOfView(getAppSelectedGeos()),
-				translationVec, new Coords(xRW, yRW, 0), null);
+				translationVec, new Coords(xRW, yRW, 0), null, view);
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
