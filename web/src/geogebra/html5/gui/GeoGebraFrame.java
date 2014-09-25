@@ -24,6 +24,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -605,5 +606,10 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 
 	public void attachGlass() {
     }
+
+
+
+
+	public abstract void showBrowser(HeaderPanel bg);
 }
 

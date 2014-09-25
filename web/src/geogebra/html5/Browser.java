@@ -136,6 +136,8 @@ public class Browser {
 	public static native boolean supportsWebGLTriangleFan()/*-{
 		return $wnd.WebGLRenderingContext && (!! $wnd.WebGLRenderingContext.TRIANGLE_FAN);
 	}-*/;
+	
+	
 	/**
 	 * @return whether we are running this from our own website
 	 */

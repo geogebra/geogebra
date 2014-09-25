@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GeoGebraFrameSimple extends GeoGebraFrame {
@@ -52,4 +53,10 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
 		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameSimple(), clb);
 	}
+
+	@Override
+    public void showBrowser(HeaderPanel bg) {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

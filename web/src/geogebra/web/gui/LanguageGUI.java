@@ -79,9 +79,9 @@ public class LanguageGUI extends MyHeaderPanel {
 						// setting related with language.
 						if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
 							//TODO change direction
-						} else {
-							app.setLanguage(current.localeGWT);
 						}
+						app.setLanguage(current.localeGWT);
+						
 						LanguageGUI.this.close();
 					}
 				});

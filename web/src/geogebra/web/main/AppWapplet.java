@@ -20,6 +20,8 @@ import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.LanguageGUI;
+import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -515,15 +517,18 @@ public class AppWapplet extends AppW {
 		return frame.getGlassPane();
 	}
 
+	public void showBrowser(MyHeaderPanel bg) {
+	    frame.showBrowser(bg);
+    }
 	@Override
     public void openSearch() {
-		//TODO
+		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI());
     }
 
 	@Override
     public void showLanguageUI() {
-	    // TODO Auto-generated method stub
-	    
+		LanguageGUI bg = new LanguageGUI(this);
+		showBrowser(bg);
     }
 	
 	@Override

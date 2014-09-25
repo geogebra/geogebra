@@ -69,7 +69,7 @@ public class MaterialListElementP extends MaterialListElement {
 	
 	@Override
     protected void setAllMaterialsDefault() {
-		Phone.getGUI().getMaterialListPanel().setDefaultStyle();
+		Phone.getGUI().getMaterialListPanel().setDefaultStyle(false);
 	}
 	
 

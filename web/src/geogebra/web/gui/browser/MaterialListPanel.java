@@ -52,7 +52,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 			@Override
 			public void onClick(final ClickEvent event) {
 				if (lastSelected != null) {
-					setDefaultStyle();
+					setDefaultStyle(true);
 				}
 			}
 		}, ClickEvent.getType());
@@ -62,7 +62,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 			@Override
 			public void onScroll(final ScrollEvent event) {
 				if (lastSelected != null && !ignoreScroll) {
-					setDefaultStyle();
+					setDefaultStyle(false);
 				}
 				ignoreScroll = false;
 			}
@@ -73,7 +73,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 			@Override
 			public void onTouchMove(final TouchMoveEvent event) {
 				if (lastSelected != null) {
-					setDefaultStyle();
+					setDefaultStyle(false);
 				}
 			}
 		}, TouchMoveEvent.getType());
@@ -120,12 +120,16 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 			}
 		};
     }
-
+	long lastDefaultStyle = 0;
 	/**
 	 * sets all {@link MaterialListElement materials} to the
 	 * default style (not selected, not disabled)
 	 */
-	public void setDefaultStyle() {
+	public void setDefaultStyle(boolean force) {
+		if(!force && System.currentTimeMillis() < this.lastDefaultStyle + 3000){
+			return;
+		}
+		this.lastDefaultStyle = System.currentTimeMillis();
 		this.lastSelected = null;
 		for (final MaterialListElement mat : this.materials) {
 			mat.setDefaultStyle();

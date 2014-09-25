@@ -234,7 +234,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
     }
 	
 	public void setMaterialsDefaultStyle() {
-		this.materialListPanel.setDefaultStyle();
+		this.materialListPanel.setDefaultStyle(true);
 	}
 
 	public void rememberSelected(final MaterialListElement materialElement) {
