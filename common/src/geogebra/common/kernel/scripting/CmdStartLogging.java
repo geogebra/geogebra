@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
@@ -39,6 +40,8 @@ public class CmdStartLogging extends CmdScripting {
 				
 				if ((text = arg[i]) instanceof GeoText && (number = arg[i + 1]) instanceof GeoNumeric) {
 					logger.registerGeo(((GeoText) text).getTextString(), (GeoNumeric) number);
+				} else if ((text = arg[i]) instanceof GeoText && (number = arg[i + 1]) instanceof GeoList) {
+					logger.registerGeoList(((GeoText) text).getTextString(), (GeoList) number);
 				} else {
 					throw argErr(app, c.getName(), (text instanceof GeoText) ? number : text);
 				}

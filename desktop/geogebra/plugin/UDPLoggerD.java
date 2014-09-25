@@ -1,6 +1,7 @@
 package geogebra.plugin;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.plugin.UDPLogger;
@@ -49,6 +50,7 @@ public class UDPLoggerD implements UDPLogger {
 	}
 
 	HashMap<Types, GeoNumeric> listeners = new HashMap<Types, GeoNumeric>();
+	HashMap<Types, GeoList> listenersL = new HashMap<Types, GeoList>();
 
 	/**
 	 * port to receive UDP logging on
@@ -80,6 +82,7 @@ public class UDPLoggerD implements UDPLogger {
 		}
 
 		listeners.clear();
+		listenersL.clear();
 	}
 
 	@Override
@@ -368,6 +371,20 @@ public class UDPLoggerD implements UDPLogger {
 						geo.updateRepaint();
 					else
 						geo.updateCascade();
+				} else {
+					GeoList list = listenersL.get(type);
+					if (list != null) {
+						// if (repaint)
+						App.debug(type + ": " + val);
+
+						geo = new GeoNumeric(list.getConstruction(), val);
+						list.add(geo);
+
+						if (repaint)
+							list.updateRepaint();
+						else
+							list.updateCascade();
+					}
 				}
 			}
 
@@ -405,8 +422,19 @@ public class UDPLoggerD implements UDPLogger {
 
 		if (type != null) {
 			App.debug("logging " + type + " to " + geo.getLabelSimple());
+			listenersL.remove(type);
 			listeners.put(type, geo);
 		}
 	}
 
+	public void registerGeoList(String s, GeoList list) {
+
+		Types type = Types.lookup(s);
+
+		if (type != null) {
+			App.debug("logging " + type + " to " + list.getLabelSimple());
+			listeners.remove(type);
+			listenersL.put(type, list);
+		}
+	}
 }
