@@ -375,6 +375,7 @@ public class UDPLoggerD implements UDPLogger {
 				} else {
 					GeoList list = listenersL.get(type);
 					if (list != null) {
+						// synchronized (this) {
 						// if (repaint)
 						App.debug(type + ": " + val);
 
@@ -391,6 +392,7 @@ public class UDPLoggerD implements UDPLogger {
 							list.updateRepaint();
 						else
 							list.updateCascade();
+						// }
 					}
 				}
 			}
