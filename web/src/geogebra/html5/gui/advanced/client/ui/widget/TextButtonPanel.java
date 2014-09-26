@@ -17,6 +17,7 @@
 package geogebra.html5.gui.advanced.client.ui.widget;
 
 import geogebra.html5.gui.advanced.client.ui.AdvancedWidget;
+import geogebra.web.css.GuiResources;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
@@ -207,12 +208,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
         getSelectedValue().setText("");
     }
 
-    /**
-     * This method should returns a default button image name.
-     *
-     * @return an image name.
-     */
-    protected abstract String getDefaultImageName();
+   
 
     /**
      * This method adds component listeners.
@@ -296,7 +292,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      */
     protected Image getChoiceButtonImage() {
         if (choiceButtonImage == null)
-            choiceButtonImage = new Image(getDefaultImageName());
+            choiceButtonImage = new Image(GuiResources.INSTANCE.little_triangle_down());
         return choiceButtonImage;
     }
 

@@ -149,4 +149,16 @@ public class Browser {
 	public native static String navigatorLanguage() /*-{
 	    return $wnd.navigator.language || "en";
     }-*/;
+
+	public static native  boolean isAndroidVersionLessThan(double d) /*-{
+		var navString = navigator.userAgent.toLowerCase();
+		if (navString.indexOf("android") > -1) {
+			return false;
+		}
+		if (parseFloat(navString.substring(navString.indexOf("android")+8) < d) {
+			return true;
+		}
+		return false;
+	    
+    }-*/;
 }

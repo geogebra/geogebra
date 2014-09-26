@@ -2285,6 +2285,12 @@ public abstract class AppW extends App implements SetLabels{
 		}
 
 		public boolean supportsView(int viewID) {
+			if(viewID == App.VIEW_CAS){
+				if(!Browser.isFloat64supported() || 
+						Browser.isAndroidVersionLessThan(4.4)){
+					return false;
+				}
+			}
 		    return viewID != App.VIEW_EUCLIDIAN3D;
 	    }
 

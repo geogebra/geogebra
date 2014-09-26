@@ -29,7 +29,6 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		setVisibleRows(DEFAULT_VISIBLE_ROWS);
 		setWidth(DEFAULT_WIDTH);
 		
-		this.setChoiceButtonImage(new Image(GuiResources.INSTANCE.little_triangle_down()));
 		this.prepareChoiceButton();
 		this.setChoiceButtonVisible(true);
 		

@@ -616,11 +616,6 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
         }
     }
 
-    /** {@inheritDoc} */
-    protected String getDefaultImageName() {
-        return "drop-down.gif";
-    }
-
     /**
      * Returns <code>true</code> if cursor is moved by a control key.
      *
