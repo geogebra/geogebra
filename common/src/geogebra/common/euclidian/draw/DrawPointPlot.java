@@ -90,7 +90,7 @@ public class DrawPointPlot extends Drawable {
 
 		if (isVisible) {
 
-			for (int i = 0; i < drawPoints.size(); i++) {
+			for (int i = 0; i < drawPoints.size() && i < pointList.size(); i++) {
 				pointList.get(i).setHighlighted(geo.doHighlighting());
 				drawPoints.get(i).draw(g2);
 			}
@@ -222,7 +222,7 @@ public class DrawPointPlot extends Drawable {
 			}
 		} else if (n < drawPoints.size()) {
 			// remove
-			for (int i = n; n < drawPoints.size(); i++) {
+			for (int i = n; n < drawPoints.size(); ) {
 				drawPoints.remove(i);
 			}
 		}
