@@ -34,7 +34,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	public DataAnalysisViewDockPanelW(AppW app) {
 		super(App.VIEW_DATA_ANALYSIS, // view id
 				"DataAnalysis", // view title phrase
-				getDefaultToolbar(), // toolbar string
+				null,//getDefaultToolbar(), // toolbar string
 				true, // style bar?
 				-1, // menu order
 				'-' // menu shortcut
