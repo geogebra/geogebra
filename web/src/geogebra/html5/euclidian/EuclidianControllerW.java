@@ -437,18 +437,20 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		//don't want to roll the scrollbar
 		double delta = event.getDeltaY();
 		//we are on device where many small scrolls come, we want to merge them
+		int x = mouseEventX(event.getClientX() -style.getxOffset());
+		int y = mouseEventX(event.getClientY() -style.getyOffset());
 		if(delta==0){
 			deltaSum += getNativeDelta(event.getNativeEvent());
 			if(Math.abs(deltaSum)>40){
 				double ds = deltaSum;
 				deltaSum = 0;
-				wrapMouseWheelMoved(mouseEventX(event.getClientX()),mouseEventY(event.getClientY()),ds,
+				wrapMouseWheelMoved(x,y,ds,
 						 event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
 			}
 		//normal scrolling
 		}else{
 			deltaSum=0;
-			wrapMouseWheelMoved(mouseEventX(event.getClientX()),mouseEventY(event.getClientY()),delta,
+			wrapMouseWheelMoved(x,y,delta,
 				 event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
 		}
 		event.preventDefault(); 
