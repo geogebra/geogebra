@@ -134,7 +134,7 @@ public abstract class AppW extends App implements SetLabels{
 	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
 	
-public static final String LOCALE_PARAMETER = "locale";
+	public static final String LOCALE_PARAMETER = "locale";
 	
 	public final static String syntaxStr = "_Syntax";
 	

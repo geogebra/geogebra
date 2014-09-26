@@ -44,6 +44,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 				app.fileNew();
 				app.setDefaultCursor();
 				app.showStartScreen();
+				app.toggleMenu();
 			}
 		};
 	    addStyleName("GeoGebraMenuBar");
@@ -200,6 +201,4 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 			openFilePicker();
 		}
 	}
-	
-
 }
