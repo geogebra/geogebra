@@ -155,7 +155,7 @@ public class Browser {
 		if (navString.indexOf("android") > -1) {
 			return false;
 		}
-		if (parseFloat(navString.substring(navString.indexOf("android")+8) < d) {
+		if (parseFloat(navString.substring(navString.indexOf("android")+8)) < d) {
 			return true;
 		}
 		return false;
