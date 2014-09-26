@@ -32,42 +32,45 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	protected StatTableW statTable;
 	protected AppW app;
 
-	/*************************************************
-	 * Construct the panel
-	 * 
-	 * @param app
-	 * @param statDialog
-	 * @param mode
-	 */
 	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog) {
+		this(app, statDialog, true);
+	} // END constructor
 
+	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog,
+			boolean defaultModel) {
 		this.app = app;
-		model = new StatTableModel(app, this);
 		this.daView = statDialog;
-		
-		initStatTable();
 		setStyleName("daStatistics");
+		
+		if (defaultModel) {
+			setModel(new StatTableModel(app, this));
+		}
+	}
+
+	public void setModel(StatTableModel model) {
+		this.model = model;
+		initStatTable();
 	}
 
 	protected void initStatTable() {
 
 		statTable = new StatTableW(app);
-		statTable.setStatTable(model.getRowCount(), model.getRowNames(),
-				getColumnCount(), model.getColumnNames());
+		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
+				getColumnCount(), getModel().getColumnNames());
 		clear();
 		add(statTable);
 	}
 
 	public String[] getRowNames() {
-		return model.getRowNames();
+		return getModel().getRowNames();
 	}
 
 	public String[] getColumnNames() {
-		return model.getColumnNames();
+		return getModel().getColumnNames();
 	}
 
 	public int getRowCount() {
-		return model.getRowCount() - 1;
+		return getModel().getRowCount() - 1;
 	}
 
 	public int getColumnCount() {
@@ -94,7 +97,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 
 		double value;
 
-		ArrayList<Stat> list = model.getStatList();
+		ArrayList<Stat> list = getModel().getStatList();
 
 		for (int row = 0; row < list.size(); row++) {
 			for (int column = 1; column < getColumnCount(); column++) {
@@ -102,7 +105,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 				if (isValidData() && stat != Stat.NULL) {
 					AlgoElement algo = getAlgo(stat, dataList, geoRegression);
 					if (algo != null) {
-						model.getConstruction().removeFromConstructionList(algo);
+						getModel().getConstruction().removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
 						setValueAt(value, row,	1);
@@ -116,27 +119,27 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 
 	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
 			GeoElement geoRegression) {
-		return model.getAlgo(algoName, dataList, geoRegression);
+		return getModel().getAlgo(algoName, dataList, geoRegression);
 	}
 
 	protected AlgoElement getAlgoRawData(Stat stat, GeoList dataList,
 			GeoElement geoRegression) {
-		return model.getAlgoRawData(stat, dataList, geoRegression);
+		return getModel().getAlgoRawData(stat, dataList, geoRegression);
 
 	}
 
 	protected AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData,
 			GeoElement geoRegression) {
-		return model.getAlgoFrequency(stat, frequencyData, geoRegression);
+		return getModel().getAlgoFrequency(stat, frequencyData, geoRegression);
 	}
 
 	protected AlgoElement getAlgoClass(StatTableModel.Stat stat,
 			GeoList frequencyData, GeoElement geoRegression) {
-		return model.getAlgoClass(stat, frequencyData, geoRegression);
+		return getModel().getAlgoClass(stat, frequencyData, geoRegression);
 	}
 
 	public void setLabels() {
-		statTable.setLabels(model.getRowNames(), model.getColumnNames(), false);
+		statTable.setLabels(getModel().getRowNames(), getModel().getColumnNames(), false);
 	}
 
 	public GeoList getDataSelected() {
@@ -175,5 +178,9 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	public boolean isNumericData() {
 		return daView.getDataSource().isNumericData();
 	}
+
+	public StatTableModel getModel() {
+	    return model;
+    }
 
 }

@@ -98,23 +98,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	
 		
 		dataSource = new DataSource(app);
-		dataSource.setDataListFromSelection(mode);
 		
 		daCtrl.loadDataLists(true);
 		
-		dataDisplayPanel1 = new DataDisplayPanelW(this);
-		dataDisplayPanel2 = new DataDisplayPanelW(this);
-
-
-		comboPanelSplit = new SplitLayoutPanel();
-		comboPanelSplit.setStyleName("comboSplitLayout");
-		comboPanelSplit.add(dataDisplayPanel1);
-		
-		mainSplit = new SplitLayoutPanel();
-		mainSplit.add(comboPanelSplit);
-		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
-		mainSplit.setStyleName("daMainSplit");
-			add(mainSplit);
 		setView(dataSource, mode, true);
 		model.setIniting(false);
 	}
@@ -127,12 +113,27 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 
 	public void changeMode(int mode) {
+		model = new DataAnalysisModel(app, mode, this, daCtrl);
 		setView(dataSource, mode, true);
 		
 	}
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
+		
+		dataSource.setDataListFromSelection(mode);
+		dataDisplayPanel1 = new DataDisplayPanelW(this);
+		dataDisplayPanel2 = new DataDisplayPanelW(this);
 
+
+		comboPanelSplit = new SplitLayoutPanel();
+		comboPanelSplit.setStyleName("comboSplitLayout");
+		comboPanelSplit.add(dataDisplayPanel1);
+		
+		mainSplit = new SplitLayoutPanel();
+		mainSplit.add(comboPanelSplit);
+		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
+		mainSplit.setStyleName("daMainSplit");
+		add(mainSplit);
 		model.setView(dataSource, mode, forceModeUpdate);
 //		updateFonts();
 		setLabels();
@@ -274,6 +275,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			regressionPanel = new RegressionPanelW(app, this);
 			add(regressionPanel);
 			mainSplit.setHeight("80%");
+		} else {
+			mainSplit.setHeight("100%");
 		}
 		
 		deferredDataPanelOnResize();

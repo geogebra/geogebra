@@ -274,8 +274,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	public void setLabels() {
 
 		createDisplayTypeComboBox();
-		//		sliderNumClasses.setToolTipText(loc.getMenu("Classes"));
-		//		fldNumClasses.setToolTipText(loc.getMenu("Classes"));
+
 		lblStart.setText(loc.getMenu("Start") + " ");
 		lblWidth.setText(loc.getMenu("Width") + " ");
 		if (daModel.isRegressionMode()) {
@@ -614,47 +613,15 @@ public class DataDisplayPanelW extends FlowPanel implements
 		//
 	}
 
-	// **********************************************
-	// Export
-	// **********************************************s
-
-	/**
-	 * Action to export all GeoElements that are currently displayed in this
-	 * panel to a EuclidianView. The viewID for the target EuclidianView is
-	 * stored as a property with key "euclidianViewID".
-	 * 
-	 * This action is passed as a parameter to plotPanel where it is used in the
-	 * plotPanel context menu and the EuclidianView transfer handler when the
-	 * plot panel is dragged into an EV.
-	 */
-	//	AbstractAction exportToEVAction = new AbstractAction() {
-	//		private static final long serialVersionUID = 1L;
-	//
-	//		public void actionPerformed(ActionEvent event) {
-	//			Integer euclidianViewID = (Integer) this
-	//					.getValue("euclidianViewID");
-	//
-	//			// if null ID then use EV1 unless shift is down, then use EV2
-	//			if (euclidianViewID == null) {
-	//				euclidianViewID = AppW.getShiftDown() ? app
-	//						.getEuclidianView2(1).getViewID() : app
-	//						.getEuclidianView1().getViewID();
-	//			}
-	//
-	//			// do the export
-	//			getModel().exportGeosToEV(euclidianViewID);
-	//
-	//			// null out the ID property
-	//			this.putValue("euclidianViewID", null);
-	//		}
-	//	};
-
 	public void addDisplayTypeItem(PlotType type) {
 		lbDisplayType.addItem(app.getMenu(type.key));
 		plotTypes.add(type);
 	}
 
 	public void updateScatterPlot() {
+		if (!daModel.isRegressionMode()) {
+			return;
+		}
 		metaPlotPanel.clear();
 		plotPanelNorth.clear();
 		plotPanelSouth.clear();

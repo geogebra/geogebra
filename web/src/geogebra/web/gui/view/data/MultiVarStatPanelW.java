@@ -16,7 +16,6 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	private static final long serialVersionUID = 1L;
 
 	private boolean isMinimalTable = false;
-	private MultiVarStatTableModel model;
 
 	/***************************************************
 	 * Constructs a MultiVarStatPanel
@@ -25,8 +24,8 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	 * @param statDialog
 	 */
 	public MultiVarStatPanelW(AppW app, DataAnalysisViewW statDialog) {
-		super(app, statDialog);
-		model = new MultiVarStatTableModel(app, this);
+		super(app, statDialog, false);
+		setModel(new MultiVarStatTableModel(app, this));
 	}
 
 	public void setMinimalTable(boolean isMinimalTable) {
@@ -37,27 +36,27 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 
 	@Override
 	public String[] getRowNames() {
-		return model.getRowNames();
+		return getModel().getRowNames();
 	}
 
 	@Override
 	public String[] getColumnNames() {
-		return model.getColumnNames();
+		return getModel().getColumnNames();
 	}
 
 	@Override
 	public int getRowCount() {
-		return model.getRowCount();
+		return getModel().getRowCount();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return model.getColumnCount();
+		return getModel().getColumnCount();
 	}
 
 	@Override
 	public void updatePanel() {
-		model.updatePanel();
+		getModel().updatePanel();
 	}
 
 	public String[] getDataTitles() {

@@ -34,7 +34,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	public DataAnalysisViewDockPanelW(AppW app) {
 		super(App.VIEW_DATA_ANALYSIS, // view id
 				"DataAnalysis", // view title phrase
-				null,//getDefaultToolbar(), // toolbar string
+				getDefaultToolbar(), // toolbar string
 				true, // style bar?
 				-1, // menu order
 				'-' // menu shortcut
@@ -69,12 +69,12 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(EuclidianConstants.MODE_MOVE);
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			sb.append(" || ");
-			sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
-			sb.append(" || ");
-			sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
 			sb.append(" || ");
 			sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
 			

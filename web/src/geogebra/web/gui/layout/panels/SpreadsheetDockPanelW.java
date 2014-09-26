@@ -105,10 +105,10 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {				
-			sb.append(" , ");
-			sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
 			sb.append(" , ");
 			sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
 			//sb.append(" , ");
