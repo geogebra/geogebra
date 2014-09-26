@@ -979,6 +979,23 @@ public class Construction {
 			num.updateRandomGeo();
 		}
 	}
+	
+	/**
+	 * Updates all free random numbers of this construction.
+	 */
+	final public void updateAllFreeRandomGeosNoCascade() {
+		if (randomElements == null)
+			return;
+
+		Iterator<GeoElement> it = randomElements.iterator();
+		while (it.hasNext()) {
+			GeoElement num = it.next();
+			if (num.isGeoNumeric() && num.getParentAlgorithm() == null) {
+				((GeoNumeric) num).updateRandomNoCascade();
+			}
+		}
+	}
+	
 
 	/**
 	 * Adds a number to the set of random numbers of this construction.
@@ -1026,8 +1043,9 @@ public class Construction {
 				}
 			}
 	
-			// update all random numbers()
-			updateAllRandomGeos();
+			// update all free random numbers() (dependent random numbers will be updated from algo list)
+			// no update cascade is done: algos will be updated
+			updateAllFreeRandomGeosNoCascade();
 	
 			// init and update all algorithms
 			// make sure we call algo.initNearToRelationship() fist

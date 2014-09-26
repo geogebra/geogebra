@@ -1007,6 +1007,18 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 
 	}
+	
+	
+	/**
+	 * Updates random slider - no updateCascade()
+	 */
+	public void updateRandomNoCascade() {
+		if (randomSlider && isIntervalMaxActive() && isIntervalMinActive()) {
+			// update all algorithms in the algorithm set of this GeoElement
+			value = getRandom();
+		}
+
+	}
 
 	/*
 	 * returns a random number in the slider's range (and using step-size)
