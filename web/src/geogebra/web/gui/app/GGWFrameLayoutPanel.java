@@ -138,19 +138,20 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	}
 	
 	public boolean toggleMenu() {
-		
 		if(menuContainer == null){
 			createMenuContainer();
 		}
-
+		
 		if (this.menuClosed) {
-			this.menuContainer.setVisible(true);
 			this.menuClosed = false;
+			this.menuContainer.setWidth(GLookAndFeel.MENUBAR_WIDTH + "px");
+			this.add(this.menuContainer);
+			this.menuContainer.setVisible(true);
 			guiManagerW.updateStyleBarPositions(true);
 		} else {
-			this.menuContainer.setVisible(false);
 			this.menuClosed = true;
 			guiManagerW.updateStyleBarPositions(false);
+			this.remove(this.menuContainer);
 		}
 		return !menuClosed;
 	}
@@ -158,10 +159,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	private void createMenuContainer() {
 	    menuContainer = new FlowPanel();
 	    menuContainer.addStyleName("menuContainer");
-	    menuContainer.setWidth(GLookAndFeel.MENUBAR_WIDTH + "px");
 	    menuContainer.add(getMenuBar());
-	    updateHeight();
-	    add(menuContainer);
+	    updateSize();
     }
 
 	/**
@@ -175,7 +174,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	public void onResize() {
 		super.onResize();
 		if (this.menuContainer != null) {
-			updateHeight();
+			updateSize();
 		}
 	}
 
@@ -185,20 +184,20 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	 */
 	public void setMenuHeight(boolean showAlgebraInput) {
 		this.algebraBottom = showAlgebraInput;
-	    updateHeight();
+	    updateSize();
     }
 	
-	private void updateHeight() {
-		int height = 0;
+	private void updateSize() {
 		if (this.menuContainer != null) {
+			int height = 0;
 	    	if (this.algebraBottom) {
 		    	height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT;
 		    	
 	    	} else {
 	    		height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT;
 	    	}
+			this.menuContainer.setHeight(height + "px");
+			this.ggwMenuBar.updateHeight(height);
 	    }
-		this.menuContainer.setHeight(height + "px");
-		this.ggwMenuBar.updateHeight(height);
 	}
 }
