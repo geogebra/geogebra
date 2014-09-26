@@ -1429,7 +1429,7 @@ __GGB__keysVar.fr.menu = {
     "FrequencyPolygon": "Polyg\xf4ne des effectifs",
     "FrequencyTable": "Table des effectifs",
     "FrequencyTable.Count": "Effectifs",
-    "FrequencyTable.Frequency": "Valeurs",
+    "FrequencyTable.Frequency": "R\xe9sultats",
     "FrequencyTable.RelativeFrequency": "Fr\xe9quences",
     "FrequencyType": "Type fr\xe9quence",
     "FunctionInspector": "Inspecteur de fonction",
