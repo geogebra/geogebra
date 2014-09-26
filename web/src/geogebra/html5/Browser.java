@@ -152,7 +152,7 @@ public class Browser {
 
 	public static native  boolean isAndroidVersionLessThan(double d) /*-{
 		var navString = navigator.userAgent.toLowerCase();
-		if (navString.indexOf("android") > -1) {
+		if (navString.indexOf("android") < 0) {
 			return false;
 		}
 		if (parseFloat(navString.substring(navString.indexOf("android")+8)) < d) {

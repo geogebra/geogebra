@@ -1,7 +1,5 @@
 package geogebra.touch.main;
 
-import geogebra.common.gui.Layout;
-import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.DialogManager;
 import geogebra.html5.gui.History;
 import geogebra.html5.main.FileManagerI;
@@ -10,8 +8,6 @@ import geogebra.touch.gui.dialog.DialogManagerT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.main.AppWapplication;
-
-import java.util.ArrayList;
 
 /**
  * App for tablets and phones
@@ -33,20 +29,6 @@ public class AppT extends AppWapplication {
 	        final GLookAndFeel laf) {
 		super(article, geoGebraAppFrame, dimension, laf);
 		this.setLabelDragsEnabled(false);
-	}
-
-	@Override
-	protected void afterCoreObjectsInited() {
-		super.afterCoreObjectsInited();
-
-		ArrayList<Perspective> list = new ArrayList<Perspective>();
-		for (Perspective p : Layout.defaultPerspectives) {
-			if (!p.getId().equals("Perspective.3DGraphics")) {
-				list.add(p);
-			}
-		}
-		Layout.defaultPerspectives = list.toArray(new Perspective[0]);
-		setTmpPerspectives(list);
 	}
 
 	public History getHistory() {

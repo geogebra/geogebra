@@ -18,26 +18,29 @@ import javax.swing.SwingConstants;
  * move some methods out of App so that minimal applets work
  * 
  * @author michael
- *
+ * 
  */
 public class AppD2 {
 
-	private static GuiManagerD getGuiManager(AppD app){
+	private static GuiManagerD getGuiManager(AppD app) {
 		return (GuiManagerD) app.getGuiManager();
 	}
-	
-	public static void initToolbar(AppD app, int toolbarPosition, boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel, JPanel southPanel, JPanel westPanel) {
-		
+
+	public static void initToolbar(AppD app, int toolbarPosition,
+			boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel,
+			JPanel southPanel, JPanel westPanel) {
+
 		GuiManagerD guiManager = getGuiManager(app);
 		LocalizationD loc = app.getLocalization();
 		// initialize toolbar panel even if it's not used (hack)
 		guiManager.getToolbarPanelContainer();
 
-		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager.getToolbarPanelContainer();
+		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager
+				.getToolbarPanelContainer();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
 		toolBarContainer.setOrientation(toolbarPosition);
 		ToolbarContainer.setShowHelp(showToolBarHelp);
-			
+
 		switch (toolbarPosition) {
 		case SwingConstants.NORTH:
 			northPanel.add(toolBarContainer, BorderLayout.NORTH);
@@ -67,20 +70,20 @@ public class AppD2 {
 		helpPanel.revalidate();
 	}
 
-	public static void initInputBar(AppD app, boolean showInputTop, JPanel northPanel, JPanel southPanel) {
+	public static void initInputBar(AppD app, boolean showInputTop,
+			JPanel northPanel, JPanel southPanel) {
 		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 		if (showInputTop) {
 			northPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
 		} else {
 			southPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
 		}
-		((AlgebraInput)gui.getAlgebraInput()).updateOrientation(showInputTop);
+		((AlgebraInput) gui.getAlgebraInput()).updateOrientation(showInputTop);
 	}
 
 	public static JPanel getMenuBarPanel(AppD appD, JPanel applicationPanel) {
 		JPanel menuBarPanel = new JPanel(new BorderLayout());
-		menuBarPanel.add(appD.getGuiManager().getMenuBar(),
-				BorderLayout.NORTH);
+		menuBarPanel.add(appD.getGuiManager().getMenuBar(), BorderLayout.NORTH);
 		menuBarPanel.add(applicationPanel, BorderLayout.CENTER);
 		return menuBarPanel;
 	}
@@ -106,7 +109,7 @@ public class AppD2 {
 	}
 
 	public static void newLayout(AppD app) {
-		app.guiManager.setLayout(new geogebra.gui.layout.LayoutD());
+		app.guiManager.setLayout(new geogebra.gui.layout.LayoutD(app));
 	}
 
 	public static DockBarInterface newDockBar(AppD app) {

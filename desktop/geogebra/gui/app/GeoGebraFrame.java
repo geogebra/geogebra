@@ -84,7 +84,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	private static FileDropTargetListener dropTargetListener;
 
 	private static List<NewInstanceListener> instanceListener = new ArrayList<NewInstanceListener>();
-	
+
 	protected AppD app;
 
 	public GeoGebraFrame() {
@@ -399,7 +399,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						App.VIEW_SPREADSHEET);
 			}
 
-			if (args.containsArg("showCAS") && App.isCASViewEnabled()) {
+			if (args.containsArg("showCAS") && app.supportsView(App.VIEW_CAS)) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
 				app.getGuiManager().setShowView(showCAS, App.VIEW_CAS);
 			}

@@ -1,6 +1,5 @@
 package geogebra3D.gui;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -71,8 +70,8 @@ public class GuiManager3D extends GuiManagerD {
 	@Override
 	protected void initLayoutPanels() {
 		super.initLayoutPanels();
-		if (App.is3DViewEnabled()) {
-			getLayout().registerPanel(new EuclidianDockPanel3DD(getApp()));	
+		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
+			getLayout().registerPanel(new EuclidianDockPanel3DD(getApp()));
 		}
 	}
 

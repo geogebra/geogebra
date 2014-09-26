@@ -3814,14 +3814,7 @@ public abstract class App implements UpdateSelection{
 	
 	private static boolean CASViewEnabled = true;
 
-	/**
-	 * Tells if the CAS View is enabled. 
-	 * It can be disabled by using command line option "--showCAS=disable".
-	 * @return whether the CAS view is enabled
-	 */
-	public static boolean isCASViewEnabled() {
-		return CASViewEnabled;
-	}
+	
 
 	/**
 	 * Disables CAS View.
@@ -3831,14 +3824,21 @@ public abstract class App implements UpdateSelection{
 	}
 
 	private static boolean _3DViewEnabled = true;
-	
+
 	/**
-	 * Tells if the 3D View is enabled. 
-	 * It can be disabled by using command line option "--show3D=disable".
+	 * Tells if given View is enabled. 
+	 * 3D be disabled by using command line option "--show3D=disable".
+	 * CAS be disabled by using command line option "--showCAS=disable".
 	 * @return whether the 3D view is enabled
 	 */
-	public static boolean is3DViewEnabled() {
-		return _3DViewEnabled;
+	public boolean supportsView(int viewID) {
+		if(viewID == App.VIEW_EUCLIDIAN3D){
+			return _3DViewEnabled && this.is3D();
+		}
+		if(viewID == App.VIEW_CAS){
+			return CASViewEnabled;
+		}
+		return true;
 	}
 
 	/**

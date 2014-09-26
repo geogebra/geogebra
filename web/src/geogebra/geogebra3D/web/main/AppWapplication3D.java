@@ -91,7 +91,10 @@ public class AppWapplication3D extends AppWapplication {
 
 	@Override
 	public boolean supportsView(int viewID) {
-		return true;
+		if(viewID == App.VIEW_EUCLIDIAN3D){
+			return true;
+		}
+		return super.supportsView(viewID);
 	}
 	
 	

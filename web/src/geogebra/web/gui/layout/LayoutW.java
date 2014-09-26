@@ -26,8 +26,8 @@ public class LayoutW extends Layout implements SettingListener {
 	/**
 	 * instantiates layout for Web
 	 */
-	public LayoutW() {
-		initializeDefaultPerspectives(true, true, 0.2);
+	public LayoutW(App app) {
+		initializeDefaultPerspectives(app, 0.2);
 
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}

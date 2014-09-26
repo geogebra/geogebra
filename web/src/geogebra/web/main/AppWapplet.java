@@ -134,7 +134,7 @@ public class AppWapplet extends AppW {
 		// this should not be called from AppWsimple!
 		setWaitCursor();
 		guiManager = newGuiManager();
-		getGuiManager().setLayout(new geogebra.web.gui.layout.LayoutW());
+		getGuiManager().setLayout(new geogebra.web.gui.layout.LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();
 	}

@@ -51,8 +51,8 @@ public class LayoutD extends Layout implements SettingListener {
 	 * {@link #initialize(AppD)} has to be called once in order to use this
 	 * class.
 	 */
-	public LayoutD() {
-		initializeDefaultPerspectives(true, false, 0.25);
+	public LayoutD(App app) {
+		initializeDefaultPerspectives(app, 0.25);
 
 		this.perspectives = new ArrayList<Perspective>(
 				defaultPerspectives.length);
@@ -98,7 +98,6 @@ public class LayoutD extends Layout implements SettingListener {
 	public boolean applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
 
-
 		app.getGuiManager().setToolBarDefinition(
 				perspective.getToolbarDefinition());
 
@@ -115,7 +114,7 @@ public class LayoutD extends Layout implements SettingListener {
 		// change the dock panel layout
 		dockManager.applyPerspective(perspective.getSplitPaneData(),
 				perspective.getDockPanelData());
-		
+
 		// apply ev settings after focus on view
 		boolean changed = setEVsettingsFromPerspective(app, perspective);
 

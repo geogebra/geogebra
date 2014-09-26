@@ -25,11 +25,11 @@ public abstract class Layout {
 	 * Initialize the default perspectives
 	 * 	 
 	 */
-	protected static void initializeDefaultPerspectives(boolean showAllTools, boolean html5, double AVpercent) {
+	protected static void initializeDefaultPerspectives(App app, double AVpercent) {
 		int n = 6;
-		if (! App.isCASViewEnabled())
+		if (! app.supportsView(App.VIEW_CAS))
 			n--;
-		if (! App.is3DViewEnabled())
+		if (! app.supportsView(App.VIEW_EUCLIDIAN3D))
 			n--;
 		
 		defaultPerspectives = new Perspective[n];
@@ -52,7 +52,7 @@ public abstract class Layout {
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", AVpercent, GSplitPane.HORIZONTAL_SPLIT);
 	
-		defToolbar = ToolBar.getAllToolsNoMacros(html5);
+		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet());
 		
 		int i = 0; // current perspective
 	
@@ -92,7 +92,7 @@ public abstract class Layout {
 		defaultPerspectives[++i] = new Perspective("Perspective.Spreadsheet", spData, dpData, defToolbar, true, false, true, false, true, false);
 		defaultPerspectives[i].setIconString("menu_view_spreadsheet.png");
 		
-		if (App.isCASViewEnabled()) {
+		if (app.supportsView(App.VIEW_CAS)) {
 			// CAS & Graphics - cas and euclidian view
 			dpData = new DockPanelData[6];
 			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);
@@ -109,7 +109,7 @@ public abstract class Layout {
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", AVpercent, GSplitPane.HORIZONTAL_SPLIT);
 			
-		if (App.is3DViewEnabled()) {
+		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 			// algebra & 3D graphics
 			dpData = new DockPanelData[6];
 			dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 500);
