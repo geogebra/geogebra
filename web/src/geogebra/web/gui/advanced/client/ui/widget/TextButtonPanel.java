@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.ui.widget;
+package geogebra.web.gui.advanced.client.ui.widget;
 
-import geogebra.html5.gui.advanced.client.ui.AdvancedWidget;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.advanced.client.ui.AdvancedWidget;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;

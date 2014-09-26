@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.datamodel;
+package geogebra.web.gui.advanced.client.datamodel;
 
 import java.util.Collections;
 import java.util.HashMap;

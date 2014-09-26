@@ -27,10 +27,6 @@ public abstract class Layout {
 	 */
 	protected static void initializeDefaultPerspectives(App app, double AVpercent) {
 		int n = 6;
-		if (! app.supportsView(App.VIEW_CAS))
-			n--;
-		if (! app.supportsView(App.VIEW_EUCLIDIAN3D))
-			n--;
 		
 		defaultPerspectives = new Perspective[n];
 		
@@ -91,7 +87,7 @@ public abstract class Layout {
 
 		defaultPerspectives[++i] = new Perspective("Perspective.Spreadsheet", spData, dpData, defToolbar, true, false, true, false, true, false);
 		defaultPerspectives[i].setIconString("menu_view_spreadsheet.png");
-		
+		App.debug("CAS support"+app.supportsView(App.VIEW_CAS));
 		if (app.supportsView(App.VIEW_CAS)) {
 			// CAS & Graphics - cas and euclidian view
 			dpData = new DockPanelData[6];
@@ -104,6 +100,8 @@ public abstract class Layout {
 
 			defaultPerspectives[++i] = new Perspective("Perspective.CAS", spData, dpData, defToolbar, true, false, true, false, true, false);
 			defaultPerspectives[i].setIconString("menu_view_cas.png");
+		}else{
+			i++;
 		}
 
 		spData = new DockSplitPaneData[1];
@@ -124,6 +122,8 @@ public abstract class Layout {
 		
 			defaultPerspectives[++i] = new Perspective("Perspective.3DGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
 			defaultPerspectives[i].setIconString("perspectives_algebra_3Dgraphics.png");
+		}else {
+			i++;
 		}
 			
 		dpData = new DockPanelData[7];

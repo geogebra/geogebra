@@ -40,6 +40,9 @@ public class PerspectivesMenuW extends GMenuBar {
 	    Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
+			if(defaultPerspectives[i] == null){
+				continue;
+			}
 			final int index = i;
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), 
 				app.getMenu(defaultPerspectives[i].getId()), true),true,new Command() {

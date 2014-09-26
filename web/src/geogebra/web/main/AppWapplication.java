@@ -1,9 +1,7 @@
 package geogebra.web.main;
 
-import geogebra.common.gui.Layout;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.toolbar.ToolBar;
-import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
@@ -25,8 +23,6 @@ import geogebra.web.helper.ObjectPool;
 import geogebra.web.move.ggtapi.models.AuthenticationModelW;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
-
-import java.util.ArrayList;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
@@ -154,16 +150,7 @@ public class AppWapplication extends AppW {
 	protected final void afterCoreObjectsInited() {
 		initGuiManager();
 		appFrame.onceAfterCoreObjectsInited();
-		appFrame.finishAsyncLoading(articleElement, this);
-		ArrayList<Perspective> list = new ArrayList<Perspective>();
-		for (Perspective p : Layout.defaultPerspectives) {
-			if ((!p.getId().equals("Perspective.3DGraphics") || this.supportsView(App.VIEW_EUCLIDIAN3D))
-					&& (!p.getId().equals("Perspective.CAS") || this.supportsView(App.VIEW_CAS))) {
-				list.add(p);
-			}
-		}
-		Layout.defaultPerspectives = list.toArray(new Perspective[0]);
-		setTmpPerspectives(list);
+		appFrame.finishAsyncLoading(articleElement, this);		
 	}
 
 	@Override

@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.datamodel;
+package geogebra.web.gui.advanced.client.ui;
 
 /**
- * This is an interface that describes a listeners that is invoked
- * on list data model changes.
+ * This interface describes a advanced components like a grid, pager or a toolbar.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
- * @since 1.4.9
+ * @since 1.0.0
  */
-public interface ListModelListener {
+public interface AdvancedWidget {
     /**
-     * This method should implement actions which related widgets must do on events.
-     *
-     * @param event an event produced by the model.
+     * This method displayes a widget.
      */
-    void onModelEvent(ListModelEvent event);
+    void display();
 }

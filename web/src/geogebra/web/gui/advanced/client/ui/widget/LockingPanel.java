@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.ui.widget;
+package geogebra.web.gui.advanced.client.ui.widget;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;

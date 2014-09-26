@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.ui.widget;
+package geogebra.web.gui.advanced.client.ui.widget;
 
-import geogebra.html5.gui.advanced.client.datamodel.ComboBoxDataModel;
-import geogebra.html5.gui.advanced.client.datamodel.ListDataModel;
-import geogebra.html5.gui.advanced.client.datamodel.ListModelEvent;
-import geogebra.html5.gui.advanced.client.datamodel.ListModelListener;
-import geogebra.html5.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent;
-import geogebra.html5.gui.advanced.client.ui.widget.combo.DefaultListItemFactory;
-import geogebra.html5.gui.advanced.client.ui.widget.combo.DropDownPosition;
-import geogebra.html5.gui.advanced.client.ui.widget.combo.ListItemFactory;
+import geogebra.web.gui.advanced.client.datamodel.ComboBoxDataModel;
+import geogebra.web.gui.advanced.client.datamodel.ListDataModel;
+import geogebra.web.gui.advanced.client.datamodel.ListModelEvent;
+import geogebra.web.gui.advanced.client.datamodel.ListModelListener;
+import geogebra.web.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent;
+import geogebra.web.gui.advanced.client.ui.widget.combo.DefaultListItemFactory;
+import geogebra.web.gui.advanced.client.ui.widget.combo.DropDownPosition;
+import geogebra.web.gui.advanced.client.ui.widget.combo.ListItemFactory;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -140,7 +140,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
     /**
      * Note that handlers added by this method will receive
-     * {@link geogebra.html5.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent}s.
+     * {@link geogebra.web.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent}s.
      *
      * @param handler the change handler
      * @return a handler registration.

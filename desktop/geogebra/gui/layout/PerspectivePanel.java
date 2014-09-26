@@ -97,6 +97,9 @@ public class PerspectivePanel extends JPopupMenu {
 		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
+			if (defaultPerspectives[i] == null) {
+				continue;
+			}
 			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
 			tmpItem.setText(app.getMenu(defaultPerspectives[i].getId()));
 			tmpItem.setActionCommand("d" + i);

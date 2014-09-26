@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.ui;
+package geogebra.web.gui.advanced.client.ui.widget.combo;
 
 /**
- * This interface describes a advanced components like a grid, pager or a toolbar.
+ * This enum defines the drop down list position of the
+ * {@link org.gwt.advanced.client.ui.widget.ComboBox} widget.<p/>
+ * The component uses it define how to display it. By default {@link #AUTO} is applied.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
- * @since 1.0.0
+ * @since 2.0.2
  */
-public interface AdvancedWidget {
+public enum DropDownPosition {
     /**
-     * This method displayes a widget.
+     * The list will be displayed above the box or under it according to many conditions detected
+     * automatically. Usually it's shown under the text area and button if there is space enough.
      */
-    void display();
+    AUTO,
+    /** The list is always displayed above the box */
+    ABOVE,
+    /** The list is always displayed under the box */
+    UNDER
 }

@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.ui.widget.combo;
+package geogebra.web.gui.advanced.client.datamodel;
 
 /**
- * This enum defines the drop down list position of the
- * {@link org.gwt.advanced.client.ui.widget.ComboBox} widget.<p/>
- * The component uses it define how to display it. By default {@link #AUTO} is applied.
+ * This is an interface that describes a listeners that is invoked
+ * on list data model changes.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
- * @since 2.0.2
+ * @since 1.4.9
  */
-public enum DropDownPosition {
+public interface ListModelListener {
     /**
-     * The list will be displayed above the box or under it according to many conditions detected
-     * automatically. Usually it's shown under the text area and button if there is space enough.
+     * This method should implement actions which related widgets must do on events.
+     *
+     * @param event an event produced by the model.
      */
-    AUTO,
-    /** The list is always displayed above the box */
-    ABOVE,
-    /** The list is always displayed under the box */
-    UNDER
+    void onModelEvent(ListModelEvent event);
 }

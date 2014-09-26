@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package geogebra.html5.gui.advanced.client.ui.widget;
+package geogebra.web.gui.advanced.client.ui.widget;
 
-import geogebra.html5.gui.advanced.client.datamodel.ListDataModel;
-import geogebra.html5.gui.advanced.client.ui.AdvancedWidget;
-import geogebra.html5.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent;
-import geogebra.html5.gui.advanced.client.ui.widget.combo.DropDownPosition;
-import geogebra.html5.gui.advanced.client.ui.widget.combo.ListItemFactory;
+import geogebra.web.gui.advanced.client.datamodel.ListDataModel;
+import geogebra.web.gui.advanced.client.ui.AdvancedWidget;
+import geogebra.web.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent;
+import geogebra.web.gui.advanced.client.ui.widget.combo.DropDownPosition;
+import geogebra.web.gui.advanced.client.ui.widget.combo.ListItemFactory;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
