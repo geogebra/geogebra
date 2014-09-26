@@ -144,9 +144,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		
 		if (this.menuClosed) {
 			this.menuClosed = false;
-			this.menuContainer.setWidth(GLookAndFeel.MENUBAR_WIDTH + "px");
 			this.add(this.menuContainer);
 			this.menuContainer.setVisible(true);
+			updateSize();
 			guiManagerW.updateStyleBarPositions(true);
 		} else {
 			this.menuClosed = true;
@@ -197,6 +197,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	    		height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT;
 	    	}
 			this.menuContainer.setHeight(height + "px");
+			this.menuContainer.setWidth(GLookAndFeel.MENUBAR_WIDTH + "px");
+
 			this.ggwMenuBar.updateHeight(height);
 	    }
 	}
