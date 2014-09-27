@@ -313,7 +313,7 @@ Libraries used by GeoGebra:
   * JUNG, http://jung.sourceforge.net (BSD)
   * OpenCSV, http://opencsv.sourceforge.net/ (Apache 2.0)
   * OpenGeoProver, http://code.google.com/p/open-geo-prover/ (GPL3)
-  * SVG Salamander, ​http://svgsalamander.java.net/ (LGPL / BSD)
+  * SVG Salamander, http://svgsalamander.java.net/ (LGPL / BSD)
   * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
   * zip.js, http://gildas-lormeau.github.com/zip.js/ (BSD)
   
