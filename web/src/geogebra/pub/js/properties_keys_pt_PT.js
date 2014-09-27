@@ -1951,7 +1951,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Table": "Tabela",
     "Tangent": "Tangentes",
     "Tangent.Help": "Selecione um ponto ou reta, depois a circunfer\xeancia,outra c\xf3nica ou fun\xe7\xe3o",
-    "Tetrahedron": "Tetraedro Regular",
+    "Tetrahedron": "Tetraedro",
     "Tetrahedron.Help": "Clique no plano (opcional) e em seguida em dois pontos",
     "Text": "Inserir Texto",
     "Text.Help": "Clique numa \xe1rea livre da Folha Gr\xe1fica ou num ponto",
