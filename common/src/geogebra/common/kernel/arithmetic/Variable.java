@@ -232,5 +232,9 @@ public class Variable extends ValidExpression {
 	public void setName(String s) {
 		name = s;	
 	}
+	
+	public String getName(){
+		return name;
+	}
 
 }

@@ -159,10 +159,12 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	public void add(GeoElement geo) {
 		update(geo);
+		addToCellRangeAlgos(geo);
 	}
 	
 	private void addWithoutTrace(GeoElement geo) {
 		updateWithoutTrace(geo);
+		addToCellRangeAlgos(geo);
 	}
 
 	public void remove(GeoElement geo) {
@@ -200,9 +202,13 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			geo.setEmptySpreadsheetCell(false);
 		}
 
+		
+	}
+	
+	private void addToCellRangeAlgos(GeoElement geo){
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null) {
-			cellRangeManager.updateCellRangeAlgos(geo, location, false);
+			cellRangeManager.addToCellRangeAlgos(geo, location);
 		}
 
 	}

@@ -75,6 +75,27 @@ public class AlgoCellRangeManager {
 		}
 
 	}
+	
+	
+	/**
+	 * add the geo at specified location to cell range algos
+	 * @param geo geo
+	 * @param location location on spreadsheet
+	 */
+	public void addToCellRangeAlgos(GeoElement geo, GPoint location) {
+
+		if (geo == null || cellRangeAlgos == null) {
+			return;
+		}
+
+		for (AlgoCellRange algo : cellRangeAlgos) {
+			// System.out.println("geo label: " + geo.getLabelSimple());
+			if (algo.getCellRange().contains(location)) {
+				algo.addToList(geo, location);
+			}
+		}
+
+	}
 
 	public void removeAll() {
 		if (cellRangeAlgos != null) {

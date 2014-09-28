@@ -16,7 +16,6 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -36,12 +35,12 @@ import java.util.ArrayList;
 public class AlgoCellRange extends AlgoElement {
 
 	private GeoList geoList; // output list of range
-	private GeoElement startCell, endCell; // input cells
+	private String startCell, endCell; // input cells
 	private String toStringOutput;
 
 	private CellRange cellRange;
 	private ArrayList<GeoElement> listItems;
-	private AlgoDependentList algo;
+//	private AlgoDependentListForCellRange algo;
 	private GPoint startCoords, endCoords;
 
 	/**
@@ -53,8 +52,8 @@ public class AlgoCellRange extends AlgoElement {
 	 * @param endCell
 	 *            e.g. B2
 	 */
-	public AlgoCellRange(Construction cons, String label, GeoElement startCell,
-			GeoElement endCell) {
+	public AlgoCellRange(Construction cons, String label, String startCell,
+			String endCell) {
 		super(cons);
 		this.startCell = startCell;
 		this.endCell = endCell;
@@ -95,8 +94,13 @@ public class AlgoCellRange extends AlgoElement {
 		geoList.clear();
 	}
 
+	/**
+	 * update list (add/remove geo)
+	 * @param geo geo to add/remove
+	 * @param isRemoveAction true if remove, false if add
+	 */
 	public void updateList(GeoElement geo, boolean isRemoveAction) {
-		
+				
 		if (listItems.contains(geo)) {
 		    // exit if geo is already in the list
 			if (!isRemoveAction) {
@@ -108,42 +112,70 @@ public class AlgoCellRange extends AlgoElement {
 			listItems = initCellRangeList(startCoords, endCoords);
 		}
 		
-		algo.updateList(listItems);
-		algo.update();
+		updateList();
+		update();
 		geoList.updateRepaint();
+	}
+	
+	private void updateList(){
+		geoList.clear();
+    	for (GeoElement geo : listItems){
+    		geo.addToUpdateSetOnly(this);
+    		geoList.add(geo);
+    	}      
+	}
+	
+	/**
+	 * add geo at location into the list
+	 * @param geo element
+	 * @param loc location on spreadsheet
+	 */
+	public void addToList(GeoElement geo, GPoint loc) {
+		
+		// check if we just add at the end of the list
+		if (loc.x >= maxExistingCol && loc.y > maxExistingRow){
+			maxExistingCol = loc.x;
+			maxExistingRow = loc.y;
+			addToList(geo);
+		}else{ // recompute the list
+			updateList(geo, false);
+		}
+	}
+	
+	private void addToList(GeoElement geo) {
+
+		listItems.add(geo);
+
+		geo.addToUpdateSets(this);
+		geoList.add(geo);
+		
+		geoList.updateRepaint();
+		
 	}
 
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		// TODO: change to support $A1, just get the spreadsheet coords based on
-		// label
-
-		// get range: cell coordinates of range in spreadsheet
-		String startLabel = startCell.getLabel(StringTemplate.defaultTemplate);
-		String endLabel = endCell.getLabel(StringTemplate.defaultTemplate);
-
+	
 		startCoords = GeoElementSpreadsheet
-				.getSpreadsheetCoordsForLabel(startLabel);
+				.getSpreadsheetCoordsForLabel(startCell);
 		endCoords = GeoElementSpreadsheet
-				.getSpreadsheetCoordsForLabel(endLabel);
-		toStringOutput = startLabel + ":" + endLabel;
+				.getSpreadsheetCoordsForLabel(endCell);
+		toStringOutput = startCell + ":" + endCell;
 
 		cellRange = new CellRange(cons.getApplication(), startCoords.x,
 				startCoords.y, endCoords.x, endCoords.y);
 
 		// build list with cells in range
 		listItems = initCellRangeList(startCoords, endCoords);
+		
 
 		// create dependent geoList for cells in range
-		algo = new AlgoDependentList(cons, listItems, true);
-		cons.removeFromConstructionList(algo);
-		geoList = algo.getGeoList();
-		algo.setCellRangeString(toStringOutput);
+		geoList = new GeoList(cons); 
 
-		// input: start and end cell
+		// input: size 0
 		// needed for XML saving only
-		input = algo.input;
+		input = new GeoElement[0];
 
 		super.setOutputLength(1);
 		super.setOutput(0, geoList);
@@ -156,6 +188,15 @@ public class AlgoCellRange extends AlgoElement {
 		 //input[0] = startCell;
 		 //input[1] = endCell;
 	}
+	
+	/**
+	 * max column location for existing values
+	 */
+	private int maxExistingCol;
+	/**
+	 * max row location for existing values in max column location
+	 */
+	private int maxExistingRow;
 
 	/**
 	 * Builds geoList with current objects in range of spreadsheet. Renaming of
@@ -181,6 +222,9 @@ public class AlgoCellRange extends AlgoElement {
 		int minRow = Math.min(startCoords.y, endCoords.y);
 		int maxRow = Math.max(startCoords.y, endCoords.y);
 
+		maxExistingCol = minCol - 1;
+		maxExistingRow = minRow - 1;
+		
 		// build the list
 		for (int colIndex = minCol; colIndex <= maxCol; colIndex++) {
 			for (int rowIndex = minRow; rowIndex <= maxRow; rowIndex++) {
@@ -198,6 +242,9 @@ public class AlgoCellRange extends AlgoElement {
 
 				// we got the cell object, add it to the list
 				listItems.add(geo);
+				maxExistingCol = colIndex;
+				maxExistingRow = rowIndex; // we want max existing row in max col
+				
 
 				// make sure that this cell object cannot be renamed by the user
 				// renaming would move the object outside of our range
@@ -218,8 +265,8 @@ public class AlgoCellRange extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		// nothing to do in compute, update is simply passed on to dependent
-		// algos
+		// just update list
+		geoList.update();
 	}
 
 	@Override
@@ -233,12 +280,10 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	public GPoint[] getRectangle() {
-		String startLabel = startCell.getLabel(StringTemplate.defaultTemplate);
-		String endLabel = endCell.getLabel(StringTemplate.defaultTemplate);
 		GPoint startCoords = GeoElementSpreadsheet
-				.getSpreadsheetCoordsForLabel(startLabel);
+				.getSpreadsheetCoordsForLabel(startCell);
 		GPoint endCoords = GeoElementSpreadsheet
-				.getSpreadsheetCoordsForLabel(endLabel);
+				.getSpreadsheetCoordsForLabel(endCell);
 
 		GPoint[] ret = { startCoords, endCoords };
 		return ret;
