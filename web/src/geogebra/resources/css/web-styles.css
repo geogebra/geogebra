@@ -3806,6 +3806,7 @@ button.gwt-Button.signInButton {
 .profileOptionsPanel .profileOptionsContent {
 	position: absolute;
 	top: 15px;
+	left: -75px;
 	z-index: 200;
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
@@ -3818,6 +3819,7 @@ button.gwt-Button.signInButton {
 
 .profileOptionsContent .logoutButton {
 	margin: 20px 10px 10px;
+	min-width: 75px;
 }
 
 .backButton {
