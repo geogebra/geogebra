@@ -3,6 +3,7 @@ package geogebra.html5.util.ggtapi;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,11 @@ public class JSONparserGGT {
 	private static Material toMaterial(JSONObject obj) {
 		Material.MaterialType type = MaterialType.ggb;
 		if(getString(obj, "type").length() > 0){
-			type = MaterialType.valueOf(getString(obj, "type"));
+			try{
+				type = MaterialType.valueOf(getString(obj, "type"));
+			}catch(Throwable t){
+				Log.error("Unknown material type:" + getString(obj, "type"));
+			}
 		}
 		int ID = Integer.parseInt(obj.get("id").isString().stringValue());
 
