@@ -214,6 +214,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu_view_algebra.png")
 	ImageResource menu_icon_algebra();
 	
+	@Source("icons/png/web/menu_icons/perspectives_geometry.png")
+	ImageResource menu_icon_geometry();
+	
 	@Source("icons/png/web/menu_icons/menu_view_cas.png")
 	ImageResource menu_icon_cas();
 	

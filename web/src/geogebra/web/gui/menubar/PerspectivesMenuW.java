@@ -3,8 +3,11 @@ package geogebra.web.gui.menubar;
 import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.Perspective;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.images.AppResources;
+import geogebra.web.css.GuiResources;
 
+import java.util.ArrayList;
+
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Timer;
 
@@ -38,13 +41,19 @@ public class PerspectivesMenuW extends GMenuBar {
 
 		
 	    Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
-
+	    ArrayList<ImageResource> icons = new ArrayList<ImageResource>();
+	    icons.add(GuiResources.INSTANCE.menu_icon_algebra());
+	    icons.add(GuiResources.INSTANCE.menu_icon_geometry());
+	    icons.add(GuiResources.INSTANCE.menu_icon_spreadsheet());
+	    icons.add(GuiResources.INSTANCE.menu_icon_cas());
+	    icons.add(GuiResources.INSTANCE.menu_icon_graphics3D());
+	    icons.add(GuiResources.INSTANCE.menu_icon_probability());
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			if(defaultPerspectives[i] == null){
 				continue;
 			}
 			final int index = i;
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), 
+		addItem(MainMenu.getMenuBarHtml(icons.get(i).getSafeUri().asString(), 
 				app.getMenu(defaultPerspectives[i].getId()), true),true,new Command() {
 			
 			public void execute() {
