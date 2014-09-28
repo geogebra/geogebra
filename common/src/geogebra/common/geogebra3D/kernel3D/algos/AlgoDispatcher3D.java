@@ -172,6 +172,8 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return super.SegmentFixed(pointLabel, segmentLabel, A, n);
 	}
 	
+	private Coords tmpCoords;
+	
 	private GeoElement[] SegmentFixedSphere(String pointLabel, String segmentLabel, GeoPointND A, NumberValue n){
 		// create a sphere around A with radius n
 		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A, n);
@@ -179,10 +181,17 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		cons.removeFromConstructionList(algoSphere);
 		// place the new point on the circle
 		Coords coords = A.getInhomCoordsInD3();
-		coords.setX(coords.getX() + n.getDouble());
+		if (tmpCoords == null){
+			tmpCoords = Coords.createInhomCoorsInD3();
+		}else{
+			tmpCoords.setW(1.0);
+		}
+		tmpCoords.setX(coords.getX() + n.getDouble());
+		tmpCoords.setY(coords.getY());
+		tmpCoords.setZ(coords.getZ());
 		AlgoPoint3DInRegion algoPoint = new AlgoPoint3DInRegion(cons, pointLabel,
 				algoSphere.getSphere(), 
-				coords);
+				tmpCoords);
 
 		// return segment and new point
 		GeoElement[] ret = { 
