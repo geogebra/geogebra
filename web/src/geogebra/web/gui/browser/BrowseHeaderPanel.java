@@ -22,7 +22,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		ResizeListener, BooleanRenderable, EventRenderable {
@@ -43,7 +42,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	
 	private FlowPanel profilePanel;
 	private Image profileImage;
-	private Label userName;
 	private FlowPanel userPanel;
 	private Image optionsArrow;
 	private LogInOperation login;
@@ -137,10 +135,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			
 			this.userPanel = new FlowPanel();
 			this.userPanel.setStyleName("userPanel");
-			this.userName = new Label();
 			this.optionsArrow = new Image(BrowseResources.INSTANCE.arrow_options());
 			this.optionsArrow.setStyleName("optionsArrow");
-			this.userPanel.add(this.userName);
 			this.userPanel.add(this.optionsArrow);
 			this.profilePanel.add(this.userPanel);
 			
@@ -182,7 +178,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
                 }},ClickEvent.getType());
 		}
 		this.rightPanel.clear();
-		this.userName.setText(user.getUserName());
 		this.profileImage.setUrl("http://tube.geogebra.org/files/users/user-"+user.getUserId()+".png");
 		this.rightPanel.add(this.profilePanel);
 		
