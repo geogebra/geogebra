@@ -1180,6 +1180,10 @@ GeoPolyhedronInterface
 			setOrientedHeight(polyhedron.getOrientedHeight());
 
 			topFaceIndex = polyhedron.topFaceIndex;
+			if (!polyhedron.polygonsLinked.isEmpty()){
+				// in this case, polyhedron has a bottom face linked
+				topFaceIndex++;
+			}
 
 			// set polygons
 			//polygons.clear();
@@ -1677,11 +1681,7 @@ GeoPolyhedronInterface
 	 * @return last face (for pyramid/prism)
 	 */
 	public GeoPolygon getTopFace(){
-		int index = topFaceIndex;
-		if (polygonsLinked.isEmpty()){
-			index++;
-		}
-		return polygons.get(index);
+		return polygons.get(topFaceIndex);
 	}
 
 

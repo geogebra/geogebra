@@ -84,10 +84,14 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);		
 	}
 
-	private Coords pp1 = new Coords(4);
+	private Coords pp1;
 
 	@Override
 	public void compute(double f, GeoPolygon bottomPolygon, Coords[] points) {
+		
+		if (pp1 == null){
+			pp1 = new Coords(4);
+		}
 		
 		int sz = points.length;
 				
