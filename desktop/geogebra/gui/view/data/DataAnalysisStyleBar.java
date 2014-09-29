@@ -88,7 +88,6 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 		btnSwapXY = new MyToggleButton(iconHeight);
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
-		btnSwapXY.setMaximumSize(btnSwapXY.getPreferredSize());
 		btnSwapXY.addActionListener(this);
 		btnSwapXY.setFocusable(false);
 
