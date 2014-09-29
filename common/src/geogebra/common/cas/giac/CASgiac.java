@@ -398,7 +398,6 @@ public abstract class CASgiac implements CASGenericInterface {
 				append(eliminateCommand).
 				append("],").
 				// myeliminate() may be inaccurate, see https://dev.geogebra.org/trac/ticket/4221
-				// Consider to do this hack also for createEliminateFactorizedScript().
 				append("[if (size(aa)==0) {aa:=" + eliminateCommand + "}],").
 				// Creating a matrix from the output to satisfy Sergio:
 				append("[bb:=coeffs(aa[0],x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],").
@@ -500,6 +499,8 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 		 */
 
+		String eliminateCommand = "eliminate([" + polys + "],[" + elimVars + "])";	
+		
 		return script.append("["+
 				/**
 				 * Bernard suggested to substitute eliminate() with an own implementation which directly computes gbasis
@@ -513,16 +514,17 @@ public abstract class CASgiac implements CASGenericInterface {
 				 * Later Bernard may implement a fast version of eliminate() inside Giac natively. Then we can remove
 				 * these two lines and use eliminate() instead of myeliminate(). At the moment, eliminate() is slow
 				 * in Giac, that is why here we write our own code.
+				 * 
+				 * Unfortunately, myeliminate() does not work always. So we will still need to use a fallback.
 				 */
 				myeliminate+","+
-				"[ff:=\"\"],[aa:=myeliminate([").
-				append(polys).
-				append("],[").
-				append(elimVars).
-				append("])],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ").
+				"[ff:=\"\"],[aa:=my").
+				append(eliminateCommand).
+				append("],[if (size(aa)==0) {aa:=" + eliminateCommand + "}],").
+				append("[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ").
 				append(" _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);").
 				append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ").
-				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\"){ff:=[0]}],ff][7]")						
+				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\"){ff:=[0]}],ff][8]")						
 
 				.toString();
 		
