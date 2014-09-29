@@ -123,7 +123,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 						@Override
 	                    public void execute() {
 							
-							app.showLanguageUI();
+							app.showLanguageGUI();
 		                    
 	                    }});
 			return;

@@ -156,12 +156,6 @@ public class AppWsimple extends AppW {
     }
 
 	@Override
-    public void showLanguageUI() {
-	    //no language UI
-	    
-    }
-
-	@Override
     public void uploadToGeoGebraTube() {
 	    //no upload
 	    

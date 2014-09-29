@@ -115,7 +115,7 @@ iframe.objectPropertiesTextEditor:focus {
 }
 
 .GeoGebraFrame .gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
-.DialogButtonPanel .gwt-Button {
+.DialogButtonPanel .gwt-Button, .inputHelp-detailPanelTitle .gwt-Button {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6161FF;
@@ -4096,7 +4096,7 @@ PROVIDERS
 	cursor: pointer;
 }
 
-.languageGUI .contentPanel .gwt-Label:hover {
+.languageGUI .contentPanel .gwt-Label:hover, .languageGUI .activeLanguage {
 	color: #6666FF;
 }
 

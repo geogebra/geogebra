@@ -300,6 +300,7 @@ public class AppWapplication extends AppW {
 		return  appFrame.getElement();
 	}
     
+   @Override
     public void showBrowser(MyHeaderPanel bg) {
 	    appFrame.showBrowser(bg);
     }
@@ -323,12 +324,15 @@ public class AppWapplication extends AppW {
     public void openSearch() {
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI());
     }
-
+	
 	@Override
-    public void showLanguageUI() {
-		LanguageGUI bg = new LanguageGUI(this);
-		showBrowser(bg);
-    }
+	public LanguageGUI getLanguageGUI() {
+		if (this.lg == null) {
+			this.lg = new LanguageGUI(this);
+		}
+		return this.lg;
+	}
+	
 	
 	@Override
 	public void uploadToGeoGebraTube() {

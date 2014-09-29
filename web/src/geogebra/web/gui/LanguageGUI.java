@@ -19,7 +19,8 @@ public class LanguageGUI extends MyHeaderPanel {
 
 	final AppW app;
 	private LanguageHeaderPanel header;
-
+	private Label activeLanguage = new Label();
+	
 	public LanguageGUI(AppW app) {
 		this.app = app;
 		this.setStyleName("languageGUI");
@@ -54,8 +55,13 @@ public class LanguageGUI extends MyHeaderPanel {
 					text = sb.toString();
 				}
 
-				Label label = new Label(text);
+				final Label label = new Label(text);
 				final Language current = l;
+
+				if (current.localeGWT.equals(app.getLocalization().getLocaleStr())) {
+					this.activeLanguage = label;
+					activeLanguage.addStyleName("activeLanguage");
+				}
 				label.addClickHandler(new ClickHandler() {
 
 					@Override
@@ -81,7 +87,9 @@ public class LanguageGUI extends MyHeaderPanel {
 							//TODO change direction
 						}
 						app.setLanguage(current.localeGWT);
-						
+						activeLanguage.removeStyleName("activeLanguage");
+						activeLanguage = label;
+						activeLanguage.addStyleName("activeLanguage");
 						LanguageGUI.this.close();
 					}
 				});

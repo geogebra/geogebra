@@ -86,6 +86,8 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
+import geogebra.web.gui.LanguageGUI;
+import geogebra.web.gui.MyHeaderPanel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -146,6 +148,8 @@ public abstract class AppW extends App implements SetLabels{
 	private SoundManagerW soundManager;
 	protected DialogManager dialogManager = null;
 	private ToolTipManagerW toolTipManager;
+	//TODO remove GUI stuff from appW
+	protected LanguageGUI lg;
 	protected FileManagerI fm;
 	
 	protected final ArticleElement articleElement;
@@ -2328,8 +2332,6 @@ public abstract class AppW extends App implements SetLabels{
 	        	$wnd.showInLang(language);
 			}
         }-*/;
-
-		public abstract void showLanguageUI();
 		
 
 		public void updateToolBar() {
@@ -2803,5 +2805,25 @@ public abstract class AppW extends App implements SetLabels{
 		public GeoGebraFrame getGeoGebraFrame() {
 			return frame;
 		}
+
+	    public void showLanguageGUI() {
+			showBrowser(getLanguageGUI());
+	    }
+		
+	    /**
+	     * Overwritten for AppWapplet/AppWapplication 
+	     * @param bg
+	     */
+	    public void showBrowser(MyHeaderPanel bg) {
+		    // TODO 
+	    }
+		
+		/**
+		 * Overwritten for AppWapplet/AppWapplication
+		 */
+		public LanguageGUI getLanguageGUI() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
 		
 }
