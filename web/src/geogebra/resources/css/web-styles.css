@@ -1528,7 +1528,7 @@ body[dir=rtl] .signIn {
 
 /* Submenus just for SMART */
 .GeoGebraMenuBar.subMenuLeftSide {
-	right: 220px;
+	right: 240px;
 	white-space: nowrap;
 	top: -5px;
 	position: absolute;
