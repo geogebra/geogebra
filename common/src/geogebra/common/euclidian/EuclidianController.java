@@ -459,9 +459,17 @@ public abstract class EuclidianController {
 		translationVec.setX(xRW - getStartPointX());
 		translationVec.setY(yRW - getStartPointY());
 		setStartPointLocation(xRW, yRW);
+		if (tmpCoordsL3 == null){
+			tmpCoordsL3 = new Coords(3);
+		}
+		tmpCoordsL3.setX(xRW);
+		tmpCoordsL3.setY(yRW);
+		tmpCoordsL3.setZ(0);
 		GeoElement.moveObjects(pastePreviewSelected, translationVec,
-				new Coords(xRW, yRW, 0), null, view);
+				tmpCoordsL3, null, view);
 	}
+	
+	private Coords tmpCoordsL3;
 
 	public final void setPastePreviewSelected() {
 	
@@ -1032,18 +1040,27 @@ public abstract class EuclidianController {
 
 	final public GeoPointND createNewPoint(String label, boolean forPreviewable, Region region, double x,
 			double y, double z, boolean complex, boolean coords2D) {
-			
-				if (region.toGeoElement().isGeoElement3D()) {
-					checkZooming(forPreviewable); 
-					
-					GeoPointND point = kernel.getManager3D().Point3DIn(label, region,
-							new Coords(x, y, z, 1), !forPreviewable, coords2D);
-					
 
-					return point;
-				}
-				return createNewPoint2D(label, forPreviewable, region, x, y, complex, coords2D);
+		if (region.toGeoElement().isGeoElement3D()) {
+			checkZooming(forPreviewable); 
+
+			if (tmpCoordsL4 == null){
+				tmpCoordsL4 = new Coords(4);
 			}
+			tmpCoordsL4.setX(x);
+			tmpCoordsL4.setY(y);
+			tmpCoordsL4.setZ(z);
+			tmpCoordsL4.setW(1);
+			GeoPointND point = kernel.getManager3D().Point3DIn(label, region,
+					tmpCoordsL4, !forPreviewable, coords2D);
+
+
+			return point;
+		}
+		return createNewPoint2D(label, forPreviewable, region, x, y, complex, coords2D);
+	}
+	
+	private Coords tmpCoordsL4;
 
 
 	
@@ -5741,7 +5758,13 @@ public abstract class EuclidianController {
 			GeoPoint g = moveDependentPoints.get(i);
 			g.setCoords2D(tempDependentPointX.get(i),
 					tempDependentPointY.get(i), 1);
-			g.translate(new Coords(xRW - getStartPointX(), yRW - getStartPointY(), 1));
+			if (tmpCoordsL3 == null){
+				tmpCoordsL3 = new Coords(3);
+			}
+			tmpCoordsL3.setX(xRW - getStartPointX());
+			tmpCoordsL3.setY(yRW - getStartPointY());
+			tmpCoordsL3.setZ(1);
+			g.translate(tmpCoordsL3);
 			// g.updateCascade();
 		}
 	
@@ -6071,8 +6094,13 @@ public abstract class EuclidianController {
 		// we don't specify screen coords for translation as all objects are
 		// Transformables
 		kernel.movingGeoSet();
-		GeoElement.moveObjects(translateableGeos, translationVec, new Coords(
-				xRW, yRW, 0), null, view);
+		if (tmpCoordsL3 == null){
+			tmpCoordsL3 = new Coords(3);
+		}
+		tmpCoordsL3.setX(xRW);
+		tmpCoordsL3.setY(yRW);
+		tmpCoordsL3.setZ(0);
+		GeoElement.moveObjects(translateableGeos, translationVec, tmpCoordsL3, null, view);
 		kernel.movedGeoSet(translateableGeos);
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -6104,8 +6132,14 @@ public abstract class EuclidianController {
 		startLoc = mouseLoc;
 	
 		// move all selected geos
+		if (tmpCoordsL3 == null){
+			tmpCoordsL3 = new Coords(3);
+		}
+		tmpCoordsL3.setX(xRW);
+		tmpCoordsL3.setY(yRW);
+		tmpCoordsL3.setZ(0);
 		GeoElement.moveObjects(companion.removeParentsOfView(getAppSelectedGeos()),
-				translationVec, new Coords(xRW, yRW, 0), null, view);
+				translationVec, tmpCoordsL3, null, view);
 		if (repaint) {
 			kernel.notifyRepaint();
 		}

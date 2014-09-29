@@ -101,10 +101,17 @@ public class DrawRay extends Drawable implements Previewable {
 			// calc start point of ray in screen coords
 			Coords A = view.getCoordsForView(ray.getStartInhomCoords());
 			
-			update(A, new Coords(equation.getY(), equation.getX()), showLabel);
+			if (tmpCoords2 == null){
+				tmpCoords2 = new Coords(2);
+			}
+			tmpCoords2.setX(equation.getY());
+			tmpCoords2.setY(equation.getX());
+			update(A, tmpCoords2, showLabel);
 
 		}
 	}
+	
+	private Coords tmpCoords2;
 
 		
 		
