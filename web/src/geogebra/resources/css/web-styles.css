@@ -1473,6 +1473,7 @@ body[dir=rtl] .signIn {
 .menuContainer {
 	left: auto !important;
 	top: 53px !important; /* should be equal to GLookAndFeelI.TOOLBAR_HEIGHT */
+	z-index: 100;
 }
 
 .ggbmenubarwrapper {
