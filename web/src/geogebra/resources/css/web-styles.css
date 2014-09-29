@@ -114,7 +114,8 @@ iframe.objectPropertiesTextEditor:focus {
 	margin-bottom: 10px;
 }
 
-.GeoGebraFrame .gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button {
+.GeoGebraFrame .gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
+.DialogButtonPanel .gwt-Button {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 1px solid #6161FF;
