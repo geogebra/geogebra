@@ -3,6 +3,7 @@ package geogebra.touch.gui.dialog.image;
 import geogebra.common.main.App;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.touch.PhoneGapManager;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
@@ -30,6 +31,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 	private StandardButton chooseFromFile;
 	private PictureOptions options;
 	private boolean cameraIsActive;
+	private PictureCallback pictureCallback;
 
 	
 	/**
@@ -37,6 +39,18 @@ public class ImageInputDialogT extends UploadImageDialog {
 	 */
 	public ImageInputDialogT(App app) {
 		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+		this.pictureCallback = new PictureCallback() {
+			
+			@Override
+			public void onSuccess(final String pictureBase64) {
+				setPicturePreview(pictureBase64);
+			}
+
+			@Override
+			public void onFailure(final String arg0) {
+				ToolTipManagerW.sharedInstance().showBottomMessage("Couldn't open chosen image", true);
+			}
+		};
 	}
 
 	@Override
@@ -65,7 +79,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 			
 			@Override
 			public void onClick() {
-				openNative();
+				openFromFileClicked();
 			}
 		});
 		
@@ -74,19 +88,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 		picturePanel.setSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
     }
 
-	void openNative() {
-		PhoneGapManager.getPhoneGap().getCamera().getPicture(options, new PictureCallback() {
-
-					@Override
-					public void onSuccess(final String pictureBase64) {
-						setPicturePreview(pictureBase64);
-					}
-
-					@Override
-					public void onFailure(final String arg0) {
-						// TODO Auto-generated method stub
-					}
-				});
+	void openFromFileClicked() {
+		PhoneGapManager.getPhoneGap().getCamera().getPicture(options, this.pictureCallback);
 	}
 	
 	@Override
@@ -147,20 +150,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.camera.addStyleDependentName("highlighted");
 		this.upload.removeStyleDependentName("highlighted");
 		this.inputPanel.setWidget(this.cameraPanel);
-		PhoneGapManager.getPhoneGap().getCamera().getPicture(new PictureOptions(this.PICTURE_QUALITY),
-				new PictureCallback() {
-
-					@Override
-					public void onSuccess(final String pictureBase64) {
-						setPicturePreview(pictureBase64);
-					}
-
-					
-					@Override
-					public void onFailure(final String arg0) {
-						//TODO couldn't get camera
-					}
-				});
+		PhoneGapManager.getPhoneGap().getCamera().getPicture(new PictureOptions(this.PICTURE_QUALITY), this.pictureCallback);
     }
 
 	/**
