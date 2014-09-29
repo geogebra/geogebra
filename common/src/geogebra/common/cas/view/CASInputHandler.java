@@ -46,6 +46,7 @@ public class CASInputHandler {
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 		if (cellValue.isUseAsText()) {
 			processRowThenEdit(selRow, true);
+			return;
 		}
 		cellValue.setError(null);
 		// get editor
