@@ -401,6 +401,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private void createFloatingElements() {
 
 		editorPanel = new SimplePanel();
+		editorPanel.addStyleName("editorPanel");
 		editorPanel.getElement().getStyle().setZIndex(6);
 		editorPanel.setVisible(false);
 
@@ -2744,17 +2745,15 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			int ssTop = gridPanel.getAbsoluteTop();
 			int ssLeft = gridPanel.getAbsoluteLeft();
-			int widthOffset = 4;
-			int heightOffset = 0;
+			
 			gridPanel.setWidgetPosition(editorPanel, p.x - ssLeft, p.y - ssTop);
 			editorPanel.setVisible(true);
-
+			
 			int w = ssGrid.getCellFormatter().getElement(row, column)
-			        .getClientWidth()
-			        - widthOffset;
+			        .getClientWidth();
 			int h = ssGrid.getCellFormatter().getElement(row, column)
-			        .getClientHeight()
-			        - heightOffset;
+			        .getClientHeight();
+			
 			editorPanel.getElement().getStyle().setWidth(w, Unit.PX);
 			editorPanel.getElement().getStyle().setHeight(h, Unit.PX);
 		}
