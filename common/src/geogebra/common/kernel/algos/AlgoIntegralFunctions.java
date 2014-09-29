@@ -76,6 +76,7 @@ public class AlgoIntegralFunctions extends AlgoElement  implements DrawInformati
 				
 		setInputOutput(); // for AlgoElement		
 		compute();
+		n.setDrawable(true);
 		n.setLabel(label);
 	}
 	
