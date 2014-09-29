@@ -78,6 +78,12 @@ public class AlgoCellRange extends AlgoElement {
 	public void remove() {
 		if(removed)
 			return;
+		
+		// remove this from item update sets
+		for (GeoElement geo : listItems){
+			geo.removeFromUpdateSets(this);
+		}
+		
 		super.remove();
 
 		cons.getApplication().getSpreadsheetTableModel()
