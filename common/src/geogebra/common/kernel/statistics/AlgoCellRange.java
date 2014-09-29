@@ -21,8 +21,10 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoListForCellRange;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Algorithm to create a GeoList with GeoElement objects of a given range in
@@ -34,13 +36,12 @@ import java.util.ArrayList;
  */
 public class AlgoCellRange extends AlgoElement {
 
-	private GeoList geoList; // output list of range
+	private GeoListForCellRange geoList; // output list of range
 	private String startCell, endCell; // input cells
 	private String toStringOutput;
 
 	private CellRange cellRange;
 	private ArrayList<GeoElement> listItems;
-//	private AlgoDependentListForCellRange algo;
 	private GPoint startCoords, endCoords;
 
 	/**
@@ -120,9 +121,25 @@ public class AlgoCellRange extends AlgoElement {
 	private void updateList(){
 		geoList.clear();
     	for (GeoElement geo : listItems){
-    		geo.addToUpdateSetOnly(this);
-    		geoList.add(geo);
+    		add(geo);
     	}      
+	}
+	
+	private void add(GeoElement geo){
+		
+		// add to geo list
+		geoList.add(geo);
+		
+		// add this to geo update set
+		geo.addToUpdateSetOnly(this);
+		
+		
+		// add to list update set to geo update set
+		Iterator<AlgoElement> it = geoList.getAlgoUpdateSet().getIterator();
+		while (it.hasNext()){
+			geo.addToUpdateSetOnly(it.next());
+		}
+		
 	}
 	
 	/**
@@ -146,8 +163,7 @@ public class AlgoCellRange extends AlgoElement {
 
 		listItems.add(geo);
 
-		geo.addToUpdateSets(this);
-		geoList.add(geo);
+		add(geo);
 		
 		geoList.updateRepaint();
 		
@@ -171,11 +187,16 @@ public class AlgoCellRange extends AlgoElement {
 		
 
 		// create dependent geoList for cells in range
-		geoList = new GeoList(cons); 
+		geoList = new GeoListForCellRange(cons, this); 
+		
 
 		// input: size 0
 		// needed for XML saving only
 		input = new GeoElement[0];
+		
+		updateList();
+		update();
+
 
 		super.setOutputLength(1);
 		super.setOutput(0, geoList);
@@ -287,6 +308,16 @@ public class AlgoCellRange extends AlgoElement {
 
 		GPoint[] ret = { startCoords, endCoords };
 		return ret;
+	}
+	
+	/**
+	 * add algo to input items update sets
+	 * @param algo
+	 */
+	public void addToItemsAlgoUpdateSets(AlgoElement algo){
+		for (GeoElement geo : listItems){
+			geo.addToUpdateSetOnly(algo);
+		}
 	}
 
 
