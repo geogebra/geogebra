@@ -710,12 +710,10 @@ public class Coords {
 	 */
 	public void projectPlane(CoordMatrix m, Coords globalCoords, Coords inPlaneCoords) {
 		
-
-		Coords vx = m.getVx();
-		Coords vy = m.getVy();
-		Coords vz = m.getVz();
-		Coords o = m.getOrigin();
-		
+		projectPlane(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(), globalCoords, inPlaneCoords);		
+	}
+	
+	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o, Coords globalCoords, Coords inPlaneCoords) {
 		
 		if (Kernel.isEqual(
 				(vx.crossProduct(vy)).dotproduct(vz), 0,
@@ -727,7 +725,7 @@ public class Coords {
 			inPlaneCoords.setY(0);
 			inPlaneCoords.setZ(-1);
 			inPlaneCoords.setW(0);
-			globalCoords.set(m.getVz());
+			globalCoords.set(vz);
 			return;
 		}
 		
@@ -739,13 +737,13 @@ public class Coords {
 	
 	public void projectPlaneInPlaneCoords(CoordMatrix m, Coords inPlaneCoords) {
 		
+		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(), inPlaneCoords);		
+		
+	}
+		
+	public void projectPlaneInPlaneCoords(Coords vx, Coords vy, Coords vz, Coords o, Coords inPlaneCoords) {
+			
 
-		Coords vx = m.getVx();
-		Coords vy = m.getVy();
-		Coords vz = m.getVz();
-		Coords o = m.getOrigin();
-		
-		
 		if (Kernel.isEqual(
 				(vx.crossProduct(vy)).dotproduct(vz), 0,
 				Kernel.STANDARD_PRECISION)) {
@@ -767,12 +765,10 @@ public class Coords {
 	
 	public void projectPlane(CoordMatrix m, Coords globalCoords) {
 		
-
-		Coords vx = m.getVx();
-		Coords vy = m.getVy();
-		Coords vz = m.getVz();
-		Coords o = m.getOrigin();
+		projectPlane(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(), globalCoords);		
+	}
 		
+	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o, Coords globalCoords) {
 		
 		if (Kernel.isEqual(
 				(vx.crossProduct(vy)).dotproduct(vz), 0,
@@ -780,7 +776,7 @@ public class Coords {
 			// direction of projection is parallel to the plane : point is
 			// infinite
 			// Application.printStacktrace("infinity");
-			globalCoords.set(m.getVz());
+			globalCoords.set(vz);
 			return;
 		}
 		
@@ -854,26 +850,16 @@ public class Coords {
 	 */
 	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords, Coords inPlaneCoords) {
 
-		CoordMatrix m1 = new CoordMatrix(4, 4);
-		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
-
-		projectPlane(m1, globalCoords, inPlaneCoords);
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords, inPlaneCoords);
 	}
 	
 	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords) {
-
-		CoordMatrix m1 = new CoordMatrix(4, 4);
-		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
-
-		projectPlane(m1, globalCoords);
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords);
 	}
 	
 	public void projectPlaneThruVInPlaneCoords(CoordMatrix m, Coords v, Coords inPlaneCoords) {
 
-		CoordMatrix m1 = new CoordMatrix(4, 4);
-		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
-
-		projectPlaneInPlaneCoords(m1, inPlaneCoords);
+		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), v, m.getOrigin(), inPlaneCoords);
 	}
 
 
@@ -906,26 +892,20 @@ public class Coords {
 		}
 
 		// if not, use v for direction
-		CoordMatrix m1 = new CoordMatrix(4, 4);
-		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
-
-		projectPlane(m1, globalCoords, inPlaneCoords);
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords, inPlaneCoords);
 	}
-	
+
 	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v, Coords globalCoords) {
 		// check if v is parallel to plane
-				Coords v3 = m.getColumn(3);
-				if (Kernel.isEqual(v3.dotproduct(v), 0.0,
-						Kernel.STANDARD_PRECISION)){
-					projectPlane(m, globalCoords);
-					return;
-				}
+		Coords v3 = m.getColumn(3);
+		if (Kernel.isEqual(v3.dotproduct(v), 0.0,
+				Kernel.STANDARD_PRECISION)){
+			projectPlane(m, globalCoords);
+			return;
+		}
 
-				// if not, use v for direction
-				CoordMatrix m1 = new CoordMatrix(4, 4);
-				m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
 
-				projectPlane(m1, globalCoords);
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords);
 	}
 	
 	public void projectPlaneThruVIfPossibleInPlaneCoords(CoordMatrix m, Coords v, Coords inPlaneCoords) {
@@ -939,10 +919,7 @@ public class Coords {
 		}
 
 		// if not, use v for direction
-		CoordMatrix m1 = new CoordMatrix(4, 4);
-		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
-
-		projectPlaneInPlaneCoords(m1, inPlaneCoords);
+		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), v, m.getOrigin(), inPlaneCoords);
 	}
 
 	/**
@@ -978,10 +955,7 @@ public class Coords {
 		}
 
 		// if not, use v for direction
-		CoordMatrix m1 = new CoordMatrix(4, 4);
-		m1.set(new Coords[] { m.getColumn(1), m.getColumn(2), v, m.getColumn(4) });
-
-		projectPlane(m1, globalCoords, inPlaneCoords);
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords, inPlaneCoords);
 	}
 	
 
@@ -1034,17 +1008,15 @@ public class Coords {
 			project.set(this);
 			return;
 		}
-		CoordMatrix m = new CoordMatrix(4, 4);
-		m.set(new Coords[] { V, V3, V2, O });
-		projectPlane(m, project);
+		
+		projectPlane(V, V3, V2, O, project);
 	}
 
 	/**
-	 * project this on the line (O,V) in the direction V2.
-	 * <p>
-	 * returns the point of (O,V) that is the nearest to line (this,V2).
-	 * <p>
-	 * if V and V2 are parallel, return O.
+	 * Calc the parameter on (O,V) of
+	 * the point of (O,V) that is the nearest to line (this,V2).
+	 * 
+	 * If V and V2 are parallel, return O.
 	 * 
 	 * @param O
 	 *            origin of the line where this is projected
@@ -1052,26 +1024,20 @@ public class Coords {
 	 *            direction of the line where this is projected
 	 * @param V2
 	 *            direction of projection
-	 * @return {point projected, {coord of the proj. point on the line, distance
-	 *         between this and the proj. point}}
+	 * @param tmp temp coords
+	 * @return parameter of the proj. point on the line
 	 */
-	public Coords[] projectOnLineWithDirection(Coords O, Coords V, Coords V2) {
+	public double projectedParameterOnLineWithDirection(Coords O, Coords V, Coords V2, Coords tmp) {
 
-		Coords V3 = V.crossProduct(V2);
+		Coords V3 = V.crossProduct4(V2);
 
-		if (Kernel.isEqual(V3.norm(), 0.0,
-				Kernel.STANDARD_PRECISION)) {
-			return new Coords[] { O,
-					new Coords(new double[] { 0, this.sub(O).norm() }) };
+		if (V3.isZero()) {
+			return 0;
 		}
-		CoordMatrix m = new CoordMatrix(4, 4);
-		m.set(new Coords[] { V2, V3, V, this });
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
-		O.projectPlane(m, result[0], result[1]);
-		return new Coords[] {
-				result[0],
-				new Coords(new double[] { -result[1].get(3),
-						this.sub(result[0]).norm() }) };
+		
+		O.projectPlaneInPlaneCoords(V2, V3, V, this, tmp);
+		return -tmp.getZ();
+		
 	}
 
 	/**

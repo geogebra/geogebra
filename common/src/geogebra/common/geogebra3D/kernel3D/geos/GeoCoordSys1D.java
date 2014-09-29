@@ -283,12 +283,14 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 					//project willing location using willing direction
 					//GgbVector[] project = coordsys.getProjection(P.getWillingCoords(), P.getWillingDirection());
 
-					Coords[] project = ((GeoPoint3D) P).getWillingCoords().projectOnLineWithDirection(
+					if (tmpCoords == null){
+						tmpCoords = Coords.createInhomCoorsInD3();
+					}
+					t = ((GeoPoint3D) P).getWillingCoords().projectedParameterOnLineWithDirection(
 							coordsys.getOrigin(),
 							coordsys.getVx(),
-							((GeoPoint3D) P).getWillingDirection());
-
-					t = project[1].get(1);
+							((GeoPoint3D) P).getWillingDirection(), tmpCoords);
+					
 					done = true;
 				}else{
 					//project current point coordinates
@@ -296,13 +298,16 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 					Coords preDirection = ((GeoPoint3D) P).getWillingCoords().sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
 					if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
 						preDirection = coordsys.getVy();
-
-					Coords[] project = ((GeoPoint3D) P).getWillingCoords().projectOnLineWithDirection(
+					
+					if (tmpCoords == null){
+						tmpCoords = Coords.createInhomCoorsInD3();
+					}
+					t = ((GeoPoint3D) P).getWillingCoords().projectedParameterOnLineWithDirection(
 							coordsys.getOrigin(),
 							coordsys.getVx(),
-							preDirection.crossProduct(coordsys.getVx()));
+							preDirection.crossProduct4(coordsys.getVx()), 
+							tmpCoords);
 
-					t = project[1].get(1);	
 					done = true;
 				}
 			}
@@ -314,13 +319,16 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 			Coords preDirection = P.getInhomCoordsInD3().sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
 			if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
 				preDirection = coordsys.getVy();
-		
-			Coords[] project = P.getInhomCoordsInD3().projectOnLineWithDirection(
+					
+			if (tmpCoords == null){
+				tmpCoords = Coords.createInhomCoorsInD3();
+			}
+			t = P.getInhomCoordsInD3().projectedParameterOnLineWithDirection(
 					coordsys.getOrigin(),
 					coordsys.getVx(),
-					preDirection.crossProduct(coordsys.getVx()));
+					preDirection.crossProduct4(coordsys.getVx()), 
+					tmpCoords);
 
-			t = project[1].get(1);	
 		}
 		return t;
 	}
