@@ -43,7 +43,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private FlowPanel profilePanel;
 	private Image profileImage;
 	private FlowPanel userPanel;
-	private Image optionsArrow;
 	private LogInOperation login;
 	private App app;
 	
@@ -135,9 +134,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			
 			this.userPanel = new FlowPanel();
 			this.userPanel.setStyleName("userPanel");
-			this.optionsArrow = new Image(BrowseResources.INSTANCE.arrow_options());
-			this.optionsArrow.setStyleName("optionsArrow");
-			this.userPanel.add(this.optionsArrow);
 			this.profilePanel.add(this.userPanel);
 			
 			this.optionsPanel = new FlowPanel();
