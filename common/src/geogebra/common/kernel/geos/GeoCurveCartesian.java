@@ -675,6 +675,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				minParam = t;
 			}
 		}
+		
+		if (minParam - step < this.getMinParameter() || minParam + step > this.getMaxParameter()) {
+			// at end, so can't sample either side!
+			// #4567
+			return minParam;
+		}
 
 		// use interval around our minParam found by sampling
 		// to find minimum
