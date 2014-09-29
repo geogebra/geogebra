@@ -115,6 +115,7 @@ public class EditMenuW extends GMenuBar {
 					+ " ...", true),
 			        true, new Command() {
 				        public void execute() {
+				        	app.toggleMenu();
 				        	app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
 				        }
 			        });
