@@ -39,8 +39,6 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 	private OptionsMenuW optionsMenu;
 	private EditMenuW editMenu;
 	private PerspectivesMenuW perspectivesMenu;
-	private ToolsMenuW toolsMenu;
-
 	private GMenuBar[] menus;
 
 	/**
@@ -62,8 +60,7 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 		this.createViewMenu();
 		this.createOptionsMenu();
 		this.createHelpMenu();
-		this.createToolsMenu();
-		this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
+		this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, helpMenu};
 		for(int i=0; i<menus.length; i++){
 			final int next = (i+1)%menus.length;
 			final int previous = (i-1+menus.length)%menus.length;
@@ -109,7 +106,6 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
 		this.menuPanel.add(optionsMenu, setHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
-		this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 		
 	    this.add(menuPanel);	    
@@ -148,10 +144,6 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 		optionsMenu = new OptionsMenuW(app);
 	}
 
-	private void createToolsMenu() {
-	    toolsMenu = new ToolsMenuW(app);
-    }
-	
 	private EditMenuW getEditMenu() {
 	    return editMenu;
     }
@@ -183,14 +175,12 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 	}
 	
 	public static void addSubmenuArrow(AppW app,MenuBar w) {
-		
 			w.addStyleName("subMenuLeftSide");
 			FlowPanel arrowSubmenu = new FlowPanel();
 			arrowSubmenu.addStyleName("arrowSubmenu");
 			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_right());
 			arrowSubmenu.add(arrow);
 		    w.getElement().appendChild(arrowSubmenu.getElement());
-		
     }
 
 	public static String getMenuBarHtml(String url, String str, boolean enabled) {
