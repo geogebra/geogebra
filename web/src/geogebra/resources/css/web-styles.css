@@ -4512,6 +4512,11 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	width: 100%;
 	color: red;
 } 
+
+#daSwapXYButton {
+	width: 48px;
+	height: 24px;
+}
 /* ########################################
    ###    END OF DATA ANALYSIS VIEW     ###
    ######################################## */

@@ -67,10 +67,10 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnExport = new MyToggleButton2(AppResources.INSTANCE.export());
 		btnExport.addClickHandler(this);
 
-		btnSwapXY = new MyToggleButton2("", iconHeight);
+		btnSwapXY = new MyToggleButton2(getSwapXYString(), iconHeight);
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addClickHandler(this);
-		
+		btnSwapXY.getElement().setId("daSwapXYButton");
 		buildRoundingButton();
 		createDataSourcePanel();
 
@@ -158,20 +158,17 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	}
 
 	public void setLabels() {
-//		btnRounding.setText(app.getMenu(".xx"));
 		btnShowStatistics.setToolTipText(app.getMenu("ShowStatistics"));
 		btnShowData.setToolTipText(app.getMenu("ShowData"));
 		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
-//		btnPrint.setToolTipText(app.getMenu("Print"));
-//		btnDataSource.setToolTipText(app.getPlain("ShowDataSource"));
-
-		String swapString = app.getMenu("Column.X") + " \u21C6 "
-				+ app.getMenu("Column.Y");
-	//	btnSwapXY.setFont(app.getPlainFont());
-		btnSwapXY.setText(swapString);
+		btnSwapXY.setText(getSwapXYString());
 
 	}
 
+	private String getSwapXYString() {
+		return app.getMenu("Column.X") + " \u21C6 "
+				+ app.getMenu("Column.Y");
+	}
 	public void actionPerformed(Object source) {
 		DataAnalysisModel model = daView.getModel();
 	
