@@ -95,6 +95,10 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     public GeoConic3D[] getSections() {
     	return sections;
     }
+    
+    private CoordMatrix pm = new CoordMatrix(4,3);
+    private CoordMatrix pmt = new CoordMatrix(3,4);
+
 
     
     @Override
@@ -111,14 +115,13 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     	sections[1].setDefined();
     	
     	CoordMatrix qm = quadric.getSymetricMatrix();
-    	CoordMatrix pm = new CoordMatrix(4,3);
     	Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(((GeoQuadric3DLimitedOrPart) quadric).getBottomParameter()));//point.getInhomCoordsInD3();
     	Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(((GeoQuadric3DLimitedOrPart) quadric).getTopParameter()));//pointThrough.getInhomCoordsInD3();
     	pm.setOrigin(o1);
     	Coords[] v = o2.sub(o1).completeOrthonormal();  	
     	pm.setVx(v[0]);
     	pm.setVy(v[1]);
-    	CoordMatrix pmt = pm.transposeCopy();
+    	pm.transposeCopy(pmt);
      	
     	//sets the conic matrix from plane and quadric matrix
     	CoordMatrix cm = pmt.mul(qm).mul(pm);
@@ -135,7 +138,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     	
     	//section2
     	pm.setOrigin(o2);
-    	pmt = pm.transposeCopy();
+    	pm.transposeCopy(pmt);
     	
     	cm = pmt.mul(qm).mul(pm);
     	

@@ -202,20 +202,24 @@ Traceable{
 	}
 	
 	
+	private CoordMatrix tmpEigenMatrix;
+	
 	/**
 	 * sets the matrix values from eigenvectors, midpoint and "diagonal" values
 	 */
 	protected void setMatrixFromEigen(){
 				
-		CoordMatrix eigenMatrix = new CoordMatrix(4, 4);
-		eigenMatrix.set(eigenvecND);
-		eigenMatrix.set(getMidpoint(),4);
+		if (tmpEigenMatrix == null){
+			tmpEigenMatrix = new CoordMatrix(4, 4);
+		}
+		tmpEigenMatrix.set(eigenvecND);
+		tmpEigenMatrix.set(getMidpoint(),4);
 		
 		
 		
 		CoordMatrix diagonalizedMatrix = CoordMatrix.DiagonalMatrix(diagonal);
 		
-		CoordMatrix eigenMatrixInv = eigenMatrix.inverse();
+		CoordMatrix eigenMatrixInv = tmpEigenMatrix.inverse();
 		
 		CoordMatrix finalMatrix = eigenMatrixInv.transposeCopy().mul(diagonalizedMatrix).mul(eigenMatrixInv);
 		

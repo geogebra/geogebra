@@ -797,6 +797,8 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	protected Coords getPointInRegion(double u, double v){
 		return getPoint(u, v);
 	}
+	
+	private CoordMatrix tmpMatrix4x2, tmpMatrix2x4;
 
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
@@ -804,13 +806,18 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// compute intersection
 		CoordMatrix qm = getSymetricMatrix();
 		//App.debug("qm=\n"+qm);
-		CoordMatrix pm = new CoordMatrix(4, 2);
-		pm.setVx(willingDirection);
-		pm.setOrigin(willingCoords);
-		CoordMatrix pmt = pm.transposeCopy();
+		if (tmpMatrix4x2 == null){
+			tmpMatrix4x2 = new CoordMatrix(4, 2);
+		}
+		tmpMatrix4x2.setVx(willingDirection);
+		tmpMatrix4x2.setOrigin(willingCoords);
+		if (tmpMatrix2x4 == null){
+			tmpMatrix2x4 = new CoordMatrix(2, 4);
+		}
+		tmpMatrix4x2.transposeCopy(tmpMatrix2x4);
 
 		// sets the solution matrix from line and quadric matrix
-		CoordMatrix sm = pmt.mul(qm).mul(pm);
+		CoordMatrix sm = tmpMatrix2x4.mul(qm).mul(tmpMatrix4x2);
 
 		//App.debug("sm=\n"+sm);
 		double a = sm.get(1, 1);

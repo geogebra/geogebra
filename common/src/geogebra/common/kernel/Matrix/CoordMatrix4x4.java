@@ -441,62 +441,6 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	// GEOMETRIES
 
 	
-	/**
-	 * return a matrix that describe a segment along x-axis from x=x1 to x=x2
-	 * 
-	 * @param a_x1
-	 *            x-start of the segment
-	 * @param a_x2
-	 *            x-end of the segment
-	 * @return matrix describing the segment
-	 */
-	public CoordMatrix segmentX(double a_x1, double a_x2) {
-
-		CoordMatrix4x4 ret = new CoordMatrix4x4();
-
-		ret.setOrigin(getOrigin().add(getVx().mul(a_x1)));
-		ret.setVx(getVx().mul(a_x2 - a_x1));
-		ret.setVy(getVy());
-		ret.setVz(getVz());
-
-		return ret;
-	}
-
-	/**
-	 * return this translated along y axis
-	 * 
-	 * @param a_y
-	 *            value of the y-translation
-	 * @return matrix translated
-	 */
-	public CoordMatrix4x4 translateY(double a_y) {
-
-		CoordMatrix4x4 ret = new CoordMatrix4x4();
-
-		ret.setOrigin(getOrigin().add(getVy().mul(a_y)));
-		ret.setVx(getVx());
-		ret.setVy(getVy());
-		ret.setVz(getVz());
-
-		return ret;
-	}
-
-	/**
-	 * return this mirrored by x=y plane
-	 * 
-	 * @return mirrored matrix
-	 */
-	public CoordMatrix4x4 mirrorXY() {
-
-		CoordMatrix4x4 ret = new CoordMatrix4x4();
-
-		ret.setOrigin(getOrigin());
-		ret.setVx(getVy());
-		ret.setVy(getVx());
-		ret.setVz(getVz().mul(-1));
-
-		return ret;
-	}
 
 	/**
 	 * return this mirrored by Oy line
@@ -547,28 +491,6 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		ret.setVz(getVz());
 
 		return ret;
-	}
-
-	/**
-	 * return this rotated arround (Oz) by angle -90°
-	 * 
-	 * @return rotated matrix
-	 */
-	public CoordMatrix4x4 rotateM90() {
-
-		CoordMatrix4x4 rot = new CoordMatrix4x4();
-
-		// rotation
-		rot.set(2, 1, -1);
-		rot.set(1, 2, 1);
-
-		// identity
-		rot.set(3, 3, 1);
-		rot.set(4, 4, 1);
-
-		//Log.debug(rot);
-
-		return rot.mul(this);
 	}
 
 

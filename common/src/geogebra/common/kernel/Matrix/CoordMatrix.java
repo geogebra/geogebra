@@ -909,24 +909,6 @@ public class CoordMatrix {
 			inverse = new CoordMatrix(getRows(), getColumns());
 		}
 
-		/*
-		double d = this.det();
-
-		if (Kernel.isEqual(d, 0.0, Kernel.STANDARD_PRECISION)) {
-			inverse.setIsSingular(true);
-			return inverse;
-		}
-
-		double signe_i = 1.0;
-		for (int i = 1; i <= getRows(); i++) {
-			double signe = signe_i;
-			for (int j = 1; j <= getColumns(); j++) {
-				inverse.set(i, j, (subMatrix(j, i).det()) * signe / d);
-				signe = -signe;
-			}
-			signe_i = -signe_i;
-		}
-		*/
 
 		if (pivotInverseMatrix == null){
 			pivotInverseMatrix = new PivotInverseMatrix();
