@@ -99,8 +99,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	@Override
 	public void onResize() {
+		super.onResize();
+
 		if(Window.getClientWidth() > 760) {
-			super.onResize();
 			this.removeStyleName("minWidth");
 			
 			/**

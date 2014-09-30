@@ -80,6 +80,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		public MyDockPanelLayout(Unit unit) {
 			super(unit);
 			addStyleName("ggbdockpanelhack");
+			addStyleName("wholePanel");
 		}
 
 		public double getCenterWidth() {

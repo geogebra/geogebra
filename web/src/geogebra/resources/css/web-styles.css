@@ -44,7 +44,7 @@ body.application,article {
 }
 
 /* scroll overflow for minWidth*/
-.GeoGebraFrame .ggbdockpanelhack {
+.GeoGebraFrame .ggbdockpanelhack.wholePanel {
 	min-width: 760px;
 }
 .GeoGebraFrame.minWidth > div {
