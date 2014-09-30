@@ -1469,6 +1469,16 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 1469: { cat:"Numeric", cmd:"Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]", result:"2.13" },
 1470: { cat:"Numeric", cmd:"Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2)),10]", result:"2.132426956" },
 1471: { cat:"Numeric", cmd:"Numeric[y = ℯ^(-11 x / 100)]", result:"y = ℯ^(((-0.11) * x))", notes:"#4537" },
+1472: { cat:"Sum", cmd:"Sum[Sum[x+2y, x, 1, 3], y, 2, 4]", result:"72" },
+1473: { cat:"Length", cmd:"Length[(1, 2, a)]", result:"sqrt(a^(2) + 5)" },
+1474: { cat:"Evaluate", cmd:"Evaluate[abs((1,2))]", result:"sqrt(5)" },
+1475: { cat:"Evaluate", cmd:"Evaluate[abs((1,2,3))]", result:"sqrt(14)" },
+1476: { cat:"Evaluate", cmd:"Evaluate[abs((1,a))]", result:"sqrt(a^(2) + 1)" },
+1477: { cat:"Evaluate", cmd:"Evaluate[abs((1,2,a))]", result:"sqrt(a^(2) + 5)" },
+1478: { cat:"Function", cmd:"Function[sin(x),0, 2 pi]", result:"If[0 ≤ x ≤ (2 * π),sin(x)]" },
+1479: { cat:"Function", cmd:"Function[sin(p),0, 2 pi]", result:"If[0 ≤ p ≤ (2 * π),sin(p)]" },
+1480: { cat:"Function", cmd:"Function[5,0, 1]", result:"If[0 ≤ x ≤ 1,5]" },
+
 
 
 

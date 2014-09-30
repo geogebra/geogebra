@@ -179,6 +179,11 @@ public class Ggb2giac {
 				"normal(evalf(horner(polynomial_regression(%0,%1),x)))");
 		p("FitPow.1",
 				"[[ggbans:=%0],[ggbans:=power_regression(ggbans)],evalf(ggbans[1])*x^evalf(ggbans[0])][2]");
+		
+		// Function[sin(x),0, 2 pi]
+		// Function[sin(p),0, 2 pi]
+		// Function[5,0, 1]
+		p("Function.3", "[[ggbvars:=lname(%0)],[ggbvar:=when(size(ggbvars)==0,x,ggbvars[0])], when(ggbvar>=%1 && ggbvar<=%2, %0, undef)][2]");
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1),1)");
 		p("GCD.2",
