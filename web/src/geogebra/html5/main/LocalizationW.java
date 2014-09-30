@@ -151,6 +151,41 @@ public final class LocalizationW extends Localization {
 		return ret;
 	
 	}
+	
+	/**
+	 * @param key String
+	 * @param arg0 String
+	 * @return String
+	 */
+	public String getMenu(String key, String arg0) {
+		String str = getMenu(key);
+		StringBuffer menuStr = new StringBuffer();
+		menuStr.setLength(0);
+		boolean found = false;
+		for (int i = 0; i < str.length(); i++) {
+			char ch = str.charAt(i);
+			if (ch == '%') {
+				// get number after %
+				i++;
+				menuStr.append(arg0);
+				found = true;
+			} else {
+				menuStr.append(ch);
+			}
+		}
+
+		if (!found) {
+			/* If no parameters were found in key, this key is missing for
+			 * some reason (maybe it is not added to the ggbtrans database yet).
+			 * In this case all parameters are appended to the displayed string
+			 * to help the developers.  
+			 */
+			menuStr.append(" ");
+			menuStr.append(arg0);
+		}
+		
+		return menuStr.toString();
+	}
 
 	@Override
 	public String getError(String key) {

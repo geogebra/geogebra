@@ -6,6 +6,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.LocalizationW;
 import geogebra.web.main.FileManager;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -190,8 +191,7 @@ public class SaveDialogW extends DialogBox {
 				if (parseResponse.size() == 1) {
 					if (parseResponse.get(0).getModified() > app.getSyncStamp()) {
 						app.resetUniqueId();
-						//TODO Translation needed - wrong implementation
-						ToolTipManagerW.sharedInstance().showBottomMessage("Note that there are several versions of: " + parseResponse.get(0).getTitle(), true);
+						ToolTipManagerW.sharedInstance().showBottomMessage(((LocalizationW) app.getLocalization()).getMenu("SeveralVersionsOfA", parseResponse.get(0).getTitle()), false);
 					}
 					doUpload();
 				} else {
