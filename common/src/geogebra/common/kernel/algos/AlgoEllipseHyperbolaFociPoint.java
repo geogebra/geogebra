@@ -24,7 +24,6 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.LocusEquation;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -129,24 +128,6 @@ public class AlgoEllipseHyperbolaFociPoint extends AlgoEllipseHyperbolaFociPoint
 	public GeoElement getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-
-
-	@Override
-	public String toString(StringTemplate tpl) {
-
-		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-			return super.toString(tpl);
-		}
-		
-		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
-			return loc.getPlain("HyperbolaWithFociABPassingThroughCInXOYPlane",A.getLabel(tpl),
-					B.getLabel(tpl),C.getLabel(tpl));
-		}
-		
-		return loc.getPlain("EllipseWithFociABPassingThroughCInXOYPlane",A.getLabel(tpl),
-				B.getLabel(tpl),C.getLabel(tpl));
-	}
-	
 
     
 }

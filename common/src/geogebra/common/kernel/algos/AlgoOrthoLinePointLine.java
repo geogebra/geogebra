@@ -277,12 +277,7 @@ SymbolicParametersBotanaAlgo {
 	
     @Override
 	public String toString(StringTemplate tpl) {
-        if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
         	return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));
-        }
-        
-        return loc.getPlain("LineThroughAPerpendicularToBInXOYPlane",P.getLabel(tpl),l.getLabel(tpl));
-
     }
 	
 	

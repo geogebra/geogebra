@@ -151,15 +151,8 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-			return loc.getPlain("CircleThroughAwithCenterB",
-					((GeoElement) getP()).getLabel(tpl),
-					((GeoElement) getM()).getLabel(tpl));
-		}
-
-		return loc.getPlain("CircleThroughAwithCenterBInXOYPlane",
+		return loc.getPlain("CircleThroughAwithCenterB",
 				((GeoElement) getP()).getLabel(tpl),
 				((GeoElement) getM()).getLabel(tpl));
 	}
-
 }

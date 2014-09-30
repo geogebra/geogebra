@@ -258,10 +258,7 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-			return loc.getPlain("LineBisectorOfA",s.getLabel(tpl));
-		}
-		return loc.getPlain("LineBisectorOfAInXOYPlane",s.getLabel(tpl));
+		return loc.getPlain("LineBisectorOfA",s.getLabel(tpl));
 	}
 
     

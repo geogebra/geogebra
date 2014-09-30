@@ -182,15 +182,11 @@ public class AlgoSemicircle extends AlgoElement {
 	}
 	
 	
-    @Override
+	@Override
 	public String toString(StringTemplate tpl) {
-        if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-        	return loc.getPlain("SemicircleThroughAandB",A.getLabel(tpl),B.getLabel(tpl));
-        }
-        
-        return loc.getPlain("SemicircleThroughAandBInXOYPlane",A.getLabel(tpl),B.getLabel(tpl));
+		return loc.getPlain("SemicircleThroughAandB",A.getLabel(tpl),B.getLabel(tpl));
 
-    }
+	}
 	
 	
 }

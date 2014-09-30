@@ -88,13 +88,8 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-			return loc.getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(tpl),
-	        		B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	 
-			}
-
-		return loc.getPlain("EllipseWithFociABandFirstAxisLengthCInXOYPlane",A.getLabel(tpl),
-        		B.getLabel(tpl),a.toGeoElement().getLabel(tpl));
+		return loc.getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(tpl),
+				B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	 
 	}
 
 }

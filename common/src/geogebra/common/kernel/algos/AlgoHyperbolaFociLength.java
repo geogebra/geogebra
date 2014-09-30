@@ -87,12 +87,7 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (kernel.noNeedToSpecifyXOYPlane()){ // 2D view
-			return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthC",A.getLabel(tpl),
-					B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	 
-		}
-
-		return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthCInXOYPlane",A.getLabel(tpl),
-				B.getLabel(tpl),a.toGeoElement().getLabel(tpl));
+		return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthC",A.getLabel(tpl),
+				B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	 
 	}
 }
