@@ -67,12 +67,6 @@ AngleProperties {
 	// GeoElement list members
 	private final ArrayList<GeoElement> geoList;
 
-	// sharedLock is actually a lock that prevents "geoList" being modified
-	// by more than one Thread at the same time... it could have been
-	// geoList itself, but with a shared lock, we can prevent deadlock
-	// in a special case when three GeoLists can be locked, see UDPLoggerD.java
-	private Object sharedLock = new Object();
-
 	// lists will often grow and shrink dynamically,
 	// so we keep a cacheList of all old list elements
 	private final ArrayList<GeoElement> cacheList;
@@ -102,17 +96,15 @@ AngleProperties {
 
 	private GeoList(final Construction c, final int size) {
 		super(c);
-		synchronized (sharedLock) {
-			
-			// moved from GeoElement's constructor
-			// must be called from the subclass, see
-			// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-			setConstructionDefaults(); // init visual settings
 
-			geoList = new ArrayList<GeoElement>(size);
-			cacheList = new ArrayList<GeoElement>(size);
-			setEuclidianVisible(false);
-		}
+		// moved from GeoElement's constructor
+		// must be called from the subclass, see
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		setConstructionDefaults(); // init visual settings
+
+		geoList = new ArrayList<GeoElement>(size);
+		cacheList = new ArrayList<GeoElement>(size);
+		setEuclidianVisible(false);
 	}
 
 	@Override
@@ -150,8 +142,6 @@ AngleProperties {
 
 	@Override
 	public GeoList deepCopyGeo() {
-		synchronized (sharedLock) {
-
 		GeoList ret = new GeoList(cons);
 		
 		for (int i = 0 ; i < geoList.size() ; i++) {
@@ -159,7 +149,6 @@ AngleProperties {
 		}
 		
 		return ret;
-		}
 	}
 
 	@Override
@@ -201,8 +190,6 @@ AngleProperties {
 	}
 
 	private void copyListElements(final GeoList otherList) {
-		synchronized (sharedLock) {
-
 		final int otherListSize = otherList.size();
 		ensureCapacity(otherListSize);
 		geoList.clear();
@@ -231,7 +218,6 @@ AngleProperties {
 
 			// set list element
 			add(thisElement);
-		}
 		}
 	}
 
@@ -305,8 +291,6 @@ AngleProperties {
 
 	@Override
 	public final void removeColorFunction() {
-		synchronized (sharedLock) {
-
 		super.removeColorFunction();
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -320,13 +304,10 @@ AngleProperties {
 				geo.removeColorFunction();
 			}
 		}
-		}
 	}
 
 	@Override
 	public final void setColorFunction(final GeoList col) {
-		synchronized (sharedLock) {
-
 		super.setColorFunction(col);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -340,13 +321,11 @@ AngleProperties {
 				geo.setColorFunction(col);
 			}
 		}
-		}
+
 	}
 
 	@Override
 	public final void setColorSpace(final int colorSpace) {
-		synchronized (sharedLock) {
-
 		super.setColorSpace(colorSpace);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -360,7 +339,7 @@ AngleProperties {
 				geo.setColorSpace(colorSpace);
 			}
 		}
-		}
+
 	}
 
 	/*
@@ -380,8 +359,6 @@ AngleProperties {
 	@Override
 	public final void setShowObjectCondition(final GeoBoolean bool)
 			throws CircularDefinitionException {
-		synchronized (sharedLock) {
-
 		super.setShowObjectCondition(bool);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -395,12 +372,11 @@ AngleProperties {
 				geo.setShowObjectCondition(bool);
 			}
 		}
-		}
+
 	}
 
 	@Override
 	public void setVisualStyle(final GeoElement style) {
-		synchronized (sharedLock) {
 		super.setVisualStyle(style);
 
 		// set point style
@@ -420,12 +396,10 @@ AngleProperties {
 				geo.setVisualStyle(style);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setObjColor(final GColor color) {
-		synchronized (sharedLock) {
 		super.setObjColor(color);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -439,13 +413,10 @@ AngleProperties {
 				geo.setObjColor(color);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setBackgroundColor(final GColor color) {
-		synchronized (sharedLock) {
-
 		super.setBackgroundColor(color);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -459,12 +430,10 @@ AngleProperties {
 				geo.setBackgroundColor(color);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setEuclidianVisible(final boolean visible) {
-		synchronized (sharedLock) {
 		super.setEuclidianVisible(visible);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -475,7 +444,6 @@ AngleProperties {
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = get(i);
 			setElementEuclidianVisible(geo, visible);
-		}
 		}
 	}
 
@@ -488,7 +456,6 @@ AngleProperties {
 
 	@Override
 	public void setVisibility(int viewId, boolean setVisible) {
-		synchronized (sharedLock) {
 		super.setVisibility(viewId, setVisible);
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
@@ -501,14 +468,12 @@ AngleProperties {
 				geo.setVisibility(viewId, setVisible);
 			}
 		}
-		}
 	}
 
 	/**
 	 * Returns this GeoList as a MyList object.
 	 */
 	public MyList getMyList() {
-		synchronized (sharedLock) {
 		final int size = geoList.size();
 		final MyList myList = new MyList(kernel, size);
 
@@ -517,7 +482,6 @@ AngleProperties {
 		}
 
 		return myList;
-		}
 	}
 
 	@Override
@@ -529,7 +493,6 @@ AngleProperties {
 	 * @param flag true to make this list defined
 	 */
 	public void setDefined(final boolean flag) {
-		synchronized (sharedLock) {
 
 		isDefined = flag;
 
@@ -551,7 +514,6 @@ AngleProperties {
 				}
 			}
 		
-		}
 		}
 	}
 
@@ -579,13 +541,10 @@ AngleProperties {
 	 * Clear the list
 	 */
 	public final void clear() {
-		synchronized (sharedLock) {
-			
 		geoList.clear();
 
 		comboBox = null;
 		comboBox2 = null;
-		}
 	}
 
 	/**
@@ -610,49 +569,49 @@ AngleProperties {
 	 */
 	public final void add(final GeoElement geo) {
 		// add geo to end of list
-		synchronized (sharedLock) {
-			geoList.add(geo);
-
-			if (geoList.size() == 1) {
-				setTypeStringForXML(geo.getXMLtypeString());
-			}
-
-			/*
-			 * // needed for Corner[Element[text // together with swapping these
-			 * lines over in MyXMLio: //kernel.updateConstruction();
-			 * //kernel.setNotifyViewsActive(oldVal);
-			 * 		
-			 * if (geo.isGeoText()) {
-			 * ((GeoText)geo).setNeedsUpdatedBoundingBox(true); }
-			 */
-
-			// add to cache
-			final int pos = geoList.size() - 1;
-			if (pos < cacheList.size()) {
-				cacheList.set(pos, geo);
-			} else {
-				cacheList.add(geo);
-			}
-
-			// init element type
-			if (pos == 0) {
-				isDrawable = true;
-				elementType = geo.getGeoClassType();
-			}
-			// check element type
-			else if (elementType != geo.getGeoClassType()) {
-				elementType = ELEMENT_TYPE_MIXED;
-			}
-			isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoBoolean()
-					&& !(geo instanceof GeoNumeric && ((GeoNumeric)geo).isSlider());
-
-			// set visual style of this list
-			applyVisualStyle(geo);
-			if (!geo.isLabelSet()) {
-				geo.setViewFlags(getViewSet());
-			}		
-			rebuildComboBoxes();
+		geoList.add(geo);
+		
+		if (geoList.size() == 1) {
+			setTypeStringForXML(geo.getXMLtypeString());
 		}
+
+		/*
+		 * // needed for Corner[Element[text // together with swapping these
+		 * lines over in MyXMLio: //kernel.updateConstruction();
+		 * //kernel.setNotifyViewsActive(oldVal);
+		 * 
+		 * if (geo.isGeoText()) {
+		 * ((GeoText)geo).setNeedsUpdatedBoundingBox(true); }
+		 */
+
+		// add to cache
+		final int pos = geoList.size() - 1;
+		if (pos < cacheList.size()) {
+			cacheList.set(pos, geo);
+		} else {
+			cacheList.add(geo);
+		}
+
+		// init element type
+		if (pos == 0) {
+			isDrawable = true;
+			elementType = geo.getGeoClassType();
+		}
+		// check element type
+		else if (elementType != geo.getGeoClassType()) {
+			elementType = ELEMENT_TYPE_MIXED;
+		}
+		isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoBoolean()
+				&& !(geo instanceof GeoNumeric && ((GeoNumeric)geo).isSlider());
+
+		// set visual style of this list
+		applyVisualStyle(geo);
+		if (!geo.isLabelSet()) {
+			geo.setViewFlags(getViewSet());
+		}		
+		rebuildComboBoxes();
+
+
 	}
 
 	/**
@@ -663,11 +622,9 @@ AngleProperties {
 	 *            element to be removed
 	 */
 	public final void remove(final GeoElement geo) {
-		synchronized (sharedLock) {
 		geoList.remove(geo);
 		
 		rebuildComboBoxes();
-		}
 	}
 
 	/**
@@ -691,11 +648,10 @@ AngleProperties {
 	 *            position of element to be removed
 	 */
 	public final void remove(final int index) {
-		synchronized (sharedLock) {
 		geoList.remove(index);
 
 		rebuildComboBoxes();
-		}
+
 	}
 
 	/**
@@ -706,9 +662,7 @@ AngleProperties {
 	 * @return the element at the specified position in this list.
 	 */
 	final public GeoElement get(final int index) {
-		synchronized (sharedLock) {
-			return geoList.get(index);
-		}
+		return geoList.get(index);
 	}
 
 	/**
@@ -721,26 +675,7 @@ AngleProperties {
 	 * @return the element at the specified position in this (2D) list.
 	 */
 	final public GeoElement get(final int index, final int index2) {
-		synchronized (sharedLock) {
-			return ((GeoList) geoList.get(index)).get(index2);
-		}
-	}
-
-	/**
-	 * sharedLock can be used to prevent concurrent modifications
-	 * to this class, by different Threads at the same time
-	 * @param sl parameter helps to lock more GeoLists with the same lock
-	 * @return 
-	 */
-	final public Object sharedLockObject(Object sl) {
-		if (sl == null) {
-			if (sharedLock == null) {
-				sharedLock = new Object();
-			}
-		} else {
-			sharedLock = sl;
-		}
-		return sharedLock;
+		return ((GeoList) geoList.get(index)).get(index2);
 	}
 
 	/**
@@ -749,7 +684,6 @@ AngleProperties {
 	 * @return array of double values from this list
 	 */
 	public double[] toDouble() {
-		synchronized (sharedLock) {
 		try {
 			final double[] valueArray = new double[geoList.size()];
 			for (int i = 0; i < valueArray.length; i++) {
@@ -759,7 +693,6 @@ AngleProperties {
 		} catch (final Exception e) {
 			return null;
 		}
-		}
 	}
 
 	/**
@@ -767,16 +700,12 @@ AngleProperties {
 	 * @param size capcity to ensure
 	 */
 	final public void ensureCapacity(final int size) {
-		synchronized (sharedLock) {
-			geoList.ensureCapacity(size);
-			cacheList.ensureCapacity(size);
-		}
+		geoList.ensureCapacity(size);
+		cacheList.ensureCapacity(size);
 	}
 
 	final public int size() {
-		synchronized (sharedLock) {
-			return geoList.size();
-		}
+		return geoList.size();
 	}
 	/**
 	 * @return number of elements in this list's cache
@@ -809,7 +738,6 @@ AngleProperties {
 
 	@Override
 	public String toStringMinimal(StringTemplate tpl) {
-		synchronized (sharedLock) {
 		sbBuildValueString.setLength(0);
 		if (!isDefined) {
 			sbBuildValueString.append("?");
@@ -833,7 +761,6 @@ AngleProperties {
 		}
 
 		return sbBuildValueString.toString();
-		}
 	}
 
 
@@ -844,8 +771,6 @@ AngleProperties {
 	}
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
-		synchronized (sharedLock) {
-
 		sbBuildValueString.setLength(0);
 		if (!isDefined) {
 			sbBuildValueString.append("?");
@@ -878,7 +803,6 @@ AngleProperties {
 		sbBuildValueString.append(STR_CLOSE);
 
 		return sbBuildValueString;
-		}
 	}
 
 	private final StringBuilder sbBuildValueString = new StringBuilder(50);
@@ -1097,8 +1021,6 @@ AngleProperties {
 	 */
 	@Override
 	final public boolean isEqual(final GeoElement geo) {
-		synchronized (sharedLock) {
-
 
 		if (!geo.isGeoList()) {
 			return false;
@@ -1142,19 +1064,16 @@ AngleProperties {
 
 		// all list elements equal
 		return true;
-		}
 	}
 
 	@Override
 	public void setZero() {
-		synchronized (sharedLock) {
-			geoList.clear();
-		}
+		geoList.clear();
 	}
 
 	@Override
 	public void setLineThickness(final int thickness) {
-		synchronized (sharedLock) {
+
 		super.setLineThickness(thickness);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -1169,7 +1088,6 @@ AngleProperties {
 		}
 
 		// Application.debug("GeoList.setLineThickness "+thickness);
-		}
 	}
 
 	/**
@@ -1178,7 +1096,6 @@ AngleProperties {
 	 */
 	@Override
 	public int getMinimumLineThickness() {
-		synchronized (sharedLock) {
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return 1;
 		}
@@ -1193,12 +1110,11 @@ AngleProperties {
 		}
 
 		return 0;
-		}
 	}
 
 	@Override
 	public void setLineType(final int type) {
-		synchronized (sharedLock) {
+
 		super.setLineType(type);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -1213,14 +1129,13 @@ AngleProperties {
 		}
 
 		// Application.debug("GeoList.setLineType");
-		}
+
 	}
 
 	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 	private int pointStyle = -1; // use global option if -1
 
 	public void setPointSize(final int size) {
-		synchronized (sharedLock) {
 		pointSize = size;
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
@@ -1232,7 +1147,6 @@ AngleProperties {
 				((PointProperties) geo).setPointSize(size);
 			}
 		}
-		}
 	}
 
 	public int getPointSize() {
@@ -1240,7 +1154,6 @@ AngleProperties {
 	}
 
 	public void setPointStyle(final int style) {
-		synchronized (sharedLock) {
 		pointStyle = style;
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -1253,12 +1166,10 @@ AngleProperties {
 				((PointProperties) geo).setPointStyle(style);
 			}
 		}
-		}
 	}
 
 	@Override
 	public float getAlphaValue() {
-		synchronized (sharedLock) {
 		if (super.getAlphaValue() == -1) {
 			// no alphaValue set
 			// so we need to set it to that of the first element, if there is
@@ -1289,12 +1200,10 @@ AngleProperties {
 		}
 
 		return super.getAlphaValue();
-		}
 	}
 
 	@Override
 	public void setAlphaValue(final float alpha) {
-		synchronized (sharedLock) {
 
 		if (alpha == -1) {
 			// wait until we have a GeoElement in the list to use
@@ -1315,7 +1224,7 @@ AngleProperties {
 				geo.setAlphaValue(alpha);
 			}
 		}
-		}
+
 	}
 
 	public int getPointStyle() {
@@ -1324,8 +1233,6 @@ AngleProperties {
 
 	@Override
 	public boolean isFillable() {
-		synchronized (sharedLock) {
-
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return false;
 		}
@@ -1344,12 +1251,10 @@ AngleProperties {
 		}
 
 		return someFillable && !allLabelsSet;
-		}
 	}
 
 	@Override
 	public GeoElement getGeoElementForPropertiesDialog() {
-		synchronized (sharedLock) {
 		if ((geoList.size() > 0) && (elementType != ELEMENT_TYPE_MIXED)) {
 			return get(0).getGeoElementForPropertiesDialog(); // getGeoElementForPropertiesDialog()
 			// to cope with
@@ -1357,7 +1262,6 @@ AngleProperties {
 			// lists
 		}
 		return this;
-		}
 	}
 
 	/**
@@ -1414,7 +1318,6 @@ AngleProperties {
 	}
 
 	public void setFontSizeMultiplier(final double size) {
-		synchronized (sharedLock) {
 		fontSizeD = size;
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -1427,7 +1330,6 @@ AngleProperties {
 				((TextProperties) geo).setFontSizeMultiplier(size);
 			}
 		}
-		}
 	}
 
 	public int getFontStyle() {
@@ -1435,7 +1337,6 @@ AngleProperties {
 	}
 
 	public void setFontStyle(final int fontStyle) {
-		synchronized (sharedLock) {
 		this.fontStyle = fontStyle;
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -1448,7 +1349,6 @@ AngleProperties {
 				((TextProperties) geo).setFontStyle(fontStyle);
 			}
 		}
-		}
 	}
 
 	final public int getPrintDecimals() {
@@ -1460,8 +1360,6 @@ AngleProperties {
 	}
 
 	public void setPrintDecimals(final int printDecimals, final boolean update) {
-		synchronized (sharedLock) {
-
 		this.printDecimals = printDecimals;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1469,19 +1367,15 @@ AngleProperties {
 				((TextProperties) geo).setPrintDecimals(printDecimals, update);
 			}
 		}
-		}
 	}
 
 	public void setPrintFigures(final int printFigures, final boolean update) {
-		synchronized (sharedLock) {
-
 		this.printFigures = printFigures;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
 				((TextProperties) geo).setPrintFigures(printFigures, update);
 			}
-		}
 		}
 	}
 
@@ -1495,8 +1389,6 @@ AngleProperties {
 	}
 
 	public void setSerifFont(final boolean serifFont) {
-		synchronized (sharedLock) {
-
 		this.serifFont = serifFont;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1504,12 +1396,10 @@ AngleProperties {
 				((TextProperties) geo).setSerifFont(serifFont);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setHatchingAngle(final int angle) {
-		synchronized (sharedLock) {
 		super.setHatchingAngle(angle);
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1517,12 +1407,10 @@ AngleProperties {
 				geo.setHatchingAngle(angle);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setHatchingDistance(final int distance) {
-		synchronized (sharedLock) {
 		super.setHatchingDistance(distance);
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1530,12 +1418,10 @@ AngleProperties {
 				geo.setHatchingDistance(distance);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setFillType(final FillType type) {
-		synchronized (sharedLock) {
 		super.setFillType(type);
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1543,12 +1429,10 @@ AngleProperties {
 				geo.setFillType(type);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setFillImage(final String filename) {
-		synchronized (sharedLock) {
 		super.setFillImage(filename);
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1556,19 +1440,16 @@ AngleProperties {
 				geo.setFillImage(filename);
 			}
 		}
-		}
 	}
 
 	@Override
 	public void setImageFileName(final String filename) {
-		synchronized (sharedLock) {
 		super.setImageFileName(filename);
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 			if (!geo.isLabelSet()) {
 				geo.setImageFileName(filename);
 			}
-		}
 		}
 	}
 
@@ -1579,8 +1460,6 @@ AngleProperties {
 	 */
 	@Override
 	public boolean showLineProperties() {
-		synchronized (sharedLock) {
-
 		if (showAllProperties) {
 			return true;
 		}
@@ -1593,7 +1472,6 @@ AngleProperties {
 		}
 
 		return false;
-		}
 	}
 
 	/**
@@ -1602,8 +1480,6 @@ AngleProperties {
 	 * @return true if all elements have point properties
 	 */
 	public boolean showPointProperties() {
-		synchronized (sharedLock) {
-			
 		if (showAllProperties) {
 			return true;
 		}
@@ -1616,7 +1492,6 @@ AngleProperties {
 		}
 
 		return false;
-		}
 	}
 
 	@Override
@@ -1789,7 +1664,6 @@ AngleProperties {
 	 * adapted from GeoLocus
 	 */
 	public void pointChanged(final GeoPointND P) {
-		synchronized (sharedLock) {
 		// Application.debug("pointChanged",1);
 
 		// GeoPoint P = (GeoPoint) PI;
@@ -1844,7 +1718,6 @@ AngleProperties {
 						path.getMinParameter(), path.getMaxParameter());
 
 		// Application.debug(pp.t);
-		}
 	}
 
 	/**
@@ -1852,7 +1725,6 @@ AngleProperties {
 	 * @param p point
 	 */
 	public void getNearestPoint(final GeoPointND p) {
-		synchronized (sharedLock) {
 		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
@@ -1874,13 +1746,10 @@ AngleProperties {
 		// Application.debug("closestPointIndex="+closestPointIndex);
 
 		// return get(closestPointIndex).getNearestPoint(p);
-		}
 	}
 
 	@Override
 	public double distance(final GeoPoint p) {
-		synchronized (sharedLock) {
-
 		double distance = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1891,13 +1760,10 @@ AngleProperties {
 		}
 
 		return distance;
-		}
 	}
 	
 	@Override
 	public double distance(final GeoPointND p) {
-		synchronized (sharedLock) {
-
 		double distance = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1908,7 +1774,6 @@ AngleProperties {
 		}
 
 		return distance;
-		}
 	}
 	
 	
@@ -1993,7 +1858,6 @@ AngleProperties {
 	}
 
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
-		synchronized (sharedLock) {
 		// Application.debug("isOnPath",1);
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -2002,7 +1866,6 @@ AngleProperties {
 			}
 		}
 		return false;
-		}
 	}
 
 	public double getMinParameter() {
@@ -2010,9 +1873,7 @@ AngleProperties {
 	}
 
 	public double getMaxParameter() {
-		synchronized (sharedLock) {
 		return geoList.size();
-		}
 	}
 
 	public boolean isClosedPath() {
@@ -2029,7 +1890,6 @@ AngleProperties {
 
 	@Override
 	public boolean hasMoveableInputPoints(final EuclidianViewInterfaceSlim view) {
-		synchronized (sharedLock) {
 		// we don't want e.g. DotPlots to be dragged
 		if (!((getParentAlgorithm() == null) || (getParentAlgorithm() instanceof AlgoDependentList))) {
 			return false;
@@ -2050,7 +1910,6 @@ AngleProperties {
 		}
 
 		return true;
-		}
 	}
 
 	/*
@@ -2060,7 +1919,6 @@ AngleProperties {
 	@Override
 	public ArrayList<GeoPointND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
-		synchronized (sharedLock) {
 		final ArrayList<GeoPointND> al = new ArrayList<GeoPointND>();
 
 		for (int i = 0; i < geoList.size(); i++) {
@@ -2087,7 +1945,7 @@ AngleProperties {
 			}
 		}
 		return al;
-		}
+
 	}
 
 	@Override
@@ -2151,18 +2009,14 @@ AngleProperties {
 	 * @return true if the list contains given geo
 	 */
 	public boolean listContains(final GeoElement geo) {
-		synchronized (sharedLock) {
 		if (geoList == null) {
 			return true;
 		}
 		return geoList.contains(geo);
-		}
 	}
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		synchronized (sharedLock) {
-
 		if(size()==0){
 			return false;
 		}
@@ -2185,12 +2039,11 @@ AngleProperties {
 			}
 		}
 		return ret;
-		}
 	}
 
 	@Override
 	public void updateColumnHeadingsForTraceValues(){
-		synchronized (sharedLock) {
+
 		resetSpreadsheetColumnHeadings();
 
 		for (int i = 0; i < geoList.size(); i++) {
@@ -2203,7 +2056,7 @@ AngleProperties {
 			}
 		}
 		
-		}
+
 	}
 	
 	
@@ -2277,7 +2130,7 @@ AngleProperties {
 
 	@Override
 	public TraceModesEnum getTraceModes(){
-		synchronized (sharedLock) {
+		
 		if (traceModes != null)
 			return traceModes;
 		
@@ -2292,7 +2145,6 @@ AngleProperties {
 		
 		
 		return traceModes;
-		}
 	}
 	
 	@Override
@@ -2303,7 +2155,6 @@ AngleProperties {
 
 	@Override
 	public String getTraceDialogAsValues(){
-		synchronized (sharedLock) {
 
 		StringBuilder sb = new StringBuilder();
 		
@@ -2322,7 +2173,6 @@ AngleProperties {
 		}
 
 		return sb.toString();
-		}
 	}
 
 
@@ -2333,7 +2183,6 @@ AngleProperties {
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 
-		synchronized (sharedLock) {
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 			if (geo instanceof SpreadsheetTraceable) {
@@ -2341,7 +2190,7 @@ AngleProperties {
 						.addToSpreadsheetTraceList(spreadsheetTraceList);
 			}
 		}
-		}
+
 	}
 
 	/**
@@ -2367,9 +2216,7 @@ AngleProperties {
 	 * @return position of needle in this list or -1 when not found
 	 */
 	public int find(GeoElement needle) {
-		synchronized (sharedLock) {
-			return geoList.indexOf(needle);
-		}
+		return geoList.indexOf(needle);
 	}
 	/**
 	 * @return whether this list should be drawn as combobox
@@ -2738,7 +2585,6 @@ AngleProperties {
 	 *            true iff should be drawn on x-Axis only
 	 */
 	public void setShowOnAxis(boolean showOnAxis) {
-		synchronized (sharedLock) {
 		this.showOnAxis = showOnAxis;
 		
 		for (int i = 0; i < geoList.size(); i++) {
@@ -2747,7 +2593,6 @@ AngleProperties {
 				((InequalityProperties) geo).setShowOnAxis(showOnAxis);
 			}
 		}
-		}
 	}
 	
 	
@@ -2755,8 +2600,6 @@ AngleProperties {
 	 * @return true if this list contains a 3D geo
 	 */
 	public boolean containsGeoElement3D(){
-		synchronized (sharedLock) {
-
 		for (GeoElement geo : geoList){
 			boolean contains = false;
 			if (geo.isGeoList()){
@@ -2769,15 +2612,12 @@ AngleProperties {
 		}
 		
 		return false;
-		}
 	}
 	
 	
 	@Override
 	final public Coords getMainDirection() {
-		synchronized (sharedLock) {
 		return geoList.get(closestPointIndex).getMainDirection();
-		}
 	}
 
 	public boolean isLaTeXTextCommand() {
@@ -2798,8 +2638,6 @@ AngleProperties {
 	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
 	public void setAngleStyle(AngleStyle angleStyle) {
-		synchronized (sharedLock) { 
-
 		AngleStyle newAngleStyle = angleStyle;
 		if (newAngleStyle == this.angleStyle)
 			return;
@@ -2827,7 +2665,6 @@ AngleProperties {
 				((AngleProperties) geo).setAngleStyle(angleStyle);
 			}
 		}
-		}
 	}
 
 
@@ -2846,8 +2683,6 @@ AngleProperties {
 	 * 
 	 */
 	final public void setAllowReflexAngle(boolean allowReflexAngle) {
-		synchronized (sharedLock) {
-
 		switch (angleStyle) {
 		case NOTREFLEX:
 			if (allowReflexAngle)
@@ -2872,7 +2707,7 @@ AngleProperties {
 				((AngleProperties) geo).setAllowReflexAngle(allowReflexAngle);
 			}
 		}
-		}
+		
 	}
 
 	/**
@@ -2880,8 +2715,6 @@ AngleProperties {
 	 * @param emphasizeRightAngle true iff this angle shuld be drawn differently when right
 	 */
 	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {
-		synchronized (sharedLock) {
-
 		this.emphasizeRightAngle = emphasizeRightAngle;
 	
 		for (GeoElement geo: geoList) {
@@ -2889,7 +2722,7 @@ AngleProperties {
 				((AngleProperties) geo).setEmphasizeRightAngle(emphasizeRightAngle);
 			}
 		}
-		}
+		
 	}
 
 	/**
@@ -2897,7 +2730,7 @@ AngleProperties {
 	 * @param forceReflexAngle switch to reflex for true
 	 */
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
-		synchronized (sharedLock) {
+
 		if (forceReflexAngle){
 			setAngleStyle(AngleStyle.ISREFLEX);
 		}
@@ -2910,13 +2743,11 @@ AngleProperties {
 				((AngleProperties) geo).setForceReflexAngle(forceReflexAngle);
 			}
 		}
-		}
+		
 	}
 	
 	@Override
 	public void setDecorationType(int type) {
-		synchronized (sharedLock) {
-
 		if (type >= GeoAngle.getDecoTypes().length || type < 0) {
 			decorationType = DECORATION_NONE;
 		} else {
@@ -2930,7 +2761,7 @@ AngleProperties {
 				}
 			}
 		}
-		}
+
 	}
 
 
@@ -2939,7 +2770,6 @@ AngleProperties {
 	 * @param i arc size, should be in <10,100>
 	 */
 	public void setArcSize(int i) {
-		synchronized (sharedLock) {
 		arcSize = i;
 	
 		for (GeoElement geo: geoList) {
@@ -2947,7 +2777,7 @@ AngleProperties {
 				((AngleProperties) geo).setArcSize(i);
 			}
 		}
-		}
+		
 	}
 
 	/** 
@@ -2970,8 +2800,6 @@ AngleProperties {
 	 * @param vars sequence variable that should be replaced by its free copy
 	 */
 	public void replaceChildrenByValues(GeoElement vars) {
-		synchronized (sharedLock) {
-
 		if(this.elementType != GeoClass.FUNCTION &&
 				this.elementType != GeoClass.CURVE_CARTESIAN &&
 				this.elementType != GeoClass.FUNCTION_NVAR &&
@@ -2999,7 +2827,7 @@ AngleProperties {
 				((GeoList)listElement).replaceChildrenByValues(vars);
 			}
 		}
-		}
+		
 	}
 	
 	@Override

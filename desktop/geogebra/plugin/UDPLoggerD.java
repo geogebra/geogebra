@@ -238,89 +238,47 @@ public class UDPLoggerD implements UDPLogger {
 							// "EDAQ;{sensor1},{doublebits8};{sensor},{doublebits};{sensor},{doublebits}"...
 							// we could even spare the ; and , but still left
 
-							Object sharedLock = kernel.getApplication()
-									.getEuclidianView1().sharedLockObject(null);
+							for (int bp = 5; bp < packet.getLength(); bp += 11) {
+								// "{sensor1},{doublebits8};"
+								// ,,23456789
 
-							synchronized (listenersL) {
-								// TODO: do not synchronized for listenersL,
-								// but save its contents and work on that
-								// instead
-
-								if (kernel.getApplication()
-										.hasEuclidianView2EitherShowingOrNot(1)) {
-									sharedLock = kernel.getApplication()
-											.getEuclidianView2(1)
-											.sharedLockObject(sharedLock);
-								}
-								if (listenersL.get(Types.EDAQ0) != null) {
-									sharedLock = listenersL.get(Types.EDAQ0)
-											.sharedLockObject(sharedLock);
-								}
-								if (listenersL.get(Types.EDAQ1) != null) {
-									sharedLock = listenersL.get(Types.EDAQ1)
-											.sharedLockObject(sharedLock);
-								}
-								if (listenersL.get(Types.EDAQ2) != null) {
-									sharedLock = listenersL.get(Types.EDAQ2)
-											.sharedLockObject(sharedLock);
-								}
-								if (sharedLock == null) {
-									sharedLock = new Object();
+								if (buffer[bp - 1] != ';') {
+									App.error("error in UDP transmission");
 								}
 
-								// Maybe it's better to synchronize for
-								// sharedLock instead
-								// of the easier solution of synchronized
-								// methods and lock1,lock2,lock3,
-								// because it might happen that lock1 is locked
-								// there and lock2 here,
-								// and they need each other... maybe it wouldn't
-								// happen, but what if?
-								synchronized (sharedLock) {
+								long gotit = 0;
+								for (int place = bp + 2, shift = 56; place < bp + 10; place++, shift -= 8) {
+									gotit |= ((buffer[place] & 0xFFL) << shift);
+								}
 
-									for (int bp = 5; bp < packet.getLength(); bp += 11) {
-										// "{sensor1},{doublebits8};"
-										// ,,23456789
+								if (buffer[bp + 1] != ',') {
+									App.error("error in UDP transmission");
+								}
 
-										if (buffer[bp - 1] != ';') {
-											App.error("error in UDP transmission");
-										}
+								switch (buffer[bp]) {
+								case 0:
+									log(Types.EDAQ0,
+											Double.longBitsToDouble(gotit),
+											false);
+									break;
+								case 1:
+									log(Types.EDAQ1,
+											Double.longBitsToDouble(gotit),
+											false);
+									break;
+								case 2:
+									log(Types.EDAQ2,
+											Double.longBitsToDouble(gotit),
+											false);
+									break;
 
-										long gotit = 0;
-										for (int place = bp + 2, shift = 56; place < bp + 10; place++, shift -= 8) {
-											gotit |= ((buffer[place] & 0xFFL) << shift);
-										}
-
-										if (buffer[bp + 1] != ',') {
-											App.error("error in UDP transmission");
-										}
-
-										switch (buffer[bp]) {
-										case 0:
-											log(Types.EDAQ0,
-													Double.longBitsToDouble(gotit),
-													false);
-											break;
-										case 1:
-											log(Types.EDAQ1,
-													Double.longBitsToDouble(gotit),
-													false);
-											break;
-										case 2:
-											log(Types.EDAQ2,
-													Double.longBitsToDouble(gotit),
-													false);
-											break;
-
-										default:
-											App.error("unknown EDAQ port!");
-										}
-									}
-
-									// flush repainting of logs!
-									kernel.notifyRepaint();
+								default:
+									App.error("unknown EDAQ port!");
 								}
 							}
+
+							// flush repainting of logs!
+							kernel.notifyRepaint();
 
 						} else {
 
@@ -417,6 +375,7 @@ public class UDPLoggerD implements UDPLogger {
 				} else {
 					GeoList list = listenersL.get(type);
 					if (list != null) {
+						// synchronized (this) {
 						// if (repaint)
 						App.debug(type + ": " + val);
 
@@ -433,6 +392,7 @@ public class UDPLoggerD implements UDPLogger {
 							list.updateRepaint();
 						else
 							list.updateCascade();
+						// }
 					}
 				}
 			}
