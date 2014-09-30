@@ -65,9 +65,21 @@ public class CmdFunction extends CommandProcessor {
 
 			// file might be saved with old Function[sin(x),1,2]
 			if (!cons.isFileLoading()) {
-
+				FunctionVariable fv = null;
+				if (varName != null
+						|| kernelA.getConstruction().getRegisteredFunctionVariable() != null) {
+					if (varName == null)
+						varName = kernelA.getConstruction()
+						.getRegisteredFunctionVariable();
+					fv = new FunctionVariable(kernelA, varName);
+					int r = c.getArgument(0).replaceVariables(varName, fv);
+					c.getArgument(0).replaceVariables(varName, fv);
+					if (r > 0) {
+						c.getArgument(1).replaceVariables(varName, fv);
+					}
+				}
 				// new code: convert Function[sin(x),1,2] to If[1<=x<=2, sin(x)]
-
+				
 				arg = resArgs(c);
 				if ((ok[0] = (arg[0].isGeoFunctionable()))
 						&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -81,7 +93,9 @@ public class CmdFunction extends CommandProcessor {
 					GeoNumberValue low = (GeoNumberValue) arg[1];
 					GeoNumberValue high = (GeoNumberValue) arg[2];
 
-					FunctionVariable fv = new FunctionVariable(kernelA, "x");
+					if(fv == null){
+						fv = new FunctionVariable(kernelA);
+					}
 
 					// construct the equivalent of parsing a<=x<=b
 					ExpressionNode left = new ExpressionNode(kernelA, low, Operation.LESS_EQUAL, fv);
