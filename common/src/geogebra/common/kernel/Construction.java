@@ -2811,7 +2811,7 @@ public class Construction {
 	 * Returns function variable that should be recognized in If and Function commands
 	 * @return local function variable or null if there is none
 	 */
-	public String getRegistredFunctionVariable(){
+	public String getRegisteredFunctionVariable(){
 		Iterator<String> it = registredFV.iterator();
 		if(it.hasNext())
 				return it.next();

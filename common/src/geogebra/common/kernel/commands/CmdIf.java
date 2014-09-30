@@ -45,9 +45,9 @@ public class CmdIf extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 
-		if (kernelA.getConstruction().getRegistredFunctionVariable() != null) {
+		if (kernelA.getConstruction().getRegisteredFunctionVariable() != null) {
 			String varName = kernelA.getConstruction()
-					.getRegistredFunctionVariable();
+					.getRegisteredFunctionVariable();
 			FunctionVariable fv = new FunctionVariable(kernelA, varName);
 			int r = c.getArgument(0).replaceVariables(varName, fv);
 			if (r > 0) {
