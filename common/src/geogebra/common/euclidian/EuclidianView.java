@@ -1378,7 +1378,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		list.setDrawAsComboBox(b);
 
 		DrawList d = (DrawList) getDrawable(list);
-		d.resetDrawType();
+		if(d != null){
+			d.resetDrawType();
+		}
 
 	}
 
