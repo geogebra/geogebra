@@ -99,17 +99,23 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	@Override
 	public void onResize() {
-		super.onResize();
+		if(Window.getClientWidth() > 760) {
+			super.onResize();
+			this.removeStyleName("minWidth");
+			
+			/**
+			 * Keep RootPanel and RootLayoutPanel dimensions the same so that
+			 * tooltips will work. Tooltip positions are based on RootPanel.
+			 */
 
-		/**
-		 * Keep RootPanel and RootLayoutPanel dimensions the same so that
-		 * tooltips will work. Tooltip positions are based on RootPanel.
-		 */
-
-		final RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
-		final RootPanel rootPanel = RootPanel.get();
-		rootPanel.setPixelSize(rootLayoutPanel.getOffsetWidth(),
-		        rootLayoutPanel.getOffsetHeight());
+			final RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
+			final RootPanel rootPanel = RootPanel.get();
+			rootPanel.setPixelSize(rootLayoutPanel.getOffsetWidth(),
+			        rootLayoutPanel.getOffsetHeight());
+		} else {
+			this.addStyleName("minWidth");
+		}
+		
 	}
 	
 	

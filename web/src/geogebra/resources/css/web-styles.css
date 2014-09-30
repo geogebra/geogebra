@@ -43,6 +43,15 @@ body.application,article {
 	font-size: 16px;
 }
 
+/* scroll overflow for minWidth*/
+.GeoGebraFrame .ggbdockpanelhack {
+	min-width: 760px;
+}
+.GeoGebraFrame.minWidth > div {
+	overflow-x: auto !important;	
+}
+/* end */
+
 .GeoGebraFrame input[type="text"],
 .gwt-TextBox,
 select,
