@@ -44,20 +44,21 @@ public class CASInputHandler {
 		if (selRow < 0) 
 			return;
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
+		// Text cells do not need the processing below
 		if (cellValue.isUseAsText()) {
 			processRowThenEdit(selRow, true);
 			return;
 		}
-		cellValue.setError(null);
-		// get editor
-		CASTableCellEditor cellEditor = consoleTable.getEditor();
-
+		// Multiple cells selected and solve button clicked
 		if ((ggbcmd.equalsIgnoreCase("Solve") || 
 				ggbcmd.equalsIgnoreCase("NSolve"))
 				&& (consoleTable.getSelectedRows().length > 1)) {
 			processMultipleRows(ggbcmd);
 			return;
 		}
+		cellValue.setError(null);
+		// get editor
+		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
 		// get possibly selected text
 		String selectedText = cellEditor.getInputSelectedText();
