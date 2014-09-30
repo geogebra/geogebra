@@ -40,9 +40,18 @@ public class AlgoAreaPoints extends AlgoElement {
         createOutput(cons); 
         setInputOutput(); // for AlgoElement
         
-        // compute angle
+        // compute 
+        initCoords();
         compute();      
     }   
+    
+
+	/**
+	 * init Coords values
+	 */
+	protected void initCoords(){
+		// none here
+	}
     
     protected void createOutput(Construction cons){
     	area = new GeoNumeric(cons); 

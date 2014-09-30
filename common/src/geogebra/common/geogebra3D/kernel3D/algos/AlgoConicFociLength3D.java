@@ -147,7 +147,10 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 		
 	}
 	
-	private Coords project = new Coords(4);
-	
-	
+	private Coords project;
+		
+	@Override
+	protected void initCoords(){
+		project = new Coords(4);
+	}
 }

@@ -58,7 +58,8 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
     	super(cons);
 
-
+    	vCoords = new Coords(4);
+    	
     	this.plane = plane;
     	
     	vector = new GeoVector3D(cons);
@@ -66,6 +67,8 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
     	setInputOutput(new GeoElement[] {(GeoElement) plane}, new GeoElement[] {vector});
 
     	vector.setLabel(label);
+    	
+    	compute();
  
     }
     
@@ -109,7 +112,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
     	
     }
     
-    protected Coords vCoords = new Coords(4);
+    protected Coords vCoords;
     
     /**
      * 

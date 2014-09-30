@@ -198,7 +198,12 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	// END OF THE CONSTRUCTION
 	////////////////////////////////////////////
 
-	private Coords bottomCenter = new Coords(4);
+	private Coords bottomCenter;
+	
+	@Override
+	protected void initCoords(){
+		bottomCenter = new Coords(4);
+	}
 	
 	@Override
 	protected void updateOutputPoints(){

@@ -50,7 +50,12 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints{
     	return ret;
     }
     
-    private Coords tmpCoords = new Coords(4);
+    private Coords tmpCoords;
+    
+    @Override
+	protected void initCoords(){
+    	tmpCoords = new Coords(4);
+	}
     
 	@Override
 	public final void compute() {

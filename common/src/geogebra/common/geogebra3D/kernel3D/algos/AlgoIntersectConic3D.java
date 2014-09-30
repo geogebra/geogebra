@@ -63,6 +63,8 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
     AlgoIntersectConic3D(Construction cons) {
  
     	super(cons);
+    	
+    	p2d = new Coords(3);
        
         //helper algo
         g2d = new GeoLine(cons);
@@ -165,7 +167,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	}
 
 
-	private Coords p2d = new Coords(3);
+	private Coords p2d;
 	
 	/**
 	 * calc intersection points with the conic

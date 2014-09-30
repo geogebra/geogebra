@@ -78,9 +78,18 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
             conic = newGeoConic(cons);
             setInputOutput(); // for AlgoElement
 
+            initCoords();
+            
             compute();
         	addIncidence();
         }
+    
+    /**
+     * init coords values
+     */
+    protected void initCoords(){
+    	// none used here
+    }
     
     /**
      * for 3D, set an orientation

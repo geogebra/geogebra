@@ -22,6 +22,15 @@ public abstract class AlgoAngle extends AlgoElement{
 	 */
 	public AlgoAngle(Construction c) {
 		super(c);
+		initCoords();
+		
+	}
+	
+	/**
+	 * init Coords values
+	 */
+	protected void initCoords(){
+		// none here
 	}
 	
 	/**

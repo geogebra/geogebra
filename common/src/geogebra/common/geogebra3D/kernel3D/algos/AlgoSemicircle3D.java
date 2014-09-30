@@ -64,7 +64,10 @@ public class AlgoSemicircle3D extends AlgoElement {
 	 */
     public AlgoSemicircle3D(Construction cons, 
     		GeoPointND A, GeoPointND B, GeoDirectionND orientation) {
-        super(cons);        
+        super(cons);    
+
+        p2d = new Coords(4);
+        
         this.A = A;
         this.B = B; 
         this.orientation = orientation;
@@ -127,7 +130,7 @@ public class AlgoSemicircle3D extends AlgoElement {
     	return conicPart;
     }
     
-    private Coords p2d = new Coords(4);
+    private Coords p2d;
     
     
     @Override

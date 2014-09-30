@@ -1328,6 +1328,20 @@ public class Coords {
 	}
 	
 	/**
+	 * set this to v * val0
+	 * @param v vector
+	 * @param val0 value
+	 * @return this
+	 */
+	public Coords setMul(Coords v, double val0){
+		for (int i = 0 ; i < rows && i < v.rows ; i++){
+			val[i] = v.val[i] * val0;
+		}
+		
+		return this;
+	}
+	
+	/**
 	 * 
 	 * @param val0 factor
 	 * @param res gets this * val0

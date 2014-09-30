@@ -71,6 +71,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	 */
 	public AlgoPolyhedronNetConvex(Construction c, String[] labels, GeoPolyhedron p, NumberValue v, GeoPolygon bottomFace, GeoSegmentND[] pivotSegments) {
 		super(c);
+		
+		projCoord = new Coords(4);
+		
 		this.p = p;
 		this.v = v;	
 		this.bottomFace = bottomFace;
@@ -356,7 +359,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		rotateFace(iBottom, f);
 	}
 
-	private Coords projCoord = new Coords(4);
+	private Coords projCoord;
 	
 	private ArrayList<Integer> rotateFace(int iFace, double f){
 

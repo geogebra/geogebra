@@ -247,16 +247,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 			}
 			
 			P[2].setUndefined();P[3].setUndefined();
-			/*
-			Coords[] p = o.projectPlaneThruV(cs.getMatrixOrthonormal(), d);
-			Coords p2d = new Coords(3);
-			p2d.setX(p[1].getX());p2d.setY(p[1].getY());p2d.setZ(p[1].getW());
-			// check if intersect point is on conic
-			if (c.isOnFullConic(p2d, AbstractKernel.MIN_PRECISION))
-				P[0].setCoords(p[0], false);
-			else
-				setPointsUndefined();
-				*/
+
 		}else{ // parallel plane
 
 			Coords op = csA.getNormalProjection(csB.getOrigin())[1];

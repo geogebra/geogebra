@@ -76,7 +76,12 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 
     }
     
-    private Coords p2d = new Coords(4);
+    @Override
+	protected void initCoords(){
+    	p2d = new Coords(4);
+	}
+    
+    private Coords p2d;
     
     @Override
 	protected double getStartParameter(){

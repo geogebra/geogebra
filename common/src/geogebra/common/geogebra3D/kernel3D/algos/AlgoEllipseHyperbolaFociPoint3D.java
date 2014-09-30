@@ -98,18 +98,20 @@ public class AlgoEllipseHyperbolaFociPoint3D extends AlgoEllipseHyperbolaFociPoi
        	CoordMatrix4x4 matrix = cs.getMatrixOrthonormal();
        	Ac.projectPlaneInPlaneCoords(matrix, project);
        	A2d.setCoords(project.getX(), project.getY(), project.getW());
-       	Bc.projectPlane(matrix, project);
+       	Bc.projectPlaneInPlaneCoords(matrix, project);
        	B2d.setCoords(project.getX(), project.getY(), project.getW());
-       	Cc.projectPlane(matrix, project);
+       	Cc.projectPlaneInPlaneCoords(matrix, project);
        	C2d.setCoords(project.getX(), project.getY(), project.getW());
            	
-    	
     	super.compute();
     }
     
-    private Coords project = new Coords(4);
+    private Coords project;
     
-    
+    @Override
+	protected void initCoords(){
+    	project = new Coords(4);
+    }
     
 
 }

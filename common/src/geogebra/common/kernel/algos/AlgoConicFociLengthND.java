@@ -52,8 +52,17 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 		conic = newGeoConic(cons);
 		setInputOutput(); // for AlgoElement
 
+		initCoords();
 		compute();
 		conic.setLabel(label);
+	}
+	
+
+	/**
+	 * init Coords values
+	 */
+	protected void initCoords(){
+		// none here
 	}
 	
 	/**

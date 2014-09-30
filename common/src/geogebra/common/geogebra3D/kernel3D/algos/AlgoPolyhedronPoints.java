@@ -46,6 +46,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPointND[] points) {
 		super(c);
+		
+		initCoords();
 
 		bottomPoints = new GeoPointND[points.length-1];
 		for (int i=0; i<points.length-1; i++)
@@ -90,6 +92,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon, GeoPointND point) {
 		super(c);
+		
+		initCoords();
 		
 		bottom = polygon;
 		bottomAsInput = true;
@@ -213,6 +217,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon, NumberValue height) {
 		super(c);
 		
+		initCoords();
+		
 		bottom = polygon;
 		bottomAsInput = true;
 		this.height = height;
@@ -254,6 +260,14 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		// force update segments and polygons
 		updateOutputSegmentsAndPolygonsParentAlgorithms();
+	}
+	
+
+	/**
+	 * init Coords values
+	 */
+	protected void initCoords(){
+		// none here
 	}
 
 	/**

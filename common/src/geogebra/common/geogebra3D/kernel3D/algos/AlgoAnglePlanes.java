@@ -122,7 +122,13 @@ public class AlgoAnglePlanes extends AlgoAngle  implements DrawInformationAlgo{
 
     
     
-	private Coords vn, o = new Coords(4), v1, v2;
+	private Coords vn, o, v1, v2;
+	
+	@Override
+	protected void initCoords(){
+		o = new Coords(4);
+	}
+
 
     @Override
 	public final void compute() {

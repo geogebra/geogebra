@@ -89,8 +89,16 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		conicPart.addPointOnConic(startPoint);
 
 		setInputOutput(); // for AlgoElement
+		initCoords();
 		compute();
 		setIncidence();
+	}
+	
+	/**
+	 * init Coords values
+	 */
+	protected void initCoords(){
+		p2d = new Coords(4);
 	}
 	
 	/**
@@ -217,7 +225,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		setConicPart(paramP.t, paramQ.t);
 	}
 	
-	private Coords p2d = new Coords(4);
+	private Coords p2d;
 	
 	/**
 	 * set conic part coord sys and parameters

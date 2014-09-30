@@ -86,6 +86,7 @@ public class AlgoConicFivePoints extends AlgoElement {
         B = new double[3][3];
         C = new double[3][3];
         checkCriticalCase();
+        initCoords();
         compute();
         addIncidence();
         
@@ -96,6 +97,13 @@ public class AlgoConicFivePoints extends AlgoElement {
         */
         
     }
+    
+    /**
+	 * init Coords values
+	 */
+	protected void initCoords(){
+		// none here
+	}
     
     /**
      * 

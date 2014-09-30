@@ -47,13 +47,22 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
         
         conicPart = newGeoConicPart(cons, type);
 
-        setInputOutput(); // for AlgoElement      
+        setInputOutput(); // for AlgoElement 
+        initCoords();
         compute();
         setIncidence();
         
         conicPart.setLabel(label);
     }  
     
+
+	/**
+	 * init Coords values
+	 */
+	protected void initCoords(){
+		// none here
+	}
+	
     /**
      * set temp values used for compute
      */
