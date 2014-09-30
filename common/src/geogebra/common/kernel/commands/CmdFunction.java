@@ -2,18 +2,24 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoDependentFunction;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoFunctionInterval;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
+
+import java.util.ArrayList;
 
 /**
  * Function[ <GeoFunction>, <NumberValue>, <NumberValue> ]
@@ -35,11 +41,14 @@ public class CmdFunction extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 
 		String varName = null;
+		ExpressionNode expr;
+		boolean mayUseIndependent;
+		String label;
 		switch (n) {
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				
+
 				AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, c.getLabel(),
 						(GeoList) arg[0]);
 
@@ -53,11 +62,69 @@ public class CmdFunction extends CommandProcessor {
 			c.setArgument(2, c.getArgument(3));
 			//fall through
 		case 3:
+
+			// file might be saved with old Function[sin(x),1,2]
+			if (!cons.isFileLoading()) {
+
+				// new code: convert Function[sin(x),1,2] to If[1<=x<=2, sin(x)]
+
+				arg = resArgs(c);
+				if ((ok[0] = (arg[0].isGeoFunctionable()))
+						&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+						&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+
+
+
+					label = c.getLabel();
+
+					GeoFunction geoFun = (GeoFunction) arg[0];
+					GeoNumberValue low = (GeoNumberValue) arg[1];
+					GeoNumberValue high = (GeoNumberValue) arg[2];
+
+					FunctionVariable fv = new FunctionVariable(kernelA, "x");
+
+					// construct the equivalent of parsing a<=x<=b
+					ExpressionNode left = new ExpressionNode(kernelA, low, Operation.LESS_EQUAL, fv);
+					ExpressionNode right = new ExpressionNode(kernelA, fv, Operation.LESS_EQUAL, high);
+					ExpressionNode interval = new ExpressionNode(kernelA, left, Operation.AND_INTERVAL, right);
+					Function intervalFun = new Function(interval, fv);
+					AlgoDependentFunction intervalAlgo = new AlgoDependentFunction(cons, intervalFun);
+					cons.removeFromConstructionList(intervalAlgo);
+					GeoFunction intervalGeo = intervalAlgo.getFunction();
+
+					ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();	
+					conditions.add(intervalGeo);
+					mayUseIndependent = false;
+
+					// copied from CmdIf from here
+
+					expr = new ExpressionNode(kernelA, wrap(conditions.get(0), fv,
+							mayUseIndependent), Operation.IF, wrap(geoFun,
+									fv, mayUseIndependent));
+
+					Function fun = new Function(expr, fv);
+					if (mayUseIndependent) {
+						return new GeoElement[] { new GeoFunction(cons, label, fun) };
+					}
+					AlgoDependentFunction algo = new AlgoDependentFunction(cons, label, fun);
+					return new GeoElement[] { algo.getFunction() };
+
+				}
+				throw argErr(app, c.getName(), getBadArg(ok, arg));
+
+			}
+
+
+
+
+			// old code, just for when file loading
+
+
 			if (varName != null
 					|| kernelA.getConstruction().getRegisteredFunctionVariable() != null) {
 				if (varName == null)
 					varName = kernelA.getConstruction()
-							.getRegisteredFunctionVariable();
+					.getRegisteredFunctionVariable();
 				FunctionVariable fv = new FunctionVariable(kernelA, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
 				c.getArgument(0).replaceVariables(varName, fv);
@@ -102,7 +169,17 @@ public class CmdFunction extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
+	private ExpressionNode wrap(GeoFunction boolFun, FunctionVariable fv,
+			boolean mayUseIndependent) {
+		if (!mayUseIndependent) {
+			return new ExpressionNode(kernelA, boolFun, Operation.FUNCTION, fv);
+		}
+		return boolFun.getFunctionExpression().deepCopy(kernelA)
+				.traverse(VariablePolyReplacer.getReplacer(fv)).wrap();
+	}
+
+
 
 	/**
 	 * function limited to interval [a, b]
