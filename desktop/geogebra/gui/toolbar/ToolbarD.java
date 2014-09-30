@@ -130,7 +130,11 @@ public class ToolbarD extends JToolBar {
 			}
 
 			if (!success) {
-				mode = setMode(getFirstMode());
+				int firstMode = getFirstMode();
+				// in case there are no tools!
+				if (firstMode > -1) {
+					mode = setMode(getFirstMode());
+				}
 
 			}
 
