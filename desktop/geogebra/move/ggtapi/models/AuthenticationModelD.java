@@ -49,7 +49,7 @@ public class AuthenticationModelD extends AuthenticationModel {
 	}
 
 	@Override
-	protected String loadLastUser() {
+	public String loadLastUser() {
 		// TODO Auto-generated method stub
 		return null;
 	}

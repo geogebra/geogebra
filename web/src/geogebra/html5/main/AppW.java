@@ -2320,14 +2320,20 @@ public abstract class AppW extends App implements SetLabels{
 				}
 				fr.setId("appletContainer");
 				fr.getStyle().setVisibility(Visibility.HIDDEN);
-				showInLang(getLocalization().getLanguage());
+				updateLanguageAndUser(getLocalization().getLanguage(), this.getLoginOperation().getModel().loadLastUser());
 				startScreen.getStyle().setDisplay(Display.BLOCK);
 			}
 		}
 
-		private native void showInLang(String language) /*-{
-			if($wnd.showInLang){
-	        	$wnd.showInLang(language);
+		private native void updateLanguageAndUser(String language, String user) /*-{
+			try{
+				if($wnd.showInLang){
+		        	$wnd.showInLang(language);
+				}
+				if($wnd.displayUse){
+		        	$wnd.displayUser(user);
+				}
+			}catch(e){
 			}
         }-*/;
 		

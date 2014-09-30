@@ -174,7 +174,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
                 }},ClickEvent.getType());
 		}
 		this.rightPanel.clear();
-		this.profileImage.setUrl("http://tube.geogebra.org/files/users/user-"+user.getUserId()+".png");
+		this.profileImage.setUrl(user.getImageURL());
 		this.rightPanel.add(this.profilePanel);
 		
 	}

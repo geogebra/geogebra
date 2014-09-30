@@ -89,7 +89,7 @@ public class AuthenticationModelW extends AuthenticationModel {
     }
 
 	@Override
-    protected String loadLastUser() {
+    public String loadLastUser() {
 		if(storage == null){
 			return null;
 		}

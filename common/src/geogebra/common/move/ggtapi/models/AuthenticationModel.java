@@ -130,5 +130,5 @@ public abstract class AuthenticationModel extends BaseModel {
 		
 	}
 
-	protected abstract String loadLastUser();
+	public abstract String loadLastUser();
 }
