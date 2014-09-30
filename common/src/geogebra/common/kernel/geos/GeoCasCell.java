@@ -488,6 +488,19 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * @return success
 	 */
 	public boolean setInput(String inValue) {
+		return setInput(inValue, false);
+	}
+
+	/**
+	 * Sets the input of this row.
+	 * 
+	 * @param inValue
+	 *            input value
+	 * @param internalInput
+	 * 			  true if the input is in internal format, otherwise false (i.e. user input)
+	 * @return success
+	 */
+	public boolean setInput(String inValue, boolean internalInput) {
 
 		// if the cell is used as comment, treat it as empty
 		if (useAsText) {
@@ -510,7 +523,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		updateInputVariables(getInputVE());
 
 		// input should have internal command names
-		internalizeInput();
+		if (!internalInput) {
+			internalizeInput();
+		}
 
 		// for efficiency: input with localized command names
 		updateLocalizedInput(StringTemplate.defaultTemplate, input);
@@ -1966,7 +1981,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				StringUtil.encodeXML(sb, commentText.getTextString());
 				sb.append("\" ");
 			} else {
-				StringUtil.encodeXML(sb, GgbScript.localizedScript2Script(kernel.getApplication(), input));
+				StringUtil.encodeXML(sb, input);
 				sb.append("\" ");
 
 				if (evalVE != getInputVE()) {

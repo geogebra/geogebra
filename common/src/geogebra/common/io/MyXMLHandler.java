@@ -3897,7 +3897,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleCasCellInput(LinkedHashMap<String, String> attrs) {
 		try {
 			String input = attrs.get("value");
-			geoCasCell.setInput(input);
+			geoCasCell.setInput(input, true);
 			boolean pointList = parseBoolean(attrs.get("pointList"));
 			geoCasCell.setPointList(pointList);
 
