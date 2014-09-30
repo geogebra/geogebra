@@ -89,7 +89,7 @@ public class CmdFunction extends CommandProcessor {
 
 					label = c.getLabel();
 
-					GeoFunction geoFun = (GeoFunction) arg[0];
+					GeoFunction geoFun = ((GeoFunctionable) arg[0]).getGeoFunction();
 					GeoNumberValue low = (GeoNumberValue) arg[1];
 					GeoNumberValue high = (GeoNumberValue) arg[2];
 
