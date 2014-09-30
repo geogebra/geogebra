@@ -173,7 +173,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	@Override
 	public void onResize() {
 		super.onResize();
-		if (this.menuContainer != null) {
+		if (this.menuContainer != null && this.getWidgetIndex(this.menuContainer) != -1) {
 			updateSize();
 		}
 	}
