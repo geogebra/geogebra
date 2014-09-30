@@ -92,8 +92,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		// sum.setLabelVisible(false);
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setLabel(label);
 		sum.setDrawable(true);
+		sum.setLabel(label);
 	}
 	
 

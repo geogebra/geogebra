@@ -233,9 +233,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setLabel(label);
+		compute();		
 		sum.setDrawable(true);
+		sum.setLabel(label);
 	}
 
 	public AlgoFunctionAreaSums(GeoFunction f, NumberValue a, NumberValue b,
@@ -329,8 +329,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setLabel(label);
 		sum.setDrawable(true);
+		sum.setLabel(label);
 	}
 
 	/**
@@ -482,8 +482,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setLabel(label);
 		sum.setDrawable(true);
+		sum.setLabel(label);
 	}
 
 	/**
@@ -675,8 +675,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setLabel(label);
 		sum.setDrawable(true);
+		sum.setLabel(label);
+		
 		if (yval == null) {
 			yval = new double[0];
 			leftBorder = new double[0];
