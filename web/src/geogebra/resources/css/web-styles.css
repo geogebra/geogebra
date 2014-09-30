@@ -3857,8 +3857,8 @@ PROVIDERS
 +++++++++++++++++++++++++++++++++++++++++++++++*/
 .providers {
 	width: 70px;
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	float: right;
+	padding-left: 2px;
 }
 
 .providers .button {
@@ -3930,6 +3930,7 @@ PROVIDERS
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 }
 
 .materialListElement {

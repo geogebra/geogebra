@@ -48,6 +48,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	private StandardButton locationTube;
 	private StandardButton locationDrive;
 	private StandardButton locationSkyDrive;
+	private MyButton locationLocal;
 	protected final AppW app;
 
 	
@@ -136,8 +137,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	 */
 	void initProviders() {
 		this.providerPanel = new FlowPanel();
-		this.providerPanel.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT + "px");
-		providerPanel.clear();
 		locationTube = new StandardButton(
 		        BrowseResources.INSTANCE.location_tube());
 		locationTube.addFastClickHandler(new FastClickHandler() {
@@ -147,17 +146,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 				loadAllMaterials();
 			}
 		});
-		providerPanel.add(locationTube);
-
-		final MyButton locationLocal = new MyButton(this);// StandardButton(AppResources.INSTANCE.folder());
-		providerPanel.add(locationLocal);
+		this.locationLocal = new MyButton(this);// StandardButton(AppResources.INSTANCE.folder());
 		// TODO: Only visible if user is logged in with google Account
 		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
 		        .getLoggedInUser();
 		if (user != null && user.hasGoogleDrive() && !app.getLAF().isSmart()) {
 			locationDrive = new StandardButton(
 			        BrowseResources.INSTANCE.location_drive());
-			providerPanel.add(locationDrive);
 			locationDrive.addFastClickHandler(new FastClickHandler() {
 
 				@Override
@@ -175,16 +170,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 		if (user != null && user.hasOneDrive()) {
 			locationSkyDrive = new StandardButton(
 			        BrowseResources.INSTANCE.location_skydrive());
-			this.providerPanel.add(locationSkyDrive);
 		}
 
-		// Set Tube as the active on
-		locationTube.addStyleName("selected");
+		setAvailableProviders();
 	}
 	
 	protected void addContent() {		
-		this.materialListPanel = new MaterialListPanel(app);
-		this.addResizeListener(this.materialListPanel);
+		initMaterialListPanel();
 		this.container.add(this.materialListPanel);
 		
 		initProviders();
@@ -287,7 +279,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	
 	protected void updateViewSizes() {
 		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
-		this.providerPanel.setHeight(Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT + "px");
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}
@@ -298,6 +289,23 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
     }
 	
 
+	private void setAvailableProviders() {
+		providerPanel.clear();
+		providerPanel.add(locationTube);
+		providerPanel.add(locationLocal);
+		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel().getLoggedInUser();
+		if (user != null && user.hasGoogleDrive() && !app.getLAF().isSmart()) {
+			providerPanel.add(locationDrive);
+		} else if (user != null) {
+			App.debug(user.getIdentifier());
+		}
+		if (user != null && user.hasOneDrive()) {
+			providerPanel.add(locationSkyDrive);
+		}
+		// Set Tube as the active on
+		locationTube.addStyleName("selected");
+	}
+	
 	@Override
     public void renderEvent(final BaseEvent event) {
 	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
