@@ -515,13 +515,13 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	public void setLabels() {
 		this.editButton.setText(app.getLocalization().getMenu("Edit"));
 		if (isOwnMaterial && !isLocal) {
-			this.deleteButton.setText(app.getLocalization().getCommand("Delete"));
+			this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
 			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
 			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
 			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
 		} else if (isLocal) {
-			this.deleteButton.setText(app.getLocalization().getCommand("Delete"));
+			this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
 			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
 			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
