@@ -152,7 +152,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 			user.setUserName(((JSONString)userinfo.get("username")).stringValue());
 			user.setRealName(((JSONString)userinfo.get("realname")).stringValue());
 			user.setIdentifier(((JSONString)userinfo.get("identifier")).stringValue());
-			user.setImageURL(((JSONString)userinfo.get("image")).stringValue());
+			if(userinfo.get("image") instanceof JSONString){
+				user.setImageURL(((JSONString)userinfo.get("image")).stringValue());
+			}
 			
 			if(userinfo.get("token") instanceof JSONString){
 				user.setToken(((JSONString)userinfo.get("token")).stringValue());
