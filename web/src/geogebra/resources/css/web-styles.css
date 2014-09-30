@@ -4448,7 +4448,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	height: 150px;	
 }
 
-
+.daMultiVarStatistics table,
 .daStatistics table {
 	width: 100%;
 	border: 1px solid;
@@ -4482,6 +4482,10 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .daData table td,
 .daData table th,
 .daData table tr,
+
+.daMultiVarStatistics table td,
+.daMultiVarStatistics table th,
+.daMultiVarStatistics table tr,
 .daStatistics table td,
 .daStatistics table th,
 .daStatistics table tr {
@@ -4491,6 +4495,14 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .daData table tr td:first-child,
 .daStatistics table tr td:first-child {
 	width: 40px;
+	background-color: #acacac;
+	color: #545454;
+	font-weight: bold;
+}
+
+.daMultiVarStatistics table tr:first-child,
+.daMultiVarStatistics table tr td:first-child {
+	width: 150px;
 	background-color: #acacac;
 	color: #545454;
 	font-weight: bold;

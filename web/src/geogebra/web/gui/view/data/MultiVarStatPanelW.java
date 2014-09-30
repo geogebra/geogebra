@@ -26,6 +26,7 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	public MultiVarStatPanelW(AppW app, DataAnalysisViewW statDialog) {
 		super(app, statDialog, false);
 		setModel(new MultiVarStatTableModel(app, this));
+		setStyleName("daMultiVarStatistics");
 	}
 
 	public void setMinimalTable(boolean isMinimalTable) {
@@ -41,7 +42,11 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 
 	@Override
 	public String[] getColumnNames() {
-		return getModel().getColumnNames();
+		String[] colNames = getModel().getColumnNames();
+		String[] ext = new String[colNames.length + 1];
+		ext[0] = "";
+   	System.arraycopy(colNames, 0, ext, 1, colNames.length);
+		return ext;
 	}
 
 	@Override
@@ -49,9 +54,19 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 		return getModel().getRowCount();
 	}
 	
-	public void setLabels() {
-		statTable.setLabels(getRowNames(), getColumnNames(), false);
+	
+	
+
+	protected void initStatTable() {
+
+		statTable = new StatTableW(app);
+		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
+				getColumnCount() + 1, getColumnNames());
+		clear();
+		add(statTable);
+		
 	}
+	
 	@Override
 	public int getColumnCount() {
 		return getModel().getColumnCount();
@@ -71,5 +86,9 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 		return isMinimalTable;
 	}
 
+	@Override
+    public void setValueAt(double value, int row, int column) {
+		   super.setValueAt(value, row, column + 1);
+	    }
 
 }
