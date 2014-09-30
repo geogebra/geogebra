@@ -86,8 +86,6 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
-import geogebra.web.gui.LanguageGUI;
-import geogebra.web.gui.MyHeaderPanel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,6 +112,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -148,8 +147,7 @@ public abstract class AppW extends App implements SetLabels{
 	private SoundManagerW soundManager;
 	protected DialogManager dialogManager = null;
 	private ToolTipManagerW toolTipManager;
-	//TODO remove GUI stuff from appW
-	protected LanguageGUI lg;
+	
 	protected FileManagerI fm;
 	
 	protected final ArticleElement articleElement;
@@ -2814,14 +2812,14 @@ public abstract class AppW extends App implements SetLabels{
 	     * Overwritten for AppWapplet/AppWapplication 
 	     * @param bg
 	     */
-	    public void showBrowser(MyHeaderPanel bg) {
+	    public void showBrowser(HeaderPanel bg) {
 		    // TODO 
 	    }
 		
 		/**
 		 * Overwritten for AppWapplet/AppWapplication
 		 */
-		public LanguageGUI getLanguageGUI() {
+		public HeaderPanel getLanguageGUI() {
 	        // TODO Auto-generated method stub
 	        return null;
         }

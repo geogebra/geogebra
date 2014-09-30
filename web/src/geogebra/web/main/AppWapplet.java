@@ -39,6 +39,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -56,6 +57,8 @@ public class AppWapplet extends AppW {
 	private boolean menuVisible = false;
 	private boolean menuInited = false;
 	protected ObjectPool objectPool;
+	//TODO remove GUI stuff from appW
+	protected LanguageGUI lg;
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
@@ -518,7 +521,7 @@ public class AppWapplet extends AppW {
 	}
 
 	@Override
-	public void showBrowser(MyHeaderPanel bg) {
+	public void showBrowser(HeaderPanel bg) {
 	    frame.showBrowser(bg);
     }
 	

@@ -27,6 +27,7 @@ import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -35,6 +36,8 @@ public class AppWapplication extends AppW {
 	private GeoGebraAppFrame appFrame = null;
 	protected GuiManagerInterfaceW guiManager = null;
 	protected ObjectPool objectPool;
+	//TODO remove GUI stuff from appW
+	protected LanguageGUI lg;
 	//Event flow operations
 	
 
@@ -301,7 +304,7 @@ public class AppWapplication extends AppW {
 	}
     
    @Override
-    public void showBrowser(MyHeaderPanel bg) {
+    public void showBrowser(HeaderPanel bg) {
 	    appFrame.showBrowser(bg);
     }
 	

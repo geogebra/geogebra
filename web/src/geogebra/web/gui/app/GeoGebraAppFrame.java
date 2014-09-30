@@ -31,6 +31,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -304,7 +305,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	private boolean[] childVisible = new boolean[0];
 	private boolean isBrowserShowing = false;
-	public void showBrowser(final MyHeaderPanel bg) {
+	public void showBrowser(final HeaderPanel bg) {
 		this.isBrowserShowing = true;
 	    final int count = frameLayout.getWidgetCount();
 	    childVisible = new boolean[count];
@@ -315,7 +316,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    frameLayout.add(bg);
 	    bg.setVisible(true);
 
-	    bg.setFrame(this);
+	    ((MyHeaderPanel)bg).setFrame(this);
 	    frameLayout.forceLayout();
 	    
     }
