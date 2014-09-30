@@ -48,9 +48,17 @@
 }
 .mathquillggb-editable.hasCursor,
 .mathquillggb-editable .hasCursor {
-  -webkit-box-shadow: #68b4df 0 0 3px 2px;
-  -moz-box-shadow: #68b4df 0 0 3px 2px;
-  box-shadow: #68b4df 0 0 3px 2px;
+  	border: #6161FF solid 1px;
+	background: #FFFFFF;
+	padding: 4px 5px;
+	color: #666666;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
 .mathquillggb-editable .latex-command-input {
   color: inherit;
