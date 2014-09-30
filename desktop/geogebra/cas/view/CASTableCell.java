@@ -244,6 +244,7 @@ public abstract class CASTableCell extends JPanel {
 	}
 
 	public void setOrientation() {
+		inputPanel.setOrientation();
 		outputPanel.setOrientation();
 	}
 

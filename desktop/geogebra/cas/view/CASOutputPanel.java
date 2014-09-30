@@ -30,6 +30,7 @@ public class CASOutputPanel extends JPanel {
 	private JLabel outputArea;
 	private LaTeXPanel latexPanel;
 	private AppD app;
+	private JPanel centerPanel;
 
 	/**
 	 * @param app
@@ -50,7 +51,7 @@ public class CASOutputPanel extends JPanel {
 		latexPanel.setBackground(Color.white);
 
 		add(outputSign, app.getLocalization().borderWest());
-		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		centerPanel.setBackground(Color.white);
 		centerPanel.add(outputArea);
 		centerPanel.add(latexPanel);
@@ -113,8 +114,7 @@ public class CASOutputPanel extends JPanel {
 
 	public void setOrientation() {
 		remove(outputSign);
-		// removeAll();
 		add(outputSign, app.getLocalization().borderWest());
+		app.setFlowLayoutOrientation(centerPanel);
 	}
-
 }

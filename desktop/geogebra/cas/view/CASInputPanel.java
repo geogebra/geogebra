@@ -101,4 +101,12 @@ public class CASInputPanel extends JPanel {
 		inputArea.setLabels();
 	}
 
+	/**
+	 * Update the orienation
+	 */
+	public void setOrientation() {
+		app.setComponentOrientation(this);
+		// inputArea.setOrientation();
+	}
+
 }
