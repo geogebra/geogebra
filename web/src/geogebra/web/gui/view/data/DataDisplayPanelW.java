@@ -129,6 +129,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 
 	private FlowPanel mainPanel;
+	private int oldWidth;
+	private int oldHeight;
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
@@ -171,7 +173,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// ==============================================
 
 	private void createGUI() {
-
+		oldWidth = 0;
+		oldHeight = 0;
 		// create options button
 		btnOptions = new MyToggleButton2(new Image(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString()));
 
@@ -768,6 +771,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	public void resize(int offsetWidth, int offsetHeight, boolean update) {
 		int w = offsetWidth;
 		int h = offsetHeight;
+		
 		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
 				: w;
 		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
@@ -786,6 +790,13 @@ public class DataDisplayPanelW extends FlowPanel implements
 			height =  PLOTPANEL_MIN_HEIGHT;
 		}
 
+		if (oldWidth == width && oldHeight == height) {
+			return;
+		}
+		
+		oldWidth = width;
+		oldHeight = height;
+		
 		plotPanel.setPreferredSize(new GDimensionW(width, height));
 		if (optionsPanel.isVisible()) {
 			optionsPanel.resize(height);

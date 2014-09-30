@@ -188,7 +188,7 @@ public class StatTableW extends FlowPanel {
 
 		// set column names
 		if (columnNames != null && rowNames != null) {
-			myTable.resize(columnNames.length, rowNames.length);
+			myTable.resize(rowNames.length + 1, columnNames.length + 1);
 		}
 		if (columnNames != null) {
 			for (int i = 0; i < columnNames.length; i++)

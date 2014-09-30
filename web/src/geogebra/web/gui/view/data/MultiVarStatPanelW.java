@@ -48,7 +48,10 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	public int getRowCount() {
 		return getModel().getRowCount();
 	}
-
+	
+	public void setLabels() {
+		statTable.setLabels(getRowNames(), getColumnNames(), false);
+	}
 	@Override
 	public int getColumnCount() {
 		return getModel().getColumnCount();
@@ -67,5 +70,6 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 		// TODO Auto-generated method stub
 		return isMinimalTable;
 	}
+
 
 }
