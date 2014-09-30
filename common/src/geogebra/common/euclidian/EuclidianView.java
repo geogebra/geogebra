@@ -293,7 +293,28 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	private static final int MIN_SAMPLE_POINTS = 80;
 	
 	protected EuclidianViewCompanion companion;
-	
+
+	// sharedLock is actually a lock that prevents this view from being painted
+	// when another thread changes the GeoLists underneath
+	private Object sharedLock = new Object();
+
+	/**
+	 * sharedLock can be used to prevent concurrent modifications
+	 * to this class, by different Threads at the same time
+	 * @param sl parameter helps to lock more GeoLists with the same lock
+	 * @return 
+	 */
+	final public Object sharedLockObject(Object sl) {
+		if (sl == null) {
+			if (sharedLock == null) {
+				sharedLock = new Object();
+			}
+		} else {
+			sharedLock = sl;
+		}
+		return sharedLock;
+	}
+
 	/**
 	 * @param ec
 	 *            controller
@@ -2774,7 +2795,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 *            graphics
 	 */
 	public void paint(geogebra.common.awt.GGraphics2D g2) {
-		companion.paint(g2);
+		synchronized (sharedLock) {
+			companion.paint(g2);
+		}
 	}
 
 	/**
