@@ -11519,6 +11519,8 @@ namespace giac {
     if (!ckmatrix(args))
       return symbolic(at_svd,args);
     // if (!is_zero(im(args,contextptr),contextptr)) return gensizeerr(gettext("Complex entry!"));
+    if (!has_num_coeff(args))
+      *logptr(contextptr) << gettext("Warning: svd is implemented for numeric matrices") << endl;
     gen argsf=args;
     bool real=is_zero(im(argsf,contextptr));
     if (real && method>=0 && is_fully_numeric( (argsf=evalf_double(args,1,contextptr)) )){
@@ -11617,10 +11619,12 @@ namespace giac {
 	return gen(makevecteur(U,S,V),_SEQ__VECT); // M=U*diag(S)*tran(V)
       }
 #endif // HAVE_LIBGSL
-    }    
+    }
     // non numeric code/also for complex
     if (!ckmatrix(argsf))
       return gensizeerr(contextptr);
+    if (!lidnt(argsf).empty())
+      *logptr(contextptr) << "Warning: SVD for symbolic matrix may fail!" << endl;
     matrice M=*argsf._VECTptr;
     bool transposed=M.size()<M.front()._VECTptr->size();
     if (transposed){
@@ -12103,6 +12107,8 @@ namespace giac {
     matrice U,A;
     if (!ihermite(*g._VECTptr,U,A,contextptr))
       return gensizeerr(contextptr);
+    if (abs_calc_mode(contextptr)==38)
+      return makevecteur(U,A);
     return gen(makevecteur(U,A),_SEQ__VECT);
   }
   static const char _ihermite_s []="ihermite";

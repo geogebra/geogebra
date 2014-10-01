@@ -255,6 +255,22 @@ namespace giac {
     return symbolic(at_pow,g);
   }
 
+  gen pownegtoinvpow(const gen & g0,GIAC_CONTEXT){
+    gen g(g0);
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    g.subtype=_SEQ__VECT;
+    vecteur & v(*g._VECTptr);
+    if (v.size()!=2)
+      return gensizeerr(contextptr);
+    if (v[1].type!=_SYMB)
+      return symbolic(at_pow,g);
+    unary_function_ptr &u=v[1]._SYMBptr->sommet;
+    if (u==at_neg)
+      return inv(powtopowexpand(makevecteur(v[0],v[1]._SYMBptr->feuille),contextptr),contextptr);
+    return symbolic(at_pow,g);
+  }
+
   gen powtopowexpand(const gen & g0,GIAC_CONTEXT){
     gen g(g0);
     if (g.type!=_VECT)
@@ -1823,6 +1839,9 @@ namespace giac {
       // int p=primeargs.size();
       vecteur lnprimeargs(*apply(r2e(primeargs,vars,contextptr),at_ln,contextptr)._VECTptr);
       vecteur lnextargs(*apply(r2e(extargs,vars,contextptr),at_ln,contextptr)._VECTptr);
+      vecteur chk(lidnt(lop(lnextargs,at_rootof)));
+      if (!chk.empty())
+	return e;
       vecteur newln(s);
       for (int i=0;i<s;++i){
 #ifdef TIMEOUT
@@ -2077,13 +2096,13 @@ namespace giac {
 	  if (li.type==_FRAC && li._FRACptr->num.type==_INT_ && li._FRACptr->den.type==_INT_){
 	    n=li._FRACptr->num.val;
 	    d=li._FRACptr->den.val;
-	    q=-n/d;
-	    r=-n%d;
+	    if (d<0){ n=-n; d=-d; }
+	    q=n/d;
+	    r=n%d;
 	    if (q%2)
 	      q=-1;
 	    else
 	      q=1;
-	    if (d<0){ r=-r; d=-d; }
 	    if (r<0) r += 2*d;
 	    // exp(r*i*pi/d) -> use rootof([1,..,0],cyclotomic(2*d))
 	    vecteur vr(r+1);
@@ -2105,8 +2124,12 @@ namespace giac {
     return f;
   }
 
+  gen powneg2invpow(const gen & e,GIAC_CONTEXT){
+    return subst(e,pow_tab,powneg2invpow_tab,false,contextptr);
+  }
+
   gen simplify(const gen & e_orig,GIAC_CONTEXT){
-    if (e_orig.type<=_POLY || is_inf(e_orig))
+    if (e_orig.type<=_POLY || is_inf(e_orig) || has_num_coeff(e_orig))
       return e_orig;
     gen e=e_orig;
     if (e.type==_FRAC)
@@ -2117,6 +2140,8 @@ namespace giac {
       e=lncollect(ratnormal(e_orig),contextptr);
     if (!lop(e,at_exp).empty())
       e=_exp2pow(e,contextptr);
+    if (!lop(e,at_pow).empty())
+      e=powneg2invpow(e,contextptr);
     if (contains(e,cst_pi))
       e=cossinexp2rootof(e,contextptr);
     if (e.type==_SYMB && e._SYMBptr->feuille.type!=_VECT){
@@ -2237,7 +2262,8 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigcos(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigcos,contextptr);
-    return normal(trigcos(args,contextptr),contextptr);
+    gen g=_tan2sincos(args,contextptr);
+    return normal(trigcos(g,contextptr),contextptr);
   }
   static const char _trigcos_s []="trigcos";
   static define_unary_function_eval (__trigcos,&giac::_trigcos,_trigcos_s);
@@ -2253,7 +2279,8 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigsin(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigsin,contextptr);
-    return normal(trigsin(args,contextptr),contextptr);
+    gen g=_tan2sincos(args,contextptr);
+    return normal(trigsin(g,contextptr),contextptr);
   }
   static const char _trigsin_s []="trigsin";
   static define_unary_function_eval (__trigsin,&giac::_trigsin,_trigsin_s);
@@ -2262,6 +2289,7 @@ namespace giac {
   gen trigtan(const gen & e,GIAC_CONTEXT){
     return subst(simplifier(e,contextptr),pow_tab,trigtan_tab,false,contextptr);
   }
+  gen _sin2costan(const gen & args,GIAC_CONTEXT);
   gen _trigtan(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen var,res;
@@ -2269,7 +2297,8 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigtan(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigtan,contextptr);
-    return normal(trigtan(args,contextptr),contextptr);
+    gen g=_sin2costan(args,contextptr);
+    return normal(trigtan(g,contextptr),contextptr);
   }
   static const char _trigtan_s []="trigtan";
   static define_unary_function_eval (__trigtan,&giac::_trigtan,_trigtan_s);
@@ -2714,14 +2743,26 @@ namespace giac {
     d=_prod(v_out,contextptr);
     if (deno && !is_zero(im(d,contextptr))){
       gen mult=conj(d,contextptr);
-      n=symbolic(at_prod,gen(makevecteur(n,mult),_SEQ__VECT));
-      d=symbolic(at_prod,gen(makevecteur(d,mult),_SEQ__VECT));
+      if (n==1)
+	n=mult;
+      else
+	n=symbolic(at_prod,gen(makevecteur(n,mult),_SEQ__VECT));
+      if (d==1)
+	d=mult;
+      else
+	d=symbolic(at_prod,gen(makevecteur(d,mult),_SEQ__VECT));
     }
     else {
       if (!is_zero(im(n,contextptr))){
 	gen mult=conj(n,contextptr);
-	n=symbolic(at_prod,gen(makevecteur(n,mult),_SEQ__VECT));
-	d=symbolic(at_prod,gen(makevecteur(d,mult),_SEQ__VECT));
+	if (n==1)
+	  n=mult;
+	else
+	  n=symbolic(at_prod,gen(makevecteur(n,mult),_SEQ__VECT));
+	if (d==1)
+	  d=mult;
+	else
+	  d=symbolic(at_prod,gen(makevecteur(d,mult),_SEQ__VECT));
       }
     }
     return n/d;

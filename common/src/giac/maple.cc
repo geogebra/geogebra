@@ -2010,6 +2010,16 @@ namespace giac {
 	      return (r1-un1*r2)/(1-un1);
 	    }
 	  }
+	  if (fixed.type==_VECT && fixed._VECTptr->size()==1){
+	    gen r1=fixed._VECTptr->front();
+	    // 1/(u_n-r1) is arithmetic
+	    gen un1=(a*n+b)/(c*n+d);
+	    gen r=normal(inv(un1-r1,contextptr)-inv(n-r1,contextptr),contextptr);
+	    if (is_zero(derive(r,n,contextptr))){
+	      un1=r*n+var;
+	      return inv(un1,contextptr);
+	    }
+	  }
 	}
       }
       return symbolic(at_seqsolve,args);

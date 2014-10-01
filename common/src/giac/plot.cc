@@ -4517,10 +4517,12 @@ namespace giac {
       vecteur v(*sur._VECTptr);
       identificateur tt=*v[1]._IDNTptr;
       gen vparameq(v[0]);
-#if 0
-      if (v.size()>6){
+#if 1
+      if (v.size()>6 && !is_undef(v[6])){
 	v[0]=vparameq=v[6];
 	v[1]=t__IDNT_e;
+	v[2]=minus_inf;
+	v[3]=plus_inf;
 	tt=*v[1]._IDNTptr;
       }
 #endif
@@ -4533,6 +4535,8 @@ namespace giac {
 #endif
 	gen eq=scalar_product(tangeant,p-v[0],contextptr);
 	if (is_undef(eq)) return eq;
+	if (is_inf(v[2]) || is_inf(v[3]))
+	  eq=exact(eq,contextptr);
 	// should expand and assume that tt is real
 	rewrite_with_t_real(eq,v[1],contextptr);
 	vecteur sol;
@@ -4561,11 +4565,11 @@ namespace giac {
 	sol.push_back(v[3]);
 	// find smallest 
 	const_iterateur it=sol.begin(),itend=sol.end();
-	gen distance2_found=distance2pp(subst(v[0],v[1],v[2],false,contextptr),p,contextptr),cur_distance2;
+	gen distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr),cur_distance2;
 	for (;it!=itend;++it){
 	  if (!is_zero(it->im(contextptr)))
 	    continue;
-	  cur_distance2=distance2pp(subst(v[0],v[1],*it,false,contextptr),p,contextptr);
+	  cur_distance2=distance2pp(limit(v[0],*v[1]._IDNTptr,*it,0,contextptr),p,contextptr);
 	  if (ck_is_greater(distance2_found,cur_distance2,contextptr)){
 	    t_found=*it;
 	    distance2_found=cur_distance2;
@@ -5515,7 +5519,10 @@ namespace giac {
     }
     if ( (geo_obj.type==_SYMB) && (geo_obj._SYMBptr->sommet==at_curve)){
       vecteur w(*geo_obj._SYMBptr->feuille._VECTptr->front()._VECTptr);
-      gen res=subst(w[0],w[1],t,false,contextptr);
+      gen w06=w[0];
+      if (w.size()>6 && !is_undef(w[6]))
+	w06=w[6];
+      gen res=_limit(makesequence(w06,w[1],t),contextptr);
       if (res.type==_VECT && res._VECTptr->size()==2)
 	res=res._VECTptr->front()+cst_i*res._VECTptr->back();
       return res;
@@ -8267,8 +8274,11 @@ namespace giac {
 	imc=im(centre,contextptr);
 	rer=re(rayon,contextptr);
 	imr=im(rayon,contextptr);
+	bool b=do_lnabs(contextptr);
+	do_lnabs(false,contextptr);
 	ref=re(vf[0],contextptr);
 	imf=im(vf[0],contextptr);
+	do_lnabs(b,contextptr);
 	eq=pow(ref-rec,2,contextptr)+pow(imf-imc,2,contextptr)-rer*rer-imr*imr;
       }
       else { // line
@@ -8278,8 +8288,11 @@ namespace giac {
 	imA=im(A,contextptr);
 	reB=re(B,contextptr);
 	imB=im(B,contextptr);
+	bool b=do_lnabs(contextptr);
+	do_lnabs(false,contextptr);
 	ref=re(vf[0],contextptr);
 	imf=im(vf[0],contextptr);
+	do_lnabs(b,contextptr);
 	eq=(reA-ref)*(imA-imB)-(imA-imf)*(reA-reB);
       }
       eq=ratnormal(eq);
@@ -8714,11 +8727,11 @@ namespace giac {
       if ( (curve.type!=_SYMB) || (curve._SYMBptr->sommet!=at_curve))
 	return gensizeerr(contextptr);
       vecteur v=*curve._SYMBptr->feuille._VECTptr->front()._VECTptr;
-      gen direction;
+      gen v06=v[0];
       if (v.size()>6 && !is_undef(v[6]))
-	direction=derive(v[6],*v[1]._IDNTptr,contextptr);
-      else
-	direction=derive(v[0],*v[1]._IDNTptr,contextptr);
+	v06=v[6];
+      gen direction;
+      direction=derive(v06,*v[1]._IDNTptr,contextptr);
       if (is_undef(direction))
 	return direction;
       if ( (t.type==_SYMB) && (t._SYMBptr->sommet==at_pnt)){
@@ -8790,7 +8803,7 @@ namespace giac {
 	    return res;
 	  }
 	} // end if (v[1].type==_IDNT ...)
-	gen xt(re(v[0],contextptr)),yt(im(v[0],contextptr)),xp(re(direction,contextptr)),yp(im(direction,contextptr));
+	gen xt(re(v06,contextptr)),yt(im(v06,contextptr)),xp(re(direction,contextptr)),yp(im(direction,contextptr));
 	gen var=v[1];
 	rewrite_with_t_real(xt,var,contextptr);
 	rewrite_with_t_real(yt,var,contextptr);
@@ -8821,7 +8834,7 @@ namespace giac {
 	for (;it!=itend;++it){
 	  if (is_undef(*it))
 	    return gensizeerr(gettext("Unable to solve"));
-	  gen Mt=subst(v[0],var,*it,false,contextptr); // point on the curve
+	  gen Mt=subst(v06,var,*it,false,contextptr); // point on the curve
 	  if (is_zero(normal(M-Mt,contextptr))){
 	    direction=subst(direction,var,*it,false,contextptr);
 	    result.push_back(_droite(makesequence(M,M+direction),contextptr));
@@ -8833,7 +8846,7 @@ namespace giac {
       }
       else {
 	direction=subst(direction,v[1],t,false,contextptr);
-	gen point(subst(v[0],v[1],t,false,contextptr));
+	gen point(subst(v06,v[1],t,false,contextptr));
 	result.push_back(_droite(makesequence(point,point+direction),contextptr));
 	continue;
       }

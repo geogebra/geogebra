@@ -581,6 +581,11 @@ namespace giac {
       return derive( v[0],v[1],v[2],contextptr);    
     if (s<3)
       return gensizeerr(contextptr);
+    if (s>=3 && v.back().is_symb_of_sommet(at_equal)){
+      gen v_=gen(vecteur(v.begin(),v.end()-1),_SEQ__VECT);
+      v_=_derive(v_,contextptr);
+      return _subst(makesequence(v_,v.back()),contextptr);
+    }
     const_iterateur it=v.begin()+1,itend=v.end();
     res=v[0];
     for (;it!=itend;++it)

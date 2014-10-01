@@ -183,7 +183,10 @@ namespace giac {
     if (type==_SEQ__VECT) s.append("(\" close=\")\">");
     else {
       if (type==_SET__VECT) s.append("{\" close=\"}\">");
-      else s.append("[\" close=\"]\">");
+      else{
+	if (type==_POLY1__VECT) s.append("poly1[\" close=\"]\">");
+        else s.append("[\" close=\"]\">");
+      }
     }
     s.append("<mrow>");
     vecteur::const_iterator it=v.begin(),itend=v.end();

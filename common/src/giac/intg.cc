@@ -94,7 +94,8 @@ namespace giac {
   gen complex_subst(const gen & e,const gen & x,const gen & newx,GIAC_CONTEXT){
     bool save_complex_mode=complex_mode(contextptr);
     complex_mode(true,contextptr);
-    gen res=eval(subst(e,x,newx,false,contextptr),1,contextptr);
+    gen res=subst(e,x,newx,false,contextptr);
+    res=eval(res,1,contextptr);
     complex_mode(save_complex_mode,contextptr);
     return res;
   }
@@ -2195,7 +2196,8 @@ namespace giac {
 #else
 	  e=linear_integrate(fx,gen_x,tmprem,contextptr);
 	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;
-	  return complex_subst(e,gen_x,*it,contextptr);
+	  e=complex_subst(e,gen_x,*it,contextptr);
+	  return e;
 #endif
 	}
 	if (it->is_symb_of_sommet(at_pow)){
@@ -2506,6 +2508,15 @@ namespace giac {
       return simplifier(exactvalue,contextptr);
     *logptr(contextptr) << gettext("Error while checking exact value with approximate value, returning both!") << endl;
     return makevecteur(exactvalue,tmp2);
+  }
+
+  void comprim(vecteur & v){
+    vecteur w;
+    for (unsigned i=0;i<v.size();++i){
+      if (!equalposcomp(w,v[i]))
+	w.push_back(v[i]);
+    }
+    v=w;
   }
   // "unary" version
   gen _integrate(const gen & args,GIAC_CONTEXT){
@@ -2852,6 +2863,7 @@ namespace giac {
       }
     }
     // FIXME if v depends on an integer parameter, find values in inf,sup
+    comprim(sp);
     int sps=sp.size();
     for (int i=0;i<sps;i++){
       if (sp[i].type==_DOUBLE_ || sp[i].type==_REAL || has_op(sp[i],*at_rootof)){

@@ -3145,7 +3145,11 @@ namespace giac {
     if (v.size()==2){
       if (objet.type==_SYMB){
 	gen & f=objet._SYMBptr->feuille;
-	gen tmp=_map(makevecteur(f,to_map),contextptr);
+	gen tmp;
+	if (xcas_mode(contextptr)==1)
+	  tmp=_map(makevecteur(to_map,f),contextptr);
+	else
+	  tmp=_map(makevecteur(f,to_map),contextptr);
 	if (f.type==_VECT && tmp.type==_VECT)
 	  tmp.subtype=f.subtype;
 	if (is_equal(objet) || objet._SYMBptr->sommet==at_same)

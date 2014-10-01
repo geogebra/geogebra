@@ -182,6 +182,8 @@ namespace giac {
     gen r=a_root(qs,0,eps);
     if (is_undef(r)) return 0;
     double arg_d=evalf_double(arg(r,context0),1,context0)._DOUBLE_val;
+    if (arg_d<0)
+      arg_d=-arg_d;
     double d=2*M_PI/ arg_d;
     // find rational approx of d
     int num,den;
@@ -323,7 +325,8 @@ namespace giac {
 
   // x -> x^p (non modular)
   vecteur x_to_xp(const vecteur & v, int p){
-    if (p<=0) return vecteur(1,gensizeerr(gettext("modpoly.cc/x_to_xp")));
+    if (p<=0) 
+      return vecteur(1,gensizeerr(gettext("modpoly.cc/x_to_xp")));
     if ( (p==1) || v.empty())
       return v;
     const_iterateur it=v.begin(),itend=v.end();

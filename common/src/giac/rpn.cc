@@ -2126,6 +2126,8 @@ namespace giac {
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;
     if (!ckmatrix(args0))
       return gentypeerr(contextptr);
+    if (!has_num_coeff(args0))
+      *logptr(contextptr) << gettext("SVD is implemented for numeric matrices, running evalf first") << endl;
     gen args=evalf(args0,1,contextptr);
     gen res= _svd(gen(makevecteur(args,-1),_SEQ__VECT),contextptr);
     if (res.type==_VECT) res.subtype=_LIST__VECT;
@@ -2614,11 +2616,124 @@ namespace giac {
   // for under-determined system, find a solution X of A*X=B such that ||X|| is min
   gen _LSQ(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_VECT || args._VECTptr->size()!=2)
+    if (args.type!=_VECT || args._VECTptr->size()<2)
       return gentypeerr(contextptr);
-    vecteur & v = *args._VECTptr;
+    vecteur v = *args._VECTptr;
     gen v0=v[0]; // evalf(v[0],1,contextptr)
     gen v1=v[1];
+    int vs=v.size();
+    if (vs==3){
+      v.push_back(vecteur(0));
+      ++vs;
+    }
+    if (vs==4){
+      gen v2=v[2],v3=v[3];
+      if (v0.type==_VECT && v1.type==_VECT && !v0._VECTptr->empty() && v0._VECTptr->size()==v1._VECTptr->size() && v2.type==_VECT && v3.type==_VECT){
+	// v0=list of values of x or of [x,y,...], v1= observed value at x, 
+	// v2=v[vs-2]=list of expressions f_i(x) or f_i(x,y) or [f_i(vars)],[vars]  
+	// v3=v.back()=list of constraints = list of 
+	// [X_k,n_k (number of derivatives), Y_k=value of n_k-th diff at X_k]
+	// or [[X_k,Y_k,...],[n_k],value]
+	// minimize sum_j=1..N (y_j-sum_i=1..M(a_i*f_i(x_j),i))^2
+	// under sum_i=1..M a_i*diff(f_i,n_k)(X_k) = 0 for k=1..K
+	vecteur expr(*v2._VECTptr),constraints(*v3._VECTptr);
+	if (!constraints.empty() && constraints.front().type!=_VECT)
+	  constraints=vecteur(1,constraints);
+	if (!constraints.empty() && (!ckmatrix(constraints) || constraints.front()._VECTptr->size()!=3))
+	  return gensizeerr(contextptr);
+	vecteur & x=*v0._VECTptr;
+	vecteur & y=*v1._VECTptr;
+	unsigned M=expr.size(), K=constraints.size(),N=v0._VECTptr->size();
+	vecteur vars(1,x__IDNT_e);
+	int dim=2;
+	if (x.front().type==_VECT){
+	  if (!ckmatrix(x))
+	    return gensizeerr(contextptr);
+	  dim=x.front()._VECTptr->size()+1;
+	  if (dim<2)
+	    return gendimerr(contextptr);
+	}
+	if (dim==3)
+	  vars.push_back(y__IDNT_e);
+	if (expr.front().type==_VECT){
+	  if (M!=2 || expr.back().type!=_VECT)
+	    return gensizeerr(contextptr);
+	  vars=*expr.back()._VECTptr;
+	  if (vars.size()!=dim-1)
+	    return gendimerr(contextptr);
+	  expr=*expr.front()._VECTptr;
+	  M=expr.size();
+	}
+	else {
+	  if (dim>3)
+	    return gendimerr(contextptr);
+	}
+	// F_{i,j}=f_i(x_j)
+	matrice F; // M rows, N cols
+	for (unsigned i=0;i<M;++i){
+	  gen fi=expr[i];
+	  vecteur ligne;
+	  for (unsigned j=0;j<N;++j){
+	    ligne.push_back(subst(fi,vars,gen2vecteur(x[j]),false,contextptr));
+	  }
+	  F.push_back(ligne);
+	}
+	// dF_{i,k}=diff(f_i,n_k)(X_k)
+	matrice dF; // M rows, K cols
+	for (unsigned i=0;i<M;++i){
+	  gen fi=expr[i];
+	  vecteur ligne;
+	  for (unsigned k=0;k<K;++k){
+	    gen nk=constraints[k][1];
+	    gen tmp=derive(fi,vars,gen2vecteur(nk),contextptr);
+	    ligne.push_back(subst(tmp,vars,gen2vecteur(constraints[k][0]),false,contextptr));
+	  }
+	  dF.push_back(ligne);
+	}
+	matrice mat; // M+K rows, M+K+1 cols
+	// first M equations of linear system: for l=1..M
+	// sum_i=1..M a_i*sum_j=1..N f_l(x_j)*f_i(x_j) + sum_k=1..K lagrange_k*diff(f_l,n_k)(X_k) = sum_j=1..N f_l(x_j)*y_j
+	for (unsigned l=0;l<M;++l){
+	  vecteur ligne;
+	  for (unsigned i=0;i<M;++i){
+	    gen tmp=0;
+	    for (unsigned j=0;j<N;++j)
+	      tmp += F[l][j]*F[i][j];
+	    ligne.push_back(tmp);
+	  }
+	  for (unsigned k=0;k<K;++k){
+	    ligne.push_back(dF[l][k]);
+	  }
+	  gen tmp=0;
+	  for (unsigned j=0;j<N;++j){
+	    tmp += F[l][j]*y[j];
+	  }
+	  ligne.push_back(tmp);
+	  mat.push_back(ligne);
+	}
+	// last K equations
+	// sum_i=1..M a_i*diff(f_i,n_k)(X_k)=Y_k
+	// giving a (M+K,M+K) matrix -> linsolve, first M coordinates 
+	// -> sum_i=1..M a_i f_i(x)
+	for (unsigned k=0;k<K;++k){
+	  vecteur ligne(M+K+1);
+	  ligne[M+K]=constraints[k][2];
+	  for (unsigned i=0;i<M;++i){
+	    ligne[i]=dF[i][k];
+	  }
+	  mat.push_back(ligne);
+	}
+	// now solve linear system
+	vecteur res=mker(mat,contextptr);
+	if (res.size()!=1 || res.front().type!=_VECT || res.front()._VECTptr->size()!=M+K+1)
+	  return gensizeerr("Singular linear system");
+	vecteur Res=*res.front()._VECTptr;
+	res=vecteur(Res.begin(),Res.begin()+M);
+	return gen(res);
+      }
+      else
+	return gensizeerr(contextptr);
+    }
     if (!ckmatrix(v0) || v1.type!=_VECT)
       return gentypeerr(contextptr);
     int neq=v0._VECTptr->size(); // neq equations
@@ -2685,6 +2800,10 @@ namespace giac {
   static define_unary_function_eval (__LSQ,&_LSQ,_LSQ_s);
   define_unary_function_ptr5( at_LSQ ,alias_at_LSQ,&__LSQ,0,T_UNARY_OP_38);
   
+  static const char _lsq_s []="lsq";
+  static define_unary_function_eval (__lsq,&_LSQ,_lsq_s);
+  define_unary_function_ptr5( at_lsq ,alias_at_lsq,&__lsq,0,true);
+
   static string printasNTHROOT(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (feuille.type==_VECT && feuille._VECTptr->size()==2 && abs_calc_mode(contextptr)!=38)
       return "surd("+feuille[1].print(contextptr)+","+feuille[0].print(contextptr)+")";

@@ -227,6 +227,8 @@ namespace giac {
   gen trigsinpow(const gen & g,GIAC_CONTEXT);
   gen trigtanpow(const gen & g,GIAC_CONTEXT);
   gen powtopowexpand(const gen & g,GIAC_CONTEXT);
+  gen pownegtoinvpow(const gen & g0,GIAC_CONTEXT);
+  gen powneg2invpow(const gen & e,GIAC_CONTEXT);
   gen exptopower(const gen & g,GIAC_CONTEXT);
   gen asin2ln(const gen & g_orig,GIAC_CONTEXT);
   gen acos2ln(const gen & g_orig,GIAC_CONTEXT);

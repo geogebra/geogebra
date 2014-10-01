@@ -1189,14 +1189,20 @@ namespace giac {
     if (!aplati && complexe && (a0==a1 || b0==b1) )
       return vecteur(1,gensizeerr(gettext("Square is flat!")));
     gen A0(a0),B0(b0),A1(a1),B1(b1);
-    // initial rectangle: |roots|< 1+ max(|a_i|)/|a_n|
-    if (aplati){
+    {
+      // initial rectangle: |roots|< 1+ max(|a_i|)/|a_n|
       gen maxai=_max(*apply(P,abs,context0)._VECTptr,context0);
       gen tmp=1+maxai/abs(P.front(),context0);
-      A0=-tmp;
-      B0=-tmp;
-      A1=tmp;
-      B1=tmp;
+      if (aplati){
+	A0=-tmp;
+	B0=-tmp;
+	A1=tmp;
+	B1=tmp;
+      }
+      if (is_inf(A0)) A0=-tmp;
+      if (is_inf(B0)) B0=-tmp;
+      if (is_inf(A1)) A1=tmp;
+      if (is_inf(B1)) B1=tmp;
     }
     gen tmp;
     modpoly p(*apply(P,exact,context0)._VECTptr);

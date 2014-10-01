@@ -2624,7 +2624,235 @@ namespace giac {
   static const char _kolmogorovt_s []="kolmogorovt";
   static define_unary_function_eval (__kolmogorovt,&_kolmogorovt,_kolmogorovt_s);
   define_unary_function_ptr5( at_kolmogorovt ,alias_at_kolmogorovt,&__kolmogorovt,0,true);
+  
 
+  // computes wilcoxon test value for sample x and median m_ or samples x and m_
+  gen wilcoxons(const vecteur & x,const gen & m_,GIAC_CONTEXT){
+    if (m_.type==_VECT){
+      vecteur & y=*m_._VECTptr;
+      int n=y.size();
+      int m=x.size();
+      vecteur xm;
+      for (int i=0;i<n;++i){
+	xm.push_back(makevecteur(y[i],i));
+      }
+      for (int i=0;i<m;++i){
+	xm.push_back(makevecteur(x[i],n+i));
+      }
+      gen_sort_f(xm.begin(),xm.end(),first_ascend_sort);
+      vector<double> stat(xm.size());
+      for (unsigned i=1;i<=xm.size();++i){
+	unsigned j=1; // number of ties
+	for (;i<xm.size() && xm[i]._VECTptr->front()==xm[i-1]._VECTptr->front();){
+	  ++j; ++i;
+	}
+	// xm[i]!=xm[i-1] (or i==xm.size())
+	// xm[i-1]==...=xm[i-j]
+	double value=(i-1+i-j)/2.+1;
+	for (unsigned k=1;k<=j;++k)
+	  stat[i-k]=value;
+      }
+      gen res=0;
+      for (unsigned i=0;i<xm.size();++i){
+	if (is_strictly_greater(n,xm[i]._VECTptr->back().val,contextptr))
+	  res += stat[i]; // int(i+1);
+      }
+      return res;
+    }
+    gen m=evalf_double(m_,1,contextptr);
+    if (m.type!=_DOUBLE_)
+      return gensizeerr(gettext("Invalid median"));
+    vecteur xm(x);
+    for (unsigned i=0;i<xm.size();++i){
+      xm[i]=makevecteur(abs(xm[i]-m),int(i));
+    }
+    gen_sort_f(xm.begin(),xm.end(),first_ascend_sort);
+    gen res=0;
+    for (unsigned i=0;i<xm.size();++i){
+      if (is_greater(x[xm[i]._VECTptr->back().val],m,contextptr))
+	res += int(i+1);
+    }
+    return res;
+  }
+
+  gen _wilcoxons(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen x=args._VECTptr->front(),m=args._VECTptr->back();
+    if (x.type!=_VECT || x._VECTptr->empty())
+      return gendimerr(contextptr);
+    return wilcoxons(*x._VECTptr,m,contextptr);
+  }
+  static const char _wilcoxons_s []="wilcoxons";
+  static define_unary_function_eval (__wilcoxons,&_wilcoxons,_wilcoxons_s);
+  define_unary_function_ptr5( at_wilcoxons ,alias_at_wilcoxons,&__wilcoxons,0,true);
+
+  // returns product_i=1^n (1+t^i)
+  gen wilcoxonp(int n){
+    if (n<=0)
+      return vecteur(0);
+    gen res(gen(vecteur(1,1),_POLY1__VECT));
+    for (unsigned i=1;i<=n;++i){
+      vecteur tmp(i+1);
+      tmp[i]=tmp[0]=1;
+      res=res*gen(tmp,_POLY1__VECT);
+    }
+    return res;
+  }
+  gen wilcoxonp(int m,int n,GIAC_CONTEXT){
+    // sum_k Pmn(k)*x^k = 1/comb(m+n,n)*prod_{i=n+1}^{m+n}(1-x^i)/prod_{j=1}^m(1-x^j)
+    if (n<=0 || m<=0)
+      return vecteur(0);
+    gen num(gen(vecteur(1,1),_POLY1__VECT));
+    for (unsigned i=n+1;i<=m+n;++i){
+      vecteur tmp(i+1);
+      tmp[i]=-1; tmp[0]=1;
+      num=num*gen(tmp,_POLY1__VECT);
+    }
+    gen den(gen(vecteur(1,1),_POLY1__VECT));
+    for (unsigned i=1;i<=m;++i){
+      vecteur tmp(i+1);
+      tmp[i]=-1; tmp[0]=1;
+      den=den*gen(tmp,_POLY1__VECT);
+    }
+    gen q=_quo(makesequence(num,den),contextptr);
+    return q;
+  }
+  gen _wilcoxonp(const gen & args,GIAC_CONTEXT){
+    gen n(args);
+    if (n.type==_VECT && n._VECTptr->size()==2){
+      gen M(n._VECTptr->front()),N(n._VECTptr->back());
+      if (!is_integral(M) || M.type!=_INT_ || M.val < 1 ||
+	  !is_integral(N) || N.type!=_INT_ || N.val < 1 || M.val+N.val > 400
+	  )
+	return gendimerr(contextptr);
+      return wilcoxonp(M.val,N.val,contextptr)/comb(M.val+N.val,N.val);
+    }
+    if (!is_integral(n) || n.type!=_INT_ || n.val<1 || n.val>1000)
+      return gendimerr(contextptr);
+    return wilcoxonp(n.val)/pow(plus_two,n,contextptr);
+  }
+  static const char _wilcoxonp_s []="wilcoxonp";
+  static define_unary_function_eval (__wilcoxonp,&_wilcoxonp,_wilcoxonp_s);
+  define_unary_function_ptr5( at_wilcoxonp ,alias_at_wilcoxonp,&__wilcoxonp,0,true);
+
+  // a faire wilcoxont(echantillon,mediane,seuil alpha) renvoyant true (accepte
+  // test 2-sided) si W est dans l'intervalle symetrique de borne inferieure
+  // le plus grand k tel que wilcoxonp[0]+...+wilcoxonp[k-1]<alpha/2
+  gen _wilcoxont(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT || g._VECTptr->size()<2 || g._VECTptr->size()>4)
+      return gensizeerr(contextptr);
+    vecteur & v = *g._VECTptr;
+    gen x=v[0],m=v[1],alpha=0.05;
+    int typetest=0; // 1 >, -1 <
+    if (x.type!=_VECT || x._VECTptr->empty())
+      return gensizeerr(gettext("Invalid sample"));
+    if (v.size()>=3 && v[2].type!=_FUNC)
+      alpha=evalf_double(v[2],1,contextptr);
+    if (v.size()>=4 && v[3].type!=_FUNC)
+      alpha=evalf_double(v[3],1,contextptr);
+    if (v.size()>=3 && v[2].type==_FUNC){
+      if (v[2]==at_superieur_strict || v[2]==at_superieur_egal)
+	typetest=1;
+      if (v[2]==at_inferieur_strict || v[2]==at_inferieur_egal)
+	typetest=-1;
+    }
+    if (v.size()>=4 && v[3].type==_FUNC){
+      if (v[3]==at_superieur_strict || v[3]==at_superieur_egal)
+	typetest=1;
+      if (v[3]==at_inferieur_strict || v[3]==at_inferieur_egal)
+	typetest=-1;
+    }
+    if (alpha.type!=_DOUBLE_ || alpha._DOUBLE_val<=0 || alpha._DOUBLE_val>=1)
+      return gensizeerr(gettext("Invalid confidence level"));
+    int n=x._VECTptr->size();
+    if (m.type==_VECT){
+      // if (typetest!=0) return gensizeerr(gettext("H1 must be <> for Mann-Whitney test"));
+      gen w=wilcoxons(*m._VECTptr,x,contextptr);
+      if (w.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      int N=m._VECTptr->size(),M=x._VECTptr->size();
+      gen combMN=comb(M+N,N);
+      *logptr(contextptr) << "Mann-Whitney 2-sample test, H0 same Median, H1 ";
+      if (typetest==0) *logptr(contextptr) << "<>";
+      if (typetest==1) *logptr(contextptr) << ">";
+      if (typetest==-1) *logptr(contextptr) << "<";
+      *logptr(contextptr) << "\nranksum "<< w << ", shifted ranksum " << w-M*(M+1.)/2 << endl;
+      double W=M*N+M*(M+1.)/2-w._DOUBLE_val;
+      if (typetest==0){
+	*logptr(contextptr) << "u1=" << W << " ,u2=" << M*N-W ; 
+	if (W>M*(N/2.))
+	  W=M*N-W;
+	*logptr(contextptr) << ", u=min(u1,u2)=" << W << endl;
+      }
+      gen p=wilcoxonp(M,N,contextptr);
+      if (p.type!=_VECT || p._VECTptr->size()<M*N) return gensizeerr(contextptr);
+      vecteur & v = *p._VECTptr;
+      gen P=0,Q=0;
+      for (double i=0;i<=W;++i){
+	P += v[i];
+      }
+      P=P/combMN;
+      if (typetest==0){
+	gen seuil=combMN*alpha/2;
+	int um(-1);
+	for (double i=0;i<M*N;++i){
+	  Q += v[i];
+	  if (um==-1 && typetest==0 && is_greater(Q,seuil,contextptr))
+	    um=i-1;
+	}
+	*logptr(contextptr) << "Limit value to reject H0 " << um << endl;
+	P=2*P;
+      }
+      if (typetest==1)
+	P=1-P;
+      *logptr(contextptr) << "P-value " << P << " (" << evalf_double(P,1,contextptr) << "), alpha=" << alpha;
+      bool ok=is_greater(P,alpha,contextptr);
+      *logptr(contextptr) << (ok?" H0 not rejected":" H0 rejected") << endl;
+      return ok?1:0;
+    }
+    gen w=wilcoxons(*x._VECTptr,m,contextptr);
+    if (w.type!=_INT_)
+      return gensizeerr(contextptr);
+    *logptr(contextptr) << "Wilcoxon 1-sample test, H0 Median=" << m << ", H1 M";
+    if (typetest==0) *logptr(contextptr) << "<>";
+    if (typetest==1) *logptr(contextptr) << ">";
+    if (typetest==-1) *logptr(contextptr) << "<";
+    *logptr(contextptr) << m << endl;
+    gen p=wilcoxonp(n);
+    if (p.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & pv=*p._VECTptr;
+    gen total=0;
+    unsigned k=0,kmax=-1;
+    if (typetest==0){
+      int wbar=(n*(n+1))/2-w.val;
+      kmax=giacmin(w.val,wbar);
+    }
+    if (typetest==1){
+      k=w.val;
+      kmax=(n*(n+1))/2;
+    }
+    if (typetest==-1){
+      k=0;
+      kmax=w.val;
+    }
+    for (;k<=kmax;k++){
+      total += pv[k];
+    }
+    total=evalf_double(total/pow(plus_two,n,contextptr),1,contextptr);
+    if (typetest==0)
+      total=2*total;
+    *logptr(contextptr) << gettext("Wilcoxon statistic: ") << w << gettext(", p-value: ") << total << gettext(", confidence level: ") << alpha << endl;
+    if (is_greater(total,alpha,contextptr))
+      return 1;
+    return 0;
+  }
+  static const char _wilcoxont_s []="wilcoxont";
+  static define_unary_function_eval (__wilcoxont,&_wilcoxont,_wilcoxont_s);
+  define_unary_function_ptr5( at_wilcoxont ,alias_at_wilcoxont,&__wilcoxont,0,true);
+  
   int giacmin(const std::vector<int> & X){
     vector<int>::const_iterator it=X.begin(),itend=X.end();
     int r=RAND_MAX;

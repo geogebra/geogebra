@@ -804,6 +804,7 @@ namespace giac {
   extern const gen_op_context trigsin_tab[];
   extern const gen_op_context trigtan_tab[];
   extern const gen_op_context powexpand_tab[];
+  extern const gen_op_context powneg2invpow_tab[];
   extern const gen_op_context exp2power_tab[];
   extern const unary_function_ptr * const  gamma_tab;
   extern const gen_op_context gamma2factorial_tab[];

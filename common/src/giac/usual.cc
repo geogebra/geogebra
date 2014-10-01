@@ -9042,6 +9042,7 @@ namespace giac {
   const gen_op_context trigsin_tab[]={trigsinpow,0};
   const gen_op_context trigtan_tab[]={trigtanpow,0};
   const gen_op_context powexpand_tab[]={powtopowexpand,0};
+  const gen_op_context powneg2invpow_tab[]={pownegtoinvpow,0};
   const gen_op_context exp2power_tab[]={exptopower,0};
   const alias_type gamma_tab_alias[]={alias_at_Gamma,0};
   const unary_function_ptr * const gamma_tab=(const unary_function_ptr * const)gamma_tab_alias;

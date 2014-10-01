@@ -2823,6 +2823,10 @@ namespace giac {
 	 return *this; */
       return new_ref_symbolic(symbolic(at_conj,*this));
     case _SYMB:
+      if (_SYMBptr->sommet==at_conj)
+	return _SYMBptr->feuille;
+      if (_SYMBptr->sommet==at_re || _SYMBptr->sommet==at_im)
+	return *this;
       if (_SYMBptr->sommet==at_polar_complex && _SYMBptr->feuille.type==_VECT && _SYMBptr->feuille._VECTptr->size()==2){
 	vecteur v=*_SYMBptr->feuille._VECTptr;
 	v[1]=-v[1];
@@ -3069,8 +3073,13 @@ namespace giac {
       r=s; i=0; return;
     }
     if (u==at_ln){ // FIXME?? might recurse
-      r=ln(abs(f,contextptr),contextptr);
-      i=arg(f,contextptr);
+      if (do_lnabs(contextptr)){
+	r=ln(abs(f,contextptr),contextptr);
+	i=arg(f,contextptr);
+      }
+      else {
+	r=s; i=0;
+      }
       return ;
     }
     if (u==at_tan){
@@ -11930,7 +11939,7 @@ namespace giac {
 	if (is_one(*(_CPLXptr+1)))
 	  return printi(contextptr);
 	if (is_minus_one(*(_CPLXptr+1)))
-	  return abs_calc_mode(contextptr)==38?string("−"):string("-")+printi(contextptr);
+	  return (abs_calc_mode(contextptr)==38?string("−"):string("-"))+printi(contextptr);
 	return ((_CPLXptr+1)->print(contextptr) + string("*"))+printi(contextptr);
       }
       if (is_one(*(_CPLXptr+1)))

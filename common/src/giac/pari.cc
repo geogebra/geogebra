@@ -479,6 +479,25 @@ namespace giac {
     return res;
   }
 
+  static GEN real2GEN(const gen & e_,GIAC_CONTEXT){
+    gen e(e_);
+    bool neg=false;
+    if (is_strictly_positive(-e,contextptr)){
+      e=-e;
+      neg=true;
+    }
+    const char * s=e.print(contextptr).c_str();
+    int prec=53;
+#ifdef HAVE_LIBMPFR
+    if (e.type==_REAL)
+      prec=mpfr_get_prec(e._REALptr->inf);
+#endif
+    GEN g=strtor((char *)s,prec);
+    if (neg)
+      g=gneg(g);
+    return g;
+  }
+
   static GEN ingen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT){
     switch (e.type){
     case _INT_:
@@ -489,6 +508,8 @@ namespace giac {
       return cplx2GEN(e,vars,contextptr);
     case _FRAC:
       return frac2GEN(e,vars,contextptr);
+    case _DOUBLE_: case _REAL:
+      return real2GEN(e,contextptr);
     case _VECT:
       if (ckmatrix(e))
 	return mat2GEN(e,vars,contextptr);
@@ -497,10 +518,12 @@ namespace giac {
     }
     // add vars to e
     string s=pariprint(e,0,contextptr);
-    if (!vars.empty())
-      s="["+(vars.size()==1?vars.front().print():print_VECT(vars,_SEQ__VECT,contextptr))+","+s+"]";
+    vecteur vars_(vars);
+    // if (vars_.empty()) vars_.push_back(vx_var);
+    if (!vars_.empty())
+      s="["+(vars_.size()==1?vars_.front().print():print_VECT(vars_,_SEQ__VECT,contextptr))+","+s+"]";
     GEN res= flisexpr((char *) s.c_str());
-    return vars.empty()?res:gel(res,1+vars.size());
+    return vars_.empty()?res:gel(res,1+vars_.size());
   }
   GEN gen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT){
 #ifdef PARI23
@@ -968,7 +991,9 @@ namespace giac {
     gen tmp;
     pthread_cleanup_push(pari_cleanup, (void *) pari_mutex_ptr);
     long av=avma;
-    tmp=GEN2gen(roots(gen2GEN(change_subtype(p,_POLY1__VECT),vecteur(0),contextptr),prec),vecteur(0));
+    GEN G=gen2GEN(change_subtype(p,_POLY1__VECT),vecteur(0),contextptr);
+    G=roots(G,prec);
+    tmp=GEN2gen(G,vecteur(0));
     avma=av;
     if (pari_mutex_ptr) pthread_mutex_unlock(pari_mutex_ptr);    
     pthread_cleanup_pop(0);

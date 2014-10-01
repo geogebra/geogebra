@@ -222,6 +222,46 @@ namespace giac {
     return vecteur(0);
   }
 
+  static bool check(const gen & id,const gen & value,GIAC_CONTEXT){
+    if (id.type==_VECT && value.type==_VECT && id._VECTptr->size()==value._VECTptr->size()){
+      for (unsigned i=0;i<id._VECTptr->size();++i){
+	if (!check((*id._VECTptr)[i],(*value._VECTptr)[i],contextptr))
+	  return false;
+      }
+      return true;
+    }
+    if (id.type!=_IDNT)
+      return true;
+    gen g,g2=id._IDNTptr->eval(1,g,contextptr);
+    if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
+      vecteur v=*g2._VECTptr;
+      if (!v.empty() && v[0].type==_INT_ && value.type!=_IDNT && value.type!=_SYMB && !is_integer(value))
+	return false;
+      if ( v.size()==3 && v[1].type==_VECT && v[2].type==_VECT){
+	for (unsigned i=0;i<v[2]._VECTptr->size();++i){
+	  if (value==(*v[2]._VECTptr)[i])
+	    return false;
+	}
+	int loupe=0;
+	for (unsigned i=0;i<v[1]._VECTptr->size();++i){
+	  gen tmp=(*v[1]._VECTptr)[i];
+	  if (tmp.type==_VECT && tmp._VECTptr->size()==2){
+	    gen a=tmp._VECTptr->front(),b=tmp._VECTptr->back();
+	    if (is_greater(a,value,contextptr) || is_greater(value,b,contextptr))
+	      loupe++;
+	    else {
+	      if (is_greater(value,a,contextptr) && is_greater(b,value,contextptr))
+		break;
+	    }
+	  }
+	}
+	if (loupe==v[1]._VECTptr->size()) // all tests above returned false
+	  return false;
+      }
+    }
+    return true;
+  }
+
   // Fix isolate_mode if g is assumed to be in a given interval
   static void ck_isolate_mode(int & isolate_mode,const gen & g,GIAC_CONTEXT){
     if ( (isolate_mode& 2) ||  g.type!=_IDNT)
@@ -1824,6 +1864,7 @@ namespace giac {
 		    p1=Tnextcoeff<gen>(it,itend);
 		    p2=Tnextcoeff<gen>(it,itend);
 		    an=-r2sym(p2,ll,contextptr)/r2sym(p1,ll,contextptr);
+		    an=r2sym(an,vecteur(1,vecteur(0)),contextptr);
 		    has_nthroot=true;
 		    break;
 		  }
@@ -2246,6 +2287,11 @@ namespace giac {
 	  } // if res.type==_VECT
 	}
       }
+      if (v[1].type!=_VECT){
+	vecteur arg1l=lvarx(equal2diff(arg1),v[1]);
+	if (arg1l.size()>1)
+	  arg1=powneg2invpow(arg1,contextptr);
+      }
       if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
 	gen a1=arg1._SYMBptr->feuille[0];
 	gen a2=arg1._SYMBptr->feuille[1];
@@ -2275,6 +2321,8 @@ namespace giac {
     const_iterateur it=_res.begin(),itend=_res.end();
     vecteur res;
     for (;it!=itend;++it){
+      if (!check(v.back(),*it,contextptr))
+	continue;
       gen tmp=subst(arg1,v.back(),*it,false,contextptr);
       tmp=eval(tmp,1,contextptr);
       if (!is_undef(tmp) && !is_inf(tmp)){

@@ -2029,14 +2029,14 @@ namespace giac {
 	return v[int(std::ceil(v.size()/2.0))-1]; // v[(v.size()-1)/4];
       }
       matrice mt=mtran(ascsort(mtran(vecteur(1,v)),true));
-      if (calc_mode(contextptr)==1 && !v.empty() && !(v.size()%2))
+      if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && !v.empty() && !(v.size()%2))
 	return (mt[v.size()/2][0]+mt[v.size()/2-1][0])/2;
       return mt[int(std::ceil(v.size()/2.0))-1][0];
     }
     else
       v=ascsort(v,true);
     v=mtran(v);
-    if (calc_mode(contextptr)==1 && !v.empty() && !(v.size()%2))
+    if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && !v.empty() && !(v.size()%2))
       return (v[v.size()/2]+v[v.size()/2-1])/2;
     return v[int(std::ceil(v.size()/2.0))-1]; // v[(v.size()-1)/2];
   }
@@ -5721,6 +5721,26 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _find_s []="find";
   static define_unary_function_eval (__find,&_find,_find_s);
   define_unary_function_ptr5( at_find ,alias_at_find,&__find,0,true);
+
+  gen _dayofweek(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->size()!=3)
+      return gensizeerr(contextptr);
+    vecteur & v = *args._VECTptr;
+    gen d=v[0],m=v[1],a=v[2];
+    if (!is_integral(d) && !is_integral(m) && !is_integral(a))
+      return gensizeerr(contextptr);
+    int D=d.val,M=m.val,A=a.val;
+    if (D<1 || D>31 || M<1 || M>12)
+      return gensizeerr(contextptr);
+    int x=A;
+    if (M<3) x--;
+    int y=(23*M)/9+D+4+A+x/4-x/100+x/400;
+    if (M<3) y=y%7; else y=(y-2)%7;
+    return y;
+  }
+  static const char _dayofweek_s []="dayofweek";
+  static define_unary_function_eval (__dayofweek,&_dayofweek,_dayofweek_s);
+  define_unary_function_ptr5( at_dayofweek ,alias_at_dayofweek,&__dayofweek,0,true);
 
 
 #if 0

@@ -885,6 +885,8 @@ namespace giac {
   gen approx_rootof(const gen & e,GIAC_CONTEXT){
     if ( (e.type!=_VECT) || (e._VECTptr->size()!=2) )
       return gensizeerr(contextptr);
+    if (!lidnt(e).empty())
+      return e;
     gen a=e._VECTptr->front(),b=e._VECTptr->back();
     return alg_evalf(a,b,contextptr);
   }

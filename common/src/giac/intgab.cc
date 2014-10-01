@@ -829,9 +829,11 @@ namespace giac {
       return false;
     if (equalposcomp(lidnt(a),x) || equalposcomp(lidnt(b),x))
       return false;
-    gen g0_(g0),g0mult(1);
+    vecteur subst1,subst2;
+    surd2pow(g0,subst1,subst2,contextptr);
+    gen g0_(subst(g0,subst1,subst2,false,contextptr)),g0mult(1);
     if (!is_inf(a) && !is_inf(b) && g0_.is_symb_of_sommet(at_pow)){
-      g0_=g0._SYMBptr->feuille;
+      g0_=g0_._SYMBptr->feuille;
       if (g0_.type==_VECT && g0_._VECTptr->size()==2){
 	gen expo=g0_._VECTptr->back();
 	gen base=g0_._VECTptr->front();
