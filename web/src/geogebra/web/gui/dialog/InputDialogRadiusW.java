@@ -8,7 +8,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
 
 
@@ -32,14 +31,6 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 		this.kernel = kernel;
 	}
 
-	/**
-	 * Handles button clicks for dialog.
-	 */	
-	@Override
-    public void onClick(ClickEvent e) {
-		actionPerformed(e);
-	}
-	
 	@Override
 	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();

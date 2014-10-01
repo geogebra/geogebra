@@ -273,7 +273,7 @@ public abstract class DialogManager {
 			}
 			
 		}
-		return defaultRotateAngle;
+		return success ? defaultRotateAngle : null;
 	}
 
 

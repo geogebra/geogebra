@@ -5,9 +5,11 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.ErrorHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,7 +28,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class InputDialogW extends InputDialog implements ClickHandler,
-        SetLabels, KeyUpHandler {
+        SetLabels, KeyUpHandler, ErrorHandler {
 
 	protected AppW app;
 
@@ -42,7 +44,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	private String title;
 
-	protected VerticalPanel messagePanel;
+	protected VerticalPanel messagePanel, errorPanel;
 
 	protected FlowPanel btPanel;
 
@@ -58,7 +60,23 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 				if (event.getTypeInt() == Event.ONKEYUP && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {	
 					setVisible(false);
 					}
-			}};
+			}
+			
+			public void show(){
+				super.show();
+				InputDialogW.this.showError(null);
+				if(InputDialogW.this.app != null){
+					InputDialogW.this.app.setErrorHandler(InputDialogW.this);
+				}
+			}
+			
+			public void hide(){
+				super.hide();
+				if(InputDialogW.this.app != null){
+					InputDialogW.this.app.setErrorHandler(null);
+				}
+			}
+		};
 			
 		wrappedPopup.addStyleName("DialogBox");
 		wrappedPopup.addStyleName("GeoGebraFrame");
@@ -159,6 +177,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		}
 		messagePanel.addStyleName("Dialog-messagePanel");
 		
+		errorPanel = new VerticalPanel();
+		errorPanel.addStyleName("Dialog-errorPanel");
+		
 		// create buttons
 		btProperties = new Button();
 		btProperties.addClickHandler(this);
@@ -192,6 +213,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		centerPanel.addStyleName("Dialog-content");
 		centerPanel.add(messagePanel);
 		centerPanel.add(inputPanel);
+		centerPanel.add(errorPanel);
 		centerPanel.add(btPanel);
 
 		wrappedPopup.setWidget(centerPanel);
@@ -202,6 +224,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	 * Handles button clicks for dialog.
 	 */	
     public void onClick(ClickEvent e) {
+    	showError(null);
 		actionPerformed(e);
 	}
 	
@@ -229,8 +252,13 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	public void setVisible(boolean visible) {
 		wrappedPopup.setVisible(visible);
 		inputPanel.setVisible(visible);
-		if (visible)
+		if (visible){
 			inputPanel.setTextComponentFocus();
+		}else{
+			if(app!=null){
+				app.setErrorHandler(null);
+			}
+		}
 	}
 	
 	public void setLabels() {
@@ -245,10 +273,25 @@ public class InputDialogW extends InputDialog implements ClickHandler,
     public void onKeyUp(KeyUpEvent event) {
 		//enter press
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+			showError(null);
 			actionPerformed(event);
 			return;
 		}
 
+	    
+    }
+
+	@Override
+    public void showError(String msg) {
+		errorPanel.clear();
+		App.printStacktrace(msg+"");
+		if(msg == null){
+			return;
+		}
+		String[] lines = msg.split("\n");
+		for (String item : lines) {
+			errorPanel.add(new Label(item));
+		}
 	    
     }
 

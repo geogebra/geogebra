@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.DialogManager;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -61,7 +62,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				//FIXME setVisibleForTools(!processInput());
 				if (!processInput()) {
-					wrappedPopup.show();
+					//wrappedPopup.show();
 					inputPanel.getTextComponent().hideTablePopup();
 				} else {
 					wrappedPopup.hide();
@@ -87,9 +88,11 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 
 	private boolean processInput() {
 		
-		defaultRotateAngle = DialogManagerW.rotateObject(app, inputPanel.getText(), rbClockWise.getValue(), polys, points, selGeos, ec);
-		
-		return true;
+		String defaultRotateAngle1 = DialogManager.rotateObject(app, inputPanel.getText(), rbClockWise.getValue(), polys, points, selGeos, ec);
+		if(defaultRotateAngle1 != null){
+			this.defaultRotateAngle = defaultRotateAngle1;
+		}
+		return defaultRotateAngle1 != null;
 		/*
 
 		// avoid labeling of num

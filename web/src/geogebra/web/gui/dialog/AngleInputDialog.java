@@ -15,7 +15,6 @@ import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.DOM;
@@ -61,6 +60,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(messagePanel);
 		centerPanel.add(inputPanel);
+		centerPanel.add(errorPanel);
 		centerPanel.add(rbPanel);
 		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
 		
@@ -72,14 +72,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 	public boolean isCounterClockWise() {
 		return rbCounterClockWise.getValue();
 	}
-	
-	/**
-	 * Handles button clicks for dialog.
-	 */	
-	@Override
-    public void onClick(ClickEvent e) {
-		actionPerformed(e);
-	}
+
 	
 	@Override
 	protected void actionPerformed(DomEvent e) {

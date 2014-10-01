@@ -3,7 +3,6 @@ package geogebra.web.gui.dialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
 
 public class InputDialogOpenURL extends InputDialogW{
@@ -17,15 +16,7 @@ public class InputDialogOpenURL extends InputDialogW{
 		createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);		
 		wrappedPopup.center();			
 	}
-	
-	/**
-	 * Handles button clicks for dialog.
-	 */	
-	@Override
-    public void onClick(ClickEvent e) {
-		actionPerformed(e);
-	}
-	
+
 	@Override
 	protected void actionPerformed(DomEvent e) {
 	    Object source = e.getSource();

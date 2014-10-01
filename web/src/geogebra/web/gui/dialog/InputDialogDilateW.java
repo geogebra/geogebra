@@ -10,7 +10,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.DialogManager;
 import geogebra.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
 
 public class InputDialogDilateW extends InputDialogW {
@@ -36,13 +35,6 @@ public class InputDialogDilateW extends InputDialogW {
 
 	}
 
-	/**
-	 * Handles button clicks for dialog.
-	 */	
-	@Override
-    public void onClick(ClickEvent e) {
-		actionPerformed(e);
-	}
 	
 	@Override
 	protected void actionPerformed(DomEvent e) {

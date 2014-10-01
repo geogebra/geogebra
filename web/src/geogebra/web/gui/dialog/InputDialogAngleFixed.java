@@ -55,11 +55,10 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 	@Override
 	protected void actionPerformed(DomEvent e){
 		Object source = e.getSource();
-		
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				if (!processInput()) {
-					wrappedPopup.show();
+					//wrappedPopup.show();
 					inputPanel.getTextComponent().hideTablePopup();
 				} else {
 					wrappedPopup.hide();
@@ -98,13 +97,13 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 			inputText = "-(" + inputText + ")";
 		}
 		
-		boolean success = inputHandler.processInput(inputText);
+		boolean success1 = inputHandler.processInput(inputText);
 
 		cons.setSuppressLabelCreation(oldVal);
 		
 		
 		
-		if (success) {
+		if (success1) {
 			String angleText = inputPanel.getText();
 			// keep angle entered if it ends with 'degrees'
 			if (angleText.endsWith("\u00b0") ) defaultRotateAngle = angleText;

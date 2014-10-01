@@ -11,11 +11,11 @@ import geogebra.main.AppD;
 public class InputDialogRotatePoint extends InputDialogRotate {
 
 	GeoPointND[] points;
-	
+
 	public InputDialogRotatePoint(AppD app, String title, InputHandler handler,
-			GeoPolygon[] polys, GeoPointND[] points, GeoElement[] selGeos, 
+			GeoPolygon[] polys, GeoPointND[] points, GeoElement[] selGeos,
 			EuclidianController ec) {
-		
+
 		super(app, title, handler, polys, selGeos, ec);
 
 		this.points = points;
@@ -24,9 +24,12 @@ public class InputDialogRotatePoint extends InputDialogRotate {
 
 	protected boolean processInput() {
 
-		defaultRotateAngle = DialogManager.rotateObject(app,
+		String defaultRotateAngle1 = DialogManager.rotateObject(app,
 				inputPanel.getText(), rbClockWise.isSelected(), polys, points,
 				selGeos, ec);
+		if (defaultRotateAngle1 != null) {
+			defaultRotateAngle = defaultRotateAngle1;
+		}
 
 		return true;
 		/*

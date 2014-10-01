@@ -2199,6 +2199,7 @@ public abstract class AppW extends App implements SetLabels{
 
 		private ArrayList<Widget> popups = new ArrayList<Widget>();
 		protected GeoGebraFrame frame = null;
+		private ErrorHandler errorHandler;
 
 		public void registerPopup(Widget widget) {
 			popups.add(widget);
@@ -2567,12 +2568,23 @@ public abstract class AppW extends App implements SetLabels{
 			if (!isErrorDialogsActive()) {
 				return;
 			}
-
+			if(this.getErrorHandler() != null){
+				this.getErrorHandler().showError(msg);
+				return;
+			}
 			String title = GeoGebraConstants.APPLICATION_NAME + " - "
 			        + getLocalization().getError("Error");
 
 			GOptionPaneW.INSTANCE.showConfirmDialog(this, msg, title,
 			        GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
+		}
+
+		private ErrorHandler getErrorHandler() {
+	        return this.errorHandler;
+        }
+
+		public void setErrorHandler(ErrorHandler errorHandler) {
+			this.errorHandler = errorHandler;
 		}
 
 		@Override

@@ -511,7 +511,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    	createPicker(this.authToken);
 	    }else{
 	    	this.needsPicker = true;
-	    	login(true);
+	    	login(false);
 	    }
 	    
     }
