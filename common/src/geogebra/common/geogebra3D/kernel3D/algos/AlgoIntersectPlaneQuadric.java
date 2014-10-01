@@ -137,7 +137,6 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     
     }
     
-    private CoordMatrix pmt = new CoordMatrix(3, 4);
     private CoordMatrix cm = new CoordMatrix(3, 3);
     private CoordMatrix tmpMatrix = new CoordMatrix(3, 4);
     
@@ -145,11 +144,9 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     	 
     	CoordMatrix qm = inputQuad.getSymetricMatrix();
     	CoordMatrix pm = inputPlane.getParametricMatrix();
-    	pm.transposeCopy(pmt);
     	
     	//sets the conic matrix from plane and quadric matrix
-    	pmt.mul(qm, tmpMatrix);
-    	tmpMatrix.mul(pm, cm);
+    	cm.setMul(tmpMatrix.setMulT1(pm, qm), pm);
     	
     	//Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
     	

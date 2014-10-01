@@ -837,7 +837,51 @@ public class CoordMatrix {
 		}
 	}
 	
+	/**
+	 * set this to m1 * m2
+	 * @param m1 first matrix
+	 * @param m2 second matrix
+	 * @return this
+	 */
+	public CoordMatrix setMul(CoordMatrix m1, CoordMatrix m2) {
+
+		for (int i = 1; i <= getRows(); i++) {
+			for (int j = 1; j <= getColumns(); j++) {
+
+				double r = 0;
+				for (int n = 1; n <= getColumns(); n++){
+					r += m1.get(i, n) * m2.get(n, j);
+				}
+
+				set(i, j, r);
+			}
+		}
+		
+		return this;
+	}
 	
+	/**
+	 * set this to transpose(m1) * m2
+	 * @param m1 first matrix
+	 * @param m2 second matrix
+	 * @return this
+	 */
+	public CoordMatrix setMulT1(CoordMatrix m1, CoordMatrix m2) {
+
+		for (int i = 1; i <= getRows(); i++) {
+			for (int j = 1; j <= getColumns(); j++) {
+
+				double r = 0;
+				for (int n = 1; n <= getColumns(); n++){
+					r += m1.get(n, i) * m2.get(n, j);
+				}
+
+				set(i, j, r);
+			}
+		}
+		
+		return this;
+	}
 	/**
 	 * 
 	 * @param m matrix

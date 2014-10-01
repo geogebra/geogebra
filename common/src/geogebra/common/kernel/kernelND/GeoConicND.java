@@ -1003,27 +1003,21 @@ FromMeta
 	// MATRIX AND EQUATION
 	////////////////////////////////////
 	
-	private double[] tmpCoefficients;
-	
 	/**
 	 * sets the matrix values from the symmetric matrix m
 	 * @param m matrix
 	 */
 	@Override
 	final public void setMatrix(CoordMatrix m) {
-		
-		if (tmpCoefficients == null){
-			tmpCoefficients  = new double[6];	
-		}
-		
-		tmpCoefficients[0] = m.get(1,1);
-		tmpCoefficients[1] = m.get(2,2);
-		tmpCoefficients[2] = m.get(3,3);
-		tmpCoefficients[3] = (m.get(1,2) + m.get(2,1)) / 2.0;
-		tmpCoefficients[4] = (m.get(1,3) + m.get(3,1)) / 2.0;
-		tmpCoefficients[5] = (m.get(2,3) + m.get(3,2)) / 2.0;    
+				
+		matrix[0] = m.get(1,1);
+		matrix[1] = m.get(2,2);
+		matrix[2] = m.get(3,3);
+		matrix[3] = (m.get(1,2) + m.get(2,1)) / 2.0;
+		matrix[4] = (m.get(1,3) + m.get(3,1)) / 2.0;
+		matrix[5] = (m.get(2,3) + m.get(3,2)) / 2.0;    
 
-		setMatrix(tmpCoefficients);
+		classifyConic();
 	}
 	
 	////////////////////////////////////
@@ -1762,7 +1756,6 @@ FromMeta
 	final public void setMatrix(double[] matrix) {
 		for (int i = 0; i < 6; i++) {
 			this.matrix[i] = matrix[i];
-			//App.debug("matrix["+i+"]="+matrix[i]);
 		}
 		classifyConic();
 	}	

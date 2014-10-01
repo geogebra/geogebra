@@ -1066,6 +1066,20 @@ public class Coords {
 			result.val[i] = val[i] - v.val[i];
 		}
 	}
+	
+	/**
+	 * set this to v1 - v2
+	 * @param v1 vector
+	 * @param v2 vector
+	 * @return this
+	 */
+	public Coords setSub(Coords v1, Coords v2){
+		for (int i = 0 ; i < rows ; i++){
+			val[i] = v1.val[i] - v2.val[i];
+		}
+		
+		return this;
+	}
 
 	/**
 	 * returns n-1 length vector, all coordinates divided by the n-th.
@@ -1245,6 +1259,33 @@ public class Coords {
 
 		return new Coords[] { vn1, vn2 };
 	}
+	
+	/**
+	 * Assume that "this" is a non-zero vector in 3-space. This method sets
+	 * the vectors vn1, vn2 (rows=4) so that (this, vn1, vn2) is a right-handed 
+	 * orthonormal system.
+	 * @param vn1 vector (length 4)
+	 * @param vn2 vector (length 4)
+	 */
+	public void completeOrthonormal(Coords vn1, Coords vn2) {
+
+		if (val[0] != 0) {
+			vn1.val[0] = -val[1];
+			vn1.val[1] = val[0];
+			vn1.normalize();
+		} else {
+			vn1.val[0] = 1.0;
+			vn1.val[1] = 0.0;
+			vn1.val[2] = 0.0;
+			vn1.val[3] = 0.0;
+		}
+
+		vn2.setCrossProduct(this, vn1);
+		vn2.setW(0);
+		vn2.normalize();
+		
+	}
+
 
 	// ///////////////////////////////////////////////////
 	// BASIC OPERATIONS
@@ -1362,6 +1403,20 @@ public class Coords {
 		}
 	}
 	
+	/**
+	 * set this to v1 + v2
+	 * @param v1 vector
+	 * @param v2 vector
+	 * @return this
+	 */
+	public Coords setAdd(Coords v1, Coords v2){
+		for (int i = 0 ; i < rows ; i++){
+			val[i] = v1.val[i] + v2.val[i];
+		}
+		
+		return this;
+	}
+	
 	// /////////////////////////////////////////////////:
 	/** for testing the package */
 	public static synchronized void main(String[] args) {
@@ -1448,6 +1503,13 @@ public class Coords {
 		}
 
 		return true;
+	}
+	
+	/**
+	 * set this to undefined
+	 */
+	public void setUndefined(){
+		val[0] = Double.NaN;
 	}
 	
 	/**

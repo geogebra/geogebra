@@ -28,7 +28,10 @@ public class PlotterBrush implements PathPlotter {
 	private int index;
 	
 	/** start and end sections*/
-	private PlotterBrushSection start, end;
+	private PlotterBrushSection start = new PlotterBrushSection(), end = new PlotterBrushSection();
+	
+	private boolean justStarted = false;
+	private boolean notStarted = false;
 	
 	/** current thickness */
 	private float thickness;
@@ -140,7 +143,7 @@ public class PlotterBrush implements PathPlotter {
 	public void start(){
 		index = manager.startNewList();
 		hasColor = false;
-		start = null;
+		notStarted = true;
 		
 	}
 	
@@ -162,7 +165,8 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	public void down(Coords point){
 		
-		down(point,null,null);
+		start.set(point, thickness);
+		justStarted = true;
 	}
 	
 	/** start new curve part
@@ -170,23 +174,25 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	private void down(Coords point, Coords clockU, Coords clockV){
 		
-		start = new PlotterBrushSection(point,thickness, clockU, clockV);
-		end = null;
+		start.set(point,thickness, clockU, clockV);
+		justStarted = true;
 	}
 	
 	/** move to point and draw curve part
 	 * @param point
 	 */
 	public void moveTo(Coords point){
+		
+		
 		// update start and end sections
-		if (end==null){
-			end = new PlotterBrushSection(start, point, thickness,true);
+		if (justStarted){
+			end.set(start, point, thickness,true);
+			justStarted = false;
 		}else{
+			PlotterBrushSection tmp = start;
 			start = end;
-			end = new PlotterBrushSection(start, point, thickness,false);
-//			start.set(end);
-//			end.setCenterAndThickness(point, thickness);
-//			end.update(start, false);
+			end = tmp;
+			end.set(start, point, thickness,false);
 		}
 		
 		join();
@@ -198,7 +204,8 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	public void curveTo(Coords point){
 		
-		if (start == null){
+		if (notStarted){
+			notStarted = false;
 			setCurvePos(0);
 			down(point);
 			return;
@@ -209,12 +216,15 @@ public class PlotterBrush implements PathPlotter {
 		}
 
 		// update start and end sections
-		if (end != null){
+		if (justStarted){			
+			justStarted = false;
+		}else{
+			PlotterBrushSection tmp = start;
 			start = end;
+			end = tmp;
 		}
 		
-		end = new PlotterBrushSection(start, point, thickness);
-		//end = new PlotterBrushSection(start, point, thickness,true);
+		end.set(start, point, thickness);
 		
 
 		// set curve pos
@@ -229,10 +239,15 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	private void moveTo(Coords point, Coords clockU, Coords clockV){
 
-		if (end!=null)
+		if (justStarted){
+			justStarted = false;
+		}else{
+			PlotterBrushSection tmp = start;
 			start = end;
+			end = tmp;
+		}
 		
-		end = new PlotterBrushSection(point, thickness, clockU, clockV);
+		end.set(point, thickness, clockU, clockV);
 		
 		join();
 	}	
@@ -515,6 +530,7 @@ public class PlotterBrush implements PathPlotter {
 	private Coords m = new Coords(3), vn1 = new Coords(3);
 	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3), tmpCoords3 = new Coords(3), tmpCoords4 = new Coords(3);
 
+	private Coords f1 = new Coords(4), f2 = new Coords(4), vn2 = new Coords(3);
 	
 	/** draws an ellipse
 	 * @param center
@@ -535,13 +551,13 @@ public class PlotterBrush implements PathPlotter {
 		
 		//foci
 		double f = Math.sqrt(a*a-b*b);
-		Coords f1 = v1.mul(f);
-		Coords f2 = v1.mul(-f);
+		f1.setMul(v1, f);
+		f2.setMul(v1, -f);
 
 		
 		int longitude = manager.getLongitudeDefault();
 		
-		Coords vn2 = v2.crossProduct(v1);
+		vn2.setCrossProduct(v2, v1);
 		
     	float dt = (float) 1/longitude;
     	float da = (float) (extent *dt) ; 
@@ -549,25 +565,18 @@ public class PlotterBrush implements PathPlotter {
 		u = (float) Math.cos (start); 
 		v = (float) Math.sin (start); 
      	
-		//m = v1.mul(a*u).add(v2.mul(b*v));
-		v1.mul(a*u, m);
-		v2.mul(b*v, tmpCoords);
-		m.add(tmpCoords,m);
+		m.setAdd(m.setMul(v1, a*u), tmpCoords.setMul(v2, b*v));
 		
-
-
 		
-		m.sub(f1, tmpCoords3);
-		tmpCoords3.normalize();
-		m.sub(f2, tmpCoords4);
-		tmpCoords4.normalize();
-		tmpCoords3.add(tmpCoords4, vn1);
-		vn1.normalize();
+		vn1.setAdd(
+				tmpCoords3.setSub(m, f1).normalize(), 
+				tmpCoords4.setSub(m, f2).normalize())
+				.normalize();
 		
 
 		
-		center.add(m, tmpCoords);
-		down(tmpCoords.copyVector(),vn1.copyVector(),vn2);  	
+		tmpCoords.setAdd(center, m);
+		down(tmpCoords,vn1,vn2);  	
 		
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 
@@ -575,26 +584,18 @@ public class PlotterBrush implements PathPlotter {
     		v = (float) Math.sin (start + i * da ); 
     		
     		tmpCoords2.set(m);
-    		//m = v1.mul(a*u).add(v2.mul(b*v));
-    		v1.mul(a*u, m);
-    		v2.mul(b*v, tmpCoords);
-    		m.add(tmpCoords,m);
-    		//addCurvePos((float) m.sub(mold).norm());
-    		m.sub(tmpCoords2, tmpCoords2);
-    		addCurvePos((float) tmpCoords2.norm());
+    		m.setAdd(m.setMul(v1, a*u), tmpCoords.setMul(v2, b*v));
+    		addCurvePos((float) tmpCoords2.setSub(m, tmpCoords2).norm());
     		
 
-    		
-    		m.sub(f1, tmpCoords3);
-    		tmpCoords3.normalize();
-    		m.sub(f2, tmpCoords4);
-    		tmpCoords4.normalize();
-    		tmpCoords3.add(tmpCoords4, vn1);
-    		vn1.normalize();
-    		
+    		vn1.setAdd(
+    				tmpCoords3.setSub(m, f1).normalize(), 
+    				tmpCoords4.setSub(m, f2).normalize())
+    				.normalize();
 
-    		center.add(m, tmpCoords);
-    		moveTo(tmpCoords.copyVector(),vn1.copyVector(),vn2);  	
+    		tmpCoords.setAdd(center, m);
+    		moveTo(tmpCoords,vn1,vn2);  
+    		
     		
     	} 
     	

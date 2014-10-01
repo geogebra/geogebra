@@ -35,54 +35,75 @@ public class PlotterBrushSection {
 	/** thickness = radius of the section */
 	private float thickness;
 	
+	
+	
 	/**
-	 * first section constructor
-	 * @param point
-	 * @param thickness
+	 * constructor
 	 */
-	public PlotterBrushSection(Coords point, float thickness){
-		this(point, thickness, null, null);
+	public PlotterBrushSection(){
+		center = Coords.createInhomCoorsInD3();
+		clockU = new Coords(4);
+		clockU.setUndefined();
+		clockV = new Coords(4);
+		clockV.setUndefined();
+		direction = new Coords(4);
+		direction.setUndefined();
+		normal = new Coords(4);
+		normal.setUndefined();
+		normalDevD = 0;
 	}
 	
-	/**
-	 * first section constructor
-	 * @param point
-	 * @param thickness
-	 * @param clockU 
-	 * @param clockV 
-	 */
-	public PlotterBrushSection(Coords point, float thickness, Coords clockU, Coords clockV){
-		this.center = point;
+	public void set(Coords point, float thickness, Coords clockU, Coords clockV){
+		this.center.set(point);
 		this.thickness = thickness;
-		this.clockU = clockU;
-		this.clockV = clockV;
+		this.clockU.set(clockU);
+		this.clockV.set(clockV);
+		
+		
+		direction.setUndefined();
+		normal.setUndefined();
+		normalDevD = 0;
 	}	
 	
-	/**
-	 * second section constructor
-	 * @param s
-	 * @param point
-	 * @param thickness
-	 * @param updateClock 
-	 */
-	public PlotterBrushSection(PlotterBrushSection s, Coords point, float thickness, boolean updateClock){
-		this(point,thickness);
+	
+	public void set(Coords point, float thickness){
+		this.center.set(point);
+		this.thickness = thickness;
 		
-		direction = center.sub(s.center);
+		clockU.setUndefined();		
+		clockV.setUndefined();
+		direction.setUndefined();
+		normal.setUndefined();
+		normalDevD = 0;
+	}
+
+	
+	
+	
+	
+	public void set(PlotterBrushSection s, Coords point, float thickness, boolean updateClock){
+		this.center.set(point);
+		this.thickness = thickness;
+		
+		direction.setSub(center, s.center);
 
 		if (center.equalsForKernel(s.center, Kernel.STANDARD_PRECISION)){
-			if (this.thickness<s.thickness)
-				normal = s.direction;
-			else 
-				normal = s.direction.mul(-1);
-			s.normal = normal;
+			if (this.thickness<s.thickness){
+				normal.set(s.direction);
+			}else{
+				normal.setMul(s.direction, -1);
+			}
+			s.normal.set(normal);
 			//keep last direction
-			direction = s.direction;
+			direction.set(s.direction);
+			
+			normalDevD = 0;
 		}else{
 			//calc normal deviation
 			double dt = this.thickness-s.thickness;
 			if (dt!=0){
-				double l = direction.norm();
+				direction.calcNorm();
+				double l = direction.getNorm();
 				double h = Math.sqrt(l*l+dt*dt);
 				normalDevD = -dt/h;
 				normalDevN = l/h;
@@ -92,21 +113,22 @@ public class PlotterBrushSection {
 				s.normalDevD = normalDevD;
 				s.normalDevN = normalDevN;
 				//Application.debug("dt="+dt+",normalDev="+normalDevD+","+normalDevN);
+			}else{			
+				normalDevD = 0;
 			}
 			
 			direction.normalize();
-			s.direction = direction;
-			normal = null;
-			s.normal = null;
+			s.direction.set(direction);
+			normal.setUndefined();
+			s.normal.setUndefined();
 			
 			//calc new clocks				
 			if (updateClock){
-				Coords[] vn = direction.completeOrthonormal();
-				s.clockU = vn[0]; s.clockV = vn[1];
+				direction.completeOrthonormal(s.clockU, s.clockV);
 			}
 
 		}
-		clockU = s.clockU; clockV = s.clockV;
+		clockU.set(s.clockU); clockV.set(s.clockV);
 		
 		//Application.debug("direction=\n"+direction.toString());
 	}
@@ -114,31 +136,21 @@ public class PlotterBrushSection {
 	private Coords tmpCoords = new Coords(3);
 	
 	/**
-	 * return the normal vector for parameters u,v
-	 * @param u
-	 * @param v
-	 * @return the normal vector
+	 * set the normal vector and position for parameters u,v
+	 * @param u cosinus
+	 * @param v sinus
+	 * @param vn normal vector
+	 * @param pos position
 	 */
 	public void getNormalAndPosition(double u, double v, Coords vn, Coords pos){
 		
-		//vn.set(clockV.mul(v).add(clockU.mul(u)));
-		clockU.mul(u, vn);
-		clockV.mul(v, tmpCoords);
-		vn.add(tmpCoords, vn);
+		vn.setAdd(vn.setMul(clockU, u), tmpCoords.setMul(clockV, v));	
+		pos.setAdd(pos.setMul(vn, thickness), center);	
 		
-		//pos.set(vn.mul(thickness).add(center));
-		vn.mul(thickness, pos);
-		pos.add(center, pos);
-		
-		
-		if (normal!=null){
+		if (normal.isDefined()){
 			vn.setValues(normal, 3);
 		}else if (normalDevD!=0){
-			//Application.debug("normalDev="+normalDevD+","+normalDevN);
-			//vn.set(vn.mul(normalDevN).add(direction.mul(normalDevD)));	
-			vn.mul(normalDevN, vn);
-			direction.mul(normalDevD, tmpCoords);
-			vn.add(tmpCoords, vn);
+			vn.setAdd(vn.setMul(vn, normalDevN), tmpCoords.setMul(direction, normalDevD));	
 		}
 
 	}
@@ -157,112 +169,36 @@ public class PlotterBrushSection {
 	////////////////////////////////////
 	
 	
-	/**
-	 * first section constructor
-	 * @param point
-	 * @param thickness
-	 * @param direction
-	 */
-	public PlotterBrushSection(Coords point, Coords direction, float thickness){
-		this.center = point;
-		this.thickness = thickness;
-		this.direction = direction;
-		Coords[] vn = direction.completeOrthonormal();
-		clockU = vn[0]; clockV = vn[1];
-		
-	}
 	
-	/**
-	 * first section constructor
-	 * @param s 
-	 * @param point
-	 * @param thickness
-	 */
-	public PlotterBrushSection(PlotterBrushSection s, Coords point, float thickness){
-		this.center = point;
+	
+	
+	public void set(PlotterBrushSection s, Coords point, float thickness){
+		this.center.set(point);
 		this.thickness = thickness;
-		this.direction=this.center.sub(s.getCenter());
-		length = direction.norm();
-		direction = direction.mul(1/length);
+		this.direction.setSub(center, s.getCenter());
+		direction.calcNorm();
+		length = direction.getNorm();
+		direction.mulInside(1/length);
 		
-		if (s.clockU == null){
-			Coords[] vn = direction.completeOrthonormal();
-			s.clockU = vn[0]; s.clockV = vn[1];
+		if (!s.clockU.isDefined()){
+			direction.completeOrthonormal(s.clockU, s.clockV);
 		}
 		
-		clockV = direction.crossProduct(s.clockU).normalized(); 
+		clockV.setCrossProduct(direction, s.clockU);
+		clockV.normalize();
 		//normalize it to avoid little errors propagation
-		// TODO truncate ?
-		clockU = clockV.crossProduct(direction).normalized();
+		clockU.setCrossProduct(clockV, direction);
+		clockU.normalize();
+		
+		normal.setUndefined();
+		normalDevD = 0;
 	}
 	
-	/**
-	 * first section constructor
-	 * @param point
-	 * @param thickness
-	 * @param direction
-	 */
-	public PlotterBrushSection(PlotterBrushSection s, Coords point, Coords direction, float thickness){
-		
-		this.center = point;
-		this.thickness = thickness;
-		this.direction = direction;
-		
-		clockV = direction.crossProduct(s.clockU).normalized(); 
-		//normalize it to avoid little errors propagation
-		// TODO truncate ?
-		clockU = clockV.crossProduct(direction).normalized();
-		
-	}	
+
+	
+	
 	
 
 	
-	/**
-	 * set this equal to pbs
-	 * @param pbs 
-	 */
-	public void set(PlotterBrushSection pbs){
-		center.set(pbs.center);
-
-		if (pbs.clockU != null){
-			if (clockU != null){
-				clockU.set(pbs.clockU);
-				clockV.set(pbs.clockV);
-			}else{
-				clockU = pbs.clockU.copyVector();
-				clockV = pbs.clockV.copyVector();
-			}
-		}else{
-			clockU = null;
-			clockV = null;
-		}
-
-		if (pbs.direction != null){
-			if (direction != null){
-				direction.set(pbs.direction);
-			}else{
-				direction = pbs.direction;
-			}
-		}else{
-			direction = null;
-		}
-
-		length = pbs.length;
-
-		if (pbs.normal != null){
-			if (normal != null){
-				normal.set(pbs.normal);
-			}else{
-				normal = pbs.normal.copyVector();
-			}
-		}else{
-			normal = null;
-		}
-
-		normalDevD = pbs.normalDevD;
-		normalDevN = pbs.normalDevN;
-
-		thickness = pbs.thickness;
-	}
 	
 }
