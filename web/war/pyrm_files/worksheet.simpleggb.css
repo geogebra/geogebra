@@ -1,0 +1,377 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #666666;
+  -webkit-tap-highlight-color: rgba(255,255,255,0);
+  -ms-touch-action: none;
+  overflow: hidden;
+}
+body,
+h1,
+h2,
+h4,
+h5,
+p,
+ul,
+li,
+ol,
+table,
+input,
+textarea,
+select {
+  margin: 0px;
+  padding: 0px;
+}
+h1 {
+  font-family: 'Century Gothic', 'Muli', sans-serif;
+  color: #6666FF;
+  font-size: 2em;
+  font-weight: normal;
+  margin-bottom: 30px;
+}
+h5 {
+  font-size: 1.3em;
+  font-weight: normal;
+  margin-bottom: 15px;
+}
+h6 {
+  font-size: 1em;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+.more-options {
+  text-decoration: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #666666;
+}
+.more-options h5 {
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 5px 15px;
+  border-bottom: 1px solid #DCDCDC;
+  background: url('../images/worksheet/grey-arrow-big-right.png') no-repeat 10px center;
+  padding-left: 40px;
+  cursor: pointer;
+  cursor: hand;
+  margin-top: 30px;
+}
+.more-options h6 {
+  margin-left: -5px;
+  margin-right: -5px;
+  padding: 5px 15px;
+  border-bottom: 1px solid #DCDCDC;
+  background: url('../images/worksheet/grey-arrow-small-right.png') no-repeat 5px center;
+  padding-left: 30px;
+  cursor: pointer;
+  cursor: hand;
+  margin-top: 30px;
+}
+.more-options.options-open h5 {
+  background: url('../images/worksheet/grey-arrow-big-down.png') no-repeat 10px center;
+}
+.more-options.options-open h6 {
+  background: url('../images/worksheet/grey-arrow-small-down.png') no-repeat 5px center;
+}
+a {
+  cursor: pointer;
+  cursor: hand;
+  color: #666666;
+  text-decoration: underline;
+}
+a:hover,
+a:active {
+  color: #6161FF;
+}
+label {
+  color: #666666;
+}
+.wsf-small-text {
+  font-size: 0.8em;
+}
+#content {
+  position: relative;
+  overflow: hidden;
+}
+.wsf-ws-scroller {
+  overflow: auto;
+}
+.wsf-ws-scroller.info-shown.fullscreen {
+  width: 100%;
+}
+.wsf-ws-scroller.info-shown.fullscreen #wsf-button-information {
+  display: none;
+}
+.wsf-wrapper {
+  position: relative;
+  width: 800px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.wsf-info-wrapper {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 0px;
+  padding-left: 0px;
+  transition: width 1s;
+  -webkit-transition: width 1s;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.wsf-info-wrapper.shown {
+  transition: width 1s;
+  -webkit-transition: width 1s;
+  width: 833px;
+  padding-left: 3px;
+}
+.wsf-info-wrapper.shown.fullscreen {
+  width: 100% !important;
+  padding-left: 50px;
+}
+.wsf-info-wrapper .teacher-info-field {
+  display: none;
+}
+.wsf-info-wrapper.teacher-info .teacher-info-field {
+  display: inline-block;
+}
+.wsf-info-wrapper .wsf-info-scroller {
+  position: relative;
+  left: 0px;
+  width: 100%;
+  min-width: 800px;
+  border-left: 1px solid #DCDCDC;
+  box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+  background-color: #FFFFFF;
+  background-color: rgba(255,255,255,0.95);
+  z-index: 800;
+  overflow: auto;
+}
+.wsf-info-wrapper .wsf-wrapper {
+  padding: 20px 50px;
+}
+.wsf-button-information-wrapper {
+  display: none;
+  position: absolute;
+  top: 3px;
+  left: 775px;
+  transition: left 1s;
+  -webkit-transition: left 1s;
+  width: 78px;
+  height: 100%;
+  z-index: 1000;
+}
+.wsf-button-information-close {
+  background: url("../images/worksheet/icon-close.png") no-repeat center center;
+  position: absolute;
+  left: 15px;
+  height: 20px;
+  width: 20px;
+  top: 28px;
+}
+.wsf-button-information-close:hover {
+  background-image: url("../images/worksheet/icon-close-active.png");
+}
+.wsf-ws-scroller.fullscreen.info-shown {
+  overflow: hidden;
+}
+.wsf-button-information {
+  position: absolute;
+  display: block;
+  height: 33px;
+  width: 60px;
+  top: 19px;
+  border-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right: 0px;
+  z-index: 700;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-image: url('../images/worksheet/icon-info.png');
+}
+.wsf-button-information.inline {
+  position: relative;
+  display: inline-block;
+  top: 7px;
+}
+.wsf-button-information:hover,
+.wsf-button-information.selected {
+  background-image: url('../images/worksheet/icon-info-hover.png');
+}
+.wsf-button-information .wsf-button-info-arrow {
+  display: none;
+  right: -20px;
+  top: -1px;
+  position: absolute;
+  height: 40px;
+  width: 20px;
+  background: url('../images/worksheet/information-arrow.png') no-repeat top left;
+}
+html body.simple {
+  padding: 0px;
+}
+h1 {
+  margin-bottom: 10px;
+}
+.wsf-wrapper {
+  padding: 20px 50px;
+}
+.wsf-worksheet-title {
+  padding-right: 140px;
+  min-height: 35px;
+}
+.wsf-teacher-info-button {
+  height: 31px;
+}
+.wsf-content-added {
+  list-style: none;
+  margin-bottom: 8px;
+}
+.worksheet_element {
+  margin-bottom: 8px;
+  position: relative;
+}
+.worksheet_element h5,
+h5.content-added-title {
+  font-size: 1.3em;
+  font-weight: normal;
+  margin: 0px;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+h5 .wsf-element-toolbar {
+  position: relative;
+  display: inline-block;
+  right: auto;
+  top: 3px;
+}
+.wsf-element-toolbar-wrapper {
+  vertical-align: top;
+  width: 0px;
+  position: relative;
+}
+.wsf-element-toolbar.noheading {
+  top: 0px;
+  right: -40px;
+  padding-left: 5px;
+}
+.wsf-element-toolbar .wsf-element-info-button {
+  height: 18px;
+  width: 18px;
+  margin: 0px;
+  margin-left: 10px;
+}
+.ws-element-text,
+.ws-element-image img {
+  max-width: 700px;
+}
+.ws-element-title {
+  padding-top: 10px;
+}
+.wsf-element-toolbar {
+  list-style-type: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.wsf-element-info-button {
+  background-image: url('../images/worksheet/icon-info.png');
+  height: 25px;
+  width: 25px;
+  margin: 5px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#wsf-content-info {
+  list-style-type: none;
+}
+.wsf-element-info-button:hover,
+.wsf-element-info-button.selected {
+  background-image: url('../images/worksheet/icon-info-hover.png');
+}
+.bbcode-list {
+  margin: 0.5em 0 0.5em 0;
+}
+.bbcode-list li {
+  margin-left: 2em;
+}
+.footer {
+  border-top: 1px solid #CCCCCC;
+  margin-top: 0px;
+  padding-top: 10px;
+  max-width: 700px;
+}
+.footer,
+.element_footer {
+  margin-bottom: 5px;
+  color: #666666;
+  font-size: 0.8em;
+  clear: left;
+}
+.footer a,
+.element_footer a {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #666666;
+}
+.footer a:hover,
+.element_footer a:hover {
+  color: #6161FF;
+}
+.applet_container,
+.applet_container_preview {
+  margin: 5px 0 5px 0;
+}
+.wsf-applet-controls {
+  position: absolute;
+  top: -25px;
+  right: 0px;
+}
+.wsf-applet-controls button {
+  border: 1px solid #6161ff;
+  border-radius: 2px;
+  color: #666666;
+  padding: 2px;
+  margin: 2px;
+  cursor: pointer;
+}
+.ws-element-applet.fixed {
+  position: fixed;
+  z-index: 100000000;
+}
+h1 {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+#applet_container {
+  margin: 10px 0px;
+}
+a,
+a:visited {
+  color: #666666;
+  text-decoration: underline;
+}
+a:hover,
+a:active {
+  color: #333333;
+}
+.footer {
+  margin-top: 10px;
+  max-width: inherit;
+}
+.wsf-wrapper {
+  padding: 15px 20px;
+}
+.wsf-wrapper {
+  width: auto;
+}

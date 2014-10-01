@@ -12,6 +12,8 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -26,7 +28,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class CASTableControllerW extends CASTableCellController implements
-MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyHandler{
+MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyHandler, BlurHandler {
 
 	private CASViewW view;
 	private AppW app;
@@ -178,6 +180,11 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 	    	this.handleEnterKey(e, app);
 	    	e.preventDefault();
 	    }
+    }
+
+	public void onBlur(BlurEvent event) {
+		view.getConsoleTable().stopEditing();
+		view.getConsoleTable().setFirstRowFront(false);
     }
 
 }
