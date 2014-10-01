@@ -468,7 +468,7 @@ public class AlgebraProcessor {
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(final String cmd,
 			final boolean storeUndo, final boolean allowErrorDialog, final boolean throwMyError, boolean autoCreateSliders, final AsyncOperation callback0)
 					throws Exception {
-		if(cmd.charAt(0)=='<' && cmd.startsWith("<math")){
+		if(cmd.length() > 0 && cmd.charAt(0)=='<' && cmd.startsWith("<math")){
 			return parseMathml(cmd, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, callback0);
 		}
 		ValidExpression ve;
