@@ -117,6 +117,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	private DataAnalysisModel daModel;
 
+	private DataAnalysisViewD daView;
+
 	/*****************************************
 	 * Constructs a ComboStatPanel
 	 * 
@@ -130,6 +132,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		daModel = daView.getModel();
 		setModel(new DataDisplayModel(daModel, this));
 		// create the GUI
+		this.daView = daView;
 		createGUI();
 
 	}
@@ -677,7 +680,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			// do the export
 			getModel().exportGeosToEV(euclidianViewID);
-
+			updateOtherDataDisplay();
 			// null out the ID property
 			this.putValue("euclidianViewID", null);
 		}
@@ -685,6 +688,10 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	public void addDisplayTypeItem(PlotType type) {
 		cbDisplayType.addItem(type);
+	}
+
+	protected void updateOtherDataDisplay() {
+		daView.updateOtherDataDisplay(this);
 	}
 
 	public void updateScatterPlot() {
@@ -787,6 +794,10 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	public void resize() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void update() {
+		model.updatePlot(true);
 	}
 
 }

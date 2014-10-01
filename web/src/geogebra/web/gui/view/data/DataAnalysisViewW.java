@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DataAnalysisViewW extends FlowPanel implements View, 
-		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
+ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,7 +70,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			onResize();
 		}
 	};
-	
+
 
 	Scheduler.ScheduledCommand deferredDataPanelOnRes = new Scheduler.ScheduledCommand() {
 		public void execute() {
@@ -80,7 +80,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	};
 
 	private DataSource dataSource;
-	
+
 
 
 	/*************************************************
@@ -95,17 +95,17 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 		daCtrl = new DataAnalysisControllerW(app, this);
 		model = new DataAnalysisModel(app, mode, this, daCtrl);
-	
-		
+
+
 		dataSource = new DataSource(app);
-		
+
 		daCtrl.loadDataLists(true);
-		
+
 		setView(dataSource, mode, true);
 		model.setIniting(false);
 	}
 
-	
+
 	/*************************************************
 	 * END constructor
 	 */
@@ -115,11 +115,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void changeMode(int mode) {
 		model = new DataAnalysisModel(app, mode, this, daCtrl);
 		setView(dataSource, mode, true);
-		
+
 	}
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
-		
+
 		dataSource.setDataListFromSelection(mode);
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);
@@ -128,14 +128,14 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		comboPanelSplit = new SplitLayoutPanel();
 		comboPanelSplit.setStyleName("comboSplitLayout");
 		comboPanelSplit.add(dataDisplayPanel1);
-		
+
 		mainSplit = new SplitLayoutPanel();
 		mainSplit.add(comboPanelSplit);
 		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
 		mainSplit.setStyleName("daMainSplit");
 		add(mainSplit);
 		model.setView(dataSource, mode, forceModeUpdate);
-//		updateFonts();
+		//		updateFonts();
 		setLabels();
 		updateGUI();
 
@@ -225,7 +225,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			buildDataPanel();
 		}
 		// TODO: Implement!
-//		dataPanel.loadDataTable(dataArray);
+		//		dataPanel.loadDataTable(dataArray);
 	}
 
 	protected DataPanelW getDataPanel() {
@@ -238,39 +238,54 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	private void updateLayout() {
 		clear();
-		
-		
+
+
 		mainSplit.clear();
 		boolean stat = model.showStatPanel();
 		boolean data = model.showDataPanel();
 		Label lbData= new Label("Data");
- 
+
 		if (data && dataPanel == null) {
 			buildDataPanel();
 		}
-		if (stat && data) {
-			mainSplit.addWest(statisticsPanel, 300);
-			mainSplit.addEast(comboPanelSplit, 300);
-			mainSplit.add(dataPanel);
 
-		} else
-		
-		if (stat && !data) {
-			mainSplit.addWest(statisticsPanel, 300);
+		if (model.isMultiVar()) {
+
 			mainSplit.add(comboPanelSplit);
-		} else
-		
-		if (!stat && data) {
-			mainSplit.addWest(dataPanel, 300);
-			mainSplit.add(comboPanelSplit);
+
+			mainSplit.setHeight("80%");
+			if (stat) {
+				add(statisticsPanel);
+			}
+
+
 		} else {
-			mainSplit.add(comboPanelSplit);
+
+			if (stat && data) {
+				mainSplit.addWest(statisticsPanel, 300);
+				mainSplit.addEast(comboPanelSplit, 300);
+				mainSplit.add(dataPanel);
+
+			} else
+
+				if (stat && !data) {
+					mainSplit.addWest(statisticsPanel, 300);
+					mainSplit.add(comboPanelSplit);
+				} else
+
+					if (!stat && data) {
+						mainSplit.addWest(dataPanel, 300);
+						mainSplit.add(comboPanelSplit);
+					} else {
+						mainSplit.add(comboPanelSplit);
+					}
+			mainSplit.setWidgetMinSize(comboPanelSplit, 500);
+
+
+			// ===========================================
+			// regression panel
 		}
-		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
-		
 		add(mainSplit);
-		// ===========================================
-		// regression panel
 		if (model.isRegressionMode()) {
 			regressionPanel = new RegressionPanelW(app, this);
 			add(regressionPanel);
@@ -278,46 +293,47 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		} else {
 			mainSplit.setHeight("100%");
 		}
-		
+
+
 		deferredDataPanelOnResize();
 	} 
 
-		
-//		// main panel
-//		// ============================================
-//		//mainPanel = new FlowPanel();
-//		//mainPanel.add(getStyleBar(), BorderLayout.NORTH);
-//		add(displayPanel);
-//
-//		if (model.isRegressionMode()) {
-//			add(regressionPanel);
-//		}
-//
-//		setStyleName("dataAnalysisPanel");
-////		// dataTypePanel = new DataViewSettingsPanel(app,
-////		// StatDialog.MODE_ONEVAR);
-////		JPanel p = new JPanel(new FullWidthLayout());
-////		// p.add(dataTypePanel);
-////
-////		this.setLayout(new CardLayout());
-////		add(mainPanel, MainCard);
-////		add(p, SourceCard);
-//		//showMainPanel();
-//		//add(mainPanel);
-//
-//		model.setShowComboPanel2(model.showDataDisplayPanel2());
-//		updateStatDataPanelVisibility();
-//
-//	}
+
+	//		// main panel
+	//		// ============================================
+	//		//mainPanel = new FlowPanel();
+	//		//mainPanel.add(getStyleBar(), BorderLayout.NORTH);
+	//		add(displayPanel);
+	//
+	//		if (model.isRegressionMode()) {
+	//			add(regressionPanel);
+	//		}
+	//
+	//		setStyleName("dataAnalysisPanel");
+	////		// dataTypePanel = new DataViewSettingsPanel(app,
+	////		// StatDialog.MODE_ONEVAR);
+	////		JPanel p = new JPanel(new FullWidthLayout());
+	////		// p.add(dataTypePanel);
+	////
+	////		this.setLayout(new CardLayout());
+	////		add(mainPanel, MainCard);
+	////		add(p, SourceCard);
+	//		//showMainPanel();
+	//		//add(mainPanel);
+	//
+	//		model.setShowComboPanel2(model.showDataDisplayPanel2());
+	//		updateStatDataPanelVisibility();
+	//
+	//	}
 
 	public void showSourcePanel() {
-//		CardLayout c = (CardLayout) this.getLayout();
-//		c.show(this, SourceCard);
+		//		CardLayout c = (CardLayout) this.getLayout();
+		//		c.show(this, SourceCard);
 	}
 
 	public void showMainPanel() {
-//		CardLayout c = (CardLayout) this.getLayout();
-//		c.show(this, MainCard);
+		//		CardLayout c = (CardLayout) this.getLayout();
+		//		c.show(this, MainCard);
 
 	}
 
@@ -360,7 +376,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	 */
 	public Widget getDataAnalysisViewComponent() {
 		return this;
-	//	return statisticsPanel;
+		//	return statisticsPanel;
 	}
 
 	public DataAnalysisControllerW getController() {
@@ -387,97 +403,97 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		App.debug("[UUU] updateStatDataPanelVisibility()");
 		updateLayout();
 		//
-//		if (statDataPanel == null)
-//			return;
-//
-//		if (!model.isMultiVar()) {
-//
-//			if (model.showDataPanel()) {
-//				statDataPanel.add(dataPanel, 100.0);
-//			} else {
-//				if (true) {
-//					//statDataPanel.addEast(null, 1.0);
-//				}
-//			}
-//
-//			if (model.showStatPanel()) {
-//				if (true){//statDataPanel..getRightComponent() == null) {
-//					statDataPanel.addWest(statisticsPanel, 100.0);
-//				}
-//			} else {
-//				if (true) {
-//					//statDataPanel.addEast(null, 1.0);
-//				}
-//			}
-//		}
-//
-//
+		//		if (statDataPanel == null)
+		//			return;
+		//
+		//		if (!model.isMultiVar()) {
+		//
+		//			if (model.showDataPanel()) {
+		//				statDataPanel.add(dataPanel, 100.0);
+		//			} else {
+		//				if (true) {
+		//					//statDataPanel.addEast(null, 1.0);
+		//				}
+		//			}
+		//
 		//			if (model.showStatPanel()) {
-//				if (statDataPanel.getLeftComponent() == null) {
-//					statDataPanel.setLeftComponent(statisticsPanel);
-//					statDataPanel.resetToPreferredSizes();
-//				}
-//			} else {
-//				if (statDataPanel.getLeftComponent() != null) {
-//					statDataPanel.setLeftComponent(null);
-//					statDataPanel.resetToPreferredSizes();
-//				}
-//			}
+		//				if (true){//statDataPanel..getRightComponent() == null) {
+		//					statDataPanel.addWest(statisticsPanel, 100.0);
+		//				}
+		//			} else {
+		//				if (true) {
+		//					//statDataPanel.addEast(null, 1.0);
+		//				}
+		//			}
+		//		}
+		//
+		//
+		//			if (model.showStatPanel()) {
+		//				if (statDataPanel.getLeftComponent() == null) {
+		//					statDataPanel.setLeftComponent(statisticsPanel);
+		//					statDataPanel.resetToPreferredSizes();
+		//				}
+		//			} else {
+		//				if (statDataPanel.getLeftComponent() != null) {
+		//					statDataPanel.setLeftComponent(null);
+		//					statDataPanel.resetToPreferredSizes();
+		//				}
+		//			}
 
-			// hide/show divider
-//			if (model.showDataPanel() && model.showStatPanel())
-//				statDataPanel.setDividerSize(defaultDividerSize);
-//			else
-//				statDataPanel.setDividerSize(0);
-////
-//			// hide/show statData panel
-//			if (model.showDataPanel() || model.showStatPanel()) {
-//				if (displayPanel.getLeftComponent() == null) {
-//					displayPanel.setLeftComponent(statDataPanel);
-//					// displayPanel.resetToPreferredSizes();
-//					displayPanel.setDividerLocation(displayPanel
-//							.getLastDividerLocation());
-//					displayPanel.setDividerSize(defaultDividerSize);
-//				}
-//
-//			} else { // statData panel is empty, so hide it
-//				displayPanel.setLastDividerLocation(displayPanel
-//						.getDividerLocation());
-//				displayPanel.setLeftComponent(null);
-//				displayPanel.setDividerSize(0);
-//			}
-//
-//		} else { // handle multi-variable case
-//
-//			if (model.showStatPanel()) {
-//				if (displayPanel.getBottomComponent() == null) {
-//					displayPanel.setBottomComponent(statDataPanel);
-//					// displayPanel.resetToPreferredSizes();
-//					displayPanel.setDividerLocation(displayPanel
-//							.getLastDividerLocation());
-//					displayPanel.setDividerSize(defaultDividerSize);
-//				}
-//			} else {
-//				displayPanel.setLastDividerLocation(displayPanel
-//						.getDividerLocation());
-//				displayPanel.setBottomComponent(null);
-//				displayPanel.setDividerSize(0);
-//
-//			}
-//
-//		}
-//
-//		setLabels();
-//		updateFonts();
-//
-//		displayPanel.resetToPreferredSizes();
+		// hide/show divider
+		//			if (model.showDataPanel() && model.showStatPanel())
+		//				statDataPanel.setDividerSize(defaultDividerSize);
+		//			else
+		//				statDataPanel.setDividerSize(0);
+		////
+		//			// hide/show statData panel
+		//			if (model.showDataPanel() || model.showStatPanel()) {
+		//				if (displayPanel.getLeftComponent() == null) {
+		//					displayPanel.setLeftComponent(statDataPanel);
+		//					// displayPanel.resetToPreferredSizes();
+		//					displayPanel.setDividerLocation(displayPanel
+		//							.getLastDividerLocation());
+		//					displayPanel.setDividerSize(defaultDividerSize);
+		//				}
+		//
+		//			} else { // statData panel is empty, so hide it
+		//				displayPanel.setLastDividerLocation(displayPanel
+		//						.getDividerLocation());
+		//				displayPanel.setLeftComponent(null);
+		//				displayPanel.setDividerSize(0);
+		//			}
+		//
+		//		} else { // handle multi-variable case
+		//
+		//			if (model.showStatPanel()) {
+		//				if (displayPanel.getBottomComponent() == null) {
+		//					displayPanel.setBottomComponent(statDataPanel);
+		//					// displayPanel.resetToPreferredSizes();
+		//					displayPanel.setDividerLocation(displayPanel
+		//							.getLastDividerLocation());
+		//					displayPanel.setDividerSize(defaultDividerSize);
+		//				}
+		//			} else {
+		//				displayPanel.setLastDividerLocation(displayPanel
+		//						.getDividerLocation());
+		//				displayPanel.setBottomComponent(null);
+		//				displayPanel.setDividerSize(0);
+		//
+		//			}
+		//
+		//		}
+		//
+		//		setLabels();
+		//		updateFonts();
+		//
+		//		displayPanel.resetToPreferredSizes();
 	}
 
 	public void doPrint() {
-//		List<Printable> l = new ArrayList<Printable>();
-//		l.add(this);
-//		PrintPreview.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
-//				.setVisible(true);
+		//		List<Printable> l = new ArrayList<Printable>();
+		//		l.add(this);
+		//		PrintPreview.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
+		//				.setVisible(true);
 	}
 
 	// =================================================
@@ -492,25 +508,25 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		deferredOnResize();
 	}
 
-//	public void updateFonts() {
-//		Font font = app.getPlainFont();
-//		setFont(font);
-//		setFontRecursive(this, font);
-//
-//	}
-//
-//	public void setFontRecursive(Container c, Font font) {
-//		Component[] components = c.getComponents();
-//		for (Component com : components) {
-//			com.setFont(font);
-//			if (com instanceof StatPanelInterfaceW) {
-//				((StatPanelInterfaceW) com).updateFonts(font);
-//			}
-//			if (com instanceof Container)
-//				setFontRecursive((Container) com, font);
-//		}
-//	}
-//
+	//	public void updateFonts() {
+	//		Font font = app.getPlainFont();
+	//		setFont(font);
+	//		setFontRecursive(this, font);
+	//
+	//	}
+	//
+	//	public void setFontRecursive(Container c, Font font) {
+	//		Component[] components = c.getComponents();
+	//		for (Component com : components) {
+	//			com.setFont(font);
+	//			if (com instanceof StatPanelInterfaceW) {
+	//				((StatPanelInterfaceW) com).updateFonts(font);
+	//			}
+	//			if (com instanceof Container)
+	//				setFontRecursive((Container) com, font);
+	//		}
+	//	}
+	//
 	public void setLabels() {
 
 		if (model.isIniting()) {
@@ -526,23 +542,23 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		if (stylebar != null) {
 			stylebar.setLabels();
 		}
-//
-//		// call setLabels() for all child panels
-//		setLabelsRecursive(this);
+		//
+		//		// call setLabels() for all child panels
+		//		setLabelsRecursive(this);
 
 	}
 
-//	public void setLabelsRecursive(Container c) {
-//
-//		Component[] components = c.getComponents();
-//		for (Component com : components) {
-//			if (com instanceof StatPanelInterfaceW) {
-//				// System.out.println(c.getClass().getSimpleName());
-//				((StatPanelInterfaceW) com).setLabels();
-//			} else if (com instanceof Container)
-//				setLabelsRecursive((Container) com);
-//		}
-//	}
+	//	public void setLabelsRecursive(Container c) {
+	//
+	//		Component[] components = c.getComponents();
+	//		for (Component com : components) {
+	//			if (com instanceof StatPanelInterfaceW) {
+	//				// System.out.println(c.getClass().getSimpleName());
+	//				((StatPanelInterfaceW) com).setLabels();
+	//			} else if (com instanceof Container)
+	//				setLabelsRecursive((Container) com);
+	//		}
+	//	}
 
 	// =================================================
 	// Number Format
@@ -630,84 +646,84 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	// Printing
 	// =================================================
 
-//	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
-//		if (pageIndex > 0)
-//			return (NO_SUCH_PAGE);
-//
-//		Graphics2D g2d = (Graphics2D) g;
-//		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-//
-//		// construction title
-//		int y = 0;
-//		Construction cons = kernel.getConstruction();
-//		String title = cons.getTitle();
-//		if (!title.equals("")) {
-//			Font titleFont = app.getBoldFont().deriveFont(Font.BOLD,
-//					app.getBoldFont().getSize() + 2);
-//			g2d.setFont(titleFont);
-//			g2d.setColor(Color.black);
-//			// Font fn = g2d.getFont();
-//			FontMetrics fm = g2d.getFontMetrics();
-//			y += fm.getAscent();
-//			g2d.drawString(title, 0, y);
-//		}
-//
-//		// construction author and date
-//		String author = cons.getAuthor();
-//		String date = cons.getDate();
-//		String line = null;
-//		if (!author.equals("")) {
-//			line = author;
-//		}
-//		if (!date.equals("")) {
-//			if (line == null)
-//				line = date;
-//			else
-//				line = line + " - " + date;
-//		}
-//
-//		if (line != null) {
-//			g2d.setFont(app.getPlainFont());
-//			g2d.setColor(Color.black);
-//			// Font fn = g2d.getFont();
-//			FontMetrics fm = g2d.getFontMetrics();
-//			y += fm.getHeight();
-//			g2d.drawString(line, 0, y);
-//		}
-//		if (y > 0) {
-//			g2d.translate(0, y + 20); // space between title and drawing
-//		}
-//
-//		// scale the dialog so that it fits on one page.
-//		double xScale = pageFormat.getImageableWidth() / this.getWidth();
-//		double yScale = (pageFormat.getImageableHeight() - (y + 20))
-//				/ this.getHeight();
-//		double scale = Math.min(xScale, yScale);
-//
-//		this.paint(g2d, scale);
-//
-//		return (PAGE_EXISTS);
-//	}
-//
-//	/**
-//	 * Paint the dialog with given scale factor (used for printing).
-//	 */
-//	public void paint(Graphics graphics, double scale) {
-//
-//		Graphics2D g2 = (Graphics2D) graphics;
-//		g2.scale(scale, scale);
-//		super.paint(graphics);
-//
-//	}
-//
+	//	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+	//		if (pageIndex > 0)
+	//			return (NO_SUCH_PAGE);
+	//
+	//		Graphics2D g2d = (Graphics2D) g;
+	//		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+	//
+	//		// construction title
+	//		int y = 0;
+	//		Construction cons = kernel.getConstruction();
+	//		String title = cons.getTitle();
+	//		if (!title.equals("")) {
+	//			Font titleFont = app.getBoldFont().deriveFont(Font.BOLD,
+	//					app.getBoldFont().getSize() + 2);
+	//			g2d.setFont(titleFont);
+	//			g2d.setColor(Color.black);
+	//			// Font fn = g2d.getFont();
+	//			FontMetrics fm = g2d.getFontMetrics();
+	//			y += fm.getAscent();
+	//			g2d.drawString(title, 0, y);
+	//		}
+	//
+	//		// construction author and date
+	//		String author = cons.getAuthor();
+	//		String date = cons.getDate();
+	//		String line = null;
+	//		if (!author.equals("")) {
+	//			line = author;
+	//		}
+	//		if (!date.equals("")) {
+	//			if (line == null)
+	//				line = date;
+	//			else
+	//				line = line + " - " + date;
+	//		}
+	//
+	//		if (line != null) {
+	//			g2d.setFont(app.getPlainFont());
+	//			g2d.setColor(Color.black);
+	//			// Font fn = g2d.getFont();
+	//			FontMetrics fm = g2d.getFontMetrics();
+	//			y += fm.getHeight();
+	//			g2d.drawString(line, 0, y);
+	//		}
+	//		if (y > 0) {
+	//			g2d.translate(0, y + 20); // space between title and drawing
+	//		}
+	//
+	//		// scale the dialog so that it fits on one page.
+	//		double xScale = pageFormat.getImageableWidth() / this.getWidth();
+	//		double yScale = (pageFormat.getImageableHeight() - (y + 20))
+	//				/ this.getHeight();
+	//		double scale = Math.min(xScale, yScale);
+	//
+	//		this.paint(g2d, scale);
+	//
+	//		return (PAGE_EXISTS);
+	//	}
+	//
+	//	/**
+	//	 * Paint the dialog with given scale factor (used for printing).
+	//	 */
+	//	public void paint(Graphics graphics, double scale) {
+	//
+	//		Graphics2D g2 = (Graphics2D) graphics;
+	//		g2.scale(scale, scale);
+	//		super.paint(graphics);
+	//
+	//	}
+	//
 	public int getViewID() {
 		return App.VIEW_DATA_ANALYSIS;
 	}
-//
-//	public JPopupMenu getExportMenu() {
-//		return dataDisplayPanel1.getExportMenu();
-//	}
-//
+	//
+	//	public JPopupMenu getExportMenu() {
+	//		return dataDisplayPanel1.getExportMenu();
+	//	}
+	//
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 
@@ -740,25 +756,25 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	public void showComboPanel2(boolean show) {
 		comboPanelSplit.clear();
-		
+
 		int w = mainSplit.getOffsetWidth();
 		int h = mainSplit.getOffsetHeight();
 		if (show) {
-			
+
 			dataDisplayPanel1.resize(w, h/2, true);
 			dataDisplayPanel1.resize(w, h/2, true);
 			comboPanelSplit.addNorth(dataDisplayPanel1,  h/2);
 			comboPanelSplit.add(dataDisplayPanel2);
-			
+
 		} else {
-			
+
 			dataDisplayPanel1.resize(w, h, true);
 			comboPanelSplit.add(dataDisplayPanel1);
-				
+
 		}
-		
+
 		updateGUI();
-		
+
 	}
 
 	public String format(double value) {
@@ -771,15 +787,15 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	public boolean hasFocus() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	public boolean isShowing() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-	
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	@Override
 	public void onResize()  {
 		for (Widget w: getChildren()) {
@@ -800,4 +816,16 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		Scheduler.get().scheduleDeferred(deferredDataPanelOnRes);
 	}
 
+	public void updateOtherDataDisplay(DataDisplayPanelW display) {
+		if (!model.showDataDisplayPanel2()) {
+			return;
+		}
+		if (display == dataDisplayPanel1) {
+			dataDisplayPanel2.update();
+		} else {
+			dataDisplayPanel1.update();
+			;
+		}
+
+	}
 }

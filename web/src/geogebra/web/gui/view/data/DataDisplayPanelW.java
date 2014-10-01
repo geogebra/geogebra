@@ -131,6 +131,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private FlowPanel mainPanel;
 	private int oldWidth;
 	private int oldHeight;
+	private DataAnalysisViewW daView;
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
@@ -144,6 +145,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		this.loc = (LocalizationW) app.getLocalization();
 		daModel = daView.getModel();
 		setModel(new DataDisplayModel(daModel, this));
+		this.daView = daView;
 		// create the GUI
 		createGUI();
 
@@ -517,6 +519,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		// do the export
 		getModel().exportGeosToEV(euclidianViewID);
+		daView.updateOtherDataDisplay(this);
     }
 
 	public void showControlPanel() {
@@ -821,6 +824,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	public void onResize() {
 		resize(true);  
+    }
+
+	public void update() {
+	    model.updatePlot(true);
     }
 
 }

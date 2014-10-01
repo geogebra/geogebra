@@ -757,4 +757,17 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		return new GColorD(c.getRed(), c.getGreen(), c.getBlue());
 	}
 
+	public void updateOtherDataDisplay(DataDisplayPanel display) {
+		if (!model.showDataDisplayPanel2()) {
+			return;
+		}
+		if (display == dataDisplayPanel1) {
+			dataDisplayPanel2.update();
+		} else {
+			dataDisplayPanel1.update();
+			;
+		}
+
+	}
+
 }
