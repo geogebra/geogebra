@@ -27,6 +27,7 @@ import geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -3043,8 +3044,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				} else {
 					sb.append(leftStr);
 				}
-				//no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
-				//if(!left.isGeoElement() || ((GeoElement)left).isLabelSet()){
+				// no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
+				// parameters for unknown cas functions
+				if(!left.isGeoElement() || ((GeoElement)left).isLabelSet() 
+						|| left instanceof GeoDummyVariable 
+						|| left instanceof GeoCasCell) {
 					sb.append(tpl.leftBracket());
 					
 					// rightStr is a list of arguments, e.g. {2, 3}
@@ -3056,7 +3060,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						sb.append(rightStr.substring(1, rightStr.length() - 1));
 					}
 					sb.append(tpl.rightBracket());
-				//}
+				}
 			}
 			break;
 
