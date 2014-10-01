@@ -12,7 +12,6 @@ import java.util.Vector;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -77,9 +76,12 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		Localization loc = app.getLocalization();
 		caption.setText(loc.getPlain("Substitute") + " - " + loc.getCommand("Row") + " " + (editRow + 1));
 		dialog = new DialogBox(true, false, caption);
+		dialog.addStyleName("CAS_subDialog");
+		dialog.addStyleName("GeoGebraPopup");
 		dialog.setWidget(optionPane = new VerticalPanel());
 		optionPane.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		dialog.setAutoHideEnabled(true);
+		dialog.setGlassEnabled(true);
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 		initData(cell);
@@ -95,21 +97,15 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 
 		// buttons
 		btEval = new Button(EVAL_SYM);
-		btEval.setWidth(DEFAULT_BUTTON_WIDTH + "px");
 		btEval.setTitle(loc.getMenuTooltip("Evaluate"));
-		btEval.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btEval.addClickHandler(this);
 		
 		btNumeric = new Button(NUM_SYM);
-		btNumeric.setWidth(DEFAULT_BUTTON_WIDTH + "px");
 		btNumeric.setTitle(loc.getMenuTooltip("Numeric"));
-		btNumeric.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btNumeric.addClickHandler(this);
 		
 		btSub = new Button(loc.getPlain(SUB_SYM));
-		btSub.setWidth(DEFAULT_BUTTON_WIDTH + "px");
 		btSub.setTitle(loc.getMenuTooltip("Substitute"));
-		btSub.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btSub.addClickHandler(this);
 		
 		btPanel = new HorizontalPanel();
@@ -129,9 +125,6 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		btPanel.setCellWidth(btNumeric, DEFAULT_BUTTON_WIDTH + "px");
 		btPanel.add(btSub);
 		btPanel.setCellWidth(btSub, DEFAULT_BUTTON_WIDTH + "px");
-		
-		// make this dialog display it
-		
     }
 
 	private void fillTableColumns() {

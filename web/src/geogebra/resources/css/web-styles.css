@@ -2786,6 +2786,14 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	z-index:20
 }
 
+.CAS_subDialog {
+}
+
+.CAS_subDialog .gwt-Button {
+	width: 40px;
+	margin: 3px;
+}
+
 /*#####################################################################################
 ###       SIGN IN DIALOG
 #####################################################################################*/

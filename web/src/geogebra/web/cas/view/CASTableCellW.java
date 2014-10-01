@@ -36,16 +36,11 @@ public class CASTableCellW extends VerticalPanel {
 		inputPanel.addStyleName("CAS_inputPanel");
 		if(casCell!=null){
 			inputPanel.setText(casCell.getInput(StringTemplate.defaultTemplate));
-//			some styling moved to css:
-//			inputPanel.getElement().getStyle().setPadding(2, Style.Unit.PX);
-//			inputPanel.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
-//			inputPanel.getElement().getStyle().setHeight(100, Style.Unit.PCT);
 		}
 		add(inputPanel);
 
 		Label outputLabel = new Label();
 		outputText = "";
-		//outputLabel.getElement().getStyle().setPadding(2, Style.Unit.PX);
 		if (casCell!=null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				SpanElement outputSpan = DOM.createSpan().cast();
