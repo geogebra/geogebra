@@ -3805,9 +3805,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		if (styleBar != null) { 
 			getStyleBar().updateButtonPointCapture(evs.getPointCapturingMode()); 
 		} 
-		if (getApplication().getGuiManager() != null) {
-			getApplication().getGuiManager().updateMenubar();
-		}
+		//Actually nothing to do in Menubar since we do not have any EV settings there anymore
 	}
 
 	/**
