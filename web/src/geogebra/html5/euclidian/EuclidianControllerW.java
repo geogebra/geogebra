@@ -391,6 +391,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
+		if (app.getGuiManager() != null){
+			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+		}
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
 		if(targets.length() == 1){
