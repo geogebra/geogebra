@@ -174,7 +174,12 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
                 }},ClickEvent.getType());
 		}
 		this.rightPanel.clear();
-		this.profileImage.setUrl(user.getImageURL());
+		if(user.getImageURL()!= null){
+			this.profileImage.setUrl(user.getImageURL());
+		}else{
+			this.profileImage.setUrl(GuiResources.INSTANCE.menu_icon_help().getSafeUri());
+		}
+			
 		this.rightPanel.add(this.profilePanel);
 		
 	}
