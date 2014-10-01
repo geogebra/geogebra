@@ -1190,7 +1190,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			//			slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 
-				public void fireActionPerformed(Object actionButton) {
+				public void fireActionPerformed(PopupMenuButton actionButton) {
 					model.applyLineTypeFromIndex(btnLineStyle.getSelectedIndex());
 
 				}});

@@ -122,7 +122,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 
 	    viewButton.addPopupHandler(new PopupMenuHandler(){
 			@Override
-            public void fireActionPerformed(Object actionButton) {
+            public void fireActionPerformed(PopupMenuButton actionButton) {
 				int i = viewButton.getSelectedIndex();
 
 				// the first item is the close button

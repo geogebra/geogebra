@@ -802,7 +802,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
-				public void fireActionPerformed(Object actionButton) {
+				public void fireActionPerformed(PopupMenuButton actionButton) {
 					model.appyGridStyle(EuclidianView.getLineTypes()[btnGridStyle.getSelectedIndex()]);
 
 				}});

@@ -307,7 +307,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 	}
 
-	public void fireActionPerformed(Object actionButton) {
+	public void fireActionPerformed(PopupMenuButton actionButton) {
 		handleEventHandlers(actionButton);
     }
 

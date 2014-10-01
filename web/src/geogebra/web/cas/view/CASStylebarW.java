@@ -306,7 +306,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		}
 	}
 
-	public void fireActionPerformed(Object actionButton) {
+	public void fireActionPerformed(PopupMenuButton actionButton) {
 		if (actionButton == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				applyTextColor(selectedRows);

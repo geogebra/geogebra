@@ -1516,7 +1516,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	/**
 	 * @param actionButton runs programatically the action performed event.
 	 */
-	public void fireActionPerformed(Object actionButton) {
+	public void fireActionPerformed(PopupMenuButton actionButton) {
 		handleEventHandlers(actionButton);
     }
 

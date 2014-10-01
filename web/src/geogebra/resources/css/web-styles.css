@@ -2529,6 +2529,10 @@ body.application[dir=rtl] .toolbar_mainItem {
 	margin-bottom: 10px;
 }
 
+.Dialog-errorPanel {
+	color: red;
+}
+
 .Dialog-messagePanel img {
 	margin: 10px;
 }
