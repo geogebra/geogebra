@@ -567,8 +567,6 @@ public class StatGeo {
 		double[] leftBorder = ((AlgoBarChart) barChart.getParentAlgorithm())
 				.getLeftBorder();
 
-		settings.setBarWidth(getPreferredBarWidth(leftBorder));
-
 		xMinData = leftBorder[0] - settings.getBarWidth() / 2;
 		xMaxData = leftBorder[leftBorder.length - 1] + settings.getBarWidth();
 
