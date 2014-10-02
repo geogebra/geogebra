@@ -515,10 +515,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 					.getEuclidianView2(1).getViewID() : app
 					.getEuclidianView1().getViewID();
 		}
-		App.debug("[EXPORT] to EV " + euclidianViewID);
 
 		// do the export
 		getModel().exportGeosToEV(euclidianViewID);
+		
 		daView.updateOtherDataDisplay(this);
     }
 

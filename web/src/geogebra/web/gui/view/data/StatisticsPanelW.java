@@ -34,7 +34,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private OneVarInferencePanelW oneVarInferencePanel;
 //	private LinearRegressionPanelW regressionPanel;
 //	private TwoVarInferencePanelW twoVarInferencePanel;
-//	private ANOVATableW anovaTable;
+	private ANOVATableW anovaTable;
 	private MultiVarStatPanelW minMVStatPanel;
 	private FlowPanel selectionPanel;
 	private FlowPanel inferencePanel;
@@ -113,19 +113,9 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		case StatisticsModel.INFER_ANOVA:
 
-//			GridBagCons
-//			 tab = new GridBagConstraints();
-//			tab.gridx = 0;
-//			tab.gridy = GridBagConstraints.RELATIVE;
-//			tab.weightx = 1;
-//			tab.insets = new Insets(4, 20, 0, 20);
-//			tab.fill = GridBagConstraints.HORIZONTAL;
-//			tab.anchor = GridBagConstraints.NORTHWEST;
-//
-//			JPanel p = new JPanel(new GridBagLayout());
-//			p.add(getAnovaTable(), tab);
-//			p.add(getMinMVStatPanel(), tab);
-//			inferencePanel.add(p, BorderLayout.CENTER);
+			inferencePanel.add(getAnovaTable());
+			inferencePanel.add(getMinMVStatPanel());
+			
 
 			break;
 
@@ -143,11 +133,11 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		selectionPanel.add(lbInferenceMode);
 	}
 
-//	private ANOVATableW getAnovaTable() {
-//		if (anovaTable == null)
-//			anovaTable = new ANOVATableW(app, statDialog);
-//		return anovaTable;
-//	}
+	private ANOVATableW getAnovaTable() {
+		if (anovaTable == null)
+			anovaTable = new ANOVATableW(app, statDialog);
+		return anovaTable;
+	}
 
 	private OneVarInferencePanelW getOneVarInferencePanel() {
 		if (oneVarInferencePanel == null)

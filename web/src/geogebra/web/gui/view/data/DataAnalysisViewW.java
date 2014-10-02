@@ -74,8 +74,14 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 
 	Scheduler.ScheduledCommand deferredDataPanelOnRes = new Scheduler.ScheduledCommand() {
 		public void execute() {
-			dataDisplayPanel1.onResize();
-			dataDisplayPanel2.onResize();
+			if (model.isMultiVar() && model.showStatPanel()) {
+				App.debug("Showing MultiVar stat panel");
+				dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight() - statisticsPanel.getOffsetHeight(), true);
+				
+			} else {
+				dataDisplayPanel1.onResize();
+				dataDisplayPanel2.onResize();
+			}
 		}
 	};
 
@@ -250,15 +256,16 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 		}
 
 		if (model.isMultiVar()) {
-
-			mainSplit.add(comboPanelSplit);
-
-			mainSplit.setHeight("80%");
+			comboPanelSplit.clear();
+		
 			if (stat) {
-				add(statisticsPanel);
+				comboPanelSplit.addNorth(dataDisplayPanel1, 500);
+				comboPanelSplit.add(statisticsPanel);
+			} else {
+				comboPanelSplit.add(dataDisplayPanel1);
+				
 			}
-
-
+			mainSplit.add(comboPanelSplit);
 		} else {
 
 			if (stat && data) {
