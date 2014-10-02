@@ -9,6 +9,7 @@ public class ImageOrText {
 	public String url = null;
 	public String text = null;
 	public GColor bgColor = null, fgColor = null;
+	private int bgSize;
 	public ImageOrText(String string) {
 	    this.text = string;
     }
@@ -17,11 +18,12 @@ public class ImageOrText {
 	    // TODO Auto-generated constructor stub
     }
 
-	public static ImageOrText[] convert(ImageResource[] res) {
+	public static ImageOrText[] convert(ImageResource[] res, int size) {
 	    ImageOrText[] arr = new ImageOrText[res.length];
 	    for(int i=0; i< arr.length; i++){
 	    	arr[i] = new ImageOrText();
 	    	arr[i].url = res[i].getSafeUri().asString();
+	    	arr[i].bgSize = size;
 	    }
 	    return arr;
     }
@@ -39,6 +41,9 @@ public class ImageOrText {
 		//button.setPixelSize(32,32);
 		if(this.url != null){
 			button.getElement().getStyle().setBackgroundImage("url("+this.url+")");
+			if(this.bgSize > 0){
+				button.getElement().getStyle().setProperty("backgroundSize", this.bgSize+ "px");
+			}
 			if(this.text != null){
 				button.addStyleName("textIconButton");
 			} else {

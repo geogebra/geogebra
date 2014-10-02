@@ -7,6 +7,7 @@ import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.BrowseGuiI;
@@ -143,6 +144,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 			
 			@Override
 			public void onClick() {
+				app.getFileManager().setFileProvider(Provider.TUBE);
 				loadAllMaterials();
 			}
 		});
@@ -158,7 +160,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 				@Override
 				public void onClick() {
 					if(BrowseGUI.this.app.getGoogleDriveOperation()!=null){
-					 BrowseGUI.this.app.getGoogleDriveOperation().requestPicker();
+						app.getFileManager().setFileProvider(Provider.GOOGLE);
+						BrowseGUI.this.app.getGoogleDriveOperation().requestPicker();
 					}
 				}
 			});
@@ -294,6 +297,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
     }
 
 	private void setAvailableProviders() {
+		App.debug("SET AVAILABLE PROVIDERS");
 		providerPanel.clear();
 		providerPanel.add(locationTube);
 		providerPanel.add(locationLocal);

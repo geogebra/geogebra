@@ -19,15 +19,18 @@ public class SaveCallback {
 	public SaveCallback(final AppW app) {
 	    this.app = app;
     }
-
+	
+	public static void onSaved(AppW app){
+		app.setSaved();
+		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("SavedSuccessfully"), true);
+	}
 	/**
 	 * shows info to user and sets app saved
 	 * @param mat Material
 	 * @param isLocal boolean
 	 */
 	public void onSaved(final Material mat, final boolean isLocal) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("SavedSuccessfully"), true);
-		app.setSaved();
+		onSaved(app);
 		if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
 			((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(mat, isLocal);
 		}

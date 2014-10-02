@@ -1,6 +1,7 @@
 package geogebra.html5.main;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.Material.Provider;
 
 public interface FileManagerI {
 
@@ -15,5 +16,9 @@ public interface FileManagerI {
 	void search(String query);
 
 	void rename(String newTitle, Material mat);
+
+	void setFileProvider(Provider google);
+
+	Provider getFileProvider();
 
 }

@@ -42,6 +42,7 @@ if (!window.console.log) window.console.log = function () { };
             function e(id){
         		return document.getElementById(id);
         	}
+            
             function showInEnglish(){
     			if(!window.__GGB__keysVar){
 
@@ -110,8 +111,8 @@ document.isChromeWebapp = function isChromeWebapp() {
     
     </style>
 </head>
-<body dir="ltr" tabindex="-1" onload="showInEnglish()">
-	<div id="ggbPage" style="z-index:10000">
+<body dir="ltr" tabindex="-1" >
+	<div id="ggbPage" style="z-index:10000;display:none">
 
     <div id="ggbHeader">
         <div id="ggbHeaderContent" class="clearfix">

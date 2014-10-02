@@ -14,12 +14,17 @@ import geogebra.web.gui.browser.BrowseResources;
 import geogebra.web.main.FileManager;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
+import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 import geogebra.web.util.SaveCallback;
 
 import java.util.List;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -47,7 +52,6 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	private final int MIN_TITLE_LENGTH = 4;
 	Runnable runAfterSave;
 	SaveCallback saveCallback;
-	private Provider provider;
 	
 
 	/**
@@ -72,8 +76,16 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 				app.setDefaultCursor();
 				cancel.setEnabled(true);
 				title.setEnabled(true);
+				((AppW) app).closePopups();
 			}
 		});
+		this.addDomHandler(new ClickHandler(){
+
+			@Override
+            public void onClick(ClickEvent event) {
+				((AppW) app).closePopups();
+	            
+            }}, ClickEvent.getType());
 	}
 
 	private void addTitelPanel() {
@@ -110,11 +122,12 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 		//ImageOrText[] data, Integer rows, Integer columns, GDimensionW iconSize, geogebra.common.gui.util.SelectionTable mode
 		PopupMenuButton providerPopup = new PopupMenuButton(app, ImageOrText.convert(new ImageResource[]{
 				BrowseResources.INSTANCE.location_tube(),
-				BrowseResources.INSTANCE.location_drive()}),2,1,new GDimensionW(32,32),SelectionTable.MODE_IMAGE);
-		app.registerPopup(providerPopup);
+				BrowseResources.INSTANCE.location_drive()}, 24),2,1,new GDimensionW(32,32),SelectionTable.MODE_IMAGE);
 		providerPopup.addPopupHandler(this);
-		providerPopup.getElement().getStyle().setFloat(com.google.gwt.dom.client.Style.Float.RIGHT);
-		
+		providerPopup.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
+		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
+		providerPopup.setSelectedIndex(app.getFileManager().getFileProvider() == Provider.GOOGLE ? 1 : 0);
+		buttonPanel.add(providerPopup);
 		save.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -184,8 +197,8 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	 */
 	void upload() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
-		if(this.provider == Provider.GOOGLE){
-			
+		if(app.getFileManager().getFileProvider() == Provider.GOOGLE){
+			uploadToDrive();
 		}
 		else if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 			app.resetUniqueId();
@@ -198,6 +211,19 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 		}
 		hide();
 	}
+
+	private void uploadToDrive() {
+		String saveName = this.title.getText();
+		if(!saveName.endsWith(".ggb")){
+			app.getKernel().getConstruction().setTitle(saveName);
+			saveName += ".ggb";
+		} else {
+			app.getKernel().getConstruction().setTitle(saveName.substring(0,saveName.length()-4));
+		}
+		((GoogleDriveOperationW) app.getGoogleDriveOperation()).login(false);
+		JavaScriptObject callback = ((GoogleDriveOperationW) app.getGoogleDriveOperation()).getPutFileCallback(saveName, "GeoGebra");
+		app.getGgbApi().getBase64(true, callback);
+    }
 
 	private void handleSync() {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(Integer.parseInt(app.getUniqueId()), new MaterialCallback(){
@@ -273,12 +299,6 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	   });
 	}
 
-	public void saveSuccess(final String fName, final String desc) {
-		if(app.getGoogleDriveOperation()!=null){
-			app.getGoogleDriveOperation().refreshCurrentFileDescriptors(fName,desc);
-		}
-	}
-
 	private void setTitle() {
 		final String consTitle = app.getKernel().getConstruction().getTitle();
 		if (consTitle != null) {
@@ -313,9 +333,9 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	@Override
     public void fireActionPerformed(PopupMenuButton actionButton) {
 	    if(actionButton.getSelectedIndex() == 1){
-	    	this.provider = geogebra.common.move.ggtapi.models.Material.Provider.GOOGLE;
+	    	app.getFileManager().setFileProvider(geogebra.common.move.ggtapi.models.Material.Provider.GOOGLE);
 	    }else{
-	    	this.provider = geogebra.common.move.ggtapi.models.Material.Provider.TUBE;
+	    	app.getFileManager().setFileProvider(geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
 	    }
 	    
     }

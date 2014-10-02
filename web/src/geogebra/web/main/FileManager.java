@@ -2,6 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public abstract class FileManager implements FileManagerI{
 	protected AppW app;
+	private Provider provider;
 
 	public FileManager(final AppW app) {
 	    this.app = app;
@@ -135,4 +137,11 @@ public abstract class FileManager implements FileManagerI{
 		return key.substring(key.indexOf("#", key.indexOf("#")+1)+1);
 	}
 	
+	public void setFileProvider(Provider google){
+		this.provider = google;
+	}
+
+	public Provider getFileProvider(){
+		return this.provider;
+	}
 }

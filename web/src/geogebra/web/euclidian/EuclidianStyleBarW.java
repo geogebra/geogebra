@@ -692,7 +692,7 @@ public class EuclidianStyleBarW extends StyleBarW
 				AppResources.INSTANCE.delete_small(),
 				AppResources.INSTANCE.mode_point_16(),
 				AppResources.INSTANCE.mode_copyvisualstyle_16()
-		});
+		},0);
 		
 		btnMode = new PopupMenuButton((AppW) ev.getApplication(),
 				modeArray, -1, 1, new GDimensionW(20, iconHeight),
