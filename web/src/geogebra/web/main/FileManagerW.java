@@ -21,7 +21,7 @@ public class FileManagerW extends FileManager {
 
 	@Override
     public void delete(final Material mat) {
-		this.stockStore.removeItem(FILE_PREFIX + mat.getTitle());
+		this.stockStore.removeItem(mat.getTitle());
 		removeFile(mat);
 		((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
     }
@@ -34,6 +34,7 @@ public class FileManagerW extends FileManager {
 				return;
 			}
 			app.getGgbApi().setBase64(base64);
+			app.setLocalID(getID(material.getTitle()));
 		} catch (final Throwable t) {
 			app.showError("LoadFileFailed");
 			t.printStackTrace();
@@ -45,10 +46,18 @@ public class FileManagerW extends FileManager {
 		final StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(final String s) {
-				final String fileName = app.getKernel().getConstruction().getTitle();
-				//TODO use another key
 				final Material mat = createMaterial(s);
-				stockStore.setItem(FILE_PREFIX + fileName, mat.toJson().toString());
+				int id;
+
+				if (app.getLocalID() == -1) {
+					id = createID();
+					app.setLocalID(id);
+				} else {
+					id = app.getLocalID();
+				}
+				String key = createKeyString(id, app.getKernel().getConstruction().getTitle());
+				mat.setTitle(key);
+				stockStore.setItem(key, mat.toJson().toString());
 				cb.onSaved(mat, true);
 			}
 		};
@@ -56,6 +65,34 @@ public class FileManagerW extends FileManager {
 		app.getGgbApi().getBase64(true, base64saver);
     }
 
+	/**
+	 * creates a new ID
+	 * @return int ID
+	 */
+	int createID() {
+		int nextFreeID = 1;
+		for (int i = 0; i < this.stockStore.getLength(); i++) {
+			final String key = this.stockStore.key(i);
+			if (key.startsWith(FILE_PREFIX)) {
+				int fileID = getID(key);
+				if (fileID >= nextFreeID) {
+					nextFreeID = getID(key) + 1;
+				}
+			}
+		}
+		return nextFreeID;
+    }
+	
+	/**
+	 * returns the ID from the given key.
+	 * (key is of form "file#ID#fileName")
+	 * @param key String
+	 * @return int ID
+	 */
+	private int getID(String key) {
+		return Integer.parseInt(key.substring(FILE_PREFIX.length(), key.indexOf("#", FILE_PREFIX.length())));
+	}
+	
 	@Override
     public void removeFile(final Material material) {
 		((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(material);
@@ -78,7 +115,7 @@ public class FileManagerW extends FileManager {
 				Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
 				if (mat == null) {
 					mat = new Material(0, MaterialType.ggb);
-					mat.setTitle(key.substring(FILE_PREFIX.length()));
+					mat.setTitle(getTitle(key));
 				}
 				if (filter.check(mat)) {
 					addMaterial(mat);
@@ -87,7 +124,7 @@ public class FileManagerW extends FileManager {
 		}
 	}
 	
-	
+
 	@Override
 	public void uploadUsersMaterials() {		
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
@@ -110,12 +147,20 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-    public void rename(String newTitle, String oldTitle) {
-		Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(FILE_PREFIX + oldTitle));
-		if (mat != null) {
-			mat.setTitle(newTitle);
-			this.stockStore.setItem(FILE_PREFIX + newTitle, mat.toJson().toString());
-			this.stockStore.removeItem(FILE_PREFIX + oldTitle);
-		}
+    public void rename(String newTitle, Material mat) {
+		this.stockStore.removeItem(mat.getTitle());
+		
+		String newKey = createKeyString(createID(), newTitle);
+		mat.setTitle(newKey);
+		this.stockStore.setItem(newKey, mat.toJson().toString());
+	}
+
+	/**
+	 * @param matID local ID of material
+	 * @param title of material
+	 * @return creates a key (String) for the stockStore
+	 */
+	String createKeyString(int matID, String title) {
+		return FILE_PREFIX + matID + "#" + title;
 	}
 }

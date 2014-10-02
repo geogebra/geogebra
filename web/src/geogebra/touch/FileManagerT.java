@@ -1,7 +1,6 @@
 package geogebra.touch;
 
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -220,7 +219,7 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onSuccess(final Boolean entryDeleted) {
-
+						//
 					}
 
 					@Override
@@ -233,60 +232,6 @@ public class FileManagerT extends FileManager {
 			@Override
 			public void onFailure(final FileError reason) {
 				App.debug("Could not get metafile");
-			}
-		});
-	}
-
-	/**
-	 * 
-	 * @param loc {@link Localization}
-	 * @param callback Callback
-	 */
-	void getDefaultConstructionTitle(final Localization loc,
-			final Callback<String, String> callback) {
-
-		this.count = 1;
-		this.filename = loc.getPlain("UntitledA", this.count + "");
-
-		getGgbDir(new Callback<DirectoryEntry, FileError>() {
-
-			@Override
-			public void onSuccess(final DirectoryEntry ggbDir) {
-				final DirectoryReader directoryReader = ggbDir.createReader();
-				directoryReader.readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
-
-					@Override
-					public void onSuccess(
-							final LightArray<EntryBase> entries) {
-						for (int i = 0; i < entries.length(); i++) {
-							if (entries.get(i).isFile()) {
-								final FileEntry fileEntry = entries
-										.get(i).getAsFileEntry();
-								// get filename without '.ggb'
-								final String name = fileEntry.getName().substring(
-										0,
-										fileEntry.getName().indexOf("."));
-								if (name.equals(FileManagerT.this.filename)) {
-									FileManagerT.this.count++;
-									FileManagerT.this.filename = loc.getPlain(
-											"UntitledA",
-											FileManagerT.this.count + "");
-								}
-							}
-						}
-						callback.onSuccess(FileManagerT.this.filename);
-					}
-
-					@Override
-					public void onFailure(final FileError error) {
-						App.debug("Could not read files");
-					}
-				});
-			}
-
-			@Override
-			public void onFailure(final FileError reason) {
-				App.debug("Could not get ggbDir");
 			}
 		});
 	}
@@ -373,6 +318,20 @@ public class FileManagerT extends FileManager {
 		app.getKernel().getConstruction().setTitle(material.getTitle());
 		getFileData(material.getURL());
 	}
+//	@Override
+//    public void openMaterial(final Material material) {
+//		try {
+//			final String base64 = material.getBase64();
+//			if (base64 == null) {
+//				return;
+//			}
+//			app.getGgbApi().setBase64(base64);
+//		} catch (final Throwable t) {
+//			app.showError("LoadFileFailed");
+//			t.printStackTrace();
+//		}
+//    }
+	
 
 	//	/**
 	//	 * Checks if the file with given filename is already saved on the device.
@@ -444,8 +403,8 @@ public class FileManagerT extends FileManager {
 	//	}
 
 	@Override
-	public void rename(final String newTitle, final String oldTitle) {
-
+    public void rename(final String newTitle, Material mat) {
+		final String oldTitle = mat.getTitle();
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override

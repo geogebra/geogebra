@@ -132,6 +132,7 @@ public abstract class AppW extends App implements SetLabels{
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;// FIXME: generate new UUID: +
 	                               // UUID.randomUUID();
+	private int localID = -1;
 	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
 	
@@ -184,6 +185,14 @@ public abstract class AppW extends App implements SetLabels{
 	@Override
 	public final void resetUniqueId() {
 		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
+	}
+	
+	public int getLocalID() {
+		return this.localID;
+	}
+	
+	public void setLocalID(int id) {
+		this.localID = id;
 	}
 	
 	@Override
@@ -808,6 +817,7 @@ public abstract class AppW extends App implements SetLabels{
 			}
 
 			resetUniqueId();
+			setLocalID(-1);
 
 			if(getGoogleDriveOperation()!=null){
 				getGoogleDriveOperation().resetStorageInfo();

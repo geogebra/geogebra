@@ -251,12 +251,17 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 
 	@Override
     public void onOpenFile() {
-		//For local / GoogleDrive files getLastSelected may be null
+		//For GoogleDrive files getLastSelected may be null
 		if(getLastSelected() != null){
 			final Material material = getLastSelected().getMaterial();
-			app.getKernel().getConstruction().setTitle(material.getTitle());
 			app.setSyncStamp(material.getSyncStamp());
-			if (getLastSelected().isOwnMaterial) {
+			if (getLastSelected().isLocal) {
+				String key = material.getTitle();
+				app.getKernel().getConstruction().setTitle(key.substring(key.indexOf("#", key.indexOf("#")+1)+1));
+				app.resetUniqueId();
+			}
+			else if (!getLastSelected().isLocal && getLastSelected().isOwnMaterial) {
+				app.getKernel().getConstruction().setTitle(material.getTitle());
 				app.setUniqueId(material.getId()+"");
 			} else {
 				app.resetUniqueId();
@@ -287,7 +292,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable, Event
 	public void refreshMaterial(final Material material, final boolean isLocal) {
 	    this.materialListPanel.refreshMaterial(material, isLocal);
     }
-	
 
 	private void setAvailableProviders() {
 		providerPanel.clear();

@@ -104,11 +104,14 @@ public abstract class FileManager implements FileManagerI{
 	 * @param mat {@link Material}
 	 */
 	public void upload(final Material mat) {
+		final String localKey = mat.getTitle();
+		mat.setTitle(getTitle(mat.getTitle()));
 	    ((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadLocalMaterial(app, mat, new MaterialCallback() {
 
 	    	@Override
 	    	public void onLoaded(final List<Material> parseResponse) {
 	    		if (parseResponse.size() == 1) {
+	    			mat.setTitle(localKey);
 	    			delete(mat);
 	    			final Material newMat = parseResponse.get(0);
 	    			newMat.setThumbnail(mat.getThumbnail());		    		
@@ -123,4 +126,13 @@ public abstract class FileManager implements FileManagerI{
 	    });
     }
 
+	/**
+	 * key is of form "file#ID#title"
+	 * @param key
+	 * @return the title
+	 */
+	String getTitle(String key) {
+		return key.substring(key.indexOf("#", key.indexOf("#")+1)+1);
+	}
+	
 }

@@ -53,7 +53,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	protected Material material;
 	protected final AppW app;
 	protected final GuiManagerW guiManager;
-	
 	protected State state = State.Default;
 	Runnable editMaterial;
 
@@ -121,13 +120,17 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void initMaterialInfos() {
-		this.title = new Label(this.material.getTitle());
-		this.title.addStyleName("fileTitle");
 		if (!isLocal) {
+			this.title = new Label(this.material.getTitle());
 			this.sharedBy = new Label(this.material.getAuthor());
 			this.sharedBy.setStyleName("sharedPanel");
+		} else {
+			String key = this.material.getTitle();
+			this.title = new Label(extractTitle(key));
 		}
+		this.title.addStyleName("fileTitle");
 	}
+
 
 	private void addInfoPanel() {
 		this.infoPanel = new FlowPanel();
@@ -196,11 +199,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.title.setText(this.renameTitleBox.getText());
 		this.renameTitleBox.setVisible(false);
 		this.title.setVisible(true);
-		this.material.setTitle(this.title.getText());
 		
 		if (isLocal) {
-			this.app.getFileManager().rename(this.title.getText(), oldTitle);
-		} else {			
+			this.app.getFileManager().rename(this.title.getText(), this.material);
+		} else {
+			this.material.setTitle(this.title.getText());
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadRenameMaterial(this.app, this.material, new MaterialCallback() {
 				
 				@Override
@@ -597,7 +600,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	public void setMaterial(Material mat) {
 		this.material = mat;
-		this.title.setText(this.material.getTitle());
+		if (isLocal) {
+			String key = mat.getTitle();
+			this.title.setText(extractTitle(key));
+		} else {
+			this.title.setText(this.material.getTitle());
+		}
 		if (!isLocal) {
 			this.sharedBy.setText(this.material.getAuthor());
 		}
@@ -608,4 +616,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	public void setShowDetailsListener(ShowDetailsListener listener){
 		this.showListener = listener;
 	}
+
+	private String extractTitle(String key) {
+	    return key.substring(key.indexOf("#", key.indexOf("#")+1)+1);
+    }
 }

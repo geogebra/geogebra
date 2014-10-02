@@ -101,6 +101,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 		
 				public void execute() {
 					if (!app.getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
+						//TODO Doesn't work for TOUCH
 						openFilePicker();
 					} else if (!app.getLoginOperation().isLoggedIn()) {
 						uploadWaiting = true;

@@ -161,6 +161,7 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	    ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
 	    if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 	    	app.resetUniqueId();
+	    	app.setLocalID(-1);
 	    }
 	    app.getKernel().getConstruction().setTitle(this.title.getText());
 	    ((FileManager)app.getFileManager()).saveFile(new SaveCallback(app) {
