@@ -1,59 +1,72 @@
 package geogebra.web.gui.view.data;
 
 import geogebra.common.gui.view.data.ANOVAStatTableModel;
+import geogebra.common.gui.view.data.ANOVAStatTableModel.AnovaStats;
 import geogebra.common.gui.view.data.StatTableModel.StatTableListener;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.html5.main.AppW;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.distribution.FDistribution;
-import org.apache.commons.math.distribution.FDistributionImpl;
-import org.apache.commons.math.stat.descriptive.summary.Sum;
-import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
 public class ANOVATableW extends BasicStatTableW implements StatTableListener {
 	private static final long serialVersionUID = 1L;
+	private static final int ROW_COUNT = 2;
+	private static final int COLUMN_COUNT = 6;
 
 	public ANOVATableW(AppW app, DataAnalysisViewW statDialog) {
 		super(app, statDialog, false);
 		setModel(new ANOVAStatTableModel(app, this));
+		setStyleName("daANNOVA");
+		
 	}
 
+	protected void initStatTable() {
+
+		statTable = new StatTableW(app);
+		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
+				COLUMN_COUNT, getColumnNames());
+		clear();
+		add(statTable);
+	}
+	
+	@Override
+	public String[] getColumnNames() {
+		String[] colNames = getModel().getColumnNames();
+		String[] ext = new String[colNames.length + 1];
+		ext[0] = "";
+   	System.arraycopy(colNames, 0, ext, 1, colNames.length);
+		return ext;
+	}
+	
 	@Override
 	public void updatePanel() {
 
 		GeoList dataList = daView.getController().getDataSelected();
-		statTable.setStatTable(getModel().getRowCount(), null,
-				getModel().getColumnCount(), getModel().getColumnNames());
+		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
+				COLUMN_COUNT, getColumnNames());
 
 		try {
-			AnovaStats stats = anovaStats(getCategoryData(dataList));
+			AnovaStats stats = ANOVAStatTableModel.getStats(dataList);
 
 			// first column, degrees of freedom
-			statTable.setValueAt(daView.format(stats.dfbg), 1, 0);
-			statTable.setValueAt(daView.format(stats.dfwg), 2, 0);
-			statTable.setValueAt(daView.format(stats.dfbg + stats.dfwg), 3, 0);
+			statTable.setValueAt(daView.format(stats.getDfbg()), 0, 1);
+			statTable.setValueAt(daView.format(stats.getDfwg()), 1, 1);
+			statTable.setValueAt(daView.format(stats.getDfbg() + stats.getDfwg()), 2, 1);
 
 			// second column, sum of squares
-			statTable.setValueAt(daView.format(stats.ssbg), 1, 1);
-			statTable.setValueAt(daView.format(stats.sswg), 2, 1);
-			statTable.setValueAt(daView.format(stats.sst), 3, 1);
+			statTable.setValueAt(daView.format(stats.getSsbg()), 0, 2);
+			statTable.setValueAt(daView.format(stats.getSswg()), 1, 2);
+			statTable.setValueAt(daView.format(stats.getSst()), 2, 2);
 
 			// third column, mean sum of squares
-			statTable.setValueAt(daView.format(stats.msbg), 1, 2);
-			statTable.setValueAt(daView.format(stats.mswg), 2, 2);
+			statTable.setValueAt(daView.format(stats.getMsbg()), 0, 3);
+			statTable.setValueAt(daView.format(stats.getMswg()), 1, 3);
 
 			// fourth column, F test statistics
-			statTable.setValueAt(daView.format(stats.F), 1, 3);
+			statTable.setValueAt(daView.format(stats.getF()), 0, 4);
 
 			// fifth column, P value
-			statTable.setValueAt(daView.format(stats.P), 1, 4);
+			statTable.setValueAt(daView.format(stats.getP()), 0, 5);
 
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -64,159 +77,5 @@ public class ANOVATableW extends BasicStatTableW implements StatTableListener {
 		}
 	}
 
-	private static ArrayList<double[]> getCategoryData(GeoList geoList) {
-
-		// create an array list of data arrays
-		ArrayList<double[]> categoryData = new ArrayList<double[]>();
-
-		// load the data arrays from the input GeoList
-		GeoList list;
-		for (int index = 0; index < geoList.size(); index++) {
-
-			list = (GeoList) geoList.get(index);
-			double[] valueArray = new double[list.size()];
-
-			for (int i = 0; i < list.size(); i++) {
-				GeoElement geo = list.get(i);
-				if (geo instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo;
-					valueArray[i] = num.getDouble();
-				}
-			}
-			categoryData.add(valueArray);
-			// System.out.println(Arrays.toString(valueArray));
-		}
-
-		return categoryData;
-	}
-
-	/**
-	 * Calculates ANOVA stats. (Modified form of method found in Apache Commons
-	 * OneWayAnovaImpl)
-	 * 
-	 * @param categoryData
-	 *            <code>Collection</code> of <code>double[]</code> arrays each
-	 *            containing data for one category
-	 * @return computed AnovaStats
-	 * @throws IllegalArgumentException
-	 *             if categoryData does not meet preconditions specified in the
-	 *             interface definition
-	 * @throws MathException
-	 *             if an error occurs computing the Anova stats
-	 */
-	private static AnovaStats anovaStats(Collection<double[]> categoryData)
-			throws IllegalArgumentException, MathException {
-
-		// check if we have enough categories
-		if (categoryData.size() < 2) {
-			throw MathRuntimeException.createIllegalArgumentException(
-					// LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
-					"two or more categories required, got {0}",
-					categoryData.size());
-		}
-
-		// check if each category has enough data and all is double[]
-		for (double[] array : categoryData) {
-			if (array.length <= 1) {
-				throw MathRuntimeException
-						.createIllegalArgumentException(
-								// LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
-								"two or more values required in each category, one has {0}",
-								array.length);
-			}
-		}
-
-		int dfwg = 0;
-		double sswg = 0;
-		Sum totsum = new Sum();
-		SumOfSquares totsumsq = new SumOfSquares();
-		int totnum = 0;
-
-		for (double[] data : categoryData) {
-
-			Sum sum = new Sum();
-			SumOfSquares sumsq = new SumOfSquares();
-			int num = 0;
-
-			for (int i = 0; i < data.length; i++) {
-				double val = data[i];
-
-				// within category
-				num++;
-				sum.increment(val);
-				sumsq.increment(val);
-
-				// for all categories
-				totnum++;
-				totsum.increment(val);
-				totsumsq.increment(val);
-			}
-			dfwg += num - 1;
-			double ss = sumsq.getResult() - sum.getResult() * sum.getResult()
-					/ num;
-			sswg += ss;
-		}
-		double sst = totsumsq.getResult() - totsum.getResult()
-				* totsum.getResult() / totnum;
-		double ssbg = sst - sswg;
-		int dfbg = categoryData.size() - 1;
-		double msbg = ssbg / dfbg;
-		double mswg = sswg / dfwg;
-		double F = msbg / mswg;
-
-		FDistribution fdist = new FDistributionImpl(dfbg, dfwg);
-		double P = 1.0 - fdist.cumulativeProbability(F);
-
-		return new AnovaStats(dfbg, dfwg, F, P, ssbg, sswg, sst, msbg, mswg);
-	}
-
-	/**
-	 * Convenience class to pass dfbg,dfwg,F values around within AnovaImpl.
-	 * (Modified form of class found in OneWayAnovaImpl)
-	 */
-	private static class AnovaStats {
-
-		/** Degrees of freedom in numerator (between groups). */
-		private int dfbg;
-
-		/** Degrees of freedom in denominator (within groups). */
-		private int dfwg;
-
-		/** F test statistic. */
-		private double F;
-
-		/** sum of squares */
-		private double ssbg, sswg, sst;
-
-		/** mean squares */
-		private double msbg, mswg;
-
-		/** P value */
-		private double P;
-
-		/**
-		 * Constructor
-		 * 
-		 * @param dfbg
-		 *            degrees of freedom in numerator (between groups)
-		 * @param dfwg
-		 *            degrees of freedom in denominator (within groups)
-		 * @param F
-		 *            statistic
-		 */
-		private AnovaStats(int dfbg, int dfwg, double F, double P, double ssbg,
-				double sswg, double sst, double msbg, double mswg) {
-			this.dfbg = dfbg;
-			this.dfwg = dfwg;
-			this.F = F;
-			this.P = P;
-			this.ssbg = ssbg;
-			this.sswg = sswg;
-			this.sst = sst;
-			this.msbg = msbg;
-			this.mswg = mswg;
-
-		}
-	}
-
+	
 }

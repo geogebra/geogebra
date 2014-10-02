@@ -4472,6 +4472,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	height: 150px;	
 }
 
+.daANNOVA table,
 .daMultiVarStatistics table,
 .daStatistics table {
 	width: 100%;
@@ -4506,7 +4507,9 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .daData table td,
 .daData table th,
 .daData table tr,
-
+.daANNOVA table td,
+.daANNOVA table th,
+.daANNOVA table tr,
 .daMultiVarStatistics table td,
 .daMultiVarStatistics table th,
 .daMultiVarStatistics table tr,
@@ -4515,7 +4518,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .daStatistics table tr {
 	border: 1px dotted;
 }
-
+.daANNOVA table tr td:first-child,
 .daData table tr td:first-child,
 .daStatistics table tr td:first-child {
 	width: 40px;
@@ -4524,6 +4527,8 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	font-weight: bold;
 }
 
+.daANNOVA table tr:first-child,
+.daANNOVA table tr td:first-child,
 .daMultiVarStatistics table tr:first-child,
 .daMultiVarStatistics table tr td:first-child {
 	width: 150px;

@@ -51,7 +51,7 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 
 	@Override
 	public int getRowCount() {
-		return getModel().getRowCount();
+		return getModel().getRowCount() - 1;
 	}
 	
 	

@@ -242,8 +242,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	public void updateAnovaTable() {
-//		getAnovaTable().updatePanel();
-//		getMinMVStatPanel().updatePanel();
+		getAnovaTable().updatePanel();
+		getMinMVStatPanel().updatePanel();
 
 	}
 
