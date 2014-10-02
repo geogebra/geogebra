@@ -48,7 +48,15 @@ public class CASTableCellController extends geogebra.common.cas.view.CASTableCel
 		int selectedRow = table.getSelectedRow();
 		int rowCount = table.getRowCount();
 
-		switch (e.getKeyCode()) {				
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_A:
+		case KeyEvent.VK_C:
+		case KeyEvent.VK_X:
+		case KeyEvent.VK_V:
+			// don't let ctrl-c pass through
+			// consumeEvent is left false, so that the text is actually
+			// copied/selected etc..
+			return true;
 		case KeyEvent.VK_ENTER:
 			handleEnterKey(geogebra.euclidian.event.KeyEvent.wrapEvent(e),app);
 			consumeEvent = true;
