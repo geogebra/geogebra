@@ -1673,7 +1673,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Perspective.CASAndGraphics": "\u7e6a\u5716\u5340+\u904b\u7b97\u5340",
     "Perspective.Geometry": "\u7e6a\u5716\u5340",
     "Perspective.Primary": "\u9810\u8a2d\u914d\u7f6e",
-    "Perspective.Probability": "Probability",
+    "Perspective.Probability": "\u6a5f\u7387",
     "Perspective.Spreadsheet": "\u8a66\u7b97\u8868",
     "Perspective.TableAndGraphics": "\u7e6a\u5716\u5340+\u8a66\u7b97\u8868",
     "Perspective.Whiteboard": "\u767d\u677f",
