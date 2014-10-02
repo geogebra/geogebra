@@ -2,8 +2,13 @@ package geogebra.web.gui.util;
 
 import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.Provider;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
@@ -40,7 +45,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SaveDialogW extends DialogBox implements PopupMenuHandler {
+public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRenderable {
 
 	protected AppW app;
 	VerticalPanel p;
@@ -52,6 +57,8 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	private final int MIN_TITLE_LENGTH = 4;
 	Runnable runAfterSave;
 	SaveCallback saveCallback;
+	private PopupMenuButton providerPopup;
+	private FlowPanel buttonPanel;
 	
 
 	/**
@@ -86,6 +93,7 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 				((AppW) app).closePopups();
 	            
             }}, ClickEvent.getType());
+		app.getLoginOperation().getView().add(this);
 	}
 
 	private void addTitelPanel() {
@@ -115,19 +123,13 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	}
 
 	private void addButtonPanel() {
-		final FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("buttonPanel");
 		buttonPanel.add(cancel = new StandardButton(app.getMenu("Cancel")));
 		buttonPanel.add(save = new StandardButton(app.getMenu("Save")));
+		setAvailableProviders();
 		//ImageOrText[] data, Integer rows, Integer columns, GDimensionW iconSize, geogebra.common.gui.util.SelectionTable mode
-		PopupMenuButton providerPopup = new PopupMenuButton(app, ImageOrText.convert(new ImageResource[]{
-				BrowseResources.INSTANCE.location_tube(),
-				BrowseResources.INSTANCE.location_drive()}, 24),2,1,new GDimensionW(32,32),SelectionTable.MODE_IMAGE);
-		providerPopup.addPopupHandler(this);
-		providerPopup.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
-		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
-		providerPopup.setSelectedIndex(app.getFileManager().getFileProvider() == Provider.GOOGLE ? 1 : 0);
-		buttonPanel.add(providerPopup);
+		
 		save.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -146,6 +148,29 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 		});
 		
 		p.add(buttonPanel);
+	}
+	
+	private void setAvailableProviders(){
+		ImageResource[] providerImages = new ImageResource[3];
+		providerImages[0] = BrowseResources.INSTANCE.location_tube();
+		int providerCount = 1;
+		GeoGebraTubeUser user = app.getLoginOperation().getModel().getLoggedInUser();
+		if(user != null && user.hasGoogleDrive()){
+			providerImages[providerCount++] = BrowseResources.INSTANCE.location_drive();
+		}
+		if(user != null && user.hasOneDrive()){
+			providerImages[providerCount++] = BrowseResources.INSTANCE.location_skydrive();
+		}
+		if(providerPopup != null){
+			buttonPanel.remove(providerPopup);
+		}
+		providerPopup = new PopupMenuButton(app, ImageOrText.convert(providerImages, 24),1,providerCount,new GDimensionW(32,32),SelectionTable.MODE_IMAGE);
+		providerPopup.addPopupHandler(this);
+		providerPopup.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
+		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
+		providerPopup.setSelectedIndex(app.getFileManager().getFileProvider() == Provider.GOOGLE ? 1 : 0);
+		providerPopup.setIsEnabled(providerCount > 1);
+		buttonPanel.add(providerPopup);
 	}
 	
 	/**
@@ -198,7 +223,15 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	void upload() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
 		if(app.getFileManager().getFileProvider() == Provider.GOOGLE){
-			uploadToDrive();
+			app.getGoogleDriveOperation().afterLogin(new Runnable(){
+
+				@Override
+                public void run() {
+					uploadToDrive();
+                }
+				
+			});
+			
 		}
 		else if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 			app.resetUniqueId();
@@ -212,7 +245,7 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 		hide();
 	}
 
-	private void uploadToDrive() {
+	void uploadToDrive() {
 		String saveName = this.title.getText();
 		if(!saveName.endsWith(".ggb")){
 			app.getKernel().getConstruction().setTitle(saveName);
@@ -220,7 +253,6 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 		} else {
 			app.getKernel().getConstruction().setTitle(saveName.substring(0,saveName.length()-4));
 		}
-		((GoogleDriveOperationW) app.getGoogleDriveOperation()).login(false);
 		JavaScriptObject callback = ((GoogleDriveOperationW) app.getGoogleDriveOperation()).getPutFileCallback(saveName, "GeoGebra");
 		app.getGgbApi().getBase64(true, callback);
     }
@@ -338,6 +370,13 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler {
 	    	app.getFileManager().setFileProvider(geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
 	    }
 	    
+    }
+
+	@Override
+    public void renderEvent(BaseEvent event) {
+	    if(event instanceof LoginEvent || event instanceof LogOutEvent){
+	    	this.setAvailableProviders();
+	    }
     }
 	
 }

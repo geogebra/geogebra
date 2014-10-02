@@ -10,4 +10,6 @@ public interface GoogleDriveOperation {
 
 	void initGoogleDriveApi();
 
+	void afterLogin(Runnable runnable);
+
 }

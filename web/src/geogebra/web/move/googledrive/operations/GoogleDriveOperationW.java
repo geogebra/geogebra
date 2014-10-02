@@ -41,6 +41,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	
 	private String driveBase64description = null;
 	private String driveBase64FileName = null;
+	private Runnable waitingHandler;
 
 	
 	/**
@@ -163,6 +164,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 			if(this.needsPicker){
 				this.needsPicker = false;
 				createPicker(authToken);
+			}else if(this.waitingHandler != null){
+				waitingHandler.run();
 			}
 			onEvent(new GoogleLoginEvent(true));
 			
@@ -543,5 +546,16 @@ private String currentFileId = null;
 		this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
 	}
 }-*/;
+
+	@Override
+    public void afterLogin(Runnable todo) {
+	    if(this.isLoggedIntoGoogle()){
+	    	todo.run();
+	    }else{
+	    	this.waitingHandler = todo;
+	    	login(false);
+	    }
+	    
+    }
 
 }

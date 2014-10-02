@@ -21,6 +21,9 @@ public class ImageOrText {
 	public static ImageOrText[] convert(ImageResource[] res, int size) {
 	    ImageOrText[] arr = new ImageOrText[res.length];
 	    for(int i=0; i< arr.length; i++){
+	    	if(res[i] == null){
+	    		return arr;
+	    	}
 	    	arr[i] = new ImageOrText();
 	    	arr[i].url = res[i].getSafeUri().asString();
 	    	arr[i].bgSize = size;
