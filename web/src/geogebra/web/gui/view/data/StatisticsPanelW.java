@@ -33,7 +33,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private BasicStatTableW statTable;
 	private OneVarInferencePanelW oneVarInferencePanel;
 //	private LinearRegressionPanelW regressionPanel;
-//	private TwoVarInferencePanelW twoVarInferencePanel;
+	private TwoVarInferencePanelW twoVarInferencePanel;
 	private ANOVATableW anovaTable;
 	private MultiVarStatPanelW minMVStatPanel;
 	private FlowPanel selectionPanel;
@@ -90,10 +90,12 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 */
 	private void setInferencePanel() {
 
-		if (inferencePanel == null)
+		if (inferencePanel == null) {
 			return;
+		}
 
-		inferencePanel.clear();;
+		inferencePanel.clear();
+		
 		switch (model.getSelectedMode()) {
 
 		case StatisticsModel.INFER_ZTEST:
@@ -107,8 +109,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		case StatisticsModel.INFER_TTEST_PAIRED:
 		case StatisticsModel.INFER_TINT_2MEANS:
 		case StatisticsModel.INFER_TINT_PAIRED:
-		//	inferencePanel.add(getTwoVarInferencePanel());
-		//	inferencePanel.add(statTable);
+			inferencePanel.add(getTwoVarInferencePanel());
+			inferencePanel.add(statTable);
 			break;
 
 		case StatisticsModel.INFER_ANOVA:
@@ -145,11 +147,11 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		return oneVarInferencePanel;
 	}
 
-//	private TwoVarInferencePanelW getTwoVarInferencePanel() {
-//		if (twoVarInferencePanel == null)
-//			twoVarInferencePanel = new TwoVarInferencePanelW(app, statDialog);
-//		return twoVarInferencePanel;
-//	}
+	private TwoVarInferencePanelW getTwoVarInferencePanel() {
+		if (twoVarInferencePanel == null)
+			twoVarInferencePanel = new TwoVarInferencePanelW(app, statDialog);
+		return twoVarInferencePanel;
+	}
 
 	private MultiVarStatPanelW getMinMVStatPanel() {
 		if (minMVStatPanel == null)
@@ -237,8 +239,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	public void updateTwoVarInference(int mode) {
-//		getTwoVarInferencePanel().setSelectedInference(mode);
-//		getTwoVarInferencePanel().updatePanel();
+		getTwoVarInferencePanel().setSelectedInference(mode);
+		getTwoVarInferencePanel().updatePanel();
 	}
 
 	public void updateAnovaTable() {
