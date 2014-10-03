@@ -15,16 +15,16 @@ import geogebra.web.util.SaveCallback;
 
 import java.util.List;
 
-public abstract class FileManager implements FileManagerI{
-	protected AppW app;
+public abstract class FileManager implements FileManagerI {
+	private AppW app;
 	private Provider provider;
+	protected static final String FILE_PREFIX = "file#";
 
 	public FileManager(final AppW app) {
 	    this.app = app;
     }
 	
 	public abstract void delete(final Material mat);
-	public abstract void openMaterial(final Material material);
 	public abstract void saveFile(final SaveCallback cb);
 	public abstract void uploadUsersMaterials();
 	protected abstract void getFiles(MaterialFilter materialFilter);
@@ -46,7 +46,7 @@ public abstract class FileManager implements FileManagerI{
     }
 	
 	
-	protected Material createMaterial(final String base64) {
+	public Material createMaterial(final String base64) {
 		final Material mat = new Material(0, MaterialType.ggb);
 		
 		//TODO check if we need to set timestamp / modified
@@ -85,12 +85,12 @@ public abstract class FileManager implements FileManagerI{
 
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse) {
-				        if (parseResponse.size() == 1 && parseResponse.get(0).getModified() > mat.getSyncStamp()) {
-				        	ToolTipManagerW.sharedInstance().showBottomMessage("Note that there are several versions of: " + parseResponse.get(0).getTitle(), true);
-					        mat.setId(0);
-				        } else if (parseResponse.size() == 0) {
-				        	 mat.setId(0);
-				        }
+			        	if (parseResponse.size() == 1 && parseResponse.get(0).getModified() > mat.getSyncStamp()) {
+			        		ToolTipManagerW.sharedInstance().showBottomMessage("Note that there are several versions of: " + parseResponse.get(0).getTitle(), true);
+			        		mat.setId(0);
+			        	} else if (parseResponse.size() == 0) {
+			        		mat.setId(0);
+			        	}
 				        upload(mat);
 			        }
 
@@ -107,7 +107,7 @@ public abstract class FileManager implements FileManagerI{
 	 */
 	public void upload(final Material mat) {
 		final String localKey = mat.getTitle();
-		mat.setTitle(getTitle(mat.getTitle()));
+		mat.setTitle(getTitleFromKey(mat.getTitle()));
 	    ((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadLocalMaterial(app, mat, new MaterialCallback() {
 
 	    	@Override
@@ -133,7 +133,7 @@ public abstract class FileManager implements FileManagerI{
 	 * @param key
 	 * @return the title
 	 */
-	String getTitle(String key) {
+	public String getTitleFromKey(String key) {
 		return key.substring(key.indexOf("#", key.indexOf("#")+1)+1);
 	}
 	
@@ -143,5 +143,46 @@ public abstract class FileManager implements FileManagerI{
 
 	public Provider getFileProvider(){
 		return this.provider;
+	}
+	
+	/**
+	 * returns the ID from the given key.
+	 * (key is of form "file#ID#fileName")
+	 * @param key String
+	 * @return int ID
+	 */
+	public int getIDFromKey(String key) {
+		return Integer.parseInt(key.substring(FILE_PREFIX.length(), key.indexOf("#", FILE_PREFIX.length())));
+	}
+
+	/**
+	 * @param matID local ID of material
+	 * @param title of material
+	 * @return creates a key (String) for the stockStore
+	 */
+	public String createKeyString(int matID, String title) {
+		return FILE_PREFIX + matID + "#" + title;
+	}
+	
+	@Override
+    public void openMaterial(final Material material) {
+		try {
+			final String base64 = material.getBase64();
+			if (base64 == null) {
+				return;
+			}
+			app.getGgbApi().setBase64(base64);
+		} catch (final Throwable t) {
+			app.showError("LoadFileFailed");
+			t.printStackTrace();
+		}
+    }
+	
+	/**
+	 * only for FileManagerT and FileManagerW
+	 * @return {@link AppW}
+	 */
+	public AppW getApp() {
+		return this.app;
 	}
 }

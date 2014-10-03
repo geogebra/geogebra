@@ -2,10 +2,10 @@ package geogebra.tablet.gui;
 
 import geogebra.html5.main.AppW;
 import geogebra.tablet.gui.browser.TabletBrowseGUI;
-import geogebra.web.gui.GuiManagerW;
+import geogebra.touch.gui.GuiManagerT;
 import geogebra.web.gui.browser.BrowseGUI;
 
-public class TabletGuiManager extends GuiManagerW {
+public class TabletGuiManager extends GuiManagerT {
 
 	public TabletGuiManager(final AppW app) {
 	    super(app);
@@ -22,16 +22,4 @@ public class TabletGuiManager extends GuiManagerW {
 		}
 		return this.browseGUI;
 	}
-//	
-//	@Override
-//	public void save(SaveCallback cb) {
-//		if (((AppW) app).getNetworkOperation().getOnline() || "tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())) {
-//			SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
-//			saveDialog.center();
-//			saveDialog.setCallback(cb);
-//		} else {
-//			((DialogManagerW) app.getDialogManager()).getSaveDialog().openFilePicker();
-//		}
-//	}
-	
 }

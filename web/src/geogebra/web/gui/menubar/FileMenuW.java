@@ -1,32 +1,26 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.move.events.BaseEvent;
-import geogebra.common.move.events.StayLoggedOutEvent;
-import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.BooleanRenderable;
-import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.browser.SignInButton;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRenderable {
+public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 	/** Application */
 	AppW app;
 	private MenuItem uploadToGGT;
 	Runnable onFileOpen;
 	Runnable newConstruction;
-	boolean uploadWaiting;
 	
 	/**
 	 * @param app application
@@ -50,7 +44,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 	    addStyleName("GeoGebraMenuBar");
 	    initActions();
 		update();
-		app.getLoginOperation().getView().add(this);
 	}
 
 	private void update() {
@@ -100,15 +93,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Save"), true),true,new Command() {
 		
 				public void execute() {
-					if (!app.getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
-						//TODO Doesn't work for TOUCH
-						openFilePicker();
-					} else if (!app.getLoginOperation().isLoggedIn()) {
-						uploadWaiting = true;
-						((SignInButton)app.getLAF().getSignInButton(app)).login();
-					} else {
-						app.getGuiManager().save();
-					}
+					app.getGuiManager().save();
 				}
 			});			
 		}
@@ -136,7 +121,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 			
 			@Override
 			public void execute() {
-				openFilePicker();
+				((GuiManagerW) app.getGuiManager()).openFilePicker();
 			}
 		});
 	    
@@ -149,35 +134,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 	    	render(false);    	
 	    }
 	}
-	
-	void openFilePicker() {
-		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb":
-			(app.getKernel().getConstruction().getTitle() + ".ggb");
-		JavaScriptObject callback = getDownloadCallback(title);
-		this.app.getGgbApi().getGGB(true, callback);
-    }
-	
-	private native JavaScriptObject getDownloadCallback(String title) /*-{
-		var _this = this;
-		return function(ggbZip) {
-			var URL = $wnd.URL || $wnd.webkitURL;
-			var ggburl = URL.createObjectURL(ggbZip);
-
-			if ($wnd.navigator.msSaveBlob) {
-				//works for chrome and internet explorer
-				$wnd.navigator.msSaveBlob(ggbZip, title);
-			} else {
-				//works for firefox
-				var a = document.createElement("a");
-    			document.body.appendChild(a);
-		    	a.style = "display: none";
-		        a.href = ggburl;
-		        a.download = title;
-		        a.click();
-//		        window.URL.revokeObjectURL(url);
-			} 
-		}
-	}-*/;
 
 	/**
 	 * @param online wether the application is online
@@ -191,15 +147,4 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable, EventRende
 			uploadToGGT.setTitle("");
 		}
     }
-	
-	@Override
-	public void renderEvent(final BaseEvent event) {
-		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
-			this.uploadWaiting = false;
-			app.getGuiManager().save();
-		} else if(this.uploadWaiting && event instanceof StayLoggedOutEvent){
-			this.uploadWaiting = false;
-			openFilePicker();
-		}
-	}
 }

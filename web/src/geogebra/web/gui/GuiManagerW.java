@@ -24,6 +24,10 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.events.StayLoggedOutEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.euclidian.EuclidianViewWInterface;
@@ -41,6 +45,7 @@ import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.browser.BrowseGUI;
+import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.images.AppResources;
@@ -82,6 +87,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.resources.client.ImageResource;
@@ -92,7 +98,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
+public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, EventRenderable {
 
 	/**
 	 * container for the Popup that only one exist for a given type
@@ -105,6 +111,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<EuclidianViewW>();
 	protected BrowseGUI browseGUI;
 	protected LayoutW layout;
+	protected boolean uploadWaiting;
 
 	private CASViewW casView;
 
@@ -122,6 +129,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		this.kernel = app.getKernel();
 		this.objectPool = new ObjectPool();
 		// AGdialogManagerFactory = new DialogManager.Factory();
+		app.getLoginOperation().getView().add(this);
 	}
 
 	public void redo() {
@@ -838,8 +846,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	@Override
 	public boolean save() {
-		final SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
-		saveDialog.center();
+		if (!((AppW) app).getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
+			openFilePicker();
+		} else if (!app.getLoginOperation().isLoggedIn()) {
+			uploadWaiting = true;
+			((SignInButton) ((AppW) app).getLAF().getSignInButton(app)).login();
+		} else {
+			final SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+			saveDialog.center();
+		}
 		return true;
 	}
 	
@@ -1645,6 +1660,49 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 				panel.showStyleBarPanel(true);
 				panel.setStyleBarRightOffset(0);
 			}
+		}
+	}
+	
+	/**
+	 * shows the downloadDialog
+	 */
+	public void openFilePicker() {
+		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb":
+			(app.getKernel().getConstruction().getTitle() + ".ggb");
+		JavaScriptObject callback = getDownloadCallback(title);
+		((AppW) app).getGgbApi().getGGB(true, callback);
+    }
+	
+	private native JavaScriptObject getDownloadCallback(String title) /*-{
+		var _this = this;
+		return function(ggbZip) {
+			var URL = $wnd.URL || $wnd.webkitURL;
+			var ggburl = URL.createObjectURL(ggbZip);
+
+			if ($wnd.navigator.msSaveBlob) {
+				//works for chrome and internet explorer
+				$wnd.navigator.msSaveBlob(ggbZip, title);
+			} else {
+				//works for firefox
+				var a = document.createElement("a");
+    			document.body.appendChild(a);
+		    	a.style = "display: none";
+		        a.href = ggburl;
+		        a.download = title;
+		        a.click();
+//		        window.URL.revokeObjectURL(url);
+			} 
+		}
+	}-*/;
+	
+	@Override
+	public void renderEvent(final BaseEvent event) {
+		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
+			this.uploadWaiting = false;
+			save();
+		} else if(this.uploadWaiting && event instanceof StayLoggedOutEvent){
+			this.uploadWaiting = false;
+			openFilePicker();
 		}
 	}
 }
