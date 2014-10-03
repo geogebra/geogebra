@@ -18,6 +18,7 @@ public class GuiManagerT extends GuiManagerW {
 	@Override
 	public boolean save() {
 		if (isOnline() && !app.getLoginOperation().isLoggedIn()) {
+			listenToLogin();
 			uploadWaiting = true;
 			((SignInButton) ((AppT) app).getLAF().getSignInButton(app)).login();
 		} else {
