@@ -1363,7 +1363,7 @@ __GGB__keysVar.fr.menu = {
     "DontOverwrite": "Ne pas remplacer",
     "DontSave": "Ne pas sauvegarder",
     "DotPlot": "Nuage Points",
-    "Download": "Download",
+    "Download": "T\xe9l\xe9charger",
     "DownloadAsGgbFile": "T\xe9l\xe9charger comme fichier .ggb",
     "DrawingPadToClipboard": "Graphique vers Presse-papiers",
     "DynamicColors": "Couleurs dynamiques",

@@ -350,7 +350,7 @@ __GGB__keysVar.es_ES.command = {
     "FromBase.Syntax": "[ \"<N\xfamero entre comillas (como texto)>\", <Base> ]",
     "Function": "Funci\xf3n",
     "Function.Syntax": "[ <Lista de n\xfameros> ]\n[ <Funci\xf3n>, <Extremo inferior del intervalo>, <Extremo superior del intervalo> ]",
-    "Function.Syntax3D": "[ <Lista de n\xfameros> ]\n[ <Expresi\xf3n>, <Par\xe1metro 1>, <Valor inicial>, <Valor final>, <Par\xe1metro 2>, <Valor inicial>, <Valor final> ]",
+    "Function.Syntax3D": "[ <Lista de n\xfameros> ]\n[ <Funci\xf3n>, <Valor inicial>, <Valor final> ]\n[ <Expresi\xf3n>, <Par\xe1metro 1>, <Valor inicial>, <Valor final>, <Par\xe1metro 2>, <Valor inicial>, <Valor final> ]",
     "Function.SyntaxCAS": "[ <Funci\xf3n>, <Valor-x inicial>, <Valor-x final> ]",
     "FutureValue": "ValorFuturo",
     "FutureValue.Syntax": "[ <Tasa>, <N\xfamero de per\xedodos>, <Pago>, <Valor actual (opcional)>, <Tipo (opcional)> ]",
