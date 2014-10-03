@@ -48,7 +48,8 @@ public class CmdCellRange extends CommandProcessor {
 				if (GeoElementSpreadsheet.isSpreadsheetLabel(start) &&
 						GeoElementSpreadsheet.isSpreadsheetLabel(end)) 
 				{
-					AlgoCellRange algo = new AlgoCellRange(cons, c.getLabel(), start, end);
+					AlgoCellRange algo = app.getSpreadsheetTableModel().getCellRangeManager()
+							.getAlgoCellRange(cons, c.getLabel(), start, end);
 					GeoElement[] ret = { algo.getList() };
 					return ret;
 

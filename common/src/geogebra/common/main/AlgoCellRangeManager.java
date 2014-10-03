@@ -1,10 +1,11 @@
 package geogebra.common.main;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.statistics.AlgoCellRange;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Maintains a list of all instances of AlgoCellRange in a construction and
@@ -16,23 +17,8 @@ import java.util.ArrayList;
  */
 public class AlgoCellRangeManager {
 
-	private ArrayList<AlgoCellRange> cellRangeAlgos;
 
-	/**
-	 * Adds an AlgoCellRange algorithm to the internal algorithm list.
-	 * 
-	 * @param algo
-	 *            algorithm to add
-	 */
-	public void registerCellRangeListenerAlgo(AlgoCellRange algo) {
-		if (cellRangeAlgos == null) {
-			cellRangeAlgos = new ArrayList<AlgoCellRange>();
-		}
 
-		if (!cellRangeAlgos.contains(algo)) {
-			cellRangeAlgos.add(algo);
-		}
-	}
 
 	/**
 	 * Removes an AlgoCellRange algorithm from the internal algorithm list.
@@ -41,9 +27,11 @@ public class AlgoCellRangeManager {
 	 *            algorithm to remove
 	 */
 	public void unregisterCellRangeListenerAlgo(AlgoCellRange algo) {
-		if (cellRangeAlgos != null) {
-			cellRangeAlgos.remove(algo);
+		if (algos != null) {
+			algos.remove(getKey(algo.getStart(),algo.getEnd()));
 		}
+		
+		
 	}
 
 	/**
@@ -63,11 +51,11 @@ public class AlgoCellRangeManager {
 	public void updateCellRangeAlgos(GeoElement geo, GPoint location,
 			boolean isRemoveAction) {
 
-		if (geo == null || cellRangeAlgos == null) {
+		if (geo == null || algos == null) {
 			return;
 		}
 
-		for (AlgoCellRange algo : cellRangeAlgos) {
+		for (AlgoCellRange algo : algos.values()) {
 			// System.out.println("geo label: " + geo.getLabelSimple());
 			if (algo.getCellRange().contains(location)) {
 				algo.updateList(geo, isRemoveAction);
@@ -84,11 +72,11 @@ public class AlgoCellRangeManager {
 	 */
 	public void addToCellRangeAlgos(GeoElement geo, GPoint location) {
 
-		if (geo == null || cellRangeAlgos == null) {
+		if (geo == null || algos == null) {
 			return;
 		}
 
-		for (AlgoCellRange algo : cellRangeAlgos) {
+		for (AlgoCellRange algo : algos.values()) {
 			// System.out.println("geo label: " + geo.getLabelSimple());
 			if (algo.getCellRange().contains(location)) {
 				algo.addToList(geo, location);
@@ -98,9 +86,45 @@ public class AlgoCellRangeManager {
 	}
 
 	public void removeAll() {
-		if (cellRangeAlgos != null) {
-			cellRangeAlgos.clear();
+		if (algos != null) {
+			algos.clear();
 		}
+	}
+	
+	private HashMap<String, AlgoCellRange> algos;
+	
+	/**
+	 * 
+	 * @param cons construction
+	 * @param label label
+	 * @param start start cell
+	 * @param end end cell
+	 * @return algo corresponding to string start:end
+	 */
+	public AlgoCellRange getAlgoCellRange(Construction cons, String label, String start, String end){
+		
+		if (algos == null){
+			algos = new HashMap<String, AlgoCellRange>();
+		}
+		
+		String key = getKey(start, end);
+		AlgoCellRange algo = algos.get(key);
+		if (algo == null){
+			algo = new AlgoCellRange(cons, label, start, end);
+			algos.put(key, algo);
+		}else{
+			if (label != null && label.length() > 0){
+				algo.getList().setLabel(label);
+			}
+		}
+		
+		return algo;
+		
+	}
+	
+	
+	private static String getKey(String start, String end){
+		return start+":"+end;
 	}
 
 }

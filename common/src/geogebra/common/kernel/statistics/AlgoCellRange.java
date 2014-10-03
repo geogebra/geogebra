@@ -60,10 +60,7 @@ public class AlgoCellRange extends AlgoElement {
 		this.endCell = endCell;
 		setInputOutput();
 
-		// register cell range listener with SpreadsheetTableModel
-		cons.getApplication().getSpreadsheetTableModel()
-				.getCellRangeManager().registerCellRangeListenerAlgo(this);
-
+	
 		geoList.setLabel(label);
 	}
 
@@ -325,6 +322,15 @@ public class AlgoCellRange extends AlgoElement {
 			geo.addToUpdateSetOnly(algo);
 		}
 	}
+	
+	public String getStart(){
+		return startCell;
+	}
+	
+	public String getEnd(){
+		return endCell;
+	}
+
 
 
 	// TODO Consider locusequability
