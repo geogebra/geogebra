@@ -26,29 +26,27 @@ public class HelpMenuW extends GMenuBar {
 	    //        		+ GeoGebraConstants.BUILD_DATE);       
         //    }
 	    //});
-	    
-	    // Help
-	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
-	    		app.getMenu("Help"), true),true,new Command() {
-			public void execute() {
-				app.getGuiManager().openHelp(App.WIKI_MANUAL);
-				
-            }
-	    });
-	    
-	    // Tutorials
+	 // Tutorials
 	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("Tutorials"), true),true,new Command() {
 			public void execute() {
 				app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
             }
 	    });
-	    
-	    // GeoGebraTube (no translation, deliberate)
-	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file().getSafeUri().asString(),
-	    		"GeoGebraTube", true),true,new Command() {
+	    // Help
+	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
+	    		app.getMenu("Manual"), true),true,new Command() {
 			public void execute() {
-				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE + "?lang="+app.getLocalization().getLanguage(), "_blank","");
+				app.getGuiManager().openHelp(App.WIKI_MANUAL);
+				
+            }
+	    });
+	    
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    		app.getMenu("GeoGebraForum"), true),true,new Command() {
+			public void execute() {
+				app.getGuiManager().openHelp(GeoGebraConstants.FORUM_URL);
+				
             }
 	    });
 
