@@ -128,8 +128,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.objectPool = new ObjectPool();
-		// AGdialogManagerFactory = new DialogManager.Factory();
-		app.getLoginOperation().getView().add(this);
+		// AGdialogManagerFactory = new DialogManager.Factory();		
 	}
 
 	public void redo() {
@@ -795,6 +794,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	private DataAnalysisViewW dataAnalysisView = null;
 
+	private boolean listeningToLogin = false;
+
 	public View getPropertiesView() {
 
 		if (propertiesView == null) {
@@ -844,11 +845,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return algebraInput;
 	}
 
+	protected void listenToLogin(){
+		if(listeningToLogin){
+			return;
+		}
+		listeningToLogin  = true;
+		app.getLoginOperation().getView().add(this);
+	}
+	
 	@Override
 	public boolean save() {
 		if (!((AppW) app).getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
 			openFilePicker();
 		} else if (!app.getLoginOperation().isLoggedIn()) {
+			listenToLogin();
 			uploadWaiting = true;
 			((SignInButton) ((AppW) app).getLAF().getSignInButton(app)).login();
 		} else {
@@ -1696,7 +1706,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}-*/;
 	
 	@Override
-	public void renderEvent(final BaseEvent event) {
+	public final void renderEvent(final BaseEvent event) {
 		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
 			this.uploadWaiting = false;
 			save();
