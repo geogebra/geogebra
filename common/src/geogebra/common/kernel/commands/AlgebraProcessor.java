@@ -2388,6 +2388,10 @@ public class AlgebraProcessor {
 		cmdDispatcher.initCASCommands();
 	}
 
+	public void showError(String key) {
+		app.showError(loc.getError(key));
+	}
+
 	// /**
 	// * Processes assignments, i.e. input of the form leftVar = geoRight where
 	// geoRight is an existing GeoElement.

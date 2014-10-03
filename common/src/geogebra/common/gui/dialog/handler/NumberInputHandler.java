@@ -38,6 +38,9 @@ public class NumberInputHandler implements InputHandler {
     	  callback.callback(num);
       }
     }
+    else{
+    	algebraProcessor.showError("NumberExpected");
+    }
     return success;
   }
 
