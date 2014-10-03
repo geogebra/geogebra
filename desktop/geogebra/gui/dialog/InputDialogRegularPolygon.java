@@ -14,13 +14,14 @@ public class InputDialogRegularPolygon extends InputDialogD {
 	private GeoPointND geoPoint1, geoPoint2;
 	private EuclidianController ec;
 
-	public InputDialogRegularPolygon(AppD app, EuclidianController ec, String title,
-			InputHandler handler, GeoPointND point1, GeoPointND point2) {
+	public InputDialogRegularPolygon(AppD app, EuclidianController ec,
+			String title, InputHandler handler, GeoPointND point1,
+			GeoPointND point2) {
 		super(app, app.getPlain("Points"), title, "4", false, handler, true);
 
 		geoPoint1 = point1;
 		geoPoint2 = point2;
-		
+
 		this.ec = ec;
 	}
 
@@ -75,6 +76,6 @@ public class InputDialogRegularPolygon extends InputDialogD {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
+		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 }

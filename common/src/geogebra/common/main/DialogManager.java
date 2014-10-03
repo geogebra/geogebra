@@ -297,6 +297,7 @@ public abstract class DialogManager {
 		boolean success = result != null && result[0] instanceof GeoNumberValue;
 
 		if (!success) {
+			kernel.getAlgebraProcessor().showError("NumberExpected");
 			return false;
 		}
 
