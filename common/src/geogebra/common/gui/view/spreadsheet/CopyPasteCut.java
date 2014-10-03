@@ -523,6 +523,12 @@ public abstract class CopyPasteCut {
 		// TODO add SelectAll
 		if (selectionType == MyTable.COLUMN_SELECT) {
 			app.getTraceManager().handleColumnDelete(column1, column2);
+		}else{
+			app.getTraceManager().handleColumnDelete(column1, row1, column2, row2);
+		}
+		
+		if (succ){
+			app.getKernel().notifyRepaint();
 		}
 
 		return succ;

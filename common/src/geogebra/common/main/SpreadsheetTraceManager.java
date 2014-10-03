@@ -381,6 +381,50 @@ public class SpreadsheetTraceManager {
 
 		app.repaintSpreadsheet();
 	}
+	
+	
+	public void handleColumnDelete(int column1, int row1, int column2, int row2) {
+		SpreadsheetTraceSettings t;
+		for (GeoElement geo : traceGeoCollection.keySet()) {
+			t = geo.getTraceSettings();
+			if (column2 >= t.traceColumn1 && column1 <= t.traceColumn2) {
+				
+				// re create header if needed and if more than headers deleted
+				if (row1 < row2 && row1 < t.headerOffset){
+					Construction cons = app.getKernel().getConstruction();
+					setHeader(geo, cons);
+				}
+					
+				// restart from last deleted row
+				if (row2 >= t.tracingRow - 1 + t.headerOffset){
+					t.tracingRow = row1 - t.headerOffset;
+					if (t.tracingRow <= 0){
+						t.tracingRow = 0;
+					}else{
+						// check empty rows
+						boolean emptyCells = true;
+						int row = t.tracingRow + t.headerOffset;
+						do{
+							row --;
+							int col = t.traceColumn1;
+							do{
+								GeoElement cell = RelativeCopy.getValue(app, col, row);
+								if (cell != null) {
+									emptyCells = false;
+								}
+								col ++;
+							}while(emptyCells && col <= t.traceColumn2);
+						}while(emptyCells && row >= t.headerOffset);
+						t.tracingRow = row + 1 - t.headerOffset;
+					}
+				}
+				
+				
+			}
+		}
+
+		app.repaintSpreadsheet();
+	}
 
 	public SpreadsheetTraceSettings getDefaultTraceSettings() {
 		return new SpreadsheetTraceSettings();
