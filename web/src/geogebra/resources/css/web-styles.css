@@ -4472,6 +4472,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	height: 150px;	
 }
 
+.daTwoVarInference table,
 .daANNOVA table,
 .daMultiVarStatistics table,
 .daStatistics table {
@@ -4503,7 +4504,9 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	border: 1px solid;
 	border-collapse: collapse;
 }
-
+.daTwoVarInference table td,
+.daTwoVarInference table th,
+.daTwoVarInference table tr,
 .daData table td,
 .daData table th,
 .daData table tr,
@@ -4518,6 +4521,8 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .daStatistics table tr {
 	border: 1px dotted;
 }
+
+.daTwoVarInference table tr td:first-child,
 .daANNOVA table tr td:first-child,
 .daData table tr td:first-child,
 .daStatistics table tr td:first-child {
@@ -4527,6 +4532,8 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	font-weight: bold;
 }
 
+.daTwoVarInference table tr:first-child,
+.daTwoVarInference table tr td:first-child,
 .daANNOVA table tr:first-child,
 .daANNOVA table tr td:first-child,
 .daMultiVarStatistics table tr:first-child,

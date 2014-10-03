@@ -83,7 +83,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		this.createGUIElements();
 		this.updateGUI();
 		this.setLabels();
-
+		setStyleName("daTwoVarInference");
 		isIniting = false;
 
 	}
