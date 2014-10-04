@@ -849,7 +849,7 @@ public class CoordMatrix {
 			for (int j = 1; j <= getColumns(); j++) {
 
 				double r = 0;
-				for (int n = 1; n <= getColumns(); n++){
+				for (int n = 1; n <= m1.getColumns(); n++){
 					r += m1.get(i, n) * m2.get(n, j);
 				}
 
@@ -872,7 +872,7 @@ public class CoordMatrix {
 			for (int j = 1; j <= getColumns(); j++) {
 
 				double r = 0;
-				for (int n = 1; n <= getColumns(); n++){
+				for (int n = 1; n <= m1.getRows(); n++){
 					r += m1.get(n, i) * m2.get(n, j);
 				}
 
