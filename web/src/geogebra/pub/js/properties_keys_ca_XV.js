@@ -1363,7 +1363,7 @@ __GGB__keysVar.ca_XV.menu = {
     "DontOverwrite": "No sobreescrigues",
     "DontSave": "No guardes",
     "DotPlot": "Diagrama de punts",
-    "Download": "Download",
+    "Download": "Baixar",
     "DownloadAsGgbFile": "Descarrega'l com a fitxer .ggb",
     "DrawingPadToClipboard": "Copia la zona gr\xe0fica al porta-retalls",
     "DynamicColors": "Colors din\xe0mics",

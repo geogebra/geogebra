@@ -261,7 +261,7 @@ __GGB__keysVar.ms.command = {
     "Dot": "Bintik",
     "Dot.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
     "DotPlot": "PlotBintik",
-    "DotPlot.Syntax": "[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
+    "DotPlot.Syntax": "[ <Senarai Data Mentah>, <Stack Adjacent Dots (opsyenal)>, <Faktor Skala (opsyenal)> ]",
     "DynamicCoordinates": "KoordinatDinamik",
     "DynamicCoordinates.Syntax": "[ <Titik>, <Nombor>, <Nombor> ]",
     "Eccentricity": "Keeksentrikan",

@@ -350,7 +350,7 @@ __GGB__keysVar.pt_PT.command = {
     "FromBase.Syntax": "[ \"<N\xfamero como Texto>\", <Base> ]",
     "Function": "Fun\xe7\xe3o",
     "Function.Syntax": "[ <Lista de N\xfameros> ]\n[ <Fun\xe7\xe3o>, <Valor Inicial-x>, <<Valor Final-x> ]",
-    "Function.Syntax3D": "[ <Lista de N\xfameros> ]\n[ <Express\xe3o>, <Vari\xe1vel 1>, <Valor Inicial>, <Valor Final>, <Vari\xe1vel2>, <Valor Inicial>, <Valor Final> ]",
+    "Function.Syntax3D": "[ <Lista de N\xfameros> ]\n[ <Fun\xe7\xe3o>, <Valor de x Inicial>, <Valor de x Final> ]\n[ <Express\xe3o>, <Vari\xe1vel 1>, <Valor Inicial>, <Valor Final>, <Vari\xe1vel2>, <Valor Inicial>, <Valor Final> ]",
     "Function.SyntaxCAS": "[ <Fun\xe7\xe3o>, <Valor de x Inicial>, <Valor de x Final> ]",
     "FutureValue": "ValorFuturo",
     "FutureValue.Syntax": "[ <Raz\xe3o>, <N\xfamero de Per\xedodos>, <Pagamento>, <Valor Inicial>, <Tipo (opcional)> ]",
