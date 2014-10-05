@@ -870,6 +870,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 		getCoordSys().mirror(point, direction);
 		
+		// orientation is reversed
+		reverseNormal = !reverseNormal;
+		
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++){
 			((GeoPoint3D) super.getPointND(i)).mirror(line);
@@ -886,6 +889,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	public void mirror(GeoCoordSys2D plane) {
 
 		getCoordSys().mirror(plane.getCoordSys());
+		
+		// orientation is reversed
+		reverseNormal = !reverseNormal;
 		
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++){
