@@ -878,7 +878,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	
 	private void setAssignmentVar(final String var) {
 		if(ignoreSetAssignment){
-			App.printStacktrace("");
 			return;
 		}
 		if (assignmentVar != null && assignmentVar.equals(var)) {
