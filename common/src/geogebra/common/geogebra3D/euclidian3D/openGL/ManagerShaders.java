@@ -317,8 +317,7 @@ public class ManagerShaders extends Manager {
 		
 		currentOld = old;
 		if (currentOld >= 0){
-			currentGeometriesSet = geometriesSetList.get(old);
-			currentGeometriesSet.reset();
+			currentGeometriesSet = geometriesSetList.get(old);			
 		}else{
 			currentGeometriesSet = null;
 		}
@@ -337,6 +336,8 @@ public class ManagerShaders extends Manager {
 
 			currentGeometriesSet = new GeometriesSet();
 			geometriesSetList.put(index, currentGeometriesSet);
+		}else{
+			currentGeometriesSet.reset();
 		}
 		
 		return index;
