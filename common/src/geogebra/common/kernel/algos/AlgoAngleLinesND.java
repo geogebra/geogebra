@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -149,9 +150,31 @@ public abstract class AlgoAngleLinesND extends AlgoAngle  implements DrawInforma
     }
 
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
-		double[] n = GeoVec3D.cross((GeoLine) g, (GeoLine) h).get();
-		m[0] = n[0] / n[2];
-		m[1] = n[1] / n[2];
+		
+		if (((GeoLine) g).linDep((GeoLine)h)) {
+			// angle will be 0 or 180, GeoVec3D.cross won't return a sensible answer
+			GeoPointND sp = h.getStartPoint();
+			
+			if (sp == null) {
+				sp = g.getStartPoint();
+			}
+			
+			if (sp != null) {
+				m[0] = sp.getInhomX();
+				m[1] = sp.getInhomY();
+				
+			} else {
+				m[0] = Double.POSITIVE_INFINITY;
+				m[1] = Double.POSITIVE_INFINITY;
+			}
+			
+			
+		} else {
+
+			double[] n = GeoVec3D.cross((GeoLine) g, (GeoLine) h).get();
+			m[0] = n[0] / n[2];
+			m[1] = n[1] / n[2];
+		}
 
 		// first vec
 		((GeoLine) g).getDirection(firstVec);
