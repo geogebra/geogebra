@@ -69,7 +69,7 @@ public class HelpMenuW extends GMenuBar {
 						"&version=" + GeoGebraConstants.VERSION_STRING + 
 						"&date=" + GeoGebraConstants.BUILD_DATE,
 						"_blank",
-						"width=720,height=600,scrollbars=no,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
+						"width=720,height=600,scrollbars=yes,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
             }
 	    });
 	    // TODO: This item has no localization entry yet.
