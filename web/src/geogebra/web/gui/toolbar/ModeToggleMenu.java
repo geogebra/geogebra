@@ -167,7 +167,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
 		if (menu.size() == 1 ){
 			if (menu.get(0) == mode){
-				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getMenu(app.getKernel().getModeText(mode))));
+				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getKernel().getModeText(mode)));
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
