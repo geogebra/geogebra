@@ -422,6 +422,11 @@ public class App3D extends AppD {
 	@Override
 	public void uploadToGeoGebraTubeOnCallback() {
 
+		if (!isEuclidianView3Dinited()) {
+			uploadToGeoGebraTube();
+			return;
+		}
+
 		EuclidianView3D ev3D = getEuclidianView3D();
 
 		if (ev3D.isShowing()) {
