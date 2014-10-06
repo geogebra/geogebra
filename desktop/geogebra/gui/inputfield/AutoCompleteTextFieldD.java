@@ -524,6 +524,8 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 			sb.append(oldText.substring(0, start));
 			sb.append(oldText.substring(end));
 			setText(sb.toString());
+			// set caret position to start
+			pos = start;
 			if (pos < sb.length())
 				setCaretPosition(pos);
 		}
