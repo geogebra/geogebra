@@ -991,7 +991,9 @@ public class Construction {
 		while (it.hasNext()) {
 			GeoElement num = it.next();
 			if (num.isGeoNumeric() && num.getParentAlgorithm() == null) {
-				((GeoNumeric) num).updateRandomNoCascade();
+				GeoNumeric number = (GeoNumeric) num;
+				number.updateRandomNoCascade();
+				number.update();
 			}
 		}
 	}
