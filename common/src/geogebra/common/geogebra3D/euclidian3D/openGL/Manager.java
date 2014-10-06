@@ -142,7 +142,7 @@ abstract public class Manager {
 	
 	
 	
-	abstract public int startNewList();
+	abstract public int startNewList(int old);
 	
 
 	
@@ -159,7 +159,7 @@ abstract public class Manager {
 	 * start drawing polygons
 	 * @return geometry index for the polygons
 	 */
-	abstract public int startPolygons();
+	abstract public int startPolygons(int old);
 	
     /**
      * draw a polygon
@@ -470,12 +470,12 @@ abstract public class Manager {
 	 * @param center center
 	 * @return geometry index
 	 */
-	public int drawPoint(int size, Coords center){
+	public int drawPoint(int size, Coords center, int index){
 
 		double radius =  size/view3D.getScale()*DrawPoint3D.DRAW_POINT_FACTOR;
 		center.setW(1); // changed for shaders (point size)
 		
-		return drawSphere(size, center, radius);
+		return drawSphere(size, center, radius, index);
 	}
 	
 	/**
@@ -485,8 +485,8 @@ abstract public class Manager {
 	 * @param radius sphere radius
 	 * @return geometry index
 	 */
-	protected int drawSphere(int size, Coords center, double radius){
-		surface.start();
+	protected int drawSphere(int size, Coords center, double radius, int index){
+		surface.start(index);
 		surface.drawSphere(size,center,radius);
 		
 		return surface.end();

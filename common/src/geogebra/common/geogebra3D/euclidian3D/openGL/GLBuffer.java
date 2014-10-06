@@ -1,5 +1,7 @@
 package geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.ArrayList;
+
 /**
  * interface for openGL buffers
  * @author mathieu
@@ -7,12 +9,14 @@ package geogebra.common.geogebra3D.euclidian3D.openGL;
  */
 public interface GLBuffer{
 	
-	/**
-	 * 
-	 * @return current float
-	 */
-	public Float get();
 
+	/**
+	 * set this buffer with first values of array
+	 * @param array values array
+	 * @param length length to copy
+	 */
+	public void set(ArrayList<Float> array, int length);
+	
 	/**
 	 * rewind the buffer
 	 */
@@ -26,8 +30,19 @@ public interface GLBuffer{
 
 	/**
 	 * 
-	 * @return float array
+	 * set float array
 	 */
-	public float[] array();
+	public void array(float[] ret);
+
+	/**
+	 * 
+	 * @return true if empty
+	 */
+	public boolean isEmpty();
+	
+	/**
+	 * says it's an empty buffer
+	 */
+	public void setEmpty();
 
 }

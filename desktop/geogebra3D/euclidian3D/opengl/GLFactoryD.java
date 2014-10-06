@@ -21,7 +21,12 @@ public class GLFactoryD extends GLFactory{
 	
 	
 	@Override
-	final public GLBuffer newBuffer(ArrayList<Float> array){		
-		return new GLBufferD(array);
+	final public GLBuffer newBuffer(ArrayList<Float> array, int length){		
+		return new GLBufferD(array, length);
+	}
+	
+	@Override
+	final public GLBuffer newBuffer(){
+		return new GLBufferD();
 	}
 }

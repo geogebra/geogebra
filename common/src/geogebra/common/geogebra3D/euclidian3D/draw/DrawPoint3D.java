@@ -89,7 +89,7 @@ implements Previewable, Functional2Var{
 		center.setW(point.getPointSize()); // put point size in fourth unused coord
 		setGeometryIndex(
 				getView3D().getRenderer().getGeometryManager().
-				drawPoint(point.getPointSize(),center));
+				drawPoint(point.getPointSize(),center, getGeometryIndex()));
 		
 		
 		return true;

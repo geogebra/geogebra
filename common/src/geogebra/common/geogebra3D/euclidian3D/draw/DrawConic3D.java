@@ -157,7 +157,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 			if (visible != Visible.FRUSTUM_INSIDE){ // no outline when frustum inside
 				PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-				brush.start();
+				brush.start(getGeometryIndex());
 
 				brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());		
 
@@ -193,7 +193,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 			// surface
 			PlotterSurface surface = renderer.getGeometryManager().getSurface();
-			surface.start();
+			surface.start(getSurfaceIndex());
 			
 			switch(conic.getType()){
 			case GeoConicNDConstants.CONIC_CIRCLE:
@@ -381,7 +381,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param surface surface plotter
 	 */
 	protected void updateSinglePoint(PlotterSurface surface){
-		surface.start(this);
+		surface.start(this, getGeometryIndex());
 		//number of vertices depends on point size
 		int nb = 2+conic.getLineThickness();
 		surface.setU((float) getMinParameter(0), (float) getMaxParameter(0));surface.setNbU(2*nb); 

@@ -20,9 +20,9 @@ public class ManagerShadersWithTemplates extends ManagerShaders{
 		
 		// points geometry templates
 		pointGeometry = new int[3];
-		pointGeometry[0] = drawSphere(2, Coords.O, 1d);
-		pointGeometry[1] = drawSphere(4, Coords.O, 1d);
-		pointGeometry[2] = drawSphere(7, Coords.O, 1d);
+		pointGeometry[0] = drawSphere(2, Coords.O, 1d, -1);
+		pointGeometry[1] = drawSphere(4, Coords.O, 1d, -1);
+		pointGeometry[2] = drawSphere(7, Coords.O, 1d, -1);
 		
 	}
 	
@@ -30,7 +30,7 @@ public class ManagerShadersWithTemplates extends ManagerShaders{
 	private int[] pointGeometry;
 	
 	@Override
-	public int drawPoint(int size, Coords center){
+	public int drawPoint(int size, Coords center, int index){
 		
 		// find point geometry template
 		int i = 1;

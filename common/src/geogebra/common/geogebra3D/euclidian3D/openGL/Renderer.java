@@ -893,9 +893,9 @@ public abstract class Renderer {
 	 */
 	abstract public void drawMouseCursor();
 
-	public int startPolygons() {
+	public int startPolygons(int old) {
 
-		return geometryManager.startPolygons();
+		return geometryManager.startPolygons(old);
 	}
 
 	/**

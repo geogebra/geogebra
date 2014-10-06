@@ -37,6 +37,8 @@ public class ManagerShaders extends Manager {
 	
 	private ArrayList<Float> vertices, normals, textures, colors;
 	
+	private int verticesLength, verticesSize, normalsLength, normalsSize, texturesLength, texturesSize, colorsLength, colorsSize;
+	
 	@Override
 	protected void initGeometriesList(){
 		geometriesSetList = new TreeMap<Integer, ManagerShaders.GeometriesSet>();
@@ -44,9 +46,13 @@ public class ManagerShaders extends Manager {
 		indicesRemoved = new Stack<Integer>();
 		
 		vertices = new ArrayList<Float>();
+		verticesSize = 0;
 		normals = new ArrayList<Float>();
+		normalsSize = 0;
 		textures = new ArrayList<Float>();
+		texturesSize = 0;
 		colors = new ArrayList<Float>();
+		colorsSize = 0;
 		
 	}
 
@@ -88,6 +94,24 @@ public class ManagerShaders extends Manager {
 		 */
 		public Geometry(Type type){
 			this.type = type;
+			this.v = GLFactory.prototype.newBuffer();			
+			this.n = GLFactory.prototype.newBuffer();
+			this.t = GLFactory.prototype.newBuffer();
+			this.c = GLFactory.prototype.newBuffer();
+			
+			
+		}
+		
+		/**
+		 * set the geometry type and mark buffers as empty
+		 * @param type geometry type
+		 */
+		public void setType(Type type){
+			this.type = type;
+			this.v.setEmpty();		
+			this.n.setEmpty();
+			this.t.setEmpty();
+			this.c.setEmpty();
 		}
 		
 		/**
@@ -101,10 +125,12 @@ public class ManagerShaders extends Manager {
 
 		/**
 		 * set float buffer for vertices
-		 * @param fb float buffer
+		 * @param array float array
+		 * @param length length to copy
 		 */
-		public void setVertices(GLBuffer fb){
-			this.v = fb;
+		public void setVertices(ArrayList<Float> array, int length){
+			//this.v = GLFactory.prototype.newBuffer();
+			this.v.set(array, length);
 		}
 		
 		/**
@@ -117,10 +143,11 @@ public class ManagerShaders extends Manager {
 		
 		/**
 		 * set float buffer for normals
-		 * @param fb float buffer
+		 * @param array float array
+		 * @param length length to copy
 		 */
-		public void setNormals(GLBuffer fb){
-			this.n = fb;
+		public void setNormals(ArrayList<Float> array, int length){
+			this.n.set(array, length);
 		}
 		
 		/**
@@ -133,10 +160,11 @@ public class ManagerShaders extends Manager {
 		
 		/**
 		 * set float buffer for texture
-		 * @param fb float buffer
+		 * @param array float array
+		 * @param length length to copy
 		 */
-		public void setTextures(GLBuffer fb){
-			this.t = fb;
+		public void setTextures(ArrayList<Float> array, int length){
+			this.t.set(array, length);
 		}
 		
 		
@@ -153,10 +181,11 @@ public class ManagerShaders extends Manager {
 		
 		/**
 		 * set float buffer for colors
-		 * @param fb float buffer
+		 * @param array float array
+		 * @param length length to copy
 		 */
-		public void setColors(GLBuffer fb){
-			this.c = fb;
+		public void setColors(ArrayList<Float> array, int length){
+			this.c.set(array, length);
 		}
 		
 		
@@ -197,9 +226,29 @@ public class ManagerShaders extends Manager {
 		
 		private Geometry currentGeometry;
 		
+		private int currentGeometryIndex;
+		
+		private int geometriesLength;
+		
 
 		public GeometriesSet() {
-			
+			reset();
+		}
+		
+		/**
+		 * says this geometry set is reset
+		 */
+		public void reset(){
+			currentGeometryIndex = 0;
+			geometriesLength = 0;
+		}
+		
+		/**
+		 * 
+		 * @return geometries length
+		 */
+		public int getGeometriesLength(){
+			return geometriesLength;
 		}
 		
 		/**
@@ -207,37 +256,45 @@ public class ManagerShaders extends Manager {
 		 * @param type type of primitives
 		 */
 		public void startGeometry(Type type){
-			currentGeometry = new Geometry(type);
-			add(currentGeometry);
+			if (currentGeometryIndex < size()){
+				currentGeometry = get(currentGeometryIndex);
+			}else{
+				currentGeometry = new Geometry(type);
+				add(currentGeometry);
+			}
+			
+			currentGeometryIndex++;
+			geometriesLength++;
 		}
 		
 		/**
 		 * set vertices for current geometry
 		 * @param vertices vertices
+		 * @param length vertices length
 		 */
-		public void setVertices(ArrayList<Float> vertices){
-			currentGeometry.setVertices(GLFactory.prototype.newBuffer(vertices));
-			currentGeometry.setLength(vertices.size()/3);
+		public void setVertices(ArrayList<Float> vertices, int length){
+			currentGeometry.setVertices(vertices, length);
+			currentGeometry.setLength(length/3);
 		}
 		
-		public void setNormals(ArrayList<Float> normals){
-			if (normals.size() == 3){ // only one normal for all vertices
+		public void setNormals(ArrayList<Float> normals, int length){
+			if (length == 3){ // only one normal for all vertices
 				//currentGeometry.setNormals(ManagerShaders.floatBuffer(normals, currentGeometry.getLength()));
-				currentGeometry.setNormals(GLFactory.prototype.newBuffer(normals));
-			}else if (normals.size() == 3 * currentGeometry.getLength()){
-				currentGeometry.setNormals(GLFactory.prototype.newBuffer(normals));
+				currentGeometry.setNormals(normals, length);
+			}else if (length == 3 * currentGeometry.getLength()){
+				currentGeometry.setNormals(normals, length);
 			}
 		}
 		
-		public void setTextures(ArrayList<Float> textures){
-			if (textures.size() == 2 * currentGeometry.getLength()){
-				currentGeometry.setTextures(GLFactory.prototype.newBuffer(textures));
+		public void setTextures(ArrayList<Float> textures, int length){
+			if (length == 2 * currentGeometry.getLength()){
+				currentGeometry.setTextures(textures, length);
 			}
 		}
 		
-		public void setColors(ArrayList<Float> colors){
-			if (colors.size() == 4 * currentGeometry.getLength()){
-				currentGeometry.setColors(GLFactory.prototype.newBuffer(colors));
+		public void setColors(ArrayList<Float> colors, int length){
+			if (length == 4 * currentGeometry.getLength()){
+				currentGeometry.setColors(colors, length);
 			}
 		}
 	
@@ -253,19 +310,34 @@ public class ManagerShaders extends Manager {
 	private Stack<Integer> indicesRemoved;
 	
 
+	private int currentOld;
+	
 	@Override
-	public int startNewList(){
+	public int startNewList(int old){
 		
-		int index;
-		if (indicesRemoved.empty()){
-			geometriesSetMaxIndex++;
-			index = geometriesSetMaxIndex;
+		currentOld = old;
+		if (currentOld >= 0){
+			currentGeometriesSet = geometriesSetList.get(old);
+			currentGeometriesSet.reset();
 		}else{
-			index = indicesRemoved.pop();
+			currentGeometriesSet = null;
 		}
 		
-		currentGeometriesSet = new GeometriesSet();
-		geometriesSetList.put(index, currentGeometriesSet);
+		int index = currentOld;
+		if (currentGeometriesSet == null){
+
+			currentOld = -1;
+			
+			if (indicesRemoved.empty()){
+				geometriesSetMaxIndex++;
+				index = geometriesSetMaxIndex;
+			}else{
+				index = indicesRemoved.pop();
+			}
+
+			currentGeometriesSet = new GeometriesSet();
+			geometriesSetList.put(index, currentGeometriesSet);
+		}
 		
 		return index;
 	}
@@ -285,19 +357,18 @@ public class ManagerShaders extends Manager {
 	@Override
 	public void startGeometry(Type type){
 		currentGeometriesSet.startGeometry(type);
-		vertices.clear();
-		normals.clear();
-		textures.clear();
-		colors.clear();
+		verticesLength = 0;
+		normalsLength = 0;
+		texturesLength = 0;
+		colorsLength = 0;
 	}
 	
 	@Override
 	public void endGeometry(){
-		currentGeometriesSet.setVertices(vertices);
-		currentGeometriesSet.setNormals(normals);
-		currentGeometriesSet.setTextures(textures);
-		currentGeometriesSet.setColors(colors);
-		//currentGeometriesSet.endGeometry();
+		currentGeometriesSet.setVertices(vertices, verticesLength);
+		currentGeometriesSet.setNormals(normals, normalsLength);
+		currentGeometriesSet.setTextures(textures, texturesLength);
+		currentGeometriesSet.setColors(colors, colorsLength);
 	}
 	
 	
@@ -308,9 +379,9 @@ public class ManagerShaders extends Manager {
 
     
 	@Override
-	public int startPolygons(){
+	public int startPolygons(int old){
 		
-    	int index = startNewList();
+    	int index = startNewList(old);
     	
 	    return index;
 	    
@@ -345,8 +416,8 @@ public class ManagerShaders extends Manager {
     @Override
 	public void remove(int index){
     	
-    	if (index >= 0){ // negative index is for no geometry
-    		indicesRemoved.push(index);
+    	if (index >= 0 && index != currentOld){ // negative index is for no geometry
+     		indicesRemoved.push(index);
     		geometriesSetList.remove(index);
     	}
     }
@@ -361,7 +432,8 @@ public class ManagerShaders extends Manager {
 
 		currentGeometriesSet = geometriesSetList.get(index);
 		if (currentGeometriesSet != null){
-			for (Geometry geometry : currentGeometriesSet){
+			for (int i = 0 ; i < currentGeometriesSet.getGeometriesLength() ; i++){
+				Geometry geometry = currentGeometriesSet.get(i);
 				((RendererShadersInterface) renderer).loadVertexBuffer(geometry.getVertices(), geometry.getLength());
 				((RendererShadersInterface) renderer).loadNormalBuffer(geometry.getNormals(), geometry.getLength());
 				((RendererShadersInterface) renderer).loadColorBuffer(geometry.getColors(), geometry.getLength());
@@ -377,8 +449,16 @@ public class ManagerShaders extends Manager {
 	@Override
 	protected void texture(float x, float y){		
 		
-		textures.add(x);
-		textures.add(y);
+		if (texturesLength == texturesSize){
+			textures.add(x);
+			textures.add(y);
+			texturesSize += 2;
+		}else{
+			textures.set(texturesLength, x);
+			textures.set(texturesLength + 1, y);
+		}
+		
+		texturesLength += 2;
 	}
 	
 	
@@ -391,18 +471,36 @@ public class ManagerShaders extends Manager {
 	@Override
 	protected void normal(float x, float y, float z){
 		
-		normals.add(x);
-		normals.add(y);
-		normals.add(z);
+		if (normalsLength == normalsSize){
+			normals.add(x);
+			normals.add(y);
+			normals.add(z);
+			normalsSize += 3;
+		}else{
+			normals.set(normalsLength, x);
+			normals.set(normalsLength + 1, y);
+			normals.set(normalsLength + 2, z);
+		}
+		
+		normalsLength += 3;
 		
 	}
 		
 	@Override
 	protected void vertex(float x, float y, float z){
 		
-		vertices.add(x);
-		vertices.add(y);
-		vertices.add(z);
+		if (verticesLength == verticesSize){
+			vertices.add(x);
+			vertices.add(y);
+			vertices.add(z);
+			verticesSize += 3;
+		}else{
+			vertices.set(verticesLength, x);
+			vertices.set(verticesLength + 1, y);
+			vertices.set(verticesLength + 2, z);
+		}
+		
+		verticesLength += 3;
 	}
 	
 	@Override
@@ -419,10 +517,21 @@ public class ManagerShaders extends Manager {
 	
 	@Override
 	protected void color(float r, float g, float b, float a){
-		colors.add(r);
-		colors.add(g);
-		colors.add(b);
-		colors.add(a);
+		
+		if (colorsLength == colorsSize){
+			colors.add(r);
+			colors.add(g);
+			colors.add(b);
+			colors.add(a);
+			colorsSize += 4;
+		}else{
+			colors.set(colorsLength, r);
+			colors.set(colorsLength + 1, g);
+			colors.set(colorsLength + 2, b);
+			colors.set(colorsLength + 3, a);
+		}
+		
+		colorsLength += 4;
 	}
 	
 	

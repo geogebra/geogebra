@@ -23,7 +23,7 @@ public class PlotterMouseCursor {
 	public PlotterMouseCursor(Manager manager) {
 		
 		
-		index = manager.startPolygons();
+		index = manager.startPolygons(-1);
 		manager.lineWidth(4);
 		manager.pointSize(4);
 		

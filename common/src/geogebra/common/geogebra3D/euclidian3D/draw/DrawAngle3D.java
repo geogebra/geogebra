@@ -187,7 +187,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			
 			// outline
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-			brush.start();
+			brush.start(getGeometryIndex());
 			brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());	
 			//arc
 			if (show90degrees){
@@ -207,7 +207,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 			// surface
 			PlotterSurface surface = renderer.getGeometryManager().getSurface();
-			surface.start();
+			surface.start(getSurfaceIndex());
 			if (show90degrees){
 				surface.parallelogram(center, v1, vn2, size,size);
 			}else{

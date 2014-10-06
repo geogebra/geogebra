@@ -18,7 +18,14 @@ public abstract class GLFactory {
 	/**
 	 * 
 	 * @param array float array
+	 * @param length array length
 	 * @return new float buffer
 	 */
-	abstract public GLBuffer newBuffer(ArrayList<Float> array);
+	abstract public GLBuffer newBuffer(ArrayList<Float> array, int length);
+	
+	/**
+	 * 
+	 * @return new float buffer
+	 */
+	abstract public GLBuffer newBuffer();
 }

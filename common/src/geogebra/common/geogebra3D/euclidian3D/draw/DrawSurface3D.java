@@ -106,7 +106,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Node blNode = new Node(p3);
 		Node surfaceGlobal= new Node(p4);
 		
-		surface.start();
+		surface.start(getSurfaceIndex());
 
 		splitOrDraw(surface, 0, 0, surfaceGlobal,tlNode,trNode,blNode, MAX_SPLIT);
 		

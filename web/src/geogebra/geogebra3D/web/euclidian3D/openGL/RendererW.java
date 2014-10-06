@@ -12,7 +12,6 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
-import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -268,47 +267,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 
 	
-	
-	private void drawTriangle(float[] vertices, float[] normals, float[] textureCoords){
-  
-       	/*
-       	byte[] bytes = new byte[]{
-       			(byte) 255, (byte) 255, (byte) 255, 
-       			(byte) 0, (byte) 0, (byte) 0
-       	};
-           	
-    	int texture = getTextures().createAlphaTexture(2, 2, bytes);
-    	
-
-    	enableTextures2D();
-    	getTextures().setTextureLinear(texture);
-    	*/
-    	
-    	
-    	ArrayList<Float> array = new ArrayList<Float>();
-    	
-    	for (int i = 0; i < 3 * 3; i++){ array.add(vertices[i]); }
-    	loadVertexBuffer(GLFactory.prototype.newBuffer(array), 3);
-
-    	if (normals != null){
-    		array.clear(); for (int i = 0; i < 3 * 3; i++){ array.add(normals[i]); }
-    		loadNormalBuffer(GLFactory.prototype.newBuffer(array), 3);
-    	}
-
-    	if (textureCoords != null){
-    		array.clear(); for (int i = 0; i < 3 * 2; i++){ array.add(textureCoords[i]); }
-    		loadTextureBuffer(GLFactory.prototype.newBuffer(array), 3);	
-    	}
-
-		draw(Manager.Type.TRIANGLES, 3);
-		
-		/*
-		bindTexture(0);
-		getTextures().removeTexture(texture);
-		*/
-        
-    }
-
 
 	private static final float[] MODEL_VIEW_IDENTITY = {
 		1,0,0,0,
@@ -1226,7 +1184,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
 
 
-		if (fbColors == null){
+		if (fbColors == null || fbColors.isEmpty()){
 			glContext.disableVertexAttribArray(colorAttribute);
 			return;
 		}
@@ -1263,17 +1221,20 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		oneNormalForAllVertices = false;
 		glContext.uniform3f(normalLocation, 2,2,2);
 	}
+	
+	private float[] tmpNormal3 = new float[3];
 
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 
-		if (fbNormals == null){ // no normals
+		if (fbNormals == null || fbNormals.isEmpty()){ // no normals
 			glContext.disableVertexAttribArray(normalAttribute);
 			return;
 		}
 
 		if (fbNormals.capacity() == 3){ // one normal for all vertices
 			glContext.disableVertexAttribArray(normalAttribute);
-			glContext.uniform3fv(normalLocation, fbNormals.array());
+			fbNormals.array(tmpNormal3);
+			glContext.uniform3fv(normalLocation, tmpNormal3);
 			oneNormalForAllVertices = true;
 			return;
 		}
@@ -1310,7 +1271,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
 		
 
-		if (fbTextures == null){		
+		if (fbTextures == null || fbTextures.isEmpty()){		
 			setCurrentGeometryHasNoTexture();
 			glContext.disableVertexAttribArray(textureAttribute);
 			return;
@@ -1341,7 +1302,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	private void glBufferData(GLBuffer fb){
         glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER, ((GLBufferW) fb).getBuffer(), WebGLRenderingContext.STATIC_DRAW);
-	}
+ 	}
 
 
 

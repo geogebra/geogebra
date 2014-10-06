@@ -140,8 +140,8 @@ public class PlotterBrush implements PathPlotter {
 	/**
 	 * start new curve
 	 */
-	public void start(){
-		index = manager.startNewList();
+	public void start(int old){
+		index = manager.startNewList(old);
 		hasColor = false;
 		notStarted = true;
 		

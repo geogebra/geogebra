@@ -56,7 +56,7 @@ public class ManagerGLList extends ManagerD {
 	/////////////////////////////////////////////
 
 	@Override
-	public int startNewList(){
+	public int startNewList(int old){
 		// generates a new list
 		int ret = genLists(1);
 		
@@ -93,7 +93,7 @@ public class ManagerGLList extends ManagerD {
 	
     
 	@Override
-	public int startPolygons(){
+	public int startPolygons(int old){
 		
 		// generates a new list
 		int ret = genLists(1);

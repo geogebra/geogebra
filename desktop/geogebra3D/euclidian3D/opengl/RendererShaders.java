@@ -390,14 +390,17 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
    }
    
 
+   private float[] tmpNormal3 = new float[3];
+
    public void loadNormalBuffer(GLBuffer fbNormals, int length){
 
-	   if (fbNormals == null){ // no normals
+	   if (fbNormals == null || fbNormals.isEmpty()){ // no normals
 		   return;
 	   }
 	   
 	   if (fbNormals.capacity() == 3){ // one normal for all vertices
-		   jogl.getGL2ES2().glUniform3fv(normalLocation, 1, fbNormals.array(), 0);
+		   fbNormals.array(tmpNormal3);
+		   jogl.getGL2ES2().glUniform3fv(normalLocation, 1, tmpNormal3, 0);
 		   oneNormalForAllVertices = true;
 		   return;
 	   }
@@ -425,7 +428,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
    
    public void loadTextureBuffer(GLBuffer fbTextures, int length){
 
-	   if (fbTextures == null){		
+	   if (fbTextures == null || fbTextures.isEmpty()){		
 		   setCurrentGeometryHasNoTexture();
 		   return;
 	   }
@@ -447,7 +450,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
    
    public void loadColorBuffer(GLBuffer fbColors, int length){
 
-	   if (fbColors == null){
+	   if (fbColors == null || fbColors.isEmpty()){
 		   return;
 	   }
 

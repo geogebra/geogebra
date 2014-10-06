@@ -50,7 +50,7 @@ public class PlotterCursor {
 
 		// crosses
 		for (int i = 0; i < 4; i++) {
-			index[i] = manager.startNewList();
+			index[i] = manager.startNewList(-1);
 			manager.startGeometry(Manager.Type.TRIANGLES);
 			cursor(i);
 			manager.endGeometry();
@@ -68,7 +68,7 @@ public class PlotterCursor {
 		brush.setAffineTexture(0.5f, 0.125f);
 
 		// xy
-		brush.start();
+		brush.start(-1);
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
 		brush.segment(new Coords(size_start_move, 0, 0, 1), new Coords(
@@ -85,7 +85,7 @@ public class PlotterCursor {
 		index[TYPE_ALREADY_XY] = brush.end();
 
 		// z
-		brush.start();
+		brush.start(-1);
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
 		brush.segment(new Coords(0, 0, size_start_move, 1), new Coords(0, 0,
@@ -98,7 +98,7 @@ public class PlotterCursor {
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 
 		// cube
-		index[TYPE_CUBE] = manager.startNewList();
+		index[TYPE_CUBE] = manager.startNewList(-1);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		color(0.5f, 0.5f, 0.5f);
 		// up
@@ -142,7 +142,7 @@ public class PlotterCursor {
 		manager.endList();
 
 		// sphere
-		index[TYPE_SPHERE] = manager.startNewList();
+		index[TYPE_SPHERE] = manager.startNewList(-1);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		cursorSphere();
 		manager.endGeometry();

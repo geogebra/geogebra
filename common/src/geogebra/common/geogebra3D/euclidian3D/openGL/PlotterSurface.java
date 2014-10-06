@@ -61,16 +61,16 @@ public class PlotterSurface {
 	/**
 	 * start new surface
 	 */
-	public void start(){
-		index = manager.startNewList();
+	public void start(int old){
+		index = manager.startNewList(old);
 	}
 	
 	/**
 	 * start new surface
 	 * @param function 
 	 */
-	public void start(Functional2Var function){
-		index = manager.startNewList();
+	public void start(Functional2Var function, int old){
+		index = manager.startNewList(old);
 		this.functional2Var = function;
 		uMinFade = 0; vMinFade = 0;
 		uMaxFade = 0; vMaxFade = 0;
@@ -81,8 +81,8 @@ public class PlotterSurface {
 	 * start new surface
 	 * @param function 
 	 */
-	public void start(GeoFunctionNVar function){
-		index = manager.startNewList();
+	public void start(GeoFunctionNVar function, int old){
+		index = manager.startNewList(old);
 		this.function = function;
 		uMinFade = 0; vMinFade = 0;
 		uMaxFade = 0; vMaxFade = 0;

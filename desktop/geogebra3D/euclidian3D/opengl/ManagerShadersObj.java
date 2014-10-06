@@ -48,7 +48,8 @@ public class ManagerShadersObj extends ManagerShaders {
 		try{
 			currentGeometriesSet = geometriesSetList.get(index);
 			if (currentGeometriesSet != null){
-				for (Geometry geometry : currentGeometriesSet){
+				for (int i = 0 ; i < currentGeometriesSet.getGeometriesLength() ; i++){
+					Geometry geometry = currentGeometriesSet.get(i);
 
 					printToObjFile("\n##########################\n\no "+geo.getLabelSimple()+"\n");
 

@@ -20,7 +20,12 @@ public class GLFactoryW extends GLFactory {
 	}
 	
 	@Override
-	final public GLBuffer newBuffer(ArrayList<Float> array){		
-		return new GLBufferW(array);
+	final public GLBuffer newBuffer(ArrayList<Float> array, int length){		
+		return new GLBufferW(array, length);
+	}
+	
+	@Override
+	final public GLBuffer newBuffer(){
+		return new GLBufferW();
 	}
 }

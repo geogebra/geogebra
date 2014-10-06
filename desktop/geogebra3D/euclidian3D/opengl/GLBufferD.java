@@ -16,18 +16,50 @@ public class GLBufferD implements GLBuffer {
 	/**
 	 * constructor from float array
 	 * @param array float array
+	 * @param length array length
 	 */
-	public GLBufferD(ArrayList<Float> array){
-		impl = FloatBuffer.allocate(array.size());
-		for (int i = 0; i < array.size(); i++){
+	public GLBufferD(ArrayList<Float> array, int length){
+		impl = FloatBuffer.allocate(length);
+		for (int i = 0; i < length; i++){
 			impl.put(array.get(i));
 		}
 		impl.rewind();
 	}
-
-	public Float get() {
-		return impl.get();
+	
+	/**
+	 * constructor from float array
+	 */
+	public GLBufferD(){
+		isEmpty = true;
 	}
+	
+	private boolean isEmpty;
+	
+	public boolean isEmpty(){
+		return isEmpty;
+	}
+	
+	public void setEmpty(){
+		isEmpty = true;
+	}
+	
+	public void set(ArrayList<Float> array, int length){
+
+		// allocate buffer only at start and when length change
+		if (impl == null || impl.capacity() != length){
+			impl = FloatBuffer.allocate(length);
+		}else{
+			impl.rewind();
+		}
+
+		for (int i = 0; i < length; i++){
+			impl.put(array.get(i));
+		}
+		impl.rewind();
+		
+		isEmpty = false;
+	}
+
 	
 	public void rewind(){
 		impl.rewind();
@@ -37,8 +69,11 @@ public class GLBufferD implements GLBuffer {
 		return impl.capacity();
 	}
 
-	public float[] array(){
-		return impl.array();
+	public void array(float[] ret){
+		impl.rewind();
+		for (int i = 0 ; i < ret.length ; i++){
+			ret[i] = impl.get();
+		}
 	}
 	
 	

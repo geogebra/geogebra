@@ -165,7 +165,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		// plane	
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		
-		surface.start(geo);
+		surface.start(geo, getSurfaceIndex());
 		
 		surface.setU(xmin1,xmax1);surface.setNbU(2);
 		surface.setV(ymin1,ymax1);surface.setNbV(2);
@@ -183,14 +183,12 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 		
 		// grid
-		if (isGridVisible()){
-			removeGeometryIndex(gridIndex);
-			removeGeometryIndex(gridOutlineIndex);
-
+		if (isGridVisible()){			
 
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
-			brush.start();
+			brush.start(gridIndex);
+			removeGeometryIndex(gridIndex);
 			float thickness = brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
 
 			brush.setColor(getGeoElement().getObjectColor());
@@ -228,7 +226,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			gridIndex = brush.end();
 
 
-			brush.start();
+			brush.start(gridOutlineIndex);
+			removeGeometryIndex(gridOutlineIndex);
+
 			boolean showClippingCube = getView3D().showClippingCube();
 
 			//draws the rectangle outline
