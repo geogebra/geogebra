@@ -1678,7 +1678,7 @@ __GGB__keysVar.gl.menu = {
     "Perspective.TableAndGraphics": "T\xe1boa e gr\xe1ficos",
     "Perspective.Whiteboard": "Lousa virtual",
     "PerspectivePanel": "Disposici\xf3ns",
-    "Perspectives": "Apariencias",
+    "Perspectives": "Aparencias",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Selecci\xf3n de tres puntos, dun punto e unha recta, de d\xfaas rectas ou dun pol\xedgono",

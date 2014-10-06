@@ -1363,7 +1363,7 @@ __GGB__keysVar.pl.menu = {
     "DontOverwrite": "Nie zast\u0119puj (nie nadpisuj)",
     "DontSave": "Nie zapisuj",
     "DotPlot": "Wykres punktowy",
-    "Download": "Download",
+    "Download": "\u015aci\u0105gnij",
     "DownloadAsGgbFile": "Pobierz jako plik .ggb",
     "DrawingPadToClipboard": "Kopiuj Widok Grafiki do schowka",
     "DynamicColors": "Kolory dynamiczne",
