@@ -279,7 +279,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// RESOURCE fields
 	// ==============================================================
 
-	private ResourceBundle rbcommandEnglish, rbmenuEnglish, rbsettings;
+	private ResourceBundle rbcommandEnglish, rbsettings;
 
 	private final LocalizationD loc;
 
@@ -356,7 +356,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private AuthenticationModelD authenticationModel;
 
-	
 	// ==============================================================
 	// MISC FLAGS
 	// ==============================================================
@@ -732,14 +731,22 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "Start GeoGebra with the specified OPTIONs and open the given FILE.\n"
 							+ "  --help\t\tprint this message\n"
 							+ "  --v\t\tprint version\n"
-							+ "  --language=LANGUAGE_CODE\t\tset language using locale strings, e.g. en, de, de_AT, ...\n" // here "auto" is also accepted
+							+ "  --language=LANGUAGE_CODE\t\tset language using locale strings, e.g. en, de, de_AT, ...\n" // here
+																															// "auto"
+																															// is
+																															// also
+																															// accepted
 							+ "  --showAlgebraInput=BOOLEAN\tshow/hide algebra input field\n"
 							+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
 							+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
 							+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
 							+ (GeoGebraConstants.CAS_VIEW_ENABLED ? "  --showCAS=BOOLEAN\tshow/hide CAS window\n"
 									: "") // here "disable" is also accepted
-							+ "  --show3D=BOOLEAN\tshow/hide 3D window\n" // here "disable" is also accepted 
+							+ "  --show3D=BOOLEAN\tshow/hide 3D window\n" // here
+																			// "disable"
+																			// is
+																			// also
+																			// accepted
 							+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
 							+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
 							+ "  --fontSize=NUMBER\tset default font size\n"
@@ -1153,15 +1160,15 @@ public class AppD extends App implements KeyEventDispatcher {
 				disable3DView();
 			}
 		}
-		
+
 		String language = args.getStringValue("language");
 		if (language.length() > 0) {
 			if ("Auto".equalsIgnoreCase(language)) {
-					Locale systemLocale = Locale.getDefault();
-					setLocale(systemLocale);
-				} else {
-					setLocale(getLocale(language));
-				}
+				Locale systemLocale = Locale.getDefault();
+				setLocale(systemLocale);
+			} else {
+				setLocale(getLocale(language));
+			}
 		}
 		if (args.containsArg("regressionFile")) {
 			this.regressionFileName = args.getStringValue("regressionFile");
@@ -2376,19 +2383,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-	final public String getEnglishMenu(String key) {
-
-		if (rbmenuEnglish == null) {
-			rbmenuEnglish = MyResourceBundle.createBundle(
-					LocalizationD.RB_MENU, Locale.ENGLISH);
-		}
-		try {
-			return rbmenuEnglish.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
-	}
-
 	/**
 	 * Gets particular setting for HTML export
 	 * 
@@ -2516,7 +2510,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		updateCommandDictionary();
 	}
-	
+
 	private void setOrientation() {
 		if (initing) {
 			return;

@@ -2538,7 +2538,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				options[0]); // default button title
 
 		if (n == 0)
-			openHelp(((AppD) app).getEnglishMenu(page), Help.TOOL);
+			openHelp(page, Help.TOOL);
 	}
 
 	@Override
