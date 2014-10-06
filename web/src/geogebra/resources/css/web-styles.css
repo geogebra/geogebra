@@ -1348,13 +1348,13 @@ td.datePickerMonth {
 }
 
 .gwt-SplitLayoutPanel-HDragger:ACTIVE  {
-	background:#DCDCDC;
+	background:#6161FF;
 	border-left: 1px solid #C6C6C6;
 	border-right: 1px solid #C6C6C6;
 }
 
 .gwt-SplitLayoutPanel-VDragger:ACTIVE {
-	background:#DCDCDC;
+	background:#6161FF;
 	border-top: 1px solid #C6C6C6;
 	border-bottom: 1px solid #C6C6C6;
 }
