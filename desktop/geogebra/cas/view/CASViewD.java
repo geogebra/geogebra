@@ -1,6 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.cas.view.CASInputHandler;
+import geogebra.common.cas.view.CASTable;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.gui.SetOrientation;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -353,5 +354,10 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	public void setOrientation() {
 		getConsoleTable().setOrientation();
+	}
+
+	public void resetCursor() {
+		CASTable table = getConsoleTable();
+		table.stopEditing();
 	}
 }

@@ -3204,4 +3204,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return euclidianView2.size();
 	}
 
+	public void resetCasView() {
+		casView.resetCursor();
+	}
+
 }

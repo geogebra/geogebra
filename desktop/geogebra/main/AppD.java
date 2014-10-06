@@ -1376,6 +1376,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// reset spreadsheet columns, reset trace columns
 		if (isUsingFullGui()) {
 			getGuiManager().resetSpreadsheet();
+			getGuiManager().resetCasView();
 		}
 
 		getEuclidianView1().resetXYMinMaxObjects();
