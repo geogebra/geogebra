@@ -2,10 +2,18 @@ package geogebra.web.gui.view.data;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
 
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * Extension of StatTable that displays summary statistics for two data sets.
@@ -16,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  * @author G. Sturr
  * 
  */
-public class TwoVarStatPanelW extends StatTableW  {
+public class TwoVarStatPanelW extends StatTableW implements ScheduledCommand  {
 	private static final long serialVersionUID = 1L;
 	protected AppW app;
 	private Kernel kernel;
@@ -55,28 +63,51 @@ public class TwoVarStatPanelW extends StatTableW  {
 		// create an array of data titles for the table celll comboboxes
 		// the array includes and extra element to store the combo box label
 		String[] titles = statDialog.getDataTitles();
-		String[] titlesPlusLabel = new String[titles.length + 1];
-		System.arraycopy(titles, 0, titlesPlusLabel, 0, titles.length);
-
-		// create hash maps for the table comboboxes:
-		// key = cell location for the combo box
-		// value = String[] to hold menu items plus label
-//		HashMap<Point, String[]> cellMap = new HashMap<Point, String[]>();
+		createListBoxCell(0, 0, app.getMenu("Sample1"), titles);
+		createListBoxCell(1, 0, app.getMenu("Sample2"), titles);
+//		String[] titlesPlusLabel = new String[titles.length + 1];
+//		System.arraycopy(titles, 0, titlesPlusLabel, 0, titles.length);
+//
+//		// create hash maps for the table comboboxes:
+//		// key = cell location for the combo box
+//		// value = String[] to hold menu items plus label
+//		HashMap<GPointW, String[]> cellMap = new HashMap<GPointW, String[]>();
 //		titlesPlusLabel[titlesPlusLabel.length - 1] = app.getMenu("Sample1");
-//		cellMap.put(new Point(0, 0), titlesPlusLabel.clone());
+//		cellMap.put(new GPointW(0, 0), titlesPlusLabel);
 //		titlesPlusLabel[titlesPlusLabel.length - 1] = app.getMenu("Sample2");
-//		cellMap.put(new Point(1, 0), titlesPlusLabel.clone());
-
-		// set the table combo boxes
+//		cellMap.put(new GPointW(1, 0), titlesPlusLabel);
+//
+//		// set the table combo boxes
 //		setComboBoxCells(cellMap, this);
-		setComboCellSelectedIndex(selectedDataIndex[0], 0, 0);
-		setComboCellSelectedIndex(selectedDataIndex[1], 1, 0);
-		setValueAt(selectedDataIndex[0]+"", 0, 0);
-		setValueAt(selectedDataIndex[1]+"", 1, 0);
+//		setComboCellSelectedIndex(selectedDataIndex[0], 0, 0);
+//		setComboCellSelectedIndex(selectedDataIndex[1], 1, 0);
+		//setValueAt(selectedDataIndex[0]+"", 0, 0);
+		//setValueAt(selectedDataIndex[1]+"", 1, 0);
 
 
 		isIniting = false;
 	}
+
+	private void createListBoxCell(int row, int col, String title, String[] items) {
+	    Label label = new Label(title);
+	    final ListBox listBox = new ListBox();
+	    for (String item: items) {
+	    	listBox.addItem(item);
+	    }
+	    
+	    final int idx = row;  
+	    listBox.addChangeHandler(new ChangeHandler() {
+			
+			public void onChange(ChangeEvent event) {
+				selectedDataIndex[idx] = listBox.getSelectedIndex();
+				updatePanel();
+			}
+		});
+	    
+	    FlowPanel p = new FlowPanel();
+	    p.add(LayoutUtil.panelRow(label, listBox));
+	    getTable().setWidget(row, col, p);
+    }
 
 	public void setPairedData(boolean isPairedData) {
 		this.isPairedData = isPairedData;
@@ -238,16 +269,11 @@ public class TwoVarStatPanelW extends StatTableW  {
 		return true;
 	}
 
-	public void actionPerformed() {
-//		if (isIniting)
-//			return;
-//
-//		if (e.getActionCommand().equals("updateTable")) {
-//			selectedDataIndex[0] = getComboCellEditorSelectedIndex(0, 0);
-//			selectedDataIndex[1] = getComboCellEditorSelectedIndex(1, 0);
-//			this.updatePanel();
-//		}
-//		parentActionListener.actionPerformed(e);
-	}
+
+
+	public void execute() {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

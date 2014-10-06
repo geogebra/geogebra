@@ -4544,6 +4544,15 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	font-weight: bold;
 }
 
+.daTwoVarInference table tr:first-child,
+.daTwoVarInference table tr td:first-child {
+	width: 180px;
+}
+
+.daTwoVarInference table tr td:first-child .gwt-ListBox {
+	background: #acacac;
+}
+
 .daRegressionData table tr td:first-child {
 	width: 60px;
 	background-color: #acacac;
