@@ -22,6 +22,7 @@ public class UploadRequest implements Request {
 	/**
 	 * @param app AppW
 	 * @param consTitle title of construction
+	 * @param base64 String
 	 */
 	UploadRequest(AppW app, String consTitle, String base64) {
 		this.app = app;

@@ -154,7 +154,18 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 	
 	protected void addOptions() {
-		if (isOwnMaterial && !isLocal) {
+		if (this.material.getType() == MaterialType.ws) {
+			addViewButton();
+			if (isOwnMaterial) {
+				addDeleteButton();
+			}
+		} else if (this.material.getType() == MaterialType.book) {
+			addEditButton();
+			addViewButton();
+			if (isOwnMaterial) {
+				addDeleteButton();
+			}
+		} else if (isOwnMaterial && !isLocal) {
 			addEditButton();
 			addViewButton();
 			addRenameButton();
@@ -316,13 +327,32 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	
 	void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
-		if (!isLocal) {
+		if (this.material.getType() == MaterialType.ws) {
+			this.viewButton.setVisible(false);
+			if (isOwnMaterial) {
+				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
+				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
+			}
+		} else if (this.material.getType() == MaterialType.book) {
+			this.editButton.setVisible(false);
+			this.viewButton.setVisible(false);
+			if (isOwnMaterial) {
+				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
+				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
+			}
+		} else if (isOwnMaterial && !isLocal) {
+			this.editButton.setVisible(false);
+			this.viewButton.setVisible(false);
+			this.renameButton.setVisible(false);
+		} else if (isLocal) {
+			this.renameButton.setVisible(false);
+			this.editButton.setVisible(false);
+		} else {
+			this.editButton.setVisible(false);
 			this.viewButton.setVisible(false);
 		}
-		if (isOwnMaterial) {
-			this.renameButton.setVisible(false);
-		}
-		this.editButton.setVisible(false);
 		this.confirmDeletePanel.setVisible(true);
 		this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete_active());
 	}
@@ -516,20 +546,37 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * 
 	 */
 	public void setLabels() {
-		this.editButton.setText(app.getLocalization().getMenu("Edit"));
-		if (isOwnMaterial && !isLocal) {
+		if (this.material.getType() == MaterialType.ws) {
+			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+			if (isOwnMaterial) {
+				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
+				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
+			}
+		} else if (this.material.getType() == MaterialType.book) {
+			this.editButton.setText(app.getLocalization().getMenu("Edit"));
+			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+			if (isOwnMaterial) {
+				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
+				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
+			}
+		} else if (isOwnMaterial && !isLocal) {
 			this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
 			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
 			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
 			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
+			this.editButton.setText(app.getLocalization().getMenu("Edit"));
 		} else if (isLocal) {
 			this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
 			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
 			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
+			this.editButton.setText(app.getLocalization().getMenu("Edit"));
 		} else {
 			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+			this.editButton.setText(app.getLocalization().getMenu("Edit"));
 		}
 	}
 
@@ -542,7 +589,26 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void showDetails(final boolean show) {
-		if (isOwnMaterial && !isLocal) {
+		if (this.material.getType() == MaterialType.ws) {
+			this.sharedBy.setVisible(true);
+			this.viewButton.setVisible(show);
+			if (isOwnMaterial) {
+				this.deleteButton.setVisible(show);
+				this.deleteButton.removeStyleName("deleteActive");
+				this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
+				this.confirmDeletePanel.setVisible(false);
+			}
+		} else if (this.material.getType() == MaterialType.book) {
+			this.editButton.setVisible(show);
+			this.sharedBy.setVisible(true);
+			this.viewButton.setVisible(show);
+			if (isOwnMaterial) {
+				this.deleteButton.setVisible(show);
+				this.deleteButton.removeStyleName("deleteActive");
+				this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
+				this.confirmDeletePanel.setVisible(false);
+			}
+		} else if (isOwnMaterial && !isLocal) {
 			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);
 			this.deleteButton.setVisible(show);
@@ -550,17 +616,20 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
 			this.confirmDeletePanel.setVisible(false);
 			this.renameButton.setVisible(show);
+			this.editButton.setVisible(show);
 		} else if (isLocal) {
 			this.deleteButton.setVisible(show);
 			this.deleteButton.removeStyleName("deleteActive");
 			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
 			this.confirmDeletePanel.setVisible(false);
 			this.renameButton.setVisible(show);
+			this.editButton.setVisible(show);
 		} else {
 			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);
+			this.editButton.setVisible(show);
 		}
-		this.editButton.setVisible(show);
+		
 		
 		if (show) {
 			this.infoPanel.addStyleName("detailed");
