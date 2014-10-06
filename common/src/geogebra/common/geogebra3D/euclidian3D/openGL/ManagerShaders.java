@@ -421,6 +421,8 @@ public class ManagerShaders extends Manager {
      		indicesRemoved.push(index);
     		geometriesSetList.remove(index);
     	}
+    	
+    	currentOld = -1;
     }
 	
 	

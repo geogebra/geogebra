@@ -36,7 +36,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	/** says if the view direction is parallel to the plane */
 	private boolean viewDirectionIsParallel; 
 
-	
+	@Override
+	public void setWaitForReset(){
+		
+		gridIndex = -1;
+		gridOutlineIndex = -1;		
+		super.setWaitForReset();
+	}
 	
 	/**
 	 * Common constructor

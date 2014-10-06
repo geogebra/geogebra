@@ -57,7 +57,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 		
 		super.updateGeometry();
 		
-		return !(xAxis.waitForUpdate() || yAxis.waitForUpdate());
+		return true;
 	}
 	
 	@Override

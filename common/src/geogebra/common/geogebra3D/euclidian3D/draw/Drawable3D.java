@@ -401,6 +401,10 @@ public abstract class Drawable3D extends DrawableND {
 	 * reset the drawable
 	 */
 	public void setWaitForReset(){
+		
+		// reset geometry indices
+		geomIndex = -1;
+		surfaceIndex = -1;
 	
 		waitForReset = true;
 		label.setWaitForReset();
