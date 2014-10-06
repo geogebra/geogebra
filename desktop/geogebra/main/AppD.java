@@ -279,7 +279,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// RESOURCE fields
 	// ==============================================================
 
-	private ResourceBundle rbcommandEnglish, rbsettings;
+	private ResourceBundle rbcommandEnglish, rbmenuEnglish, rbsettings;
 
 	private final LocalizationD loc;
 
@@ -2379,6 +2379,19 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		try {
 			return rbcommandEnglish.getString(key);
+		} catch (Exception e) {
+			return key;
+		}
+	}
+
+	final public String getEnglishMenu(String key) {
+
+		if (rbmenuEnglish == null) {
+			rbmenuEnglish = MyResourceBundle.createBundle(
+					LocalizationD.RB_MENU, Locale.ENGLISH);
+		}
+		try {
+			return rbmenuEnglish.getString(key);
 		} catch (Exception e) {
 			return key;
 		}
