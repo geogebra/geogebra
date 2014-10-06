@@ -186,11 +186,13 @@ public abstract class AlgoAngleLinesND extends AlgoAngle  implements DrawInforma
 	public boolean getCoordsInD3(Coords[] drawCoords){
 		double[] n = GeoVec3D.cross((GeoLine) g, (GeoLine) h).get();
 		
+		Coords center;
+		
 		if (Kernel.isZero(n[2])){
-			return false;
+			center = g.getStartInhomCoords().copyVector();
+		}else{
+			center = new Coords(n[0] / n[2], n[1] / n[2], 0, 1);
 		}
-
-		Coords center = new Coords(n[0] / n[2], n[1] / n[2], 0, 1);
 		drawCoords[0] = center;
 		drawCoords[1] = g.getDirectionInD3();
 		drawCoords[2] = h.getDirectionInD3();

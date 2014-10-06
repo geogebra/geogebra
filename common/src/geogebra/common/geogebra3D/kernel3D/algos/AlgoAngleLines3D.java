@@ -21,10 +21,12 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLinesND;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
@@ -54,6 +56,7 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND{
 	protected GeoAngle newGeoAngle(Construction cons){
     	return new GeoAngle3D(cons);
     }
+    
 	
     @Override
 	public void compute() {
@@ -70,22 +73,38 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND{
     	v2 = geth().getDirectionInD3();
     	
     	// normal vector
-    	vn = v1.crossProduct4(v2).normalized();    	
-    	if (!vn.isDefined()){ // parallel lines
-    		getAngle().setValue(0);
-    		o = Coords.UNDEFINED; // for drawing
-    		return;
+    	vn = v1.crossProduct4(v2);  
+    	
+    	if (!vn.isDefined() || vn.isZero()){ // parallel lines
+    		// check if lines are opposite rays
+    		if (!((GeoElement) getg()).isGeoRay() || !((GeoElement) geth()).isGeoRay() || Kernel.isGreaterEqual(v1.dotproduct(v2),0)){
+    			getAngle().setValue(0);
+    			o = Coords.UNDEFINED; // for drawing
+    			return;
+    		}
+    		
+    		getAngle().setValue(Math.PI);
+    		if (o1.equalsForKernel(o2)){ // opposite rays
+    			o = o1.copyVector();
+    			v1.completeOrthonormal(vn);
+    		}else{
+    			o = Coords.UNDEFINED; // for drawing
+    			return;
+    		}
+    	}else{ // non parallel lines
+    		// nearest points
+        	Coords[] points = CoordMatrixUtil.nearestPointsFromTwoLines(o1, v1, o2, v2);
+        	
+        	if (!points[0].equalsForKernel(points[1])){ // lines are not coplanar
+        		getAngle().setUndefined();
+            	return;
+        	}
+        	
+        	o = points[0];
+        	vn.normalize();
     	}
    	
-    	// nearest points
-    	Coords[] points = CoordMatrixUtil.nearestPointsFromTwoLines(o1, v1, o2, v2);
     	
-    	if (!points[0].equalsForKernel(points[1])){ // lines are not coplanar
-    		getAngle().setUndefined();
-        	return;
-    	}
-    	
-    	o = points[0];
     	
     	v1.calcNorm();
     	double l1 = v1.getNorm();

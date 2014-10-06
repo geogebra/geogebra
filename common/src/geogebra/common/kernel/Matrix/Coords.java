@@ -988,6 +988,27 @@ public class Coords {
 	}
 
 	/**
+	 * calculates projection of this on the 3D-line represented by the matrix {V
+	 * O}.
+	 * 
+	 * @param O
+	 *            origin of the line
+	 * @param V
+	 *            direction of the line
+	 * @param H point projected 
+	 */
+	public void projectLine(Coords O, Coords V, Coords H) {
+
+		this.sub(O, H); // OM
+		Coords N = V.normalized();
+		double parameter = H.dotproduct(N); // OM.N
+		N.mul(parameter, H); // OH
+		O.add(H, H); 
+
+
+	}
+
+	/**
 	 * calculates projection of this as far as possible to the 3D-line
 	 * represented by the matrix {V O} regarding V2 direction.
 	 * 
@@ -1272,6 +1293,8 @@ public class Coords {
 		if (val[0] != 0) {
 			vn1.val[0] = -val[1];
 			vn1.val[1] = val[0];
+			vn1.val[2] = 0;
+			vn1.val[3] = 0;
 			vn1.normalize();
 		} else {
 			vn1.val[0] = 1.0;
@@ -1286,7 +1309,28 @@ public class Coords {
 		
 	}
 
+	/**
+	 * Assume that "this" is a non-zero vector in 3-space. This method sets
+	 * the vector vn1 so that (this, vn1) is orthonormal
+	 * @param vn1 vector (length 4)
+	 */
+	public void completeOrthonormal(Coords vn1) {
 
+		if (val[2] != 0) {
+			vn1.val[2] = -val[1];
+			vn1.val[1] = val[2];
+			vn1.val[0] = 0;
+			vn1.val[3] = 0;
+			vn1.normalize();
+		} else {
+			vn1.val[0] = 0.0;
+			vn1.val[1] = 0.0;
+			vn1.val[2] = 1.0;
+			vn1.val[3] = 0.0;
+		}
+
+		
+	}
 	// ///////////////////////////////////////////////////
 	// BASIC OPERATIONS
 	// ///////////////////////////////////////////////////
@@ -1593,11 +1637,14 @@ public class Coords {
 	/**
 	 * multiply all values by v
 	 * @param v factor
+	 * @return this
 	 */
-	public void mulInside(double v){
+	public Coords mulInside(double v){
 		for (int i = 0 ; i < val.length; i++){
 			val[i] *= v;
 		}
+		
+		return this;
 	}
 	
 	/**
