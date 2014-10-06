@@ -283,13 +283,13 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 					//project willing location using willing direction
 					//GgbVector[] project = coordsys.getProjection(P.getWillingCoords(), P.getWillingDirection());
 
-					if (tmpCoords == null){
-						tmpCoords = Coords.createInhomCoorsInD3();
+					if (tmpCoords1 == null){
+						tmpCoords1 = Coords.createInhomCoorsInD3();
 					}
 					t = ((GeoPoint3D) P).getWillingCoords().projectedParameterOnLineWithDirection(
 							coordsys.getOrigin(),
 							coordsys.getVx(),
-							((GeoPoint3D) P).getWillingDirection(), tmpCoords);
+							((GeoPoint3D) P).getWillingDirection(), tmpCoords1);
 					
 					done = true;
 				}else{
@@ -299,14 +299,14 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 					if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
 						preDirection = coordsys.getVy();
 					
-					if (tmpCoords == null){
-						tmpCoords = Coords.createInhomCoorsInD3();
+					if (tmpCoords1 == null){
+						tmpCoords1 = Coords.createInhomCoorsInD3();
 					}
 					t = ((GeoPoint3D) P).getWillingCoords().projectedParameterOnLineWithDirection(
 							coordsys.getOrigin(),
 							coordsys.getVx(),
 							preDirection.crossProduct4(coordsys.getVx()), 
-							tmpCoords);
+							tmpCoords1);
 
 					done = true;
 				}
@@ -320,14 +320,14 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 			if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
 				preDirection = coordsys.getVy();
 					
-			if (tmpCoords == null){
-				tmpCoords = Coords.createInhomCoorsInD3();
+			if (tmpCoords1 == null){
+				tmpCoords1 = Coords.createInhomCoorsInD3();
 			}
 			t = P.getInhomCoordsInD3().projectedParameterOnLineWithDirection(
 					coordsys.getOrigin(),
 					coordsys.getVx(),
 					preDirection.crossProduct4(coordsys.getVx()), 
-					tmpCoords);
+					tmpCoords1);
 
 		}
 		return t;
@@ -785,7 +785,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 	}
 	
-	private Coords tmpCoords;
+	private Coords tmpCoords1, tmpCoords2;
 	
 	final private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
 
@@ -797,12 +797,12 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 		
 		Coords point = getCoordSys().getOrigin();
-		if (tmpCoords == null){
-			tmpCoords = Coords.createInhomCoorsInD3();
+		if (tmpCoords1 == null){
+			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		point.projectLine(o1, vn, tmpCoords, null); //point projected on the axis
+		point.projectLine(o1, vn, tmpCoords1, null); //point projected on the axis
 		
-		Coords v1 = point.sub(tmpCoords); //axis->point of the line
+		Coords v1 = point.sub(tmpCoords1); //axis->point of the line
 
 		
 		Coords v = getCoordSys().getVx(); //direction of the line
@@ -814,7 +814,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 		// new line origin
 		Coords v2 = vn2.crossProduct4(v1);
-		Coords oRot = tmpCoords.add(v1.mul(cos)).add(v2.mul(sin));
+		Coords oRot = tmpCoords1.add(v1.mul(cos)).add(v2.mul(sin));
 		
 		// new line direction
 		v2 = vn2.crossProduct4(v);
@@ -866,12 +866,12 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		Coords vn = line.getDirectionInD3();
 
 		Coords point = getCoordSys().getOrigin();
-		if (tmpCoords == null){
-			tmpCoords = Coords.createInhomCoorsInD3();
+		if (tmpCoords1 == null){
+			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		point.projectLine(o1, vn, tmpCoords, null); //point projected on the line
+		point.projectLine(o1, vn, tmpCoords1, null); //point projected on the line
 		point = point.mul(-1);
-		point.addInside(tmpCoords.mul(2));
+		point.addInside(tmpCoords1.mul(2));
 		
 		
 		double l = vn.getNorm();
@@ -885,17 +885,20 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		
 		Coords point = getCoordSys().getOrigin();
 		//point projected on the plane
-		if (tmpCoords == null){
-			tmpCoords = Coords.createInhomCoorsInD3();
+		if (tmpCoords1 == null){
+			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		point.projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords);
-		point = point.mul(-1);
-		point.addInside(tmpCoords.mul(2));
+		point.projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords1);
+		point.mulInside(-1);
+		point.addInside(tmpCoords1.mulInside(2));
 		
 		
 		Coords vn = plane.getDirectionInD3().normalized();
 		Coords v = getCoordSys().getVx();
-		setCoord(point, v.add(vn.mul(-2*v.dotproduct(vn))));
+		if (tmpCoords2 == null){
+			tmpCoords2 = new Coords(4);
+		}
+		setCoord(point, tmpCoords1.setAdd(v, tmpCoords2.setMul(vn, -2*v.dotproduct(vn))));
 
 		
 	}

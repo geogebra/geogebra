@@ -908,23 +908,23 @@ public class CoordSys {
 		double y = -2*matrixOrthonormal.getVy().dotproduct(vn);
 		double z = -2*matrixOrthonormal.getVz().dotproduct(vn);
 		//translate vectors
-		matrixOrthonormal.addToVx(vn.mul(x));
-		matrixOrthonormal.addToVy(vn.mul(y));
-		matrixOrthonormal.addToVz(vn.mul(z));
+		matrixOrthonormal.addToVx(tmpCoords2.setMul(vn, x));
+		matrixOrthonormal.addToVy(tmpCoords2.setMul(vn, y));
+		matrixOrthonormal.addToVz(tmpCoords2.setMul(vn, z));
 		//translate origin matrix
-		matrixOrthonormal.setOrigin(tmpCoords1.mul(2).sub(o));
+		matrixOrthonormal.setOrigin(tmpCoords2.setSub(tmpCoords2.setMul(tmpCoords1, 2),o));
 		
 		// set original origin and vectors
 		setOrigin(matrixOrthonormal.getOrigin());
 		
 		double p = -2*getVx().dotproduct(vn);
-		setVx(getVx().mul(-1).add(vn.mul(p)));
+		setVx(tmpCoords2.setAdd(tmpCoords3.setMul(getVx(), -1),tmpCoords2.setMul(vn,p)));
 
 		if (dimension==2){
 			p = -2*getVy().dotproduct(vn);
-			setVy(getVy().mul(-1).add(vn.mul(p)));
+			setVy(tmpCoords2.setAdd(tmpCoords3.setMul(getVy(), -1),tmpCoords2.setMul(vn,p)));
 			p = -2*getVz().dotproduct(vn);
-			setVz(getVz().mul(-1).add(vn.mul(p)));
+			setVz(tmpCoords2.setAdd(tmpCoords3.setMul(getVz(), -1),tmpCoords2.setMul(vn,p)));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
