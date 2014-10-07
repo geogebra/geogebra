@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-
 /**
  * UndoManager handles undo information for a Construction. It uses an undo info
  * list with construction snapshots in temporary files.
@@ -37,39 +36,48 @@ import java.security.PrivilegedAction;
  * @author Markus Hohenwarter
  */
 public class UndoManagerD extends UndoManager {
-	
+
 	/**
 	 * Desktop version of ap stat: wrapper for file
+	 * 
 	 * @author kondr
-	 *
+	 * 
 	 */
-	protected class AppStateDesktop implements AppState{
+	protected class AppStateDesktop implements AppState {
 		private File f;
+
 		/**
 		 * Wrap file into app state
-		 * @param f file
+		 * 
+		 * @param f
+		 *            file
 		 */
-		AppStateDesktop(File f){
+		AppStateDesktop(File f) {
 			this.f = f;
 		}
+
 		/**
 		 * Unwrap the file
+		 * 
 		 * @return file
 		 */
-		public File getFile(){
+		public File getFile() {
 			return f;
 		}
+
 		public void delete() {
 			f.delete();
-			
+
 		}
 	}
 
 	private static final String TEMP_FILE_PREFIX = "GeoGebraUndoInfo";
-	
+
 	/**
 	 * Creates a new UndowManager for the given Construction.
-	 * @param cons construction
+	 * 
+	 * @param cons
+	 *            construction
 	 */
 	public UndoManagerD(Construction cons) {
 		super(cons);
@@ -83,8 +91,9 @@ public class UndoManagerD extends UndoManager {
 
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
-		final StringBuilder currentUndoXML = construction.getCurrentUndoXML(true);
-
+		final StringBuilder currentUndoXML = construction
+				.getCurrentUndoXML(true);
+		// force create event dispatcher before we go to thread
 		Thread undoSaverThread = new Thread() {
 			@Override
 			public void run() {
@@ -96,9 +105,6 @@ public class UndoManagerD extends UndoManager {
 
 	}
 
-	
-	
-
 	/**
 	 * Adds construction state to undo info list.
 	 */
@@ -107,8 +113,10 @@ public class UndoManagerD extends UndoManager {
 
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
-		final StringBuilder currentUndoXML = construction.getCurrentUndoXML(true);
-
+		final StringBuilder currentUndoXML = construction
+				.getCurrentUndoXML(true);
+		// force create event dispatcher before we go to thread
+		app.getEventDispatcher();
 		Thread undoSaverThread = new Thread() {
 			@Override
 			public void run() {
@@ -122,7 +130,9 @@ public class UndoManagerD extends UndoManager {
 
 	/**
 	 * Adds construction state to undo info list.
-	 * @param undoXML string builder with construction XML
+	 * 
+	 * @param undoXML
+	 *            string builder with construction XML
 	 */
 	synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
 		// avoid security problems calling from JavaScript ie setUndoPoint()
@@ -139,14 +149,14 @@ public class UndoManagerD extends UndoManager {
 					AppState appStateToAdd = new AppStateDesktop(undoInfo);
 					iterator.add(appStateToAdd);
 					pruneStateList();
-					app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO, null));
-					
+					app.getEventDispatcher().dispatchEvent(
+							new Event(EventType.STOREUNDO, null));
+
 				} catch (Exception e) {
 					App.debug("storeUndoInfo: " + e.toString());
 					e.printStackTrace();
 				} catch (java.lang.OutOfMemoryError err) {
-					App.debug("UndoManager.storeUndoInfo: "
-							+ err.toString());
+					App.debug("UndoManager.storeUndoInfo: " + err.toString());
 					err.printStackTrace();
 				}
 
@@ -159,9 +169,12 @@ public class UndoManagerD extends UndoManager {
 
 	/**
 	 * Creates a temporary file containing the zipped undoXML.
-	 * @param undoXML XML string
+	 * 
+	 * @param undoXML
+	 *            XML string
 	 * @return temporary file
-	 * @throws IOException on file creation problem
+	 * @throws IOException
+	 *             on file creation problem
 	 */
 	synchronized static File createTempFile(StringBuilder undoXML)
 			throws IOException {
@@ -192,9 +205,10 @@ public class UndoManagerD extends UndoManager {
 			app.setActiveView(App.VIEW_EUCLIDIAN);
 
 			// load undo info
-			((AppD)app).getScriptManager().disableListeners();
-			((geogebra.io.MyXMLioD)construction.getXMLio()).readZipFromMemory(is);
-			((AppD)app).getScriptManager().enableListeners();
+			((AppD) app).getScriptManager().disableListeners();
+			((geogebra.io.MyXMLioD) construction.getXMLio())
+					.readZipFromMemory(is);
+			((AppD) app).getScriptManager().enableListeners();
 
 			is.close();
 		} catch (Exception e) {
@@ -207,18 +221,15 @@ public class UndoManagerD extends UndoManager {
 
 	}
 
-
-
 	/**
 	 * Processes xml string. Note: this will change the construction.
 	 */
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
-		((geogebra.io.MyXMLioD)construction.getXMLio()).processXMLString(strXML, true, false, true);
+		((geogebra.io.MyXMLioD) construction.getXMLio()).processXMLString(
+				strXML, true, false, true);
 		construction.setFileLoading(false);
 	}
-	
-	
 
 }
