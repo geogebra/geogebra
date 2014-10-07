@@ -29,8 +29,6 @@ public class InputDialogRotatePoint extends InputDialogRotate {
 				selGeos, ec);
 		if (defaultRotateAngle1 != null) {
 			defaultRotateAngle = defaultRotateAngle1;
-		} else {
-			app.showError(app.getLocalization().getError("NumberExpected"));
 		}
 
 		return defaultRotateAngle1 != null;

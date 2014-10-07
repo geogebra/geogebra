@@ -272,6 +272,8 @@ public abstract class DialogManager {
 				ec.memorizeJustCreatedGeos(ret);
 			}
 			
+		} else {
+			app.showError(app.getLocalization().getError("NumberExpected"));
 		}
 		return success ? defaultRotateAngle : null;
 	}
