@@ -42,7 +42,10 @@ if (!window.console.log) window.console.log = function () { };
             function e(id){
         		return document.getElementById(id);
         	}
-            
+            function showStartScreen(lang, user){
+            	showInEnglish();
+            	return true;
+            }
             function showInEnglish(){
     			if(!window.__GGB__keysVar){
 
