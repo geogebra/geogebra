@@ -4,6 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 						final UploadResults results = new UploadResults(response.getText());
 
 						if(results.HasError()) {
-							statusLabelSetText(app.getPlain("UploadError"));
+							statusLabelSetText(app.getLocalization().getPlain("UploadError",results.getStatus()));
 							setEnabled(false);
 
 							App.debug("Upload failed. Response: " + response.getText());
@@ -208,7 +209,7 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 
 	@Override
     protected void statusLabelSetText(String plain) {
-		App.debug("Unimplemented: "+plain);
+		ToolTipManagerW.sharedInstance().showBottomMessage(plain, true);
 	}
 
 	@Override
