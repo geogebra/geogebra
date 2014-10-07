@@ -2262,7 +2262,7 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigcos(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigcos,contextptr);
-    gen g=_tan2sincos(args,contextptr);
+    gen g=ratnormal(_tan2sincos(args,contextptr));
     return normal(trigcos(g,contextptr),contextptr);
   }
   static const char _trigcos_s []="trigcos";
@@ -2279,7 +2279,7 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigsin(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigsin,contextptr);
-    gen g=_tan2sincos(args,contextptr);
+    gen g=ratnormal(_tan2sincos(args,contextptr));
     return normal(trigsin(g,contextptr),contextptr);
   }
   static const char _trigsin_s []="trigsin";
@@ -2297,7 +2297,7 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigtan(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigtan,contextptr);
-    gen g=_sin2costan(args,contextptr);
+    gen g=ratnormal(_sin2costan(args,contextptr));
     return normal(trigtan(g,contextptr),contextptr);
   }
   static const char _trigtan_s []="trigtan";

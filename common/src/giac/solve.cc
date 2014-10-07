@@ -1544,8 +1544,8 @@ namespace giac {
   static vecteur solve_cleaned(const gen & e,const gen & e_check,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     gen expr(e),a,b;
     if (is_linear_wrt(e,x,a,b,contextptr)){
-      if (is_zero(a,contextptr)){
-	if (is_zero(b,contextptr))
+      if (is_exactly_zero(a)){
+	if (is_exactly_zero(b))
 	  return vecteur(1,x);
 	return vecteur(0);
       }
@@ -1749,7 +1749,7 @@ namespace giac {
 	  listvars.erase(listvars.begin()+j-1);
       }
       if (listvars.size()!=1)
-	return vecteur(1,gensizeerr(gettext("unable to isolate ")+gen(listvars).print(contextptr)));
+	return vecteur(1,gensizeerr(gettext("Unable to isolate ")+gen(listvars).print(contextptr)+gettext(" solving equation ")+expr.print(contextptr)));
       for (int i=0;i<s;++i){
 	gen lsvar=ls[3*i+2];
 	gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);

@@ -2861,6 +2861,15 @@ namespace giac {
     if (args.type!=_VECT)
       return series(args,vx_var,0,5,0,contextptr);
     vecteur v=*args._VECTptr;
+    if (v.empty())
+      return gensizeerr(contextptr);
+    if (v.back().type==_INT_ && v.back().subtype==_INT_MAPLECONVERSION && v.back().val==_POLY1__VECT){
+      gen p=v.back();
+      v.pop_back();
+      gen res=_series(gen(v,_SEQ__VECT),contextptr);
+      res=_convert(makesequence(res,p),contextptr);
+      return res;
+    }
     v[0]=Heavisidetosign(when2sign(piecewise2when(v[0],contextptr),contextptr),contextptr);
     int s=v.size();
     if (!s)

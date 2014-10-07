@@ -2502,7 +2502,7 @@ namespace giac {
 	return gensizeerr(contextptr);
     }
     int rprec(digits*3.3);
-    return proot(w,eps,rprec);
+    return _sorta(proot(w,eps,rprec),contextptr);
   }
   gen symb_proot(const gen & e) {
     return symbolic(at_proot,e);

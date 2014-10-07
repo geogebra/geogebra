@@ -953,7 +953,7 @@ namespace giac {
 	return true;
       }
       if (b==plus_inf){
-	vecteur singu=find_singularities(g,*x._IDNTptr,1,contextptr);
+	vecteur singu=find_singularities(g,*x._IDNTptr,0 /* real singularities*/,contextptr);
 	if (!singu.empty()){
 	  *logptr(contextptr) << "Warning, singularities at " << singu << endl;
 	  if (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38){

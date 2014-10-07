@@ -865,7 +865,23 @@ namespace giac {
 	  else
 	    pr=parameters.back()+pr;
 #endif
-	  sol=mergevecteur(sol,solve(pr-integrate_without_lnabs(xfact,x,contextptr),*y._IDNTptr,3,contextptr));
+	  gen implicitsol=pr-integrate_without_lnabs(xfact,x,contextptr);
+#ifdef NO_STDEXCEPT	  
+	  vecteur newsol=solve(implicitsol,*y._IDNTptr,3,contextptr);
+	  if (is_undef(newsol)){
+	    newsol.clear();
+	    *logptr(contextptr) << "Unable to solve implicit equation "<< implicitsol << "=0 in " << y << endl;
+	  }
+#else
+	  vecteur newsol;
+	  try {
+	    newsol=solve(implicitsol,*y._IDNTptr,3,contextptr);
+	  } catch(std::runtime_error & err){
+	    newsol.clear();
+	    *logptr(contextptr) << "Unable to solve implicit equation "<< implicitsol << "=0 in " << y << endl;
+	  }
+#endif
+	  sol=mergevecteur(sol,newsol);
 	  continue;
 	}
 	if (is_zero(derive(*it,x,contextptr))){ // x incomplete

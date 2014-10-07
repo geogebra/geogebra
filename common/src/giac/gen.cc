@@ -7561,6 +7561,8 @@ namespace giac {
 	approx=re(approx,contextptr);
       if (approx.type==_DOUBLE_ )
 	return (approx._DOUBLE_val>0);
+      if (approx.type==_REAL)
+	return is_strictly_positive(approx,contextptr);
       if (approx.type==_FLOAT_ )
 	return (approx._FLOAT_val>0);
     }

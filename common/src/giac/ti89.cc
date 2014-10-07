@@ -658,7 +658,14 @@ namespace giac {
        return _series(g); */
     vecteur v(gen2vecteur(g));
     if (v.empty())
-      return gentoofewargs("Taylor needs 3 args");    
+      return gentoofewargs("Taylor needs 3 args");
+    if (v.back().type==_INT_ && v.back().subtype==_INT_MAPLECONVERSION && v.back().val==_POLY1__VECT){
+      gen p=v.back();
+      v.pop_back();
+      gen res=_taylor(gen(v,_SEQ__VECT),contextptr);
+      res=_convert(makesequence(res,p),contextptr);
+      return res;
+    }
     if (v.size()<2)
       v.push_back(vx_var);
     if (v.size()<3)
@@ -1166,8 +1173,8 @@ namespace giac {
       nbre=giacmin(nbre,itend-it);
       if (shift){
 	if (right)
-	  return gen(mergevecteur(vecteur(it+nbre,itend),vecteur(nbre,undef)),a.subtype);
-	return gen(mergevecteur(vecteur(nbre,undef),vecteur(it,itend-nbre)),a.subtype);
+	  return gen(mergevecteur(vecteur(it+nbre,itend),vecteur(nbre,0)),a.subtype);
+	return gen(mergevecteur(vecteur(nbre,0),vecteur(it,itend-nbre)),a.subtype);
       }
       if (right)
 	return gen(mergevecteur(vecteur(itend-nbre,itend),vecteur(it,itend-nbre)),a.subtype);
@@ -1466,6 +1473,7 @@ namespace giac {
     return g.val==1;
   }
   static gen sortad(const vecteur & v,bool ascend,GIAC_CONTEXT){
+    if (v.empty()) return v;
     vecteur valeur=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
     bool ismat=ckmatrix(valeur);
     if (!ismat)

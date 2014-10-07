@@ -2024,7 +2024,8 @@ namespace giac {
     }
     subst1=mergevecteur(l1surd,l1NTHROOT);
     subst2=mergevecteur(l2surd,l2NTHROOT);
-    *logptr(contextptr) << gettext("Temporary replacing surd/NTHROOT by fractional powers") << endl;
+    if (!subst1.empty())
+      *logptr(contextptr) << gettext("Temporary replacing surd/NTHROOT by fractional powers") << endl;
   }
 
   bool is_elementary(const vecteur & v,const gen & x){
@@ -3992,6 +3993,8 @@ namespace giac {
       }
     }
     else {
+      if (!is_greater(fin,debut,contextptr))
+	return gensizeerr((gettext("Unable to sort boundaries ")+debut.print(contextptr))+(","+fin.print(contextptr)));
       if (is_positive(-step,contextptr))
 	step=-step;
       for (;!ctrl_c && !interrupted && is_greater(fin,debut,contextptr);debut=debut+step){
