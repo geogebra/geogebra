@@ -45,7 +45,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 				movedGeoPoint3D.doPath();
 				
 				Coords coords = movedGeoPoint3D.getInhomCoordsInD(3);
-				if (checkPointCapturingXYZ(coords)){
+				if (checkPointCapturingXYThenZ(coords)){
 					movedGeoPoint3D.setWillingCoords(null);
 					movedGeoPoint3D.setWillingDirection(null);
 					movedGeoPoint3D.setCoords(coords, true);
@@ -58,7 +58,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 				if (movedGeoPoint3D.getRegion() == ec.getKernel().getXOYPlane()) {
 					Coords coords = movedGeoPoint3D.getCoords();
 					((EuclidianController3D) ec).checkXYMinMax(coords);
-					checkPointCapturingXYZ(coords);
+					checkPointCapturingXYThenZ(coords);
 					movedGeoPoint3D.setWillingCoords(coords);
 					movedGeoPoint3D.setWillingDirection(null);
 					movedGeoPoint3D.doRegion();
@@ -111,7 +111,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 					case EuclidianStyleConstants.POINT_CAPTURING_ON:
 					case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
 						double z0 = tmpCoords1.getZ();
-						double gz = ec.view.getGridDistances(0);
+						double gz = ec.view.getGridDistances(2);
 						double z = Kernel.roundToScale(z0, gz);
 						if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 								|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
@@ -257,6 +257,54 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 					){
 				coords.setX(x);
 				coords.setY(y);
+				coords.setZ(z);
+				return true;
+			}
+			return false;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * capture coords regarding capture mode
+	 * @param coords (x,y) coords
+	 * @return true if coords have been changed
+	 */
+	public boolean checkPointCapturingXYThenZ(Coords coords){
+		// capturing points
+		switch (ec.view.getPointCapturingMode()) {
+		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+			//TODO
+		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+			if (!ec.view.isGridOrAxesShown()) {
+				return false;
+			}
+		case EuclidianStyleConstants.POINT_CAPTURING_ON:
+		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+			double x0 = coords.getX();
+			double y0 = coords.getY();
+			double z0 = coords.getZ();
+			double gx = ec.view.getGridDistances(0);
+			double gy = ec.view.getGridDistances(1);
+			double gz = ec.view.getGridDistances(2);
+			double x = Kernel.roundToScale(x0, gx);
+			double y = Kernel.roundToScale(y0, gy);
+			double z = Kernel.roundToScale(z0, gz);
+			//App.debug("\nx="+x+"\ny="+y+"\nz=\n"+z);
+			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+					|| 
+					(Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
+							&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID)
+							
+					){
+				coords.setX(x);
+				coords.setY(y);
+				if (Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
+					coords.setZ(z);
+				}
+				return true;
+			}else if (Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
 				coords.setZ(z);
 				return true;
 			}

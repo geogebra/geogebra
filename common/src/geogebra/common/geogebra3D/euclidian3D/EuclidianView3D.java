@@ -3800,6 +3800,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return axesNumberingDistances[i];
 	}
 	
+	
+	@Override
+	public double getGridDistances(int i) {
+		
+		if (i == AXIS_Z){ // no grid along z axis
+			return getAxisNumberingDistance(AXIS_Z);
+		}
+		
+		return super.getGridDistances(i);
+	}
+	
 	public NumberFormatAdapter getAxisNumberFormat(int i) {
 		return axesNumberFormat[i];
 	}
