@@ -349,8 +349,10 @@ public class Ggb2giac {
 		
 		p("Laplace.1", "laplace(%0, lname(%0)[0])");
 		p("Laplace.2", "laplace(%0, %1)");
+		p("Laplace.3", "laplace(%0, %1, %2)");
 		p("InverseLaplace.1", "ilaplace(%0, lname(%0)[0])");
 		p("InverseLaplace.2", "ilaplace(%0, %1)");
+		p("InverseLaplace.3", "ilaplace(%0, %1, %2)");
 		
 		p("Last.1", "{when(type(%0)==DOM_LIST,(%0)[dim(%0)-1],(%0)[dim(%0)])}");
 		p("Last.2", "when(type(%0)==DOM_LIST,(%0)[size(%0)-%1..size(%0)-1],seq((%0)[j],j,dim(%0)-%1+1,dim(%0)))");
