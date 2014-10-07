@@ -64,8 +64,8 @@ public class AlgoNpR extends AlgoElement {
     		if (ncr==INFINITY) return INFINITY; // check to stop needless slow calculations
 
     		// NpRLog is not exact for some values
-    		// (determined by trial and error)
-    		if (n<=37) return ncr;
+    		// (determined by trial and error) eg 17P16
+    		if (n<=16) return ncr;
     		//if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
 	    
     		// NpRBig is more accurate but slower
@@ -87,6 +87,7 @@ public class AlgoNpR extends AlgoElement {
 	    Double rrr=new Double(n-r);
 	    nn=(new BigDecimal(nnn.toString())).toBigInteger();
 	    nr=(new BigDecimal(rrr.toString())).toBigInteger();
+	    nr=nr.add(BigInteger.ONE);
 	    
 	    while (nr.compareTo(nn)<=0) {
 	    	ncr=ncr.multiply(nr);
