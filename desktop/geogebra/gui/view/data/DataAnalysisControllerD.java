@@ -26,6 +26,7 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 	 */
 	public void updateAllPanels(boolean doRedefine) {
 		view.getDataDisplayPanel1().getModel().updatePlot(doRedefine);
+
 		if (!getModel().isMultiVar() && view.getDataDisplayPanel2() != null)
 			view.getDataDisplayPanel2().getModel().updatePlot(doRedefine);
 
