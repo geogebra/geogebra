@@ -347,10 +347,10 @@ public class Ggb2giac {
 		//p("Last.2",
 		//		"%0[size(%0)-%1..size(%0)-1]");
 		
-		p("Laplace.1", "laplace(%0, lname(%0)[0])");
+		p("Laplace.1", "when(lname(%0)[0]=ggbtmpvart, laplace(%0, ggbtmpvart, ggbtmpvars), laplace(%0, lname(%0)[0]))");
 		p("Laplace.2", "laplace(%0, %1)");
 		p("Laplace.3", "laplace(%0, %1, %2)");
-		p("InverseLaplace.1", "ilaplace(%0, lname(%0)[0])");
+		p("InverseLaplace.1", "when(lname(%0)[0]=ggbtmpvars, ilaplace(%0, ggbtmpvars, ggbtmpvart), ilaplace(%0, lname(%0)[0]))");
 		p("InverseLaplace.2", "ilaplace(%0, %1)");
 		p("InverseLaplace.3", "ilaplace(%0, %1, %2)");
 		
