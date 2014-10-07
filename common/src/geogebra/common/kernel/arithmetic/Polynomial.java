@@ -533,12 +533,13 @@ public class Polynomial implements Serializable
 			case POWER:
 				if(rt.degree() != 0){
 					equ.setIsPolynomial(false);
+					return rt;
 				}
 				return apply(operation, rt.getConstantCoefficient(), equ);
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Applies an operation
 	 * @param operation operation
@@ -564,7 +565,7 @@ public class Polynomial implements Serializable
 						equ.setIsPolynomial(false); 
 					}
 					equ.addVariableDegree(rt);
-				}else if(!Kernel.isInteger(power)){
+				}else if(!Kernel.isInteger(power) || Kernel.isGreater(0, power)){
 						equ.setIsPolynomial(false);
 				}
 				this.power((int)rt.evaluateDouble(), equ);
