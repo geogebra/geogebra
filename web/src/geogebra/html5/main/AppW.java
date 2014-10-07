@@ -106,10 +106,8 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -2320,32 +2318,24 @@ public abstract class AppW extends App implements SetLabels{
 		
 		
 		public void showStartScreen() {
-			Element startScreen = DOM.getElementById("ggbPage");
-			if(startScreen != null){
-				Element fr = this.getFrameElement();
-				if(fr.getParentElement() != null){
-					fr = fr.getParentElement();
-				}
-				if(fr.getParentElement() != null){
-					fr = fr.getParentElement();
-				}
-				fr.setId("appletContainer");
-				fr.getStyle().setVisibility(Visibility.HIDDEN);
-				updateLanguageAndUser(getLocalization().getLanguage(), this.getLoginOperation().getModel().loadLastUser());
-				startScreen.getStyle().setDisplay(Display.BLOCK);
+			if(showStartScreenNative(getLocalization().getLanguage(), this.getLoginOperation().getModel().loadLastUser())){
+					Element fr = this.getFrameElement();
+					if(fr.getParentElement() != null){
+						fr = fr.getParentElement();
+					}
+					if(fr.getParentElement() != null){
+						fr = fr.getParentElement();
+					}
+					fr.setId("appletContainer");
+					fr.getStyle().setVisibility(Visibility.HIDDEN);	
 			}
 		}
 
-		private native void updateLanguageAndUser(String language, String user) /*-{
-			try{
-				if($wnd.showInLang){
-		        	$wnd.showInLang(language);
-				}
-				if($wnd.displayUse){
-		        	$wnd.displayUser(user);
-				}
-			}catch(e){
+		private native boolean showStartScreenNative(String language, String user) /*-{
+			if($wnd.showStartScreen){
+		       	return $wnd.showStartScreen(language, user);
 			}
+			return false;
         }-*/;
 		
 
