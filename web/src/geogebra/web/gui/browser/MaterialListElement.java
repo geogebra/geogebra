@@ -687,6 +687,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	private String extractTitle(String key) {
-	    return key.substring(key.indexOf("#", key.indexOf("#")+1)+1);
+	    return key.substring(key.indexOf("_", key.indexOf("_")+1)+1);
     }
 }

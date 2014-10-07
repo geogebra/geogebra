@@ -332,13 +332,21 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 	}
 
 	private void setTitle() {
-		final String consTitle = app.getKernel().getConstruction().getTitle();
+		String consTitle = app.getKernel().getConstruction().getTitle();
+		
 		if (consTitle != null) {
+			if (consTitle.startsWith(FileManager.FILE_PREFIX)) {
+				consTitle = getTitleOnly(consTitle);
+			}
 			this.title.setText(consTitle);
 		} else {
 			this.title.setText("");
 		}
 	}
+	
+	private String getTitleOnly(String key) {
+	    return key.substring(key.indexOf("_", key.indexOf("_")+1)+1);
+    }
 	
 	public void setLabels() {
 		this.getCaption().setText(app.getMenu("Save"));

@@ -18,7 +18,7 @@ import java.util.List;
 public abstract class FileManager implements FileManagerI {
 	private AppW app;
 	private Provider provider;
-	protected static final String FILE_PREFIX = "file#";
+	public static final String FILE_PREFIX = "file_";
 
 	public FileManager(final AppW app) {
 	    this.app = app;
@@ -76,7 +76,8 @@ public abstract class FileManager implements FileManagerI {
      * adds the files from the current user to the {@link BrowseGUI}
      */
     public void getUsersMaterials() {
-    	getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
+    	getFiles(MaterialFilter.getUniversalFilter());
+//    	getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
     }
     
 	public void sync(final Material mat) {
@@ -129,12 +130,12 @@ public abstract class FileManager implements FileManagerI {
     }
 
 	/**
-	 * key is of form "file#ID#title"
+	 * key is of form "file_ID_title"
 	 * @param key
 	 * @return the title
 	 */
 	public String getTitleFromKey(String key) {
-		return key.substring(key.indexOf("#", key.indexOf("#")+1)+1);
+		return key.substring(key.indexOf("_", key.indexOf("_")+1)+1);
 	}
 	
 	public void setFileProvider(Provider google){
@@ -147,12 +148,12 @@ public abstract class FileManager implements FileManagerI {
 	
 	/**
 	 * returns the ID from the given key.
-	 * (key is of form "file#ID#fileName")
+	 * (key is of form "file_ID_fileName")
 	 * @param key String
 	 * @return int ID
 	 */
 	public int getIDFromKey(String key) {
-		return Integer.parseInt(key.substring(FILE_PREFIX.length(), key.indexOf("#", FILE_PREFIX.length())));
+		return Integer.parseInt(key.substring(FILE_PREFIX.length(), key.indexOf("_", FILE_PREFIX.length())));
 	}
 
 	/**
@@ -161,7 +162,7 @@ public abstract class FileManager implements FileManagerI {
 	 * @return creates a key (String) for the stockStore
 	 */
 	public String createKeyString(int matID, String title) {
-		return FILE_PREFIX + matID + "#" + title;
+		return FILE_PREFIX + matID + "_" + title;
 	}
 	
 	@Override
