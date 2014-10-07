@@ -264,6 +264,11 @@ public class UDPLoggerD implements UDPLogger {
 
 			dsocket = new DatagramSocket(port);
 
+			// Don't block more than 3 sec...
+			// useful in case the datagram flow stops,
+			// or is not yet started at all
+			dsocket.setSoTimeout(3000);
+
 		} catch (SocketException e) {
 			e.printStackTrace();
 			return false;
