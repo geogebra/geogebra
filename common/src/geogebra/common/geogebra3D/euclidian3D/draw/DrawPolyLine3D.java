@@ -103,7 +103,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 		
-		brush.start(getGeometryIndex());
+		brush.start(getReusableGeometryIndex());
 		brush.setThickness(getLineThickness(),(float) getView3D().getScale());
 		//brush.setColor(getGeoElement().getObjectColor());
 		brush.setAffineTexture(

@@ -45,7 +45,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 		Renderer renderer = view.getRenderer();
 
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-		brush.start(getGeometryIndex());
+		brush.start(getReusableGeometryIndex());
 		brush.setThickness(getGeoElement().getLineThickness(),(float) view.getScale());		
 		brush.setAffineTexture(0f,0f);
 		brush.setLength(1f);

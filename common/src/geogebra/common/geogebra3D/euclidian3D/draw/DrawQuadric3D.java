@@ -159,7 +159,7 @@ implements Previewable {
 			checkSphereVisible(center, radius);
 			if(visible != Visible.TOTALLY_OUTSIDE){
 				surface = renderer.getGeometryManager().getSurface();
-				surface.start(getSurfaceIndex());
+				surface.start(getReusableSurfaceIndex());
 				scale = getView3D().getScale();
 				longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 				drawSphere(surface, center, radius);
@@ -171,7 +171,7 @@ implements Previewable {
 			
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getSurfaceIndex());
+			surface.start(getReusableSurfaceIndex());
 			if (quadric instanceof GeoQuadric3DPart){ // simple cone
 				double height = ((GeoQuadric3DPart) quadric).getBottomParameter() - ((GeoQuadric3DPart) quadric).getTopParameter();
 				surface.cone(quadric.getMidpoint3D(), 
@@ -223,7 +223,7 @@ implements Previewable {
 			radius = quadric.getHalfAxis(0);
 			
 			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getSurfaceIndex());
+			surface.start(getReusableSurfaceIndex());
 			
 			if (quadric instanceof GeoQuadric3DPart){ // simple cylinder
 				surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2*Math.PI, quadric.getMinParameter(1), quadric.getMaxParameter(1), false, false);
@@ -248,7 +248,7 @@ implements Previewable {
 			
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getSurfaceIndex());
+			surface.start(getReusableSurfaceIndex());
 			surface.drawSphere(quadric.getLineThickness(),quadric.getMidpoint3D(), quadric.getLineThickness()/getView3D().getScale()*DrawPoint3D.DRAW_POINT_FACTOR);
 			setSurfaceIndex(surface.end());
 			break;
@@ -330,7 +330,7 @@ implements Previewable {
 					if(visible != Visible.TOTALLY_OUTSIDE){
 						//App.debug(l+","+longitude);
 						longitude = l;
-						surface.start(getSurfaceIndex());
+						surface.start(getReusableSurfaceIndex());
 						drawSphere(surface, center, radius);
 						setSurfaceIndex(surface.end());
 						recordTrace();
@@ -346,7 +346,7 @@ implements Previewable {
 				double radius = quadric.getHalfAxis(0);
 				checkSphereVisible(center, radius);
 				if(visible != Visible.TOTALLY_OUTSIDE){
-					surface.start(getSurfaceIndex());
+					surface.start(getReusableSurfaceIndex());
 					drawSphere(surface, center, radius);
 					setSurfaceIndex(surface.end());
 					recordTrace();

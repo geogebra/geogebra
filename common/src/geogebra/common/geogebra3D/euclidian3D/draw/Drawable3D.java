@@ -304,7 +304,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return true if the geo is traced
 	 */
-	private boolean hasTrace(){
+	protected boolean hasTrace(){
 		
 		if (createdByDrawList())
 			return ((Drawable3D) getDrawListCreator()).hasTrace();
@@ -443,19 +443,43 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	
-	protected int getGeometryIndex(){
+	final protected int getGeometryIndex(){
 		return geomIndex;
 	}
 	
-	protected void setSurfaceIndex(int index){
+	/**
+	 * 
+	 * @return current surface index if reusable (if no trace)
+	 */
+	final protected int getReusableGeometryIndex(){
+		if (hasTrace()){
+			return -1;
+		}
+		
+		return getGeometryIndex();
+	}
+	
+	final protected void setSurfaceIndex(int index){
 		removeGeometryIndex(surfaceIndex);
 		surfaceIndex = index;
 	}
 	
 	
-	protected int getSurfaceIndex(){
+	final protected int getSurfaceIndex(){
 		return surfaceIndex;
 	}	
+	
+	/**
+	 * 
+	 * @return current surface index if reusable (if no trace)
+	 */
+	final protected int getReusableSurfaceIndex(){
+		if (hasTrace()){
+			return -1;
+		}
+		
+		return getSurfaceIndex();
+	}
 
 	
 	

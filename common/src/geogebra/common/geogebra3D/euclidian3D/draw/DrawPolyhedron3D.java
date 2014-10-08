@@ -145,7 +145,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		
 		
 		// surface
-		int index = renderer.startPolygons(getSurfaceIndex());
+		int index = renderer.startPolygons(getReusableSurfaceIndex());
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygonsLinked()){
 			drawPolygon(renderer, p);
 		}
@@ -169,7 +169,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 		
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-		brush.start(getGeometryIndex());
+		brush.start(getReusableGeometryIndex());
 		brush.setThickness(poly.getLineThickness(),(float) getView3D().getScale());
 		
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygonsLinked()){

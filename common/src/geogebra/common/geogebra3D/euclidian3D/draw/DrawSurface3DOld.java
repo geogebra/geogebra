@@ -175,14 +175,14 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 		
 		if (geo instanceof Functional2Var) {
 			Functional2Var fun = (Functional2Var) geo;
-			surface.start(fun, getSurfaceIndex());
+			surface.start(fun, getReusableSurfaceIndex());
 			uMin = (float) fun.getMinParameter(0);
 			uMax = (float) fun.getMaxParameter(0);
 			vMin = (float) fun.getMinParameter(1);
 			vMax = (float) fun.getMaxParameter(1);
 		} else {
 			GeoFunctionNVar fun = (GeoFunctionNVar) geo;
-			surface.start(fun, getSurfaceIndex());
+			surface.start(fun, getReusableSurfaceIndex());
 			if (unboundedDomain){
 				uMin = -1; uMax = 1; vMin = -1; vMax = 1;
 			}else{
