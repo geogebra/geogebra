@@ -6554,7 +6554,7 @@ public abstract class EuclidianController {
 			Hits hits = view.getHits().getTopHits();
 			switchModeForRemovePolygons(hits);
 			if (!hits.isEmpty()) {
-				view.setMode(EuclidianConstants.MODE_MOVE);
+				app.setMode(EuclidianConstants.MODE_MOVE);
 				GeoElement geo0 = hits.get(0);
 
 				//if (app.isUsingFullGui() && app.getGuiManager() != null) {
