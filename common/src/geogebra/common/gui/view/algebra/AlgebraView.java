@@ -56,6 +56,8 @@ public interface AlgebraView extends View, SetLabels{
 	 */
 	public void setTreeMode(int mode);
 
+	public int getTreeModeValue();
+
 	public void setFocus(boolean b);
 
 	public GeoElement getLastSelectedGeo();

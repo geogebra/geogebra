@@ -99,7 +99,10 @@ public interface StyleBarResources extends ClientBundle {
 	//ALGEBRA STYLEBAR
 	@Source("icons/png/web/stylingbar/stylingbar_algebraview_auxiliary_objects.png")
 	ImageResource auxiliary();
-	
+
+	@Source("icons/png/web/stylingbar/stylingbar_algebraview_sort_objects_by.png")
+	ImageResource sortObjects();
+
 	// SPREADSHEET
 	@Source("icons/png/web/stylingbar/stylingbar_spreadsheet_align_center.png")
 	ImageResource stylingbar_spreadsheet_align_center();

@@ -149,6 +149,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 			    }
 			}
 		};
+		myPopup.setAutoHideEnabled(true);
+
 		//myPopup.setFocusable(false);
 		//myPopup.setBackground(Color.WHITE);
 		//myPopup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.GRAY),
