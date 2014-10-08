@@ -2146,6 +2146,14 @@ namespace giac {
 	  return first_try;
       }
     }
+    if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
+      // FIXME: adjust using limit/direction information
+      vecteur subst1,subst2;
+      surd2pow(e,subst1,subst2,contextptr);
+      gen g=subst(e,subst1,subst2,false,contextptr);
+      g=limit(g,x,lim_point,direction,contextptr);
+      return subst(g,subst2,subst1,false,contextptr);
+    }
     e=limit_symbolic_preprocess(e,x,lim_point,direction,contextptr);
     if (is_undef(e)) return e;
     gen errcode=checkanglemode(contextptr);
@@ -2583,13 +2591,6 @@ namespace giac {
 
   // Main limit entry point
   gen limit(const gen & e,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
-    if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
-      vecteur subst1,subst2;
-      surd2pow(e,subst1,subst2,contextptr);
-      gen g=subst(e,subst1,subst2,false,contextptr);
-      g=limit(g,x,lim_point,direction,contextptr);
-      return subst(g,subst2,subst1,false,contextptr);
-    }
     // Insert here code for cleaning limit remember
     // int save_inside_limit=inside_limit(contextptr);
     // inside_limit(1,contextptr);

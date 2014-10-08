@@ -5729,7 +5729,21 @@ namespace giac {
       unary_function_ptr & u =base._SYMBptr->sommet;
       if (u==at_unit){
 	vecteur & v=*base._SYMBptr->feuille._VECTptr;
-	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(pow(v[0],exponent,contextptr),pow(v[1],exponent,contextptr))));
+	gen v1=v[1];
+	vecteur w;
+	if (v1.is_symb_of_sommet(at_prod))
+	  w=gen2vecteur(v1._SYMBptr->feuille);
+	else
+	  w.push_back(v1);
+	for (unsigned i=0;i<w.size();++i){
+	  gen & v1=w[i];
+	  if (v1.is_symb_of_sommet(at_pow))
+	    v1=pow(v1._SYMBptr->feuille[0],v1._SYMBptr->feuille[1]*exponent,contextptr);
+	  else
+	    v1=pow(v1,exponent,contextptr);
+	}
+	if (w.size()==1) v1=w.front(); else v1=symbolic(at_prod,gen(w,_SEQ__VECT));
+	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(pow(v[0],exponent,contextptr),v1)));
       }
       if (u==at_abs && exponent.type==_INT_ && !complex_mode(contextptr) && !has_i(base)){ 
 	int n=exponent.val,m;

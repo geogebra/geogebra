@@ -96,7 +96,9 @@ namespace giac {
 
   struct giac_pari_init {
     giac_pari_init(long maxprime) { 
-      do_giac_pari_init(maxprime);
+      if(!avma){ 
+	do_giac_pari_init(maxprime); 
+      }
     }
   };
   static long pari_maxprime=100000;

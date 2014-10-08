@@ -2588,7 +2588,10 @@ namespace giac {
     return gensizeerr(gettext("Taylor abs with unsigned limit"));
   }
   static const char _abs_s []="abs";
-  define_partial_derivative_onearg_genop( D_at_abs,"D_at_abs",giac::sign);
+  static gen d_abs(const gen & g,GIAC_CONTEXT){
+    return symbolic(at_abs,g)/g;
+  }
+  define_partial_derivative_onearg_genop( D_at_abs,"D_at_abs",d_abs);
 #ifdef GIAC_HAS_STO_38
   static define_unary_function_eval_taylor_index(20, __abs,&_abs,(unsigned long)&D_at_absunary_function_ptr,&taylor_abs,_abs_s);
 #else
@@ -3781,7 +3784,7 @@ namespace giac {
   }
   
   inline bool idnt_symb_int(const gen & b){
-    return (b.type==_INT_ && b.val!=0) || b.type==_ZINT || (b.type==_SYMB && !is_inf(b) && b._SYMBptr->sommet!=at_unit && b._SYMBptr->sommet!=at_equal && b._SYMBptr->sommet!=at_equal2 && !equalposcomp(plot_sommets,b._SYMBptr->sommet) ) || (b.type==_IDNT && strcmp(b._IDNTptr->id_name,"undef") && strcmp(b._IDNTptr->id_name,"infinity"));
+    return (b.type==_INT_ && b.val!=0) || b.type==_ZINT || (b.type==_SYMB && !is_inf(b) && b._SYMBptr->sommet!=at_unit && b._SYMBptr->sommet!=at_equal && b._SYMBptr->sommet!=at_equal2 && !equalposcomp(plot_sommets,b._SYMBptr->sommet) && !equalposcomp(inequality_tab,b._SYMBptr->sommet) ) || (b.type==_IDNT && strcmp(b._IDNTptr->id_name,"undef") && strcmp(b._IDNTptr->id_name,"infinity"));
   }
 
   gen _plus(const gen & args,GIAC_CONTEXT){
