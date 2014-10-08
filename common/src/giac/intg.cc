@@ -338,6 +338,13 @@ namespace giac {
       gen a0=a._SYMBptr->feuille[0],a1=a._SYMBptr->feuille[1];
       return symbolic(at_equal,makesequence(_surd(makesequence(a0,b),contextptr),_surd(makesequence(a1,b),contextptr)));
     }
+    if (is_undef(a)) return a;
+    if (is_undef(b)) return b;
+    if (is_inf(b)){
+      if (is_inf(a) || is_zero(a))
+	return undef;
+      return 1;
+    }
     if (is_zero(b))
       return undef;
     c=_floor(b,contextptr);
