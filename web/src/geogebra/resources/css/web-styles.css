@@ -361,6 +361,9 @@ iframe.objectPropertiesTextEditor:focus {
 .gwt-Label {
 	
 }
+body.application[dir=rtl] .gwt-Label {
+	text-align: right;
+}
 
 .gwt-Label-highlighted {
 	color: #6161FF;
@@ -1679,6 +1682,10 @@ Paddings for menuitems.
 	left: auto !important;
 	bottom: auto !important;
 }
+body.application[dir=rtl] .TitleBarPanel {
+	left: 0px !important;
+	right: auto !important;
+}
 
 .TitleBarPanel-open {
 	left: 0px !important;
@@ -1692,6 +1699,12 @@ Paddings for menuitems.
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	padding-right: 40px;
 }
+body.application[dir=rtl] .TitleBarPanelContent {
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 5px;
+	padding-right: 5px;
+	padding-left: 40px;
+}
 
 .DragPanel {
 	height: 32px;
@@ -1700,6 +1713,10 @@ Paddings for menuitems.
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 }
+body.application[dir=rtl] .DragPanel {
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 5px;
+}
 
 .TitleBarPanel .toggleStyleBar {
 	border: none;
@@ -1707,11 +1724,12 @@ Paddings for menuitems.
 	right: 0px;
 	background-color: white;
 	padding-right: 5px;
-}
-
-.TitleBarPanel .toggleStyleBarViewIcon {
 	padding-top: 4px;
 	padding-left: 5px;
+}
+body.application[dir=rtl] .TitleBarPanel .toggleStyleBar {
+	right: auto;
+	left: 0px;
 }
 
 .TitleBarPanel .dragPanel {
@@ -1730,6 +1748,10 @@ Paddings for menuitems.
 	/*display: inline-block;*/
 	padding-left: 31px;
 }
+body.application[dir=rtl] .StyleBarPanel {
+	padding-left: 0px;
+	padding-right: 31px;
+}
 
 .StyleBarPanel_ { /*margin: auto 0;
 	margin-top: 0px;
@@ -1738,6 +1760,11 @@ Paddings for menuitems.
 	/*display: inline-block;*/
 	float: left;
 	margin-left: -4px;
+}
+body.application[dir=rtl] .StyleBarPanel {
+	float: right;
+	margin-left: 0px;
+	margin-right: -4px;
 }
 
 .StyleBar {
@@ -1756,7 +1783,8 @@ Paddings for menuitems.
 	height: 15px;
 }
 
-.DockGlassPane,.TitleBarPanel {
+.DockGlassPane,
+.TitleBarPanel {
 	cursor: pointer;
 	cursor: hand;
 	-moz-user-focus: ignore;
@@ -1771,17 +1799,17 @@ Paddings for menuitems.
 	user-select: none;
 }
 
-/*.StyleBarToggleButton {
-	margin:0;
-	padding: 0;
-}*/
 .VerticalSeparator {
 	margin: 0px 2px 0px 5px;
 	width: 1px;
 	background-color: #DCDCDC;
 }
+body.application[dir=rtl] .VerticalSeparator {
+	margin: 0px 5px 0px 2px;
+}
 
-.MyToggleButton,.MyCanvasButton {
+.MyToggleButton,
+.MyCanvasButton {
 	text-align: center;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -1795,6 +1823,11 @@ Paddings for menuitems.
 	margin-left: 4px;
 	cursor: pointer;
 }
+body.application[dir=rtl] .MyToggleButton,
+body.application[dir=rtl] .MyCanvasButton {
+	margin-left: 0px;
+	margin-right: 4px;
+}
 
 .MyCanvasButton-borderless {
 	border: none;
@@ -1804,8 +1837,12 @@ Paddings for menuitems.
 .MyCanvasButton-rightaligned {
 	float: right;
 }
+body.application[dir=rtl] .MyCanvasButton-rightaligned {
+	float: left;
+}
 
-.MyToggleButton.selected,.MyCanvasButton.selected {
+.MyToggleButton.selected,
+.MyCanvasButton.selected {
 	border-color: #6666FF;
 }
 
@@ -1816,8 +1853,9 @@ Paddings for menuitems.
 	height: 24px;
 }
 
-.MyCanvasButton.btnTextColor .buttonContent,.btnBold .html-face,.btnItalic .html-face
-	{
+.MyCanvasButton.btnTextColor .buttonContent,
+.btnBold .html-face,
+.btnItalic .html-face {
 	line-height: 22px;
 	font-size: 22px;
 }
@@ -1872,6 +1910,12 @@ Paddings for menuitems.
 	padding-left: 28px;
 	border: none;
 	text-align: left;
+}
+body.application[dir=rtl] .gwt-Label.textIconButton {
+	padding-left: 0px;
+	padding-right: 28px;
+	text-align: right;
+	background-position: center right;
 }
 
 .gwt-Label.textIconButton:hover,.gwt-Label.textIconButton:active {
@@ -2215,13 +2259,15 @@ Paddings for menuitems.
 }
 
 .infoTooltip .infoText {
-	padding: 0px 50px;
+	padding: 5px 50px;
+	display: inline-block;
 	cursor: default;
 }
 
 .infoTooltip .manualLink {
 	border-left: 1px solid #FFFFFF;
 	padding: 10px 20px;
+	display: inline-block;
 	background-repeat: no-repeat;
 	background-position: center center;
 	padding-top: 100%;
@@ -2231,57 +2277,6 @@ Paddings for menuitems.
 /*#####################################################################################
 ###       TOOLBAR
 #####################################################################################*/
-/*.menubar2 {
-	outline: 0px;
-	background: lightsteelblue;
-	border-top: 1px solid steelblue;
-	border-bottom:1px solid steelblue;
-	border-left:none;
-	border-right:none;
-}
-
-.menubar2-ggbLogo {
-	font-variant: small-caps;
-	letter-spacing:1pt;
-	font-size: larger;
-	text-shadow: 1px 1px 1px black;
-}
-
-
-.undoPanel {
-	position:relative;
-	right:5px;
-	top: -55px;
-	float: right;
-	height: 0px;
-}
-
-body[dir=rtl] .undoPanel {
-	position:relative;
-	margin-left:25px;
-	top: -55px;
-	float: left;
-	height: 0px;
-}
-
-
-.undoPanel button.gwt-Button {
-	padding:2px;
-}
-
-.undoButton {
-	position: relative;
-	top: 10px;
-	right: 5px;
-	padding: 1px
-}
-
-.redoButton {
-	position: relative;
-	top: 10px;
-	right: 5px;
-	padding: 1px;
-}*/
 .toolbarPanel {
 	background-color: #F8F8F8;
 	border-bottom: 1px solid #DCDCDC;
@@ -2300,7 +2295,6 @@ body[dir=rtl] .undoPanel {
 .toolbar_mainItem {
 	margin-right: 50px;
 }
-
 body.application[dir=rtl] .toolbar_mainItem {
 	margin-right: 0px;
 	margin-left: 50px;
@@ -2316,6 +2310,10 @@ body.application[dir=rtl] .toolbar_mainItem {
 	float: left;
 	list-style-type: none;
 	cursor: pointer;
+}
+body.application[dir=rtl] .toolbar_item {
+	float: right;
+	margin: 0px 0px 0px 5px;
 }
 
 .toolbar_button {
@@ -2370,6 +2368,10 @@ body.application[dir=rtl] .toolbar_mainItem {
 	z-index: 300;
 	left: 4px;
 }
+body.application[dir=rtl] .toolbar_submenu .submenuArrow {
+	left: auto;
+	right: 4px;
+}
 
 .toolbar_submenu .submenuContent {
 	position: absolute;
@@ -2392,9 +2394,12 @@ body.application[dir=rtl] .toolbar_mainItem {
 	text-align: left;
 	cursor: pointer;
 }
+body.application[dir=rtl] .toolbar_submenu .submenuContent li {
+	text-align: right;
+}
 
-.toolbar_submenu .submenuContent li:hover,.toolbar_submenu .submenuContent li:focus
-	{
+.toolbar_submenu .submenuContent li:hover,
+.toolbar_submenu .submenuContent li:focus {
 	color: #6666FF;
 }
 
@@ -2405,9 +2410,15 @@ body.application[dir=rtl] .toolbar_mainItem {
 .toolbar_submenu .submenuContent img {
 	float: left;
 }
+body.application[dir=rtl] .toolbar_submenu .submenuContent img {
+	float: right;
+}
 
 .toolbar_submenu .submenuContent .gwt-Label {
 	padding: 7px 10px 0 40px;
+}
+body.application[dir=rtl] .toolbar_submenu .submenuContent .gwt-Label {
+	padding: 7px 40px 0 10px;
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
@@ -2442,10 +2453,16 @@ body.application[dir=rtl] .toolbar_mainItem {
 	float: left;
 	padding-top: 1px;
 }
+body.application[dir=rtl] .toolBPanel {
+	float: right;
+}
 
 .smartButtonPanel {
 	float: right;
 	margin: 5px 0px;
+}
+body.application[dir=rtl] .smartButtonPanel {
+	float: left;
 }
 
 .smartButtonPanel .button {
@@ -2456,9 +2473,17 @@ body.application[dir=rtl] .toolbar_mainItem {
 	height: 30px;
 	padding: 2px;
 }
+body.application[dir=rtl] .smartButtonPanel .button {
+	float: right;
+	margin: 0px 10px 0px 5px;
+}
 
 .button.redoButton {
 	margin-left: 0px;
+}
+body.application[dir=rtl] .button.redoButton {
+	margin-left: 5px;
+	margin-right: 0px;
 }
 
 .smartButtonPanel .selectedButton {
@@ -2504,7 +2529,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 	-khtml-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
-	padding: 10px 10px 10px 10px;
+	padding: 10px;
 }
 
 .dialogContent table {
@@ -2523,6 +2548,10 @@ body.application[dir=rtl] .toolbar_mainItem {
 
 .dialogContent .gwt-CheckBox {
 	margin-right: 10px;
+}
+body.application[dir=rtl] .dialogContent .gwt-CheckBox {
+	margin-right: 0px;
+	margin-left: 10px;
 }
 
 .Dialog-messagePanel {
@@ -2544,22 +2573,39 @@ body.application[dir=rtl] .toolbar_mainItem {
 .DialogRbPanel td {
 	padding-right: 20px;
 }
+body.application[dir=rtl] .DialogRbPanel td {
+	padding-right: 0px;
+	padding-left: 20px;
+}
 
 .DialogButtonPanel {
 	text-align: right;
 	padding-top: 10px;
 	min-width: 250px;
 }
+body.application[dir=rtl] .DialogButtonPanel {
+	text-align: left;
+}
 
 .DialogButtonPanel button {
 	margin-left: 5px;
 }
+body.application[dir=rtl] .DialogButtonPanel button {
+	margin-left: 0px;
+	margin-right: 5px;
+}
 
 /*-------- SLIDER DIALOG ------------------------*/
-.dialogContent .sliderIntervalPanel div,.dialogContent .sliderWidthPanel div
-	{
+.dialogContent .sliderIntervalPanel div,
+.dialogContent .sliderWidthPanel div {
 	margin-right: 10px;
 	display: inline-block;
+}
+body.application[dir=rtl] .dialogContent .sliderIntervalPanel div,
+body.application[dir=rtl] .dialogContent .sliderWidthPanel div {
+	margin-right: 0px;
+	margin-left: 10px;
+	float: right;
 }
 
 .dialogContent .sliderIntervalPanel .gwt-Label {
@@ -2620,6 +2666,8 @@ body.application[dir=rtl] .toolbar_mainItem {
 }
 
 /*========= End Dialogs ===========*/
+
+
 /*========= FileChooser ===========*/
 .GeoGebraFileChooser .titlePanel {
 	width: 100%;
@@ -2630,9 +2678,16 @@ body.application[dir=rtl] .toolbar_mainItem {
 	float: right;
 	min-width: 450px;
 }
+body.application[dir=rtl] .GeoGebraFileChooser .titlePanel input {
+	float: left;
+}
 
 .GeoGebraFileChooser .titlePanel .gwt-Label {
 	padding-right: 10px;
+}
+body.application[dir=rtl] .GeoGebraFileChooser .titlePanel .gwt-Label {
+	padding-right: 0px;
+	padding-left: 10px;
 }
 
 .GeoGebraFileChooser .descriptionPanel {
@@ -2837,7 +2892,15 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	background: #5a5d5e;
 }
 
-.signInDialog .Caption,.signInDialog .signInDialogContainer,.signInDialog .dialogMiddleLeft,.signInDialog .dialogMiddleRight,.signInDialog .dialogBottomCenter,.signInDialog .dialogTopLeft,.signInDialog .dialogTopRight,.signInDialog .dialogBottomLeft,.signInDialog .dialogBottomRight
+.signInDialog .Caption,
+.signInDialog .signInDialogContainer,
+.signInDialog .dialogMiddleLeft,
+.signInDialog .dialogMiddleRight,
+.signInDialog .dialogBottomCenter,
+.signInDialog .dialogTopLeft,
+.signInDialog .dialogTopRight,
+.signInDialog .dialogBottomLeft,
+.signInDialog .dialogBottomRight
 	{
 	background: #fff;
 }
@@ -2877,6 +2940,10 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	top: -5px;
 	border-radius: 50%;
 	font-weight: bold;
+}
+body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
+	right: auto;
+	left: -5px;
 }
 
 .ggtLoginPanel {
@@ -2927,6 +2994,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 }
 
 /*=========== Navigation Bar end =============*/
+
 /*#####################################################################################
 ###       CONSTRUCTION PROTOCOL
 #####################################################################################*/
@@ -3007,6 +3075,10 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	line-height: 120%;
 	word-wrap: normal;
 }
+body.application[dir=rtl] .inputHelp-cmdSyntax {
+	padding-left: 0px;
+	padding-right: 35px;
+}
 
 .inputHelp-CAScmdSyntax {
 	font-style: italic;
@@ -3058,6 +3130,9 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 .elemHeadingName {
 	padding: 10px 10px 10px 23px;
 }
+body.application[dir=rtl] .elemHeadingName {
+	padding: 10px 23px 10px 10px;
+}
 
 .Tablet .elemHeadingName,.Tablet .gwt-InlineHTML {
 	font-size: 115%;
@@ -3073,10 +3148,18 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 	top: 12px;
 	left: 0px;
 }
+body.application[dir=rtl] .algebraOpenButton {
+	left: auto;
+	right: 0;
+}
 
 .marble {
 	margin-right: 10px;
 }
+body.application[dir=rtl] .marble {
+	margin-right: 0px;
+	margin-left: 10px;
+} 
 
 label {
 	display: inline;
@@ -3091,6 +3174,9 @@ label {
 #View_2 {
 	height: 100%;
 	padding: 0px 12px 0px 9px;
+}
+body.application[dir=rtl] #View_2 {
+	padding: 0px 9px 0px 12px;
 }
 
 .algebraPanel>div {
@@ -3150,6 +3236,11 @@ label {
 	display: inline-block;
 	padding-left: 20px;
 }
+body.application[dir=rtl] .imageCorner {
+	align: right;
+	padding-left: 0px;
+	padding-right: 20px;
+}
 
 /*============ AutocompleteTextFieldW =======*/
 .AutoCompleteTextFieldW {
@@ -3173,6 +3264,10 @@ label {
 .AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
 	padding-right: 40px;
 }
+body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
+	padding-right: 0px;
+	padding-left: 40px;
+}
 
 .SymbolToggleButton {
 	width: 20px;
@@ -3187,33 +3282,43 @@ label {
 	top: 50%;
 	margin-top: -0.66em;
 }
+body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
+	right: auto;
+	left: 10px;
+}
 
-.AutoCompleteTextFieldW .SymbolToggleButton.shown,.AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused
-	{
+.AutoCompleteTextFieldW .SymbolToggleButton.shown,
+.AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
 	display: inline-block;
 }
 
 /*=========== Checkbox menuitem =============*/
 /* Stefi do you magic here :-) */
-.gwt-MenuBar-horizontal .GChecBoxMenuItem,.gwt-MenuBar-vertical .GChecBoxMenuItem
-	{
+.gwt-MenuBar-horizontal .GChecBoxMenuItem,
+.gwt-MenuBar-vertical .GChecBoxMenuItem {
 	margin: 0;
 	padding: 0;
 	vertical-align: top;
 	overflow: hidden;
 }
 
-.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected,.gwt-MenuBar-vertical .GChecBoxMenuItem.selected
-	{
+.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected,
+.gwt-MenuBar-vertical .GChecBoxMenuItem.selected {
 	background: #CCCCFF;
 }
 
 .GChecBoxMenuItem .gwt-CheckBox {
 	float: left;
 }
+body.application[dir=rtl] .GChecBoxMenuItem .gwt-CheckBox {
+	float: right;
+}
 
 .GChecBoxMenuItem .gwt-HTML {
 	float: right;
+}
+body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
+	float: left;
 }
 
 /*#################################################################
