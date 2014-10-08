@@ -229,9 +229,15 @@ public class Polynomial implements Serializable
 			append(new Term(new MyDouble(kernel, 1), ""));
 			return;
 		}
-
+		//correctness is handled elsewhere
+		if(p < 2 || p == Integer.MAX_VALUE){
+			return;
+		}
+		
 		Polynomial exp = new Polynomial(kernel, this);
-		for (int i = 0; i < p - 1; i++) {
+		multiply(exp, eq);
+		power(p/2, eq);
+		if(p % 2 == 1){
 			multiply(exp, eq);
 		}
 	}
@@ -568,7 +574,7 @@ public class Polynomial implements Serializable
 				}else if(!Kernel.isInteger(power) || Kernel.isGreater(0, power)){
 						equ.setIsPolynomial(false);
 				}
-				this.power((int)rt.evaluateDouble(), equ);
+				this.power((int)power, equ);
 				break;
 			case DIVIDE:
 				this.divide(rt);
