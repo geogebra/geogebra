@@ -2132,7 +2132,7 @@ __GGB__keysVar.gl.plain = {
     "Alt": "Alt",
     "AltGr": "AltG",
     "Altitude": "Altura",
-    "AlwaysTrue": "(siempre certo)",
+    "AlwaysTrue": "(sempre certo)",
     "Anaglyph": "Anaglifo",
     "Angle": "\xc1ngulo",
     "AngleBetween": "\xc1ngulo entre:",
