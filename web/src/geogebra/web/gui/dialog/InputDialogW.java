@@ -5,7 +5,6 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.main.AppW;
@@ -284,7 +283,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	@Override
     public void showError(String msg) {
 		errorPanel.clear();
-		App.printStacktrace(msg+"");
 		if(msg == null){
 			return;
 		}
