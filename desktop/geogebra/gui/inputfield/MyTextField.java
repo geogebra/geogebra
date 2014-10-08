@@ -15,6 +15,7 @@ import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -223,13 +224,6 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	public void focusGained(FocusEvent e) {
 
-		// use a bold font to keep the caret visible when using colored brackets
-		// (workaround for bug with OS X)
-		if (app.isMacOS() && !getFont().isBold()) {
-			oldStyle = getFont().getStyle();
-			setFont(getFont().deriveFont(Font.BOLD));
-		}
-
 		if (selectAllOnFocus) {
 			thisField.setText(thisField.getText());
 			thisField.selectAll();
@@ -245,11 +239,6 @@ public class MyTextField extends JTextField implements ActionListener,
 	}
 
 	public void focusLost(FocusEvent e) {
-
-		// revert to original font style detected in focusGained()
-		if (app.isMacOS()) {
-			setFont(getFont().deriveFont(oldStyle));
-		}
 
 		if (showSymbolTableIcon)
 			borderBtn.setIconVisible(0, false);
@@ -507,10 +496,11 @@ public class MyTextField extends JTextField implements ActionListener,
 	private void drawText(String str, boolean selected/* , Color bg */) {
 		if ("".equals(str))
 			return;
-		TextLayout layout = new TextLayout(str, font, frc);
-		g2.setFont(font);
-		float advance = layout.getAdvance();
-
+		
+		// compute advance
+		FontMetrics metrics = g2.getFontMetrics(font);
+		float advance = metrics.stringWidth(str);
+		
 		if (selected) {
 			g2.setColor(getSelectionColor());
 			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
@@ -530,8 +520,8 @@ public class MyTextField extends JTextField implements ActionListener,
 				&& pos + advance - scrollOffset <= width) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		}
-		pos += layout.getAdvance();
-
+		
+		pos += advance;
 	}
 
 	@Override
