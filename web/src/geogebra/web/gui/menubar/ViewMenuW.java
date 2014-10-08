@@ -22,7 +22,7 @@ public class ViewMenuW extends GMenuBar {
 	 */
 	GCheckBoxMenuItem[] items;
 	AppW app;
-	private GCheckBoxMenuItem inputBarItem;
+	GCheckBoxMenuItem inputBarItem;
 	
 	/**
 	 * Constructs the "View" menu
@@ -97,6 +97,7 @@ public class ViewMenuW extends GMenuBar {
 			        			InputPositon.bottom : InputPositon.algebraView, true);
 				        app.updateCenterPanel(true);
 				        app.updateViewSizes();
+				        inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
 
 						Timer timer = new Timer() {
 							@Override

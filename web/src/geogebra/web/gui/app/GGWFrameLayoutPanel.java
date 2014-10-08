@@ -147,6 +147,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			this.menuClosed = false;
 			this.add(this.menuContainer);
 			this.menuContainer.setVisible(true);
+			guiManagerW.updateMenubar();
 			updateSize();
 			guiManagerW.updateStyleBarPositions(true);
 		} else {
