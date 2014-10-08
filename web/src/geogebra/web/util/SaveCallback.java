@@ -20,6 +20,9 @@ public class SaveCallback {
 	    this.app = app;
     }
 	
+	/**
+	 * @param app {@link AppW}
+	 */
 	public static void onSaved(AppW app){
 		app.setSaved();
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("SavedSuccessfully"), true);

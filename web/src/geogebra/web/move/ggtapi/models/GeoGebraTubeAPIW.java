@@ -34,6 +34,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	private RequestBuilder requestBuilder;
 	private ClientInfo client;
 
+	/**
+	 * @param url String
+	 * @param client {@link ClientInfo}
+	 */
 	public GeoGebraTubeAPIW(String url, ClientInfo client)
 	{
 		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
@@ -45,9 +49,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	 * 
 	 * @param query
 	 *          search String
-	 * @param limit
-	 *          maximum Number of returned materials
-	 * @return List<Item> Search Results in a List of materials
+	 * @param callback {@link MaterialCallback}
 	 */
 	public void search(String query, MaterialCallback callback)
 	{
@@ -56,8 +58,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 
 	/**
 	 * Returns materials in the given amount and order
-	 * 
-	 * @return List of materials
+	 * @param callback {@link MaterialCallback}
 	 */
 	public void getFeaturedMaterials(MaterialCallback callback)
 	{
@@ -77,8 +78,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 
 	/**
 	 * Return a specific Material by its ID
-	 * 
-	 * @param ID
+	 * @param id int
+	 * @param callback {@link MaterialCallback}
 	 */
 	public void getItem(int id, MaterialCallback callback)
 	{
@@ -97,6 +98,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	// }
 
 	
+	/**
+	 * @param requestString String
+	 * @param cb {@link MaterialCallback}
+	 */
 	protected void performRequest(String requestString, final MaterialCallback cb)
 	{
 		try
@@ -104,8 +109,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 			RequestCallback callback = new RequestCallback(){
 
 				@Override
-                public void onResponseReceived(Request request,
-                        Response response) {
+                public void onResponseReceived(Request request, Response response) {
 	                cb.onLoaded(JSONparserGGT.parseResponse(response.getText()));
                 }
 
@@ -131,10 +135,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	/**
 	 * Copies the user data from the API response to this user.
 	 * 
-	 * @param response The JSONObject that holds the response from a token login API request 
 	 * @return true if the data could be parsed successfully, false otherwise
 	 */
-	public boolean parseUserDataFromResponse(GeoGebraTubeUser user, String result) {
+	@Override
+    public boolean parseUserDataFromResponse(GeoGebraTubeUser user, String result) {
 		try {
 			JSONValue tokener = JSONParser.parseStrict(result);
 			
@@ -206,7 +210,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	 * Builds the request to check if the login token of a user is valid.
 	 * This request will send detailed user information as response.
 	 * 
-	 * @param user The user that should be logged in
 	 * @return The JSONObject that contains the request.
 	 */
 	@Override
@@ -250,9 +253,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	
 	/**
 	 * to rename materials on ggt; TODO no use of base64
-	 * @param app
-	 * @param mat
-	 * @param cb
+	 * @param app {@link AppW}
+	 * @param mat {@link Material}
+	 * @param cb {@link MaterialCallback}
 	 */
 	public void uploadRenameMaterial(final AppW app, Material mat, final MaterialCallback cb) {
 		performRequest(UploadRequest.getRequestElement(app, mat.getTitle(), mat.getId()).toJSONString(), cb);
@@ -260,23 +263,36 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	
 	/**
 	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
-	 * @param app AppW
-	 * @param mat Material
-	 * @param cb MaterialCallback
+	 * @param app {@link AppW}
+	 * @param mat {@link Material}
+	 * @param cb {@link MaterialCallback}
 	 */
 	public void uploadLocalMaterial(final AppW app, final Material mat, final MaterialCallback cb) {
 		performRequest(UploadRequest.getRequestElement(app, mat).toJSONString(), cb);
 	}
 	
+	/**
+	 * @param app {@link AppW}
+	 * @param material {@link Material}
+	 * @param cb {@link MaterialCallback}
+	 */
 	public void deleteMaterial(AppW app, Material material, final MaterialCallback cb) {
 		performRequest(DeleteRequest.getRequestElement(app, material).toJSONString(), cb);
 	}
 
-	public void getUsersMaterials(int userId, MaterialCallback rc) {
-		performRequest(MaterialRequest.forUser(userId, client).toJSONString(), rc);
+	/**
+	 * @param userId int
+	 * @param cb {@link MaterialCallback}
+	 */
+	public void getUsersMaterials(int userId, MaterialCallback cb) {
+		performRequest(MaterialRequest.forUser(userId, client).toJSONString(), cb);
     }
 
-	public void getBookItems(int id, MaterialCallback rc) {
-		performRequest(MaterialRequest.forBook(id, client).toJSONString(), rc);
+	/**
+	 * @param id int
+	 * @param cb {@link MaterialCallback}
+	 */
+	public void getBookItems(int id, MaterialCallback cb) {
+		performRequest(MaterialRequest.forBook(id, client).toJSONString(), cb);
     }
 }

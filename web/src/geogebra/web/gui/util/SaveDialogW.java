@@ -15,6 +15,7 @@ import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseResources;
 import geogebra.web.main.FileManager;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -313,6 +314,7 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 			public void onError(final Throwable exception) {
 				saveCallback.onError();
 				resetCallback();
+				((GuiManagerW) app.getGuiManager()).openFilePicker();
 			}
 		});
 	}
