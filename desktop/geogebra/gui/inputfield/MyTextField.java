@@ -219,7 +219,16 @@ public class MyTextField extends JTextField implements ActionListener,
 		this.selectAllOnFocus = selectAllOnFocus;
 	}
 
+	int oldStyle = Font.PLAIN;
+
 	public void focusGained(FocusEvent e) {
+
+		// use a bold font to keep the caret visible when using colored brackets
+		// (workaround for bug with OS X)
+		if (app.isMacOS() && !getFont().isBold()) {
+			oldStyle = getFont().getStyle();
+			setFont(getFont().deriveFont(Font.BOLD));
+		}
 
 		if (selectAllOnFocus) {
 			thisField.setText(thisField.getText());
@@ -236,6 +245,11 @@ public class MyTextField extends JTextField implements ActionListener,
 	}
 
 	public void focusLost(FocusEvent e) {
+
+		// revert to original font style detected in focusGained()
+		if (app.isMacOS()) {
+			setFont(getFont().deriveFont(oldStyle));
+		}
 
 		if (showSymbolTableIcon)
 			borderBtn.setIconVisible(0, false);
