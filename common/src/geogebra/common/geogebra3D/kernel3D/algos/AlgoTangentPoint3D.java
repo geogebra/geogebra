@@ -42,6 +42,9 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
     
     @Override
 	protected void setPolar(){
+    	
+    	polarCoords = new double[3];
+    			
     	// the tangents are computed by intersecting the
         // polar line of P with c
         polar = new GeoLine(cons);
@@ -52,7 +55,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
         tangentPoints = algoIntersect.getIntersectionPoints();
     }
     
-    private double[] polarCoords = new double[3];
+    private double[] polarCoords;
     
     private Coords polarOrigin, polarDirection;
     
