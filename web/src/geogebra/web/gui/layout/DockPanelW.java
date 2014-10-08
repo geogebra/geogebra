@@ -734,8 +734,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @param value true to show style bar
 	 */
 	private void setStyleBarLongVisibility(boolean value) {
-		dockPanel.setWidgetSize(titleBarPanel, value ? 44 : 0);
-		titleBarPanel.setStyleName("TitleBarPanel-open", value);
+		if((!app.isApplet() || app.getArticleElement().getDataParamShowMenuBar(false))){
+			dockPanel.setWidgetSize(titleBarPanel, value ? 44 : 0);
+			titleBarPanel.setStyleName("TitleBarPanel-open", value);
+		}
 	}
 
 	/**
