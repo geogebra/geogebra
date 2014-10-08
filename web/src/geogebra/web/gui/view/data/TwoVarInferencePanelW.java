@@ -2,20 +2,12 @@ package geogebra.web.gui.view.data;
 
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
-import geogebra.common.gui.view.data.StatisticsModel;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.gui.view.data.TwoVarInferenceModel;
+import geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceListener;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
-
-import java.util.ArrayList;
-
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.stat.StatUtils;
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math.stat.inference.TTestImpl;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -27,14 +19,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW {
-	private static final long serialVersionUID = 1L;
+public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW,
+		TwoVarInferenceListener {
 	private AppW app;
 	private DataAnalysisViewW daView;
 	private StatTableW resultTable;
-
-//	private JList dataSourceList;
-//	private DefaultListModel model;
 
 	private ListBox lbTitle1, lbTitle2, lbAltHyp;
 	private Label lblTitle1, lblTitle2, lblHypParameter, lblTailType, lblNull,
@@ -45,33 +34,13 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private CheckBox ckEqualVariances;
 	private AutoCompleteTextFieldW fldConfLevel;
 
-	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
-
-	// test type (tail)
-	private static final String tail_left = "<";
-	private static final String tail_right = ">";
-	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
-	private String tail = tail_two;
-
-	// input fields
-	private double confLevel = .95, hypMean = 0;
-
-	// statistics
-	double t, P, df, lower, upper, mean, se, me, n1, n2, diffMeans, mean1,
-			mean2;
-	private TTestImpl tTestImpl;
-	private TDistributionImpl tDist;
-	private boolean pooled = false;
-
 	private boolean isIniting;
 	private FlowPanel testPanel;
 	private FlowPanel intPanel;
 	private FlowPanel mainPanel;
-	private boolean isTest;
 	private FlowPanel samplePanel;
 	private TwoVarStatPanelW twoStatPanel;
-	private double meanDifference;
-
+	private TwoVarInferenceModel model;
 	/**
 	 * Construct a TwoVarInference panel
 	 */
@@ -79,6 +48,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		isIniting = true;
 		this.app = app;
 		this.daView = view;
+		model = new TwoVarInferenceModel(app, this);
 
 		this.createGUIElements();
 		this.updateGUI();
@@ -175,7 +145,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		intPanel = new FlowPanel();
 		intPanel.add(LayoutUtil.panelRow(lblConfLevel, fldConfLevel));
 
-		twoStatPanel = new TwoVarStatPanelW(app, daView, isPairedData());
+		twoStatPanel = new TwoVarStatPanelW(app, daView, model.isPairedData());
 
 		samplePanel = new FlowPanel();
 
@@ -183,11 +153,10 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		// Result panel
 		resultTable = new StatTableW(app);
-		setResultTable();
-		// resultTable.setBorder(BorderFactory.createEtchedBorder());
+		model.setResults();
 
 		resultPanel = new FlowPanel();
-		// resultPanel.add(lblResultHeader, c);
+
 		resultPanel.add(resultTable);
 
 		// main panel
@@ -198,10 +167,10 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	private void updateMainPanel() {
 
-		mainPanel.clear();;
+		mainPanel.clear();
 
 		// layout
-		if (isTest)
+		if (model.isTest())
 			mainPanel.add(testPanel);
 		else
 			mainPanel.add(intPanel);
@@ -215,38 +184,31 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	}
 
-	private boolean isPairedData() {
-		return (selectedInference == StatisticsModel.INFER_TINT_PAIRED || selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
-	}
-
+	
 	// ============================================================
 	// Updates and Event Handlers
 	// ============================================================
 
 	private void updateGUI() {
 
-		isTest = (selectedInference == StatisticsModel.INFER_TTEST_2MEANS || selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
-
-		if (isTest) {
-			lblHypParameter.setText(getNullHypName() + " = 0");
+		if (model.isTest()) {
+			lblHypParameter.setText(model.getNullHypName() + " = 0");
 		}
 
 		// ckEqualVariances.setVisible(
 		// selectedPlot == StatisticsModel.INFER_TINT_2MEANS
 		// || selectedPlot == StatisticsModel.INFER_TTEST_2MEANS);
-		ckEqualVariances.setValue(pooled);
+		ckEqualVariances.setValue(model.isPooled());
 
-		updateNumberField(fldNullHyp, hypMean);
-		updateNumberField(fldConfLevel, confLevel);
+		updateNumberField(fldNullHyp, model.getHypMean());
+		updateNumberField(fldConfLevel, model.getConfLevel());
 		updateCBAlternativeHyp();
 
-		// setResultTable();
-		updateResultTable();
+		model.setResults();
+		model.updateResults();
 
 		updateMainPanel();
-
 		twoStatPanel.updatePanel();
-
 	}
 
 	/** Helper method for updateGUI() */
@@ -275,41 +237,19 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private void updateCBAlternativeHyp() {
 
 		lbAltHyp.clear();
-		lbAltHyp.addItem(getNullHypName() + " " + tail_right + " "
-				+ daView.format(hypMean));
-		lbAltHyp.addItem(getNullHypName() + " " + tail_left + " "
-				+ daView.format(hypMean));
-		lbAltHyp.addItem(getNullHypName() + " " + tail_two + " "
-				+ daView.format(hypMean));
-		if (tail == tail_right)
-			lbAltHyp.setSelectedIndex(0);
-		else if (tail == tail_left)
-			lbAltHyp.setSelectedIndex(1);
-		else
-			lbAltHyp.setSelectedIndex(2);
-
+		model.fillAlternateHyp();
 	}
 
 	public void setSelectedInference(int selectedPlot) {
-		this.selectedInference = selectedPlot;
+		model.setSelectedInference(selectedPlot);
 		if (!isIniting) {
-			this.setResultTable();
-			this.twoStatPanel.setTable(isPairedData());
+			model.setResults();
+			this.twoStatPanel.setTable(model.isPairedData());
 		}
 		updateGUI();
 	}
 
 
-	private String getNullHypName() {
-
-		if (selectedInference == StatisticsModel.INFER_TTEST_2MEANS)
-			return app.getMenu("DifferenceOfMeans.short");
-		else if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
-			return app.getMenu("MeanDifference");
-		else
-			return "";
-
-	}
 
 	public void setLabels() {
 
@@ -332,38 +272,27 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	public void updatePanel() {
 
+
+		model.updateResults();
 		updateGUI();
-		updateResultTable();
 
 	}
 
 	public void actionPerformed(Object source) {
-//		// handle update event from table
-//		if (e.getActionCommand().equals("updateTable")) {
-//			this.updatePanel();
-//		}
-
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
 		}
 
 		else if (source == lbAltHyp) {
-			if (lbAltHyp.getSelectedIndex() == 0)
-				tail = tail_right;
-			else if (lbAltHyp.getSelectedIndex() == 1)
-				tail = tail_left;
-			else
-				tail = tail_two;
-			updateResultTable();
+			model.applyTail(lbAltHyp.getSelectedIndex());
 		}
 
 		else if (source == lbTitle1 || source == lbTitle2) {
-			updateResultTable();
+			model.updateResults();
 		}
 
 		else if (source == ckEqualVariances) {
-			pooled = ckEqualVariances.getValue();
-			updateResultTable();
+			model.setPooled(ckEqualVariances.getValue());
 		}
 
 	}
@@ -375,309 +304,51 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		Double value = Double.parseDouble(source.getText().trim());
 
 		if (source == fldConfLevel) {
-			confLevel = value;
+			model.setConfLevel(value);
 			updateGUI();
 		}
 
 		if (source == fldNullHyp) {
-			hypMean = value;
+			model.setHypMean(value);
 			updateGUI();
 		}
 
 	}
 
-	// =======================================
-	// Result Table
-	// =======================================
-
-	private void setResultTable() {
-
-		ArrayList<String> list = new ArrayList<String>();
-
-		switch (selectedInference) {
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TTEST_PAIRED:
-
-			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
-				list.add(app.getMenu("MeanDifference"));
-			else
-				list.add(app.getPlain("fncInspector.Difference"));
-
-			list.add(app.getMenu("PValue"));
-			list.add(app.getMenu("TStatistic"));
-			list.add(app.getMenu("StandardError.short"));
-			list.add(app.getMenu("DegreesOfFreedom.short"));
-			break;
-
-		case StatisticsModel.INFER_TINT_2MEANS:
-		case StatisticsModel.INFER_TINT_PAIRED:
-
-			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED)
-				list.add(app.getMenu("MeanDifference"));
-			else
-				list.add(app.getPlain("fncInspector.Difference"));
-
-			list.add(app.getMenu("MarginOfError.short"));
-			list.add(app.getMenu("LowerLimit"));
-			list.add(app.getMenu("UpperLimit"));
-			list.add(app.getMenu("StandardError.short"));
-			list.add(app.getMenu("DegreesOfFreedom.short"));
-			break;
-		}
-
-		String[] columnNames = new String[list.size()];
-		list.toArray(columnNames);
-		resultTable.setStatTable(1, null, columnNames.length, columnNames);
-
-	}
-
-	private void updateResultTable() {
-
-		boolean ok = evaluate();
-
-		if (!ok) {
-			// resultTable.clear();
-			return;
-		}
-
-		switch (selectedInference) {
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TTEST_PAIRED:
-
-			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
-				resultTable.setValueAt(daView.format(meanDifference), 0, 0);
-			else
-				resultTable.setValueAt(daView.format(diffMeans), 0, 0);
-
-			resultTable.setValueAt(daView.format(P), 0, 1);
-			resultTable.setValueAt(daView.format(t), 0, 2);
-			resultTable.setValueAt(daView.format(se), 0, 3);
-			resultTable.setValueAt(daView.format(df), 0, 4);
-			break;
-
-		case StatisticsModel.INFER_TINT_2MEANS:
-		case StatisticsModel.INFER_TINT_PAIRED:
-
-			// String cInt = statDialog.format(mean) + " \u00B1 " +
-			// statDialog.format(me);
-			// resultTable.setValueAt(cInt,0,0);
-
-			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED)
-				resultTable.setValueAt(daView.format(meanDifference), 0, 0);
-			else
-				resultTable.setValueAt(daView.format(diffMeans), 0, 0);
-
-			resultTable.setValueAt(daView.format(me), 0, 1);
-			resultTable.setValueAt(daView.format(lower), 0, 2);
-			resultTable.setValueAt(daView.format(upper), 0, 3);
-			resultTable.setValueAt(daView.format(se), 0, 4);
-			resultTable.setValueAt(daView.format(df), 0, 5);
-
-			break;
-		}
-
-	}
 
 	private Integer[] selectedDataIndex() {
 		return twoStatPanel.getSelectedDataIndex();
 	}
 
-	// ============================================================
-	// Evaluate
-	// ============================================================
 
-	private boolean evaluate() {
+	public void setStatTable(int row, String[] rowNames, int length,
+            String[] columnNames) {
+		resultTable.setStatTable(1, null, columnNames.length, columnNames);
+	  }
 
-		// get the sample data
+	public void setFormattedValueAt(double value, int row, int col) {
+	    resultTable.setValueAt(daView.format(value), row, col);
+    }
 
-		GeoList dataCollection = daView.getController().getDataSelected();
+	public GeoList getDataSelected() {
+	    return daView.getController().getDataSelected();
+    }
 
-		GeoList dataList1 = (GeoList) dataCollection
-				.get(selectedDataIndex()[0]);
-		double[] sample1 = daView.getController().getValueArray(dataList1);
-		SummaryStatistics stats1 = new SummaryStatistics();
-		for (int i = 0; i < sample1.length; i++) {
-			stats1.addValue(sample1[i]);
-		}
+	public int getSelectedDataIndex(int idx) {
+	    return selectedDataIndex()[idx];
+    }
 
-		GeoList dataList2 = (GeoList) dataCollection
-				.get(selectedDataIndex()[1]);
-		double[] sample2 = daView.getController().getValueArray(dataList2);
-		SummaryStatistics stats2 = new SummaryStatistics();
-		for (int i = 0; i < sample2.length; i++) {
-			stats2.addValue(sample2[i]);
-		}
+	public double[] getValueArray(GeoList list) {
+	    return daView.getController().getValueArray(list);
+    }
 
-		// exit if paired data is expected and sample sizes are unequal
-		if (isPairedData() && stats1.getN() != stats2.getN())
-			return false;
+	public void addAltHypItem(String name, String tail, double value) {
+	    lbAltHyp.addItem(name + " " + tail + " " + daView.format(value));
+    }
 
-		if (tTestImpl == null)
-			tTestImpl = new TTestImpl();
-		double tCritical;
-
-		try {
-
-			switch (selectedInference) {
-			case StatisticsModel.INFER_TTEST_2MEANS:
-			case StatisticsModel.INFER_TINT_2MEANS:
-
-				// get statistics
-				mean1 = StatUtils.mean(sample1);
-				mean2 = StatUtils.mean(sample2);
-				diffMeans = mean1 - mean2;
-				n1 = stats1.getN();
-				n2 = stats2.getN();
-				double v1 = stats1.getVariance();
-				double v2 = stats2.getVariance();
-				df = getDegreeOfFreedom(v1, v2, n1, n2, pooled);
-
-				if (pooled) {
-					double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
-							/ (n1 + n2 - 2);
-					se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-				} else
-					se = Math.sqrt((v1 / n1) + (v2 / n2));
-
-				// get confidence interval
-				tDist = new TDistributionImpl(df);
-				tCritical = tDist
-						.inverseCumulativeProbability((confLevel + 1d) / 2);
-				me = tCritical * se;
-				upper = diffMeans + me;
-				lower = diffMeans - me;
-
-				// get test results
-				if (pooled) {
-					t = tTestImpl.homoscedasticT(sample1, sample2);
-					P = tTestImpl.homoscedasticTTest(sample1, sample2);
-				} else {
-					t = tTestImpl.t(sample1, sample2);
-					P = tTestImpl.tTest(sample1, sample2);
-				}
-				P = adjustedPValue(P, t, tail);
-
-				break;
-
-			case StatisticsModel.INFER_TTEST_PAIRED:
-			case StatisticsModel.INFER_TINT_PAIRED:
-
-				// get statistics
-				n1 = sample1.length;
-				meanDifference = StatUtils.meanDifference(sample1, sample2);
-				se = Math.sqrt(StatUtils.varianceDifference(sample1, sample2,
-						meanDifference) / n1);
-				df = n1 - 1;
-
-				tDist = new TDistributionImpl(df);
-				tCritical = tDist
-						.inverseCumulativeProbability((confLevel + 1d) / 2);
-				me = tCritical * se;
-				upper = meanDifference + me;
-				lower = meanDifference - me;
-
-				// get test results
-				t = meanDifference / se;
-				P = 2.0 * tDist.cumulativeProbability(-Math.abs(t));
-				P = adjustedPValue(P, t, tail);
-
-				break;
-			}
-
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			return false;
-		} catch (MathException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		return true;
-
-	}
-
-	// TODO: Validate !!!!!!!!!!!
-
-	private double adjustedPValue(double p, double testStatistic, String tail) {
-
-		// two sided test
-		if (tail.equals(tail_two))
-			return p;
-
-		// one sided test
-		else if ((tail.equals(tail_right) && testStatistic > 0)
-				|| (tail.equals(tail_left) && testStatistic < 0))
-			return p / 2;
-		else
-			return 1 - p / 2;
-	}
-
-	/**
-	 * Computes approximate degrees of freedom for 2-sample t-estimate. (code
-	 * from Apache commons, TTestImpl class)
-	 * 
-	 * @param v1
-	 *            first sample variance
-	 * @param v2
-	 *            second sample variance
-	 * @param n1
-	 *            first sample n
-	 * @param n2
-	 *            second sample n
-	 * @return approximate degrees of freedom
-	 */
-	private double getDegreeOfFreedom(double v1, double v2, double n1,
-			double n2, boolean pooled) {
-
-		if (pooled)
-			return n1 + n2 - 2;
-
-		else
-			return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
-					/ ((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2)
-							/ (n2 * n2 * (n2 - 1d)));
-	}
-
-	/**
-	 * Computes margin of error for 2-sample t-estimate; this is the half-width
-	 * of the confidence interval
-	 * 
-	 * @param v1
-	 *            first sample variance
-	 * @param v2
-	 *            second sample variance
-	 * @param n1
-	 *            first sample n
-	 * @param n2
-	 *            second sample n
-	 * @param confLevel
-	 *            confidence level
-	 * @return margin of error for 2 mean interval estimate
-	 * @throws MathException
-	 */
-	private double getMarginOfError(double v1, double n1, double v2, double n2,
-			double confLevel, boolean pooled) throws MathException {
-
-		if (pooled) {
-
-			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
-					/ (n1 + n2 - 2);
-			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2,
-					pooled));
-			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
-			return a * se;
-
-		} else {
-
-			double se = Math.sqrt((v1 / n1) + (v2 / n2));
-			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2,
-					pooled));
-			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
-			return a * se;
-		}
-
-	}
+	public void selectAltHyp(int idx) {
+	   lbAltHyp.setSelectedIndex(idx);
+    }
 
 
 }

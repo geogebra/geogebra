@@ -8,7 +8,6 @@ import geogebra.html5.main.AppW;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -24,7 +23,7 @@ import com.google.gwt.user.client.ui.ListBox;
  * @author G. Sturr
  * 
  */
-public class TwoVarStatPanelW extends StatTableW implements ScheduledCommand  {
+public class TwoVarStatPanelW extends StatTableW {
 	private static final long serialVersionUID = 1L;
 	protected AppW app;
 	private Kernel kernel;
@@ -268,12 +267,5 @@ public class TwoVarStatPanelW extends StatTableW implements ScheduledCommand  {
 
 		return true;
 	}
-
-
-
-	public void execute() {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 }

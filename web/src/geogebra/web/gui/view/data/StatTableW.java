@@ -66,7 +66,7 @@ public class StatTableW extends FlowPanel {
 	public void setStatTable(int rows, String[] rowNames, int columns,
 			String[] columnNames) {
 
- 		myTable.resize(rows + 1, columns);
+ 		myTable.resize(rows, columns);
 		// set column names
 		myTable.setHeaderCells(columnNames);
 
@@ -222,6 +222,7 @@ public class StatTableW extends FlowPanel {
 
 		public void setHeaderCells(String[] columnNames) {
 	        if (columnNames != null) {
+	        	firstRow = 0;
 	        	resizeRows(getRowCount() + 1);
 	        	for (int i = 0; i < columnNames.length; i++) {
 	        		this.setWidget(0, i, new Label(columnNames[i]));
