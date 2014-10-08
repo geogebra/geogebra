@@ -93,7 +93,7 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 
 	@Override
 	protected void addCoords(double parameter, Coords coords, GeoElementND geo){
-		newCoords.put(parameter, coords);
+		newCoords.put(parameter, coords.copyVector());
 	}
 	
 	@Override

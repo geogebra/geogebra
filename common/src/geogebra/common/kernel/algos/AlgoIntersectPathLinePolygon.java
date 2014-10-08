@@ -202,7 +202,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
     	return g.respectLimitedPath(t1);
     }
 
-
+    private Coords project1, project2; 
+    private double[] lineCoords, tmp;
+    
     /**
      * calc all intersection points between line and polygon p
      * @param p polygon
@@ -218,19 +220,26 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				Coords o2 = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
 				Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
 				
-				Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(
-						o1,d1,o2,d2
+				if (project1 == null){
+					project1 = new Coords(4); 
+					project2 = new Coords(4); 
+				    lineCoords = new double[2];
+				    tmp = new double[4];
+				}
+				
+				CoordMatrixUtil.nearestPointsFromTwoLines(
+						o1,d1,o2,d2, project1.val, project2.val, lineCoords, tmp
 						);
 
 				//check if projection is intersection point
-				if (project!=null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
+				if (!Double.isNaN(lineCoords[0]) && project1.equalsForKernel(project2, Kernel.STANDARD_PRECISION)){
 
-					double t1 = project[2].get(1); //parameter on line
-					double t2 = project[2].get(2); //parameter on segment
+					double t1 = lineCoords[0]; //parameter on line
+					double t2 = lineCoords[1]; //parameter on segment
 
 
 					if (checkParameter(t1) && onSegment(t2))//seg.respectLimitedPath(t2))
-						addCoords(t1, project[0], seg);
+						addCoords(t1, project1, seg);
 
 				}
 			}
@@ -252,6 +261,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * @return check
 	 */
 	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b){
+		//App.debug("\na=\n"+a+"\nb=\n"+b);
 		Coords midpoint = a.add(b).mul(0.5);
 		//App.debug("\n"+midpoint+"\n"+ p.isInRegion(midpoint.getX(), midpoint.getY()));
 		return  p.isInRegion(midpoint.getX(), midpoint.getY());
@@ -388,7 +398,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				for (Coords[] seg : segmentList){
 					GeoSegmentND segment = (GeoSegmentND) outputSegments
 							.getElement(indexSegment);
-		   			//App.debug("\na=\n"+points[i-1]+"\nb=\n"+points[i]);
+		   			//App.debug("\na=\n"+seg[0]+"\nb=\n"+seg[1]);
 					setSegment(segment, seg[0], seg[1]);
 					//((GeoElement) segment).update(); // TODO optimize it
 					indexSegment++;
