@@ -370,10 +370,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	
 	@Override
 	protected void addCoords(double parameter, Coords coords, GeoElementND parent){
-		newCoords.add(new CoordsWithParent(parameter, coords, parent));
+		Coords c = coords.copyVector();
+		newCoords.add(new CoordsWithParent(parameter, c, parent));
 		if (parent instanceof GeoPointND){
 			//boolean b=
-					polyhedronVertices.add(coords);
+					polyhedronVertices.add(c);
 			//App.debug("\nb: "+b+"\nparent: "+parent+"\ncoords:\n"+coords);
 		}
 	}
