@@ -208,8 +208,9 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	private void updateGUI() {
 
-		if (model.isTest())
+		if (model.isTest()) {
 			lblHypParameter.setText(model.getNullHypName() + " = 0");
+		}
 
 		ckEqualVariances.removeActionListener(this);
 		// ckEqualVariances.setVisible(
