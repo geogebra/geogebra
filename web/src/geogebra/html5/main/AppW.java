@@ -110,6 +110,7 @@ import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -1827,19 +1828,17 @@ public abstract class AppW extends App implements SetLabels{
 		}
 
 		/**
-			 * 
-			 */
+		 * Checks for GeoGebraLangUI in URL, then in cookie, then checks browser language
+		 */
 		public void setDefaultLanguage() {
-
-
-			String lCookieValue = Cookies.getCookie("GeoGebraLangUI");
+			String lCookieValue = Location.getParameter("GeoGebraLangUI");
+			if (lCookieValue == null || lCookieValue.length() == 0) {
+					lCookieValue = Cookies.getCookie("GeoGebraLangUI");
+			}
 			if (lCookieValue == null) {
 				lCookieValue = Browser.navigatorLanguage();
 			}
 			setLanguage(lCookieValue);
-
-			
-
 		}
 
 		
