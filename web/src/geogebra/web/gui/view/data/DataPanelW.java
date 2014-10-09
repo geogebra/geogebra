@@ -126,10 +126,11 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 
 	private void populateOneVarDataTable(ArrayList<GeoElement> dataArray) {
 		String[] titles = daView.getDataTitles();
-		String[] rowNames = new String[dataArray.size()];
-		dataTable.setStatTable(dataArray.size(), rowNames, 2, null);
-		for (int row = 0; row < dataArray.size(); row++) {
-			CheckBox cb = new CheckBox("" + (row+1));
+		int maxRows = dataArray.size() + 1;
+		String[] rowNames = new String[maxRows];
+		dataTable.setStatTable(maxRows, rowNames, 2, null);
+		for (int row = 0; row < maxRows - 1; row++) {
+			CheckBox cb = new CheckBox("" + (row + 1));
 			cb.addClickHandler(new DataClickHandler(row));
 			cb.setValue(true);
 			dataTable.getTable().setWidget(row + 1, 0, cb); 
@@ -156,9 +157,10 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		String titleX = titles[0];
 		String titleY = titles.length == 1 ? titleX : titles[1];
 
-		dataTable.setStatTable(dataArray.size(), rowNames, 3, null);
+		int maxRows = dataArray.size() + 1;
+		dataTable.setStatTable(maxRows, rowNames, 3, null);
 
-		for (int row = 0; row < dataArray.size(); ++row) {
+		for (int row = 0; row < maxRows - 1; ++row) {
 			CheckBox cb = new CheckBox("" + (row+1));
 			cb.addClickHandler(new DataClickHandler(row));
 			cb.setValue(true);

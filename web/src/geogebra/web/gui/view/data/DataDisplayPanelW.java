@@ -44,7 +44,6 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * Class to dynamically display plots and statistics in coordination with the
@@ -69,6 +68,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private static final int PLOTPANEL_MIN_WIDTH = 400;
 	private static final int PLOTPANEL_MIN_HEIGHT = 150;
 	private static final int OPTIONSPANEL_WIDTH = 200;
+	private static final int STEM_BUTTONS_HEIGHT = 18;
 
 	// ggb fields
 	private AppW app;
@@ -108,9 +108,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// stemplot adjustment panel
 	private FlowPanel stemAdjustPanel;
 	private Label lblAdjust;
-	private ToggleButton minus;
-	private ToggleButton none;
-	private ToggleButton plus;
+	private MyToggleButton2 minus;
+	private MyToggleButton2 none;
+	private MyToggleButton2 plus;
 
 	private FlowPanel imagePanel;
 
@@ -382,9 +382,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createStemPlotAdjustmentPanel() {
 
 		lblAdjust = new Label();
-		minus = new ToggleButton("-1");
-		none = new ToggleButton("0");
-		plus = new ToggleButton("+1");
+		minus = new MyToggleButton2("-1", STEM_BUTTONS_HEIGHT);
+		none = new MyToggleButton2("0", STEM_BUTTONS_HEIGHT);
+		plus = new MyToggleButton2("+1", STEM_BUTTONS_HEIGHT);
+
 		minus.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
