@@ -1811,41 +1811,19 @@ public abstract class AppW extends App implements SetLabels{
 
 		}
 
-		/**
-		 * This method was supposed to change the initial language depending on the
-		 * GeoIP of the user-agent.
-		 */
-		public void initializeLanguage() {
-
-			// App.debug("GeoIP Country: " + AppW.geoIPCountryName);
-			// App.debug("GeoIP Language: " + AppW.geoIPLanguage);
-			//
-			// App.debug("Test closeset language: " +
-			// Language.getClosestGWTSupportedLanguage(AppW.geoIPLanguage));
-
-			// initially change the language to a one that comes from GeoIP.
-			setDefaultLanguage();
-		}
 
 		/**
 		 * Checks for GeoGebraLangUI in URL, then in cookie, then checks browser language
 		 */
-		public void setDefaultLanguage() {
-			String lCookieValue = Location.getParameter("GeoGebraLangUI");
+	    public String getLanguageFromCookie() {
+	    	String lCookieValue = Location.getParameter("GeoGebraLangUI");
 			if (lCookieValue == null || lCookieValue.length() == 0) {
 					lCookieValue = Cookies.getCookie("GeoGebraLangUI");
 			}
 			if (lCookieValue == null) {
 				lCookieValue = Browser.navigatorLanguage();
 			}
-			setLanguage(lCookieValue);
-		}
-
-		
-
-		
-	    public String getLanguageFromCookie() {
-			return Cookies.getCookie("GeoGebraLangUI");
+			return lCookieValue;
 		}
 
 		
