@@ -395,6 +395,12 @@ public class StatTableW extends FlowPanel {
         public void setWidget(int row, int column, Widget widget) {
 			super.setWidget(row + firstRow, column, widget);
 		}
+
+		public void setValueAt(String str, int row, int col) {
+	        setWidget(row, col, new Label(str));
+        }
+
+		
 		
 	}
 	

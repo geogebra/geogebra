@@ -4,6 +4,7 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.TwoVarInferenceModel;
 import geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceListener;
+import geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
@@ -20,7 +21,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW,
-		TwoVarInferenceListener {
+		TwoVarInferenceListener, UpdatePanel {
+	
 	private AppW app;
 	private DataAnalysisViewW daView;
 	private StatTableW resultTable;
@@ -45,6 +47,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	 * Construct a TwoVarInference panel
 	 */
 	public TwoVarInferencePanelW(AppW app, DataAnalysisViewW view) {
+		
 		isIniting = true;
 		this.app = app;
 		this.daView = view;
@@ -145,7 +148,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		intPanel = new FlowPanel();
 		intPanel.add(LayoutUtil.panelRow(lblConfLevel, fldConfLevel));
 
-		twoStatPanel = new TwoVarStatPanelW(app, daView, model.isPairedData());
+		twoStatPanel = new TwoVarStatPanelW(app, daView, model.isPairedData(), this);
 
 		samplePanel = new FlowPanel();
 
