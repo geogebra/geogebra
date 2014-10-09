@@ -16,6 +16,7 @@ TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails
+USEENGINES=1
 
 if [ "$PROVEDETAILS" = 1 ]; then
  # Remove some incorrectly working provers.
@@ -71,7 +72,27 @@ echo "\begin{longtable}{|l|*{$PROVERSNO}{${RESULTCOLUMN}r|}}
 {\multirow{2}{*}{\bf Test}}" >> $MYDIR/$TEX
 echo 
 for j in $PROVERS; do
+ if [ "$USEENGINES" = 1 ]; then
+  case $j in
+   Recio)
+    TOPRINT="Engine 1"
+    ;;
+   Botana)
+    TOPRINT="Engine 2"
+    ;;
+   BotanaGiac)
+    TOPRINT="Engine 2, Giac"
+    ;;
+   OpenGeoProver_Wu)
+    TOPRINT="Engine 3a"
+    ;;
+   OpenGeoProver_Area)
+    TOPRINT="Engine 3b"
+    ;;
+   esac
+else
  TOPRINT=`echo $j | sed s/"_"/" "/`
+  fi
  echo -n "$TOPRINT result;Speed;"
  echo "<th colspan=\"2\">$TOPRINT</th>" >> $MYDIR/$HTML
  echo "& \multicolumn{2}{c|}{\bf $TOPRINT}" | sed s/OpenGeoProver/OGP/g |\

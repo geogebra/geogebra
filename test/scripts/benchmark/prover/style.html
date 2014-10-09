@@ -1,3 +1,30 @@
+<h2>Introduction</h2>
+
+<a href="http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover/tests/">Test cases</a>.
+
+<p>In the following table green means that the test returns a correct yes/no answer. Intensity of green
+means speed (the lighter the slower). Numbers are in milliseconds.</p>
+
+<p>Pink means that GeoGebra returns the wrong answer.</p>
+
+<p>Yellow means the output is not conclusive, thus using this method
+GeoGebra shows "undefined", i.e. there is no error here.</p>
+
+<p>The Result column provides some extra information about the result, such as
+"false" when the statement was false on purpose.</p>
+
+<p>The Speed column shows the timing. Highlighted entries are the best results.</p>
+
+<p>Column "Engine 1" refers to Recio's method. Column "Engine 2 Giac" refers to the engine and computer algebra tool that is
+being used for the Groebner basis method in this approach. The "Engine 3a"
+column refers to OpenGeoProver's Wu implementation. The Auto approach
+refers to the automatic selection of methods which is already
+implemented in GeoGebra and it usually starts with "Engine 1" (Recio's method) and
+then it continues with "Engine 2" (the Groebner basis method, either in Singular or
+Giac: if Singular is available, then in Singular, otherwise in Giac). If
+the Groebner basis method is not conclusive, then OpenGeoProver's Wu
+method (Engine 3a) is tried. If it is not conclusive either, then OpenGeoProver's
+Area method (Engine 3b) is used.</p>
 <style type="text/css">
 h1 {
 text-align: center;
