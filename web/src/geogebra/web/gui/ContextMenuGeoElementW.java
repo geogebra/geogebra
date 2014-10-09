@@ -155,8 +155,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), new Command() {
 						
 						public void execute() {
-							//AG not ported yet recordToSpreadSheetCmd();
-							App.debug("not ported yet recordToSpreadSheetCmd();");
+							recordToSpreadSheetCmd();
+							//App.debug("not ported yet recordToSpreadSheetCmd();");
 						}
 					});
 					cbItem.setSelected(geo.getSpreadsheetTrace());

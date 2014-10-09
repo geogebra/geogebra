@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
+import geogebra.common.main.SpreadsheetTraceManager;
 
 import java.util.ArrayList;
 
@@ -397,6 +398,13 @@ public abstract class ContextMenuGeoElement {
 			v.getEuclidianController().processMode(hits, false);
 		}
 
+	}
+	
+	public void recordToSpreadSheetCmd(){
+		SpreadsheetTraceManager traceManager = app.getTraceManager();
+		if(!traceManager.isTraceGeo(geo)){
+			traceManager.addSpreadsheetTraceGeo(geo);
+		}
 	}
 
 }
