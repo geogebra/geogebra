@@ -2287,7 +2287,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	z-index: 100;
 }
 
-.toolbarPanel ul {
+.GeoGebraFrame .toolbarPanel ul {
 	margin: 0px;
 	padding: 0px;
 }
