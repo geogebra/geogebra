@@ -14,7 +14,11 @@ public class TabletSignInButton extends SignInButton{
 	}
 	
 	private native void loginNative()/*-{
-		$wnd.android.login();
+		if($wnd.android){
+			$wnd.android.login();
+		}else{
+			@geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("External login not possible");
+		}
 	}-*/;
 
 }

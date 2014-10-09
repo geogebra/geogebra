@@ -326,6 +326,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	private void setAvailableProviders() {
+		if(this.providerPanel == null){
+			return;
+		}
 		this.providerPanel.clear();
 		this.providerPanel.add(locationTube);
 		this.providerPanel.add(locationLocal);
