@@ -30,6 +30,11 @@ public class TwoVarInferenceModel {
 		void selectAltHyp(int idx);
 		
 	}
+	
+	public interface UpdatePanel {
+		void updatePanel();
+	}
+	
 	private static final long serialVersionUID = 1L;
 	private App app;
 	
