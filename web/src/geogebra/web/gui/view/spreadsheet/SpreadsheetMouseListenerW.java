@@ -11,6 +11,8 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.LongTouchTimer;
+import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Rectangle2D;
 import geogebra.html5.util.EventUtil;
@@ -34,14 +36,11 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
 public class SpreadsheetMouseListenerW implements MouseDownHandler,
         MouseUpHandler, MouseMoveHandler, DoubleClickHandler,
         TouchStartHandler, TouchEndHandler, TouchMoveHandler {
-
-	private static final int SHOW_CONTEXT_MENU_DELAY = 1000;
 
 	protected String selectedCellName;
 	protected String prefix, postfix;
@@ -59,7 +58,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	private boolean isRightClick = false;
 	private final boolean editEnabled = true;
 
-	private Timer rightClickTimer;
+	private LongTouchTimer longTouchTimer;
 
 	private int numberOfTouches = 0;
 
@@ -75,18 +74,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		editor = table.getEditor();
 
 		relativeCopy = new RelativeCopy(kernel);
-		rightClickTimer = new Timer() {
-
-			@Override
-			public void run() {
-				@SuppressWarnings("hiding")
-				MyTableW table = SpreadsheetMouseListenerW.this.table;
-				int row = table.leadSelectionRow;
-				int column = table.leadSelectionColumn;
-				GPoint point = table.getPixel(column, row, false);
-				showContextMenu(point.getX(), point.getY());
-			}
-		};
 	}
 
 	public static int getAbsoluteX(DomEvent e, AppW app) {
@@ -159,7 +146,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (numberOfTouches == 1) {
 			updateTableIsOverDot(touchStartEvent);
 			handlePointerDown(touchStartEvent);
-			scheduleRightClickTimer();
+			scheduleLongTouchTimer(getAbsoluteX(touchStartEvent), getAbsoluteY(touchStartEvent));
 		} // else there are double (or more) touches
 		  // and we are scrolling
 	}
@@ -285,7 +272,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	public void onTouchEnd(TouchEndEvent event) {
 		CancelEventTimer.touchEventOccured();
-		cancelRightClickTimer();
+		cancelLongTouchTimer();
 		if (numberOfTouches == 1) {
 			handlePointerUp(event);
 		}
@@ -429,11 +416,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	public void onTouchMove(TouchMoveEvent event) {
 		if (numberOfTouches == 1) {
 			event.stopPropagation();
-			cancelRightClickTimer();
+			cancelLongTouchTimer();
 			handlePointerMove(event);
-			scheduleRightClickTimer();
+			scheduleLongTouchTimer(getAbsoluteX(event), getAbsoluteY(event));
 		} else {
-			cancelRightClickTimer();
+			cancelLongTouchTimer();
 		}
 	}
 
@@ -699,11 +686,22 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		}
 	}
 
-	private void cancelRightClickTimer() {
-		rightClickTimer.cancel();
+	private void cancelLongTouchTimer() {
+		longTouchTimer.cancel();
 	}
 
-	private void scheduleRightClickTimer() {
-		rightClickTimer.schedule(SHOW_CONTEXT_MENU_DELAY);
+	private void scheduleLongTouchTimer(int x, int y) {
+		if (longTouchTimer == null) {
+			longTouchTimer = createLongTouchTimer();
+		}
+		longTouchTimer.schedule(x, y);
+	}
+	
+	private LongTouchTimer createLongTouchTimer() {
+		return new LongTouchTimer(new LongTouchHandler() {
+			public void handleLongTouch(int x, int y) {
+				showContextMenu(x, y);
+			}
+		});
 	}
 }
