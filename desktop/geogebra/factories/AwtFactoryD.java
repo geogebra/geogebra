@@ -260,10 +260,9 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
-		return (GPaint) new TexturePaint(
+		return new geogebra.awt.GTexturePaintD(new TexturePaint(
 				(BufferedImage) ((MyImageD) subimage).getImage(),
-				GRectangleD.getAWTRectangle(rect));
-
+				GRectangleD.getAWTRectangle(rect)));
 	}
 
 	@Override

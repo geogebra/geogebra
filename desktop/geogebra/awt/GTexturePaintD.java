@@ -8,14 +8,18 @@ import java.awt.TexturePaint;
 
 public class GTexturePaintD implements GTexturePaint {
 	public GTexturePaintD(GBufferedImage subimage, GRectangle rect) {
-		impl = new TexturePaint(GBufferedImageD.getAwtBufferedImage(subimage), GRectangleD.getAWTRectangle(rect));
+		impl = new TexturePaint(GBufferedImageD.getAwtBufferedImage(subimage),
+				GRectangleD.getAWTRectangle(rect));
 	}
 
-	private java.awt.TexturePaint impl;
-	
-	public TexturePaint getPaint(){
+	public GTexturePaintD(TexturePaint paint) {
+		impl = paint;
+	}
+
+	private TexturePaint impl;
+
+	public TexturePaint getPaint() {
 		return impl;
 	}
-
 
 }
