@@ -112,6 +112,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -2206,6 +2207,7 @@ public abstract class AppW extends App implements SetLabels{
 	    }
 
 		private ArrayList<Widget> popups = new ArrayList<Widget>();
+		private ArrayList<PopupPanel> popupPanels = new ArrayList<PopupPanel>();
 		protected GeoGebraFrame frame = null;
 		private ErrorHandler errorHandler;
 
@@ -2221,6 +2223,16 @@ public abstract class AppW extends App implements SetLabels{
 				popups.remove(widget);
 			}
 	    }
+		
+		public void togglePopupPanel(PopupPanel p) {
+			if (p.isShowing()) {
+				p.hide();
+				popupPanels.remove(p);
+			} else {
+				p.show();
+				popupPanels.add(p);
+			}
+		}
 
 		public void closePopups(){
 			justClosedPopup = false;
@@ -2230,6 +2242,10 @@ public abstract class AppW extends App implements SetLabels{
 				widget.setVisible(false);
 			}
 			popups.clear();
+			for (PopupPanel panel : popupPanels) {
+				panel.hide();
+			}
+			popupPanels.clear();
 		}
 
 		private static boolean justClosedPopup = false;

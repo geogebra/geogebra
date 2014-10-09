@@ -165,5 +165,4 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	public boolean addSearchListener(SearchListener searchListener) {
 	    return this.listeners.add(searchListener);
     }
-
 }

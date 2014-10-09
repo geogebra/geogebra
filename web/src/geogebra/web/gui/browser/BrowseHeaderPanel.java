@@ -17,15 +17,21 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.AuxiliaryHeaderPanel;
 import geogebra.web.gui.browser.SearchPanel.SearchListener;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		ResizeListener, BooleanRenderable, EventRenderable {
 
+	/** contains width of the leftHeader and margin of the searchDiv **/
+	private final int WIDTH_HEADER_FIRST = 105;
 	/*public interface SearchListener {
 		void onSearch(String query);
 	}*/
@@ -42,7 +48,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	
 	private FlowPanel profilePanel;
 	private Image profileImage;
-	private FlowPanel userPanel;
 	private LogInOperation login;
 	private App app;
 	
@@ -131,11 +136,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			this.profileImage.setHeight("40px");
 			this.profilePanel.add(this.profileImage);
 			
-			
-			this.userPanel = new FlowPanel();
-			this.userPanel.setStyleName("userPanel");
-			this.profilePanel.add(this.userPanel);
-			
+			final PopupPanel popup = new PopupPanel();
+			popup.addStyleName("optionsPopup");
 			this.optionsPanel = new FlowPanel();
 			this.optionsPanel.setStyleName("profileOptionsPanel");
 			
@@ -160,16 +162,15 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
                 public void onClick() {
 					App.debug("logout");
 	                app.getLoginOperation().performLogOut();
+	                ((AppW) app).togglePopupPanel(popup);
 	                
                 }});
-			
-			userPanel.add(optionsPanel);
-			optionsPanel.setVisible(false);
-			
+						
+			popup.add(optionsPanel);
 			profilePanel.addDomHandler(new ClickHandler(){
 				@Override
                 public void onClick(ClickEvent event) {
-					((AppW)app).togglePopup(optionsPanel);
+					((AppW) app).togglePopupPanel(popup);
 					event.stopPropagation();
                 }},ClickEvent.getType());
 		}
@@ -183,9 +184,20 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.rightPanel.add(this.profilePanel);
 		
 	}
+	
+	@Override
 	public void onResize() {
-		//this.setWidth(Window.getClientWidth() + "px");
+		this.searchPanel.setWidth(getRemainingWidth() + "px");
 	}
+
+	/**
+	 * 
+	 * @return the remaining width for the searchPanel.
+	 */
+	private int getRemainingWidth() {
+		int rightPanelWidth = this.rightPanel.getOffsetWidth() == 0 ? 150 : this.rightPanel.getOffsetWidth();
+	    return Window.getClientWidth() - WIDTH_HEADER_FIRST - rightPanelWidth;
+    }
 
 	@Override
 	public void render(boolean b) {
@@ -206,6 +218,19 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		if(this.searchPanel != null){
 			this.searchPanel.setLabels();
 		}
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				onResize();
+			}
+			
+			@Override
+			public void onFailure(Throwable reason) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override
@@ -216,5 +241,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	    if(event instanceof LogOutEvent){
 	    	this.onLogout();
 	    }
+	    onResize();
     }
 }
