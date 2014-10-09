@@ -200,7 +200,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	/**
 	 * Command line arguments
 	 */
-	private CommandLineArguments args;
+	protected CommandLineArguments args;
 
 	// ==============================================================
 	// JAR fields
