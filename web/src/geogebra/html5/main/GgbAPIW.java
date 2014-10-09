@@ -719,5 +719,9 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	public void recalculateEnvironments() {
 		((AppW) app).recalculateEnvironments();
 	}
+	
+	public void setLanguage(String s){
+		((AppW) app).setLanguage(s);
+	}
 
 }

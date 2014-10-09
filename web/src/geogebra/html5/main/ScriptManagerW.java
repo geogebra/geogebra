@@ -583,9 +583,13 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getPNGBase64(DZD)(exportScale,transparent,dpi);
 		}
 		
-		api.getFileJSON = function(exportScale, transparent, dpi){
+		api.getFileJSON = function(){
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getFileJSON(Z)(false);
-		}		
+		}	
+		
+		api.setLanguage = function(lang){
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang);
+		}	
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
