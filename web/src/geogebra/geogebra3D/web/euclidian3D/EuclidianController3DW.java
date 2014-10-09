@@ -23,6 +23,8 @@ import geogebra.html5.event.PointerEvent;
 import geogebra.html5.event.ZeroOffset;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.util.LongTouchTimer;
+import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.GuiManagerW;
@@ -304,30 +306,23 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 	}
 	
-	private Timer longTouchTimer;
-	private int longTouchX;
-	private int longTouchY;
-	private static final int SHOW_CONTEXT_MENU_DELAY = 1000;
+	private LongTouchTimer longTouchTimer;
 	
 	private void scheduleLongTouchTimer(int x, int y) {
 		if (longTouchTimer == null) {
 			longTouchTimer = createLongTouchTimer();
 		}
-		longTouchX = x;
-		longTouchY = y;
-		
-		longTouchTimer.schedule(SHOW_CONTEXT_MENU_DELAY);
+		longTouchTimer.schedule(x, y);
 	}
 	
-	private Timer createLongTouchTimer() {
-		return new Timer() {
-			@Override
-			public void run() {
-				PointerEvent event = new PointerEvent(longTouchX, longTouchY, PointerEventType.TOUCH, ZeroOffset.instance);
+	private LongTouchTimer createLongTouchTimer() {
+		return new LongTouchTimer(new LongTouchHandler() {
+			public void handleLongTouch(int x, int y) {
+				PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.instance);
 				event.setIsRightClick(true);
 				wrapMouseReleased(event);
 			}
-		};
+		});
 	}
 	
 	private void cancelLongTouchTimer() {
