@@ -4016,7 +4016,14 @@ PROVIDERS
 }
 
 /* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+/* to avoid scrollbars on tablets and mac */
+.browsegui > div:nth-child(1), .browsegui > div:nth-child(1) > div {
+	overflow: hidden !important;
+}
+
 .searchDiv {
+	box-flex: 1;
 	-webkit-box-flex: 1;      /* OLD - iOS 6-, Safari 3.1-6 */
   	-moz-box-flex: 1;         /* OLD - Firefox 19- */
   	/*width: 20%;                For old syntax, otherwise collapses. */
