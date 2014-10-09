@@ -27,7 +27,7 @@ public class TwoVarStatPanel extends StatTable implements ActionListener,
 	private Kernel kernel;
 	protected DataAnalysisViewD statDialog;
 	protected MyTable statTable;
-	public TwoVarStatModel model;
+	private TwoVarStatModel model;
 	private ActionListener parentActionListener;
 	private boolean isIniting;
 
