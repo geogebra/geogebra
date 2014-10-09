@@ -4,18 +4,18 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 DEBUG=1 # In tmp/ there can be some log, if you set this to 1.
-TIMEOUT=30
+TIMEOUT=10
 IMGSCALE=25
 IMGHEIGHT=25
 HTML=html/index.html
 TEX=html/index.tex
 # PROVERS="Auto Recio Botana BotanaGiac PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
 #PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area"
-PROVERS="Auto Botana BotanaGiac OpenGeoProver_Wu"
+PROVERS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-PROVEDETAILS=1 # Rewrite Prove[] to ProveDetails
+PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails
 
 if [ "$PROVEDETAILS" = 1 ]; then
  # Remove some incorrectly working provers.
@@ -23,6 +23,7 @@ if [ "$PROVEDETAILS" = 1 ]; then
  # PROVERS="Botana BotanaGiac"
  # PROVERS="Botana OpenGeoProver_Wu"
  PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto"
+ PROVERS="Botana BotanaGiac"
  fi
 
 PROVERSNO=`echo $PROVERS | wc -w`
@@ -140,6 +141,8 @@ for i in `find -name '*.ggb' | sort`; do
    ENGINE=Botana
    SWSOPTS=",enable:false"
    EXTRAOPTS=--giac
+  elif [ $ENGINE = Botana ]; then
+   SWSOPTS=",enable:true,caching:false"
    fi
 
   # Testing:
