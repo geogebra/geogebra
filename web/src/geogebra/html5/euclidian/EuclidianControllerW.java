@@ -323,9 +323,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				return;
 			}
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
+			cancelLongTouchTimer();
+			scheduleLongTouchTimer(e.getX(), e.getY());
 			onTouchMoveNow(e, time);
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
+			cancelLongTouchTimer();
 			twoTouchMove(targets.get(0),targets.get(1));
+		} else {
+			cancelLongTouchTimer();
 		}
 		CancelEventTimer.touchEventOccured();
 	}
@@ -374,6 +379,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		this.moveIfWaiting();
 		EuclidianViewW.resetDelay();
 		event.stopPropagation();
+		cancelLongTouchTimer();
 		if(!comboBoxHit()){
 			event.preventDefault();
 		}
@@ -389,6 +395,39 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		resetModeAfterFreehand();
 	}
+	
+	private Timer longTouchTimer;
+	private int longTouchX;
+	private int longTouchY;
+	private static final int SHOW_CONTEXT_MENU_DELAY = 1000;
+	
+	private void scheduleLongTouchTimer(int x, int y) {
+		if (longTouchTimer == null) {
+			longTouchTimer = createLongTouchTimer();
+		}
+		longTouchX = x;
+		longTouchY = y;
+		
+		longTouchTimer.schedule(SHOW_CONTEXT_MENU_DELAY);
+	}
+	
+	private Timer createLongTouchTimer() {
+		return new Timer() {
+			@Override
+			public void run() {
+				PointerEvent event = new PointerEvent(longTouchX, longTouchY, PointerEventType.TOUCH, ZeroOffset.instance);
+				event.setIsRightClick(true);
+				wrapMouseReleased(event);
+			}
+		};
+	}
+	
+	private void cancelLongTouchTimer() {
+		if (longTouchTimer == null) {
+			return;
+		}
+		longTouchTimer.cancel();
+	}
 
 	public void onTouchStart(TouchStartEvent event) {
 		if (app.getGuiManager() != null){
@@ -398,11 +437,15 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		calculateEnvironment();
 		if(targets.length() == 1){
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
+			scheduleLongTouchTimer(e.getX(), e.getY());
 			wrapMousePressed(e);
 			e.release();
 		}
-		else if(targets.length() == 2){
+		else if(targets.length() == 2) {
+			cancelLongTouchTimer();
 			twoTouchStart(targets.get(0),targets.get(1));
+		} else {
+			cancelLongTouchTimer();
 		}
 		preventTouchIfNeeded(event);
 		CancelEventTimer.touchEventOccured();

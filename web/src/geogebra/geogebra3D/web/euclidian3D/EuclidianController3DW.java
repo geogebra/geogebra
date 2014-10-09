@@ -254,13 +254,18 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				return;
 			}
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
+			cancelLongTouchTimer();
+			scheduleLongTouchTimer(e.getX(), e.getY());
 			onTouchMoveNow(e, time);
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
+			cancelLongTouchTimer();
 			AbstractEvent first = PointerEvent.wrapEvent(event.getTouches().get(0),this);
 			AbstractEvent second = PointerEvent.wrapEvent(event.getTouches().get(1),this);
 			this.twoTouchMove(first.getX(), first.getY(), second.getX(), second.getY());
 			first.release();
 			second.release();
+		} else {
+			cancelLongTouchTimer();
 		}
 	}
 	
@@ -289,6 +294,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		this.moveIfWaiting();
 		EuclidianViewW.resetDelay();
 		event.stopPropagation();
+		cancelLongTouchTimer();
 		if(!comboBoxHit()){
 			event.preventDefault();
 		}
@@ -296,6 +302,39 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			//mouseLoc was already adjusted to the EVs coords, do not use offset again
 			this.wrapMouseReleased(new PointerEvent(mouseLoc.x, mouseLoc.y, PointerEventType.TOUCH, ZeroOffset.instance));
 		}
+	}
+	
+	private Timer longTouchTimer;
+	private int longTouchX;
+	private int longTouchY;
+	private static final int SHOW_CONTEXT_MENU_DELAY = 1000;
+	
+	private void scheduleLongTouchTimer(int x, int y) {
+		if (longTouchTimer == null) {
+			longTouchTimer = createLongTouchTimer();
+		}
+		longTouchX = x;
+		longTouchY = y;
+		
+		longTouchTimer.schedule(SHOW_CONTEXT_MENU_DELAY);
+	}
+	
+	private Timer createLongTouchTimer() {
+		return new Timer() {
+			@Override
+			public void run() {
+				PointerEvent event = new PointerEvent(longTouchX, longTouchY, PointerEventType.TOUCH, ZeroOffset.instance);
+				event.setIsRightClick(true);
+				wrapMouseReleased(event);
+			}
+		};
+	}
+	
+	private void cancelLongTouchTimer() {
+		if (longTouchTimer == null) {
+			return;
+		}
+		longTouchTimer.cancel();
 	}
 
 	@Override
@@ -306,15 +345,19 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		calculateEnvironment();
 		if(targets.length() == 1){
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
+			scheduleLongTouchTimer(e.getX(), e.getY());
 			wrapMousePressed(e);
 			e.release();
 		}
 		else if(targets.length() == 2){
+			cancelLongTouchTimer();
 			AbstractEvent first = PointerEvent.wrapEvent(event.getTouches().get(0),this);
 			AbstractEvent second = PointerEvent.wrapEvent(event.getTouches().get(1),this);
 			this.twoTouchStart(first.getX(), first.getY(), second.getX(), second.getY());
 			first.release();
 			second.release();
+		} else {
+			cancelLongTouchTimer();
 		}
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
