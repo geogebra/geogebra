@@ -138,6 +138,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		mainPanel.add(boxPlotPanel);
 
 		tabPanel = new TabPanel();
+		tabPanel.setStyleName("daOptionsTabPanel");
 		add(tabPanel);
 
 		// update
