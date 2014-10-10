@@ -422,7 +422,8 @@ public class FileManagerT extends FileManager {
 								cb.onFailure(result.getError());
 							}
 						});
-						reader.readAsText(entry);
+						// TODO: compile problem, removed
+						//reader.readAsText(entry);
 					}
 					
 					public void onFailure(FileError error) {
