@@ -16,9 +16,11 @@ import com.googlecode.gwtphonegap.client.PhoneGap;
 import com.googlecode.gwtphonegap.client.file.DirectoryEntry;
 import com.googlecode.gwtphonegap.client.file.DirectoryReader;
 import com.googlecode.gwtphonegap.client.file.EntryBase;
+import com.googlecode.gwtphonegap.client.file.File;
 import com.googlecode.gwtphonegap.client.file.FileCallback;
 import com.googlecode.gwtphonegap.client.file.FileEntry;
 import com.googlecode.gwtphonegap.client.file.FileError;
+import com.googlecode.gwtphonegap.client.file.FileObject;
 import com.googlecode.gwtphonegap.client.file.FileReader;
 import com.googlecode.gwtphonegap.client.file.FileSystem;
 import com.googlecode.gwtphonegap.client.file.FileWriter;
@@ -43,7 +45,7 @@ public class FileManagerT extends FileManager {
 	}
 
 	void getGgbDir(final Callback<DirectoryEntry, FileError> callback) {
-		this.phonegap.getFile().requestFileSystem(FileSystem.LocalFileSystem_PERSISTENT, 0, new FileCallback<FileSystem, FileError>() {
+		this.phonegap.getFile().requestFileSystem(File.LocalFileSystem_PERSISTENT, 0, new FileCallback<FileSystem, FileError>() {
 
 			@Override
 			public void onSuccess(final FileSystem entry) {
@@ -272,9 +274,8 @@ public class FileManagerT extends FileManager {
                                     }
 									@Override
                                     public void onFailure(FileError reason) {
-	                                   App.debug("could not read meta data");
+	                                   App.debug("Could not read meta data ");
                                     }
-
 								});
 							}
 						}
@@ -282,15 +283,14 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onFailure(final FileError error) {
-						//
+						App.debug("Could not read the file entries");
 					}
 				});
 			}
 
 			@Override
 			public void onFailure(final FileError reason) {
-				// TODO Auto-generated method stub
-
+				App.debug("Could not read GGBDir");
 			}
 		});
 	}
@@ -398,24 +398,38 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void onFailure(FileError reason) {
-				// TODO Auto-generated method stub
+				cb.onFailure(reason);
 			}
 
 			@Override
 			public void onSuccess(FileEntry metaFile) {
-				final FileReader reader = PhoneGapManager
-						.getPhoneGap()
-						.getFile()
-						.createReader();
-
-				reader.setOnloadCallback(new ReaderCallback<FileReader>() {
-
-					@Override
-					public void onCallback(final FileReader result) {
-						cb.onSuccess(result.getResult());
+				metaFile.getFile(new FileCallback<FileObject, FileError>() {
+					
+					public void onSuccess(FileObject entry) {
+						final FileReader reader = PhoneGapManager
+								.getPhoneGap()
+								.getFile()
+								.createReader();
+						
+						reader.setOnloadCallback(new ReaderCallback<FileReader>() {
+							public void onCallback(FileReader result) {
+								cb.onSuccess(result.getResult());
+							}
+						});
+						
+						reader.setOnErrorCallback(new ReaderCallback<FileReader>() {
+							public void onCallback(FileReader result) {
+								cb.onFailure(result.getError());
+							}
+						});
+						reader.readAsText(entry);
+					}
+					
+					public void onFailure(FileError error) {
+						cb.onFailure(error);
 					}
 				});
-				reader.readAsText(metaFile);
+				
 			}
 		});
 	}
