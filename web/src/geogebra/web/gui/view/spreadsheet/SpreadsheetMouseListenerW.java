@@ -416,9 +416,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	public void onTouchMove(TouchMoveEvent event) {
 		if (numberOfTouches == 1) {
 			event.stopPropagation();
-			cancelLongTouchTimer();
 			handlePointerMove(event);
-			scheduleLongTouchTimer(getAbsoluteX(event), getAbsoluteY(event));
+			rescheduleLTTimerIfRunning(getAbsoluteX(event), getAbsoluteY(event));
 		} else {
 			cancelLongTouchTimer();
 		}
@@ -695,6 +694,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			longTouchTimer = createLongTouchTimer();
 		}
 		longTouchTimer.schedule(x, y);
+	}
+	
+	private void rescheduleLTTimerIfRunning(int x, int y) {
+		if (longTouchTimer == null) {
+			return;
+		}
+		longTouchTimer.rescheduleIfRunning(x, y);
 	}
 	
 	private LongTouchTimer createLongTouchTimer() {
