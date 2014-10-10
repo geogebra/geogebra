@@ -343,7 +343,7 @@ public interface Traversing {
 				if(replace == null){
 					replace = Variable.replacement(ev.getKernel(), name);
 				}
-				if(replace instanceof Variable){
+				if(replace instanceof Variable && !name.equals(ev.getKernel().getConstruction().getRegisteredFunctionVariable())){
 					name = ((Variable)replace).getName(StringTemplate.defaultTemplate);
 					GeoNumeric slider = new GeoNumeric(ev.getKernel().getConstruction(), name, 1);
 					GeoNumeric.setSliderFromDefault(slider, false);
