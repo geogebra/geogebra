@@ -20,6 +20,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String realName = null;
 	private String cookie;
 	private String image;
+	private String language;
 	
 	/**
 	 * Creates a new user with the specified login token
@@ -140,6 +141,14 @@ public class GeoGebraTubeUser extends BaseModel {
 
 	public String getImageURL() {
 		return this.image;
+	}
+
+	public String getLanguage() {
+		return this.language;
+	}
+	
+	public void setLanguage(String language){
+		
 	}
 
 }
