@@ -17,10 +17,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
+public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
+		RequiresResize
+	
 {
 	private static final long serialVersionUID = 1L;
 
@@ -295,6 +298,10 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW
 		}
 		return true;
 	}
+
+	public void onResize() {
+	    scrollPane.setHeight(getOffsetHeight() - lblHeader.getOffsetHeight() + "px");
+    }
 
 
 }

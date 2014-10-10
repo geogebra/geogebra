@@ -82,7 +82,12 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 				dataDisplayPanel1.onResize();
 				dataDisplayPanel2.onResize();
 			}
+		
+			if (model.showDataPanel()) {
+				dataPanel.onResize();
+			}
 		}
+		
 	};
 
 	private DataSource dataSource;
