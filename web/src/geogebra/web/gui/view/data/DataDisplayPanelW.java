@@ -684,10 +684,12 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	public void updateStemPlot(String latex) {
 		imageContainer.setText("");
+		
+		//imageContainer.setSize(getOffsetWidth() +"px", getOffsetHeight() + "px");
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
 		DrawEquationWeb.drawEquationAlgebraView(imageContainer.getElement(), "\\mathrm {" + latexStr
 		        + "}");
-
+		
 		btnOptions.setVisible(false);
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);
@@ -810,6 +812,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		if (update) {
 			getModel().updatePlot(false);
 		}
+		
+		imageContainer.setPixelSize(width, height);
 		
 	}
 
