@@ -13,18 +13,6 @@ import java.util.ArrayList;
 public class GLBufferD implements GLBuffer {
 	private FloatBuffer impl;
 	
-	/**
-	 * constructor from float array
-	 * @param array float array
-	 * @param length array length
-	 */
-	public GLBufferD(ArrayList<Float> array, int length){
-		impl = FloatBuffer.allocate(length);
-		for (int i = 0; i < length; i++){
-			impl.put(array.get(i));
-		}
-		impl.rewind();
-	}
 	
 	/**
 	 * constructor from float array
@@ -34,6 +22,8 @@ public class GLBufferD implements GLBuffer {
 	}
 	
 	private boolean isEmpty;
+	
+	private int currentLength;
 	
 	public boolean isEmpty(){
 		return isEmpty;
@@ -46,27 +36,27 @@ public class GLBufferD implements GLBuffer {
 	public void set(ArrayList<Float> array, int length){
 
 		// allocate buffer only at start and when length change
-		if (impl == null || impl.capacity() != length){
+		if (impl == null || impl.capacity() < length){
 			impl = FloatBuffer.allocate(length);
 		}else{
 			impl.rewind();
 		}
+		
+		impl.limit(length);
 
 		for (int i = 0; i < length; i++){
 			impl.put(array.get(i));
 		}
 		impl.rewind();
 		
+		currentLength = length;
 		isEmpty = false;
 	}
 
 	
-	public void rewind(){
-		impl.rewind();
-	}
 	
 	public int capacity(){
-		return impl.capacity();
+		return currentLength;
 	}
 
 	public void array(float[] ret){

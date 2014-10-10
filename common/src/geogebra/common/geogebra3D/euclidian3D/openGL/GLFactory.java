@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import java.util.ArrayList;
 
 
 /**
@@ -14,14 +13,6 @@ public abstract class GLFactory {
 	 * prototype to factor stuff
 	 */
 	public static GLFactory prototype = null;
-	
-	/**
-	 * 
-	 * @param array float array
-	 * @param length array length
-	 * @return new float buffer
-	 */
-	abstract public GLBuffer newBuffer(ArrayList<Float> array, int length);
 	
 	/**
 	 * 

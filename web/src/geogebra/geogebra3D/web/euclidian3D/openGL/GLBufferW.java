@@ -16,26 +16,18 @@ public class GLBufferW implements GLBuffer {
 	 private Float32Array impl;
 	 
 	
-	/**
-	 * constructor from float array
-	 * @param array float array
-	 */
-	public GLBufferW(ArrayList<Float> array, int length){
-		
-		impl = Float32Array.create(length);
-		for (int i = 0 ; i < length ; i++){
-			impl.set(i, array.get(i));
-		}
-	}
 	
 	/**
 	 * constructor from float array
 	 */
 	public GLBufferW(){
 		isEmpty = true;
+		currentLength = 0;
 	}
 	
 	private boolean isEmpty;
+	
+	private int currentLength;
 	
 	public boolean isEmpty(){
 		return isEmpty;
@@ -48,23 +40,23 @@ public class GLBufferW implements GLBuffer {
 	public void set(ArrayList<Float> array, int length){
 		
 		// allocate buffer only at start and when length change
-		if (impl == null || impl.getLength() != length){
+		if (impl == null || impl.getLength() < length){
 			impl = Float32Array.create(length);
 		}
 		
 		for (int i = 0 ; i < length ; i++){
 			impl.set(i, array.get(i));
 		}
+		
+		currentLength = length;
 		isEmpty = false;
 	}
+	
 
 
-	public void rewind() {
-	   // index = 0;
-    }
 
 	public int capacity() {
-	    return impl.getLength();
+	    return currentLength;
     }
 
 	public void array(float[] ret) {
@@ -78,7 +70,7 @@ public class GLBufferW implements GLBuffer {
 	 * @return buffer
 	 */
 	public Float32Array getBuffer(){
-		return impl;
+		return impl.subarray(0, currentLength);
 	}
 
 }

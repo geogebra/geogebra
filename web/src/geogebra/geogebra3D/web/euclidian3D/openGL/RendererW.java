@@ -1301,7 +1301,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 	private void glBufferData(GLBuffer fb){
-        glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER, ((GLBufferW) fb).getBuffer(), WebGLRenderingContext.STATIC_DRAW);
+        glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER,((GLBufferW) fb).getBuffer(), WebGLRenderingContext.STATIC_DRAW);
  	}
 
 

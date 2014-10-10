@@ -3,8 +3,6 @@ package geogebra.geogebra3D.web.euclidian3D.openGL;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 
-import java.util.ArrayList;
-
 /**
  * GL factory for web
  * @author mathieu
@@ -19,10 +17,6 @@ public class GLFactoryW extends GLFactory {
 		
 	}
 	
-	@Override
-	final public GLBuffer newBuffer(ArrayList<Float> array, int length){		
-		return new GLBufferW(array, length);
-	}
 	
 	@Override
 	final public GLBuffer newBuffer(){

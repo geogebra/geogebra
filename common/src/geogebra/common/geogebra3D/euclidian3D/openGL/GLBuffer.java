@@ -17,10 +17,6 @@ public interface GLBuffer{
 	 */
 	public void set(ArrayList<Float> array, int length);
 	
-	/**
-	 * rewind the buffer
-	 */
-	public void rewind();
 
 	/**
 	 * 
