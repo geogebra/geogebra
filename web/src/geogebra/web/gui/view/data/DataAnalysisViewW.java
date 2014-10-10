@@ -244,7 +244,8 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 
 	private void updateLayout() {
 		clear();
-
+		int regressiodIdx = model.isRegressionMode() && 
+				regressionPanel != null ? regressionPanel.getRegressionIdx() :- 1;
 
 		mainSplit.clear();
 		boolean stat = model.showStatPanel();
@@ -296,6 +297,9 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 		if (model.isRegressionMode()) {
 			regressionPanel = new RegressionPanelW(app, this);
 			add(regressionPanel);
+			if (regressiodIdx != -1) {
+				regressionPanel.setRegressionIdx(regressiodIdx);
+			}
 			mainSplit.setHeight("80%");
 		} else {
 			mainSplit.setHeight("100%");
