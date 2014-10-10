@@ -389,19 +389,19 @@ public class DataDisplayPanelW extends FlowPanel implements
 		minus.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				actionPerformed(this);
+				actionPerformed(minus);
 			}
 		});
 
 		none.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				actionPerformed(this);
+				actionPerformed(none);
 			}
 		});
 
-		minus.addClickHandler(new ClickHandler() {
+		plus.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				actionPerformed(this);
+				actionPerformed(plus);
 			}
 		});
 
@@ -409,9 +409,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		stemAdjustPanel = new FlowPanel();
 		stemAdjustPanel.add(LayoutUtil.panelRow(minus, none, plus));
-
 	}
-
 	/**
 	 * Creates a control panel for manually setting classes
 	 */
@@ -552,6 +550,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			minus.setValue(source == minus);
 			none.setValue(source == none);
 			plus.setValue(source == plus);
+			App.debug("[Data]  - 0 + has pressed");
 			if (source == minus) {
 				getModel().getSettings().setStemAdjust(-1);
 			}
