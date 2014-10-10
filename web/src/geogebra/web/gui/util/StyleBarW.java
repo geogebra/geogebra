@@ -1,5 +1,7 @@
 package geogebra.web.gui.util;
 
+import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.main.AppW;
@@ -51,10 +53,28 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		add(s);
 	}
 
-
 	public abstract void setOpen(boolean showStyleBar);
-	
-	protected void getViewButton(){
+
+	protected void addMenuButton(){
+		MyCJButton menuButton = new MyCJButton();
+
+		ImageOrText icon = new ImageOrText();
+		icon.url = GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString();
+		menuButton.setIcon(icon);
+
+		menuButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				if(app.getGuiManager().showView(App.VIEW_PROPERTIES)){
+					app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
+				} else{
+					app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
+				}
+            }
+		});
+		add(menuButton);
+	}
+
+	protected void addViewButton(){
 		ImageOrText[] data = new ImageOrText[Views.ids.length + 1];
 		final int[] viewIDs = new int[Views.ids.length+1];
 
@@ -159,7 +179,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	public void onViewsChanged() {
 	    if(viewButton != null){
 	    	remove(viewButton);
-	    	getViewButton();
+	    	addViewButton();
 	    }
 	}
 }

@@ -50,7 +50,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		add(btnItalic);
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
-		getViewButton();
+		addViewButton();
 		updateStyleBar();
 	}
 

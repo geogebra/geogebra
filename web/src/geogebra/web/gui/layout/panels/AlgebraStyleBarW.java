@@ -33,7 +33,7 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 		setToolTips();
 
 		addTreeModeButton();
-		getViewButton();
+		addViewButton();
 	}
 	
 	private void setToolTips() {

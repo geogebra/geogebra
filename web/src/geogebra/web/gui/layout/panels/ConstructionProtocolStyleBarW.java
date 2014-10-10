@@ -8,7 +8,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW {
 
 	public ConstructionProtocolStyleBarW(AppW app){
 		super(app, App.VIEW_CONSTRUCTION_PROTOCOL);
-		getViewButton();
+		addViewButton();
 	}
 
 	@Override

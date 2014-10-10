@@ -44,7 +44,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		createGUI();
 		updateGUI();
 		setLabels();
-		getViewButton();
+		addViewButton();
 	}
 
 	private void createGUI() {
