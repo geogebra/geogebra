@@ -48,7 +48,38 @@ public interface AlgebraView extends View, SetLabels{
 	 * ORDER:
 	 * Construction Protocol order
 	 */
-	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER, LAYER }
+	public static enum SortMode { 
+		DEPENDENCY {
+			@Override
+			public String toString() {
+				return "Dependency";
+			}
+		},
+		TYPE {
+			@Override
+			public String toString() {
+				return "ObjectType";
+			}
+		},
+		VIEW {
+			@Override
+			public String toString() {
+				return "View";
+			}
+		},
+		ORDER {
+			@Override
+			public String toString() {
+				return "ConstructionOrder";
+			}
+		},
+		LAYER {
+			@Override
+			public String toString() {
+				return "Layer";
+			}
+		}
+	}
 	
 	/**
 	 * set tree mode from int value

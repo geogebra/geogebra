@@ -68,7 +68,8 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 
 		ImageOrText[] data = new ImageOrText[supportedModes.length];
 		for (int i = 0; i < supportedModes.length; i++) {
-			data[i] = new ImageOrText(AlgebraViewWeb.intToMode(supportedModes[i]).toString());
+			data[i] = new ImageOrText(app.getLocalization().getPlain(
+			        AlgebraViewWeb.intToMode(supportedModes[i]).toString()));
 		}
 
 		final PopupMenuButton treeModeButton = new PopupMenuButton(app, data,
