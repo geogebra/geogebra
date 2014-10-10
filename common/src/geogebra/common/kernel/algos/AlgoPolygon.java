@@ -418,14 +418,6 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
         	sb.append(loc.getPlain("Polygon").toLowerCase());
         }
 
-		// FIXME: for reverseOrder==true languages
-        // this may (must?) be put as first
-		if (polyhedron!=null){
-            sb.append(' ');
-            sb.append(loc.getPlain("of"));
-            sb.append(' ');
-        	sb.append(polyhedron.getLabel(tpl));
-        }       
     }
 
     @Override
