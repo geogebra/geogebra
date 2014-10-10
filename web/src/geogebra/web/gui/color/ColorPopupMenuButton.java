@@ -14,8 +14,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
 public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandler {
-	
-	private AppW app;
 
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
@@ -109,10 +107,14 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 
 	public void setDefaultColor(float alpha, geogebra.common.awt.GColor gc) {
 		defaultColor = gc;
-		if(gc!=null)
+		if(gc!=null){
 			this.setIcon(GeoGebraIcon.createColorSwatchIcon( alpha, iconSize,gc, null));
-		else
+			this.getElement().getStyle().setBorderColor(gc.toString());
+		}
+		else {
 			this.setIcon(GeoGebraIcon.createNullSymbolIcon(iconSize.getWidth(), iconSize.getHeight()));
+			this.getElement().getStyle().setBorderColor(GColor.black.toString());
+		}
 	}
 
 	/*public void setIcon(CanvasElement ic) {
