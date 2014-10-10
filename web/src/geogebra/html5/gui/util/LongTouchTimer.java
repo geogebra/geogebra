@@ -68,8 +68,8 @@ public class LongTouchTimer extends Timer {
 	 * @param x the x coordinate passed to the handler
 	 * @param y the y coordinate passed to the handler
 	 */
-	public void reScheduleIfRunning(int x, int y) {
-		reScheduleIfRunning(x, y, SHOW_CONTEXT_MENU_DELAY);
+	public void rescheduleIfRunning(int x, int y) {
+		rescheduleIfRunning(x, y, SHOW_CONTEXT_MENU_DELAY);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class LongTouchTimer extends Timer {
 	 * @param y the y coordinate passed to the handler
 	 * @param delayMillis how long to wait before the timer elapses, in milliseconds
 	 */
-	public void reScheduleIfRunning(int x, int y, int delayMillis) {
+	public void rescheduleIfRunning(int x, int y, int delayMillis) {
 		if (isRunning()) {
 			cancel();
 			schedule(x, y, delayMillis);

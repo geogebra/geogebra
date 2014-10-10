@@ -256,8 +256,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				return;
 			}
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
-			cancelLongTouchTimer();
-			scheduleLongTouchTimer(e.getX(), e.getY());
+			rescheduleLTTimerIfRunning(e.getX(), e.getY());
 			onTouchMoveNow(e, time);
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
 			cancelLongTouchTimer();
@@ -330,6 +329,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return;
 		}
 		longTouchTimer.cancel();
+	}
+	
+	private void rescheduleLTTimerIfRunning(int x, int y) {
+		if (longTouchTimer == null) {
+			return;
+		}
+		longTouchTimer.rescheduleIfRunning(x, y);
 	}
 
 	@Override
