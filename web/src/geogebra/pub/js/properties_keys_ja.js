@@ -2599,6 +2599,8 @@ __GGB__keysVar.ja.plain = {
     "Polarized": "\u504f\u5149",
     "PolyLine": "\u6298\u308c\u7dda",
     "Polygon": "\u591a\u89d2\u5f62",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "\u6b63\u306e\u5411\u304d\u306e\u307f",
     "PositiveValuesFollowTheView": "Positive values follow the view",
     "PossiblyGenerallyTrue": "(possibly generally true)",

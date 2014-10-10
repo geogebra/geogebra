@@ -2599,6 +2599,8 @@ __GGB__keysVar.xh.plain = {
     "Polarized": "iPolarized",
     "PolyLine": "iPolyline",
     "Polygon": "uMacalaManinzi",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Icala lasekunene lodwa",
     "PositiveValuesFollowTheView": "Amanani asekunene alandela umbono",
     "PossiblyGenerallyTrue": "(possibly generally true)",

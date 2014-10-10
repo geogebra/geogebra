@@ -2599,6 +2599,8 @@ __GGB__keysVar.lt.plain = {
     "Polarized": "Polarized",
     "PolyLine": "Polilinija",
     "Polygon": "Daugiakampis",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Tik teigiama kryptis",
     "PositiveValuesFollowTheView": "Teigiamos vert\u0117s seka vaizd\u0105",
     "PossiblyGenerallyTrue": "(possibly generally true)",

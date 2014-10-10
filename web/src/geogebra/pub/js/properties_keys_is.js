@@ -2599,6 +2599,8 @@ __GGB__keysVar.is.plain = {
     "Polarized": "Polarized",
     "PolyLine": "Broti\xf0 l\xednustrik",
     "Polygon": "Marghyrningur",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "J\xe1kv\xe6\xf0 stefna a\xf0eins",
     "PositiveValuesFollowTheView": "J\xe1kv\xe6\xf0 gildi fylgja s\xfdn",
     "PossiblyGenerallyTrue": "(possibly generally true)",

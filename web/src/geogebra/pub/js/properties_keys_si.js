@@ -2599,6 +2599,8 @@ __GGB__keysVar.si.plain = {
     "Polarized": "\u0db0\u200d\u0dca\u200d\u0dbb\u0dd0\u0dc0\u0dcf\u0dba\u0dd2\u0dad",
     "PolyLine": "Polyline",
     "Polygon": "\u0db6\u0dc4\u0dd4 \u0d85\u0dc3\u200d\u0dca\u200d\u0dbb\u0dba",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "\u0db0\u0db1\u0dcf\u0dad\u0dca\u0db8\u0d9a \u0d8b\u0db4\u0daf\u0dda\u0dc1\u0dba \u0db4\u0db8\u0dab\u0dba\u0dd2",
     "PositiveValuesFollowTheView": "\u0db0\u0db1\u0dcf\u0dad\u0dca\u0db8\u0d9a \u0d85\u0d9c\u0dba\u0db1\u0dca \u0daf\u0dbb\u0dca\u0dc1\u0db1\u0dba \u0d85\u0db1\u0dd4\u0d9c\u0db8\u0db1\u0dba \u0d9a\u0dbb\u0db1\u0dc0\u0dcf",
     "PossiblyGenerallyTrue": "(possibly generally true)",

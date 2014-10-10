@@ -2599,6 +2599,8 @@ __GGB__keysVar.vi.plain = {
     "Polarized": "Polarized",
     "PolyLine": "\u0110a gi\xe1c \u0111i\u1ec3m",
     "Polygon": "H\xecnh \u0111a gi\xe1c",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Ch\u1ec9 h\u01b0\u1edbng d\u01b0\u01a1ng",
     "PositiveValuesFollowTheView": "C\xe1c gi\xe1 tr\u1ecb d\u01b0\u01a1ng sinh ra h\xecnh \u1ea3nh hi\u1ec3n th\u1ecb",
     "PossiblyGenerallyTrue": "(possibly generally true)",

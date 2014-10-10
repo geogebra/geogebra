@@ -2599,6 +2599,8 @@ __GGB__keysVar.pl.plain = {
     "Polarized": "Spolaryzowany",
     "PolyLine": "\u0141amana",
     "Polygon": "Wielok\u0105t",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Tylko warto\u015bci dodatnie",
     "PositiveValuesFollowTheView": "Rozpatrz warto\u015bci dodatnie",
     "PossiblyGenerallyTrue": "(by\u0107 mo\u017ce og\xf3lnie prawda)",

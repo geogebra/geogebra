@@ -2599,6 +2599,8 @@ __GGB__keysVar.ro.plain = {
     "Polarized": "polarizat",
     "PolyLine": "Linie poligonal\u0103",
     "Polygon": "Poligon",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Doar direc\u021bie pozitiv\u0103",
     "PositiveValuesFollowTheView": "Valorile pozitive care urmeaza punctul de vedere",
     "PossiblyGenerallyTrue": "(possibly generally true)",

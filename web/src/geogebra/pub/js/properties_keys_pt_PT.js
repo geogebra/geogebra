@@ -2599,6 +2599,8 @@ __GGB__keysVar.pt_PT.plain = {
     "Polarized": "Polarizado",
     "PolyLine": "Linha Poligonal",
     "Polygon": "Pol\xedgono",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "S\xf3 Sentido Positivo",
     "PositiveValuesFollowTheView": "Os valores positivos seguem a Vista",
     "PossiblyGenerallyTrue": "(possivelmente verdadeiro)",

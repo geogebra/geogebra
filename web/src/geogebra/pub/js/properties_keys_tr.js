@@ -2599,6 +2599,8 @@ __GGB__keysVar.tr.plain = {
     "Polarized": "Kutupla\u015fm\u0131\u015f",
     "PolyLine": "\xc7okluDo\u011fru",
     "Polygon": "\xc7okgen",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Sadece pozitif y\xf6n",
     "PositiveValuesFollowTheView": "Pozitif de\u011ferler g\xf6r\xfcn\xfcm\xfc izler",
     "PossiblyGenerallyTrue": "(muhtemelen genellikle do\u011fru)",

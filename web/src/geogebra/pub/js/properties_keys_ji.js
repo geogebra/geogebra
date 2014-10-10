@@ -2599,6 +2599,8 @@ __GGB__keysVar.ji.plain = {
     "Polarized": "Polarized",
     "PolyLine": "\u05d2\u05e2\u05d1\u05e8\u05d0\u05b8\u05db\u05e2\u05e0\u05e2 \u05dc\u05d9\u05e0\u05d9\u05e2",
     "Polygon": "\u05e4\u05bc\u05d0\u05b8\u05dc\u05d9\u05d2\u05d0\u05b8\u05df",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "\u05d1\u05dc\u05d5\u05d9\u05d6 \u05d3\u05d9 \u05e4\u05bc\u05d0\u05b8\u05d6\u05d9\u05d8\u05d9\u05d5\u05d5\u05e2 \u05e8\u05d9\u05db\u05d8\u05d5\u05e0\u05d2",
     "PositiveValuesFollowTheView": "\u05e4\u05bc\u05d0\u05b8\u05d6\u05d9\u05d8\u05d9\u05d5\u05d5\u05e2 \u05d5\u05d5\u05e2\u05e8\u05d8\u05df \u05e9\u05d8\u05d9\u05de\u05e2\u05df \u05de\u05d9\u05d8\u05df \u05d0\u05b8\u05e0\u05d1\u05dc\u05d9\u05e7",
     "PossiblyGenerallyTrue": "(possibly generally true)",

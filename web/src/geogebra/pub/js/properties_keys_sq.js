@@ -2599,6 +2599,8 @@ __GGB__keysVar.sq.plain = {
     "Polarized": "Polarized",
     "PolyLine": "PoliDrejtez",
     "Polygon": "Shumekendesh",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Vetem Drejtim Pozitiv",
     "PositiveValuesFollowTheView": "Vlerat Pozitive pasojne pamjen",
     "PossiblyGenerallyTrue": "(possibly generally true)",

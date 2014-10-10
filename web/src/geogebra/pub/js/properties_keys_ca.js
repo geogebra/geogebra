@@ -2599,6 +2599,8 @@ __GGB__keysVar.ca.plain = {
     "Polarized": "POlaritzat",
     "PolyLine": "L\xednia poligonal",
     "Polygon": "Pol\xedgon",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Nom\xe9s en la direcci\xf3 positiva",
     "PositiveValuesFollowTheView": "Punt de vista adequat per als valors positius",
     "PossiblyGenerallyTrue": "(\xe9s possible que sigui veritat com a regla general)",

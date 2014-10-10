@@ -2599,6 +2599,8 @@ __GGB__keysVar.ms.plain = {
     "Polarized": "Terkutub",
     "PolyLine": "GarisPoli",
     "Polygon": "Poligon",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Arah Positif Sahaja",
     "PositiveValuesFollowTheView": "Nilai-nilai positif mengikut paparan",
     "PossiblyGenerallyTrue": "(mungkin benar secara umumnya)",

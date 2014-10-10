@@ -2599,6 +2599,8 @@ __GGB__keysVar.hr.plain = {
     "Polarized": "Polarizirane",
     "PolyLine": "Razlomljena crta",
     "Polygon": "Mnogokut",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Samo pozitivni smjer",
     "PositiveValuesFollowTheView": "Pozitivne vrijednosti slijede prikaz",
     "PossiblyGenerallyTrue": "(mogu\u0107e op\u0107enito istinito)",

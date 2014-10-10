@@ -2599,6 +2599,8 @@ __GGB__keysVar.tl.plain = {
     "Polarized": "Polarized",
     "PolyLine": "PolyLine",
     "Polygon": "Polygon",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Positibong Direksyon Lamang",
     "PositiveValuesFollowTheView": "Susundan ng halagang positibo ang view",
     "PossiblyGenerallyTrue": "(possibly generally true)",

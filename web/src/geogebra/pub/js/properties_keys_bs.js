@@ -2599,6 +2599,8 @@ __GGB__keysVar.bs.plain = {
     "Polarized": "Polarizacija",
     "PolyLine": "Izlomljena linija",
     "Polygon": "Mnogougao",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Samo pozitivan smjer",
     "PositiveValuesFollowTheView": "Pozitivne vrijednosti slijede prikaz",
     "PossiblyGenerallyTrue": "(vjerovatno u op\u0107em slu\u010daju ta\u010dno)",

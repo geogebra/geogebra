@@ -2599,6 +2599,8 @@ __GGB__keysVar.sk.plain = {
     "Polarized": "Polarizovan\xfd",
     "PolyLine": "Lomen\xe1 \u010diara",
     "Polygon": "N-uholn\xedk",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "iba kladn\xe9 smery",
     "PositiveValuesFollowTheView": "Kladn\xe9 hodnoty po zobrazen\xed",
     "PossiblyGenerallyTrue": "(je mo\u017en\xe9, \u017ee plat\xed vo v\u0161eobecnosti)",

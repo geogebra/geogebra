@@ -2599,6 +2599,8 @@ __GGB__keysVar.gl.plain = {
     "Polarized": "Polarizado",
     "PolyLine": "Poligonal",
     "Polygon": "Pol\xedgono",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Unicamente rama positiva",
     "PositiveValuesFollowTheView": "Valores positivos pr\xf3ximos \xe1 vista",
     "PossiblyGenerallyTrue": "(posiblemente certo en xeral)",

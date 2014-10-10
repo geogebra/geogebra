@@ -2599,6 +2599,8 @@ __GGB__keysVar.sv.plain = {
     "Polarized": "Polariserade",
     "PolyLine": "Polygont\xe5g",
     "Polygon": "Polygon",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Endast positiv riktning",
     "PositiveValuesFollowTheView": "Positiva v\xe4rden f\xf6ljer ritomr\xe5det",
     "PossiblyGenerallyTrue": "(m\xf6jligen generellt sant)",

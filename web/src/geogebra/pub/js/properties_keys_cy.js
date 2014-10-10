@@ -2599,6 +2599,8 @@ __GGB__keysVar.cy.plain = {
     "Polarized": "Polarized",
     "PolyLine": "LlinellBoly",
     "Polygon": "Polygon",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Cyfeiriad Positif yn unig",
     "PositiveValuesFollowTheView": "Mae gwerthoedd positif yn dilyn y wedd",
     "PossiblyGenerallyTrue": "(possibly generally true)",

@@ -2599,6 +2599,8 @@ __GGB__keysVar.lv.plain = {
     "Polarized": "Polariz\u0113ts",
     "PolyLine": "Lauzta l\u012bnija",
     "Polygon": "Daudzst\u016bris",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Tikai Pozit\u012bvs Virziens",
     "PositiveValuesFollowTheView": "Pozit\u012bvas v\u0113rt\u012bbas seko skatam",
     "PossiblyGenerallyTrue": "(possibly generally true)",

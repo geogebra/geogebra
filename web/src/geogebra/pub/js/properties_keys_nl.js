@@ -2599,6 +2599,8 @@ __GGB__keysVar.nl.plain = {
     "Polarized": "Polarized",
     "PolyLine": "Veelhoekslijn",
     "Polygon": "Veelhoek",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Positieve zin",
     "PositiveValuesFollowTheView": "Positieve waarden voor aanzicht",
     "PossiblyGenerallyTrue": "(possibly generally true)",

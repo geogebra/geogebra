@@ -2599,6 +2599,8 @@ __GGB__keysVar.zh_CN.plain = {
     "Polarized": "\u6781\u5316",
     "PolyLine": "\u6298\u7ebf",
     "Polygon": "\u591a\u8fb9\u5f62",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "\u53ea\u663e\u793a\u6b63\u65b9\u5411",
     "PositiveValuesFollowTheView": "\u6b63\u503c\u9075\u5faa\u89c6\u56fe",
     "PossiblyGenerallyTrue": "(\u4e00\u822c\u60c5\u51b5\u4e0b\u53ef\u80fd\u662f\u771f\u7684)",

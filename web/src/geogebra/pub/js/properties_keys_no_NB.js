@@ -2599,6 +2599,8 @@ __GGB__keysVar.no_NB.plain = {
     "Polarized": "Polarisert",
     "PolyLine": "Polylinje",
     "Polygon": "Mangekant",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Bare i positiv retning",
     "PositiveValuesFollowTheView": "Positive verdier f\xf8lger perspektivet",
     "PossiblyGenerallyTrue": "(sannsynlig generelt sant)",

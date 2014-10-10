@@ -2599,6 +2599,8 @@ __GGB__keysVar.et.plain = {
     "Polarized": "Polarized",
     "PolyLine": "Murdjoon",
     "Polygon": "Hulknurk",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Ainult positiivne suund",
     "PositiveValuesFollowTheView": "Positiivsed v\xe4\xe4rtused j\xe4rgnevad vaatega",
     "PossiblyGenerallyTrue": "(possibly generally true)",

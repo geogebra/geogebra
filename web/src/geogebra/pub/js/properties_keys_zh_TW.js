@@ -2599,6 +2599,8 @@ __GGB__keysVar.zh_TW.plain = {
     "Polarized": "Polarized",
     "PolyLine": "\u6298\u7dda",
     "Polygon": "\u591a\u908a\u5f62",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "\u53ea\u986f\u793a\u6b63\u5411",
     "PositiveValuesFollowTheView": "Positive values follow the view",
     "PossiblyGenerallyTrue": "(possibly generally true)",

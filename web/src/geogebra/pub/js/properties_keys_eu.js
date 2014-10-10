@@ -2599,6 +2599,8 @@ __GGB__keysVar.eu.plain = {
     "Polarized": "Polarizatua",
     "PolyLine": "Poligonala",
     "Polygon": "Poligonoa",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "Noranzko positiboan bakarrik",
     "PositiveValuesFollowTheView": "Balio positiboak bistatik hurbil",
     "PossiblyGenerallyTrue": "(beharbada egia normalean)",

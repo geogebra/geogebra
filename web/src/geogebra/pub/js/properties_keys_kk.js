@@ -2599,6 +2599,8 @@ __GGB__keysVar.kk.plain = {
     "Polarized": "Polarized",
     "PolyLine": "\u041a\u04e9\u043f \u0442\u04af\u0437\u0443",
     "Polygon": "\u041a\u04e9\u043f\u0431\u04b1\u0440\u044b\u0448",
+    "PolygonA": "Polygon %0",
+    "PolygonAParallelToB": "Polygon %0 parallel to %1",
     "PositiveDirectionOnly": "\u041e\u04a3 \u0431\u0430\u0493\u044b\u0442 \u049b\u0430\u043d\u0430",
     "PositiveValuesFollowTheView": "\u041e\u04a3 \u043c\u04d9\u043d\u0434\u0435\u0440 \u043a\u04e9\u0440\u0456\u043d\u0456\u0441\u0442\u0456 \u049b\u0430\u0439\u0442\u0430\u043b\u0430\u0439\u0434\u044b",
     "PossiblyGenerallyTrue": "(possibly generally true)",
