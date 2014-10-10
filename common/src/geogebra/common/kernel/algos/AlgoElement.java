@@ -1381,7 +1381,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			sb.append(getOutput()[0].getXMLtypeString());
 			sb.append("\"");
 		}
-		if (getOutput(0) instanceof GeoFunction ) {
+		if (getOutputLength() > 0 && getOutput(0) instanceof GeoFunction ) {
 			// need to write the geo type in the XML if it's undefined 
 			// so that it's the same type when the file is loaded again
 			String varStr = ((GeoFunction)getOutput(0)).getVarString(StringTemplate.defaultTemplate);
