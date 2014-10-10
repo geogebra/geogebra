@@ -448,6 +448,21 @@ public class ManagerShaders extends Manager {
 		}
 	}
 	
+	@Override
+	public void drawLabel(int index){
+
+		currentGeometriesSet = geometriesSetList.get(index);
+		if (currentGeometriesSet != null){
+			for (int i = 0 ; i < currentGeometriesSet.getGeometriesLength() ; i++){
+				Geometry geometry = currentGeometriesSet.get(i);
+				((RendererShadersInterface) renderer).loadVertexBuffer(geometry.getVertices(), geometry.getLength());
+				if (((RendererShadersInterface) renderer).areTexturesEnabled()){
+					((RendererShadersInterface) renderer).loadTextureBuffer(geometry.getTextures(), geometry.getLength());	
+				}
+				((RendererShadersInterface) renderer).draw(geometry.getType(), geometry.getLength());
+			}
+		}
+	}
 	
 	@Override
 	protected void texture(float x, float y){		
@@ -550,9 +565,9 @@ public class ManagerShaders extends Manager {
 	
 	
 	@Override
-	public void rectangle(int x, int y, int z, int width, int height){
+	public void rectangleGeometry(int x, int y, int z, int width, int height){
 		
-		currentGeometriesSet = new GeometriesSet();
+		
 		startGeometry(Manager.Type.TRIANGLE_STRIP);
 		texture(0, 0);
 		vertexInt(x,y,z); 
@@ -564,21 +579,15 @@ public class ManagerShaders extends Manager {
 		vertexInt(x+width,y+height,z); 
 		endGeometry();
 		
-		for (Geometry geometry : currentGeometriesSet){
-			((RendererShadersInterface) renderer).loadVertexBuffer(geometry.getVertices(), geometry.getLength());
-			//renderer.loadNormalBuffer(geometry.getNormals(), geometry.getLength());
-			if (((RendererShadersInterface) renderer).areTexturesEnabled()){
-				((RendererShadersInterface) renderer).loadTextureBuffer(geometry.getTextures(), geometry.getLength());	
-			}
-			((RendererShadersInterface) renderer).draw(geometry.getType(), geometry.getLength());
-		}
+		
 	}
 
+	/*
 	@Override
 	public void rectangleBounds(int x, int y, int z, int width, int height){
 		getText().rectangleBounds(x, y, z, width, height);
 	}
-
+	*/
 	
 
 

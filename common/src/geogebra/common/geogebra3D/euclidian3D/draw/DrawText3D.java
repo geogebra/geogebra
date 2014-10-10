@@ -64,6 +64,10 @@ public class DrawText3D extends Drawable3DCurves {
 
 	}
 
+	@Override
+	protected void updateLabelPosition(){
+		label.updatePosition(getView3D().getRenderer());
+	}
 	
 	private GFont getFont() {
 		GeoText text = (GeoText) getGeoElement();

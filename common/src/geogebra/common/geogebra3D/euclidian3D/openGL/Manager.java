@@ -245,6 +245,8 @@ abstract public class Manager {
 
 	
 	abstract public void draw(int index);
+	
+	abstract public void drawLabel(int index);
 
 
 	/**
@@ -442,9 +444,21 @@ abstract public class Manager {
 	 * @param width
 	 * @param height
 	 */
-	abstract public void rectangle(int x, int y, int z, int width, int height);
+	public int rectangle(int x, int y, int z, int width, int height, int old){
+		int index = startNewList(old);
+		rectangleGeometry(x, y, z, width, height);
+		endList();
+		return index; 
+	}
+	
+	abstract protected void rectangleGeometry(int x, int y, int z, int width, int height);
 
-	abstract public void rectangleBounds(int x, int y, int z, int width, int height);
+	public int rectangleBounds(int x, int y, int z, int width, int height, int old){
+		int index = startNewList(old);
+		getText().rectangleBounds(x, y, z, width, height);
+		endList();
+		return index; 
+	}
 	
 
 	/**

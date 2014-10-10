@@ -109,6 +109,10 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 		//nothing to do : there's no label
 	}
 
+	@Override
+	protected void updateLabelPosition(){
+		//nothing to do : there's no label
+	}
 
 	@Override
 	protected int getLineThickness(){

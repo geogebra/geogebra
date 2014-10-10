@@ -204,7 +204,10 @@ public class DrawList3D extends Drawable3D {
 		//no label for 3D lists
 	}
 
-	
+	@Override
+	protected void updateLabelPosition(){
+		//no label for 3D lists
+	}
 
 	@Override
 	protected double getColorShift(){

@@ -140,6 +140,7 @@ public class DrawAxis3D extends DrawLine3D {
     						getGeoElement().getObjectColor(),
     						origin.copyVector(),
     						numbersXOffset, numbersYOffset);
+    				label.updatePosition(getView3D().getRenderer());
     				//TODO optimize this
     			}else{
     				//creates new label
@@ -149,6 +150,7 @@ public class DrawAxis3D extends DrawLine3D {
     						getGeoElement().getObjectColor(),
     						origin.copyVector(),
     						numbersXOffset, numbersYOffset);
+    				label.updatePosition(getView3D().getRenderer());
     				labels.put(strNum, label);
     			}
 
@@ -169,13 +171,19 @@ public class DrawAxis3D extends DrawLine3D {
     				getGeoElement().labelOffsetX,//-4,
     				getGeoElement().labelOffsetY//-6
     				);
+    		label.updatePosition(getView3D().getRenderer());
     	}
 
 		
     	
     }
     
+	@Override
+	protected void updateLabelPosition(){
 
+		// nothing to do here
+
+	}
 
     
     @Override

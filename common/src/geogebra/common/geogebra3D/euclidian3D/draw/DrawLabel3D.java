@@ -104,6 +104,7 @@ public class DrawLabel3D {
 	public void update(String text, GFont font, GColor backgroundColor, GColor color,
 			Coords v, float xOffset, float yOffset){
 		
+		
 		if (text.length()==0)
 			return;
 		
@@ -166,6 +167,9 @@ public class DrawLabel3D {
 		
 		this.xOffset = xOffset;// + xOffset2;
 		this.yOffset = yOffset;// + yOffset2;
+		
+		// update draw position
+		updateDrawPosition();
 
 
 	}
@@ -278,8 +282,12 @@ public class DrawLabel3D {
 	 */
 	public void setWaitForReset(){
 		waitForReset = true;
+
+		textIndex = -1;
+		pickingIndex = -1;
+		backgroundIndex = -1;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if this wait for reset
@@ -307,7 +315,7 @@ public class DrawLabel3D {
 		draw(renderer, false);
 	}
 	
-	private int drawX, drawY, drawZ;
+	protected int drawX, drawY, drawZ;
 	
 	/**
 	 * 
@@ -323,6 +331,7 @@ public class DrawLabel3D {
 	public void updateDrawPosition(){
 		Coords v = view.getToScreenMatrix().mul(origin);
 		drawX = (int) (v.getX()+xOffset);
+//		drawX = (int) xOffset;
 		if (anchor && xOffset<0){ 
 			drawX-=width;
 		}else{
@@ -330,6 +339,7 @@ public class DrawLabel3D {
 		}
 			
 		drawY = (int) (v.getY()+yOffset);
+//		drawY = (int) yOffset;
 		if (anchor && yOffset<0){ 
 			drawY-=height;
 		}else{
@@ -370,11 +380,12 @@ public class DrawLabel3D {
     		return;
 		
 		renderer.setLabelOrigin(origin);
-		
-		updateDrawPosition();		
+			
 
 		if (forPicking){
-			renderer.getGeometryManager().rectangle(drawX + pickingX, drawY + pickingY, drawZ, pickingW, pickingH);
+//			renderer.getGeometryManager().rectangle(drawX + pickingX, drawY + pickingY, drawZ, pickingW, pickingH);
+			renderer.getGeometryManager().draw(pickingIndex);
+			
 
 		}else{
 
@@ -382,7 +393,9 @@ public class DrawLabel3D {
 			if (backgroundColor!=null){
 				renderer.setColor(backgroundColor);
 				renderer.disableTextures();
-				renderer.getGeometryManager().rectangle(drawX, drawY, drawZ, width, height);
+//				renderer.getGeometryManager().rectangle(drawX, drawY, drawZ, width, height);
+				renderer.getGeometryManager().draw(backgroundIndex);
+				
 			}
 
 			//draw text
@@ -404,7 +417,8 @@ public class DrawLabel3D {
 		renderer.enableTextures();
 		//renderer.getTextures().setTextureNearest(textureIndex);
 		renderer.getTextures().setTextureLinear(textureIndex); 
-		renderer.getGeometryManager().rectangle(x, y, z, width2, height2);
+//		renderer.getGeometryManager().rectangle(x, y, z, width2, height2);
+		renderer.getGeometryManager().drawLabel(textIndex);
 
 	}
 
@@ -492,6 +506,33 @@ public class DrawLabel3D {
     
     public boolean isPickable(){
     	return drawable.hasPickableLable();
+    }
+    
+    private int textIndex = -1;
+    private int pickingIndex = -1;
+    protected int backgroundIndex = -1;
+   
+    /**
+     * update label for view (update screen position)
+     * @param renderer GL renderer
+     */
+    public void updatePosition(Renderer renderer){
+    	
+    	updateDrawPosition();
+    	
+    	int old = textIndex;
+    	textIndex = renderer.getGeometryManager().rectangle(drawX,drawY,drawZ, width2, height2, textIndex);
+    	renderer.getGeometryManager().remove(old);
+    	
+    	old = pickingIndex;
+    	pickingIndex = renderer.getGeometryManager().rectangle(drawX + pickingX, drawY + pickingY, drawZ, pickingW, pickingH, pickingIndex);
+    	renderer.getGeometryManager().remove(old);
+    	
+    	old = backgroundIndex;
+    	backgroundIndex = renderer.getGeometryManager().rectangle(drawX, drawY, drawZ, width, height, backgroundIndex);
+    	renderer.getGeometryManager().remove(old);
+    	
+    	//App.debug("textIndex: "+textIndex+", pickingIndex: "+pickingIndex+", backgroundIndex: "+backgroundIndex);
     }
 
 }

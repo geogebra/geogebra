@@ -178,6 +178,11 @@ public class ManagerGLList extends ManagerD {
 		renderer.jogl.getGL2().glCallList(index);
 	}
 	
+	@Override
+	public void drawLabel(int index){
+		draw(index);
+	}
+	
 
 	@Override
 	protected void texture(float x, float y){		
@@ -234,15 +239,18 @@ public class ManagerGLList extends ManagerD {
 	}
 	
 	
+	
 	@Override
-	public void rectangle(int x, int y, int z, int width, int height){
+	public void rectangleGeometry(int x, int y, int z, int width, int height){
 		getText().rectangle(x, y, z, width, height);
 	}
 
+	/*
 	@Override
 	public void rectangleBounds(int x, int y, int z, int width, int height){
 		getText().rectangleBounds(x, y, z, width, height);
 	}
+	*/
 
 
 }

@@ -278,7 +278,7 @@ public abstract class Drawable3D extends DrawableND {
 		if (isVisible){
 			updateForView();
 		}
-		
+				
 		
 		if (waitForUpdate && isVisible){
 			if (updateForItSelf()){
@@ -287,10 +287,15 @@ public abstract class Drawable3D extends DrawableND {
 			}
 			setLabelWaitForUpdate();//TODO remove that
 		}
-		
-		if (labelWaitForUpdate && isLabelVisible()){
-			updateLabel();
-			labelWaitForUpdate = false;
+
+		if (isLabelVisible()){
+			if (labelWaitForUpdate){
+				updateLabel();
+				updateLabelPosition();
+				labelWaitForUpdate = false;
+			}else if (getView3D().viewChanged()){
+				updateLabelPosition();
+			}
 		}
 
 		
@@ -330,6 +335,15 @@ public abstract class Drawable3D extends DrawableND {
 				getGeoElement().getObjectColor(),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
+
+	}
+
+	/**
+	 * update label position on screen
+	 */
+	protected void updateLabelPosition(){
+
+		label.updatePosition(getView3D().getRenderer());
 
 	}
 	

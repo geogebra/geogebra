@@ -68,10 +68,30 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			renderer.disableMultisample();
 			renderer.setLineWidth(geo.getLineThickness()/2);
 			renderer.setColor(DrawText.HIGHLIGHT_COLOR);
-			renderer.getGeometryManager().rectangleBounds(x, y, z, width, height);
+//			renderer.getGeometryManager().rectangleBounds(x, y, z, width, height);
+			renderer.getGeometryManager().draw(highLightIndex);
 			renderer.enableMultisample();
 			renderer.enableTextures();
 		}
 	}
 	
+	private int highLightIndex = -1;
+	
+    @Override
+	public void updatePosition(Renderer renderer){
+    	
+    	super.updatePosition(renderer);
+    	
+    	int old = highLightIndex;
+    	highLightIndex = renderer.getGeometryManager().rectangleBounds(drawX, drawY, drawZ, width, height, highLightIndex);
+    	renderer.getGeometryManager().remove(old);
+    	//App.debug("highLightIndex: "+highLightIndex);
+    }
+    
+	@Override
+	public void setWaitForReset(){
+		super.setWaitForReset();
+
+		highLightIndex = -1;
+	}
 }
