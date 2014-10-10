@@ -21,8 +21,9 @@ your workstation.
 <project default="geogebraweb-developer">
 
     <property name="gwtphonegap.jar" value="gwtphonegap-3.5.0.0.jar" />
+    <property name="gwtquery.jar" value="gwtquery-1.4.2.jar" />
 	
-	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer, advanced-gwt, gwtphonegap, gwtquery"
+	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer, gwtphonegap, gwtquery"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
@@ -31,7 +32,7 @@ your workstation.
 	</target>
 
 	<target name="geogebraweb-developer"
-	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, advanced-gwt, gwtphonegap, gwtquery"
+	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, gwtphonegap, gwtquery"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -144,13 +145,7 @@ your workstation.
 	</copy>
 	</target>
 	
-	<!-- download advanced gwt -->
-	<target name="advanced-gwt">
-	<mkdir dir="lib"/>
-	<mkdir dir="lib/download"/>
-	<get src="http://dev.geogebra.org/download/lib/web/advanced-gwt-2.0.9.jar" dest="lib/advanced-gwt-2.0.9.jar"
-	    usetimestamp="true"/>
-	</target>
+
 	
 	<target name="gwtphonegap">
 		<mkdir dir="lib" />
@@ -162,9 +157,9 @@ your workstation.
 
 	<target name="gwtquery">
 		<mkdir dir="lib" />
-		<get src="http://dev.geogebra.org/download/lib/gwtquery-1.4.2.jar" dest="lib/gwtquery-1.4.2.jar" />
+		<get src="http://dev.geogebra.org/download/lib/${gwtquery.jar}" dest="lib/${gwtquery.jar}" />
 		<copy todir="war/WEB-INF/lib">
-			<fileset dir="lib" includes="gwtquery-1.4.2.jar" />
+			<fileset dir="lib" includes="${gwtquery.jar}" />
 		</copy>
 	</target>
 </project>
