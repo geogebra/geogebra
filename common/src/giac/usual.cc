@@ -894,7 +894,25 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38 
     vecteur u(pfacprem(e_copy,true,contextptr));
 #else
-    vecteur u(ifactors(e_copy,contextptr));
+    vecteur u;
+#ifdef NO_STDEXCEPT
+    u=ifactors(e_copy,contextptr));
+    if (is_undef(u)){
+      *logptr(contextptr) << gettext("Unable to factor ") << e << endl;
+      simpl=e;
+      pos=true;
+      return;
+    }
+#else
+    try {
+      u=ifactors(e_copy,contextptr);
+    } catch (std::runtime_error & err){
+      *logptr(contextptr) << gettext("Unable to factor ") << e << endl;
+      simpl=e;
+      pos=true;
+      return;      
+    }
+#endif
 #endif
     // *logptr(contextptr) << u.size() << endl;
     gen f;

@@ -4549,6 +4549,7 @@ unsigned int ConvertUTF8toUTF16 (
     "powexpand",
     "propfrac",
     "regroup",
+    "reorder",
     "series",
     "simplifier",
     "simplify",
