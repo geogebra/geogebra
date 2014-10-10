@@ -309,43 +309,10 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 		deferredDataPanelOnResize();
 	} 
 
-
-	//		// main panel
-	//		// ============================================
-	//		//mainPanel = new FlowPanel();
-	//		//mainPanel.add(getStyleBar(), BorderLayout.NORTH);
-	//		add(displayPanel);
-	//
-	//		if (model.isRegressionMode()) {
-	//			add(regressionPanel);
-	//		}
-	//
-	//		setStyleName("dataAnalysisPanel");
-	////		// dataTypePanel = new DataViewSettingsPanel(app,
-	////		// StatDialog.MODE_ONEVAR);
-	////		JPanel p = new JPanel(new FullWidthLayout());
-	////		// p.add(dataTypePanel);
-	////
-	////		this.setLayout(new CardLayout());
-	////		add(mainPanel, MainCard);
-	////		add(p, SourceCard);
-	//		//showMainPanel();
-	//		//add(mainPanel);
-	//
-	//		model.setShowComboPanel2(model.showDataDisplayPanel2());
-	//		updateStatDataPanelVisibility();
-	//
-	//	}
-
 	public void showSourcePanel() {
-		//		CardLayout c = (CardLayout) this.getLayout();
-		//		c.show(this, SourceCard);
 	}
 
 	public void showMainPanel() {
-		//		CardLayout c = (CardLayout) this.getLayout();
-		//		c.show(this, MainCard);
-
 	}
 
 	// ======================================
@@ -413,91 +380,6 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 	public void updateStatDataPanelVisibility() {
 		App.debug("[UUU] updateStatDataPanelVisibility()");
 		updateLayout();
-		//
-		//		if (statDataPanel == null)
-		//			return;
-		//
-		//		if (!model.isMultiVar()) {
-		//
-		//			if (model.showDataPanel()) {
-		//				statDataPanel.add(dataPanel, 100.0);
-		//			} else {
-		//				if (true) {
-		//					//statDataPanel.addEast(null, 1.0);
-		//				}
-		//			}
-		//
-		//			if (model.showStatPanel()) {
-		//				if (true){//statDataPanel..getRightComponent() == null) {
-		//					statDataPanel.addWest(statisticsPanel, 100.0);
-		//				}
-		//			} else {
-		//				if (true) {
-		//					//statDataPanel.addEast(null, 1.0);
-		//				}
-		//			}
-		//		}
-		//
-		//
-		//			if (model.showStatPanel()) {
-		//				if (statDataPanel.getLeftComponent() == null) {
-		//					statDataPanel.setLeftComponent(statisticsPanel);
-		//					statDataPanel.resetToPreferredSizes();
-		//				}
-		//			} else {
-		//				if (statDataPanel.getLeftComponent() != null) {
-		//					statDataPanel.setLeftComponent(null);
-		//					statDataPanel.resetToPreferredSizes();
-		//				}
-		//			}
-
-		// hide/show divider
-		//			if (model.showDataPanel() && model.showStatPanel())
-		//				statDataPanel.setDividerSize(defaultDividerSize);
-		//			else
-		//				statDataPanel.setDividerSize(0);
-		////
-		//			// hide/show statData panel
-		//			if (model.showDataPanel() || model.showStatPanel()) {
-		//				if (displayPanel.getLeftComponent() == null) {
-		//					displayPanel.setLeftComponent(statDataPanel);
-		//					// displayPanel.resetToPreferredSizes();
-		//					displayPanel.setDividerLocation(displayPanel
-		//							.getLastDividerLocation());
-		//					displayPanel.setDividerSize(defaultDividerSize);
-		//				}
-		//
-		//			} else { // statData panel is empty, so hide it
-		//				displayPanel.setLastDividerLocation(displayPanel
-		//						.getDividerLocation());
-		//				displayPanel.setLeftComponent(null);
-		//				displayPanel.setDividerSize(0);
-		//			}
-		//
-		//		} else { // handle multi-variable case
-		//
-		//			if (model.showStatPanel()) {
-		//				if (displayPanel.getBottomComponent() == null) {
-		//					displayPanel.setBottomComponent(statDataPanel);
-		//					// displayPanel.resetToPreferredSizes();
-		//					displayPanel.setDividerLocation(displayPanel
-		//							.getLastDividerLocation());
-		//					displayPanel.setDividerSize(defaultDividerSize);
-		//				}
-		//			} else {
-		//				displayPanel.setLastDividerLocation(displayPanel
-		//						.getDividerLocation());
-		//				displayPanel.setBottomComponent(null);
-		//				displayPanel.setDividerSize(0);
-		//
-		//			}
-		//
-		//		}
-		//
-		//		setLabels();
-		//		updateFonts();
-		//
-		//		displayPanel.resetToPreferredSizes();
 	}
 
 	public void doPrint() {
@@ -519,32 +401,12 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 		deferredOnResize();
 	}
 
-	//	public void updateFonts() {
-	//		Font font = app.getPlainFont();
-	//		setFont(font);
-	//		setFontRecursive(this, font);
-	//
-	//	}
-	//
-	//	public void setFontRecursive(Container c, Font font) {
-	//		Component[] components = c.getComponents();
-	//		for (Component com : components) {
-	//			com.setFont(font);
-	//			if (com instanceof StatPanelInterfaceW) {
-	//				((StatPanelInterfaceW) com).updateFonts(font);
-	//			}
-	//			if (com instanceof Container)
-	//				setFontRecursive((Container) com, font);
-	//		}
-	//	}
-	//
 	public void setLabels() {
 
 		if (model.isIniting()) {
 			return;
 		}
 
-		// setTitle(app.getMenu("OneVariableStatistics"));
 
 		if (model.isRegressionMode() && regressionPanel != null) {
 			regressionPanel.setLabels();
@@ -553,23 +415,8 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 		if (stylebar != null) {
 			stylebar.setLabels();
 		}
-		//
-		//		// call setLabels() for all child panels
-		//		setLabelsRecursive(this);
 
 	}
-
-	//	public void setLabelsRecursive(Container c) {
-	//
-	//		Component[] components = c.getComponents();
-	//		for (Component com : components) {
-	//			if (com instanceof StatPanelInterfaceW) {
-	//				// System.out.println(c.getClass().getSimpleName());
-	//				((StatPanelInterfaceW) com).setLabels();
-	//			} else if (com instanceof Container)
-	//				setLabelsRecursive((Container) com);
-	//		}
-	//	}
 
 	// =================================================
 	// Number Format
@@ -622,8 +469,6 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 	}
 
 	public void attachView() {
-		// clearView();
-		// kernel.notifyAddAll(this);
 		kernel.attach(this);
 
 		// attachView to plot panels
@@ -640,9 +485,6 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 		daCtrl.removeStatGeos();
 
 		kernel.detach(this);
-
-		// clearView();
-		// kernel.notifyRemoveAll(this);
 	}
 
 	public String[] getDataTitles() {
@@ -650,7 +492,6 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 	}
 
 	public void updateSelection() {
-		// updateDialog(true);
 	}
 
 	// =================================================
@@ -730,11 +571,7 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 	public int getViewID() {
 		return App.VIEW_DATA_ANALYSIS;
 	}
-	//
-	//	public JPopupMenu getExportMenu() {
-	//		return dataDisplayPanel1.getExportMenu();
-	//	}
-	//
+
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 

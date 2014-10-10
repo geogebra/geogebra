@@ -167,7 +167,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		getModel().updatePlot(true);
 		optionsPanel.setVisible(false);
 		btnOptions.setValue(false);
-
+		
 	}
 
 	// ==============================================
@@ -527,6 +527,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	public void setOptionsButtonVisible() {
 		btnOptions.setVisible(true);
+		btnExport.setVisible(true);
 		plotPanel.updateSize();
 	}
 
@@ -683,14 +684,14 @@ public class DataDisplayPanelW extends FlowPanel implements
 	
 
 	public void updateStemPlot(String latex) {
-		imageContainer.setText("");
+		btnOptions.setVisible(false);
+		btnExport.setVisible(false);
 		
-		//imageContainer.setSize(getOffsetWidth() +"px", getOffsetHeight() + "px");
+		imageContainer.setText("");
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
 		DrawEquationWeb.drawEquationAlgebraView(imageContainer.getElement(), "\\mathrm {" + latexStr
 		        + "}");
 		
-		btnOptions.setVisible(false);
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);
 		}
@@ -831,7 +832,7 @@ public class DataDisplayPanelW extends FlowPanel implements
     }
 
 	public void update() {
-	    model.updatePlot(true);
+		model.updatePlot(true);
     }
 
 }
