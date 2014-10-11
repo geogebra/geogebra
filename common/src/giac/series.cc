@@ -603,8 +603,8 @@ namespace giac {
 	return false;
       padd(rem,bshift,rem,contextptr);
       // COUT << rem.front().exponent << " " << e0+ordre << endl;
-      if (ck_is_strictly_greater(rem.front().exponent,e0+ordre,contextptr)){
-	res.push_back(monome(undef,ordre+1));
+      if (ck_is_strictly_greater(rem.front().exponent,a.front().exponent+ordre,contextptr)){
+	res.push_back(monome(undef,a.front().exponent+ordre+1-e0));
 	return true;
       }
     }
@@ -2045,8 +2045,8 @@ namespace giac {
     }
     gen coeff,mrv_var,exponent;
     sparse_poly1 p;
-    if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false))
-      return gensizeerr(contextptr);
+    if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false) || is_undef(coeff))
+      return gensizeerr("Limit: Max order reached or unable to make series expansion");
     if (ck_is_strictly_positive(exponent,contextptr))
       return 0;
     if (is_zero(exponent))
@@ -2484,10 +2484,11 @@ namespace giac {
     sparse_poly1 p;
     p.push_back(monome(undef,0));
     // FIXME: if ordre>max_series it might return a wrong answer here
-    for (; (ordre<max_series_expansion_order) && !p.empty() && 
-	   (p.size()>=1) && is_undef(p.front().coeff) ;ordre=ordre*1.5+1){
+    for (unsigned count=0; (ordre<max_series_expansion_order) && !p.empty() && 
+	   (p.size()>=1) && is_undef(p.front().coeff) ;++count,ordre=ordre*1.5+1){
       bool inv=false;
       p=series__SPOL1(f,w,0,int(ordre),1,contextptr);
+      // if (count==2 && p.size()==1 && is_undef(p.front().coeff)){ f=ratnormal(f); p=series__SPOL1(f,w,0,int(ordre),1,contextptr); }
 #ifdef TIMEOUT
       control_c();
 #endif

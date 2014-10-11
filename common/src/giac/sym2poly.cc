@@ -1536,6 +1536,46 @@ namespace giac {
     return true;
   }
 
+  bool in_find_extension(const gen & extension,vecteur & already,vector<int> & embed,gen & iext,GIAC_CONTEXT){
+    iext=0;
+    if (extension.type==_POLY && !extension._POLYptr->coord.empty()){
+      const polynome & p=*extension._POLYptr;
+      embed.push_back(p.dim);
+      for (unsigned i=0;i<p.coord.size();++i){
+	if (in_find_extension(p.coord[i].value,already,embed,iext,contextptr))
+	  return true;
+      }
+      embed.pop_back();
+      return false;
+    }
+    if (extension.type!=_EXT)
+      return false;
+    gen Extension=*(extension._EXTptr+1);
+    if (Extension.type!=_VECT || equalposcomp(already,Extension))
+      return false;
+    bool done=false;
+    for (unsigned i=0;i<Extension._VECTptr->size();++i){
+      gen c=(*Extension._VECTptr)[i];
+      if (!is_integer(c)){
+	done=true;
+	// recurse
+	if (in_find_extension(c,already,embed,iext,contextptr))
+	  return true;
+      }
+    }
+    if (done)
+      return false;
+    iext=makevecteur(1,0,1);
+    gen currentext=Extension;
+    common_EXT(iext,currentext,0,contextptr);
+    if (currentext.type==_EXT)
+      currentext=*(currentext._EXTptr+1);
+    if (Extension==currentext)
+      return true;
+    already.push_back(Extension);
+    return false;
+  }
+
   gen find_iext(const gen & e,const vecteur & lvnum,GIAC_CONTEXT){
     gen iext(0);
     if (has_i(e)){ 
@@ -1543,25 +1583,20 @@ namespace giac {
       vecteur already; unsigned k; 
       for (k=0;k<lvnum.size();++k){
 	gen extension=lvnum[k];
-	if (extension.type==_POLY && extension._POLYptr->dim==0 && !extension._POLYptr->coord.empty())
-	  extension=lvnum[k]._POLYptr->coord.front().value;
-	if (extension.type!=_EXT)
-	  continue;
-	extension=*(extension._EXTptr+1);
-	if (equalposcomp(already,extension))
-	  continue;
-	iext=makevecteur(1,0,1);
-	gen currentext=extension;
-	common_EXT(iext,currentext,0,contextptr);
-	if (currentext.type==_EXT)
-	  currentext=*(currentext._EXTptr+1);
-	if (extension==currentext)
-	  break;
-	already.push_back(extension);
-	iext=0;
+	vector<int> embed;
+	if (in_find_extension(extension,already,embed,iext,contextptr)){
+	  gen iextnum,iextden;
+	  fxnd(iext,iextnum,iextden);
+	  for (;!embed.empty();){
+	    iextnum=polynome(iextnum,embed.back());
+	    iextden=polynome(iextden,embed.back());
+	    embed.pop_back();
+	  }
+	  return iextnum/iextden;
+	}
       }
     }
-    return iext;
+    return 0;
   }
 
   bool sym2r (const gen &e,const vecteur &l, int l_size,gen & num,gen & den,GIAC_CONTEXT){
