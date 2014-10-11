@@ -896,7 +896,7 @@ namespace giac {
 #else
     vecteur u;
 #ifdef NO_STDEXCEPT
-    u=ifactors(e_copy,contextptr));
+    u=ifactors(e_copy,contextptr);
     if (is_undef(u)){
       *logptr(contextptr) << gettext("Unable to factor ") << e << endl;
       simpl=e;
