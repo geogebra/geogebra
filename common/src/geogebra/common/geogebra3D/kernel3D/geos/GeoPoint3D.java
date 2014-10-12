@@ -361,8 +361,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
 		Coords coords;
-		if (tmpCoords == null){
-			tmpCoords = Coords.createInhomCoorsInD3();
+		if (tmpCoords1 == null){
+			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
 
 		if (hasWillingCoords()) // use willing coords
@@ -384,20 +384,20 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		if (!hasWillingDirection()) // use normal direction for
 			// projection
-			coords.projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
+			coords.projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords1);
 		else
 			// use willing direction for projection
 			coords.projectPlaneThruVIfPossibleInPlaneCoords(tmpMatrix4x4,
-					getWillingDirection(), tmpCoords);
+					getWillingDirection(), tmpCoords1);
 
 		
 		if (tmpCoordsLength3 == null){
 			tmpCoordsLength3 = new Coords(3);
 		}
 		
-		tmpCoordsLength3.setX(tmpCoords.getX());
-		tmpCoordsLength3.setY(tmpCoords.getY());
-		tmpCoordsLength3.setZ(tmpCoords.getW());
+		tmpCoordsLength3.setX(tmpCoords1.getX());
+		tmpCoordsLength3.setY(tmpCoords1.getY());
+		tmpCoordsLength3.setZ(tmpCoords1.getW());
 		
 		return tmpCoordsLength3;
 
@@ -1370,7 +1370,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		rotate(phiValue.getDouble(), o1, vn);
 	}
 
-	private Coords tmpCoords;
+	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
 	
 	/**
 	 * rotate around line (point + vector) with angle phi
@@ -1379,25 +1379,33 @@ Traceable, MirrorableAtPlane, Dilateable{
 	 * @param vn vector
 	 */
 	public void rotate(double phi, Coords o1, Coords vn){
-
+		
 		if (vn.isZero()){
 			setUndefined();
 			return;
 		}
 
 		Coords point = getInhomCoordsInD3();
-		if (tmpCoords == null){
-			tmpCoords = Coords.createInhomCoorsInD3();
+		if (tmpCoords1 == null){
+			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		point.projectLine(o1, vn, tmpCoords, null); //point projected on the line
+		point.projectLine(o1, vn, tmpCoords1, null); //point projected on the line
 
-		Coords v1 = point.sub(tmpCoords);
+		if (tmpCoords2 == null){
+			tmpCoords2 = new Coords(4);
+		}
+		tmpCoords2.setSub(point, tmpCoords1);
 
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
-		Coords vn2 = vn.normalized();
-		Coords v2 = vn2.crossProduct4(v1);
-		setCoords(tmpCoords.add(v1.mul(cos)).add(v2.mul(sin)));
+		
+		double l = vn.calcNorm();
+		if (tmpCoords3 == null){
+			tmpCoords3 = new Coords(4);
+		}
+		tmpCoords3.setCrossProduct(vn, tmpCoords2);
+		
+		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin/l))));
 
 
 	}
@@ -1575,25 +1583,25 @@ Traceable, MirrorableAtPlane, Dilateable{
 		Coords vn = line.getDirectionInD3();
 
 		Coords point = getInhomCoordsInD3();
-		if (tmpCoords == null){
-			tmpCoords = Coords.createInhomCoorsInD3();
+		if (tmpCoords1 == null){
+			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		point.projectLine(o1, vn, tmpCoords, null); //point projected on the line
+		point.projectLine(o1, vn, tmpCoords1, null); //point projected on the line
 
 		//mirror at projected point
-		mirror(tmpCoords);
+		mirror(tmpCoords1);
 
 	}
 
 
 	public void mirror(GeoCoordSys2D plane) {
 
-		if (tmpCoords == null){
-			tmpCoords = Coords.createInhomCoorsInD3();
+		if (tmpCoords1 == null){
+			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
 		
-		getInhomCoordsInD3().projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords);
-		mirror(tmpCoords);
+		getInhomCoordsInD3().projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords1);
+		mirror(tmpCoords1);
 
 	}
 

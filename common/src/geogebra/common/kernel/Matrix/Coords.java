@@ -475,9 +475,11 @@ public class Coords {
 
 	/**
 	 * calc the norm
+	 * @return the norm
 	 */
-	public void calcNorm() {
+	public double calcNorm() {
 		norm = Math.sqrt(this.dotproduct(this));
+		return norm;
 	}
 
 	/**
