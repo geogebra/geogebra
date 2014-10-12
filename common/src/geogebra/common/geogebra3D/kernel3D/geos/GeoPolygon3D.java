@@ -542,7 +542,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 			double dist;// = P.getInhomCoords().sub(coordsOld).squareNorm();
 			// double dist = 0;
-			if (P.getWillingCoords() != null && P.getWillingDirection() != null) {
+			if (P.hasWillingCoords() && P.hasWillingDirection()) {
 				dist = P.getInhomCoords().distLine(P.getWillingCoords(),
 						P.getWillingDirection());
 			} else {

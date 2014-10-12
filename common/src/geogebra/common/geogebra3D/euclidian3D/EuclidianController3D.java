@@ -454,8 +454,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 							null, path, false);
 					point3D.setWillingCoords(point.getCoords());
 					point3D.doPath();
-					point3D.setWillingCoords(null);
-					point3D.setWillingDirection(null);
+					point3D.setWillingCoordsUndefined();
+					point3D.setWillingDirectionUndefined();
 					ret = point3D;
 					pointCreated = point3D;
 				} else {
@@ -483,8 +483,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					point3D = (GeoPoint3D) getKernel().getManager3D()
 							.Point3DIn(null, region, coords, true, false);
 					point3D.doRegion();
-					point3D.setWillingCoords(null);
-					point3D.setWillingDirection(null);
+					point3D.setWillingCoordsUndefined();
+					point3D.setWillingDirectionUndefined();
 					ret = point3D;
 					pointCreated = point3D;
 				} else {
@@ -1467,8 +1467,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		if (movedGeoPoint instanceof GeoPoint3D) {
 			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) movedGeoPoint;
-			movedGeoPoint3D.setWillingCoords(null);
-			movedGeoPoint3D.setWillingDirection(null);
+			movedGeoPoint3D.setWillingCoordsUndefined();
+			movedGeoPoint3D.setWillingDirectionUndefined();
 		}
 
 		super.processReleaseForMovedGeoPoint(rightClick);

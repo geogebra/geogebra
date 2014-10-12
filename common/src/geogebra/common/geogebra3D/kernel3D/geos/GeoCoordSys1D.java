@@ -278,8 +278,8 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 		boolean done = false;
 		double t = 0;
 		if (((GeoElement) P).isGeoElement3D()){
-			if (((GeoPoint3D) P).getWillingCoords()!=null){
-				if(((GeoPoint3D) P).getWillingDirection()!=null){
+			if (((GeoPoint3D) P).hasWillingCoords()){
+				if(((GeoPoint3D) P).hasWillingDirection()){
 					//project willing location using willing direction
 					//GgbVector[] project = coordsys.getProjection(P.getWillingCoords(), P.getWillingDirection());
 

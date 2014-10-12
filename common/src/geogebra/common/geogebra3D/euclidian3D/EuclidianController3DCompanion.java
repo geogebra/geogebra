@@ -46,8 +46,8 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 				
 				Coords coords = movedGeoPoint3D.getInhomCoordsInD(3);
 				if (checkPointCapturingXYThenZ(coords)){
-					movedGeoPoint3D.setWillingCoords(null);
-					movedGeoPoint3D.setWillingDirection(null);
+					movedGeoPoint3D.setWillingCoordsUndefined();
+					movedGeoPoint3D.setWillingDirectionUndefined();
 					movedGeoPoint3D.setCoords(coords, true);
 				}
 
@@ -60,7 +60,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 					((EuclidianController3D) ec).checkXYMinMax(coords);
 					checkPointCapturingXYThenZ(coords);
 					movedGeoPoint3D.setWillingCoords(coords);
-					movedGeoPoint3D.setWillingDirection(null);
+					movedGeoPoint3D.setWillingDirectionUndefined();
 					movedGeoPoint3D.doRegion();
 				}
 				((EuclidianController3D) ec).view3D.getCursor3D().setMoveNormalDirection(

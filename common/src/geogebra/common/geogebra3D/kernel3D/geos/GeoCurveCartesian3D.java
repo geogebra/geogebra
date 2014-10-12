@@ -558,13 +558,13 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			if (p.isGeoElement3D()){
 				GeoPoint3D p3D = (GeoPoint3D) p;
 				
-				if (p3D.getWillingCoords() != null){
+				if (p3D.hasWillingCoords()){
 					distCoords = p3D.getWillingCoords();
 				}else{
 					distCoords = p3D.getInhomCoordsInD3();
 				}
 				
-				distDirection = p3D.getWillingDirection(); //maybe null
+				distDirection = p3D.getWillingDirection(); //maybe undefined
 				
 				
 			}else{
@@ -580,7 +580,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		public double evaluate(double t) {
 
 			Coords eval = curve.evaluateCurve3D(t);		
-			if (distDirection == null){
+			if (distDirection == null || !distDirection.isDefined()){
 				return eval.squareDistance3(distCoords);
 			}
 			

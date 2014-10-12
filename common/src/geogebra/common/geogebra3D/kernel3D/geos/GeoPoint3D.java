@@ -243,7 +243,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	@Override
 	final public void setCoords(double x, double y, double z, double w) {
 
-		setWillingCoords(null);
+		setWillingCoordsUndefined();
 		setCoords(new Coords(x, y, z, w));
 
 	}
@@ -365,7 +365,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 			tmpCoords = Coords.createInhomCoorsInD3();
 		}
 
-		if (getWillingCoords() != null) // use willing coords
+		if (hasWillingCoords()) // use willing coords
 			coords = getWillingCoords();
 		else
 			// use real coords
@@ -382,7 +382,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 			tmpMatrix4x4.set(coordSys.getMatrixOrthonormal());
 		}
 
-		if (getWillingDirection() == null) // use normal direction for
+		if (!hasWillingDirection()) // use normal direction for
 			// projection
 			coords.projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
 		else
@@ -589,13 +589,13 @@ Traceable, MirrorableAtPlane, Dilateable{
 		Coords coords;
 		Coords[] project;
 
-		if (getWillingCoords() != null) // use willing coords
+		if (hasWillingCoords()) // use willing coords
 			coords = getWillingCoords();
 		else
 			// use real coords
 			coords = getCoords();
 
-		if (getWillingDirection() == null) { // use normal direction for
+		if (!hasWillingDirection()) { // use normal direction for
 			// projection
 			project = ((Region3D) region).getNormalProjection(coords);
 			// coords.projectPlane(coordSys2D.getMatrix4x4());
@@ -675,26 +675,78 @@ Traceable, MirrorableAtPlane, Dilateable{
 	// WILLING COORDS
 
 	public void setWillingCoords(Coords willingCoords) {
-		this.willingCoords = willingCoords;
+		
+		if (this.willingCoords == null){
+			this.willingCoords = Coords.createInhomCoorsInD3();
+		}
+		
+		if (willingCoords == null){
+			this.willingCoords.setUndefined();
+		}else{
+			this.willingCoords.set(willingCoords);
+		}
+	}
+	
+	public void setWillingCoordsUndefined() {
+		
+		if (this.willingCoords == null){
+			this.willingCoords = Coords.createInhomCoorsInD3();
+		}
+		
+		
+		this.willingCoords.setUndefined();
 	}
 
 	public void setWillingCoords(double x, double y, double z, double w) {
-		setWillingCoords(new Coords(new double[] { x, y, z, w }));
+		
+		if (this.willingCoords == null){
+			this.willingCoords = Coords.createInhomCoorsInD3();
+		}
+		
+		willingCoords.setX(x);
+		willingCoords.setY(y);
+		willingCoords.setZ(z);
+		willingCoords.setW(w);
 	}
 
 	public void setWillingDirection(Coords willingDirection) {
-		this.willingDirection = willingDirection;
+		
+		if (this.willingDirection == null){
+			this.willingDirection = new Coords(4);
+		}
+		
+		if (willingDirection == null){
+			this.willingDirection.setUndefined();
+		}else{
+			this.willingDirection.set(willingDirection);
+		}
+	}
+
+	public void setWillingDirectionUndefined() {
+
+		if (this.willingDirection == null){
+			this.willingDirection = new Coords(4);
+		}
+
+		this.willingDirection.setUndefined();
+		
 	}
 
 	public Coords getWillingCoords() {
 		return willingCoords;
+	}
+	
+	public boolean hasWillingCoords(){
+		return willingCoords != null && willingCoords.isDefined();
 	}
 
 	public Coords getWillingDirection() {
 		return willingDirection;
 	}
 
-	
+	public boolean hasWillingDirection(){
+		return willingDirection != null && willingDirection.isDefined();
+	}
 
 	// /////////////////////////////////////////////////////////
 	// COMMON STUFF
@@ -754,7 +806,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	public void setUndefined() {
 		setCoords(new Coords(Double.NaN, Double.NaN, Double.NaN, Double.NaN),
 				false);
-		setWillingCoords(null);
+		setWillingCoordsUndefined();
 		isDefined = false;
 
 	}
@@ -1418,10 +1470,12 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return null;
 	}
 
+	
+	private Coords tmpWillingCoords, tmpWillingDirection;
 
 	public double distanceToPath(PathOrPoint path){
 
-		if (getWillingCoords() == null){
+		if (!hasWillingCoords()){
 			return path.toGeoElement().distance(this);
 		}
 
@@ -1430,15 +1484,35 @@ Traceable, MirrorableAtPlane, Dilateable{
 		//Region region = getRegion();
 		//setRegion(null);
 		Coords coordsOld = getInhomCoords().copyVector();
-		path.pointChanged(this);
-		double d;
-		if(getWillingDirection() == null) {
-			d = getInhomCoords().distance(getWillingCoords());
-		}else{
-			d = getInhomCoords().distLine(getWillingCoords(),getWillingDirection());
+		
+		if (tmpWillingCoords == null){
+			tmpWillingCoords = Coords.createInhomCoorsInD3();
 		}
+		if (tmpWillingDirection == null){
+			tmpWillingDirection = new Coords(4);
+		}
+		tmpWillingCoords.set(getWillingCoords());
+		if (hasWillingDirection()){
+			tmpWillingDirection.set(getWillingDirection());
+		}else{
+			tmpWillingDirection.setUndefined();
+		}
+		
+		path.pointChanged(this);
+		
+		double d;
+		if(!tmpWillingDirection.isDefined()) {
+			d = getInhomCoords().distance(tmpWillingCoords);
+		}else{
+			d = getInhomCoords().distLine(tmpWillingCoords,tmpWillingDirection);
+			setWillingDirection(tmpWillingDirection);
+		}
+		
+
+		setWillingCoords(tmpWillingCoords);
 
 		setCoords(coordsOld, false);
+		
 		return d;
 
 

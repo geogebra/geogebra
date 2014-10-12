@@ -890,21 +890,21 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			return;
 		}
 
-		Coords willingCoords = p.getWillingCoords();
-		if (willingCoords == null)
+		Coords willingCoords;
+		if (p.hasWillingCoords()){
+			willingCoords = p.getWillingCoords().copyVector();
+			p.setWillingCoordsUndefined();
+		}else{
 			willingCoords = P.getCoordsInD3();
-		else
-			p.setWillingCoords(null);
-
-		Coords willingDirection = p.getWillingDirection();
-		if (willingDirection == null)
-			willingDirection = getDirectionToCenter(willingCoords);
-		else {
-			// willingDirection = willingDirection.mul(-1); //to get the point
-			// closest to the eye
-			p.setWillingDirection(null);
 		}
-		// Application.debug("direction=\n"+willingDirection+"\ncoords=\n"+willingCoords);
+
+		Coords willingDirection;
+		if (p.hasWillingDirection()){
+			willingDirection = p.getWillingDirection().copyVector();
+			p.setWillingDirectionUndefined();
+		}else{
+			willingDirection = getDirectionToCenter(willingCoords);
+		}
 
 
 		Coords[] coords = getProjection(null, willingCoords, willingDirection);

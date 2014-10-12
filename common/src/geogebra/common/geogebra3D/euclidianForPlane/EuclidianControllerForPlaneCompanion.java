@@ -63,8 +63,8 @@ public class EuclidianControllerForPlaneCompanion extends EuclidianControllerFor
 		
 		//cancel 3D controller stuff
 		if (((GeoElement) ec.movedGeoPoint).isGeoElement3D()){
-			((GeoPoint3D) ec.movedGeoPoint).setWillingCoords(null);	
-			((GeoPoint3D) ec.movedGeoPoint).setWillingDirection(null);
+			((GeoPoint3D) ec.movedGeoPoint).setWillingCoordsUndefined();	
+			((GeoPoint3D) ec.movedGeoPoint).setWillingDirectionUndefined();
 		}
 		
 		ec.movedGeoPoint.setCoords(coords, true);

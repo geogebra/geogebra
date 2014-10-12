@@ -132,11 +132,11 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 		Coords coords = changingCoords;
 		
 		if (changingPoint.isGeoElement3D()){
-			if (((GeoPoint3D) changingPoint).getWillingCoords()!=null){
+			if (((GeoPoint3D) changingPoint).hasWillingCoords()){
 				
 				coords = ((GeoPoint3D) changingPoint).getWillingCoords();
 				
-				if(((GeoPoint3D) changingPoint).getWillingDirection()!=null){
+				if(((GeoPoint3D) changingPoint).hasWillingDirection()){
 					return project.distLine(coords, ((GeoPoint3D) changingPoint).getWillingDirection());
 				}
 			}		
