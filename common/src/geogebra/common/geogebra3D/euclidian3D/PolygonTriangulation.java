@@ -659,7 +659,8 @@ public class PolygonTriangulation {
 	public int updatePoints(){
 
 		maxPointIndex = polygon.getPointsLength();
-
+		
+		
 		// feed the list with no successively equal points
 		Point point = new Point(polygon.getPointX(0), polygon.getPointY(0), 0);
 		setName(point, 0);
@@ -683,6 +684,9 @@ public class PolygonTriangulation {
 			firstPoint = firstPoint.next;
 			n--;
 		}	
+		if (n < 3){
+			return n;
+		}
 		point.next = firstPoint;
 		firstPoint.prev = point;
 
